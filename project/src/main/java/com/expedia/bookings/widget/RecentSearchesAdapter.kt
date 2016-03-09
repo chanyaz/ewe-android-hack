@@ -14,19 +14,16 @@ import com.expedia.util.subscribeText
 import com.expedia.vm.RecentSearchViewModel
 import com.expedia.vm.RecentSearchesAdapterViewModel
 
-class RecentSearchesAdapter(val viewmodel: RecentSearchesAdapterViewModel, val showHeader: Boolean) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class RecentSearchesAdapter(val viewmodel: RecentSearchesAdapterViewModel) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     val HEADER_VIEW = 0
     val RECENT_SEARCH_VIEW = 1
-    public companion object {
-        @JvmStatic val MAX_ROW_FOR_SEARCH_V2 = 5
-    }
 
     override fun getItemCount(): Int {
-        if (showHeader) return viewmodel.recentSearches.size + 1 else return Math.min(viewmodel.recentSearches.size, MAX_ROW_FOR_SEARCH_V2)
+        return viewmodel.recentSearches.size + 1
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder? {
-        if (viewType == HEADER_VIEW && showHeader) {
+        if (viewType == HEADER_VIEW) {
             var view = LayoutInflater.from(parent.context).inflate(R.layout.recent_search_header, parent, false)
             return HeaderViewHolder(parent.context, view as ViewGroup)
         } else {
@@ -38,7 +35,7 @@ class RecentSearchesAdapter(val viewmodel: RecentSearchesAdapterViewModel, val s
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder?, position: Int) {
-        val index = if (showHeader) position - 1 else position
+        val index = position - 1
         when (holder) {
             is RecentSearchesViewHolder -> holder.vm.recentSearchObserver.onNext(viewmodel.recentSearches[index])
         }

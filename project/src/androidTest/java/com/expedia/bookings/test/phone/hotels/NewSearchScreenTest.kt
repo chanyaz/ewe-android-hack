@@ -31,14 +31,20 @@ class NewSearchScreenTest : HotelTestCase() {
     fun testNewSearchScreenCalendarDismiss() {
         EspressoUtils.assertViewIsDisplayed(R.id.widget_hotel_search_v2)
 
+        HotelScreen.locationV2().perform(ViewActions.waitForViewToDisplay(), typeText("SFO"))
+        Common.closeSoftKeyboard(HotelScreen.locationV2())
+        HotelScreen.selectLocationV2("Hyatt Regency San Francisco");
+        onView(withText(R.string.DONE)).perform(ViewActions.waitForViewToDisplay())
+
         val firstStartDate = LocalDate.now().plusDays(10)
         val firstEndDate = LocalDate.now().plusDays(12)
 
         // opening calendar dialog click on widget
-        HotelScreen.selectCalendarV2().perform(click())
         onView(withText(R.string.DONE)).check(matches(isDisplayed()))
         HotelScreen.selectDates(firstStartDate, firstEndDate)
         HotelScreen.searchAlertDialogDoneV2().perform(click())
+        HotelScreen.selectDestinationTextViewV2().check(matches(withText("Hyatt Regency San Francisco")))
+
 
         HotelScreen.selectCalendarV2().perform(ViewActions.waitForViewToDisplay())
         HotelScreen.selectCalendarV2Text().check(matches(withText(HotelSearchViewModel.computeDateText(activity, firstStartDate, firstEndDate).toString())))
@@ -71,6 +77,14 @@ class NewSearchScreenTest : HotelTestCase() {
     @Throws(Throwable::class)
     fun testNewSearchScreenTravelerDismiss() {
         EspressoUtils.assertViewIsDisplayed(R.id.widget_hotel_search_v2)
+
+        HotelScreen.locationV2().perform(ViewActions.waitForViewToDisplay(), typeText("SFO"))
+        Common.closeSoftKeyboard(HotelScreen.locationV2())
+        HotelScreen.selectLocationV2("Hyatt Regency San Francisco");
+        onView(withText(R.string.DONE)).perform(ViewActions.waitForViewToDisplay())
+        val firstStartDate = LocalDate.now().plusDays(10)
+        HotelScreen.selectDates(firstStartDate, firstStartDate.plusDays(2))
+        HotelScreen.searchAlertDialogDoneV2().perform(click())
 
         // opening traveler dialog click on widget
         HotelScreen.selectTravelerV2().perform(click())
@@ -106,6 +120,22 @@ class NewSearchScreenTest : HotelTestCase() {
     fun testNewSearchScreenToResult() {
         EspressoUtils.assertViewIsDisplayed(R.id.widget_hotel_search_v2)
 
+        HotelScreen.locationV2().perform(ViewActions.waitForViewToDisplay(), typeText("SFO"))
+
+        HotelScreen.selectLocationV2("San Francisco, CA (SFO-San Francisco Intl.)")
+        onView(withText(R.string.DONE)).perform(ViewActions.waitForViewToDisplay())
+
+        // opening calendar dialog click on widget
+        onView(withText(R.string.DONE)).check(matches(isDisplayed()))
+
+        val startDate = LocalDate.now().plusDays(10)
+        HotelScreen.selectDates(startDate, null)
+
+        // closing calendar dialog click on widget
+        HotelScreen.searchAlertDialogDoneV2().perform(click())
+        HotelScreen.selectDestinationTextViewV2().check(matches(withText("San Francisco, CA (SFO-San Francisco Intl.)")))
+        HotelScreen.selectTravelerV2().check(matches(isDisplayed()))
+
         // opening traveler dialog click on widget
         HotelScreen.selectTravelerV2().perform(click())
         onView(withText(R.string.DONE)).check(matches(isDisplayed()))
@@ -114,23 +144,6 @@ class NewSearchScreenTest : HotelTestCase() {
         HotelScreen.searchAlertDialogDoneV2().perform(click())
         HotelScreen.selectTravelerV2().check(matches(isDisplayed()))
 
-        // opening calendar dialog click on widget
-        HotelScreen.selectCalendarV2().perform(click())
-        onView(withText(R.string.DONE)).check(matches(isDisplayed()))
-
-        val startDate = LocalDate.now().plusDays(10)
-        HotelScreen.selectDates(startDate, null)
-
-        // closing calendar dialog click on widget
-        HotelScreen.searchAlertDialogDoneV2().perform(click())
-        HotelScreen.selectTravelerV2().check(matches(isDisplayed()))
-
-        HotelScreen.selectDestinationV2().perform(click())
-        HotelScreen.locationV2().perform(ViewActions.waitForViewToDisplay(), typeText("SFO"))
-
-        HotelScreen.selectLocationV2("San Francisco, CA (SFO-San Francisco Intl.)")
-        HotelScreen.selectDestinationTextViewV2().check(matches(withText("San Francisco, CA (SFO-San Francisco Intl.)")))
-
         //Search button will be enabled
         HotelScreen.searchButtonV2().perform(click())
         HotelScreen.waitForResultsLoaded()
@@ -138,13 +151,10 @@ class NewSearchScreenTest : HotelTestCase() {
 
     @Throws(Throwable::class)
     fun testNewSearchScreenToDetail() {
-        HotelScreen.selectDestinationV2().perform(click())
         HotelScreen.locationV2().perform(ViewActions.waitForViewToDisplay(), typeText("SFO"))
         Common.closeSoftKeyboard(HotelScreen.locationV2())
         HotelScreen.selectLocationV2("Hyatt Regency San Francisco");
-        HotelScreen.selectDestinationTextViewV2().check(matches(withText("Hyatt Regency San Francisco")))
 
-        HotelScreen.selectCalendarV2().perform(click())
         onView(withText(R.string.DONE)).perform(ViewActions.waitForViewToDisplay())
         onView(withText(R.string.DONE)).check(matches(isDisplayed()))
 
@@ -152,6 +162,8 @@ class NewSearchScreenTest : HotelTestCase() {
         HotelScreen.selectDates(startDate, null)
 
         HotelScreen.searchAlertDialogDoneV2().perform(click())
+        HotelScreen.selectDestinationTextViewV2().check(matches(withText("Hyatt Regency San Francisco")))
+
         HotelScreen.selectTravelerV2().check(matches(isDisplayed()))
 
         HotelScreen.searchButtonV2().perform(click())
