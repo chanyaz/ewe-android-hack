@@ -295,6 +295,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/price_widget"
+                    android:background="@color/search_results_list_bg_gray"
                     android:orientation="horizontal"
                     android:paddingBottom="22dp"
                     android:paddingLeft="18dp"
