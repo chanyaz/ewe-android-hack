@@ -5,6 +5,7 @@ import com.expedia.bookings.data.TripResponse
 import com.expedia.bookings.data.payment.PaymentModel
 import com.expedia.vm.interfaces.IPayWithPointsViewModel
 import com.expedia.vm.interfaces.IPaymentWidgetViewModel
+import com.expedia.bookings.utils.ArrowXDrawableUtil
 import rx.Observable
 import rx.subjects.PublishSubject
 
@@ -19,6 +20,7 @@ class PaymentWidgetViewModel<T : TripResponse>(val context: Context, paymentMode
     override val remainingBalanceDueOnCardVisibility = paymentModel.tripResponses.map { it.isExpediaRewardsRedeemable() }
     override val paymentSplitsAndTripResponse = paymentModel.paymentSplitsWithLatestTripResponse
     override val burnAmountApiCallResponsePending = PublishSubject.create<Boolean>()
+    override val toolbarNavIcon = PublishSubject.create<ArrowXDrawableUtil.ArrowDrawableType>()
 
     override val isPwpDirty = Observable.combineLatest(hasPwpEditBoxFocus, burnAmountApiCallResponsePending, {
         hasPwpEditBoxFocus, burnAmountApiCallResponsePending ->

@@ -37,7 +37,7 @@ public class PaymentWidgetTest extends PhoneTestCase {
 
 	private void assertSavedCardSelected()  throws Throwable {
 		onView(withId(R.id.card_info_name)).perform(scrollTo());
-		EspressoUtils.assertViewWithTextIsDisplayed(R.id.card_info_name, "Saved Visa 1111");
+		EspressoUtils.assertViewWithTextIsDisplayed(R.id.card_info_name, "Visa 1111");
 	}
 
 	private void assertTempCardRemoved() throws Throwable {

@@ -143,6 +143,7 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 		paymentInfoCardView.getViewmodel().getLineOfBusiness().onNext(getLineOfBusiness());
 		paymentInfoCardView.getViewmodel().getExpandObserver().subscribe(expandPaymentObserver);
 		paymentInfoCardView.getViewmodel().getToolbarTitle().subscribe(toolbar.getViewModel().getToolbarTitle());
+		paymentInfoCardView.getViewmodel().getToolbarNavIcon().subscribe(toolbar.getViewModel().getToolbarNavIcon());
 		paymentInfoCardView.getViewmodel().getEditText().subscribe(toolbar.getViewModel().getEditText());
 		paymentInfoCardView.getViewmodel().getMenuVisibility().subscribe(toolbar.getViewModel().getMenuVisibility());
 		paymentInfoCardView.getViewmodel().getEnableMenuItem().subscribe(toolbar.getViewModel().getEnableMenuItem());
@@ -738,17 +739,11 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 				resetMenuButton();
 
 			}
-
-
-			toolbar.getToolbarNavIcon().setParameter(
-				(float) (forward ? ArrowXDrawableUtil.ArrowDrawableType.BACK.getType()
-					: ArrowXDrawableUtil.ArrowDrawableType.CLOSE.getType()));
 		}
 
 		@Override
 		public void updateTransition(float f, boolean forward) {
 			super.updateTransition(f, forward);
-			toolbar.getToolbarNavIcon().setParameter(forward ? f : Math.abs(1 - f));
 		}
 
 		@Override
@@ -769,9 +764,6 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 					scrollToEnterDetails();
 				}
 			}
-			toolbar.getToolbarNavIcon()
-				.setParameter((float) (forward ? ArrowXDrawableUtil.ArrowDrawableType.CLOSE.getType()
-					: ArrowXDrawableUtil.ArrowDrawableType.BACK.getType()));
 		}
 	};
 

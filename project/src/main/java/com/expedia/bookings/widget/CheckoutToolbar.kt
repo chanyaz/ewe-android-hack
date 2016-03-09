@@ -51,6 +51,10 @@ class CheckoutToolbar(context: Context, attrs: AttributeSet) : Toolbar(context, 
             currentEditText = it
             setMenuTitle()
         }
+
+        vm.toolbarNavIcon.subscribe{
+            setNavArrowBarParameter(it)
+        }
     }
 
     init {

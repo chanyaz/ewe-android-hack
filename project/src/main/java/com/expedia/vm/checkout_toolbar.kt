@@ -2,6 +2,7 @@ package com.expedia.vm
 
 import android.content.Context
 import android.widget.EditText
+import com.expedia.bookings.utils.ArrowXDrawableUtil
 import com.expedia.bookings.widget.ExpandableCardView
 import rx.subjects.BehaviorSubject
 import rx.subjects.PublishSubject
@@ -16,6 +17,7 @@ class CheckoutToolbarViewModel(val context: Context) {
     val menuVisibility = PublishSubject.create<Boolean>()
     val visibleMenuWithTitleDone = PublishSubject.create<Unit>()
     val editText = PublishSubject.create<EditText>()
+    val toolbarNavIcon = PublishSubject.create<ArrowXDrawableUtil.ArrowDrawableType>()
 
     // outputs
     val doneClicked = PublishSubject.create<Unit>()
