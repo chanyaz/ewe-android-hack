@@ -38,6 +38,7 @@ import com.expedia.bookings.activity.WebViewActivity;
 import com.expedia.bookings.animation.ResizeAnimator;
 import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.trips.ItinCardData;
+import com.expedia.bookings.data.trips.ItinCardDataFlight;
 import com.expedia.bookings.data.trips.TripComponent.Type;
 import com.expedia.bookings.data.trips.TripFlight;
 import com.expedia.bookings.graphics.HeaderBitmapDrawable;
@@ -394,7 +395,10 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout
 
 		boolean shouldShowCheckInLink = shouldShowCheckInLink(itinCardData);
 		if (shouldShowCheckInLink) {
-			if (((TripFlight) itinCardData.getTripComponent()).isUserCheckedIn()) {
+			final int flightLegNumber = ((ItinCardDataFlight) itinCardData).getLegNumber();
+			boolean userCheckedIn = ((TripFlight) itinCardData.getTripComponent()).getFlightTrip()
+				.getLeg(flightLegNumber).isUserCheckedIn();
+			if (userCheckedIn) {
 				onCheckInLinkVisited(itinCardData);
 			}
 			mCheckInLayout.setVisibility(VISIBLE);
@@ -402,19 +406,35 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout
 			mCheckInLayout.setOnClickListener(new OnClickListener() {
 				@Override
 				public void onClick(View view) {
-					if (((TripFlight) itinCardData.getTripComponent()).isUserCheckedIn()) {
+					boolean userCheckedIn = ((TripFlight) itinCardData.getTripComponent()).getFlightTrip()
+						.getLeg(flightLegNumber).isUserCheckedIn();
+					if (userCheckedIn) {
 						OmnitureTracking.trackItinFlightVisitSite();
 					}
 					else {
 						FlightTrip flightTrip = ((TripFlight) itinCardData.getTripComponent()).getFlightTrip();
 						OmnitureTracking
-							.trackItinFlightCheckIn(getAirlineCode(itinCardData),flightTrip.isSplitTicket(), flightTrip.getLegCount());
+							.trackItinFlightCheckIn(getAirlineCode(itinCardData), flightTrip.isSplitTicket(),
+								flightTrip.getLegCount());
 					}
-					((TripFlight) itinCardData.getTripComponent()).setUserCheckedIn(true);
+					((TripFlight) itinCardData.getTripComponent()).getFlightTrip().getLeg(flightLegNumber)
+						.setUserCheckedIn(
+							true);
 					showCheckInWebView(itinCardData);
-					onCheckInLinkVisited(itinCardData);
+					mCheckInTextView.postDelayed(new Runnable() {
+						@Override
+						public void run() {
+							onCheckInLinkVisited(itinCardData);
+						}
+					}, 5000);
 				}
 			});
+		}
+		else {
+			if (getType() == Type.FLIGHT) {
+				mCheckInLayout.setVisibility(GONE);
+				setShowSummary(false);
+			}
 		}
 
 		// Summary text
@@ -479,8 +499,9 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout
 	}
 
 	private String getAirlineCode(T itinCardData) {
+		int flightLegNumber = ((ItinCardDataFlight) itinCardData).getLegNumber();
 		return ((TripFlight) itinCardData.getTripComponent()).getFlightTrip()
-			.getLeg(0)
+			.getLeg(flightLegNumber)
 			.getPrimaryAirlineNamesFormatted();
 	}
 
