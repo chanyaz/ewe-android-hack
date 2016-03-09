@@ -32,6 +32,7 @@ import com.expedia.bookings.widget.packages.CheckoutOverviewHeader
 import com.expedia.ui.PackageHotelActivity
 import com.expedia.util.endlessObserver
 import com.expedia.vm.CheckoutToolbarViewModel
+import com.expedia.vm.PackageSearchType
 
 class BundleOverviewPresenter(context: Context, attrs: AttributeSet) : Presenter(context, attrs), CVVEntryWidget.CVVEntryFragmentListener, AppBarLayout.OnOffsetChangedListener {
     val ANIMATION_DURATION = 450L
@@ -284,6 +285,14 @@ class BundleOverviewPresenter(context: Context, attrs: AttributeSet) : Presenter
 
     override fun back(): Boolean {
         bundleWidget.bundleHotelWidget.backButtonPressed()
+        var params = Db.getPackageParams()
+        if (params.pageType == Constants.PACKAGE_CHANGE_FLIGHT) {
+            checkoutPresenter.doCreateTrip()
+            params.pageType = null
+            bundleWidget.outboundFlightWidget.viewModel.selectedFlightObservable.onNext(PackageSearchType.OUTBOUND_FLIGHT)
+            bundleWidget.inboundFlightWidget.viewModel.selectedFlightObservable.onNext(PackageSearchType.INBOUND_FLIGHT)
+            return true
+        }
         return super.back()
     }
 

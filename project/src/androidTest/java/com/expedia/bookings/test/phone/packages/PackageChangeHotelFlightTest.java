@@ -132,7 +132,8 @@ public class PackageChangeHotelFlightTest extends PackageTestCase {
 		String startDate = DateUtils.localDateToMMMd(LocalDate.now().plusDays(3));
 		onView(allOf(withText(startDate + ", 1 Traveler"), withId(R.id.travel_info_view_text))).check(matches(isDisplayed()));
 		onView(withText("Flight to (SFO) San Francisco")).check(matches(isDisplayed()));
-		onView(withText("Jul 16 at 1:45 pm, 1 Traveler")).check(matches(isDisplayed()));
+		String endDate = DateUtils.localDateToMMMd(LocalDate.now().plusDays(8));
+		onView(withText(endDate + ", 1 Traveler")).check(matches(isDisplayed()));
 		onView(allOf(withId(R.id.package_flight_select_icon),
 			isDescendantOfA(withId(R.id.package_bundle_outbound_flight_widget)))).check(
 			matches(isDisplayed()));

@@ -28,12 +28,14 @@ import kotlin.collections.firstOrNull
 class PackageCreateTripViewModel(val packageServices: PackageServices) {
 
     val tripParams = PublishSubject.create<PackageCreateTripParams>()
-    val createTrip = PublishSubject.create<Unit>()
+    val performCreateTrip = PublishSubject.create<Unit>()
     val tripResponseObservable = BehaviorSubject.create<PackageCreateTripResponse>()
     val createTripBundleTotalObservable = BehaviorSubject.create<PackageCreateTripResponse>()
+    val showCreateTripDialogObservable = PublishSubject.create<Unit>()
 
     init {
-        Observable.zip(tripParams, createTrip, { params, createTrip ->
+        Observable.combineLatest(tripParams, performCreateTrip, { params, createTrip ->
+            showCreateTripDialogObservable.onNext(Unit)
             packageServices.createTrip(params).subscribe(makeCreateTripResponseObserver())
         }).subscribe()
     }

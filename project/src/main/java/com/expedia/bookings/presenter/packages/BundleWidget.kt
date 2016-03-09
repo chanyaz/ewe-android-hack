@@ -52,6 +52,7 @@ class BundleWidget(context: Context, attrs: AttributeSet) : NestedScrollView(con
             if (param.isChangePackageSearch()) {
                 bundleHotelWidget.toggleHotelWidget(opacity, false)
                 outboundFlightWidget.flightIcon.setImageResource(R.drawable.packages_flight1_icon)
+                outboundFlightWidget.flightIcon.setColorFilter(ContextCompat.getColor(context, R.color.package_bundle_icon_color))
                 inboundFlightWidget.viewModel.flightIconImageObservable.onNext(Pair(R.drawable.packages_flight2_icon, ContextCompat.getColor(context, R.color.package_bundle_icon_color)))
                 inboundFlightWidget.flightDetailsIcon.visibility = View.GONE
                 toggleMenuObservable.onNext(false)
@@ -61,6 +62,11 @@ class BundleWidget(context: Context, attrs: AttributeSet) : NestedScrollView(con
                 inboundFlightWidget.toggleFlightWidget(opacity, false)
                 outboundFlightWidget.viewModel.showLoadingStateObservable.onNext(true)
                 outboundFlightWidget.viewModel.flightTextObservable.onNext(context.getString(R.string.searching_flight_to, StrUtils.formatAirportCodeCityName(Db.getPackageParams().destination)))
+                inboundFlightWidget.viewModel.travelInfoTextObservable.onNext(Phrase.from(context, R.string.flight_toolbar_date_range_with_guests_TEMPLATE)
+                        .put("date", DateUtils.localDateToMMMd(Db.getPackageParams().checkOut))
+                        .put("travelers", StrUtils.formatTravelerString(context, Db.getPackageParams().guests()))
+                        .format()
+                        .toString())
             } else {
                 if (param.isChangePackageSearch()) {
                     outboundFlightWidget.toggleFlightWidget(opacity, false)
