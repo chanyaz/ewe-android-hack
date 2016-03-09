@@ -20,11 +20,7 @@ import retrofit.converter.GsonConverter
 import rx.Observable
 import rx.Scheduler
 import java.text.NumberFormat
-import java.text.ParseException
 import java.util.Currency
-import kotlin.collections.filter
-import kotlin.collections.find
-import kotlin.collections.forEach
 
 class PackageServices(endpoint: String, okHttpClient: OkHttpClient, requestInterceptor: RequestInterceptor, val observeOn: Scheduler, val subscribeOn: Scheduler, logLevel: RestAdapter.LogLevel) {
 
@@ -47,6 +43,7 @@ class PackageServices(endpoint: String, okHttpClient: OkHttpClient, requestInter
 	}
 
 	fun packageSearch(params: PackageSearchParams): Observable<PackageSearchResponse> {
+		val nf = NumberFormat.getCurrencyInstance()
 		return packageApi.packageSearch(params.toQueryMap()).observeOn(observeOn)
 				.subscribeOn(subscribeOn)
 				.doOnNext { response ->
@@ -57,16 +54,12 @@ class PackageServices(endpoint: String, okHttpClient: OkHttpClient, requestInter
 						val lowRateInfo = HotelRate()
 						val currencyCode = hotel.packageOfferModel.price.pricePerPerson.currencyCode
 						val currency = Currency.getInstance(currencyCode)
-						val nf = NumberFormat.getCurrencyInstance()
 						if (currency != null) {
 							nf.currency = currency
 						}
-						var strikeThroughPrice = 0f
-						try {
-							strikeThroughPrice = nf.parse(hotel.packageOfferModel.price.flightPlusHotelPricePerPersonFormatted)?.toFloat() ?: 0f;
-						} catch (ex: ParseException) {
-							ex.printStackTrace()
-						}
+
+						val formattedPrice = hotel.packageOfferModel.price.flightPlusHotelPricePerPersonFormatted
+						var strikeThroughPrice = try { nf.parse(formattedPrice).toFloat() } catch (ex: Exception) { 0f }
 						lowRateInfo.strikethroughPriceToShowUsers = strikeThroughPrice
 						lowRateInfo.priceToShowUsers = hotel.packageOfferModel.price.pricePerPerson.amount.toFloat()
 						lowRateInfo.currencyCode = currencyCode

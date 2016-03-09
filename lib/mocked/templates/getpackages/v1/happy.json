@@ -6753,7 +6753,7 @@
           "freeFlightPromotion": false,
           "showReferencePrices": false,
           "mandatoryFeeIncludedInTotal": false,
-          "flightPlusHotelPricePerPersonFormatted": "$482",
+          "flightPlusHotelPricePerPersonFormatted": null,
           "numNightsPriced": 1,
           "hotelAvgPricePerNight": {
             "amount": 59.66,
