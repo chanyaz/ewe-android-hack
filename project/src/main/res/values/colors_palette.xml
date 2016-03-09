@@ -11,10 +11,12 @@
     <color name="temporary_primary_gray">#494949</color>
     <color name="temporary_secondary_gray">#818181</color>
     <color name="temporary_savings">#4CBD08</color>
-    <color name="temporary_header_gray">#797979</color>
     <color name="temporary_flight_duration_gray">#898989</color>
+
     <!-- This color should be used everywhere on search results list's gray background.  -->
     <color name="search_results_list_bg_gray">#EEEEEE</color>
+    <!-- This color should be used on search result list header texts such as "All Flights", "Searching hundreds of hotels" and "Step 1: Select Hotel".  -->
+    <color name="search_results_list_header_gray">#797979</color>
 
     <color name="expedia_hotels_color">#009688</color>
 

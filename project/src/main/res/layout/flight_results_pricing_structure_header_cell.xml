@@ -5,12 +5,11 @@
     android:background="@color/packages_result_background">
 
     <com.expedia.bookings.widget.TextView
+        style="@style/ResultsDescriptionText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:gravity="center_horizontal"
-        android:text="@string/prices_roundtrip_label"
-        android:textColor="@color/package_bundle_icon_color"
-        android:textSize="14sp" />
+        android:paddingBottom="9dp"
+        android:paddingTop="8dp"
+        android:text="@string/prices_roundtrip_label" />
 </LinearLayout>
 
