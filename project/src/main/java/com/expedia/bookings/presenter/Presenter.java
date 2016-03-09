@@ -207,7 +207,7 @@ public class Presenter extends FrameLayout {
 		public final String state1;
 		public final String state2;
 		public final Interpolator interpolator;
-		public final int duration;
+		public int duration;
 
 		public Transition(Class state1, Class state2) {
 			this(state1.getName(), state2.getName());
@@ -225,6 +225,10 @@ public class Presenter extends FrameLayout {
 			this.state1 = state1;
 			this.state2 = state2;
 			this.interpolator = interpolator;
+			this.duration = duration;
+		}
+
+		public void setAnimationDuration(int duration) {
 			this.duration = duration;
 		}
 
