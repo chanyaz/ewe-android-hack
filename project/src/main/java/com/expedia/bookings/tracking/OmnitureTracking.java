@@ -3879,7 +3879,7 @@ public class OmnitureTracking {
 		ADMS_Measurement s = getFreshTrackingObject();
 		// set the pageName
 		s.setAppState(ACCOUNT_SCREEN);
-		s.setEvar(18, "D=" + ACCOUNT_SCREEN);
+		s.setEvar(18, ACCOUNT_SCREEN);
 		s.track();
 	}
 
