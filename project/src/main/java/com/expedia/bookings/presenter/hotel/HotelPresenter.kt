@@ -2,12 +2,12 @@ package com.expedia.bookings.presenter.hotel
 
 import android.animation.ArgbEvaluator
 import android.app.Activity
-import android.app.AlertDialog
 import android.app.ProgressDialog
 import android.content.Context
 import android.content.DialogInterface
 import android.graphics.Color
 import android.support.v4.content.ContextCompat
+import android.support.v7.app.AlertDialog
 import android.util.AttributeSet
 import android.view.View
 import android.view.ViewStub
