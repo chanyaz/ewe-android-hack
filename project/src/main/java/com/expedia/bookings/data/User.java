@@ -53,6 +53,7 @@ public class User implements JSONable {
 	private List<StoredPointsCard> mStoredPointsCards = new ArrayList<>();
 
 	private String mExpediaRewardsMembershipId;
+	private UserLoyaltyMembershipInformation loyaltyMembershipInformation;
 
 	private static final String[] ADDRESS_LINE_KEYS = new String[] { "firstAddressLine", "secondAddressLine" };
 
@@ -118,6 +119,14 @@ public class User implements JSONable {
 
 	public void setExpediaRewardsMembershipId(String expediaRewardsMembershipId) {
 		this.mExpediaRewardsMembershipId = expediaRewardsMembershipId;
+	}
+
+	public void setLoyaltyMembershipInformation(UserLoyaltyMembershipInformation loyaltyMembershipInformation) {
+		this.loyaltyMembershipInformation = loyaltyMembershipInformation;
+	}
+
+	public UserLoyaltyMembershipInformation getLoyaltyMembershipInformation() {
+		return loyaltyMembershipInformation;
 	}
 	//////////////////////////////////////////////////////////////////////////
 	// Logging in/out
@@ -427,6 +436,7 @@ public class User implements JSONable {
 			JSONUtils.putJSONableList(obj, "storedCreditCards", mStoredCreditCards);
 			JSONUtils.putJSONableList(obj, "storedPointsCards", mStoredPointsCards);
 			JSONUtils.putJSONableList(obj, "associatedTravelers", mAssociatedTravelers);
+			JSONUtils.putJSONable(obj, "loyaltyMembershipInformation", loyaltyMembershipInformation);
 			return obj;
 		}
 		catch (JSONException e) {
@@ -491,6 +501,7 @@ public class User implements JSONable {
 		mAssociatedTravelers = JSONUtils.getJSONableList(obj, "associatedTravelers", Traveler.class);
 		mExpediaRewardsMembershipId = obj.optString("loyaltyAccountNumber");
 
+		loyaltyMembershipInformation = JSONUtils.getJSONable(obj, "loyaltyMembershipInfo", UserLoyaltyMembershipInformation.class);
 		return true;
 	}
 
