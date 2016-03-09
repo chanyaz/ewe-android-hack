@@ -57,8 +57,8 @@ import com.expedia.vm.HotelResultsViewModel
 import com.expedia.vm.HotelReviewsViewModel
 import com.expedia.vm.HotelSearchViewModel
 import com.google.android.gms.maps.MapView
-import org.joda.time.DateTime
 import com.mobiata.android.Log
+import org.joda.time.DateTime
 import rx.Observer
 import rx.android.schedulers.AndroidSchedulers
 import rx.subjects.PublishSubject
@@ -400,6 +400,7 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
         }
     }
 
+    val searchBackgroundColor = TransitionElement(ContextCompat.getColor(context, R.color.hotel_search_background), Color.TRANSPARENT)
     private val defaultResultsTransition = object : Presenter.DefaultTransition(HotelResultsPresenter::class.java.name) {
 
         override fun startTransition(forward: Boolean) {
@@ -423,7 +424,6 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
     }
 
     val searchArgbEvaluator = ArgbEvaluator()
-    val searchBackgroundColor = TransitionElement(ContextCompat.getColor(context, R.color.hotel_search_background), Color.TRANSPARENT)
     private val searchToResults = object : Presenter.Transition(SearchTransition::class.java, HotelResultsPresenter::class.java, AccelerateDecelerateInterpolator(), 500) {
 
         override fun startTransition(forward: Boolean) {
@@ -538,6 +538,7 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
 
         override fun endTransition(forward: Boolean) {
             super.endTransition(forward)
+            searchPresenter.setBackgroundColor(if (forward) searchBackgroundColor.end else searchBackgroundColor.start)
             searchPresenter.visibility = if (forward) View.GONE else View.VISIBLE
             errorPresenter.visibility = if (forward) View.VISIBLE else View.GONE
             searchPresenter.animationFinalize(forward)
