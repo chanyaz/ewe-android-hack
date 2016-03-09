@@ -384,6 +384,8 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
     private val defaultSearchTransition = object : Presenter.DefaultTransition(SearchTransition::class.java.name) {
         override fun endTransition(forward: Boolean) {
             searchPresenter.visibility = View.VISIBLE
+            searchPresenter.showSuggestionState()
+
         }
     }
 

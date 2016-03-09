@@ -25,6 +25,11 @@ abstract class BaseHotelSearchPresenter(context: Context, attrs: AttributeSet) :
     open fun animationFinalize(forward: Boolean) {
     }
 
+    // will be used only v2 search screen
+    open fun showSuggestionState() {
+
+    }
+
     abstract fun selectTravelers(hotelTravelerParams: HotelTravelerParams)
     abstract fun selectDates(startDate: LocalDate?, endDate: LocalDate?)
 
