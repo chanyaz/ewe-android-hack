@@ -5,6 +5,7 @@ import com.expedia.bookings.data.rail.requests.RailSearchRequest
 import com.expedia.bookings.data.rail.requests.api.RailApiSearchModel
 import com.expedia.bookings.data.rail.responses.RailSearchResponse
 import com.expedia.bookings.data.rail.requests.RailValidateRequest
+import com.expedia.bookings.data.rail.responses.RailCreateTripResponse
 import com.expedia.bookings.data.rail.responses.RailDetailsResponse
 import com.expedia.bookings.data.rail.responses.RailValidateResponse
 import com.google.gson.GsonBuilder
@@ -49,6 +50,13 @@ class RailServices(endpoint: String, okHttpClient: OkHttpClient, requestIntercep
 
     fun railValidate(params: RailValidateRequest, observer: Observer<RailValidateResponse>): Subscription {
         return railApi.railValidate(params)
+                .subscribeOn(subscribeOn)
+                .observeOn(observeOn)
+                .subscribe(observer)
+    }
+
+    fun railCreateTrip(railOfferToken: String, observer: Observer<RailCreateTripResponse>): Subscription {
+        return railApi.railCreateTrip(railOfferToken)
                 .subscribeOn(subscribeOn)
                 .observeOn(observeOn)
                 .subscribe(observer)
