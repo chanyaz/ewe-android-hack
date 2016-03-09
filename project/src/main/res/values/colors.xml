@@ -398,7 +398,7 @@
     <color name="packages_hotel_promo_background_color">#04445e</color>
     <color name="packages_breakdown_text_color">#858585</color>
     <color name="packages_breakdown_total_cost_color">#ABABAB</color>
-    <color name="packages_breakdown_savings_cost_color">@color/hotelsv2_discount_green</color>
+    <color name="packages_breakdown_savings_cost_color">@color/temporary_savings</color>
     <color name="packages_breakdown_line_seperator_color">#979797</color>
     <color name="packages_flight_filter_text">#5c5c5c</color>
     <color name="packages_flight_filter_background_color">#efefef</color>
