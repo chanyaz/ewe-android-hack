@@ -37,11 +37,12 @@
     <color name="cars_drop_off_hint_text_color">#4b7fad</color>
 
     <!-- Lx -->
-    <color name="lx_primary_color_tvly">#003E74</color>
-    <color name="lx_ripple_color_tvly">#53a0d3</color>
-    <color name="lx_secondary_color_disabled_tvly">#032E4D</color>
+    <color name="lx_primary_color">#003E74</color>
+    <color name="lx_ripple_color">#53a0d3</color>
+    <color name="lx_secondary_color_disabled">#032E4D</color>
     <color name="lx_unchecked_toggle_text_color_tvly">@android:color/white</color>
     <color name="lx_ticket_selector_disabled_color_tvly">#40003E74</color>
+    <color name="lx_offer_date_ripple_color">@color/lx_ripple_color</color>
 
     <!--Account Lib Colors -->
     <color name="acct__btn_sign_in_text_tvly">#FFFFFF</color>
