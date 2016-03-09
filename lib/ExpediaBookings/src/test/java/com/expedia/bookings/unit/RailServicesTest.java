@@ -12,6 +12,7 @@ import com.expedia.bookings.data.rail.Passengers;
 import com.expedia.bookings.data.rail.requests.RailDetailsRequest;
 import com.expedia.bookings.data.rail.requests.api.RailApiSearchModel;
 import com.expedia.bookings.data.rail.requests.RailValidateRequest;
+import com.expedia.bookings.data.rail.responses.RailCreateTripResponse;
 import com.expedia.bookings.data.rail.responses.RailDetailsResponse;
 import com.expedia.bookings.data.rail.responses.RailSearchResponse;
 import com.expedia.bookings.data.rail.responses.RailValidateResponse;
@@ -38,6 +39,7 @@ public class RailServicesTest {
 	private TestSubscriber<RailSearchResponse> searchResponseObserver;
 	private TestSubscriber<RailDetailsResponse> detailsResponseObserver;
 	private TestSubscriber<RailValidateResponse> validateResponseObserver;
+	private TestSubscriber<RailCreateTripResponse> createTripResponseObserver;
 	private RailDetailsRequest railDetailsRequest;
 	private RailValidateRequest railValidateRequest;
 
@@ -53,6 +55,7 @@ public class RailServicesTest {
 		searchResponseObserver = new TestSubscriber();
 		detailsResponseObserver = new TestSubscriber();
 		validateResponseObserver = new TestSubscriber();
+		createTripResponseObserver = new TestSubscriber();
 	}
 
 	@Test
@@ -96,6 +99,20 @@ public class RailServicesTest {
 		RailValidateResponse railValidateResponse = validateResponseObserver.getOnNextEvents().get(0);
 		// TODO validate the response
 		 assertNotNull(railValidateResponse.railGetDetailsResult);
+	}
+
+	@Test
+	public void happyMockCreateTrip() {
+		String railOfferToken = "fakeToken";
+
+		service.railCreateTrip(railOfferToken, createTripResponseObserver);
+		createTripResponseObserver.awaitTerminalEvent();
+
+		createTripResponseObserver.assertCompleted();
+		createTripResponseObserver.assertValueCount(1);
+		RailCreateTripResponse createTripResponse = createTripResponseObserver.getOnNextEvents().get(0);
+
+		assertEquals("548e2559-8011-44b3-ad71-9e7cd554540f", createTripResponse.tripId);
 	}
 
 	private void givenHappyValidateRequest() {
