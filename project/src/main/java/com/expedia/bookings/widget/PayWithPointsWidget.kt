@@ -47,6 +47,10 @@ class PayWithPointsWidget(context: Context, attrs: AttributeSet) : LinearLayout(
             pwpViewModel.hasPwpEditBoxFocus.onNext(true)
         }
 
+        editAmountView.setOnFocusChangeListener { view, hasFocus ->
+            editAmountView.isCursorVisible = hasFocus
+        }
+
         editAmountView.setOnEditorActionListener { textView: android.widget.TextView, actionId: Int, event: KeyEvent? ->
             var handled = false
             if (actionId == EditorInfo.IME_ACTION_DONE) {
