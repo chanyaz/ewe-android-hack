@@ -20,4 +20,8 @@
     <color name="tablet_search_result_error_button">#116FAA</color>
     <color name="tablet_search_result_error_button_pressed">#075D93</color>
 
+    <!--Tablet actionbar text colors-->
+    <color name="actionbar_text_color">#dddfe1</color>
+    <color name="actionbar_text_color_disabled">#90FFFFFF</color>
+
 </resources>
