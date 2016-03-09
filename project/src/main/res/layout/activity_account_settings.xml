@@ -63,7 +63,7 @@
                             android:layout_height="wrap_content"
                             android:textColor="@color/account_toolbar_text_color"
                             android:textSize="@dimen/account_toolbar_title_text_size"
-                            app:textStyle="normal"
+                            app:textStyle="medium"
                             tools:text="Lauren LoPrete" />
 
                         <com.expedia.bookings.widget.TextView
@@ -73,7 +73,7 @@
                             android:layout_below="@id/toolbar_name"
                             android:textColor="@color/account_toolbar_text_color"
                             android:textSize="@dimen/account_toolbar_subtitle_text_size"
-                            app:textStyle="light"
+                            app:textStyle="normal"
                             tools:text="laurenloprete@gmail.com" />
                     </LinearLayout>
 
@@ -97,6 +97,7 @@
     </android.support.v7.widget.Toolbar>
 
     <ScrollView
+        android:id="@+id/scroll_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/toolbar"
@@ -119,11 +120,6 @@
                     android:layout_width="1dp"
                     android:layout_height="1dp"
                     android:layout_centerHorizontal="true" />
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="@color/account_background_color" />
 
                 <com.expedia.bookings.widget.TextView
                     android:id="@+id/available_points_label"
@@ -192,14 +188,15 @@
                 android:id="@+id/section_sign_in"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
                 android:orientation="vertical">
 
                 <Button
                     android:id="@+id/sign_in_button"
                     android:layout_width="match_parent"
                     android:layout_height="56dp"
-                    android:layout_margin="@dimen/about_section_margin"
+                    android:layout_marginLeft="@dimen/about_section_margin"
+                    android:layout_marginRight="@dimen/about_section_margin"
+                    android:layout_marginTop="@dimen/about_section_margin"
                     android:text="@string/sign_in"
                     android:textColor="@color/account_sign_in_button_text_color"
                     app:backgroundTint="@color/account_sign_in_button_background_color" />
@@ -208,7 +205,9 @@
                     android:id="@+id/sign_in_with_facebook_button"
                     android:layout_width="match_parent"
                     android:layout_height="56dp"
-                    android:layout_margin="@dimen/about_section_margin"
+                    android:layout_marginBottom="@dimen/about_section_margin"
+                    android:layout_marginLeft="@dimen/about_section_margin"
+                    android:layout_marginRight="@dimen/about_section_margin"
                     android:text="@string/acct__Sign_In_with_Facebook"
                     android:textColor="@color/account_sign_in_facebook_button_text_color"
                     app:backgroundTint="@color/account_sign_in_facebook_button_background_color" />
@@ -217,8 +216,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="4dp"
-                    android:layout_marginLeft="8dp"
-                    android:layout_marginRight="8dp"
+                    android:layout_marginLeft="11dp"
+                    android:layout_marginRight="11dp"
                     android:layout_marginTop="4dp"
                     android:orientation="horizontal">
 
@@ -317,4 +316,12 @@
 
         </LinearLayout>
     </ScrollView>
+
+    <View
+        android:id="@+id/toolbar_dropshadow"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/toolbar_dropshadow_height"
+        android:layout_below="@id/toolbar"
+        android:background="@drawable/tb_shadow" />
+
 </RelativeLayout>

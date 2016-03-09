@@ -14,11 +14,13 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GestureDetectorCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.TypedValue;
 import android.view.GestureDetector.OnGestureListener;
 import android.view.GestureDetector.SimpleOnGestureListener;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -116,6 +118,19 @@ public class AccountSettingsActivity extends AppCompatActivity implements AboutS
 				onBackPressed();
 			}
 		});
+
+		final View toolbarShadow = Ui.findView(this, R.id.toolbar_dropshadow);
+		final View scroller = Ui.findView(this, R.id.scroll_container);
+		final float fortyEightDips = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 48, getResources().getDisplayMetrics());
+		toolbarShadow.setAlpha(0);
+		scroller.getViewTreeObserver().addOnScrollChangedListener(
+				new ViewTreeObserver.OnScrollChangedListener() {
+					@Override
+					public void onScrollChanged() {
+						float value = scroller.getScrollY() / fortyEightDips;
+						toolbarShadow.setAlpha(Math.min(1, Math.max(0, value)));
+					}
+				});
 
 		AboutSectionFragment.Builder builder;
 		FragmentTransaction ft = getSupportFragmentManager().beginTransaction();

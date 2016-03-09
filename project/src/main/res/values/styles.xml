@@ -1108,6 +1108,10 @@
     <style name="AccountPrimaryText">
         <item name="android:textColor">@color/about_row_primary_text_color</item>
         <item name="android:textSize">@dimen/about_row_title_text_size</item>
+        <item name="textStyle">medium</item>
+    </style>
+
+    <style name="AccountPrimaryText.DeEmphasized">
         <item name="textStyle">normal</item>
     </style>
 
