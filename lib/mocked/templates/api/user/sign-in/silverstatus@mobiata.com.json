@@ -53,5 +53,31 @@
   },
   "seatPreference": "ANY",
   "specialAssistance": "NONE",
-  "activityId": "66a68efa-a527-495c-95cb-e57f320d8a4f"
+  "activityId": "66a68efa-a527-495c-95cb-e57f320d8a4f",
+  "loyaltyMembershipInfo": {
+    "loyaltyMembershipNumber": "312172038",
+    "loyaltyAccountNumber": "872010",
+    "loyaltyMemebershipActive": true,
+    "loyaltyPointsAvailable": 22996,
+    "loyaltyPointsPending": 965,
+    "loyaltyAmountAvailable": 150.30,
+    "loyaltyMemebershipName": "REWARDS",
+    "membershipTierName": "Silver",
+    "loyaltyTierCredits": {
+      "m_pointsAmount": 0,
+      "m_grossBookingValue": {
+        "amount": 901.06,
+        "currency": {
+          "currencyCode": "USD"
+        },
+        "uCurrency": {
+          "isoCode": "USD"
+        }
+      },
+      "m_roomNights": 6,
+      "thisClass": {}
+    },
+    "bookingCurrency": "USD",
+    "isAllowedToShopWithPoints": true
+  }
 }
