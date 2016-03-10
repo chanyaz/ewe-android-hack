@@ -29,7 +29,7 @@
                 android:id="@+id/cars_details_gradient"
                 android:layout_width="match_parent"
                 android:layout_height="120dp"
-                android:background="@drawable/cars_details_gradient_top" />
+                android:background="@drawable/cars_lx_details_gradient_top" />
         </FrameLayout>
 
         <android.support.v7.widget.RecyclerView
