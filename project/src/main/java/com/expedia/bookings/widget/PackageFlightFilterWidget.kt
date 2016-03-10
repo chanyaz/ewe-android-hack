@@ -38,10 +38,6 @@ class PackageFlightFilterWidget(context: Context, attrs: AttributeSet) : FrameLa
     val sortContainer: LinearLayout by bindView(R.id.sort_hotel)
     val sortByButtonGroup: Spinner by bindView(R.id.sort_by_selection_spinner)
 
-    val priceRangeBar: FilterRangeSeekBar by bindView(R.id.price_range_bar)
-    val priceRangeMinText: TextView by bindView(R.id.price_range_min_text)
-    val priceRangeMaxText: TextView by bindView(R.id.price_range_max_text)
-
     val durationRangeBar: FilterRangeSeekBar by bindView(R.id.duration_range_bar)
     val durationRangeMinText: TextView by bindView(R.id.duration_range_min_text)
     val durationRangeMaxText: TextView by bindView(R.id.duration_range_max_text)
@@ -89,32 +85,13 @@ class PackageFlightFilterWidget(context: Context, attrs: AttributeSet) : FrameLa
             airlinesContainer.clearChecks()
         }
 
-        vm.newPriceRangeObservable.subscribe { priceRange ->
-            priceRangeBar.setUpperLimit(priceRange.notches)
-            priceRangeMinText.text = priceRange.defaultMinPriceText
-            priceRangeMaxText.text = priceRange.defaultMaxPriceText
-
-            priceRangeBar.setOnRangeSeekBarChangeListener(object : RangeSeekBar.OnRangeSeekBarChangeListener {
-                override fun onRangeSeekBarDragChanged(bar: RangeSeekBar?, minValue: Int, maxValue: Int) {
-                    priceRangeMinText.text = priceRange.formatValue(minValue)
-                    priceRangeMaxText.text = priceRange.formatValue(maxValue)
-                    vm.priceRangeChangedObserver.onNext(priceRange.update(minValue, maxValue))
-                }
-
-                override fun onRangeSeekBarValuesChanged(bar: RangeSeekBar?, minValue: Int, maxValue: Int) {
-                    priceRangeMinText.text = priceRange.formatValue(minValue)
-                    priceRangeMaxText.text = priceRange.formatValue(maxValue)
-                    vm.priceRangeChangedObserver.onNext(priceRange.update(minValue, maxValue))
-                }
-            })
-        }
-
         vm.newDurationRangeObservable.subscribe { timeRange ->
             durationRangeBar.setUpperLimit(timeRange.notches)
             durationRangeMinText.text = java.lang.String.format(timeRange.defaultMinText, context.getString(R.string.flight_duration_hour_short))
             durationRangeMaxText.text = java.lang.String.format(timeRange.defaultMaxText, context.getString(R.string.flight_duration_hour_short))
 
             durationRangeBar.setOnRangeSeekBarChangeListener(object : RangeSeekBar.OnRangeSeekBarChangeListener {
+
                 override fun onRangeSeekBarDragChanged(bar: RangeSeekBar?, minValue: Int, maxValue: Int) {
                     durationRangeMinText.text = java.lang.String.format(timeRange.formatValue(minValue), context.getString(R.string.flight_duration_hour_short))
                     durationRangeMaxText.text = java.lang.String.format(timeRange.formatValue(maxValue), context.getString(R.string.flight_duration_hour_short))
@@ -196,20 +173,14 @@ class PackageFlightFilterWidget(context: Context, attrs: AttributeSet) : FrameLa
             }
         }
 
-        vm.stopsObservable.subscribe { list ->
+        vm.stopsObservable.subscribe { sortedMap ->
             stopsContainer.removeAllViews()
-            if (list != null && !list.isEmpty()) {
+            if (sortedMap != null && !sortedMap.isEmpty()) {
                 stopsLabel.visibility = VISIBLE
-                val labels = list.map {
-                    if (it == 0) {
-                        resources.getString(R.string.flight_nonstop_description)
-                    } else {
-                        java.lang.String.format(resources.getQuantityString(R.plurals.x_Stops_TEMPLATE, it), it)
-                    }
-                }
-                for (i in 0..list.size - 1) {
+
+                for (key in sortedMap.keys) {
                     val view = LayoutInflater.from(context).inflate(R.layout.labeled_checked_filter, this, false) as LabeledCheckableFilter<Int>
-                    view.bind(labels[i], list[i], vm.selectStop)
+                    view.bind(getStopFilterLabel(key.ordinal), key.ordinal, sortedMap.get(key), vm.selectStop)
                     view.subscribeOnClick(view.checkObserver)
                     stopsContainer.addView(view)
                 }
@@ -218,16 +189,16 @@ class PackageFlightFilterWidget(context: Context, attrs: AttributeSet) : FrameLa
             }
         }
 
-        vm.airlinesObservable.subscribe { list ->
+        vm.airlinesObservable.subscribe { sortedMap ->
             airlinesContainer.removeAllViews()
-            if (list != null && !list.isEmpty()) {
+            if (sortedMap != null && !sortedMap.isEmpty()) {
                 airlinesLabel.visibility = VISIBLE
-                if (list.size > 4) {
+                if (sortedMap.size > 4) {
                     airlinesMoreLessView.visibility = VISIBLE
                 }
-                for (i in 0..list.size - 1) {
+                for (key in sortedMap.keys) {
                     val view = LayoutInflater.from(context).inflate(R.layout.labeled_checked_filter, this, false) as LabeledCheckableFilter<String>
-                    view.bind(list[i], list[i], vm.selectAirline)
+                    view.bind(key, key, sortedMap.get(key), vm.selectAirline)
                     view.subscribeOnClick(view.checkObserver)
                     airlinesContainer.addView(view)
                 }
@@ -263,6 +234,14 @@ class PackageFlightFilterWidget(context: Context, attrs: AttributeSet) : FrameLa
 
         vm.sortContainerObservable.subscribe { showSort ->
             sortContainer.visibility = if (showSort) View.VISIBLE else View.GONE
+        }
+    }
+
+    private fun getStopFilterLabel(numOfStops: Int): String {
+        if (numOfStops == 0) {
+            return resources.getString(R.string.flight_nonstop_description)
+        } else {
+            return resources.getQuantityString(R.plurals.flight_filter_stops, numOfStops)
         }
     }
 
@@ -302,7 +281,8 @@ class PackageFlightFilterWidget(context: Context, attrs: AttributeSet) : FrameLa
         toolbar.menu.findItem(R.id.menu_done).setActionView(doneButton).setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS)
 
         val adapter = ArrayAdapter(getContext(), R.layout.spinner_sort_item, resources.getStringArray(R.array.sort_options_flights).toMutableList())
-        adapter.setDropDownViewResource(R.layout.spinner_sort_dropdown_item)
+        adapter.setDropDownViewResource(R.layout.spinner_dropdown_item)
+
         sortByButtonGroup.adapter = adapter
 
         filterContainer.viewTreeObserver.addOnScrollChangedListener({

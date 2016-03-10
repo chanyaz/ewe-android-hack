@@ -8,7 +8,7 @@
         android:id="@+id/edit_phone_number_country_code_spinner"
         style="@style/FakeSpinner.Light"
         android:dropDownVerticalOffset="-40dp"
-        app:drop_down_view="@layout/spinner_traveler_entry_dropdown_item"
+        app:drop_down_view="@layout/spinner_dropdown_item"
         android:spinnerMode="dropdown"
         android:popupBackground="@android:color/white"
         android:layout_width="0dp"

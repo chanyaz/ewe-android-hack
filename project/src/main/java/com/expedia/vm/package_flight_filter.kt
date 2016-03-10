@@ -1,7 +1,6 @@
 package com.expedia.vm
 
 import com.expedia.bookings.data.FlightFilter
-import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.packages.FlightLeg
 import com.expedia.util.endlessObserver
 import org.joda.time.DateTime
@@ -12,6 +11,7 @@ import rx.subjects.PublishSubject
 import java.util.ArrayList
 import java.util.Collections
 import java.util.Comparator
+import java.util.TreeMap
 
 class PackageFlightFilterViewModel() {
     val hourMinuteFormatter = DateTimeFormat.forPattern("hh:mma")
@@ -30,16 +30,22 @@ class PackageFlightFilterViewModel() {
     val sortContainerObservable = BehaviorSubject.create<Boolean>()
 
     val userFilterChoices = UserFilterChoices()
-    val stopsObservable = PublishSubject.create<List<Int>>()
-    val airlinesObservable = PublishSubject.create<List<String>>()
+
+    val stopsObservable = PublishSubject.create<TreeMap<Stops, Int>>()
+    val airlinesObservable = PublishSubject.create<TreeMap<String, Int>>()
     val airlinesExpandObservable = BehaviorSubject.create<Boolean>()
-    val newPriceRangeObservable = PublishSubject.create<PriceRange>()
     val newDurationRangeObservable = PublishSubject.create<TimeRange>()
     val newDepartureRangeObservable = PublishSubject.create<TimeRange>()
     val newArrivalRangeObservable = PublishSubject.create<TimeRange>()
     val filteredZeroResultObservable = PublishSubject.create<Unit>()
     var previousSort = FlightFilter.Sort.PRICE
     var isAirlinesExpanded: Boolean = false
+
+    enum class Stops (val stops: Int) {
+        NONSTOP(0),
+        ONE_STOP(1),
+        TWO_PLUS_STOPS(2)
+    }
 
     data class UserFilterChoices(var userSort: FlightFilter.Sort = FlightFilter.Sort.PRICE,
                                  var minPrice: Int = 0,
@@ -50,7 +56,7 @@ class PackageFlightFilterViewModel() {
                                  var maxDeparture: Int = 0,
                                  var minArrival: Int = 0,
                                  var maxArrival: Int = 0,
-                                 var stops: ArrayList<Int> = ArrayList<Int>(),
+                                 var stops: ArrayList<Stops> = ArrayList<Stops>(),
                                  var airlines: ArrayList<String> = ArrayList<String>()) {
 
         fun filterCount(): Int {
@@ -62,24 +68,6 @@ class PackageFlightFilterViewModel() {
             if (stops.isNotEmpty()) count += stops.size
             if (airlines.isNotEmpty()) count += airlines.size
             return count
-        }
-    }
-
-    data class PriceRange(val currencyCode: String, val minPrice: Int, val maxPrice: Int) {
-        val notches = maxPrice - minPrice
-        val defaultMinPriceText = formatValue(toValue(minPrice))
-        val defaultMaxPriceText = formatValue(toValue(maxPrice))
-
-        private fun toValue(price: Int): Int = price - minPrice
-        private fun toPrice(value: Int): Int = value + minPrice
-
-        fun formatValue(value: Int): String {
-            return Money(toPrice(value), currencyCode).getFormattedMoney(Money.F_NO_DECIMAL)
-        }
-
-        fun update(minValue: Int, maxValue: Int): Pair<Int, Int> {
-            val newMaxPrice = toPrice(maxValue)
-            return Pair(toPrice(minValue), if (newMaxPrice == maxPrice) 0 else newMaxPrice)
         }
     }
 
@@ -180,6 +168,15 @@ class PackageFlightFilterViewModel() {
         }
     }
 
+    fun getStops(stops: Int): Stops {
+        return when (stops) {
+            0 -> Stops.NONSTOP
+            1 -> Stops.ONE_STOP
+            2 -> Stops.TWO_PLUS_STOPS
+            else -> Stops.TWO_PLUS_STOPS
+        }
+    }
+
     fun handleFiltering() {
         filteredList = originalList.orEmpty().filter { isAllowed(it) }
         val filterCount = userFilterChoices.filterCount()
@@ -200,7 +197,7 @@ class PackageFlightFilterViewModel() {
         userFilterChoices.maxDeparture = 0
         userFilterChoices.minArrival = 0
         userFilterChoices.maxArrival = 0
-        userFilterChoices.stops = ArrayList<Int>()
+        userFilterChoices.stops = ArrayList<Stops>()
         userFilterChoices.airlines = ArrayList<String>()
     }
 
@@ -234,17 +231,11 @@ class PackageFlightFilterViewModel() {
     }
 
     fun filterStops(flightLeg: FlightLeg): Boolean {
-        return userFilterChoices.stops.isEmpty() || userFilterChoices.stops.contains(flightLeg.stopCount)
+        return userFilterChoices.stops.isEmpty() || userFilterChoices.stops.contains(getStops(flightLeg.stopCount))
     }
 
     fun filterAirlines(flightLeg: FlightLeg): Boolean {
         return userFilterChoices.airlines.isEmpty() || userFilterChoices.airlines.contains(flightLeg.carrierName)
-    }
-
-    val priceRangeChangedObserver = endlessObserver<Pair<Int, Int>> { p ->
-        userFilterChoices.minPrice = p.first
-        userFilterChoices.maxPrice = p.second
-        handleFiltering()
     }
 
     val durationRangeChangedObserver = endlessObserver<Pair<Int, Int>> { p ->
@@ -266,33 +257,25 @@ class PackageFlightFilterViewModel() {
     }
 
     private fun resetCheckboxes() {
-        val stops = ArrayList<Int>()
-        val airlines = ArrayList<String>()
-        originalList?.forEach { leg ->
-            if (!airlines.contains(leg.carrierName)) airlines.add(leg.carrierName)
-            if (!stops.contains(leg.stopCount)) stops.add(leg.stopCount)
-        }
+        val stops = TreeMap<Stops, Int>()
+        val airlines = TreeMap<String, Int>()
 
-        stopsObservable.onNext(ArrayList(stops).sortedBy { it })
-        airlinesObservable.onNext(ArrayList(airlines).sortedBy { it })
+        originalList?.forEach { leg ->
+            val airlineCount = if (airlines.containsKey(leg.carrierName)) airlines.get(leg.carrierName) else 0
+            airlines.put(leg.carrierName, airlineCount!! + 1)
+
+            val key = getStops(leg.stopCount)
+            val stopCount = if (stops.containsKey(key)) stops.get(key) else 0
+            stops.put(key, stopCount!! + 1)
+        }
+        stopsObservable.onNext(stops)
+        airlinesObservable.onNext(airlines)
     }
 
     private fun resetRangeBars() {
-        resetPriceRange()
         resetDurationRange()
         resetDepartureRange()
         resetArrivalRange()
-    }
-
-    private fun resetPriceRange() {
-        val list = ArrayList(originalList)
-        if (list.isNotEmpty()) {
-            val sortedList = list.sortedBy { it.packageOfferModel.price.packageTotalPrice.amount.toInt() }
-            val min = sortedList.first().packageOfferModel.price.packageTotalPrice.amount.toInt()
-            val max = sortedList.last().packageOfferModel.price.packageTotalPrice.amount.toInt()
-            val currency = sortedList.first().packageOfferModel.price.packageTotalPrice.currency
-            newPriceRangeObservable.onNext(PriceRange(currency, min, max))
-        }
     }
 
     private fun resetDurationRange() {
@@ -330,10 +313,10 @@ class PackageFlightFilterViewModel() {
     }
 
     val selectStop = endlessObserver<Int> { s ->
-        if (userFilterChoices.stops.isEmpty() || !userFilterChoices.stops.contains(s)) {
-            userFilterChoices.stops.add(s)
+        if (userFilterChoices.stops.isEmpty() || !userFilterChoices.stops.contains(getStops(s))) {
+            userFilterChoices.stops.add(getStops(s))
         } else {
-            userFilterChoices.stops.remove(s)
+            userFilterChoices.stops.remove(getStops(s))
         }
         handleFiltering()
     }

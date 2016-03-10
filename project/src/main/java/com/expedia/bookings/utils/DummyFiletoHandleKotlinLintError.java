@@ -354,7 +354,7 @@ DummyFiletoHandleKotlinLintError {
 		R.layout.tsa_entry_view,
 		R.dimen.itin_card_alert_dialog,
 		R.layout.phone_entry_view,
-		R.layout.spinner_traveler_entry_dropdown_item,
+		R.layout.spinner_dropdown_item,
 		R.layout.traveler_advanced_options_widget,
 		R.layout.spinner_traveler_entry_dropdown_2line_item,
 		R.layout.bundle_widget,
@@ -466,5 +466,8 @@ DummyFiletoHandleKotlinLintError {
 		R.style.BundleOverviewWidgets_PrimaryText,
 		R.style.BundleOverviewWidgets_SecondaryText,
 		R.layout.section_lx_you_might_also_like,
+		R.color.packages_flight_filter_show_more_less,
+		R.dimen.sort_filter_padding_large,
+		R.plurals.flight_filter_stops
 	};
 }

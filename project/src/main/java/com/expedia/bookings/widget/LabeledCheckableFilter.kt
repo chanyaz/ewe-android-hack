@@ -4,14 +4,16 @@ import android.content.Context
 import android.util.AttributeSet
 import android.widget.CheckBox
 import android.widget.LinearLayout
+import android.widget.RelativeLayout
 import android.widget.TextView
 import com.expedia.bookings.R
 import com.expedia.bookings.utils.bindView
 import com.expedia.util.endlessObserver
 import rx.Observer
 
-class LabeledCheckableFilter<T>(context: Context, attrs: AttributeSet) : LinearLayout(context, attrs) {
-    val label: TextView by bindView(R.id.label)
+class LabeledCheckableFilter<T>(context: Context, attrs: AttributeSet) : RelativeLayout(context, attrs) {
+    val stopsLabel: TextView by bindView(R.id.label)
+    val resultsLabel: TextView by bindView(R.id.results_label)
     val checkBox: CheckBox by bindView(R.id.check_box)
     var observer: Observer<T> ? = null
     var value: T? = null
@@ -22,10 +24,11 @@ class LabeledCheckableFilter<T>(context: Context, attrs: AttributeSet) : LinearL
         if (checkBox.isChecked) onChecked()
     }
 
-    fun bind(filterName: String, filterValue: T, observer: Observer<T>) {
+    fun bind(filterName: String, filterValue: T, filterResults: Int?, observer: Observer<T>) {
         this.observer = observer
-        label.text = filterName
+        stopsLabel.text = filterName
         value = filterValue
+        resultsLabel.text = filterResults.toString()
         checkBox.isChecked = false
     }
 

@@ -5,7 +5,7 @@
     <com.expedia.bookings.widget.ScrollView
         android:id="@+id/filter_container"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:background="@color/packages_flight_filter_background_color"
         android:paddingTop="?attr/actionBarSize">
 
@@ -17,28 +17,21 @@
             android:focusableInTouchMode="true"
             android:orientation="vertical">
 
+            <com.expedia.bookings.widget.TextView
+                style="@style/FilterSortLabelTheme"
+                android:text="@string/Sort_By" />
+
             <LinearLayout
                 android:id="@+id/sort_flights"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:paddingLeft="@dimen/sort_filter_padding_normal"
-                android:paddingRight="@dimen/sort_filter_padding_normal"
-                android:paddingTop="@dimen/sort_filter_padding_normal">
-
-                <com.expedia.bookings.widget.TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/sort_filter_padding_normal"
-                    android:text="@string/Sort_By"
-                    android:textColor="@color/packages_flight_filter_text"
-                    android:textSize="15sp"
-                    app:textStyle="medium" />
+                android:paddingRight="@dimen/sort_filter_padding_normal">
 
                 <android.support.v7.widget.CardView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="6dp"
                     android:background="?android:attr/selectableItemBackground"
                     app:cardCornerRadius="3dp"
                     app:cardElevation="1dp"
@@ -50,318 +43,166 @@
                         android:layout_height="wrap_content"
                         android:background="@drawable/spinner_hotel_filter_sort"
                         android:dropDownWidth="match_parent" />
-
                 </android.support.v7.widget.CardView>
-
             </LinearLayout>
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1px"
-                android:layout_marginTop="@dimen/sort_filter_padding_normal"
-                android:background="@color/packages_flight_filter_divider" />
+            <include layout="@layout/package_flight_filter_divider" />
+
+            <com.expedia.bookings.widget.TextView
+                android:id="@+id/duration"
+                style="@style/FilterSortLabelTheme"
+                android:text="@string/flight_duration_label" />
 
             <LinearLayout
+                android:id="@+id/duration_range_container"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/sort_filter_padding_small"
                 android:orientation="vertical"
                 android:paddingLeft="@dimen/sort_filter_padding_normal"
-                android:paddingRight="@dimen/sort_filter_padding_normal"
-                android:paddingTop="@dimen/sort_filter_padding_normal">
+                android:paddingRight="@dimen/sort_filter_padding_normal">
 
-                <com.expedia.bookings.widget.TextView
-                    android:id="@+id/price"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/price_range"
-                    android:textColor="@color/packages_flight_filter_text"
-                    android:textSize="15sp"
-                    app:textStyle="medium" />
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
 
-                <LinearLayout
-                    android:id="@+id/price_range_container"
+                    <TextView
+                        android:id="@+id/duration_range_min_text"
+                        style="@style/FilterSortValueTheme"/>
+
+                    <TextView
+                        android:id="@+id/duration_range_max_text"
+                        style="@style/FilterSortValueTheme"
+                        android:layout_gravity="right"/>
+
+                </FrameLayout>
+
+                <com.expedia.bookings.widget.FilterRangeSeekBar
+                    android:id="@+id/duration_range_bar"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/sort_filter_padding_small"
-                    android:orientation="vertical">
+                    app:rsb__activeColor="@color/packages_primary_color" />
 
-                    <FrameLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
-
-                        <TextView
-                            android:id="@+id/price_range_min_text"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="left"
-                            android:textSize="13sp" />
-
-                        <TextView
-                            android:id="@+id/price_range_max_text"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="right"
-                            android:textSize="13sp" />
-
-                    </FrameLayout>
-
-                    <com.expedia.bookings.widget.FilterRangeSeekBar
-                        android:id="@+id/price_range_bar"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/sort_filter_padding_small"
-                        app:rsb__activeColor="@color/packages_primary_color" />
-
-                </LinearLayout>
             </LinearLayout>
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:paddingLeft="@dimen/sort_filter_padding_normal"
-                android:paddingRight="@dimen/sort_filter_padding_normal"
-                android:paddingTop="@dimen/sort_filter_padding_normal">
-
-                <com.expedia.bookings.widget.TextView
-                    android:id="@+id/duration"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/flight_duration_label"
-                    android:textColor="@color/packages_flight_filter_text"
-                    android:textSize="15sp"
-                    app:textStyle="medium" />
-
-                <LinearLayout
-                    android:id="@+id/duration_range_container"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/sort_filter_padding_small"
-                    android:orientation="vertical">
-
-                    <FrameLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
-
-                        <TextView
-                            android:id="@+id/duration_range_min_text"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="left"
-                            android:textSize="13sp" />
-
-                        <TextView
-                            android:id="@+id/duration_range_max_text"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="right"
-                            android:textSize="13sp" />
-
-                    </FrameLayout>
-
-                    <com.expedia.bookings.widget.FilterRangeSeekBar
-                        android:id="@+id/duration_range_bar"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/sort_filter_padding_small"
-                        app:rsb__activeColor="@color/packages_primary_color" />
-
-                </LinearLayout>
-            </LinearLayout>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1px"
-                android:layout_marginTop="@dimen/sort_filter_padding_normal"
-                android:background="@color/packages_flight_filter_divider" />
+            <include layout="@layout/package_flight_filter_divider" />
 
             <com.expedia.bookings.widget.TextView
                 android:id="@+id/stops_label"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:paddingBottom="@dimen/sort_filter_padding_small"
-                android:paddingLeft="@dimen/sort_filter_padding_normal"
-                android:paddingRight="@dimen/sort_filter_padding_normal"
-                android:paddingTop="@dimen/sort_filter_padding_large"
-                android:text="@string/stops"
-                android:textColor="@color/packages_flight_filter_text"
-                android:textSize="15sp"
-                app:textStyle="medium" />
+                style="@style/FilterSortLabelTheme"
+                android:text="@string/stops" />
 
             <LinearLayout
                 android:id="@+id/stops_container"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical" />
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1px"
-                android:layout_marginTop="@dimen/sort_filter_padding_normal"
-                android:background="@color/packages_flight_filter_divider" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:paddingLeft="@dimen/sort_filter_padding_normal"
+                android:paddingRight="@dimen/sort_filter_padding_normal"/>
+
+            <include layout="@layout/package_flight_filter_divider" />
+
+
+            <com.expedia.bookings.widget.TextView
+                android:id="@+id/departure"
+                style="@style/FilterSortLabelTheme"
+                android:text="@string/departure_time_range" />
+
+            <LinearLayout
+                android:id="@+id/departure_range_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingLeft="@dimen/sort_filter_padding_normal"
                 android:paddingRight="@dimen/sort_filter_padding_normal"
-                android:paddingTop="@dimen/sort_filter_padding_normal">
+                android:orientation="vertical">
 
-                <com.expedia.bookings.widget.TextView
-                    android:id="@+id/departure"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/departure_time_range"
-                    android:textColor="@color/packages_flight_filter_text"
-                    android:textSize="15sp"
-                    app:textStyle="medium" />
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
 
-                <LinearLayout
-                    android:id="@+id/departure_range_container"
+                    <TextView
+                        android:id="@+id/departure_range_min_text"
+                        style="@style/FilterSortValueTheme" />
+
+                    <TextView
+                        android:id="@+id/departure_range_max_text"
+                        style="@style/FilterSortValueTheme"
+                        android:layout_gravity="right" />
+
+                </FrameLayout>
+
+                <com.expedia.bookings.widget.FilterRangeSeekBar
+                    android:id="@+id/departure_range_bar"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/sort_filter_padding_small"
-                    android:orientation="vertical">
+                    app:rsb__activeColor="@color/packages_primary_color" />
 
-                    <FrameLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
-
-                        <TextView
-                            android:id="@+id/departure_range_min_text"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="left"
-                            android:textSize="13sp" />
-
-                        <TextView
-                            android:id="@+id/departure_range_max_text"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="right"
-                            android:textSize="13sp" />
-
-                    </FrameLayout>
-
-                    <com.expedia.bookings.widget.FilterRangeSeekBar
-                        android:id="@+id/departure_range_bar"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/sort_filter_padding_small"
-                        app:rsb__activeColor="@color/packages_primary_color" />
-
-                </LinearLayout>
-
-                <com.expedia.bookings.widget.TextView
-                    android:id="@+id/arrival"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:paddingTop="@dimen/sort_filter_padding_normal"
-                    android:text="@string/arrival_time_range"
-                    android:textColor="@color/packages_flight_filter_text"
-                    android:textSize="15sp"
-                    app:textStyle="medium" />
-
-                <LinearLayout
-                    android:id="@+id/arrival_range_container"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/sort_filter_padding_small"
-                    android:orientation="vertical">
-
-                    <FrameLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
-
-                        <TextView
-                            android:id="@+id/arrival_range_min_text"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="left"
-                            android:textSize="13sp" />
-
-                        <TextView
-                            android:id="@+id/arrival_range_max_text"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="right"
-                            android:textSize="13sp" />
-
-                    </FrameLayout>
-
-                    <com.expedia.bookings.widget.FilterRangeSeekBar
-                        android:id="@+id/arrival_range_bar"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/sort_filter_padding_small"
-                        app:rsb__activeColor="@color/packages_primary_color" />
-
-                </LinearLayout>
             </LinearLayout>
 
-            <View
+            <com.expedia.bookings.widget.TextView
+                android:id="@+id/arrival"
+                style="@style/FilterSortLabelTheme"
+                android:text="@string/arrival_time_range" />
+
+            <LinearLayout
+                android:id="@+id/arrival_range_container"
                 android:layout_width="match_parent"
-                android:layout_height="1px"
-                android:layout_marginTop="@dimen/sort_filter_padding_normal"
-                android:background="@color/packages_flight_filter_divider" />
+                android:layout_height="wrap_content"
+                android:paddingLeft="@dimen/sort_filter_padding_normal"
+                android:paddingRight="@dimen/sort_filter_padding_normal"
+                android:orientation="vertical">
+
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/arrival_range_min_text"
+                        style="@style/FilterSortValueTheme" />
+
+                    <TextView
+                        android:id="@+id/arrival_range_max_text"
+                        style="@style/FilterSortValueTheme"
+                        android:layout_gravity="right" />
+
+                </FrameLayout>
+
+                <com.expedia.bookings.widget.FilterRangeSeekBar
+                    android:id="@+id/arrival_range_bar"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+
+                    app:rsb__activeColor="@color/packages_primary_color" />
+
+            </LinearLayout>
+
+            <include layout="@layout/package_flight_filter_divider" />
 
             <com.expedia.bookings.widget.TextView
                 android:id="@+id/airlines_label"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                style="@style/FilterSortLabelTheme"
                 android:paddingBottom="@dimen/sort_filter_padding_small"
-                android:paddingLeft="@dimen/sort_filter_padding_normal"
-                android:paddingRight="@dimen/sort_filter_padding_normal"
-                android:text="@string/airlines"
-                android:textColor="@color/packages_flight_filter_text"
-                android:textSize="15sp"
-                app:textStyle="medium" />
+                android:text="@string/airlines" />
 
             <LinearLayout
                 android:id="@+id/airlines_container"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingLeft="@dimen/sort_filter_padding_normal"
+                android:paddingRight="@dimen/sort_filter_padding_normal"
                 android:orientation="vertical" />
 
-            <RelativeLayout
-                android:id="@+id/collapsed_container"
+            <include layout="@layout/show_more_container" />
+
+            <include layout="@layout/package_flight_filter_divider"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="?android:attr/selectableItemBackground"
-                android:clickable="true"
-                android:gravity="right"
-                android:orientation="horizontal"
-                android:paddingBottom="10dp"
-                android:paddingRight="@dimen/sort_filter_padding_normal"
-                android:paddingTop="10dp"
-                android:visibility="gone">
+                android:layout_height="1px"
+                android:layout_marginTop="@dimen/sort_filter_padding_small"
+                android:layout_marginBottom="@dimen/sort_filter_padding_small"/>
 
-                <ImageButton
-                    android:id="@+id/show_more_less_icon"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:background="@android:color/transparent"
-                    android:clickable="false"
-                    android:src="@drawable/read_more" />
-
-                <com.expedia.bookings.widget.TextView
-                    android:id="@+id/show_more_less_text"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_toRightOf="@id/show_more_less_icon"
-                    android:paddingLeft="@dimen/sort_filter_padding_small"
-                    android:text="@string/show_more"
-                    android:textColor="@color/packages_flight_filter_show_more_less"
-                    android:textSize="15sp"
-                    app:textStyle="medium" />
-            </RelativeLayout>
-
-            <Space
-                android:layout_width="match_parent"
-                android:layout_height="57dp" />
+            <Space android:layout_width="match_parent"
+            android:layout_height="57dp" />
 
         </LinearLayout>
 

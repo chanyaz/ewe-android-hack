@@ -41,7 +41,7 @@ class FlightTravelerAdvancedOptionsWidget(context: Context, attrs: AttributeSet?
         View.inflate(context, R.layout.traveler_advanced_options_widget, this)
         orientation = VERTICAL
 
-        val seatPreferenceAdapter = SeatPreferenceSpinnerAdapter(context, R.layout.material_spinner_item, R.layout.spinner_traveler_entry_dropdown_item)
+        val seatPreferenceAdapter = SeatPreferenceSpinnerAdapter(context, R.layout.material_spinner_item, R.layout.spinner_dropdown_item)
         seatPreferenceAdapter.setFormatString(context.getString(R.string.prefers_seat_colored_TEMPLATE2))
         seatPreferenceSpinner.adapter = seatPreferenceAdapter
         seatPreferenceSpinner.onItemSelectedListener = SeatPreferenceItemSelectedListener()
