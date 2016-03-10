@@ -1,6 +1,5 @@
 package com.expedia.bookings.presenter.packages
 
-import android.animation.ObjectAnimator
 import android.content.Context
 import android.content.Intent
 import android.support.design.widget.AppBarLayout
@@ -54,7 +53,6 @@ class BundleOverviewPresenter(context: Context, attrs: AttributeSet) : Presenter
     val changeHotel by lazy { toolbar.menu.findItem(R.id.package_change_hotel) }
     val changeHotelRoom by lazy { toolbar.menu.findItem(R.id.package_change_hotel_room) }
     val changeFlight by lazy { toolbar.menu.findItem(R.id.package_change_flight) }
-    val TOOLBAR_TEXT_ANIMATION_DURATION = 200L
 
     init {
         View.inflate(context, R.layout.bundle_overview, this)
@@ -165,6 +163,13 @@ class BundleOverviewPresenter(context: Context, attrs: AttributeSet) : Presenter
             toggleCollapsingToolBar(enable)
             behavior.topAndBottomOffset = distance
         }
+
+        (checkoutOverviewHeaderToolbar.destinationText.layoutParams as LinearLayout.LayoutParams).gravity = Gravity.LEFT
+        (checkoutOverviewHeaderToolbar.checkInOutDates.layoutParams as LinearLayout.LayoutParams).gravity = Gravity.LEFT
+        checkoutOverviewHeaderToolbar.destinationText.pivotX = 0f
+        checkoutOverviewHeaderToolbar.destinationText.pivotY = 0f
+        checkoutOverviewHeaderToolbar.destinationText.scaleX = .75f
+        checkoutOverviewHeaderToolbar.destinationText.scaleY = .75f
     }
 
     fun toggleOverviewHeader(show: Boolean) {
@@ -211,10 +216,14 @@ class BundleOverviewPresenter(context: Context, attrs: AttributeSet) : Presenter
 
     val checkoutTransition = object : Presenter.Transition(BundleDefault::class.java, PackageCheckoutPresenter::class.java) {
         var translationDistance = 0f
+        var headerOffset = 0
 
         override fun startTransition(forward: Boolean) {
             toggleCollapsingToolBar(true)
             translationDistance = checkoutPresenter.mainContent.translationY
+            val params = appBarLayout.layoutParams as CoordinatorLayout.LayoutParams
+            val behavior = params.behavior as AppBarLayout.Behavior
+            headerOffset = behavior.topAndBottomOffset
             checkoutPresenter.checkoutButton.translationY = if (forward) 0f else checkoutPresenter.checkoutButton.height.toFloat()
             checkoutPresenter.chevron.rotation = 0f
             toolbar.menu.setGroupVisible(R.id.package_change_menu, !forward)
@@ -241,8 +250,7 @@ class BundleOverviewPresenter(context: Context, attrs: AttributeSet) : Presenter
         private fun translateHeader(f: Float, forward: Boolean) {
             val params = appBarLayout.layoutParams as CoordinatorLayout.LayoutParams
             val behavior = params.behavior as AppBarLayout.Behavior
-
-            val scrollY = if (forward) f * -appBarLayout.totalScrollRange else (f - 1) * appBarLayout.totalScrollRange
+            val scrollY = if (forward) f * - appBarLayout.totalScrollRange else (f - 1) * (appBarLayout.totalScrollRange + headerOffset)
             behavior.topAndBottomOffset = scrollY.toInt()
         }
 
@@ -300,29 +308,33 @@ class BundleOverviewPresenter(context: Context, attrs: AttributeSet) : Presenter
     override fun onOffsetChanged(appBarLayout: AppBarLayout, offset: Int) {
         var maxScroll = appBarLayout.totalScrollRange;
         if (maxScroll != 0) {
-            var percentage = (Math.abs(offset) / maxScroll).toFloat()
+            var percentage = Math.abs(offset) / maxScroll.toFloat()
 
-            if (percentage == 1f && isHideToolbarView) {
-                if (!Strings.equals(currentState, PackageCheckoutPresenter::class.java.name)) {
-                    checkoutOverviewHeaderToolbar.visibility = View.VISIBLE;
+            if (isHideToolbarView) {
+                if (percentage == 1f) {
+                    if (!Strings.equals(currentState, PackageCheckoutPresenter::class.java.name)) {
+                        checkoutOverviewHeaderToolbar.visibility = View.VISIBLE;
+                    }
+                    checkoutOverviewHeaderToolbar.destinationText.visibility = View.VISIBLE
+                    checkoutOverviewHeaderToolbar.checkInOutDates.alpha = 1f
+                    val distance = checkoutOverviewFloatingToolbar.destinationText.height * .25f
+                    checkoutOverviewHeaderToolbar.checkInOutDates.translationY = -distance
+                    isHideToolbarView = !isHideToolbarView;
+                } else if (percentage >= .7f) {
+                    checkoutOverviewHeaderToolbar.visibility = View.VISIBLE
+                    val alpha = (percentage - .7f) / .3f
+                    checkoutOverviewHeaderToolbar.checkInOutDates.alpha = alpha
+                    val distance = checkoutOverviewFloatingToolbar.destinationText.height * .25f
+                    checkoutOverviewHeaderToolbar.checkInOutDates.translationY = -distance
+                } else {
+                    checkoutOverviewHeaderToolbar.visibility = View.GONE
+                    checkoutOverviewHeaderToolbar.checkInOutDates.alpha = 0f
                 }
-                (checkoutOverviewHeaderToolbar.destinationText.layoutParams as LinearLayout.LayoutParams).gravity = Gravity.LEFT
-                (checkoutOverviewHeaderToolbar.checkInOutDates.layoutParams as LinearLayout.LayoutParams).gravity = Gravity.LEFT
-                val distance = checkoutOverviewFloatingToolbar.destinationText.height * .1f
-                checkoutOverviewHeaderToolbar.destinationText.pivotX = 0f
-                checkoutOverviewHeaderToolbar.destinationText.pivotY = 0f
-                checkoutOverviewHeaderToolbar.destinationText.scaleX = .9f
-                checkoutOverviewHeaderToolbar.destinationText.scaleY = .9f
-                checkoutOverviewHeaderToolbar.checkInOutDates.alpha = 0f
-                checkoutOverviewHeaderToolbar.checkInOutDates.translationY = -distance
-                val animator = ObjectAnimator.ofFloat(checkoutOverviewHeaderToolbar.checkInOutDates, "alpha", 0f, 1f)
-                animator.duration = TOOLBAR_TEXT_ANIMATION_DURATION
-                animator.start()
-                isHideToolbarView = !isHideToolbarView;
-
-            } else if (percentage < 1f && !isHideToolbarView) {
-                checkoutOverviewHeaderToolbar.visibility = View.GONE;
-                isHideToolbarView = !isHideToolbarView;
+            } else {
+                if (percentage < 1f) {
+                    checkoutOverviewHeaderToolbar.destinationText.visibility = View.INVISIBLE;
+                    isHideToolbarView = !isHideToolbarView;
+                }
             }
         }
     }

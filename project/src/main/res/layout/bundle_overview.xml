@@ -11,7 +11,7 @@
         <android.support.design.widget.AppBarLayout
             android:id="@+id/app_bar"
             android:layout_width="match_parent"
-            android:layout_height="192dp"
+            android:layout_height="165dp"
             android:fitsSystemWindows="true"
             android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 
@@ -43,8 +43,7 @@
                         android:id="@+id/checkout_overview_header_toolbar"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:gravity="left|center_horizontal"
-                        android:visibility="gone" />
+                        android:gravity="left|center_horizontal" />
 
                 </com.expedia.bookings.widget.CheckoutToolbar>
             </android.support.design.widget.CollapsingToolbarLayout>
@@ -53,7 +52,7 @@
         <com.expedia.bookings.widget.packages.CheckoutOverviewHeader
             android:id="@+id/checkout_overview_floating_toolbar"
             android:layout_width="match_parent"
-            android:layout_height="192dp"
+            android:layout_height="165dp"
             android:layout_above="@+id/bundle_widget"
             android:gravity="center"
             app:layout_behavior="com.expedia.bookings.widget.CheckoutHeaderBehavior" />

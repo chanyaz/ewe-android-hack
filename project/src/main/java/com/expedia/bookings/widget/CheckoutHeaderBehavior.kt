@@ -36,7 +36,7 @@ class CheckoutHeaderBehavior(val context: Context, attrs: AttributeSet) : Coordi
                 lp.setMargins(lp.leftMargin, toolbarText.top, lp.rightMargin, lp.bottomMargin)
                 child.layoutParams = lp
                 child.destinationText.x = Math.max(toolBarRightX.toFloat(), textViewLeftX * (1 - percentage))
-                val scale = .9f + (1 - percentage) * (1f - .9f)
+                val scale = .75f + (1 - percentage) * (1f - .75f)
                 child.destinationText.pivotX = 0f
                 child.destinationText.pivotY = 0f
                 child.destinationText.scaleX = scale
