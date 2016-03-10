@@ -464,6 +464,7 @@ DummyFiletoHandleKotlinLintError {
 		R.style.PackagesFlightCell_DurationText,
 		R.style.BundleOverviewWidgets,
 		R.style.BundleOverviewWidgets_PrimaryText,
-		R.style.BundleOverviewWidgets_SecondaryText
+		R.style.BundleOverviewWidgets_SecondaryText,
+		R.layout.section_lx_you_might_also_like,
 	};
 }

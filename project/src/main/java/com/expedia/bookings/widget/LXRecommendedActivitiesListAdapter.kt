@@ -55,7 +55,7 @@ class LXRecommendedActivitiesListAdapter : BaseAdapter() {
     }
 
     protected fun initializeViewHolder(parent: ViewGroup): View {
-        val convertView = LayoutInflater.from(parent.context).inflate(R.layout.section_lx_search_row, parent, false)
+        val convertView = LayoutInflater.from(parent.context).inflate(R.layout.section_lx_you_might_also_like, parent, false)
         val viewHolder = ViewHolder(convertView)
         convertView.tag = viewHolder
 
