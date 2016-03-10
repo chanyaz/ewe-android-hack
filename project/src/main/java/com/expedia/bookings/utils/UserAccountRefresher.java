@@ -1,6 +1,7 @@
 package com.expedia.bookings.utils;
 
 import android.content.Context;
+import android.support.annotation.Nullable;
 
 import com.expedia.account.data.FacebookLinkResponse;
 import com.expedia.bookings.R;
@@ -25,17 +26,20 @@ public class UserAccountRefresher {
 	private IUserAccountRefreshListener userAccountRefreshListener;
 
 	private String keyRefreshUser;
-	private String fbUserId;
 	//When we last refreshed user data.
 	private long mLastRefreshedUserTimeMillis = 0L;
 
 	private Context context;
 
 	public UserAccountRefresher(Context context, LineOfBusiness lob,
-		IUserAccountRefreshListener userAccountRefreshListener) {
-		this.context = context;
+		@Nullable IUserAccountRefreshListener userAccountRefreshListener) {
+		this.context = context.getApplicationContext();
 		this.userAccountRefreshListener = userAccountRefreshListener;
 		this.keyRefreshUser = lob + "_" + "KEY_REFRESH_USER";
+	}
+
+	public void setUserAccountRefreshListener(IUserAccountRefreshListener listener) {
+		userAccountRefreshListener = listener;
 	}
 
 	private final BackgroundDownloader.Download<SignInResponse> mRefreshUserDownload = new BackgroundDownloader.Download<SignInResponse>() {
@@ -63,7 +67,9 @@ public class UserAccountRefresher {
 				Db.setUser(user);
 			}
 
-			userAccountRefreshListener.onUserAccountRefreshed();
+			if (userAccountRefreshListener != null) {
+				userAccountRefreshListener.onUserAccountRefreshed();
+			}
 		}
 	};
 
@@ -76,7 +82,7 @@ public class UserAccountRefresher {
 			FacebookSdk.sdkInitialize(context);
 			AccessToken token = AccessToken.getCurrentAccessToken();
 			if (token != null) {
-				fetchFacebookUserInfo(token);
+				fetchFacebookUserInfo();
 			}
 			else {
 				BackgroundDownloader bd = BackgroundDownloader.getInstance();
@@ -86,7 +92,9 @@ public class UserAccountRefresher {
 			}
 		}
 		else {
-			userAccountRefreshListener.onUserAccountRefreshed();
+			if (userAccountRefreshListener != null) {
+				userAccountRefreshListener.onUserAccountRefreshed();
+			}
 		}
 	}
 
@@ -98,13 +106,9 @@ public class UserAccountRefresher {
 
 	/**
 	 * Ok so we have a users facebook session, but we need the users information for that to be useful so lets get that
-	 *
-	 * @param token
 	 */
-	protected void fetchFacebookUserInfo(AccessToken token) {
+	protected void fetchFacebookUserInfo() {
 		Log.d("FB: fetchFacebookUserInfo");
-
-		fbUserId = token.getUserId();
 
 		ServicesUtil.generateAccountService(context)
 			.facebookReauth(context).subscribe(new Subscriber<FacebookLinkResponse>() {
@@ -141,7 +145,9 @@ public class UserAccountRefresher {
 				if (User.isLoggedIn(context)) {
 					doLogout();
 				}
-				userAccountRefreshListener.onUserAccountRefreshed();
+				if (userAccountRefreshListener != null) {
+					userAccountRefreshListener.onUserAccountRefreshed();
+				}
 			}
 		});
 	}

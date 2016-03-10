@@ -42,6 +42,7 @@ import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.AboutUtils;
 import com.expedia.bookings.utils.ClearPrivateDataUtil;
 import com.expedia.bookings.utils.Ui;
+import com.expedia.bookings.utils.UserAccountRefresher;
 import com.google.android.gms.common.GoogleApiAvailability;
 import com.mobiata.android.SocialUtils;
 import com.mobiata.android.fragment.AboutSectionFragment;
@@ -56,7 +57,8 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class AccountSettingsActivity extends AppCompatActivity implements AboutSectionFragmentListener,
-		AboutUtils.CountrySelectDialogListener, LoginConfirmLogoutDialogFragment.DoLogoutListener {
+		AboutUtils.CountrySelectDialogListener, LoginConfirmLogoutDialogFragment.DoLogoutListener,
+		UserAccountRefresher.IUserAccountRefreshListener {
 	private static final String TAG_SUPPORT = "TAG_SUPPORT";
 	private static final String TAG_ALSO_BY_US = "TAG_ALSO_BY_US";
 	private static final String TAG_LEGAL = "TAG_LEGAL";
@@ -81,6 +83,7 @@ public class AccountSettingsActivity extends AppCompatActivity implements AboutS
 	private static final int ROW_COUNTRY = 12;
 
 	private AboutUtils aboutUtils;
+	private UserAccountRefresher userAccountRefresher;
 
 	private GestureDetectorCompat gestureDetector;
 
@@ -101,6 +104,8 @@ public class AccountSettingsActivity extends AppCompatActivity implements AboutS
 		}
 
 		aboutUtils = new AboutUtils(this);
+		userAccountRefresher = new UserAccountRefresher(this, LineOfBusiness.PROFILE, null);
+		userAccountRefresher.ensureAccountIsRefreshed();
 
 		gestureDetector = new GestureDetectorCompat(this, mOnGestureListener);
 
@@ -246,9 +251,16 @@ public class AccountSettingsActivity extends AppCompatActivity implements AboutS
 	}
 
 	@Override
+	protected void onPause() {
+		userAccountRefresher.setUserAccountRefreshListener(null);
+		super.onPause();
+	}
+
+	@Override
 	protected void onResume() {
 		super.onResume();
 		OmnitureTracking.trackAccountPageLoad();
+		userAccountRefresher.setUserAccountRefreshListener(this);
 		adjustLoggedInViews();
 	}
 
@@ -453,6 +465,14 @@ public class AccountSettingsActivity extends AppCompatActivity implements AboutS
 							.put("brand", BuildConfig.brand)
 							.format());
 		}
+	}
+
+	////////////////////////////////
+	// UserAccountRefreshListener
+
+	@Override
+	public void onUserAccountRefreshed() {
+		adjustLoggedInViews();
 	}
 
 	/////////////////////////////////
