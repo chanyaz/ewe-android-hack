@@ -59,7 +59,10 @@ class PackageServices(endpoint: String, okHttpClient: OkHttpClient, requestInter
 						}
 
 						val formattedPrice = hotel.packageOfferModel.price.flightPlusHotelPricePerPersonFormatted
-						var strikeThroughPrice = try { nf.parse(formattedPrice).toFloat() } catch (ex: Exception) { 0f }
+						var strikeThroughPrice = 0f
+						if (formattedPrice != null) {
+							try { strikeThroughPrice = nf.parse(formattedPrice).toFloat() } catch (ex: Exception) { }
+						}
 						lowRateInfo.strikethroughPriceToShowUsers = strikeThroughPrice
 						lowRateInfo.priceToShowUsers = hotel.packageOfferModel.price.pricePerPerson.amount.toFloat()
 						lowRateInfo.currencyCode = currencyCode
