@@ -34,6 +34,7 @@ class HotelResultsPricingStructureHeaderViewModelTests {
         givenLoading()
 
         assertEquals("Searching hundreds of hotels for you!", sut.pricingStructureHeaderObservable.value)
+        assertEquals(false, sut.loyaltyAvailableObservable.value)
     }
 
     @Test
