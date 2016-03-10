@@ -15,7 +15,7 @@
     <item>
         <shape android:shape="rectangle">
             <corners android:radius="3dp" />
-            <solid android:color="#384768" />
+            <solid android:color="@color/hotel_checkout_account_button_background_color" />
         </shape>
     </item>
 </selector>

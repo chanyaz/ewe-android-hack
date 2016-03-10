@@ -32,6 +32,7 @@
     <color name="destination_list_launch_card_title_text_color">#003E6F</color>
     <color name="destination_list_launch_card_country_text_color">#57A3CC</color>
     <color name="destination_list_detail_container_background">#ff070f24</color>
+    <color name="hotel_checkout_account_button_background_color">@color/lob_btn_color</color>
 
     <!-- Popular Hotels Tonight Discount strips-->
     <color name="launch_mobile_exclusive">#00253C</color>
