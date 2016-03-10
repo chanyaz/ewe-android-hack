@@ -152,7 +152,9 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
         }
 
         vm.soldOutHotel.subscribe { hotel ->
-            mapItems.filter { it.hotel.hotelId == hotel.hotelId }.first().hotel.isSoldOut = true
+            val mapItem = mapItems.filter { it.hotel.hotelId == hotel.hotelId }.first()
+            mapItem.hotel.isSoldOut = true
+            hotelMapClusterRenderer.getMarker(mapItem).setIcon(mapItem.soldOutIcon)
             clusterMarkers()
         }
 
@@ -162,22 +164,21 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
     }
 
     private fun selectMarker(mapItem: MapItem, shouldZoom: Boolean = false, animateCarousel: Boolean = true) {
-        //To prevent caching, we have to clear items and add again. TODO- Try with a custom decorator which doesnt cache anything at any zoom level.
+        clusterManager.clearItems()
+        clusterManager.addItems(mapItems)
+        clearPreviousMarker()
+        mapItem.isSelected = true
+        val selectedMarker = hotelMapClusterRenderer.getMarker(mapItem)
         if (!mapItem.hotel.isSoldOut) {
-            clusterManager.clearItems()
-            clusterManager.addItems(mapItems)
-            clearPreviousMarker()
-            mapItem.isSelected = true
-            val selectedMarker = hotelMapClusterRenderer.getMarker(mapItem)
             selectedMarker?.setIcon(mapItem.selectedIcon)
-            selectedMarker?.showInfoWindow()
-            if (shouldZoom) {
-                googleMap?.animateCamera(CameraUpdateFactory.newLatLngZoom(mapItem.position, googleMap?.cameraPosition?.zoom!!))
-            }
-            mapViewModel.mapPinSelectSubject.onNext(mapItem)
-            if (animateCarousel && currentState == ResultsMap().javaClass.name) {
-                animateMapCarouselVisibility(true)
-            }
+        }
+        selectedMarker?.showInfoWindow()
+        if (shouldZoom) {
+            googleMap?.animateCamera(CameraUpdateFactory.newLatLngZoom(mapItem.position, googleMap?.cameraPosition?.zoom!!))
+        }
+        mapViewModel.mapPinSelectSubject.onNext(mapItem)
+        if (animateCarousel && currentState == ResultsMap().javaClass.name) {
+            animateMapCarouselVisibility(true)
         }
     }
 
