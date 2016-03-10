@@ -82,12 +82,18 @@ public class PackageFlightFilterTest extends PackageTestCase {
 		checkFilteredFlights("3 Results");
 	}
 
-	public void testDurationSorting() throws Throwable {
+	public void testSorting() throws Throwable {
 		openFlightFilter();
+
+		//Check default sort is price
+		onView(withId(R.id.sort_by_selection_spinner)).check(matches(withSpinnerText(containsString("Price"))));
+
+		//sort by duration
 		selectSorting("Duration");
 		Common.delay(1);
 		done();
 	}
+
 	private void done() {
 		onView(withId(R.id.search_btn)).perform(click());
 	}
