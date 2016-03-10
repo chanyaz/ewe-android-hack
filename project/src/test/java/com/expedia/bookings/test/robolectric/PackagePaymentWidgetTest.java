@@ -67,12 +67,7 @@ public class PackagePaymentWidgetTest {
 		info.setSecurityCode("1234");
 		info.setEmail("test@email.com");
 
-		Location location = new Location();
-		location.setCity("San Francisco");
-		location.setCountryCode("USA");
-		location.addStreetAddressLine("500 W Madison st");
-		location.setPostalCode("60661");
-		location.setStateCode("IL");
+		Location location = givenLocation();
 		info.setLocation(location);
 		packagePaymentWidget.getSectionBillingInfo().bind(info);
 
@@ -85,15 +80,7 @@ public class PackagePaymentWidgetTest {
 		packagePaymentWidget.getViewmodel().getLineOfBusiness().onNext(LineOfBusiness.PACKAGES);
 		packagePaymentWidget.getCardInfoContainer().performClick();
 
-		PackageCreateTripResponse response = new PackageCreateTripResponse();
-		ValidPayment amexPayment = new ValidPayment();
-		amexPayment.name = "AmericanExpress";
-		List<ValidPayment> validFormsOfPayment = new ArrayList<>();
-		ValidPayment.addValidPayment(validFormsOfPayment, amexPayment);
-		response.setValidFormsOfPayment(validFormsOfPayment);
-		TripBucketItemPackages trip = new TripBucketItemPackages(response);
-		Db.getTripBucket().clear(LineOfBusiness.PACKAGES);
-		Db.getTripBucket().add(trip);
+		givenTripResponse("AmericanExpress");
 
 		BillingInfo info = new BillingInfo();
 		info.setNumberAndDetectType("345104799171123");
@@ -102,12 +89,7 @@ public class PackagePaymentWidgetTest {
 		info.setSecurityCode("123");
 		info.setEmail("test@email.com");
 
-		Location location = new Location();
-		location.setCity("San Francisco");
-		location.setCountryCode("USA");
-		location.addStreetAddressLine("500 W Madison st");
-		location.setPostalCode("60661");
-		location.setStateCode("IL");
+		Location location = givenLocation();
 		info.setLocation(location);
 		packagePaymentWidget.getSectionBillingInfo().bind(info);
 		assertFalse(packagePaymentWidget.getSectionBillingInfo().performValidation());
@@ -122,15 +104,7 @@ public class PackagePaymentWidgetTest {
 		packagePaymentWidget.getViewmodel().getLineOfBusiness().onNext(LineOfBusiness.PACKAGES);
 		packagePaymentWidget.getCardInfoContainer().performClick();
 
-		PackageCreateTripResponse response = new PackageCreateTripResponse();
-		ValidPayment visaPayment = new ValidPayment();
-		visaPayment.name = "Visa";
-		List<ValidPayment> validFormsOfPayment = new ArrayList<>();
-		ValidPayment.addValidPayment(validFormsOfPayment, visaPayment);
-		response.setValidFormsOfPayment(validFormsOfPayment);
-		TripBucketItemPackages trip = new TripBucketItemPackages(response);
-		Db.getTripBucket().clear(LineOfBusiness.PACKAGES);
-		Db.getTripBucket().add(trip);
+		givenTripResponse("Visa");
 
 		BillingInfo info = new BillingInfo();
 		info.setNumberAndDetectType("4284306858654528");
@@ -139,12 +113,7 @@ public class PackagePaymentWidgetTest {
 		info.setSecurityCode("1234");
 		info.setEmail("test@email.com");
 
-		Location location = new Location();
-		location.setCity("San Francisco");
-		location.setCountryCode("USA");
-		location.addStreetAddressLine("114 Sansome St.");
-		location.setPostalCode("94109");
-		location.setStateCode("CA");
+		Location location = givenLocation();
 		info.setLocation(location);
 		packagePaymentWidget.getSectionBillingInfo().bind(info);
 		assertFalse(packagePaymentWidget.getSectionBillingInfo().performValidation());
@@ -152,5 +121,66 @@ public class PackagePaymentWidgetTest {
 		info.setSecurityCode("123");
 		packagePaymentWidget.getSectionBillingInfo().bind(info);
 		assertTrue(packagePaymentWidget.getSectionBillingInfo().performValidation());
+	}
+
+	@Test
+	public void testEmailValidator() {
+		packagePaymentWidget.getViewmodel().getLineOfBusiness().onNext(LineOfBusiness.PACKAGES);
+		packagePaymentWidget.getCardInfoContainer().performClick();
+
+		givenTripResponse("AmericanExpress");
+
+		BillingInfo info = new BillingInfo();
+		info.setNumberAndDetectType("345104799171123");
+		info.setNameOnCard("Expedia Chicago");
+		info.setExpirationDate(new LocalDate(2017, 1, 1));
+		info.setSecurityCode("1234");
+
+		Location location = givenLocation();
+		info.setLocation(location);
+		packagePaymentWidget.getSectionBillingInfo().bind(info);
+		assertFalse(packagePaymentWidget.getSectionBillingInfo().performValidation());
+
+		info.setEmail("qa-ehcc");
+		packagePaymentWidget.getSectionBillingInfo().bind(info);
+		assertFalse(packagePaymentWidget.getSectionBillingInfo().performValidation());
+
+		info.setEmail("qa-ehcc@");
+		packagePaymentWidget.getSectionBillingInfo().bind(info);
+		assertFalse(packagePaymentWidget.getSectionBillingInfo().performValidation());
+
+		info.setEmail("qa-ehcc@mobiata");
+		packagePaymentWidget.getSectionBillingInfo().bind(info);
+		assertFalse(packagePaymentWidget.getSectionBillingInfo().performValidation());
+
+		info.setEmail("TEST@email.com");
+		packagePaymentWidget.getSectionBillingInfo().bind(info);
+		assertTrue(packagePaymentWidget.getSectionBillingInfo().performValidation());
+
+		info.setEmail("test@email.com");
+		packagePaymentWidget.getSectionBillingInfo().bind(info);
+		assertTrue(packagePaymentWidget.getSectionBillingInfo().performValidation());
+	}
+
+	private Location givenLocation() {
+		Location location = new Location();
+		location.setCity("San Francisco");
+		location.setCountryCode("USA");
+		location.addStreetAddressLine("500 W Madison st");
+		location.setPostalCode("60661");
+		location.setStateCode("IL");
+		return location;
+	}
+
+	private void givenTripResponse(String paymentName) {
+		PackageCreateTripResponse response = new PackageCreateTripResponse();
+		ValidPayment amexPayment = new ValidPayment();
+		amexPayment.name = paymentName;
+		List<ValidPayment> validFormsOfPayment = new ArrayList<>();
+		ValidPayment.addValidPayment(validFormsOfPayment, amexPayment);
+		response.setValidFormsOfPayment(validFormsOfPayment);
+		TripBucketItemPackages trip = new TripBucketItemPackages(response);
+		Db.getTripBucket().clear(LineOfBusiness.PACKAGES);
+		Db.getTripBucket().add(trip);
 	}
 }
