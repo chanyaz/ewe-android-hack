@@ -38,7 +38,6 @@ import com.expedia.bookings.utils.StrUtils;
 import com.expedia.bookings.utils.Strings;
 import com.expedia.bookings.utils.Ui;
 import com.mobiata.android.util.AndroidUtils;
-import com.squareup.otto.Subscribe;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -204,18 +203,17 @@ public class LXActivityDetailsWidget extends LXDetailsScrollView implements Recy
 		}
 	}
 
-	@Subscribe
-	public void onDetailsDateChanged(Events.LXDetailsDateChanged event) {
+	public void onDetailsDateChanged(LocalDate dateSelected, LXOfferDatesButton buttonSelected) {
 
 		for (int i = 0; i < offerDatesContainer.getChildCount(); i++) {
 			LXOfferDatesButton button = (LXOfferDatesButton) offerDatesContainer.getChildAt(i);
 			button.setChecked(false);
 		}
 
-		event.buttonSelected.setChecked(true);
+		buttonSelected.setChecked(true);
 		//  Track Link to track Change of dates.
 		OmnitureTracking.trackLinkLXChangeDate();
-		buildOffersSection(event.dateSelected);
+		buildOffersSection(dateSelected);
 	}
 
 	private void buildOffersSection(LocalDate startDate) {
