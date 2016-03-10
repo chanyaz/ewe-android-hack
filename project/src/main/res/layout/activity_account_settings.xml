@@ -113,7 +113,11 @@
                 android:id="@+id/section_loyalty_info"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/account_toolbar_background_color">
+                android:background="@color/account_toolbar_background_color"
+                android:paddingBottom="16dp"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
+                android:paddingTop="16dp">
 
                 <View
                     android:id="@+id/center"
@@ -127,8 +131,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentLeft="true"
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginTop="16dp"
                     android:layout_toLeftOf="@id/center"
                     android:text="@string/available_loyalty_points" />
 
@@ -139,7 +141,6 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentLeft="true"
                     android:layout_below="@id/available_points_label"
-                    android:layout_marginLeft="20dp"
                     android:layout_marginTop="4dp"
                     android:layout_toLeftOf="@id/center"
                     tools:text="51,203" />
@@ -150,8 +151,6 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentLeft="true"
                     android:layout_below="@id/available_points"
-                    android:layout_marginBottom="16dp"
-                    android:layout_marginLeft="20dp"
                     android:layout_toLeftOf="@id/center"
                     android:textColor="@color/account_toolbar_text_color_light"
                     android:textSize="13sp"
@@ -165,7 +164,6 @@
                     android:layout_height="wrap_content"
                     android:layout_alignBaseline="@id/available_points_label"
                     android:layout_marginLeft="20dp"
-                    android:layout_marginRight="20dp"
                     android:layout_toRightOf="@+id/center"
                     android:text="@string/preference_point_of_sale_title" />
 
@@ -176,7 +174,6 @@
                     android:layout_height="wrap_content"
                     android:layout_alignBaseline="@id/available_points"
                     android:layout_marginLeft="20dp"
-                    android:layout_marginRight="20dp"
                     android:layout_toRightOf="@+id/center"
                     android:drawablePadding="8dp"
                     android:gravity="center_vertical"
@@ -259,7 +256,7 @@
 
             <View
                 android:layout_width="0dp"
-                android:layout_height="8dp" />
+                android:layout_height="14dp" />
 
             <FrameLayout
                 android:id="@+id/section_app_settings"
