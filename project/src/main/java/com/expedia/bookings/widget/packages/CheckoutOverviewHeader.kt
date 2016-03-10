@@ -38,7 +38,7 @@ class CheckoutOverviewHeader(context: Context, attrs: AttributeSet?) : LinearLay
         checkoutHeaderImage = imageView
         destinationText.text = Phrase.from(context, R.string.hotel_city_country_checkout_header_TEMPLATE)
                 .put("city", hotel.hotelCity)
-                .put("country", Db.getPackageParams().destination.hierarchyInfo?.country?.name)
+                .put("country", hotel.hotelStateProvince ?: Db.getPackageParams().destination.hierarchyInfo?.country?.name)
                 .format()
         checkInOutDates.text = DateFormatUtils.formatPackageDateRange(context, hotel.checkInDate, hotel.checkOutDate)
         var numTravelers = Db.getPackageParams().guests()
@@ -56,8 +56,6 @@ class CheckoutOverviewHeader(context: Context, attrs: AttributeSet?) : LinearLay
             super.onBitmapLoaded(bitmap, from)
 
             val drawable = HeaderBitmapDrawable()
-            drawable.setCornerRadius(resources.getDimensionPixelSize(R.dimen.hotel_checkout_image_corner_radius))
-            drawable.setCornerMode(HeaderBitmapDrawable.CornerMode.TOP)
             drawable.setBitmap(bitmap)
 
             var textColor: Int

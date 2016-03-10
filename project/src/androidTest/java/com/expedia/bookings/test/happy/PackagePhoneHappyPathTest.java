@@ -175,7 +175,7 @@ public class PackagePhoneHappyPathTest extends PackageTestCase {
 	}
 
 	private void assertCheckoutOverview() {
-		onView(allOf(withId(R.id.destination), withParent(withId(R.id.checkout_overview_floating_toolbar)), withText("Detroit, United States of America"))).check(matches(isDisplayed()));
+		onView(allOf(withId(R.id.destination), withParent(withId(R.id.checkout_overview_floating_toolbar)), withText("Detroit, MI"))).check(matches(isDisplayed()));
 		onView(allOf(withId(R.id.check_in_out_dates), withParent(withId(R.id.checkout_overview_floating_toolbar)), withText("Tue Feb 02, 2016 - Thu Feb 04, 2016"))).check(matches(isDisplayed()));
 		onView(allOf(withId(R.id.travelers), withParent(withId(R.id.checkout_overview_floating_toolbar)), withText("1 Traveler"))).check(matches(isDisplayed()));
 

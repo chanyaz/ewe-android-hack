@@ -24,8 +24,8 @@ class CheckoutHeaderBehavior(val context: Context, attrs: AttributeSet) : Coordi
             val percentage = Math.abs(dependency.getY()) / maxScroll;
             var childHeight = dependency.height + dependency.getY() - Ui.getStatusBarHeight(context)
 
-            child.checkInOutDates.alpha = 1 - percentage
-            child.travelers.alpha = 1 - percentage
+            child.checkInOutDates.alpha = 1 - (percentage * 2)
+            child.travelers.alpha = 1 - (percentage * 2)
 
             if (textViewLeftX == 0 || textViewWidth == 0 || toolBarRightX == 0) {
                 setupValues(child, dependency)
@@ -51,6 +51,7 @@ class CheckoutHeaderBehavior(val context: Context, attrs: AttributeSet) : Coordi
         textViewLeftX = getLocation(child.destinationText)[0]
         textViewWidth = child.destinationText.width
         toolBarRightX = getLocation(toolbar.getChildAt(0))[0] + toolbar.getChildAt(0).width
+        child.destinationText.maxWidth = child.width - (toolBarRightX * 2)
     }
 
     private fun getLocation(view: View): IntArray {
