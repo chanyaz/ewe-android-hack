@@ -77,7 +77,7 @@ public class PackageCostBreakdownTest extends PackageTestCase {
 	}
 
 	private void assertCostBreakdownValues() {
-		onView(allOf(withText("Hotel + Flight"), hasSibling(withText("$2,538.62")))).check(matches(isDisplayed()));
+		onView(allOf(withText("Hotel + Flights"), hasSibling(withText("$2,538.62")))).check(matches(isDisplayed()));
 		onView(allOf(withText("Taxes & Fees Included ($278.12)"), hasSibling(withText("")))).check(matches(isDisplayed()));
 
 		//Check savings text and color
