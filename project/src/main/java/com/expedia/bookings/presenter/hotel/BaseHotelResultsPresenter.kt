@@ -177,7 +177,7 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
             googleMap?.animateCamera(CameraUpdateFactory.newLatLngZoom(mapItem.position, googleMap?.cameraPosition?.zoom!!))
         }
         mapViewModel.mapPinSelectSubject.onNext(mapItem)
-        if (animateCarousel && currentState == ResultsMap().javaClass.name) {
+        if (animateCarousel && currentState == ResultsMap::class.java.name) {
             animateMapCarouselVisibility(true)
         }
     }

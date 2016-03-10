@@ -27,7 +27,11 @@ fun getBitmap(context: Context, isSelected: Boolean, isAirAttached: Boolean, isS
     val tooltipDrawable = if (isSoldOut) {
         R.drawable.sold_out_pin
     } else if (isAirAttached) {
-        R.drawable.hotel_tooltip_airattach
+        if (isSelected) {
+            R.drawable.hotel_tooltip_airattach_selected
+        } else {
+            R.drawable.hotel_tooltip_airattach
+        }
     } else if (isSelected) {
         Ui.obtainThemeResID(context, R.attr.hotel_map_tooltip_pressed_drawable)
     } else {
