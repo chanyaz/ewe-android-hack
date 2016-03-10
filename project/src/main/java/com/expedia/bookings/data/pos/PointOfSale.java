@@ -180,6 +180,8 @@ public class PointOfSale {
 
 	private boolean isPwPEnabledForHotels;
 
+	private boolean isSWPEnabledForHotels;
+
 	private static class CountryResources {
 		@StringRes
 		int countryNameResId;
@@ -794,6 +796,9 @@ public class PointOfSale {
 		return isPwPEnabledForHotels;
 	}
 
+	public boolean isSWPEnabledForHotels() {
+		return isSWPEnabledForHotels;
+	}
 	/**
 	 * This is equivalent to calling getStylizedHotelBookingStatement(false)
 	 *
@@ -1168,6 +1173,7 @@ public class PointOfSale {
 
 		pos.shouldShowCircleForRatings = data.optBoolean("shouldDisplayCirclesForRatings", false);
 		pos.isPwPEnabledForHotels = data.optBoolean("pwpEnabled:hotels", false);
+		pos.isSWPEnabledForHotels = data.optBoolean("swpEnabled:hotels", false);
 
 		// Parse POS locales
 		JSONArray supportedLocales = data.optJSONArray("supportedLocales");

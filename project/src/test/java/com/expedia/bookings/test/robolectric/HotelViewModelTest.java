@@ -3,18 +3,12 @@ package com.expedia.bookings.test.robolectric;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.robolectric.Robolectric;
 import org.robolectric.RuntimeEnvironment;
 import org.robolectric.annotation.Config;
-import org.robolectric.shadows.ShadowAccountManager;
 
-import android.accounts.Account;
-import android.accounts.AccountManager;
-import android.app.Activity;
 import android.app.Application;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.data.User;
 import com.expedia.bookings.data.hotels.Hotel;
@@ -32,7 +26,6 @@ import rx.observers.TestSubscriber;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
-import static org.robolectric.Shadows.shadowOf;
 
 @RunWith(RobolectricRunner.class)
 @Config(shadows = { ShadowGCM.class, ShadowUserManager.class, ShadowAccountManagerEB.class})
@@ -165,7 +158,7 @@ public class HotelViewModelTest {
 	@Test
 	public void vipMessageWithNoLoyaltyMessage() {
 		givenHotelWithVipAccess();
-		setupUserAndMockLogin();
+		UserLoginTestUtil.Companion.setupUserAndMockLogin(getUser());
 		setupSystemUnderTest();
 
 		assertTrue(vm.getVipMessageVisibilityObservable().getValue());
@@ -176,7 +169,7 @@ public class HotelViewModelTest {
 	public void vipLoyaltyMessageVisible() {
 		givenHotelWithVipAccess();
 		givenHotelWithShopWithPointsAvailable();
-		setupUserAndMockLogin();
+		UserLoginTestUtil.Companion.setupUserAndMockLogin(getUser());
 		setupSystemUnderTest();
 
 		assertTrue(vm.getVipLoyaltyMessageVisibilityObservable().getValue());
@@ -216,23 +209,12 @@ public class HotelViewModelTest {
 		vm = new HotelViewModel(applicationContext, hotel);
 	}
 
-	private void setupUserAndMockLogin() {
+	private User getUser() {
 		User user = new User();
 		Traveler traveler = new Traveler();
 		user.setPrimaryTraveler(traveler);
 		user.getPrimaryTraveler().setLoyaltyMembershipTier(Traveler.LoyaltyMembershipTier.GOLD);
-
-		Activity activity = Robolectric.buildActivity(Activity.class).create().get();
-		user.save(activity);
-		Db.setUser(user);
-
-		String accountType = activity.getResources().getString(R.string.expedia_account_type_identifier);
-		AccountManager manager = AccountManager.get(activity);
-		Account account = new Account("test", accountType);
-		ShadowAccountManager shadowAccountManager = shadowOf(manager);
-		shadowAccountManager.addAccount(account);
-
-		User.signIn(activity, null);
+		return user;
 	}
 
 }
