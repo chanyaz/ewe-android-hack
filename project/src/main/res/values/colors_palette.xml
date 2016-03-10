@@ -18,6 +18,9 @@
     <!-- This color should be used on search result list header texts such as "All Flights", "Searching hundreds of hotels" and "Step 1: Select Hotel".  -->
     <color name="search_results_list_header_gray">#797979</color>
 
+    <!-- This color is for divider lines within cardviews.  -->
+    <color name="cardview_divider_lines_gray">#DFDFDF</color>
+
     <color name="expedia_hotels_color">#009688</color>
 
     <color name="white">#FFFFFFFF</color>

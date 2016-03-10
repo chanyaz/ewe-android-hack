@@ -14,6 +14,6 @@
         android:id="@+id/airline_text_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        style="@style/PackagesFlightCell.PrimaryText.CarrierText"/>
+        style="@style/MaterialFlightCell.CarrierText"/>
 
 </merge>

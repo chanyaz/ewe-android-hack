@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources
-    xmlns:android="http://schemas.android.com/apk/res/android" >
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
 
     <!-- System -->
 
@@ -174,7 +173,7 @@
         <item name="android:progressDrawable">@drawable/ratingbar_star_gray</item>
     </style>
 
-    <style name="RatingBar.Circle" parent="@style/RatingBar.Star"/>
+    <style name="RatingBar.Circle" parent="@style/RatingBar.Star" />
 
     <style name="RatingBar.Circle.White">
         <item name="android:progressDrawable">@drawable/ratingbar_circle_white</item>
@@ -541,6 +540,7 @@
         <item name="thumbMinWidth">100dip</item>
         <item name="thumbPadding">15dip</item>
     </style>
+
     <style name="TextAppearance.Widget.Switch" parent="android:TextAppearance.Small">
         <item name="android:textColor">@color/sliding_group_text_bright</item>
     </style>
@@ -858,7 +858,8 @@
     </style>
 
     <style name="TripBucketAmenitiesText.Landscape">
-        <item name="android:drawableLeft">@drawable/ic_tablet_checkout_free_cancellation_checkmark</item>
+        <item name="android:drawableLeft">@drawable/ic_tablet_checkout_free_cancellation_checkmark
+        </item>
         <item name="android:drawablePadding">12dp</item>
         <item name="android:layout_marginBottom">1dp</item>
         <item name="android:layout_marginLeft">3dp</item>
@@ -1024,6 +1025,30 @@
     <!-- Borderless button for "Enter Itinerary Number" in login screen -->
     <style name="Widget.BorderlessButton" parent="Widget.AppCompat.Button.Borderless">
         <item name="android:background">@drawable/bg_btn_borderless_kitkat</item>
+    </style>
+
+    <!--Material Flights Results Cell-->
+    <style name="MaterialFlightCell">
+        <item name="android:textColor">@color/packages_flight_cell_primary_text</item>
+        <item name="android:textSize">@dimen/packages_flight_cell_duration_text</item>
+        <item name="textStyle">medium</item>
+    </style>
+
+    <style name="MaterialFlightCell.PrimaryText">
+        <item name="android:textSize">@dimen/packages_flight_cell_primary_text</item>
+    </style>
+
+    <style name="MaterialFlightCell.CarrierText">
+        <item name="textStyle">normal</item>
+    </style>
+
+    <style name="MaterialFlightCell.DurationText">
+        <item name="android:textColor">@color/packages_flight_cell_duration_text</item>
+        <item name="textStyle">normal</item>
+    </style>
+
+    <style name="MaterialFlightCell.DurationText.LayoverCity">
+        <item name="textStyle">medium</item>
     </style>
 
     <style name="HotelPriceTextStyle">
