@@ -37,6 +37,7 @@
     <color name="cars_primary_color">#003E74</color>
     <color name="cars_unchecked_toggle_text_color_tvly">#B3FFFFFF</color>
     <color name="cars_drop_off_hint_text_color">#4b7fad</color>
+    <color name="cars_ripple_color">@color/lx_ripple_color</color>
 
     <!-- Lx -->
     <color name="lx_primary_color">#003E74</color>
