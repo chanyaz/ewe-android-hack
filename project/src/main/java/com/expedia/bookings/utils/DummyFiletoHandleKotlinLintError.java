@@ -54,6 +54,7 @@ DummyFiletoHandleKotlinLintError {
 		R.drawable.ic_amenity_hot_tub,
 		R.drawable.ic_amenity_jacuzzi,
 		R.drawable.ic_amenity_whirl_pool,
+		R.drawable.hotel_tooltip_airattach_selected,
 		R.drawable.ic_amenity_kitchen,
 		R.drawable.ic_amenity_children_activities,
 		R.drawable.ic_amenity_baby_sitting,
