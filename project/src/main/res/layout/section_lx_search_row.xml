@@ -23,6 +23,13 @@
             android:scaleType="centerCrop" />
 
         <View
+            android:id="@+id/lx_card_top_gradient"
+            android:layout_width="match_parent"
+            android:layout_height="67dp"
+            android:layout_gravity="top"
+            android:background="@drawable/cars_lx_details_gradient_top" />
+
+        <View
             android:id="@+id/gradient_mask"
             android:layout_width="match_parent"
             android:layout_height="67dp"

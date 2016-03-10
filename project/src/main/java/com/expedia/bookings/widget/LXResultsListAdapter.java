@@ -85,13 +85,14 @@ public class LXResultsListAdapter extends LoadingRecyclerViewAdapter {
 		public void bindRecommendationScore(int recommendationScore) {
 			if (recommendationScore > 0) {
 				recommendedScore.setVisibility(View.VISIBLE);
+				recommendedScoreText.setVisibility(View.VISIBLE);
 				recommendedScore.setText(LXDataUtils
 					.getUserRecommendPercentString(itemView.getContext(), recommendationScore));
 				recommendedScoreText.setText(itemView.getResources().getString(R.string.lx_customers_recommend));
 			}
 			else {
 				recommendedScore.setVisibility(View.GONE);
-				recommendedScoreText.setText(itemView.getResources().getString(R.string.lx_not_yet_recommended));
+				recommendedScoreText.setVisibility(View.GONE);
 			}
 		}
 	}
@@ -128,6 +129,9 @@ public class LXResultsListAdapter extends LoadingRecyclerViewAdapter {
 		@InjectView(R.id.gradient_mask)
 		public View gradientMask;
 
+		@InjectView(R.id.lx_card_top_gradient)
+		View cardGradientOnTop;
+
 		@Override
 		public void onClick(View v) {
 			LXActivity activity = (LXActivity) v.getTag();
@@ -163,6 +167,7 @@ public class LXResultsListAdapter extends LoadingRecyclerViewAdapter {
 				super.onBitmapLoaded(bitmap, from);
 				activityImage.setImageBitmap(bitmap);
 				gradientMask.setVisibility(View.VISIBLE);
+				cardGradientOnTop.setVisibility(userBucketedForRTRTest ? View.VISIBLE : View.GONE);
 			}
 
 			@Override
@@ -171,6 +176,7 @@ public class LXResultsListAdapter extends LoadingRecyclerViewAdapter {
 				if (errorDrawable != null) {
 					activityImage.setImageDrawable(errorDrawable);
 					gradientMask.setVisibility(View.VISIBLE);
+					cardGradientOnTop.setVisibility(View.GONE);
 				}
 			}
 
@@ -179,6 +185,7 @@ public class LXResultsListAdapter extends LoadingRecyclerViewAdapter {
 				super.onPrepareLoad(placeHolderDrawable);
 				activityImage.setImageDrawable(placeHolderDrawable);
 				gradientMask.setVisibility(View.GONE);
+				cardGradientOnTop.setVisibility(View.GONE);
 			}
 		};
 

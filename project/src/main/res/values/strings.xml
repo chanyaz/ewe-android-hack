@@ -700,7 +700,6 @@
 
     <string name="lx_you_might_also_like">You might also like</string>
     <string name="lx_customers_recommend">of customers recommend.</string>
-    <string name="lx_not_yet_recommended">Not yet recommended.</string>
     <!-- LX user recommended percentage template-->
     <string name="lx_recommend_percent_Template">{recommend}%</string>
 
