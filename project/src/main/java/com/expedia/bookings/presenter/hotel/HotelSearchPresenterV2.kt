@@ -75,11 +75,10 @@ class HotelSearchPresenterV2(context: Context, attrs: AttributeSet) : BaseHotelS
             searchButton.setTextColor(if (enable) ContextCompat.getColor(context, R.color.hotel_filter_spinner_dropdown_color) else ContextCompat.getColor(context, R.color.white_disabled))
         }
 
-        vm.locationTextObservable.subscribe {
+        vm.locationTextObservable.subscribe { locationText ->
             firstLaunch = false
-            val text = if (it.equals(context.getString(R.string.current_location))) "" else it
-            destinationCardView.setText(text)
-            if (calendarWidgetV2.calendar.startDate == null) {
+            destinationCardView.setText(locationText)
+            if (this.visibility == VISIBLE && calendarWidgetV2.calendar.startDate == null) {
                 calendarWidgetV2.showCalendarDialog()
             }
         }
@@ -103,10 +102,16 @@ class HotelSearchPresenterV2(context: Context, attrs: AttributeSet) : BaseHotelS
         addTransition(selectionToSuggestionTransition)
         addDefaultTransition(defaultTransition)
         showDefault()
-        show(SuggestionSelectionState())
         com.mobiata.android.util.Ui.hideKeyboard(this)
         scrollView.scrollTo(0, scrollView.top)
         searchButton.setTextColor(ContextCompat.getColor(context, R.color.white_disabled))
+    }
+
+    override fun showSuggestionState() {
+        navIcon = ArrowXDrawableUtil.getNavigationIconDrawable(context, ArrowXDrawableUtil.ArrowDrawableType.BACK)
+        navIcon.setColorFilter(ContextCompat.getColor(context, R.color.search_suggestion_v2), PorterDuff.Mode.SRC_IN)
+        toolbar.navigationIcon = navIcon
+        show(SuggestionSelectionState())
     }
 
     val globalLayoutListener = (ViewTreeObserver.OnGlobalLayoutListener {
@@ -123,14 +128,15 @@ class HotelSearchPresenterV2(context: Context, attrs: AttributeSet) : BaseHotelS
         }
     })
 
-    //TODO select calendar dates from deeplink
     override fun selectDates(startDate: LocalDate?, endDate: LocalDate?) {
         calendarWidgetV2.calendar.setSelectedDates(startDate, endDate)
+        calendarWidgetV2.calendar.hideToolTip()
+        calendarWidgetV2.hideCalendarDialog()
     }
 
-    //TODO select travelers from deeplink
     override fun selectTravelers(hotelTravelerParams: HotelTravelerParams) {
         travelerWidgetV2.traveler.viewmodel.travelerParamsObservable.onNext(hotelTravelerParams)
+        travelerWidgetV2.travelerDialog.dismiss()
     }
 
     internal var listener: SearchView.OnQueryTextListener = object : SearchView.OnQueryTextListener {
@@ -156,8 +162,8 @@ class HotelSearchPresenterV2(context: Context, attrs: AttributeSet) : BaseHotelS
         val totalTopPadding = suggestionRecyclerView.paddingTop + statusBarHeight
         suggestionRecyclerView.setPadding(0, totalTopPadding, 0, 0)
 
-        navIcon = ArrowXDrawableUtil.getNavigationIconDrawable(getContext(), ArrowXDrawableUtil.ArrowDrawableType.BACK)
-        navIcon.setColorFilter(ContextCompat.getColor(context, R.color.search_suggestion_v2), PorterDuff.Mode.SRC_IN)
+        navIcon = ArrowXDrawableUtil.getNavigationIconDrawable(getContext(), ArrowXDrawableUtil.ArrowDrawableType.CLOSE)
+        navIcon.setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_IN)
         toolbar.navigationIcon = navIcon
         toolbar.setNavigationOnClickListener {
             if (navIcon.parameter.toInt() == ArrowXDrawableUtil.ArrowDrawableType.BACK.type) {

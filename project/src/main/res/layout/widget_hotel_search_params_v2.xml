@@ -9,13 +9,15 @@
         android:layout_height="match_parent"
         android:layout_marginLeft="@dimen/search_form_margin"
         android:layout_marginRight="@dimen/search_form_margin"
-        android:fillViewport="true">
+        android:fillViewport="true"
+        android:scrollbars="none">
 
         <LinearLayout
             android:id="@+id/search_v2_container"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginTop="@dimen/search_form_top_margin"
+            android:paddingTop="?attr/actionBarSize"
             android:clipToPadding="false"
             android:orientation="vertical">
 
@@ -75,17 +77,28 @@
 
     </FrameLayout>
 
-    <Button
-        android:id="@+id/search_button_v2"
-        style="@style/HotelButtonStyle"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
-        android:background="?attr/hotel_select_room_ripple_drawable"
-        android:enabled="true"
-        android:minHeight="@dimen/recent_search_item_height"
-        android:text="@string/search"
-        android:textSize="17sp" />
+        android:orientation="vertical">
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="8dp"
+            android:background="@drawable/drop_shadow" />
+
+        <Button
+            android:id="@+id/search_button_v2"
+            style="@style/HotelButtonStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="?attr/hotel_select_room_ripple_drawable"
+            android:enabled="true"
+            android:minHeight="@dimen/recent_search_item_height"
+            android:text="@string/search"
+            android:textSize="17sp" />
+    </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"

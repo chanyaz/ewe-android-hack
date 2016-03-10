@@ -122,4 +122,8 @@ class CalendarWidgetV2(context: Context, attrs: AttributeSet?) : SearchInputCard
         calendarDialog.show()
     }
 
+    fun hideCalendarDialog() {
+        calendarDialog.dismiss()
+    }
+
 }
