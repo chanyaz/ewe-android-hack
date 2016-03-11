@@ -216,14 +216,14 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet) : Pre
 
     //Either shows the bundle overview or the checkout presenter based on distance/rotation
     private fun rotateChevron(distance: Float) {
-        val distanceGoal = height / 3f
+        val distanceGoal = height
         mainContent.translationY = distance
         chevron.rotation = Math.min(1f, distance / distanceGoal) * (180)
         checkoutTranslationObserver.onNext(distance)
     }
 
     private fun animCheckoutToTop() {
-        val distanceGoal = height / 3f
+        val distanceGoal = height
         val animator = ObjectAnimator.ofFloat(mainContent, "translationY", mainContent.translationY, 0f)
         animator.duration = 400L
         animator.addUpdateListener(ValueAnimator.AnimatorUpdateListener { anim ->

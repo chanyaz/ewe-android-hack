@@ -6,12 +6,17 @@
         android:id="@+id/main_content"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/itin_white_text"
         android:orientation="vertical">
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="4dp"
+            android:background="@drawable/drop_shadow" />
 
         <com.expedia.bookings.widget.FrameLayout
             android:id="@+id/handle"
             android:layout_width="match_parent"
+            android:background="@color/itin_white_text"
             android:layout_height="50dp">
 
             <LinearLayout
@@ -43,6 +48,7 @@
         <com.expedia.bookings.widget.ScrollView
             android:id="@+id/scrollView"
             android:layout_width="match_parent"
+            android:background="@color/itin_white_text"
             android:layout_height="match_parent">
 
             <LinearLayout
