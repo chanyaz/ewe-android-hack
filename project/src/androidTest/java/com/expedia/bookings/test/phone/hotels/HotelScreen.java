@@ -53,6 +53,10 @@ public class HotelScreen {
 		return onView(withId(R.id.traveler_card));
 	}
 
+	public static ViewInteraction reviews() {
+		return onView(withId(R.id.widget_hotel_reviews));
+	}
+
 	public static ViewInteraction selectTravelerV2Text() {
 		return onView(allOf(withId(R.id.input_label), withParent(withId(R.id.traveler_card))));
 	}

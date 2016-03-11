@@ -3,6 +3,7 @@ package com.expedia.bookings.test.happy;
 import org.hamcrest.CoreMatchers;
 import org.joda.time.LocalDate;
 
+import android.support.test.espresso.Espresso;
 import android.support.test.espresso.ViewInteraction;
 import android.support.test.espresso.matcher.ViewMatchers;
 
@@ -11,6 +12,7 @@ import com.expedia.bookings.test.espresso.Common;
 import com.expedia.bookings.test.espresso.EspressoUtils;
 import com.expedia.bookings.test.espresso.PackageTestCase;
 import com.expedia.bookings.test.espresso.RecyclerViewAssertions;
+import com.expedia.bookings.test.espresso.ViewActions;
 import com.expedia.bookings.test.phone.hotels.HotelScreen;
 import com.expedia.bookings.test.phone.packages.PackageScreen;
 import com.expedia.bookings.test.phone.pagemodels.common.CheckoutViewModel;
@@ -69,6 +71,7 @@ public class PackagePhoneHappyPathTest extends PackageTestCase {
 		HotelScreen.selectHotel("Package Happy Path");
 
 		assertHotelInfoSite();
+		reviews();
 		assertBundlePrice("$1,027", "View your bundle");
 		onView(allOf(withId(R.id.per_person_text), withParent(hasSibling(hasDescendant(withText("View your bundle")))), withText("per person"))).check(matches(isDisplayed()));
 		onView(allOf(withId(R.id.bundle_total_savings), withParent(hasSibling(hasDescendant(withText("View your bundle")))))).check(matches(not(isDisplayed())));
@@ -229,5 +232,14 @@ public class PackagePhoneHappyPathTest extends PackageTestCase {
 		viewInteraction.check(
 			RecyclerViewAssertions.assertionOnItemAtPosition(position, hasDescendant(
 				CoreMatchers.allOf(withId(id), isDisplayed()))));
+	}
+
+	private void reviews() throws Throwable {
+		HotelScreen.clickRatingContainer();
+		HotelScreen.reviews().perform(ViewActions.waitForViewToDisplay());
+		onView(withText(R.string.user_review_sort_button_critical)).perform(click());
+		onView(withText(R.string.user_review_sort_button_favorable)).perform(click());
+		onView(withText(R.string.user_review_sort_button_recent)).perform(click());
+		Espresso.pressBack();
 	}
 }

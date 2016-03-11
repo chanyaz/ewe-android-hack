@@ -101,7 +101,20 @@ class PackageHotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
         var viewStub = findViewById(R.id.reviews_stub) as ViewStub
         var presenter = viewStub.inflate() as HotelReviewsView
         presenter.reviewServices = reviewServices
+        setUpReviewsTransition(presenter)
         presenter
+    }
+
+    fun setUpReviewsTransition(view: View) {
+        val transition = object : ScaleTransition(this, detailPresenter, view) {
+            override fun endTransition(forward: Boolean) {
+                super.endTransition(forward)
+                if (forward) {
+                    reviewsView.transitionFinished()
+                }
+            }
+        }
+        addTransition(transition)
     }
 
     val reviewsObserver: Observer<HotelOffersResponse> = endlessObserver { hotel ->
@@ -124,7 +137,6 @@ class PackageHotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
         addTransition(resultsToDetail)
         addTransition(resultsToOverview)
         addTransition(detailsToOverview)
-        addTransition(detailsToReview)
         loadingOverlay.setBackground(R.color.packages_primary_color)
         bundlePriceWidget.setOnTouchListener(object : View.OnTouchListener {
             internal var originY: Float = 0.toFloat()
@@ -254,16 +266,6 @@ class PackageHotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
             }
         }
     }
-
-    private val detailsToReview = object : ScaleTransition(this, HotelDetailPresenter::class.java, HotelReviewsView::class.java) {
-        override fun endTransition(forward: Boolean) {
-            super.endTransition(forward)
-            if (forward) {
-                reviewsView.transitionFinished()
-            }
-        }
-    }
-
 
     private val detailsToOverview = object : Presenter.Transition(HotelDetailPresenter::class.java.name, BundleWidget::class.java.name, AccelerateDecelerateInterpolator(), 800) {
 
