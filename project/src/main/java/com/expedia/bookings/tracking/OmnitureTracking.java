@@ -3052,12 +3052,12 @@ public class OmnitureTracking {
 		boolean isFlights = lob == LineOfBusiness.FLIGHTS;
 		String pageName = getBase(isFlights) + pageNameSuffix;
 		ADMS_Measurement s = createTrackPageLoadEventBase(pageName);
-		FlightTrip newestFlightOffer = getNewestFlightOffer();
-		boolean isSplitTicket = newestFlightOffer.isSplitTicket();
 		if (includePaymentInfo) {
 			s.setEvar(37, getPaymentType());
 		}
 		if (isFlights) {
+			FlightTrip newestFlightOffer = getNewestFlightOffer();
+			boolean isSplitTicket = newestFlightOffer.isSplitTicket();
 			FlightTrip trip = Db.getTripBucket().getFlight().getFlightTrip();
 			FlightSearchParams params = Db.getTripBucket().getFlight().getFlightSearchParams();
 			s.setCurrencyCode(trip.getTotalFare().getCurrency());
