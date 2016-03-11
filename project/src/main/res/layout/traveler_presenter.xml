@@ -1,8 +1,20 @@
 <merge xmlns:android="http://schemas.android.com/apk/res/android">
+    <com.expedia.bookings.widget.traveler.TravelerDefaultState
+        android:id="@+id/traveler_default_state"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/card_background"/>
+
+    <com.expedia.bookings.widget.traveler.TravelerSelectState
+        android:id="@+id/traveler_select_state"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/card_background"/>
 
     <com.expedia.bookings.widget.FlightTravelerEntryWidget
         android:id="@+id/traveler_entry_widget"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="8dp"/>
+        android:layout_margin="8dp"
+        android:visibility="gone"/>
 </merge>

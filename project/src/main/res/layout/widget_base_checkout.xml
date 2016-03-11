@@ -97,12 +97,11 @@
                         android:background="#979797" />
 
                 </LinearLayout>
-                <!--TODO FIX ME -->
-                <Button
-                    android:id="@+id/travelers_button"
+
+                <com.expedia.bookings.presenter.packages.TravelerPresenter
+                    android:id="@+id/traveler_presenter"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Travelers" />
+                    android:layout_height="match_parent"/>
 
                 <ViewStub
                     android:id="@+id/payment_info_card_view_stub"
@@ -222,10 +221,4 @@
         android:textAllCaps="false"
         android:textColor="#FFFFFF" />
 
-    <com.expedia.bookings.presenter.packages.TravelerPresenter
-        android:id="@+id/traveler_presenter"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:fitsSystemWindows="true"
-        android:visibility="gone" />
 </merge>

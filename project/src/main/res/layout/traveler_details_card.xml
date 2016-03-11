@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.expedia.bookings.widget.ContactInitialsImageView
+        android:id="@+id/traveler_icon"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_gravity="center_vertical"
+        android:layout_marginLeft="4dp" />
+
+    <LinearLayout
+        android:id="@+id/traveler_summary_container"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_weight="1"
+        android:orientation="vertical"
+        android:paddingLeft="15dp">
+
+        <com.expedia.bookings.widget.TextView
+            android:id="@+id/primary_details_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center|left"
+            android:singleLine="true"
+            android:textColor="@color/traveler_default_card_text_color"
+            android:textSize="16sp"
+            app:textStyle="medium" />
+
+        <com.expedia.bookings.widget.TextView
+            android:id="@+id/secondary_details_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center|left"
+            android:singleLine="true"
+            android:textColor="@color/traveler_default_card_text_color"
+            android:textSize="13sp"
+            app:textStyle="normal" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/edit_traveler_prompt_container"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_weight="1"
+        android:orientation="vertical"
+        android:paddingLeft="15dp"
+        android:visibility="gone">
+
+        <com.expedia.bookings.widget.TextView
+            android:id="@+id/edit_traveler_prompt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center|left"
+            android:singleLine="true"
+            android:textColor="@color/traveler_default_card_text_color"
+            android:textSize="16sp"
+            app:textStyle="medium" />
+
+    </LinearLayout>
+
+    <com.expedia.bookings.widget.ContactDetailsCompletenessStatusImageView
+        android:id="@+id/traveler_status_icon"
+        android:layout_width="22dp"
+        android:layout_height="22dp"
+        android:layout_gravity="center_vertical"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="4dp" />
+</merge>

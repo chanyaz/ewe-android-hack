@@ -38,10 +38,7 @@ public class Traveler implements JSONable, Comparable<Traveler> {
 	private Long mExpediaUserId;
 
 	// General
-	private String mFirstName;
-	private String mMiddleName;
-	private String mLastName;
-	private String mFullName;
+	private TravelerName mName = new TravelerName();
 	private Location mHomeAddress;
 	private List<Phone> mPhoneNumbers = new ArrayList<Phone>();
 	private String mEmail;
@@ -150,38 +147,24 @@ public class Traveler implements JSONable, Comparable<Traveler> {
 		return mLoyaltyPointsPending;
 	}
 
+	public TravelerName getName() {
+		return mName;
+	}
+
 	public String getFirstName() {
-		return mFirstName;
+		return mName.getFirstName();
 	}
 
 	public String getMiddleName() {
-		return mMiddleName;
+		return mName.getMiddleName();
 	}
 
 	public String getLastName() {
-		return mLastName;
+		return mName.getLastName();
 	}
 
-	/**
-	 * If we have called setFullName() any time in the past, we return the value supplied then.
-	 * If we have never called setFullName() then we return first + middle + last with proper spacing.
-	 * @return
-	 */
 	public String getFullName() {
-		if (TextUtils.isEmpty(mFullName)) {
-			String fullName = "";
-			if (!TextUtils.isEmpty(mFirstName)) {
-				fullName += mFirstName;
-			}
-			if (!TextUtils.isEmpty(mMiddleName)) {
-				fullName += " " + mMiddleName;
-			}
-			if (!TextUtils.isEmpty(mLastName)) {
-				fullName += " " + mLastName;
-			}
-			return fullName.trim();
-		}
-		return mFullName;
+		return mName.getFullName();
 	}
 
 	public Location getHomeAddress() {
@@ -446,15 +429,15 @@ public class Traveler implements JSONable, Comparable<Traveler> {
 	}
 
 	public void setFirstName(String firstName) {
-		mFirstName = firstName;
+		mName.setFirstName(firstName);
 	}
 
 	public void setMiddleName(String middleName) {
-		mMiddleName = middleName;
+		mName.setMiddleName(middleName);
 	}
 
 	public void setLastName(String lastName) {
-		mLastName = lastName;
+		mName.setLastName(lastName);
 	}
 
 	/**
@@ -465,7 +448,7 @@ public class Traveler implements JSONable, Comparable<Traveler> {
 	 * @param fullName
 	 */
 	public void setFullName(String fullName) {
-		mFullName = fullName;
+		mName.setFullName(fullName);
 	}
 
 	public void setHomeAddress(Location homeAddress) {
@@ -622,10 +605,7 @@ public class Traveler implements JSONable, Comparable<Traveler> {
 			obj.putOpt("loyaltyPointsAvailable", mLoyaltyPointsAvailable);
 			obj.putOpt("loyaltyPointsPending", mLoyaltyPointsPending);
 
-			obj.putOpt("firstName", mFirstName);
-			obj.putOpt("middleName", mMiddleName);
-			obj.putOpt("lastName", mLastName);
-			obj.putOpt("fullName", mFullName);
+			mName.toJson(obj);
 			JSONUtils.putJSONable(obj, "homeAddress", mHomeAddress);
 			JSONUtils.putJSONableList(obj, "phoneNumbers", mPhoneNumbers);
 			obj.putOpt("email", mEmail);
@@ -678,10 +658,7 @@ public class Traveler implements JSONable, Comparable<Traveler> {
 		mLoyaltyPointsAvailable = obj.optLong("loyaltyPointsAvailable", 0);
 		mLoyaltyPointsPending = obj.optLong("loyaltyPointsPending", 0);
 
-		mFirstName = obj.optString("firstName", null);
-		mMiddleName = obj.optString("middleName", null);
-		mLastName = obj.optString("lastName", null);
-		mFullName = obj.optString("fullName", null);
+		mName.fromJson(obj);
 		mHomeAddress = JSONUtils.getJSONable(obj, "homeAddress", Location.class);
 		mPhoneNumbers = JSONUtils.getJSONableList(obj, "phoneNumbers", Phone.class);
 		mEmail = obj.optString("email", null);
@@ -732,34 +709,11 @@ public class Traveler implements JSONable, Comparable<Traveler> {
 	private static final int NOT_EQUAL = -1;
 	private static final int EQUAL = 0;
 
-	/**
-	 * Compare the name of this traveler to another traveler (currently we just compare first and last name)
-	 * If either traveler has null for their first or last name we consider them not equal
-	 * @param another
-	 * @return
-	 */
-	public int compareNameTo(Traveler another) {
-
-		if (this == another) {
-			//same ref
-			return EQUAL;
-		}
+	public boolean nameEquals(Traveler another) {
 		if (another == null) {
-			return NOT_EQUAL;
+			return false;
 		}
-
-		if (this.getFirstName() != null && this.getLastName() != null && this.getMiddleName() != null && another.getFirstName() != null
-			&& another.getLastName() != null && another.getMiddleName() != null) {
-			if (this.getFirstName().trim().compareToIgnoreCase(another.getFirstName().trim()) == 0
-				&& this.getLastName().trim().compareToIgnoreCase(another.getLastName().trim()) == 0
-				&& this.getMiddleName().trim().compareToIgnoreCase(another.getMiddleName().trim()) == 0) {
-				return EQUAL;
-			}
-			else {
-				return NOT_EQUAL;
-			}
-		}
-		return NOT_EQUAL;
+		return mName.equals(another.mName);
 	}
 
 	private static final int BEFORE = -1;
@@ -777,22 +731,8 @@ public class Traveler implements JSONable, Comparable<Traveler> {
 
 		int diff = 0;
 
-		// First name
-		diff = Strings.compareTo(getFirstName(), another.getFirstName());
-		if (diff != 0) {
-			return diff;
-		}
-
-		// Middle name
-		diff = Strings.compareTo(getMiddleName(), another.getMiddleName());
-		if (diff != 0) {
-			return diff;
-		}
-
-		// Last name
-		diff = Strings.compareTo(getLastName(), another.getLastName());
-		if (diff != 0) {
-			return diff;
+		if (!mName.equals(another.mName)) {
+			return NOT_EQUAL;
 		}
 
 		// Home address

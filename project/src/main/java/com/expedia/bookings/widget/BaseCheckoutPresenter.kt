@@ -30,6 +30,7 @@ import com.expedia.vm.BaseCheckoutViewModel
 import com.expedia.vm.BundlePriceViewModel
 import com.expedia.vm.PaymentViewModel
 import com.expedia.vm.PriceChangeViewModel
+import com.expedia.vm.traveler.CheckoutTravelerViewModel
 import com.mobiata.android.Log
 import rx.subjects.PublishSubject
 import kotlin.properties.Delegates
@@ -45,8 +46,6 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet) : Pre
     var paymentWidget: PaymentWidget by Delegates.notNull()
     val paymentViewStub: ViewStub by bindView(R.id.payment_info_card_view_stub)
 
-    //TODO TEMP
-    val travelersButton: Button by bindView(R.id.travelers_button);
     val travelerPresenter: TravelerPresenter by bindView(R.id.traveler_presenter)
 
     val legalInformationText: TextView by bindView(R.id.legal_information_text_view)
@@ -88,13 +87,21 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet) : Pre
         paymentWidget.viewmodel = PaymentViewModel(context)
         priceChangeWidget.viewmodel = PriceChangeViewModel(context)
         totalPriceWidget.viewModel = BundlePriceViewModel(context)
+
         loginWidget.setListener(this)
         slideToPurchase.addSlideToListener(this)
 
         loginWidget.bind(false, Db.getUser() != null, Db.getUser(), LineOfBusiness.PACKAGES)
 
-        travelersButton.setOnClickListener { showTravelerPresenter() }
         paymentWidget.viewmodel.expandObserver.subscribe { showPaymentPresenter() }
+
+        travelerPresenter.viewModel = CheckoutTravelerViewModel()
+        travelerPresenter.expandedSubject.subscribe { expanded ->
+            if (expanded) {
+                show(travelerPresenter)
+            }
+        }
+
         legalInformationText.setOnClickListener {
             context.startActivity(HotelRulesActivity.createIntent(context, LineOfBusiness.PACKAGES))
         }
@@ -168,6 +175,7 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet) : Pre
         override fun endTransition(forward: Boolean) {
             loginWidget.bind(false, Db.getUser() != null, Db.getUser(), LineOfBusiness.PACKAGES)
             paymentWidget.show(PaymentWidget.PaymentDefault(), Presenter.FLAG_CLEAR_BACKSTACK)
+            travelerPresenter.show()
         }
     }
 
@@ -180,8 +188,6 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet) : Pre
             legalInformationText.setVisibility(forward)
             depositPolicyText.setVisibility(forward)
             bottomContainer.setVisibility(forward)
-            travelersButton.setVisibility(forward)
-            travelerPresenter.setVisibility(!forward)
         }
 
         override fun endTransition(forward: Boolean) {
@@ -197,7 +203,9 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet) : Pre
             handle.setVisibility(forward)
             loginWidget.setVisibility(forward)
             hintContainer.visibility = if (forward) View.GONE else if (User.isLoggedIn(getContext())) View.GONE else View.VISIBLE
-            travelersButton.setVisibility(forward)
+
+            travelerPresenter.visibility = if (!forward) View.VISIBLE else View.GONE
+
             legalInformationText.setVisibility(forward)
             depositPolicyText.setVisibility(forward)
             bottomContainer.setVisibility(forward)
@@ -276,10 +284,6 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet) : Pre
         paymentWidget.viewmodel.userLogin.onNext(false)
         hintContainer.visibility = View.VISIBLE
         doCreateTrip()
-    }
-
-    private fun showTravelerPresenter() {
-        show(travelerPresenter)
     }
 
     private fun showPaymentPresenter() {

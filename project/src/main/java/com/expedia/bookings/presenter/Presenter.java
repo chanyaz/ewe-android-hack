@@ -131,7 +131,7 @@ public class Presenter extends FrameLayout {
 	}
 
 	public void show(Object newState, int flags) {
-		Log.d("Presenter", "show state: " + newState.getClass().getName());
+		Log.d(getClass().getSimpleName(), "show state: " + newState.getClass().getName());
 		if (currentState == null) {
 			// If we have a default transition added, execute it.
 			if (toDefaultTransition != null && newState.getClass().getName().equals(toDefaultTransition.state2)) {
@@ -141,7 +141,7 @@ public class Presenter extends FrameLayout {
 			getBackStack().push(newState);
 			return;
 		}
-		Log.d("Presenter", "Current state:" + currentState.getClass().getName());
+		Log.d("Presenter", "Current state:" + currentState);
 		// If we're already at a given state, or we are animating to a new state,
 		// ignore any attempt to show a new state.
 		if (currentState.equals(newState.getClass().getName()) || acceptAnimationUpdates) {

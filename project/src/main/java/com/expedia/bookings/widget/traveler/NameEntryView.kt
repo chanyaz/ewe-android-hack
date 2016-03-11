@@ -6,9 +6,7 @@ import android.view.View
 import android.widget.LinearLayout
 import com.expedia.bookings.R
 import com.expedia.bookings.utils.bindView
-import com.expedia.util.notNullAndObservable
-import com.expedia.util.subscribeText
-import com.expedia.vm.traveler.NameEntryViewModel
+import com.expedia.vm.traveler.TravelerNameViewModel
 
 class NameEntryView(context: Context, attrs: AttributeSet?) : LinearLayout(context, attrs) {
 
@@ -16,27 +14,18 @@ class NameEntryView(context: Context, attrs: AttributeSet?) : LinearLayout(conte
     val middleInitial: TravelerEditText by bindView(R.id.middle_initial_input)
     val lastName: TravelerEditText by bindView(R.id.last_name_input)
 
-    var viewModel: NameEntryViewModel by notNullAndObservable { vm ->
-        vm.firstNameSubject.subscribeText(firstName)
-        vm.middleNameSubject.subscribeText(middleInitial)
-        vm.lastNameSubject.subscribeText(lastName)
+    fun setViewModel(viewModel: TravelerNameViewModel) {
+        firstName.setText(viewModel.firstNameSubject.value)
+        firstName.subscribeToError(viewModel.firstNameErrorSubject)
+        firstName.addTextChangedSubscriber(viewModel.firstNameObserver)
 
-        vm.firstNameErrorSubject.subscribe { error ->
-            firstName.setError()
-        }
+        middleInitial.setText(viewModel.middleNameSubject.value)
+        middleInitial.subscribeToError(viewModel.middleNameErrorSubject)
+        middleInitial.addTextChangedSubscriber(viewModel.middleNameObserver)
 
-        vm.middleNameErrorSubject.subscribe { error ->
-            middleInitial.setError()
-        }
-
-        vm.lastNameErrorSubject.subscribe { error ->
-            lastName.setError()
-        }
-
-
-        firstName.addTextChangedListener(TravelerEditTextWatcher(vm.firstNameObserver, firstName))
-        middleInitial.addTextChangedListener(TravelerEditTextWatcher(vm.middleNameObserver, middleInitial))
-        lastName.addTextChangedListener(TravelerEditTextWatcher(vm.lastNameObserver, lastName))
+        lastName.setText(viewModel.lastNameSubject.value)
+        lastName.subscribeToError(viewModel.lastNameErrorSubject)
+        lastName.addTextChangedSubscriber(viewModel.lastNameObserver)
     }
 
     init {

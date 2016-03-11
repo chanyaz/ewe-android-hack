@@ -417,6 +417,8 @@
     <color name="packages_result_background">@color/search_results_list_bg_gray</color>
     <color name="traveler_drop_down_unchecked_color">#6C6C6C</color>
     <color name="packages_filter_color">#B9B9B9</color>
+    <color name="traveler_default_card_text_color">#676767</color>
+    <color name="traveler_incomplete_text_color">#FC9F23</color>
 
     <!--Rail colors-->
     <color name="rail_primary_color">#00355f</color>

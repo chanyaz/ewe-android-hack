@@ -13,7 +13,7 @@ import com.expedia.bookings.section.GenderSpinnerAdapter
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
 import com.expedia.util.notNullAndObservable
-import com.expedia.vm.traveler.TSAEntryViewModel
+import com.expedia.vm.traveler.TravelerTSAViewModel
 import org.joda.time.LocalDate
 
 
@@ -26,18 +26,12 @@ class TSAEntryView(context: Context, attrs: AttributeSet?) : LinearLayout(contex
     val dateOfBirth: TravelerEditText by bindView(R.id.edit_birth_date_text_btn)
     val genderSpinner: Spinner by bindView(R.id.edit_gender_spinner)
 
-    var viewModel: TSAEntryViewModel by notNullAndObservable { vm ->
-        vm.formattedDateSubject.subscribe { date ->
-            setBirthDateText(date)
-        }
-        vm.genderSubject.subscribe { gender ->
-            val adapter = genderSpinner.adapter as GenderSpinnerAdapter
-            genderSpinner.setSelection(adapter.getGenderPosition(gender))
-        }
+    var viewModel: TravelerTSAViewModel by notNullAndObservable { vm ->
+        setBirthDateText(vm.formattedDateSubject.value)
+        dateOfBirth.subscribeToError(vm.dateOfBirthErrorSubject)
 
-        vm.dateOfBirthErrorSubject.subscribe { error ->
-            dateOfBirth.setError()
-        }
+        val adapter = genderSpinner.adapter as GenderSpinnerAdapter
+        genderSpinner.setSelection(adapter.getGenderPosition(vm.genderSubject.value))
     }
 
     init {
@@ -57,7 +51,6 @@ class TSAEntryView(context: Context, attrs: AttributeSet?) : LinearLayout(contex
     override fun handleDateChosen(year: Int, month: Int, day: Int, formattedDate: String) {
         viewModel.dateOfBirthObserver.onNext(LocalDate(year, month, day))
         setBirthDateText(formattedDate)
-        dateOfBirth.resetError()
     }
 
     fun setBirthDateText(formattedDate: String) {

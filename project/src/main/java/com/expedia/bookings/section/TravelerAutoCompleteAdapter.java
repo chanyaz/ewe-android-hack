@@ -191,7 +191,7 @@ public class TravelerAutoCompleteAdapter extends ArrayAdapter<Traveler> implemen
 				if (Db.getWorkingTravelerManager() != null
 					&& Db.getWorkingTravelerManager().getWorkingTraveler() != null) {
 					Traveler workingTraveler = Db.getWorkingTravelerManager().getWorkingTraveler();
-					if (trav.compareNameTo(workingTraveler) == 0) {
+					if (trav.nameEquals(workingTraveler)) {
 						availableTravelers.get(i).setIsSelectable(false);
 						continue;
 					}

@@ -8,12 +8,12 @@ import android.support.test.rule.UiThreadTestRule;
 import android.support.test.runner.AndroidJUnit4;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.data.Traveler;
+import com.expedia.bookings.data.Phone;
 import com.expedia.bookings.test.espresso.CustomMatchers;
 import com.expedia.bookings.test.espresso.EspressoUtils;
 import com.expedia.bookings.test.rules.PlaygroundRule;
 import com.expedia.bookings.widget.traveler.PhoneEntryView;
-import com.expedia.vm.traveler.PhoneEntryViewModel;
+import com.expedia.vm.traveler.TravelerPhoneViewModel;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.typeText;
@@ -25,7 +25,6 @@ import static org.junit.Assert.assertEquals;
 
 @RunWith(AndroidJUnit4.class)
 public class PhoneEntryViewTest {
-	private final int testCode = 355;
 	private final String testCodeString = "355";
 	private final String testCountryName = "Albania";
 	private final String testNumber = "773 202 5862";
@@ -38,27 +37,33 @@ public class PhoneEntryViewTest {
 	public PlaygroundRule activityTestRule = new PlaygroundRule(R.layout.test_phone_entry_view, R.style.V2_Theme_Packages);
 
 	@Test
-	public void updatePhone() {
+	public void updatePhone() throws Throwable {
 		phoneEntryView = (PhoneEntryView) activityTestRule.getRoot();
-		PhoneEntryViewModel phoneVM = new PhoneEntryViewModel(new Traveler());
-		phoneEntryView.setViewModel(phoneVM);
+		final TravelerPhoneViewModel phoneVM = new TravelerPhoneViewModel(new Phone());
+
+		uiThreadTestRule.runOnUiThread(new Runnable() {
+			@Override
+			public void run() {
+				phoneEntryView.updateViewModel(phoneVM);
+			}
+		});
 
 		onView(withId(R.id.edit_phone_number)).perform(typeText(testNumber));
-		assertEquals(testNumber, phoneVM.getTraveler().getPhoneNumber());
+		assertEquals(testNumber, phoneVM.getPhone().getNumber());
 	}
 
 	@Test
 	public void phonePrePopulated() throws Throwable {
 		phoneEntryView = (PhoneEntryView) activityTestRule.getRoot();
-		final Traveler traveler = new Traveler();
-		traveler.setPhoneNumber(testNumber);
-		traveler.setPhoneCountryCode(testCodeString);
-		traveler.setPhoneCountryName(testCountryName);
+		final Phone phone = new Phone();
+		phone.setNumber(testNumber);
+		phone.setCountryCode(testCodeString);
+		phone.setCountryName(testCountryName);
 
 		uiThreadTestRule.runOnUiThread(new Runnable() {
 			@Override
 			public void run() {
-				phoneEntryView.setViewModel(new PhoneEntryViewModel(traveler));
+				phoneEntryView.updateViewModel(new TravelerPhoneViewModel(phone));
 			}
 		});
 
@@ -69,13 +74,13 @@ public class PhoneEntryViewTest {
 	@Test
 	public void phoneErrorState() throws Throwable {
 		phoneEntryView = (PhoneEntryView) activityTestRule.getRoot();
-		final PhoneEntryViewModel phoneVM = new PhoneEntryViewModel(new Traveler());
+		final TravelerPhoneViewModel phoneVM = new TravelerPhoneViewModel(new Phone());
 
 		uiThreadTestRule.runOnUiThread(new Runnable() {
 			@Override
 			public void run() {
-				phoneEntryView.setViewModel(phoneVM);
-				phoneVM.getPhoneErrorSubject().onNext(0);
+				phoneEntryView.updateViewModel(phoneVM);
+				phoneVM.getPhoneErrorSubject().onNext(true);
 			}
 		});
 
