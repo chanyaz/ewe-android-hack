@@ -176,7 +176,8 @@
                 android:id="@+id/payment_option_google_wallet"
                 style="@style/HotelPaymentOption"
                 android:drawableLeft="@drawable/ic_hotel_google_wallet"
-                android:text="@string/checkout_payment_option_android_pay_label" />
+                android:text="@string/checkout_payment_option_android_pay_label"
+                android:visibility="gone" />
         </com.expedia.bookings.widget.DisableableLinearLayout>
     </LinearLayout>
 

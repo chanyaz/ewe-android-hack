@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.os.PersistableBundle
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Codes
+import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.hotels.HotelSearchParams
 import com.expedia.bookings.data.pos.PointOfSale
@@ -69,6 +70,7 @@ class HotelActivity : AbstractAppCompatActivity() {
 
     override fun onBackPressed() {
         if (!hotelPresenter.back()) {
+            Db.setTemporarilySavedCard(null)
             super.onBackPressed()
         }
     }

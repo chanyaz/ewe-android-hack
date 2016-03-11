@@ -14,6 +14,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.ImageView
+import android.widget.LinearLayout
 import com.expedia.bookings.BuildConfig
 import com.expedia.bookings.R
 import com.expedia.bookings.activity.ExpediaBookingApp
@@ -32,9 +33,9 @@ import com.expedia.bookings.section.ISectionEditable
 import com.expedia.bookings.section.InvalidCharacterHelper
 import com.expedia.bookings.section.SectionBillingInfo
 import com.expedia.bookings.section.SectionLocation
-import android.widget.LinearLayout
 import com.expedia.bookings.tracking.HotelV2Tracking
 import com.expedia.bookings.tracking.OmnitureTracking
+import com.expedia.bookings.utils.ArrowXDrawableUtil
 import com.expedia.bookings.utils.BookingInfoUtils
 import com.expedia.bookings.utils.FontCache
 import com.expedia.bookings.utils.Ui
@@ -49,7 +50,6 @@ import com.expedia.util.subscribeTextAndVisibility
 import com.expedia.util.subscribeVisibility
 import com.expedia.vm.PaymentViewModel
 import com.squareup.phrase.Phrase
-import com.expedia.bookings.utils.ArrowXDrawableUtil
 
 public open class PaymentWidget(context: Context, attr: AttributeSet) : Presenter(context, attr), View.OnFocusChangeListener {
     val REQUEST_CODE_GOOGLE_WALLET_ACTIVITY = 1989
@@ -124,7 +124,7 @@ public open class PaymentWidget(context: Context, attr: AttributeSet) : Presente
                     if (shouldShowSaveDialog()) {
                         showSaveBillingInfoDialog()
                     } else {
-                        close()
+                        userChoosesNotToSaveCard()
                     }
                 }
             } else {
@@ -206,6 +206,7 @@ public open class PaymentWidget(context: Context, attr: AttributeSet) : Presente
 
         paymentOptionCreditDebitCard.setOnClickListener {
             if (shouldShowPaymentOptions()) {
+                reset()
                 show(PaymentDetails())
             } else {
                 show(PaymentDetails(), FLAG_CLEAR_BACKSTACK)
@@ -464,7 +465,7 @@ public open class PaymentWidget(context: Context, attr: AttributeSet) : Presente
     }
 
     open fun shouldShowPaymentOptions(): Boolean {
-        return (User.isLoggedIn(context) && Db.getUser().storedCreditCards.isNotEmpty()) || WalletUtils.isWalletSupported(getLineOfBusiness())
+        return (User.isLoggedIn(context) && Db.getUser().storedCreditCards.isNotEmpty()) || Db.getTemporarilySavedCard() != null || WalletUtils.isWalletSupported(getLineOfBusiness())
     }
 
     private fun temporarilySavedCardIsSelected(isSelected: Boolean) {
