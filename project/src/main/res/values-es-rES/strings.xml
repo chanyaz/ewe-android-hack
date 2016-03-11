@@ -3946,7 +3946,7 @@
     <string name="trip_overview">Resumen del viaje</string>
     <!-- Slide to book -->
     <string name="package_slider_text">Desliza para reservar</string>
-    <string name="hotel_city_country_checkout_header_TEMPLATE">{city}, {country}</string>
+    <string name="hotel_city_country_TEMPLATE">{city}, {country}</string>
 
     <!-- Flight Duration filter label-->
     <string name="flight_duration_label">Duración del vuelo</string>

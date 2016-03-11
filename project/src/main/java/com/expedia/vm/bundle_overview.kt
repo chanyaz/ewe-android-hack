@@ -72,7 +72,7 @@ class BundleOverviewViewModel(val context: Context, val packageServices: Package
                     .format().toString()
             stepTwoTextObservable.onNext(stepTwo)
 
-            val toolbarTitle = Phrase.from(context, R.string.hotel_city_country_checkout_header_TEMPLATE)
+            val toolbarTitle = Phrase.from(context, R.string.hotel_city_country_TEMPLATE)
                     .put("city", hotel.hotelCity)
                     .put("country", Db.getPackageParams().destination.hierarchyInfo?.country?.name)
                     .format().toString()
@@ -165,7 +165,11 @@ class BundleHotelViewModel(val context: Context) {
             //TODO use the correct free cancellation window from the API
             hotelFreeCancellationObservable.onNext(selectHotelRoom.roomTypeDescription)
             hotelPromoTextObservable.onNext(selectHotelRoom.promoDescription)
-            hotelCityObservable.onNext(selectedHotel.stateProvinceCode + " , " + selectedHotel.countryCode)
+            val cityCountry = Phrase.from(context, R.string.hotel_city_country_TEMPLATE)
+                    .put("city", selectedHotel.city)
+                    .put("country", selectedHotel.stateProvinceCode ?: Db.getPackageParams().destination.hierarchyInfo?.country?.name)
+                    .format().toString()
+            hotelCityObservable.onNext(cityCountry)
         }
     }
 }

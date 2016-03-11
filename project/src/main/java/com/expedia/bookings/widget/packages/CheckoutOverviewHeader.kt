@@ -36,7 +36,7 @@ class CheckoutOverviewHeader(context: Context, attrs: AttributeSet?) : LinearLay
 
     fun update(hotel: HotelCreateTripResponse.HotelProductResponse, imageView: ImageView, size: Int) {
         checkoutHeaderImage = imageView
-        destinationText.text = Phrase.from(context, R.string.hotel_city_country_checkout_header_TEMPLATE)
+        destinationText.text = Phrase.from(context, R.string.hotel_city_country_TEMPLATE)
                 .put("city", hotel.hotelCity)
                 .put("country", hotel.hotelStateProvince ?: Db.getPackageParams().destination.hierarchyInfo?.country?.name)
                 .format()

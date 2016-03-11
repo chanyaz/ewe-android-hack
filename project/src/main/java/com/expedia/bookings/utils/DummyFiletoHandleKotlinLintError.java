@@ -290,7 +290,7 @@ DummyFiletoHandleKotlinLintError {
 		R.drawable.packages_flight2_icon,
 		R.string.enter_destination_hint,
 		R.layout.checkout_overview_header,
-		R.string.hotel_city_country_checkout_header_TEMPLATE,
+		R.string.hotel_city_country_TEMPLATE,
 		R.dimen.package_bundle_scroll_view_padding,
 		R.layout.widget_hotel_calendar_search,
 		R.string.coupon_error_remove_dialog_title,
