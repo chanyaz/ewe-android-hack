@@ -76,6 +76,19 @@
 
     <PreferenceCategory
         android:layout="@layout/preference_category_title"
+        android:title="Packages" >
+
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="@string/preference_suppress_package_bookings"
+            android:layout="@layout/preference"
+            android:summary="Do package bookings, but suppress any actual booking from going through"
+            android:title="Suppress Package Bookings" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:layout="@layout/preference_category_title"
         android:title="Cars" >
 
         <CheckBoxPreference
