@@ -41,19 +41,23 @@ class CalendarWidgetV2(context: Context, attrs: AttributeSet?) : SearchInputCard
         BaseSearchPresenter.styleCalendar(context, calendarPickerView, monthView, dayOfWeek)
 
         calendarPickerView.setDateChangedListener { start, end ->
-            if (start != null && JodaUtils.isEqual(start, end)) {
-                if (!JodaUtils.isEqual(end, maxDate)) {
-                    calendarPickerView.setSelectedDates(start, end.plusDays(1))
+            if (calendar.visibility == VISIBLE) {
+                if (start != null && JodaUtils.isEqual(start, end)) {
+                    if (!JodaUtils.isEqual(end, maxDate)) {
+                        calendarPickerView.setSelectedDates(start, end.plusDays(1))
+                    } else {
+                        // Do not select an end date beyond the allowed range
+                        calendarPickerView.setSelectedDates(start, null)
+                    }
                 } else {
-                    // Do not select an end date beyond the allowed range
-                    calendarPickerView.setSelectedDates(start, null)
+                    hotelSearchViewModelSubject.value.datesObserver.onNext(Pair(start, end))
                 }
+
+                //only enable the done button if at least start is selected - we'll default end date if necessary
+                calendarDialog.getButton(AlertDialog.BUTTON_POSITIVE)?.isEnabled = start != null
             } else {
                 hotelSearchViewModelSubject.value.datesObserver.onNext(Pair(start, end))
             }
-
-            //only enable the done button if at least start is selected - we'll default end date if necessary
-            calendarDialog.getButton(AlertDialog.BUTTON_POSITIVE)?.isEnabled = start != null
         }
         calendarPickerView.setYearMonthDisplayedChangedListener {
             calendarPickerView.hideToolTip()
@@ -84,6 +88,7 @@ class CalendarWidgetV2(context: Context, attrs: AttributeSet?) : SearchInputCard
         builder.setView(calendarDialogView)
         builder.setPositiveButton(context.getString(R.string.DONE), { dialog, which ->
             oldCalendarSelection = null
+            calendar.visibility = INVISIBLE
             calendar.hideToolTip()
             if(calendar.startDate != null && calendar.endDate == null) {
                 calendar.setSelectedDates(calendar.startDate, calendar.startDate.plusDays(1))
