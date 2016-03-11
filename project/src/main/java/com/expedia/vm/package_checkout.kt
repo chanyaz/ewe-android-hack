@@ -9,6 +9,7 @@ import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.TripBucketItemPackages
 import com.expedia.bookings.data.BaseCheckoutParams
+import com.expedia.bookings.data.User
 import com.expedia.bookings.data.packages.PackageCheckoutParams
 import com.expedia.bookings.data.packages.PackageCheckoutResponse
 import com.expedia.bookings.data.packages.PackageCreateTripParams
@@ -25,6 +26,7 @@ import rx.subjects.BehaviorSubject
 import rx.subjects.PublishSubject
 import java.math.BigDecimal
 import kotlin.collections.firstOrNull
+import kotlin.properties.Delegates
 
 class PackageCreateTripViewModel(val packageServices: PackageServices) {
 
@@ -71,12 +73,14 @@ class PackageCheckoutViewModel(val context: Context, val packageServices: Packag
     val tripResponseObservable = BehaviorSubject.create<PackageCreateTripResponse>()
     val baseParams = PublishSubject.create<BaseCheckoutParams>()
     val checkoutParams = PublishSubject.create<PackageCheckoutParams>()
-    val checkoutResponse = PublishSubject.create<PackageCheckoutResponse>()
+    val checkoutResponse = PublishSubject.create<Pair<PackageCheckoutResponse, String>>()
 
     // Outputs
     val depositPolicyText = PublishSubject.create<Spanned>()
     val legalText = PublishSubject.create<SpannableStringBuilder>()
     val sliderPurchaseTotalText = PublishSubject.create<CharSequence>()
+    val emailObservable = BehaviorSubject.create<String>()
+    var email: String by Delegates.notNull()
 
     init {
         tripResponseObservable.subscribe {
@@ -99,6 +103,9 @@ class PackageCheckoutViewModel(val context: Context, val packageServices: Packag
 
         baseParams.subscribe { params ->
             val suppressFinalBooking = BookingSuppressionUtils.shouldSuppressFinalBooking(context, R.string.preference_suppress_package_bookings)
+            if (User.isLoggedIn(context)) {
+                params.billingInfo.email = Db.getUser().primaryTraveler.email
+            }
             builder.billingInfo(params.billingInfo)
             builder.travelers(params.travelers)
             builder.cvv(params.cvv)
@@ -110,6 +117,7 @@ class PackageCheckoutViewModel(val context: Context, val packageServices: Packag
 
         checkoutParams.subscribe { body ->
             packageServices.checkout(body.toQueryMap()).subscribe(makeCheckoutResponseObserver())
+            email = body.billingInfo.email
         }
 
     }
@@ -120,7 +128,7 @@ class PackageCheckoutViewModel(val context: Context, val packageServices: Packag
                 if (response.hasErrors()) {
                     //TODO handle errors (unhappy path story)
                 } else {
-                    checkoutResponse.onNext(response);
+                    checkoutResponse.onNext(Pair(response, email));
                 }
             }
 

@@ -3974,6 +3974,8 @@
     <!-- Slide to book -->
     <string name="package_slider_text">Slide to book</string>
     <string name="hotel_city_country_TEMPLATE">{city}, {country}</string>
+    <!-- Confirmation Text indicating rewards points user got for the booked package -->
+    <string name="package_confirmation_reward_points">{rewardpoints} {brand}+ Rewards Points</string>
 
     <!-- Flight Duration filter label-->
     <string name="flight_duration_label">Flight Duration</string>
@@ -4015,7 +4017,8 @@
     <string name="package_flight_overview_layover_in_TEMPLATE">Layover in ({airportcode}) {city}</string>
     <string name="package_flight_overview_airline_airplane_TEMPLATE">{carrier} {flightnumber} - {airplanetype}</string>
     <string name="package_flight_overview_total_duration_TEMPLATE">Total Duration: {duration}</string>
-
+    <!-- Itinerary summary text- Itinerary number sent to the user email -->
+    <string name="package_itinerary_confirmation_TEMPLATE">#{itinerary} sent to {email}</string>
     <!--Rail search screen title-->
     <string name="trains">Trains</string>
 
@@ -4035,4 +4038,11 @@
     <!-- Shop with points -->
     <string name="regular_loyalty_applied_message">Expedia+ Points applied!</string>
     <string name="vip_loyalty_applied_message">2x points applied!</string>
+
+    <!-- Message telling you on confirmation screen where you've booked a package to -->
+    <string name="yay_going_somewhere">You\'re going to</string>
+    <!-- Cars cross-sell message on package confirmation -->
+    <string name="rental_car_message">Need a rental car?</string>
+    <!-- Cars cross-sell message description on package confirmation -->
+    <string name="rental_car_message_desc">Shop cars and save money</string>
 </resources>

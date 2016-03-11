@@ -43,14 +43,12 @@ public class PackagePhoneHappyPathTest extends PackageTestCase {
 		PackageScreen.selectDates(startDate, endDate);
 
 		PackageScreen.searchButton().perform(click());
-		Common.delay(1);
 
 		assertBundlePrice("$0.00", "Bundle total");
 		onView(allOf(withId(R.id.bundle_total_savings), withText("$0.00 Saved"))).check(matches(isDisplayed()));
 		onView(allOf(withId(R.id.per_person_text))).check(matches(not(isDisplayed())));
 
-		PackageScreen.hotelBundle().perform(click());
-		Common.delay(1);
+		PackageScreen.clickHotelBundle();
 
 		assertBundlePrice("$0", "View your bundle");
 		onView(allOf(withId(R.id.per_person_text), withParent(hasSibling(hasDescendant(withText("View your bundle")))), withText("per person"))).check(matches(isDisplayed()));
@@ -59,20 +57,16 @@ public class PackagePhoneHappyPathTest extends PackageTestCase {
 		HotelScreen.mapFab().perform(click());
 		assertHotelMap();
 		Common.pressBack();
-		Common.delay(1);
 
 		assertHotelSRP();
 
 		Common.pressBack();
-		Common.delay(1);
 		onView(allOf(withId(R.id.widget_bundle_overview))).check(matches(isDisplayed()));
-		PackageScreen.hotelBundle().perform(click());
-		Common.delay(1);
+		PackageScreen.clickHotelBundle();
 
 		assertFilter();
 
 		HotelScreen.selectHotel("Package Happy Path");
-		Common.delay(1);
 
 		assertHotelInfoSite();
 		assertBundlePrice("$1,027", "View your bundle");
@@ -80,33 +74,28 @@ public class PackagePhoneHappyPathTest extends PackageTestCase {
 		onView(allOf(withId(R.id.bundle_total_savings), withParent(hasSibling(hasDescendant(withText("View your bundle")))))).check(matches(not(isDisplayed())));
 
 		HotelScreen.selectRoom();
-		Common.delay(1);
 
 		assertBundlePrice("$3,863.38", "Bundle total");
 		onView(allOf(withId(R.id.bundle_total_savings), withText("$595.24 Saved"))).check(matches(isDisplayed()));
 		onView(allOf(withId(R.id.per_person_text))).check(matches(not(isDisplayed())));
 
 		PackageScreen.outboundFlight().perform(click());
-		Common.delay(1);
 
 		assertFlightOutbound();
 		PackageScreen.selectFlight(0);
 		assertBundlePriceInFlight("$3,864");
 		PackageScreen.selectThisFlight().perform(click());
-		Common.delay(1);
 
 		assertBundlePrice("$4,211.90", "Bundle total");
 		onView(allOf(withId(R.id.bundle_total_savings), withText("$540.62 Saved"))).check(matches(isDisplayed()));
 		onView(allOf(withId(R.id.per_person_text))).check(matches(not(isDisplayed())));
 
 		PackageScreen.inboundFLight().perform(click());
-		Common.delay(1);
 
 		assertFlightInbound();
 		PackageScreen.selectFlight(0);
 		assertBundlePriceInFlight("$4,212");
 		PackageScreen.selectThisFlight().perform(click());
-		Common.delay(1);
 
 		assertBundlePrice("$2,538.62", "Bundle total");
 		onView(allOf(withId(R.id.bundle_total_savings), withText("$56.50 Saved"))).check(matches(isDisplayed()));
@@ -122,7 +111,19 @@ public class PackagePhoneHappyPathTest extends PackageTestCase {
 		CheckoutViewModel.performSlideToPurchase();
 		Common.delay(1);
 
-		PackageScreen.itin().check(matches(withText("1126420960431")));
+		assertConfirmation();
+	}
+
+	private void assertConfirmation() {
+		onView(allOf(withId(R.id.destination), withText("Detroit"))).check(matches(isDisplayed()));
+		onView(allOf(withId(R.id.first_row), isDescendantOfA(withId(R.id.destination_card)), withText("Package Happy Path"))).check(matches(isDisplayed()));
+		onView(allOf(withId(R.id.second_row), isDescendantOfA(withId(R.id.destination_card)))).check(matches(isDisplayed()));
+		onView(allOf(withId(R.id.first_row), isDescendantOfA(withId(R.id.outbound_flight_card)), withText("Flight to (DTW) Detroit"))).check(matches(isDisplayed()));
+		onView(allOf(withId(R.id.second_row), isDescendantOfA(withId(R.id.outbound_flight_card)))).check(matches(isDisplayed()));
+		onView(allOf(withId(R.id.first_row), isDescendantOfA(withId(R.id.inbound_flight_card)), withText("Flight to (SFO) San Francisco"))).check(matches(isDisplayed()));
+		onView(allOf(withId(R.id.second_row), isDescendantOfA(withId(R.id.inbound_flight_card)))).check(matches(isDisplayed()));
+		onView(allOf(withId(R.id.itin_number), withText("#1126420960431 sent to test@email.com"))).check(matches(isDisplayed()));
+		onView(allOf(withId(R.id.view_itin_button), withText("View Itinerary"))).check(matches(isDisplayed()));
 	}
 
 	private void assertFilter() {

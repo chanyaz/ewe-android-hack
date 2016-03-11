@@ -18,7 +18,7 @@
         android:id="@+id/widget_package_confirmation"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/search_results_list_bg_gray"
+        android:background="@color/packages_primary_color"
         android:visibility="gone" />
 
 
