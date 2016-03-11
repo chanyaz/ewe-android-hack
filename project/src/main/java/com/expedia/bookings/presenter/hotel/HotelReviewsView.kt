@@ -22,6 +22,7 @@ import kotlin.properties.Delegates
 
 class HotelReviewsView(context: Context, attrs: AttributeSet) : FrameLayout(context, attrs) {
 
+    var reviewServices: ReviewsServices by Delegates.notNull()
     val hotelReviewsToolbar: HotelReviewsToolbar by bindView(R.id.hotel_reviews_toolbar)
     val viewPager: ViewPager by bindView(R.id.viewpager)
     val toolbar: Toolbar by bindView(R.id.toolbar)
@@ -37,10 +38,6 @@ class HotelReviewsView(context: Context, attrs: AttributeSet) : FrameLayout(cont
         vm.hotelReviewsObservable.subscribe() { hotelId ->
             hotelReviewsAdapterViewModel = HotelReviewsAdapterViewModel(hotelId, reviewServices, PointOfSale.getPointOfSale().localeIdentifier)
         }
-    }
-
-    val reviewServices: ReviewsServices by lazy() {
-        Ui.getApplication(context).hotelComponent().reviewsServices()
     }
 
     var hotelReviewsAdapterViewModel: HotelReviewsAdapterViewModel by notNullAndObservable { vm ->

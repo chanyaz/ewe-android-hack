@@ -1,6 +1,5 @@
 package com.expedia.bookings.presenter.packages
 
-import android.animation.ArgbEvaluator
 import android.animation.ObjectAnimator
 import android.animation.ValueAnimator
 import android.app.Activity
@@ -16,7 +15,6 @@ import android.view.ViewStub
 import android.view.animation.AccelerateDecelerateInterpolator
 import android.view.animation.DecelerateInterpolator
 import com.expedia.bookings.R
-import com.expedia.bookings.animation.TransitionElement
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.Money
@@ -25,8 +23,11 @@ import com.expedia.bookings.data.hotels.HotelOffersResponse
 import com.expedia.bookings.data.hotels.HotelSearchResponse
 import com.expedia.bookings.data.hotels.convertPackageToSearchParams
 import com.expedia.bookings.presenter.Presenter
+import com.expedia.bookings.presenter.ScaleTransition
 import com.expedia.bookings.presenter.hotel.HotelDetailPresenter
+import com.expedia.bookings.presenter.hotel.HotelReviewsView
 import com.expedia.bookings.services.PackageServices
+import com.expedia.bookings.services.ReviewsServices
 import com.expedia.bookings.utils.Strings
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
@@ -41,6 +42,7 @@ import com.expedia.vm.BundlePriceViewModel
 import com.expedia.vm.HotelDetailViewModel
 import com.expedia.vm.HotelMapViewModel
 import com.expedia.vm.HotelResultsViewModel
+import com.expedia.vm.HotelReviewsViewModel
 import com.google.android.gms.maps.MapView
 import rx.Observable
 import rx.Observer
@@ -49,6 +51,10 @@ import javax.inject.Inject
 import kotlin.properties.Delegates
 
 class PackageHotelPresenter(context: Context, attrs: AttributeSet) : Presenter(context, attrs) {
+
+    lateinit var reviewServices: ReviewsServices
+        @Inject set
+
     lateinit var packageServices: PackageServices
         @Inject set
 
@@ -82,12 +88,28 @@ class PackageHotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
         presenter.hotelMapView.mapView = detailsMapView
         presenter.hotelMapView.mapView.getMapAsync(presenter.hotelMapView);
         presenter.hotelDetailView.viewmodel = HotelDetailViewModel(context, null, selectedRoomObserver)
+        presenter.hotelDetailView.viewmodel.reviewsClickedWithHotelData.subscribe(reviewsObserver)
+        presenter.hotelDetailView.viewmodel.mapClickedSubject.subscribe(presenter.hotelDetailsEmbeddedMapClickObserver)
         presenter.hotelDetailView.viewmodel.hotelDetailsBundleTotalObservable.subscribe { bundle ->
             bundlePriceWidget.viewModel.setTextObservable.onNext(bundle)
         }
         presenter.hotelMapView.viewmodel = HotelMapViewModel(context, presenter.hotelDetailView.viewmodel.scrollToRoom, presenter.hotelDetailView.viewmodel.hotelSoldOut)
         presenter
     }
+
+    val reviewsView: HotelReviewsView by lazy {
+        var viewStub = findViewById(R.id.reviews_stub) as ViewStub
+        var presenter = viewStub.inflate() as HotelReviewsView
+        presenter.reviewServices = reviewServices
+        presenter
+    }
+
+    val reviewsObserver: Observer<HotelOffersResponse> = endlessObserver { hotel ->
+        reviewsView.viewModel = HotelReviewsViewModel(getContext())
+        reviewsView.viewModel.hotelObserver.onNext(hotel)
+        show(reviewsView)
+    }
+
     val loadingOverlay: LoadingOverlayWidget by bindView(R.id.details_loading_overlay)
     var selectedPackageHotel: Hotel by Delegates.notNull()
 
@@ -102,6 +124,7 @@ class PackageHotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
         addTransition(resultsToDetail)
         addTransition(resultsToOverview)
         addTransition(detailsToOverview)
+        addTransition(detailsToReview)
         loadingOverlay.setBackground(R.color.packages_primary_color)
         bundlePriceWidget.setOnTouchListener(object : View.OnTouchListener {
             internal var originY: Float = 0.toFloat()
@@ -231,6 +254,16 @@ class PackageHotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
             }
         }
     }
+
+    private val detailsToReview = object : ScaleTransition(this, HotelDetailPresenter::class.java, HotelReviewsView::class.java) {
+        override fun endTransition(forward: Boolean) {
+            super.endTransition(forward)
+            if (forward) {
+                reviewsView.transitionFinished()
+            }
+        }
+    }
+
 
     private val detailsToOverview = object : Presenter.Transition(HotelDetailPresenter::class.java.name, BundleWidget::class.java.name, AccelerateDecelerateInterpolator(), 800) {
 

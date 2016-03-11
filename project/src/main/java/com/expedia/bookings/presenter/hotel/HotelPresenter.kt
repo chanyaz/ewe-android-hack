@@ -31,6 +31,7 @@ import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.presenter.ScaleTransition
 import com.expedia.bookings.services.ClientLogServices
 import com.expedia.bookings.services.HotelServices
+import com.expedia.bookings.services.ReviewsServices
 import com.expedia.bookings.tracking.HotelV2Tracking
 import com.expedia.bookings.utils.Constants
 import com.expedia.bookings.utils.NavUtils
@@ -68,6 +69,9 @@ import kotlin.properties.Delegates
 
 // declared open for mocking purposes in tests (see: HotelDeeplinkHandlerTest)
 open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(context, attrs) {
+
+    lateinit var reviewServices: ReviewsServices
+        @Inject set
 
     lateinit var hotelServices: HotelServices
         @Inject set
@@ -225,7 +229,14 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
     }
 
     val confirmationPresenter: HotelConfirmationPresenter by bindView(R.id.hotel_confirmation_presenter)
-    val reviewsView: HotelReviewsView by bindView(R.id.hotel_reviews_presenter)
+
+    val reviewsView: HotelReviewsView by lazy {
+        var viewStub = findViewById(R.id.reviews_stub) as ViewStub
+        var presenter = viewStub.inflate() as HotelReviewsView
+        presenter.reviewServices = reviewServices
+        presenter
+    }
+
     val loadingOverlay: LoadingOverlayWidget by bindView(R.id.details_loading_overlay)
     val ANIMATION_DURATION = 400
     val geoCodeSearchModel = GeocodeSearchModel(context)
