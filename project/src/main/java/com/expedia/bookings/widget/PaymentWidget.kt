@@ -158,7 +158,7 @@ public open class PaymentWidget(context: Context, attr: AttributeSet) : Presente
         override fun onStoredCreditCardChosen(card: StoredCreditCard) {
             sectionBillingInfo.billingInfo.storedCard = card
             temporarilySavedCardIsSelected(false)
-            viewmodel.completeBillingInfo.onNext(sectionBillingInfo.billingInfo)
+            viewmodel.billingInfoAndStatusUpdate.onNext(Pair(sectionBillingInfo.billingInfo, ContactDetailsCompletenessStatus.COMPLETE))
             viewmodel.onStoredCardChosen.onNext(Unit)
             closePopup()
         }
@@ -167,7 +167,7 @@ public open class PaymentWidget(context: Context, attr: AttributeSet) : Presente
             reset()
             removeStoredCard()
             temporarilySavedCardIsSelected(true)
-            viewmodel.completeBillingInfo.onNext(Db.getTemporarilySavedCard())
+            viewmodel.billingInfoAndStatusUpdate.onNext(Pair(Db.getTemporarilySavedCard(), ContactDetailsCompletenessStatus.COMPLETE))
             viewmodel.onStoredCardChosen.onNext(Unit)
             closePopup()
         }
@@ -254,7 +254,7 @@ public open class PaymentWidget(context: Context, attr: AttributeSet) : Presente
         Db.getWorkingBillingInfoManager().workingBillingInfo.storedCard = card
         Db.getWorkingBillingInfoManager().commitWorkingBillingInfoToDB()
         sectionBillingInfo.billingInfo.storedCard = card
-        viewmodel.completeBillingInfo.onNext(sectionBillingInfo.billingInfo)
+        viewmodel.billingInfoAndStatusUpdate.onNext(Pair(sectionBillingInfo.billingInfo, ContactDetailsCompletenessStatus.COMPLETE))
     }
 
     open fun isFilled(): Boolean {
@@ -263,18 +263,18 @@ public open class PaymentWidget(context: Context, attr: AttributeSet) : Presente
 
     open fun validateAndBind() {
         if (!isCreditCardRequired()) {
+            viewmodel.billingInfoAndStatusUpdate.onNext(Pair(null, ContactDetailsCompletenessStatus.DEFAULT))
             viewmodel.emptyBillingInfo.onNext(Unit)
         } else if (isCreditCardRequired() && (hasStoredCard())) {
-            viewmodel.completeBillingInfo.onNext(sectionBillingInfo.billingInfo)
+            viewmodel.billingInfoAndStatusUpdate.onNext(Pair(sectionBillingInfo.billingInfo, ContactDetailsCompletenessStatus.COMPLETE))
         } else if (isCreditCardRequired() && (isFilled() && sectionBillingInfo.performValidation() && sectionLocation.performValidation())) {
-            viewmodel.completeBillingInfo.onNext(sectionBillingInfo.billingInfo)
+            viewmodel.billingInfoAndStatusUpdate.onNext(Pair(sectionBillingInfo.billingInfo, ContactDetailsCompletenessStatus.COMPLETE))
         } else if (isCreditCardRequired() && hasTempCard()) {
-            viewmodel.completeBillingInfo.onNext(Db.getTemporarilySavedCard())
+            viewmodel.billingInfoAndStatusUpdate.onNext(Pair(Db.getTemporarilySavedCard(), ContactDetailsCompletenessStatus.COMPLETE))
         } else if (isFilled()) {
-            viewmodel.completeBillingInfo.onNext(null)
-            viewmodel.incompleteBillingInfo.onNext(Unit)
+            viewmodel.billingInfoAndStatusUpdate.onNext(Pair(null, ContactDetailsCompletenessStatus.INCOMPLETE))
         } else {
-            viewmodel.completeBillingInfo.onNext(null)
+            viewmodel.billingInfoAndStatusUpdate.onNext(Pair(null, ContactDetailsCompletenessStatus.DEFAULT))
             viewmodel.emptyBillingInfo.onNext(Unit)
         }
     }
@@ -384,6 +384,8 @@ public open class PaymentWidget(context: Context, attr: AttributeSet) : Presente
             storedCreditCardList.bind()
             updateToolbarMenu(forward)
             if (!forward) validateAndBind()
+            else viewmodel.userHasAtleastOneStoredCard.onNext(User.isLoggedIn(context) && (Db.getUser().storedCreditCards.isNotEmpty() || Db.getTemporarilySavedCard() != null))
+
         }
     }
 
@@ -426,6 +428,7 @@ public open class PaymentWidget(context: Context, attr: AttributeSet) : Presente
             trackAnalytics()
             if (!forward)  {
                 validateAndBind()
+                viewmodel.userHasAtleastOneStoredCard.onNext(User.isLoggedIn(context) && (Db.getUser().storedCreditCards.isNotEmpty() || Db.getTemporarilySavedCard() != null))
             }
             updateToolbarMenu(!forward)
             viewmodel.toolbarNavIcon.onNext(if(!forward) ArrowXDrawableUtil.ArrowDrawableType.BACK
