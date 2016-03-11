@@ -1,18 +1,20 @@
 package com.expedia.bookings.data.rail.requests.api
 
 import com.expedia.bookings.data.rail.requests.RailSearchRequest
+import com.expedia.bookings.utils.DateUtils
+import org.joda.time.LocalDate
 import java.util.ArrayList
 import java.util.UUID
 
 /* note: the variable names in this model have to match 1:1 to the format the api expects. this whole
             model is getting serialized to json and sent to the search endpoint
  */
-class RailApiSearchModel {
+class RailApiSearchModel(val departDate: LocalDate, val returnDate: LocalDate?) {
 
     var messageInfo = MessageInfo()
     var pointOfSaleKey = PointOfSaleKey()
     var clientCode = "1001" //TODO - what is this?
-    var railSearchCriteria = RailSearchCriteria()
+    var railSearchCriteria = RailSearchCriteria(departDate, returnDate)
     var passengers: MutableList<RailPassenger> = ArrayList()
 
     init {
@@ -39,19 +41,24 @@ class RailApiSearchModel {
         }
     }
 
-    class RailSearchCriteria {
+    class RailSearchCriteria(val departDate: LocalDate, val returnDate: LocalDate?) {
 
         var originDestinationPairs: MutableList<OriginDestinationPair> = ArrayList()
 
         init {
-            this.originDestinationPairs.add(OriginDestinationPair()) //hardcoded to specific params for now
+            this.originDestinationPairs.add(OriginDestinationPair(departDate, returnDate)) //hardcoded to specific params for now
         }
 
-        class OriginDestinationPair {
+        class OriginDestinationPair(val departDate: LocalDate, val returnDate: LocalDate?) {
 
             var originStation = RailLocation("GBQQM", "Goteborg C, Sverige")
             var destinationStation = RailLocation("GBRDG", "Malmo C, Sverige")
-            var departureTime = "03/17/2016" //format: MM/DD/YYYY
+            var departureTime = DateUtils.localDateToMMddyyyy(departDate) //format: MM/DD/YYYY
+            var arrivalTime = if (returnDate != null) {
+                DateUtils.localDateToMMddyyyy(returnDate)
+            } else {
+                null
+            }
 
             class RailLocation(var stationCode: String, var stationName: String)
         }
@@ -78,7 +85,7 @@ class RailApiSearchModel {
     companion object {
 
         fun fromSearchParams(request: RailSearchRequest): RailApiSearchModel {
-            val requestModel = RailApiSearchModel()
+            val requestModel = RailApiSearchModel(request.departDate, request.returnDate)
             //TODO - set all the stuff
             return requestModel
         }

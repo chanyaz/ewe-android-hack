@@ -401,4 +401,5 @@
 
     <!-- Footer button height -->
     <dimen name="footer_button_height">56dp</dimen>
+    <dimen name="default_search_card_height">58dp</dimen>
 </resources>

@@ -35,17 +35,16 @@ import rx.subjects.PublishSubject
 import javax.inject.Inject
 import kotlin.properties.Delegates
 
-class HotelSearchViewModel(val context: Context) {
+class HotelSearchViewModel(context: Context) : DatedSearchViewModel(context) {
     private val paramsBuilder = HotelSearchParams.Builder(context.resources.getInteger(R.integer.calendar_max_days_hotel_stay))
 
-    // Outputs
-    val searchParamsObservable = PublishSubject.create<HotelSearchParams>()
     val originObservable = BehaviorSubject.create<Boolean>(false)
     val userBucketedObservable = BehaviorSubject.create<Boolean>()
     val externalSearchParamsObservable = BehaviorSubject.create<Boolean>()
-    val dateTextObservable = PublishSubject.create<CharSequence>()
-    val dateInstructionObservable = PublishSubject.create<CharSequence>()
-    val calendarTooltipTextObservable = PublishSubject.create<Pair<String, String>>()
+    val searchParamsObservable = PublishSubject.create<HotelSearchParams>()
+    // Outputs
+
+    val datesObservable = BehaviorSubject.create<Pair<LocalDate?, LocalDate?>>()
     val locationTextObservable = PublishSubject.create<String>()
     val searchButtonObservable = PublishSubject.create<Boolean>()
     val errorNoOriginObservable = PublishSubject.create<Unit>()
@@ -72,24 +71,6 @@ class HotelSearchViewModel(val context: Context) {
     }
 
     // Inputs
-    val datesObserver = endlessObserver<Pair<LocalDate?, LocalDate?>> { data ->
-        val (start, end) = data
-
-        paramsBuilder.checkIn(start)
-        if (start != null && end == null) {
-            paramsBuilder.checkOut(start.plusDays(1))
-        } else {
-            paramsBuilder.checkOut(end)
-        }
-
-        dateTextObservable.onNext(HotelSearchViewModel.computeDateText(context, start, end))
-        dateInstructionObservable.onNext(HotelSearchViewModel.computeDateInstructionText(context, start, end))
-
-        calendarTooltipTextObservable.onNext(computeTooltipText(start, end))
-
-        requiredSearchParamsObserver.onNext(Unit)
-    }
-
     var requiredSearchParamsObserver = endlessObserver<Unit> {
         searchButtonObservable.onNext(paramsBuilder.areRequiredParamsFilled())
         originObservable.onNext(paramsBuilder.hasOrigin())
@@ -130,21 +111,37 @@ class HotelSearchViewModel(val context: Context) {
         }
     }
 
-    // Helpers
-    private fun computeTopTextForToolTip(start: LocalDate?, end: LocalDate?): String {
-        if (start == null && end == null) {
-            return context.resources.getString(R.string.select_dates_proper_case)
-        } else if (end == null) {
-            return DateUtils.localDateToMMMd(start)
+    override fun onDatesChanged(dates: Pair<LocalDate?, LocalDate?>) {
+        val (start, end) = dates
+
+        paramsBuilder.checkIn(start)
+        if (start != null && end == null) {
+            paramsBuilder.checkOut(start.plusDays(1))
         } else {
-            return context.resources.getString(R.string.calendar_instructions_date_range_TEMPLATE, DateUtils.localDateToMMMd(start), DateUtils.localDateToMMMd(end))
+            paramsBuilder.checkOut(end)
         }
+
+        dateTextObservable.onNext(HotelSearchViewModel.computeDateText(context, start, end))
+        dateInstructionObservable.onNext(HotelSearchViewModel.computeDateInstructionText(context, start, end))
+
+        calendarTooltipTextObservable.onNext(computeTooltipText(start, end))
+
+        requiredSearchParamsObserver.onNext(Unit)
+        datesObservable.onNext(dates)
+    }
+
+    override fun startDate(): LocalDate? {
+        return datesObservable?.value?.first
+    }
+
+    override fun endDate(): LocalDate? {
+        return datesObservable?.value?.second
     }
 
     private fun computeTooltipText(start: LocalDate?, end: LocalDate?): Pair<String, String> {
         val resource =
                 if (end == null) R.string.hotel_calendar_tooltip_bottom
-                else R.string.hotel_calendar_bottom_drag_to_modify
+                else R.string.calendar_drag_to_modify
         val instructions = context.resources.getString(resource)
         return Pair(computeTopTextForToolTip(start, end), instructions)
     }

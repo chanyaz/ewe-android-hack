@@ -54,22 +54,23 @@ class HotelSearchPresenterV2(context: Context, attrs: AttributeSet) : BaseHotelS
     val scrollView: ScrollView by bindView(R.id.scrollView)
     val searchContainer: ViewGroup by bindView(R.id.search_v2_container)
 
+    val calendarWidgetV2: CalendarWidgetV2 by bindView(R.id.calendar_card)
+
     val suggestionContainer: View by bindView(R.id.suggestions_container)
     val suggestionRecyclerView: RecyclerView by bindView(R.id.suggestion_list)
     var navIcon: ArrowXDrawable
     val destinationCardView: SearchInputCardView by bindView(R.id.destination_card)
-    val calendarWidgetV2: CalendarWidgetV2 by bindView(R.id.calendar_card)
     val travelerWidgetV2: TravelerWidgetV2 by bindView(R.id.traveler_card)
     val searchButton: Button by bindView(R.id.search_button_v2)
     var searchLocationEditText: SearchView? = null
-    val toolBarTitle : TextView by bindView(R.id.title)
+    val toolBarTitle: TextView by bindView(R.id.title)
     val statusBarHeight by lazy { Ui.getStatusBarHeight(context) }
     val mRootWindow by lazy { (context as Activity).window }
     val mRootView by lazy { mRootWindow.decorView.findViewById(android.R.id.content) }
     var firstLaunch = true
 
     override var searchViewModel: HotelSearchViewModel by notNullAndObservable { vm ->
-        calendarWidgetV2.hotelSearchViewModelSubject.onNext(vm)
+        calendarWidgetV2.viewModel = vm
         travelerWidgetV2.hotelSearchViewModelSubject.onNext(vm)
         vm.searchButtonObservable.subscribe { enable ->
             searchButton.setTextColor(if (enable) ContextCompat.getColor(context, R.color.hotel_filter_spinner_dropdown_color) else ContextCompat.getColor(context, R.color.white_disabled))
@@ -78,7 +79,7 @@ class HotelSearchPresenterV2(context: Context, attrs: AttributeSet) : BaseHotelS
         vm.locationTextObservable.subscribe { locationText ->
             firstLaunch = false
             destinationCardView.setText(locationText)
-            if (this.visibility == VISIBLE && calendarWidgetV2.calendar.startDate == null) {
+            if (this.visibility == VISIBLE && vm.startDate() == null) {
                 calendarWidgetV2.showCalendarDialog()
             }
         }
@@ -95,6 +96,10 @@ class HotelSearchPresenterV2(context: Context, attrs: AttributeSet) : BaseHotelS
         }
 
         searchButton.subscribeOnClick(vm.searchObserver)
+
+        calendarWidgetV2.setOnClickListener {
+            calendarWidgetV2.showCalendarDialog()
+        }
     }
 
     override fun onFinishInflate() {
@@ -129,8 +134,6 @@ class HotelSearchPresenterV2(context: Context, attrs: AttributeSet) : BaseHotelS
     })
 
     override fun selectDates(startDate: LocalDate?, endDate: LocalDate?) {
-        calendarWidgetV2.calendar.setSelectedDates(startDate, endDate)
-        calendarWidgetV2.calendar.hideToolTip()
         calendarWidgetV2.hideCalendarDialog()
     }
 
@@ -187,10 +190,6 @@ class HotelSearchPresenterV2(context: Context, attrs: AttributeSet) : BaseHotelS
 
         destinationCardView.setOnClickListener {
             show(SuggestionSelectionState())
-        }
-
-        calendarWidgetV2.setOnClickListener {
-            calendarWidgetV2.showCalendarDialog()
         }
 
         travelerWidgetV2.setOnClickListener {
