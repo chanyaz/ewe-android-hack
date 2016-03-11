@@ -15,6 +15,7 @@ import com.expedia.bookings.data.packages.PackageCreateTripParams
 import com.expedia.bookings.data.packages.PackageCreateTripResponse
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.services.PackageServices
+import com.expedia.bookings.utils.BookingSuppressionUtils
 import com.expedia.bookings.utils.StrUtils
 import com.squareup.phrase.Phrase
 import rx.Observable
@@ -97,9 +98,11 @@ class PackageCheckoutViewModel(val context: Context, val packageServices: Packag
         }
 
         baseParams.subscribe { params ->
+            val suppressFinalBooking = BookingSuppressionUtils.shouldSuppressFinalBooking(context, R.string.preference_suppress_package_bookings)
             builder.billingInfo(params.billingInfo)
             builder.travelers(params.travelers)
             builder.cvv(params.cvv)
+            builder.suppressFinalBooking(suppressFinalBooking)
             if (builder.hasValidParams()) {
                 checkoutParams.onNext(builder.build())
             }

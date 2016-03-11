@@ -5,7 +5,7 @@ import com.expedia.bookings.data.Traveler
 import java.util.ArrayList
 import java.util.HashMap
 
-data class PackageCheckoutParams(val billingInfo: BillingInfo, val travelers: ArrayList<Traveler>, val tripId: String, val expectedTotalFare: String, val expectedFareCurrencyCode: String, val bedType: String, val cvv: String) {
+data class PackageCheckoutParams(val billingInfo: BillingInfo, val travelers: ArrayList<Traveler>, val tripId: String, val expectedTotalFare: String, val expectedFareCurrencyCode: String, val bedType: String, val cvv: String, val suppressFinalBooking: Boolean) {
 
     class Builder() {
         private var billingInfo: BillingInfo? = null
@@ -15,6 +15,7 @@ data class PackageCheckoutParams(val billingInfo: BillingInfo, val travelers: Ar
         private var expectedFareCurrencyCode: String? = null
         private var cvv: String? = null
         private var bedType: String? = null
+        private var suppressFinalBooking = true
 
         fun billingInfo(billingInfo: BillingInfo?): PackageCheckoutParams.Builder {
             this.billingInfo = billingInfo
@@ -51,6 +52,11 @@ data class PackageCheckoutParams(val billingInfo: BillingInfo, val travelers: Ar
             return this
         }
 
+        fun suppressFinalBooking(suppress: Boolean): PackageCheckoutParams.Builder {
+            this.suppressFinalBooking = suppress
+            return this
+        }
+
         fun build(): PackageCheckoutParams {
             val billingInfo = billingInfo ?: throw IllegalArgumentException()
             val travelers = if (travelers.isEmpty()) throw IllegalArgumentException() else {
@@ -61,7 +67,7 @@ data class PackageCheckoutParams(val billingInfo: BillingInfo, val travelers: Ar
             val expectedTotalFare = expectedTotalFare ?: throw IllegalArgumentException()
             val expectedFareCurrencyCode = expectedFareCurrencyCode ?: throw IllegalArgumentException()
             val cvv = cvv ?: throw IllegalArgumentException()
-            return PackageCheckoutParams(billingInfo, travelers, tripId, expectedTotalFare, expectedFareCurrencyCode, bedType, cvv)
+            return PackageCheckoutParams(billingInfo, travelers, tripId, expectedTotalFare, expectedFareCurrencyCode, bedType, cvv, suppressFinalBooking)
         }
 
         fun hasValidParams(): Boolean {
@@ -122,7 +128,8 @@ data class PackageCheckoutParams(val billingInfo: BillingInfo, val travelers: Ar
         params.put("cvv", cvv)
 
         //TODO: Toggle this under dev settings
-        params.put("suppressFinalBooking", true)
+
+        params.put("suppressFinalBooking", suppressFinalBooking)
 
         return params
     }
