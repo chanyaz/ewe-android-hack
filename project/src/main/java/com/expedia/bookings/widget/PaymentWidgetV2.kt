@@ -64,20 +64,6 @@ class PaymentWidgetV2(context: Context, attr: AttributeSet) : PaymentWidget(cont
         Ui.getApplication(context).hotelComponent().inject(this)
     }
 
-    override fun onFinishInflate() {
-        super.onFinishInflate()
-        Db.setTemporarilySavedCard(null)
-
-        paymentOptionCreditDebitCard.setOnClickListener {
-            if (shouldShowPaymentOptions()) {
-                reset()
-                show(PaymentDetails())
-            } else {
-                show(PaymentDetails(), FLAG_CLEAR_BACKSTACK)
-            }
-        }
-    }
-
     override fun shouldShowPaymentOptions(): Boolean {
         return isExpediaRewardsRedeemable || super.shouldShowPaymentOptions()
     }
