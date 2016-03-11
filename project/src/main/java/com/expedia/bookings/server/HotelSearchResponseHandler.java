@@ -360,7 +360,7 @@ public class HotelSearchResponseHandler implements ResponseHandler<HotelSearchRe
 		String surchargeTotalForEntireStay = null;
 		String totalMandatoryFees = null;
 		String totalPriceWithMandatoryFees = null;
-		String strikethroughPriceToShowUsers = null;
+		String strikethroughPriceToShowUsers = "0"; // strikethroughPrice optional for Domain V2 Hotel API
 		String priceToShowUsers = null;
 		String userPriceType = null;
 		String checkoutPriceType = null;

@@ -139,8 +139,15 @@ class HotelMapCarouselAdapter(var hotels: List<Hotel>, val hotelSubject: Publish
 }
 
 fun priceFormatter(resources: Resources, rate: HotelRate?, strikeThrough: Boolean): CharSequence {
-    if (rate == null) return ""
-    var hotelPrice = HotelRate.getDisplayMoney(rate, strikeThrough).getFormattedMoney(Money.F_NO_DECIMAL)
 
-    return if (strikeThrough) Html.fromHtml(resources.getString(R.string.strike_template, hotelPrice), null, StrikethroughTagHandler()) else hotelPrice
+    if (rate == null) {
+        return ""
+    }
+    else if (strikeThrough && rate.priceToShowUsers >= rate.strikethroughPriceToShowUsers) { // #6801 - strikethrough price now optional from API
+        return ""
+    }
+    else {
+        var hotelPrice = HotelRate.getDisplayMoney(rate, strikeThrough).getFormattedMoney(Money.F_NO_DECIMAL)
+        return if (strikeThrough) Html.fromHtml(resources.getString(R.string.strike_template, hotelPrice), null, StrikethroughTagHandler()) else hotelPrice
+    }
 }

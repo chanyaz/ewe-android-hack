@@ -76,10 +76,18 @@ class HotelDetailViewModelTest {
         assertEquals("$" + df.format(chargeableRateInfo.strikethroughPriceToShowUsers), vm.strikeThroughPriceObservable.value)
     }
 
-    @Test fun strikeThroughPriceShouldNotShow() {
+    @Test fun strikeThroughPriceLessThanPriceToShowUsersDontShow() {
         val chargeableRateInfo = offer1.hotelRoomResponse.get(0).rateInfo.chargeableRateInfo
         chargeableRateInfo.priceToShowUsers = 110f
         chargeableRateInfo.strikethroughPriceToShowUsers = chargeableRateInfo.priceToShowUsers - 10f
+        vm.hotelOffersSubject.onNext(offer1)
+        assertNull(vm.strikeThroughPriceObservable.value)
+    }
+
+    @Test fun strikeThroughPriceSameAsPriceToShowUsersDontShow() {
+        val chargeableRateInfo = offer1.hotelRoomResponse.get(0).rateInfo.chargeableRateInfo
+        chargeableRateInfo.priceToShowUsers = 110f
+        chargeableRateInfo.strikethroughPriceToShowUsers = 0f
         vm.hotelOffersSubject.onNext(offer1)
         assertNull(vm.strikeThroughPriceObservable.value)
     }
