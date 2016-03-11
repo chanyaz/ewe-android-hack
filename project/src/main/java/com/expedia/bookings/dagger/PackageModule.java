@@ -3,6 +3,7 @@ package com.expedia.bookings.dagger;
 import com.expedia.bookings.dagger.tags.PackageScope;
 import com.expedia.bookings.server.EndpointProvider;
 import com.expedia.bookings.services.PackageServices;
+import com.expedia.bookings.services.ReviewsServices;
 import com.expedia.bookings.services.SuggestionV4Services;
 import com.squareup.okhttp.OkHttpClient;
 
@@ -29,6 +30,14 @@ public final class PackageModule {
 		final String endpoint = endpointProvider.getEssEndpointUrl();
 		return new SuggestionV4Services(endpoint, client, interceptor, AndroidSchedulers.mainThread(), Schedulers.io(),
 			logLevel);
+	}
+
+	@Provides
+	@PackageScope
+	ReviewsServices provideReviewsServices(EndpointProvider endpointProvider, OkHttpClient client, RequestInterceptor interceptor,
+		RestAdapter.LogLevel logLevel) {
+		final String endpoint = endpointProvider.getReviewsEndpointUrl();
+		return new ReviewsServices(endpoint, client, interceptor, AndroidSchedulers.mainThread(), Schedulers.io(), logLevel);
 	}
 }
 

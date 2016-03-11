@@ -34,6 +34,14 @@
             android:inflatedId="@+id/widget_hotel_detail"
             android:layout="@layout/hotel_detail_presenter_stub" />
 
+        <ViewStub
+            android:id="@+id/reviews_stub"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_above="@+id/bundle_price_widget"
+            android:inflatedId="@+id/widget_hotel_reviews"
+            android:layout="@layout/hotel_review_presenter_stub" />
+
         <com.expedia.bookings.presenter.packages.BundleWidget
             android:id="@+id/bundle_widget"
             android:layout_width="match_parent"
