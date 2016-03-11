@@ -187,6 +187,9 @@ class HotelDetailsTest {
         assertEquals(View.VISIBLE, hotelDetailView.hotelMessagingContainer.visibility)
         assertEquals(View.GONE, hotelDetailView.discountPercentage.visibility)
         assertEquals(View.VISIBLE, hotelDetailView.vipAccessMessageContainer.visibility)
+        assertEquals(View.GONE, hotelDetailView.vipLoyaltyMessage.visibility)
+        assertEquals(View.GONE, hotelDetailView.roomRateHeader.visibility)
+        assertEquals(View.GONE, hotelDetailView.roomRateVIPLoyaltyAppliedContainer.visibility)
         assertEquals("", hotelDetailView.promoMessage.text)
     }
 
@@ -218,6 +221,8 @@ class HotelDetailsTest {
         assertEquals(View.GONE, hotelDetailView.discountPercentage.visibility)
         assertEquals(View.VISIBLE, hotelDetailView.vipAccessMessageContainer.visibility)
         assertEquals(View.VISIBLE, hotelDetailView.vipLoyaltyMessage.visibility)
+        assertEquals(View.VISIBLE, hotelDetailView.roomRateHeader.visibility)
+        assertEquals(View.VISIBLE, hotelDetailView.roomRateVIPLoyaltyAppliedContainer.visibility)
         assertEquals("", hotelDetailView.promoMessage.text)
     }
 
@@ -250,6 +255,8 @@ class HotelDetailsTest {
         assertEquals(View.GONE, hotelDetailView.vipAccessMessageContainer.visibility)
         assertEquals(View.GONE, hotelDetailView.vipLoyaltyMessage.visibility)
         assertEquals(View.VISIBLE, hotelDetailView.regularLoyaltyMessage.visibility)
+        assertEquals(View.VISIBLE, hotelDetailView.roomRateHeader.visibility)
+        assertEquals(View.VISIBLE, hotelDetailView.roomRateRegularLoyaltyAppliedText.visibility)
         assertEquals("", hotelDetailView.promoMessage.text)
     }
 

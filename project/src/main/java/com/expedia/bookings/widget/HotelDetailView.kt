@@ -140,7 +140,10 @@ class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayout(conte
     val amenityDivider: View by bindView(R.id.etp_and_free_cancellation_divider)
 
     val resortFeeWidget: ResortFeeWidget by bindView(R.id.resort_fee_widget)
+    val roomRateHeader: LinearLayout by bindView(R.id.room_rate_header)
     val commonAmenityText: TextView by bindView(R.id.common_amenities_text)
+    val roomRateRegularLoyaltyAppliedText: TextView by bindView(R.id.room_rate_regular_loyalty_applied_text)
+    val roomRateVIPLoyaltyAppliedContainer: View by bindView(R.id.room_rate_vip_loyalty_applied_container)
     val commonAmenityDivider: View by bindView(R.id.common_amenities_divider)
     val roomContainer: TableLayout by bindView(R.id.room_container)
     val propertyTextContainer: TableLayout by bindView(R.id.property_info_container)
@@ -206,9 +209,19 @@ class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayout(conte
             Amenity.addHotelAmenity(amenityContainer, amenityList)
         }
         vm.commonAmenityTextObservable.subscribe { text ->
+            displayRoomRateHeader()
             commonAmenityText.visibility = View.VISIBLE
             commonAmenityText.text = Html.fromHtml(text)
-            commonAmenityDivider.visibility = View.VISIBLE
+        }
+
+        vm.hasVipAccessLoyaltyObservable.filter { it }.subscribe {
+            displayRoomRateHeader()
+            roomRateVIPLoyaltyAppliedContainer.visibility = View.VISIBLE
+        }
+
+        vm.hasRegularLoyaltyPointsAppliedObservable.filter { it }.subscribe {
+            displayRoomRateHeader()
+            roomRateRegularLoyaltyAppliedText.visibility = View.VISIBLE
         }
 
         vm.galleryItemChangeObservable.subscribe { galleryDescriptionBar: Pair<Int, String> ->
@@ -451,7 +464,9 @@ class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayout(conte
         urgencyViewAlpha(1f)
         hotelGalleryDescriptionContainer.alpha = 0f
         resortFeeWidget.visibility = View.GONE
-        commonAmenityText.visibility = View.GONE
+        roomRateHeader.visibility = View.GONE
+        roomRateRegularLoyaltyAppliedText.visibility = View.GONE
+        roomRateVIPLoyaltyAppliedContainer.visibility = View.GONE
         commonAmenityDivider.visibility = View.GONE
         hideResortandSelectRoom()
         freeCancellationAndETPMessaging.visibility = View.GONE
@@ -484,6 +499,15 @@ class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayout(conte
         //pay now show all the offers
         payNowLaterSelectionChanged(true)
         viewmodel.roomResponseListObservable.onNext(Pair(viewmodel.hotelOffersResponse.hotelRoomResponse, viewmodel.uniqueValueAddForRooms))
+
+        if (viewmodel.hasVipAccessLoyaltyObservable.value) {
+            displayRoomRateHeader()
+            roomRateVIPLoyaltyAppliedContainer.visibility = View.VISIBLE
+        } else if (viewmodel.hasRegularLoyaltyPointsAppliedObservable.value) {
+            displayRoomRateHeader()
+            roomRateRegularLoyaltyAppliedText.visibility = View.VISIBLE
+        }
+
         HotelV2Tracking().trackPayNowContainerClick()
     }
 
@@ -491,6 +515,8 @@ class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayout(conte
         //pay later show only etp offers
         payNowLaterSelectionChanged(false)
         viewmodel.etpRoomResponseListObservable.onNext(Pair(viewmodel.etpOffersList, viewmodel.etpUniqueValueAddForRooms))
+        roomRateVIPLoyaltyAppliedContainer.visibility = View.GONE
+        roomRateRegularLoyaltyAppliedText.visibility = View.GONE
         HotelV2Tracking().trackPayLaterContainerClick()
     }
 
@@ -514,7 +540,7 @@ class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayout(conte
         // Scroll to the top room in case of change in ETP selection when ETP container is sticked
         if (etpContainerDropShadow.visibility == View.VISIBLE) {
             val etpLocation = etpContainer.y + etpContainer.height
-            val offsetToETP = if (commonAmenityText.visibility == View.VISIBLE) commonAmenityText.y else roomContainer.y
+            val offsetToETP = if (roomRateHeader.visibility == View.VISIBLE) roomRateHeader.y else roomContainer.y
             val offset = offsetToETP - etpLocation
             detailContainer.smoothScrollBy(0, offset.toInt())
         }
@@ -658,7 +684,7 @@ class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayout(conte
 
         var scrollToAmount = roomContainerPosition[1] - offset + detailContainer.scrollY
         if (etpContainer.visibility == View.VISIBLE) scrollToAmount -= etpContainer.height
-        if (commonAmenityText.visibility == View.VISIBLE) scrollToAmount -= commonAmenityText.height
+        if (roomRateHeader.visibility == View.VISIBLE) scrollToAmount -= roomRateHeader.height
         val smoothScrollAnimation = ValueAnimator.ofInt(detailContainer.scrollY, scrollToAmount.toInt())
 
         smoothScrollAnimation.setDuration(if (animate) SELECT_ROOM_ANIMATION else 0)
@@ -788,6 +814,11 @@ class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayout(conte
         var drawable = imageView.drawable;
         drawable?.callback = null
         drawable = null
+    }
+
+    private fun displayRoomRateHeader() {
+        roomRateHeader.visibility = View.VISIBLE
+        commonAmenityDivider.visibility = View.VISIBLE
     }
 
     val rowAnimation = endlessObserver<Pair<HotelRoomRateView, Boolean>> { pair ->

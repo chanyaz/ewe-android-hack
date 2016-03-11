@@ -4040,6 +4040,8 @@
     <!-- Shop with points -->
     <string name="regular_loyalty_applied_message">Expedia+ Points applied!</string>
     <string name="vip_loyalty_applied_message">2x points applied!</string>
+    <!-- String to be appended with +VIP in header of room rates. -->
+    <string name="vip_loyalty_applied_header_message">2x Expedia+ Points applied!</string>
 
     <!-- Message telling you on confirmation screen where you've booked a package to -->
     <string name="yay_going_somewhere">You\'re going to</string>
