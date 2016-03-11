@@ -217,4 +217,25 @@ public class LXDetailsPresenterTest {
 		LXScreen.detailsDate(withoutOfferDate.dayOfWeek().getAsShortText() + "\n" + withoutOfferDate.dayOfMonth().getAsShortText() + "\n").check(
 			matches(not(isEnabled())));
 	}
+
+	@Test
+	public void testDatesChange() {
+		Events.post(new Events.LXActivitySelected(new LXActivity()));
+		LXScreen.waitForDetailsDisplayed();
+
+		LocalDate now = LocalDate.now();
+
+		LXScreen.detailsDate(now.dayOfWeek().getAsShortText() + "\n" + now.dayOfMonth().getAsText() + "\n" + now.monthOfYear().getAsShortText()).check(
+			matches(isEnabled()));
+
+		LocalDate nextAvailableDate = LocalDate.now().plusDays(2);
+
+		LXScreen.detailsDate(
+			nextAvailableDate.dayOfWeek().getAsShortText() + "\n" + nextAvailableDate.dayOfMonth().getAsText() + "\n").perform(click());
+
+		LXScreen.detailsDate(
+			nextAvailableDate.dayOfWeek().getAsShortText() + "\n" + nextAvailableDate.dayOfMonth().getAsText() + "\n" + nextAvailableDate.monthOfYear()
+				.getAsShortText()).check(
+			matches(isEnabled()));
+	}
 }

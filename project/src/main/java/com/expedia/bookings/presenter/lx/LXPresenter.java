@@ -305,6 +305,16 @@ public class LXPresenter extends Presenter {
 	}
 
 	@Subscribe
+	public void onDetailsDateChanged(Events.LXDetailsDateChanged event) {
+		if (isCurrentStateDetailsWithRecommedation()) {
+			recommendationPresenter.details.onDetailsDateChanged(event.dateSelected, event.buttonSelected);
+		}
+		else {
+			detailsPresenter.details.onDetailsDateChanged(event.dateSelected, event.buttonSelected);
+		}
+	}
+
+	@Subscribe
 	public void onShowSearchWidget(Events.LXShowSearchWidget event) {
 		show(searchParamsWidget, FLAG_CLEAR_BACKSTACK | FLAG_CLEAR_TOP);
 	}
