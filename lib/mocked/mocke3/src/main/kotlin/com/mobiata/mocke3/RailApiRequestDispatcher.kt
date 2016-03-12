@@ -30,6 +30,10 @@ class RailApiRequestDispatcher(fileOpener: FileOpener) : AbstractDispatcher(file
                 getMockResponse("m/api/rails/trip/create/happy.json")
             }
 
+            RailApiRequestMatcher.isRailApiCheckoutRequest(urlPath) -> {
+                getMockResponse("m/api/rails/trip/checkout/happy.json")
+            }
+
             else -> make404()
         }
     }
@@ -55,6 +59,10 @@ class RailApiRequestMatcher() {
 
         fun isRailApiCreateTripRequest(urlPath: String): Boolean {
             return doesItMatch("^/m/api/rails/trip/create$", urlPath)
+        }
+
+        fun isRailApiCheckoutRequest(urlPath: String): Boolean {
+            return doesItMatch("^/m/api/rails/trip/checkout$", urlPath)
         }
 
         fun doesItMatch(regExp: String, str: String): Boolean {
