@@ -3945,7 +3945,7 @@
     <string name="trip_overview">여행 정보</string>
     <!-- Slide to book -->
     <string name="package_slider_text">밀어서 예약하기</string>
-    <string name="hotel_city_country_checkout_header_TEMPLATE">{country} {city}</string>
+    <string name="hotel_city_country_TEMPLATE">{country} {city}</string>
 
     <!-- Flight Duration filter label-->
     <string name="flight_duration_label">비행시간</string>
