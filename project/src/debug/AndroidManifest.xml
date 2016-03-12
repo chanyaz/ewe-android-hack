@@ -7,12 +7,12 @@
     <application>
         <activity
             android:name="com.expedia.bookings.activity.PlaygroundActivity"
-            android:label="Playground"
+            android:label="@string/playground_launcher_name"
             android:taskAffinity="com.expedia.bookings.activity.PlaygroundActivity"
             android:theme="@style/V2.Theme.Cars" />
         <activity
             android:name="com.expedia.ui.PackageActivity"
-            android:label="Packages"
+            android:label="@string/packages_launcher_name"
             android:screenOrientation="portrait"
             android:taskAffinity="com.expedia.ui.PackageActivity"
             android:theme="@style/V2.Theme.Packages">
@@ -38,7 +38,7 @@
 
         <activity
             android:name="com.expedia.ui.RailActivity"
-            android:label="Rail"
+            android:label="@string/rail_launcher_name"
             android:screenOrientation="portrait"
             android:taskAffinity="com.expedia.ui.RailActivity"
             android:theme="@style/V2.Theme.Rail">
@@ -51,7 +51,7 @@
 
         <activity
             android:name="com.expedia.bookings.deeplink.DeepLinkTestActivity"
-            android:label="DeepLink Tester"
+            android:label="@string/deeplinktest_launcher_name"
             android:screenOrientation="portrait"
             android:taskAffinity=""
             android:theme="@style/Theme.AppCompat.Light">
