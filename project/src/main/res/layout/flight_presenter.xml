@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <ViewStub
+        android:id="@+id/outbound_presenter"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:inflatedId="@+id/widget_flight_outbound"
+        android:layout="@layout/flight_outbound_stub"
+        android:visibility="gone" />
+
+    <ViewStub
+        android:id="@+id/inbound_presenter"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:inflatedId="@+id/widget_flight_inbound"
+        android:layout="@layout/flight_inbound_stub"
+        android:visibility="gone" />
+
+    <com.expedia.bookings.presenter.packages.FlightOverviewPresenter
+        android:id="@+id/widget_bundle_overview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/search_results_list_bg_gray"
+        android:visibility="gone" />
+</merge>

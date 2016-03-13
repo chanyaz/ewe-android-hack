@@ -33,7 +33,6 @@ class PackageCreateTripViewModel(val packageServices: PackageServices) {
     val tripParams = PublishSubject.create<PackageCreateTripParams>()
     val performCreateTrip = PublishSubject.create<Unit>()
     val tripResponseObservable = BehaviorSubject.create<PackageCreateTripResponse>()
-    val createTripBundleTotalObservable = BehaviorSubject.create<PackageCreateTripResponse>()
     val showCreateTripDialogObservable = PublishSubject.create<Unit>()
 
     init {
@@ -52,7 +51,6 @@ class PackageCreateTripViewModel(val packageServices: PackageServices) {
                     Db.getTripBucket().clearPackages()
                     Db.getTripBucket().add(TripBucketItemPackages(response))
                     tripResponseObservable.onNext(response)
-                    createTripBundleTotalObservable.onNext(response)
                 }
             }
 
@@ -79,7 +77,6 @@ class PackageCheckoutViewModel(val context: Context, val packageServices: Packag
     val depositPolicyText = PublishSubject.create<Spanned>()
     val legalText = PublishSubject.create<SpannableStringBuilder>()
     val sliderPurchaseTotalText = PublishSubject.create<CharSequence>()
-    val emailObservable = BehaviorSubject.create<String>()
     var email: String by Delegates.notNull()
 
     init {

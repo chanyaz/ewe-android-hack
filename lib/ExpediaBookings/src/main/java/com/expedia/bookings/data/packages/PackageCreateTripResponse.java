@@ -32,7 +32,7 @@ public class PackageCreateTripResponse extends TripResponse {
 	}
 
 	public static class FlightProduct {
-		public FlightTripDetails details;
+		public com.expedia.bookings.data.flights.FlightTripDetails details;
 	}
 
 	@NotNull

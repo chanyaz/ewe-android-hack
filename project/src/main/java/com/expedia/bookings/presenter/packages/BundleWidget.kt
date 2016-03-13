@@ -5,6 +5,7 @@ import android.support.v4.content.ContextCompat
 import android.support.v4.widget.NestedScrollView
 import android.util.AttributeSet
 import android.view.View
+import android.widget.LinearLayout
 import android.widget.TextView
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Db
@@ -22,7 +23,7 @@ import com.expedia.vm.PackageSearchType
 import com.squareup.phrase.Phrase
 import rx.subjects.BehaviorSubject
 
-class BundleWidget(context: Context, attrs: AttributeSet) : NestedScrollView(context, attrs) {
+class BundleWidget(context: Context, attrs: AttributeSet) : LinearLayout(context, attrs) {
 
     val stepOneText: TextView by bindView(R.id.step_one_text)
     val stepTwoText: TextView by bindView(R.id.step_two_text)
@@ -98,8 +99,8 @@ class BundleWidget(context: Context, attrs: AttributeSet) : NestedScrollView(con
 
     init {
         View.inflate(context, R.layout.bundle_widget, this)
+        orientation = VERTICAL
         bundleHotelWidget.viewModel = BundleHotelViewModel(context)
-
         outboundFlightWidget.isOutbound = true
         inboundFlightWidget.isOutbound = false
         outboundFlightWidget.viewModel = BundleFlightViewModel(context)

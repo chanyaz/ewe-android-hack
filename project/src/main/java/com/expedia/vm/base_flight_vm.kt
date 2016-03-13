@@ -1,7 +1,8 @@
 package com.expedia.vm
 
 import android.content.Context
-import com.expedia.bookings.data.packages.FlightLeg
+import com.expedia.bookings.data.flights.Airline
+import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.utils.PackageFlightUtils
 import rx.subjects.BehaviorSubject
 

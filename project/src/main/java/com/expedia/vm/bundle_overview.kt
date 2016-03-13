@@ -6,7 +6,7 @@ import com.expedia.bookings.BuildConfig
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.Money
-import com.expedia.bookings.data.packages.FlightLeg
+import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.data.packages.PackageCreateTripResponse
 import com.expedia.bookings.data.packages.PackageSearchParams
 import com.expedia.bookings.data.packages.PackageSearchResponse
@@ -21,11 +21,11 @@ import com.expedia.bookings.utils.Ui
 import com.squareup.phrase.Phrase
 import org.joda.time.LocalDate
 import org.joda.time.format.ISODateTimeFormat
+import rx.Observable
 import rx.Observer
 import rx.subjects.BehaviorSubject
 import rx.subjects.PublishSubject
 import java.math.BigDecimal
-import kotlin.collections.arrayListOf
 
 class BundleOverviewViewModel(val context: Context, val packageServices: PackageServices?) {
     val hotelParamsObservable = PublishSubject.create<PackageSearchParams>()
@@ -176,7 +176,8 @@ class BundleHotelViewModel(val context: Context) {
 
 class BundlePriceViewModel(val context: Context) {
     val setTextObservable = PublishSubject.create<Pair<String, String>>()
-    val createTripObservable = PublishSubject.create<PackageCreateTripResponse>()
+    val total = PublishSubject.create<Money>()
+    val savings = PublishSubject.create<Money>()
 
     val totalPriceObservable = BehaviorSubject.create<String>()
     val savingsPriceObservable = BehaviorSubject.create<String>()
@@ -189,16 +190,12 @@ class BundlePriceViewModel(val context: Context) {
             savingsPriceObservable.onNext(bundle.second)
         }
 
-        createTripObservable.subscribe { trip ->
-            var packageTotalPrice = trip.packageDetails.pricing
+        Observable.combineLatest(total, savings, { total, savings ->
             var packageSavings = Phrase.from(context, R.string.bundle_total_savings_TEMPLATE)
-                    .put("savings", Money(BigDecimal(packageTotalPrice.savings.amount.toDouble()),
-                            packageTotalPrice.savings.currencyCode).formattedMoney)
+                    .put("savings", savings.formattedMoney)
                     .format().toString()
-
-            setTextObservable.onNext(Pair(Money(BigDecimal(packageTotalPrice.packageTotal.amount.toDouble()),
-                    packageTotalPrice.packageTotal.currencyCode).formattedMoney, packageSavings))
-        }
+            setTextObservable.onNext(Pair(total.formattedMoney, packageSavings))
+        }).subscribe()
     }
 }
 

@@ -1,7 +1,7 @@
 package com.expedia.vm
 
 import com.expedia.bookings.data.FlightFilter
-import com.expedia.bookings.data.packages.FlightLeg
+import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.util.endlessObserver
 import org.joda.time.DateTime
 import org.joda.time.format.DateTimeFormat

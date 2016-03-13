@@ -7,7 +7,7 @@
         android:layout_height="match_parent"
         android:background="@color/search_results_list_bg_gray" />
 
-    <com.expedia.bookings.presenter.packages.BundleOverviewPresenter
+    <com.expedia.bookings.presenter.packages.PackageOverviewPresenter
         android:id="@+id/widget_bundle_overview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

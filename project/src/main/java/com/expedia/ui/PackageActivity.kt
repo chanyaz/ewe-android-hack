@@ -63,7 +63,7 @@ class PackageActivity : AppCompatActivity() {
     private fun packageCreateTrip() {
         val params = PackageCreateTripParams.fromPackageSearchParams(Db.getPackageParams())
         if (params.isValid) {
-            packagePresenter.bundlePresenter.checkoutPresenter.createTripViewModel.tripParams.onNext(params)
+            packagePresenter.bundlePresenter.getCheckoutPresenter().createTripViewModel.tripParams.onNext(params)
         }
     }
 

@@ -337,4 +337,6 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet) : Pre
     private fun View.setVisibility(forward: Boolean) {
         this.visibility = if (forward) View.GONE else View.VISIBLE
     }
+
+    abstract fun lineOfBusiness() : LineOfBusiness
 }

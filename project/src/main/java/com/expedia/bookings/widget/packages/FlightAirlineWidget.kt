@@ -8,7 +8,7 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import com.expedia.bookings.R
 import com.expedia.bookings.bitmaps.PicassoHelper
-import com.expedia.bookings.data.packages.Airline
+import com.expedia.bookings.data.flights.Airline
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.TextView
 

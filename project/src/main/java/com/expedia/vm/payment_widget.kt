@@ -137,8 +137,8 @@ class PaymentViewModel(val context: Context) {
         }
 
         lineOfBusiness.subscribe { lob ->
-            isCreditCardRequired.onNext(lob == LineOfBusiness.PACKAGES || lob == LineOfBusiness.HOTELSV2)
-            isZipValidationRequired.onNext(lob == LineOfBusiness.PACKAGES || lob == LineOfBusiness.HOTELSV2)
+            isCreditCardRequired.onNext(lob == LineOfBusiness.PACKAGES || lob == LineOfBusiness.HOTELSV2 || lob == LineOfBusiness.FLIGHTS)
+            isZipValidationRequired.onNext(lob == LineOfBusiness.PACKAGES || lob == LineOfBusiness.HOTELSV2 || lob == LineOfBusiness.FLIGHTS)
         }
     }
 

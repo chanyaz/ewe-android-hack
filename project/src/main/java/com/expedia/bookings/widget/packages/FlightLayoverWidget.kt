@@ -3,11 +3,11 @@ package com.expedia.bookings.widget.packages
 import android.content.Context
 import android.graphics.RectF
 import android.util.AttributeSet
-import com.expedia.bookings.data.packages.FlightLeg
+import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.widget.BaseLayoverWidget
 import java.util.ArrayList
 
-public open class FlightLayoverWidget(context: Context, attrs: AttributeSet?) : BaseLayoverWidget(context, attrs) {
+open class FlightLayoverWidget(context: Context, attrs: AttributeSet?) : BaseLayoverWidget(context, attrs) {
 
     override fun hasItems(): Boolean {
         return flightSegmentList.isNotEmpty()
@@ -16,7 +16,7 @@ public open class FlightLayoverWidget(context: Context, attrs: AttributeSet?) : 
     var flightSegmentList: ArrayList<FlightLeg.FlightSegment> = ArrayList()
 
     fun update(flightSegments: List<FlightLeg.FlightSegment>, legDurationHours: Int, legDurationMinutes: Int,
-                      longestLegDuration: Int) {
+               longestLegDuration: Int) {
         if (flightSegmentList.isNotEmpty()) {
             flightSegmentList.clear()
         }

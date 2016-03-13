@@ -23,6 +23,6 @@ public class PackageSearchResponse extends BaseApiResponse {
 	}
 
 	public static class FlightPackage {
-		public transient List<FlightLeg> flights = new ArrayList<>();
+		public transient List<com.expedia.bookings.data.flights.FlightLeg> flights = new ArrayList<>();
 	}
 }

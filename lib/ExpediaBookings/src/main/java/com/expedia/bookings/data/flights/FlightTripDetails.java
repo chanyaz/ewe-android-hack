@@ -1,4 +1,4 @@
-package com.expedia.bookings.data.packages;
+package com.expedia.bookings.data.flights;
 
 import java.util.List;
 
@@ -11,6 +11,7 @@ public class FlightTripDetails {
 	public Money obFeePrice;
 
 	public static class FlightOffer {
+		public String productKey;
 		public List<String> legIds;
 
 		public Money baseFarePrice;
@@ -26,5 +27,6 @@ public class FlightTripDetails {
 		public boolean hasNoBagFee;
 		public boolean showFees;
 		public String numberOfTickets;
+		public int seatsRemaining;
 	}
 }

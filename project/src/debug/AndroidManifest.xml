@@ -31,10 +31,23 @@
             android:windowSoftInputMode="adjustPan" />
 
         <activity
-            android:name="com.expedia.ui.FlightPackageActivity"
+            android:name="com.expedia.ui.PackageFlightActivity"
             android:configChanges="screenSize|orientation|keyboardHidden"
             android:launchMode="singleTop"
             android:theme="@style/V2.Theme.Packages" />
+
+        <activity
+            android:name="com.expedia.ui.FlightActivity"
+            android:label="Flights"
+            android:screenOrientation="portrait"
+            android:taskAffinity="com.expedia.ui.FlightActivity"
+            android:theme="@style/V2.Theme.Packages" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+            </activity>
+
 
         <activity
             android:name="com.expedia.ui.RailActivity"
