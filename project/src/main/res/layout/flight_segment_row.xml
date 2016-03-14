@@ -26,14 +26,14 @@
             android:layout_height="wrap_content" />
 
         <com.expedia.bookings.widget.TextView
-            android:id="@+id/airline_airplane_type"
+            android:id="@+id/departure_arrival_airport"
             style="@style/MaterialFlightCell.CarrierText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="5dp" />
 
         <com.expedia.bookings.widget.TextView
-            android:id="@+id/departure_arrival_airport"
+            android:id="@+id/airline_airplane_type"
             style="@style/MaterialFlightCell"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
