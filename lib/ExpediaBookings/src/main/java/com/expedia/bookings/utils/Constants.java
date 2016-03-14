@@ -24,4 +24,9 @@ public class Constants {
 	public static final int ITIN_CHECK_IN_WEBPAGE_CODE = 21;
 	public static final String ITIN_FLIGHT_TRIP_LEGS = "ITIN_FLIGHT_TRIP_LEGS";
 	public static final String ITIN_IS_SPLIT_TICKET = "ITIN_IS_SPLIT_TICKET";
+
+	// constants for prefs changes
+	public static final int REQUEST_SETTINGS = 11;
+	public static final int RESULT_NO_CHANGES = 1;
+	public static final int RESULT_CHANGED_PREFS = 2;
 }

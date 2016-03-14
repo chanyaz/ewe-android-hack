@@ -196,10 +196,6 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 		return true;
 	}
 
-	public boolean isSettingsInMenuVisible() {
-		return true;
-	}
-
 	public String formatDateTimeForHotelUserReviews(Context context, DateTime dateTime) {
 		return JodaUtils.formatDateTime(context, dateTime, DateUtils.FORMAT_NUMERIC_DATE);
 	}

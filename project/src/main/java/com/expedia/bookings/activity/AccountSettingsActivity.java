@@ -41,6 +41,7 @@ import com.expedia.bookings.tracking.AdTracker;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.AboutUtils;
 import com.expedia.bookings.utils.ClearPrivateDataUtil;
+import com.expedia.bookings.utils.Constants;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.utils.UserAccountRefresher;
 import com.google.android.gms.common.GoogleApiAvailability;
@@ -58,7 +59,7 @@ import butterknife.OnClick;
 
 public class AccountSettingsActivity extends AppCompatActivity implements AboutSectionFragmentListener,
 		AboutUtils.CountrySelectDialogListener, LoginConfirmLogoutDialogFragment.DoLogoutListener,
-		UserAccountRefresher.IUserAccountRefreshListener {
+		UserAccountRefresher.IUserAccountRefreshListener, ClearPrivateDataDialog.ClearPrivateDataDialogListener {
 	private static final String TAG_SUPPORT = "TAG_SUPPORT";
 	private static final String TAG_ALSO_BY_US = "TAG_ALSO_BY_US";
 	private static final String TAG_LEGAL = "TAG_LEGAL";
@@ -491,11 +492,20 @@ public class AccountSettingsActivity extends AppCompatActivity implements AboutS
 		PointOfSale.onPointOfSaleChanged(this);
 		AdTracker.updatePOS();
 
-		setResult(ExpediaBookingPreferenceActivity.RESULT_CHANGED_PREFS);
+		setResult(Constants.RESULT_CHANGED_PREFS);
 
 		adjustLoggedInViews();
 		appSettingsFragment.notifyOnRowDataChanged(ROW_COUNTRY);
 		legalFragment.setRowVisibility(ROW_ATOL_INFO, PointOfSale.getPointOfSale().showAtolInfo() ? View.VISIBLE : View.GONE);
+		Toast.makeText(this, R.string.toast_private_data_cleared, Toast.LENGTH_LONG).show();
+	}
+
+	////////////////////////////////////
+	// ClearPrivateDataDialogListener
+
+	@Override
+	public void onPrivateDataCleared() {
+		adjustLoggedInViews();
 		Toast.makeText(this, R.string.toast_private_data_cleared, Toast.LENGTH_LONG).show();
 	}
 

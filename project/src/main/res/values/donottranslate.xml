@@ -64,7 +64,6 @@
     <string name="hotel_ellipsize_text_template">{text}</string>
 
     <!-- Preference keys -->
-    <string name="preference_clear_private_data_key">CLEAR_PRIVATE_DATA</string>
     <string name="PointOfSaleKey">point_of_sale_key</string>
     <string name="preference_which_api_to_use_key">which_api</string>
     <string name="preference_proxy_server_address">proxy_server_address</string>

@@ -120,14 +120,13 @@ public class TabletResultsActivity extends FragmentActivity implements IFragment
 	private boolean mDoingFlightsAddToBucket = false;
 	private boolean mDoingHotelsAddToBucket = false;
 
+	private DebugMenu debugMenu;
+
 	boolean mIsBailing = false;
 	boolean showHotels = false;
 
 	/**
 	 * Create intent to open this activity in a standard way.
-	 *
-	 * @param context
-	 * @return
 	 */
 	public static Intent createIntent(Context context) {
 		return new Intent(context, TabletResultsActivity.class);
@@ -148,6 +147,8 @@ public class TabletResultsActivity extends FragmentActivity implements IFragment
 		}
 
 		setContentView(R.layout.activity_tablet_results);
+
+		debugMenu = new DebugMenu(this, null);
 
 		//Containers
 		mRootC = Ui.findView(this, R.id.root_layout);
@@ -261,7 +262,7 @@ public class TabletResultsActivity extends FragmentActivity implements IFragment
 	public boolean onCreateOptionsMenu(Menu menu) {
 		boolean retVal = super.onCreateOptionsMenu(menu);
 
-		DebugMenu.onCreateOptionsMenu(this, menu);
+		debugMenu.onCreateOptionsMenu(menu);
 
 		//We allow debug users to jump between states
 		if (BuildConfig.DEBUG) {
@@ -305,7 +306,7 @@ public class TabletResultsActivity extends FragmentActivity implements IFragment
 
 	@Override
 	public boolean onPrepareOptionsMenu(Menu menu) {
-		DebugMenu.onPrepareOptionsMenu(this, menu);
+		debugMenu.onPrepareOptionsMenu(menu);
 		return super.onPrepareOptionsMenu(menu);
 	}
 
@@ -317,7 +318,7 @@ public class TabletResultsActivity extends FragmentActivity implements IFragment
 			return true;
 		}
 
-		if (DebugMenu.onOptionsItemSelected(this, item)) {
+		if (debugMenu.onOptionsItemSelected(item)) {
 			return true;
 		}
 

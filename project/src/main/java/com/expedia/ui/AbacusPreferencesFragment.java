@@ -21,7 +21,7 @@ public class AbacusPreferencesFragment extends BasePreferenceFragment {
 		super.onCreate(savedInstanceState);
 
 		// Load the preferences from an XML resource
-		addPreferencesFromResource(R.xml.abacus_preferences);
+		addPreferencesFromResource(R.xml.preferences_abacus);
 
 		for (int key : AbacusUtils.getActiveTests()) {
 			ListPreference preference = (ListPreference) findPreference(String.valueOf(key));
