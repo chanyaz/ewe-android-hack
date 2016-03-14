@@ -144,5 +144,6 @@ class PackageBundleHotelWidget(context: Context, attrs: AttributeSet?) : CardVie
         hotelDetailsIcon.alpha = alpha
         this.isEnabled = isEnabled
         hotelDetailsIcon.isEnabled = isEnabled
+        rowContainer.isEnabled = isEnabled
     }
 }
