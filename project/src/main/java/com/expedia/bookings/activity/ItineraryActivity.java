@@ -55,6 +55,8 @@ public class ItineraryActivity extends FragmentActivity implements ItinItemListF
 	private boolean mAnimatingToItem;
 	private boolean mItemHasDetails;
 
+	private DebugMenu debugMenu;
+
 	private View mFallbackPatternView;
 
 	private ItinItemListFragment mItinListFragment;
@@ -76,8 +78,6 @@ public class ItineraryActivity extends FragmentActivity implements ItinItemListF
 
 	/**
 	 * Create intent to open this activity and jump straight to a particular itin item.
-	 * @param context
-	 * @return
 	 */
 	public static Intent createIntent(Context context, Notification notification) {
 		Intent intent = new Intent(context, ItineraryActivity.class);
@@ -103,6 +103,8 @@ public class ItineraryActivity extends FragmentActivity implements ItinItemListF
 		super.onCreate(savedInstanceState);
 
 		setContentView(R.layout.activity_itinerary);
+
+		debugMenu = new DebugMenu(this, null);
 
 		getWindow().setBackgroundDrawable(null);
 
@@ -312,14 +314,14 @@ public class ItineraryActivity extends FragmentActivity implements ItinItemListF
 		mLogInMenuItem = menu.findItem(R.id.menu_log_in);
 		mLogOutMenuItem = menu.findItem(R.id.menu_log_out);
 
-		DebugMenu.onCreateOptionsMenu(this, menu);
+		debugMenu.onCreateOptionsMenu(menu);
 
 		return super.onCreateOptionsMenu(menu);
 	}
 
 	@Override
 	public boolean onPrepareOptionsMenu(Menu menu) {
-		DebugMenu.onPrepareOptionsMenu(this, menu);
+		debugMenu.onPrepareOptionsMenu(menu);
 
 		boolean loggedIn = User.isLoggedIn(this);
 		mLogInMenuItem.setVisible(!loggedIn && ProductFlavorFeatureConfiguration.getInstance().isSigninEnabled());
@@ -350,7 +352,7 @@ public class ItineraryActivity extends FragmentActivity implements ItinItemListF
 		}
 		}
 
-		if (DebugMenu.onOptionsItemSelected(this, item)) {
+		if (debugMenu.onOptionsItemSelected(item)) {
 			return true;
 		}
 

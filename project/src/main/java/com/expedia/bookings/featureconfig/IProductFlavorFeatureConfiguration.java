@@ -78,8 +78,6 @@ public interface IProductFlavorFeatureConfiguration {
 
 	boolean isHangTagProgressBarEnabled();
 
-	boolean isSettingsInMenuVisible();
-
 	String formatDateTimeForHotelUserReviews(Context context, DateTime dateTime);
 
 	int getHotelSalePriceTextColorResourceId(Context context);

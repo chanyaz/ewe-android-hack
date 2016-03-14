@@ -102,7 +102,7 @@ import com.expedia.bookings.tracking.AdImpressionTracking;
 import com.expedia.bookings.tracking.AdTracker;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.CalendarUtils;
-import com.expedia.bookings.utils.DebugMenu;
+import com.expedia.bookings.utils.Constants;
 import com.expedia.bookings.utils.ExpediaDebugUtil;
 import com.expedia.bookings.utils.ExpediaNetUtils;
 import com.expedia.bookings.utils.GuestsPickerUtils;
@@ -771,7 +771,7 @@ public class HotelSearchActivity extends FragmentActivity implements OnDrawStart
 
 		// We have a settings menu for VSC app only. And is shown only for debug builds.
 		if (requestCode == REQUEST_SETTINGS
-			&& resultCode == ExpediaBookingPreferenceActivity.RESULT_CHANGED_PREFS) {
+			&& resultCode == Constants.RESULT_CHANGED_PREFS) {
 			Db.getHotelSearch().resetSearchData();
 		}
 	}
@@ -873,10 +873,6 @@ public class HotelSearchActivity extends FragmentActivity implements OnDrawStart
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		getMenuInflater().inflate(R.menu.menu_search, menu);
-		if (!ProductFlavorFeatureConfiguration.getInstance().isLOBChooserScreenEnabled()) {
-			getMenuInflater().inflate(R.menu.menu_launch_vsc, menu);
-			DebugMenu.onCreateOptionsMenu(this, menu);
-		}
 
 		boolean ret = super.onCreateOptionsMenu(menu);
 
@@ -958,17 +954,6 @@ public class HotelSearchActivity extends FragmentActivity implements OnDrawStart
 		menu.findItem(R.id.menu_select_filter).setShowAsActionFlags(menuFlags);
 		menu.findItem(R.id.menu_select_search_map).setShowAsActionFlags(menuFlags);
 
-		// We need to only show an "About/Info" menu item. Show settings only for debug build for testing purpose.
-		if (!ProductFlavorFeatureConfiguration.getInstance().isLOBChooserScreenEnabled() && BuildConfig.RELEASE) {
-			MenuItem settingsBtn = menu.findItem(R.id.settings);
-			if (settingsBtn != null) {
-				settingsBtn.setVisible(false);
-			}
-
-			DebugMenu.onPrepareOptionsMenu(this, menu);
-		}
-
-
 		return super.onPrepareOptionsMenu(menu);
 	}
 
@@ -1048,23 +1033,6 @@ public class HotelSearchActivity extends FragmentActivity implements OnDrawStart
 				setDisplayType(DisplayType.FILTER);
 			}
 			break;
-		}
-
-		////////////////////////////////////////////////////////////////
-		// VSC related menu items
-
-		// #1169. VSC "About" menu item.
-		case R.id.about:
-			Intent aboutIntent = new Intent(this, AboutActivity.class);
-			startActivity(aboutIntent);
-			break;
-
-		// VSC "Settings" menu item.
-		// Currently we show this only for Debug build.
-		case R.id.settings: {
-			Intent intent = new Intent(this, ExpediaBookingPreferenceActivity.class);
-			startActivityForResult(intent, REQUEST_SETTINGS);
-			return true;
 		}
 
 		}
