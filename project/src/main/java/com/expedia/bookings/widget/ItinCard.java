@@ -481,7 +481,8 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout
 		builder.setAllowMobileRedirects(false);
 		builder.setAttemptForceMobileSite(true);
 		TripFlight tripComponent = (TripFlight) itinCardData.getTripComponent();
-		builder.getIntent().putExtra(Constants.ITIN_CHECK_IN_CODE, getAirlineCode(itinCardData));
+		builder.getIntent().putExtra(Constants.ITIN_CHECK_IN_AIRLINE_CODE, getAirlineCode(itinCardData));
+		builder.getIntent().putExtra(Constants.ITIN_CHECK_IN_AIRLINE_NAME, getAirlineName(itinCardData));
 		builder.getIntent().putExtra(Constants.ITIN_IS_SPLIT_TICKET, tripComponent.getFlightTrip().isSplitTicket());
 		builder.getIntent().putExtra(Constants.ITIN_FLIGHT_TRIP_LEGS, tripComponent.getFlightTrip().getLegCount());
 		builder.getIntent().putExtra(Constants.ITIN_CHECK_IN_CONFIRMATION_CODE,
@@ -491,18 +492,25 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout
 	}
 
 	private void onCheckInLinkVisited(T itinCardData) {
-		String firstAirlineCode = getAirlineCode(itinCardData);
+		String firstAirlineName = getAirlineName(itinCardData);
 		mCheckInTextView.setBackgroundColor(Color.TRANSPARENT);
 		mCheckInTextView
 			.setText(
-				getContext().getString(R.string.itin_card_flight_checkin_details, firstAirlineCode));
+				getContext().getString(R.string.itin_card_flight_checkin_details, firstAirlineName));
+	}
+
+	private String getAirlineName(T itinCardData) {
+		int flightLegNumber = ((ItinCardDataFlight) itinCardData).getLegNumber();
+		return ((TripFlight) itinCardData.getTripComponent()).getFlightTrip()
+			.getLeg(flightLegNumber)
+			.getPrimaryAirlineNamesFormatted();
 	}
 
 	private String getAirlineCode(T itinCardData) {
 		int flightLegNumber = ((ItinCardDataFlight) itinCardData).getLegNumber();
 		return ((TripFlight) itinCardData.getTripComponent()).getFlightTrip()
 			.getLeg(flightLegNumber)
-			.getPrimaryAirlineNamesFormatted();
+			.getFirstAirlineCode();
 	}
 
 
