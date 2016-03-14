@@ -8,13 +8,11 @@ import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.PaymentType
 import com.expedia.bookings.data.hotels.HotelCheckoutInfo
 import com.expedia.bookings.data.hotels.HotelCheckoutV2Params
-import com.expedia.bookings.data.hotels.HotelCreateTripResponse
 import com.expedia.bookings.data.hotels.HotelOffersResponse
 import com.expedia.bookings.data.hotels.HotelSearchParams
 import com.expedia.bookings.data.payment.CardDetails
 import com.expedia.bookings.data.payment.MiscellaneousParams
 import com.expedia.bookings.data.payment.PaymentInfo
-import com.expedia.bookings.data.payment.PaymentModel
 import com.expedia.bookings.data.payment.PaymentSplits
 import com.expedia.bookings.data.payment.ProgramName
 import com.expedia.bookings.data.payment.RewardDetails
@@ -26,39 +24,22 @@ import com.expedia.bookings.tracking.HotelV2Tracking
 import com.expedia.bookings.utils.BookingSuppressionUtils
 import com.expedia.bookings.utils.JodaUtils
 import com.expedia.bookings.utils.ServicesUtil
-import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.CVVEntryWidget
 import com.expedia.util.endlessObserver
+import com.expedia.util.notNullAndObservable
 import com.expedia.vm.HotelCheckoutViewModel
 import org.joda.time.format.ISODateTimeFormat
 import rx.subjects.PublishSubject
 import java.math.BigDecimal
 import java.util.ArrayList
 import java.util.Locale
-import javax.inject.Inject
 import kotlin.properties.Delegates
-import kotlin.text.isNullOrBlank
 
 class HotelCheckoutPresenter(context: Context, attrs: AttributeSet) : Presenter(context, attrs), CVVEntryWidget.CVVEntryFragmentListener {
 
-    var hotelCheckoutViewModel: HotelCheckoutViewModel by Delegates.notNull()
-
-    val hotelCheckoutWidget: HotelCheckoutMainViewPresenter by bindView(R.id.checkout)
-    val cvv: CVVEntryWidget by bindView(R.id.cvv)
-
-    lateinit var paymentModel: PaymentModel<HotelCreateTripResponse>
-        @Inject set
-
-    var hotelSearchParams: HotelSearchParams by Delegates.notNull()
-
-    private val bookedWithCVVSubject = PublishSubject.create<String>()
-    private val bookedWithoutCVVSubject = PublishSubject.create<Unit>()
-
-    init {
-        Ui.getApplication(getContext()).hotelComponent().inject(this)
-        View.inflate(getContext(), R.layout.widget_hotel_checkout, this)
-        bookedWithCVVSubject.withLatestFrom(paymentModel.paymentSplits,{cvv, paymentSplits->
+    var hotelCheckoutViewModel: HotelCheckoutViewModel by notNullAndObservable { vm ->
+        bookedWithCVVSubject.withLatestFrom(vm.paymentModel.paymentSplits,{cvv, paymentSplits->
             object{
                 val cvv = cvv
                 val paymentSplits = paymentSplits
@@ -67,9 +48,26 @@ class HotelCheckoutPresenter(context: Context, attrs: AttributeSet) : Presenter(
             onBookV2(it.cvv, it.paymentSplits)
         }
 
-        bookedWithoutCVVSubject.withLatestFrom(paymentModel.paymentSplits, { unit, paymentSplits -> paymentSplits }).subscribe {
+        bookedWithoutCVVSubject.withLatestFrom(vm.paymentModel.paymentSplits, { unit, paymentSplits -> paymentSplits }).subscribe {
             onBookV2(null, it)
         }
+
+        hotelCheckoutWidget.slideAllTheWayObservable.withLatestFrom(vm.paymentModel.paymentSplitsWithLatestTripResponse) { unit, paymentSplitsAndLatestTripResponse ->
+            paymentSplitsAndLatestTripResponse.isCardRequired()
+        }.subscribe(checkoutSliderSlidObserver)
+
+    }
+
+    val hotelCheckoutWidget: HotelCheckoutMainViewPresenter by bindView(R.id.checkout)
+    val cvv: CVVEntryWidget by bindView(R.id.cvv)
+
+    var hotelSearchParams: HotelSearchParams by Delegates.notNull()
+
+    private val bookedWithCVVSubject = PublishSubject.create<String>()
+    private val bookedWithoutCVVSubject = PublishSubject.create<Unit>()
+
+    init {
+        View.inflate(getContext(), R.layout.widget_hotel_checkout, this)
     }
 
     fun setSearchParams(params: HotelSearchParams) {
@@ -79,9 +77,6 @@ class HotelCheckoutPresenter(context: Context, attrs: AttributeSet) : Presenter(
     override fun onFinishInflate() {
         addTransition(checkoutToCvv)
         addDefaultTransition(defaultCheckoutTransition)
-        hotelCheckoutWidget.slideAllTheWayObservable.withLatestFrom(paymentModel.paymentSplitsWithLatestTripResponse) { unit, paymentSplitsAndLatestTripResponse ->
-            paymentSplitsAndLatestTripResponse.isCardRequired()
-        }.subscribe(checkoutSliderSlidObserver)
         hotelCheckoutWidget.emailOptInStatus.subscribe { status ->
             hotelCheckoutWidget.mainContactInfoCardView.setUPEMailOptCheckBox(status)
         }
