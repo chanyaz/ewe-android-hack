@@ -167,7 +167,7 @@ public class AccountButton extends LinearLayout {
 				lpt.gravity = Gravity.CENTER;
 				mLoginContainer.setBackgroundResource(R.drawable.account_sign_in_button_ripple);
 				mLoginTextView.setTextColor(getResources().getColor(android.R.color.white));
-				mLoginTextView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.expedia_white, 0, 0, 0);
+				mLoginTextView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.brand_logo_white, 0, 0, 0);
 			}
 			else {
 				int bgResourceId = Ui.obtainThemeResID(getContext(), android.R.attr.selectableItemBackground);

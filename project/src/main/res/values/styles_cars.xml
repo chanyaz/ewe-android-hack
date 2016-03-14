@@ -33,7 +33,7 @@
         <item name="skin_carsSortButtonSelectorDrawable">@drawable/cars_sort_button_selector</item>
         <item name="skin_carsSortButtonTextSelectorDrawable">@drawable/cars_sort_button_text_selector</item>
         <item name="skin_carsToggleBackgroundSelectorDrawable">@drawable/cars_toggle_background_selector</item>
-        <item name="skin_loginBrandLogoDrawable">@drawable/expedia</item>
+        <item name="skin_loginBrandLogoDrawable">@drawable/brand_phone_checkout_logo_drawable</item>
         <item name="skin_costSummaryAlertDrawable">@drawable/border_horizontal_expedia_striped</item>
         <item name="skin_cvvBookButtonKeypadDrawable">@drawable/btn_cvv_keypad_book</item>
         <item name="skin_cvvDivDrawable">@drawable/div_cvv</item>
@@ -47,9 +47,9 @@
         <item name="skin_rippleDrawable">@drawable/car_button_ripple</item>
 
         <item name="skin_loginBookNowButtonDrawable">@drawable/btn_signin</item>
-        <item name="skin_phoneCheckoutLoginLogoDrawable">@drawable/expedia</item>
-        <item name="skin_hotelCheckoutLogoutLogoDrawable">@drawable/expedia</item>
-        <item name="skin_tabletCheckoutLoginLogoDrawable">@drawable/expedia</item>
+        <item name="skin_phoneCheckoutLoginLogoDrawable">@drawable/brand_tablet_checkout_login_logo_drawable</item>
+        <item name="skin_hotelCheckoutLogoutLogoDrawable">@drawable/brand_phone_checkout_logo_drawable</item>
+        <item name="skin_tabletCheckoutLoginLogoDrawable">@drawable/brand_phone_checkout_logo_drawable</item>
         <item name="skin_errorIndicationExclaimationDrawable">@drawable/ic_error_blue</item>
         <item name="traveler_checkout_circle_drawable">@drawable/car_driver_checkout_circle</item>
         <item name="paymentWidgetLayout">@layout/payment_widget</item>

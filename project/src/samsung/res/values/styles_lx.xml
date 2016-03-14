@@ -4,9 +4,9 @@
     <style name="Whitelabel.LXTheme.Base" parent="AppTheme.Base.LX">
         <!-- Required white label attr for login widget -->
         <item name="skin_loginBookNowButtonDrawable">@drawable/btn_signin</item>
-        <item name="skin_phoneCheckoutLoginLogoDrawable">@drawable/expedia</item>
-        <item name="skin_hotelCheckoutLogoutLogoDrawable">@drawable/expedia</item>
-        <item name="skin_tabletCheckoutLoginLogoDrawable">@drawable/expedia</item>
+        <item name="skin_phoneCheckoutLoginLogoDrawable">@drawable/brand_phone_checkout_login_logo_drawable</item>
+        <item name="skin_hotelCheckoutLogoutLogoDrawable">@drawable/brand_phone_checkout_logo_drawable</item>
+        <item name="skin_tabletCheckoutLoginLogoDrawable">@drawable/brand_tablet_checkout_login_logo_drawable</item>
         <item name="primary_color">@color/lx_primary_color_samsung</item>
         <item name="android:colorPrimaryDark">@color/lx_secondary_color_disabled_samsung</item>
         <item name="android:colorButtonNormal">@color/lx_primary_color_samsung</item>
@@ -15,7 +15,7 @@
 
 
         <!-- Skins added for whitelabel -->
-        <item name="skin_loginBrandLogoDrawable">@drawable/expedia</item>
+        <item name="skin_loginBrandLogoDrawable">@drawable/brand_phone_checkout_logo_drawable</item>
         <item name="skin_costSummaryAlertDrawable">@drawable/dialog_breakdown_stripe_samsung</item>
         <item name="skin_cvvBookButtonKeypadDrawable">@drawable/btn_cvv_keypad_book_samsung</item>
         <item name="skin_cvvDivDrawable">@drawable/div_cvv_samsung</item>
