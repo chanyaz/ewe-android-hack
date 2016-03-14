@@ -66,6 +66,13 @@ class PackageBundleFlightWidget(context: Context, attrs: AttributeSet?) : CardVi
                 flightInfoContainer.isEnabled = true
                 flightLoadingBar.clearAnimation()
                 flightIcon.setColorFilter(Ui.obtainThemeColor(context, R.attr.primary_color))
+                setOnClickListener {
+                    if (isOutbound) {
+                        openFlightsForDeparture()
+                    } else {
+                        openFlightsForArrival()
+                    }
+                }
             }
         }
         vm.flightSelectIconObservable.subscribe { showing ->
@@ -90,14 +97,6 @@ class PackageBundleFlightWidget(context: Context, attrs: AttributeSet?) : CardVi
     init {
         View.inflate(getContext(), R.layout.bundle_flight_widget, this)
         isEnabled = false
-        setOnClickListener {
-            if (isOutbound) {
-                openFlightsForDeparture()
-            } else {
-                openFlightsForArrival()
-            }
-        }
-
         flightDetailsIcon.setOnClickListener {
             if (flightDetailsContainer.visibility == Presenter.GONE) {
                 expandFlightDetails()
