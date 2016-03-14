@@ -7,6 +7,7 @@ import com.expedia.bookings.R
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.Money
+import com.expedia.bookings.data.packages.PackageCheckoutResponse
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.presenter.LeftToRightTransition
 import com.expedia.bookings.presenter.Presenter
@@ -20,6 +21,7 @@ import com.expedia.vm.BaseCheckoutViewModel
 import com.expedia.vm.BundleOverviewViewModel
 import com.expedia.vm.PackageCheckoutViewModel
 import com.expedia.vm.PackageCreateTripViewModel
+import com.expedia.vm.PackageConfirmationViewModel
 import com.squareup.phrase.Phrase
 import java.math.BigDecimal
 import javax.inject.Inject
@@ -31,6 +33,7 @@ class PackagePresenter(context: Context, attrs: AttributeSet) : Presenter(contex
     val searchPresenter: PackageSearchPresenter by bindView(R.id.widget_package_search_presenter)
     val bundlePresenter: BundleOverviewPresenter by bindView(R.id.widget_bundle_overview)
     val confirmationPresenter: PackageConfirmationPresenter by bindView(R.id.widget_package_confirmation)
+    var expediaRewards: String? = null
 
     init {
         Ui.getApplication(getContext()).packageComponent().inject(this)
@@ -39,6 +42,7 @@ class PackagePresenter(context: Context, attrs: AttributeSet) : Presenter(contex
         bundlePresenter.checkoutPresenter.viewModel = BaseCheckoutViewModel(context)
         bundlePresenter.checkoutPresenter.createTripViewModel = PackageCreateTripViewModel(packageServices)
         bundlePresenter.checkoutPresenter.packageCheckoutViewModel = PackageCheckoutViewModel(context, packageServices)
+        confirmationPresenter.viewModel = PackageConfirmationViewModel(context)
         bundlePresenter.checkoutPresenter.createTripViewModel.tripResponseObservable.subscribe { trip ->
             bundlePresenter.toolbar.viewModel.showChangePackageMenuObservable.onNext(true)
             bundlePresenter.bundleWidget.outboundFlightWidget.toggleFlightWidget(1f, true)
@@ -69,10 +73,13 @@ class PackagePresenter(context: Context, attrs: AttributeSet) : Presenter(contex
             bundlePresenter.checkoutOverviewFloatingToolbar.update(trip.packageDetails.hotel, bundlePresenter.imageHeader, width)
             bundlePresenter.checkoutOverviewHeaderToolbar.update(trip.packageDetails.hotel, bundlePresenter.imageHeader, width)
             bundlePresenter.bundleWidget.setPadding(0, 0, 0, 0)
+            expediaRewards = trip.expediaRewards.totalPointsToEarn.toString()
         }
-        bundlePresenter.checkoutPresenter.packageCheckoutViewModel.checkoutResponse.subscribe {
+        bundlePresenter.checkoutPresenter.packageCheckoutViewModel.checkoutResponse.subscribe { pair: Pair<PackageCheckoutResponse, String> ->
             show(confirmationPresenter)
-            confirmationPresenter.itinNumber.text = it.newTrip?.itineraryNumber
+            confirmationPresenter.viewModel.showConfirmation.onNext(Pair(pair.first.newTrip?.itineraryNumber, pair.second))
+            confirmationPresenter.viewModel.setExpediaRewardsPoints.onNext(expediaRewards)
+
         }
 
         searchPresenter.searchViewModel.searchParamsObservable.subscribe {
