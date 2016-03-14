@@ -198,6 +198,13 @@ public class LXScreen {
 		return onView(allOf(isDescendantOfA(withId(R.id.search_list_presenter)), withId(R.id.menu_open_search)));
 	}
 
+	public static ViewInteraction searchButtonOnDetailsToolbar() {
+		return onView(allOf(isDescendantOfA(withId(R.id.activity_details_presenter)), withId(R.id.menu_open_search)));
+	}
+
+	public static ViewInteraction searchButtonOnDetailsWithRecommendationsToolbar() {
+		return onView(allOf(isDescendantOfA(withId(R.id.activity_recommended_details_presenter)), withId(R.id.menu_open_search)));
+	}
 	public static ViewInteraction detailsDate(String dateText) {
 		return onView(allOf(withParent(withId(R.id.offer_dates_container)), withText(dateText)));
 	}
