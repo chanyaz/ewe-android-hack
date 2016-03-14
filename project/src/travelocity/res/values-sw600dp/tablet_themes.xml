@@ -5,7 +5,6 @@
         <item name="skin_actionbarTabletTitleColor">@color/actionbarTabletTitleColor</item>
         <item name="skin_collection_overlay_static_color">@color/collection_overlay_color</item>
         <item name="skin_tablet_book_button_text_color">@color/tablet_book_button_text_color_travelocity</item>
-        <item name="skin_tablet_trip_bucket_arrow">@drawable/ic_book_bucket_arrow_travelocity</item>
         <item name="skin_collection_placeholder">@drawable/bg_itin_placeholder_travelocity</item>
         <item name="skin_tablet_hotel_room_rate_select_button">@drawable/tablet_hotel_room_select_button_travelocity</item>
         <item name="skin_tablet_addToTrip_button">@drawable/tablet_hotel_room_add_button_travelocity</item>
