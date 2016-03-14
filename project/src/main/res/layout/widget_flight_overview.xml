@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<merge xmlns:android="http://schemas.android.com/apk/res/android">
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -66,34 +67,36 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
-            android:background="@color/rail_primary_color">
+            android:background="@color/packages_secondary_color">
 
             <com.expedia.bookings.widget.TextView
                 android:id="@+id/bundle_price_label"
+                style="@style/PackagesFlightDetailsBundleTotal"
                 android:layout_width="wrap_content"
-                android:layout_height="20dp"
-                android:gravity="left"
-                android:text="@string/package_flight_overview_bundle_total_label"
-                android:textColor="@android:color/white" />
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:paddingBottom="6dp"
+                android:paddingLeft="12dp"
+                android:paddingTop="6dp"
+                android:text="@string/package_flight_overview_bundle_total_label" />
 
             <com.expedia.bookings.widget.TextView
                 android:id="@+id/bundle_price"
-                android:layout_width="match_parent"
-                android:layout_height="20dp"
-                android:layout_toRightOf="@id/bundle_price_label"
-                android:gravity="right"
-                android:textColor="@android:color/white" />
+                style="@style/PackagesFlightDetailsBundleTotal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:paddingBottom="6dp"
+                android:paddingRight="12dp"
+                android:paddingTop="6dp" />
 
             <Button
                 android:id="@+id/select_flight_button"
+                style="@style/MaterialFooterButtonText"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
                 android:layout_below="@id/bundle_price_label"
                 android:background="@color/packages_primary_color"
-                android:text="@string/package_flight_overview_select_flight"
-                android:textAllCaps="false"
-                android:textColor="@android:color/white"
-                android:textStyle="bold" />
+                android:text="@string/package_flight_overview_select_flight" />
 
         </RelativeLayout>
     </LinearLayout>

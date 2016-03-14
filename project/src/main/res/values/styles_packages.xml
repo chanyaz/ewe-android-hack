@@ -114,6 +114,13 @@
         <item name="textStyle">normal</item>
     </style>
 
+    <!--Flights Details-->
+    <style name="PackagesFlightDetailsBundleTotal">
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textSize">@dimen/temporary_font_size_small</item>
+        <item name="textStyle">normal</item>
+    </style>
+
 
     <style name="FilterSortLabelTheme">
         <item name="android:layout_width">wrap_content</item>
