@@ -1,13 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:android="http://schemas.android.com/apk/res/android" xmlns:tools="http://schemas.android.com/tools">
 
-    <style name="LaunchActionBar" parent="@style/Widget.AppCompat.Light.ActionBar.Solid">
-        <item name="android:background">@color/action_bar_bg_color</item>
-        <item name="background">@color/action_bar_bg_color</item>
-        <item name="android:titleTextStyle">@style/TitleBarTextColor</item>
-        <item name="titleTextStyle">@style/TitleBarTextColor</item>
-    </style>
-
     <style name="TitleBarTextColor" parent="@android:style/TextAppearance.Medium">
         <item name="android:textColor">@color/actionbar_text_lm</item>
         <item name="textColor">@color/actionbar_text_lm</item>
