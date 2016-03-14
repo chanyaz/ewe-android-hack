@@ -239,6 +239,8 @@
     <string name="temporarily_saved_card_TEMPLATE">Saved {cardtype} …{cardno}</string>
     <!--Text for stored card -->
     <string name="stored_card_TEMPLATE">Saved {cardtype}</string>
+    <!-- Select card from checkout saved cards list -->
+    <string name="saved_cards">Saved cards</string>
 
     <!-- Car error strings -->
     <!-- Message for user that pick-up time is too early.  -->
