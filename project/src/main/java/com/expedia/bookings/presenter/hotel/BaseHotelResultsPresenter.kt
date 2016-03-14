@@ -152,10 +152,11 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
         }
 
         vm.soldOutHotel.subscribe { hotel ->
-            val mapItem = mapItems.filter { it.hotel.hotelId == hotel.hotelId }.first()
-            mapItem.hotel.isSoldOut = true
-            hotelMapClusterRenderer.getMarker(mapItem)?.setIcon(mapItem.soldOutIcon)
-            clusterMarkers()
+            val mapItem = mapItems.firstOrNull { it.hotel.hotelId == hotel.hotelId }
+            if (mapItem != null) {
+                hotelMapClusterRenderer.getMarker(mapItem)?.setIcon(mapItem.soldOutIcon)
+                clusterMarkers()
+            }
         }
 
         vm.carouselSwipedObservable.subscribe {
