@@ -40,7 +40,7 @@
     <color name="launch_pin_detail_button_text">#D1EAFF</color>
     <color name="action_bar_flight_text_color">@color/actionbar_text_color</color>
     <color name="action_menu_text_color">#FFFFFF</color>
-    <color name="action_bar_text_yellow">@color/launch_tab_indicator</color>
+    <color name="review_screen_tab_indicator">@color/launch_tab_indicator</color>
 
 
     <!-- Calendar text colors -->
