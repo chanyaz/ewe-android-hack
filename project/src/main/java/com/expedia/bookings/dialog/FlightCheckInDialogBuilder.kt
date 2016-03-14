@@ -12,10 +12,11 @@ import com.expedia.bookings.tracking.OmnitureTracking
 import com.expedia.bookings.utils.ClipboardUtils
 import com.expedia.bookings.widget.TextView
 
-class FlightCheckInDialog(val ctx: Context, val airlineName: String, val airlineCode: String, val confirmationCode: String, val isSplitTicket: Boolean, val flightLegs: Int) : AlertDialog(ctx) {
+object FlightCheckInDialogBuilder {
 
-    fun onCreateDialog(): AlertDialog {
-        val dialogLayout = (ctx as Activity).layoutInflater.inflate(R.layout.itin_check_in_dialog, null)
+    @JvmStatic
+    fun onCreateDialog(context: Context, airlineName: String, airlineCode: String, confirmationCode: String, isSplitTicket: Boolean, flightLegs: Int): AlertDialog {
+        val dialogLayout = (context as Activity).layoutInflater.inflate(R.layout.itin_check_in_dialog, null)
         val noText = dialogLayout.findViewById(R.id.itin_checkin_no) as TextView
         val dialogMsg = dialogLayout.findViewById(R.id.itin_checkin_msg) as TextView
         val dialogTitle = dialogLayout.findViewById(R.id.dialog_title) as TextView
