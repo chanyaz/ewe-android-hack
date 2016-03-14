@@ -2287,7 +2287,7 @@ public class OmnitureTracking {
 		Log.d(TAG, "Tracking \"" + LX_LOB + "\" pageLoad...");
 		ADMS_Measurement s = getFreshTrackingObject();
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppLXRecommendedActivitiesTest);
-		s.track();
+		s.trackLink(null, "o", "ape:Log Experiment", null, null);
 	}
 
 	public static void trackFirstActivityListingExpanded() {
@@ -2308,7 +2308,7 @@ public class OmnitureTracking {
 		Log.d(TAG, "Tracking \"" + LX_SEARCH + "\" category...");
 		ADMS_Measurement s = getFreshTrackingObject();
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppLXRTROnSearchAndDetails);
-		s.track();
+		s.trackLink(null, "o", "ape:Log Experiment", null, null);
 	}
 
 	public static void trackAppLXSearch(LXSearchParams lxSearchParams,
