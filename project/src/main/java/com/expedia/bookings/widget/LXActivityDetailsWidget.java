@@ -194,8 +194,9 @@ public class LXActivityDetailsWidget extends LXDetailsScrollView implements Recy
 	private void buildRecommendationPecentage(int recommendationScore) {
 
 		if (recommendationScore > 0 && userBucketedForRTRTest) {
-			recommendPercentageLayout.setVisibility(VISIBLE);
 			recommendedPercentage.setText(LXDataUtils.getUserRecommendPercentString(getContext(), recommendationScore));
+			recommendPercentageLayout.setVisibility(VISIBLE);
+			recommendedDivider.setVisibility(VISIBLE);
 		}
 		else {
 			recommendPercentageLayout.setVisibility(GONE);

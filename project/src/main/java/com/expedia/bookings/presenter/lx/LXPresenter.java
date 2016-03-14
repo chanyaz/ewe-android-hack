@@ -4,7 +4,6 @@ import javax.inject.Inject;
 
 import android.content.Context;
 import android.content.res.TypedArray;
-import android.support.annotation.NonNull;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.animation.DecelerateInterpolator;
@@ -153,7 +152,8 @@ public class LXPresenter extends Presenter {
 			if (!forward) {
 				detailsPresenter.cleanup();
 				lxState.onActivitySelected(new Events.LXActivitySelected(recommendationPresenter.getLxActivity()));
-				lxState.onShowActivityDetails(new Events.LXShowDetails(recommendationPresenter.details.getActivityDetails()));
+				lxState.onShowActivityDetails(
+					new Events.LXShowDetails(recommendationPresenter.details.getActivityDetails()));
 			}
 		}
 	};
@@ -202,6 +202,7 @@ public class LXPresenter extends Presenter {
 			resultsPresenter.setVisibility(VISIBLE);
 			searchParamsWidget.setVisibility(VISIBLE);
 			detailsPresenter.setVisibility(View.GONE);
+			recommendationPresenter.setVisibility(View.GONE);
 			resultsPresenter.animationStart(forward);
 			searchParamsWidget.animationStart(forward);
 		}
@@ -214,51 +215,69 @@ public class LXPresenter extends Presenter {
 
 		@Override
 		public void endTransition(boolean forward) {
-			resultsPresenter.setVisibility(VISIBLE);
 			searchParamsWidget.setVisibility(forward ? VISIBLE : GONE);
-			detailsPresenter.setVisibility(View.GONE);
 			resultsPresenter.animationFinalize(forward);
 			searchParamsWidget.animationFinalize(forward);
 		}
 	};
 
-
-	private Transition searchOverlayOnDetails = transitionDetailsStateToSearchOverlay(LXDetailsPresenter.class);
-	private Transition searchOverlayOnRecommendations = transitionDetailsStateToSearchOverlay(
-		LXDetailsWithRecommendationsPresenter.class);
-
-	@NonNull
-	private Transition transitionDetailsStateToSearchOverlay(Class state) {
-		return new Transition(state,
-			LXParamsOverlay.class, new DecelerateInterpolator(), ANIMATION_DURATION) {
-			@Override
-			public void startTransition(boolean forward) {
-				detailsPresenter.setVisibility(VISIBLE);
-				searchParamsWidget.setVisibility(VISIBLE);
-				if (forward) {
-					searchStartingAlpha = detailsPresenter.animationStart(forward);
-				}
-				else {
-					detailsPresenter.animationStart(forward);
-				}
-				searchParamsWidget.animationStart(forward);
+	private Transition searchOverlayOnDetails = new Transition(LXDetailsPresenter.class,
+		LXParamsOverlay.class, new DecelerateInterpolator(), ANIMATION_DURATION) {
+		@Override
+		public void startTransition(boolean forward) {
+			searchParamsWidget.setVisibility(VISIBLE);
+			if (forward) {
+				searchStartingAlpha = detailsPresenter.animationStart(forward);
 			}
-
-			@Override
-			public void updateTransition(float f, boolean forward) {
-				detailsPresenter.animationUpdate(f, forward);
-				searchParamsWidget.animationUpdate(f, forward, searchStartingAlpha);
+			else {
+				detailsPresenter.animationStart(forward);
 			}
+			searchParamsWidget.animationStart(forward);
+		}
 
-			@Override
-			public void endTransition(boolean forward) {
-				detailsPresenter.setVisibility(VISIBLE);
-				searchParamsWidget.setVisibility(forward ? VISIBLE : GONE);
-				detailsPresenter.animationFinalize(forward);
-				searchParamsWidget.animationFinalize(forward);
+		@Override
+		public void updateTransition(float f, boolean forward) {
+			detailsPresenter.animationUpdate(f, forward);
+			searchParamsWidget.animationUpdate(f, forward, searchStartingAlpha);
+		}
+
+		@Override
+		public void endTransition(boolean forward) {
+			detailsPresenter.setVisibility(VISIBLE);
+			searchParamsWidget.setVisibility(forward ? VISIBLE : GONE);
+			detailsPresenter.animationFinalize(forward);
+			searchParamsWidget.animationFinalize(forward);
+		}
+	};
+
+	private Transition searchOverlayOnRecommendations = new Transition(LXDetailsWithRecommendationsPresenter.class,
+		LXParamsOverlay.class, new DecelerateInterpolator(), ANIMATION_DURATION) {
+		@Override
+		public void startTransition(boolean forward) {
+			searchParamsWidget.setVisibility(VISIBLE);
+			if (forward) {
+				searchStartingAlpha = recommendationPresenter.animationStart(forward);
 			}
-		};
-	}
+			else {
+				recommendationPresenter.animationStart(forward);
+			}
+			searchParamsWidget.animationStart(forward);
+		}
+
+		@Override
+		public void updateTransition(float f, boolean forward) {
+			recommendationPresenter.animationUpdate(f, forward);
+			searchParamsWidget.animationUpdate(f, forward, searchStartingAlpha);
+		}
+
+		@Override
+		public void endTransition(boolean forward) {
+			recommendationPresenter.setVisibility(VISIBLE);
+			searchParamsWidget.setVisibility(forward ? VISIBLE : GONE);
+			recommendationPresenter.animationFinalize(forward);
+			searchParamsWidget.animationFinalize(forward);
+		}
+	};
 
 	private Transition detailsToSearch = new VisibilityTransition(this, LXDetailsPresenter.class, LXSearchParamsPresenter.class);
 	private Transition recommendationsToSearch = new VisibilityTransition(this, LXDetailsWithRecommendationsPresenter.class, LXSearchParamsPresenter.class);
