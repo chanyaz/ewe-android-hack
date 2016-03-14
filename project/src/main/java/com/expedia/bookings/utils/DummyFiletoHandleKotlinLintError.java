@@ -468,6 +468,8 @@ DummyFiletoHandleKotlinLintError {
 		R.style.BundleOverviewWidgets_SecondaryText,
 		R.layout.section_lx_you_might_also_like,
 		R.color.packages_flight_filter_show_more_less,
+		R.drawable.package_traveler_text_color,
+		R.color.traveler_drop_down_unchecked_color,
 		R.dimen.sort_filter_padding_large,
 		R.plurals.flight_filter_stops,
 		R.layout.feeds_list_widget,

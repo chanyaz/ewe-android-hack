@@ -355,7 +355,7 @@ class HotelFilterView(context: Context, attrs: AttributeSet) : FrameLayout(conte
 
         val statusBarHeight = Ui.getStatusBarHeight(getContext())
         if (statusBarHeight > 0) {
-            val color = ContextCompat.getColor(context, R.color.hotels_primary_color)
+            val color = ContextCompat.getColor(context, Ui.obtainThemeResID(context, R.attr.primary_color))
             val statusBar = Ui.setUpStatusBar(context, toolbar, filterContainer, color)
             addView(statusBar)
         }
@@ -390,9 +390,9 @@ class HotelFilterView(context: Context, attrs: AttributeSet) : FrameLayout(conte
         clearHotelNameFocus()
         if (value < 0) {
             star.setColorFilter(ContextCompat.getColor(context, android.R.color.white))
-            background.setBackgroundColor(ContextCompat.getColor(context, R.color.hotels_primary_color))
+            background.setBackgroundColor(ContextCompat.getColor(context, Ui.obtainThemeResID(context, R.attr.primary_color)))
         } else {
-            star.setColorFilter(ContextCompat.getColor(context, R.color.hotels_primary_color))
+            star.setColorFilter(ContextCompat.getColor(context, Ui.obtainThemeResID(context, R.attr.primary_color)))
             background.setBackgroundColor(ContextCompat.getColor(context, android.R.color.white))
         }
     }
