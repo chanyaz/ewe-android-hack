@@ -166,7 +166,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="6dp"
-                            app:rsb__activeColor="@color/hotels_primary_color" />
+                            app:rsb__activeColor="?attr/primary_color" />
 
                     </LinearLayout>
 

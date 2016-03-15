@@ -47,6 +47,7 @@
         <item name="hotel_select_room_ripple_drawable">@drawable/hotel_select_room_ripple</item>
         <item name="hotel_map_tooltip_pressed_drawable">@drawable/hotel_tooltip_blue</item>
         <item name="hotel_map_tooltip_drawable">@drawable/hotel_tooltip</item>
+        <item name="spinner_text_color_drawable">@drawable/traveler_text_color</item>
     </style>
 
     <!--

@@ -38,6 +38,7 @@
         <item name="hotel_select_room_ripple_drawable">@drawable/hotel_package_select_room_ripple</item>
         <item name="hotel_map_tooltip_pressed_drawable">@drawable/packages_tooltip_pressed</item>
         <item name="hotel_map_tooltip_drawable">@drawable/packages_tooltip</item>
+        <item name="spinner_text_color_drawable">@drawable/package_traveler_text_color</item>
     </style>
 
     <!--
