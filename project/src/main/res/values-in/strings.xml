@@ -3,6 +3,7 @@
 
     <!-- Hotels -->
     <!-- Hotels Calendar Strings -->
+    <string name="select_checkin_date">Pilih tanggal check-in</string>
     <!-- Hotels calendar tooltip bottom line after a single date is selected -->
     <string name="hotel_calendar_tooltip_bottom">Berikutnya: pilih tanggal check-out</string>
     <!-- When user hasn't picked check out date, we show something like: "Jan 21 - Select check out date" -->
@@ -84,10 +85,6 @@
     <string name="cars_view_details_text">Lihat Rincian</string>
     <!-- Text for driver details toolbar-->
     <string name="cars_driver_details_text">Rincian pengemudi</string>
-    <!-- Text for payment details toolbar-->
-    <string name="cars_payment_details_text">Rincian pembayaran</string>
-    <!-- Text for payment options toolbar-->
-    <string name="cars_payment_options_text">Cara pembayaran</string>
     <!-- Text for enter driver details-->
     <string name="enter_driver_details">Masukkan rincian pengemudi</string>
     <!-- Text for select saved contacts-->
@@ -223,7 +220,7 @@
     <!-- Text for enter guest details line 2 -->
     <string name="checkout_hotelsv2_enter_guest_details_line2">Masukkan informasi Anda</string>
     <!-- Text for enter payment details line 1 -->
-    <string name="checkout_hotelsv2_enter_payment_details_line1">Rincian Pembayaran</string>
+    <string name="checkout_enter_payment_details">Metode Pembayaran</string>
     <!-- Text for enter payment details line 2 -->
     <string name="checkout_hotelsv2_enter_payment_details_line2">Masukkan kartu kredit</string>
     <!-- Label to indicate that the user has selected a stored credit card -->
@@ -700,6 +697,12 @@
 
     <!-- Category Title "All Things To Do" -->
     <string name="lx_category_all_things_to_do">Semua Atraksi Wisata</string>
+
+    <string name="lx_you_might_also_like">Anda mungkin juga suka</string>
+    <string name="lx_customers_recommend">rekomendasi pelanggan.</string>
+    <string name="lx_not_yet_recommended">Belum direkomendasikan.</string>
+    <!-- LX user recommended percentage template-->
+    <string name="lx_recommend_percent_Template">{recommend}%</string>
 
     <!-- Tablet Results strings -->
     <!-- Sort & Filter label -->
@@ -1391,6 +1394,9 @@
     <string name="itin_card_details_expires">Kedaluwarsa</string>
     <string name="itin_card_details_guests">Tamu</string>
     <string name="itin_card_details_details">Informasi Tambahan</string>
+    <string name="itin_card_flight_checkin_title">Check-In Penerbangan</string>
+
+    <string name="itin_card_flight_checkin_details">Kunjungi situs %s</string>
     <string name="itin_card_details_pick_up">Pengambilan</string>
     <string name="itin_card_details_drop_off">Pengembalian</string>
     <!-- Tell users when they can pick up a rental car in three days -->
@@ -1456,6 +1462,17 @@
     <!-- Message to users about when they checked out of their hotel.  %1$s is a date (e.g., "Checked out Jul 11") -->
     <string name="itin_card_hotel_summary_checked_out_day_TEMPLATE">Sudah check-out %1$s</string>
     <string name="itin_card_activity_summary_TEMPLATE">Berlaku mulai &lt;b&gt;%1$s&lt;/b&gt;</string>
+    <!-- Message to users about when they check in of their flight-->
+    <string name="itin_card_flight_checkin">Check-In Sekarang</string>
+    <!-- Title of alert dialog when user come back from check in-->
+    <string name="itin_checkin_dialog_title">Sudah check-in?</string>
+    <!-- message of alert dialog (e.g., "Were you able to successfully check into your flight on Delta's website?")-->
+    <string name="itin_checkin_dialog_message">Apakah Anda berhasil check-in penerbangan di situs web %s?</string>
+    <!-- Title of alert dialog when user fail to check in (e.g., "We're Sorry!")-->
+    <string name="itin_checkin_failure_dialog_title">Maaf!</string>
+    <!-- message of alert dialog (e.g., "We'll look into it. Your Confirmation Number is now copied to the clipboard so you can check in on Delta's site or app directly.")-->
+    <string name="itin_checkin_failure_dialog_message">Kami akan segera memeriksa hal ini. Nomor Konfirmasi Anda sekarang disalin ke clipboard agar Anda dapat check-in di situs atau aplikasi %s secara langsung.</string>
+
 
     <!-- Action Buttons -->
     <string name="itin_action_directions">Arah</string>
@@ -1794,10 +1811,6 @@
     <string name="or_select_new_paymet_method">Pilih Metode Pembayaran</string>
     <!-- Select Payment -->
     <string name="select_payment">Pilih Pembayaran</string>
-    <!-- Select payment sentence case -->
-    <string name="select_payment_sentence_case">Rincian pembayaran</string>
-    <!-- Select payment sentence case AB Test variate2 -->
-    <string name="select_payment_sentence_case_variate2">Pembayaran</string>
     <!-- Select payment callout AB Test variate2 -->
     <string name="select_payment_callout">Masukkan Rincian</string>
     <!-- Add new card -->
@@ -2135,6 +2148,7 @@
     <string name="save_traveler_message_TEMPLATE">Simpan informasi {name} di akun {brand} Anda untuk pemesanan berikutnya?</string>
     <!-- no thanks -->
     <string name="no_thanks">Tidak, Terima Kasih</string>
+    <!-- Advanced flight traveler options (seat pref, accessibility and redress number) button label -->
     <string name="advanced">Lanjutan</string>
 
     <!-- Overwrite traveler dialog -->
@@ -2154,8 +2168,8 @@
     <string name="first_name">Nama Depan</string>
     <!-- Middle name label -->
     <string name="middle_name">Nama Tengah</string>
-    <!--A hint for the user to enter their name's initial letter-->
-    <string name="initial_name">Inisial</string>
+    <!--A hint for the customer to enter their middle name's initial -->
+    <string name="initial_middle_name">Inisial</string>
     <!-- Last name label -->
     <string name="last_name">Nama Belakang</string>
     <!-- date of birth label -->
@@ -2203,6 +2217,7 @@
     <string name="prefers_seat_TEMPLATE">Lebih Memilih Tempat Duduk %1$s</string>
     <!-- prefers seat template -->
     <string name="prefers_seat_colored_TEMPLATE">Lebih Memilih Tempat Duduk %1$s</string>
+    <string name="prefers_seat_colored_TEMPLATE2">Lebih Memilih: Tempat Duduk %1$s</string>
     <!-- loading traveler info -->
     <string name="loading_traveler_info">Memuat informasi traveler…</string>
     <!-- Passport -->
@@ -3905,6 +3920,12 @@
     <!-- Bundle Overview searching flight -->
     <string name="searching_flight_to">Mencari penerbangan ke %s</string>
 
+    <!-- Package All Flight label -->
+    <string name="all_flights_label">Semua Penerbangan</string>
+    <!-- Package Best Flight title -->
+    <string name="best_flight_title">Penerbangan Terbaik</string>
+    <!-- Package Best Flight description -->
+    <string name="best_flight_description">murah • singkat • keberangkatan populer</string>
     <!-- Flight duration template e.g. 1d 12h 42m (Nonstop) -->
     <string name="flight_duration_description_template">%1$s (%2$s)</string>
     <!-- Flight hour duration template e.g. 12h 42m -->
@@ -3941,11 +3962,11 @@
         <item quantity="other">Hotel di {city} - 1 kamar, {number} malam</item>
     </plurals>
 
-    <!-- Package Trip Overview -->
-    <string name="trip_overview">Ringkasan Perjalanan</string>
+    <!-- Text indicating that the user can drag this button to view their trip -->
+    <string name="trip_overview">Lihat Rincian Perjalanan</string>
     <!-- Slide to book -->
     <string name="package_slider_text">Geser untuk memesan</string>
-    <string name="hotel_city_country_TEMPLATE">{city}, {country}</string>
+    <string name="hotel_city_country_checkout_header_TEMPLATE">{city}, {country}</string>
 
     <!-- Flight Duration filter label-->
     <string name="flight_duration_label">Durasi Penerbangan</string>
@@ -4003,4 +4024,8 @@
     <string name="package_breakdown_taxes_fees">Pajak &amp; Biaya</string>
     <string name="package_breakdown_taxes_fees_included_TEMPLATE">Pajak &amp; Biaya Termasuk {taxes}</string>
     <string name="package_breakdown_total_savings">Total Penghematan</string>
+
+    <!-- Shop with points -->
+    <string name="regular_loyalty_applied_message">Poin Expedia+ diterapkan!</string>
+    <string name="vip_loyalty_applied_message">2x poin diterapkan!</string>
 </resources>
