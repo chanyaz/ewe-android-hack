@@ -713,9 +713,9 @@ public class ExpediaServices implements DownloadListener {
 		query.add(new BasicNameValuePair("filterUnavailable", "true"));
 		query.add(new BasicNameValuePair("enableSponsoredListings", "true"));
 
-		boolean isV2HotelApiSearchEnabled =
+		boolean isV2HotelApiSearchBucketOn =
 			Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelSearchDomainV2);
-		if (isV2HotelApiSearchEnabled) {
+		if (isV2HotelApiSearchBucketOn && BuildConfig.DEBUG) {
 			query.add(new BasicNameValuePair("forceV2Search", "true"));
 		}
 
