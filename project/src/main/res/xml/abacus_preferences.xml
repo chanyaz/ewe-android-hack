@@ -304,7 +304,17 @@
 
     <PreferenceCategory
         android:layout="@layout/preference_category_title"
-        android:title="Misc Tests">
+        android:title="Launch Screen Tests">
+
+        <ListPreference
+            android:entries="@array/abacus_default_choices"
+            android:entryValues="@array/abacus_default_choice_values"
+            android:defaultValue="@string/preference_abacus_default"
+            android:summary="%s"
+            android:key="10065"
+            android:layout="@layout/preference"
+            android:title="Feeds - 10065" />
+
         <ListPreference
             android:entries="@array/abacus_default_choices"
             android:entryValues="@array/abacus_default_choice_values"
@@ -319,18 +329,24 @@
             android:entryValues="@array/abacus_default_choice_values"
             android:defaultValue="@string/preference_abacus_default"
             android:summary="%s"
-            android:key="8706"
+            android:key="8369"
             android:layout="@layout/preference"
-            android:title="Integration AA Test - 8706" />
+            android:title="Split GT and LX Launch - 8369" />
+    </PreferenceCategory>
+
+
+    <PreferenceCategory
+        android:layout="@layout/preference_category_title"
+        android:title="Misc Tests">
 
         <ListPreference
             android:entries="@array/abacus_default_choices"
             android:entryValues="@array/abacus_default_choice_values"
             android:defaultValue="@string/preference_abacus_default"
             android:summary="%s"
-            android:key="8369"
+            android:key="8706"
             android:layout="@layout/preference"
-            android:title="Split GT and LX Launch - 8369" />
+            android:title="Integration AA Test - 8706" />
 
         <ListPreference
             android:entries="@array/abacus_hotel_sign_in_messaging_choices"

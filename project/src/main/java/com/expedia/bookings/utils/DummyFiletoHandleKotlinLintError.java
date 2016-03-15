@@ -469,6 +469,8 @@ DummyFiletoHandleKotlinLintError {
 		R.layout.section_lx_you_might_also_like,
 		R.color.packages_flight_filter_show_more_less,
 		R.dimen.sort_filter_padding_large,
-		R.plurals.flight_filter_stops
+		R.plurals.flight_filter_stops,
+		R.layout.feeds_list_widget,
+		R.layout.feeds_staff_pick_card
 	};
 }
