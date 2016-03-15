@@ -161,9 +161,8 @@ public class AppModule {
 					request.addEncodedQueryParam("siteid", ServicesUtil.generateSiteId());
 				}
 
-				boolean isV2HotelApiSearchEnabled =
-					Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelSearchDomainV2);
-				if (isV2HotelApiSearchEnabled) {
+				boolean isV2HotelApiSearchBucketOn = Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelSearchDomainV2);
+				if (isV2HotelApiSearchBucketOn && BuildConfig.DEBUG) {
 					request.addQueryParam("forceV2Search", "true");
 				}
 
