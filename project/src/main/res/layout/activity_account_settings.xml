@@ -195,8 +195,7 @@
                     android:layout_marginRight="@dimen/about_section_margin"
                     android:layout_marginTop="@dimen/about_section_margin"
                     android:text="@string/sign_in"
-                    android:textColor="@color/account_sign_in_button_text_color"
-                    app:backgroundTint="@color/account_sign_in_button_background_color" />
+                    android:theme="@style/AccountButton.SignIn" />
 
                 <Button
                     android:id="@+id/sign_in_with_facebook_button"
@@ -206,8 +205,7 @@
                     android:layout_marginLeft="@dimen/about_section_margin"
                     android:layout_marginRight="@dimen/about_section_margin"
                     android:text="@string/acct__Sign_In_with_Facebook"
-                    android:textColor="@color/account_sign_in_facebook_button_text_color"
-                    app:backgroundTint="@color/account_sign_in_facebook_button_background_color" />
+                    android:theme="@style/AccountButton.SignInFacebook" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -249,8 +247,7 @@
                     android:layout_height="56dp"
                     android:layout_margin="@dimen/about_section_margin"
                     android:text="@string/acct__Create_Account"
-                    android:textColor="@color/account_create_button_text_color"
-                    app:backgroundTint="@color/account_create_button_background_color" />
+                    android:theme="@style/AccountButton.CreateAccount" />
 
             </LinearLayout>
 
@@ -294,8 +291,7 @@
                 android:layout_height="56dp"
                 android:layout_margin="@dimen/about_section_margin"
                 android:text="@string/sign_out"
-                android:textColor="@color/account_sign_out_button_text_color"
-                app:backgroundTint="@color/account_sign_out_button_background_color" />
+                android:theme="@style/AccountButton.SignOut" />
 
             <FrameLayout
                 android:id="@+id/section_copyright"
