@@ -5,8 +5,10 @@ import android.util.AttributeSet
 import android.view.View
 import android.view.ViewStub
 import com.expedia.bookings.R
+import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.SuggestionV4
+import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.flights.FlightCreateTripParams
 import com.expedia.bookings.data.flights.FlightCreateTripViewModel
 import com.expedia.bookings.data.flights.FlightSearchParams
@@ -63,7 +65,8 @@ class FlightPresenter(context: Context, attrs: AttributeSet) : Presenter(context
 
         }
         vm.flightProductId.subscribe { productKey ->
-            val createTripParams = FlightCreateTripParams(productKey, true)
+            val requestInsurance = Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.INS_AddInsuranceOnMobileAppFlights)
+            val createTripParams = FlightCreateTripParams(productKey, requestInsurance)
             flightOverviewPresenter.getCheckoutPresenter().createTripViewModel.tripParams.onNext(createTripParams)
             show(flightOverviewPresenter)
         }
