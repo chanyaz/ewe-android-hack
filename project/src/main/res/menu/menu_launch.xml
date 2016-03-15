@@ -10,19 +10,5 @@
         android:icon="@drawable/btn_add_guest_itin_normal"
         android:showAsAction="ifRoom"
         android:title="@string/find_itinerary_pound"/>
-    <item
-        android:id="@+id/ab_log_in"
-        android:showAsAction="ifRoom"
-        android:title="@string/sign_in"/>
-    <item
-        android:id="@+id/ab_log_out"
-        android:icon="@drawable/ic_log_out_person"
-        android:showAsAction="never"
-        android:title="@string/sign_out"/>
-    <item
-        android:id="@+id/settings"
-        android:icon="@android:drawable/ic_menu_manage"
-        android:showAsAction="never"
-        android:title="@string/Settings"/>
 
 </menu>

@@ -3157,18 +3157,6 @@
     <string name="info_label_privacy_policy">Privacy Policy</string>
     <!-- Copyright information -->
     <string name="copyright_TEMPLATE">© Copyright 2012-{year} {brand}, Inc.\nAll rights reserved.</string>
-    <!-- Dialog Title telling the user they have been signed of their account and all data saved about them has been removed -->
-    <string name="dialog_title_signed_out_and_cleared_private_data">Signed out and data cleared</string>
-    <!-- Dialog Message telling the user they have been signed of their account and all data saved about them has been removed -->
-    <string name="dialog_message_signed_out_and_cleared_private_data_TEMPLATE">You are signed out of your {brand} account, and all saved billing and contact information has been removed.</string>
-    <!-- Dialog Title telling the user they have been signed of their account and all data saved about them has been removed -->
-    <string name="dialog_title_cleared_private_data">Private data cleared</string>
-    <!-- Dialog Message telling the user they have been signed of their account and all data saved about them has been removed -->
-    <string name="dialog_message_cleared_private_data">All saved billing and contact information has been removed.</string>
-    <!-- Action button label to follow on twitter -->
-    <string name="Follow">Follow</string>
-    <!-- Action button label to like on facebook -->
-    <string name="Like">Like</string>
     <!-- Credit to the author of the "Stack Blur" algorithm we use in our app -->
     <string name="stack_blur_credit">This app makes use of the Stack Blur algorithm by Mario Klingemann.</string>
     <!-- String where we link to the google play services open source licenses -->
@@ -3191,8 +3179,6 @@
     <string name="email_address">Email Address</string>
 
     <!-- Preferences -->
-    <!-- Category name for general preferences -->
-    <string name="preference_category_general">General</string>
     <!-- Title for point of sale setting -->
     <string name="preference_point_of_sale_title">Country</string>
 
@@ -3265,8 +3251,6 @@
     <!-- Menu strings -->
     <!-- Label for "settings" menu item. -->
     <string name="Settings">Settings</string>
-    <!-- Label for "info about this app" menu item. -->
-    <string name="Info">Info</string>
 
     <!-- Error strings - replacements for default EAN errors -->
     <!-- Replaces "result was null" for no result search -->

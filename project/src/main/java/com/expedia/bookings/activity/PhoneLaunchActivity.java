@@ -21,17 +21,14 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
-import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Codes;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.LineOfBusiness;
-import com.expedia.bookings.data.User;
 import com.expedia.bookings.data.trips.ItinCardData;
 import com.expedia.bookings.data.trips.ItineraryManager;
 import com.expedia.bookings.dialog.FlightCheckInDialog;
 import com.expedia.bookings.dialog.GooglePlayServicesDialog;
-import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.fragment.ItinItemListFragment;
 import com.expedia.bookings.fragment.ItinItemListFragment.ItinItemListFragmentListener;
 import com.expedia.bookings.fragment.LoginConfirmLogoutDialogFragment.DoLogoutListener;
@@ -63,7 +60,6 @@ public class PhoneLaunchActivity extends ActionBarActivity implements ItinListVi
 	public static final String ARG_FORCE_SHOW_ITIN = "ARG_FORCE_SHOW_ITIN";
 	public static final String ARG_JUMP_TO_NOTIFICATION = "ARG_JUMP_TO_NOTIFICATION";
 
-	private static final int REQUEST_SETTINGS = 1;
 	private static final int PAGER_POS_WATERFALL = 0;
 
 	private static final int PAGER_POS_ITIN = 1;
@@ -83,6 +79,7 @@ public class PhoneLaunchActivity extends ActionBarActivity implements ItinListVi
 
 	private int mPagerPosition = PAGER_POS_WATERFALL;
 	private boolean mHasMenu = false;
+	private DebugMenu debugMenu;
 
 	private String mJumpToItinId = null;
 
@@ -96,9 +93,6 @@ public class PhoneLaunchActivity extends ActionBarActivity implements ItinListVi
 
 	/**
 	 * Create intent to open this activity and jump straight to a particular itin item.
-	 *
-	 * @param context
-	 * @return
 	 */
 	public static Intent createIntent(Context context, Notification notification) {
 		Intent intent = new Intent(context, PhoneLaunchActivity.class);
@@ -132,6 +126,8 @@ public class PhoneLaunchActivity extends ActionBarActivity implements ItinListVi
 		setContentView(R.layout.activity_phone_launch);
 		ButterKnife.inject(this);
 		getWindow().setBackgroundDrawable(null);
+
+		debugMenu = new DebugMenu(this, ExpediaBookingPreferenceActivity.class);
 
 		// View Pager
 		mPagerAdapter = new PagerAdapter(getSupportFragmentManager());
@@ -240,8 +236,7 @@ public class PhoneLaunchActivity extends ActionBarActivity implements ItinListVi
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
-		if (requestCode == REQUEST_SETTINGS
-			&& resultCode == ExpediaBookingPreferenceActivity.RESULT_CHANGED_PREFS) {
+		if (requestCode == Constants.REQUEST_SETTINGS && resultCode == Constants.RESULT_CHANGED_PREFS) {
 			Events.post(new Events.PhoneLaunchOnPOSChange());
 			if (mLaunchFragment != null) {
 				Db.getHotelSearch().resetSearchData();
@@ -268,7 +263,7 @@ public class PhoneLaunchActivity extends ActionBarActivity implements ItinListVi
 	public boolean onCreateOptionsMenu(Menu menu) {
 		getMenuInflater().inflate(R.menu.menu_launch, menu);
 
-		DebugMenu.onCreateOptionsMenu(this, menu);
+		debugMenu.onCreateOptionsMenu(menu);
 		mHasMenu = super.onCreateOptionsMenu(menu);
 		return mHasMenu;
 	}
@@ -276,29 +271,7 @@ public class PhoneLaunchActivity extends ActionBarActivity implements ItinListVi
 	@Override
 	public boolean onPrepareOptionsMenu(Menu menu) {
 		boolean retVal = super.onPrepareOptionsMenu(menu);
-		if (menu != null) {
-			boolean loginBtnEnabled = !User.isLoggedIn(this);
-			boolean logoutBtnEnabled = User.isLoggedIn(this);
-
-			MenuItem loginBtn = menu.findItem(R.id.ab_log_in);
-			if (loginBtn != null) {
-				loginBtn.setVisible(loginBtnEnabled);
-				loginBtn.setEnabled(loginBtnEnabled);
-			}
-			MenuItem logOutBtn = menu.findItem(R.id.ab_log_out);
-			if (logOutBtn != null) {
-				logOutBtn.setVisible(logoutBtnEnabled);
-				logOutBtn.setEnabled(logoutBtnEnabled);
-			}
-		}
-		if (BuildConfig.RELEASE) {
-			MenuItem settingsBtn = menu.findItem(R.id.settings);
-			if (settingsBtn != null) {
-				settingsBtn.setVisible(ProductFlavorFeatureConfiguration.getInstance().isSettingsInMenuVisible());
-			}
-		}
-		DebugMenu.onPrepareOptionsMenu(this, menu);
-
+		debugMenu.onPrepareOptionsMenu(menu);
 		return retVal;
 	}
 
@@ -311,13 +284,7 @@ public class PhoneLaunchActivity extends ActionBarActivity implements ItinListVi
 		}
 		case R.id.account_settings: {
 			Intent intent = new Intent(this, AccountSettingsActivity.class);
-			startActivityForResult(intent, REQUEST_SETTINGS);
-			return true;
-		}
-		case R.id.ab_log_in: {
-			if (Ui.isAdded(mItinListFragment)) {
-				mItinListFragment.startLoginActivity();
-			}
+			startActivityForResult(intent, Constants.REQUEST_SETTINGS);
 			return true;
 		}
 		case R.id.add_itinerary_guest: {
@@ -326,25 +293,9 @@ public class PhoneLaunchActivity extends ActionBarActivity implements ItinListVi
 			}
 			return true;
 		}
-		case R.id.ab_log_out: {
-			if (Ui.isAdded(mItinListFragment)) {
-				mItinListFragment.accountLogoutClicked();
-			}
-			return true;
-		}
-		case R.id.settings: {
-			Intent intent = new Intent(this, ExpediaBookingPreferenceActivity.class);
-			startActivityForResult(intent, REQUEST_SETTINGS);
-			return true;
-		}
-		case R.id.about: {
-			Intent aboutIntent = new Intent(this, AboutActivity.class);
-			startActivity(aboutIntent);
-			return true;
-		}
 		}
 
-		if (DebugMenu.onOptionsItemSelected(this, item)) {
+		if (debugMenu.onOptionsItemSelected(item)) {
 			return true;
 		}
 
@@ -353,8 +304,6 @@ public class PhoneLaunchActivity extends ActionBarActivity implements ItinListVi
 
 	/**
 	 * Returns true if the user has an in progress or upcoming trip, as of the current time.
-	 *
-	 * @return
 	 */
 	private boolean haveTimelyItinItem() {
 		ItineraryManager manager = ItineraryManager.getInstance();
@@ -384,8 +333,6 @@ public class PhoneLaunchActivity extends ActionBarActivity implements ItinListVi
 	 * 2. Updates the Notifications table that this notification is dismissed.
 	 * <p/>
 	 * *** This is duplicated in ItineraryActivity ***
-	 *
-	 * @param intent
 	 */
 	private void handleArgJumpToNotification(Intent intent) {
 		String jsonNotification = intent.getStringExtra(ARG_JUMP_TO_NOTIFICATION);

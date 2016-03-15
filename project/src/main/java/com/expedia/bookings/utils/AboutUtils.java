@@ -22,9 +22,9 @@ import com.expedia.bookings.activity.AboutWebViewActivity;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.User;
 import com.expedia.bookings.data.pos.PointOfSale;
-import com.expedia.bookings.dialog.DomainPreference;
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.tracking.OmnitureTracking;
+import com.expedia.bookings.widget.DomainAdapter;
 import com.mobiata.android.Log;
 import com.mobiata.android.SocialUtils;
 import com.mobiata.android.util.SettingUtils;
@@ -210,7 +210,7 @@ public class AboutUtils {
 
 			final int startingIndex = getIndexOfValue(entryValues,
 				SettingUtils.get(getActivity(), R.string.PointOfSaleKey, -1));
-			DomainPreference.DomainAdapter domainAdapter = new DomainPreference.DomainAdapter(getActivity());
+			DomainAdapter domainAdapter = new DomainAdapter(getActivity());
 			domainAdapter.setDomains(entries, entrySubText);
 			domainAdapter.setSelected(startingIndex);
 			builder.setAdapter(domainAdapter, new DialogInterface.OnClickListener() {
