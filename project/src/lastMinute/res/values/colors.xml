@@ -14,7 +14,7 @@
     <color name="lob_box_shadow_start_color">#FF000000</color>
     <color name="lob_box_shadow_center_color">#99000000</color>
     <color name="lob_box_shadow_end_color">#00000000</color>
-
+    <color name="review_screen_tab_indicator">@color/action_bar_selected_tab_underline_color</color>
     <color name="actionbar_button_background_pressed">#004888</color>
     <color name="action_bar_text_white_lm">#FFFFFF</color>
     <color name="bg_btn_pressed_color_lm">#FFFFFF</color>
