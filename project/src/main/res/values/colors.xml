@@ -42,6 +42,9 @@
     <color name="actionbar_tab_text_selected">#FFFFFF</color>
     <color name="actionbar_tab_text_unselected">#8CFFFFFF</color>
 
+    <!--Splash-->
+    <color name="splash_screen_bg">@color/launch_lob_bg</color>
+
     <!-- Itinerary colors -->
     <color name="itin_white_text">#F3F3F3</color>
     <color name="itin_offwhite_text">#A9ABAE</color>
