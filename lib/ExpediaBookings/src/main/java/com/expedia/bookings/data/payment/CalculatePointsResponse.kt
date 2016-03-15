@@ -1,6 +1,6 @@
 package com.expedia.bookings.data.payment
 
-import com.expedia.bookings.data.cars.BaseApiResponse
+import com.expedia.bookings.data.BaseApiResponse
 
 class CalculatePointsResponse : BaseApiResponse() {
     val programName: ProgramName? = null

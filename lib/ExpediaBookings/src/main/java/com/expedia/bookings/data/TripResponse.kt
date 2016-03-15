@@ -1,6 +1,6 @@
 package com.expedia.bookings.data
 
-import com.expedia.bookings.data.cars.BaseApiResponse
+import com.expedia.bookings.data.BaseApiResponse
 import com.expedia.bookings.data.payment.PaymentSplits
 import com.expedia.bookings.data.payment.PointsAndCurrency
 import com.expedia.bookings.data.payment.PointsDetails

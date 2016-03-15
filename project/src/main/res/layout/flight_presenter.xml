@@ -17,7 +17,7 @@
         android:layout="@layout/flight_inbound_stub"
         android:visibility="gone" />
 
-    <com.expedia.bookings.presenter.packages.FlightOverviewPresenter
+    <com.expedia.bookings.presenter.flight.FlightOverviewPresenter
         android:id="@+id/widget_bundle_overview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

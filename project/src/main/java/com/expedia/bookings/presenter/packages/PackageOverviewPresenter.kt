@@ -8,6 +8,7 @@ import android.view.View
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Codes
 import com.expedia.bookings.data.Db
+import com.expedia.bookings.presenter.BaseOverviewPresenter
 import com.expedia.bookings.utils.Constants
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.PackageCheckoutPresenter
@@ -17,9 +18,9 @@ import com.expedia.vm.PackageSearchType
 class PackageOverviewPresenter(context: Context, attrs: AttributeSet) : BaseOverviewPresenter(context, attrs) {
 
     val bundleWidget: BundleWidget by bindView(R.id.bundle_widget)
-    val changeHotel by lazy { bundleOverHeader.toolbar.menu.findItem(R.id.package_change_hotel) }
-    val changeHotelRoom by lazy { bundleOverHeader.toolbar.menu.findItem(R.id.package_change_hotel_room) }
-    val changeFlight by lazy { bundleOverHeader.toolbar.menu.findItem(R.id.package_change_flight) }
+    val changeHotel by lazy { bundleOverviewHeader.toolbar.menu.findItem(R.id.package_change_hotel) }
+    val changeHotelRoom by lazy { bundleOverviewHeader.toolbar.menu.findItem(R.id.package_change_hotel_room) }
+    val changeFlight by lazy { bundleOverviewHeader.toolbar.menu.findItem(R.id.package_change_flight) }
 
     override fun inflate() {
         View.inflate(context, R.layout.package_overview, this)
@@ -28,14 +29,14 @@ class PackageOverviewPresenter(context: Context, attrs: AttributeSet) : BaseOver
     override fun onFinishInflate() {
         super.onFinishInflate()
         removeView(bundleWidget)
-        bundleOverHeader.nestedScrollView.addView(bundleWidget)
-        bundleWidget.toggleMenuObservable.subscribe(bundleOverHeader.toolbar.toggleMenuObserver)
+        bundleOverviewHeader.nestedScrollView.addView(bundleWidget)
+        bundleWidget.toggleMenuObservable.subscribe(bundleOverviewHeader.toolbar.toggleMenuObserver)
         bundleWidget.toggleMenuObservable.subscribe {
             checkoutPresenter.toggleCheckoutButton(false)
         }
 
         changeHotel.setOnMenuItemClickListener({
-            bundleOverHeader.toggleOverviewHeader(false)
+            bundleOverviewHeader.toggleOverviewHeader(false)
             bundleWidget.collapseBundleWidgets()
             val params = Db.getPackageParams()
             params.pageType = Constants.PACKAGE_CHANGE_HOTEL
@@ -45,7 +46,7 @@ class PackageOverviewPresenter(context: Context, attrs: AttributeSet) : BaseOver
         })
 
         changeHotelRoom.setOnMenuItemClickListener({
-            bundleOverHeader.toggleOverviewHeader(false)
+            bundleOverviewHeader.toggleOverviewHeader(false)
             bundleWidget.collapseBundleWidgets()
             val params = Db.getPackageParams()
             params.pageType = Constants.PACKAGE_CHANGE_HOTEL
@@ -56,7 +57,7 @@ class PackageOverviewPresenter(context: Context, attrs: AttributeSet) : BaseOver
         })
 
         changeFlight.setOnMenuItemClickListener({
-            bundleOverHeader.toggleOverviewHeader(false)
+            bundleOverviewHeader.toggleOverviewHeader(false)
             bundleWidget.collapseBundleWidgets()
             val params = Db.getPackageParams()
             params.pageType = Constants.PACKAGE_CHANGE_FLIGHT

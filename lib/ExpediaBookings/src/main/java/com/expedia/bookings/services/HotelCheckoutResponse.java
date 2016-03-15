@@ -2,7 +2,7 @@ package com.expedia.bookings.services;
 
 import java.util.List;
 
-import com.expedia.bookings.data.cars.BaseApiResponse;
+import com.expedia.bookings.data.BaseApiResponse;
 import com.expedia.bookings.data.hotels.HotelCreateTripResponse;
 import com.expedia.bookings.data.hotels.HotelOffersResponse;
 import com.expedia.bookings.data.payment.PointsDetails;

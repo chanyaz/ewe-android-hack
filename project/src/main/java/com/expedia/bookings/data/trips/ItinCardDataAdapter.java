@@ -138,7 +138,7 @@ public class ItinCardDataAdapter extends BaseAdapter implements OnItinCardClickL
 		}
 		else {
 			ItinCard card;
-				if (convertView instanceof ItinCard) {
+			if (convertView instanceof ItinCard) {
 				card = (ItinCard) convertView;
 			}
 			else {

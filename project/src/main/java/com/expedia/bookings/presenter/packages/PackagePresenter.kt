@@ -8,6 +8,7 @@ import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.packages.PackageCheckoutResponse
 import com.expedia.bookings.data.pos.PointOfSale
+import com.expedia.bookings.presenter.BaseOverviewPresenter
 import com.expedia.bookings.presenter.LeftToRightTransition
 import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.presenter.ScaleTransition
@@ -40,7 +41,7 @@ class PackagePresenter(context: Context, attrs: AttributeSet) : Presenter(contex
         bundlePresenter.getCheckoutPresenter().checkoutViewModel = PackageCheckoutViewModel(context, packageServices)
         confirmationPresenter.viewModel = PackageConfirmationViewModel(context)
         bundlePresenter.getCheckoutPresenter().createTripViewModel.tripResponseObservable.subscribe { trip ->
-            bundlePresenter.bundleOverHeader.toolbar.viewModel.showChangePackageMenuObservable.onNext(true)
+            bundlePresenter.bundleOverviewHeader.toolbar.viewModel.showChangePackageMenuObservable.onNext(true)
             bundlePresenter.bundleWidget.outboundFlightWidget.toggleFlightWidget(1f, true)
             bundlePresenter.bundleWidget.inboundFlightWidget.toggleFlightWidget(1f, true)
             bundlePresenter.bundleWidget.bundleHotelWidget.toggleHotelWidget(1f, true)
@@ -59,13 +60,13 @@ class PackagePresenter(context: Context, attrs: AttributeSet) : Presenter(contex
                     packagePrice.packageTotalPrice.currencyCode).formattedMoney, packageSavings))
         }
         //TODO:Move this checkout stuff into a common place not specific to package presenter
-        bundlePresenter.getCheckoutPresenter().createTripViewModel.tripResponseObservable.subscribe { bundlePresenter.bundleOverHeader.toggleOverviewHeader(true) }
+        bundlePresenter.getCheckoutPresenter().createTripViewModel.tripResponseObservable.subscribe { bundlePresenter.bundleOverviewHeader.toggleOverviewHeader(true) }
         bundlePresenter.getCheckoutPresenter().createTripViewModel.tripResponseObservable.subscribe(bundlePresenter.getCheckoutPresenter().checkoutViewModel.tripResponseObservable)
         bundlePresenter.getCheckoutPresenter().paymentWidget.viewmodel.billingInfoAndStatusUpdate.map{it.first}.subscribe(bundlePresenter.getCheckoutPresenter().viewModel.paymentCompleted)
         bundlePresenter.getCheckoutPresenter().createTripViewModel.tripResponseObservable.subscribe(bundlePresenter.bundleWidget.viewModel.createTripObservable)
         bundlePresenter.getCheckoutPresenter().createTripViewModel.tripResponseObservable.subscribe { trip ->
-            bundlePresenter.bundleOverHeader.checkoutOverviewFloatingToolbar.update(trip.packageDetails.hotel, bundlePresenter.bundleOverHeader.imageHeader, width)
-            bundlePresenter.bundleOverHeader.checkoutOverviewHeaderToolbar.update(trip.packageDetails.hotel, bundlePresenter.bundleOverHeader.imageHeader, width)
+            bundlePresenter.bundleOverviewHeader.checkoutOverviewFloatingToolbar.update(trip.packageDetails.hotel, bundlePresenter.bundleOverviewHeader.imageHeader, width)
+            bundlePresenter.bundleOverviewHeader.checkoutOverviewHeaderToolbar.update(trip.packageDetails.hotel, bundlePresenter.bundleOverviewHeader.imageHeader, width)
             bundlePresenter.bundleWidget.setPadding(0, 0, 0, 0)
             expediaRewards = trip.expediaRewards.totalPointsToEarn.toString()
         }
@@ -83,8 +84,8 @@ class PackagePresenter(context: Context, attrs: AttributeSet) : Presenter(contex
             bundlePresenter.show(BaseOverviewPresenter.BundleDefault(), FLAG_CLEAR_BACKSTACK)
         }
         searchPresenter.searchViewModel.searchParamsObservable.subscribe(bundlePresenter.bundleWidget.viewModel.hotelParamsObservable)
-        bundlePresenter.bundleWidget.viewModel.toolbarTitleObservable.subscribe(bundlePresenter.bundleOverHeader.toolbar.viewModel.toolbarTitle)
-        bundlePresenter.bundleWidget.viewModel.toolbarSubtitleObservable.subscribe(bundlePresenter.bundleOverHeader.toolbar.viewModel.toolbarSubtitle)
+        bundlePresenter.bundleWidget.viewModel.toolbarTitleObservable.subscribe(bundlePresenter.bundleOverviewHeader.toolbar.viewModel.toolbarTitle)
+        bundlePresenter.bundleWidget.viewModel.toolbarSubtitleObservable.subscribe(bundlePresenter.bundleOverviewHeader.toolbar.viewModel.toolbarSubtitle)
     }
 
     override fun onFinishInflate() {
@@ -105,8 +106,8 @@ class PackagePresenter(context: Context, attrs: AttributeSet) : Presenter(contex
         override fun startTransition(forward: Boolean) {
             super.startTransition(forward)
             if (forward) {
-                bundlePresenter.bundleOverHeader.checkoutOverviewHeaderToolbar.visibility = View.GONE
-                bundlePresenter.bundleOverHeader.toggleOverviewHeader(false)
+                bundlePresenter.bundleOverviewHeader.checkoutOverviewHeaderToolbar.visibility = View.GONE
+                bundlePresenter.bundleOverviewHeader.toggleOverviewHeader(false)
                 bundlePresenter.getCheckoutPresenter().toggleCheckoutButton(false)
                 var countryCode = PointOfSale.getPointOfSale().threeLetterCountryCode
                 var currencyCode = CurrencyUtils.currencyForLocale(countryCode)

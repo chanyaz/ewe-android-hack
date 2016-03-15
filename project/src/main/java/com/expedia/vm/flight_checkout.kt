@@ -30,7 +30,7 @@ class FlightCheckoutViewModel(val context: Context, val flightServices: FlightSe
             var depositText = Html.fromHtml("")
             depositPolicyText.onNext(depositText)
 
-            legalText.onNext(StrUtils.generateHotelsBookingStatement(context, PointOfSale.getPointOfSale().hotelBookingStatement.toString(), false))
+            legalText.onNext(SpannableStringBuilder(PointOfSale.getPointOfSale().stylizedFlightBookingStatement))
             sliderPurchaseTotalText.onNext(Phrase.from(context, R.string.your_card_will_be_charged_template).put("dueamount", it.getTripTotal().formattedPrice).format())
         }
     }

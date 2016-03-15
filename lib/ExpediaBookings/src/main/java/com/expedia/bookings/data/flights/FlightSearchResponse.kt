@@ -1,6 +1,6 @@
 package com.expedia.bookings.data.flights
 
-import com.expedia.bookings.data.cars.BaseApiResponse
+import com.expedia.bookings.data.BaseApiResponse
 
 class FlightSearchResponse : BaseApiResponse() {
     var legs: List<FlightLeg> = emptyList()

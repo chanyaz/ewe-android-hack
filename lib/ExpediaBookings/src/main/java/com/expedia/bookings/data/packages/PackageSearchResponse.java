@@ -3,7 +3,9 @@ package com.expedia.bookings.data.packages;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.expedia.bookings.data.cars.BaseApiResponse;
+import com.expedia.bookings.data.BaseApiResponse;
+import com.expedia.bookings.data.flights.FlightLeg;
+import com.expedia.bookings.data.hotels.Hotel;
 import com.google.gson.annotations.SerializedName;
 
 public class PackageSearchResponse extends BaseApiResponse {
@@ -19,10 +21,10 @@ public class PackageSearchResponse extends BaseApiResponse {
 	}
 
 	public static class HotelPackage {
-		public transient List<com.expedia.bookings.data.hotels.Hotel> hotels = new ArrayList<>();
+		public transient List<Hotel> hotels = new ArrayList<>();
 	}
 
 	public static class FlightPackage {
-		public transient List<com.expedia.bookings.data.flights.FlightLeg> flights = new ArrayList<>();
+		public transient List<FlightLeg> flights = new ArrayList<>();
 	}
 }

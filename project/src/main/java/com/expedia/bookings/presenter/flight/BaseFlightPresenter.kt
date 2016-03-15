@@ -1,4 +1,4 @@
-package com.expedia.bookings.presenter.packages
+package com.expedia.bookings.presenter.flight
 
 import android.content.Context
 import android.graphics.Color
@@ -10,10 +10,11 @@ import android.util.AttributeSet
 import android.view.View
 import android.view.ViewStub
 import android.view.animation.DecelerateInterpolator
-import android.widget.FrameLayout
 import com.expedia.bookings.R
 import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.presenter.Presenter
+import com.expedia.bookings.presenter.packages.PackageFlightOverviewPresenter
+import com.expedia.bookings.presenter.packages.PackageFlightResultsPresenter
 import com.expedia.bookings.utils.ArrowXDrawableUtil
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
@@ -29,7 +30,7 @@ import rx.Observer
 import rx.exceptions.OnErrorNotImplementedException
 import kotlin.properties.Delegates
 
-open class FlightBasePresenter(context: Context, attrs: AttributeSet) : Presenter(context, attrs) {
+open class BaseFlightPresenter(context: Context, attrs: AttributeSet) : Presenter(context, attrs) {
 
     val ANIMATION_DURATION = 400
     val toolbar: Toolbar by bindView(R.id.flights_toolbar)
@@ -42,7 +43,7 @@ open class FlightBasePresenter(context: Context, attrs: AttributeSet) : Presente
         sortDrawable
     }
 
-    val baggageFeeinfo: BaggageFeeInfoWidget by lazy {
+    val baggageFeeInfo: BaggageFeeInfoWidget by lazy {
         var viewStub = findViewById(R.id.baggage_fee_stub) as ViewStub
         var baggageFeeView = viewStub.inflate() as BaggageFeeInfoWidget
         baggageFeeView.viewModel = BaggageFeeInfoViewModel()
@@ -71,7 +72,7 @@ open class FlightBasePresenter(context: Context, attrs: AttributeSet) : Presente
         presenter
     }
 
-    val overViewPresenter: PackageFlightOverviewPresenter by lazy {
+    val overviewPresenter: PackageFlightOverviewPresenter by lazy {
         var viewStub = findViewById(R.id.overview_stub) as ViewStub
         var presenter = viewStub.inflate() as PackageFlightOverviewPresenter
         presenter.vm = FlightOverviewViewModel(context)
@@ -104,9 +105,9 @@ open class FlightBasePresenter(context: Context, attrs: AttributeSet) : Presente
         menuSearch = toolbar.findViewById(R.id.menu_search) as ActionMenuItemView
         menuFilter.setIcon(filterPlaceholderIcon)
         menuFilter.setOnClickListener { show(filter) }
-        overViewPresenter.baggageFeeShowSubject.subscribe { url ->
-            baggageFeeinfo.viewModel.baggageFeeURLObserver.onNext(url)
-            show(baggageFeeinfo)
+        overviewPresenter.baggageFeeShowSubject.subscribe { url ->
+            baggageFeeInfo.viewModel.baggageFeeURLObserver.onNext(url)
+            show(baggageFeeInfo)
         }
     }
 
@@ -115,9 +116,9 @@ open class FlightBasePresenter(context: Context, attrs: AttributeSet) : Presente
         val statusBarHeight = Ui.getStatusBarHeight(context)
         if (statusBarHeight > 0) {
             toolbar.setPadding(0, statusBarHeight, 0, 0)
-            var lp = resultsPresenter.layoutParams as FrameLayout.LayoutParams
+            var lp = resultsPresenter.layoutParams as LayoutParams
             lp.topMargin = lp.topMargin + statusBarHeight
-            lp = overViewPresenter.layoutParams as FrameLayout.LayoutParams
+            lp = overviewPresenter.layoutParams as LayoutParams
             lp.topMargin = lp.topMargin + statusBarHeight
         }
 
@@ -129,25 +130,25 @@ open class FlightBasePresenter(context: Context, attrs: AttributeSet) : Presente
     }
 
 
-    private val defaultTransition = object : Presenter.DefaultTransition(PackageFlightResultsPresenter::class.java.name) {
+    private val defaultTransition = object : DefaultTransition(PackageFlightResultsPresenter::class.java.name) {
         override fun endTransition(forward: Boolean) {
             super.endTransition(forward)
             toolbarViewModel.refreshToolBar.onNext(forward)
             resultsPresenter.visibility = if (forward) View.VISIBLE else View.GONE
-            overViewPresenter.visibility = if (forward) View.GONE else View.VISIBLE
+            overviewPresenter.visibility = if (forward) View.GONE else View.VISIBLE
         }
     }
 
-    private val overviewTransition = object : Presenter.Transition(PackageFlightOverviewPresenter::class.java, PackageFlightResultsPresenter::class.java, DecelerateInterpolator(), ANIMATION_DURATION) {
+    private val overviewTransition = object : Transition(PackageFlightOverviewPresenter::class.java, PackageFlightResultsPresenter::class.java, DecelerateInterpolator(), ANIMATION_DURATION) {
         override fun endTransition(forward: Boolean) {
             super.endTransition(forward)
             toolbarViewModel.refreshToolBar.onNext(forward)
-            overViewPresenter.visibility = if (!forward) View.VISIBLE else View.GONE
+            overviewPresenter.visibility = if (!forward) View.VISIBLE else View.GONE
             resultsPresenter.visibility = if (!forward) View.GONE else View.VISIBLE
         }
     }
 
-    private val baggageFeeTransition = object : Presenter.Transition(PackageFlightOverviewPresenter::class.java, BaggageFeeInfoWidget::class.java, DecelerateInterpolator(), ANIMATION_DURATION) {
+    private val baggageFeeTransition = object : Transition(PackageFlightOverviewPresenter::class.java, BaggageFeeInfoWidget::class.java, DecelerateInterpolator(), ANIMATION_DURATION) {
         override fun endTransition(forward: Boolean) {
             super.endTransition(forward)
             if (forward) {
@@ -156,12 +157,12 @@ open class FlightBasePresenter(context: Context, attrs: AttributeSet) : Presente
             else {
                 toolbarViewModel.refreshToolBar.onNext(false)
             }
-            overViewPresenter.visibility = if (!forward) View.VISIBLE else View.GONE
-            baggageFeeinfo.visibility = if (!forward) View.GONE else View.VISIBLE
+            overviewPresenter.visibility = if (!forward) View.VISIBLE else View.GONE
+            baggageFeeInfo.visibility = if (!forward) View.GONE else View.VISIBLE
         }
     }
 
-    val listToFiltersTransition: Presenter.Transition = object : Presenter.Transition(PackageFlightResultsPresenter::class.java, PackageFlightFilterWidget::class.java, DecelerateInterpolator(2f), 500) {
+    val listToFiltersTransition: Transition = object : Transition(PackageFlightResultsPresenter::class.java, PackageFlightFilterWidget::class.java, DecelerateInterpolator(2f), 500) {
         override fun startTransition(forward: Boolean) {
         }
 
@@ -185,8 +186,8 @@ open class FlightBasePresenter(context: Context, attrs: AttributeSet) : Presente
 
     val selectedFlightResults = object : Observer<FlightLeg> {
         override fun onNext(flight: FlightLeg) {
-            show(overViewPresenter)
-            overViewPresenter.vm.selectedFlightLeg.onNext(flight)
+            show(overviewPresenter)
+            overviewPresenter.vm.selectedFlightLeg.onNext(flight)
         }
 
         override fun onCompleted() {

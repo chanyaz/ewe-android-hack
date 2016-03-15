@@ -6,10 +6,11 @@ import android.support.v7.app.AppCompatActivity
 import android.util.AttributeSet
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.flights.FlightLeg
+import com.expedia.bookings.presenter.flight.BaseFlightPresenter
 import com.expedia.bookings.widget.PackageFlightListAdapter
 import com.expedia.util.endlessObserver
 
-class PackageFlightPresenter(context: Context, attrs: AttributeSet) : FlightBasePresenter(context, attrs) {
+class PackageFlightPresenter(context: Context, attrs: AttributeSet) : BaseFlightPresenter(context, attrs) {
 
     private val flightOverviewSelected = endlessObserver<FlightLeg> { flight ->
         val params = Db.getPackageParams()
@@ -40,7 +41,7 @@ class PackageFlightPresenter(context: Context, attrs: AttributeSet) : FlightBase
         resultsPresenter.adapterPackage = PackageFlightListAdapter(context, resultsPresenter.flightSelectedSubject,  Db.getPackageParams().isChangePackageSearch())
         resultsPresenter.recyclerView.adapter = resultsPresenter.adapterPackage
         resultsPresenter.resultsViewModel.flightResultsObservable.onNext(allFlights)
-        overViewPresenter.vm.selectedFlightClicked.subscribe(flightOverviewSelected)
+        overviewPresenter.vm.selectedFlightClicked.subscribe(flightOverviewSelected)
         var cityBound: String = if (isOutboundSearch) Db.getPackageParams().destination.regionNames.shortName else Db.getPackageParams().origin.regionNames.shortName
         val numTravelers = Db.getPackageParams().guests()
         toolbarViewModel.isOutboundSearch.onNext(isOutboundSearch)

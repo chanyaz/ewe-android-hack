@@ -16,7 +16,7 @@ import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.presenter.LeftToRightTransition
 import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.presenter.ScaleTransition
-import com.expedia.bookings.presenter.packages.FlightOverviewPresenter
+import com.expedia.bookings.presenter.flight.FlightOverviewPresenter
 import com.expedia.bookings.services.FlightServices
 import com.expedia.bookings.utils.CurrencyUtils
 import com.expedia.bookings.utils.Ui
@@ -54,10 +54,10 @@ class FlightPresenter(context: Context, attrs: AttributeSet) : Presenter(context
     var searchViewModel: FlightSearchViewModel by notNullAndObservable { vm ->
         flightOverviewPresenter.flightSummary.outboundFlightWidget.viewModel.selectedFlightObservable.onNext(PackageSearchType.OUTBOUND_FLIGHT)
         flightOverviewPresenter.flightSummary.inboundFlightWidget.viewModel.selectedFlightObservable.onNext(PackageSearchType.INBOUND_FLIGHT)
-        outBoundPresenter.overViewPresenter.vm.selectedFlightClicked.subscribe(flightOverviewPresenter.flightSummary.outboundFlightWidget.viewModel.flight)
-        inboundPresenter.overViewPresenter.vm.selectedFlightClicked.subscribe(flightOverviewPresenter.flightSummary.inboundFlightWidget.viewModel.flight)
-        inboundPresenter.overViewPresenter.vm.selectedFlightClicked.subscribe(searchViewModel.inboundFlightSelected)
-        outBoundPresenter.overViewPresenter.vm.selectedFlightClicked.subscribe(searchViewModel.outboundFlightSelected)
+        outBoundPresenter.overviewPresenter.vm.selectedFlightClicked.subscribe(flightOverviewPresenter.flightSummary.outboundFlightWidget.viewModel.flight)
+        inboundPresenter.overviewPresenter.vm.selectedFlightClicked.subscribe(flightOverviewPresenter.flightSummary.inboundFlightWidget.viewModel.flight)
+        inboundPresenter.overviewPresenter.vm.selectedFlightClicked.subscribe(searchViewModel.inboundFlightSelected)
+        outBoundPresenter.overviewPresenter.vm.selectedFlightClicked.subscribe(searchViewModel.outboundFlightSelected)
         vm.outboundResultsObservable.subscribe(outBoundPresenter.resultsPresenter.resultsViewModel.flightResultsObservable)
         vm.inboundResultsObservable.subscribe(inboundPresenter.resultsPresenter.resultsViewModel.flightResultsObservable)
         vm.flightParamsObservable.subscribe { params ->
@@ -140,8 +140,8 @@ class FlightPresenter(context: Context, attrs: AttributeSet) : Presenter(context
         override fun startTransition(forward: Boolean) {
             super.startTransition(forward)
             if (forward) {
-                flightOverviewPresenter.bundleOverHeader.checkoutOverviewHeaderToolbar.visibility = View.GONE
-                flightOverviewPresenter.bundleOverHeader.toggleOverviewHeader(false)
+                flightOverviewPresenter.bundleOverviewHeader.checkoutOverviewHeaderToolbar.visibility = View.GONE
+                flightOverviewPresenter.bundleOverviewHeader.toggleOverviewHeader(false)
                 flightOverviewPresenter.getCheckoutPresenter().toggleCheckoutButton(false)
                 var countryCode = PointOfSale.getPointOfSale().threeLetterCountryCode
                 var currencyCode = CurrencyUtils.currencyForLocale(countryCode)

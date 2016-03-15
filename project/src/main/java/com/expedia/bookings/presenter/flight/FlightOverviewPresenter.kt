@@ -1,10 +1,10 @@
-package com.expedia.bookings.presenter.packages
+package com.expedia.bookings.presenter.flight
 
 import android.content.Context
 import android.util.AttributeSet
 import android.view.View
 import com.expedia.bookings.R
-import com.expedia.bookings.presenter.flight.FlightSummaryWidget
+import com.expedia.bookings.presenter.BaseOverviewPresenter
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.FlightCheckoutPresenter
 
@@ -19,7 +19,7 @@ class FlightOverviewPresenter(context: Context, attrs: AttributeSet) : BaseOverv
     override fun onFinishInflate() {
         super.onFinishInflate()
         removeView(flightSummary)
-        bundleOverHeader.nestedScrollView.addView(flightSummary)
+        bundleOverviewHeader.nestedScrollView.addView(flightSummary)
     }
 
     fun getCheckoutPresenter() : FlightCheckoutPresenter {

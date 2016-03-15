@@ -2,7 +2,7 @@ package com.expedia.bookings.services
 
 import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.cars.ApiError
-import com.expedia.bookings.data.cars.BaseApiResponse
+import com.expedia.bookings.data.BaseApiResponse
 import com.expedia.bookings.data.cars.CarCheckoutParams
 import com.expedia.bookings.data.cars.CarCheckoutResponse
 import com.expedia.bookings.data.cars.CarCreateTripResponse

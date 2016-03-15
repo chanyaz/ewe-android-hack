@@ -4,6 +4,7 @@ import org.jetbrains.annotations.NotNull;
 
 import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.TripResponse;
+import com.expedia.bookings.data.flights.FlightTripDetails;
 import com.expedia.bookings.data.hotels.HotelCreateTripResponse;
 
 public class PackageCreateTripResponse extends TripResponse {
@@ -32,7 +33,7 @@ public class PackageCreateTripResponse extends TripResponse {
 	}
 
 	public static class FlightProduct {
-		public com.expedia.bookings.data.flights.FlightTripDetails details;
+		public FlightTripDetails details;
 	}
 
 	@NotNull

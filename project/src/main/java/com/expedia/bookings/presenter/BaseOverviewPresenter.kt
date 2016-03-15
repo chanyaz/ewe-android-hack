@@ -1,4 +1,4 @@
-package com.expedia.bookings.presenter.packages
+package com.expedia.bookings.presenter
 
 import android.content.Context
 import android.support.design.widget.AppBarLayout
@@ -22,8 +22,8 @@ import com.expedia.vm.BaseCheckoutViewModel
 abstract class BaseOverviewPresenter(context: Context, attrs: AttributeSet) : Presenter(context, attrs), CVVEntryWidget.CVVEntryFragmentListener {
     val ANIMATION_DURATION = 450L
 
-    val bundleOverHeader: BundleOverviewHeader by bindView(R.id.coordinator_layout)
-    protected val checkoutPresenter: BaseCheckoutPresenter by lazy { findViewById(R.id.checkout_presenter) as BaseCheckoutPresenter  }
+    val bundleOverviewHeader: BundleOverviewHeader by bindView(R.id.coordinator_layout)
+    protected val checkoutPresenter: BaseCheckoutPresenter by lazy { findViewById(R.id.checkout_presenter) as BaseCheckoutPresenter }
     val cvv: CVVEntryWidget by bindView(R.id.cvv)
 
     val toolbarHeight = Ui.getStatusBarHeight(context) + Ui.getToolbarSize(context)
@@ -37,10 +37,10 @@ abstract class BaseOverviewPresenter(context: Context, attrs: AttributeSet) : Pr
         checkoutPresenter.viewModel = BaseCheckoutViewModel(context)
         checkoutPresenter.viewModel.lineOfBusiness.onNext(checkoutPresenter.lineOfBusiness())
         checkoutPresenter.paymentWidget.viewmodel.billingInfoAndStatusUpdate.map{it.first}.subscribe(checkoutPresenter.viewModel.paymentCompleted)
-        bundleOverHeader.toolbar.inflateMenu(R.menu.menu_package_checkout)
-        bundleOverHeader.toolbar.overflowIcon = ContextCompat.getDrawable(context, R.drawable.ic_create_white_24dp)
-        bundleOverHeader.toolbar.viewModel.showChangePackageMenuObservable.subscribe { visible ->
-            bundleOverHeader.toolbar.menu.setGroupVisible(R.id.package_change_menu, visible)
+        bundleOverviewHeader.toolbar.inflateMenu(R.menu.menu_package_checkout)
+        bundleOverviewHeader.toolbar.overflowIcon = ContextCompat.getDrawable(context, R.drawable.ic_create_white_24dp)
+        bundleOverviewHeader.toolbar.viewModel.showChangePackageMenuObservable.subscribe { visible ->
+            bundleOverviewHeader.toolbar.menu.setGroupVisible(R.id.package_change_menu, visible)
         }
 
         checkoutPresenter.checkoutButton.setOnClickListener {
@@ -48,13 +48,13 @@ abstract class BaseOverviewPresenter(context: Context, attrs: AttributeSet) : Pr
             checkoutPresenter.show(BaseCheckoutPresenter.CheckoutDefault(), FLAG_CLEAR_BACKSTACK)
         }
 
-        checkoutPresenter.paymentWidget.viewmodel.toolbarTitle.subscribe(bundleOverHeader.toolbar.viewModel.toolbarTitle)
-        checkoutPresenter.paymentWidget.viewmodel.editText.subscribe(bundleOverHeader.toolbar.viewModel.editText)
-        checkoutPresenter.paymentWidget.viewmodel.menuVisibility.subscribe(bundleOverHeader.toolbar.viewModel.menuVisibility)
-        checkoutPresenter.paymentWidget.viewmodel.enableMenuItem.subscribe(bundleOverHeader.toolbar.viewModel.enableMenuItem)
-        checkoutPresenter.paymentWidget.viewmodel.visibleMenuWithTitleDone.subscribe(bundleOverHeader.toolbar.viewModel.visibleMenuWithTitleDone)
-        checkoutPresenter.paymentWidget.viewmodel.toolbarNavIcon.subscribe(bundleOverHeader.toolbar.viewModel.toolbarNavIcon)
-        bundleOverHeader.toolbar.viewModel.doneClicked.subscribe {
+        checkoutPresenter.paymentWidget.viewmodel.toolbarTitle.subscribe(bundleOverviewHeader.toolbar.viewModel.toolbarTitle)
+        checkoutPresenter.paymentWidget.viewmodel.editText.subscribe(bundleOverviewHeader.toolbar.viewModel.editText)
+        checkoutPresenter.paymentWidget.viewmodel.menuVisibility.subscribe(bundleOverviewHeader.toolbar.viewModel.menuVisibility)
+        checkoutPresenter.paymentWidget.viewmodel.enableMenuItem.subscribe(bundleOverviewHeader.toolbar.viewModel.enableMenuItem)
+        checkoutPresenter.paymentWidget.viewmodel.visibleMenuWithTitleDone.subscribe(bundleOverviewHeader.toolbar.viewModel.visibleMenuWithTitleDone)
+        checkoutPresenter.paymentWidget.viewmodel.toolbarNavIcon.subscribe(bundleOverviewHeader.toolbar.viewModel.toolbarNavIcon)
+        bundleOverviewHeader.toolbar.viewModel.doneClicked.subscribe {
             if (checkoutPresenter.currentState == PackagePaymentWidget::class.java.name) {
                 checkoutPresenter.paymentWidget.viewmodel.doneClicked.onNext(Unit)
             }
@@ -65,13 +65,13 @@ abstract class BaseOverviewPresenter(context: Context, attrs: AttributeSet) : Pr
             checkoutPresenter.show(BaseCheckoutPresenter.CheckoutDefault(), FLAG_CLEAR_BACKSTACK)
         }
 
-        bundleOverHeader.setUpCollapsingToolbar()
+        bundleOverviewHeader.setUpCollapsingToolbar()
         checkoutPresenter.checkoutTranslationObserver.subscribe { y ->
-            val distance = -bundleOverHeader.appBarLayout.totalScrollRange + (y / checkoutPresenter.height * bundleOverHeader.appBarLayout.totalScrollRange).toInt()
-            val params = bundleOverHeader.appBarLayout.layoutParams as CoordinatorLayout.LayoutParams
+            val distance = -bundleOverviewHeader.appBarLayout.totalScrollRange + (y / checkoutPresenter.height * bundleOverviewHeader.appBarLayout.totalScrollRange).toInt()
+            val params = bundleOverviewHeader.appBarLayout.layoutParams as CoordinatorLayout.LayoutParams
             val behavior = params.behavior as AppBarLayout.Behavior
             val enable = y != 0f
-            bundleOverHeader.toggleCollapsingToolBar(enable)
+            bundleOverviewHeader.toggleCollapsingToolBar(enable)
             behavior.topAndBottomOffset = distance
         }
     }
@@ -85,33 +85,33 @@ abstract class BaseOverviewPresenter(context: Context, attrs: AttributeSet) : Pr
         cvv.setCVVEntryListener(this)
         checkoutPresenter.slideAllTheWayObservable.subscribe(checkoutSliderSlidObserver)
 
-        val checkoutPresenterLayoutParams = checkoutPresenter.layoutParams as ViewGroup.MarginLayoutParams
+        val checkoutPresenterLayoutParams = checkoutPresenter.layoutParams as MarginLayoutParams
         checkoutPresenterLayoutParams.setMargins(0, toolbarHeight, 0, 0)
         checkoutPresenter.mainContent.visibility = View.GONE
     }
 
-    val defaultTransition = object : Presenter.DefaultTransition(BundleDefault::class.java.name) {
+    val defaultTransition = object : DefaultTransition(BundleDefault::class.java.name) {
         override fun endTransition(forward: Boolean) {
             super.endTransition(forward)
-            bundleOverHeader.toolbar.menu.setGroupVisible(R.id.package_change_menu, false)
-            bundleOverHeader.toggleCollapsingToolBar(!forward)
+            bundleOverviewHeader.toolbar.menu.setGroupVisible(R.id.package_change_menu, false)
+            bundleOverviewHeader.toggleCollapsingToolBar(!forward)
         }
     }
 
-    val checkoutTransition = object : Presenter.Transition(BundleDefault::class.java, getCheckoutTransitionClass()) {
+    val checkoutTransition = object : Transition(BundleDefault::class.java, getCheckoutTransitionClass()) {
         var translationDistance = 0f
         var headerOffset = 0
 
         override fun startTransition(forward: Boolean) {
-            bundleOverHeader.toggleCollapsingToolBar(true)
+            bundleOverviewHeader.toggleCollapsingToolBar(true)
             translationDistance = checkoutPresenter.mainContent.translationY
-            val params = bundleOverHeader.appBarLayout.layoutParams as CoordinatorLayout.LayoutParams
+            val params = bundleOverviewHeader.appBarLayout.layoutParams as CoordinatorLayout.LayoutParams
             val behavior = params.behavior as AppBarLayout.Behavior
             headerOffset = behavior.topAndBottomOffset
             checkoutPresenter.checkoutButton.translationY = if (forward) 0f else checkoutPresenter.checkoutButton.height.toFloat()
             checkoutPresenter.chevron.rotation = 0f
-            bundleOverHeader.toolbar.menu.setGroupVisible(R.id.package_change_menu, !forward)
-            bundleOverHeader.toolbar.alpha = if (forward) 0f else 1f
+            bundleOverviewHeader.toolbar.menu.setGroupVisible(R.id.package_change_menu, !forward)
+            bundleOverviewHeader.toolbar.alpha = if (forward) 0f else 1f
             checkoutPresenter.mainContent.visibility = View.VISIBLE
         }
 
@@ -119,23 +119,23 @@ abstract class BaseOverviewPresenter(context: Context, attrs: AttributeSet) : Pr
             translateHeader(f, forward)
             translateCheckout(f, forward)
             translateBottomContainer(f, forward)
-            bundleOverHeader.toolbar.alpha = 1f * if (forward) f else (1 - f)
+            bundleOverviewHeader.toolbar.alpha = 1f * if (forward) f else (1 - f)
         }
 
         override fun endTransition(forward: Boolean) {
             super.endTransition(forward)
-            bundleOverHeader.toggleCollapsingToolBar(!forward)
+            bundleOverviewHeader.toggleCollapsingToolBar(!forward)
             checkoutPresenter.checkoutButton.translationY = if (forward) checkoutPresenter.checkoutButton.height.toFloat() else 0f
             checkoutPresenter.mainContent.visibility = if (forward) View.VISIBLE else View.GONE
             checkoutPresenter.mainContent.translationY = 0f
-            bundleOverHeader.toolbar.alpha = 1f
-            bundleOverHeader.isDisabled = forward
+            bundleOverviewHeader.toolbar.alpha = 1f
+            bundleOverviewHeader.isDisabled = forward
         }
 
         private fun translateHeader(f: Float, forward: Boolean) {
-            val params = bundleOverHeader.appBarLayout.layoutParams as CoordinatorLayout.LayoutParams
+            val params = bundleOverviewHeader.appBarLayout.layoutParams as CoordinatorLayout.LayoutParams
             val behavior = params.behavior as AppBarLayout.Behavior
-            val scrollY = if (forward) f * - bundleOverHeader.appBarLayout.totalScrollRange else (f - 1) * (bundleOverHeader.appBarLayout.totalScrollRange + headerOffset)
+            val scrollY = if (forward) f * - bundleOverviewHeader.appBarLayout.totalScrollRange else (f - 1) * (bundleOverviewHeader.appBarLayout.totalScrollRange + headerOffset)
             behavior.topAndBottomOffset = scrollY.toInt()
         }
 

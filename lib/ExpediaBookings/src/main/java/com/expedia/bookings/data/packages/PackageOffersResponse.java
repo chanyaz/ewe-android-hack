@@ -3,7 +3,7 @@ package com.expedia.bookings.data.packages;
 import java.util.List;
 
 import com.expedia.bookings.data.Money;
-import com.expedia.bookings.data.cars.BaseApiResponse;
+import com.expedia.bookings.data.BaseApiResponse;
 import com.expedia.bookings.data.hotels.HotelOffersResponse;
 
 public class PackageOffersResponse extends BaseApiResponse {
