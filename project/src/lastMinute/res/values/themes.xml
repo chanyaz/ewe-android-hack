@@ -36,7 +36,7 @@
         <item name="skin_calendarDatePickerCellDrawable">@drawable/calendar_date_picker_cell_lm</item>
         <item name="skin_calendarDatePickerPopupDrawable">@drawable/calendar_date_picker_popup_lm</item>
         <item name="skin_phoneCheckoutLoginLogoDrawable">@drawable/ic_lm_logo_white</item>
-        <item name="skin_hotelCheckoutLogoutLogoDrawable">@drawable/ic_lm_logo</item>
+        <item name="skin_hotelCheckoutLogoutLogoDrawable">@drawable/brand_phone_checkout_logo_drawable</item>
         <item name="skin_phoneCheckoutLoginButtonDrawable">@drawable/card_background_lm</item>
         <item name="skin_phoneCheckoutLoginButtonTextColor">@android:color/white</item>
         <item name="skin_loginButtonColor">@android:color/white</item>
@@ -64,7 +64,7 @@
         <item name="skin_cvvDivErrorDrawable">@drawable/div_cvv_error_lm</item>
         <item name="skin_userRatingBarDrawable">@drawable/ratingbar_userreview_flat_blue_lm</item>
         <item name="skin_clearEditTextImage">@drawable/ic_clear_edittext</item>
-        <item name="skin_tabletCheckoutLoginLogoDrawable">@drawable/ic_lm_logo</item>
+        <item name="skin_tabletCheckoutLoginLogoDrawable">@drawable/brand_tablet_checkout_login_logo_drawable</item>
         <item name="skin_candycaneProgressDrawable">@drawable/progressbar_candycane_horizontal_lm</item>
         <item name="skin_menuAboutWebViewActivity">@menu/menu_webview</item>
         <item name="skin_hotelRulesActionBarLogo">@drawable/ic_action_bar_lm_logo_small</item>
