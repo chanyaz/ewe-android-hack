@@ -161,6 +161,9 @@ class HotelCheckoutMainViewPresenter(context: Context, attr: AttributeSet) : Che
                 paymentInfoCardView.sectionBillingInfo.bind(Db.getBillingInfo())
                 paymentInfoCardView.selectFirstAvailableCard()
             }
+            else if(Db.getUser().storedCreditCards.size == 0 && Db.getTemporarilySavedCard() != null){
+                paymentInfoCardView.storedCreditCardListener.onTemporarySavedCreditCardChosen(Db.getTemporarilySavedCard())
+            }
             loginWidget.bind(false, true, Db.getUser(), lineOfBusiness)
         } else {
             loginWidget.bind(false, false, null, lineOfBusiness)
