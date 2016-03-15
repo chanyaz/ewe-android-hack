@@ -34,8 +34,6 @@
         <item name="skin_bookNowButtonDrawable">@drawable/btn_signin_vsc</item>
         <item name="skin_hotelDetailPlaceHolderDrawable">@drawable/placeholder_lg_vsc</item>
         <item name="skin_hotelConfirmationCallActionDrawable">@drawable/ic_phone</item>
-        <item name="skin_hotelCheckoutLogoutLogoDrawable">@drawable/ic_log_out_vsc</item>
-        <item name="skin_phoneCheckoutLoginLogoDrawable">@drawable/ic_log_in_vsc</item>
         <item name="skin_cvvBookButtonKeypadDrawable">@drawable/btn_cvv_keypad_book_vsc</item>
         <item name="skin_hotelPrimaryTravelerInfoLogoDrawable">@drawable/ic_vsc_traveler_logo_disabled</item>
         <item name="skin_hotelListMapMarkerSaleDrawable">@drawable/map_pin_sale_vsc</item>
@@ -58,7 +56,6 @@
         <item name="skin_flightRulesActionBarLogo">@drawable/ic_ab_vsc_logo</item>
         <item name="skin_hotelLoginActionBarIcon">@drawable/ic_ab_vsc_logo</item>
         <item name="skin_flightLoginActionBarIcon">@drawable/ic_ab_vsc_logo</item>
-        <item name="skin_tabletCheckoutLoginLogoDrawable">@drawable/ic_action_bar_brand_logo</item>
         <item name="android:actionOverflowButtonStyle">@style/OverflowMenuButton</item>
         <item name="actionOverflowButtonStyle">@style/OverflowMenuButton</item>
         <item name="skin_tablet_pin_detail_button_background">@drawable/btn_tablet_launch_screen</item>

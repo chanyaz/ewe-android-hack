@@ -1,6 +1,7 @@
 package com.expedia.bookings.widget;
 
 import android.content.Context;
+import android.support.v4.content.ContextCompat;
 import android.text.Html;
 import android.util.AttributeSet;
 import android.view.Gravity;
@@ -155,31 +156,29 @@ public class AccountButton extends LinearLayout {
 			LayoutParams lpt = (LayoutParams) mLoginTextView.getLayoutParams();
 			lpt.gravity = Gravity.CENTER_VERTICAL | Gravity.LEFT;
 			mLoginContainer.setBackgroundResource(R.drawable.bg_checkout_information_single);
-			mLoginTextView.setCompoundDrawablesWithIntrinsicBounds(
-				Ui.obtainThemeResID(mContext, R.attr.skin_tabletCheckoutLoginLogoDrawable), 0, 0, 0);
-			mLoginTextView.setTextColor(
-				Ui.obtainThemeColor(mContext, R.attr.skin_tabletCheckoutLoginButtonTextColor));
+			mLoginTextView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.tablet_checkout_login_logo, 0, 0, 0);
+			mLoginTextView.setTextColor(ContextCompat.getColor(getContext(), R.color.tablet_checkout_account_button_text_color));
 		}
 		else {
 			LayoutParams lp = (LayoutParams) mLoginContainer.getLayoutParams();
 			lp.height = LayoutParams.WRAP_CONTENT;
 			LayoutParams lpt = (LayoutParams) mLoginTextView.getLayoutParams();
-			if (lob == LineOfBusiness.HOTELSV2 || lob == LineOfBusiness.PACKAGES) {
+			if (lob == LineOfBusiness.HOTELSV2 || lob == LineOfBusiness.PACKAGES
+				|| lob == LineOfBusiness.CARS || lob == LineOfBusiness.LX) {
 				lpt.width = LayoutParams.WRAP_CONTENT;
 				lpt.gravity = Gravity.CENTER;
-				mLoginContainer.setBackgroundResource(R.drawable.account_sign_in_button_ripple);
-				mLoginTextView.setTextColor(getResources().getColor(android.R.color.white));
-				mLoginTextView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.brand_logo_white, 0, 0, 0);
+				mLoginContainer.setBackgroundResource(R.drawable.material_account_sign_in_button_ripple);
+				mLoginTextView.setTextColor(ContextCompat.getColor(getContext(), R.color.material_checkout_account_button_text_color));
+				mLoginTextView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.material_checkout_account_logo, 0, 0, 0);
 			}
 			else {
 				int bgResourceId = Ui.obtainThemeResID(getContext(), android.R.attr.selectableItemBackground);
 				lpt.width = LayoutParams.MATCH_PARENT;
 				lpt.gravity = Gravity.CENTER_VERTICAL | Gravity.LEFT;
-				mLoginContainer.setBackgroundResource(
-					Ui.obtainThemeResID(mContext, R.attr.skin_phoneCheckoutLoginButtonDrawable));
-				mLoginTextView.setTextColor(Ui.obtainThemeColor(mContext, R.attr.skin_phoneCheckoutLoginButtonTextColor));
-				mLoginTextView.setCompoundDrawablesWithIntrinsicBounds(
-					Ui.obtainThemeResID(mContext, R.attr.skin_phoneCheckoutLoginLogoDrawable), 0, 0, 0);
+
+				mLoginContainer.setBackgroundResource(R.drawable.old_checkout_account_button_background);
+				mLoginTextView.setTextColor(ContextCompat.getColor(getContext(), R.color.old_checkout_account_button_text_color));
+				mLoginTextView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.old_checkout_account_logo, 0, 0, 0);
 				mLoginTextView.setBackgroundResource(bgResourceId);
 			}
 			mLoginTextView.setGravity(Gravity.LEFT);
@@ -254,7 +253,7 @@ public class AccountButton extends LinearLayout {
 		}
 
 		// Logo
-		mExpediaLogo.setImageResource(Ui.obtainThemeResID(mContext, R.attr.skin_hotelCheckoutLogoutLogoDrawable));
+		mExpediaLogo.setImageResource(R.drawable.checkout_logout_logo);
 	}
 
 	public void updateRewardsText(LineOfBusiness lob) {
@@ -280,7 +279,7 @@ public class AccountButton extends LinearLayout {
 			mExpediaLogo.setVisibility(View.INVISIBLE);
 		}
 		else if (!isLoyaltyMember) {
-			mExpediaLogo.setImageResource(Ui.obtainThemeResID(mContext, R.attr.skin_hotelCheckoutLogoutLogoDrawable));
+			mExpediaLogo.setImageResource(R.drawable.checkout_logout_logo);
 		}
 	}
 

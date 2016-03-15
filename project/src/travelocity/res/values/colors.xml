@@ -32,7 +32,7 @@
     <color name="accept_terms_color">#608405</color>
     <color name="accept_terms_ripple_color">#7dad06</color>
     <color name="review_screen_tab_indicator">@color/launch_tab_indicator_tvly</color>
-    <color name="hotel_checkout_account_button_background_color">@color/hotels_primary_color</color>
+    <color name="material_checkout_account_button_background_color">@color/hotels_primary_color</color>
 
     <color name="hotel_urgency_message_color">#57A3CC</color>
     <color name="hotel_tonight_only_color">#7AC231</color>
@@ -60,4 +60,6 @@
     <color name="acct__btn_sign_in_text_tvly">@color/white</color>
     <color name="acct__bg_input_text_error_tvly">@color/white</color>
     <color name="acct__bg_input_text_good_tvly">#EEEEEE</color>
+    <!-- Checkout Colors -->
+    <color name="old_checkout_account_button_text_color">@android:color/white</color>
 </resources>

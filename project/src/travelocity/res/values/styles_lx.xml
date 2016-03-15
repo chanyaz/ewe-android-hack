@@ -4,9 +4,6 @@
     <style name="Whitelabel.LXTheme.Base" parent="AppTheme.Base.LX">
         <!-- Required white label attr for login widget -->
         <item name="skin_loginBookNowButtonDrawable">@drawable/btn_signin_travelocity</item>
-        <item name="skin_phoneCheckoutLoginLogoDrawable">@drawable/tvly</item>
-        <item name="skin_hotelCheckoutLogoutLogoDrawable">@drawable/tvly</item>
-        <item name="skin_tabletCheckoutLoginLogoDrawable">@drawable/tvly</item>
         <item name="primary_color">@color/lx_primary_color</item>
         <item name="android:colorPrimaryDark">@color/lx_primary_color</item>
         <item name="android:colorButtonNormal">@color/lx_primary_color</item>
@@ -15,7 +12,6 @@
 
 
         <!-- Skins added for whitelabel -->
-        <item name="skin_loginBrandLogoDrawable">@drawable/tvly</item>
         <item name="skin_costSummaryAlertDrawable">@drawable/dialog_breakdown_stripe_travelocity</item>
         <item name="skin_cvvBookButtonKeypadDrawable">@drawable/btn_cvv_keypad_book_tvly</item>
         <item name="skin_cvvDivDrawable">@drawable/div_cvv_tvly</item>

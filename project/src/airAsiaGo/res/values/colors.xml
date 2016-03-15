@@ -10,7 +10,6 @@
     <color name="action_bar_text_aag">#F5A337</color>
     <color name="actionbar_menu_text_color">@color/aag_secondary_color</color>
     <color name="action_bar_bg_color">#E21E25</color>
-    <color name="login_text_aag">#333333</color>
     <color name="flight_trip_color_aag">#F8A424</color>
     <color name="flight_trip_price_aag">#E21E25</color>
     <color name="action_bar_selected_tab_underline_color">#E21E25</color>
@@ -50,4 +49,9 @@
     <color name="acct__btn_sign_in_text_aag">#FFFFFF</color>
     <color name="acct__bg_input_text_error_aag">#FFFFFF</color>
     <color name="acct__bg_input_text_good_aag">#EEEEEE</color>
+
+    <!-- Checkout Colors -->
+    <color name="login_text_aag">#333333</color>
+    <color name="tablet_checkout_account_button_text_color">@color/login_text_aag</color>
+    <color name="old_checkout_account_button_text_color">@color/login_text_aag</color>
 </resources>

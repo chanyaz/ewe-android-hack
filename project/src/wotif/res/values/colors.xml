@@ -40,7 +40,7 @@
     <color name="menu_bar_text_color">#DDDFE1</color>
     <color name="actionbar_suggestion_text_color">#DDDFE1</color>
     <color name="review_screen_tab_indicator">@color/action_bar_selected_tab_underline_color</color>
-    <color name="hotel_checkout_account_button_background_color">@color/hotels_primary_color</color>
+    <color name="material_checkout_account_button_background_color">@color/hotels_primary_color</color>
 
     <color name="hotel_urgency_message_color">#7AC231</color>
     <color name="hotel_tonight_only_color">#FFBA12</color>
@@ -101,7 +101,10 @@
     <color name="acct__bg_input_text_good_wotif">#EEEEEE</color>
     <color name="acct__welcome_text_color">@color/white</color>
 
+
     <color name="bg_air_attach_banner_default">#1972b2</color>
     <color name="bg_air_attach_phone_launch">#1972b2</color>
 
+    <!-- Checkout Colors -->
+    <color name="old_checkout_account_button_text_color">@android:color/white</color>
 </resources>

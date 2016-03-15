@@ -35,7 +35,6 @@
     <color name="destination_list_launch_card_title_text_color">#003E6F</color>
     <color name="destination_list_launch_card_country_text_color">#57A3CC</color>
     <color name="destination_list_detail_container_background">#ff070f24</color>
-    <color name="hotel_checkout_account_button_background_color">@color/lob_btn_color</color>
     <color name="checkout_additional_fees_tablet_bg">#004D7C</color>
     <color name="credit_card_form_additional_fees_tablet_bg">@color/checkout_additional_fees_tablet_bg</color>
     <color name="preferences_text">#495863</color>
@@ -88,4 +87,8 @@
     <color name="reward_color_top">#C4204B</color>
     <color name="reward_color_top_text">@color/white</color>
     <color name="account_screen_back_nav_color">@color/white</color>
+
+    <!-- Checkout Colors -->
+    <color name="material_checkout_account_button_background_color">@color/lob_btn_color</color>
+    <color name="old_checkout_account_button_text_color">@android:color/white</color>
 </resources>

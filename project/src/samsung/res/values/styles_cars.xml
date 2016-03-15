@@ -15,7 +15,6 @@
         <item name="skin_carsSortButtonSelectorDrawable">@drawable/cars_sort_button_selector_samsung</item>
         <item name="skin_carsSortButtonTextSelectorDrawable">@drawable/cars_sort_button_text_selector_samsung</item>
         <item name="skin_carsToggleBackgroundSelectorDrawable">@drawable/cars_toggle_background_selector_samsung</item>
-        <item name="skin_loginBrandLogoDrawable">@drawable/brand_phone_checkout_logo_drawable</item>
         <item name="skin_costSummaryAlertDrawable">@drawable/dialog_breakdown_stripe_samsung</item>
         <item name="skin_cvvBookButtonKeypadDrawable">@drawable/btn_cvv_keypad_book_samsung</item>
         <item name="skin_cvvDivDrawable">@drawable/div_cvv_samsung</item>
@@ -25,9 +24,6 @@
         <item name="skin_carsPinDrawable">@drawable/cars_pin_samsung</item>
 
         <item name="skin_loginBookNowButtonDrawable">@drawable/btn_signin</item>
-        <item name="skin_phoneCheckoutLoginLogoDrawable">@drawable/brand_phone_checkout_login_logo_drawable</item>
-        <item name="skin_hotelCheckoutLogoutLogoDrawable">@drawable/brand_phone_checkout_logo_drawable</item>
-        <item name="skin_tabletCheckoutLoginLogoDrawable">@drawable/brand_tablet_checkout_login_logo_drawable</item>
         <item name="traveler_checkout_circle_drawable">@drawable/car_driver_checkout_circle_samsung</item>
         <item name="skin_errorIndicationExclaimationDrawable">@drawable/invalid</item>
         <item name="checkout_icon_right_margin_attr">@dimen/checkout_icon_right_margin_car_lx</item>

@@ -132,9 +132,9 @@
     <color name="hotel_sold_out_color">#8C8C8C</color>
     <color name="hotel_review_actionbar_tab_text_selected">@color/actionbar_tab_text_selected</color>
     <color name="hotel_review_actionbar_tab_text_unselected">@color/actionbar_tab_text_unselected</color>
-    <color name="hotel_checkout_account_button_background_color">#384768</color>
     <color name="hotel_coupon_code_error_message_color">#FFDD2C00</color>
     <color name="hotel_earn_message_text_color">#c4204b</color>
+
 
     <!-- Hotel reviews colors -->
     <color name="hotel_review_background_color">#FAFAFA</color>
@@ -154,7 +154,6 @@
     <color name="hotel_filter_text">#5c5c5c</color>
 
     <!-- Login -->
-    <color name="login_text_tablet">#363636</color>
     <color name="reward_color_base">#085BA5</color>
     <color name="reward_color_base_text">@color/white</color>
     <color name="reward_color_middle">#668193</color>
@@ -315,6 +314,14 @@
     <color name="cars_unchecked_toggle_text_color">#ECC3DC</color>
     <color name="cars_drop_off_hint_text_color">#26FFFFFF</color>
     <color name="cars_color_primary_dark">#532C45</color>
+
+    <!-- Checkout Colors -->
+    <color name="tablet_checkout_account_button_text_color">#363636</color>
+    <color name="material_checkout_account_button_text_color">@android:color/white</color>
+    <color name="material_checkout_account_button_background_color">#384768</color>
+    <color name="old_checkout_account_button_text_color">#676767</color>
+
+
     <color name="bg_checkout_saved_traveler_cc_row">#f0f0f0</color>
     <color name="bg_checkout_saved_traveler_cc_row_pressed">#dcdcdc</color>
     <color name="checkout_traveler_birth_color">#919191</color>

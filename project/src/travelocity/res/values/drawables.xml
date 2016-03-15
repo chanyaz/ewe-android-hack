@@ -7,4 +7,9 @@
 
     <item name="app_copyright_logo" type="drawable">@drawable/ic_launcher</item>
     <item name="ic_action_bar_brand_logo_title" type="drawable">@drawable/ic_action_bar_brand_logo</item>
+
+    <item name="old_checkout_account_logo" type="drawable">@drawable/ic_tvly_logo_white</item>
+    <item name="checkout_logout_logo" type="drawable">@drawable/tvly</item>
+    <item name="old_checkout_account_button_background" type="drawable">@drawable/card_background_tvly</item>
+    <item name="tablet_checkout_login_logo" type="drawable">@drawable/ic_tablet_checkout_logo</item>
 </resources>

@@ -14,14 +14,8 @@
         <item name="skin_hotelListingUserRatingStyle">@style/RatingBar.UserReview.AAG.Yellow</item>
         <item name="skin_ratingBarUserReviewStyle">@style/RatingBar.UserReview.AAG.Yellow</item>
         <item name="skin_loginButtonColor">@android:color/white</item>
-        <item name="skin_phoneCheckoutLoginButtonDrawable">@drawable/btn_login_hotels_aag</item>
-        <item name="skin_phoneCheckoutLoginLogoDrawable">@drawable/ic_aag_logo</item>
-        <item name="skin_phoneCheckoutLoginButtonTextColor">@color/login_text_aag</item>
-        <item name="skin_tabletCheckoutLoginButtonTextColor">@color/login_text_aag</item>
-        <item name="skin_tabletCheckoutLoginLogoDrawable">@drawable/ic_log_in_aag</item>
         <item name="skin_loadingAirAsiaRoutesString">@string/loading_air_asia_routes_aag</item>
         <item name="skin_hotelListingSaleDrawable">@drawable/bg_hotel_cell_sale_airasiago</item>
-        <item name="skin_hotelCheckoutLogoutLogoDrawable">@drawable/ic_aag_logo</item>
         <item name="skin_roomsRatesSaleRibbonDrawable">@drawable/rooms_rates_ribbon_airasiago</item>
         <item name="skin_hotelDetailSaleRibbonDrawable">@drawable/bg_sale_ribbon_airasiago</item>
         <item name="skin_hotelPriceStandardColor">@color/hotel_price_text_color_airasiago</item>
