@@ -81,12 +81,13 @@ public class StoredCreditCardList extends LinearLayout {
 				}
 			}
 		});
+		mStoredCreditCardAdapter = new StoredCreditCardSpinnerAdapter(getContext(),
+				Db.getTripBucket().getItem(lineOfBusiness));
+		mStoredCardList.setAdapter(mStoredCreditCardAdapter);
 	}
 
 	public void bind() {
-		mStoredCreditCardAdapter = new StoredCreditCardSpinnerAdapter(getContext(),
-			Db.getTripBucket().getItem(lineOfBusiness));
-		mStoredCardList.setAdapter(mStoredCreditCardAdapter);
+		mStoredCreditCardAdapter.refresh(Db.getTripBucket().getItem(lineOfBusiness));
 		setListViewHeightBasedOnChildren(mStoredCardList);
 	}
 

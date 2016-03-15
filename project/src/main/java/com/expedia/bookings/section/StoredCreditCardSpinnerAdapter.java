@@ -6,7 +6,6 @@ import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
@@ -45,7 +44,6 @@ public class StoredCreditCardSpinnerAdapter extends ArrayAdapter<StoredCreditCar
 		mTripBucketItem = item;
 		hasTemporarilySavedCard = Db.getTemporarilySavedCard() != null;
 	}
-
 
 	@Override
 	public int getCount() {
@@ -104,7 +102,6 @@ public class StoredCreditCardSpinnerAdapter extends ArrayAdapter<StoredCreditCar
 
 		View retView = convertView;
 		TextView tv;
-		ImageView icon;
 		switch(itemType) {
 		case ITEM_VIEW_TYPE_SELECT_CREDITCARD:
 			retView = View.inflate(getContext(), R.layout.credit_card_autocomplete_row, null);
@@ -178,5 +175,11 @@ public class StoredCreditCardSpinnerAdapter extends ArrayAdapter<StoredCreditCar
 
 	private List<StoredCreditCard> getAvailableStoredCards() {
 		return BookingInfoUtils.getStoredCreditCards(getContext());
+	}
+
+	public void refresh(TripBucketItem item) {
+		mTripBucketItem = item;
+		hasTemporarilySavedCard = Db.getTemporarilySavedCard() != null;
+		notifyDataSetChanged();
 	}
 }
