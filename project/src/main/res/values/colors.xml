@@ -394,6 +394,7 @@
     <!-- Packages colors -->
     <color name="package_bundle_icon_color">#868686</color>
     <color name="packages_primary_color">#0888BD</color>
+    <color name="packages_secondary_color">#0C7BA9</color>
     <color name="packages_ripple_mask_color">#99D5CF</color>
     <color name="packages_hotel_promo_background_color">#04445e</color>
     <color name="packages_breakdown_text_color">#858585</color>

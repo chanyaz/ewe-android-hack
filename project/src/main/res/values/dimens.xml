@@ -384,7 +384,6 @@
     <dimen name="recent_search_item_height">55dp</dimen>
     <dimen name="package_bundle_scroll_view_padding">200dp</dimen>
 
-
     <!-- Standard paddings -->
     <dimen name="sort_filter_padding_small">5dp</dimen>
     <dimen name="sort_filter_padding_normal">16dp</dimen>
@@ -398,4 +397,7 @@
     <dimen name="account_loyalty_label_text_size">13sp</dimen>
     <dimen name="account_loyalty_value_text_size">20sp</dimen>
     <dimen name="about_section_margin">6dp</dimen>
+
+    <!-- Footer button height -->
+    <dimen name="footer_button_height">56dp</dimen>
 </resources>
