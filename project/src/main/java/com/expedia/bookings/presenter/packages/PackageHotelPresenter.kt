@@ -369,7 +369,7 @@ class PackageHotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
         bundleOverViewWidget.viewModel.hotelResultsObservable.onNext(Unit)
         bundleOverViewWidget.viewModel.toolbarTitleObservable.subscribeText(bundlePriceWidget.bundleTitle)
         bundleOverViewWidget.viewModel.toolbarSubtitleObservable.subscribeText(bundlePriceWidget.bundleSubtitle)
-        bundleOverViewWidget.bundleHotelWidget.setOnClickListener {
+        bundleOverViewWidget.bundleHotelWidget.rowContainer.setOnClickListener {
             back()
         }
         bundlePriceWidget.viewModel = BundlePriceViewModel(context)

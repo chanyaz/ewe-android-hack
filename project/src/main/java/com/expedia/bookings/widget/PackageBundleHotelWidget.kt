@@ -118,6 +118,7 @@ class PackageBundleHotelWidget(context: Context, attrs: AttributeSet?) : CardVie
     fun openHotels() {
         Db.clearPackageHotelRoomSelection()
         val intent = Intent(context, PackageHotelActivity::class.java)
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
         (context as AppCompatActivity).startActivityForResult(intent, Constants.HOTEL_REQUEST_CODE, null)
     }
 
