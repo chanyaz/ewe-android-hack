@@ -10,28 +10,28 @@ import android.widget.LinearLayout
 import com.expedia.bookings.R
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.TelephoneSpinner
-import com.expedia.util.notNullAndObservable
-import com.expedia.vm.traveler.PhoneEntryViewModel
+import com.expedia.vm.traveler.TravelerPhoneViewModel
+import kotlin.properties.Delegates
 
 class PhoneEntryView(context: Context, attrs: AttributeSet?) : LinearLayout(context, attrs) {
     val phoneSpinner: TelephoneSpinner by bindView(R.id.edit_phone_number_country_code_spinner)
     val phoneNumber: TravelerEditText by bindView(R.id.edit_phone_number)
 
-    var viewModel: PhoneEntryViewModel by notNullAndObservable { vm ->
-        vm.phoneSubject.subscribe { phone ->
-            if (!TextUtils.isEmpty(phone.number)) {
-                phoneNumber.setText(phone.number)
-            }
-            if (!TextUtils.isEmpty(phone.countryCode)) {
-                phoneSpinner.update(phone.countryCode, phone.countryName)
-            }
-        }
-        vm.phoneErrorSubject.subscribe { error ->
-            phoneNumber.setError()
-        }
+    private var viewModel: TravelerPhoneViewModel by Delegates.notNull()
 
+    fun updateViewModel(newViewModel: TravelerPhoneViewModel) {
+        viewModel = newViewModel
+
+        phoneNumber.setText(viewModel.phoneNumberSubject.value)
+        phoneNumber.subscribeToError(viewModel.phoneErrorSubject)
+        phoneNumber.addTextChangedSubscriber(viewModel.phoneNumberObserver)
+
+        viewModel.phoneCountyCodeSubject.subscribe { countryCode ->
+            if (!TextUtils.isEmpty(countryCode)) {
+                phoneSpinner.update(countryCode, "")
+            }
+        }
         phoneSpinner.onItemSelectedListener = PhoneSpinnerItemSelected()
-        phoneNumber.addTextChangedListener(TravelerEditTextWatcher(vm.phoneNumberObserver, phoneNumber))
         spinnerUpdated()
     }
 

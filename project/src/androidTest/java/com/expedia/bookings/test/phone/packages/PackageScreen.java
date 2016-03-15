@@ -236,7 +236,7 @@ public class PackageScreen {
 	}
 
 	public static ViewInteraction travelerInfo() {
-		return onView(withId(R.id.travelers_button));
+		return onView(withId(R.id.traveler_default_state));
 	}
 
 	public static ViewInteraction itin() {

@@ -311,6 +311,7 @@
     <dimen name="card_view_container_margin">9dp</dimen>
 
     <!-- Traveler Checkout -->
+    <dimen name="traveler_select_item_padding">12dp</dimen>
     <dimen name="traveler_input_bottom_margin">4dp</dimen>
     <dimen name="traveler_input_text_size">16sp</dimen>
 

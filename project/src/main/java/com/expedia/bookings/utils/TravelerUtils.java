@@ -151,13 +151,13 @@ public class TravelerUtils {
 		ArrayList<Traveler> availableTravelers = new ArrayList<Traveler>(Db.getUser().getAssociatedTravelers());
 		availableTravelers.add(Db.getUser().getPrimaryTraveler());
 		// Check if the traveler is the primary traveler
-		if (traveler.compareNameTo(Db.getUser().getPrimaryTraveler()) == 0) {
+		if (traveler.nameEquals(Db.getUser().getPrimaryTraveler())) {
 			Db.getUser().getPrimaryTraveler().setIsSelectable(true);
 			return;
 		}
 		// Check to find the desired traveler and reset his selectable state
 		for (int i = 0; i < availableTravelers.size(); i++) {
-			if (traveler.compareNameTo(availableTravelers.get(i)) == 0) {
+			if (traveler.nameEquals(availableTravelers.get(i))) {
 				Db.getUser().getAssociatedTravelers().get(i).setIsSelectable(true);
 			}
 		}

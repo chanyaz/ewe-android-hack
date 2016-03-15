@@ -2142,6 +2142,11 @@
     <!-- save -->
     <string name="save">Save</string>
 
+    <!-- Enter traveler details prompt -->
+    <string name="checkout_enter_traveler_details">Traveler Details</string>
+    <string name="checkout_enter_traveler_details_line2">Enter your information</string>
+    <string name="checkout_more_travelers_TEMPLATE">+ {travelercount} more travelers</string>
+    <string name="checkout_edit_traveler_TEMPLATE">Edit Traveler {travelernumber}</string>
     <!-- Save traveler dialog -->
     <!-- save traveler -->
     <string name="save_traveler">Save Traveler</string>

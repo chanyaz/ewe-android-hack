@@ -71,6 +71,7 @@ dependencies {
     compile 'com.jakewharton:butterknife:6.1.0'
     compile 'com.leanplum:Leanplum:1.2.15'
     compile 'io.reactivex:rxandroid:1.1.0'
+    compile 'com.jakewharton.rxbinding:rxbinding:0.4.0'
     compile 'com.facebook.android:facebook-android-sdk:4.6.0'
     compile ('com.wefika:flowlayout:0.4.0') {
         exclude group: 'com.intellij'
@@ -125,6 +126,7 @@ dependencies {
     androidTestCompile fileTree(dir: 'libs', include: [
             'spoon-client-1.1.3-EXP.jar',
     ])
+    androidTestCompile "com.google.dexmaker:dexmaker-mockito:1.2"
 }
 
 android {
