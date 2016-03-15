@@ -1,5 +1,13 @@
 package com.expedia.bookings.test.robolectric;
 
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.robolectric.Robolectric;
+import org.robolectric.RuntimeEnvironment;
+import org.robolectric.annotation.Config;
+import org.robolectric.shadows.ShadowAccountManager;
+
 import android.accounts.Account;
 import android.accounts.AccountManager;
 import android.app.Activity;
@@ -19,21 +27,12 @@ import com.expedia.bookings.test.robolectric.shadows.ShadowUserManager;
 import com.expedia.bookings.utils.Strings;
 import com.expedia.bookings.widget.HotelViewModel;
 
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.robolectric.Robolectric;
-import org.robolectric.RuntimeEnvironment;
-import org.robolectric.annotation.Config;
-import org.robolectric.shadows.ShadowAccountManager;
-
-import static org.robolectric.Shadows.shadowOf;
-
 import rx.observers.TestSubscriber;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
+import static org.robolectric.Shadows.shadowOf;
 
 @RunWith(RobolectricRunner.class)
 @Config(shadows = { ShadowGCM.class, ShadowUserManager.class, ShadowAccountManagerEB.class})
@@ -49,6 +48,38 @@ public class HotelViewModelTest {
 		hotel.distanceUnit = "Miles";
 		hotel.lowRateInfo.currencyCode = "USD";
 		hotel.percentRecommended = 2;
+	}
+
+	@Test
+	public void strikeThroughPriceShow() {
+		hotel.lowRateInfo.priceToShowUsers = 10f;
+		hotel.lowRateInfo.strikethroughPriceToShowUsers = 12f;
+
+		setupSystemUnderTest();
+
+		assertTrue(vm.getHotelStrikeThroughPriceVisibility().getValue());
+		assertEquals("$12", vm.getHotelStrikeThroughPriceFormatted().getValue().toString());
+	}
+
+	@Test
+	public void strikeThroughPriceZeroDontShow() {
+		hotel.lowRateInfo.strikethroughPriceToShowUsers = 0f;
+
+		setupSystemUnderTest();
+
+		assertFalse(vm.getHotelStrikeThroughPriceVisibility().getValue());
+		assertEquals("", vm.getHotelStrikeThroughPriceFormatted().getValue());
+	}
+
+	@Test
+	public void strikeThroughPriceLessThanPriceToShowUsers() {
+		hotel.lowRateInfo.priceToShowUsers = 10f;
+		hotel.lowRateInfo.strikethroughPriceToShowUsers = 2f;
+
+		setupSystemUnderTest();
+
+		assertFalse(vm.getHotelStrikeThroughPriceVisibility().getValue());
+		assertEquals("", vm.getHotelStrikeThroughPriceFormatted().getValue());
 	}
 
 	@Test

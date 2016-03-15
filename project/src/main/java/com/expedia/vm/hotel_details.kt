@@ -63,9 +63,8 @@ class HotelMapViewModel(val context: Context, val selectARoomObserver: Observer<
     private val price = BehaviorSubject.create<CharSequence>()
     val fromPrice = BehaviorSubject.create<CharSequence>("")
     val fromPriceVisibility = fromPrice.map { it != null && !it.equals("") }
-    val strikethroughPriceVisibility = Observable.combineLatest(fromPriceVisibility,
-            Observable.zip(strikethroughPrice, price, { strikethroughPrice, price -> strikethroughPrice.toString() != price.toString() }))
-    { fromPriceVisibile, priceAndStrikethroughPriceAreDifferent -> fromPriceVisibile && priceAndStrikethroughPriceAreDifferent }
+    val strikethroughPriceVisibility = Observable.combineLatest(fromPriceVisibility, strikethroughPrice)
+                                        {fromPriceVisible, strikethroughPrice -> fromPriceVisible && strikethroughPrice.isNotEmpty()}
     val hotelLatLng = BehaviorSubject.create<DoubleArray>()
     val resetCameraPosition = PublishSubject.create<Unit>()
     val selectARoomInvisibility = BehaviorSubject.create<Boolean>(false)

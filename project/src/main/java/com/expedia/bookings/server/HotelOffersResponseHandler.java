@@ -16,11 +16,11 @@ import org.json.JSONObject;
 import android.content.Context;
 import android.text.TextUtils;
 
+import com.expedia.bookings.data.HotelMedia;
 import com.expedia.bookings.data.HotelOffersResponse;
 import com.expedia.bookings.data.HotelSearchParams;
 import com.expedia.bookings.data.HotelTextSection;
 import com.expedia.bookings.data.Location;
-import com.expedia.bookings.data.HotelMedia;
 import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Rate;
@@ -387,8 +387,11 @@ public class HotelOffersResponseHandler extends JsonResponseHandler<HotelOffersR
 
 		Money priceToShowUsers = ParserUtils.createMoney(chargeableRateInfo.getString("priceToShowUsers"),
 			currencyCode);
+		// strikethroughPrice optional for Domain V2 Hotel API
+		String strikethroughPrice =
+			(chargeableRateInfo.getString("strikethroughPriceToShowUsers") != null) ? chargeableRateInfo.getString("strikethroughPriceToShowUsers") : "0";
 		Money strikethroughPriceToShowUsers = ParserUtils.createMoney(
-			chargeableRateInfo.getString("strikethroughPriceToShowUsers"), currencyCode);
+			strikethroughPrice, currencyCode);
 		Money nightlyRateTotal = ParserUtils.createMoney(chargeableRateInfo.getString("nightlyRateTotal"),
 			currencyCode);
 		rate.setNightlyRateTotal(nightlyRateTotal);
