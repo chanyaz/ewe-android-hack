@@ -8,10 +8,10 @@
         android:layout_height="match_parent"
         android:fitsSystemWindows="true" />
 
-    <View
-        android:id="@+id/flight_overview"
+    <com.expedia.bookings.presenter.flight.FlightSummaryWidget
+        android:id="@+id/flight_summary"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="wrap_content" />
 
     <com.expedia.bookings.widget.FlightCheckoutPresenter
         android:id="@+id/checkout_presenter"

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge android:id="@+id/bundle_container"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <com.expedia.bookings.widget.TextView
+        android:id="@+id/title"
+        style="@style/ResultsHeadersText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginBottom="11dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginTop="11dp"
+        android:text="@string/flight" />
+
+    <com.expedia.bookings.widget.PackageBundleFlightWidget
+        android:id="@+id/package_bundle_outbound_flight_widget"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="12dp"
+        android:layout_marginLeft="9dp"
+        android:layout_marginRight="9dp"
+        android:animateLayoutChanges="true"
+        android:foreground="?android:attr/selectableItemBackground"
+        android:minHeight="64dp"
+        app:cardCornerRadius="@dimen/cardview_border_radius"
+        app:cardElevation="1dp" />
+
+    <com.expedia.bookings.widget.PackageBundleFlightWidget
+        android:id="@+id/package_bundle_inbound_flight_widget"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="12dp"
+        android:layout_marginLeft="9dp"
+        android:layout_marginRight="9dp"
+        android:animateLayoutChanges="true"
+        android:foreground="?android:attr/selectableItemBackground"
+        android:minHeight="64dp"
+        app:cardCornerRadius="@dimen/cardview_border_radius"
+        app:cardElevation="1dp" />
+
+</merge>

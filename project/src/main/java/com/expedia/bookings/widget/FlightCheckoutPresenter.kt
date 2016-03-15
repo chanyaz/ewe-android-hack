@@ -33,7 +33,7 @@ class FlightCheckoutPresenter(context: Context, attr: AttributeSet) : BaseChecko
             priceChangeWidget.viewmodel.packagePrice.onNext(response.totalPrice)
             totalPriceWidget.viewModel.total.onNext(response.totalPrice)
             totalPriceWidget.viewModel.savings.onNext(response.totalPrice)
-//            totalPriceWidget.packagebreakdown.viewmodel.newDataObservable.onNext(trip.packageDetails)
+            //TODO: Add Breakdown
             toggleCheckoutButton(true)
         }
 

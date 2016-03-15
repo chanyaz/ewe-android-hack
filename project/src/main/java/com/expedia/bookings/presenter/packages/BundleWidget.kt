@@ -37,6 +37,15 @@ class BundleWidget(context: Context, attrs: AttributeSet) : LinearLayout(context
     var viewModel: BundleOverviewViewModel by notNullAndObservable { vm ->
         vm.hotelParamsObservable.subscribe { param ->
             bundleHotelWidget.viewModel.showLoadingStateObservable.onNext(true)
+
+            outboundFlightWidget.viewModel.suggestion.onNext(Db.getPackageParams().destination)
+            outboundFlightWidget.viewModel.date.onNext(Db.getPackageParams().checkIn)
+            outboundFlightWidget.viewModel.guests.onNext(Db.getPackageParams().guests())
+
+            inboundFlightWidget.viewModel.suggestion.onNext(Db.getPackageParams().origin)
+            inboundFlightWidget.viewModel.date.onNext(Db.getPackageParams().checkOut)
+            inboundFlightWidget.viewModel.guests.onNext(Db.getPackageParams().guests())
+
             if (!param.isChangePackageSearch()) {
                 outboundFlightWidget.viewModel.hotelLoadingStateObservable.onNext(PackageSearchType.OUTBOUND_FLIGHT)
                 inboundFlightWidget.viewModel.hotelLoadingStateObservable.onNext(PackageSearchType.INBOUND_FLIGHT)

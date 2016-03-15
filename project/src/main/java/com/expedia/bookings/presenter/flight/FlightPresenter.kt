@@ -24,6 +24,7 @@ import com.expedia.bookings.utils.bindView
 import com.expedia.util.notNullAndObservable
 import com.expedia.vm.FlightCheckoutViewModel
 import com.expedia.vm.FlightSearchViewModel
+import com.expedia.vm.PackageSearchType
 import com.squareup.phrase.Phrase
 import org.joda.time.LocalDate
 import java.math.BigDecimal
@@ -51,6 +52,10 @@ class FlightPresenter(context: Context, attrs: AttributeSet) : Presenter(context
 
     // TODO: Add FlightSearchPresenter
     var searchViewModel: FlightSearchViewModel by notNullAndObservable { vm ->
+        flightOverviewPresenter.flightSummary.outboundFlightWidget.viewModel.selectedFlightObservable.onNext(PackageSearchType.OUTBOUND_FLIGHT)
+        flightOverviewPresenter.flightSummary.inboundFlightWidget.viewModel.selectedFlightObservable.onNext(PackageSearchType.INBOUND_FLIGHT)
+        outBoundPresenter.overViewPresenter.vm.selectedFlightClicked.subscribe(flightOverviewPresenter.flightSummary.outboundFlightWidget.viewModel.flight)
+        inboundPresenter.overViewPresenter.vm.selectedFlightClicked.subscribe(flightOverviewPresenter.flightSummary.inboundFlightWidget.viewModel.flight)
         inboundPresenter.overViewPresenter.vm.selectedFlightClicked.subscribe(searchViewModel.inboundFlightSelected)
         outBoundPresenter.overViewPresenter.vm.selectedFlightClicked.subscribe(searchViewModel.outboundFlightSelected)
         vm.outboundResultsObservable.subscribe(outBoundPresenter.resultsPresenter.resultsViewModel.flightResultsObservable)
@@ -62,6 +67,17 @@ class FlightPresenter(context: Context, attrs: AttributeSet) : Presenter(context
             inboundPresenter.toolbarViewModel.city.onNext(params.arrivalAirport?.regionNames?.shortName)
             inboundPresenter.toolbarViewModel.travelers.onNext(params.guests())
             inboundPresenter.toolbarViewModel.date.onNext(searchParams?.returnDate)
+
+            flightOverviewPresenter.flightSummary.outboundFlightWidget.viewModel.suggestion.onNext(params.departureAirport)
+            flightOverviewPresenter.flightSummary.outboundFlightWidget.viewModel.date.onNext(searchParams?.departureDate)
+            flightOverviewPresenter.flightSummary.outboundFlightWidget.viewModel.guests.onNext(params.guests())
+
+            flightOverviewPresenter.flightSummary.inboundFlightWidget.viewModel.suggestion.onNext(params.arrivalAirport)
+            flightOverviewPresenter.flightSummary.inboundFlightWidget.viewModel.date.onNext(searchParams?.returnDate)
+            flightOverviewPresenter.flightSummary.inboundFlightWidget.viewModel.guests.onNext(params.guests())
+
+            flightOverviewPresenter.flightSummary.outboundFlightWidget.viewModel.hotelLoadingStateObservable.onNext(PackageSearchType.OUTBOUND_FLIGHT)
+            flightOverviewPresenter.flightSummary.inboundFlightWidget.viewModel.hotelLoadingStateObservable.onNext(PackageSearchType.INBOUND_FLIGHT)
 
         }
         vm.flightProductId.subscribe { productKey ->
@@ -115,6 +131,7 @@ class FlightPresenter(context: Context, attrs: AttributeSet) : Presenter(context
 
         val regionName = SuggestionV4.RegionNames()
         regionName.shortName = "San Francisco, CA"
+        regionName.displayName = "San Francisco, CA"
         suggestion.regionNames = regionName
         return suggestion
     }

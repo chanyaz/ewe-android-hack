@@ -487,5 +487,6 @@ DummyFiletoHandleKotlinLintError {
 		R.layout.flight_overview,
 		R.layout.flight_activity,
 		R.layout.bundle_overview_header,
+		R.layout.flight_summary
 	};
 }
