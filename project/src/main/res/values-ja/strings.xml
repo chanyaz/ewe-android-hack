@@ -3,6 +3,7 @@
 
     <!-- Hotels -->
     <!-- Hotels Calendar Strings -->
+    <string name="select_checkin_date">チェックイン日を選択</string>
     <!-- Hotels calendar tooltip bottom line after a single date is selected -->
     <string name="hotel_calendar_tooltip_bottom">次に、チェックアウト日を選択</string>
     <!-- When user hasn't picked check out date, we show something like: "Jan 21 - Select check out date" -->
@@ -84,10 +85,6 @@
     <string name="cars_view_details_text">詳細を表示</string>
     <!-- Text for driver details toolbar-->
     <string name="cars_driver_details_text">ドライバーの情報</string>
-    <!-- Text for payment details toolbar-->
-    <string name="cars_payment_details_text">支払い情報の詳細</string>
-    <!-- Text for payment options toolbar-->
-    <string name="cars_payment_options_text">支払いオプション</string>
     <!-- Text for enter driver details-->
     <string name="enter_driver_details">ドライバーの情報を入力</string>
     <!-- Text for select saved contacts-->
@@ -223,7 +220,7 @@
     <!-- Text for enter guest details line 2 -->
     <string name="checkout_hotelsv2_enter_guest_details_line2">情報を入力してください</string>
     <!-- Text for enter payment details line 1 -->
-    <string name="checkout_hotelsv2_enter_payment_details_line1">支払い情報の詳細</string>
+    <string name="checkout_enter_payment_details">お支払い方法</string>
     <!-- Text for enter payment details line 2 -->
     <string name="checkout_hotelsv2_enter_payment_details_line2">クレジットカード情報を入力</string>
     <!-- Label to indicate that the user has selected a stored credit card -->
@@ -241,7 +238,7 @@
     <!--Text for selecting user manually stored card -->
     <string name="temporarily_saved_card_TEMPLATE">保存済み{cardtype} (カード番号 {cardno})</string>
     <!--Text for stored card -->
-    <string name="stored_card_TEMPLATE">保存済みの {cardtype}</string>
+    <string name="stored_card_TEMPLATE">保存済み {cardtype}</string>
 
     <!-- Car error strings -->
     <!-- Message for user that pick-up time is too early.  -->
@@ -700,6 +697,12 @@
 
     <!-- Category Title "All Things To Do" -->
     <string name="lx_category_all_things_to_do">すべてのオプショナル ツアー</string>
+
+    <string name="lx_you_might_also_like">おすすめのオプショナル ツアー</string>
+    <string name="lx_customers_recommend">のゲストがおすすめ。</string>
+    <string name="lx_not_yet_recommended">まだおすすめされていません。</string>
+    <!-- LX user recommended percentage template-->
+    <string name="lx_recommend_percent_Template">{recommend}%</string>
 
     <!-- Tablet Results strings -->
     <!-- Sort & Filter label -->
@@ -1391,6 +1394,9 @@
     <string name="itin_card_details_expires">有効期限</string>
     <string name="itin_card_details_guests">宿泊者</string>
     <string name="itin_card_details_details">追加情報</string>
+    <string name="itin_card_flight_checkin_title">フライトのチェックイン</string>
+
+    <string name="itin_card_flight_checkin_details">%s のサイトを表示する</string>
     <string name="itin_card_details_pick_up">ピックアップ</string>
     <string name="itin_card_details_drop_off">返却</string>
     <!-- Tell users when they can pick up a rental car in three days -->
@@ -1456,6 +1462,17 @@
     <!-- Message to users about when they checked out of their hotel.  %1$s is a date (e.g., "Checked out Jul 11") -->
     <string name="itin_card_hotel_summary_checked_out_day_TEMPLATE">%1$sにチェックアウト</string>
     <string name="itin_card_activity_summary_TEMPLATE">&lt;b&gt;%1$s&lt;/b&gt;より有効</string>
+    <!-- Message to users about when they check in of their flight-->
+    <string name="itin_card_flight_checkin">今すぐチェックインする</string>
+    <!-- Title of alert dialog when user come back from check in-->
+    <string name="itin_checkin_dialog_title">チェックインしますか ?</string>
+    <!-- message of alert dialog (e.g., "Were you able to successfully check into your flight on Delta's website?")-->
+    <string name="itin_checkin_dialog_message">%s の Web サイトからフライトのチェックインができましたか ?</string>
+    <!-- Title of alert dialog when user fail to check in (e.g., "We're Sorry!")-->
+    <string name="itin_checkin_failure_dialog_title">申し訳ございません。</string>
+    <!-- message of alert dialog (e.g., "We'll look into it. Your Confirmation Number is now copied to the clipboard so you can check in on Delta's site or app directly.")-->
+    <string name="itin_checkin_failure_dialog_message">問題を調査します。確認番号がクリップボードにコピーされました。%s のサイトまたはアプリで直接お試しいただけます</string>
+
 
     <!-- Action Buttons -->
     <string name="itin_action_directions">行き方</string>
@@ -1794,10 +1811,6 @@
     <string name="or_select_new_paymet_method">お支払い方法を選択する</string>
     <!-- Select Payment -->
     <string name="select_payment">お支払い方法を選択する</string>
-    <!-- Select payment sentence case -->
-    <string name="select_payment_sentence_case">支払い情報の詳細</string>
-    <!-- Select payment sentence case AB Test variate2 -->
-    <string name="select_payment_sentence_case_variate2">お支払い</string>
     <!-- Select payment callout AB Test variate2 -->
     <string name="select_payment_callout">詳細を入力</string>
     <!-- Add new card -->
@@ -2135,6 +2148,7 @@
     <string name="save_traveler_message_TEMPLATE">{name}様の情報をお客様の {brand} アカウントに保存しますか ? 保存すると、次回ご購入時に便利です。</string>
     <!-- no thanks -->
     <string name="no_thanks">いいえ</string>
+    <!-- Advanced flight traveler options (seat pref, accessibility and redress number) button label -->
     <string name="advanced">拡張設定</string>
 
     <!-- Overwrite traveler dialog -->
@@ -2154,8 +2168,8 @@
     <string name="first_name">名 (例 : Taro)</string>
     <!-- Middle name label -->
     <string name="middle_name">ミドルネーム</string>
-    <!--A hint for the user to enter their name's initial letter-->
-    <string name="initial_name">イニシャル</string>
+    <!--A hint for the customer to enter their middle name's initial -->
+    <string name="initial_middle_name">イニシャル</string>
     <!-- Last name label -->
     <string name="last_name">姓 (例 : Yamada)</string>
     <!-- date of birth label -->
@@ -2203,6 +2217,7 @@
     <string name="prefers_seat_TEMPLATE">希望の座席 : %1$s</string>
     <!-- prefers seat template -->
     <string name="prefers_seat_colored_TEMPLATE">希望の座席 : %1$s</string>
+    <string name="prefers_seat_colored_TEMPLATE2">希望 : %1$s</string>
     <!-- loading traveler info -->
     <string name="loading_traveler_info">旅行者情報を読み込んでいます…</string>
     <!-- Passport -->
@@ -3905,6 +3920,12 @@
     <!-- Bundle Overview searching flight -->
     <string name="searching_flight_to">%sへのフライトを検索中</string>
 
+    <!-- Package All Flight label -->
+    <string name="all_flights_label">すべてのフライト</string>
+    <!-- Package Best Flight title -->
+    <string name="best_flight_title">最良のフライト</string>
+    <!-- Package Best Flight description -->
+    <string name="best_flight_description">お得 • 短時間 • 人気都市</string>
     <!-- Flight duration template e.g. 1d 12h 42m (Nonstop) -->
     <string name="flight_duration_description_template">%1$s (%2$s)</string>
     <!-- Flight hour duration template e.g. 12h 42m -->
@@ -3941,11 +3962,11 @@
         <item quantity="other">{city}のホテル - 1 室、{number} 泊</item>
     </plurals>
 
-    <!-- Package Trip Overview -->
-    <string name="trip_overview">旅行の概要</string>
+    <!-- Text indicating that the user can drag this button to view their trip -->
+    <string name="trip_overview">旅行の詳細を表示する</string>
     <!-- Slide to book -->
     <string name="package_slider_text">スライドして予約</string>
-    <string name="hotel_city_country_TEMPLATE">{city}, {country}</string>
+    <string name="hotel_city_country_checkout_header_TEMPLATE">{city}, {country}</string>
 
     <!-- Flight Duration filter label-->
     <string name="flight_duration_label">フライト時間</string>
@@ -4003,4 +4024,8 @@
     <string name="package_breakdown_taxes_fees">税およびサービス料</string>
     <string name="package_breakdown_taxes_fees_included_TEMPLATE">税およびサービス料込み ({taxes})</string>
     <string name="package_breakdown_total_savings">合計割引額</string>
+
+    <!-- Shop with points -->
+    <string name="regular_loyalty_applied_message">Expedia+ ポイント適用済み !</string>
+    <string name="vip_loyalty_applied_message">還元率 2 倍でポイント適用済み !</string>
 </resources>

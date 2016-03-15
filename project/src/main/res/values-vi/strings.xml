@@ -3,6 +3,7 @@
 
     <!-- Hotels -->
     <!-- Hotels Calendar Strings -->
+    <string name="select_checkin_date">Chọn ngày nhận phòng</string>
     <!-- Hotels calendar tooltip bottom line after a single date is selected -->
     <string name="hotel_calendar_tooltip_bottom">Tiếp: Chọn ngày trả phòng</string>
     <!-- When user hasn't picked check out date, we show something like: "Jan 21 - Select check out date" -->
@@ -84,10 +85,6 @@
     <string name="cars_view_details_text">Xem chi tiết</string>
     <!-- Text for driver details toolbar-->
     <string name="cars_driver_details_text">Thông tin người lái xe</string>
-    <!-- Text for payment details toolbar-->
-    <string name="cars_payment_details_text">Chi tiết thanh toán</string>
-    <!-- Text for payment options toolbar-->
-    <string name="cars_payment_options_text">Tùy chọn thanh toán</string>
     <!-- Text for enter driver details-->
     <string name="enter_driver_details">Nhập thông tin người lái xe</string>
     <!-- Text for select saved contacts-->
@@ -223,7 +220,7 @@
     <!-- Text for enter guest details line 2 -->
     <string name="checkout_hotelsv2_enter_guest_details_line2">Nhập thông tin của quý vị</string>
     <!-- Text for enter payment details line 1 -->
-    <string name="checkout_hotelsv2_enter_payment_details_line1">Chi tiết thanh toán</string>
+    <string name="checkout_enter_payment_details">Phương thức thanh toán</string>
     <!-- Text for enter payment details line 2 -->
     <string name="checkout_hotelsv2_enter_payment_details_line2">Nhập thẻ tín dụng</string>
     <!-- Label to indicate that the user has selected a stored credit card -->
@@ -700,6 +697,12 @@
 
     <!-- Category Title "All Things To Do" -->
     <string name="lx_category_all_things_to_do">Mọi hoạt động giải trí</string>
+
+    <string name="lx_you_might_also_like">Quý vị chắc cũng sẽ thích</string>
+    <string name="lx_customers_recommend">đề xuất của khách.</string>
+    <string name="lx_not_yet_recommended">Chưa có đề xuất.</string>
+    <!-- LX user recommended percentage template-->
+    <string name="lx_recommend_percent_Template">{recommend}%</string>
 
     <!-- Tablet Results strings -->
     <!-- Sort & Filter label -->
@@ -1391,6 +1394,9 @@
     <string name="itin_card_details_expires">Hết hạn</string>
     <string name="itin_card_details_guests">Khách</string>
     <string name="itin_card_details_details">Thông tin bổ sung</string>
+    <string name="itin_card_flight_checkin_title">Làm thủ tục chuyến bay</string>
+
+    <string name="itin_card_flight_checkin_details">Truy cập trang của %s</string>
     <string name="itin_card_details_pick_up">Nhận</string>
     <string name="itin_card_details_drop_off">Trả</string>
     <!-- Tell users when they can pick up a rental car in three days -->
@@ -1456,6 +1462,17 @@
     <!-- Message to users about when they checked out of their hotel.  %1$s is a date (e.g., "Checked out Jul 11") -->
     <string name="itin_card_hotel_summary_checked_out_day_TEMPLATE">Đã trả phòng %1$s</string>
     <string name="itin_card_activity_summary_TEMPLATE">Hiệu lực từ &lt;b&gt;%1$s&lt;/b&gt;</string>
+    <!-- Message to users about when they check in of their flight-->
+    <string name="itin_card_flight_checkin">Làm thủ tục ngay</string>
+    <!-- Title of alert dialog when user come back from check in-->
+    <string name="itin_checkin_dialog_title">Làm thủ tục?</string>
+    <!-- message of alert dialog (e.g., "Were you able to successfully check into your flight on Delta's website?")-->
+    <string name="itin_checkin_dialog_message">Quý vị có làm thủ tục chuyến bay thành công trên trang web của %s không?</string>
+    <!-- Title of alert dialog when user fail to check in (e.g., "We're Sorry!")-->
+    <string name="itin_checkin_failure_dialog_title">Thành thật xin lỗi!</string>
+    <!-- message of alert dialog (e.g., "We'll look into it. Your Confirmation Number is now copied to the clipboard so you can check in on Delta's site or app directly.")-->
+    <string name="itin_checkin_failure_dialog_message">Chúng tôi sẽ kiểm tra. Số xác nhận của quý vị đã được sao chép vào bộ nhớ tạm để quý vị có thể làm thủ tục trực tiếp trên trang hay app của %s.</string>
+
 
     <!-- Action Buttons -->
     <string name="itin_action_directions">Hướng dẫn đường đi</string>
@@ -1794,10 +1811,6 @@
     <string name="or_select_new_paymet_method">Chọn phương thức thanh toán</string>
     <!-- Select Payment -->
     <string name="select_payment">Chọn phương thức thanh toán</string>
-    <!-- Select payment sentence case -->
-    <string name="select_payment_sentence_case">Chi tiết thanh toán</string>
-    <!-- Select payment sentence case AB Test variate2 -->
-    <string name="select_payment_sentence_case_variate2">Thanh toán</string>
     <!-- Select payment callout AB Test variate2 -->
     <string name="select_payment_callout">Nhập chi tiết</string>
     <!-- Add new card -->
@@ -2135,6 +2148,7 @@
     <string name="save_traveler_message_TEMPLATE">Lưu thông tin {name} vào tài khoản {brand} của quý vị để thanh toán nhanh hơn trong những lần sau?</string>
     <!-- no thanks -->
     <string name="no_thanks">Không, cảm ơn</string>
+    <!-- Advanced flight traveler options (seat pref, accessibility and redress number) button label -->
     <string name="advanced">Nâng cao</string>
 
     <!-- Overwrite traveler dialog -->
@@ -2154,8 +2168,8 @@
     <string name="first_name">Tên</string>
     <!-- Middle name label -->
     <string name="middle_name">Tên đệm</string>
-    <!--A hint for the user to enter their name's initial letter-->
-    <string name="initial_name">Ký tự đầu</string>
+    <!--A hint for the customer to enter their middle name's initial -->
+    <string name="initial_middle_name">Ký tự đầu</string>
     <!-- Last name label -->
     <string name="last_name">Họ</string>
     <!-- date of birth label -->
@@ -2203,6 +2217,7 @@
     <string name="prefers_seat_TEMPLATE">Chỗ ngồi ưa thích %1$s</string>
     <!-- prefers seat template -->
     <string name="prefers_seat_colored_TEMPLATE">Chỗ ngồi ưa thích %1$s</string>
+    <string name="prefers_seat_colored_TEMPLATE2">Ưa thích: Chỗ ngồi %1$s</string>
     <!-- loading traveler info -->
     <string name="loading_traveler_info">Đang tải thông tin khách…</string>
     <!-- Passport -->
@@ -3905,6 +3920,12 @@
     <!-- Bundle Overview searching flight -->
     <string name="searching_flight_to">Tìm chuyến bay đến %s</string>
 
+    <!-- Package All Flight label -->
+    <string name="all_flights_label">Tất cả các chuyến bay</string>
+    <!-- Package Best Flight title -->
+    <string name="best_flight_title">Chuyến bay tốt nhất</string>
+    <!-- Package Best Flight description -->
+    <string name="best_flight_description">chuyến khởi hành giá rẻ • tiết kiệm thời gian • nhiều người lựa chọn</string>
     <!-- Flight duration template e.g. 1d 12h 42m (Nonstop) -->
     <string name="flight_duration_description_template">%1$s (%2$s)</string>
     <!-- Flight hour duration template e.g. 12h 42m -->
@@ -3941,11 +3962,11 @@
         <item quantity="other">Khách sạn tại {city} - 1 phòng, {number} đêm</item>
     </plurals>
 
-    <!-- Package Trip Overview -->
-    <string name="trip_overview">Tổng quan về chuyến đi</string>
+    <!-- Text indicating that the user can drag this button to view their trip -->
+    <string name="trip_overview">Xem thông tin chuyến đi</string>
     <!-- Slide to book -->
     <string name="package_slider_text">Trượt để đặt</string>
-    <string name="hotel_city_country_TEMPLATE">{city}, {country}</string>
+    <string name="hotel_city_country_checkout_header_TEMPLATE">{city}, {country}</string>
 
     <!-- Flight Duration filter label-->
     <string name="flight_duration_label">Thời lượng chuyến bay</string>
@@ -4003,4 +4024,8 @@
     <string name="package_breakdown_taxes_fees">Thuế &amp; Phí</string>
     <string name="package_breakdown_taxes_fees_included_TEMPLATE">Gồm thuế &amp; phí ({taxes})</string>
     <string name="package_breakdown_total_savings">Tổng tiết kiệm</string>
+
+    <!-- Shop with points -->
+    <string name="regular_loyalty_applied_message">Đã áp dụng Điểm Expedia+!</string>
+    <string name="vip_loyalty_applied_message">Đã áp dụng số điểm gấp đôi!</string>
 </resources>

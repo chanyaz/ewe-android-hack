@@ -3,6 +3,7 @@
 
     <!-- Hotels -->
     <!-- Hotels Calendar Strings -->
+    <string name="select_checkin_date">Anreisedatum auswählen</string>
     <!-- Hotels calendar tooltip bottom line after a single date is selected -->
     <string name="hotel_calendar_tooltip_bottom">Danach: Abreisedatum auswählen</string>
     <!-- When user hasn't picked check out date, we show something like: "Jan 21 - Select check out date" -->
@@ -84,10 +85,6 @@
     <string name="cars_view_details_text">Details anzeigen</string>
     <!-- Text for driver details toolbar-->
     <string name="cars_driver_details_text">Angaben zum Fahrer</string>
-    <!-- Text for payment details toolbar-->
-    <string name="cars_payment_details_text">Zahlungsdetails</string>
-    <!-- Text for payment options toolbar-->
-    <string name="cars_payment_options_text">Zahlungsoptionen</string>
     <!-- Text for enter driver details-->
     <string name="enter_driver_details">Fahrerdetails eingeben</string>
     <!-- Text for select saved contacts-->
@@ -223,7 +220,7 @@
     <!-- Text for enter guest details line 2 -->
     <string name="checkout_hotelsv2_enter_guest_details_line2">Bitte geben Sie Ihre Daten ein</string>
     <!-- Text for enter payment details line 1 -->
-    <string name="checkout_hotelsv2_enter_payment_details_line1">Zahlungsinformationen</string>
+    <string name="checkout_enter_payment_details">Zahlungsart</string>
     <!-- Text for enter payment details line 2 -->
     <string name="checkout_hotelsv2_enter_payment_details_line2">Bitte geben Sie Ihre Kreditkarte ein</string>
     <!-- Label to indicate that the user has selected a stored credit card -->
@@ -700,6 +697,12 @@
 
     <!-- Category Title "All Things To Do" -->
     <string name="lx_category_all_things_to_do">Alle Aktivitäten</string>
+
+    <string name="lx_you_might_also_like">Das könnte Ihnen auch gefallen</string>
+    <string name="lx_customers_recommend">der Kunden empfehlen dies.</string>
+    <string name="lx_not_yet_recommended">Noch nicht empfohlen.</string>
+    <!-- LX user recommended percentage template-->
+    <string name="lx_recommend_percent_Template">{recommend}%</string>
 
     <!-- Tablet Results strings -->
     <!-- Sort & Filter label -->
@@ -1391,6 +1394,9 @@
     <string name="itin_card_details_expires">Gültig bis</string>
     <string name="itin_card_details_guests">Gäste</string>
     <string name="itin_card_details_details">Weitere Informationen</string>
+    <string name="itin_card_flight_checkin_title">Check-in</string>
+
+    <string name="itin_card_flight_checkin_details">%s-Website besuchen</string>
     <string name="itin_card_details_pick_up">Abholung</string>
     <string name="itin_card_details_drop_off">Rückgabe</string>
     <!-- Tell users when they can pick up a rental car in three days -->
@@ -1456,6 +1462,17 @@
     <!-- Message to users about when they checked out of their hotel.  %1$s is a date (e.g., "Checked out Jul 11") -->
     <string name="itin_card_hotel_summary_checked_out_day_TEMPLATE">Ausgecheckt am %1$s</string>
     <string name="itin_card_activity_summary_TEMPLATE">Gültig ab &lt;b&gt;%1$s&lt;/b&gt;</string>
+    <!-- Message to users about when they check in of their flight-->
+    <string name="itin_card_flight_checkin">Jetzt einchecken</string>
+    <!-- Title of alert dialog when user come back from check in-->
+    <string name="itin_checkin_dialog_title">Schon eingecheckt?</string>
+    <!-- message of alert dialog (e.g., "Were you able to successfully check into your flight on Delta's website?")-->
+    <string name="itin_checkin_dialog_message">Konnten Sie auf der %s-Website für Ihren Flug einchecken?</string>
+    <!-- Title of alert dialog when user fail to check in (e.g., "We're Sorry!")-->
+    <string name="itin_checkin_failure_dialog_title">Tut uns leid!</string>
+    <!-- message of alert dialog (e.g., "We'll look into it. Your Confirmation Number is now copied to the clipboard so you can check in on Delta's site or app directly.")-->
+    <string name="itin_checkin_failure_dialog_message">Wir prüfen das. Ihre Bestätigungsnummer ist in der Zwischenablage, sodass Sie sie direkt in die Website oder App von %s kopieren können, um dort einzuchecken.</string>
+
 
     <!-- Action Buttons -->
     <string name="itin_action_directions">Wegbeschreibung</string>
@@ -1794,10 +1811,6 @@
     <string name="or_select_new_paymet_method">Wählen Sie eine Zahlungsart aus</string>
     <!-- Select Payment -->
     <string name="select_payment">Zahlungsart auswählen</string>
-    <!-- Select payment sentence case -->
-    <string name="select_payment_sentence_case">Zahlungsdetails</string>
-    <!-- Select payment sentence case AB Test variate2 -->
-    <string name="select_payment_sentence_case_variate2">Zahlung</string>
     <!-- Select payment callout AB Test variate2 -->
     <string name="select_payment_callout">Details eingeben</string>
     <!-- Add new card -->
@@ -2135,6 +2148,7 @@
     <string name="save_traveler_message_TEMPLATE">Möchten Sie die Daten von {name} in Ihrem {brand}-Konto speichern, damit Sie in Zukunft schneller buchen können?</string>
     <!-- no thanks -->
     <string name="no_thanks">Nein, danke</string>
+    <!-- Advanced flight traveler options (seat pref, accessibility and redress number) button label -->
     <string name="advanced">Erweitert</string>
 
     <!-- Overwrite traveler dialog -->
@@ -2154,8 +2168,8 @@
     <string name="first_name">Vorname</string>
     <!-- Middle name label -->
     <string name="middle_name">2. Vorname</string>
-    <!--A hint for the user to enter their name's initial letter-->
-    <string name="initial_name">Initiale</string>
+    <!--A hint for the customer to enter their middle name's initial -->
+    <string name="initial_middle_name">Initiale</string>
     <!-- Last name label -->
     <string name="last_name">Nachname</string>
     <!-- date of birth label -->
@@ -2203,6 +2217,7 @@
     <string name="prefers_seat_TEMPLATE">Bevorzugt diesen Sitzplatz: %1$s</string>
     <!-- prefers seat template -->
     <string name="prefers_seat_colored_TEMPLATE">Bevorzugt diesen Sitzplatz: %1$s</string>
+    <string name="prefers_seat_colored_TEMPLATE2">Bevorzugt diesen Sitzplatz: %1$s</string>
     <!-- loading traveler info -->
     <string name="loading_traveler_info">Informationen zum Reisenden werden geladen…</string>
     <!-- Passport -->
@@ -3906,6 +3921,12 @@
     <!-- Bundle Overview searching flight -->
     <string name="searching_flight_to">Flüge nach %s werden gesucht</string>
 
+    <!-- Package All Flight label -->
+    <string name="all_flights_label">Alle Flüge</string>
+    <!-- Package Best Flight title -->
+    <string name="best_flight_title">Der beste Flug</string>
+    <!-- Package Best Flight description -->
+    <string name="best_flight_description">günstig • kurz • beliebte Abflugzeit</string>
     <!-- Flight duration template e.g. 1d 12h 42m (Nonstop) -->
     <string name="flight_duration_description_template">%1$s (%2$s)</string>
     <!-- Flight hour duration template e.g. 12h 42m -->
@@ -3942,11 +3963,11 @@
         <item quantity="other">Hotel in {city} – 1 Zimmer, {number} Nächte</item>
     </plurals>
 
-    <!-- Package Trip Overview -->
-    <string name="trip_overview">Reiseübersicht</string>
+    <!-- Text indicating that the user can drag this button to view their trip -->
+    <string name="trip_overview">Reisedetails anzeigen</string>
     <!-- Slide to book -->
     <string name="package_slider_text">Zum Buchen wischen</string>
-    <string name="hotel_city_country_TEMPLATE">{city}, {country}</string>
+    <string name="hotel_city_country_checkout_header_TEMPLATE">{city}, {country}</string>
 
     <!-- Flight Duration filter label-->
     <string name="flight_duration_label">Flugdauer</string>
@@ -4004,4 +4025,8 @@
     <string name="package_breakdown_taxes_fees">Steuern und Gebühren</string>
     <string name="package_breakdown_taxes_fees_included_TEMPLATE">Steuern und Gebühren inbegriffen ({taxes})</string>
     <string name="package_breakdown_total_savings">Gesamtersparnis</string>
+
+    <!-- Shop with points -->
+    <string name="regular_loyalty_applied_message">Expedia+ Punkte wurden eingelöst!</string>
+    <string name="vip_loyalty_applied_message">2x Punkte eingelöst!</string>
 </resources>

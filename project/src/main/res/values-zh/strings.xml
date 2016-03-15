@@ -3,6 +3,7 @@
 
     <!-- Hotels -->
     <!-- Hotels Calendar Strings -->
+    <string name="select_checkin_date">选择入住日期</string>
     <!-- Hotels calendar tooltip bottom line after a single date is selected -->
     <string name="hotel_calendar_tooltip_bottom">下一步：选择退房日期</string>
     <!-- When user hasn't picked check out date, we show something like: "Jan 21 - Select check out date" -->
@@ -84,10 +85,6 @@
     <string name="cars_view_details_text">查看详细信息</string>
     <!-- Text for driver details toolbar-->
     <string name="cars_driver_details_text">司机信息</string>
-    <!-- Text for payment details toolbar-->
-    <string name="cars_payment_details_text">付款信息</string>
-    <!-- Text for payment options toolbar-->
-    <string name="cars_payment_options_text">付款方式</string>
     <!-- Text for enter driver details-->
     <string name="enter_driver_details">输入司机的信息</string>
     <!-- Text for select saved contacts-->
@@ -223,7 +220,7 @@
     <!-- Text for enter guest details line 2 -->
     <string name="checkout_hotelsv2_enter_guest_details_line2">输入您的信息</string>
     <!-- Text for enter payment details line 1 -->
-    <string name="checkout_hotelsv2_enter_payment_details_line1">付款详细信息</string>
+    <string name="checkout_enter_payment_details">付款方式</string>
     <!-- Text for enter payment details line 2 -->
     <string name="checkout_hotelsv2_enter_payment_details_line2">输入信用卡信息</string>
     <!-- Label to indicate that the user has selected a stored credit card -->
@@ -700,6 +697,12 @@
 
     <!-- Category Title "All Things To Do" -->
     <string name="lx_category_all_things_to_do">游览观光</string>
+
+    <string name="lx_you_might_also_like">您可能还会喜欢</string>
+    <string name="lx_customers_recommend">的客户推荐。</string>
+    <string name="lx_not_yet_recommended">尚未推荐。</string>
+    <!-- LX user recommended percentage template-->
+    <string name="lx_recommend_percent_Template">{recommend}%</string>
 
     <!-- Tablet Results strings -->
     <!-- Sort & Filter label -->
@@ -1391,6 +1394,9 @@
     <string name="itin_card_details_expires">到期</string>
     <string name="itin_card_details_guests">宾客</string>
     <string name="itin_card_details_details">其他信息</string>
+    <string name="itin_card_flight_checkin_title">办理航班登机</string>
+
+    <string name="itin_card_flight_checkin_details">访问%s网站</string>
     <string name="itin_card_details_pick_up">取车</string>
     <string name="itin_card_details_drop_off">还车</string>
     <!-- Tell users when they can pick up a rental car in three days -->
@@ -1456,6 +1462,17 @@
     <!-- Message to users about when they checked out of their hotel.  %1$s is a date (e.g., "Checked out Jul 11") -->
     <string name="itin_card_hotel_summary_checked_out_day_TEMPLATE">已经在 %1$s退房</string>
     <string name="itin_card_activity_summary_TEMPLATE">&lt;b&gt;%1$s&lt;/b&gt; 起生效</string>
+    <!-- Message to users about when they check in of their flight-->
+    <string name="itin_card_flight_checkin">立即办理登机</string>
+    <!-- Title of alert dialog when user come back from check in-->
+    <string name="itin_checkin_dialog_title">办理登机了吗？</string>
+    <!-- message of alert dialog (e.g., "Were you able to successfully check into your flight on Delta's website?")-->
+    <string name="itin_checkin_dialog_message">您是否能够在%s网站上成功办理航班登机？</string>
+    <!-- Title of alert dialog when user fail to check in (e.g., "We're Sorry!")-->
+    <string name="itin_checkin_failure_dialog_title">非常抱歉！</string>
+    <!-- message of alert dialog (e.g., "We'll look into it. Your Confirmation Number is now copied to the clipboard so you can check in on Delta's site or app directly.")-->
+    <string name="itin_checkin_failure_dialog_message">我们会调查此问题。您的确认编号现已复制到剪贴板，您可直接在%s网站或 App 上尝试办理登机。</string>
+
 
     <!-- Action Buttons -->
     <string name="itin_action_directions">路线</string>
@@ -1794,10 +1811,6 @@
     <string name="or_select_new_paymet_method">选择付款方式</string>
     <!-- Select Payment -->
     <string name="select_payment">选择付款</string>
-    <!-- Select payment sentence case -->
-    <string name="select_payment_sentence_case">付款信息</string>
-    <!-- Select payment sentence case AB Test variate2 -->
-    <string name="select_payment_sentence_case_variate2">付款</string>
     <!-- Select payment callout AB Test variate2 -->
     <string name="select_payment_callout">输入详细信息</string>
     <!-- Add new card -->
@@ -2135,6 +2148,7 @@
     <string name="save_traveler_message_TEMPLATE">是否将 {name} 的信息保存到您的 {brand} 帐户，以方便将来预订？</string>
     <!-- no thanks -->
     <string name="no_thanks">不，谢谢</string>
+    <!-- Advanced flight traveler options (seat pref, accessibility and redress number) button label -->
     <string name="advanced">高级选项</string>
 
     <!-- Overwrite traveler dialog -->
@@ -2154,8 +2168,8 @@
     <string name="first_name">名</string>
     <!-- Middle name label -->
     <string name="middle_name">中间名</string>
-    <!--A hint for the user to enter their name's initial letter-->
-    <string name="initial_name">首字母</string>
+    <!--A hint for the customer to enter their middle name's initial -->
+    <string name="initial_middle_name">首字母</string>
     <!-- Last name label -->
     <string name="last_name">姓</string>
     <!-- date of birth label -->
@@ -2203,6 +2217,7 @@
     <string name="prefers_seat_TEMPLATE">偏好%1$s的座位</string>
     <!-- prefers seat template -->
     <string name="prefers_seat_colored_TEMPLATE">偏好%1$s的座位</string>
+    <string name="prefers_seat_colored_TEMPLATE2">偏好：%1$s的座位</string>
     <!-- loading traveler info -->
     <string name="loading_traveler_info">正在加载旅客信息…</string>
     <!-- Passport -->
@@ -3905,6 +3920,12 @@
     <!-- Bundle Overview searching flight -->
     <string name="searching_flight_to">搜索飞往%s的航班</string>
 
+    <!-- Package All Flight label -->
+    <string name="all_flights_label">所有航班</string>
+    <!-- Package Best Flight title -->
+    <string name="best_flight_title">最佳航班</string>
+    <!-- Package Best Flight description -->
+    <string name="best_flight_description">廉价 • 时间短 • 出发时间适宜</string>
     <!-- Flight duration template e.g. 1d 12h 42m (Nonstop) -->
     <string name="flight_duration_description_template">%1$s (%2$s)</string>
     <!-- Flight hour duration template e.g. 12h 42m -->
@@ -3941,11 +3962,11 @@
         <item quantity="other">{city}酒店 - 1 间房，{number} 晚</item>
     </plurals>
 
-    <!-- Package Trip Overview -->
-    <string name="trip_overview">行程摘要</string>
+    <!-- Text indicating that the user can drag this button to view their trip -->
+    <string name="trip_overview">查看旅行详细信息</string>
     <!-- Slide to book -->
     <string name="package_slider_text">滑动屏幕，开始预订</string>
-    <string name="hotel_city_country_TEMPLATE">{city}, {country}</string>
+    <string name="hotel_city_country_checkout_header_TEMPLATE">{city}, {country}</string>
 
     <!-- Flight Duration filter label-->
     <string name="flight_duration_label">飞行时间</string>
@@ -4003,4 +4024,8 @@
     <string name="package_breakdown_taxes_fees">税款与服务费</string>
     <string name="package_breakdown_taxes_fees_included_TEMPLATE">含税费 ({taxes})</string>
     <string name="package_breakdown_total_savings">直降</string>
+
+    <!-- Shop with points -->
+    <string name="regular_loyalty_applied_message">使用了 Expedia+ 积分！</string>
+    <string name="vip_loyalty_applied_message">兑换了 2 倍积分！</string>
 </resources>
