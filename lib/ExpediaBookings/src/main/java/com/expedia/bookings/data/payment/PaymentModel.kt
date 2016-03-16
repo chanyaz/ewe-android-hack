@@ -14,7 +14,7 @@ import java.math.BigDecimal
 class PaymentModel<T : TripResponse>(loyaltyServices: LoyaltyServices) {
     val discardPendingCurrencyToPointsAPISubscription = PublishSubject.create<Unit>()
 
-    class PaymentSplitsAndTripResponse(val tripResponse: TripResponse, val paymentSplits: PaymentSplits) {
+    class PaymentSplitsAndTripResponse<T : TripResponse>(val tripResponse: T, val paymentSplits: PaymentSplits) {
         fun isCardRequired(): Boolean = if (this.tripResponse.isExpediaRewardsRedeemable()) this.paymentSplits.paymentSplitsType() != PaymentSplitsType.IS_FULL_PAYABLE_WITH_POINT else this.tripResponse.isCardDetailsRequiredForBooking()
     }
 
