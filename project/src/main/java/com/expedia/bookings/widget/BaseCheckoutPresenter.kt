@@ -91,7 +91,7 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet) : Pre
         loginWidget.setListener(this)
         slideToPurchase.addSlideToListener(this)
 
-        loginWidget.bind(false, Db.getUser() != null, Db.getUser(), LineOfBusiness.PACKAGES)
+        loginWidget.bind(false, User.isLoggedIn(context), Db.getUser(), LineOfBusiness.PACKAGES)
 
         paymentWidget.viewmodel.expandObserver.subscribe { showPaymentPresenter() }
 
@@ -173,7 +173,7 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet) : Pre
 
     private val defaultTransition = object : Presenter.DefaultTransition(CheckoutDefault::class.java.name) {
         override fun endTransition(forward: Boolean) {
-            loginWidget.bind(false, Db.getUser() != null, Db.getUser(), LineOfBusiness.PACKAGES)
+            loginWidget.bind(false, User.isLoggedIn(context), Db.getUser(), LineOfBusiness.PACKAGES)
             paymentWidget.show(PaymentWidget.PaymentDefault(), Presenter.FLAG_CLEAR_BACKSTACK)
             updateTravelerPresenter()
         }
@@ -279,8 +279,8 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet) : Pre
 
     override fun accountLogoutClicked() {
         User.signOut(context)
+        updateTravelerPresenter()
         loginWidget.bind(false, false, null, getLineOfBusiness())
-        //travelerWidget.onLogout()
         paymentWidget.viewmodel.userLogin.onNext(false)
         hintContainer.visibility = View.VISIBLE
         doCreateTrip()

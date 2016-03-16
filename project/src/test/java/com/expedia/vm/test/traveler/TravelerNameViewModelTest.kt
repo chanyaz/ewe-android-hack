@@ -29,7 +29,8 @@ class TravelerNameViewModelTest {
 
     @Test
     fun emptyTraveler() {
-        nameVM = TravelerNameViewModel(TravelerName())
+        nameVM = TravelerNameViewModel()
+        nameVM.updateTravelerName(TravelerName())
 
         val testSubscriber = TestSubscriber<String>(1)
         nameVM.firstNameSubject.subscribe(testSubscriber)
@@ -49,7 +50,9 @@ class TravelerNameViewModelTest {
         name.middleName = TEST_MIDDLE
         name.lastName = TEST_LAST
 
-        nameVM = TravelerNameViewModel(name)
+        nameVM = TravelerNameViewModel()
+        nameVM.updateTravelerName(name)
+
         val testSubscriber = TestSubscriber<String>(1)
         nameVM.firstNameSubject.subscribe(testSubscriber)
         nameVM.middleNameSubject.subscribe(testSubscriber)
@@ -64,7 +67,8 @@ class TravelerNameViewModelTest {
     @Test
     fun travelerNameChange() {
         val travelerName = TravelerName()
-        nameVM = TravelerNameViewModel(travelerName)
+        nameVM = TravelerNameViewModel()
+        nameVM.updateTravelerName(travelerName)
 
         nameVM.firstNameObserver.onNext(TextViewAfterTextChangeEvent.create(TEST_TEXT_VIEW, TEST_FIRST_EDITABLE))
         assertEquals(TEST_FIRST, travelerName.firstName)
@@ -81,7 +85,8 @@ class TravelerNameViewModelTest {
         val expectedErrorCount = 3
         var name = TravelerName()
         name.middleName = "@!$%"
-        nameVM = TravelerNameViewModel(name)
+        nameVM = TravelerNameViewModel()
+        nameVM.updateTravelerName(name)
 
         val testSubscriber = TestSubscriber<Boolean>(1)
         nameVM.firstNameErrorSubject.subscribe(testSubscriber)

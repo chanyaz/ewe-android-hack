@@ -18,6 +18,7 @@ import com.expedia.bookings.test.espresso.ViewActions;
 import com.expedia.bookings.test.phone.pagemodels.common.BillingAddressScreen;
 import com.expedia.bookings.test.phone.pagemodels.common.CardInfoScreen;
 import com.expedia.bookings.test.phone.pagemodels.common.CheckoutViewModel;
+import com.expedia.bookings.test.phone.pagemodels.common.LogInScreen;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
@@ -273,6 +274,14 @@ public class PackageScreen {
 		Common.delay(2);
 	}
 
+	public static void selectSavedTraveler() throws Throwable {
+		travelerInfo().perform(ViewActions.waitForViewToDisplay());
+		travelerInfo().perform(scrollTo(), click());
+		CheckoutViewModel.clickStoredTravelerButton();
+		CheckoutViewModel.selectStoredTraveler("Expedia Automation First");
+		clickTravelerDone();
+	}
+
 	// TODO Probably want to move these methods somewhere else.
 	public static void enterFirstName(String name) {
 		onView(withId(R.id.first_name_input)).perform(typeText(name));
@@ -341,5 +350,20 @@ public class PackageScreen {
 		PackageScreen.selectGuestsButton().perform(click());
 		PackageScreen.setGuests(adults, children);
 		PackageScreen.searchButton().perform(click());
+	}
+
+	public static void signIn() {
+		onView(withId(R.id.login_text_view)).perform(click());
+		signIn("qa-ehcc@mobiata.com");
+	}
+
+	public static void signIn(String username) {
+		LogInScreen.typeTextEmailEditText(username);
+		LogInScreen.typeTextPasswordEditText("password");
+		LogInScreen.clickOnLoginButton();
+	}
+
+	public static void signOut() {
+		onView(withId(R.id.account_logout_logout_button)).perform(click());
 	}
 }

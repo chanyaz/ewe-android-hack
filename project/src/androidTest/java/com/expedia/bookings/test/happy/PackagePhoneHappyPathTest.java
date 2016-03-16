@@ -104,6 +104,12 @@ public class PackagePhoneHappyPathTest extends PackageTestCase {
 		assertCheckoutOverview();
 
 		PackageScreen.checkout().perform(click());
+		PackageScreen.signIn();
+
+		PackageScreen.selectSavedTraveler();
+		assertStoredTraveler();
+
+		PackageScreen.signOut();
 
 		PackageScreen.enterTravelerInfo();
 		PackageScreen.enterPaymentInfo();
@@ -113,6 +119,14 @@ public class PackagePhoneHappyPathTest extends PackageTestCase {
 		Common.delay(1);
 
 		assertConfirmation();
+	}
+
+	private void assertStoredTraveler() {
+		onView(allOf(withId(R.id.first_name_input), withText("Expedia"))).check(matches(isDisplayed()));
+		onView(allOf(withId(R.id.middle_initial_input), withText("First"))).check(matches(isDisplayed()));
+		onView(allOf(withId(R.id.last_name_input), withText("First"))).check(matches(isDisplayed()));
+		onView(allOf(withId(R.id.edit_phone_number), withText("1234567890"))).check(matches(isDisplayed()));
+		onView(allOf(withId(R.id.edit_birth_date_text_btn), withText("Jan, 27, 1991"))).check(matches(isDisplayed()));
 	}
 
 	private void assertConfirmation() {
