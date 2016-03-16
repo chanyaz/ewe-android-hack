@@ -34,6 +34,10 @@
     <color name="review_screen_tab_indicator">@color/launch_tab_indicator_tvly</color>
     <color name="hotel_checkout_account_button_background_color">@color/hotels_primary_color</color>
 
+    <color name="hotel_urgency_message_color">#57A3CC</color>
+    <color name="hotel_tonight_only_color">#7AC231</color>
+    <color name="hotel_mobile_exclusive_color">#F58025</color>
+
     <!-- Cars -->
     <color name="cars_primary_color">#003E74</color>
     <color name="cars_unchecked_toggle_text_color_tvly">#B3FFFFFF</color>
