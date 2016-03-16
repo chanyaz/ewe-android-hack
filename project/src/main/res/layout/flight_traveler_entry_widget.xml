@@ -36,6 +36,15 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
+        <Spinner
+            android:id="@+id/passport_country_spinner"
+            style="@style/FakeSpinner.Light"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:popupBackground="@android:color/white"
+            android:textSize="@dimen/traveler_input_text_size"
+            android:visibility="gone"/>
+
         <com.expedia.bookings.widget.TextView
             android:id="@+id/new_traveler_done_button"
             android:layout_width="wrap_content"

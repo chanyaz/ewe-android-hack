@@ -3,17 +3,21 @@ package com.expedia.bookings.widget
 import android.content.Context
 import android.util.AttributeSet
 import android.view.View
+import android.widget.AdapterView
 import android.widget.ImageView
+import android.widget.Spinner
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Traveler
 import com.expedia.bookings.data.User
 import com.expedia.bookings.presenter.Presenter
+import com.expedia.bookings.section.CountrySpinnerAdapter
 import com.expedia.bookings.utils.AnimUtils
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.traveler.NameEntryView
 import com.expedia.bookings.widget.traveler.PhoneEntryView
 import com.expedia.bookings.widget.traveler.TSAEntryView
 import com.expedia.util.notNullAndObservable
+import com.expedia.util.subscribeVisibility
 import com.expedia.vm.traveler.TravelerViewModel
 import rx.subjects.PublishSubject
 
@@ -23,6 +27,7 @@ class FlightTravelerEntryWidget(context: Context, attrs: AttributeSet?) : FrameL
     val nameEntryView: NameEntryView by bindView(R.id.name_entry_widget)
     val phoneEntryView: PhoneEntryView by bindView(R.id.phone_entry_widget)
     val tsaEntryView: TSAEntryView by bindView(R.id.tsa_entry_widget)
+    val passportCountrySpinner: Spinner by bindView(R.id.passport_country_spinner)
     val advancedOptionsWidget: FlightTravelerAdvancedOptionsWidget by bindView(R.id.traveler_advanced_options_widget)
 
     val doneButton: TextView by bindView(R.id.new_traveler_done_button)
@@ -36,11 +41,26 @@ class FlightTravelerEntryWidget(context: Context, attrs: AttributeSet?) : FrameL
         phoneEntryView.viewModel = vm.phoneViewModel
         tsaEntryView.viewModel = vm.tsaViewModel
         advancedOptionsWidget.viewModel = vm.advancedOptionsViewModel
+
+        vm.passportCountrySubject.subscribe { countryCode ->
+            val adapter = passportCountrySpinner.adapter as CountrySpinnerAdapter
+            val position = if (countryCode.isNullOrEmpty()) adapter.defaultLocalePosition else adapter.getPositionByCountryThreeLetterCode(countryCode)
+            passportCountrySpinner.setSelection(position)
+        }
+        vm.showPassportCountryObservable.subscribeVisibility(passportCountrySpinner)
     }
 
     init {
         View.inflate(context, R.layout.flight_traveler_entry_widget, this)
         travelerButton.visibility == View.GONE
+
+        val adapter = CountrySpinnerAdapter(context, CountrySpinnerAdapter.CountryDisplayType.FULL_NAME,
+                R.layout.material_spinner_item, R.layout.spinner_dropdown_item, false)
+        adapter.setPrefix(context.getString(R.string.passport_country_colon))
+        adapter.setColoredPrefix(false)
+
+        passportCountrySpinner.adapter = adapter
+        passportCountrySpinner.onItemSelectedListener = CountryItemSelectedListener()
     }
 
     override fun onFinishInflate() {
@@ -62,7 +82,7 @@ class FlightTravelerEntryWidget(context: Context, attrs: AttributeSet?) : FrameL
     }
 
     private fun isValid(): Boolean {
-        return  viewModel.validate()
+        return viewModel.validate()
     }
 
     private fun showAdvancedOptions() {
@@ -74,5 +94,16 @@ class FlightTravelerEntryWidget(context: Context, attrs: AttributeSet?) : FrameL
         advancedOptionsWidget.visibility = Presenter.GONE
         AnimUtils.reverseRotate(advancedOptionsIcon)
         advancedOptionsIcon.clearAnimation()
+    }
+
+    private inner class CountryItemSelectedListener() : AdapterView.OnItemSelectedListener {
+        override fun onNothingSelected(parent: AdapterView<*>?) {
+            //do nothing
+        }
+
+        override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+            val adapter = passportCountrySpinner.adapter as CountrySpinnerAdapter
+            viewModel.passportCountryObserver.onNext(adapter.getItemValue(position, CountrySpinnerAdapter.CountryDisplayType.THREE_LETTER))
+        }
     }
 }

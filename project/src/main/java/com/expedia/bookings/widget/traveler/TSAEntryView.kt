@@ -30,6 +30,8 @@ class TSAEntryView(context: Context, attrs: AttributeSet?) : LinearLayout(contex
         vm.formattedDateSubject.subscribeEditText(dateOfBirth)
         dateOfBirth.subscribeToError(vm.dateOfBirthErrorSubject)
 
+        genderSpinner.onItemSelectedListener = GenderItemSelectedListener()
+
         vm.genderSubject.subscribe { gender ->
             val adapter = genderSpinner.adapter as GenderSpinnerAdapter
             genderSpinner.setSelection(adapter.getGenderPosition(gender))
@@ -45,8 +47,6 @@ class TSAEntryView(context: Context, attrs: AttributeSet?) : LinearLayout(contex
 
         val genderAdapter = GenderSpinnerAdapter(context, R.layout.material_spinner_item, R.layout.spinner_dropdown_item)
         genderSpinner.adapter = genderAdapter
-        genderSpinner.onItemSelectedListener = GenderItemSelectedListener()
-
         dateOfBirth.setOnClickListener(DateOfBirthClickListener(this))
     }
 

@@ -2227,6 +2227,10 @@
     <string name="loading_traveler_info">Loading traveler information…</string>
     <!-- Passport -->
     <string name="passport">Passport</string>
+
+    <!-- Passport label -->
+    <string name="passport_country_colon">Passport:</string>
+
     <!-- Current traveler - <firstname> <lastname> -->
     <string name="current_traveler_TEMPLATE">Current traveler - %1$s %2$s</string>
 
