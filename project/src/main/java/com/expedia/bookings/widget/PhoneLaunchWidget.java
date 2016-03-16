@@ -303,7 +303,7 @@ public class PhoneLaunchWidget extends FrameLayout {
 		boolean isUserBucketedForTest = Db.getAbacusResponse().isUserBucketedForTest(
 			AbacusUtils.EBAndroidAppHotelsABTest);
 
-		if (isUserBucketedForTest) {
+		if (isUserBucketedForTest || ProductFlavorFeatureConfiguration.getInstance().isNewHotelEnabled()) {
 			HotelSearchParams params = new HotelSearchParams();
 			params.hotelId = offer.hotelId;
 			params.setQuery(offer.localizedName);
