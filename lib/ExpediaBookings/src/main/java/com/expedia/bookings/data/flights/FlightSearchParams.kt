@@ -66,21 +66,29 @@ data class FlightSearchParams(val departureAirport: SuggestionV4, val arrivalAir
             return departureDate != null
         }
 
+        fun hasEnd(): Boolean {
+            return returnDate != null
+        }
+
         fun hasDeparture(): Boolean {
             return departureAirport?.hierarchyInfo?.airport?.airportCode != null
         }
 
-        fun hasReturn(): Boolean {
+        fun hasArrival(): Boolean {
             return arrivalAirport?.hierarchyInfo?.airport?.airportCode != null
         }
 
         fun hasValidDates(): Boolean {
-            return Days.daysBetween(departureDate, returnDate).days <= maxStay
+            return (hasStart() && !hasEnd()) || ((hasStart() && hasEnd() && Days.daysBetween(departureDate, returnDate).days <= maxStay))
         }
     }
 
     fun guests() : Int {
         return children.size + adults
+    }
+
+    fun getGuestsString() : String {
+        return children.joinToString(",")
     }
 
     fun toQueryMap(): Map<String, Any?> {
@@ -92,7 +100,7 @@ data class FlightSearchParams(val departureAirport: SuggestionV4, val arrivalAir
         params.put("numberOfAdultTravelers", adults)
         params.put("infantSeatingInLap", infantSeatingInLap)
         if (children.isNotEmpty()) {
-            params.put("childTravelerAge", children.joinToString(","))
+            params.put("childTravelerAge", getGuestsString())
         }
 
         return params

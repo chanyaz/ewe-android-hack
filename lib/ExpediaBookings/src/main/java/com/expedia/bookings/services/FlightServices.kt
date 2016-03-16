@@ -90,9 +90,6 @@ class FlightServices(endpoint: String, okHttpClient: OkHttpClient, requestInterc
                     }
 
                 }
-                .doOnNext { response ->
-
-                }
     }
 
     fun createTrip(params: FlightCreateTripParams): Observable<FlightCreateTripResponse> {

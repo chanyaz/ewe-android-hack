@@ -100,7 +100,7 @@ class FlightPresenter(context: Context, attrs: AttributeSet) : Presenter(context
         flightOverviewPresenter.getCheckoutPresenter().checkoutViewModel = FlightCheckoutViewModel(context, flightServices)
         flightOverviewPresenter.getCheckoutPresenter().createTripViewModel = FlightCreateTripViewModel(flightServices)
         flightOverviewPresenter.getCheckoutPresenter().createTripViewModel.tripResponseObservable.subscribe(flightOverviewPresenter.getCheckoutPresenter().checkoutViewModel.tripResponseObservable)
-        searchViewModel = FlightSearchViewModel(context, flightServices)
+        searchViewModel = FlightSearchViewModel(flightServices)
 
         val departure = getFakeSuggestion("SFO")
         val arrival = getFakeSuggestion("SEA")

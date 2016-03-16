@@ -1,6 +1,5 @@
 package com.expedia.vm
 
-import android.content.Context
 import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.data.flights.FlightSearchParams
 import com.expedia.bookings.data.flights.FlightSearchResponse
@@ -11,11 +10,11 @@ import rx.Observable
 import rx.Observer
 import rx.subjects.PublishSubject
 import java.util.HashMap
-import java.util.HashSet
+import java.util.LinkedHashSet
 
-class FlightSearchViewModel(val context: Context, val flightServices: FlightServices) {
-    var flightMap: HashMap<String, HashSet<FlightLeg>> = HashMap()
-    var outBoundFlights: HashSet<FlightLeg> = HashSet()
+class FlightSearchViewModel(val flightServices: FlightServices) {
+    var flightMap: HashMap<String, LinkedHashSet<FlightLeg>> = HashMap()
+    var outBoundFlights: LinkedHashSet<FlightLeg> = LinkedHashSet()
     var flightOfferModels: HashMap<String, FlightTripDetails.FlightOffer> = HashMap()
 
     val flightParamsObservable = PublishSubject.create<FlightSearchParams>()
@@ -58,7 +57,6 @@ class FlightSearchViewModel(val context: Context, val flightServices: FlightServ
         }
     }
 
-    //TODO: Test this
     private fun createFlightMap(response: FlightSearchResponse) {
         val offers = response.offers
         val legs = response.legs
@@ -76,7 +74,7 @@ class FlightSearchViewModel(val context: Context, val flightServices: FlightServ
             }
             var flights = flightMap[outboundId]
             if (flights == null) {
-                flights  = HashSet()
+                flights  = LinkedHashSet()
             }
             if (inboundLeg != null) {
                 flights.add(inboundLeg)
@@ -86,7 +84,6 @@ class FlightSearchViewModel(val context: Context, val flightServices: FlightServ
         outboundResultsObservable.onNext(outBoundFlights.toList())
     }
 
-    //TODO: Test this
     private fun makeOffer(offer : FlightTripDetails.FlightOffer) : PackageOfferModel {
         val offerModel = PackageOfferModel()
         val urgencyMessage = PackageOfferModel.UrgencyMessage()
@@ -99,7 +96,6 @@ class FlightSearchViewModel(val context: Context, val flightServices: FlightServ
         return offerModel
     }
 
-    //TODO: Test this
     fun findInboundFlights(flightId : String) : List<FlightLeg> {
         val flights = flightMap[flightId]?.toList() ?: emptyList()
         flights.forEach { inbound ->

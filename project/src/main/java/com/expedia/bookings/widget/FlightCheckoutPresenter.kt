@@ -50,4 +50,8 @@ class FlightCheckoutPresenter(context: Context, attr: AttributeSet) : BaseChecko
     override fun lineOfBusiness() : LineOfBusiness {
         return LineOfBusiness.FLIGHTS
     }
+
+    override fun updateTravelers() {
+
+    }
 }

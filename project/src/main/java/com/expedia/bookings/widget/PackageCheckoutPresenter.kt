@@ -2,6 +2,7 @@ package com.expedia.bookings.widget
 
 import android.content.Context
 import android.util.AttributeSet
+import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.Money
 import com.expedia.bookings.otto.Events
@@ -60,5 +61,9 @@ class PackageCheckoutPresenter(context: Context, attr: AttributeSet) : BaseCheck
 
     override fun lineOfBusiness() : LineOfBusiness {
         return LineOfBusiness.PACKAGES
+    }
+
+    override fun updateTravelers() {
+        travelerPresenter.viewModel.refreshTravelerList(Db.getPackageParams())
     }
 }
