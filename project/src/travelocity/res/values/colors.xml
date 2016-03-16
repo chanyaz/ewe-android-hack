@@ -48,6 +48,10 @@
     <color name="lx_offer_date_ripple_color">@color/lx_ripple_color</color>
 
     <!--Account Lib Colors -->
+    <color name="btn_sign_in_normal">#7ABC00</color>
+    <color name="btn_sign_in_pressed">#6B9B11</color>
+    <color name="btn_sign_in_focused">#446801</color>
+    <color name="btn_sign_in_disabled">#C5E38E</color>
     <color name="acct__btn_sign_in_text_tvly">#FFFFFF</color>
     <color name="acct__bg_input_text_error_tvly">#FFFFFF</color>
     <color name="acct__bg_input_text_good_tvly">#EEEEEE</color>

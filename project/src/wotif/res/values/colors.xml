@@ -82,11 +82,12 @@
     <color name="lx_ticket_selector_disabled_color_wotif">#407AC231</color>
     <color name="cars_ripple_color">@color/lx_ripple_color</color>
     <color name="lx_offer_date_ripple_color">@color/lx_ripple_color</color>
+
     <!--Account Lib Colors -->
     <color name="btn_sign_in_normal">#7AC231</color>
-    <color name="btn_sign_in_pressed">#456f1e</color>
-    <color name="btn_sign_in_focused">#7AC231</color>
-    <color name="btn_sign_in_disabled">#90d44b</color>
+    <color name="btn_sign_in_pressed">#C5E38E</color>
+    <color name="btn_sign_in_focused">#456F1E</color>
+    <color name="btn_sign_in_disabled">#52970C</color>
     <color name="acct__btn_sign_in_text_wotif">#FFFFFF</color>
     <color name="acct__bg_input_text_error_wotif">#FFFFFF</color>
     <color name="acct__bg_input_text_good_wotif">#EEEEEE</color>
