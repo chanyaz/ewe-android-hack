@@ -5,7 +5,6 @@ import android.animation.ObjectAnimator
 import android.content.Context
 import android.graphics.PorterDuff
 import android.graphics.Rect
-import android.location.Address
 import android.support.v4.content.ContextCompat
 import android.support.v4.view.ViewCompat
 import android.util.AttributeSet
@@ -125,7 +124,7 @@ class HotelResultsPresenter(context: Context, attrs: AttributeSet) : BaseHotelRe
         filterPlaceholderImageView = toolbarFilterItemActionView.findViewById(R.id.filter_placeholder_icon) as ImageView
         filterPlaceholderImageView.setImageDrawable(filterPlaceholderIcon)
         filterBtn = toolbarFilterItemActionView.findViewById(R.id.filter_btn) as LinearLayout
-        toolbar.menu.findItem(R.id.menu_filter).setActionView(toolbarFilterItemActionView)
+        filterMenuItem.actionView = toolbarFilterItemActionView
     }
 
     override fun inflate() {

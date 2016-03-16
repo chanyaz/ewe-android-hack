@@ -838,12 +838,6 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
 
             override fun endTransition(forward: Boolean) {
                 navIcon.parameter = (if (forward) ArrowXDrawableUtil.ArrowDrawableType.BACK else ArrowXDrawableUtil.ArrowDrawableType.CLOSE).type.toFloat()
-
-                //When we are about to show the menu filter item, ensure that it is of sufficient height
-                if (filterMenuItem.actionView.height != toolbar.height) {
-                    filterMenuItem.actionView.layoutParams.height = toolbar.measuredHeight
-                }
-
                 recyclerView.visibility = if (forward) View.VISIBLE else View.INVISIBLE
 
                 mapCarouselContainer.visibility = if (forward) {
