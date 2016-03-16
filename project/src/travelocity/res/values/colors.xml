@@ -32,6 +32,7 @@
     <color name="accept_terms_color">#608405</color>
     <color name="accept_terms_ripple_color">#7dad06</color>
     <color name="review_screen_tab_indicator">@color/launch_tab_indicator_tvly</color>
+    <color name="hotel_checkout_account_button_background_color">@color/hotels_primary_color</color>
 
     <!-- Cars -->
     <color name="cars_primary_color">#003E74</color>
