@@ -4,7 +4,7 @@ import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.TripInfo;
 import com.google.gson.annotations.SerializedName;
 
-public class CarCheckoutResponse extends BaseApiResponse {
+public class CarCheckoutResponse extends com.expedia.bookings.data.BaseApiResponse {
 	public CarTrackingData trackingData;
 	public TripInfo newTrip;
 	public String orderId;

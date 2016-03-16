@@ -16,7 +16,7 @@ class FlightApiRequestDispatcher(fileOpener: FileOpener) : AbstractDispatcher(fi
             throwUnsupportedRequestException(urlPath)
         }
 
-        if (!FlightApiRequestMatcher.isRequestContainsClientId(params)) {
+        if (!FlightApiRequestMatcher.isRequestContainsClientId(params, urlPath)) {
             throwUnsupportedRequestException(urlPath)
         }
 
@@ -94,8 +94,8 @@ class FlightApiMockResponseGenerator() {
 
 class FlightApiRequestMatcher() {
     companion object {
-        fun isRequestContainsClientId(params: MutableMap<String, String>): Boolean {
-            return params.containsKey("clientid")
+        fun isRequestContainsClientId(params: MutableMap<String, String>, urlPath: String): Boolean {
+            return params.containsKey("clientid") || doesItMatch(".*clientid.*", urlPath)
         }
 
         fun isFlightApiRequest(urlPath: String): Boolean {
@@ -107,7 +107,7 @@ class FlightApiRequestMatcher() {
         }
 
         fun isCreateTripRequest(urlPath: String): Boolean {
-            return doesItMatch("^/api/flight/trip/create$", urlPath)
+            return doesItMatch("^/api/flight/trip/create.*$", urlPath)
         }
 
         fun isCheckoutRequest(urlPath: String): Boolean {

@@ -1,7 +1,9 @@
-package com.expedia.bookings.data.packages;
+package com.expedia.bookings.data.flights;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import com.expedia.bookings.data.packages.PackageOfferModel;
 
 public class FlightLeg {
 	public int airBookingProviderCode;
@@ -25,6 +27,7 @@ public class FlightLeg {
 	public int elapsedDays;
 	public String flightFareTypeString;
 	public List<FlightSegment> flightSegments;
+	public List<FlightSegment> segments;
 //	flightSegments
 	public boolean freeFlightPromotion;
 	public boolean handBaggageOnly;
@@ -63,7 +66,9 @@ public class FlightLeg {
 		public String airplaneType;
 		public String flightNumber;
 		public String carrier;
+		public String airlineName;
 		public String airlineLogoURL;
+		public String equipmentDescription;
 		public boolean displayOperatedByAirlineName;
 		public String operatedByAirlineName;
 		public String operatingAirlineCode;
@@ -71,13 +76,18 @@ public class FlightLeg {
 		public String departureCity;
 		public String departureAirport;
 		public String departureAirportCode;
+		public String departureAirportLocation;
 		public String departureTime;
+		public String departureTimeRaw;
 
 		public String arrivalCity;
 		public String arrivalAirport;
 		public String arrivalAirportCode;
+		public String arrivalAirportLocation;
 		public String arrivalTime;
+		public String arrivalTimeRaw;
 
+		public String duration;
 		public int durationHours;
 		public int durationMinutes;
 		public int layoverDurationHours;

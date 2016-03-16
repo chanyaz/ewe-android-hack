@@ -3,7 +3,7 @@ package com.expedia.bookings.test
 import android.content.Context
 import android.graphics.Rect
 import android.util.AttributeSet
-import com.expedia.bookings.data.packages.FlightLeg
+import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.widget.packages.FlightLayoverWidget
 import org.junit.Before

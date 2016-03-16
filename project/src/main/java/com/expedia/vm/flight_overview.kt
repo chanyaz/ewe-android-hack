@@ -1,11 +1,8 @@
 package com.expedia.vm
 
-import android.app.Activity
 import android.content.Context
-import android.support.v7.app.AppCompatActivity
 import com.expedia.bookings.R
-import com.expedia.bookings.data.Db
-import com.expedia.bookings.data.packages.FlightLeg
+import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.utils.PackageFlightUtils
 import com.expedia.util.endlessObserver
 import com.squareup.phrase.Phrase
@@ -20,6 +17,8 @@ class FlightOverviewViewModel(val context: Context) {
     val urgencyMessagingObserver = BehaviorSubject.create<String>()
     val totalDurationObserver = BehaviorSubject.create<String>()
     val baggageFeeURLObserver = BehaviorSubject.create<String>()
+
+    val selectedFlightClicked = BehaviorSubject.create<FlightLeg>()
 
     init {
         selectedFlightLeg.subscribe { selectedFlight ->
@@ -52,21 +51,7 @@ class FlightOverviewViewModel(val context: Context) {
     }
 
     val selectFlightClickObserver: Observer<Unit> = endlessObserver {
-        val params = Db.getPackageParams()
-        val flight = selectedFlightLeg.value
-        if (flight.outbound) {
-            Db.setPackageSelectedOutboundFlight(flight)
-            params.currentFlights[0] = flight.legId
-        } else {
-            Db.setPackageSelectedInboundFlight(flight)
-            params.currentFlights[1] = flight.legId
-        }
-        params.selectedLegId = flight.departureLeg
-        params.packagePIID = flight.packageOfferModel.piid
-
-        val activity = (context as AppCompatActivity)
-        activity.setResult(Activity.RESULT_OK)
-        activity.finish()
+        selectedFlightClicked.onNext(selectedFlightLeg.value)
     }
 }
 

@@ -176,6 +176,7 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet) : Pre
             loginWidget.bind(false, Db.getUser() != null, Db.getUser(), LineOfBusiness.PACKAGES)
             paymentWidget.show(PaymentWidget.PaymentDefault(), Presenter.FLAG_CLEAR_BACKSTACK)
             travelerPresenter.show()
+            updateTravelers()
         }
     }
 
@@ -337,4 +338,8 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet) : Pre
     private fun View.setVisibility(forward: Boolean) {
         this.visibility = if (forward) View.GONE else View.VISIBLE
     }
+
+    abstract fun lineOfBusiness() : LineOfBusiness
+
+    abstract fun updateTravelers()
 }

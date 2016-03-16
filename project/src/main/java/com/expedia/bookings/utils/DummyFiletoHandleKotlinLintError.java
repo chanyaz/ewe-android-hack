@@ -203,7 +203,6 @@ DummyFiletoHandleKotlinLintError {
 		R.drawable.recent_searches,
 		R.layout.package_activity,
 		R.layout.package_presenter,
-		R.layout.bundle_overview,
 		R.layout.widget_package_search_params,
 		R.string.flight_class_selection,
 		R.string.fees_due_at_hotel,
@@ -482,6 +481,12 @@ DummyFiletoHandleKotlinLintError {
 		R.dimen.sort_filter_padding_large,
 		R.plurals.flight_filter_stops,
 		R.layout.feeds_list_widget,
-		R.layout.feeds_staff_pick_card
+		R.layout.feeds_staff_pick_card,
+		R.layout.package_overview,
+		R.layout.flight_presenter,
+		R.layout.flight_overview,
+		R.layout.flight_activity,
+		R.layout.bundle_overview_header,
+		R.layout.flight_summary
 	};
 }

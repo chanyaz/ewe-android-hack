@@ -38,7 +38,6 @@ class PackageFlightOverviewPresenter(context: Context, attrs: AttributeSet) : Pr
         vm.bundlePriceObserver.subscribeText(bundlePriceTextView)
         vm.urgencyMessagingObserver.subscribeTextAndVisibilityInvisible(urgencyMessagingText)
         vm.totalDurationObserver.subscribeText(totalDurationText)
-        selectFlightButton.subscribeOnClick(vm.selectFlightClickObserver)
         vm.selectedFlightLeg.subscribe { selectedFlight ->
             var segmentbreakdowns = arrayListOf<FlightSegmentBreakdown>()
             for (segment in selectedFlight.flightSegments) {
@@ -50,5 +49,6 @@ class PackageFlightOverviewPresenter(context: Context, attrs: AttributeSet) : Pr
             }
             flightSegmentWidget.viewmodel.addSegmentRowsObserver.onNext(segmentbreakdowns)
         }
+        selectFlightButton.subscribeOnClick(vm.selectFlightClickObserver)
     }
 }

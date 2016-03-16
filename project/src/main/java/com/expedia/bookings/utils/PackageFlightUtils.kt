@@ -2,8 +2,8 @@ package com.expedia.bookings.utils
 
 import android.content.Context
 import com.expedia.bookings.R
-import com.expedia.bookings.data.packages.Airline
-import com.expedia.bookings.data.packages.FlightLeg
+import com.expedia.bookings.data.flights.Airline
+import com.expedia.bookings.data.flights.FlightLeg
 import com.squareup.phrase.Phrase
 
 object PackageFlightUtils {

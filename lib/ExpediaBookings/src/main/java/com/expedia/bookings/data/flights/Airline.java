@@ -1,4 +1,4 @@
-package com.expedia.bookings.data.packages;
+package com.expedia.bookings.data.flights;
 
 public class Airline {
 	public String airlineName;

@@ -9,7 +9,7 @@ import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.cars.ApiError
-import com.expedia.bookings.data.cars.BaseApiResponse
+import com.expedia.bookings.data.BaseApiResponse
 import com.expedia.bookings.data.clientlog.ClientLog
 import com.expedia.bookings.data.hotels.Hotel
 import com.expedia.bookings.data.hotels.HotelRate

@@ -4,7 +4,6 @@ import android.content.Context
 import android.util.AttributeSet
 import android.view.View
 import com.expedia.bookings.R
-import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.Traveler
 import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.utils.bindView
@@ -76,7 +75,6 @@ class TravelerPresenter(context: Context, attrs: AttributeSet) : Presenter(conte
     }
 
     fun show() {
-        viewModel.refreshTravelerList(Db.getPackageParams())
         travelerSelectState.refresh()
         travelerDefaultState.viewModel.emptyTravelers.onNext(Unit)
         visibility = View.VISIBLE

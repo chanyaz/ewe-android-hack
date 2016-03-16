@@ -459,6 +459,7 @@ android.applicationVariants.all { variant ->
         variant.resValue "string", "packages_launcher_name", "Packages ${type}"
         variant.resValue "string", "rail_launcher_name", "Rail ${type}"
         variant.resValue "string", "deeplinktest_launcher_name", "DeepLink ${type}"
+        variant.resValue "string", "flights_launcher_name", "Flights ${type}"
     }
 }
 

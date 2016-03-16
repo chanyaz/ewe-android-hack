@@ -6,7 +6,7 @@ import java.util.List;
 import org.jetbrains.annotations.Nullable;
 
 import com.expedia.bookings.data.Money;
-import com.expedia.bookings.data.cars.BaseApiResponse;
+import com.expedia.bookings.data.BaseApiResponse;
 import com.expedia.bookings.data.packages.PackageOffersResponse;
 import com.expedia.bookings.data.packages.PackageSearchParams;
 import com.expedia.bookings.utils.Constants;

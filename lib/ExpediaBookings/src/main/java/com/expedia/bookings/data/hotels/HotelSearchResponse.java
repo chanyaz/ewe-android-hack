@@ -5,7 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.expedia.bookings.data.cars.BaseApiResponse;
+import com.expedia.bookings.data.BaseApiResponse;
 import com.expedia.bookings.data.packages.PackageSearchResponse;
 
 public class HotelSearchResponse extends BaseApiResponse {

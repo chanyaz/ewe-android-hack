@@ -5,7 +5,7 @@ import java.util.List;
 
 import org.joda.time.DateTime;
 
-public class CarSearchResponse extends BaseApiResponse {
+public class CarSearchResponse extends com.expedia.bookings.data.BaseApiResponse {
 	public DateTime pickupTime;
 	public DateTime dropOffTime;
 	public List<SearchCarOffer> offers = new ArrayList<>();
