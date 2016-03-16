@@ -309,7 +309,6 @@
     <!-- Package Results -->
     <dimen name="layover_bar_text_size">@dimen/temporary_font_size_small</dimen>
     <dimen name="layover_bar_padding">4dp</dimen>
-    <dimen name="card_view_container_margin">9dp</dimen>
 
     <!-- Traveler Checkout -->
     <dimen name="traveler_select_item_padding">12dp</dimen>
