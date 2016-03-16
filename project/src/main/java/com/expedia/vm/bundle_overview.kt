@@ -2,7 +2,6 @@ package com.expedia.vm
 
 import android.content.Context
 import android.support.v4.content.ContextCompat
-import com.expedia.bookings.BuildConfig
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.Money
@@ -314,7 +313,7 @@ class PackageBreakdownViewModel(val context: Context) {
             title = context.getString(R.string.package_breakdown_total_savings)
             breakdowns.add(PackageBreakdown(title, getFormattedMoney(packageDetails.pricing.savings.amount.toDouble(), packageDetails.pricing.savings.currencyCode), true, false, false, false))
 
-            title = Phrase.from(context, R.string.due_to_brand_today_TEMPLATE).put("brand", BuildConfig.brand).format().toString()
+            title = context.getString(R.string.package_breakdown_total_due_today)
             breakdowns.add(PackageBreakdown(title, getFormattedMoney(packageDetails.pricing.packageTotal.amount.toDouble(), packageDetails.pricing.packageTotal.currencyCode), false, true, false, false))
 
             addRows.onNext(breakdowns)
