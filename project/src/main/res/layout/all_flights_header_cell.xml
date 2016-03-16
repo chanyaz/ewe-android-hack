@@ -5,6 +5,7 @@
     android:layout_height="wrap_content">
 
     <com.expedia.bookings.widget.TextView
+        android:id="@+id/all_flights_header"
         style="@style/ResultsHeadersText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
