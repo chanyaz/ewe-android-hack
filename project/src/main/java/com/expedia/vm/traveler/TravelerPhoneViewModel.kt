@@ -6,10 +6,13 @@ import com.expedia.util.endlessObserver
 import com.jakewharton.rxbinding.widget.TextViewAfterTextChangeEvent
 import rx.subjects.BehaviorSubject
 import rx.subjects.PublishSubject
+import kotlin.properties.Delegates
 
-class TravelerPhoneViewModel(var phone: Phone) {
+class TravelerPhoneViewModel() {
+    private var phone: Phone by Delegates.notNull()
+
     val phoneNumberSubject = BehaviorSubject.create<String>()
-    val phoneCountyCodeSubject = BehaviorSubject.create<String>(phone.countryCode)
+    val phoneCountyCodeSubject = BehaviorSubject.create<String>()
     val phoneErrorSubject = PublishSubject.create<Boolean>()
 
     val countryNameObserver = endlessObserver<String> { countryName ->
@@ -18,6 +21,7 @@ class TravelerPhoneViewModel(var phone: Phone) {
 
     val countryCodeObserver = endlessObserver<Int> { countryCode ->
         phone.countryCode = countryCode.toString()
+        phoneCountyCodeSubject.onNext(phone.countryCode)
     }
 
     val phoneNumberObserver = endlessObserver<TextViewAfterTextChangeEvent>() { phoneNumber ->
@@ -25,7 +29,9 @@ class TravelerPhoneViewModel(var phone: Phone) {
         phoneNumberSubject.onNext(phone.number)
     }
 
-    init {
+    fun updatePhone(phone: Phone) {
+        this.phone = phone
+        phoneCountyCodeSubject.onNext(phone.countryCode)
         phoneNumberSubject.onNext(if (phone.number.isNullOrEmpty()) "" else phone.number)
     }
 

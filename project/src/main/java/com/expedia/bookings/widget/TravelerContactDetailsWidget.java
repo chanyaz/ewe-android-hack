@@ -109,8 +109,6 @@ public class TravelerContactDetailsWidget extends ExpandableCardView implements 
 				return false;
 			}
 		});
-		travelerButton.setVisibility(GONE);
-		travelerButton.setTravelButtonListener(this);
 		firstName.setOnFocusChangeListener(this);
 		lastName.setOnFocusChangeListener(this);
 		emailAddress.setOnFocusChangeListener(this);

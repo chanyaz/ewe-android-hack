@@ -21,7 +21,8 @@ class TSAEntryViewModelTest {
 
     @Test
     fun testDefaultDate() {
-        tsaVM = TravelerTSAViewModel(context, Traveler())
+        tsaVM = TravelerTSAViewModel(context)
+        tsaVM.updateTraveler(Traveler())
 
         assertEquals(EXPECTED_DEFAULT_DATE.dayOfMonth, tsaVM.defaultDateSubject.value.dayOfMonth)
         assertEquals(EXPECTED_DEFAULT_DATE.year, tsaVM.defaultDateSubject.value.year)
@@ -32,7 +33,8 @@ class TSAEntryViewModelTest {
     fun testBirthDatePrePopulated() {
         var traveler = Traveler()
         traveler.birthDate = TEST_BIRTH_DATE
-        tsaVM = TravelerTSAViewModel(context, traveler)
+        tsaVM = TravelerTSAViewModel(context)
+        tsaVM.updateTraveler(traveler)
 
         val testSubscriber = TestSubscriber<LocalDate>(1)
         tsaVM.birthDateSubject.subscribe(testSubscriber)
@@ -45,7 +47,8 @@ class TSAEntryViewModelTest {
     fun testGenderPrePopulated() {
         var traveler = Traveler()
         traveler.gender = TEST_GENDER
-        tsaVM = TravelerTSAViewModel(context, traveler)
+        tsaVM = TravelerTSAViewModel(context)
+        tsaVM.updateTraveler(traveler)
 
         val testSubscriber = TestSubscriber<Traveler.Gender>(1)
         tsaVM.genderSubject.subscribe(testSubscriber)

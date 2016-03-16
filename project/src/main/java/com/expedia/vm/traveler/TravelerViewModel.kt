@@ -5,22 +5,31 @@ import android.support.v4.content.ContextCompat
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Traveler
 import com.expedia.bookings.widget.ContactDetailsCompletenessStatus
+import rx.subjects.BehaviorSubject
 import rx.subjects.PublishSubject
 
-class TravelerViewModel(private val context: Context, private val traveler: Traveler, val travelerNumber: Int) {
+class TravelerViewModel(private val context: Context, val travelerNumber: Int) {
     val emptyTravelerObservable = PublishSubject.create<Boolean>()
+    val travelerObservable = BehaviorSubject.create<Traveler>()
     val completenessStatusObservable = PublishSubject.create<ContactDetailsCompletenessStatus>()
     val completenessTextColorObservable = PublishSubject.create<Int>()
 
-    val nameViewModel = TravelerNameViewModel(traveler.name)
-    val phoneViewModel = TravelerPhoneViewModel(traveler.getOrCreatePrimaryPhoneNumber())
-    val tsaViewModel = TravelerTSAViewModel(context, traveler)
-    val advancedOptionsViewModel = TravelerAdvancedOptionsViewModel(traveler)
+    var nameViewModel = TravelerNameViewModel()
+    var phoneViewModel = TravelerPhoneViewModel()
+    var tsaViewModel = TravelerTSAViewModel(context)
+    var advancedOptionsViewModel = TravelerAdvancedOptionsViewModel()
 
     init {
-        nameViewModel.fullNameSubject.subscribe {name ->
+        nameViewModel.fullNameSubject.subscribe { name ->
             if (name.isNullOrEmpty()) emptyTravelerObservable.onNext(true) else emptyTravelerObservable.onNext(false)
             completenessStatusObservable.onNext(ContactDetailsCompletenessStatus.DEFAULT)
+        }
+
+        travelerObservable.subscribe { traveler ->
+            nameViewModel.updateTravelerName(traveler.name)
+            phoneViewModel.updatePhone(traveler.orCreatePrimaryPhoneNumber)
+            tsaViewModel.updateTraveler(traveler)
+            advancedOptionsViewModel.updateTraveler(traveler)
         }
     }
 
@@ -35,7 +44,7 @@ class TravelerViewModel(private val context: Context, private val traveler: Trav
     }
 
     fun getTraveler(): Traveler {
-        return traveler;
+        return travelerObservable.value;
     }
 
     private fun updateCompletenessStatus(valid: Boolean): Unit {
