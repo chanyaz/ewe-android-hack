@@ -419,4 +419,6 @@
     <color name="preferences_text">@color/launch_actionbar_bg_color</color>
     <color name="bundle_price_background_color">#FFFFFF</color>
 
+    <color name="bg_air_attach_banner_default">#F5495863</color>
+
 </resources>

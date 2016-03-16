@@ -3,6 +3,6 @@
     android:shape="rectangle">
 
     <gradient
-        android:endColor="#F5495863"
-        android:startColor="#F5495863" />
+        android:endColor="@color/bg_air_attach_banner_default"
+        android:startColor="@color/bg_air_attach_banner_default" />
 </shape>
