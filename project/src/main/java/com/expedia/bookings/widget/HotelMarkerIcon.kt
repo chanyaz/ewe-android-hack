@@ -11,7 +11,7 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.maps.android.ui.IconGenerator
 
 fun createHotelMarkerIcon(context: Context, factory: IconGenerator, hotel: Hotel, isSelected: Boolean, isAirAttached: Boolean, isSoldOut: Boolean): BitmapDescriptor {
-    var hotelPriceText = priceFormatter(context.resources, hotel.lowRateInfo, false)
+    var hotelPriceText = priceFormatter(context.resources, hotel.lowRateInfo, false, !hotel.isPackage)
     return createHotelMarkerIcon(context, factory, hotelPriceText, isSelected, isAirAttached, isSoldOut)
 }
 

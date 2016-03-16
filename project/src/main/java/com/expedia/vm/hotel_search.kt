@@ -20,15 +20,19 @@ import com.expedia.bookings.utils.DateUtils
 import com.expedia.bookings.utils.HotelSearchParamsUtil
 import com.expedia.bookings.utils.SpannableBuilder
 import com.expedia.bookings.utils.StrUtils
+import com.expedia.bookings.utils.Ui
 import com.expedia.ui.HotelActivity
 import com.expedia.util.endlessObserver
+import com.expedia.util.notNullAndObservable
 import com.mobiata.android.Log
 import com.mobiata.android.time.util.JodaUtils
 import com.squareup.phrase.Phrase
 import org.joda.time.LocalDate
+import rx.Observable
 import rx.Observer
 import rx.subjects.BehaviorSubject
 import rx.subjects.PublishSubject
+import javax.inject.Inject
 import kotlin.properties.Delegates
 
 class HotelSearchViewModel(val context: Context) {
@@ -49,7 +53,15 @@ class HotelSearchViewModel(val context: Context) {
     val errorMaxDatesObservable = PublishSubject.create<Unit>()
     val enableDateObservable = PublishSubject.create<Boolean>()
     val enableTravelerObservable = PublishSubject.create<Boolean>()
-    val shopWithPointsObservable = PublishSubject.create<Boolean>()
+
+    var shopWithPointsViewModel: ShopWithPointsViewModel by notNullAndObservable {
+        it.shopWithPointsToggleObservable.withLatestFrom(it.isShopWithPointsAvailableObservable, { swpToggleState, isSWPAvailable ->
+            isSWPAvailable && swpToggleState
+        }).subscribe{
+            paramsBuilder.shopWithPoints(it)
+        }
+    }
+        @Inject set
 
     val enableDateObserver = endlessObserver<Unit> {
         enableDateObservable.onNext(paramsBuilder.hasOrigin())
@@ -99,11 +111,6 @@ class HotelSearchViewModel(val context: Context) {
         requiredSearchParamsObserver.onNext(Unit)
     }
 
-    val shopWithPointsObserver = endlessObserver<Boolean> {
-        paramsBuilder.shopWithPoints(it)
-        shopWithPointsObservable.onNext(it)
-    }
-
     val searchObserver = endlessObserver<Unit> {
         if (paramsBuilder.areRequiredParamsFilled()) {
             if (!paramsBuilder.hasValidDates()) {
@@ -148,6 +155,7 @@ class HotelSearchViewModel(val context: Context) {
                 AbacusUtils.EBAndroidAppHotelRecentSearchTest)
         userBucketedObservable.onNext(isUserBucketedForTest)
         externalSearchParamsObservable.onNext(!intent.hasExtra(Codes.TAG_EXTERNAL_SEARCH_PARAMS) && !isUserBucketedForTest)
+        Ui.getApplication(context).hotelComponent().inject(this)
     }
 
     companion object {

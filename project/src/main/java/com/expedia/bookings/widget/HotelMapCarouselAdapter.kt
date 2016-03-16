@@ -138,7 +138,7 @@ class HotelMapCarouselAdapter(var hotels: List<Hotel>, val hotelSubject: Publish
     }
 }
 
-fun priceFormatter(resources: Resources, rate: HotelRate?, strikeThrough: Boolean): CharSequence {
+fun priceFormatter(resources: Resources, rate: HotelRate?, strikeThrough: Boolean, shouldFallbackToZeroIfNegative: Boolean): CharSequence {
 
     if (rate == null) {
         return ""
@@ -147,7 +147,7 @@ fun priceFormatter(resources: Resources, rate: HotelRate?, strikeThrough: Boolea
         return ""
     }
     else {
-        var hotelPrice = HotelRate.getDisplayMoney(rate, strikeThrough).getFormattedMoney(Money.F_NO_DECIMAL)
+        var hotelPrice = rate.getDisplayMoney(strikeThrough, shouldFallbackToZeroIfNegative).getFormattedMoney(Money.F_NO_DECIMAL)
         return if (strikeThrough) Html.fromHtml(resources.getString(R.string.strike_template, hotelPrice), null, StrikethroughTagHandler()) else hotelPrice
     }
 }

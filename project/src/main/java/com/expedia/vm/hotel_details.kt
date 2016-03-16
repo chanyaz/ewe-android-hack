@@ -74,8 +74,8 @@ class HotelMapViewModel(val context: Context, val selectARoomObserver: Observer<
         hotelName.onNext(response.hotelName)
         hotelStarRating.onNext(response.hotelStarRating.toFloat())
         hotelStarRatingVisibility.onNext(response.hotelStarRating > 0)
-        price.onNext(priceFormatter(context.resources, response.hotelRoomResponse?.firstOrNull()?.rateInfo?.chargeableRateInfo, false))
-        strikethroughPrice.onNext(priceFormatter(context.resources, response.hotelRoomResponse?.firstOrNull()?.rateInfo?.chargeableRateInfo, true))
+        price.onNext(priceFormatter(context.resources, response.hotelRoomResponse?.firstOrNull()?.rateInfo?.chargeableRateInfo, false, !response.isPackage))
+        strikethroughPrice.onNext(priceFormatter(context.resources, response.hotelRoomResponse?.firstOrNull()?.rateInfo?.chargeableRateInfo, true, !response.isPackage))
         hotelLatLng.onNext(doubleArrayOf(response.latitude, response.longitude))
 
         val firstHotelRoomResponse = response.hotelRoomResponse?.firstOrNull()
@@ -277,7 +277,7 @@ class HotelDetailViewModel(val context: Context, val hotelServices: HotelService
         val priceToShowUsers = chargeableRateInfo?.priceToShowUsers ?: 0f
         val strikethroughPriceToShowUsers = chargeableRateInfo?.strikethroughPriceToShowUsers ?: 0f
         if (priceToShowUsers < strikethroughPriceToShowUsers) {
-            strikeThroughPriceObservable.onNext(priceFormatter(context.resources, chargeableRateInfo, true))
+            strikeThroughPriceObservable.onNext(priceFormatter(context.resources, chargeableRateInfo, true, !hotelOffersResponse.isPackage))
         }
 
         hasFreeCancellationObservable.onNext(hasFreeCancellation(response))
@@ -620,7 +620,9 @@ class HotelRoomRateViewModel(val context: Context, var hotelId: String, var hote
     // TODO: null all these out on init
     var roomTypeObservable = BehaviorSubject.create<String>(hotelRoomResponse.roomTypeDescription)
     var currencyCode = hotelRoomResponse.rateInfo.chargeableRateInfo.currencyCode
-    var dailyPrice = Money(BigDecimal(hotelRoomResponse.rateInfo.chargeableRateInfo.priceToShowUsers.toDouble()), currencyCode)
+    val hotelRate = hotelRoomResponse.rateInfo.chargeableRateInfo
+    var priceToShowUsers = if (hotelRoomResponse.isPackage) hotelRate.priceToShowUsers.toDouble() else hotelRate.priceToShowUsersFallbackToZeroIfNegative.toDouble()
+    var dailyPrice = Money(BigDecimal(priceToShowUsers), currencyCode)
     var roomHeaderImageObservable = BehaviorSubject.create<String>(Images.getMediaHost() + hotelRoomResponse.roomThumbnailUrl)
     var roomRateInfoTextObservable = BehaviorSubject.create<String>(hotelRoomResponse.roomLongDescription)
     var roomInfoVisibiltyObservable = roomRateInfoTextObservable.map { it != "" }
@@ -700,7 +702,8 @@ class HotelRoomRateViewModel(val context: Context, var hotelId: String, var hote
 
         roomTypeObservable.onNext(hotelRoomResponse.roomTypeDescription)
         currencyCode = hotelRoomResponse.rateInfo.chargeableRateInfo.currencyCode
-        dailyPrice = Money(BigDecimal(hotelRoomResponse.rateInfo.chargeableRateInfo.priceToShowUsers.toDouble()), currencyCode)
+        priceToShowUsers = if (hotelRoomResponse.isPackage) hotelRate.priceToShowUsers.toDouble() else hotelRate.priceToShowUsersFallbackToZeroIfNegative.toDouble()
+        dailyPrice = Money(BigDecimal(priceToShowUsers), currencyCode)
         roomHeaderImageObservable.onNext(Images.getMediaHost() + hotelRoomResponse.roomThumbnailUrl)
         roomRateInfoTextObservable.onNext(hotelRoomResponse.roomLongDescription)
         roomInfoVisibiltyObservable = roomRateInfoTextObservable.map { it != "" }
