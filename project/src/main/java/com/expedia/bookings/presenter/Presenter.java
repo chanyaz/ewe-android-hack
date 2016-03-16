@@ -232,6 +232,10 @@ public class Presenter extends FrameLayout {
 			this.duration = duration;
 		}
 
+		public int getAnimationDuration() {
+			return duration;
+		}
+
 		public void startTransition(boolean forward) {
 			// empty
 		}
