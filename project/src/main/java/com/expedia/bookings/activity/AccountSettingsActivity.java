@@ -428,8 +428,14 @@ public class AccountSettingsActivity extends AppCompatActivity implements AboutS
 
 				NumberFormat numberFormatter = NumberFormat.getInstance();
 				availablePointsTextView.setText(numberFormatter.format(member.getLoyaltyPointsAvailable()));
-				pendingPointsTextView.setText(getString(R.string.loyalty_points_pending,
-						numberFormatter.format(member.getLoyaltyPointsPending())));
+				if (member.getLoyaltyPointsPending() > 0) {
+					pendingPointsTextView.setVisibility(View.VISIBLE);
+					pendingPointsTextView.setText(getString(R.string.loyalty_points_pending,
+							numberFormatter.format(member.getLoyaltyPointsPending())));
+				}
+				else {
+					pendingPointsTextView.setVisibility(View.GONE);
+				}
 
 				TextView countryTextView = Ui.findView(this, R.id.country);
 				PointOfSale pos = PointOfSale.getPointOfSale();
