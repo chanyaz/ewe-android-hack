@@ -12,16 +12,17 @@ import com.expedia.bookings.tracking.OmnitureTracking
 import com.expedia.bookings.utils.ClipboardUtils
 import com.expedia.bookings.widget.TextView
 
-class FlightCheckInDialog(val ctx: Context, val airlineCode: String, val confirmationCode: String, val isSplitTicket: Boolean, val flightLegs: Int) : AlertDialog(ctx) {
+object FlightCheckInDialogBuilder {
 
-    fun onCreateDialog(): AlertDialog {
-        val dialogLayout = (ctx as Activity).layoutInflater.inflate(R.layout.itin_check_in_dialog, null)
+    @JvmStatic
+    fun onCreateDialog(context: Context, airlineName: String, airlineCode: String, confirmationCode: String, isSplitTicket: Boolean, flightLegs: Int): AlertDialog {
+        val dialogLayout = (context as Activity).layoutInflater.inflate(R.layout.itin_check_in_dialog, null)
         val noText = dialogLayout.findViewById(R.id.itin_checkin_no) as TextView
         val dialogMsg = dialogLayout.findViewById(R.id.itin_checkin_msg) as TextView
         val dialogTitle = dialogLayout.findViewById(R.id.dialog_title) as TextView
         val dialogBody = dialogLayout.findViewById(R.id.dialog_body) as ViewGroup
         val yesText = dialogLayout.findViewById(R.id.itin_checkin_yes) as TextView
-        dialogMsg.text = context.getString(R.string.itin_checkin_dialog_message, airlineCode)
+        dialogMsg.text = context.getString(R.string.itin_checkin_dialog_message, airlineName)
         val builder = AlertDialog.Builder(context)
         builder.setCancelable(false)
         builder.setView(dialogLayout)
@@ -50,7 +51,7 @@ class FlightCheckInDialog(val ctx: Context, val airlineCode: String, val confirm
                     noText.visibility = View.GONE
                     yesText.text = context.getString(R.string.ok)
                     dialogTitle.text = context.getString(R.string.itin_checkin_failure_dialog_title)
-                    dialogMsg.text = context.getString(R.string.itin_checkin_failure_dialog_message, airlineCode)
+                    dialogMsg.text = context.getString(R.string.itin_checkin_failure_dialog_message, airlineName)
                     fadeInAnim.setDuration(300).start()
                 }
 

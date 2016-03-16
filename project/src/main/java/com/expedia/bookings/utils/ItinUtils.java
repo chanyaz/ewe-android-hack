@@ -7,13 +7,14 @@ import android.content.Context;
 import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.trips.TripComponent;
+import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.SettingUtils;
 
 public class ItinUtils {
 
 	public static boolean shouldShowCheckInLink(Context context, TripComponent.Type type, DateTime flightTime,
 		String checkInLink) {
-		if (!type.equals(TripComponent.Type.FLIGHT) || Strings.isEmpty(checkInLink)) {
+		if (AndroidUtils.isTablet(context) || !type.equals(TripComponent.Type.FLIGHT) || Strings.isEmpty(checkInLink)) {
 			return false;
 		}
 

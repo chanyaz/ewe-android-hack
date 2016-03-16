@@ -27,7 +27,7 @@ import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.trips.ItinCardData;
 import com.expedia.bookings.data.trips.ItineraryManager;
-import com.expedia.bookings.dialog.FlightCheckInDialog;
+import com.expedia.bookings.dialog.FlightCheckInDialogBuilder;
 import com.expedia.bookings.dialog.GooglePlayServicesDialog;
 import com.expedia.bookings.fragment.ItinItemListFragment;
 import com.expedia.bookings.fragment.ItinItemListFragment.ItinItemListFragmentListener;
@@ -250,12 +250,14 @@ public class PhoneLaunchActivity extends ActionBarActivity implements ItinListVi
 	}
 
 	private void showFlightItinCheckinDialog(Intent data) {
-		String airlineCode = data.getExtras().getString(Constants.ITIN_CHECK_IN_CODE, "");
+		String airlineName = data.getExtras().getString(Constants.ITIN_CHECK_IN_AIRLINE_NAME, "");
+		String airlineCode = data.getExtras().getString(Constants.ITIN_CHECK_IN_AIRLINE_CODE, "");
 		String confirmationCode = data.getExtras().getString(Constants.ITIN_CHECK_IN_CONFIRMATION_CODE, "");
 		boolean isSplitTicket = data.getExtras().getBoolean(Constants.ITIN_IS_SPLIT_TICKET, false);
 		int flightLegs = data.getExtras().getInt(Constants.ITIN_FLIGHT_TRIP_LEGS, 0);
-		AlertDialog alertDialog = new FlightCheckInDialog(this, airlineCode, confirmationCode, isSplitTicket,
-			flightLegs).onCreateDialog();
+		AlertDialog alertDialog = FlightCheckInDialogBuilder
+			.onCreateDialog(this, airlineName, airlineCode, confirmationCode, isSplitTicket,
+				flightLegs);
 		alertDialog.show();
 	}
 
