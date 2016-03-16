@@ -4,7 +4,7 @@
     <color name="action_bar_text_color">#FFFFFF</color>
     <color name="action_bar_selected_tab_underline_color">#FFFFFF</color>
     <color name="last_minute_primary_color">#E40088</color>
-
+    <color name="hotel_promo_background">#88146A</color>
     <color name="lob_btn_color">#006e8c</color>
     <color name="hotel_lob_btn">@color/lob_btn_color</color>
     <color name="flights_lob_btn">@color/lob_btn_color</color>
