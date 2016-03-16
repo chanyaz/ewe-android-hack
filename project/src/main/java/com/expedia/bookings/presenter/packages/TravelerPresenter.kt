@@ -5,6 +5,7 @@ import android.util.AttributeSet
 import android.view.View
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Traveler
+import com.expedia.bookings.data.packages.PackageSearchParams
 import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.FlightTravelerEntryWidget
@@ -68,16 +69,26 @@ class TravelerPresenter(context: Context, attrs: AttributeSet) : Presenter(conte
         show(travelerDefaultState, Presenter.FLAG_CLEAR_BACKSTACK)
     }
 
+    fun refreshAndShow(packageParams: PackageSearchParams) {
+        viewModel.refreshTravelerList(packageParams)
+        travelerSelectState.refresh()
+        travelerDefaultState.viewModel.emptyTravelers.onNext(Unit)
+        visibility = View.VISIBLE
+    }
+
+    fun validateAndBindTravelerSummary() {
+        if (viewModel.getTravelers().isEmpty()) {
+            travelerDefaultState.viewModel.emptyTravelers.onNext(Unit)
+        } else if (viewModel.validateTravelersComplete()) {
+            travelerDefaultState.viewModel.travelersComplete.onNext(Unit)
+        } else {
+            travelerDefaultState.viewModel.incompleteTravelers.onNext(Unit)
+        }
+    }
 
     private fun showTravelerEntryWidget(travelerViewModel: TravelerViewModel) {
         travelerEntryWidget.viewModel = travelerViewModel
         show(travelerEntryWidget)
-    }
-
-    fun show() {
-        travelerSelectState.refresh()
-        travelerDefaultState.viewModel.emptyTravelers.onNext(Unit)
-        visibility = View.VISIBLE
     }
 
     override fun back(): Boolean {
@@ -89,16 +100,6 @@ class TravelerPresenter(context: Context, attrs: AttributeSet) : Presenter(conte
             return false
         }
         return backHandled
-    }
-
-    fun validateAndBindTravelerSummary() {
-        if (viewModel.getTravelers().isEmpty()) {
-            travelerDefaultState.viewModel.emptyTravelers.onNext(Unit)
-        } else if (viewModel.validateTravelersComplete()) {
-            travelerDefaultState.viewModel.travelersComplete.onNext(Unit)
-        } else {
-            travelerDefaultState.viewModel.incompleteTravelers.onNext(Unit)
-        }
     }
 
     private val defaultTransition = object : Presenter.DefaultTransition(TravelerDefaultState::class.java.name) {

@@ -63,7 +63,7 @@ class PackageCheckoutPresenter(context: Context, attr: AttributeSet) : BaseCheck
         return LineOfBusiness.PACKAGES
     }
 
-    override fun updateTravelers() {
-        travelerPresenter.viewModel.refreshTravelerList(Db.getPackageParams())
+    override fun updateTravelerPresenter() {
+        travelerPresenter.refreshAndShow(Db.getPackageParams())
     }
 }
