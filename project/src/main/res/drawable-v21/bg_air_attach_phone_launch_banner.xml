@@ -4,7 +4,7 @@
 >
 <item android:state_pressed="true">
     <shape android:shape="rectangle">
-        <solid android:color="#F5495863" />
+        <solid android:color="@color/bg_air_attach_banner_default" />
     </shape>
 </item>
 </ripple>

@@ -98,4 +98,7 @@
     <color name="acct__bg_input_text_good_wotif">#EEEEEE</color>
     <color name="acct__welcome_text_color">#FFFFFF</color>
 
+    <color name="bg_air_attach_banner_default">#1972b2</color>
+    <color name="bg_air_attach_phone_launch">#1972b2</color>
+
 </resources>
