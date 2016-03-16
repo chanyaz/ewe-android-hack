@@ -287,15 +287,25 @@ public class HotelServicesTest {
 			hotel.hotelId = "Normal";
 			hotelList.add(hotel);
 		}
+
+		List<Integer> randomNumberList = new ArrayList<Integer>();
 		if (keepSponsoredItems) {
 			Random random = new Random();
-			setHotelAsSponsored(hotelList.get(random.nextInt(hotelCount)));
+			setHotelAsSponsored(hotelList.get(getUniqueRandomNumber(random, hotelCount, randomNumberList)));
 			if (hotelCount >= 50) {
-				setHotelAsSponsored(hotelList.get(random.nextInt(hotelCount)));
-				setHotelAsSponsored(hotelList.get(random.nextInt(hotelCount)));
+				setHotelAsSponsored(hotelList.get(getUniqueRandomNumber(random, hotelCount, randomNumberList)));
+				setHotelAsSponsored(hotelList.get(getUniqueRandomNumber(random, hotelCount, randomNumberList)));
 			}
 		}
 		return hotelList;
+	}
+
+	private int getUniqueRandomNumber(Random random, int maxNumber, List<Integer> randomNumberList) {
+		int randomNumber = random.nextInt(maxNumber);
+		while (randomNumberList.contains(randomNumber)) {
+			randomNumber = random.nextInt(maxNumber);
+		}
+		return randomNumber;
 	}
 
 	private void setHotelAsSponsored(Hotel hotel) {
