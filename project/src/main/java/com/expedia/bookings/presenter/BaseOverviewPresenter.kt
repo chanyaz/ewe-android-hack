@@ -6,10 +6,7 @@ import android.support.design.widget.CoordinatorLayout
 import android.support.v4.content.ContextCompat
 import android.util.AttributeSet
 import android.view.View
-import android.view.ViewGroup
 import com.expedia.bookings.R
-import com.expedia.bookings.presenter.Presenter
-import com.expedia.bookings.presenter.VisibilityTransition
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.BaseCheckoutPresenter

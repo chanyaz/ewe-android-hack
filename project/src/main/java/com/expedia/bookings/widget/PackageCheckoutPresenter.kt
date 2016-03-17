@@ -1,10 +1,12 @@
 package com.expedia.bookings.widget
 
 import android.content.Context
+import android.graphics.Rect
 import android.util.AttributeSet
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.Money
+import android.view.ViewTreeObserver
 import com.expedia.bookings.otto.Events
 import com.expedia.util.notNullAndObservable
 import com.expedia.util.subscribeTextAndVisibility
@@ -14,7 +16,6 @@ import com.squareup.otto.Subscribe
 import java.math.BigDecimal
 
 class PackageCheckoutPresenter(context: Context, attr: AttributeSet) : BaseCheckoutPresenter(context, attr) {
-
     var checkoutViewModel: PackageCheckoutViewModel by notNullAndObservable { vm ->
         viewModel.checkoutInfoCompleted.subscribe(vm.baseParams)
         vm.legalText.subscribeTextAndVisibility(legalInformationText)
@@ -59,7 +60,24 @@ class PackageCheckoutPresenter(context: Context, attr: AttributeSet) : BaseCheck
         onLoginSuccess()
     }
 
-    override fun lineOfBusiness() : LineOfBusiness {
+    init {
+        globalLayoutListener = (ViewTreeObserver.OnGlobalLayoutListener {
+            val decorView = paymentWidgetRootWindow.decorView
+            val windowVisibleDisplayFrameRect = Rect()
+            decorView.getWindowVisibleDisplayFrame(windowVisibleDisplayFrameRect)
+            var location = IntArray(2)
+            scrollView?.getLocationOnScreen(location)
+            val lp = scrollView.layoutParams
+            val newHeight = windowVisibleDisplayFrameRect.bottom - windowVisibleDisplayFrameRect.top - toolbarHeight
+
+            if (lp.height != newHeight) {
+                lp.height = newHeight
+                scrollView.layoutParams = lp
+            }
+        })
+    }
+
+    override fun lineOfBusiness(): LineOfBusiness {
         return LineOfBusiness.PACKAGES
     }
 

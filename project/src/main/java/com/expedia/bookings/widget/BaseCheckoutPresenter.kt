@@ -23,6 +23,7 @@ import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.User
 import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.presenter.packages.TravelerPresenter
+import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.UserAccountRefresher
 import com.expedia.bookings.utils.bindView
 import com.expedia.util.notNullAndObservable
@@ -60,6 +61,11 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet) : Pre
     val slideTotalText: TextView by bindView(R.id.purchase_total_text_view)
     val checkoutButton: Button by bindView(R.id.checkout_button)
 
+    val paymentWidgetRootWindow by lazy { (context as Activity).window }
+    val paymentWidgetRootView by lazy { paymentWidgetRootWindow.decorView.findViewById(android.R.id.content) }
+    var globalLayoutListener: ViewTreeObserver.OnGlobalLayoutListener? = null
+    var toolbarHeight: Int = 0
+
     val checkoutDialog = ProgressDialog(context)
     val createTripDialog = ProgressDialog(context)
 
@@ -87,6 +93,7 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet) : Pre
         paymentWidget.viewmodel = PaymentViewModel(context)
         priceChangeWidget.viewmodel = PriceChangeViewModel(context)
         totalPriceWidget.viewModel = BundlePriceViewModel(context)
+        toolbarHeight = Ui.getToolbarSize(context)
 
         loginWidget.setListener(this)
         slideToPurchase.addSlideToListener(this)
@@ -212,6 +219,9 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet) : Pre
             if (!forward) {
                 paymentWidget.show(PaymentWidget.PaymentDefault(), Presenter.FLAG_CLEAR_BACKSTACK)
                 animateInSlideToPurchase(true)
+                paymentWidgetRootView.viewTreeObserver.removeOnGlobalLayoutListener(globalLayoutListener)
+            } else {
+                paymentWidgetRootView.viewTreeObserver.addOnGlobalLayoutListener(globalLayoutListener)
             }
         }
 

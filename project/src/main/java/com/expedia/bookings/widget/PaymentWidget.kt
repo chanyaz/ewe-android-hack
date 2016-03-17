@@ -273,8 +273,14 @@ public open class PaymentWidget(context: Context, attr: AttributeSet) : Presente
             viewmodel.emptyBillingInfo.onNext(Unit)
         } else if (isCreditCardRequired() && (hasStoredCard())) {
             viewmodel.billingInfoAndStatusUpdate.onNext(Pair(sectionBillingInfo.billingInfo, ContactDetailsCompletenessStatus.COMPLETE))
-        } else if (isCreditCardRequired() && (isFilled() && sectionBillingInfo.performValidation() && sectionLocation.performValidation())) {
-            viewmodel.billingInfoAndStatusUpdate.onNext(Pair(sectionBillingInfo.billingInfo, ContactDetailsCompletenessStatus.COMPLETE))
+        } else if (isCreditCardRequired() && (isFilled())) {
+            val isBillingInfoFilled = sectionBillingInfo.performValidation()
+            val isLocationFilled = sectionLocation.performValidation()
+            if (isBillingInfoFilled && isLocationFilled) {
+                viewmodel.billingInfoAndStatusUpdate.onNext(Pair(sectionBillingInfo.billingInfo, ContactDetailsCompletenessStatus.COMPLETE))
+            } else {
+                viewmodel.billingInfoAndStatusUpdate.onNext(Pair(null, ContactDetailsCompletenessStatus.INCOMPLETE))
+            }
         } else if (isCreditCardRequired() && hasTempCard()) {
             viewmodel.billingInfoAndStatusUpdate.onNext(Pair(Db.getTemporarilySavedCard(), ContactDetailsCompletenessStatus.COMPLETE))
         } else if (isFilled()) {
