@@ -1154,5 +1154,11 @@
         <item name="android:textAllCaps">false</item>
         <item name="android:layout_height">@dimen/footer_button_height</item>
     </style>
+    
+    <style name="HotelPromoMessaging">
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:textSize">@dimen/hotel_details_promo_messaging_text_size</item>
+        <item name="textStyle">normal</item>
+    </style>
 
 </resources>

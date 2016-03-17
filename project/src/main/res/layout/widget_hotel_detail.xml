@@ -80,9 +80,9 @@
                     android:background="?attr/hotel_promo_background_colors">
 
                     <LinearLayout
-                        android:layout_width="match_parent"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_alignParentLeft="true"
+                        android:layout_alignParentRight="true"
                         android:paddingBottom="10dp"
                         android:paddingLeft="18dp"
                         android:paddingRight="18dp"
@@ -99,40 +99,34 @@
                             android:paddingLeft="5dp"
                             android:paddingRight="5dp"
                             android:paddingTop="3dp"
-                            android:textColor="#FFFFFF"
-                            android:textSize="10sp"
-                            app:textStyle="medium" />
+                            style="@style/HotelPromoMessaging" />
 
                         <com.expedia.bookings.widget.TextView
                             android:id="@+id/promo_text"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:gravity="center_vertical"
-                            android:textColor="#FFFFFF"
-                            android:textSize="11sp"
-                            app:textStyle="normal" />
+                            style="@style/HotelPromoMessaging" />
                     </LinearLayout>
 
                     <LinearLayout
                         android:id="@+id/vip_access_message_container"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
-                        android:layout_alignParentRight="true"
+                        android:layout_alignParentLeft="true"
                         android:background="?attr/vip_info_select_ripple_drawable"
                         android:gravity="right"
-                        android:paddingBottom="13dp"
-                        android:paddingLeft="36dp"
+                        android:paddingBottom="10dp"
+                        android:paddingLeft="18dp"
                         android:paddingRight="18dp"
-                        android:paddingTop="13dp">
+                        android:paddingTop="10dp">
 
                         <com.expedia.bookings.widget.TextView
                             android:id="@+id/vip_access_message"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/vip"
-                            android:textColor="#FFFFFF"
-                            android:textSize="11sp"
-                            app:textStyle="medium" />
+                            style="@style/HotelPromoMessaging" />
 
                         <com.expedia.bookings.widget.TextView
                             android:id="@+id/vip_loyalty_message_details"
@@ -141,9 +135,7 @@
                             android:layout_alignBaseline="@id/vip_access_message"
                             android:paddingLeft="2dp"
                             android:text="@string/vip_loyalty_applied_message"
-                            android:textColor="#FFFFFF"
-                            android:textSize="9sp"
-                            app:textStyle="normal" />
+                            style="@style/HotelPromoMessaging" />
 
                     </LinearLayout>
 
@@ -151,15 +143,14 @@
                         android:id="@+id/regular_loyalty_applied"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
-                        android:layout_alignParentRight="true"
-                        android:gravity="center_vertical|right"
-                        android:paddingBottom="13dp"
-                        android:paddingLeft="36dp"
+                        android:layout_alignParentLeft="true"
+                        android:gravity="center_vertical"
+                        android:paddingBottom="10dp"
+                        android:paddingLeft="18dp"
                         android:paddingRight="18dp"
-                        android:paddingTop="13dp"
+                        android:paddingTop="10dp"
                         android:text="@string/regular_loyalty_applied_message"
-                        android:textColor="#FFFFFF"
-                        android:textSize="9sp" />
+                        style="@style/HotelPromoMessaging" />
 
                 </RelativeLayout>
 

@@ -117,6 +117,9 @@
     <dimen name="single_amenity_margin">3dp</dimen>
     <dimen name="amenity_icon_size">30dp</dimen>
 
+    <!-- Text sizes for promo messaging on details screen -->
+    <dimen name="hotel_details_promo_messaging_text_size">11sp</dimen>
+
     <!-- Tablet hotel map popup dimens -->
     <dimen name="hotel_map_popup_thumbnail_height">126dp</dimen>
     <dimen name="hotel_map_popup_thumbnail_width">111dp</dimen>
