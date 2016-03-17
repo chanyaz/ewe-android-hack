@@ -239,6 +239,8 @@
     <string name="temporarily_saved_card_TEMPLATE">{cardtype} salvo …{cardno}</string>
     <!--Text for stored card -->
     <string name="stored_card_TEMPLATE">{cardtype} salvo</string>
+    <!-- Select card from checkout saved cards list -->
+    <string name="saved_cards">Cartões salvos</string>
 
     <!-- Car error strings -->
     <!-- Message for user that pick-up time is too early.  -->
@@ -700,7 +702,6 @@
 
     <string name="lx_you_might_also_like">Você também pode gostar</string>
     <string name="lx_customers_recommend">dos clientes recomendam.</string>
-    <string name="lx_not_yet_recommended">Ainda não possui recomendação.</string>
     <!-- LX user recommended percentage template-->
     <string name="lx_recommend_percent_Template">{recommend}%</string>
 
@@ -1005,7 +1006,7 @@
     <string name="current_location_tile">Ofertas locais para esta noite</string>
     <!-- Subtitle for "Your Search" collection tile, indicating number of items in TripBucket -->
     <plurals name="num_items_TEMPLATE">
-        <item quantity="zero">%s itens</item>
+        <item quantity="zero">%s item</item>
         <item quantity="one">%s item</item>
         <item quantity="two">%s itens</item>
         <item quantity="few">%s itens</item>
@@ -1085,23 +1086,23 @@
     <plurals name="minutes_from_now">
         <item quantity="zero">%s minuto</item>
         <item quantity="one">%s minuto</item>
-        <item quantity="two">%s minuto</item>
-        <item quantity="few">%s minuto</item>
-        <item quantity="many">%s minuto</item>
-        <item quantity="other">%s minuto</item>
+        <item quantity="two">%s minutos</item>
+        <item quantity="few">%s minutos</item>
+        <item quantity="many">%s minutos</item>
+        <item quantity="other">%s minutos</item>
     </plurals>
     <!-- "XX Hours" - an event happening XX hours in the future -->
     <plurals name="hours_from_now">
         <item quantity="zero">%s hora</item>
         <item quantity="one">%s hora</item>
-        <item quantity="two">%s hora</item>
-        <item quantity="few">%s hora</item>
-        <item quantity="many">%s hora</item>
-        <item quantity="other">%s hora</item>
+        <item quantity="two">%s horas</item>
+        <item quantity="few">%s horas</item>
+        <item quantity="many">%s horas</item>
+        <item quantity="other">%s horas</item>
     </plurals>
     <!-- "XX Days" an event happening XX days in the future -->
     <plurals name="days_from_now">
-        <item quantity="zero">%s dias</item>
+        <item quantity="zero">%s dia</item>
         <item quantity="one">%s dia</item>
         <item quantity="two">%s dias</item>
         <item quantity="few">%s dias</item>
@@ -1638,7 +1639,7 @@
     <string name="sort_description_duration">Duração</string>
     <!-- Pluralization for # of days a flight takes up.  %s is the number of days, positive or minus (-1 day, +2 days) -->
     <plurals name="day_span">
-        <item quantity="zero">%s dias</item>
+        <item quantity="zero">%s dia</item>
         <item quantity="one">%s dia</item>
         <item quantity="two">%s dias</item>
         <item quantity="few">%s dias</item>
@@ -1679,8 +1680,8 @@
     <string name="search_destination">Buscar destino</string>
     <!-- Number of adults template -->
     <plurals name="number_of_adults_TEMPLATE">
-        <item quantity="zero">%1$d Adultos</item>
-        <item quantity="one">%1$d adulto</item>
+        <item quantity="zero">%1$d Adulto</item>
+        <item quantity="one">%1$d Adulto</item>
         <item quantity="two">%1$d Adultos</item>
         <item quantity="few">%1$d Adultos</item>
         <item quantity="many">%1$d Adultos</item>
@@ -1861,10 +1862,10 @@
     <plurals name="number_of_travelers_TEMPLATE">
         <item quantity="zero">%1$dViajante</item>
         <item quantity="one">%1$dViajante</item>
-        <item quantity="two">%1$dViajante</item>
-        <item quantity="few">%1$dViajante</item>
-        <item quantity="many">%1$dViajante</item>
-        <item quantity="other">%1$dViajante</item>
+        <item quantity="two">%1$dViajantes</item>
+        <item quantity="few">%1$dViajantes</item>
+        <item quantity="many">%1$dViajantes</item>
+        <item quantity="other">%1$dViajantes</item>
     </plurals>
     <!-- Checkout button text -->
     <string name="checkout_btn">Check-out</string>
@@ -2622,7 +2623,7 @@
     <!-- Filter option for "show 5 star hotels ."  (Should remain abbreviated) -->
     <string name="filter_stars_five">5</string>
     <!-- Filter option template for filtering hotels by distance in miles.  (E.g., "5 mi"). -->
-    <string name="filter_distance_miles_template">%smi</string>
+    <string name="filter_distance_miles_template">%s mi</string>
     <!-- Filter option template for filtering hotels by distance in kilometers.  (E.g., "7.5 km"). -->
     <string name="filter_distance_kilometers_template">%s km</string>
 
@@ -2838,8 +2839,8 @@
     <plurals name="number_of_reviews">
         <item quantity="zero">Nenhuma avaliação</item>
         <item quantity="one">%d avaliação</item>
-        <item quantity="two">%d avaliação</item>
-        <item quantity="many">%d avaliação</item>
+        <item quantity="two">%d avaliações</item>
+        <item quantity="many">%d avaliações</item>
         <item quantity="other">%d avaliações</item>
     </plurals>
 
@@ -3156,18 +3157,6 @@
     <string name="info_label_privacy_policy">Política de privacidade</string>
     <!-- Copyright information -->
     <string name="copyright_TEMPLATE">© Copyright 2012-{brand} {year} , Inc.\nTodos os direitos reservados.</string>
-    <!-- Dialog Title telling the user they have been signed of their account and all data saved about them has been removed -->
-    <string name="dialog_title_signed_out_and_cleared_private_data">Desconectado e dados apagados</string>
-    <!-- Dialog Message telling the user they have been signed of their account and all data saved about them has been removed -->
-    <string name="dialog_message_signed_out_and_cleared_private_data_TEMPLATE">Você se desconectou de sua conta da {brand} e todas as informações de contato e cobrança salvas foram removidas.</string>
-    <!-- Dialog Title telling the user they have been signed of their account and all data saved about them has been removed -->
-    <string name="dialog_title_cleared_private_data">Dados privados apagados</string>
-    <!-- Dialog Message telling the user they have been signed of their account and all data saved about them has been removed -->
-    <string name="dialog_message_cleared_private_data">Todas as informações salvas relativas a cobrança e contato foram removidas.</string>
-    <!-- Action button label to follow on twitter -->
-    <string name="Follow">Siga</string>
-    <!-- Action button label to like on facebook -->
-    <string name="Like">Curta</string>
     <!-- Credit to the author of the "Stack Blur" algorithm we use in our app -->
     <string name="stack_blur_credit">Este app utiliza o algoritmo Stack Blur de Mario Klingemann.</string>
     <!-- String where we link to the google play services open source licenses -->
@@ -3190,8 +3179,6 @@
     <string name="email_address">Endereço de e-mail</string>
 
     <!-- Preferences -->
-    <!-- Category name for general preferences -->
-    <string name="preference_category_general">Geral</string>
     <!-- Title for point of sale setting -->
     <string name="preference_point_of_sale_title">País</string>
 
@@ -3200,31 +3187,31 @@
     <string name="app_not_available">Seu dispositivo móvel não possui um aplicativo capaz de realizar esta ação ou você não tem autorização para acessá-lo.</string>
     <!-- A number of adults. Capitalized -->
     <plurals name="number_of_adults">
-        <item quantity="zero">%d Adultos</item>
-        <item quantity="one">%d adulto</item>
+        <item quantity="zero">%d Adulto</item>
+        <item quantity="one">%d Adulto</item>
         <item quantity="two">%d Adultos</item>
         <item quantity="many">%d Adultos</item>
         <item quantity="other">%d Adultos</item>
     </plurals>
     <!-- A number of children. Capitalized -->
     <plurals name="number_of_children">
-        <item quantity="zero">%d criança</item>
-        <item quantity="one">%d criança</item>
-        <item quantity="two">%d crianças</item>
-        <item quantity="many">%d crianças</item>
-        <item quantity="other">%d crianças</item>
+        <item quantity="zero">%d Criança</item>
+        <item quantity="one">%d Criança</item>
+        <item quantity="two">%d Crianças</item>
+        <item quantity="many">%d Crianças</item>
+        <item quantity="other">%d Crianças</item>
     </plurals>
     <!-- A number of guests. Capitalized -->
     <plurals name="number_of_guests">
-        <item quantity="zero">%d hóspedes</item>
-        <item quantity="one">%d hóspede</item>
-        <item quantity="two">%d hóspedes</item>
-        <item quantity="many">%d hóspedes</item>
-        <item quantity="other">%d hóspedes</item>
+        <item quantity="zero">%d Hóspede</item>
+        <item quantity="one">%d Hóspede</item>
+        <item quantity="two">%d Hóspedes</item>
+        <item quantity="many">%d Hóspedes</item>
+        <item quantity="other">%d Hóspedes</item>
     </plurals>
     <!-- A number of guests (but not including the guest count). Capitalized -->
     <plurals name="number_of_guests_label">
-        <item quantity="zero">Hóspedes</item>
+        <item quantity="zero">Hóspede</item>
         <item quantity="one">Hóspede</item>
         <item quantity="two">Hóspedes</item>
         <item quantity="many">Hóspedes</item>
@@ -3232,15 +3219,15 @@
     </plurals>
     <!-- A number of nights (as in stay duration).  Capitalized -->
     <plurals name="number_of_nights">
-        <item quantity="zero">%d noites</item>
+        <item quantity="zero">%d Noite</item>
         <item quantity="one">%d Noite</item>
-        <item quantity="two">%d noites</item>
-        <item quantity="many">%d noites</item>
-        <item quantity="other">%d noites</item>
+        <item quantity="two">%d Noites</item>
+        <item quantity="many">%d Noites</item>
+        <item quantity="other">%d Noites</item>
     </plurals>
     <!-- A number of days (as in rental duration), not including the actual number. Capitalized -->
     <plurals name="number_of_days_label">
-        <item quantity="zero">Dias</item>
+        <item quantity="zero">Dia</item>
         <item quantity="one">Dia</item>
         <item quantity="two">Dias</item>
         <item quantity="many">Dias</item>
@@ -3264,8 +3251,6 @@
     <!-- Menu strings -->
     <!-- Label for "settings" menu item. -->
     <string name="Settings">Configurações</string>
-    <!-- Label for "info about this app" menu item. -->
-    <string name="Info">Info</string>
 
     <!-- Error strings - replacements for default EAN errors -->
     <!-- Replaces "result was null" for no result search -->
@@ -3919,13 +3904,21 @@
     <string name="select_hotel_template">Selecione hotel em %s</string>
     <!-- Bundle Overview searching flight -->
     <string name="searching_flight_to">Procurando voo para %s</string>
-
     <!-- Package All Flight label -->
     <string name="all_flights_label">Todos os voos</string>
     <!-- Package Best Flight title -->
     <string name="best_flight_title">Melhor voo</string>
     <!-- Package Best Flight description -->
     <string name="best_flight_description">barato • curto • partida popular</string>
+
+    <!-- Package Filters Strings -->
+    <plurals name="flight_filter_stops">
+        <item quantity="zero">Sem escalas</item>
+        <item quantity="one">1 escala</item>
+        <item quantity="two">Mais de 2 escalas</item>
+        <item quantity="other">Mais de 2 escalas</item>
+    </plurals>
+
     <!-- Flight duration template e.g. 1d 12h 42m (Nonstop) -->
     <string name="flight_duration_description_template">%1$s (%2$s)</string>
     <!-- Flight hour duration template e.g. 12h 42m -->
@@ -3966,15 +3959,17 @@
     <string name="trip_overview">Veja os detalhes da viagem</string>
     <!-- Slide to book -->
     <string name="package_slider_text">Deslize para reservar</string>
-    <string name="hotel_city_country_checkout_header_TEMPLATE">{city}, {country}</string>
+    <string name="hotel_city_country_TEMPLATE">{city}, {country}</string>
+    <!-- Confirmation Text indicating rewards points user got for the booked package -->
+    <string name="package_confirmation_reward_points">{rewardpoints} pontos do {brand}+</string>
 
     <!-- Flight Duration filter label-->
     <string name="flight_duration_label">Duração do voo</string>
     <string name="flight_duration_hour_short">h</string>
     <!-- Departure Time Range filter label-->
-    <string name="departure_time_range">Intervalo de tempo de partida</string>
+    <string name="departure_time_range">Horário de partida</string>
     <!-- Arrival Time Range filter label-->
-    <string name="arrival_time_range">Intervalo de tempo de chegada</string>
+    <string name="arrival_time_range">Horário de chegada</string>
 
     <!-- Package Change hotel description -->
     <string name="package_change_hotel">Alterar hotel</string>
@@ -4008,7 +4003,8 @@
     <string name="package_flight_overview_layover_in_TEMPLATE">Escala em ({airportcode}) {city}</string>
     <string name="package_flight_overview_airline_airplane_TEMPLATE">{carrier} {flightnumber} - {airplanetype}</string>
     <string name="package_flight_overview_total_duration_TEMPLATE">Duração total: {duration}</string>
-
+    <!-- Itinerary summary text- Itinerary number sent to the user email -->
+    <string name="package_itinerary_confirmation_TEMPLATE">Nº{itinerary} enviado para {email}</string>
     <!--Rail search screen title-->
     <string name="trains">Trens</string>
 
@@ -4020,12 +4016,21 @@
     <string name="enter_destination_hint">Insira o destino</string>
 
     <!-- Package breakdown dialog -->
-    <string name="package_breakdown_hotel_flight_summary">Hotel + Voo</string>
+    <string name="package_breakdown_hotel_flight_summary">Hotel + Voos</string>
     <string name="package_breakdown_taxes_fees">Impostos e taxas</string>
     <string name="package_breakdown_taxes_fees_included_TEMPLATE">Impostos e taxas incluídos ({taxes})</string>
     <string name="package_breakdown_total_savings">Desconto total</string>
 
     <!-- Shop with points -->
     <string name="regular_loyalty_applied_message">Pontos do Expedia+ aplicados!</string>
-    <string name="vip_loyalty_applied_message">Pontos duplos aplicados!</string>
+    <string name="vip_loyalty_applied_message">2x mais pontos aplicados!</string>
+    <!-- String to be appended with +VIP in header of room rates. -->
+    <string name="vip_loyalty_applied_header_message">2x mais pontos do Expedia+ aplicados!</string>
+
+    <!-- Message telling you on confirmation screen where you've booked a package to -->
+    <string name="yay_going_somewhere">Você está indo para</string>
+    <!-- Cars cross-sell message on package confirmation -->
+    <string name="rental_car_message">Precisa alugar um carro?</string>
+    <!-- Cars cross-sell message description on package confirmation -->
+    <string name="rental_car_message_desc">Alugue carros e economize</string>
 </resources>

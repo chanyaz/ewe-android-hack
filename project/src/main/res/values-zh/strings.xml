@@ -239,6 +239,8 @@
     <string name="temporarily_saved_card_TEMPLATE">已保存 {cardtype} …{cardno}</string>
     <!--Text for stored card -->
     <string name="stored_card_TEMPLATE">保存的 {cardtype}</string>
+    <!-- Select card from checkout saved cards list -->
+    <string name="saved_cards">保存的卡</string>
 
     <!-- Car error strings -->
     <!-- Message for user that pick-up time is too early.  -->
@@ -700,7 +702,6 @@
 
     <string name="lx_you_might_also_like">您可能还会喜欢</string>
     <string name="lx_customers_recommend">的客户推荐。</string>
-    <string name="lx_not_yet_recommended">尚未推荐。</string>
     <!-- LX user recommended percentage template-->
     <string name="lx_recommend_percent_Template">{recommend}%</string>
 
@@ -3156,18 +3157,6 @@
     <string name="info_label_privacy_policy">隐私政策</string>
     <!-- Copyright information -->
     <string name="copyright_TEMPLATE">© 版权所有 2012-{year} {brand}, Inc.\n保留所有权利。</string>
-    <!-- Dialog Title telling the user they have been signed of their account and all data saved about them has been removed -->
-    <string name="dialog_title_signed_out_and_cleared_private_data">已退出帐户并清除数据</string>
-    <!-- Dialog Message telling the user they have been signed of their account and all data saved about them has been removed -->
-    <string name="dialog_message_signed_out_and_cleared_private_data_TEMPLATE">您已退出 {brand} 帐户，所有保存的帐单和联系信息都已删除。</string>
-    <!-- Dialog Title telling the user they have been signed of their account and all data saved about them has been removed -->
-    <string name="dialog_title_cleared_private_data">隐私数据已清除</string>
-    <!-- Dialog Message telling the user they have been signed of their account and all data saved about them has been removed -->
-    <string name="dialog_message_cleared_private_data">所有保存的帐单和联系信息已被删除。</string>
-    <!-- Action button label to follow on twitter -->
-    <string name="Follow">关注</string>
-    <!-- Action button label to like on facebook -->
-    <string name="Like">赞</string>
     <!-- Credit to the author of the "Stack Blur" algorithm we use in our app -->
     <string name="stack_blur_credit">此应用程序使用 Mario Klingemann 开发的 Stack Blur 算法。</string>
     <!-- String where we link to the google play services open source licenses -->
@@ -3190,8 +3179,6 @@
     <string name="email_address">电子邮件地址</string>
 
     <!-- Preferences -->
-    <!-- Category name for general preferences -->
-    <string name="preference_category_general">常规</string>
     <!-- Title for point of sale setting -->
     <string name="preference_point_of_sale_title">国家/地区</string>
 
@@ -3264,8 +3251,6 @@
     <!-- Menu strings -->
     <!-- Label for "settings" menu item. -->
     <string name="Settings">设置</string>
-    <!-- Label for "info about this app" menu item. -->
-    <string name="Info">信息</string>
 
     <!-- Error strings - replacements for default EAN errors -->
     <!-- Replaces "result was null" for no result search -->
@@ -3919,13 +3904,21 @@
     <string name="select_hotel_template">选择%s的酒店</string>
     <!-- Bundle Overview searching flight -->
     <string name="searching_flight_to">搜索飞往%s的航班</string>
-
     <!-- Package All Flight label -->
     <string name="all_flights_label">所有航班</string>
     <!-- Package Best Flight title -->
     <string name="best_flight_title">最佳航班</string>
     <!-- Package Best Flight description -->
     <string name="best_flight_description">廉价 • 时间短 • 出发时间适宜</string>
+
+    <!-- Package Filters Strings -->
+    <plurals name="flight_filter_stops">
+        <item quantity="zero">直飞</item>
+        <item quantity="one">1 次经停</item>
+        <item quantity="two">2 次以上经停</item>
+        <item quantity="other">2 次以上经停</item>
+    </plurals>
+
     <!-- Flight duration template e.g. 1d 12h 42m (Nonstop) -->
     <string name="flight_duration_description_template">%1$s (%2$s)</string>
     <!-- Flight hour duration template e.g. 12h 42m -->
@@ -3966,15 +3959,17 @@
     <string name="trip_overview">查看旅行详细信息</string>
     <!-- Slide to book -->
     <string name="package_slider_text">滑动屏幕，开始预订</string>
-    <string name="hotel_city_country_checkout_header_TEMPLATE">{city}, {country}</string>
+    <string name="hotel_city_country_TEMPLATE">{country}，{city}</string>
+    <!-- Confirmation Text indicating rewards points user got for the booked package -->
+    <string name="package_confirmation_reward_points">{rewardpoints}{brand}+ 奖励积分</string>
 
     <!-- Flight Duration filter label-->
     <string name="flight_duration_label">飞行时间</string>
     <string name="flight_duration_hour_short">小时</string>
     <!-- Departure Time Range filter label-->
-    <string name="departure_time_range">出发时间范围</string>
+    <string name="departure_time_range">出发时间</string>
     <!-- Arrival Time Range filter label-->
-    <string name="arrival_time_range">到达时间范围</string>
+    <string name="arrival_time_range">到达时间</string>
 
     <!-- Package Change hotel description -->
     <string name="package_change_hotel">变更酒店</string>
@@ -4008,7 +4003,8 @@
     <string name="package_flight_overview_layover_in_TEMPLATE">在 ({airportcode}) {city}中转</string>
     <string name="package_flight_overview_airline_airplane_TEMPLATE">{carrier} {flightnumber} - {airplanetype}</string>
     <string name="package_flight_overview_total_duration_TEMPLATE">总时长：{duration}</string>
-
+    <!-- Itinerary summary text- Itinerary number sent to the user email -->
+    <string name="package_itinerary_confirmation_TEMPLATE">{itinerary} # 已发送至 {email}</string>
     <!--Rail search screen title-->
     <string name="trains">火车</string>
 
@@ -4020,12 +4016,21 @@
     <string name="enter_destination_hint">输入目的地</string>
 
     <!-- Package breakdown dialog -->
-    <string name="package_breakdown_hotel_flight_summary">机 + 酒</string>
+    <string name="package_breakdown_hotel_flight_summary">酒店 + 机票</string>
     <string name="package_breakdown_taxes_fees">税款与服务费</string>
     <string name="package_breakdown_taxes_fees_included_TEMPLATE">含税费 ({taxes})</string>
     <string name="package_breakdown_total_savings">直降</string>
 
     <!-- Shop with points -->
     <string name="regular_loyalty_applied_message">使用了 Expedia+ 积分！</string>
-    <string name="vip_loyalty_applied_message">兑换了 2 倍积分！</string>
+    <string name="vip_loyalty_applied_message">使用了 2 倍积分！</string>
+    <!-- String to be appended with +VIP in header of room rates. -->
+    <string name="vip_loyalty_applied_header_message">使用了 2 倍 Expedia+ 积分！</string>
+
+    <!-- Message telling you on confirmation screen where you've booked a package to -->
+    <string name="yay_going_somewhere">您准备出发去</string>
+    <!-- Cars cross-sell message on package confirmation -->
+    <string name="rental_car_message">需要租车？</string>
+    <!-- Cars cross-sell message description on package confirmation -->
+    <string name="rental_car_message_desc">搜索租车，享受更大优惠</string>
 </resources>

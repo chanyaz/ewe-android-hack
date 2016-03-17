@@ -239,6 +239,8 @@
     <string name="temporarily_saved_card_TEMPLATE">{cardtype} …{cardno} guardada</string>
     <!--Text for stored card -->
     <string name="stored_card_TEMPLATE">{cardtype} guardada</string>
+    <!-- Select card from checkout saved cards list -->
+    <string name="saved_cards">Tarjetas guardadas</string>
 
     <!-- Car error strings -->
     <!-- Message for user that pick-up time is too early.  -->
@@ -700,7 +702,6 @@
 
     <string name="lx_you_might_also_like">Más actividades que te podrían interesar</string>
     <string name="lx_customers_recommend">es el porcentaje de clientes que recomiendan esta actividad.</string>
-    <string name="lx_not_yet_recommended">Todavía no fue recomendada.</string>
     <!-- LX user recommended percentage template-->
     <string name="lx_recommend_percent_Template">{recommend}%</string>
 
@@ -848,18 +849,18 @@
     <string name="infants_under_two_TEMPLATE">Niños de menos de 2 años: %s</string>
     <!-- Tablet flight sort/filter controls -->
     <!-- Header for a flight filter based upon number of stops -->
-    <string name="stops">Paradas</string>
+    <string name="stops">Escalas</string>
     <!-- Header for a flight filter, showing a list of flights from different airlines -->
     <string name="airlines">Líneas aéreas</string>
 
     <!-- Pluralization for number of stops (layovers) on a given flight "2 stops" -->
     <plurals name="x_Stops_TEMPLATE">
         <item quantity="zero">Sin escalas</item>
-        <item quantity="one">%s parada</item>
-        <item quantity="two">%s paradas</item>
-        <item quantity="few">%s paradas</item>
-        <item quantity="many">%s paradas</item>
-        <item quantity="other">%s paradas</item>
+        <item quantity="one">%s escala</item>
+        <item quantity="two">%s escalas</item>
+        <item quantity="few">%s escalas</item>
+        <item quantity="many">%s escalas</item>
+        <item quantity="other">%s escalas</item>
     </plurals>
 
     <!-- Header for a dropdown to select from a list of available departure airports -->
@@ -3156,18 +3157,6 @@
     <string name="info_label_privacy_policy">Política de privacidad</string>
     <!-- Copyright information -->
     <string name="copyright_TEMPLATE">© Copyright 2012-{year} {brand}, Inc.\nTodos los derechos reservados.</string>
-    <!-- Dialog Title telling the user they have been signed of their account and all data saved about them has been removed -->
-    <string name="dialog_title_signed_out_and_cleared_private_data">Tu sesión ha terminado y la información se ha borrado</string>
-    <!-- Dialog Message telling the user they have been signed of their account and all data saved about them has been removed -->
-    <string name="dialog_message_signed_out_and_cleared_private_data_TEMPLATE">Tu sesión de {brand} no está abierta, y toda la información de pago y de contacto se ha eliminado.</string>
-    <!-- Dialog Title telling the user they have been signed of their account and all data saved about them has been removed -->
-    <string name="dialog_title_cleared_private_data">Los datos privados han sido eliminados</string>
-    <!-- Dialog Message telling the user they have been signed of their account and all data saved about them has been removed -->
-    <string name="dialog_message_cleared_private_data">Toda la información de facturación y de contacto ha sido eliminada.</string>
-    <!-- Action button label to follow on twitter -->
-    <string name="Follow">Sigue a</string>
-    <!-- Action button label to like on facebook -->
-    <string name="Like">Me gusta</string>
     <!-- Credit to the author of the "Stack Blur" algorithm we use in our app -->
     <string name="stack_blur_credit">Esta aplicación utiliza el algoritmo Stack Blur de Mario Klingemann.</string>
     <!-- String where we link to the google play services open source licenses -->
@@ -3190,8 +3179,6 @@
     <string name="email_address">Dirección de correo electrónico</string>
 
     <!-- Preferences -->
-    <!-- Category name for general preferences -->
-    <string name="preference_category_general">General</string>
     <!-- Title for point of sale setting -->
     <string name="preference_point_of_sale_title">País</string>
 
@@ -3264,8 +3251,6 @@
     <!-- Menu strings -->
     <!-- Label for "settings" menu item. -->
     <string name="Settings">Configuración</string>
-    <!-- Label for "info about this app" menu item. -->
-    <string name="Info">Información</string>
 
     <!-- Error strings - replacements for default EAN errors -->
     <!-- Replaces "result was null" for no result search -->
@@ -3919,13 +3904,21 @@
     <string name="select_hotel_template">Seleccionar un hotel en %s</string>
     <!-- Bundle Overview searching flight -->
     <string name="searching_flight_to">Buscando vuelo a %s</string>
-
     <!-- Package All Flight label -->
     <string name="all_flights_label">Todos los vuelos</string>
     <!-- Package Best Flight title -->
     <string name="best_flight_title">El mejor vuelo</string>
     <!-- Package Best Flight description -->
     <string name="best_flight_description">económico • corto • horario de salida más elegido</string>
+
+    <!-- Package Filters Strings -->
+    <plurals name="flight_filter_stops">
+        <item quantity="zero">Directo</item>
+        <item quantity="one">1 escala</item>
+        <item quantity="two">2 o más escalas</item>
+        <item quantity="other">2 o más escalas</item>
+    </plurals>
+
     <!-- Flight duration template e.g. 1d 12h 42m (Nonstop) -->
     <string name="flight_duration_description_template">%1$s (%2$s)</string>
     <!-- Flight hour duration template e.g. 12h 42m -->
@@ -3966,15 +3959,17 @@
     <string name="trip_overview">Ver detalles del viaje</string>
     <!-- Slide to book -->
     <string name="package_slider_text">Desliza para reservar</string>
-    <string name="hotel_city_country_checkout_header_TEMPLATE">{city}, {country}</string>
+    <string name="hotel_city_country_TEMPLATE">{city}, {country}</string>
+    <!-- Confirmation Text indicating rewards points user got for the booked package -->
+    <string name="package_confirmation_reward_points">{rewardpoints} puntos de {brand}+</string>
 
     <!-- Flight Duration filter label-->
     <string name="flight_duration_label">Tiempo de vuelo</string>
     <string name="flight_duration_hour_short">h</string>
     <!-- Departure Time Range filter label-->
-    <string name="departure_time_range">Rango de tiempo de salida</string>
+    <string name="departure_time_range">Horario de salida</string>
     <!-- Arrival Time Range filter label-->
-    <string name="arrival_time_range">Rango de tiempo de llegada</string>
+    <string name="arrival_time_range">Horario de llegada</string>
 
     <!-- Package Change hotel description -->
     <string name="package_change_hotel">Cambiar hotel</string>
@@ -4008,7 +4003,8 @@
     <string name="package_flight_overview_layover_in_TEMPLATE">Escala en ({airportcode}) {city}</string>
     <string name="package_flight_overview_airline_airplane_TEMPLATE">{carrier} {flightnumber} - {airplanetype}</string>
     <string name="package_flight_overview_total_duration_TEMPLATE">Duración total: {duration}</string>
-
+    <!-- Itinerary summary text- Itinerary number sent to the user email -->
+    <string name="package_itinerary_confirmation_TEMPLATE">Itin. {itinerary} enviado a {email}</string>
     <!--Rail search screen title-->
     <string name="trains">Trenes</string>
 
@@ -4020,7 +4016,7 @@
     <string name="enter_destination_hint">Ingresa un destino</string>
 
     <!-- Package breakdown dialog -->
-    <string name="package_breakdown_hotel_flight_summary">Hotel y vuelo</string>
+    <string name="package_breakdown_hotel_flight_summary">Hotel y vuelos</string>
     <string name="package_breakdown_taxes_fees">Impuestos y cargos</string>
     <string name="package_breakdown_taxes_fees_included_TEMPLATE">Impuestos y cargos incluidos ({taxes})</string>
     <string name="package_breakdown_total_savings">Descuento total</string>
@@ -4028,4 +4024,13 @@
     <!-- Shop with points -->
     <string name="regular_loyalty_applied_message">¡Se aplicaron los puntos Expedia+!</string>
     <string name="vip_loyalty_applied_message">¡Se aplicó el doble de puntos!</string>
+    <!-- String to be appended with +VIP in header of room rates. -->
+    <string name="vip_loyalty_applied_header_message">¡Se aplicó el doble de puntos de Expedia+!</string>
+
+    <!-- Message telling you on confirmation screen where you've booked a package to -->
+    <string name="yay_going_somewhere">Vas a</string>
+    <!-- Cars cross-sell message on package confirmation -->
+    <string name="rental_car_message">¿Necesitas alquilar un auto?</string>
+    <!-- Cars cross-sell message description on package confirmation -->
+    <string name="rental_car_message_desc">Búscalo aquí y ahorra dinero</string>
 </resources>
