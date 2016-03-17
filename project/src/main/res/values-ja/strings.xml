@@ -238,7 +238,9 @@
     <!--Text for selecting user manually stored card -->
     <string name="temporarily_saved_card_TEMPLATE">保存済み{cardtype} (カード番号 {cardno})</string>
     <!--Text for stored card -->
-    <string name="stored_card_TEMPLATE">保存済み {cardtype}</string>
+    <string name="stored_card_TEMPLATE">保存済み{cardtype}</string>
+    <!-- Select card from checkout saved cards list -->
+    <string name="saved_cards">保存済みクレジットカード</string>
 
     <!-- Car error strings -->
     <!-- Message for user that pick-up time is too early.  -->
@@ -700,7 +702,6 @@
 
     <string name="lx_you_might_also_like">おすすめのオプショナル ツアー</string>
     <string name="lx_customers_recommend">のゲストがおすすめ。</string>
-    <string name="lx_not_yet_recommended">まだおすすめされていません。</string>
     <!-- LX user recommended percentage template-->
     <string name="lx_recommend_percent_Template">{recommend}%</string>
 
@@ -1060,9 +1061,9 @@
     <!-- Expedia Itinerary -->
     <string name="itinerary_TEMPLATE">{brand} 旅程番号</string>
     <!-- Label for exclusive +silver phone number, "Expedia +silver Customer Support" -->
-    <string name="Expedia_plus_Silver_Customer_Support">Expedia +シルバー カスタマー サポート</string>
+    <string name="Expedia_plus_Silver_Customer_Support">Expedia +Silver カスタマー サポート</string>
     <!-- Label for exclusive +gold phone number, "Expedia +gold Customer Support" -->
-    <string name="Expedia_plus_Gold_Customer_Support">Expedia +ゴールド カスタマー サポート</string>
+    <string name="Expedia_plus_Gold_Customer_Support">Expedia +Gold カスタマー サポート</string>
     <!-- No upcoming trips -->
     <string name="no_upcoming_trips">予約された旅行はありません。</string>
     <!-- Enter itinerary number -->
@@ -1465,7 +1466,7 @@
     <!-- Message to users about when they check in of their flight-->
     <string name="itin_card_flight_checkin">今すぐチェックインする</string>
     <!-- Title of alert dialog when user come back from check in-->
-    <string name="itin_checkin_dialog_title">チェックインしますか ?</string>
+    <string name="itin_checkin_dialog_title">チェックイン済みですか ?</string>
     <!-- message of alert dialog (e.g., "Were you able to successfully check into your flight on Delta's website?")-->
     <string name="itin_checkin_dialog_message">%s の Web サイトからフライトのチェックインができましたか ?</string>
     <!-- Title of alert dialog when user fail to check in (e.g., "We're Sorry!")-->
@@ -2708,7 +2709,7 @@
     <!-- Title for VIP Access message -->
     <string name="vip_access">+VIP Access</string>
     <!-- Message that explains the meaning of VIP Access -->
-    <string name="vip_access_message">+VIP Access 提携ホテルでは、+シルバー会員および +ゴールド会員は、客室無料アップグレードおよびその他の特典をご利用いただけます (チェックイン時の利用状況による)。</string>
+    <string name="vip_access_message">+VIP Access 提携ホテルでは、+Silver 会員および +Gold 会員は、客室無料アップグレードおよびその他の特典をご利用いただけます (チェックイン時の利用状況による)。</string>
     <!-- Filter for showing only VIP access hotels -->
     <string name="filter_vip_access">+VIP Access 提携ホテルのみ</string>
     <!-- Filter for showing only VIP access hotels -->
@@ -3039,11 +3040,11 @@
     <!-- Label for Expedia +blue rewards tier without brand name -->
     <string name="plus_blue">+blue</string>
     <!-- Label for Expedia +silver rewards program name -->
-    <string name="Expedia_plus_silver">Expedia +シルバー</string>
+    <string name="Expedia_plus_silver">Expedia +Silver</string>
     <!-- Label for Expedia +silver rewards tier without brand name-->
     <string name="plus_silver">+silver</string>
     <!-- Label for Expedia +gold rewards program name -->
-    <string name="Expedia_plus_gold">Expedia +ゴールド</string>
+    <string name="Expedia_plus_gold">Expedia +Gold</string>
     <!-- Label for Expedia +gold rewards tier without brand name -->
     <string name="plus_gold">+gold</string>
     <!-- Label for loading user profile from Expedia -->
@@ -3156,18 +3157,6 @@
     <string name="info_label_privacy_policy">プライバシー ポリシー</string>
     <!-- Copyright information -->
     <string name="copyright_TEMPLATE">© Copyright 2012-{year} {brand}, Inc.\nAll rights reserved.</string>
-    <!-- Dialog Title telling the user they have been signed of their account and all data saved about them has been removed -->
-    <string name="dialog_title_signed_out_and_cleared_private_data">サインアウト済み、データ削除済み</string>
-    <!-- Dialog Message telling the user they have been signed of their account and all data saved about them has been removed -->
-    <string name="dialog_message_signed_out_and_cleared_private_data_TEMPLATE">{brand} のアカウントからサインアウトしています。セーブした全ての請求情報および連絡先が削除されました。</string>
-    <!-- Dialog Title telling the user they have been signed of their account and all data saved about them has been removed -->
-    <string name="dialog_title_cleared_private_data">個人データが削除されました</string>
-    <!-- Dialog Message telling the user they have been signed of their account and all data saved about them has been removed -->
-    <string name="dialog_message_cleared_private_data">保存されているクレジットカードおよび連絡先情報が全て消去されました。</string>
-    <!-- Action button label to follow on twitter -->
-    <string name="Follow">フォロー</string>
-    <!-- Action button label to like on facebook -->
-    <string name="Like">いいね</string>
     <!-- Credit to the author of the "Stack Blur" algorithm we use in our app -->
     <string name="stack_blur_credit">このアプリは Mario Klingemann 氏の Stack Blur アルゴリズムを使用しています。</string>
     <!-- String where we link to the google play services open source licenses -->
@@ -3190,8 +3179,6 @@
     <string name="email_address">メールアドレス</string>
 
     <!-- Preferences -->
-    <!-- Category name for general preferences -->
-    <string name="preference_category_general">概要</string>
     <!-- Title for point of sale setting -->
     <string name="preference_point_of_sale_title">国名</string>
 
@@ -3264,8 +3251,6 @@
     <!-- Menu strings -->
     <!-- Label for "settings" menu item. -->
     <string name="Settings">設定</string>
-    <!-- Label for "info about this app" menu item. -->
-    <string name="Info">情報</string>
 
     <!-- Error strings - replacements for default EAN errors -->
     <!-- Replaces "result was null" for no result search -->
@@ -3919,13 +3904,21 @@
     <string name="select_hotel_template">%sのホテルを選択</string>
     <!-- Bundle Overview searching flight -->
     <string name="searching_flight_to">%sへのフライトを検索中</string>
-
     <!-- Package All Flight label -->
     <string name="all_flights_label">すべてのフライト</string>
     <!-- Package Best Flight title -->
     <string name="best_flight_title">最良のフライト</string>
     <!-- Package Best Flight description -->
     <string name="best_flight_description">お得 • 短時間 • 人気都市</string>
+
+    <!-- Package Filters Strings -->
+    <plurals name="flight_filter_stops">
+        <item quantity="zero">直行便</item>
+        <item quantity="one">乗継 1 回</item>
+        <item quantity="two">乗継 2 回以上</item>
+        <item quantity="other">乗継 2 回以上</item>
+    </plurals>
+
     <!-- Flight duration template e.g. 1d 12h 42m (Nonstop) -->
     <string name="flight_duration_description_template">%1$s (%2$s)</string>
     <!-- Flight hour duration template e.g. 12h 42m -->
@@ -3966,15 +3959,17 @@
     <string name="trip_overview">旅行の詳細を表示する</string>
     <!-- Slide to book -->
     <string name="package_slider_text">スライドして予約</string>
-    <string name="hotel_city_country_checkout_header_TEMPLATE">{city}, {country}</string>
+    <string name="hotel_city_country_TEMPLATE">{city}, {country}</string>
+    <!-- Confirmation Text indicating rewards points user got for the booked package -->
+    <string name="package_confirmation_reward_points">{rewardpoints} {brand}+ ポイント</string>
 
     <!-- Flight Duration filter label-->
     <string name="flight_duration_label">フライト時間</string>
     <string name="flight_duration_hour_short">時間</string>
     <!-- Departure Time Range filter label-->
-    <string name="departure_time_range">出発時間帯</string>
+    <string name="departure_time_range">出発時刻</string>
     <!-- Arrival Time Range filter label-->
-    <string name="arrival_time_range">到着時間帯</string>
+    <string name="arrival_time_range">到着時刻</string>
 
     <!-- Package Change hotel description -->
     <string name="package_change_hotel">ホテルを変更する</string>
@@ -4008,7 +4003,8 @@
     <string name="package_flight_overview_layover_in_TEMPLATE">{city} ({airportcode}) で乗り継ぎ</string>
     <string name="package_flight_overview_airline_airplane_TEMPLATE">{carrier} {flightnumber} - {airplanetype}</string>
     <string name="package_flight_overview_total_duration_TEMPLATE">合計所要時間 : {duration}</string>
-
+    <!-- Itinerary summary text- Itinerary number sent to the user email -->
+    <string name="package_itinerary_confirmation_TEMPLATE">#{itinerary} が {email} に送信されました</string>
     <!--Rail search screen title-->
     <string name="trains">鉄道</string>
 
@@ -4028,4 +4024,13 @@
     <!-- Shop with points -->
     <string name="regular_loyalty_applied_message">Expedia+ ポイント適用済み !</string>
     <string name="vip_loyalty_applied_message">還元率 2 倍でポイント適用済み !</string>
+    <!-- String to be appended with +VIP in header of room rates. -->
+    <string name="vip_loyalty_applied_header_message">還元率 2 倍で Expedia+ ポイント適用済み !</string>
+
+    <!-- Message telling you on confirmation screen where you've booked a package to -->
+    <string name="yay_going_somewhere">目的地 :</string>
+    <!-- Cars cross-sell message on package confirmation -->
+    <string name="rental_car_message">レンタカーを予約しますか ?</string>
+    <!-- Cars cross-sell message description on package confirmation -->
+    <string name="rental_car_message_desc">レンタカーを割引予約</string>
 </resources>
