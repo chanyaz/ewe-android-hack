@@ -239,6 +239,8 @@
     <string name="temporarily_saved_card_TEMPLATE">Đã lưu {cardtype} …{cardno}</string>
     <!--Text for stored card -->
     <string name="stored_card_TEMPLATE">{cardtype} đã lưu</string>
+    <!-- Select card from checkout saved cards list -->
+    <string name="saved_cards">Thẻ đã lưu</string>
 
     <!-- Car error strings -->
     <!-- Message for user that pick-up time is too early.  -->
@@ -700,7 +702,6 @@
 
     <string name="lx_you_might_also_like">Quý vị chắc cũng sẽ thích</string>
     <string name="lx_customers_recommend">đề xuất của khách.</string>
-    <string name="lx_not_yet_recommended">Chưa có đề xuất.</string>
     <!-- LX user recommended percentage template-->
     <string name="lx_recommend_percent_Template">{recommend}%</string>
 
@@ -3156,18 +3157,6 @@
     <string name="info_label_privacy_policy">Quyền riêng tư</string>
     <!-- Copyright information -->
     <string name="copyright_TEMPLATE">© Bản quyền 2012-{year} {brand}, Inc.\nMọi quyền được bảo lưu.</string>
-    <!-- Dialog Title telling the user they have been signed of their account and all data saved about them has been removed -->
-    <string name="dialog_title_signed_out_and_cleared_private_data">Đã thoát và xóa mọi dữ liệu</string>
-    <!-- Dialog Message telling the user they have been signed of their account and all data saved about them has been removed -->
-    <string name="dialog_message_signed_out_and_cleared_private_data_TEMPLATE">Quý vị đã thoát tài khoản {brand} của mình và mọi thông tin thanh toán, liên lạc đã được xóa.</string>
-    <!-- Dialog Title telling the user they have been signed of their account and all data saved about them has been removed -->
-    <string name="dialog_title_cleared_private_data">Đã xóa dữ liệu cá nhân</string>
-    <!-- Dialog Message telling the user they have been signed of their account and all data saved about them has been removed -->
-    <string name="dialog_message_cleared_private_data">Đã xóa mọi thông tin thanh toán và liên hệ đã lưu.</string>
-    <!-- Action button label to follow on twitter -->
-    <string name="Follow">Kết nối</string>
-    <!-- Action button label to like on facebook -->
-    <string name="Like">Thích</string>
     <!-- Credit to the author of the "Stack Blur" algorithm we use in our app -->
     <string name="stack_blur_credit">Ứng dụng này sử dụng thuật toán Stack Blur của Mario Klingemann.</string>
     <!-- String where we link to the google play services open source licenses -->
@@ -3190,8 +3179,6 @@
     <string name="email_address">Địa chỉ email</string>
 
     <!-- Preferences -->
-    <!-- Category name for general preferences -->
-    <string name="preference_category_general">Tổng quan</string>
     <!-- Title for point of sale setting -->
     <string name="preference_point_of_sale_title">Quốc gia</string>
 
@@ -3264,8 +3251,6 @@
     <!-- Menu strings -->
     <!-- Label for "settings" menu item. -->
     <string name="Settings">Cài đặt</string>
-    <!-- Label for "info about this app" menu item. -->
-    <string name="Info">Thông tin</string>
 
     <!-- Error strings - replacements for default EAN errors -->
     <!-- Replaces "result was null" for no result search -->
@@ -3919,13 +3904,21 @@
     <string name="select_hotel_template">Chọn khách sạn tại %s</string>
     <!-- Bundle Overview searching flight -->
     <string name="searching_flight_to">Tìm chuyến bay đến %s</string>
-
     <!-- Package All Flight label -->
     <string name="all_flights_label">Tất cả các chuyến bay</string>
     <!-- Package Best Flight title -->
     <string name="best_flight_title">Chuyến bay tốt nhất</string>
     <!-- Package Best Flight description -->
     <string name="best_flight_description">chuyến khởi hành giá rẻ • tiết kiệm thời gian • nhiều người lựa chọn</string>
+
+    <!-- Package Filters Strings -->
+    <plurals name="flight_filter_stops">
+        <item quantity="zero">Bay thẳng</item>
+        <item quantity="one">1 điểm dừng</item>
+        <item quantity="two">2+ điểm dừng</item>
+        <item quantity="other">2+ điểm dừng</item>
+    </plurals>
+
     <!-- Flight duration template e.g. 1d 12h 42m (Nonstop) -->
     <string name="flight_duration_description_template">%1$s (%2$s)</string>
     <!-- Flight hour duration template e.g. 12h 42m -->
@@ -3966,15 +3959,17 @@
     <string name="trip_overview">Xem thông tin chuyến đi</string>
     <!-- Slide to book -->
     <string name="package_slider_text">Trượt để đặt</string>
-    <string name="hotel_city_country_checkout_header_TEMPLATE">{city}, {country}</string>
+    <string name="hotel_city_country_TEMPLATE">{city}, {country}</string>
+    <!-- Confirmation Text indicating rewards points user got for the booked package -->
+    <string name="package_confirmation_reward_points">{rewardpoints} điểm {brand}</string>
 
     <!-- Flight Duration filter label-->
     <string name="flight_duration_label">Thời lượng chuyến bay</string>
-    <string name="flight_duration_hour_short">g</string>
+    <string name="flight_duration_hour_short">giờ</string>
     <!-- Departure Time Range filter label-->
-    <string name="departure_time_range">Khoảng thời gian khởi hành</string>
+    <string name="departure_time_range">Thời gian khởi hành</string>
     <!-- Arrival Time Range filter label-->
-    <string name="arrival_time_range">Khoảng thời gian đến</string>
+    <string name="arrival_time_range">Thời gian đến</string>
 
     <!-- Package Change hotel description -->
     <string name="package_change_hotel">Thay đổi khách sạn</string>
@@ -4008,7 +4003,8 @@
     <string name="package_flight_overview_layover_in_TEMPLATE">Tạm dừng tại ({airportcode}) {city}</string>
     <string name="package_flight_overview_airline_airplane_TEMPLATE">{carrier} {flightnumber} - {airplanetype}</string>
     <string name="package_flight_overview_total_duration_TEMPLATE">Tổng thời gian: {duration}</string>
-
+    <!-- Itinerary summary text- Itinerary number sent to the user email -->
+    <string name="package_itinerary_confirmation_TEMPLATE">Đã gửi {itinerary} đến {email}</string>
     <!--Rail search screen title-->
     <string name="trains">Tàu hỏa</string>
 
@@ -4028,4 +4024,13 @@
     <!-- Shop with points -->
     <string name="regular_loyalty_applied_message">Đã áp dụng Điểm Expedia+!</string>
     <string name="vip_loyalty_applied_message">Đã áp dụng số điểm gấp đôi!</string>
+    <!-- String to be appended with +VIP in header of room rates. -->
+    <string name="vip_loyalty_applied_header_message">Đã áp dụng số Điểm Expedia+ gấp đôi!</string>
+
+    <!-- Message telling you on confirmation screen where you've booked a package to -->
+    <string name="yay_going_somewhere">Điểm đến của quý vị</string>
+    <!-- Cars cross-sell message on package confirmation -->
+    <string name="rental_car_message">Cần thuê xe?</string>
+    <!-- Cars cross-sell message description on package confirmation -->
+    <string name="rental_car_message_desc">Tìm thuê xe và tiết kiệm tiền</string>
 </resources>

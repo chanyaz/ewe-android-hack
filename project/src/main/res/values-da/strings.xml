@@ -239,6 +239,8 @@
     <string name="temporarily_saved_card_TEMPLATE">Gemt {cardtype} …{cardno}</string>
     <!--Text for stored card -->
     <string name="stored_card_TEMPLATE">Gemt {cardtype}</string>
+    <!-- Select card from checkout saved cards list -->
+    <string name="saved_cards">Gemte kort</string>
 
     <!-- Car error strings -->
     <!-- Message for user that pick-up time is too early.  -->
@@ -700,7 +702,6 @@
 
     <string name="lx_you_might_also_like">Du vil muligvis også være interesseret i</string>
     <string name="lx_customers_recommend">af vores kunder anbefaler.</string>
-    <string name="lx_not_yet_recommended">Endnu ikke anbefalet.</string>
     <!-- LX user recommended percentage template-->
     <string name="lx_recommend_percent_Template">{recommend}%</string>
 
@@ -3156,18 +3157,6 @@
     <string name="info_label_privacy_policy">Fortrolighedspolitik</string>
     <!-- Copyright information -->
     <string name="copyright_TEMPLATE">© Copyright 2012-{year} {brand}, Inc.\nAlle rettigheder forbeholdes.</string>
-    <!-- Dialog Title telling the user they have been signed of their account and all data saved about them has been removed -->
-    <string name="dialog_title_signed_out_and_cleared_private_data">Du er logget ud, og oplysningerne er slettet</string>
-    <!-- Dialog Message telling the user they have been signed of their account and all data saved about them has been removed -->
-    <string name="dialog_message_signed_out_and_cleared_private_data_TEMPLATE">Du er blevet logget ud af din {brand}-konto, og alle gemte betalings- og kontaktoplysninger er blevet slettet.</string>
-    <!-- Dialog Title telling the user they have been signed of their account and all data saved about them has been removed -->
-    <string name="dialog_title_cleared_private_data">Personlige oplysninger er slettet</string>
-    <!-- Dialog Message telling the user they have been signed of their account and all data saved about them has been removed -->
-    <string name="dialog_message_cleared_private_data">Alle gemte betalings- og kontaktoplysninger er blevet slettet.</string>
-    <!-- Action button label to follow on twitter -->
-    <string name="Follow">Følg</string>
-    <!-- Action button label to like on facebook -->
-    <string name="Like">Synes godt om</string>
     <!-- Credit to the author of the "Stack Blur" algorithm we use in our app -->
     <string name="stack_blur_credit">Denne app anvender Stack Blur-algoritmen af Mario Klingemann.</string>
     <!-- String where we link to the google play services open source licenses -->
@@ -3190,8 +3179,6 @@
     <string name="email_address">E-mailadresse</string>
 
     <!-- Preferences -->
-    <!-- Category name for general preferences -->
-    <string name="preference_category_general">Generelt</string>
     <!-- Title for point of sale setting -->
     <string name="preference_point_of_sale_title">Land</string>
 
@@ -3264,8 +3251,6 @@
     <!-- Menu strings -->
     <!-- Label for "settings" menu item. -->
     <string name="Settings">Indstillinger</string>
-    <!-- Label for "info about this app" menu item. -->
-    <string name="Info">Information</string>
 
     <!-- Error strings - replacements for default EAN errors -->
     <!-- Replaces "result was null" for no result search -->
@@ -3919,13 +3904,21 @@
     <string name="select_hotel_template">Vælg hotel in %s</string>
     <!-- Bundle Overview searching flight -->
     <string name="searching_flight_to">Søger efter fly til %s</string>
-
     <!-- Package All Flight label -->
     <string name="all_flights_label">Alle flyrejser</string>
     <!-- Package Best Flight title -->
     <string name="best_flight_title">Bedste flyrejse</string>
     <!-- Package Best Flight description -->
     <string name="best_flight_description">billig • kort • populær afgang</string>
+
+    <!-- Package Filters Strings -->
+    <plurals name="flight_filter_stops">
+        <item quantity="zero">Direkte</item>
+        <item quantity="one">1 mellemlanding</item>
+        <item quantity="two">2+ mellemlandinger</item>
+        <item quantity="other">2+ mellemlandinger</item>
+    </plurals>
+
     <!-- Flight duration template e.g. 1d 12h 42m (Nonstop) -->
     <string name="flight_duration_description_template">%1$s (%2$s)</string>
     <!-- Flight hour duration template e.g. 12h 42m -->
@@ -3966,15 +3959,17 @@
     <string name="trip_overview">Se rejseoplysninger</string>
     <!-- Slide to book -->
     <string name="package_slider_text">Skub for at reservere</string>
-    <string name="hotel_city_country_checkout_header_TEMPLATE">{city}, {country}</string>
+    <string name="hotel_city_country_TEMPLATE">{city}, {country}</string>
+    <!-- Confirmation Text indicating rewards points user got for the booked package -->
+    <string name="package_confirmation_reward_points">{rewardpoints} {brand}+ point</string>
 
     <!-- Flight Duration filter label-->
     <string name="flight_duration_label">Flyrejsens varighed</string>
     <string name="flight_duration_hour_short">t</string>
     <!-- Departure Time Range filter label-->
-    <string name="departure_time_range">Tidsinterval for afgang</string>
+    <string name="departure_time_range">Afrejsetidspunkt</string>
     <!-- Arrival Time Range filter label-->
-    <string name="arrival_time_range">Tidsinterval for ankomst</string>
+    <string name="arrival_time_range">Ankomsttidspunkt</string>
 
     <!-- Package Change hotel description -->
     <string name="package_change_hotel">Ændr hotel</string>
@@ -4008,7 +4003,8 @@
     <string name="package_flight_overview_layover_in_TEMPLATE">Mellemlanding i ({airportcode}) {city}</string>
     <string name="package_flight_overview_airline_airplane_TEMPLATE">{carrier} {flightnumber} - {airplanetype}</string>
     <string name="package_flight_overview_total_duration_TEMPLATE">Samlet varighed: {duration}</string>
-
+    <!-- Itinerary summary text- Itinerary number sent to the user email -->
+    <string name="package_itinerary_confirmation_TEMPLATE">Nr. {itinerary} sendt til {email}</string>
     <!--Rail search screen title-->
     <string name="trains">Tog</string>
 
@@ -4028,4 +4024,13 @@
     <!-- Shop with points -->
     <string name="regular_loyalty_applied_message">Expedia+ point indløst!</string>
     <string name="vip_loyalty_applied_message">2x point indløst!</string>
+    <!-- String to be appended with +VIP in header of room rates. -->
+    <string name="vip_loyalty_applied_header_message">2x Expedia+ point indløst!</string>
+
+    <!-- Message telling you on confirmation screen where you've booked a package to -->
+    <string name="yay_going_somewhere">Du skal til</string>
+    <!-- Cars cross-sell message on package confirmation -->
+    <string name="rental_car_message">Har du brug for en udlejningsbil?</string>
+    <!-- Cars cross-sell message description on package confirmation -->
+    <string name="rental_car_message_desc">Søg efter biler, og spar penge</string>
 </resources>
