@@ -4,7 +4,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
 import org.joda.time.LocalDate;
@@ -14,6 +13,7 @@ import org.junit.Rule;
 import org.junit.Test;
 
 import com.expedia.bookings.data.Money;
+import com.expedia.bookings.data.SuggestionV4;
 import com.expedia.bookings.data.cars.ApiError;
 import com.expedia.bookings.data.hotels.Hotel;
 import com.expedia.bookings.data.hotels.HotelApplyCouponParameters;
@@ -23,7 +23,6 @@ import com.expedia.bookings.data.hotels.HotelCreateTripResponse;
 import com.expedia.bookings.data.hotels.HotelOffersResponse;
 import com.expedia.bookings.data.hotels.HotelSearchParams;
 import com.expedia.bookings.data.hotels.NearbyHotelParams;
-import com.expedia.bookings.data.SuggestionV4;
 import com.expedia.bookings.data.payment.PointsAndCurrency;
 import com.expedia.bookings.data.payment.PointsType;
 import com.expedia.bookings.data.payment.ProgramName;
@@ -32,6 +31,7 @@ import com.expedia.bookings.data.payment.UserPreferencePointsDetails;
 import com.expedia.bookings.interceptors.MockInterceptor;
 import com.expedia.bookings.services.HotelCheckoutResponse;
 import com.expedia.bookings.services.HotelServices;
+import com.expedia.bookings.utils.NumberUtils;
 import com.mobiata.mocke3.ExpediaDispatcher;
 import com.mobiata.mocke3.FileSystemOpener;
 import com.squareup.okhttp.OkHttpClient;
@@ -288,24 +288,15 @@ public class HotelServicesTest {
 			hotelList.add(hotel);
 		}
 
-		List<Integer> randomNumberList = new ArrayList<Integer>();
+		List<Integer> randomNumberList = NumberUtils.getRandomNumberList(hotelCount);
 		if (keepSponsoredItems) {
-			Random random = new Random();
-			setHotelAsSponsored(hotelList.get(getUniqueRandomNumber(random, hotelCount, randomNumberList)));
+			setHotelAsSponsored(hotelList.get(randomNumberList.get(0)));
 			if (hotelCount >= 50) {
-				setHotelAsSponsored(hotelList.get(getUniqueRandomNumber(random, hotelCount, randomNumberList)));
-				setHotelAsSponsored(hotelList.get(getUniqueRandomNumber(random, hotelCount, randomNumberList)));
+				setHotelAsSponsored(hotelList.get(randomNumberList.get(1)));
+				setHotelAsSponsored(hotelList.get(randomNumberList.get(2)));
 			}
 		}
 		return hotelList;
-	}
-
-	private int getUniqueRandomNumber(Random random, int maxNumber, List<Integer> randomNumberList) {
-		int randomNumber = random.nextInt(maxNumber);
-		while (randomNumberList.contains(randomNumber)) {
-			randomNumber = random.nextInt(maxNumber);
-		}
-		return randomNumber;
 	}
 
 	private void setHotelAsSponsored(Hotel hotel) {
