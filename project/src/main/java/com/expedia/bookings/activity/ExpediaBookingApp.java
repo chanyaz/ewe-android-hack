@@ -124,6 +124,7 @@ public class ExpediaBookingApp extends MultiDexApplication implements UncaughtEx
 		AbacusHelperUtils.generateAbacusGuid(this);
 
 		TimingLogger startupTimer = new TimingLogger("ExpediaBookings", "startUp");
+
 		super.onCreate();
 		startupTimer.addSplit("super.onCreate()");
 
@@ -294,18 +295,10 @@ public class ExpediaBookingApp extends MultiDexApplication implements UncaughtEx
 		}
 		startupTimer.addSplit("Push server unregistered (if needed)");
 
-		if (SettingUtils.get(this, PREF_FIRST_LAUNCH, true)) {
-			sIsFirstLaunchEver = true;
-			SettingUtils.save(this, PREF_FIRST_LAUNCH, false);
+		if (SettingUtils.get(ExpediaBookingApp.this, PREF_FIRST_LAUNCH, true)) {
 			AdTracker.trackFirstLaunch();
 			startupTimer.addSplit("AdTracker first launch tracking");
 		}
-		else {
-			sIsFirstLaunchEver = false;
-		}
-
-		sIsFirstLaunchOfAppVersion = isFirstLaunchOfNewAppVersion();
-		SettingUtils.save(ExpediaBookingApp.this, PREF_LAST_VERSION_OF_APP_LAUNCHED, BuildConfig.VERSION_NAME);
 
 		// 2249: We don't need to unregister if this is the user's first launch
 		if (!SettingUtils.get(this, PREF_FIRST_LAUNCH, false)) {
@@ -321,6 +314,19 @@ public class ExpediaBookingApp extends MultiDexApplication implements UncaughtEx
 		CurrencyUtils.initMap(this);
 		startupTimer.addSplit("Currency Utils init");
 		startupTimer.dumpToLog();
+	}
+
+	public void updateFirstLaunchAndUpdateSettings() {
+		if (SettingUtils.get(ExpediaBookingApp.this, PREF_FIRST_LAUNCH, true)) {
+			sIsFirstLaunchEver = true;
+			SettingUtils.save(ExpediaBookingApp.this, PREF_FIRST_LAUNCH, false);
+		}
+		else {
+			sIsFirstLaunchEver = false;
+		}
+
+		sIsFirstLaunchOfAppVersion = isFirstLaunchOfNewAppVersion();
+		SettingUtils.save(ExpediaBookingApp.this, PREF_LAST_VERSION_OF_APP_LAUNCHED, BuildConfig.VERSION_NAME);
 	}
 
 	private boolean isFirstLaunchOfNewAppVersion() {
