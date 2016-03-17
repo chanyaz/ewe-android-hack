@@ -6,7 +6,6 @@ import com.expedia.bookings.data.hotels.HotelOffersResponse
 import com.expedia.bookings.data.hotels.HotelSearchParams
 import com.expedia.bookings.data.hotels.HotelSearchResponse
 import com.expedia.bookings.data.payment.PaymentSplitsType
-import com.expedia.bookings.data.payment.PointsDetails
 import com.expedia.bookings.services.HotelCheckoutResponse
 import com.expedia.bookings.utils.LeanPlumUtils
 import com.expedia.bookings.utils.TuneUtils

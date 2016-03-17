@@ -121,7 +121,6 @@ public class HotelSearchPresenterV2(context: Context, attrs: AttributeSet) : Pre
             activity.onBackPressed()
         }
         searchLocationEditText = findViewById(R.id.toolbar_searchView) as SearchView?
-        searchLocationEditText?.setOnQueryTextListener(listener);
         searchLocationEditText?.setIconifiedByDefault(false)
         searchLocationEditText?.visibility = View.GONE
         styleSearchView()
@@ -256,6 +255,8 @@ public class HotelSearchPresenterV2(context: Context, attrs: AttributeSet) : Pre
             SuggestionV4Utils.saveSuggestionHistory(context, suggestion, SuggestionV4Utils.RECENT_HOTEL_SUGGESTIONS_FILE)
             showDefault()
         }
+        searchLocationEditText?.setOnQueryTextListener(listener);
+
     }
 
 
