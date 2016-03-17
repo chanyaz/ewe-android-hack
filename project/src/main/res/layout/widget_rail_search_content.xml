@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_above="@+id/search_button"
+    android:layout_below="@+id/appbar"
+    android:layout_marginLeft="@dimen/search_form_margin"
+    android:layout_marginRight="@dimen/search_form_margin">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingTop="@dimen/search_form_margin">
+
+        <com.expedia.bookings.widget.RailSearchLocationWidget
+            android:id="@+id/locationCard"
+            android:layout_width="match_parent"
+            android:layout_height="116dp"
+            android:layout_marginBottom="@dimen/material_search_field_bottom_margin"
+            app:cardCornerRadius="3dp"
+            app:cardElevation="1dp"
+            app:cardUseCompatPadding="true"
+            app:input_icon="@drawable/search_form_icon_search"
+            app:input_icon_tint_color="@color/search_screen_icon_color_v2"
+            app:input_text="@string/search_destination" />
+
+        <com.expedia.bookings.widget.RailCalendarWidget
+            android:id="@+id/calendar_card"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/default_search_card_height"
+            android:layout_marginBottom="@dimen/material_search_field_bottom_margin"
+            app:cardCornerRadius="3dp"
+            app:cardElevation="1dp"
+            app:cardUseCompatPadding="true"
+            app:input_icon="@drawable/search_form_icon_calendar"
+            app:input_icon_tint_color="@color/search_screen_icon_color_v2"
+            app:input_text="@string/select_dates" />
+
+        <com.expedia.bookings.widget.TravelerWidgetV2
+            android:id="@+id/traveler_card"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/default_search_card_height"
+            app:cardCornerRadius="3dp"
+            app:cardElevation="1dp"
+            app:cardUseCompatPadding="true"
+            app:input_icon="@drawable/search_form_icon_person"
+            app:input_icon_tint_color="@color/search_screen_icon_color_v2"
+            app:input_text="@string/hotel_search_guest_default_text" />
+    </LinearLayout>
+</ScrollView>

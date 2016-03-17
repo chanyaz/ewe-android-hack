@@ -17,7 +17,7 @@ abstract class DatedSearchViewModel(val context: Context) {
     val originObservable = BehaviorSubject.create<Boolean>(false)
 
     // Outputs
-    val dateTextObservable = PublishSubject.create<CharSequence>()
+    val dateTextObservable = BehaviorSubject.create<CharSequence>()
     val dateInstructionObservable = PublishSubject.create<CharSequence>()
     val calendarTooltipTextObservable = PublishSubject.create<Pair<String, String>>()
     val datesObservable = BehaviorSubject.create<Pair<LocalDate?, LocalDate?>>()

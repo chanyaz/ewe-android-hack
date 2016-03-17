@@ -9,53 +9,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <ScrollView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_above="@+id/search_button"
-            android:layout_marginLeft="@dimen/search_form_margin"
-            android:layout_marginRight="@dimen/search_form_margin">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:paddingTop="@dimen/search_form_margin">
-
-                <com.expedia.bookings.widget.SearchInputCardView
-                    android:id="@+id/destination_card"
-                    style="@style/MaterialCardView"
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/default_search_card_height"
-                    android:layout_marginBottom="@dimen/material_search_field_bottom_margin"
-                    app:cardUseCompatPadding="true"
-                    app:input_icon="@drawable/search_form_icon_search"
-                    app:input_icon_tint_color="@color/search_screen_icon_color_v2"
-                    app:input_text="@string/search_destination" />
-
-                <com.expedia.bookings.widget.CalendarWidgetV2
-                    android:id="@+id/calendar_card"
-                    style="@style/MaterialCardView"
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/default_search_card_height"
-                    android:layout_marginBottom="@dimen/material_search_field_bottom_margin"
-                    app:cardUseCompatPadding="true"
-                    app:input_icon="@drawable/search_form_icon_calendar"
-                    app:input_icon_tint_color="@color/search_screen_icon_color_v2"
-                    app:input_text="@string/select_dates" />
-
-                <com.expedia.bookings.widget.TravelerWidgetV2
-                    android:id="@+id/traveler_card"
-                    style="@style/MaterialCardView"
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/default_search_card_height"
-                    app:cardUseCompatPadding="true"
-                    app:input_icon="@drawable/search_form_icon_person"
-                    app:input_icon_tint_color="@color/search_screen_icon_color_v2"
-                    app:input_text="@string/hotel_search_guest_default_text" />
-            </LinearLayout>
-        </ScrollView>
-
         <Button
             android:id="@id/search_button"
             android:layout_width="match_parent"
@@ -66,16 +19,38 @@
             android:text="@string/search"
             android:textColor="@color/text_light_gray"
             android:textSize="18sp" />
-    </RelativeLayout>
 
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="top"
-        android:background="@color/rail_primary_color"
-        android:minHeight="?attr/actionBarSize"
-        app:navigationIcon="@drawable/ic_close_white_24dp"
-        app:title="@string/trains"
-        app:titleTextAppearance="@style/ToolbarTitleTextAppearance" />
+        <android.support.design.widget.AppBarLayout
+            android:id="@+id/appbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/rail_primary_color">
+
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="top"
+                android:minHeight="?attr/actionBarSize"
+                app:navigationIcon="@drawable/ic_close_white_24dp"
+                app:title="@string/trains"
+                app:titleTextAppearance="@style/ToolbarTitleTextAppearance" />
+
+            <com.expedia.bookings.widget.rail.PositionObservableTabLayout
+                android:id="@+id/tabs"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:tabIndicatorColor="@color/launch_tab_indicator"
+                app:tabSelectedTextColor="@color/material_tab_text_selected"
+                app:tabTextColor="@color/material_tab_text" />
+
+        </android.support.design.widget.AppBarLayout>
+
+        <android.support.v4.view.ViewPager
+            android:id="@+id/viewpager"
+            android:layout_below="@id/appbar"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/transparent" />
+    </RelativeLayout>
 </merge>

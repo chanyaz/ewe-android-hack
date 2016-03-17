@@ -1,5 +1,6 @@
 package com.expedia.bookings.data.rail.requests.api
 
+import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.rail.requests.RailSearchRequest
 import com.expedia.bookings.utils.DateUtils
 import org.joda.time.LocalDate
@@ -9,7 +10,7 @@ import java.util.UUID
 /* note: the variable names in this model have to match 1:1 to the format the api expects. this whole
             model is getting serialized to json and sent to the search endpoint
  */
-class RailApiSearchModel(val departDate: LocalDate, val returnDate: LocalDate?) {
+class RailApiSearchModel(val origin: SuggestionV4, val destination: SuggestionV4, val departDate: LocalDate, val returnDate: LocalDate?) {
 
     var messageInfo = MessageInfo()
     var pointOfSaleKey = PointOfSaleKey()
@@ -85,7 +86,7 @@ class RailApiSearchModel(val departDate: LocalDate, val returnDate: LocalDate?) 
     companion object {
 
         fun fromSearchParams(request: RailSearchRequest): RailApiSearchModel {
-            val requestModel = RailApiSearchModel(request.departDate, request.returnDate)
+            val requestModel = RailApiSearchModel(request.origin, request.destination, request.departDate, request.returnDate)
             //TODO - set all the stuff
             return requestModel
         }

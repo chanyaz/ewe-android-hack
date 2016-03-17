@@ -4,6 +4,10 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import android.graphics.PorterDuff;
+import android.graphics.PorterDuffColorFilter;
+import android.graphics.drawable.Drawable;
+import android.support.annotation.ColorInt;
 import android.text.TextPaint;
 import android.util.AttributeSet;
 
@@ -48,10 +52,14 @@ public class TextView extends android.widget.TextView {
 	private void init(Context context, AttributeSet attrs, int defStyle) {
 		final TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.TextView, defStyle, 0);
 		final int textStyle = a.getInt(R.styleable.TextView_textStyle, 0);
+		final int color = a.getColor(R.styleable.TextView_drawableTintColor, 0);
 		a.recycle();
 
 		if (textStyle > 0) {
 			setTypefaceByStyle(this, textStyle);
+		}
+		if (color != 0 && getCompoundDrawables()[0] != null) {
+			setTintedDrawable(getCompoundDrawables()[0], color);
 		}
 	}
 
@@ -134,6 +142,11 @@ public class TextView extends android.widget.TextView {
 			break;
 		}
 		}
+	}
+
+	public void setTintedDrawable(Drawable drawable, @ColorInt int color) {
+		drawable.setColorFilter(new PorterDuffColorFilter(color, PorterDuff.Mode.SRC_IN));
+		setCompoundDrawablesWithIntrinsicBounds(drawable, null, null, null);
 	}
 
 	// Stroke

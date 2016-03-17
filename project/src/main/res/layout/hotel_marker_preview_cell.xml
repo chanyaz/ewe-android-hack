@@ -113,7 +113,7 @@
                         android:id="@+id/hotel_price_per_night"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textColor="#676767"
+                        android:textColor="@color/defaultTextColor"
                         android:textSize="17dp" />
 
                     <com.expedia.bookings.widget.TextView

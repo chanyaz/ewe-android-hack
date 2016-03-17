@@ -21,6 +21,7 @@
             <enum name="condensed_light" value="512" />
             <enum name="expedia_light" value="1024" />
         </attr>
+        <attr name="drawableTintColor" format="reference"/>
     </declare-styleable>
 
     <declare-styleable name="Gallery">
