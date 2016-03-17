@@ -31,7 +31,7 @@
         <item name="traveler_checkout_circle_drawable">@drawable/lx_traveler_checkout_circle_orbitz</item>
         <item name="skin_lxTextSelectorDrawable">@drawable/lx_text_selector_orbitz</item>
         <item name="skin_lxUncheckedToggleTextColor">@color/lx_unchecked_toggle_text_color</item>
-        <item name="skin_lxErrorDefaultDrawable">@drawable/error_default_orb</item>
+        <item name="skin_lxErrorDefaultDrawable">@drawable/error_default</item>
         <item name="skin_filterNumberBgDrawable">@drawable/filter_number_bg_lx_orbitz</item>
         <item name="skin_errorIndicationExclaimationDrawable">@drawable/ic_error_blue</item>
         <item name="skin_ticketSelectorDisabledColor">@color/lx_ticket_selector_disabled_color</item>
