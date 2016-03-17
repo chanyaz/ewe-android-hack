@@ -61,7 +61,6 @@
     <string name="bold_template">&lt;b&gt;%s&lt;/b&gt;</string>
     <string name="strike_template">&lt;strike&gt;%s&lt;/strike&gt;</string>
     <string name="ellipsize_text_template">%s…</string>
-    <string name="hotel_ellipsize_text_template">{text}</string>
 
     <!-- Preference keys -->
     <string name="preference_clear_private_data_key">CLEAR_PRIVATE_DATA</string>

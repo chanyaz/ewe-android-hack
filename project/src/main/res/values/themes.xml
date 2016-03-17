@@ -252,16 +252,16 @@
     </style>
 
     <style name="CustomDialogTheme" parent="@android:style/Theme.Dialog">
-        <item name="android:bottomBright">#ffffff</item>
-        <item name="android:bottomDark">#ffffff</item>
-        <item name="android:bottomMedium">#ffffff</item>
-        <item name="android:centerBright">#ffffff</item>
-        <item name="android:centerDark">#ffffff</item>
-        <item name="android:centerMedium">#ffffff</item>
-        <item name="android:fullBright">#ffffff</item>
-        <item name="android:fullDark">#ffffff</item>
-        <item name="android:topBright">#ffffff</item>
-        <item name="android:topDark">#ffffff</item>
+        <item name="android:bottomBright">@color/white</item>
+        <item name="android:bottomDark">@color/white</item>
+        <item name="android:bottomMedium">@color/white</item>
+        <item name="android:centerBright">@color/white</item>
+        <item name="android:centerDark">@color/white</item>
+        <item name="android:centerMedium">@color/white</item>
+        <item name="android:fullBright">@color/white</item>
+        <item name="android:fullDark">@color/white</item>
+        <item name="android:topBright">@color/white</item>
+        <item name="android:topDark">@color/white</item>
     </style>
 
     <style name="AccountSettingsTheme" parent="Theme.AppCompat.Light.DarkActionBar">
@@ -421,14 +421,6 @@
         <item name="android:logo">?attr/skin_hotelWebViewActionBarLogo</item>
         <item name="android:titleTextStyle">@style/FlightActionBarTextAppearance</item>
         <item name="android:homeAsUpIndicator">@drawable/ic_action_bar_back_arrow</item>
-    </style>
-
-    <!--
-	   We need this theme to set styles on inflated action bar widgets.  The parent is
-	   configured the same way as it is in ABS.
-    -->
-    <style name="FlightActionBarWidgetTheme" parent="@android:style/Theme.Holo">
-        <item name="android:radioButtonStyle">@style/Widget.RadioButton</item>
     </style>
 
     <style name="FlightActionBar" parent="@android:style/Widget.Holo.ActionBar">

@@ -20,7 +20,6 @@ import android.text.style.ForegroundColorSpan;
 import android.text.style.StyleSpan;
 import android.util.TypedValue;
 import android.view.View;
-import android.view.View.MeasureSpec;
 import android.view.ViewGroup;
 import android.view.ViewStub;
 import android.view.ViewTreeObserver.OnGlobalLayoutListener;
@@ -35,15 +34,6 @@ import com.mobiata.android.util.AndroidUtils;
  * Adds compatibility library fragment support to Ui.
  */
 public class Ui extends com.mobiata.android.util.Ui {
-
-	@SuppressWarnings("unchecked")
-	public static <T extends View> T inflateViewStub(Activity activity, int id) {
-		ViewStub stub = findView(activity, id);
-		if (stub != null) {
-			return (T) stub.inflate();
-		}
-		return null;
-	}
 
 	@SuppressWarnings("unchecked")
 	public static <T extends View> T inflateViewStub(View view, int id) {
@@ -76,12 +66,6 @@ public class Ui extends com.mobiata.android.util.Ui {
 	public static <T extends android.support.v4.app.Fragment> T findChildSupportFragment(
 		android.support.v4.app.Fragment fragment, String tag) {
 		return (T) fragment.getChildFragmentManager().findFragmentByTag(tag);
-	}
-
-	@SuppressWarnings("unchecked")
-	public static <T extends android.support.v4.app.Fragment> T findChildSupportFragment(
-		android.support.v4.app.Fragment fragment, int id) {
-		return (T) fragment.getChildFragmentManager().findFragmentById(id);
 	}
 
 	/**
@@ -148,47 +132,6 @@ public class Ui extends com.mobiata.android.util.Ui {
 		}
 	}
 
-	public static int[] measureRatio(int widthMeasureSpec, int heightMeasureSpec, double aspectRatio) {
-		int widthMode = MeasureSpec.getMode(widthMeasureSpec);
-		int widthSize = widthMode == MeasureSpec.UNSPECIFIED ? Integer.MAX_VALUE : MeasureSpec
-			.getSize(widthMeasureSpec);
-		int heightMode = MeasureSpec.getMode(heightMeasureSpec);
-		int heightSize = heightMode == MeasureSpec.UNSPECIFIED ? Integer.MAX_VALUE : MeasureSpec
-			.getSize(heightMeasureSpec);
-
-		int measuredWidth;
-		int measuredHeight;
-
-		if (heightMode == MeasureSpec.EXACTLY && widthMode == MeasureSpec.EXACTLY) {
-			measuredWidth = widthSize;
-			measuredHeight = heightSize;
-
-		}
-		else if (heightMode == MeasureSpec.EXACTLY) {
-			measuredWidth = (int) Math.min(widthSize, heightSize * aspectRatio);
-			measuredHeight = (int) (measuredWidth / aspectRatio);
-
-		}
-		else if (widthMode == MeasureSpec.EXACTLY) {
-			measuredHeight = (int) Math.min(heightSize, widthSize / aspectRatio);
-			measuredWidth = (int) (measuredHeight * aspectRatio);
-
-		}
-		else {
-			if (widthSize > heightSize * aspectRatio) {
-				measuredHeight = heightSize;
-				measuredWidth = (int) (measuredHeight * aspectRatio);
-			}
-			else {
-				measuredWidth = widthSize;
-				measuredHeight = (int) (measuredWidth / aspectRatio);
-			}
-
-		}
-
-		return new int[] {measuredWidth, measuredHeight};
-	}
-
 	/**
 	 * Run code once, on the next layout pass of the given View. This implements the
 	 * OnGlobalLayoutListener without having to worry about too much boilerplate.
@@ -203,17 +146,6 @@ public class Ui extends com.mobiata.android.util.Ui {
 				runnable.run();
 			}
 		});
-	}
-
-	/**
-	 * Run code once, on the next layout pass of the fragment's getView(). This implements
-	 * the OnGlobalLayoutListener without having to worry about too much boilerplate.
-	 *
-	 * @param Support  Fragment
-	 * @param Runnable
-	 */
-	public static void runOnNextLayout(Fragment fragment, Runnable runnable) {
-		runOnNextLayout(fragment.getView(), runnable);
 	}
 
 	//
@@ -249,19 +181,6 @@ public class Ui extends com.mobiata.android.util.Ui {
 		a.recycle();
 
 		return resID;
-	}
-
-	/**
-	 * Convenience method to replace otherwise clunky code. Returns the Y coordinate of the
-	 * absolute screen position of the passed view.
-	 *
-	 * @param view
-	 * @return
-	 */
-	public static int getScreenLocationY(View view) {
-		int[] location = new int[2];
-		view.getLocationOnScreen(location);
-		return location[1];
 	}
 
 	public static Point getScreenSize(Context context) {
@@ -406,5 +325,4 @@ public class Ui extends com.mobiata.android.util.Ui {
 			stringToSpan.setSpan(new StyleSpan(Typeface.BOLD), startSpan, endSpan, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 		}
 	}
-
 }
