@@ -61,6 +61,8 @@ public class RouterActivity extends Activity {
 		cleanupOldCookies();
 		cleanupOldSuggestions();
 
+		Ui.getApplication(mContext).updateFirstLaunchAndUpdateSettings();
+
 		if (NavUtils.skipLaunchScreenAndStartEHTablet(this)) {
 			// Note: 2.0 will not support launch screen nor Flights on tablet ergo send user to EH tablet
 			finish();
