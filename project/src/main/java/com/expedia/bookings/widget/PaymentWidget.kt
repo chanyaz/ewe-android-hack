@@ -161,7 +161,7 @@ public open class PaymentWidget(context: Context, attr: AttributeSet) : Presente
     open val storedCreditCardListener = object : StoredCreditCardList.IStoredCreditCardListener {
         override fun onStoredCreditCardChosen(card: StoredCreditCard) {
             sectionBillingInfo.billingInfo.storedCard = card
-            temporarilySavedCardIsSelected(false,sectionBillingInfo.billingInfo)
+            temporarilySavedCardIsSelected(false, Db.getTemporarilySavedCard())
             viewmodel.billingInfoAndStatusUpdate.onNext(Pair(sectionBillingInfo.billingInfo, ContactDetailsCompletenessStatus.COMPLETE))
             viewmodel.onStoredCardChosen.onNext(Unit)
             closePopup()
