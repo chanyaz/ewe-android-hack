@@ -2,6 +2,7 @@ package com.expedia.bookings.widget
 
 import android.content.Context
 import android.util.AttributeSet
+import android.view.View
 import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.flights.FlightCreateTripViewModel
 import com.expedia.bookings.otto.Events
@@ -51,7 +52,7 @@ class FlightCheckoutPresenter(context: Context, attr: AttributeSet) : BaseChecko
         return LineOfBusiness.FLIGHTS
     }
 
-    override fun updateTravelers() {
-
+    override fun updateTravelerPresenter() {
+        travelerPresenter.visibility = View.VISIBLE
     }
 }
