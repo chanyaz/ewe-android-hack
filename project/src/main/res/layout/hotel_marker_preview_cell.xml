@@ -50,7 +50,7 @@
                     android:layout_width="200dp"
                     android:layout_height="14dp"
                     android:visibility="gone"
-                    app:star_color="#F1B906"
+                    app:star_color="@color/hotelsv2_detail_star_color"
                     app:star_drawable="@drawable/results_map_preview_star"
                     app:star_spacing="4dp" />
 
@@ -59,7 +59,7 @@
                     android:layout_width="200dp"
                     android:layout_height="14dp"
                     android:visibility="gone"
-                    app:star_color="#F1B906"
+                    app:star_color="@color/hotelsv2_detail_star_color"
                     app:star_drawable="@drawable/ratingbar_circle"
                     app:star_spacing="4dp" />
 
