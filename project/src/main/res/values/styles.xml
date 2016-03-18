@@ -972,8 +972,8 @@
         <item name="android:textSize">15sp</item>
     </style>
 
-    <!--Header title text used inside search results or bundle overview stepper-->
-    <style name="ResultsHeadersText">
+    <!--Header title text used inside search results, bundle overview stepper, checkout headers etc.-->
+    <style name="HeaderTextAboveCardviews">
         <item name="android:textColor">@color/packages_results_header_text</item>
         <item name="android:textSize">@dimen/packages_bundle_overview_footer_primary_text</item>
         <item name="textStyle">medium</item>

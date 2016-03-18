@@ -2,35 +2,35 @@
 <com.expedia.bookings.section.SectionLocation xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:paddingLeft="2dp"
-    android:paddingRight="2dp">
+    android:orientation="vertical">
 
     <EditText
         android:id="@+id/edit_address_line_one"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="4dp"
+        android:layout_marginBottom="@dimen/traveler_input_bottom_margin"
         android:focusable="true"
         android:focusableInTouchMode="true"
         android:hint="@string/address_line_one_hint"
         android:imeOptions="actionNext"
         android:inputType="textPostalAddress|textCapWords"
         android:nextFocusRight="@+id/edit_address_city"
-        android:paddingBottom="12dp"
-        android:singleLine="true" />
+        android:paddingBottom="11dp"
+        android:singleLine="true"
+        android:textSize="@dimen/traveler_input_text_size" />
 
     <EditText
         android:id="@+id/edit_address_line_two"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="4dp"
+        android:layout_marginBottom="@dimen/traveler_input_bottom_margin"
         android:hint="@string/address_line_two_hint"
         android:imeOptions="actionNext"
         android:inputType="textPostalAddress|textCapWords"
         android:nextFocusRight="@id/edit_address_city"
-        android:paddingBottom="12dp"
-        android:singleLine="true" />
+        android:paddingBottom="11dp"
+        android:singleLine="true"
+        android:textSize="@dimen/traveler_input_text_size" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -48,19 +48,19 @@
                 android:id="@id/edit_address_city"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="4dp"
+                android:layout_marginBottom="@dimen/traveler_input_bottom_margin"
                 android:hint="@string/address_city_hint"
                 android:imeOptions="actionNext"
                 android:inputType="textCapWords"
                 android:nextFocusRight="@+id/edit_address_state"
-                android:paddingBottom="12dp"
-                android:singleLine="true" />
+                android:paddingBottom="11dp"
+                android:singleLine="true"
+                android:textSize="@dimen/traveler_input_text_size" />
 
             <Spinner
                 android:id="@+id/edit_country_spinner"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:contentDescription="@string/cd_card_info_billing_address_country" />
+                android:layout_height="wrap_content" />
         </LinearLayout>
 
         <LinearLayout
@@ -73,13 +73,13 @@
                 android:id="@id/edit_address_state"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="4dp"
+                android:layout_marginBottom="@dimen/traveler_input_bottom_margin"
                 android:hint="@string/address_state_hint"
                 android:imeOptions="actionNext"
                 android:inputType="textCapCharacters"
                 android:nextFocusRight="@+id/edit_address_postal_code"
-                android:paddingBottom="12dp"
-                android:singleLine="true" />
+                android:singleLine="true"
+                android:textSize="@dimen/traveler_input_text_size" />
 
             <EditText
                 android:id="@id/edit_address_postal_code"
@@ -88,8 +88,8 @@
                 android:hint="@string/address_postal_code_hint"
                 android:imeOptions="actionDone"
                 android:minHeight="43dp"
-                android:paddingBottom="12dp"
-                android:singleLine="true" />
+                android:singleLine="true"
+                android:textSize="@dimen/traveler_input_text_size" />
         </LinearLayout>
     </LinearLayout>
 
