@@ -88,15 +88,25 @@ class PaymentModelTest {
         val expediaPointDetails = createTripResponse.getPointDetails(ProgramName.ExpediaRewards)
 
         //Expected Payment Split
-        val expectedPaymentSplits = PaymentSplits(expediaPointDetails!!.maxPayableWithPoints!!, expediaPointDetails.remainingPayableByCard!!)
+        var expectedPaymentSplits = PaymentSplits(expediaPointDetails!!.maxPayableWithPoints!!, expediaPointDetails.remainingPayableByCard!!)
         paymentModel.createTripSubject.onNext(createTripResponse)
         createTripResponseTestSubscriber.assertNoErrors()
         createTripResponseTestSubscriber.assertValueCount(1)
         createTripResponseTestSubscriber.assertValue(createTripResponse)
 
+        //When SWP Opted is true
         paymentSplitsTestSubscriber.assertNoErrors()
         paymentSplitsTestSubscriber.assertValueCount(1)
         Assert.assertTrue(comparePaymentSplits(paymentSplitsTestSubscriber.onNextEvents.get(0), expectedPaymentSplits))
+
+        //Expected Payment Split when SWP Opted is false
+        paymentModel.swpOpted.onNext(false)
+        paymentModel.createTripSubject.onNext(createTripResponse)
+        expectedPaymentSplits = getPaymentSplitsForSwpOff()
+
+        paymentSplitsTestSubscriber.assertNoErrors()
+        paymentSplitsTestSubscriber.assertValueCount(2)
+        Assert.assertTrue(comparePaymentSplits(paymentSplitsTestSubscriber.onNextEvents.get(1), expectedPaymentSplits))
 
         currencyToPointsApiResponseTestSubscriber.assertNoErrors()
         currencyToPointsApiResponseTestSubscriber.assertValueCount(0)
@@ -109,9 +119,7 @@ class PaymentModelTest {
     fun testCreateTripForLoggedInUserWithRedeemablePointsZeroCurrencyToPointSelected() {
         setupCreateTrip(true)
         //Expected Payment Split
-        val payingWithPoints = PointsAndCurrency(0, PointsType.BURN, Money("0", createTripResponse.getTripTotal().currencyCode))
-        val payingWithCards = PointsAndCurrency(createTripResponse.expediaRewards.totalPointsToEarn, PointsType.EARN, createTripResponse.getTripTotal())
-        val expectedPaymentSplits = PaymentSplits(payingWithPoints, payingWithCards)
+        val expectedPaymentSplits = getPaymentSplitsForSwpOff()
 
         paymentModel.createTripSubject.onNext(createTripResponse)
         createTripResponseTestSubscriber.assertNoErrors()
@@ -188,9 +196,7 @@ class PaymentModelTest {
         setupCreateTrip(false)
 
         //Expected Payment Split
-        val payingWithPoints = PointsAndCurrency(0, PointsType.BURN, Money("0", createTripResponse.getTripTotal().currencyCode))
-        val payingWithCards = PointsAndCurrency(createTripResponse.expediaRewards.totalPointsToEarn, PointsType.EARN, createTripResponse.getTripTotal())
-        val expectedPaymentSplits = PaymentSplits(payingWithPoints, payingWithCards)
+        val expectedPaymentSplits = getPaymentSplitsForSwpOff()
 
         paymentModel.createTripSubject.onNext(createTripResponse)
         createTripResponseTestSubscriber.assertNoErrors()
@@ -236,6 +242,35 @@ class PaymentModelTest {
     }
 
     @Test
+    fun testApplyCouponWithUserPreferenceIfSwpIsOff() {
+        setupApplyCoupon()
+
+        paymentModel.swpOpted.onNext(false)
+        paymentModel.pwpOpted.onNext(false)
+        paymentModel.couponChangeSubject.onNext(createTripResponse)
+        couponChangeTestSubscriber.assertNoErrors()
+        couponChangeTestSubscriber.assertValueCount(1)
+        couponChangeTestSubscriber.assertValue(createTripResponse)
+
+        //Expected Payment Split when SWP Opted is false
+        val expectedPaymentSplits = getPaymentSplitsForSwpOff()
+
+        Assert.assertFalse(paymentModel.pwpOpted.value)
+        paymentSplitsTestSubscriber.assertNoErrors()
+        paymentSplitsTestSubscriber.assertValueCount(1)
+        Assert.assertTrue(comparePaymentSplits(paymentSplitsTestSubscriber.onNextEvents.get(0), expectedPaymentSplits))
+
+        currencyToPointsApiResponseTestSubscriber.assertNoErrors()
+        currencyToPointsApiResponseTestSubscriber.assertValueCount(0)
+
+        currencyToPointsApiErrorTestSubscriber.assertNoErrors()
+        currencyToPointsApiErrorTestSubscriber.assertValueCount(0)
+
+        paymentModel.pwpOpted.onNext(true)
+
+    }
+
+    @Test
     fun testCheckoutPriceChangeWithUserPreference() {
         setupCheckout(true)
         val userPreference = createTripResponse.userPreferencePoints
@@ -266,9 +301,7 @@ class PaymentModelTest {
 
         paymentModel.pwpOpted.onNext(true)
         //Expected Payment Split
-        val payingWithPoints = PointsAndCurrency(0, PointsType.BURN, Money("0", createTripResponse.getTripTotal().currencyCode))
-        val payingWithCards = PointsAndCurrency(createTripResponse.expediaRewards.totalPointsToEarn, PointsType.EARN, createTripResponse.getTripTotal())
-        val expectedPaymentSplits = PaymentSplits(payingWithPoints, payingWithCards)
+        val expectedPaymentSplits = getPaymentSplitsForSwpOff()
 
         paymentModel.priceChangeDuringCheckoutSubject.onNext(createTripResponse)
         priceChangeDuringCheckoutTestSubscriber.assertNoErrors()
@@ -286,6 +319,33 @@ class PaymentModelTest {
         currencyToPointsApiErrorTestSubscriber.assertValueCount(0)
     }
 
+
+
+    @Test
+    fun testCheckoutPriceChangeWithUserPreferenceWhenSwpisOff() {
+        setupCheckout(true)
+
+        paymentModel.swpOpted.onNext(false)
+        paymentModel.pwpOpted.onNext(false)
+        paymentModel.priceChangeDuringCheckoutSubject.onNext(createTripResponse)
+        priceChangeDuringCheckoutTestSubscriber.assertNoErrors()
+        priceChangeDuringCheckoutTestSubscriber.assertValueCount(1)
+        priceChangeDuringCheckoutTestSubscriber.assertValue(createTripResponse)
+
+        //Expected Payment Split when SWP Opted is false
+        val expectedPaymentSplits = getPaymentSplitsForSwpOff()
+        Assert.assertFalse(paymentModel.pwpOpted.value)
+        paymentSplitsTestSubscriber.assertNoErrors()
+        paymentSplitsTestSubscriber.assertValueCount(1)
+        Assert.assertTrue(comparePaymentSplits(paymentSplitsTestSubscriber.onNextEvents.get(0), expectedPaymentSplits))
+
+        currencyToPointsApiResponseTestSubscriber.assertNoErrors()
+        currencyToPointsApiResponseTestSubscriber.assertValueCount(0)
+
+        currencyToPointsApiErrorTestSubscriber.assertNoErrors()
+        currencyToPointsApiErrorTestSubscriber.assertValueCount(0)
+    }
+
     private fun comparePaymentSplits(paymentSplits: PaymentSplits, expectedPaymentSplits: PaymentSplits): Boolean {
         return paymentSplits.payingWithCards.amount.compareTo(expectedPaymentSplits.payingWithCards.amount) == 0 &&
                 paymentSplits.payingWithCards.points.equals(expectedPaymentSplits.payingWithCards.points) &&
@@ -295,6 +355,11 @@ class PaymentModelTest {
                 paymentSplits.payingWithPoints.pointsType.equals(expectedPaymentSplits.payingWithPoints.pointsType)
     }
 
+    private fun getPaymentSplitsForSwpOff(): PaymentSplits{
+        val payingWithPoints = PointsAndCurrency(0, PointsType.BURN, Money("0", createTripResponse.getTripTotal().currencyCode))
+        val payingWithCards = PointsAndCurrency(createTripResponse.expediaRewards.totalPointsToEarn, PointsType.EARN, createTripResponse.getTripTotal())
+        return PaymentSplits(payingWithPoints, payingWithCards)
+    }
     //TODO unsubscribe of currencyToPointsApiSubscription can be tested.
 
     @After

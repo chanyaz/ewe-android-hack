@@ -21,10 +21,19 @@ import org.robolectric.Robolectric
 import org.robolectric.annotation.Config
 import rx.observers.TestSubscriber
 import kotlin.properties.Delegates
+import com.expedia.bookings.data.hotels.HotelCreateTripResponse
+import com.expedia.bookings.data.payment.PaymentModel
+import com.expedia.bookings.services.LoyaltyServices
+import com.expedia.bookings.testrule.ServicesRule
+import org.junit.Rule
 
 @RunWith(RobolectricRunner::class)
 @Config(shadows = arrayOf(ShadowGCM::class, ShadowUserManager::class, ShadowAccountManagerEB::class))
 class HotelSearchTest {
+    var loyaltyServiceRule = ServicesRule(LoyaltyServices::class.java)
+        @Rule get
+
+    private var paymentModel: PaymentModel<HotelCreateTripResponse> by Delegates.notNull()
     var vm: HotelSearchViewModel by Delegates.notNull()
     private var LOTS_MORE: Long = 100
     var activity : Activity by Delegates.notNull()
@@ -33,6 +42,8 @@ class HotelSearchTest {
     fun before() {
         activity = Robolectric.buildActivity(Activity::class.java).create().get()
         Ui.getApplication(activity).defaultHotelComponents()
+        paymentModel = PaymentModel<HotelCreateTripResponse>(loyaltyServiceRule.services!!)
+
     }
 
     @Test
@@ -77,7 +88,7 @@ class HotelSearchTest {
         vm = HotelSearchViewModel(activity)
         vm.searchParamsObservable.subscribe(testSubscriber)
 
-        vm.shopWithPointsViewModel = ShopWithPointsViewModel(activity)
+        vm.shopWithPointsViewModel = ShopWithPointsViewModel(activity, paymentModel)
         vm.suggestionObserver.onNext(suggestion)
         vm.datesObserver.onNext(Pair(LocalDate.now(), null))
         vm.searchObserver.onNext(Unit)

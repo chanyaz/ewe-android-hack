@@ -74,6 +74,7 @@ class PaymentModel<T : TripResponse>(loyaltyServices: LoyaltyServices) {
     })
 
     val pwpOpted = BehaviorSubject.create<Boolean>(true)
+    val swpOpted = BehaviorSubject.create<Boolean>(true)
 
     //If PwP is enabled, default to Max Payable With Points, otherwise default to Zero Payable With Points.
     private val createTripResponsePaymentSplits = PublishSubject.create<PaymentSplits>()
@@ -114,18 +115,23 @@ class PaymentModel<T : TripResponse>(loyaltyServices: LoyaltyServices) {
     }
 
     init {
-        createTripSubject.subscribe {
+        createTripSubject.withLatestFrom(swpOpted, { createTripResponse, swpOpted ->
+            object {
+                val createTripResponse = createTripResponse;
+                val swpOpted = swpOpted;
+            }
+        }).subscribe {
             //Explicitly ensuring that tripResponses has the latest Trip Response onloaded to it before a Payment-Split is onloaded to paymentSplits (via createTripResponsePaymentSplits)
-            tripResponses.onNext(it)
-            createTripResponsePaymentSplits.onNext(it.newTripPaymentSplits())
-            paymentSplitsSuggestionUpdates.onNext(Pair(it.newTripPaymentSplits(), true))
+            tripResponses.onNext(it.createTripResponse)
+            createTripResponsePaymentSplits.onNext(it.createTripResponse.paymentSplitsForNewCreateTrip(it.swpOpted))
+            paymentSplitsSuggestionUpdates.onNext(Pair(it.createTripResponse.paymentSplitsSuggestionsForNewCreateTrip(), true))
         }
 
         Observable.merge(priceChangeDuringCheckoutSubject, couponChangeSubject).withLatestFrom(pwpOpted, { priceChangeResponse, pwpOpted -> Pair(priceChangeResponse, pwpOpted) }).subscribe {
             //Explicitly ensuring that tripResponses has the latest Trip Response onloaded to it before a Payment-Split is onloaded to paymentSplits (via priceChangeResponsePaymentSplits)
             tripResponses.onNext(it.first)
             priceChangeResponsePaymentSplits.onNext(it.first.paymentSplitsForPriceChange(it.second))
-            paymentSplitsSuggestionUpdates.onNext(Pair(it.first.paymentSplitsSuggestions(it.second), false))
+            paymentSplitsSuggestionUpdates.onNext(Pair(it.first.paymentSplitsSuggestionsForPriceChange(it.second), false))
         }
 
         burnAmountAndLatestTripResponse

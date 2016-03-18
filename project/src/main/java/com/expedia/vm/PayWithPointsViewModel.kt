@@ -19,7 +19,7 @@ import rx.subjects.PublishSubject
 import java.math.BigDecimal
 import java.text.NumberFormat
 
-class PayWithPointsViewModel<T : TripResponse>(val paymentModel: PaymentModel<T>, val resources: Resources) : IPayWithPointsViewModel {
+class PayWithPointsViewModel<T : TripResponse>(val paymentModel: PaymentModel<T>, val shopWithPointsViewModel: ShopWithPointsViewModel, val resources: Resources) : IPayWithPointsViewModel {
     //ERROR MESSAGING
     private val userEntersMoreThanTripTotalString = resources.getString(R.string.user_enters_more_than_trip)
     private val calculatingPointsString = resources.getString(R.string.pwp_calculating_points)
@@ -80,15 +80,18 @@ class PayWithPointsViewModel<T : TripResponse>(val paymentModel: PaymentModel<T>
 
     override val userSignedIn = PublishSubject.create<Unit>()
 
-    //Programmatic Enable of PwP Toggle has to happen in case of 'User Sign In' or 'Redeemable New Trip'
-    override val enablePwPToggle = Observable.merge(userSignedIn,
+    //Programmatic Enable of PwP Toggle has to happen in case of 'User Sign In' or 'Redeemable New Trip' With SWP latest value
+    override val updatePwPToggle = Observable.merge(
+            userSignedIn.map { true },
             paymentModel.paymentSplitsSuggestionUpdates.withLatestFrom(paymentModel.tripResponses, {
-                paymentSplitsSuggestionUpdate, tripResponse -> object {
-                        val paymentSplitsSuggestionUpdate = paymentSplitsSuggestionUpdate
-                        val tripResponse = tripResponse
-                    }
-                //`paymentSplitsSuggestionUpdate` should be from a Create-Trip, and that Create-Trip should be Redeemable.
-            }).filter { it.paymentSplitsSuggestionUpdate.second && it.tripResponse.isExpediaRewardsRedeemable() }.map { Unit })
+                paymentSplitsSuggestionUpdate, tripResponse ->
+                object {
+                    val paymentSplitsSuggestionUpdate = paymentSplitsSuggestionUpdate
+                    val tripResponse = tripResponse
+                }
+                //paymentSplitsSuggestionUpdate` should be from a Create-Trip, and that Create-Trip should be Redeemable.
+            }).filter { it.paymentSplitsSuggestionUpdate.second }.map { it.tripResponse.isExpediaRewardsRedeemable() })
+            .withLatestFrom(paymentModel.swpOpted, { redeemableTrip, swpOpted -> redeemableTrip && swpOpted })
 
     override val navigatingOutOfPaymentOptions = PublishSubject.create<Unit>()
 

@@ -33,6 +33,7 @@ import java.util.concurrent.CountDownLatch
 import java.util.concurrent.TimeUnit
 import kotlin.properties.Delegates
 import kotlin.test.assertEquals
+import com.expedia.vm.ShopWithPointsViewModel
 
 @RunWith(RobolectricRunner::class)
 class PaymentWidgetV2Test {
@@ -43,6 +44,7 @@ class PaymentWidgetV2Test {
         @Rule get
 
     private var paymentModel: PaymentModel<HotelCreateTripResponse> by Delegates.notNull()
+    private var shopWithPointsViewModel: ShopWithPointsViewModel by Delegates.notNull()
     private var sut: PaymentWidgetV2 by Delegates.notNull()
     private var activity: Activity by Delegates.notNull()
     private var viewModel: PaymentViewModel by Delegates.notNull()
@@ -60,7 +62,8 @@ class PaymentWidgetV2Test {
         viewModel = PaymentViewModel(activity)
         sut.viewmodel = viewModel;
         paymentModel = PaymentModel<HotelCreateTripResponse>(loyaltyServiceRule.services!!)
-        val payWithPointsViewModel = PayWithPointsViewModel(paymentModel, activity.application.resources)
+        shopWithPointsViewModel = ShopWithPointsViewModel(activity.applicationContext, paymentModel)
+        val payWithPointsViewModel = PayWithPointsViewModel(paymentModel, shopWithPointsViewModel, activity.application.resources)
         sut.paymentWidgetViewModel = PaymentWidgetViewModel(activity.application, paymentModel, payWithPointsViewModel)
 
         paymentTileInfo = sut.findViewById(R.id.card_info_name) as TextView
