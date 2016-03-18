@@ -62,7 +62,7 @@
         <item name="skin_flightLoginActionBarIcon">@drawable/ic_action_bar_logo_dark</item>
         <item name="skin_tablet_hotel_coupon_text_color">@color/tablet_hotel_coupon_text_color</item>
         <item name="skin_phoneCheckoutLoginButtonDrawable">@drawable/card_background</item>
-        <item name="skin_errorIndicationExclaimationDrawable">@drawable/invalid</item>
+        <item name="skin_errorIndicationExclaimationDrawable">@drawable/ic_error_blue</item>
     </style>
 
     <style name="ItineraryThemeOverflowMenuButton" parent="@android:style/Widget.Holo.ActionButton.Overflow">
