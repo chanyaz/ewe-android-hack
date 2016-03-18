@@ -3,6 +3,7 @@ package com.expedia.bookings.widget.traveler
 import android.content.Context
 import android.util.AttributeSet
 import android.view.View
+
 import android.widget.LinearLayout
 import com.expedia.bookings.R
 import com.expedia.vm.traveler.CheckoutTravelerViewModel
@@ -30,7 +31,7 @@ class TravelerSelectState(context: Context, attrs: AttributeSet?) : LinearLayout
             }
             addView(travelerSelectItem)
             if (i != travelerList.size) {
-                addView(View.inflate(context, R.layout.traveler_divider_bar, null))
+                View.inflate(context, R.layout.traveler_divider_bar, this)
             }
         }
     }

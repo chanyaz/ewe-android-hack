@@ -274,11 +274,11 @@ public class PackageScreen {
 	}
 
 	// TODO Probably want to move these methods somewhere else.
-	private static void enterFirstName(String name) {
+	public static void enterFirstName(String name) {
 		onView(withId(R.id.first_name_input)).perform(typeText(name));
 	}
 
-	private static void enterLastName(String name) {
+	public static void enterLastName(String name) {
 		onView(withId(R.id.last_name_input)).perform(typeText(name));
 	}
 
@@ -286,18 +286,18 @@ public class PackageScreen {
 		onView(withId(R.id.redress_number)).perform(typeText(redressNumber));
 	}
 
-	private static void enterPhoneNumber(String phoneNumber) {
+	public static void enterPhoneNumber(String phoneNumber) {
 		onView(withId(R.id.edit_phone_number)).perform(typeText(phoneNumber));
 	}
 
-	private static void selectBirthDate() {
+	public static void selectBirthDate() {
 		onView(withId(R.id.edit_birth_date_text_btn)).perform(click());
 		Common.delay(1);
 		onView(withId(R.id.datePickerDoneButton)).perform(click());
 		Common.delay(1);
 	}
 
-	private static void clickTravelerDone() {
+	public static void clickTravelerDone() {
 		onView(withId(R.id.new_traveler_done_button)).perform(click());
 	}
 

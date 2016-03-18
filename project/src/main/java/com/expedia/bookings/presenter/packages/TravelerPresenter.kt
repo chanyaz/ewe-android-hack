@@ -39,7 +39,7 @@ class TravelerPresenter(context: Context, attrs: AttributeSet) : Presenter(conte
             if (viewModel.validateTravelersComplete()) {
                 travelersCompleteSubject.onNext(traveler)
                 expandedSubject.onNext(false)
-                travelerDefaultState.viewModel.travelersComplete.onNext(Unit)
+                travelerDefaultState.viewModel.travelerStatusObserver.onNext(TravelerSummaryViewModel.Status.COMPLETE)
                 show(travelerDefaultState, Presenter.FLAG_CLEAR_BACKSTACK)
             } else {
                 show(travelerSelectState, Presenter.FLAG_CLEAR_TOP)
@@ -48,6 +48,7 @@ class TravelerPresenter(context: Context, attrs: AttributeSet) : Presenter(conte
 
         travelerDefaultState.setOnClickListener {
             if (viewModel.getTravelers().size > 1) {
+                travelerSelectState.refresh()
                 show(travelerSelectState)
             } else {
                 val travelerViewModel = TravelerViewModel(context, viewModel.getTraveler(0), 1)
@@ -71,18 +72,17 @@ class TravelerPresenter(context: Context, attrs: AttributeSet) : Presenter(conte
 
     fun refreshAndShow(packageParams: PackageSearchParams) {
         viewModel.refreshTravelerList(packageParams)
-        travelerSelectState.refresh()
-        travelerDefaultState.viewModel.emptyTravelers.onNext(Unit)
+        travelerDefaultState.viewModel.travelerStatusObserver.onNext(TravelerSummaryViewModel.Status.EMPTY)
         visibility = View.VISIBLE
     }
 
     fun validateAndBindTravelerSummary() {
         if (viewModel.getTravelers().isEmpty()) {
-            travelerDefaultState.viewModel.emptyTravelers.onNext(Unit)
+            travelerDefaultState.viewModel.travelerStatusObserver.onNext(TravelerSummaryViewModel.Status.EMPTY)
         } else if (viewModel.validateTravelersComplete()) {
-            travelerDefaultState.viewModel.travelersComplete.onNext(Unit)
+            travelerDefaultState.viewModel.travelerStatusObserver.onNext(TravelerSummaryViewModel.Status.INCOMPLETE)
         } else {
-            travelerDefaultState.viewModel.incompleteTravelers.onNext(Unit)
+            travelerDefaultState.viewModel.travelerStatusObserver.onNext(TravelerSummaryViewModel.Status.COMPLETE)
         }
     }
 
