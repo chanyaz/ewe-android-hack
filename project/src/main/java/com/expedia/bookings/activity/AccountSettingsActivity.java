@@ -23,6 +23,7 @@ import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -92,6 +93,7 @@ public class AccountSettingsActivity extends AppCompatActivity implements AboutS
 
 	private AboutSectionFragment appSettingsFragment;
 	private AboutSectionFragment legalFragment;
+	private ScrollView scrollContainer;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -124,14 +126,14 @@ public class AccountSettingsActivity extends AppCompatActivity implements AboutS
 		});
 
 		final View toolbarShadow = Ui.findView(this, R.id.toolbar_dropshadow);
-		final View scroller = Ui.findView(this, R.id.scroll_container);
+		scrollContainer = Ui.findView(this, R.id.scroll_container);
 		final float fortyEightDips = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 48, getResources().getDisplayMetrics());
 		toolbarShadow.setAlpha(0);
-		scroller.getViewTreeObserver().addOnScrollChangedListener(
+		scrollContainer.getViewTreeObserver().addOnScrollChangedListener(
 				new ViewTreeObserver.OnScrollChangedListener() {
 					@Override
 					public void onScrollChanged() {
-						float value = scroller.getScrollY() / fortyEightDips;
+						float value = scrollContainer.getScrollY() / fortyEightDips;
 						toolbarShadow.setAlpha(Math.min(1, Math.max(0, value)));
 					}
 				});
@@ -549,6 +551,7 @@ public class AccountSettingsActivity extends AppCompatActivity implements AboutS
 	@Override
 	public void doLogout() {
 		User.signOut(this);
+		scrollContainer.smoothScrollTo(0, 0);
 		adjustLoggedInViews();
 	}
 
