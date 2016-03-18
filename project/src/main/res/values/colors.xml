@@ -419,7 +419,7 @@
     <color name="traveler_incomplete_text_color">#FC9F23</color>
 
     <!--Rail colors-->
-    <color name="rail_primary_color">#00355f</color>
+    <color name="rail_primary_color">#0888BD</color>
     <color name="rail_background_color">#eeeeee</color>
 
     <!-- Preferences Activity -->

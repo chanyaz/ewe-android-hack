@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
+import org.joda.time.LocalDate;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -103,7 +104,7 @@ public class RailServicesTest {
 		validateResponseObserver.assertValueCount(1);
 		RailValidateResponse railValidateResponse = validateResponseObserver.getOnNextEvents().get(0);
 		// TODO validate the response
-		 assertNotNull(railValidateResponse.railGetDetailsResult);
+		assertNotNull(railValidateResponse.railGetDetailsResult);
 	}
 
 	@Test
@@ -143,6 +144,6 @@ public class RailServicesTest {
 	}
 
 	private void givenHappySearchRequest() {
-		railSearchRequest = new RailApiSearchModel();
+		railSearchRequest = new RailApiSearchModel(LocalDate.now(), LocalDate.now().plusDays(1));
 	}
 }

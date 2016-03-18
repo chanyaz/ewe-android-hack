@@ -12,7 +12,7 @@
     <!-- Hotels search form default text for number of guests -->
     <string name="hotel_search_guest_default_text">ゲスト 1 名</string>
     <!-- Hotel calendar tooltip bottom line after two dates are selected E.g. Drag to Modify -->
-    <string name="hotel_calendar_bottom_drag_to_modify">ドラッグして変更</string>
+    <string name="calendar_drag_to_modify">ドラッグして変更</string>
 
     <!-- Hotels Reviews Strings -->
     <!-- Hotels summary rating template-->

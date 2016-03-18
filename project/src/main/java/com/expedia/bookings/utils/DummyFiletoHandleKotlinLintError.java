@@ -73,7 +73,7 @@ DummyFiletoHandleKotlinLintError {
 		R.string.select_checkout_date_TEMPLATE,
 		R.string.select_checkin_date,
 		R.string.nights_count_TEMPLATE,
-		R.string.hotel_calendar_bottom_drag_to_modify,
+		R.string.calendar_drag_to_modify,
 		R.string.rent_a_car_TEMPLATE,
 		R.layout.coupon_widget,
 		R.string.coupon_promo_title,

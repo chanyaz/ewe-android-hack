@@ -98,6 +98,10 @@ public class DateUtils {
 		return date.toString("yyyy-MM-dd");
 	}
 
+	public static String localDateToMMddyyyy(LocalDate date) {
+		return date.toString("MM/dd/yyy");
+	}
+
 	public static String localDateTohmma(DateTime date) {
 		return date.toString("h:mm a").toLowerCase();
 	}
