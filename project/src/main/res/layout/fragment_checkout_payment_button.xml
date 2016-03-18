@@ -133,7 +133,7 @@
             android:id="@+id/credit_card_fees_message_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="#99424242"
+            android:background="@color/checkout_additional_fees_tablet_bg"
             android:gravity="center"
             android:padding="5dp"
             android:textColor="@android:color/white" />

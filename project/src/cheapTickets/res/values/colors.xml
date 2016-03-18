@@ -40,7 +40,13 @@
     <color name="action_bar_flight_text_color">@color/actionbar_text_color</color>
     <color name="action_menu_text_color">#FFFFFF</color>
     <color name="review_screen_tab_indicator">@color/launch_tab_indicator</color>
+    <color name="flight_card_airline_fee_warning">#116FAA</color>
+    <color name="checkout_additional_fees_tablet_bg">@color/flight_card_airline_fee_warning</color>
+    <color name="credit_card_form_additional_fees_tablet_bg">@color/flight_card_airline_fee_warning</color>
 
+    <!--Air attach banner color-->
+    <color name="bg_air_attach_banner_default">#116FAA</color>
+    <color name="bg_air_attach_phone_launch">@color/bg_air_attach_banner_default</color>
 
     <!-- Calendar text colors -->
     <color name="calendar_cell_selected_date_text">#FFFFFF</color>
