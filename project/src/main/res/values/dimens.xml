@@ -257,11 +257,8 @@
     <dimen name="hotel_preview_margin_large">14dp</dimen>
     <dimen name="hotel_preview_margin_top">12dp</dimen>
     <dimen name="hotel_preview_margin_small">4dp</dimen>
-    <dimen name="hotel_marker_padding_width">20dp</dimen>
-    <dimen name="hotel_marker_padding_height">14dp</dimen>
     <dimen name="hotel_cluster_padding_horizontal">8dp</dimen>
     <dimen name="hotel_cluster_padding_vertical">6dp</dimen>
-    <dimen name="hotel_gallery_description_padding">5dp</dimen>
     <dimen name="hotel_filter_height">58dp</dimen>
 
     <!-- Dimensions for hotel details -->

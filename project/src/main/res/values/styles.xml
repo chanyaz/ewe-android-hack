@@ -668,15 +668,6 @@
         <item name="android:divider">#CCCCCC</item>
     </style>
 
-    <style name="LoginFormEditText">
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:padding">12dp</item>
-        <item name="android:paddingTop">0dp</item>
-        <item name="android:textColor">#c6c8c9</item>
-        <item name="android:textSize">18sp</item>
-    </style>
-
     <style name="LoginFormButton">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
@@ -838,16 +829,6 @@
         <item name="textStyle">light</item>
     </style>
 
-    <style name="TripBucketBookButton">
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">@dimen/tripbucket_bookbutton_height</item>
-        <item name="android:background">@android:color/white</item>
-        <item name="android:gravity">center</item>
-        <item name="android:textAlignment">center</item>
-        <item name="android:textSize">16sp</item>
-        <item name="android:textColor">#006BB2</item>
-    </style>
-
     <style name="TripBucketAmenitiesText">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
@@ -858,8 +839,7 @@
     </style>
 
     <style name="TripBucketAmenitiesText.Landscape">
-        <item name="android:drawableLeft">@drawable/ic_tablet_checkout_free_cancellation_checkmark
-        </item>
+        <item name="android:drawableLeft">@drawable/ic_tablet_checkout_free_cancellation_checkmark</item>
         <item name="android:drawablePadding">12dp</item>
         <item name="android:layout_marginBottom">1dp</item>
         <item name="android:layout_marginLeft">3dp</item>
@@ -990,18 +970,6 @@
         <item name="android:fontFamily">sans-serif</item>
         <item name="android:textStyle">normal</item>
         <item name="android:textSize">15sp</item>
-    </style>
-
-    <!-- New hotel material design -->
-    <style name="Widget.SlidingRadioGroup.HotelFilterControls" parent="Widget">
-        <item name="android:gravity">center</item>
-        <item name="android:orientation">horizontal</item>
-        <item name="dividerWidth">1dp</item>
-        <item name="selectedDividerColor">#ff596a80</item>
-        <item name="selectedDrawable">@color/hotels_primary_color</item>
-        <item name="sluggishness">150</item>
-        <item name="unselectedDividerColor">#40999999</item>
-        <item name="unselectedDrawable">@color/itin_white_text</item>
     </style>
 
     <!--Header title text used inside search results or bundle overview stepper-->

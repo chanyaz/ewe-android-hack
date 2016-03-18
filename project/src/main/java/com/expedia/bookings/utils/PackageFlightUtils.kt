@@ -8,15 +8,6 @@ import com.squareup.phrase.Phrase
 
 object PackageFlightUtils {
 
-    @JvmStatic fun getAllAirports(flight: FlightLeg): String {
-        var airports : String = ""
-        for (segment in flight.flightSegments) {
-            airports += segment.departureAirportCode + " "
-        }
-        airports += flight.flightSegments.last().arrivalAirportCode
-        return airports
-    }
-
     @JvmStatic fun getFlightDurationStopString(context: Context, flight: FlightLeg): String {
         return context.resources.getString(R.string.flight_duration_description_template, getFlightDurationString(context, flight), getFlightStopString(context, flight))
     }
