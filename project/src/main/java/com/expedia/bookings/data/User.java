@@ -501,7 +501,7 @@ public class User implements JSONable {
 		mAssociatedTravelers = JSONUtils.getJSONableList(obj, "associatedTravelers", Traveler.class);
 		mExpediaRewardsMembershipId = obj.optString("loyaltyAccountNumber");
 
-		loyaltyMembershipInformation = JSONUtils.getJSONable(obj, "loyaltyMembershipInfo", UserLoyaltyMembershipInformation.class);
+		loyaltyMembershipInformation = JSONUtils.getJSONable(obj, "loyaltyMembershipInformation", UserLoyaltyMembershipInformation.class);
 		return true;
 	}
 

@@ -468,6 +468,10 @@ DummyFiletoHandleKotlinLintError {
 		R.layout.flight_activity,
 		R.layout.bundle_overview_header,
 		R.layout.flight_summary,
-		R.string.package_breakdown_total_due_today
+		R.string.package_breakdown_total_due_today,
+		R.string.swp_widget_points_value_TEMPLATE,
+		R.layout.widget_shop_with_points,
+		R.layout.widget_shop_with_points_with_card_view,
+		R.string.swp_widget_header
 	};
 }

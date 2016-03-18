@@ -10,6 +10,7 @@ import com.expedia.bookings.services.HotelServices;
 import com.expedia.bookings.services.LoyaltyServices;
 import com.expedia.bookings.services.ReviewsServices;
 import com.expedia.bookings.services.SuggestionV4Services;
+import com.expedia.vm.ShopWithPointsViewModel;
 import com.expedia.vm.interfaces.IPayWithPointsViewModel;
 import com.expedia.vm.PaymentWidgetViewModel;
 import com.expedia.vm.interfaces.IPaymentWidgetViewModel;
@@ -70,5 +71,11 @@ public final class HotelModule {
 	@HotelScope
 	IPaymentWidgetViewModel providePaymentWidgetViewModel(Context context, PaymentModel<HotelCreateTripResponse> paymentModel, IPayWithPointsViewModel payWithPointsViewModel) {
 		return new PaymentWidgetViewModel<>(context, paymentModel, payWithPointsViewModel);
+	}
+
+	@Provides
+	@HotelScope
+	ShopWithPointsViewModel provideShopWithPointsViewModel(Context context) {
+		return new ShopWithPointsViewModel(context);
 	}
 }
