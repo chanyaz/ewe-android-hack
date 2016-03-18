@@ -116,9 +116,19 @@
                         android:id="@+id/hotel_map_star_rating_bar"
                         android:layout_width="200dp"
                         android:layout_height="14dp"
-                        app:star_color="#F1B906"
+                        android:visibility="gone"
+                        app:star_color="@color/hotelsv2_detail_star_color"
                         app:star_drawable="@drawable/detail_star"
-                        app:star_spacing="4dp"/>
+                        app:star_spacing="4dp" />
+
+                    <com.expedia.bookings.widget.StarRatingBar
+                        android:id="@+id/hotel_map_circle_rating_bar"
+                        android:layout_width="200dp"
+                        android:layout_height="14dp"
+                        android:visibility="gone"
+                        app:star_color="@color/hotelsv2_detail_star_color"
+                        app:star_drawable="@drawable/circle_details"
+                        app:star_spacing="4dp" />
 
                 </LinearLayout>
 
