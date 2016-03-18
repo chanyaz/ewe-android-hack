@@ -11,6 +11,7 @@ import com.expedia.bookings.widget.PayWithPointsWidget;
 import com.expedia.bookings.widget.PaymentWidgetV2;
 import com.expedia.bookings.widget.ShopWithPointsWidget;
 import com.expedia.vm.HotelConfirmationViewModel;
+import com.expedia.vm.HotelSearchViewModel;
 import com.expedia.vm.interfaces.IPayWithPointsViewModel;
 
 import dagger.Component;
@@ -26,6 +27,7 @@ public interface HotelComponent {
 	void inject(CouponWidget couponWidget);
 	void inject(HotelConfirmationViewModel hotelConfirmationViewModel);
 	void inject(ShopWithPointsWidget shopWithPointsWidget);
+	void inject(HotelSearchViewModel hotelSearchViewModel);
 
 	SuggestionV4Services suggestionsService();
 	ReviewsServices reviewsServices();

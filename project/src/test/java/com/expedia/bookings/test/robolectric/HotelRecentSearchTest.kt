@@ -5,6 +5,7 @@ import com.expedia.bookings.data.hotels.HotelSearchParams
 import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.services.LocalDateTypeAdapter
 import com.expedia.bookings.utils.HotelSearchParamsUtil
+import com.expedia.bookings.utils.Ui
 import com.expedia.vm.HotelSearchViewModel
 import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
@@ -27,6 +28,7 @@ class HotelRecentSearchTest {
     @Before
     fun before() {
         activity = Robolectric.buildActivity(Activity::class.java).create().get()
+        Ui.getApplication(activity).defaultHotelComponents()
         vm = HotelSearchViewModel(activity)
         val builder = GsonBuilder().registerTypeAdapter(LocalDate::class.java, LocalDateTypeAdapter(HotelSearchParamsUtil.PATTERN))
         val type = object : TypeToken<List<HotelSearchParams>>() {}.type
