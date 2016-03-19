@@ -130,7 +130,7 @@ public class TravelerPresenterTest {
 		PackageScreen.enterLastName(testLastName);
 		Common.delay(1);
 		PackageScreen.enterPhoneNumber(testPhone);
-		PackageScreen.selectBirthDate();
+		PackageScreen.selectBirthDate(1989,6,9);
 		PackageScreen.clickTravelerDone();
 	}
 
