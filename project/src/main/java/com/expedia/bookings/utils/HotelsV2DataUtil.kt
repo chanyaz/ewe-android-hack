@@ -1,5 +1,6 @@
 package com.expedia.bookings.utils
 
+import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.hotels.HotelSearchParams
 import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.services.LocalDateTypeAdapter
@@ -49,7 +50,7 @@ class HotelsV2DataUtil {
             val hasValidDates = JodaUtils.isBeforeOrEquals(LocalDate.now(), params.getCheckInDate())
             val checkInDate = if (hasValidDates) params.getCheckInDate() else LocalDate.now()
             val checkOutDate = if (hasValidDates) params.getCheckOutDate() else LocalDate.now().plusDays(1)
-            val v2params = HotelSearchParams(suggestionV4, checkInDate, checkOutDate, params.getNumAdults(), childList, false)
+            val v2params = HotelSearchParams(suggestionV4, checkInDate, checkOutDate, params.getNumAdults(), childList, Db.getUser()?.loyaltyMembershipInformation?.isAllowedToShopWithPoints ?: false)
             return v2params
         }
 
