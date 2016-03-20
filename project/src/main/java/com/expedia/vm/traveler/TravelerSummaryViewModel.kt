@@ -6,36 +6,36 @@ import com.expedia.bookings.R
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.Traveler
 import com.expedia.bookings.widget.ContactDetailsCompletenessStatus
+import com.expedia.util.endlessObserver
 import com.squareup.phrase.Phrase
 import rx.subjects.BehaviorSubject
-import rx.subjects.PublishSubject
 
 open class TravelerSummaryViewModel(val context: Context) {
+    enum class Status {
+        EMPTY, INCOMPLETE, COMPLETE
+    }
+
     val resources = context.resources
 
-    val travelersComplete = BehaviorSubject.create<Unit>()
-    val incompleteTravelers = PublishSubject.create<Unit>()
-    val emptyTravelers = PublishSubject.create<Unit>()
-
-    val iconStatusObservable = PublishSubject.create<ContactDetailsCompletenessStatus>()
-    val titleObservable = PublishSubject.create<String>()
-    val subtitleObservable = PublishSubject.create<String>()
-    val subtitleColorObservable = PublishSubject.create<Int>()
-
-    init {
-        emptyTravelers.subscribe {
+    val travelerStatusObserver = endlessObserver<Status> { status ->
+        if (status == Status.EMPTY) {
             val title = resources.getString(R.string.checkout_enter_traveler_details)
             val subTitle = resources.getString(R.string.checkout_enter_traveler_details_line2)
             setTravelerSummaryInfo(title, subTitle, ContactDetailsCompletenessStatus.DEFAULT)
-        }
-
-        incompleteTravelers.subscribe {
+        } else if (status == Status.INCOMPLETE) {
             setTravelerSummaryInfo(getTitle(), getSubtitle(), ContactDetailsCompletenessStatus.INCOMPLETE)
-        }
-
-        travelersComplete.subscribe {
+        } else {
             setTravelerSummaryInfo(getTitle(), getSubtitle(), ContactDetailsCompletenessStatus.COMPLETE)
         }
+    };
+
+    val iconStatusObservable = BehaviorSubject.create<ContactDetailsCompletenessStatus>()
+    val titleObservable = BehaviorSubject.create<String>()
+    val subtitleObservable = BehaviorSubject.create<String>()
+    val subtitleColorObservable = BehaviorSubject.create<Int>()
+
+    init {
+        travelerStatusObserver.onNext(Status.EMPTY)
     }
 
     private fun setTravelerSummaryInfo(title: String, subTitle: String, completenessStatus: ContactDetailsCompletenessStatus) {

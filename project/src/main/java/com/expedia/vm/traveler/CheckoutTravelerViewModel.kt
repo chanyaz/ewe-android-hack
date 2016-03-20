@@ -10,7 +10,7 @@ open class CheckoutTravelerViewModel() {
 
     //TODO the search screen should just udpate the travelers for us but right now it doesn't and we need to wait
     // for new search so this 'workaround' exists
-    fun refreshTravelerList(params: PackageSearchParams) {
+    open fun refreshTravelerList(params: PackageSearchParams) {
         val travelerList = Db.getTravelers()
         if (travelerList.isNotEmpty()) {
             travelerList.clear()
@@ -35,7 +35,7 @@ open class CheckoutTravelerViewModel() {
         Db.setTravelers(travelerList)
     }
 
-    fun validateTravelersComplete(): Boolean {
+    open fun validateTravelersComplete(): Boolean {
         val travelerList = getTravelers()
             for (traveler in travelerList) {
             if (!TravelerValidator.isValidForPackageBooking(traveler)) {

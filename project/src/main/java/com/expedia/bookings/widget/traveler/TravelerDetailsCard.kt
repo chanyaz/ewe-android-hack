@@ -20,10 +20,10 @@ open class TravelerDetailsCard(context: Context, attrs: AttributeSet? = null) : 
     val editTravelerPromptText: TextView by bindView(R.id.edit_traveler_prompt)
 
     init {
-        View.inflate(context, R.layout.traveler_details_card, this)
         val padding = resources.getDimensionPixelSize(R.dimen.traveler_select_item_padding)
         setPadding(padding, padding, padding, padding)
         orientation = HORIZONTAL
+        View.inflate(context, R.layout.traveler_details_card, this)
     }
 
 }
