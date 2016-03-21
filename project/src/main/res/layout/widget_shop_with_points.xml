@@ -2,12 +2,11 @@
 <merge xmlns:android="http://schemas.android.com/apk/res/android">
 
     <ImageView
-        android:id="@+id/image_points"
+        android:id="@+id/swp_logo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
-        android:paddingLeft="8dp"
-        android:src="@drawable/small_pwp_icon" />
+        android:src="@drawable/swp_white" />
 
     <LinearLayout
         android:layout_width="0dp"
@@ -22,8 +21,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingBottom="1dp"
-            android:text="@string/swp_widget_header"
             android:textColor="@color/white"
+            android:singleLine="true"
             android:textSize="15sp" />
 
         <com.expedia.bookings.widget.TextView
@@ -38,9 +37,8 @@
         android:id="@+id/swp_switch"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
+        android:maxWidth="100dp"
         android:layout_gravity="center_vertical"
-        android:layout_marginRight="2dp"
         android:checked="true"
-        android:gravity="right" />
+         />
 </merge>

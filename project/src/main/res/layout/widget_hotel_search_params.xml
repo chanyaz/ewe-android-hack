@@ -112,7 +112,9 @@
                 android:id="@+id/widget_points_details"
                 android:layout_width="match_parent"
                 android:layout_height="70dp"
+                android:theme="@style/HotelWithSwitchStyleV1"
                 android:layout_below="@id/select_traveler"
+                android:paddingLeft="24dp"
                 android:visibility="gone" />
         </RelativeLayout>
 

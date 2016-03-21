@@ -15,6 +15,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RuntimeEnvironment
 import org.robolectric.annotation.Config
+import rx.observers.TestSubscriber
 import java.text.NumberFormat
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
@@ -53,12 +54,18 @@ class ShopWithPointsWidgetTest {
     fun toggleSWPSwitch() {
         shopWithPointsWidget = ShopWithPointsWidget(context, null)
         val toggleObservable = shopWithPointsWidget.shopWithPointsViewModel.shopWithPointsToggleObservable
+        val headerTestObservable = TestSubscriber.create<String>()
+        shopWithPointsWidget.shopWithPointsViewModel.swpHeaderStringObservable.subscribe(headerTestObservable)
+
         assertTrue(toggleObservable.value)
+        assertEquals(context.getString(R.string.swp_on_widget_header), shopWithPointsWidget.loyaltyAppliedHeader.text)
 
         shopWithPointsWidget.swpSwitchView.isChecked = false
         assertFalse(toggleObservable.value)
+        assertEquals(context.getString(R.string.swp_off_widget_header), shopWithPointsWidget.loyaltyAppliedHeader.text)
 
         shopWithPointsWidget.swpSwitchView.isChecked = true
         assertTrue(toggleObservable.value)
+        assertEquals(context.getString(R.string.swp_on_widget_header), shopWithPointsWidget.loyaltyAppliedHeader.text)
     }
 }
