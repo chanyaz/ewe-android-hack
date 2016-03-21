@@ -29,7 +29,7 @@
         <item name="skin_actionBarBackgroundDrawable">@drawable/bg_action_bar_orb</item>
         <item name="skin_cvvBookButtonTextColor">@android:color/white</item>
         <item name="skin_hotelPrimaryTravelerInfoLogoDrawable">@drawable/ic_orb_white_logo_small</item>
-        <item name="skin_bgFindItineraryButton">@drawable/btn_find_orbitz</item>
+        <item name="skin_bgFindItineraryButton">@drawable/btn_find</item>
 
         <item name="android:actionOverflowButtonStyle">@style/OverflowMenuButton</item>
         <item name="actionOverflowButtonStyle">@style/OverflowMenuButton</item>
