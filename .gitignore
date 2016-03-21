@@ -43,3 +43,6 @@ project/okhttp
 
 # Emacs temp files
 *~
+
+# Python Compiled Bytecode
+*.pyc
