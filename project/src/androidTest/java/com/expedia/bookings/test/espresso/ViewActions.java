@@ -1,5 +1,6 @@
 package com.expedia.bookings.test.espresso;
 
+import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicReference;
 
@@ -36,6 +37,7 @@ import android.widget.TextView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.widget.StarRatingBar;
+import com.expedia.bookings.widget.CheckoutToolbar;
 import com.mobiata.android.Log;
 import com.mobiata.android.widget.CalendarDatePicker;
 
@@ -268,12 +270,12 @@ public final class ViewActions {
 
 			@Override
 			public Matcher<View> getConstraints() {
-				return Matchers.allOf(isAssignableFrom(ViewGroup.class));
+				return Matchers.allOf(isAssignableFrom(Toolbar.class));
 			}
 
 			@Override
 			public void perform(UiController uiController, View view) {
-				View childView = ((Toolbar) view).getChildAt(index);
+				View childView = ((CheckoutToolbar) view).getChildAt(index);
 				childView.performClick();
 				uiController.loopMainThreadUntilIdle();
 			}
@@ -462,7 +464,7 @@ public final class ViewActions {
 
 			@Override
 			public String getDescription() {
-				return String.format("Waiting for view to match given matcher, max wait time is: %d seconds",
+				return String.format(Locale.getDefault(), "Waiting for view to match given matcher, max wait time is: %d seconds",
 					timeoutSeconds);
 			}
 

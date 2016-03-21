@@ -1,5 +1,6 @@
 package com.expedia.bookings.utils;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.EnumMap;
 import java.util.LinkedHashMap;
@@ -11,16 +12,21 @@ import org.joda.time.LocalDate;
 
 import android.content.Context;
 import android.net.Uri;
+import android.text.Html;
+import android.view.View;
+import android.widget.TextView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.FlightLeg;
 import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.Location;
+import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.lx.LXSearchParams;
 import com.expedia.bookings.data.lx.LXTicketType;
 import com.expedia.bookings.data.lx.SearchType;
 import com.expedia.bookings.data.lx.Ticket;
 import com.expedia.bookings.data.trips.TripHotel;
+import com.mobiata.android.text.StrikethroughTagHandler;
 import com.mobiata.flightlib.data.Airport;
 import com.squareup.phrase.Phrase;
 
@@ -322,5 +328,55 @@ public class LXDataUtils {
 	public static int getErrorDrawableForCategory(Context context, String categoryKey) {
 		return isCategoryAllThingsToDo(context, categoryKey) ? R.drawable.itin_header_placeholder_activities
 			: R.drawable.lx_category_all_things_to_do;
+	}
+
+	public static void bindDuration(Context context, String activityDuration, boolean isMultiDuration,
+		TextView duration) {
+		if (Strings.isNotEmpty(activityDuration)) {
+			if (isMultiDuration) {
+				duration.setText(context.getResources()
+					.getString(R.string.search_result_multiple_duration_TEMPLATE, activityDuration));
+			}
+			else {
+				duration.setText(activityDuration);
+			}
+			duration.setVisibility(View.VISIBLE);
+		}
+		else {
+			duration.setText("");
+			duration.setVisibility(View.GONE);
+		}
+	}
+
+	public static void bindOriginalPrice(Context context, Money originalPrice, TextView activityOriginalPrice) {
+		if (originalPrice.getAmount().equals(BigDecimal.ZERO)) {
+			activityOriginalPrice.setVisibility(View.GONE);
+		}
+		else {
+			activityOriginalPrice.setVisibility(View.VISIBLE);
+			String formattedOriginalPrice = originalPrice.getFormattedMoney(Money.F_NO_DECIMAL | Money.F_ROUND_HALF_UP);
+			activityOriginalPrice.setText(Html.fromHtml(
+				context.getString(R.string.strike_template, formattedOriginalPrice),
+				null,
+				new StrikethroughTagHandler()));
+		}
+	}
+
+	public static void bindPriceAndTicketType(Context context, LXTicketType fromPriceTicketCode, Money price,
+		TextView activityPrice, TextView fromPriceTicketType) {
+		if (fromPriceTicketCode != null) {
+			fromPriceTicketType.setText(
+				LXDataUtils.perTicketTypeDisplayLabel(context, fromPriceTicketCode));
+			activityPrice.setText(price.getFormattedMoney(Money.F_NO_DECIMAL | Money.F_ROUND_HALF_UP));
+		}
+		else {
+			fromPriceTicketType.setText("");
+			activityPrice.setText("");
+		}
+	}
+
+	public static String getUserRecommendPercentString(Context context, int recommendationScore) {
+		return Phrase.from(context.getResources(), R.string.lx_recommend_percent_Template)
+			.put("recommend", recommendationScore).format().toString();
 	}
 }

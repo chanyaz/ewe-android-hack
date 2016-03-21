@@ -3,6 +3,7 @@
 
     <!-- Hotels -->
     <!-- Hotels Calendar Strings -->
+    <string name="select_checkin_date">Sélectionner la date d\&apos;arrivée</string>
     <!-- Hotels calendar tooltip bottom line after a single date is selected -->
     <string name="hotel_calendar_tooltip_bottom">Ensuite : Sélectionner la date de départ</string>
     <!-- When user hasn't picked check out date, we show something like: "Jan 21 - Select check out date" -->
@@ -25,6 +26,16 @@
     <string name="hotel_rating_service_and_staff">Service et personnel</string>
     <!-- Hotels rating hotel condition string -->
     <string name="hotel_rating_hotel_condition">État de l\&apos;hôtel</string>
+
+    <!-- Hotels v2 -->
+    <!-- slide to reserve -->
+    <string name="hotelsv2_slide_reserve">Glisser pour réserver</string>
+    <!-- slide to purchase -->
+    <string name="hotelsv2_slide_purchase">Glisser pour acheter</string>
+    <!-- Change Dates in case of Sold Out -->
+    <string name="change_dates">Modifier les dates</string>
+    <!-- checkout view toolbar title -->
+    <string name="secure_checkout">Paiement sécurisé</string>
 
     <!-- Cars -->
     <!-- Cars Calendar Strings -->
@@ -74,10 +85,6 @@
     <string name="cars_view_details_text">Afficher les détails</string>
     <!-- Text for driver details toolbar-->
     <string name="cars_driver_details_text">Détails du conducteur</string>
-    <!-- Text for payment details toolbar-->
-    <string name="cars_payment_details_text">Détails du paiement</string>
-    <!-- Text for payment options toolbar-->
-    <string name="cars_payment_options_text">Options de paiement</string>
     <!-- Text for enter driver details-->
     <string name="enter_driver_details">Entrer les détails du conducteur</string>
     <!-- Text for select saved contacts-->
@@ -213,7 +220,7 @@
     <!-- Text for enter guest details line 2 -->
     <string name="checkout_hotelsv2_enter_guest_details_line2">Entrez vos renseignements</string>
     <!-- Text for enter payment details line 1 -->
-    <string name="checkout_hotelsv2_enter_payment_details_line1">Détails du paiement</string>
+    <string name="checkout_enter_payment_details">Mode de paiement</string>
     <!-- Text for enter payment details line 2 -->
     <string name="checkout_hotelsv2_enter_payment_details_line2">Entrer une carte de crédit</string>
     <!-- Label to indicate that the user has selected a stored credit card -->
@@ -230,13 +237,10 @@
     <string name="checkout_selected_card">{cardtype} …{cardno}</string>
     <!--Text for selecting user manually stored card -->
     <string name="temporarily_saved_card_TEMPLATE">Enregistré {cardtype} …{cardno}</string>
-
-    <!-- Hotels V2 slide to reserve -->
-    <string name="hotelsv2_slide_reserve">Glisser pour réserver</string>
-    <!-- Hotels V2 slide to purchase -->
-    <string name="hotelsv2_slide_purchase">Glisser pour acheter</string>
-    <!-- Hotels V2 Change Dates in case of Sold Out -->
-    <string name="change_dates">Modifier les dates</string>
+    <!--Text for stored card -->
+    <string name="stored_card_TEMPLATE">{cardtype} enregistrée</string>
+    <!-- Select card from checkout saved cards list -->
+    <string name="saved_cards">Cartes enregistrées</string>
 
     <!-- Car error strings -->
     <!-- Message for user that pick-up time is too early.  -->
@@ -695,6 +699,11 @@
 
     <!-- Category Title "All Things To Do" -->
     <string name="lx_category_all_things_to_do">Toutes les choses à faire</string>
+
+    <string name="lx_you_might_also_like">Vous pourriez aussi aimer</string>
+    <string name="lx_customers_recommend">des clients recommandent ceci.</string>
+    <!-- LX user recommended percentage template-->
+    <string name="lx_recommend_percent_Template">{recommend} %</string>
 
     <!-- Tablet Results strings -->
     <!-- Sort & Filter label -->
@@ -1386,6 +1395,9 @@
     <string name="itin_card_details_expires">Expire</string>
     <string name="itin_card_details_guests">Personnes</string>
     <string name="itin_card_details_details">Renseignements complémentaires</string>
+    <string name="itin_card_flight_checkin_title">Enregistrement pour le vol</string>
+
+    <string name="itin_card_flight_checkin_details">Visitez le site de %s</string>
     <string name="itin_card_details_pick_up">Prise en charge</string>
     <string name="itin_card_details_drop_off">Remise</string>
     <!-- Tell users when they can pick up a rental car in three days -->
@@ -1451,6 +1463,17 @@
     <!-- Message to users about when they checked out of their hotel.  %1$s is a date (e.g., "Checked out Jul 11") -->
     <string name="itin_card_hotel_summary_checked_out_day_TEMPLATE">Départ %1$s</string>
     <string name="itin_card_activity_summary_TEMPLATE">Valide à partir de &lt;b&gt;%1$s&lt;/b&gt;</string>
+    <!-- Message to users about when they check in of their flight-->
+    <string name="itin_card_flight_checkin">S\&apos;enregistrer maintenant</string>
+    <!-- Title of alert dialog when user come back from check in-->
+    <string name="itin_checkin_dialog_title">Êtes-vous enregistré?</string>
+    <!-- message of alert dialog (e.g., "Were you able to successfully check into your flight on Delta's website?")-->
+    <string name="itin_checkin_dialog_message">Avez-vous réussi à vous enregistrer pour votre vol sur le site de %s?</string>
+    <!-- Title of alert dialog when user fail to check in (e.g., "We're Sorry!")-->
+    <string name="itin_checkin_failure_dialog_title">Nous sommes désolés!</string>
+    <!-- message of alert dialog (e.g., "We'll look into it. Your Confirmation Number is now copied to the clipboard so you can check in on Delta's site or app directly.")-->
+    <string name="itin_checkin_failure_dialog_message">Nous examinerons le problème. Votre numéro de confirmation a été copié dans le presse-papier, pour que vous puissiez vous enregistrer directement sur le site ou l\&apos;application de %s.</string>
+
 
     <!-- Action Buttons -->
     <string name="itin_action_directions">Directions</string>
@@ -1653,6 +1676,8 @@
     <string name="edit_search">Modifier la recherche</string>
     <!-- Action mode asking users to select dates -->
     <string name="select_dates">Sélectionner les dates</string>
+    <!-- Action mode asking users to select location -->
+    <string name="search_destination">Rechercher une destination</string>
     <!-- Number of adults template -->
     <plurals name="number_of_adults_TEMPLATE">
         <item quantity="zero">%1$d adultes</item>
@@ -1700,7 +1725,7 @@
     <string name="calendar_instructions_hotels_no_dates_selected">Sélectionner la date d\&apos;arrivée</string>
     <!-- Calendar instruction text hotels date range template. %1$s = Formatted start date, %2$s = formatted end date. E.g. May 12 - May 15 -->
     <string name="calendar_instructions_date_range_with_guests_TEMPLATE">{startdate} - {enddate}, {guests}</string>
-    <string name="guests_with_rooms_TEMPLATE">{guests}, 1 chambre</string>
+    <string name="room_with_guests_TEMPLATE">1 chambre, {guests}</string>
 
     <!-- Flight details fragment -->
     <!-- Book now info label.  %s is the price.  E.g., "One way for $994" -->
@@ -1716,10 +1741,10 @@
     <!-- Book now info label, when there are only a few seats left.  %1$s is the number of seats, %2$s is the price - e.g., "3 left at $500" -->
     <plurals name="urgency_book_TEMPLATE">
         <item quantity="zero">%1$s restant à &lt;b&gt;%2$s&lt;/b&gt;</item>
-        <item quantity="one">%1$s restant à &lt;b&gt;%2$s&lt;/b&gt;</item>
-        <item quantity="two">%1$s restant à &lt;b&gt;%2$s&lt;/b&gt;</item>
-        <item quantity="few">%1$s restant à &lt;b&gt;%2$s&lt;/b&gt;</item>
-        <item quantity="many">%1$s restant à &lt;b&gt;%2$s&lt;/b&gt;</item>
+        <item quantity="one">%1$s restants à &lt;b&gt;%2$s&lt;/b&gt;</item>
+        <item quantity="two">%1$s restants à &lt;b&gt;%2$s&lt;/b&gt;</item>
+        <item quantity="few">%1$s restants à &lt;b&gt;%2$s&lt;/b&gt;</item>
+        <item quantity="many">%1$s restants à &lt;b&gt;%2$s&lt;/b&gt;</item>
         <item quantity="other">%1$s restants à &lt;b&gt;%2$s&lt;/b&gt;</item>
     </plurals>
     <!-- Book now info label, when there are only a few seats left. Variant for Australian
@@ -1774,6 +1799,11 @@
     <string name="baggage_fees">Frais de bagages</string>
     <!-- Label to view payment processing fees information -->
     <string name="payment_processing_fees">Frais de traitement du paiement</string>
+    <!-- Label indicating number of tickets left for given flight (min: 1) -->
+    <plurals name="number_tickets_left_TEMPLATE">
+        <item quantity="one">{number_tickets_left} restant à</item>
+        <item quantity="other">{number_tickets_left} restants à</item>
+    </plurals>
 
     <!-- Flight payment overview Activity -->
     <!-- Edit current payment -->
@@ -1782,10 +1812,6 @@
     <string name="or_select_new_paymet_method">Sélectionner un mode de paiement</string>
     <!-- Select Payment -->
     <string name="select_payment">Sélectionner le paiement</string>
-    <!-- Select payment sentence case -->
-    <string name="select_payment_sentence_case">Détails du paiement</string>
-    <!-- Select payment sentence case AB Test variate2 -->
-    <string name="select_payment_sentence_case_variate2">Paiement</string>
     <!-- Select payment callout AB Test variate2 -->
     <string name="select_payment_callout">Entrer les détails</string>
     <!-- Add new card -->
@@ -2001,12 +2027,6 @@
     <string name="select_traveler">Sélectionner le contact</string>
     <!-- Add new traveler, checkout saved travelers list -->
     <string name="add_new_traveler">Ajouter un nouveau voyageur</string>
-    <!-- Select card from checkout saved credit cards list -->
-    <string name="saved_creditcards">Cartes enregistrées</string>
-    <!-- Select card from checkout saved cards list -->
-    <string name="select_saved_cards">Sélectionner les cartes enregistrées</string>
-    <!-- Add new card, checkout saved credit cards list -->
-    <string name="add_new_creditcard">Ajouter une nouvelle carte</string>
     <!-- Add Guest for hotels -->
     <string name="guest_details">Détails sur l\&apos;invité</string>
     <!-- Guest all fields are required -->
@@ -2050,8 +2070,12 @@
     <!-- Section edit contact -->
     <!-- name on card hint -->
     <string name="name_on_card_hint">Nom du titulaire sur la carte</string>
+    <!-- Package cardholder name hint -->
+    <string name="cardholder_name_hint">Nom du titulaire de la carte</string>
     <!-- email hint -->
     <string name="email_address_hint">Adresse courriel</string>
+    <!-- email hint for packages billing info screen, used to send the confirmation email -->
+    <string name="email_address_hint_confirmation">Adresse courriel (pour la confirmation)</string>
     <!-- phone number hint -->
     <string name="phone_number_hint">Téléphone</string>
     <!-- phone number -->
@@ -2086,7 +2110,7 @@
     <!-- Credit Card field hint -->
     <string name="credit_card_hint">Numéro de carte de crédit</string>
     <!-- Credit Card field hint; this version calls out that debit cards are also acceptable -->
-    <string name="credit_debit_card_hint">Numéro de carte de crédit ou de carte de débit</string>
+    <string name="credit_debit_card_hint">Entrer un nouvelle carte de débit ou de crédit</string>
     <!-- Expiration date label -->
     <string name="expiration_date">Date d\&apos;expiration</string>
     <!-- Set expiration date button -->
@@ -2105,6 +2129,8 @@
     <string name="address_state_hint">Province</string>
     <!-- Postal Code hint -->
     <string name="address_postal_code_hint">Code postal</string>
+    <!-- Zip Code hint for Packages -->
+    <string name="address_zip_code_hint">Code postal</string>
     <!-- Postal Code hint for the US. Most countries use "Postal Code", but in the US we just want "Zip" -->
     <string name="address_postal_code_hint_US">Code postal</string>
 
@@ -2123,6 +2149,8 @@
     <string name="save_traveler_message_TEMPLATE">Enregistrer l\&apos;information sur {name} sous votre compte {brand} pour accélérer vos achats futurs?</string>
     <!-- no thanks -->
     <string name="no_thanks">Non merci</string>
+    <!-- Advanced flight traveler options (seat pref, accessibility and redress number) button label -->
+    <string name="advanced">Avancé</string>
 
     <!-- Overwrite traveler dialog -->
     <!-- Can't Save Traveler -->
@@ -2140,7 +2168,9 @@
     <!-- First name label -->
     <string name="first_name">Prénom</string>
     <!-- Middle name label -->
-    <string name="middle_name">2ème prénom</string>
+    <string name="middle_name">2e prénom</string>
+    <!--A hint for the customer to enter their middle name's initial -->
+    <string name="initial_middle_name">Initiale</string>
     <!-- Last name label -->
     <string name="last_name">Nom</string>
     <!-- date of birth label -->
@@ -2188,6 +2218,7 @@
     <string name="prefers_seat_TEMPLATE">Préfère siège %1$s</string>
     <!-- prefers seat template -->
     <string name="prefers_seat_colored_TEMPLATE">Préfère siège %1$s</string>
+    <string name="prefers_seat_colored_TEMPLATE2">Préférence : siège %1$s</string>
     <!-- loading traveler info -->
     <string name="loading_traveler_info">Chargement de l\&apos;information voyageur…</string>
     <!-- Passport -->
@@ -2649,6 +2680,11 @@
     <string name="From_x_per_night_template">À partir de %s/nuit</string>
     <!-- Button text prompting the user to search this area on the map -->
     <string name="Search_this_area">Rechercher dans cette région</string>
+    <!-- Map cluster text for number of hotels-->
+    <string name="cluster_number_of_hotels_template">%s hôtels</string>
+    <!-- Map cluster price from range-->
+    <string name="cluster_price_from_range_template">À partir de %s</string>
+
 
     <!-- Widget -->
     <!-- Default Loading message for widget -->
@@ -2989,6 +3025,8 @@
     <string name="triple_point_messaging">Obtenez le TRIPLE des points de récompense Expedia+</string>
     <!-- Label for messaging on sign in Variate 3 -->
     <string name="trip_alert_messaging">Recevez des alertes importantes concernant vos voyages</string>
+    <!-- Label for menu item to open account settings screen -->
+    <string name="account_settings_menu_label">Compte</string>
     <!-- Label for menu item to sign into account -->
     <string name="sign_in">Ouvrir une session</string>
     <!-- Progress dialog text when we are signing the user into Expedia -->
@@ -2999,10 +3037,16 @@
     <string name="sign_out_confirmation_TEMPLATE">Voulez-vous vraiment fermer votre session sur votre compte {brand}?</string>
     <!-- Label for Expedia +blue rewards program name -->
     <string name="Expedia_plus_blue">Expedia +bleu</string>
+    <!-- Label for Expedia +blue rewards tier without brand name -->
+    <string name="plus_blue">+blue</string>
     <!-- Label for Expedia +silver rewards program name -->
     <string name="Expedia_plus_silver">Expedia +argent</string>
+    <!-- Label for Expedia +silver rewards tier without brand name-->
+    <string name="plus_silver">+silver</string>
     <!-- Label for Expedia +gold rewards program name -->
     <string name="Expedia_plus_gold">Expedia +or</string>
+    <!-- Label for Expedia +gold rewards tier without brand name -->
+    <string name="plus_gold">+gold</string>
     <!-- Label for loading user profile from Expedia -->
     <string name="loading_brand_account_TEMPLATE">Chargement du compte {brand}</string>
     <!-- Label for coupon code area of booking form -->
@@ -3097,6 +3141,14 @@
     <string name="website_TEMPLATE">Site Web {brand}</string>
     <!-- Label for "app support" button in info page -->
     <string name="app_support">Soutien pour l\&apos;application</string>
+    <!-- Section label for app settings functionality -->
+    <string name="about_section_app_settings">Paramètres de l\&apos;application</string>
+    <!-- Section label for user support functionality -->
+    <string name="about_section_support">Soutien</string>
+    <!-- Section label for communication options that are not related to user support -->
+    <string name="about_section_communicate">Communiquez</string>
+    <!-- Label for button that takes the user to screen to rate the app on the app store -->
+    <string name="rate_our_app">Évaluez notre application!</string>
     <!-- Label for link to terms and conditions -->
     <string name="info_label_terms_conditions">Conditions générales</string>
     <!-- Label for link to terms of use -->
@@ -3105,24 +3157,16 @@
     <string name="info_label_privacy_policy">Politique de confidentialité</string>
     <!-- Copyright information -->
     <string name="copyright_TEMPLATE">© {brand}, Inc., 2012-{year}. \nTous droits réservés.</string>
-    <!-- Dialog Title telling the user they have been signed of their account and all data saved about them has been removed -->
-    <string name="dialog_title_signed_out_and_cleared_private_data">Session fermée et données effacées</string>
-    <!-- Dialog Message telling the user they have been signed of their account and all data saved about them has been removed -->
-    <string name="dialog_message_signed_out_and_cleared_private_data_TEMPLATE">La session à votre compte {brand} a été fermée et toute l\&apos;information de facturation et les coordonnées ont été supprimées.</string>
-    <!-- Dialog Title telling the user they have been signed of their account and all data saved about them has been removed -->
-    <string name="dialog_title_cleared_private_data">Données confidentielles effacées</string>
-    <!-- Dialog Message telling the user they have been signed of their account and all data saved about them has been removed -->
-    <string name="dialog_message_cleared_private_data">Tous les renseignements personnels et de facturation seront supprimés.</string>
-    <!-- Action button label to follow on twitter -->
-    <string name="Follow">Suivre</string>
-    <!-- Action button label to like on facebook -->
-    <string name="Like">J\&apos;aime</string>
     <!-- Credit to the author of the "Stack Blur" algorithm we use in our app -->
     <string name="stack_blur_credit">Cette application a recours à l\&apos;algorithme Stack Blur de Mario Klingemann.</string>
     <!-- String where we link to the google play services open source licenses -->
     <string name="open_source_software_licenses">Licences des logiciels de source libre</string>
     <!-- String for acrediting the open source libraries we use -->
     <string name="this_app_makes_use_of_the_following">Cette application a recours aux bibliothèques de source libre suivantes :</string>
+    <!-- Label for a field containing the number of points that the user has accrued under the loyalty program (e.g. Expedia+) -->
+    <string name="available_loyalty_points">Points disponibles</string>
+    <!-- String for showing the number of pending points that the user will accrue under the loyalty program (e.g. Expedia+); parameter is the number of points (e.g. "7,253 pending") -->
+    <string name="loyalty_points_pending">%1$s en attente</string>
 
     <!-- App support WebView -->
     <!-- menu -->
@@ -3135,8 +3179,6 @@
     <string name="email_address">Adresse courriel</string>
 
     <!-- Preferences -->
-    <!-- Category name for general preferences -->
-    <string name="preference_category_general">Général</string>
     <!-- Title for point of sale setting -->
     <string name="preference_point_of_sale_title">Pays</string>
 
@@ -3209,8 +3251,6 @@
     <!-- Menu strings -->
     <!-- Label for "settings" menu item. -->
     <string name="Settings">Paramètres</string>
-    <!-- Label for "info about this app" menu item. -->
-    <string name="Info">Info</string>
 
     <!-- Error strings - replacements for default EAN errors -->
     <!-- Replaces "result was null" for no result search -->
@@ -3798,9 +3838,7 @@
     <!-- Car and LX checkout legal text eg: I have read and accept the Rules and Restrictions, the Terms & Conditions and Privacy Policy-->
     <string name="legal_TEMPLATE">En choisissant d\&apos;effectuer cette réservation, je reconnais que j\&apos;ai lu et que j\&apos;accepte les %1$s, les %2$s et la %3$s.</string>
     <!-- Account creation legal template text eg: I have read and agree to the Terms of Use and the Privacy Policy. By joining Expedia+, I accept all Terms and Conditions -->
-    <string name="account_creation_legal_TEMPLATE">J\&apos;ai lu et j\&apos;accepte les {terms_of_use} et la {privacy_policy}. En m\&apos;inscrivant à {brand}+, j\&apos;accepte toutes les {terms_and_conditions}.</string>
-    <!-- Account creation legal template text excluding reward points eg: I have read and agree to the Terms of Use and the Privacy Policy. -->
-    <string name="account_creation_legal_excluding_rewards_TEMPLATE">J\&apos;ai lu et j\&apos;accepte les {terms_of_use} et la {privacy_policy}.</string>
+    <string name="account_creation_legal_TEMPLATE">J\&apos;ai lu et j\&apos;accepte les %1$s et la %2$s. En m\&apos;inscrivant à {brand}+, j\&apos;accepte toutes les %3$s.</string>
 
     <!-- Used in hotel search for specifying traveler -->
     <string name="child_age_label">Sélectionnez l\&apos;âge de chaque enfant</string>
@@ -3840,8 +3878,6 @@
     <string name="package_toolbar_title">Hôtel + Vol</string>
     <!-- Label for per person -->
     <string name="per_person">par personne</string>
-    <!-- Label for package search toolbar -->
-    <string name="bundle_overview_title">Aperçu de l\&apos;offre groupée</string>
     <!-- Label for package bundle price on overview-->
     <string name="bundle_total_text">Total de l\&apos;offre groupée</string>
     <!-- Label for package bundle price on search-->
@@ -3858,6 +3894,8 @@
     <string name="package_price_include_flights">Le prix comprend l\&apos;hôtel et les vols</string>
     <!-- Package hotel map cell: Price Includes Taxes and Fees -->
     <string name="package_price_includes_taxes_fees">Le prix comprend les taxes, les frais, les vols et l\&apos;hôtel, par personne</string>
+    <!-- Flight time and number of travelers template. e.g. "Sep 24, 2 Travelers" -->
+    <string name="flight_time_traveler_TEMPLATE">%1$s, %2$s</string>
     <!-- Title for travel info in flight card. e.g. "Sep 24 at 6:30am, 2 Travelers" -->
     <string name="package_overview_flight_travel_info_TEMPLATE">%1$s à %2$s, %3$s</string>
     <!-- Template for package bundle total savings amount -->
@@ -3866,6 +3904,20 @@
     <string name="select_hotel_template">Sélectionner un hôtel à %s</string>
     <!-- Bundle Overview searching flight -->
     <string name="searching_flight_to">Recherche de vol vers %s</string>
+    <!-- Package All Flight label -->
+    <string name="all_flights_label">Tous les vols</string>
+    <!-- Package Best Flight title -->
+    <string name="best_flight_title">Les meilleurs vols</string>
+    <!-- Package Best Flight description -->
+    <string name="best_flight_description">bon marché • court • départ populaire</string>
+
+    <!-- Package Filters Strings -->
+    <plurals name="flight_filter_stops">
+        <item quantity="zero">Sans escale</item>
+        <item quantity="one">1 escale</item>
+        <item quantity="two">2 escales ou plus</item>
+        <item quantity="other">2 escales ou plus</item>
+    </plurals>
 
     <!-- Flight duration template e.g. 1d 12h 42m (Nonstop) -->
     <string name="flight_duration_description_template">%1$s (%2$s)</string>
@@ -3898,26 +3950,52 @@
     <!-- Label for flights on checkout overview of Packages -->
     <string name="flight_checkout_overview_TEMPLATE">Vols – {origin} vers {destination}, aller-retour</string>
     <!-- Label for hotel on checkout overview of Packages -->
-    <string name="hotel_checkout_overview_TEMPLATE">Hôtel à {city} – {rooms} chambre, {nights} nuits</string>
-    <!-- Package Trip Overview -->
-    <string name="trip_overview">Aperçu du voyage</string>
+    <plurals name="hotel_checkout_overview_TEMPLATE">
+        <item quantity="one">Hôtel à {city} – 1 chambre, {number} nuit</item>
+        <item quantity="other">Hôtel à {city} – 1 chambre, {number} nuits</item>
+    </plurals>
+
+    <!-- Text indicating that the user can drag this button to view their trip -->
+    <string name="trip_overview">Afficher les détails du voyage</string>
     <!-- Slide to book -->
     <string name="package_slider_text">Glisser pour réserver</string>
-    <string name="hotel_city_country_checkout_header_TEMPLATE">{city}, {country}</string>
+    <string name="hotel_city_country_TEMPLATE">{city}, {country}</string>
+    <!-- Confirmation Text indicating rewards points user got for the booked package -->
+    <string name="package_confirmation_reward_points">{rewardpoints} points {brand}+</string>
 
+    <!-- Flight Duration filter label-->
+    <string name="flight_duration_label">Durée du vol</string>
+    <string name="flight_duration_hour_short">h</string>
+    <!-- Departure Time Range filter label-->
+    <string name="departure_time_range">Heure de départ</string>
+    <!-- Arrival Time Range filter label-->
+    <string name="arrival_time_range">Heure d\&apos;arrivée</string>
+
+    <!-- Package Change hotel description -->
+    <string name="package_change_hotel">Changer l\&apos;hôtel</string>
+    <!-- Package Change hotel room description -->
+    <string name="package_change_hotel_room">Changer la chambre</string>
+    <!-- Package Change flight description -->
+    <string name="package_change_flight">Changer les vols</string>
 
     <!-- Pay with points widget -->
-    <string name="paying_with_points">Paiement à l\&apos;aide de points</string>
-    <string name="pay_with_point_total_available_TEMPLATE">{money} ({points} points) disponibles</string>
+    <string name="paying_with_expedia_points">Payer à l\&apos;aide de points Expedia+</string>
+    <string name="pay_with_expedia_points">Payez à l\&apos;aide de points Expedia+</string>
+    <string name="pay_with_point_total_available_TEMPLATE">{money} disponibles ({points} points Expedia+)</string>
     <string name="user_enters_more_than_available_points_TEMPLATE">La valeur des points dépasse votre solde disponible.\nVeuillez entrer un nombre égal ou inférieur à {money}.</string>
     <string name="user_enters_more_than_trip">La valeur des points ne doit pas dépasser le montant à payer.</string>
     <string name="pwp_calculating_points">Calcul des points…</string>
-    <string name="pwp_points_applied_TEMPLATE">{points} points utilisés</string>
-    <string name="pwp_remaining_balance_due_on_card_TEMPLATE">Solde restant à payer : {money}</string>
-    <string name="pwp_total_due_today_TEMPLATE">Montant dû aujourd\&apos;hui : {money}</string>
+    <plurals name="pwp_points_applied_TEMPLATE">
+        <item quantity="one">{points} point utilisé</item>
+        <item quantity="other">{points} points utilisés</item>
+    </plurals>
+
+    <string name="pwp_remaining_balance_due_on_card_TEMPLATE">Solde restant à payer :</string>
+    <string name="pwp_total_due_today_TEMPLATE">Montant dû aujourd\&apos;hui :</string>
 
     <!-- Package Flight Overview -->
     <string name="package_flight_overview_urgency_message_TEMPLATE">{seats} sièges restants</string>
+    <string name="package_flight_overview_baggage_fees">Renseignements sur les frais de bagages</string>
     <string name="package_flight_overview_select_flight">Sélectionner ce vol</string>
     <string name="package_flight_overview_bundle_total_label">Total de l\&apos;offre groupée</string>
     <string name="package_flight_overview_per_person_TEMPLATE">{money} par personne</string>
@@ -3925,7 +4003,8 @@
     <string name="package_flight_overview_layover_in_TEMPLATE">Escale à ({airportcode}) {city}</string>
     <string name="package_flight_overview_airline_airplane_TEMPLATE">{carrier} {flightnumber} – {airplanetype}</string>
     <string name="package_flight_overview_total_duration_TEMPLATE">Durée totale : {duration}</string>
-
+    <!-- Itinerary summary text- Itinerary number sent to the user email -->
+    <string name="package_itinerary_confirmation_TEMPLATE">N° {itinerary} envoyé à {email}</string>
     <!--Rail search screen title-->
     <string name="trains">Trains</string>
 
@@ -3934,7 +4013,24 @@
     <string name="pwp_unknown_error">Une erreur inconnue s\&apos;est produite. Veuillez réessayer.</string>
 
     <!-- New Hotel Search screen -->
-    <string name="select_traveler_title">Sélectionnez un voyageur</string>
     <string name="enter_destination_hint">Entrez la destination</string>
 
+    <!-- Package breakdown dialog -->
+    <string name="package_breakdown_hotel_flight_summary">Hôtel + Vols</string>
+    <string name="package_breakdown_taxes_fees">Taxes et frais</string>
+    <string name="package_breakdown_taxes_fees_included_TEMPLATE">Taxes et frais compris ({taxes})</string>
+    <string name="package_breakdown_total_savings">Économies totales</string>
+
+    <!-- Shop with points -->
+    <string name="regular_loyalty_applied_message">Points Expedia+ utilisés!</string>
+    <string name="vip_loyalty_applied_message">Le double des points utilisés!</string>
+    <!-- String to be appended with +VIP in header of room rates. -->
+    <string name="vip_loyalty_applied_header_message">Le double des points Expedia+ ont été utilisés!</string>
+
+    <!-- Message telling you on confirmation screen where you've booked a package to -->
+    <string name="yay_going_somewhere">Vous allez à</string>
+    <!-- Cars cross-sell message on package confirmation -->
+    <string name="rental_car_message">Besoin d\&apos;une voiture de location?</string>
+    <!-- Cars cross-sell message description on package confirmation -->
+    <string name="rental_car_message_desc">Recherchez des voitures et économisez</string>
 </resources>

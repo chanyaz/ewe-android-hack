@@ -1,9 +1,9 @@
 package com.expedia.bookings.test
 
 import android.app.Activity
+import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.hotels.HotelOffersResponse
 import com.expedia.bookings.data.hotels.HotelSearchParams
-import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.interceptors.MockInterceptor
 import com.expedia.bookings.services.HotelServices
 import com.expedia.bookings.test.robolectric.RobolectricRunner
@@ -27,8 +27,8 @@ import kotlin.properties.Delegates
 import kotlin.test.assertEquals
 
 @RunWith(RobolectricRunner::class)
-public class HotelValueAddsTest {
-    public var server: MockWebServer = MockWebServer()
+class HotelValueAddsTest {
+    var server: MockWebServer = MockWebServer()
         @Rule get
 
     private var service: HotelServices by Delegates.notNull()
@@ -47,7 +47,9 @@ public class HotelValueAddsTest {
         server.setDispatcher(ExpediaDispatcher(opener))
         val observer = TestSubscriber<HotelOffersResponse>()
         val dtf = DateTimeFormat.forPattern("yyyy-MM-dd")
-        val hotelSearchParams = HotelSearchParams(SuggestionV4(), dtf.parseLocalDate("2015-09-12"), dtf.parseLocalDate("2015-09-16"), 3, emptyList())
+        val suggestion = SuggestionV4()
+        suggestion.coordinates = SuggestionV4.LatLng()
+        val hotelSearchParams = HotelSearchParams.Builder(0).suggestion(suggestion).checkIn(dtf.parseLocalDate("2015-09-12")).checkOut(dtf.parseLocalDate("2015-09-16")).adults(3).children(emptyList()).build()
         vm.paramsSubject.onNext(hotelSearchParams)
         service.offers(hotelSearchParams, "happypath", observer)
         return observer

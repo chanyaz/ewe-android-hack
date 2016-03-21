@@ -3,16 +3,19 @@ package com.expedia.bookings.test.phone.pagemodels.common;
 import java.util.concurrent.TimeUnit;
 
 import org.hamcrest.Matcher;
+import org.hamcrest.Matchers;
 
 import android.support.test.espresso.Espresso;
 import android.support.test.espresso.ViewInteraction;
 import android.view.View;
+import android.widget.ImageButton;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.test.espresso.Common;
 import com.expedia.bookings.test.espresso.CustomMatchers;
 import com.expedia.bookings.test.espresso.SpoonScreenshotUtils;
 import com.expedia.bookings.test.espresso.ViewActions;
+import com.expedia.bookings.widget.CheckoutToolbar;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
@@ -20,7 +23,9 @@ import static android.support.test.espresso.action.ViewActions.closeSoftKeyboard
 import static android.support.test.espresso.action.ViewActions.scrollTo;
 import static android.support.test.espresso.action.ViewActions.typeText;
 import static android.support.test.espresso.matcher.RootMatchers.withDecorView;
+import static android.support.test.espresso.matcher.ViewMatchers.isDescendantOfA;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
+import static android.support.test.espresso.matcher.ViewMatchers.withClassName;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withParent;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
@@ -104,7 +109,14 @@ public class CheckoutViewModel {
 	}
 
 	public static void pressClose() {
-		onView(withId(R.id.checkout_toolbar)).perform(ViewActions.getChildViewButton(0));
+		onView(toolBarMatcher()).perform(click());
+	}
+
+	public static Matcher<View> toolBarMatcher() {
+		return allOf(
+			withParent(withClassName(is(CheckoutToolbar.class.getName()))),
+			withClassName(is(ImageButton.class.getName()))
+		);
 	}
 
 	public static void clickStoredTravelerButton() {
@@ -122,21 +134,12 @@ public class CheckoutViewModel {
 
 	public static void clickStoredCardButton(boolean isHotelsPath) {
 		Espresso.closeSoftKeyboard();
-		if (isHotelsPath) {
-			onView(allOf(withParent(withId(R.id.payment_button_v2)), withId(R.id.select_payment_button)))
-				.perform(click());
-		}
-		else {
-			onView(withId(R.id.select_payment_button)).perform(click());
-		}
 	}
 
 	public static void selectStoredCard(String cardname) throws Throwable {
 		Espresso.closeSoftKeyboard();
-		onView(withText(cardname))
-			.inRoot(withDecorView(
-				not(is(SpoonScreenshotUtils.getCurrentActivity().getWindow().getDecorView()))))
-			.perform(click());
+		onView(Matchers.allOf(withId(R.id.text1), withText(cardname),
+			isDescendantOfA(withId(R.id.stored_card_list)))).perform(click());
 	}
 
 	public static ViewInteraction performSlideToPurchase() {
@@ -203,6 +206,17 @@ public class CheckoutViewModel {
 		CheckoutViewModel.clickPaymentInfo();
 		Common.delay(1);
 		enterPaymentDetails();
+		CheckoutViewModel.clickDone();
+		Common.delay(1);
+	}
+
+	public static void enterPaymentInfo(boolean defaultSelection) {
+		if (defaultSelection) {
+			return;
+		}
+		CheckoutViewModel.clickPaymentInfo();
+		Common.delay(1);
+		PaymentOptionsScreen.enterCardInfo();
 	}
 
 	public static void enterPaymentInfo(boolean defaultSelection) {
@@ -219,12 +233,23 @@ public class CheckoutViewModel {
 		CheckoutViewModel.clickPaymentInfo();
 		Common.delay(1);
 		enterPaymentDetails();
+		CheckoutViewModel.clickDone();
+		Common.delay(1);
+	}
+
+	public static ViewInteraction dialogOkayButton() {
+		Common.delay(1);
+		return onView(withId(android.R.id.button1));
+	}
+
+	public static ViewInteraction dialogCancelButton() {
+		Common.delay(1);
+		return onView(withId(android.R.id.button2));
 	}
 
 	public static void selectStoredCard(boolean isHotelsPath) throws Throwable {
 		clickPaymentInfo();
-		clickStoredCardButton(isHotelsPath);
-		selectStoredCard("AmexTesting");
+		selectStoredCard("Saved AmexTesting");
 	}
 
 	public static void enterPaymentDetails() {

@@ -22,10 +22,12 @@ import com.expedia.account.graphics.ArrowXDrawable;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.LXState;
 import com.expedia.bookings.data.lx.ActivityDetailsResponse;
+import com.expedia.bookings.data.lx.LXActivity;
 import com.expedia.bookings.data.lx.LXSearchParams;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.presenter.Presenter;
-import com.expedia.bookings.services.LXServices;
+import com.expedia.bookings.services.LxServices;
+import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.ArrowXDrawableUtil;
 import com.expedia.bookings.utils.DateUtils;
 import com.expedia.bookings.utils.RetrofitUtils;
@@ -38,6 +40,8 @@ import rx.Observer;
 import rx.Subscription;
 
 public class LXDetailsPresenter extends Presenter {
+	private LXActivity lxActivity;
+
 	public LXDetailsPresenter(Context context, AttributeSet attrs) {
 		super(context, attrs);
 	}
@@ -79,7 +83,7 @@ public class LXDetailsPresenter extends Presenter {
 	private int searchTop;
 
 	@Inject
-	LXServices lxServices;
+	LxServices lxServices;
 
 	@Override
 	protected void onFinishInflate() {
@@ -147,9 +151,9 @@ public class LXDetailsPresenter extends Presenter {
 		}
 	};
 
-	@Subscribe
-	public void onActivitySelected(Events.LXActivitySelected event) {
-		showActivityDetails(event.lxActivity.id, event.lxActivity.title, lxState.searchParams.location,
+	public void onActivitySelected(LXActivity lxActivity) {
+		this.lxActivity = lxActivity;
+		showActivityDetails(lxActivity.id, lxActivity.title, lxState.searchParams.location,
 			lxState.searchParams.startDate, lxState.searchParams.endDate);
 	}
 
@@ -256,5 +260,13 @@ public class LXDetailsPresenter extends Presenter {
 		}
 		return super.back();
 	}
-}
 
+	public void setUserBucketedForRecommendationTest(boolean isUserBucketedForTest) {
+		details.setUserBucketedForRecommendationTest(isUserBucketedForTest);
+		OmnitureTracking.trackAppLXRecommendedActivitiesABTest();
+	}
+
+	public LXActivity getLxActivity() {
+		return lxActivity;
+	}
+}

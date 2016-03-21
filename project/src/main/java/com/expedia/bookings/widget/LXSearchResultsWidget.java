@@ -22,6 +22,8 @@ import butterknife.InjectView;
 
 public class LXSearchResultsWidget extends FrameLayout {
 
+	private boolean userBucketedForRTRTest;
+
 	public LXSearchResultsWidget(Context context, AttributeSet attrs) {
 		super(context, attrs);
 	}
@@ -79,6 +81,7 @@ public class LXSearchResultsWidget extends FrameLayout {
 		recyclerView.getLayoutManager().scrollToPosition(0);
 		errorScreen.setVisibility(View.GONE);
 		adapter.setItems(activities);
+		adapter.setUserBucketedForRTRTest(userBucketedForRTRTest);
 	}
 
 	@Subscribe
@@ -114,5 +117,9 @@ public class LXSearchResultsWidget extends FrameLayout {
 
 	public RecyclerView getRecyclerView() {
 		return recyclerView;
+	}
+
+	public void setUserBucketedForRTRTest(boolean userBucketedForRTRTest) {
+		this.userBucketedForRTRTest = userBucketedForRTRTest;
 	}
 }

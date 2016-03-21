@@ -11,7 +11,7 @@ import org.junit.Rule
 import org.junit.Test
 
 class HotelCreateTripPayWithPointsTest {
-    public var mockHotelServiceTestRule: MockHotelServiceTestRule = MockHotelServiceTestRule()
+    var mockHotelServiceTestRule: MockHotelServiceTestRule = MockHotelServiceTestRule()
         @Rule get
 
     @Test

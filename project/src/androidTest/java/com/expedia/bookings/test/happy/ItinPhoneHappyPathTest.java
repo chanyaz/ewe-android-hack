@@ -6,6 +6,7 @@ import org.joda.time.DateTimeZone;
 import android.support.test.espresso.DataInteraction;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.test.espresso.Common;
 import com.expedia.bookings.test.espresso.PhoneTestCase;
 import com.expedia.bookings.test.phone.pagemodels.common.LaunchScreen;
 import com.expedia.bookings.test.phone.pagemodels.common.LogInScreen;
@@ -81,6 +82,11 @@ public class ItinPhoneHappyPathTest extends PhoneTestCase {
 		assertViewWithTextIsDisplayed("Airline Confirmation");
 		assertViewWithTextIsDisplayed("1102138068718");
 		assertViewWithTextIsDisplayed("Directions");
+		onView(withText("Reload Flight Info")).perform(scrollTo());
+		onView(withId(R.id.booking_info)).perform(click());
+		assertViewWithTextIsDisplayed("Additional Information");
+		Common.pressBack();
+
 		outboundFlightRow.onChildView(withId(R.id.flight_status_bottom_line)).perform(scrollTo(), click());
 
 		// Air attach assertions
@@ -141,6 +147,10 @@ public class ItinPhoneHappyPathTest extends PhoneTestCase {
 		assertViewWithTextIsDisplayed("Airline Confirmation");
 		assertViewWithTextIsDisplayed("11590764196");
 		assertViewWithTextIsDisplayed("Directions");
+		onView(withText("Reload Flight Info")).perform(scrollTo());
+		onView(withId(R.id.booking_info)).perform(click());
+		assertViewWithTextIsDisplayed("Additional Information");
+		Common.pressBack();
 		pckgOutboundFlightRow.onChildView(withText(pckgOutboundFlightAirportTimeStr)).perform(scrollTo(), click());
 
 		// Package hotel assertions
@@ -179,25 +189,25 @@ public class ItinPhoneHappyPathTest extends PhoneTestCase {
 
 	private boolean checkOutboundFlightArrivalAtStandardOffset() {
 		DateTime startOfTodayEastern = DateTime.now().withZone(DateTimeZone.forID("America/New_York")).withTimeAtStartOfDay();
-		DateTime outboundFlightArrival = startOfTodayEastern.plusDays(14).plusHours(18).plusMinutes(4);
+		DateTime outboundFlightArrival = startOfTodayEastern.plusDays(14).withHourOfDay(18).withMinuteOfHour(4);
 		return DateTimeZone.forID("America/New_York").isStandardOffset(outboundFlightArrival.getMillis());
 	}
 
 	private boolean checkOutboundFlightDepartureAtStandardOffset() {
 		DateTime startOfTodayPacific = DateTime.now().withZone(DateTimeZone.forID("America/Los_Angeles")).withTimeAtStartOfDay();
-		DateTime outboundFlightDeparture = startOfTodayPacific.plusDays(14).plusHours(11).plusMinutes(32);
+		DateTime outboundFlightDeparture = startOfTodayPacific.plusDays(14).withHourOfDay(11).withMinuteOfHour(32);
 		return DateTimeZone.forID("America/Los_Angeles").isStandardOffset(outboundFlightDeparture.getMillis());
 	}
 
 	private boolean checkPackageOutboundFlightArrivalAtStandardOffset() {
 		DateTime startOfTodayPacific = DateTime.now().withZone(DateTimeZone.forID("America/Los_Angeles")).withTimeAtStartOfDay();
-		DateTime outboundFlightArrival = startOfTodayPacific.plusDays(35).plusHours(4);
+		DateTime outboundFlightArrival = startOfTodayPacific.plusDays(35).withHourOfDay(4);
 		return DateTimeZone.forID("America/Los_Angeles").isStandardOffset(outboundFlightArrival.getMillis());
 	}
 
 	private boolean checkPackageOutboundFlightDepartureAtStandardOffset() {
 		DateTime startOfTodayPacific = DateTime.now().withZone(DateTimeZone.forID("America/Los_Angeles")).withTimeAtStartOfDay();
-		DateTime outboundFlightArrival = startOfTodayPacific.plusDays(35).plusHours(6).plusMinutes(4);
+		DateTime outboundFlightArrival = startOfTodayPacific.plusDays(35).withHourOfDay(6).withMinuteOfHour(4);
 		return DateTimeZone.forID("America/Los_Angeles").isStandardOffset(outboundFlightArrival.getMillis());
 	}
 }

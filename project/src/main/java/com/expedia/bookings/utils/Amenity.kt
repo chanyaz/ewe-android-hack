@@ -77,7 +77,7 @@ enum class Amenity(val preference: Int, val resId: Int, val strId: Int) {
 
         }
 
-        public fun amenitiesToShow(list: List<HotelOffersResponse.HotelAmenities>): List<Amenity> {
+        fun amenitiesToShow(list: List<HotelOffersResponse.HotelAmenities>): List<Amenity> {
 
             var amenityTreeSet = TreeSet<Amenity>(AmenityComparator())
 

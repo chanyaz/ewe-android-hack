@@ -1,5 +1,7 @@
 package com.expedia.bookings.widget;
 
+import java.util.Locale;
+
 import android.content.Context;
 import android.os.Bundle;
 import android.os.Parcelable;
@@ -220,14 +222,14 @@ public class ExpirationPicker extends LinearLayout {
 	}
 
 	private void updateMonth() {
-		mMonthTv.setText(String.format(sMonthFormatString, mCurrentMonth));
+		mMonthTv.setText(String.format(Locale.getDefault(), sMonthFormatString, mCurrentMonth));
 		if (mListener != null) {
 			mListener.onMonthChange(mCurrentMonth);
 		}
 	}
 
 	private void updateYear() {
-		mYearTv.setText(String.format(sYearFormatString, mCurrentYear));
+		mYearTv.setText(String.format(Locale.getDefault(), sYearFormatString, mCurrentYear));
 		if (mListener != null) {
 			mListener.onYearChange(mCurrentYear);
 		}

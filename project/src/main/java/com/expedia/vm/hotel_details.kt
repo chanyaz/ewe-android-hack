@@ -52,6 +52,7 @@ import java.math.BigDecimal
 import java.util.ArrayList
 import java.util.Locale
 import kotlin.properties.Delegates
+import kotlin.text.startsWith
 
 class HotelMapViewModel(val context: Context, val selectARoomObserver: Observer<Unit>, val hotelSoldOut: Observable<Boolean>) {
     //Outputs for View
@@ -62,9 +63,8 @@ class HotelMapViewModel(val context: Context, val selectARoomObserver: Observer<
     private val price = BehaviorSubject.create<CharSequence>()
     val fromPrice = BehaviorSubject.create<CharSequence>("")
     val fromPriceVisibility = fromPrice.map { it != null && !it.equals("") }
-    val strikethroughPriceVisibility = Observable.combineLatest(fromPriceVisibility,
-            Observable.zip(strikethroughPrice, price, { strikethroughPrice, price -> strikethroughPrice.toString() != price.toString() }))
-    { fromPriceVisibile, priceAndStrikethroughPriceAreDifferent -> fromPriceVisibile && priceAndStrikethroughPriceAreDifferent }
+    val strikethroughPriceVisibility = Observable.combineLatest(fromPriceVisibility, strikethroughPrice)
+                                        {fromPriceVisible, strikethroughPrice -> fromPriceVisible && strikethroughPrice.isNotEmpty()}
     val hotelLatLng = BehaviorSubject.create<DoubleArray>()
     val resetCameraPosition = PublishSubject.create<Unit>()
     val selectARoomInvisibility = BehaviorSubject.create<Boolean>(false)
@@ -118,12 +118,13 @@ class HotelDetailViewModel(val context: Context, val hotelServices: HotelService
     override fun onGalleryItemScrolled(position: Int) {
         val havePhotoWithIndex = CollectionUtils.isNotEmpty(hotelOffersResponse.photos) && (position < hotelOffersResponse.photos.count())
         if (havePhotoWithIndex && hotelOffersResponse.photos[position].displayText != null)
-            galleryItemChangeObservable.onNext(Pair(position, hotelOffersResponse.photos.get(position).displayText))
+            galleryItemChangeObservable.onNext(Pair(position, hotelOffersResponse.photos[position].displayText))
         else
             galleryItemChangeObservable.onNext(Pair(position, ""))
 
     }
 
+    var subscriber: Subscription? = null
     private val allRoomsSoldOut = BehaviorSubject.create<Boolean>(false)
     private val noRoomsInOffersResponse = BehaviorSubject.create<Boolean>(false)
     val hotelSoldOut = BehaviorSubject.create<Boolean>(false)
@@ -191,6 +192,8 @@ class HotelDetailViewModel(val context: Context, val hotelServices: HotelService
     val discountPercentageObservable = BehaviorSubject.create<String>()
     val hasDiscountPercentageObservable = BehaviorSubject.create<Boolean>(false)
     val hasVipAccessObservable = BehaviorSubject.create<Boolean>(false)
+    val hasVipAccessLoyaltyObservable = BehaviorSubject.create<Boolean>(false)
+    val hasRegularLoyaltyPointsAppliedObservable = BehaviorSubject.create<Boolean>(false)
     val promoMessageObservable = BehaviorSubject.create<String>("")
     val strikeThroughPriceObservable = BehaviorSubject.create<CharSequence>()
     val galleryItemChangeObservable = BehaviorSubject.create<Pair<Int, String>>()
@@ -210,7 +213,7 @@ class HotelDetailViewModel(val context: Context, val hotelServices: HotelService
         var galleryUrls = ArrayList<HotelMedia>()
 
         if (Images.getHotelImages(hotelOffersResponse).isNotEmpty()) {
-            galleryUrls.addAll(Images.getHotelImages(hotelOffersResponse).toArrayList())
+            galleryUrls.addAll(Images.getHotelImages(hotelOffersResponse).toMutableList())
         } else {
             var placeHolder = HotelMedia()
             placeHolder.setIsPlaceholder(true)
@@ -244,7 +247,7 @@ class HotelDetailViewModel(val context: Context, val hotelServices: HotelService
             val rate = firstHotelRoomResponse.rateInfo.chargeableRateInfo
             onlyShowTotalPrice.onNext(rate.getUserPriceType() == HotelRate.UserPriceType.RATE_FOR_WHOLE_STAY_WITH_TAXES)
             pricePerNightObservable.onNext(Money(BigDecimal(rate.averageRate.toDouble()), rate.currencyCode).getFormattedMoney(Money.F_NO_DECIMAL))
-            hotelDetailsBundleTotalObservable.onNext(Pair(Money(BigDecimal(rate.priceToShowUsers.toDouble()), rate.currencyCode).getFormattedMoney(Money.F_NO_DECIMAL), ""))
+            hotelDetailsBundleTotalObservable.onNext(Pair(Money(BigDecimal(rate.packagePricePerPerson.toDouble()), rate.currencyCode).getFormattedMoney(Money.F_NO_DECIMAL), ""))
             totalPriceObservable.onNext(Money(BigDecimal(rate.totalPriceWithMandatoryFees.toDouble()), rate.currencyCode).getFormattedMoney(Money.F_NO_DECIMAL))
             discountPercentageBackgroundObservable.onNext(if (rate.isShowAirAttached()) R.drawable.air_attach_background else R.drawable.guest_rating_background)
         }
@@ -265,7 +268,10 @@ class HotelDetailViewModel(val context: Context, val hotelServices: HotelService
                 .put("discount", discountPercentage ?: 0).format().toString())
 
         hasDiscountPercentageObservable.onNext(!response.isPackage && chargeableRateInfo?.isDiscountTenPercentOrBetter ?: false)
-        hasVipAccessObservable.onNext(response.isVipAccess && PointOfSale.getPointOfSale().supportsVipAccess())
+        val isVipAccess = response.isVipAccess && PointOfSale.getPointOfSale().supportsVipAccess()
+        hasVipAccessObservable.onNext(isVipAccess)
+        hasVipAccessLoyaltyObservable.onNext(isVipAccess && response.doesAnyHotelRateOfAnyRoomHaveLoyaltyInfo)
+        hasRegularLoyaltyPointsAppliedObservable.onNext(!isVipAccess && response.doesAnyHotelRateOfAnyRoomHaveLoyaltyInfo)
         promoMessageObservable.onNext(getPromoText(firstHotelRoomResponse))
 
         val priceToShowUsers = chargeableRateInfo?.priceToShowUsers ?: 0f
@@ -293,8 +299,8 @@ class HotelDetailViewModel(val context: Context, val hotelServices: HotelService
 
     val bookByPhoneContainerClickObserver: Observer<Unit> = endlessObserver {
         val number = when (User.getLoggedInLoyaltyMembershipTier(context)) {
-            Traveler.LoyaltyMembershipTier.SILVER -> PointOfSale.getPointOfSale().getSupportPhoneNumberSilver()
-            Traveler.LoyaltyMembershipTier.GOLD -> PointOfSale.getPointOfSale().getSupportPhoneNumberGold()
+            Traveler.LoyaltyMembershipTier.SILVER -> PointOfSale.getPointOfSale().supportPhoneNumberSilver
+            Traveler.LoyaltyMembershipTier.GOLD -> PointOfSale.getPointOfSale().supportPhoneNumberGold
             else -> hotelOffersResponse.telesalesNumber
         }
         SocialUtils.call(context, number)
@@ -315,7 +321,7 @@ class HotelDetailViewModel(val context: Context, val hotelServices: HotelService
     }
 
     val resortFeeContainerClickObserver: Observer<Unit> = endlessObserver {
-        var renovationInfo = Pair<String, String>(context.getResources().getString(R.string.additional_fees),
+        var renovationInfo = Pair<String, String>(context.resources.getString(R.string.additional_fees),
                 hotelOffersResponse.hotelMandatoryFeesText?.content ?: "")
         hotelRenovationObservable.onNext(renovationInfo)
         HotelV2Tracking().trackHotelV2ResortFeeInfo()
@@ -333,10 +339,10 @@ class HotelDetailViewModel(val context: Context, val hotelServices: HotelService
 
     val payByPhoneContainerVisibility = Observable.combineLatest(showBookByPhoneObservable, hotelSoldOut) { showBookByPhoneObservable, hotelSoldOut -> showBookByPhoneObservable && !hotelSoldOut }
 
-    val hotelMessagingContainerVisibility = Observable.combineLatest(hasDiscountPercentageObservable, hasVipAccessObservable, promoMessageObservable, hotelSoldOut)
+    val hotelMessagingContainerVisibility = Observable.combineLatest(hasDiscountPercentageObservable, hasVipAccessObservable, promoMessageObservable, hotelSoldOut, hasRegularLoyaltyPointsAppliedObservable)
     {
-        hasDiscount, hasVipAccess, promoMessage, hotelSoldOut ->
-        (hasDiscount || hasVipAccess || Strings.isNotEmpty(promoMessage)) && !hotelSoldOut
+        hasDiscount, hasVipAccess, promoMessage, hotelSoldOut, hasRegularLoyaltyPointsApplied ->
+        (hasDiscount || hasVipAccess || Strings.isNotEmpty(promoMessage) || hasRegularLoyaltyPointsApplied) && !hotelSoldOut
     }
 
     val etpContainerVisibility = Observable.combineLatest(hasETPObservable, hotelSoldOut) { hasETPOffer, hotelSoldOut -> hasETPOffer && !hotelSoldOut }
@@ -366,11 +372,11 @@ class HotelDetailViewModel(val context: Context, val hotelServices: HotelService
 
         paramsSubject.subscribe { params ->
             if (params.forPackage) {
-                searchInfoObservable.onNext(Phrase.from(context, R.string.guests_with_rooms_TEMPLATE)
+                searchInfoObservable.onNext(Phrase.from(context, R.string.room_with_guests_TEMPLATE)
                         .put("guests", StrUtils.formatGuestString(context, params.guests()))
                         .format()
                         .toString())
-                val dates = context.getResources().getString(R.string.calendar_instructions_date_range_TEMPLATE,
+                val dates = context.resources.getString(R.string.calendar_instructions_date_range_TEMPLATE,
                         DateUtils.localDateToMMMd(params.checkIn), DateUtils.localDateToMMMd(params.checkOut))
                 searchDatesObservable.onNext(dates)
             } else {
@@ -387,6 +393,7 @@ class HotelDetailViewModel(val context: Context, val hotelServices: HotelService
         hotelOffersSubject.subscribe(offersObserver)
 
         hotelRoomRateViewModelsObservable.subscribe {
+            subscriber?.unsubscribe()
             val hotelRoomRateViewModels = hotelRoomRateViewModelsObservable.value
 
             if (hotelRoomRateViewModels == null || hotelRoomRateViewModels.isEmpty()) {
@@ -415,7 +422,7 @@ class HotelDetailViewModel(val context: Context, val hotelServices: HotelService
             val listOfObservables = listOfListOfRoomRateViewModels.map { listOfRoomRateViewModels -> Observable.combineLatest(listOfRoomRateViewModels.map { it.roomSoldOut }, { obj -> obj.all({ it -> it as Boolean }) }) }
             Observable.combineLatest(listOfObservables, { obj -> obj.all({ it -> it as Boolean }) }).distinctUntilChanged().subscribe(allRoomsSoldOut)
 
-            selectedRoomSoldOut.subscribe {
+            subscriber = selectedRoomSoldOut.subscribe {
                 for (hotelRoomRateViewModel in hotelRoomRateViewModels.drop(lastExpandedRowObservable.value)) {
                     if (!hotelRoomRateViewModel.roomSoldOut.value) {
                         hotelRoomRateViewModel.expandRoomObservable.onNext(false)
@@ -444,7 +451,7 @@ class HotelDetailViewModel(val context: Context, val hotelServices: HotelService
 
     }
 
-    public fun addViewsAfterTransition() {
+    fun addViewsAfterTransition() {
 
         if (hotelOffersResponse.hotelRoomResponse != null && hotelOffersResponse.hotelRoomResponse.isNotEmpty()) {
             uniqueValueAddForRooms = getValueAdd(hotelOffersResponse.hotelRoomResponse)
@@ -456,7 +463,7 @@ class HotelDetailViewModel(val context: Context, val hotelServices: HotelService
         //Set up entire text for hotel info
         if (hotelOffersResponse.hotelOverviewText != null && hotelOffersResponse.hotelOverviewText.size > 1 ) {
             for (index in 1..hotelOffersResponse.hotelOverviewText.size - 1) {
-                listHotelInfo.add(hotelOffersResponse.hotelOverviewText.get(index))
+                listHotelInfo.add(hotelOffersResponse.hotelOverviewText[index])
             }
         }
 
@@ -492,7 +499,7 @@ class HotelDetailViewModel(val context: Context, val hotelServices: HotelService
                 if (!allValueAdds.isEmpty()) {
                     val commonValueAdds: List<String> = allValueAdds
                             .drop(1)
-                            .fold(allValueAdds.first().toArrayList(), { initial, nextValueAdds ->
+                            .fold(allValueAdds.first().toMutableList(), { initial, nextValueAdds ->
                                 initial.retainAll(nextValueAdds)
                                 initial
                             })
@@ -510,7 +517,7 @@ class HotelDetailViewModel(val context: Context, val hotelServices: HotelService
         val hasETPOffer = hasEtpOffer(hotelOffersResponse)
         if (hasETPOffer) {
             etpOffersList = hotelOffersResponse.hotelRoomResponse
-                    .filter { it.payLaterOffer != null }.toArrayList()
+                    .filter { it.payLaterOffer != null }.toCollection(ArrayList())
 
             etpUniqueValueAddForRooms = getValueAdd(etpOffersList)
         }
@@ -539,12 +546,12 @@ class HotelDetailViewModel(val context: Context, val hotelServices: HotelService
 
     //get list of unique amenity for hotel room offers
     //we display this unique amenity offered in the expanded room view
-    public fun getValueAdd(hotelRooms: List<HotelOffersResponse.HotelRoomResponse>?): List<String> {
+    fun getValueAdd(hotelRooms: List<HotelOffersResponse.HotelRoomResponse>?): List<String> {
         if (CollectionUtils.isEmpty(hotelRooms)) {
             return emptyList()
         }
 
-        var list = Array(hotelRooms!!.size, { i -> "" }).toArrayList()
+        var list = Array(hotelRooms!!.size, { i -> "" }).toMutableList()
         for (iRoom in 0..hotelRooms.size - 1) {
             val rate = hotelOffersResponse.hotelRoomResponse.get(iRoom)
             if (rate.valueAdds != null) {
@@ -601,7 +608,7 @@ class HotelDetailViewModel(val context: Context, val hotelServices: HotelService
 
 val ROOMS_LEFT_CUTOFF = 5
 
-public class HotelRoomRateViewModel(val context: Context, var hotelId: String, var hotelRoomResponse: HotelOffersResponse.HotelRoomResponse, var amenity: String, var rowIndex: Int, var rowExpanding: PublishSubject<Int>, var selectedRoomObserver: Observer<HotelOffersResponse.HotelRoomResponse>, val hasETP: Boolean) {
+class HotelRoomRateViewModel(val context: Context, var hotelId: String, var hotelRoomResponse: HotelOffersResponse.HotelRoomResponse, var amenity: String, var rowIndex: Int, var rowExpanding: PublishSubject<Int>, var selectedRoomObserver: Observer<HotelOffersResponse.HotelRoomResponse>, val hasETP: Boolean) {
 
     var lastRoomSelectedSubscription: Subscription? = null
 
@@ -669,10 +676,17 @@ public class HotelRoomRateViewModel(val context: Context, var hotelId: String, v
         }
     }
 
-    fun makePriceToShowCustomer(): String {
+    fun makePayLaterPriceToShow(): String {
         val sb = StringBuilder(dailyPrice.formattedMoney)
         if (!onlyShowTotalPrice.value) sb.append(context.resources.getString(R.string.per_night))
         return sb.toString()
+    }
+
+    fun makePayNowPriceToShow(): String {
+        if (hotelRoomResponse.isPackage && dailyPrice.amount.compareTo(BigDecimal.ZERO) >= 0) {
+            return "+" + dailyPrice.formattedMoney
+        }
+        return dailyPrice.formattedMoney
     }
 
     // TODO: We could have an observable for hotelRoomResponse here and do all this when we get a new one
@@ -724,12 +738,12 @@ public class HotelRoomRateViewModel(val context: Context, var hotelId: String, v
                 val payLaterText = Phrase.from(context, R.string.room_rate_pay_later_due_now).put("amount", depositAmountMoney.formattedMoney).format().toString()
                 dailyPricePerNightObservable.onNext(payLaterText)
             } else {
-                dailyPricePerNightObservable.onNext(makePriceToShowCustomer())
+                dailyPricePerNightObservable.onNext(makePayLaterPriceToShow())
             }
-            strikeThroughPriceObservable.onNext(makePriceToShowCustomer())
+            strikeThroughPriceObservable.onNext(makePayLaterPriceToShow())
         } else {
             perNightPriceVisibleObservable.onNext(true)
-            dailyPricePerNightObservable.onNext(dailyPrice.formattedMoney)
+            dailyPricePerNightObservable.onNext(makePayNowPriceToShow())
             depositTerms.onNext(null)
         }
 

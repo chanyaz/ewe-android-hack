@@ -20,7 +20,7 @@ import java.util.concurrent.TimeUnit
 import kotlin.test.assertEquals
 
 @RunWith(RobolectricRunner::class)
-public class HotelResultsViewModelTest {
+class HotelResultsViewModelTest {
 
     val context = RuntimeEnvironment.application
     val mockHotelServiceTestRule: MockHotelServiceTestRule = MockHotelServiceTestRule()
@@ -32,7 +32,7 @@ public class HotelResultsViewModelTest {
 
     @Before
     fun setup() {
-        sut = HotelResultsViewModel(context, mockHotelServiceTestRule.services!!, LineOfBusiness.HOTELSV2)
+        sut = HotelResultsViewModel(context, mockHotelServiceTestRule.services!!, LineOfBusiness.HOTELSV2, null)
     }
 
     @Test
@@ -64,7 +64,7 @@ public class HotelResultsViewModelTest {
 
     @Test
     fun errorResponseCallsErrorObservable() {
-        val paramsForErrorResp = makeParams("error_response", "")
+        val paramsForErrorResp = makeParams("mock_error", "")
         val testSubscriber = TestSubscriber<ApiError>()
         sut.errorObservable.subscribe(testSubscriber)
 

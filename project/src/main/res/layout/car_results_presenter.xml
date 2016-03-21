@@ -3,13 +3,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#EEEEEE">
+    android:background="@color/search_results_list_bg_gray">
 
 <com.expedia.bookings.widget.CarCategoryDetailsWidget
         android:id="@+id/details"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#eaeaea"
+        android:background="@color/search_results_list_bg_gray"
         android:visibility="invisible">
 
         <FrameLayout
@@ -29,7 +29,7 @@
                 android:id="@+id/cars_details_gradient"
                 android:layout_width="match_parent"
                 android:layout_height="120dp"
-                android:background="@drawable/cars_details_gradient_top" />
+                android:background="@drawable/cars_lx_details_gradient_top" />
         </FrameLayout>
 
         <android.support.v7.widget.RecyclerView
@@ -126,13 +126,13 @@
         android:id="@+id/filter"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#EFEFEF"
+        android:background="@color/search_results_list_bg_gray"
         android:visibility="invisible" />
 
     <com.expedia.bookings.widget.ErrorWidget
         android:id="@+id/search_error_widget"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#FFFFFF" />
+        android:background="@color/white" />
 
 </com.expedia.bookings.presenter.car.CarResultsPresenter>

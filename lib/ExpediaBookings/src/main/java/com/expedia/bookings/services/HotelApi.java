@@ -35,7 +35,8 @@ public interface HotelApi {
 		@Query("longitude") double lng,
 		@Query("checkInDate") String checkIn,
 		@Query("checkOutDate") String checkOut,
-		@Query("room1") String guestString);
+		@Query("room1") String guestString,
+		@Query("shopWithPoints") Boolean shopWithPoints);
 
 	@GET("/m/api/hotel/info")
 	Observable<HotelOffersResponse> info(
@@ -46,7 +47,8 @@ public interface HotelApi {
 		@Query("checkInDate") String checkInDate,
 		@Query("checkOutDate") String checkOutDate,
 		@Query("room1") String travelers,
-		@Query("hotelId") String propertyId);
+		@Query("hotelId") String propertyId,
+		@Query("shopWithPoints") Boolean shopWithPoints);
 
 	@FormUrlEncoded
 	@POST("/api/m/trip/coupon")

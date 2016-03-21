@@ -1,13 +1,12 @@
 package com.mobiata.mocke3
 
+import com.squareup.okhttp.mockwebserver.MockWebServer
 import java.io.File
 import java.net.InetAddress
 
-import com.squareup.okhttp.mockwebserver.MockWebServer
-
-public object RunMockWebServer {
+object RunMockWebServer {
 	@Throws(Throwable::class)
-	@JvmStatic public fun main(args: Array<String>) {
+	@JvmStatic fun main(args: Array<String>) {
 		val server = MockWebServer()
 
 		val root = File("../templates").canonicalPath

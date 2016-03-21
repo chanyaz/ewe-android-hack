@@ -14,17 +14,16 @@ import com.expedia.util.subscribeText
 import com.expedia.vm.RecentSearchViewModel
 import com.expedia.vm.RecentSearchesAdapterViewModel
 
-public class RecentSearchesAdapter(val viewmodel: RecentSearchesAdapterViewModel, val showHeader: Boolean) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class RecentSearchesAdapter(val viewmodel: RecentSearchesAdapterViewModel) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     val HEADER_VIEW = 0
     val RECENT_SEARCH_VIEW = 1
 
-
     override fun getItemCount(): Int {
-        return if (showHeader) viewmodel.recentSearches.size + 1 else viewmodel.recentSearches.size
+        return viewmodel.recentSearches.size + 1
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder? {
-        if (viewType == HEADER_VIEW && showHeader) {
+        if (viewType == HEADER_VIEW) {
             var view = LayoutInflater.from(parent.context).inflate(R.layout.recent_search_header, parent, false)
             return HeaderViewHolder(parent.context, view as ViewGroup)
         } else {
@@ -36,7 +35,7 @@ public class RecentSearchesAdapter(val viewmodel: RecentSearchesAdapterViewModel
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder?, position: Int) {
-        val index = if (showHeader) position - 1 else position
+        val index = position - 1
         when (holder) {
             is RecentSearchesViewHolder -> holder.vm.recentSearchObserver.onNext(viewmodel.recentSearches[index])
         }
@@ -63,7 +62,7 @@ public class RecentSearchesAdapter(val viewmodel: RecentSearchesAdapterViewModel
 
 }
 
-public class HeaderViewHolder(context: Context, view: ViewGroup) : RecyclerView.ViewHolder(view) {
+class HeaderViewHolder(context: Context, view: ViewGroup) : RecyclerView.ViewHolder(view) {
     val recentSearchesTitle: TextView by view.bindView(R.id.recent_searches_title)
 
     init {
@@ -74,7 +73,7 @@ public class HeaderViewHolder(context: Context, view: ViewGroup) : RecyclerView.
 }
 
 
-public class RecentSearchesViewHolder(val root: ViewGroup, val vm : RecentSearchViewModel) : RecyclerView.ViewHolder(root), View.OnClickListener {
+class RecentSearchesViewHolder(val root: ViewGroup, val vm : RecentSearchViewModel) : RecyclerView.ViewHolder(root), View.OnClickListener {
     val title: TextView by root.bindView(R.id.title_textview)
     val description: TextView by root.bindView(R.id.description)
 

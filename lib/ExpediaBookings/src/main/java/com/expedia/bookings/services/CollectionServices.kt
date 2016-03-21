@@ -14,7 +14,7 @@ import rx.Scheduler
 import rx.Subscription
 import kotlin.properties.Delegates
 
-public class CollectionServices(endpoint: String, okHttpClient: OkHttpClient, requestInterceptor: RequestInterceptor, val observeOn: Scheduler, val subscribeOn: Scheduler, logLevel: RestAdapter.LogLevel) {
+class CollectionServices(endpoint: String, okHttpClient: OkHttpClient, requestInterceptor: RequestInterceptor, val observeOn: Scheduler, val subscribeOn: Scheduler, logLevel: RestAdapter.LogLevel) {
 
     val collectionApi: CollectionApi by lazy {
         val gson = GsonBuilder().create()

@@ -17,7 +17,7 @@ class HotelReviewsViewModel(val context: Context) {
 
     var hotelObserver: Observer<HotelOffersResponse> = endlessObserver { hotel ->
         toolbarTitleObservable.onNext(hotel.hotelName)
-        toolbarSubtitleObservable.onNext(context.getResources().getString(R.string.n_reviews_TEMPLATE, HotelUtils.formattedReviewCount(hotel.totalReviews)))
+        toolbarSubtitleObservable.onNext(context.resources.getString(R.string.n_reviews_TEMPLATE, HotelUtils.formattedReviewCount(hotel.totalReviews)))
         hotelReviewsObservable.onNext(hotel.hotelId)
         HotelV2Tracking().trackHotelV2Reviews()
     }

@@ -1,34 +1,30 @@
 package com.expedia.bookings.test.robolectric
 
-import com.expedia.bookings.R
-import org.junit.runner.RunWith
-import android.app.Activity
 import com.expedia.bookings.data.Db
+import com.expedia.bookings.data.TripBucketItemHotelV2
 import com.expedia.bookings.data.hotels.HotelCreateTripResponse
 import com.expedia.bookings.data.payment.PaymentModel
 import com.expedia.bookings.services.LoyaltyServices
 import com.expedia.bookings.test.MockHotelServiceTestRule
-import com.expedia.bookings.test.ServicesRule
+import com.expedia.bookings.testrule.ServicesRule
 import com.expedia.vm.HotelCheckoutMainViewModel
-import org.robolectric.Robolectric
-import rx.observers.TestSubscriber
-import java.util.concurrent.CountDownLatch
-import kotlin.properties.Delegates
-import com.expedia.bookings.utils.Ui
 import org.junit.Before
-import org.junit.Test
-import com.expedia.bookings.data.TripBucketItemHotelV2
 import org.junit.Rule
+import org.junit.Test
+import org.junit.runner.RunWith
+import rx.observers.TestSubscriber
 import java.math.BigDecimal
+import java.util.concurrent.CountDownLatch
 import java.util.concurrent.TimeUnit
+import kotlin.properties.Delegates
 
 @RunWith(RobolectricRunner::class)
 class HotelCheckoutMainViewModelTest {
 
-    public var mockHotelServiceTestRule: MockHotelServiceTestRule = MockHotelServiceTestRule()
+    var mockHotelServiceTestRule: MockHotelServiceTestRule = MockHotelServiceTestRule()
         @Rule get
 
-    public var loyaltyServiceRule = ServicesRule<LoyaltyServices>(LoyaltyServices::class.java)
+    var loyaltyServiceRule = ServicesRule(LoyaltyServices::class.java)
         @Rule get
 
     private var paymentModel: PaymentModel<HotelCreateTripResponse> by Delegates.notNull()

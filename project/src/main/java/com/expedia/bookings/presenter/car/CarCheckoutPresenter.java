@@ -171,8 +171,8 @@ public class CarCheckoutPresenter extends Presenter {
 	private Transition checkoutToCvv = new VisibilityTransition(this, CarCheckoutWidget.class, CVVEntryWidget.class);
 	private Transition checkoutToError = new VisibilityTransition(this, CarCheckoutWidget.class, ErrorWidget.class) {
 		@Override
-		public void finalizeTransition(boolean forward) {
-			super.finalizeTransition(forward);
+		public void endTransition(boolean forward) {
+			super.endTransition(forward);
 			if (!forward) {
 				checkout.slideWidget.resetSlider();
 				checkout.checkoutFormWasUpdated();
@@ -182,7 +182,7 @@ public class CarCheckoutPresenter extends Presenter {
 	private Transition cvvToError = new VisibilityTransition(this, CVVEntryWidget.class, ErrorWidget.class);
 	private DefaultTransition defaultCheckoutTransition = new DefaultTransition(CarCheckoutWidget.class.getName()) {
 		@Override
-		public void finalizeTransition(boolean forward) {
+		public void endTransition(boolean forward) {
 			checkout.setVisibility(View.VISIBLE);
 			cvv.setVisibility(View.GONE);
 			errorScreen.setVisibility(View.GONE);
@@ -208,7 +208,7 @@ public class CarCheckoutPresenter extends Presenter {
 	public void showPaymentFailed(Events.CarsPaymentFailed event) {
 		show(checkout, FLAG_CLEAR_TOP);
 		checkout.slideWidget.resetSlider();
-		checkout.paymentInfoCardView.setExpanded(true, true);
+		checkout.paymentInfoCardView.getCardInfoContainer().performClick();
 	}
 
 	@Subscribe

@@ -14,12 +14,10 @@ import retrofit.RestAdapter
 import retrofit.client.OkClient
 import retrofit.converter.GsonConverter
 import rx.Observable
-import rx.Observer
 import rx.Scheduler
 import java.io.IOException
-import kotlin.properties.Delegates
 
-public class ReviewsServices(endPoint: String, client: OkHttpClient, requestInterceptor: RequestInterceptor, private val observeOn: Scheduler, private val subscribeOn: Scheduler, logLevel: RestAdapter.LogLevel) {
+class ReviewsServices(endPoint: String, client: OkHttpClient, requestInterceptor: RequestInterceptor, private val observeOn: Scheduler, private val subscribeOn: Scheduler, logLevel: RestAdapter.LogLevel) {
 
     val reviewsApi: ReviewsApi by lazy {
         val gson = GsonBuilder()
@@ -48,7 +46,7 @@ public class ReviewsServices(endPoint: String, client: OkHttpClient, requestInte
         adapter.create(ReviewsApi::class.java)
     }
 
-    public fun reviews(reviewsParams: HotelReviewsParams): Observable<HotelReviewsResponse> {
+    fun reviews(reviewsParams: HotelReviewsParams): Observable<HotelReviewsResponse> {
         return reviewsApi.hotelReviews(reviewsParams.hotelId, reviewsParams.sortBy, reviewsParams.pageNumber * reviewsParams.numReviewsPerPage, reviewsParams.numReviewsPerPage, reviewsParams.languageSort)
                 .observeOn(observeOn)
                 .subscribeOn(subscribeOn)

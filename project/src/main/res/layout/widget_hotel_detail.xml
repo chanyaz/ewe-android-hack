@@ -113,21 +113,53 @@
                             app:textStyle="normal" />
                     </LinearLayout>
 
-                    <com.expedia.bookings.widget.TextView
-                        android:id="@+id/vip_access_message"
+                    <LinearLayout
+                        android:id="@+id/vip_access_message_container"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:layout_alignParentRight="true"
                         android:background="?attr/vip_info_select_ripple_drawable"
+                        android:gravity="right"
+                        android:paddingBottom="13dp"
+                        android:paddingLeft="36dp"
+                        android:paddingRight="18dp"
+                        android:paddingTop="13dp">
+
+                        <com.expedia.bookings.widget.TextView
+                            android:id="@+id/vip_access_message"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/vip"
+                            android:textColor="#FFFFFF"
+                            android:textSize="11sp"
+                            app:textStyle="medium" />
+
+                        <com.expedia.bookings.widget.TextView
+                            android:id="@+id/vip_loyalty_message_details"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignBaseline="@id/vip_access_message"
+                            android:paddingLeft="2dp"
+                            android:text="@string/vip_loyalty_applied_message"
+                            android:textColor="#FFFFFF"
+                            android:textSize="9sp"
+                            app:textStyle="normal" />
+
+                    </LinearLayout>
+
+                    <com.expedia.bookings.widget.TextView
+                        android:id="@+id/regular_loyalty_applied"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_alignParentRight="true"
                         android:gravity="center_vertical|right"
                         android:paddingBottom="13dp"
                         android:paddingLeft="36dp"
                         android:paddingRight="18dp"
                         android:paddingTop="13dp"
-                        android:text="@string/vip"
+                        android:text="@string/regular_loyalty_applied_message"
                         android:textColor="#FFFFFF"
-                        android:textSize="11sp"
-                        app:textStyle="medium" />
+                        android:textSize="9sp" />
 
                 </RelativeLayout>
 
@@ -263,6 +295,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/price_widget"
+                    android:background="@color/search_results_list_bg_gray"
                     android:orientation="horizontal"
                     android:paddingBottom="22dp"
                     android:paddingLeft="18dp"
@@ -333,7 +366,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/rating_divider"
-                    android:background="#EEEEEE"
+                    android:background="@color/search_results_list_bg_gray"
                     android:orientation="horizontal"
                     android:visibility="gone">
 
@@ -448,7 +481,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/etp_and_free_cancellation_messaging_info_divider"
-                    android:background="#EEEEEE"
+                    android:background="@color/search_results_list_bg_gray"
                     android:fillViewport="true"
                     android:scrollbarSize="3dp">
 
@@ -504,26 +537,67 @@
                     android:layout_below="@+id/etp_placeholder"
                     android:background="@color/hotel_detail_divider" />
 
-                <com.expedia.bookings.widget.TextView
-                    android:id="@+id/common_amenities_text"
-                    android:layout_width="match_parent"
+                <LinearLayout
+                    android:id="@+id/room_rate_header"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:orientation="vertical"
                     android:layout_below="@+id/etp_divider"
                     android:layout_gravity="center_vertical"
-                    android:drawableLeft="@drawable/all_rooms_amenity_checkmark"
-                    android:drawablePadding="8dp"
                     android:paddingBottom="15dp"
                     android:paddingLeft="18dp"
                     android:paddingRight="18dp"
                     android:paddingTop="15dp"
-                    android:textSize="11sp"
-                    android:visibility="gone" />
+                    android:visibility="gone">
+
+                    <com.expedia.bookings.widget.TextView
+                        android:id="@+id/common_amenities_text"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:drawableLeft="@drawable/all_rooms_amenity_checkmark"
+                        android:drawablePadding="8dp"
+                        android:textSize="11sp"
+                        android:visibility="gone" />
+
+                    <com.expedia.bookings.widget.TextView
+                        android:id="@+id/room_rate_regular_loyalty_applied_text"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:drawableLeft="@drawable/all_rooms_amenity_checkmark"
+                        android:drawablePadding="8dp"
+                        android:text="@string/regular_loyalty_applied_message"
+                        android:textSize="11sp"
+                        android:visibility="gone" />
+
+                    <LinearLayout
+                        android:id="@+id/room_rate_vip_loyalty_applied_container"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:visibility="gone">
+
+                        <com.expedia.bookings.widget.TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/vip"
+                            android:textColor="@color/hotels_primary_color"
+                            android:textSize="11sp" />
+
+                        <com.expedia.bookings.widget.TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:paddingLeft="4dp"
+                            android:text="@string/vip_loyalty_applied_header_message"
+                            android:textSize="11sp" />
+                    </LinearLayout>
+
+                </LinearLayout>
 
                 <View
                     android:id="@+id/common_amenities_divider"
                     android:layout_width="match_parent"
                     android:layout_height="1px"
-                    android:layout_below="@+id/common_amenities_text"
+                    android:layout_below="@+id/room_rate_header"
                     android:background="@color/hotel_detail_divider"
                     android:visibility="gone" />
 
@@ -597,7 +671,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/map_click_container"
-                    android:background="#EEEEEE">
+                    android:background="@color/search_results_list_bg_gray">
 
                     <android.support.v7.widget.CardView
                         android:id="@+id/radius_pay_options"
@@ -607,7 +681,7 @@
                         android:layout_marginLeft="11dp"
                         android:layout_marginRight="11dp"
                         android:layout_marginTop="10dp"
-                        app:cardCornerRadius="3dp"
+                        app:cardCornerRadius="@dimen/cardview_border_radius"
                         app:cardElevation="1dp">
 
                         <LinearLayout
@@ -709,7 +783,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/book_by_phone_container"
-                    android:background="#EEEEEE" />
+                    android:background="@color/search_results_list_bg_gray" />
 
             </RelativeLayout>
 

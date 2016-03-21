@@ -45,24 +45,6 @@ public class PackagePaymentWidget extends PaymentWidget {
 	}
 
 	@Override
-	public boolean getMenuDoneButtonFocus() {
-		if (creditCardPostalCode != null) {
-			return creditCardPostalCode.hasFocus();
-		}
-		return false;
-	}
-
-	@Override
-	public String getActionBarTitle() {
-		if (paymentOptionsContainer.getVisibility() == VISIBLE) {
-			return super.getActionBarTitle();
-		}
-		else {
-			return getResources().getString(R.string.new_credit_debit_card);
-		}
-	}
-
-	@Override
 	public boolean isFilled() {
 		return super.isFilled()
 			|| !creditCardCvv.getText().toString().isEmpty()

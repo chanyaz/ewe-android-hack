@@ -16,6 +16,7 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.activity.FlightPaymentOptionsActivity.YoYoMode;
 import com.expedia.bookings.data.Codes;
 import com.expedia.bookings.data.Db;
+import com.expedia.bookings.data.FlightSearchParams;
 import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.data.User;
 import com.expedia.bookings.dialog.BirthDateInvalidDialog;
@@ -726,7 +727,8 @@ public class FlightTravelerInfoOptionsActivity extends FragmentActivity implemen
 	public void displayCheckout() {
 		//First we commit our traveler stuff...
 		// TODO consider background kill / resume scenario, this code crashes out because Db.getTravelers() is not valid
-		PassengerCategory passengerCategoryToSave = Db.getTravelers().get(mTravelerIndex).getPassengerCategory();
+		FlightSearchParams searchParams = Db.getTripBucket().getFlight().getFlightSearchParams();
+		PassengerCategory passengerCategoryToSave = Db.getTravelers().get(mTravelerIndex).getPassengerCategory(searchParams);
 		Traveler trav = Db.getWorkingTravelerManager().commitWorkingTravelerToDB(mTravelerIndex);
 		// If we're going back to checkout without the working traveler having a birthdate,
 		// we retain the previously set birthdate.

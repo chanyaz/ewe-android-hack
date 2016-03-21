@@ -10,7 +10,6 @@ import com.expedia.bookings.data.packages.PackageCreateTripResponse
 import com.expedia.bookings.data.packages.PackageOffersResponse
 import com.expedia.bookings.data.packages.PackageSearchParams
 import com.expedia.bookings.data.packages.PackageSearchResponse
-import com.expedia.bookings.utils.Constants
 import com.google.gson.GsonBuilder
 import com.squareup.okhttp.OkHttpClient
 import org.joda.time.DateTime
@@ -20,11 +19,10 @@ import retrofit.client.OkClient
 import retrofit.converter.GsonConverter
 import rx.Observable
 import rx.Scheduler
-import kotlin.collections.filter
-import kotlin.collections.find
-import kotlin.collections.forEach
+import java.text.NumberFormat
+import java.util.Currency
 
-public class PackageServices(endpoint: String, okHttpClient: OkHttpClient, requestInterceptor: RequestInterceptor, val observeOn: Scheduler, val subscribeOn: Scheduler, logLevel: RestAdapter.LogLevel) {
+class PackageServices(endpoint: String, okHttpClient: OkHttpClient, requestInterceptor: RequestInterceptor, val observeOn: Scheduler, val subscribeOn: Scheduler, logLevel: RestAdapter.LogLevel) {
 
 	val packageApi: PackageApi by lazy {
 		val gson = GsonBuilder()
@@ -44,10 +42,9 @@ public class PackageServices(endpoint: String, okHttpClient: OkHttpClient, reque
 		adapter.create(PackageApi::class.java)
 	}
 
-	public fun packageSearch(params: PackageSearchParams): Observable<PackageSearchResponse> {
-		return packageApi.packageSearch(params.origin.regionNames.shortName, params.destination.regionNames.shortName, params.origin.gaiaId, params.destination.gaiaId, params.origin.hierarchyInfo?.airport?.airportCode, params.destination.hierarchyInfo?.airport?.airportCode,
-				params.checkIn.toString(), params.checkOut.toString(), params.packagePIID, params.searchProduct, params.flightType, params.selectedLegId, Constants.PACKAGE_TRIP_TYPE)
-				.observeOn(observeOn)
+	fun packageSearch(params: PackageSearchParams): Observable<PackageSearchResponse> {
+		val nf = NumberFormat.getCurrencyInstance()
+		return packageApi.packageSearch(params.toQueryMap()).observeOn(observeOn)
 				.subscribeOn(subscribeOn)
 				.doOnNext { response ->
 					response.packageResult.hotelsPackage.hotels.forEach { hotel ->
@@ -55,9 +52,20 @@ public class PackageServices(endpoint: String, okHttpClient: OkHttpClient, reque
 							offer.hotel == hotel.hotelPid
 						}
 						val lowRateInfo = HotelRate()
-						lowRateInfo.strikethroughPriceToShowUsers = hotel.packageOfferModel.price.sumFlightAndHotel.amount.toFloat()
+						val currencyCode = hotel.packageOfferModel.price.pricePerPerson.currencyCode
+						val currency = Currency.getInstance(currencyCode)
+						if (currency != null) {
+							nf.currency = currency
+						}
+
+						val formattedPrice = hotel.packageOfferModel.price.flightPlusHotelPricePerPersonFormatted
+						var strikeThroughPrice = 0f
+						if (formattedPrice != null) {
+							try { strikeThroughPrice = nf.parse(formattedPrice).toFloat() } catch (ex: Exception) { }
+						}
+						lowRateInfo.strikethroughPriceToShowUsers = strikeThroughPrice
 						lowRateInfo.priceToShowUsers = hotel.packageOfferModel.price.pricePerPerson.amount.toFloat()
-						lowRateInfo.currencyCode = hotel.packageOfferModel.price.pricePerPerson.currencyCode
+						lowRateInfo.currencyCode = currencyCode
 						hotel.lowRateInfo = lowRateInfo
 					}
 					response.packageResult.flightsPackage.flights.forEach { flight ->
@@ -66,33 +74,37 @@ public class PackageServices(endpoint: String, okHttpClient: OkHttpClient, reque
 						}
 					}
 
-					val currentFlight = response.packageResult.flightsPackage.flights.find {
+					//get anchor flights (outbound and inbound) from currentSelectedOffer,
+					//which will show as "Best Flight" in flight list
+					val bestFlights = response.packageResult.flightsPackage.flights.filter {
 						it.flightPid == response.packageResult.currentSelectedOffer?.flight
 					}
-
-					currentFlight?.packageOfferModel = response.packageResult.currentSelectedOffer
+					bestFlights.forEach {
+						it.isBestFlight = true
+						it.packageOfferModel = response.packageResult.currentSelectedOffer
+					}
 				}
 	}
 
-	public fun hotelOffer(piid: String, checkInDate: String, checkOutDate: String): Observable<PackageOffersResponse> {
-		return packageApi.packageHotelOffers(piid, checkInDate, checkOutDate)
+	fun hotelOffer(piid: String, checkInDate: String, checkOutDate: String, ratePlanCode: String?, roomTypeCode: String?): Observable<PackageOffersResponse> {
+		return packageApi.packageHotelOffers(piid, checkInDate, checkOutDate, ratePlanCode, roomTypeCode)
 				.observeOn(observeOn)
 				.subscribeOn(subscribeOn)
 	}
 
-	public fun hotelInfo(hotelId: String): Observable<HotelOffersResponse> {
+	fun hotelInfo(hotelId: String): Observable<HotelOffersResponse> {
 		return packageApi.hotelInfo(hotelId)
 				.observeOn(observeOn)
 				.subscribeOn(subscribeOn)
 	}
 
-	public fun createTrip(body: PackageCreateTripParams): Observable<PackageCreateTripResponse> {
+	fun createTrip(body: PackageCreateTripParams): Observable<PackageCreateTripResponse> {
 		return packageApi.createTrip(body.toQueryMap())
 				.observeOn(observeOn)
 				.subscribeOn(subscribeOn)
 	}
 
-	public fun checkout(body: Map<String, Any>): Observable<PackageCheckoutResponse> {
+	fun checkout(body: Map<String, Any>): Observable<PackageCheckoutResponse> {
 		return packageApi.checkout(body)
 				.observeOn(observeOn)
 				.subscribeOn(subscribeOn)

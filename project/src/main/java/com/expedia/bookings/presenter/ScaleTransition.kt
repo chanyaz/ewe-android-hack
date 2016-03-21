@@ -5,41 +5,51 @@ import kotlin.properties.Delegates
 
 open class ScaleTransition(val presenter: Presenter, val left: Class<*>, val right: Class<*>): Presenter.Transition(left, right) {
 
+    constructor(presenter: Presenter,left: Class<*>, right: Class<*>, leftClassName: Class<*>) : this(presenter, left, right) {
+        this.leftClassName = leftClassName
+    }
+
+    constructor(presenter: Presenter,left: View, right: View) : this(presenter, left.javaClass, right.javaClass) {
+        this.leftView = left
+        this.rightView = right
+    }
+
     val xScale = 0.75f
     val yScale = 0.75f
-    var rightView: View by Delegates.notNull()
-    var leftView: View by Delegates.notNull()
+    var rightView: View? = null
+    var leftView: View? = null
+    var leftClassName: Class<*>? = null
 
     override fun startTransition(forward: Boolean) {
-        rightView = getRightChildView()
-        leftView = getLeftChildView()
+        if (rightView == null) {
+            rightView = getRightChildView()
+        }
+        if (leftView == null) {
+            leftView = getLeftChildView()
+        }
 
-        leftView.alpha = 1f
-        leftView.visibility = View.VISIBLE
+        leftView?.alpha = 1f
+        leftView?.visibility = View.VISIBLE
 
-        rightView.alpha = (if (forward) 0f else 1f)
-        rightView.visibility = View.VISIBLE
-        rightView.scaleX = (if (forward) xScale else 1f)
-        rightView.scaleY = (if (forward) yScale else 1f)
+        rightView?.alpha = (if (forward) 0f else 1f)
+        rightView?.visibility = View.VISIBLE
+        rightView?.scaleX = (if (forward) xScale else 1f)
+        rightView?.scaleY = (if (forward) yScale else 1f)
     }
 
     override fun updateTransition(f: Float, forward: Boolean) {
-        rightView.alpha = (if (forward) f else (1-f))
-        rightView.scaleX = (if (forward) (1 - (1-xScale) * -(f-1)) else (xScale + (1-xScale) * -(f-1)))
-        rightView.scaleY = (if (forward) (1 - (1-yScale) * -(f-1)) else (yScale + (1-yScale) * -(f-1)))
+        rightView?.alpha = (if (forward) f else (1-f))
+        rightView?.scaleX = (if (forward) (1 - (1-xScale) * -(f-1)) else (xScale + (1-xScale) * -(f-1)))
+        rightView?.scaleY = (if (forward) (1 - (1-yScale) * -(f-1)) else (yScale + (1-yScale) * -(f-1)))
     }
 
     override fun endTransition(forward: Boolean) {
-        // do nothing
-    }
+        leftView?.visibility = (if (forward) View.GONE else View.VISIBLE)
 
-    override fun finalizeTransition(forward: Boolean) {
-        leftView.visibility = (if (forward) View.GONE else View.VISIBLE)
-
-        rightView.alpha = 1f
-        rightView.visibility = (if (forward) View.VISIBLE else View.GONE)
-        rightView.scaleX = 1f
-        rightView.scaleY = 1f
+        rightView?.alpha = 1f
+        rightView?.visibility = (if (forward) View.VISIBLE else View.GONE)
+        rightView?.scaleX = 1f
+        rightView?.scaleY = 1f
     }
 
     private fun getRightChildView(): View {
@@ -47,7 +57,7 @@ open class ScaleTransition(val presenter: Presenter, val left: Class<*>, val rig
     }
 
     private fun getLeftChildView(): View {
-        return getChildInPresenter(left)
+        return getChildInPresenter(leftClassName ?: left)
     }
 
     private fun getChildInPresenter(childClass: Class<*>): View {

@@ -3,11 +3,12 @@ package com.expedia.bookings.test.phone.newhotels;
 import com.expedia.bookings.R;
 import com.expedia.bookings.test.espresso.Common;
 import com.expedia.bookings.test.espresso.HotelTestCase;
+import com.expedia.bookings.test.phone.hotels.HotelScreen;
 import com.expedia.bookings.test.phone.pagemodels.common.CheckoutViewModel;
 import com.expedia.bookings.test.phone.pagemodels.common.PaymentOptionsScreen;
 
 import static com.expedia.bookings.test.espresso.EspressoUtils.assertViewIsDisplayed;
-import static com.expedia.bookings.test.phone.newhotels.HotelScreen.pickRoom;
+import static com.expedia.bookings.test.phone.hotels.HotelScreen.pickRoom;
 
 public class HotelPriceChangeTest extends HotelTestCase {
 

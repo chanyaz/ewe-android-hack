@@ -24,6 +24,7 @@ import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.hasDescendant;
 import static android.support.test.espresso.matcher.ViewMatchers.hasSibling;
+import static android.support.test.espresso.matcher.ViewMatchers.isDescendantOfA;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.isEnabled;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
@@ -37,7 +38,7 @@ import static org.junit.Assert.assertTrue;
 @RunWith(AndroidJUnit4.class)
 public class LXDetailsPresenterTest {
 	@Rule
-	public final PlaygroundRule playground = new PlaygroundRule(R.layout.lx_details_presenter, R.style.V2_Theme_LX);
+	public final PlaygroundRule playground = new PlaygroundRule(R.layout.lx_base_layout, R.style.V2_Theme_LX);
 
 	@Rule
 	public final ExpediaMockWebServerRule server = new ExpediaMockWebServerRule();
@@ -78,11 +79,10 @@ public class LXDetailsPresenterTest {
 		lxActivity.title = title;
 		Events.post(new Events.LXActivitySelected(lxActivity));
 		LXScreen.waitForDetailsDisplayed();
-		LXScreen.toolbar().check(matches(isDisplayed()));
-
+		ViewInteraction toolbar = onView(allOf(withId(R.id.toolbar), isDescendantOfA(withId(R.id.activity_recommended_details_presenter))));
+		toolbar.check(matches(isDisplayed()));
 		String expectedToolbarDateRange = String
 			.format("%1$s - %2$s", LocalDate.now().toString("MMM d"), LocalDate.now().plusDays(13).toString("MMM d"));
-		ViewInteraction toolbar = LXScreen.toolbar();
 		toolbar.check(matches(isDisplayed()));
 		toolbar.check(matches(hasDescendant(withText(expectedToolbarDateRange))));
 		toolbar.check(matches(hasDescendant(withText(title))));
@@ -103,13 +103,15 @@ public class LXDetailsPresenterTest {
 		//Check 1st offer
 		ViewInteraction firstOffer = LXScreen.withOfferText("2-Day New York Pass");
 		firstOffer.check(matches(hasDescendant(allOf(withId(R.id.offer_title), withText(startsWith("2-Day New York Pass"))))));
-		firstOffer.check(matches(hasDescendant(allOf(withId(R.id.select_tickets), withText(startsWith("Select Tickets"))))));
+		firstOffer.check(
+			matches(hasDescendant(allOf(withId(R.id.select_tickets), withText(startsWith("Select Tickets"))))));
 		firstOffer.check(matches(hasDescendant(allOf(withId(R.id.price_summary), withText(startsWith("$130 Adult, $110 Child"))))));
 
 		//Check 2nd offer
 		ViewInteraction secondOffer = LXScreen.withOfferText("3-Day New York Pass");
 		secondOffer.check(matches(hasDescendant(allOf(withId(R.id.offer_title), withText(startsWith("3-Day New York Pass"))))));
-		secondOffer.check(matches(hasDescendant(allOf(withId(R.id.select_tickets), withText(startsWith("Select Tickets"))))));
+		secondOffer.check(
+			matches(hasDescendant(allOf(withId(R.id.select_tickets), withText(startsWith("Select Tickets"))))));
 		secondOffer.check(matches(hasDescendant(allOf(withId(R.id.price_summary), withText(startsWith("$180 Adult, $140 Child"))))));
 
 		//Check 3rd offer
@@ -131,7 +133,8 @@ public class LXDetailsPresenterTest {
 		//Check 4th offer
 		ViewInteraction fourthOffer = LXScreen.withOfferText("7-Day New York Pass");
 		fourthOffer.check(matches(hasDescendant(allOf(withId(R.id.offer_title), withText(startsWith("7-Day New York Pass"))))));
-		fourthOffer.check(matches(hasDescendant(allOf(withId(R.id.select_tickets), withText(startsWith("Select Tickets"))))));
+		fourthOffer.check(
+			matches(hasDescendant(allOf(withId(R.id.select_tickets), withText(startsWith("Select Tickets"))))));
 		fourthOffer.check(matches(hasDescendant(allOf(withId(R.id.price_summary), withText(startsWith("$210 Adult, $155 Child"))))));
 	}
 
@@ -213,5 +216,26 @@ public class LXDetailsPresenterTest {
 
 		LXScreen.detailsDate(withoutOfferDate.dayOfWeek().getAsShortText() + "\n" + withoutOfferDate.dayOfMonth().getAsShortText() + "\n").check(
 			matches(not(isEnabled())));
+	}
+
+	@Test
+	public void testDatesChange() {
+		Events.post(new Events.LXActivitySelected(new LXActivity()));
+		LXScreen.waitForDetailsDisplayed();
+
+		LocalDate now = LocalDate.now();
+
+		LXScreen.detailsDate(now.dayOfWeek().getAsShortText() + "\n" + now.dayOfMonth().getAsText() + "\n" + now.monthOfYear().getAsShortText()).check(
+			matches(isEnabled()));
+
+		LocalDate nextAvailableDate = LocalDate.now().plusDays(2);
+
+		LXScreen.detailsDate(
+			nextAvailableDate.dayOfWeek().getAsShortText() + "\n" + nextAvailableDate.dayOfMonth().getAsText() + "\n").perform(click());
+
+		LXScreen.detailsDate(
+			nextAvailableDate.dayOfWeek().getAsShortText() + "\n" + nextAvailableDate.dayOfMonth().getAsText() + "\n" + nextAvailableDate.monthOfYear()
+				.getAsShortText()).check(
+			matches(isEnabled()));
 	}
 }

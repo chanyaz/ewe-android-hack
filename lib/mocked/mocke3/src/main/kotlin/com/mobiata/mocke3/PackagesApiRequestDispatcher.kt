@@ -1,12 +1,10 @@
 package com.mobiata.mocke3
 
-import com.expedia.bookings.utils.Strings
 import com.squareup.okhttp.mockwebserver.MockResponse
 import com.squareup.okhttp.mockwebserver.RecordedRequest
 import java.util.regex.Pattern
-import kotlin.text.toInt
 
-public class PackagesApiRequestDispatcher(fileOpener: FileOpener) : AbstractDispatcher(fileOpener) {
+class PackagesApiRequestDispatcher(fileOpener: FileOpener) : AbstractDispatcher(fileOpener) {
 
     override fun dispatch(request: RecordedRequest): MockResponse {
         val urlPath = request.path
@@ -18,19 +16,23 @@ public class PackagesApiRequestDispatcher(fileOpener: FileOpener) : AbstractDisp
             }
 
             PackageApiRequestMatcher.isOutboundFlightRequest(urlParams, urlPath) -> {
-                getMockResponse("getpackages/v1/happy_outbound_flight.json")
+                var productKey = urlParams.get("packagePIID") ?: return make404()
+                getMockResponse("getpackages/v1/$productKey.json")
             }
 
             PackageApiRequestMatcher.isReturnFlightRequest(urlParams, urlPath) -> {
-                getMockResponse("getpackages/v1/happy_inbound_flight.json")
+                val productKey = urlParams.get("packagePIID") ?: return make404()
+                getMockResponse("getpackages/v1/$productKey.json")
             }
 
             PackageApiRequestMatcher.isHotelOffers(urlPath) -> {
-                getMockResponse("api/packages/hoteloffers/offers.json")
+                val productKey = urlParams.get("productKey") ?: return make404()
+                getMockResponse("api/packages/hoteloffers/$productKey.json")
             }
 
             PackageApiRequestMatcher.isCreateTrip(urlPath) -> {
-                getMockResponse("api/packages/createtrip/create_trip.json")
+                var productKey = urlParams.get("productKey") ?: return make404()
+                getMockResponse("api/packages/createtrip/$productKey.json")
             }
 
             PackageApiRequestMatcher.isCheckout(urlPath) -> {
@@ -60,9 +62,8 @@ class PackageApiRequestMatcher {
             if (!isFlightSearch(urlParams)) {
                 return false
             }
-            val isSelectReturnFlightRequest = Strings.equals(urlParams["selectLegId"], "1")
             val hasSelectedDepartureLegId = (urlParams["selectedLegId"] != null)
-            return isSelectReturnFlightRequest && hasSelectedDepartureLegId && isPackageSearch(urlPath)
+            return hasSelectedDepartureLegId && isPackageSearch(urlPath)
         }
 
         fun isPackageSearch(urlPath: String): Boolean {

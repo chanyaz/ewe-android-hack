@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView android:id="@+id/bundle_container"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/card_background"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <com.expedia.bookings.widget.traveler.NameEntryView
+            android:id="@+id/name_entry_widget"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/traveler_input_bottom_margin" />
+
+        <com.expedia.bookings.widget.traveler.PhoneEntryView
+            android:id="@+id/phone_entry_widget"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/traveler_input_bottom_margin" />
+
+        <com.expedia.bookings.widget.traveler.TSAEntryView
+            android:id="@+id/tsa_entry_widget"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <com.expedia.bookings.widget.TextView
+            android:id="@+id/new_traveler_done_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:background="@drawable/dialog_button"
+            android:padding="10dp"
+            android:text="@string/done"
+            android:textAllCaps="true" />
+
+        <com.expedia.bookings.widget.FlightTravelerAdvancedOptionsWidget
+            android:id="@+id/traveler_advanced_options_widget"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/traveler_advanced_options_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBaseline="@+id/advanced_options_button"
+                android:layout_gravity="center"
+                android:src="@drawable/read_more"
+                android:tint="?attr/primary_color" />
+
+            <com.expedia.bookings.widget.TextView
+                android:id="@+id/advanced_options_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:background="@drawable/dialog_button"
+                android:padding="10dp"
+                android:text="@string/advanced"
+                android:textColor="?attr/primary_color"
+                android:textAllCaps="true" />
+
+        </LinearLayout>
+    </LinearLayout>
+</ScrollView>

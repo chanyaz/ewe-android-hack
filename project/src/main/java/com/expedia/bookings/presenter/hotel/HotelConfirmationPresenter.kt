@@ -26,8 +26,7 @@ import com.expedia.util.subscribeVisibility
 import com.expedia.vm.HotelConfirmationViewModel
 import com.squareup.phrase.Phrase
 
-
-public class HotelConfirmationPresenter(context: Context, attrs: AttributeSet) : Presenter(context, attrs) {
+class HotelConfirmationPresenter(context: Context, attrs: AttributeSet) : Presenter(context, attrs) {
 
     val hotelNameTextView: TextView by bindView(R.id.hotel_name_view)
     val checkInOutDateTextView: TextView by bindView(R.id.check_in_out_dates)
@@ -90,12 +89,10 @@ public class HotelConfirmationPresenter(context: Context, attrs: AttributeSet) :
         super.onFinishInflate()
         val navIcon = ContextCompat.getDrawable(context, R.drawable.ic_close_white_24dp).mutate()
         navIcon.setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_IN)
-        toolbar.setNavigationIcon(navIcon)
-        toolbar.setNavigationOnClickListener(object : View.OnClickListener {
-            override fun onClick(v: View) {
-                NavUtils.goToItin(getContext())
-                Events.post(Events.FinishActivity())
-            }
+        toolbar.navigationIcon = navIcon
+        toolbar.setNavigationOnClickListener({
+            NavUtils.goToItin(context)
+            Events.post(Events.FinishActivity())
         })
         val paddingTop = Ui.getStatusBarHeight(context) - (5 * resources.displayMetrics.density).toInt()
         toolbar.setPadding(0, paddingTop, 0, 0)

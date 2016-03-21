@@ -15,6 +15,7 @@ public class HotelSearchResponse extends BaseApiResponse {
 	public Map<String, AmenityOptions> amenityFilterOptions = new HashMap<>();
 	public String searchRegionId = "";
 	public List<PriceOption> priceOptions = new ArrayList<>();
+	public boolean hasLoyaltyInformation;
 
 	public transient Map<String, Neighborhood> neighborhoodsMap = new HashMap<>();
 	public transient HotelRate.UserPriceType userPriceType = HotelRate.UserPriceType.UNKNOWN;

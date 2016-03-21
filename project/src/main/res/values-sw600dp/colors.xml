@@ -2,7 +2,7 @@
 <resources>
     <!-- Tablet general -->
     <color name="tablet_grey_pane_bg">#f2f2f2</color>
-    <color name="tablet_white_pane_bg">#ffffff</color>
+    <color name="tablet_white_pane_bg">@color/white</color>
     <color name="trip_bucket_background_color">#eaeaea</color>
 
     <!-- Tablet Launch Screen -->
@@ -21,7 +21,7 @@
     <color name="hotel_details_user_rating_text">#1b5698</color>
     <color name="sliding_group_text_bright">#f4f5f7</color>
     <color name="tablet_results_search_blue">#3d6a99</color>
-    <color name="tablet_search_params_text">#ffffff</color>
+    <color name="tablet_search_params_text">@color/white</color>
 
     <!-- Tablet Hotels -->
     <color name="hotel_details_sticky_header_background">#4e4e52</color>

@@ -36,7 +36,6 @@ public class LXCreditCardTest extends LxTestCase {
 		Common.delay(1);
 		screenshot("LX Checkout Started");
 		CheckoutViewModel.enterPaymentInfo();
-		CheckoutViewModel.clickDone();
 		screenshot("LX Checkout Ready");
 		Common.pressBack();
 		Common.delay(1);

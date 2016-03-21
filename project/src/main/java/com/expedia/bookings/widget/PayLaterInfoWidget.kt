@@ -15,9 +15,8 @@ import com.expedia.bookings.utils.CurrencyUtils
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
 import com.squareup.phrase.Phrase
-import java.util.*
 
-public class PayLaterInfoWidget(context: Context, attrs: AttributeSet) : FrameLayout(context, attrs) {
+class PayLaterInfoWidget(context: Context, attrs: AttributeSet) : FrameLayout(context, attrs) {
     val toolbar: Toolbar by bindView(R.id.toolbar)
     val container: ViewGroup by bindView(R.id.container)
     val payNowRateText: TextView by bindView(R.id.etp_pay_now_charges_text)

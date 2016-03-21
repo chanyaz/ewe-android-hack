@@ -6,12 +6,12 @@
     <color name="hotels_primary_color">#003E74</color>
     <color name="hotel_promo_background">#57A3CC</color>
     <color name="launch_tab_indicator_tvly">@color/action_bar_text_blue_travelocity</color>
-    <color name="launch_actionbar_color_tvly">@color/bg_blue_color_travelocity</color>
+    <color name="launch_toolbar_background_color">@color/bg_blue_color_travelocity</color>
     <color name="action_bar_text_blue_travelocity">#7baed4</color>
     <color name="bg_btn_color_travelocity">#7bae00</color>
     <color name="bg_btn_pressed_color_travelocity">#295600</color>
     <color name="itin_flight_line_color_tvly">#7da426</color>
-    <color name="login_text_flight">#FFFFFF</color>
+    <color name="login_text_flight">@color/white</color>
     <color name="coupon_success_message_color_tvly">#7baed4</color>
     <color name="collection_overlay_color">#56a1d5</color>
     <color name="tablet_book_button_text_color_travelocity">#57B3FF</color>
@@ -19,7 +19,7 @@
     <color name="hotel_room_rate_select_room_button_pressed_tvly">#004E93</color>
     <color name="hotel_room_rate_add_room_button_tvly">#608405</color>
     <color name="hotel_room_rate_add_room_button_pressed_tvly">#2F5806</color>
-    <color name="tablet_trip_bucket_text_color_tvly">#FFFFFF</color>
+    <color name="tablet_trip_bucket_text_color_tvly">@color/white</color>
     <color name="tablet_search_result_error_button_tvly">#004E93</color>
     <color name="tablet_search_result_error_button_pressed_tvly">#D1EAFF</color>
     <color name="tablet_dates_popup_done_color_tvly">#7abb00</color>
@@ -57,8 +57,7 @@
     <color name="btn_sign_in_pressed">#6B9B11</color>
     <color name="btn_sign_in_focused">#446801</color>
     <color name="btn_sign_in_disabled">#C5E38E</color>
-    <color name="acct__btn_sign_in_text_tvly">#FFFFFF</color>
-    <color name="acct__bg_input_text_error_tvly">#FFFFFF</color>
+    <color name="acct__btn_sign_in_text_tvly">@color/white</color>
+    <color name="acct__bg_input_text_error_tvly">@color/white</color>
     <color name="acct__bg_input_text_good_tvly">#EEEEEE</color>
-    <color name="acct__tos_checkbox_checked">@color/bg_blue_color_travelocity</color>
 </resources>

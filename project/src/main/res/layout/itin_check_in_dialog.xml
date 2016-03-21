@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/itin_divider_color"
+    android:orientation="vertical">
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:paddingBottom="15dp"
+        android:paddingTop="40dp"
+        android:src="@drawable/check_in_itin_luggage_icon" />
+
+    <LinearLayout
+        android:id="@+id/dialog_body"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <com.expedia.bookings.widget.TextView
+            android:id="@+id/dialog_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:paddingBottom="20dp"
+            android:text="@string/itin_checkin_dialog_title"
+            android:textColor="@color/itin_white_text"
+            android:textSize="18sp"
+            app:textStyle="medium" />
+
+        <com.expedia.bookings.widget.TextView
+            android:id="@+id/itin_checkin_msg"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:lineSpacingExtra="3dp"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:text="@string/itin_checkin_dialog_message"
+            android:textColor="@color/itin_gray_text"
+            android:textSize="15sp" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:layout_marginBottom="14dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginTop="12dp">
+
+            <com.expedia.bookings.widget.TextView
+                android:id="@+id/itin_checkin_no"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:paddingBottom="10dp"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
+                android:paddingTop="10dp"
+                android:text="@string/no"
+                android:textAllCaps="true"
+                android:background="@drawable/dialog_button"
+                android:textSize="13sp"
+                app:textStyle="medium" />
+
+            <com.expedia.bookings.widget.TextView
+                android:id="@+id/itin_checkin_yes"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:paddingBottom="10dp"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
+                android:paddingTop="10dp"
+                android:text="@string/yes"
+                android:textAllCaps="true"
+                android:background="@drawable/dialog_button"
+                android:textSize="13sp"
+                app:textStyle="medium" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+</LinearLayout>

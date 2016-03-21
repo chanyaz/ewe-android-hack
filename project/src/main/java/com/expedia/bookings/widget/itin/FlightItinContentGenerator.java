@@ -2,6 +2,7 @@ package com.expedia.bookings.widget.itin;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import org.joda.time.DateTime;
 
@@ -677,7 +678,7 @@ public class FlightItinContentGenerator extends ItinContentGenerator<ItinCardDat
 
 	public static Intent getAirportDirectionsIntent(Airport airport) {
 		String format = "geo:0,0?q=%f,%f (%s)";
-		String uriStr = String.format(format, airport.getLatitude(), airport.getLongitude(),
+		String uriStr = String.format(Locale.getDefault(), format, airport.getLatitude(), airport.getLongitude(),
 				airport.mName);
 		Uri airportUri = Uri.parse(uriStr);
 

@@ -38,7 +38,7 @@ import com.expedia.bookings.data.lx.SearchType;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.presenter.LeftToRightTransition;
 import com.expedia.bookings.presenter.Presenter;
-import com.expedia.bookings.services.LXServices;
+import com.expedia.bookings.services.LxServices;
 import com.expedia.bookings.tracking.AdTracker;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.ArrowXDrawableUtil;
@@ -64,7 +64,7 @@ public class LXResultsPresenter extends Presenter {
 
 	private static final int ANIMATION_DURATION = 400;
 	@Inject
-	LXServices lxServices;
+	LxServices lxServices;
 
 	@Inject
 	LXState lxState;
@@ -167,10 +167,6 @@ public class LXResultsPresenter extends Presenter {
 
 		@Override
 		public void endTransition(boolean forward) {
-		}
-
-		@Override
-		public void finalizeTransition(boolean forward) {
 			if (isUserBucketedAndCategoryAllThingsToDo()) {
 				transparentView.setAlpha(forward ? 0.5f : 0);
 				transparentView.setVisibility(forward ? VISIBLE : GONE);
@@ -312,6 +308,7 @@ public class LXResultsPresenter extends Presenter {
 		public void onNext(LXSearchResponse lxSearchResponse) {
 			searchResponse = lxSearchResponse;
 			// Search Results Omniture Tracking on load of search screen.
+			OmnitureTracking.trackAppLXRTRABTest();
 			OmnitureTracking.trackAppLXSearch(lxState.searchParams, lxSearchResponse);
 			AdTracker.trackLXSearch(lxState.searchParams);
 			Events.post(new Events.LXSearchResultsAvailable(lxSearchResponse));

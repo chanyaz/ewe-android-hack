@@ -7,24 +7,43 @@
     android:paddingBottom="2dp"
     android:paddingTop="1dp">
 
-    <TextView
-        android:id="@+id/price_text_view"
+    <LinearLayout
+        android:id="@+id/price_container"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
+        android:gravity="right"
         android:layout_marginRight="10dp"
         android:layout_marginTop="4dp"
-        android:gravity="right"
-        android:textColor="?attr/skin_flightPriceTextColor"
-        android:textSize="20dp"
-        android:textStyle="bold" />
+        android:orientation="horizontal">
+
+        <com.expedia.bookings.widget.TextView
+            android:id="@+id/number_tickets_left_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:textColor="#eb3f3f"
+            android:textSize="12dp"
+            app:textStyle="medium"
+            android:layout_marginRight="10dp"
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/price_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="?attr/skin_flightPriceTextColor"
+            android:textSize="20dp"
+            android:textStyle="bold" />
+    </LinearLayout>
+
 
     <TextView
         android:id="@+id/roundtrip_text_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
-        android:layout_below="@id/price_text_view"
+        android:layout_below="@id/price_container"
         android:layout_marginRight="10dp"
         android:gravity="right"
         android:text="@string/roundtrip"
@@ -49,7 +68,7 @@
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:layout_marginTop="6dp"
-        android:layout_toLeftOf="@id/price_text_view"
+        android:layout_toLeftOf="@id/price_container"
         android:orientation="horizontal" >
 
         <TextView

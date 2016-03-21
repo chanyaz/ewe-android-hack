@@ -8,8 +8,9 @@ import org.joda.time.DateTime
 import org.joda.time.format.DateTimeFormat
 import java.util.LinkedHashMap
 import java.util.regex.Pattern
+import kotlin.text.isNullOrBlank
 
-public class HotelRequestDispatcher(fileOpener: FileOpener) : AbstractDispatcher(fileOpener) {
+class HotelRequestDispatcher(fileOpener: FileOpener) : AbstractDispatcher(fileOpener) {
 
     private var createTripRequestCount = 0
 
@@ -28,11 +29,8 @@ public class HotelRequestDispatcher(fileOpener: FileOpener) : AbstractDispatcher
 
         return when {
             HotelRequestMatcher.isHotelSearchRequest(urlPath) -> {
-                val gaiaId = params["regionId"]
-                if (gaiaId == "error_response") {
-                    return getMockResponse("m/api/hotel/search/mock_error.json")
-                }
-                return getMockResponse("m/api/hotel/search/happy.json")
+                val gaiaId = if (params["regionId"].isNullOrBlank()) "happy" else params["regionId"]
+                return getMockResponse("m/api/hotel/search/$gaiaId.json")
             }
 
             HotelRequestMatcher.isHotelInfoRequest(urlPath) -> getMockResponse("m/api/hotel/info/" + params.get("hotelId") + ".json", params)

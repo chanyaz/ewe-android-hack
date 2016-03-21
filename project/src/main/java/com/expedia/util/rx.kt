@@ -16,8 +16,9 @@ import rx.Observable
 import rx.Observer
 import rx.exceptions.OnErrorNotImplementedException
 import rx.subjects.PublishSubject
+import kotlin.text.isNotBlank
 
-public fun <T> endlessObserver(body: (T) -> Unit): Observer<T> {
+fun <T> endlessObserver(body: (T) -> Unit): Observer<T> {
     return object : Observer<T> {
         override fun onNext(t: T) {
             body(t)
@@ -33,87 +34,87 @@ public fun <T> endlessObserver(body: (T) -> Unit): Observer<T> {
     }
 }
 
-public fun View.subscribeOnClick(observer: Observer<Unit>) {
+fun View.subscribeOnClick(observer: Observer<Unit>) {
     this.setOnClickListener {
         observer.onNext(Unit)
     }
 }
 
-public fun GoogleMap.subscribeOnClick(observer: Observer<Unit>) {
+fun GoogleMap.subscribeOnClick(observer: Observer<Unit>) {
     this.setOnMapClickListener {
         observer.onNext(Unit)
     }
 }
 
-public fun CompoundButton.subscribeOnClick(observer: Observer<Boolean>) {
+fun CompoundButton.subscribeOnClick(observer: Observer<Boolean>) {
     this.setOnClickListener {
         observer.onNext(this.isChecked)
     }
 }
 
-public fun CompoundButton.subscribeOnCheckChanged(observer: Observer<Boolean>) {
+fun CompoundButton.subscribeOnCheckChanged(observer: Observer<Boolean>) {
     this.setOnCheckedChangeListener { compoundButton: CompoundButton, isChecked: Boolean ->
         observer.onNext(isChecked)
     }
 }
 
-public fun View.unsubscribeOnClick() {
+fun View.unsubscribeOnClick() {
     this.setOnClickListener(null)
 }
 
-public fun View.publishOnClick(publishSubject: PublishSubject<Unit>) {
+fun View.publishOnClick(publishSubject: PublishSubject<Unit>) {
     this.setOnClickListener {
         publishSubject.onNext(Unit)
     }
 }
 
-public fun <T : CharSequence> Observable<T>.subscribeText(textview: TextView) {
-    this.subscribe { textview.text = it }
+fun <T : CharSequence> Observable<T>.subscribeText(textview: TextView?) {
+    this.subscribe { textview?.text = it }
 }
 
-public fun Observable<Int>.subscribeTextColor(textview: TextView) {
+fun Observable<Int>.subscribeTextColor(textview: TextView) {
     this.subscribe { textview.setTextColor(it) }
 }
 
-public fun <T : CharSequence> Observable<T>.subscribeTextAndVisibility(textview: TextView) {
+fun <T : CharSequence> Observable<T>.subscribeTextAndVisibility(textview: TextView) {
     this.subscribe {
         textview.text = it
     }
     this.map { it.toString().isNotBlank() }.subscribeVisibility(textview)
 }
 
-public fun <T : CharSequence> Observable<T>.subscribeTextAndVisibilityInvisible(textview: TextView) {
+fun <T : CharSequence> Observable<T>.subscribeTextAndVisibilityInvisible(textview: TextView) {
     this.subscribe {
         textview.text = it
     }
     this.map { it.toString().isNotBlank() }.subscribeVisibilityInvisible(textview)
 }
 
-public fun Observable<Drawable>.subscribeImageDrawable(imageView: ImageView) {
-    this.subscribe { drawable -> imageView.setImageDrawable(drawable) }
+fun Observable<Drawable>.subscribeImageDrawable(imageView: ImageView?) {
+    this.subscribe { drawable -> imageView?.setImageDrawable(drawable) }
 }
 
-public fun Observable<Int>.subscribeBackgroundColor(view: View) {
+fun Observable<Int>.subscribeBackgroundColor(view: View) {
     this.subscribe { color -> view.setBackgroundColor(color) }
 }
 
-public fun Observable<Drawable?>.subscribeBackground(view: View) {
+fun Observable<Drawable?>.subscribeBackground(view: View) {
     this.subscribe { drawable -> view.background = drawable }
 }
 
-public fun Observable<Float>.subscribeRating(ratingBar: RatingBar) {
+fun Observable<Float>.subscribeRating(ratingBar: RatingBar) {
     this.subscribe { ratingBar.rating = it }
 }
 
-public fun Observable<Float>.subscribeRating(ratingBar: StarRatingBar) {
+fun Observable<Float>.subscribeRating(ratingBar: StarRatingBar) {
     this.subscribe { ratingBar.setRating(it) }
 }
 
-public fun Observable<Int>.subscribeBackgroundResource(view: View) {
+fun Observable<Int>.subscribeBackgroundResource(view: View) {
     this.subscribe { drawable -> view.setBackgroundResource(drawable) }
 }
 
-public fun Observable<CharSequence>.subscribeToggleButton(togglebutton: ToggleButton) {
+fun Observable<CharSequence>.subscribeToggleButton(togglebutton: ToggleButton) {
     this.subscribe { text ->
         togglebutton.text = text
         togglebutton.textOn = text
@@ -121,53 +122,53 @@ public fun Observable<CharSequence>.subscribeToggleButton(togglebutton: ToggleBu
     }
 }
 
-public fun Observable<Boolean>.subscribeVisibility(view: View) {
+fun Observable<Boolean>.subscribeVisibility(view: View?) {
     this.subscribe { visible ->
-        view.visibility = if (visible) View.VISIBLE else View.GONE
+        view?.visibility = if (visible) View.VISIBLE else View.GONE
     }
 }
 
-public fun Observable<Boolean>.subscribeVisibilityInvisible(view: View) {
+fun Observable<Boolean>.subscribeVisibilityInvisible(view: View) {
     this.subscribe { visible ->
         view.visibility = if (visible) View.VISIBLE else View.INVISIBLE
     }
 }
 
-public fun Observable<Boolean>.subscribeInverseVisibility(view: View) {
+fun Observable<Boolean>.subscribeInverseVisibility(view: View) {
     this.map { !it }.subscribeVisibility(view)
 }
 
-public fun Observable<Boolean>.subscribeVisibility(drawable: Drawable, inverse: Boolean) {
+fun Observable<Boolean>.subscribeVisibility(drawable: Drawable, inverse: Boolean) {
     this.subscribe { visible ->
         drawable.mutate().alpha = if (if (inverse) !visible else visible) 255 else 0
     }
 }
 
-public fun Observable<Int>.subscribeStarColor(starRatingBar: StarRatingBar) {
+fun Observable<Int>.subscribeStarColor(starRatingBar: StarRatingBar) {
     this.subscribe { starRatingBar.setStarColor(it) }
 }
 
-public fun Observable<Float>.subscribeStarRating(starRatingBar: StarRatingBar) {
+fun Observable<Float>.subscribeStarRating(starRatingBar: StarRatingBar) {
     this.subscribe { starRatingBar.setRating(it) }
 }
 
-public fun Observable<ColorMatrixColorFilter?>.subscribeGalleryColorFilter(recyclerGallery: RecyclerGallery) {
+fun Observable<ColorMatrixColorFilter?>.subscribeGalleryColorFilter(recyclerGallery: RecyclerGallery) {
     this.subscribe { recyclerGallery.setColorFilter(it) }
 }
 
-public fun Observable<ColorMatrixColorFilter?>.subscribeColorFilter(imageView: ImageView) {
+fun Observable<ColorMatrixColorFilter?>.subscribeColorFilter(imageView: ImageView) {
     this.subscribe { imageView.colorFilter = it }
 }
 
-public fun Observable<Boolean>.subscribeEnabled(view: View) {
+fun Observable<Boolean>.subscribeEnabled(view: View) {
     this.subscribe { view.isEnabled = it }
 }
 
-public fun Observable<Boolean>.subscribeChecked(compoundButton: CompoundButton) {
+fun Observable<Boolean>.subscribeChecked(compoundButton: CompoundButton) {
     this.subscribe { compoundButton.isChecked = it }
 }
 
-public fun Observable<Boolean>.subscribeCursorVisible(textView: TextView) {
+fun Observable<Boolean>.subscribeCursorVisible(textView: TextView) {
     this.subscribe { textView.isCursorVisible = it }
 }
 
@@ -179,6 +180,6 @@ public fun Observable<Boolean>.subscribeCursorVisible(textView: TextView) {
  * @param {Function} [comparer] Equality comparer for computed key values. If not provided, defaults to an equality comparer function.
  * @returns {Observable} An observable sequence only containing the distinct contiguous elements, based on a computed key value, from the source sequence.
  */
-public fun <T> Observable<T>.distinctUntilChanged(comparer: (T?, T?) -> Boolean): Observable<T> {
+fun <T> Observable<T>.distinctUntilChanged(comparer: (T?, T?) -> Boolean): Observable<T> {
     return lift(OperatorDistinctUntilChangedWithComparer(comparer))
 }

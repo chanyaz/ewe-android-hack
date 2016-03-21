@@ -17,8 +17,8 @@ import java.util.concurrent.TimeUnit
 import kotlin.properties.Delegates
 import kotlin.test.assertTrue
 
-public class HotelBreakdownTest {
-    public var mockHotelServiceTestRule: MockHotelServiceTestRule = MockHotelServiceTestRule()
+class HotelBreakdownTest {
+    var mockHotelServiceTestRule: MockHotelServiceTestRule = MockHotelServiceTestRule()
         @Rule get
 
     private var vm: HotelBreakDownViewModel by Delegates.notNull()

@@ -1,8 +1,5 @@
 package com.expedia.bookings.widget;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import javax.inject.Inject;
 
 import org.joda.time.LocalDate;
@@ -27,8 +24,10 @@ import com.expedia.bookings.data.lx.ActivityDetailsResponse;
 import com.expedia.bookings.data.lx.LXTicketType;
 import com.expedia.bookings.data.lx.Offer;
 import com.expedia.bookings.data.lx.OffersDetail;
+import com.expedia.bookings.data.lx.RecommendedActivitiesResponse;
 import com.expedia.bookings.data.lx.Ticket;
 import com.expedia.bookings.otto.Events;
+import com.expedia.bookings.services.LxServices;
 import com.expedia.bookings.tracking.AdTracker;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.CollectionUtils;
@@ -39,11 +38,13 @@ import com.expedia.bookings.utils.StrUtils;
 import com.expedia.bookings.utils.Strings;
 import com.expedia.bookings.utils.Ui;
 import com.mobiata.android.util.AndroidUtils;
-import com.squareup.otto.Subscribe;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
+import java.util.ArrayList;
+import java.util.List;
 import rx.Observer;
+import rx.Subscription;
 
 public class LXActivityDetailsWidget extends LXDetailsScrollView implements RecyclerGallery.GalleryItemListener {
 
@@ -88,6 +89,21 @@ public class LXActivityDetailsWidget extends LXDetailsScrollView implements Recy
 	@InjectView(R.id.offer_dates_scroll_view)
 	HorizontalScrollView offerDatesScrollView;
 
+	@InjectView(R.id.more_like_this)
+	LinearLayout moreLikeThis;
+
+	@InjectView(R.id.recommendations)
+	LinearLayout recommendations;
+
+	@InjectView(R.id.recommendation_percentage_container)
+	LinearLayout recommendPercentageLayout;
+
+	@InjectView(R.id.recommended_percentage)
+	TextView recommendedPercentage;
+
+	@InjectView(R.id.recommended_divider)
+	View recommendedDivider;
+
 	@Inject
 	LXState lxState;
 
@@ -99,6 +115,14 @@ public class LXActivityDetailsWidget extends LXDetailsScrollView implements Recy
 	private boolean mHasBeenTouched = false;
 	private int mIntroOffset = 0;
 	SegmentedLinearInterpolator mIGalleryScroll;
+	private Subscription recommendedSubscription;
+	private LXRecommendedActivitiesListAdapter recommendedActivitiesListAdapter = new LXRecommendedActivitiesListAdapter();
+	private int recommendedListInitialMaxCount = getResources().getInteger(R.integer.lx_recommendation_count);
+
+	@Inject
+	LxServices lxServices;
+	private boolean isUserBucketedForRecommendationTest;
+	private boolean userBucketedForRTRTest;
 
 	public LXActivityDetailsWidget(Context context, AttributeSet attrs) {
 		super(context, attrs);
@@ -118,8 +142,8 @@ public class LXActivityDetailsWidget extends LXDetailsScrollView implements Recy
 		knowBeforeYouBook.setVisibility(View.GONE);
 		cancellation.setVisibility(View.GONE);
 		offerDatesContainer.setVisibility(View.GONE);
+		recommendations.setVisibility(GONE);
 		offers.setVisibility(View.GONE);
-
 		offset = Ui.toolbarSizeWithStatusBar(getContext());
 		offers.getOfferPublishSubject().subscribe(lxOfferObserever);
 		defaultScroll();
@@ -127,6 +151,13 @@ public class LXActivityDetailsWidget extends LXDetailsScrollView implements Recy
 
 	public void defaultScroll() {
 		smoothScrollTo(0, mInitialScrollTop);
+	}
+
+	public void cleanUp() {
+		if (recommendedSubscription != null) {
+			recommendedSubscription.unsubscribe();
+			recommendedSubscription = null;
+		}
 	}
 
 	@Override
@@ -138,32 +169,52 @@ public class LXActivityDetailsWidget extends LXDetailsScrollView implements Recy
 	@Override
 	protected void onDetachedFromWindow() {
 		Events.unregister(this);
+		cleanUp();
 		super.onDetachedFromWindow();
 	}
 
-	@Subscribe
-	public void onShowActivityDetails(Events.LXShowDetails event) {
+	public void onShowActivityDetails(ActivityDetailsResponse activityDetails) {
+		recommendations.setVisibility(GONE);
 		//  Track Product Information on load of this Local Expert Information screen.
-		OmnitureTracking.trackAppLXProductInformation(event.activityDetails, lxState.searchParams);
-		activityDetails = event.activityDetails;
+		OmnitureTracking.trackAppLXProductInformation(activityDetails, lxState.searchParams);
+		this.activityDetails = activityDetails;
 
+		if (isUserBucketedForRecommendationTest) {
+			recommendedSubscription = lxServices
+				.lxRecommendedSearch(activityDetails.id, activityDetails.location,
+					lxState.searchParams.startDate, lxState.searchParams.endDate, recommendedObserver);
+		}
+
+		buildRecommendationPecentage(activityDetails.recommendationScore);
 		buildGallery(activityDetails);
 		buildSections(activityDetails);
 		buildOfferDatesSelector(activityDetails.offersDetail, lxState.searchParams.startDate);
 	}
 
-	@Subscribe
-	public void onDetailsDateChanged(Events.LXDetailsDateChanged event) {
+	private void buildRecommendationPecentage(int recommendationScore) {
+
+		if (recommendationScore > 0 && userBucketedForRTRTest) {
+			recommendedPercentage.setText(LXDataUtils.getUserRecommendPercentString(getContext(), recommendationScore));
+			recommendPercentageLayout.setVisibility(VISIBLE);
+			recommendedDivider.setVisibility(VISIBLE);
+		}
+		else {
+			recommendPercentageLayout.setVisibility(GONE);
+			recommendedDivider.setVisibility(GONE);
+		}
+	}
+
+	public void onDetailsDateChanged(LocalDate dateSelected, LXOfferDatesButton buttonSelected) {
 
 		for (int i = 0; i < offerDatesContainer.getChildCount(); i++) {
 			LXOfferDatesButton button = (LXOfferDatesButton) offerDatesContainer.getChildAt(i);
 			button.setChecked(false);
 		}
 
-		event.buttonSelected.setChecked(true);
+		buttonSelected.setChecked(true);
 		//  Track Link to track Change of dates.
 		OmnitureTracking.trackLinkLXChangeDate();
-		buildOffersSection(event.dateSelected);
+		buildOffersSection(dateSelected);
 	}
 
 	private void buildOffersSection(LocalDate startDate) {
@@ -381,7 +432,6 @@ public class LXActivityDetailsWidget extends LXDetailsScrollView implements Recy
 					break;
 				}
 			}
-
 			AdTracker.trackLXDetails(lxState.activity.id, lxState.activity.destination, availabilityDate,
 				lxState.activity.regionId, lxState.activity.price.currencyCode, lowestTicketAmount);
 		}
@@ -424,6 +474,66 @@ public class LXActivityDetailsWidget extends LXDetailsScrollView implements Recy
 		int from = getScrollY();
 		int to = from != 0 ? 0 : mInitialScrollTop;
 		animateScrollY(from, to);
+	}
+
+	private Observer<RecommendedActivitiesResponse> recommendedObserver = new Observer<RecommendedActivitiesResponse>() {
+		@Override
+		public void onCompleted() {
+			// ignore
+		}
+
+		@Override
+		public void onError(Throwable e) {
+		}
+
+		@Override
+		public void onNext(RecommendedActivitiesResponse recommendedActivitiesResponse) {
+			if (recommendedActivitiesResponse != null && CollectionUtils
+				.isNotEmpty(recommendedActivitiesResponse.getActivities())) {
+				buildMoreLikeThis(recommendedActivitiesResponse);
+			}
+		}
+	};
+
+	private void buildMoreLikeThis(RecommendedActivitiesResponse recommendedActivitiesResponse) {
+		recommendedActivitiesListAdapter.setActivities(recommendedActivitiesResponse.getActivities());
+		moreLikeThis.removeAllViews();
+
+
+		for (int position = 0; position < Math.min(recommendedListInitialMaxCount,
+			recommendedActivitiesResponse.getActivities().size()); position++) {
+			View offerRow = recommendedActivitiesListAdapter.getView(position, null, moreLikeThis);
+			moreLikeThis.addView(offerRow);
+		}
+		recommendations.setVisibility(VISIBLE);
+	}
+
+	public void setUserBucketedForRecommendationTest(boolean isUserBucketedForTest) {
+		this.isUserBucketedForRecommendationTest = isUserBucketedForTest;
+	}
+
+	public ActivityDetailsResponse getActivityDetails() {
+		return activityDetails;
+	}
+
+	public LinearLayout getMoreLikeThis() {
+		return moreLikeThis;
+	}
+
+	public LinearLayout getRecommendations() {
+		return recommendations;
+	}
+
+	public LinearLayout getOfferDatesContainer() {
+		return offerDatesContainer;
+	}
+
+	public Observer<RecommendedActivitiesResponse> getRecommendedObserver() {
+		return recommendedObserver;
+	}
+
+	public void setUserBucketedForRTRTest(boolean userBucketedForRTRTest) {
+		this.userBucketedForRTRTest = userBucketedForRTRTest;
 	}
 }
 

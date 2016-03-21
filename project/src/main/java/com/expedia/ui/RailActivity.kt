@@ -6,7 +6,7 @@ import com.expedia.bookings.R
 import com.expedia.bookings.presenter.rail.RailPresenter
 import com.expedia.bookings.utils.Ui
 
-public class RailActivity : AppCompatActivity() {
+class RailActivity : AppCompatActivity() {
     val railPresenter: RailPresenter by lazy {
         findViewById(R.id.rail_presenter)as RailPresenter
     }

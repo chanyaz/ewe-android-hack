@@ -50,7 +50,6 @@ public class CarPhoneHappyPathTest extends PhoneTestCase {
 	private void enterPaymentInfoWithScreenshot() throws Throwable {
 		EspressoUtils.assertViewIsDisplayed(R.id.payment_info_card_view);
 		CheckoutViewModel.enterPaymentInfo();
-		CheckoutViewModel.pressClose();
 	}
 
 	private void slideToPurchase() throws Throwable {
@@ -99,8 +98,7 @@ public class CarPhoneHappyPathTest extends PhoneTestCase {
 		doLogin();
 
 		CheckoutViewModel.clickPaymentInfo();
-		CheckoutViewModel.clickStoredCardButton(false);
-		CheckoutViewModel.selectStoredCard("AmexTesting");
+		CheckoutViewModel.selectStoredCard("Saved AmexTesting");
 		slideToPurchase();
 		enterCVV("6286");
 	}
@@ -117,8 +115,7 @@ public class CarPhoneHappyPathTest extends PhoneTestCase {
 		CheckoutViewModel.pressClose();
 
 		CheckoutViewModel.clickPaymentInfo();
-		CheckoutViewModel.clickStoredCardButton(false);
-		CheckoutViewModel.selectStoredCard("AmexTesting");
+		CheckoutViewModel.selectStoredCard("Saved AmexTesting");
 		slideToPurchase();
 		enterCVV("6286");
 	}

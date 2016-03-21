@@ -3,11 +3,13 @@ package com.expedia.ui
 import android.os.Bundle
 import android.os.PersistableBundle
 import com.expedia.bookings.R
+import com.expedia.bookings.data.Codes
+import com.expedia.bookings.data.Db
 import com.expedia.bookings.presenter.packages.PackageHotelPresenter
 import com.expedia.bookings.utils.Ui
 import com.google.android.gms.maps.MapView
 
-public class PackageHotelActivity : AbstractAppCompatActivity() {
+class PackageHotelActivity : AbstractAppCompatActivity() {
     val hotelsPresenter: PackageHotelPresenter by lazy {
         findViewById(R.id.package_hotel_presenter) as PackageHotelPresenter
     }
@@ -26,6 +28,13 @@ public class PackageHotelActivity : AbstractAppCompatActivity() {
         Ui.showTransparentStatusBar(this)
         resultsMapView.onCreate(savedInstanceState)
         detailsMapView.onCreate(savedInstanceState)
+
+        if (intent.hasExtra(Codes.TAG_EXTERNAL_SEARCH_PARAMS)) {
+            hotelsPresenter.defaultTransitionObserver.onNext(Screen.DETAILS)
+            hotelsPresenter.hotelSelectedObserver.onNext(Db.getPackageSelectedHotel())
+        } else {
+            hotelsPresenter.defaultTransitionObserver.onNext(Screen.RESULTS)
+        }
     }
 
     override fun onPause() {
@@ -62,6 +71,11 @@ public class PackageHotelActivity : AbstractAppCompatActivity() {
         if (!hotelsPresenter.back()) {
             super.onBackPressed()
         }
+    }
+
+    public enum class Screen {
+        DETAILS,
+        RESULTS
     }
 
 }

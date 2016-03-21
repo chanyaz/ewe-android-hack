@@ -52,6 +52,8 @@ public class StrUtils {
 	private static final Pattern CITY_STATE_PATTERN = Pattern.compile("^([^,]+,[^,]+)");
 	// e.g. Kuantan, Malaysia (KUA-Sultan Haji Ahmad Shah) -> Kuantan, Malyasia
 	private static final Pattern CITY_COUNTRY_PATTERN = Pattern.compile("^([^,]+,[^,]+(?= \\(.*\\)))");
+	// e.g. San Francisco, CA, United States (SFO-San Francisco Int'l Airport) -> San Francisco
+	private static final Pattern CITY_PATTERN = Pattern.compile("^([^,]+)");
 	// e.g. Kuantan, Malaysia (KUA-Sultan Haji Ahmad Shah) -> KUA-Sultan Haji Ahmad Shah
 	private static final Pattern AIRPORT_CODE_PATTERN = Pattern.compile("\\((.*?)\\)");
 	// e.g. San Francisco, CA, United States (SFO-San Francisco Int'l Airport) -> San Francisco, CA, United States
@@ -421,6 +423,22 @@ public class StrUtils {
 		return city;
 	}
 
+	public static String formatCityName(SuggestionV4 suggestion) {
+		String city = Html.fromHtml(suggestion.regionNames.displayName).toString();
+		Matcher cityMatcher = CITY_PATTERN.matcher(city);
+		if (cityMatcher.find()) {
+			city = cityMatcher.group(1);
+		}
+		return city;
+	}
+
+	public static String formatAirportCodeCityName(SuggestionV4 suggestion) {
+		StringBuilder sb = new StringBuilder();
+		sb.append("(").append(suggestion.hierarchyInfo.airport.airportCode).append(") ");
+		sb.append(formatCityName(suggestion));
+		return sb.toString();
+	}
+
 	public static String formatDisplayName(SuggestionResponse suggestionResponse) {
 		String displayName = suggestionResponse.getSuggestions().get(0).getDisplayName();
 		if (displayName.indexOf(",") != displayName.lastIndexOf(",")
@@ -655,5 +673,10 @@ public class StrUtils {
 	public static String formatGuestString(Context context, int guests) {
 		return context.getResources().getQuantityString(R.plurals.number_of_guests, guests,
 			guests);
+	}
+
+	public static String formatTravelerString(Context context, int numOfTravelers) {
+		return context.getResources().getQuantityString(R.plurals.number_of_travelers_TEMPLATE, numOfTravelers,
+			numOfTravelers);
 	}
 }

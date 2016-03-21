@@ -34,7 +34,7 @@ import rx.subjects.BehaviorSubject
 import java.math.BigDecimal
 import javax.inject.Inject
 
-public class HotelConfirmationViewModel(checkoutResponseObservable: Observable<HotelCheckoutResponse>, context: Context) {
+class HotelConfirmationViewModel(checkoutResponseObservable: Observable<HotelCheckoutResponse>, context: Context) {
 
     // output
     val itineraryNumber = BehaviorSubject.create<String>()

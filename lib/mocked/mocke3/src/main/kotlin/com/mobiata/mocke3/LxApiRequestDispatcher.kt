@@ -6,7 +6,7 @@ import com.squareup.okhttp.mockwebserver.RecordedRequest
 import org.joda.time.DateTime
 import java.util.regex.Pattern
 
-public class LxApiRequestDispatcher(fileOpener: FileOpener) : AbstractDispatcher(fileOpener) {
+class LxApiRequestDispatcher(fileOpener: FileOpener) : AbstractDispatcher(fileOpener) {
 
     override fun dispatch(request: RecordedRequest): MockResponse {
         val urlPath = request.path
@@ -43,6 +43,11 @@ public class LxApiRequestDispatcher(fileOpener: FileOpener) : AbstractDispatcher
                 } else {
                     getMockResponse("lx/api/activity/happy.json", params)
                 }
+            }
+
+            LxApiRequestMatcher.isRecommendRequest(urlPath) -> {
+                val params = parseRequest(request)
+                return getMockResponse("lx/api/recommend/happy.json", params)
             }
 
             LxApiRequestMatcher.isCreateTripRequest(urlPath) -> {
@@ -87,6 +92,10 @@ class LxApiRequestMatcher {
 
         fun isDetailsRequest(urlPath: String): Boolean {
             return doesItMatch("^/lx/api/activity.*$", urlPath)
+        }
+
+        fun isRecommendRequest(urlPath: String): Boolean {
+            return doesItMatch("^/lx/api/recommend.*$", urlPath)
         }
 
         fun isCreateTripRequest(urlPath: String): Boolean {

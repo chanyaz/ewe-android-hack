@@ -2,4 +2,7 @@
 <resources>
     <item name="brand_phone_checkout_login_logo_drawable" type="drawable">@drawable/brand_logo_white</item>
     <item name="brand_phone_checkout_logo_drawable" type="drawable">@drawable/lm</item>
+
+    <item name="app_copyright_logo" type="drawable">@drawable/ic_launcher</item>
+
 </resources>

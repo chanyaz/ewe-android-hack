@@ -3,6 +3,7 @@ package com.expedia.bookings.test
 import com.expedia.bookings.data.hotels.HotelReviewsResponse.ReviewSummary
 import com.expedia.bookings.data.hotels.ReviewSort
 import com.expedia.bookings.services.ReviewsServices
+import com.expedia.bookings.testrule.ServicesRule
 import com.expedia.vm.HotelReviewsAdapterViewModel
 import org.junit.Before
 import org.junit.Rule
@@ -13,16 +14,16 @@ import java.util.concurrent.TimeUnit
 import kotlin.properties.Delegates
 import kotlin.test.assertEquals
 
-public class HotelReviewsTest {
+class HotelReviewsTest {
 
-    public var reviewServicesRule = ServicesRule(ReviewsServices::class.java)
+    var reviewServicesRule = ServicesRule(ReviewsServices::class.java)
         @Rule get
 
     private val HOTEL_ID = "26650"
     private val NUMBER_FAVOURABLE_REVIEWS: Int = 9
     private val NUMBER_CRITICAL_REVIEWS: Int = 11
 
-    public var vm: HotelReviewsAdapterViewModel by Delegates.notNull()
+    var vm: HotelReviewsAdapterViewModel by Delegates.notNull()
 
     @Before
     fun before() {

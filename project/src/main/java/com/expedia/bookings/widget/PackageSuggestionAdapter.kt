@@ -14,7 +14,7 @@ import com.expedia.util.subscribeText
 import com.expedia.vm.SuggestionAdapterViewModel
 import com.expedia.vm.PackageSuggestionViewModel
 
-public class PackageSuggestionAdapter(val viewmodel: SuggestionAdapterViewModel) : RecyclerView.Adapter<RecyclerView.ViewHolder>(), Filterable {
+class PackageSuggestionAdapter(val viewmodel: SuggestionAdapterViewModel) : RecyclerView.Adapter<RecyclerView.ViewHolder>(), Filterable {
 
     override fun getItemCount(): Int {
         return viewmodel.suggestions.size
@@ -29,7 +29,7 @@ public class PackageSuggestionAdapter(val viewmodel: SuggestionAdapterViewModel)
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder?, position: Int) {
         when (holder) {
-            is PackageSuggestionViewHolder -> holder.vm.suggestionObserver.onNext(viewmodel.suggestions.get(position))
+            is PackageSuggestionViewHolder -> holder.vm.suggestionObserver.onNext(viewmodel.suggestions[position])
         }
     }
 
@@ -49,7 +49,7 @@ public class PackageSuggestionAdapter(val viewmodel: SuggestionAdapterViewModel)
     }
 }
 
-public class PackageSuggestionViewHolder(val root: ViewGroup, val vm : PackageSuggestionViewModel) : RecyclerView.ViewHolder(root), View.OnClickListener {
+class PackageSuggestionViewHolder(val root: ViewGroup, val vm : PackageSuggestionViewModel) : RecyclerView.ViewHolder(root), View.OnClickListener {
     val title: TextView by root.bindView(R.id.title_textview)
     val icon: ImageView by root.bindView(R.id.icon_imageview)
     val hierarchyIcon: ImageView by root.bindView(R.id.hierarchy_imageview)

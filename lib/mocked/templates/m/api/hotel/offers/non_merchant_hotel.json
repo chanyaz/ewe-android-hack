@@ -1,0 +1,678 @@
+{
+  "hotelTagline": "Adults-only Las Vegas hostel ",
+  "checkInDate": "2016-03-03",
+  "checkOutDate": "2016-03-04",
+  "numberOfRoomsRequested": "1",
+  "numberOfNights": "1",
+  "timeZoneUTCOffsetMinutes": "-480",
+  "checkInInstructions": "The front desk is open daily from 8 AM - 1 AM\u003cbr /\u003e",
+  "shortDescription": "Located in Downtown Las Vegas, this hostel is within 1 mi (2 km) of Little White Wedding Chapel and Las Vegas Premium Outlets. Las Vegas Convention Center and Fashion Show Mall are also within 3 mi (5 km). ",
+  "deepLinkUrl": "https://www.expedia.com/Las-Vegas-Hotels-Hostel-Cat.h8126393.Hotel-Information",
+  "hotelRoomResponse": [
+    {
+      "productKey": "non_merchant_hotel",
+      "cancellationPolicy": "\u003cp\u003eIf you cancel or change your plans, please cancel your reservation in accordance with the hotel\u0027\u0027s cancellation policies to avoid a no-show charge.\u003c/p\u003e\u003cp\u003eCancellations or changes made after 6:00 PM (hotel local time) on Mar 1, 2016 or no-shows are subject to a hotel fee equal to 100% of the total amount paid for the reservation.\u003c/p\u003e\u003cp\u003eIf a late check-in is planned, contact this hotel directly for their late check-in policy.\u003c/p\u003e",
+      "rateDescription": "One Bed in 10-Bed Mixed Sex Dormitory",
+      "roomTypeDescription": "One Bed in 10-Bed Mixed Sex Dormitory",
+      "roomLongDescription": " 1 bed   301-sq-foot (28-sq-meter) room with courtyard views   Entertainment  - Free WiFi   Food \u0026 Drink  - Shared/communal kitchen  Bathroom  - Shared bathroom and in-room sink  Comfort  - Air conditioning  Need to Know  - Limited housekeeping, shared accommodations Non-Smoking ",
+      "roomThumbnailUrl": "/hotels/9000000/8130000/8126400/8126393/8126393_7_d.jpg",
+      "supplierType": "DIRECT_AGENCY",
+      "rateChange": false,
+      "nonRefundable": false,
+      "hasFreeCancellation": true,
+      "freeCancellationWindowDate": "2016-03-01 18:00",
+      "guaranteeRequired": false,
+      "depositRequired": false,
+      "immediateChargeRequired": false,
+      "currentAllotment": "1",
+      "promoDescription": "",
+      "isDiscountRestrictedToCurrentSourceType": false,
+      "isSameDayDRR": false,
+      "smokingPreferences": "NS",
+      "rateOccupancyPerRoom": "10",
+      "bedTypes": [
+        {
+          "id": "40",
+          "description": "1 bed"
+        }
+      ],
+      "rateInfo": {
+        "priceBreakdown": true,
+        "promo": true,
+        "rateChange": false,
+        "chargeableRateInfo": {
+          "maxNightlyRate": "16.00",
+          "averageRate": "16.00",
+          "taxStatusType": "ESTIMATED",
+          "surchargeTotal": "2.08",
+          "surchargeTotalForEntireStay": "2.08",
+          "averageBaseRate": "16.00",
+          "nightlyRateTotal": "16.00",
+          "discountPercent": 0,
+          "total": "18.08",
+          "currencyCode": "USD",
+          "currencySymbol": "$",
+          "surcharges": [
+            {
+              "amount": "2.08",
+              "type": "TAX_ALL"
+            },
+            {
+              "amount": "2.08",
+              "type": "TAX_OTHER"
+            }
+          ],
+          "surchargesForEntireStay": [
+            {
+              "amount": "2.08",
+              "type": "TAX_ALL"
+            },
+            {
+              "amount": "2.08",
+              "type": "TAX_OTHER"
+            }
+          ],
+          "nightlyRatesPerRoom": [
+            {
+              "promo": "false",
+              "baseRate": "16.00",
+              "rate": "16.00"
+            }
+          ],
+          "priceToShowUsers": "16",
+          "strikethroughPriceToShowUsers": "16",
+          "strikethroughPriceWithTaxesAndFeesToShowUsers": "18",
+          "totalMandatoryFees": "3.00",
+          "totalPriceWithMandatoryFees": "18.08",
+          "formattedTotalPriceWithMandatoryFees": "$ 18.08",
+          "userPriceType": "PerNightRateNoTaxes",
+          "priceAdjustments": [
+
+          ],
+          "checkoutPriceType": "total",
+          "airAttached": false,
+          "roomTypeCode": "200756360",
+          "ratePlanCode": "203852051",
+          "showResortFeeMessage": true,
+          "resortFeeInclusion": false,
+          "dailyMandatoryFee": "3.00"
+        }
+      },
+      "quotedOccupancy": "10",
+      "minGuestAge": "18",
+      "roomTypeCode": "200756360",
+      "ratePlanCode": "203852051",
+      "isPayLater": true,
+      "isMemberDeal": false
+    },
+    {
+      "productKey": "c2e6b6cb-232c-4532-b35c-fa5ec89a93fa_V3",
+      "cancellationPolicy": "\u003cp\u003eIf you cancel or change your plans, please cancel your reservation in accordance with the hotel\u0027\u0027s cancellation policies to avoid a no-show charge.\u003c/p\u003e\u003cp\u003eCancellations or changes made after 6:00 PM (hotel local time) on Mar 1, 2016 or no-shows are subject to a hotel fee equal to 100% of the total amount paid for the reservation.\u003c/p\u003e\u003cp\u003eIf a late check-in is planned, contact this hotel directly for their late check-in policy.\u003c/p\u003e",
+      "rateDescription": "One Bed in 6-Bed Mixed Sex Dormitory",
+      "roomTypeDescription": "One Bed in 6-Bed Mixed Sex Dormitory",
+      "roomLongDescription": " 1 bunk bed   143-sq-foot (13-sq-meter) room with courtyard views   Entertainment  - Free WiFi   Food \u0026 Drink  - Shared/communal kitchen  Bathroom  - Shared bathroom and in-room sink  Comfort  - Air conditioning  Need to Know  - Limited housekeeping, shared accommodations Non-Smoking ",
+      "roomThumbnailUrl": "/hotels/9000000/8130000/8126400/8126393/8126393_5_d.jpg",
+      "supplierType": "DIRECT_AGENCY",
+      "rateChange": false,
+      "nonRefundable": false,
+      "hasFreeCancellation": false,
+      "freeCancellationWindowDate": "2016-03-01 18:00",
+      "guaranteeRequired": false,
+      "depositRequired": false,
+      "immediateChargeRequired": false,
+      "currentAllotment": "1",
+      "promoDescription": "",
+      "isDiscountRestrictedToCurrentSourceType": false,
+      "isSameDayDRR": false,
+      "smokingPreferences": "NS",
+      "rateOccupancyPerRoom": "6",
+      "bedTypes": [
+        {
+          "id": "50",
+          "description": "1 bunk bed"
+        }
+      ],
+      "rateInfo": {
+        "priceBreakdown": true,
+        "promo": true,
+        "rateChange": false,
+        "chargeableRateInfo": {
+          "maxNightlyRate": "18.00",
+          "averageRate": "18.00",
+          "taxStatusType": "ESTIMATED",
+          "surchargeTotal": "2.34",
+          "surchargeTotalForEntireStay": "2.34",
+          "averageBaseRate": "18.00",
+          "nightlyRateTotal": "18.00",
+          "discountPercent": 0,
+          "total": "20.34",
+          "currencyCode": "USD",
+          "currencySymbol": "$",
+          "surcharges": [
+            {
+              "amount": "2.34",
+              "type": "TAX_ALL"
+            },
+            {
+              "amount": "2.34",
+              "type": "TAX_OTHER"
+            }
+          ],
+          "surchargesForEntireStay": [
+            {
+              "amount": "2.34",
+              "type": "TAX_ALL"
+            },
+            {
+              "amount": "2.34",
+              "type": "TAX_OTHER"
+            }
+          ],
+          "nightlyRatesPerRoom": [
+            {
+              "promo": "false",
+              "baseRate": "18.00",
+              "rate": "18.00"
+            }
+          ],
+          "priceToShowUsers": "18",
+          "strikethroughPriceToShowUsers": "18",
+          "strikethroughPriceWithTaxesAndFeesToShowUsers": "20",
+          "totalMandatoryFees": "3.00",
+          "totalPriceWithMandatoryFees": "20.34",
+          "formattedTotalPriceWithMandatoryFees": "$ 20.34",
+          "userPriceType": "PerNightRateNoTaxes",
+          "priceAdjustments": [
+
+          ],
+          "checkoutPriceType": "total",
+          "airAttached": false,
+          "roomTypeCode": "200675482",
+          "ratePlanCode": "203852072",
+          "showResortFeeMessage": true,
+          "resortFeeInclusion": false,
+          "dailyMandatoryFee": "3.00"
+        }
+      },
+      "quotedOccupancy": "6",
+      "minGuestAge": "18",
+      "roomTypeCode": "200675482",
+      "ratePlanCode": "203852072",
+      "isPayLater": true,
+      "isMemberDeal": false
+    },
+    {
+      "productKey": "0fcd48c2-62e8-4a94-b9f4-3e11c3727bb9_V3",
+      "cancellationPolicy": "\u003cp\u003eIf you cancel or change your plans, please cancel your reservation in accordance with the hotel\u0027\u0027s cancellation policies to avoid a no-show charge.\u003c/p\u003e\u003cp\u003eCancellations or changes made after 6:00 PM (hotel local time) on Mar 1, 2016 or no-shows are subject to a hotel fee equal to 100% of the total amount paid for the reservation.\u003c/p\u003e\u003cp\u003eIf a late check-in is planned, contact this hotel directly for their late check-in policy.\u003c/p\u003e",
+      "rateDescription": "One Bed in a 6-Bed Female Dormitory",
+      "roomTypeDescription": "One Bed in a 6-Bed Female Dormitory",
+      "roomLongDescription": " 1 bed   140-sq-foot (13-sq-meter) room with courtyard views   Entertainment  - Free WiFi   Food \u0026 Drink  - Shared/communal kitchen  Bathroom  - Shared bathroom and in-room sink  Comfort  - Air conditioning  Need to Know  - Limited housekeeping, shared accommodations Non-Smoking ",
+      "roomThumbnailUrl": "/hotels/9000000/8130000/8126400/8126393/8126393_6_d.jpg",
+      "supplierType": "DIRECT_AGENCY",
+      "rateChange": false,
+      "nonRefundable": false,
+      "hasFreeCancellation": true,
+      "freeCancellationWindowDate": "2016-03-01 18:00",
+      "guaranteeRequired": false,
+      "depositRequired": false,
+      "immediateChargeRequired": false,
+      "currentAllotment": "1",
+      "promoDescription": "",
+      "isDiscountRestrictedToCurrentSourceType": false,
+      "isSameDayDRR": false,
+      "smokingPreferences": "NS",
+      "rateOccupancyPerRoom": "6",
+      "bedTypes": [
+        {
+          "id": "40",
+          "description": "1 bed"
+        }
+      ],
+      "rateInfo": {
+        "priceBreakdown": true,
+        "promo": true,
+        "rateChange": false,
+        "chargeableRateInfo": {
+          "maxNightlyRate": "18.00",
+          "averageRate": "18.00",
+          "taxStatusType": "ESTIMATED",
+          "surchargeTotal": "2.34",
+          "surchargeTotalForEntireStay": "2.34",
+          "averageBaseRate": "18.00",
+          "nightlyRateTotal": "18.00",
+          "discountPercent": 0,
+          "total": "20.34",
+          "currencyCode": "USD",
+          "currencySymbol": "$",
+          "surcharges": [
+            {
+              "amount": "2.34",
+              "type": "TAX_ALL"
+            },
+            {
+              "amount": "2.34",
+              "type": "TAX_OTHER"
+            }
+          ],
+          "surchargesForEntireStay": [
+            {
+              "amount": "2.34",
+              "type": "TAX_ALL"
+            },
+            {
+              "amount": "2.34",
+              "type": "TAX_OTHER"
+            }
+          ],
+          "nightlyRatesPerRoom": [
+            {
+              "promo": "false",
+              "baseRate": "18.00",
+              "rate": "18.00"
+            }
+          ],
+          "priceToShowUsers": "18",
+          "strikethroughPriceToShowUsers": "18",
+          "strikethroughPriceWithTaxesAndFeesToShowUsers": "20",
+          "totalMandatoryFees": "3.00",
+          "totalPriceWithMandatoryFees": "20.34",
+          "formattedTotalPriceWithMandatoryFees": "$ 20.34",
+          "userPriceType": "PerNightRateNoTaxes",
+          "priceAdjustments": [
+
+          ],
+          "checkoutPriceType": "total",
+          "airAttached": false,
+          "roomTypeCode": "200780396",
+          "ratePlanCode": "203852078",
+          "showResortFeeMessage": true,
+          "resortFeeInclusion": false,
+          "dailyMandatoryFee": "3.00"
+        }
+      },
+      "quotedOccupancy": "6",
+      "minGuestAge": "18",
+      "roomTypeCode": "200780396",
+      "ratePlanCode": "203852078",
+      "isPayLater": true,
+      "isMemberDeal": false
+    },
+    {
+      "productKey": "870f4fa3-f3fc-49ff-9369-e916fcd09925_V3",
+      "cancellationPolicy": "\u003cp\u003eIf you cancel or change your plans, please cancel your reservation in accordance with the hotel\u0027\u0027s cancellation policies to avoid a no-show charge.\u003c/p\u003e\u003cp\u003eCancellations or changes made after 6:00 PM (hotel local time) on Mar 1, 2016 or no-shows are subject to a hotel fee equal to 100% of the total amount paid for the reservation.\u003c/p\u003e\u003cp\u003eIf a late check-in is planned, contact this hotel directly for their late check-in policy.\u003c/p\u003e",
+      "rateDescription": "Single Private Room",
+      "roomTypeDescription": "Single Private Room",
+      "roomLongDescription": " 1 bed   140-sq-foot (13-sq-meter) room with courtyard views   Entertainment  - Free WiFi   Food \u0026 Drink  - Shared/communal kitchen  Bathroom  - Private bathroom and shower  Comfort  - Air conditioning  Need to Know  - Limited housekeeping Non-Smoking ",
+      "roomThumbnailUrl": "/hotels/9000000/8130000/8126400/8126393/8126393_6_d.jpg",
+      "supplierType": "DIRECT_AGENCY",
+      "rateChange": false,
+      "nonRefundable": false,
+      "hasFreeCancellation": true,
+      "freeCancellationWindowDate": "2016-03-01 18:00",
+      "guaranteeRequired": false,
+      "depositRequired": false,
+      "immediateChargeRequired": false,
+      "currentAllotment": "1",
+      "promoDescription": "",
+      "isDiscountRestrictedToCurrentSourceType": false,
+      "isSameDayDRR": false,
+      "smokingPreferences": "NS",
+      "rateOccupancyPerRoom": "1",
+      "bedTypes": [
+        {
+          "id": "40",
+          "description": "1 bed"
+        }
+      ],
+      "rateInfo": {
+        "priceBreakdown": true,
+        "promo": true,
+        "rateChange": false,
+        "chargeableRateInfo": {
+          "maxNightlyRate": "39.99",
+          "averageRate": "39.99",
+          "taxStatusType": "ESTIMATED",
+          "surchargeTotal": "5.20",
+          "surchargeTotalForEntireStay": "5.20",
+          "averageBaseRate": "39.99",
+          "nightlyRateTotal": "39.99",
+          "discountPercent": 0,
+          "total": "45.19",
+          "currencyCode": "USD",
+          "currencySymbol": "$",
+          "surcharges": [
+            {
+              "amount": "5.20",
+              "type": "TAX_ALL"
+            },
+            {
+              "amount": "5.20",
+              "type": "TAX_OTHER"
+            }
+          ],
+          "surchargesForEntireStay": [
+            {
+              "amount": "5.20",
+              "type": "TAX_ALL"
+            },
+            {
+              "amount": "5.20",
+              "type": "TAX_OTHER"
+            }
+          ],
+          "nightlyRatesPerRoom": [
+            {
+              "promo": "false",
+              "baseRate": "39.99",
+              "rate": "39.99"
+            }
+          ],
+          "priceToShowUsers": "40",
+          "strikethroughPriceToShowUsers": "40",
+          "strikethroughPriceWithTaxesAndFeesToShowUsers": "45",
+          "totalMandatoryFees": "3.00",
+          "totalPriceWithMandatoryFees": "45.19",
+          "formattedTotalPriceWithMandatoryFees": "$ 45.19",
+          "userPriceType": "PerNightRateNoTaxes",
+          "priceAdjustments": [
+
+          ],
+          "checkoutPriceType": "total",
+          "airAttached": false,
+          "roomTypeCode": "200780434",
+          "ratePlanCode": "203852096",
+          "showResortFeeMessage": true,
+          "resortFeeInclusion": false,
+          "dailyMandatoryFee": "3.00"
+        }
+      },
+      "quotedOccupancy": "1",
+      "minGuestAge": "18",
+      "roomTypeCode": "200780434",
+      "ratePlanCode": "203852096",
+      "isPayLater": true,
+      "isMemberDeal": false
+    },
+    {
+      "productKey": "e31dacea-c1b5-46e8-a240-3ed424f272f6_V3",
+      "cancellationPolicy": "\u003cp\u003eIf you cancel or change your plans, please cancel your reservation in accordance with the hotel\u0027\u0027s cancellation policies to avoid a no-show charge.\u003c/p\u003e\u003cp\u003eCancellations or changes made after 6:00 PM (hotel local time) on Mar 1, 2016 or no-shows are subject to a hotel fee equal to 100% of the total amount paid for the reservation.\u003c/p\u003e\u003cp\u003eIf a late check-in is planned, contact this hotel directly for their late check-in policy.\u003c/p\u003e",
+      "rateDescription": "Two Person Private Room",
+      "roomTypeDescription": "Two Person Private Room",
+      "roomLongDescription": " 2 beds   140-sq-foot (13-sq-meter) room with courtyard views   Entertainment  - Free WiFi   Food \u0026 Drink  - Shared/communal kitchen  Bathroom  - Private bathroom and shower  Comfort  - Air conditioning  Need to Know  - Limited housekeeping, shared accommodations Non-Smoking ",
+      "roomThumbnailUrl": "/hotels/9000000/8130000/8126400/8126393/8126393_6_d.jpg",
+      "supplierType": "DIRECT_AGENCY",
+      "rateChange": false,
+      "nonRefundable": false,
+      "hasFreeCancellation": true,
+      "freeCancellationWindowDate": "2016-03-01 18:00",
+      "guaranteeRequired": false,
+      "depositRequired": false,
+      "immediateChargeRequired": false,
+      "currentAllotment": "1",
+      "promoDescription": "",
+      "isDiscountRestrictedToCurrentSourceType": false,
+      "isSameDayDRR": false,
+      "smokingPreferences": "NS",
+      "rateOccupancyPerRoom": "2",
+      "bedTypes": [
+        {
+          "id": "41",
+          "description": "2 beds"
+        }
+      ],
+      "rateInfo": {
+        "priceBreakdown": true,
+        "promo": true,
+        "rateChange": false,
+        "chargeableRateInfo": {
+          "maxNightlyRate": "40.00",
+          "averageRate": "40.00",
+          "taxStatusType": "ESTIMATED",
+          "surchargeTotal": "5.20",
+          "surchargeTotalForEntireStay": "5.20",
+          "averageBaseRate": "40.00",
+          "nightlyRateTotal": "40.00",
+          "discountPercent": 0,
+          "total": "45.20",
+          "currencyCode": "USD",
+          "currencySymbol": "$",
+          "surcharges": [
+            {
+              "amount": "5.20",
+              "type": "TAX_ALL"
+            },
+            {
+              "amount": "5.20",
+              "type": "TAX_OTHER"
+            }
+          ],
+          "surchargesForEntireStay": [
+            {
+              "amount": "5.20",
+              "type": "TAX_ALL"
+            },
+            {
+              "amount": "5.20",
+              "type": "TAX_OTHER"
+            }
+          ],
+          "nightlyRatesPerRoom": [
+            {
+              "promo": "false",
+              "baseRate": "40.00",
+              "rate": "40.00"
+            }
+          ],
+          "priceToShowUsers": "40",
+          "strikethroughPriceToShowUsers": "40",
+          "strikethroughPriceWithTaxesAndFeesToShowUsers": "45",
+          "totalMandatoryFees": "3.00",
+          "totalPriceWithMandatoryFees": "45.20",
+          "formattedTotalPriceWithMandatoryFees": "$ 45.20",
+          "userPriceType": "PerNightRateNoTaxes",
+          "priceAdjustments": [
+
+          ],
+          "checkoutPriceType": "total",
+          "airAttached": false,
+          "roomTypeCode": "200780462",
+          "ratePlanCode": "203852008",
+          "showResortFeeMessage": true,
+          "resortFeeInclusion": false,
+          "dailyMandatoryFee": "3.00"
+        }
+      },
+      "quotedOccupancy": "2",
+      "minGuestAge": "18",
+      "roomTypeCode": "200780462",
+      "ratePlanCode": "203852008",
+      "isPayLater": true,
+      "isMemberDeal": false
+    }
+  ],
+  "signedMapUrl": "https://maps.googleapis.com/maps/api/staticmap?client\u003dgme-expedia\u0026center\u003d36.155731,-115.149641\u0026maptype\u003dmobile\u0026zoom\u003d16\u0026size\u003d480x400\u0026sensor\u003dfalse\u0026hl\u003dfalse\u0026signature\u003dnz13dMGKCdTZ4coAvQ1ThWdoUg8",
+  "airAttachExpirationTimeSeconds": "0",
+  "hotelId": "8126393",
+  "hotelName": "Hostel Cat",
+  "localizedHotelName": "Hostel Cat",
+  "nonLocalizedHotelName": "Hostel Cat",
+  "hotelAddress": "1236 Las Vegas Boulevard S",
+  "hotelCity": "Las Vegas",
+  "hotelStateProvince": "NV",
+  "hotelCountry": "USA",
+  "latitude": "36.155731",
+  "longitude": "-115.149641",
+  "longDescription": "\u003cp\u003e\u003cstrong\u003eLocation:\u003c/strong\u003e Located in Downtown Las Vegas, this hostel is within 1 mi (2 km) of Little White Wedding Chapel and Las Vegas Premium Outlets. Las Vegas Convention Center and Fashion Show Mall are also within 3 mi (5 km). \u003c/p\u003e\u003cp\u003e\u003cstrong\u003eProperty Features:\u003c/strong\u003e A computer station, barbecue grills, and a picnic area are available at this hostel. WiFi in public areas is free. Other amenities include a TV in the lobby and ATM/banking services. \u003c/p\u003e\u003cp\u003e\u003cstrong\u003eRoom Amenities:\u003c/strong\u003e All 22 rooms offer free WiFi. \u003c/p\u003e\u003cp\u003e\u003cstrong\u003eRooms\u003c/strong\u003e\u003cbr\u003eHostel Cat offers 22 accommodations. This Las Vegas hostel provides complimentary wireless high-speed Internet access. Guests can make use of the shared/communal kitchen. \u003c/p\u003e\u003cp\u003e\u003cstrong\u003eFees\u003c/strong\u003e\u003cbr\u003e\u003cul\u003e\u003cli\u003eThe following fees and deposits are charged by the property at time of service, check-in, or check-out.\u003cul\u003e          \u003cli\u003eEarly check-in fee: USD 3.00\u003c/li\u003e   \u003cli\u003eLate check-out fee: USD 10.00\u003c/li\u003e   \u003cli\u003eOnsite credit card charges are subject to a surcharge \u003c/li\u003e  \u003c/ul\u003e\u003c/li\u003e\u003cli\u003eThe above list may not be comprehensive. Fees and deposits may not include tax and are subject to change.\u003c/li\u003e\u003c/ul\u003e\u003c/p\u003e\u003cp\u003e\u003cstrong\u003eProperty Amenities\u003c/strong\u003e\u003cbr\u003eHostel Cat features barbecue grills, a picnic area, and ATM/banking services. A computer station is located on site and high-speed wireless Internet access is complimentary. \u003cul\u003e\u003cli\u003eTotal number of rooms - 22\u003c/li\u003e\u003cli\u003eNumber of floors - 1\u003c/li\u003e\u003cli\u003eATM/banking\u003c/li\u003e\u003cli\u003eBarbecue grill(s)\u003c/li\u003e\u003cli\u003eFront desk (limited hours)\u003c/li\u003e\u003cli\u003eFree WiFi\u003c/li\u003e\u003cli\u003eComputer station\u003c/li\u003e\u003cli\u003ePicnic area\u003c/li\u003e\u003cli\u003eLuggage storage\u003c/li\u003e\u003cli\u003eTelevision in common areas\u003c/li\u003e\u003c/ul\u003e\u003c/p\u003e\u003cp\u003e\u003cstrong\u003eRoom Amenities\u003c/strong\u003e\u003cbr\u003e\u003cul\u003e\u003cli\u003eFree WiFi\u003c/li\u003e\u003cli\u003eShared/communal kitchen\u003c/li\u003e\u003c/ul\u003e\u003c/p\u003e\u003cp\u003e\u003cstrong\u003ePoints of Interest\u003c/strong\u003e\u003cbr\u003e\u003cul\u003e\u003cli\u003eLittle White Wedding Chapel - 0.1 km / 0 mi\u003c/li\u003e\u003cli\u003eArts Factory - 0.4 km / 0.3 mi\u003c/li\u003e\u003cli\u003eLas Vegas Premium Outlets - 1.3 km / 0.8 mi\u003c/li\u003e\u003cli\u003eWorld Market Center - 1.4 km / 0.9 mi\u003c/li\u003e\u003cli\u003eSmith Center for the Performing Arts - 1.5 km / 0.9 mi\u003c/li\u003e\u003cli\u003eFremont Street Experience - 1.7 km / 1.1 mi\u003c/li\u003e\u003cli\u003eFremont Street Flightlinez - 1.7 km / 1.1 mi\u003c/li\u003e\u003cli\u003eMob Museum - 2 km / 1.3 mi\u003c/li\u003e\u003cli\u003eLas Vegas City Hall - 2 km / 1.3 mi\u003c/li\u003e\u003cli\u003eLas Vegas Country Club - 2.3 km / 1.5 mi\u003c/li\u003e\u003cli\u003eLas Vegas Convention Center - 2.7 km / 1.7 mi\u003c/li\u003e\u003cli\u003eNeon Museum - 2.7 km / 1.7 mi\u003c/li\u003e\u003cli\u003eLas Vegas Library - 2.9 km / 1.8 mi\u003c/li\u003e\u003cli\u003eDiscovery Children\u0027s Museum - 2.9 km / 1.8 mi\u003c/li\u003e\u003cli\u003eLas Vegas Natural History Museum - 3 km / 1.9 mi\u003c/li\u003e\u003c/ul\u003eThe preferred airport for Hostel Cat is Las Vegas, NV (LAS-McCarran Intl.) - 7.8 km / 4.9 mi. Distances are calculated in a straight line from the property\u0027s location to the point of interest or airport and may not reflect actual travel distance. Distances are displayed to the nearest 0.1 km and mile. \u003c/p\u003e\u003cp\u003e\u003cstrong\u003ePolicies\u003c/strong\u003e\u003cbr\u003e\u003cul\u003e\u003cli\u003eExtra-person charges may apply and vary depending on hotel policy.\u003c/li\u003e\u003cli\u003eGovernment-issued photo identification and a credit card or cash deposit are required at check-in for incidental charges.\u003c/li\u003e\u003cli\u003eSpecial requests are subject to availability upon check-in and may incur additional charges. Special requests cannot be guaranteed.  \u003cul\u003e\u003cli\u003eThe name on the credit card used at check-in to pay for incidentals must be the primary name on the guestroom reservation. \u003c/li\u003e\u003c/ul\u003e\u003c/li\u003e\u003cli\u003eCheck-in time starts at 2 PM\u003c/li\u003e\u003cli\u003eCheck-in time ends at 1 AM\u003c/li\u003e\u003cli\u003eMinimum check-in age is 18\u003c/li\u003e\u003cli\u003eMinimum guest age is 18\u003c/li\u003e\u003cli\u003eCheck-out time is 11 AM\u003c/li\u003e\u003cli\u003ePets not allowed\u003c/li\u003e\u003cli\u003eCaters to adults only\u003c/li\u003e\u003cli\u003eNo rollaway/extra beds available\u003c/li\u003e\u003cli\u003eNo cribs (infant beds) available\u003c/li\u003e\u003cli\u003eNoise-free rooms not guaranteed\u003c/li\u003e\u003cli\u003eMasterCard\u003c/li\u003e\u003cli\u003eVisa\u003c/li\u003e\u003c/ul\u003e\u003cul\u003e\u003cli\u003eBookings with invalid cards/insufficient funds will be cancelled immediately.\u003c/li\u003e\u003cli\u003eAny cancellation with 48 hours of the arrival date will result in a charge of the first night plus a USD5 processing fee.\u003c/li\u003e\u003cli\u003eThis property\u0027s private rooms are dorm rooms reserved for a single reservation, with a private bathroom in room.\u003c/li\u003e\u003c/ul\u003e\u003c/p\u003e",
+  "photos": [
+    {
+      "url": "/hotels/9000000/8130000/8126400/8126393/8126393_7_z.jpg",
+      "thumbnailUrl": "/hotels/9000000/8130000/8126400/8126393/8126393_7_t.jpg",
+      "featured": true,
+      "displayText": "Featured Image"
+    },
+    {
+      "url": "/hotels/9000000/8130000/8126400/8126393/8126393_3_z.jpg",
+      "thumbnailUrl": "/hotels/9000000/8130000/8126400/8126393/8126393_3_t.jpg",
+      "displayText": "Basketball Court"
+    },
+    {
+      "url": "/hotels/9000000/8130000/8126400/8126393/8126393_2_z.jpg",
+      "thumbnailUrl": "/hotels/9000000/8130000/8126400/8126393/8126393_2_t.jpg",
+      "displayText": "Hotel Front"
+    },
+    {
+      "url": "/hotels/9000000/8130000/8126400/8126393/8126393_1_z.jpg",
+      "thumbnailUrl": "/hotels/9000000/8130000/8126400/8126393/8126393_1_t.jpg",
+      "displayText": "BBQ/Picnic Area"
+    },
+    {
+      "url": "/hotels/9000000/8130000/8126400/8126393/8126393_4_z.jpg",
+      "thumbnailUrl": "/hotels/9000000/8130000/8126400/8126393/8126393_4_t.jpg",
+      "displayText": "BBQ/Picnic Area"
+    },
+    {
+      "url": "/hotels/9000000/8130000/8126400/8126393/8126393_6_y.jpg",
+      "thumbnailUrl": "/hotels/9000000/8130000/8126400/8126393/8126393_6_t.jpg",
+      "displayText": "Guestroom"
+    },
+    {
+      "url": "/hotels/9000000/8130000/8126400/8126393/8126393_5_l.jpg",
+      "thumbnailUrl": "/hotels/9000000/8130000/8126400/8126393/8126393_5_t.jpg",
+      "displayText": "Guestroom"
+    }
+  ],
+  "hotelAmenities": [
+    {
+      "id": "52",
+      "description": "Total number of rooms - 22"
+    },
+    {
+      "id": "54",
+      "description": "Number of floors - 1"
+    },
+    {
+      "id": "41",
+      "description": "ATM/banking"
+    },
+    {
+      "id": "321",
+      "description": "Barbecue grill(s)"
+    },
+    {
+      "id": "2064",
+      "description": "Front desk (limited hours)"
+    },
+    {
+      "id": "2390",
+      "description": "Free WiFi"
+    },
+    {
+      "id": "3865",
+      "description": "Computer station"
+    },
+    {
+      "id": "2049",
+      "description": "Picnic area"
+    },
+    {
+      "id": "4003",
+      "description": "Luggage storage"
+    },
+    {
+      "id": "372",
+      "description": "Television in common areas"
+    }
+  ],
+  "hotelStarRating": "1.5",
+  "hotelStarRatingCssClassName": "1-5",
+  "hotelGuestRating": "3.5",
+  "totalRecommendations": "44",
+  "totalReviews": "44",
+  "percentRecommended": "100",
+  "telesalesNumber": "1-800-267-9604",
+  "deskTopOverrideNumber": false,
+  "hotelMandatoryFeesText": {
+    "name": "Mandatory Fees and Taxes",
+    "content": "\u003cul\u003e\u003cli\u003eYou\u0027ll be asked to pay the following charges at the hotel:\u003cul\u003e\u003cli\u003eDeposit: USD 10.00 per stay\u003c/li\u003e\u003cli\u003eResort fee: USD 3.00 per person, per night\u003c/li\u003e\u003c/ul\u003e\u003c/li\u003e\u003cli\u003eThe hotel resort fee includes:\u003cul\u003e\u003cli\u003eInternet access\u003c/li\u003e\u003cli\u003eLaundry facilities\u003c/li\u003e\u003cli\u003eSelf parking\u003c/li\u003e\u003cli\u003eParking\u003c/li\u003e\u003cli\u003eHousekeeping/cleaning fees/gratuities\u003c/li\u003e\u003c/ul\u003e\u003c/li\u003e\u003cli\u003eWe have included all charges provided to us by the property. However, charges can vary, for example, based on length of stay or the room you book.\u003c/li\u003e\u003c/ul\u003e"
+  },
+  "hotelOverviewText": [
+    {
+      "name": "Location",
+      "content": "Located in Downtown Las Vegas, this hostel is within 1 mi (2 km) of Little White Wedding Chapel and Las Vegas Premium Outlets. Las Vegas Convention Center and Fashion Show Mall are also within 3 mi (5 km)."
+    },
+    {
+      "name": "Property Features",
+      "content": "A computer station, barbecue grills, and a picnic area are available at this hostel. WiFi in public areas is free. Other amenities include a TV in the lobby and ATM/banking services."
+    },
+    {
+      "name": "Room Amenities",
+      "content": "All 22 rooms offer free WiFi."
+    }
+  ],
+  "firstHotelOverview": "Located in Downtown Las Vegas, this hostel is within 1 mi (2 km) of Little White Wedding Chapel and Las Vegas Premium Outlets. Las Vegas Convention Center and Fashion Show Mall are also within 3 mi (5 km).",
+  "hotelAmenitiesText": {
+    "name": "Property Amenities",
+    "content": "\u003cp\u003eHostel Cat features barbecue grills, a picnic area, and ATM/banking services. A computer station is located on site and high-speed wireless Internet access is complimentary.\u003c/p\u003e\u003cul\u003e\u003cli\u003eTotal number of rooms - 22\u003c/li\u003e\u003cli\u003eNumber of floors - 1\u003c/li\u003e\u003cli\u003eATM/banking\u003c/li\u003e\u003cli\u003eBarbecue grill(s)\u003c/li\u003e\u003cli\u003eFront desk (limited hours)\u003c/li\u003e\u003cli\u003eFree WiFi\u003c/li\u003e\u003cli\u003eComputer station\u003c/li\u003e\u003cli\u003ePicnic area\u003c/li\u003e\u003cli\u003eLuggage storage\u003c/li\u003e\u003cli\u003eTelevision in common areas\u003c/li\u003e\u003c/ul\u003e"
+  },
+  "hotelPoliciesText": {
+    "name": "Policies",
+    "content": "\u003cul\u003e\u003cli\u003eExtra-person charges may apply and vary depending on hotel policy.\u003c/li\u003e\u003cli\u003eGovernment-issued photo identification and a credit card or cash deposit are required at check-in for incidental charges.\u003c/li\u003e\u003cli\u003eSpecial requests are subject to availability upon check-in and may incur additional charges. Special requests cannot be guaranteed.  \u003cul\u003e\u003cli\u003eThe name on the credit card used at check-in to pay for incidentals must be the primary name on the guestroom reservation. \u003c/li\u003e\u003c/ul\u003e\u003c/li\u003e\u003cli\u003eCheck-in time starts at 2 PM\u003c/li\u003e\u003cli\u003eCheck-in time ends at 1 AM\u003c/li\u003e\u003cli\u003eMinimum check-in age is 18\u003c/li\u003e\u003cli\u003eMinimum guest age is 18\u003c/li\u003e\u003cli\u003eCheck-out time is 11 AM\u003c/li\u003e\u003cli\u003ePets not allowed\u003c/li\u003e\u003cli\u003eCaters to adults only\u003c/li\u003e\u003cli\u003eNo rollaway/extra beds available\u003c/li\u003e\u003cli\u003eNo cribs (infant beds) available\u003c/li\u003e\u003cli\u003eNoise-free rooms not guaranteed\u003c/li\u003e\u003cli\u003eMasterCard\u003c/li\u003e\u003cli\u003eVisa\u003c/li\u003e\u003c/ul\u003e\u003cul\u003e\u003cli\u003eBookings with invalid cards/insufficient funds will be cancelled immediately.\u003c/li\u003e\u003cli\u003eAny cancellation with 48 hours of the arrival date will result in a charge of the first night plus a USD5 processing fee.\u003c/li\u003e\u003cli\u003eThis property\u0027s private rooms are dorm rooms reserved for a single reservation, with a private bathroom in room.\u003c/li\u003e\u003c/ul\u003e"
+  },
+  "hotelFeesText": {
+    "name": "Fees",
+    "content": "\u003cul\u003e\u003cli\u003eThe following fees and deposits are charged by the property at time of service, check-in, or check-out.\u003cul\u003e          \u003cli\u003eEarly check-in fee: USD 3.00\u003c/li\u003e   \u003cli\u003eLate check-out fee: USD 10.00\u003c/li\u003e   \u003cli\u003eOnsite credit card charges are subject to a surcharge \u003c/li\u003e  \u003c/ul\u003e\u003c/li\u003e\u003cli\u003eThe above list may not be comprehensive. Fees and deposits may not include tax and are subject to change.\u003c/li\u003e\u003c/ul\u003e"
+  },
+  "isVipAccess": false,
+  "locationDescription": "Downtown Las Vegas",
+  "locationId": "800047",
+  "regions": [
+    {
+      "id": 201,
+      "type": "COUNTRY",
+      "name": "United States of America",
+      "description": "",
+      "latitude": 45.9400260646844,
+      "longitude": -115.809481996266
+    },
+    {
+      "id": 230,
+      "type": "PROVINCESTATE",
+      "name": "Nevada",
+      "description": "",
+      "latitude": 39.3556376356182,
+      "longitude": -116.655691282206
+    },
+    {
+      "id": 2008,
+      "type": "CITY",
+      "name": "Las Vegas",
+      "description": "",
+      "latitude": 36.114666,
+      "longitude": -115.172872
+    },
+    {
+      "id": 178276,
+      "type": "MULTICITYVICINITY",
+      "name": "Las Vegas (and vicinity)",
+      "description": "",
+      "latitude": 36.114666,
+      "longitude": -115.172872
+    },
+    {
+      "id": 800047,
+      "type": "NEIGHBORHOOD",
+      "name": "Downtown Las Vegas",
+      "description": "",
+      "latitude": 36.1679638859344,
+      "longitude": -115.13857991911
+    },
+    {
+      "id": 6054173,
+      "type": "MULTIREGIONWITHINACOUNTRY",
+      "name": "Clark County - Las Vegas",
+      "description": "",
+      "latitude": 36.1017960708337,
+      "longitude": -114.87418365644
+    }
+  ]
+}

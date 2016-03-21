@@ -8,8 +8,8 @@ import android.util.AttributeSet
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ImageButton
-import android.widget.Spinner
 import android.widget.LinearLayout
+import android.widget.Spinner
 import com.expedia.bookings.R
 import com.expedia.bookings.utils.bindView
 import com.expedia.util.notNullAndObservable
@@ -17,7 +17,7 @@ import com.expedia.util.subscribeOnClick
 import com.expedia.util.subscribeText
 import com.expedia.vm.HotelTravelerPickerViewModel
 
-public class HotelTravelerPickerView(context: Context, attrs: AttributeSet) : FrameLayout(context, attrs) {
+class HotelTravelerPickerView(context: Context, attrs: AttributeSet) : FrameLayout(context, attrs) {
 
     val adultText: TextView by bindView(R.id.adult)
     val childText: TextView by bindView(R.id.children)
@@ -39,6 +39,8 @@ public class HotelTravelerPickerView(context: Context, attrs: AttributeSet) : Fr
     val childPlus: ImageButton by bindView(R.id.children_plus)
     val childMinus: ImageButton by bindView(R.id.children_minus)
 
+    val childBottomContainer: View by bindView(R.id.children_ages_bottom_container)
+
     val DEFAULT_CHILD_AGE = 10
     val enabledColor = ContextCompat.getColor(context, R.color.hotel_guest_selector_enabled_color)
     val disabledColor = ContextCompat.getColor(context, R.color.hotel_guest_selector_disabled_color)
@@ -58,19 +60,19 @@ public class HotelTravelerPickerView(context: Context, attrs: AttributeSet) : Fr
         vm.childTextObservable.subscribeText(childText)
 
         vm.adultPlusObservable.subscribe {
-            adultPlus.setEnabled(it)
+            adultPlus.isEnabled = it
             adultPlus.setImageButtonColorFilter(it)
         }
         vm.adultMinusObservable.subscribe {
-            adultMinus.setEnabled(it)
+            adultMinus.isEnabled = it
             adultMinus.setImageButtonColorFilter(it)
         }
         vm.childPlusObservable.subscribe {
-            childPlus.setEnabled(it)
+            childPlus.isEnabled = it
             childPlus.setImageButtonColorFilter(it)
         }
         vm.childMinusObservable.subscribe {
-            childMinus.setEnabled(it)
+            childMinus.isEnabled = it
             childMinus.setImageButtonColorFilter(it)
         }
 
@@ -90,14 +92,14 @@ public class HotelTravelerPickerView(context: Context, attrs: AttributeSet) : Fr
 
         infantPreferenceSeatingSpinner.adapter = InfantSeatPreferenceAdapter(context, infantSeatPreferenceOptions)
         infantPreferenceSeatingSpinner.setSelection(0)
-        infantPreferenceSeatingSpinner.background.setColorFilter(resources.getColor(R.color.itin_white_text), PorterDuff.Mode.SRC_ATOP);
+        infantPreferenceSeatingSpinner.background.setColorFilter(ContextCompat.getColor(context, R.color.itin_white_text), PorterDuff.Mode.SRC_ATOP);
         infantPreferenceSeatingSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
                 val selectedText = parent?.selectedView as android.widget.TextView
                 selectedText.text = resources.getString(R.string.infants_under_two_TEMPLATE, infantSeatPreferenceOptions[position])
                 selectedText.setTextColor(Color.WHITE)
                 //TODO with the selected infant's seat preference
-
+                vm.isInfantInLapObservable.onNext(position != 0)
             }
 
             override fun onNothingSelected(parent: AdapterView<*>?) {
@@ -107,16 +109,17 @@ public class HotelTravelerPickerView(context: Context, attrs: AttributeSet) : Fr
 
         vm.travelerParamsObservable.subscribe { travelers ->
             if (travelers.children.size == 0) {
-                childAgeLabel.setVisibility(View.GONE)
+                childAgeLabel.visibility = View.GONE
             } else {
-                childAgeLabel.setVisibility(View.VISIBLE)
+                childAgeLabel.visibility = View.VISIBLE
+                childBottomContainer.visibility = if (travelers.children.size > 2) View.VISIBLE else View.GONE
             }
             for (i in childSpinners.indices) {
                 val spinner = childSpinners[i]
                 if (i >= travelers.children.size) {
-                    spinner.setVisibility(View.INVISIBLE)
+                    spinner.visibility = View.INVISIBLE
                 } else {
-                    spinner.setVisibility(View.VISIBLE)
+                    spinner.visibility = View.VISIBLE
                 }
             }
         }

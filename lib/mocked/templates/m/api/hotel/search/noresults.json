@@ -1,0 +1,91 @@
+{
+  "numberOfRoomsRequested": 1,
+  "filterUnavailableHotelsRequested": true,
+  "totalHotelCount": 0,
+  "availableHotelCount": 0,
+  "searchRegionId": "6028000",
+  "searchRegionCity": "GGW-Glasgow Intl.",
+  "deepLinkUrl": "https://www.expedia.com/Glasgow-Intl-Airport-Hotels.0-aGGW-0.Travel-Guide-Filter-Hotels",
+  "hotelList": [],
+  "allNeighborhoodsInSearchRegion": [
+    {
+      "name": "Glasgow, MT (GGW-Glasgow Intl.)",
+      "id": 6028000
+    }
+  ],
+  "filteredSearchMatchedNoHotels": true,
+  "starOptions": [
+    {
+      "starRating": 0,
+      "count": 0
+    },
+    {
+      "starRating": 5,
+      "count": 0
+    },
+    {
+      "starRating": 10,
+      "count": 0
+    },
+    {
+      "starRating": 15,
+      "count": 0
+    },
+    {
+      "starRating": 20,
+      "count": 0
+    },
+    {
+      "starRating": 25,
+      "count": 0
+    },
+    {
+      "starRating": 30,
+      "count": 0
+    },
+    {
+      "starRating": 35,
+      "count": 0
+    },
+    {
+      "starRating": 40,
+      "count": 0
+    },
+    {
+      "starRating": 45,
+      "count": 0
+    },
+    {
+      "starRating": 50,
+      "count": 0
+    }
+  ],
+  "priceOptions": [
+    {
+      "minPrice": "0",
+      "maxPrice": "75",
+      "count": 0
+    },
+    {
+      "minPrice": "75",
+      "maxPrice": "124",
+      "count": 0
+    },
+    {
+      "minPrice": "125",
+      "maxPrice": "199",
+      "count": 0
+    },
+    {
+      "minPrice": "200",
+      "maxPrice": "299",
+      "count": 0
+    },
+    {
+      "minPrice": "300",
+      "maxPrice": "0",
+      "count": 0
+    }
+  ],
+  "pageViewBeaconPixelUrl": "http://beam.hlserve.com/travel?action\u003dpageview\u0026programId\u003d1\u0026domain\u003dwww.expedia.com\u0026culture\u003den-US\u0026publisher\u003dexpedia\u0026pageName\u003dHotel-Search\u0026rooms\u003d1\u0026destRegionId\u003d6028000\u0026publisherUserGuid\u003d0f6427499a7249cd8769700598b4a246\u0026userIP\u003d65.205.50.119\u0026userAgent\u003dExpediaBookings%2F6.8.0+%28EHad%3B+Mobiata%29\u0026checkIn\u003d2016-03-11\u0026checkOut\u003d2016-03-12\u0026adults\u003d1\u0026children\u003d0\u0026deviceType\u003dApp-Phone\u0026testVersion\u003d8020.0%2C9662.0"
+}

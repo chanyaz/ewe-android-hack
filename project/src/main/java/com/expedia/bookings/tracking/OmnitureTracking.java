@@ -1,5 +1,17 @@
 package com.expedia.bookings.tracking;
 
+import java.io.PrintWriter;
+import java.io.StringWriter;
+import java.io.Writer;
+import java.math.BigDecimal;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
+import java.util.HashSet;
+import java.util.Locale;
+import java.util.Set;
+
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.joda.time.format.DateTimeFormat;
@@ -25,9 +37,9 @@ import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.data.BillingInfo;
-import com.expedia.bookings.data.CreateItineraryResponse;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.Distance.DistanceUnit;
+import com.expedia.bookings.data.FlightCheckoutResponse;
 import com.expedia.bookings.data.FlightFilter;
 import com.expedia.bookings.data.FlightLeg;
 import com.expedia.bookings.data.FlightSearchParams;
@@ -89,18 +101,6 @@ import com.mobiata.android.LocationServices;
 import com.mobiata.android.Log;
 import com.mobiata.android.util.AdvertisingIdUtils;
 import com.mobiata.android.util.SettingUtils;
-
-import java.io.PrintWriter;
-import java.io.StringWriter;
-import java.io.Writer;
-import java.math.BigDecimal;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-import java.text.DecimalFormat;
-import java.text.SimpleDateFormat;
-import java.util.HashSet;
-import java.util.Locale;
-import java.util.Set;
 
 /**
  *
@@ -247,6 +247,7 @@ public class OmnitureTracking {
 		s.setProp(2, HOTELV2_LOB);
 
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppHotelRecentSearchTest);
+		trackAbacusTest(s, AbacusUtils.EBAndroidAppHotelsSearchScreenTest);
 		// Send the tracking data
 		s.track();
 
@@ -324,8 +325,11 @@ public class OmnitureTracking {
 			}
 		}
 
-		//tracking for Map AB test
+
 		if (!ExpediaBookingApp.isDeviceShitty()) {
+			//tracking for Map Clustering AB test
+			trackAbacusTest(s, AbacusUtils.EBAndroidAppHSRMapClusteringTest);
+			//tracking for Map AB test
 			trackAbacusTest(s, AbacusUtils.EBAndroidAppHotelResultMapTest);
 		}
 
@@ -732,6 +736,8 @@ public class OmnitureTracking {
 		com.expedia.bookings.data.hotels.HotelSearchParams searchParams) {
 		ADMS_Measurement s = createTrackPageLoadEventBase(HOTELS_CHECKOUT_INFO);
 
+		trackAbacusTest(s, AbacusUtils.EBAndroidAppHotelSecureCheckoutMessaging);
+
 		StringBuilder events = new StringBuilder("event70");
 		if (trip.isExpediaRewardsRedeemable()) {
 			events.append(",event114");
@@ -739,7 +745,7 @@ public class OmnitureTracking {
 			BigDecimal totalAmount = trip.getTripTotal().amount;
 			int percentagePaidWithPoints = NumberUtils.getPercentagePaidWithPointsForOmniture(amountPaidWithPoints,
 				totalAmount);
-			s.setEvar(53, String.format(EXPEDIA_POINTS_PERCENTAGE, percentagePaidWithPoints));
+			s.setEvar(53, String.format(Locale.getDefault(), EXPEDIA_POINTS_PERCENTAGE, percentagePaidWithPoints));
 		}
 		s.setEvents(events.toString());
 		addHotelV2RegionId(s, searchParams);
@@ -1134,10 +1140,10 @@ public class OmnitureTracking {
 	public static void trackAppHotelsSearch() {
 		HotelSearchParams searchParams = Db.getHotelSearch().getSearchParams();
 		HotelSearchResponse searchResponse = Db.getHotelSearch().getSearchResponse();
-		internalTrackHotelsSearch(searchParams, searchResponse);
+		internalTrackOldHotelsSearch(searchParams, searchResponse);
 	}
 
-	private static void internalTrackHotelsSearch(HotelSearchParams searchParams,
+	private static void internalTrackOldHotelsSearch(HotelSearchParams searchParams,
 		HotelSearchResponse searchResponse) {
 		// Start actually tracking the search result change
 		Log.d(TAG, "Tracking \"App.Hotels.Search\" pageLoad...");
@@ -1754,10 +1760,8 @@ public class OmnitureTracking {
 		Log.d(TAG, "Tracking \"" + pageName + "\" pageLoad");
 		ADMS_Measurement s = createTrackPageLoadEventBase(pageName);
 
-		FlightTrip trip = Db.getTripBucket().getFlight().getFlightTrip();
-		CreateItineraryResponse createItineraryResponse = Db.getTripBucket().getFlight().getItineraryResponse();
-		FlightTrip createTripOffer = createItineraryResponse.getOffer();
-		boolean isSplitTicket = createItineraryResponse.isSplitTicket();
+		FlightTrip newestFlightOffer = getNewestFlightOffer();
+		boolean isSplitTicket = newestFlightOffer.isSplitTicket();
 
 		// Flight: <departure Airport Code>-<Destination Airport Code>:<departure date YYYYMMDD>-<return date YYYYMMDD>:<promo code applied N/Y>
 		FlightSearchParams searchParams = Db.getTripBucket().getFlight().getFlightSearchParams();
@@ -1781,13 +1785,13 @@ public class OmnitureTracking {
 		s.setEvar(30, eVar30);
 
 		if (isSplitTicket) {
-			addFlightSplitTicketInfo(s, pageName, createTripOffer, true, true);
+			addFlightSplitTicketInfo(s, pageName, newestFlightOffer, true, true);
 		}
 		else {
 			addProducts(s);
 		}
 
-		s.setCurrencyCode(trip.getTotalFare().getCurrency());
+		s.setCurrencyCode(newestFlightOffer.getTotalFare().getCurrency());
 		s.setEvents("purchase");
 
 		// order number with an "onum" prefix, described here: http://confluence/pages/viewpage.action?pageId=419913476
@@ -1875,7 +1879,7 @@ public class OmnitureTracking {
 		FlightTrip searchFlightTrip = Db.getTripBucket().getFlight().getFlightTrip();
 
 		ADMS_Measurement s = createTrackPageLoadEventBase(pageName);
-		s.setEvents("event74");
+		s.setEvents("event71");
 		FlightSearchParams params = Db.getTripBucket().getFlight().getFlightSearchParams();
 		s.setEvar(47, getEvar47String(params));
 
@@ -1886,20 +1890,34 @@ public class OmnitureTracking {
 		s.setEvar(4, dest);
 		s.setProp(4, dest);
 
-		addProducts(s);
 		internalSetFlightDateProps(s, params);
 		addStandardFlightFields(s);
-		addFlightSplitTicketInfo(s, pageName, searchFlightTrip, false, false);
 
+		if (searchFlightTrip.isSplitTicket()) {
+			addFlightSplitTicketInfo(s, pageName, searchFlightTrip, false, false);
+		}
+		else {
+			addProducts(s);
+		}
 		s.track();
+	}
+
+	private static FlightTrip getNewestFlightOffer() {
+		TripBucketItemFlight tripBucketItemFlight = Db.getTripBucket().getFlight();
+		FlightTrip createTripRespOffer = tripBucketItemFlight.getItineraryResponse().getOffer();
+		FlightCheckoutResponse checkoutResponse = tripBucketItemFlight.getCheckoutResponse();
+		FlightTrip checkoutRespOffer = null;
+		if (checkoutResponse != null) {
+			checkoutRespOffer = checkoutResponse.getNewOffer();
+		}
+		return (checkoutRespOffer != null) ? checkoutRespOffer : createTripRespOffer;
 	}
 
 	private static void addFlightSplitTicketInfo(ADMS_Measurement s, String pageName, FlightTrip flightTrip, boolean withTotalRevenue, boolean withPassengerCount) {
 		boolean isSplitTicket = flightTrip.isSplitTicket();
 		if (isSplitTicket) {
-			StringBuilder eventsSB = new StringBuilder();
 			StringBuilder productsSB = new StringBuilder();
-
+			int legCount = 0;
 			for (FlightLeg flightLeg : flightTrip.getLegs()) {
 				// fetch airline code from flight search response. We don't parse it from createTrip
 				String firstAirlineCodeForLeg = getAirlineCodeForLegId(flightLeg.getLegId());
@@ -1918,16 +1936,12 @@ public class OmnitureTracking {
 					String totalRevenue = flightLeg.getTotalFare().getAmount().toString();
 					productsSB.append(totalRevenue);
 				}
-				productsSB.append(",");
-
+				if (legCount == 0) {
+					productsSB.append(",");
+				}
+				legCount++;
 			}
 
-			// removing last comma
-			if (productsSB.toString().length() > 0) {
-				productsSB.deleteCharAt(productsSB.lastIndexOf(","));
-			}
-
-			eventsSB.append("event5");
 			s.setEvar(18, pageName);
 			s.setProducts(productsSB.toString());
 		}
@@ -1949,7 +1963,7 @@ public class OmnitureTracking {
 		FlightTrip searchFlightTrip = Db.getTripBucket().getFlight().getFlightTrip();
 		ADMS_Measurement s = createTrackPageLoadEventPriceChange(pageName);
 		addFlightSplitTicketInfo(s, pageName, searchFlightTrip, false, false);
-		s.setEvents("event5");
+		s.setEvents("event4");
 
 		s.track();
 	}
@@ -1976,6 +1990,7 @@ public class OmnitureTracking {
 		Log.d(TAG, "Tracking \"" + FLIGHT_SEARCH_ROUNDTRIP_OUT + "\" pageLoad");
 
 		ADMS_Measurement s = createTrackPageLoadEventBase(FLIGHT_SEARCH_ROUNDTRIP_OUT);
+		trackAbacusTest(s, AbacusUtils.EBAndroidAppFlightsNumberOfTicketsUrgencyTest);
 
 		FlightSearchParams searchParams = Db.getFlightSearch().getSearchParams();
 
@@ -2049,6 +2064,7 @@ public class OmnitureTracking {
 		Log.d(TAG, "Tracking \"" + FLIGHT_SEARCH_RESULTS_ONE_WAY + "\" pageLoad");
 
 		ADMS_Measurement s = createTrackPageLoadEventBase(FLIGHT_SEARCH_RESULTS_ONE_WAY);
+		trackAbacusTest(s, AbacusUtils.EBAndroidAppFlightsNumberOfTicketsUrgencyTest);
 
 		FlightSearchParams searchParams = Db.getFlightSearch().getSearchParams();
 
@@ -2265,6 +2281,14 @@ public class OmnitureTracking {
 	private static final String LX_SORT_POPULARITY = "Popularity";
 	private static final String LX_SORT = ".Sort.";
 	private static final String LX_FILTER = ".Filter.";
+	private static final String LX_RECOMMENDED_ACTIVITY = "App.LX.Info.Recommend";
+
+	public static void trackAppLXRecommendedActivitiesABTest() {
+		Log.d(TAG, "Tracking \"" + LX_LOB + "\" pageLoad...");
+		ADMS_Measurement s = getFreshTrackingObject();
+		trackAbacusTest(s, AbacusUtils.EBAndroidAppLXRecommendedActivitiesTest);
+		s.trackLink(null, "o", "ape:Log Experiment", null, null);
+	}
 
 	public static void trackFirstActivityListingExpanded() {
 		Log.d(TAG, "Tracking \"" + LX_LOB + "\" pageLoad...");
@@ -2278,6 +2302,13 @@ public class OmnitureTracking {
 		ADMS_Measurement s = getFreshTrackingObject();
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppLXCategoryABTest);
 		s.track();
+	}
+
+	public static void trackAppLXRTRABTest() {
+		Log.d(TAG, "Tracking \"" + LX_SEARCH + "\" category...");
+		ADMS_Measurement s = getFreshTrackingObject();
+		trackAbacusTest(s, AbacusUtils.EBAndroidAppLXRTROnSearchAndDetails);
+		s.trackLink(null, "o", "ape:Log Experiment", null, null);
 	}
 
 	public static void trackAppLXSearch(LXSearchParams lxSearchParams,
@@ -2376,6 +2407,15 @@ public class OmnitureTracking {
 
 		// Send the tracking data
 		s.track();
+	}
+
+	public static void trackLinkLXRecommendedActivity() {
+		String tpid = Integer.toString(PointOfSale.getPointOfSale().getTpid());
+		ADMS_Measurement s = getFreshTrackingObject();
+		s.setProp(7, tpid);
+		s.setEvar(28, LX_RECOMMENDED_ACTIVITY);
+		s.setProp(16, LX_RECOMMENDED_ACTIVITY);
+		s.trackLink(null, "o", LX_INFO, null, null);
 	}
 
 	public static void trackLinkLXSort(LXSortType sortType) {
@@ -2635,13 +2675,6 @@ public class OmnitureTracking {
 		s.track();
 	}
 
-	public static void trackHotelV2ApiSearch() {
-		ADMS_Measurement s = getFreshTrackingObject();
-		trackAbacusTest(s, AbacusUtils.EBAndroidAppHotelSearchDomainV2);
-
-		s.track();
-	}
-
 	private static void trackAbacusTest(ADMS_Measurement s, int testKey) {
 		if (!ProductFlavorFeatureConfiguration.getInstance().isAbacusTestEnabled()) {
 			return;
@@ -2872,7 +2905,7 @@ public class OmnitureTracking {
 		String pageName = getBase(isFlights) + ".Info";
 		ADMS_Measurement s = createTrackPageLoadEventBase(pageName);
 		if (isFlights) {
-			s.setEvents("event74");
+			s.setEvents("event71");
 			FlightSearchParams params = Db.getTripBucket().getFlight().getFlightSearchParams();
 			s.setEvar(47, getEvar47String(params));
 
@@ -2883,9 +2916,15 @@ public class OmnitureTracking {
 			s.setEvar(4, dest);
 			s.setProp(4, dest);
 
-			addProducts(s);
 			internalSetFlightDateProps(s, params);
 			addStandardFlightFields(s);
+			FlightTrip searchFlightTrip = Db.getTripBucket().getFlight().getFlightTrip();
+			if (searchFlightTrip.isSplitTicket()) {
+				addFlightSplitTicketInfo(s, pageName, searchFlightTrip, false, false);
+			}
+			else {
+				addProducts(s);
+			}
 		}
 		else {
 			s.setEvents("event70");
@@ -3017,6 +3056,8 @@ public class OmnitureTracking {
 			s.setEvar(37, getPaymentType());
 		}
 		if (isFlights) {
+			FlightTrip newestFlightOffer = getNewestFlightOffer();
+			boolean isSplitTicket = newestFlightOffer.isSplitTicket();
 			FlightTrip trip = Db.getTripBucket().getFlight().getFlightTrip();
 			FlightSearchParams params = Db.getTripBucket().getFlight().getFlightSearchParams();
 			s.setCurrencyCode(trip.getTotalFare().getCurrency());
@@ -3026,7 +3067,12 @@ public class OmnitureTracking {
 
 			if (isConfirmation) {
 				s.setEvents("purchase");
-				addProducts(s);
+				if (isSplitTicket) {
+					addFlightSplitTicketInfo(s, pageName, newestFlightOffer, true, true);
+				}
+				else {
+					addProducts(s);
+				}
 				String itinId = trip.getItineraryNumber();
 				s.setProp(71, itinId);
 				String orderNumber = Db.getTripBucket().getFlight().getCheckoutResponse().getOrderId();
@@ -3170,6 +3216,10 @@ public class OmnitureTracking {
 	private static final String ITIN_HOTEL_INFO = "App.Itinerary.Hotel.Info.Additional";
 	private static final String ITIN_HOTEL_SHARE_PREFIX = "App.Itinerary.Hotel.Info.Share.";
 	private static final String ITIN_FLIGHT = "App.Itinerary.Flight";
+	private static final String ITIN_FLIGHT_CHECKIN = "App.Itinerary.Flight.CheckInNow";
+	private static final String ITIN_FLIGHT_CHECKIN_SUCCESS = "App.Itinerary.Flight.CheckIn.Yes";
+	private static final String ITIN_FLIGHT_CHECKIN_FAILURE = "App.Itinerary.Flight.CheckIn.No";
+	private static final String ITIN_FLIGHT_CHECKIN_VISIT = "App.Itinerary.Flight.VisitAirline";
 	private static final String ITIN_FLIGHT_DIRECTIONS = "App.Itinerary.Flight.Airport.Directions";
 	private static final String ITIN_FLIGHT_TERMINAL_MAPS = "App.Itinerary.Flight.Airport.TerminalMaps";
 	private static final String ITIN_FLIGHT_INFO = "App.Itinerary.Flight.Info.Additional";
@@ -3392,6 +3442,44 @@ public class OmnitureTracking {
 		addEvent15And16Maybe(context, s);
 		s.track();
 	}
+
+	public static void trackItinFlightCheckIn(String airlineCode, boolean isSplitTicket, int tripLegs) {
+		ADMS_Measurement s = createTrackLinkEvent(ITIN_FLIGHT_CHECKIN);
+		s.setEvents("event95");
+		s.setProducts(getFlightCheckInProductString(airlineCode, isSplitTicket, tripLegs));
+		s.trackLink(null, "o", "Itinerary Action", null, null);
+	}
+
+	private static String getFlightCheckInProductString(String airlineCode, boolean isSplitTicket, int tripLegs) {
+		String tripType;
+		if (!isSplitTicket) {
+			tripType = getOmnitureStringCodeRepresentingTripTypeByNumLegs(tripLegs);
+		}
+		else {
+			tripType = "ST";
+		}
+		return "Flight;Agency Flight:" + airlineCode + ":" + tripType + ";;";
+	}
+
+	public static void trackItinFlightVisitSite() {
+		ADMS_Measurement s = createTrackLinkEvent(ITIN_FLIGHT_CHECKIN_VISIT);
+		s.trackLink(null, "o", "Itinerary Action", null, null);
+	}
+
+	public static void trackItinFlightCheckInSuccess(String airlineCode, boolean isSplitTicket, int flightLegs) {
+		ADMS_Measurement s = createTrackLinkEvent(ITIN_FLIGHT_CHECKIN_SUCCESS);
+		s.setEvents("event96");
+		s.setProducts(getFlightCheckInProductString(airlineCode, isSplitTicket, flightLegs));
+		s.trackLink(null, "o", "Itinerary Action", null, null);
+	}
+
+	public static void trackItinFlightCheckInFailure(String airlineCode, boolean isSplitTicket, int flightLegs) {
+		ADMS_Measurement s = createTrackLinkEvent(ITIN_FLIGHT_CHECKIN_FAILURE);
+		s.setEvents("event97");
+		s.setProducts(getFlightCheckInProductString(airlineCode, isSplitTicket, flightLegs));
+		s.trackLink(null, "o", "Itinerary Action", null, null);
+	}
+
 
 	public static void trackItinFlightDirections() {
 		internalTrackLink(ITIN_FLIGHT_DIRECTIONS);
@@ -3633,6 +3721,21 @@ public class OmnitureTracking {
 	private static final String LOGIN_MARKETING_OPT_IN = "App.Account.Terms.Email.Opt-In";
 	private static final String LOGIN_MARKETING_OPT_OUT = "App.Account.Terms.Email.Opt-Out";
 	private static final String LOGIN_ACCOUNT_CREATE_SUCCESS = "App.Account.Create.Success";
+	private static final String ACCOUNT_SCREEN = "App.Account.MyAccount";
+	private static final String ACCOUNT_COUNTRY_SETTING = "App.Account.Settings.Country";
+	private static final String ACCOUNT_SUPPORT_WEBSITE = "App.Account.Support.Website";
+	private static final String ACCOUNT_SUPPORT_BOOKING = "App.Account.Support.Booking";
+	private static final String ACCOUNT_SUPPORT_APP = "App.Account.Support.App";
+	private static final String ACCOUNT_COMMUNICATE_RATE = "App.Account.Communicate.Rate";
+	private static final String ACCOUNT_COMMUNICATE_HIRING = "App.Account.Communicate.WereHiring";
+	private static final String ACCOUNT_LEGAL_CLEAR_DATA = "App.Account.Legal.ClearData";
+	private static final String ACCOUNT_LEGAL_TERMS = "App.Account.Legal.Terms";
+	private static final String ACCOUNT_LEGAL_PRIVACY = "App.Account.Legal.Privacy";
+	private static final String ACCOUNT_LEGAL_ATOL = "App.Account.Legal.ATOL";
+	private static final String ACCOUNT_LEGAL_LICENSES = "App.Account.Legal.OpenSourceLicenses";
+	private static final String ACCOUNT_APP_DOWNLOAD = "App.Account.Download";
+	private static final String ACCOUNT_SIGN_OUT = "App.Account.Logout";
+
 
 	public static void trackLoginSuccess() {
 		ADMS_Measurement s = createTrackLinkEvent(LOGIN_SUCCESS);
@@ -3747,6 +3850,10 @@ public class OmnitureTracking {
 
 	public static void trackPageLoadLaunchScreen() {
 		ADMS_Measurement s = createTrackPageLoadEventBase(LAUNCH_SCREEN);
+		boolean isFirstAppLaunch = ExpediaBookingApp.isFirstLaunchEver() || ExpediaBookingApp.isFirstLaunchOfAppVersion();
+		if (isFirstAppLaunch && !User.isLoggedIn(sContext)) {
+			trackAbacusTest(s, AbacusUtils.EBAndroidAppShowSignInOnLaunch);
+		}
 		s.setProp(2, "storefront");
 		s.setEvar(2, "storefront");
 		s.track();
@@ -3767,6 +3874,83 @@ public class OmnitureTracking {
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppSplitGTandActivities);
 		s.track();
 	}
+
+	public static void trackAccountPageLoad() {
+		ADMS_Measurement s = getFreshTrackingObject();
+		// set the pageName
+		s.setAppState(ACCOUNT_SCREEN);
+		s.setEvar(18, ACCOUNT_SCREEN);
+		s.track();
+	}
+
+	public static void trackClickCountrySetting() {
+		ADMS_Measurement s = createTrackLinkEvent(ACCOUNT_COUNTRY_SETTING);
+		s.trackLink(null, "o", "Accounts", null, null);
+	}
+
+	public static void trackClickSupportWebsite() {
+		ADMS_Measurement s = createTrackLinkEvent(ACCOUNT_SUPPORT_WEBSITE);
+		s.trackLink(null, "o", "Accounts", null, null);
+	}
+
+	public static void trackClickSupportBooking() {
+		ADMS_Measurement s = createTrackLinkEvent(ACCOUNT_SUPPORT_BOOKING);
+		s.trackLink(null, "o", "Accounts", null, null);
+	}
+
+	public static void trackClickSupportApp() {
+		ADMS_Measurement s = createTrackLinkEvent(ACCOUNT_SUPPORT_APP);
+		s.trackLink(null, "o", "Accounts", null, null);
+	}
+
+	public static void trackClickRateApp() {
+		ADMS_Measurement s = createTrackLinkEvent(ACCOUNT_COMMUNICATE_RATE);
+		s.trackLink(null, "o", "Accounts", null, null);
+	}
+
+	public static void trackClickWereHiring() {
+		ADMS_Measurement s = createTrackLinkEvent(ACCOUNT_COMMUNICATE_HIRING);
+		s.trackLink(null, "o", "Accounts", null, null);
+	}
+
+	public static void trackClickClearPrivateData() {
+		ADMS_Measurement s = createTrackLinkEvent(ACCOUNT_LEGAL_CLEAR_DATA);
+		s.trackLink(null, "o", "Accounts", null, null);
+	}
+
+	public static void trackClickTermsAndConditions() {
+		ADMS_Measurement s = createTrackLinkEvent(ACCOUNT_LEGAL_TERMS);
+		s.trackLink(null, "o", "Accounts", null, null);
+	}
+
+	public static void trackClickPrivacyPolicy() {
+		ADMS_Measurement s = createTrackLinkEvent(ACCOUNT_LEGAL_PRIVACY);
+		s.trackLink(null, "o", "Accounts", null, null);
+	}
+
+	public static void trackClickAtolInformation() {
+		ADMS_Measurement s = createTrackLinkEvent(ACCOUNT_LEGAL_ATOL);
+		s.trackLink(null, "o", "Accounts", null, null);
+	}
+
+	public static void trackClickOpenSourceLicenses() {
+		ADMS_Measurement s = createTrackLinkEvent(ACCOUNT_LEGAL_LICENSES);
+		s.trackLink(null, "o", "Accounts", null, null);
+	}
+
+	public static void trackClickDownloadAppLink(String appName) {
+		ADMS_Measurement s = createTrackLinkEvent(ACCOUNT_APP_DOWNLOAD);
+		s.setEvents("event10");
+		s.setEvar(32, appName);
+		s.trackLink(null, "o", "Accounts", null, null);
+	}
+
+	public static void trackClickSignOut() {
+		ADMS_Measurement s = createTrackLinkEvent(ACCOUNT_SIGN_OUT);
+		s.setEvents("event29");
+		s.trackLink(null, "o", "Accounts", null, null);
+	}
+
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	// Tracking events for new launch screen
@@ -4656,7 +4840,7 @@ public class OmnitureTracking {
 		ADMS_Measurement s = getFreshTrackingObject();
 		s.setEvar(28, REWARDS_POINTS_UPDATE);
 		s.setProp(16, REWARDS_POINTS_UPDATE);
-		s.setEvar(53, String.format(EXPEDIA_POINTS_PERCENTAGE, percentagePaidWithPoints));
+		s.setEvar(53, String.format(Locale.getDefault(), EXPEDIA_POINTS_PERCENTAGE, percentagePaidWithPoints));
 		s.trackLink(null, "o", PAY_WITH_POINTS_CUSTOM_LINK_NAME, null, null);
 	}
 
@@ -4676,7 +4860,7 @@ public class OmnitureTracking {
 		ADMS_Measurement s = getFreshTrackingObject();
 		s.setEvar(28, PAY_WITH_POINTS_REENABLED);
 		s.setProp(16, PAY_WITH_POINTS_REENABLED);
-		s.setEvar(53, String.format(EXPEDIA_POINTS_PERCENTAGE, percentagePaidWithPoints));
+		s.setEvar(53, String.format(Locale.getDefault(), EXPEDIA_POINTS_PERCENTAGE, percentagePaidWithPoints));
 		s.trackLink(null, "o", PAY_WITH_POINTS_CUSTOM_LINK_NAME, null, null);
 	}
 

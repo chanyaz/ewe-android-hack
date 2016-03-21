@@ -2,6 +2,7 @@ package com.expedia.bookings.fragment;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
@@ -274,7 +275,7 @@ public class ResultsBackgroundImageFragment extends MeasurableFragment {
 
 	private void addNewViews(Object object, int width, int height) {
 		mTagIndex ++;
-		mCurrentTag = String.format("%d-%s", mTagIndex, mBlur);
+		mCurrentTag = String.format(Locale.getDefault(), "%d-%s", mTagIndex, mBlur);
 
 		float screenWidth;
 		float screenHeight;

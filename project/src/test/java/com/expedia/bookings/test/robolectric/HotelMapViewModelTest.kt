@@ -9,14 +9,13 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RuntimeEnvironment
 import rx.observers.TestSubscriber
-import rx.subjects.BehaviorSubject
 import rx.subjects.PublishSubject
 import kotlin.test.assertEquals
 
 @RunWith(RobolectricRunner::class)
-public class HotelMapViewModelTest {
+class HotelMapViewModelTest {
 
-    public var mockHotelServiceTestRule: MockHotelServiceTestRule = MockHotelServiceTestRule()
+    var mockHotelServiceTestRule: MockHotelServiceTestRule = MockHotelServiceTestRule()
         @Rule get
 
     lateinit private var hotelOffersResponse: HotelOffersResponse
@@ -30,14 +29,17 @@ public class HotelMapViewModelTest {
 
     @Test fun testViewModelOutputsForViewWhenStrikethroughPriceAndPriceAreSame() {
         givenHotelOffersResponseWhenStrikethroughPriceAndPriceAreSame()
+        val strikeThroughPriceVisibilitySubscriber = TestSubscriber<Boolean>()
 
         val subjectUnderTest = HotelMapViewModel(RuntimeEnvironment.application, endlessObserver {  }, PublishSubject.create<Boolean>())
+        subjectUnderTest.strikethroughPriceVisibility.subscribe(strikeThroughPriceVisibilitySubscriber)
         subjectUnderTest.offersObserver.onNext(hotelOffersResponse)
 
         assertEquals("happypath", subjectUnderTest.hotelName.value)
         assertEquals(4f, subjectUnderTest.hotelStarRating.value)
         assertEquals(true, subjectUnderTest.hotelStarRatingVisibility.value)
-        assertEquals("$109", subjectUnderTest.strikethroughPrice.value.toString())
+        assertEquals("", subjectUnderTest.strikethroughPrice.value.toString())
+        strikeThroughPriceVisibilitySubscriber.assertValues(false, false)
         assertEquals("From $109", subjectUnderTest.fromPrice.value.toString())
         assertEquals(37.78458, subjectUnderTest.hotelLatLng.value.get(0))
         assertEquals(-122.40854, subjectUnderTest.hotelLatLng.value.get(1))

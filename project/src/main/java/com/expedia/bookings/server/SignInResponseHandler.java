@@ -19,6 +19,7 @@ import com.expedia.bookings.data.Traveler.AssistanceType;
 import com.expedia.bookings.data.Traveler.Gender;
 import com.expedia.bookings.data.Traveler.SeatPreference;
 import com.expedia.bookings.data.User;
+import com.expedia.bookings.data.UserLoyaltyMembershipInformation;
 import com.expedia.bookings.data.UserPreference;
 import com.expedia.bookings.utils.CurrencyUtils;
 import com.expedia.bookings.utils.Strings;
@@ -163,6 +164,7 @@ public class SignInResponseHandler extends JsonResponseHandler<SignInResponse> {
 				}
 
 				user.setExpediaRewardsMembershipId(response.optString("loyaltyAccountNumber"));
+				user.setLoyaltyMembershipInformation(JSONUtils.getJSONable(response, "loyaltyMembershipInfo", UserLoyaltyMembershipInformation.class));
 				signInResponse.setUser(user);
 			}
 		}
@@ -184,6 +186,8 @@ public class SignInResponseHandler extends JsonResponseHandler<SignInResponse> {
 		traveler.setLoyaltyMembershipActive(obj.optBoolean("loyaltyMemebershipActive", false));
 		traveler.setLoyaltyMembershipName(obj.optString("loyaltyMemebershipName", null));
 		traveler.setLoyaltyMembershipTier(obj.optString("membershipTierName", null));
+		traveler.setLoyaltyPointsAvailable(obj.optLong("loyaltyPointsAvailable", 0));
+		traveler.setLoyaltyPointsPending(obj.optLong("loyaltyPointsPending", 0));
 		return traveler;
 	}
 

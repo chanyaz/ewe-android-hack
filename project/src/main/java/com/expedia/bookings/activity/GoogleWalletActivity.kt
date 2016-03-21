@@ -21,13 +21,13 @@ import com.google.android.gms.wallet.WalletConstants
 import java.math.BigDecimal
 import kotlin.properties.Delegates
 
-public class GoogleWalletActivity : AppCompatActivity() {
-    public val REQUEST_CODE_RESOLVE_LOAD_MASKED_WALLET: Int = 1001
-    public val REQUEST_CODE_RESOLVE_LOAD_FULL_WALLET: Int = 1003
+class GoogleWalletActivity : AppCompatActivity() {
+    val REQUEST_CODE_RESOLVE_LOAD_MASKED_WALLET: Int = 1001
+    val REQUEST_CODE_RESOLVE_LOAD_FULL_WALLET: Int = 1003
     var googleApiClient: GoogleApiClient by Delegates.notNull()
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        super<AppCompatActivity>.onCreate(savedInstanceState)
+        super.onCreate(savedInstanceState)
         setContentView(R.layout.wallet_layout)
         googleApiClient = GoogleApiClient.Builder(this)
                 .addConnectionCallbacks(connectionCallback)
@@ -40,12 +40,12 @@ public class GoogleWalletActivity : AppCompatActivity() {
     }
 
     override fun onStart() {
-        super<AppCompatActivity>.onStart()
+        super.onStart()
         googleApiClient.connect();
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super<AppCompatActivity>.onActivityResult(requestCode, resultCode, data)
+        super.onActivityResult(requestCode, resultCode, data)
         if  (resultCode == Activity.RESULT_CANCELED || data == null) {
             finish()
             return
@@ -58,7 +58,7 @@ public class GoogleWalletActivity : AppCompatActivity() {
                     WalletUtils.bindWalletToBillingInfo(wallet, Db.getBillingInfo())
                     val traveler = WalletUtils.addWalletAsTraveler(this, wallet)
                     BookingInfoUtils.insertTravelerDataIfNotFilled(this, traveler, LineOfBusiness.HOTELSV2);
-                    getFullWallet(wallet.getGoogleTransactionId())
+                    getFullWallet(wallet.googleTransactionId)
                     return
                 }
             }
@@ -78,12 +78,12 @@ public class GoogleWalletActivity : AppCompatActivity() {
     }
 
     private fun buildMaskedWalletRequest(): MaskedWalletRequest {
-        val rate = Db.getTripBucket().getHotelV2().mHotelTripResponse.newHotelProductResponse.hotelRoomResponse.rateInfo.chargeableRateInfo
+        val rate = Db.getTripBucket().hotelV2.mHotelTripResponse.newHotelProductResponse.hotelRoomResponse.rateInfo.chargeableRateInfo
         val total = Money(BigDecimal(rate.totalPriceWithMandatoryFees.toDouble()), rate.currencyCode)
 
         val builder = MaskedWalletRequest.newBuilder()
         builder.setMerchantName(getString(R.string.merchant_name))
-        builder.setCurrencyCode(total.getCurrency())
+        builder.setCurrencyCode(total.currency)
         builder.setEstimatedTotalPrice(WalletUtils.formatAmount(total))
 
         builder.setCart(WalletUtils.buildHotelV2Cart(this))
@@ -127,7 +127,7 @@ public class GoogleWalletActivity : AppCompatActivity() {
 
     val connectionFailed = object : GoogleApiClient.OnConnectionFailedListener
     {
-        override fun onConnectionFailed(p0: ConnectionResult?) {
+        override fun onConnectionFailed(p0: ConnectionResult) {
         }
     }
 

@@ -5,20 +5,20 @@
         android:id="@+id/widget_package_search_presenter"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#EEEEEE" />
+        android:background="@color/search_results_list_bg_gray" />
 
     <com.expedia.bookings.presenter.packages.BundleOverviewPresenter
         android:id="@+id/widget_bundle_overview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#EEEEEE"
+        android:background="@color/search_results_list_bg_gray"
         android:visibility="gone" />
 
     <com.expedia.bookings.presenter.packages.PackageConfirmationPresenter
         android:id="@+id/widget_package_confirmation"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#EEEEEE"
+        android:background="@color/packages_primary_color"
         android:visibility="gone" />
 
 

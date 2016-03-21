@@ -5,7 +5,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:drawablePadding="18dp"
+    android:drawablePadding="23dp"
+    android:background="?attr/selectableItemBackground"
     android:gravity="center_vertical"
-    android:paddingLeft="12dp"
-    android:textSize="18sp" />
+    android:textColor="@color/hotelsv2_checkout_text_color"
+    android:maxLines="1"
+    android:ellipsize="end"
+    android:paddingLeft="19dp"
+    android:paddingRight="19dp"
+    android:textSize="15sp" />

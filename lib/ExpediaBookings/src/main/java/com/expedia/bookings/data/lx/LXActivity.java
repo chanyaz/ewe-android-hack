@@ -32,6 +32,7 @@ public class LXActivity {
 	public Money price;
 	public Money originalPrice;
 	public transient int popularityForClientSort;
+	public int recommendationScore;
 
 	public List<LXImage> getImages() {
 		List<LXImage> images = new ArrayList<>();

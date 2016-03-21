@@ -1,21 +1,26 @@
 package com.expedia.bookings.presenter.hotel
 
+import android.animation.ArgbEvaluator
 import android.app.Activity
-import android.app.AlertDialog
 import android.app.ProgressDialog
 import android.content.Context
 import android.content.DialogInterface
+import android.graphics.Color
+import android.support.v4.content.ContextCompat
+import android.support.v7.app.AlertDialog
 import android.util.AttributeSet
 import android.view.View
 import android.view.ViewStub
+import android.view.animation.AccelerateDecelerateInterpolator
 import android.view.animation.DecelerateInterpolator
-import com.expedia.bookings.BuildConfig
 import com.expedia.bookings.R
+import com.expedia.bookings.animation.TransitionElement
 import com.expedia.bookings.data.Codes
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.cars.ApiError
+import com.expedia.bookings.data.clientlog.ClientLog
 import com.expedia.bookings.data.hotels.Hotel
 import com.expedia.bookings.data.hotels.HotelCreateTripResponse
 import com.expedia.bookings.data.hotels.HotelOffersResponse
@@ -24,8 +29,11 @@ import com.expedia.bookings.data.payment.PaymentModel
 import com.expedia.bookings.dialog.DialogFactory
 import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.presenter.ScaleTransition
+import com.expedia.bookings.services.ClientLogServices
 import com.expedia.bookings.services.HotelServices
+import com.expedia.bookings.services.ReviewsServices
 import com.expedia.bookings.tracking.HotelV2Tracking
+import com.expedia.bookings.utils.Constants
 import com.expedia.bookings.utils.NavUtils
 import com.expedia.bookings.utils.RetrofitUtils
 import com.expedia.bookings.utils.StrUtils
@@ -50,6 +58,8 @@ import com.expedia.vm.HotelResultsViewModel
 import com.expedia.vm.HotelReviewsViewModel
 import com.expedia.vm.HotelSearchViewModel
 import com.google.android.gms.maps.MapView
+import com.mobiata.android.Log
+import org.joda.time.DateTime
 import rx.Observer
 import rx.android.schedulers.AndroidSchedulers
 import rx.subjects.PublishSubject
@@ -57,20 +67,50 @@ import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 import kotlin.properties.Delegates
 
-public class HotelPresenter(context: Context, attrs: AttributeSet) : Presenter(context, attrs) {
+// declared open for mocking purposes in tests (see: HotelDeeplinkHandlerTest)
+open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(context, attrs) {
+
+    lateinit var reviewServices: ReviewsServices
+        @Inject set
 
     lateinit var hotelServices: HotelServices
+        @Inject set
+
+    lateinit var clientLogServices: ClientLogServices
         @Inject set
 
     lateinit var paymentModel: PaymentModel<HotelCreateTripResponse>
         @Inject set
 
+    val clientLogBuilder = ClientLog.Builder()
+    val isUserBucketedSearchScreenTest = Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelsSearchScreenTest)
     var hotelDetailViewModel: HotelDetailViewModel by Delegates.notNull()
     var hotelSearchParams: HotelSearchParams by Delegates.notNull()
+    var searchPresenter : BaseHotelSearchPresenter by Delegates.notNull()
     val resultsMapView: MapView by bindView(R.id.map_view)
     val detailsMapView: MapView by bindView(R.id.details_map_view)
-    val searchPresenter: HotelSearchPresenter by bindView(R.id.widget_hotel_params)
-    val searchPresenterV2: HotelSearchPresenterV2 by bindView(R.id.widget_hotel_params_v2)
+    val searchStubV1:ViewStub by bindView(R.id.search_v1_stub)
+    val searchPresenterV1: HotelSearchPresenterV1 by lazy {
+        var presenter = searchStubV1.inflate() as HotelSearchPresenterV1
+        presenter.searchViewModel = HotelSearchViewModel(context)
+        presenter.searchViewModel.searchParamsObservable.subscribe(searchObserver)
+        presenter.searchViewModel.searchParamsObservable.subscribe {
+            clientLogBuilder?.requestTime(DateTime.now())
+        }
+        presenter
+    }
+
+    val searchStubV2:ViewStub by bindView(R.id.search_v2_stub)
+    val searchPresenterV2: HotelSearchPresenterV2 by lazy {
+        var presenter = searchStubV2.inflate() as HotelSearchPresenterV2
+        presenter.searchViewModel = HotelSearchViewModel(context)
+        presenter.searchViewModel.searchParamsObservable.subscribe(searchObserver)
+        presenter.searchViewModel.searchParamsObservable.subscribe {
+            clientLogBuilder?.requestTime(DateTime.now())
+        }
+        presenter
+    }
+
     val errorPresenter: HotelErrorPresenter by bindView(R.id.widget_hotel_errors)
     val resultsStub: ViewStub by bindView(R.id.results_stub)
     val resultsPresenter: HotelResultsPresenter by lazy {
@@ -81,11 +121,18 @@ public class HotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
         resultsStub.addView(resultsMapView)
         presenter.mapView = resultsMapView
         presenter.mapView.getMapAsync(presenter)
-        presenter.viewmodel = HotelResultsViewModel(getContext(), hotelServices, LineOfBusiness.HOTELSV2)
+        presenter.viewmodel = HotelResultsViewModel(getContext(), hotelServices, LineOfBusiness.HOTELSV2, clientLogBuilder)
+        presenter.viewmodel.hotelResultsObservable.subscribe {
+            clientLogBuilder.requestToUser(DateTime.now())
+            clientLogServices.log(clientLogBuilder.build())
+        }
         presenter.hotelSelectedSubject.subscribe(hotelSelectedObserver)
         presenter.viewmodel.errorObservable.subscribe(errorPresenter.viewmodel.apiErrorObserver)
         presenter.viewmodel.errorObservable.delay(DELAY_INVOKING_ERROR_OBSERVABLES_DOING_SHOW, TimeUnit.MILLISECONDS).observeOn(AndroidSchedulers.mainThread()).subscribe { show(errorPresenter) }
-        presenter.viewmodel.showHotelSearchViewObservable.subscribe { show(searchPresenter, Presenter.FLAG_CLEAR_TOP) }
+        presenter.viewmodel.showHotelSearchViewObservable.subscribe { show(SearchTransition(), Presenter.FLAG_CLEAR_TOP) }
+        presenter.viewmodel.hotelResultsObservable.subscribe({ hotelSearchResponse ->
+            HotelV2Tracking().trackHotelsV2Search(hotelSearchParams, hotelSearchResponse)
+        })
         presenter.searchOverlaySubject.subscribe(searchResultsOverlayObserver)
         presenter.showDefault()
         presenter
@@ -176,25 +223,32 @@ public class HotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
             show(presenter, Presenter.FLAG_CLEAR_TOP)
             presenter.show(presenter.hotelCheckoutWidget, Presenter.FLAG_CLEAR_TOP)
         })
+        presenter.setSearchParams(hotelSearchParams)
         presenter.hotelCheckoutWidget.setSearchParams(hotelSearchParams)
         presenter
     }
 
     val confirmationPresenter: HotelConfirmationPresenter by bindView(R.id.hotel_confirmation_presenter)
-    val reviewsView: HotelReviewsView by bindView(R.id.hotel_reviews_presenter)
+
+    val reviewsView: HotelReviewsView by lazy {
+        var viewStub = findViewById(R.id.reviews_stub) as ViewStub
+        var presenter = viewStub.inflate() as HotelReviewsView
+        presenter.reviewServices = reviewServices
+        presenter
+    }
+
     val loadingOverlay: LoadingOverlayWidget by bindView(R.id.details_loading_overlay)
     val ANIMATION_DURATION = 400
     val geoCodeSearchModel = GeocodeSearchModel(context)
     private val checkoutDialog = ProgressDialog(context)
     var viewModel: HotelPresenterViewModel by Delegates.notNull()
     private val DELAY_INVOKING_ERROR_OBSERVABLES_DOING_SHOW = 100L
-    val isUserBucketedSearchScreenTest = Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelsSearchScreenTest)
-
     init {
         Ui.getApplication(getContext()).hotelComponent().inject(this)
 
         hotelDetailViewModel = HotelDetailViewModel(context, hotelServices, endlessObserver<HotelOffersResponse.HotelRoomResponse> {
             checkoutPresenter.hotelCheckoutWidget.couponCardView.viewmodel.hasDiscountObservable.onNext(false)
+            checkoutPresenter.setSearchParams(hotelSearchParams)
             checkoutPresenter.hotelCheckoutWidget.setSearchParams(hotelSearchParams)
             checkoutPresenter.showCheckout(it)
             show(checkoutPresenter)
@@ -215,11 +269,9 @@ public class HotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
                 val freeformLocations = StrUtils.formatAddresses(geoResults)
                 val builder = AlertDialog.Builder(context)
                 builder.setTitle(R.string.ChooseLocation)
-                val dialogItemClickListener = object : DialogInterface.OnClickListener {
-                    override fun onClick(dialog: DialogInterface?, which: Int) {
-                        triggerNewSearch(which)
-                        HotelV2Tracking().trackGeoSuggestionClick()
-                    }
+                val dialogItemClickListener = DialogInterface.OnClickListener { dialog, which ->
+                    triggerNewSearch(which)
+                    HotelV2Tracking().trackGeoSuggestionClick()
                 }
                 builder.setItems(freeformLocations, dialogItemClickListener)
                 val alertDialog = builder.create()
@@ -229,30 +281,39 @@ public class HotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
         checkoutDialog.setMessage(resources.getString(R.string.booking_loading))
         checkoutDialog.setCancelable(false)
         checkoutDialog.isIndeterminate = true
+        clientLogBuilder.pageName(Constants.CLIENT_LOG_MATERIAL_HOTEL_SEARCH)
+        clientLogBuilder.deviceName(android.os.Build.MODEL)
     }
 
-    val defaultTransitionObserver: Observer<Screen> = endlessObserver {
-        when (it) {
-            Screen.DETAILS -> {
-                addDefaultTransition(defaultDetailsTransition)
-            }
-            Screen.RESULTS -> {
-                addDefaultTransition(defaultResultsTransition)
-            }
-            else -> {
-                if (isUserBucketedSearchScreenTest && BuildConfig.DEBUG) {
-                    addDefaultTransition(defaultSearchV2Transition)
-                    show(searchPresenterV2)
-                } else {
-                    addDefaultTransition(defaultSearchTransition)
-                    show(searchPresenter)
-                }
-            }
+    fun setDefaultTransition(screen: Screen) {
+        val defaultTransition = when (screen) {
+            Screen.DETAILS -> defaultDetailsTransition
+            Screen.RESULTS -> defaultResultsTransition
+            else -> defaultSearchTransition
+        }
+
+        // #6626: protects us from deeplink logic adding different default transition when app is
+        // already running (and has state) in background
+        if (!hasDefaultTransition()) {
+            addDefaultTransition(defaultTransition)
+        }
+        else {
+            Log.w("You can only set defaultTransition once. (default transition:" + getDefaultTransition() + ")")
+        }
+
+        if (screen != Screen.DETAILS && screen != Screen.RESULTS) {
+            show(SearchTransition())
         }
     }
 
     override fun onFinishInflate() {
         super.onFinishInflate()
+
+        if (isUserBucketedSearchScreenTest) {
+            searchPresenter = searchPresenterV2
+        } else {
+            searchPresenter = searchPresenterV1
+        }
 
         addTransition(searchToResults)
         addTransition(searchToDetails)
@@ -264,12 +325,6 @@ public class HotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
         addTransition(searchToError)
         addTransition(checkoutToError)
         addTransition(detailsToError)
-
-        // TODO Have to set create one vm based on test
-        searchPresenter.searchViewModel = HotelSearchViewModel(context)
-        searchPresenter.searchViewModel.searchParamsObservable.subscribe(searchObserver)
-        searchPresenterV2.searchViewModel = HotelSearchViewModel(context)
-
 
         //NOTE
         //Reason for delay(XYZ, TimeUnit.ABC) to various errorObservables below:
@@ -287,16 +342,16 @@ public class HotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
         errorPresenter.hotelDetailViewModel = hotelDetailViewModel
         errorPresenter.viewmodel = HotelErrorViewModel(context)
         errorPresenter.viewmodel.searchErrorObservable.delay(DELAY_INVOKING_ERROR_OBSERVABLES_DOING_SHOW, TimeUnit.MILLISECONDS).observeOn(AndroidSchedulers.mainThread()).subscribe {
-            show(searchPresenter, Presenter.FLAG_CLEAR_TOP)
+            show(SearchTransition(), Presenter.FLAG_CLEAR_TOP)
         }
         errorPresenter.viewmodel.defaultErrorObservable.delay(DELAY_INVOKING_ERROR_OBSERVABLES_DOING_SHOW, TimeUnit.MILLISECONDS).observeOn(AndroidSchedulers.mainThread()).subscribe {
-            show(searchPresenter, Presenter.FLAG_CLEAR_TOP)
+            show(SearchTransition(), Presenter.FLAG_CLEAR_TOP)
         }
 
         errorPresenter.viewmodel.checkoutCardErrorObservable.delay(DELAY_INVOKING_ERROR_OBSERVABLES_DOING_SHOW, TimeUnit.MILLISECONDS).observeOn(AndroidSchedulers.mainThread()).subscribe {
             show(checkoutPresenter, Presenter.FLAG_CLEAR_TOP)
             checkoutPresenter.hotelCheckoutWidget.slideWidget.resetSlider()
-            checkoutPresenter.hotelCheckoutWidget.paymentInfoCardView.setExpanded(true, true)
+            checkoutPresenter.hotelCheckoutWidget.paymentInfoCardView.cardInfoContainer.performClick()
             checkoutPresenter.show(checkoutPresenter.hotelCheckoutWidget, Presenter.FLAG_CLEAR_TOP)
         }
 
@@ -311,7 +366,7 @@ public class HotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
         errorPresenter.viewmodel.checkoutPaymentFailedObservable.subscribe(errorPresenter.viewmodel.checkoutCardErrorObservable)
 
         errorPresenter.viewmodel.sessionTimeOutObservable.delay(DELAY_INVOKING_ERROR_OBSERVABLES_DOING_SHOW, TimeUnit.MILLISECONDS).observeOn(AndroidSchedulers.mainThread()).subscribe {
-            show(searchPresenter, Presenter.FLAG_CLEAR_TOP)
+            show(SearchTransition(), Presenter.FLAG_CLEAR_TOP)
         }
 
         errorPresenter.viewmodel.checkoutTravellerErrorObservable.delay(DELAY_INVOKING_ERROR_OBSERVABLES_DOING_SHOW, TimeUnit.MILLISECONDS).observeOn(AndroidSchedulers.mainThread()).subscribe {
@@ -328,7 +383,7 @@ public class HotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
         }
 
         errorPresenter.viewmodel.productKeyExpiryObservable.delay(DELAY_INVOKING_ERROR_OBSERVABLES_DOING_SHOW, TimeUnit.MILLISECONDS).observeOn(AndroidSchedulers.mainThread()).subscribe {
-            show(searchPresenter, Presenter.FLAG_CLEAR_TOP)
+            show(SearchTransition(), Presenter.FLAG_CLEAR_TOP)
         }
 
         geoCodeSearchModel.errorObservable.subscribe(errorPresenter.viewmodel.apiErrorObserver)
@@ -337,31 +392,28 @@ public class HotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
         loadingOverlay.setBackground(R.color.hotels_primary_color)
     }
 
-    private val defaultSearchTransition = object : Presenter.DefaultTransition(HotelSearchPresenter::class.java.name) {
-        override fun finalizeTransition(forward: Boolean) {
+    private val defaultSearchTransition = object : Presenter.DefaultTransition(SearchTransition::class.java.name) {
+        override fun endTransition(forward: Boolean) {
             searchPresenter.visibility = View.VISIBLE
-        }
-    }
+            searchPresenter.showSuggestionState()
 
-    private val defaultSearchV2Transition = object : Presenter.DefaultTransition(HotelSearchPresenterV2::class.java.name) {
-        override fun finalizeTransition(forward: Boolean) {
-            searchPresenterV2.visibility = View.VISIBLE
         }
     }
 
     private val defaultDetailsTransition = object : Presenter.DefaultTransition(HotelDetailPresenter::class.java.name) {
-        override fun finalizeTransition(forward: Boolean) {
-            super.finalizeTransition(forward)
+        override fun endTransition(forward: Boolean) {
+            super.endTransition(forward)
             loadingOverlay.visibility = View.GONE
             detailPresenter.visibility = View.VISIBLE
             if (forward) {
                 detailPresenter.hotelDetailView.refresh()
                 detailPresenter.hotelDetailView.viewmodel.addViewsAfterTransition()
-                backStack.push(searchPresenter)
+                backStack.push(SearchTransition())
             }
         }
     }
 
+    val searchBackgroundColor = TransitionElement(ContextCompat.getColor(context, R.color.hotel_search_background), Color.TRANSPARENT)
     private val defaultResultsTransition = object : Presenter.DefaultTransition(HotelResultsPresenter::class.java.name) {
 
         override fun startTransition(forward: Boolean) {
@@ -376,21 +428,23 @@ public class HotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
             resultsPresenter.animationUpdate(f, !forward)
         }
 
-        override fun finalizeTransition(forward: Boolean) {
-            super.finalizeTransition(forward)
+        override fun endTransition(forward: Boolean) {
+            super.endTransition(forward)
             resultsPresenter.visibility = if (forward) View.VISIBLE else View.GONE
             resultsPresenter.animationFinalize(forward)
-            backStack.push(searchPresenter)
+            backStack.push(SearchTransition())
         }
     }
 
-    private val searchToResults = object : Presenter.Transition(HotelSearchPresenter::class.java, HotelResultsPresenter::class.java) {
+    val searchArgbEvaluator = ArgbEvaluator()
+    private val searchToResults = object : Presenter.Transition(SearchTransition::class.java, HotelResultsPresenter::class.java, AccelerateDecelerateInterpolator(), 500) {
 
         override fun startTransition(forward: Boolean) {
             super.startTransition(forward)
             loadingOverlay.visibility = View.GONE
             searchPresenter.visibility = View.VISIBLE
             resultsPresenter.visibility = View.VISIBLE
+            searchPresenter.setBackgroundColor(searchBackgroundColor.start)
             searchPresenter.animationStart(!forward)
             resultsPresenter.animationStart()
         }
@@ -398,20 +452,26 @@ public class HotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
         override fun updateTransition(f: Float, forward: Boolean) {
             super.updateTransition(f, forward)
             searchPresenter.animationUpdate(f, !forward)
+            if(forward) {
+                searchPresenter.setBackgroundColor(searchArgbEvaluator.evaluate(f, searchBackgroundColor.start, searchBackgroundColor.end) as Int)
+            } else {
+                searchPresenter.setBackgroundColor(searchArgbEvaluator.evaluate(f, searchBackgroundColor.end, searchBackgroundColor.start) as Int)
+            }
             resultsPresenter.animationUpdate(f, !forward)
         }
 
-        override fun finalizeTransition(forward: Boolean) {
-            super.finalizeTransition(forward)
+        override fun endTransition(forward: Boolean) {
+            super.endTransition(forward)
+            searchPresenter.setBackgroundColor(if (forward) searchBackgroundColor.end else searchBackgroundColor.start)
             searchPresenter.visibility = if (forward) View.GONE else View.VISIBLE
             resultsPresenter.visibility = if (forward) View.VISIBLE else View.GONE
-            searchPresenter.animationFinalize(forward)
             resultsPresenter.animationFinalize(forward)
+            searchPresenter.animationFinalize(forward)
             if (!forward) HotelV2Tracking().trackHotelV2SearchBox()
         }
     }
 
-    private val resultsToDetail = object : Presenter.Transition(HotelResultsPresenter::class.java.name, HotelDetailPresenter::class.java.name, DecelerateInterpolator(), ANIMATION_DURATION) {
+      private val resultsToDetail = object : Presenter.Transition(HotelResultsPresenter::class.java.name, HotelDetailPresenter::class.java.name, DecelerateInterpolator(), ANIMATION_DURATION) {
         private var detailsHeight: Int = 0
 
         override fun startTransition(forward: Boolean) {
@@ -436,7 +496,7 @@ public class HotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
             detailPresenter.animationUpdate(f, !forward)
         }
 
-        override fun finalizeTransition(forward: Boolean) {
+        override fun endTransition(forward: Boolean) {
             detailPresenter.visibility = if (forward) View.VISIBLE else View.GONE
             resultsPresenter.visibility = if (forward) View.GONE else View.VISIBLE
             detailPresenter.translationY = 0f
@@ -447,7 +507,6 @@ public class HotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
                 detailPresenter.hotelDetailView.viewmodel.addViewsAfterTransition()
             } else {
                 resultsPresenter.recyclerView.adapter.notifyDataSetChanged()
-                HotelV2Tracking().trackHotelsV2Search(hotelSearchParams, resultsPresenter.viewmodel.hotelResultsObservable.value)
             }
         }
     }
@@ -465,8 +524,8 @@ public class HotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
             errorPresenter.animationUpdate(f, !forward)
         }
 
-        override fun finalizeTransition(forward: Boolean) {
-            super.finalizeTransition(forward)
+        override fun endTransition(forward: Boolean) {
+            super.endTransition(forward)
             checkoutPresenter.visibility = if (forward) View.GONE else View.VISIBLE
             errorPresenter.visibility = if (forward) View.VISIBLE else View.GONE
             errorPresenter.animationFinalize()
@@ -474,7 +533,7 @@ public class HotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
     }
 
 
-    private val searchToError = object : Presenter.Transition(HotelSearchPresenter::class.java.name, HotelErrorPresenter::class.java.name, DecelerateInterpolator(), ANIMATION_DURATION) {
+    private val searchToError = object : Presenter.Transition(SearchTransition::class.java.name, HotelErrorPresenter::class.java.name, DecelerateInterpolator(), ANIMATION_DURATION) {
 
         override fun startTransition(forward: Boolean) {
             super.startTransition(forward)
@@ -490,8 +549,9 @@ public class HotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
             errorPresenter.animationUpdate(f, !forward)
         }
 
-        override fun finalizeTransition(forward: Boolean) {
-            super.finalizeTransition(forward)
+        override fun endTransition(forward: Boolean) {
+            super.endTransition(forward)
+            searchPresenter.setBackgroundColor(if (forward) searchBackgroundColor.end else searchBackgroundColor.start)
             searchPresenter.visibility = if (forward) View.GONE else View.VISIBLE
             errorPresenter.visibility = if (forward) View.VISIBLE else View.GONE
             searchPresenter.animationFinalize(forward)
@@ -500,7 +560,7 @@ public class HotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
         }
     }
 
-    private val searchToDetails = object : ScaleTransition(this, HotelSearchPresenter::class.java, HotelDetailPresenter::class.java) {
+    private val searchToDetails = object : ScaleTransition(this,SearchTransition::class.java , HotelDetailPresenter::class.java, if (isUserBucketedSearchScreenTest) HotelSearchPresenterV2::class.java else HotelSearchPresenterV1::class.java) {
         override fun startTransition(forward: Boolean) {
             super.startTransition(forward)
             loadingOverlay.visibility = View.GONE
@@ -513,8 +573,8 @@ public class HotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
             searchPresenter.animationUpdate(f, !forward)
         }
 
-        override fun finalizeTransition(forward: Boolean) {
-            super.finalizeTransition(forward)
+        override fun endTransition(forward: Boolean) {
+            super.endTransition(forward)
             if (forward) {
                 detailPresenter.hotelDetailView.refresh()
                 detailPresenter.hotelDetailView.viewmodel.addViewsAfterTransition()
@@ -524,6 +584,7 @@ public class HotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
             }
         }
     }
+
     private val resultsToError = ScaleTransition(this, HotelResultsPresenter::class.java, HotelErrorPresenter::class.java)
 
     private val detailsToCheckout = object : ScaleTransition(this, HotelDetailPresenter::class.java, HotelCheckoutPresenter::class.java) {
@@ -532,8 +593,8 @@ public class HotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
             checkoutDialog.hide()
         }
 
-        override fun finalizeTransition(forward: Boolean) {
-            super.finalizeTransition(forward)
+        override fun endTransition(forward: Boolean) {
+            super.endTransition(forward)
             if (!forward) {
                 trackHotelDetail()
             }
@@ -542,8 +603,8 @@ public class HotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
     }
 
     private val detailsToError = object : ScaleTransition(this, HotelDetailPresenter::class.java, HotelErrorPresenter::class.java) {
-        override fun finalizeTransition(forward: Boolean) {
-            super.finalizeTransition(forward)
+        override fun endTransition(forward: Boolean) {
+            super.endTransition(forward)
             if (!forward) {
                 trackHotelDetail()
             }
@@ -552,8 +613,8 @@ public class HotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
 
     private val checkoutToConfirmation = ScaleTransition(this, HotelCheckoutPresenter::class.java, HotelConfirmationPresenter::class.java)
     private val detailsToReview = object : ScaleTransition(this, HotelDetailPresenter::class.java, HotelReviewsView::class.java) {
-        override fun finalizeTransition(forward: Boolean) {
-            super.finalizeTransition(forward)
+        override fun endTransition(forward: Boolean) {
+            super.endTransition(forward)
             if (forward) {
                 reviewsView.transitionFinished()
             } else {
@@ -579,7 +640,7 @@ public class HotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
     }
 
     val changeDatesObserver: Observer<Unit> = endlessObserver {
-        show(searchPresenter, Presenter.FLAG_CLEAR_TOP)
+        show(SearchTransition(), Presenter.FLAG_CLEAR_TOP)
     }
 
     val reviewsObserver: Observer<HotelOffersResponse> = endlessObserver { hotel ->
@@ -641,7 +702,7 @@ public class HotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
                         showDetails(hotelId, fetchOffers)
                     }
                     val cancelFun = fun() {
-                        show(searchPresenter)
+                        show(SearchTransition())
                     }
                     DialogFactory.showNoInternetRetryDialog(context, retryFun, cancelFun)
                 }
@@ -657,6 +718,9 @@ public class HotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
 
 
     override fun back(): Boolean {
+        if (searchPresenter.back()) {
+            return true
+        }
         if (loadingOverlay.visibility != View.VISIBLE) {
             return super.back()
         }
@@ -664,7 +728,7 @@ public class HotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
     }
 
     val searchResultsOverlayObserver: Observer<Unit> = endlessObserver { params ->
-        show(searchPresenter)
+        show(SearchTransition())
     }
 
     private fun trackHotelDetail() {
@@ -673,4 +737,6 @@ public class HotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
         val hotelSoldOut = detailPresenter.hotelDetailView.viewmodel.hotelSoldOut.value
         HotelV2Tracking().trackPageLoadHotelV2Infosite(hotelOffersResponse, hotelSearchParams, hasEtpOffer, hotelSearchParams.suggestion.isCurrentLocationSearch, hotelSoldOut, viewModel.didLastCreateTripOrCheckoutResultInRoomSoldOut.value)
     }
+
+    class SearchTransition
 }

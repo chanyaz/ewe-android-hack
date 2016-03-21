@@ -9,7 +9,7 @@ import android.support.v4.app.Fragment
 import android.support.v4.content.ContextCompat
 import com.expedia.bookings.utils.Constants
 
-public fun requestLocationPermission(activity: Activity) {
+fun requestLocationPermission(activity: Activity) {
     var requestCode = if (activity.shouldShowRequestPermissionRationale(Manifest.permission.ACCESS_FINE_LOCATION)) {
         Constants.PERMISSION_REQUEST_LOCATION_WITH_RATIONALE
     } else {
@@ -19,14 +19,14 @@ public fun requestLocationPermission(activity: Activity) {
     ActivityCompat.requestPermissions(activity, arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), requestCode)
 }
 
-public fun requestLocationPermission(fragment: Fragment) {
+fun requestLocationPermission(fragment: Fragment) {
     // fragment won't get the callback if the activity is the one making the permission request
     // use ActivityCompat.requestPermissions if you need an activity to get the callback
     fragment.requestPermissions(arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
             Constants.PERMISSION_REQUEST_LOCATION)
 }
 
-public fun havePermissionToAccessLocation(context: Context): Boolean {
+fun havePermissionToAccessLocation(context: Context): Boolean {
     return isPermissionEnabled(Manifest.permission.ACCESS_FINE_LOCATION, context)
 }
 

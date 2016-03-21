@@ -471,7 +471,7 @@ class FacebookEvents() {
         return minPropertyRate
     }
 
-    public fun calculateLowestRateFlights(flightTrips: List<FlightTrip>): String {
+    fun calculateLowestRateFlights(flightTrips: List<FlightTrip>): String {
         if (flightTrips.size == 0) {
             return "";
         }

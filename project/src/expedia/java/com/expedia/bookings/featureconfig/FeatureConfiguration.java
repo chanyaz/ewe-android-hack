@@ -162,7 +162,7 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 
 	@Override
 	public String getCopyrightLogoUrl(Context context) {
-		return context.getString(Ui.obtainThemeResID(context, R.attr.skin_aboutInfoUrlString));
+		return context.getString(R.string.app_copyright_logo_url);
 	}
 
 	@Override
@@ -187,11 +187,6 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 
 	@Override
 	public boolean isHangTagProgressBarEnabled() {
-		return true;
-	}
-
-	@Override
-	public boolean isSettingsInMenuVisible() {
 		return true;
 	}
 
@@ -235,11 +230,6 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 
 	public boolean isAppSupportUrlEnabled() {
 		return true;
-	}
-
-	@Override
-	public boolean isItinDisabled() {
-		return false;
 	}
 
 	@Override

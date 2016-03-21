@@ -5,6 +5,7 @@ import org.joda.time.LocalDate;
 import android.util.Pair;
 
 import com.expedia.bookings.data.FlightSearchParams;
+import com.expedia.bookings.data.packages.PackageSearchParams;
 import com.expedia.bookings.utils.GuestsPickerUtils;
 
 public enum PassengerCategory {
@@ -39,12 +40,21 @@ public enum PassengerCategory {
 	}
 
 	public static boolean isDateWithinPassengerCategoryRange(LocalDate birthdate, FlightSearchParams params, PassengerCategory passengerCategory) {
-		Pair<Integer, Integer> inclusiveAgeBounds = getAcceptableAgeRange(passengerCategory);
 		LocalDate earliestBase = params.isRoundTrip() ? params.getReturnDate() : params.getDepartureDate();
-		LocalDate earliestBirthdateAllowed = earliestBase.minusYears(inclusiveAgeBounds.second);
-		LocalDate latestBirthdateAllowed  = params.getDepartureDate().minusYears(inclusiveAgeBounds.first);
-		boolean afterEarliest = birthdate.compareTo(earliestBirthdateAllowed) > 0;
-		boolean beforeLatest = birthdate.compareTo(latestBirthdateAllowed) <= 0;
+		return isDateWithinPassengerCategoryRange(birthdate, earliestBase, params.getDepartureDate(), passengerCategory);
+	}
+
+	public static boolean isDateWithinPassengerCategoryRange(LocalDate birthdate, PackageSearchParams params, PassengerCategory passengerCategory) {
+		return isDateWithinPassengerCategoryRange(birthdate, params.getCheckOut(), params.getCheckIn(), passengerCategory);
+	}
+
+	private static boolean isDateWithinPassengerCategoryRange(LocalDate birthDate, LocalDate earliestBase, LocalDate oldestBase,
+		PassengerCategory passengerCategory) {
+		Pair<Integer, Integer> inclusiveAgeBounds = getAcceptableAgeRange(passengerCategory);
+		LocalDate earliestBirthDateAllowed = earliestBase.minusYears(inclusiveAgeBounds.second);
+		LocalDate latestBirthDateAllowed  = oldestBase.minusYears(inclusiveAgeBounds.first);
+		boolean afterEarliest = birthDate.compareTo(earliestBirthDateAllowed) > 0;
+		boolean beforeLatest = birthDate.compareTo(latestBirthDateAllowed) <= 0;
 		return beforeLatest && afterEarliest;
 	}
 }

@@ -8,7 +8,7 @@ import android.view.MotionEvent
 import com.expedia.bookings.R
 import com.expedia.bookings.bitmaps.PicassoScrollListener
 
-public class HotelListRecyclerView(context: Context, attrs: AttributeSet) : RecyclerView(context, attrs) {
+class HotelListRecyclerView(context: Context, attrs: AttributeSet) : RecyclerView(context, attrs) {
     val PICASSO_TAG = "HOTEL_RESULTS_LIST"
     val layoutManager = LinearLayoutManager(getContext())
 

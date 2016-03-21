@@ -19,7 +19,7 @@ import kotlin.test.assertEquals
 import kotlin.test.assertTrue
 
 @RunWith(RobolectricRunner::class)
-public class PackageFlightResultTest {
+class PackageFlightResultTest {
     var vm: PackageFlightViewModel by Delegates.notNull()
     var flight: FlightLeg by Delegates.notNull()
     val context = RuntimeEnvironment.application
@@ -93,7 +93,7 @@ public class PackageFlightResultTest {
         Db.setPackageResponse(searchResponse)
 
         val resultsVM = FlightResultsViewModel()
-        for (i in 1..resultsVM.flightResultsObservable.value.size - 1) {
+        for (i in 2..resultsVM.flightResultsObservable.value.size - 1) {
             val current = resultsVM.flightResultsObservable.value[i].packageOfferModel.price.packageTotalPrice.amount
             val previous = resultsVM.flightResultsObservable.value[i - 1].packageOfferModel.price.packageTotalPrice.amount
             assertTrue(current.compareTo(previous) > 0, "Expected $current >= $previous")

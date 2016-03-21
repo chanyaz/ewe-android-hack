@@ -6,7 +6,6 @@ import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
@@ -17,7 +16,9 @@ import com.expedia.bookings.data.TripBucketItem;
 import com.expedia.bookings.utils.BookingInfoUtils;
 import com.expedia.bookings.utils.CreditCardUtils;
 import com.expedia.bookings.utils.WalletUtils;
-import com.expedia.bookings.widget.RoundImageView;
+import com.expedia.bookings.widget.ContactDetailsCompletenessStatus;
+import com.expedia.bookings.widget.ContactDetailsCompletenessStatusImageView;
+import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.Ui;
 import com.expedia.bookings.data.Db;
 import com.squareup.phrase.Phrase;
@@ -26,39 +27,37 @@ public class StoredCreditCardSpinnerAdapter extends ArrayAdapter<StoredCreditCar
 
 	private static final int ITEM_VIEW_TYPE_SELECT_CREDITCARD = 0;
 	private static final int ITEM_VIEW_TYPE_CREDITCARD = 1;
-	private static final int ITEM_VIEW_TYPE_ADD_CREDITCARD = 2;
-	private static final int ITEM_VIEW_TYPE_TEMP_CREDITCARD = 3;
+	private static final int ITEM_VIEW_TYPE_TEMP_CREDITCARD = 2;
+	private static final int ITEM_VIEW_TYPE_ADD_CREDITCARD = 3;
 	private static final int ITEM_VIEW_TYPE_COUNT = 4;
 
 	private TripBucketItem mTripBucketItem;
-	private boolean isAddStoredCardEnabled = true;
 
 	//It will be set true if user chose 'Save' on filling in new card details. If he chose 'No Thanks', it will be set false.
 	private boolean hasTemporarilySavedCard = false;
 
+	//In tablet stored credit card is list popup in which we show 2 additional cards 'Saved cards' and 'Add New card'
+	boolean isTablet = AndroidUtils.isTablet(getContext());
+
 	public StoredCreditCardSpinnerAdapter(Context context, TripBucketItem item) {
 		super(context, R.layout.traveler_autocomplete_row);
 		mTripBucketItem = item;
-	}
-
-	public StoredCreditCardSpinnerAdapter(Context context, TripBucketItem item, boolean addStoredCardEnabled) {
-		super(context, R.layout.traveler_autocomplete_row);
-		mTripBucketItem = item;
-		isAddStoredCardEnabled = addStoredCardEnabled;
 		hasTemporarilySavedCard = Db.getTemporarilySavedCard() != null;
 	}
 
 	@Override
 	public int getCount() {
-		return getAvailableStoredCards().size() + (isAddStoredCardEnabled ? 2 : 1) + (hasTemporarilySavedCard ? 1 : 0);
+		//If it is a tablet then count increases by 2 because of 2 additional cards 'Saved cards' and 'Add New card' and 'Add New card' shown in tablet
+		return getAvailableStoredCards().size() + (hasTemporarilySavedCard ? 1 : 0) + (isTablet ? 2 : 0);
 	}
 
 	@Override
 	public StoredCreditCard getItem(int position) {
 		int itemType = getItemViewType(position);
 		if (itemType == ITEM_VIEW_TYPE_CREDITCARD) {
-			if (getCount() > position - 1) {
-				return getAvailableStoredCards().get(position - 1);
+			if (getCount() > position - (hasTemporarilySavedCard ? 1 : 0)) {
+				//In case of tablet 0th position is acquired by 'Saved cards' tile
+				return getAvailableStoredCards().get(position - (isTablet ? 1 : 0));
 			}
 		}
 		return null;
@@ -80,15 +79,17 @@ public class StoredCreditCardSpinnerAdapter extends ArrayAdapter<StoredCreditCar
 
 	@Override
 	public int getItemViewType(int position) {
-		//Temporarily saved card is positioned at the bottom of the Stored Cards List.
-		if (hasTemporarilySavedCard && position == getCount() - 1) {
+		/* In phones Temporarily saved card is positioned at the bottom of the Stored Cards List.
+		Whereas in tablet last position is acquired by the card 'Add New card' tile
+		*/
+		if (hasTemporarilySavedCard && position == getCount() - 1 - (isTablet ? 1 : 0)) {
 			return ITEM_VIEW_TYPE_TEMP_CREDITCARD;
 		}
-		else if (isAddStoredCardEnabled && position == getCount() - 1 - (hasTemporarilySavedCard ? 1 : 0)) {
-			return ITEM_VIEW_TYPE_ADD_CREDITCARD;
-		}
-		else if (position == 0) {
+		else if (isTablet && position == 0) {
 			return ITEM_VIEW_TYPE_SELECT_CREDITCARD;
+		}
+		else if (isTablet && position == getCount() - 1) {
+			return ITEM_VIEW_TYPE_ADD_CREDITCARD;
 		}
 		else {
 			return ITEM_VIEW_TYPE_CREDITCARD;
@@ -101,14 +102,13 @@ public class StoredCreditCardSpinnerAdapter extends ArrayAdapter<StoredCreditCar
 
 		View retView = convertView;
 		TextView tv;
-		ImageView icon;
 		switch(itemType) {
 		case ITEM_VIEW_TYPE_SELECT_CREDITCARD:
-			retView = View.inflate(getContext(), R.layout.travelers_popup_header_footer_row, null);
+			retView = View.inflate(getContext(), R.layout.credit_card_autocomplete_row, null);
 			tv = Ui.findView(retView, R.id.text1);
-			icon = Ui.findView(retView, R.id.icon);
-			tv.setText(R.string.saved_creditcards);
-			icon.setBackgroundResource(R.drawable.saved_payment);
+			tv.setText(R.string.saved_cards);
+			tv.setCompoundDrawablesWithIntrinsicBounds(
+				getContext().getResources().getDrawable(R.drawable.saved_payment), null, null, null);
 			retView.setEnabled(false);
 			break;
 		case ITEM_VIEW_TYPE_CREDITCARD:
@@ -121,20 +121,25 @@ public class StoredCreditCardSpinnerAdapter extends ArrayAdapter<StoredCreditCar
 				retView = View.inflate(getContext(), R.layout.credit_card_autocomplete_row, null);
 			}
 			retView.setEnabled(card.isSelectable());
-			retView = bindStoredCardTile(retView, card.getType(), card.getDescription());
+
+			retView = bindStoredCardTile(retView, card.getType(),
+				Phrase.from(getContext(), R.string.stored_card_TEMPLATE)
+					.put("cardtype", card.getDescription()).format().toString(),
+				(Db.getBillingInfo().getStoredCard() != null
+					&& Db.getBillingInfo().getStoredCard().compareTo(card) == 0));
 			break;
 		case ITEM_VIEW_TYPE_ADD_CREDITCARD:
-			retView = View.inflate(getContext(), R.layout.travelers_popup_header_footer_row, null);
+			retView = View.inflate(getContext(), R.layout.credit_card_autocomplete_row, null);
 			tv = Ui.findView(retView, R.id.text1);
-			icon = Ui.findView(retView, R.id.icon);
-			tv.setText(R.string.add_new_creditcard);
-			icon.setBackgroundResource(R.drawable.add_plus);
+			tv.setText(R.string.add_new_card);
+			tv.setCompoundDrawablesWithIntrinsicBounds(
+				getContext().getResources().getDrawable(R.drawable.add_plus), null, null, null);
 			break;
 		case ITEM_VIEW_TYPE_TEMP_CREDITCARD:
 			retView = View.inflate(getContext(), R.layout.credit_card_autocomplete_row, null);
 			BillingInfo info = Db.getTemporarilySavedCard();
 			PaymentType cardType = info.getPaymentType();
-			retView = bindStoredCardTile(retView, cardType, getUserSavedTemporaryCardText(cardType, info.getNumber()));
+			retView = bindStoredCardTile(retView, cardType, getUserSavedTemporaryCardText(cardType, info.getNumber()), info.getSaveCardToExpediaAccount());
 			retView.setEnabled(!Db.getTemporarilySavedCard().getSaveCardToExpediaAccount());
 			break;
 		}
@@ -142,11 +147,10 @@ public class StoredCreditCardSpinnerAdapter extends ArrayAdapter<StoredCreditCar
 		return retView;
 	}
 
-	private View bindStoredCardTile(View retView, PaymentType cardType, String storedCardName) {
+	private View bindStoredCardTile(View retView, PaymentType cardType, String storedCardName, Boolean isSelectable) {
 		TextView tv;
-		RoundImageView rIcon;
 		tv = Ui.findView(retView, R.id.text1);
-		rIcon = Ui.findView(retView, R.id.icon);
+		ContactDetailsCompletenessStatusImageView rStatus = Ui.findView(retView, R.id.card_info_status_icon);
 
 		boolean isValidCard = true;
 		// Show a special icon for an invalid credit card (can happen in flights mode)
@@ -156,8 +160,9 @@ public class StoredCreditCardSpinnerAdapter extends ArrayAdapter<StoredCreditCar
 		tv.setText(storedCardName);
 		int imgRes = isValidCard ? BookingInfoUtils.getTabletCardIcon(cardType) :
 			R.drawable.ic_tablet_checkout_disabled_credit_card;
-		rIcon.setImageDrawable(getContext().getResources().getDrawable(imgRes));
-
+		tv.setCompoundDrawablesWithIntrinsicBounds(getContext().getResources().getDrawable(imgRes), null, null, null);
+		rStatus.setStatus(
+			isSelectable ? ContactDetailsCompletenessStatus.COMPLETE : ContactDetailsCompletenessStatus.DEFAULT);
 		return retView;
 	}
 
@@ -170,5 +175,11 @@ public class StoredCreditCardSpinnerAdapter extends ArrayAdapter<StoredCreditCar
 
 	private List<StoredCreditCard> getAvailableStoredCards() {
 		return BookingInfoUtils.getStoredCreditCards(getContext());
+	}
+
+	public void refresh(TripBucketItem item) {
+		mTripBucketItem = item;
+		hasTemporarilySavedCard = Db.getTemporarilySavedCard() != null;
+		notifyDataSetChanged();
 	}
 }

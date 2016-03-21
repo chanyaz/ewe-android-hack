@@ -15,7 +15,7 @@ import com.expedia.vm.FlightResultsViewModel
 import rx.subjects.PublishSubject
 import kotlin.properties.Delegates
 
-public class PackageFlightResultsPresenter(context: Context, attrs: AttributeSet) : Presenter(context, attrs) {
+class PackageFlightResultsPresenter(context: Context, attrs: AttributeSet) : Presenter(context, attrs) {
     val recyclerView: FlightListRecyclerView by bindView(R.id.list_view)
     var adapterPackage: PackageFlightListAdapter by Delegates.notNull()
     val flightSelectedSubject = PublishSubject.create<FlightLeg>()

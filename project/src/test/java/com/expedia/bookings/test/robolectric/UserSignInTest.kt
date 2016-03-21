@@ -14,6 +14,7 @@ import kotlin.properties.Delegates
 import kotlin.test.assertEquals
 import kotlin.test.assertNotNull
 import kotlin.test.assertNull
+import kotlin.test.assertTrue
 
 @RunWith(RobolectricRunner::class)
 class UserSignInTest {
@@ -88,5 +89,22 @@ class UserSignInTest {
     fun testGetStoredPointsThrowsErrorWithCreditCard() {
         val signInResponse = expediaServices.signInWithEmailForAutomationTests(ExpediaServices.F_HOTELS, "nostoredcards@mobiata.com")
         signInResponse.user.getStoredPointsCard(PaymentType.CARD_AMERICAN_EXPRESS)
+    }
+
+    @Test
+    fun testSignInWithNoLoyaltyMembershipDetails() {
+        val signInResponse = expediaServices.signInWithEmailForAutomationTests(ExpediaServices.F_HOTELS, "nostoredcards@mobiata.com")
+        val user = signInResponse.user
+        assertNull(user.loyaltyMembershipInformation)
+    }
+
+    @Test
+    fun testSignInWithLoyaltyMembershipDetailsAvailable() {
+        val signInResponse = expediaServices.signInWithEmailForAutomationTests(ExpediaServices.F_HOTELS, "silverstatus@mobiata.com")
+        val user = signInResponse.user
+        assertNotNull(user.loyaltyMembershipInformation)
+        assertTrue(user.loyaltyMembershipInformation.loyaltyPointsAvailable > 0)
+        assertTrue(user.loyaltyMembershipInformation.isAllowedToShopWithPoints)
+        assertEquals("USD", user.loyaltyMembershipInformation.bookingCurrency)
     }
 }

@@ -8,10 +8,11 @@
     android:layout_marginLeft="@dimen/car_search_list_image_container_margin"
     android:layout_marginRight="@dimen/car_search_list_image_container_margin"
     android:foreground="?android:attr/selectableItemBackground"
-    app:cardCornerRadius="4dp"
+    app:cardCornerRadius="@dimen/cardview_border_radius"
     app:cardElevation="1dp">
 
     <FrameLayout
+        android:id="@+id/result_row"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
@@ -20,6 +21,13 @@
             android:layout_width="match_parent"
             android:layout_height="?attr/card_list_image_container_height"
             android:scaleType="centerCrop" />
+
+        <View
+            android:id="@+id/lx_card_top_gradient"
+            android:layout_width="match_parent"
+            android:layout_height="67dp"
+            android:layout_gravity="top"
+            android:background="@drawable/cars_lx_details_gradient_top" />
 
         <View
             android:id="@+id/gradient_mask"

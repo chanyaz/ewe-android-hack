@@ -42,7 +42,7 @@ import com.expedia.vm.HotelFilterViewModel.Sort
 import rx.Observer
 import java.util.ArrayList
 
-public class HotelFilterView(context: Context, attrs: AttributeSet) : FrameLayout(context, attrs) {
+class HotelFilterView(context: Context, attrs: AttributeSet) : FrameLayout(context, attrs) {
     val toolbar: Toolbar by bindView(R.id.filter_toolbar)
     val filterVipBadge: TextView by bindView(R.id.vip_badge)
     val filterHotelVip: CheckBox by bindView(R.id.filter_hotel_vip)
@@ -92,7 +92,7 @@ public class HotelFilterView(context: Context, attrs: AttributeSet) : FrameLayou
     val ANIMATION_DURATION = 500L
 
     val sortByObserver: Observer<Boolean> = endlessObserver { isCurrentLocationSearch ->
-        var sortOptions: ArrayList<String> = resources.getStringArray(R.array.sort_options_material_hotels).toArrayList()
+        var sortOptions: ArrayList<String> = resources.getStringArray(R.array.sort_options_material_hotels).toCollection(ArrayList())
 
         if (isCurrentLocationSearch) {
             sortOptions.add(getContext().getString(R.string.distance))

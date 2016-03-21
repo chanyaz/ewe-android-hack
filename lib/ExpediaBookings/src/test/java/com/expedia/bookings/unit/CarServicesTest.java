@@ -114,7 +114,7 @@ public class CarServicesTest {
 		carSearchResponse.offers.add(secondSearchCarOffer);
 		carSearchResponse.offers.add(thirdSearchCarOffer);
 
-		CarServices.SORT_OFFERS_BY_LOWEST_TOTAL.call(carSearchResponse);
+		CarServices.getSORT_OFFERS_BY_LOWEST_TOTAL().call(carSearchResponse);
 
 		assertEquals(carSearchResponse.offers.get(0).fare.total, thirdSearchCarFare.total);
 		assertEquals(carSearchResponse.offers.get(1).fare.total, secondSearchCarFare.total);

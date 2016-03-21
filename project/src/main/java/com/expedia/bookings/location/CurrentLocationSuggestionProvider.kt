@@ -11,7 +11,7 @@ import com.expedia.bookings.utils.ServicesUtil
 
 import rx.Observable;
 
-public class CurrentLocationSuggestionProvider(val suggestionServices: SuggestionServices, val locationObservable: Observable<Location>, val context: Context) {
+class CurrentLocationSuggestionProvider(val suggestionServices: SuggestionServices, val locationObservable: Observable<Location>, val context: Context) {
 	fun currentLocationSuggestion() : Observable<SuggestionV4> {
 		return locationObservable.flatMap { location ->
                 val latlong = "" + location.getLatitude() + "|" + location.getLongitude();

@@ -20,7 +20,7 @@ import com.expedia.util.subscribeVisibility
 import com.expedia.vm.HotelDetailViewModel
 import kotlin.properties.Delegates
 
-public class HotelDetailsToolbar(context: Context, attrs: AttributeSet?) : FrameLayout(context, attrs) {
+class HotelDetailsToolbar(context: Context, attrs: AttributeSet?) : FrameLayout(context, attrs) {
 
     val toolbar: Toolbar by bindView(R.id.toolbar)
     val toolbarTitle: TextView by bindView(R.id.hotel_name_text)

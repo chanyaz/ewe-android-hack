@@ -322,6 +322,9 @@ public class TripParser {
 		// Parse destination regionId
 		flight.setDestinationRegionId(obj.optString("destinationRegionId"));
 
+		//Parse check in link
+		flight.setCheckInLink(obj.optString("airlineCheckInURL"));
+
 		FlightTrip flightTrip = new FlightTrip();
 		flight.setFlightTrip(flightTrip);
 

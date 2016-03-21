@@ -6,7 +6,7 @@
         android:id="@+id/hotel_details_gradient"
         android:layout_width="match_parent"
         android:layout_height="@dimen/hotel_detail_gradient_height"
-        android:background="@drawable/cars_details_gradient_top"/>
+        android:background="@drawable/cars_lx_details_gradient_top"/>
 
     <View
         android:id="@+id/toolbar_background"

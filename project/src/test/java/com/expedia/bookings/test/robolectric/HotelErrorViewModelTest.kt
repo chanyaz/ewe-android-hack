@@ -10,7 +10,7 @@ import org.robolectric.RuntimeEnvironment
 import rx.observers.TestSubscriber
 
 @RunWith(RobolectricRunner::class)
-public class HotelErrorViewModelTest {
+class HotelErrorViewModelTest {
 
     @Test fun observableEmissionsOnSoldOutApiError() {
         val subjectUnderTest = HotelErrorViewModel(RuntimeEnvironment.application)

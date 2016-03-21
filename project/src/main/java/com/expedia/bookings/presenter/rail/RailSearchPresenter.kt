@@ -14,7 +14,7 @@ import com.expedia.bookings.utils.bindView
 import com.expedia.util.notNullAndObservable
 import com.expedia.vm.RailSearchViewModel
 
-public class RailSearchPresenter(context: Context, attrs: AttributeSet) : Presenter(context, attrs) {
+class RailSearchPresenter(context: Context, attrs: AttributeSet) : Presenter(context, attrs) {
 
     val searchContainer: ViewGroup by bindView(R.id.search_container)
     val toolbar: Toolbar by bindView(R.id.toolbar)

@@ -1,182 +1,99 @@
 package com.expedia.bookings.presenter.packages
 
-import android.app.ProgressDialog
 import android.content.Context
+import android.content.Intent
+import android.support.design.widget.AppBarLayout
+import android.support.design.widget.CollapsingToolbarLayout
+import android.support.design.widget.CoordinatorLayout
 import android.support.v4.content.ContextCompat
+import android.support.v7.app.AppCompatActivity
 import android.util.AttributeSet
+import android.view.Gravity
 import android.view.View
-import android.widget.ScrollView
-import android.widget.Button
-import android.widget.TextView
+import android.view.ViewGroup
+import android.widget.ImageView
+import android.widget.LinearLayout
 import com.expedia.bookings.R
+import com.expedia.bookings.data.Codes
 import com.expedia.bookings.data.Db
-import com.expedia.bookings.data.Money
-import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.presenter.Presenter
-import com.expedia.bookings.utils.StrUtils
 import com.expedia.bookings.presenter.VisibilityTransition
-import com.expedia.bookings.utils.CurrencyUtils
+import com.expedia.bookings.utils.Constants
+import com.expedia.bookings.utils.Strings
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.BaseCheckoutPresenter
-import com.expedia.bookings.widget.CheckoutToolbar
-import com.expedia.bookings.widget.PackageBundleHotelWidget
-import com.expedia.bookings.widget.PackageBundlePriceWidget
 import com.expedia.bookings.widget.CVVEntryWidget
-import com.expedia.util.endlessObserver
-import com.expedia.util.notNullAndObservable
-import com.expedia.bookings.widget.PackageBundleFlightWidget
+import com.expedia.bookings.widget.CheckoutToolbar
+import com.expedia.bookings.widget.PackageCheckoutPresenter
+import com.expedia.bookings.widget.PackagePaymentWidget
 import com.expedia.bookings.widget.packages.CheckoutOverviewHeader
-import com.expedia.vm.BundleHotelViewModel
-import com.expedia.vm.BundleOverviewViewModel
+import com.expedia.ui.PackageHotelActivity
+import com.expedia.util.endlessObserver
 import com.expedia.vm.CheckoutToolbarViewModel
-import com.expedia.vm.PackageCreateTripViewModel
-import com.expedia.vm.BundlePriceViewModel
-import com.expedia.vm.BundleFlightViewModel
 import com.expedia.vm.PackageSearchType
-import com.squareup.phrase.Phrase
-import java.math.BigDecimal
-import kotlin.properties.Delegates
 
-public class BundleOverviewPresenter(context: Context, attrs: AttributeSet) : Presenter(context, attrs), CVVEntryWidget.CVVEntryFragmentListener {
+class BundleOverviewPresenter(context: Context, attrs: AttributeSet) : Presenter(context, attrs), CVVEntryWidget.CVVEntryFragmentListener, AppBarLayout.OnOffsetChangedListener {
     val ANIMATION_DURATION = 450L
 
     val toolbar: CheckoutToolbar by bindView(R.id.checkout_toolbar)
-    val bundleContainer: ScrollView by bindView(R.id.bundle_container)
-    val checkoutPresenter: BaseCheckoutPresenter by bindView(R.id.checkout_presenter)
-    val checkoutButton: Button by bindView(R.id.checkout_button)
-    val createTripDialog = ProgressDialog(context)
-    val bundleTotalPriceWidget: PackageBundlePriceWidget by bindView(R.id.bundle_total)
+    val collapsingToolbarLayout: CollapsingToolbarLayout by bindView(R.id.collapsing_toolbar)
+    val coordinatorLayout: CoordinatorLayout by bindView(R.id.coordinator_layout)
+    val appBarLayout: AppBarLayout by bindView(R.id.app_bar)
+    val imageHeader: ImageView by bindView(R.id.overview_image)
+    val checkoutOverviewHeaderToolbar: CheckoutOverviewHeader by bindView(R.id.checkout_overview_header_toolbar)
+    val checkoutOverviewFloatingToolbar: CheckoutOverviewHeader by bindView(R.id.checkout_overview_floating_toolbar)
+    val bundleWidget: BundleWidget by bindView(R.id.bundle_widget)
+    val checkoutPresenter: PackageCheckoutPresenter by bindView(R.id.checkout_presenter)
+
     val cvv: CVVEntryWidget by bindView(R.id.cvv)
-    val stepOneText: TextView by bindView(R.id.step_one_text)
-    val stepTwoText: TextView by bindView(R.id.step_two_text)
-    val bundleHotelWidget: PackageBundleHotelWidget by bindView(R.id.package_bundle_hotel_widget)
-    val outboundFlightWidget: PackageBundleFlightWidget by bindView(R.id.package_bundle_outbound_flight_widget)
-    val inboundFlightWidget: PackageBundleFlightWidget by bindView(R.id.package_bundle_inbound_flight_widget)
-    var statusBar: View by Delegates.notNull()
-    val checkoutOverviewHeader: CheckoutOverviewHeader by bindView(R.id.checkout_overview_header)
-    var toolbarHeight: Int by Delegates.notNull()
-    val scrollViewtopPadding = resources.getDimensionPixelSize(R.dimen.package_bundle_scroll_view_padding)
+    var isHideToolbarView = false;
 
-    var viewModel: BundleOverviewViewModel by notNullAndObservable { vm ->
-        vm.hotelParamsObservable.subscribe { param ->
-            bundleHotelWidget.viewModel.showLoadingStateObservable.onNext(true)
-            outboundFlightWidget.viewModel.hotelLoadingStateObservable.onNext(PackageSearchType.OUTBOUND_FLIGHT)
-            inboundFlightWidget.viewModel.hotelLoadingStateObservable.onNext(PackageSearchType.INBOUND_FLIGHT)
-        }
-        vm.hotelResultsObservable.subscribe {
-            bundleHotelWidget.viewModel.showLoadingStateObservable.onNext(false)
-        }
-        vm.flightParamsObservable.subscribe { param ->
-            if (param.isOutboundSearch()) {
-                outboundFlightWidget.viewModel.showLoadingStateObservable.onNext(true)
-                outboundFlightWidget.viewModel.flightTextObservable.onNext(context.getString(R.string.searching_flight_to, StrUtils.formatCityName(Db.getPackageParams().destination.regionNames.shortName)))
-            } else {
-                inboundFlightWidget.viewModel.showLoadingStateObservable.onNext(true)
-                inboundFlightWidget.viewModel.flightTextObservable.onNext(context.getString(R.string.searching_flight_to, StrUtils.formatCityName(Db.getPackageParams().origin.regionNames.shortName)))
-            }
-        }
-        vm.flightResultsObservable.subscribe { searchType ->
-            if (searchType == PackageSearchType.OUTBOUND_FLIGHT) {
-                outboundFlightWidget.viewModel.showLoadingStateObservable.onNext(false)
-                outboundFlightWidget.viewModel.flightTextObservable.onNext(context.getString(R.string.select_flight_to, StrUtils.formatCityName(Db.getPackageParams().destination.regionNames.shortName)))
-            } else {
-                inboundFlightWidget.viewModel.showLoadingStateObservable.onNext(false)
-                inboundFlightWidget.viewModel.flightTextObservable.onNext(context.getString(R.string.select_flight_to, StrUtils.formatCityName(Db.getPackageParams().origin.regionNames.shortName)))
-            }
-        }
-
-        vm.showBundleTotalObservable.subscribe { visible ->
-            var packagePrice = Db.getPackageResponse().packageResult.currentSelectedOffer.price
-
-            var packageSavings = Phrase.from(context, R.string.bundle_total_savings_TEMPLATE)
-                    .put("savings", Money(BigDecimal(packagePrice.tripSavings.amount.toDouble()),
-                            packagePrice.tripSavings.currencyCode).formattedMoney)
-                    .format().toString()
-            bundleTotalPriceWidget.visibility = if (visible) View.VISIBLE else View.GONE
-            bundleTotalPriceWidget.viewModel.setTextObservable.onNext(Pair(Money(BigDecimal(packagePrice.packageTotalPrice.amount.toDouble()),
-                    packagePrice.packageTotalPrice.currencyCode).formattedMoney, packageSavings))
-        }
-    }
-
-    var createTripViewModel: PackageCreateTripViewModel by notNullAndObservable { vm ->
-        vm.tripParams.subscribe {
-            createTripDialog.show()
-        }
-        vm.tripResponseObservable.subscribe {
-            createTripDialog.hide()
-            checkoutButton.visibility = VISIBLE
-            showCheckoutHeaderImage()
-        }
-        vm.tripResponseObservable.subscribe(checkoutPresenter.viewModel.packageTripResponse)
-        vm.createTripBundleTotalObservable.subscribe { response ->
-            var packageTotalPrice = response.packageDetails.pricing
-            var packageSavings = Phrase.from(context, R.string.bundle_total_savings_TEMPLATE)
-                    .put("savings", Money(BigDecimal(packageTotalPrice.savings.amount.toDouble()),
-                            packageTotalPrice.savings.currencyCode).formattedMoney)
-                    .format().toString()
-
-            bundleTotalPriceWidget.viewModel.setTextObservable.onNext(Pair(Money(BigDecimal(packageTotalPrice.packageTotal.amount.toDouble()),
-                    packageTotalPrice.packageTotal.currencyCode).formattedMoney, packageSavings))
-
-            var hotel = response.packageDetails.hotel
-            checkoutOverviewHeader.update(hotel, width)
-            stepOneText.text = Phrase.from(resources.getQuantityString(R.plurals.hotel_checkout_overview_TEMPLATE, hotel.numberOfNights.toInt()))
-                    .put("number", hotel.numberOfNights)
-                    .put("city", hotel.hotelCity)
-                    .format()
-            stepTwoText.text = Phrase.from(context, R.string.flight_checkout_overview_TEMPLATE).put("origin", Db.getPackageParams().origin.hierarchyInfo?.airport?.airportCode).put("destination",
-                    Db.getPackageParams().destination.hierarchyInfo?.airport?.airportCode).format()
-        }
-    }
+    val toolbarHeight = Ui.getStatusBarHeight(context) + Ui.getToolbarSize(context)
+    val changeHotel by lazy { toolbar.menu.findItem(R.id.package_change_hotel) }
+    val changeHotelRoom by lazy { toolbar.menu.findItem(R.id.package_change_hotel_room) }
+    val changeFlight by lazy { toolbar.menu.findItem(R.id.package_change_flight) }
 
     init {
         View.inflate(context, R.layout.bundle_overview, this)
-        bundleHotelWidget.viewModel = BundleHotelViewModel(context)
 
-        outboundFlightWidget.isOutbound = true
-        inboundFlightWidget.isOutbound = false
-        outboundFlightWidget.viewModel = BundleFlightViewModel(context)
-        inboundFlightWidget.viewModel = BundleFlightViewModel(context)
-        outboundFlightWidget.flightIcon.setImageResource(R.drawable.packages_overview_flight1)
-        inboundFlightWidget.flightIcon.setImageResource(R.drawable.packages_overview_flight2)
-
-        bundleTotalPriceWidget.viewModel = BundlePriceViewModel(context)
-        checkoutPresenter.travelerWidget.mToolbarListener = toolbar
-        checkoutPresenter.paymentWidget.mToolbarListener = toolbar
         toolbar.viewModel = CheckoutToolbarViewModel(context)
-        toolbar.viewModel.nextClicked.subscribe {
-            checkoutPresenter.expandedView?.setNextFocus()
-        }
-        toolbar.viewModel.doneClicked.subscribe {
-            checkoutPresenter.expandedView?.onMenuButtonPressed()
-            Ui.hideKeyboard(this)
+
+        toolbar.inflateMenu(R.menu.menu_package_checkout)
+        toolbar.overflowIcon = ContextCompat.getDrawable(context, R.drawable.ic_create_white_24dp)
+
+        toolbar.viewModel.showChangePackageMenuObservable.subscribe { visible ->
+            toolbar.menu.setGroupVisible(R.id.package_change_menu, visible)
         }
 
-        val statusBarHeight = Ui.getStatusBarHeight(getContext())
-        if (statusBarHeight > 0) {
-            val color = ContextCompat.getColor(context, R.color.packages_primary_color)
-            statusBar = Ui.setUpStatusBar(getContext(), toolbar, null, color)
-            addView(statusBar)
-        }
-        val padding = Ui.getToolbarSize(context) + statusBarHeight
-        checkoutPresenter.setPadding(0, padding, 0, 0)
-
-        checkoutButton.setOnClickListener {
+        checkoutPresenter.checkoutButton.setOnClickListener {
             show(checkoutPresenter)
             checkoutPresenter.show(BaseCheckoutPresenter.CheckoutDefault(), FLAG_CLEAR_BACKSTACK)
         }
 
-        createTripDialog.setMessage(resources.getString(R.string.spinner_text_hotel_create_trip))
-        createTripDialog.setCancelable(false)
-        createTripDialog.isIndeterminate = true
-        bundleTotalPriceWidget.visibility = View.VISIBLE
-        var countryCode = PointOfSale.getPointOfSale().threeLetterCountryCode
-        var currencyCode = CurrencyUtils.currencyForLocale(countryCode)
-        bundleTotalPriceWidget.viewModel.setTextObservable.onNext(Pair(Money(BigDecimal("0.00"), currencyCode).formattedMoney,
-                Phrase.from(context, R.string.bundle_total_savings_TEMPLATE)
-                        .put("savings", Money(BigDecimal("0.00"), currencyCode).formattedMoney)
-                        .format().toString()))
+        checkoutPresenter.paymentWidget.viewmodel.toolbarTitle.subscribe(toolbar.viewModel.toolbarTitle)
+        checkoutPresenter.paymentWidget.viewmodel.editText.subscribe(toolbar.viewModel.editText)
+        checkoutPresenter.paymentWidget.viewmodel.menuVisibility.subscribe(toolbar.viewModel.menuVisibility)
+        checkoutPresenter.paymentWidget.viewmodel.enableMenuItem.subscribe(toolbar.viewModel.enableMenuItem)
+        checkoutPresenter.paymentWidget.viewmodel.visibleMenuWithTitleDone.subscribe(toolbar.viewModel.visibleMenuWithTitleDone)
+        checkoutPresenter.paymentWidget.viewmodel.toolbarNavIcon.subscribe(toolbar.viewModel.toolbarNavIcon)
+        toolbar.viewModel.doneClicked.subscribe {
+            if (checkoutPresenter.currentState == PackagePaymentWidget::class.java.name) {
+                checkoutPresenter.paymentWidget.viewmodel.doneClicked.onNext(Unit)
+            }
+        }
+
+        checkoutPresenter.checkoutButton.setOnClickListener {
+            show(checkoutPresenter)
+            checkoutPresenter.show(BaseCheckoutPresenter.CheckoutDefault(), FLAG_CLEAR_BACKSTACK)
+        }
+
+        bundleWidget.toggleMenuObservable.subscribe(toolbar.toggleMenuObserver)
+        bundleWidget.toggleMenuObservable.subscribe {
+            checkoutPresenter.toggleCheckoutButton(false)
+        }
+
+        setUpCollapsingToolbar()
     }
 
     override fun onFinishInflate() {
@@ -187,62 +104,176 @@ public class BundleOverviewPresenter(context: Context, attrs: AttributeSet) : Pr
         show(BundleDefault())
         cvv.setCVVEntryListener(this)
         checkoutPresenter.slideAllTheWayObservable.subscribe(checkoutSliderSlidObserver)
-        toolbarHeight = Ui.getStatusBarHeight(context) + Ui.getToolbarSize(context)
-        bundleContainer.setPadding(0, toolbarHeight, 0, 0)
+        toolbar.setTitleTextAppearance(context, R.style.ToolbarTitleTextAppearance)
+        toolbar.setSubtitleTextAppearance(context, R.style.ToolbarSubtitleTextAppearance)
+
+        changeHotel.setOnMenuItemClickListener({
+            toggleOverviewHeader(false)
+            bundleWidget.collapseBundleWidgets()
+            val params = Db.getPackageParams()
+            params.pageType = Constants.PACKAGE_CHANGE_HOTEL
+            params.searchProduct = null
+            bundleWidget.viewModel.hotelParamsObservable.onNext(params)
+            true
+        })
+
+        changeHotelRoom.setOnMenuItemClickListener({
+            toggleOverviewHeader(false)
+            bundleWidget.collapseBundleWidgets()
+            val params = Db.getPackageParams()
+            params.pageType = Constants.PACKAGE_CHANGE_HOTEL
+            val intent = Intent(context, PackageHotelActivity::class.java)
+            intent.putExtra(Codes.TAG_EXTERNAL_SEARCH_PARAMS, true)
+            (context as AppCompatActivity).startActivityForResult(intent, Constants.HOTEL_REQUEST_CODE, null)
+            true
+        })
+
+        changeFlight.setOnMenuItemClickListener({
+            toggleOverviewHeader(false)
+            bundleWidget.collapseBundleWidgets()
+            val params = Db.getPackageParams()
+            params.pageType = Constants.PACKAGE_CHANGE_FLIGHT
+            params.searchProduct = Constants.PRODUCT_FLIGHT
+            params.selectedLegId = null
+            bundleWidget.viewModel.flightParamsObservable.onNext(params)
+            true
+        })
+
+        val checkoutPresenterLayoutParams = checkoutPresenter.layoutParams as ViewGroup.MarginLayoutParams
+        checkoutPresenterLayoutParams.setMargins(0, toolbarHeight, 0, 0)
+        checkoutPresenter.mainContent.visibility = View.GONE
     }
 
-    public fun hideCheckoutHeaderImage() {
-        toolbar.setBackgroundColor(ContextCompat.getColor(context, R.color.packages_primary_color))
-        statusBar.setBackgroundColor(ContextCompat.getColor(context, R.color.packages_primary_color))
-        toolbar.viewModel.toolbarTitle.onNext(resources.getString(R.string.Checkout))
-        checkoutOverviewHeader.visibility = GONE
-        bundleContainer.setPadding(0, toolbarHeight, 0, 0)
+    /** Collapsing Toolbar **/
+    fun setUpCollapsingToolbar() {
+        //we need to set this empty space inorder to remove the title string
+        collapsingToolbarLayout.title = " ";
+        collapsingToolbarLayout.setContentScrimColor(resources.getColor(R.color.packages_primary_color))
+        collapsingToolbarLayout.setStatusBarScrimColor(resources.getColor(R.color.packages_primary_color))
+        checkoutOverviewHeaderToolbar.travelers.visibility = View.GONE
+        appBarLayout.addOnOffsetChangedListener(this);
+        val floatingToolbarLayoutParams = checkoutOverviewFloatingToolbar.destinationText.layoutParams as LinearLayout.LayoutParams
+        floatingToolbarLayoutParams.gravity = Gravity.CENTER
+        toggleOverviewHeader(false)
+        checkoutPresenter.checkoutTranslationObserver.subscribe { y ->
+            val distance = -appBarLayout.totalScrollRange + (y / checkoutPresenter.height * appBarLayout.totalScrollRange).toInt()
+            val params = appBarLayout.layoutParams as CoordinatorLayout.LayoutParams
+            val behavior = params.behavior as AppBarLayout.Behavior
+            val enable = y != 0f
+            toggleCollapsingToolBar(enable)
+            behavior.topAndBottomOffset = distance
+        }
+
+        (checkoutOverviewHeaderToolbar.destinationText.layoutParams as LinearLayout.LayoutParams).gravity = Gravity.LEFT
+        (checkoutOverviewHeaderToolbar.checkInOutDates.layoutParams as LinearLayout.LayoutParams).gravity = Gravity.LEFT
+        checkoutOverviewHeaderToolbar.destinationText.pivotX = 0f
+        checkoutOverviewHeaderToolbar.destinationText.pivotY = 0f
+        checkoutOverviewHeaderToolbar.destinationText.scaleX = .75f
+        checkoutOverviewHeaderToolbar.destinationText.scaleY = .75f
     }
 
-    public fun showCheckoutHeaderImage() {
-        toolbar.setBackgroundColor(ContextCompat.getColor(context, android.R.color.transparent))
-        statusBar.setBackgroundColor(ContextCompat.getColor(context, android.R.color.transparent))
-        toolbar.viewModel.toolbarTitle.onNext("")
-        checkoutOverviewHeader.visibility = VISIBLE
-        bundleContainer.setPadding(0, scrollViewtopPadding, 0, 0)
+    fun toggleOverviewHeader(show: Boolean) {
+        toolbar.setBackgroundColor(ContextCompat.getColor(context, if (show) android.R.color.transparent else R.color.packages_primary_color))
+        appBarLayout.setExpanded(show)
+        toggleCollapsingToolBar(show)
+        swapViews(show)
+    }
+
+    fun toggleCollapsingToolBar(enable: Boolean) {
+        checkoutOverviewFloatingToolbar.visibility = if (enable) View.VISIBLE else View.GONE
+        appBarLayout.isActivated = enable
+        bundleWidget.isNestedScrollingEnabled = enable
+        collapsingToolbarLayout.isTitleEnabled = enable
+    }
+
+    /** Swaps the bundle widget out of the coordinator
+     * layout into the main layout to address scrolling/animation bugs**/
+    fun swapViews(toCoordinatorLayout: Boolean) {
+        var parent = bundleWidget.parent
+        (parent as ViewGroup).removeView(bundleWidget)
+        if (toCoordinatorLayout) {
+            removeView(bundleWidget)
+            coordinatorLayout.addView(bundleWidget, 2)
+            val bundleWidgetLayoutParams = bundleWidget.layoutParams as CoordinatorLayout.LayoutParams
+            bundleWidgetLayoutParams.behavior = AppBarLayout.ScrollingViewBehavior();
+            bundleWidgetLayoutParams.gravity = Gravity.FILL_VERTICAL
+            bundleWidget.setPadding(0, 0, 0, 0)
+            bundleWidget.isFillViewport = true
+        } else {
+            coordinatorLayout.removeView(bundleWidget)
+            addView(bundleWidget, 1)
+            bundleWidget.setPadding(0, toolbarHeight, 0, 0)
+        }
     }
 
     val defaultTransition = object : Presenter.DefaultTransition(BundleDefault::class.java.name) {
-        override fun finalizeTransition(forward: Boolean) {
-            super.finalizeTransition(forward)
+        override fun endTransition(forward: Boolean) {
+            super.endTransition(forward)
+            toolbar.menu.setGroupVisible(R.id.package_change_menu, false)
+            toggleCollapsingToolBar(!forward)
         }
     }
 
-    val checkoutTransition = object : Presenter.Transition(BundleDefault::class.java, BaseCheckoutPresenter::class.java) {
+    val checkoutTransition = object : Presenter.Transition(BundleDefault::class.java, PackageCheckoutPresenter::class.java) {
+        var translationDistance = 0f
+        var headerOffset = 0
+
         override fun startTransition(forward: Boolean) {
-            checkoutButton.visibility = if (forward) View.GONE else View.VISIBLE
-            bundleContainer.visibility = View.VISIBLE
-            checkoutPresenter.visibility = View.VISIBLE
-            bundleTotalPriceWidget.visibility = if (forward) View.GONE else View.VISIBLE
-            if (forward) {
-                hideCheckoutHeaderImage()
-            } else {
-                showCheckoutHeaderImage()
-            }
+            toggleCollapsingToolBar(true)
+            translationDistance = checkoutPresenter.mainContent.translationY
+            val params = appBarLayout.layoutParams as CoordinatorLayout.LayoutParams
+            val behavior = params.behavior as AppBarLayout.Behavior
+            headerOffset = behavior.topAndBottomOffset
+            checkoutPresenter.checkoutButton.translationY = if (forward) 0f else checkoutPresenter.checkoutButton.height.toFloat()
+            checkoutPresenter.chevron.rotation = 0f
+            toolbar.menu.setGroupVisible(R.id.package_change_menu, !forward)
+            toolbar.alpha = if (forward) 0f else 1f
+            checkoutPresenter.mainContent.visibility = View.VISIBLE
         }
 
         override fun updateTransition(f: Float, forward: Boolean) {
-            bundleContainer.translationY = if (forward) f * -bundleContainer.height.toFloat() else (1 - f) * bundleContainer.height.toFloat()
-            checkoutPresenter.translationY = if (forward) (f - 1) * -checkoutPresenter.height.toFloat() else f * checkoutPresenter.height.toFloat()
+            translateHeader(f, forward)
+            translateCheckout(f, forward)
+            translateBottomContainer(f, forward)
+            toolbar.alpha = 1f * if (forward) f else (1 - f)
         }
 
         override fun endTransition(forward: Boolean) {
             super.endTransition(forward)
+            toggleCollapsingToolBar(!forward)
+            checkoutPresenter.checkoutButton.translationY = if (forward) checkoutPresenter.checkoutButton.height.toFloat() else 0f
+            checkoutPresenter.mainContent.visibility = if (forward) View.VISIBLE else View.GONE
+            checkoutPresenter.mainContent.translationY = 0f
+            toolbar.alpha = 1f
         }
 
-        override fun finalizeTransition(forward: Boolean) {
-            super.finalizeTransition(forward)
+        private fun translateHeader(f: Float, forward: Boolean) {
+            val params = appBarLayout.layoutParams as CoordinatorLayout.LayoutParams
+            val behavior = params.behavior as AppBarLayout.Behavior
+            val scrollY = if (forward) f * - appBarLayout.totalScrollRange else (f - 1) * (appBarLayout.totalScrollRange + headerOffset)
+            behavior.topAndBottomOffset = scrollY.toInt()
+        }
+
+        private fun translateCheckout(f: Float, forward: Boolean) {
+            var distance = height - translationDistance - Ui.getStatusBarHeight(context)
+            checkoutPresenter.mainContent.translationY = if (forward) translationDistance + ((1 - f) * distance) else translationDistance + (f * distance)
+        }
+
+        private fun translateBottomContainer(f: Float, forward: Boolean) {
+            val hasCompleteInfo = checkoutPresenter.viewModel.infoCompleted.value
+            val bottomDistance = checkoutPresenter.sliderHeight - checkoutPresenter.checkoutButtonHeight
+            var slideIn = if (hasCompleteInfo) bottomDistance - (f * (bottomDistance))
+            else checkoutPresenter.sliderHeight - ((1 - f) * checkoutPresenter.checkoutButtonHeight)
+            var slideOut = if (hasCompleteInfo) f * (bottomDistance)
+            else checkoutPresenter.sliderHeight - (f * checkoutPresenter.checkoutButtonHeight)
+            checkoutPresenter.bottomContainer.translationY = if (forward) slideIn else slideOut
+            checkoutPresenter.checkoutButton.translationY = if (forward) f * checkoutPresenter.checkoutButtonHeight else (1 - f) * checkoutPresenter.checkoutButtonHeight
         }
     }
 
-    private val checkoutToCvv = object : VisibilityTransition(this, BaseCheckoutPresenter::class.java, CVVEntryWidget::class.java) {
-        override fun finalizeTransition(forward: Boolean) {
-            super.finalizeTransition(forward)
+    private val checkoutToCvv = object : VisibilityTransition(this, PackageCheckoutPresenter::class.java, CVVEntryWidget::class.java) {
+        override fun endTransition(forward: Boolean) {
+            super.endTransition(forward)
             if (!forward) {
                 checkoutPresenter.slideToPurchase.resetSlider()
             } else {
@@ -262,9 +293,50 @@ public class BundleOverviewPresenter(context: Context, attrs: AttributeSet) : Pr
     }
 
     override fun back(): Boolean {
-        bundleHotelWidget.backButtonPressed()
-        hideCheckoutHeaderImage()
+        bundleWidget.bundleHotelWidget.backButtonPressed()
+        var params = Db.getPackageParams()
+        if (params.pageType == Constants.PACKAGE_CHANGE_FLIGHT) {
+            checkoutPresenter.doCreateTrip()
+            params.pageType = null
+            bundleWidget.outboundFlightWidget.viewModel.selectedFlightObservable.onNext(PackageSearchType.OUTBOUND_FLIGHT)
+            bundleWidget.inboundFlightWidget.viewModel.selectedFlightObservable.onNext(PackageSearchType.INBOUND_FLIGHT)
+            return true
+        }
         return super.back()
+    }
+
+    override fun onOffsetChanged(appBarLayout: AppBarLayout, offset: Int) {
+        var maxScroll = appBarLayout.totalScrollRange;
+        if (maxScroll != 0) {
+            var percentage = Math.abs(offset) / maxScroll.toFloat()
+
+            if (isHideToolbarView) {
+                if (percentage == 1f) {
+                    if (!Strings.equals(currentState, PackageCheckoutPresenter::class.java.name)) {
+                        checkoutOverviewHeaderToolbar.visibility = View.VISIBLE;
+                    }
+                    checkoutOverviewHeaderToolbar.destinationText.visibility = View.VISIBLE
+                    checkoutOverviewHeaderToolbar.checkInOutDates.alpha = 1f
+                    val distance = checkoutOverviewFloatingToolbar.destinationText.height * .25f
+                    checkoutOverviewHeaderToolbar.checkInOutDates.translationY = -distance
+                    isHideToolbarView = !isHideToolbarView;
+                } else if (percentage >= .7f) {
+                    checkoutOverviewHeaderToolbar.visibility = View.VISIBLE
+                    val alpha = (percentage - .7f) / .3f
+                    checkoutOverviewHeaderToolbar.checkInOutDates.alpha = alpha
+                    val distance = checkoutOverviewFloatingToolbar.destinationText.height * .25f
+                    checkoutOverviewHeaderToolbar.checkInOutDates.translationY = -distance
+                } else {
+                    checkoutOverviewHeaderToolbar.visibility = View.GONE
+                    checkoutOverviewHeaderToolbar.checkInOutDates.alpha = 0f
+                }
+            } else {
+                if (percentage < 1f) {
+                    checkoutOverviewHeaderToolbar.destinationText.visibility = View.INVISIBLE;
+                    isHideToolbarView = !isHideToolbarView;
+                }
+            }
+        }
     }
 
     class BundleDefault

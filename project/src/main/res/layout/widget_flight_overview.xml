@@ -9,10 +9,11 @@
 
         <com.expedia.bookings.widget.TextView
             android:id="@+id/flight_overview_urgency_messaging"
+            style="@style/ResultsDescriptionText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center"
-            android:textColor="@android:color/black" />
+            android:paddingBottom="9dp"
+            android:paddingTop="8dp" />
 
         <FrameLayout
             android:layout_width="match_parent"
@@ -32,19 +33,34 @@
                     android:id="@+id/segment_breakdown"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="24dp" />
+                    android:layout_marginBottom="44dp"
+                    android:layout_marginTop="14dp" />
 
                 <com.expedia.bookings.widget.TextView
                     android:id="@+id/flight_total_duration"
                     android:layout_width="match_parent"
-                    android:layout_height="30dp"
+                    android:layout_height="wrap_content"
                     android:layout_gravity="bottom"
-                    android:background="@android:color/darker_gray"
+                    android:background="#919191"
                     android:gravity="center"
-                    android:textColor="@android:color/white" />
+                    android:paddingBottom="9dp"
+                    android:paddingTop="7dp"
+                    android:textColor="@android:color/white"
+                    android:textSize="12sp" />
 
             </FrameLayout>
         </FrameLayout>
+
+        <com.expedia.bookings.widget.TextView
+            android:id="@+id/show_baggage_fees"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:padding="10dp"
+            android:text="@string/package_flight_overview_baggage_fees"
+            android:textAllCaps="true"
+            android:textColor="@color/packages_primary_color"
+            android:textStyle="bold" />
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -81,4 +97,5 @@
 
         </RelativeLayout>
     </LinearLayout>
+
 </merge>

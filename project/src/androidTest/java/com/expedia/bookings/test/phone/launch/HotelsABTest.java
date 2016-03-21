@@ -1,8 +1,5 @@
 package com.expedia.bookings.test.phone.launch;
 
-import java.util.Arrays;
-import java.util.List;
-
 import org.joda.time.LocalDate;
 
 import com.expedia.bookings.R;
@@ -15,9 +12,12 @@ import com.expedia.bookings.test.espresso.AbacusTestUtils;
 import com.expedia.bookings.test.espresso.Common;
 import com.expedia.bookings.test.espresso.EspressoUtils;
 import com.expedia.bookings.test.espresso.PhoneTestCase;
-import com.expedia.bookings.test.phone.newhotels.HotelScreen;
+import com.expedia.bookings.test.phone.hotels.HotelScreen;
 import com.expedia.bookings.test.phone.pagemodels.common.LaunchScreen;
 import com.expedia.bookings.utils.DateUtils;
+
+import java.util.Arrays;
+import java.util.List;
 
 public class HotelsABTest extends PhoneTestCase {
 

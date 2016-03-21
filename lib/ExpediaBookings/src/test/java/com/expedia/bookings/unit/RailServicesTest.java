@@ -9,9 +9,12 @@ import org.junit.Rule;
 import org.junit.Test;
 
 import com.expedia.bookings.data.rail.Passengers;
+import com.expedia.bookings.data.rail.requests.RailCheckoutRequest;
 import com.expedia.bookings.data.rail.requests.RailDetailsRequest;
-import com.expedia.bookings.data.rail.requests.api.RailApiSearchModel;
 import com.expedia.bookings.data.rail.requests.RailValidateRequest;
+import com.expedia.bookings.data.rail.requests.api.RailApiSearchModel;
+import com.expedia.bookings.data.rail.responses.RailCheckoutResponse;
+import com.expedia.bookings.data.rail.responses.RailCreateTripResponse;
 import com.expedia.bookings.data.rail.responses.RailDetailsResponse;
 import com.expedia.bookings.data.rail.responses.RailSearchResponse;
 import com.expedia.bookings.data.rail.responses.RailValidateResponse;
@@ -38,8 +41,11 @@ public class RailServicesTest {
 	private TestSubscriber<RailSearchResponse> searchResponseObserver;
 	private TestSubscriber<RailDetailsResponse> detailsResponseObserver;
 	private TestSubscriber<RailValidateResponse> validateResponseObserver;
+	private TestSubscriber<RailCreateTripResponse> createTripResponseObserver;
+	private TestSubscriber<RailCheckoutResponse> checkoutTripResponseObserver;
 	private RailDetailsRequest railDetailsRequest;
 	private RailValidateRequest railValidateRequest;
+
 
 	@Before
 	public void before() throws IOException {
@@ -53,6 +59,8 @@ public class RailServicesTest {
 		searchResponseObserver = new TestSubscriber();
 		detailsResponseObserver = new TestSubscriber();
 		validateResponseObserver = new TestSubscriber();
+		createTripResponseObserver = new TestSubscriber();
+		checkoutTripResponseObserver = new TestSubscriber();
 	}
 
 	@Test
@@ -96,6 +104,34 @@ public class RailServicesTest {
 		RailValidateResponse railValidateResponse = validateResponseObserver.getOnNextEvents().get(0);
 		// TODO validate the response
 		 assertNotNull(railValidateResponse.railGetDetailsResult);
+	}
+
+	@Test
+	public void happyMockCreateTrip() {
+		String railOfferToken = "fakeToken";
+
+		service.railCreateTrip(railOfferToken, createTripResponseObserver);
+		createTripResponseObserver.awaitTerminalEvent();
+
+		createTripResponseObserver.assertCompleted();
+		createTripResponseObserver.assertValueCount(1);
+		RailCreateTripResponse createTripResponse = createTripResponseObserver.getOnNextEvents().get(0);
+
+		assertEquals("548e2559-8011-44b3-ad71-9e7cd554540f", createTripResponse.tripId);
+	}
+
+	@Test
+	public void happyMockCheckout() {
+		RailCheckoutRequest params = new RailCheckoutRequest();
+
+		service.railCheckoutTrip(params, checkoutTripResponseObserver);
+		checkoutTripResponseObserver.awaitTerminalEvent();
+
+		checkoutTripResponseObserver.assertCompleted();
+		checkoutTripResponseObserver.assertValueCount(1);
+		RailCheckoutResponse checkoutResponse = checkoutTripResponseObserver.getOnNextEvents().get(0);
+
+		assertEquals("8009690310416", checkoutResponse.orderId);
 	}
 
 	private void givenHappyValidateRequest() {

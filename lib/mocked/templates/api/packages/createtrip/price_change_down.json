@@ -1,0 +1,670 @@
+{
+  "errors": [
+    {
+      "errorCode": "PRICE_CHANGE",
+      "errorInfo": {
+        "summary": "Detected price change, no fa/coupon applied."
+      },
+      "diagnosticId": 0
+    }
+  ],
+  "packageDetails": {
+    "tripId": "b87d72d7-59ab-4bef-97d0-eac12b397c63",
+    "itineraryNumber": 1127425035745,
+    "flight": {
+      "details": {
+        "offer": {
+          "legIds": [
+            "72c0b6e1648859855c4bfbe130540d4c",
+            "eeaad85b80f9185c463594e06baa3e4b"
+          ],
+          "currency": "USD",
+          "baseFare": "0.00",
+          "baseFarePrice": {
+            "amount": "0.00",
+            "formattedPrice": "$0.00",
+            "formattedWholePrice": "$0",
+            "currencyCode": "USD"
+          },
+          "totalFare": "0.00",
+          "totalFarePrice": {
+            "amount": "0.00",
+            "formattedPrice": "$0.00",
+            "formattedWholePrice": "$0",
+            "currencyCode": "USD"
+          },
+          "pricePerPassengerCategory": [
+            {
+              "passengerCategory": "ADULT",
+              "totalPrice": {
+                "amount": "0.00",
+                "formattedPrice": "$0.00",
+                "formattedWholePrice": "$0",
+                "currencyCode": "USD"
+              },
+              "basePrice": {
+                "amount": "0.00",
+                "formattedPrice": "$0.00",
+                "formattedWholePrice": "$0",
+                "currencyCode": "USD"
+              },
+              "taxesPrice": {
+                "amount": "0.00",
+                "formattedPrice": "$0.00",
+                "formattedWholePrice": "$0",
+                "currencyCode": "USD"
+              }
+            }
+          ],
+          "averageTotalPricePerTicket": {
+            "amount": "0.00",
+            "formattedPrice": "$0.00",
+            "formattedWholePrice": "$0",
+            "currencyCode": "USD"
+          },
+          "numberOfTickets": 1,
+          "taxes": "0.00",
+          "taxesPrice": {
+            "amount": "0.00",
+            "formattedPrice": "$0.00",
+            "formattedWholePrice": "$0",
+            "currencyCode": "USD"
+          },
+          "fees": "0.00",
+          "feesPrice": {
+            "amount": "0.00",
+            "formattedPrice": "$0.00",
+            "formattedWholePrice": "$0",
+            "currencyCode": "USD"
+          },
+          "showFees": true,
+          "seatsRemaining": 3,
+          "segmentAttributes": [
+            [
+              {
+                "bookingCode": "O",
+                "cabinCode": "coach"
+              }
+            ],
+            [
+              {
+                "bookingCode": "O",
+                "cabinCode": "coach"
+              }
+            ]
+          ],
+          "baggageFeesUrl": "http://www.expedia.com/Flights-BagFees?originapt=SFO&destinationapt=JFK&cabinclass=3&mktgcarrier=AA&opcarrier=&farebasis=OA14ZSJ3&bookingclass=O&travelDate=2016-02-23&flightNumber=16&langid=1033",
+          "fareType": "PUBLISHED",
+          "isInternational": false,
+          "isPassportNeeded": false,
+          "hasBagFee": false,
+          "hasNoBagFee": false,
+          "isSplitTicket": false
+        },
+        "flightRules": [
+          {
+            "isChangeAllowed": false,
+            "isEnrouteChangeAllowed": false,
+            "isEnrouteRefundAllowed": false,
+            "isRefundable": false,
+            "summaryText": ""
+          }
+        ],
+        "obFeeTotalAmount": "0.00",
+        "obFeePrice": {
+          "amount": "0.00",
+          "formattedPrice": "$0.00",
+          "formattedWholePrice": "$0",
+          "currencyCode": "USD"
+        },
+        "destinationRegionId": 6139058,
+        "isSplitTicket": false
+      },
+      "rules": {
+        "RuleToTextMap": {
+          "CompletePenaltyRules": "Rules and restrictions as imposed by the airline will be applicable to your fare should you need to change or cancel your flight.",
+          "RefundabilityText": "Tickets are nonrefundable, nontransferable and name changes are not allowed.",
+          "CancelChangeIntroductionText": "We understand that sometimes plans change. We do not charge a cancel or change fee. When the airline charges such fees in accordance with its own policies, the cost will be passed on to you.",
+          "AirlineLiabilityLimitations": "Please read important information regarding airline liability limitations.",
+          "AdditionalAirlineFees": "The airline may charge additional fees for checked baggage or other optional services.",
+          "CancellationFeeLegalText": "A non-refundable administration fee will be applied for changes and cancellations of bookings. Customers will be informed of the administration fee by their Customer Support Centre Agent at the time of their call."
+        },
+        "RuleToUrlMap": {
+          "CompletePenaltyRules": "https://www.expedia.com/Fare-Rules?tripid=b87d72d7-59ab-4bef-97d0-eac12b397c63&tlid=1033",
+          "AirlineLiabilityLimitations": "https://www.expedia.com/p/info-main/warsaw?&tlid=1033",
+          "AdditionalAirlineFees": "https://www.expedia.com/Flights-BagFees?originapt=SFO&destinationapt=JFK&cabinclass=3&mktgcarrier=AA&opcarrier=&farebasis=OA14ZSJ3&bookingclass=O&travelDate=2016-02-23&flightNumber=16"
+        }
+      }
+    },
+    "hotel": {
+      "checkInDate": "2016-02-23",
+      "checkOutDate": "2016-02-24",
+      "adultCount": "1",
+      "numberOfNights": "1",
+      "numberOfRooms": "1",
+      "hotelId": "24954",
+      "hotelName": "Crowne Plaza Times Square Manhattan",
+      "localizedHotelName": "Crowne Plaza Times Square Manhattan",
+      "nonLocalizedHotelName": "Crowne Plaza Times Square Manhattan",
+      "largeThumbnailUrl": "/hotels/1000000/30000/25000/24954/24954_678_d.jpg",
+      "thumbnailUrl": "/hotels/1000000/30000/25000/24954/24954_678_n.jpg",
+      "hotelAddress": "1605 Broadway At 49th St",
+      "hotelCity": "New York",
+      "hotelStateProvince": "NY",
+      "hotelCountry": "USA",
+      "hotelStarRating": "4.0",
+      "hotelRoomResponse": {
+        "cancellationPolicy": "<p>We understand that sometimes plans fall through. We do not charge a cancel or change fee. When the hotel charges such fees in accordance with its own policies, the cost will be passed on to you. Crowne Plaza Times Square Manhattan charges the following cancellation and change fees.</p><p>Cancellations or changes made after 6:00 PM (hotel local time) on Feb 21, 2016 or no-shows are subject to a hotel fee equal to 100% of the total amount paid for the reservation.</p><p>Prices and hotel availability are not guaranteed until full payment is received.If you would like to book multiple rooms, you must use a different name for each room. Otherwise, the duplicate reservation will be canceled by the hotel.</p><p>Your room will be guaranteed for late arrival.</p><p>Hotel supplier loyalty points and/or airline miles may not be awarded when booking Expedia Special Rate hotels.</p>",
+        "rateDescription": "Standard Room, 1 King Bed, Non Smoking",
+        "roomTypeDescription": "Standard Room, 1 King Bed, Non Smoking",
+        "supplierType": "MERCHANT",
+        "nonRefundable": false,
+        "hasFreeCancellation": true,
+        "freeCancellationWindowDate": "2016-02-21 18:00",
+        "guaranteeRequired": false,
+        "depositRequired": false,
+        "immediateChargeRequired": true,
+        "currentAllotment": "0",
+        "promoDescription": "",
+        "isDiscountRestrictedToCurrentSourceType": false,
+        "isSameDayDRR": false,
+        "smokingPreferences": "NS",
+        "rateOccupancyPerRoom": "3",
+        "bedTypes": [
+          {
+            "id": "14",
+            "description": "1 king bed"
+          }
+        ],
+        "rateInfo": {
+          "priceBreakdown": false,
+          "promo": true,
+          "chargeableRateInfo": {
+            "maxNightlyRate": "185.00",
+            "averageRate": "185.00",
+            "taxStatusType": "ESTIMATED",
+            "surchargeTotal": "30.80",
+            "surchargeTotalForEntireStay": "30.80",
+            "averageBaseRate": "185.00",
+            "nightlyRateTotal": "185.00",
+            "discountPercent": 0,
+            "total": "215.80",
+            "currencyCode": "USD",
+            "currencySymbol": "$",
+            "surcharges": [
+              {
+                "amount": "30.80",
+                "type": "TAX_ALL"
+              },
+              {
+                "amount": "30.80",
+                "type": "TAX_OTHER"
+              },
+              {
+                "amount": "0.00",
+                "type": "FEE_ALL"
+              },
+              {
+                "amount": "0.00",
+                "type": "FEE_SERVICE"
+              }
+            ],
+            "surchargesForEntireStay": [
+              {
+                "amount": "30.80",
+                "type": "TAX_ALL"
+              },
+              {
+                "amount": "30.80",
+                "type": "TAX_OTHER"
+              },
+              {
+                "amount": "0.00",
+                "type": "FEE_ALL"
+              },
+              {
+                "amount": "0.00",
+                "type": "FEE_SERVICE"
+              }
+            ],
+            "nightlyRatesPerRoom": [
+              {
+                "promo": "false",
+                "baseRate": "185.00",
+                "rate": "185.00"
+              }
+            ],
+            "priceToShowUsers": "185",
+            "strikethroughPriceToShowUsers": "185",
+            "strikethroughPriceWithTaxesAndFeesToShowUsers": "216",
+            "totalMandatoryFees": "0.00",
+            "totalPriceWithMandatoryFees": "215.80",
+            "formattedTotalPriceWithMandatoryFees": "$ 215.80",
+            "userPriceType": "PerNightRateNoTaxes",
+            "priceAdjustments": [
+
+            ],
+            "checkoutPriceType": "total",
+            "airAttached": false,
+            "roomTypeCode": "436914",
+            "ratePlanCode": "207064245",
+            "showResortFeeMessage": false,
+            "resortFeeInclusion": false
+          }
+        },
+        "quotedOccupancy": "2",
+        "minGuestAge": "0",
+        "roomTypeCode": "436914",
+        "ratePlanCode": "207064245",
+        "isPayLater": false
+      },
+      "supplierType": "MERCHANT",
+      "accessibilityAmenities": [
+        {
+          "id": "2420",
+          "description": "Accessible bathroom"
+        },
+        {
+          "id": "2421",
+          "description": "Roll-in shower"
+        },
+        {
+          "id": "2423",
+          "description": "In-room accessibility"
+        }
+      ],
+      "isVipAccess": false,
+      "tealeafTransactionId": "6c63af5b092b4e80ad4d8d680f95e5e9",
+      "bigImageUrl": "/hotels/1000000/30000/25000/24954/24954_678_b.jpg",
+      "regionId": "800077"
+    },
+    "pricing": {
+      "packageTotal": {
+        "amount": "651.52",
+        "formattedPrice": "$651.52",
+        "formattedWholePrice": "$652",
+        "currencyCode": "USD"
+      },
+      "basePrice": {
+        "amount": "758.20",
+        "formattedPrice": "$758.20",
+        "formattedWholePrice": "$758",
+        "currencyCode": "USD"
+      },
+      "totalTaxesAndFees": {
+        "amount": "120.23",
+        "formattedPrice": "$120.23",
+        "formattedWholePrice": "$120",
+        "currencyCode": "USD"
+      },
+      "hotelPrice": {
+        "amount": "215.80",
+        "formattedPrice": "$215.80",
+        "formattedWholePrice": "$216",
+        "currencyCode": "USD"
+      },
+      "flightPrice": {
+        "amount": "542.40",
+        "formattedPrice": "$542.40",
+        "formattedWholePrice": "$542",
+        "currencyCode": "USD"
+      },
+      "savings": {
+        "amount": "6.68",
+        "formattedPrice": "$6.68",
+        "formattedWholePrice": "$7",
+        "currencyCode": "USD"
+      },
+      "marketingPrice": {
+        "grossBookingValue": "751.52",
+        "netBookingValue": "720.72",
+        "totalTaxes": "30.80",
+        "totalFees": "0.00",
+        "totalTaxesAndFees": "30.80"
+      },
+      "taxesAndFeesIncluded": true
+    },
+    "tealeafTransactionId": "135bc726b76a43b5afcb171b922b2765"
+  },
+  "newTotalPrice": "651.52",
+  "changedPrice": {
+    "amount": "2.00",
+    "formattedPrice": "$2.00",
+    "formattedWholePrice": "$2",
+    "currencyCode": "USD"
+  },
+  "expediaRewards": {
+    "totalPointsToEarn": 4509,
+    "isActiveRewardsMember": false,
+    "rewardsMembershipTierName": "Invalid Tier"
+  },
+  "activityId": "57b77d1d-8045-4292-88da-7262650c75f1",
+  "oldPackageDetails": {
+    "itineraryNumber": 0,
+    "flight": {
+      "details": {
+        "offer": {
+          "legIds": [
+            "72c0b6e1648859855c4bfbe130540d4c",
+            "eeaad85b80f9185c463594e06baa3e4b"
+          ],
+          "currency": "USD",
+          "baseFare": "0.00",
+          "baseFarePrice": {
+            "amount": "0.00",
+            "formattedPrice": "$0.00",
+            "formattedWholePrice": "$0",
+            "currencyCode": "USD"
+          },
+          "totalFare": "0.00",
+          "totalFarePrice": {
+            "amount": "0.00",
+            "formattedPrice": "$0.00",
+            "formattedWholePrice": "$0",
+            "currencyCode": "USD"
+          },
+          "pricePerPassengerCategory": [
+            {
+              "passengerCategory": "ADULT",
+              "totalPrice": {
+                "amount": "0.00",
+                "formattedPrice": "$0.00",
+                "formattedWholePrice": "$0",
+                "currencyCode": "USD"
+              },
+              "basePrice": {
+                "amount": "0.00",
+                "formattedPrice": "$0.00",
+                "formattedWholePrice": "$0",
+                "currencyCode": "USD"
+              },
+              "taxesPrice": {
+                "amount": "0.00",
+                "formattedPrice": "$0.00",
+                "formattedWholePrice": "$0",
+                "currencyCode": "USD"
+              }
+            }
+          ],
+          "averageTotalPricePerTicket": {
+            "amount": "0.00",
+            "formattedPrice": "$0.00",
+            "formattedWholePrice": "$0",
+            "currencyCode": "USD"
+          },
+          "numberOfTickets": 1,
+          "taxes": "0.00",
+          "taxesPrice": {
+            "amount": "0.00",
+            "formattedPrice": "$0.00",
+            "formattedWholePrice": "$0",
+            "currencyCode": "USD"
+          },
+          "fees": "0.00",
+          "feesPrice": {
+            "amount": "0.00",
+            "formattedPrice": "$0.00",
+            "formattedWholePrice": "$0",
+            "currencyCode": "USD"
+          },
+          "showFees": true,
+          "seatsRemaining": 3,
+          "segmentAttributes": [
+            [
+              {
+                "bookingCode": "O",
+                "cabinCode": "coach"
+              }
+            ],
+            [
+              {
+                "bookingCode": "O",
+                "cabinCode": "coach"
+              }
+            ]
+          ],
+          "baggageFeesUrl": "http://www.expedia.com/Flights-BagFees?originapt=SFO&destinationapt=JFK&cabinclass=3&mktgcarrier=AA&opcarrier=&farebasis=OA14ZSJ3&bookingclass=O&travelDate=2016-02-23&flightNumber=16&langid=1033",
+          "fareType": "PACKAGE_NET",
+          "isInternational": false,
+          "isPassportNeeded": false,
+          "hasBagFee": false,
+          "hasNoBagFee": false,
+          "isSplitTicket": false
+        },
+        "flightRules": [
+          {
+            "isChangeAllowed": true,
+            "isEnrouteChangeAllowed": false,
+            "isEnrouteRefundAllowed": false,
+            "isRefundable": false,
+            "changePenaltyAmount": "200.00",
+            "changePenaltyPrice": {
+              "amount": "200.00",
+              "formattedPrice": "$200.00",
+              "formattedWholePrice": "$200",
+              "currencyCode": "USD"
+            },
+            "summaryText": ""
+          }
+        ],
+        "obFeeTotalAmount": "0.00",
+        "obFeePrice": {
+          "amount": "0.00",
+          "formattedPrice": "$0.00",
+          "formattedWholePrice": "$0",
+          "currencyCode": "USD"
+        },
+        "destinationRegionId": 6139058,
+        "isSplitTicket": false
+      }
+    },
+    "hotel": {
+      "checkInDate": "2016-02-23",
+      "checkOutDate": "2016-02-24",
+      "adultCount": "1",
+      "numberOfNights": "1",
+      "numberOfRooms": "1",
+      "hotelId": "24954",
+      "hotelName": "Crowne Plaza Times Square Manhattan",
+      "localizedHotelName": "Crowne Plaza Times Square Manhattan",
+      "nonLocalizedHotelName": "Crowne Plaza Times Square Manhattan",
+      "largeThumbnailUrl": "/hotels/1000000/30000/25000/24954/24954_678_d.jpg",
+      "thumbnailUrl": "/hotels/1000000/30000/25000/24954/24954_678_n.jpg",
+      "hotelAddress": "1605 Broadway At 49th St",
+      "hotelCity": "New York",
+      "hotelStateProvince": "NY",
+      "hotelCountry": "USA",
+      "hotelStarRating": "4.0",
+      "hotelRoomResponse": {
+        "cancellationPolicy": "<p>We understand that sometimes plans fall through. We do not charge a cancel or change fee. When the hotel charges such fees in accordance with its own policies, the cost will be passed on to you. Crowne Plaza Times Square Manhattan charges the following cancellation and change fees.</p><p>Cancellations or changes made after 6:00 PM (hotel local time) on Feb 21, 2016 or no-shows are subject to a hotel fee equal to 100% of the total amount paid for the reservation.</p><p>Your room will be guaranteed for late arrival.</p><p>Hotel supplier loyalty points and/or airline miles may not be awarded when booking Expedia Special Rate hotels.</p>",
+        "rateDescription": "Standard Room, 1 King Bed, Non Smoking",
+        "roomTypeDescription": "Standard Room, 1 King Bed, Non Smoking",
+        "supplierType": "MERCHANT",
+        "nonRefundable": false,
+        "hasFreeCancellation": true,
+        "freeCancellationWindowDate": "2016-02-21 18:00",
+        "guaranteeRequired": false,
+        "depositRequired": false,
+        "immediateChargeRequired": true,
+        "currentAllotment": "0",
+        "promoDescription": "",
+        "isDiscountRestrictedToCurrentSourceType": false,
+        "isSameDayDRR": false,
+        "smokingPreferences": "NS",
+        "rateOccupancyPerRoom": "3",
+        "bedTypes": [
+          {
+            "id": "14",
+            "description": "1 king bed"
+          }
+        ],
+        "rateInfo": {
+          "priceBreakdown": false,
+          "promo": true,
+          "chargeableRateInfo": {
+            "maxNightlyRate": "185.00",
+            "averageRate": "185.00",
+            "taxStatusType": "ESTIMATED",
+            "surchargeTotal": "30.80",
+            "surchargeTotalForEntireStay": "30.80",
+            "averageBaseRate": "185.00",
+            "nightlyRateTotal": "185.00",
+            "discountPercent": 0,
+            "total": "215.80",
+            "currencyCode": "USD",
+            "currencySymbol": "$",
+            "surcharges": [
+              {
+                "amount": "30.80",
+                "type": "TAX_ALL"
+              },
+              {
+                "amount": "30.80",
+                "type": "TAX_OTHER"
+              },
+              {
+                "amount": "0.00",
+                "type": "FEE_ALL"
+              },
+              {
+                "amount": "0.00",
+                "type": "FEE_SERVICE"
+              }
+            ],
+            "surchargesForEntireStay": [
+              {
+                "amount": "30.80",
+                "type": "TAX_ALL"
+              },
+              {
+                "amount": "30.80",
+                "type": "TAX_OTHER"
+              },
+              {
+                "amount": "0.00",
+                "type": "FEE_ALL"
+              },
+              {
+                "amount": "0.00",
+                "type": "FEE_SERVICE"
+              }
+            ],
+            "nightlyRatesPerRoom": [
+              {
+                "promo": "false",
+                "baseRate": "185.00",
+                "rate": "185.00"
+              }
+            ],
+            "priceToShowUsers": "185",
+            "strikethroughPriceToShowUsers": "185",
+            "strikethroughPriceWithTaxesAndFeesToShowUsers": "216",
+            "totalMandatoryFees": "0.00",
+            "totalPriceWithMandatoryFees": "215.80",
+            "formattedTotalPriceWithMandatoryFees": "$ 215.80",
+            "userPriceType": "PerNightRateNoTaxes",
+            "priceAdjustments": [
+
+            ],
+            "checkoutPriceType": "total",
+            "airAttached": false,
+            "roomTypeCode": "436914",
+            "ratePlanCode": "207064245",
+            "showResortFeeMessage": false,
+            "resortFeeInclusion": false
+          }
+        },
+        "quotedOccupancy": "2",
+        "minGuestAge": "0",
+        "roomTypeCode": "436914",
+        "ratePlanCode": "207064245",
+        "isPayLater": false
+      },
+      "supplierType": "MERCHANT",
+      "accessibilityAmenities": [
+        {
+          "id": "2420",
+          "description": "Accessible bathroom"
+        },
+        {
+          "id": "2421",
+          "description": "Roll-in shower"
+        },
+        {
+          "id": "2423",
+          "description": "In-room accessibility"
+        }
+      ],
+      "isVipAccess": false,
+      "tealeafTransactionId": "0f15cc9480c44f2c9c4892bf5e0f9a58",
+      "bigImageUrl": "/hotels/1000000/30000/25000/24954/24954_678_b.jpg",
+      "regionId": "800077"
+    },
+    "pricing": {
+      "packageTotal": {
+        "amount": "749.52",
+        "formattedPrice": "$749.52",
+        "formattedWholePrice": "$750",
+        "currencyCode": "USD"
+      },
+      "basePrice": {
+        "amount": "758.20",
+        "formattedPrice": "$758.20",
+        "formattedWholePrice": "$758",
+        "currencyCode": "USD"
+      },
+      "totalTaxesAndFees": {
+        "amount": "117.53",
+        "formattedPrice": "$117.53",
+        "formattedWholePrice": "$118",
+        "currencyCode": "USD"
+      },
+      "hotelPrice": {
+        "amount": "215.80",
+        "formattedPrice": "$215.80",
+        "formattedWholePrice": "$216",
+        "currencyCode": "USD"
+      },
+      "flightPrice": {
+        "amount": "542.40",
+        "formattedPrice": "$542.40",
+        "formattedWholePrice": "$542",
+        "currencyCode": "USD"
+      },
+      "savings": {
+        "amount": "8.68",
+        "formattedPrice": "$8.68",
+        "formattedWholePrice": "$9",
+        "currencyCode": "USD"
+      },
+      "marketingPrice": {
+        "grossBookingValue": "",
+        "netBookingValue": "",
+        "totalTaxes": "",
+        "totalFees": "",
+        "totalTaxesAndFees": ""
+      },
+      "taxesAndFeesIncluded": true
+    }
+  },
+  "validFormsOfPayment": [
+    {
+      "name": "AmericanExpress"
+    },
+    {
+      "name": "Diner's Club International"
+    },
+    {
+      "name": "Discover"
+    },
+    {
+      "name": "JCB"
+    },
+    {
+      "name": "MasterCard"
+    },
+    {
+      "name": "Visa"
+    }
+  ]
+}

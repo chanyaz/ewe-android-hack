@@ -1,6 +1,6 @@
 package com.expedia.bookings.services
 
-import com.expedia.bookings.data.cars.ApiError
+import com.expedia.bookings.data.clientlog.ClientLog
 import com.expedia.bookings.data.hotels.Hotel
 import com.expedia.bookings.data.hotels.HotelApplyCouponParameters
 import com.expedia.bookings.data.hotels.HotelCheckoutV2Params
@@ -25,7 +25,7 @@ import rx.Observer
 import rx.Scheduler
 import rx.Subscription
 
-public class HotelServices(endpoint: String, okHttpClient: OkHttpClient, requestInterceptor: RequestInterceptor, val observeOn: Scheduler, val subscribeOn: Scheduler, logLevel: RestAdapter.LogLevel) {
+class HotelServices(endpoint: String, okHttpClient: OkHttpClient, requestInterceptor: RequestInterceptor, val observeOn: Scheduler, val subscribeOn: Scheduler, logLevel: RestAdapter.LogLevel) {
 
 	val hotelApi: HotelApi by lazy {
 		val gson = GsonBuilder()
@@ -43,47 +43,57 @@ public class HotelServices(endpoint: String, okHttpClient: OkHttpClient, request
 		adapter.create(HotelApi::class.java)
 	}
 
-	public fun nearbyHotels(params: NearbyHotelParams, observer: Observer<MutableList<Hotel>>): Subscription {
+	fun nearbyHotels(params: NearbyHotelParams, observer: Observer<MutableList<Hotel>>): Subscription {
 		return hotelApi.nearbyHotelSearch(params.latitude, params.longitude, params.guestCount, params.checkInDate,
 			params.checkOutDate, params.sortOrder, params.filterUnavailable)
 			.observeOn(observeOn)
 			.subscribeOn(subscribeOn)
-			.map { response -> response.hotelList.take(25).toArrayList() }
+			.map { response -> response.hotelList.take(25).toMutableList() }
 			.subscribe(observer)
 	}
 
-    public fun regionSearch(params: HotelSearchParams): Observable<HotelSearchResponse> {
-        return hotelApi.search(params.suggestion.gaiaId, params.suggestion.coordinates.lat, params.suggestion.coordinates.lng,
-                params.checkIn.toString(), params.checkOut.toString(), params.getGuestString())
-                .observeOn(observeOn)
-                .subscribeOn(subscribeOn)
-                .doOnNext { response ->
-                    if (response.hasErrors()) return@doOnNext
+	fun regionSearch(params: HotelSearchParams, clientLogBuilder: ClientLog.Builder?): Observable<HotelSearchResponse> {
+		return hotelApi.search(params.suggestion.gaiaId, params.suggestion.coordinates.lat, params.suggestion.coordinates.lng,
+				params.checkIn.toString(), params.checkOut.toString(), params.guestString, params.shopWithPoints)
+				.observeOn(observeOn)
+				.subscribeOn(subscribeOn)
+				.doOnNext { response ->
+					clientLogBuilder?.responseTime(DateTime.now())
+					if (response.hasErrors()) return@doOnNext
 
-                    response.userPriceType = getUserPriceType(response.hotelList)
-                    response.allNeighborhoodsInSearchRegion.map { response.neighborhoodsMap.put(it.id, it) }
-                    response.hotelList.map { hotel ->
-                        if (hotel.locationId != null && response.neighborhoodsMap.containsKey(hotel.locationId)) {
-                            response.neighborhoodsMap.get(hotel.locationId)?.hotels?.add(hotel)
-                        }
-                    }
+					response.userPriceType = getUserPriceType(response.hotelList)
+					response.allNeighborhoodsInSearchRegion.map { response.neighborhoodsMap.put(it.id, it) }
+					response.hotelList.map { hotel ->
+						if (hotel.locationId != null && response.neighborhoodsMap.containsKey(hotel.locationId)) {
+							response.neighborhoodsMap.get(hotel.locationId)?.hotels?.add(hotel)
+						}
+					}
 
-                    response.allNeighborhoodsInSearchRegion.map {
-                        it.score = it.hotels.map { 1 }.sum()
-                    }
+					response.allNeighborhoodsInSearchRegion.map {
+						it.score = it.hotels.map { 1 }.sum()
+					}
 
-		     if (!params.suggestion.isCurrentLocationSearch || params.suggestion.isGoogleSuggestionSearch) {
-			     response.hotelList.forEach { hotel ->
-				     hotel.proximityDistanceInMiles = 0.0
-			    }
-		     }
+					if (!params.suggestion.isCurrentLocationSearch || params.suggestion.isGoogleSuggestionSearch) {
+						response.hotelList.forEach { hotel ->
+							hotel.proximityDistanceInMiles = 0.0
+						}
+					}
 
 					response.hotelList = putSponsoredItemsInCorrectPlaces(response.hotelList)
-                }
-    }
+				}
+				.doOnNext { response ->
+					response.hotelList.forEach {
+						if (it.lowRateInfo?.loyaltyInfo?.isShopWithPoints ?: false) {
+							response.hasLoyaltyInformation = true
+							return@doOnNext
+						}
 
-    public fun offers(hotelSearchParams: HotelSearchParams, hotelId: String, observer: Observer<HotelOffersResponse>): Subscription {
-        return hotelApi.offers(hotelSearchParams.checkIn.toString(), hotelSearchParams.checkOut.toString(), hotelSearchParams.getGuestString(), hotelId)
+					}
+				}
+	}
+
+    fun offers(hotelSearchParams: HotelSearchParams, hotelId: String, observer: Observer<HotelOffersResponse>): Subscription {
+        return hotelApi.offers(hotelSearchParams.checkIn.toString(), hotelSearchParams.checkOut.toString(), hotelSearchParams.guestString, hotelId, hotelSearchParams.shopWithPoints)
                 .observeOn(observeOn)
                 .subscribeOn(subscribeOn)
 				.doOnNext {
@@ -98,10 +108,18 @@ public class HotelServices(endpoint: String, okHttpClient: OkHttpClient, request
 								}
 							}
 				}
+				.doOnNext { hotelOffersResponse ->
+					hotelOffersResponse.hotelRoomResponse?.forEach {
+						if (it.rateInfo?.chargeableRateInfo?.loyaltyInfo?.isShopWithPoints ?: false) {
+							hotelOffersResponse.doesAnyHotelRateOfAnyRoomHaveLoyaltyInfo = true
+							return@doOnNext
+						}
+					}
+				}
                 .subscribe(observer)
     }
 
-    public fun info(hotelSearchParams: HotelSearchParams, hotelId: String, observer: Observer<HotelOffersResponse>): Subscription {
+    fun info(hotelSearchParams: HotelSearchParams, hotelId: String, observer: Observer<HotelOffersResponse>): Subscription {
         val yyyyMMddDateTimeFormat = DateTimeFormat.forPattern("yyyy-MM-dd")
 
         return hotelApi.info(hotelId).doOnNext {
@@ -113,7 +131,7 @@ public class HotelServices(endpoint: String, okHttpClient: OkHttpClient, request
                 .subscribe(observer)
     }
 
-	public fun createTrip(body: HotelCreateTripParams, observer: Observer<HotelCreateTripResponse>): Subscription {
+	fun createTrip(body: HotelCreateTripParams, observer: Observer<HotelCreateTripResponse>): Subscription {
 		return hotelApi.createTrip(body.toQueryMap())
 				.observeOn(observeOn)
 				.subscribeOn(subscribeOn)
@@ -121,21 +139,21 @@ public class HotelServices(endpoint: String, okHttpClient: OkHttpClient, request
 				.subscribe(observer)
 	}
 
-	public fun applyCoupon(body: HotelApplyCouponParameters): Observable<HotelCreateTripResponse> {
+	fun applyCoupon(body: HotelApplyCouponParameters): Observable<HotelCreateTripResponse> {
 		return hotelApi.applyCoupon(body.toQueryMap())
 				.observeOn(observeOn)
 				.subscribeOn(subscribeOn)
 				.doOnNext { updatePayLaterRateInfo(it) }
 	}
 
-	public fun removeCoupon(tripId: String): Observable<HotelCreateTripResponse> {
+	fun removeCoupon(tripId: String): Observable<HotelCreateTripResponse> {
 		return hotelApi.removeCoupon(tripId)
 				.observeOn(observeOn)
 				.subscribeOn(subscribeOn)
 				.doOnNext { updatePayLaterRateInfo(it) }
 	}
 
-	public fun checkout(params: HotelCheckoutV2Params, observer: Observer<HotelCheckoutResponse>): Subscription {
+	fun checkout(params: HotelCheckoutV2Params, observer: Observer<HotelCheckoutResponse>): Subscription {
 		return hotelApi.checkout(params)
 				.observeOn(observeOn)
 				.subscribeOn(subscribeOn)

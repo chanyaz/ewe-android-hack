@@ -12,8 +12,7 @@ import com.expedia.bookings.data.packages.Airline
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.TextView
 
-
-public class FlightAirlineWidget(context: Context, attrs: AttributeSet?) : LinearLayout(context, attrs) {
+class FlightAirlineWidget(context: Context, attrs: AttributeSet?) : LinearLayout(context, attrs) {
 
     fun update(airlines: List<Airline>) {
         removeAllViews()
@@ -34,7 +33,7 @@ public class FlightAirlineWidget(context: Context, attrs: AttributeSet?) : Linea
             setGravity(Gravity.CENTER_VERTICAL)
         }
 
-        public fun bind(airline: Airline) {
+        fun bind(airline: Airline) {
             airlineName.text = airline.airlineName
             PicassoHelper.Builder(airlineLogoImageView)
                     .build()

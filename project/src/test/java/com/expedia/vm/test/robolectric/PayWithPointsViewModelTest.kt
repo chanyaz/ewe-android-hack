@@ -9,8 +9,8 @@ import com.expedia.bookings.data.hotels.HotelCreateTripResponse
 import com.expedia.bookings.data.payment.PaymentModel
 import com.expedia.bookings.services.LoyaltyServices
 import com.expedia.bookings.test.MockHotelServiceTestRule
-import com.expedia.bookings.test.ServicesRule
 import com.expedia.bookings.test.robolectric.RobolectricRunner
+import com.expedia.bookings.testrule.ServicesRule
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.widget.PayWithPointsWidget
 import com.expedia.bookings.widget.PaymentWidgetV2
@@ -24,17 +24,18 @@ import org.junit.runner.RunWith
 import org.robolectric.Robolectric
 import rx.observers.TestSubscriber
 import rx.subjects.PublishSubject
+import java.math.BigDecimal
 import java.util.ArrayList
 import java.util.concurrent.CountDownLatch
 import java.util.concurrent.TimeUnit
 import kotlin.properties.Delegates
 
 @RunWith(RobolectricRunner::class)
-public class PayWithPointsViewModelTest {
-    public var mockHotelServiceTestRule: MockHotelServiceTestRule = MockHotelServiceTestRule()
+class PayWithPointsViewModelTest {
+    var mockHotelServiceTestRule: MockHotelServiceTestRule = MockHotelServiceTestRule()
         @Rule get
 
-    public var loyaltyServiceRule = ServicesRule(LoyaltyServices::class.java)
+    var loyaltyServiceRule = ServicesRule(LoyaltyServices::class.java)
         @Rule get
 
     private var createTripResponse: HotelCreateTripResponse by Delegates.notNull()
@@ -75,9 +76,9 @@ public class PayWithPointsViewModelTest {
     }
 
     @Test
-    public fun testSubscribersAfterCreateTrip() {
+    fun testSubscribersAfterCreateTrip() {
         totalPointsAndAmountAvailableToRedeemTestSubscriber.assertNoErrors()
-        totalPointsAndAmountAvailableToRedeemTestSubscriber.assertValue("$100.00 (1,000 points) available")
+        totalPointsAndAmountAvailableToRedeemTestSubscriber.assertValue("$100.00 available (1,000 Expedia+ points)")
 
         burnAmountUpdateTestSubscriber.assertNoErrors()
         burnAmountUpdateTestSubscriber.assertValue("100.00")
@@ -90,7 +91,7 @@ public class PayWithPointsViewModelTest {
     }
 
     @Test
-    public fun userEntersBlankEditBoxAndSubmit() {
+    fun userEntersBlankEditBoxAndSubmit() {
         payWithPointsViewModel.userEnteredBurnAmount.onNext("")
 
         pointsAppliedMessageTestSubscriber.assertNoErrors()
@@ -98,7 +99,7 @@ public class PayWithPointsViewModelTest {
     }
 
     @Test
-    public fun userEntersMoreValueThanTripTotal() {
+    fun userEntersMoreValueThanTripTotal() {
         payWithPointsViewModel.userEnteredBurnAmount.onNext("140")
 
         pointsAppliedMessageTestSubscriber.assertNoErrors()
@@ -106,7 +107,7 @@ public class PayWithPointsViewModelTest {
     }
 
     @Test
-    public fun userEntersMoreValueThanAvailablePoints() {
+    fun userEntersMoreValueThanAvailablePoints() {
         payWithPointsViewModel.userEnteredBurnAmount.onNext("110")
 
         pointsAppliedMessageTestSubscriber.assertNoErrors()
@@ -114,7 +115,7 @@ public class PayWithPointsViewModelTest {
     }
 
     @Test
-    public fun userEntersZeroAmount() {
+    fun userEntersZeroAmount() {
         payWithPointsViewModel.userEnteredBurnAmount.onNext("0")
 
         pointsAppliedMessageTestSubscriber.assertNoErrors()
@@ -122,7 +123,7 @@ public class PayWithPointsViewModelTest {
     }
 
     @Test
-    public fun userEntersAmountLessThanTripTotalAndAvailablePoints() {
+    fun userEntersAmountLessThanTripTotalAndAvailablePoints() {
         val latch = CountDownLatch(1)
         paymentModel.burnAmountToPointsApiResponse.subscribe { latch.countDown() }
         payWithPointsViewModel.userEnteredBurnAmount.onNext("32")
@@ -132,11 +133,11 @@ public class PayWithPointsViewModelTest {
     }
 
     @Test
-    public fun userEntersAmountLessThanTripTotalAndAvailablePointsBeforePreviousAPIResponse() {
-        val latch = CountDownLatch(1)
-        paymentModel.burnAmountToPointsApiResponse.subscribe { latch.countDown() }
+    fun userEntersAmountLessThanTripTotalAndAvailablePointsBeforePreviousAPIResponse() {
+        val latch = CountDownLatch(3)
+        payWithPointsViewModel.pointsAppliedMessage.subscribe { latch.countDown() }
 
-        createTripResponse.tripId = "happy|500"
+        createTripResponse.tripId = "happy|5000"
         payWithPointsViewModel.userEnteredBurnAmount.onNext("32")
         createTripResponse.tripId = "happy_avaliable_points_less_than_trip"
         payWithPointsViewModel.userEnteredBurnAmount.onNext("30")
@@ -146,15 +147,15 @@ public class PayWithPointsViewModelTest {
     }
 
     @Test
-    public fun userTogglePwpSwitch() {
+    fun userTogglePwpSwitch() {
         //Toggle switch off
         payWithPointsViewModel.pwpOpted.onNext(false)
 
         pointsAppliedMessageTestSubscriber.assertValues(Pair("1,000 points applied", true), Pair("0 points applied", true))
 
         //Toggle switch on
-        val latch1 = CountDownLatch(1)
-        paymentModel.burnAmountToPointsApiResponse.subscribe { latch1.countDown() }
+        val latch1 = CountDownLatch(2)
+        payWithPointsViewModel.pointsAppliedMessage.subscribe { latch1.countDown() }
         payWithPointsViewModel.pwpOpted.onNext(true)
         latch1.await(10, TimeUnit.SECONDS)
 
@@ -163,6 +164,7 @@ public class PayWithPointsViewModelTest {
         //New value entered and before calculation API response, PwP toggle off (call gets ignored)
         createTripResponse.tripId = "happy|500"
         payWithPointsViewModel.userEnteredBurnAmount.onNext("32")
+
         payWithPointsViewModel.pwpOpted.onNext(false)
 
         pointsAppliedMessageTestSubscriber.assertValues(Pair("1,000 points applied", true), Pair("0 points applied", true), Pair("Calculating points…", true),
@@ -171,7 +173,7 @@ public class PayWithPointsViewModelTest {
         //Toggle switch on, last entered value in pwp edit box is used to make API call
         createTripResponse.tripId = "happy"
         val latch3 = CountDownLatch(1)
-        paymentModel.burnAmountToPointsApiResponse.subscribe { latch3.countDown() }
+        payWithPointsViewModel.pointsAppliedMessage.subscribe { latch3.countDown() }
         payWithPointsViewModel.pwpOpted.onNext(true)
         latch3.await(10, TimeUnit.SECONDS)
 
@@ -180,7 +182,7 @@ public class PayWithPointsViewModelTest {
     }
 
     @Test
-    public fun clearButtonClicked() {
+    fun clearButtonClicked() {
         payWithPointsViewModel.clearUserEnteredBurnAmount.onNext(Unit)
 
         pointsAppliedMessageTestSubscriber.assertNoErrors()
@@ -188,7 +190,7 @@ public class PayWithPointsViewModelTest {
     }
 
     @Test
-    public fun userEntersPointAndAPIErrorThrown() {
+    fun userEntersPointAndAPIErrorThrown() {
         createTripResponse.tripId = "garbage";
         val latch = CountDownLatch(1)
         paymentModel.burnAmountToPointsApiError.subscribe { latch.countDown() }
@@ -199,7 +201,7 @@ public class PayWithPointsViewModelTest {
     }
 
     @Test
-    public fun pointsNotRedeemable() {
+    fun pointsNotRedeemable() {
         createTripResponse.tripId = "garbage";
         val latch = CountDownLatch(1)
         paymentModel.burnAmountToPointsApiError.subscribe { latch.countDown() }
@@ -210,7 +212,7 @@ public class PayWithPointsViewModelTest {
     }
 
     @Test
-    public fun pwpCurrencyToPoints_TripServiceError() {
+    fun pwpCurrencyToPoints_TripServiceError() {
         createTripResponse.tripId = "trip_service_error";
         val latch = CountDownLatch(1)
         paymentModel.burnAmountToPointsApiError.subscribe { latch.countDown() }
@@ -221,7 +223,7 @@ public class PayWithPointsViewModelTest {
     }
 
     @Test
-    public fun pwpCurrencyToPoints_PointsConversionUnauthenticated() {
+    fun pwpCurrencyToPoints_PointsConversionUnauthenticated() {
         createTripResponse.tripId = "points_conversion_unauthenticated";
 
         val latch = CountDownLatch(1)
@@ -233,7 +235,7 @@ public class PayWithPointsViewModelTest {
     }
 
     @Test
-    public fun testingMixedScenarios() {
+    fun testingMixedScenarios() {
         val expectedMessagesList = ArrayList<Pair<String, Boolean>>()
 
         //Default Splits

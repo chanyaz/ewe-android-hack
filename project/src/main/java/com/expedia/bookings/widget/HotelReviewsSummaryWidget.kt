@@ -9,7 +9,7 @@ import com.expedia.bookings.utils.bindView
 import com.expedia.util.subscribeText
 import com.expedia.vm.HotelReviewsSummaryViewModel
 
-public class HotelReviewsSummaryWidget(context: Context) : LinearLayout(context) {
+class HotelReviewsSummaryWidget(context: Context) : LinearLayout(context) {
 
     val overallRating: TextView  by bindView(R.id.overall_rating)
     val roomCleanliness: TextView  by bindView(R.id.room_cleanliness)

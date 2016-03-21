@@ -9,11 +9,16 @@ import org.hamcrest.TypeSafeMatcher;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.StateListDrawable;
+import android.net.Uri;
+import android.support.annotation.DrawableRes;
+import android.support.annotation.NonNull;
 import android.support.test.espresso.matcher.BoundedMatcher;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,10 +32,11 @@ import android.widget.TextView;
 
 import com.expedia.bookings.data.Property;
 
+import static android.support.test.espresso.core.deps.guava.base.Preconditions.checkNotNull;
 import static org.hamcrest.Matchers.equalTo;
 
 public class CustomMatchers {
-	public static Matcher<View> withCompoundDrawable(final int resId) {
+	public static Matcher<View> withCompoundDrawable(final @DrawableRes int resId) {
 		return new BoundedMatcher<View, TextView>(TextView.class) {
 			@Override
 			public void describeTo(Description description) {
@@ -49,7 +55,24 @@ public class CustomMatchers {
 		};
 	}
 
-	public static Matcher<View> withImageDrawable(final int resourceId) {
+	public static Matcher<View> withTextColor(final String hexColor) {
+		return new BoundedMatcher<View, TextView>(TextView.class) {
+			@Override
+			public void describeTo(Description description) {
+				description.appendText("TextView has this hex color -> " + hexColor);
+			}
+
+			@Override
+			public boolean matchesSafely(TextView textView) {
+				if (Color.parseColor(hexColor) == textView.getCurrentTextColor()) {
+					return true;
+				}
+				return false;
+			}
+		};
+	}
+
+	public static Matcher<View> withImageDrawable(final @DrawableRes int resourceId) {
 		return new BoundedMatcher<View, ImageView>(ImageView.class) {
 			@Override
 			public void describeTo(Description description) {
@@ -63,7 +86,7 @@ public class CustomMatchers {
 		};
 	}
 
-	private static boolean sameBitmap(Context context, Drawable drawable, int resId) {
+	public static boolean sameBitmap(Context context, Drawable drawable, @DrawableRes int resId) {
 		Drawable otherDrawable = ContextCompat.getDrawable(context, resId);
 		if (drawable == null || otherDrawable == null) {
 			return false;
@@ -230,15 +253,55 @@ public class CustomMatchers {
 				String displayedText = view.getText().toString().replace(",", "");
 				Pattern p = Pattern.compile("([\\d.]+)");
 				java.util.regex.Matcher m = p.matcher(displayedText);
-				m.find();
-				BigDecimal foundPrice = new BigDecimal(m.group());
-				return foundPrice.compareTo(expectedPrice) == 0;
+				if (m.find()) {
+					BigDecimal foundPrice = new BigDecimal(m.group());
+					return foundPrice.compareTo(expectedPrice) == 0;
+				}
+				else {
+					return false;
+				}
 			}
 
 			@Override
 			public void describeTo(Description description) {
 				description.appendText("The total price must match");
 			}
+		};
+	}
+
+	public static Matcher<View> atPosition(final int position, @NonNull final Matcher<View> itemMatcher) {
+		checkNotNull(itemMatcher);
+		return new BoundedMatcher<View, RecyclerView>(RecyclerView.class) {
+			@Override
+			public void describeTo(Description description) {
+				description.appendText("has item at position " + position + ": ");
+				itemMatcher.describeTo(description);
+			}
+
+			@Override
+			protected boolean matchesSafely(final RecyclerView view) {
+				RecyclerView.ViewHolder viewHolder = view.findViewHolderForAdapterPosition(position);
+				if (viewHolder == null) {
+					// has no item on such position
+					return false;
+				}
+				return itemMatcher.matches(viewHolder.itemView);
+			}
+		};
+	}
+
+	public static Matcher<Uri> hasPhoneNumber(final String phoneNumber) {
+		return new BoundedMatcher<Uri, Uri>(Uri.class) {
+			@Override
+			protected boolean matchesSafely(Uri intentUri) {
+				return intentUri.toString().replaceAll("[^0-9]", "").equals(phoneNumber);
+			}
+
+			@Override
+			public void describeTo(Description description) {
+				description.appendText("has phone number: " + phoneNumber);
+			}
+
 		};
 	}
 

@@ -21,7 +21,7 @@ import com.expedia.bookings.data.trips.ItineraryManager;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.presenter.Presenter;
 import com.expedia.bookings.presenter.VisibilityTransition;
-import com.expedia.bookings.services.LXServices;
+import com.expedia.bookings.services.LxServices;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.RetrofitUtils;
 import com.expedia.bookings.utils.Ui;
@@ -44,7 +44,7 @@ public class LXCheckoutPresenter extends Presenter {
 	}
 
 	@Inject
-	LXServices lxServices;
+	LxServices lxServices;
 
 	@InjectView(R.id.checkout)
 	LXCheckoutWidget checkout;
@@ -149,7 +149,7 @@ public class LXCheckoutPresenter extends Presenter {
 
 	private DefaultTransition defaultCheckoutTransition = new DefaultTransition(LXCheckoutWidget.class.getName()) {
 		@Override
-		public void finalizeTransition(boolean forward) {
+		public void endTransition(boolean forward) {
 			checkout.setVisibility(View.VISIBLE);
 			cvv.setVisibility(View.GONE);
 			errorScreen.setVisibility(View.GONE);
@@ -164,8 +164,8 @@ public class LXCheckoutPresenter extends Presenter {
 
 	private Transition checkoutToError = new VisibilityTransition(this, LXCheckoutWidget.class, LXErrorWidget.class) {
 		@Override
-		public void finalizeTransition(boolean forward) {
-			super.finalizeTransition(forward);
+		public void endTransition(boolean forward) {
+			super.endTransition(forward);
 			if (!forward) {
 				checkout.slideWidget.resetSlider();
 				checkout.checkoutFormWasUpdated();
@@ -226,7 +226,7 @@ public class LXCheckoutPresenter extends Presenter {
 	public void showPaymentFailed(Events.LXPaymentFailed event) {
 		show(checkout, FLAG_CLEAR_TOP);
 		checkout.slideWidget.resetSlider();
-		checkout.paymentInfoCardView.setExpanded(true, true);
+		checkout.paymentInfoCardView.getCardInfoContainer().performClick();
 	}
 
 	private void showCheckoutErrorDialog(@StringRes int message) {

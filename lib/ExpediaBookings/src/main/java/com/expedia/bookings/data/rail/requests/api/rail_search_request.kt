@@ -7,7 +7,7 @@ import java.util.UUID
 /* note: the variable names in this model have to match 1:1 to the format the api expects. this whole
             model is getting serialized to json and sent to the search endpoint
  */
-public class RailApiSearchModel {
+class RailApiSearchModel {
 
     var messageInfo = MessageInfo()
     var pointOfSaleKey = PointOfSaleKey()

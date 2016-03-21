@@ -8,6 +8,7 @@ import android.support.test.espresso.contrib.RecyclerViewActions;
 
 import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
+import com.expedia.bookings.test.espresso.Common;
 import com.expedia.bookings.test.espresso.EspressoUtils;
 import com.expedia.bookings.test.espresso.LxTestCase;
 import com.expedia.bookings.test.phone.pagemodels.common.CVVEntryScreen;
@@ -20,10 +21,12 @@ import static android.support.test.espresso.action.ViewActions.scrollTo;
 import static android.support.test.espresso.action.ViewActions.typeText;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.RootMatchers.withDecorView;
+import static android.support.test.espresso.matcher.ViewMatchers.isDescendantOfA;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static com.expedia.bookings.test.espresso.ViewActions.waitFor;
+import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.core.Is.is;
 
 public class LXCheckoutErrorTest extends LxTestCase {
@@ -73,7 +76,7 @@ public class LXCheckoutErrorTest extends LxTestCase {
 		LXScreen.checkoutErrorButton().perform(click());
 
 		screenshot("LX Details");
-		EspressoUtils.assertViewIsDisplayed(R.id.activity_gallery);
+		onView(allOf(withId(R.id.activity_gallery), isDescendantOfA(withId(R.id.activity_recommended_details_presenter)))).check(matches(isDisplayed()));
 	}
 
 	public void testPaymentFailed() throws Throwable {
@@ -99,14 +102,13 @@ public class LXCheckoutErrorTest extends LxTestCase {
 
 		screenshot("Checkout after price change");
 		CheckoutViewModel.enterPaymentInfo();
-		CheckoutViewModel.clickDone();
 		CheckoutViewModel.performSlideToPurchase();
 
 		CVVEntryScreen.enterCVV("111");
 		CVVEntryScreen.clickBookButton();
 
 		// this time click on the back button. Expected : we must come to the CVV Screen
-		CheckoutViewModel.pressClose();
+		Common.pressBack();
 		onView(withId(R.id.lx_base_presenter)).inRoot(
 			withDecorView(is(getActivity().getWindow().getDecorView())))
 			.perform(waitFor((isDisplayed()), 10L, TimeUnit.SECONDS));
@@ -133,7 +135,6 @@ public class LXCheckoutErrorTest extends LxTestCase {
 		CheckoutViewModel.phone().perform(typeText("4151234567"));
 		CheckoutViewModel.clickDone();
 		CheckoutViewModel.enterPaymentInfo();
-		CheckoutViewModel.clickDone();
 		CheckoutViewModel.waitForSlideToPurchase();
 		CheckoutViewModel.performSlideToPurchase();
 

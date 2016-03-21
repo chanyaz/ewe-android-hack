@@ -1,9 +1,7 @@
 package com.expedia.bookings.presenter.lx;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.Locale;
 
 import org.joda.time.LocalDate;
 
@@ -12,7 +10,6 @@ import android.content.Context;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
-import android.os.Build;
 import android.support.v7.widget.Toolbar;
 import android.text.Html;
 import android.util.AttributeSet;
@@ -35,6 +32,7 @@ import com.expedia.bookings.data.SuggestionV4;
 import com.expedia.bookings.data.lx.LXSearchParams;
 import com.expedia.bookings.data.lx.SearchType;
 import com.expedia.bookings.otto.Events;
+import com.expedia.bookings.presenter.BaseSearchPresenter;
 import com.expedia.bookings.presenter.Presenter;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.AnimUtils;
@@ -57,7 +55,7 @@ import butterknife.OnCheckedChanged;
 import butterknife.OnClick;
 
 public class LXSearchParamsPresenter extends Presenter
-	implements EditText.OnEditorActionListener, CalendarPicker.DateSelectionChangedListener, DaysOfWeekView.DayOfWeekRenderer {
+	implements EditText.OnEditorActionListener, CalendarPicker.DateSelectionChangedListener {
 
 	private static final int RECENT_MAX_SIZE = 3;
 
@@ -148,7 +146,8 @@ public class LXSearchParamsPresenter extends Presenter
 					searchParamsContainerHeight = searchParamsContainer.getMeasuredHeight();
 
 					// Set the dropdown height to size of 3 suggestions.
-					location.setDropDownHeight(3 * (int) getResources().getDimension(R.dimen.location_suggestion_row_height));
+					location.setDropDownHeight(
+						3 * (int) getResources().getDimension(R.dimen.location_suggestion_row_height));
 				}
 			});
 
@@ -220,13 +219,15 @@ public class LXSearchParamsPresenter extends Presenter
 		//Have to remove the bold tag in display name so text for last search is normal
 		suggest.regionNames.displayName = Html.fromHtml(suggest.regionNames.displayName).toString();
 		// Save
-		SuggestionUtils.saveSuggestionHistory(getContext(), mRecentLXLocationsSearches, SuggestionUtils.RECENT_ROUTES_LX_LOCATION_FILE);
+		SuggestionUtils.saveSuggestionHistory(getContext(), mRecentLXLocationsSearches,
+			SuggestionUtils.RECENT_ROUTES_LX_LOCATION_FILE);
 		suggestionAdapter.updateRecentHistory(mRecentLXLocationsSearches);
 
 	}
 
 	private void loadHistory() {
-		mRecentLXLocationsSearches = SuggestionUtils.loadSuggestionHistory(getContext(), SuggestionUtils.RECENT_ROUTES_LX_LOCATION_FILE);
+		mRecentLXLocationsSearches = SuggestionUtils
+			.loadSuggestionHistory(getContext(), SuggestionUtils.RECENT_ROUTES_LX_LOCATION_FILE);
 		suggestionAdapter.addNearbyAndRecents(mRecentLXLocationsSearches, getContext());
 	}
 
@@ -234,7 +235,7 @@ public class LXSearchParamsPresenter extends Presenter
 	public void onDateCheckedChanged(boolean isChecked) {
 		Drawable drawableEnabled = getResources().getDrawable(R.drawable.date).mutate();
 		drawableEnabled.setColorFilter(isChecked ? Color.WHITE
-			: getResources().getColor(Ui.obtainThemeResID(getContext(), R.attr.skin_lxUncheckedToggleTextColor)),
+				: getResources().getColor(Ui.obtainThemeResID(getContext(), R.attr.skin_lxUncheckedToggleTextColor)),
 			PorterDuff.Mode.SRC_IN);
 		selectDates.setCompoundDrawablesWithIntrinsicBounds(drawableEnabled, null, null, null);
 	}
@@ -312,18 +313,6 @@ public class LXSearchParamsPresenter extends Presenter
 		}
 	}
 
-	@Override
-	public String renderDayOfWeek(LocalDate.Property dayOfWeek) {
-		if (Build.VERSION.SDK_INT >= 18) {
-			SimpleDateFormat sdf = new SimpleDateFormat("EEEEE", Locale.getDefault());
-			return sdf.format(dayOfWeek.getLocalDate().toDate());
-		}
-		else if (Locale.getDefault().getLanguage().equals("en")) {
-			return dayOfWeek.getAsShortText().toUpperCase(Locale.getDefault()).substring(0, 1);
-		}
-		return DaysOfWeekView.DayOfWeekRenderer.DEFAULT.renderDayOfWeek(dayOfWeek);
-	}
-
 	public LXSearchParams getCurrentParams() {
 		return searchParams;
 	}
@@ -337,7 +326,8 @@ public class LXSearchParamsPresenter extends Presenter
 		MenuItem item = toolbar.getMenu().findItem(R.id.menu_search);
 		setupToolBarCheckmark(item);
 
-		toolBarSearchText.setText(getResources().getString(Ui.obtainThemeResID(getContext(), R.attr.skin_lxSearchToolbarText)));
+		toolBarSearchText
+			.setText(getResources().getString(Ui.obtainThemeResID(getContext(), R.attr.skin_lxSearchToolbarText)));
 		toolbar.setTitleTextColor(Color.WHITE);
 		toolbar
 			.setBackgroundColor(getResources().getColor(Ui.obtainThemeResID(getContext(), R.attr.skin_lxPrimaryColor)));
@@ -383,16 +373,11 @@ public class LXSearchParamsPresenter extends Presenter
 		calendarPicker.setSelectableDateRange(LocalDate.now(),
 			LocalDate.now().plusDays(getResources().getInteger(R.integer.calendar_max_days_lx_search)));
 		calendarPicker.setDateChangedListener(this);
-		daysOfWeekView.setDayOfWeekRenderer(this);
-		daysOfWeekView.setMaxTextSize(getResources().getDimension(R.dimen.lx_calendar_month_view_max_text_size));
-		monthView.setMaxTextSize(getResources().getDimension(R.dimen.lx_calendar_month_view_max_text_size));
-		monthView.setTextEqualDatesColor(Color.WHITE);
-		calendarPicker.setMonthHeaderTypeface(FontCache.getTypeface(FontCache.Font.ROBOTO_REGULAR));
-		daysOfWeekView.setTypeface(FontCache.getTypeface(FontCache.Font.ROBOTO_REGULAR));
-		monthView.setDaysTypeface(FontCache.getTypeface(FontCache.Font.ROBOTO_LIGHT));
-		monthView.setTodayTypeface(FontCache.getTypeface(FontCache.Font.ROBOTO_MEDIUM));
+
 		// End date selection is disabled.
-		calendarPicker.setMaxSelectableDateRange(getResources().getInteger(R.integer.calendar_max_selection_date_range_lx));
+		calendarPicker
+			.setMaxSelectableDateRange(getResources().getInteger(R.integer.calendar_max_selection_date_range_lx));
+		BaseSearchPresenter.styleCalendar(getContext(), calendarPicker, monthView, daysOfWeekView);
 	}
 
 	// States and transitions
@@ -425,7 +410,8 @@ public class LXSearchParamsPresenter extends Presenter
 		setUpSearchButton();
 	}
 
-	private Presenter.Transition defaultToCal = new Presenter.Transition(LXParamsDefault.class, LXParamsCalendar.class) {
+	private Presenter.Transition defaultToCal = new Presenter.Transition(LXParamsDefault.class,
+		LXParamsCalendar.class) {
 		private int calendarHeight;
 
 		@Override
@@ -445,11 +431,6 @@ public class LXSearchParamsPresenter extends Presenter
 
 		@Override
 		public void endTransition(boolean forward) {
-			calendarContainer.setTranslationY(forward ? 0 : calendarHeight);
-		}
-
-		@Override
-		public void finalizeTransition(boolean forward) {
 			calendarContainer.setTranslationY(forward ? 0 : calendarHeight);
 			if (forward) {
 				Ui.hideKeyboard(LXSearchParamsPresenter.this);
@@ -473,7 +454,7 @@ public class LXSearchParamsPresenter extends Presenter
 		searchContainer.setBackgroundColor(Color.TRANSPARENT);
 		toolBarSearchText.setAlpha(forward ? 0 : 1);
 		searchButton.setAlpha(forward ? 0 : 1);
-		searchTop = toolbarTwo.getTop() -  searchContainer.getTop();
+		searchTop = toolbarTwo.getTop() - searchContainer.getTop();
 		searchParamsContainer.setAlpha(1f);
 		if (statusBar != null) {
 			statusBar.setAlpha(1f);
@@ -482,10 +463,11 @@ public class LXSearchParamsPresenter extends Presenter
 
 	public void animationUpdate(float f, boolean forward, float alpha) {
 		float translation = forward ? searchContainer.getHeight() * (1 - f) : searchContainer.getHeight() * f;
-		float yTrans = forward ?  - (searchTop * (1 - f)) : - (searchTop * f);
+		float yTrans = forward ? -(searchTop * (1 - f)) : -(searchTop * f);
 
 		LinearLayout.LayoutParams layoutParams = (LinearLayout.LayoutParams) searchParamsContainer.getLayoutParams();
-		layoutParams.height = forward ? (int) (f * (searchParamsContainerHeight)) : (int) (Math.abs(f - 1) * (searchParamsContainerHeight));
+		layoutParams.height = forward ? (int) (f * (searchParamsContainerHeight))
+			: (int) (Math.abs(f - 1) * (searchParamsContainerHeight));
 		searchParamsContainer.setLayoutParams(layoutParams);
 
 		searchParamsContainer.setAlpha(forward ? alpha + ((1f - alpha) * f) : Math.abs(1 - f) + alpha);
@@ -496,7 +478,7 @@ public class LXSearchParamsPresenter extends Presenter
 		calendarContainer.setTranslationY(translation);
 		toolBarSearchText.setTranslationY(yTrans);
 		toolBarSearchText.setAlpha(forward ? f : Math.abs(1 - f));
-		searchButton.setAlpha(forward ? f : Math.abs(1 - f));
+		setUpSearchButton();
 		toolbar.setAlpha(forward ? f : Math.abs(1 - f));
 		navIcon.setParameter(forward ? f : Math.abs(1 - f));
 	}

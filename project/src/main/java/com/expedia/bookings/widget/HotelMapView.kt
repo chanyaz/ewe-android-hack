@@ -10,6 +10,7 @@ import android.util.AttributeSet
 import android.view.View
 import com.expedia.account.graphics.ArrowXDrawable
 import com.expedia.bookings.R
+import com.expedia.bookings.extension.shouldShowCircleForRatings
 import com.expedia.bookings.tracking.HotelV2Tracking
 import com.expedia.bookings.utils.ArrowXDrawableUtil
 import com.expedia.bookings.utils.Ui
@@ -30,11 +31,9 @@ import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
-import rx.Observable
-import rx.subjects.PublishSubject
 import kotlin.properties.Delegates
 
-public class HotelMapView(context: Context, attrs: AttributeSet) : FrameLayout(context, attrs), OnMapReadyCallback {
+class HotelMapView(context: Context, attrs: AttributeSet) : FrameLayout(context, attrs), OnMapReadyCallback {
     val MAP_ZOOM_LEVEL = 15f
 
     var mapView: MapView by Delegates.notNull()
@@ -45,13 +44,21 @@ public class HotelMapView(context: Context, attrs: AttributeSet) : FrameLayout(c
 
     val toolBar: Toolbar by bindView(R.id.toolbar)
     val toolBarTitle: TextView by bindView(R.id.hotel_name_text)
-    val toolBarRating: StarRatingBar by bindView(R.id.hotel_map_star_rating_bar)
+    var toolBarRating: StarRatingBar by Delegates.notNull()
     val toolBarBackground: View by bindView(R.id.toolbar_background)
 
     var googleMap : GoogleMap? = null
 
     init {
         View.inflate(context, R.layout.widget_hotel_map, this)
+
+        if (shouldShowCircleForRatings()) {
+            toolBarRating = findViewById(R.id.hotel_map_circle_rating_bar) as StarRatingBar
+        } else {
+            toolBarRating = findViewById(R.id.hotel_map_star_rating_bar) as StarRatingBar
+        }
+        toolBarRating.visibility = View.VISIBLE
+
         val statusBarHeight = Ui.getStatusBarHeight(context)
         if (statusBarHeight > 0) {
             toolBar.setPadding(0, statusBarHeight, 0, 0)

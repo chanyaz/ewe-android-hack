@@ -11,7 +11,7 @@ import com.expedia.bookings.data.hotels.ReviewSort
 import com.expedia.vm.HotelReviewsAdapterViewModel
 import com.expedia.vm.HotelReviewsPageViewModel
 
-public class HotelReviewsAdapter(val context: Context, val viewPager: ViewPager, val vm: HotelReviewsAdapterViewModel) : PagerAdapter() {
+class HotelReviewsAdapter(val context: Context, val viewPager: ViewPager, val vm: HotelReviewsAdapterViewModel) : PagerAdapter() {
 
     init {
         viewPager.adapter = this
@@ -79,7 +79,7 @@ public class HotelReviewsAdapter(val context: Context, val viewPager: ViewPager,
         return ReviewSort.values().size
     }
 
-    override public fun destroyItem(container: ViewGroup, position: Int, obj: Any) {
+    override fun destroyItem(container: ViewGroup, position: Int, obj: Any) {
         container.removeView(obj as HotelReviewsPageView)
     }
 

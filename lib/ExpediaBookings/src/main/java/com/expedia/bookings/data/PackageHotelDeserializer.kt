@@ -8,7 +8,7 @@ import com.google.gson.JsonDeserializer
 import com.google.gson.JsonElement
 import java.lang.reflect.Type
 
-public class PackageHotelDeserializer : JsonDeserializer<PackageSearchResponse.HotelPackage> {
+class PackageHotelDeserializer : JsonDeserializer<PackageSearchResponse.HotelPackage> {
     override fun deserialize(json: JsonElement, typeOfT: Type, context: JsonDeserializationContext): PackageSearchResponse.HotelPackage {
         val hotelPackage = PackageSearchResponse.HotelPackage()
         val packageResult = json.asJsonObject;

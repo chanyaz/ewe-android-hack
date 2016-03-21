@@ -8,6 +8,7 @@ import android.content.Context
 import android.graphics.Color
 import android.graphics.PorterDuff
 import android.graphics.drawable.TransitionDrawable
+import android.location.Address
 import android.location.Location
 import android.support.design.widget.FloatingActionButton
 import android.support.v4.content.ContextCompat
@@ -17,11 +18,10 @@ import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.Toolbar
 import android.text.format.DateUtils
 import android.util.AttributeSet
-import android.view.LayoutInflater
-import android.view.MenuItem
 import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
+import android.view.ViewPropertyAnimator
 import android.view.ViewTreeObserver
 import android.view.animation.AccelerateInterpolator
 import android.view.animation.DecelerateInterpolator
@@ -29,11 +29,11 @@ import android.view.animation.LinearInterpolator
 import android.widget.Button
 import android.widget.FrameLayout
 import android.widget.ImageView
-import android.widget.LinearLayout
 import com.expedia.bookings.R
 import com.expedia.bookings.activity.ExpediaBookingApp
 import com.expedia.bookings.bitmaps.PicassoScrollListener
 import com.expedia.bookings.data.Db
+import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.hotels.Hotel
 import com.expedia.bookings.data.hotels.HotelSearchResponse
@@ -41,6 +41,9 @@ import com.expedia.bookings.extension.isShowAirAttached
 import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.tracking.HotelV2Tracking
 import com.expedia.bookings.utils.ArrowXDrawableUtil
+import com.expedia.bookings.utils.HotelMapClusterAlgorithm
+import com.expedia.bookings.utils.HotelMapClusterRenderer
+import com.expedia.bookings.utils.MapItem
 import com.expedia.bookings.utils.Strings
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
@@ -56,9 +59,6 @@ import com.expedia.bookings.widget.createHotelMarkerIcon
 import com.expedia.util.endlessObserver
 import com.expedia.util.havePermissionToAccessLocation
 import com.expedia.util.notNullAndObservable
-import com.expedia.util.subscribeInverseVisibility
-import com.expedia.util.subscribeText
-import com.expedia.util.subscribeVisibility
 import com.expedia.vm.HotelFilterViewModel
 import com.expedia.vm.HotelResultsMapViewModel
 import com.google.android.gms.maps.CameraUpdateFactory
@@ -66,18 +66,20 @@ import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.MapView
 import com.google.android.gms.maps.MapsInitializer
 import com.google.android.gms.maps.OnMapReadyCallback
+import com.google.android.gms.maps.model.CameraPosition
 import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.LatLngBounds
 import com.google.android.gms.maps.model.Marker
-import com.google.android.gms.maps.model.MarkerOptions
+import com.google.maps.android.clustering.ClusterManager
 import com.google.maps.android.ui.IconGenerator
+import com.mobiata.android.BackgroundDownloader
 import com.mobiata.android.LocationServices
 import org.joda.time.DateTime
 import rx.Observer
 import rx.subjects.PublishSubject
-import java.util.ArrayList
 import kotlin.properties.Delegates
 
-public abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) : Presenter(context, attrs), OnMapReadyCallback {
+abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) : Presenter(context, attrs), OnMapReadyCallback {
 
     //Views
     val recyclerView: HotelListRecyclerView by bindView(R.id.list_view)
@@ -92,15 +94,18 @@ public abstract class BaseHotelResultsPresenter(context: Context, attrs: Attribu
     val mapCarouselRecycler: HotelCarouselRecycler by bindView(R.id.hotel_carousel)
     val fab: FloatingActionButton by bindView(R.id.fab)
     var adapter: HotelListAdapter by Delegates.notNull()
-    val filterBtn: LinearLayout by bindView(R.id.filter_btn)
     open val filterBtnWithCountWidget: FilterButtonWithCountWidget? = null
     open val searchThisArea: Button? = null
     var isMapReady = false
     val isBucketedForResultMap = Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelResultMapTest)
+    val isUserBucketedSearchScreenTest = Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelsSearchScreenTest)
+
+    var clusterManager: ClusterManager<MapItem> by Delegates.notNull()
 
     private val PICASSO_TAG = "HOTEL_RESULTS_LIST"
     val DEFAULT_UI_ELEMENT_APPEAR_ANIM_DURATION = 200L
 
+    val filterHeight by lazy { resources.getDimension(R.dimen.hotel_filter_height) }
     var screenHeight: Int = 0
     var screenWidth: Float = 0f
     var mapTransitionRunning: Boolean = false
@@ -112,10 +117,11 @@ public abstract class BaseHotelResultsPresenter(context: Context, attrs: Attribu
 
     val hotelSelectedSubject = PublishSubject.create<Hotel>()
     val headerClickedSubject = PublishSubject.create<Unit>()
+    val hideBundlePriceOverviewSubject = PublishSubject.create<Boolean>()
 
     var googleMap: GoogleMap? = null
 
-    val filterMenuItem by lazy { toolbar.menu.findItem(R.id.menu_filter) }
+    open val filterMenuItem by lazy { toolbar.menu.findItem(R.id.menu_filter) }
     val searchMenuItem by lazy { toolbar.menu.findItem(R.id.menu_open_search) }
 
     var filterCountText: TextView by Delegates.notNull()
@@ -128,43 +134,88 @@ public abstract class BaseHotelResultsPresenter(context: Context, attrs: Attribu
 
     val searchOverlaySubject = PublishSubject.create<Unit>()
 
+    var hotelMapClusterRenderer: HotelMapClusterRenderer by Delegates.notNull()
+
     var halfway = 0
     var threshold = 0
 
     val iconFactory = IconGenerator(context)
-    var markers = arrayListOf<Marker>()
+    var mapItems = arrayListOf<MapItem>()
     private val ANIMATION_DURATION_FILTER = 500
     var hotels = emptyList<Hotel>()
 
     var mapViewModel: HotelResultsMapViewModel by notNullAndObservable { vm ->
-        vm.markersObservable.subscribe {
-            mapViewModel.selectMarker.onNext(null)
-            hotels = it
-            if (!ExpediaBookingApp.isDeviceShitty() || Strings.equals(currentState, ResultsMap::class.java.name)) {
-                googleMap?.mapType = GoogleMap.MAP_TYPE_NORMAL
-                createMarkers()
-            } else {
-                lazyLoadMapAndMarkers()
-                fab.visibility = View.VISIBLE
-                getFabAnimIn().start()
-            }
-        }
 
         vm.sortedHotelsObservable.subscribe {
             hotels = it
-            updateCarousel()
+            updateMarkers()
         }
 
         vm.soldOutHotel.subscribe { hotel ->
-            val markersForHotel = markers.filter { it.title == hotel.hotelId }
-            if (markersForHotel.isNotEmpty()) {
-                val marker = markersForHotel.first()
-                mapViewModel.soldOutMarker.onNext(Pair(marker, hotel))
+            val mapItem = mapItems.firstOrNull { it.hotel.hotelId == hotel.hotelId }
+            if (mapItem != null) {
+                hotelMapClusterRenderer.getMarker(mapItem)?.setIcon(mapItem.soldOutIcon)
+                clusterMarkers()
             }
         }
 
         vm.carouselSwipedObservable.subscribe {
-            googleMap?.animateCamera(CameraUpdateFactory.newLatLngZoom(it.position, googleMap?.cameraPosition?.zoom!!))
+            selectMarker(it, true)
+        }
+    }
+
+    private fun selectMarker(mapItem: MapItem, shouldZoom: Boolean = false, animateCarousel: Boolean = true) {
+        clusterManager.clearItems()
+        clusterManager.addItems(mapItems)
+        clearPreviousMarker()
+        mapItem.isSelected = true
+        val selectedMarker = hotelMapClusterRenderer.getMarker(mapItem)
+        if (!mapItem.hotel.isSoldOut) {
+            selectedMarker?.setIcon(mapItem.selectedIcon)
+        }
+        selectedMarker?.showInfoWindow()
+        if (shouldZoom) {
+            googleMap?.animateCamera(CameraUpdateFactory.newLatLngZoom(mapItem.position, googleMap?.cameraPosition?.zoom!!))
+        }
+        mapViewModel.mapPinSelectSubject.onNext(mapItem)
+        if (animateCarousel && currentState == ResultsMap::class.java.name) {
+            animateMapCarouselVisibility(true)
+        }
+    }
+
+    protected fun animateMapCarouselVisibility(visible: Boolean) {
+        if (visible) {
+            if (mapCarouselContainer.visibility != View.VISIBLE) {
+                mapCarouselContainer.translationX = screenWidth
+                mapCarouselContainer.visibility = View.VISIBLE
+                animateFabAndSearchThisArea(true, mapCarouselContainer.animate().translationX(0f).setInterpolator(DecelerateInterpolator()).setStartDelay(400))
+            } else {
+                animateFabAndSearchThisArea(true)
+            }
+        } else {
+            if (mapCarouselContainer.visibility != View.INVISIBLE) {
+                mapCarouselContainer.animate().translationX(screenWidth).setInterpolator(DecelerateInterpolator()).withEndAction {
+                    mapCarouselContainer.visibility = View.INVISIBLE
+                    animateFabAndSearchThisArea(false)
+                }.start()
+            } else {
+                animateFabAndSearchThisArea(false)
+            }
+        }
+    }
+
+    private fun animateFabAndSearchThisArea(animateUp: Boolean) {
+        animateFabAndSearchThisArea(animateUp, null)
+    }
+
+    private fun animateFabAndSearchThisArea(animateUp: Boolean, endInterpolator: ViewPropertyAnimator?) {
+        val mapCarouselHeight = mapCarouselContainer.height.toFloat()
+        if (animateUp) {
+            fab.animate().translationY(filterHeight - mapCarouselHeight).setInterpolator(DecelerateInterpolator()).withEndAction { endInterpolator?.start() }.start()
+            searchThisArea?.animate()?.translationY(0f)?.setInterpolator(DecelerateInterpolator())?.start()
+        } else {
+            fab.animate().translationY(filterHeight).setInterpolator(DecelerateInterpolator()).withEndAction { endInterpolator?.start() }.start()
+            searchThisArea?.animate()?.translationY(mapCarouselHeight)?.setInterpolator(DecelerateInterpolator())?.start()
         }
     }
 
@@ -201,7 +252,7 @@ public abstract class BaseHotelResultsPresenter(context: Context, attrs: Attribu
         filterView.viewmodel.setHotelList(it)
         loadingOverlay?.animate(false)
         loadingOverlay?.visibility = View.GONE
-        adapter.resultsSubject.onNext(Pair(it.hotelList, it.userPriceType))
+        adapter.resultsSubject.onNext(it)
 
         // show fab button always in case of AB test or shitty device
         if (ExpediaBookingApp.isDeviceShitty() || isBucketedForResultMap) {
@@ -237,10 +288,13 @@ public abstract class BaseHotelResultsPresenter(context: Context, attrs: Attribu
             resetListOffset()
         } else {
             show(ResultsMap(), Presenter.FLAG_CLEAR_TOP)
+            if (mapViewModel.isClusteringEnabled) {
+                animateMapCarouselVisibility(false)
+            }
         }
 
         (mapCarouselRecycler.adapter as HotelMapCarouselAdapter).setItems(response.hotelList)
-        adapter.resultsSubject.onNext(Pair(response.hotelList, response.userPriceType))
+        adapter.resultsSubject.onNext(response)
         mapViewModel.hotelResultsSubject.onNext(response)
         if ((ExpediaBookingApp.isDeviceShitty() || isBucketedForResultMap) && response.hotelList.size <= 3 && previousWasList) {
             recyclerView.setBackgroundColor(ContextCompat.getColor(context, R.color.hotel_result_background))
@@ -263,7 +317,10 @@ public abstract class BaseHotelResultsPresenter(context: Context, attrs: Attribu
 
     init {
         inflate()
-        mapViewModel = HotelResultsMapViewModel(context, lastBestLocationSafe(), iconFactory)
+        mapViewModel = HotelResultsMapViewModel(context, lastBestLocationSafe())
+        mapViewModel.clusterChangeSubject.subscribe {
+            updateCarouselItems()
+        }
         headerClickedSubject.subscribe(mapSelectedObserver)
         adapter = HotelListAdapter(hotelSelectedSubject, headerClickedSubject)
         recyclerView.adapter = adapter
@@ -277,51 +334,90 @@ public abstract class BaseHotelResultsPresenter(context: Context, attrs: Attribu
         mapCarouselRecycler.adapter = HotelMapCarouselAdapter(emptyList(), hotelSelectedSubject)
         mapCarouselRecycler.addOnScrollListener(PicassoScrollListener(context, PICASSO_TAG))
 
+        mapViewModel.newBoundsObservable.subscribe {
+            if (isMapReady) {
+                val center = it.center
+                val latLng = LatLng(center.latitude, center.longitude)
+                mapViewModel.mapBoundsSubject.onNext(latLng)
+                val padding = 60
+                googleMap?.animateCamera(CameraUpdateFactory.newLatLngBounds(it, resources.displayMetrics.density.toInt() * padding), object : GoogleMap.CancelableCallback {
+                    override fun onFinish() {
+
+                    }
+
+                    override fun onCancel() {
+                    }
+                })
+            }
+        }
+
     }
 
     fun clearMarkers() {
-        markers.clear()
-        googleMap?.clear()
+        mapItems.clear()
+        clusterManager.clearItems()
+        clusterMarkers()
+        if (mapViewModel.isClusteringEnabled) mapCarouselContainer.visibility = View.INVISIBLE
+        setUpMap()
     }
 
-    fun createMarkers() {
-        mapViewModel.selectMarker.onNext(null)
+    fun createMarkers(animateCarousel: Boolean = true) {
         clearMarkers()
         if (hotels.isEmpty()) {
             return
         }
-
-        var options = ArrayList<MarkerOptions>()
+        //createHotelMarkerIcon should run in a separate thread since its heavy and hangs on the UI thread
         hotels.forEach {
             hotel ->
             val bitmap = createHotelMarkerIcon(context, iconFactory, hotel, false, hotel.lowRateInfo.isShowAirAttached(), hotel.isSoldOut)
-            val option = MarkerOptions()
-                    .position(LatLng(hotel.latitude, hotel.longitude))
-                    .icon(bitmap)
-                    .title(hotel.hotelId)
-            options.add(option)
+            val mapItem = MapItem(context, LatLng(hotel.latitude, hotel.longitude), hotel.hotelId, bitmap, iconFactory, hotel.lowRateInfo, hotel)
+            mapItems.add(mapItem)
+            clusterManager.addItem(mapItem)
+        }
+        clusterMarkers()
+        if (!mapViewModel.isClusteringEnabled) {
+            selectMarker(mapItems.first(), true, animateCarousel)
         }
 
-        options.forEach {
-            val option = it
-            val marker = googleMap?.addMarker(option)
-            if (marker != null) markers.add(marker)
-        }
-
-        updateCarousel()
     }
 
-    fun updateCarousel() {
+    fun updateCarouselItems() {
+        val selectedHotels = mapItems.filter { it.isSelected }.map { it.hotel }
+        var hotelItems = mapItems.filter { !it.isClustered }.map { it.hotel }
+        if (!selectedHotels.isEmpty()) {
+            val hotel = selectedHotels.first()
+            val hotelLocation = Location("selected")
+            hotelLocation.latitude = hotel.latitude
+            hotelLocation.longitude = hotel.longitude
+            hotelItems = sortByLocation(hotelLocation, hotelItems)
+            (mapCarouselRecycler.adapter as HotelMapCarouselAdapter).setItems(hotelItems)
+            mapCarouselRecycler.scrollToPosition(0)
+        }
+    }
+
+    fun sortByLocation(location: Location, hotels: List<Hotel>): List<Hotel> {
+        val hotelLocation = Location("other")
+        val sortedHotels = hotels.sortedBy { h ->
+            hotelLocation.latitude = h.latitude
+            hotelLocation.longitude = h.longitude
+            location.distanceTo(hotelLocation)
+        }
+        return sortedHotels
+    }
+
+    fun clusterMarkers() {
+        clusterManager.cluster()
+    }
+
+
+    fun updateMarkers() {
         (mapCarouselRecycler.adapter as HotelMapCarouselAdapter).setItems(hotels)
-        mapCarouselRecycler.scrollToPosition(0)
-        val markersForHotel = markers.filter { it.title == hotels.first().hotelId }
-        if (markersForHotel.isNotEmpty()) {
-            val prevMarker = mapViewModel.selectMarker.value
-            if (prevMarker != null) {
-                mapViewModel.unselectedMarker.onNext(prevMarker)
-            }
-            val marker = markersForHotel.first()
-            mapViewModel.selectMarker.onNext(Pair(marker, hotels.first()))
+        if (!ExpediaBookingApp.isDeviceShitty() || Strings.equals(currentState, ResultsMap::class.java.name)) {
+            googleMap?.mapType = GoogleMap.MAP_TYPE_NORMAL
+            createMarkers()
+        } else {
+            googleMap?.mapType = GoogleMap.MAP_TYPE_NONE
+            clearMarkers()
         }
     }
 
@@ -339,7 +435,7 @@ public abstract class BaseHotelResultsPresenter(context: Context, attrs: Attribu
         addTransition(listFilterTransition)
         addTransition(mapFilterTransition)
 
-        mapCarouselContainer.visibility = View.INVISIBLE
+        animateMapCarouselVisibility(false)
         val screen = Ui.getScreenSize(context)
         var lp = mapCarouselRecycler.layoutParams
         lp.width = screen.x
@@ -348,7 +444,7 @@ public abstract class BaseHotelResultsPresenter(context: Context, attrs: Attribu
         recyclerView.addOnItemTouchListener(touchListener)
 
         mapCarouselRecycler.mapSubject.subscribe { hotel ->
-            val markersForHotel = markers.filter { it.title == hotel.hotelId }
+            val markersForHotel = mapItems.filter { it.title == hotel.hotelId }
             if (markersForHotel.isNotEmpty()) {
                 val marker = markersForHotel.first()
                 mapViewModel.carouselSwipedObservable.onNext(marker)
@@ -356,16 +452,14 @@ public abstract class BaseHotelResultsPresenter(context: Context, attrs: Attribu
             }
         }
 
-        inflateAndSetupToolbarMenu()
+        toolbar.inflateMenu(R.menu.menu_filter_item)
+
         toolbar.setNavigationOnClickListener { view ->
             val activity = context as AppCompatActivity
             activity.onBackPressed()
         }
 
         filterView.viewmodel.filterCountObservable.subscribe(filterCountObserver)
-        filterView.viewmodel.filterCountObservable.map { it.toString() }.subscribeText(filterCountText)
-        filterView.viewmodel.filterCountObservable.map { it > 0 }.subscribeVisibility(filterCountText)
-        filterView.viewmodel.filterCountObservable.map { it > 0 }.subscribeInverseVisibility(filterPlaceholderImageView)
 
         val fabDrawable: TransitionDrawable? = (fab.drawable as? TransitionDrawable)
         // Enabling crossfade prevents the icon ending up with a weird mishmash of both icons.
@@ -380,23 +474,9 @@ public abstract class BaseHotelResultsPresenter(context: Context, attrs: Attribu
             }
         }
 
-        filterBtn.setOnClickListener { view ->
-            show(ResultsFilter())
-            filterView.viewmodel.sortContainerObservable.onNext(false)
-            filterView.toolbar.setTitle(getResources().getString(R.string.filter))
-        }
-
-        filterBtnWithCountWidget?.setOnClickListener {
-            show(ResultsFilter())
-            filterView.viewmodel.sortContainerObservable.onNext(true)
-            filterView.toolbar.setTitle(getResources().getString(R.string.Sort_and_Filter))
-        }
-
-        searchMenuItem.setOnMenuItemClickListener(object : MenuItem.OnMenuItemClickListener {
-            override fun onMenuItemClick(menuItem: MenuItem): Boolean {
-                searchOverlaySubject.onNext(Unit)
-                return true
-            }
+        searchMenuItem.setOnMenuItemClickListener({
+            searchOverlaySubject.onNext(Unit)
+            true
         })
 
         filterMenuItem.setVisible(false)
@@ -404,24 +484,14 @@ public abstract class BaseHotelResultsPresenter(context: Context, attrs: Attribu
         fabLp.bottomMargin += resources.getDimension(R.dimen.hotel_filter_height).toInt()
     }
 
-    public fun showDefault() {
+    fun showDefault() {
         show(ResultsList())
-    }
-
-    private fun inflateAndSetupToolbarMenu() {
-        toolbar.inflateMenu(R.menu.menu_filter_item)
-
-        val toolbarFilterItemActionView = LayoutInflater.from(context).inflate(R.layout.toolbar_filter_item, null) as LinearLayout
-        filterCountText = toolbarFilterItemActionView.findViewById(R.id.filter_count_text) as TextView
-        filterPlaceholderImageView = toolbarFilterItemActionView.findViewById(R.id.filter_placeholder_icon) as ImageView
-        filterPlaceholderImageView.setImageDrawable(filterPlaceholderIcon)
-
-        toolbar.menu.findItem(R.id.menu_filter).setActionView(toolbarFilterItemActionView)
     }
 
     override fun onMapReady(googleMap: GoogleMap?) {
         MapsInitializer.initialize(context)
         this.googleMap = googleMap
+        setUpMap()
         if (havePermissionToAccessLocation(context)) {
             googleMap?.isMyLocationEnabled = true
         }
@@ -434,16 +504,6 @@ public abstract class BaseHotelResultsPresenter(context: Context, attrs: Attribu
             uiSettings.isMyLocationButtonEnabled = false
             uiSettings.isIndoorLevelPickerEnabled = false
         }
-
-
-        googleMap?.setOnMarkerClickListener(object : GoogleMap.OnMarkerClickListener {
-            override fun onMarkerClick(marker: Marker): Boolean {
-                mapViewModel.carouselSwipedObservable.onNext(marker)
-                mapViewModel.mapPinSelectSubject.onNext(marker)
-                mapCarouselContainer.visibility = View.VISIBLE
-                return true
-            }
-        })
 
         googleMap?.setInfoWindowAdapter(object : GoogleMap.InfoWindowAdapter {
 
@@ -459,21 +519,73 @@ public abstract class BaseHotelResultsPresenter(context: Context, attrs: Attribu
         })
 
         mapView.viewTreeObserver.addOnGlobalLayoutListener(mapViewLayoutReadyListener)
-        isMapReady = true
     }
 
-    private val mapViewLayoutReadyListener = object: ViewTreeObserver.OnGlobalLayoutListener {
+    private val mapViewLayoutReadyListener = object : ViewTreeObserver.OnGlobalLayoutListener {
         override fun onGlobalLayout() {
+            isMapReady = true
             mapView.viewTreeObserver.removeOnGlobalLayoutListener(this);
-            mapViewModel.newBoundsObservable.subscribe {
-                val center = it.center
-                val latLng = LatLng(center.latitude, center.longitude)
-                mapViewModel.mapBoundsSubject.onNext(latLng)
-                googleMap?.animateCamera(CameraUpdateFactory.newLatLngBounds(it, resources.displayMetrics.density.toInt() * 50), object : GoogleMap.CancelableCallback {
-                    override fun onFinish() {}
+            mapViewModel.mapInitializedObservable.onNext(Unit)
+            mapViewModel.createMarkersObservable.onNext(Unit)
 
-                    override fun onCancel() {}
-                })
+        }
+    }
+
+    private fun setUpMap() {
+        clusterManager = ClusterManager(context, googleMap)
+        clusterManager.setAlgorithm(HotelMapClusterAlgorithm())
+        hotelMapClusterRenderer = HotelMapClusterRenderer(context, googleMap, clusterManager, mapViewModel.isClusteringEnabled, mapViewModel.clusterChangeSubject)
+        clusterManager.setRenderer(hotelMapClusterRenderer)
+        var currentZoom = -1f
+
+        googleMap?.setOnCameraChangeListener() { position ->
+            synchronized(currentZoom) {
+                if (mapViewModel.isClusteringEnabled && Math.abs(currentZoom) != Math.abs(position.zoom)) {
+                    val selectedHotels = mapItems.filter { it.isSelected }.map { it.hotel }
+                    (mapCarouselRecycler.adapter as HotelMapCarouselAdapter).setItems(selectedHotels)
+                    clusterMarkers()
+                    currentZoom = position.zoom
+                }
+                if (Strings.equals(currentState, ResultsMap::class.java.name)) {
+                    showSearchThisArea()
+                }
+            }
+        }
+        googleMap?.setOnMarkerClickListener(clusterManager)
+
+        clusterManager.setOnClusterItemClickListener {
+            HotelV2Tracking().trackHotelV2MapTapPin()
+            selectMarker(it)
+            updateCarouselItems()
+            true
+        }
+
+        clusterManager.setOnClusterClickListener {
+            animateMapCarouselVisibility(false)
+            clearPreviousMarker()
+            val builder = LatLngBounds.builder()
+            it.items.forEach { item ->
+                builder.include(item.pos)
+            }
+            val bounds = builder.build()
+
+            googleMap?.animateCamera(CameraUpdateFactory.newLatLngBounds(bounds, resources.displayMetrics.density.toInt() * 50), object : GoogleMap.CancelableCallback {
+                override fun onFinish() {
+                }
+
+                override fun onCancel() {
+                }
+            })
+            true
+        }
+    }
+
+    private fun clearPreviousMarker() {
+        val prevMapItem = mapViewModel.mapPinSelectSubject.value
+        if (prevMapItem != null) {
+            prevMapItem.isSelected = false
+            if (!prevMapItem.hotel.isSoldOut) {
+                hotelMapClusterRenderer.getMarker(prevMapItem)?.setIcon(prevMapItem.icon)
             }
         }
     }
@@ -498,7 +610,7 @@ public abstract class BaseHotelResultsPresenter(context: Context, attrs: Attribu
             }
 
             // Filter button translation
-            if (!mapTransitionRunning && newState == RecyclerView.SCROLL_STATE_IDLE && !Strings.equals(ResultsMap::class.java.name, getCurrentState())) {
+            if (filterBtnWithCountWidget != null && !mapTransitionRunning && newState == RecyclerView.SCROLL_STATE_IDLE && !Strings.equals(ResultsMap::class.java.name, getCurrentState())) {
                 if (topOffset == halfway) {
                     filterBtnWithCountWidget?.animate()?.translationY(0f)?.setInterpolator(DecelerateInterpolator())?.start()
                 } else if (scrolledDistance > heightOfButton / 2) {
@@ -554,7 +666,7 @@ public abstract class BaseHotelResultsPresenter(context: Context, attrs: Attribu
                 }
 
                 // Filter button translation
-                if (currentState != RecyclerView.SCROLL_STATE_SETTLING && currentState != RecyclerView.SCROLL_STATE_IDLE) {
+                if (filterBtnWithCountWidget != null && currentState != RecyclerView.SCROLL_STATE_SETTLING && currentState != RecyclerView.SCROLL_STATE_IDLE) {
                     if (topOffset > halfway) {
                         filterBtnWithCountWidget?.translationY = 0f
                         fab.translationY = 0f
@@ -566,7 +678,7 @@ public abstract class BaseHotelResultsPresenter(context: Context, attrs: Attribu
                         fab.translationY = Math.min(scrolledDistance, 0).toFloat()
                     }
                 }
-
+ 
             }
         }
 
@@ -586,7 +698,7 @@ public abstract class BaseHotelResultsPresenter(context: Context, attrs: Attribu
             navIcon.parameter = if (forward) Math.abs(1 - f) else f
         }
 
-        override fun finalizeTransition(forward: Boolean) {
+        override fun endTransition(forward: Boolean) {
             navIcon.parameter = ArrowXDrawableUtil.ArrowDrawableType.BACK.type.toFloat()
             recyclerView.translationY = 0f
             mapView.translationY = -halfway.toFloat()
@@ -607,8 +719,16 @@ public abstract class BaseHotelResultsPresenter(context: Context, attrs: Attribu
     val adapterListener = object : ViewTreeObserver.OnGlobalLayoutListener {
         override fun onGlobalLayout() {
             recyclerView.viewTreeObserver.removeOnGlobalLayoutListener(this)
-            screenHeight = if (ExpediaBookingApp.isAutomation())  { 0 } else { height }
-            screenWidth = if (ExpediaBookingApp.isAutomation()) { 0f } else { width.toFloat() }
+            screenHeight = if (ExpediaBookingApp.isAutomation()) {
+                0
+            } else {
+                height
+            }
+            screenWidth = if (ExpediaBookingApp.isAutomation()) {
+                0f
+            } else {
+                width.toFloat()
+            }
 
             halfway = (height / 4.1).toInt()
             threshold = (height / 2.2).toInt()
@@ -628,10 +748,14 @@ public abstract class BaseHotelResultsPresenter(context: Context, attrs: Attribu
             var toolbarTextGoal: Float = 0f
             var filterViewOrigin: Float = 0f
             var filterViewGoal: Float = 0f
+            var startingFabTranslation: Float = 0f
+            var finalFabTranslation: Float = 0f
 
             override fun startTransition(forward: Boolean) {
                 super.startTransition(forward)
                 toolbarTextOrigin = toolbarTitle.translationY
+                //Map pin will always be selected for non-clustering behavior eventually
+                val isMapPinSelected = !(mapViewModel.isClusteringEnabled && mapItems.filter { it.isSelected }.isEmpty())
 
                 if (forward) {
                     toolbarTextGoal = 0f //
@@ -639,7 +763,7 @@ public abstract class BaseHotelResultsPresenter(context: Context, attrs: Attribu
                     toolbarTextGoal = toolbarSubtitleTop.toFloat()
                     googleMap?.mapType = GoogleMap.MAP_TYPE_NORMAL
                 }
-                if (filterBtnWithCountWidget !=null) {
+                if (filterBtnWithCountWidget != null) {
                     filterViewGoal = if (forward) 0f else filterBtnWithCountWidget?.height?.toFloat()!!
                 }
                 recyclerView.visibility = View.VISIBLE
@@ -664,12 +788,29 @@ public abstract class BaseHotelResultsPresenter(context: Context, attrs: Attribu
                     } else {
                         //Since we're not moving it manually, let's jump it to where it belongs,
                         // and let's get it showing the right thing
-                        fab.translationY = -(mapCarouselContainer.height.toFloat() - resources.getDimension(R.dimen.hotel_filter_height).toInt())
+                        if (isMapPinSelected) {
+                            fab.translationY = -(mapCarouselContainer.height - filterHeight)
+                        } else {
+                            fab.translationY = filterHeight
+                        }
                         (fab.drawable as? TransitionDrawable)?.startTransition(0)
                         fab.visibility = View.VISIBLE
                         getFabAnimIn().start()
                     }
                 }
+                startingFabTranslation = fab.translationY
+                if (forward) {
+                    finalFabTranslation = if (filterBtnWithCountWidget != null) 0f  else filterHeight
+                } else {
+                    finalFabTranslation = if (isMapPinSelected) -(mapCarouselContainer.height - filterHeight) else filterHeight
+                }
+                hideBundlePriceOverview(!forward)
+                toolbarTitle.translationY = 0f
+                toolbarSubtitle.translationY = 0f
+                updateFilterButtonText(forward)
+                searchMenuItem.setVisible(forward)
+                filterMenuItem.setVisible(!forward)
+                showMenuItem(forward)
             }
 
             override fun updateTransition(f: Float, forward: Boolean) {
@@ -683,8 +824,7 @@ public abstract class BaseHotelResultsPresenter(context: Context, attrs: Attribu
                 }
 
                 if (fabShouldVisiblyMove) {
-                    val fabDistance = if (forward) -(1 - f) * mapCarouselContainer.height else -f * (mapCarouselContainer.height - resources.getDimension(R.dimen.hotel_filter_height).toInt())
-                    fab.translationY = fabDistance
+                    fab.translationY = startingFabTranslation - f * (startingFabTranslation - finalFabTranslation)
                 }
                 //Title transition
                 val toolbarYTransStep = toolbarTextOrigin + (f * (toolbarTextGoal - toolbarTextOrigin))
@@ -696,19 +836,20 @@ public abstract class BaseHotelResultsPresenter(context: Context, attrs: Attribu
                 filterBtnWithCountWidget?.translationY = filterViewOrigin + (f * (filterViewGoal - filterViewOrigin))
             }
 
-            override fun finalizeTransition(forward: Boolean) {
+            override fun endTransition(forward: Boolean) {
                 navIcon.parameter = (if (forward) ArrowXDrawableUtil.ArrowDrawableType.BACK else ArrowXDrawableUtil.ArrowDrawableType.CLOSE).type.toFloat()
-
-                searchMenuItem.setVisible(forward)
-                filterMenuItem.setVisible(!forward)
-                //When we are about to show the menu filter item, ensure that it is of sufficient height
-                if (filterMenuItem.actionView.height != toolbar.height) {
-                    filterMenuItem.actionView.layoutParams.height = toolbar.measuredHeight
-                }
-
                 recyclerView.visibility = if (forward) View.VISIBLE else View.INVISIBLE
 
-                mapCarouselContainer.visibility = if (forward) View.INVISIBLE else View.VISIBLE
+                mapCarouselContainer.visibility = if (forward) {
+                    View.INVISIBLE
+                } else {
+                    if (mapViewModel.isClusteringEnabled && mapItems.filter { it.isSelected }.isEmpty()) {
+                        animateMapCarouselVisibility(false)
+                        View.INVISIBLE
+                    } else {
+                        View.VISIBLE
+                    }
+                }
 
                 if (forward) {
                     if (!fabShouldVisiblyMove) {
@@ -724,43 +865,43 @@ public abstract class BaseHotelResultsPresenter(context: Context, attrs: Attribu
                         lazyLoadMapAndMarkers()
                     }
                 } else {
-                    fab.translationY = -(mapCarouselContainer.height.toFloat() - resources.getDimension(R.dimen.hotel_filter_height).toInt())
                     mapView.translationY = 0f
                     recyclerView.translationY = screenHeight.toFloat()
                     googleMap?.setPadding(0, toolbar.height, 0, mapCarouselContainer.height)
                     filterBtnWithCountWidget?.translationY = resources.getDimension(R.dimen.hotel_filter_height)
                     if (isBucketedForResultMap || ExpediaBookingApp.isDeviceShitty()) {
                         googleMap?.mapType = GoogleMap.MAP_TYPE_NORMAL
-                        createMarkers()
+                        createMarkers(false)
                     }
                 }
+                fab.translationY = finalFabTranslation
             }
         }
 
         private val carouselTransition = object : Presenter.Transition(ResultsMap::class.java, ResultsList::class.java, DecelerateInterpolator(2f), duration / 3) {
 
             override fun startTransition(forward: Boolean) {
-                mapCarouselContainer.visibility = View.VISIBLE
+                if (mapViewModel.isClusteringEnabled && mapItems.filter { it.isSelected }.isEmpty()) {
+                    mapCarouselContainer.translationX = screenWidth
+                    mapCarouselContainer.visibility = View.INVISIBLE
+                } else {
+                    mapCarouselContainer.visibility = View.VISIBLE
+                }
                 if (forward) {
                     mapCarouselContainer.translationX = 0f
-                    googleMap?.setOnCameraChangeListener(null)
                     hideSearchThisArea()
                 } else {
-                    //If the user moves the map at all, make sure the button is showing.
-                    googleMap?.setOnCameraChangeListener { position ->
-                        if (Strings.equals(currentState, ResultsMap::class.java.name)) {
-                            showSearchThisArea()
-                        }
-                    }
                     mapCarouselContainer.translationX = screenWidth
                 }
+                updateFilterButtonText(forward)
+                showMenuItem(forward)
             }
 
             override fun updateTransition(f: Float, forward: Boolean) {
                 mapCarouselContainer.translationX = (if (forward) f else 1 - f) * screenWidth
             }
 
-            override fun finalizeTransition(forward: Boolean) {
+            override fun endTransition(forward: Boolean) {
                 if (forward) {
                     mapCarouselContainer.translationX = screenWidth
                     mapCarouselContainer.visibility = View.INVISIBLE
@@ -798,7 +939,7 @@ public abstract class BaseHotelResultsPresenter(context: Context, attrs: Attribu
                 } else {
                     if (currentTransition == 0) {
                         currentTransition = 1
-                        carouselTransition.finalizeTransition(forward)
+                        carouselTransition.endTransition(forward)
                         listTransition.startTransition(forward)
                     }
                     listTransition.updateTransition(listTransition.interpolator.getInterpolation((f - secondTransitionStartTime) / (1 - secondTransitionStartTime)), forward)
@@ -809,7 +950,7 @@ public abstract class BaseHotelResultsPresenter(context: Context, attrs: Attribu
                 } else {
                     if (currentTransition == 0) {
                         currentTransition = 1
-                        listTransition.finalizeTransition(forward)
+                        listTransition.endTransition(forward)
                         carouselTransition.startTransition(forward)
                     }
                     carouselTransition.updateTransition(carouselTransition.interpolator.getInterpolation((f - secondTransitionStartTime) / (1 - secondTransitionStartTime)), forward)
@@ -817,13 +958,13 @@ public abstract class BaseHotelResultsPresenter(context: Context, attrs: Attribu
             }
         }
 
-        override fun finalizeTransition(forward: Boolean) {
-            super.finalizeTransition(forward)
+        override fun endTransition(forward: Boolean) {
+            super.endTransition(forward)
 
             if (forward) {
-                listTransition.finalizeTransition(forward)
+                listTransition.endTransition(forward)
             } else {
-                carouselTransition.finalizeTransition(forward)
+                carouselTransition.endTransition(forward)
             }
             mapTransitionRunning = false
         }
@@ -841,18 +982,19 @@ public abstract class BaseHotelResultsPresenter(context: Context, attrs: Attribu
             if (forward) {
                 fab.visibility = View.GONE
             }
+            hideBundlePriceOverview(forward)
         }
 
         override fun updateTransition(f: Float, forward: Boolean) {
             super.updateTransition(f, forward)
             val translatePercentage = if (forward) 1 - f else f
-            filterView.translationY = filterView.getHeight() * translatePercentage
+            filterView.translationY = filterView.height * translatePercentage
         }
 
-        override fun finalizeTransition(forward: Boolean) {
-            super.finalizeTransition(forward)
+        override fun endTransition(forward: Boolean) {
+            super.endTransition(forward)
             filterView.visibility = if (forward) View.VISIBLE else View.GONE
-            filterView.translationY = (if (forward) 0 else filterView.getHeight()).toFloat()
+            filterView.translationY = (if (forward) 0 else filterView.height).toFloat()
             if (!forward && !fabShouldBeHiddenOnList()) {
                 fab.visibility = View.VISIBLE
                 getFabAnimIn().start()
@@ -876,8 +1018,8 @@ public abstract class BaseHotelResultsPresenter(context: Context, attrs: Attribu
             filterView.translationY = filterView.height * translatePercentage
         }
 
-        override fun finalizeTransition(forward: Boolean) {
-            super.finalizeTransition(forward)
+        override fun endTransition(forward: Boolean) {
+            super.endTransition(forward)
             filterView.visibility = if (forward) View.VISIBLE else View.GONE
             filterView.translationY = (if (forward) 0 else filterView.height).toFloat()
             if (!forward) {
@@ -930,7 +1072,9 @@ public abstract class BaseHotelResultsPresenter(context: Context, attrs: Attribu
     fun animationUpdate(f: Float, forward: Boolean) {
         setupToolbarMeasurements()
         var factor = if (forward) f else Math.abs(1 - f)
-        recyclerView.translationY = factor * yTranslationRecyclerView
+        if (!isUserBucketedSearchScreenTest) {
+            recyclerView.translationY = factor * yTranslationRecyclerView
+        }
         navIcon.parameter = factor
         toolbarTitle.translationY = factor * toolbarTitleTop
         toolbarSubtitle.translationY = factor * toolbarSubtitleTop
@@ -939,8 +1083,8 @@ public abstract class BaseHotelResultsPresenter(context: Context, attrs: Attribu
     fun animationFinalize(forward: Boolean) {
         recyclerTempBackground.visibility = View.GONE
         navIcon.parameter = ArrowXDrawableUtil.ArrowDrawableType.BACK.type.toFloat()
-        if (!forward && havePermissionToAccessLocation(context)) {
-            googleMap?.isMyLocationEnabled = false
+        if (havePermissionToAccessLocation(context)) {
+            googleMap?.isMyLocationEnabled = forward
         }
     }
 
@@ -968,19 +1112,74 @@ public abstract class BaseHotelResultsPresenter(context: Context, attrs: Attribu
         return set
     }
 
-    // Classes for state
-    public class ResultsList
+    open fun updateFilterButtonText(isResults: Boolean) {
+        //
+    }
 
-    public class ResultsMap {
+    open fun hideBundlePriceOverview(hide: Boolean) {
+        //
+    }
+
+    open fun showMenuItem(isResults: Boolean) {
+        //
+    }
+
+    // Classes for state
+    class ResultsList
+
+    class ResultsMap {
         init {
             HotelV2Tracking().trackHotelV2SearchMap()
         }
     }
 
-    public class ResultsFilter {
+    class ResultsFilter {
         init {
             HotelV2Tracking().trackHotelV2Filter()
         }
+    }
+
+    fun setMapToInitialState(suggestion: SuggestionV4?) {
+        if (isMapReady) {
+            if (suggestion != null) {
+                if (suggestion.coordinates != null &&
+                        suggestion.coordinates?.lat != 0.0 &&
+                        suggestion.coordinates?.lng != 0.0) {
+                    moveCameraToLatLng(LatLng(suggestion.coordinates.lat,
+                            suggestion.coordinates.lng))
+                } else if (suggestion.regionNames?.fullName != null) {
+                    val BD_KEY = "geo_search"
+                    val bd = BackgroundDownloader.getInstance()
+                    bd.cancelDownload(BD_KEY)
+                    bd.startDownload(BD_KEY, mGeocodeDownload(suggestion.regionNames.fullName), geoCallback())
+                }
+            }
+        }
+    }
+
+    private fun mGeocodeDownload(query: String): BackgroundDownloader.Download<List<Address>?> {
+        return BackgroundDownloader.Download<List<android.location.Address>?> {
+            LocationServices.geocodeGoogle(context, query)
+        }
+    }
+
+    private fun geoCallback(): BackgroundDownloader.OnDownloadComplete<List<Address>?> {
+        return BackgroundDownloader.OnDownloadComplete<List<Address>?> { results ->
+            if (results != null && results.isNotEmpty()) {
+                if (results[0].latitude != 0.0 && results[0].longitude != 0.0) {
+                    moveCameraToLatLng(LatLng(results[0].latitude, results[0].longitude))
+                }
+            }
+        }
+    }
+
+    private fun moveCameraToLatLng(latLng: LatLng) {
+        var cameraPosition = CameraPosition.Builder()
+                .target(latLng)
+                .zoom(8f)
+                .build();
+        googleMap?.setPadding(0, 0, 0, 0)
+        googleMap?.moveCamera(CameraUpdateFactory.newCameraPosition(cameraPosition))
     }
 
     abstract fun inflate()
