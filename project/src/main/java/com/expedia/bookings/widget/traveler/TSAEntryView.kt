@@ -13,9 +13,9 @@ import com.expedia.bookings.section.GenderSpinnerAdapter
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
 import com.expedia.util.notNullAndObservable
+import com.expedia.util.subscribeEditText
 import com.expedia.vm.traveler.TravelerTSAViewModel
 import org.joda.time.LocalDate
-
 
 class TSAEntryView(context: Context, attrs: AttributeSet?) : LinearLayout(context, attrs),
         DatePickerDialogFragment.DateChosenListener {
@@ -27,11 +27,13 @@ class TSAEntryView(context: Context, attrs: AttributeSet?) : LinearLayout(contex
     val genderSpinner: Spinner by bindView(R.id.edit_gender_spinner)
 
     var viewModel: TravelerTSAViewModel by notNullAndObservable { vm ->
-        setBirthDateText(vm.formattedDateSubject.value)
+        vm.formattedDateSubject.subscribeEditText(dateOfBirth)
         dateOfBirth.subscribeToError(vm.dateOfBirthErrorSubject)
 
-        val adapter = genderSpinner.adapter as GenderSpinnerAdapter
-        genderSpinner.setSelection(adapter.getGenderPosition(vm.genderSubject.value))
+        vm.genderSubject.subscribe { gender ->
+            val adapter = genderSpinner.adapter as GenderSpinnerAdapter
+            genderSpinner.setSelection(adapter.getGenderPosition(gender))
+        }
     }
 
     init {
@@ -50,14 +52,9 @@ class TSAEntryView(context: Context, attrs: AttributeSet?) : LinearLayout(contex
 
     override fun handleDateChosen(year: Int, month: Int, day: Int, formattedDate: String) {
         viewModel.dateOfBirthObserver.onNext(LocalDate(year, month, day))
-        setBirthDateText(formattedDate)
     }
 
-    fun setBirthDateText(formattedDate: String) {
-        dateOfBirth.setText(formattedDate)
-    }
-
-    private inner class GenderItemSelectedListener(): AdapterView.OnItemSelectedListener {
+    private inner class GenderItemSelectedListener() : AdapterView.OnItemSelectedListener {
         override fun onNothingSelected(parent: AdapterView<*>?) {
             //do nothing
         }
@@ -68,7 +65,7 @@ class TSAEntryView(context: Context, attrs: AttributeSet?) : LinearLayout(contex
         }
     }
 
-    private inner class DateOfBirthClickListener(val dateSetListener: DatePickerDialogFragment.DateChosenListener): OnClickListener {
+    private inner class DateOfBirthClickListener(val dateSetListener: DatePickerDialogFragment.DateChosenListener) : OnClickListener {
         override fun onClick(v: View?) {
             var date = viewModel.birthDateSubject.value
             if (date == null) {

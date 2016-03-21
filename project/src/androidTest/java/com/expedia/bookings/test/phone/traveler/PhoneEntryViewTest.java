@@ -39,31 +39,34 @@ public class PhoneEntryViewTest {
 	@Test
 	public void updatePhone() throws Throwable {
 		phoneEntryView = (PhoneEntryView) activityTestRule.getRoot();
-		final TravelerPhoneViewModel phoneVM = new TravelerPhoneViewModel(new Phone());
+		final TravelerPhoneViewModel phoneVM = new TravelerPhoneViewModel();
+		phoneVM.updatePhone(new Phone());
 
 		uiThreadTestRule.runOnUiThread(new Runnable() {
 			@Override
 			public void run() {
-				phoneEntryView.updateViewModel(phoneVM);
+				phoneEntryView.setViewModel(phoneVM);
 			}
 		});
 
 		onView(withId(R.id.edit_phone_number)).perform(typeText(testNumber));
-		assertEquals(testNumber, phoneVM.getPhone().getNumber());
+		assertEquals(testNumber, phoneVM.getPhoneNumberSubject().getValue());
 	}
 
 	@Test
 	public void phonePrePopulated() throws Throwable {
 		phoneEntryView = (PhoneEntryView) activityTestRule.getRoot();
-		final Phone phone = new Phone();
+		final TravelerPhoneViewModel phoneVM = new TravelerPhoneViewModel();
+		Phone phone = new Phone();
 		phone.setNumber(testNumber);
 		phone.setCountryCode(testCodeString);
 		phone.setCountryName(testCountryName);
+		phoneVM.updatePhone(phone);
 
 		uiThreadTestRule.runOnUiThread(new Runnable() {
 			@Override
 			public void run() {
-				phoneEntryView.updateViewModel(new TravelerPhoneViewModel(phone));
+				phoneEntryView.setViewModel(phoneVM);
 			}
 		});
 
@@ -74,12 +77,13 @@ public class PhoneEntryViewTest {
 	@Test
 	public void phoneErrorState() throws Throwable {
 		phoneEntryView = (PhoneEntryView) activityTestRule.getRoot();
-		final TravelerPhoneViewModel phoneVM = new TravelerPhoneViewModel(new Phone());
+		final TravelerPhoneViewModel phoneVM = new TravelerPhoneViewModel();
+		phoneVM.updatePhone(new Phone());
 
 		uiThreadTestRule.runOnUiThread(new Runnable() {
 			@Override
 			public void run() {
-				phoneEntryView.updateViewModel(phoneVM);
+				phoneEntryView.setViewModel(phoneVM);
 				phoneVM.getPhoneErrorSubject().onNext(true);
 			}
 		});

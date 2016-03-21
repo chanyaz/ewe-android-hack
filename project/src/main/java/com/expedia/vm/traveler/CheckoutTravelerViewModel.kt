@@ -53,4 +53,9 @@ open class CheckoutTravelerViewModel() {
         val travelerList = Db.getTravelers()
         return travelerList[index]
     }
+
+    open fun updateTraveler(index: Int, traveler: Traveler) {
+        val travelerList = Db.getTravelers()
+        travelerList[index] = traveler
+    }
 }

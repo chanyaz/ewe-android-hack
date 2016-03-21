@@ -10,19 +10,16 @@ import android.widget.LinearLayout
 import com.expedia.bookings.R
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.TelephoneSpinner
+import com.expedia.util.notNullAndObservable
+import com.expedia.util.subscribeEditText
 import com.expedia.vm.traveler.TravelerPhoneViewModel
-import kotlin.properties.Delegates
 
 class PhoneEntryView(context: Context, attrs: AttributeSet?) : LinearLayout(context, attrs) {
     val phoneSpinner: TelephoneSpinner by bindView(R.id.edit_phone_number_country_code_spinner)
     val phoneNumber: TravelerEditText by bindView(R.id.edit_phone_number)
 
-    private var viewModel: TravelerPhoneViewModel by Delegates.notNull()
-
-    fun updateViewModel(newViewModel: TravelerPhoneViewModel) {
-        viewModel = newViewModel
-
-        phoneNumber.setText(viewModel.phoneNumberSubject.value)
+    var viewModel: TravelerPhoneViewModel by notNullAndObservable { vm ->
+        viewModel.phoneNumberSubject.subscribeEditText(phoneNumber)
         phoneNumber.subscribeToError(viewModel.phoneErrorSubject)
         phoneNumber.addTextChangedSubscriber(viewModel.phoneNumberObserver)
 
