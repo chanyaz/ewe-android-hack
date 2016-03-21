@@ -13,7 +13,7 @@ import com.expedia.bookings.section.GenderSpinnerAdapter
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
 import com.expedia.util.notNullAndObservable
-import com.expedia.util.subscribeEditText
+import com.expedia.util.subscribeText
 import com.expedia.vm.traveler.TravelerTSAViewModel
 import org.joda.time.LocalDate
 
@@ -27,7 +27,7 @@ class TSAEntryView(context: Context, attrs: AttributeSet?) : LinearLayout(contex
     val genderSpinner: Spinner by bindView(R.id.edit_gender_spinner)
 
     var viewModel: TravelerTSAViewModel by notNullAndObservable { vm ->
-        vm.formattedDateSubject.subscribeEditText(dateOfBirth)
+        vm.formattedDateSubject.subscribeText(dateOfBirth)
         dateOfBirth.subscribeToError(vm.dateOfBirthErrorSubject)
 
         vm.genderSubject.subscribe { gender ->

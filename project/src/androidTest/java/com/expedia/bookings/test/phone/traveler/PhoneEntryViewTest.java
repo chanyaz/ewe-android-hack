@@ -46,26 +46,27 @@ public class PhoneEntryViewTest {
 			@Override
 			public void run() {
 				phoneEntryView.setViewModel(phoneVM);
+				onView(withId(R.id.edit_phone_number)).perform(typeText(testNumber));
+				assertEquals(testNumber, phoneVM.getPhoneNumberSubject().getValue());
 			}
 		});
 
-		onView(withId(R.id.edit_phone_number)).perform(typeText(testNumber));
-		assertEquals(testNumber, phoneVM.getPhoneNumberSubject().getValue());
+
 	}
 
 	@Test
 	public void phonePrePopulated() throws Throwable {
 		phoneEntryView = (PhoneEntryView) activityTestRule.getRoot();
-		final TravelerPhoneViewModel phoneVM = new TravelerPhoneViewModel();
-		Phone phone = new Phone();
+		final Phone phone = new Phone();
 		phone.setNumber(testNumber);
 		phone.setCountryCode(testCodeString);
 		phone.setCountryName(testCountryName);
-		phoneVM.updatePhone(phone);
 
 		uiThreadTestRule.runOnUiThread(new Runnable() {
 			@Override
 			public void run() {
+				TravelerPhoneViewModel phoneVM = new TravelerPhoneViewModel();
+				phoneVM.updatePhone(phone);
 				phoneEntryView.setViewModel(phoneVM);
 			}
 		});

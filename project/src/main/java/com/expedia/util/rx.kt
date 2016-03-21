@@ -72,8 +72,8 @@ fun <T : CharSequence> Observable<T>.subscribeText(textview: TextView?) {
     this.subscribe { textview?.text = it }
 }
 
-fun <T : CharSequence> Observable<T>.subscribeEditText(edittext: EditText?) {
-    this.distinctUntilChanged().subscribe { text ->
+fun <T : CharSequence> Observable<T>.subscribeText(edittext: EditText?) {
+    this.subscribe { text ->
         edittext?.setText(text)
         val selection = edittext?.text?.length ?: 0
         edittext?.setSelection(selection)

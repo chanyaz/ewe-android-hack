@@ -32,7 +32,7 @@ class TravelerEditText(context: Context, attrs: AttributeSet?) : EditText(contex
     }
 
     fun addTextChangedSubscriber(observer: Observer<TextViewAfterTextChangeEvent>) {
-        textChangedSubscription = RxTextView.afterTextChangeEvents(this).distinctUntilChanged().subscribe(observer)
+        textChangedSubscription = RxTextView.afterTextChangeEvents(this).subscribe(observer)
     }
 
     fun subscribeToError(errorSubject: PublishSubject<Boolean>) {
