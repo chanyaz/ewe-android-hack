@@ -565,14 +565,7 @@ public class HotelSearchActivity extends FragmentActivity implements OnDrawStart
 
 		// Setup custom action bar view
 		ActionBar actionBar = getActionBar();
-
-		if (ProductFlavorFeatureConfiguration.getInstance().isLOBChooserScreenEnabled()) {
-			actionBar.setDisplayHomeAsUpEnabled(true);
-		}
-		// For VSC app the hotelListing is the launch screen.
-		else {
-			actionBar.setHomeButtonEnabled(false);
-		}
+		actionBar.setDisplayHomeAsUpEnabled(true);
 		actionBar.setDisplayShowCustomEnabled(true);
 		actionBar.setDisplayShowTitleEnabled(false);
 		actionBar.setDisplayShowHomeEnabled(true);

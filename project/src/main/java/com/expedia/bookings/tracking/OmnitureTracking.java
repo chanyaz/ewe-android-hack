@@ -4468,7 +4468,12 @@ public class OmnitureTracking {
 	}
 
 	private static String getReportSuiteIds() {
-		return ProductFlavorFeatureConfiguration.getInstance().getOmnitureReportSuiteIds();
+		if (BuildConfig.RELEASE) {
+			return "expediaglobalapp";
+		}
+		else {
+			return "expediaglobalappdev";
+		}
 	}
 
 	private static String getTrackingServer(Context context) {
@@ -4478,7 +4483,7 @@ public class OmnitureTracking {
 				"localhost:3000");
 		}
 		else {
-			return ProductFlavorFeatureConfiguration.getInstance().getOmnitureTrackingServer();
+			return context.getString(R.string.omniture_tracking_server_url);
 		}
 	}
 

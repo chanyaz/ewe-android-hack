@@ -106,9 +106,6 @@ class HotelCheckoutMainViewPresenter(context: Context, attr: AttributeSet) : Che
         vm.animateSlideToPurchaseWithPaymentSplits.subscribe {
             HotelV2Tracking().trackHotelV2SlideToPurchase(paymentInfoCardView.getCardType(), it)
         }
-        it.animateSlideToPurchaseWithPaymentSplits.subscribe {
-            HotelV2Tracking().trackHotelV2SlideToPurchase(paymentInfoCardView.cardType, it)
-        }
     }
 
     init {
