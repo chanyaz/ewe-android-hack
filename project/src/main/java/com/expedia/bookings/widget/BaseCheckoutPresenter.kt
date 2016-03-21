@@ -279,8 +279,8 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet) : Pre
 
     override fun accountLogoutClicked() {
         User.signOut(context)
-        updateTravelerPresenter()
         loginWidget.bind(false, false, null, getLineOfBusiness())
+        //travelerWidget.onLogout()
         paymentWidget.viewmodel.userLogin.onNext(false)
         hintContainer.visibility = View.VISIBLE
         doCreateTrip()

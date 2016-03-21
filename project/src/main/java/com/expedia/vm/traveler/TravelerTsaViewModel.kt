@@ -8,11 +8,8 @@ import com.expedia.util.endlessObserver
 import org.joda.time.LocalDate
 import rx.subjects.BehaviorSubject
 import rx.subjects.PublishSubject
-import kotlin.properties.Delegates
 
-class TravelerTSAViewModel(val context: Context) {
-    private var traveler: Traveler by Delegates.notNull()
-
+class TravelerTSAViewModel(val context: Context, var traveler: Traveler) {
     val defaultDateSubject = BehaviorSubject.create<LocalDate>(LocalDate(1970, 1, 1))
 
     val formattedDateSubject = BehaviorSubject.create<String>()
@@ -21,8 +18,7 @@ class TravelerTSAViewModel(val context: Context) {
 
     val dateOfBirthErrorSubject = PublishSubject.create<Boolean>()
 
-    fun updateTraveler(traveler: Traveler) {
-        this.traveler = traveler
+    init {
         val date = traveler.birthDate
         if (date != null) {
             birthDateSubject.onNext(date)

@@ -27,8 +27,7 @@ class TravelerPhoneViewModelTest {
     @Test
     fun countryCodeUpdate() {
         var phone = Phone()
-        phoneVm = TravelerPhoneViewModel()
-        phoneVm.updatePhone(phone)
+        phoneVm = TravelerPhoneViewModel(phone)
 
         phoneVm.countryCodeObserver.onNext(TEST_CODE)
 
@@ -38,8 +37,7 @@ class TravelerPhoneViewModelTest {
     @Test
     fun countryNameUpdate() {
         var phone = Phone()
-        phoneVm = TravelerPhoneViewModel()
-        phoneVm.updatePhone(phone)
+        phoneVm = TravelerPhoneViewModel(phone)
 
         phoneVm.countryNameObserver.onNext(TEST_NAME)
         assertEquals(TEST_NAME, phone.countryName)
@@ -48,9 +46,7 @@ class TravelerPhoneViewModelTest {
     @Test
     fun phoneNumberUpdated() {
         var phone = Phone()
-        phoneVm = TravelerPhoneViewModel()
-        phoneVm.updatePhone(phone)
-
+        phoneVm = TravelerPhoneViewModel(phone)
         val TEST_TEXT_VIEW = TextView(RuntimeEnvironment.application)
 
         phoneVm.phoneNumberObserver.onNext(TextViewAfterTextChangeEvent.create(TEST_TEXT_VIEW, TEST_NUMBER_EDITABLE))
@@ -61,8 +57,7 @@ class TravelerPhoneViewModelTest {
     fun travelerWithPhone() {
         var phone = Phone()
         phone.number = TEST_NUMBER
-        phoneVm = TravelerPhoneViewModel()
-        phoneVm.updatePhone(phone)
+        phoneVm = TravelerPhoneViewModel(phone)
 
         val testSubscriber = TestSubscriber<String>(1)
         phoneVm.phoneNumberSubject.subscribe(testSubscriber)
@@ -75,9 +70,7 @@ class TravelerPhoneViewModelTest {
     fun invalidPhone() {
         var phone = Phone()
         phone.number = "12"
-        phoneVm = TravelerPhoneViewModel()
-        phoneVm.updatePhone(phone)
-
+        phoneVm = TravelerPhoneViewModel(phone)
         val testSubscriber = TestSubscriber<Boolean>(1)
         phoneVm.phoneErrorSubject.subscribe(testSubscriber)
 
@@ -88,9 +81,7 @@ class TravelerPhoneViewModelTest {
 
     @Test
     fun emptyPhone() {
-        phoneVm = TravelerPhoneViewModel()
-        phoneVm.updatePhone(Phone())
-
+        phoneVm = TravelerPhoneViewModel(Phone())
         val testSubscriber = TestSubscriber<Boolean>(1)
         phoneVm.phoneErrorSubject.subscribe(testSubscriber)
 
@@ -103,9 +94,7 @@ class TravelerPhoneViewModelTest {
     fun validPhone() {
         var phone = Phone()
         phone.number = TEST_NUMBER
-        phoneVm = TravelerPhoneViewModel()
-        phoneVm.updatePhone(phone)
-
+        phoneVm = TravelerPhoneViewModel(phone)
         val testSubscriber = TestSubscriber<Boolean>(1)
         phoneVm.phoneErrorSubject.subscribe(testSubscriber)
 
