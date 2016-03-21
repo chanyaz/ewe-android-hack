@@ -9,7 +9,6 @@ import com.expedia.bookings.data.packages.PackageSearchParams
 import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.FlightTravelerEntryWidget
-import com.expedia.bookings.widget.TravelerButton
 import com.expedia.bookings.widget.traveler.TravelerDefaultState
 import com.expedia.bookings.widget.traveler.TravelerSelectState
 import com.expedia.util.endlessObserver
@@ -19,7 +18,7 @@ import com.expedia.vm.traveler.TravelerSummaryViewModel
 import com.expedia.vm.traveler.TravelerViewModel
 import rx.subjects.BehaviorSubject
 
-class TravelerPresenter(context: Context, attrs: AttributeSet) : Presenter(context, attrs), TravelerButton.ITravelerButtonListener {
+class TravelerPresenter(context: Context, attrs: AttributeSet) : Presenter(context, attrs) {
     val travelerDefaultState: TravelerDefaultState by bindView(R.id.traveler_default_state)
     val travelerSelectState: TravelerSelectState by bindView(R.id.traveler_select_state)
     val travelerEntryWidget: FlightTravelerEntryWidget by bindView(R.id.traveler_entry_widget)
@@ -36,7 +35,6 @@ class TravelerPresenter(context: Context, attrs: AttributeSet) : Presenter(conte
 
         travelerDefaultState.viewModel = TravelerSummaryViewModel(context)
 
-        travelerEntryWidget.travelerButton.setTravelButtonListener(this)
         travelerEntryWidget.travelerCompleteSubject.subscribe(endlessObserver<Traveler> { traveler ->
             if (viewModel.validateTravelersComplete()) {
                 travelersCompleteSubject.onNext(traveler)
@@ -53,14 +51,12 @@ class TravelerPresenter(context: Context, attrs: AttributeSet) : Presenter(conte
                 travelerSelectState.refresh()
                 show(travelerSelectState)
             } else {
-                val travelerViewModel = TravelerViewModel(context, 1)
-                travelerViewModel.travelerObservable.onNext(viewModel.getTraveler(0))
+                val travelerViewModel = TravelerViewModel(context, viewModel.getTraveler(0), 1)
                 showTravelerEntryWidget(travelerViewModel)
             }
         }
 
         travelerSelectState.travelerSelectedSubject.subscribe { travelerViewModel ->
-            travelerViewModel.travelerObservable.onNext(travelerViewModel.getTraveler())
             showTravelerEntryWidget(travelerViewModel)
         }
     }
@@ -150,14 +146,5 @@ class TravelerPresenter(context: Context, attrs: AttributeSet) : Presenter(conte
                 travelerEntryWidget.viewModel.validate()
             }
         }
-    }
-
-    override fun onTravelerChosen(traveler: Traveler) {
-        viewModel.updateTraveler(travelerEntryWidget.viewModel.travelerNumber - 1, traveler)
-        travelerEntryWidget.viewModel.travelerObservable.onNext(traveler)
-    }
-
-    override fun onAddNewTravelerSelected() {
-        // Adding for packages mvp
     }
 }

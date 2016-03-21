@@ -6,7 +6,6 @@ import android.view.View
 import android.widget.ImageView
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Traveler
-import com.expedia.bookings.data.User
 import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.utils.AnimUtils
 import com.expedia.bookings.utils.bindView
@@ -18,8 +17,6 @@ import com.expedia.vm.traveler.TravelerViewModel
 import rx.subjects.PublishSubject
 
 class FlightTravelerEntryWidget(context: Context, attrs: AttributeSet?) : FrameLayout(context, attrs) {
-
-    val travelerButton: TravelerButton by bindView(R.id.traveler_button)
     val nameEntryView: NameEntryView by bindView(R.id.name_entry_widget)
     val phoneEntryView: PhoneEntryView by bindView(R.id.phone_entry_widget)
     val tsaEntryView: TSAEntryView by bindView(R.id.tsa_entry_widget)
@@ -32,22 +29,14 @@ class FlightTravelerEntryWidget(context: Context, attrs: AttributeSet?) : FrameL
     val travelerCompleteSubject = PublishSubject.create<Traveler>()
 
     var viewModel: TravelerViewModel by notNullAndObservable { vm ->
-        nameEntryView.viewModel = vm.nameViewModel
-        phoneEntryView.viewModel = vm.phoneViewModel
+        nameEntryView.setViewModel(vm.nameViewModel)
+        phoneEntryView.updateViewModel(vm.phoneViewModel)
         tsaEntryView.viewModel = vm.tsaViewModel
         advancedOptionsWidget.viewModel = vm.advancedOptionsViewModel
     }
 
     init {
         View.inflate(context, R.layout.flight_traveler_entry_widget, this)
-        travelerButton.visibility == View.GONE
-    }
-
-    override fun onVisibilityChanged(changedView: View?, visibility: Int) {
-        super.onVisibilityChanged(changedView, visibility)
-        if (changedView == this && visibility == View.VISIBLE) {
-            travelerButton.visibility = if (User.isLoggedIn(context)) View.VISIBLE else View.GONE
-        }
     }
 
     override fun onFinishInflate() {

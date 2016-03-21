@@ -4,7 +4,6 @@ import android.graphics.ColorMatrixColorFilter
 import android.graphics.drawable.Drawable
 import android.view.View
 import android.widget.CompoundButton
-import android.widget.EditText
 import android.widget.ImageView
 import android.widget.RatingBar
 import android.widget.TextView
@@ -17,6 +16,7 @@ import rx.Observable
 import rx.Observer
 import rx.exceptions.OnErrorNotImplementedException
 import rx.subjects.PublishSubject
+import kotlin.text.isNotBlank
 
 fun <T> endlessObserver(body: (T) -> Unit): Observer<T> {
     return object : Observer<T> {
@@ -70,14 +70,6 @@ fun View.publishOnClick(publishSubject: PublishSubject<Unit>) {
 
 fun <T : CharSequence> Observable<T>.subscribeText(textview: TextView?) {
     this.subscribe { textview?.text = it }
-}
-
-fun <T : CharSequence> Observable<T>.subscribeText(edittext: EditText?) {
-    this.subscribe { text ->
-        edittext?.setText(text)
-        val selection = edittext?.text?.length ?: 0
-        edittext?.setSelection(selection)
-    }
 }
 
 fun Observable<Int>.subscribeTextColor(textview: TextView) {

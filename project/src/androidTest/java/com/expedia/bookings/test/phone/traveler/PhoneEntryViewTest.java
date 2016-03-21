@@ -39,19 +39,17 @@ public class PhoneEntryViewTest {
 	@Test
 	public void updatePhone() throws Throwable {
 		phoneEntryView = (PhoneEntryView) activityTestRule.getRoot();
-		final TravelerPhoneViewModel phoneVM = new TravelerPhoneViewModel();
-		phoneVM.updatePhone(new Phone());
+		final TravelerPhoneViewModel phoneVM = new TravelerPhoneViewModel(new Phone());
 
 		uiThreadTestRule.runOnUiThread(new Runnable() {
 			@Override
 			public void run() {
-				phoneEntryView.setViewModel(phoneVM);
-				onView(withId(R.id.edit_phone_number)).perform(typeText(testNumber));
-				assertEquals(testNumber, phoneVM.getPhoneNumberSubject().getValue());
+				phoneEntryView.updateViewModel(phoneVM);
 			}
 		});
 
-
+		onView(withId(R.id.edit_phone_number)).perform(typeText(testNumber));
+		assertEquals(testNumber, phoneVM.getPhone().getNumber());
 	}
 
 	@Test
@@ -65,9 +63,7 @@ public class PhoneEntryViewTest {
 		uiThreadTestRule.runOnUiThread(new Runnable() {
 			@Override
 			public void run() {
-				TravelerPhoneViewModel phoneVM = new TravelerPhoneViewModel();
-				phoneVM.updatePhone(phone);
-				phoneEntryView.setViewModel(phoneVM);
+				phoneEntryView.updateViewModel(new TravelerPhoneViewModel(phone));
 			}
 		});
 
@@ -78,13 +74,12 @@ public class PhoneEntryViewTest {
 	@Test
 	public void phoneErrorState() throws Throwable {
 		phoneEntryView = (PhoneEntryView) activityTestRule.getRoot();
-		final TravelerPhoneViewModel phoneVM = new TravelerPhoneViewModel();
-		phoneVM.updatePhone(new Phone());
+		final TravelerPhoneViewModel phoneVM = new TravelerPhoneViewModel(new Phone());
 
 		uiThreadTestRule.runOnUiThread(new Runnable() {
 			@Override
 			public void run() {
-				phoneEntryView.setViewModel(phoneVM);
+				phoneEntryView.updateViewModel(phoneVM);
 				phoneVM.getPhoneErrorSubject().onNext(true);
 			}
 		});

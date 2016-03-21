@@ -22,18 +22,14 @@ class FlightTravelerAdvancedOptionsWidget(context: Context, attrs: AttributeSet?
     val seatPreferenceSpinner: Spinner by bindView(R.id.edit_seat_preference_spinner)
 
     var viewModel: TravelerAdvancedOptionsViewModel by notNullAndObservable { vm ->
-        vm.redressNumberSubject.distinctUntilChanged().subscribeText(redressNumber)
+        redressNumber.setText(vm.getRedressNumber())
         redressNumber.addTextChangedSubscriber(vm.redressNumberObserver)
 
-        vm.seatPreferenceSubject.subscribe { seatPref ->
-            val seatAdapter = seatPreferenceSpinner.adapter as SeatPreferenceSpinnerAdapter
-            seatPreferenceSpinner.setSelection(seatAdapter.getSeatPreferencePosition(seatPref))
-        }
+        val seatAdapter = seatPreferenceSpinner.adapter as SeatPreferenceSpinnerAdapter
+        seatPreferenceSpinner.setSelection(seatAdapter.getSeatPreferencePosition(vm.getSeatPreference()))
 
-        vm.assistancePreferenceSubject.subscribe { assist ->
-            val assistanceAdapter = assistancePreferenceSpinner.adapter as AssistanceTypeSpinnerAdapter
-            assistancePreferenceSpinner.setSelection(assistanceAdapter.getAssistanceTypePosition(assist))
-        }
+        val assistanceAdapter = assistancePreferenceSpinner.adapter as AssistanceTypeSpinnerAdapter
+        assistancePreferenceSpinner.setSelection(assistanceAdapter.getAssistanceTypePosition(vm.getSpecialAssistance()))
     }
 
     init {

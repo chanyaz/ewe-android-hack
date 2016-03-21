@@ -3,19 +3,13 @@ package com.expedia.vm.traveler
 import com.expedia.bookings.data.Traveler
 import com.expedia.util.endlessObserver
 import com.jakewharton.rxbinding.widget.TextViewAfterTextChangeEvent
+import rx.Subscriber
+import rx.exceptions.OnErrorNotImplementedException
 import rx.subjects.BehaviorSubject
-import kotlin.properties.Delegates
 
-class TravelerAdvancedOptionsViewModel() {
-    private var traveler: Traveler by Delegates.notNull()
-
-    val redressNumberSubject = BehaviorSubject.create<String>()
-    val seatPreferenceSubject = BehaviorSubject.create<Traveler.SeatPreference>()
-    val assistancePreferenceSubject = BehaviorSubject.create<Traveler.AssistanceType>()
-
+class TravelerAdvancedOptionsViewModel(var traveler: Traveler) {
     val redressNumberObserver = endlessObserver<TextViewAfterTextChangeEvent>() { redressText ->
         traveler.redressNumber = redressText.editable().toString()
-        redressNumberSubject.onNext(traveler.redressNumber)
     }
 
     val seatPreferenceObserver = endlessObserver<Traveler.SeatPreference> { seatPref ->
@@ -26,10 +20,18 @@ class TravelerAdvancedOptionsViewModel() {
         traveler.assistance = assistancePref
     }
 
-    fun updateTraveler(traveler: Traveler) {
-        this.traveler = traveler
-        redressNumberSubject.onNext(traveler.redressNumber)
-        seatPreferenceSubject.onNext(traveler.seatPreference)
-        assistancePreferenceSubject.onNext(traveler.assistance)
+    fun getSpecialAssistance(): Traveler.AssistanceType {
+        return traveler.assistance
+    }
+
+    fun getSeatPreference(): Traveler.SeatPreference {
+        if (traveler.seatPreference == null) {
+            traveler.seatPreference == Traveler.SeatPreference.WINDOW
+        }
+        return traveler.seatPreference
+    }
+
+    fun getRedressNumber(): String {
+        return traveler.redressNumber ?: ""
     }
 }
