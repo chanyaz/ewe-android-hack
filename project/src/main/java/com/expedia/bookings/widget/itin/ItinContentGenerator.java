@@ -258,7 +258,7 @@ public abstract class ItinContentGenerator<T extends ItinCardData> {
 
 	public String getSharableImageURL() {
 		if (TextUtils.isEmpty(mSharableImageURL)) {
-			return "http://media.expedia.com/mobiata/fb/exp-fb-share.png";
+			return ProductFlavorFeatureConfiguration.getInstance().getSharableFallbackImageURL();
 		}
 		else {
 			return mSharableImageURL;

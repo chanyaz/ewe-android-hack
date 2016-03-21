@@ -134,4 +134,6 @@ public interface IProductFlavorFeatureConfiguration {
 	boolean isAbacusTestEnabled();
 
 	boolean isNewHotelEnabled();
+
+	String getSharableFallbackImageURL();
 }

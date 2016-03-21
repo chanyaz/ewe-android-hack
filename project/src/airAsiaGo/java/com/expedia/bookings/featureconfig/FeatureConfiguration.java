@@ -313,4 +313,9 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 	public boolean isNewHotelEnabled() {
 		return false;
 	}
+
+	@Override
+	public String getSharableFallbackImageURL() {
+		return null;
+	}
 }
