@@ -6,7 +6,9 @@ import org.hamcrest.Matcher;
 import org.hamcrest.Matchers;
 import org.joda.time.LocalDate;
 
+import android.support.test.espresso.Espresso;
 import android.support.test.espresso.ViewInteraction;
+import android.support.test.espresso.contrib.PickerActions;
 import android.support.test.espresso.contrib.RecyclerViewActions;
 import android.view.View;
 
@@ -264,7 +266,7 @@ public class PackageScreen {
 		//Common.closeSoftKeyboard(CheckoutViewModel.email());
 		Common.delay(1);
 		enterPhoneNumber("7732025862");
-		selectBirthDate();
+		selectBirthDate(9,6,1989);
 
 		clickTravelerAdvanced();
 		Common.delay(1);
@@ -299,14 +301,17 @@ public class PackageScreen {
 		onView(withId(R.id.edit_phone_number)).perform(typeText(phoneNumber));
 	}
 
-	public static void selectBirthDate() {
+	public static void selectBirthDate(int year, int month, int day) {
 		onView(withId(R.id.edit_birth_date_text_btn)).perform(click());
-		Common.delay(1);
+		Espresso.closeSoftKeyboard();
+		onView(withId(R.id.datePicker)).perform(ViewActions.waitForViewToDisplay());
+		onView(withId(R.id.datePicker)).perform(PickerActions.setDate(year, month, day));
+		onView(withId(R.id.datePickerDoneButton)).perform(ViewActions.waitForViewToDisplay());
 		onView(withId(R.id.datePickerDoneButton)).perform(click());
-		Common.delay(1);
 	}
 
 	public static void clickTravelerDone() {
+		onView(withId(R.id.new_traveler_done_button)).perform(ViewActions.waitForViewToDisplay());
 		onView(withId(R.id.new_traveler_done_button)).perform(click());
 	}
 
