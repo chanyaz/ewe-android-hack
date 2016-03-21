@@ -361,4 +361,9 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 		return false;
 	}
 
+	@Override
+	public String getSharableFallbackImageURL() {
+		return null;
+	}
+
 }

@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.text.TextUtils;
 
 import com.expedia.bookings.data.trips.ItinCardDataFlight;
 import com.expedia.bookings.data.trips.ItinCardDataHotel;
@@ -73,14 +74,16 @@ public class FacebookShareActivity extends Activity {
 
 		ShareDialog dialog = new ShareDialog(this);
 
-		ShareLinkContent linkContent = new ShareLinkContent.Builder()
+		ShareLinkContent.Builder linkContentBuilder = new ShareLinkContent.Builder()
 			.setContentUrl(Uri.parse(mShareURL))
 			.setContentTitle(mShareName)
-			.setImageUrl(Uri.parse(mShareThumbnailURL))
-			.setContentDescription(mShareDescription)
-			.build();
+			.setContentDescription(mShareDescription);
 
-		dialog.show(linkContent);
+		if (!TextUtils.isEmpty(mShareThumbnailURL)) {
+			linkContentBuilder.setImageUrl(Uri.parse(mShareThumbnailURL));
+		}
+
+		dialog.show(linkContentBuilder.build());
 		finish();
 	}
 }
