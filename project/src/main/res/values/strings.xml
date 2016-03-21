@@ -4036,6 +4036,7 @@
     <string name="vip_loyalty_applied_header_message">2x Expedia+ Points applied!</string>
     <string name="swp_widget_points_value_TEMPLATE">You have {points} points</string>
     <string name="swp_widget_header">Shop With Expedia+ points</string>
+    <string name="vip_loyalty_applied_map_message">&lt;b&gt;+VIP&lt;/b&gt; 2x Expedia+ Points applied!</string>
 
     <!-- Message telling you on confirmation screen where you've booked a package to -->
     <string name="yay_going_somewhere">You\'re going to</string>
