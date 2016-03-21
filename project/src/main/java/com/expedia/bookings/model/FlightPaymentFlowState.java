@@ -23,7 +23,7 @@ public class FlightPaymentFlowState {
 
 	private FlightPaymentFlowState(Context context) {
 		LayoutInflater inflater = LayoutInflater.from(context);
-		mBillingAddress = Ui.inflate(context, R.layout.section_edit_address, null);
+		mBillingAddress = Ui.inflate(context, R.layout.old_flights_section_edit_address, null);
 		mCardInfo = Ui.inflate(context, R.layout.section_flight_edit_creditcard, null);
 		mBillingAddress.setLineOfBusiness(LineOfBusiness.FLIGHTS);
 		mCardInfo.setLineOfBusiness(LineOfBusiness.FLIGHTS);

@@ -246,7 +246,7 @@
 
                 <include
                     android:id="@+id/section_location_address"
-                    layout="@layout/section_edit_address" />
+                    layout="@layout/section_credit_card_edit_address" />
             </FrameLayout>
 
         </com.expedia.bookings.section.SectionBillingInfo>
