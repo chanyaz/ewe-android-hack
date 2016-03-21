@@ -372,5 +372,10 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 	public boolean shouldShowAirAttach() {
 		return true;
 	}
+
+	@Override
+	public String getSharableFallbackImageURL() {
+		return null;
+	}
 }
 
