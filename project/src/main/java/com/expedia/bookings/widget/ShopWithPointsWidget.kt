@@ -1,10 +1,9 @@
 package com.expedia.bookings.widget
 
 import android.content.Context
-import android.graphics.PorterDuff
-import android.graphics.PorterDuffColorFilter
 import android.util.AttributeSet
 import android.view.View
+import android.widget.ImageView
 import android.widget.LinearLayout
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Db
@@ -22,7 +21,7 @@ class ShopWithPointsWidget(context: Context, val attrs: AttributeSet?) : LinearL
     val loyaltyAppliedHeader: TextView by bindView(R.id.loyalty_applied_header)
     val loyaltyPointsInfo: TextView by bindView(R.id.loyalty_points_info)
     val swpSwitchView: android.widget.Switch by bindView(R.id.swp_switch)
-
+    val swpLogo: ImageView by bindView(R.id.swp_logo)
 
     lateinit var shopWithPointsViewModel: ShopWithPointsViewModel
         @Inject set
@@ -43,10 +42,12 @@ class ShopWithPointsWidget(context: Context, val attrs: AttributeSet?) : LinearL
         if (Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelsSearchScreenTest)) {
             loyaltyAppliedHeader.setTextColor(context.resources.getColor(R.color.search_screen_icon_color_v2))
             loyaltyPointsInfo.setTextColor(context.resources.getColor(R.color.search_screen_icon_color_v2))
+            swpLogo.setImageResource(R.drawable.swp_grey)
         }
 
         shopWithPointsViewModel.isShopWithPointsAvailableObservable.subscribeVisibility(this)
         shopWithPointsViewModel.pointsDetailStringObservable.subscribeText(loyaltyPointsInfo)
         swpSwitchView.subscribeOnCheckChanged(shopWithPointsViewModel.shopWithPointsToggleObservable)
+        shopWithPointsViewModel.swpHeaderStringObservable.subscribeText(loyaltyAppliedHeader)
     }
 }

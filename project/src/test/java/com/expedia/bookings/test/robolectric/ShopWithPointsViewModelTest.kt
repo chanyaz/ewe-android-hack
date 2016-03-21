@@ -1,5 +1,6 @@
 package com.expedia.bookings.test.robolectric
 
+import com.expedia.bookings.R
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.Traveler
@@ -106,6 +107,21 @@ class ShopWithPointsViewModelTest {
         loyaltyInfo.isAllowedToShopWithPoints = false
         Db.setUser(user)
         userAccountRefresher.ensureAccountIsRefreshed()
+    }
+
+    @Test
+    fun loyaltyHeaderChangeTest() {
+        shopWithPointsViewModel = ShopWithPointsViewModel(context)
+        val headerTestObservable = TestSubscriber.create<String>()
+        shopWithPointsViewModel.swpHeaderStringObservable.subscribe(headerTestObservable)
+
+        assertEquals(context.getString(R.string.swp_on_widget_header), headerTestObservable.onNextEvents[0])
+
+        shopWithPointsViewModel.shopWithPointsToggleObservable.onNext(false)
+        assertEquals(context.getString(R.string.swp_off_widget_header), headerTestObservable.onNextEvents[1])
+
+        shopWithPointsViewModel.shopWithPointsToggleObservable.onNext(true)
+        assertEquals(context.getString(R.string.swp_on_widget_header), headerTestObservable.onNextEvents[2])
     }
 
     private fun mockUser(): User {

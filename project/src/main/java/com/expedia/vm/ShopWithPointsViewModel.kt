@@ -18,6 +18,9 @@ class ShopWithPointsViewModel(val context: Context) {
 
     val shopWithPointsToggleObservable = BehaviorSubject.create<Boolean>(true)
 
+    val swpHeaderStringObservable = shopWithPointsToggleObservable.map { isToggleOn ->
+        context.getString(if (isToggleOn) R.string.swp_on_widget_header else R.string.swp_off_widget_header)
+    }
     val numberOfPointsObservable = isShopWithPointsAvailableObservable.map {
         Db.getUser()?.loyaltyMembershipInformation?.loyaltyPointsAvailable ?: 0.0
     }

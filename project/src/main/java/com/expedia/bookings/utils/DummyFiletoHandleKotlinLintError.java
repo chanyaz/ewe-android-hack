@@ -472,7 +472,9 @@ DummyFiletoHandleKotlinLintError {
 		R.string.swp_widget_points_value_TEMPLATE,
 		R.layout.widget_shop_with_points,
 		R.layout.widget_shop_with_points_with_card_view,
-		R.string.swp_widget_header,
-		R.string.vip_loyalty_applied_map_message
+		R.string.vip_loyalty_applied_map_message,
+		R.string.swp_off_widget_header,
+		R.string.swp_on_widget_header,
+		R.drawable.swp_grey
 	};
 }
