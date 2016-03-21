@@ -233,8 +233,9 @@ public class OmnitureTracking {
 	private static final String PAY_WITH_POINTS_DISABLED = "App.Hotels.CKO.Points.None";
 	private static final String PAY_WITH_POINTS_REENABLED = "App.Hotels.CKO.Points.Select.Expedia";
 	private static final String PAY_WITH_POINTS_ERROR = "App.Hotels.CKO.Points.Error";
+	private static final String SHOP_WITH_POINTS_TOGGLE_STATE = "App.Hotels.DS.SWP.";
 
-	public static void trackHotelV2SearchBox() {
+	public static void trackHotelV2SearchBox(boolean swpIsVisibleAndToggleIsOn) {
 		Log.d(TAG, "Tracking \"" + HOTELSV2_SEARCH_BOX + "\" pageLoad...");
 
 		ADMS_Measurement s = getFreshTrackingObject();
@@ -248,6 +249,12 @@ public class OmnitureTracking {
 
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppHotelRecentSearchTest);
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppHotelsSearchScreenTest);
+
+		//SWP is visible and toggle is ON, when user lands on Search Screen
+		if (swpIsVisibleAndToggleIsOn) {
+			s.setEvents("event118");
+		}
+
 		// Send the tracking data
 		s.track();
 
@@ -261,6 +268,14 @@ public class OmnitureTracking {
 		s.setProp(16, HOTELSV2_RECENT_SEARCH_CLICK);
 		s.trackLink(null, "o", "Search Results Update", null, null);
 
+	}
+
+	public static void trackSwPToggle(boolean swpToggleState) {
+		Log.d(TAG, "Tracking \"" + SHOP_WITH_POINTS_TOGGLE_STATE + "\" click...");
+
+		ADMS_Measurement s = createTrackLinkEvent(SHOP_WITH_POINTS_TOGGLE_STATE + (swpToggleState ? "On" : "Off"));
+
+		s.trackLink(null, "o", "Search Results Update", null, null);
 	}
 
 	public static void trackTravelerPickerClick(String text) {

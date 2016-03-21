@@ -29,7 +29,6 @@ import com.expedia.account.graphics.ArrowXDrawable
 import com.expedia.bookings.R
 import com.expedia.bookings.animation.TransitionElement
 import com.expedia.bookings.location.CurrentLocationObservable
-import com.expedia.bookings.tracking.HotelV2Tracking
 import com.expedia.bookings.utils.AnimUtils
 import com.expedia.bookings.utils.ArrowXDrawableUtil
 import com.expedia.bookings.utils.SuggestionV4Utils
@@ -55,7 +54,6 @@ class HotelSearchPresenterV2(context: Context, attrs: AttributeSet) : BaseHotelS
     val searchContainer: ViewGroup by bindView(R.id.search_v2_container)
 
     val calendarWidgetV2: CalendarWidgetV2 by bindView(R.id.calendar_card)
-
     val suggestionContainer: View by bindView(R.id.suggestions_container)
     val suggestionRecyclerView: RecyclerView by bindView(R.id.suggestion_list)
     var navIcon: ArrowXDrawable
@@ -155,7 +153,6 @@ class HotelSearchPresenterV2(context: Context, attrs: AttributeSet) : BaseHotelS
 
     init {
         View.inflate(context, R.layout.widget_hotel_search_params_v2, this)
-        HotelV2Tracking().trackHotelV2SearchBox()
         val statusBarHeight = Ui.getStatusBarHeight(getContext())
         if (statusBarHeight > 0) {
             val color = ContextCompat.getColor(context, R.color.hotels_primary_color)

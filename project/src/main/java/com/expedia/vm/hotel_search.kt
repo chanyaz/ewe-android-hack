@@ -54,9 +54,7 @@ class HotelSearchViewModel(context: Context) : DatedSearchViewModel(context) {
     val enableTravelerObservable = PublishSubject.create<Boolean>()
 
     var shopWithPointsViewModel: ShopWithPointsViewModel by notNullAndObservable {
-        it.shopWithPointsToggleObservable.withLatestFrom(it.isShopWithPointsAvailableObservable, { swpToggleState, isSWPAvailable ->
-            isSWPAvailable && swpToggleState
-        }).subscribe{
+        it.swpEffectiveAvailability.subscribe{
             paramsBuilder.shopWithPoints(it)
         }
     }
