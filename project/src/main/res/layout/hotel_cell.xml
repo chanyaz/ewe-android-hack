@@ -118,7 +118,7 @@
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_vertical"
                             android:visibility="gone"
-                            app:star_color="#F1B906"
+                            app:star_color="@color/hotelsv2_detail_star_color"
                             app:star_drawable="@drawable/ratingbar_circle"
                             app:star_spacing="4dp"/>
 
