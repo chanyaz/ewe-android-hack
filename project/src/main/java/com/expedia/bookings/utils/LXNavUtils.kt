@@ -12,7 +12,7 @@ class LXNavUtils {
          * If searchType is explicit show user the appropriate error message, Bucket all other errors as
          * UNKNOWN_ERROR to give some feedback to the user.
          */
-        @JvmStatic fun handleLXSearchFailure(e: Throwable?, searchType: SearchType) {
+        @JvmStatic fun handleLXSearchFailure(e: Throwable?, searchType: SearchType, isGroundTransport: Boolean) {
             var apiError: ApiError = ApiError()
             if (searchType == SearchType.DEFAULT_SEARCH) {
                 apiError = if (e == null || e !is ApiError) ApiError(ApiError.Code.SUGGESTIONS_NO_RESULTS) else e
@@ -28,7 +28,7 @@ class LXNavUtils {
                 }
                 Events.post(Events.LXShowSearchError(apiError, searchType))
             }
-            OmnitureTracking.trackAppLXNoSearchResults(apiError)
+            OmnitureTracking.trackAppLXNoSearchResults(apiError, isGroundTransport)
         }
     }
 }

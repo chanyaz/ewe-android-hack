@@ -439,7 +439,8 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 				new HotelV2Tracking().trackHotelV2SlideToPurchase(paymentInfoCardView.getCardType(), paymentInfoCardView.getViewmodel().getSplitsType().getValue());
 				break;
 			case LX:
-				OmnitureTracking.trackAppLXCheckoutSlideToPurchase(cardType);
+			case TRANSPORT:
+				OmnitureTracking.trackAppLXCheckoutSlideToPurchase(getLineOfBusiness(), cardType);
 				break;
 			case CARS:
 				OmnitureTracking.trackAppCarCheckoutSlideToPurchase(cardType);

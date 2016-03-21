@@ -52,7 +52,7 @@ public class LXTicketSelectionWidgetTest {
 		assertNotNull(widget);
 		ButterKnife.inject(activity);
 
-		widget.bind(buildActivityOffer());
+		widget.bind(buildActivityOffer(), false);
 		widget.buildTicketPickers(singleTicketAvailability());
 
 		View container = widget.findViewById(R.id.ticket_selectors_container);
@@ -90,7 +90,7 @@ public class LXTicketSelectionWidgetTest {
 		assertNotNull(widget);
 		ButterKnife.inject(activity);
 
-		widget.bind(buildGTOffer());
+		widget.bind(buildGTOffer(), false);
 		widget.buildTicketPickers(singleTicketAvailability());
 
 		TextView titleText = (TextView) widget.findViewById(R.id.offer_title);
@@ -119,7 +119,7 @@ public class LXTicketSelectionWidgetTest {
 		Offer offer = buildGTOffer();
 		offer.freeCancellation = false;
 		offer.redemptionType = null;
-		widget.bind(offer);
+		widget.bind(offer, false);
 		widget.buildTicketPickers(singleTicketAvailability());
 
 		TextView offerDuration = (TextView) widget.findViewById(R.id.offer_detail1);
@@ -138,7 +138,7 @@ public class LXTicketSelectionWidgetTest {
 
 		Offer offer = buildGTOffer();
 		offer.freeCancellation = false;
-		widget.bind(offer);
+		widget.bind(offer, false);
 		widget.buildTicketPickers(singleTicketAvailability());
 
 		TextView offerDuration = (TextView) widget.findViewById(R.id.offer_detail1);
@@ -157,7 +157,7 @@ public class LXTicketSelectionWidgetTest {
 
 		Offer offer = buildGTOffer();
 		offer.duration = null;
-		widget.bind(offer);
+		widget.bind(offer, false);
 		widget.buildTicketPickers(singleTicketAvailability());
 
 		TextView freeCancellation = (TextView) widget.findViewById(R.id.offer_detail1);
@@ -173,7 +173,7 @@ public class LXTicketSelectionWidgetTest {
 	public void testSingleTicketTypeSelections() {
 		AvailabilityInfo availabilityInfo = singleTicketAvailability();
 
-		widget.bind(buildActivityOffer());
+		widget.bind(buildActivityOffer(), false);
 		widget.buildTicketPickers(availabilityInfo);
 
 		Ticket testTicket = availabilityInfo.tickets.get(0);
@@ -241,7 +241,7 @@ public class LXTicketSelectionWidgetTest {
 	public void testMultipleTicketTypeSelections() {
 		AvailabilityInfo availabilityInfo = multipleTicketAvailability();
 
-		widget.bind(buildActivityOffer());
+		widget.bind(buildActivityOffer(), false);
 		widget.buildTicketPickers(availabilityInfo);
 
 		List<Ticket> tickets = availabilityInfo.tickets;

@@ -298,7 +298,7 @@ public class LXResultsPresenter extends Presenter {
 				return;
 			}
 			else {
-				LXNavUtils.handleLXSearchFailure(e, searchType);
+				LXNavUtils.handleLXSearchFailure(e, searchType, isGroundTransport);
 			}
 
 			sortFilterButton.setVisibility(View.GONE);
@@ -309,7 +309,7 @@ public class LXResultsPresenter extends Presenter {
 			searchResponse = lxSearchResponse;
 			// Search Results Omniture Tracking on load of search screen.
 			OmnitureTracking.trackAppLXRTRABTest();
-			OmnitureTracking.trackAppLXSearch(lxState.searchParams, lxSearchResponse);
+			trackLXSearch();
 			AdTracker.trackLXSearch(lxState.searchParams);
 			Events.post(new Events.LXSearchResultsAvailable(lxSearchResponse));
 			searchResultsWidget.bind(lxSearchResponse.activities);
@@ -612,7 +612,7 @@ public class LXResultsPresenter extends Presenter {
 
 	public void trackLXSearch() {
 		if (searchResponse != null && searchResponse.regionId != null) {
-			OmnitureTracking.trackAppLXSearch(lxState.searchParams, searchResponse);
+			OmnitureTracking.trackAppLXSearch(lxState.searchParams, searchResponse, isGroundTransport);
 		}
 	}
 

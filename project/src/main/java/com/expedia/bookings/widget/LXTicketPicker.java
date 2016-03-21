@@ -42,6 +42,7 @@ public class LXTicketPicker extends LinearLayout {
 
 	private int enabledTicketSelectorColor;
 	private int disabledTicketSelectorColor;
+	private boolean isGroundTransport;
 
 	@OnClick(R.id.ticket_add)
 	public void onAddTicket() {
@@ -62,7 +63,7 @@ public class LXTicketPicker extends LinearLayout {
 		StringBuilder sb = new StringBuilder();
 		sb.append(type);
 		sb.append(ticket.code.toString());
-		OmnitureTracking.trackLinkLXAddRemoveTicket(sb.toString());
+		OmnitureTracking.trackLinkLXAddRemoveTicket(sb.toString(), isGroundTransport);
 	}
 
 	public LXTicketPicker(Context context, AttributeSet attrs) {
@@ -77,9 +78,11 @@ public class LXTicketPicker extends LinearLayout {
 		disabledTicketSelectorColor = Ui.obtainThemeColor(getContext(), R.attr.skin_ticketSelectorDisabledColor);
 	}
 
-	public void bind(Ticket ticket, String offerId, int defaultCount) {
+	public void bind(Ticket ticket, String offerId, int defaultCount, boolean isGroundTransport) {
 		this.ticket = ticket;
 		this.offerId = offerId;
+		this.isGroundTransport = isGroundTransport;
+
 		String ticketDetailsText = null;
 		if (Strings.isNotEmpty(ticket.restrictionText)) {
 			ticketDetailsText = String
