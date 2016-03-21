@@ -16,8 +16,8 @@
         <com.expedia.bookings.widget.FrameLayout
             android:id="@+id/handle"
             android:layout_width="match_parent"
-            android:background="@color/itin_white_text"
-            android:layout_height="50dp">
+            android:layout_height="50dp"
+            android:background="@color/itin_white_text">
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -48,8 +48,8 @@
         <com.expedia.bookings.widget.ScrollView
             android:id="@+id/scrollView"
             android:layout_width="match_parent"
-            android:background="@color/itin_white_text"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:background="@color/itin_white_text">
 
             <LinearLayout
                 android:id="@+id/checkout_widget_container"
@@ -171,9 +171,10 @@
         <com.expedia.bookings.widget.TotalPriceWidget
             android:id="@+id/total_price_widget"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="@dimen/footer_button_height"
             android:background="#FFFFFF"
-            android:padding="12dp" />
+            android:paddingLeft="19dp"
+            android:paddingRight="19dp" />
 
         <View
             android:layout_width="match_parent"
@@ -188,7 +189,7 @@
             android:gravity="center_horizontal"
             android:orientation="vertical"
             android:paddingBottom="8dp"
-            android:paddingTop="8dp" >
+            android:paddingTop="8dp">
 
             <com.expedia.bookings.widget.SlideToWidgetLL
                 android:id="@+id/slide_to_purchase_widget"
@@ -215,8 +216,8 @@
         android:id="@+id/checkout_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/packages_primary_color"
         android:layout_gravity="bottom"
+        android:background="@color/packages_primary_color"
         android:text="@string/Checkout"
         android:textAllCaps="false"
         android:textColor="#FFFFFF" />

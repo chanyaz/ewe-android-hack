@@ -16,7 +16,7 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent" >
+        android:layout_height="match_parent">
 
         <ViewStub
             android:id="@+id/results_stub"
@@ -52,11 +52,12 @@
         <com.expedia.bookings.widget.TotalPriceWidget
             android:id="@+id/bundle_price_widget"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/bundle_price_background_color"
+            android:layout_height="@dimen/footer_button_height"
             android:layout_alignParentBottom="true"
+            android:background="@color/white"
             android:clickable="true"
-            android:padding="12dp" />
+            android:paddingLeft="17dp"
+            android:paddingRight="19dp" />
 
     </RelativeLayout>
 
