@@ -219,15 +219,6 @@ public class CheckoutViewModel {
 		PaymentOptionsScreen.enterCardInfo();
 	}
 
-	public static void enterPaymentInfo(boolean defaultSelection) {
-		if (defaultSelection) {
-			return;
-		}
-		CheckoutViewModel.clickPaymentInfo();
-		Common.delay(1);
-		PaymentOptionsScreen.enterCardInfo();
-	}
-
 	public static void enterPaymentInfoHotels() {
 		Common.delay(2);
 		CheckoutViewModel.clickPaymentInfo();
