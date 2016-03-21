@@ -15,7 +15,6 @@ class TravelerAdvancedOptionsViewModel() {
 
     val redressNumberObserver = endlessObserver<TextViewAfterTextChangeEvent>() { redressText ->
         traveler.redressNumber = redressText.editable().toString()
-        redressNumberSubject.onNext(traveler.redressNumber)
     }
 
     val seatPreferenceObserver = endlessObserver<Traveler.SeatPreference> { seatPref ->

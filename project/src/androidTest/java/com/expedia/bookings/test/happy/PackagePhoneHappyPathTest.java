@@ -16,7 +16,6 @@ import com.expedia.bookings.test.espresso.ViewActions;
 import com.expedia.bookings.test.phone.hotels.HotelScreen;
 import com.expedia.bookings.test.phone.packages.PackageScreen;
 import com.expedia.bookings.test.phone.pagemodels.common.CheckoutViewModel;
-import com.expedia.bookings.utils.DateUtils;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
@@ -104,12 +103,6 @@ public class PackagePhoneHappyPathTest extends PackageTestCase {
 		assertCheckoutOverview();
 
 		PackageScreen.checkout().perform(click());
-		PackageScreen.signIn();
-
-		PackageScreen.selectSavedTraveler();
-		assertStoredTraveler();
-
-		PackageScreen.signOut();
 
 		PackageScreen.enterTravelerInfo();
 		PackageScreen.enterPaymentInfo();
@@ -119,14 +112,6 @@ public class PackagePhoneHappyPathTest extends PackageTestCase {
 		Common.delay(1);
 
 		assertConfirmation();
-	}
-
-	private void assertStoredTraveler() {
-		onView(allOf(withId(R.id.first_name_input), withText("Expedia"))).check(matches(isDisplayed()));
-		onView(allOf(withId(R.id.middle_initial_input), withText("First"))).check(matches(isDisplayed()));
-		onView(allOf(withId(R.id.last_name_input), withText("First"))).check(matches(isDisplayed()));
-		onView(allOf(withId(R.id.edit_phone_number), withText("1234567890"))).check(matches(isDisplayed()));
-		onView(allOf(withId(R.id.edit_birth_date_text_btn), withText("Jan, 27, 1991"))).check(matches(isDisplayed()));
 	}
 
 	private void assertConfirmation() {
@@ -162,8 +147,6 @@ public class PackagePhoneHappyPathTest extends PackageTestCase {
 		float detailsHotelRating = EspressoUtils.getStarRatingValue(HotelScreen.hotelDetailsStarRating());
 		assertEquals(4.0f, detailsHotelRating);
 		onView(allOf(withId(R.id.user_rating), withText("4.4"))).check(matches(isDisplayed()));
-		String startDate = DateUtils.localDateToMMMd(LocalDate.now().plusDays(3));
-		String endDate = DateUtils.localDateToMMMd(LocalDate.now().plusDays(8));
 		onView(
 			allOf(withId(R.id.hotel_search_info), withText("1 Room, 1 Guest")))
 			.check(matches(isDisplayed()));

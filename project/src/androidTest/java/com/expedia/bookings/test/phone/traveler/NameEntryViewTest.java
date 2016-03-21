@@ -40,16 +40,17 @@ public class NameEntryViewTest {
 	@Test
 	public void testNameUpdates() throws Throwable {
 		TravelerNameViewModel testViewModel = new TravelerNameViewModel();
-		testViewModel.updateTravelerName(new TravelerName());
+		TravelerName traveler = new TravelerName();
+		testViewModel.updateTravelerName(traveler);
 		setViewModel(testViewModel);
 
 		onView(withId(R.id.first_name_input)).perform(typeText(testFirstName));
 		onView(withId(R.id.middle_initial_input)).perform(typeText(testMiddleInitial));
 		onView(withId(R.id.last_name_input)).perform(typeText(testLastName));
 
-		assertEquals(testFirstName, testViewModel.getFirstNameSubject().getValue());
-		assertEquals(testMiddleInitial, testViewModel.getMiddleNameSubject().getValue());
-		assertEquals(testLastName, testViewModel.getLastNameSubject().getValue());
+		assertEquals(testFirstName, traveler.getFirstName());
+		assertEquals(testMiddleInitial, traveler.getMiddleName());
+		assertEquals(testLastName, traveler.getLastName());
 	}
 
 	@Test
@@ -62,15 +63,16 @@ public class NameEntryViewTest {
 		testViewModel.updateTravelerName(name);
 		setViewModel(testViewModel);
 
-		assertEquals(testFirstName, nameView.getFirstName().getText().toString());
-		assertEquals(testMiddleInitial, nameView.getMiddleInitial().getText().toString());
-		assertEquals(testLastName, nameView.getLastName().getText().toString());
+		assertEquals(testFirstName, name.getFirstName());
+		assertEquals(testMiddleInitial, name.getMiddleName());
+		assertEquals(testLastName, name.getLastName());
 	}
 
 	@Test
 	public void testErrorState() throws Throwable {
 		final TravelerNameViewModel testViewModel = new TravelerNameViewModel();
-		testViewModel.updateTravelerName(new TravelerName());
+		TravelerName traveler = new TravelerName();
+		testViewModel.updateTravelerName(traveler);
 		setViewModel(testViewModel);
 
 		uiThreadTestRule.runOnUiThread(new Runnable() {
@@ -102,11 +104,12 @@ public class NameEntryViewTest {
 		final String invalidMiddleName = "The";
 		String initial = "T";
 		TravelerNameViewModel testViewModel = new TravelerNameViewModel();
-		testViewModel.updateTravelerName(new TravelerName());
+		TravelerName traveler = new TravelerName();
+		testViewModel.updateTravelerName(traveler);
 		setViewModel(testViewModel);
 
 		onView(withId(R.id.middle_initial_input)).perform(typeText(invalidMiddleName));
-		assertEquals("Only One Letter Allowed", initial, testViewModel.getMiddleNameSubject().getValue());
+		assertEquals("Only One Letter Allowed", initial, traveler.getMiddleName());
 		assertEquals("Only One LetterAllowed", initial, nameView.getMiddleInitial().getText().toString());
 	}
 

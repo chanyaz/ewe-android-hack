@@ -9,6 +9,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import android.support.test.InstrumentationRegistry;
+import android.support.test.rule.UiThreadTestRule;
 import android.support.test.runner.AndroidJUnit4;
 
 import com.expedia.bookings.R;
@@ -32,12 +33,19 @@ import static org.mockito.Mockito.when;
 
 @RunWith(AndroidJUnit4.class)
 public class TravelerPresenterTest {
+
+	@Rule
+	public UiThreadTestRule uiThreadTestRule = new UiThreadTestRule();
+
 	private TravelerPresenter testTravelerPresenter;
 
 	TravelerName testName = new TravelerName();
 	private final String testFirstName = "Oscar";
+	private final String testMiddleName = "A";
 	private final String testLastName = "Grouch";
 	private final String testPhone = "7732025862";
+	private final String testBirthDay = "Jan 27, 1991";
+
 
 	private final String expectedTravelerOneText = Phrase.from(InstrumentationRegistry.getTargetContext()
 		.getString(R.string.checkout_edit_traveler_TEMPLATE)).put("travelernumber", 1).format().toString();
@@ -112,6 +120,28 @@ public class TravelerPresenterTest {
 	}
 
 	@Test
+	public void testStoredTravelerWorks() throws Throwable {
+		mockViewModel = getMockViewModelEmptyTravelers(1);
+		testTravelerPresenter.setViewModel(mockViewModel);
+		setPackageParams();
+
+		EspressoUser.clickOnView(R.id.traveler_default_state);
+
+		uiThreadTestRule.runOnUiThread(new Runnable() {
+			@Override
+			public void run() {
+				testTravelerPresenter.onTravelerChosen(makeStoredTraveler());
+			}
+		});
+
+		EspressoUtils.assertViewWithTextIsDisplayed(R.id.first_name_input, testFirstName);
+		EspressoUtils.assertViewWithTextIsDisplayed(R.id.middle_initial_input, testMiddleName);
+		EspressoUtils.assertViewWithTextIsDisplayed(R.id.last_name_input, testLastName);
+		EspressoUtils.assertViewWithTextIsDisplayed(R.id.edit_phone_number, testPhone);
+		EspressoUtils.assertViewWithTextIsDisplayed(R.id.edit_birth_date_text_btn, testBirthDay);
+	}
+
+	@Test
 	public void testAllTravelersValidEntryToDefault() {
 		mockViewModel = getMockViewModelValidTravelers(2);
 		testTravelerPresenter.setViewModel(mockViewModel);
@@ -178,5 +208,16 @@ public class TravelerPresenterTest {
 			.destination(new SuggestionV4())
 			.build();
 		Db.setPackageParams(packageParams);
+	}
+
+	private Traveler makeStoredTraveler() {
+		Traveler storedTraveler = new Traveler();
+		storedTraveler.setFirstName(testFirstName);
+		storedTraveler.setMiddleName(testMiddleName);
+		storedTraveler.setLastName(testLastName);
+		storedTraveler.setGender(Traveler.Gender.MALE);
+		storedTraveler.setPhoneNumber(testPhone);
+		storedTraveler.setBirthDate(LocalDate.now().withYear(1991).withMonthOfYear(1).withDayOfMonth(27));
+		return storedTraveler;
 	}
 }

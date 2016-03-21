@@ -5,6 +5,7 @@ import android.util.AttributeSet
 import android.view.View
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Traveler
+import com.expedia.bookings.data.User
 import com.expedia.bookings.data.packages.PackageSearchParams
 import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.utils.bindView
@@ -27,7 +28,7 @@ class TravelerPresenter(context: Context, attrs: AttributeSet) : Presenter(conte
     val expandedSubject = BehaviorSubject.create<Boolean>()
     val travelersCompleteSubject = BehaviorSubject.create<Traveler>()
 
-    var viewModel: CheckoutTravelerViewModel  by notNullAndObservable { vm ->
+    var viewModel: CheckoutTravelerViewModel by notNullAndObservable { vm ->
         travelerSelectState.viewModel = vm
     }
 
@@ -131,6 +132,7 @@ class TravelerPresenter(context: Context, attrs: AttributeSet) : Presenter(conte
             FlightTravelerEntryWidget::class.java) {
         override fun startTransition(forward: Boolean) {
             expandedSubject.onNext(forward)
+            travelerEntryWidget.travelerButton.visibility = if (User.isLoggedIn(context) && forward) View.VISIBLE else View.GONE
         }
 
         override fun endTransition(forward: Boolean) {
@@ -142,6 +144,9 @@ class TravelerPresenter(context: Context, attrs: AttributeSet) : Presenter(conte
 
     private val selectToEntry = object : Presenter.Transition(TravelerSelectState::class.java,
             FlightTravelerEntryWidget::class.java) {
+        override fun startTransition(forward: Boolean) {
+            travelerEntryWidget.travelerButton.visibility = if (User.isLoggedIn(context) && forward) View.VISIBLE else View.GONE
+        }
 
         override fun endTransition(forward: Boolean) {
             travelerSelectState.visibility = if (!forward) View.VISIBLE else View.GONE

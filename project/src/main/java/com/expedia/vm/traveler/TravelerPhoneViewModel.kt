@@ -21,12 +21,10 @@ class TravelerPhoneViewModel() {
 
     val countryCodeObserver = endlessObserver<Int> { countryCode ->
         phone.countryCode = countryCode.toString()
-        phoneCountyCodeSubject.onNext(phone.countryCode)
     }
 
     val phoneNumberObserver = endlessObserver<TextViewAfterTextChangeEvent>() { phoneNumber ->
         phone.number = phoneNumber.editable().toString()
-        phoneNumberSubject.onNext(phone.number)
     }
 
     fun updatePhone(phone: Phone) {

@@ -20,19 +20,16 @@ class TravelerNameViewModel(): InvalidCharacterHelper.InvalidCharacterListener {
 
     val firstNameObserver = endlessObserver<TextViewAfterTextChangeEvent>() { name ->
         travelerName.firstName = name.editable().toString()
-        firstNameSubject.onNext(travelerName.firstName)
         nameUpdated()
     }
 
     val middleNameObserver = endlessObserver<TextViewAfterTextChangeEvent>() { name ->
         travelerName.middleName = name.editable().toString()
-        middleNameSubject.onNext(travelerName.middleName)
         nameUpdated()
     }
 
     val lastNameObserver = endlessObserver<TextViewAfterTextChangeEvent>() { name ->
         travelerName.lastName = name.editable().toString()
-        lastNameSubject.onNext(travelerName.lastName)
         nameUpdated()
     }
 

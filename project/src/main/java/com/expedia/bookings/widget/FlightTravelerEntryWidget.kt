@@ -43,13 +43,6 @@ class FlightTravelerEntryWidget(context: Context, attrs: AttributeSet?) : FrameL
         travelerButton.visibility == View.GONE
     }
 
-    override fun onVisibilityChanged(changedView: View?, visibility: Int) {
-        super.onVisibilityChanged(changedView, visibility)
-        if (changedView == this && visibility == View.VISIBLE) {
-            travelerButton.visibility = if (User.isLoggedIn(context)) View.VISIBLE else View.GONE
-        }
-    }
-
     override fun onFinishInflate() {
         super.onFinishInflate()
 

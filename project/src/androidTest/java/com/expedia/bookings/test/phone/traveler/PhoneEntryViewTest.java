@@ -40,7 +40,8 @@ public class PhoneEntryViewTest {
 	public void updatePhone() throws Throwable {
 		phoneEntryView = (PhoneEntryView) activityTestRule.getRoot();
 		final TravelerPhoneViewModel phoneVM = new TravelerPhoneViewModel();
-		phoneVM.updatePhone(new Phone());
+		Phone phone = new Phone();
+		phoneVM.updatePhone(phone);
 
 		uiThreadTestRule.runOnUiThread(new Runnable() {
 			@Override
@@ -50,7 +51,7 @@ public class PhoneEntryViewTest {
 		});
 
 		onView(withId(R.id.edit_phone_number)).perform(typeText(testNumber));
-		assertEquals(testNumber, phoneVM.getPhoneNumberSubject().getValue());
+		assertEquals(testNumber, phone.getNumber());
 	}
 
 	@Test
