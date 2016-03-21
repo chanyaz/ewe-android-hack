@@ -1,5 +1,6 @@
 package com.expedia.bookings.test.phone.packages;
 
+import org.hamcrest.CoreMatchers;
 import org.joda.time.LocalDate;
 
 import android.support.annotation.IdRes;
@@ -8,6 +9,7 @@ import android.support.test.espresso.ViewInteraction;
 import com.expedia.bookings.R;
 import com.expedia.bookings.test.espresso.Common;
 import com.expedia.bookings.test.espresso.PackageTestCase;
+import com.expedia.bookings.test.espresso.RecyclerViewAssertions;
 import com.expedia.bookings.test.phone.hotels.HotelScreen;
 
 import static android.support.test.espresso.Espresso.onData;
@@ -16,6 +18,7 @@ import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.action.ViewActions.scrollTo;
 import static android.support.test.espresso.action.ViewActions.typeText;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
+import static android.support.test.espresso.matcher.ViewMatchers.hasDescendant;
 import static android.support.test.espresso.matcher.ViewMatchers.hasSibling;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
@@ -23,6 +26,7 @@ import static android.support.test.espresso.matcher.ViewMatchers.withSpinnerText
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.CoreMatchers.allOf;
 import static org.hamcrest.CoreMatchers.containsString;
+import static org.hamcrest.CoreMatchers.not;
 import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.Matchers.is;
 
@@ -92,6 +96,27 @@ public class PackageFlightFilterTest extends PackageTestCase {
 		selectSorting("Duration");
 		Common.delay(1);
 		done();
+		Common.delay(1);
+		assertBestFlightOnTop();
+	}
+
+	public void testBestFlightFilter() throws Throwable {
+		openFlightFilter();
+		tickCheckboxWithText("Hawaiian Airlines");
+		done();
+		Common.delay(1);
+		onView(withId(R.id.package_best_flight)).check(matches(not(isDisplayed())));
+	}
+
+	private void assertBestFlightOnTop() {
+		onView(withId(R.id.all_flights_header)).check(matches(isDisplayed()));
+		assertViewWithIdIsDisplayedAtPosition(PackageScreen.flightList(), 1, R.id.package_best_flight);
+	}
+
+	private void assertViewWithIdIsDisplayedAtPosition(ViewInteraction viewInteraction, int position, int id) {
+		viewInteraction.check(
+			RecyclerViewAssertions.assertionOnItemAtPosition(position, hasDescendant(
+				CoreMatchers.allOf(withId(id), isDisplayed()))));
 	}
 
 	private void done() {

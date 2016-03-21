@@ -84,7 +84,6 @@ public class PackagePhoneHappyPathTest extends PackageTestCase {
 
 		PackageScreen.outboundFlight().perform(click());
 
-		assertFlightOutbound();
 		PackageScreen.selectFlight(0);
 		assertBundlePriceInFlight("$3,864");
 		PackageScreen.selectThisFlight().perform(click());
@@ -95,7 +94,6 @@ public class PackagePhoneHappyPathTest extends PackageTestCase {
 
 		PackageScreen.inboundFLight().perform(click());
 
-		assertFlightInbound();
 		PackageScreen.selectFlight(0);
 		assertBundlePriceInFlight("$4,212");
 		PackageScreen.selectThisFlight().perform(click());
@@ -163,21 +161,6 @@ public class PackagePhoneHappyPathTest extends PackageTestCase {
 		assertViewWithTextIsDisplayedAtPosition(HotelScreen.hotelCarousel(), 0, R.id.hotel_price_per_night, "$562");
 	}
 
-	private void assertFlightOutbound() {
-		assertViewWithTextIsDisplayedAtPosition(PackageScreen.flightList(), 3, R.id.flight_time_detail_text_view,
-			"9:00 am - 11:12 am");
-		assertViewWithTextIsDisplayedAtPosition(PackageScreen.flightList(), 3, R.id.flight_duration_text_view, "5h 12m (Nonstop)");
-		assertViewWithTextIsDisplayedAtPosition(PackageScreen.flightList(), 3, R.id.price_text_view, "+$0");
-		assertViewWithIdIsDisplayedAtPosition(PackageScreen.flightList(), 3, R.id.custom_flight_layover_widget);
-	}
-
-	private void assertFlightInbound() {
-		assertViewWithTextIsDisplayedAtPosition(PackageScreen.flightList(), 3, R.id.flight_time_detail_text_view, "1:45 pm - 10:00 pm");
-		assertViewWithTextIsDisplayedAtPosition(PackageScreen.flightList(), 3, R.id.flight_duration_text_view, "5h 15m (Nonstop)");
-		assertViewWithTextIsDisplayedAtPosition(PackageScreen.flightList(), 3, R.id.price_text_view, "+$0");
-		assertViewWithIdIsDisplayedAtPosition(PackageScreen.flightList(), 3, R.id.custom_flight_layover_widget);
-	}
-
 	private void assertCheckoutOverview() {
 		onView(allOf(withId(R.id.destination), withParent(withId(R.id.checkout_overview_floating_toolbar)), withText("Detroit, MI"))).check(matches(isDisplayed()));
 		onView(allOf(withId(R.id.check_in_out_dates), withParent(withId(R.id.checkout_overview_floating_toolbar)), withText("Tue Feb 02, 2016 - Thu Feb 04, 2016"))).check(matches(isDisplayed()));
@@ -226,12 +209,6 @@ public class PackagePhoneHappyPathTest extends PackageTestCase {
 		viewInteraction.check(
 			RecyclerViewAssertions.assertionOnItemAtPosition(position, hasDescendant(
 				CoreMatchers.allOf(withId(id), isDisplayed(), withText(text)))));
-	}
-
-	private void assertViewWithIdIsDisplayedAtPosition(ViewInteraction viewInteraction, int position, int id) {
-		viewInteraction.check(
-			RecyclerViewAssertions.assertionOnItemAtPosition(position, hasDescendant(
-				CoreMatchers.allOf(withId(id), isDisplayed()))));
 	}
 
 	private void reviews() throws Throwable {
