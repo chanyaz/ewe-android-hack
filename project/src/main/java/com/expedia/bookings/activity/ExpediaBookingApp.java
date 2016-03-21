@@ -16,7 +16,6 @@ import android.text.format.DateUtils;
 import com.activeandroid.ActiveAndroid;
 import com.crashlytics.android.Crashlytics;
 import com.expedia.bookings.BuildConfig;
-import com.expedia.bookings.R;
 import com.expedia.bookings.bitmaps.PicassoHelper;
 import com.expedia.bookings.dagger.AppComponent;
 import com.expedia.bookings.dagger.AppModule;
@@ -64,7 +63,6 @@ import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.SettingUtils;
 import com.mobiata.android.util.TimingLogger;
 import com.mobiata.flightlib.data.sources.FlightStatsDbUtils;
-import com.squareup.leakcanary.LeakCanary;
 
 import net.danlew.android.joda.JodaTimeAndroid;
 
@@ -73,6 +71,8 @@ import io.fabric.sdk.android.Fabric;
 public class ExpediaBookingApp extends MultiDexApplication implements UncaughtExceptionHandler {
 	// Don't change the actual string, updated identifier for clarity
 	private static final String PREF_FIRST_LAUNCH = "PREF_FIRST_LAUNCH";
+
+	public static final String PREF_LAST_VERSION_OF_APP_LAUNCHED = "PREF_LAST_VERSION_OF_APP_LAUNCHED";
 
 	// For logged in backward compatibility with AccountManager
 	private static final String PREF_UPGRADED_TO_ACCOUNT_MANAGER = "PREF_UPGRADED_TO_ACCOUNT_MANAGER";
@@ -88,6 +88,16 @@ public class ExpediaBookingApp extends MultiDexApplication implements UncaughtEx
 	//64 memory class or lower is a shitty device
 	private static boolean sIsDeviceShitty = false;
 	private static boolean sIsInstrumentation = false;
+	private static boolean sIsFirstLaunchEver = true;
+	private static boolean sIsFirstLaunchOfAppVersion = true;
+
+	public static boolean isFirstLaunchOfAppVersion() {
+		return sIsFirstLaunchOfAppVersion;
+	}
+
+	public static boolean isFirstLaunchEver() {
+		return sIsFirstLaunchEver;
+	}
 
 	public static boolean isAutomation() {
 		return sIsRobolectric || sIsInstrumentation;
@@ -114,6 +124,7 @@ public class ExpediaBookingApp extends MultiDexApplication implements UncaughtEx
 		AbacusHelperUtils.generateAbacusGuid(this);
 
 		TimingLogger startupTimer = new TimingLogger("ExpediaBookings", "startUp");
+
 		super.onCreate();
 		startupTimer.addSplit("super.onCreate()");
 
@@ -127,11 +138,6 @@ public class ExpediaBookingApp extends MultiDexApplication implements UncaughtEx
 
 			StethoShim.install(this);
 			startupTimer.addSplit("Stetho init");
-
-			if (SettingUtils.get(this, getString(R.string.preference_enable_leakcanary), false)) {
-				LeakCanary.install(this);
-				startupTimer.addSplit("LeakCanary init");
-			}
 		}
 
 		mAppComponent = DaggerAppComponent.builder()
@@ -289,8 +295,7 @@ public class ExpediaBookingApp extends MultiDexApplication implements UncaughtEx
 		}
 		startupTimer.addSplit("Push server unregistered (if needed)");
 
-		if (!SettingUtils.get(this, PREF_FIRST_LAUNCH, false)) {
-			SettingUtils.save(this, PREF_FIRST_LAUNCH, true);
+		if (SettingUtils.get(ExpediaBookingApp.this, PREF_FIRST_LAUNCH, true)) {
 			AdTracker.trackFirstLaunch();
 			startupTimer.addSplit("AdTracker first launch tracking");
 		}
@@ -309,6 +314,24 @@ public class ExpediaBookingApp extends MultiDexApplication implements UncaughtEx
 		CurrencyUtils.initMap(this);
 		startupTimer.addSplit("Currency Utils init");
 		startupTimer.dumpToLog();
+	}
+
+	public void updateFirstLaunchAndUpdateSettings() {
+		if (SettingUtils.get(ExpediaBookingApp.this, PREF_FIRST_LAUNCH, true)) {
+			sIsFirstLaunchEver = true;
+			SettingUtils.save(ExpediaBookingApp.this, PREF_FIRST_LAUNCH, false);
+		}
+		else {
+			sIsFirstLaunchEver = false;
+		}
+
+		sIsFirstLaunchOfAppVersion = isFirstLaunchOfNewAppVersion();
+		SettingUtils.save(ExpediaBookingApp.this, PREF_LAST_VERSION_OF_APP_LAUNCHED, BuildConfig.VERSION_NAME);
+	}
+
+	private boolean isFirstLaunchOfNewAppVersion() {
+		String lastVersionOfAppLaunched = SettingUtils.get(ExpediaBookingApp.this, PREF_LAST_VERSION_OF_APP_LAUNCHED, "");
+		return !BuildConfig.VERSION_NAME.equals(lastVersionOfAppLaunched);
 	}
 
 	@Override

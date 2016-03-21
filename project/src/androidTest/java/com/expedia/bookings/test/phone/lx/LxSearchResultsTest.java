@@ -29,14 +29,7 @@ public class LxSearchResultsTest extends LxTestCase {
 	SearchResultsHandler searchResultsHandler = new SearchResultsHandler();
 
 	public void testSearchResultPageTestCases() throws Throwable {
-		Events.register(searchResultsHandler);
-		String expectedLocationDisplayName = "San Francisco, CA";
-		LXScreen.location().perform(typeText("San"));
-		LXScreen.selectLocation(expectedLocationDisplayName);
-		LXScreen.selectDateButton().perform(click());
-		LXScreen.selectDates(LocalDate.now(), null);
-		LXScreen.searchButton().perform(click());
-		LXScreen.waitForSearchListDisplayed();
+		searchListDisplayed();
 		//by this time we must have all the activities loaded.
 		//assert on the total number of items to show.
 		LXScreen.resultList().check(matches(LXScreen.withResults(mActivities.size())));
@@ -67,6 +60,36 @@ public class LxSearchResultsTest extends LxTestCase {
 			currentCounter++;
 		}
 		//To-Do : Since Sort and Filter functionality are under discussion, will implement the test cases when we have a clarity around them.
+	}
+
+	public void testSearchResultsFromOverlayOnDetails() throws Throwable {
+		searchListDisplayed();
+		selectActivityAndWaitForDetailsDisplayed();
+		LXScreen.searchButtonOnDetailsWithRecommendationsToolbar().perform(click());
+		searchListDisplayed();
+	}
+
+	public void testSearchResultsFromOverlayOnDetailsWithRecommendations()  throws Throwable {
+		searchListDisplayed();
+		selectActivityAndWaitForDetailsDisplayed();
+		LXScreen.searchButtonOnDetailsWithRecommendationsToolbar().perform(click());
+		searchListDisplayed();
+	}
+
+	private void selectActivityAndWaitForDetailsDisplayed() {
+		Events.post(new Events.LXActivitySelected(new LXActivity()));
+		LXScreen.waitForDetailsDisplayed();
+	}
+
+	private void searchListDisplayed() throws Throwable {
+		Events.register(searchResultsHandler);
+		String expectedLocationDisplayName = "San Francisco, CA";
+		LXScreen.location().perform(typeText("San"));
+		LXScreen.selectLocation(expectedLocationDisplayName);
+		LXScreen.selectDateButton().perform(click());
+		LXScreen.selectDates(LocalDate.now(), null);
+		LXScreen.searchButton().perform(click());
+		LXScreen.waitForSearchListDisplayed();
 		Events.unregister(searchResultsHandler);
 	}
 

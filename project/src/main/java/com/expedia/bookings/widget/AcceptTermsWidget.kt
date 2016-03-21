@@ -7,10 +7,9 @@ import android.widget.Button
 import android.widget.LinearLayout
 import com.expedia.bookings.R
 import com.expedia.bookings.utils.bindView
-import com.expedia.util.publishOnClick
 import com.expedia.vm.AcceptTermsViewModel
 
-public class AcceptTermsWidget(context: Context, attrs: AttributeSet): LinearLayout(context, attrs) {
+class AcceptTermsWidget(context: Context, attrs: AttributeSet): LinearLayout(context, attrs) {
 
     val acceptButton: Button by bindView(R.id.i_accept_terms_button)
     val vm = AcceptTermsViewModel()

@@ -2,10 +2,8 @@ package com.expedia.bookings.presenter.packages
 
 import android.app.AlertDialog
 import android.content.Context
-import android.content.DialogInterface
 import android.graphics.Color
 import android.graphics.PorterDuff
-import android.os.Build
 import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
@@ -19,6 +17,7 @@ import android.widget.ToggleButton
 import com.expedia.account.graphics.ArrowXDrawable
 import com.expedia.bookings.R
 import com.expedia.bookings.location.CurrentLocationObservable
+import com.expedia.bookings.presenter.BaseSearchPresenter
 import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.services.SuggestionV4Services
 import com.expedia.bookings.utils.AnimUtils
@@ -37,14 +36,9 @@ import com.expedia.vm.HotelTravelerPickerViewModel
 import com.expedia.vm.PackageSearchViewModel
 import com.expedia.vm.PackageSuggestionAdapterViewModel
 import com.mobiata.android.time.util.JodaUtils
-import com.mobiata.android.time.widget.CalendarPicker
-import com.mobiata.android.time.widget.DaysOfWeekView
-import com.mobiata.android.time.widget.MonthView
 import org.joda.time.LocalDate
-import java.text.SimpleDateFormat
-import java.util.Locale
 
-public class PackageSearchPresenter(context: Context, attrs: AttributeSet) : Presenter(context, attrs) {
+class PackageSearchPresenter(context: Context, attrs: AttributeSet) : BaseSearchPresenter(context, attrs) {
 
     val suggestionServices: SuggestionV4Services by lazy {
         Ui.getApplication(getContext()).packageComponent().suggestionsService()
@@ -56,10 +50,7 @@ public class PackageSearchPresenter(context: Context, attrs: AttributeSet) : Pre
     val toolbar: Toolbar by bindView(R.id.toolbar)
     val selectDate: ToggleButton by bindView(R.id.select_date)
     val selectTraveler: ToggleButton by bindView(R.id.select_traveler)
-    val calendar: CalendarPicker by bindView(R.id.calendar)
-    val monthView: MonthView by bindView(R.id.month)
     val traveler: HotelTravelerPickerView by bindView(R.id.traveler_view)
-    val dayOfWeek: DaysOfWeekView by bindView(R.id.days_of_week)
 
     var navIcon: ArrowXDrawable
     var isFromUser = true
@@ -68,11 +59,7 @@ public class PackageSearchPresenter(context: Context, attrs: AttributeSet) : Pre
         val builder = AlertDialog.Builder(context)
         builder.setTitle(R.string.search_error)
         builder.setMessage(context.getString(R.string.hotel_search_range_error_TEMPLATE, resources.getInteger(R.integer.calendar_max_days_package_stay)))
-        builder.setPositiveButton(context.getString(R.string.DONE), object : DialogInterface.OnClickListener {
-            override fun onClick(dialog: DialogInterface, which: Int) {
-                dialog.dismiss()
-            }
-        })
+        builder.setPositiveButton(context.getString(R.string.DONE), { dialog, which -> dialog.dismiss() })
         builder.create()
     }
 
@@ -113,11 +100,11 @@ public class PackageSearchPresenter(context: Context, attrs: AttributeSet) : Pre
         selectDate.subscribeOnClick(vm.enableDateObserver)
         vm.enableDateObservable.subscribe { enable ->
             if (enable) {
-                selectDate.setChecked(true)
+                selectDate.isChecked = true
                 flyingFromAutoComplete.locationEditText.clearFocus()
                 flyingToAutoComplete.locationEditText.clearFocus()
-                traveler.setVisibility(View.GONE)
-                calendar.setVisibility(View.VISIBLE)
+                traveler.visibility = View.GONE
+                calendar.visibility = View.VISIBLE
                 show(PackageParamsCalendar(), FLAG_CLEAR_BACKSTACK)
             } else {
                 vm.errorNoOriginObservable.onNext(false)
@@ -125,15 +112,16 @@ public class PackageSearchPresenter(context: Context, attrs: AttributeSet) : Pre
         }
 
         traveler.viewmodel.travelerParamsObservable.subscribe(vm.travelersObserver)
+        traveler.viewmodel.isInfantInLapObservable.subscribe(vm.isInfantInLapObserver)
         traveler.viewmodel.guestsTextObservable.subscribeToggleButton(selectTraveler)
         selectTraveler.subscribeOnClick(vm.enableTravelerObserver)
         vm.enableTravelerObservable.subscribe { enable ->
             if (enable) {
-                selectTraveler.setChecked(true)
+                selectTraveler.isChecked = true
                 flyingFromAutoComplete.locationEditText.clearFocus()
                 flyingToAutoComplete.locationEditText.clearFocus()
-                calendar.setVisibility(View.GONE)
-                traveler.setVisibility(View.VISIBLE)
+                calendar.visibility = View.GONE
+                traveler.visibility = View.VISIBLE
                 calendar.hideToolTip()
             } else {
                 vm.errorNoOriginObservable.onNext(false)
@@ -153,14 +141,14 @@ public class PackageSearchPresenter(context: Context, attrs: AttributeSet) : Pre
         searchButton.subscribeOnClick(vm.searchObserver)
         vm.searchButtonObservable.subscribe { enable ->
             if (enable) {
-                searchButton.setAlpha(1.0f)
+                searchButton.alpha = 1.0f
             } else {
-                searchButton.setAlpha(0.15f)
+                searchButton.alpha = 0.15f
             }
         }
         vm.errorNoOriginObservable.subscribe {
-            selectDate.setChecked(false)
-            selectTraveler.setChecked(false)
+            selectDate.isChecked = false
+            selectTraveler.isChecked = false
             show(PackageParamsDefault())
             val editText = if (!it) flyingFromAutoComplete.locationEditText else flyingToAutoComplete.locationEditText
             editText.requestFocus()
@@ -168,7 +156,7 @@ public class PackageSearchPresenter(context: Context, attrs: AttributeSet) : Pre
             AnimUtils.doTheHarlemShake(editText)
         }
         vm.errorNoDatesObservable.subscribe {
-            if (calendar.getVisibility() == View.VISIBLE) {
+            if (calendar.visibility == View.VISIBLE) {
                 AnimUtils.doTheHarlemShake(calendar)
             } else {
                 AnimUtils.doTheHarlemShake(selectDate)
@@ -246,8 +234,8 @@ public class PackageSearchPresenter(context: Context, attrs: AttributeSet) : Pre
 
         traveler.viewmodel = HotelTravelerPickerViewModel(getContext(), true)
         searchViewModel = PackageSearchViewModel(context)
-        originSuggestionVM = PackageSuggestionAdapterViewModel(getContext(), suggestionServices, CurrentLocationObservable.create(getContext()))
-        destinationSuggestionVM = PackageSuggestionAdapterViewModel(getContext(), suggestionServices, null)
+        originSuggestionVM = PackageSuggestionAdapterViewModel(getContext(), suggestionServices, false, CurrentLocationObservable.create(getContext()))
+        destinationSuggestionVM = PackageSuggestionAdapterViewModel(getContext(), suggestionServices, true, null)
 
         flyingFromAutoComplete.suggestionViewModel = originSuggestionVM
         flyingToAutoComplete.suggestionViewModel = destinationSuggestionVM
@@ -258,51 +246,33 @@ public class PackageSearchPresenter(context: Context, attrs: AttributeSet) : Pre
             calendar.hideToolTip()
         }
 
-        monthView.setTextEqualDatesColor(Color.WHITE)
-        monthView.setMaxTextSize(getResources().getDimension(R.dimen.car_calendar_month_view_max_text_size))
-        dayOfWeek.setDayOfWeekRenderer { dayOfWeek: LocalDate.Property ->
-            if (Build.VERSION.SDK_INT >= 18) {
-                val sdf = SimpleDateFormat("EEEEE", Locale.getDefault())
-                sdf.format(dayOfWeek.getLocalDate().toDate())
-            } else if (Locale.getDefault().getLanguage() == "en") {
-                dayOfWeek.getAsShortText().toUpperCase(Locale.getDefault()).substring(0, 1)
-            } else {
-                DaysOfWeekView.DayOfWeekRenderer.DEFAULT.renderDayOfWeek(dayOfWeek)
-            }
-        }
-
         selectDate.typeface = FontCache.getTypeface(FontCache.Font.ROBOTO_REGULAR)
         selectTraveler.typeface = FontCache.getTypeface(FontCache.Font.ROBOTO_REGULAR)
-        calendar.setMonthHeaderTypeface(FontCache.getTypeface(FontCache.Font.ROBOTO_REGULAR))
-        dayOfWeek.setTypeface(FontCache.getTypeface(FontCache.Font.ROBOTO_REGULAR))
-        monthView.setDaysTypeface(FontCache.getTypeface(FontCache.Font.ROBOTO_LIGHT))
-        monthView.setTodayTypeface(FontCache.getTypeface(FontCache.Font.ROBOTO_MEDIUM))
+        styleCalendar()
 
         flyingFromAutoComplete.locationEditText.onFocusChangeListener = makeFocusChangedListener(flyingFromAutoComplete)
-        flyingToAutoComplete.locationEditText.onFocusChangeListener =  makeFocusChangedListener(flyingToAutoComplete)
+        flyingToAutoComplete.locationEditText.onFocusChangeListener = makeFocusChangedListener(flyingToAutoComplete)
 
     }
 
     private fun makeFocusChangedListener(autoCompleteView: SearchAutoCompleteView): View.OnFocusChangeListener {
-        return object : View.OnFocusChangeListener {
-            override fun onFocusChange(v: View?, hasFocus: Boolean) {
-                if (hasFocus) {
-                    show(PackageParamsDefault(), FLAG_CLEAR_BACKSTACK)
-                    val expandedContainer = if (v ==  flyingFromAutoComplete.locationEditText) flyingFromAutoComplete else flyingToAutoComplete
-                    val unexpandedContainer = if (v ==  flyingFromAutoComplete.locationEditText) flyingToAutoComplete else flyingFromAutoComplete
-                    val expandedLp = expandedContainer.layoutParams as LinearLayout.LayoutParams
-                    val unexpandedLp = unexpandedContainer.layoutParams as LinearLayout.LayoutParams
-                    expandedLp.weight = 2f
-                    unexpandedLp.weight = 1f
-                    expandedContainer.layoutParams = expandedLp
-                    unexpandedContainer.layoutParams = unexpandedLp
-                    expandedContainer.invalidate()
-                    unexpandedContainer.invalidate()
-                    resetSuggestion(v ==  flyingFromAutoComplete.locationEditText)
-                }
-
-                autoCompleteView.focusChanged(hasFocus)
+        return View.OnFocusChangeListener { v, hasFocus ->
+            if (hasFocus) {
+                show(PackageParamsDefault(), FLAG_CLEAR_BACKSTACK)
+                val expandedContainer = if (v == flyingFromAutoComplete.locationEditText) flyingFromAutoComplete else flyingToAutoComplete
+                val unexpandedContainer = if (v == flyingFromAutoComplete.locationEditText) flyingToAutoComplete else flyingFromAutoComplete
+                val expandedLp = expandedContainer.layoutParams as LinearLayout.LayoutParams
+                val unexpandedLp = unexpandedContainer.layoutParams as LinearLayout.LayoutParams
+                expandedLp.weight = 2f
+                unexpandedLp.weight = 1f
+                expandedContainer.layoutParams = expandedLp
+                unexpandedContainer.layoutParams = unexpandedLp
+                expandedContainer.invalidate()
+                unexpandedContainer.invalidate()
+                resetSuggestion(v == flyingFromAutoComplete.locationEditText)
             }
+
+            autoCompleteView.focusChanged(hasFocus)
         }
     }
 
@@ -324,10 +294,6 @@ public class PackageSearchPresenter(context: Context, attrs: AttributeSet) : Pre
 
         override fun endTransition(forward: Boolean) {
             calendar.translationY = if (forward) 0f else calendarHeight.toFloat()
-        }
-
-        override fun finalizeTransition(forward: Boolean) {
-            calendar.translationY = if (forward) 0f else calendarHeight.toFloat()
             if (forward) {
                 flyingFromAutoComplete.locationEditText.clearFocus()
                 flyingToAutoComplete.locationEditText.clearFocus()
@@ -338,7 +304,7 @@ public class PackageSearchPresenter(context: Context, attrs: AttributeSet) : Pre
     }
 
     private val default = object : Presenter.DefaultTransition(PackageParamsDefault::class.java.name) {
-        override fun finalizeTransition(forward: Boolean) {
+        override fun endTransition(forward: Boolean) {
             calendar.visibility =  View.INVISIBLE
             traveler.visibility =  View.GONE
         }
@@ -364,7 +330,7 @@ public class PackageSearchPresenter(context: Context, attrs: AttributeSet) : Pre
     }
 
     // Classes for state
-    public class PackageParamsDefault
+    class PackageParamsDefault
 
-    public class PackageParamsCalendar
+    class PackageParamsCalendar
 }

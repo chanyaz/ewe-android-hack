@@ -10,7 +10,7 @@ import com.squareup.phrase.Phrase
 import rx.subjects.BehaviorSubject
 import rx.subjects.PublishSubject
 
-public class RecentSearchViewModel(val context: Context) {
+class RecentSearchViewModel(val context: Context) {
 
     val titleObservable = BehaviorSubject.create<String>()
     val descriptionObservable = BehaviorSubject.create<CharSequence>()

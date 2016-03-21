@@ -23,7 +23,9 @@ data class CardDetails(
         val cvv: String?,
         val nameOnCard: String,
         val amountOnCard: String?,
-        val storeCreditCardInUserProfile: Boolean = false)
+        val storeCreditCardInUserProfile: Boolean = false,
+        val currencyCode: String? = null,
+        val country:String? = null)
 
 data class RewardDetails(
         val membershipId: String? = null,

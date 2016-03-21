@@ -21,13 +21,12 @@
 
         <TextView
             android:id="@+id/package_map_price_messaging"
+            style="@style/PackagesHotelMapMessage"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="#EAEAEA"
+            android:background="@color/search_results_list_bg_gray"
             android:gravity="center"
-            android:padding="10dp"
-            android:text="@string/package_price_includes_taxes_fees"
-            android:textColor="@color/hotel_cell_gray_text" />
+            android:text="@string/package_price_includes_taxes_fees" />
 
         <com.expedia.bookings.widget.HotelCarouselRecycler
             android:id="@+id/hotel_carousel"
@@ -39,7 +38,7 @@
         android:id="@+id/recycler_view_temp_background"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#eaeaea"
+        android:background="@color/search_results_list_bg_gray"
         android:visibility="gone" />
 
     <com.expedia.bookings.widget.HotelListRecyclerView

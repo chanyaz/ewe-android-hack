@@ -1,9 +1,5 @@
 package com.expedia.bookings.widget;
 
-import java.util.LinkedList;
-import java.util.Queue;
-import java.util.concurrent.Semaphore;
-
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.AnimatorSet;
@@ -42,6 +38,10 @@ import com.expedia.bookings.widget.ItinCard.OnItinCardClickListener;
 import com.expedia.bookings.widget.itin.ItinAirAttachCard;
 import com.expedia.bookings.widget.itin.ItinButtonCard;
 import com.mobiata.android.Log;
+
+import java.util.LinkedList;
+import java.util.Queue;
+import java.util.concurrent.Semaphore;
 
 @SuppressWarnings("rawtypes")
 public class ItinListView extends ListView implements OnItemClickListener, OnScrollListener, OnItinCardClickListener {
@@ -282,7 +282,9 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 				|| (child instanceof ItinAirAttachCard
 				&& (((ItinAirAttachCard) child).isTouchOnAirAttachButton(childEvent)
 				|| ((ItinAirAttachCard) child).isTouchOnDismissButton(childEvent)))
-				|| (child instanceof ItinCard && ((ItinCard) child).isTouchOnSummaryButtons(childEvent))) {
+				|| (child instanceof ItinCard && (((ItinCard) child).isTouchOnSummaryButtons(childEvent)
+				|| ((ItinCard) child).isTouchOnCheckInButton(childEvent)))) {
+
 				isChildConsumedTouch = true;
 			}
 		}

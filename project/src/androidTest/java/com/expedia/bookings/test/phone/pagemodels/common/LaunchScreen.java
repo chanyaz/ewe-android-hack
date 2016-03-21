@@ -94,6 +94,5 @@ public class LaunchScreen {
 	public static ViewInteraction fiveLOBDoubleRowWidget() {
 		return onView(withId(R.id.double_row_five_lob_selector));
 	}
-
 }
 

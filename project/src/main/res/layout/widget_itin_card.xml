@@ -257,6 +257,39 @@
                 android:id="@+id/action_button_layout"
                 layout="@layout/section_itin_actions"
                 android:visibility="gone" />
+
+            <LinearLayout
+                android:id="@+id/checkin_layout"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/itin_summary_section_height"
+                android:background="?android:attr/selectableItemBackground"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:visibility="gone" >
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginRight="8dp"
+                    android:background="@color/itin_summary_divider_color" />
+
+                <com.expedia.bookings.widget.TextView
+                    android:id="@+id/checkin_text_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/itin_checkin_rounded_corner"
+                    android:ellipsize="end"
+                    android:gravity="center"
+                    android:text="@string/itin_card_flight_checkin"
+                    android:paddingLeft="4dp"
+                    android:singleLine="true"
+                    android:textColor="#FFFFFF"
+                    android:textSize="16sp"
+                    app:textStyle="medium" />
+
+            </LinearLayout>
+
         </LinearLayout>
 
         <View

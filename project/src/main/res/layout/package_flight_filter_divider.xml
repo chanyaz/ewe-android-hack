@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:layout_marginTop="@dimen/sort_filter_padding_normal"
+        android:layout_marginBottom="@dimen/sort_filter_padding_normal"
+        android:background="@color/packages_flight_filter_divider" />
+</merge>

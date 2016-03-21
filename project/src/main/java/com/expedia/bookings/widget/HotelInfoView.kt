@@ -8,7 +8,7 @@ import com.expedia.bookings.R
 import com.expedia.bookings.utils.StrUtils
 import com.expedia.bookings.utils.bindView
 
-public class HotelInfoView(context: Context) : LinearLayout(context) {
+class HotelInfoView(context: Context) : LinearLayout(context) {
 
     val infoHeader: TextView by bindView(R.id.info_header)
     val infoText: TextView by bindView(R.id.info_text)

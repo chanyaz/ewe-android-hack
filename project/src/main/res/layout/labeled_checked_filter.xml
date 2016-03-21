@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.expedia.bookings.widget.LabeledCheckableFilter
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/filter_categories_widget"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="?android:attr/selectableItemBackground"
+    android:clickable="true"
+    android:paddingBottom="@dimen/sort_filter_padding_small"
+    android:paddingTop="@dimen/sort_filter_padding_small">
+
+    <CheckBox
+        android:id="@+id/check_box"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:clickable="false" />
+
+    <com.expedia.bookings.widget.TextView
+        android:id="@+id/label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@id/check_box"
+        android:layout_toRightOf="@id/check_box"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:textColor="@color/hotel_filter_neighborhood_text"
+        android:textSize="@dimen/package_sort_filter_value_text_size" />
+
+    <com.expedia.bookings.widget.TextView
+        android:id="@+id/results_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignBaseline="@id/check_box"
+        android:layout_marginLeft="@dimen/sort_filter_padding_small"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp"
+        android:paddingTop="2dp"
+        android:paddingBottom="2dp"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:background="@drawable/filter_number_bg_packages"
+        android:textColor="@color/packages_filter_color"
+        android:textSize="10sp" />
+
+</com.expedia.bookings.widget.LabeledCheckableFilter>

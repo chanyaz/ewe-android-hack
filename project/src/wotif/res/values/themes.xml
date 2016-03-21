@@ -43,8 +43,6 @@
         <item name="skin_hotelBookButtonColor">@android:color/white</item>
         <item name="skin_cvvBookButtonKeypadDrawable">@drawable/btn_cvv_keypad_book_wotif</item>
         <item name="skin_webViewPreferencesActionBarLogo">@drawable/ic_action_bar_wotif_logo</item>
-        <item name="skin_aboutAppNameString">@string/launcher_name</item>
-        <item name="skin_aboutAppLogoDrawable">@drawable/ic_launcher</item>
         <item name="skin_webViewPreferencesActionBarLogoWithTitle">@drawable/ic_action_bar_wotif_logo_small</item>
         <item name="skin_actionBarBackgroundDrawable">@drawable/bg_action_bar_wotif</item>
         <item name="skin_cvvBookButtonTextColor">@android:color/white</item>
@@ -148,7 +146,6 @@
         <item name="skin_itinCardActionBarCheckmark">@drawable/ic_action_bar_checkmark_blue_wotif</item>
         <item name="skin_itinCardTitleTextColor">@color/actionbar_text_wotif</item>
         <item name="skin_launchTabIndicatorColor">@color/action_bar_selected_tab_underline_color</item>
-        <item name="skin_launchActionBarBackgroundColor">@color/action_bar_bg_color</item>
         <item name="skin_tripsTabText">@string/Your_Trips</item>
 
     </style>

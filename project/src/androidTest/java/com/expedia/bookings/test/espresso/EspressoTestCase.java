@@ -66,7 +66,7 @@ public class EspressoTestCase extends ActivityInstrumentationTestCase2 {
 	}
 
 	public String getPOS(Locale locale) {
-		return locale.getDisplayCountry(new Locale("en", "US")).replace(" ", "_").toUpperCase();
+		return locale.getDisplayCountry(new Locale("en", "US")).replace(" ", "_").toUpperCase(locale);
 	}
 
 	@Override

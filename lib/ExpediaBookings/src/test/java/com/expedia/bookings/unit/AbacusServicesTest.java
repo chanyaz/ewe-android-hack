@@ -90,7 +90,7 @@ public class AbacusServicesTest {
 		observer.assertCompleted();
 
 		AbacusResponse responseV2 = observer.getOnNextEvents().get(0);
-		assertEquals(4, responseV2.numberOfTests());
+		assertEquals(5, responseV2.numberOfTests());
 		assertFalse(responseV2.isUserBucketedForTest(9000));
 		assertTrue(responseV2.isUserBucketedForTest(3243));
 		assertEquals("3243.17887.1", responseV2.getAnalyticsString(3243));

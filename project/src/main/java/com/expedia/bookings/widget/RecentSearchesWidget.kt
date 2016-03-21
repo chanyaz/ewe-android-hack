@@ -12,7 +12,7 @@ import com.expedia.util.notNullAndObservable
 import com.expedia.vm.RecentSearchesAdapterViewModel
 
 
-public class RecentSearchesWidget(context: Context, attrs: AttributeSet) : LinearLayout(context, attrs) {
+class RecentSearchesWidget(context: Context, attrs: AttributeSet) : LinearLayout(context, attrs) {
 
     val recentSearchesAdapter: RecyclerView  by bindView(R.id.recent_searches_adapter)
 
@@ -23,7 +23,7 @@ public class RecentSearchesWidget(context: Context, attrs: AttributeSet) : Linea
     }
 
     var recentSearchesAdapterViewModel: RecentSearchesAdapterViewModel by notNullAndObservable { vm ->
-        recentSearchesAdapter.adapter = RecentSearchesAdapter(vm, true)
+        recentSearchesAdapter.adapter = RecentSearchesAdapter(vm)
     }
 }
 

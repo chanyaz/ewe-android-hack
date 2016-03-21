@@ -1,14 +1,10 @@
 package com.expedia.bookings.widget
 
-import java.util.ArrayList
-
-import android.animation.ValueAnimator
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-
 import com.expedia.bookings.utils.AnimUtils
+import java.util.ArrayList
 
 /**
  * This adapter handle list loading animation with RecyclerView - This is to be used when we have to do a dummy
@@ -24,7 +20,7 @@ import com.expedia.bookings.utils.AnimUtils
  * and use flag to control whether you want to display dummy items (with your custom loading layout) or real items.
  */
 
-public abstract class LoadingRecyclerViewAdapter<T> : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+abstract class LoadingRecyclerViewAdapter<T> : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     protected abstract fun loadingLayoutResourceId(): Int
     private var isLoading = false
     private var items: List<T> = ArrayList()
@@ -35,15 +31,15 @@ public abstract class LoadingRecyclerViewAdapter<T> : RecyclerView.Adapter<Recyc
         notifyDataSetChanged()
     }
 
-    public fun setDummyItems(items: List<T>) {
+    fun setDummyItems(items: List<T>) {
         setItems(items, true)
     }
 
-    public fun setItems(items: List<T>) {
+    fun setItems(items: List<T>) {
         setItems(items, false)
     }
 
-    public fun getItems(): List<T> {
+    fun getItems(): List<T> {
        return items
     }
 
@@ -78,7 +74,7 @@ public abstract class LoadingRecyclerViewAdapter<T> : RecyclerView.Adapter<Recyc
     }
 
     companion object {
-        public val LOADING_VIEW: Int = 0
-        public val DATA_VIEW: Int = 1
+        @JvmStatic val LOADING_VIEW: Int = 0
+        @JvmStatic val DATA_VIEW: Int = 1
     }
 }

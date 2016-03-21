@@ -12,7 +12,7 @@ import com.expedia.bookings.utils.StrUtils
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
 
-public class SpecialNoticeWidget(context: Context, attrs: AttributeSet) : FrameLayout(context, attrs) {
+class SpecialNoticeWidget(context: Context, attrs: AttributeSet) : FrameLayout(context, attrs) {
     val toolbar: Toolbar by bindView(R.id.toolbar)
     val description: TextView by bindView(R.id.content_description)
     val container: ViewGroup by bindView(R.id.container)

@@ -1,13 +1,9 @@
 package com.expedia.bookings.widget;
 
-import java.math.BigDecimal;
-import java.util.List;
-
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
-import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,30 +13,38 @@ import android.widget.TextView;
 import com.expedia.bookings.R;
 import com.expedia.bookings.bitmaps.PicassoHelper;
 import com.expedia.bookings.bitmaps.PicassoTarget;
-import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.lx.LXActivity;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.utils.Images;
 import com.expedia.bookings.utils.LXDataUtils;
-import com.expedia.bookings.utils.Strings;
-import com.mobiata.android.text.StrikethroughTagHandler;
 import com.mobiata.android.util.AndroidUtils;
 import com.squareup.picasso.Picasso;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
+import java.util.List;
 
 
 public class LXResultsListAdapter extends LoadingRecyclerViewAdapter {
 
 	private static final String ROW_PICASSO_TAG = "lx_row";
+	private static boolean userBucketedForRTRTest;
 
 	@Override
 	public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 		RecyclerView.ViewHolder itemViewHolder = super.onCreateViewHolder(parent, viewType);
 		if (itemViewHolder == null) {
-			View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.section_lx_search_row, parent, false);
-			itemViewHolder = new ViewHolder(itemView);
+			View itemView;
+			if (userBucketedForRTRTest) {
+				itemView = LayoutInflater.from(parent.getContext())
+					.inflate(R.layout.section_lx_search_row_recommended_ab_test, parent, false);
+				itemViewHolder = new RecommendedViewHolder(itemView);
+			}
+			else {
+				itemView = LayoutInflater.from(parent.getContext())
+					.inflate(R.layout.section_lx_search_row, parent, false);
+				itemViewHolder = new ViewHolder(itemView);
+			}
 		}
 		return itemViewHolder;
 	}
@@ -53,9 +57,43 @@ public class LXResultsListAdapter extends LoadingRecyclerViewAdapter {
 	@Override
 	public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
 		super.onBindViewHolder(holder, position);
-		if (holder.getItemViewType() == DATA_VIEW) {
+		if (holder.getItemViewType() == getDATA_VIEW()) {
 			LXActivity activity = (LXActivity) getItems().get(position);
+			if (userBucketedForRTRTest) {
+				((RecommendedViewHolder) holder).bindRecommendationScore(activity.recommendationScore);
+			}
 			((ViewHolder) holder).bind(activity);
+		}
+	}
+
+	public void setUserBucketedForRTRTest(boolean userBucketedForRTRTest) {
+		this.userBucketedForRTRTest = userBucketedForRTRTest;
+	}
+
+	public static class RecommendedViewHolder extends ViewHolder implements View.OnClickListener {
+
+		@InjectView(R.id.recommended_percentage)
+		TextView recommendedScore;
+
+		@InjectView(R.id.recommended_score_text)
+		TextView recommendedScoreText;
+
+		public RecommendedViewHolder(View itemView) {
+			super(itemView);
+		}
+
+		public void bindRecommendationScore(int recommendationScore) {
+			if (recommendationScore > 0) {
+				recommendedScore.setVisibility(View.VISIBLE);
+				recommendedScoreText.setVisibility(View.VISIBLE);
+				recommendedScore.setText(LXDataUtils
+					.getUserRecommendPercentString(itemView.getContext(), recommendationScore));
+				recommendedScoreText.setText(itemView.getResources().getString(R.string.lx_customers_recommend));
+			}
+			else {
+				recommendedScore.setVisibility(View.GONE);
+				recommendedScoreText.setVisibility(View.GONE);
+			}
 		}
 	}
 
@@ -91,6 +129,9 @@ public class LXResultsListAdapter extends LoadingRecyclerViewAdapter {
 		@InjectView(R.id.gradient_mask)
 		public View gradientMask;
 
+		@InjectView(R.id.lx_card_top_gradient)
+		View cardGradientOnTop;
+
 		@Override
 		public void onClick(View v) {
 			LXActivity activity = (LXActivity) v.getTag();
@@ -102,43 +143,10 @@ public class LXResultsListAdapter extends LoadingRecyclerViewAdapter {
 			// Remove the extra margin that card view adds for pre-L devices.
 			cardView.setPreventCornerOverlap(false);
 			activityTitle.setText(activity.title);
-			if (activity.fromPriceTicketCode != null) {
-				fromPriceTicketType.setText(
-					LXDataUtils.perTicketTypeDisplayLabel(itemView.getContext(), activity.fromPriceTicketCode));
-				activityPrice.setText(activity.price.getFormattedMoney(Money.F_NO_DECIMAL | Money.F_ROUND_HALF_UP));
-			}
-			else {
-				fromPriceTicketType.setText("");
-				activityPrice.setText("");
-			}
-
-			if (activity.originalPrice.getAmount().equals(BigDecimal.ZERO)) {
-				activityOriginalPrice.setVisibility(View.GONE);
-			}
-			else {
-				activityOriginalPrice.setVisibility(View.VISIBLE);
-				String formattedOriginalPrice = activity.originalPrice.getFormattedMoney(Money.F_NO_DECIMAL | Money.F_ROUND_HALF_UP);
-				activityOriginalPrice.setText(Html.fromHtml(
-						itemView.getContext().getString(R.string.strike_template, formattedOriginalPrice),
-						null,
-						new StrikethroughTagHandler()));
-			}
-
-			String activityDuration = activity.duration;
-			if (Strings.isNotEmpty(activityDuration)) {
-				if (activity.isMultiDuration) {
-					duration.setText(itemView.getResources()
-						.getString(R.string.search_result_multiple_duration_TEMPLATE, activityDuration));
-				}
-				else {
-					duration.setText(activityDuration);
-				}
-				duration.setVisibility(View.VISIBLE);
-			}
-			else {
-				duration.setText("");
-				duration.setVisibility(View.GONE);
-			}
+			LXDataUtils.bindPriceAndTicketType(itemView.getContext(), activity.fromPriceTicketCode, activity.price,
+				activityPrice, fromPriceTicketType);
+			LXDataUtils.bindOriginalPrice(itemView.getContext(), activity.originalPrice, activityOriginalPrice);
+			LXDataUtils.bindDuration(itemView.getContext(), activity.duration, activity.isMultiDuration, duration);
 
 			List<String> imageURLs = Images
 				.getLXImageURLBasedOnWidth(activity.getImages(), AndroidUtils.getDisplaySize(itemView.getContext()).x);
@@ -159,6 +167,7 @@ public class LXResultsListAdapter extends LoadingRecyclerViewAdapter {
 				super.onBitmapLoaded(bitmap, from);
 				activityImage.setImageBitmap(bitmap);
 				gradientMask.setVisibility(View.VISIBLE);
+				cardGradientOnTop.setVisibility(userBucketedForRTRTest ? View.VISIBLE : View.GONE);
 			}
 
 			@Override
@@ -167,6 +176,7 @@ public class LXResultsListAdapter extends LoadingRecyclerViewAdapter {
 				if (errorDrawable != null) {
 					activityImage.setImageDrawable(errorDrawable);
 					gradientMask.setVisibility(View.VISIBLE);
+					cardGradientOnTop.setVisibility(View.GONE);
 				}
 			}
 
@@ -175,6 +185,7 @@ public class LXResultsListAdapter extends LoadingRecyclerViewAdapter {
 				super.onPrepareLoad(placeHolderDrawable);
 				activityImage.setImageDrawable(placeHolderDrawable);
 				gradientMask.setVisibility(View.GONE);
+				cardGradientOnTop.setVisibility(View.GONE);
 			}
 		};
 

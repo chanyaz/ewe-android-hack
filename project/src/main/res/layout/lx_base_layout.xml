@@ -9,15 +9,20 @@
         layout="@layout/lx_result_presenter"
         android:visibility="gone" />
 
-    <com.expedia.bookings.widget.LoadingOverlayWidget
-        android:id="@+id/details_loading_overlay"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+    <include
+        android:id="@+id/activity_recommended_details_presenter"
+        layout="@layout/lx_recommended_details_presenter"
         android:visibility="gone" />
 
     <include
         android:id="@+id/activity_details_presenter"
         layout="@layout/lx_details_presenter"
+        android:visibility="gone" />
+
+    <com.expedia.bookings.widget.LoadingOverlayWidget
+        android:id="@+id/details_loading_overlay"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:visibility="gone" />
 
     <com.expedia.bookings.presenter.lx.LXSearchParamsPresenter
@@ -31,7 +36,7 @@
         android:id="@+id/lx_checkout_presenter"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#EEEEEE"
+        android:background="@color/search_results_list_bg_gray"
         android:visibility="gone" />
 
     <com.expedia.bookings.widget.LXConfirmationWidget

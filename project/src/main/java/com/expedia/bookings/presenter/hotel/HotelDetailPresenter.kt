@@ -20,7 +20,7 @@ import com.expedia.bookings.widget.DepositTermsInfoWidget
 import com.expedia.util.endlessObserver
 import com.google.android.gms.maps.GoogleMap
 
-public class HotelDetailPresenter(context: Context, attrs: AttributeSet) : Presenter(context, attrs) {
+class HotelDetailPresenter(context: Context, attrs: AttributeSet) : Presenter(context, attrs) {
 
     val hotelDetailView: HotelDetailView by bindView(R.id.hotel_detail)
     val hotelRenovationDesc: SpecialNoticeWidget by bindView(R.id.hotel_detail_desc)
@@ -50,8 +50,8 @@ public class HotelDetailPresenter(context: Context, attrs: AttributeSet) : Prese
     }
 
     val default = object : Presenter.DefaultTransition(HotelDetailView::class.java.getName()) {
-        override fun finalizeTransition(forward: Boolean) {
-            super.finalizeTransition(forward)
+        override fun endTransition(forward: Boolean) {
+            super.endTransition(forward)
             hotelRenovationDesc.visibility = View.GONE
             hotelPayLaterInfo.visibility = View.GONE
             hotelVIPAccessInfo.visibility = View.GONE
@@ -60,13 +60,13 @@ public class HotelDetailPresenter(context: Context, attrs: AttributeSet) : Prese
         }
     }
 
-    public fun showDefault() {
+    fun showDefault() {
         show(hotelDetailView)
     }
 
     private val detailToMap = object: ScaleTransition(this, HotelDetailView::class.java, HotelMapView::class.java) {
-        override fun finalizeTransition(forward: Boolean) {
-            super.finalizeTransition(forward)
+        override fun endTransition(forward: Boolean) {
+            super.endTransition(forward)
             hotelMapView.viewmodel.resetCameraPosition.onNext(Unit)
             if (forward) {
                 hotelMapView.googleMap?.mapType = GoogleMap.MAP_TYPE_NORMAL
@@ -77,8 +77,8 @@ public class HotelDetailPresenter(context: Context, attrs: AttributeSet) : Prese
     }
 
     val detailToDescription = object : ScaleTransition(this, HotelDetailView::class.java, SpecialNoticeWidget::class.java) {
-        override fun finalizeTransition(forward: Boolean) {
-            super.finalizeTransition(forward)
+        override fun endTransition(forward: Boolean) {
+            super.endTransition(forward)
             hotelRenovationDesc.visibility = if (forward) View.VISIBLE else View.GONE
             hotelDetailView.visibility = if (forward) View.GONE else View.VISIBLE
         }
@@ -90,12 +90,12 @@ public class HotelDetailPresenter(context: Context, attrs: AttributeSet) : Prese
     }
 
     val detailToVIPAccessInfo = object : ScaleTransition(this, HotelDetailView::class.java, VIPAccessInfoWidget::class.java) {
-        override fun finalizeTransition(forward: Boolean) {
-            super.finalizeTransition(forward)
+        override fun endTransition(forward: Boolean) {
+            super.endTransition(forward)
             hotelVIPAccessInfo.visibility = if (forward) View.VISIBLE else View.GONE
             hotelDetailView.visibility = if (forward) View.GONE else View.VISIBLE
             if (!forward) {
-                ViewCompat.jumpDrawablesToCurrentState(hotelDetailView.vipAccessMessage)
+                ViewCompat.jumpDrawablesToCurrentState(hotelDetailView.vipAccessMessageContainer)
             }
 
         }
@@ -107,8 +107,8 @@ public class HotelDetailPresenter(context: Context, attrs: AttributeSet) : Prese
     }
 
     val detailToPayLaterInfo = object : ScaleTransition(this, HotelDetailView::class.java, PayLaterInfoWidget::class.java) {
-        override fun finalizeTransition(forward: Boolean) {
-            super.finalizeTransition(forward)
+        override fun endTransition(forward: Boolean) {
+            super.endTransition(forward)
             hotelPayLaterInfo.visibility = if (forward) View.VISIBLE else View.GONE
             hotelDetailView.visibility = if (forward) View.GONE else View.VISIBLE
             if (!forward) {
@@ -118,8 +118,8 @@ public class HotelDetailPresenter(context: Context, attrs: AttributeSet) : Prese
     }
 
     val detailToDepositInfo = object : ScaleTransition(this, HotelDetailView::class.java, DepositTermsInfoWidget::class.java) {
-        override fun finalizeTransition(forward: Boolean) {
-            super.finalizeTransition(forward)
+        override fun endTransition(forward: Boolean) {
+            super.endTransition(forward)
             hotelDepositInfo.visibility = if (forward) View.VISIBLE else View.GONE
             hotelDetailView.visibility = if (forward) View.GONE else View.VISIBLE
         }
@@ -134,7 +134,7 @@ public class HotelDetailPresenter(context: Context, attrs: AttributeSet) : Prese
         show(hotelVIPAccessInfo)
     }
 
-    public fun animationStart(): Float {
+    fun animationStart(): Float {
         searchTop = hotelDetailView.hotelDetailsToolbar.toolbarTitle.top
         hotelDetailView.hotelDetailsToolbar.visibility = View.VISIBLE
         hotelDetailView.hotelDetailsToolbar.toolbarTitle.translationY = searchTop.toFloat()
@@ -142,13 +142,13 @@ public class HotelDetailPresenter(context: Context, attrs: AttributeSet) : Prese
         return hotelDetailView.hotelDetailsToolbar.alpha
     }
 
-    public fun animationUpdate(f: Float, forward: Boolean) {
+    fun animationUpdate(f: Float, forward: Boolean) {
         val yTrans = if (forward) -(searchTop * -f) else (searchTop * (1 - f))
         hotelDetailView.hotelDetailsToolbar.toolbarTitle.translationY = yTrans
         hotelDetailView.hotelDetailsToolbar.toolBarRating.translationY = yTrans
     }
 
-    public fun animationFinalize() {
+    fun animationFinalize() {
         hotelDetailView.hotelDetailsToolbar.visibility = View.VISIBLE
         hotelDetailView.hotelDetailsToolbar.visibility = View.VISIBLE
         hotelDetailView.hotelDetailsToolbar.toolbarTitle.translationY = 0f
@@ -156,7 +156,7 @@ public class HotelDetailPresenter(context: Context, attrs: AttributeSet) : Prese
     }
 
     override fun back(): Boolean {
-        if (hotelDetailView.hotelDetailsToolbar.navIcon.getParameter().toInt() == ArrowXDrawableUtil.ArrowDrawableType.CLOSE.type) {
+        if (hotelDetailView.hotelDetailsToolbar.navIcon.parameter.toInt() == ArrowXDrawableUtil.ArrowDrawableType.CLOSE.type) {
             hotelDetailView.updateGallery(false)
             return true
         }

@@ -25,17 +25,17 @@ import com.expedia.bookings.utils.DateUtils
 import com.expedia.bookings.utils.RetrofitUtils
 import com.expedia.bookings.utils.StrUtils
 import com.expedia.bookings.utils.Strings
-import rx.Observable
 import com.mobiata.android.util.AndroidUtils
 import com.squareup.phrase.Phrase
 import org.joda.time.format.DateTimeFormat
+import rx.Observable
 import rx.Observer
 import rx.subjects.BehaviorSubject
 import rx.subjects.PublishSubject
 import java.math.BigDecimal
 import java.text.NumberFormat
 
-open public class HotelCheckoutViewModel(val hotelServices: HotelServices, val paymentModel: PaymentModel<HotelCreateTripResponse>) {
+open class HotelCheckoutViewModel(val hotelServices: HotelServices, val paymentModel: PaymentModel<HotelCreateTripResponse>) {
 
     // inputs
     val checkoutParams = PublishSubject.create<HotelCheckoutV2Params>()
@@ -208,6 +208,7 @@ class HotelCheckoutOverviewViewModel(val context: Context, val paymentModel: Pay
     init {
         newRateObserver.subscribe {
             disclaimerText.onNext(Html.fromHtml(""))
+            depositPolicyText.onNext(Html.fromHtml(""))
 
             val room = it.hotelRoomResponse
             if (room.isPayLater) {

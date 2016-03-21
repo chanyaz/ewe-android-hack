@@ -3,12 +3,18 @@ package com.expedia.bookings.test
 import android.app.Activity
 import android.view.View
 import com.expedia.bookings.R
+import com.expedia.bookings.data.Money
+import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.hotels.HotelOffersResponse
 import com.expedia.bookings.data.hotels.HotelRate
 import com.expedia.bookings.data.hotels.HotelSearchParams
-import com.expedia.bookings.data.SuggestionV4
+import com.expedia.bookings.data.payment.LoyaltyBurnInfo
+import com.expedia.bookings.data.payment.LoyaltyEarnInfo
+import com.expedia.bookings.data.payment.LoyaltyInformation
+import com.expedia.bookings.data.payment.LoyaltyType
 import com.expedia.bookings.services.HotelServices
 import com.expedia.bookings.test.robolectric.RobolectricRunner
+import com.expedia.bookings.testrule.ServicesRule
 import com.expedia.bookings.utils.DateUtils
 import com.expedia.bookings.widget.HotelDetailView
 import com.expedia.util.endlessObserver
@@ -27,8 +33,8 @@ import kotlin.test.assertEquals
 import kotlin.test.assertNull
 
 @RunWith(RobolectricRunner::class)
-public class HotelDetailsTest {
-    public var service = ServicesRule(HotelServices::class.java)
+class HotelDetailsTest {
+    var service = ServicesRule(HotelServices::class.java)
         @Rule get
 
     private var vm: HotelDetailViewModel by Delegates.notNull()
@@ -59,53 +65,52 @@ public class HotelDetailsTest {
         offers.hotelStarRating = 5.0
         offers.deskTopOverrideNumber = false
         offers.telesalesNumber = "1-800-766-6658"
-
     }
 
     @Test
     fun testDiscountPercentageVipAccessTonightOnly() {
-        var hotel = makeHotel()
+        val hotel = makeHotel()
         hotel.currentAllotment = "0"
         offers.isVipAccess = true
         hotel.isSameDayDRR = true
 
-        var lowRateInfo = HotelRate()
+        val lowRateInfo = HotelRate()
         lowRateInfo.discountPercent = -20f
         lowRateInfo.currencyCode = "USD"
 
-        var rateInfo = HotelOffersResponse.RateInfo()
+        val rateInfo = HotelOffersResponse.RateInfo()
         rateInfo.chargeableRateInfo = lowRateInfo
         hotel.rateInfo = rateInfo
 
-        var rooms = ArrayList<HotelOffersResponse.HotelRoomResponse>();
+        val rooms = ArrayList<HotelOffersResponse.HotelRoomResponse>();
         rooms.add(hotel)
 
         offers.hotelRoomResponse = rooms
 
         vm.hotelOffersSubject.onNext(offers)
 
-        assertEquals(View.VISIBLE, hotelDetailView.hotelMessagingContainer.getVisibility())
-        val expectedDiscountMessage = Phrase.from(activity.getResources(), R.string.hotel_discount_percent_Template).put("discount", -20).format().toString()
-        assertEquals(expectedDiscountMessage, hotelDetailView.discountPercentage.getText())
-        assertEquals(View.VISIBLE, hotelDetailView.discountPercentage.getVisibility())
-        assertEquals(View.VISIBLE, hotelDetailView.vipAccessMessage.getVisibility())
-        assertEquals(View.VISIBLE, hotelDetailView.promoMessage.getVisibility())
-        assertEquals(activity.getResources().getString(R.string.tonight_only), hotelDetailView.promoMessage.getText())
+        assertEquals(View.VISIBLE, hotelDetailView.hotelMessagingContainer.visibility)
+        val expectedDiscountMessage = Phrase.from(activity.resources, R.string.hotel_discount_percent_Template).put("discount", -20).format().toString()
+        assertEquals(expectedDiscountMessage, hotelDetailView.discountPercentage.text)
+        assertEquals(View.VISIBLE, hotelDetailView.discountPercentage.visibility)
+        assertEquals(View.VISIBLE, hotelDetailView.vipAccessMessageContainer.visibility)
+        assertEquals(View.VISIBLE, hotelDetailView.promoMessage.visibility)
+        assertEquals(activity.resources.getString(R.string.tonight_only), hotelDetailView.promoMessage.text)
     }
 
     @Test
     fun testNightlyPriceGuestCount() {
-        var hotel = makeHotel()
-        var lowRateInfo = HotelRate()
+        val hotel = makeHotel()
+        val lowRateInfo = HotelRate()
         lowRateInfo.averageRate = 300f
         lowRateInfo.discountPercent = -20f
         lowRateInfo.currencyCode = "USD"
 
-        var rateInfo = HotelOffersResponse.RateInfo()
+        val rateInfo = HotelOffersResponse.RateInfo()
         rateInfo.chargeableRateInfo = lowRateInfo
         hotel.rateInfo = rateInfo
 
-        var rooms = ArrayList<HotelOffersResponse.HotelRoomResponse>();
+        val rooms = ArrayList<HotelOffersResponse.HotelRoomResponse>();
         rooms.add(hotel)
 
         offers.hotelRoomResponse = rooms
@@ -118,202 +123,272 @@ public class HotelDetailsTest {
         val string = Phrase.from(activity, R.string.calendar_instructions_date_range_with_guests_TEMPLATE).put("startdate",
                 DateUtils.localDateToMMMd(checkIn)).put("enddate",
                 DateUtils.localDateToMMMd(checkOut)).put("guests",
-                activity.resources.getQuantityString(R.plurals.number_of_guests, searchParams.children.size() + searchParams.adults, searchParams.children.size() + searchParams.adults))
+                activity.resources.getQuantityString(R.plurals.number_of_guests, searchParams.children.size + searchParams.adults, searchParams.children.size + searchParams.adults))
                 .format()
                 .toString()
 
-        assertEquals("$300", hotelDetailView.price.getText())
+        assertEquals("$300", hotelDetailView.price.text)
 
-        assertEquals(string, hotelDetailView.searchInfo.getText())
+        assertEquals(string, hotelDetailView.searchInfo.text)
     }
 
     @Test
     fun testOnlyDiscountPercentage() {
-        var hotel = makeHotel()
+        val hotel = makeHotel()
         hotel.currentAllotment = "0"
         offers.isVipAccess = false
         hotel.isSameDayDRR = false
 
-        var lowRateInfo = HotelRate()
+        val lowRateInfo = HotelRate()
         lowRateInfo.discountPercent = -20f
         lowRateInfo.currencyCode = "USD"
 
-        var rateInfo = HotelOffersResponse.RateInfo()
+        val rateInfo = HotelOffersResponse.RateInfo()
         rateInfo.chargeableRateInfo = lowRateInfo
         hotel.rateInfo = rateInfo
 
-        var rooms = ArrayList<HotelOffersResponse.HotelRoomResponse>();
+        val rooms = ArrayList<HotelOffersResponse.HotelRoomResponse>();
         rooms.add(hotel)
 
         offers.hotelRoomResponse = rooms
 
         vm.hotelOffersSubject.onNext(offers)
 
-        assertEquals(View.VISIBLE, hotelDetailView.hotelMessagingContainer.getVisibility())
-        val expectedDiscountMessage = Phrase.from(activity.getResources(), R.string.hotel_discount_percent_Template).put("discount", -20).format().toString()
-        assertEquals(expectedDiscountMessage, hotelDetailView.discountPercentage.getText())
-        assertEquals(View.VISIBLE, hotelDetailView.discountPercentage.getVisibility())
-        assertEquals(View.GONE, hotelDetailView.vipAccessMessage.getVisibility())
-        assertEquals("", hotelDetailView.promoMessage.getText())
+        assertEquals(View.VISIBLE, hotelDetailView.hotelMessagingContainer.visibility)
+        val expectedDiscountMessage = Phrase.from(activity.resources, R.string.hotel_discount_percent_Template).put("discount", -20).format().toString()
+        assertEquals(expectedDiscountMessage, hotelDetailView.discountPercentage.text)
+        assertEquals(View.VISIBLE, hotelDetailView.discountPercentage.visibility)
+        assertEquals(View.GONE, hotelDetailView.vipAccessMessageContainer.visibility)
+        assertEquals("", hotelDetailView.promoMessage.text)
     }
 
     @Test
     fun testOnlyVipAccess() {
-        var hotel = makeHotel()
+        val hotel = makeHotel()
         hotel.currentAllotment = "0"
         offers.isVipAccess = true
         hotel.isSameDayDRR = false
 
-        var lowRateInfo = HotelRate()
+        val lowRateInfo = HotelRate()
         lowRateInfo.discountPercent = 0f
         lowRateInfo.currencyCode = "USD"
 
-        var rateInfo = HotelOffersResponse.RateInfo()
+        val rateInfo = HotelOffersResponse.RateInfo()
         rateInfo.chargeableRateInfo = lowRateInfo
         hotel.rateInfo = rateInfo
 
-        var rooms = ArrayList<HotelOffersResponse.HotelRoomResponse>();
+        val rooms = ArrayList<HotelOffersResponse.HotelRoomResponse>();
         rooms.add(hotel)
 
         offers.hotelRoomResponse = rooms
 
         vm.hotelOffersSubject.onNext(offers)
 
-        assertEquals(View.VISIBLE, hotelDetailView.hotelMessagingContainer.getVisibility())
-        assertEquals(View.GONE, hotelDetailView.discountPercentage.getVisibility())
-        assertEquals(View.VISIBLE, hotelDetailView.vipAccessMessage.getVisibility())
-        assertEquals("", hotelDetailView.promoMessage.getText())
+        assertEquals(View.VISIBLE, hotelDetailView.hotelMessagingContainer.visibility)
+        assertEquals(View.GONE, hotelDetailView.discountPercentage.visibility)
+        assertEquals(View.VISIBLE, hotelDetailView.vipAccessMessageContainer.visibility)
+        assertEquals(View.GONE, hotelDetailView.vipLoyaltyMessage.visibility)
+        assertEquals(View.GONE, hotelDetailView.roomRateHeader.visibility)
+        assertEquals(View.GONE, hotelDetailView.roomRateVIPLoyaltyAppliedContainer.visibility)
+        assertEquals("", hotelDetailView.promoMessage.text)
+    }
+
+    @Test
+    fun testVipAccessWithLoyaltyApplied() {
+        val hotel = makeHotel()
+        hotel.currentAllotment = "0"
+        offers.isVipAccess = true
+        offers.doesAnyHotelRateOfAnyRoomHaveLoyaltyInfo = true
+        hotel.isSameDayDRR = false
+
+        val lowRateInfo = HotelRate()
+        lowRateInfo.discountPercent = 0f
+        lowRateInfo.currencyCode = "USD"
+        lowRateInfo.loyaltyInfo = LoyaltyInformation(LoyaltyBurnInfo(LoyaltyType.VIP, Money()), LoyaltyEarnInfo(null, null), true)
+
+        val rateInfo = HotelOffersResponse.RateInfo()
+        rateInfo.chargeableRateInfo = lowRateInfo
+        hotel.rateInfo = rateInfo
+
+        val rooms = ArrayList<HotelOffersResponse.HotelRoomResponse>();
+        rooms.add(hotel)
+
+        offers.hotelRoomResponse = rooms
+
+        vm.hotelOffersSubject.onNext(offers)
+
+        assertEquals(View.VISIBLE, hotelDetailView.hotelMessagingContainer.visibility)
+        assertEquals(View.GONE, hotelDetailView.discountPercentage.visibility)
+        assertEquals(View.VISIBLE, hotelDetailView.vipAccessMessageContainer.visibility)
+        assertEquals(View.VISIBLE, hotelDetailView.vipLoyaltyMessage.visibility)
+        assertEquals(View.VISIBLE, hotelDetailView.roomRateHeader.visibility)
+        assertEquals(View.VISIBLE, hotelDetailView.roomRateVIPLoyaltyAppliedContainer.visibility)
+        assertEquals("", hotelDetailView.promoMessage.text)
+    }
+
+    @Test
+    fun testOnlyLoyaltyAppliedWithNoVipAccess() {
+        val hotel = makeHotel()
+        hotel.currentAllotment = "0"
+        offers.isVipAccess = false
+        offers.doesAnyHotelRateOfAnyRoomHaveLoyaltyInfo = true
+        hotel.isSameDayDRR = false
+
+        val lowRateInfo = HotelRate()
+        lowRateInfo.discountPercent = 0f
+        lowRateInfo.currencyCode = "USD"
+        lowRateInfo.loyaltyInfo = LoyaltyInformation(LoyaltyBurnInfo(LoyaltyType.VIP, Money()), LoyaltyEarnInfo(null, null), true)
+
+        val rateInfo = HotelOffersResponse.RateInfo()
+        rateInfo.chargeableRateInfo = lowRateInfo
+        hotel.rateInfo = rateInfo
+
+        val rooms = ArrayList<HotelOffersResponse.HotelRoomResponse>();
+        rooms.add(hotel)
+
+        offers.hotelRoomResponse = rooms
+
+        vm.hotelOffersSubject.onNext(offers)
+
+        assertEquals(View.VISIBLE, hotelDetailView.hotelMessagingContainer.visibility)
+        assertEquals(View.GONE, hotelDetailView.discountPercentage.visibility)
+        assertEquals(View.GONE, hotelDetailView.vipAccessMessageContainer.visibility)
+        assertEquals(View.GONE, hotelDetailView.vipLoyaltyMessage.visibility)
+        assertEquals(View.VISIBLE, hotelDetailView.regularLoyaltyMessage.visibility)
+        assertEquals(View.VISIBLE, hotelDetailView.roomRateHeader.visibility)
+        assertEquals(View.VISIBLE, hotelDetailView.roomRateRegularLoyaltyAppliedText.visibility)
+        assertEquals("", hotelDetailView.promoMessage.text)
     }
 
     @Test
     fun testOnlyMobileExclusive() {
-        var hotel = makeHotel()
+        val hotel = makeHotel()
         hotel.currentAllotment = "0"
         offers.isVipAccess = false
         hotel.isSameDayDRR = false
         hotel.isDiscountRestrictedToCurrentSourceType = true
 
-        var lowRateInfo = HotelRate()
+        val lowRateInfo = HotelRate()
         lowRateInfo.discountPercent = 0f
         lowRateInfo.currencyCode = "USD"
 
-        var rateInfo = HotelOffersResponse.RateInfo()
+        val rateInfo = HotelOffersResponse.RateInfo()
         rateInfo.chargeableRateInfo = lowRateInfo
         hotel.rateInfo = rateInfo
 
-        var rooms = ArrayList<HotelOffersResponse.HotelRoomResponse>();
+        val rooms = ArrayList<HotelOffersResponse.HotelRoomResponse>();
         rooms.add(hotel)
 
         offers.hotelRoomResponse = rooms
 
         vm.hotelOffersSubject.onNext(offers)
 
-        assertEquals(View.VISIBLE, hotelDetailView.hotelMessagingContainer.getVisibility())
-        assertEquals(View.GONE, hotelDetailView.discountPercentage.getVisibility())
-        assertEquals(View.GONE, hotelDetailView.vipAccessMessage.getVisibility())
-        assertEquals(View.VISIBLE, hotelDetailView.promoMessage.getVisibility())
-        assertEquals(activity.getResources().getString(R.string.mobile_exclusive), hotelDetailView.promoMessage.getText())
+        assertEquals(View.VISIBLE, hotelDetailView.hotelMessagingContainer.visibility)
+        assertEquals(View.GONE, hotelDetailView.discountPercentage.visibility)
+        assertEquals(View.GONE, hotelDetailView.vipAccessMessageContainer.visibility)
+        assertEquals(View.VISIBLE, hotelDetailView.promoMessage.visibility)
+        assertEquals(activity.resources.getString(R.string.mobile_exclusive), hotelDetailView.promoMessage.text)
     }
 
     @Test
     fun testRoomsLeftOnly() {
-        var hotel = makeHotel()
+        val hotel = makeHotel()
         offers.isVipAccess = false
         hotel.isSameDayDRR = true
         hotel.isDiscountRestrictedToCurrentSourceType = true
 
-        var lowRateInfo = HotelRate()
+        val lowRateInfo = HotelRate()
         lowRateInfo.discountPercent = 0f
         lowRateInfo.currencyCode = "USD"
 
-        var rateInfo = HotelOffersResponse.RateInfo()
+        val rateInfo = HotelOffersResponse.RateInfo()
         rateInfo.chargeableRateInfo = lowRateInfo
         hotel.rateInfo = rateInfo
 
-        var rooms = ArrayList<HotelOffersResponse.HotelRoomResponse>();
+        val rooms = ArrayList<HotelOffersResponse.HotelRoomResponse>();
         rooms.add(hotel)
 
         offers.hotelRoomResponse = rooms
 
         vm.hotelOffersSubject.onNext(offers)
 
-        var roomsLeft = hotel.currentAllotment.toInt()
-        assertEquals(View.VISIBLE, hotelDetailView.hotelMessagingContainer.getVisibility())
-        assertEquals(View.GONE, hotelDetailView.discountPercentage.getVisibility())
-        assertEquals(View.GONE, hotelDetailView.vipAccessMessage.getVisibility())
-        assertEquals(View.VISIBLE, hotelDetailView.promoMessage.getVisibility())
-        assertEquals(activity.getResources().getQuantityString(R.plurals.num_rooms_left, roomsLeft,
-                roomsLeft), hotelDetailView.promoMessage.getText())
+        val roomsLeft = hotel.currentAllotment.toInt()
+        assertEquals(View.VISIBLE, hotelDetailView.hotelMessagingContainer.visibility)
+        assertEquals(View.GONE, hotelDetailView.discountPercentage.visibility)
+        assertEquals(View.GONE, hotelDetailView.vipAccessMessageContainer.visibility)
+        assertEquals(View.VISIBLE, hotelDetailView.promoMessage.visibility)
+        assertEquals(activity.resources.getQuantityString(R.plurals.num_rooms_left, roomsLeft,
+                roomsLeft), hotelDetailView.promoMessage.text)
     }
 
     @Test
     fun testStrikethroughPriceAvailable() {
-        var hotel = makeHotel()
+        val hotel = makeHotel()
         offers.isVipAccess = false
         hotel.isSameDayDRR = true
         hotel.isDiscountRestrictedToCurrentSourceType = true
 
-        var lowRateInfo = HotelRate()
+        val lowRateInfo = HotelRate()
         lowRateInfo.discountPercent = -20f
         lowRateInfo.strikethroughPriceToShowUsers = 100f
         lowRateInfo.currencyCode = "USD"
 
-        var rateInfo = HotelOffersResponse.RateInfo()
+        val rateInfo = HotelOffersResponse.RateInfo()
         rateInfo.chargeableRateInfo = lowRateInfo
         hotel.rateInfo = rateInfo
 
-        var rooms = ArrayList<HotelOffersResponse.HotelRoomResponse>();
+        val rooms = ArrayList<HotelOffersResponse.HotelRoomResponse>();
         rooms.add(hotel)
 
         offers.hotelRoomResponse = rooms
 
         vm.hotelOffersSubject.onNext(offers)
 
-        assertEquals(View.VISIBLE, hotelDetailView.strikeThroughPrice.getVisibility())
+        assertEquals(View.VISIBLE, hotelDetailView.strikeThroughPrice.visibility)
         assertEquals("$100", hotelDetailView.strikeThroughPrice.text.toString())
     }
 
     @Test
     fun testStrikethroughPriceNotAvailable() {
-        var hotel = makeHotel()
+        val hotel = makeHotel()
         offers.isVipAccess = false
         hotel.isSameDayDRR = true
         hotel.isDiscountRestrictedToCurrentSourceType = true
 
-        var lowRateInfo = HotelRate()
+        val lowRateInfo = HotelRate()
         lowRateInfo.discountPercent = 0f
         lowRateInfo.currencyCode = "USD"
 
-        var rateInfo = HotelOffersResponse.RateInfo()
+        val rateInfo = HotelOffersResponse.RateInfo()
         rateInfo.chargeableRateInfo = lowRateInfo
         hotel.rateInfo = rateInfo
 
-        var rooms = ArrayList<HotelOffersResponse.HotelRoomResponse>();
+        val rooms = ArrayList<HotelOffersResponse.HotelRoomResponse>();
         rooms.add(hotel)
 
         offers.hotelRoomResponse = rooms
 
         vm.hotelOffersSubject.onNext(offers)
 
-        assertEquals(View.GONE, hotelDetailView.strikeThroughPrice.getVisibility())
+        assertEquals(View.GONE, hotelDetailView.strikeThroughPrice.visibility)
     }
 
     @Test
     fun testResortFeeIncludedInPrice() {
-        var hotel = makeHotel()
+        val hotel = makeHotel()
 
-        var lowRateInfo = HotelRate()
+        val lowRateInfo = HotelRate()
         lowRateInfo.totalMandatoryFees = 12.5f
         lowRateInfo.discountPercent = 0f
         lowRateInfo.currencyCode = "USD"
         lowRateInfo.resortFeeInclusion = true
         lowRateInfo.showResortFeeMessage = true
 
-        var rateInfo = HotelOffersResponse.RateInfo()
+        val rateInfo = HotelOffersResponse.RateInfo()
         rateInfo.chargeableRateInfo = lowRateInfo
         hotel.rateInfo = rateInfo
 
-        var rooms = ArrayList<HotelOffersResponse.HotelRoomResponse>();
+        val rooms = ArrayList<HotelOffersResponse.HotelRoomResponse>();
         rooms.add(hotel)
 
         offers.hotelRoomResponse = rooms
@@ -329,20 +404,20 @@ public class HotelDetailsTest {
 
     @Test
     fun testResortFeeNotIncludedInPrice() {
-        var hotel = makeHotel()
+        val hotel = makeHotel()
 
-        var lowRateInfo = HotelRate()
+        val lowRateInfo = HotelRate()
         lowRateInfo.totalMandatoryFees = 12.5f
         lowRateInfo.discountPercent = 0f
         lowRateInfo.currencyCode = "USD"
         lowRateInfo.resortFeeInclusion = false
         lowRateInfo.showResortFeeMessage = true
 
-        var rateInfo = HotelOffersResponse.RateInfo()
+        val rateInfo = HotelOffersResponse.RateInfo()
         rateInfo.chargeableRateInfo = lowRateInfo
         hotel.rateInfo = rateInfo
 
-        var rooms = ArrayList<HotelOffersResponse.HotelRoomResponse>();
+        val rooms = ArrayList<HotelOffersResponse.HotelRoomResponse>();
         rooms.add(hotel)
 
         offers.hotelRoomResponse = rooms
@@ -358,19 +433,19 @@ public class HotelDetailsTest {
 
     @Test
     fun testNoResortFee() {
-        var hotel = makeHotel()
+        val hotel = makeHotel()
 
-        var lowRateInfo = HotelRate()
+        val lowRateInfo = HotelRate()
         lowRateInfo.totalMandatoryFees = 12.5f
         lowRateInfo.discountPercent = 0f
         lowRateInfo.currencyCode = "USD"
         lowRateInfo.showResortFeeMessage = false
 
-        var rateInfo = HotelOffersResponse.RateInfo()
+        val rateInfo = HotelOffersResponse.RateInfo()
         rateInfo.chargeableRateInfo = lowRateInfo
         hotel.rateInfo = rateInfo
 
-        var rooms = ArrayList<HotelOffersResponse.HotelRoomResponse>();
+        val rooms = ArrayList<HotelOffersResponse.HotelRoomResponse>();
         rooms.add(hotel)
 
         offers.hotelRoomResponse = rooms
@@ -386,18 +461,18 @@ public class HotelDetailsTest {
 
     @Test
     fun testNotSoldOutVisibility() {
-        var hotel = makeHotel()
+        val hotel = makeHotel()
 
-        var lowRateInfo = HotelRate()
+        val lowRateInfo = HotelRate()
         lowRateInfo.discountPercent = -20f
         lowRateInfo.strikethroughPriceToShowUsers = 100f
         lowRateInfo.currencyCode = "USD"
 
-        var rateInfo = HotelOffersResponse.RateInfo()
+        val rateInfo = HotelOffersResponse.RateInfo()
         rateInfo.chargeableRateInfo = lowRateInfo
         hotel.rateInfo = rateInfo
 
-        var rooms = ArrayList<HotelOffersResponse.HotelRoomResponse>();
+        val rooms = ArrayList<HotelOffersResponse.HotelRoomResponse>();
         rooms.add(hotel)
 
         offers.hotelRoomResponse = rooms
@@ -412,19 +487,19 @@ public class HotelDetailsTest {
 
     @Test
     fun testSoldOutReverseVisibility() {
-        var hotel = makeHotel()
+        val hotel = makeHotel()
 
-        var lowRateInfo = HotelRate()
+        val lowRateInfo = HotelRate()
         lowRateInfo.totalMandatoryFees = 12.5f
         lowRateInfo.discountPercent = -20f
         lowRateInfo.currencyCode = "USD"
         lowRateInfo.showResortFeeMessage = false
 
-        var rateInfo = HotelOffersResponse.RateInfo()
+        val rateInfo = HotelOffersResponse.RateInfo()
         rateInfo.chargeableRateInfo = lowRateInfo
         hotel.rateInfo = rateInfo
 
-        var rooms = ArrayList<HotelOffersResponse.HotelRoomResponse>();
+        val rooms = ArrayList<HotelOffersResponse.HotelRoomResponse>();
         rooms.add(hotel)
 
         offers.hotelRoomResponse = rooms
@@ -444,17 +519,17 @@ public class HotelDetailsTest {
     @Test
     fun testSoldOutVisibility() {
 
-        var hotel = makeHotel()
+        val hotel = makeHotel()
 
-        var lowRateInfo = HotelRate()
+        val lowRateInfo = HotelRate()
         lowRateInfo.discountPercent = -20f
         lowRateInfo.currencyCode = "USD"
 
-        var rateInfo = HotelOffersResponse.RateInfo()
+        val rateInfo = HotelOffersResponse.RateInfo()
         rateInfo.chargeableRateInfo = lowRateInfo
         hotel.rateInfo = rateInfo
 
-        var rooms = ArrayList<HotelOffersResponse.HotelRoomResponse>();
+        val rooms = ArrayList<HotelOffersResponse.HotelRoomResponse>();
         rooms.add(hotel)
 
         offers.hotelRoomResponse = rooms
@@ -466,35 +541,35 @@ public class HotelDetailsTest {
 
         vm.hotelSoldOut.onNext(true)
 
-        Assert.assertEquals(View.VISIBLE, hotelDetailView.changeDatesButton.getVisibility())
-        Assert.assertEquals(View.VISIBLE, hotelDetailView.detailsSoldOut.getVisibility())
-        Assert.assertEquals(activity.getResources().getColor(android.R.color.white), hotelDetailView.hotelDetailsToolbar.toolBarRating.getStarColor())
-        Assert.assertEquals(View.GONE, hotelDetailView.selectRoomButton.getVisibility())
-        Assert.assertEquals(View.GONE, hotelDetailView.roomContainer.getVisibility())
-        Assert.assertEquals(View.GONE, hotelDetailView.price.getVisibility())
-        Assert.assertEquals(View.GONE, hotelDetailView.strikeThroughPrice.getVisibility())
-        Assert.assertEquals(View.GONE, hotelDetailView.payByPhoneContainer.getVisibility())
-        Assert.assertEquals(View.GONE, hotelDetailView.hotelMessagingContainer.getVisibility())
-        Assert.assertEquals(View.GONE, hotelDetailView.etpContainer.getVisibility())
-        Assert.assertEquals(View.GONE, hotelDetailView.etpAndFreeCancellationMessagingContainer.getVisibility())
-        Assert.assertEquals(View.GONE, hotelDetailView.stickySelectRoomContainer.getVisibility())
+        Assert.assertEquals(View.VISIBLE, hotelDetailView.changeDatesButton.visibility)
+        Assert.assertEquals(View.VISIBLE, hotelDetailView.detailsSoldOut.visibility)
+        Assert.assertEquals(activity.resources.getColor(android.R.color.white), hotelDetailView.hotelDetailsToolbar.toolBarRating.getStarColor())
+        Assert.assertEquals(View.GONE, hotelDetailView.selectRoomButton.visibility)
+        Assert.assertEquals(View.GONE, hotelDetailView.roomContainer.visibility)
+        Assert.assertEquals(View.GONE, hotelDetailView.price.visibility)
+        Assert.assertEquals(View.GONE, hotelDetailView.strikeThroughPrice.visibility)
+        Assert.assertEquals(View.GONE, hotelDetailView.payByPhoneContainer.visibility)
+        Assert.assertEquals(View.GONE, hotelDetailView.hotelMessagingContainer.visibility)
+        Assert.assertEquals(View.GONE, hotelDetailView.etpContainer.visibility)
+        Assert.assertEquals(View.GONE, hotelDetailView.etpAndFreeCancellationMessagingContainer.visibility)
+        Assert.assertEquals(View.GONE, hotelDetailView.stickySelectRoomContainer.visibility)
 
     }
 
     private fun testDefaultDetailView() {
-        Assert.assertEquals(View.GONE, hotelDetailView.changeDatesButton.getVisibility())
-        Assert.assertEquals(View.GONE, hotelDetailView.detailsSoldOut.getVisibility())
-        Assert.assertEquals(activity.getResources().getColor(R.color.hotelsv2_detail_star_color), hotelDetailView.hotelDetailsToolbar.toolBarRating.getStarColor())
-        Assert.assertEquals(View.VISIBLE, hotelDetailView.selectRoomButton.getVisibility())
-        Assert.assertEquals(View.VISIBLE, hotelDetailView.roomContainer.getVisibility())
-        Assert.assertEquals(View.VISIBLE, hotelDetailView.price.getVisibility())
-        Assert.assertEquals(View.VISIBLE, hotelDetailView.stickySelectRoomContainer.getVisibility())
+        Assert.assertEquals(View.GONE, hotelDetailView.changeDatesButton.visibility)
+        Assert.assertEquals(View.GONE, hotelDetailView.detailsSoldOut.visibility)
+        Assert.assertEquals(activity.resources.getColor(R.color.hotelsv2_detail_star_color), hotelDetailView.hotelDetailsToolbar.toolBarRating.getStarColor())
+        Assert.assertEquals(View.VISIBLE, hotelDetailView.selectRoomButton.visibility)
+        Assert.assertEquals(View.VISIBLE, hotelDetailView.roomContainer.visibility)
+        Assert.assertEquals(View.VISIBLE, hotelDetailView.price.visibility)
+        Assert.assertEquals(View.VISIBLE, hotelDetailView.stickySelectRoomContainer.visibility)
 
-        Assert.assertEquals(View.VISIBLE, hotelDetailView.strikeThroughPrice.getVisibility())
-        Assert.assertEquals(View.VISIBLE, hotelDetailView.payByPhoneContainer.getVisibility())
-        Assert.assertEquals(View.VISIBLE, hotelDetailView.hotelMessagingContainer.getVisibility())
-        Assert.assertEquals(View.VISIBLE, hotelDetailView.etpContainer.getVisibility())
-        Assert.assertEquals(View.VISIBLE, hotelDetailView.etpAndFreeCancellationMessagingContainer.getVisibility())
+        Assert.assertEquals(View.VISIBLE, hotelDetailView.strikeThroughPrice.visibility)
+        Assert.assertEquals(View.VISIBLE, hotelDetailView.payByPhoneContainer.visibility)
+        Assert.assertEquals(View.VISIBLE, hotelDetailView.hotelMessagingContainer.visibility)
+        Assert.assertEquals(View.VISIBLE, hotelDetailView.etpContainer.visibility)
+        Assert.assertEquals(View.VISIBLE, hotelDetailView.etpAndFreeCancellationMessagingContainer.visibility)
 
     }
 
@@ -513,15 +588,15 @@ public class HotelDetailsTest {
     }
 
     private fun makeHotel() : HotelOffersResponse.HotelRoomResponse {
-        var hotel = HotelOffersResponse.HotelRoomResponse()
-        var valueAdds = ArrayList<HotelOffersResponse.ValueAdds>()
-        var valueAdd = HotelOffersResponse.ValueAdds()
+        val hotel = HotelOffersResponse.HotelRoomResponse()
+        val valueAdds = ArrayList<HotelOffersResponse.ValueAdds>()
+        val valueAdd = HotelOffersResponse.ValueAdds()
         valueAdd.description = "Value Add"
         valueAdds.add(valueAdd)
         hotel.valueAdds = valueAdds
 
-        var bedTypes = ArrayList<HotelOffersResponse.BedTypes>()
-        var bedType = HotelOffersResponse.BedTypes()
+        val bedTypes = ArrayList<HotelOffersResponse.BedTypes>()
+        val bedType = HotelOffersResponse.BedTypes()
         bedType.id = "1"
         bedType.description = "King Bed"
         bedTypes.add(bedType)

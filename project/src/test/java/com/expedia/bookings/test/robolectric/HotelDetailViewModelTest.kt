@@ -5,7 +5,7 @@ import com.expedia.bookings.data.hotels.HotelOffersResponse
 import com.expedia.bookings.data.hotels.HotelRate
 import com.expedia.bookings.data.hotels.HotelSearchParams
 import com.expedia.bookings.services.HotelServices
-import com.expedia.bookings.test.ServicesRule
+import com.expedia.bookings.testrule.ServicesRule
 import com.expedia.bookings.utils.DateUtils
 import com.expedia.util.endlessObserver
 import com.expedia.vm.HotelDetailViewModel
@@ -27,12 +27,12 @@ import kotlin.test.assertFalse
 import kotlin.test.assertNull
 
 @RunWith(RobolectricRunner::class)
-public class HotelDetailViewModelTest {
+class HotelDetailViewModelTest {
 
     // TODO: Improve HotelDetailViewModel test coverage
     //  -- TODO: Use MockHotelServiceTestRule (It provides helper functions to grab hotel responses. We shouldn't be creating mock hotel objects (see: makeHotel())
 
-    public var service = ServicesRule(HotelServices::class.java)
+    var service = ServicesRule(HotelServices::class.java)
         @Rule get
 
     private var vm: HotelDetailViewModel by Delegates.notNull()
@@ -76,10 +76,18 @@ public class HotelDetailViewModelTest {
         assertEquals("$" + df.format(chargeableRateInfo.strikethroughPriceToShowUsers), vm.strikeThroughPriceObservable.value)
     }
 
-    @Test fun strikeThroughPriceShouldNotShow() {
+    @Test fun strikeThroughPriceLessThanPriceToShowUsersDontShow() {
         val chargeableRateInfo = offer1.hotelRoomResponse.get(0).rateInfo.chargeableRateInfo
         chargeableRateInfo.priceToShowUsers = 110f
         chargeableRateInfo.strikethroughPriceToShowUsers = chargeableRateInfo.priceToShowUsers - 10f
+        vm.hotelOffersSubject.onNext(offer1)
+        assertNull(vm.strikeThroughPriceObservable.value)
+    }
+
+    @Test fun strikeThroughPriceSameAsPriceToShowUsersDontShow() {
+        val chargeableRateInfo = offer1.hotelRoomResponse.get(0).rateInfo.chargeableRateInfo
+        chargeableRateInfo.priceToShowUsers = 110f
+        chargeableRateInfo.strikethroughPriceToShowUsers = 0f
         vm.hotelOffersSubject.onNext(offer1)
         assertNull(vm.strikeThroughPriceObservable.value)
     }
@@ -96,7 +104,7 @@ public class HotelDetailViewModelTest {
         vm.paramsSubject.onNext(searchParams)
         val dates = DateUtils.localDateToMMMd(searchParams.checkIn) + " - " + DateUtils.localDateToMMMd(searchParams.checkOut)
         assertEquals(dates, vm.searchDatesObservable.value)
-        assertEquals("${searchParams.guests()} Guests, 1 room", vm.searchInfoObservable.value)
+        assertEquals("1 Room, ${searchParams.guests()} Guests", vm.searchInfoObservable.value)
     }
 
     @Test fun priceShownToCustomerIncludesCustomerFees() {
@@ -112,7 +120,7 @@ public class HotelDetailViewModelTest {
 
         vm.reviewsClickedWithHotelData
                 .map { hotel -> hotel.hotelName }
-                .take(expected.size())
+                .take(expected.size)
                 .subscribe(testSub)
 
         vm.hotelOffersSubject.onNext(offer1)
@@ -238,6 +246,6 @@ public class HotelDetailViewModelTest {
         var checkIn = LocalDate.now().plusDays(2)
         var checkOut = LocalDate.now().plusDays(5)
         val numAdults = 2
-        return HotelSearchParams(suggestionV4, checkIn, checkOut, numAdults, childList)
+        return HotelSearchParams.Builder(0).suggestion(suggestionV4).checkIn(checkIn).checkOut(checkOut).adults(numAdults).children(childList).build()
     }
 }

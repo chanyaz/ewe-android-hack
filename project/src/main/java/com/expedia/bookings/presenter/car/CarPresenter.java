@@ -61,8 +61,8 @@ public class CarPresenter extends Presenter {
 
 	private Transition checkoutToSearch = new VisibilityTransition(this, CarCheckoutPresenter.class, CarSearchPresenter.class) {
 		@Override
-		public void finalizeTransition(boolean forward) {
-			super.finalizeTransition(forward);
+		public void endTransition(boolean forward) {
+			super.endTransition(forward);
 			carSearchPresenter.animationFinalize(forward);
 			carSearchPresenter.reset();
 		}
@@ -91,10 +91,6 @@ public class CarPresenter extends Presenter {
 
 		@Override
 		public void endTransition(boolean forward) {
-		}
-
-		@Override
-		public void finalizeTransition(boolean forward) {
 			carResultsPresenter.setVisibility(VISIBLE);
 			carSearchPresenter.setVisibility(forward ? VISIBLE : GONE);
 			carResultsPresenter.animationFinalize(forward);
@@ -120,10 +116,6 @@ public class CarPresenter extends Presenter {
 
 		@Override
 		public void endTransition(boolean forward) {
-		}
-
-		@Override
-		public void finalizeTransition(boolean forward) {
 			carResultsPresenter.setVisibility(forward ? VISIBLE : GONE);
 			carSearchPresenter.setVisibility(forward ? GONE : VISIBLE);
 			if (forward) {

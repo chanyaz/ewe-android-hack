@@ -11,6 +11,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.support.annotation.Nullable;
+
 import com.mobiata.android.json.JSONable;
 
 public class Flight implements Comparable<Flight>, JSONable {
@@ -120,6 +122,7 @@ public class Flight implements Comparable<Flight>, JSONable {
 		}
 	}
 
+	@Nullable
 	public FlightCode getPrimaryFlightCode() {
 		if (mFlightCodes != null && mPrimaryAirlineCode != null) {
 			return mFlightCodes.get(mPrimaryAirlineCode);

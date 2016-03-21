@@ -3,7 +3,6 @@ package com.expedia.bookings.test.robolectric
 import android.app.Activity
 import android.graphics.drawable.Drawable
 import android.view.View
-import android.view.ViewTreeObserver
 import com.expedia.bookings.R
 import com.expedia.bookings.widget.StarRatingBar
 import org.junit.Before
@@ -14,9 +13,9 @@ import kotlin.properties.Delegates
 import kotlin.test.assertEquals
 
 @RunWith(RobolectricRunner::class)
-public class StarRatingBarTest {
+class StarRatingBarTest {
 
-    public var ratingBar: StarRatingBar by Delegates.notNull()
+    var ratingBar: StarRatingBar by Delegates.notNull()
     private var activity: Activity by Delegates.notNull()
     var spacing: Float by Delegates.notNull()
     var drawable: Drawable by Delegates.notNull()
@@ -32,30 +31,30 @@ public class StarRatingBarTest {
 
     @Test
     fun testMeasurementFullStar() {
-        val expectedWidth = 5 * drawable.getIntrinsicWidth() + 4 * spacing
-        val expectedHeight = drawable.getIntrinsicHeight()
+        val expectedWidth = 5 * drawable.intrinsicWidth + 4 * spacing
+        val expectedHeight = drawable.intrinsicHeight
 
         ratingBar.setRating(5.0f)
 
         ratingBar.measure(View.MeasureSpec.makeMeasureSpec(expectedWidth.toInt(), View.MeasureSpec.EXACTLY),
                 View.MeasureSpec.makeMeasureSpec(expectedHeight.toInt(), View.MeasureSpec.EXACTLY))
 
-        assertEquals(expectedWidth.toInt(), ratingBar.getMeasuredWidth())
-        assertEquals(expectedHeight.toInt(), ratingBar.getMeasuredHeight())
+        assertEquals(expectedWidth.toInt(), ratingBar.measuredWidth)
+        assertEquals(expectedHeight.toInt(), ratingBar.measuredHeight)
     }
 
     @Test
     fun testMeasurementHalfStar() {
-        val expectedWidth = 4.5 * drawable.getIntrinsicWidth() + 3 * spacing
-        val expectedHeight = drawable.getIntrinsicHeight()
+        val expectedWidth = 4.5 * drawable.intrinsicWidth + 3 * spacing
+        val expectedHeight = drawable.intrinsicHeight
 
         ratingBar.setRating(4.5f)
 
         ratingBar.measure(View.MeasureSpec.makeMeasureSpec(expectedWidth.toInt(), View.MeasureSpec.EXACTLY),
                 View.MeasureSpec.makeMeasureSpec(expectedHeight.toInt(), View.MeasureSpec.EXACTLY))
 
-        assertEquals(expectedWidth.toInt(), ratingBar.getMeasuredWidth())
-        assertEquals(expectedHeight.toInt(), ratingBar.getMeasuredHeight())
+        assertEquals(expectedWidth.toInt(), ratingBar.measuredWidth)
+        assertEquals(expectedHeight.toInt(), ratingBar.measuredHeight)
     }
 
 }

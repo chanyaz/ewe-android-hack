@@ -10,6 +10,7 @@ import com.expedia.bookings.section.SectionFieldEditable
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.widget.NumberMaskEditText
 import com.expedia.bookings.widget.PaymentWidgetV2
+import com.expedia.vm.PaymentViewModel
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -30,7 +31,7 @@ class HotelBillingInfoTest {
         activity.setTheme(R.style.V2_Theme_Hotels);
         Ui.getApplication(activity).defaultHotelComponents()
         val paymentWidget = android.view.LayoutInflater.from(activity).inflate(R.layout.payment_widget_v2, null) as PaymentWidgetV2
-
+        paymentWidget.viewmodel = PaymentViewModel(activity)
         sectionBillingInfo = paymentWidget.findViewById(R.id.section_billing_info) as SectionBillingInfo
         sectionBillingInfo.setLineOfBusiness(LineOfBusiness.HOTELSV2)
 

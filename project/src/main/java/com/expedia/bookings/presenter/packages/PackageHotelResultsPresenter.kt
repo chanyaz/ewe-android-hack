@@ -3,19 +3,25 @@ package com.expedia.bookings.presenter.packages
 import android.content.Context
 import android.support.v4.content.ContextCompat
 import android.util.AttributeSet
+import android.view.LayoutInflater
 import android.view.View
+import android.widget.ImageView
+import android.widget.LinearLayout
 import com.expedia.bookings.R
 import com.expedia.bookings.presenter.hotel.BaseHotelResultsPresenter
+import com.expedia.bookings.utils.bindView
+import com.expedia.bookings.widget.TextView
 import com.expedia.util.notNullAndObservable
 import com.expedia.vm.HotelResultsViewModel
-import com.google.android.gms.maps.CameraUpdateFactory
-import com.google.android.gms.maps.model.LatLng
+import kotlin.properties.Delegates
 
-public class PackageHotelResultsPresenter(context: Context, attrs: AttributeSet) : BaseHotelResultsPresenter(context, attrs) {
+class PackageHotelResultsPresenter(context: Context, attrs: AttributeSet) : BaseHotelResultsPresenter(context, attrs) {
+    val filterButton: LinearLayout by bindView(R.id.filter_button)
+    var mapFilterPlaceholderImageView: ImageView by Delegates.notNull()
+    var filterButtonText: TextView by Delegates.notNull()
+
     var viewmodel: HotelResultsViewModel by notNullAndObservable { vm ->
-        vm.hotelResultsObservable.subscribe {
-            vm.hotelResultsObservable.subscribe(listResultsObserver)
-        }
+        vm.hotelResultsObservable.subscribe(listResultsObserver)
         vm.hotelResultsObservable.subscribe(mapViewModel.hotelResultsSubject)
 
         vm.titleSubject.subscribe {
@@ -27,12 +33,15 @@ public class PackageHotelResultsPresenter(context: Context, attrs: AttributeSet)
         }
 
         vm.paramsSubject.subscribe { params ->
-            if (params.suggestion.coordinates != null) {
-                googleMap?.moveCamera(CameraUpdateFactory.newLatLngZoom(LatLng(params.suggestion.coordinates.lat, params.suggestion.coordinates.lng), 14.0f))
-            }
+            setMapToInitialState(params.suggestion)
             filterView.sortByObserver.onNext(params.suggestion.isCurrentLocationSearch && !params.suggestion.isGoogleSuggestionSearch)
             filterView.viewmodel.clearObservable.onNext(Unit)
         }
+
+        mapViewModel.mapInitializedObservable.subscribe{
+            setMapToInitialState(viewmodel.paramsSubject.value?.suggestion)
+        }
+
     }
 
     override fun inflate() {
@@ -42,7 +51,22 @@ public class PackageHotelResultsPresenter(context: Context, attrs: AttributeSet)
 
     override fun onFinishInflate() {
         super.onFinishInflate()
+        inflateAndSetupToolbarMenu()
         recyclerView.viewTreeObserver.addOnGlobalLayoutListener(adapterListener)
+        filterMenuItem.setVisible(true)
+        filterButton.setOnClickListener { view ->
+            show(ResultsFilter())
+            filterView.viewmodel.sortContainerObservable.onNext(currentState == ResultsList::class.java.name)
+            filterView.toolbar.title = resources.getString(R.string.filter)
+        }
+    }
+
+    private fun inflateAndSetupToolbarMenu() {
+        val toolbarFilterItemActionView = LayoutInflater.from(context).inflate(R.layout.package_toolbar_filter_item, null) as LinearLayout
+        mapFilterPlaceholderImageView = toolbarFilterItemActionView.findViewById(R.id.map_filter_placeholder_icon) as ImageView
+        mapFilterPlaceholderImageView.setImageDrawable(filterPlaceholderIcon)
+        filterButtonText = toolbarFilterItemActionView.findViewById(R.id.filter_text) as TextView
+        toolbar.menu.findItem(R.id.menu_filter).setActionView(toolbarFilterItemActionView)
     }
 
     override fun doAreaSearch() {
@@ -52,6 +76,23 @@ public class PackageHotelResultsPresenter(context: Context, attrs: AttributeSet)
     }
 
     override fun showSearchThisArea() {
+    }
+
+    override fun updateFilterButtonText(isResults: Boolean) {
+        if (isResults) {
+            filterButtonText.visibility = GONE
+        } else {
+            filterButtonText.visibility = VISIBLE
+        }
+    }
+
+    override fun showMenuItem(isResults: Boolean){
+        filterMenuItem.isVisible = true
+        searchMenuItem.isVisible = isResults
+    }
+
+    override fun hideBundlePriceOverview(hide: Boolean) {
+       hideBundlePriceOverviewSubject.onNext(hide)
     }
 
 }

@@ -84,7 +84,6 @@
                         android:layout_marginLeft="9dp"
                         android:layout_weight="1"
                         android:background="#979797" />
-
                 </LinearLayout>
 
                 <com.expedia.bookings.widget.TravelerContactDetailsWidget
@@ -92,7 +91,7 @@
                     style="?attr/checkout_card_view_style"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="12dp" />
+                    android:layout_marginTop="12dp"/>
 
                 <ViewStub
                     android:id="@+id/payment_info_card_view_stub"
@@ -101,6 +100,11 @@
                     android:inflatedId="@+id/payment_info_card_view"
                     android:layout_marginTop="12dp"
                     android:layout="?attr/paymentWidgetLayout" />
+
+                <com.expedia.bookings.widget.FrameLayout
+                    android:id="@+id/coupon_container"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
 
                 <com.expedia.bookings.widget.TextView
                     android:id="@+id/legal_information_text_view"
@@ -231,7 +235,7 @@
         android:layout_gravity="top"
         android:orientation="vertical">
 
-        <android.support.v7.widget.Toolbar
+        <com.expedia.bookings.widget.CheckoutToolbar
             android:id="@+id/checkout_toolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

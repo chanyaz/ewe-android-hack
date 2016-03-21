@@ -21,6 +21,7 @@ import com.expedia.bookings.data.cars.CarCheckoutParamsBuilder;
 import com.expedia.bookings.data.cars.CarCreateTripResponse;
 import com.expedia.bookings.data.cars.CreateTripCarOffer;
 import com.expedia.bookings.otto.Events;
+import com.expedia.bookings.presenter.Presenter;
 import com.expedia.bookings.services.CarServices;
 import com.expedia.bookings.tracking.AdTracker;
 import com.expedia.bookings.tracking.OmnitureTracking;
@@ -66,8 +67,6 @@ public class CarCheckoutWidget extends CheckoutBasePresenter implements CVVEntry
 		summaryWidget = Ui.inflate(R.layout.car_checkout_summary_widget, summaryContainer, false);
 		summaryContainer.addView(summaryWidget);
 		mainContactInfoCardView.setEnterDetailsText(getResources().getString(R.string.enter_driver_details));
-		paymentInfoCardView.setLineOfBusiness(LineOfBusiness.CARS);
-		paymentInfoCardView.setZipValidationRequired(true);
 	}
 
 	// Create Trip network handling
@@ -192,7 +191,7 @@ public class CarCheckoutWidget extends CheckoutBasePresenter implements CVVEntry
 		this.tripId = tripId;
 		this.carProduct = createTripOffer;
 		summaryWidget.bind(carProduct, originalOfferFormattedPrice);
-		paymentInfoCardView.setCreditCardRequired(carProduct.checkoutRequiresCard);
+		paymentInfoCardView.getViewmodel().isCreditCardRequired().onNext(carProduct.checkoutRequiresCard);
 		clearCCNumber();
 		scrollCheckoutToTop();
 		slideWidget.resetSlider();
@@ -204,9 +203,8 @@ public class CarCheckoutWidget extends CheckoutBasePresenter implements CVVEntry
 				Money.getFormattedMoneyFromAmountAndCurrencyCode(carProduct.detailedFare.totalDueToday.getAmount(),
 					carProduct.detailedFare.totalDueToday.getCurrency())).format().toString());
 		mainContactInfoCardView.setExpanded(false);
-		paymentInfoCardView.setExpanded(false);
 		slideToContainer.setVisibility(INVISIBLE);
-
+		paymentInfoCardView.show(new PaymentWidget.PaymentDefault(), Presenter.FLAG_CLEAR_BACKSTACK);
 		legalInformationText.setText(
 			StrUtils.generateLegalClickableLink(getContext(), carProduct.rulesAndRestrictionsURL));
 		if (User.isLoggedIn(getContext())) {

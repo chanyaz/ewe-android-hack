@@ -1,6 +1,7 @@
 package com.expedia.vm.interfaces
 
 import com.expedia.bookings.data.payment.PaymentModel
+import com.expedia.bookings.utils.ArrowXDrawableUtil
 import rx.Observable
 import rx.subjects.PublishSubject
 
@@ -15,6 +16,6 @@ public interface IPaymentWidgetViewModel {
     val remainingBalanceDueOnCardVisibility: Observable<Boolean>
     val paymentSplitsAndTripResponse: Observable<PaymentModel.PaymentSplitsAndTripResponse>
     val burnAmountApiCallResponsePending: PublishSubject<Boolean>
-    val onStoredCardChosen: PublishSubject<Unit>
-    val enableDoneButton: PublishSubject<Boolean>
+    val isPwpDirty: Observable<Boolean>
+    val toolbarNavIcon: PublishSubject<ArrowXDrawableUtil.ArrowDrawableType>
 }

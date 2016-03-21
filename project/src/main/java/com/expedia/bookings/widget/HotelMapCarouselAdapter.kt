@@ -12,7 +12,6 @@ import com.expedia.bookings.bitmaps.PicassoHelper
 import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.hotels.Hotel
 import com.expedia.bookings.data.hotels.HotelRate
-import com.expedia.bookings.data.packages.PackageOfferModel
 import com.expedia.bookings.extension.shouldShowCircleForRatings
 import com.expedia.bookings.tracking.HotelV2Tracking
 import com.expedia.bookings.utils.FontCache
@@ -24,16 +23,16 @@ import com.expedia.util.subscribeInverseVisibility
 import com.expedia.util.subscribeRating
 import com.expedia.util.subscribeStarColor
 import com.expedia.util.subscribeText
-import com.mobiata.android.text.StrikethroughTagHandler
 import com.expedia.util.subscribeVisibility
+import com.mobiata.android.text.StrikethroughTagHandler
 import rx.subjects.BehaviorSubject
 import rx.subjects.PublishSubject
-import java.util.*
+import java.util.ArrayList
 import kotlin.collections.firstOrNull
 import kotlin.collections.indexOfFirst
 import kotlin.properties.Delegates
 
-public class HotelMapCarouselAdapter(var hotels: List<Hotel>, val hotelSubject: PublishSubject<Hotel>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class HotelMapCarouselAdapter(var hotels: List<Hotel>, val hotelSubject: PublishSubject<Hotel>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     val hotelSoldOut = endlessObserver<String> { soldOutHotelId ->
         hotels.firstOrNull { it.hotelId == soldOutHotelId }?.isSoldOut = true
@@ -47,14 +46,14 @@ public class HotelMapCarouselAdapter(var hotels: List<Hotel>, val hotelSubject: 
         return hotels.size
     }
 
-    public fun setItems(newHotels: List<Hotel>) {
+    fun setItems(newHotels: List<Hotel>) {
         hotels = newHotels
         notifyDataSetChanged()
     }
 
     override fun onBindViewHolder(given: RecyclerView.ViewHolder?, position: Int) {
         val holder: HotelViewHolder = given as HotelViewHolder
-        val viewModel = HotelViewModel(holder.itemView.context, hotels.get(position))
+        val viewModel = HotelViewModel(holder.itemView.context, hotels[position])
         holder.bind(viewModel)
         holder.itemView.setOnClickListener(holder)
     }
@@ -82,7 +81,7 @@ public class HotelMapCarouselAdapter(var hotels: List<Hotel>, val hotelSubject: 
         }
 
         override fun onClick(view: View) {
-            val hotel: Hotel = hotels.get(adapterPosition)
+            val hotel: Hotel = hotels[adapterPosition]
             hotelSubject.onNext(hotel)
             HotelV2Tracking().trackHotelV2CarouselClick()
         }
@@ -103,7 +102,7 @@ public class HotelMapCarouselAdapter(var hotels: List<Hotel>, val hotelSubject: 
             hotelPreviewRating.visibility = View.VISIBLE
         }
 
-        public fun bind(viewModel: HotelViewModel) {
+        fun bind(viewModel: HotelViewModel) {
             hotelId = viewModel.hotelId
             hotelListItemsMetadata.add(HotelListItemMetadata(viewModel.hotelId, viewModel.soldOut))
 
@@ -139,11 +138,16 @@ public class HotelMapCarouselAdapter(var hotels: List<Hotel>, val hotelSubject: 
     }
 }
 
-public fun priceFormatter(resources: Resources, rate: HotelRate?, strikeThrough: Boolean): CharSequence {
-    if (rate == null) return ""
-    var hotelPrice = if (strikeThrough)
-        Money(Math.round(rate.strikethroughPriceToShowUsers).toString(), rate.currencyCode)
-    else Money(Math.round(rate.priceToShowUsers).toString(), rate.currencyCode)
+fun priceFormatter(resources: Resources, rate: HotelRate?, strikeThrough: Boolean): CharSequence {
 
-    return if (strikeThrough) Html.fromHtml(resources.getString(R.string.strike_template, hotelPrice.formattedMoney), null, StrikethroughTagHandler()) else hotelPrice.formattedMoney
+    if (rate == null) {
+        return ""
+    }
+    else if (strikeThrough && rate.priceToShowUsers >= rate.strikethroughPriceToShowUsers) { // #6801 - strikethrough price now optional from API
+        return ""
+    }
+    else {
+        var hotelPrice = HotelRate.getDisplayMoney(rate, strikeThrough).getFormattedMoney(Money.F_NO_DECIMAL)
+        return if (strikeThrough) Html.fromHtml(resources.getString(R.string.strike_template, hotelPrice), null, StrikethroughTagHandler()) else hotelPrice
+    }
 }

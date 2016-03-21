@@ -534,7 +534,12 @@ public class SectionLocation extends LinearLayout
 					|| (!mEditCountrySpinner.hasBoundField() && (posId == PointOfSaleId.UNITED_STATES
 					|| posId == PointOfSaleId.TRAVELOCITY))) {
 					this.getField().setInputType(InputType.TYPE_CLASS_NUMBER);
-					this.getField().setHint(R.string.address_postal_code_hint_US);
+					if (mLineOfBusiness == LineOfBusiness.PACKAGES) {
+						this.getField().setHint(R.string.address_zip_code_hint);
+					}
+					else {
+						this.getField().setHint(R.string.address_postal_code_hint_US);
+					}
 				}
 				else {
 					this.getField().setInputType(InputType.TYPE_CLASS_TEXT);

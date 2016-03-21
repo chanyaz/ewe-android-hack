@@ -4,11 +4,10 @@ import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.drawable.Drawable
 import android.support.v4.content.ContextCompat
-import android.text.format.DateUtils
 import android.util.AttributeSet
 import android.view.View
 import android.widget.ImageView
-import android.widget.FrameLayout
+import android.widget.LinearLayout
 import android.widget.TextView
 import com.expedia.bookings.R
 import com.expedia.bookings.bitmaps.PicassoHelper
@@ -24,20 +23,22 @@ import com.expedia.bookings.utils.bindView
 import com.squareup.phrase.Phrase
 import com.squareup.picasso.Picasso
 
-public class CheckoutOverviewHeader(context: Context, attrs: AttributeSet?) : FrameLayout(context, attrs) {
-    val checkoutHeaderImage: ImageView by bindView(R.id.hotel_checkout_room_image)
+class CheckoutOverviewHeader(context: Context, attrs: AttributeSet?) : LinearLayout(context, attrs) {
+    var checkoutHeaderImage: ImageView? = null
     val destinationText: TextView by bindView(R.id.destination)
     val checkInOutDates: TextView by bindView(R.id.check_in_out_dates)
     val travelers: TextView by bindView(R.id.travelers)
 
     init {
         View.inflate(context, R.layout.checkout_overview_header, this)
+        orientation = VERTICAL
     }
 
-    public fun update(hotel: HotelCreateTripResponse.HotelProductResponse, size: Int) {
-        destinationText.text = Phrase.from(context, R.string.hotel_city_country_checkout_header_TEMPLATE)
+    fun update(hotel: HotelCreateTripResponse.HotelProductResponse, imageView: ImageView, size: Int) {
+        checkoutHeaderImage = imageView
+        destinationText.text = Phrase.from(context, R.string.hotel_city_country_TEMPLATE)
                 .put("city", hotel.hotelCity)
-                .put("country", Db.getPackageParams().destination.hierarchyInfo?.country?.name)
+                .put("country", hotel.hotelStateProvince ?: Db.getPackageParams().destination.hierarchyInfo?.country?.name)
                 .format()
         checkInOutDates.text = DateFormatUtils.formatPackageDateRange(context, hotel.checkInDate, hotel.checkOutDate)
         var numTravelers = Db.getPackageParams().guests()
@@ -55,15 +56,13 @@ public class CheckoutOverviewHeader(context: Context, attrs: AttributeSet?) : Fr
             super.onBitmapLoaded(bitmap, from)
 
             val drawable = HeaderBitmapDrawable()
-            drawable.setCornerRadius(resources.getDimensionPixelSize(R.dimen.hotel_checkout_image_corner_radius))
-            drawable.setCornerMode(HeaderBitmapDrawable.CornerMode.TOP)
             drawable.setBitmap(bitmap)
 
             var textColor: Int
             if (!mIsFallbackImage) {
                 // only apply gradient treatment to hotels with images #5647
-                val fullColorBuilder = ColorBuilder(resources.getColor(R.color.packages_primary_color))
-                val gradientColor = fullColorBuilder.setAlpha(154).build()
+                val fullColorBuilder = ColorBuilder(ContextCompat.getColor(context, R.color.packages_primary_color))
+                val gradientColor = fullColorBuilder.setAlpha(230).build()
                 val colorArrayBottom = intArrayOf(gradientColor, gradientColor)
                 drawable.setGradient(colorArrayBottom, floatArrayOf(0f, 1f))
                 textColor = ContextCompat.getColor(context, R.color.itin_white_text);
@@ -72,7 +71,7 @@ public class CheckoutOverviewHeader(context: Context, attrs: AttributeSet?) : Fr
             }
             destinationText.setTextColor(textColor)
             checkInOutDates.setTextColor(textColor)
-            checkoutHeaderImage.setImageDrawable(drawable)
+            checkoutHeaderImage?.setImageDrawable(drawable)
         }
 
         override fun onBitmapFailed(errorDrawable: Drawable?) {
@@ -83,7 +82,7 @@ public class CheckoutOverviewHeader(context: Context, attrs: AttributeSet?) : Fr
             super.onPrepareLoad(placeHolderDrawable)
 
             if (placeHolderDrawable != null) {
-                checkoutHeaderImage.setImageDrawable(placeHolderDrawable)
+                checkoutHeaderImage?.setImageDrawable(placeHolderDrawable)
 
                 val textColor = ContextCompat.getColor(context, R.color.text_black)
                 destinationText.setTextColor(textColor)

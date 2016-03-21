@@ -24,7 +24,6 @@
     <color name="bg_btn_color">#7bae00</color>
     <color name="bg_btn_pressed_color">#295600</color>
     <color name="itin_flight_line_color">#7da426</color>
-    <color name="login_text_hotels">#FFFFFF</color>
     <color name="login_text_flight">#FFFFFF</color>
     <color name="coupon_success_message_color">#7baed4</color>
     <color name="collection_overlay_color">#56a1d5</color>

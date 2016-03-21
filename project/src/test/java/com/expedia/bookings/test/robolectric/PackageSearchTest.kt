@@ -14,14 +14,14 @@ import rx.observers.TestSubscriber
 import kotlin.properties.Delegates
 
 @RunWith(RobolectricRunner::class)
-public class PackageSearchTest {
-    public var vm: PackageSearchViewModel by Delegates.notNull()
+class PackageSearchTest {
+    var vm: PackageSearchViewModel by Delegates.notNull()
     private var LOTS_MORE: Long = 100
     var activity : Activity by Delegates.notNull()
 
     @Before
     fun before() {
-        activity = Robolectric.buildActivity(javaClass<Activity>()).create().get()
+        activity = Robolectric.buildActivity(Activity::class.java).create().get()
         vm = PackageSearchViewModel(activity)
     }
 

@@ -35,7 +35,7 @@ import java.util.Collections
 import java.util.Comparator
 import java.util.HashMap
 
-public class CarServices(endpoint: String, okHttpClient: OkHttpClient, requestInterceptor: RequestInterceptor,
+class CarServices(endpoint: String, okHttpClient: OkHttpClient, requestInterceptor: RequestInterceptor,
                          val ObserveOn: Scheduler, val SubscribeOn: Scheduler, logLevel: RestAdapter.LogLevel) {
 
     private var cachedCarSearchResponse = CarSearchResponse()
@@ -55,7 +55,7 @@ public class CarServices(endpoint: String, okHttpClient: OkHttpClient, requestIn
         adapter.create(CarApi::class.java)
     }
 
-    public fun carSearch(params: CarSearchParams, observer: Observer<CarSearch>): Subscription {
+    fun carSearch(params: CarSearchParams, observer: Observer<CarSearch>): Subscription {
         val searchByLocationLatLng = params.shouldSearchByLocationLatLng()
         val carSearchResponse = if (searchByLocationLatLng) {
             carApi.roundtripCarSearch(params.pickupLocationLatLng.lat, params.pickupLocationLatLng.lng,
@@ -76,7 +76,7 @@ public class CarServices(endpoint: String, okHttpClient: OkHttpClient, requestIn
                 .subscribe(observer)
     }
 
-    public fun carSearchWithProductKey(params: CarSearchParams, productKey: String, observer: Observer<CarSearch>): Subscription {
+    fun carSearchWithProductKey(params: CarSearchParams, productKey: String, observer: Observer<CarSearch>): Subscription {
         val searchByLocationLatLng = params.shouldSearchByLocationLatLng()
         val carSearchResponse = if (searchByLocationLatLng) {
             carApi.roundtripCarSearch(params.pickupLocationLatLng.lat, params.pickupLocationLatLng.lng,
@@ -95,7 +95,7 @@ public class CarServices(endpoint: String, okHttpClient: OkHttpClient, requestIn
                 .subscribe(observer)
     }
 
-    public fun carFilterSearch(observer: Observer<CarSearch>, carFilter: CarFilter): Subscription {
+    fun carFilterSearch(observer: Observer<CarSearch>, carFilter: CarFilter): Subscription {
         return Observable.combineLatest(Observable.just(cachedCarSearchResponse),
                 Observable.just(carFilter), FILTER_RESULTS)
                 .flatMap(BUCKET_OFFERS)
@@ -106,7 +106,7 @@ public class CarServices(endpoint: String, okHttpClient: OkHttpClient, requestIn
                 .subscribe(observer)
     }
 
-    public fun createTrip(productKey: String, fare: Money, isInsuranceIncluded: Boolean,
+    fun createTrip(productKey: String, fare: Money, isInsuranceIncluded: Boolean,
                           observer: Observer<CarCreateTripResponse>): Subscription {
 
         return carApi.createTrip(productKey, fare.amount.toString())
@@ -124,7 +124,7 @@ public class CarServices(endpoint: String, okHttpClient: OkHttpClient, requestIn
                 .subscribe(observer)
     }
 
-    public fun checkout(offer: CreateTripCarOffer, params: CarCheckoutParams, observer: Observer<CarCheckoutResponse>): Subscription {
+    fun checkout(offer: CreateTripCarOffer, params: CarCheckoutParams, observer: Observer<CarCheckoutResponse>): Subscription {
         return carApi.checkout(params.toQueryMap())
                 .doOnNext(HANDLE_ERRORS)
                 .map { carCheckoutResponse: CarCheckoutResponse ->
@@ -196,14 +196,14 @@ public class CarServices(endpoint: String, okHttpClient: OkHttpClient, requestIn
         filteredResponse
     }
 
-    public companion object {
+    companion object {
 
-        @JvmStatic public fun generateGson(): Gson {
+        @JvmStatic fun generateGson(): Gson {
             return GsonBuilder().registerTypeAdapter(DateTime::class.java, DateTimeTypeAdapter())
                     .registerTypeAdapter(RateTerm::class.java, RateTermDeserializer()).create()
         }
 
-        @JvmStatic public val SORT_OFFERS_BY_LOWEST_TOTAL = object : Action1<CarSearchResponse> {
+        @JvmStatic val SORT_OFFERS_BY_LOWEST_TOTAL = object : Action1<CarSearchResponse> {
             override fun call(carSearchResponse: CarSearchResponse) {
                 Collections.sort(carSearchResponse.offers, object : Comparator<SearchCarOffer> {
                     override fun compare(o1: SearchCarOffer, o2: SearchCarOffer): Int {

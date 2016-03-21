@@ -5,7 +5,6 @@ import android.view.View
 import com.expedia.bookings.R
 import com.expedia.bookings.data.hotels.HotelOffersResponse
 import com.expedia.bookings.test.MockHotelServiceTestRule
-import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.FrameLayout
 import com.expedia.bookings.widget.HotelMapView
 import com.expedia.vm.HotelMapViewModel
@@ -23,8 +22,8 @@ import kotlin.properties.Delegates
 import kotlin.test.assertEquals
 
 @RunWith(RobolectricRunner::class)
-public class HotelMapViewTest {
-    public var mockHotelServiceTestRule: MockHotelServiceTestRule = MockHotelServiceTestRule()
+class HotelMapViewTest {
+    var mockHotelServiceTestRule: MockHotelServiceTestRule = MockHotelServiceTestRule()
         @Rule get
 
     lateinit private var hotelOffersResponse: HotelOffersResponse

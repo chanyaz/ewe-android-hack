@@ -12,6 +12,7 @@ import com.expedia.bookings.data.payment.TripDetails
 import com.expedia.bookings.services.HotelCheckoutResponse
 import com.expedia.bookings.services.HotelServices
 import com.expedia.bookings.services.LoyaltyServices
+import com.expedia.bookings.testrule.ServicesRule
 import com.expedia.vm.HotelCheckoutViewModel
 import org.junit.Before
 import org.junit.Rule
@@ -23,12 +24,12 @@ import java.io.IOException
 import kotlin.test.assertEquals
 import kotlin.test.assertNotNull
 
-public class HotelCheckoutViewModelTests {
+class HotelCheckoutViewModelTests {
 
     var mockHotelTestServiceRule = MockHotelServiceTestRule()
         @Rule get
 
-    public var loyaltyServiceRule = ServicesRule<LoyaltyServices>(LoyaltyServices::class.java)
+    var loyaltyServiceRule = ServicesRule(LoyaltyServices::class.java)
         @Rule get
 
     lateinit var paymentModel: PaymentModel<HotelCreateTripResponse>

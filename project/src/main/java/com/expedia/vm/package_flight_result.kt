@@ -9,19 +9,27 @@ import com.expedia.bookings.utils.JodaUtils
 import com.expedia.bookings.utils.StrUtils
 import rx.subjects.BehaviorSubject
 
-public class FlightResultsViewModel() {
+class FlightResultsViewModel() {
     val flightResultsObservable = BehaviorSubject.create<List<FlightLeg>>()
 
     init {
         val isOutboundSearch = Db.getPackageParams()?.isOutboundSearch() ?: false
-        flightResultsObservable.onNext(Db.getPackageResponse().packageResult.flightsPackage.flights.filter { it.outbound == isOutboundSearch && it.packageOfferModel != null }.sortedBy { it.packageOfferModel.price.packageTotalPrice.amount })
+
+        val bestPlusAllFlights = Db.getPackageResponse().packageResult.flightsPackage.flights.filter { it.outbound == isOutboundSearch && it.packageOfferModel != null }
+
+        // move bestFlight to the first place of the list
+        val bestFlight = bestPlusAllFlights.find { it.isBestFlight }
+        var allFlights = bestPlusAllFlights.filterNot { it.isBestFlight }.sortedBy { it.packageOfferModel.price.packageTotalPrice.amount }.toMutableList()
+
+        allFlights.add(0, bestFlight)
+        flightResultsObservable.onNext(allFlights)
     }
 }
 
-public class FlightToolbarViewModel(private val context: Context) {
+class FlightToolbarViewModel(private val context: Context) {
     //input
     val refreshToolBar = BehaviorSubject.create<Boolean>()
-
+    val setTitleOnly = BehaviorSubject.create<String>()
 
     //output
     val titleSubject = BehaviorSubject.create<String>()
@@ -29,6 +37,12 @@ public class FlightToolbarViewModel(private val context: Context) {
     val menuVisibilitySubject = BehaviorSubject.create<Boolean>()
 
     init {
+        setTitleOnly.subscribe { title ->
+            titleSubject.onNext(title)
+            subtitleSubject.onNext("")
+            menuVisibilitySubject.onNext(false)
+        }
+
         refreshToolBar.subscribe { isResults ->
             // Flights Toolbar content - 6235
             var isOutboundSearch = Db.getPackageParams().isOutboundSearch()

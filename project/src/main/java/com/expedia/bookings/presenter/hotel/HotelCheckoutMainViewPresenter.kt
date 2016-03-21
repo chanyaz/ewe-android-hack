@@ -2,11 +2,9 @@ package com.expedia.bookings.presenter.hotel
 
 import android.app.AlertDialog
 import android.content.Context
-import android.content.DialogInterface
 import android.util.AttributeSet
 import android.util.TypedValue
 import android.view.View
-import android.widget.LinearLayout
 import com.expedia.bookings.R
 import com.expedia.bookings.activity.HotelRulesActivity
 import com.expedia.bookings.data.BillingInfo
@@ -30,24 +28,25 @@ import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.widget.CheckoutBasePresenter
 import com.expedia.bookings.widget.CouponWidget
 import com.expedia.bookings.widget.HotelCheckoutSummaryWidget
+import com.expedia.bookings.widget.PaymentWidget
 import com.expedia.util.endlessObserver
+import com.expedia.util.getCheckoutToolbarTitle
 import com.expedia.util.notNullAndObservable
 import com.expedia.util.subscribeText
 import com.expedia.util.subscribeTextAndVisibility
+import com.expedia.vm.HotelCheckoutMainViewModel
 import com.expedia.vm.HotelCheckoutOverviewViewModel
 import com.expedia.vm.HotelCheckoutSummaryViewModel
 import com.expedia.vm.HotelCouponViewModel
 import com.expedia.vm.HotelCreateTripViewModel
-import com.expedia.vm.HotelCheckoutMainViewModel
 import com.squareup.otto.Subscribe
 import rx.Observer
 import rx.subjects.PublishSubject
 import javax.inject.Inject
 import kotlin.properties.Delegates
 
-public class HotelCheckoutMainViewPresenter(context: Context, attr: AttributeSet) : CheckoutBasePresenter(context, attr) {
+class HotelCheckoutMainViewPresenter(context: Context, attr: AttributeSet) : CheckoutBasePresenter(context, attr) {
 
-    val COUPON_VIEW_INDEX = 4
     var slideAllTheWayObservable = PublishSubject.create<Unit>()
     var emailOptInStatus = PublishSubject.create<MerchandiseSpam>()
     var hotelCheckoutSummaryWidget: HotelCheckoutSummaryWidget by Delegates.notNull()
@@ -64,11 +63,7 @@ public class HotelCheckoutMainViewPresenter(context: Context, attr: AttributeSet
             val builder = AlertDialog.Builder(context)
             builder.setTitle(R.string.coupon_error_dialog_title)
             builder.setMessage(R.string.coupon_error_dialog_message)
-            builder.setPositiveButton(context.getString(R.string.DONE), object : DialogInterface.OnClickListener {
-                override fun onClick(dialog: DialogInterface, which: Int) {
-                    dialog.dismiss()
-                }
-            })
+            builder.setPositiveButton(context.getString(R.string.DONE), { dialog, which -> dialog.dismiss() })
             val alertDialog = builder.create()
             alertDialog.show()
             doCreateTrip()
@@ -78,17 +73,11 @@ public class HotelCheckoutMainViewPresenter(context: Context, attr: AttributeSet
             val builder = AlertDialog.Builder(context)
             builder.setTitle(R.string.coupon_error_remove_dialog_title)
             builder.setMessage(R.string.coupon_error_fallback)
-            builder.setPositiveButton(context.getString(R.string.cancel), object : DialogInterface.OnClickListener {
-                override fun onClick(dialog: DialogInterface, which: Int) {
-                    createTripResponseListener.onNext(createTripViewmodel.tripResponseObservable.value)
-                    dialog.dismiss()
-                }
+            builder.setPositiveButton(context.getString(R.string.cancel), { dialog, which ->
+                createTripResponseListener.onNext(createTripViewmodel.tripResponseObservable.value)
+                dialog.dismiss()
             })
-            builder.setNegativeButton(context.getString(R.string.retry), object : DialogInterface.OnClickListener {
-                override fun onClick(dialog: DialogInterface, which: Int) {
-                    couponCardView.viewmodel.removeObservable.onNext(true)
-                }
-            })
+            builder.setNegativeButton(context.getString(R.string.retry), { dialog, which -> couponCardView.viewmodel.removeObservable.onNext(true) })
             val alertDialog = builder.create()
             alertDialog.show()
         }
@@ -109,10 +98,13 @@ public class HotelCheckoutMainViewPresenter(context: Context, attr: AttributeSet
     lateinit var paymentModel: PaymentModel<HotelCreateTripResponse>
         @Inject set
 
-    var hotelCheckoutMainViewModel: HotelCheckoutMainViewModel by notNullAndObservable {
-        it.updateEarnedRewards.subscribe { it ->
+    var hotelCheckoutMainViewModel: HotelCheckoutMainViewModel by notNullAndObservable { vm ->
+        vm.updateEarnedRewards.subscribe { it ->
             Db.getTripBucket().hotelV2.updateTotalPointsToEarn(it)
-            loginWidget.updateRewardsText(getLineOfBusiness())
+            loginWidget.updateRewardsText(lineOfBusiness)
+        }
+        vm.animateSlideToPurchaseWithPaymentSplits.subscribe {
+            HotelV2Tracking().trackHotelV2SlideToPurchase(paymentInfoCardView.getCardType(), it)
         }
         it.animateSlideToPurchaseWithPaymentSplits.subscribe {
             HotelV2Tracking().trackHotelV2SlideToPurchase(paymentInfoCardView.cardType, it)
@@ -124,21 +116,23 @@ public class HotelCheckoutMainViewPresenter(context: Context, attr: AttributeSet
         couponCardView.viewmodel = HotelCouponViewModel(getContext(), hotelServices, paymentModel)
     }
 
+    override fun getToolbarTitle(): String {
+        return getCheckoutToolbarTitle(resources)
+    }
+
     override fun getLineOfBusiness(): LineOfBusiness {
         return LineOfBusiness.HOTELSV2
     }
 
     override fun onFinishInflate() {
         super.onFinishInflate()
-        hotelCheckoutSummaryWidget = HotelCheckoutSummaryWidget(getContext(), null, HotelCheckoutSummaryViewModel(getContext()))
+        hotelCheckoutSummaryWidget = HotelCheckoutSummaryWidget(context, null, HotelCheckoutSummaryViewModel(context))
         summaryContainer.addView(hotelCheckoutSummaryWidget)
 
         mainContactInfoCardView.setLineOfBusiness(LineOfBusiness.HOTELSV2)
-        paymentInfoCardView.setLineOfBusiness(LineOfBusiness.HOTELSV2)
 
-        val container = scrollView.findViewById(R.id.scroll_content) as LinearLayout
-        container.addView(couponCardView, container.getChildCount() - COUPON_VIEW_INDEX)
-        couponCardView.setToolbarListener(toolbarListener)
+        couponContainer.addView(couponCardView)
+        couponCardView.setToolbarListener(toolbar)
 
         couponCardView.viewmodel.removeObservable.subscribe {
             if (it) {
@@ -147,16 +141,14 @@ public class HotelCheckoutMainViewPresenter(context: Context, attr: AttributeSet
             }
         }
 
-        val params = couponCardView.getLayoutParams() as LinearLayout.LayoutParams
-        params.setMargins(0, TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 12f, getResources().getDisplayMetrics()).toInt(), 0, 0);
+        val params = couponCardView.layoutParams as LayoutParams
+        params.setMargins(0, TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 12f, resources.displayMetrics).toInt(), 0, 0);
     }
 
     fun bind() {
-        mainContactInfoCardView.setEnterDetailsText(getResources().getString(R.string.enter_driver_details))
-        mainContactInfoCardView.setExpanded(false)
-
-        paymentInfoCardView.setCreditCardRequired(true)
-        paymentInfoCardView.setExpanded(false)
+        mainContactInfoCardView.setEnterDetailsText(resources.getString(R.string.enter_driver_details))
+        mainContactInfoCardView.isExpanded = false
+        paymentInfoCardView.show(PaymentWidget.PaymentDefault(), Presenter.FLAG_CLEAR_BACKSTACK)
 
         if (!hasDiscount) {
             clearCCNumber()
@@ -165,20 +157,19 @@ public class HotelCheckoutMainViewPresenter(context: Context, attr: AttributeSet
         couponCardView.setExpanded(false)
 
         slideWidget.resetSlider()
-        slideToContainer.setVisibility(View.INVISIBLE)
-        legalInformationText.setOnClickListener(object : View.OnClickListener {
-            override fun onClick(v: View) {
-                context.startActivity(HotelRulesActivity.createIntent(context, LineOfBusiness.HOTELSV2))
-            }
-        })
-        if (User.isLoggedIn(getContext())) {
-            if (!hasSomeManuallyEnteredData(paymentInfoCardView.sectionBillingInfo.billingInfo) && Db.getUser().getStoredCreditCards().size == 1) {
+        slideToContainer.visibility = View.INVISIBLE
+        legalInformationText.setOnClickListener({ context.startActivity(HotelRulesActivity.createIntent(context, LineOfBusiness.HOTELSV2)) })
+        if (User.isLoggedIn(context)) {
+            if (!hasSomeManuallyEnteredData(paymentInfoCardView.sectionBillingInfo.billingInfo) && Db.getUser().storedCreditCards.size == 1 && Db.getTemporarilySavedCard() == null) {
                 paymentInfoCardView.sectionBillingInfo.bind(Db.getBillingInfo())
                 paymentInfoCardView.selectFirstAvailableCard()
             }
-            loginWidget.bind(false, true, Db.getUser(), getLineOfBusiness())
+            else if(Db.getUser().storedCreditCards.size == 0 && Db.getTemporarilySavedCard() != null){
+                paymentInfoCardView.storedCreditCardListener.onTemporarySavedCreditCardChosen(Db.getTemporarilySavedCard())
+            }
+            loginWidget.bind(false, true, Db.getUser(), lineOfBusiness)
         } else {
-            loginWidget.bind(false, false, null, getLineOfBusiness())
+            loginWidget.bind(false, false, null, lineOfBusiness)
         }
     }
 
@@ -250,7 +241,6 @@ public class HotelCheckoutMainViewPresenter(context: Context, attr: AttributeSet
     val createTripResponseListener: Observer<HotelCreateTripResponse> = endlessObserver { trip ->
         Db.getTripBucket().clearHotelV2()
         Db.getTripBucket().add(TripBucketItemHotelV2(trip))
-
         hotelCheckoutSummaryWidget.viewModel.tripResponseObserver.onNext(trip)
         hotelCheckoutSummaryWidget.viewModel.guestCountObserver.onNext(hotelSearchParams.adults + hotelSearchParams.children.size)
         val couponRate = trip.newHotelProductResponse.hotelRoomResponse.rateInfo.chargeableRateInfo.getPriceAdjustments()
@@ -270,8 +260,8 @@ public class HotelCheckoutMainViewPresenter(context: Context, attr: AttributeSet
     }
 
     override fun showProgress(show: Boolean) {
-        hotelCheckoutSummaryWidget.setVisibility(if (show) View.INVISIBLE else View.VISIBLE)
-        mSummaryProgressLayout.setVisibility(if (show) View.VISIBLE else View.GONE)
+        hotelCheckoutSummaryWidget.visibility = if (show) View.INVISIBLE else View.VISIBLE
+        mSummaryProgressLayout.visibility = if (show) View.VISIBLE else View.GONE
     }
 
     override fun onSlideStart() {
@@ -297,7 +287,9 @@ public class HotelCheckoutMainViewPresenter(context: Context, attr: AttributeSet
 
     override fun animateInSlideToPurchase(visible: Boolean) {
         super.animateInSlideToPurchase(visible)
-        hotelCheckoutMainViewModel.animateInSlideToPurchaseSubject.onNext(Unit)
+        if (visible) {
+            hotelCheckoutMainViewModel.animateInSlideToPurchaseSubject.onNext(Unit)
+        }
     }
 
 }

@@ -2,4 +2,7 @@
 <resources>
     <item name="brand_phone_checkout_logo_drawable" type="drawable">@drawable/brand_phone_checkout_login_logo_drawable</item>
     <item name="brand_tablet_checkout_login_logo_drawable" type="drawable">@drawable/brand_phone_checkout_login_logo_drawable</item>
+
+    <item name="app_copyright_logo" type="drawable">@drawable/mobiata</item>
+
 </resources>

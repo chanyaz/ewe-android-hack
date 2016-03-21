@@ -10,7 +10,7 @@ import com.google.gson.JsonElement
 import com.google.gson.reflect.TypeToken
 import java.lang.reflect.Type
 
-public class PackageFlightDeserializer : JsonDeserializer<PackageSearchResponse.FlightPackage> {
+class PackageFlightDeserializer : JsonDeserializer<PackageSearchResponse.FlightPackage> {
     override fun deserialize(json: JsonElement, typeOfT: Type, context: JsonDeserializationContext): PackageSearchResponse.FlightPackage {
         val flightPackage = PackageSearchResponse.FlightPackage()
         val packageResult = json.asJsonObject;
@@ -23,8 +23,7 @@ public class PackageFlightDeserializer : JsonDeserializer<PackageSearchResponse.
                 flightLeg.flightPid = entry.key
                 flightLeg.departureLeg = jsonObject.getAsJsonPrimitive("departureLeg").asString
                 for (flightSegment in flightLeg.flightSegments) {
-                    //TODO: Waiting for API to return airline Logo for each segment, right now just use the same logo
-                    flightLeg.airlines.add(Airline(flightSegment.carrier, flightLeg.airlineLogoURL))
+                    flightLeg.airlines.add(Airline(flightSegment.carrier, flightSegment.airlineLogoURL))
                 }
             }
             flightPackage.flights.addAll(flightLegs)

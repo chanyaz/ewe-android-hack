@@ -17,7 +17,7 @@ import rx.subjects.PublishSubject
 import kotlin.properties.Delegates
 
 @RunWith(RobolectricRunner::class)
-public class HotelCellViewTest {
+class HotelCellViewTest {
     private var hotelCellView: ViewGroup by Delegates.notNull()
     private var hotelViewHolder: HotelListAdapter.HotelViewHolder by Delegates.notNull()
     private var activity: Activity by Delegates.notNull()

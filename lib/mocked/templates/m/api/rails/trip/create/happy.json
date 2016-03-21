@@ -1,0 +1,243 @@
+{
+  "tripId":"548e2559-8011-44b3-ad71-9e7cd554540f",
+  "totalPrice":{
+    "amount":"312.59",
+    "formattedPrice":"$312.59",
+    "formattedWholePrice":"$313",
+    "currencyCode":"USD"
+  },
+  "offerToken":"OFFER_CLG9KhDzvioaGgimiIcDEKaA4QYYsb0qII6-KioGWEMyMDgwGhoIpoDhBhCmgKEGGJu-KiDzvioqBlhDNDAyMCICCB4qEgoHQURWQU5DRRABGgVGaXJzdA==",
+  "railsProducts":[
+    {
+      "productToken":"CLG9KhDzvioaGgimiIcDEKaA4QYYsb0qII6-KioGWEMyMDgwGhoIpoDhBhCmgKEGGJu-KiDzvioqBlhDNDAyMCICCB4qEgoHQURWQU5DRRABGgVGaXJzdA==",
+      "productPrice":{
+        "amount":"312.59",
+        "formattedPrice":"$312.59",
+        "formattedWholePrice":"$313",
+        "currencyCode":"USD"
+      },
+      "legs":[
+        {
+          "legId":"LS_1_0",
+          "departureDateTime":{
+            "raw":"2016-04-28T07:45:00Z",
+            "localized":"Apr 28, 2016 7:45:00 AM",
+            "epochSeconds":1461829500,
+            "timeZoneOffsetSeconds":0,
+            "localizedShortDate":"Thu, 28 Apr"
+          },
+          "departureStation":{
+            "stationCode":"GBRDG",
+            "stationName":"Reading",
+            "stationType":"STATION"
+          },
+          "arrivalDateTime":{
+            "raw":"2016-04-28T10:59:00Z",
+            "localized":"Apr 28, 2016 10:59:00 AM",
+            "epochSeconds":1461841140,
+            "timeZoneOffsetSeconds":0,
+            "localizedShortDate":"Thu, 28 Apr"
+          },
+          "arrivalStation":{
+            "stationCode":"GBQQM",
+            "stationName":"Manchester Piccadilly",
+            "stationType":"STATION"
+          },
+          "duration":{
+            "time":194,
+            "unit":"MIN"
+          },
+          "segments":[
+            {
+              "segmentId":"LS_1_0_TS_0",
+              "serviceName":"CrossCountry",
+              "travelMode":"Train",
+              "departureDateTime":{
+                "raw":"2016-04-28T07:45:00Z",
+                "localized":"Apr 28, 2016 7:45:00 AM",
+                "epochSeconds":1461829500,
+                "timeZoneOffsetSeconds":0,
+                "localizedShortDate":"Thu, 28 Apr"
+              },
+              "departureStation":{
+                "stationCode":"GBRDG",
+                "stationName":"Reading",
+                "stationType":"STATION"
+              },
+              "arrivalDateTime":{
+                "raw":"2016-04-28T09:18:00Z",
+                "localized":"Apr 28, 2016 9:18:00 AM",
+                "epochSeconds":1461835080,
+                "timeZoneOffsetSeconds":0,
+                "localizedShortDate":"Thu, 28 Apr"
+              },
+              "arrivalStation":{
+                "stationCode":"GBQQN",
+                "stationName":"Birmingham New Street",
+                "stationType":"STATION"
+              },
+              "duration":{
+                "time":93,
+                "unit":"MIN"
+              }
+            },
+            {
+              "segmentId":"LS_1_0_TS_1",
+              "serviceName":"CrossCountry",
+              "travelMode":"Train",
+              "departureDateTime":{
+                "raw":"2016-04-28T09:31:00Z",
+                "localized":"Apr 28, 2016 9:31:00 AM",
+                "epochSeconds":1461835860,
+                "timeZoneOffsetSeconds":0,
+                "localizedShortDate":"Thu, 28 Apr"
+              },
+              "departureStation":{
+                "stationCode":"GBQQN",
+                "stationName":"Birmingham New Street",
+                "stationType":"STATION"
+              },
+              "arrivalDateTime":{
+                "raw":"2016-04-28T10:59:00Z",
+                "localized":"Apr 28, 2016 10:59:00 AM",
+                "epochSeconds":1461841140,
+                "timeZoneOffsetSeconds":0,
+                "localizedShortDate":"Thu, 28 Apr"
+              },
+              "arrivalStation":{
+                "stationCode":"GBQQM",
+                "stationName":"Manchester Piccadilly",
+                "stationType":"STATION"
+              },
+              "duration":{
+                "time":88,
+                "unit":"MIN"
+              }
+            }
+          ]
+        }
+      ],
+      "productHoldExpirationDateTime":{
+        "raw":"2016-03-09T21:05:26Z",
+        "localized":"Mar 9, 2016 9:05:26 PM",
+        "epochSeconds":1457557526,
+        "timeZoneOffsetSeconds":0,
+        "localizedShortDate":"Wed, 9 Mar"
+      },
+      "serviceClassCode":"FIRST",
+      "fareClass":"FIRST",
+      "refundable":true,
+      "exchangable":false,
+      "additionalBookingOptions":{
+        "ticketDeliveryOptions":[
+          {
+            "description":"Ticket by Royal Mail Special Delivery",
+            "isRefundable":false,
+            "fee":{
+              "amount":"10.00",
+              "formattedPrice":"$10.00",
+              "formattedWholePrice":"$10",
+              "currencyCode":"USD"
+            },
+            "code":"SEND_BY_POST",
+            "destination":"UK"
+          },
+          {
+            "description":"Ticket by International DHL Next Day",
+            "isRefundable":false,
+            "fee":{
+              "amount":"32.00",
+              "formattedPrice":"$32.00",
+              "formattedWholePrice":"$32",
+              "currencyCode":"USD"
+            },
+            "code":"SEND_BY_OVERNIGHT_POST",
+            "destination":"EU"
+          },
+          {
+            "description":"Ticket by International DHL Next Day",
+            "isRefundable":false,
+            "fee":{
+              "amount":"40.00",
+              "formattedPrice":"$40.00",
+              "formattedWholePrice":"$40",
+              "currencyCode":"USD"
+            },
+            "code":"SEND_BY_OVERNIGHT_POST",
+            "destination":"NA"
+          },
+          {
+            "description":"Ticket By DHL Next Day",
+            "isRefundable":false,
+            "fee":{
+              "amount":"16.00",
+              "formattedPrice":"$16.00",
+              "formattedWholePrice":"$16",
+              "currencyCode":"USD"
+            },
+            "code":"SEND_BY_OVERNIGHT_POST",
+            "destination":"UK"
+          },
+          {
+            "description":"Ticket by Courier",
+            "isRefundable":false,
+            "fee":{
+              "amount":"80.00",
+              "formattedPrice":"$80.00",
+              "formattedWholePrice":"$80",
+              "currencyCode":"USD"
+            },
+            "code":"SEND_BY_EXPRESS_POST",
+            "destination":"UK"
+          },
+          {
+            "description":"Collect at Ticket Office",
+            "isRefundable":false,
+            "fee":{
+              "amount":"1.75",
+              "formattedPrice":"$1.75",
+              "formattedWholePrice":"$2",
+              "currencyCode":"USD"
+            },
+            "code":"PICK_UP_AT_TICKETING_OFFICE",
+            "departureStation":true
+          },
+          {
+            "description":"Collect at Ticket Vending Machine",
+            "isRefundable":false,
+            "fee":{
+              "amount":"1.75",
+              "formattedPrice":"$1.75",
+              "formattedWholePrice":"$2",
+              "currencyCode":"USD"
+            },
+            "code":"KIOSK",
+            "departureStation":true
+          }
+        ]
+      }
+    }
+  ],
+  "validFormsOfPayment":[
+    {
+      "name":"AmericanExpress"
+    },
+    {
+      "name":"Diner's Club International"
+    },
+    {
+      "name":"Discover"
+    },
+    {
+      "name":"JCB"
+    },
+    {
+      "name":"MasterCard"
+    },
+    {
+      "name":"Visa"
+    }
+  ],
+  "activityId":"7889f3df-312e-4904-9c6a-c16c6ab5d030",
+  "guestUserPromoEmailOptInStatus":"ALWAYS"
+}

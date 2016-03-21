@@ -13,9 +13,9 @@ import rx.Observable
 import rx.subjects.BehaviorSubject
 import rx.subjects.PublishSubject
 
-class PackageSuggestionAdapterViewModel(context: Context, suggestionsService: SuggestionV4Services, locationObservable: Observable<Location>?) : SuggestionAdapterViewModel(context, suggestionsService, locationObservable, false, false) {
+class PackageSuggestionAdapterViewModel(context: Context, suggestionsService: SuggestionV4Services, val isDest: Boolean, locationObservable: Observable<Location>?) : SuggestionAdapterViewModel(context, suggestionsService, locationObservable, false, false) {
     override fun getSuggestionService(query: String) {
-        suggestionsService.suggestPackagesV4(query, ServicesUtil.generateClientId(context), generateSuggestionServiceCallback(), PointOfSale.getSuggestLocaleIdentifier())
+        suggestionsService.suggestPackagesV4(query, ServicesUtil.generateClientId(context), isDest, generateSuggestionServiceCallback(), PointOfSale.getSuggestLocaleIdentifier())
     }
 
     override fun getSuggestionHistoryFile(): String {
@@ -23,7 +23,7 @@ class PackageSuggestionAdapterViewModel(context: Context, suggestionsService: Su
     }
 }
 
-public class PackageSuggestionViewModel() {
+class PackageSuggestionViewModel() {
 
     // Outputs
     val titleObservable = BehaviorSubject.create<String>()

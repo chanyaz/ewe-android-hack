@@ -71,6 +71,10 @@ class PackageSearchViewModel(val context: Context) {
         paramsBuilder.children(update.children)
     }
 
+    val isInfantInLapObserver = endlessObserver<Boolean> { isInfantInLap ->
+        paramsBuilder.infantSeatingInLap(isInfantInLap)
+    }
+
     val originObserver = endlessObserver<SuggestionV4> { suggestion ->
         paramsBuilder.origin(suggestion)
         originTextObservable.onNext(StrUtils.formatAirport(suggestion))
@@ -108,11 +112,11 @@ class PackageSearchViewModel(val context: Context) {
     // Helpers
     private fun computeDateRangeText(start: LocalDate?, end: LocalDate?): String? {
         if (start == null && end == null) {
-            return context.getResources().getString(R.string.select_dates)
+            return context.resources.getString(R.string.select_dates)
         } else if (end == null) {
-            return context.getResources().getString(R.string.select_checkout_date_TEMPLATE, DateUtils.localDateToMMMd(start))
+            return context.resources.getString(R.string.select_checkout_date_TEMPLATE, DateUtils.localDateToMMMd(start))
         } else {
-            return context.getResources().getString(R.string.calendar_instructions_date_range_TEMPLATE, DateUtils.localDateToMMMd(start), DateUtils.localDateToMMMd(end))
+            return context.resources.getString(R.string.calendar_instructions_date_range_TEMPLATE, DateUtils.localDateToMMMd(start), DateUtils.localDateToMMMd(end))
         }
     }
 
@@ -123,20 +127,20 @@ class PackageSearchViewModel(val context: Context) {
 
         if (start != null && end != null) {
             val nightCount = JodaUtils.daysBetween(start, end)
-            val nightsString = context.getResources().getQuantityString(R.plurals.length_of_stay, nightCount, nightCount)
+            val nightsString = context.resources.getQuantityString(R.plurals.length_of_stay, nightCount, nightCount)
             sb.append(" ");
-            sb.append(context.getResources().getString(R.string.nights_count_TEMPLATE, nightsString), RelativeSizeSpan(0.8f))
+            sb.append(context.resources.getString(R.string.nights_count_TEMPLATE, nightsString), RelativeSizeSpan(0.8f))
         }
         return sb.build()
     }
 
     private fun computeTopTextForToolTip(start: LocalDate?, end: LocalDate?): String {
         if (start == null && end == null) {
-            return context.getResources().getString(R.string.select_dates_proper_case)
+            return context.resources.getString(R.string.select_dates_proper_case)
         } else if (end == null) {
             return DateUtils.localDateToMMMd(start)
         } else {
-            return context.getResources().getString(R.string.calendar_instructions_date_range_TEMPLATE, DateUtils.localDateToMMMd(start), DateUtils.localDateToMMMd(end))
+            return context.resources.getString(R.string.calendar_instructions_date_range_TEMPLATE, DateUtils.localDateToMMMd(start), DateUtils.localDateToMMMd(end))
         }
     }
 
@@ -144,7 +148,7 @@ class PackageSearchViewModel(val context: Context) {
         val resource =
                 if (end == null) R.string.hotel_calendar_tooltip_bottom
                 else R.string.hotel_calendar_bottom_drag_to_modify
-        val instructions = context.getResources().getString(resource)
+        val instructions = context.resources.getString(resource)
         return Pair(computeTopTextForToolTip(start, end), instructions)
     }
 }

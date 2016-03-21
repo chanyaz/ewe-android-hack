@@ -27,9 +27,10 @@ import rx.subjects.BehaviorSubject
 import java.util.Locale
 import javax.inject.Inject
 
-public class PayWithPointsWidget(context: Context, attrs: AttributeSet) : LinearLayout(context, attrs) {
+class PayWithPointsWidget(context: Context, attrs: AttributeSet) : LinearLayout(context, attrs) {
     val currencySymbolView: TextView by bindView(R.id.currency_symbol_view)
     val editAmountView: EditText by bindView(R.id.edit_amount_view)
+    val payWithPointsMessage: TextView by bindView(R.id.pay_with_points_view)
     val totalPointsAvailableView: TextView by bindView(R.id.total_points_available_view)
     val messageView: TextView by bindView(R.id.message_view)
     val clearBtn: View by bindView(R.id.clear_btn)
@@ -46,6 +47,10 @@ public class PayWithPointsWidget(context: Context, attrs: AttributeSet) : Linear
             pwpViewModel.hasPwpEditBoxFocus.onNext(true)
         }
 
+        editAmountView.setOnFocusChangeListener { view, hasFocus ->
+            editAmountView.isCursorVisible = hasFocus
+        }
+
         editAmountView.setOnEditorActionListener { textView: android.widget.TextView, actionId: Int, event: KeyEvent? ->
             var handled = false
             if (actionId == EditorInfo.IME_ACTION_DONE) {
@@ -60,23 +65,34 @@ public class PayWithPointsWidget(context: Context, attrs: AttributeSet) : Linear
         clearBtn.subscribeOnClick(pwpViewModel.clearUserEnteredBurnAmount)
         pwpViewModel.burnAmountUpdate.subscribeText(editAmountView)
         pwpSwitchView.subscribeOnCheckChanged(pwpViewModel.pwpOpted)
-        pwpViewModel.enablePwPToggle.doOnNext { if (!pwpSwitchView.isChecked) wasLastEnableProgrammatic.onNext(true) }.subscribeChecked(pwpSwitchView)
+        pwpViewModel.enablePwPToggle.doOnNext { if (!pwpSwitchView.isChecked) wasLastEnableProgrammatic.onNext(true) }.map { true }.subscribeChecked(pwpSwitchView)
         pwpViewModel.navigatingOutOfPaymentOptions.map { false }.subscribeCursorVisible(editAmountView)
 
         subscribeOnClick(endlessObserver {
             refreshPointsForUpdatedBurnAmount()
         })
 
+        pwpViewModel.pwpOpted.filter { it }.subscribe {
+            editAmountView.isCursorVisible = false
+        }
+
         // Send Omniture tracking for PWP toggle only in case of user doing it.
-        pwpViewModel.pwpOpted.withLatestFrom(wasLastEnableProgrammatic, { pwpOpted, wasLastEnableProgrammatic -> Pair(pwpOpted, wasLastEnableProgrammatic) })
-                .subscribe {
-                    if (!it.second) pwpViewModel.userToggledPwPSwitchWithUserEnteredBurnedAmountSubject.onNext(Pair(it.first, editAmountView.text.toString()))
-                    else wasLastEnableProgrammatic.onNext(false)
-                }
+        pwpViewModel.pwpOpted.withLatestFrom(wasLastEnableProgrammatic, { pwpOpted, wasLastEnableProgrammatic ->
+            object {
+                val pwpOpted = pwpOpted
+                val wasLastEnableProgrammatic = wasLastEnableProgrammatic
+            }
+        }).subscribe {
+            if (!it.wasLastEnableProgrammatic) {
+                pwpViewModel.userToggledPwPSwitchWithUserEnteredBurnedAmountSubject.onNext(Pair(it.pwpOpted, editAmountView.text.toString()))
+            }
+            else wasLastEnableProgrammatic.onNext(false)
+        }
 
         pwpViewModel.pwpWidgetVisibility.subscribeVisibility(this)
         pwpViewModel.pwpOpted.subscribeVisibility(pwpEditBoxContainer)
         pwpViewModel.pwpOpted.subscribeVisibility(messageView)
+        pwpViewModel.payWithPointsMessage.subscribeText(payWithPointsMessage)
         pwpViewModel.enablePwpEditBox.subscribeEnabled(editAmountView)
     }
         @Inject set

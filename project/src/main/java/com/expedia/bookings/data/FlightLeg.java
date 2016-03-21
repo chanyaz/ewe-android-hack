@@ -28,6 +28,8 @@ public class FlightLeg implements JSONable, ItinSharable {
 
 	private String mLegId;
 
+	private boolean mUserCheckedIn = false;
+
 	private ItinShareInfo mShareInfo = new ItinShareInfo();
 
 	private List<Flight> mSegments = new ArrayList<Flight>();
@@ -96,6 +98,14 @@ public class FlightLeg implements JSONable, ItinSharable {
 		}
 
 		return ((FlightLeg) o).getLegId().equals(mLegId);
+	}
+
+	public void setUserCheckedIn(boolean mUserCheckedIn) {
+		this.mUserCheckedIn = mUserCheckedIn;
+	}
+
+	public boolean isUserCheckedIn() {
+		return mUserCheckedIn;
 	}
 
 	////////////////////////////////////////////////////////////////////////
@@ -220,15 +230,20 @@ public class FlightLeg implements JSONable, ItinSharable {
 			// 1. FlightCode.mAirlineCode has precedence as this is information given from API
 			// 2. Fallback to use FS.db if we don't have information from the API.
 			FlightCode code = mSegments.get(i).getPrimaryFlightCode();
-			Airline airline = Db.getAirline(code.mAirlineCode);
-			if (Strings.isNotEmpty(code.mAirlineName)) {
-				airlineNames.add(code.mAirlineName);
-			}
-			else if (Strings.isNotEmpty(airline.mAirlineName)) {
-				airlineNames.add(airline.mAirlineName);
+			if (code != null) {
+				Airline airline = Db.getAirline(code.mAirlineCode);
+				if (Strings.isNotEmpty(code.mAirlineName)) {
+					airlineNames.add(code.mAirlineName);
+				}
+				else if (Strings.isNotEmpty(airline.mAirlineName)) {
+					airlineNames.add(airline.mAirlineName);
+				}
+				else {
+					Log.w("FlightLeg", "FlightCode airlineName empty and attempted to retrieve airlineName from DB with bad (likely null) airline code");
+				}
 			}
 			else {
-				Log.w("FlightLeg", "Attempting to retrieve primaryAirlineNamesFormatted with null code");
+				Log.w("FlightLeg", "Attempted to retrieve primaryAirlineNamesFormatted with null primaryFlightCode");
 			}
 		}
 		return Strings.joinWithoutEmpties(", ", airlineNames);
@@ -264,6 +279,7 @@ public class FlightLeg implements JSONable, ItinSharable {
 			obj.putOpt("baggageFeesUrl", mBaggageFeesUrl);
 			obj.putOpt("fareType", mFareType);
 			obj.putOpt("isFreeCancellable", mIsFreeCancellable);
+			obj.put("userCheckedIn", mUserCheckedIn);
 			return obj;
 		}
 		catch (JSONException e) {
@@ -280,6 +296,7 @@ public class FlightLeg implements JSONable, ItinSharable {
 		mBaggageFeesUrl = obj.optString("baggageFeesUrl");
 		mFareType = obj.optString("fareType", "");
 		mIsFreeCancellable = obj.optBoolean("isFreeCancellable");
+		mUserCheckedIn = obj.optBoolean("userCheckedIn");
 		return true;
 	}
 

@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.os.PersistableBundle
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Codes
+import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.hotels.HotelSearchParams
 import com.expedia.bookings.data.pos.PointOfSale
@@ -20,7 +21,7 @@ import com.expedia.vm.HotelTravelerParams
 import com.google.android.gms.maps.MapView
 import rx.Observer
 
-public class HotelActivity : AbstractAppCompatActivity() {
+class HotelActivity : AbstractAppCompatActivity() {
 
     companion object {
         const val EXTRA_HOTEL_SEARCH_PARAMS = "hotelSearchParams"
@@ -52,7 +53,7 @@ public class HotelActivity : AbstractAppCompatActivity() {
         if (intent.hasExtra(Codes.TAG_EXTERNAL_SEARCH_PARAMS)) {
             handleDeeplink(intent)
         } else {
-            hotelPresenter.defaultTransitionObserver.onNext(Screen.SEARCH)
+            hotelPresenter.setDefaultTransition(Screen.SEARCH)
         }
     }
 
@@ -62,13 +63,14 @@ public class HotelActivity : AbstractAppCompatActivity() {
                 deepLinkSearchObserver,
                 suggestionLookupObserver,
                 currentLocationSearchObserver,
-                hotelPresenter.defaultTransitionObserver,
+                hotelPresenter,
                 hotelPresenter.searchPresenter.searchViewModel.suggestionObserver)
                 .handleNavigationViaDeepLink(hotelSearchParams)
     }
 
     override fun onBackPressed() {
         if (!hotelPresenter.back()) {
+            Db.setTemporarilySavedCard(null)
             super.onBackPressed()
         }
     }
@@ -145,7 +147,7 @@ public class HotelActivity : AbstractAppCompatActivity() {
     }
 
     private fun startCurrentLocationSearch(hotelSearchParams: HotelSearchParams?) {
-        hotelPresenter.defaultTransitionObserver.onNext(Screen.RESULTS)
+        hotelPresenter.setDefaultTransition(Screen.RESULTS)
         hotelPresenter.searchPresenter.searchViewModel.suggestionObserver.onNext(hotelSearchParams?.suggestion)
         hotelPresenter.searchObserver.onNext(hotelSearchParams)
         setupDeepLinkSearch(hotelSearchParams, false)
@@ -153,18 +155,17 @@ public class HotelActivity : AbstractAppCompatActivity() {
 
     private fun setupDeepLinkSearch(hotelSearchParams: HotelSearchParams?, shouldExecuteSearch: Boolean) {
         hotelPresenter.searchPresenter.searchViewModel.enableDateObserver.onNext(Unit)
-        hotelPresenter.searchPresenter.traveler.viewmodel.travelerParamsObservable.onNext(HotelTravelerParams(hotelSearchParams?.adults ?: 1, hotelSearchParams?.children ?: emptyList()))
+        hotelPresenter.searchPresenter.selectTravelers(HotelTravelerParams(hotelSearchParams?.adults ?: 1, hotelSearchParams?.children ?: emptyList()))
         val dates = Pair (hotelSearchParams?.checkIn, hotelSearchParams?.checkOut)
         hotelPresenter.searchPresenter.searchViewModel.datesObserver.onNext(dates)
-        hotelPresenter.searchPresenter.selectTraveler.isChecked = true
-        hotelPresenter.searchPresenter.calendar.setSelectedDates(hotelSearchParams?.checkIn, hotelSearchParams?.checkOut)
+        hotelPresenter.searchPresenter.selectDates(hotelSearchParams?.checkIn, hotelSearchParams?.checkOut)
         if (shouldExecuteSearch) {
             hotelPresenter.searchObserver.onNext(hotelSearchParams)
         }
     }
 
     // Showing different presenter based on deeplink
-    public enum class Screen {
+    enum class Screen {
         SEARCH,
         DETAILS,
         RESULTS

@@ -16,6 +16,7 @@ import android.text.TextUtils;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.UserPreference.Category;
+import com.expedia.bookings.data.packages.PackageSearchParams;
 import com.expedia.bookings.enums.PassengerCategory;
 import com.expedia.bookings.utils.JodaUtils;
 import com.expedia.bookings.utils.Strings;
@@ -32,6 +33,8 @@ public class Traveler implements JSONable, Comparable<Traveler> {
 	private String mLoyaltyMembershipName;
 	private boolean mIsLoyaltyMembershipActive = false;
 	private LoyaltyMembershipTier mLoyaltyMembershipTier = LoyaltyMembershipTier.NONE;
+	private Long mLoyaltyPointsAvailable = 0L;
+	private Long mLoyaltyPointsPending = 0L;
 	private Long mExpediaUserId;
 
 	// General
@@ -137,6 +140,14 @@ public class Traveler implements JSONable, Comparable<Traveler> {
 
 	public boolean isLoyaltyMember() {
 		return mLoyaltyMembershipTier != LoyaltyMembershipTier.NONE;
+	}
+
+	public Long getLoyaltyPointsAvailable() {
+		return mLoyaltyPointsAvailable;
+	}
+
+	public Long getLoyaltyPointsPending() {
+		return mLoyaltyPointsPending;
 	}
 
 	public String getFirstName() {
@@ -316,28 +327,42 @@ public class Traveler implements JSONable, Comparable<Traveler> {
 		mPassengerCategory = passengerCategory;
 	}
 
-	public void determinePassengerCategory() {
-		LocalDate endOfTrip = Db.getTripBucket().getFlight().getFlightSearchParams().getReturnDate() != null ?
-			Db.getTripBucket().getFlight().getFlightSearchParams().getReturnDate() :
-			Db.getTripBucket().getFlight().getFlightSearchParams().getDepartureDate();
-		if (endOfTrip != null && mBirthDate != null) {
-			int yearsOld = Years.yearsBetween(mBirthDate, endOfTrip).getYears();
-			mPassengerCategory = yearsToPassengerCategory(yearsOld);
-		}
-	}
-
-	public PassengerCategory getPassengerCategory() {
+	public PassengerCategory getPassengerCategory(FlightSearchParams searchParams) {
 		// If we haven't assigned a passengerCategory yet (e.g. passenger is from account)
 		// Passenger category is determine by their max age during the duration of their trip
 		if (mPassengerCategory == null) {
-			determinePassengerCategory();
+			LocalDate endOfTrip = searchParams.getReturnDate() != null ?
+				searchParams.getReturnDate() :
+				searchParams.getDepartureDate();
+			mPassengerCategory = determinePassengerCategory(endOfTrip, searchParams.getInfantSeatingInLap());
 		}
 		return mPassengerCategory;
 	}
 
-	private PassengerCategory yearsToPassengerCategory(int years) {
+	public PassengerCategory getPassengerCategory(PackageSearchParams searchParams) {
+		// If we haven't assigned a passengerCategory yet (e.g. passenger is from account)
+		// Passenger category is determine by their max age during the duration of their trip
+		if (mPassengerCategory == null) {
+			mPassengerCategory = determinePassengerCategory(searchParams.getCheckOut(), false);
+		}
+		if (mPassengerCategory == PassengerCategory.INFANT_IN_LAP
+				|| mPassengerCategory == PassengerCategory.INFANT_IN_SEAT) {
+			throw new UnsupportedOperationException("TODO MUST IMPLEMENT INFANT FUNCTIONALITY");
+		}
+		return mPassengerCategory;
+	}
+
+	private PassengerCategory determinePassengerCategory(LocalDate endOfTrip, boolean infantsInLap) {
+		if (endOfTrip != null && mBirthDate != null) {
+			int yearsOld = Years.yearsBetween(mBirthDate, endOfTrip).getYears();
+			return fromAgeInYearsToPassengerCategory(yearsOld, infantsInLap);
+		}
+		return null;
+	}
+
+	private PassengerCategory fromAgeInYearsToPassengerCategory(int years, boolean infantsInLap) {
 		if (years < MIN_CHILD_AGE) {
-			if (Db.getTripBucket().getFlight().getFlightSearchParams().getInfantSeatingInLap()) {
+			if (infantsInLap) {
 				return PassengerCategory.INFANT_IN_LAP;
 			}
 			else {
@@ -410,6 +435,14 @@ public class Traveler implements JSONable, Comparable<Traveler> {
 
 	public void setLoyaltyMembershipTier(LoyaltyMembershipTier loyaltyMembershipTier) {
 		mLoyaltyMembershipTier = loyaltyMembershipTier;
+	}
+
+	public void setLoyaltyPointsAvailable(Long pointsAvailable) {
+		mLoyaltyPointsAvailable = pointsAvailable;
+	}
+
+	public void setLoyaltyPointsPending(Long pointsPending) {
+		mLoyaltyPointsPending = pointsPending;
 	}
 
 	public void setFirstName(String firstName) {
@@ -586,6 +619,8 @@ public class Traveler implements JSONable, Comparable<Traveler> {
 			obj.putOpt("loyaltyMemebershipActive", mIsLoyaltyMembershipActive);
 			obj.putOpt("loyaltyMemebershipName", mLoyaltyMembershipName);
 			obj.putOpt("membershipTier", mLoyaltyMembershipTier.name());
+			obj.putOpt("loyaltyPointsAvailable", mLoyaltyPointsAvailable);
+			obj.putOpt("loyaltyPointsPending", mLoyaltyPointsPending);
 
 			obj.putOpt("firstName", mFirstName);
 			obj.putOpt("middleName", mMiddleName);
@@ -640,6 +675,8 @@ public class Traveler implements JSONable, Comparable<Traveler> {
 		mIsLoyaltyMembershipActive = obj.optBoolean("loyaltyMemebershipActive", false);
 		mLoyaltyMembershipName = obj.optString("loyaltyMemebershipName", null);
 		setLoyaltyMembershipTier(obj.optString("membershipTier", null));
+		mLoyaltyPointsAvailable = obj.optLong("loyaltyPointsAvailable", 0);
+		mLoyaltyPointsPending = obj.optLong("loyaltyPointsPending", 0);
 
 		mFirstName = obj.optString("firstName", null);
 		mMiddleName = obj.optString("middleName", null);

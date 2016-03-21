@@ -186,11 +186,6 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 	}
 
 	@Override
-	public boolean isSettingsInMenuVisible() {
-		return true;
-	}
-
-	@Override
 	public String formatDateTimeForHotelUserReviews(Context context, DateTime dateTime) {
 		return JodaUtils.formatDateTime(context, dateTime, DateUtils.FORMAT_NUMERIC_DATE);
 	}
@@ -230,11 +225,6 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 	@Override
 	public boolean isSigninEnabled() {
 		return true;
-	}
-
-	@Override
-	public boolean isItinDisabled() {
-		return false;
 	}
 
 	@Override

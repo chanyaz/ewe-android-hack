@@ -29,6 +29,7 @@ import static android.support.test.espresso.matcher.ViewMatchers.hasSibling;
 import static android.support.test.espresso.matcher.ViewMatchers.isDescendantOfA;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
+import static com.expedia.bookings.test.espresso.ViewActions.waitForViewToDisplay;
 import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.not;
 import static org.hamcrest.core.Is.is;
@@ -41,6 +42,29 @@ public class PackageScreen {
 
 	public static ViewInteraction selectDateButton() {
 		return onView(withId(R.id.select_date));
+	}
+
+	public static ViewInteraction selectGuestsButton() {
+		return onView(withId(R.id.select_traveler));
+	}
+
+	public static void setGuests(int adults, int children) {
+		//Minimum 1 ADT selected
+		for (int i = 1; i < adults; i++) {
+			incrementAdultsButton();
+		}
+
+		for (int i = 0; i < children; i++) {
+			incrementChildrenButton();
+		}
+	}
+
+	public static void incrementChildrenButton() {
+		onView(withId(R.id.children_plus)).perform(click());
+	}
+
+	public static void incrementAdultsButton() {
+		onView(withId(R.id.adults_plus)).perform(click());
 	}
 
 	public static ViewInteraction destination() {
@@ -96,22 +120,44 @@ public class PackageScreen {
 	}
 
 	public static void searchPackage() throws Throwable {
-		PackageScreen.destination().perform(typeText("SFO"));
-		PackageScreen.selectLocation("San Francisco, CA (SFO-San Francisco Intl.)");
-		PackageScreen.arrival().perform(typeText("DTW"));
-		PackageScreen.selectLocation("Detroit, MI (DTW-Detroit Metropolitan Wayne County)");
-		LocalDate startDate = LocalDate.now().plusDays(3);
-		LocalDate endDate = LocalDate.now().plusDays(8);
-		PackageScreen.selectDates(startDate, endDate);
-		PackageScreen.searchButton().perform(click());
+		search(1, 0);
+	}
+
+	public static void searchPackageFor(int adults, int children) throws Throwable {
+		search(adults, children);
 	}
 
 	public static ViewInteraction bundleToolbar() {
 		return onView(withId(R.id.checkout_toolbar));
 	}
 
+	public static ViewInteraction hotelBundleWidget() {
+		return onView(withId(R.id.bundle_widget));
+	}
+
 	public static ViewInteraction hotelBundle() {
 		return onView(withId(R.id.package_bundle_hotel_widget));
+	}
+
+	public static ViewInteraction hotelGuestRoomInfo() {
+		return onView(withId(R.id.hotels_room_guest_info_text));
+	}
+
+	public static ViewInteraction outboundFlightCardInfo() {
+		return outboundFlightDescendant(withId(R.id.travel_info_view_text));
+	}
+
+	private static ViewInteraction outboundFlightDescendant(Matcher<View> descendantViewMatcher) {
+		return onView(
+			allOf(descendantViewMatcher, isDescendantOfA(withId(R.id.package_bundle_outbound_flight_widget))));
+	}
+
+	public static ViewInteraction inboundFlightCardInfo() {
+		return inboundFlightDescendant(withId(R.id.travel_info_view_text));
+	}
+
+	private static ViewInteraction inboundFlightDescendant(Matcher<View> descendantViewMatcher) {
+		return onView(allOf(descendantViewMatcher, isDescendantOfA(withId(R.id.package_bundle_inbound_flight_widget))));
 	}
 
 	public static ViewInteraction flightsToolbar() {
@@ -130,6 +176,16 @@ public class PackageScreen {
 		return onView(withId(R.id.package_bundle_outbound_flight_widget));
 	}
 
+	public static ViewInteraction hotelInfo() {
+		return onView(allOf(isDescendantOfA(withId(R.id.package_bundle_hotel_widget)),
+			withId(R.id.hotel_info_container)));
+	}
+
+	public static ViewInteraction hotelDetailsIcon() {
+		return onView(allOf(isDescendantOfA(withId(R.id.package_bundle_hotel_widget)),
+			withId(R.id.package_hotel_details_icon)));
+	}
+
 	public static ViewInteraction outboundFlightInfo() {
 		return onView(allOf(isDescendantOfA(withId(R.id.package_bundle_outbound_flight_widget)),
 			withId(R.id.flight_info_container)));
@@ -143,17 +199,36 @@ public class PackageScreen {
 	public static ViewInteraction inboundFLight() {
 		return onView(withId(R.id.package_bundle_inbound_flight_widget));
 	}
-	
+
+	public static ViewInteraction outboundFlightDetailsIcon() {
+		return outboundFlightDescendant(withId(R.id.package_flight_details_icon));
+	}
+
+	public static ViewInteraction outboundFlightDetailsContainer() {
+		return outboundFlightDescendant(withId(R.id.flight_details_container));
+	}
+
 	public static ViewInteraction flightList() {
 		return onView(withId(R.id.list_view));
 	}
 
 	public static ViewInteraction selectFlight(int index) {
-		return flightList().perform(RecyclerViewActions.actionOnItemAtPosition(index, click()));
+		flightList().perform(waitForViewToDisplay());
+		int adjustPosition = 3;
+		return flightList().perform(RecyclerViewActions.actionOnItemAtPosition(index + adjustPosition, click()));
 	}
 
 	public static ViewInteraction selectThisFlight() {
 		return onView(withId(R.id.select_flight_button));
+	}
+
+	public static void clickHotelBundle() {
+		PackageScreen.hotelBundle().perform(waitForViewToDisplay());
+		PackageScreen.hotelBundle().perform(click());
+	}
+
+	public static ViewInteraction baggageFeeInfo() {
+		return onView(withId(R.id.show_baggage_fees));
 	}
 
 	public static ViewInteraction checkout() {
@@ -161,28 +236,77 @@ public class PackageScreen {
 	}
 
 	public static ViewInteraction travelerInfo() {
-		return onView(withId(R.id.traveler_widget));
+		return onView(withId(R.id.travelers_button));
 	}
 
 	public static ViewInteraction itin() {
 		return onView(withId(R.id.itin_number));
 	}
 
+	public static ViewInteraction hotelPriceWidget() {
+		return onView(withId(R.id.bundle_price_widget));
+	}
+
+	public static ViewInteraction hotelRoomImageView() {
+		return onView(withId(R.id.selected_hotel_room_image));
+	}
 
 	public static void enterTravelerInfo() {
 		Common.delay(2);
 		travelerInfo().perform(scrollTo(), click());
 		Common.delay(1);
-		CheckoutViewModel.enterFirstName("FiveStar");
-		CheckoutViewModel.enterLastName("Bear");
-		Common.closeSoftKeyboard(CheckoutViewModel.lastName());
+		enterFirstName("FiveStar");
+		enterLastName("Bear");
 		Common.delay(1);
-		CheckoutViewModel.enterEmail("noah@mobiata.com");
-		Common.closeSoftKeyboard(CheckoutViewModel.email());
+		// TODO fix after adding email
+		//CheckoutViewModel.enterEmail("noah@mobiata.com");
+		//Common.closeSoftKeyboard(CheckoutViewModel.email());
 		Common.delay(1);
-		CheckoutViewModel.enterPhoneNumber("4158675309");
-		CheckoutViewModel.clickDone();
+		enterPhoneNumber("7732025862");
+		selectBirthDate();
+
+		clickTravelerAdvanced();
+		Common.delay(1);
+		enterRedressNumber("1234567");
+
+		clickTravelerDone();
 		Common.delay(2);
+	}
+
+	// TODO Probably want to move these methods somewhere else.
+	private static void enterFirstName(String name) {
+		onView(withId(R.id.first_name_input)).perform(typeText(name));
+	}
+
+	private static void enterLastName(String name) {
+		onView(withId(R.id.last_name_input)).perform(typeText(name));
+	}
+
+	private static void enterRedressNumber(String redressNumber) {
+		onView(withId(R.id.redress_number)).perform(typeText(redressNumber));
+	}
+
+	private static void enterPhoneNumber(String phoneNumber) {
+		onView(withId(R.id.edit_phone_number)).perform(typeText(phoneNumber));
+	}
+
+	private static void selectBirthDate() {
+		onView(withId(R.id.edit_birth_date_text_btn)).perform(click());
+		Common.delay(1);
+		onView(withId(R.id.datePickerDoneButton)).perform(click());
+		Common.delay(1);
+	}
+
+	private static void clickTravelerDone() {
+		onView(withId(R.id.new_traveler_done_button)).perform(click());
+	}
+
+	private static void clickTravelerAdvanced() {
+		onView(withId(R.id.advanced_options_button)).perform(click());
+	}
+
+	public static void clickHotelBundleContainer() {
+		onView(withId(R.id.row_container)).perform(click());
 	}
 
 	public static void enterPaymentInfo() {
@@ -196,6 +320,7 @@ public class PackageScreen {
 		CardInfoScreen.clickSetButton();
 		CardInfoScreen.typeTextCvv("666");
 		CardInfoScreen.typeTextNameOnCardEditText("Mobiata Auto");
+		CardInfoScreen.typeTextEmailEditText("test@email.com");
 
 		BillingAddressScreen.typeTextAddressLineOne("123 California Street");
 		BillingAddressScreen.typeTextCity("San Francisco");
@@ -203,5 +328,18 @@ public class PackageScreen {
 		BillingAddressScreen.typeTextPostalCode("94105");
 		CheckoutViewModel.clickDone();
 		Common.delay(2);
+	}
+
+	private static void search(int adults, int children) throws Throwable {
+		PackageScreen.destination().perform(typeText("SFO"));
+		PackageScreen.selectLocation("San Francisco, CA (SFO-San Francisco Intl.)");
+		PackageScreen.arrival().perform(typeText("DTW"));
+		PackageScreen.selectLocation("Detroit, MI (DTW-Detroit Metropolitan Wayne County)");
+		LocalDate startDate = LocalDate.now().plusDays(3);
+		LocalDate endDate = LocalDate.now().plusDays(8);
+		PackageScreen.selectDates(startDate, endDate);
+		PackageScreen.selectGuestsButton().perform(click());
+		PackageScreen.setGuests(adults, children);
+		PackageScreen.searchButton().perform(click());
 	}
 }

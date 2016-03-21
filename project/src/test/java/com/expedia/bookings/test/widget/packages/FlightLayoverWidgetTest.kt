@@ -1,21 +1,22 @@
 package com.expedia.bookings.test
 
 import android.content.Context
-import android.content.res.Resources
-import android.content.res.TypedArray
 import android.graphics.Rect
-import android.graphics.drawable.BitmapDrawable
 import android.util.AttributeSet
 import com.expedia.bookings.data.packages.FlightLeg
+import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.widget.packages.FlightLayoverWidget
 import org.junit.Before
 import org.junit.Test
-import org.mockito.Matchers
+import org.junit.runner.RunWith
 import org.mockito.Mockito
+import org.robolectric.RuntimeEnvironment
 import kotlin.properties.Delegates
 import kotlin.test.assertEquals
+import kotlin.test.assertFalse
 
-public class FlightLayoverWidgetTest {
+@RunWith(RobolectricRunner::class)
+class FlightLayoverWidgetTest {
     var testWidget: TestFlightLayoverWidget by Delegates.notNull()
 
     val SEGMENT_DURATION = 5
@@ -27,24 +28,12 @@ public class FlightLayoverWidgetTest {
     val DURATION_BAR_PADDING = 5f
 
     val DEPART_CODE = "ORD"
+    val LAYOVER_CODE = "JFK"
     val ARRIVE_CODE = "LHR"
 
     @Before
     fun before() {
-        val context = Mockito.mock(Context::class.java)
-        val resources = Mockito.mock(Resources::class.java)
-        val mockTheme = Mockito.mock(Resources.Theme::class.java)
-        val mockAttrs = Mockito.mock(TypedArray::class.java)
-        val mockDrawable = Mockito.mock(BitmapDrawable::class.java)
-
-        Mockito.`when`(context.resources).thenReturn(resources)
-        Mockito.`when`(context.theme).thenReturn(mockTheme)
-        Mockito.`when`(mockTheme.obtainStyledAttributes(Matchers.any(), Matchers.any(), Matchers.anyInt(),Matchers.anyInt()))
-                .thenReturn(mockAttrs)
-        Mockito.`when`(mockAttrs.getDrawable(Matchers.anyInt())).thenReturn(mockDrawable)
-        Mockito.`when`(mockAttrs.getDimension(Matchers.anyInt(), Matchers.anyFloat())).thenReturn(DURATION_BAR_PADDING)
-        Mockito.`when`(resources.getColor(Matchers.anyInt())).thenReturn(0)
-        testWidget = TestFlightLayoverWidget(context, null)
+        testWidget = TestFlightLayoverWidget(RuntimeEnvironment.application, null)
     }
 
     @Test
@@ -53,10 +42,10 @@ public class FlightLayoverWidgetTest {
         testWidget.legDuration = LEG_OVER_MAX.toFloat()
         testWidget.totalWidthForDurationBars = expectedWidth
 
-        val durationBar = testWidget.createDurationBar(0, LEG_OVER_MAX, X_COORD)
+        val durationBarRect = testWidget.createDurationBar(0, LEG_OVER_MAX, X_COORD, 0f, 0f)
 
-        assertEquals(X_COORD, durationBar.leftX)
-        assertEquals(expectedWidth, durationBar.rightX)
+        assertEquals(X_COORD, durationBarRect.left)
+        assertEquals(expectedWidth, durationBarRect.right)
     }
 
     @Test
@@ -66,10 +55,10 @@ public class FlightLayoverWidgetTest {
         testWidget.maxLegDuration = MAX_LEG_DURATION.toFloat()
         testWidget.legDuration = LEG_DURATION.toFloat()
 
-        val durationBar = testWidget.createDurationBar(0, LEG_DURATION, X_COORD)
+        val durationBarRect = testWidget.createDurationBar(0, LEG_DURATION, X_COORD, 0f, 0f)
 
-        assertEquals(X_COORD, durationBar.leftX)
-        assertEquals(expectedWidth, durationBar.rightX)
+        assertEquals(X_COORD, durationBarRect.left)
+        assertEquals(expectedWidth, durationBarRect.right)
     }
 
     @Test
@@ -79,9 +68,9 @@ public class FlightLayoverWidgetTest {
         testWidget.maxLegDuration = MAX_LEG_DURATION.toFloat()
         testWidget.legDuration = MAX_LEG_DURATION.toFloat()
 
-        val durationBar = testWidget.createDurationBar(0, LEG_DURATION, X_COORD)
-        assertEquals(X_COORD, durationBar.leftX)
-        assertEquals(expectedWidth, durationBar.rightX)
+        val durationBarRect = testWidget.createDurationBar(0, LEG_DURATION, X_COORD, 0f, 0f)
+        assertEquals(X_COORD, durationBarRect.left)
+        assertEquals(expectedWidth, durationBarRect.right)
     }
 
     @Test
@@ -91,9 +80,9 @@ public class FlightLayoverWidgetTest {
         testWidget.maxLegDuration = MAX_LEG_DURATION.toFloat()
         testWidget.legDuration = LEG_DURATION.toFloat()
 
-        val durationBar = testWidget.createDurationBar(0, SEGMENT_DURATION, X_COORD)
-        assertEquals(X_COORD, durationBar.leftX)
-        assertEquals(expectedWidth, durationBar.rightX)
+        val durationBarRect = testWidget.createDurationBar(0, SEGMENT_DURATION, X_COORD, 0f, 0f)
+        assertEquals(X_COORD, durationBarRect.left)
+        assertEquals(expectedWidth, durationBarRect.right)
     }
 
     @Test
@@ -102,17 +91,40 @@ public class FlightLayoverWidgetTest {
         val expectedDurationPadding = testWidget.durationBarPadding * 2
         val expectedWidth = expectedAirportWidth + expectedDurationPadding + testWidget.LEFT_RIGHT_PADDING * 2 + testWidget.OFF_BY_ONE_BUFFER
 
-        addAirport(DEPART_CODE, ARRIVE_CODE)
+        addAirport(DEPART_CODE, ARRIVE_CODE, 0)
 
         val widthOfAirports = testWidget.calculateLocationsAndPaddingWidth()
 
         assertEquals(expectedWidth, widthOfAirports)
     }
 
-    private fun addAirport(departCode: String, arriveCode: String) {
+    @Test
+    fun testAirportsPopulated() {
+        addAirport(DEPART_CODE, ARRIVE_CODE, 0)
+        testWidget.createDrawObjects()
+        assertFalse(testWidget.drawObjects.isEmpty())
+
+        assertEquals(DEPART_CODE, testWidget.drawObjects[0].locationCode)
+        assertEquals(ARRIVE_CODE, testWidget.drawObjects[1].locationCode)
+    }
+
+    @Test
+    fun testAirportCodesWithLayover() {
+        addAirport(DEPART_CODE, LAYOVER_CODE, 5)
+        addAirport(LAYOVER_CODE, ARRIVE_CODE, 0)
+        testWidget.createDrawObjects()
+        assertFalse(testWidget.drawObjects.isEmpty())
+
+        assertEquals(DEPART_CODE, testWidget.drawObjects[0].locationCode)
+        assertEquals(LAYOVER_CODE, testWidget.drawObjects[1].locationCode)
+        assertEquals(ARRIVE_CODE, testWidget.drawObjects[2].locationCode)
+    }
+
+    private fun addAirport(departCode: String, arriveCode: String, layoverDurationHours: Int) {
         val testFlightSegment = FlightLeg.FlightSegment()
         testFlightSegment.departureAirportCode = departCode
         testFlightSegment.arrivalAirportCode = arriveCode
+        testFlightSegment.layoverDurationHours = layoverDurationHours
         testWidget.flightSegmentList.add(testFlightSegment)
     }
 
@@ -120,22 +132,18 @@ public class FlightLayoverWidgetTest {
         val CODE_WIDTH = 5
         val LEFT_RIGHT_PADDING = 10
 
-        override fun initPaints() {
-            // Do nothing
-        }
-
-        override fun calculateTextBounds(locationCode: String) : Rect {
-            val mockRect = Mockito.mock(Rect::class.java)
-            Mockito.`when`(mockRect.width()).thenReturn(CODE_WIDTH)
-            return mockRect;
-        }
-
         override fun getPaddingLeft(): Int {
             return LEFT_RIGHT_PADDING
         }
 
         override fun getPaddingRight(): Int {
             return LEFT_RIGHT_PADDING
+        }
+
+        override fun calculateTextBounds(airportCode: String) : Rect {
+            val mockRect = Mockito.mock(Rect::class.java)
+            Mockito.`when`(mockRect.width()).thenReturn(CODE_WIDTH)
+            return mockRect;
         }
     }
 }

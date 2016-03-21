@@ -1,29 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout android:id="@+id/filter_btn"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/filter_btn"
     android:layout_width="match_parent"
     android:layout_height="?attr/actionBarSize"
-    android:fontFamily="sans-serif-medium"
     android:background="?android:attr/selectableItemBackground"
-    android:paddingLeft="5dp"
-    android:orientation="horizontal">
+    android:fontFamily="sans-serif-medium"
+    android:minHeight="?attr/actionBarSize"
+    android:orientation="horizontal"
+    android:paddingLeft="5dp">
 
     <com.expedia.bookings.widget.TextView
         android:id="@+id/filter_count_text"
-        app:textStyle="medium"
-        android:layout_marginLeft="5dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
+        android:layout_marginLeft="5dp"
+        android:background="@drawable/filter_number_bg_white"
         android:paddingBottom="1dp"
         android:paddingLeft="5.5dp"
         android:paddingRight="5.5dp"
-        android:background="@drawable/filter_number_bg_white"
         android:textColor="@color/hotels_primary_color"
         android:textSize="14sp"
         android:textStyle="bold"
-        android:visibility="gone" />
+        android:visibility="gone"
+        app:textStyle="medium" />
 
     <ImageView
         android:id="@+id/filter_placeholder_icon"
@@ -35,12 +36,12 @@
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_marginLeft="8dp"
-        android:textAllCaps="true"
+        android:gravity="center_vertical"
         android:paddingRight="12dp"
         android:text="@string/filter"
+        android:textAllCaps="true"
         android:textColor="#FFFFFFFF"
-        android:gravity="center_vertical"
-        android:textStyle="normal"
-        android:textSize="14sp" />
+        android:textSize="14sp"
+        android:textStyle="normal" />
 
 </LinearLayout>

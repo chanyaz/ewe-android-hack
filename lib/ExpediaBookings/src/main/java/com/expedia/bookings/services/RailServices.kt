@@ -1,10 +1,13 @@
 package com.expedia.bookings.services
 
+import com.expedia.bookings.data.rail.requests.RailCheckoutRequest
 import com.expedia.bookings.data.rail.requests.RailDetailsRequest
 import com.expedia.bookings.data.rail.requests.RailSearchRequest
 import com.expedia.bookings.data.rail.requests.api.RailApiSearchModel
 import com.expedia.bookings.data.rail.responses.RailSearchResponse
 import com.expedia.bookings.data.rail.requests.RailValidateRequest
+import com.expedia.bookings.data.rail.responses.RailCheckoutResponse
+import com.expedia.bookings.data.rail.responses.RailCreateTripResponse
 import com.expedia.bookings.data.rail.responses.RailDetailsResponse
 import com.expedia.bookings.data.rail.responses.RailValidateResponse
 import com.google.gson.GsonBuilder
@@ -17,7 +20,7 @@ import rx.Observer
 import rx.Scheduler
 import rx.Subscription
 
-public class RailServices(endpoint: String, okHttpClient: OkHttpClient, requestInterceptor: RequestInterceptor, val observeOn: Scheduler, val subscribeOn: Scheduler, logLevel: RestAdapter.LogLevel) {
+class RailServices(endpoint: String, okHttpClient: OkHttpClient, requestInterceptor: RequestInterceptor, val observeOn: Scheduler, val subscribeOn: Scheduler, logLevel: RestAdapter.LogLevel) {
 
     val railApi by lazy {
 
@@ -33,22 +36,36 @@ public class RailServices(endpoint: String, okHttpClient: OkHttpClient, requestI
         adapter.create(RailApi::class.java)
     }
 
-    public fun railSearch(params: RailApiSearchModel, observer: Observer<RailSearchResponse>): Subscription {
+    fun railSearch(params: RailApiSearchModel, observer: Observer<RailSearchResponse>): Subscription {
         return railApi.railSearch(params)
                 .subscribeOn(subscribeOn)
                 .observeOn(observeOn)
                 .subscribe(observer)
     }
 
-    public fun railDetails(params: RailDetailsRequest, observer: Observer<RailDetailsResponse>): Subscription {
+    fun railDetails(params: RailDetailsRequest, observer: Observer<RailDetailsResponse>): Subscription {
         return railApi.railDetails(params)
                 .subscribeOn(subscribeOn)
                 .observeOn(observeOn)
                 .subscribe(observer)
     }
 
-    public fun railValidate(params: RailValidateRequest, observer: Observer<RailValidateResponse>): Subscription {
+    fun railValidate(params: RailValidateRequest, observer: Observer<RailValidateResponse>): Subscription {
         return railApi.railValidate(params)
+                .subscribeOn(subscribeOn)
+                .observeOn(observeOn)
+                .subscribe(observer)
+    }
+
+    fun railCreateTrip(railOfferToken: String, observer: Observer<RailCreateTripResponse>): Subscription {
+        return railApi.railCreateTrip(railOfferToken)
+                .subscribeOn(subscribeOn)
+                .observeOn(observeOn)
+                .subscribe(observer)
+    }
+
+    fun railCheckoutTrip(params: RailCheckoutRequest, observer: Observer<RailCheckoutResponse>): Subscription {
+        return railApi.railCheckout(params)
                 .subscribeOn(subscribeOn)
                 .observeOn(observeOn)
                 .subscribe(observer)

@@ -10,12 +10,12 @@ import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RuntimeEnvironment
-import java.util.*
+import java.util.ArrayList
 import kotlin.properties.Delegates
 import kotlin.test.assertEquals
 
 @RunWith(RobolectricRunner::class)
-public class HotelResultsPricingStructureHeaderViewModelTests {
+class HotelResultsPricingStructureHeaderViewModelTests {
 
     var sut: HotelResultsPricingStructureHeaderViewModel by Delegates.notNull()
 
@@ -34,6 +34,7 @@ public class HotelResultsPricingStructureHeaderViewModelTests {
         givenLoading()
 
         assertEquals("Searching hundreds of hotels for you!", sut.pricingStructureHeaderObservable.value)
+        assertEquals(false, sut.loyaltyAvailableObservable.value)
     }
 
     @Test
@@ -66,12 +67,18 @@ public class HotelResultsPricingStructureHeaderViewModelTests {
         assertExpectedText(HotelRate.UserPriceType.PER_NIGHT_RATE_NO_TAXES, 3, "Prices average per night • 3 Results")
     }
 
-    private fun assertExpectedText(userPriceType: HotelRate.UserPriceType, hotelResultCount: Int, expectedString: String) {
+    @Test
+    fun loyaltyPointsAppliedHeaderVisible() {
+        assertExpectedText(HotelRate.UserPriceType.PER_NIGHT_RATE_NO_TAXES, 3, "Prices average per night • 3 Results", true)
+    }
+
+    private fun assertExpectedText(userPriceType: HotelRate.UserPriceType, hotelResultCount: Int, expectedString: String, expectedLoyaltyHeaderVisibility: Boolean = false) {
         givenUserPriceType(userPriceType)
         givenHotelsResultsCount(hotelResultCount)
-        setupResultsDeliveredObserver()
+        setupResultsDeliveredObserver(expectedLoyaltyHeaderVisibility)
 
         assertEquals(expectedString, sut.pricingStructureHeaderObservable.value)
+        assertEquals(expectedLoyaltyHeaderVisibility, sut.loyaltyAvailableObservable.value)
     }
 
     private fun givenLoading() {
@@ -86,15 +93,18 @@ public class HotelResultsPricingStructureHeaderViewModelTests {
         this.hotelResultsCount = hotelResultsCount
     }
 
-    private fun setupResultsDeliveredObserver() {
+    private fun setupResultsDeliveredObserver(loyaltyInformationAvailable: Boolean) {
         val hotelSearchResponse = HotelSearchResponse()
         hotelSearchResponse.userPriceType = this.priceType
         hotelSearchResponse.hotelList = ArrayList<Hotel>()
+        if (loyaltyInformationAvailable) {
+            hotelSearchResponse.hasLoyaltyInformation = true
+        }
         while (this.hotelResultsCount > 0) {
             hotelSearchResponse.hotelList.add(Hotel())
             this.hotelResultsCount--
         }
-        sut.resultsDeliveredObserver.onNext(Pair(hotelSearchResponse.hotelList, hotelSearchResponse.userPriceType))
+        sut.resultsDeliveredObserver.onNext(hotelSearchResponse)
     }
 
     private fun getContext(): Context {

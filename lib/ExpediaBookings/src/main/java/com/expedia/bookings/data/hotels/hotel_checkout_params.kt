@@ -5,7 +5,7 @@ import com.expedia.bookings.data.payment.PaymentInfo
 import com.expedia.bookings.data.payment.Traveler
 import com.expedia.bookings.data.payment.TripDetails
 
-public class HotelCheckoutV2Params(
+class HotelCheckoutV2Params(
         val checkoutInfo: HotelCheckoutInfo,
         val traveler: Traveler,
         val tripDetails: TripDetails,

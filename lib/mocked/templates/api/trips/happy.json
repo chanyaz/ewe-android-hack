@@ -490,6 +490,7 @@
               "duration": "PT5H12M"
             }
           ],
+          "airlineCheckInURL": "https://wwwexpediacom.trunk-stubbed.sb.karmalab.net/trips/airline/checkin?airlineCode=WW&firstName=sandi&lastName=ma&confirmation=DL5HBGT&departureAirport=BOS&flightNumber=126&email=sptest%40expedia.com&ticketNumber=&flightDay=27&flightMonth=1",
           "sharableItemDetailURL": "https://www.expedia.com/api/trips/shared/9wODx0vGI3nZFtzlflGSniTguNtBrsomygGG1QO_oXoT4CVaDIV3l6MAmnjTM9quADdEIlr_pdtUQ8G4dauhfaX8qzxa5ZYnYK9DCvYcz1M7nkfGMpNuW45-jpNeURf3"
         }
       ]

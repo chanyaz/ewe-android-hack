@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- Expedia Styleguide colors -->
+    <!-- These are base colors that we intend to use throughout all LOB and portions of the app.
+            The goal is that future mockups and styles just reference these values instead of
+            each rewriting the hex values on their own. This is a work in progress, and any values
+            prepended with "temporary" are almost definitely going to change when we finalize the
+            style guide, so we want to avoid naming them fully for now, while still having this
+            paradigm in place. -->
+    <color name="temporary_primary_gray">#494949</color>
+    <color name="temporary_secondary_gray">#818181</color>
+    <color name="temporary_savings">#4CBD08</color>
+    <color name="temporary_flight_duration_gray">#898989</color>
+
+    <!-- This color should be used everywhere on search results list's gray background.  -->
+    <color name="search_results_list_bg_gray">#EEEEEE</color>
+    <!-- This color should be used on search result list header texts such as "All Flights", "Searching hundreds of hotels" and "Step 1: Select Hotel".  -->
+    <color name="search_results_list_header_gray">#797979</color>
+
+    <!-- This color is for divider lines within cardviews.  -->
+    <color name="cardview_divider_lines_gray">#DFDFDF</color>
+
+    <color name="expedia_hotels_color">#009688</color>
+
+    <color name="white">#FFFFFFFF</color>
+    <color name="black">#FF000000</color>
+
+</resources>

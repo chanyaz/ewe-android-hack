@@ -13,6 +13,7 @@ import android.widget.ListPopupWindow;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
+import com.expedia.bookings.data.FlightSearchParams;
 import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.SignInResponse;
 import com.expedia.bookings.data.Traveler;
@@ -403,7 +404,8 @@ public class TravelerButtonFragment extends LobableFragment {
 					category = PassengerCategory.ADULT;
 				}
 				else {
-					category = Db.getTravelers().get(mTravelerNumber).getPassengerCategory();
+					FlightSearchParams searchParams = Db.getTripBucket().getFlight().getFlightSearchParams();
+					category = Db.getTravelers().get(mTravelerNumber).getPassengerCategory(searchParams);
 				}
 				results.getTraveler().setPassengerCategory(category);
 				Db.getWorkingTravelerManager().setWorkingTravelerAndBase(results.getTraveler());

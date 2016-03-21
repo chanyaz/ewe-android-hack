@@ -9,7 +9,7 @@ import com.mobiata.android.LocationServices
 import rx.subjects.BehaviorSubject
 import rx.subjects.PublishSubject
 
-public class GeocodeSearchModel(val context: Context) {
+class GeocodeSearchModel(val context: Context) {
 
     private val BD_KEY = "geo_search"
 

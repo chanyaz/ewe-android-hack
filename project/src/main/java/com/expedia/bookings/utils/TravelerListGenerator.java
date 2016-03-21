@@ -7,6 +7,7 @@ import java.util.List;
 
 import com.expedia.bookings.data.ChildTraveler;
 import com.expedia.bookings.data.Db;
+import com.expedia.bookings.data.FlightSearchParams;
 import com.expedia.bookings.data.PassengerCategoryPrice;
 import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.enums.PassengerCategory;
@@ -19,10 +20,11 @@ public class TravelerListGenerator {
 	public Comparator<Traveler> byPassengerCategory = new Comparator<Traveler>() {
 		@Override
 		public int compare(Traveler lhs, Traveler rhs) {
-			PassengerCategory lhsCategory = lhs.getPassengerCategory();
-			PassengerCategory rhsCategory = rhs.getPassengerCategory();
+			FlightSearchParams searchParams = Db.getTripBucket().getFlight().getFlightSearchParams();
+			PassengerCategory lhsCategory = lhs.getPassengerCategory(searchParams);
+			PassengerCategory rhsCategory = rhs.getPassengerCategory(searchParams);
 			if (lhsCategory != rhsCategory) {
-				return lhs.getPassengerCategory().compareTo(rhs.getPassengerCategory());
+				return lhs.getPassengerCategory(searchParams).compareTo(rhs.getPassengerCategory(searchParams));
 			}
 			else {
 				return lhs.getSearchedAge() - rhs.getSearchedAge();
@@ -69,13 +71,14 @@ public class TravelerListGenerator {
 				break;
 			}
 		}
+		FlightSearchParams searchParams = Db.getTripBucket().getFlight().getFlightSearchParams();
 		for (Traveler traveler : travelers) {
 			// If the Traveler in Db does not have a category assigned, we throw it out.
-			if (traveler.getPassengerCategory() == null) {
+			if (traveler.getPassengerCategory(searchParams) == null) {
 				continue;
 			}
 			mTravelerList.add(traveler);
-			switch (traveler.getPassengerCategory()) {
+			switch (traveler.getPassengerCategory(searchParams)) {
 			case SENIOR:
 			case ADULT:
 				mNumAddedAdults++;
@@ -133,9 +136,10 @@ public class TravelerListGenerator {
 		// (i.e. they are less likely to have stored info
 		Collections.sort(mTravelerList, byPassengerCategory);
 		int numberRemoved = 0;
+		FlightSearchParams searchParams = Db.getTripBucket().getFlight().getFlightSearchParams();
 		for (int i = mTravelerList.size() - 1; i > 0; i--) {
 			Traveler traveler = mTravelerList.get(i);
-			if (traveler.getPassengerCategory() == passengerCategory) {
+			if (traveler.getPassengerCategory(searchParams) == passengerCategory) {
 				mTravelerList.remove(traveler);
 				if (++numberRemoved == numberToRemove) {
 					break;
@@ -168,8 +172,9 @@ public class TravelerListGenerator {
 		Collections.sort(children, Collections.reverseOrder());
 		Collections.sort(mTravelerList, byPassengerCategory);
 		int firstChildIndex = 0;
+		FlightSearchParams searchParams = Db.getTripBucket().getFlight().getFlightSearchParams();
 		for (int i = 0; i < mTravelerList.size(); i++) {
-			PassengerCategory pc = mTravelerList.get(i).getPassengerCategory();
+			PassengerCategory pc = mTravelerList.get(i).getPassengerCategory(searchParams);
 			if (pc != PassengerCategory.ADULT && pc != PassengerCategory.SENIOR) {
 				firstChildIndex = i;
 				break;

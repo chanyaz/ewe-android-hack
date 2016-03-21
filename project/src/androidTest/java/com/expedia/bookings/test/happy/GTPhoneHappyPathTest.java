@@ -86,7 +86,6 @@ public class GTPhoneHappyPathTest extends PhoneTestCase {
 		screenshot("GT Checkout Started");
 		CheckoutViewModel.enterTravelerInfo();
 		CheckoutViewModel.enterPaymentInfo();
-		CheckoutViewModel.clickDone();
 		screenshot("GT Checkout Ready");
 		CheckoutViewModel.performSlideToPurchase();
 

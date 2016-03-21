@@ -12,7 +12,7 @@ import kotlin.test.assertNull
 
 @RunWith(RobolectricRunner::class)
 class TripBucketItemHotelV2Tests {
-    public var mockHotelServiceTestRule: MockHotelServiceTestRule = MockHotelServiceTestRule()
+    var mockHotelServiceTestRule: MockHotelServiceTestRule = MockHotelServiceTestRule()
         @Rule get
 
     @Before

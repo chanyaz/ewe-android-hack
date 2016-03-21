@@ -36,6 +36,7 @@ import com.mobiata.flightlib.data.Flight;
 import com.mobiata.flightlib.data.FlightCode;
 import com.mobiata.flightlib.utils.DateTimeUtils;
 import com.mobiata.flightlib.utils.FormatUtils;
+import com.squareup.phrase.Phrase;
 
 /**
  * Note: This is somewhat overloaded to be able to represent either an entire
@@ -45,6 +46,7 @@ import com.mobiata.flightlib.utils.FormatUtils;
 public class FlightLegSummarySection extends RelativeLayout {
 
 	private static final DecimalFormat sDaySpanFormatter = new DecimalFormat("#");
+	private static final int NUMB_SEATS_REMAINING_SHOW_MSG_THRESHOLD = 6;
 
 	static {
 		// TODO: Should this be localized in some way?
@@ -57,6 +59,8 @@ public class FlightLegSummarySection extends RelativeLayout {
 	private ImageView mOperatingCarrierImageView;
 	private TextView mOperatingCarrierTextView;
 	private TextView mPriceTextView;
+	private TextView mNumberTicketsLeftView;
+	private boolean mShowNumberTicketsLeftView = true;
 	private TextView mRoundtripTextView;
 	private TextView mFlightTimeTextView;
 	private TextView mDepartureTimeTextView;
@@ -79,6 +83,7 @@ public class FlightLegSummarySection extends RelativeLayout {
 		mOperatingCarrierImageView = Ui.findView(this, R.id.operating_carrier_image_view);
 		mOperatingCarrierTextView = Ui.findView(this, R.id.operating_carrier_text_view);
 		mPriceTextView = Ui.findView(this, R.id.price_text_view);
+		mNumberTicketsLeftView = Ui.findView(this, R.id.number_tickets_left_view);
 		mRoundtripTextView = Ui.findView(this, R.id.roundtrip_text_view);
 		mFlightTimeTextView = Ui.findView(this, R.id.flight_time_text_view);
 		mDepartureTimeTextView = Ui.findView(this, R.id.departure_time_text_view);
@@ -134,6 +139,10 @@ public class FlightLegSummarySection extends RelativeLayout {
 	// From FlightListFragment.onCreateView(), when showing at top of return flight list; trip is null
 	public void bind(FlightTrip trip, final FlightLeg leg, DateTime minTime, DateTime maxTime) {
 		bind(trip, leg, minTime, maxTime, false);
+	}
+
+	public void setShowNumberTicketsLeftView(boolean showNumberTicketsLeftView) {
+		this.mShowNumberTicketsLeftView = showNumberTicketsLeftView;
 	}
 
 	private void bind(FlightTrip trip, final FlightLeg leg, DateTime minTime, DateTime maxTime,
@@ -245,6 +254,21 @@ public class FlightLegSummarySection extends RelativeLayout {
 				if (mRoundtripTextView != null) {
 					mRoundtripTextView.setVisibility(View.GONE);
 				}
+			}
+		}
+
+		if (mNumberTicketsLeftView != null && mShowNumberTicketsLeftView) {
+			boolean isUserBucketedForTest = Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppFlightsNumberOfTicketsUrgencyTest);
+			boolean showNumberSeatsRemaining =
+				trip != null && (trip.getSeatsRemaining() > 0 && trip.getSeatsRemaining() < NUMB_SEATS_REMAINING_SHOW_MSG_THRESHOLD);
+			if (showNumberSeatsRemaining && isUserBucketedForTest) {
+				String numbTicketsTemplate = getResources().getQuantityString(R.plurals.number_tickets_left_TEMPLATE, trip.getSeatsRemaining());
+				CharSequence numberTicketsLeft = Phrase.from(numbTicketsTemplate).put("number_tickets_left", trip.getSeatsRemaining()).format();
+				mNumberTicketsLeftView.setText(numberTicketsLeft);
+				mNumberTicketsLeftView.setVisibility(View.VISIBLE);
+			}
+			else {
+				mNumberTicketsLeftView.setVisibility(View.GONE);
 			}
 		}
 

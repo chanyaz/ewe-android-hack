@@ -337,60 +337,48 @@ class HotelFilterViewModel() {
         filteredResponse.hotelList = HotelServices.putSponsoredItemsInCorrectPlaces(hotels)
     }
 
-    private val popular_comparator: Comparator<Hotel> = object : Comparator<Hotel> {
-        override fun compare(hotel1: Hotel, hotel2: Hotel): Int {
-            return hotel1.sortIndex.compareTo(hotel2.sortIndex)
-        }
+    private val popular_comparator: Comparator<Hotel> = Comparator { hotel1, hotel2 ->
+        hotel1.sortIndex.compareTo(hotel2.sortIndex)
     }
 
-    private val name_comparator: Comparator<Hotel> = object : Comparator<Hotel> {
-        override fun compare(hotel1: Hotel, hotel2: Hotel): Int {
-            return hotel1.localizedName.compareTo(hotel2.localizedName)
-        }
+    private val name_comparator: Comparator<Hotel> = Comparator { hotel1, hotel2 ->
+        hotel1.localizedName.compareTo(hotel2.localizedName)
     }
 
-    private val price_comparator: Comparator<Hotel> = object : Comparator<Hotel> {
-        override fun compare(hotel1: Hotel, hotel2: Hotel): Int {
-            val lowRate1 = hotel1.lowRateInfo?.priceToShowUsers
-            val lowRate2 = hotel2.lowRateInfo?.priceToShowUsers
+    private val price_comparator: Comparator<Hotel> = Comparator { hotel1, hotel2 ->
+        val lowRate1 = hotel1.lowRateInfo?.priceToShowUsers
+        val lowRate2 = hotel2.lowRateInfo?.priceToShowUsers
 
-            if (lowRate1 == null && lowRate2 == null) {
-                return name_comparator.compare(hotel1, hotel2)
-            } else if (lowRate1 == null) {
-                return -1
-            } else if (lowRate2 == null) {
-                return 1
-            }
-
-            // Compare rates
-            return lowRate1.compareTo(lowRate2)
+        if (lowRate1 == null && lowRate2 == null) {
+            return@Comparator name_comparator.compare(hotel1, hotel2)
+        } else if (lowRate1 == null) {
+            return@Comparator -1
+        } else if (lowRate2 == null) {
+            return@Comparator 1
         }
+
+        // Compare rates
+        lowRate1.compareTo(lowRate2)
     }
 
-    private val deals_comparator: Comparator<Hotel> = object : Comparator<Hotel> {
-        override fun compare(hotel1: Hotel, hotel2: Hotel): Int {
-            return hotel1.lowRateInfo.discountPercent.compareTo(hotel2.lowRateInfo.discountPercent)
-        }
+    private val deals_comparator: Comparator<Hotel> = Comparator { hotel1, hotel2 ->
+        hotel1.lowRateInfo.discountPercent.compareTo(hotel2.lowRateInfo.discountPercent)
     }
 
-    private val rating_comparator_fallback_price: Comparator<Hotel> = object : Comparator<Hotel> {
-        override fun compare(hotel1: Hotel, hotel2: Hotel): Int {
-            val comparison = hotel2.hotelGuestRating.compareTo(hotel1.hotelGuestRating)
-            return if (comparison != 0) comparison else price_comparator.compare(hotel1, hotel2)
-        }
+    private val rating_comparator_fallback_price: Comparator<Hotel> = Comparator { hotel1, hotel2 ->
+        val comparison = hotel2.hotelGuestRating.compareTo(hotel1.hotelGuestRating)
+        if (comparison != 0) comparison else price_comparator.compare(hotel1, hotel2)
     }
 
-    private val distance_comparator_fallback_name: Comparator<Hotel> = object : Comparator<Hotel> {
-        override fun compare(hotel1: Hotel, hotel2: Hotel): Int {
-            val distance1 = hotel1.proximityDistanceInMiles
-            val distance2 = hotel2.proximityDistanceInMiles
+    private val distance_comparator_fallback_name: Comparator<Hotel> = Comparator { hotel1, hotel2 ->
+        val distance1 = hotel1.proximityDistanceInMiles
+        val distance2 = hotel2.proximityDistanceInMiles
 
-            val cmp = distance1.compareTo(distance2)
-            if (cmp == 0) {
-                return name_comparator.compare(hotel1, hotel2)
-            } else {
-                return cmp
-            }
+        val cmp = distance1.compareTo(distance2)
+        if (cmp == 0) {
+            name_comparator.compare(hotel1, hotel2)
+        } else {
+            cmp
         }
     }
 

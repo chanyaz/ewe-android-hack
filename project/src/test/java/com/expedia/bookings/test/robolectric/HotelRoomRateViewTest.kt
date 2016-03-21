@@ -1,11 +1,9 @@
 package com.expedia.bookings.test.robolectric
 
-import android.view.View
 import com.expedia.bookings.R
 import com.expedia.bookings.data.hotels.HotelOffersResponse
 import com.expedia.bookings.test.MockHotelServiceTestRule
 import com.expedia.bookings.widget.HotelRoomRateView
-import com.expedia.bookings.widget.ScrollView
 import com.expedia.util.endlessObserver
 import com.expedia.vm.HotelRoomRateViewModel
 import org.junit.Before
@@ -13,14 +11,12 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RuntimeEnvironment
-import rx.subjects.BehaviorSubject
 import rx.subjects.PublishSubject
 import kotlin.test.assertEquals
 
-
 @RunWith(RobolectricRunner::class)
-public class HotelRoomRateViewTest {
-    public var mockHotelServiceTestRule: MockHotelServiceTestRule = MockHotelServiceTestRule()
+class HotelRoomRateViewTest {
+    var mockHotelServiceTestRule: MockHotelServiceTestRule = MockHotelServiceTestRule()
         @Rule get
 
     lateinit private var hotelOffersResponse: HotelOffersResponse
@@ -28,7 +24,7 @@ public class HotelRoomRateViewTest {
 
     @Before fun before() {
         RuntimeEnvironment.application.setTheme(R.style.V2_Theme_Hotels)
-        hotelRoomRateView = HotelRoomRateView(RuntimeEnvironment.application, ScrollView(RuntimeEnvironment.application), BehaviorSubject.create<View>(View(RuntimeEnvironment.application)), 0)
+        hotelRoomRateView = HotelRoomRateView(RuntimeEnvironment.application, 0)
     }
 
     @Test

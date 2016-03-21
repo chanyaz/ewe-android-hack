@@ -3,10 +3,11 @@
     <string name="brand_name">Agence Voyages-SNCF.com</string>
 
     <!-- VSC app name for the about screen-->
-    <string name="vsc_full_app_name">Agence Voyages-SNCF.com</string>
 
     <string name="app_name">Agence Voyages-SNCF.com</string>
     <string name="app_vsc_info_url">https://agence.voyages-sncf.com/accueil</string>
+
+    <string name="app_copyright_logo_url">http://www.voyages-sncf.com</string>
 
     <!-- The PointOfSale code looks this identifier up with reflection, do not remove! -->
     <string tools:ignore="UnusedResources" name="country_vs">VSC</string>

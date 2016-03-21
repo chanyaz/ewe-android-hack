@@ -301,16 +301,8 @@
         <!-- About/Preferences/WebView activities -->
 
         <activity
-            android:name="com.expedia.bookings.activity.AboutActivity"
-            android:theme="@style/Theme.Phone.AboutActivity" />
-        <activity
-            android:name="com.expedia.bookings.activity.ExpediaBookingPreferenceActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/Theme.Phone.Preferences" />
-        <activity
-            android:name="com.expedia.bookings.activity.TabletPreferenceActivity"
-            android:excludeFromRecents="true"
-            android:theme="@style/Theme.Tablet.Preferences" />
+            android:name="com.expedia.bookings.activity.AccountSettingsActivity"
+            android:theme="@style/AccountSettingsTheme" />
         <activity android:name="com.expedia.bookings.activity.WebViewActivity" />
         <activity android:name="com.expedia.bookings.activity.AboutWebViewActivity" />
 

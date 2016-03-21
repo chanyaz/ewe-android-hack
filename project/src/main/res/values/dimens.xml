@@ -63,6 +63,7 @@
     <dimen name="itin_card_flight_vertical_offset">-48dp</dimen>
     <dimen name="itin_map_marker_bottom_padding">12dp</dimen>
     <dimen name="itin_map_bounds_padding">24dp</dimen>
+    <dimen name="itin_card_alert_dialog">258dp</dimen>
 
     <!-- The visible area of the parallaxed map on the Itin details view -->
     <dimen name="itin_map_visible_size">160dp</dimen>
@@ -204,10 +205,10 @@
     <dimen name="flight_details_baggage_fee_text_view_text_size">12dp</dimen>
 
     <!-- LX Dimens -->
-    <dimen name="lx_calendar_month_view_max_text_size">12dp</dimen>
     <dimen name="gallery_height">240dp</dimen>
     <dimen name="lx_search_list_image_container_height">144dp</dimen>
     <dimen name="lx_search_details_container_height">36dp</dimen>
+    <dimen name="lx_search_details_recommendation_container_height">44dp</dimen>
     <dimen name="lx_offer_dates_container_height">64dp</dimen>
     <dimen name="lx_offer_dates_container_width">50dp</dimen>
     <dimen name="lx_sort_filter_container_height">58dp</dimen>
@@ -255,6 +256,8 @@
     <dimen name="hotel_preview_margin_small">4dp</dimen>
     <dimen name="hotel_marker_padding_width">20dp</dimen>
     <dimen name="hotel_marker_padding_height">14dp</dimen>
+    <dimen name="hotel_cluster_padding_horizontal">8dp</dimen>
+    <dimen name="hotel_cluster_padding_vertical">6dp</dimen>
     <dimen name="hotel_gallery_description_padding">5dp</dimen>
     <dimen name="hotel_filter_height">58dp</dimen>
 
@@ -296,6 +299,7 @@
 
     <!-- Dimensions for hotel filter -->
     <dimen name="hotel_neighborhood_height">40dp</dimen>
+    <dimen name="airlines_filter_height">40dp</dimen>
 
     <!-- hotel V2 Checkout -->
     <dimen name="hotel_special_and_etp_margin">15dp</dimen>
@@ -305,8 +309,28 @@
     <dimen name="shadow_height">5dp</dimen>
 
     <!-- Package Results -->
+    <dimen name="layover_bar_text_size">@dimen/temporary_font_size_small</dimen>
     <dimen name="layover_bar_padding">4dp</dimen>
     <dimen name="card_view_container_margin">9dp</dimen>
+
+    <!-- Traveler Checkout -->
+    <dimen name="traveler_input_bottom_margin">4dp</dimen>
+    <dimen name="traveler_input_text_size">16sp</dimen>
+
+    <!-- Package Bundle Overview Footer -->
+    <dimen name="packages_bundle_overview_footer_primary_text">@dimen/temporary_font_size_medium</dimen>
+    <dimen name="packages_bundle_overview_footer_secondary_text">@dimen/temporary_font_size_small</dimen>
+
+    <!-- Package Flight Cell -->
+    <dimen name="packages_flight_cell_primary_text">@dimen/temporary_font_size_large</dimen>
+    <dimen name="packages_flight_cell_duration_text">@dimen/temporary_font_size_small</dimen>
+
+    <!-- Package Hotel Map -->
+    <dimen name="packages_hotel_map_message">@dimen/temporary_font_size_small</dimen>
+
+    <!-- Package Filter Sort -->
+    <dimen name="package_sort_filter_label_text_size">15sp</dimen>
+    <dimen name="package_sort_filter_value_text_size">13sp</dimen>
 
     <!-- Checkout -->
     <dimen name="checkout_data_button_icon_size">48dp</dimen>
@@ -356,6 +380,9 @@
     <!-- Material search -->
     <dimen name="material_search_field_height">64dp</dimen>
     <dimen name="search_form_margin">9dp</dimen>
+    <dimen name="search_form_top_margin">10dp</dimen>
+    <dimen name="material_search_field_bottom_margin">3dp</dimen>
+
     <!-- Recent Search item height -->
     <dimen name="recent_search_item_height">55dp</dimen>
     <dimen name="package_bundle_scroll_view_padding">200dp</dimen>
@@ -370,4 +397,17 @@
     <!-- Dimension for left margin on icon of new login button on car >>>>>>> expedia-stable& LX checkout-->
     <dimen name="checkout_icon_right_margin_car_lx">16dp</dimen>
 
+    <!-- Standard paddings -->
+    <dimen name="sort_filter_padding_small">5dp</dimen>
+    <dimen name="sort_filter_padding_normal">16dp</dimen>
+    <dimen name="sort_filter_padding_large">24dp</dimen>
+
+    <!-- Account Screen -->
+    <dimen name="about_row_title_text_size">14sp</dimen>
+    <dimen name="about_row_description_text_size">12sp</dimen>
+    <dimen name="account_toolbar_title_text_size">17sp</dimen>
+    <dimen name="account_toolbar_subtitle_text_size">12sp</dimen>
+    <dimen name="account_loyalty_label_text_size">13sp</dimen>
+    <dimen name="account_loyalty_value_text_size">20sp</dimen>
+    <dimen name="about_section_margin">6dp</dimen>
 </resources>

@@ -390,9 +390,9 @@
   "packageResult": {
     "hotels": {
       "897118536276357": {
-        "hotelId": "packagehappypath",
-        "hotelName": "packagehappypath",
-        "localizedHotelName": "packagehappypath",
+        "hotelId": "package_happy",
+        "hotelName": "Package Happy Path",
+        "localizedHotelName": "Package Happy Path",
         "hotelAddress": {
           "firstAddressLine": "1000 Brush Avenue",
           "secondAddressLine": "",
@@ -442,9 +442,9 @@
         "available": true
       },
       "580731306041176439": {
-        "hotelId": "58073",
-        "hotelName": "Quality Inn and Suites",
-        "localizedHotelName": "Quality Inn and Suites",
+        "hotelId": "price_change",
+        "hotelName": "Price Change",
+        "localizedHotelName": "Price Change",
         "hotelAddress": {
           "firstAddressLine": "9555 Middlebelt Rd",
           "secondAddressLine": "",
@@ -4574,7 +4574,7 @@
         "packageCancelable": false
       },
       {
-        "piid": "c698fd40-63b4-4a5f-9e00-9a5dbc547ec7-12",
+        "piid": "package_happy",
         "hotel": "897118536276357",
         "flight": "bdaeb3b97acaea318d4c5b02f99f0002",
         "car": null,
@@ -5314,7 +5314,7 @@
         "packageCancelable": true
       },
       {
-        "piid": "c698fd40-63b4-4a5f-9e00-9a5dbc547ec7-19",
+        "piid": "price_change",
         "hotel": "580731306041176439",
         "flight": "bdaeb3b97acaea318d4c5b02f99f0002",
         "car": null,
@@ -6753,7 +6753,7 @@
           "freeFlightPromotion": false,
           "showReferencePrices": false,
           "mandatoryFeeIncludedInTotal": false,
-          "flightPlusHotelPricePerPersonFormatted": "$482",
+          "flightPlusHotelPricePerPersonFormatted": null,
           "numNightsPriced": 1,
           "hotelAvgPricePerNight": {
             "amount": 59.66,

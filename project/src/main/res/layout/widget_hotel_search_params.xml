@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <merge xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <LinearLayout
         android:id="@+id/search_container"
@@ -11,28 +12,29 @@
         android:orientation="vertical"
         android:paddingTop="?attr/actionBarSize">
 
-        <RelativeLayout android:id="@+id/search_params_container"
+        <RelativeLayout
+            android:id="@+id/search_params_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/hotels_primary_color"
             android:layout_alignParentTop="true"
-            android:paddingRight="16dp"
+            android:background="@color/hotels_primary_color"
             android:clipChildren="false"
             android:clipToPadding="false"
             android:focusable="true"
-            android:focusableInTouchMode="true">
+            android:focusableInTouchMode="true"
+            android:paddingRight="16dp">
 
             <ImageView
                 android:id="@+id/location_image_view"
                 android:layout_width="55dp"
                 android:layout_height="wrap_content"
-                android:layout_alignTop="@+id/hotel_location_autocomplete"
                 android:layout_alignBottom="@+id/hotel_location_autocomplete"
+                android:layout_alignTop="@+id/hotel_location_autocomplete"
                 android:layout_centerVertical="true"
-                android:scaleType="center"
                 android:layout_marginRight="1dp"
                 android:paddingBottom="8dp"
                 android:paddingTop="8dp"
+                android:scaleType="center"
                 android:src="@drawable/location"
                 android:tint="#FFFFFF" />
 
@@ -62,9 +64,9 @@
                 android:id="@+id/clear_location_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_alignBottom="@+id/hotel_location_autocomplete"
                 android:layout_alignRight="@id/hotel_location_autocomplete"
                 android:layout_alignTop="@+id/hotel_location_autocomplete"
-                android:layout_alignBottom="@+id/hotel_location_autocomplete"
                 android:layout_centerVertical="true"
                 android:paddingLeft="8dp"
                 android:paddingRight="8dp"
@@ -118,7 +120,9 @@
             android:layout_height="0dp"
             android:layout_weight="1"
             android:orientation="vertical"
-            android:visibility="gone" />
+            android:paddingBottom="16dp"
+            android:visibility="gone"
+            tools:visibility="visible" />
 
         <com.expedia.bookings.widget.RecentSearchesWidget
             android:id="@+id/recent_searches"
@@ -126,9 +130,9 @@
             android:layout_height="0dp"
             android:layout_weight="1"
             android:orientation="vertical"
-            android:paddingRight="7dp"
-            android:paddingLeft="7dp"
             android:paddingBottom="7dp"
+            android:paddingLeft="7dp"
+            android:paddingRight="7dp"
             android:paddingTop="0dp"
             android:visibility="gone" />
 
@@ -160,7 +164,7 @@
         android:id="@+id/drop_down_list"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@android:color/white"/>
+        android:background="@android:color/white" />
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"

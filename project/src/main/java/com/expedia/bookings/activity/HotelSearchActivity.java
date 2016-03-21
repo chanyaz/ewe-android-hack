@@ -9,8 +9,6 @@ import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 
 import android.app.ActionBar;
-import android.app.AlertDialog;
-import android.app.AlertDialog.Builder;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -37,6 +35,7 @@ import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.AlertDialog;
 import android.text.Editable;
 import android.text.InputType;
 import android.text.TextWatcher;
@@ -46,6 +45,7 @@ import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.Surface;
 import android.view.View;
 import android.view.View.MeasureSpec;
 import android.view.ViewGroup;
@@ -102,6 +102,7 @@ import com.expedia.bookings.tracking.AdImpressionTracking;
 import com.expedia.bookings.tracking.AdTracker;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.CalendarUtils;
+import com.expedia.bookings.utils.Constants;
 import com.expedia.bookings.utils.ExpediaDebugUtil;
 import com.expedia.bookings.utils.ExpediaNetUtils;
 import com.expedia.bookings.utils.GuestsPickerUtils;
@@ -565,7 +566,13 @@ public class HotelSearchActivity extends FragmentActivity implements OnDrawStart
 		// Setup custom action bar view
 		ActionBar actionBar = getActionBar();
 
-		actionBar.setDisplayHomeAsUpEnabled(true);
+		if (ProductFlavorFeatureConfiguration.getInstance().isLOBChooserScreenEnabled()) {
+			actionBar.setDisplayHomeAsUpEnabled(true);
+		}
+		// For VSC app the hotelListing is the launch screen.
+		else {
+			actionBar.setHomeButtonEnabled(false);
+		}
 		actionBar.setDisplayShowCustomEnabled(true);
 		actionBar.setDisplayShowTitleEnabled(false);
 		actionBar.setDisplayShowHomeEnabled(true);
@@ -764,7 +771,7 @@ public class HotelSearchActivity extends FragmentActivity implements OnDrawStart
 
 		// We have a settings menu for VSC app only. And is shown only for debug builds.
 		if (requestCode == REQUEST_SETTINGS
-			&& resultCode == ExpediaBookingPreferenceActivity.RESULT_CHANGED_PREFS) {
+			&& resultCode == Constants.RESULT_CHANGED_PREFS) {
 			Db.getHotelSearch().resetSearchData();
 		}
 	}
@@ -782,7 +789,7 @@ public class HotelSearchActivity extends FragmentActivity implements OnDrawStart
 
 			CharSequence[] freeformLocations = StrUtils.formatAddresses(mAddresses);
 
-			AlertDialog.Builder builder = new Builder(this);
+			AlertDialog.Builder builder = new AlertDialog.Builder(this);
 			builder.setTitle(R.string.ChooseLocation);
 			builder.setItems(freeformLocations, new Dialog.OnClickListener() {
 				@Override
@@ -819,7 +826,7 @@ public class HotelSearchActivity extends FragmentActivity implements OnDrawStart
 			return builder.create();
 		}
 		case DIALOG_CLIENT_DEPRECATED: {
-			AlertDialog.Builder builder = new Builder(this);
+			AlertDialog.Builder builder = new AlertDialog.Builder(this);
 			final ServerError error = Db.getHotelSearch().getSearchResponse().getErrors().get(0);
 			builder.setMessage(error.getExtra("message"));
 			builder.setPositiveButton(R.string.upgrade, new OnClickListener() {
@@ -832,7 +839,7 @@ public class HotelSearchActivity extends FragmentActivity implements OnDrawStart
 			return builder.create();
 		}
 		case DIALOG_ENABLE_LOCATIONS: {
-			AlertDialog.Builder builder = new Builder(this);
+			AlertDialog.Builder builder = new AlertDialog.Builder(this);
 			builder.setMessage(R.string.EnableLocationSettings);
 			builder.setPositiveButton(R.string.ok, new Dialog.OnClickListener() {
 				@Override
@@ -939,6 +946,14 @@ public class HotelSearchActivity extends FragmentActivity implements OnDrawStart
 		menu.findItem(R.id.menu_select_sort).setVisible(isListShowing);
 		menu.findItem(R.id.menu_select_search_map).setVisible(!isListShowing);
 
+		// Push actions into the overflow in landscape mode
+		int orientation = getWindowManager().getDefaultDisplay().getOrientation();
+		final boolean shouldShowMenuItems = orientation == Surface.ROTATION_0 || orientation == Surface.ROTATION_180;
+		final int menuFlags = shouldShowMenuItems ? MenuItem.SHOW_AS_ACTION_ALWAYS : MenuItem.SHOW_AS_ACTION_NEVER;
+		menu.findItem(R.id.menu_select_sort).setShowAsActionFlags(menuFlags);
+		menu.findItem(R.id.menu_select_filter).setShowAsActionFlags(menuFlags);
+		menu.findItem(R.id.menu_select_search_map).setShowAsActionFlags(menuFlags);
+
 		return super.onPrepareOptionsMenu(menu);
 	}
 
@@ -1018,23 +1033,6 @@ public class HotelSearchActivity extends FragmentActivity implements OnDrawStart
 				setDisplayType(DisplayType.FILTER);
 			}
 			break;
-		}
-
-		////////////////////////////////////////////////////////////////
-		// VSC related menu items
-
-		// #1169. VSC "About" menu item.
-		case R.id.about:
-			Intent aboutIntent = new Intent(this, AboutActivity.class);
-			startActivity(aboutIntent);
-			break;
-
-		// VSC "Settings" menu item.
-		// Currently we show this only for Debug build.
-		case R.id.settings: {
-			Intent intent = new Intent(this, ExpediaBookingPreferenceActivity.class);
-			startActivityForResult(intent, REQUEST_SETTINGS);
-			return true;
 		}
 
 		}

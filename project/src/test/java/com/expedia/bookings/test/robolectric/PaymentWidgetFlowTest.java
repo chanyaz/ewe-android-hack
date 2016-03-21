@@ -10,27 +10,30 @@ import org.robolectric.Robolectric;
 import android.app.Activity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.BillingInfo;
-import com.expedia.bookings.data.PaymentType;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.Location;
+import com.expedia.bookings.data.PaymentType;
 import com.expedia.bookings.data.StoredCreditCard;
 import com.expedia.bookings.data.TripBucketItemHotelV2;
 import com.expedia.bookings.data.hotels.HotelCreateTripResponse;
 import com.expedia.bookings.data.hotels.HotelOffersResponse;
 import com.expedia.bookings.data.hotels.HotelRate;
 import com.expedia.bookings.interfaces.ToolbarListener;
+import com.expedia.bookings.presenter.Presenter;
 import com.expedia.bookings.section.SectionBillingInfo;
 import com.expedia.bookings.utils.ArrowXDrawableUtil;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.ExpandableCardView;
-import com.expedia.bookings.widget.PaymentButton;
+import com.expedia.bookings.widget.StoredCreditCardList;
 import com.expedia.bookings.widget.PaymentWidget;
 import com.expedia.bookings.widget.PaymentWidgetV2;
+import com.expedia.vm.PaymentViewModel;
 
 import static org.junit.Assert.assertEquals;
 
@@ -99,6 +102,11 @@ public class PaymentWidgetFlowTest {
 			}
 
 			@Override
+			public void editTextFocus(EditText editText) {
+
+			}
+
+			@Override
 			public void showRightActionButton(boolean show) {
 
 			}
@@ -130,10 +138,11 @@ public class PaymentWidgetFlowTest {
 		Ui.getApplication(activity).defaultLXComponents();
 		PaymentWidget paymentWidget =  (PaymentWidget) LayoutInflater.from(activity)
 			.inflate(R.layout.payment_widget, null);
-		paymentWidget.setToolbarListener(listener);
-		paymentWidget.setLineOfBusiness(LineOfBusiness.LX);
-		paymentWidget.setCreditCardRequired(true);
-		paymentWidget.setExpanded(true);
+		paymentWidget.setViewmodel(new PaymentViewModel(activity));
+		paymentWidget.show(new PaymentWidget.PaymentDefault(), Presenter.FLAG_CLEAR_BACKSTACK);
+		paymentWidget.getViewmodel().getLineOfBusiness().onNext(LineOfBusiness.LX);
+		paymentWidget.getViewmodel().isCreditCardRequired().onNext(true);
+		paymentWidget.getCardInfoContainer().performClick();
 
 		LinearLayout paymentOptions = (LinearLayout) paymentWidget.findViewById(R.id.section_payment_options_container);
 
@@ -183,18 +192,16 @@ public class PaymentWidgetFlowTest {
 		Ui.getApplication(activity).defaultHotelComponents();
 		PaymentWidgetV2 paymentWidget =  (PaymentWidgetV2) LayoutInflater.from(activity)
 			.inflate(R.layout.payment_widget_v2, null);
-		paymentWidget.setToolbarListener(listener);
-		paymentWidget.setLineOfBusiness(LineOfBusiness.HOTELSV2);
-		paymentWidget.setCreditCardRequired(true);
-
-		paymentWidget.sectionBillingInfo.bind(info);
+		paymentWidget.setViewmodel(new PaymentViewModel(activity));
+		paymentWidget.getViewmodel().getLineOfBusiness().onNext(LineOfBusiness.HOTELSV2);
+		paymentWidget.getSectionBillingInfo().bind(info);
 
 		SectionBillingInfo sectionBillingInfo = (SectionBillingInfo) paymentWidget.findViewById(R.id.section_billing_info);
 		LinearLayout paymentOptions = (LinearLayout) paymentWidget.findViewById(R.id.section_payment_options_container);
-		PaymentButton paymentButton = (PaymentButton) paymentWidget.findViewById(R.id.payment_button_v2);
+		StoredCreditCardList storedCreditCardList = (StoredCreditCardList) paymentWidget.findViewById(R.id.stored_creditcard_list);
 
 		assertEquals(View.VISIBLE, sectionBillingInfo.getVisibility());
 		assertEquals(View.VISIBLE, paymentOptions.getVisibility());
-		assertEquals(View.VISIBLE, paymentButton.getVisibility());
+		assertEquals(View.VISIBLE, storedCreditCardList.getVisibility());
 	}
 }

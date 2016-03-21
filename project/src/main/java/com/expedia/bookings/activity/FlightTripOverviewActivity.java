@@ -36,7 +36,6 @@ import com.expedia.bookings.data.FlightLeg;
 import com.expedia.bookings.data.FlightSearchParams;
 import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.LineOfBusiness;
-import com.expedia.bookings.data.abacus.AbacusUtils;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.dialog.ThrobberDialog;
 import com.expedia.bookings.fragment.FlightBookingFragment;
@@ -130,7 +129,6 @@ public class FlightTripOverviewActivity extends FragmentActivity implements Acco
 	private BottomBarMode mBottomBarMode;
 
 	private boolean mIsBailing = false;
-	private boolean isSplitTicketingEnabled = Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppFlightSplitTicketing);
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -894,7 +892,7 @@ public class FlightTripOverviewActivity extends FragmentActivity implements Acco
 
 	private void showSplitTicketBaggageFees() {
 		boolean showSplitTicketInfo = Db.getTripBucket().getFlight().getItineraryResponse().isSplitTicket();
-		mSplitTicketInfoTextView.setVisibility(showSplitTicketInfo && isSplitTicketingEnabled ? View.VISIBLE : View.GONE);
+		mSplitTicketInfoTextView.setVisibility(showSplitTicketInfo ? View.VISIBLE : View.GONE);
 	}
 
 	private void buildSplitTicketInformationDialog() {

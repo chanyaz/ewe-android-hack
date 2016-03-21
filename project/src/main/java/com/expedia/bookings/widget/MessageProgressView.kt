@@ -1,14 +1,18 @@
 package com.expedia.bookings.widget
 
 import android.content.Context
-import android.graphics.*
+import android.graphics.Canvas
+import android.graphics.Color
+import android.graphics.Paint
+import android.graphics.PorterDuff
+import android.graphics.Rect
 import android.os.Build
 import android.util.AttributeSet
 import android.view.View
 import com.expedia.bookings.R
 import kotlin.properties.Delegates
 
-public class MessageProgressView(context: Context, attrs: AttributeSet?) : View(context, attrs) {
+class MessageProgressView(context: Context, attrs: AttributeSet?) : View(context, attrs) {
     val linesPaint: Paint = Paint()
     //In case the view isn't a perfect rectangle, maintain both x and y values
     var verticalPaddingGap: Int by Delegates.notNull()
@@ -29,7 +33,7 @@ public class MessageProgressView(context: Context, attrs: AttributeSet?) : View(
     var drawLine2: Boolean = false
     var drawLine3: Boolean = false
 
-    public var progress: Float = 0f
+    var progress: Float = 0f
         set(value) {
             field = value
             var remainingProgress = value

@@ -19,7 +19,7 @@ import rx.subjects.BehaviorSubject
 import kotlin.collections.firstOrNull
 import kotlin.collections.listOf
 
-public class HotelViewModel(private val context: Context, private val hotel: Hotel) {
+class HotelViewModel(private val context: Context, private val hotel: Hotel) {
     val resources = context.resources
 
     val ROOMS_LEFT_CUTOFF_FOR_DECIDING_URGENCY = 5
@@ -33,13 +33,14 @@ public class HotelViewModel(private val context: Context, private val hotel: Hot
     val hotelStrikeThroughPriceFormatted = BehaviorSubject.create(priceFormatter(resources, hotel.lowRateInfo, true))
     val strikethroughPriceToShowUsers = BehaviorSubject.create(hotel.lowRateInfo.strikethroughPriceToShowUsers)
     val priceToShowUsers = BehaviorSubject.create(hotel.lowRateInfo.priceToShowUsers)
-    val hotelStrikeThroughPriceVisibility = Observable.combineLatest(strikethroughPriceToShowUsers, priceToShowUsers, soldOut) { strikethroughPriceToShowUsers, priceToShowUsers, soldOut -> !soldOut && (priceToShowUsers < strikethroughPriceToShowUsers) }
+    val hotelStrikeThroughPriceVisibility = BehaviorSubject.create(false)
     val hasDiscountObservable = BehaviorSubject.create<Boolean>(hotel.lowRateInfo.isDiscountTenPercentOrBetter() && !hotel.lowRateInfo.airAttached)
     val hotelGuestRatingObservable = BehaviorSubject.create(hotel.hotelGuestRating)
     val isHotelGuestRatingAvailableObservable = BehaviorSubject.create<Boolean>(hotel.hotelGuestRating > 0)
     val hotelPreviewRating = BehaviorSubject.create<Float>(hotel.hotelStarRating)
     val hotelPreviewRatingVisibility = BehaviorSubject.create<Float>(hotel.hotelStarRating).map { it >= 0.5f }
     val pricePerNightObservable = BehaviorSubject.create(priceFormatter(resources, hotel.lowRateInfo, false))
+    val pricePerNightColorObservable = BehaviorSubject.create(ContextCompat.getColor(context, if (hotel.lowRateInfo?.loyaltyInfo?.isShopWithPoints ?: false) R.color.hotels_primary_color else R.color.hotel_cell_gray_text))
 
     val fewRoomsLeftUrgency = BehaviorSubject.create<UrgencyMessage>(null as UrgencyMessage?)
     val tonightOnlyUrgency = BehaviorSubject.create<UrgencyMessage>(null as UrgencyMessage?)
@@ -59,6 +60,7 @@ public class HotelViewModel(private val context: Context, private val hotel: Hot
     val urgencyIconVisibilityObservable = highestPriorityUrgencyMessageObservable.map { it != null && it.iconDrawableId != null }
 
     val vipMessageVisibilityObservable = BehaviorSubject.create<Boolean>()
+    val vipLoyaltyMessageVisibilityObservable = BehaviorSubject.create<Boolean>()
     val airAttachVisibilityObservable = BehaviorSubject.create<Boolean>(hotel.lowRateInfo.isShowAirAttached())
     val topAmenityTitleObservable = BehaviorSubject.create(getTopAmenityTitle(hotel, resources))
     val topAmenityVisibilityObservable = topAmenityTitleObservable.map { (it != "") }
@@ -76,9 +78,13 @@ public class HotelViewModel(private val context: Context, private val hotel: Hot
             adImpressionObservable.onNext(hotel.impressionTrackingUrl)
         }
 
+        Observable.combineLatest(strikethroughPriceToShowUsers, priceToShowUsers, soldOut) { strikethroughPriceToShowUsers, priceToShowUsers, soldOut -> !soldOut && (priceToShowUsers < strikethroughPriceToShowUsers) }.subscribe(hotelStrikeThroughPriceVisibility)
+
         val isVipAvailable = hotel.isVipAccess && PointOfSale.getPointOfSale().supportsVipAccess() && User.isLoggedIn(context)
-        val isGoldOrSivler = Db.getUser() != null && (Db.getUser().primaryTraveler.loyaltyMembershipTier == Traveler.LoyaltyMembershipTier.SILVER || Db.getUser().primaryTraveler.loyaltyMembershipTier == Traveler.LoyaltyMembershipTier.GOLD)
-        vipMessageVisibilityObservable.onNext(isVipAvailable && isGoldOrSivler)
+        val isGoldOrSilver = Db.getUser() != null && (Db.getUser().primaryTraveler.loyaltyMembershipTier == Traveler.LoyaltyMembershipTier.SILVER || Db.getUser().primaryTraveler.loyaltyMembershipTier == Traveler.LoyaltyMembershipTier.GOLD)
+        vipMessageVisibilityObservable.onNext(isVipAvailable && isGoldOrSilver)
+        val isVipLoyaltyAvailable = isVipAvailable && isGoldOrSilver && hotel.lowRateInfo?.loyaltyInfo?.isShopWithPoints ?: false
+        vipLoyaltyMessageVisibilityObservable.onNext(isVipLoyaltyAvailable)
 
         // NOTE: Any changes to this logic should also be made in HotelDetailViewModel.getPromoText()
         val isUserBucketedForTest = Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelsMemberDealTest)
@@ -114,7 +120,7 @@ public class HotelViewModel(private val context: Context, private val hotel: Hot
 
     data class UrgencyMessage(val iconDrawableId: Int?, val backgroundColorId: Int, val message: String)
 
-    public fun setImpressionTracked(tracked: Boolean) {
+    fun setImpressionTracked(tracked: Boolean) {
         hotel.hasShownImpression = tracked
     }
 }

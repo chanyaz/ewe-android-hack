@@ -9,10 +9,10 @@ import com.google.gson.JsonSyntaxException
 import org.joda.time.LocalDate
 import java.util.ArrayList
 
-public class HotelsV2DataUtil {
+class HotelsV2DataUtil {
 
     companion object {
-        public fun getHotelV2SearchParamsFromJSON(hotelSearchParamsJSON: String): HotelSearchParams? {
+        fun getHotelV2SearchParamsFromJSON(hotelSearchParamsJSON: String): HotelSearchParams? {
             val gson = generateGson()
 
             if (Strings.isNotEmpty(hotelSearchParamsJSON) ) {
@@ -26,7 +26,7 @@ public class HotelsV2DataUtil {
             return null
         }
 
-        public fun getHotelV2SearchParams(params: com.expedia.bookings.data.HotelSearchParams): HotelSearchParams {
+        fun getHotelV2SearchParams(params: com.expedia.bookings.data.HotelSearchParams): HotelSearchParams {
             val suggestionV4 = SuggestionV4()
             suggestionV4.hotelId = params.hotelId
             suggestionV4.gaiaId = params.getRegionId()
@@ -49,12 +49,12 @@ public class HotelsV2DataUtil {
             val hasValidDates = JodaUtils.isBeforeOrEquals(LocalDate.now(), params.getCheckInDate())
             val checkInDate = if (hasValidDates) params.getCheckInDate() else LocalDate.now()
             val checkOutDate = if (hasValidDates) params.getCheckOutDate() else LocalDate.now().plusDays(1)
-            val v2params = HotelSearchParams(suggestionV4, checkInDate, checkOutDate, params.getNumAdults(), childList)
+            val v2params = HotelSearchParams(suggestionV4, checkInDate, checkOutDate, params.getNumAdults(), childList, false)
             return v2params
         }
 
 
-        public fun generateGson(): Gson {
+        fun generateGson(): Gson {
             val PATTERN = "yyyy-MM-dd"
             return GsonBuilder().registerTypeAdapter(LocalDate::class.java, LocalDateTypeAdapter(PATTERN)).create()
         }

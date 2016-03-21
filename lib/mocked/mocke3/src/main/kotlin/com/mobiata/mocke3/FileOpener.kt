@@ -5,5 +5,5 @@ import java.io.InputStream
 
 public interface FileOpener {
 	@Throws(IOException::class)
-	public fun openFile(filename: String): InputStream
+	fun openFile(filename: String): InputStream
 }

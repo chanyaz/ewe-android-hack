@@ -9,7 +9,7 @@ import com.expedia.bookings.data.hotels.Hotel
 import com.mobiata.android.util.AndroidUtils
 import rx.subjects.PublishSubject
 
-public class HotelCarouselRecycler(context: Context, attrs: AttributeSet) : RecyclerView(context, attrs) {
+class HotelCarouselRecycler(context: Context, attrs: AttributeSet) : RecyclerView(context, attrs) {
 
     val mapSubject = PublishSubject.create<Hotel>()
 
@@ -29,12 +29,12 @@ public class HotelCarouselRecycler(context: Context, attrs: AttributeSet) : Recy
 
         val nextView: View? = layoutManager.findViewByPosition(position)
         if (nextView != null) {
-            smoothScrollBy(nextView.getLeft(), 0)
+            smoothScrollBy(nextView.left, 0)
         }
 
         val adapter = adapter as HotelMapCarouselAdapter
         if (adapter.hotels.isNotEmpty()) {
-            mapSubject.onNext(adapter.hotels.get(position))
+            mapSubject.onNext(adapter.hotels[position])
         }
         return true
     }

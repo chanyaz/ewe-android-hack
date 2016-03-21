@@ -20,7 +20,6 @@
 This is here because some devices (SGS2) override the textSize and we want to make sure it's consistent.
 -->
 <com.expedia.bookings.widget.TextView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@android:id/text1"
     style="?android:attr/spinnerItemStyle"
     android:layout_width="match_parent"
@@ -29,5 +28,4 @@ This is here because some devices (SGS2) override the textSize and we want to ma
     android:paddingRight="0dp"
     android:ellipsize="marquee"
     android:singleLine="true"
-    android:textSize="16sp"
-    app:textStyle="medium"/>
+    android:textSize="16sp"/>

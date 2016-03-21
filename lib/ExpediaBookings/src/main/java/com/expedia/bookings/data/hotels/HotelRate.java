@@ -4,6 +4,8 @@ import java.math.BigDecimal;
 import java.util.List;
 
 import com.expedia.bookings.data.Money;
+import com.expedia.bookings.data.payment.LoyaltyInformation;
+import com.expedia.bookings.utils.Constants;
 import com.expedia.bookings.utils.Strings;
 
 public class HotelRate {
@@ -35,6 +37,9 @@ public class HotelRate {
 	public List<NightlyRatesPerRoom> nightlyRatesPerRoom;
 	public String depositAmountToShowUsers;
 	public String depositAmount;
+	public LoyaltyInformation loyaltyInfo;
+
+	public transient float packagePricePerPerson;
 
 	// The types of display rates
 	public enum UserPriceType {
@@ -49,6 +54,9 @@ public class HotelRate {
 			}
 			else if ("PerNightRateNoTaxes".equals(value)) {
 				return UserPriceType.PER_NIGHT_RATE_NO_TAXES;
+			}
+			else if (Constants.PACKAGE_HOTEL_DELTA_PRICE_TYPE.equals(value)) {
+				return UserPriceType.PACKAGES;
 			}
 
 			return UserPriceType.UNKNOWN;
@@ -103,6 +111,12 @@ public class HotelRate {
 		else {
 			return new Money(new BigDecimal(total), currencyCode);
 		}
+	}
+
+	public static Money getDisplayMoney(HotelRate rate, boolean strikeThrough) {
+		Money money = strikeThrough ? new Money(Float.toString(rate.strikethroughPriceToShowUsers), rate.currencyCode)
+			: new Money(Float.toString(rate.priceToShowUsers), rate.currencyCode);
+		return money;
 	}
 
 	public boolean isDiscountTenPercentOrBetter() {

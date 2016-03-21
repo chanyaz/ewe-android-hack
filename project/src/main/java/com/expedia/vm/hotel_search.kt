@@ -14,6 +14,7 @@ import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.cars.ApiError
 import com.expedia.bookings.data.hotels.HotelSearchParams
 import com.expedia.bookings.location.CurrentLocationObservable
+import com.expedia.bookings.presenter.hotel.HotelPresenter
 import com.expedia.bookings.tracking.HotelV2Tracking
 import com.expedia.bookings.utils.DateUtils
 import com.expedia.bookings.utils.HotelSearchParamsUtil
@@ -39,6 +40,7 @@ class HotelSearchViewModel(val context: Context) {
     val userBucketedObservable = BehaviorSubject.create<Boolean>()
     val externalSearchParamsObservable = BehaviorSubject.create<Boolean>()
     val dateTextObservable = PublishSubject.create<CharSequence>()
+    val dateInstructionObservable = PublishSubject.create<CharSequence>()
     val calendarTooltipTextObservable = PublishSubject.create<Pair<String, String>>()
     val locationTextObservable = PublishSubject.create<String>()
     val searchButtonObservable = PublishSubject.create<Boolean>()
@@ -47,6 +49,7 @@ class HotelSearchViewModel(val context: Context) {
     val errorMaxDatesObservable = PublishSubject.create<Unit>()
     val enableDateObservable = PublishSubject.create<Boolean>()
     val enableTravelerObservable = PublishSubject.create<Boolean>()
+    val shopWithPointsObservable = PublishSubject.create<Boolean>()
 
     val enableDateObserver = endlessObserver<Unit> {
         enableDateObservable.onNext(paramsBuilder.hasOrigin())
@@ -55,7 +58,6 @@ class HotelSearchViewModel(val context: Context) {
     val enableTravelerObserver = endlessObserver<Unit> {
         enableTravelerObservable.onNext(paramsBuilder.hasOrigin())
     }
-
 
     // Inputs
     val datesObserver = endlessObserver<Pair<LocalDate?, LocalDate?>> { data ->
@@ -68,7 +70,8 @@ class HotelSearchViewModel(val context: Context) {
             paramsBuilder.checkOut(end)
         }
 
-        dateTextObservable.onNext(computeDateText(start, end))
+        dateTextObservable.onNext(HotelSearchViewModel.computeDateText(context, start, end))
+        dateInstructionObservable.onNext(HotelSearchViewModel.computeDateInstructionText(context, start, end))
 
         calendarTooltipTextObservable.onNext(computeTooltipText(start, end))
 
@@ -96,6 +99,11 @@ class HotelSearchViewModel(val context: Context) {
         requiredSearchParamsObserver.onNext(Unit)
     }
 
+    val shopWithPointsObserver = endlessObserver<Boolean> {
+        paramsBuilder.shopWithPoints(it)
+        shopWithPointsObservable.onNext(it)
+    }
+
     val searchObserver = endlessObserver<Unit> {
         if (paramsBuilder.areRequiredParamsFilled()) {
             if (!paramsBuilder.hasValidDates()) {
@@ -116,37 +124,13 @@ class HotelSearchViewModel(val context: Context) {
     }
 
     // Helpers
-    private fun computeDateRangeText(start: LocalDate?, end: LocalDate?): String? {
-        if (start == null && end == null) {
-            return context.getResources().getString(R.string.select_dates)
-        } else if (end == null) {
-            return context.getResources().getString(R.string.select_checkout_date_TEMPLATE, DateUtils.localDateToMMMd(start))
-        } else {
-            return context.getResources().getString(R.string.calendar_instructions_date_range_TEMPLATE, DateUtils.localDateToMMMd(start), DateUtils.localDateToMMMd(end))
-        }
-    }
-
-    private fun computeDateText(start: LocalDate?, end: LocalDate?): CharSequence {
-        val dateRangeText = computeDateRangeText(start, end)
-        val sb = SpannableBuilder()
-        sb.append(dateRangeText)
-
-        if (start != null && end != null) {
-            val nightCount = JodaUtils.daysBetween(start, end)
-            val nightsString = context.getResources().getQuantityString(R.plurals.length_of_stay, nightCount, nightCount)
-            sb.append(" ");
-            sb.append(context.getResources().getString(R.string.nights_count_TEMPLATE, nightsString), RelativeSizeSpan(0.8f))
-        }
-        return sb.build()
-    }
-
     private fun computeTopTextForToolTip(start: LocalDate?, end: LocalDate?): String {
         if (start == null && end == null) {
-            return context.getResources().getString(R.string.select_dates_proper_case)
+            return context.resources.getString(R.string.select_dates_proper_case)
         } else if (end == null) {
             return DateUtils.localDateToMMMd(start)
         } else {
-            return context.getResources().getString(R.string.calendar_instructions_date_range_TEMPLATE, DateUtils.localDateToMMMd(start), DateUtils.localDateToMMMd(end))
+            return context.resources.getString(R.string.calendar_instructions_date_range_TEMPLATE, DateUtils.localDateToMMMd(start), DateUtils.localDateToMMMd(end))
         }
     }
 
@@ -154,22 +138,67 @@ class HotelSearchViewModel(val context: Context) {
         val resource =
                 if (end == null) R.string.hotel_calendar_tooltip_bottom
                 else R.string.hotel_calendar_bottom_drag_to_modify
-        val instructions = context.getResources().getString(resource)
+        val instructions = context.resources.getString(resource)
         return Pair(computeTopTextForToolTip(start, end), instructions)
     }
 
     init {
-        val intent = (context as Activity).getIntent()
+        val intent = (context as Activity).intent
         val isUserBucketedForTest = Db.getAbacusResponse().isUserBucketedForTest(
                 AbacusUtils.EBAndroidAppHotelRecentSearchTest)
         userBucketedObservable.onNext(isUserBucketedForTest)
         externalSearchParamsObservable.onNext(!intent.hasExtra(Codes.TAG_EXTERNAL_SEARCH_PARAMS) && !isUserBucketedForTest)
     }
+
+    companion object {
+        fun computeDateInstructionText(context: Context, start: LocalDate?, end: LocalDate?): CharSequence {
+            if (start == null && end == null) {
+                return context.getString(R.string.select_checkin_date);
+            }
+
+            val dateRangeText = computeDateRangeText(context, start, end)
+            val sb = SpannableBuilder()
+            sb.append(dateRangeText)
+
+            if (start != null && end != null) {
+                val nightCount = JodaUtils.daysBetween(start, end)
+                val nightsString = context.resources.getQuantityString(R.plurals.length_of_stay, nightCount, nightCount)
+                sb.append(" ");
+                sb.append(context.resources.getString(R.string.nights_count_TEMPLATE, nightsString))
+            }
+            return sb.build()
+        }
+
+        fun computeDateText(context: Context, start: LocalDate?, end: LocalDate?): CharSequence {
+            val dateRangeText = computeDateRangeText(context, start, end)
+            val sb = SpannableBuilder()
+            sb.append(dateRangeText)
+
+            if (start != null && end != null) {
+                val nightCount = JodaUtils.daysBetween(start, end)
+                val nightsString = context.resources.getQuantityString(R.plurals.length_of_stay, nightCount, nightCount)
+                sb.append(" ");
+                sb.append(context.resources.getString(R.string.nights_count_TEMPLATE, nightsString), RelativeSizeSpan(0.8f))
+            }
+            return sb.build()
+        }
+
+        // Helpers
+        private fun computeDateRangeText(context: Context, start: LocalDate?, end: LocalDate?): String? {
+            if (start == null && end == null) {
+                return context.resources.getString(R.string.select_dates)
+            } else if (end == null) {
+                return context.resources.getString(R.string.select_checkout_date_TEMPLATE, DateUtils.localDateToMMMd(start))
+            } else {
+                return context.resources.getString(R.string.calendar_instructions_date_range_TEMPLATE, DateUtils.localDateToMMMd(start), DateUtils.localDateToMMMd(end))
+            }
+        }
+    }
 }
 
-public data class HotelTravelerParams(val numberOfAdults: Int, val children: List<Int>)
+data class HotelTravelerParams(val numberOfAdults: Int, val children: List<Int>)
 
-public class HotelTravelerPickerViewModel(val context: Context, val showSeatingPreference: Boolean) {
+class HotelTravelerPickerViewModel(val context: Context, val showSeatingPreference: Boolean) {
     private val MAX_GUESTS = 6
     private val MIN_ADULTS = 1
     private val MIN_CHILDREN = 0
@@ -188,6 +217,7 @@ public class HotelTravelerPickerViewModel(val context: Context, val showSeatingP
     val childPlusObservable = BehaviorSubject.create<Boolean>()
     val childMinusObservable = BehaviorSubject.create<Boolean>()
     val infantPreferenceSeatingObservable = BehaviorSubject.create<Boolean>()
+    val isInfantInLapObservable = BehaviorSubject.create<Boolean>()
 
     init {
         travelerParamsObservable.subscribe { travelers ->
@@ -197,11 +227,11 @@ public class HotelTravelerPickerViewModel(val context: Context, val showSeatingP
             )
 
             adultTextObservable.onNext(
-                    context.getResources().getQuantityString(R.plurals.number_of_adults, travelers.numberOfAdults, travelers.numberOfAdults)
+                    context.resources.getQuantityString(R.plurals.number_of_adults, travelers.numberOfAdults, travelers.numberOfAdults)
             )
 
             childTextObservable.onNext(
-                    context.getResources().getQuantityString(R.plurals.number_of_children, travelers.children.size, travelers.children.size)
+                    context.resources.getQuantityString(R.plurals.number_of_children, travelers.children.size, travelers.children.size)
             )
 
             adultPlusObservable.onNext(total < MAX_GUESTS)
@@ -213,32 +243,32 @@ public class HotelTravelerPickerViewModel(val context: Context, val showSeatingP
 
     // Inputs
     val incrementAdultsObserver: Observer<Unit> = endlessObserver {
-        if (adultPlusObservable.getValue()) {
-            val hotelTravelerParams = travelerParamsObservable.getValue()
+        if (adultPlusObservable.value) {
+            val hotelTravelerParams = travelerParamsObservable.value
             travelerParamsObservable.onNext(HotelTravelerParams(hotelTravelerParams.numberOfAdults + 1, hotelTravelerParams.children))
             HotelV2Tracking().trackTravelerPickerClick("Add.Adult")
         }
     }
 
     val decrementAdultsObserver: Observer<Unit> = endlessObserver {
-        if (adultMinusObservable.getValue()) {
-            val hotelTravelerParams = travelerParamsObservable.getValue()
+        if (adultMinusObservable.value) {
+            val hotelTravelerParams = travelerParamsObservable.value
             travelerParamsObservable.onNext(HotelTravelerParams(hotelTravelerParams.numberOfAdults - 1, hotelTravelerParams.children))
             HotelV2Tracking().trackTravelerPickerClick("Remove.Adult")
         }
     }
 
     val incrementChildrenObserver: Observer<Unit> = endlessObserver {
-        if (childPlusObservable.getValue()) {
-            val hotelTravelerParams = travelerParamsObservable.getValue()
+        if (childPlusObservable.value) {
+            val hotelTravelerParams = travelerParamsObservable.value
             travelerParamsObservable.onNext(HotelTravelerParams(hotelTravelerParams.numberOfAdults, hotelTravelerParams.children.plus(10)))
             HotelV2Tracking().trackTravelerPickerClick("Add.Child")
         }
     }
 
     val decrementChildrenObserver: Observer<Unit> = endlessObserver {
-        if (childMinusObservable.getValue()) {
-            val hotelTravelerParams = travelerParamsObservable.getValue()
+        if (childMinusObservable.value) {
+            val hotelTravelerParams = travelerParamsObservable.value
             travelerParamsObservable.onNext(HotelTravelerParams(hotelTravelerParams.numberOfAdults, hotelTravelerParams.children.subList(0, hotelTravelerParams.children.size - 1)))
             HotelV2Tracking().trackTravelerPickerClick("Remove.Child")
         }
@@ -249,13 +279,13 @@ public class HotelTravelerPickerViewModel(val context: Context, val showSeatingP
         childAges[which] = age
         infantPreferenceSeatingObservable.onNext(childAges.contains(0))
 
-        val hotelTravelerParams = travelerParamsObservable.getValue()
+        val hotelTravelerParams = travelerParamsObservable.value
         travelerParamsObservable.onNext(HotelTravelerParams(hotelTravelerParams.numberOfAdults, (0..hotelTravelerParams.children.size - 1).map { childAges[it] }))
     }
 
 }
 
-public class HotelErrorViewModel(private val context: Context) {
+class HotelErrorViewModel(private val context: Context) {
     // Inputs
     val apiErrorObserver = PublishSubject.create<ApiError>()
     val paramsSubject = PublishSubject.create<HotelSearchParams>()
@@ -452,7 +482,7 @@ public class HotelErrorViewModel(private val context: Context) {
     }
 }
 
-public class HotelDeepLinkHandler(private val context: Context, private val deepLinkSearchObserver: Observer<HotelSearchParams?>, private val suggestionLookupObserver: Observer<Pair<String, Observer<List<SuggestionV4>>>>, private val currentLocationSearchObserver: Observer<HotelSearchParams?>, private val defaultTransitionObserver: Observer<HotelActivity.Screen>, private val searchSuggestionObserver: Observer<SuggestionV4>) {
+class HotelDeepLinkHandler(private val context: Context, private val deepLinkSearchObserver: Observer<HotelSearchParams?>, private val suggestionLookupObserver: Observer<Pair<String, Observer<List<SuggestionV4>>>>, private val currentLocationSearchObserver: Observer<HotelSearchParams?>, private val hotelPresenter: HotelPresenter, private val searchSuggestionObserver: Observer<SuggestionV4>) {
     fun handleNavigationViaDeepLink(hotelSearchParams: HotelSearchParams?) {
         if (hotelSearchParams != null) {
             val lat = hotelSearchParams.suggestion.coordinates?.lat ?: 0.0
@@ -473,10 +503,10 @@ public class HotelDeepLinkHandler(private val context: Context, private val deep
                 if (hotelSearchParams.suggestion.hotelId != null) {
                     // go to specific hotel requested
                     deepLinkSearchObserver.onNext(hotelSearchParams)
-                    defaultTransitionObserver.onNext(HotelActivity.Screen.DETAILS)
+                    hotelPresenter.setDefaultTransition(HotelActivity.Screen.DETAILS)
                 } else if (hotelSearchParams.suggestion.gaiaId != null || lat != 0.0 || lon != 0.0) {
                     // search specified region or lat/lon
-                    defaultTransitionObserver.onNext(HotelActivity.Screen.RESULTS)
+                    hotelPresenter.setDefaultTransition(HotelActivity.Screen.RESULTS)
                     deepLinkSearchObserver.onNext(hotelSearchParams)
                 } else {
                     val displayName = hotelSearchParams.suggestion.regionNames?.displayName ?: ""
@@ -485,7 +515,7 @@ public class HotelDeepLinkHandler(private val context: Context, private val deep
                         suggestionLookupObserver.onNext(Pair(displayName, generateSuggestionServiceCallback(hotelSearchParams)))
                     } else {
                         // this should not happen unless something has gone very wrong, so just send user to search screen
-                        defaultTransitionObserver.onNext(HotelActivity.Screen.SEARCH)
+                        hotelPresenter.setDefaultTransition(HotelActivity.Screen.SEARCH)
                     }
                 }
             }
@@ -508,7 +538,7 @@ public class HotelDeepLinkHandler(private val context: Context, private val deep
             }
 
             override fun onError(e: Throwable?) {
-                defaultTransitionObserver.onNext(HotelActivity.Screen.SEARCH)
+                hotelPresenter.setDefaultTransition(HotelActivity.Screen.SEARCH)
             }
         }
     }
@@ -516,7 +546,7 @@ public class HotelDeepLinkHandler(private val context: Context, private val deep
     private fun generateSuggestionServiceCallback(hotelSearchParams: HotelSearchParams): Observer<List<SuggestionV4>> {
         return object : Observer<List<SuggestionV4>> {
             override fun onNext(essSuggestions: List<SuggestionV4>) {
-                defaultTransitionObserver.onNext(HotelActivity.Screen.RESULTS)
+                hotelPresenter.setDefaultTransition(HotelActivity.Screen.RESULTS)
                 hotelSearchParams.suggestion.gaiaId = essSuggestions.first().gaiaId
                 deepLinkSearchObserver.onNext(hotelSearchParams)
             }
@@ -525,7 +555,7 @@ public class HotelDeepLinkHandler(private val context: Context, private val deep
             }
 
             override fun onError(e: Throwable?) {
-                defaultTransitionObserver.onNext(HotelActivity.Screen.SEARCH)
+                hotelPresenter.setDefaultTransition(HotelActivity.Screen.SEARCH)
                 Log.e("Hotel Suggestions Error", e)
             }
         }

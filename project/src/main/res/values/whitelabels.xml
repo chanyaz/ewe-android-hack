@@ -13,9 +13,6 @@
     <!-- ActionBar icon/logo in WebView/Preference Activities -->
     <attr name="skin_webViewPreferencesActionBarLogo" format="reference" />
 
-    <!-- ActionBar logo in Info Activity -->
-    <attr name="skin_actionBarAboutLogo" format="reference" />
-
     <!-- ActionBar icon/logo in WebView that also sets a title -->
     <attr name="skin_webViewPreferencesActionBarLogoWithTitle" format="reference" />
     <!-- ActionBar icon/logo in HotelRulesActivities -->
@@ -138,10 +135,6 @@
     <attr name="skin_hotelBookButtonString" format="reference|string" />
     <!-- for hotels etp info book button -->
     <attr name="skin_etpHotelSelectRoomString" format="reference|string" />
-
-    <attr name="skin_aboutInfoUrlString" format="reference|string" />
-    <attr name="skin_aboutAppNameString" format="reference|string" />
-    <attr name="skin_aboutAppLogoDrawable" format="reference" />
 
     <!-- for traveller_info_page logo-->
     <attr name="skin_travellerInfoPageLogo" format="reference"/>
@@ -296,7 +289,6 @@
     <attr name="skin_checkmarkFlightDrawable" format="reference" />
 
     <attr name="skin_launchTabIndicatorColor" format="reference|color" />
-    <attr name="skin_launchActionBarBackgroundColor" format="reference|color" />
 
     <attr name="skin_actionbarTabletTitleColor" format="reference|color" />
     <attr name="skin_icTabletConfirmationCheckmarkDrawable" format="reference" />

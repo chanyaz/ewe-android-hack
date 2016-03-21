@@ -5,37 +5,40 @@ import android.animation.ObjectAnimator
 import android.content.Context
 import android.graphics.PorterDuff
 import android.graphics.Rect
-import android.location.Address
 import android.support.v4.content.ContextCompat
 import android.support.v4.view.ViewCompat
 import android.util.AttributeSet
+import android.view.LayoutInflater
 import android.view.View
 import android.widget.Button
+import android.widget.ImageView
+import android.widget.LinearLayout
 import com.expedia.bookings.R
 import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.tracking.HotelV2Tracking
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.FilterButtonWithCountWidget
 import com.expedia.bookings.widget.MapLoadingOverlayWidget
+import com.expedia.bookings.widget.TextView
 import com.expedia.util.notNullAndObservable
+import com.expedia.util.subscribeInverseVisibility
+import com.expedia.util.subscribeText
+import com.expedia.util.subscribeVisibility
 import com.expedia.vm.HotelResultsViewModel
-import com.google.android.gms.maps.CameraUpdateFactory
-import com.google.android.gms.maps.GoogleMap
-import com.google.android.gms.maps.model.CameraPosition
-import com.google.android.gms.maps.model.LatLng
-import com.mobiata.android.BackgroundDownloader
-import com.mobiata.android.LocationServices
 
-public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : BaseHotelResultsPresenter(context, attrs) {
+class HotelResultsPresenter(context: Context, attrs: AttributeSet) : BaseHotelResultsPresenter(context, attrs) {
     override val filterBtnWithCountWidget: FilterButtonWithCountWidget by bindView(R.id.sort_filter_button_container)
     override val searchThisArea: Button by bindView(R.id.search_this_area)
     override val loadingOverlay: MapLoadingOverlayWidget by bindView(R.id.map_loading_overlay)
+    var filterBtn: LinearLayout? = null
 
     var viewmodel: HotelResultsViewModel by notNullAndObservable { vm ->
-        vm.hotelResultsObservable.subscribe{
+        vm.hotelResultsObservable.subscribe {
             filterBtnWithCountWidget.visibility = View.VISIBLE
             filterBtnWithCountWidget.translationY = 0f
-            fab.isEnabled = true
+        }
+        mapViewModel.mapInitializedObservable.subscribe{
+            setMapToInitialState(viewmodel.paramsSubject.value?.suggestion)
         }
         vm.hotelResultsObservable.subscribe(listResultsObserver)
         vm.hotelResultsObservable.subscribe(mapViewModel.hotelResultsSubject)
@@ -56,7 +59,7 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Base
         }
 
         vm.paramsSubject.subscribe { params ->
-            setMapToInitialState()
+            setMapToInitialState(params.suggestion)
             showLoading()
             show(ResultsList())
             filterView.sortByObserver.onNext(params.suggestion.isCurrentLocationSearch && !params.suggestion.isGoogleSuggestionSearch)
@@ -90,14 +93,42 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Base
         searchThisArea.visibility = View.GONE
         searchThisArea.setOnClickListener({ view ->
             fab.isEnabled = false
+            animateMapCarouselVisibility(false)
+            clearMarkers()
             hideSearchThisArea()
             doAreaSearch()
             HotelV2Tracking().trackHotelsV2SearchAreaClick()
         })
+
+        inflateAndSetupToolbarMenu()
+        filterView.viewmodel.filterCountObservable.map { it.toString() }.subscribeText(filterCountText)
+        filterView.viewmodel.filterCountObservable.map { it > 0 }.subscribeVisibility(filterCountText)
+        filterView.viewmodel.filterCountObservable.map { it > 0 }.subscribeInverseVisibility(filterPlaceholderImageView)
+
+        filterBtn?.setOnClickListener { view ->
+            show(ResultsFilter())
+            filterView.viewmodel.sortContainerObservable.onNext(false)
+            filterView.toolbar.title = resources.getString(R.string.filter)
+        }
+
+        filterBtnWithCountWidget?.setOnClickListener {
+            show(ResultsFilter())
+            filterView.viewmodel.sortContainerObservable.onNext(true)
+            filterView.toolbar.title = resources.getString(R.string.Sort_and_Filter)
+        }
+    }
+
+    private fun inflateAndSetupToolbarMenu() {
+        val toolbarFilterItemActionView = LayoutInflater.from(context).inflate(R.layout.toolbar_filter_item, null) as LinearLayout
+        filterCountText = toolbarFilterItemActionView.findViewById(R.id.filter_count_text) as TextView
+        filterPlaceholderImageView = toolbarFilterItemActionView.findViewById(R.id.filter_placeholder_icon) as ImageView
+        filterPlaceholderImageView.setImageDrawable(filterPlaceholderIcon)
+        filterBtn = toolbarFilterItemActionView.findViewById(R.id.filter_btn) as LinearLayout
+        filterMenuItem.actionView = toolbarFilterItemActionView
     }
 
     override fun inflate() {
-        View.inflate(getContext(), R.layout.widget_hotel_results, this)
+        View.inflate(context, R.layout.widget_hotel_results, this)
         toolbar.setBackgroundColor(ContextCompat.getColor(context, R.color.hotels_primary_color))
     }
 
@@ -117,7 +148,7 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Base
     }
 
     override fun hideSearchThisArea() {
-        if (searchThisArea?.getVisibility() == View.VISIBLE) {
+        if (searchThisArea.visibility == View.VISIBLE) {
             val anim: Animator = ObjectAnimator.ofFloat(searchThisArea, "alpha", 1f, 0f)
             anim.addListener(object : Animator.AnimatorListener {
                 override fun onAnimationCancel(animation: Animator?) {
@@ -125,7 +156,7 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Base
                 }
 
                 override fun onAnimationEnd(animator: Animator?) {
-                    searchThisArea?.setVisibility(View.GONE)
+                    searchThisArea.visibility = View.GONE
                 }
 
                 override fun onAnimationStart(animator: Animator?) {
@@ -143,56 +174,9 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Base
     }
 
     override fun showSearchThisArea() {
-        if (currentState?.equals(ResultsMap::class.java.name) ?: false && searchThisArea?.visibility == View.GONE) {
-            searchThisArea?.visibility = View.VISIBLE
+        if (currentState?.equals(ResultsMap::class.java.name) ?: false && searchThisArea.visibility == View.GONE) {
+            searchThisArea.visibility = View.VISIBLE
             ObjectAnimator.ofFloat(searchThisArea, "alpha", 0f, 1f).setDuration(DEFAULT_UI_ELEMENT_APPEAR_ANIM_DURATION).start()
         }
     }
-
-    override fun onMapReady(googleMap: GoogleMap?) {
-        super.onMapReady(googleMap)
-        setMapToInitialState()
-    }
-
-    fun setMapToInitialState() {
-        if (isMapReady) {
-            if (viewmodel.paramsSubject.value?.suggestion?.coordinates != null &&
-                    viewmodel.paramsSubject.value?.suggestion?.coordinates?.lat != 0.0 &&
-                    viewmodel.paramsSubject.value?.suggestion?.coordinates?.lng != 0.0) {
-                moveCameraToLatLng(LatLng(viewmodel.paramsSubject.value.suggestion.coordinates.lat,
-                        viewmodel.paramsSubject.value.suggestion.coordinates.lng))
-            } else if (viewmodel.paramsSubject.value?.suggestion?.regionNames?.shortName != null) {
-                val BD_KEY = "geo_search"
-                val bd = BackgroundDownloader.getInstance()
-                bd.cancelDownload(BD_KEY)
-                bd.startDownload(BD_KEY, mGeocodeDownload(viewmodel.paramsSubject.value.suggestion.regionNames.shortName), geoCallback())
-            }
-        }
-    }
-
-    private fun mGeocodeDownload(query: String): BackgroundDownloader.Download<List<Address>?> {
-        return BackgroundDownloader.Download<kotlin.List<android.location.Address>?> {
-            LocationServices.geocodeGoogle(context, query)
-        }
-    }
-
-    private fun geoCallback(): BackgroundDownloader.OnDownloadComplete<List<Address>?> {
-        return BackgroundDownloader.OnDownloadComplete<List<Address>?> { results ->
-            if (results != null && results.isNotEmpty()) {
-                if (results[0].latitude != 0.0 && results[0].longitude != 0.0) {
-                    moveCameraToLatLng(LatLng(results[0].latitude, results[0].longitude))
-                }
-            }
-        }
-    }
-
-    private fun moveCameraToLatLng(latLng: LatLng) {
-        var cameraPosition = CameraPosition.Builder()
-                .target(latLng)
-                .zoom(8f)
-                .build();
-        googleMap?.setPadding(0, 0, 0, 0)
-        googleMap?.moveCamera(CameraUpdateFactory.newCameraPosition(cameraPosition))
-    }
-
 }

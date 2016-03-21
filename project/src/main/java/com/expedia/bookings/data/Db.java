@@ -154,6 +154,13 @@ public class Db {
 		sDb.mPackageSelectedRoom = null;
 	}
 
+	public static void clearPackageHotelRoomSelection() {
+		if (sDb.mPackageSelectedRoom != null) {
+			sDb.mPackageSelectedRoom.ratePlanCode = null;
+			sDb.mPackageSelectedRoom.roomTypeCode = null;
+		}
+	}
+
 	public static void clearPackageFlightSelection() {
 		sDb.mPackageSelectedInboundFlight = null;
 		sDb.mPackageSelectedOutboundFlight = null;
@@ -168,7 +175,7 @@ public class Db {
 		return sDb.mPackageSelectedRoom;
 	}
 
-	public static FlightLeg getPackageSelectedOutboundFlightFlight() {
+	public static FlightLeg getPackageSelectedOutboundFlight() {
 		return sDb.mPackageSelectedOutboundFlight;
 	}
 
@@ -176,7 +183,7 @@ public class Db {
 		sDb.mPackageSelectedOutboundFlight = mPackageSelectedFlight;
 	}
 
-	public static FlightLeg getPackageSelectedInboundFlightFlight() {
+	public static FlightLeg getPackageSelectedInboundFlight() {
 		return sDb.mPackageSelectedInboundFlight;
 	}
 

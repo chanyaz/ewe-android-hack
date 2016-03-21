@@ -3,7 +3,7 @@ package com.expedia.bookings.data.rail.requests;
 import com.expedia.bookings.data.SuggestionV4
 import org.joda.time.LocalDate
 
-public data class RailSearchRequest(val origin: SuggestionV4, val destination: SuggestionV4, val departDate: LocalDate, val returnDate: LocalDate?, val adults: Int, val children: List<Int>) {
+data class RailSearchRequest(val origin: SuggestionV4, val destination: SuggestionV4, val departDate: LocalDate, val returnDate: LocalDate?, val adults: Int, val children: List<Int>) {
 
     class Builder() {
         private var origin: SuggestionV4? = null
@@ -51,15 +51,15 @@ public data class RailSearchRequest(val origin: SuggestionV4, val destination: S
             }
         }
 
-        public fun areRequiredParamsFilled(): Boolean {
+        fun areRequiredParamsFilled(): Boolean {
             return hasOriginAndDestination() && hasStartDate()
         }
 
-        public fun hasStartDate(): Boolean {
+        fun hasStartDate(): Boolean {
             return departDate != null
         }
 
-        public fun hasOriginAndDestination(): Boolean {
+        fun hasOriginAndDestination(): Boolean {
             return origin != null && destination != null
         }
     }

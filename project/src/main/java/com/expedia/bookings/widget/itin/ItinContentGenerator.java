@@ -50,6 +50,7 @@ import com.expedia.bookings.data.trips.ItinCardDataLXAttach;
 import com.expedia.bookings.data.trips.ItineraryManager;
 import com.expedia.bookings.data.trips.Trip;
 import com.expedia.bookings.data.trips.TripComponent.Type;
+import com.expedia.bookings.data.trips.TripFlight;
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.fragment.ItinConfirmRemoveDialogFragment;
 import com.expedia.bookings.graphics.HeaderBitmapDrawable;
@@ -174,6 +175,15 @@ public abstract class ItinContentGenerator<T extends ItinCardData> {
 	// Add to calendar
 
 	public abstract List<Intent> getAddToCalendarIntents();
+
+	// show check in link for flights only
+	public String getCheckInLink() {
+		if (getType() == Type.FLIGHT) {
+			TripFlight tripFlight = (TripFlight) getItinCardData().getTripComponent();
+			return tripFlight.getCheckInLink();
+		}
+		return null;
+	}
 
 	////////////////////////////////////////////////////////////////////////
 	// Itin sharing

@@ -10,15 +10,24 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import com.expedia.bookings.R
+import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.utils.AnimUtils
 import com.expedia.bookings.utils.Constants
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
 import com.expedia.ui.FlightPackageActivity
-import com.expedia.util.*
+import com.expedia.util.notNullAndObservable
+import com.expedia.util.subscribeEnabled
+import com.expedia.util.subscribeInverseVisibility
+import com.expedia.util.subscribeText
+import com.expedia.util.subscribeTextAndVisibility
+import com.expedia.util.subscribeTextColor
+import com.expedia.util.subscribeVisibility
 import com.expedia.vm.BundleFlightViewModel
+import com.expedia.vm.FlightSegmentBreakdown
+import com.expedia.vm.FlightSegmentBreakdownViewModel
 
-public class PackageBundleFlightWidget(context: Context, attrs: AttributeSet?) : CardView(context, attrs) {
+class PackageBundleFlightWidget(context: Context, attrs: AttributeSet?) : CardView(context, attrs) {
     val flightLoadingBar: ImageView by bindView(R.id.flight_loading_bar)
     val flightInfoContainer: ViewGroup by bindView(R.id.flight_info_container)
     val flightCardText: TextView by bindView(R.id.flight_card_view_text)
@@ -26,6 +35,9 @@ public class PackageBundleFlightWidget(context: Context, attrs: AttributeSet?) :
     val flightIcon: ImageView by bindView(R.id.package_flight_icon)
     val flightDetailsIcon: ImageView by bindView(R.id.package_flight_details_icon)
     val flightSelectIcon: ImageView by bindView(R.id.package_flight_select_icon)
+    val flightDetailsContainer: ViewGroup by bindView(R.id.flight_details_container)
+    val flightSegmentWidget: FlightSegmentBreakdownView by bindView(R.id.segment_breakdown)
+    val totalDurationText: TextView by bindView(R.id.flight_total_duration)
 
     var isOutbound = false
 
@@ -33,12 +45,13 @@ public class PackageBundleFlightWidget(context: Context, attrs: AttributeSet?) :
 
         vm.flightTextObservable.subscribeText(flightCardText)
         vm.flightTextColorObservable.subscribeTextColor(flightCardText)
-        vm.flightTextColorObservable.subscribeTextColor(travelInfoText)
+        vm.flightTravelInfoColorObservable.subscribeTextColor(travelInfoText)
         vm.travelInfoTextObservable.subscribeTextAndVisibility(travelInfoText)
         vm.flightDetailsIconObservable.subscribeVisibility(flightDetailsIcon)
         vm.showLoadingStateObservable.subscribeVisibility(flightLoadingBar)
         vm.showLoadingStateObservable.subscribeInverseVisibility(travelInfoText)
         vm.flightInfoContainerObservable.subscribeEnabled(flightInfoContainer)
+        vm.totalDurationObserver.subscribeText(totalDurationText)
         vm.flightIconImageObservable.subscribe { pair: Pair<Int, Int> ->
             flightIcon.setImageResource(pair.first)
             flightIcon.setColorFilter(pair.second)
@@ -64,18 +77,36 @@ public class PackageBundleFlightWidget(context: Context, attrs: AttributeSet?) :
                 flightSelectIcon.visibility = View.GONE
             }
         }
+
+        vm.selectedFlightLegObservable.subscribe { selectedFlight ->
+            var segmentBreakdowns = arrayListOf<FlightSegmentBreakdown>()
+            for (segment in selectedFlight.flightSegments) {
+                segmentBreakdowns.add(FlightSegmentBreakdown(segment, selectedFlight.hasLayover))
+            }
+            flightSegmentWidget.viewmodel.addSegmentRowsObserver.onNext(segmentBreakdowns)
+        }
     }
 
     init {
         View.inflate(getContext(), R.layout.bundle_flight_widget, this)
-        flightInfoContainer.isEnabled = false
-        flightInfoContainer.setOnClickListener {
+        isEnabled = false
+        setOnClickListener {
             if (isOutbound) {
                 openFlightsForDeparture()
             } else {
                 openFlightsForArrival()
             }
         }
+
+        flightDetailsIcon.setOnClickListener {
+            if (flightDetailsContainer.visibility == Presenter.GONE) {
+                expandFlightDetails()
+            } else {
+                collapseFlightDetails()
+            }
+        }
+
+        flightSegmentWidget.viewmodel = FlightSegmentBreakdownViewModel(context)
     }
 
     fun openFlightsForDeparture() {
@@ -86,5 +117,35 @@ public class PackageBundleFlightWidget(context: Context, attrs: AttributeSet?) :
     fun openFlightsForArrival() {
         val intent = Intent(context, FlightPackageActivity::class.java)
         (context as AppCompatActivity).startActivityForResult(intent, Constants.PACKAGE_FLIGHT_ARRIVAL_REQUEST_CODE, null)
+    }
+
+    private fun expandFlightDetails() {
+        flightDetailsContainer.visibility = Presenter.VISIBLE
+        AnimUtils.rotate(flightDetailsIcon)
+    }
+
+    private fun collapseFlightDetails() {
+        flightDetailsContainer.visibility = Presenter.GONE
+        AnimUtils.reverseRotate(flightDetailsIcon)
+        flightDetailsIcon.clearAnimation()
+    }
+
+    private fun isFlightSegmentDetailsExpanded(): Boolean {
+        return flightDetailsContainer.visibility == Presenter.VISIBLE
+    }
+
+    fun backButtonPressed() {
+        if (isFlightSegmentDetailsExpanded()) {
+            collapseFlightDetails()
+        }
+    }
+
+    fun toggleFlightWidget(alpha: Float, isEnabled: Boolean) {
+        travelInfoText.alpha = alpha
+        flightCardText.alpha = alpha
+        flightIcon.alpha = alpha
+        flightDetailsIcon.alpha = alpha
+        this.isEnabled = isEnabled
+        flightDetailsIcon.isEnabled = isEnabled
     }
 }

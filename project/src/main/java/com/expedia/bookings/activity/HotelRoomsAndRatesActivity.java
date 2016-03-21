@@ -44,6 +44,8 @@ public class HotelRoomsAndRatesActivity extends FragmentActivity implements Room
 
 	private DateTime mLastSearchTime;
 
+	private DebugMenu debugMenu;
+
 	// To make up for a lack of FLAG_ACTIVITY_CLEAR_TASK in older Android versions
 	private ActivityKillReceiver mKillReceiver;
 
@@ -53,12 +55,9 @@ public class HotelRoomsAndRatesActivity extends FragmentActivity implements Room
 
 	/**
 	 * Create intent to open this activity in a standard way.
-	 * @param context
-	 * @return
 	 */
 	public static Intent createIntent(Context context) {
-		Intent intent = new Intent(context, HotelRoomsAndRatesActivity.class);
-		return intent;
+		return new Intent(context, HotelRoomsAndRatesActivity.class);
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////////////
@@ -83,6 +82,8 @@ public class HotelRoomsAndRatesActivity extends FragmentActivity implements Room
 
 		setContentView(R.layout.activity_rooms_and_rates);
 		getWindow().setBackgroundDrawable(null);
+
+		debugMenu = new DebugMenu(this, null);
 
 		mRoomsAndRatesFragment = Ui.findSupportFragment(this, getString(R.string.tag_rooms_and_rates));
 
@@ -266,13 +267,13 @@ public class HotelRoomsAndRatesActivity extends FragmentActivity implements Room
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		DebugMenu.onCreateOptionsMenu(this, menu);
+		debugMenu.onCreateOptionsMenu(menu);
 		return super.onCreateOptionsMenu(menu);
 	}
 
 	@Override
 	public boolean onPrepareOptionsMenu(Menu menu) {
-		DebugMenu.onPrepareOptionsMenu(this, menu);
+		debugMenu.onPrepareOptionsMenu(menu);
 		return super.onPrepareOptionsMenu(menu);
 	}
 }

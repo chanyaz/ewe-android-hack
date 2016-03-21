@@ -5,19 +5,10 @@ import com.expedia.bookings.data.packages.PackageSearchParams
 import org.joda.time.Days
 import org.joda.time.LocalDate
 
-public data class HotelSearchParams(val suggestion: SuggestionV4, val checkIn: LocalDate, val checkOut: LocalDate, val adults: Int, val children: List<Int>) {
+data class HotelSearchParams(val suggestion: SuggestionV4, val checkIn: LocalDate, val checkOut: LocalDate, val adults: Int, val children: List<Int>, val shopWithPoints: Boolean) {
     var forPackage = false
 
-    public fun getGuestString() : String {
-        val sb = StringBuilder {
-            append(adults)
-            for (i in 0..children.size() - 1) {
-                append(",")
-                append(children.get(i))
-            }
-        }
-        return sb.toString()
-    }
+    val guestString = listOf(adults).plus(children).joinToString(",")
 
     class Builder(val maxStay: Int) {
         private var suggestion: SuggestionV4? = null
@@ -26,6 +17,7 @@ public data class HotelSearchParams(val suggestion: SuggestionV4, val checkIn: L
         private var adults: Int = 1
         private var children: List<Int> = emptyList()
         private var isPackage: Boolean = false
+        private var shopWithPoints: Boolean = false
 
         fun suggestion(city: SuggestionV4?): Builder {
             this.suggestion = city
@@ -57,40 +49,46 @@ public data class HotelSearchParams(val suggestion: SuggestionV4, val checkIn: L
             return this
         }
 
+        fun shopWithPoints(shopWithPoints: Boolean): Builder {
+            this.shopWithPoints = shopWithPoints
+            return this
+        }
+
         fun build(): HotelSearchParams {
             val location = suggestion ?: throw IllegalArgumentException()
             if (suggestion?.gaiaId == null && suggestion?.coordinates == null) throw IllegalArgumentException()
             val checkInDate = checkIn ?: throw IllegalArgumentException()
             val checkOutDate = checkOut ?: throw IllegalArgumentException()
-            var params = HotelSearchParams(location, checkInDate, checkOutDate, adults, children)
+            var params = HotelSearchParams(location, checkInDate, checkOutDate, adults, children, shopWithPoints)
             params.forPackage = isPackage
             return params
         }
 
-        public fun areRequiredParamsFilled(): Boolean {
+        fun areRequiredParamsFilled(): Boolean {
             return hasOrigin() && hasStartAndEndDates()
         }
 
-        public fun hasStartAndEndDates(): Boolean {
+        fun hasStartAndEndDates(): Boolean {
             return checkIn != null && checkOut != null
         }
 
-        public fun hasOrigin(): Boolean {
+        fun hasOrigin(): Boolean {
             return suggestion != null
         }
 
-        public fun hasValidDates(): Boolean {
+        fun hasValidDates(): Boolean {
             return Days.daysBetween(checkIn, checkOut).days <= maxStay
         }
     }
 
-    public fun guests() : Int {
+    fun guests() : Int {
         return children.size + adults
     }
 }
 
-public fun convertPackageToSearchParams(packageParams: PackageSearchParams, maxStay: Int): HotelSearchParams {
+fun convertPackageToSearchParams(packageParams: PackageSearchParams, maxStay: Int): HotelSearchParams {
     val builder = HotelSearchParams.Builder(maxStay).suggestion(packageParams.destination)
-            .checkIn(packageParams.checkIn).checkOut(packageParams.checkOut).forPackage(true)
+            .checkIn(packageParams.checkIn).checkOut(packageParams.checkOut).adults(packageParams.adults)
+            .children(packageParams.children).forPackage(true)
     return builder.build()
 }

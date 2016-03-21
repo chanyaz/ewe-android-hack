@@ -54,7 +54,7 @@ public class AbacusHelperUtils {
 		};
 	}
 
-	private static void updateAbacus(AbacusResponse abacusResponse, Context context) {
+	public static void updateAbacus(AbacusResponse abacusResponse, Context context) {
 		if (ExpediaBookingApp.isAutomation()) {
 			return;
 		}

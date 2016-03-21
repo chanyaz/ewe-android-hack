@@ -9,8 +9,10 @@ import android.util.AttributeSet
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.LinearLayout
 import com.expedia.bookings.R
 import com.expedia.bookings.bitmaps.PicassoHelper
+import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.HotelMedia
 import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.utils.AnimUtils
@@ -18,10 +20,14 @@ import com.expedia.bookings.utils.Constants
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
 import com.expedia.ui.PackageHotelActivity
-import com.expedia.util.*
+import com.expedia.util.notNullAndObservable
+import com.expedia.util.subscribeInverseVisibility
+import com.expedia.util.subscribeText
+import com.expedia.util.subscribeTextAndVisibility
+import com.expedia.util.subscribeVisibility
 import com.expedia.vm.BundleHotelViewModel
 
-public class PackageBundleHotelWidget(context: Context, attrs: AttributeSet?) : CardView(context, attrs) {
+class PackageBundleHotelWidget(context: Context, attrs: AttributeSet?) : CardView(context, attrs) {
 
     val hotelLoadingBar: ImageView by bindView(R.id.hotel_loading_bar)
     val hotelInfoContainer: ViewGroup by bindView(R.id.hotel_info_container)
@@ -36,15 +42,18 @@ public class PackageBundleHotelWidget(context: Context, attrs: AttributeSet?) : 
     val hotelAddress: TextView by bindView(R.id.hotel_address)
     val hotelCity: TextView by bindView(R.id.hotel_city)
     val hotelFreeCancellation: TextView by bindView(R.id.hotel_free_cancellation)
+    val hotelPromoText: TextView by bindView(R.id.hotel_promo_text)
+    val mainContainer: LinearLayout by bindView(R.id.main_container)
+    val rowContainer: LinearLayout by bindView(R.id.row_container)
 
     var viewModel: BundleHotelViewModel by notNullAndObservable { vm ->
-
         viewModel.hotelRoomGuestObservable.subscribeTextAndVisibility(hotelsRoomGuestInfoText)
         viewModel.hotelRoomInfoObservable.subscribeText(hotelRoomInfo)
         viewModel.hotelRoomTypeObservable.subscribeText(hotelRoomType)
         viewModel.hotelAddressObservable.subscribeText(hotelAddress)
         viewModel.hotelCityObservable.subscribeText(hotelCity)
-        viewModel.hotelFreeCancellationObservable.subscribeText(hotelFreeCancellation)
+        viewModel.hotelFreeCancellationObservable.subscribeTextAndVisibility(hotelFreeCancellation)
+        viewModel.hotelPromoTextObservable.subscribeTextAndVisibility(hotelPromoText)
         viewModel.hotelTextObservable.subscribeText(hotelsText)
         viewModel.hotelDetailsIconObservable.subscribeVisibility(hotelDetailsIcon)
         viewModel.hotelIconImageObservable.subscribe { hotelLuggageIcon.setImageResource(it) }
@@ -63,12 +72,16 @@ public class PackageBundleHotelWidget(context: Context, attrs: AttributeSet?) : 
         viewModel.showLoadingStateObservable.subscribeInverseVisibility(hotelsRoomGuestInfoText)
         viewModel.showLoadingStateObservable.subscribe { showLoading ->
             if (showLoading) {
+                rowContainer.setOnClickListener { null }
                 hotelInfoContainer.isEnabled = false
                 AnimUtils.progressForward(hotelLoadingBar)
                 hotelsText.setTextColor(ContextCompat.getColor(context, R.color.package_bundle_icon_color))
                 hotelLuggageIcon.setColorFilter(ContextCompat.getColor(context, R.color.package_bundle_icon_color))
             } else {
                 hotelInfoContainer.isEnabled = true
+                rowContainer.setOnClickListener {
+                    openHotels()
+                }
                 hotelLoadingBar.clearAnimation()
                 hotelsText.setTextColor(Ui.obtainThemeColor(context, R.attr.primary_color))
                 hotelLuggageIcon.setColorFilter(Ui.obtainThemeColor(context, R.attr.primary_color))
@@ -85,58 +98,52 @@ public class PackageBundleHotelWidget(context: Context, attrs: AttributeSet?) : 
             }
         }
         viewModel.selectedHotelObservable.subscribe {
-            hotelsText.setTextColor(ContextCompat.getColor(context, R.color.package_bundle_icon_color))
+            hotelsText.setTextColor(ContextCompat.getColor(context, R.color.packages_bundle_overview_widgets_primary_text))
             hotelLuggageIcon.setColorFilter(0)
-            hotelsRoomGuestInfoText.setTextColor(ContextCompat.getColor(context, R.color.package_bundle_icon_color))
+            hotelsRoomGuestInfoText.setTextColor(ContextCompat.getColor(context, R.color.packages_bundle_overview_widgets_secondary_text))
+            rowContainer.setOnClickListener {
+                if (mainContainer.visibility == Presenter.GONE) {
+                    expandSelectedHotel()
+                } else {
+                    collapseSelectedHotel()
+                }
+            }
         }
     }
 
     init {
         View.inflate(getContext(), R.layout.bundle_hotel_widget, this)
-        hotelInfoContainer.setOnClickListener {
-            openHotels()
-        }
-        hotelLuggageIcon.setOnClickListener {
-            openHotels()
-        }
-        hotelDetailsIcon.setOnClickListener {
-            if (hotelRoomImage.visibility == Presenter.GONE) {
-                expandSelectedHotel()
-            } else {
-                collapseSelectedHotel()
-            }
-        }
     }
 
     fun openHotels() {
+        Db.clearPackageHotelRoomSelection()
         val intent = Intent(context, PackageHotelActivity::class.java)
         (context as AppCompatActivity).startActivityForResult(intent, Constants.HOTEL_REQUEST_CODE, null)
     }
 
     private fun expandSelectedHotel() {
-        hotelRoomImage.visibility = Presenter.VISIBLE
-        hotelRoomInfo.visibility = Presenter.VISIBLE
-        hotelRoomType.visibility = Presenter.VISIBLE
-        hotelCity.visibility = Presenter.VISIBLE
-        hotelAddress.visibility = Presenter.VISIBLE
-        hotelFreeCancellation.visibility = Presenter.VISIBLE
-        AnimUtils.rotate(hotelDetailsIcon)
+        mainContainer.visibility = Presenter.VISIBLE
     }
 
-    public fun collapseSelectedHotel() {
-        hotelCity.visibility = Presenter.GONE
-        hotelRoomImage.visibility = Presenter.GONE
-        hotelRoomInfo.visibility = Presenter.GONE
-        hotelRoomType.visibility = Presenter.GONE
-        hotelAddress.visibility = Presenter.GONE
-        hotelFreeCancellation.visibility = Presenter.GONE
+    fun collapseSelectedHotel() {
+        mainContainer.visibility = Presenter.GONE
         AnimUtils.reverseRotate(hotelDetailsIcon)
         hotelDetailsIcon.clearAnimation()
     }
 
-    public fun backButtonPressed() {
-        if (hotelRoomImage.visibility == Presenter.VISIBLE) {
+    fun backButtonPressed() {
+        if (mainContainer.visibility == Presenter.VISIBLE) {
             collapseSelectedHotel()
         }
+    }
+
+    fun toggleHotelWidget(alpha: Float, isEnabled: Boolean) {
+        hotelsText.alpha = alpha
+        hotelsRoomGuestInfoText.alpha = alpha
+        hotelLuggageIcon.alpha = alpha
+        hotelDetailsIcon.alpha = alpha
+        this.isEnabled = isEnabled
+        hotelDetailsIcon.isEnabled = isEnabled
+        rowContainer.isEnabled = isEnabled
     }
 }

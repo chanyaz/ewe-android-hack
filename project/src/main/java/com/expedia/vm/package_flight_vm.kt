@@ -5,7 +5,7 @@ import com.expedia.bookings.data.packages.FlightLeg
 import com.expedia.bookings.utils.PackageFlightUtils
 import rx.subjects.BehaviorSubject
 
-public class PackageFlightViewModel(private val context: Context, private val flight: FlightLeg) {
+class PackageFlightViewModel(private val context: Context, private val flight: FlightLeg) {
     val resources = context.resources
 
     val flightTimeObserver = BehaviorSubject.create(PackageFlightUtils.getFlightDepartureArivalTimeAndDays(context, flight))

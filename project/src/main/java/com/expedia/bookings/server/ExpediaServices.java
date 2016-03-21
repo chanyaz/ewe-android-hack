@@ -713,9 +713,9 @@ public class ExpediaServices implements DownloadListener {
 		query.add(new BasicNameValuePair("filterUnavailable", "true"));
 		query.add(new BasicNameValuePair("enableSponsoredListings", "true"));
 
-		boolean isV2HotelApiSearchEnabled =
+		boolean isV2HotelApiSearchBucketOn =
 			Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelSearchDomainV2);
-		if (isV2HotelApiSearchEnabled) {
+		if (isV2HotelApiSearchBucketOn && BuildConfig.DEBUG) {
 			query.add(new BasicNameValuePair("forceV2Search", "true"));
 		}
 
@@ -1203,7 +1203,8 @@ public class ExpediaServices implements DownloadListener {
 		query.add(new BasicNameValuePair(prefix + "lastName", traveler.getLastName()));
 		query.add(new BasicNameValuePair(prefix + "birthDate", dtf.print(traveler.getBirthDate())));
 		query.add(new BasicNameValuePair(prefix + "gender", (traveler.getGender() == Gender.MALE) ? "MALE" : "FEMALE"));
-		query.add(new BasicNameValuePair(prefix + "passengerCategory", traveler.getPassengerCategory().toString()));
+		FlightSearchParams searchParams = Db.getTripBucket().getFlight().getFlightSearchParams();
+		query.add(new BasicNameValuePair(prefix + "passengerCategory", traveler.getPassengerCategory(searchParams).toString()));
 		String assistanceOption;
 		if (traveler.getAssistance() != null) {
 			assistanceOption = traveler.getAssistance().name();

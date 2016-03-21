@@ -4,7 +4,7 @@ import com.expedia.bookings.data.hotels.HotelReviewsResponse
 import com.expedia.util.endlessObserver
 import rx.subjects.BehaviorSubject
 
-public class HotelReviewsPageViewModel() {
+class HotelReviewsPageViewModel() {
 
     var hasReviews = false
     val reviewsListObservable = BehaviorSubject.create<Boolean>()

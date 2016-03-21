@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.expedia.bookings.widget.LXActivityDetailsWidget
+    android:id="@+id/activity_details"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/lx_details_background_color"
+    android:fillViewport="true"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <FrameLayout
+            android:id="@+id/gallery_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#262626">
+
+            <include layout="@layout/section_activity_details_gallery" />
+
+        </FrameLayout>
+
+        <LinearLayout
+            android:id="@+id/activity_details_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/lx_details_background_color"
+            android:orientation="vertical">
+
+
+            <LinearLayout
+                android:id="@+id/recommendation_percentage_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="18dp" >
+
+                <com.expedia.bookings.widget.TextView
+                    android:id="@+id/recommended_percentage"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="4dp"
+                    android:background="@drawable/lx_recommended_percentage_background"
+                    android:gravity="center_vertical"
+                    android:includeFontPadding="false"
+                    android:padding="5dp"
+                    android:textColor="@android:color/white"
+                    android:textSize="12sp" />
+
+                <com.expedia.bookings.widget.TextView
+                    android:id="@+id/recommended_score_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="4dp"
+                    android:gravity="center_vertical"
+                    android:includeFontPadding="false"
+                    android:paddingBottom="10dp"
+                    android:paddingRight="5dp"
+                    android:paddingTop="10dp"
+                    android:text="@string/lx_customers_recommend"
+                    android:textColor="@color/lx_search_result_info_text_color"
+                    android:textSize="12sp" />
+
+            </LinearLayout>
+
+            <View
+                android:id="@+id/recommended_divider"
+                android:layout_width="@dimen/match_parent"
+                android:layout_height="1px"
+                android:background="@drawable/lx_recommended_percentage_background" />
+
+            <include
+                android:id="@+id/highlights"
+                layout="@layout/widget_lx_detail_section_data"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp" />
+
+            <HorizontalScrollView
+                android:id="@+id/offer_dates_scroll_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:scrollbars="none">
+
+                <LinearLayout
+                    android:id="@+id/offer_dates_container"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal" />
+
+            </HorizontalScrollView>
+
+            <include layout="@layout/widget_lx_offer_list" />
+
+            <include
+                android:id="@+id/description"
+                layout="@layout/widget_lx_detail_section_data"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp" />
+
+            <include
+                android:id="@+id/inclusions"
+                layout="@layout/widget_lx_detail_section_data" />
+
+            <include
+                android:id="@+id/exclusions"
+                layout="@layout/widget_lx_detail_section_data" />
+
+            <include
+                android:id="@+id/know_before_you_book"
+                layout="@layout/widget_lx_detail_section_data" />
+
+            <include
+                android:id="@+id/cancellation"
+                layout="@layout/widget_lx_detail_section_data" />
+
+            <include
+                android:id="@+id/location"
+                layout="@layout/widget_lx_detail_section_data" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/recommendations"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="top"
+            android:background="@color/lx_more_like_this"
+            android:orientation="vertical"
+            android:paddingBottom="12dp"
+            android:paddingLeft="12dp"
+            android:paddingRight="12dp"
+            android:paddingTop="12dp"
+            android:visibility="gone">
+
+            <com.expedia.bookings.widget.TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="@string/lx_you_might_also_like"
+                android:textColor="@color/lx_details_heading_text_color"
+                android:textSize="14sp"
+                app:textStyle="bold" />
+
+            <LinearLayout
+                android:id="@+id/more_like_this"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="top"
+                android:layout_marginTop="12dp"
+                android:orientation="vertical" />
+
+        </LinearLayout>
+    </LinearLayout>
+
+</com.expedia.bookings.widget.LXActivityDetailsWidget>

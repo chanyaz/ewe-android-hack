@@ -1,10 +1,6 @@
 package com.expedia.bookings.test
 
 import android.app.Application
-import android.content.Context
-import android.content.res.Resources
-import android.graphics.drawable.Drawable
-import android.widget.ImageView
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.hotels.HotelCreateTripResponse
@@ -14,8 +10,6 @@ import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
-import org.mockito.Matchers
-import org.mockito.Mockito
 import org.robolectric.RuntimeEnvironment
 import java.math.BigDecimal
 import kotlin.test.assertEquals
@@ -23,9 +17,9 @@ import kotlin.test.assertFalse
 import kotlin.test.assertTrue
 
 @RunWith(RobolectricRunner::class)
-public class HotelCheckoutSummaryViewModelTest {
+class HotelCheckoutSummaryViewModelTest {
 
-    public var mockHotelServiceTestRule: MockHotelServiceTestRule = MockHotelServiceTestRule()
+    var mockHotelServiceTestRule: MockHotelServiceTestRule = MockHotelServiceTestRule()
         @Rule get
 
     lateinit private var sut: HotelCheckoutSummaryViewModel

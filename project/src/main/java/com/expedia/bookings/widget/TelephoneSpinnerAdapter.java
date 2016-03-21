@@ -17,12 +17,16 @@ public class TelephoneSpinnerAdapter extends ArrayAdapter<String> {
 	private String[] mCountryNames;
 
 	public TelephoneSpinnerAdapter(Context context) {
-		super(context, R.layout.simple_spinner_item);
-		init(context);
+		this(context, R.layout.simple_spinner_item);
 	}
 
 	public TelephoneSpinnerAdapter(Context context, int textViewResourceId) {
-		super(context, textViewResourceId);
+		this(context, textViewResourceId, R.layout.simple_spinner_dropdown_item);
+	}
+
+	public TelephoneSpinnerAdapter(Context context, int textViewResId, int dropDownViewResId) {
+		super(context, textViewResId);
+		setDropDownViewResource(dropDownViewResId);
 		init(context);
 	}
 
@@ -30,9 +34,6 @@ public class TelephoneSpinnerAdapter extends ArrayAdapter<String> {
 		final Resources res = context.getResources();
 		mCountryPhoneCodes = res.getIntArray(R.array.country_phone_codes);
 		mCountryNames = res.getStringArray(R.array.country_names);
-
-		setDropDownViewResource(R.layout.simple_spinner_dropdown_item);
-
 		fillCountryCodes(context);
 	}
 

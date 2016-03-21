@@ -6,8 +6,6 @@ import java.util.List;
 public class FlightLeg {
 	public int airBookingProviderCode;
 	public String airFareBasisCode;
-	public String airlineLogo;
-	public String airlineLogoURL;
 	public AirlineMessageModel airlineMessageModel;
 	public String arrivalDateFormatted;
 	public String arrivalDateTimeISO;
@@ -50,6 +48,7 @@ public class FlightLeg {
 	public transient String flightPid;
 	public transient String departureLeg;
 	public transient List<Airline> airlines = new ArrayList<>();
+	public transient boolean isBestFlight;
 
 	public static class AirlineMessageModel {
 		public String airlineFeeLink;
@@ -64,6 +63,7 @@ public class FlightLeg {
 		public String airplaneType;
 		public String flightNumber;
 		public String carrier;
+		public String airlineLogoURL;
 		public boolean displayOperatedByAirlineName;
 		public String operatedByAirlineName;
 		public String operatingAirlineCode;

@@ -20,10 +20,12 @@ import com.expedia.bookings.data.TripBucketItemFlight;
 import com.expedia.bookings.data.TripBucketItemHotel;
 import com.expedia.bookings.data.TripBucketItemHotelV2;
 import com.expedia.bookings.data.TripBucketItemLX;
+import com.expedia.bookings.data.TripBucketItemPackages;
 import com.expedia.bookings.data.User;
 import com.expedia.bookings.data.abacus.AbacusUtils;
 import com.expedia.bookings.data.hotels.HotelCreateTripResponse;
 import com.expedia.bookings.data.lx.LXCreateTripResponse;
+import com.expedia.bookings.data.packages.PackageCreateTripResponse;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.utils.FontCache;
@@ -299,6 +301,11 @@ public class AccountButton extends LinearLayout {
 			LXCreateTripResponse createTripResponse = lx == null ? null : lx.getCreateTripResponse();
 			rewardPoints = createTripResponse == null ? "" : createTripResponse.getRewardsPoints();
 			break;
+		case PACKAGES:
+			TripBucketItemPackages pkgItem = Db.getTripBucket().getPackage();
+			PackageCreateTripResponse packageTrip = pkgItem == null ? null : pkgItem.mPackageTripResponse;
+			rewardPoints = packageTrip == null ? "" : String.valueOf(packageTrip.getExpediaRewards().getUpdatedExpediaRewards());
+			break;
 		}
 
 		CharSequence youllEarnRewardsPointsText = "";
@@ -316,8 +323,7 @@ public class AccountButton extends LinearLayout {
 					.fromHtml(mContext.getString(R.string.x_points_for_this_trip_TEMPLATE, rewardPoints));
 				break;
 			case HOTELSV2:
-				youllEarnRewardsPointsText = Html
-					.fromHtml(mContext.getString(R.string.youll_earn_points_TEMPLATE, rewardPoints));
+			case PACKAGES:
 			case HOTELS:
 				boolean isUserBucketedForTest = Db.getAbacusResponse()
 					.isUserBucketedForTest(AbacusUtils.EBAndroidAppHotel3xMessaging);

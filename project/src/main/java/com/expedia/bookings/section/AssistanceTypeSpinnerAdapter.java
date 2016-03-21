@@ -8,6 +8,7 @@ import android.text.Html;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.CheckedTextView;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
@@ -16,7 +17,14 @@ import com.mobiata.android.util.Ui;
 
 public class AssistanceTypeSpinnerAdapter extends BaseAdapter {
 
+	private final int mTextViewId;
+	private final int mDropdownResourceId;
 	private Context mContext;
+	private int selectedIndex;
+
+	public void setSelectedIndex(int position) {
+		selectedIndex = position;
+	}
 
 	class AssistanceSpinnerHelper {
 		AssistanceType mAssistanceType;
@@ -48,7 +56,17 @@ public class AssistanceTypeSpinnerAdapter extends BaseAdapter {
 	private String mFormatString = "%s";
 
 	public AssistanceTypeSpinnerAdapter(Context context) {
+		this(context, R.layout.simple_spinner_traveler_item);
+	}
+
+	public AssistanceTypeSpinnerAdapter(Context context, int textViewId) {
+		this(context, textViewId, R.layout.simple_dropdown_item_2line_dark);
+	}
+
+	public AssistanceTypeSpinnerAdapter(Context context, int textViewId, int dropDownResource) {
 		mContext = context;
+		mTextViewId = textViewId;
+		mDropdownResourceId = dropDownResource;
 		fillAssistanceTypes(context);
 	}
 
@@ -74,11 +92,12 @@ public class AssistanceTypeSpinnerAdapter extends BaseAdapter {
 	public View getView(int position, View convertView, ViewGroup parent) {
 		View retView;
 		if (convertView == null) {
-			retView = Ui.inflate(R.layout.simple_spinner_traveler_item, parent, false);
+			retView = Ui.inflate(mTextViewId, parent, false);
 		}
 		else {
 			retView = convertView;
 		}
+
 		TextView tv = Ui.findView(retView, android.R.id.text1);
 		tv.setText(Html.fromHtml(String.format(mFormatString, getItem(position))));
 		return retView;
@@ -88,7 +107,7 @@ public class AssistanceTypeSpinnerAdapter extends BaseAdapter {
 	public View getDropDownView(int position, View convertView, ViewGroup parent) {
 		View retView;
 		if (convertView == null) {
-			retView = Ui.inflate(R.layout.simple_dropdown_item_2line_dark, parent, false);
+			retView = Ui.inflate(mDropdownResourceId, parent, false);
 		}
 		else {
 			retView = convertView;
@@ -97,10 +116,11 @@ public class AssistanceTypeSpinnerAdapter extends BaseAdapter {
 		//Wheel chair types are long, so we use the second line
 		TextView tv1 = Ui.findView(retView, android.R.id.text1);
 		TextView tv2 = Ui.findView(retView, android.R.id.text2);
+
 		AssistanceType type = getItemAssistanceType(position);
 		if (type.equals(AssistanceType.WHEELCHAIR_CAN_CLIMB_STAIRS)
-				|| type.equals(AssistanceType.WHEELCHAIR_CANNOT_CLIMB_STAIRS)
-				|| type.equals(AssistanceType.WHEELCHAIR_IMMOBILE)) {
+			|| type.equals(AssistanceType.WHEELCHAIR_CANNOT_CLIMB_STAIRS)
+			|| type.equals(AssistanceType.WHEELCHAIR_IMMOBILE)) {
 
 			tv2.setVisibility(View.VISIBLE);
 			tv1.setText(R.string.wheel_chair_needed);
@@ -120,6 +140,15 @@ public class AssistanceTypeSpinnerAdapter extends BaseAdapter {
 			tv2.setText("");
 		}
 
+		if (position == selectedIndex) {
+			if (tv1 instanceof CheckedTextView) {
+				((CheckedTextView) tv1).setChecked(true);
+			}
+			if (tv2 instanceof CheckedTextView) {
+				((CheckedTextView) tv2).setChecked(true);
+			}
+		}
+
 		return retView;
 	}
 
@@ -127,13 +156,13 @@ public class AssistanceTypeSpinnerAdapter extends BaseAdapter {
 		return mAssistanceTypes.get(position).getAssistanceType();
 	}
 
-	public int getAssistanceTypePosition(AssistanceType gender) {
-		if (gender == null) {
+	public int getAssistanceTypePosition(AssistanceType assistanceType) {
+		if (assistanceType == null) {
 			return -1;
 		}
 
 		for (int i = 0; i < mAssistanceTypes.size(); i++) {
-			if (mAssistanceTypes.get(i).getAssistanceType() == gender) {
+			if (mAssistanceTypes.get(i).getAssistanceType() == assistanceType) {
 				return i;
 			}
 		}
@@ -145,15 +174,15 @@ public class AssistanceTypeSpinnerAdapter extends BaseAdapter {
 		mAssistanceTypes = new ArrayList<AssistanceSpinnerHelper>();
 		mAssistanceTypes.add(new AssistanceSpinnerHelper(AssistanceType.NONE, res.getString(R.string.no_assistance)));
 		mAssistanceTypes.add(new AssistanceSpinnerHelper(AssistanceType.WHEELCHAIR_IMMOBILE, res
-				.getString(R.string.wheelchair_immobile)));
+			.getString(R.string.wheelchair_immobile)));
 		mAssistanceTypes.add(new AssistanceSpinnerHelper(AssistanceType.WHEELCHAIR_CAN_CLIMB_STAIRS, res
-				.getString(R.string.wheelchair_stairs_ok)));
+			.getString(R.string.wheelchair_stairs_ok)));
 		mAssistanceTypes.add(new AssistanceSpinnerHelper(AssistanceType.WHEELCHAIR_CANNOT_CLIMB_STAIRS, res
-				.getString(R.string.wheelchair_no_stairs)));
+			.getString(R.string.wheelchair_no_stairs)));
 		mAssistanceTypes.add(new AssistanceSpinnerHelper(AssistanceType.DEAF_WITH_HEARING_DOG, res
-				.getString(R.string.deaf_with_hearing_dog)));
+			.getString(R.string.deaf_with_hearing_dog)));
 		mAssistanceTypes.add(new AssistanceSpinnerHelper(AssistanceType.BLIND_WITH_SEEING_EYE_DOG, res
-				.getString(R.string.blind_with_seeing_eye_dog)));
+			.getString(R.string.blind_with_seeing_eye_dog)));
 
 	}
 

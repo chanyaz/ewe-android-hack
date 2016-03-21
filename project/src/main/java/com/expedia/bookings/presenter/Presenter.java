@@ -131,16 +131,17 @@ public class Presenter extends FrameLayout {
 	}
 
 	public void show(Object newState, int flags) {
-		Log.d("Presenter", "state: " + newState.getClass().getName());
+		Log.d("Presenter", "show state: " + newState.getClass().getName());
 		if (currentState == null) {
 			// If we have a default transition added, execute it.
 			if (toDefaultTransition != null && newState.getClass().getName().equals(toDefaultTransition.state2)) {
-				toDefaultTransition.finalizeTransition(true);
+				toDefaultTransition.endTransition(true);
 			}
 			currentState = newState.getClass().getName();
 			getBackStack().push(newState);
 			return;
 		}
+		Log.d("Presenter", "Current state:" + currentState.getClass().getName());
 		// If we're already at a given state, or we are animating to a new state,
 		// ignore any attempt to show a new state.
 		if (currentState.equals(newState.getClass().getName()) || acceptAnimationUpdates) {
@@ -238,10 +239,6 @@ public class Presenter extends FrameLayout {
 		public void endTransition(boolean forward) {
 			// empty
 		}
-
-		public void finalizeTransition(boolean forward) {
-			// empty
-		}
 	}
 
 	public static class TransitionWrapper {
@@ -303,15 +300,14 @@ public class Presenter extends FrameLayout {
 		public DefaultTransition(String defaultState) {
 			super(null, defaultState);
 		}
+	}
 
-		public void startTransition(boolean forward) {
-		}
+	public boolean hasDefaultTransition() {
+		return (toDefaultTransition != null);
+	}
 
-		public void updateTransition(float f, boolean forward) {
-		}
-
-		public void endTransition(boolean forward) {
-		}
+	public Transition getDefaultTransition() {
+		return toDefaultTransition;
 	}
 
 	public void addDefaultTransition(DefaultTransition transition) {
@@ -403,7 +399,6 @@ public class Presenter extends FrameLayout {
 		public void onAnimationEnd(Animator animator) {
 			logAnimStats();
 			transition.endTransition(meta.forward);
-			transition.finalizeTransition(meta.forward);
 			currentState = meta.getDestination();
 			acceptAnimationUpdates = false;
 		}
