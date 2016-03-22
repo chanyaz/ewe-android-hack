@@ -10,7 +10,10 @@
     <color name="cars_lob_btn">@color/lob_btn_color</color>
     <color name="lx_lob_btn">@color/lob_btn_color</color>
 
-    <color name="launch_tab_indicator_orbitz">@color/action_bar_text_blue_orbitz</color>
+    <!-- Launch colors -->
+    <color name="launch_toolbar_background_color">@color/action_bar_bg_color</color>
+    <color name="launch_tab_indicator">@color/action_bar_text_blue_orbitz</color>
+
     <color name="launch_actionbar_color_orbitz">@color/action_bar_bg_color</color>
     <color name="action_bar_text_blue_orbitz">#7baed4</color>
     <color name="review_screen_tab_indicator">#00B1FF</color>

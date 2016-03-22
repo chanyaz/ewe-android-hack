@@ -23,12 +23,6 @@
         <item name="android:textAllCaps">true</item>
     </style>
 
-    <style name="Dark.ActionBar.CheapTickets" parent="Dark.ActionBar">
-        <item name="android:background">@drawable/bg_action_bar</item>
-        <item name="android:backgroundSplit">@drawable/bg_action_bar_bottom</item>
-        <item name="android:titleTextStyle">@style/ActionBarTitle</item>
-    </style>
-
     <style name="ActionBarTitle" parent="@android:style/TextAppearance.Holo.Widget.ActionBar.Title">
         <item name="android:textColor">@color/actionbar_text</item>
     </style>

@@ -116,7 +116,7 @@
         <item name="skin_itinCardOverflowDrawable">@drawable/ic_overflow_white</item>
         <item name="skin_itinCardActionBarCheckmark">@drawable/ic_action_bar_checkmark_white</item>
         <item name="skin_itinCardTitleTextColor">@color/itin_white_text</item>
-        <item name="skin_launchTabIndicatorColor">@color/launch_tab_indicator_orbitz</item>
+        <item name="skin_launchTabIndicatorColor">@color/launch_tab_indicator</item>
         <item name="skin_tripsTabText">@string/Your_Trips</item>
     </style>
 

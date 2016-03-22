@@ -5,4 +5,8 @@
         <item name="android:progressDrawable">@drawable/ratingbar_star_hotel_details_small</item>
     </style>
 
+    <style name="ActionBarTitle" parent="@android:style/TextAppearance.Holo.Widget.ActionBar.Title">
+        <item name="android:textColor">@color/action_bar_flight_text_color</item>
+    </style>
+
 </resources>

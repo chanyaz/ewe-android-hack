@@ -9,15 +9,17 @@
     <color name="actionbar_text_color">#D00000</color>
     <color name="actionbar_text_color_disabled">#90D00000</color>
 
+    <!-- Launch colors -->
+    <color name="launch_toolbar_background_color">@color/action_bar_bg_color</color>
+    <color name="launch_tab_indicator">@color/actionbar_text_color</color>
+
     <color name="lob_btn_color">#116FAA</color>
     <color name="hotel_lob_btn">@color/lob_btn_color</color>
     <color name="flights_lob_btn">@color/lob_btn_color</color>
     <color name="cars_lob_btn">@color/lob_btn_color</color>
     <color name="lx_lob_btn">@color/lob_btn_color</color>
 
-    <color name="launch_tab_indicator">@color/action_bar_text_blue</color>
     <color name="action_bar_selected_tab_underline_color">@color/launch_tab_indicator</color>
-    <color name="launch_actionbar_color">@color/action_bar_bg_color</color>
     <color name="actionbar_tab_text_selected">#D00000</color>
     <color name="actionbar_tab_text_unselected">#CACDCF</color>
     <color name="action_bar_text_blue">#D00000</color>

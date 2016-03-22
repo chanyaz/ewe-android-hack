@@ -86,7 +86,7 @@
 
     <!-- Override the phone theme -->
     <style name="Theme.Phone" parent="@style/Theme.CheapTickets">
-        <item name="android:actionBarStyle" tools:targetApi="11">@style/Dark.ActionBar.CheapTickets</item>
+        <item name="android:actionBarStyle" tools:targetApi="11">@style/Dark.ActionBar</item>
         <item name="android:actionBarTabStyle">@style/LaunchActionBarTabCheapTicketsStyle</item>
     </style>
 
@@ -97,6 +97,7 @@
         <item name="android:actionOverflowButtonStyle">@style/OverflowMenuButton</item>
         <item name="actionOverflowButtonStyle">@style/OverflowMenuButton</item>
         <item name="skin_flightLineColor">@color/flight_trip</item>
+
         <!-- PopupMenu -->
         <item name="skin_itinActivityPlaceholderDrawable">@drawable/itin_header_placeholder_activities</item>
         <item name="skin_itinCarPlaceholderDrawable">@drawable/default_cars_background</item>
@@ -126,7 +127,7 @@
 
     <style name="ItineraryTheme" parent="Theme.CheapTickets">
         <item name="android:logo" tools:targetApi="11">@drawable/ic_ab_logo</item>
-        <item name="android:actionBarStyle" tools:targetApi="11">@style/Dark.ActionBar.CheapTickets</item>
+        <item name="android:actionBarStyle" tools:targetApi="11">@style/Dark.ActionBar</item>
 
         <!-- PopupMenu -->
         <item name="skin_itinActivityPlaceholderDrawable">@drawable/itin_header_placeholder_activities</item>
