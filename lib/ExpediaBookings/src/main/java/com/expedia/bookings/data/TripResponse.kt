@@ -81,7 +81,11 @@ abstract class TripResponse : BaseApiResponse() {
     }
 
     //Note: Invoking this makes sense on the response received from Create-Trip only, so we are not dealing with
-    fun newTripPaymentSplits(): PaymentSplits {
+    fun paymentSplitsForNewCreateTrip(swpOpted: Boolean): PaymentSplits {
+        return if (isExpediaRewardsRedeemable() && swpOpted) paymentSplitsWhenMaxPayableWithPoints() else paymentSplitsWhenZeroPayableWithPoints()
+    }
+
+    fun paymentSplitsSuggestionsForNewCreateTrip(): PaymentSplits {
         return if (isExpediaRewardsRedeemable()) paymentSplitsWhenMaxPayableWithPoints() else paymentSplitsWhenZeroPayableWithPoints()
     }
 
@@ -97,7 +101,7 @@ abstract class TripResponse : BaseApiResponse() {
         }
     }
 
-    fun paymentSplitsSuggestions(pwpOpted: Boolean): PaymentSplits {
+    fun paymentSplitsSuggestionsForPriceChange(pwpOpted: Boolean): PaymentSplits {
         if (!isExpediaRewardsRedeemable()) {
             return paymentSplitsWhenZeroPayableWithPoints()
         } else if (!pwpOpted) {

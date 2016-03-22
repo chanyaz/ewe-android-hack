@@ -16,7 +16,7 @@ public interface IPayWithPointsViewModel {
     val userToggledPwPSwitchWithUserEnteredBurnedAmountSubject: PublishSubject<Pair<Boolean, String>>
 
     //OUTLETS
-    val enablePwPToggle: Observable<Unit>
+    val updatePwPToggle: Observable<Boolean>
     val burnAmountUpdate: Observable<String>
     val pwpWidgetVisibility: Observable<Boolean>
     val totalPointsAndAmountAvailableToRedeem: Observable<String>

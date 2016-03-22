@@ -9,8 +9,10 @@ import com.expedia.bookings.utils.UserAccountRefresher
 import com.squareup.phrase.Phrase
 import rx.subjects.BehaviorSubject
 import java.text.NumberFormat
+import com.expedia.bookings.data.payment.PaymentModel
+import com.expedia.bookings.data.hotels.HotelCreateTripResponse
 
-class ShopWithPointsViewModel(val context: Context) {
+class ShopWithPointsViewModel(val context: Context, val paymentModel: PaymentModel<HotelCreateTripResponse>) {
 
     val isShopWithPointsAvailableObservable = UserAccountRefresher.userAccountRefreshed
             .startWith(User.isLoggedIn(context))
@@ -32,4 +34,7 @@ class ShopWithPointsViewModel(val context: Context) {
     private fun isShopWithPointsAvailable(isUserLoggedIn: Boolean): Boolean = isUserLoggedIn && PointOfSale.getPointOfSale().isSWPEnabledForHotels
             && Db.getUser().loyaltyMembershipInformation?.isAllowedToShopWithPoints ?: false
 
+    init {
+        shopWithPointsToggleObservable.subscribe(paymentModel.swpOpted)
+    }
 }

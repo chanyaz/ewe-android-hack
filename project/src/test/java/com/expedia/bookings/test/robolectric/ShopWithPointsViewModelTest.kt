@@ -6,16 +6,22 @@ import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.Traveler
 import com.expedia.bookings.data.User
 import com.expedia.bookings.data.UserLoyaltyMembershipInformation
+import com.expedia.bookings.data.hotels.HotelCreateTripResponse
+import com.expedia.bookings.data.payment.PaymentModel
+import com.expedia.bookings.services.LoyaltyServices
 import com.expedia.bookings.test.robolectric.shadows.ShadowAccountManagerEB
 import com.expedia.bookings.test.robolectric.shadows.ShadowGCM
 import com.expedia.bookings.test.robolectric.shadows.ShadowUserManager
+import com.expedia.bookings.testrule.ServicesRule
 import com.expedia.bookings.utils.UserAccountRefresher
 import com.expedia.vm.ShopWithPointsViewModel
+import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RuntimeEnvironment
 import org.robolectric.annotation.Config
 import rx.observers.TestSubscriber
+import kotlin.properties.Delegates
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
 import kotlin.test.assertTrue
@@ -24,13 +30,18 @@ import kotlin.test.assertTrue
 @Config(shadows = arrayOf(ShadowGCM::class, ShadowUserManager::class, ShadowAccountManagerEB::class))
 class ShopWithPointsViewModelTest {
 
+    var loyaltyServiceRule = ServicesRule(LoyaltyServices::class.java)
+        @Rule get
+
     lateinit private var shopWithPointsViewModel: ShopWithPointsViewModel
+    lateinit private var paymentModel: PaymentModel<HotelCreateTripResponse>
 
     private val context = RuntimeEnvironment.application
 
     @Test
     fun loggedOutUser() {
-        shopWithPointsViewModel = ShopWithPointsViewModel(context)
+        paymentModel = PaymentModel<HotelCreateTripResponse>(loyaltyServiceRule.services!!)
+        shopWithPointsViewModel = ShopWithPointsViewModel(context, paymentModel)
         val testObserver: TestSubscriber<Boolean> = TestSubscriber.create()
         shopWithPointsViewModel.isShopWithPointsAvailableObservable.subscribe(testObserver)
 
@@ -43,7 +54,8 @@ class ShopWithPointsViewModelTest {
     fun loggedInUserWithoutLoyaltyPoints() {
         UserLoginTestUtil.Companion.setupUserAndMockLogin(mockUser())
 
-        shopWithPointsViewModel = ShopWithPointsViewModel(context)
+        paymentModel = PaymentModel<HotelCreateTripResponse>(loyaltyServiceRule.services!!)
+        shopWithPointsViewModel = ShopWithPointsViewModel(context, paymentModel)
         val testObserver: TestSubscriber<Boolean> = TestSubscriber.create()
         shopWithPointsViewModel.isShopWithPointsAvailableObservable.subscribe(testObserver)
 
@@ -60,7 +72,8 @@ class ShopWithPointsViewModelTest {
         loyaltyInfo.isAllowedToShopWithPoints = true
         user.loyaltyMembershipInformation = loyaltyInfo
         UserLoginTestUtil.Companion.setupUserAndMockLogin(user)
-        shopWithPointsViewModel = ShopWithPointsViewModel(context)
+        paymentModel = PaymentModel<HotelCreateTripResponse>(loyaltyServiceRule.services!!)
+        shopWithPointsViewModel = ShopWithPointsViewModel(context, paymentModel)
 
         val testObserver: TestSubscriber<Boolean> = TestSubscriber.create()
         shopWithPointsViewModel.isShopWithPointsAvailableObservable.subscribe(testObserver)
@@ -83,7 +96,8 @@ class ShopWithPointsViewModelTest {
         user.loyaltyMembershipInformation = loyaltyInfo
         UserLoginTestUtil.Companion.setupUserAndMockLogin(user)
 
-        shopWithPointsViewModel = ShopWithPointsViewModel(context)
+        paymentModel = PaymentModel<HotelCreateTripResponse>(loyaltyServiceRule.services!!)
+        shopWithPointsViewModel = ShopWithPointsViewModel(context, paymentModel)
 
         val testObserver: TestSubscriber<Boolean> = TestSubscriber.create()
         shopWithPointsViewModel.isShopWithPointsAvailableObservable.subscribe(testObserver)
@@ -111,7 +125,8 @@ class ShopWithPointsViewModelTest {
 
     @Test
     fun loyaltyHeaderChangeTest() {
-        shopWithPointsViewModel = ShopWithPointsViewModel(context)
+        paymentModel = PaymentModel<HotelCreateTripResponse>(loyaltyServiceRule.services!!)
+        shopWithPointsViewModel = ShopWithPointsViewModel(context, paymentModel)
         val headerTestObservable = TestSubscriber.create<String>()
         shopWithPointsViewModel.swpHeaderStringObservable.subscribe(headerTestObservable)
 
