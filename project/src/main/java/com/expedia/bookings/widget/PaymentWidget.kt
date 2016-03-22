@@ -339,7 +339,11 @@ public open class PaymentWidget(context: Context, attr: AttributeSet) : Presente
 
     /** Save card to account **/
     private fun shouldShowSaveDialog(): Boolean {
-        return getLineOfBusiness() == LineOfBusiness.HOTELSV2 && User.isLoggedIn(context) &&
+        return (getLineOfBusiness() == LineOfBusiness.HOTELSV2
+                || getLineOfBusiness() == LineOfBusiness.LX
+                || getLineOfBusiness() == LineOfBusiness.CARS
+                || getLineOfBusiness() == LineOfBusiness.TRANSPORT
+                ) && User.isLoggedIn(context) &&
                 !sectionBillingInfo.billingInfo.saveCardToExpediaAccount &&
                 workingBillingInfoChanged() &&
                 Db.getWorkingBillingInfoManager().workingBillingInfo.storedCard == null
