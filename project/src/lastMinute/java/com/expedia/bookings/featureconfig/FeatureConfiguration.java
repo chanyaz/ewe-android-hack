@@ -316,5 +316,10 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 		return true;
 	}
 
+	@Override
+	public int getRewardsLayoutId() {
+		return 0;
+	}
+
 }
 

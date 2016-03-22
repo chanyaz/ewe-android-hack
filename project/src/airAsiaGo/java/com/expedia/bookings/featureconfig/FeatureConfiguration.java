@@ -297,4 +297,9 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 	public boolean isNewHotelEnabled() {
 		return false;
 	}
+
+	@Override
+	public int getRewardsLayoutId() {
+		return 0;
+	}
 }

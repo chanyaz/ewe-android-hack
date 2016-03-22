@@ -4,10 +4,13 @@ import android.app.Activity
 import android.content.Context
 import android.util.AttributeSet
 import android.view.View
+import android.view.ViewStub
 import android.widget.LinearLayout
+import com.expedia.bookings.BuildConfig
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.payment.PaymentSplitsType
+import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
 import com.expedia.util.notNullAndObservable
@@ -24,8 +27,7 @@ class PaymentWidgetV2(context: Context, attr: AttributeSet) : PaymentWidget(cont
     val remainingBalanceAmount: TextView by bindView(R.id.remaining_balance_amount)
     val totalDueTodayAmount: TextView by bindView(R.id.total_due_today_amount)
 
-    val pwpWidget: PayWithPointsWidget by bindView(R.id.pwp_widget)
-    val orbucksWidget: OrbucksWidget by bindView(R.id.orbucks_widget)
+    val rewardWidget: ViewStub by bindView(R.id.reward_widget_stub)
     var paymentSplitsType = PaymentSplitsType.IS_FULL_PAYABLE_WITH_CARD
     var isRewardsRedeemable: Boolean = false
     var isFullPayableWithPoints: Boolean = false
@@ -63,6 +65,15 @@ class PaymentWidgetV2(context: Context, attr: AttributeSet) : PaymentWidget(cont
     override fun init(vm: PaymentViewModel) {
         super.init(vm)
         Ui.getApplication(context).hotelComponent().inject(this)
+    }
+
+    override fun onFinishInflate() {
+        super.onFinishInflate()
+        val layoutId = ProductFlavorFeatureConfiguration.getInstance().rewardsLayoutId
+        if(layoutId != 0){
+            rewardWidget.layoutResource = layoutId
+            rewardWidget.inflate();
+        }
     }
 
     override fun shouldShowPaymentOptions(): Boolean {

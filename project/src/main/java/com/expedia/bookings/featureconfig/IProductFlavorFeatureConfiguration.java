@@ -128,4 +128,6 @@ public interface IProductFlavorFeatureConfiguration {
 	boolean isAbacusTestEnabled();
 
 	boolean isNewHotelEnabled();
+
+	int getRewardsLayoutId();
 }
