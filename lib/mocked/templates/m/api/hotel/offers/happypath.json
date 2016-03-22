@@ -237,6 +237,372 @@
                     "description": "Free Airport Shuttle"
                 }
             ]
+        },
+        {
+            "bedTypes": [
+                {
+                    "description": "3 double",
+                    "id": "22"
+                }
+            ],
+            "cancellationPolicy": "<p>We understand that sometimes plans fall through. We do not charge a cancel or change fee. When the hotel charges such fees in accordance with its own policies, the cost will be passed on to you. Palace Hotel - Luxury Collection charges the following cancellation and change fees.</p><p>Cancellations or changes made before 4:00 PM (hotel local time) on September 27, 2014 or no-shows are subject to a hotel fee equal to the first night's rate plus taxes and fees.</p><p>Cancellations or changes made after 4:00 PM (hotel local time) on September 27, 2014 or no-shows are subject to a hotel fee equal to 100% of the total amount paid for the reservation.</p><p>Your room will be guaranteed for late arrival.</p><p>Hotel supplier loyalty points and/or airline miles may not be awarded when booking an Expedia Special Rate hotel.</p>",
+            "currentAllotment": "13",
+            "depositRequired": false,
+            "guaranteeRequired": false,
+            "hasFreeCancellation": false,
+            "immediateChargeRequired": true,
+            "isDiscountRestrictedToCurrentSourceType": false,
+            "isPayLater": false,
+            "isSameDayDRR": false,
+            "minGuestAge": "0",
+            "nonRefundable": true,
+            "productKey": "happypath_pwp_points_only",
+            "promoDescription": "",
+            "quotedOccupancy": "4",
+            "rateChange": false,
+            "rateDescription": "happypath_pwp_points_only",
+            "rateInfo": {
+                "chargeableRateInfo": {
+                    "airAttached": false,
+                    "averageBaseRate": "1029.00",
+                    "averageRate": "1029.00",
+                    "checkoutPriceType": "total",
+                    "currencyCode": "USD",
+                    "currencySymbol": "$",
+                    "discountPercent": "20",
+                    "formattedTotalPriceWithMandatoryFees": "$ 2,394.88",
+                    "maxNightlyRate": "1029.00",
+                    "nightlyRateTotal": "2058.00",
+                    "nightlyRatesPerRoom": [
+                        {
+                            "baseRate": "1029.00",
+                            "promo": "false",
+                            "rate": "1029.00"
+                        },
+                        {
+                            "baseRate": "1029.00",
+                            "promo": "false",
+                            "rate": "1029.00"
+                        }
+                    ],
+                    "priceAdjustments": [],
+                    "priceToShowUsers": "1029",
+                    "ratePlanCode": "202384972",
+                    "resortFeeInclusion": false,
+                    "roomTypeCode": "200410806",
+                    "showResortFeeMessage": false,
+                    "strikethroughPriceToShowUsers": "1029",
+                    "strikethroughPriceWithTaxesAndFeesToShowUsers": "2395",
+                    "surchargeTotal": "168.44",
+                    "surchargeTotalForEntireStay": "336.88",
+                    "surcharges": [
+                        {
+                            "amount": "147.38",
+                            "type": "TAX_ALL"
+                        },
+                        {
+                            "amount": "147.38",
+                            "type": "TAX_OTHER"
+                        },
+                        {
+                            "amount": "21.06",
+                            "type": "FEE_ALL"
+                        },
+                        {
+                            "amount": "21.06",
+                            "type": "FEE_MISC"
+                        }
+                    ],
+                    "surchargesForEntireStay": [
+                        {
+                            "amount": "294.76",
+                            "type": "TAX_ALL"
+                        },
+                        {
+                            "amount": "294.76",
+                            "type": "TAX_OTHER"
+                        },
+                        {
+                            "amount": "42.12",
+                            "type": "FEE_ALL"
+                        },
+                        {
+                            "amount": "42.12",
+                            "type": "FEE_MISC"
+                        }
+                    ],
+                    "taxStatusType": "ESTIMATED",
+                    "total": "2394.88",
+                    "totalMandatoryFees": "0.00",
+                    "totalPriceWithMandatoryFees": "2394.88",
+                    "userPriceType": "PerNightRateNoTaxes"
+                },
+                "priceBreakdown": true,
+                "promo": true,
+                "rateChange": false
+            },
+            "rateOccupancyPerRoom": "7",
+            "ratePlanCode": "202384972",
+            "roomLongDescription": "   2 double   Get a good night's sleep with premium bedding and blackout drapes/curtains. Wired and wireless Internet access (surcharge) keeps you connected, and the 37-inch flat-screen TV is offered for your entertainment. You can request an in-room massage. You will have a shower/tub combination, as well as bathrobes, designer toiletries, and complimentary toiletries. Air conditioning, complimentary bottled water, and a laptop-compatible safe are among the conveniences offered. This room is Non-Smoking.   ",
+            "roomThumbnailUrl": "/hotels/1000000/30000/27300/27274/27274_178_d.jpg",
+            "roomTypeCode": "200410806",
+            "roomTypeDescription": "happypath_pwp_points_only",
+            "smokingPreferences": "NS",
+            "supplierType": "MERCHANT",
+            "valueAdds": [
+                {
+                    "id": "2",
+                    "description": "Continental Breakfast"
+                },
+                {
+                    "id": "32768",
+                    "description": "Free Airport Shuttle"
+                }
+            ]
+        },
+        {
+            "bedTypes": [
+                {
+                    "description": "4 double",
+                    "id": "23"
+                }
+            ],
+            "cancellationPolicy": "<p>We understand that sometimes plans fall through. We do not charge a cancel or change fee. When the hotel charges such fees in accordance with its own policies, the cost will be passed on to you. Palace Hotel - Luxury Collection charges the following cancellation and change fees.</p><p>Cancellations or changes made before 4:00 PM (hotel local time) on September 27, 2014 or no-shows are subject to a hotel fee equal to the first night's rate plus taxes and fees.</p><p>Cancellations or changes made after 4:00 PM (hotel local time) on September 27, 2014 or no-shows are subject to a hotel fee equal to 100% of the total amount paid for the reservation.</p><p>Your room will be guaranteed for late arrival.</p><p>Hotel supplier loyalty points and/or airline miles may not be awarded when booking an Expedia Special Rate hotel.</p>",
+            "currentAllotment": "13",
+            "depositRequired": false,
+            "guaranteeRequired": false,
+            "hasFreeCancellation": false,
+            "immediateChargeRequired": true,
+            "isDiscountRestrictedToCurrentSourceType": false,
+            "isPayLater": false,
+            "isSameDayDRR": false,
+            "minGuestAge": "0",
+            "nonRefundable": true,
+            "productKey": "happypath_pwp_points_with_card",
+            "promoDescription": "",
+            "quotedOccupancy": "4",
+            "rateChange": false,
+            "rateDescription": "happypath_pwp_points_with_card",
+            "rateInfo": {
+                "chargeableRateInfo": {
+                    "airAttached": false,
+                    "averageBaseRate": "1029.00",
+                    "averageRate": "1029.00",
+                    "checkoutPriceType": "total",
+                    "currencyCode": "USD",
+                    "currencySymbol": "$",
+                    "discountPercent": "20",
+                    "formattedTotalPriceWithMandatoryFees": "$ 4,394.88",
+                    "maxNightlyRate": "1029.00",
+                    "nightlyRateTotal": "2058.00",
+                    "nightlyRatesPerRoom": [
+                        {
+                            "baseRate": "1029.00",
+                            "promo": "false",
+                            "rate": "1029.00"
+                        },
+                        {
+                            "baseRate": "1029.00",
+                            "promo": "false",
+                            "rate": "1029.00"
+                        }
+                    ],
+                    "priceAdjustments": [],
+                    "priceToShowUsers": "1029",
+                    "ratePlanCode": "202384972",
+                    "resortFeeInclusion": false,
+                    "roomTypeCode": "200410806",
+                    "showResortFeeMessage": false,
+                    "strikethroughPriceToShowUsers": "1029",
+                    "strikethroughPriceWithTaxesAndFeesToShowUsers": "4395",
+                    "surchargeTotal": "168.44",
+                    "surchargeTotalForEntireStay": "336.88",
+                    "surcharges": [
+                        {
+                            "amount": "147.38",
+                            "type": "TAX_ALL"
+                        },
+                        {
+                            "amount": "147.38",
+                            "type": "TAX_OTHER"
+                        },
+                        {
+                            "amount": "21.06",
+                            "type": "FEE_ALL"
+                        },
+                        {
+                            "amount": "21.06",
+                            "type": "FEE_MISC"
+                        }
+                    ],
+                    "surchargesForEntireStay": [
+                        {
+                            "amount": "294.76",
+                            "type": "TAX_ALL"
+                        },
+                        {
+                            "amount": "294.76",
+                            "type": "TAX_OTHER"
+                        },
+                        {
+                            "amount": "42.12",
+                            "type": "FEE_ALL"
+                        },
+                        {
+                            "amount": "42.12",
+                            "type": "FEE_MISC"
+                        }
+                    ],
+                    "taxStatusType": "ESTIMATED",
+                    "total": "4394.88",
+                    "totalMandatoryFees": "0.00",
+                    "totalPriceWithMandatoryFees": "4394.88",
+                    "userPriceType": "PerNightRateNoTaxes"
+                },
+                "priceBreakdown": true,
+                "promo": true,
+                "rateChange": false
+            },
+            "rateOccupancyPerRoom": "7",
+            "ratePlanCode": "202384872",
+            "roomLongDescription": "   2 double   Get a good night's sleep with premium bedding and blackout drapes/curtains. Wired and wireless Internet access (surcharge) keeps you connected, and the 37-inch flat-screen TV is offered for your entertainment. You can request an in-room massage. You will have a shower/tub combination, as well as bathrobes, designer toiletries, and complimentary toiletries. Air conditioning, complimentary bottled water, and a laptop-compatible safe are among the conveniences offered. This room is Non-Smoking.   ",
+            "roomThumbnailUrl": "/hotels/1000000/30000/27300/27274/27274_178_d.jpg",
+            "roomTypeCode": "200410206",
+            "roomTypeDescription": "happypath_pwp_points_with_card",
+            "smokingPreferences": "NS",
+            "supplierType": "MERCHANT",
+            "valueAdds": [
+                {
+                    "id": "2",
+                    "description": "Continental Breakfast"
+                },
+                {
+                    "id": "32768",
+                    "description": "Free Airport Shuttle"
+                }
+            ]
+        },
+        {
+            "bedTypes": [
+                {
+                    "description": "5 double",
+                    "id": "24"
+                }
+            ],
+            "cancellationPolicy": "<p>We understand that sometimes plans fall through. We do not charge a cancel or change fee. When the hotel charges such fees in accordance with its own policies, the cost will be passed on to you. Palace Hotel - Luxury Collection charges the following cancellation and change fees.</p><p>Cancellations or changes made before 4:00 PM (hotel local time) on September 27, 2014 or no-shows are subject to a hotel fee equal to the first night's rate plus taxes and fees.</p><p>Cancellations or changes made after 4:00 PM (hotel local time) on September 27, 2014 or no-shows are subject to a hotel fee equal to 100% of the total amount paid for the reservation.</p><p>Your room will be guaranteed for late arrival.</p><p>Hotel supplier loyalty points and/or airline miles may not be awarded when booking an Expedia Special Rate hotel.</p>",
+            "currentAllotment": "13",
+            "depositRequired": false,
+            "guaranteeRequired": false,
+            "hasFreeCancellation": false,
+            "immediateChargeRequired": true,
+            "isDiscountRestrictedToCurrentSourceType": false,
+            "isPayLater": false,
+            "isSameDayDRR": false,
+            "minGuestAge": "0",
+            "nonRefundable": true,
+            "productKey": "happypath_pwp_points_with",
+            "promoDescription": "",
+            "quotedOccupancy": "4",
+            "rateChange": false,
+            "rateDescription": "happypath_pwp_points_with",
+            "rateInfo": {
+                "chargeableRateInfo": {
+                    "airAttached": false,
+                    "averageBaseRate": "1029.00",
+                    "averageRate": "1029.00",
+                    "checkoutPriceType": "total",
+                    "currencyCode": "USD",
+                    "currencySymbol": "$",
+                    "discountPercent": "20",
+                    "formattedTotalPriceWithMandatoryFees": "$ 4,394.88",
+                    "maxNightlyRate": "1029.00",
+                    "nightlyRateTotal": "2058.00",
+                    "nightlyRatesPerRoom": [
+                        {
+                            "baseRate": "1029.00",
+                            "promo": "false",
+                            "rate": "1029.00"
+                        },
+                        {
+                            "baseRate": "1029.00",
+                            "promo": "false",
+                            "rate": "1029.00"
+                        }
+                    ],
+                    "priceAdjustments": [],
+                    "priceToShowUsers": "1029",
+                    "ratePlanCode": "202384972",
+                    "resortFeeInclusion": false,
+                    "roomTypeCode": "200410806",
+                    "showResortFeeMessage": false,
+                    "strikethroughPriceToShowUsers": "1029",
+                    "strikethroughPriceWithTaxesAndFeesToShowUsers": "4395",
+                    "surchargeTotal": "168.44",
+                    "surchargeTotalForEntireStay": "336.88",
+                    "surcharges": [
+                        {
+                            "amount": "147.38",
+                            "type": "TAX_ALL"
+                        },
+                        {
+                            "amount": "147.38",
+                            "type": "TAX_OTHER"
+                        },
+                        {
+                            "amount": "21.06",
+                            "type": "FEE_ALL"
+                        },
+                        {
+                            "amount": "21.06",
+                            "type": "FEE_MISC"
+                        }
+                    ],
+                    "surchargesForEntireStay": [
+                        {
+                            "amount": "294.76",
+                            "type": "TAX_ALL"
+                        },
+                        {
+                            "amount": "294.76",
+                            "type": "TAX_OTHER"
+                        },
+                        {
+                            "amount": "42.12",
+                            "type": "FEE_ALL"
+                        },
+                        {
+                            "amount": "42.12",
+                            "type": "FEE_MISC"
+                        }
+                    ],
+                    "taxStatusType": "ESTIMATED",
+                    "total": "4394.88",
+                    "totalMandatoryFees": "0.00",
+                    "totalPriceWithMandatoryFees": "4394.88",
+                    "userPriceType": "PerNightRateNoTaxes"
+                },
+                "priceBreakdown": true,
+                "promo": true,
+                "rateChange": false
+            },
+            "rateOccupancyPerRoom": "7",
+            "ratePlanCode": "202884872",
+            "roomLongDescription": "   2 double   Get a good night's sleep with premium bedding and blackout drapes/curtains. Wired and wireless Internet access (surcharge) keeps you connected, and the 37-inch flat-screen TV is offered for your entertainment. You can request an in-room massage. You will have a shower/tub combination, as well as bathrobes, designer toiletries, and complimentary toiletries. Air conditioning, complimentary bottled water, and a laptop-compatible safe are among the conveniences offered. This room is Non-Smoking.   ",
+            "roomThumbnailUrl": "/hotels/1000000/30000/27300/27274/27274_178_d.jpg",
+            "roomTypeCode": "200410206",
+            "roomTypeDescription": "happypath_pwp_points_with",
+            "smokingPreferences": "NS",
+            "supplierType": "MERCHANT",
+            "valueAdds": [
+                {
+                    "id": "2",
+                    "description": "Continental Breakfast"
+                },
+                {
+                    "id": "32768",
+                    "description": "Free Airport Shuttle"
+                }
+            ]
         }
     ],
     "hotelStarRating": "4.0",

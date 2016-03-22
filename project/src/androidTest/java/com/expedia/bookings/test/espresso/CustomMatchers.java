@@ -95,6 +95,14 @@ public class CustomMatchers {
 			drawable = drawable.getCurrent();
 			otherDrawable = otherDrawable.getCurrent();
 		}
+		if (drawable instanceof StateListDrawable && otherDrawable instanceof BitmapDrawable) {
+			if (drawable.getCurrent() == null) {
+				return false;
+			}
+			Bitmap bitmap = ((BitmapDrawable) drawable.getCurrent()).getBitmap();
+			Bitmap otherBitmap = ((BitmapDrawable) otherDrawable).getBitmap();
+			return bitmap.sameAs(otherBitmap);
+		}
 		if (drawable instanceof BitmapDrawable) {
 			Bitmap bitmap = ((BitmapDrawable) drawable).getBitmap();
 			Bitmap otherBitmap = ((BitmapDrawable) otherDrawable).getBitmap();

@@ -22,6 +22,7 @@ import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.action.ViewActions.closeSoftKeyboard;
 import static android.support.test.espresso.action.ViewActions.scrollTo;
 import static android.support.test.espresso.action.ViewActions.typeText;
+import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.RootMatchers.withDecorView;
 import static android.support.test.espresso.matcher.ViewMatchers.isDescendantOfA;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
@@ -30,6 +31,7 @@ import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withParent;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.CoreMatchers.allOf;
+import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.not;
 
@@ -46,6 +48,18 @@ public class CheckoutViewModel {
 
 	public static ViewInteraction addCreditCard() {
 		return onView(withId(R.id.payment_option_credit_debit));
+	}
+	public static ViewInteraction purchaseTextAboveSlider() {
+		return onView(withId(R.id.purchase_total_text_view));
+	}
+	public static ViewInteraction accountEarnPointSection() {
+		return onView(withId(R.id.account_rewards_container));
+	}
+	public static ViewInteraction accountEarnPointText() {
+		return onView(withId(R.id.account_rewards_textview));
+	}
+	public static ViewInteraction cardInfoName() {
+		return onView(withId(R.id.card_info_name));
 	}
 
 	public static void clickDriverInfo() {
@@ -128,7 +142,7 @@ public class CheckoutViewModel {
 		Espresso.closeSoftKeyboard();
 		onView(withText(travelername))
 			.inRoot(withDecorView(
-				not(is(SpoonScreenshotUtils.getCurrentActivity().getWindow().getDecorView()))))
+					not(is(SpoonScreenshotUtils.getCurrentActivity().getWindow().getDecorView()))))
 			.perform(click());
 	}
 
@@ -168,6 +182,15 @@ public class CheckoutViewModel {
 		onView(withId(R.id.login_widget)).perform(click());
 	}
 
+	public static void signInOnCheckout() {
+		enterLoginDetails();
+		pressDoLogin();
+	}
+	public static void signInOnCheckout(String username,String password) {
+		enterLoginDetails(username,password);
+		pressDoLogin();
+	}
+
 	public static void clickDone() {
 		onView(withId(R.id.menu_done)).perform(click());
 	}
@@ -176,6 +199,11 @@ public class CheckoutViewModel {
 		clickLogin();
 		enterUsername("qa-ehcc@mobiata.com");
 		enterPassword("password");
+	}
+	public static void enterLoginDetails(String username,String password) {
+		clickLogin();
+		enterUsername(username);
+		enterPassword(password);
 	}
 
 	public static void enterTravelerInfo() {
@@ -257,7 +285,11 @@ public class CheckoutViewModel {
 	public static void waitForSlideToPurchase() {
 		onView(withId(R.id.slide_to_purchase_widget)).perform(ViewActions.waitForViewToDisplay());
 	}
-
+	public static void assertSlideToPurchaseDisplayed() {
+		onView(withId(R.id.touch_target)).check(matches(isDisplayed()));
+		onView(withId(R.id.slider_text)).check(matches(withText("Slide to purchase")));
+		onView(withId(R.id.slide_to_purchase_widget)).check(matches(isDisplayed()));
+	}
 	public static void waitForCheckout() {
 		Matcher<View> displayedAndFilled = allOf(isDisplayed(), CustomMatchers.withAtLeastChildCount(1));
 		onView(withId(R.id.summary_container)).perform(ViewActions.waitFor(displayedAndFilled, 10, TimeUnit.SECONDS));
@@ -290,5 +322,17 @@ public class CheckoutViewModel {
 
 	public static void scrollToPriceChangeMessage() {
 		onView(withId(R.id.price_change_container)).perform(scrollTo());
+	}
+	public static  void assertPurchaseTotalText(String purchaseText) {
+		purchaseTextAboveSlider().check(matches(withText(purchaseText)));
+	}
+	public static  void assertCardInfoText(String cardTest) {
+		cardInfoName().check(matches(withText(cardTest)));
+	}
+	public static  void assertRewardPointsSectionDisplayed() {
+		accountEarnPointSection().check(matches(isDisplayed()));
+	}
+	public static  void assertEarnPointsText(String earnPoints) {
+		accountEarnPointText().check(matches(isDisplayed())).check(matches(withText(containsString(earnPoints))));
 	}
 }
