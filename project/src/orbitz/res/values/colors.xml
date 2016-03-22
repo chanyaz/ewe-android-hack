@@ -26,7 +26,7 @@
     <color name="tablet_results_search_blue_orbitz">#608405</color>
     <color name="launch_pin_detail_button_text_orbitz">#D1EAFF</color>
     <color name="calendar_cell_selected_date_text">#ffffff</color>
-    <color name="hotel_promo_background">#C4204B</color>
+    <color name="hotel_promo_background">#00253C</color>
     <color name="launch_card_back_container_color">#393939</color>
     <color name="launch_card_explore_now_background_color">#4791C0</color>
     <color name="destination_list_launch_card_title_text_color">#003E6F</color>
