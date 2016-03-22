@@ -307,6 +307,43 @@
         <item name="skin_tripsTabText">@string/trips</item>
     </style>
 
+
+    <!-- TODO rename it to launch theme, remove old screen launch theme and all properties are placeholder !-->
+    <style name="NewLaunchTheme" parent="AppTheme.Base.Cars">
+
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:colorPrimaryDark">#04445e</item>
+        <item name="android:colorButtonNormal">@color/packages_primary_color</item>
+        <item name="colorAccent">@color/packages_primary_color</item>
+        <item name="android:colorEdgeEffect">@color/packages_primary_color</item>
+        <item name="primary_color">@color/packages_primary_color</item>
+
+        <!-- PopupMenu -->
+        <item name="android:dropDownListViewStyle">@android:style/Widget.Holo.Light.ListView.DropDown</item>
+        <item name="skin_itinActivityPlaceholderDrawable">@drawable/itin_header_placeholder_activities</item>
+        <item name="skin_itinCarPlaceholderDrawable">@drawable/default_flights_background</item>
+        <item name="skin_itinCruisePlaceholderDrawable">@drawable/itin_header_placeholder_cruises</item>
+        <item name="skin_itinHotelPlaceholderDrawable">@drawable/bg_itin_placeholder</item>
+        <item name="skin_itinFlightPlaceholderDrawable">@drawable/bg_itin_placeholder_flight</item>
+        <item name="skin_itinDefaultPlaceholderDrawable">@drawable/bg_itin_fallback_activity</item>
+        <item name="skin_itinCardTitleBackground">@drawable/bg_itin_card_title</item>
+        <item name="skin_itinCardBackground">@drawable/bg_itin_card</item>
+        <item name="skin_itinFlightsTripLineColor">@color/itin_flight_line_color</item>
+        <item name="skin_itinHotelAttachButtonDrawable">@drawable/btn_hotel_attach</item>
+        <item name="skin_itinAirAttachButtonDrawable">@drawable/btn_hotel_attach_normal</item>
+        <item name="skin_itinDismissListSelectorDrawable">?android:attr/selectableItemBackground</item>
+        <item name="skin_candycaneProgressDrawable">@drawable/progressbar_candycane_horizontal</item>
+        <item name="skin_icTypeCircleFlight">@drawable/ic_type_circle_flight</item>
+        <item name="skin_icTypeCircleHotel">@drawable/ic_type_circle_hotel</item>
+        <item name="skin_itinCardOverflowDrawable">@drawable/ic_overflow_white</item>
+        <item name="skin_itinCardActionBarCheckmark">@drawable/ic_action_bar_checkmark_white</item>
+        <item name="skin_itinCardTitleTextColor">@color/itin_white_text</item>
+        <item name="skin_flightLineColor">@color/flight_trip</item>
+        <item name="skin_launchTabIndicatorColor">@color/launch_tab_indicator</item>
+        <item name="skin_tripsTabText">@string/trips</item>
+    </style>
+
     <!-- Override this theme in whitelabels to provide whitelabel specific theme values. -->
     <style name="Theme.AccountLib" parent="Theme.Base.AccountLib">
         <item name="skin_acctLogoSmallDrawable">@drawable/acct__logo_small</item>
