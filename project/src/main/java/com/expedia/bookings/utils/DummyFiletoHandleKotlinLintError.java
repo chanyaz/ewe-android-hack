@@ -505,6 +505,11 @@ DummyFiletoHandleKotlinLintError {
 		R.layout.orbucks_widget,
 		R.string.paying_with_orbucks,
 		R.string.orbucks_available_TEMPLATE,
-		R.string.orbucks_applied_TEMPLATE
+		R.string.orbucks_applied_TEMPLATE,
+		R.string.you_are_using_orbucks_TEMPLATE,
+		R.string.payment_through_card_and_orbucks,
+		R.string.checkout_paying_with_orbucks_only_line1,
+		R.string.checkout_paying_with_orbucks_and_card_line1,
+		R.string.checkout_payment_options_orbucks
 	};
 }

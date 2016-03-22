@@ -16,6 +16,7 @@ import com.expedia.bookings.data.hotels.HotelCreateTripResponse
 import com.expedia.bookings.data.hotels.HotelRate
 import com.expedia.bookings.data.payment.PaymentModel
 import com.expedia.bookings.data.payment.PaymentSplitsType
+import com.expedia.bookings.data.payment.ProgramName
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.services.HotelCheckoutResponse
 import com.expedia.bookings.services.HotelServices
@@ -177,16 +178,23 @@ class HotelCheckoutOverviewViewModel(val context: Context, val paymentModel: Pay
                     val paymentSplitsType = it.paymentSplits.paymentSplitsType()
                     val isRewardsRedeemable = it.tripResponse.isRewardsRedeemable()
                     val dueNowAmount = it.tripResponse.getTripTotal()
+                    val programName = it.tripResponse.getProgramName()
                 }
             }.map {
                 when (it.isRewardsRedeemable) {
                     true ->
                         when (it.paymentSplitsType) {
                             PaymentSplitsType.IS_FULL_PAYABLE_WITH_POINT ->
-                                Phrase.from(context, R.string.you_are_using_expedia_points_TEMPLATE)
-                                        .put("amount", it.payingWithPoints.amount.formattedMoneyFromAmountAndCurrencyCode)
-                                        .put("points", NumberFormat.getInstance().format(it.payingWithPoints.points))
-                                        .format().toString()
+                                if (it.programName == ProgramName.ExpediaRewards) {
+                                    Phrase.from(context, R.string.you_are_using_expedia_points_TEMPLATE)
+                                            .put("amount", it.payingWithPoints.amount.formattedMoneyFromAmountAndCurrencyCode)
+                                            .put("points", NumberFormat.getInstance().format(it.payingWithPoints.points))
+                                            .format().toString()
+                                } else {
+                                    Phrase.from(context, R.string.you_are_using_orbucks_TEMPLATE)
+                                            .put("amount", it.payingWithPoints.amount.formattedMoneyFromAmountAndCurrencyCode)
+                                            .format().toString()
+                                }
 
                             PaymentSplitsType.IS_FULL_PAYABLE_WITH_CARD ->
                                 Phrase.from(context, R.string.your_card_will_be_charged_template)
@@ -194,11 +202,18 @@ class HotelCheckoutOverviewViewModel(val context: Context, val paymentModel: Pay
                                         .format().toString()
 
                             PaymentSplitsType.IS_PARTIAL_PAYABLE_WITH_CARD ->
-                                Phrase.from(context, R.string.payment_through_card_and_pwp_points)
-                                        .put("amount", it.payingWithPoints.amount.formattedMoneyFromAmountAndCurrencyCode)
-                                        .put("points", NumberFormat.getInstance().format(it.payingWithPoints.points))
-                                        .put("dueamount", it.payingWithCards.amount.formattedMoneyFromAmountAndCurrencyCode)
-                                        .format().toString()
+                                if (it.programName == ProgramName.ExpediaRewards) {
+                                    Phrase.from(context, R.string.payment_through_card_and_pwp_points)
+                                            .put("amount", it.payingWithPoints.amount.formattedMoneyFromAmountAndCurrencyCode)
+                                            .put("points", NumberFormat.getInstance().format(it.payingWithPoints.points))
+                                            .put("dueamount", it.payingWithCards.amount.formattedMoneyFromAmountAndCurrencyCode)
+                                            .format().toString()
+                                } else {
+                                    Phrase.from(context, R.string.payment_through_card_and_orbucks)
+                                            .put("amount", it.payingWithPoints.amount.formattedMoneyFromAmountAndCurrencyCode)
+                                            .put("dueamount", it.payingWithCards.amount.formattedMoneyFromAmountAndCurrencyCode)
+                                            .format().toString()
+                                }
                         }
                     false -> Phrase.from(context, R.string.your_card_will_be_charged_template)
                             .put("dueamount", it.dueNowAmount.formattedMoney).format().toString()

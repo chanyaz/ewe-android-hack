@@ -229,7 +229,8 @@ public class AccountButton extends LinearLayout {
 		if (isRewardsEnabled && traveler.getLoyaltyMembershipTier() != Traveler.LoyaltyMembershipTier.NONE) {
 			//Show Rewards Category Text View
 			expediaPlusRewardsCategoryTextView.setVisibility(View.VISIBLE);
-			expediaPlusRewardsCategoryTextView.setText(expediaPlusRewardsCategoryTextResId);
+			expediaPlusRewardsCategoryTextView.setText(Phrase.from(this, expediaPlusRewardsCategoryTextResId)
+				.put("brand", BuildConfig.brand).format());
 			expediaPlusRewardsCategoryTextView.setTextColor(getResources().getColor(expediaPlusRewardsCategoryColorResId));
 			//Show Reward Points Container
 			mRewardsContainer.setVisibility(View.VISIBLE);

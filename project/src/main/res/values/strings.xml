@@ -3047,19 +3047,19 @@
     <!-- Label for sign out confirmation -->
     <string name="sign_out_confirmation_TEMPLATE">Are you sure you want to sign out of your {brand} account?</string>
     <!-- Label for Expedia +blue rewards program name -->
-    <string name="reward_plus_blue">Expedia +blue</string>
+    <string name="reward_plus_blue">{brand} +blue</string>
     <!-- Label for Expedia +blue rewards tier without brand name -->
     <string name="plus_blue">+blue</string>
     <!-- Label for Expedia +silver rewards program name -->
-    <string name="reward_plus_silver">Expedia +silver</string>
+    <string name="reward_plus_silver">{brand} +silver</string>
     <!-- Label for Expedia +silver rewards tier without brand name-->
     <string name="plus_silver">+silver</string>
     <!-- Label for Expedia +gold rewards program name -->
-    <string name="reward_plus_gold">Expedia +gold</string>
+    <string name="reward_plus_gold">{brand} +gold</string>
     <!-- Label for Expedia +gold rewards tier without brand name -->
     <string name="plus_gold">+gold</string>
     <!-- Label for Expedia +platinum rewards program name -->
-    <string name="reward_plus_platinum">Expedia +platinum</string>
+    <string name="reward_plus_platinum">{brand} +platinum</string>
     <!-- Label for Expedia +platinum rewards tier without brand name -->
     <string name="plus_platinum">+platinum</string>
     <!-- Label for loading user profile from Expedia -->
@@ -4063,9 +4063,14 @@
     <!-- Label for feeds/scratchpad card indicating source of given information -->
     <string name="via_scratchpad_label">via Scratchpad</string>
 
-    <!-- -->
+    <!-- Orbucks -->
     <string name="paying_with_orbucks">Paying with Orbucks</string>
     <string name="orbucks_available_TEMPLATE">{money} in Orbucks available</string>
     <string name="orbucks_applied_TEMPLATE">{money} Orbucks applied</string>
+    <string name="you_are_using_orbucks_TEMPLATE">You are using {amount} in Orbucks</string>
+    <string name="payment_through_card_and_orbucks">You are using {amount} in Orbucks\nYour card will be charged {dueamount}</string>
 
+    <string name="checkout_paying_with_orbucks_only_line1">Paying with Orbucks</string>
+    <string name="checkout_paying_with_orbucks_and_card_line1">Paying with Orbucks &amp; {carddescription}</string>
+    <string name="checkout_payment_options_orbucks">Credit card, pay with orbucks</string>
 </resources>
