@@ -441,6 +441,11 @@ public class AccountSettingsActivity extends AppCompatActivity implements AboutS
 					memberTierView.setTextColor(ContextCompat.getColor(this, R.color.expedia_plus_gold_text));
 					memberTierView.setText(R.string.plus_gold);
 					break;
+				case PLATINUM:
+					memberTierView.setBackgroundResource(R.drawable.bg_loyalty_badge_top_tier);
+					memberTierView.setTextColor(ContextCompat.getColor(this, R.color.expedia_plus_gold_text));
+					memberTierView.setText(R.string.plus_platinum);
+					break;
 				}
 
 				TextView availablePointsTextView = Ui.findView(this, R.id.available_points);

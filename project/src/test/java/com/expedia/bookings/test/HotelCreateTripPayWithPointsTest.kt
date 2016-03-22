@@ -19,8 +19,8 @@ class HotelCreateTripPayWithPointsTest {
         val createTripResponse = mockHotelServiceTestRule.getLoggedInUserWithRedeemablePointsCreateTripResponse()
         Db.getTripBucket().add(TripBucketItemHotelV2(createTripResponse))
         Assert.assertNotNull(createTripResponse.pointsDetails)
-        Assert.assertNotNull(createTripResponse.getPointDetails(ProgramName.ExpediaRewards))
-        val pointDetails = createTripResponse.getPointDetails(ProgramName.ExpediaRewards)!!
+        Assert.assertNotNull(createTripResponse.getPointDetails())
+        val pointDetails = createTripResponse.getPointDetails()!!
         Assert.assertTrue(pointDetails.isAllowedToRedeem)
         Assert.assertNotNull(pointDetails.totalAvailable)
         Assert.assertNotNull(pointDetails.maxPayableWithPoints)
@@ -37,8 +37,8 @@ class HotelCreateTripPayWithPointsTest {
         val createTripResponse = mockHotelServiceTestRule.getLoggedInUserWithNonRedeemeblePointsCreateTripResponse()
         Db.getTripBucket().add(TripBucketItemHotelV2(createTripResponse))
         Assert.assertNotNull(createTripResponse.pointsDetails)
-        Assert.assertNotNull(createTripResponse.getPointDetails(ProgramName.ExpediaRewards))
-        val pointDetails = createTripResponse.getPointDetails(ProgramName.ExpediaRewards)!!
+        Assert.assertNotNull(createTripResponse.getPointDetails())
+        val pointDetails = createTripResponse.getPointDetails()!!
         Assert.assertFalse(pointDetails.isAllowedToRedeem)
         Assert.assertNotNull(pointDetails.totalAvailable)
         Assert.assertNull(pointDetails.maxPayableWithPoints)
@@ -56,7 +56,7 @@ class HotelCreateTripPayWithPointsTest {
         // No Pay with points details returned for guest users
         Assert.assertNull(createTripResponse.pointsDetails)
         Assert.assertFalse(ValidPayment.isPaymentTypeSupported(createTripResponse.validFormsOfPayment, PaymentType.POINTS_EXPEDIA_REWARDS))
-        Assert.assertNull(createTripResponse.getPointDetails(ProgramName.ExpediaRewards))
+        Assert.assertNull(createTripResponse.getPointDetails())
     }
 
     @After

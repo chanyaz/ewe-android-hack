@@ -52,7 +52,7 @@ public class User implements JSONable {
 	private List<StoredCreditCard> mStoredCreditCards = new ArrayList<>();
 	private List<StoredPointsCard> mStoredPointsCards = new ArrayList<>();
 
-	private String mExpediaRewardsMembershipId;
+	private String mRewardsMembershipId;
 	private UserLoyaltyMembershipInformation loyaltyMembershipInformation;
 
 	private static final String[] ADDRESS_LINE_KEYS = new String[] { "firstAddressLine", "secondAddressLine" };
@@ -113,12 +113,12 @@ public class User implements JSONable {
 		return null;
 	}
 
-	public String getExpediaRewardsMembershipId() {
-		return mExpediaRewardsMembershipId;
+	public String getRewardsMembershipId() {
+		return mRewardsMembershipId;
 	}
 
-	public void setExpediaRewardsMembershipId(String expediaRewardsMembershipId) {
-		this.mExpediaRewardsMembershipId = expediaRewardsMembershipId;
+	public void setRewardsMembershipId(String rewardsMembershipId) {
+		this.mRewardsMembershipId = rewardsMembershipId;
 	}
 
 	public void setLoyaltyMembershipInformation(UserLoyaltyMembershipInformation loyaltyMembershipInformation) {
@@ -499,7 +499,7 @@ public class User implements JSONable {
 		mStoredPointsCards = JSONUtils.getJSONableList(obj, "storedPointsCards", StoredPointsCard.class);
 
 		mAssociatedTravelers = JSONUtils.getJSONableList(obj, "associatedTravelers", Traveler.class);
-		mExpediaRewardsMembershipId = obj.optString("loyaltyAccountNumber");
+		mRewardsMembershipId = obj.optString("loyaltyAccountNumber");
 
 		loyaltyMembershipInformation = JSONUtils.getJSONable(obj, "loyaltyMembershipInformation", UserLoyaltyMembershipInformation.class);
 		return true;

@@ -502,6 +502,7 @@ public class BookingInfoUtils {
 			put(PaymentType.CARD_MASTERCARD, R.drawable.ic_tablet_checkout_mastercard);
 			put(PaymentType.CARD_VISA, R.drawable.ic_tablet_checkout_visa);
 			put(PaymentType.POINTS_EXPEDIA_REWARDS, R.drawable.pwp_icon);
+			put(PaymentType.POINTS_ORBUCKS_REWARDS, R.drawable.pwp_icon);
 		}
 	};
 

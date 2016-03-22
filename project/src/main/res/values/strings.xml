@@ -3047,17 +3047,21 @@
     <!-- Label for sign out confirmation -->
     <string name="sign_out_confirmation_TEMPLATE">Are you sure you want to sign out of your {brand} account?</string>
     <!-- Label for Expedia +blue rewards program name -->
-    <string name="Expedia_plus_blue">Expedia +blue</string>
+    <string name="reward_plus_blue">Expedia +blue</string>
     <!-- Label for Expedia +blue rewards tier without brand name -->
     <string name="plus_blue">+blue</string>
     <!-- Label for Expedia +silver rewards program name -->
-    <string name="Expedia_plus_silver">Expedia +silver</string>
+    <string name="reward_plus_silver">Expedia +silver</string>
     <!-- Label for Expedia +silver rewards tier without brand name-->
     <string name="plus_silver">+silver</string>
     <!-- Label for Expedia +gold rewards program name -->
-    <string name="Expedia_plus_gold">Expedia +gold</string>
+    <string name="reward_plus_gold">Expedia +gold</string>
     <!-- Label for Expedia +gold rewards tier without brand name -->
     <string name="plus_gold">+gold</string>
+    <!-- Label for Expedia +platinum rewards program name -->
+    <string name="reward_plus_platinum">Expedia +platinum</string>
+    <!-- Label for Expedia +platinum rewards tier without brand name -->
+    <string name="plus_platinum">+platinum</string>
     <!-- Label for loading user profile from Expedia -->
     <string name="loading_brand_account_TEMPLATE">Loading {brand} Account</string>
     <!-- Label for coupon code area of booking form -->
@@ -4058,5 +4062,10 @@
     <string name="flight_search_card_title">Flight Search</string>
     <!-- Label for feeds/scratchpad card indicating source of given information -->
     <string name="via_scratchpad_label">via Scratchpad</string>
+
+    <!-- -->
+    <string name="paying_with_orbucks">Paying with Orbucks</string>
+    <string name="orbucks_available_TEMPLATE">{money} in Orbucks available</string>
+    <string name="orbucks_applied_TEMPLATE">{money} Orbucks applied</string>
 
 </resources>

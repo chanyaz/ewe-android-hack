@@ -107,6 +107,14 @@
             android:layout_height="wrap_content"
             android:orientation="vertical" />
 
+        <com.expedia.bookings.widget.OrbucksWidget
+            android:id="@+id/orbucks_widget"
+            style="@style/PayWithPointWidget"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
+            android:orientation="horizontal" />
+
         <LinearLayout
             android:id="@+id/remaining_balance"
             android:layout_width="match_parent"

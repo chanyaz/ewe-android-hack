@@ -175,11 +175,11 @@ class HotelCheckoutOverviewViewModel(val context: Context, val paymentModel: Pay
                     val payingWithPoints = it.paymentSplits.payingWithPoints
                     val payingWithCards = it.paymentSplits.payingWithCards
                     val paymentSplitsType = it.paymentSplits.paymentSplitsType()
-                    val isExpediaRewardsRedeemable = it.tripResponse.isExpediaRewardsRedeemable()
+                    val isRewardsRedeemable = it.tripResponse.isRewardsRedeemable()
                     val dueNowAmount = it.tripResponse.getTripTotal()
                 }
             }.map {
-                when (it.isExpediaRewardsRedeemable) {
+                when (it.isRewardsRedeemable) {
                     true ->
                         when (it.paymentSplitsType) {
                             PaymentSplitsType.IS_FULL_PAYABLE_WITH_POINT ->

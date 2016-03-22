@@ -84,6 +84,9 @@ public class PointOfSale {
 	// The POS's silver rewards member contact phone number
 	private String mSupportPhoneNumberSilver;
 
+	// The POS's platinum rewards member phone number
+	private String mSupportPhoneNumberPlatinum;
+
 	// The POS's gold rewards member phone number
 	private String mSupportPhoneNumberGold;
 
@@ -549,6 +552,10 @@ public class PointOfSale {
 
 	public String getSupportPhoneNumberGold() {
 		return mSupportPhoneNumberGold;
+	}
+
+	public String getSupportPhoneNumberPlatinum() {
+		return mSupportPhoneNumberPlatinum;
 	}
 
 	public String getSupportEmailSilver() {
@@ -1131,6 +1138,7 @@ public class PointOfSale {
 		pos.mSupportPhoneNumber = parseDeviceSpecificPhoneNumber(context, data, "supportPhoneNumber");
 		pos.mSupportPhoneNumberSilver = parseDeviceSpecificPhoneNumber(context, data, "supportPhoneNumberSilver");
 		pos.mSupportPhoneNumberGold = parseDeviceSpecificPhoneNumber(context, data, "supportPhoneNumberGold");
+		pos.mSupportPhoneNumberPlatinum = parseDeviceSpecificPhoneNumber(context, data, "supportPhoneNumberPlatinum");
 
 		// Support email
 		pos.mSupportEmailGold = data.optString("supportEmailGold", null);

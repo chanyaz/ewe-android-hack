@@ -172,9 +172,9 @@ class CouponWidget(context: Context, attrs: AttributeSet?) : ExpandableCardView(
     private fun submitCoupon(paymentSplits: PaymentSplits, tripResponse: TripResponse) {
         var userPointsPreference: List<UserPreferencePointsDetails> = emptyList()
         //Send 'User Preference Points' only in case Trip is Redeemable
-        if (User.isLoggedIn(context) && tripResponse.isExpediaRewardsRedeemable()) {
+        if (User.isLoggedIn(context) && tripResponse.isRewardsRedeemable()) {
             val payingWithPointsSplit = paymentSplits.payingWithPoints
-            userPointsPreference = listOf(UserPreferencePointsDetails(ProgramName.ExpediaRewards, payingWithPointsSplit))
+            userPointsPreference = listOf(UserPreferencePointsDetails(tripResponse.getProgramName()!!, payingWithPointsSplit))
         }
 
         var couponParams = HotelApplyCouponParameters.Builder()

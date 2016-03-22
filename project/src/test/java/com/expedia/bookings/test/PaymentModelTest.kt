@@ -85,7 +85,7 @@ class PaymentModelTest {
     @Test
     fun testCreateTripForLoggedInUserWithRedeemablePoints() {
         setupCreateTrip(true)
-        val expediaPointDetails = createTripResponse.getPointDetails(ProgramName.ExpediaRewards)
+        val expediaPointDetails = createTripResponse.getPointDetails()
 
         //Expected Payment Split
         var expectedPaymentSplits = PaymentSplits(expediaPointDetails!!.maxPayableWithPoints!!, expediaPointDetails.remainingPayableByCard!!)
@@ -142,8 +142,8 @@ class PaymentModelTest {
     @Test
     fun testCreateTripForLoggedInUserWithRedeemablePointsCurrencyToPointUserSelected() {
         setupCreateTrip(true)
-        val expectedPaymentSplits = PaymentSplits(PointsAndCurrency(14005, PointsType.BURN, Money("100", "USD")),
-                PointsAndCurrency(507, PointsType.EARN, Money("3.7", "USD")))
+        val expectedPaymentSplits = PaymentSplits(PointsAndCurrency(14005f, PointsType.BURN, Money("100", "USD")),
+                PointsAndCurrency(507f, PointsType.EARN, Money("3.7", "USD")))
 
         paymentModel.createTripSubject.onNext(createTripResponse)
         createTripResponseTestSubscriber.assertNoErrors()

@@ -37,7 +37,7 @@ class UserSignInTest {
         val user = signInResponse.user
         assertEquals(0, user.storedCreditCards.size)
         assertEquals(0, user.storedPointsCards.size)
-        assertEquals("", user.expediaRewardsMembershipId)
+        assertEquals("", user.rewardsMembershipId)
     }
 
     @Test
@@ -47,7 +47,7 @@ class UserSignInTest {
         assertEquals(1, user.storedCreditCards.size)
         assertNotNull(user.storedCreditCards[0].id)
         assertEquals(0, user.storedPointsCards.size)
-        assertEquals("", user.expediaRewardsMembershipId)
+        assertEquals("", user.rewardsMembershipId)
     }
 
     @Test
@@ -58,7 +58,7 @@ class UserSignInTest {
         assertEquals(1, user.storedPointsCards.size)
         assertNotNull(user.storedPointsCards[0].paymentsInstrumentId)
         assertNotNull(user.storedPointsCards[0].paymentType)
-        assertEquals("123456", user.expediaRewardsMembershipId)
+        assertEquals("123456", user.rewardsMembershipId)
     }
 
     @Test
@@ -70,7 +70,7 @@ class UserSignInTest {
         assertEquals(1, user.storedPointsCards.size)
         assertNotNull(user.storedPointsCards[0].paymentsInstrumentId)
         assertNotNull(user.storedPointsCards[0].paymentType)
-        assertEquals("123456", user.expediaRewardsMembershipId)
+        assertEquals("123456", user.rewardsMembershipId)
     }
 
     @Test

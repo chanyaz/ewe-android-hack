@@ -150,7 +150,7 @@ class HotelCheckoutPresenter(context: Context, attrs: AttributeSet) : Presenter(
         val payingWithCardsSplit = paymentSplits.payingWithCards
         val payingWithPointsSplit = paymentSplits.payingWithPoints
 
-        val expediaRewardsPointsDetails = hotelCreateTripResponse.getPointDetails(ProgramName.ExpediaRewards)
+        val rewardsPointsDetails = hotelCreateTripResponse.getPointDetails()
 
         val billingInfo = if (Db.getTemporarilySavedCard() != null && Db.getTemporarilySavedCard().saveCardToExpediaAccount)
                             Db.getTemporarilySavedCard()
@@ -183,17 +183,17 @@ class HotelCheckoutPresenter(context: Context, attrs: AttributeSet) : Presenter(
         }
 
         if (!payingWithPointsSplit.amount.isZero) {
-            val expediaPointsCard = Db.getUser().getStoredPointsCard(PaymentType.POINTS_EXPEDIA_REWARDS)
+            val pointsCard = Db.getUser().getStoredPointsCard(hotelCreateTripResponse.getPaymentType())
 
             // If the user has already used points before, points card will be returned in the Sign in response.
-            if (expediaPointsCard != null) {
-                val rewardsSelectedDetails = RewardDetails(paymentInstrumentId = expediaPointsCard.paymentsInstrumentId, programName = ProgramName.ExpediaRewards,
-                        amountToChargeInRealCurrency = payingWithPointsSplit.amount.amount.toFloat(), amountToChargeInVirtualCurrency = payingWithPointsSplit.points, rateId = expediaRewardsPointsDetails!!.rateID, currencyCode = payingWithPointsSplit.amount.currencyCode)
+            if (pointsCard != null) {
+                val rewardsSelectedDetails = RewardDetails(paymentInstrumentId = pointsCard.paymentsInstrumentId, programName = hotelCreateTripResponse.getProgramName()!!,
+                        amountToChargeInRealCurrency = payingWithPointsSplit.amount.amount.toFloat(), amountToChargeInVirtualCurrency = payingWithPointsSplit.points, rateId = rewardsPointsDetails!!.rateID, currencyCode = payingWithPointsSplit.amount.currencyCode)
                 rewardsSelectedForPayment.add(rewardsSelectedDetails)
             }
             else {
-                val rewardsSelectedDetails = RewardDetails(membershipId = Db.getUser().expediaRewardsMembershipId, programName = ProgramName.ExpediaRewards,
-                        amountToChargeInRealCurrency = payingWithPointsSplit.amount.amount.toFloat(), amountToChargeInVirtualCurrency = payingWithPointsSplit.points, rateId = expediaRewardsPointsDetails!!.rateID, currencyCode = payingWithPointsSplit.amount.currencyCode)
+                val rewardsSelectedDetails = RewardDetails(membershipId = Db.getUser().rewardsMembershipId, programName = hotelCreateTripResponse.getProgramName()!!,
+                        amountToChargeInRealCurrency = payingWithPointsSplit.amount.amount.toFloat(), amountToChargeInVirtualCurrency = payingWithPointsSplit.points, rateId = rewardsPointsDetails!!.rateID, currencyCode = payingWithPointsSplit.amount.currencyCode)
                 rewardsSelectedForPayment.add(rewardsSelectedDetails)
             }
         }

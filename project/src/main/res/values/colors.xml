@@ -159,6 +159,8 @@
     <color name="expedia_plus_silver_text">@color/white</color>
     <color name="expedia_plus_gold">#FFC300</color>
     <color name="expedia_plus_gold_text">#403f3f</color>
+    <color name="expedia_plus_platinum">#C4204B</color>
+    <color name="expedia_plus_platinum_text">@color/white</color>
 
     <!-- CVV entry colors -->
     <color name="cvv_normal">@color/white</color>
@@ -399,6 +401,7 @@
     <color name="sign_in_user_tier_blue">#0085c9</color>
     <color name="sign_in_user_tier_silver">#808080</color>
     <color name="sign_in_user_tier_gold">#e7b40d</color>
+    <color name="sign_in_user_tier_platinum">#C4204B</color>
 
     <color name="flight_loading_message_text_color">#575757</color>
     <!-- Error widget button colors -->

@@ -146,6 +146,9 @@ public class CurrencyUtils {
 		else if (type.equals("ExpediaRewards")) {
 			return PaymentType.POINTS_EXPEDIA_REWARDS;
 		}
+		else if (type.equals("Orbucks")) {
+			return PaymentType.POINTS_ORBUCKS_REWARDS;
+		}
 		else {
 			Log.w("Tried to parse an unknown credit card type, name=" + type);
 			return PaymentType.UNKNOWN;

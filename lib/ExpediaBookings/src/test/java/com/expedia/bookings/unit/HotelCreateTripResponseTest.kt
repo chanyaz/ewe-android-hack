@@ -15,16 +15,16 @@ class HotelCreateTripResponseTest {
     @Test
     fun testGetPointDetailsWhenExpediaRewardsNotAvailable() {
         val hotelCreateTripResponse = HotelCreateTripResponse()
-        Assert.assertNull(hotelCreateTripResponse.getPointDetails(ProgramName.ExpediaRewards))
+        Assert.assertNull(hotelCreateTripResponse.getPointDetails())
     }
 
     @Test
     fun testGetPointDetailsWhenExpediaRewardsAvailable() {
         val hotelCreateTripResponse = HotelCreateTripResponse()
         val pointDetails = ArrayList<PointsDetails>()
-        pointDetails.add(PointsDetails(ProgramName.ExpediaRewards, true, 0, PointsAndCurrency(0, PointsType.BURN, Money()), null, null, null, ""))
+        pointDetails.add(PointsDetails(ProgramName.ExpediaRewards, true, 0, PointsAndCurrency(0f, PointsType.BURN, Money()), null, null, null, ""))
         hotelCreateTripResponse.pointsDetails = pointDetails
-        Assert.assertNotNull(hotelCreateTripResponse.getPointDetails(ProgramName.ExpediaRewards))
-        Assert.assertEquals(hotelCreateTripResponse.getPointDetails(ProgramName.ExpediaRewards)!!.programName, ProgramName.ExpediaRewards)
+        Assert.assertNotNull(hotelCreateTripResponse.getPointDetails())
+        Assert.assertEquals(hotelCreateTripResponse.getPointDetails()!!.programName, ProgramName.ExpediaRewards)
     }
 }

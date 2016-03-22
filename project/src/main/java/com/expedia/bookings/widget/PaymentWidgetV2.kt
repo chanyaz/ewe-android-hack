@@ -25,8 +25,9 @@ class PaymentWidgetV2(context: Context, attr: AttributeSet) : PaymentWidget(cont
     val totalDueTodayAmount: TextView by bindView(R.id.total_due_today_amount)
 
     val pwpWidget: PayWithPointsWidget by bindView(R.id.pwp_widget)
+    val orbucksWidget: OrbucksWidget by bindView(R.id.orbucks_widget)
     var paymentSplitsType = PaymentSplitsType.IS_FULL_PAYABLE_WITH_CARD
-    var isExpediaRewardsRedeemable: Boolean = false
+    var isRewardsRedeemable: Boolean = false
     var isFullPayableWithPoints: Boolean = false
 
     var paymentWidgetViewModel by notNullAndObservable<IPaymentWidgetViewModel> { vm ->
@@ -35,9 +36,9 @@ class PaymentWidgetV2(context: Context, attr: AttributeSet) : PaymentWidget(cont
         vm.remainingBalanceDueOnCardVisibility.subscribeVisibility(remainingBalance)
         vm.paymentSplitsAndTripResponse.map { it.isCardRequired() }.subscribeEnabled(sectionCreditCardContainer)
         vm.paymentSplitsAndTripResponse.subscribe {
-            viewmodel.isRedeemable.onNext(it.tripResponse.isExpediaRewardsRedeemable())
+            viewmodel.isRedeemable.onNext(it.tripResponse.isRewardsRedeemable())
             viewmodel.splitsType.onNext(it.paymentSplits.paymentSplitsType())
-            isExpediaRewardsRedeemable = it.tripResponse.isExpediaRewardsRedeemable()
+            isRewardsRedeemable = it.tripResponse.isRewardsRedeemable()
             paymentSplitsType = it.paymentSplits.paymentSplitsType()
             isFullPayableWithPoints = !it.isCardRequired()
             vm.burnAmountApiCallResponsePending.onNext(false)
@@ -65,7 +66,7 @@ class PaymentWidgetV2(context: Context, attr: AttributeSet) : PaymentWidget(cont
     }
 
     override fun shouldShowPaymentOptions(): Boolean {
-        return isExpediaRewardsRedeemable || super.shouldShowPaymentOptions()
+        return isRewardsRedeemable || super.shouldShowPaymentOptions()
     }
 
     override fun validateAndBind() {
