@@ -7,7 +7,11 @@ class PullRequest:
 		self.prId = prId
 		self.files = []
 		self.pr = repo.pull_request(prId)	
-				
+
+	def isOkayToProcess(self, maxCommits):
+		commitCount = self.pr.commits
+		return commitCount < maxCommits
+
 	def addIssueList(self, issues):
 		self.issueList = issues
 
