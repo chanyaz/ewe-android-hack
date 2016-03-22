@@ -2,7 +2,19 @@
 
 TERM=dumb
 
+# ensure python environment for PR Police
+if [ ! -d 'virtualenv' ] ; then
+    virtualenv -p python2.7 virtualenv
+fi
+
+source ./virtualenv/bin/activate
+
+pip install --upgrade "pip"
+pip install enum
+pip install "github3.py==0.9.5"
+
 GITHUB_TOKEN=7d400f5e78f24dbd24ee60814358aa0ab0cd8a76
+
 # Invoke PR Police to check for issues
 python ./jenkins/pr_police/PRPolice.py ${GITHUB_TOKEN} ${ghprbPullId}
 prPoliceStatus=$?
