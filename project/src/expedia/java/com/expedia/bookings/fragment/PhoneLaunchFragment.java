@@ -22,6 +22,7 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.HotelSearchParams;
+import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.abacus.AbacusEvaluateQuery;
 import com.expedia.bookings.data.abacus.AbacusResponse;
 import com.expedia.bookings.data.abacus.AbacusUtils;
@@ -35,6 +36,7 @@ import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.Constants;
 import com.expedia.bookings.utils.NavUtils;
 import com.expedia.bookings.utils.Ui;
+import com.expedia.bookings.utils.UserAccountRefresher;
 import com.expedia.bookings.widget.PhoneLaunchWidget;
 import com.expedia.util.PermissionsHelperKt;
 import com.mobiata.android.Log;
@@ -62,11 +64,13 @@ public class PhoneLaunchFragment extends Fragment implements IPhoneLaunchActivit
 	@InjectView(R.id.phone_launch_widget)
 	PhoneLaunchWidget phoneLaunchWidget;
 
+	UserAccountRefresher userAccountRefresher;
+
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.widget_phone_launch, container, false);
 		ButterKnife.inject(this, view);
-
+		userAccountRefresher = new UserAccountRefresher(getContext(), LineOfBusiness.PROFILE, null);
 		if (!PermissionsHelperKt.havePermissionToAccessLocation(getActivity())) {
 			PermissionsHelperKt.requestLocationPermission(this);
 		}
@@ -80,6 +84,7 @@ public class PhoneLaunchFragment extends Fragment implements IPhoneLaunchActivit
 		Events.post(new Events.PhoneLaunchOnResume());
 		if (checkConnection()) {
 			bucketLaunchScreen();
+			userAccountRefresher.ensureAccountIsRefreshed();
 		}
 		else {
 			phoneLaunchWidget.bindLobWidget();
@@ -309,5 +314,4 @@ public class PhoneLaunchFragment extends Fragment implements IPhoneLaunchActivit
 		params.setChildren(null);
 		NavUtils.goToHotels(getActivity(), params, event.animOptions, 0);
 	}
-
 }
