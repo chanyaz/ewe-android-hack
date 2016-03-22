@@ -3172,10 +3172,16 @@
     <string name="open_source_software_licenses">Open Source Software Licenses</string>
     <!-- String for acrediting the open source libraries we use -->
     <string name="this_app_makes_use_of_the_following">This app makes use of the following open-source libraries:</string>
+
+    <!-- Account settings view -->
     <!-- Label for a field containing the number of points that the user has accrued under the loyalty program (e.g. Expedia+) -->
     <string name="available_loyalty_points">Available points</string>
     <!-- String for showing the number of pending points that the user will accrue under the loyalty program (e.g. Expedia+); parameter is the number of points (e.g. "7,253 pending") -->
     <string name="loyalty_points_pending">%1$s pending</string>
+    <!-- Label (positioned above points) indicating the monetary ($) value of the customers points -->
+    <string name="points_value_label">Points value</string>
+    <!-- Label (positioned above) for customer points value currency -->
+    <string name="currency_label">Currency</string>
 
     <!-- App support WebView -->
     <!-- menu -->

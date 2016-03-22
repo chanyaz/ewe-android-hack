@@ -60,19 +60,6 @@
       }
     ],
    "loyaltyMembershipNumber":"308127915",
-  "loyaltyAmountAvailable": "35.75",
-  "loyaltyMembershipInfo":
-    {
-      "bookingCurrency": "USD",
-      "isAllowedToShopWithPoints": true,
-      "loyaltyAccountNumber": "27052415",
-      "loyaltyAmountAvailable": 35.75,
-      "loyaltyMembershipNumber": "323245899",
-      "loyaltyMemebershipActive": true,
-      "loyaltyMemebershipName": "REWARDS",
-      "loyaltyPointsAvailable": 5000,
-      "loyaltyPointsPending": 0
-    },
    "isSmokingPreferred":false,
    "tsaDetails":{
       "gender":"Male",

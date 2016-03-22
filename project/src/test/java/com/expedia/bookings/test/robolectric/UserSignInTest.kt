@@ -103,8 +103,8 @@ class UserSignInTest {
         val signInResponse = expediaServices.signInWithEmailForAutomationTests(ExpediaServices.F_HOTELS, "silverstatus@mobiata.com")
         val user = signInResponse.user
         assertNotNull(user.loyaltyMembershipInformation)
-        assertTrue(user.loyaltyMembershipInformation.loyaltyPointsAvailable > 0)
-        assertTrue(user.loyaltyMembershipInformation.isAllowedToShopWithPoints)
-        assertEquals("USD", user.loyaltyMembershipInformation.bookingCurrency)
+        assertTrue(user.loyaltyMembershipInformation!!.loyaltyPointsAvailable > 0)
+        assertTrue(user.loyaltyMembershipInformation!!.isAllowedToShopWithPoints)
+        assertEquals("USD", user.loyaltyMembershipInformation!!.bookingCurrency)
     }
 }
