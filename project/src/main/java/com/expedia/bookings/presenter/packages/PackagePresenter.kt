@@ -5,6 +5,7 @@ import android.util.AttributeSet
 import android.view.View
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Db
+import com.expedia.bookings.data.HotelMedia
 import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.packages.PackageCheckoutResponse
 import com.expedia.bookings.data.pos.PointOfSale
@@ -14,9 +15,11 @@ import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.presenter.ScaleTransition
 import com.expedia.bookings.services.PackageServices
 import com.expedia.bookings.utils.CurrencyUtils
+import com.expedia.bookings.utils.Images
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
 import com.expedia.vm.BundleOverviewViewModel
+import com.expedia.vm.PackageCheckoutOverviewViewModel
 import com.expedia.vm.PackageCheckoutViewModel
 import com.expedia.vm.PackageConfirmationViewModel
 import com.expedia.vm.PackageCreateTripViewModel
@@ -64,9 +67,9 @@ class PackagePresenter(context: Context, attrs: AttributeSet) : Presenter(contex
         bundlePresenter.getCheckoutPresenter().createTripViewModel.tripResponseObservable.subscribe(bundlePresenter.getCheckoutPresenter().checkoutViewModel.tripResponseObservable)
         bundlePresenter.getCheckoutPresenter().paymentWidget.viewmodel.billingInfoAndStatusUpdate.map{it.first}.subscribe(bundlePresenter.getCheckoutPresenter().viewModel.paymentCompleted)
         bundlePresenter.getCheckoutPresenter().createTripViewModel.tripResponseObservable.subscribe(bundlePresenter.bundleWidget.viewModel.createTripObservable)
+        bundlePresenter.getCheckoutPresenter().createTripViewModel.tripResponseObservable.subscribe((bundlePresenter.bundleOverviewHeader.checkoutOverviewFloatingToolbar.viewmodel as PackageCheckoutOverviewViewModel).tripResponse)
+        bundlePresenter.getCheckoutPresenter().createTripViewModel.tripResponseObservable.subscribe((bundlePresenter.bundleOverviewHeader.checkoutOverviewHeaderToolbar.viewmodel as PackageCheckoutOverviewViewModel).tripResponse)
         bundlePresenter.getCheckoutPresenter().createTripViewModel.tripResponseObservable.subscribe { trip ->
-            bundlePresenter.bundleOverviewHeader.checkoutOverviewFloatingToolbar.update(trip.packageDetails.hotel, bundlePresenter.bundleOverviewHeader.imageHeader, width)
-            bundlePresenter.bundleOverviewHeader.checkoutOverviewHeaderToolbar.update(trip.packageDetails.hotel, bundlePresenter.bundleOverviewHeader.imageHeader, width)
             bundlePresenter.bundleWidget.setPadding(0, 0, 0, 0)
             expediaRewards = trip.expediaRewards.totalPointsToEarn.toString()
         }
@@ -74,7 +77,6 @@ class PackagePresenter(context: Context, attrs: AttributeSet) : Presenter(contex
             show(confirmationPresenter)
             confirmationPresenter.viewModel.showConfirmation.onNext(Pair(pair.first.newTrip?.itineraryNumber, pair.second))
             confirmationPresenter.viewModel.setExpediaRewardsPoints.onNext(expediaRewards)
-
         }
 
         searchPresenter.searchViewModel.searchParamsObservable.subscribe {

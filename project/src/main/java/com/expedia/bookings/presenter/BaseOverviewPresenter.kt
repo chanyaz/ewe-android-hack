@@ -34,7 +34,6 @@ abstract class BaseOverviewPresenter(context: Context, attrs: AttributeSet) : Pr
         checkoutPresenter.viewModel = BaseCheckoutViewModel(context)
         checkoutPresenter.viewModel.lineOfBusiness.onNext(checkoutPresenter.lineOfBusiness())
         checkoutPresenter.paymentWidget.viewmodel.billingInfoAndStatusUpdate.map{it.first}.subscribe(checkoutPresenter.viewModel.paymentCompleted)
-        bundleOverviewHeader.toolbar.inflateMenu(R.menu.menu_package_checkout)
         bundleOverviewHeader.toolbar.overflowIcon = ContextCompat.getDrawable(context, R.drawable.ic_create_white_24dp)
         bundleOverviewHeader.toolbar.viewModel.showChangePackageMenuObservable.subscribe { visible ->
             bundleOverviewHeader.toolbar.menu.setGroupVisible(R.id.package_change_menu, visible)
