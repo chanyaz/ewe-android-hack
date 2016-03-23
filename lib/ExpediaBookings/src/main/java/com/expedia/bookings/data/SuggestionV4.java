@@ -72,6 +72,10 @@ public class SuggestionV4 {
 				v4.hierarchyInfo.airport.airportCode = hierarchyInfo.airport.airportCode;
 				v4.hierarchyInfo.airport.multicity = hierarchyInfo.airport.multicity;
 			}
+			if (hierarchyInfo.country != null) {
+				v4.hierarchyInfo.country = new Country();
+				v4.hierarchyInfo.country.name = hierarchyInfo.country.name;
+			}
 		}
 		v4.regionNames = new RegionNames();
 		v4.regionNames.fullName = regionNames.fullName;

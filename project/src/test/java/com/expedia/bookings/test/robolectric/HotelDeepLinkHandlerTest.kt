@@ -162,6 +162,6 @@ class HotelDeepLinkHandlerTest {
     private fun createHotelSearchParamsForSuggestion(suggestion: SuggestionV4): HotelSearchParams {
         val checkInDate = LocalDate()
         val checkOutDate = checkInDate.plusDays(1)
-        return HotelSearchParams.Builder(10).suggestion(suggestion).adults(1).checkIn(checkInDate).checkOut(checkOutDate).build()
+        return HotelSearchParams.Builder(10).departure(suggestion).adults(1).checkIn(checkInDate).checkOut(checkOutDate).build() as HotelSearchParams
     }
 }

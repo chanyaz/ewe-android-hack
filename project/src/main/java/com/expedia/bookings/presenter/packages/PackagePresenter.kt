@@ -23,6 +23,7 @@ import com.expedia.vm.PackageCheckoutOverviewViewModel
 import com.expedia.vm.PackageCheckoutViewModel
 import com.expedia.vm.PackageConfirmationViewModel
 import com.expedia.vm.PackageCreateTripViewModel
+import com.expedia.vm.PackageSearchViewModel
 import com.squareup.phrase.Phrase
 import java.math.BigDecimal
 import javax.inject.Inject
@@ -31,7 +32,7 @@ class PackagePresenter(context: Context, attrs: AttributeSet) : Presenter(contex
     lateinit var packageServices: PackageServices
         @Inject set
 
-    val searchPresenter: PackageSearchPresenter by bindView(R.id.widget_package_search_presenter)
+    val searchPresenter: PackageSearchPresenterV2 by bindView(R.id.widget_package_search_presenter)
     val bundlePresenter: PackageOverviewPresenter by bindView(R.id.widget_bundle_overview)
     val confirmationPresenter: PackageConfirmationPresenter by bindView(R.id.widget_package_confirmation)
     var expediaRewards: String? = null
@@ -39,6 +40,7 @@ class PackagePresenter(context: Context, attrs: AttributeSet) : Presenter(contex
     init {
         Ui.getApplication(getContext()).packageComponent().inject(this)
         View.inflate(context, R.layout.package_presenter, this)
+        searchPresenter.searchViewModel = PackageSearchViewModel(context)
         bundlePresenter.bundleWidget.viewModel = BundleOverviewViewModel(context, packageServices)
         bundlePresenter.getCheckoutPresenter().createTripViewModel = PackageCreateTripViewModel(packageServices)
         bundlePresenter.getCheckoutPresenter().checkoutViewModel = PackageCheckoutViewModel(context, packageServices)
@@ -98,13 +100,13 @@ class PackagePresenter(context: Context, attrs: AttributeSet) : Presenter(contex
         show(searchPresenter)
     }
 
-    private val defaultSearchTransition = object : Presenter.DefaultTransition(PackageSearchPresenter::class.java.name) {
+    private val defaultSearchTransition = object : Presenter.DefaultTransition(PackageSearchPresenterV2::class.java.name) {
         override fun endTransition(forward: Boolean) {
             searchPresenter.visibility = View.VISIBLE
         }
     }
 
-    private val searchToBundle = object : LeftToRightTransition(this, PackageSearchPresenter::class.java, PackageOverviewPresenter::class.java) {
+    private val searchToBundle = object : LeftToRightTransition(this, PackageSearchPresenterV2::class.java, PackageOverviewPresenter::class.java) {
         override fun startTransition(forward: Boolean) {
             super.startTransition(forward)
             if (forward) {

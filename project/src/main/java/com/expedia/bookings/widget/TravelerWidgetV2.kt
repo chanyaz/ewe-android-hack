@@ -15,7 +15,7 @@ import rx.subjects.BehaviorSubject
 
 class TravelerWidgetV2(context: Context, attrs: AttributeSet?) : SearchInputCardView(context, attrs) {
     var oldTravelerData: HotelTravelerParams? = null;
-    val hotelSearchViewModelSubject = BehaviorSubject.create<HotelSearchViewModel>()
+    val travelersSubject = BehaviorSubject.create<HotelTravelerParams>()
     val travelerDialogView: View by lazy {
         val view = LayoutInflater.from(context).inflate(R.layout.widget_hotel_traveler_search, null)
         view
@@ -24,7 +24,7 @@ class TravelerWidgetV2(context: Context, attrs: AttributeSet?) : SearchInputCard
     val traveler: HotelTravelerPickerView by lazy {
         val travelerView = travelerDialogView.findViewById(R.id.traveler_view) as HotelTravelerPickerView
         travelerView.viewmodel = HotelTravelerPickerViewModel(context, false)
-        travelerView.viewmodel.travelerParamsObservable.subscribe(hotelSearchViewModelSubject.value.travelersObserver)
+        travelerView.viewmodel.travelerParamsObservable.subscribe(travelersSubject)
         travelerView.viewmodel.guestsTextObservable.subscribeText(this.text)
         travelerView
     }

@@ -9,19 +9,17 @@ import com.expedia.bookings.utils.SpannableBuilder
 import com.expedia.util.endlessObserver
 import com.mobiata.android.time.util.JodaUtils
 import org.joda.time.LocalDate
-import rx.subjects.BehaviorSubject
 import rx.subjects.PublishSubject
 
 class RailSearchViewModel(context: Context) : DatedSearchViewModel(context) {
-    private val paramsBuilder = RailSearchRequest.Builder()
+    override val paramsBuilder = RailSearchRequest.Builder()
 
     // Outputs
     val searchParamsObservable = PublishSubject.create<RailSearchRequest>()
-    val datesObservable = BehaviorSubject.create<Pair<LocalDate?, LocalDate?>>()
 
     val searchObserver = endlessObserver<Unit> {
-        paramsBuilder.origin(SuggestionV4())
-        paramsBuilder.destination(SuggestionV4())
+        paramsBuilder.departure(SuggestionV4())
+        paramsBuilder.arrival(SuggestionV4())
 
         var searchParams = paramsBuilder.build()
         searchParamsObservable.onNext(searchParams)
@@ -31,21 +29,13 @@ class RailSearchViewModel(context: Context) : DatedSearchViewModel(context) {
         val (start, end) = dates
         datesObservable.onNext(dates)
 
-        paramsBuilder.departDate(start)
-        paramsBuilder.returnDate(end)
+        paramsBuilder.checkIn(start)
+        paramsBuilder.checkOut(end)
 
         dateTextObservable.onNext(computeDateRangeText(context, start, end))
         dateInstructionObservable.onNext(computeDateInstructionText(context, start, end))
 
         calendarTooltipTextObservable.onNext(computeTooltipText(start, end))
-    }
-
-    override fun startDate(): LocalDate? {
-        return datesObservable?.value?.first
-    }
-
-    override fun endDate(): LocalDate? {
-        return datesObservable?.value?.second
     }
 
     private fun computeTooltipText(start: LocalDate?, end: LocalDate?): Pair<String, String> {

@@ -14,36 +14,19 @@ import org.joda.time.LocalDate
 import rx.subjects.BehaviorSubject
 import rx.subjects.PublishSubject
 
-class PackageSearchViewModel(val context: Context) {
-    private val paramsBuilder = PackageSearchParams.Builder(context.resources.getInteger(R.integer.calendar_max_days_package_stay))
+class PackageSearchViewModel(context: Context) : DatedSearchViewModel(context) {
+    override val paramsBuilder = PackageSearchParams.Builder(context.resources.getInteger(R.integer.calendar_max_days_package_stay))
 
     // Outputs
     val searchParamsObservable = PublishSubject.create<PackageSearchParams>()
-    val originObservable = BehaviorSubject.create<Boolean>(false)
     val destinationObservable = BehaviorSubject.create<Boolean>(false)
     val arrivalObservable = BehaviorSubject.create<Boolean>(false)
-    val dateTextObservable = PublishSubject.create<CharSequence>()
-    val calendarTooltipTextObservable = PublishSubject.create<Pair<String, String>>()
-    val originTextObservable = PublishSubject.create<String>()
-    val destinationTextObservable = PublishSubject.create<String>()
-    val searchButtonObservable = PublishSubject.create<Boolean>()
-    val errorNoOriginObservable = PublishSubject.create<Boolean>()
-    val errorNoDatesObservable = PublishSubject.create<Unit>()
-    val errorMaxDatesObservable = PublishSubject.create<Unit>()
-    val enableDateObservable = PublishSubject.create<Boolean>()
-    val enableTravelerObservable = PublishSubject.create<Boolean>()
-
-    val enableDateObserver = endlessObserver<Unit> {
-        enableDateObservable.onNext(paramsBuilder.hasOriginAndDestination())
-    }
-
-    val enableTravelerObserver = endlessObserver<Unit> {
-        enableTravelerObservable.onNext(paramsBuilder.hasOriginAndDestination())
-    }
+    val departureTextObservable = PublishSubject.create<String>()
+    val arrivalTextObservable = PublishSubject.create<String>()
 
     // Inputs
-    val datesObserver = endlessObserver<Pair<LocalDate?, LocalDate?>> { data ->
-        val (start, end) = data
+    override fun onDatesChanged(dates: Pair<LocalDate?, LocalDate?>) {
+        val (start, end) = dates
 
         paramsBuilder.checkIn(start)
         if (start != null && end == null) {
@@ -61,34 +44,29 @@ class PackageSearchViewModel(val context: Context) {
 
     var requiredSearchParamsObserver = endlessObserver<Unit> {
         searchButtonObservable.onNext(paramsBuilder.areRequiredParamsFilled())
-        destinationObservable.onNext(paramsBuilder.hasOrigin())
-        arrivalObservable.onNext(paramsBuilder.hasDestination())
-        originObservable.onNext(paramsBuilder.hasOriginAndDestination())
-    }
-
-    val travelersObserver = endlessObserver<HotelTravelerParams> { update ->
-        paramsBuilder.adults(update.numberOfAdults)
-        paramsBuilder.children(update.children)
+        destinationObservable.onNext(paramsBuilder.hasDeparture())
+        arrivalObservable.onNext(paramsBuilder.hasArrival())
+        originObservable.onNext(paramsBuilder.hasDepartureAndArrival())
     }
 
     val isInfantInLapObserver = endlessObserver<Boolean> { isInfantInLap ->
         paramsBuilder.infantSeatingInLap(isInfantInLap)
     }
 
-    val originObserver = endlessObserver<SuggestionV4> { suggestion ->
-        paramsBuilder.origin(suggestion)
-        originTextObservable.onNext(StrUtils.formatAirport(suggestion))
+    val departureObserver = endlessObserver<SuggestionV4> { suggestion ->
+        paramsBuilder.departure(suggestion)
+        departureTextObservable.onNext(StrUtils.formatAirport(suggestion))
         requiredSearchParamsObserver.onNext(Unit)
     }
 
-    val destinationObserver = endlessObserver<SuggestionV4> { suggestion ->
-        paramsBuilder.destination(suggestion)
-        destinationTextObservable.onNext(StrUtils.formatAirport(suggestion))
+    val arrivalObserver = endlessObserver<SuggestionV4> { suggestion ->
+        paramsBuilder.arrival(suggestion)
+        arrivalTextObservable.onNext(StrUtils.formatAirport(suggestion))
         requiredSearchParamsObserver.onNext(Unit)
     }
 
     val suggestionTextChangedObserver = endlessObserver<Boolean> {
-        if (it) paramsBuilder.origin(null) else paramsBuilder.destination(null)
+        if (it) paramsBuilder.departure(null) else paramsBuilder.arrival(null)
         requiredSearchParamsObserver.onNext(Unit)
     }
 
@@ -101,8 +79,8 @@ class PackageSearchViewModel(val context: Context) {
                 searchParamsObservable.onNext(packageSearchParams)
             }
         } else {
-            if (!paramsBuilder.hasOriginAndDestination()) {
-                errorNoOriginObservable.onNext(paramsBuilder.hasOrigin())
+            if (!paramsBuilder.hasDepartureAndArrival()) {
+                errorNoOriginObservable.onNext(Unit)
             } else if (!paramsBuilder.hasStartAndEndDates()) {
                 errorNoDatesObservable.onNext(Unit)
             }
@@ -132,16 +110,6 @@ class PackageSearchViewModel(val context: Context) {
             sb.append(context.resources.getString(R.string.nights_count_TEMPLATE, nightsString), RelativeSizeSpan(0.8f))
         }
         return sb.build()
-    }
-
-    private fun computeTopTextForToolTip(start: LocalDate?, end: LocalDate?): String {
-        if (start == null && end == null) {
-            return context.resources.getString(R.string.select_dates_proper_case)
-        } else if (end == null) {
-            return DateUtils.localDateToMMMd(start)
-        } else {
-            return context.resources.getString(R.string.calendar_instructions_date_range_TEMPLATE, DateUtils.localDateToMMMd(start), DateUtils.localDateToMMMd(end))
-        }
     }
 
     private fun computeTooltipText(start: LocalDate?, end: LocalDate?): Pair<String, String> {

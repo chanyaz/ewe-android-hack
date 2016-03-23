@@ -28,7 +28,6 @@ import com.mobiata.android.Log
 import com.mobiata.android.time.util.JodaUtils
 import com.squareup.phrase.Phrase
 import org.joda.time.LocalDate
-import rx.Observable
 import rx.Observer
 import rx.subjects.BehaviorSubject
 import rx.subjects.PublishSubject
@@ -36,22 +35,13 @@ import javax.inject.Inject
 import kotlin.properties.Delegates
 
 class HotelSearchViewModel(context: Context) : DatedSearchViewModel(context) {
-    private val paramsBuilder = HotelSearchParams.Builder(context.resources.getInteger(R.integer.calendar_max_days_hotel_stay))
+    override val paramsBuilder = HotelSearchParams.Builder(context.resources.getInteger(R.integer.calendar_max_days_hotel_stay))
 
-    val originObservable = BehaviorSubject.create<Boolean>(false)
     val userBucketedObservable = BehaviorSubject.create<Boolean>()
     val externalSearchParamsObservable = BehaviorSubject.create<Boolean>()
     val searchParamsObservable = PublishSubject.create<HotelSearchParams>()
-    // Outputs
 
-    val datesObservable = BehaviorSubject.create<Pair<LocalDate?, LocalDate?>>()
-    val locationTextObservable = PublishSubject.create<String>()
-    val searchButtonObservable = PublishSubject.create<Boolean>()
-    val errorNoOriginObservable = PublishSubject.create<Unit>()
-    val errorNoDatesObservable = PublishSubject.create<Unit>()
-    val errorMaxDatesObservable = PublishSubject.create<Unit>()
-    val enableDateObservable = PublishSubject.create<Boolean>()
-    val enableTravelerObservable = PublishSubject.create<Boolean>()
+    // Outputs
 
     var shopWithPointsViewModel: ShopWithPointsViewModel by notNullAndObservable {
         it.swpEffectiveAvailability.subscribe{
@@ -60,33 +50,20 @@ class HotelSearchViewModel(context: Context) : DatedSearchViewModel(context) {
     }
         @Inject set
 
-    val enableDateObserver = endlessObserver<Unit> {
-        enableDateObservable.onNext(paramsBuilder.hasOrigin())
-    }
-
-    val enableTravelerObserver = endlessObserver<Unit> {
-        enableTravelerObservable.onNext(paramsBuilder.hasOrigin())
-    }
-
     // Inputs
     var requiredSearchParamsObserver = endlessObserver<Unit> {
         searchButtonObservable.onNext(paramsBuilder.areRequiredParamsFilled())
-        originObservable.onNext(paramsBuilder.hasOrigin())
-    }
-
-    val travelersObserver = endlessObserver<HotelTravelerParams> { update ->
-        paramsBuilder.adults(update.numberOfAdults)
-        paramsBuilder.children(update.children)
+        originObservable.onNext(paramsBuilder.hasDeparture())
     }
 
     val suggestionObserver = endlessObserver<SuggestionV4> { suggestion ->
-        paramsBuilder.suggestion(suggestion)
+        paramsBuilder.departure(suggestion)
         locationTextObservable.onNext(Html.fromHtml(suggestion.regionNames.displayName).toString())
         requiredSearchParamsObserver.onNext(Unit)
     }
 
     val suggestionTextChangedObserver = endlessObserver<Unit> {
-        paramsBuilder.suggestion(null)
+        paramsBuilder.departure(null)
         requiredSearchParamsObserver.onNext(Unit)
     }
 
@@ -101,7 +78,7 @@ class HotelSearchViewModel(context: Context) : DatedSearchViewModel(context) {
                 searchParamsObservable.onNext(hotelSearchParams)
             }
         } else {
-            if (!paramsBuilder.hasOrigin()) {
+            if (!paramsBuilder.hasDeparture()) {
                 errorNoOriginObservable.onNext(Unit)
             } else if (!paramsBuilder.hasStartAndEndDates()) {
                 errorNoDatesObservable.onNext(Unit)
@@ -126,14 +103,6 @@ class HotelSearchViewModel(context: Context) : DatedSearchViewModel(context) {
 
         requiredSearchParamsObserver.onNext(Unit)
         datesObservable.onNext(dates)
-    }
-
-    override fun startDate(): LocalDate? {
-        return datesObservable?.value?.first
-    }
-
-    override fun endDate(): LocalDate? {
-        return datesObservable?.value?.second
     }
 
     private fun computeTooltipText(start: LocalDate?, end: LocalDate?): Pair<String, String> {

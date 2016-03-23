@@ -40,7 +40,7 @@ class NewFlightSearchParamsTest {
 		Assert.assertEquals(false, builder.areRequiredParamsFilled())
 		Assert.assertEquals(false, builder.hasValidDates())
 
-		builder.departureDate(expectedDepartureDate)
+		builder.checkIn(expectedDepartureDate)
 		Assert.assertEquals(true, builder.hasStart())
 		Assert.assertEquals(false, builder.hasEnd())
 		Assert.assertEquals(false, builder.hasDeparture())
@@ -48,10 +48,10 @@ class NewFlightSearchParamsTest {
 		Assert.assertEquals(false, builder.areRequiredParamsFilled())
 		Assert.assertEquals(true, builder.hasValidDates())
 
-		builder.returnDate(LocalDate.now().plusDays(400))
+		builder.checkOut(LocalDate.now().plusDays(400))
 		Assert.assertEquals(false, builder.hasValidDates())
 
-		builder.returnDate(expectedReturnDate)
+		builder.checkOut(expectedReturnDate)
 		Assert.assertEquals(true, builder.hasStart())
 		Assert.assertEquals(true, builder.hasEnd())
 		Assert.assertEquals(false, builder.hasDeparture())
@@ -59,7 +59,7 @@ class NewFlightSearchParamsTest {
 		Assert.assertEquals(false, builder.areRequiredParamsFilled())
 		Assert.assertEquals(true, builder.hasValidDates())
 
-		builder.departureAirport(expectedDeparture)
+		builder.departure(expectedDeparture)
 		Assert.assertEquals(true, builder.hasStart())
 		Assert.assertEquals(true, builder.hasEnd())
 		Assert.assertEquals(true, builder.hasDeparture())
@@ -67,7 +67,7 @@ class NewFlightSearchParamsTest {
 		Assert.assertEquals(true, builder.areRequiredParamsFilled())
 		Assert.assertEquals(true, builder.hasValidDates())
 
-		builder.arrivalAirport(expectedArrival)
+		builder.arrival(expectedArrival)
 		Assert.assertEquals(true, builder.hasStart())
 		Assert.assertEquals(true, builder.hasEnd())
 		Assert.assertEquals(true, builder.hasDeparture())
@@ -80,7 +80,7 @@ class NewFlightSearchParamsTest {
 		Assert.assertEquals(expectedNumChildren.toLong(), params.children.size.toLong())
 		Assert.assertEquals(expectedDepartureDate, params.departureDate)
 		Assert.assertEquals(expectedReturnDate, params.returnDate)
-		Assert.assertEquals(expectedChildrenString, params.getGuestsString())
+		Assert.assertEquals(expectedChildrenString, params.getChildrenString())
 		Assert.assertEquals(expectedDeparture.hierarchyInfo?.airport, params.departureAirport.hierarchyInfo?.airport)
 		Assert.assertEquals(expectedArrival.hierarchyInfo?.airport, params.arrivalAirport?.hierarchyInfo?.airport)
 	}

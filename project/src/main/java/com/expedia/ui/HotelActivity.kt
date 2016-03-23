@@ -17,6 +17,7 @@ import com.expedia.bookings.utils.ServicesUtil
 import com.expedia.bookings.utils.Ui
 import com.expedia.util.endlessObserver
 import com.expedia.vm.HotelDeepLinkHandler
+import com.expedia.vm.HotelSearchViewModel
 import com.expedia.vm.HotelTravelerParams
 import com.google.android.gms.maps.MapView
 import rx.Observer
@@ -64,8 +65,12 @@ class HotelActivity : AbstractAppCompatActivity() {
                 suggestionLookupObserver,
                 currentLocationSearchObserver,
                 hotelPresenter,
-                hotelPresenter.searchPresenter.searchViewModel.suggestionObserver)
+                getSearchViewModel().suggestionObserver)
                 .handleNavigationViaDeepLink(hotelSearchParams)
+    }
+
+    private fun getSearchViewModel(): HotelSearchViewModel {
+        return hotelPresenter.searchPresenter.getSearchViewModel() as HotelSearchViewModel
     }
 
     override fun onBackPressed() {
@@ -148,16 +153,16 @@ class HotelActivity : AbstractAppCompatActivity() {
 
     private fun startCurrentLocationSearch(hotelSearchParams: HotelSearchParams?) {
         hotelPresenter.setDefaultTransition(Screen.RESULTS)
-        hotelPresenter.searchPresenter.searchViewModel.suggestionObserver.onNext(hotelSearchParams?.suggestion)
+        getSearchViewModel().suggestionObserver.onNext(hotelSearchParams?.suggestion)
         hotelPresenter.searchObserver.onNext(hotelSearchParams)
         setupDeepLinkSearch(hotelSearchParams, false)
     }
 
     private fun setupDeepLinkSearch(hotelSearchParams: HotelSearchParams?, shouldExecuteSearch: Boolean) {
-        hotelPresenter.searchPresenter.searchViewModel.enableDateObserver.onNext(Unit)
+        getSearchViewModel().enableDateObserver.onNext(Unit)
         hotelPresenter.searchPresenter.selectTravelers(HotelTravelerParams(hotelSearchParams?.adults ?: 1, hotelSearchParams?.children ?: emptyList()))
         val dates = Pair (hotelSearchParams?.checkIn, hotelSearchParams?.checkOut)
-        hotelPresenter.searchPresenter.searchViewModel.datesObserver.onNext(dates)
+        getSearchViewModel().datesObserver.onNext(dates)
         hotelPresenter.searchPresenter.selectDates(hotelSearchParams?.checkIn, hotelSearchParams?.checkOut)
         if (shouldExecuteSearch) {
             hotelPresenter.searchObserver.onNext(hotelSearchParams)

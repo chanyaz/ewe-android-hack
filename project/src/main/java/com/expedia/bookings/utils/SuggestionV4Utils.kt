@@ -15,27 +15,25 @@ object SuggestionV4Utils {
     val RECENT_PACKAGE_SUGGESTIONS_FILE = "recent-package-suggest-list.dat"
 
     fun saveSuggestionHistory(context: Context, suggestion: SuggestionV4, file: String) {
-        Thread(object : Runnable {
-            override fun run() {
-                val suggest = suggestion.copy()
-                if(suggest.type == "RAW_TEXT_SEARCH") {
-                    return // don't store raw (non-ESS) searches
-                }
+        Thread(Runnable {
+            val suggest = suggestion.copy()
+            if (suggest.type == "RAW_TEXT_SEARCH") {
+                return@Runnable // don't store raw (non-ESS) searches
+            }
 
-                if (suggest.regionNames.displayName == context.getString(com.expedia.bookings.R.string.current_location)) {
-                    suggest.regionNames.displayName = suggest.regionNames.shortName
-                }
-                suggest.hierarchyInfo?.isChild = false
-                val suggestions = listOf(suggest) + loadSuggestionHistory(context, file)
-                val recentSuggestions = suggestions.distinctBy { it.gaiaId ?: it.regionNames.displayName}
+            if (suggest.regionNames.displayName == context.getString(com.expedia.bookings.R.string.current_location)) {
+                suggest.regionNames.displayName = suggest.regionNames.shortName
+            }
+            suggest.hierarchyInfo?.isChild = false
+            val suggestions = listOf(suggest) + loadSuggestionHistory(context, file)
+            val recentSuggestions = suggestions.distinctBy { it.gaiaId ?: it.regionNames.displayName }
 
-                val type = object : TypeToken<List<SuggestionV4>>() { }.type
-                val suggestionJson = Gson().toJson(recentSuggestions.take(3), type)
-                try {
-                    IoUtils.writeStringToFile(file, suggestionJson, context)
-                } catch (e: IOException) {
-                    Log.e("Save History Error: ", e)
-                }
+            val type = object : TypeToken<List<SuggestionV4>>() {}.type
+            val suggestionJson = Gson().toJson(recentSuggestions.take(3), type)
+            try {
+                IoUtils.writeStringToFile(file, suggestionJson, context)
+            } catch (e: IOException) {
+                Log.e("Save History Error: ", e)
             }
         }).start()
     }
@@ -44,7 +42,7 @@ object SuggestionV4Utils {
         var recentSuggestions = emptyList<SuggestionV4>()
         try {
             val str = IoUtils.readStringFromFile(file, context)
-            val type = object : TypeToken<List<SuggestionV4>>() { }.type
+            val type = object : TypeToken<List<SuggestionV4>>() {}.type
             recentSuggestions = Gson().fromJson<List<SuggestionV4>>(str, type)
         } catch (e: IOException) {
             e.printStackTrace()

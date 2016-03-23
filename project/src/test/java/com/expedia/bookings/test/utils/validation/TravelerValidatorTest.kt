@@ -221,9 +221,9 @@ class TravelerValidatorTest {
         val packageParams = PackageSearchParams.Builder(12)
                 .checkIn(checkIn)
                 .checkOut(checkOut)
-                .origin(SuggestionV4())
-                .destination(SuggestionV4())
-        .build()
+                .departure(SuggestionV4())
+                .arrival(SuggestionV4())
+        .build() as PackageSearchParams
         return packageParams
     }
 }

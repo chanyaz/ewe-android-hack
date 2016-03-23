@@ -61,12 +61,12 @@ class HotelSearchTest {
         // Selecting only start date should search with end date as the next day
         vm.datesObserver.onNext(Pair(LocalDate.now(), null))
         vm.searchObserver.onNext(Unit)
-        expected.add(HotelSearchParams.Builder(activity.resources.getInteger(R.integer.calendar_max_days_hotel_stay)).suggestion(suggestion).checkIn(LocalDate.now()).checkOut(LocalDate.now().plusDays(1)).build())
+        expected.add(HotelSearchParams.Builder(activity.resources.getInteger(R.integer.calendar_max_days_hotel_stay)).departure(suggestion).checkIn(LocalDate.now()).checkOut(LocalDate.now().plusDays(1)).build() as HotelSearchParams)
 
         // Select both start date and end date and search
         vm.datesObserver.onNext(Pair(LocalDate.now(), LocalDate.now().plusDays(3)))
         vm.searchObserver.onNext(Unit)
-        expected.add(HotelSearchParams.Builder(activity.resources.getInteger(R.integer.calendar_max_days_hotel_stay)).suggestion(suggestion).checkIn(LocalDate.now()).checkOut(LocalDate.now().plusDays(3)).build())
+        expected.add(HotelSearchParams.Builder(activity.resources.getInteger(R.integer.calendar_max_days_hotel_stay)).departure(suggestion).checkIn(LocalDate.now()).checkOut(LocalDate.now().plusDays(3)).build() as HotelSearchParams)
 
         // When neither start date nor end date are selected, search should not fire anything
         vm.datesObserver.onNext(Pair(null, null))
@@ -94,7 +94,7 @@ class HotelSearchTest {
         vm.searchObserver.onNext(Unit)
 
         val builder = HotelSearchParams.Builder(activity.resources.getInteger(R.integer.calendar_max_days_hotel_stay)).
-                suggestion(suggestion).checkIn(LocalDate.now()).checkOut(LocalDate.now().plusDays(1))
+                departure(suggestion).checkIn(LocalDate.now()).checkOut(LocalDate.now().plusDays(1)) as HotelSearchParams.Builder
         expected.add(builder.shopWithPoints(true).build())
 
         // Turn SWP Off

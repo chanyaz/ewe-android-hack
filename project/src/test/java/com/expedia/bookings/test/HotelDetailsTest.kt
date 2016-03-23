@@ -590,11 +590,11 @@ class HotelDetailsTest {
         val suggestion = SuggestionV4()
         suggestion.gaiaId = ""
         searchParams = HotelSearchParams.Builder(activity.resources.getInteger(R.integer.calendar_max_days_hotel_stay))
-                .suggestion(suggestion)
+                .departure(suggestion)
                 .adults(2)
                 .children(listOf(10,10,10))
                 .checkIn(checkIn)
-                .checkOut(checkOut).build()
+                .checkOut(checkOut).build() as HotelSearchParams
         vm.paramsSubject.onNext(searchParams)
     }
 

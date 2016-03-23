@@ -62,13 +62,13 @@ class HotelResultsViewModel(private val context: Context, private val hotelServi
         locationParamsSubject.subscribe(endlessObserver { suggestion ->
             val cachedParams: HotelSearchParams? = paramsSubject.value
             val params = HotelSearchParams.Builder(context.resources.getInteger(R.integer.calendar_max_days_hotel_stay))
-                    .suggestion(suggestion)
+                    .departure(suggestion)
                     .checkIn(cachedParams?.checkIn)
                     .checkOut(cachedParams?.checkOut)
                     .adults(cachedParams?.adults!!)
                     .children(cachedParams?.children!!)
                     .shopWithPoints(cachedParams?.shopWithPoints ?: false)
-                    .build()
+                    .build() as HotelSearchParams
             doSearch(params)
         })
 
@@ -300,6 +300,4 @@ public open class HotelResultsMapViewModel(val context: Context, val currentLoca
 
         return box.build()
     }
-
-
 }

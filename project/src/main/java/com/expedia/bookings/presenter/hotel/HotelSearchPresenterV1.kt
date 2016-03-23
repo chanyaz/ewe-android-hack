@@ -44,6 +44,7 @@ import com.expedia.util.endlessObserver
 import com.expedia.util.notNullAndObservable
 import com.expedia.util.subscribeOnClick
 import com.expedia.util.subscribeToggleButton
+import com.expedia.vm.DatedSearchViewModel
 import com.expedia.vm.HotelSearchViewModel
 import com.expedia.vm.HotelSuggestionAdapterViewModel
 import com.expedia.vm.HotelTravelerParams
@@ -53,6 +54,10 @@ import com.mobiata.android.time.util.JodaUtils
 import org.joda.time.LocalDate
 
 class HotelSearchPresenterV1(context: Context, attrs: AttributeSet) : BaseHotelSearchPresenter(context, attrs) {
+    override fun getSearchViewModel(): DatedSearchViewModel {
+        return searchViewModel
+    }
+
     val searchLocationTextView: TextView by bindView(R.id.hotel_location)
     val searchLocationEditText: EditText by bindView(R.id.hotel_location_autocomplete)
     val suggestionRecyclerView: RecyclerView by bindView(R.id.drop_down_list)
@@ -165,7 +170,7 @@ class HotelSearchPresenterV1(context: Context, attrs: AttributeSet) : BaseHotelS
         })
     }
 
-    override var searchViewModel: HotelSearchViewModel by notNullAndObservable { vm ->
+    var searchViewModel: HotelSearchViewModel by notNullAndObservable { vm ->
         suggestionRecyclerView.layoutManager = LinearLayoutManager(context)
         suggestionRecyclerView.addItemDecoration(RecyclerDividerDecoration(getContext(), 0, 0, 0, 0, 0, TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 25f, resources.displayMetrics).toInt(), false))
         val maxDate = LocalDate.now().plusDays(getResources().getInteger(R.integer.calendar_max_selectable_date_range))

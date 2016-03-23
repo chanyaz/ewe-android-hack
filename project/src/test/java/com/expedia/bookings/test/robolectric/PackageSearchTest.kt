@@ -28,10 +28,10 @@ class PackageSearchTest {
     @Test
     fun selectDatesAndSearch() {
         val searchParamsSubscriber = TestSubscriber<PackageSearchParams>()
-        val noOriginSubscriber = TestSubscriber<Boolean>()
+        val noOriginSubscriber = TestSubscriber<Unit>()
         val noDatesSubscriber = TestSubscriber<Unit>()
         val expectedSearchParams = arrayListOf<PackageSearchParams>()
-        val expectedOrigins = arrayListOf<Boolean>()
+        val expectedOrigins = arrayListOf<Unit>()
         val expectedDates = arrayListOf<Unit>()
         val origin = getDummySuggestion()
         val destination = getDummySuggestion()
@@ -41,9 +41,9 @@ class PackageSearchTest {
         vm.errorNoOriginObservable.subscribe(noOriginSubscriber)
 
         // Selecting a location suggestion for search, as it is a necessary parameter for search
-        vm.originObserver.onNext(origin)
+        vm.departureObserver.onNext(origin)
         // Selecting a location suggestion for search, as it is a necessary parameter for search
-        vm.destinationObserver.onNext(destination)
+        vm.arrivalObserver.onNext(destination)
 
         // When neither start date nor end date are selected, search should fire a no notes error
         vm.datesObserver.onNext(Pair(null, null))
@@ -53,20 +53,20 @@ class PackageSearchTest {
         // Selecting only start date should search with end date as the next day
         vm.datesObserver.onNext(Pair(LocalDate.now(), null))
         vm.searchObserver.onNext(Unit)
-        expectedSearchParams.add(PackageSearchParams.Builder(activity.resources.getInteger(R.integer.calendar_max_days_hotel_stay)).origin(origin).destination(destination).checkIn(LocalDate.now()).checkOut(LocalDate.now().plusDays(1)).build())
+        expectedSearchParams.add(PackageSearchParams.Builder(activity.resources.getInteger(R.integer.calendar_max_days_hotel_stay)).departure(origin).arrival(destination).checkIn(LocalDate.now()).checkOut(LocalDate.now().plusDays(1)).build() as PackageSearchParams)
 
         // Select both start date and end date and search
         vm.datesObserver.onNext(Pair(LocalDate.now(), LocalDate.now().plusDays(3)))
         vm.searchObserver.onNext(Unit)
-        expectedSearchParams.add(PackageSearchParams.Builder(activity.resources.getInteger(R.integer.calendar_max_days_hotel_stay)).origin(origin).destination(destination).checkIn(LocalDate.now()).checkOut(LocalDate.now().plusDays(3)).build())
+        expectedSearchParams.add(PackageSearchParams.Builder(activity.resources.getInteger(R.integer.calendar_max_days_hotel_stay)).departure(origin).arrival(destination).checkIn(LocalDate.now()).checkOut(LocalDate.now().plusDays(3)).build() as PackageSearchParams)
 
         // When no origin or destination, search should fire no origin error
         vm.suggestionTextChangedObserver.onNext(true)
-        expectedOrigins.add(false)
+        expectedOrigins.add(Unit)
         vm.searchObserver.onNext(Unit)
-        vm.originObserver.onNext(origin)
+        vm.departureObserver.onNext(origin)
         vm.suggestionTextChangedObserver.onNext(false)
-        expectedOrigins.add(true)
+        expectedOrigins.add(Unit)
         vm.searchObserver.onNext(Unit)
 
         searchParamsSubscriber.requestMore(LOTS_MORE)
