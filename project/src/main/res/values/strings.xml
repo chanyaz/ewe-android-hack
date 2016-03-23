@@ -652,7 +652,7 @@
     <!-- Offers show more string -->
     <string name="lx_show_more_offers">Show More</string>
     <!-- Text for traveler details toolbar-->
-    <string name="lx_traveler_details_text">Traveler details</string>
+    <string name="traveler_details_text">Traveler details</string>
     <!-- Text for enter traveler details-->
     <string name="lx_traveler_enter_details_text">Enter traveler details</string>
     <!-- Text for lx sort and filter-->
@@ -2022,6 +2022,9 @@
     <string name="saved_button">Saved</string>
     <!-- Edit button for traveler/payment -->
     <string name="edit_button">Edit</string>
+
+    <!-- Title in toolbar on checkout telling user to select travelers he wants for booking-->
+    <string name="select_travelers">Select travelers</string>
     <!-- Select traveler/contact from checkout saved travelers list -->
     <string name="select_traveler">Select Contact</string>
     <!-- Add new traveler, checkout saved travelers list -->

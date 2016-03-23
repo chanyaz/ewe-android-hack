@@ -91,9 +91,12 @@ public class CustomMatchers {
 		if (drawable == null || otherDrawable == null) {
 			return false;
 		}
-		if (drawable instanceof StateListDrawable && otherDrawable instanceof StateListDrawable) {
+		if (drawable instanceof StateListDrawable) {
 			drawable = drawable.getCurrent();
-			otherDrawable = otherDrawable.getCurrent();
+
+			if (otherDrawable instanceof StateListDrawable) {
+				otherDrawable = otherDrawable.getCurrent();
+			}
 		}
 		if (drawable instanceof StateListDrawable && otherDrawable instanceof BitmapDrawable) {
 			if (drawable.getCurrent() == null) {

@@ -15,13 +15,7 @@ open class CheckoutTravelerViewModel() {
         if (travelerList.isNotEmpty()) {
             travelerList.clear()
         }
-        /*
-        TODO: this
-        val passengers = Db.getTripBucket().getFlight().getFlightTrip().getPassengers()
-		val travelerListGenerator = TravelerListGenerator(passengers, travelers)
-		val newTravelerList = travelerListGenerator.generateTravelerList()
-		Db.setTravelers(newTravelerList)
-         */
+
         for (i in 1..params.adults) {
             val traveler = Traveler()
             traveler.setPassengerCategory(PassengerCategory.ADULT)
@@ -45,17 +39,12 @@ open class CheckoutTravelerViewModel() {
         return true
     }
 
-    open fun getTravelers(): List<Traveler> {
+    open fun getTravelers() : List<Traveler> {
         return Db.getTravelers();
     }
 
-    open fun getTraveler(index: Int): Traveler {
+    open fun getTraveler(index: Int) : Traveler {
         val travelerList = Db.getTravelers()
         return travelerList[index]
-    }
-
-    open fun updateTraveler(index: Int, traveler: Traveler) {
-        val travelerList = Db.getTravelers()
-        travelerList[index] = traveler
     }
 }

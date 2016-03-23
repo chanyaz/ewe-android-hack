@@ -45,6 +45,7 @@ abstract class BaseOverviewPresenter(context: Context, attrs: AttributeSet) : Pr
             checkoutPresenter.show(BaseCheckoutPresenter.CheckoutDefault(), FLAG_CLEAR_BACKSTACK)
         }
 
+        checkoutPresenter.travelerPresenter.toolbarTitleSubject.subscribe(bundleOverviewHeader.toolbar.viewModel.toolbarTitle)
         checkoutPresenter.paymentWidget.viewmodel.toolbarTitle.subscribe(bundleOverviewHeader.toolbar.viewModel.toolbarTitle)
         checkoutPresenter.paymentWidget.viewmodel.editText.subscribe(bundleOverviewHeader.toolbar.viewModel.editText)
         checkoutPresenter.paymentWidget.viewmodel.menuVisibility.subscribe(bundleOverviewHeader.toolbar.viewModel.menuVisibility)

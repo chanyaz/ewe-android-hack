@@ -1,8 +1,9 @@
 package com.expedia.vm.test.traveler
 
+import android.content.Context
+import com.expedia.bookings.data.Traveler
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.LineOfBusiness
-import com.expedia.bookings.data.Traveler
 import com.expedia.bookings.data.TripBucketItemPackages
 import com.expedia.bookings.data.ValidPayment
 import com.expedia.bookings.data.flights.FlightTripDetails
@@ -18,28 +19,26 @@ import kotlin.test.assertTrue
 
 @RunWith(RobolectricRunner::class)
 class TravelerViewModelTest {
-    lateinit var travelerVM: TravelerViewModel
-
     val context = RuntimeEnvironment.application
 
     @Test
     fun testPassportCountryRequiredWhenInternational() {
         setupInternationalTrip()
-        travelerVM = TravelerViewModel(context, 1)
+        val travelerVM = TestTravelerViewModel(context, 0)
         assertTrue(travelerVM.shouldShowPassportDropdown())
     }
 
     @Test
     fun testPassportCountryRequired() {
         setupPassportRequiredResponse()
-        travelerVM = TravelerViewModel(context, 1)
+        val travelerVM = TestTravelerViewModel(context, 0)
         assertTrue(travelerVM.shouldShowPassportDropdown())
     }
 
     @Test
     fun testPassportCountryNotRequiredWhenDomestic() {
         setupDomesticTrip()
-        travelerVM = TravelerViewModel(context, 1)
+        val travelerVM = TestTravelerViewModel(context, 0)
         assertFalse(travelerVM.shouldShowPassportDropdown())
     }
 
@@ -78,5 +77,15 @@ class TravelerViewModelTest {
         val trip = TripBucketItemPackages(response)
         Db.getTripBucket().clear(LineOfBusiness.PACKAGES)
         Db.getTripBucket().add(trip)
+    }
+
+    class TestTravelerViewModel(context: Context, index: Int) : TravelerViewModel(context, index) {
+        override fun updateTraveler(traveler: Traveler) {
+            // do nothing
+        }
+
+        override fun getTraveler(): Traveler {
+            return Traveler()
+        }
     }
 }

@@ -652,7 +652,7 @@
     <!-- Offers show more string -->
     <string name="lx_show_more_offers">더 보기</string>
     <!-- Text for traveler details toolbar-->
-    <string name="lx_traveler_details_text">여행객 정보</string>
+    <string name="traveler_details_text">여행객 정보</string>
     <!-- Text for enter traveler details-->
     <string name="lx_traveler_enter_details_text">여행객 정보 입력</string>
     <!-- Text for lx sort and filter-->

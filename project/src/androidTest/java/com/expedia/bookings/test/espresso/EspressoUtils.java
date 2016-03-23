@@ -28,6 +28,7 @@ import static android.support.test.espresso.matcher.ViewMatchers.withChild;
 import static android.support.test.espresso.matcher.ViewMatchers.withEffectiveVisibility;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
+import static com.expedia.bookings.test.espresso.CustomMatchers.withCompoundDrawable;
 import static com.expedia.bookings.test.espresso.CustomMatchers.withImageDrawable;
 import static com.expedia.bookings.test.espresso.ViewActions.getChildCount;
 import static com.expedia.bookings.test.espresso.ViewActions.getCount;
@@ -187,5 +188,9 @@ public class EspressoUtils {
 		viewInteraction.check(
 			RecyclerViewAssertions.assertionOnItemAtPosition(position, hasDescendant(
 				CoreMatchers.allOf(withId(id), isDisplayed()))));
+	}
+
+	public static void assertViewHasCompoundDrawable(@IdRes int viewId, @DrawableRes int drawableId) {
+		onView(withId(viewId)).check(matches(allOf(withCompoundDrawable(drawableId), isDisplayed())));
 	}
 }

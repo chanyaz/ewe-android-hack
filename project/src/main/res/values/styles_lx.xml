@@ -89,7 +89,7 @@
         <item name="skin_icCheckoutCheckmarkDrawable">@drawable/ic_checkout_checkmark</item>
 
         <!-- CVV attrs -->
-        <item name="traveler_toolbar_text">@string/lx_traveler_details_text</item>
+        <item name="traveler_toolbar_text">@string/traveler_details_text</item>
         <item name="traveler_details_text">@string/lx_traveler_enter_details_text</item>
 
         <item name="card_list_image_container_height">@dimen/lx_search_list_image_container_height</item>

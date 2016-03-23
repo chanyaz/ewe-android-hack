@@ -4,12 +4,14 @@ import android.support.test.InstrumentationRegistry;
 import android.support.test.rule.UiThreadTestRule;
 import android.support.test.runner.AndroidJUnit4;
 import com.expedia.bookings.R;
+import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.test.espresso.EspressoUser;
 import com.expedia.bookings.test.espresso.EspressoUtils;
 import com.expedia.bookings.test.rules.PlaygroundRule;
 import com.expedia.bookings.widget.FlightTravelerEntryWidget;
 import com.expedia.vm.traveler.TravelerViewModel;
+
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -34,8 +36,8 @@ public class FlightTravelerEntryWidgetTest {
 
 	@Test
 	public void testPassportCountryIsShowing() throws Throwable {
-		testVM = new TravelerViewModel(InstrumentationRegistry.getTargetContext(), 1);
-		testVM.getTravelerObservable().onNext(new Traveler());
+		Db.getTravelers().add(new Traveler());
+		testVM = new TravelerViewModel(InstrumentationRegistry.getTargetContext(), 0);
 		testVM.getShowPassportCountryObservable().onNext(true);
 		setViewModel(testVM);
 
@@ -46,8 +48,8 @@ public class FlightTravelerEntryWidgetTest {
 
 	@Test
 	public void testPassportCountryIsNotShowing() throws Throwable {
-		testVM = new TravelerViewModel(InstrumentationRegistry.getTargetContext(), 1);
-		testVM.getTravelerObservable().onNext(new Traveler());
+		Db.getTravelers().add(new Traveler());
+		testVM = new TravelerViewModel(InstrumentationRegistry.getTargetContext(), 0);
 		testVM.getShowPassportCountryObservable().onNext(false);
 		setViewModel(testVM);
 
@@ -65,4 +67,3 @@ public class FlightTravelerEntryWidgetTest {
 		});
 	}
 }
-

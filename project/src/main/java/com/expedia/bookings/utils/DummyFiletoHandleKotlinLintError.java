@@ -342,6 +342,7 @@ DummyFiletoHandleKotlinLintError {
 		R.string.package_breakdown_total_savings,
 		R.dimen.layover_bar_text_size,
 		R.color.traveler_incomplete_text_color,
+		R.string.select_travelers,
 		R.string.checkout_enter_traveler_details,
 		R.string.checkout_enter_traveler_details_line2,
 		R.string.checkout_more_travelers_TEMPLATE,
