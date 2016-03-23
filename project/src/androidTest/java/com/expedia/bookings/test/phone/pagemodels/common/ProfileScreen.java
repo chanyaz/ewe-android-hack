@@ -8,8 +8,8 @@ import android.support.test.espresso.ViewInteraction;
 import android.support.test.espresso.matcher.BoundedMatcher;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.dialog.DomainPreference;
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
+import com.expedia.bookings.widget.DomainAdapter;
 import com.squareup.phrase.Phrase;
 
 import static android.support.test.espresso.Espresso.onData;
@@ -96,14 +96,14 @@ public class ProfileScreen {
 	}
 
 	private static Matcher<Object> withCountryName(final String countryName) {
-		return new BoundedMatcher<Object, DomainPreference.DomainAdapter.DomainTuple>(DomainPreference.DomainAdapter.DomainTuple.class) {
+		return new BoundedMatcher<Object, DomainAdapter.DomainTuple>(DomainAdapter.DomainTuple.class) {
 			@Override
 			public void describeTo(Description description) {
 				description.appendText("with country name: " + countryName);
 			}
 
 			@Override
-			protected boolean matchesSafely(DomainPreference.DomainAdapter.DomainTuple item) {
+			protected boolean matchesSafely(DomainAdapter.DomainTuple item) {
 				return countryName != null && countryName.equals(item.mName);
 			}
 		};

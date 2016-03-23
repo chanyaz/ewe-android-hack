@@ -46,20 +46,23 @@
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="right">
+            android:layout_gravity="right"
+            android:layout_marginBottom="14dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginTop="12dp">
 
             <com.expedia.bookings.widget.TextView
                 android:id="@+id/itin_checkin_no"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:paddingBottom="25dp"
-                android:paddingLeft="16dp"
-                android:paddingRight="24dp"
-                android:paddingTop="30dp"
+                android:paddingBottom="10dp"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
+                android:paddingTop="10dp"
                 android:text="@string/no"
                 android:textAllCaps="true"
-                android:textColor="@drawable/checkin_dialog_selector"
+                android:background="@drawable/dialog_button"
                 android:textSize="13sp"
                 app:textStyle="medium" />
 
@@ -68,14 +71,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:layout_marginRight="16dp"
-                android:paddingBottom="25dp"
-                android:paddingRight="16dp"
-                android:paddingLeft="16dp"
-                android:paddingTop="30dp"
+                android:paddingBottom="10dp"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
+                android:paddingTop="10dp"
                 android:text="@string/yes"
                 android:textAllCaps="true"
-                android:textColor="@drawable/checkin_dialog_selector"
+                android:background="@drawable/dialog_button"
                 android:textSize="13sp"
                 app:textStyle="medium" />
         </LinearLayout>

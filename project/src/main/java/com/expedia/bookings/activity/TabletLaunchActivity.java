@@ -15,7 +15,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.ViewGroup;
 
-import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Codes;
 import com.expedia.bookings.data.LaunchDb;
@@ -42,8 +41,6 @@ import com.squareup.phrase.Phrase;
 public class TabletLaunchActivity extends FragmentActivity implements MeasurableFragmentListener,
 	IBackManageable, IMeasurementProvider, FragmentAvailabilityUtils.IFragmentAvailabilityProvider {
 
-	private static final int REQUEST_SETTINGS = 1234;
-
 	private static final String FTAG_CONTROLLER_FRAGMENT = "CONTROLLER_FRAGMENT";
 
 	// Containers
@@ -57,11 +54,15 @@ public class TabletLaunchActivity extends FragmentActivity implements Measurable
 	private Events.PermissionEvent delayedPermissionEvent;
 	private boolean busRegistered;
 
+	private DebugMenu debugMenu;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
 		setContentView(R.layout.activity_tablet_launch);
+
+		debugMenu = new DebugMenu(this, TabletPreferenceActivity.class);
 
 		mRootC = Ui.findView(this, R.id.root_layout);
 
@@ -126,7 +127,7 @@ public class TabletLaunchActivity extends FragmentActivity implements Measurable
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
-		if (requestCode == REQUEST_SETTINGS && resultCode == ExpediaBookingPreferenceActivity.RESULT_CHANGED_PREFS) {
+		if (requestCode == Constants.REQUEST_SETTINGS && resultCode == Constants.RESULT_CHANGED_PREFS) {
 			// TODO reset the state of the SuggestionFragments such that it redraws again, and won't show the recents
 		}
 	}
@@ -147,10 +148,7 @@ public class TabletLaunchActivity extends FragmentActivity implements Measurable
 		// We only want to show the menu items in the default launch state (not details or waypoint)
 		if (mControllerFragment.shouldDisplayMenu()) {
 			getMenuInflater().inflate(R.menu.menu_launch_tablet, menu);
-			getMenuInflater().inflate(R.menu.menu_fragment_standard, menu);
-			if (BuildConfig.DEBUG) {
-				DebugMenu.onCreateOptionsMenu(this, menu);
-			}
+			debugMenu.onCreateOptionsMenu(menu);
 		}
 
 		int actionBarLogo = ProductFlavorFeatureConfiguration.getInstance().getLaunchScreenActionLogo();
@@ -163,9 +161,7 @@ public class TabletLaunchActivity extends FragmentActivity implements Measurable
 	@Override
 	public boolean onPrepareOptionsMenu(Menu menu) {
 		if (mControllerFragment.shouldDisplayMenu()) {
-			if (BuildConfig.DEBUG) {
-				DebugMenu.onPrepareOptionsMenu(this, menu);
-			}
+			debugMenu.onPrepareOptionsMenu(menu);
 		}
 
 		return super.onPrepareOptionsMenu(menu);
@@ -184,22 +180,12 @@ public class TabletLaunchActivity extends FragmentActivity implements Measurable
 		}
 		case R.id.menu_account: {
 			Intent intent = new Intent(this, AccountSettingsActivity.class);
-			startActivityForResult(intent, REQUEST_SETTINGS);
-			return true;
-		}
-		case R.id.menu_settings: {
-			Intent intent = new Intent(this, TabletPreferenceActivity.class);
-			startActivityForResult(intent, REQUEST_SETTINGS);
-			return true;
-		}
-		case R.id.menu_about: {
-			Intent intent = new Intent(this, AboutActivity.class);
-			startActivity(intent);
+			startActivityForResult(intent, Constants.REQUEST_SETTINGS);
 			return true;
 		}
 		}
 
-		if (DebugMenu.onOptionsItemSelected(this, item)) {
+		if (debugMenu.onOptionsItemSelected(item)) {
 			return true;
 		}
 

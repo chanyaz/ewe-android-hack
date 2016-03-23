@@ -3,6 +3,7 @@
 
     <!-- Hotels -->
     <!-- Hotels Calendar Strings -->
+    <string name="select_checkin_date">Selecteer incheckdatum</string>
     <!-- Hotels calendar tooltip bottom line after a single date is selected -->
     <string name="hotel_calendar_tooltip_bottom">Volgende: Selecteer uitcheckdatum</string>
     <!-- When user hasn't picked check out date, we show something like: "Jan 21 - Select check out date" -->
@@ -84,10 +85,6 @@
     <string name="cars_view_details_text">Details bekijken</string>
     <!-- Text for driver details toolbar-->
     <string name="cars_driver_details_text">Bestuurdersinfo</string>
-    <!-- Text for payment details toolbar-->
-    <string name="cars_payment_details_text">Betalingsinfo</string>
-    <!-- Text for payment options toolbar-->
-    <string name="cars_payment_options_text">Betalingsopties</string>
     <!-- Text for enter driver details-->
     <string name="enter_driver_details">Bestuurdersinfo invoeren</string>
     <!-- Text for select saved contacts-->
@@ -223,7 +220,7 @@
     <!-- Text for enter guest details line 2 -->
     <string name="checkout_hotelsv2_enter_guest_details_line2">Voer je gegevens in</string>
     <!-- Text for enter payment details line 1 -->
-    <string name="checkout_hotelsv2_enter_payment_details_line1">Betalingsinfo</string>
+    <string name="checkout_enter_payment_details">Betalingsmethode</string>
     <!-- Text for enter payment details line 2 -->
     <string name="checkout_hotelsv2_enter_payment_details_line2">Voer creditcard in</string>
     <!-- Label to indicate that the user has selected a stored credit card -->
@@ -242,6 +239,8 @@
     <string name="temporarily_saved_card_TEMPLATE">{cardtype} …{cardno} opgeslagen</string>
     <!--Text for stored card -->
     <string name="stored_card_TEMPLATE">{cardtype} opgeslagen</string>
+    <!-- Select card from checkout saved cards list -->
+    <string name="saved_cards">Opgeslagen kaarten</string>
 
     <!-- Car error strings -->
     <!-- Message for user that pick-up time is too early.  -->
@@ -700,6 +699,11 @@
 
     <!-- Category Title "All Things To Do" -->
     <string name="lx_category_all_things_to_do">Alle activiteiten</string>
+
+    <string name="lx_you_might_also_like">Andere leuke opties</string>
+    <string name="lx_customers_recommend">van klanten bevelen dit aan.</string>
+    <!-- LX user recommended percentage template-->
+    <string name="lx_recommend_percent_Template">{recommend}%</string>
 
     <!-- Tablet Results strings -->
     <!-- Sort & Filter label -->
@@ -1391,6 +1395,9 @@
     <string name="itin_card_details_expires">Vervalt</string>
     <string name="itin_card_details_guests">Gasten</string>
     <string name="itin_card_details_details">Bijkomende informatie</string>
+    <string name="itin_card_flight_checkin_title">Check-in vlucht</string>
+
+    <string name="itin_card_flight_checkin_details">Ga naar de site van %s</string>
     <string name="itin_card_details_pick_up">Ophalen</string>
     <string name="itin_card_details_drop_off">Afleveren</string>
     <!-- Tell users when they can pick up a rental car in three days -->
@@ -1456,6 +1463,17 @@
     <!-- Message to users about when they checked out of their hotel.  %1$s is a date (e.g., "Checked out Jul 11") -->
     <string name="itin_card_hotel_summary_checked_out_day_TEMPLATE">Check-out voltooid: %1$s</string>
     <string name="itin_card_activity_summary_TEMPLATE">Geldig vanaf &lt;b&gt;%1$s&lt;/b&gt;</string>
+    <!-- Message to users about when they check in of their flight-->
+    <string name="itin_card_flight_checkin">Check nu in</string>
+    <!-- Title of alert dialog when user come back from check in-->
+    <string name="itin_checkin_dialog_title">Ingecheckt?</string>
+    <!-- message of alert dialog (e.g., "Were you able to successfully check into your flight on Delta's website?")-->
+    <string name="itin_checkin_dialog_message">Kon je voor je vlucht inchecken op de site van %s?</string>
+    <!-- Title of alert dialog when user fail to check in (e.g., "We're Sorry!")-->
+    <string name="itin_checkin_failure_dialog_title">Het spijt ons!</string>
+    <!-- message of alert dialog (e.g., "We'll look into it. Your Confirmation Number is now copied to the clipboard so you can check in on Delta's site or app directly.")-->
+    <string name="itin_checkin_failure_dialog_message">We zullen ernaar kijken. Je bevestigingsnummer is nu naar het klembord gekopieerd, dus je kunt rechtstreeks op de site of app van %s inchecken.</string>
+
 
     <!-- Action Buttons -->
     <string name="itin_action_directions">Route</string>
@@ -1794,10 +1812,6 @@
     <string name="or_select_new_paymet_method">Kies een betaalmethode</string>
     <!-- Select Payment -->
     <string name="select_payment">Kies betaalmethode</string>
-    <!-- Select payment sentence case -->
-    <string name="select_payment_sentence_case">Betalingsinfo</string>
-    <!-- Select payment sentence case AB Test variate2 -->
-    <string name="select_payment_sentence_case_variate2">Betaling</string>
     <!-- Select payment callout AB Test variate2 -->
     <string name="select_payment_callout">details invoeren</string>
     <!-- Add new card -->
@@ -2135,6 +2149,7 @@
     <string name="save_traveler_message_TEMPLATE">Wil je de gegevens van {name} in je {brand}-account opslaan om in de toekomst sneller te kunnen boeken?</string>
     <!-- no thanks -->
     <string name="no_thanks">Nee, bedankt</string>
+    <!-- Advanced flight traveler options (seat pref, accessibility and redress number) button label -->
     <string name="advanced">Geavanceerd</string>
 
     <!-- Overwrite traveler dialog -->
@@ -2154,8 +2169,8 @@
     <string name="first_name">Voornaam</string>
     <!-- Middle name label -->
     <string name="middle_name">Tweede naam</string>
-    <!--A hint for the user to enter their name's initial letter-->
-    <string name="initial_name">Voorletter</string>
+    <!--A hint for the customer to enter their middle name's initial -->
+    <string name="initial_middle_name">Voorletter</string>
     <!-- Last name label -->
     <string name="last_name">Achternaam</string>
     <!-- date of birth label -->
@@ -2203,6 +2218,7 @@
     <string name="prefers_seat_TEMPLATE">Voorkeur voor stoel bij %1$s</string>
     <!-- prefers seat template -->
     <string name="prefers_seat_colored_TEMPLATE">Voorkeur voor stoel bij %1$s</string>
+    <string name="prefers_seat_colored_TEMPLATE2">Voorkeur: stoel %1$s</string>
     <!-- loading traveler info -->
     <string name="loading_traveler_info">Bezig met laden reizigersinformatie…</string>
     <!-- Passport -->
@@ -2212,11 +2228,11 @@
 
     <!-- Seat types -->
     <!-- Window seating preference -->
-    <string name="window">het raam</string>
+    <string name="window">bij het raam</string>
     <!-- Aisle seating preference -->
-    <string name="aisle">het gangpad</string>
+    <string name="aisle">bij het gangpad</string>
     <!-- Any -->
-    <string name="any">Geen voorkeur</string>
+    <string name="any">zonder voorkeur</string>
 
     <!-- Assistance Types -->
     <!-- No assistance type -->
@@ -3141,18 +3157,6 @@
     <string name="info_label_privacy_policy">Privacybeleid</string>
     <!-- Copyright information -->
     <string name="copyright_TEMPLATE">© Copyright 2012-{year} {brand}, Inc.\nAlle rechten voorbehouden.</string>
-    <!-- Dialog Title telling the user they have been signed of their account and all data saved about them has been removed -->
-    <string name="dialog_title_signed_out_and_cleared_private_data">Afgemeld en gegevens gewist</string>
-    <!-- Dialog Message telling the user they have been signed of their account and all data saved about them has been removed -->
-    <string name="dialog_message_signed_out_and_cleared_private_data_TEMPLATE">Je bent nu afgemeld bij je {brand}-account en alle betaal- en contactgegevens werden gewist.</string>
-    <!-- Dialog Title telling the user they have been signed of their account and all data saved about them has been removed -->
-    <string name="dialog_title_cleared_private_data">Privégegevens gewist</string>
-    <!-- Dialog Message telling the user they have been signed of their account and all data saved about them has been removed -->
-    <string name="dialog_message_cleared_private_data">Alle opgeslagen betaal- en contactgegevens zijn verwijderd.</string>
-    <!-- Action button label to follow on twitter -->
-    <string name="Follow">Volgen</string>
-    <!-- Action button label to like on facebook -->
-    <string name="Like">Vind ik leuk</string>
     <!-- Credit to the author of the "Stack Blur" algorithm we use in our app -->
     <string name="stack_blur_credit">Deze app gebruikt het Stack Blur algoritme van Mario Klingemann.</string>
     <!-- String where we link to the google play services open source licenses -->
@@ -3175,8 +3179,6 @@
     <string name="email_address">E-mailadres</string>
 
     <!-- Preferences -->
-    <!-- Category name for general preferences -->
-    <string name="preference_category_general">Algemeen</string>
     <!-- Title for point of sale setting -->
     <string name="preference_point_of_sale_title">Land</string>
 
@@ -3249,8 +3251,6 @@
     <!-- Menu strings -->
     <!-- Label for "settings" menu item. -->
     <string name="Settings">Instellingen</string>
-    <!-- Label for "info about this app" menu item. -->
-    <string name="Info">Info</string>
 
     <!-- Error strings - replacements for default EAN errors -->
     <!-- Replaces "result was null" for no result search -->
@@ -3904,6 +3904,20 @@
     <string name="select_hotel_template">Selecteer hotel in %s</string>
     <!-- Bundle Overview searching flight -->
     <string name="searching_flight_to">We zoeken vluchten naar %s</string>
+    <!-- Package All Flight label -->
+    <string name="all_flights_label">Alle vluchten</string>
+    <!-- Package Best Flight title -->
+    <string name="best_flight_title">Beste vlucht</string>
+    <!-- Package Best Flight description -->
+    <string name="best_flight_description">goedkoop • snel • populaire vertrekplaats</string>
+
+    <!-- Package Filters Strings -->
+    <plurals name="flight_filter_stops">
+        <item quantity="zero">Rechtstreeks</item>
+        <item quantity="one">1 tussenstop</item>
+        <item quantity="two">2+ tussenstops</item>
+        <item quantity="other">2+ tussenstops</item>
+    </plurals>
 
     <!-- Flight duration template e.g. 1d 12h 42m (Nonstop) -->
     <string name="flight_duration_description_template">%1$s (%2$s)</string>
@@ -3941,19 +3955,21 @@
         <item quantity="other">Hotel in {city} - 1 kamer, {number} nachten</item>
     </plurals>
 
-    <!-- Package Trip Overview -->
-    <string name="trip_overview">Reisoverzicht</string>
+    <!-- Text indicating that the user can drag this button to view their trip -->
+    <string name="trip_overview">Reisdetails weergeven</string>
     <!-- Slide to book -->
     <string name="package_slider_text">Swipe om te boeken</string>
     <string name="hotel_city_country_TEMPLATE">{city}, {country}</string>
+    <!-- Confirmation Text indicating rewards points user got for the booked package -->
+    <string name="package_confirmation_reward_points">{rewardpoints}{brand}+ punten</string>
 
     <!-- Flight Duration filter label-->
     <string name="flight_duration_label">Vliegtijd</string>
-    <string name="flight_duration_hour_short">u</string>
+    <string name="flight_duration_hour_short">u.</string>
     <!-- Departure Time Range filter label-->
-    <string name="departure_time_range">Vertrekperiode</string>
+    <string name="departure_time_range">Vertrektijd</string>
     <!-- Arrival Time Range filter label-->
-    <string name="arrival_time_range">Aankomstperiode</string>
+    <string name="arrival_time_range">Aankomsttijd</string>
 
     <!-- Package Change hotel description -->
     <string name="package_change_hotel">Wijzig hotel</string>
@@ -3987,7 +4003,8 @@
     <string name="package_flight_overview_layover_in_TEMPLATE">Tussenstop in ({airportcode}) {city}</string>
     <string name="package_flight_overview_airline_airplane_TEMPLATE">{carrier} {flightnumber} - {airplanetype}</string>
     <string name="package_flight_overview_total_duration_TEMPLATE">Totale reisduur: {duration}</string>
-
+    <!-- Itinerary summary text- Itinerary number sent to the user email -->
+    <string name="package_itinerary_confirmation_TEMPLATE">Nr. {itinerary} gestuurd naar {email}</string>
     <!--Rail search screen title-->
     <string name="trains">Treinen</string>
 
@@ -3999,8 +4016,21 @@
     <string name="enter_destination_hint">Voer bestemming in</string>
 
     <!-- Package breakdown dialog -->
-    <string name="package_breakdown_hotel_flight_summary">Hotel + Vlucht</string>
+    <string name="package_breakdown_hotel_flight_summary">Hotel + Vluchten</string>
     <string name="package_breakdown_taxes_fees">Belastingen &amp; Toeslagen</string>
     <string name="package_breakdown_taxes_fees_included_TEMPLATE">Incl. belastingen en toeslagen ({taxes})</string>
     <string name="package_breakdown_total_savings">Totale besparingen</string>
+
+    <!-- Shop with points -->
+    <string name="regular_loyalty_applied_message">Expedia+ punten toegepast!</string>
+    <string name="vip_loyalty_applied_message">2x punten toegepast!</string>
+    <!-- String to be appended with +VIP in header of room rates. -->
+    <string name="vip_loyalty_applied_header_message">2x Expedia+ punten toegepast!</string>
+
+    <!-- Message telling you on confirmation screen where you've booked a package to -->
+    <string name="yay_going_somewhere">Je vliegt naar</string>
+    <!-- Cars cross-sell message on package confirmation -->
+    <string name="rental_car_message">Huurauto nodig?</string>
+    <!-- Cars cross-sell message description on package confirmation -->
+    <string name="rental_car_message_desc">Huur een auto en bespaar</string>
 </resources>

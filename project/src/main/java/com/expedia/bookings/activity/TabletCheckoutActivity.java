@@ -60,6 +60,8 @@ public class TabletCheckoutActivity extends FragmentActivity implements IBackMan
 	//Other
 	private LineOfBusiness mLob;
 
+	private DebugMenu debugMenu;
+
 	boolean mIsBailing = false;
 
 	@Override
@@ -76,6 +78,8 @@ public class TabletCheckoutActivity extends FragmentActivity implements IBackMan
 		}
 
 		setContentView(R.layout.activity_tablet_checkout);
+
+		debugMenu = new DebugMenu(this, null);
 
 		// Args
 		if (savedInstanceState == null) {
@@ -167,7 +171,7 @@ public class TabletCheckoutActivity extends FragmentActivity implements IBackMan
 	public boolean onCreateOptionsMenu(Menu menu) {
 		boolean retVal = super.onCreateOptionsMenu(menu);
 
-		DebugMenu.onCreateOptionsMenu(this, menu);
+		debugMenu.onCreateOptionsMenu(menu);
 
 		//We allow debug users to jump between states
 		if (BuildConfig.DEBUG) {
@@ -191,7 +195,7 @@ public class TabletCheckoutActivity extends FragmentActivity implements IBackMan
 
 	@Override
 	public boolean onPrepareOptionsMenu(Menu menu) {
-		DebugMenu.onPrepareOptionsMenu(this, menu);
+		debugMenu.onPrepareOptionsMenu(menu);
 		return super.onPrepareOptionsMenu(menu);
 	}
 
@@ -205,7 +209,7 @@ public class TabletCheckoutActivity extends FragmentActivity implements IBackMan
 		}
 		}
 
-		if (DebugMenu.onOptionsItemSelected(this, item)) {
+		if (debugMenu.onOptionsItemSelected(item)) {
 			return true;
 		}
 

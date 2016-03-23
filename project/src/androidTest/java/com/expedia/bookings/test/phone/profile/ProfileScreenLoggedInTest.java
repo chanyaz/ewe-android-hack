@@ -54,7 +54,7 @@ public class ProfileScreenLoggedInTest {
 		assertViewWithTextIsDisplayed(R.id.toolbar_email, "singlecard@mobiata.com");
 		assertViewWithTextIsDisplayed(R.id.toolbar_loyalty_tier_text, R.string.plus_blue);
 		assertViewWithTextIsDisplayed(R.id.available_points, "1,802");
-		assertViewWithTextIsDisplayed(R.id.pending_points, "0 pending");
+		assertViewIsGone(R.id.pending_points); // 0 pending points == hide the view
 		assertViewWithTextIsDisplayed(R.id.country, "USA");
 		assertTextViewHasCompoundDrawableFlag(R.id.country, R.drawable.ic_flag_us);
 	}

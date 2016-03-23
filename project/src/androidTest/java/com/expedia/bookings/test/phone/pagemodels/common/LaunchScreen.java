@@ -1,13 +1,11 @@
 package com.expedia.bookings.test.phone.pagemodels.common;
 
-import android.content.Context;
 import android.support.test.espresso.ViewInteraction;
 import android.support.test.espresso.matcher.ViewMatchers;
 
 import com.expedia.bookings.R;
 
 import static android.support.test.espresso.Espresso.onView;
-import static android.support.test.espresso.Espresso.openActionBarOverflowOrOptionsMenu;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.matcher.ViewMatchers.isDescendantOfA;
 import static android.support.test.espresso.matcher.ViewMatchers.withEffectiveVisibility;
@@ -95,16 +93,6 @@ public class LaunchScreen {
 
 	public static ViewInteraction fiveLOBDoubleRowWidget() {
 		return onView(withId(R.id.double_row_five_lob_selector));
-	}
-
-	public static void launchProfileScreen(Context context) {
-		openActionBarOverflowOrOptionsMenu(context);
-		onView(withText(R.string.account_settings_menu_label)).perform(click());
-	}
-
-	public static void launchSignIn(Context context) {
-		openActionBarOverflowOrOptionsMenu(context);
-		onView(withText(R.string.sign_in)).perform(click());
 	}
 }
 

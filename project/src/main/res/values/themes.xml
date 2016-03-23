@@ -91,7 +91,6 @@
         <item name="skin_hotelSearchActionBarPadding">0dp</item>
         <item name="skin_webViewPreferencesActionBarLogo">@drawable/ic_action_bar_expedia_logo</item>
         <item name="skin_webViewPreferencesActionBarLogoWithTitle">@drawable/ic_action_bar_expedia_logo_small</item>
-        <item name="skin_actionBarAboutLogo">@drawable/ic_action_bar_expedia_logo</item>
         <item name="skin_actionBarCheckMarkDrawable">@drawable/ic_action_bar_checkmark</item>
         <item name="skin_actionBarButtonTextColor">@color/action_bar_text_yellow</item>
         <item name="skin_actionBarCheckoutDrawable">@drawable/ic_action_bar_checkout_arrow</item>
@@ -216,10 +215,6 @@
 
     <style name="Theme.Phone.WebView">
         <item name="android:logo">?attr/skin_webViewPreferencesActionBarLogo</item>
-    </style>
-
-    <style name="Theme.Phone.AboutActivity">
-        <item name="android:logo">?attr/skin_actionBarAboutLogo</item>
     </style>
 
     <style name="Theme.Phone.WebView.WithTitle">

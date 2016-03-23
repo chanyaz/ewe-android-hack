@@ -16,7 +16,7 @@ import android.widget.TextView;
 
 import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
-import com.expedia.bookings.activity.AboutActivity;
+import com.expedia.bookings.activity.AccountSettingsActivity;
 import com.expedia.bookings.activity.VSCLocaleChangeReceiver;
 import com.expedia.bookings.activity.WebViewActivity;
 import com.expedia.bookings.data.HotelFilter;
@@ -195,7 +195,7 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 		AboutSectionFragment.RowDescriptor app = new AboutSectionFragment.RowDescriptor();
 		app.title = context.getString(R.string.VSC_Voyages_SNF);
 		app.description = context.getString(R.string.VSC_Voyages_SNF_description);
-		app.clickTag = AboutActivity.ROW_VSC_VOYAGES;
+		app.clickTag = AccountSettingsActivity.ROW_VSC_VOYAGES;
 		app.drawableId = R.drawable.ic_vsc_train_app;
 		builder.addRow(app);
 
@@ -215,11 +215,6 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 	@Override
 	public boolean isHangTagProgressBarEnabled() {
 		return true;
-	}
-
-	@Override
-	public boolean isSettingsInMenuVisible() {
-		return false;
 	}
 
 	@Override

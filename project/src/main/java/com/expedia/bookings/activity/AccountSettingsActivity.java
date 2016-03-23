@@ -23,6 +23,7 @@ import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -41,6 +42,7 @@ import com.expedia.bookings.tracking.AdTracker;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.AboutUtils;
 import com.expedia.bookings.utils.ClearPrivateDataUtil;
+import com.expedia.bookings.utils.Constants;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.utils.UserAccountRefresher;
 import com.google.android.gms.common.GoogleApiAvailability;
@@ -58,7 +60,7 @@ import butterknife.OnClick;
 
 public class AccountSettingsActivity extends AppCompatActivity implements AboutSectionFragmentListener,
 		AboutUtils.CountrySelectDialogListener, LoginConfirmLogoutDialogFragment.DoLogoutListener,
-		UserAccountRefresher.IUserAccountRefreshListener {
+		UserAccountRefresher.IUserAccountRefreshListener, ClearPrivateDataDialog.ClearPrivateDataDialogListener {
 	private static final String TAG_SUPPORT = "TAG_SUPPORT";
 	private static final String TAG_ALSO_BY_US = "TAG_ALSO_BY_US";
 	private static final String TAG_LEGAL = "TAG_LEGAL";
@@ -91,6 +93,7 @@ public class AccountSettingsActivity extends AppCompatActivity implements AboutS
 
 	private AboutSectionFragment appSettingsFragment;
 	private AboutSectionFragment legalFragment;
+	private ScrollView scrollContainer;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -123,14 +126,14 @@ public class AccountSettingsActivity extends AppCompatActivity implements AboutS
 		});
 
 		final View toolbarShadow = Ui.findView(this, R.id.toolbar_dropshadow);
-		final View scroller = Ui.findView(this, R.id.scroll_container);
+		scrollContainer = Ui.findView(this, R.id.scroll_container);
 		final float fortyEightDips = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 48, getResources().getDisplayMetrics());
 		toolbarShadow.setAlpha(0);
-		scroller.getViewTreeObserver().addOnScrollChangedListener(
+		scrollContainer.getViewTreeObserver().addOnScrollChangedListener(
 				new ViewTreeObserver.OnScrollChangedListener() {
 					@Override
 					public void onScrollChanged() {
-						float value = scroller.getScrollY() / fortyEightDips;
+						float value = scrollContainer.getScrollY() / fortyEightDips;
 						toolbarShadow.setAlpha(Math.min(1, Math.max(0, value)));
 					}
 				});
@@ -427,8 +430,14 @@ public class AccountSettingsActivity extends AppCompatActivity implements AboutS
 
 				NumberFormat numberFormatter = NumberFormat.getInstance();
 				availablePointsTextView.setText(numberFormatter.format(member.getLoyaltyPointsAvailable()));
-				pendingPointsTextView.setText(getString(R.string.loyalty_points_pending,
-						numberFormatter.format(member.getLoyaltyPointsPending())));
+				if (member.getLoyaltyPointsPending() > 0) {
+					pendingPointsTextView.setVisibility(View.VISIBLE);
+					pendingPointsTextView.setText(getString(R.string.loyalty_points_pending,
+							numberFormatter.format(member.getLoyaltyPointsPending())));
+				}
+				else {
+					pendingPointsTextView.setVisibility(View.GONE);
+				}
 
 				TextView countryTextView = Ui.findView(this, R.id.country);
 				PointOfSale pos = PointOfSale.getPointOfSale();
@@ -491,11 +500,20 @@ public class AccountSettingsActivity extends AppCompatActivity implements AboutS
 		PointOfSale.onPointOfSaleChanged(this);
 		AdTracker.updatePOS();
 
-		setResult(ExpediaBookingPreferenceActivity.RESULT_CHANGED_PREFS);
+		setResult(Constants.RESULT_CHANGED_PREFS);
 
 		adjustLoggedInViews();
 		appSettingsFragment.notifyOnRowDataChanged(ROW_COUNTRY);
 		legalFragment.setRowVisibility(ROW_ATOL_INFO, PointOfSale.getPointOfSale().showAtolInfo() ? View.VISIBLE : View.GONE);
+		Toast.makeText(this, R.string.toast_private_data_cleared, Toast.LENGTH_LONG).show();
+	}
+
+	////////////////////////////////////
+	// ClearPrivateDataDialogListener
+
+	@Override
+	public void onPrivateDataCleared() {
+		adjustLoggedInViews();
 		Toast.makeText(this, R.string.toast_private_data_cleared, Toast.LENGTH_LONG).show();
 	}
 
@@ -533,6 +551,7 @@ public class AccountSettingsActivity extends AppCompatActivity implements AboutS
 	@Override
 	public void doLogout() {
 		User.signOut(this);
+		scrollContainer.smoothScrollTo(0, 0);
 		adjustLoggedInViews();
 	}
 

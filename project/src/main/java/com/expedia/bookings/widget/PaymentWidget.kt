@@ -133,9 +133,13 @@ public open class PaymentWidget(context: Context, attr: AttributeSet) : Presente
         }
 
         vm.userLogin.subscribe { isLoggedIn ->
-            if (isLoggedIn && !isFilled() && Db.getUser()?.storedCreditCards?.size == 1 && Db.getTemporarilySavedCard() == null) {
-                sectionBillingInfo.bind(Db.getBillingInfo())
-                selectFirstAvailableCard()
+            if (isLoggedIn && !isFilled()) {
+                if (Db.getUser()?.storedCreditCards?.size == 1 && Db.getTemporarilySavedCard() == null) {
+                    sectionBillingInfo.bind(Db.getBillingInfo())
+                    selectFirstAvailableCard()
+                } else if (Db.getUser().storedCreditCards.size == 0 && Db.getTemporarilySavedCard() != null) {
+                    storedCreditCardListener.onTemporarySavedCreditCardChosen(Db.getTemporarilySavedCard())
+                }
             }
         }
 
@@ -157,7 +161,7 @@ public open class PaymentWidget(context: Context, attr: AttributeSet) : Presente
     open val storedCreditCardListener = object : StoredCreditCardList.IStoredCreditCardListener {
         override fun onStoredCreditCardChosen(card: StoredCreditCard) {
             sectionBillingInfo.billingInfo.storedCard = card
-            temporarilySavedCardIsSelected(false)
+            temporarilySavedCardIsSelected(false, Db.getTemporarilySavedCard())
             viewmodel.billingInfoAndStatusUpdate.onNext(Pair(sectionBillingInfo.billingInfo, ContactDetailsCompletenessStatus.COMPLETE))
             viewmodel.onStoredCardChosen.onNext(Unit)
             closePopup()
@@ -166,7 +170,7 @@ public open class PaymentWidget(context: Context, attr: AttributeSet) : Presente
         override fun onTemporarySavedCreditCardChosen(info: BillingInfo) {
             reset()
             removeStoredCard()
-            temporarilySavedCardIsSelected(true)
+            temporarilySavedCardIsSelected(true,Db.getTemporarilySavedCard())
             viewmodel.billingInfoAndStatusUpdate.onNext(Pair(Db.getTemporarilySavedCard(), ContactDetailsCompletenessStatus.COMPLETE))
             viewmodel.onStoredCardChosen.onNext(Unit)
             closePopup()
@@ -219,6 +223,7 @@ public open class PaymentWidget(context: Context, attr: AttributeSet) : Presente
 
         FontCache.setTypeface(cardInfoExpiration, FontCache.Font.ROBOTO_REGULAR)
         FontCache.setTypeface(cardInfoName, FontCache.Font.ROBOTO_MEDIUM)
+        Db.setTemporarilySavedCard(null)
     }
 
     protected fun getCreditCardIcon(drawableResourceId: Int): Drawable {
@@ -254,6 +259,7 @@ public open class PaymentWidget(context: Context, attr: AttributeSet) : Presente
         Db.getWorkingBillingInfoManager().workingBillingInfo.storedCard = card
         Db.getWorkingBillingInfoManager().commitWorkingBillingInfoToDB()
         sectionBillingInfo.billingInfo.storedCard = card
+        temporarilySavedCardIsSelected(false, sectionBillingInfo.billingInfo)
         viewmodel.billingInfoAndStatusUpdate.onNext(Pair(sectionBillingInfo.billingInfo, ContactDetailsCompletenessStatus.COMPLETE))
     }
 
@@ -421,7 +427,7 @@ public open class PaymentWidget(context: Context, attr: AttributeSet) : Presente
             onFocusChange(creditCardNumber, true)
             if (forward) {
                 removeStoredCard()
-                temporarilySavedCardIsSelected(false)
+                temporarilySavedCardIsSelected(false,Db.getTemporarilySavedCard())
             }
             if (forward) Ui.showKeyboard(creditCardNumber, null) else Ui.hideKeyboard(this@PaymentWidget)
             storedCreditCardList.bind()
@@ -471,8 +477,7 @@ public open class PaymentWidget(context: Context, attr: AttributeSet) : Presente
         return (User.isLoggedIn(context) && Db.getUser().storedCreditCards.isNotEmpty()) || Db.getTemporarilySavedCard() != null || WalletUtils.isWalletSupported(getLineOfBusiness())
     }
 
-    private fun temporarilySavedCardIsSelected(isSelected: Boolean) {
-        val info = Db.getTemporarilySavedCard()
+    private fun temporarilySavedCardIsSelected(isSelected: Boolean, info: BillingInfo?) {
         info?.saveCardToExpediaAccount = isSelected
     }
 

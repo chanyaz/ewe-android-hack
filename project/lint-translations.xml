@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<lint>
+    <!-- Disable all checks -->
+    <issue id="all" severity="ignore" />
+
+    <issue id="MissingTranslation" severity="informational">
+        <ignore path="**/arrays.xml" />
+    </issue>
+</lint>

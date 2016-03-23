@@ -13,9 +13,6 @@
     <!-- ActionBar icon/logo in WebView/Preference Activities -->
     <attr name="skin_webViewPreferencesActionBarLogo" format="reference" />
 
-    <!-- ActionBar logo in Info Activity -->
-    <attr name="skin_actionBarAboutLogo" format="reference" />
-
     <!-- ActionBar icon/logo in WebView that also sets a title -->
     <attr name="skin_webViewPreferencesActionBarLogoWithTitle" format="reference" />
     <!-- ActionBar icon/logo in HotelRulesActivities -->

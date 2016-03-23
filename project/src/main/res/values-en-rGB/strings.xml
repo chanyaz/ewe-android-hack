@@ -3,6 +3,7 @@
 
     <!-- Hotels -->
     <!-- Hotels Calendar Strings -->
+    <string name="select_checkin_date">Select check in date</string>
     <!-- Hotels calendar tooltip bottom line after a single date is selected -->
     <string name="hotel_calendar_tooltip_bottom">Next: Select check out date</string>
     <!-- When user hasn't picked check out date, we show something like: "Jan 21 - Select check out date" -->
@@ -84,10 +85,6 @@
     <string name="cars_view_details_text">View Details</string>
     <!-- Text for driver details toolbar-->
     <string name="cars_driver_details_text">Driver details</string>
-    <!-- Text for payment details toolbar-->
-    <string name="cars_payment_details_text">Payment details</string>
-    <!-- Text for payment options toolbar-->
-    <string name="cars_payment_options_text">Payment options</string>
     <!-- Text for enter driver details-->
     <string name="enter_driver_details">Enter driver details</string>
     <!-- Text for select saved contacts-->
@@ -223,7 +220,7 @@
     <!-- Text for enter guest details line 2 -->
     <string name="checkout_hotelsv2_enter_guest_details_line2">Enter your information</string>
     <!-- Text for enter payment details line 1 -->
-    <string name="checkout_hotelsv2_enter_payment_details_line1">Payment Details</string>
+    <string name="checkout_enter_payment_details">Payment Method</string>
     <!-- Text for enter payment details line 2 -->
     <string name="checkout_hotelsv2_enter_payment_details_line2">Enter credit card</string>
     <!-- Label to indicate that the user has selected a stored credit card -->
@@ -242,6 +239,8 @@
     <string name="temporarily_saved_card_TEMPLATE">Saved {cardtype} …{cardno}</string>
     <!--Text for stored card -->
     <string name="stored_card_TEMPLATE">Saved {cardtype}</string>
+    <!-- Select card from checkout saved cards list -->
+    <string name="saved_cards">Saved cards</string>
 
     <!-- Car error strings -->
     <!-- Message for user that pick-up time is too early.  -->
@@ -310,7 +309,7 @@
     <!--LX Search widget header text -->
     <string name="lx_search_title">Search Activities</string>
     <!--GT Search widget header text -->
-    <string name="gt_search_title">Search Transport</string>
+    <string name="gt_search_title">Search Transportation</string>
     <!-- Button to show calendar and selected dates -->
     <string name="select_lx_search_dates">Select date</string>
     <!-- Activity details highlights heading -->
@@ -701,6 +700,11 @@
     <!-- Category Title "All Things To Do" -->
     <string name="lx_category_all_things_to_do">All Things To Do</string>
 
+    <string name="lx_you_might_also_like">You might also like</string>
+    <string name="lx_customers_recommend">of customers recommend.</string>
+    <!-- LX user recommended percentage template-->
+    <string name="lx_recommend_percent_Template">{recommend}%</string>
+
     <!-- Tablet Results strings -->
     <!-- Sort & Filter label -->
     <string name="Sort_and_Filter">Sort &amp; Filter</string>
@@ -958,7 +962,7 @@
     <!-- Activities -->
     <string name="nav_lx">Activities</string>
     <!-- Ground Transport -->
-    <string name="nav_transport">Transport</string>
+    <string name="nav_transport">Transportation</string>
 
     <!-- New launch screen -->
     <!-- Top deals tonight -->
@@ -1391,6 +1395,9 @@
     <string name="itin_card_details_expires">Expires</string>
     <string name="itin_card_details_guests">Guests</string>
     <string name="itin_card_details_details">Additional Information</string>
+    <string name="itin_card_flight_checkin_title">Flight Check In</string>
+
+    <string name="itin_card_flight_checkin_details">Visit %s\&apos;s site</string>
     <string name="itin_card_details_pick_up">Pick Up</string>
     <string name="itin_card_details_drop_off">Drop Off</string>
     <!-- Tell users when they can pick up a rental car in three days -->
@@ -1456,6 +1463,17 @@
     <!-- Message to users about when they checked out of their hotel.  %1$s is a date (e.g., "Checked out Jul 11") -->
     <string name="itin_card_hotel_summary_checked_out_day_TEMPLATE">Checked out %1$s</string>
     <string name="itin_card_activity_summary_TEMPLATE">Valid starting &lt;b&gt;%1$s&lt;/b&gt;</string>
+    <!-- Message to users about when they check in of their flight-->
+    <string name="itin_card_flight_checkin">Check In Now</string>
+    <!-- Title of alert dialog when user come back from check in-->
+    <string name="itin_checkin_dialog_title">Checked In?</string>
+    <!-- message of alert dialog (e.g., "Were you able to successfully check into your flight on Delta's website?")-->
+    <string name="itin_checkin_dialog_message">Were you able to successfully check into your flight on %s\&apos;s website?</string>
+    <!-- Title of alert dialog when user fail to check in (e.g., "We're Sorry!")-->
+    <string name="itin_checkin_failure_dialog_title">We\&apos;re Sorry!</string>
+    <!-- message of alert dialog (e.g., "We'll look into it. Your Confirmation Number is now copied to the clipboard so you can check in on Delta's site or app directly.")-->
+    <string name="itin_checkin_failure_dialog_message">We\&apos;ll look into it. Your Confirmation Number is now copied to the clipboard so you can check in on %s\&apos;s site or app directly.</string>
+
 
     <!-- Action Buttons -->
     <string name="itin_action_directions">Directions</string>
@@ -1794,10 +1812,6 @@
     <string name="or_select_new_paymet_method">Select a Payment Method</string>
     <!-- Select Payment -->
     <string name="select_payment">Select Payment</string>
-    <!-- Select payment sentence case -->
-    <string name="select_payment_sentence_case">Payment details</string>
-    <!-- Select payment sentence case AB Test variate2 -->
-    <string name="select_payment_sentence_case_variate2">Payment</string>
     <!-- Select payment callout AB Test variate2 -->
     <string name="select_payment_callout">Enter Details</string>
     <!-- Add new card -->
@@ -2135,6 +2149,7 @@
     <string name="save_traveler_message_TEMPLATE">Save {name}\&apos;s information under your {brand} account to speed up future purchases?</string>
     <!-- no thanks -->
     <string name="no_thanks">No Thanks</string>
+    <!-- Advanced flight traveler options (seat pref, accessibility and redress number) button label -->
     <string name="advanced">Advanced</string>
 
     <!-- Overwrite traveler dialog -->
@@ -2154,8 +2169,8 @@
     <string name="first_name">First Name</string>
     <!-- Middle name label -->
     <string name="middle_name">Middle Name</string>
-    <!--A hint for the user to enter their name's initial letter-->
-    <string name="initial_name">Initial</string>
+    <!--A hint for the customer to enter their middle name's initial -->
+    <string name="initial_middle_name">Initial</string>
     <!-- Last name label -->
     <string name="last_name">Surname</string>
     <!-- date of birth label -->
@@ -2203,6 +2218,7 @@
     <string name="prefers_seat_TEMPLATE">Prefers %1$s Seat</string>
     <!-- prefers seat template -->
     <string name="prefers_seat_colored_TEMPLATE">Prefers %1$s Seat</string>
+    <string name="prefers_seat_colored_TEMPLATE2">Prefers: %1$s Seat</string>
     <!-- loading traveler info -->
     <string name="loading_traveler_info">Loading traveller information…</string>
     <!-- Passport -->
@@ -3141,18 +3157,6 @@
     <string name="info_label_privacy_policy">Privacy Policy</string>
     <!-- Copyright information -->
     <string name="copyright_TEMPLATE">© Copyright 2012-{year} {brand}, Inc.\nAll rights reserved.</string>
-    <!-- Dialog Title telling the user they have been signed of their account and all data saved about them has been removed -->
-    <string name="dialog_title_signed_out_and_cleared_private_data">Signed out and data cleared</string>
-    <!-- Dialog Message telling the user they have been signed of their account and all data saved about them has been removed -->
-    <string name="dialog_message_signed_out_and_cleared_private_data_TEMPLATE">You are signed out of your {brand} account, and all saved billing and contact information has been removed.</string>
-    <!-- Dialog Title telling the user they have been signed of their account and all data saved about them has been removed -->
-    <string name="dialog_title_cleared_private_data">Private data cleared</string>
-    <!-- Dialog Message telling the user they have been signed of their account and all data saved about them has been removed -->
-    <string name="dialog_message_cleared_private_data">All saved billing and contact information has been removed.</string>
-    <!-- Action button label to follow on twitter -->
-    <string name="Follow">Follow</string>
-    <!-- Action button label to like on facebook -->
-    <string name="Like">Like</string>
     <!-- Credit to the author of the "Stack Blur" algorithm we use in our app -->
     <string name="stack_blur_credit">This app makes use of the Stack Blur algorithm by Mario Klingemann.</string>
     <!-- String where we link to the google play services open source licenses -->
@@ -3175,8 +3179,6 @@
     <string name="email_address">Email Address</string>
 
     <!-- Preferences -->
-    <!-- Category name for general preferences -->
-    <string name="preference_category_general">General</string>
     <!-- Title for point of sale setting -->
     <string name="preference_point_of_sale_title">Country</string>
 
@@ -3249,8 +3251,6 @@
     <!-- Menu strings -->
     <!-- Label for "settings" menu item. -->
     <string name="Settings">Settings</string>
-    <!-- Label for "info about this app" menu item. -->
-    <string name="Info">Info</string>
 
     <!-- Error strings - replacements for default EAN errors -->
     <!-- Replaces "result was null" for no result search -->
@@ -3904,6 +3904,20 @@
     <string name="select_hotel_template">Select hotel in %s</string>
     <!-- Bundle Overview searching flight -->
     <string name="searching_flight_to">Searching flight to %s</string>
+    <!-- Package All Flight label -->
+    <string name="all_flights_label">All Flights</string>
+    <!-- Package Best Flight title -->
+    <string name="best_flight_title">Best Flight</string>
+    <!-- Package Best Flight description -->
+    <string name="best_flight_description">cheap • short • popular departure</string>
+
+    <!-- Package Filters Strings -->
+    <plurals name="flight_filter_stops">
+        <item quantity="zero">Direct</item>
+        <item quantity="one">1 Stop</item>
+        <item quantity="two">2+ Stops</item>
+        <item quantity="other">2+ Stops</item>
+    </plurals>
 
     <!-- Flight duration template e.g. 1d 12h 42m (Nonstop) -->
     <string name="flight_duration_description_template">%1$s (%2$s)</string>
@@ -3941,19 +3955,21 @@
         <item quantity="other">Hotel in {city} - 1 room, {number} nights</item>
     </plurals>
 
-    <!-- Package Trip Overview -->
-    <string name="trip_overview">Trip Overview</string>
+    <!-- Text indicating that the user can drag this button to view their trip -->
+    <string name="trip_overview">View Trip Details</string>
     <!-- Slide to book -->
     <string name="package_slider_text">Slide to book</string>
     <string name="hotel_city_country_TEMPLATE">{city}, {country}</string>
+    <!-- Confirmation Text indicating rewards points user got for the booked package -->
+    <string name="package_confirmation_reward_points">{rewardpoints} {brand}+ Points</string>
 
     <!-- Flight Duration filter label-->
     <string name="flight_duration_label">Flight Duration</string>
-    <string name="flight_duration_hour_short">h</string>
+    <string name="flight_duration_hour_short">hr</string>
     <!-- Departure Time Range filter label-->
-    <string name="departure_time_range">Departure Time Range</string>
+    <string name="departure_time_range">Departure Time</string>
     <!-- Arrival Time Range filter label-->
-    <string name="arrival_time_range">Arrival Time Range</string>
+    <string name="arrival_time_range">Arrival Time</string>
 
     <!-- Package Change hotel description -->
     <string name="package_change_hotel">Change hotel</string>
@@ -3987,7 +4003,8 @@
     <string name="package_flight_overview_layover_in_TEMPLATE">Layover in ({airportcode}) {city}</string>
     <string name="package_flight_overview_airline_airplane_TEMPLATE">{carrier} {flightnumber} - {airplanetype}</string>
     <string name="package_flight_overview_total_duration_TEMPLATE">Total Duration: {duration}</string>
-
+    <!-- Itinerary summary text- Itinerary number sent to the user email -->
+    <string name="package_itinerary_confirmation_TEMPLATE">#{itinerary} sent to {email}</string>
     <!--Rail search screen title-->
     <string name="trains">Trains</string>
 
@@ -3999,8 +4016,21 @@
     <string name="enter_destination_hint">Enter Destination</string>
 
     <!-- Package breakdown dialog -->
-    <string name="package_breakdown_hotel_flight_summary">Hotel + Flight</string>
+    <string name="package_breakdown_hotel_flight_summary">Hotel + Flights</string>
     <string name="package_breakdown_taxes_fees">Taxes &amp; Fees</string>
     <string name="package_breakdown_taxes_fees_included_TEMPLATE">Taxes &amp; Fees Included ({taxes})</string>
     <string name="package_breakdown_total_savings">Total Savings</string>
+
+    <!-- Shop with points -->
+    <string name="regular_loyalty_applied_message">Expedia+ Points applied!</string>
+    <string name="vip_loyalty_applied_message">2x points applied!</string>
+    <!-- String to be appended with +VIP in header of room rates. -->
+    <string name="vip_loyalty_applied_header_message">2x Expedia+ Points applied!</string>
+
+    <!-- Message telling you on confirmation screen where you've booked a package to -->
+    <string name="yay_going_somewhere">You\&apos;re going to</string>
+    <!-- Cars cross-sell message on package confirmation -->
+    <string name="rental_car_message">Need a car hire?</string>
+    <!-- Cars cross-sell message description on package confirmation -->
+    <string name="rental_car_message_desc">Shop cars and save money</string>
 </resources>

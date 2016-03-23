@@ -3,6 +3,7 @@
 
     <!-- Hotels -->
     <!-- Hotels Calendar Strings -->
+    <string name="select_checkin_date">체크인 날짜 선택</string>
     <!-- Hotels calendar tooltip bottom line after a single date is selected -->
     <string name="hotel_calendar_tooltip_bottom">다음: 체크아웃 날짜 선택</string>
     <!-- When user hasn't picked check out date, we show something like: "Jan 21 - Select check out date" -->
@@ -84,10 +85,6 @@
     <string name="cars_view_details_text">세부 정보 보기</string>
     <!-- Text for driver details toolbar-->
     <string name="cars_driver_details_text">운전자 정보</string>
-    <!-- Text for payment details toolbar-->
-    <string name="cars_payment_details_text">결제 정보</string>
-    <!-- Text for payment options toolbar-->
-    <string name="cars_payment_options_text">결제 옵션</string>
     <!-- Text for enter driver details-->
     <string name="enter_driver_details">운전자 정보 입력</string>
     <!-- Text for select saved contacts-->
@@ -223,7 +220,7 @@
     <!-- Text for enter guest details line 2 -->
     <string name="checkout_hotelsv2_enter_guest_details_line2">정보 입력</string>
     <!-- Text for enter payment details line 1 -->
-    <string name="checkout_hotelsv2_enter_payment_details_line1">결제 정보</string>
+    <string name="checkout_enter_payment_details">결제 방법</string>
     <!-- Text for enter payment details line 2 -->
     <string name="checkout_hotelsv2_enter_payment_details_line2">신용카드 입력</string>
     <!-- Label to indicate that the user has selected a stored credit card -->
@@ -242,6 +239,8 @@
     <string name="temporarily_saved_card_TEMPLATE">{cardtype} …{cardno} 저장됨</string>
     <!--Text for stored card -->
     <string name="stored_card_TEMPLATE">{cardtype} 저장됨</string>
+    <!-- Select card from checkout saved cards list -->
+    <string name="saved_cards">저장된 카드</string>
 
     <!-- Car error strings -->
     <!-- Message for user that pick-up time is too early.  -->
@@ -700,6 +699,11 @@
 
     <!-- Category Title "All Things To Do" -->
     <string name="lx_category_all_things_to_do">모든 즐길거리</string>
+
+    <string name="lx_you_might_also_like">좋아할 만한 다른 것들</string>
+    <string name="lx_customers_recommend">의 고객이 추천합니다.</string>
+    <!-- LX user recommended percentage template-->
+    <string name="lx_recommend_percent_Template">{recommend}%</string>
 
     <!-- Tablet Results strings -->
     <!-- Sort & Filter label -->
@@ -1391,6 +1395,9 @@
     <string name="itin_card_details_expires">만료</string>
     <string name="itin_card_details_guests">고객 수</string>
     <string name="itin_card_details_details">추가 정보</string>
+    <string name="itin_card_flight_checkin_title">항공편 체크인</string>
+
+    <string name="itin_card_flight_checkin_details">%s 사이트 방문</string>
     <string name="itin_card_details_pick_up">차량 인수</string>
     <string name="itin_card_details_drop_off">차량 반납</string>
     <!-- Tell users when they can pick up a rental car in three days -->
@@ -1456,6 +1463,17 @@
     <!-- Message to users about when they checked out of their hotel.  %1$s is a date (e.g., "Checked out Jul 11") -->
     <string name="itin_card_hotel_summary_checked_out_day_TEMPLATE">체크아웃한 날짜: %1$s</string>
     <string name="itin_card_activity_summary_TEMPLATE">&lt;b&gt;%1$s&lt;/b&gt;부터 유효</string>
+    <!-- Message to users about when they check in of their flight-->
+    <string name="itin_card_flight_checkin">지금 체크인</string>
+    <!-- Title of alert dialog when user come back from check in-->
+    <string name="itin_checkin_dialog_title">탑승 수속하셨나요?</string>
+    <!-- message of alert dialog (e.g., "Were you able to successfully check into your flight on Delta's website?")-->
+    <string name="itin_checkin_dialog_message">%s 웹사이트에서 항공편 체크인을 성공적으로 하셨나요?</string>
+    <!-- Title of alert dialog when user fail to check in (e.g., "We're Sorry!")-->
+    <string name="itin_checkin_failure_dialog_title">죄송합니다.</string>
+    <!-- message of alert dialog (e.g., "We'll look into it. Your Confirmation Number is now copied to the clipboard so you can check in on Delta's site or app directly.")-->
+    <string name="itin_checkin_failure_dialog_message">살펴보도록 하겠습니다. 고객님의 확인 번호가 현재 클립보드에 복사되어 있으므로 %s 사이트 또는 앱에서 직접 체크인을 할 수 있습니다.</string>
+
 
     <!-- Action Buttons -->
     <string name="itin_action_directions">길 안내</string>
@@ -1794,10 +1812,6 @@
     <string name="or_select_new_paymet_method">결제 방법 선택</string>
     <!-- Select Payment -->
     <string name="select_payment">결제 선택</string>
-    <!-- Select payment sentence case -->
-    <string name="select_payment_sentence_case">결제 정보</string>
-    <!-- Select payment sentence case AB Test variate2 -->
-    <string name="select_payment_sentence_case_variate2">결제</string>
     <!-- Select payment callout AB Test variate2 -->
     <string name="select_payment_callout">세부 정보 입력</string>
     <!-- Add new card -->
@@ -2135,6 +2149,7 @@
     <string name="save_traveler_message_TEMPLATE">나중에 간편하게 결제하시도록 {name} 님의 정보를 고객님의 {brand} 계정에 저장할까요?</string>
     <!-- no thanks -->
     <string name="no_thanks">나중에 하기</string>
+    <!-- Advanced flight traveler options (seat pref, accessibility and redress number) button label -->
     <string name="advanced">고급 옵션</string>
 
     <!-- Overwrite traveler dialog -->
@@ -2154,8 +2169,8 @@
     <string name="first_name">이름(영문)</string>
     <!-- Middle name label -->
     <string name="middle_name">중간 이름(영문)</string>
-    <!--A hint for the user to enter their name's initial letter-->
-    <string name="initial_name">이니셜</string>
+    <!--A hint for the customer to enter their middle name's initial -->
+    <string name="initial_middle_name">이니셜</string>
     <!-- Last name label -->
     <string name="last_name">성(영문)</string>
     <!-- date of birth label -->
@@ -2203,6 +2218,7 @@
     <string name="prefers_seat_TEMPLATE">%1$s 좌석 선호</string>
     <!-- prefers seat template -->
     <string name="prefers_seat_colored_TEMPLATE">%1$s 좌석 선호</string>
+    <string name="prefers_seat_colored_TEMPLATE2">%1$s 좌석 선호</string>
     <!-- loading traveler info -->
     <string name="loading_traveler_info">여행객 정보 로드 중…</string>
     <!-- Passport -->
@@ -3141,18 +3157,6 @@
     <string name="info_label_privacy_policy">개인정보 보호정책</string>
     <!-- Copyright information -->
     <string name="copyright_TEMPLATE">© Copyright 2012-{year} {brand}, Inc.\nAll rights reserved.</string>
-    <!-- Dialog Title telling the user they have been signed of their account and all data saved about them has been removed -->
-    <string name="dialog_title_signed_out_and_cleared_private_data">로그아웃되고 데이터가 삭제되었습니다.</string>
-    <!-- Dialog Message telling the user they have been signed of their account and all data saved about them has been removed -->
-    <string name="dialog_message_signed_out_and_cleared_private_data_TEMPLATE">{brand} 계정에서 로그아웃되었습니다. 저장된 모든 청구 및 연락처 정보가 삭제되었습니다.</string>
-    <!-- Dialog Title telling the user they have been signed of their account and all data saved about them has been removed -->
-    <string name="dialog_title_cleared_private_data">개인 정보가 삭제되었습니다.</string>
-    <!-- Dialog Message telling the user they have been signed of their account and all data saved about them has been removed -->
-    <string name="dialog_message_cleared_private_data">저장된 모든 청구 및 연락처 정보가 삭제되었습니다.</string>
-    <!-- Action button label to follow on twitter -->
-    <string name="Follow">팔로우하기</string>
-    <!-- Action button label to like on facebook -->
-    <string name="Like">좋아요</string>
     <!-- Credit to the author of the "Stack Blur" algorithm we use in our app -->
     <string name="stack_blur_credit">이 앱은 마리오 클링거만(Mario Klingemann)의 Stack Blur 알고리즘을 사용합니다.</string>
     <!-- String where we link to the google play services open source licenses -->
@@ -3175,8 +3179,6 @@
     <string name="email_address">이메일 주소</string>
 
     <!-- Preferences -->
-    <!-- Category name for general preferences -->
-    <string name="preference_category_general">일반 사항</string>
     <!-- Title for point of sale setting -->
     <string name="preference_point_of_sale_title">국가</string>
 
@@ -3249,8 +3251,6 @@
     <!-- Menu strings -->
     <!-- Label for "settings" menu item. -->
     <string name="Settings">설정</string>
-    <!-- Label for "info about this app" menu item. -->
-    <string name="Info">정보</string>
 
     <!-- Error strings - replacements for default EAN errors -->
     <!-- Replaces "result was null" for no result search -->
@@ -3891,9 +3891,9 @@
     <!-- Bundle Overview Step 2, select a flight -->
     <string name="step_two">2단계: 항공 선택</string>
     <!-- Package hotel cell: Price Includes flights -->
-    <string name="package_price_include_flights">요금에 호텔+항공편이 포함됩니다.</string>
+    <string name="package_price_include_flights">요금에 호텔+항공이 포함됩니다.</string>
     <!-- Package hotel map cell: Price Includes Taxes and Fees -->
-    <string name="package_price_includes_taxes_fees">요금에 1인당 항공편+호텔, 세금 및 수수료가 포함됩니다.</string>
+    <string name="package_price_includes_taxes_fees">요금에 1인당 항공+호텔, 세금 및 수수료가 포함됩니다.</string>
     <!-- Flight time and number of travelers template. e.g. "Sep 24, 2 Travelers" -->
     <string name="flight_time_traveler_TEMPLATE">%1$s, %2$s</string>
     <!-- Title for travel info in flight card. e.g. "Sep 24 at 6:30am, 2 Travelers" -->
@@ -3904,6 +3904,20 @@
     <string name="select_hotel_template">%s 호텔 선택</string>
     <!-- Bundle Overview searching flight -->
     <string name="searching_flight_to">%s행 항공편 검색 중</string>
+    <!-- Package All Flight label -->
+    <string name="all_flights_label">모든 항공편</string>
+    <!-- Package Best Flight title -->
+    <string name="best_flight_title">최적의 항공편</string>
+    <!-- Package Best Flight description -->
+    <string name="best_flight_description">저렴하고 • 짧은 • 인기 출발</string>
+
+    <!-- Package Filters Strings -->
+    <plurals name="flight_filter_stops">
+        <item quantity="zero">직항</item>
+        <item quantity="one">1번 경유</item>
+        <item quantity="two">2번 이상 경유</item>
+        <item quantity="other">2번 이상 경유</item>
+    </plurals>
 
     <!-- Flight duration template e.g. 1d 12h 42m (Nonstop) -->
     <string name="flight_duration_description_template">%1$s (%2$s)</string>
@@ -3941,19 +3955,21 @@
         <item quantity="other">{city} 호텔 - 객실 1개, {number}박</item>
     </plurals>
 
-    <!-- Package Trip Overview -->
-    <string name="trip_overview">여행 정보</string>
+    <!-- Text indicating that the user can drag this button to view their trip -->
+    <string name="trip_overview">여행 상세 정보 보기</string>
     <!-- Slide to book -->
     <string name="package_slider_text">밀어서 예약하기</string>
-    <string name="hotel_city_country_TEMPLATE">{country} {city}</string>
+    <string name="hotel_city_country_TEMPLATE">{city}, {country}</string>
+    <!-- Confirmation Text indicating rewards points user got for the booked package -->
+    <string name="package_confirmation_reward_points">{brand}+ {rewardpoints}포인트</string>
 
     <!-- Flight Duration filter label-->
     <string name="flight_duration_label">비행시간</string>
     <string name="flight_duration_hour_short">시간</string>
     <!-- Departure Time Range filter label-->
-    <string name="departure_time_range">출발 시간대</string>
+    <string name="departure_time_range">출발 시간</string>
     <!-- Arrival Time Range filter label-->
-    <string name="arrival_time_range">도착 시간대</string>
+    <string name="arrival_time_range">도착 시간</string>
 
     <!-- Package Change hotel description -->
     <string name="package_change_hotel">호텔 변경</string>
@@ -3987,7 +4003,8 @@
     <string name="package_flight_overview_layover_in_TEMPLATE">({airportcode}) {city}에서 중간 경유</string>
     <string name="package_flight_overview_airline_airplane_TEMPLATE">{carrier} {flightnumber} - {airplanetype}</string>
     <string name="package_flight_overview_total_duration_TEMPLATE">총 소요 시간: {duration}</string>
-
+    <!-- Itinerary summary text- Itinerary number sent to the user email -->
+    <string name="package_itinerary_confirmation_TEMPLATE">{itinerary}, 다음으로 전송: {email}</string>
     <!--Rail search screen title-->
     <string name="trains">기차</string>
 
@@ -4003,4 +4020,17 @@
     <string name="package_breakdown_taxes_fees">세금 및 수수료</string>
     <string name="package_breakdown_taxes_fees_included_TEMPLATE">세금 및 수수료 포함({taxes})</string>
     <string name="package_breakdown_total_savings">총 할인</string>
+
+    <!-- Shop with points -->
+    <string name="regular_loyalty_applied_message">Expedia+ 포인트 적용됨!</string>
+    <string name="vip_loyalty_applied_message">포인트 두 배 적용됨!</string>
+    <!-- String to be appended with +VIP in header of room rates. -->
+    <string name="vip_loyalty_applied_header_message">Expedia+ 포인트 두 배 적용됨!</string>
+
+    <!-- Message telling you on confirmation screen where you've booked a package to -->
+    <string name="yay_going_somewhere">다음의 목적지로 떠나시는군요:</string>
+    <!-- Cars cross-sell message on package confirmation -->
+    <string name="rental_car_message">렌터카가 필요하세요?</string>
+    <!-- Cars cross-sell message description on package confirmation -->
+    <string name="rental_car_message_desc">렌터카를 예약하고 할인받으세요.</string>
 </resources>

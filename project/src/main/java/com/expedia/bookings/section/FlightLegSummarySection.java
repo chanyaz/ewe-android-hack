@@ -60,6 +60,7 @@ public class FlightLegSummarySection extends RelativeLayout {
 	private TextView mOperatingCarrierTextView;
 	private TextView mPriceTextView;
 	private TextView mNumberTicketsLeftView;
+	private boolean mShowNumberTicketsLeftView = true;
 	private TextView mRoundtripTextView;
 	private TextView mFlightTimeTextView;
 	private TextView mDepartureTimeTextView;
@@ -138,6 +139,10 @@ public class FlightLegSummarySection extends RelativeLayout {
 	// From FlightListFragment.onCreateView(), when showing at top of return flight list; trip is null
 	public void bind(FlightTrip trip, final FlightLeg leg, DateTime minTime, DateTime maxTime) {
 		bind(trip, leg, minTime, maxTime, false);
+	}
+
+	public void setShowNumberTicketsLeftView(boolean showNumberTicketsLeftView) {
+		this.mShowNumberTicketsLeftView = showNumberTicketsLeftView;
 	}
 
 	private void bind(FlightTrip trip, final FlightLeg leg, DateTime minTime, DateTime maxTime,
@@ -252,7 +257,7 @@ public class FlightLegSummarySection extends RelativeLayout {
 			}
 		}
 
-		if (mNumberTicketsLeftView != null) {
+		if (mNumberTicketsLeftView != null && mShowNumberTicketsLeftView) {
 			boolean isUserBucketedForTest = Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppFlightsNumberOfTicketsUrgencyTest);
 			boolean showNumberSeatsRemaining =
 				trip != null && (trip.getSeatsRemaining() > 0 && trip.getSeatsRemaining() < NUMB_SEATS_REMAINING_SHOW_MSG_THRESHOLD);

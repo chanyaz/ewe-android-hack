@@ -3,6 +3,7 @@
 
     <!-- Hotels -->
     <!-- Hotels Calendar Strings -->
+    <string name="select_checkin_date">Välj incheckningsdatum</string>
     <!-- Hotels calendar tooltip bottom line after a single date is selected -->
     <string name="hotel_calendar_tooltip_bottom">Nästa: Välj utcheckningsdatum</string>
     <!-- When user hasn't picked check out date, we show something like: "Jan 21 - Select check out date" -->
@@ -84,10 +85,6 @@
     <string name="cars_view_details_text">Se info</string>
     <!-- Text for driver details toolbar-->
     <string name="cars_driver_details_text">Förarens uppgifter</string>
-    <!-- Text for payment details toolbar-->
-    <string name="cars_payment_details_text">Betalningsuppgifter</string>
-    <!-- Text for payment options toolbar-->
-    <string name="cars_payment_options_text">Betalningsalternativ</string>
     <!-- Text for enter driver details-->
     <string name="enter_driver_details">Ange förarens uppgifter</string>
     <!-- Text for select saved contacts-->
@@ -223,7 +220,7 @@
     <!-- Text for enter guest details line 2 -->
     <string name="checkout_hotelsv2_enter_guest_details_line2">Ange dina uppgifter</string>
     <!-- Text for enter payment details line 1 -->
-    <string name="checkout_hotelsv2_enter_payment_details_line1">Betalningsuppgifter</string>
+    <string name="checkout_enter_payment_details">Betalningsmetod</string>
     <!-- Text for enter payment details line 2 -->
     <string name="checkout_hotelsv2_enter_payment_details_line2">Ange kreditkort</string>
     <!-- Label to indicate that the user has selected a stored credit card -->
@@ -242,6 +239,8 @@
     <string name="temporarily_saved_card_TEMPLATE">Sparat {cardtype} …{cardno}</string>
     <!--Text for stored card -->
     <string name="stored_card_TEMPLATE">Sparat {cardtype}</string>
+    <!-- Select card from checkout saved cards list -->
+    <string name="saved_cards">Sparade kort</string>
 
     <!-- Car error strings -->
     <!-- Message for user that pick-up time is too early.  -->
@@ -700,6 +699,11 @@
 
     <!-- Category Title "All Things To Do" -->
     <string name="lx_category_all_things_to_do">Alla saker att göra</string>
+
+    <string name="lx_you_might_also_like">Du kanske också gillar</string>
+    <string name="lx_customers_recommend">av våra kunder rekommenderar.</string>
+    <!-- LX user recommended percentage template-->
+    <string name="lx_recommend_percent_Template">{recommend}%</string>
 
     <!-- Tablet Results strings -->
     <!-- Sort & Filter label -->
@@ -1391,6 +1395,9 @@
     <string name="itin_card_details_expires">Går ut</string>
     <string name="itin_card_details_guests">gäster</string>
     <string name="itin_card_details_details">Övrig information</string>
+    <string name="itin_card_flight_checkin_title">Incheckning för flyg</string>
+
+    <string name="itin_card_flight_checkin_details">Gå till %ss sida</string>
     <string name="itin_card_details_pick_up">Hämtning</string>
     <string name="itin_card_details_drop_off">Avlämning</string>
     <!-- Tell users when they can pick up a rental car in three days -->
@@ -1456,6 +1463,17 @@
     <!-- Message to users about when they checked out of their hotel.  %1$s is a date (e.g., "Checked out Jul 11") -->
     <string name="itin_card_hotel_summary_checked_out_day_TEMPLATE">Utcheckad %1$s</string>
     <string name="itin_card_activity_summary_TEMPLATE">Giltig fr.o.m. &lt;b&gt;%1$s&lt;/b&gt;</string>
+    <!-- Message to users about when they check in of their flight-->
+    <string name="itin_card_flight_checkin">Checka in nu</string>
+    <!-- Title of alert dialog when user come back from check in-->
+    <string name="itin_checkin_dialog_title">Incheckad?</string>
+    <!-- message of alert dialog (e.g., "Were you able to successfully check into your flight on Delta's website?")-->
+    <string name="itin_checkin_dialog_message">Kunde du checka in på ditt flyg på %ss sida?</string>
+    <!-- Title of alert dialog when user fail to check in (e.g., "We're Sorry!")-->
+    <string name="itin_checkin_failure_dialog_title">Vi beklagar.</string>
+    <!-- message of alert dialog (e.g., "We'll look into it. Your Confirmation Number is now copied to the clipboard so you can check in on Delta's site or app directly.")-->
+    <string name="itin_checkin_failure_dialog_message">Vi ska kolla upp det. Ditt bekräftelsenummer har kopierats till clipboard, så du kan checka in direkt på %ss sida eller i appen.</string>
+
 
     <!-- Action Buttons -->
     <string name="itin_action_directions">Vägbeskrivning</string>
@@ -1794,10 +1812,6 @@
     <string name="or_select_new_paymet_method">Välj betalningsmetod</string>
     <!-- Select Payment -->
     <string name="select_payment">Välj betalning</string>
-    <!-- Select payment sentence case -->
-    <string name="select_payment_sentence_case">Betalningsuppgifter</string>
-    <!-- Select payment sentence case AB Test variate2 -->
-    <string name="select_payment_sentence_case_variate2">Betalning</string>
     <!-- Select payment callout AB Test variate2 -->
     <string name="select_payment_callout">Ange uppgifter</string>
     <!-- Add new card -->
@@ -2135,6 +2149,7 @@
     <string name="save_traveler_message_TEMPLATE">Vill du spara uppgifterna för {name} på ditt {brand}-konto för att kunna betala snabbare nästa gång?</string>
     <!-- no thanks -->
     <string name="no_thanks">Nej tack</string>
+    <!-- Advanced flight traveler options (seat pref, accessibility and redress number) button label -->
     <string name="advanced">Avancerat</string>
 
     <!-- Overwrite traveler dialog -->
@@ -2154,8 +2169,8 @@
     <string name="first_name">Förnamn</string>
     <!-- Middle name label -->
     <string name="middle_name">Mellannamn</string>
-    <!--A hint for the user to enter their name's initial letter-->
-    <string name="initial_name">Initial</string>
+    <!--A hint for the customer to enter their middle name's initial -->
+    <string name="initial_middle_name">Initial</string>
     <!-- Last name label -->
     <string name="last_name">Efternamn</string>
     <!-- date of birth label -->
@@ -2203,6 +2218,7 @@
     <string name="prefers_seat_TEMPLATE">Föredrar %1$s</string>
     <!-- prefers seat template -->
     <string name="prefers_seat_colored_TEMPLATE">Föredrar %1$s</string>
+    <string name="prefers_seat_colored_TEMPLATE2">Föredrar: %1$s</string>
     <!-- loading traveler info -->
     <string name="loading_traveler_info">Hämtar resenärens uppgifter…</string>
     <!-- Passport -->
@@ -2216,7 +2232,7 @@
     <!-- Aisle seating preference -->
     <string name="aisle">gång</string>
     <!-- Any -->
-    <string name="any">varken eller</string>
+    <string name="any">vilket som</string>
 
     <!-- Assistance Types -->
     <!-- No assistance type -->
@@ -3141,18 +3157,6 @@
     <string name="info_label_privacy_policy">Integritetspolicy</string>
     <!-- Copyright information -->
     <string name="copyright_TEMPLATE">© Copyright 2012-{year} {brand}, Inc.\nMed ensamrätt.</string>
-    <!-- Dialog Title telling the user they have been signed of their account and all data saved about them has been removed -->
-    <string name="dialog_title_signed_out_and_cleared_private_data">Utloggad och data har raderats</string>
-    <!-- Dialog Message telling the user they have been signed of their account and all data saved about them has been removed -->
-    <string name="dialog_message_signed_out_and_cleared_private_data_TEMPLATE">Du är nu utloggad från ditt {brand}-konto och alla sparade betalnings- och kontaktuppgifter har raderats.</string>
-    <!-- Dialog Title telling the user they have been signed of their account and all data saved about them has been removed -->
-    <string name="dialog_title_cleared_private_data">Personliga uppgifter raderade</string>
-    <!-- Dialog Message telling the user they have been signed of their account and all data saved about them has been removed -->
-    <string name="dialog_message_cleared_private_data">Alla fakturerings- och kontaktuppgifter har raderats.</string>
-    <!-- Action button label to follow on twitter -->
-    <string name="Follow">Följ</string>
-    <!-- Action button label to like on facebook -->
-    <string name="Like">Gilla</string>
     <!-- Credit to the author of the "Stack Blur" algorithm we use in our app -->
     <string name="stack_blur_credit">Appen använder Stack Blur-algoritmen av Mario Klingemann.</string>
     <!-- String where we link to the google play services open source licenses -->
@@ -3175,8 +3179,6 @@
     <string name="email_address">E-postadress</string>
 
     <!-- Preferences -->
-    <!-- Category name for general preferences -->
-    <string name="preference_category_general">Allmänt</string>
     <!-- Title for point of sale setting -->
     <string name="preference_point_of_sale_title">Land</string>
 
@@ -3249,8 +3251,6 @@
     <!-- Menu strings -->
     <!-- Label for "settings" menu item. -->
     <string name="Settings">Inställningar</string>
-    <!-- Label for "info about this app" menu item. -->
-    <string name="Info">Info</string>
 
     <!-- Error strings - replacements for default EAN errors -->
     <!-- Replaces "result was null" for no result search -->
@@ -3869,8 +3869,8 @@
     <string name="airline_fee_notice">En flygbolagsavgift, baserad på typ av kort, läggs till vid betalning.</string>
     <string name="airline_charge_notice">Flygbolag tar ut en extraavgift baserat på betalningsmetod.</string>
     <string name="airline_fee_notice_payment">Flygbolagsavgift tas ut baserat på betalningsmetod</string>
-    <string name="airline_notice_fee_added">En <u><b>flygbolagsavgift</b></u>, baserad på korttyp, läggs till vid betalning. Avgiften läggs till till totalbeloppet vid betalning.</string>
-    <string name="airline_notice_fee_added_tablet">En &lt;u&gt;&lt;b&gt;flygbolagsavgift&lt;/b&gt;&lt;/u&gt;, baserad på korttyp, läggs till vid betalning. Avgiften läggs till till totalbeloppet vid betalning.</string>
+    <string name="airline_notice_fee_added">En <u><b>flygbolagsavgift</b></u>, baserad på korttyp, läggs till vid betalning. Avgiften läggs till totalbeloppet vid betalning.</string>
+    <string name="airline_notice_fee_added_tablet">En &lt;u&gt;&lt;b&gt;flygbolagsavgift&lt;/b&gt;&lt;/u&gt;, baserad på korttyp, läggs till vid betalning. Avgiften läggs till totalbeloppet vid betalning.</string>
 
     <!-- Packages -->
 
@@ -3904,6 +3904,20 @@
     <string name="select_hotel_template">Välj hotell i %s</string>
     <!-- Bundle Overview searching flight -->
     <string name="searching_flight_to">Söker efter flyg till %s</string>
+    <!-- Package All Flight label -->
+    <string name="all_flights_label">Alla flyg</string>
+    <!-- Package Best Flight title -->
+    <string name="best_flight_title">Bäst flyg</string>
+    <!-- Package Best Flight description -->
+    <string name="best_flight_description">billigt • kort • populär avgång</string>
+
+    <!-- Package Filters Strings -->
+    <plurals name="flight_filter_stops">
+        <item quantity="zero">Direkt</item>
+        <item quantity="one">1 stopp</item>
+        <item quantity="two">2+ stopp</item>
+        <item quantity="other">2+ stopp</item>
+    </plurals>
 
     <!-- Flight duration template e.g. 1d 12h 42m (Nonstop) -->
     <string name="flight_duration_description_template">%1$s (%2$s)</string>
@@ -3941,19 +3955,21 @@
         <item quantity="other">Hotell i {city} - 1 rum, {number} nätter</item>
     </plurals>
 
-    <!-- Package Trip Overview -->
-    <string name="trip_overview">Reseöversikt</string>
+    <!-- Text indicating that the user can drag this button to view their trip -->
+    <string name="trip_overview">Se reseuppgifter</string>
     <!-- Slide to book -->
     <string name="package_slider_text">Dra för att boka</string>
     <string name="hotel_city_country_TEMPLATE">{city}, {country}</string>
+    <!-- Confirmation Text indicating rewards points user got for the booked package -->
+    <string name="package_confirmation_reward_points">{rewardpoints} poäng i {brand}+</string>
 
     <!-- Flight Duration filter label-->
     <string name="flight_duration_label">Flygets restid</string>
     <string name="flight_duration_hour_short">h</string>
     <!-- Departure Time Range filter label-->
-    <string name="departure_time_range">Tidsintervall för avgång</string>
+    <string name="departure_time_range">Avgångstid</string>
     <!-- Arrival Time Range filter label-->
-    <string name="arrival_time_range">Tidsintervall för ankomst</string>
+    <string name="arrival_time_range">Ankomsttid</string>
 
     <!-- Package Change hotel description -->
     <string name="package_change_hotel">Ändra hotell</string>
@@ -3987,7 +4003,8 @@
     <string name="package_flight_overview_layover_in_TEMPLATE">Mellanlandning i ({airportcode}) {city}</string>
     <string name="package_flight_overview_airline_airplane_TEMPLATE">{carrier} {flightnumber} - {airplanetype}</string>
     <string name="package_flight_overview_total_duration_TEMPLATE">Total restid: {duration}</string>
-
+    <!-- Itinerary summary text- Itinerary number sent to the user email -->
+    <string name="package_itinerary_confirmation_TEMPLATE">#{itinerary} skickat till {email}</string>
     <!--Rail search screen title-->
     <string name="trains">Tåg</string>
 
@@ -4003,4 +4020,17 @@
     <string name="package_breakdown_taxes_fees">Skatter och avgifter</string>
     <string name="package_breakdown_taxes_fees_included_TEMPLATE">Inklusive skatter och avgifter ({taxes})</string>
     <string name="package_breakdown_total_savings">Du sparar totalt</string>
+
+    <!-- Shop with points -->
+    <string name="regular_loyalty_applied_message">Poäng i Expedia+ har tillämpats!</string>
+    <string name="vip_loyalty_applied_message">2x poäng har tillämpats!</string>
+    <!-- String to be appended with +VIP in header of room rates. -->
+    <string name="vip_loyalty_applied_header_message">2x poäng i Expedia+ har tillämpats!</string>
+
+    <!-- Message telling you on confirmation screen where you've booked a package to -->
+    <string name="yay_going_somewhere">Du ska till</string>
+    <!-- Cars cross-sell message on package confirmation -->
+    <string name="rental_car_message">Behöver du hyrbil?</string>
+    <!-- Cars cross-sell message description on package confirmation -->
+    <string name="rental_car_message_desc">Boka en bil och spara</string>
 </resources>

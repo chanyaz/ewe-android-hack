@@ -3,6 +3,7 @@
 
     <!-- Hotels -->
     <!-- Hotels Calendar Strings -->
+    <string name="select_checkin_date">Velg dato for innsjekking</string>
     <!-- Hotels calendar tooltip bottom line after a single date is selected -->
     <string name="hotel_calendar_tooltip_bottom">Neste: Velg utsjekkingsdato</string>
     <!-- When user hasn't picked check out date, we show something like: "Jan 21 - Select check out date" -->
@@ -84,10 +85,6 @@
     <string name="cars_view_details_text">Vis detaljer</string>
     <!-- Text for driver details toolbar-->
     <string name="cars_driver_details_text">Informasjon om sjåfør</string>
-    <!-- Text for payment details toolbar-->
-    <string name="cars_payment_details_text">Betalingsinfo</string>
-    <!-- Text for payment options toolbar-->
-    <string name="cars_payment_options_text">Betalingsalternativer</string>
     <!-- Text for enter driver details-->
     <string name="enter_driver_details">Oppgi informasjon om sjåfør</string>
     <!-- Text for select saved contacts-->
@@ -223,7 +220,7 @@
     <!-- Text for enter guest details line 2 -->
     <string name="checkout_hotelsv2_enter_guest_details_line2">Angi din informasjon</string>
     <!-- Text for enter payment details line 1 -->
-    <string name="checkout_hotelsv2_enter_payment_details_line1">Betalingsdetaljer</string>
+    <string name="checkout_enter_payment_details">Betalingsmåte</string>
     <!-- Text for enter payment details line 2 -->
     <string name="checkout_hotelsv2_enter_payment_details_line2">Legg til kredittkort</string>
     <!-- Label to indicate that the user has selected a stored credit card -->
@@ -242,6 +239,8 @@
     <string name="temporarily_saved_card_TEMPLATE">Lagret {cardtype} …{cardno}</string>
     <!--Text for stored card -->
     <string name="stored_card_TEMPLATE">Lagret {cardtype}</string>
+    <!-- Select card from checkout saved cards list -->
+    <string name="saved_cards">Lagrede kort</string>
 
     <!-- Car error strings -->
     <!-- Message for user that pick-up time is too early.  -->
@@ -700,6 +699,11 @@
 
     <!-- Category Title "All Things To Do" -->
     <string name="lx_category_all_things_to_do">Alle aktiviteter</string>
+
+    <string name="lx_you_might_also_like">Du vil kanskje også like</string>
+    <string name="lx_customers_recommend">kunder anbefaler.</string>
+    <!-- LX user recommended percentage template-->
+    <string name="lx_recommend_percent_Template">{recommend}%</string>
 
     <!-- Tablet Results strings -->
     <!-- Sort & Filter label -->
@@ -1391,6 +1395,9 @@
     <string name="itin_card_details_expires">Utløper</string>
     <string name="itin_card_details_guests">Gjester</string>
     <string name="itin_card_details_details">Tilleggsinformasjon</string>
+    <string name="itin_card_flight_checkin_title">Innsjekking for flyvning</string>
+
+    <string name="itin_card_flight_checkin_details">Besøk %ss nettsider</string>
     <string name="itin_card_details_pick_up">Henting</string>
     <string name="itin_card_details_drop_off">Avlevering</string>
     <!-- Tell users when they can pick up a rental car in three days -->
@@ -1456,6 +1463,17 @@
     <!-- Message to users about when they checked out of their hotel.  %1$s is a date (e.g., "Checked out Jul 11") -->
     <string name="itin_card_hotel_summary_checked_out_day_TEMPLATE">Sjekket ut %1$s</string>
     <string name="itin_card_activity_summary_TEMPLATE">Gyldig fra &lt;b&gt;%1$s&lt;/b&gt;</string>
+    <!-- Message to users about when they check in of their flight-->
+    <string name="itin_card_flight_checkin">Sjekk inn nå</string>
+    <!-- Title of alert dialog when user come back from check in-->
+    <string name="itin_checkin_dialog_title">Har du sjekket inn?</string>
+    <!-- message of alert dialog (e.g., "Were you able to successfully check into your flight on Delta's website?")-->
+    <string name="itin_checkin_dialog_message">Sjekket du inn for flyvningen din på %ss hjemmeside?</string>
+    <!-- Title of alert dialog when user fail to check in (e.g., "We're Sorry!")-->
+    <string name="itin_checkin_failure_dialog_title">Vi beklager!</string>
+    <!-- message of alert dialog (e.g., "We'll look into it. Your Confirmation Number is now copied to the clipboard so you can check in on Delta's site or app directly.")-->
+    <string name="itin_checkin_failure_dialog_message">Vi skal undersøke dette. Bekreftelsesnummeret ditt har blitt kopiert til utklippstavlen, slik at du kan sjekke inn på %ss nettsider eller app</string>
+
 
     <!-- Action Buttons -->
     <string name="itin_action_directions">Veibeskrivelser</string>
@@ -1794,10 +1812,6 @@
     <string name="or_select_new_paymet_method">Velg en betalingsmåte</string>
     <!-- Select Payment -->
     <string name="select_payment">Velg betalingsform</string>
-    <!-- Select payment sentence case -->
-    <string name="select_payment_sentence_case">Betalingsinfo</string>
-    <!-- Select payment sentence case AB Test variate2 -->
-    <string name="select_payment_sentence_case_variate2">Betaling</string>
     <!-- Select payment callout AB Test variate2 -->
     <string name="select_payment_callout">Oppgi informasjon</string>
     <!-- Add new card -->
@@ -2135,6 +2149,7 @@
     <string name="save_traveler_message_TEMPLATE">Vil du lagre {name}s informasjon på {brand}-kontoen din for å fullføre fremtidige betalinger raskere?</string>
     <!-- no thanks -->
     <string name="no_thanks">Nei, takk</string>
+    <!-- Advanced flight traveler options (seat pref, accessibility and redress number) button label -->
     <string name="advanced">Avansert</string>
 
     <!-- Overwrite traveler dialog -->
@@ -2154,8 +2169,8 @@
     <string name="first_name">Fornavn</string>
     <!-- Middle name label -->
     <string name="middle_name">Mellomnavn</string>
-    <!--A hint for the user to enter their name's initial letter-->
-    <string name="initial_name">Initial</string>
+    <!--A hint for the customer to enter their middle name's initial -->
+    <string name="initial_middle_name">Initial</string>
     <!-- Last name label -->
     <string name="last_name">Etternavn</string>
     <!-- date of birth label -->
@@ -2203,6 +2218,7 @@
     <string name="prefers_seat_TEMPLATE">Foretrukket sete: %1$s</string>
     <!-- prefers seat template -->
     <string name="prefers_seat_colored_TEMPLATE">Foretrukket sete: %1$s</string>
+    <string name="prefers_seat_colored_TEMPLATE2">Foretrukket sete: %1$s</string>
     <!-- loading traveler info -->
     <string name="loading_traveler_info">Henter informasjon om reisende…</string>
     <!-- Passport -->
@@ -3141,18 +3157,6 @@
     <string name="info_label_privacy_policy">personvernreglene</string>
     <!-- Copyright information -->
     <string name="copyright_TEMPLATE">© Copyright 2012-{year} {brand}, Inc.\nMed enerett.</string>
-    <!-- Dialog Title telling the user they have been signed of their account and all data saved about them has been removed -->
-    <string name="dialog_title_signed_out_and_cleared_private_data">Du er logget av, og all data er slettet</string>
-    <!-- Dialog Message telling the user they have been signed of their account and all data saved about them has been removed -->
-    <string name="dialog_message_signed_out_and_cleared_private_data_TEMPLATE">Du er nå logget av {brand}-kontoen din, og alle lagrede fakturerings- og kontaktopplysninger er blitt slettet.</string>
-    <!-- Dialog Title telling the user they have been signed of their account and all data saved about them has been removed -->
-    <string name="dialog_title_cleared_private_data">De private opplysningene ble fjernet</string>
-    <!-- Dialog Message telling the user they have been signed of their account and all data saved about them has been removed -->
-    <string name="dialog_message_cleared_private_data">Alle lagrede fakturerings- og kontaktopplysninger er blitt slettet.</string>
-    <!-- Action button label to follow on twitter -->
-    <string name="Follow">Følg</string>
-    <!-- Action button label to like on facebook -->
-    <string name="Like">Liker</string>
     <!-- Credit to the author of the "Stack Blur" algorithm we use in our app -->
     <string name="stack_blur_credit">Denne appen tar i bruk Stack Blur-algoritmen av Mario Klingemann.</string>
     <!-- String where we link to the google play services open source licenses -->
@@ -3175,8 +3179,6 @@
     <string name="email_address">E-postadresse</string>
 
     <!-- Preferences -->
-    <!-- Category name for general preferences -->
-    <string name="preference_category_general">Generelt</string>
     <!-- Title for point of sale setting -->
     <string name="preference_point_of_sale_title">Land</string>
 
@@ -3249,8 +3251,6 @@
     <!-- Menu strings -->
     <!-- Label for "settings" menu item. -->
     <string name="Settings">Innstillinger</string>
-    <!-- Label for "info about this app" menu item. -->
-    <string name="Info">Info</string>
 
     <!-- Error strings - replacements for default EAN errors -->
     <!-- Replaces "result was null" for no result search -->
@@ -3904,6 +3904,20 @@
     <string name="select_hotel_template">Velg hotell i %s</string>
     <!-- Bundle Overview searching flight -->
     <string name="searching_flight_to">Søker etter flyvning til %s</string>
+    <!-- Package All Flight label -->
+    <string name="all_flights_label">Alle flyvninger</string>
+    <!-- Package Best Flight title -->
+    <string name="best_flight_title">Beste flyvninger</string>
+    <!-- Package Best Flight description -->
+    <string name="best_flight_description">billig • kort • populær avreise</string>
+
+    <!-- Package Filters Strings -->
+    <plurals name="flight_filter_stops">
+        <item quantity="zero">Direkte</item>
+        <item quantity="one">1 mellomlanding</item>
+        <item quantity="two">2+ mellomlandinger</item>
+        <item quantity="other">2+ mellomlandinger</item>
+    </plurals>
 
     <!-- Flight duration template e.g. 1d 12h 42m (Nonstop) -->
     <string name="flight_duration_description_template">%1$s (%2$s)</string>
@@ -3941,19 +3955,21 @@
         <item quantity="other">Hotell i {city} – 1 rom, {number} netter</item>
     </plurals>
 
-    <!-- Package Trip Overview -->
-    <string name="trip_overview">Reiseoversikt</string>
+    <!-- Text indicating that the user can drag this button to view their trip -->
+    <string name="trip_overview">Se reisedetaljer</string>
     <!-- Slide to book -->
     <string name="package_slider_text">Sveip for å bestille</string>
     <string name="hotel_city_country_TEMPLATE">{city}, {country}</string>
+    <!-- Confirmation Text indicating rewards points user got for the booked package -->
+    <string name="package_confirmation_reward_points">{rewardpoints} bonuspoeng fra {brand}+</string>
 
     <!-- Flight Duration filter label-->
     <string name="flight_duration_label">Flyvningens varighet</string>
     <string name="flight_duration_hour_short">t</string>
     <!-- Departure Time Range filter label-->
-    <string name="departure_time_range">Tidsrom for avgang</string>
+    <string name="departure_time_range">Avreisetidspunkt</string>
     <!-- Arrival Time Range filter label-->
-    <string name="arrival_time_range">Tidsrom for ankomst</string>
+    <string name="arrival_time_range">Ankomsttidspunkt</string>
 
     <!-- Package Change hotel description -->
     <string name="package_change_hotel">Endre hotell</string>
@@ -3987,7 +4003,8 @@
     <string name="package_flight_overview_layover_in_TEMPLATE">Mellomlander på ({airportcode}) i {city}</string>
     <string name="package_flight_overview_airline_airplane_TEMPLATE">{carrier} {flightnumber} – {airplanetype}</string>
     <string name="package_flight_overview_total_duration_TEMPLATE">Samlet varighet: {duration}</string>
-
+    <!-- Itinerary summary text- Itinerary number sent to the user email -->
+    <string name="package_itinerary_confirmation_TEMPLATE">Nr. {itinerary} sendt til {email}</string>
     <!--Rail search screen title-->
     <string name="trains">Tog</string>
 
@@ -4003,4 +4020,17 @@
     <string name="package_breakdown_taxes_fees">Skatter og avgifter</string>
     <string name="package_breakdown_taxes_fees_included_TEMPLATE">Skatter og avgifter inkludert ({taxes})</string>
     <string name="package_breakdown_total_savings">Totale besparelser</string>
+
+    <!-- Shop with points -->
+    <string name="regular_loyalty_applied_message">Bonuspoeng fra Expedia+ har blitt brukt!</string>
+    <string name="vip_loyalty_applied_message">Dobbelte poeng har blitt brukt!</string>
+    <!-- String to be appended with +VIP in header of room rates. -->
+    <string name="vip_loyalty_applied_header_message">Doble bonuspoeng fra Expedia+ har blitt lagt til!</string>
+
+    <!-- Message telling you on confirmation screen where you've booked a package to -->
+    <string name="yay_going_somewhere">Du skal til</string>
+    <!-- Cars cross-sell message on package confirmation -->
+    <string name="rental_car_message">Trenger du leiebil?</string>
+    <!-- Cars cross-sell message description on package confirmation -->
+    <string name="rental_car_message_desc">Bestill leiebil og spar penger</string>
 </resources>
