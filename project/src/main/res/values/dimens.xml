@@ -336,6 +336,9 @@
     <dimen name="checkout_data_button_sub_text_size">16sp</dimen>
     <dimen name="stored_credit_card_icon_size">48dp</dimen>
     <dimen name="stored_credit_card_button_padding">10dp</dimen>
+    <dimen name="checkout_widget_primary_text_size">15sp</dimen>
+    <dimen name="checkout_widget_secondary_text_size">13sp</dimen>
+
     <!-- Credit card dimens phone -->
     <dimen name="credit_card_checkout_width">318dp</dimen>
     <dimen name="credit_card_checkout_height">219dp</dimen>

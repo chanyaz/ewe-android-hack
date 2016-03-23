@@ -1155,4 +1155,19 @@
         <item name="android:colorButtonNormal">@color/account_sign_out_button_background_color</item>
     </style>
 
+    <style name="CheckoutWidgetPrimaryTextStyle">
+        <item name="android:textColor">@color/cars_lx_checkout_button_text_color</item>
+        <item name="android:textSize">@dimen/checkout_widget_primary_text_size</item>
+        <item name="android:gravity">center|left</item>
+        <item name="android:singleLine">true</item>
+        <item name="textStyle">medium</item>
+    </style>
+
+    <style name="CheckoutWidgetSecondaryTextStyle">
+        <item name="android:textColor">@color/cars_lx_checkout_button_text_color</item>
+        <item name="android:textSize">@dimen/checkout_widget_secondary_text_size</item>
+        <item name="android:gravity">center|left</item>
+        <item name="android:singleLine">true</item>
+        <item name="textStyle">normal</item>
+    </style>
 </resources>

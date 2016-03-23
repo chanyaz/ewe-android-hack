@@ -196,6 +196,8 @@ public class CarCheckoutWidget extends CheckoutBasePresenter implements CVVEntry
 		scrollCheckoutToTop();
 		slideWidget.resetSlider();
 
+		acceptTermsWidget.getVm().resetAcceptedTerms();
+
 		int sliderMessage = carProduct.checkoutRequiresCard ? R.string.your_card_will_be_charged_template
 			: R.string.amount_due_today_template;
 		sliderTotalText.setText(Phrase.from(getContext(), sliderMessage)

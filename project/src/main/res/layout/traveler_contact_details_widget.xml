@@ -29,21 +29,14 @@
                 android:id="@+id/enter_details_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:gravity="center|left"
-                android:singleLine="true"
-                android:textColor="@color/cars_lx_checkout_button_text_color"
-                android:textSize="16sp"
-                app:textStyle="medium" />
+                style="@style/CheckoutWidgetPrimaryTextStyle" />
 
             <com.expedia.bookings.widget.TextView
                 android:id="@+id/traveler_phone_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:gravity="center|left"
-                android:singleLine="true"
-                android:textColor="@color/cars_lx_checkout_button_text_color"
-                android:textSize="13sp"
-                app:textStyle="normal" />
+                style="@style/CheckoutWidgetSecondaryTextStyle" />
+
         </LinearLayout>
 
         <com.expedia.bookings.widget.ContactDetailsCompletenessStatusImageView
