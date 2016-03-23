@@ -71,6 +71,10 @@
     <color name="launch_discount">#D00000</color>
     <color name="launch_tonight_only">#990033</color>
 
+    <color name="hotel_urgency_message_color">#D00000</color>
+    <color name="hotel_tonight_only_color">#990033</color>
+    <color name="hotel_mobile_exclusive_color">#116FAA</color>
+
     <!-- Cars and LX-->
     <color name="cars_primary_color">#116FAA</color>
     <color name="cars_unchecked_toggle_text_color">#dfe9f0</color>
