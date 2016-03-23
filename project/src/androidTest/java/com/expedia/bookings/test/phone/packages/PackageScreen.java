@@ -1,5 +1,11 @@
 package com.expedia.bookings.test.phone.packages;
 
+import java.util.concurrent.TimeUnit;
+
+import org.hamcrest.Matcher;
+import org.hamcrest.core.AllOf;
+import org.joda.time.LocalDate;
+
 import android.support.test.espresso.Espresso;
 import android.support.test.espresso.ViewInteraction;
 import android.support.test.espresso.contrib.PickerActions;
@@ -14,17 +20,16 @@ import com.expedia.bookings.test.phone.pagemodels.common.BillingAddressScreen;
 import com.expedia.bookings.test.phone.pagemodels.common.CardInfoScreen;
 import com.expedia.bookings.test.phone.pagemodels.common.CheckoutViewModel;
 import com.expedia.bookings.utils.DateUtils;
-import java.util.concurrent.TimeUnit;
-import org.hamcrest.Matcher;
-import org.joda.time.LocalDate;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.action.ViewActions.scrollTo;
 import static android.support.test.espresso.action.ViewActions.typeText;
+import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.RootMatchers.withDecorView;
 import static android.support.test.espresso.matcher.ViewMatchers.hasDescendant;
 import static android.support.test.espresso.matcher.ViewMatchers.isDescendantOfA;
+import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withParent;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
@@ -370,4 +375,10 @@ public class PackageScreen {
 		sb.append(", 1 Guest");
 		return sb.toString();
 	}
+	public static void assertErrorScreen(String buttonText, String errorText) {
+		onView(AllOf.allOf(withId(R.id.error_action_button), withText(buttonText))).check(matches(isDisplayed()));
+		onView(AllOf.allOf(withId(R.id.error_text), withText(errorText))).check(matches(isDisplayed()));
+		onView(withId(R.id.error_image)).check(matches(isDisplayed()));
+	}
+
 }

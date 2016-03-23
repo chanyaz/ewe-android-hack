@@ -400,6 +400,7 @@ DummyFiletoHandleKotlinLintError {
 		R.dimen.packages_flight_cell_primary_text,
 		R.dimen.packages_flight_cell_duration_text,
 		R.drawable.edit_pencil,
+		R.string.error_package_search_message,
 		R.drawable.ic_left_disabled,
 		R.drawable.ic_left_enabled,
 		R.drawable.ic_right_disabled,

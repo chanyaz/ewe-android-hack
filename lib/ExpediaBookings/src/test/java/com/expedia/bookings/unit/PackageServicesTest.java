@@ -94,6 +94,7 @@ public class PackageServicesTest {
 		suggestion.hierarchyInfo = new SuggestionV4.HierarchyInfo();
 		suggestion.hierarchyInfo.airport = new SuggestionV4.Airport();
 		suggestion.hierarchyInfo.airport.airportCode = "";
+		suggestion.hierarchyInfo.airport.multicity = "happy";
 		return suggestion;
 	}
 }

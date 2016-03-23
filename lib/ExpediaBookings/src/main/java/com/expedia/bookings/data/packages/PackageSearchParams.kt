@@ -8,7 +8,7 @@ import org.joda.time.LocalDate
 import java.util.HashMap
 import kotlin.properties.Delegates
 
-open class PackageSearchParams(val origin: SuggestionV4, val destination: SuggestionV4, val checkIn: LocalDate, val checkOut: LocalDate, adults: Int, children: List<Int>, val infantSeatingInLap: Boolean) : BaseSearchParams(adults, children){
+open class PackageSearchParams(val origin: SuggestionV4, val destination: SuggestionV4, val checkIn: LocalDate, val checkOut: LocalDate, adults: Int, children: List<Int>, val infantSeatingInLap: Boolean) : BaseSearchParams(adults, children) {
 
     var pageType: String? = null
     var searchProduct: String? = null
@@ -49,11 +49,11 @@ open class PackageSearchParams(val origin: SuggestionV4, val destination: Sugges
         }
     }
 
-    fun isOutboundSearch() : Boolean {
+    fun isOutboundSearch(): Boolean {
         return packagePIID != null && selectedLegId == null
     }
 
-    fun isChangePackageSearch() : Boolean {
+    fun isChangePackageSearch(): Boolean {
         return pageType == Constants.PACKAGE_CHANGE_HOTEL || pageType == Constants.PACKAGE_CHANGE_FLIGHT
     }
 
@@ -62,7 +62,7 @@ open class PackageSearchParams(val origin: SuggestionV4, val destination: Sugges
         params.put("pageType", pageType)
         params.put("originId", origin.hierarchyInfo?.airport?.multicity)
         params.put("destinationId", destination.hierarchyInfo?.airport?.multicity)
-        params.put("ftla",origin.hierarchyInfo?.airport?.airportCode)
+        params.put("ftla", origin.hierarchyInfo?.airport?.airportCode)
         params.put("ttla", destination.hierarchyInfo?.airport?.airportCode)
         params.put("fromDate", checkIn.toString())
         params.put("toDate", checkOut.toString())
@@ -96,7 +96,7 @@ open class PackageSearchParams(val origin: SuggestionV4, val destination: Sugges
         for (i in startIndex..valueList.size) {
             var key = StringBuilder(keyString)
             key.append("[").append(i).append("]")
-            params.put(key.toString(), valueList[i-1])
+            params.put(key.toString(), valueList[i - 1])
         }
     }
 }

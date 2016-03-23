@@ -57,7 +57,7 @@
       "hierarchyInfo": {
         "airport": {
           "airportCode": "KTM",
-          "multicity": "180066"
+          "multicity": "178301"
         },
         "country": {
           "name": "Nepal",
@@ -93,7 +93,7 @@
         "airport": {
           "airportCode": "DTW",
           "metrocode": "DTT",
-          "multicity": "178255"
+          "multicity": "17833"
         },
         "country": {
           "name": "United States of America",
@@ -129,7 +129,7 @@
         "airport": {
           "airportCode": "QSF",
           "metrocode": "QSF",
-          "multicity": "178305"
+          "multicity": "17829"
         },
         "country": {
           "name": "USA",
@@ -167,7 +167,7 @@
       "hierarchyInfo": {
         "airport": {
           "airportCode": "GGW",
-          "multicity": "1318"
+          "multicity": "1123"
         },
         "country": {
           "name": "United States of America",

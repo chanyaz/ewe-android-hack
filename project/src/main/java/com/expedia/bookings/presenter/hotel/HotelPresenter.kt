@@ -41,7 +41,7 @@ import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.WalletUtils
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.FrameLayout
-import com.expedia.bookings.widget.HotelErrorPresenter
+import com.expedia.bookings.presenter.hotel.HotelErrorPresenter
 import com.expedia.bookings.widget.HotelMapCarouselAdapter
 import com.expedia.bookings.widget.LoadingOverlayWidget
 import com.expedia.ui.HotelActivity.Screen

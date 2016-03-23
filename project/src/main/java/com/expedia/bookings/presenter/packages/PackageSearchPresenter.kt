@@ -40,6 +40,8 @@ class PackageSearchPresenter(context: Context, attrs: AttributeSet) : BaseSearch
         vm.suggestionSelectedSubject.subscribe { suggestion ->
             searchViewModel.departureObserver.onNext(suggestion)
             com.mobiata.android.util.Ui.hideKeyboard(this)
+            val suggestionName = Html.fromHtml(suggestion.regionNames.displayName).toString()
+            destinationCardView.setText(suggestionName)
             SuggestionV4Utils.saveSuggestionHistory(context, suggestion, SuggestionV4Utils.RECENT_PACKAGE_SUGGESTIONS_FILE)
             showDefault()
         }
@@ -50,8 +52,7 @@ class PackageSearchPresenter(context: Context, attrs: AttributeSet) : BaseSearch
             searchViewModel.arrivalObserver.onNext(suggestion)
             com.mobiata.android.util.Ui.hideKeyboard(this)
             val suggestionName = Html.fromHtml(suggestion.regionNames.displayName).toString()
-            destinationCardView.setText(suggestionName)
-            searchLocationEditText?.setQuery(suggestionName, false)
+            arrivalCardView.setText(suggestionName)
             SuggestionV4Utils.saveSuggestionHistory(context, suggestion, SuggestionV4Utils.RECENT_PACKAGE_SUGGESTIONS_FILE)
             showDefault()
         }

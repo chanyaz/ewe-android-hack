@@ -4,7 +4,6 @@ import android.content.Context
 import com.expedia.bookings.R
 import com.expedia.bookings.data.BaseSearchParams
 import com.expedia.bookings.data.TravelerParams
-import com.expedia.bookings.data.hotels.HotelSearchParams
 import com.expedia.bookings.utils.DateUtils
 import com.expedia.util.endlessObserver
 import org.joda.time.LocalDate
