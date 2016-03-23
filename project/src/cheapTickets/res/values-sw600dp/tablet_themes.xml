@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <style name="Theme.CheapTickets.Tablet" parent="Theme.CheapTickets">
-        <item name="skin_action_bar_logo_tablet">@drawable/ic_logo</item>
+        <item name="skin_action_bar_logo_tablet">@drawable/ic_white_logo_small</item>
         <item name="skin_actionbarTabletTitleColor">@color/actionbarTabletTitleColor</item>
         <item name="skin_collection_overlay_static_color">@color/collection_overlay_color</item>
         <item name="skin_tablet_book_button_text_color">@color/tablet_book_button_text_color</item>
