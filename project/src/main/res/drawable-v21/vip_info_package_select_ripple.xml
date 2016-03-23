@@ -3,7 +3,7 @@
     android:color="@color/packages_ripple_mask_color">
     <item android:state_pressed="true">
         <shape android:shape="rectangle">
-            <solid android:color="@color/packages_hotel_promo_background_color" />
+            <solid android:color="@color/packages_secondary_color" />
         </shape>
     </item>
 </ripple>
