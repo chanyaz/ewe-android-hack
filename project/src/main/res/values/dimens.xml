@@ -405,6 +405,8 @@
     <dimen name="account_loyalty_value_text_size">20sp</dimen>
     <dimen name="about_section_margin">6dp</dimen>
 
+    <dimen name="rail_timeline_spacing">6dp</dimen>
+
     <!-- Footer button height -->
     <dimen name="footer_button_height">56dp</dimen>
     <dimen name="default_search_card_height">58dp</dimen>

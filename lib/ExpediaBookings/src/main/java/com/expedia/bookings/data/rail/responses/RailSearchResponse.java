@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.util.List;
 
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.joda.time.DateTime;
 
 import com.expedia.bookings.data.Money;
@@ -37,6 +38,15 @@ public class RailSearchResponse {
 		public List<Passengers> passengers;
 		public List<RailLeg> legList;
 		public List<RailOffer> railOfferList;
+
+		public RailOffer findOfferForLeg(@NotNull LegOption it) {
+			for (RailOffer offer : railOfferList) {
+				if (offer.containsLegOptionId(it.legOptionId)) {
+					return offer;
+				}
+			}
+			return null;
+		}
 	}
 
 	public static class RailLeg {
@@ -90,6 +100,10 @@ public class RailSearchResponse {
 		public DateTime getArrivalDateTime() {
 			return DateTime.parse(arrivalDateTime);
 		}
+
+		public int changesCount() {
+			return segmentList.size() - 1;
+		}
 	}
 
 	public static class RailSegment {
@@ -103,6 +117,10 @@ public class RailSearchResponse {
 		public RailEquipment equipment;
 		public RailSupplier supplier;
 		public String segmentId;
+
+		public boolean isTransfer() {
+			return !"Train".equals(travelMode);
+		}
 
 		public static class RailEquipment {
 			public String code; //"ICY"
@@ -120,11 +138,24 @@ public class RailSearchResponse {
 		public int durationMinutes() {
 			return durationInMinutes % 60;
 		}
+
+		@NotNull
+		public DateTime getDepartureDateTime() {
+			return DateTime.parse(departureDateTime);
+		}
+
+		@NotNull
+		public DateTime getArrivalDateTime() {
+			return DateTime.parse(arrivalDateTime);
+		}
 	}
 
 	public static class RailOffer {
 		private RailMoney totalPrice;
 		public List<RailProduct> railProductList;
+
+		@Nullable
+		public LegOption outboundLeg; //set in code on the offer when the leg/offer combo is selected
 
 		public Money getTotalPrice() {
 			return totalPrice.toMoney();

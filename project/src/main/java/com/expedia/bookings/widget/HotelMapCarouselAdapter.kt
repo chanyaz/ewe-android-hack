@@ -30,8 +30,6 @@ import com.mobiata.android.text.StrikethroughTagHandler
 import rx.subjects.BehaviorSubject
 import rx.subjects.PublishSubject
 import java.util.ArrayList
-import kotlin.collections.firstOrNull
-import kotlin.collections.indexOfFirst
 import kotlin.properties.Delegates
 
 class HotelMapCarouselAdapter(var hotels: List<Hotel>, val hotelSubject: PublishSubject<Hotel>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
@@ -76,7 +74,7 @@ class HotelMapCarouselAdapter(var hotels: List<Hotel>, val hotelSubject: Publish
         super.onViewRecycled(holder)
     }
 
-    public inner class HotelViewHolder(root: ViewGroup) : RecyclerView.ViewHolder(root), View.OnClickListener {
+    inner class HotelViewHolder(root: ViewGroup) : RecyclerView.ViewHolder(root), View.OnClickListener {
 
         val resources: Resources by lazy {
             itemView.resources

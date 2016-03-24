@@ -76,9 +76,8 @@ public class RailServicesTest {
 		searchResponseObserver.assertValueCount(1);
 		RailSearchResponse railSearchResponse = searchResponseObserver.getOnNextEvents().get(0);
 		List<Passengers> passengers = railSearchResponse.railSearchResult.passengers;
-		assertEquals(2, passengers.size());
+		assertEquals(1, passengers.size());
 		assertEquals(30, passengers.get(0).age);
-		assertEquals(14, passengers.get(1).age);
 	}
 
 	@Test

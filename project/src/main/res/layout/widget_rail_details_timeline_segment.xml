@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="100dp"
+    android:layout_marginBottom="10dp"
+    android:orientation="horizontal"
+    tools:background="@color/white">
+
+    <LinearLayout
+        android:layout_width="75dp"
+        android:layout_height="match_parent"
+        android:gravity="center_horizontal"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/rail_timeline_departure_time"
+            style="@style/RailPrimaryText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="09:10" />
+
+        <ImageView
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:src="@drawable/national_rail_icon" />
+
+        <TextView
+            android:id="@+id/rail_timeline_arrival_time"
+            style="@style/RailPrimaryText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="bottom"
+            tools:text="10:47" />
+    </LinearLayout>
+
+    <View
+        android:layout_width="10dp"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:background="@color/rail_primary_color" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/rail_timeline_departure_station"
+            style="@style/RailPrimaryText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="London Euston" />
+
+        <TextView
+            android:id="@+id/rail_timeline_operator"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="Virgin Trains" />
+
+        <TextView
+            android:id="@+id/rail_timeline_duration"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="2h 32m" />
+
+        <TextView
+            android:id="@+id/rail_timeline_arrival_station"
+            style="@style/RailPrimaryText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="bottom"
+            tools:text="Crewe" />
+    </LinearLayout>
+
+</LinearLayout>
