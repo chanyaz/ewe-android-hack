@@ -32,7 +32,7 @@ class PackagePresenter(context: Context, attrs: AttributeSet) : Presenter(contex
     lateinit var packageServices: PackageServices
         @Inject set
 
-    val searchPresenter: PackageSearchPresenterV2 by bindView(R.id.widget_package_search_presenter)
+    val searchPresenter: PackageSearchPresenter by bindView(R.id.widget_package_search_presenter)
     val bundlePresenter: PackageOverviewPresenter by bindView(R.id.widget_bundle_overview)
     val confirmationPresenter: PackageConfirmationPresenter by bindView(R.id.widget_package_confirmation)
     var expediaRewards: String? = null
@@ -100,13 +100,13 @@ class PackagePresenter(context: Context, attrs: AttributeSet) : Presenter(contex
         show(searchPresenter)
     }
 
-    private val defaultSearchTransition = object : Presenter.DefaultTransition(PackageSearchPresenterV2::class.java.name) {
+    private val defaultSearchTransition = object : Presenter.DefaultTransition(PackageSearchPresenter::class.java.name) {
         override fun endTransition(forward: Boolean) {
             searchPresenter.visibility = View.VISIBLE
         }
     }
 
-    private val searchToBundle = object : LeftToRightTransition(this, PackageSearchPresenterV2::class.java, PackageOverviewPresenter::class.java) {
+    private val searchToBundle = object : LeftToRightTransition(this, PackageSearchPresenter::class.java, PackageOverviewPresenter::class.java) {
         override fun startTransition(forward: Boolean) {
             super.startTransition(forward)
             if (forward) {

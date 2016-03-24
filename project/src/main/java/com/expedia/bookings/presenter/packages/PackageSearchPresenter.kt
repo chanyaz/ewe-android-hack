@@ -18,14 +18,13 @@ import com.expedia.bookings.widget.PackageSuggestionAdapter
 import com.expedia.bookings.widget.SearchInputCardView
 import com.expedia.util.notNullAndObservable
 import com.expedia.util.subscribeOnClick
-import com.expedia.util.subscribeText
 import com.expedia.vm.DatedSearchViewModel
 import com.expedia.vm.PackageSearchViewModel
 import com.expedia.vm.PackageSuggestionAdapterViewModel
 import com.expedia.vm.SuggestionAdapterViewModel
 import kotlin.properties.Delegates
 
-class PackageSearchPresenterV2(context: Context, attrs: AttributeSet) : BaseSearchPresenterV2(context, attrs) {
+class PackageSearchPresenter(context: Context, attrs: AttributeSet) : BaseSearchPresenterV2(context, attrs) {
     val suggestionServices: SuggestionV4Services by lazy {
         Ui.getApplication(getContext()).packageComponent().suggestionsService()
     }
@@ -61,7 +60,7 @@ class PackageSearchPresenterV2(context: Context, attrs: AttributeSet) : BaseSear
     var searchViewModel: PackageSearchViewModel by notNullAndObservable { vm ->
         searchLocationEditText?.setOnQueryTextListener(listener)
         calendarWidgetV2.viewModel = vm
-        travelerWidgetV2.travelersSubject.onNext(vm.travelersObserver.value)
+        travelerWidgetV2.travelersSubject.subscribe(vm.travelersObserver)
         vm.departureTextObservable.subscribe { text -> destinationCardView.setText(text) }
         vm.arrivalTextObservable.subscribe { text -> arrivalCardView.setText(text) }
         vm.searchButtonObservable.subscribe { enable ->
@@ -81,12 +80,11 @@ class PackageSearchPresenterV2(context: Context, attrs: AttributeSet) : BaseSear
     }
 
     override fun inflate() {
-        View.inflate(context, R.layout.widget_package_search_params_v2, this)
+        View.inflate(context, R.layout.widget_package_search, this)
     }
 
     override fun onFinishInflate() {
         super.onFinishInflate()
-        toolBarTitle.setText(R.string.package_toolbar_title)
         destinationCardView.setOnClickListener {
             isDepartureAirport = true
             show(SuggestionSelectionState())

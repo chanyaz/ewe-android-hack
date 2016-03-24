@@ -67,11 +67,11 @@ class CheckoutOverviewViewModelTest {
         val departure = getFakeSuggestion("SFO")
         val arrival = getFakeSuggestion("SEA")
         val params = FlightSearchParams.Builder(100)
-                .departureAirport(departure)
-                .arrivalAirport(arrival)
-                .departureDate(LocalDate.now().withYear(1989).withMonthOfYear(9).withDayOfMonth(6))
-                .returnDate(LocalDate.now().withYear(2021).withMonthOfYear(9).withDayOfMonth(6))
-                .adults(1).build()
+                .departure(departure)
+                .arrival(arrival)
+                .startDate(LocalDate.now().withYear(1989).withMonthOfYear(9).withDayOfMonth(6))
+                .endDate(LocalDate.now().withYear(2021).withMonthOfYear(9).withDayOfMonth(6))
+                .adults(1).build() as FlightSearchParams
 
 
         val titleTestSubscriber = TestSubscriber<String>(3)

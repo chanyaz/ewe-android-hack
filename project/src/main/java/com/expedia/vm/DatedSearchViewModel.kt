@@ -3,6 +3,7 @@ package com.expedia.vm
 import android.content.Context
 import com.expedia.bookings.R
 import com.expedia.bookings.data.BaseSearchParams
+import com.expedia.bookings.data.TravelerParams
 import com.expedia.bookings.data.hotels.HotelSearchParams
 import com.expedia.bookings.utils.DateUtils
 import com.expedia.util.endlessObserver
@@ -28,7 +29,7 @@ abstract class DatedSearchViewModel(val context: Context) {
     val errorMaxDatesObservable = PublishSubject.create<Unit>()
     val enableDateObservable = PublishSubject.create<Boolean>()
     val enableTravelerObservable = PublishSubject.create<Boolean>()
-    val travelersObserver = BehaviorSubject.create<HotelTravelerParams>()
+    val travelersObserver = BehaviorSubject.create<TravelerParams>()
 
     init {
         travelersObserver.subscribe { update ->

@@ -43,7 +43,7 @@ class PackageFlightPresenter(context: Context, attrs: AttributeSet) : BaseFlight
         resultsPresenter.resultsViewModel.flightResultsObservable.onNext(allFlights)
         overviewPresenter.vm.selectedFlightClicked.subscribe(flightOverviewSelected)
         var cityBound: String = if (isOutboundSearch) Db.getPackageParams().destination.regionNames.shortName else Db.getPackageParams().origin.regionNames.shortName
-        val numTravelers = Db.getPackageParams().guests()
+        val numTravelers = Db.getPackageParams().guests
         toolbarViewModel.isOutboundSearch.onNext(isOutboundSearch)
         toolbarViewModel.city.onNext(cityBound)
         toolbarViewModel.travelers.onNext(numTravelers)

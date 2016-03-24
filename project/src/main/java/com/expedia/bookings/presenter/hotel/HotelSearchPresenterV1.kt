@@ -26,6 +26,7 @@ import android.widget.ToggleButton
 import com.expedia.account.graphics.ArrowXDrawable
 import com.expedia.bookings.R
 import com.expedia.bookings.activity.ExpediaBookingApp
+import com.expedia.bookings.data.TravelerParams
 import com.expedia.bookings.location.CurrentLocationObservable
 import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.utils.AnimUtils
@@ -47,7 +48,6 @@ import com.expedia.util.subscribeToggleButton
 import com.expedia.vm.DatedSearchViewModel
 import com.expedia.vm.HotelSearchViewModel
 import com.expedia.vm.HotelSuggestionAdapterViewModel
-import com.expedia.vm.HotelTravelerParams
 import com.expedia.vm.HotelTravelerPickerViewModel
 import com.expedia.vm.RecentSearchesAdapterViewModel
 import com.mobiata.android.time.util.JodaUtils
@@ -114,8 +114,8 @@ class HotelSearchPresenterV1(context: Context, attrs: AttributeSet) : BaseHotelS
         }
     }
 
-    override fun selectTravelers(hotelTravelerParams: HotelTravelerParams) {
-        traveler.viewmodel.travelerParamsObservable.onNext(hotelTravelerParams)
+    override fun selectTravelers(params: TravelerParams) {
+        traveler.viewmodel.travelerParamsObservable.onNext(params)
         selectTraveler.isChecked = true
     }
 
@@ -179,7 +179,7 @@ class HotelSearchPresenterV1(context: Context, attrs: AttributeSet) : BaseHotelS
         recentSearches.recentSearchesAdapterViewModel.recentSearchSelectedSubject.subscribe {
             searchViewModel.searchParamsObservable.onNext(it)
             vm.suggestionObserver.onNext(it.suggestion)
-            traveler.viewmodel.travelerParamsObservable.onNext(HotelTravelerParams(it.adults, it.children))
+            traveler.viewmodel.travelerParamsObservable.onNext(TravelerParams(it.adults, it.children))
             for (index in 0..it.children.size -1) {
                 val spinner = traveler.childSpinners[index]
                 spinner.setSelection(it.children[index])

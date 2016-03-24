@@ -593,8 +593,8 @@ class HotelDetailsTest {
                 .departure(suggestion)
                 .adults(2)
                 .children(listOf(10,10,10))
-                .checkIn(checkIn)
-                .checkOut(checkOut).build() as HotelSearchParams
+                .startDate(checkIn)
+                .endDate(checkOut).build() as HotelSearchParams
         vm.paramsSubject.onNext(searchParams)
     }
 

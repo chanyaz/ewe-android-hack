@@ -26,8 +26,8 @@ open class HotelSearchParams(val suggestion: SuggestionV4, val checkIn: LocalDat
         override fun build(): HotelSearchParams {
             val location = departure ?: throw IllegalArgumentException()
             if (departure?.gaiaId == null && departure?.coordinates == null) throw IllegalArgumentException()
-            val checkInDate = checkIn ?: throw IllegalArgumentException()
-            val checkOutDate = checkOut ?: throw IllegalArgumentException()
+            val checkInDate = startDate ?: throw IllegalArgumentException()
+            val checkOutDate = endDate ?: throw IllegalArgumentException()
             var params = HotelSearchParams(location, checkInDate, checkOutDate, adults, children, shopWithPoints)
             params.forPackage = isPackage
             return params
@@ -42,7 +42,7 @@ open class HotelSearchParams(val suggestion: SuggestionV4, val checkIn: LocalDat
 
 fun convertPackageToSearchParams(packageParams: PackageSearchParams, maxStay: Int): HotelSearchParams {
     val builder = HotelSearchParams.Builder(maxStay).departure(packageParams.destination)
-            .checkIn(packageParams.checkIn).checkOut(packageParams.checkOut).adults(packageParams.adults)
+            .startDate(packageParams.checkIn).endDate(packageParams.checkOut).adults(packageParams.adults)
             .children(packageParams.children) as HotelSearchParams.Builder
     return builder.forPackage(true).build()
 }

@@ -34,7 +34,7 @@ class HotelSearchParamsUtilTest {
         var checkIn = LocalDate.now().plusDays(2)
         var checkOut = LocalDate.now().plusDays(5)
         val numAdults = 2
-        val v2params = HotelSearchParams.Builder(0).departure(suggestionV4).checkIn(checkIn).checkOut(checkOut).adults(numAdults).children(childList).build() as HotelSearchParams
+        val v2params = HotelSearchParams.Builder(0).departure(suggestionV4).startDate(checkIn).endDate(checkOut).adults(numAdults).children(childList).build() as HotelSearchParams
         HotelSearchParamsUtil.saveSearchHistory(context, v2params)
 
         Thread.sleep(1000)
@@ -43,7 +43,7 @@ class HotelSearchParamsUtilTest {
         //save to past date searches
         checkIn = LocalDate.now().minusDays(4)
         checkOut = LocalDate.now().plusDays(5)
-        val v2paramsPastDate = HotelSearchParams.Builder(0).departure(suggestionV4).checkIn(checkIn).checkOut(checkOut).adults(numAdults).children(childList).build() as HotelSearchParams
+        val v2paramsPastDate = HotelSearchParams.Builder(0).departure(suggestionV4).startDate(checkIn).endDate(checkOut).adults(numAdults).children(childList).build() as HotelSearchParams
         HotelSearchParamsUtil.saveSearchHistory(context, v2paramsPastDate)
 
         Thread.sleep(1000)

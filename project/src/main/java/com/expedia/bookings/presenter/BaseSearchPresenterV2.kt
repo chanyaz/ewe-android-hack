@@ -12,7 +12,6 @@ import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.SearchView
 import android.support.v7.widget.Toolbar
-import android.text.Html
 import android.util.AttributeSet
 import android.util.TypedValue
 import android.view.View
@@ -28,25 +27,12 @@ import android.widget.ScrollView
 import com.expedia.account.graphics.ArrowXDrawable
 import com.expedia.bookings.R
 import com.expedia.bookings.animation.TransitionElement
-import com.expedia.bookings.location.CurrentLocationObservable
+import com.expedia.bookings.data.TravelerParams
 import com.expedia.bookings.presenter.hotel.BaseHotelSearchPresenter
-import com.expedia.bookings.tracking.HotelV2Tracking
-import com.expedia.bookings.utils.AnimUtils
 import com.expedia.bookings.utils.ArrowXDrawableUtil
-import com.expedia.bookings.utils.SuggestionV4Utils
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
-import com.expedia.bookings.widget.CalendarWidgetV2
-import com.expedia.bookings.widget.HotelSuggestionAdapter
-import com.expedia.bookings.widget.RecyclerDividerDecoration
-import com.expedia.bookings.widget.SearchInputCardView
-import com.expedia.bookings.widget.TextView
-import com.expedia.bookings.widget.TravelerWidgetV2
-import com.expedia.util.notNullAndObservable
-import com.expedia.util.subscribeOnClick
-import com.expedia.vm.HotelSearchViewModel
-import com.expedia.vm.HotelSuggestionAdapterViewModel
-import com.expedia.vm.HotelTravelerParams
+import com.expedia.bookings.widget.*
 import com.expedia.vm.SuggestionAdapterViewModel
 import org.joda.time.LocalDate
 
@@ -116,8 +102,8 @@ abstract class BaseSearchPresenterV2(context: Context, attrs: AttributeSet) : Ba
         calendarWidgetV2.hideCalendarDialog()
     }
 
-    override fun selectTravelers(hotelTravelerParams: HotelTravelerParams) {
-        travelerWidgetV2.traveler.viewmodel.travelerParamsObservable.onNext(hotelTravelerParams)
+    override fun selectTravelers(params: TravelerParams) {
+        travelerWidgetV2.traveler.viewmodel.travelerParamsObservable.onNext(params)
         travelerWidgetV2.travelerDialog.dismiss()
     }
 
@@ -134,7 +120,6 @@ abstract class BaseSearchPresenterV2(context: Context, attrs: AttributeSet) : Ba
 
     init {
         inflate()
-        HotelV2Tracking().trackHotelV2SearchBox()
         val statusBarHeight = Ui.getStatusBarHeight(getContext())
         if (statusBarHeight > 0) {
             val statusBar = Ui.setUpStatusBar(getContext(), toolbar, searchContainer, primaryColor)

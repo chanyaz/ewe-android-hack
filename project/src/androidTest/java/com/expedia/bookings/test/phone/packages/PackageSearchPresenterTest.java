@@ -18,13 +18,15 @@ public class PackageSearchPresenterTest extends PackageTestCase {
 		// search button disabled upon entry. Enter location.
 		PackageScreen.searchButton().perform(click());
 		PackageScreen.searchButton().check(matches(isDisplayed()));
-		PackageScreen.destination().perform(typeText("SFO"));
+		PackageScreen.destination().perform(click());
+		PackageScreen.searchEditText().perform(typeText("SFO"));
 		PackageScreen.selectLocation("San Francisco, CA (SFO-San Francisco Intl.)");
 		//Search button will still be disabled
 		PackageScreen.searchButton().perform(click());
 		PackageScreen.searchButton().check(matches(isDisplayed()));
-		PackageScreen.arrival().perform(typeText("SFO"));
-		PackageScreen.selectLocation("San Francisco, CA (SFO-San Francisco Intl.)");
+		PackageScreen.arrival().perform(click());
+		PackageScreen.searchEditText().perform(typeText("DTW"));
+		PackageScreen.selectLocation("Detroit, MI (DTW-Detroit Metropolitan Wayne County)");
 		//Search button will still be disabled
 		PackageScreen.searchButton().perform(click());
 		PackageScreen.searchButton().check(matches(isDisplayed()));
@@ -38,10 +40,7 @@ public class PackageSearchPresenterTest extends PackageTestCase {
 
 	public void testDateButtonTextPopulation() throws Throwable {
 		// Select location
-		PackageScreen.destination().perform(typeText("SFO"));
-		PackageScreen.selectLocation("San Francisco, CA (SFO-San Francisco Intl.)");
-		PackageScreen.arrival().perform(typeText("SFO"));
-		PackageScreen.selectLocation("San Francisco, CA (SFO-San Francisco Intl.)");
+		PackageScreen.selectDepartureAndArrival();
 		// Open calendar
 		PackageScreen.selectDateButton().check(matches(withText(R.string.select_dates)));
 
@@ -62,10 +61,7 @@ public class PackageSearchPresenterTest extends PackageTestCase {
 
 	public void testMaxPackageDuration() throws Throwable {
 		// Select location
-		PackageScreen.destination().perform(typeText("SFO"));
-		PackageScreen.selectLocation("San Francisco, CA (SFO-San Francisco Intl.)");
-		PackageScreen.arrival().perform(typeText("SFO"));
-		PackageScreen.selectLocation("San Francisco, CA (SFO-San Francisco Intl.)");
+		PackageScreen.selectDepartureAndArrival();
 
 		LocalDate startDate = LocalDate.now();
 		LocalDate endDate = LocalDate.now().plusDays(27);
@@ -87,10 +83,7 @@ public class PackageSearchPresenterTest extends PackageTestCase {
 
 	public void testPackageSearchWindow() throws Throwable {
 		// Select location
-		PackageScreen.destination().perform(typeText("SFO"));
-		PackageScreen.selectLocation("San Francisco, CA (SFO-San Francisco Intl.)");
-		PackageScreen.arrival().perform(typeText("SFO"));
-		PackageScreen.selectLocation("San Francisco, CA (SFO-San Francisco Intl.)");
+		PackageScreen.selectDepartureAndArrival();
 
 		LocalDate startDate = LocalDate.now().plusDays(335);
 		LocalDate endDate = LocalDate.now().plusDays(340);
@@ -108,11 +101,7 @@ public class PackageSearchPresenterTest extends PackageTestCase {
 
 	public void testSameDay() throws Throwable {
 		// Select location
-		PackageScreen.destination().perform(typeText("SFO"));
-		PackageScreen.selectLocation("San Francisco, CA (SFO-San Francisco Intl.)");
-		PackageScreen.arrival().perform(typeText("SFO"));
-		PackageScreen.selectLocation("San Francisco, CA (SFO-San Francisco Intl.)");
-
+		PackageScreen.selectDepartureAndArrival();
 		LocalDate startDate = LocalDate.now();
 		LocalDate endDate = LocalDate.now();
 

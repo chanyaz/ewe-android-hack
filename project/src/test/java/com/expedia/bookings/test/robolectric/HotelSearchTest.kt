@@ -26,6 +26,7 @@ import com.expedia.bookings.data.payment.PaymentModel
 import com.expedia.bookings.services.LoyaltyServices
 import com.expedia.bookings.testrule.ServicesRule
 import org.junit.Rule
+import kotlin.test.assertEquals
 
 @RunWith(RobolectricRunner::class)
 @Config(shadows = arrayOf(ShadowGCM::class, ShadowUserManager::class, ShadowAccountManagerEB::class))
@@ -61,12 +62,12 @@ class HotelSearchTest {
         // Selecting only start date should search with end date as the next day
         vm.datesObserver.onNext(Pair(LocalDate.now(), null))
         vm.searchObserver.onNext(Unit)
-        expected.add(HotelSearchParams.Builder(activity.resources.getInteger(R.integer.calendar_max_days_hotel_stay)).departure(suggestion).checkIn(LocalDate.now()).checkOut(LocalDate.now().plusDays(1)).build() as HotelSearchParams)
+        expected.add(HotelSearchParams.Builder(activity.resources.getInteger(R.integer.calendar_max_days_hotel_stay)).departure(suggestion).startDate(LocalDate.now()).endDate(LocalDate.now().plusDays(1)).build() as HotelSearchParams)
 
         // Select both start date and end date and search
         vm.datesObserver.onNext(Pair(LocalDate.now(), LocalDate.now().plusDays(3)))
         vm.searchObserver.onNext(Unit)
-        expected.add(HotelSearchParams.Builder(activity.resources.getInteger(R.integer.calendar_max_days_hotel_stay)).departure(suggestion).checkIn(LocalDate.now()).checkOut(LocalDate.now().plusDays(3)).build() as HotelSearchParams)
+        expected.add(HotelSearchParams.Builder(activity.resources.getInteger(R.integer.calendar_max_days_hotel_stay)).departure(suggestion).startDate(LocalDate.now()).endDate(LocalDate.now().plusDays(3)).build() as HotelSearchParams)
 
         // When neither start date nor end date are selected, search should not fire anything
         vm.datesObserver.onNext(Pair(null, null))
@@ -75,7 +76,8 @@ class HotelSearchTest {
         vm.searchObserver.onNext(Unit)
 
         testSubscriber.requestMore(LOTS_MORE)
-        testSubscriber.assertReceivedOnNext(expected)
+        assertEquals(testSubscriber.onNextEvents[0].checkOut, expected[0].checkOut)
+        assertEquals(testSubscriber.onNextEvents[1].checkOut, expected[1].checkOut)
     }
 
     @Test
@@ -93,8 +95,10 @@ class HotelSearchTest {
         vm.datesObserver.onNext(Pair(LocalDate.now(), null))
         vm.searchObserver.onNext(Unit)
 
-        val builder = HotelSearchParams.Builder(activity.resources.getInteger(R.integer.calendar_max_days_hotel_stay)).
-                departure(suggestion).checkIn(LocalDate.now()).checkOut(LocalDate.now().plusDays(1)) as HotelSearchParams.Builder
+        val builder = HotelSearchParams.Builder(activity.resources.getInteger(R.integer.calendar_max_days_hotel_stay))
+                .departure(suggestion)
+                .startDate(LocalDate.now())
+                .endDate(LocalDate.now().plusDays(1)) as HotelSearchParams.Builder
         expected.add(builder.shopWithPoints(true).build())
 
         // Turn SWP Off
@@ -107,7 +111,9 @@ class HotelSearchTest {
         vm.searchObserver.onNext(Unit)
         expected.add(builder.shopWithPoints(true).build())
 
-        testSubscriber.assertReceivedOnNext(expected)
+        assertEquals(testSubscriber.onNextEvents[0].shopWithPoints, expected[0].shopWithPoints)
+        assertEquals(testSubscriber.onNextEvents[1].shopWithPoints, expected[1].shopWithPoints)
+        assertEquals(testSubscriber.onNextEvents[2].shopWithPoints, expected[2].shopWithPoints)
     }
 
     private fun getDummySuggestion(): SuggestionV4 {

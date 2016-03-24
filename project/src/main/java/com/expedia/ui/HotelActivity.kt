@@ -7,6 +7,7 @@ import com.expedia.bookings.R
 import com.expedia.bookings.data.Codes
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.SuggestionV4
+import com.expedia.bookings.data.TravelerParams
 import com.expedia.bookings.data.hotels.HotelSearchParams
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.presenter.hotel.HotelPresenter
@@ -18,7 +19,6 @@ import com.expedia.bookings.utils.Ui
 import com.expedia.util.endlessObserver
 import com.expedia.vm.HotelDeepLinkHandler
 import com.expedia.vm.HotelSearchViewModel
-import com.expedia.vm.HotelTravelerParams
 import com.google.android.gms.maps.MapView
 import rx.Observer
 
@@ -160,7 +160,7 @@ class HotelActivity : AbstractAppCompatActivity() {
 
     private fun setupDeepLinkSearch(hotelSearchParams: HotelSearchParams?, shouldExecuteSearch: Boolean) {
         getSearchViewModel().enableDateObserver.onNext(Unit)
-        hotelPresenter.searchPresenter.selectTravelers(HotelTravelerParams(hotelSearchParams?.adults ?: 1, hotelSearchParams?.children ?: emptyList()))
+        hotelPresenter.searchPresenter.selectTravelers(TravelerParams(hotelSearchParams?.adults ?: 1, hotelSearchParams?.children ?: emptyList()))
         val dates = Pair (hotelSearchParams?.checkIn, hotelSearchParams?.checkOut)
         getSearchViewModel().datesObserver.onNext(dates)
         hotelPresenter.searchPresenter.selectDates(hotelSearchParams?.checkIn, hotelSearchParams?.checkOut)

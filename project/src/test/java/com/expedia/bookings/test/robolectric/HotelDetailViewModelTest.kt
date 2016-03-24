@@ -104,7 +104,7 @@ class HotelDetailViewModelTest {
         vm.paramsSubject.onNext(searchParams)
         val dates = DateUtils.localDateToMMMd(searchParams.checkIn) + " - " + DateUtils.localDateToMMMd(searchParams.checkOut)
         assertEquals(dates, vm.searchDatesObservable.value)
-        assertEquals("1 Room, ${searchParams.guests()} Guests", vm.searchInfoObservable.value)
+        assertEquals("1 Room, ${searchParams.guests} Guests", vm.searchInfoObservable.value)
     }
 
     @Test fun priceShownToCustomerIncludesCustomerFees() {
@@ -246,6 +246,6 @@ class HotelDetailViewModelTest {
         var checkIn = LocalDate.now().plusDays(2)
         var checkOut = LocalDate.now().plusDays(5)
         val numAdults = 2
-        return HotelSearchParams.Builder(0).departure(suggestionV4).checkIn(checkIn).checkOut(checkOut).adults(numAdults).children(childList).build() as HotelSearchParams
+        return HotelSearchParams.Builder(0).departure(suggestionV4).startDate(checkIn).endDate(checkOut).adults(numAdults).children(childList).build() as HotelSearchParams
     }
 }

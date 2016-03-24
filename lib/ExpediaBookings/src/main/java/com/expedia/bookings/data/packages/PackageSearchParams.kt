@@ -31,8 +31,8 @@ open class PackageSearchParams(val origin: SuggestionV4, val destination: Sugges
         override fun build(): PackageSearchParams {
             val flightOrigin = departure ?: throw IllegalArgumentException()
             val flightDestination = arrival ?: throw IllegalArgumentException()
-            val checkInDate = checkIn ?: throw IllegalArgumentException()
-            val checkOutDate = checkOut ?: throw IllegalArgumentException()
+            val checkInDate = startDate ?: throw IllegalArgumentException()
+            val checkOutDate = endDate ?: throw IllegalArgumentException()
             return PackageSearchParams(flightOrigin, flightDestination, checkInDate, checkOutDate, adults, children, infantSeatingInLap)
         }
 
@@ -41,7 +41,7 @@ open class PackageSearchParams(val origin: SuggestionV4, val destination: Sugges
         }
 
         override fun hasValidDates(): Boolean {
-            return Days.daysBetween(checkIn, checkOut).days <= maxStay
+            return Days.daysBetween(startDate, endDate).days <= maxStay
         }
     }
 

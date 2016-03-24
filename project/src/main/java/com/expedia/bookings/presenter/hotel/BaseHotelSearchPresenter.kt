@@ -5,12 +5,9 @@ import android.content.Context
 import android.content.DialogInterface
 import android.util.AttributeSet
 import com.expedia.bookings.R
+import com.expedia.bookings.data.TravelerParams
 import com.expedia.bookings.presenter.BaseSearchPresenter
-import com.expedia.util.notNullAndObservable
 import com.expedia.vm.DatedSearchViewModel
-import com.expedia.vm.HotelSearchViewModel
-import com.expedia.vm.HotelTravelerParams
-import com.expedia.vm.SuggestionAdapterViewModel
 import org.joda.time.LocalDate
 
 abstract class BaseHotelSearchPresenter(context: Context, attrs: AttributeSet) : BaseSearchPresenter(context, attrs) {
@@ -31,7 +28,7 @@ abstract class BaseHotelSearchPresenter(context: Context, attrs: AttributeSet) :
 
     }
 
-    abstract fun selectTravelers(hotelTravelerParams: HotelTravelerParams)
+    abstract fun selectTravelers(params: TravelerParams)
     abstract fun selectDates(startDate: LocalDate?, endDate: LocalDate?)
 
     val maxHotelStay = context.resources.getInteger(R.integer.calendar_max_days_hotel_stay)

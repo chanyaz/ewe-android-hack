@@ -28,11 +28,11 @@ class PackageSearchViewModel(context: Context) : DatedSearchViewModel(context) {
     override fun onDatesChanged(dates: Pair<LocalDate?, LocalDate?>) {
         val (start, end) = dates
 
-        paramsBuilder.checkIn(start)
+        paramsBuilder.startDate(start)
         if (start != null && end == null) {
-            paramsBuilder.checkOut(start.plusDays(1))
+            paramsBuilder.endDate(start.plusDays(1))
         } else {
-            paramsBuilder.checkOut(end)
+            paramsBuilder.endDate(end)
         }
 
         dateTextObservable.onNext(computeDateText(start, end))

@@ -396,7 +396,7 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
         override fun endTransition(forward: Boolean) {
             searchPresenter.visibility = View.VISIBLE
             searchPresenter.showSuggestionState()
-            HotelV2Tracking().trackHotelV2SearchBox(searchPresenter.searchViewModel.shopWithPointsViewModel.swpEffectiveAvailability.value)
+            HotelV2Tracking().trackHotelV2SearchBox((searchPresenter.getSearchViewModel() as HotelSearchViewModel).shopWithPointsViewModel.swpEffectiveAvailability.value)
         }
     }
 
@@ -467,7 +467,7 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
             resultsPresenter.visibility = if (forward) View.VISIBLE else View.GONE
             resultsPresenter.animationFinalize(forward)
             searchPresenter.animationFinalize(forward)
-            if (!forward) HotelV2Tracking().trackHotelV2SearchBox(searchPresenter.searchViewModel.shopWithPointsViewModel.swpEffectiveAvailability.value)
+            if (!forward) HotelV2Tracking().trackHotelV2SearchBox((searchPresenter.getSearchViewModel() as HotelSearchViewModel).shopWithPointsViewModel.swpEffectiveAvailability.value)
         }
     }
 
@@ -556,7 +556,7 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
             errorPresenter.visibility = if (forward) View.VISIBLE else View.GONE
             searchPresenter.animationFinalize(forward)
             errorPresenter.animationFinalize()
-            if (!forward) HotelV2Tracking().trackHotelV2SearchBox(searchPresenter.searchViewModel.shopWithPointsViewModel.swpEffectiveAvailability.value)
+            if (!forward) HotelV2Tracking().trackHotelV2SearchBox((searchPresenter.getSearchViewModel() as HotelSearchViewModel).shopWithPointsViewModel.swpEffectiveAvailability.value)
         }
     }
 
@@ -580,7 +580,7 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
                 detailPresenter.hotelDetailView.viewmodel.addViewsAfterTransition()
             }
             else {
-                HotelV2Tracking().trackHotelV2SearchBox(searchPresenter.searchViewModel.shopWithPointsViewModel.swpEffectiveAvailability.value)
+                HotelV2Tracking().trackHotelV2SearchBox((searchPresenter.getSearchViewModel() as HotelSearchViewModel).shopWithPointsViewModel.swpEffectiveAvailability.value)
             }
         }
     }

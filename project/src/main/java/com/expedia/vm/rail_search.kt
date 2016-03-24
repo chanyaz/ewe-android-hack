@@ -29,8 +29,8 @@ class RailSearchViewModel(context: Context) : DatedSearchViewModel(context) {
         val (start, end) = dates
         datesObservable.onNext(dates)
 
-        paramsBuilder.checkIn(start)
-        paramsBuilder.checkOut(end)
+        paramsBuilder.startDate(start)
+        paramsBuilder.endDate(end)
 
         dateTextObservable.onNext(computeDateRangeText(context, start, end))
         dateInstructionObservable.onNext(computeDateInstructionText(context, start, end))

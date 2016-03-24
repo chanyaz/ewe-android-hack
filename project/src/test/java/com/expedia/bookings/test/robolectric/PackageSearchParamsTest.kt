@@ -12,9 +12,10 @@ import org.junit.runner.RunWith
 import org.robolectric.Robolectric
 import rx.observers.TestSubscriber
 import kotlin.properties.Delegates
+import kotlin.test.assertEquals
 
 @RunWith(RobolectricRunner::class)
-class PackageSearchTest {
+class PackageSearchParamsTest {
     var vm: PackageSearchViewModel by Delegates.notNull()
     private var LOTS_MORE: Long = 100
     var activity : Activity by Delegates.notNull()
@@ -26,7 +27,49 @@ class PackageSearchTest {
     }
 
     @Test
-    fun selectDatesAndSearch() {
+    fun testNumberOfGuests() {
+        val params = PackageSearchParams.Builder(activity.resources.getInteger(R.integer.calendar_max_days_hotel_stay))
+                .departure(getDummySuggestion())
+                .arrival(getDummySuggestion())
+                .adults(1)
+                .children(listOf(10,2))
+                .startDate(LocalDate.now())
+                .endDate(LocalDate.now().plusDays(1))
+                .build() as PackageSearchParams
+
+        assertEquals(3, params.guests)
+    }
+
+    @Test
+    fun testGuestString() {
+        val params = PackageSearchParams.Builder(activity.resources.getInteger(R.integer.calendar_max_days_hotel_stay))
+                .departure(getDummySuggestion())
+                .arrival(getDummySuggestion())
+                .adults(1)
+                .children(listOf(10,2))
+                .startDate(LocalDate.now())
+                .endDate(LocalDate.now().plusDays(1))
+                .build() as PackageSearchParams
+
+        assertEquals("1,10,2", params.guestString)
+    }
+
+    @Test
+    fun testChildrenString() {
+        val params = PackageSearchParams.Builder(activity.resources.getInteger(R.integer.calendar_max_days_hotel_stay))
+                .departure(getDummySuggestion())
+                .arrival(getDummySuggestion())
+                .adults(1)
+                .children(listOf(10,2))
+                .startDate(LocalDate.now())
+                .endDate(LocalDate.now().plusDays(1))
+                .build() as PackageSearchParams
+
+        assertEquals("10,2", params.childrenString)
+    }
+
+    @Test
+    fun testDateAndOriginValidation() {
         val searchParamsSubscriber = TestSubscriber<PackageSearchParams>()
         val noOriginSubscriber = TestSubscriber<Unit>()
         val noDatesSubscriber = TestSubscriber<Unit>()
@@ -53,12 +96,12 @@ class PackageSearchTest {
         // Selecting only start date should search with end date as the next day
         vm.datesObserver.onNext(Pair(LocalDate.now(), null))
         vm.searchObserver.onNext(Unit)
-        expectedSearchParams.add(PackageSearchParams.Builder(activity.resources.getInteger(R.integer.calendar_max_days_hotel_stay)).departure(origin).arrival(destination).checkIn(LocalDate.now()).checkOut(LocalDate.now().plusDays(1)).build() as PackageSearchParams)
+        expectedSearchParams.add(PackageSearchParams.Builder(activity.resources.getInteger(R.integer.calendar_max_days_hotel_stay)).departure(origin).arrival(destination).startDate(LocalDate.now()).endDate(LocalDate.now().plusDays(1)).build() as PackageSearchParams)
 
         // Select both start date and end date and search
         vm.datesObserver.onNext(Pair(LocalDate.now(), LocalDate.now().plusDays(3)))
         vm.searchObserver.onNext(Unit)
-        expectedSearchParams.add(PackageSearchParams.Builder(activity.resources.getInteger(R.integer.calendar_max_days_hotel_stay)).departure(origin).arrival(destination).checkIn(LocalDate.now()).checkOut(LocalDate.now().plusDays(3)).build() as PackageSearchParams)
+        expectedSearchParams.add(PackageSearchParams.Builder(activity.resources.getInteger(R.integer.calendar_max_days_hotel_stay)).departure(origin).arrival(destination).startDate(LocalDate.now()).endDate(LocalDate.now().plusDays(3)).build() as PackageSearchParams)
 
         // When no origin or destination, search should fire no origin error
         vm.suggestionTextChangedObserver.onNext(true)
@@ -70,7 +113,8 @@ class PackageSearchTest {
         vm.searchObserver.onNext(Unit)
 
         searchParamsSubscriber.requestMore(LOTS_MORE)
-        searchParamsSubscriber.assertReceivedOnNext(expectedSearchParams)
+        assertEquals(searchParamsSubscriber.onNextEvents[0].checkOut, expectedSearchParams[0].checkOut)
+        assertEquals(searchParamsSubscriber.onNextEvents[1].checkOut, expectedSearchParams[1].checkOut)
         noDatesSubscriber.requestMore(LOTS_MORE)
         noDatesSubscriber.assertReceivedOnNext(expectedDates)
         noOriginSubscriber.requestMore(LOTS_MORE)

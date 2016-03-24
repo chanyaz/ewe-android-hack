@@ -5,13 +5,15 @@ import org.joda.time.LocalDate
 
 open class BaseSearchParams(val adults: Int, val children: List<Int>) {
 
+    val guests = children.size + adults
     val guestString = listOf(adults).plus(children).joinToString(",")
+    val childrenString = children.joinToString(",")
 
     abstract class Builder(val maxStay: Int) {
         protected  var departure: SuggestionV4? = null
         protected var arrival: SuggestionV4? = null
-        protected var checkIn: LocalDate? = null
-        protected var checkOut: LocalDate? = null
+        protected var startDate: LocalDate? = null
+        protected var endDate: LocalDate? = null
         protected var adults: Int = 1
         protected var children: List<Int> = emptyList()
         protected var infantSeatingInLap: Boolean = false
@@ -26,13 +28,13 @@ open class BaseSearchParams(val adults: Int, val children: List<Int>) {
             return this
         }
 
-        fun checkIn(checkIn: LocalDate?): Builder {
-            this.checkIn = checkIn
+        fun startDate(date: LocalDate?): Builder {
+            this.startDate = date
             return this
         }
 
-        fun checkOut(checkOut: LocalDate?): Builder {
-            this.checkOut = checkOut
+        fun endDate(date: LocalDate?): Builder {
+            this.endDate = date
             return this
         }
 
@@ -58,15 +60,15 @@ open class BaseSearchParams(val adults: Int, val children: List<Int>) {
         }
 
         open fun hasStartAndEndDates(): Boolean {
-            return checkIn != null && checkOut != null
+            return startDate != null && endDate != null
         }
 
         fun hasStart(): Boolean {
-            return checkIn != null
+            return startDate != null
         }
 
         fun hasEnd(): Boolean {
-            return checkOut != null
+            return endDate != null
         }
 
         fun hasDepartureAndArrival(): Boolean {
@@ -74,25 +76,17 @@ open class BaseSearchParams(val adults: Int, val children: List<Int>) {
         }
 
         fun hasDeparture(): Boolean {
-            return departure?.hierarchyInfo?.airport?.airportCode != null
+            return departure != null
         }
 
         fun hasArrival(): Boolean {
-            return arrival?.hierarchyInfo?.airport?.airportCode != null
+            return arrival != null
         }
 
         open fun hasValidDates(): Boolean {
-            return Days.daysBetween(checkIn, checkOut).days <= maxStay
+            return Days.daysBetween(startDate, endDate).days <= maxStay
         }
-    }
-
-    fun guests() : Int {
-        return children.size + adults
-    }
-
-    fun getChildrenString() : String {
-        return children.joinToString(",")
     }
 }
 
-data class HotelTravelerParams(val numberOfAdults: Int, val children: List<Int>)
+data class TravelerParams(val numberOfAdults: Int, val children: List<Int>)

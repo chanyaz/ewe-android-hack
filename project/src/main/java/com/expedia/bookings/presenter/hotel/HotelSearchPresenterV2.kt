@@ -9,6 +9,7 @@ import android.view.View
 import com.expedia.bookings.R
 import com.expedia.bookings.location.CurrentLocationObservable
 import com.expedia.bookings.presenter.BaseSearchPresenterV2
+import com.expedia.bookings.tracking.HotelV2Tracking
 import com.expedia.bookings.utils.AnimUtils
 import com.expedia.bookings.utils.SuggestionV4Utils
 import com.expedia.bookings.utils.Ui
@@ -24,7 +25,7 @@ class HotelSearchPresenterV2(context: Context, attrs: AttributeSet) : BaseSearch
 
     var searchViewModel: HotelSearchViewModel by notNullAndObservable { vm ->
         calendarWidgetV2.viewModel = vm
-        travelerWidgetV2.travelersSubject.onNext(vm.travelersObserver.value)
+        travelerWidgetV2.travelersSubject.subscribe(vm.travelersObserver)
         vm.searchButtonObservable.subscribe { enable ->
             searchButton.setTextColor(if (enable) ContextCompat.getColor(context, R.color.hotel_filter_spinner_dropdown_color) else ContextCompat.getColor(context, R.color.white_disabled))
         }
@@ -76,7 +77,6 @@ class HotelSearchPresenterV2(context: Context, attrs: AttributeSet) : BaseSearch
 
     override fun onFinishInflate() {
         super.onFinishInflate()
-        toolBarTitle.setText(R.string.hotel_search_v2_toolbar_title)
     }
 
     override fun getSearchViewModel(): DatedSearchViewModel {

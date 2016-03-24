@@ -10,7 +10,7 @@ class RailSearchRequest(val origin: SuggestionV4, val destination: SuggestionV4,
 
         override fun build(): RailSearchRequest {
             if (areRequiredParamsFilled()) {
-                return RailSearchRequest(departure!!, arrival!!, checkIn!!, checkOut, adults, children)
+                return RailSearchRequest(departure!!, arrival!!, startDate!!, endDate, adults, children)
             } else {
                 throw IllegalArgumentException();
             }
@@ -21,7 +21,7 @@ class RailSearchRequest(val origin: SuggestionV4, val destination: SuggestionV4,
         }
 
         fun hasStartDate(): Boolean {
-            return checkIn != null
+            return startDate != null
         }
 
         fun hasOriginAndDestination(): Boolean {

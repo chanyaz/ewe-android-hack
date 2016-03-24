@@ -14,7 +14,6 @@ import com.expedia.bookings.test.phone.hotels.HotelScreen;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
-import static android.support.test.espresso.action.ViewActions.typeText;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.hasDescendant;
 import static android.support.test.espresso.matcher.ViewMatchers.isCompletelyDisplayed;
@@ -95,11 +94,7 @@ public class PackageBundleOverviewPresenterTest extends PackageTestCase {
 		String formattedStartString = startDate.toString(dateFormatter);
 		String formattedEndString = endDate.toString(dateFormatter);
 
-		PackageScreen.destination().perform(typeText("SFO"));
-		PackageScreen.selectLocation("San Francisco, CA (SFO-San Francisco Intl.)");
-		PackageScreen.arrival().perform(typeText("DTW"));
-		PackageScreen.selectLocation("Detroit, MI (DTW-Detroit Metropolitan Wayne County)");
-		PackageScreen.selectDates(startDate, endDate);
+		PackageScreen.selectDepartureAndArrival();
 		PackageScreen.searchButton().perform(click());
 		PackageScreen.clickHotelBundle();
 

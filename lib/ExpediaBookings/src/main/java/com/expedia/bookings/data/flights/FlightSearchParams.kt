@@ -12,8 +12,8 @@ class FlightSearchParams(val departureAirport: SuggestionV4, val arrivalAirport:
 
         override fun build(): FlightSearchParams {
             val departureAirport = departure ?: throw IllegalArgumentException()
-            val departureDate = checkIn ?: throw IllegalArgumentException()
-            return FlightSearchParams(departureAirport, arrival, departureDate, checkOut, adults, children, infantSeatingInLap)
+            val departureDate = startDate ?: throw IllegalArgumentException()
+            return FlightSearchParams(departureAirport, arrival, departureDate, endDate, adults, children, infantSeatingInLap)
         }
 
         override fun areRequiredParamsFilled(): Boolean {
@@ -21,7 +21,7 @@ class FlightSearchParams(val departureAirport: SuggestionV4, val arrivalAirport:
         }
 
         override fun hasValidDates(): Boolean {
-            return (hasStart() && !hasEnd()) || ((hasStart() && hasEnd() && Days.daysBetween(checkIn, checkOut).days <= maxStay))
+            return (hasStart() && !hasEnd()) || ((hasStart() && hasEnd() && Days.daysBetween(startDate, endDate).days <= maxStay))
         }
     }
 
@@ -34,7 +34,7 @@ class FlightSearchParams(val departureAirport: SuggestionV4, val arrivalAirport:
         params.put("numberOfAdultTravelers", adults)
         params.put("infantSeatingInLap", infantSeatingInLap)
         if (children.isNotEmpty()) {
-            params.put("childTravelerAge", getChildrenString())
+            params.put("childTravelerAge", childrenString)
         }
 
         return params

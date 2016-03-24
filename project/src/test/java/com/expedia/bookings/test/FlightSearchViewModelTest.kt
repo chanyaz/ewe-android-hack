@@ -96,8 +96,8 @@ class FlightSearchViewModelTest {
         val params = FlightSearchParams.Builder(26)
                 .departure(getDummySuggestion())
                 .arrival(getDummySuggestion())
-                .checkIn(LocalDate.now())
-                .checkOut(LocalDate.now().plusDays(1))
+                .startDate(LocalDate.now())
+                .endDate(LocalDate.now().plusDays(1))
                 .adults(1)
                 .build() as FlightSearchParams
         vm.flightParamsObservable.onNext(params)

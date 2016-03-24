@@ -40,7 +40,7 @@ class NewFlightSearchParamsTest {
 		Assert.assertEquals(false, builder.areRequiredParamsFilled())
 		Assert.assertEquals(false, builder.hasValidDates())
 
-		builder.checkIn(expectedDepartureDate)
+		builder.startDate(expectedDepartureDate)
 		Assert.assertEquals(true, builder.hasStart())
 		Assert.assertEquals(false, builder.hasEnd())
 		Assert.assertEquals(false, builder.hasDeparture())
@@ -48,10 +48,10 @@ class NewFlightSearchParamsTest {
 		Assert.assertEquals(false, builder.areRequiredParamsFilled())
 		Assert.assertEquals(true, builder.hasValidDates())
 
-		builder.checkOut(LocalDate.now().plusDays(400))
+		builder.endDate(LocalDate.now().plusDays(400))
 		Assert.assertEquals(false, builder.hasValidDates())
 
-		builder.checkOut(expectedReturnDate)
+		builder.endDate(expectedReturnDate)
 		Assert.assertEquals(true, builder.hasStart())
 		Assert.assertEquals(true, builder.hasEnd())
 		Assert.assertEquals(false, builder.hasDeparture())
@@ -80,7 +80,7 @@ class NewFlightSearchParamsTest {
 		Assert.assertEquals(expectedNumChildren.toLong(), params.children.size.toLong())
 		Assert.assertEquals(expectedDepartureDate, params.departureDate)
 		Assert.assertEquals(expectedReturnDate, params.returnDate)
-		Assert.assertEquals(expectedChildrenString, params.getChildrenString())
+		Assert.assertEquals(expectedChildrenString, params.childrenString)
 		Assert.assertEquals(expectedDeparture.hierarchyInfo?.airport, params.departureAirport.hierarchyInfo?.airport)
 		Assert.assertEquals(expectedArrival.hierarchyInfo?.airport, params.arrivalAirport?.hierarchyInfo?.airport)
 	}

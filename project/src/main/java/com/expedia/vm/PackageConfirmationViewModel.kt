@@ -66,7 +66,7 @@ class PackageConfirmationViewModel(val context: Context) {
         var subtitle = Phrase.from(context, R.string.calendar_instructions_date_range_with_guests_TEMPLATE)
                 .put("startdate", DateUtils.localDateToMMMd(params.checkIn))
                 .put("enddate", DateUtils.localDateToMMMd(params.checkOut))
-                .put("guests", StrUtils.formatGuestString(context, params.guests()))
+                .put("guests", StrUtils.formatGuestString(context, params.guests))
                 .format().toString()
 
         return subtitle
@@ -77,6 +77,6 @@ class PackageConfirmationViewModel(val context: Context) {
         val localDate = LocalDate.parse(selectedFlight.departureDateTimeISO, fmt)
 
         return context.getString(R.string.package_overview_flight_travel_info_TEMPLATE, DateUtils.localDateToMMMd(localDate),
-                DateUtils.formatTimeShort(selectedFlight.departureDateTimeISO), StrUtils.formatTravelerString(context, Db.getPackageParams().guests()))
+                DateUtils.formatTimeShort(selectedFlight.departureDateTimeISO), StrUtils.formatTravelerString(context, Db.getPackageParams().guests))
     }
 }
