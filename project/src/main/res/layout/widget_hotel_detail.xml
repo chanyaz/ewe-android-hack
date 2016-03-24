@@ -50,7 +50,7 @@
                         android:id="@+id/hotel_gallery_indicator"
                         android:layout_width="match_parent"
                         android:layout_height="2dp"
-                        android:background="?attr/primary_color"/>
+                        android:background="?attr/primary_color" />
 
                     <com.expedia.bookings.widget.TextView
                         android:id="@+id/hotel_gallery_description"
@@ -90,6 +90,7 @@
 
                         <com.expedia.bookings.widget.TextView
                             android:id="@+id/discount_percentage"
+                            style="@style/HotelPromoMessaging"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginRight="10dp"
@@ -98,15 +99,14 @@
                             android:paddingBottom="3dp"
                             android:paddingLeft="5dp"
                             android:paddingRight="5dp"
-                            android:paddingTop="3dp"
-                            style="@style/HotelPromoMessaging" />
+                            android:paddingTop="3dp" />
 
                         <com.expedia.bookings.widget.TextView
                             android:id="@+id/promo_text"
+                            style="@style/HotelPromoMessaging"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:gravity="center_vertical"
-                            style="@style/HotelPromoMessaging" />
+                            android:gravity="center_vertical" />
                     </LinearLayout>
 
                     <LinearLayout
@@ -123,24 +123,25 @@
 
                         <com.expedia.bookings.widget.TextView
                             android:id="@+id/vip_access_message"
+                            style="@style/HotelPromoMessaging"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/vip"
-                            style="@style/HotelPromoMessaging" />
+                            android:text="@string/vip" />
 
                         <com.expedia.bookings.widget.TextView
                             android:id="@+id/vip_loyalty_message_details"
+                            style="@style/HotelPromoMessaging"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_alignBaseline="@id/vip_access_message"
                             android:paddingLeft="2dp"
-                            android:text="@string/vip_loyalty_applied_message"
-                            style="@style/HotelPromoMessaging" />
+                            android:text="@string/vip_loyalty_applied_message" />
 
                     </LinearLayout>
 
                     <com.expedia.bookings.widget.TextView
                         android:id="@+id/regular_loyalty_applied"
+                        style="@style/HotelPromoMessaging"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:layout_alignParentLeft="true"
@@ -149,8 +150,7 @@
                         android:paddingLeft="18dp"
                         android:paddingRight="18dp"
                         android:paddingTop="10dp"
-                        android:text="@string/regular_loyalty_applied_message"
-                        style="@style/HotelPromoMessaging" />
+                        android:text="@string/regular_loyalty_applied_message" />
 
                 </RelativeLayout>
 
@@ -531,9 +531,9 @@
                     android:id="@+id/room_rate_header"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
                     android:layout_below="@+id/etp_divider"
                     android:layout_gravity="center_vertical"
+                    android:orientation="vertical"
                     android:paddingBottom="15dp"
                     android:paddingLeft="18dp"
                     android:paddingRight="18dp"
@@ -665,14 +665,13 @@
 
                     <android.support.v7.widget.CardView
                         android:id="@+id/radius_pay_options"
+                        style="@style/MaterialCardView"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="10dp"
                         android:layout_marginLeft="11dp"
                         android:layout_marginRight="11dp"
-                        android:layout_marginTop="10dp"
-                        app:cardCornerRadius="@dimen/cardview_border_radius"
-                        app:cardElevation="1dp">
+                        android:layout_marginTop="10dp">
 
                         <LinearLayout
                             android:layout_width="match_parent"
@@ -765,7 +764,7 @@
                         android:drawablePadding="14dp"
                         android:text="@string/book_by_phone"
                         android:textColor="?attr/primary_color"
-                        android:textSize="16sp"/>
+                        android:textSize="16sp" />
                 </LinearLayout>
 
                 <Space
