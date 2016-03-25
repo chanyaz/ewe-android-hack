@@ -45,6 +45,7 @@
     <color name="flight_card_airline_fee_warning">#116FAA</color>
     <color name="checkout_additional_fees_tablet_bg">@color/flight_card_airline_fee_warning</color>
     <color name="credit_card_form_additional_fees_tablet_bg">@color/flight_card_airline_fee_warning</color>
+    <color name="preferences_text">#495863</color>
 
     <!--Air attach banner color-->
     <color name="bg_air_attach_banner_default">#116FAA</color>
