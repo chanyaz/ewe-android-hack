@@ -12,7 +12,7 @@
     <string name="merchant_name">CheapTickets</string>
 
     <!-- Tune SDK Key -->
-    <string name="tune_sdk_app_advertiser_id">159126</string>
-    <string name="tune_sdk_app_conversion_key">3670b78dab0046d263b4fb15329d5129</string>
+    <string name="tune_sdk_app_advertiser_id">189060</string>
+    <string name="tune_sdk_app_conversion_key">8f7dc538871c8297bf3e2d9485856044</string>
 
 </resources>
