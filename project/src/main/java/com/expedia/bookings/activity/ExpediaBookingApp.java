@@ -123,9 +123,14 @@ public class ExpediaBookingApp extends MultiDexApplication implements UncaughtEx
 
 	@Override
 	public void onCreate() {
-		AbacusHelperUtils.generateAbacusGuid(this);
-
 		TimingLogger startupTimer = new TimingLogger("ExpediaBookings", "startUp");
+
+		// We want this first so that we set this as the Provider before anything tries to use Joda time
+		JodaTimeAndroid.init(this);
+		startupTimer.addSplit("Joda TZ Provider Init");
+
+		AbacusHelperUtils.generateAbacusGuid(this);
+		startupTimer.addSplit("Generate Abacus GUID");
 
 		super.onCreate();
 		startupTimer.addSplit("super.onCreate()");
@@ -168,11 +173,6 @@ public class ExpediaBookingApp extends MultiDexApplication implements UncaughtEx
 		Log.configureLogging("ExpediaBookings", isLogEnablerInstalled);
 
 		startupTimer.addSplit("Logger Init");
-
-		// We want this fairly high up there so that we set this as
-		// the Provider before anything tries to use Joda time
-		JodaTimeAndroid.init(this);
-		startupTimer.addSplit("Joda TZ Provider Init");
 
 		try {
 			if (BuildConfig.DEBUG) {
