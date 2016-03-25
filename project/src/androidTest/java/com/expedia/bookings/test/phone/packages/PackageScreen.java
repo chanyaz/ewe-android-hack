@@ -1,16 +1,10 @@
 package com.expedia.bookings.test.phone.packages;
 
-import java.util.concurrent.TimeUnit;
-
-import org.hamcrest.Matcher;
-import org.joda.time.LocalDate;
-
 import android.support.test.espresso.Espresso;
 import android.support.test.espresso.ViewInteraction;
 import android.support.test.espresso.contrib.PickerActions;
 import android.support.test.espresso.contrib.RecyclerViewActions;
 import android.view.View;
-
 import com.expedia.bookings.R;
 import com.expedia.bookings.test.espresso.Common;
 import com.expedia.bookings.test.espresso.SpoonScreenshotUtils;
@@ -19,6 +13,10 @@ import com.expedia.bookings.test.espresso.ViewActions;
 import com.expedia.bookings.test.phone.pagemodels.common.BillingAddressScreen;
 import com.expedia.bookings.test.phone.pagemodels.common.CardInfoScreen;
 import com.expedia.bookings.test.phone.pagemodels.common.CheckoutViewModel;
+import com.expedia.bookings.utils.DateUtils;
+import java.util.concurrent.TimeUnit;
+import org.hamcrest.Matcher;
+import org.joda.time.LocalDate;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
@@ -153,8 +151,8 @@ public class PackageScreen {
 		return onView(withId(R.id.package_bundle_hotel_widget));
 	}
 
-	public static ViewInteraction hotelGuestRoomInfo() {
-		return onView(withId(R.id.hotels_room_guest_info_text));
+	public static ViewInteraction hotelDatesRoomInfo() {
+		return onView(withId(R.id.hotels_dates_guest_info_text));
 	}
 
 	public static ViewInteraction outboundFlightCardInfo() {
@@ -277,7 +275,7 @@ public class PackageScreen {
 		//Common.closeSoftKeyboard(CheckoutViewModel.email());
 		Common.delay(1);
 		enterPhoneNumber("7732025862");
-		selectBirthDate(9,6,1989);
+		selectBirthDate(9, 6, 1989);
 
 		clickTravelerAdvanced();
 		Common.delay(1);
@@ -357,12 +355,19 @@ public class PackageScreen {
 		PackageScreen.searchButton().perform(click());
 	}
 
-	public static void selectDepartureAndArrival()  throws Throwable {
+	public static void selectDepartureAndArrival() throws Throwable {
 		destination().perform(click());
 		searchEditText().perform(typeText("SFO"));
 		selectLocation("San Francisco, CA (SFO-San Francisco Intl.)");
 		arrival().perform(click());
 		searchEditText().perform(typeText("DTW"));
 		selectLocation("Detroit, MI (DTW-Detroit Metropolitan Wayne County)");
+	}
+
+	public static String getDatesGuestInfoText(LocalDate startDate, LocalDate endDate) {
+		StringBuilder sb = new StringBuilder(DateUtils.localDateToMMMd(startDate));
+		sb.append(" - ").append(DateUtils.localDateToMMMd(endDate));
+		sb.append(", 1 Guest");
+		return sb.toString();
 	}
 }

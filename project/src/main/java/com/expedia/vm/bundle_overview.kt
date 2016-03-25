@@ -7,6 +7,7 @@ import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.flights.FlightLeg
+import com.expedia.bookings.data.hotels.HotelOffersResponse
 import com.expedia.bookings.data.packages.PackageCreateTripResponse
 import com.expedia.bookings.data.packages.PackageSearchParams
 import com.expedia.bookings.data.packages.PackageSearchResponse
@@ -119,13 +120,14 @@ class BundleHotelViewModel(val context: Context) {
 
     //output
     val hotelTextObservable = BehaviorSubject.create<String>()
-    val hotelRoomGuestObservable = BehaviorSubject.create<String>()
+    val hotelDatesGuestObservable = BehaviorSubject.create<String>()
     val hotelRoomImageUrlObservable = BehaviorSubject.create<String>()
     val hotelRoomInfoObservable = BehaviorSubject.create<String>()
     val hotelRoomTypeObservable = BehaviorSubject.create<String>()
     val hotelAddressObservable = BehaviorSubject.create<String>()
     val hotelCityObservable = BehaviorSubject.create<String>()
     val hotelFreeCancellationObservable = BehaviorSubject.create<String>()
+    val hotelNonRefundableObservable = BehaviorSubject.create<String>()
     val hotelPromoTextObservable = BehaviorSubject.create<String>()
     val hotelDetailsIconObservable = BehaviorSubject.create<Boolean>()
     val hotelSelectIconObservable = BehaviorSubject.create<Boolean>()
@@ -140,10 +142,13 @@ class BundleHotelViewModel(val context: Context) {
                 hotelDetailsIconObservable.onNext(false)
             } else {
                 hotelTextObservable.onNext(context.getString(R.string.select_hotel_template, StrUtils.formatCityName(Db.getPackageParams().destination)))
-                hotelRoomGuestObservable.onNext(Phrase.from(context, R.string.room_with_guests_TEMPLATE)
+                hotelDatesGuestObservable.onNext(Phrase.from(context, R.string.calendar_instructions_date_range_with_guests_TEMPLATE)
+                        .put("startdate", DateUtils.localDateToMMMd(Db.getPackageParams().checkIn))
+                        .put("enddate", DateUtils.localDateToMMMd(Db.getPackageParams().checkOut))
                         .put("guests", StrUtils.formatGuestString(context, Db.getPackageParams().guests))
                         .format()
                         .toString())
+
                 hotelSelectIconObservable.onNext(true)
                 hotelDetailsIconObservable.onNext(false)
             }
@@ -155,21 +160,40 @@ class BundleHotelViewModel(val context: Context) {
             hotelIconImageObservable.onNext(R.drawable.packages_hotels_checkmark_icon)
             hotelSelectIconObservable.onNext(false)
             hotelDetailsIconObservable.onNext(true)
+
             if (Strings.isNotEmpty(selectHotelRoom.roomThumbnailUrl)) {
                 hotelRoomImageUrlObservable.onNext(Images.getMediaHost() + selectHotelRoom.roomThumbnailUrl)
             }
             hotelRoomInfoObservable.onNext(selectHotelRoom.roomTypeDescription)
-            //TODO use the correct room type from the API
-            hotelRoomTypeObservable.onNext(selectHotelRoom.roomTypeDescription)
+            val bedTypes = (selectHotelRoom.bedTypes ?: emptyList()).map { it.description }.joinToString("")
+            hotelRoomTypeObservable.onNext(bedTypes)
             hotelAddressObservable.onNext(selectedHotel.address)
-            //TODO use the correct free cancellation window from the API
-            hotelFreeCancellationObservable.onNext(selectHotelRoom.roomTypeDescription)
+
+            if (selectHotelRoom.hasFreeCancellation) {
+                hotelFreeCancellationObservable.onNext(getCancellationText(selectHotelRoom))
+            } else {
+                hotelNonRefundableObservable.onNext(context.resources.getString(R.string.non_refundable))
+            }
+
             hotelPromoTextObservable.onNext(selectHotelRoom.promoDescription)
             val cityCountry = Phrase.from(context, R.string.hotel_city_country_TEMPLATE)
                     .put("city", selectedHotel.city)
                     .put("country", selectedHotel.stateProvinceCode ?: Db.getPackageParams().destination.hierarchyInfo?.country?.name)
                     .format().toString()
             hotelCityObservable.onNext(cityCountry)
+        }
+    }
+
+    private fun getCancellationText(selectHotelRoom: HotelOffersResponse.HotelRoomResponse): String? {
+        val cancellationDateString = selectHotelRoom.freeCancellationWindowDate
+        if (cancellationDateString != null) {
+            val cancellationDate = DateUtils.yyyyMMddHHmmToDateTime(cancellationDateString)
+            return Phrase.from(context, R.string.hotel_free_cancellation_TEMPLATE).put("date",
+                    DateUtils.dateTimeToMMMdhmma(cancellationDate))
+                    .format()
+                    .toString()
+        } else {
+            return context.getString(R.string.free_cancellation)
         }
     }
 }

@@ -1,16 +1,14 @@
 package com.expedia.bookings.test.phone.packages;
 
-import org.hamcrest.CoreMatchers;
-import org.joda.time.LocalDate;
-import org.joda.time.format.DateTimeFormat;
-import org.joda.time.format.DateTimeFormatter;
-
 import android.support.test.espresso.matcher.ViewMatchers;
-
 import com.expedia.bookings.R;
 import com.expedia.bookings.test.espresso.Common;
 import com.expedia.bookings.test.espresso.PackageTestCase;
 import com.expedia.bookings.test.phone.hotels.HotelScreen;
+import org.hamcrest.CoreMatchers;
+import org.joda.time.LocalDate;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
@@ -68,7 +66,8 @@ public class PackageBundleOverviewPresenterTest extends PackageTestCase {
 		PackageScreen.hotelBundle().check(matches(hasDescendant(
 			allOf(isDisplayed(), withText("Package Happy Path")))));
 		PackageScreen.hotelBundle().check(matches(hasDescendant(
-			allOf(isDisplayed(), withText("1 Room, 1 Guest")))));
+			allOf(isDisplayed(), withText(
+				PackageScreen.getDatesGuestInfoText(LocalDate.now().plusDays(3), LocalDate.now().plusDays(8)))))));
 		PackageScreen.hotelDetailsIcon().check(matches(isEnabled()));
 
 		PackageScreen.outboundFlightInfo().check(matches(isEnabled()));
@@ -105,7 +104,8 @@ public class PackageBundleOverviewPresenterTest extends PackageTestCase {
 			allOf(isDisplayed(), withText("Trip to Detroit, MI")))));
 		PackageScreen.hotelInfo().check(matches(hasDescendant(
 			allOf(isDisplayed(), withText("Select hotel in Detroit")))));
-		PackageScreen.hotelGuestRoomInfo().check(matches(withText("1 Room, 1 Guest")));
+
+		PackageScreen.hotelDatesRoomInfo().check(matches(withText(PackageScreen.getDatesGuestInfoText(startDate, endDate))));
 		PackageScreen.outboundFlightInfo().check(matches(hasDescendant(
 			allOf(isDisplayed(), withText("Flight to (DTW) Detroit")))));
 
@@ -136,7 +136,11 @@ public class PackageBundleOverviewPresenterTest extends PackageTestCase {
 		PackageScreen.searchPackage();
 		PackageScreen.hotelBundle().perform(click());
 		HotelScreen.selectHotel("Package Happy Path");
-		HotelScreen.selectRoom();
+
+		HotelScreen.clickRoom("happy_outbound_flight");
+		HotelScreen.clickAddRoom();
+
+		//HotelScreen.selectRoom();
 
 		//expand
 		PackageScreen.clickHotelBundle();
