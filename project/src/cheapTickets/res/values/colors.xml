@@ -95,4 +95,9 @@
     <color name="acct__btn_sign_in_text">#FFFFFF</color>
     <color name="acct__bg_input_text_error">#FFFFFF</color>
     <color name="acct__bg_input_text_good">#EEEEEE</color>
+
+    <!--Account Screen-->
+    <color name="account_toolbar_text_color">@color/actionbar_text_color</color>
+    <color name="account_toolbar_text_color_light">#99D00000</color>
+    <color name="account_sign_out_button_background_color">#D00000</color>
 </resources>
