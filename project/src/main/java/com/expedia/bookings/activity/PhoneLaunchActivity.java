@@ -244,8 +244,9 @@ public class PhoneLaunchActivity extends ActionBarActivity implements ItinListVi
 			mToolbar.updateActionBarLogo();
 		}
 		else if (requestCode == Constants.ITIN_CHECK_IN_WEBPAGE_CODE) {
-			showFlightItinCheckinDialog(data);
-
+			if (resultCode == RESULT_OK && data != null) {
+				showFlightItinCheckinDialog(data);
+			}
 		}
 	}
 
