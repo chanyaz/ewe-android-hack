@@ -125,7 +125,7 @@ public class HotelRate {
 		return (priceToShowUsers < 0) ? 0 : priceToShowUsers;
 	}
 
-	public boolean isDiscountTenPercentOrBetter() {
-		return discountPercent <= -10;
+	public boolean isDiscountPercentNotZero() {
+		return discountPercent != 0;
 	}
 }

@@ -208,6 +208,16 @@
 
                     </LinearLayout>
 
+                    <ImageView
+                        android:id="@+id/air_attach_swp_image"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:background="@drawable/air_attach_swp_icon_background"
+                        android:padding="4dp"
+                        android:src="@drawable/airattach"
+                        android:tint="@color/white"/>
+
                 </LinearLayout>
             </FrameLayout>
 

@@ -110,6 +110,7 @@ class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayout(conte
 
     val hotelMessagingContainer: RelativeLayout by bindView(R.id.promo_messaging_container)
     val discountPercentage: TextView by bindView(R.id.discount_percentage)
+    val airAttachSWPImage: ImageView by bindView(R.id.air_attach_swp_image_details)
     val vipAccessMessageContainer: LinearLayout by bindView(R.id.vip_access_message_container)
     val vipLoyaltyMessage: TextView by bindView(R.id.vip_loyalty_message_details)
     val regularLoyaltyMessage: TextView by bindView(R.id.regular_loyalty_applied)
@@ -282,7 +283,8 @@ class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayout(conte
         vm.payByPhoneContainerVisibility.subscribeVisibility(payByPhoneContainer)
         vm.discountPercentageObservable.subscribeText(discountPercentage)
         vm.discountPercentageBackgroundObservable.subscribeBackgroundResource(discountPercentage)
-        vm.hasDiscountPercentageObservable.subscribeVisibility(discountPercentage)
+        vm.showDiscountPercentageObservable.subscribeVisibility(discountPercentage)
+        vm.showAirAttachSWPImageObservable.subscribeVisibility(airAttachSWPImage)
         vipAccessMessageContainer.subscribeOnClick(vm.vipAccessInfoObservable)
         vm.hasVipAccessObservable.subscribeVisibility(vipAccessMessageContainer)
         vm.hasVipAccessLoyaltyObservable.subscribeVisibility(vipLoyaltyMessage)

@@ -130,7 +130,7 @@ class HotelMapCarouselAdapter(var hotels: List<Hotel>, val hotelSubject: Publish
             viewModel.hotelGuestRatingObservable.subscribe { hotelGuestRating.text = it.toString() }
             viewModel.soldOut.subscribeVisibility(hotelSoldOut)
             viewModel.soldOut.subscribeInverseVisibility(hotelPricePerNight)
-            viewModel.mapLoyaltyMessageVisibilityObservable.subscribeVisibility(loyaltyMessageContainer)
+            viewModel.loyaltyAvailabilityObservable.subscribeVisibility(loyaltyMessageContainer)
             viewModel.mapLoyaltyMessageTextObservable.subscribeText(loyaltyMessage)
 
             viewModel.isHotelGuestRatingAvailableObservable.subscribeVisibility(hotelGuestRating)
@@ -142,7 +142,7 @@ class HotelMapCarouselAdapter(var hotels: List<Hotel>, val hotelSubject: Publish
             hotelStrikeThroughPrice.typeface = FontCache.getTypeface(FontCache.Font.ROBOTO_REGULAR)
             hotelGuestRating.typeface = FontCache.getTypeface(FontCache.Font.ROBOTO_MEDIUM)
             hotelGuestRecommend.typeface = FontCache.getTypeface(FontCache.Font.ROBOTO_REGULAR)
-            viewModel.mapLoyaltyMessageVisibilityObservable.map{!it}.subscribeVisibility(extraView)
+            viewModel.loyaltyAvailabilityObservable.map{!it}.subscribeVisibility(extraView)
         }
     }
 }

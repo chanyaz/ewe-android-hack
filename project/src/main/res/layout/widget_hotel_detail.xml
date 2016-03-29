@@ -79,10 +79,23 @@
                     android:layout_height="wrap_content"
                     android:background="?attr/hotel_promo_background_colors">
 
-                    <LinearLayout
+                    <com.expedia.bookings.widget.TextView
+                        android:id="@+id/promo_text"
+                        style="@style/HotelPromoMessaging"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentRight="true"
+                        android:gravity="center_vertical"
+                        android:paddingBottom="10dp"
+                        android:paddingLeft="18dp"
+                        android:paddingRight="18dp"
+                        android:paddingTop="10dp" />
+
+                    <LinearLayout
+                        android:id="@+id/discount_loyalty_messaging_container"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
                         android:paddingBottom="10dp"
                         android:paddingLeft="18dp"
                         android:paddingRight="18dp"
@@ -101,56 +114,53 @@
                             android:paddingRight="5dp"
                             android:paddingTop="3dp" />
 
-                        <com.expedia.bookings.widget.TextView
-                            android:id="@+id/promo_text"
-                            style="@style/HotelPromoMessaging"
+                        <ImageView
+                            android:id="@+id/air_attach_swp_image_details"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:gravity="center_vertical" />
+                            android:layout_gravity="center"
+                            android:background="@drawable/air_attach_swp_icon_background"
+                            android:padding="4dp"
+                            android:src="@drawable/airattach"
+                            android:tint="@color/white"/>
+
+                        <LinearLayout
+                            android:id="@+id/vip_access_message_container"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:background="?attr/vip_info_select_ripple_drawable"
+                            android:gravity="center">
+
+                            <com.expedia.bookings.widget.TextView
+                                android:id="@+id/vip_access_message"
+                                style="@style/HotelPromoMessaging"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/vip" />
+
+                            <com.expedia.bookings.widget.TextView
+                                android:id="@+id/vip_loyalty_message_details"
+                                style="@style/HotelPromoMessaging"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignBaseline="@id/vip_access_message"
+                                android:paddingLeft="2dp"
+                                android:text="@string/vip_loyalty_applied_message" />
+
+                        </LinearLayout>
+
+                        <com.expedia.bookings.widget.TextView
+                            android:id="@+id/regular_loyalty_applied"
+                            style="@style/HotelPromoMessaging"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:gravity="center_vertical"
+                            android:paddingBottom="10dp"
+                            android:paddingLeft="18dp"
+                            android:paddingRight="18dp"
+                            android:paddingTop="10dp"
+                            android:text="@string/regular_loyalty_applied_message" />
                     </LinearLayout>
-
-                    <LinearLayout
-                        android:id="@+id/vip_access_message_container"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:layout_alignParentLeft="true"
-                        android:background="?attr/vip_info_select_ripple_drawable"
-                        android:gravity="right"
-                        android:paddingBottom="10dp"
-                        android:paddingLeft="18dp"
-                        android:paddingRight="18dp"
-                        android:paddingTop="10dp">
-
-                        <com.expedia.bookings.widget.TextView
-                            android:id="@+id/vip_access_message"
-                            style="@style/HotelPromoMessaging"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/vip" />
-
-                        <com.expedia.bookings.widget.TextView
-                            android:id="@+id/vip_loyalty_message_details"
-                            style="@style/HotelPromoMessaging"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_alignBaseline="@id/vip_access_message"
-                            android:paddingLeft="2dp"
-                            android:text="@string/vip_loyalty_applied_message" />
-
-                    </LinearLayout>
-
-                    <com.expedia.bookings.widget.TextView
-                        android:id="@+id/regular_loyalty_applied"
-                        style="@style/HotelPromoMessaging"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:layout_alignParentLeft="true"
-                        android:gravity="center_vertical"
-                        android:paddingBottom="10dp"
-                        android:paddingLeft="18dp"
-                        android:paddingRight="18dp"
-                        android:paddingTop="10dp"
-                        android:text="@string/regular_loyalty_applied_message" />
 
                 </RelativeLayout>
 

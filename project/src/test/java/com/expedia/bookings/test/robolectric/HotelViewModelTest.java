@@ -183,7 +183,7 @@ public class HotelViewModelTest {
 		UserLoginTestUtil.Companion.setupUserAndMockLogin(getUser());
 		setupSystemUnderTest();
 
-		assertTrue(vm.getMapLoyaltyMessageVisibilityObservable().getValue());
+		assertTrue(vm.getLoyaltyAvailabilityObservable().getValue());
 		assertEquals(Html.fromHtml(RuntimeEnvironment.application.getString(R.string.vip_loyalty_applied_map_message)), vm.getMapLoyaltyMessageTextObservable().getValue());
 	}
 
@@ -193,8 +193,35 @@ public class HotelViewModelTest {
 		UserLoginTestUtil.Companion.setupUserAndMockLogin(getUser());
 		setupSystemUnderTest();
 
-		assertTrue(vm.getMapLoyaltyMessageVisibilityObservable().getValue());
+		assertTrue(vm.getLoyaltyAvailabilityObservable().getValue());
 		assertEquals(RuntimeEnvironment.application.getString(R.string.regular_loyalty_applied_message), vm.getMapLoyaltyMessageTextObservable().getValue().toString());
+	}
+
+	@Test
+	public void discountPercentageIsShown() {
+		hotel.lowRateInfo.discountPercent = -12;
+		setupSystemUnderTest();
+
+		assertTrue(vm.getShowDiscountObservable().getValue());
+		assertFalse(vm.getLoyaltyAvailabilityObservable().getValue());
+	}
+
+	@Test
+	public void zeroDiscountPercentageIsNotShown() {
+		hotel.lowRateInfo.discountPercent = 0;
+		setupSystemUnderTest();
+
+		assertFalse(vm.getShowDiscountObservable().getValue());
+	}
+
+	@Test
+	public void discountPercentageIsNotShownForSWP() {
+		hotel.lowRateInfo.discountPercent = -12;
+		givenHotelWithShopWithPointsAvailable();
+		setupSystemUnderTest();
+
+		assertFalse(vm.getShowDiscountObservable().getValue());
+		assertTrue(vm.getLoyaltyAvailabilityObservable().getValue());
 	}
 
 	private void givenSoldOutHotel() {
