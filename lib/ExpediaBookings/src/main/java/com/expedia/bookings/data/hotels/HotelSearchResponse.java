@@ -7,6 +7,7 @@ import java.util.Map;
 
 import com.expedia.bookings.data.BaseApiResponse;
 import com.expedia.bookings.data.packages.PackageSearchResponse;
+import com.expedia.bookings.data.payment.LoyaltyInformation;
 
 public class HotelSearchResponse extends BaseApiResponse {
 	public String pageViewBeaconPixelUrl = "";
@@ -42,5 +43,16 @@ public class HotelSearchResponse extends BaseApiResponse {
 		response.hotelList = packageSearchResponse.packageResult.hotelsPackage.hotels;
 		response.userPriceType = HotelRate.UserPriceType.PACKAGES;
 		return response;
+	}
+
+	public void setHasLoyaltyInformation() {
+		for (Hotel hotel : hotelList) {
+			LoyaltyInformation loyaltyInformation = hotel.lowRateInfo.loyaltyInfo;
+			if (loyaltyInformation != null && loyaltyInformation.isShopWithPoints()) {
+				hasLoyaltyInformation = true;
+				return;
+			}
+		}
+		hasLoyaltyInformation = false;
 	}
 }
