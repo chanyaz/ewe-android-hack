@@ -8,7 +8,7 @@ import com.expedia.bookings.presenter.lx.LXPresenter;
 import com.expedia.bookings.presenter.lx.LXResultsPresenter;
 import com.expedia.bookings.widget.LXActivityDetailsWidget;
 import com.expedia.bookings.widget.LXCheckoutSummaryWidget;
-import com.expedia.bookings.widget.LXCheckoutWidget;
+import com.expedia.bookings.widget.LXCheckoutMainViewPresenter;
 import com.expedia.bookings.widget.LXConfirmationWidget;
 import com.expedia.bookings.widget.LxSuggestionAdapter;
 
@@ -23,7 +23,7 @@ public interface LXComponent {
 	void inject(LXActivityDetailsWidget lxActivityDetailsWidget);
 	void inject(LxSuggestionAdapter adapter);
 	void inject(LXCheckoutPresenter lxCheckoutPresenter);
-	void inject(LXCheckoutWidget lxCheckoutWidget);
+	void inject(LXCheckoutMainViewPresenter lxCheckoutMainViewPresenter);
 	void inject(LXCheckoutSummaryWidget lxCheckoutSummaryWidget);
 	void inject(LXConfirmationWidget lxConfirmationWidget);
 	void inject(LXPresenter lxPresenter);

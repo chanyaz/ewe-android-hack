@@ -26,7 +26,7 @@ import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.RetrofitUtils;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.CVVEntryWidget;
-import com.expedia.bookings.widget.CarCheckoutWidget;
+import com.expedia.bookings.widget.CarCheckoutMainViewPresenter;
 import com.expedia.bookings.widget.ErrorWidget;
 import com.mobiata.android.Log;
 import com.squareup.otto.Subscribe;
@@ -46,7 +46,7 @@ public class CarCheckoutPresenter extends Presenter {
 	CarServices carServices;
 
 	@InjectView(R.id.checkout)
-	CarCheckoutWidget checkout;
+	CarCheckoutMainViewPresenter checkout;
 
 	@InjectView(R.id.cvv)
 	CVVEntryWidget cvv;
@@ -168,8 +168,8 @@ public class CarCheckoutPresenter extends Presenter {
 			.show();
 	}
 
-	private Transition checkoutToCvv = new VisibilityTransition(this, CarCheckoutWidget.class, CVVEntryWidget.class);
-	private Transition checkoutToError = new VisibilityTransition(this, CarCheckoutWidget.class, ErrorWidget.class) {
+	private Transition checkoutToCvv = new VisibilityTransition(this, CarCheckoutMainViewPresenter.class, CVVEntryWidget.class);
+	private Transition checkoutToError = new VisibilityTransition(this, CarCheckoutMainViewPresenter.class, ErrorWidget.class) {
 		@Override
 		public void endTransition(boolean forward) {
 			super.endTransition(forward);
@@ -180,7 +180,7 @@ public class CarCheckoutPresenter extends Presenter {
 		}
 	};
 	private Transition cvvToError = new VisibilityTransition(this, CVVEntryWidget.class, ErrorWidget.class);
-	private DefaultTransition defaultCheckoutTransition = new DefaultTransition(CarCheckoutWidget.class.getName()) {
+	private DefaultTransition defaultCheckoutTransition = new DefaultTransition(CarCheckoutMainViewPresenter.class.getName()) {
 		@Override
 		public void endTransition(boolean forward) {
 			checkout.setVisibility(View.VISIBLE);
