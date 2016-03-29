@@ -184,6 +184,8 @@ public class PointOfSale {
 	private boolean isEarnMessageEnabledForHotels;
 	private boolean isEarnMessageEnabledForFlights;
 
+	private boolean mRequiresLXPostalCode;
+
 	private static class CountryResources {
 		@StringRes
 		int countryNameResId;
@@ -643,6 +645,10 @@ public class PointOfSale {
 
 	public boolean requiresHotelPostalCode() {
 		return mRequiresHotelPostalCode;
+	}
+
+	public boolean requiresLXPostalCode() {
+		return mRequiresLXPostalCode;
 	}
 
 	public boolean supports(LineOfBusiness lob) {
@@ -1189,6 +1195,7 @@ public class PointOfSale {
 		pos.shouldShowCircleForRatings = data.optBoolean("shouldDisplayCirclesForRatings", false);
 		pos.doAirlinesChargeAdditionalFeeBasedOnPaymentMethod = data.optBoolean("doAirlinesChargeAdditionalFeeBasedOnPaymentMethod", false);
 		pos.mRequiresHotelPostalCode = data.optString("requiredPaymentFields:hotels").equals("postalCode");
+		pos.mRequiresLXPostalCode = data.optString("requiredPaymentFields:lx").equals("postalCode");
 
 		pos.isPwPEnabledForHotels = data.optBoolean("pwpEnabled:hotels", false);
 		pos.isSWPEnabledForHotels = data.optBoolean("swpEnabled:hotels", false);

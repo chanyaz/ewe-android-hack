@@ -686,7 +686,11 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 		Validator<EditText> mValidator = new Validator<EditText>() {
 			@Override
 			public int validate(EditText obj) {
-				if (mLineOfBusiness == LineOfBusiness.HOTELSV2 && PointOfSale.getPointOfSale().requiresHotelPostalCode()) {
+				if ((mLineOfBusiness == LineOfBusiness.HOTELSV2 && PointOfSale
+					.getPointOfSale().requiresHotelPostalCode())
+					|| (mLineOfBusiness == LineOfBusiness.LX
+					|| mLineOfBusiness == LineOfBusiness.TRANSPORT && PointOfSale.getPointOfSale()
+					.requiresLXPostalCode())) {
 					if (obj == null) {
 						return ValidationError.ERROR_DATA_MISSING;
 					}
