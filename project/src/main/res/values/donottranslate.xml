@@ -12,6 +12,8 @@
     <string name="forward_slash">/</string>
     <string name="connected_server">Server: %s</string>
     <string name="build_number">Build  %s</string>
+    <string name="debug_screens_sub_menu">Test Screens</string>
+    <string name="debug_install_shortcuts">>Install Shortcuts</string>
 
     <!-- Names of the open source libraries we use -->
     <!-- The translators should not translate these proper names and when they came back from loc they didn't touch them anyways -->
