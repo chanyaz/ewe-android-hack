@@ -75,6 +75,7 @@ class HotelSearchPresenterV1(context: Context, attrs: AttributeSet) : BaseHotelS
 
     val searchContainer: ViewGroup by bindView(R.id.search_container)
     val searchParamsContainer: ViewGroup by bindView(R.id.search_params_container)
+    val shopWithPointsWidget: ShopWithPointsWidget by bindView(R.id.widget_points_details)
 
     val toolbar: Toolbar by bindView(R.id.toolbar)
     val toolbarTitle by lazy { toolbar.getChildAt(0) }
@@ -112,6 +113,14 @@ class HotelSearchPresenterV1(context: Context, attrs: AttributeSet) : BaseHotelS
             }
             show(HotelParamsCalendar(), Presenter.FLAG_CLEAR_BACKSTACK)
         }
+    }
+
+    val hotelSearchContainerV1WithSwpHeight by lazy{
+        context.resources.getDimensionPixelSize(R.dimen.hotel_search_container_v1_height_with_swp)
+    }
+
+    val hotelSearchContainerV1WithoutSwpHeight by lazy{
+        context.resources.getDimensionPixelSize(R.dimen.hotel_search_container_v1_height_without_swp).toInt()
     }
 
     override fun selectTravelers(params: TravelerParams) {
@@ -376,13 +385,6 @@ class HotelSearchPresenterV1(context: Context, attrs: AttributeSet) : BaseHotelS
         }
         toolbar.inflateMenu(R.menu.cars_search_menu)
 
-        searchContainer.getViewTreeObserver().addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
-            override fun onGlobalLayout() {
-                searchContainer.viewTreeObserver.removeOnGlobalLayoutListener(this)
-                searchParamsContainerHeight = searchParamsContainer.measuredHeight
-            }
-        })
-
         selectDate.typeface = FontCache.getTypeface(FontCache.Font.ROBOTO_REGULAR)
         selectTraveler.typeface = FontCache.getTypeface(FontCache.Font.ROBOTO_REGULAR)
         styleCalendar()
@@ -472,6 +474,7 @@ class HotelSearchPresenterV1(context: Context, attrs: AttributeSet) : BaseHotelS
 
     var toolbarTitleTop = 0
     override fun animationStart(forward : Boolean) {
+        searchParamsContainerHeight = if (shopWithPointsWidget.visibility == View.VISIBLE) hotelSearchContainerV1WithSwpHeight else hotelSearchContainerV1WithoutSwpHeight
         recentSearches.translationY = (if (forward) recentSearches.height else 0).toFloat()
         calendar.translationY = (if (forward) calendar.height else 0).toFloat()
         traveler.translationY = (if (forward) traveler.height else 0).toFloat()

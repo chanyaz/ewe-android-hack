@@ -17,6 +17,7 @@ import com.expedia.bookings.widget.PaymentWidgetV2
 import com.expedia.util.notNullAndObservable
 import com.expedia.vm.PayWithPointsViewModel
 import com.expedia.vm.ShopWithPointsViewModel
+import com.expedia.model.UserLoginStateChangedModel
 import com.expedia.vm.interfaces.IPayWithPointsViewModel
 import org.junit.Before
 import org.junit.Rule
@@ -69,7 +70,7 @@ class PayWithPointsViewModelTest {
         createTripResponse.tripId = "happy";
         Db.getTripBucket().add(TripBucketItemHotelV2(createTripResponse))
         paymentModel = PaymentModel<HotelCreateTripResponse>(loyaltyServiceRule.services!!)
-        shopWithPointsViewModel = ShopWithPointsViewModel(activity.applicationContext, paymentModel)
+        shopWithPointsViewModel = ShopWithPointsViewModel(activity.applicationContext, paymentModel, UserLoginStateChangedModel())
         payWithPointsViewModel = PayWithPointsViewModel(paymentModel, shopWithPointsViewModel, activity.application.resources)
 
         payWithPointsViewModel.pwpOpted.onNext(true)

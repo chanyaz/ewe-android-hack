@@ -25,6 +25,7 @@ import com.expedia.bookings.data.hotels.HotelCreateTripResponse
 import com.expedia.bookings.data.payment.PaymentModel
 import com.expedia.bookings.services.LoyaltyServices
 import com.expedia.bookings.testrule.ServicesRule
+import com.expedia.model.UserLoginStateChangedModel
 import org.junit.Rule
 import kotlin.test.assertEquals
 
@@ -90,7 +91,7 @@ class HotelSearchTest {
         vm = HotelSearchViewModel(activity)
         vm.searchParamsObservable.subscribe(testSubscriber)
 
-        vm.shopWithPointsViewModel = ShopWithPointsViewModel(activity, paymentModel)
+        vm.shopWithPointsViewModel = ShopWithPointsViewModel(activity, paymentModel, UserLoginStateChangedModel())
         vm.suggestionObserver.onNext(suggestion)
         vm.datesObserver.onNext(Pair(LocalDate.now(), null))
         vm.searchObserver.onNext(Unit)

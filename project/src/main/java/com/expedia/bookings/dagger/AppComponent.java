@@ -10,6 +10,8 @@ import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.services.AbacusServices;
 import com.expedia.bookings.services.ClientLogServices;
 import com.expedia.bookings.services.PersistentCookieManager;
+import com.expedia.bookings.utils.UserAccountRefresher;
+import com.expedia.model.UserLoginStateChangedModel;
 import com.squareup.okhttp.OkHttpClient;
 import dagger.Component;
 import retrofit.RequestInterceptor;
@@ -19,6 +21,7 @@ import retrofit.RestAdapter;
 @Singleton
 public interface AppComponent {
 	void inject(ExpediaServices services);
+	void inject(UserAccountRefresher userAccountRefresher);
 
 	Context appContext();
 	EndpointProvider endpointProvider();
@@ -29,4 +32,6 @@ public interface AppComponent {
 	AbacusServices abacus();
 	ClientLogServices clientLog();
 	ExpediaAccountApi accountApi();
+	UserLoginStateChangedModel userLoginStateChangedModel();
+
 }

@@ -6,18 +6,18 @@ import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.User
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.tracking.HotelV2Tracking
-import com.expedia.bookings.utils.UserAccountRefresher
 import com.squareup.phrase.Phrase
 import rx.subjects.BehaviorSubject
 import java.text.NumberFormat
 import com.expedia.bookings.data.payment.PaymentModel
 import com.expedia.bookings.data.hotels.HotelCreateTripResponse
+import com.expedia.model.UserLoginStateChangedModel
 import rx.Observable
 
-class ShopWithPointsViewModel(val context: Context, val paymentModel: PaymentModel<HotelCreateTripResponse>) {
+class ShopWithPointsViewModel(val context: Context, val paymentModel: PaymentModel<HotelCreateTripResponse>, val userLoginChangedModel: UserLoginStateChangedModel) {
 
-    val isShopWithPointsAvailableObservable = UserAccountRefresher.userAccountRefreshed
-            .startWith(User.isLoggedIn(context))
+    val isShopWithPointsAvailableObservable = BehaviorSubject.create<Boolean>()
+    val isShopWithPointsAvailableObservableIntermediateStream = Observable.concat(Observable.just(User.isLoggedIn(context)),userLoginChangedModel.userLoginStateChanged)
             .map { isShopWithPointsAvailable(it) }
 
     val shopWithPointsToggleObservable = BehaviorSubject.create<Boolean>(true)
@@ -37,7 +37,7 @@ class ShopWithPointsViewModel(val context: Context, val paymentModel: PaymentMod
     }
 
     private fun isShopWithPointsAvailable(isUserLoggedIn: Boolean): Boolean = isUserLoggedIn && PointOfSale.getPointOfSale().isSWPEnabledForHotels
-            && Db.getUser().loyaltyMembershipInformation?.isAllowedToShopWithPoints ?: false
+            && Db.getUser()?.loyaltyMembershipInformation?.isAllowedToShopWithPoints ?: false
 
     init {
         shopWithPointsToggleObservable.subscribe(paymentModel.swpOpted)
@@ -49,5 +49,6 @@ class ShopWithPointsViewModel(val context: Context, val paymentModel: PaymentMod
         shopWithPointsToggleObservable.skip(1).subscribe {
             HotelV2Tracking().trackSwPToggle(it)
         }
+        isShopWithPointsAvailableObservableIntermediateStream.subscribe(isShopWithPointsAvailableObservable)
     }
 }

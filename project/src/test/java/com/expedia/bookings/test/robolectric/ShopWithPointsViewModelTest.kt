@@ -2,7 +2,6 @@ package com.expedia.bookings.test.robolectric
 
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Db
-import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.Traveler
 import com.expedia.bookings.data.User
 import com.expedia.bookings.data.UserLoyaltyMembershipInformation
@@ -13,15 +12,15 @@ import com.expedia.bookings.test.robolectric.shadows.ShadowAccountManagerEB
 import com.expedia.bookings.test.robolectric.shadows.ShadowGCM
 import com.expedia.bookings.test.robolectric.shadows.ShadowUserManager
 import com.expedia.bookings.testrule.ServicesRule
-import com.expedia.bookings.utils.UserAccountRefresher
 import com.expedia.vm.ShopWithPointsViewModel
+import com.expedia.model.UserLoginStateChangedModel
+import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RuntimeEnvironment
 import org.robolectric.annotation.Config
 import rx.observers.TestSubscriber
-import kotlin.properties.Delegates
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
 import kotlin.test.assertTrue
@@ -35,13 +34,19 @@ class ShopWithPointsViewModelTest {
 
     lateinit private var shopWithPointsViewModel: ShopWithPointsViewModel
     lateinit private var paymentModel: PaymentModel<HotelCreateTripResponse>
+    lateinit private var userLoginStateChangedModel: UserLoginStateChangedModel
 
     private val context = RuntimeEnvironment.application
+
+    @Before
+    fun setUp() {
+        userLoginStateChangedModel = UserLoginStateChangedModel()
+    }
 
     @Test
     fun loggedOutUser() {
         paymentModel = PaymentModel<HotelCreateTripResponse>(loyaltyServiceRule.services!!)
-        shopWithPointsViewModel = ShopWithPointsViewModel(context, paymentModel)
+        shopWithPointsViewModel = ShopWithPointsViewModel(context, paymentModel, userLoginStateChangedModel)
         val testObserver: TestSubscriber<Boolean> = TestSubscriber.create()
         shopWithPointsViewModel.isShopWithPointsAvailableObservable.subscribe(testObserver)
 
@@ -55,7 +60,7 @@ class ShopWithPointsViewModelTest {
         UserLoginTestUtil.Companion.setupUserAndMockLogin(mockUser())
 
         paymentModel = PaymentModel<HotelCreateTripResponse>(loyaltyServiceRule.services!!)
-        shopWithPointsViewModel = ShopWithPointsViewModel(context, paymentModel)
+        shopWithPointsViewModel = ShopWithPointsViewModel(context, paymentModel, userLoginStateChangedModel)
         val testObserver: TestSubscriber<Boolean> = TestSubscriber.create()
         shopWithPointsViewModel.isShopWithPointsAvailableObservable.subscribe(testObserver)
 
@@ -73,7 +78,7 @@ class ShopWithPointsViewModelTest {
         user.loyaltyMembershipInformation = loyaltyInfo
         UserLoginTestUtil.Companion.setupUserAndMockLogin(user)
         paymentModel = PaymentModel<HotelCreateTripResponse>(loyaltyServiceRule.services!!)
-        shopWithPointsViewModel = ShopWithPointsViewModel(context, paymentModel)
+        shopWithPointsViewModel = ShopWithPointsViewModel(context, paymentModel, userLoginStateChangedModel)
 
         val testObserver: TestSubscriber<Boolean> = TestSubscriber.create()
         shopWithPointsViewModel.isShopWithPointsAvailableObservable.subscribe(testObserver)
@@ -97,7 +102,7 @@ class ShopWithPointsViewModelTest {
         UserLoginTestUtil.Companion.setupUserAndMockLogin(user)
 
         paymentModel = PaymentModel<HotelCreateTripResponse>(loyaltyServiceRule.services!!)
-        shopWithPointsViewModel = ShopWithPointsViewModel(context, paymentModel)
+        shopWithPointsViewModel = ShopWithPointsViewModel(context, paymentModel, userLoginStateChangedModel)
 
         val testObserver: TestSubscriber<Boolean> = TestSubscriber.create()
         shopWithPointsViewModel.isShopWithPointsAvailableObservable.subscribe(testObserver)
@@ -112,21 +117,20 @@ class ShopWithPointsViewModelTest {
         pointsAvailable = 3600.0
         loyaltyInfo.loyaltyPointsAvailable = pointsAvailable
         Db.setUser(user)
-        val userAccountRefresher = UserAccountRefresher(context, LineOfBusiness.HOTELS, UserAccountRefresher.IUserAccountRefreshListener {
-            assertEquals(loyaltyInfo.isAllowedToShopWithPoints, testObserver.onNextEvents[testObserver.onNextEvents.size - 1])
-            assertEquals(pointsAvailable, testPointsAvailableObserver.onNextEvents[testPointsAvailableObserver.onNextEvents.size - 1])
-        })
-        userAccountRefresher.ensureAccountIsRefreshed()
+        userLoginStateChangedModel.userLoginStateChanged.onNext(true)
+        assertTrue(testObserver.onNextEvents[1])
+        assertEquals(pointsAvailable, testPointsAvailableObserver.onNextEvents[1])
 
         loyaltyInfo.isAllowedToShopWithPoints = false
         Db.setUser(user)
-        userAccountRefresher.ensureAccountIsRefreshed()
+        userLoginStateChangedModel.userLoginStateChanged.onNext(true)
+        assertFalse(testObserver.onNextEvents[2])
     }
 
     @Test
     fun loyaltyHeaderChangeTest() {
         paymentModel = PaymentModel<HotelCreateTripResponse>(loyaltyServiceRule.services!!)
-        shopWithPointsViewModel = ShopWithPointsViewModel(context, paymentModel)
+        shopWithPointsViewModel = ShopWithPointsViewModel(context, paymentModel, userLoginStateChangedModel)
         val headerTestObservable = TestSubscriber.create<String>()
         shopWithPointsViewModel.swpHeaderStringObservable.subscribe(headerTestObservable)
 
