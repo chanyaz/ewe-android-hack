@@ -51,9 +51,9 @@ public class PackagePhoneHappyPathTest extends PackageTestCase {
 
 		PackageScreen.clickHotelBundle();
 
-		assertBundlePrice("$0", "View your bundle");
-		onView(allOf(withId(R.id.per_person_text), withParent(hasSibling(hasDescendant(withText("View your bundle")))), withText("per person"))).check(matches(isDisplayed()));
-		onView(allOf(withId(R.id.bundle_total_savings), withParent(hasSibling(hasDescendant(withText("View your bundle")))))).check(matches(not(isDisplayed())));
+		assertHotelBundlePrice("$0", "View your bundle");
+		onView(allOf(withId(R.id.per_person_text), isDescendantOfA(withId(R.id.bundle_price_widget)), withParent(hasSibling(hasDescendant(withText("View your bundle")))), withText("per person"))).check(matches(isDisplayed()));
+		onView(allOf(withId(R.id.bundle_total_savings), isDescendantOfA(withId(R.id.bundle_price_widget)), withParent(hasSibling(hasDescendant(withText("View your bundle")))))).check(matches(not(isDisplayed())));
 
 		HotelScreen.mapFab().perform(click());
 		assertHotelMap();
@@ -71,9 +71,9 @@ public class PackagePhoneHappyPathTest extends PackageTestCase {
 
 		assertHotelInfoSite();
 		reviews();
-		assertBundlePrice("$1,027", "View your bundle");
-		onView(allOf(withId(R.id.per_person_text), withParent(hasSibling(hasDescendant(withText("View your bundle")))), withText("per person"))).check(matches(isDisplayed()));
-		onView(allOf(withId(R.id.bundle_total_savings), withParent(hasSibling(hasDescendant(withText("View your bundle")))))).check(matches(not(isDisplayed())));
+		assertHotelBundlePrice("$1,027", "View your bundle");
+		onView(allOf(withId(R.id.per_person_text), isDescendantOfA(withId(R.id.bundle_price_widget)), withParent(hasSibling(hasDescendant(withText("View your bundle")))), withText("per person"))).check(matches(isDisplayed()));
+		onView(allOf(withId(R.id.bundle_total_savings), isDescendantOfA(withId(R.id.bundle_price_widget)),  withParent(hasSibling(hasDescendant(withText("View your bundle")))))).check(matches(not(isDisplayed())));
 
 		HotelScreen.selectRoom();
 
@@ -195,6 +195,14 @@ public class PackagePhoneHappyPathTest extends PackageTestCase {
 			withText(
 				"Includes taxes, fees, flights + hotel"))).check(matches(isDisplayed()));
 		onView(allOf(withId(R.id.bundle_total_price), withText(price))).check(matches(isDisplayed()));
+	}
+
+	private void assertHotelBundlePrice(String price, String totalText) {
+		onView(allOf(withId(R.id.bundle_total_text), isDescendantOfA(withId(R.id.bundle_price_widget)), withText(totalText))).check(matches(isDisplayed()));
+		onView(allOf(withId(R.id.bundle_total_includes_text), isDescendantOfA(withId(R.id.bundle_price_widget)), withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE),
+			withText(
+				"Includes taxes, fees, flights + hotel"))).check(matches(isDisplayed()));
+		onView(allOf(withId(R.id.bundle_total_price), isDescendantOfA(withId(R.id.bundle_price_widget)), withText(price))).check(matches(isDisplayed()));
 	}
 
 	private void assertBundlePriceInFlight(String price) {

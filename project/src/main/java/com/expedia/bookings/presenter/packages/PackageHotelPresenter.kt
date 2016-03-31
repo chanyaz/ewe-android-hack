@@ -1,13 +1,7 @@
 package com.expedia.bookings.presenter.packages
 
-import android.animation.Animator
-import android.animation.ObjectAnimator
-import android.animation.ValueAnimator
 import android.app.Activity
 import android.content.Context
-import android.graphics.Color
-import android.graphics.PorterDuff
-import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
 import android.util.AttributeSet
 import android.view.GestureDetector
@@ -35,12 +29,9 @@ import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.FrameLayout
 import com.expedia.bookings.widget.LoadingOverlayWidget
-import com.expedia.bookings.widget.TotalPriceWidget
+import com.expedia.bookings.widget.SlidingBundleWidget
 import com.expedia.ui.PackageHotelActivity
 import com.expedia.util.endlessObserver
-import com.expedia.util.subscribeText
-import com.expedia.vm.BundleOverviewViewModel
-import com.expedia.vm.BundlePriceViewModel
 import com.expedia.vm.HotelDetailViewModel
 import com.expedia.vm.HotelMapViewModel
 import com.expedia.vm.HotelResultsViewModel
@@ -62,8 +53,7 @@ class PackageHotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
 
     val resultsMapView: MapView by bindView(R.id.map_view)
     val detailsMapView: MapView by bindView(R.id.details_map_view)
-    val bundlePriceWidget: TotalPriceWidget by bindView(R.id.bundle_price_widget)
-    val bundleOverViewWidget: BundleWidget by bindView(R.id.bundle_widget)
+    val bundleSlidingWidget: SlidingBundleWidget by bindView(R.id.sliding_bundle_widget)
 
     val resultsPresenter: PackageHotelResultsPresenter by lazy {
         var viewStub = findViewById(R.id.results_stub) as ViewStub
@@ -93,7 +83,8 @@ class PackageHotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
         presenter.hotelDetailView.viewmodel.reviewsClickedWithHotelData.subscribe(reviewsObserver)
         presenter.hotelDetailView.viewmodel.mapClickedSubject.subscribe(presenter.hotelDetailsEmbeddedMapClickObserver)
         presenter.hotelDetailView.viewmodel.hotelDetailsBundleTotalObservable.subscribe { bundle ->
-            bundlePriceWidget.viewModel.setTextObservable.onNext(bundle)
+            bundleSlidingWidget.bundlePriceWidget.viewModel.setTextObservable.onNext(bundle)
+            bundleSlidingWidget.bundlePriceFooter.viewModel.setTextObservable.onNext(bundle)
         }
         presenter.hotelMapView.viewmodel = HotelMapViewModel(context, presenter.hotelDetailView.viewmodel.scrollToRoom, presenter.hotelDetailView.viewmodel.hotelSoldOut)
         presenter
@@ -136,31 +127,26 @@ class PackageHotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
 
     private val gestureListener = object : GestureDetector.SimpleOnGestureListener() {
 
-        internal var originY: Float = 0.toFloat()
-
         override fun onFling(e1: MotionEvent, e2: MotionEvent, velocityX: Float, velocityY: Float): Boolean {
-            if (isMoving || !canMove) {
+            if (bundleSlidingWidget.isMoving || !bundleSlidingWidget.canMove) {
                 return true
             }
             if (e1.y.minus(e2.y) > SWIPE_MIN_DISTANCE && Math.abs(velocityY) > SWIPE_THRESHOLD_VELOCITY) {
                 if (detailsToOverview.animationDuration != FAST_ANIMATION_DURATION) {
                     updateOverviewAnimationDuration(FAST_ANIMATION_DURATION)
                 }
-                val isShowingBundle = Strings.equals(currentState, BundleWidget::class.java.name)
-                if (!isShowingBundle) {
-                    show(bundleOverViewWidget)
+                if (!isShowingBundle()) {
+                    show(bundleSlidingWidget)
                 }
                 else {
                     back()
                 }
                 return true
             } else if (e2.y.minus(e1.y) > SWIPE_MIN_DISTANCE && Math.abs(velocityY) > SWIPE_THRESHOLD_VELOCITY) {
-                val isShowingBundle = Strings.equals(currentState, BundleWidget::class.java.name)
-                if (isShowingBundle) {
+                if (isShowingBundle()) {
                     back()
                 } else {
-                    val distanceMax = -height.toFloat() + bundlePriceWidget.height + Ui.getStatusBarHeight(context)
-                    closeBundleOverview(distanceMax)
+                    bundleSlidingWidget.closeBundleOverview()
                 }
                 return true
             }
@@ -172,25 +158,23 @@ class PackageHotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
         }
 
         override fun onScroll(e1: MotionEvent, e2: MotionEvent, distanceX: Float, distanceY: Float): Boolean {
-            if (isMoving || !canMove) {
+            if (bundleSlidingWidget.isMoving || !bundleSlidingWidget.canMove) {
                 return true
             }
             if (detailsToOverview.animationDuration != REGULAR_ANIMATION_DURATION) {
                 updateOverviewAnimationDuration(REGULAR_ANIMATION_DURATION)
             }
-            originY = height.toFloat() - (bundlePriceWidget.height / 2f)
-            val diff = e2.rawY - originY
-            translateBundleOverview(diff)
+            bundleSlidingWidget.translateBundleOverview(e2.rawY)
             return true
         }
 
         override fun onSingleTapUp(e: MotionEvent?): Boolean {
             updateOverviewAnimationDuration(REGULAR_ANIMATION_DURATION)
-            val isShowingBundle = Strings.equals(currentState, BundleWidget::class.java.name)
+            val isShowingBundle = isShowingBundle()
             if (isShowingBundle) {
                 back()
             } else {
-                show(bundleOverViewWidget)
+                show(bundleSlidingWidget)
             }
             return true
         }
@@ -200,7 +184,7 @@ class PackageHotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
     init {
         Ui.getApplication(context).packageComponent().inject(this)
         View.inflate(getContext(), R.layout.package_hotel_presenter, this)
-        setupBundleViews()
+        bundleSlidingWidget.setupBundleViews()
     }
 
     fun updateOverviewAnimationDuration(duration: Int) {
@@ -208,40 +192,44 @@ class PackageHotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
         resultsToOverview.animationDuration = duration
     }
 
-    var isMoving = false
-    var canMove = false
     override fun onFinishInflate() {
         super.onFinishInflate()
         addTransition(resultsToDetail)
         addTransition(resultsToOverview)
         addTransition(detailsToOverview)
+        bundleSlidingWidget.bundleOverViewWidget.bundleHotelWidget.rowContainer.setOnClickListener {
+            back()
+        }
+        bundleSlidingWidget.bundlePriceWidget.setOnClickListener {
+            show(bundleSlidingWidget)
+        }
         loadingOverlay.setBackground(R.color.packages_primary_color)
-        bundlePriceWidget.setOnTouchListener(object : View.OnTouchListener {
+        bundleSlidingWidget.bundlePriceWidget.setOnTouchListener(object : View.OnTouchListener {
             override fun onTouch(v: View, event: MotionEvent): Boolean {
-                if (isMoving) {
+                if (bundleSlidingWidget.isMoving) {
                     return true
                 }
                 if (!gestureDetector.onTouchEvent(event)) {
                     when (event.action) {
                         (MotionEvent.ACTION_DOWN) -> {
-                            canMove = true
+                            bundleSlidingWidget.canMove = true
                         }
                         (MotionEvent.ACTION_UP) -> {
-                            canMove = false
-                            val distance = bundlePriceWidget.translationY
-                            val distanceMax = -height.toFloat() + bundlePriceWidget.height + Ui.getStatusBarHeight(context)
+                            bundleSlidingWidget.canMove = false
+                            val distance = Math.abs(bundleSlidingWidget.translationY)
+                            val distanceMax = height.toFloat() - bundleSlidingWidget.bundlePriceWidget.height
                             val upperThreshold = distanceMax / 3
-                            val isShowingBundle = Strings.equals(currentState, BundleWidget::class.java.name)
-                            if (Math.abs(distance) < Math.abs(upperThreshold) && !isShowingBundle) {
-                                // currentState !=  BundleWidget, from TOP to BOTTOM but distance moved less than threshold hence close widget.
-                                closeBundleOverview(distanceMax)
-                            } else if (Math.abs(distance) > Math.abs(upperThreshold) && !isShowingBundle) {
-                                // currentState !=  BundleWidget, from TOP to BOTTOM and distance moved greater than threshold hence show widget again.
-                                show(bundleOverViewWidget)
-                            } else if (Math.abs(distanceMax - distance) < Math.abs(upperThreshold)) {
+                            val lowerThreshold = (distanceMax / 3) * 2
+                            if (distance > Math.abs(lowerThreshold) && !isShowingBundle()) {
+                                // currentState !=  BundleWidget, from BOTTOM to TOP but distance moved less than threshold hence close widget.
+                                bundleSlidingWidget.closeBundleOverview()
+                            } else if (distance <= Math.abs(lowerThreshold) && !isShowingBundle()) {
+                                // currentState !=  BundleWidget, from BOTTOM to TOP and distance moved greater than threshold hence show widget again.
+                                show(bundleSlidingWidget)
+                            } else if (distance <= Math.abs(upperThreshold)) {
                                 // currentState ==  BundleWidget, from TOP to BOTTOM but distance moved less than threshold hence show widget again.
-                                openBundleOverview(distanceMax)
-                            } else if (Math.abs(distanceMax - distance) > Math.abs(upperThreshold)) {
+                                bundleSlidingWidget.openBundleOverview()
+                            } else if (distance > Math.abs(upperThreshold)) {
                                 // currentState ==  BundleWidget, from TOP to BOTTOM and distance moved greater than threshold hence close widget i.e. hitBack()
                                 back()
                             }
@@ -259,7 +247,7 @@ class PackageHotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
     }
 
     val hideBundlePriceOverviewObserver: Observer<Boolean> = endlessObserver { hide ->
-        bundlePriceWidget.visibility = if (hide) GONE else VISIBLE
+        bundleSlidingWidget.bundlePriceWidget.visibility = if (hide) GONE else VISIBLE
     }
 
     private fun getDetails(piid: String, hotelId: String, checkIn: String, checkOut: String, ratePlanCode: String?, roomTypeCode: String?) {
@@ -297,10 +285,10 @@ class PackageHotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
         override fun endTransition(forward: Boolean) {
             super.endTransition(forward)
             resultsPresenter.visibility = if (forward) View.VISIBLE else View.GONE
-            bundlePriceWidget.visibility = View.VISIBLE
-            bundlePriceWidget.viewModel.bundleTextLabelObservable.onNext(context.getString(R.string.search_bundle_total_text))
-            bundlePriceWidget.viewModel.perPersonTextLabelObservable.onNext(true)
-            bundlePriceWidget.viewModel.setTextObservable.onNext(Pair(Money(BigDecimal(0),
+            bundleSlidingWidget.bundlePriceWidget.visibility = View.VISIBLE
+            bundleSlidingWidget.bundlePriceWidget.viewModel.bundleTextLabelObservable.onNext(context.getString(R.string.search_bundle_total_text))
+            bundleSlidingWidget.bundlePriceWidget.viewModel.perPersonTextLabelObservable.onNext(true)
+            bundleSlidingWidget.bundlePriceWidget.viewModel.setTextObservable.onNext(Pair(Money(BigDecimal(0),
                     Db.getPackageResponse().packageResult.packageOfferModels[0].price.packageTotalPrice.currencyCode).formattedMoney, ""))
             resultsPresenter.animationFinalize(forward)
         }
@@ -333,7 +321,6 @@ class PackageHotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
         override fun endTransition(forward: Boolean) {
             detailPresenter.visibility = if (forward) View.VISIBLE else View.GONE
             resultsPresenter.visibility = if (forward) View.GONE else View.VISIBLE
-            bundlePriceWidget.visibility = View.VISIBLE
             detailPresenter.translationY = 0f
             resultsPresenter.animationFinalize(!forward)
             detailPresenter.animationFinalize()
@@ -346,134 +333,33 @@ class PackageHotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
         }
     }
 
-    private val detailsToReview = object : ScaleTransition(this, HotelDetailPresenter::class.java, HotelReviewsView::class.java) {
-        override fun endTransition(forward: Boolean) {
-            super.endTransition(forward)
-            if (forward) {
-                reviewsView.transitionFinished()
-            }
-        }
-    }
-
-    private val detailsToOverview = object : Presenter.Transition(HotelDetailPresenter::class.java.name, BundleWidget::class.java.name, AccelerateDecelerateInterpolator(), REGULAR_ANIMATION_DURATION) {
+    private val detailsToOverview = object : Presenter.Transition(HotelDetailPresenter::class.java.name, SlidingBundleWidget::class.java.name, AccelerateDecelerateInterpolator(), REGULAR_ANIMATION_DURATION) {
         override fun startTransition(forward: Boolean) {
-            startBundleTransition(forward)
+            bundleSlidingWidget.startBundleTransition(forward)
         }
 
         override fun updateTransition(f: Float, forward: Boolean) {
-            updateBundleTransition(f, forward)
+            bundleSlidingWidget.updateBundleTransition(f, forward)
         }
 
         override fun endTransition(forward: Boolean) {
-            finalizeBundleTransition(forward)
+            bundleSlidingWidget.finalizeBundleTransition(forward)
         }
     }
 
-    private val resultsToOverview = object : Presenter.Transition(PackageHotelResultsPresenter::class.java.name, BundleWidget::class.java.name, AccelerateDecelerateInterpolator(), REGULAR_ANIMATION_DURATION) {
+    private val resultsToOverview = object : Presenter.Transition(PackageHotelResultsPresenter::class.java.name, SlidingBundleWidget::class.java.name, AccelerateDecelerateInterpolator(), REGULAR_ANIMATION_DURATION) {
 
         override fun startTransition(forward: Boolean) {
-            startBundleTransition(forward)
+            bundleSlidingWidget.startBundleTransition(forward)
         }
 
         override fun updateTransition(f: Float, forward: Boolean) {
-            updateBundleTransition(f, forward)
+            bundleSlidingWidget.updateBundleTransition(f, forward)
         }
 
         override fun endTransition(forward: Boolean) {
-            finalizeBundleTransition(forward)
+            bundleSlidingWidget.finalizeBundleTransition(forward)
         }
-    }
-
-
-    var translationDistance = 0f
-    val statusBarHeight = Ui.getStatusBarHeight(context)
-
-    private fun startBundleTransition(forward: Boolean) {
-        isMoving = true
-        val lp = bundleOverViewWidget.layoutParams
-        lp.height = height - statusBarHeight
-        translationDistance = bundlePriceWidget.translationY
-        bundleOverViewWidget.translationY = height.toFloat() - bundlePriceWidget.height + translationDistance
-        resultsPresenter.visibility = View.VISIBLE
-        bundleOverViewWidget.visibility = View.VISIBLE
-        bundlePriceWidget.visibility = View.VISIBLE
-        bundlePriceWidget.bundleTitle.visibility = View.VISIBLE
-        bundlePriceWidget.bundleSubtitle.visibility = View.VISIBLE
-        bundlePriceWidget.setBackgroundColor(if (forward) Color.WHITE else ContextCompat.getColor(context, R.color.packages_primary_color))
-    }
-
-    private fun updateBundleTransition(f: Float, forward: Boolean) {
-        var distance = -height - translationDistance + bundlePriceWidget.height + statusBarHeight
-        val pos = if (forward) translationDistance + (f * distance) else (1 - f) * translationDistance
-        translateBundleOverview(pos)
-    }
-
-    private fun finalizeBundleTransition(forward: Boolean) {
-        resultsPresenter.visibility = View.VISIBLE
-        bundleOverViewWidget.visibility = if (forward) View.VISIBLE else View.GONE
-        bundlePriceWidget.bundleTitle.visibility = if (forward) View.VISIBLE else View.GONE
-        bundlePriceWidget.bundleSubtitle.visibility = if (forward) View.VISIBLE else View.GONE
-        bundlePriceWidget.bundleTotalText.visibility = if (forward) View.GONE else View.VISIBLE
-        bundlePriceWidget.bundleTotalIncludes.visibility = if (forward) View.GONE else View.VISIBLE
-        bundlePriceWidget.bundleTotalPrice.visibility = if (forward) View.GONE else View.VISIBLE
-        bundlePriceWidget.setBackgroundColor(if (forward) ContextCompat.getColor(context, R.color.packages_primary_color) else Color.WHITE)
-        bundleOverViewWidget.translationY = if (forward) statusBarHeight.toFloat() else height.toFloat()
-        bundlePriceWidget.translationY = if (forward) -height + bundlePriceWidget.height + statusBarHeight.toFloat() else 0f
-        isMoving = false
-    }
-
-    private fun translateBundleOverview(distance: Float) {
-        val distanceMax = - height.toFloat() + bundlePriceWidget.height + Ui.getStatusBarHeight(context)
-        val f = distance / distanceMax
-        if (distance >= distanceMax && distance <= 0) {
-            bundleOverViewWidget.visibility = View.VISIBLE
-            bundlePriceWidget.translationY = distance
-            bundleOverViewWidget.translationY = height.toFloat() - bundlePriceWidget.height + distance
-            bundlePriceWidget.bundleTitle.visibility = View.VISIBLE
-            bundlePriceWidget.bundleSubtitle.visibility = View.VISIBLE
-            bundlePriceWidget.bundleTotalText.visibility = View.VISIBLE
-            bundlePriceWidget.bundleTotalIncludes.visibility = View.VISIBLE
-            bundlePriceWidget.animateBundleWidget(f, true)
-        }
-    }
-
-    private fun openBundleOverview(distanceMax: Float) {
-        animateBundleOverview(distanceMax, REGULAR_ANIMATION_DURATION, true)
-    }
-
-    private fun closeBundleOverview(distanceMax: Float) {
-        animateBundleOverview(distanceMax, REGULAR_ANIMATION_DURATION, false)
-    }
-
-    private fun animateBundleOverview(distanceMax: Float, animDuration: Int, open: Boolean) {
-        val end = if (open) - height.toFloat() + bundlePriceWidget.height + statusBarHeight else 0f
-        val animator = ObjectAnimator.ofFloat(bundlePriceWidget, "translationY", bundlePriceWidget.translationY, end)
-        animator.duration = animDuration.toLong()
-        animator.addListener(object : Animator.AnimatorListener {
-            override fun onAnimationCancel(animator: Animator?) {
-
-            }
-
-            override fun onAnimationRepeat(animator: Animator?) {
-
-            }
-
-            override fun onAnimationStart(animator: Animator?) {
-                isMoving = true
-            }
-
-            override fun onAnimationEnd(animator: Animator) {
-                isMoving = false
-            }
-        })
-        animator.addUpdateListener(ValueAnimator.AnimatorUpdateListener
-        {
-            anim ->
-            bundleOverViewWidget.translationY = height.toFloat() - bundlePriceWidget.height + bundlePriceWidget.translationY
-            bundlePriceWidget.animateBundleWidget(Math.abs((-distanceMax + bundlePriceWidget.translationY) / distanceMax), false)
-
-        })
-        animator.start()
     }
 
     val selectedRoomObserver = endlessObserver<HotelOffersResponse.HotelRoomResponse> { offer ->
@@ -483,25 +369,6 @@ class PackageHotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
         val activity = (context as AppCompatActivity)
         activity.setResult(Activity.RESULT_OK)
         activity.finish()
-    }
-
-    private fun setupBundleViews() {
-        bundleOverViewWidget.viewModel = BundleOverviewViewModel(context, null)
-        bundleOverViewWidget.viewModel.hotelParamsObservable.onNext(Db.getPackageParams())
-        bundleOverViewWidget.viewModel.hotelResultsObservable.onNext(Unit)
-        bundleOverViewWidget.viewModel.toolbarTitleObservable.subscribeText(bundlePriceWidget.bundleTitle)
-        bundleOverViewWidget.viewModel.toolbarSubtitleObservable.subscribeText(bundlePriceWidget.bundleSubtitle)
-        bundleOverViewWidget.bundleHotelWidget.rowContainer.setOnClickListener {
-            back()
-        }
-        bundlePriceWidget.viewModel = BundlePriceViewModel(context)
-        bundlePriceWidget.bundleChevron.visibility = View.VISIBLE
-        bundlePriceWidget.setOnClickListener {
-            show(bundleOverViewWidget)
-        }
-        bundleOverViewWidget.setPadding(0, Ui.getToolbarSize(context), 0, 0)
-        val icon = ContextCompat.getDrawable(context, R.drawable.read_more).mutate()
-        icon.setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_IN)
     }
 
     val defaultTransitionObserver: Observer<PackageHotelActivity.Screen> = endlessObserver {
@@ -531,4 +398,8 @@ class PackageHotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
         }
     }
 
+    private fun isShowingBundle(): Boolean {
+        val isShowingBundle = Strings.equals(currentState, SlidingBundleWidget::class.java.name)
+        return isShowingBundle
+    }
 }

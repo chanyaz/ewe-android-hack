@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <com.expedia.bookings.presenter.packages.BundleWidget
+        android:id="@+id/bundle_widget"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <com.expedia.bookings.widget.TotalPriceWidget
+        android:id="@+id/bundle_price_widget"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/footer_button_height"
+        android:layout_gravity="top"
+        android:background="@color/white"
+        android:clickable="true"
+        android:paddingLeft="17dp"
+        android:paddingRight="19dp" />
+
+    <com.expedia.bookings.widget.TotalPriceWidget
+        android:id="@+id/total_price_widget"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/footer_button_height"
+        android:layout_gravity="bottom"
+        android:background="@color/white"
+        android:clickable="true"
+        android:paddingLeft="17dp"
+        android:paddingRight="19dp" />
+
+</merge>

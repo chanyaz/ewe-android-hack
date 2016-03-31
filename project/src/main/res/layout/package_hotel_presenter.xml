@@ -14,52 +14,32 @@
         android:layout_height="match_parent"
         android:visibility="gone" />
 
-    <RelativeLayout
+    <ViewStub
+        android:id="@+id/results_stub"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:inflatedId="@+id/widget_hotel_results"
+        android:layout="@layout/package_hotel_results_presenter_stub" />
 
-        <ViewStub
-            android:id="@+id/results_stub"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_above="@+id/bundle_price_widget"
-            android:inflatedId="@+id/widget_hotel_results"
-            android:layout="@layout/package_hotel_results_presenter_stub" />
+    <ViewStub
+        android:id="@+id/details_stub"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:inflatedId="@+id/widget_hotel_detail"
+        android:layout="@layout/package_hotel_detail_presenter_stub" />
 
-        <ViewStub
-            android:id="@+id/details_stub"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_above="@+id/bundle_price_widget"
-            android:inflatedId="@+id/widget_hotel_detail"
-            android:layout="@layout/hotel_detail_presenter_stub" />
+    <ViewStub
+        android:id="@+id/reviews_stub"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:inflatedId="@+id/widget_hotel_reviews"
+        android:layout="@layout/hotel_review_presenter_stub" />
 
-        <ViewStub
-            android:id="@+id/reviews_stub"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_above="@+id/bundle_price_widget"
-            android:inflatedId="@+id/widget_hotel_reviews"
-            android:layout="@layout/hotel_review_presenter_stub" />
-
-        <com.expedia.bookings.presenter.packages.BundleWidget
-            android:id="@+id/bundle_widget"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@color/search_results_list_bg_gray"
-            android:visibility="gone" />
-
-        <com.expedia.bookings.widget.TotalPriceWidget
-            android:id="@+id/bundle_price_widget"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/footer_button_height"
-            android:layout_alignParentBottom="true"
-            android:background="@color/white"
-            android:clickable="true"
-            android:paddingLeft="17dp"
-            android:paddingRight="19dp" />
-
-    </RelativeLayout>
+    <com.expedia.bookings.widget.SlidingBundleWidget
+        android:id="@+id/sliding_bundle_widget"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/search_results_list_bg_gray" />
 
     <com.expedia.bookings.widget.LoadingOverlayWidget
         android:id="@+id/details_loading_overlay"
