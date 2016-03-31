@@ -15,7 +15,6 @@ import android.view.View;
 import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.AppIntroActivity;
-import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.activity.WebViewActivity;
 import com.expedia.bookings.data.HotelFilter;
 import com.expedia.bookings.data.pos.PointOfSale;
@@ -57,13 +56,6 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 
 	public boolean shouldDisplayInsuranceDetailsIfAvailableOnItinCard() {
 		return true;
-	}
-
-	public String getActionForLocaleChangeEvent() {
-		if (ExpediaBookingApp.isAutomation()) {
-			return null;
-		}
-		throw new UnsupportedOperationException("Not Required/Implemented for Expedia App");
 	}
 
 	public boolean wantsCustomHandlingForLocaleConfiguration() {

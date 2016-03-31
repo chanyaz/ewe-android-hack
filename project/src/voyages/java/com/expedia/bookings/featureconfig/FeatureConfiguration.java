@@ -17,7 +17,6 @@ import android.widget.TextView;
 import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.AccountSettingsActivity;
-import com.expedia.bookings.activity.VSCLocaleChangeReceiver;
 import com.expedia.bookings.activity.WebViewActivity;
 import com.expedia.bookings.data.HotelFilter;
 import com.expedia.bookings.data.pos.PointOfSale;
@@ -68,11 +67,6 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 	@Override
 	public boolean shouldDisplayInsuranceDetailsIfAvailableOnItinCard() {
 		return true;
-	}
-
-	@Override
-	public String getActionForLocaleChangeEvent() {
-		return VSCLocaleChangeReceiver.ACTION_LOCALE_CHANGED;
 	}
 
 	@Override

@@ -489,13 +489,6 @@ public class ExpediaBookingApp extends MultiDexApplication implements UncaughtEx
 
 		myConfig.locale = locale;
 		getBaseContext().getResources().updateConfiguration(myConfig, getResources().getDisplayMetrics());
-
-		// Send broadcast so that we can re-create activities
-		String localeChangeAction = ProductFlavorFeatureConfiguration.getInstance().getActionForLocaleChangeEvent();
-		if (localeChangeAction != null) {
-			Intent intent = new Intent(localeChangeAction);
-			sendBroadcast(intent);
-		}
 		super.onConfigurationChanged(newConfig);
 	}
 
