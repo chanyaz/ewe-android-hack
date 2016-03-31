@@ -2,11 +2,6 @@
 
     <application>
 
-        <!-- Ad-X -->
-        <meta-data
-            android:name="ADX_CLIENT_ID"
-            android:value="exped2345789jo" />
-
         <meta-data
             android:name="APP_NAME"
             android:value="com.samsung.travel.android" />
@@ -75,14 +70,6 @@
             android:name="com.expedia.bookings.activity.AppIntroActivity"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.Phone.NoActionBar" />
-
-        <receiver
-            android:name="com.AdX.tag.AdXAppTracker"
-            android:exported="true" >
-            <intent-filter>
-                <action android:name="com.android.vending.INSTALL_REFERRER" />
-            </intent-filter>
-        </receiver>
 
     </application>
 

@@ -2,11 +2,6 @@
 
     <application>
 
-        <!-- AD-X -->
-        <meta-data
-            android:name="ADX_CLIENT_ID"
-            android:value="exped2345789jo" />
-
         <meta-data
             android:name="APP_NAME"
             android:value="com.cheaptickets" />
@@ -64,14 +59,6 @@
                 <data android:host="wwwexpediacom.trunk.sb.karmalab.net" />
             </intent-filter>
         </activity>
-
-        <receiver
-            android:name="com.AdX.tag.AdXAppTracker"
-            android:exported="true" >
-            <intent-filter>
-                <action android:name="com.android.vending.INSTALL_REFERRER" />
-            </intent-filter>
-        </receiver>
 
     </application>
 
