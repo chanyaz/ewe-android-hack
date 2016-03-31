@@ -47,6 +47,7 @@ public class SuggestionV4 {
 
 	public static class Airport {
 		public String airportCode;
+		public String multicity;
 	}
 
 	public static class Country {
@@ -69,6 +70,7 @@ public class SuggestionV4 {
 			v4.hierarchyInfo.airport = new Airport();
 			if (hierarchyInfo.airport != null) {
 				v4.hierarchyInfo.airport.airportCode = hierarchyInfo.airport.airportCode;
+				v4.hierarchyInfo.airport.multicity = hierarchyInfo.airport.multicity;
 			}
 		}
 		v4.regionNames = new RegionNames();

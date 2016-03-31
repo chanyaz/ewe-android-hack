@@ -118,8 +118,8 @@ data class PackageSearchParams(val origin: SuggestionV4, val destination: Sugges
     fun toQueryMap(): Map<String, Any?> {
         val params = HashMap<String, Any?>()
         params.put("pageType", pageType)
-        params.put("originId", origin.gaiaId)
-        params.put("destinationId", destination.gaiaId)
+        params.put("originId", origin.hierarchyInfo?.airport?.multicity)
+        params.put("destinationId", destination.hierarchyInfo?.airport?.multicity)
         params.put("ftla",origin.hierarchyInfo?.airport?.airportCode)
         params.put("ttla", destination.hierarchyInfo?.airport?.airportCode)
         params.put("fromDate", checkIn.toString())
