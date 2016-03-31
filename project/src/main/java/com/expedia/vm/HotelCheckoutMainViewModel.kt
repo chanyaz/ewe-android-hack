@@ -5,9 +5,12 @@ import com.expedia.bookings.data.payment.PaymentModel
 import com.expedia.bookings.data.payment.PaymentSplitsType
 import rx.Observable
 import rx.subjects.PublishSubject
+import rx.subjects.BehaviorSubject
 
-class HotelCheckoutMainViewModel(paymentModel: PaymentModel<HotelCreateTripResponse>) {
+class HotelCheckoutMainViewModel(paymentModel: PaymentModel<HotelCreateTripResponse>, shopWithPointsViewModel: ShopWithPointsViewModel) {
     val animateInSlideToPurchaseSubject = PublishSubject.create<Unit>()
+    val onLogoutButtonClicked = PublishSubject.create<Unit>()
+    val userWithEffectiveSwPAvailableSignedOut = BehaviorSubject.create<Boolean>(false)
 
     //OUTLETS
     val updateEarnedRewards: Observable<Int> = paymentModel.paymentSplits.map { it.payingWithCards.points }
@@ -18,4 +21,10 @@ class HotelCheckoutMainViewModel(paymentModel: PaymentModel<HotelCreateTripRespo
                 else PaymentSplitsType.IS_FULL_PAYABLE_WITH_CARD
             })
 
+    init {
+        /* To check whether user is logged in and has opted to shopWithPoints, we want last/stale value in shopWithPointsViewModel.swpEffectiveAvailability
+        which has not been updated by the time onLogoutButtonClicked triggers */
+
+        onLogoutButtonClicked.withLatestFrom(shopWithPointsViewModel.swpEffectiveAvailability, { Unit, isAvailable -> isAvailable }).subscribe(userWithEffectiveSwPAvailableSignedOut)
+    }
 }

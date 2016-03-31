@@ -158,7 +158,7 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
         presenter.hotelDetailView.viewmodel.vipAccessInfoObservable.subscribe(presenter.hotelVIPAccessInfoObserver)
         presenter.hotelDetailView.viewmodel.mapClickedSubject.subscribe(presenter.hotelDetailsEmbeddedMapClickObserver)
         presenter.hotelMapView.viewmodel = HotelMapViewModel(context, presenter.hotelDetailView.viewmodel.scrollToRoom, presenter.hotelDetailView.viewmodel.hotelSoldOut)
-        presenter.hotelDetailView.viewmodel.changeDates.subscribe(changeDatesObserver)
+        presenter.hotelDetailView.viewmodel.changeDates.subscribe(goToSearchScreen)
 
         viewModel = HotelPresenterViewModel(checkoutPresenter.hotelCheckoutWidget.createTripViewmodel, checkoutPresenter.hotelCheckoutViewModel, presenter.hotelDetailView.viewmodel)
         viewModel.selectedRoomSoldOut.subscribe(presenter.hotelDetailView.viewmodel.selectedRoomSoldOut)
@@ -225,6 +225,9 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
         })
         presenter.setSearchParams(hotelSearchParams)
         presenter.hotelCheckoutWidget.setSearchParams(hotelSearchParams)
+        presenter.hotelCheckoutWidget.backPressedAfterUserWithEffectiveSwPAvailableSignedOut
+                .delay(DELAY_INVOKING_ERROR_OBSERVABLES_DOING_SHOW, TimeUnit.MILLISECONDS).observeOn(AndroidSchedulers.mainThread())
+                .subscribe(goToSearchScreen)
         presenter
     }
 
@@ -325,6 +328,7 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
         addTransition(searchToError)
         addTransition(checkoutToError)
         addTransition(detailsToError)
+        addTransition(checkoutToSearch)
 
         //NOTE
         //Reason for delay(XYZ, TimeUnit.ABC) to various errorObservables below:
@@ -605,6 +609,38 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
 
     }
 
+    private val checkoutToSearch = object : Presenter.Transition(SearchTransition::class.java, HotelCheckoutPresenter::class.java, AccelerateDecelerateInterpolator(), 500) {
+
+        override fun startTransition(forward: Boolean) {
+            super.startTransition(forward)
+            loadingOverlay.visibility = View.GONE
+            searchPresenter.visibility = View.VISIBLE
+            checkoutPresenter.visibility = View.VISIBLE
+            searchPresenter.setBackgroundColor(searchBackgroundColor.start)
+            searchPresenter.animationStart(!forward)
+        }
+
+        override fun updateTransition(f: Float, forward: Boolean) {
+            super.updateTransition(f, forward)
+            searchPresenter.animationUpdate(f, !forward)
+            if(forward) {
+                searchPresenter.setBackgroundColor(searchArgbEvaluator.evaluate(f, searchBackgroundColor.start, searchBackgroundColor.end) as Int)
+            } else {
+                searchPresenter.setBackgroundColor(searchArgbEvaluator.evaluate(f, searchBackgroundColor.end, searchBackgroundColor.start) as Int)
+            }
+        }
+
+        override fun endTransition(forward: Boolean) {
+            super.endTransition(forward)
+            searchPresenter.setBackgroundColor(if (forward) searchBackgroundColor.end else searchBackgroundColor.start)
+            searchPresenter.visibility = if (forward) View.GONE else View.VISIBLE
+            checkoutPresenter.visibility = if (forward) View.VISIBLE else View.GONE
+            searchPresenter.animationFinalize(forward)
+        }
+    }
+
+
+
     private val detailsToError = object : ScaleTransition(this, HotelDetailPresenter::class.java, HotelErrorPresenter::class.java) {
         override fun endTransition(forward: Boolean) {
             super.endTransition(forward)
@@ -642,7 +678,7 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
         }
     }
 
-    val changeDatesObserver: Observer<Unit> = endlessObserver {
+    val goToSearchScreen: Observer<Unit> = endlessObserver {
         show(SearchTransition(), Presenter.FLAG_CLEAR_TOP)
     }
 

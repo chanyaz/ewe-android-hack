@@ -8,10 +8,12 @@ import com.expedia.bookings.services.LoyaltyServices
 import com.expedia.bookings.test.MockHotelServiceTestRule
 import com.expedia.bookings.testrule.ServicesRule
 import com.expedia.vm.HotelCheckoutMainViewModel
+import com.expedia.vm.ShopWithPointsViewModel
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
+import org.robolectric.RuntimeEnvironment
 import rx.observers.TestSubscriber
 import java.math.BigDecimal
 import java.util.concurrent.CountDownLatch
@@ -28,12 +30,14 @@ class HotelCheckoutMainViewModelTest {
         @Rule get
 
     private var paymentModel: PaymentModel<HotelCreateTripResponse> by Delegates.notNull()
+    private var shopWithPointsViewModel: ShopWithPointsViewModel by Delegates.notNull()
     private var sut: HotelCheckoutMainViewModel by Delegates.notNull()
 
     @Before
     fun before(){
         paymentModel = PaymentModel<HotelCreateTripResponse>(loyaltyServiceRule.services!!)
-        sut = HotelCheckoutMainViewModel(paymentModel)
+        shopWithPointsViewModel = ShopWithPointsViewModel(RuntimeEnvironment.application, paymentModel)
+        sut = HotelCheckoutMainViewModel(paymentModel, shopWithPointsViewModel)
     }
 
     @Test
