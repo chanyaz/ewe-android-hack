@@ -21,11 +21,12 @@ import com.expedia.bookings.data.Location;
 import com.expedia.bookings.data.TripBucketItemPackages;
 import com.expedia.bookings.data.ValidPayment;
 import com.expedia.bookings.data.packages.PackageCreateTripResponse;
-import com.expedia.bookings.widget.PackagePaymentWidget;
+import com.expedia.bookings.widget.packages.PackagePaymentWidget;
 import com.expedia.vm.PaymentViewModel;
 
 import butterknife.ButterKnife;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
@@ -160,6 +161,18 @@ public class PackagePaymentWidgetTest {
 		info.setEmail("test@email.com");
 		packagePaymentWidget.getSectionBillingInfo().bind(info);
 		assertTrue(packagePaymentWidget.getSectionBillingInfo().performValidation());
+	}
+
+	@Test
+	public void testSecureCheckoutDisabled() {
+		assertFalse("All Hotel A/B tests must be disabled for packages",
+			packagePaymentWidget.isSecureToolbarBucketed());
+	}
+
+	@Test
+	public void testCreditCardHint() {
+		assertEquals("All Hotel A/B tests must be disabled for packages",
+			packagePaymentWidget.getCreditCardNumberHintResId(), R.string.credit_card_hint);
 	}
 
 	private Location givenLocation() {

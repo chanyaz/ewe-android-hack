@@ -219,7 +219,7 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 	}
 
 	protected String getToolbarTitle() {
-		return getContext().getString(R.string.cars_checkout_text);
+		return getContext().getString(R.string.checkout_text);
 	}
 
 	public void setupToolbar() {

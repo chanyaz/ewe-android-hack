@@ -12,6 +12,7 @@ import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.TripBucketItemHotelV2
 import com.expedia.bookings.data.User
+import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.hotels.HotelApplyCouponParameters
 import com.expedia.bookings.data.hotels.HotelCreateTripParams
 import com.expedia.bookings.data.hotels.HotelCreateTripResponse
@@ -114,7 +115,8 @@ class HotelCheckoutMainViewPresenter(context: Context, attr: AttributeSet) : Che
     }
 
     override fun getToolbarTitle(): String {
-        return getCheckoutToolbarTitle(resources)
+        return getCheckoutToolbarTitle(resources,
+                Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelSecureCheckoutMessaging))
     }
 
     override fun getLineOfBusiness(): LineOfBusiness {

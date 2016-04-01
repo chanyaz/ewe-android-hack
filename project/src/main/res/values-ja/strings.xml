@@ -64,7 +64,7 @@
     <!-- Slide to reserve -->
     <string name="cars_slider_text">スライドして予約</string>
     <!-- Text for checkout toolbar-->
-    <string name="cars_checkout_text">購入手続き</string>
+    <string name="checkout_text">購入手続き</string>
     <!-- Text for error toolbar-->
     <string name="cars_dupe_trip_text">重複した旅行</string>
     <!-- Text for error toolbar-->

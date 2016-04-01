@@ -12,7 +12,8 @@ import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.BaseCheckoutPresenter
 import com.expedia.bookings.widget.BundleOverviewHeader
 import com.expedia.bookings.widget.CVVEntryWidget
-import com.expedia.bookings.widget.PackagePaymentWidget
+import com.expedia.bookings.widget.packages.PackagePaymentWidget
+
 import com.expedia.util.endlessObserver
 import com.expedia.vm.BaseCheckoutViewModel
 

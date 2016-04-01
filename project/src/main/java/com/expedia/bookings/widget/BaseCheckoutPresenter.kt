@@ -26,6 +26,7 @@ import com.expedia.bookings.presenter.packages.TravelerPresenter
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.UserAccountRefresher
 import com.expedia.bookings.utils.bindView
+import com.expedia.bookings.widget.packages.PackagePaymentWidget
 import com.expedia.util.notNullAndObservable
 import com.expedia.vm.BaseCheckoutViewModel
 import com.expedia.vm.BundlePriceViewModel

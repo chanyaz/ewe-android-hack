@@ -64,7 +64,7 @@
     <!-- Slide to reserve -->
     <string name="cars_slider_text">밀어서 예약하기</string>
     <!-- Text for checkout toolbar-->
-    <string name="cars_checkout_text">결제</string>
+    <string name="checkout_text">결제</string>
     <!-- Text for error toolbar-->
     <string name="cars_dupe_trip_text">중복된 여행</string>
     <!-- Text for error toolbar-->

@@ -64,7 +64,7 @@
     <!-- Slide to reserve -->
     <string name="cars_slider_text">Slide to reserve</string>
     <!-- Text for checkout toolbar-->
-    <string name="cars_checkout_text">Checkout</string>
+    <string name="checkout_text">Checkout</string>
     <!-- Text for error toolbar-->
     <string name="cars_dupe_trip_text">Duplicate Trip</string>
     <!-- Text for error toolbar-->
