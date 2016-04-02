@@ -84,7 +84,7 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 
 	@Override
 	public int getNotificationIconResourceId() {
-		return R.drawable.ic_stat_expedia;
+		return R.drawable.ic_stat;
 	}
 
 	@Override
