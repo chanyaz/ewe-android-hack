@@ -15,7 +15,7 @@
         <item name="skin_carsSortButtonSelectorDrawable">@drawable/cars_sort_button_selector</item>
         <item name="skin_carsSortButtonTextSelectorDrawable">@drawable/cars_sort_button_text_selector</item>
         <item name="skin_carsToggleBackgroundSelectorDrawable">@drawable/cars_toggle_background_selector</item>
-        <item name="skin_loginBrandLogoDrawable">@drawable/ctix</item>
+        <item name="skin_loginBrandLogoDrawable">@drawable/brand_logo</item>
         <item name="skin_costSummaryAlertDrawable">@drawable/dialog_breakdown_stripe</item>
         <item name="skin_cvvBookButtonKeypadDrawable">@drawable/btn_cvv_keypad_book</item>
         <item name="skin_cvvDivDrawable">@drawable/div_cvv</item>
@@ -27,9 +27,9 @@
         <item name="skin_carsErrorDefaultDrawable">@drawable/error_default</item>
 
         <item name="skin_loginBookNowButtonDrawable">@drawable/btn_signin</item>
-        <item name="skin_phoneCheckoutLoginLogoDrawable">@drawable/ctix</item>
-        <item name="skin_hotelCheckoutLogoutLogoDrawable">@drawable/ctix</item>
-        <item name="skin_tabletCheckoutLoginLogoDrawable">@drawable/ctix</item>
+        <item name="skin_phoneCheckoutLoginLogoDrawable">@drawable/brand_logo</item>
+        <item name="skin_hotelCheckoutLogoutLogoDrawable">@drawable/brand_logo</item>
+        <item name="skin_tabletCheckoutLoginLogoDrawable">@drawable/brand_logo</item>
         <item name="skin_filterNumberBgDrawable">@drawable/filter_number_bg_cars</item>
         <item name="skin_errorIndicationExclaimationDrawable">@drawable/ic_error_blue</item>
         <item name="traveler_checkout_circle_drawable">@drawable/car_driver_checkout_circle</item>
