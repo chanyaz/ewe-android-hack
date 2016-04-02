@@ -7,8 +7,10 @@ import com.expedia.util.endlessObserver
 import com.jakewharton.rxbinding.widget.TextViewAfterTextChangeEvent
 import rx.subjects.BehaviorSubject
 import rx.subjects.PublishSubject
+import kotlin.properties.Delegates
 
-class TravelerNameViewModel(var travelerName: TravelerName): InvalidCharacterHelper.InvalidCharacterListener {
+class TravelerNameViewModel(): InvalidCharacterHelper.InvalidCharacterListener {
+    private var travelerName: TravelerName by Delegates.notNull()
 
     val firstNameSubject = BehaviorSubject.create<String>()
     val middleNameSubject = BehaviorSubject.create<String>()
@@ -18,19 +20,16 @@ class TravelerNameViewModel(var travelerName: TravelerName): InvalidCharacterHel
 
     val firstNameObserver = endlessObserver<TextViewAfterTextChangeEvent>() { name ->
         travelerName.firstName = name.editable().toString()
-        firstNameSubject.onNext(travelerName.firstName)
         nameUpdated()
     }
 
     val middleNameObserver = endlessObserver<TextViewAfterTextChangeEvent>() { name ->
         travelerName.middleName = name.editable().toString()
-        middleNameSubject.onNext(travelerName.middleName)
         nameUpdated()
     }
 
     val lastNameObserver = endlessObserver<TextViewAfterTextChangeEvent>() { name ->
         travelerName.lastName = name.editable().toString()
-        lastNameSubject.onNext(travelerName.lastName)
         nameUpdated()
     }
 
@@ -38,7 +37,8 @@ class TravelerNameViewModel(var travelerName: TravelerName): InvalidCharacterHel
     val middleNameErrorSubject = PublishSubject.create<Boolean>()
     val lastNameErrorSubject = PublishSubject.create<Boolean>()
 
-    init {
+    fun updateTravelerName(travelerName: TravelerName) {
+        this.travelerName = travelerName
         firstNameSubject.onNext(if (travelerName.firstName.isNullOrEmpty()) "" else travelerName.firstName)
         middleNameSubject.onNext(if (travelerName.middleName.isNullOrEmpty()) "" else travelerName.middleName)
         lastNameSubject.onNext(if (travelerName.lastName.isNullOrEmpty()) "" else travelerName.lastName)

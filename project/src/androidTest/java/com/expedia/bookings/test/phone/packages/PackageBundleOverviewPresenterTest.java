@@ -17,6 +17,7 @@ import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.action.ViewActions.typeText;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.hasDescendant;
+import static android.support.test.espresso.matcher.ViewMatchers.isCompletelyDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.isEnabled;
 import static android.support.test.espresso.matcher.ViewMatchers.withEffectiveVisibility;
@@ -105,6 +106,7 @@ public class PackageBundleOverviewPresenterTest extends PackageTestCase {
 		//Test strings and bundle state
 		PackageScreen.hotelPriceWidget().perform(waitForViewToDisplay());
 		PackageScreen.hotelPriceWidget().perform(click());
+		Common.delay(1);
 		PackageScreen.hotelPriceWidget().check(matches(hasDescendant(
 			allOf(isDisplayed(), withText("Trip to Detroit, MI")))));
 		PackageScreen.hotelInfo().check(matches(hasDescendant(
@@ -120,17 +122,20 @@ public class PackageBundleOverviewPresenterTest extends PackageTestCase {
 
 		//Test clicking on toolbar returns to results
 		PackageScreen.hotelPriceWidget().perform(click());
-		PackageScreen.hotelBundleWidget().check(matches(not(isDisplayed())));
+		Common.delay(1);
+		PackageScreen.hotelBundleWidget().check(matches(not(isCompletelyDisplayed())));
 
 		//Test clicking on hotel returns to results
 		PackageScreen.hotelPriceWidget().perform(click());
+		Common.delay(1);
 		PackageScreen.clickHotelBundle();
-		PackageScreen.hotelBundleWidget().check(matches(not(isDisplayed())));
+		PackageScreen.hotelBundleWidget().check(matches(not(isCompletelyDisplayed())));
 
 		//Test back returns to results
 		PackageScreen.hotelPriceWidget().perform(click());
+		Common.delay(1);
 		Common.pressBack();
-		PackageScreen.hotelBundleWidget().check(matches(not(isDisplayed())));
+		PackageScreen.hotelBundleWidget().check(matches(not(isCompletelyDisplayed())));
 	}
 
 	public void testHotelOverview() throws Throwable {

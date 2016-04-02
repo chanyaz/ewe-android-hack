@@ -6,10 +6,7 @@ import android.support.design.widget.CoordinatorLayout
 import android.support.v4.content.ContextCompat
 import android.util.AttributeSet
 import android.view.View
-import android.view.ViewGroup
 import com.expedia.bookings.R
-import com.expedia.bookings.presenter.Presenter
-import com.expedia.bookings.presenter.VisibilityTransition
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.BaseCheckoutPresenter
@@ -37,7 +34,6 @@ abstract class BaseOverviewPresenter(context: Context, attrs: AttributeSet) : Pr
         checkoutPresenter.viewModel = BaseCheckoutViewModel(context)
         checkoutPresenter.viewModel.lineOfBusiness.onNext(checkoutPresenter.lineOfBusiness())
         checkoutPresenter.paymentWidget.viewmodel.billingInfoAndStatusUpdate.map{it.first}.subscribe(checkoutPresenter.viewModel.paymentCompleted)
-        bundleOverviewHeader.toolbar.inflateMenu(R.menu.menu_package_checkout)
         bundleOverviewHeader.toolbar.overflowIcon = ContextCompat.getDrawable(context, R.drawable.ic_create_white_24dp)
         bundleOverviewHeader.toolbar.viewModel.showChangePackageMenuObservable.subscribe { visible ->
             bundleOverviewHeader.toolbar.menu.setGroupVisible(R.id.package_change_menu, visible)

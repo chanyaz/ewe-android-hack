@@ -174,8 +174,9 @@ class HotelFilterViewModel() {
     }
 
     fun filterPriceRange(hotel: Hotel): Boolean {
-        return userFilterChoices.minPrice <= hotel.lowRateInfo.priceToShowUsers &&
-                (userFilterChoices.maxPrice == 0 || hotel.lowRateInfo.priceToShowUsers <= userFilterChoices.maxPrice)
+        val price = hotel.lowRateInfo.priceToShowUsers
+        return (userFilterChoices.minPrice == 0 && price < 0) || (userFilterChoices.minPrice <= price &&
+                (userFilterChoices.maxPrice == 0 || price <= userFilterChoices.maxPrice))
     }
 
     fun filterAmenity(hotel: Hotel): Boolean {

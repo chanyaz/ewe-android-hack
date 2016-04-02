@@ -37,6 +37,8 @@ class BundleOverviewHeader(context : Context, attrs : AttributeSet) : Coordinato
         toolbar.viewModel = CheckoutToolbarViewModel(context)
         toolbar.setTitleTextAppearance(context, R.style.ToolbarTitleTextAppearance)
         toolbar.setSubtitleTextAppearance(context, R.style.ToolbarSubtitleTextAppearance)
+        checkoutOverviewHeaderToolbar.checkoutHeaderImage = imageHeader
+        checkoutOverviewFloatingToolbar.checkoutHeaderImage = imageHeader
     }
 
     /** Collapsing Toolbar **/

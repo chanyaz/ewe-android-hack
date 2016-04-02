@@ -23,7 +23,8 @@ class TravelerSelectState(context: Context, attrs: AttributeSet?) : LinearLayout
         removeAllViews()
         val travelerList = viewModel.getTravelers();
         for (i in 1..travelerList.size) {
-            val travelerViewModel = TravelerViewModel(context, viewModel.getTraveler(i-1), i)
+            val travelerViewModel = TravelerViewModel(context, i)
+            travelerViewModel.travelerObservable.onNext(viewModel.getTraveler(i-1))
             val travelerSelectItem = TravelerSelectItem(context, travelerViewModel)
             travelerViewModel.emptyTravelerObservable.onNext(true)
             travelerSelectItem.setOnClickListener {

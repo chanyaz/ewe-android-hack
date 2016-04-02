@@ -16,12 +16,12 @@ import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.presenter.LeftToRightTransition
 import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.presenter.ScaleTransition
-import com.expedia.bookings.presenter.flight.FlightOverviewPresenter
 import com.expedia.bookings.services.FlightServices
 import com.expedia.bookings.utils.CurrencyUtils
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
 import com.expedia.util.notNullAndObservable
+import com.expedia.vm.FlightCheckoutOverviewViewModel
 import com.expedia.vm.FlightCheckoutViewModel
 import com.expedia.vm.FlightSearchViewModel
 import com.expedia.vm.PackageSearchType
@@ -60,24 +60,28 @@ class FlightPresenter(context: Context, attrs: AttributeSet) : Presenter(context
         outBoundPresenter.overviewPresenter.vm.selectedFlightClicked.subscribe(searchViewModel.outboundFlightSelected)
         vm.outboundResultsObservable.subscribe(outBoundPresenter.resultsPresenter.resultsViewModel.flightResultsObservable)
         vm.inboundResultsObservable.subscribe(inboundPresenter.resultsPresenter.resultsViewModel.flightResultsObservable)
+        vm.flightParamsObservable.subscribe((flightOverviewPresenter.bundleOverviewHeader.checkoutOverviewFloatingToolbar.viewmodel as FlightCheckoutOverviewViewModel).params)
+        vm.flightParamsObservable.subscribe((flightOverviewPresenter.bundleOverviewHeader.checkoutOverviewHeaderToolbar.viewmodel as FlightCheckoutOverviewViewModel).params)
         vm.flightParamsObservable.subscribe { params ->
             outBoundPresenter.toolbarViewModel.city.onNext(params.departureAirport.regionNames.shortName)
             outBoundPresenter.toolbarViewModel.travelers.onNext(params.guests())
-            outBoundPresenter.toolbarViewModel.date.onNext(searchParams?.departureDate)
+            outBoundPresenter.toolbarViewModel.date.onNext(params?.departureDate)
             inboundPresenter.toolbarViewModel.city.onNext(params.arrivalAirport?.regionNames?.shortName)
             inboundPresenter.toolbarViewModel.travelers.onNext(params.guests())
-            inboundPresenter.toolbarViewModel.date.onNext(searchParams?.returnDate)
+            inboundPresenter.toolbarViewModel.date.onNext(params?.returnDate)
 
             flightOverviewPresenter.flightSummary.outboundFlightWidget.viewModel.suggestion.onNext(params.departureAirport)
-            flightOverviewPresenter.flightSummary.outboundFlightWidget.viewModel.date.onNext(searchParams?.departureDate)
+            flightOverviewPresenter.flightSummary.outboundFlightWidget.viewModel.date.onNext(params?.departureDate)
             flightOverviewPresenter.flightSummary.outboundFlightWidget.viewModel.guests.onNext(params.guests())
 
             flightOverviewPresenter.flightSummary.inboundFlightWidget.viewModel.suggestion.onNext(params.arrivalAirport)
-            flightOverviewPresenter.flightSummary.inboundFlightWidget.viewModel.date.onNext(searchParams?.returnDate)
+            flightOverviewPresenter.flightSummary.inboundFlightWidget.viewModel.date.onNext(params?.returnDate)
             flightOverviewPresenter.flightSummary.inboundFlightWidget.viewModel.guests.onNext(params.guests())
 
             flightOverviewPresenter.flightSummary.outboundFlightWidget.viewModel.hotelLoadingStateObservable.onNext(PackageSearchType.OUTBOUND_FLIGHT)
             flightOverviewPresenter.flightSummary.inboundFlightWidget.viewModel.hotelLoadingStateObservable.onNext(PackageSearchType.INBOUND_FLIGHT)
+
+            flightOverviewPresenter.flightSummary.setPadding(0, 0, 0, 0)
 
         }
         vm.flightProductId.subscribe { productKey ->
@@ -119,6 +123,7 @@ class FlightPresenter(context: Context, attrs: AttributeSet) : Presenter(context
         addTransition(flightsToBundle)
         addTransition(outboundToInbound)
         addDefaultTransition(defaultTransition)
+        flightOverviewPresenter.getCheckoutPresenter().toggleCheckoutButton(false)
     }
 
     private fun getFakeSuggestion(airportCode: String): SuggestionV4 {
@@ -127,6 +132,9 @@ class FlightPresenter(context: Context, attrs: AttributeSet) : Presenter(context
         val airport = SuggestionV4.Airport()
         airport.airportCode = airportCode
         hierarchyInfo.airport = airport
+        val country = SuggestionV4.Country()
+        country.name = ""
+        hierarchyInfo.country = country
         suggestion.hierarchyInfo = hierarchyInfo
 
         val regionName = SuggestionV4.RegionNames()
@@ -140,9 +148,8 @@ class FlightPresenter(context: Context, attrs: AttributeSet) : Presenter(context
         override fun startTransition(forward: Boolean) {
             super.startTransition(forward)
             if (forward) {
-                flightOverviewPresenter.bundleOverviewHeader.checkoutOverviewHeaderToolbar.visibility = View.GONE
-                flightOverviewPresenter.bundleOverviewHeader.toggleOverviewHeader(false)
-                flightOverviewPresenter.getCheckoutPresenter().toggleCheckoutButton(false)
+                flightOverviewPresenter.bundleOverviewHeader.checkoutOverviewHeaderToolbar.visibility = View.VISIBLE
+                flightOverviewPresenter.bundleOverviewHeader.toggleOverviewHeader(true)
                 var countryCode = PointOfSale.getPointOfSale().threeLetterCountryCode
                 var currencyCode = CurrencyUtils.currencyForLocale(countryCode)
                 flightOverviewPresenter.getCheckoutPresenter().totalPriceWidget.visibility = View.VISIBLE

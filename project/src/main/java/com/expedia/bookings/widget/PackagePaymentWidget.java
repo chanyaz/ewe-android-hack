@@ -29,6 +29,8 @@ public class PackagePaymentWidget extends PaymentWidget {
 	@InjectView(R.id.edit_country_spinner)
 	Spinner countrySpinner;
 
+	@InjectView(R.id.edit_email_address)
+	EditText editEmailAddress;
 
 	public PackagePaymentWidget(Context context, AttributeSet attr) {
 		super(context, attr);
@@ -37,6 +39,7 @@ public class PackagePaymentWidget extends PaymentWidget {
 	@Override
 	protected void onFinishInflate() {
 		super.onFinishInflate();
+		editEmailAddress.setOnFocusChangeListener(this);
 		creditCardCvv.setOnFocusChangeListener(this);
 		addressLineOne.setOnFocusChangeListener(this);
 		addressLineTwo.setOnFocusChangeListener(this);
@@ -50,6 +53,7 @@ public class PackagePaymentWidget extends PaymentWidget {
 			|| !creditCardCvv.getText().toString().isEmpty()
 			|| !addressLineOne.getText().toString().isEmpty()
 			|| !addressCity.getText().toString().isEmpty()
-			|| !addressState.getText().toString().isEmpty();
+			|| !addressState.getText().toString().isEmpty()
+			|| !editEmailAddress.getText().toString().isEmpty();
 	}
 }

@@ -15,6 +15,7 @@ import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentActivity;
 import android.text.Editable;
+import android.text.InputFilter;
 import android.text.SpannableString;
 import android.text.TextUtils;
 import android.util.AttributeSet;
@@ -534,6 +535,18 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 									field.setTextColor(mOriginalTextColors);
 								}
 								else {
+									if (mEditCreditCardSecurityCode.getField() != null) {
+										InputFilter[] filters = new InputFilter[1];
+										// if type = amex set length of cvv field 4 else 3
+										if (type == PaymentType.CARD_AMERICAN_EXPRESS) {
+											filters[0] = new InputFilter.LengthFilter(4);
+										}
+										else {
+											filters[0] = new InputFilter.LengthFilter(3);
+										}
+										mEditCreditCardSecurityCode.getField().setFilters(filters);
+									}
+
 									getData().setBrandCode(type.getCode());
 									getData().setBrandName(type.name());
 

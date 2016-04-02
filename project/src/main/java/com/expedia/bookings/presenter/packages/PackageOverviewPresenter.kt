@@ -13,6 +13,7 @@ import com.expedia.bookings.utils.Constants
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.PackageCheckoutPresenter
 import com.expedia.ui.PackageHotelActivity
+import com.expedia.vm.PackageCheckoutOverviewViewModel
 import com.expedia.vm.PackageSearchType
 
 class PackageOverviewPresenter(context: Context, attrs: AttributeSet) : BaseOverviewPresenter(context, attrs) {
@@ -26,10 +27,16 @@ class PackageOverviewPresenter(context: Context, attrs: AttributeSet) : BaseOver
         View.inflate(context, R.layout.package_overview, this)
     }
 
+    init {
+        bundleOverviewHeader.checkoutOverviewHeaderToolbar.viewmodel = PackageCheckoutOverviewViewModel(context)
+        bundleOverviewHeader.checkoutOverviewFloatingToolbar.viewmodel = PackageCheckoutOverviewViewModel(context)
+    }
+
     override fun onFinishInflate() {
         super.onFinishInflate()
         removeView(bundleWidget)
         bundleOverviewHeader.nestedScrollView.addView(bundleWidget)
+        bundleOverviewHeader.toolbar.inflateMenu(R.menu.menu_package_checkout)
         bundleWidget.toggleMenuObservable.subscribe(bundleOverviewHeader.toolbar.toggleMenuObserver)
         bundleWidget.toggleMenuObservable.subscribe {
             checkoutPresenter.toggleCheckoutButton(false)
