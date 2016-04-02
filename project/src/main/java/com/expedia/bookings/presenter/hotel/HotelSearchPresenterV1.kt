@@ -75,7 +75,6 @@ class HotelSearchPresenterV1(context: Context, attrs: AttributeSet) : BaseHotelS
 
     val searchContainer: ViewGroup by bindView(R.id.search_container)
     val searchParamsContainer: ViewGroup by bindView(R.id.search_params_container)
-    val shopWithPointsWidget: ShopWithPointsWidget by bindView(R.id.widget_points_details)
 
     val toolbar: Toolbar by bindView(R.id.toolbar)
     val toolbarTitle by lazy { toolbar.getChildAt(0) }

@@ -116,6 +116,8 @@ class HotelActivity : AbstractAppCompatActivity() {
     }
 
     override fun onDestroy() {
+        hotelPresenter.searchPresenter.shopWithPointsWidget.subscription.unsubscribe()
+        hotelPresenter.searchPresenter.shopWithPointsWidget.shopWithPointsViewModel.subscription.unsubscribe()
         resultsMapView.onDestroy()
         detailsMapView.onDestroy()
         Ui.getApplication(this).setHotelComponent(null)

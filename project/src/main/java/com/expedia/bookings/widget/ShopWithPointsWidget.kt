@@ -15,6 +15,7 @@ import com.expedia.util.subscribeOnCheckChanged
 import com.expedia.util.subscribeText
 import com.expedia.util.subscribeVisibility
 import com.expedia.vm.ShopWithPointsViewModel
+import rx.Subscription
 import javax.inject.Inject
 
 class ShopWithPointsWidget(context: Context, val attrs: AttributeSet?) : LinearLayout (context, attrs) {
@@ -26,6 +27,8 @@ class ShopWithPointsWidget(context: Context, val attrs: AttributeSet?) : LinearL
 
     lateinit var shopWithPointsViewModel: ShopWithPointsViewModel
         @Inject set
+
+    lateinit  var subscription: Subscription
 
     init {
         var layoutId = R.layout.widget_shop_with_points
@@ -46,7 +49,7 @@ class ShopWithPointsWidget(context: Context, val attrs: AttributeSet?) : LinearL
             swpLogo.setImageResource(R.drawable.swp_grey)
         }
 
-        shopWithPointsViewModel.isShopWithPointsAvailableObservable.subscribeVisibility(this)
+        subscription = shopWithPointsViewModel.isShopWithPointsAvailableObservable.subscribeVisibility(this)
         shopWithPointsViewModel.pointsDetailStringObservable.subscribeText(loyaltyPointsInfo)
         swpSwitchView.subscribeOnCheckChanged(shopWithPointsViewModel.shopWithPointsToggleObservable)
         shopWithPointsViewModel.swpHeaderStringObservable.subscribeText(loyaltyAppliedHeader)

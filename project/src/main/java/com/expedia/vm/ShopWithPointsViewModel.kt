@@ -13,9 +13,11 @@ import com.expedia.bookings.data.payment.PaymentModel
 import com.expedia.bookings.data.hotels.HotelCreateTripResponse
 import com.expedia.model.UserLoginStateChangedModel
 import rx.Observable
+import rx.Subscription
 
 class ShopWithPointsViewModel(val context: Context, val paymentModel: PaymentModel<HotelCreateTripResponse>, val userLoginChangedModel: UserLoginStateChangedModel) {
 
+    lateinit var subscription: Subscription
     val isShopWithPointsAvailableObservable = BehaviorSubject.create<Boolean>()
     val isShopWithPointsAvailableObservableIntermediateStream = Observable.concat(Observable.just(User.isLoggedIn(context)),userLoginChangedModel.userLoginStateChanged)
             .map { isShopWithPointsAvailable(it) }
@@ -49,6 +51,6 @@ class ShopWithPointsViewModel(val context: Context, val paymentModel: PaymentMod
         shopWithPointsToggleObservable.skip(1).subscribe {
             HotelV2Tracking().trackSwPToggle(it)
         }
-        isShopWithPointsAvailableObservableIntermediateStream.subscribe(isShopWithPointsAvailableObservable)
+        subscription = isShopWithPointsAvailableObservableIntermediateStream.subscribe(isShopWithPointsAvailableObservable)
     }
 }

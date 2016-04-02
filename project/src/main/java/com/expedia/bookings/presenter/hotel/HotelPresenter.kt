@@ -89,7 +89,7 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
     val resultsMapView: MapView by bindView(R.id.map_view)
     val detailsMapView: MapView by bindView(R.id.details_map_view)
     val searchStubV1:ViewStub by bindView(R.id.search_v1_stub)
-    val searchPresenterV1: HotelSearchPresenterV1 by lazy {
+    private val searchPresenterV1: HotelSearchPresenterV1 by lazy {
         var presenter = searchStubV1.inflate() as HotelSearchPresenterV1
         presenter.searchViewModel = HotelSearchViewModel(context)
         presenter.searchViewModel.searchParamsObservable.subscribe(searchObserver)
@@ -100,7 +100,7 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
     }
 
     val searchStubV2:ViewStub by bindView(R.id.search_v2_stub)
-    val searchPresenterV2: HotelSearchPresenterV2 by lazy {
+    private val searchPresenterV2: HotelSearchPresenterV2 by lazy {
         var presenter = searchStubV2.inflate() as HotelSearchPresenterV2
         presenter.searchViewModel = HotelSearchViewModel(context)
         presenter.searchViewModel.searchParamsObservable.subscribe(searchObserver)

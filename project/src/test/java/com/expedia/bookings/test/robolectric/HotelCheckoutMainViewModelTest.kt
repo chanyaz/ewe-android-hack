@@ -7,6 +7,7 @@ import com.expedia.bookings.data.payment.PaymentModel
 import com.expedia.bookings.services.LoyaltyServices
 import com.expedia.bookings.test.MockHotelServiceTestRule
 import com.expedia.bookings.testrule.ServicesRule
+import com.expedia.model.UserLoginStateChangedModel
 import com.expedia.vm.HotelCheckoutMainViewModel
 import com.expedia.vm.ShopWithPointsViewModel
 import org.junit.Before
@@ -36,7 +37,7 @@ class HotelCheckoutMainViewModelTest {
     @Before
     fun before(){
         paymentModel = PaymentModel<HotelCreateTripResponse>(loyaltyServiceRule.services!!)
-        shopWithPointsViewModel = ShopWithPointsViewModel(RuntimeEnvironment.application, paymentModel)
+        shopWithPointsViewModel = ShopWithPointsViewModel(RuntimeEnvironment.application, paymentModel, UserLoginStateChangedModel())
         sut = HotelCheckoutMainViewModel(paymentModel, shopWithPointsViewModel)
     }
 
