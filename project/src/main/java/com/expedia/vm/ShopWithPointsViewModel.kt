@@ -5,12 +5,14 @@ import com.expedia.bookings.R
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.User
 import com.expedia.bookings.data.pos.PointOfSale
+import com.expedia.bookings.tracking.HotelV2Tracking
 import com.expedia.bookings.utils.UserAccountRefresher
 import com.squareup.phrase.Phrase
 import rx.subjects.BehaviorSubject
 import java.text.NumberFormat
 import com.expedia.bookings.data.payment.PaymentModel
 import com.expedia.bookings.data.hotels.HotelCreateTripResponse
+import rx.Observable
 
 class ShopWithPointsViewModel(val context: Context, val paymentModel: PaymentModel<HotelCreateTripResponse>) {
 
@@ -23,6 +25,9 @@ class ShopWithPointsViewModel(val context: Context, val paymentModel: PaymentMod
     val swpHeaderStringObservable = shopWithPointsToggleObservable.map { isToggleOn ->
         context.getString(if (isToggleOn) R.string.swp_on_widget_header else R.string.swp_off_widget_header)
     }
+
+    val swpEffectiveAvailability = BehaviorSubject.create<Boolean>()
+
     val numberOfPointsObservable = isShopWithPointsAvailableObservable.map {
         Db.getUser()?.loyaltyMembershipInformation?.loyaltyPointsAvailable ?: 0.0
     }
@@ -36,5 +41,13 @@ class ShopWithPointsViewModel(val context: Context, val paymentModel: PaymentMod
 
     init {
         shopWithPointsToggleObservable.subscribe(paymentModel.swpOpted)
+
+        Observable.combineLatest(shopWithPointsToggleObservable, isShopWithPointsAvailableObservable, { swpToggleState, isSWPAvailable ->
+            isSWPAvailable && swpToggleState
+        }).subscribe(swpEffectiveAvailability)
+
+        shopWithPointsToggleObservable.skip(1).subscribe {
+            HotelV2Tracking().trackSwPToggle(it)
+        }
     }
 }

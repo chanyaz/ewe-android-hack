@@ -28,7 +28,6 @@ import com.expedia.bookings.R
 import com.expedia.bookings.activity.ExpediaBookingApp
 import com.expedia.bookings.location.CurrentLocationObservable
 import com.expedia.bookings.presenter.Presenter
-import com.expedia.bookings.tracking.HotelV2Tracking
 import com.expedia.bookings.utils.AnimUtils
 import com.expedia.bookings.utils.ArrowXDrawableUtil
 import com.expedia.bookings.utils.FontCache
@@ -336,7 +335,6 @@ class HotelSearchPresenterV1(context: Context, attrs: AttributeSet) : BaseHotelS
 
     init {
         View.inflate(context, R.layout.widget_hotel_search_params, this)
-        HotelV2Tracking().trackHotelV2SearchBox()
         traveler.viewmodel = HotelTravelerPickerViewModel(getContext(), false)
         recentSearches.recentSearchesAdapterViewModel = RecentSearchesAdapterViewModel(getContext())
         recentSearches.recentSearchesAdapterViewModel.recentSearchesObservable.subscribe { searchList ->
