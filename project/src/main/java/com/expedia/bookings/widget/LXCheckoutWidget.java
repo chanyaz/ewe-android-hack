@@ -42,6 +42,8 @@ import rx.Subscription;
 
 public class LXCheckoutWidget extends CheckoutBasePresenter implements CVVEntryWidget.CVVEntryFragmentListener {
 
+	private boolean isGroundTransport;
+
 	public LXCheckoutWidget(Context context, AttributeSet attr) {
 		super(context, attr);
 	}
@@ -57,7 +59,7 @@ public class LXCheckoutWidget extends CheckoutBasePresenter implements CVVEntryW
 	LxServices lxServices;
 
 	protected LineOfBusiness getLineOfBusiness() {
-		return LineOfBusiness.LX;
+		return isGroundTransport ? LineOfBusiness.TRANSPORT : LineOfBusiness.LX;
 	}
 
 	@Override
@@ -197,8 +199,10 @@ public class LXCheckoutWidget extends CheckoutBasePresenter implements CVVEntryW
 			Db.getTripBucket().add(new TripBucketItemLX(response));
 			showProgress(false);
 			OmnitureTracking.trackAppLXCheckoutPayment(lxState.activity.id,
-				DateUtils.yyyyMMddHHmmssToLocalDate(lxState.offer.availabilityInfoOfSelectedDate.availabilities.valueDate),
-				lxState.selectedTicketsCount(), lxState.latestTotalPrice().getAmount().setScale(2).toString());
+				DateUtils
+					.yyyyMMddHHmmssToLocalDate(lxState.offer.availabilityInfoOfSelectedDate.availabilities.valueDate),
+				lxState.selectedTicketsCount(), lxState.latestTotalPrice().getAmount().setScale(2).toString(),
+				isGroundTransport);
 			Money tripTotalPrice = response.hasPriceChange() ? response.newTotalPrice : lxState.latestTotalPrice();
 			// We don't support multiple ticket booking as of now, passing only the first bookable item.
 			bind(response.tripId, response.originalPrice, tripTotalPrice, response.lxProduct.lxBookableItems.get(0));
@@ -256,5 +260,9 @@ public class LXCheckoutWidget extends CheckoutBasePresenter implements CVVEntryW
 	@Subscribe
 	public void onLogin(Events.LoggedInSuccessful event) {
 		onLoginSuccessful();
+	}
+
+	public void setIsFromGroundTransport(boolean isGroundTransport) {
+		this.isGroundTransport = isGroundTransport;
 	}
 }

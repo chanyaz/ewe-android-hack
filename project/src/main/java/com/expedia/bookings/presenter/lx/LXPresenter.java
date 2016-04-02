@@ -10,6 +10,7 @@ import android.view.animation.DecelerateInterpolator;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.LXState;
+import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.presenter.Presenter;
 import com.expedia.bookings.presenter.VisibilityTransition;
@@ -24,6 +25,7 @@ import butterknife.InjectView;
 public class LXPresenter extends Presenter {
 
 	private static final int ANIMATION_DURATION = 400;
+	private boolean isGroundTransport;
 
 	public LXPresenter(Context context, AttributeSet attrs) {
 		super(context, attrs);
@@ -335,6 +337,7 @@ public class LXPresenter extends Presenter {
 
 	@Subscribe
 	public void onShowSearchWidget(Events.LXShowSearchWidget event) {
+		OmnitureTracking.trackAppLXSearchBox(isGroundTransport);
 		show(searchParamsWidget, FLAG_CLEAR_BACKSTACK | FLAG_CLEAR_TOP);
 	}
 
@@ -345,7 +348,7 @@ public class LXPresenter extends Presenter {
 
 	@Subscribe
 	public void onShowParamsOverlayOnResults(Events.LXSearchParamsOverlay event) {
-		OmnitureTracking.trackAppLXSearchBox();
+		OmnitureTracking.trackAppLXSearchBox(isGroundTransport);
 		show(new LXParamsOverlay());
 	}
 
@@ -360,8 +363,19 @@ public class LXPresenter extends Presenter {
 	}
 
 	public void setIsGroundTransport(boolean isGroundTransport) {
+		this.isGroundTransport = isGroundTransport;
 		resultsPresenter.setIsFromGroundTransport(isGroundTransport);
+		recommendationPresenter.details.setIsFromGroundTransport(isGroundTransport);
+		detailsPresenter.details.setIsFromGroundTransport(isGroundTransport);
+		checkoutPresenter.setIsFromGroundTransport(isGroundTransport);
+		checkoutPresenter.checkout.setIsFromGroundTransport(isGroundTransport);
+		confirmationWidget.setIsFromGroundTransport(isGroundTransport);
+		checkoutPresenter.checkout.paymentInfoCardView.getViewmodel().getLineOfBusiness()
+			.onNext(isGroundTransport ? LineOfBusiness.TRANSPORT : LineOfBusiness.LX);
+		checkoutPresenter.checkout.mainContactInfoCardView
+			.setLineOfBusiness(isGroundTransport ? LineOfBusiness.TRANSPORT : LineOfBusiness.LX);
 	}
+
 	public void setUserBucketedForCategoriesTest(boolean isUserBucketedForTest) {
 		resultsPresenter.setUserBucketedForCategoriesTest(isUserBucketedForTest);
 	}

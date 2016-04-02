@@ -33,6 +33,8 @@ import butterknife.InjectViews;
 public class LXTicketSelectionWidget extends LinearLayout {
 
 
+	private boolean isGroundTransport;
+
 	public LXTicketSelectionWidget(Context context, AttributeSet attrs) {
 		super(context, attrs);
 	}
@@ -79,8 +81,10 @@ public class LXTicketSelectionWidget extends LinearLayout {
 		return selectedTickets;
 	}
 
-	public void bind(Offer offer) {
+	public void bind(Offer offer, boolean isGroundTransport) {
 		this.offerId = offer.id;
+		this.isGroundTransport = isGroundTransport;
+
 		title.setText(offer.title);
 
 		if (Strings.isNotEmpty(offer.description)) {
@@ -163,7 +167,7 @@ public class LXTicketSelectionWidget extends LinearLayout {
 			}
 			selectedTickets.add(ticket);
 
-			ticketPicker.bind(ticket, offerId, defaultCount);
+			ticketPicker.bind(ticket, offerId, defaultCount, isGroundTransport);
 		}
 	}
 

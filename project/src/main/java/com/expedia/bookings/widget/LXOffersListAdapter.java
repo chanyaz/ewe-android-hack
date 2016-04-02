@@ -33,8 +33,9 @@ public class LXOffersListAdapter extends BaseAdapter {
 	//List of Offers for an Activity
 	private List<Offer> offers = new ArrayList<>();
 	PublishSubject<Offer> publishSubject;
+	private boolean isGroundTransport;
 
-	public void setOffers(List<Offer> offers, PublishSubject<Offer> subject) {
+	public void setOffers(List<Offer> offers, PublishSubject<Offer> subject, boolean isGroundTransport) {
 		this.offers = offers;
 		this.publishSubject = subject;
 		boolean shouldExpandFirstItem = Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppLXFirstActivityListingExpanded);
@@ -43,7 +44,8 @@ public class LXOffersListAdapter extends BaseAdapter {
 		if (CollectionUtils.isNotEmpty(offers) && (offers.size() == 1 || shouldExpandFirstItem)) {
 			offers.get(0).isToggled = true;
 			publishSubject.onNext(offers.get(0));
-			OmnitureTracking.trackLinkLXSelectTicket();
+			this.isGroundTransport = isGroundTransport;
+			OmnitureTracking.trackLinkLXSelectTicket(isGroundTransport);
 		}
 	}
 
@@ -71,7 +73,7 @@ public class LXOffersListAdapter extends BaseAdapter {
 		}
 
 		viewHolder = (ViewHolder) convertView.getTag();
-		viewHolder.bind(offer, publishSubject);
+		viewHolder.bind(offer, publishSubject, isGroundTransport);
 		return convertView;
 	}
 
@@ -89,6 +91,7 @@ public class LXOffersListAdapter extends BaseAdapter {
 		private PublishSubject<Offer> publishSuject;
 
 		private View itemView;
+		private boolean isGroundTransport;
 
 		public ViewHolder(View itemView) {
 			this.itemView = itemView;
@@ -126,14 +129,16 @@ public class LXOffersListAdapter extends BaseAdapter {
 			Events.post(new Events.LXOfferBooked(offer, ticketSelectionWidget.getSelectedTickets()));
 		}
 
-		public void bind(final Offer offer, PublishSubject<Offer> offerPublishSubject) {
+		public void bind(final Offer offer, PublishSubject<Offer> offerPublishSubject, boolean isGroundTransport) {
 			this.offer = offer;
 			this.publishSuject = offerPublishSubject;
+			this.isGroundTransport = isGroundTransport;
+
 			FontCache.setTypeface(selectTickets, FontCache.Font.ROBOTO_REGULAR);
 			FontCache.setTypeface(bookNow, FontCache.Font.ROBOTO_REGULAR);
 
 			List<String> priceSummaries = new ArrayList<String>();
-			ticketSelectionWidget.bind(offer);
+			ticketSelectionWidget.bind(offer, isGroundTransport);
 
 			for (Ticket ticket : offer.availabilityInfoOfSelectedDate.tickets) {
 				priceSummaries.add(String.format("%s %s",
@@ -154,7 +159,7 @@ public class LXOffersListAdapter extends BaseAdapter {
 			if (this.offer.id.equals(event.offer.id)) {
 				if (!offer.isToggled) {
 					//  Track Link to track Ticket Selected.
-					OmnitureTracking.trackLinkLXSelectTicket();
+					OmnitureTracking.trackLinkLXSelectTicket(isGroundTransport);
 				}
 				offer.isToggled = true;
 				offerRow.setVisibility(View.GONE);

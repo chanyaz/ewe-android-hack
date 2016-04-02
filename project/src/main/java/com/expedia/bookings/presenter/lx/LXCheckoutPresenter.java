@@ -38,6 +38,8 @@ import rx.Observer;
 import rx.Subscription;
 
 public class LXCheckoutPresenter extends Presenter {
+	private boolean isGroundTransport;
+
 	public LXCheckoutPresenter(Context context, AttributeSet attrs) {
 		super(context, attrs);
 		inflate(context, R.layout.lx_checkout_presenter, this);
@@ -186,7 +188,7 @@ public class LXCheckoutPresenter extends Presenter {
 		show(cvv);
 		BillingInfo billingInfo = event.billingInfo;
 		cvv.bind(billingInfo);
-		OmnitureTracking.trackAppLXCheckoutCvvScreen();
+		OmnitureTracking.trackAppLXCheckoutCvvScreen(isGroundTransport);
 	}
 
 	@Subscribe
@@ -273,5 +275,9 @@ public class LXCheckoutPresenter extends Presenter {
 	public void onShowErrorScreen(Events.LXError event) {
 		errorScreen.bind(event.apiError);
 		show(errorScreen, FLAG_CLEAR_BACKSTACK);
+	}
+
+	public void setIsFromGroundTransport(boolean isGroundTransport) {
+		this.isGroundTransport = isGroundTransport;
 	}
 }
