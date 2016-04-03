@@ -87,6 +87,9 @@ dependencies {
     }
 
     // Debug dependencies
+    def leakCanaryVersion = '1.4-beta2'
+    debugCompile "com.squareup.leakcanary:leakcanary-android:${leakCanaryVersion}"
+    releaseCompile "com.squareup.leakcanary:leakcanary-android-no-op:${leakCanaryVersion}"
 
     // junit is only for mockwebserver
     debugCompile 'com.squareup.okhttp:mockwebserver:2.5.0'
