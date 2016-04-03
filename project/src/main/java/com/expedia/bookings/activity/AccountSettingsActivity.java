@@ -59,8 +59,8 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class AccountSettingsActivity extends AppCompatActivity implements AboutSectionFragmentListener,
-		AboutUtils.CountrySelectDialogListener, LoginConfirmLogoutDialogFragment.DoLogoutListener,
-		UserAccountRefresher.IUserAccountRefreshListener, ClearPrivateDataDialog.ClearPrivateDataDialogListener {
+	AboutUtils.CountrySelectDialogListener, LoginConfirmLogoutDialogFragment.DoLogoutListener,
+	UserAccountRefresher.IUserAccountRefreshListener, ClearPrivateDataDialog.ClearPrivateDataDialogListener {
 	private static final String TAG_SUPPORT = "TAG_SUPPORT";
 	private static final String TAG_ALSO_BY_US = "TAG_ALSO_BY_US";
 	private static final String TAG_LEGAL = "TAG_LEGAL";
@@ -94,14 +94,17 @@ public class AccountSettingsActivity extends AppCompatActivity implements AboutS
 	private AboutSectionFragment appSettingsFragment;
 	private AboutSectionFragment legalFragment;
 	private ScrollView scrollContainer;
+	private boolean notPortraitOrientation;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+
 		if (!ExpediaBookingApp.useTabletInterface(this)) {
 			setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 		}
 
+		notPortraitOrientation = !getResources().getBoolean(R.bool.portrait);
 		if (shouldBail()) {
 			return;
 		}
@@ -127,16 +130,17 @@ public class AccountSettingsActivity extends AppCompatActivity implements AboutS
 
 		final View toolbarShadow = Ui.findView(this, R.id.toolbar_dropshadow);
 		scrollContainer = Ui.findView(this, R.id.scroll_container);
-		final float fortyEightDips = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 48, getResources().getDisplayMetrics());
+		final float fortyEightDips = TypedValue
+			.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 48, getResources().getDisplayMetrics());
 		toolbarShadow.setAlpha(0);
 		scrollContainer.getViewTreeObserver().addOnScrollChangedListener(
-				new ViewTreeObserver.OnScrollChangedListener() {
-					@Override
-					public void onScrollChanged() {
-						float value = scrollContainer.getScrollY() / fortyEightDips;
-						toolbarShadow.setAlpha(Math.min(1, Math.max(0, value)));
-					}
-				});
+			new ViewTreeObserver.OnScrollChangedListener() {
+				@Override
+				public void onScrollChanged() {
+					float value = scrollContainer.getScrollY() / fortyEightDips;
+					toolbarShadow.setAlpha(Math.min(1, Math.max(0, value)));
+				}
+			});
 
 		AboutSectionFragment.Builder builder;
 		FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
@@ -166,9 +170,9 @@ public class AccountSettingsActivity extends AppCompatActivity implements AboutS
 			builder.setTitle(R.string.about_section_support);
 
 			builder.addRow(Phrase.from(this, R.string.website_TEMPLATE).put("brand",
-							ProductFlavorFeatureConfiguration.getInstance().getPOSSpecificBrandName(this)).format()
-							.toString(),
-					ROW_EXPEDIA_WEBSITE);
+				ProductFlavorFeatureConfiguration.getInstance().getPOSSpecificBrandName(this)).format()
+					.toString(),
+				ROW_EXPEDIA_WEBSITE);
 
 			builder.addRow(R.string.booking_support, ROW_BOOKING_SUPPORT);
 			builder.addRow(R.string.app_support, ROW_APP_SUPPORT);
@@ -209,7 +213,7 @@ public class AccountSettingsActivity extends AppCompatActivity implements AboutS
 		AboutSectionFragment alsoByFragment = Ui.findSupportFragment(this, TAG_ALSO_BY_US);
 		if (alsoByFragment == null) {
 			alsoByFragment = ProductFlavorFeatureConfiguration.getInstance().getAboutSectionFragment(this);
-			if 	(alsoByFragment != null) {
+			if (alsoByFragment != null) {
 				ft.add(R.id.section_also_by, alsoByFragment, TAG_ALSO_BY_US);
 			}
 		}
@@ -233,8 +237,8 @@ public class AccountSettingsActivity extends AppCompatActivity implements AboutS
 
 		TextView openSourceCredits = Ui.findView(this, R.id.open_source_credits_textview);
 		openSourceCredits.setText(
-				getString(R.string.this_app_makes_use_of_the_following) + " " + getString(R.string.open_source_names)
-						+ "\n\n" + getString(R.string.stack_blur_credit));
+			getString(R.string.this_app_makes_use_of_the_following) + " " + getString(R.string.open_source_names)
+				+ "\n\n" + getString(R.string.stack_blur_credit));
 
 		// Tracking
 		if (savedInstanceState == null) {
@@ -245,7 +249,11 @@ public class AccountSettingsActivity extends AppCompatActivity implements AboutS
 	@Override
 	protected void onPostCreate(Bundle savedInstanceState) {
 		super.onPostCreate(savedInstanceState);
-		legalFragment.setRowVisibility(ROW_ATOL_INFO, PointOfSale.getPointOfSale().showAtolInfo() ? View.VISIBLE : View.GONE);
+		if (shouldBail()) {
+			return;
+		}
+		legalFragment
+			.setRowVisibility(ROW_ATOL_INFO, PointOfSale.getPointOfSale().showAtolInfo() ? View.VISIBLE : View.GONE);
 	}
 
 	private String getCopyrightString() {
@@ -255,20 +263,27 @@ public class AccountSettingsActivity extends AppCompatActivity implements AboutS
 
 	@Override
 	protected void onPause() {
-		userAccountRefresher.setUserAccountRefreshListener(null);
 		super.onPause();
+		if (shouldBail()) {
+			return;
+		}
+		userAccountRefresher.setUserAccountRefreshListener(null);
 	}
 
 	@Override
 	protected void onResume() {
 		super.onResume();
+		if (shouldBail()) {
+			return;
+		}
 		OmnitureTracking.trackAccountPageLoad();
 		userAccountRefresher.setUserAccountRefreshListener(this);
 		adjustLoggedInViews();
 	}
 
 	private boolean shouldBail() {
-		return !ExpediaBookingApp.useTabletInterface(this) && !getResources().getBoolean(R.bool.portrait);
+		boolean isPhone = !ExpediaBookingApp.useTabletInterface(this);
+		return isPhone && notPortraitOrientation;
 	}
 
 	@Override
@@ -433,7 +448,7 @@ public class AccountSettingsActivity extends AppCompatActivity implements AboutS
 				if (member.getLoyaltyPointsPending() > 0) {
 					pendingPointsTextView.setVisibility(View.VISIBLE);
 					pendingPointsTextView.setText(getString(R.string.loyalty_points_pending,
-							numberFormatter.format(member.getLoyaltyPointsPending())));
+						numberFormatter.format(member.getLoyaltyPointsPending())));
 				}
 				else {
 					pendingPointsTextView.setVisibility(View.GONE);
@@ -443,8 +458,8 @@ public class AccountSettingsActivity extends AppCompatActivity implements AboutS
 				PointOfSale pos = PointOfSale.getPointOfSale();
 				countryTextView.setText(pos.getThreeLetterCountryCode());
 				LayerDrawable flag = new LayerDrawable(new Drawable[] {
-						ContextCompat.getDrawable(this, pos.getCountryFlagResId()),
-						ContextCompat.getDrawable(this, R.drawable.fg_flag_circle)
+					ContextCompat.getDrawable(this, pos.getCountryFlagResId()),
+					ContextCompat.getDrawable(this, R.drawable.fg_flag_circle)
 				});
 				countryTextView.setCompoundDrawablesWithIntrinsicBounds(flag, null, null, null);
 			}
@@ -470,9 +485,9 @@ public class AccountSettingsActivity extends AppCompatActivity implements AboutS
 
 			Button createAccountButton = Ui.findView(this, R.id.create_account_button);
 			createAccountButton.setText(
-					Phrase.from(this, R.string.acct__Create_a_new_brand_account)
-							.put("brand", BuildConfig.brand)
-							.format());
+				Phrase.from(this, R.string.acct__Create_a_new_brand_account)
+					.put("brand", BuildConfig.brand)
+					.format());
 		}
 	}
 
@@ -504,7 +519,8 @@ public class AccountSettingsActivity extends AppCompatActivity implements AboutS
 
 		adjustLoggedInViews();
 		appSettingsFragment.notifyOnRowDataChanged(ROW_COUNTRY);
-		legalFragment.setRowVisibility(ROW_ATOL_INFO, PointOfSale.getPointOfSale().showAtolInfo() ? View.VISIBLE : View.GONE);
+		legalFragment
+			.setRowVisibility(ROW_ATOL_INFO, PointOfSale.getPointOfSale().showAtolInfo() ? View.VISIBLE : View.GONE);
 		Toast.makeText(this, R.string.toast_private_data_cleared, Toast.LENGTH_LONG).show();
 	}
 
@@ -522,19 +538,22 @@ public class AccountSettingsActivity extends AppCompatActivity implements AboutS
 
 	@OnClick(R.id.sign_in_button)
 	public void onSignInButtonClick() {
-		Bundle args = AccountLibActivity.createArgumentsBundle(LineOfBusiness.PROFILE, Config.InitialState.SignIn, null);
+		Bundle args = AccountLibActivity
+			.createArgumentsBundle(LineOfBusiness.PROFILE, Config.InitialState.SignIn, null);
 		User.signIn(this, args);
 	}
 
 	@OnClick(R.id.sign_in_with_facebook_button)
 	public void onSignInFacebookButtonClick() {
-		Bundle args = AccountLibActivity.createArgumentsBundle(LineOfBusiness.PROFILE, Config.InitialState.FacebookSignIn, null);
+		Bundle args = AccountLibActivity
+			.createArgumentsBundle(LineOfBusiness.PROFILE, Config.InitialState.FacebookSignIn, null);
 		User.signIn(this, args);
 	}
 
 	@OnClick(R.id.create_account_button)
 	public void onCreateAccountButtonClick() {
-		Bundle args = AccountLibActivity.createArgumentsBundle(LineOfBusiness.PROFILE, Config.InitialState.CreateAccount, null);
+		Bundle args = AccountLibActivity
+			.createArgumentsBundle(LineOfBusiness.PROFILE, Config.InitialState.CreateAccount, null);
 		User.signIn(this, args);
 	}
 
