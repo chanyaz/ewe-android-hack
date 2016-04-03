@@ -1771,8 +1771,6 @@
     <string name="flight_details_no_plane_info_TEMPLATE">&lt;b&gt;%1$s&lt;/b&gt; – %2$s (%3$s)</string>
     <!-- Label for "coach" cabin code -->
     <string name="cabin_code_coach">Economy</string>
-    <!-- Label for "coach" cabin code -->
-    <string name="flight_class_selection">Economy</string>
     <!-- Label for "premium coach" cabin code -->
     <string name="cabin_code_premium_coach">Premium Economy</string>
     <!-- Label for "business" cabin code -->
@@ -2142,6 +2140,11 @@
     <!-- save -->
     <string name="save">Opslaan</string>
 
+    <!-- Enter traveler details prompt -->
+    <string name="checkout_enter_traveler_details">Reizigersinfo</string>
+    <string name="checkout_enter_traveler_details_line2">Voer je gegevens in</string>
+    <string name="checkout_more_travelers_TEMPLATE">+ {travelercount} meer reizigers</string>
+    <string name="checkout_edit_traveler_TEMPLATE">Bewerk reiziger {travelernumber}</string>
     <!-- Save traveler dialog -->
     <!-- save traveler -->
     <string name="save_traveler">Reiziger opslaan</string>
@@ -2414,8 +2417,6 @@
     <string name="pick_new_hotel">Kies een nieuw hotel</string>
     <!-- Text for hotel error unknown -->
     <string name="error_hotel_unhandled">Het spijt ons, we kunnen je boeking momenteel niet verwerken. Probeer het opnieuw.</string>
-    <!-- Text for hotel error toolbar duplicate trip-->
-    <string name="hotel_duplicate_trip_text">Dubbele reis</string>
     <!-- Text for hotel error toolbar payment failed-->
     <string name="hotel_payment_failed_text">Betaling mislukt</string>
     <!-- Text for error toolbar session expired-->
@@ -2662,8 +2663,6 @@
     <string name="per_night">/nacht</string>
     <!-- The label for abbreviated price per night - "$120/nt", for example -->
     <string name="per_nt">/nacht</string>
-    <!-- The label for abbreviated price per night - "$120/nt", for example -->
-    <string name="per_nt_TEMPLATE">{price}/nacht</string>
     <!-- Label shown when a hotel has no user ratings -->
     <string name="not_rated">Niet beoordeeld</string>
     <!-- Label indicating the percent savings for booking this hotel.  %2.0f is the savings amount. -->
@@ -2725,8 +2724,6 @@
     <string name="minus_x_percent">-%2.0f%%</string>
     <!-- Recommended string shown in hotel details -->
     <string name="x_percent_guests_recommend">%2.0f%% gasten bevelen dit hotel aan.</string>
-    <!-- new material Hotel results cell guest rating -->
-    <string name="customer_rating_percent_Template">{rating}{percent}</string>
     <!-- new material Hotel results cell guest recommend-->
     <string name="hotel_guest_recommend">/ 5 - gastenscore</string>
     <!-- Hotels V2 AB test: hotel reviews superlative suffixes -->
@@ -2740,8 +2737,6 @@
     <string name="hotel_discount_percent_Template">{discount}%</string>
 
     <!-- Amenity strings -->
-    <!-- Label to show amenities -->
-    <string name="AmenityTitle">Voorzieningen</string>
     <!-- Text that indicates no amenities at this property -->
     <string name="AmenityNone">Geen voorzieningen aangeboden</string>
     <!-- Business center amenity -->
@@ -2960,8 +2955,6 @@
     <string name="view_room_button_text">Kamer bekijken</string>
     <!-- Book Room button text; verb; as in book a hotel room -->
     <string name="book_room_button_text">Boeken</string>
-    <!-- Share via when user is shareing hotel listing -->
-    <string name="share_via">Delen via</string>
     <!-- Renovation Notice -->
     <string name="renovation_notice">Renovatiewerken</string>
     <!-- This property is undergoing renovations -->
@@ -3057,8 +3050,6 @@
     <string name="apply">Toepassen</string>
 
     <!-- Coupon dialog -->
-    <!-- Saved coupon title -->
-    <string name="saved_coupon">Opgeslagen coupons</string>
     <!-- Coupon Widget Title -->
     <string name="coupon_promo_title">Coupons en deals</string>
     <!-- Title on dialog imploring users to enter coupons -->
@@ -3956,12 +3947,12 @@
     </plurals>
 
     <!-- Text indicating that the user can drag this button to view their trip -->
-    <string name="trip_overview">Reisdetails weergeven</string>
+    <string name="trip_overview">Bekijk reisdetails</string>
     <!-- Slide to book -->
     <string name="package_slider_text">Swipe om te boeken</string>
     <string name="hotel_city_country_TEMPLATE">{city}, {country}</string>
     <!-- Confirmation Text indicating rewards points user got for the booked package -->
-    <string name="package_confirmation_reward_points">{rewardpoints}{brand}+ punten</string>
+    <string name="package_confirmation_reward_points">{rewardpoints} {brand}+ punten</string>
 
     <!-- Flight Duration filter label-->
     <string name="flight_duration_label">Vliegtijd</string>
@@ -4004,7 +3995,7 @@
     <string name="package_flight_overview_airline_airplane_TEMPLATE">{carrier} {flightnumber} - {airplanetype}</string>
     <string name="package_flight_overview_total_duration_TEMPLATE">Totale reisduur: {duration}</string>
     <!-- Itinerary summary text- Itinerary number sent to the user email -->
-    <string name="package_itinerary_confirmation_TEMPLATE">Nr. {itinerary} gestuurd naar {email}</string>
+    <string name="package_itinerary_confirmation_TEMPLATE">Nr {itinerary} gestuurd naar {email}</string>
     <!--Rail search screen title-->
     <string name="trains">Treinen</string>
 
@@ -4016,19 +4007,24 @@
     <string name="enter_destination_hint">Voer bestemming in</string>
 
     <!-- Package breakdown dialog -->
-    <string name="package_breakdown_hotel_flight_summary">Hotel + Vluchten</string>
+    <string name="package_breakdown_hotel_flight_summary">Vlucht + Hotel</string>
     <string name="package_breakdown_taxes_fees">Belastingen &amp; Toeslagen</string>
     <string name="package_breakdown_taxes_fees_included_TEMPLATE">Incl. belastingen en toeslagen ({taxes})</string>
     <string name="package_breakdown_total_savings">Totale besparingen</string>
+    <string name="package_breakdown_total_due_today">Totaal nu te betalen</string>
 
     <!-- Shop with points -->
     <string name="regular_loyalty_applied_message">Expedia+ punten toegepast!</string>
     <string name="vip_loyalty_applied_message">2x punten toegepast!</string>
     <!-- String to be appended with +VIP in header of room rates. -->
     <string name="vip_loyalty_applied_header_message">2x Expedia+ punten toegepast!</string>
+    <string name="swp_widget_points_value_TEMPLATE">Je hebt {points} punten</string>
+    <string name="vip_loyalty_applied_map_message">&lt;b&gt;+VIP&lt;/b&gt; 2x Expedia+ punten toegepast!</string>
+    <string name="swp_off_widget_header">Boek met Expedia+ punten</string>
+    <string name="swp_on_widget_header">Expedia+ punten toegepast</string>
 
     <!-- Message telling you on confirmation screen where you've booked a package to -->
-    <string name="yay_going_somewhere">Je vliegt naar</string>
+    <string name="yay_going_somewhere">Je gaat naar</string>
     <!-- Cars cross-sell message on package confirmation -->
     <string name="rental_car_message">Huurauto nodig?</string>
     <!-- Cars cross-sell message description on package confirmation -->

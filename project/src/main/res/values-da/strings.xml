@@ -1771,8 +1771,6 @@
     <string name="flight_details_no_plane_info_TEMPLATE">&lt;b&gt;%1$s&lt;/b&gt; – %2$s (%3$s)</string>
     <!-- Label for "coach" cabin code -->
     <string name="cabin_code_coach">Økonomi</string>
-    <!-- Label for "coach" cabin code -->
-    <string name="flight_class_selection">Økonomi</string>
     <!-- Label for "premium coach" cabin code -->
     <string name="cabin_code_premium_coach">Premium-økonomi</string>
     <!-- Label for "business" cabin code -->
@@ -2142,6 +2140,11 @@
     <!-- save -->
     <string name="save">Gem</string>
 
+    <!-- Enter traveler details prompt -->
+    <string name="checkout_enter_traveler_details">Oplysninger om rejsende</string>
+    <string name="checkout_enter_traveler_details_line2">Indtast dine oplysninger</string>
+    <string name="checkout_more_travelers_TEMPLATE">+ {travelercount} rejsende til</string>
+    <string name="checkout_edit_traveler_TEMPLATE">Rediger rejsende {travelernumber}</string>
     <!-- Save traveler dialog -->
     <!-- save traveler -->
     <string name="save_traveler">Gem rejsende</string>
@@ -2414,8 +2417,6 @@
     <string name="pick_new_hotel">Vælg et nyt hotel</string>
     <!-- Text for hotel error unknown -->
     <string name="error_hotel_unhandled">Vi beklager, men det ser ud til, at vi ikke kan gennemføre din reservation i øjeblikket. Prøv venligst igen.</string>
-    <!-- Text for hotel error toolbar duplicate trip-->
-    <string name="hotel_duplicate_trip_text">Dobbeltbooket rejse</string>
     <!-- Text for hotel error toolbar payment failed-->
     <string name="hotel_payment_failed_text">Betalingen mislykkedes</string>
     <!-- Text for error toolbar session expired-->
@@ -2662,8 +2663,6 @@
     <string name="per_night">/nat</string>
     <!-- The label for abbreviated price per night - "$120/nt", for example -->
     <string name="per_nt">/nat</string>
-    <!-- The label for abbreviated price per night - "$120/nt", for example -->
-    <string name="per_nt_TEMPLATE">{price}/nat</string>
     <!-- Label shown when a hotel has no user ratings -->
     <string name="not_rated">Ikke anmeldt</string>
     <!-- Label indicating the percent savings for booking this hotel.  %2.0f is the savings amount. -->
@@ -2725,8 +2724,6 @@
     <string name="minus_x_percent">-%2.0f%%</string>
     <!-- Recommended string shown in hotel details -->
     <string name="x_percent_guests_recommend">%2.0f%% af gæsterne anbefaler dette hotel.</string>
-    <!-- new material Hotel results cell guest rating -->
-    <string name="customer_rating_percent_Template">{rating}{percent}</string>
     <!-- new material Hotel results cell guest recommend-->
     <string name="hotel_guest_recommend">af 5 - gæstebedømmelse</string>
     <!-- Hotels V2 AB test: hotel reviews superlative suffixes -->
@@ -2740,8 +2737,6 @@
     <string name="hotel_discount_percent_Template">{discount}%</string>
 
     <!-- Amenity strings -->
-    <!-- Label to show amenities -->
-    <string name="AmenityTitle">Faciliteter</string>
     <!-- Text that indicates no amenities at this property -->
     <string name="AmenityNone">Der tilbydes ingen ekstra faciliteter</string>
     <!-- Business center amenity -->
@@ -2960,8 +2955,6 @@
     <string name="view_room_button_text">Se værelse</string>
     <!-- Book Room button text; verb; as in book a hotel room -->
     <string name="book_room_button_text">Book</string>
-    <!-- Share via when user is shareing hotel listing -->
-    <string name="share_via">Del via</string>
     <!-- Renovation Notice -->
     <string name="renovation_notice">Renoveringsmeddelelse</string>
     <!-- This property is undergoing renovations -->
@@ -3057,8 +3050,6 @@
     <string name="apply">Anvend</string>
 
     <!-- Coupon dialog -->
-    <!-- Saved coupon title -->
-    <string name="saved_coupon">Gemte kuponer</string>
     <!-- Coupon Widget Title -->
     <string name="coupon_promo_title">Kuponer og kampagner</string>
     <!-- Title on dialog imploring users to enter coupons -->
@@ -4020,12 +4011,17 @@
     <string name="package_breakdown_taxes_fees">Skatter og afgifter</string>
     <string name="package_breakdown_taxes_fees_included_TEMPLATE">Inklusive skatter og gebyrer ({taxes})</string>
     <string name="package_breakdown_total_savings">Samlede besparelser</string>
+    <string name="package_breakdown_total_due_today">Samlet beløb til betaling i dag</string>
 
     <!-- Shop with points -->
     <string name="regular_loyalty_applied_message">Expedia+ point indløst!</string>
     <string name="vip_loyalty_applied_message">2x point indløst!</string>
     <!-- String to be appended with +VIP in header of room rates. -->
     <string name="vip_loyalty_applied_header_message">2x Expedia+ point indløst!</string>
+    <string name="swp_widget_points_value_TEMPLATE">Du har {points} point</string>
+    <string name="vip_loyalty_applied_map_message">&lt;b&gt;+VIP&lt;/b&gt; 2x Expedia+ points indløst!</string>
+    <string name="swp_off_widget_header">Book med Expedia+ point</string>
+    <string name="swp_on_widget_header">Expedia+ point indløst</string>
 
     <!-- Message telling you on confirmation screen where you've booked a package to -->
     <string name="yay_going_somewhere">Du skal til</string>
