@@ -52,7 +52,6 @@ import java.math.BigDecimal
 import java.util.ArrayList
 import java.util.Locale
 import kotlin.properties.Delegates
-import kotlin.text.startsWith
 
 class HotelMapViewModel(val context: Context, val selectARoomObserver: Observer<Unit>, val hotelSoldOut: Observable<Boolean>) {
     //Outputs for View
@@ -185,7 +184,10 @@ class HotelDetailViewModel(val context: Context, val hotelServices: HotelService
     val userRatingObservable = BehaviorSubject.create<String>()
     val isUserRatingAvailableObservable = BehaviorSubject.create<Boolean>()
     val userRatingRecommendationTextObservable = BehaviorSubject.create<String>()
-    val ratingContainerBackground = isUserRatingAvailableObservable.map { if (it) ContextCompat.getDrawable(context, R.drawable.hotel_detail_ripple) else null }
+    val ratingContainerBackground = isUserRatingAvailableObservable.map { ratingAvailable ->
+        if (ratingAvailable) ContextCompat.getDrawable(context, R.drawable.hotel_detail_ripple)
+        else (ContextCompat.getDrawable(context, R.color.search_results_list_bg_gray))
+    }
     val numberOfReviewsObservable = BehaviorSubject.create<String>()
     val hotelLatLngObservable = BehaviorSubject.create<DoubleArray>()
     val discountPercentageBackgroundObservable = BehaviorSubject.create<Int>()
