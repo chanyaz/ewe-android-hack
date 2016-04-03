@@ -452,14 +452,5 @@ android.applicationVariants.all { variant ->
         launcherName = "@string/app_name"
     }
     variant.resValue "string", "launcher_name", "${launcherName}"
-
-    if (variant.buildType.name == "debug") {
-        def type = GradleUtil.getBuildIdentifier(project).capitalize()
-        variant.resValue "string", "playground_launcher_name", "Playground ${type}"
-        variant.resValue "string", "packages_launcher_name", "Packages ${type}"
-        variant.resValue "string", "rail_launcher_name", "Rail ${type}"
-        variant.resValue "string", "deeplinktest_launcher_name", "DeepLink ${type}"
-        variant.resValue "string", "flights_launcher_name", "Flights ${type}"
-    }
 }
 
