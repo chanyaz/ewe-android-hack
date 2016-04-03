@@ -12,7 +12,6 @@ import android.view.View;
 
 import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
-import com.expedia.bookings.activity.AirAsiaGoLocaleChangeReceiver;
 import com.expedia.bookings.data.HotelFilter;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.data.pos.PointOfSaleId;
@@ -61,11 +60,6 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 	@Override
 	public boolean shouldDisplayInsuranceDetailsIfAvailableOnItinCard() {
 		return false;
-	}
-
-	@Override
-	public String getActionForLocaleChangeEvent() {
-		return AirAsiaGoLocaleChangeReceiver.ACTION_LOCALE_CHANGED;
 	}
 
 	@Override

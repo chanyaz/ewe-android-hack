@@ -2,14 +2,6 @@
 
     <application>
 
-        <receiver
-            android:name="com.expedia.bookings.activity.AirAsiaGoLocaleChangeReceiver"
-            android:exported="false" >
-            <intent-filter>
-                <action android:name="com.expedia.bookings.action.aag_locale_changed" />
-            </intent-filter>
-        </receiver>
-
         <!-- Deep link routing activity -->
         <activity
             android:name="com.expedia.bookings.activity.DeepLinkRouterActivity"

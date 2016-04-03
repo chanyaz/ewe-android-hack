@@ -30,8 +30,6 @@ public interface IProductFlavorFeatureConfiguration {
 
 	boolean shouldDisplayInsuranceDetailsIfAvailableOnItinCard();
 
-	String getActionForLocaleChangeEvent();
-
 	boolean wantsCustomHandlingForLocaleConfiguration();
 
 	int getSearchProgressImageResId();
