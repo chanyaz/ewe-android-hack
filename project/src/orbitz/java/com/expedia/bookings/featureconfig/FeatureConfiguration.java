@@ -301,7 +301,7 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 
 	@Override
 	public boolean isFacebookTrackingEnabled() {
-		return false;
+		return true;
 	}
 
 	@Override
