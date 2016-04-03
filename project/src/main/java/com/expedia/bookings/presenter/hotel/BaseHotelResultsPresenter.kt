@@ -189,34 +189,32 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
             if (mapCarouselContainer.visibility != View.VISIBLE) {
                 mapCarouselContainer.translationX = screenWidth
                 mapCarouselContainer.visibility = View.VISIBLE
-                animateFabAndSearchThisArea(true, mapCarouselContainer.animate().translationX(0f).setInterpolator(DecelerateInterpolator()).setStartDelay(400))
+                animateFab(true, mapCarouselContainer.animate().translationX(0f).setInterpolator(DecelerateInterpolator()).setStartDelay(400))
             } else {
-                animateFabAndSearchThisArea(true)
+                animateFab(true)
             }
         } else {
             if (mapCarouselContainer.visibility != View.INVISIBLE) {
                 mapCarouselContainer.animate().translationX(screenWidth).setInterpolator(DecelerateInterpolator()).withEndAction {
                     mapCarouselContainer.visibility = View.INVISIBLE
-                    animateFabAndSearchThisArea(false)
+                    animateFab(false)
                 }.start()
             } else {
-                animateFabAndSearchThisArea(false)
+                animateFab(false)
             }
         }
     }
 
-    private fun animateFabAndSearchThisArea(animateUp: Boolean) {
-        animateFabAndSearchThisArea(animateUp, null)
+    private fun animateFab(animateUp: Boolean) {
+        animateFab(animateUp, null)
     }
 
-    private fun animateFabAndSearchThisArea(animateUp: Boolean, endInterpolator: ViewPropertyAnimator?) {
+    private fun animateFab(animateUp: Boolean, endInterpolator: ViewPropertyAnimator?) {
         val mapCarouselHeight = mapCarouselContainer.height.toFloat() - mapLoyaltyHeaderHeight
         if (animateUp) {
             fab.animate().translationY(filterHeight - mapCarouselHeight).setInterpolator(DecelerateInterpolator()).withEndAction { endInterpolator?.start() }.start()
-            searchThisArea?.animate()?.translationY(0f)?.setInterpolator(DecelerateInterpolator())?.start()
         } else {
             fab.animate().translationY(filterHeight).setInterpolator(DecelerateInterpolator()).withEndAction { endInterpolator?.start() }.start()
-            searchThisArea?.animate()?.translationY(mapCarouselHeight)?.setInterpolator(DecelerateInterpolator())?.start()
         }
     }
 

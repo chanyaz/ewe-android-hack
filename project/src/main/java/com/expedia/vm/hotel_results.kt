@@ -67,6 +67,7 @@ class HotelResultsViewModel(private val context: Context, private val hotelServi
                     .checkOut(cachedParams?.checkOut)
                     .adults(cachedParams?.adults!!)
                     .children(cachedParams?.children!!)
+                    .shopWithPoints(cachedParams?.shopWithPoints ?: false)
                     .build()
             doSearch(params)
         })
