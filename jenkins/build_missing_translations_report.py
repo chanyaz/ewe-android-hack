@@ -9,7 +9,13 @@ issues = list()
 for f in sys.argv[1:]:
     tree = ET.parse(f)
     root = tree.getroot()
-    for issue in root.iter('issue'):
+    issueIterator = None
+    try:
+        iterator = root.iter('issue')
+    except AttributeError:
+        # use old method on old versions of python
+        iterator = root.getiterator('issue')
+    for issue in iterator:
         line = issue.attrib['errorLine1']
         issues.append(line)
 
