@@ -111,7 +111,7 @@ class HotelFilterViewModel() {
 
         clearObservable.subscribe { params ->
             resetUserFilters()
-            filteredResponse.hotelList = originalResponse?.hotelList.orEmpty()
+            setFilteredHotelListAndRetainLoyaltyInformation(originalResponse?.hotelList.orEmpty())
             doneButtonEnableObservable.onNext(true)
             filterCountObservable.onNext(userFilterChoices.filterCount())
             finishClear.onNext(Unit)
@@ -120,13 +120,17 @@ class HotelFilterViewModel() {
     }
 
     fun handleFiltering() {
-        filteredResponse.hotelList = originalResponse?.hotelList.orEmpty().filter { hotel -> isAllowed(hotel) }
-
+        setFilteredHotelListAndRetainLoyaltyInformation(originalResponse?.hotelList.orEmpty().filter { hotel -> isAllowed(hotel) })
         val filterCount = userFilterChoices.filterCount()
         val dynamicFeedbackWidgetCount = if (filterCount > 0) filteredResponse.hotelList.size else -1
         updateDynamicFeedbackWidget.onNext(dynamicFeedbackWidgetCount)
         doneButtonEnableObservable.onNext(filteredResponse.hotelList.size > 0)
         filterCountObservable.onNext(filterCount)
+    }
+
+    private fun setFilteredHotelListAndRetainLoyaltyInformation(hotelList: List<Hotel>) {
+        filteredResponse.hotelList = hotelList
+        filteredResponse.setHasLoyaltyInformation()
     }
 
     fun resetUserFilters() {
@@ -295,7 +299,7 @@ class HotelFilterViewModel() {
     fun setHotelList(response: HotelSearchResponse) {
         originalResponse = response
         neighborhoodListObservable.onNext(response.allNeighborhoodsInSearchRegion)
-        filteredResponse.hotelList = ArrayList(response.hotelList)
+        setFilteredHotelListAndRetainLoyaltyInformation(ArrayList(response.hotelList))
         filteredResponse.userPriceType = response.userPriceType
         //hide amenities
         //if (response.amenityFilterOptions != null) {
@@ -335,7 +339,7 @@ class HotelFilterViewModel() {
             Sort.DEALS -> Collections.sort(hotels, deals_comparator)
             Sort.DISTANCE -> Collections.sort(hotels, distance_comparator_fallback_name)
         }
-        filteredResponse.hotelList = HotelServices.putSponsoredItemsInCorrectPlaces(hotels)
+        setFilteredHotelListAndRetainLoyaltyInformation(HotelServices.putSponsoredItemsInCorrectPlaces(hotels))
     }
 
     private val popular_comparator: Comparator<Hotel> = Comparator { hotel1, hotel2 ->
