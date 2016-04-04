@@ -26,7 +26,7 @@ abstract class DatedSearchViewModel(val context: Context) {
     val searchButtonObservable = PublishSubject.create<Boolean>()
     val errorNoOriginObservable = PublishSubject.create<Unit>()
     val errorNoDatesObservable = PublishSubject.create<Unit>()
-    val errorMaxDatesObservable = PublishSubject.create<Unit>()
+    val errorMaxDatesObservable = PublishSubject.create<String>()
     val enableDateObservable = PublishSubject.create<Boolean>()
     val enableTravelerObservable = PublishSubject.create<Boolean>()
     val travelersObserver = BehaviorSubject.create<TravelerParams>()

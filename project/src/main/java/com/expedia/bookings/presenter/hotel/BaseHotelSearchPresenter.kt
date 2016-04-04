@@ -31,17 +31,18 @@ abstract class BaseHotelSearchPresenter(context: Context, attrs: AttributeSet) :
     abstract fun selectTravelers(params: TravelerParams)
     abstract fun selectDates(startDate: LocalDate?, endDate: LocalDate?)
 
-    val maxHotelStay = context.resources.getInteger(R.integer.calendar_max_days_hotel_stay)
-    val maxHotelStayDialog: AlertDialog by lazy {
+
+    fun showErrorDialog(message: String) {
         val builder = AlertDialog.Builder(context)
         builder.setTitle(R.string.search_error)
-        builder.setMessage(context.getString(R.string.hotel_search_range_error_TEMPLATE, maxHotelStay))
+        builder.setMessage(message)
         builder.setPositiveButton(context.getString(R.string.DONE), object : DialogInterface.OnClickListener {
             override fun onClick(dialog: DialogInterface, which: Int) {
                 dialog.dismiss()
             }
         })
-        builder.create()
+        val dialog = builder.create()
+        dialog.show()
     }
 
 }

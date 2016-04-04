@@ -68,7 +68,12 @@ class PackageSearchPresenter(context: Context, attrs: AttributeSet) : BaseSearch
         }
         vm.errorNoOriginObservable.subscribe { AnimUtils.doTheHarlemShake(destinationCardView) }
         vm.errorNoDatesObservable.subscribe { AnimUtils.doTheHarlemShake(calendarWidgetV2) }
-        vm.errorMaxDatesObservable.subscribe { maxHotelStayDialog.show() }
+        vm.errorMaxDatesObservable.subscribe { message ->
+            showErrorDialog(message)
+        }
+        vm.errorDepartureSameAsOrigin.subscribe { message ->
+            showErrorDialog(message)
+        }
         searchButton.subscribeOnClick(vm.searchObserver)
     }
 
@@ -77,6 +82,7 @@ class PackageSearchPresenter(context: Context, attrs: AttributeSet) : BaseSearch
         arrivalSuggestionVM = PackageSuggestionAdapterViewModel(getContext(), suggestionServices, true, null)
         departureAdapter = PackageSuggestionAdapter(departureSuggestionVM)
         arrivalAdapter = PackageSuggestionAdapter(arrivalSuggestionVM)
+        travelerWidgetV2.traveler.viewmodel.showSeatingPreference = true
     }
 
     override fun inflate() {

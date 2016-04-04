@@ -29,8 +29,8 @@ class PackageSearchParamsTest {
     @Test
     fun testNumberOfGuests() {
         val params = PackageSearchParams.Builder(activity.resources.getInteger(R.integer.calendar_max_days_hotel_stay))
-                .departure(getDummySuggestion())
-                .arrival(getDummySuggestion())
+                .departure(getDummySuggestion("123"))
+                .arrival(getDummySuggestion("456"))
                 .adults(1)
                 .children(listOf(10,2))
                 .startDate(LocalDate.now())
@@ -43,8 +43,8 @@ class PackageSearchParamsTest {
     @Test
     fun testGuestString() {
         val params = PackageSearchParams.Builder(activity.resources.getInteger(R.integer.calendar_max_days_hotel_stay))
-                .departure(getDummySuggestion())
-                .arrival(getDummySuggestion())
+                .departure(getDummySuggestion("123"))
+                .arrival(getDummySuggestion("456"))
                 .adults(1)
                 .children(listOf(10,2))
                 .startDate(LocalDate.now())
@@ -57,8 +57,8 @@ class PackageSearchParamsTest {
     @Test
     fun testChildrenString() {
         val params = PackageSearchParams.Builder(activity.resources.getInteger(R.integer.calendar_max_days_hotel_stay))
-                .departure(getDummySuggestion())
-                .arrival(getDummySuggestion())
+                .departure(getDummySuggestion("123"))
+                .arrival(getDummySuggestion("456"))
                 .adults(1)
                 .children(listOf(10,2))
                 .startDate(LocalDate.now())
@@ -76,8 +76,8 @@ class PackageSearchParamsTest {
         val expectedSearchParams = arrayListOf<PackageSearchParams>()
         val expectedOrigins = arrayListOf<Unit>()
         val expectedDates = arrayListOf<Unit>()
-        val origin = getDummySuggestion()
-        val destination = getDummySuggestion()
+        val origin = getDummySuggestion("123")
+        val destination = getDummySuggestion("456")
 
         vm.searchParamsObservable.subscribe(searchParamsSubscriber)
         vm.errorNoDatesObservable.subscribe(noDatesSubscriber)
@@ -121,7 +121,7 @@ class PackageSearchParamsTest {
         noOriginSubscriber.assertReceivedOnNext(expectedOrigins)
     }
 
-    private fun getDummySuggestion(): SuggestionV4 {
+    private fun getDummySuggestion(code: String): SuggestionV4 {
         val suggestion = SuggestionV4()
         suggestion.gaiaId = ""
         suggestion.regionNames = SuggestionV4.RegionNames()
@@ -131,6 +131,7 @@ class PackageSearchParamsTest {
         val hierarchyInfo = SuggestionV4.HierarchyInfo()
         val airport =  SuggestionV4.Airport();
         airport.airportCode = "";
+        airport.multicity = code;
         hierarchyInfo.airport = airport
         suggestion.hierarchyInfo = hierarchyInfo;
         return suggestion

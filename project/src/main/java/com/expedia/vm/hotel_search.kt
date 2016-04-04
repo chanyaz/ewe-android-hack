@@ -51,6 +51,8 @@ class HotelSearchViewModel(context: Context) : DatedSearchViewModel(context) {
     }
         @Inject set
 
+    val maxHotelStay = context.resources.getInteger(R.integer.calendar_max_days_hotel_stay)
+
     // Inputs
     var requiredSearchParamsObserver = endlessObserver<Unit> {
         searchButtonObservable.onNext(paramsBuilder.areRequiredParamsFilled())
@@ -71,7 +73,7 @@ class HotelSearchViewModel(context: Context) : DatedSearchViewModel(context) {
     val searchObserver = endlessObserver<Unit> {
         if (paramsBuilder.areRequiredParamsFilled()) {
             if (!paramsBuilder.hasValidDates()) {
-                errorMaxDatesObservable.onNext(Unit)
+                errorMaxDatesObservable.onNext(context.getString(R.string.hotel_search_range_error_TEMPLATE, maxHotelStay))
             } else {
                 val hotelSearchParams = paramsBuilder.build()
                 HotelSearchParamsUtil.saveSearchHistory(context, hotelSearchParams)
@@ -169,7 +171,9 @@ class HotelSearchViewModel(context: Context) : DatedSearchViewModel(context) {
     }
 }
 
-class HotelTravelerPickerViewModel(val context: Context, val showSeatingPreference: Boolean) {
+class HotelTravelerPickerViewModel(val context: Context) {
+    var showSeatingPreference = false
+
     private val MAX_GUESTS = 6
     private val MIN_ADULTS = 1
     private val MIN_CHILDREN = 0
@@ -187,8 +191,9 @@ class HotelTravelerPickerViewModel(val context: Context, val showSeatingPreferen
     val adultMinusObservable = BehaviorSubject.create<Boolean>()
     val childPlusObservable = BehaviorSubject.create<Boolean>()
     val childMinusObservable = BehaviorSubject.create<Boolean>()
-    val infantPreferenceSeatingObservable = BehaviorSubject.create<Boolean>()
-    val isInfantInLapObservable = BehaviorSubject.create<Boolean>()
+    val infantPreferenceSeatingObservable = BehaviorSubject.create<Boolean>(false)
+    val isInfantInLapObservable = BehaviorSubject.create<Boolean>(false)
+    val tooManyInfants = BehaviorSubject.create<Boolean>(false)
 
     init {
         travelerParamsObservable.subscribe { travelers ->
@@ -209,6 +214,10 @@ class HotelTravelerPickerViewModel(val context: Context, val showSeatingPreferen
             childPlusObservable.onNext(total < MAX_GUESTS && travelers.children.size < MAX_CHILDREN)
             adultMinusObservable.onNext(travelers.numberOfAdults > MIN_ADULTS)
             childMinusObservable.onNext(travelers.children.size > MIN_CHILDREN)
+            validateInfants()
+        }
+        isInfantInLapObservable.subscribe { inLap ->
+            validateInfants()
         }
     }
 
@@ -249,11 +258,14 @@ class HotelTravelerPickerViewModel(val context: Context, val showSeatingPreferen
         val (which, age) = p
         childAges[which] = age
         infantPreferenceSeatingObservable.onNext(childAges.contains(0))
-
         val hotelTravelerParams = travelerParamsObservable.value
         travelerParamsObservable.onNext(TravelerParams(hotelTravelerParams.numberOfAdults, (0..hotelTravelerParams.children.size - 1).map { childAges[it] }))
     }
 
+    private fun validateInfants() {
+        val hotelTravelerParams = travelerParamsObservable.value
+        tooManyInfants.onNext(isInfantInLapObservable.value && childAges.count { it == 0 } > hotelTravelerParams.numberOfAdults)
+    }
 }
 
 class HotelErrorViewModel(private val context: Context) {

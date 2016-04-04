@@ -1,5 +1,7 @@
 package com.expedia.bookings.test.phone.packages;
 
+import java.util.concurrent.TimeUnit;
+
 import org.hamcrest.Matcher;
 import org.joda.time.LocalDate;
 
@@ -101,6 +103,8 @@ public class PackageScreen {
 	public static void selectLocation(String hotel) throws Throwable {
 		suggestionList().perform(ViewActions.waitForViewToDisplay());
 		final Matcher<View> viewMatcher = hasDescendant(withText(hotel));
+
+		suggestionList().perform(ViewActions.waitFor(viewMatcher, 10, TimeUnit.SECONDS));
 		suggestionList().perform(RecyclerViewActions.actionOnItem(viewMatcher, click()));
 	}
 

@@ -321,8 +321,8 @@ class HotelSearchPresenterV1(context: Context, attrs: AttributeSet) : BaseHotelS
                 AnimUtils.doTheHarlemShake(selectDate)
             }
         }
-        vm.errorMaxDatesObservable.subscribe {
-            maxHotelStayDialog.show()
+        vm.errorMaxDatesObservable.subscribe { message ->
+            showErrorDialog(message)
         }
         vm.searchParamsObservable.subscribe {
             calendar.hideToolTip()
@@ -340,7 +340,7 @@ class HotelSearchPresenterV1(context: Context, attrs: AttributeSet) : BaseHotelS
 
     init {
         View.inflate(context, R.layout.widget_hotel_search_params, this)
-        traveler.viewmodel = HotelTravelerPickerViewModel(getContext(), false)
+        traveler.viewmodel = HotelTravelerPickerViewModel(getContext())
         recentSearches.recentSearchesAdapterViewModel = RecentSearchesAdapterViewModel(getContext())
         recentSearches.recentSearchesAdapterViewModel.recentSearchesObservable.subscribe { searchList ->
             if(searchList.isEmpty()) {

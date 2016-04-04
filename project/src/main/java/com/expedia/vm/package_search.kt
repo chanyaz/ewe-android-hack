@@ -23,6 +23,9 @@ class PackageSearchViewModel(context: Context) : DatedSearchViewModel(context) {
     val arrivalObservable = BehaviorSubject.create<Boolean>(false)
     val departureTextObservable = PublishSubject.create<String>()
     val arrivalTextObservable = PublishSubject.create<String>()
+    val errorDepartureSameAsOrigin = PublishSubject.create<String>()
+
+    val maxPackageStay = context.resources.getInteger(R.integer.calendar_max_days_package_stay)
 
     // Inputs
     override fun onDatesChanged(dates: Pair<LocalDate?, LocalDate?>) {
@@ -72,8 +75,10 @@ class PackageSearchViewModel(context: Context) : DatedSearchViewModel(context) {
 
     val searchObserver = endlessObserver<Unit> {
         if (paramsBuilder.areRequiredParamsFilled()) {
-            if (!paramsBuilder.hasValidDates()) {
-                errorMaxDatesObservable.onNext(Unit)
+            if (paramsBuilder.isDepartureSameAsOrigin()) {
+                errorDepartureSameAsOrigin.onNext(context.getString(R.string.error_same_flight_departure_arrival))
+            } else if (!paramsBuilder.hasValidDates()) {
+                errorMaxDatesObservable.onNext(context.getString(R.string.hotel_search_range_error_TEMPLATE, maxPackageStay))
             } else {
                 val packageSearchParams = paramsBuilder.build()
                 searchParamsObservable.onNext(packageSearchParams)

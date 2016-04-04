@@ -43,6 +43,10 @@ open class PackageSearchParams(val origin: SuggestionV4, val destination: Sugges
         override fun hasValidDates(): Boolean {
             return Days.daysBetween(startDate, endDate).days <= maxStay
         }
+
+        fun isDepartureSameAsOrigin(): Boolean {
+            return departure?.hierarchyInfo?.airport?.multicity == arrival?.hierarchyInfo?.airport?.multicity
+        }
     }
 
     fun isOutboundSearch() : Boolean {

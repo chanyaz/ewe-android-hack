@@ -88,14 +88,13 @@ public class PackageBundleOverviewPresenterTest extends PackageTestCase {
 	}
 
 	public void testHotelBundleOverviewFlow() throws Throwable {
-		LocalDate startDate = LocalDate.now().plusDays(5);
-		LocalDate endDate = LocalDate.now().plusDays(10);
+		LocalDate startDate = LocalDate.now().plusDays(3);
+		LocalDate endDate = LocalDate.now().plusDays(8);
 		DateTimeFormatter dateFormatter = DateTimeFormat.forPattern("MMM d");
 		String formattedStartString = startDate.toString(dateFormatter);
 		String formattedEndString = endDate.toString(dateFormatter);
 
-		PackageScreen.selectDepartureAndArrival();
-		PackageScreen.searchButton().perform(click());
+		PackageScreen.searchPackage();
 		PackageScreen.clickHotelBundle();
 
 		//Test strings and bundle state

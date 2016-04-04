@@ -45,8 +45,8 @@ class HotelSearchPresenterV2(context: Context, attrs: AttributeSet) : BaseSearch
             AnimUtils.doTheHarlemShake(calendarWidgetV2)
         }
 
-        vm.errorMaxDatesObservable.subscribe {
-            maxHotelStayDialog.show()
+        vm.errorMaxDatesObservable.subscribe { message ->
+            showErrorDialog(message)
         }
 
         searchButton.subscribeOnClick(vm.searchObserver)

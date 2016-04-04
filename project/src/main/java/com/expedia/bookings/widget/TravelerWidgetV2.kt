@@ -22,7 +22,7 @@ class TravelerWidgetV2(context: Context, attrs: AttributeSet?) : SearchInputCard
 
     val traveler: HotelTravelerPickerView by lazy {
         val travelerView = travelerDialogView.findViewById(R.id.traveler_view) as HotelTravelerPickerView
-        travelerView.viewmodel = HotelTravelerPickerViewModel(context, false)
+        travelerView.viewmodel = HotelTravelerPickerViewModel(context)
         travelerView.viewmodel.travelerParamsObservable.subscribe(travelersSubject)
         travelerView.viewmodel.guestsTextObservable.subscribeText(this.text)
         travelerView
