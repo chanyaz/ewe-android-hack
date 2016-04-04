@@ -267,7 +267,7 @@ class HotelDetailsTest {
         assertEquals(View.GONE, hotelDetailView.vipLoyaltyMessage.visibility)
         assertEquals(View.VISIBLE, hotelDetailView.regularLoyaltyMessage.visibility)
         assertEquals(View.VISIBLE, hotelDetailView.roomRateHeader.visibility)
-        assertEquals(View.VISIBLE, hotelDetailView.roomRateRegularLoyaltyAppliedText.visibility)
+        assertEquals(View.VISIBLE, hotelDetailView.roomRateRegularLoyaltyAppliedView.visibility)
         assertEquals("", hotelDetailView.promoMessage.text)
     }
 
