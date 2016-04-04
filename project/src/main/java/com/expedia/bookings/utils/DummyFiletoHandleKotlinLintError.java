@@ -477,6 +477,9 @@ DummyFiletoHandleKotlinLintError {
 		R.string.swp_on_widget_header,
 		R.drawable.swp_grey,
 		R.color.bundle_price_background_color,
-		R.layout.bundle_slide_widget
+		R.layout.bundle_slide_widget,
+		R.string.flight_search_card_title,
+		R.string.via_scratchpad_label,
+		R.layout.feeds_flight_search_card
 	};
 }
