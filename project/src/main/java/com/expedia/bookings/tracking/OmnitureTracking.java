@@ -77,6 +77,7 @@ import com.expedia.bookings.data.lx.LXCheckoutResponse;
 import com.expedia.bookings.data.lx.LXSearchParams;
 import com.expedia.bookings.data.lx.LXSearchResponse;
 import com.expedia.bookings.data.lx.LXSortType;
+import com.expedia.bookings.data.packages.PackageCreateTripResponse;
 import com.expedia.bookings.data.payment.PaymentSplitsType;
 import com.expedia.bookings.data.payment.ProgramName;
 import com.expedia.bookings.data.pos.PointOfSale;
@@ -94,6 +95,7 @@ import com.expedia.bookings.utils.CurrencyUtils;
 import com.expedia.bookings.utils.ExpediaNetUtils;
 import com.expedia.bookings.utils.JodaUtils;
 import com.expedia.bookings.utils.NumberUtils;
+import com.expedia.bookings.utils.PackageFlightUtils;
 import com.expedia.bookings.utils.Strings;
 import com.expedia.bookings.utils.Ui;
 import com.mobiata.android.DebugUtils;
@@ -4901,5 +4903,71 @@ public class OmnitureTracking {
 		s.setProp(16, PAY_WITH_POINTS_ERROR);
 		s.setProp(36, errorMessage);
 		s.trackLink(null, "o", PAY_WITH_POINTS_CUSTOM_LINK_NAME, null, null);
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	// Packages tracking
+	//
+	// https://confluence/display/Omniture/Mobile+App%3A+Flight+and+Hotel+Package
+	//
+	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+	private static final String PACKAGES_LOB = "package:FH";
+	private static final String PACKAGES_CHECKOUT_INFO = "App.Package.Checkout.Info";
+
+	/**
+	 * https://confluence/display/Omniture/Mobile+App%3A+Flight+and+Hotel+Package#MobileApp:FlightandHotelPackage-PackageCheckout:CheckoutStart
+	 *
+	 * @param packageDetails
+	 */
+	public static void trackPackagesCheckoutStart(PackageCreateTripResponse.PackageDetails packageDetails) {
+		Log.d(TAG, "Tracking \"" + PACKAGES_CHECKOUT_INFO);
+
+		ADMS_Measurement s = createTrackPageLoadEventBase(PACKAGES_CHECKOUT_INFO);
+		s.setEvents("event36");
+		s.setEvents("event70");
+
+		s.setProp(2, PACKAGES_LOB);
+		s.setEvar(2, "D=c2");
+		s.setProp(3, "pkg:" + Db.getPackageParams().getOrigin().hierarchyInfo.airport.airportCode);
+		s.setEvar(3, "D=c3");
+		s.setProp(4, "pkg:" + Db.getPackageParams().getDestination().hierarchyInfo.airport.airportCode + ":" + Db.getPackageParams().getDestination().gaiaId);
+		s.setEvar(4, "D=c4");
+		setDateValues(s, Db.getPackageParams().getCheckIn(), Db.getPackageParams().getCheckOut());
+		setPackageProducts(s, packageDetails);
+
+		s.track();
+	}
+
+	private static void setPackageProducts(ADMS_Measurement s, PackageCreateTripResponse.PackageDetails packageDetails) {
+		StringBuilder productString = new StringBuilder();
+		/*
+			Trip type:
+			RT = Round Trip package
+			MD = Multi-destination package
+			Currently we don't support MD and just flights+hotels, hardcode this parameter.
+		 */
+		productString.append(";RT:FLT+HOT;");
+
+		int numTravelers = Db.getPackageParams().getAdults() + Db.getPackageParams().getNumberOfSeatedChildren();
+		productString.append(numTravelers + ";" + packageDetails.pricing.packageTotal.amount.doubleValue() + ";;");
+
+		//TODO: check inventoryType flight+hotel = agency/merchant or mixed
+		productString.append("eVar63=Mixed:PKG,;");
+
+		productString.append("Flight:" + Db.getPackageSelectedOutboundFlight().carrierCode + ":RT;");
+		// We do not expose breakdown prices, so we should hardcode to 0.00
+		productString.append(numTravelers + ";0.00;;");
+		String inventoryType = PackageFlightUtils.isFlightMerchant(Db.getPackageSelectedOutboundFlight()) ? "Merchant" : "Agency";
+		productString.append("eVar63=" + inventoryType + ":PKG,;");
+
+		productString.append("Hotel:" + Db.getPackageSelectedHotel().hotelId + ";");
+		productString.append(Db.getPackageParams().getAdults() + Db.getPackageParams().getChildren().size());
+		productString.append(";0.00;;");
+		//TODO: check inventoryType hotel = agency/merchant blocked on API - should return in hotelOffers call
+		// https://confluence/display/Omniture/Products+String+and+Events#ProductsStringandEvents-Hotels
+		productString.append("eVar63=Agency:PKG");
+
+		s.setProducts(productString.toString());
 	}
 }

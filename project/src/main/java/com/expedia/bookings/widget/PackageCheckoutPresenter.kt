@@ -8,6 +8,7 @@ import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.Money
 import android.view.ViewTreeObserver
 import com.expedia.bookings.otto.Events
+import com.expedia.bookings.tracking.PackagesTracking
 import com.expedia.util.notNullAndObservable
 import com.expedia.util.subscribeTextAndVisibility
 import com.expedia.vm.PackageCheckoutViewModel
@@ -48,6 +49,7 @@ class PackageCheckoutPresenter(context: Context, attr: AttributeSet) : BaseCheck
             totalPriceWidget.viewModel.savings.onNext(Money(BigDecimal(packageTotalPrice.savings.amount.toDouble()),
                     packageTotalPrice.savings.currencyCode))
             toggleCheckoutButton(true)
+            PackagesTracking().trackCheckoutStart(response.packageDetails)
         }
 
     }
