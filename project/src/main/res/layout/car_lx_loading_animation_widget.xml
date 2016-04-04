@@ -5,8 +5,8 @@
     style="@style/MaterialCardView"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginLeft="@dimen/car_search_list_image_container_margin"
-    android:layout_marginRight="@dimen/car_search_list_image_container_margin"
+    android:layout_marginLeft="@dimen/card_view_container_margin"
+    android:layout_marginRight="@dimen/card_view_container_margin"
     app:cardPreventCornerOverlap="false">
 
     <View
