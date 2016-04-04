@@ -163,6 +163,7 @@
     <!-- CVV entry colors -->
     <color name="cvv_normal">@color/white</color>
     <color name="cvv_error">#D4472B</color>
+    <color name="cvv_book_button_text_color">@android:color/black</color>
 
     <!-- These colors are ripped from the iOS version, and are not finalized -->
     <color name="window_background">#FF666666</color>
@@ -310,8 +311,7 @@
     <color name="cars_selected_tab_color">#5F717F</color>
     <color name="cars_unchecked_toggle_text_color">#ECC3DC</color>
     <color name="cars_drop_off_hint_text_color">#26FFFFFF</color>
-
-
+    <color name="cars_color_primary_dark">#532C45</color>
     <color name="bg_checkout_saved_traveler_cc_row">#f0f0f0</color>
     <color name="bg_checkout_saved_traveler_cc_row_pressed">#dcdcdc</color>
     <color name="checkout_traveler_birth_color">#919191</color>
@@ -354,13 +354,13 @@
     <color name="lx_primary_disabled_color">#40E88534</color>
     <color name="gt_primary_disabled_color">#40B93F62</color>
     <color name="lx_more_like_this">#FAFAFA</color>
-
+    <color name="lx_color_primary_dark">#A8540D</color>
     <color name="search_dropdown_disabled_stroke">#C3C3C3</color>
     <color name="lx_sort_filter_pressed">#D9D9D9</color>
     <color name="lx_sort_filter_top_bar_text_color">#5C5C5C</color>
     <color name="lx_sort_filter_pressed_row_color">#D8D8D8</color>
     <color name="lx_offer_date_ripple_color">#a25d24</color>
-
+    <color name="checkout_login_button_color">#836B11</color>
     <color name="leanplum_dialog_button_color">#fc2176</color>
 
     <!--Account Lib Colors -->
