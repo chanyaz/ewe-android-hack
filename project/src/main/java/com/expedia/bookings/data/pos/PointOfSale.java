@@ -67,7 +67,7 @@ public class PointOfSale {
 	private PointOfSaleId mPointOfSale;
 
 	// List of locales associated with this POS
-	private List<PointOfSaleLocale> mLocales = new ArrayList<PointOfSaleLocale>();
+	private List<PointOfSaleLocale> mLocales = new ArrayList<>();
 
 	// The base URL of the POS
 	private String mUrl;
@@ -119,9 +119,6 @@ public class PointOfSale {
 
 	// Whether or not to let users access flights on this POS
 	private boolean mSupportsFlights;
-
-	// Flag for whether GDE is enabled
-	private boolean mSupportsGDE;
 
 	// Whether to show cars on this POS
 	private boolean mSupportsCars;
@@ -408,7 +405,7 @@ public class PointOfSale {
 		sCountryCodeMap.put("sj", new CountryResources(R.string.country_sj));
 		sCountryCodeMap.put("sz", new CountryResources(R.string.country_sz));
 		sCountryCodeMap.put("se", new CountryResources(R.string.country_se, R.drawable.ic_flag_se));
-		sCountryCodeMap.put("ch", new CountryResources(R.string.country_ch));
+		sCountryCodeMap.put("ch", new CountryResources(R.string.country_ch, R.drawable.ic_flag_ch));
 		sCountryCodeMap.put("sy", new CountryResources(R.string.country_sy));
 		sCountryCodeMap.put("tw", new CountryResources(R.string.country_tw, R.drawable.ic_flag_tw));
 		sCountryCodeMap.put("tj", new CountryResources(R.string.country_tj));
@@ -537,8 +534,6 @@ public class PointOfSale {
 
 	/**
 	 * If there is a locale-specific support number, use that over the generic POS support number.
-	 *
-	 * @return
 	 */
 	private String getSupportPhoneNumber() {
 		String number = getPosLocale().mSupportNumber;
@@ -569,7 +564,7 @@ public class PointOfSale {
 	 * otherwise if the user is null, or a normal user, return  the regular support number
 	 *
 	 * @param usr - The current logged in user, or null.
-	 * @return
+	 * @return the best support phone number for the current user
 	 */
 	public String getSupportPhoneNumberBestForUser(User usr) {
 		String number = null;
@@ -639,10 +634,6 @@ public class PointOfSale {
 
 	public boolean requiresHotelPostalCode() {
 		return mRequiresHotelPostalCode;
-	}
-
-	public boolean supportsGDE() {
-		return mSupportsGDE;
 	}
 
 	public boolean supports(LineOfBusiness lob) {
@@ -905,10 +896,10 @@ public class PointOfSale {
 	private static PointOfSaleId sCachedPOS;
 
 	// All POSes (pre-loaded at the start of the app)
-	private static final Map<PointOfSaleId, PointOfSale> sPointOfSale = new HashMap<PointOfSaleId, PointOfSale>();
+	private static final Map<PointOfSaleId, PointOfSale> sPointOfSale = new HashMap<>();
 
 	// This is a backwards-compatible map from the old setting (which was based on a string) to a POS
-	private static final Map<String, PointOfSaleId> sBackCompatPosMap = new HashMap<String, PointOfSaleId>();
+	private static final Map<String, PointOfSaleId> sBackCompatPosMap = new HashMap<>();
 
 	/**
 	 * MUST be called before using any other POS methods
@@ -1043,7 +1034,7 @@ public class PointOfSale {
 
 	// Provide context for sorting purposes
 	public static List<PointOfSale> getAllPointsOfSale(final Context context) {
-		List<PointOfSale> poses = new ArrayList<PointOfSale>(sPointOfSale.values());
+		List<PointOfSale> poses = new ArrayList<>(sPointOfSale.values());
 
 		Comparator<PointOfSale> comparator = new Comparator<PointOfSale>() {
 			@Override
@@ -1062,7 +1053,7 @@ public class PointOfSale {
 	//////////////////////////////////////////////////////////////////////////
 	// Expedia suggest supported locales
 
-	private static Set<String> sExpediaSuggestSupportedLocales = new HashSet<String>();
+	private static Set<String> sExpediaSuggestSupportedLocales = new HashSet<>();
 
 	public static boolean localeSupportedByExpediaSuggest(String localeIdentifier) {
 		return sExpediaSuggestSupportedLocales.contains(localeIdentifier);
@@ -1128,7 +1119,7 @@ public class PointOfSale {
 
 		//By default the POS Key represents Two Letter Country Code
 		//with provision of override via the "twoLetterCountryCode" element
-		pos.mTwoLetterCountryCode = (data.optString("twoLetterCountryCode", posName).toLowerCase(Locale.ENGLISH));
+		pos.mTwoLetterCountryCode = data.optString("twoLetterCountryCode", posName).toLowerCase(Locale.ENGLISH);
 		// Server access
 		pos.mUrl = data.optString("url", null);
 		pos.mTPID = data.optInt("TPID");
@@ -1153,7 +1144,6 @@ public class PointOfSale {
 		pos.mShowExampleNames = data.optBoolean("shouldShowExampleNames");
 		pos.mHideMiddleName = data.optBoolean("shouldHideMiddleName");
 		pos.mSupportsFlights = data.optBoolean("flightsEnabled");
-		pos.mSupportsGDE = data.optBoolean("gdeFlightsEnabled");
 		pos.mSupportsCars = data.optBoolean("carsEnabled");
 		pos.mSupportsLx = data.optBoolean("lxEnabled");
 		pos.mDisplayFlightDropDownRoutes = data.optBoolean("shouldDisplayFlightDropDownList");
@@ -1171,7 +1161,6 @@ public class PointOfSale {
 		pos.doAirlinesChargeAdditionalFeeBasedOnPaymentMethod = data.optBoolean("doAirlinesChargeAdditionalFeeBasedOnPaymentMethod", false);
 		pos.mRequiresHotelPostalCode = data.optString("requiredPaymentFields:hotels").equals("postalCode");
 
-		pos.shouldShowCircleForRatings = data.optBoolean("shouldDisplayCirclesForRatings", false);
 		pos.isPwPEnabledForHotels = data.optBoolean("pwpEnabled:hotels", false);
 		pos.isSWPEnabledForHotels = data.optBoolean("swpEnabled:hotels", false);
 
@@ -1294,7 +1283,7 @@ public class PointOfSale {
 	//////////////////////////////////////////////////////////////////////////
 	// Expedia flight payment postal code optional locales
 
-	private static Set<String> sExpediaPaymentPostalCodeOptionalCountries = new HashSet<String>();
+	private static Set<String> sExpediaPaymentPostalCodeOptionalCountries = new HashSet<>();
 
 	private static void loadExpediaPaymentPostalCodeOptionalCountries(Context context) {
 		sExpediaPaymentPostalCodeOptionalCountries.clear();
