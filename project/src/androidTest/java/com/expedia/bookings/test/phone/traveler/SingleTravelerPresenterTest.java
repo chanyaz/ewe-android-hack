@@ -60,7 +60,7 @@ public class SingleTravelerPresenterTest extends BaseTravelerPresenterTestHelper
 		testTravelerPresenter.setViewModel(mockViewModel);
 		setPackageParams();
 		EspressoUser.clickOnView(R.id.traveler_default_state);
-
+		EspressoUser.clickOnView(R.id.edit_phone_number);
 		PackageScreen.clickTravelerDone();
 		EspressoUtils.assertContainsImageDrawable(R.id.traveler_status_icon, R.drawable.validated);
 	}
