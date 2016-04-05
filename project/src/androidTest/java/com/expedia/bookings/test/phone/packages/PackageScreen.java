@@ -273,25 +273,19 @@ public class PackageScreen {
 	}
 
 	public static void enterTravelerInfo() {
-		Common.delay(2);
 		travelerInfo().perform(scrollTo(), click());
-		Common.delay(1);
 		enterFirstName("FiveStar");
 		enterLastName("Bear");
-		Common.delay(1);
 		// TODO fix after adding email
 		//CheckoutViewModel.enterEmail("noah@mobiata.com");
 		//Common.closeSoftKeyboard(CheckoutViewModel.email());
-		Common.delay(1);
 		enterPhoneNumber("7732025862");
 		selectBirthDate(9, 6, 1989);
 
 		clickTravelerAdvanced();
-		Common.delay(1);
 		enterRedressNumber("1234567");
 
 		clickTravelerDone();
-		Common.delay(2);
 	}
 
 	// TODO Probably want to move these methods somewhere else.
@@ -303,7 +297,7 @@ public class PackageScreen {
 		onView(withId(R.id.last_name_input)).perform(typeText(name));
 	}
 
-	private static void enterRedressNumber(String redressNumber) {
+	public static void enterRedressNumber(String redressNumber) {
 		onView(withId(R.id.redress_number)).perform(typeText(redressNumber));
 	}
 
@@ -325,7 +319,7 @@ public class PackageScreen {
 		onView(withId(R.id.new_traveler_done_button)).perform(click());
 	}
 
-	private static void clickTravelerAdvanced() {
+	public static void clickTravelerAdvanced() {
 		onView(withId(R.id.advanced_options_button)).perform(click());
 	}
 

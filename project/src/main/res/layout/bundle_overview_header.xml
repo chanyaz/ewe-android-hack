@@ -40,6 +40,13 @@
                     android:gravity="left|center_horizontal" />
 
             </com.expedia.bookings.widget.CheckoutToolbar>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/toolbar_dropshadow_height"
+                android:layout_below="@id/toolbar"
+                android:background="@drawable/tb_shadow" />
+
         </android.support.design.widget.CollapsingToolbarLayout>
 
         <android.support.v4.widget.NestedScrollView

@@ -2,6 +2,7 @@ package com.expedia.bookings.test.happy;
 
 import android.support.test.espresso.Espresso;
 import android.support.test.espresso.matcher.ViewMatchers;
+
 import com.expedia.bookings.R;
 import com.expedia.bookings.test.espresso.Common;
 import com.expedia.bookings.test.espresso.EspressoUtils;
@@ -10,11 +11,13 @@ import com.expedia.bookings.test.espresso.ViewActions;
 import com.expedia.bookings.test.phone.hotels.HotelScreen;
 import com.expedia.bookings.test.phone.packages.PackageScreen;
 import com.expedia.bookings.test.phone.pagemodels.common.CheckoutViewModel;
+
 import org.hamcrest.CoreMatchers;
 import org.joda.time.LocalDate;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
+import static android.support.test.espresso.action.ViewActions.scrollTo;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.hasDescendant;
 import static android.support.test.espresso.matcher.ViewMatchers.hasSibling;
@@ -102,7 +105,17 @@ public class PackagePhoneHappyPathTest extends PackageTestCase {
 
 		PackageScreen.checkout().perform(click());
 
-		PackageScreen.enterTravelerInfo();
+		PackageScreen.travelerInfo().perform(scrollTo(), click());
+		onView(allOf(withId(R.id.boarding_warning), withText(mRes.getString(R.string.name_must_match_warning)))).check(matches(isDisplayed()));
+		PackageScreen.enterFirstName("FiveStar");
+		PackageScreen.enterLastName("Bear");
+		PackageScreen.enterPhoneNumber("7732025862");
+		PackageScreen.selectBirthDate(9, 6, 1989);
+
+		PackageScreen.clickTravelerAdvanced();
+		PackageScreen.enterRedressNumber("1234567");
+
+		PackageScreen.clickTravelerDone();
 		PackageScreen.enterPaymentInfo();
 
 		assetCheckout();

@@ -3,6 +3,7 @@ package com.expedia.bookings.widget
 import android.content.Context
 import android.graphics.Rect
 import android.util.AttributeSet
+import android.view.View
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.Money
@@ -77,6 +78,17 @@ class PackageCheckoutPresenter(context: Context, attr: AttributeSet) : BaseCheck
                 scrollView.layoutParams = lp
             }
         })
+
+        travelerPresenter.expandedSubject.subscribe { expanded ->
+            if (expanded) {
+                boardingWarning.visibility= View.VISIBLE
+                dropShadowView.visibility= View.GONE
+            }
+            else {
+                boardingWarning.visibility= View.GONE
+                dropShadowView.visibility= View.VISIBLE
+            }
+        }
     }
 
     override fun lineOfBusiness(): LineOfBusiness {
