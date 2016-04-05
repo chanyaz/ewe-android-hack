@@ -69,6 +69,10 @@ public class EspressoUtils {
 		onView(withId(id)).check(matches(isDisplayed()));
 	}
 
+	public static void assertMultipleViewsWithSameIdIsDisplayed(@IdRes int id) {
+		onView(allOf(withId(id), isDisplayed()));
+	}
+
 	public static void assertViewIsNotDisplayed(@IdRes int id) {
 		onView(withId(id)).check(matches(not(isDisplayed())));
 	}
