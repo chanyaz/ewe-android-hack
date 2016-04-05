@@ -8,6 +8,7 @@ import org.json.JSONObject;
 import android.content.Context;
 import android.text.TextUtils;
 
+import com.expedia.bookings.data.payment.LoyaltyEarnInfo;
 import com.expedia.bookings.model.FlightPaymentFlowState;
 import com.expedia.bookings.utils.GsonUtil;
 import com.mobiata.android.json.JSONUtils;
@@ -41,6 +42,8 @@ public class FlightTrip implements JSONable {
 	private Money mAverageTotalFare;
 	private Money mTaxes;
 	private Money mFees;
+
+	private LoyaltyEarnInfo earnInfo;
 
 	private boolean isPassportNeeded;
 	private boolean isSplitTicket;
@@ -430,6 +433,14 @@ public class FlightTrip implements JSONable {
 
 			return percentChange;
 		}
+	}
+
+	public LoyaltyEarnInfo getEarnInfo() {
+		return earnInfo;
+	}
+
+	public void setEarnInfo(LoyaltyEarnInfo earnInfo) {
+		this.earnInfo = earnInfo;
 	}
 
 	////////////////////////////////////////////////////////////////////////

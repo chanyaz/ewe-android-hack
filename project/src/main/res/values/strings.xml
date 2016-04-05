@@ -1786,6 +1786,10 @@
     <string name="arrive_at_TEMPLATE">Arrive at %s</string>
     <!-- Template for when a flight is operated by a different carrier.  %s is the other carrier, e.g. "Operated by American Airlines" -->
     <string name="operated_by_TEMPLATE">Operated by %s</string>
+    <!-- Template for points earned in SWP for flights-->
+    <string name="earn_points_TEMPLATE">Earn {points} points</string>
+    <!-- Template for amount earned in SWP for flights-->
+    <string name="earn_amount_TEMPLATE">Earn {price}</string>
     <!-- Carry-on baggage fees apply -->
     <string name="carry_on_baggage_fees_apply">Carry-on baggage fees apply</string>
     <!-- A message for a flight that does not include baggage fees in the fare total -->
