@@ -11,7 +11,7 @@
     <color name="lx_lob_btn">@color/lob_btn_color</color>
 
     <!-- Launch colors -->
-    <color name="launch_toolbar_background_color">@color/action_bar_bg_color</color>
+    <color name="launch_toolbar_background_color">@color/lob_btn_color</color>
     <color name="launch_tab_indicator">@color/action_bar_text_blue_orbitz</color>
 
     <color name="launch_actionbar_color_orbitz">@color/action_bar_bg_color</color>
@@ -38,6 +38,7 @@
     <color name="hotel_checkout_account_button_background_color">@color/lob_btn_color</color>
     <color name="checkout_additional_fees_tablet_bg">#004D7C</color>
     <color name="credit_card_form_additional_fees_tablet_bg">@color/checkout_additional_fees_tablet_bg</color>
+    <color name="preferences_text">#495863</color>
 
     <!-- Popular Hotels Tonight Discount strips-->
     <color name="launch_mobile_exclusive">#00253C</color>
@@ -66,4 +67,9 @@
     <color name="acct__btn_sign_in_text_orbitz">#FFFFFF</color>
     <color name="acct__bg_input_text_error_orbitz">#FFFFFF</color>
     <color name="acct__bg_input_text_good_orbitz">#EEEEEE</color>
+
+    <!--Account Screen-->
+    <color name="expedia_plus_blue">#C4204B</color>
+    <color name="account_sign_out_button_background_color">#C4204B</color>
+    <color name="account_sign_in_button_background_color">#004D7C</color>
 </resources>

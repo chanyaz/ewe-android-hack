@@ -26,7 +26,7 @@
                 android:layout_height="match_parent"
                 android:background="?attr/controlBackground"
                 android:scaleType="center"
-                android:src="@drawable/ic_arrow_back_white_24dp" />
+                android:src="@drawable/ic_arrow_back" />
 
             <FrameLayout
                 android:layout_width="0dp"

@@ -24,5 +24,6 @@
     <color name="actionbar_text_color">#dddfe1</color>
     <color name="actionbar_text_color_disabled">#90FFFFFF</color>
     <color name="action_bar_flight_text_color">#D00000</color>
-
+    <color name="account_toolbar_text_color">#D00000</color>
+    <color name="account_toolbar_text_color_light">#99D00000</color>
 </resources>
