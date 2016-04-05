@@ -64,7 +64,7 @@
     <!-- Slide to reserve -->
     <string name="cars_slider_text">滑動以預訂</string>
     <!-- Text for checkout toolbar-->
-    <string name="cars_checkout_text">付款</string>
+    <string name="checkout_text">付款</string>
     <!-- Text for error toolbar-->
     <string name="cars_dupe_trip_text">行程重複</string>
     <!-- Text for error toolbar-->

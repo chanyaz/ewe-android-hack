@@ -64,7 +64,7 @@
     <!-- Slide to reserve -->
     <string name="cars_slider_text">Geser untuk memesan</string>
     <!-- Text for checkout toolbar-->
-    <string name="cars_checkout_text">Pembayaran</string>
+    <string name="checkout_text">Pembayaran</string>
     <!-- Text for error toolbar-->
     <string name="cars_dupe_trip_text">Ulangi Perjalanan</string>
     <!-- Text for error toolbar-->

@@ -64,7 +64,7 @@
     <!-- Slide to reserve -->
     <string name="cars_slider_text">Dra för att boka</string>
     <!-- Text for checkout toolbar-->
-    <string name="cars_checkout_text">Betalning</string>
+    <string name="checkout_text">Betalning</string>
     <!-- Text for error toolbar-->
     <string name="cars_dupe_trip_text">Dubbelbokad resa</string>
     <!-- Text for error toolbar-->

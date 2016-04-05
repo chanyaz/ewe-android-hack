@@ -64,7 +64,7 @@
     <!-- Slide to reserve -->
     <string name="cars_slider_text">Faites glisser pour réserver</string>
     <!-- Text for checkout toolbar-->
-    <string name="cars_checkout_text">Paiement</string>
+    <string name="checkout_text">Paiement</string>
     <!-- Text for error toolbar-->
     <string name="cars_dupe_trip_text">Voyage en double</string>
     <!-- Text for error toolbar-->

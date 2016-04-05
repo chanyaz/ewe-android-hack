@@ -11,6 +11,8 @@ import com.expedia.bookings.data.PaymentType
 import com.expedia.bookings.data.StoredCreditCard
 import com.expedia.bookings.data.TripBucketItemHotelV2
 import com.expedia.bookings.data.User
+import com.expedia.bookings.data.abacus.AbacusResponse
+import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.hotels.HotelCreateTripResponse
 import com.expedia.bookings.data.payment.PaymentModel
 import com.expedia.bookings.services.LoyaltyServices
@@ -34,6 +36,8 @@ import java.util.concurrent.TimeUnit
 import kotlin.properties.Delegates
 import kotlin.test.assertEquals
 import com.expedia.vm.ShopWithPointsViewModel
+import kotlin.test.assertFalse
+import kotlin.test.assertTrue
 
 @RunWith(RobolectricRunner::class)
 class PaymentWidgetV2Test {
@@ -91,6 +95,40 @@ class PaymentWidgetV2Test {
         paymentModel.createTripSubject.onNext(getCreateTripResponse(false))
         setUserWithStoredCard()
         testPaymentTileInfo("Visa 4111", "Tap to edit", activity.resources.getDrawable(R.drawable.ic_tablet_checkout_visa), View.GONE)
+    }
+
+    @Test
+    fun testSecureCheckoutBucketed() {
+        updateABTest(AbacusUtils.EBAndroidAppHotelSecureCheckoutMessaging,
+                AbacusUtils.DefaultVariate.BUCKETED.ordinal)
+        assertTrue(sut.isSecureToolbarBucketed())
+    }
+
+    @Test
+    fun testSecureCheckoutControl() {
+        updateABTest(AbacusUtils.EBAndroidAppHotelSecureCheckoutMessaging,
+                AbacusUtils.DefaultVariate.CONTROL.ordinal)
+        assertFalse(sut.isSecureToolbarBucketed())
+    }
+
+    @Test
+    fun testCreditDebitCardBucketed() {
+        updateABTest(AbacusUtils.EBAndroidAppHotelCKOCreditDebitTest,
+                AbacusUtils.DefaultVariate.BUCKETED.ordinal)
+        assertEquals(R.string.credit_debit_card_hint, sut.getCreditCardNumberHintResId())
+    }
+
+    @Test
+    fun testCreditDebitCardControl() {
+        updateABTest(AbacusUtils.EBAndroidAppHotelCKOCreditDebitTest,
+                AbacusUtils.DefaultVariate.CONTROL.ordinal)
+        assertEquals(R.string.credit_card_hint, sut.getCreditCardNumberHintResId())
+    }
+
+    private fun updateABTest(key: Int, value: Int) {
+        val abacusResponse = AbacusResponse()
+        abacusResponse.updateABTestForDebug(key, value)
+        Db.setAbacusResponse(abacusResponse)
     }
 
     private fun testPaymentTileInfo(paymentInfo: String, paymentOption: String, paymentIcon: Drawable, pwpSmallIconVisibility: Int) {
