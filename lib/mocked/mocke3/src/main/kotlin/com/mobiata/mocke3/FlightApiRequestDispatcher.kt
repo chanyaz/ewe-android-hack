@@ -71,7 +71,7 @@ class FlightApiMockResponseGenerator() {
                 throw RuntimeException("tripId must match tealeafTransactionId ('tealeafFlight:<tripId>') got: $tealeafTransactionId")
             }
 
-            val isRequestingAirAttachMockResponse = FlightApiRequestMatcher.doesItMatch("^air_attach_0$", tripId)
+            val isRequestingAirAttachMockResponse = doesItMatch("^air_attach_0$", tripId)
 
             if (isRequestingAirAttachMockResponse) {
                 val c = Calendar.getInstance()
@@ -112,12 +112,6 @@ class FlightApiRequestMatcher() {
 
         fun isCheckoutRequest(urlPath: String): Boolean {
             return doesItMatch("^/api/flight/checkout$", urlPath)
-        }
-
-        fun doesItMatch(regExp: String, str: String): Boolean {
-            val pattern = Pattern.compile(regExp)
-            val matcher = pattern.matcher(str)
-            return matcher.matches()
         }
     }
 }

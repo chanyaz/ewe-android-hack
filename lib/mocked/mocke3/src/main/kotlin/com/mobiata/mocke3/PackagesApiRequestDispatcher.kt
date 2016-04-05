@@ -85,12 +85,6 @@ class PackageApiRequestMatcher {
         fun isFlightSearch(urlParams: Map<String, String>): Boolean {
             return "flight".equals(urlParams["searchProduct"])
         }
-
-        fun doesItMatch(regExp: String, str: String): Boolean {
-            val pattern = Pattern.compile(regExp)
-            val matcher = pattern.matcher(str)
-            return matcher.matches()
-        }
     }
 
 }

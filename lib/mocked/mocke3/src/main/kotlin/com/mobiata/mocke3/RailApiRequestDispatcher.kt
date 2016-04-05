@@ -39,7 +39,7 @@ class RailApiRequestDispatcher(fileOpener: FileOpener) : AbstractDispatcher(file
     }
 }
 
-class RailApiRequestMatcher() {
+class RailApiRequestMatcher {
     companion object {
         fun isRailApiRequest(urlPath: String): Boolean {
             return doesItMatch("^/rails/ecom/v1/shopping/.*$", urlPath) || doesItMatch("^/m/api/rails.*$", urlPath)
@@ -65,10 +65,5 @@ class RailApiRequestMatcher() {
             return doesItMatch("^/m/api/rails/trip/checkout.*", urlPath)
         }
 
-        fun doesItMatch(regExp: String, str: String): Boolean {
-            val pattern = Pattern.compile(regExp)
-            val matcher = pattern.matcher(str)
-            return matcher.matches()
-        }
     }
 }
