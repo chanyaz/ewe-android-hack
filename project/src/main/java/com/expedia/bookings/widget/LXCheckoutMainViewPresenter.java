@@ -40,11 +40,11 @@ import butterknife.ButterKnife;
 import rx.Observer;
 import rx.Subscription;
 
-public class LXCheckoutWidget extends CheckoutBasePresenter implements CVVEntryWidget.CVVEntryFragmentListener {
+public class LXCheckoutMainViewPresenter extends CheckoutBasePresenter implements CVVEntryWidget.CVVEntryFragmentListener {
 
 	private boolean isGroundTransport;
 
-	public LXCheckoutWidget(Context context, AttributeSet attr) {
+	public LXCheckoutMainViewPresenter(Context context, AttributeSet attr) {
 		super(context, attr);
 	}
 
@@ -109,12 +109,8 @@ public class LXCheckoutWidget extends CheckoutBasePresenter implements CVVEntryW
 		String rulesAndRestrictionsURL = LXDataUtils.getRulesRestrictionsUrl(e3EndpointUrl, tripId);
 		legalInformationText.setText(StrUtils.generateLegalClickableLink(getContext(), rulesAndRestrictionsURL));
 		checkoutFormWasUpdated();
-		if (User.isLoggedIn(getContext())) {
-			loginWidget.bind(false, true, Db.getUser(), getLineOfBusiness());
-		}
-		else {
-			loginWidget.bind(false, false, null,  getLineOfBusiness());
-		}
+		updateLoginWidget();
+		selectFirstAvailableCardIfOnlyOneAvailable();
 	}
 
 	@Override

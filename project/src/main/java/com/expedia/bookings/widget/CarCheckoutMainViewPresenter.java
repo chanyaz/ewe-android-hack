@@ -38,9 +38,9 @@ import butterknife.ButterKnife;
 import rx.Observer;
 import rx.Subscription;
 
-public class CarCheckoutWidget extends CheckoutBasePresenter implements CVVEntryWidget.CVVEntryFragmentListener {
+public class CarCheckoutMainViewPresenter extends CheckoutBasePresenter implements CVVEntryWidget.CVVEntryFragmentListener {
 
-	public CarCheckoutWidget(Context context, AttributeSet attr) {
+	public CarCheckoutMainViewPresenter(Context context, AttributeSet attr) {
 		super(context, attr);
 	}
 
@@ -209,12 +209,8 @@ public class CarCheckoutWidget extends CheckoutBasePresenter implements CVVEntry
 		paymentInfoCardView.show(new PaymentWidget.PaymentDefault(), Presenter.FLAG_CLEAR_BACKSTACK);
 		legalInformationText.setText(
 			StrUtils.generateLegalClickableLink(getContext(), carProduct.rulesAndRestrictionsURL));
-		if (User.isLoggedIn(getContext())) {
-			loginWidget.bind(false, true, Db.getUser(), getLineOfBusiness());
-		}
-		else {
-			loginWidget.bind(false, false, null,  getLineOfBusiness());
-		}
+		updateLoginWidget();
+		selectFirstAvailableCardIfOnlyOneAvailable();
 	}
 
 	@Subscribe

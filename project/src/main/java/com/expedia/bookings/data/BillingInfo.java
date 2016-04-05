@@ -5,6 +5,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.expedia.bookings.utils.CurrencyUtils;
+import com.expedia.bookings.utils.Strings;
 import com.expedia.bookings.utils.WalletUtils;
 import com.mobiata.android.Log;
 import com.mobiata.android.json.JSONUtils;
@@ -306,4 +307,18 @@ public class BillingInfo implements JSONable, Comparable<BillingInfo> {
 		return toJson().toString().compareTo(another.toJson().toString());
 
 	}
+
+	public boolean isCreditCardDataEnteredManually() {
+		if (getLocation() == null) {
+			return false;
+		}
+		//Checkout the major fields, if any of them have data, then we know some data has been manually entered
+		if (!Strings.isEmpty(getLocation().getStreetAddressString()) || !Strings.isEmpty(getLocation().getCity())
+			|| !Strings.isEmpty(getLocation().getPostalCode()) || !Strings.isEmpty(getLocation().getStateCode())
+			|| !Strings.isEmpty(getNameOnCard()) || !Strings.isEmpty(getNumber())) {
+			return true;
+		}
+		return false;
+	}
+
 }

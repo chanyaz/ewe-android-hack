@@ -7,7 +7,6 @@ import android.util.TypedValue
 import android.view.View
 import com.expedia.bookings.R
 import com.expedia.bookings.activity.HotelRulesActivity
-import com.expedia.bookings.data.BillingInfo
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.TripBucketItemHotelV2
@@ -24,7 +23,6 @@ import com.expedia.bookings.otto.Events
 import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.services.HotelServices
 import com.expedia.bookings.tracking.HotelV2Tracking
-import com.expedia.bookings.utils.Strings
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.widget.CheckoutBasePresenter
 import com.expedia.bookings.widget.CouponWidget
@@ -158,48 +156,8 @@ class HotelCheckoutMainViewPresenter(context: Context, attr: AttributeSet) : Che
         slideWidget.resetSlider()
         slideToContainer.visibility = View.INVISIBLE
         legalInformationText.setOnClickListener({ context.startActivity(HotelRulesActivity.createIntent(context, LineOfBusiness.HOTELSV2)) })
-        if (User.isLoggedIn(context)) {
-            if (!hasSomeManuallyEnteredData(paymentInfoCardView.sectionBillingInfo.billingInfo) && Db.getUser().storedCreditCards.size == 1 && Db.getTemporarilySavedCard() == null) {
-                paymentInfoCardView.sectionBillingInfo.bind(Db.getBillingInfo())
-                paymentInfoCardView.selectFirstAvailableCard()
-            }
-            else if(Db.getUser().storedCreditCards.size == 0 && Db.getTemporarilySavedCard() != null){
-                paymentInfoCardView.storedCreditCardListener.onTemporarySavedCreditCardChosen(Db.getTemporarilySavedCard())
-            }
-            loginWidget.bind(false, true, Db.getUser(), lineOfBusiness)
-        } else {
-            loginWidget.bind(false, false, null, lineOfBusiness)
-        }
-    }
-
-    private fun hasSomeManuallyEnteredData(info: BillingInfo?): Boolean {
-        if (info == null) {
-            return false
-        }
-
-        if (info.location == null) {
-            return false
-        }
-        //Checkout the major fields, if any of them have data, then we know some data has been manually entered
-        if (!Strings.isEmpty(info.location.streetAddressString)) {
-            return true
-        }
-        if (!Strings.isEmpty(info.location.city)) {
-            return true
-        }
-        if (!Strings.isEmpty(info.location.postalCode)) {
-            return true
-        }
-        if (!Strings.isEmpty(info.location.stateCode)) {
-            return true
-        }
-        if (!Strings.isEmpty(info.nameOnCard)) {
-            return true
-        }
-        if (!Strings.isEmpty(info.number)) {
-            return true
-        }
-        return false
+        updateLoginWidget()
+        selectFirstAvailableCardIfOnlyOneAvailable()
     }
 
     fun showCheckout(offer: HotelOffersResponse.HotelRoomResponse) {
