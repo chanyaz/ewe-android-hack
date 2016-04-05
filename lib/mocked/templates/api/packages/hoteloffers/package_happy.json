@@ -53,7 +53,7 @@
         "rateDescription": "Deluxe Suite, 1 King Bed",
         "roomTypeDescription": "happy_outbound_flight",
         "roomLongDescription": " 1 king bed   580 sq feet (54 sq meters)   Entertainment  - Free WiFi, 42-inch LCD TV with satellite channels, and MP3 dock  Food & Drink  - Coffee/tea maker and minibar  Bathroom  - Hair dryer  Comfort  - Air conditioning Non-Smoking  ",
-        "hasFreeCancellation": false,
+        "hasFreeCancellation": true,
         "currentAllotment": "15",
         "promoDescription": "Sale!",
         "isDiscountRestrictedToCurrentSourceType": false,

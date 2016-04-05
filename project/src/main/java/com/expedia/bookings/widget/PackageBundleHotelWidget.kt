@@ -32,7 +32,7 @@ class PackageBundleHotelWidget(context: Context, attrs: AttributeSet?) : CardVie
     val hotelLoadingBar: ImageView by bindView(R.id.hotel_loading_bar)
     val hotelInfoContainer: ViewGroup by bindView(R.id.hotel_info_container)
     val hotelsText: TextView by bindView(R.id.hotels_card_view_text)
-    val hotelsRoomGuestInfoText: TextView by bindView(R.id.hotels_room_guest_info_text)
+    val hotelsDatesGuestInfoText: TextView by bindView(R.id.hotels_dates_guest_info_text)
     val hotelDetailsIcon: ImageView by bindView(R.id.package_hotel_details_icon)
     val hotelSelectIcon: ImageView by bindView(R.id.package_hotel_select_icon)
     val hotelLuggageIcon: ImageView by bindView(R.id.package_hotel_luggage_icon)
@@ -42,17 +42,19 @@ class PackageBundleHotelWidget(context: Context, attrs: AttributeSet?) : CardVie
     val hotelAddress: TextView by bindView(R.id.hotel_address)
     val hotelCity: TextView by bindView(R.id.hotel_city)
     val hotelFreeCancellation: TextView by bindView(R.id.hotel_free_cancellation)
+    val hotelNotRefundable: TextView by bindView(R.id.hotel_non_refundable)
     val hotelPromoText: TextView by bindView(R.id.hotel_promo_text)
     val mainContainer: LinearLayout by bindView(R.id.main_container)
     val rowContainer: LinearLayout by bindView(R.id.row_container)
 
     var viewModel: BundleHotelViewModel by notNullAndObservable { vm ->
-        viewModel.hotelRoomGuestObservable.subscribeTextAndVisibility(hotelsRoomGuestInfoText)
+        viewModel.hotelDatesGuestObservable.subscribeTextAndVisibility(hotelsDatesGuestInfoText)
         viewModel.hotelRoomInfoObservable.subscribeText(hotelRoomInfo)
         viewModel.hotelRoomTypeObservable.subscribeText(hotelRoomType)
         viewModel.hotelAddressObservable.subscribeText(hotelAddress)
         viewModel.hotelCityObservable.subscribeText(hotelCity)
         viewModel.hotelFreeCancellationObservable.subscribeTextAndVisibility(hotelFreeCancellation)
+        viewModel.hotelNonRefundableObservable.subscribeTextAndVisibility(hotelNotRefundable)
         viewModel.hotelPromoTextObservable.subscribeTextAndVisibility(hotelPromoText)
         viewModel.hotelTextObservable.subscribeText(hotelsText)
         viewModel.hotelDetailsIconObservable.subscribeVisibility(hotelDetailsIcon)
@@ -69,7 +71,7 @@ class PackageBundleHotelWidget(context: Context, attrs: AttributeSet?) : CardVie
         }
 
         viewModel.showLoadingStateObservable.subscribeVisibility(hotelLoadingBar)
-        viewModel.showLoadingStateObservable.subscribeInverseVisibility(hotelsRoomGuestInfoText)
+        viewModel.showLoadingStateObservable.subscribeInverseVisibility(hotelsDatesGuestInfoText)
         viewModel.showLoadingStateObservable.subscribe { showLoading ->
             if (showLoading) {
                 rowContainer.setOnClickListener { null }
@@ -85,7 +87,7 @@ class PackageBundleHotelWidget(context: Context, attrs: AttributeSet?) : CardVie
                 hotelLoadingBar.clearAnimation()
                 hotelsText.setTextColor(Ui.obtainThemeColor(context, R.attr.primary_color))
                 hotelLuggageIcon.setColorFilter(Ui.obtainThemeColor(context, R.attr.primary_color))
-                hotelsRoomGuestInfoText.setTextColor(Ui.obtainThemeColor(context, R.attr.primary_color))
+                hotelsDatesGuestInfoText.setTextColor(Ui.obtainThemeColor(context, R.attr.primary_color))
             }
         }
         viewModel.hotelSelectIconObservable.subscribe { showing ->
@@ -100,7 +102,7 @@ class PackageBundleHotelWidget(context: Context, attrs: AttributeSet?) : CardVie
         viewModel.selectedHotelObservable.subscribe {
             hotelsText.setTextColor(ContextCompat.getColor(context, R.color.packages_bundle_overview_widgets_primary_text))
             hotelLuggageIcon.setColorFilter(0)
-            hotelsRoomGuestInfoText.setTextColor(ContextCompat.getColor(context, R.color.packages_bundle_overview_widgets_secondary_text))
+            hotelsDatesGuestInfoText.setTextColor(ContextCompat.getColor(context, R.color.packages_bundle_overview_widgets_secondary_text))
             rowContainer.setOnClickListener {
                 if (mainContainer.visibility == Presenter.GONE) {
                     expandSelectedHotel()
@@ -124,6 +126,7 @@ class PackageBundleHotelWidget(context: Context, attrs: AttributeSet?) : CardVie
 
     private fun expandSelectedHotel() {
         mainContainer.visibility = Presenter.VISIBLE
+        AnimUtils.rotate(hotelDetailsIcon)
     }
 
     fun collapseSelectedHotel() {
@@ -140,7 +143,7 @@ class PackageBundleHotelWidget(context: Context, attrs: AttributeSet?) : CardVie
 
     fun toggleHotelWidget(alpha: Float, isEnabled: Boolean) {
         hotelsText.alpha = alpha
-        hotelsRoomGuestInfoText.alpha = alpha
+        hotelsDatesGuestInfoText.alpha = alpha
         hotelLuggageIcon.alpha = alpha
         hotelDetailsIcon.alpha = alpha
         this.isEnabled = isEnabled

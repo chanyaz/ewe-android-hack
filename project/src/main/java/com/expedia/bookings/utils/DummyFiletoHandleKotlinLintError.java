@@ -481,6 +481,7 @@ DummyFiletoHandleKotlinLintError {
 		R.string.flight_search_card_title,
 		R.string.via_scratchpad_label,
 		R.layout.feeds_flight_search_card,
-		R.layout.widget_package_search
+		R.layout.widget_package_search,
+		R.string.hotel_free_cancellation_TEMPLATE
 	};
 }
