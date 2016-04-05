@@ -443,4 +443,7 @@
     <!-- First name label hint for HK POS -->
     <string name="last_name_hk">Chan</string>
 
+    <!-- Plus sign for Expedia+ Reward Points on Hotel Infosite -->
+    <string name="plus_sign">+</string>
+
 </resources>
