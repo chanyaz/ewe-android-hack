@@ -563,6 +563,9 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
     private val searchToDetails = object : ScaleTransition(this,SearchTransition::class.java , HotelDetailPresenter::class.java, if (isUserBucketedSearchScreenTest) HotelSearchPresenterV2::class.java else HotelSearchPresenterV1::class.java) {
         override fun startTransition(forward: Boolean) {
             super.startTransition(forward)
+            if (!forward) {
+                detailPresenter.hotelDetailView.resetViews()
+            }
             loadingOverlay.visibility = View.GONE
             searchPresenter.animationStart(!forward)
             searchPresenter.animationFinalize(forward)
