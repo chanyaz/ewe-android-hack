@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<merge android:id="@+id/bundle_container"
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/bundle_container">
 
     <com.expedia.bookings.widget.TextView
         android:id="@+id/step_one_text"
@@ -17,15 +17,14 @@
 
     <com.expedia.bookings.widget.PackageBundleHotelWidget
         android:id="@+id/package_bundle_hotel_widget"
+        style="@style/MaterialCardView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="9dp"
-        android:layout_marginRight="9dp"
+        android:layout_marginLeft="@dimen/card_view_container_margin"
+        android:layout_marginRight="@dimen/card_view_container_margin"
         android:animateLayoutChanges="true"
         android:foreground="?android:attr/selectableItemBackground"
-        android:minHeight="64dp"
-        app:cardCornerRadius="@dimen/cardview_border_radius"
-        app:cardElevation="1dp" />
+        android:minHeight="64dp" />
 
     <com.expedia.bookings.widget.TextView
         android:id="@+id/step_two_text"
@@ -37,29 +36,27 @@
 
     <com.expedia.bookings.widget.PackageBundleFlightWidget
         android:id="@+id/package_bundle_outbound_flight_widget"
+        style="@style/MaterialCardView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="12dp"
-        android:layout_marginLeft="9dp"
-        android:layout_marginRight="9dp"
+        android:layout_marginLeft="@dimen/card_view_container_margin"
+        android:layout_marginRight="@dimen/card_view_container_margin"
         android:animateLayoutChanges="true"
         android:foreground="?android:attr/selectableItemBackground"
-        android:minHeight="64dp"
-        app:cardCornerRadius="@dimen/cardview_border_radius"
-        app:cardElevation="1dp" />
+        android:minHeight="64dp" />
 
     <com.expedia.bookings.widget.PackageBundleFlightWidget
         android:id="@+id/package_bundle_inbound_flight_widget"
+        style="@style/MaterialCardView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="12dp"
-        android:layout_marginLeft="9dp"
-        android:layout_marginRight="9dp"
+        android:layout_marginLeft="@dimen/card_view_container_margin"
+        android:layout_marginRight="@dimen/card_view_container_margin"
         android:animateLayoutChanges="true"
         android:foreground="?android:attr/selectableItemBackground"
-        android:minHeight="64dp"
-        app:cardCornerRadius="@dimen/cardview_border_radius"
-        app:cardElevation="1dp" />
+        android:minHeight="64dp" />
 
     <Space
         android:id="@+id/space_view"

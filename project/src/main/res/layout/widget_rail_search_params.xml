@@ -12,23 +12,22 @@
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_above="@+id/search_button"
             android:layout_marginLeft="@dimen/search_form_margin"
-            android:layout_marginRight="@dimen/search_form_margin"
-            android:layout_above="@+id/search_button">
+            android:layout_marginRight="@dimen/search_form_margin">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingTop="@dimen/search_form_margin"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:paddingTop="@dimen/search_form_margin">
 
                 <com.expedia.bookings.widget.SearchInputCardView
                     android:id="@+id/destination_card"
+                    style="@style/MaterialCardView"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/default_search_card_height"
                     android:layout_marginBottom="@dimen/material_search_field_bottom_margin"
-                    app:cardCornerRadius="@dimen/cardview_border_radius"
-                    app:cardElevation="1dp"
                     app:cardUseCompatPadding="true"
                     app:input_icon="@drawable/search_form_icon_search"
                     app:input_icon_tint_color="@color/search_screen_icon_color_v2"
@@ -36,11 +35,10 @@
 
                 <com.expedia.bookings.widget.CalendarWidgetV2
                     android:id="@+id/calendar_card"
+                    style="@style/MaterialCardView"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/default_search_card_height"
                     android:layout_marginBottom="@dimen/material_search_field_bottom_margin"
-                    app:cardCornerRadius="@dimen/cardview_border_radius"
-                    app:cardElevation="1dp"
                     app:cardUseCompatPadding="true"
                     app:input_icon="@drawable/search_form_icon_calendar"
                     app:input_icon_tint_color="@color/search_screen_icon_color_v2"
@@ -48,10 +46,9 @@
 
                 <com.expedia.bookings.widget.TravelerWidgetV2
                     android:id="@+id/traveler_card"
+                    style="@style/MaterialCardView"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/default_search_card_height"
-                    app:cardCornerRadius="@dimen/cardview_border_radius"
-                    app:cardElevation="1dp"
                     app:cardUseCompatPadding="true"
                     app:input_icon="@drawable/search_form_icon_person"
                     app:input_icon_tint_color="@color/search_screen_icon_color_v2"
