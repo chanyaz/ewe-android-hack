@@ -114,7 +114,7 @@
                 android:layout_height="70dp"
                 android:theme="@style/HotelWithSwitchStyleV1"
                 android:layout_below="@id/select_traveler"
-                android:paddingLeft="24dp"
+                android:paddingLeft="20dp"
                 android:visibility="gone" />
         </RelativeLayout>
 
