@@ -4056,5 +4056,7 @@
     <string name="flight_search_card_title">Flight Search</string>
     <!-- Label for feeds/scratchpad card indicating source of given information -->
     <string name="via_scratchpad_label">via Scratchpad</string>
+    <!-- Earn messaging -->
+    <string name="earn_message_TEMPLATE">Earn {earn}</string>
 
 </resources>

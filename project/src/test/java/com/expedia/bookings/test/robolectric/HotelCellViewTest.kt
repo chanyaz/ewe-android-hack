@@ -6,6 +6,10 @@ import android.view.View
 import com.expedia.bookings.R
 import com.expedia.bookings.data.hotels.Hotel
 import com.expedia.bookings.data.hotels.HotelRate
+import com.expedia.bookings.data.payment.LoyaltyEarnInfo
+import com.expedia.bookings.data.payment.LoyaltyInformation
+import com.expedia.bookings.data.payment.PointsEarnInfo
+import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.widget.HotelListAdapter
 import com.expedia.bookings.widget.HotelViewModel
 import org.junit.Assert
@@ -129,6 +133,14 @@ class HotelCellViewTest {
         Assert.assertEquals(View.GONE, hotelViewHolder.priceIncludesFlightsView.visibility)
     }
 
+    @Test fun testEarnMessaging() {
+        val hotel = makeHotel()
+        PointOfSale.getPointOfSale().isEarnMessageEnabledForHotels = true
+        hotelViewHolder.bind(HotelViewModel(hotelViewHolder.itemView.context, hotel))
+        Assert.assertEquals(View.GONE, hotelViewHolder.topAmenityTitle.visibility)
+        Assert.assertEquals(View.VISIBLE, hotelViewHolder.earnMessagingText.visibility)
+    }
+
     private fun makeHotel(): Hotel {
         val hotel = Hotel()
         hotel.hotelId = "happy"
@@ -136,6 +148,7 @@ class HotelCellViewTest {
         hotel.distanceUnit = "Miles"
         hotel.lowRateInfo.currencyCode = "USD"
         hotel.percentRecommended = 2
+        hotel.lowRateInfo.loyaltyInfo = LoyaltyInformation(null, LoyaltyEarnInfo(PointsEarnInfo(320, 0, 320), null), false)
         return hotel
     }
 

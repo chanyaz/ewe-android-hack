@@ -178,6 +178,7 @@ public class PointOfSale {
 	private boolean isPwPEnabledForHotels;
 
 	private boolean isSWPEnabledForHotels;
+	private boolean isEarnMessageEnabledForHotels;
 
 	private static class CountryResources {
 		@StringRes
@@ -790,6 +791,16 @@ public class PointOfSale {
 	public boolean isSWPEnabledForHotels() {
 		return isSWPEnabledForHotels;
 	}
+
+	public boolean isEarnMessageEnabledForHotels() {
+		return isEarnMessageEnabledForHotels;
+	}
+
+	public PointOfSale setEarnMessageEnabledForHotels(boolean earnMessageEnabledForHotels) {
+		isEarnMessageEnabledForHotels = earnMessageEnabledForHotels;
+		return this;
+	}
+
 	/**
 	 * This is equivalent to calling getStylizedHotelBookingStatement(false)
 	 *
@@ -1163,6 +1174,7 @@ public class PointOfSale {
 
 		pos.isPwPEnabledForHotels = data.optBoolean("pwpEnabled:hotels", false);
 		pos.isSWPEnabledForHotels = data.optBoolean("swpEnabled:hotels", false);
+		pos.isEarnMessageEnabledForHotels = data.optBoolean("earnMessageEnabled:hotels", false);
 
 		// Parse POS locales
 		JSONArray supportedLocales = data.optJSONArray("supportedLocales");
