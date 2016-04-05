@@ -96,9 +96,7 @@
                 android:id="@+id/stops_container"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:paddingLeft="@dimen/sort_filter_padding_normal"
-                android:paddingRight="@dimen/sort_filter_padding_normal" />
+                android:orientation="vertical" />
 
             <include layout="@layout/package_flight_filter_divider" />
 
@@ -190,9 +188,7 @@
                 android:id="@+id/airlines_container"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:paddingLeft="@dimen/sort_filter_padding_normal"
-                android:paddingRight="@dimen/sort_filter_padding_normal" />
+                android:orientation="vertical" />
 
             <include layout="@layout/show_more_container" />
 
