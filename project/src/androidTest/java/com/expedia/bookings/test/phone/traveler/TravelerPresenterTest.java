@@ -201,11 +201,11 @@ public class TravelerPresenterTest {
 	}
 
 	private void setPackageParams() {
-		PackageSearchParams packageParams = new PackageSearchParams.Builder(12)
-			.checkIn(LocalDate.now().plusDays(1))
-			.checkOut(LocalDate.now().plusDays(2))
-			.origin(new SuggestionV4())
-			.destination(new SuggestionV4())
+		PackageSearchParams packageParams = (PackageSearchParams) new PackageSearchParams.Builder(12)
+			.startDate(LocalDate.now().plusDays(1))
+			.endDate(LocalDate.now().plusDays(2))
+			.departure(new SuggestionV4())
+			.arrival(new SuggestionV4())
 			.build();
 		Db.setPackageParams(packageParams);
 	}

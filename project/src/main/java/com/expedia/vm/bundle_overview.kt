@@ -49,7 +49,7 @@ class BundleOverviewViewModel(val context: Context, val packageServices: Package
             toolbarSubtitleObservable.onNext(Phrase.from(context, R.string.calendar_instructions_date_range_with_guests_TEMPLATE)
                     .put("startdate", DateUtils.localDateToMMMd(params.checkIn))
                     .put("enddate", DateUtils.localDateToMMMd(params.checkOut))
-                    .put("guests", StrUtils.formatTravelerString(context, params.guests()))
+                    .put("guests", StrUtils.formatTravelerString(context, params.guests))
                     .format().toString())
             packageServices?.packageSearch(params)?.subscribe(makeResultsObserver(PackageSearchType.HOTEL))
         }
@@ -141,7 +141,7 @@ class BundleHotelViewModel(val context: Context) {
             } else {
                 hotelTextObservable.onNext(context.getString(R.string.select_hotel_template, StrUtils.formatCityName(Db.getPackageParams().destination)))
                 hotelRoomGuestObservable.onNext(Phrase.from(context, R.string.room_with_guests_TEMPLATE)
-                        .put("guests", StrUtils.formatGuestString(context, Db.getPackageParams().guests()))
+                        .put("guests", StrUtils.formatGuestString(context, Db.getPackageParams().guests))
                         .format()
                         .toString())
                 hotelSelectIconObservable.onNext(true)

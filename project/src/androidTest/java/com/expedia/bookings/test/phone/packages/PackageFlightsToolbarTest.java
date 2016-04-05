@@ -7,7 +7,6 @@ import com.expedia.bookings.test.espresso.PackageTestCase;
 import com.expedia.bookings.test.phone.hotels.HotelScreen;
 
 import static android.support.test.espresso.action.ViewActions.click;
-import static android.support.test.espresso.action.ViewActions.typeText;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.hasDescendant;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
@@ -18,10 +17,7 @@ import static org.hamcrest.Matchers.not;
 public class PackageFlightsToolbarTest extends PackageTestCase {
 
 	public void testPackageFlightsToolbar() throws Throwable {
-		PackageScreen.destination().perform(typeText("SFO"));
-		PackageScreen.selectLocation("San Francisco, CA (SFO-San Francisco Intl.)");
-		PackageScreen.arrival().perform(typeText("DTW"));
-		PackageScreen.selectLocation("Detroit, MI (DTW-Detroit Metropolitan Wayne County)");
+		PackageScreen.selectDepartureAndArrival();
 		LocalDate startDate = LocalDate.now().plusDays(3);
 		LocalDate endDate = LocalDate.now().plusDays(8);
 		PackageScreen.selectDates(startDate, endDate);

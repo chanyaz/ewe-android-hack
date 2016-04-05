@@ -26,7 +26,7 @@ class FlightCheckoutOverviewViewModel(context: Context) : BaseCheckoutOverviewVi
             cityTitle.onNext(city)
             checkIn.onNext(params?.departureDate?.toString(formatter))
             checkOut.onNext(params?.returnDate?.toString(formatter))
-            guests.onNext(params.guests())
+            guests.onNext(params.guests)
             url.onNext(links)
         }
     }

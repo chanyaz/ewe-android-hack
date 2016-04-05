@@ -40,11 +40,11 @@ class BundleWidget(context: Context, attrs: AttributeSet) : LinearLayout(context
 
             outboundFlightWidget.viewModel.suggestion.onNext(Db.getPackageParams().destination)
             outboundFlightWidget.viewModel.date.onNext(Db.getPackageParams().checkIn)
-            outboundFlightWidget.viewModel.guests.onNext(Db.getPackageParams().guests())
+            outboundFlightWidget.viewModel.guests.onNext(Db.getPackageParams().guests)
 
             inboundFlightWidget.viewModel.suggestion.onNext(Db.getPackageParams().origin)
             inboundFlightWidget.viewModel.date.onNext(Db.getPackageParams().checkOut)
-            inboundFlightWidget.viewModel.guests.onNext(Db.getPackageParams().guests())
+            inboundFlightWidget.viewModel.guests.onNext(Db.getPackageParams().guests)
 
             if (!param.isChangePackageSearch()) {
                 outboundFlightWidget.viewModel.hotelLoadingStateObservable.onNext(PackageSearchType.OUTBOUND_FLIGHT)
@@ -74,7 +74,7 @@ class BundleWidget(context: Context, attrs: AttributeSet) : LinearLayout(context
                 outboundFlightWidget.viewModel.flightTextObservable.onNext(context.getString(R.string.searching_flight_to, StrUtils.formatAirportCodeCityName(Db.getPackageParams().destination)))
                 inboundFlightWidget.viewModel.travelInfoTextObservable.onNext(Phrase.from(context, R.string.flight_toolbar_date_range_with_guests_TEMPLATE)
                         .put("date", DateUtils.localDateToMMMd(Db.getPackageParams().checkOut))
-                        .put("travelers", StrUtils.formatTravelerString(context, Db.getPackageParams().guests()))
+                        .put("travelers", StrUtils.formatTravelerString(context, Db.getPackageParams().guests))
                         .format()
                         .toString())
             } else {
@@ -92,13 +92,13 @@ class BundleWidget(context: Context, attrs: AttributeSet) : LinearLayout(context
                 outboundFlightWidget.viewModel.flightTextObservable.onNext(context.getString(R.string.select_flight_to, StrUtils.formatAirportCodeCityName(Db.getPackageParams().destination)))
                 outboundFlightWidget.viewModel.travelInfoTextObservable.onNext(Phrase.from(context, R.string.flight_toolbar_date_range_with_guests_TEMPLATE)
                         .put("date", DateUtils.localDateToMMMd(Db.getPackageParams().checkIn))
-                        .put("travelers", StrUtils.formatTravelerString(context, Db.getPackageParams().guests())).format().toString())
+                        .put("travelers", StrUtils.formatTravelerString(context, Db.getPackageParams().guests)).format().toString())
             } else {
                 inboundFlightWidget.viewModel.showLoadingStateObservable.onNext(false)
                 inboundFlightWidget.viewModel.flightTextObservable.onNext(context.getString(R.string.select_flight_to, StrUtils.formatAirportCodeCityName(Db.getPackageParams().origin)))
                 inboundFlightWidget.viewModel.travelInfoTextObservable.onNext(Phrase.from(context, R.string.flight_toolbar_date_range_with_guests_TEMPLATE)
                         .put("date", DateUtils.localDateToMMMd(Db.getPackageParams().checkOut))
-                        .put("travelers", StrUtils.formatTravelerString(context, Db.getPackageParams().guests())).format().toString())
+                        .put("travelers", StrUtils.formatTravelerString(context, Db.getPackageParams().guests)).format().toString())
             }
         }
         vm.stepOneTextObservable.subscribeText(stepOneText)

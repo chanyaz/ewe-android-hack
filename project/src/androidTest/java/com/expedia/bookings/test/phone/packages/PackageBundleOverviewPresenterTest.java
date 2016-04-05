@@ -14,7 +14,6 @@ import com.expedia.bookings.test.phone.hotels.HotelScreen;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
-import static android.support.test.espresso.action.ViewActions.typeText;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.hasDescendant;
 import static android.support.test.espresso.matcher.ViewMatchers.isCompletelyDisplayed;
@@ -89,18 +88,13 @@ public class PackageBundleOverviewPresenterTest extends PackageTestCase {
 	}
 
 	public void testHotelBundleOverviewFlow() throws Throwable {
-		LocalDate startDate = LocalDate.now().plusDays(5);
-		LocalDate endDate = LocalDate.now().plusDays(10);
+		LocalDate startDate = LocalDate.now().plusDays(3);
+		LocalDate endDate = LocalDate.now().plusDays(8);
 		DateTimeFormatter dateFormatter = DateTimeFormat.forPattern("MMM d");
 		String formattedStartString = startDate.toString(dateFormatter);
 		String formattedEndString = endDate.toString(dateFormatter);
 
-		PackageScreen.destination().perform(typeText("SFO"));
-		PackageScreen.selectLocation("San Francisco, CA (SFO-San Francisco Intl.)");
-		PackageScreen.arrival().perform(typeText("DTW"));
-		PackageScreen.selectLocation("Detroit, MI (DTW-Detroit Metropolitan Wayne County)");
-		PackageScreen.selectDates(startDate, endDate);
-		PackageScreen.searchButton().perform(click());
+		PackageScreen.searchPackage();
 		PackageScreen.clickHotelBundle();
 
 		//Test strings and bundle state

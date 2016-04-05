@@ -256,7 +256,7 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
 
         geoCodeSearchModel.geoResults.subscribe { geoResults ->
             fun triggerNewSearch(selectedResultIndex: Int) {
-                val newHotelSearchParams = hotelSearchParams.copy()
+                val newHotelSearchParams = hotelSearchParams
                 val geoLocation = geoResults.get(selectedResultIndex)
                 newHotelSearchParams.suggestion.coordinates.lat = geoLocation.latitude
                 newHotelSearchParams.suggestion.coordinates.lng = geoLocation.longitude
@@ -396,7 +396,7 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
         override fun endTransition(forward: Boolean) {
             searchPresenter.visibility = View.VISIBLE
             searchPresenter.showSuggestionState()
-            HotelV2Tracking().trackHotelV2SearchBox(searchPresenter.searchViewModel.shopWithPointsViewModel.swpEffectiveAvailability.value)
+            HotelV2Tracking().trackHotelV2SearchBox((searchPresenter.getSearchViewModel() as HotelSearchViewModel).shopWithPointsViewModel.swpEffectiveAvailability.value)
         }
     }
 
@@ -467,7 +467,7 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
             resultsPresenter.visibility = if (forward) View.VISIBLE else View.GONE
             resultsPresenter.animationFinalize(forward)
             searchPresenter.animationFinalize(forward)
-            if (!forward) HotelV2Tracking().trackHotelV2SearchBox(searchPresenter.searchViewModel.shopWithPointsViewModel.swpEffectiveAvailability.value)
+            if (!forward) HotelV2Tracking().trackHotelV2SearchBox((searchPresenter.getSearchViewModel() as HotelSearchViewModel).shopWithPointsViewModel.swpEffectiveAvailability.value)
         }
     }
 
@@ -556,7 +556,7 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
             errorPresenter.visibility = if (forward) View.VISIBLE else View.GONE
             searchPresenter.animationFinalize(forward)
             errorPresenter.animationFinalize()
-            if (!forward) HotelV2Tracking().trackHotelV2SearchBox(searchPresenter.searchViewModel.shopWithPointsViewModel.swpEffectiveAvailability.value)
+            if (!forward) HotelV2Tracking().trackHotelV2SearchBox((searchPresenter.getSearchViewModel() as HotelSearchViewModel).shopWithPointsViewModel.swpEffectiveAvailability.value)
         }
     }
 
@@ -580,7 +580,7 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
                 detailPresenter.hotelDetailView.viewmodel.addViewsAfterTransition()
             }
             else {
-                HotelV2Tracking().trackHotelV2SearchBox(searchPresenter.searchViewModel.shopWithPointsViewModel.swpEffectiveAvailability.value)
+                HotelV2Tracking().trackHotelV2SearchBox((searchPresenter.getSearchViewModel() as HotelSearchViewModel).shopWithPointsViewModel.swpEffectiveAvailability.value)
             }
         }
     }
@@ -663,7 +663,7 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
             if (intent.getBooleanExtra(Codes.FROM_DEEPLINK, false)) {
                 intent.putExtra(Codes.FROM_DEEPLINK, false)
                 if (hotelSearchParams.suggestion.type == "HOTEL") {
-                    searchPresenter.searchViewModel.locationTextObservable.onNext(it.hotelOffersResponse.hotelName)
+                    searchPresenter.getSearchViewModel().locationTextObservable.onNext(it.hotelOffersResponse.hotelName)
                 }
             }
             detailPresenter.hotelDetailView.viewmodel.hotelOffersSubject.onNext(it.hotelOffersResponse)

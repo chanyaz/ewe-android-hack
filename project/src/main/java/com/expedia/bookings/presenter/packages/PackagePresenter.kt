@@ -23,6 +23,7 @@ import com.expedia.vm.PackageCheckoutOverviewViewModel
 import com.expedia.vm.PackageCheckoutViewModel
 import com.expedia.vm.PackageConfirmationViewModel
 import com.expedia.vm.PackageCreateTripViewModel
+import com.expedia.vm.PackageSearchViewModel
 import com.squareup.phrase.Phrase
 import java.math.BigDecimal
 import javax.inject.Inject
@@ -39,6 +40,7 @@ class PackagePresenter(context: Context, attrs: AttributeSet) : Presenter(contex
     init {
         Ui.getApplication(getContext()).packageComponent().inject(this)
         View.inflate(context, R.layout.package_presenter, this)
+        searchPresenter.searchViewModel = PackageSearchViewModel(context)
         bundlePresenter.bundleWidget.viewModel = BundleOverviewViewModel(context, packageServices)
         bundlePresenter.getCheckoutPresenter().createTripViewModel = PackageCreateTripViewModel(packageServices)
         bundlePresenter.getCheckoutPresenter().checkoutViewModel = PackageCheckoutViewModel(context, packageServices)

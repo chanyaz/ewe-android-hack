@@ -19,7 +19,6 @@ import com.expedia.bookings.test.phone.pagemodels.common.CheckoutViewModel;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
-import static android.support.test.espresso.action.ViewActions.typeText;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.hasDescendant;
 import static android.support.test.espresso.matcher.ViewMatchers.hasSibling;
@@ -35,10 +34,7 @@ import static org.hamcrest.CoreMatchers.not;
 public class PackagePhoneHappyPathTest extends PackageTestCase {
 
 	public void testPackagePhoneHappyPath() throws Throwable {
-		PackageScreen.destination().perform(typeText("SFO"));
-		PackageScreen.selectLocation("San Francisco, CA (SFO-San Francisco Intl.)");
-		PackageScreen.arrival().perform(typeText("DTW"));
-		PackageScreen.selectLocation("Detroit, MI (DTW-Detroit Metropolitan Wayne County)");
+		PackageScreen.selectDepartureAndArrival();
 		LocalDate startDate = LocalDate.now().plusDays(3);
 		LocalDate endDate = LocalDate.now().plusDays(8);
 		PackageScreen.selectDates(startDate, endDate);
@@ -116,8 +112,8 @@ public class PackagePhoneHappyPathTest extends PackageTestCase {
 
 	private void assertConfirmation() {
 		onView(allOf(withId(R.id.destination), withText("Detroit"))).check(matches(isDisplayed()));
-		onView(allOf(withId(R.id.first_row), isDescendantOfA(withId(R.id.destination_card)), withText("Package Happy Path"))).check(matches(isDisplayed()));
-		onView(allOf(withId(R.id.second_row), isDescendantOfA(withId(R.id.destination_card)))).check(matches(isDisplayed()));
+		onView(allOf(withId(R.id.first_row), isDescendantOfA(withId(R.id.destination_card_row)), withText("Package Happy Path"))).check(matches(isDisplayed()));
+		onView(allOf(withId(R.id.second_row), isDescendantOfA(withId(R.id.destination_card_row)))).check(matches(isDisplayed()));
 		onView(allOf(withId(R.id.first_row), isDescendantOfA(withId(R.id.outbound_flight_card)), withText("Flight to (DTW) Detroit"))).check(matches(isDisplayed()));
 		onView(allOf(withId(R.id.second_row), isDescendantOfA(withId(R.id.outbound_flight_card)))).check(matches(isDisplayed()));
 		onView(allOf(withId(R.id.first_row), isDescendantOfA(withId(R.id.inbound_flight_card)), withText("Flight to (SFO) San Francisco"))).check(matches(isDisplayed()));

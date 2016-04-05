@@ -219,11 +219,11 @@ class TravelerValidatorTest {
     private fun getInstanceOfPackageSearchParams(checkIn: LocalDate, checkOut: LocalDate) : PackageSearchParams {
         // Can't mock PackageSearchParams because it's a 'data' class. So we have to build one.... #KotlinOP
         val packageParams = PackageSearchParams.Builder(12)
-                .checkIn(checkIn)
-                .checkOut(checkOut)
-                .origin(SuggestionV4())
-                .destination(SuggestionV4())
-        .build()
+                .startDate(checkIn)
+                .endDate(checkOut)
+                .departure(SuggestionV4())
+                .arrival(SuggestionV4())
+        .build() as PackageSearchParams
         return packageParams
     }
 }

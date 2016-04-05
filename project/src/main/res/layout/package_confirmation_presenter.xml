@@ -64,7 +64,7 @@
                 android:orientation="vertical">
 
                 <com.expedia.bookings.widget.packages.ConfirmationRowCardView
-                    android:id="@+id/destination_card"
+                    android:id="@+id/destination_card_row"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     app:row_icon="@drawable/packages_hotel_icon"

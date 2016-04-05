@@ -375,7 +375,7 @@ class HotelDetailViewModel(val context: Context, val hotelServices: HotelService
         paramsSubject.subscribe { params ->
             if (params.forPackage) {
                 searchInfoObservable.onNext(Phrase.from(context, R.string.room_with_guests_TEMPLATE)
-                        .put("guests", StrUtils.formatGuestString(context, params.guests()))
+                        .put("guests", StrUtils.formatGuestString(context, params.guests))
                         .format()
                         .toString())
                 val dates = context.resources.getString(R.string.calendar_instructions_date_range_TEMPLATE,
@@ -384,7 +384,7 @@ class HotelDetailViewModel(val context: Context, val hotelServices: HotelService
             } else {
                 searchInfoObservable.onNext(Phrase.from(context, R.string.calendar_instructions_date_range_with_guests_TEMPLATE).put("startdate",
                         DateUtils.localDateToMMMd(params.checkIn)).put("enddate",
-                        DateUtils.localDateToMMMd(params.checkOut)).put("guests", StrUtils.formatGuestString(context, params.guests()))
+                        DateUtils.localDateToMMMd(params.checkOut)).put("guests", StrUtils.formatGuestString(context, params.guests))
                         .format()
                         .toString())
             }

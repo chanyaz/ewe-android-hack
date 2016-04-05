@@ -10,6 +10,7 @@ import com.expedia.bookings.R
 import com.expedia.bookings.data.Codes
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.SuggestionV4
+import com.expedia.bookings.data.TravelerParams
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.cars.ApiError
 import com.expedia.bookings.data.hotels.HotelSearchParams
@@ -28,7 +29,6 @@ import com.mobiata.android.Log
 import com.mobiata.android.time.util.JodaUtils
 import com.squareup.phrase.Phrase
 import org.joda.time.LocalDate
-import rx.Observable
 import rx.Observer
 import rx.subjects.BehaviorSubject
 import rx.subjects.PublishSubject
@@ -36,22 +36,13 @@ import javax.inject.Inject
 import kotlin.properties.Delegates
 
 class HotelSearchViewModel(context: Context) : DatedSearchViewModel(context) {
-    private val paramsBuilder = HotelSearchParams.Builder(context.resources.getInteger(R.integer.calendar_max_days_hotel_stay))
+    override val paramsBuilder = HotelSearchParams.Builder(context.resources.getInteger(R.integer.calendar_max_days_hotel_stay))
 
-    val originObservable = BehaviorSubject.create<Boolean>(false)
     val userBucketedObservable = BehaviorSubject.create<Boolean>()
     val externalSearchParamsObservable = BehaviorSubject.create<Boolean>()
     val searchParamsObservable = PublishSubject.create<HotelSearchParams>()
-    // Outputs
 
-    val datesObservable = BehaviorSubject.create<Pair<LocalDate?, LocalDate?>>()
-    val locationTextObservable = PublishSubject.create<String>()
-    val searchButtonObservable = PublishSubject.create<Boolean>()
-    val errorNoOriginObservable = PublishSubject.create<Unit>()
-    val errorNoDatesObservable = PublishSubject.create<Unit>()
-    val errorMaxDatesObservable = PublishSubject.create<Unit>()
-    val enableDateObservable = PublishSubject.create<Boolean>()
-    val enableTravelerObservable = PublishSubject.create<Boolean>()
+    // Outputs
 
     var shopWithPointsViewModel: ShopWithPointsViewModel by notNullAndObservable {
         it.swpEffectiveAvailability.subscribe{
@@ -60,40 +51,29 @@ class HotelSearchViewModel(context: Context) : DatedSearchViewModel(context) {
     }
         @Inject set
 
-    val enableDateObserver = endlessObserver<Unit> {
-        enableDateObservable.onNext(paramsBuilder.hasOrigin())
-    }
-
-    val enableTravelerObserver = endlessObserver<Unit> {
-        enableTravelerObservable.onNext(paramsBuilder.hasOrigin())
-    }
+    val maxHotelStay = context.resources.getInteger(R.integer.calendar_max_days_hotel_stay)
 
     // Inputs
     var requiredSearchParamsObserver = endlessObserver<Unit> {
         searchButtonObservable.onNext(paramsBuilder.areRequiredParamsFilled())
-        originObservable.onNext(paramsBuilder.hasOrigin())
-    }
-
-    val travelersObserver = endlessObserver<HotelTravelerParams> { update ->
-        paramsBuilder.adults(update.numberOfAdults)
-        paramsBuilder.children(update.children)
+        originObservable.onNext(paramsBuilder.hasDeparture())
     }
 
     val suggestionObserver = endlessObserver<SuggestionV4> { suggestion ->
-        paramsBuilder.suggestion(suggestion)
+        paramsBuilder.departure(suggestion)
         locationTextObservable.onNext(Html.fromHtml(suggestion.regionNames.displayName).toString())
         requiredSearchParamsObserver.onNext(Unit)
     }
 
     val suggestionTextChangedObserver = endlessObserver<Unit> {
-        paramsBuilder.suggestion(null)
+        paramsBuilder.departure(null)
         requiredSearchParamsObserver.onNext(Unit)
     }
 
     val searchObserver = endlessObserver<Unit> {
         if (paramsBuilder.areRequiredParamsFilled()) {
             if (!paramsBuilder.hasValidDates()) {
-                errorMaxDatesObservable.onNext(Unit)
+                errorMaxDatesObservable.onNext(context.getString(R.string.hotel_search_range_error_TEMPLATE, maxHotelStay))
             } else {
                 val hotelSearchParams = paramsBuilder.build()
                 HotelSearchParamsUtil.saveSearchHistory(context, hotelSearchParams)
@@ -101,7 +81,7 @@ class HotelSearchViewModel(context: Context) : DatedSearchViewModel(context) {
                 searchParamsObservable.onNext(hotelSearchParams)
             }
         } else {
-            if (!paramsBuilder.hasOrigin()) {
+            if (!paramsBuilder.hasDeparture()) {
                 errorNoOriginObservable.onNext(Unit)
             } else if (!paramsBuilder.hasStartAndEndDates()) {
                 errorNoDatesObservable.onNext(Unit)
@@ -112,11 +92,11 @@ class HotelSearchViewModel(context: Context) : DatedSearchViewModel(context) {
     override fun onDatesChanged(dates: Pair<LocalDate?, LocalDate?>) {
         val (start, end) = dates
 
-        paramsBuilder.checkIn(start)
+        paramsBuilder.startDate(start)
         if (start != null && end == null) {
-            paramsBuilder.checkOut(start.plusDays(1))
+            paramsBuilder.endDate(start.plusDays(1))
         } else {
-            paramsBuilder.checkOut(end)
+            paramsBuilder.endDate(end)
         }
 
         dateTextObservable.onNext(HotelSearchViewModel.computeDateText(context, start, end))
@@ -126,14 +106,6 @@ class HotelSearchViewModel(context: Context) : DatedSearchViewModel(context) {
 
         requiredSearchParamsObserver.onNext(Unit)
         datesObservable.onNext(dates)
-    }
-
-    override fun startDate(): LocalDate? {
-        return datesObservable?.value?.first
-    }
-
-    override fun endDate(): LocalDate? {
-        return datesObservable?.value?.second
     }
 
     private fun computeTooltipText(start: LocalDate?, end: LocalDate?): Pair<String, String> {
@@ -199,9 +171,9 @@ class HotelSearchViewModel(context: Context) : DatedSearchViewModel(context) {
     }
 }
 
-data class HotelTravelerParams(val numberOfAdults: Int, val children: List<Int>)
+class HotelTravelerPickerViewModel(val context: Context) {
+    var showSeatingPreference = false
 
-class HotelTravelerPickerViewModel(val context: Context, val showSeatingPreference: Boolean) {
     private val MAX_GUESTS = 6
     private val MIN_ADULTS = 1
     private val MIN_CHILDREN = 0
@@ -211,7 +183,7 @@ class HotelTravelerPickerViewModel(val context: Context, val showSeatingPreferen
     private var childAges = arrayListOf(DEFAULT_CHILD_AGE, DEFAULT_CHILD_AGE, DEFAULT_CHILD_AGE, DEFAULT_CHILD_AGE)
 
     // Outputs
-    val travelerParamsObservable = BehaviorSubject.create(HotelTravelerParams(1, emptyList()))
+    val travelerParamsObservable = BehaviorSubject.create(TravelerParams(1, emptyList()))
     val guestsTextObservable = BehaviorSubject.create<CharSequence>()
     val adultTextObservable = BehaviorSubject.create<String>()
     val childTextObservable = BehaviorSubject.create<String>()
@@ -219,8 +191,9 @@ class HotelTravelerPickerViewModel(val context: Context, val showSeatingPreferen
     val adultMinusObservable = BehaviorSubject.create<Boolean>()
     val childPlusObservable = BehaviorSubject.create<Boolean>()
     val childMinusObservable = BehaviorSubject.create<Boolean>()
-    val infantPreferenceSeatingObservable = BehaviorSubject.create<Boolean>()
-    val isInfantInLapObservable = BehaviorSubject.create<Boolean>()
+    val infantPreferenceSeatingObservable = BehaviorSubject.create<Boolean>(false)
+    val isInfantInLapObservable = BehaviorSubject.create<Boolean>(false)
+    val tooManyInfants = BehaviorSubject.create<Boolean>(false)
 
     init {
         travelerParamsObservable.subscribe { travelers ->
@@ -241,6 +214,10 @@ class HotelTravelerPickerViewModel(val context: Context, val showSeatingPreferen
             childPlusObservable.onNext(total < MAX_GUESTS && travelers.children.size < MAX_CHILDREN)
             adultMinusObservable.onNext(travelers.numberOfAdults > MIN_ADULTS)
             childMinusObservable.onNext(travelers.children.size > MIN_CHILDREN)
+            validateInfants()
+        }
+        isInfantInLapObservable.subscribe { inLap ->
+            validateInfants()
         }
     }
 
@@ -248,7 +225,7 @@ class HotelTravelerPickerViewModel(val context: Context, val showSeatingPreferen
     val incrementAdultsObserver: Observer<Unit> = endlessObserver {
         if (adultPlusObservable.value) {
             val hotelTravelerParams = travelerParamsObservable.value
-            travelerParamsObservable.onNext(HotelTravelerParams(hotelTravelerParams.numberOfAdults + 1, hotelTravelerParams.children))
+            travelerParamsObservable.onNext(TravelerParams(hotelTravelerParams.numberOfAdults + 1, hotelTravelerParams.children))
             HotelV2Tracking().trackTravelerPickerClick("Add.Adult")
         }
     }
@@ -256,7 +233,7 @@ class HotelTravelerPickerViewModel(val context: Context, val showSeatingPreferen
     val decrementAdultsObserver: Observer<Unit> = endlessObserver {
         if (adultMinusObservable.value) {
             val hotelTravelerParams = travelerParamsObservable.value
-            travelerParamsObservable.onNext(HotelTravelerParams(hotelTravelerParams.numberOfAdults - 1, hotelTravelerParams.children))
+            travelerParamsObservable.onNext(TravelerParams(hotelTravelerParams.numberOfAdults - 1, hotelTravelerParams.children))
             HotelV2Tracking().trackTravelerPickerClick("Remove.Adult")
         }
     }
@@ -264,7 +241,7 @@ class HotelTravelerPickerViewModel(val context: Context, val showSeatingPreferen
     val incrementChildrenObserver: Observer<Unit> = endlessObserver {
         if (childPlusObservable.value) {
             val hotelTravelerParams = travelerParamsObservable.value
-            travelerParamsObservable.onNext(HotelTravelerParams(hotelTravelerParams.numberOfAdults, hotelTravelerParams.children.plus(10)))
+            travelerParamsObservable.onNext(TravelerParams(hotelTravelerParams.numberOfAdults, hotelTravelerParams.children.plus(10)))
             HotelV2Tracking().trackTravelerPickerClick("Add.Child")
         }
     }
@@ -272,7 +249,7 @@ class HotelTravelerPickerViewModel(val context: Context, val showSeatingPreferen
     val decrementChildrenObserver: Observer<Unit> = endlessObserver {
         if (childMinusObservable.value) {
             val hotelTravelerParams = travelerParamsObservable.value
-            travelerParamsObservable.onNext(HotelTravelerParams(hotelTravelerParams.numberOfAdults, hotelTravelerParams.children.subList(0, hotelTravelerParams.children.size - 1)))
+            travelerParamsObservable.onNext(TravelerParams(hotelTravelerParams.numberOfAdults, hotelTravelerParams.children.subList(0, hotelTravelerParams.children.size - 1)))
             HotelV2Tracking().trackTravelerPickerClick("Remove.Child")
         }
     }
@@ -281,11 +258,14 @@ class HotelTravelerPickerViewModel(val context: Context, val showSeatingPreferen
         val (which, age) = p
         childAges[which] = age
         infantPreferenceSeatingObservable.onNext(childAges.contains(0))
-
         val hotelTravelerParams = travelerParamsObservable.value
-        travelerParamsObservable.onNext(HotelTravelerParams(hotelTravelerParams.numberOfAdults, (0..hotelTravelerParams.children.size - 1).map { childAges[it] }))
+        travelerParamsObservable.onNext(TravelerParams(hotelTravelerParams.numberOfAdults, (0..hotelTravelerParams.children.size - 1).map { childAges[it] }))
     }
 
+    private fun validateInfants() {
+        val hotelTravelerParams = travelerParamsObservable.value
+        tooManyInfants.onNext(isInfantInLapObservable.value && childAges.count { it == 0 } > hotelTravelerParams.numberOfAdults)
+    }
 }
 
 class HotelErrorViewModel(private val context: Context) {
@@ -467,7 +447,7 @@ class HotelErrorViewModel(private val context: Context) {
             subTitleObservable.onNext(Phrase.from(context, R.string.calendar_instructions_date_range_with_guests_TEMPLATE)
                     .put("startdate", DateUtils.localDateToMMMd(params.checkIn))
                     .put("enddate", DateUtils.localDateToMMMd(params.checkOut))
-                    .put("guests", StrUtils.formatGuestString(context, params.guests()))
+                    .put("guests", StrUtils.formatGuestString(context, params.guests))
                     .format()
                     .toString())
         })

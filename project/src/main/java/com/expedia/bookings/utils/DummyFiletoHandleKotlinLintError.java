@@ -186,7 +186,6 @@ DummyFiletoHandleKotlinLintError {
 		R.drawable.recent_searches,
 		R.layout.package_activity,
 		R.layout.package_presenter,
-		R.layout.widget_package_search_params,
 		R.string.fees_due_at_hotel,
 		R.layout.widget_package_hotel_results,
 		R.layout.package_hotel_presenter,
@@ -480,6 +479,7 @@ DummyFiletoHandleKotlinLintError {
 		R.layout.bundle_slide_widget,
 		R.string.flight_search_card_title,
 		R.string.via_scratchpad_label,
-		R.layout.feeds_flight_search_card
+		R.layout.feeds_flight_search_card,
+		R.layout.widget_package_search
 	};
 }

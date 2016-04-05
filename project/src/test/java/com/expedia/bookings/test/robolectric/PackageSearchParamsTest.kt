@@ -12,9 +12,10 @@ import org.junit.runner.RunWith
 import org.robolectric.Robolectric
 import rx.observers.TestSubscriber
 import kotlin.properties.Delegates
+import kotlin.test.assertEquals
 
 @RunWith(RobolectricRunner::class)
-class PackageSearchTest {
+class PackageSearchParamsTest {
     var vm: PackageSearchViewModel by Delegates.notNull()
     private var LOTS_MORE: Long = 100
     var activity : Activity by Delegates.notNull()
@@ -26,24 +27,66 @@ class PackageSearchTest {
     }
 
     @Test
-    fun selectDatesAndSearch() {
+    fun testNumberOfGuests() {
+        val params = PackageSearchParams.Builder(activity.resources.getInteger(R.integer.calendar_max_days_hotel_stay))
+                .departure(getDummySuggestion("123"))
+                .arrival(getDummySuggestion("456"))
+                .adults(1)
+                .children(listOf(10,2))
+                .startDate(LocalDate.now())
+                .endDate(LocalDate.now().plusDays(1))
+                .build() as PackageSearchParams
+
+        assertEquals(3, params.guests)
+    }
+
+    @Test
+    fun testGuestString() {
+        val params = PackageSearchParams.Builder(activity.resources.getInteger(R.integer.calendar_max_days_hotel_stay))
+                .departure(getDummySuggestion("123"))
+                .arrival(getDummySuggestion("456"))
+                .adults(1)
+                .children(listOf(10,2))
+                .startDate(LocalDate.now())
+                .endDate(LocalDate.now().plusDays(1))
+                .build() as PackageSearchParams
+
+        assertEquals("1,10,2", params.guestString)
+    }
+
+    @Test
+    fun testChildrenString() {
+        val params = PackageSearchParams.Builder(activity.resources.getInteger(R.integer.calendar_max_days_hotel_stay))
+                .departure(getDummySuggestion("123"))
+                .arrival(getDummySuggestion("456"))
+                .adults(1)
+                .children(listOf(10,2))
+                .startDate(LocalDate.now())
+                .endDate(LocalDate.now().plusDays(1))
+                .build() as PackageSearchParams
+
+        assertEquals("10,2", params.childrenString)
+    }
+
+    @Test
+    fun testDateAndOriginValidation() {
         val searchParamsSubscriber = TestSubscriber<PackageSearchParams>()
-        val noOriginSubscriber = TestSubscriber<Boolean>()
+        val noOriginSubscriber = TestSubscriber<Unit>()
         val noDatesSubscriber = TestSubscriber<Unit>()
         val expectedSearchParams = arrayListOf<PackageSearchParams>()
-        val expectedOrigins = arrayListOf<Boolean>()
+        val expectedOrigins = arrayListOf<Unit>()
         val expectedDates = arrayListOf<Unit>()
-        val origin = getDummySuggestion()
-        val destination = getDummySuggestion()
+        val origin = getDummySuggestion("123")
+        val destination = getDummySuggestion("456")
 
         vm.searchParamsObservable.subscribe(searchParamsSubscriber)
         vm.errorNoDatesObservable.subscribe(noDatesSubscriber)
         vm.errorNoOriginObservable.subscribe(noOriginSubscriber)
 
         // Selecting a location suggestion for search, as it is a necessary parameter for search
-        vm.originObserver.onNext(origin)
+        vm.departureObserver.onNext(origin)
         // Selecting a location suggestion for search, as it is a necessary parameter for search
-        vm.destinationObserver.onNext(destination)
+        vm.arrivalObserver.onNext(destination)
 
         // When neither start date nor end date are selected, search should fire a no notes error
         vm.datesObserver.onNext(Pair(null, null))
@@ -53,31 +96,32 @@ class PackageSearchTest {
         // Selecting only start date should search with end date as the next day
         vm.datesObserver.onNext(Pair(LocalDate.now(), null))
         vm.searchObserver.onNext(Unit)
-        expectedSearchParams.add(PackageSearchParams.Builder(activity.resources.getInteger(R.integer.calendar_max_days_hotel_stay)).origin(origin).destination(destination).checkIn(LocalDate.now()).checkOut(LocalDate.now().plusDays(1)).build())
+        expectedSearchParams.add(PackageSearchParams.Builder(activity.resources.getInteger(R.integer.calendar_max_days_hotel_stay)).departure(origin).arrival(destination).startDate(LocalDate.now()).endDate(LocalDate.now().plusDays(1)).build() as PackageSearchParams)
 
         // Select both start date and end date and search
         vm.datesObserver.onNext(Pair(LocalDate.now(), LocalDate.now().plusDays(3)))
         vm.searchObserver.onNext(Unit)
-        expectedSearchParams.add(PackageSearchParams.Builder(activity.resources.getInteger(R.integer.calendar_max_days_hotel_stay)).origin(origin).destination(destination).checkIn(LocalDate.now()).checkOut(LocalDate.now().plusDays(3)).build())
+        expectedSearchParams.add(PackageSearchParams.Builder(activity.resources.getInteger(R.integer.calendar_max_days_hotel_stay)).departure(origin).arrival(destination).startDate(LocalDate.now()).endDate(LocalDate.now().plusDays(3)).build() as PackageSearchParams)
 
         // When no origin or destination, search should fire no origin error
         vm.suggestionTextChangedObserver.onNext(true)
-        expectedOrigins.add(false)
+        expectedOrigins.add(Unit)
         vm.searchObserver.onNext(Unit)
-        vm.originObserver.onNext(origin)
+        vm.departureObserver.onNext(origin)
         vm.suggestionTextChangedObserver.onNext(false)
-        expectedOrigins.add(true)
+        expectedOrigins.add(Unit)
         vm.searchObserver.onNext(Unit)
 
         searchParamsSubscriber.requestMore(LOTS_MORE)
-        searchParamsSubscriber.assertReceivedOnNext(expectedSearchParams)
+        assertEquals(searchParamsSubscriber.onNextEvents[0].checkOut, expectedSearchParams[0].checkOut)
+        assertEquals(searchParamsSubscriber.onNextEvents[1].checkOut, expectedSearchParams[1].checkOut)
         noDatesSubscriber.requestMore(LOTS_MORE)
         noDatesSubscriber.assertReceivedOnNext(expectedDates)
         noOriginSubscriber.requestMore(LOTS_MORE)
         noOriginSubscriber.assertReceivedOnNext(expectedOrigins)
     }
 
-    private fun getDummySuggestion(): SuggestionV4 {
+    private fun getDummySuggestion(code: String): SuggestionV4 {
         val suggestion = SuggestionV4()
         suggestion.gaiaId = ""
         suggestion.regionNames = SuggestionV4.RegionNames()
@@ -87,6 +131,7 @@ class PackageSearchTest {
         val hierarchyInfo = SuggestionV4.HierarchyInfo()
         val airport =  SuggestionV4.Airport();
         airport.airportCode = "";
+        airport.multicity = code;
         hierarchyInfo.airport = airport
         suggestion.hierarchyInfo = hierarchyInfo;
         return suggestion

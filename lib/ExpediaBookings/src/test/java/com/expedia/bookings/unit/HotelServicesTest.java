@@ -103,8 +103,8 @@ public class HotelServicesTest {
 
 		SuggestionV4 suggestion = new SuggestionV4();
 		suggestion.coordinates = new SuggestionV4.LatLng();
-		HotelSearchParams params = new HotelSearchParams.Builder(0).suggestion(suggestion)
-			.checkIn(LocalDate.now().plusDays(5)).checkOut(LocalDate.now().plusDays(15)).adults(2)
+		HotelSearchParams params = (HotelSearchParams) new HotelSearchParams.Builder(0).departure(suggestion)
+			.startDate(LocalDate.now().plusDays(5)).endDate(LocalDate.now().plusDays(15)).adults(2)
 			.children(new ArrayList<Integer>()).build();
 		service.info(params, "happy", observer);
 		observer.awaitTerminalEvent(10, TimeUnit.SECONDS);
@@ -128,8 +128,8 @@ public class HotelServicesTest {
 
 		SuggestionV4 suggestion = new SuggestionV4();
 		suggestion.coordinates = new SuggestionV4.LatLng();
-		HotelSearchParams params = new HotelSearchParams.Builder(0).suggestion(suggestion)
-			.checkIn(LocalDate.now().plusDays(5)).checkOut(LocalDate.now().plusDays(15)).adults(2)
+		HotelSearchParams params = (HotelSearchParams) new HotelSearchParams.Builder(0).departure(suggestion)
+			.startDate(LocalDate.now().plusDays(5)).endDate(LocalDate.now().plusDays(15)).adults(2)
 			.children(new ArrayList<Integer>()).build();
 		service.offers(params, "happypath", observer);
 		observer.awaitTerminalEvent(10, TimeUnit.SECONDS);

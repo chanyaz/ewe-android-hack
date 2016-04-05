@@ -26,6 +26,7 @@ import android.widget.ToggleButton
 import com.expedia.account.graphics.ArrowXDrawable
 import com.expedia.bookings.R
 import com.expedia.bookings.activity.ExpediaBookingApp
+import com.expedia.bookings.data.TravelerParams
 import com.expedia.bookings.location.CurrentLocationObservable
 import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.utils.AnimUtils
@@ -44,15 +45,19 @@ import com.expedia.util.endlessObserver
 import com.expedia.util.notNullAndObservable
 import com.expedia.util.subscribeOnClick
 import com.expedia.util.subscribeToggleButton
+import com.expedia.vm.DatedSearchViewModel
 import com.expedia.vm.HotelSearchViewModel
 import com.expedia.vm.HotelSuggestionAdapterViewModel
-import com.expedia.vm.HotelTravelerParams
 import com.expedia.vm.HotelTravelerPickerViewModel
 import com.expedia.vm.RecentSearchesAdapterViewModel
 import com.mobiata.android.time.util.JodaUtils
 import org.joda.time.LocalDate
 
 class HotelSearchPresenterV1(context: Context, attrs: AttributeSet) : BaseHotelSearchPresenter(context, attrs) {
+    override fun getSearchViewModel(): DatedSearchViewModel {
+        return searchViewModel
+    }
+
     val searchLocationTextView: TextView by bindView(R.id.hotel_location)
     val searchLocationEditText: EditText by bindView(R.id.hotel_location_autocomplete)
     val suggestionRecyclerView: RecyclerView by bindView(R.id.drop_down_list)
@@ -109,8 +114,8 @@ class HotelSearchPresenterV1(context: Context, attrs: AttributeSet) : BaseHotelS
         }
     }
 
-    override fun selectTravelers(hotelTravelerParams: HotelTravelerParams) {
-        traveler.viewmodel.travelerParamsObservable.onNext(hotelTravelerParams)
+    override fun selectTravelers(params: TravelerParams) {
+        traveler.viewmodel.travelerParamsObservable.onNext(params)
         selectTraveler.isChecked = true
     }
 
@@ -165,7 +170,7 @@ class HotelSearchPresenterV1(context: Context, attrs: AttributeSet) : BaseHotelS
         })
     }
 
-    override var searchViewModel: HotelSearchViewModel by notNullAndObservable { vm ->
+    var searchViewModel: HotelSearchViewModel by notNullAndObservable { vm ->
         suggestionRecyclerView.layoutManager = LinearLayoutManager(context)
         suggestionRecyclerView.addItemDecoration(RecyclerDividerDecoration(getContext(), 0, 0, 0, 0, 0, TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 25f, resources.displayMetrics).toInt(), false))
         val maxDate = LocalDate.now().plusDays(getResources().getInteger(R.integer.calendar_max_selectable_date_range))
@@ -174,7 +179,7 @@ class HotelSearchPresenterV1(context: Context, attrs: AttributeSet) : BaseHotelS
         recentSearches.recentSearchesAdapterViewModel.recentSearchSelectedSubject.subscribe {
             searchViewModel.searchParamsObservable.onNext(it)
             vm.suggestionObserver.onNext(it.suggestion)
-            traveler.viewmodel.travelerParamsObservable.onNext(HotelTravelerParams(it.adults, it.children))
+            traveler.viewmodel.travelerParamsObservable.onNext(TravelerParams(it.adults, it.children))
             for (index in 0..it.children.size -1) {
                 val spinner = traveler.childSpinners[index]
                 spinner.setSelection(it.children[index])
@@ -316,8 +321,8 @@ class HotelSearchPresenterV1(context: Context, attrs: AttributeSet) : BaseHotelS
                 AnimUtils.doTheHarlemShake(selectDate)
             }
         }
-        vm.errorMaxDatesObservable.subscribe {
-            maxHotelStayDialog.show()
+        vm.errorMaxDatesObservable.subscribe { message ->
+            showErrorDialog(message)
         }
         vm.searchParamsObservable.subscribe {
             calendar.hideToolTip()
@@ -335,7 +340,7 @@ class HotelSearchPresenterV1(context: Context, attrs: AttributeSet) : BaseHotelS
 
     init {
         View.inflate(context, R.layout.widget_hotel_search_params, this)
-        traveler.viewmodel = HotelTravelerPickerViewModel(getContext(), false)
+        traveler.viewmodel = HotelTravelerPickerViewModel(getContext())
         recentSearches.recentSearchesAdapterViewModel = RecentSearchesAdapterViewModel(getContext())
         recentSearches.recentSearchesAdapterViewModel.recentSearchesObservable.subscribe { searchList ->
             if(searchList.isEmpty()) {

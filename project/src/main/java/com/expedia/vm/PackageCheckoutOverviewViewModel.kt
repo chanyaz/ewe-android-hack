@@ -21,7 +21,8 @@ class PackageCheckoutOverviewViewModel(context: Context) : BaseCheckoutOverviewV
             country.onNext(hotel.hotelStateProvince ?: Db.getPackageParams().destination.hierarchyInfo?.country?.name)
             checkIn.onNext(hotel.checkInDate)
             checkOut.onNext(hotel.checkOutDate)
-            guests.onNext(Db.getPackageParams().guests())
+            guests.onNext(Db.getPackageParams().guests
+            )
             url.onNext(links)
         }
     }

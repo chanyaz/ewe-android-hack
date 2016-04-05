@@ -17,7 +17,6 @@ import kotlin.test.assertNotNull
 import kotlin.test.assertNull
 import kotlin.test.assertTrue
 
-
 class HotelShopWithPointsServicesTest {
     var serviceRule = ServicesRule(HotelServices::class.java, "../mocked/templates")
             @Rule get
@@ -30,7 +29,7 @@ class HotelShopWithPointsServicesTest {
         suggestion.gaiaId = "happy"
         suggestion.coordinates = SuggestionV4.LatLng()
 
-        val hotelSearchParams = HotelSearchParams.Builder(0).suggestion(suggestion).checkIn(LocalDate.now()).checkOut(LocalDate.now().plusDays(1)).build()
+        val hotelSearchParams = HotelSearchParams.Builder(0).departure(suggestion).startDate(LocalDate.now()).endDate(LocalDate.now().plusDays(1)).build() as HotelSearchParams
 
         serviceRule.services!!.regionSearch(hotelSearchParams, null).subscribe(testObserver)
 
@@ -51,7 +50,8 @@ class HotelShopWithPointsServicesTest {
         suggestion.gaiaId = "happy_with_loyalty_points"
         suggestion.coordinates = SuggestionV4.LatLng()
 
-        val hotelSearchParams = HotelSearchParams.Builder(0).suggestion(suggestion).checkIn(LocalDate.now()).checkOut(LocalDate.now().plusDays(1)).shopWithPoints(true).build()
+        val builder = HotelSearchParams.Builder(0).departure(suggestion).startDate(LocalDate.now()).endDate(LocalDate.now().plusDays(1)) as HotelSearchParams.Builder
+        val hotelSearchParams = builder.shopWithPoints(true).build()
 
         serviceRule.services!!.regionSearch(hotelSearchParams, null).subscribe(testObserver)
 
@@ -78,7 +78,7 @@ class HotelShopWithPointsServicesTest {
         suggestion.gaiaId = "happy_with_loyalty_price"
         suggestion.coordinates = SuggestionV4.LatLng()
 
-        val hotelSearchParams = HotelSearchParams.Builder(0).suggestion(suggestion).checkIn(LocalDate.now()).checkOut(LocalDate.now().plusDays(1)).build()
+        val hotelSearchParams = HotelSearchParams.Builder(0).departure(suggestion).startDate(LocalDate.now()).endDate(LocalDate.now().plusDays(1)).build() as HotelSearchParams
 
         serviceRule.services!!.regionSearch(hotelSearchParams, null).subscribe(testObserver)
 
@@ -104,7 +104,7 @@ class HotelShopWithPointsServicesTest {
         suggestion.gaiaId = "happypath"
         suggestion.coordinates = SuggestionV4.LatLng()
 
-        val params = HotelSearchParams.Builder(0).suggestion(suggestion).checkIn(LocalDate.now().plusDays(5)).checkOut(LocalDate.now().plusDays(15)).adults(2).children(ArrayList<Int>()).build()
+        val params = HotelSearchParams.Builder(0).departure(suggestion).startDate(LocalDate.now().plusDays(5)).endDate(LocalDate.now().plusDays(15)).adults(2).children(ArrayList<Int>()).build() as HotelSearchParams
         serviceRule.services!!.offers(params, "happypath", testObserver)
         testObserver.awaitTerminalEvent(10, TimeUnit.SECONDS)
         testObserver.assertCompleted()
@@ -123,7 +123,7 @@ class HotelShopWithPointsServicesTest {
         suggestion.gaiaId = "happypath_with_loyalty_points"
         suggestion.coordinates = SuggestionV4.LatLng()
 
-        val params = HotelSearchParams.Builder(0).suggestion(suggestion).checkIn(LocalDate.now().plusDays(5)).checkOut(LocalDate.now().plusDays(15)).adults(2).children(ArrayList<Int>()).build()
+        val params = HotelSearchParams.Builder(0).departure(suggestion).startDate(LocalDate.now().plusDays(5)).endDate(LocalDate.now().plusDays(15)).adults(2).children(ArrayList<Int>()).build() as HotelSearchParams
         serviceRule.services!!.offers(params, "happypath_with_loyalty_points", testObserver)
         testObserver.awaitTerminalEvent(10, TimeUnit.SECONDS)
         testObserver.assertCompleted()
@@ -148,7 +148,7 @@ class HotelShopWithPointsServicesTest {
         suggestion.gaiaId = "happypath_with_loyalty_price"
         suggestion.coordinates = SuggestionV4.LatLng()
 
-        val params = HotelSearchParams.Builder(0).suggestion(suggestion).checkIn(LocalDate.now().plusDays(5)).checkOut(LocalDate.now().plusDays(15)).adults(2).children(ArrayList<Int>()).build()
+        val params = HotelSearchParams.Builder(0).departure(suggestion).startDate(LocalDate.now().plusDays(5)).endDate(LocalDate.now().plusDays(15)).adults(2).children(ArrayList<Int>()).build() as HotelSearchParams
         serviceRule.services!!.offers(params, "happypath_with_loyalty_price", testObserver)
         testObserver.awaitTerminalEvent(10, TimeUnit.SECONDS)
         testObserver.assertCompleted()

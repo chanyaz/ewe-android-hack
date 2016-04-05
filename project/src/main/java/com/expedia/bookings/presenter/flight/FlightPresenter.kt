@@ -64,19 +64,20 @@ class FlightPresenter(context: Context, attrs: AttributeSet) : Presenter(context
         vm.flightParamsObservable.subscribe((flightOverviewPresenter.bundleOverviewHeader.checkoutOverviewHeaderToolbar.viewmodel as FlightCheckoutOverviewViewModel).params)
         vm.flightParamsObservable.subscribe { params ->
             outBoundPresenter.toolbarViewModel.city.onNext(params.departureAirport.regionNames.shortName)
-            outBoundPresenter.toolbarViewModel.travelers.onNext(params.guests())
-            outBoundPresenter.toolbarViewModel.date.onNext(params?.departureDate)
+            outBoundPresenter.toolbarViewModel.travelers.onNext(params.guests)
+            outBoundPresenter.toolbarViewModel.date.onNext(searchParams?.departureDate)
+
             inboundPresenter.toolbarViewModel.city.onNext(params.arrivalAirport?.regionNames?.shortName)
-            inboundPresenter.toolbarViewModel.travelers.onNext(params.guests())
-            inboundPresenter.toolbarViewModel.date.onNext(params?.returnDate)
+            inboundPresenter.toolbarViewModel.travelers.onNext(params.guests)
+            inboundPresenter.toolbarViewModel.date.onNext(searchParams?.returnDate)
 
             flightOverviewPresenter.flightSummary.outboundFlightWidget.viewModel.suggestion.onNext(params.departureAirport)
-            flightOverviewPresenter.flightSummary.outboundFlightWidget.viewModel.date.onNext(params?.departureDate)
-            flightOverviewPresenter.flightSummary.outboundFlightWidget.viewModel.guests.onNext(params.guests())
+            flightOverviewPresenter.flightSummary.outboundFlightWidget.viewModel.date.onNext(searchParams?.departureDate)
+            flightOverviewPresenter.flightSummary.outboundFlightWidget.viewModel.guests.onNext(params.guests)
 
             flightOverviewPresenter.flightSummary.inboundFlightWidget.viewModel.suggestion.onNext(params.arrivalAirport)
-            flightOverviewPresenter.flightSummary.inboundFlightWidget.viewModel.date.onNext(params?.returnDate)
-            flightOverviewPresenter.flightSummary.inboundFlightWidget.viewModel.guests.onNext(params.guests())
+            flightOverviewPresenter.flightSummary.inboundFlightWidget.viewModel.date.onNext(searchParams?.returnDate)
+            flightOverviewPresenter.flightSummary.inboundFlightWidget.viewModel.guests.onNext(params.guests)
 
             flightOverviewPresenter.flightSummary.outboundFlightWidget.viewModel.hotelLoadingStateObservable.onNext(PackageSearchType.OUTBOUND_FLIGHT)
             flightOverviewPresenter.flightSummary.inboundFlightWidget.viewModel.hotelLoadingStateObservable.onNext(PackageSearchType.INBOUND_FLIGHT)
@@ -108,10 +109,10 @@ class FlightPresenter(context: Context, attrs: AttributeSet) : Presenter(context
 
         val departure = getFakeSuggestion("SFO")
         val arrival = getFakeSuggestion("SEA")
-        searchParamsBuilder.departureAirport(departure)
-        searchParamsBuilder.arrivalAirport(arrival)
-        searchParamsBuilder.departureDate(LocalDate.now().plusDays(7))
-        searchParamsBuilder.returnDate(LocalDate.now().plusDays(14))
+        searchParamsBuilder.departure(departure)
+        searchParamsBuilder.arrival(arrival)
+        searchParamsBuilder.startDate(LocalDate.now().plusDays(7))
+        searchParamsBuilder.endDate(LocalDate.now().plusDays(14))
         searchParamsBuilder.adults(1)
         searchParams = searchParamsBuilder.build()
         searchViewModel.flightParamsObservable.onNext(searchParams)

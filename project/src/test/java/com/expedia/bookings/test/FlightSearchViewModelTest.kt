@@ -94,12 +94,12 @@ class FlightSearchViewModelTest {
 
     private fun doFlightSearch() {
         val params = FlightSearchParams.Builder(26)
-                .departureAirport(getDummySuggestion())
-                .arrivalAirport(getDummySuggestion())
-                .departureDate(LocalDate.now())
-                .returnDate(LocalDate.now().plusDays(1))
+                .departure(getDummySuggestion())
+                .arrival(getDummySuggestion())
+                .startDate(LocalDate.now())
+                .endDate(LocalDate.now().plusDays(1))
                 .adults(1)
-                .build()
+                .build() as FlightSearchParams
         vm.flightParamsObservable.onNext(params)
     }
 
