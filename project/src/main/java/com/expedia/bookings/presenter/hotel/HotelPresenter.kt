@@ -60,9 +60,7 @@ import com.google.android.gms.maps.MapView
 import com.mobiata.android.Log
 import org.joda.time.DateTime
 import rx.Observer
-import rx.android.schedulers.AndroidSchedulers
 import rx.subjects.PublishSubject
-import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 import kotlin.properties.Delegates
 
@@ -127,7 +125,7 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
         }
         presenter.hotelSelectedSubject.subscribe(hotelSelectedObserver)
         presenter.viewmodel.errorObservable.subscribe(errorPresenter.viewmodel.apiErrorObserver)
-        presenter.viewmodel.errorObservable.delay(DELAY_INVOKING_ERROR_OBSERVABLES_DOING_SHOW, TimeUnit.MILLISECONDS).observeOn(AndroidSchedulers.mainThread()).subscribe { show(errorPresenter) }
+        presenter.viewmodel.errorObservable.subscribe { show(errorPresenter) }
         presenter.viewmodel.showHotelSearchViewObservable.subscribe { show(SearchTransition(), Presenter.FLAG_CLEAR_TOP) }
         presenter.viewmodel.hotelResultsObservable.subscribe({ hotelSearchResponse ->
             HotelV2Tracking().trackHotelsV2Search(hotelSearchParams, hotelSearchResponse)
@@ -182,7 +180,7 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
         })
 
         presenter.hotelCheckoutViewModel.errorObservable.subscribe(errorPresenter.viewmodel.apiErrorObserver)
-        presenter.hotelCheckoutViewModel.errorObservable.delay(DELAY_INVOKING_ERROR_OBSERVABLES_DOING_SHOW, TimeUnit.MILLISECONDS).observeOn(AndroidSchedulers.mainThread()).subscribe {
+        presenter.hotelCheckoutViewModel.errorObservable.subscribe {
             checkoutDialog.dismiss()
             show(errorPresenter)
         }
@@ -205,7 +203,7 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
         }
 
         presenter.hotelCheckoutWidget.createTripViewmodel.errorObservable.subscribe(errorPresenter.viewmodel.apiErrorObserver)
-        presenter.hotelCheckoutWidget.createTripViewmodel.errorObservable.delay(2, TimeUnit.SECONDS).observeOn(AndroidSchedulers.mainThread()).subscribe { show(errorPresenter) }
+        presenter.hotelCheckoutWidget.createTripViewmodel.errorObservable.subscribe { show(errorPresenter) }
         presenter.hotelCheckoutWidget.createTripViewmodel.noResponseObservable.subscribe {
             val retryFun = fun() {
                 presenter.hotelCheckoutWidget.doCreateTrip()
@@ -224,9 +222,7 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
         })
         presenter.setSearchParams(hotelSearchParams)
         presenter.hotelCheckoutWidget.setSearchParams(hotelSearchParams)
-        presenter.hotelCheckoutWidget.backPressedAfterUserWithEffectiveSwPAvailableSignedOut
-                .delay(DELAY_INVOKING_ERROR_OBSERVABLES_DOING_SHOW, TimeUnit.MILLISECONDS).observeOn(AndroidSchedulers.mainThread())
-                .subscribe(goToSearchScreen)
+        presenter.hotelCheckoutWidget.backPressedAfterUserWithEffectiveSwPAvailableSignedOut.subscribe(goToSearchScreen)
         presenter
     }
 
@@ -244,7 +240,6 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
     val geoCodeSearchModel = GeocodeSearchModel(context)
     private val checkoutDialog = ProgressDialog(context)
     var viewModel: HotelPresenterViewModel by Delegates.notNull()
-    private val DELAY_INVOKING_ERROR_OBSERVABLES_DOING_SHOW = 100L
     init {
         Ui.getApplication(getContext()).hotelComponent().inject(this)
 
@@ -329,29 +324,16 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
         addTransition(detailsToError)
         addTransition(checkoutToSearch)
 
-        //NOTE
-        //Reason for delay(XYZ, TimeUnit.ABC) to various errorObservables below:
-        //
-        //When "back" is triggered from Hotel Error Presenter, it is handled by HotelActivity, which asks the child currently on the stack to handle it.
-        //That child happens to be Hotel Error Presenter. Handling "back" ends up into one of the errorObservable subscriptions which invariably do `show (xyzPresenter, Presenter.FLAG_CLEAR_TOP)`
-        //This `show (xyzPresenter, Presenter.FLAG_CLEAR_TOP)` modifies the backstack.
-        //When the Presenter.back() resumes (with a return value of true from HotelErrorPresenter, meaning it has handled the "back"), it simply pushes the popped child.
-        //A few milliseconds later (depending on delay(XYZ, TimeUnit.ABC)), `show (xyzPresenter, Presenter.FLAG_CLEAR_TOP)` triggers fulfilling our intent to show the right child with appropriate transition.
-
-        //Note that HotelErrorPresenter.back() returns true, to ensure that Presenter.back() knows that it has handled the back, otherwise it would try to
-        //`show` the previous state on the stack by animating from the current (popped) state to the previous state, which is not required at all as our intent is to
-        //`show (xyzPresenter, Presenter.FLAG_CLEAR_TOP)` which is being done in various errorObservable subscriptions
-
         errorPresenter.hotelDetailViewModel = hotelDetailViewModel
         errorPresenter.viewmodel = HotelErrorViewModel(context)
-        errorPresenter.viewmodel.searchErrorObservable.delay(DELAY_INVOKING_ERROR_OBSERVABLES_DOING_SHOW, TimeUnit.MILLISECONDS).observeOn(AndroidSchedulers.mainThread()).subscribe {
+        errorPresenter.viewmodel.searchErrorObservable.subscribe {
             show(SearchTransition(), Presenter.FLAG_CLEAR_TOP)
         }
-        errorPresenter.viewmodel.defaultErrorObservable.delay(DELAY_INVOKING_ERROR_OBSERVABLES_DOING_SHOW, TimeUnit.MILLISECONDS).observeOn(AndroidSchedulers.mainThread()).subscribe {
+        errorPresenter.viewmodel.defaultErrorObservable.subscribe {
             show(SearchTransition(), Presenter.FLAG_CLEAR_TOP)
         }
 
-        errorPresenter.viewmodel.checkoutCardErrorObservable.delay(DELAY_INVOKING_ERROR_OBSERVABLES_DOING_SHOW, TimeUnit.MILLISECONDS).observeOn(AndroidSchedulers.mainThread()).subscribe {
+        errorPresenter.viewmodel.checkoutCardErrorObservable.subscribe {
             show(checkoutPresenter, Presenter.FLAG_CLEAR_TOP)
             checkoutPresenter.hotelCheckoutWidget.slideWidget.resetSlider()
             checkoutPresenter.hotelCheckoutWidget.paymentInfoCardView.cardInfoContainer.performClick()
@@ -362,35 +344,35 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
             NavUtils.goToItin(context)
         }
 
-        errorPresenter.viewmodel.soldOutObservable.delay(DELAY_INVOKING_ERROR_OBSERVABLES_DOING_SHOW, TimeUnit.MILLISECONDS).observeOn(AndroidSchedulers.mainThread()).subscribe {
+        errorPresenter.viewmodel.soldOutObservable.subscribe {
             show(detailPresenter, Presenter.FLAG_CLEAR_TOP)
         }
 
         errorPresenter.viewmodel.checkoutPaymentFailedObservable.subscribe(errorPresenter.viewmodel.checkoutCardErrorObservable)
 
-        errorPresenter.viewmodel.sessionTimeOutObservable.delay(DELAY_INVOKING_ERROR_OBSERVABLES_DOING_SHOW, TimeUnit.MILLISECONDS).observeOn(AndroidSchedulers.mainThread()).subscribe {
+        errorPresenter.viewmodel.sessionTimeOutObservable.subscribe {
             show(SearchTransition(), Presenter.FLAG_CLEAR_TOP)
         }
 
-        errorPresenter.viewmodel.checkoutTravellerErrorObservable.delay(DELAY_INVOKING_ERROR_OBSERVABLES_DOING_SHOW, TimeUnit.MILLISECONDS).observeOn(AndroidSchedulers.mainThread()).subscribe {
+        errorPresenter.viewmodel.checkoutTravellerErrorObservable.subscribe {
             show(checkoutPresenter, Presenter.FLAG_CLEAR_TOP)
             checkoutPresenter.hotelCheckoutWidget.slideWidget.resetSlider()
             checkoutPresenter.hotelCheckoutWidget.mainContactInfoCardView.setExpanded(true, true)
             checkoutPresenter.show(checkoutPresenter.hotelCheckoutWidget, Presenter.FLAG_CLEAR_TOP)
         }
 
-        errorPresenter.viewmodel.checkoutUnknownErrorObservable.delay(DELAY_INVOKING_ERROR_OBSERVABLES_DOING_SHOW, TimeUnit.MILLISECONDS).observeOn(AndroidSchedulers.mainThread()).subscribe {
+        errorPresenter.viewmodel.checkoutUnknownErrorObservable.subscribe {
             show(checkoutPresenter, Presenter.FLAG_CLEAR_TOP)
             checkoutPresenter.hotelCheckoutWidget.slideWidget.resetSlider()
             checkoutPresenter.show(checkoutPresenter.hotelCheckoutWidget, Presenter.FLAG_CLEAR_TOP)
         }
 
-        errorPresenter.viewmodel.productKeyExpiryObservable.delay(DELAY_INVOKING_ERROR_OBSERVABLES_DOING_SHOW, TimeUnit.MILLISECONDS).observeOn(AndroidSchedulers.mainThread()).subscribe {
+        errorPresenter.viewmodel.productKeyExpiryObservable.subscribe {
             show(SearchTransition(), Presenter.FLAG_CLEAR_TOP)
         }
 
         geoCodeSearchModel.errorObservable.subscribe(errorPresenter.viewmodel.apiErrorObserver)
-        geoCodeSearchModel.errorObservable.delay(DELAY_INVOKING_ERROR_OBSERVABLES_DOING_SHOW, TimeUnit.MILLISECONDS).observeOn(AndroidSchedulers.mainThread()).subscribe { show(errorPresenter) }
+        geoCodeSearchModel.errorObservable.subscribe { show(errorPresenter) }
 
         loadingOverlay.setBackground(R.color.hotels_primary_color)
     }

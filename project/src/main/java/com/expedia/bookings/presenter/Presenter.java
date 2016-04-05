@@ -11,6 +11,7 @@ import android.animation.ValueAnimator.AnimatorUpdateListener;
 import android.content.Context;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
+import android.util.Pair;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.Interpolator;
 
@@ -73,42 +74,75 @@ public class Presenter extends FrameLayout {
 		super.onDetachedFromWindow();
 	}
 
+	boolean isHandlingBack = false;
+	/*
+	If a show(newState) command is requested while:
+		1. Presenter is handling back() AND
+		2. will eventually return true marking that back has been handled
+	the backstack will go inconsistent because
+		A. the UX will be displaying 'newState' whereas
+		B. the backstack will be having 'currentChild' [see back(int flags) below] at the top of the stack.
+	What should happen in the case 1) and 2) are True and a show() command is requested, is to delay the show() command
+	till back() has been handled and post handling back(), the show() request should be honored.
+	At one time, clients were handling it [see PR 3109 for example], by using delays [see explanation in PR #3024] which is not correct,
+	as this is something which should be handled by Presenter level itself.
+	*/
+	//Show command Pair<New State To Be Shown, Flags>
+	Pair<Object, Integer> showCommandRequestedDuringBackHandling = null;
+
 	public boolean back() {
 		return back(0);
 	}
 
 	public boolean back(int flags) {
+		isHandlingBack = true;
+
+		boolean didHandleBack;
 		// If we're animating, ignore back presses.
 		if (acceptAnimationUpdates) {
-			return true;
+			didHandleBack = true;
 		}
-
-		if (getBackStack().isEmpty()) {
-			return false;
+		else if (getBackStack().isEmpty()) {
+			didHandleBack = false;
 		}
-
-		Object currentChild = getBackStack().pop();
-		boolean backPressHandled = currentChild instanceof Presenter && ((Presenter) currentChild).back();
-
-		// BackPress was not handled by the top child in the stack; handle it here.
-		if (!backPressHandled) {
-
-			if (getBackStack().isEmpty()) {
-				currentState = null;
-				return false;
-			}
-
-			Object previousState = getBackStack().pop();
-			//Only test flags should go through!
-			show(previousState, flags & TEST_FLAG_FORCE_NEW_STATE);
-			return true;
-		}
-
-		// BackPress has been handled by the top child in the stack.
 		else {
-			getBackStack().push(currentChild);
-			return true;
+			Object currentChild = getBackStack().pop();
+			boolean backPressHandled = currentChild instanceof Presenter && ((Presenter) currentChild).back();
+
+			// BackPress was not handled by the top child in the stack; handle it here.
+			if (!backPressHandled) {
+
+				if (getBackStack().isEmpty()) {
+					currentState = null;
+					didHandleBack = false;
+				}
+				else {
+					Object previousState = getBackStack().pop();
+					//Only test flags should go through!
+					show(previousState, flags & TEST_FLAG_FORCE_NEW_STATE);
+					didHandleBack = true;
+				}
+			}
+			// BackPress has been handled by the top child in the stack.
+			else {
+				getBackStack().push(currentChild);
+				didHandleBack = true;
+			}
 		}
+
+		isHandlingBack = false;
+		/*
+		If a show(newState) command was requested while:
+			1. Presenter is handling back() AND
+			2. will eventually return true marking that back has been handled
+		we had delayed it for now, so honor it now!
+		*/
+		if (didHandleBack && showCommandRequestedDuringBackHandling != null) {
+			show(showCommandRequestedDuringBackHandling.first, showCommandRequestedDuringBackHandling.second);
+			showCommandRequestedDuringBackHandling = null;
+		}
+
+		return didHandleBack;
 	}
 
 	public Stack<Object> getBackStack() {
@@ -131,6 +165,16 @@ public class Presenter extends FrameLayout {
 	}
 
 	public void show(Object newState, int flags) {
+		if (isHandlingBack) {
+			if (showCommandRequestedDuringBackHandling == null) {
+				showCommandRequestedDuringBackHandling = new Pair(newState, flags);
+				return;
+			}
+			else {
+				throw new RuntimeException("Unexpected multiple show() commands while Presenter was handling back(). Expecting a max of 1 show() command while handling back().");
+			}
+		}
+
 		Log.d(getClass().getSimpleName(), "show state: " + newState.getClass().getName());
 		if (currentState == null) {
 			// If we have a default transition added, execute it.
