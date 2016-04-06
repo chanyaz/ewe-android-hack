@@ -3,6 +3,7 @@ package com.expedia.vm
 import android.content.Context
 import com.expedia.bookings.BuildConfig
 import com.expedia.bookings.R
+import com.expedia.bookings.data.cars.ApiError
 import com.expedia.bookings.data.packages.PackageApiError
 import com.expedia.bookings.data.packages.PackageSearchParams
 import com.expedia.bookings.utils.DateUtils
@@ -13,10 +14,12 @@ import rx.subjects.PublishSubject
 import kotlin.properties.Delegates
 
 class PackageErrorViewModel(private val context: Context) {
+    var error: ApiError by Delegates.notNull()
+
     // Inputs
-    val apiErrorObserver = PublishSubject.create<PackageApiError.Code>()
+    val searchApiErrorObserver = PublishSubject.create<PackageApiError.Code>()
+    val checkoutApiErrorObserver = PublishSubject.create<ApiError>()
     val paramsSubject = PublishSubject.create<PackageSearchParams>()
-    var error: PackageApiError.Code by Delegates.notNull()
 
     // Outputs
     val imageObservable = BehaviorSubject.create<Int>()
@@ -28,13 +31,34 @@ class PackageErrorViewModel(private val context: Context) {
 
     //handle different errors
     val defaultErrorObservable = BehaviorSubject.create<Unit>()
+    val checkoutCardErrorObservable = BehaviorSubject.create<Unit>()
+    val checkoutTravellerErrorObservable = BehaviorSubject.create<Unit>()
+    val checkoutUnknownErrorObservable = BehaviorSubject.create<Unit>()
 
     init {
         actionObservable.subscribe {
-            defaultErrorObservable.onNext(Unit)
+            when (error.errorCode) {
+                ApiError.Code.PACKAGE_CHECKOUT_CARD_DETAILS,
+                ApiError.Code.INVALID_CARD_NUMBER,
+                ApiError.Code.CID_DID_NOT_MATCHED,
+                ApiError.Code.INVALID_CARD_EXPIRATION_DATE,
+                ApiError.Code.CARD_LIMIT_EXCEEDED -> {
+                    checkoutCardErrorObservable.onNext(Unit)
+                }
+                ApiError.Code.PACKAGE_CHECKOUT_TRAVELLER_DETAILS -> {
+                    checkoutTravellerErrorObservable.onNext(Unit)
+                }
+                ApiError.Code.UNKNOWN_ERROR -> {
+                    checkoutUnknownErrorObservable.onNext(Unit)
+                }
+                else -> {
+                    defaultErrorObservable.onNext(Unit)
+                }
+            }
         }
 
-        apiErrorObserver.subscribe {
+        searchApiErrorObserver.subscribe {
+            error = ApiError(ApiError.Code.PACKAGE_SEARCH_ERROR)
             when (it) {
                 PackageApiError.Code.pkg_unknown_error,
                 PackageApiError.Code.search_response_null,
@@ -50,6 +74,43 @@ class PackageErrorViewModel(private val context: Context) {
                 }
             }
         }
+
+        checkoutApiErrorObserver.subscribe() {
+            error = it
+            when (it.errorCode) {
+                ApiError.Code.PACKAGE_CHECKOUT_CARD_DETAILS -> {
+                    imageObservable.onNext(R.drawable.error_payment)
+                    if (error.errorInfo?.field == "nameOnCard") {
+                        errorMessageObservable.onNext(context.getString(R.string.error_name_on_card_mismatch))
+                    } else {
+                        errorMessageObservable.onNext(context.getString(R.string.e3_error_checkout_payment_failed))
+                    }
+                    buttonTextObservable.onNext(context.getString(R.string.edit_payment))
+                    titleObservable.onNext(context.getString(R.string.hotel_payment_failed_text))
+                    subTitleObservable.onNext("")
+                }
+                ApiError.Code.PACKAGE_CHECKOUT_TRAVELLER_DETAILS -> {
+                    imageObservable.onNext(R.drawable.error_default)
+                    val field = error.errorInfo.field
+                    if (field == "phone") {
+                        errorMessageObservable.onNext(context.getString(R.string.e3_error_checkout_invalid_traveler_info_TEMPLATE, context.getString(R.string.phone_number_field_text)))
+                    } else if ( field == "mainMobileTraveler.firstName") {
+                        errorMessageObservable.onNext(context.getString(R.string.e3_error_checkout_invalid_traveler_info_TEMPLATE, context.getString(R.string.first_name_field_text)))
+                    } else if (field == "mainMobileTraveler.lastName" ) {
+                        errorMessageObservable.onNext(context.getString(R.string.e3_error_checkout_invalid_traveler_info_TEMPLATE, context.getString(R.string.last_name_field_text)))
+                    } else {
+                        errorMessageObservable.onNext(context.getString(R.string.e3_error_checkout_invalid_input))
+                    }
+                    buttonTextObservable.onNext(context.getString(R.string.edit_guest_details))
+                    titleObservable.onNext(context.getString(R.string.hotel_payment_failed_text))
+                    subTitleObservable.onNext("")
+                }
+                else -> {
+                    makeDefaultError()
+                }
+            }
+        }
+
         paramsSubject.subscribe { params ->
             titleObservable.onNext(String.format(context.getString(R.string.your_trip_to_TEMPLATE), StrUtils.formatCityName(params.destination.regionNames.fullName)))
             subTitleObservable.onNext(getToolbarSubtitle(params))

@@ -10,6 +10,7 @@ import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.TripBucketItemPackages
 import com.expedia.bookings.data.BaseCheckoutParams
 import com.expedia.bookings.data.User
+import com.expedia.bookings.data.cars.ApiError
 import com.expedia.bookings.data.packages.PackageCheckoutParams
 import com.expedia.bookings.data.packages.PackageCheckoutResponse
 import com.expedia.bookings.data.packages.PackageCreateTripParams
@@ -34,6 +35,7 @@ class PackageCreateTripViewModel(val packageServices: PackageServices) {
     val performCreateTrip = PublishSubject.create<Unit>()
     val tripResponseObservable = BehaviorSubject.create<PackageCreateTripResponse>()
     val showCreateTripDialogObservable = PublishSubject.create<Unit>()
+    val createTripErrorObservable = PublishSubject.create<ApiError>()
 
     init {
         Observable.combineLatest(tripParams, performCreateTrip, { params, createTrip ->
@@ -46,7 +48,9 @@ class PackageCreateTripViewModel(val packageServices: PackageServices) {
         return object : Observer<PackageCreateTripResponse> {
             override fun onNext(response: PackageCreateTripResponse) {
                 if (response.hasErrors() && !response.hasPriceChange()) {
-                    //TODO handle errors (unhappy path story)
+                    if (response.firstError.errorCode == ApiError.Code.UNKNOWN_ERROR) {
+                        createTripErrorObservable.onNext(ApiError(ApiError.Code.UNKNOWN_ERROR))
+                    }
                 } else {
                     Db.getTripBucket().clearPackages()
                     Db.getTripBucket().add(TripBucketItemPackages(response))
@@ -77,6 +81,7 @@ class PackageCheckoutViewModel(val context: Context, val packageServices: Packag
     val depositPolicyText = PublishSubject.create<Spanned>()
     val legalText = PublishSubject.create<SpannableStringBuilder>()
     val sliderPurchaseTotalText = PublishSubject.create<CharSequence>()
+    val checkoutErrorObservable = PublishSubject.create<ApiError>()
     var email: String by Delegates.notNull()
 
     init {
@@ -123,7 +128,39 @@ class PackageCheckoutViewModel(val context: Context, val packageServices: Packag
         return object : Observer<PackageCheckoutResponse> {
             override fun onNext(response: PackageCheckoutResponse) {
                 if (response.hasErrors()) {
-                    //TODO handle errors (unhappy path story)
+                    when (response.firstError.errorCode) {
+                        ApiError.Code.INVALID_INPUT -> {
+                            val field = response.firstError.errorInfo.field
+                            if (field == "mainMobileTraveler.lastName" ||
+                                    field == "mainMobileTraveler.firstName" ||
+                                    field == "phone") {
+                                val apiError = ApiError(ApiError.Code.PACKAGE_CHECKOUT_TRAVELLER_DETAILS)
+                                apiError.errorInfo = ApiError.ErrorInfo()
+                                apiError.errorInfo.field = field
+                                checkoutErrorObservable.onNext(apiError)
+                            } else {
+                                val apiError = ApiError(ApiError.Code.PACKAGE_CHECKOUT_CARD_DETAILS)
+                                apiError.errorInfo = ApiError.ErrorInfo()
+                                apiError.errorInfo.field = field
+                                checkoutErrorObservable.onNext(apiError)
+                            }
+                        }
+                        ApiError.Code.INVALID_CARD_NUMBER -> {
+                            checkoutErrorObservable.onNext(response.firstError)
+                        }
+                        ApiError.Code.CID_DID_NOT_MATCHED -> {
+                            checkoutErrorObservable.onNext(response.firstError)
+                        }
+                        ApiError.Code.INVALID_CARD_EXPIRATION_DATE -> {
+                            checkoutErrorObservable.onNext(response.firstError)
+                        }
+                        ApiError.Code.CARD_LIMIT_EXCEEDED -> {
+                            checkoutErrorObservable.onNext(response.firstError)
+                        }
+                        else -> {
+                            checkoutErrorObservable.onNext(ApiError(ApiError.Code.UNKNOWN_ERROR))
+                        }
+                    }
                 } else {
                     checkoutResponse.onNext(Pair(response, email));
                 }
