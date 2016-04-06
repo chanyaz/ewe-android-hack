@@ -132,6 +132,7 @@
     <color name="hotel_review_actionbar_tab_text_selected">@color/actionbar_tab_text_selected</color>
     <color name="hotel_review_actionbar_tab_text_unselected">@color/actionbar_tab_text_unselected</color>
     <color name="hotel_checkout_account_button_background_color">#384768</color>
+    <color name="hotel_coupon_code_error_message_color">#FFDD2C00</color>
 
     <!-- Hotel reviews colors -->
     <color name="hotel_review_background_color">#FAFAFA</color>

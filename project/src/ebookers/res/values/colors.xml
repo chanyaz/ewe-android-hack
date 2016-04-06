@@ -1,23 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <color name="hotels_primary_color">#0099CC</color>
+    <color name="review_screen_tab_indicator">#003366</color>
+    <color name="hotel_checkout_account_button_background_color">@color/hotels_primary_color</color>
 
- <!-- CVV entry colors -->
- <color name="cvv_book_button_text_color">@android:color/white</color>
+    <!-- Popular Hotels Tonight Discount strips-->
+    <color name="launch_mobile_exclusive">#9E0089</color>
+    <color name="launch_discount">#FF960D</color>
+    <color name="launch_tonight_only">#003366</color>
 
- <!-- Cars and LX-->
- <color name="cars_primary_color">#0099CC</color>
- <color name="cars_unchecked_toggle_text_color">#6AC4E9</color>
- <color name="lx_primary_color">#0099CC</color>
- <color name="lx_ripple_color">#6AC4E9</color>
- <color name="lx_secondary_color_disabled">#003366</color>
- <color name="lx_unchecked_toggle_text_color">#6AC4E9</color>
- <color name="lx_primary_disabled_color">#400099CC</color>
- <color name="lx_offer_date_ripple_color">@color/lx_ripple_color</color>
- <color name="cars_ripple_color">@color/lx_ripple_color</color>
- <color name="cars_color_primary_dark">@color/cars_primary_color</color>
- <color name="cars_secondary_color">@color/cars_primary_color</color>
- <color name="cars_tooltip_color">@color/cars_primary_color</color>
- <color name="cars_status_bar_color">@color/cars_primary_color</color>
- <color name="lx_color_primary_dark">@color/lx_primary_color</color>
- <color name="checkout_login_button_color">@android:color/white</color>
- </resources>
+    <color name="hotel_urgency_message_color">#D60000</color>
+    <color name="hotel_tonight_only_color">#6AC4E9</color>
+    <color name="hotel_mobile_exclusive_color">#F60B61</color>
+
+    <color name="hotel_promo_background">#6AC4E9</color>
+    <color name="hotel_coupon_code_error_message_color">#B80000</color>
+
+    <!-- CVV entry colors -->
+    <color name="cvv_book_button_text_color">@android:color/white</color>
+
+    <!-- Cars and LX-->
+    <color name="cars_primary_color">#0099CC</color>
+    <color name="cars_unchecked_toggle_text_color">#6AC4E9</color>
+    <color name="lx_primary_color">#0099CC</color>
+    <color name="lx_ripple_color">#6AC4E9</color>
+    <color name="lx_secondary_color_disabled">#003366</color>
+    <color name="lx_unchecked_toggle_text_color">#6AC4E9</color>
+    <color name="lx_primary_disabled_color">#400099CC</color>
+    <color name="lx_offer_date_ripple_color">@color/lx_ripple_color</color>
+    <color name="cars_ripple_color">@color/lx_ripple_color</color>
+    <color name="cars_color_primary_dark">@color/cars_primary_color</color>
+    <color name="cars_secondary_color">@color/cars_primary_color</color>
+    <color name="cars_tooltip_color">@color/cars_primary_color</color>
+    <color name="cars_status_bar_color">@color/cars_primary_color</color>
+    <color name="lx_color_primary_dark">@color/lx_primary_color</color>
+    <color name="checkout_login_button_color">@android:color/white</color>
+</resources>
