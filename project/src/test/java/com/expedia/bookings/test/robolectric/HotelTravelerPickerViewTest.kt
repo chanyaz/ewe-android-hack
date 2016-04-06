@@ -47,15 +47,24 @@ class HotelTravelerPickerViewTest {
         incrementChild()
 
         hotelTravelerPicker.spinner1.setSelection(0)
-        hotelTravelerPicker.infantPreferenceSeatingSpinner.setSelection(1)
+        hotelTravelerPicker.infantPreferenceSeatingSpinner.setSelection(0)
         assertEquals(View.GONE, hotelTravelerPicker.infantPreferenceSeatingSpinner.visibility)
 
         vm.showSeatingPreference = true
         hotelTravelerPicker.spinner1.setSelection(0)
         hotelTravelerPicker.spinner2.setSelection(0)
-        hotelTravelerPicker.infantPreferenceSeatingSpinner.setSelection(1)
-        assertEquals(View.VISIBLE, hotelTravelerPicker.infantError.visibility)
         hotelTravelerPicker.infantPreferenceSeatingSpinner.setSelection(0)
+        assertEquals(View.VISIBLE, hotelTravelerPicker.infantError.visibility)
+        hotelTravelerPicker.infantPreferenceSeatingSpinner.setSelection(1)
+        assertEquals(View.GONE, hotelTravelerPicker.infantError.visibility)
+
+        incrementChild()
+        hotelTravelerPicker.spinner2.setSelection(0)
+        hotelTravelerPicker.infantPreferenceSeatingSpinner.setSelection(0)
+        assertEquals(View.VISIBLE, hotelTravelerPicker.infantError.visibility)
+        decrementChild()
+        assertEquals(View.VISIBLE, hotelTravelerPicker.infantError.visibility)
+        decrementChild()
         assertEquals(View.GONE, hotelTravelerPicker.infantError.visibility)
     }
 

@@ -76,6 +76,7 @@ class HotelSearchPresenterV2(context: Context, attrs: AttributeSet) : BaseSearch
 
     override fun onFinishInflate() {
         super.onFinishInflate()
+        searchLocationEditText?.queryHint = context.resources.getString(R.string.enter_destination_hint)
     }
 
     override fun getSearchViewModel(): DatedSearchViewModel {

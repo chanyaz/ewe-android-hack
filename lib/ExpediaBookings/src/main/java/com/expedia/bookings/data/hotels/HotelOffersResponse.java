@@ -5,8 +5,8 @@ import java.util.List;
 
 import org.jetbrains.annotations.Nullable;
 
-import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.BaseApiResponse;
+import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.packages.PackageOffersResponse;
 import com.expedia.bookings.data.packages.PackageSearchParams;
 import com.expedia.bookings.utils.Constants;
@@ -155,7 +155,8 @@ public class HotelOffersResponse extends BaseApiResponse {
 				packageHotelOffer.hotelOffer.rateInfo.chargeableRateInfo.strikethroughPriceToShowUsers = 0;
 				packageHotelOffer.hotelOffer.rateInfo.chargeableRateInfo.userPriceType = Constants.PACKAGE_HOTEL_DELTA_PRICE_TYPE;
 			}
-			packageHotelOffer.hotelOffer.rateInfo.chargeableRateInfo.packagePricePerPerson = packageHotelOffer.pricePerPerson.amount.floatValue();
+			packageHotelOffer.hotelOffer.rateInfo.chargeableRateInfo.packagePricePerPerson = packageHotelOffer.pricePerPerson.formattedWholePrice;
+			packageHotelOffer.hotelOffer.rateInfo.chargeableRateInfo.packageSavings = packageHotelOffer.packagePricing.savings.formattedPrice;
 
 			hotelOffer.hotelRoomResponse.add(packageHotelOffer.hotelOffer);
 		}

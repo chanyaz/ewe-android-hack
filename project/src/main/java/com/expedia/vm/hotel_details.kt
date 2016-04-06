@@ -250,7 +250,10 @@ class HotelDetailViewModel(val context: Context, val hotelServices: HotelService
             val rate = firstHotelRoomResponse.rateInfo.chargeableRateInfo
             onlyShowTotalPrice.onNext(rate.getUserPriceType() == HotelRate.UserPriceType.RATE_FOR_WHOLE_STAY_WITH_TAXES)
             pricePerNightObservable.onNext(Money(BigDecimal(rate.averageRate.toDouble()), rate.currencyCode).getFormattedMoney(Money.F_NO_DECIMAL))
-            hotelDetailsBundleTotalObservable.onNext(Pair(Money(BigDecimal(rate.packagePricePerPerson.toDouble()), rate.currencyCode).getFormattedMoney(Money.F_NO_DECIMAL), ""))
+            var packageSavings = Phrase.from(context, R.string.bundle_total_savings_TEMPLATE)
+                    .put("savings", rate.packageSavings)
+                    .format().toString()
+            hotelDetailsBundleTotalObservable.onNext(Pair(rate.packagePricePerPerson, packageSavings))
             totalPriceObservable.onNext(Money(BigDecimal(rate.totalPriceWithMandatoryFees.toDouble()), rate.currencyCode).getFormattedMoney(Money.F_NO_DECIMAL))
             discountPercentageBackgroundObservable.onNext(if (rate.isShowAirAttached()) R.drawable.air_attach_background else R.drawable.guest_rating_background)
             showAirAttachSWPImageObservable.onNext(rate.loyaltyInfo?.isShopWithPoints ?: false && rate.isShowAirAttached())

@@ -17,39 +17,55 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginTop="@dimen/search_form_top_margin"
-            android:paddingTop="?attr/actionBarSize"
             android:clipToPadding="false"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:paddingTop="?attr/actionBarSize">
 
-            <com.expedia.bookings.widget.SearchInputCardView
-                android:id="@+id/destination_card"
+            <android.support.v7.widget.CardView
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/default_search_card_height"
-                android:layout_marginBottom="@dimen/material_search_field_bottom_margin"
+                android:layout_height="wrap_content"
                 app:cardCornerRadius="@dimen/cardview_border_radius"
                 app:cardElevation="1dp"
-                app:cardUseCompatPadding="true"
-                app:input_icon="@drawable/packages_search_departure"
-                app:input_icon_tint_color="@color/search_screen_icon_color_v2"
-                app:input_text="@string/fly_from_hint" />
+                app:cardUseCompatPadding="true">
 
-            <com.expedia.bookings.widget.SearchInputCardView
-                android:id="@+id/arrival_card"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/default_search_card_height"
-                android:layout_marginBottom="@dimen/material_search_field_bottom_margin"
-                app:cardCornerRadius="@dimen/cardview_border_radius"
-                app:cardElevation="1dp"
-                app:cardUseCompatPadding="true"
-                app:input_icon="@drawable/packages_search_arrival"
-                app:input_icon_tint_color="@color/search_screen_icon_color_v2"
-                app:input_text="@string/fly_to_hint" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <com.expedia.bookings.widget.SearchInputCardView
+                        android:id="@+id/destination_card"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/default_search_card_height"
+                        app:cardCornerRadius="0dp"
+                        app:input_icon="@drawable/packages_search_departure"
+                        app:input_icon_tint_color="@color/search_screen_icon_color_v2"
+                        app:input_text="@string/hint_departure_airport" />
+
+                    <com.expedia.bookings.widget.SearchInputCardView
+                        android:id="@+id/arrival_card"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/default_search_card_height"
+                        app:cardCornerRadius="0dp"
+                        app:input_icon="@drawable/packages_search_arrival"
+                        app:input_icon_tint_color="@color/search_screen_icon_color_v2"
+                        app:input_text="@string/hint_arrival_airport" />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1px"
+                    android:layout_marginLeft="57dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginRight="16dp"
+                    android:background="#BDBDBD" />
+
+            </android.support.v7.widget.CardView>
 
             <com.expedia.bookings.widget.CalendarWidgetV2
                 android:id="@+id/calendar_card"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/default_search_card_height"
-                android:layout_marginBottom="@dimen/material_search_field_bottom_margin"
                 app:cardCornerRadius="@dimen/cardview_border_radius"
                 app:cardElevation="1dp"
                 app:cardUseCompatPadding="true"
@@ -66,7 +82,7 @@
                 app:cardUseCompatPadding="true"
                 app:input_icon="@drawable/search_form_icon_person"
                 app:input_icon_tint_color="@color/search_screen_icon_color_v2"
-                app:input_text="@string/hotel_search_guest_default_text" />
+                app:input_text="@string/package_search_traveler_default_text" />
 
         </LinearLayout>
 

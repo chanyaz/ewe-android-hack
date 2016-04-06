@@ -22,6 +22,7 @@
     <color name="cardview_divider_lines_gray">#DFDFDF</color>
 
     <color name="expedia_hotels_color">#009688</color>
+    <color name="search_dialog_gray">#6A6A6A</color>
 
     <color name="white">#FFFFFFFF</color>
     <color name="black">#FF000000</color>

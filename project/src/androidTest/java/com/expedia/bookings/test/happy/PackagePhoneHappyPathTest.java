@@ -48,7 +48,7 @@ public class PackagePhoneHappyPathTest extends PackageTestCase {
 
 		assertHotelBundlePrice("$0", "View your bundle");
 		onView(allOf(withId(R.id.per_person_text), isDescendantOfA(withId(R.id.bundle_price_widget)),
-			withParent(hasSibling(hasDescendant(withText("View your bundle")))), withText("per person")))
+			withParent(hasSibling(hasDescendant(withText("View your bundle")))), withText("$0.00 saved")))
 			.check(matches(isDisplayed()));
 		onView(allOf(withId(R.id.bundle_total_savings), isDescendantOfA(withId(R.id.bundle_price_widget)),
 			withParent(hasSibling(hasDescendant(withText("View your bundle")))))).check(matches(not(isDisplayed())));
@@ -71,7 +71,7 @@ public class PackagePhoneHappyPathTest extends PackageTestCase {
 		reviews();
 		assertHotelBundlePrice("$1,027", "View your bundle");
 		onView(allOf(withId(R.id.per_person_text), isDescendantOfA(withId(R.id.bundle_price_widget)),
-			withParent(hasSibling(hasDescendant(withText("View your bundle")))), withText("per person")))
+			withParent(hasSibling(hasDescendant(withText("View your bundle")))), withText("$22 saved")))
 			.check(matches(isDisplayed()));
 		onView(allOf(withId(R.id.bundle_total_savings), isDescendantOfA(withId(R.id.bundle_price_widget)),
 			withParent(hasSibling(hasDescendant(withText("View your bundle")))))).check(matches(not(isDisplayed())));

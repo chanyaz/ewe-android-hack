@@ -18,8 +18,8 @@ class InfantSeatPreferenceAdapter(val context: Context, val list: List<String>) 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
         val view = createViewFromResource(position, convertView, parent, R.layout.child_spinner_item)
         val textView = view as TextView
-        val icon = ContextCompat.getDrawable(parent.context, R.drawable.ic_infant_seating).mutate()
-        icon.setColorFilter(parent.context.resources.getColor(R.color.cars_actionbar_text_color), PorterDuff.Mode.SRC_IN)
+        val icon = ContextCompat.getDrawable(parent.context, R.drawable.search_form_traveler_picker_infant).mutate()
+        icon.setColorFilter(parent.context.resources.getColor(R.color.search_dialog_gray), PorterDuff.Mode.SRC_IN)
         textView.setCompoundDrawablesRelativeWithIntrinsicBounds(icon, null, null, null)
         textView.setPadding(padding, 0, 0, 0)
         return view

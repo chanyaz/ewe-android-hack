@@ -242,7 +242,7 @@ DummyFiletoHandleKotlinLintError {
 		R.layout.widget_base_checkout,
 		R.drawable.ic_chevron_up_black_48dp,
 		R.string.trip_overview,
-		R.drawable.ic_infant_seating,
+		R.drawable.search_form_traveler_picker_infant,
 		R.string.infants_under_two_TEMPLATE,
 		R.string.paying_with_expedia_points,
 		R.string.pay_with_expedia_points,

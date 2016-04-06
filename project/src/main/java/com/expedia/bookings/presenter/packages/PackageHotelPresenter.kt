@@ -37,6 +37,7 @@ import com.expedia.vm.HotelMapViewModel
 import com.expedia.vm.HotelResultsViewModel
 import com.expedia.vm.HotelReviewsViewModel
 import com.google.android.gms.maps.MapView
+import com.squareup.phrase.Phrase
 import rx.Observable
 import rx.Observer
 import java.math.BigDecimal
@@ -287,9 +288,14 @@ class PackageHotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
             resultsPresenter.visibility = if (forward) View.VISIBLE else View.GONE
             bundleSlidingWidget.bundlePriceWidget.visibility = View.VISIBLE
             bundleSlidingWidget.bundlePriceWidget.viewModel.bundleTextLabelObservable.onNext(context.getString(R.string.search_bundle_total_text))
-            bundleSlidingWidget.bundlePriceWidget.viewModel.perPersonTextLabelObservable.onNext(true)
-            bundleSlidingWidget.bundlePriceWidget.viewModel.setTextObservable.onNext(Pair(Money(BigDecimal(0),
-                    Db.getPackageResponse().packageResult.packageOfferModels[0].price.packageTotalPrice.currencyCode).formattedMoney, ""))
+            val currencyCode = Db.getPackageResponse().packageResult.packageOfferModels[0].price.packageTotalPrice.currencyCode
+            val total = Money(BigDecimal(0), currencyCode)
+            var packageSavings = Phrase.from(context, R.string.bundle_total_savings_TEMPLATE)
+                    .put("savings", total.getFormattedMoney(Money.F_ALWAYS_TWO_PLACES_AFTER_DECIMAL))
+                    .format().toString()
+            bundleSlidingWidget.bundlePriceWidget.viewModel.setTextObservable.onNext(Pair(total.getFormattedMoney(Money.F_NO_DECIMAL), packageSavings))
+            bundleSlidingWidget.bundlePriceFooter.viewModel.setTextObservable.onNext(Pair(total.getFormattedMoney(Money.F_NO_DECIMAL), packageSavings))
+
             resultsPresenter.animationFinalize(forward)
         }
     }

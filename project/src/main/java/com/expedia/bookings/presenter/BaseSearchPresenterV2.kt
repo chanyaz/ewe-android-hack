@@ -172,7 +172,6 @@ abstract class BaseSearchPresenterV2(context: Context, attrs: AttributeSet) : Ba
 
             val imgViewSearchView = searchLocationEditText?.findViewById(android.support.v7.appcompat.R.id.search_mag_icon) as ImageView?
             imgViewSearchView?.setImageResource(0)
-            searchEditText?.hint = context.resources.getString(R.string.enter_destination_hint)
 
             val close = searchLocationEditText?.findViewById(android.support.v7.appcompat.R.id.search_close_btn) as ImageView?
             val drawable = ContextCompat.getDrawable(context, R.drawable.ic_close_white_24dp).mutate()
