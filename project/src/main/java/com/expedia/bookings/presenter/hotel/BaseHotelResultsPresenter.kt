@@ -352,12 +352,12 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
 
     }
 
-    fun clearMarkers() {
+    fun clearMarkers(setUpMap: Boolean = true) {
         mapItems.clear()
         clusterManager.clearItems()
         clusterMarkers()
         if (mapViewModel.isClusteringEnabled) mapCarouselContainer.visibility = View.INVISIBLE
-        setUpMap()
+        if (setUpMap) setUpMap()
     }
 
     fun createMarkers(animateCarousel: Boolean = true) {
@@ -677,7 +677,7 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
                         fab.translationY = Math.min(scrolledDistance, 0).toFloat()
                     }
                 }
- 
+
             }
         }
 
@@ -1084,6 +1084,9 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
         navIcon.parameter = ArrowXDrawableUtil.ArrowDrawableType.BACK.type.toFloat()
         if (havePermissionToAccessLocation(context)) {
             googleMap?.isMyLocationEnabled = forward
+        }
+        if (!forward) {
+            clearMarkers(false)
         }
     }
 
