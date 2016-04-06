@@ -16,7 +16,6 @@ import android.text.format.DateUtils;
 import com.activeandroid.ActiveAndroid;
 import com.crashlytics.android.Crashlytics;
 import com.expedia.bookings.BuildConfig;
-import com.expedia.bookings.R;
 import com.expedia.bookings.bitmaps.PicassoHelper;
 import com.expedia.bookings.dagger.AppComponent;
 import com.expedia.bookings.dagger.AppModule;
@@ -66,7 +65,6 @@ import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.SettingUtils;
 import com.mobiata.android.util.TimingLogger;
 import com.mobiata.flightlib.data.sources.FlightStatsDbUtils;
-import com.squareup.leakcanary.LeakCanary;
 
 import net.danlew.android.joda.JodaTimeAndroid;
 
@@ -147,11 +145,6 @@ public class ExpediaBookingApp extends MultiDexApplication implements UncaughtEx
 
 			StethoShim.install(this);
 			startupTimer.addSplit("Stetho init");
-
-			if (SettingUtils.get(this, getString(R.string.preference_enable_leakcanary), false)) {
-				LeakCanary.install(this);
-				startupTimer.addSplit("LeakCanary init");
-			}
 		}
 
 		mAppComponent = DaggerAppComponent.builder()
