@@ -86,7 +86,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/coupon_error_unrecognized"
-                android:textColor="#FFDD2C00"
+                android:textColor="@color/hotel_coupon_code_error_message_color"
                 android:textSize="14sp"
                 android:visibility="gone"
                 app:textStyle="light" />
