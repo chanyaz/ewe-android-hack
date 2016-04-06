@@ -38,6 +38,7 @@ import com.expedia.vm.HotelCheckoutOverviewViewModel
 import com.expedia.vm.HotelCheckoutSummaryViewModel
 import com.expedia.vm.HotelCouponViewModel
 import com.expedia.vm.HotelCreateTripViewModel
+import com.expedia.vm.ShopWithPointsViewModel
 import com.squareup.otto.Subscribe
 import rx.Observer
 import rx.subjects.PublishSubject
@@ -53,6 +54,7 @@ class HotelCheckoutMainViewPresenter(context: Context, attr: AttributeSet) : Che
     var hotelSearchParams: HotelSearchParams by Delegates.notNull()
     val couponCardView = CouponWidget(context, attr)
     var hasDiscount = false
+    val backPressedAfterUserWithEffectiveSwPAvailableSignedOut = PublishSubject.create<Unit>()
 
     var createTripViewmodel: HotelCreateTripViewModel by notNullAndObservable {
         createTripViewmodel.tripResponseObservable.subscribe(createTripResponseListener)
@@ -97,6 +99,9 @@ class HotelCheckoutMainViewPresenter(context: Context, attr: AttributeSet) : Che
     lateinit var paymentModel: PaymentModel<HotelCreateTripResponse>
         @Inject set
 
+    lateinit var shopWithPointsViewModel: ShopWithPointsViewModel
+        @Inject set
+
     var hotelCheckoutMainViewModel: HotelCheckoutMainViewModel by notNullAndObservable { vm ->
         vm.updateEarnedRewards.subscribe { it ->
             Db.getTripBucket().hotelV2.updateTotalPointsToEarn(it)
@@ -110,6 +115,7 @@ class HotelCheckoutMainViewPresenter(context: Context, attr: AttributeSet) : Che
     init {
         Ui.getApplication(getContext()).hotelComponent().inject(this)
         couponCardView.viewmodel = HotelCouponViewModel(getContext(), hotelServices, paymentModel)
+        hotelCheckoutMainViewModel = HotelCheckoutMainViewModel(paymentModel, shopWithPointsViewModel)
     }
 
     override fun getToolbarTitle(): String {
@@ -205,7 +211,6 @@ class HotelCheckoutMainViewPresenter(context: Context, attr: AttributeSet) : Che
         couponCardView.viewmodel.hasDiscountObservable.onNext(hasDiscount)
         checkoutOverviewViewModel = HotelCheckoutOverviewViewModel(getContext(), paymentModel)
         checkoutOverviewViewModel.newRateObserver.onNext(trip.newHotelProductResponse)
-        hotelCheckoutMainViewModel = HotelCheckoutMainViewModel(paymentModel)
         bind()
         show(CheckoutBasePresenter.Ready(), Presenter.FLAG_CLEAR_BACKSTACK)
         acceptTermsWidget.vm.resetAcceptedTerms()
@@ -219,6 +224,22 @@ class HotelCheckoutMainViewPresenter(context: Context, attr: AttributeSet) : Che
     override fun showProgress(show: Boolean) {
         hotelCheckoutSummaryWidget.visibility = if (show) View.INVISIBLE else View.VISIBLE
         mSummaryProgressLayout.visibility = if (show) View.VISIBLE else View.GONE
+    }
+
+    override fun accountLogoutClicked() {
+        super.accountLogoutClicked()
+        hotelCheckoutMainViewModel.onLogoutButtonClicked.onNext(Unit)
+    }
+
+    override fun back(): Boolean {
+        if ((CheckoutBasePresenter.Ready ::class.java.name == currentState ||
+                CheckoutBasePresenter.CheckoutFailed ::class.java.name == currentState )
+                && hotelCheckoutMainViewModel.userWithEffectiveSwPAvailableSignedOut.value ) {
+            backPressedAfterUserWithEffectiveSwPAvailableSignedOut.onNext(Unit)
+            acceptTermsWidget.visibility = View.INVISIBLE
+            return true
+        }
+        return super.back()
     }
 
     override fun onSlideStart() {

@@ -391,6 +391,19 @@ public class HotelScreen {
 		HotelScreen.waitForResultsLoaded();
 	}
 
+	public static void doSearchWithSwPVisible(boolean clickSwP) throws Throwable {
+		enterGenericSearchParams();
+		if (clickSwP) {
+			clickSwPToggle();
+		}
+		HotelScreen.clickSearchButton();
+		HotelScreen.waitForResultsLoaded();
+	}
+
+	public static void clickSwPToggle() throws Throwable {
+		onView(withId(R.id.swp_switch)).perform(click());
+	}
+
 	public static void selectHotel(String name) throws Throwable {
 		waitForResultsLoaded();
 		hotelResultsList().perform(RecyclerViewActions.actionOnItem(hasDescendant(withText(name)), click()));
@@ -489,6 +502,10 @@ public class HotelScreen {
 
 	public static void clickSignIn() {
 		onView(withId(R.id.login_text_view)).perform(click());
+	}
+
+	public static void clickSignOut() {
+		onView(withId(R.id.account_logout_logout_button)).perform(click());
 	}
 
 	public static void signIn() {
