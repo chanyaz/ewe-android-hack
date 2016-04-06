@@ -366,6 +366,7 @@ DummyFiletoHandleKotlinLintError {
 		R.dimen.airlines_filter_height,
 		R.layout.labeled_checked_filter,
 		R.string.flight_duration_hour_short,
+		R.color.greener_pastures,
 		R.layout.widget_package_flight_filter,
 		R.color.packages_breakdown_text_color,
 		R.color.packages_breakdown_total_cost_color,
