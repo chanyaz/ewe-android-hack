@@ -21,6 +21,7 @@ public class PointOfSaleRule implements TestRule {
 					PointOfSaleId.BRAZIL,
 					PointOfSaleId.CANADA,
 					PointOfSaleId.DENMARK,
+					PointOfSaleId.FINLAND,
 					PointOfSaleId.FRANCE,
 					PointOfSaleId.GERMANY,
 					PointOfSaleId.HONG_KONG,
