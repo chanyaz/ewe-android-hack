@@ -83,13 +83,13 @@
                         android:id="@+id/promo_text"
                         style="@style/HotelPromoMessaging"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_height="match_parent"
                         android:layout_alignParentRight="true"
-                        android:gravity="center_vertical"
                         android:paddingBottom="10dp"
                         android:paddingLeft="18dp"
                         android:paddingRight="18dp"
-                        android:paddingTop="10dp" />
+                        android:paddingTop="10dp"
+                        android:layout_centerVertical="true" />
 
                     <LinearLayout
                         android:id="@+id/discount_loyalty_messaging_container"
@@ -121,6 +121,7 @@
                             android:layout_gravity="center"
                             android:background="@drawable/air_attach_swp_icon_background"
                             android:padding="4dp"
+                            android:layout_marginRight="3dp"
                             android:src="@drawable/airattach"
                             android:tint="@color/white"/>
 
@@ -155,10 +156,8 @@
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:gravity="center_vertical"
-                            android:paddingBottom="10dp"
-                            android:paddingLeft="18dp"
-                            android:paddingRight="18dp"
-                            android:paddingTop="10dp"
+                            android:layout_alignParentLeft="true"
+                            android:layout_alignRight="@id/air_attach_swp_image_details"
                             android:text="@string/regular_loyalty_applied_message" />
                     </LinearLayout>
 
