@@ -1,0 +1,16 @@
+{
+  "version": null,
+  "pageReferrerId": null,
+  "searchType": null,
+  "pageData": null,
+  "packageResult": null,
+  "pageState": null,
+  "siteAnalyticsModel": null,
+  "errors": [
+    "pkg_unknown_error",
+    "pkg_destination_resolution_failed"
+  ],
+  "packagePageInput": null,
+  "coalitionPackageInfoModel": null,
+  "universalDataObject": null
+}

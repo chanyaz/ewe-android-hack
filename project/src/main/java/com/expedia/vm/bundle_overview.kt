@@ -8,6 +8,7 @@ import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.data.hotels.HotelOffersResponse
+import com.expedia.bookings.data.packages.PackageApiError
 import com.expedia.bookings.data.packages.PackageCreateTripResponse
 import com.expedia.bookings.data.packages.PackageSearchParams
 import com.expedia.bookings.data.packages.PackageSearchResponse
@@ -32,6 +33,7 @@ class BundleOverviewViewModel(val context: Context, val packageServices: Package
     val hotelParamsObservable = PublishSubject.create<PackageSearchParams>()
     val flightParamsObservable = PublishSubject.create<PackageSearchParams>()
     val createTripObservable = PublishSubject.create<PackageCreateTripResponse>()
+    val errorObservable = PublishSubject.create<PackageApiError.Code>()
 
     // Outputs
     val hotelResultsObservable = BehaviorSubject.create<Unit>()
@@ -87,6 +89,9 @@ class BundleOverviewViewModel(val context: Context, val packageServices: Package
     fun makeResultsObserver(type: PackageSearchType): Observer<PackageSearchResponse> {
         return object : Observer<PackageSearchResponse> {
             override fun onNext(response: PackageSearchResponse) {
+                if (response.hasErrors()) {
+                    errorObservable.onNext(response.firstError)
+                }
                 Db.setPackageResponse(response)
                 if (type == PackageSearchType.HOTEL) {
                     hotelResultsObservable.onNext(Unit)

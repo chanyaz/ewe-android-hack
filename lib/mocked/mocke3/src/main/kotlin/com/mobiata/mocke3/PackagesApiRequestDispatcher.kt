@@ -2,7 +2,6 @@ package com.mobiata.mocke3
 
 import com.squareup.okhttp.mockwebserver.MockResponse
 import com.squareup.okhttp.mockwebserver.RecordedRequest
-import java.util.regex.Pattern
 
 class PackagesApiRequestDispatcher(fileOpener: FileOpener) : AbstractDispatcher(fileOpener) {
 
@@ -12,7 +11,10 @@ class PackagesApiRequestDispatcher(fileOpener: FileOpener) : AbstractDispatcher(
 
         return when {
             PackageApiRequestMatcher.isHotelSearchRequest(urlParams, urlPath) -> {
-                getMockResponse("getpackages/v1/happy.json")
+                when (urlParams["ftla"]) {
+                    "GGW" -> getMockResponse("getpackages/v1/noresults.json")
+                    else -> getMockResponse("getpackages/v1/happy.json")
+                }
             }
 
             PackageApiRequestMatcher.isOutboundFlightRequest(urlParams, urlPath) -> {

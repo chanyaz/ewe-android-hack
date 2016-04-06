@@ -295,7 +295,6 @@ class HotelErrorViewModel(private val context: Context) {
     val sessionTimeOutObservable = BehaviorSubject.create<Unit>()
     val soldOutObservable = BehaviorSubject.create<Unit>()
 
-
     init {
         actionObservable.subscribe {
             when (error.errorCode) {

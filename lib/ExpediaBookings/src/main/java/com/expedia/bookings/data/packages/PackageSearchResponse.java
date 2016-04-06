@@ -3,12 +3,11 @@ package com.expedia.bookings.data.packages;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.expedia.bookings.data.BaseApiResponse;
 import com.expedia.bookings.data.flights.FlightLeg;
 import com.expedia.bookings.data.hotels.Hotel;
 import com.google.gson.annotations.SerializedName;
 
-public class PackageSearchResponse extends BaseApiResponse {
+public class PackageSearchResponse extends PackageBaseApiResponse {
 	public PackageResult packageResult;
 
 	public static class PackageResult {

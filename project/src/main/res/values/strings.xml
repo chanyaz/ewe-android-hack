@@ -3906,7 +3906,8 @@
     <string name="best_flight_title">Best Flight</string>
     <!-- Package Best Flight description -->
     <string name="best_flight_description">cheap • short • popular departure</string>
-
+    <!-- Package search error -->
+    <string name="error_package_search_message">We were unable to find any results. Please adjust your search.</string>
     <!-- Package Filters Strings -->
     <plurals name="flight_filter_stops">
         <item quantity="zero">Nonstop</item>

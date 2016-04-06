@@ -4,7 +4,7 @@ import android.app.Activity
 import android.view.View
 import com.expedia.bookings.R
 import com.expedia.bookings.data.cars.ApiError
-import com.expedia.bookings.widget.HotelErrorPresenter
+import com.expedia.bookings.presenter.hotel.HotelErrorPresenter
 import com.expedia.vm.HotelErrorViewModel
 import org.junit.Assert
 import org.junit.Test
