@@ -17,7 +17,7 @@
         <item name="skin_hotelCheckoutLogoutLogoDrawable">@drawable/brand_phone_checkout_logo_drawable</item>
         <item name="skin_tabletCheckoutLoginLogoDrawable">@drawable/brand_tablet_checkout_login_logo_drawable</item>
         <item name="primary_color">@color/lx_primary_color</item>
-        <item name="android:colorPrimaryDark">#A8540D</item>
+        <item name="android:colorPrimaryDark">@color/lx_color_primary_dark</item>
         <item name="android:colorButtonNormal">@color/lx_primary_color</item>
         <item name="colorAccent">@color/lx_primary_color</item>
         <item name="checkout_icon_right_margin_attr">@dimen/checkout_icon_right_margin_car_lx</item>
@@ -29,7 +29,7 @@
         <item name="skin_cvvBookButtonKeypadDrawable">@drawable/btn_cvv_keypad_book</item>
         <item name="skin_cvvDivDrawable">@drawable/div_cvv</item>
         <item name="skin_checkoutLoginBookNowButtonDrawable">@drawable/btn_signin_cars</item>
-        <item name="skin_checkoutLoginButtonColor">#836B11</item>
+        <item name="skin_checkoutLoginButtonColor">@color/checkout_login_button_color</item>
         <item name="skin_loginBrandIconDrawable">@drawable/expedia_login</item>
         <item name="skin_lxPrimaryColor">@color/lx_primary_color</item>
 

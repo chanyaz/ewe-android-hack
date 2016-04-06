@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+ <!-- CVV entry colors -->
+ <color name="cvv_book_button_text_color">@android:color/white</color>
+
+ <!-- Cars and LX-->
+ <color name="cars_primary_color">#0099CC</color>
+ <color name="cars_unchecked_toggle_text_color">#6AC4E9</color>
+ <color name="lx_primary_color">#0099CC</color>
+ <color name="lx_ripple_color">#6AC4E9</color>
+ <color name="lx_secondary_color_disabled">#003366</color>
+ <color name="lx_unchecked_toggle_text_color">#6AC4E9</color>
+ <color name="lx_primary_disabled_color">#400099CC</color>
+ <color name="lx_offer_date_ripple_color">@color/lx_ripple_color</color>
+ <color name="cars_ripple_color">@color/lx_ripple_color</color>
+ <color name="cars_color_primary_dark">@color/cars_primary_color</color>
+ <color name="cars_secondary_color">@color/cars_primary_color</color>
+ <color name="cars_tooltip_color">@color/cars_primary_color</color>
+ <color name="cars_status_bar_color">@color/cars_primary_color</color>
+ <color name="lx_color_primary_dark">@color/lx_primary_color</color>
+ <color name="checkout_login_button_color">@android:color/white</color>
+ </resources>
