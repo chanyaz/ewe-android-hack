@@ -1,19 +1,14 @@
 package com.expedia.bookings.test.happy;
 
-import org.hamcrest.CoreMatchers;
-
-import android.support.test.espresso.ViewInteraction;
-
 import com.expedia.bookings.R;
 import com.expedia.bookings.test.espresso.Common;
+import com.expedia.bookings.test.espresso.EspressoUtils;
 import com.expedia.bookings.test.espresso.NewFlightTestCase;
-import com.expedia.bookings.test.espresso.RecyclerViewAssertions;
 import com.expedia.bookings.test.phone.flights.FlightsScreen;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
-import static android.support.test.espresso.matcher.ViewMatchers.hasDescendant;
 import static android.support.test.espresso.matcher.ViewMatchers.isDescendantOfA;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
@@ -40,19 +35,19 @@ public class NewFlightPhoneHappyPathTest extends NewFlightTestCase {
 
 	private void assertFlightOutbound() {
 		FlightsScreen.outboundFlightList().perform(waitForViewToDisplay());
-		assertViewWithTextIsDisplayedAtPosition(FlightsScreen.outboundFlightList(), 2, R.id.flight_time_detail_text_view,
+		EspressoUtils.assertViewWithTextIsDisplayedAtPosition(FlightsScreen.outboundFlightList(), 2, R.id.flight_time_detail_text_view,
 			"9:00 pm - 8:15 pm");
-		assertViewWithTextIsDisplayedAtPosition(FlightsScreen.outboundFlightList(), 2, R.id.flight_duration_text_view, "2h 0m (Nonstop)");
-		assertViewWithTextIsDisplayedAtPosition(FlightsScreen.outboundFlightList(), 2, R.id.price_text_view, "$696.00");
-		assertViewWithIdIsDisplayedAtPosition(FlightsScreen.outboundFlightList(), 2, R.id.custom_flight_layover_widget);
+		EspressoUtils.assertViewWithTextIsDisplayedAtPosition(FlightsScreen.outboundFlightList(), 2, R.id.flight_duration_text_view, "2h 0m (Nonstop)");
+		EspressoUtils.assertViewWithTextIsDisplayedAtPosition(FlightsScreen.outboundFlightList(), 2, R.id.price_text_view, "$696.00");
+		EspressoUtils.assertViewWithIdIsDisplayedAtPosition(FlightsScreen.outboundFlightList(), 2, R.id.custom_flight_layover_widget);
 	}
 
 	private void assertFlightInbound() {
 		FlightsScreen.inboundFlightList().perform(waitForViewToDisplay());
-		assertViewWithTextIsDisplayedAtPosition(FlightsScreen.inboundFlightList(), 2, R.id.flight_time_detail_text_view, "5:40 pm - 8:15 pm");
-		assertViewWithTextIsDisplayedAtPosition(FlightsScreen.inboundFlightList(), 2, R.id.flight_duration_text_view, "2h 0m (Nonstop)");
-		assertViewWithTextIsDisplayedAtPosition(FlightsScreen.inboundFlightList(), 2, R.id.price_text_view, "$696.00");
-		assertViewWithIdIsDisplayedAtPosition(FlightsScreen.inboundFlightList(), 2, R.id.custom_flight_layover_widget);
+		EspressoUtils.assertViewWithTextIsDisplayedAtPosition(FlightsScreen.inboundFlightList(), 2, R.id.flight_time_detail_text_view, "5:40 pm - 8:15 pm");
+		EspressoUtils.assertViewWithTextIsDisplayedAtPosition(FlightsScreen.inboundFlightList(), 2, R.id.flight_duration_text_view, "2h 0m (Nonstop)");
+		EspressoUtils.assertViewWithTextIsDisplayedAtPosition(FlightsScreen.inboundFlightList(), 2, R.id.price_text_view, "$696.00");
+		EspressoUtils.assertViewWithIdIsDisplayedAtPosition(FlightsScreen.inboundFlightList(), 2, R.id.custom_flight_layover_widget);
 	}
 
 	private void assertCheckoutOverview() {
@@ -67,17 +62,5 @@ public class NewFlightPhoneHappyPathTest extends NewFlightTestCase {
 		onView(allOf(withId(R.id.flight_card_view_text),
 			isDescendantOfA(withId(R.id.package_bundle_inbound_flight_widget)))).check(
 			matches(withText("Flight to (SEA) San Francisco")));
-	}
-
-	private void assertViewWithTextIsDisplayedAtPosition(ViewInteraction viewInteraction, int position, int id, String text) {
-		viewInteraction.check(
-			RecyclerViewAssertions.assertionOnItemAtPosition(position, hasDescendant(
-				CoreMatchers.allOf(withId(id), isDisplayed(), withText(text)))));
-	}
-
-	private void assertViewWithIdIsDisplayedAtPosition(ViewInteraction viewInteraction, int position, int id) {
-		viewInteraction.check(
-			RecyclerViewAssertions.assertionOnItemAtPosition(position, hasDescendant(
-				CoreMatchers.allOf(withId(id), isDisplayed()))));
 	}
 }

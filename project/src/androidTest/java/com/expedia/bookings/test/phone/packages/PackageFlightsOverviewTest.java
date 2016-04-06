@@ -67,10 +67,10 @@ public class PackageFlightsOverviewTest extends PackageTestCase {
 
 	public void assertSegmentData() {
 		// Segment #1
-		onView(allOf(withId(R.id.departure_arrival_time), withText("12:50PM - 2:27PM"))).check(matches(isDisplayed()));
+		onView(allOf(withId(R.id.departure_arrival_time), withText("9:50AM - 2:27PM"))).check(matches(isDisplayed()));
 		onView(allOf(withId(R.id.airline_airplane_type), withText("Hawaiian Airlines 497 - Boeing 737-900"))).check(matches(isDisplayed()));
 		onView(allOf(withId(R.id.departure_arrival_airport), withText("(SFO) San Francisco - (SAN) San Diego"))).check(matches(isDisplayed()));
-		onView(allOf(withId(R.id.flight_duration), withText("1h 37m"))).check(matches(isDisplayed()));
+		onView(allOf(withId(R.id.flight_duration), withText("4h 37m"))).check(matches(isDisplayed()));
 
 		// Layover
 		onView(allOf(withId(R.id.flight_segment_layover_in), withText("Layover in (SAN) San Diego"))).check(matches(isDisplayed()));
@@ -88,22 +88,22 @@ public class PackageFlightsOverviewTest extends PackageTestCase {
 
 		// Segment #3
 		onView(allOf(withId(R.id.flight_duration), withText("40m"))).perform(scrollTo());
-		onView(allOf(withId(R.id.departure_arrival_time), withText("5:10PM - 7:50PM"))).check(matches(isDisplayed()));
+		onView(allOf(withId(R.id.departure_arrival_time), withText("5:10PM - 9:50PM"))).check(matches(isDisplayed()));
 		onView(allOf(withId(R.id.airline_airplane_type), withText("Hawaiian Airlines 1182 - Boeing 757"))).check(matches(isDisplayed()));
 		onView(allOf(withId(R.id.departure_arrival_airport), withText("(LAX) Los Angeles - (OGG) Kahului"))).check(matches(isDisplayed()));
 		onView(allOf(withId(R.id.flight_duration), withText("5h 40m"))).check(matches(isDisplayed()));
 
 		// Layover
 		onView(allOf(withId(R.id.flight_segment_layover_in), withText("Layover in (OGG) Kahului"))).check(matches(isDisplayed()));
-		onView(allOf(withId(R.id.flight_segment_layover_duration), withText("1h 10m"))).check(matches(isDisplayed()));
+		onView(allOf(withId(R.id.flight_segment_layover_duration), withText("1h 40m"))).check(matches(isDisplayed()));
 
 		// Segment #4
-		onView(allOf(withId(R.id.departure_arrival_time), withText("9:00PM - 9:40PM"))).check(matches(isDisplayed()));
+		onView(allOf(withId(R.id.departure_arrival_time), withText("11:00PM - 11:40PM"))).check(matches(isDisplayed()));
 		onView(allOf(withId(R.id.airline_airplane_type), withText("Hawaiian Airlines 293 - Boeing 717"))).check(matches(isDisplayed()));
 		onView(allOf(withId(R.id.departure_arrival_airport), withText("(OGG) Kahului - (HNL) Honolulu"))).check(matches(isDisplayed()));
 		onView(allOf(withId(R.id.flight_duration), withText("40m"))).check(matches(isDisplayed()));
 
-		onView(allOf(withId(R.id.flight_total_duration), withText("Total Duration: 11h 50m"))).check(matches(isDisplayed()));
+		onView(allOf(withId(R.id.flight_total_duration), withText("Total Duration: 16h 50m"))).check(matches(isDisplayed()));
 	}
 
 	private void assertBundlePriceInFlight(String price) {

@@ -2,6 +2,7 @@ package com.expedia.bookings.test.espresso;
 
 import java.util.concurrent.atomic.AtomicReference;
 
+import org.hamcrest.CoreMatchers;
 import org.hamcrest.Matcher;
 
 import android.content.Intent;
@@ -174,5 +175,17 @@ public class EspressoUtils {
 				hasComponent(activityClass.getName()),
 				hasExtra(key, value)
 		));
+	}
+
+	public static void assertViewWithTextIsDisplayedAtPosition(ViewInteraction viewInteraction, int position, int id, String text) {
+		viewInteraction.check(
+			RecyclerViewAssertions.assertionOnItemAtPosition(position, hasDescendant(
+				CoreMatchers.allOf(withId(id), isDisplayed(), withText(text)))));
+	}
+
+	public static void assertViewWithIdIsDisplayedAtPosition(ViewInteraction viewInteraction, int position, int id) {
+		viewInteraction.check(
+			RecyclerViewAssertions.assertionOnItemAtPosition(position, hasDescendant(
+				CoreMatchers.allOf(withId(id), isDisplayed()))));
 	}
 }

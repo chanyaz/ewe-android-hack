@@ -36,6 +36,8 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.widget.FilterRangeSeekBar;
+import com.expedia.bookings.widget.FilterSeekBar;
 import com.expedia.bookings.widget.StarRatingBar;
 import com.expedia.bookings.widget.CheckoutToolbar;
 import com.mobiata.android.Log;
@@ -553,6 +555,49 @@ public final class ViewActions {
 					uiController.loopMainThreadUntilIdle();
 					uiController.loopMainThreadForAtLeast(100);
 				}
+			}
+		};
+	}
+
+	public static ViewAction setCustomSeekBarTo(final int maxValue) {
+		return new ViewAction() {
+			@Override
+			public Matcher<View> getConstraints() {
+				return Matchers.allOf(isAssignableFrom(FilterSeekBar.class));
+			}
+
+			@Override
+			public String getDescription() {
+				return "set FilterSeekBar max value";
+			}
+
+			@Override
+			public void perform(UiController uiController, View view) {
+				FilterSeekBar seekBar = (FilterSeekBar) view;
+				seekBar.getListener().onProgressChanged(seekBar, maxValue, false);
+				seekBar.setMaxValue(maxValue);
+			}
+		};
+	}
+
+	public static ViewAction setCustomRangeSeekBarTo(final int minValue, final int maxValue) {
+		return new ViewAction() {
+			@Override
+			public Matcher<View> getConstraints() {
+				return Matchers.allOf(isAssignableFrom(FilterRangeSeekBar.class));
+			}
+
+			@Override
+			public String getDescription() {
+				return "set FilterRangeSeekBar min max value";
+			}
+
+			@Override
+			public void perform(UiController uiController, View view) {
+				FilterRangeSeekBar seekBar = (FilterRangeSeekBar) view;
+				seekBar.getListener().onRangeSeekBarValuesChanged(seekBar, minValue, maxValue);
+				seekBar.setMinValue(minValue);
+				seekBar.setMaxValue(maxValue);
 			}
 		};
 	}

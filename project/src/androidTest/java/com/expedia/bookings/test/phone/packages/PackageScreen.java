@@ -229,6 +229,10 @@ public class PackageScreen {
 		return onView(withId(R.id.list_view));
 	}
 
+	public static ViewInteraction flightFilterView() {
+		return onView(withId(R.id.filter_container));
+	}
+
 	public static ViewInteraction selectFlight(int index) {
 		flightList().perform(waitForViewToDisplay());
 		int adjustPosition = 3;
