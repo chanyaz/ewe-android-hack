@@ -18,6 +18,7 @@ import com.expedia.bookings.data.collections.CollectionLocation;
 import com.expedia.bookings.data.hotels.Hotel;
 import com.expedia.bookings.data.hotels.HotelRate;
 import com.expedia.bookings.otto.Events;
+import com.expedia.bookings.widget.CollectionViewHolder;
 import com.expedia.bookings.widget.LaunchListAdapter;
 import com.expedia.bookings.widget.LaunchListWidget;
 
@@ -87,7 +88,7 @@ public class LaunchScreenTest {
 		launchListWidget.layout(0, 0, 100, 10000);
 
 		assertEquals(LaunchListAdapter.HeaderViewHolder.class, launchListWidget.findViewHolderForAdapterPosition(0).getClass());
-		assertEquals(LaunchListAdapter.CollectionViewHolder.class, launchListWidget.findViewHolderForAdapterPosition(1).getClass());
+		assertEquals(CollectionViewHolder.class, launchListWidget.findViewHolderForAdapterPosition(1).getClass());
 
 	}
 
