@@ -1,6 +1,7 @@
 package com.expedia.bookings.widget
 
 import android.content.Context
+import android.support.v4.content.ContextCompat
 import android.util.AttributeSet
 import android.view.View
 import android.widget.ImageView
@@ -40,8 +41,8 @@ class ShopWithPointsWidget(context: Context, val attrs: AttributeSet?) : LinearL
         View.inflate(context, layoutId, this)
         Ui.getApplication(context).hotelComponent().inject(this)
         if (Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelsSearchScreenTest)) {
-            loyaltyAppliedHeader.setTextColor(context.resources.getColor(R.color.search_screen_icon_color_v2))
-            loyaltyPointsInfo.setTextColor(context.resources.getColor(R.color.search_screen_icon_color_v2))
+            loyaltyAppliedHeader.setTextColor(ContextCompat.getColor(context, R.color.hotelsv2_checkout_text_color))
+            loyaltyPointsInfo.setTextColor(ContextCompat.getColor(context, R.color.hotelsv2_checkout_text_color))
             swpLogo.setImageResource(R.drawable.swp_grey)
         }
 
