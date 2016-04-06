@@ -183,7 +183,8 @@ class BundleHotelViewModel(val context: Context) {
             hotelPromoTextObservable.onNext(selectHotelRoom.promoDescription)
             val cityCountry = Phrase.from(context, R.string.hotel_city_country_TEMPLATE)
                     .put("city", selectedHotel.city)
-                    .put("country", selectedHotel.stateProvinceCode ?: Db.getPackageParams().destination.hierarchyInfo?.country?.name)
+                    .put("country",
+                            if (selectedHotel.stateProvinceCode.isNullOrBlank()) Db.getPackageParams().destination.hierarchyInfo?.country?.name else selectedHotel.stateProvinceCode)
                     .format().toString()
             hotelCityObservable.onNext(cityCountry)
         }
