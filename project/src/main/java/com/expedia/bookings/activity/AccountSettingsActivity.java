@@ -185,7 +185,10 @@ public class AccountSettingsActivity extends AppCompatActivity implements AboutS
 			builder.setTitle(R.string.about_section_communicate);
 
 			builder.addRow(R.string.rate_our_app, ROW_RATE_APP);
-			builder.addRow(R.string.WereHiring, ROW_WERE_HIRING);
+			if (ProductFlavorFeatureConfiguration.getInstance().isWeAreHiringInAboutEnabled()) {
+				builder.addRow(R.string.WereHiring, ROW_WERE_HIRING);
+			}
+
 
 			communicateFragment = builder.build();
 			ft.add(R.id.section_communicate, communicateFragment, TAG_COMMUNICATE);
