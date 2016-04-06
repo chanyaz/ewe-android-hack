@@ -30,7 +30,7 @@ public class PackageHotelDetailsTest extends PackageTestCase {
 		HotelScreen.selectHotel("Package Happy Path");
 		Common.delay(3);
 
-		EspressoUtils.assertViewWithSiblingIsNotDisplayed(R.id.discount_percentage, R.id.promo_text);
+		EspressoUtils.assertViewWithSiblingIsNotDisplayed(R.id.discount_percentage, R.id.air_attach_swp_image_details);
 		EspressoUtils.assertViewIsNotDisplayed(R.id.hotel_price_container);
 		EspressoUtils.assertViewIsDisplayed(R.id.search_dates_info);
 

@@ -36,7 +36,8 @@ class HotelViewModel(private val context: Context, private val hotel: Hotel) {
     val strikethroughPriceToShowUsers = BehaviorSubject.create(hotel.lowRateInfo.strikethroughPriceToShowUsers)
     val priceToShowUsers = BehaviorSubject.create(hotel.lowRateInfo.priceToShowUsers)
     val hotelStrikeThroughPriceVisibility = BehaviorSubject.create(false)
-    val hasDiscountObservable = BehaviorSubject.create<Boolean>(hotel.lowRateInfo.isDiscountTenPercentOrBetter() && !hotel.lowRateInfo.airAttached)
+    val loyaltyAvailabilityObservable = BehaviorSubject.create<Boolean>(hotel.lowRateInfo?.loyaltyInfo?.isShopWithPoints ?: false)
+    val showDiscountObservable = BehaviorSubject.create<Boolean>(hotel.lowRateInfo.isDiscountPercentNotZero && !hotel.lowRateInfo.airAttached && !loyaltyAvailabilityObservable.value)
     val hotelGuestRatingObservable = BehaviorSubject.create(hotel.hotelGuestRating)
     val isHotelGuestRatingAvailableObservable = BehaviorSubject.create<Boolean>(hotel.hotelGuestRating > 0)
     val hotelPreviewRating = BehaviorSubject.create<Float>(hotel.hotelStarRating)
@@ -63,9 +64,9 @@ class HotelViewModel(private val context: Context, private val hotel: Hotel) {
 
     val vipMessageVisibilityObservable = BehaviorSubject.create<Boolean>()
     val vipLoyaltyMessageVisibilityObservable = BehaviorSubject.create<Boolean>()
-    val mapLoyaltyMessageVisibilityObservable = BehaviorSubject.create<Boolean>()
     val mapLoyaltyMessageTextObservable = BehaviorSubject.create<Spanned>()
-    val airAttachVisibilityObservable = BehaviorSubject.create<Boolean>(hotel.lowRateInfo.isShowAirAttached())
+    val airAttachWithDiscountLabelVisibilityObservable = BehaviorSubject.create<Boolean>(hotel.lowRateInfo.isShowAirAttached() && !loyaltyAvailabilityObservable.value)
+    val airAttachIconWithoutDiscountLabelVisibility = BehaviorSubject.create<Boolean>(hotel.lowRateInfo.isShowAirAttached() && loyaltyAvailabilityObservable.value)
     val topAmenityTitleObservable = BehaviorSubject.create(getTopAmenityTitle(hotel, resources))
     val topAmenityVisibilityObservable = topAmenityTitleObservable.map { (it != "") }
 
@@ -87,11 +88,9 @@ class HotelViewModel(private val context: Context, private val hotel: Hotel) {
         val isVipAvailable = hotel.isVipAccess && PointOfSale.getPointOfSale().supportsVipAccess() && User.isLoggedIn(context)
         val isGoldOrSilver = Db.getUser() != null && (Db.getUser().primaryTraveler.loyaltyMembershipTier == Traveler.LoyaltyMembershipTier.SILVER || Db.getUser().primaryTraveler.loyaltyMembershipTier == Traveler.LoyaltyMembershipTier.GOLD)
         vipMessageVisibilityObservable.onNext(isVipAvailable && isGoldOrSilver)
-        val isLoyaltyApplied = hotel.lowRateInfo?.loyaltyInfo?.isShopWithPoints ?: false
-        val isVipLoyaltyApplied = isVipAvailable && isGoldOrSilver && isLoyaltyApplied
+        val isVipLoyaltyApplied = isVipAvailable && isGoldOrSilver && loyaltyAvailabilityObservable.value
         vipLoyaltyMessageVisibilityObservable.onNext(isVipLoyaltyApplied)
 
-        mapLoyaltyMessageVisibilityObservable.onNext(isLoyaltyApplied)
         val mapLoyaltyMessageString = if (isVipLoyaltyApplied) resources.getString(R.string.vip_loyalty_applied_map_message) else resources.getString(R.string.regular_loyalty_applied_message)
         mapLoyaltyMessageTextObservable.onNext(Html.fromHtml(mapLoyaltyMessageString))
 

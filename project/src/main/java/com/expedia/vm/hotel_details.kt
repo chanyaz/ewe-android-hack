@@ -192,7 +192,8 @@ class HotelDetailViewModel(val context: Context, val hotelServices: HotelService
     val hotelLatLngObservable = BehaviorSubject.create<DoubleArray>()
     val discountPercentageBackgroundObservable = BehaviorSubject.create<Int>()
     val discountPercentageObservable = BehaviorSubject.create<String>()
-    val hasDiscountPercentageObservable = BehaviorSubject.create<Boolean>(false)
+    val showDiscountPercentageObservable = BehaviorSubject.create<Boolean>(false)
+    val showAirAttachSWPImageObservable = BehaviorSubject.create<Boolean>(false)
     val hasVipAccessObservable = BehaviorSubject.create<Boolean>(false)
     val hasVipAccessLoyaltyObservable = BehaviorSubject.create<Boolean>(false)
     val hasRegularLoyaltyPointsAppliedObservable = BehaviorSubject.create<Boolean>(false)
@@ -252,6 +253,7 @@ class HotelDetailViewModel(val context: Context, val hotelServices: HotelService
             hotelDetailsBundleTotalObservable.onNext(Pair(Money(BigDecimal(rate.packagePricePerPerson.toDouble()), rate.currencyCode).getFormattedMoney(Money.F_NO_DECIMAL), ""))
             totalPriceObservable.onNext(Money(BigDecimal(rate.totalPriceWithMandatoryFees.toDouble()), rate.currencyCode).getFormattedMoney(Money.F_NO_DECIMAL))
             discountPercentageBackgroundObservable.onNext(if (rate.isShowAirAttached()) R.drawable.air_attach_background else R.drawable.guest_rating_background)
+            showAirAttachSWPImageObservable.onNext(rate.loyaltyInfo?.isShopWithPoints ?: false && rate.isShowAirAttached())
         }
 
         userRatingObservable.onNext(response.hotelGuestRating.toString())
@@ -265,11 +267,12 @@ class HotelDetailViewModel(val context: Context, val hotelServices: HotelService
                 else context.resources.getString(R.string.zero_reviews))
 
         val chargeableRateInfo = response.hotelRoomResponse?.firstOrNull()?.rateInfo?.chargeableRateInfo
+        val isRateShopWithPoints = chargeableRateInfo?.loyaltyInfo?.isShopWithPoints ?: false
         var discountPercentage: Int? = chargeableRateInfo?.discountPercent?.toInt()
         discountPercentageObservable.onNext(Phrase.from(context.resources, R.string.hotel_discount_percent_Template)
                 .put("discount", discountPercentage ?: 0).format().toString())
 
-        hasDiscountPercentageObservable.onNext(!response.isPackage && chargeableRateInfo?.isDiscountTenPercentOrBetter ?: false)
+        showDiscountPercentageObservable.onNext(!response.isPackage && !isRateShopWithPoints && chargeableRateInfo?.isDiscountPercentNotZero ?: false)
         val isVipAccess = response.isVipAccess && PointOfSale.getPointOfSale().supportsVipAccess()
         hasVipAccessObservable.onNext(isVipAccess)
         hasVipAccessLoyaltyObservable.onNext(isVipAccess && response.doesAnyHotelRateOfAnyRoomHaveLoyaltyInfo)
@@ -334,17 +337,17 @@ class HotelDetailViewModel(val context: Context, val hotelServices: HotelService
         HotelV2Tracking().trackHotelV2EtpInfo()
     }
 
-    val strikeThroughPriceVisibility = Observable.combineLatest(hasDiscountPercentageObservable, hotelSoldOut)
+    val strikeThroughPriceVisibility = Observable.combineLatest(showDiscountPercentageObservable, hotelSoldOut)
     { hasDiscount, hotelSoldOut -> hasDiscount && !hotelSoldOut }
 
     val perNightVisibility = Observable.combineLatest(onlyShowTotalPrice, hotelSoldOut) { onlyShowTotalPrice, hotelSoldOut -> onlyShowTotalPrice || hotelSoldOut }
 
     val payByPhoneContainerVisibility = Observable.combineLatest(showBookByPhoneObservable, hotelSoldOut) { showBookByPhoneObservable, hotelSoldOut -> showBookByPhoneObservable && !hotelSoldOut }
 
-    val hotelMessagingContainerVisibility = Observable.combineLatest(hasDiscountPercentageObservable, hasVipAccessObservable, promoMessageObservable, hotelSoldOut, hasRegularLoyaltyPointsAppliedObservable)
+    val hotelMessagingContainerVisibility = Observable.combineLatest(showDiscountPercentageObservable, hasVipAccessObservable, promoMessageObservable, hotelSoldOut, hasRegularLoyaltyPointsAppliedObservable, showAirAttachSWPImageObservable)
     {
-        hasDiscount, hasVipAccess, promoMessage, hotelSoldOut, hasRegularLoyaltyPointsApplied ->
-        (hasDiscount || hasVipAccess || Strings.isNotEmpty(promoMessage) || hasRegularLoyaltyPointsApplied) && !hotelSoldOut
+        hasDiscount, hasVipAccess, promoMessage, hotelSoldOut, hasRegularLoyaltyPointsApplied, shouldShowAirAttachSWPImage ->
+        (hasDiscount || hasVipAccess || Strings.isNotEmpty(promoMessage) || hasRegularLoyaltyPointsApplied || shouldShowAirAttachSWPImage) && !hotelSoldOut
     }
 
     val etpContainerVisibility = Observable.combineLatest(hasETPObservable, hotelSoldOut) { hasETPOffer, hotelSoldOut -> hasETPOffer && !hotelSoldOut }

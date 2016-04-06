@@ -199,6 +199,7 @@ class HotelListAdapter(val hotelSelectedSubject: PublishSubject<Hotel>, val head
         val airAttachDiscount: TextView by root.bindView(R.id.air_attach_discount)
         val airAttachSVG: SVGView by root.bindView(R.id.air_attach_curve)
         val airAttachContainer: LinearLayout by root.bindView(R.id.air_attach_layout)
+        val airAttachSWPImage: ImageView by root.bindView(R.id.air_attach_swp_image)
         val ratingAmenityContainer: View by root.bindView(R.id.rating_amenity_container)
         val priceIncludesFlightsView: LinearLayout by root.bindView(R.id.price_includes_flights)
 
@@ -236,7 +237,7 @@ class HotelListAdapter(val hotelSelectedSubject: PublishSubject<Hotel>, val head
             viewModel.isHotelGuestRatingAvailableObservable.subscribeVisibility(guestRating)
             viewModel.isHotelGuestRatingAvailableObservable.subscribeVisibility(guestRatingRecommendedText)
             viewModel.isHotelGuestRatingAvailableObservable.map { !it }.subscribeVisibility(noGuestRating)
-            viewModel.hasDiscountObservable.subscribeVisibility(discountPercentage)
+            viewModel.showDiscountObservable.subscribeVisibility(discountPercentage)
             viewModel.distanceFromCurrentLocation.subscribeText(hotelAmenityOrDistanceFromLocation)
             viewModel.topAmenityVisibilityObservable.subscribeVisibility(topAmenityTitle)
             viewModel.topAmenityTitleObservable.subscribeText(topAmenityTitle)
@@ -247,7 +248,8 @@ class HotelListAdapter(val hotelSelectedSubject: PublishSubject<Hotel>, val head
             viewModel.urgencyMessageBoxObservable.subscribeText(urgencyMessageBox)
             viewModel.vipMessageVisibilityObservable.subscribeVisibility(vipMessage)
             viewModel.vipLoyaltyMessageVisibilityObservable.subscribeVisibility(vipLoyaltyMessage)
-            viewModel.airAttachVisibilityObservable.subscribeVisibility(airAttachContainer)
+            viewModel.airAttachWithDiscountLabelVisibilityObservable.subscribeVisibility(airAttachContainer)
+            viewModel.airAttachIconWithoutDiscountLabelVisibility.subscribeVisibility(airAttachSWPImage)
             viewModel.hotelDiscountPercentageObservable.subscribeText(airAttachDiscount)
             viewModel.ratingAmenityContainerVisibilityObservable.subscribeVisibility(ratingAmenityContainer)
 
