@@ -309,10 +309,11 @@
     <dimen name="layover_bar_text_size">@dimen/temporary_font_size_small</dimen>
     <dimen name="layover_bar_padding">4dp</dimen>
 
-    <!-- Traveler Checkout -->
+    <!-- Material Checkout Forms-->
     <dimen name="traveler_select_item_padding">12dp</dimen>
     <dimen name="traveler_input_bottom_margin">4dp</dimen>
     <dimen name="traveler_input_text_size">16sp</dimen>
+    <dimen name="checkout_form_padding">14dp</dimen>
 
     <!-- Package Bundle Overview Footer -->
     <dimen name="packages_bundle_overview_footer_primary_text">@dimen/temporary_font_size_medium</dimen>

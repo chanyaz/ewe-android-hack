@@ -5,7 +5,7 @@
 
     <com.expedia.bookings.widget.TextView
         android:id="@+id/title"
-        style="@style/ResultsHeadersText"
+        style="@style/HeaderTextAboveCardviews"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"

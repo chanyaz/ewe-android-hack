@@ -5,7 +5,7 @@
 
     <com.expedia.bookings.widget.TextView
         android:id="@+id/step_one_text"
-        style="@style/ResultsHeadersText"
+        style="@style/HeaderTextAboveCardviews"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
@@ -28,7 +28,7 @@
 
     <com.expedia.bookings.widget.TextView
         android:id="@+id/step_two_text"
-        style="@style/ResultsHeadersText"
+        style="@style/HeaderTextAboveCardviews"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
