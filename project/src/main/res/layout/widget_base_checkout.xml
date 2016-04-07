@@ -101,7 +101,7 @@
                 <com.expedia.bookings.presenter.packages.TravelerPresenter
                     android:id="@+id/traveler_presenter"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"/>
+                    android:layout_height="match_parent" />
 
                 <ViewStub
                     android:id="@+id/payment_info_card_view_stub"
@@ -214,12 +214,10 @@
 
     <Button
         android:id="@+id/checkout_button"
+        style="@style/MaterialFooterButtonText"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:background="?attr/hotel_select_room_ripple_drawable"
         android:layout_gravity="bottom"
-        android:background="@color/packages_primary_color"
-        android:text="@string/Checkout"
-        android:textAllCaps="false"
-        android:textColor="#FFFFFF" />
+        android:text="@string/Checkout" />
 
 </merge>
