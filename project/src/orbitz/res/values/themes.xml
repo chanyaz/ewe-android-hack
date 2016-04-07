@@ -179,7 +179,7 @@
         <item name="skin_acctInputTextGoodColor">@color/acct__bg_input_text_good_orbitz</item>
         <item name="skin_acctSignInButtonBackgroundDrawable">@drawable/acct__bg_btn_sign_in</item>
         <item name="skin_acctSignInButtonTextColor">@color/acct__btn_sign_in_text_orbitz</item>
-        <item name="skin_acctCheckmarkGoodDrawable">@drawable/acct__ic_checkmark_orb</item>
+        <item name="skin_acctCheckmarkGoodDrawable">@drawable/acct__ic_checkmark</item>
         <item name="skin_acctCheckmarkWarningDrawable">@drawable/acct__ic_warning_orb</item>
         <item name="skin_acctLogoTextDrawableMarginLeft">0dp</item>
         <item name="skin_acctLogoTextDrawableMarginTop">20dp</item>
