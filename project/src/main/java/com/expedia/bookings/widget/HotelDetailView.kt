@@ -467,6 +467,7 @@ class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayout(conte
         hotelGalleryDescriptionContainer.alpha = 0f
         resortFeeWidget.visibility = View.GONE
         roomRateHeader.visibility = View.GONE
+        commonAmenityText.visibility = View.GONE
         roomRateRegularLoyaltyAppliedView.visibility = View.GONE
         roomRateVIPLoyaltyAppliedContainer.visibility = View.GONE
         commonAmenityDivider.visibility = View.GONE
