@@ -41,6 +41,7 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet) : Pre
         UserAccountRefresher.IUserAccountRefreshListener, AccountButton.AccountButtonClickListener {
 
     val handle: FrameLayout by bindView(R.id.handle)
+    val handleShadow: View by bindView(R.id.drop_shadow)
     val chevron: View by bindView(R.id.chevron)
     val mainContent: LinearLayout by bindView(R.id.main_content)
     val scrollView: ScrollView by bindView(R.id.scrollView)
@@ -122,6 +123,7 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet) : Pre
                 when (event.action) {
                     (MotionEvent.ACTION_DOWN) -> {
                         originY = event.rawY
+                        handleShadow.visibility = View.VISIBLE
                     }
                     (MotionEvent.ACTION_UP) -> {
                         val diff = event.rawY - originY
@@ -133,6 +135,7 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet) : Pre
                             animCheckoutToTop()
                         }
                         originY = 0f
+                        handleShadow.visibility = View.GONE
                     }
                     (MotionEvent.ACTION_MOVE) -> {
                         val diff = event.rawY - originY
