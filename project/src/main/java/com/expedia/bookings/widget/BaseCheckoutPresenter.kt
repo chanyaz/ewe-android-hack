@@ -52,6 +52,8 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet) : Pre
 
     val legalInformationText: TextView by bindView(R.id.legal_information_text_view)
     val hintContainer: LinearLayout by bindView(R.id.hint_container)
+    val boardingWarning: TextView by bindView(R.id.boarding_warning)
+    val dropShadowView: View by bindView(R.id.drop_shadow)
     val depositPolicyText: TextView by bindView(R.id.disclaimer_text)
 
     val bottomContainer: LinearLayout by bindView(R.id.bottom_container)
