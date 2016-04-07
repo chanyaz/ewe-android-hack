@@ -137,6 +137,7 @@ public class PackagePhoneHappyPathTest extends PackageTestCase {
 			"Package Happy Path");
 		EspressoUtils.assertViewWithTextIsDisplayedAtPosition(HotelScreen.hotelResultsList(), 2, R.id.strike_through_price, "$538");
 		EspressoUtils.assertViewWithTextIsDisplayedAtPosition(HotelScreen.hotelResultsList(), 2, R.id.price_per_night, "$526");
+		EspressoUtils.assertViewWithTextIsDisplayedAtPosition(HotelScreen.hotelResultsList(), 2, R.id.unreal_deal_message, "Save 3 nights and save");
 	}
 
 	private void assertHotelInfoSite() {

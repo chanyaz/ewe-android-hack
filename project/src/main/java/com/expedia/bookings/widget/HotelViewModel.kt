@@ -77,6 +77,8 @@ class HotelViewModel(private val context: Context, private val hotel: Hotel) {
     val distanceFromCurrentLocation = BehaviorSubject.create(if (hotel.proximityDistanceInMiles > 0) HotelUtils.formatDistanceForNearby(resources, hotel, true) else "")
     val adImpressionObservable = BehaviorSubject.create<String>()
     val priceIncludesFlightsObservable = BehaviorSubject.create<Boolean>(hotel.isPackage)
+    val unrealDealMessageObservable = BehaviorSubject.create(hotel.drrMessage)
+    val unrealDealMessageContainerVisibilityObservable = BehaviorSubject.create<Boolean>()
 
     init {
         if (hotel.isSponsoredListing && !hotel.hasShownImpression) {
@@ -94,6 +96,7 @@ class HotelViewModel(private val context: Context, private val hotel: Hotel) {
         val mapLoyaltyMessageString = if (isVipLoyaltyApplied) resources.getString(R.string.vip_loyalty_applied_map_message) else resources.getString(R.string.regular_loyalty_applied_message)
         mapLoyaltyMessageTextObservable.onNext(Html.fromHtml(mapLoyaltyMessageString))
 
+        unrealDealMessageContainerVisibilityObservable.onNext(!hotel.drrMessage.isNullOrEmpty())
         // NOTE: Any changes to this logic should also be made in HotelDetailViewModel.getPromoText()
         val isUserBucketedForTest = Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelsMemberDealTest)
         if (hotel.isMemberDeal && isUserBucketedForTest && User.isLoggedIn(context)) {
