@@ -11,6 +11,7 @@ import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.location.CurrentLocationObservable
 import com.expedia.bookings.presenter.BaseSearchPresenterV2
 import com.expedia.bookings.services.SuggestionV4Services
+import com.expedia.bookings.tracking.PackagesTracking
 import com.expedia.bookings.utils.AnimUtils
 import com.expedia.bookings.utils.SuggestionV4Utils
 import com.expedia.bookings.utils.Ui
@@ -103,6 +104,7 @@ class PackageSearchPresenter(context: Context, attrs: AttributeSet) : BaseSearch
             searchLocationEditText?.queryHint = context.resources.getString(R.string.hint_arrival_airport)
             isDepartureAirport = false
             show(SuggestionSelectionState())
+            PackagesTracking().trackDestinationSearchInit()
         }
     }
 
