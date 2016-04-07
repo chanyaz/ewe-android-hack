@@ -94,7 +94,7 @@ class HotelMapViewModel(val context: Context, val selectARoomObserver: Observer<
                 return ""
             }
 
-            val roomDailyPrice = Money(BigDecimal(hotelRoomRate.priceToShowUsers.toDouble()), hotelRoomRate.currencyCode).getFormattedMoney(Money.F_NO_DECIMAL)
+            val roomDailyPrice = Money(BigDecimal(hotelRoomRate.priceToShowUsersFallbackToZeroIfNegative.toDouble()), hotelRoomRate.currencyCode).getFormattedMoney(Money.F_NO_DECIMAL)
 
             val fromPriceString = context.getString(R.string.map_snippet_price_template, roomDailyPrice)
             val fromPriceStyledString = SpannableString(fromPriceString)

@@ -27,6 +27,14 @@ class HotelMapViewModelTest {
         assertEquals("", HotelMapViewModel.fromPriceStyledString(RuntimeEnvironment.application, null).toString())
     }
 
+    @Test fun testFromPriceStyledStringWithNegativePriceToSowUsers() {
+        givenHotelOffersResponseWhenStrikethroughPriceAndPriceAreSame()
+
+        val hotelRate = hotelOffersResponse.hotelRoomResponse?.firstOrNull()?.rateInfo?.chargeableRateInfo
+        hotelRate?.priceToShowUsers = -10f
+        assertEquals("From $0", HotelMapViewModel.fromPriceStyledString(RuntimeEnvironment.application, hotelOffersResponse.hotelRoomResponse?.firstOrNull()?.rateInfo?.chargeableRateInfo).toString())
+    }
+
     @Test fun testViewModelOutputsForViewWhenStrikethroughPriceAndPriceAreSame() {
         givenHotelOffersResponseWhenStrikethroughPriceAndPriceAreSame()
         val strikeThroughPriceVisibilitySubscriber = TestSubscriber<Boolean>()
