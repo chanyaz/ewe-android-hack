@@ -227,8 +227,9 @@ class HotelCheckoutMainViewPresenter(context: Context, attr: AttributeSet) : Che
     }
 
     override fun accountLogoutClicked() {
-        super.accountLogoutClicked()
         hotelCheckoutMainViewModel.onLogoutButtonClicked.onNext(Unit)
+        super.accountLogoutClicked()
+
     }
 
     override fun back(): Boolean {

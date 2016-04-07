@@ -7,10 +7,13 @@ import android.util.AttributeSet
 import com.expedia.bookings.R
 import com.expedia.bookings.data.TravelerParams
 import com.expedia.bookings.presenter.BaseSearchPresenter
+import com.expedia.bookings.utils.bindView
+import com.expedia.bookings.widget.ShopWithPointsWidget
 import com.expedia.vm.DatedSearchViewModel
 import org.joda.time.LocalDate
 
 abstract class BaseHotelSearchPresenter(context: Context, attrs: AttributeSet) : BaseSearchPresenter(context, attrs) {
+    val shopWithPointsWidget: ShopWithPointsWidget by bindView(R.id.widget_points_details)
 
     abstract fun getSearchViewModel() : DatedSearchViewModel
 

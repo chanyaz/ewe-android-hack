@@ -15,6 +15,7 @@ import com.expedia.util.operators.OperatorDistinctUntilChangedWithComparer
 import com.google.android.gms.maps.GoogleMap
 import rx.Observable
 import rx.Observer
+import rx.Subscription
 import rx.exceptions.OnErrorNotImplementedException
 import rx.subjects.PublishSubject
 
@@ -130,8 +131,8 @@ fun Observable<CharSequence>.subscribeToggleButton(togglebutton: ToggleButton) {
     }
 }
 
-fun Observable<Boolean>.subscribeVisibility(view: View?) {
-    this.subscribe { visible ->
+fun Observable<Boolean>.subscribeVisibility(view: View?): Subscription {
+    return this.subscribe { visible ->
         view?.visibility = if (visible) View.VISIBLE else View.GONE
     }
 }

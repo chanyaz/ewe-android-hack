@@ -38,6 +38,7 @@ import kotlin.test.assertEquals
 import com.expedia.vm.ShopWithPointsViewModel
 import kotlin.test.assertFalse
 import kotlin.test.assertTrue
+import com.expedia.model.UserLoginStateChangedModel
 
 @RunWith(RobolectricRunner::class)
 class PaymentWidgetV2Test {
@@ -66,7 +67,7 @@ class PaymentWidgetV2Test {
         viewModel = PaymentViewModel(activity)
         sut.viewmodel = viewModel;
         paymentModel = PaymentModel<HotelCreateTripResponse>(loyaltyServiceRule.services!!)
-        shopWithPointsViewModel = ShopWithPointsViewModel(activity.applicationContext, paymentModel)
+        shopWithPointsViewModel = ShopWithPointsViewModel(activity.applicationContext, paymentModel, UserLoginStateChangedModel())
         val payWithPointsViewModel = PayWithPointsViewModel(paymentModel, shopWithPointsViewModel, activity.application.resources)
         sut.paymentWidgetViewModel = PaymentWidgetViewModel(activity.application, paymentModel, payWithPointsViewModel)
 

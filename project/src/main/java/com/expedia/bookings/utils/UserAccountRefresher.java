@@ -1,25 +1,25 @@
 package com.expedia.bookings.utils;
 
+import javax.inject.Inject;
+
 import android.content.Context;
 import android.support.annotation.Nullable;
 
 import com.expedia.account.data.FacebookLinkResponse;
 import com.expedia.bookings.R;
-import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.SignInResponse;
 import com.expedia.bookings.data.User;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.server.ExpediaServices;
+import com.expedia.model.UserLoginStateChangedModel;
 import com.facebook.AccessToken;
 import com.facebook.FacebookSdk;
 import com.mobiata.android.BackgroundDownloader;
 import com.mobiata.android.Log;
 
-import rx.Observable;
 import rx.Subscriber;
-import rx.subjects.PublishSubject;
 
 public class UserAccountRefresher {
 	public interface IUserAccountRefreshListener {
@@ -34,14 +34,15 @@ public class UserAccountRefresher {
 
 	private Context context;
 
-	private static PublishSubject<Boolean> userAccountRefreshedSubject = PublishSubject.create();
-	public static Observable<Boolean> userAccountRefreshed = userAccountRefreshedSubject;
+	@Inject
+	UserLoginStateChangedModel userLoginStateChangedModel;
 
 	public UserAccountRefresher(Context context, LineOfBusiness lob,
 		@Nullable IUserAccountRefreshListener userAccountRefreshListener) {
 		this.context = context.getApplicationContext();
 		this.userAccountRefreshListener = userAccountRefreshListener;
 		this.keyRefreshUser = lob + "_" + "KEY_REFRESH_USER";
+		Ui.getApplication(context).appComponent().inject(this);
 	}
 
 	public void setUserAccountRefreshListener(IUserAccountRefreshListener listener) {
@@ -71,7 +72,7 @@ public class UserAccountRefresher {
 				User user = results.getUser();
 				user.save(context);
 				Db.setUser(user);
-				userAccountRefreshedSubject.onNext(true);
+				userLoginStateChangedModel.getUserLoginStateChanged().onNext(true);
 			}
 
 			if (userAccountRefreshListener != null) {
@@ -81,13 +82,6 @@ public class UserAccountRefresher {
 	};
 
 	public void ensureAccountIsRefreshed() {
-		if (ExpediaBookingApp.isRobolectric()) {
-			userAccountRefreshedSubject.onNext(true);
-			if (userAccountRefreshListener != null) {
-				userAccountRefreshListener.onUserAccountRefreshed();
-			}
-			return;
-		}
 		int userRefreshInterval = context.getResources().getInteger(R.integer.account_sync_interval_ms);
 		if (mLastRefreshedUserTimeMillis + userRefreshInterval < System.currentTimeMillis()) {
 			Log.d("Refreshing user profile...");
@@ -109,6 +103,7 @@ public class UserAccountRefresher {
 			if (userAccountRefreshListener != null) {
 				userAccountRefreshListener.onUserAccountRefreshed();
 			}
+			userLoginStateChangedModel.getUserLoginStateChanged().onNext(User.isLoggedIn(context));
 		}
 	}
 
@@ -116,7 +111,7 @@ public class UserAccountRefresher {
 		BackgroundDownloader.getInstance().cancelDownload(keyRefreshUser);
 		mLastRefreshedUserTimeMillis = 0L;
 		Events.post(new Events.SignOut());
-		userAccountRefreshedSubject.onNext(false);
+		userLoginStateChangedModel.getUserLoginStateChanged().onNext(false);
 	}
 
 	/**
