@@ -39,7 +39,6 @@ import com.expedia.bookings.data.hotels.Hotel
 import com.expedia.bookings.data.hotels.HotelSearchResponse
 import com.expedia.bookings.extension.isShowAirAttached
 import com.expedia.bookings.presenter.Presenter
-import com.expedia.bookings.tracking.HotelV2Tracking
 import com.expedia.bookings.utils.ArrowXDrawableUtil
 import com.expedia.bookings.utils.HotelMapClusterAlgorithm
 import com.expedia.bookings.utils.HotelMapClusterRenderer
@@ -98,7 +97,6 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
     open val searchThisArea: Button? = null
     var isMapReady = false
     val isBucketedForResultMap = Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelResultMapTest)
-    val isUserBucketedSearchScreenTest = Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelsSearchScreenTest)
     val mapLoyaltyHeaderHeight = context.resources.getDimension(R.dimen.hotel_map_loyalty_header_height).toInt()
 
     var clusterManager: ClusterManager<MapItem> by Delegates.notNull()
@@ -287,7 +285,7 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
             resetListOffset()
         } else {
             show(ResultsMap(), Presenter.FLAG_CLEAR_TOP)
-            if (mapViewModel.isClusteringEnabled) {
+            if (isMapClusteringEnabled()) {
                 animateMapCarouselVisibility(false)
             }
         }
@@ -356,7 +354,7 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
         mapItems.clear()
         clusterManager.clearItems()
         clusterMarkers()
-        if (mapViewModel.isClusteringEnabled) mapCarouselContainer.visibility = View.INVISIBLE
+        if (isMapClusteringEnabled()) mapCarouselContainer.visibility = View.INVISIBLE
         if (setUpMap) setUpMap()
     }
 
@@ -374,7 +372,7 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
             clusterManager.addItem(mapItem)
         }
         clusterMarkers()
-        if (!mapViewModel.isClusteringEnabled) {
+        if (!isMapClusteringEnabled()) {
             selectMarker(mapItems.first(), true, animateCarousel)
         }
 
@@ -534,13 +532,13 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
     private fun setUpMap() {
         clusterManager = ClusterManager(context, googleMap)
         clusterManager.setAlgorithm(HotelMapClusterAlgorithm())
-        hotelMapClusterRenderer = HotelMapClusterRenderer(context, googleMap, clusterManager, mapViewModel.isClusteringEnabled, mapViewModel.clusterChangeSubject)
+        hotelMapClusterRenderer = HotelMapClusterRenderer(context, googleMap, clusterManager, isMapClusteringEnabled(), mapViewModel.clusterChangeSubject)
         clusterManager.setRenderer(hotelMapClusterRenderer)
         var currentZoom = -1f
 
         googleMap?.setOnCameraChangeListener() { position ->
             synchronized(currentZoom) {
-                if (mapViewModel.isClusteringEnabled && Math.abs(currentZoom) != Math.abs(position.zoom)) {
+                if (isMapClusteringEnabled() && Math.abs(currentZoom) != Math.abs(position.zoom)) {
                     val selectedHotels = mapItems.filter { it.isSelected }.map { it.hotel }
                     (mapCarouselRecycler.adapter as HotelMapCarouselAdapter).setItems(selectedHotels)
                     clusterMarkers()
@@ -755,7 +753,7 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
                 super.startTransition(forward)
                 toolbarTextOrigin = toolbarTitle.translationY
                 //Map pin will always be selected for non-clustering behavior eventually
-                val isMapPinSelected = !(mapViewModel.isClusteringEnabled && mapItems.filter { it.isSelected }.isEmpty())
+                val isMapPinSelected = !(isMapClusteringEnabled() && mapItems.filter { it.isSelected }.isEmpty())
 
                 if (forward) {
                     toolbarTextGoal = 0f //
@@ -800,7 +798,7 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
                 }
                 startingFabTranslation = fab.translationY
                 if (forward) {
-                    finalFabTranslation = if (filterBtnWithCountWidget != null) 0f  else filterHeight
+                    finalFabTranslation = if (filterBtnWithCountWidget != null) 0f else filterHeight
                 } else {
                     finalFabTranslation = if (isMapPinSelected) -(mapCarouselContainer.height - mapLoyaltyHeaderHeight - filterHeight) else filterHeight
                 }
@@ -843,7 +841,7 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
                 mapCarouselContainer.visibility = if (forward) {
                     View.INVISIBLE
                 } else {
-                    if (mapViewModel.isClusteringEnabled && mapItems.filter { it.isSelected }.isEmpty()) {
+                    if (isMapClusteringEnabled() && mapItems.filter { it.isSelected }.isEmpty()) {
                         animateMapCarouselVisibility(false)
                         View.INVISIBLE
                     } else {
@@ -881,7 +879,7 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
         private val carouselTransition = object : Presenter.Transition(ResultsMap::class.java, ResultsList::class.java, DecelerateInterpolator(2f), duration / 3) {
 
             override fun startTransition(forward: Boolean) {
-                if (mapViewModel.isClusteringEnabled && mapItems.filter { it.isSelected }.isEmpty()) {
+                if (isMapClusteringEnabled() && mapItems.filter { it.isSelected }.isEmpty()) {
                     mapCarouselContainer.translationX = screenWidth
                     mapCarouselContainer.visibility = View.INVISIBLE
                 } else {
@@ -1072,7 +1070,7 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
     fun animationUpdate(f: Float, forward: Boolean) {
         setupToolbarMeasurements()
         var factor = if (forward) f else Math.abs(1 - f)
-        if (!isUserBucketedSearchScreenTest) {
+        if (!isUserBucketedSearchScreenTest()) {
             recyclerView.translationY = factor * yTranslationRecyclerView
         }
         navIcon.parameter = factor
@@ -1128,7 +1126,7 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
     }
 
     fun showWithTracking(newState: Any) {
-        when(newState) {
+        when (newState) {
             is ResultsMap -> trackSearchMap()
             is ResultsFilter -> trackFilterShown()
         }
@@ -1137,6 +1135,7 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
 
     // Classes for state
     class ResultsList
+
     class ResultsMap
     class ResultsFilter
 
@@ -1184,22 +1183,15 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
     }
 
     abstract fun inflate()
-
     abstract fun doAreaSearch()
-
     abstract fun hideSearchThisArea()
-
     abstract fun showSearchThisArea()
-
     abstract fun trackSearchMap()
-
     abstract fun trackMapToList()
-
     abstract fun trackCarouselScroll()
-
     abstract fun trackMapPinTap()
-
     abstract fun trackFilterShown()
-
     abstract fun trackMapSearchAreaClick()
+    abstract fun isMapClusteringEnabled(): Boolean
+    abstract fun isUserBucketedSearchScreenTest(): Boolean
 }

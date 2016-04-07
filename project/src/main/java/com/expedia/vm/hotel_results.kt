@@ -4,12 +4,10 @@ import android.content.Context
 import android.content.res.Resources
 import android.location.Location
 import com.expedia.bookings.R
-import com.expedia.bookings.data.Db
+import com.expedia.bookings.data.BaseApiResponse
 import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.SuggestionV4
-import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.cars.ApiError
-import com.expedia.bookings.data.BaseApiResponse
 import com.expedia.bookings.data.clientlog.ClientLog
 import com.expedia.bookings.data.hotels.Hotel
 import com.expedia.bookings.data.hotels.HotelRate
@@ -20,9 +18,9 @@ import com.expedia.bookings.services.HotelServices
 import com.expedia.bookings.tracking.AdImpressionTracking
 import com.expedia.bookings.tracking.HotelV2Tracking
 import com.expedia.bookings.utils.DateUtils
+import com.expedia.bookings.utils.MapItem
 import com.expedia.bookings.utils.RetrofitUtils
 import com.expedia.bookings.utils.StrUtils
-import com.expedia.bookings.utils.MapItem
 import com.expedia.util.endlessObserver
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.LatLngBounds
@@ -31,14 +29,6 @@ import org.joda.time.DateTime
 import rx.Observer
 import rx.subjects.BehaviorSubject
 import rx.subjects.PublishSubject
-import kotlin.collections.emptyList
-import kotlin.collections.filter
-import kotlin.collections.first
-import kotlin.collections.firstOrNull
-import kotlin.collections.isNotEmpty
-import kotlin.collections.sortedBy
-import kotlin.collections.sortedByDescending
-import kotlin.properties.Delegates
 
 class HotelResultsViewModel(private val context: Context, private val hotelServices: HotelServices?, private val lob: LineOfBusiness, private val clientLogBuilder: ClientLog.Builder?) {
 
@@ -164,11 +154,10 @@ class HotelResultsPricingStructureHeaderViewModel(private val resources: Resourc
     }
 }
 
-public open class HotelResultsMapViewModel(val context: Context, val currentLocation: Location) {
+open class HotelResultsMapViewModel(val context: Context, val currentLocation: Location) {
     val mapInitializedObservable = PublishSubject.create<Unit>()
     val createMarkersObservable = PublishSubject.create<Unit>()
     val clusterChangeSubject = PublishSubject.create<Unit>()
-    var isClusteringEnabled by Delegates.notNull<Boolean>()
 
     var hotels: List<Hotel> = emptyList()
 
@@ -195,8 +184,6 @@ public open class HotelResultsMapViewModel(val context: Context, val currentLoca
     }
 
     init {
-        isClusteringEnabled = Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppHSRMapClusteringTest)
-
         createMarkersObservable.subscribe {
             val response = hotelResultsSubject.value
             if (response != null) newBoundsObservable.onNext(getMapBounds(response))
