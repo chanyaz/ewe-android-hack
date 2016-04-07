@@ -99,4 +99,14 @@ open class PackageSearchParams(val origin: SuggestionV4, val destination: Sugges
             params.put(key.toString(), valueList[i - 1])
         }
     }
+
+    fun getNumberOfSeatedChildren(): Int {
+        var numberOfUnseatedTravelers = 0
+        for (child in children) {
+            if (child < 2 && infantSeatingInLap) {
+                numberOfUnseatedTravelers++
+            }
+        }
+        return children.size - numberOfUnseatedTravelers
+    }
 }
