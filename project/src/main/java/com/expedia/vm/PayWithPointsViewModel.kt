@@ -183,9 +183,7 @@ class PayWithPointsViewModel<T : TripResponse>(val paymentModel: PaymentModel<T>
     init {
         paymentModel.paymentSplitsSuggestionUpdates
                 .withLatestFrom(pwpOpted, { paymentSplitsSuggestionUpdates, pwpOpted ->
-                    //If `paymentSplitsSuggestionUpdates.second` is True (means we are coming from a Fresh Create-Trip, then pwpOpted is governed by that
-                    //Otherwise, pwpOpted is governed by whatever is the last value in `pwpOpted` stream
-                    Pair(paymentSplitsSuggestionUpdates.first.payingWithPoints.amount.amount, paymentSplitsSuggestionUpdates.second || pwpOpted) })
+                    Pair(paymentSplitsSuggestionUpdates.first.payingWithPoints.amount.amount, pwpOpted) })
                 .subscribe {
                     //Ensure it goes first into burnAmountForComparison, and then into burnAmountUpdatesFromPaymentSplitsSuggestions
                     burnAmountForComparison.onNext(if (!it.second) BigDecimal.ZERO else it.first)
