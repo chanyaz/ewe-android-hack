@@ -267,7 +267,7 @@ public class PointOfSale {
 		sCountryCodeMap.put("fk", new CountryResources(R.string.country_fk));
 		sCountryCodeMap.put("fo", new CountryResources(R.string.country_fo));
 		sCountryCodeMap.put("fj", new CountryResources(R.string.country_fj));
-		sCountryCodeMap.put("fi", new CountryResources(R.string.country_fi));
+		sCountryCodeMap.put("fi", new CountryResources(R.string.country_fi, R.drawable.ic_flag_fi));
 		sCountryCodeMap.put("fr", new CountryResources(R.string.country_fr, R.drawable.ic_flag_fr));
 		sCountryCodeMap.put("gf", new CountryResources(R.string.country_gf));
 		sCountryCodeMap.put("pf", new CountryResources(R.string.country_pf));
