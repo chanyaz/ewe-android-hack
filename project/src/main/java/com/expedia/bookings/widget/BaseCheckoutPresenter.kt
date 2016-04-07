@@ -155,7 +155,6 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet) : Pre
         addDefaultTransition(defaultTransition)
         addTransition(defaultToTraveler)
         addTransition(defaultToPayment)
-        slideToPurchase.addSlideToListener(this)
         travelerPresenter.travelersCompleteSubject.subscribe {
             show(CheckoutDefault(), FLAG_CLEAR_BACKSTACK)
         }

@@ -99,10 +99,33 @@ class PackagePresenter(context: Context, attrs: AttributeSet) : Presenter(contex
         searchPresenter.searchViewModel.searchParamsObservable.subscribe(bundlePresenter.bundleWidget.viewModel.hotelParamsObservable)
         bundlePresenter.bundleWidget.viewModel.toolbarTitleObservable.subscribe(bundlePresenter.bundleOverviewHeader.toolbar.viewModel.toolbarTitle)
         bundlePresenter.bundleWidget.viewModel.toolbarSubtitleObservable.subscribe(bundlePresenter.bundleOverviewHeader.toolbar.viewModel.toolbarSubtitle)
-        bundlePresenter.bundleWidget.viewModel.errorObservable.subscribe(errorPresenter.viewmodel.apiErrorObserver)
+        bundlePresenter.bundleWidget.viewModel.errorObservable.subscribe(errorPresenter.viewmodel.searchApiErrorObserver)
         bundlePresenter.bundleWidget.viewModel.errorObservable.delay(DELAY_INVOKING_ERROR_OBSERVABLES_DOING_SHOW, TimeUnit.MILLISECONDS).observeOn(AndroidSchedulers.mainThread()).subscribe { show(errorPresenter) }
         errorPresenter.viewmodel.defaultErrorObservable.delay(DELAY_INVOKING_ERROR_OBSERVABLES_DOING_SHOW, TimeUnit.MILLISECONDS).observeOn(AndroidSchedulers.mainThread()).subscribe {
             show(searchPresenter, FLAG_CLEAR_TOP)
+        }
+
+        bundlePresenter.getCheckoutPresenter().createTripViewModel.createTripErrorObservable.subscribe(errorPresenter.viewmodel.checkoutApiErrorObserver)
+        bundlePresenter.getCheckoutPresenter().checkoutViewModel.checkoutErrorObservable.subscribe(errorPresenter.viewmodel.checkoutApiErrorObserver)
+        bundlePresenter.getCheckoutPresenter().createTripViewModel.createTripErrorObservable.delay(DELAY_INVOKING_ERROR_OBSERVABLES_DOING_SHOW, TimeUnit.MILLISECONDS).observeOn(AndroidSchedulers.mainThread()).subscribe { show(errorPresenter) }
+        bundlePresenter.getCheckoutPresenter().checkoutViewModel.checkoutErrorObservable.delay(DELAY_INVOKING_ERROR_OBSERVABLES_DOING_SHOW, TimeUnit.MILLISECONDS).observeOn(AndroidSchedulers.mainThread()).subscribe { show(errorPresenter) }
+        errorPresenter.viewmodel.checkoutUnknownErrorObservable.delay(DELAY_INVOKING_ERROR_OBSERVABLES_DOING_SHOW, TimeUnit.MILLISECONDS).observeOn(AndroidSchedulers.mainThread()).subscribe {
+            show(bundlePresenter, Presenter.FLAG_CLEAR_TOP)
+            bundlePresenter.getCheckoutPresenter().slideToPurchase.resetSlider()
+        }
+
+        errorPresenter.viewmodel.checkoutTravellerErrorObservable.delay(DELAY_INVOKING_ERROR_OBSERVABLES_DOING_SHOW, TimeUnit.MILLISECONDS).observeOn(AndroidSchedulers.mainThread()).subscribe {
+            show(bundlePresenter, Presenter.FLAG_CLEAR_TOP)
+            bundlePresenter.getCheckoutPresenter().slideToPurchase.resetSlider()
+            bundlePresenter.getCheckoutPresenter().travelerPresenter.expandedSubject.onNext(true)
+            bundlePresenter.getCheckoutPresenter().show(bundlePresenter.getCheckoutPresenter(), Presenter.FLAG_CLEAR_TOP)
+        }
+
+        errorPresenter.viewmodel.checkoutCardErrorObservable.delay(DELAY_INVOKING_ERROR_OBSERVABLES_DOING_SHOW, TimeUnit.MILLISECONDS).observeOn(AndroidSchedulers.mainThread()).subscribe {
+            show(bundlePresenter, Presenter.FLAG_CLEAR_TOP)
+            bundlePresenter.getCheckoutPresenter().slideToPurchase.resetSlider()
+            bundlePresenter.getCheckoutPresenter().paymentWidget.cardInfoContainer.performClick()
+            bundlePresenter.getCheckoutPresenter().show(bundlePresenter.getCheckoutPresenter(), Presenter.FLAG_CLEAR_TOP)
         }
     }
 
@@ -146,6 +169,7 @@ class PackagePresenter(context: Context, attrs: AttributeSet) : Presenter(contex
         override fun startTransition(forward: Boolean) {
             super.startTransition(forward)
             errorPresenter.visibility = View.VISIBLE
+            bundlePresenter.getCheckoutPresenter().checkoutDialog.hide()
         }
 
         override fun updateTransition(f: Float, forward: Boolean) {

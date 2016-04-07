@@ -124,6 +124,6 @@ class PackageSearchViewModel(context: Context) : DatedSearchViewModel(context) {
         val instructions = context.resources.getString(resource)
         return Pair(computeTopTextForToolTip(start, end), instructions)
     }
-}
 
+}
 
