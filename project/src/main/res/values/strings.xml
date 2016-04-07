@@ -2153,7 +2153,11 @@
     <!-- Enter traveler details prompt -->
     <string name="checkout_enter_traveler_details">Traveler Details</string>
     <string name="checkout_enter_traveler_details_line2">Enter your information</string>
-    <string name="checkout_more_travelers_TEMPLATE">+ {travelercount} more travelers</string>
+    <!-- Number of travelers in a Package Checkout Booking -->
+    <plurals name="checkout_more_travelers_TEMPLATE">
+        <item quantity="one">+ {travelercount} more traveler</item>
+        <item quantity="other">+ {travelercount} more travelers</item>
+    </plurals>
     <string name="checkout_edit_traveler_TEMPLATE">Edit Traveler {travelernumber}</string>
     <!-- Save traveler dialog -->
     <!-- save traveler -->
@@ -3887,10 +3891,6 @@
     <string name="bundle_total_text">Bundle total</string>
     <!-- Label for package bundle price on search-->
     <string name="search_bundle_total_text">View your bundle</string>
-    <!-- Fly from hint -->
-    <string name="fly_from_hint">Flying from</string>
-    <!-- Fly to hint -->
-    <string name="fly_to_hint">Flying to</string>
     <!-- Bundle Overview Step 1, select a hotel -->
     <string name="step_one">Step 1: Select Hotel</string>
     <!-- Bundle Overview Step 2, select a flight -->

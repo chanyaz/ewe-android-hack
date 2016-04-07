@@ -346,6 +346,7 @@ DummyFiletoHandleKotlinLintError {
 		R.string.checkout_enter_traveler_details,
 		R.string.checkout_enter_traveler_details_line2,
 		R.string.checkout_more_travelers_TEMPLATE,
+		R.plurals.checkout_more_travelers_TEMPLATE,
 		R.string.checkout_edit_traveler_TEMPLATE,
 		R.dimen.traveler_select_item_padding,
 		R.layout.traveler_details_card,

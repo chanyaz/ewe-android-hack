@@ -58,7 +58,7 @@ open class TravelerSummaryViewModel(val context: Context) {
     private fun getSubtitle(): String {
         var numberOfTravelers = Db.getTravelers().size
         if (numberOfTravelers > 1) {
-            return Phrase.from(resources.getString(R.string.checkout_more_travelers_TEMPLATE))
+            return Phrase.from(resources.getQuantityString(R.plurals.checkout_more_travelers_TEMPLATE, numberOfTravelers - 1))
                     .put("travelercount", numberOfTravelers - 1).format().toString()
         }
 

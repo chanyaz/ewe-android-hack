@@ -134,7 +134,7 @@ class TravelerSummaryViewModelTest {
     }
 
     private fun getIncompleteSubTitle(travelerCount: Int) : String {
-        return Phrase.from(resources.getString(R.string.checkout_more_travelers_TEMPLATE))
+        return Phrase.from(resources.getQuantityString(R.plurals.checkout_more_travelers_TEMPLATE, travelerCount - 1))
                 .put("travelercount", travelerCount - 1).format().toString()
     }
 

@@ -39,8 +39,8 @@ public class HotelRate {
 	public String depositAmount;
 	public LoyaltyInformation loyaltyInfo;
 
-	public transient String packagePricePerPerson;
-	public transient String packageSavings;
+	public transient String packagePricePerPerson = "";
+	public transient String packageSavings = "";
 
 	// The types of display rates
 	public enum UserPriceType {
