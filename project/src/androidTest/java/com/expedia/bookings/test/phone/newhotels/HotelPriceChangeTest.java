@@ -20,6 +20,7 @@ public class HotelPriceChangeTest extends HotelTestCase {
 	}
 
 	public void testPriceChangeLoggedInUser() throws Throwable {
+
 //		HotelScreen.selectPriceChangeHotel();
 //		pickRoom("hotel_price_change_with_user_preferences");
 //		CheckoutViewModel.waitForCheckout();
@@ -36,11 +37,9 @@ public class HotelPriceChangeTest extends HotelTestCase {
 //		PaymentOptionsScreen.assertRemainingDueMatches("10.00");
 //		PaymentOptionsScreen.assertTotalPointsAvailableMatches("38,406,533");
 //		PaymentOptionsScreen.assertPointsAppliedMatches("6,658");
+
 	}
 
-	private void signInOnCheckout() {
-		CheckoutViewModel.enterLoginDetails();
-		CheckoutViewModel.pressDoLogin();
-	}
+
 
 }
