@@ -4004,6 +4004,10 @@
     <string name="package_itinerary_confirmation_TEMPLATE">#{itinerary} sent to {email}</string>
     <!--Rail search screen title-->
     <string name="trains">Trains</string>
+    <string name="rail_single">Single</string>
+    <string name="rail_return">Return</string>
+    <string name="rail_open_return">Open Return</string>
+
 
     <string name="pwp_points_conversion_unauthenticated_access">We\'re sorry but we experienced a server problem. Please try again.</string>
     <string name="pwp_trip_service_error">We\'re sorry but we experienced a server problem. Please try again.</string>

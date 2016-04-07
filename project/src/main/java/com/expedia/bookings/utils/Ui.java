@@ -73,7 +73,8 @@ public class Ui extends com.mobiata.android.util.Ui {
 	 * <p/>
 	 * Should only be used if there is a single Fragment that is in android.R.id.content.
 	 */
-	public static <T extends Fragment> T findOrAddSupportFragment(FragmentActivity activity, Class<T> fragmentClass, String tag) {
+	public static <T extends Fragment> T findOrAddSupportFragment(FragmentActivity activity, Class<T> fragmentClass,
+		String tag) {
 		return findOrAddSupportFragment(activity, android.R.id.content, fragmentClass, tag);
 	}
 
@@ -87,7 +88,8 @@ public class Ui extends com.mobiata.android.util.Ui {
 	 * <p/>
 	 * Should only be used if there is a single Fragment that is in android.R.id.content.
 	 */
-	public static <T extends Fragment> T findOrAddSupportFragment(FragmentActivity activity, int containerViewId, Class<T> fragmentClass, String tag) {
+	public static <T extends Fragment> T findOrAddSupportFragment(FragmentActivity activity, int containerViewId,
+		Class<T> fragmentClass, String tag) {
 		T fragment = findSupportFragment(activity, tag);
 		if (fragment == null) {
 			try {
@@ -152,7 +154,7 @@ public class Ui extends com.mobiata.android.util.Ui {
 	// Be careful that the passed Context supports Theme information.
 	//
 	private static TypedArray obtainTypedArray(Context context, int attr) {
-		TypedArray a = context.obtainStyledAttributes(new int[] {attr});
+		TypedArray a = context.obtainStyledAttributes(new int[] { attr });
 		if (!a.hasValue(0)) {
 			throw new RuntimeException("Theme attribute not defined for attr=" + Integer.toHexString(attr));
 		}
@@ -237,14 +239,14 @@ public class Ui extends com.mobiata.android.util.Ui {
 	}
 
 	@TargetApi(Build.VERSION_CODES.KITKAT)
-	public static int getStatusBarHeight(Context ctx) {
+	public static int getStatusBarHeight(Context context) {
 		if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
 			return 0;
 		}
 		int result = 0;
-		int resourceId = ctx.getResources().getIdentifier("status_bar_height", "dimen", "android");
+		int resourceId = context.getResources().getIdentifier("status_bar_height", "dimen", "android");
 		if (resourceId > 0) {
-			result = ctx.getResources().getDimensionPixelSize(resourceId);
+			result = context.getResources().getDimensionPixelSize(resourceId);
 		}
 		return result;
 	}
@@ -276,29 +278,44 @@ public class Ui extends com.mobiata.android.util.Ui {
 	 * @param color     of status bar
 	 */
 
-	public static View setUpStatusBar(Context ctx, View toolbar,
+	public static View setUpStatusBar(Context context, View toolbar,
 		ViewGroup viewGroup, int color) {
-		View v = new View(ctx);
+		View v = new View(context);
 		ViewGroup.LayoutParams lp = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
 			ViewGroup.LayoutParams.WRAP_CONTENT);
-		int statusBarHeight = getStatusBarHeight(ctx);
+		int statusBarHeight = getStatusBarHeight(context);
 		lp.height = statusBarHeight;
 		v.setLayoutParams(lp);
 		v.setBackgroundColor(color);
 		if (toolbar != null) {
 			toolbar.setPadding(0, statusBarHeight, 0, 0);
 		}
-		int toolbarSize = getToolbarSize(ctx);
+		int toolbarSize = getToolbarSize(context);
 		if (viewGroup != null) {
-			viewGroup.setPadding(0, (int) toolbarSize + statusBarHeight, 0, 0);
+			viewGroup.setPadding(0, toolbarSize + statusBarHeight, 0, 0);
 		}
 		return v;
 	}
 
-	public static int getToolbarSize(Context ctx) {
+	// tweak logic to work when there's a toolbar + tabs
+	public static View setUpStatusBarWithTabs(Context context, ViewGroup viewGroup, int color) {
+		View v = new View(context);
+		ViewGroup.LayoutParams lp = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+			ViewGroup.LayoutParams.WRAP_CONTENT);
+		int statusBarHeight = getStatusBarHeight(context);
+		lp.height = statusBarHeight;
+		v.setLayoutParams(lp);
+		v.setBackgroundColor(color);
+		if (viewGroup != null) {
+			viewGroup.setPadding(0, statusBarHeight, 0, 0);
+		}
+		return v;
+	}
+
+	public static int getToolbarSize(Context context) {
 		TypedValue typedValue = new TypedValue();
 		int[] textSizeAttr = new int[] { android.R.attr.actionBarSize };
-		TypedArray a = ctx.obtainStyledAttributes(typedValue.data, textSizeAttr);
+		TypedArray a = context.obtainStyledAttributes(typedValue.data, textSizeAttr);
 		return (int) a.getDimension(0, 44);
 	}
 

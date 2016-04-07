@@ -75,7 +75,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
                         android:text="or"
-                        android:textColor="#676767" />
+                        android:textColor="@color/defaultTextColor" />
 
                     <View
                         android:layout_width="0dp"

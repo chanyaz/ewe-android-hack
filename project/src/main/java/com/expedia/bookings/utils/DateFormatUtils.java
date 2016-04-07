@@ -125,6 +125,17 @@ public class DateFormatUtils {
 				.getString(R.string.date_time_range_TEMPLATE, formattedStartDateTime, formattedEndDateTime);
 		}
 
+		return context.getResources().getString(R.string.select_return_date_TEMPLATE, formattedStartDateTime);
+	}
+
+	public static String formatCarDateTimeRange(Context context, LocalDate startDate, LocalDate endDate) {
+		String formattedStartDateTime = com.expedia.bookings.utils.DateUtils
+			.dateTimeToMMMdhmma(startDate);
+		if (endDate != null) {
+			String formattedEndDateTime = com.expedia.bookings.utils.DateUtils.dateTimeToMMMdhmma(endDate);
+			return context.getResources()
+				.getString(R.string.date_time_range_TEMPLATE, formattedStartDateTime, formattedEndDateTime);
+		}
 
 		return context.getResources().getString(R.string.select_return_date_TEMPLATE, formattedStartDateTime);
 	}
