@@ -20,7 +20,8 @@ import com.expedia.util.subscribeVisibility
 import com.expedia.vm.traveler.TravelerViewModel
 import rx.subjects.PublishSubject
 
-class FlightTravelerEntryWidget(context: Context, attrs: AttributeSet?) : FrameLayout(context, attrs) {
+class FlightTravelerEntryWidget(context: Context, attrs: AttributeSet?) : FrameLayout(context, attrs),
+        TravelerButton.ITravelerButtonListener  {
 
     val travelerButton: TravelerButton by bindView(R.id.traveler_button)
     val nameEntryView: NameEntryView by bindView(R.id.name_entry_widget)
@@ -60,6 +61,15 @@ class FlightTravelerEntryWidget(context: Context, attrs: AttributeSet?) : FrameL
 
         passportCountrySpinner.adapter = adapter
         passportCountrySpinner.onItemSelectedListener = CountryItemSelectedListener()
+        travelerButton.setTravelButtonListener(this)
+    }
+
+    override fun onTravelerChosen(traveler: Traveler) {
+        viewModel.updateTraveler(traveler)
+    }
+
+    override fun onAddNewTravelerSelected() {
+        // Adding for packages mvp
     }
 
     override fun onFinishInflate() {

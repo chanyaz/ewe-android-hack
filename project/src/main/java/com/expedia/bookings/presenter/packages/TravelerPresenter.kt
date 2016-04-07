@@ -7,42 +7,41 @@ import com.expedia.bookings.R
 import com.expedia.bookings.data.Traveler
 import com.expedia.bookings.data.User
 import com.expedia.bookings.data.packages.PackageSearchParams
+import com.expedia.bookings.enums.TravelerCheckoutStatus
 import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.FlightTravelerEntryWidget
-import com.expedia.bookings.widget.TravelerButton
 import com.expedia.bookings.widget.traveler.TravelerDefaultState
 import com.expedia.bookings.widget.traveler.TravelerSelectState
 import com.expedia.util.endlessObserver
-import com.expedia.util.notNullAndObservable
+import com.expedia.util.getCheckoutToolbarTitle
 import com.expedia.vm.traveler.CheckoutTravelerViewModel
 import com.expedia.vm.traveler.TravelerSummaryViewModel
 import com.expedia.vm.traveler.TravelerViewModel
 import rx.subjects.BehaviorSubject
+import rx.subjects.PublishSubject
 
-class TravelerPresenter(context: Context, attrs: AttributeSet) : Presenter(context, attrs), TravelerButton.ITravelerButtonListener {
+class TravelerPresenter(context: Context, attrs: AttributeSet) : Presenter(context, attrs) {
     val travelerDefaultState: TravelerDefaultState by bindView(R.id.traveler_default_state)
     val travelerSelectState: TravelerSelectState by bindView(R.id.traveler_select_state)
     val travelerEntryWidget: FlightTravelerEntryWidget by bindView(R.id.traveler_entry_widget)
 
     val expandedSubject = BehaviorSubject.create<Boolean>()
     val travelersCompleteSubject = BehaviorSubject.create<Traveler>()
+    val toolbarTitleSubject = PublishSubject.create<String>()
 
-    var viewModel: CheckoutTravelerViewModel by notNullAndObservable { vm ->
-        travelerSelectState.viewModel = vm
-    }
+    var viewModel = CheckoutTravelerViewModel()
 
     init {
         View.inflate(context, R.layout.traveler_presenter, this)
 
         travelerDefaultState.viewModel = TravelerSummaryViewModel(context)
 
-        travelerEntryWidget.travelerButton.setTravelButtonListener(this)
         travelerEntryWidget.travelerCompleteSubject.subscribe(endlessObserver<Traveler> { traveler ->
             if (viewModel.validateTravelersComplete()) {
-                travelersCompleteSubject.onNext(traveler)
+                travelersCompleteSubject.onNext(viewModel.getTraveler(0))
                 expandedSubject.onNext(false)
-                travelerDefaultState.viewModel.travelerStatusObserver.onNext(TravelerSummaryViewModel.Status.COMPLETE)
+                travelerDefaultState.updateStatus(TravelerCheckoutStatus.COMPLETE)
                 show(travelerDefaultState, Presenter.FLAG_CLEAR_BACKSTACK)
             } else {
                 show(travelerSelectState, Presenter.FLAG_CLEAR_TOP)
@@ -51,18 +50,17 @@ class TravelerPresenter(context: Context, attrs: AttributeSet) : Presenter(conte
 
         travelerDefaultState.setOnClickListener {
             if (viewModel.getTravelers().size > 1) {
-                travelerSelectState.refresh()
+                travelerSelectState.refresh(travelerDefaultState.status, viewModel.getTravelers())
                 show(travelerSelectState)
             } else {
-                val travelerViewModel = TravelerViewModel(context, 1)
-                travelerViewModel.travelerObservable.onNext(viewModel.getTraveler(0))
+                val travelerViewModel = TravelerViewModel(context, 0)
                 showTravelerEntryWidget(travelerViewModel)
             }
         }
 
-        travelerSelectState.travelerSelectedSubject.subscribe { travelerViewModel ->
-            travelerViewModel.travelerObservable.onNext(travelerViewModel.getTraveler())
-            showTravelerEntryWidget(travelerViewModel)
+        travelerSelectState.travelerIndexSelectedSubject.subscribe { index ->
+            val travelerVM = TravelerViewModel(context, index)
+            showTravelerEntryWidget(travelerVM)
         }
     }
 
@@ -77,23 +75,8 @@ class TravelerPresenter(context: Context, attrs: AttributeSet) : Presenter(conte
 
     fun refreshAndShow(packageParams: PackageSearchParams) {
         viewModel.refreshTravelerList(packageParams)
-        travelerDefaultState.viewModel.travelerStatusObserver.onNext(TravelerSummaryViewModel.Status.EMPTY)
+        travelerDefaultState.updateStatus(TravelerCheckoutStatus.CLEAN)
         visibility = View.VISIBLE
-    }
-
-    fun validateAndBindTravelerSummary() {
-        if (viewModel.getTravelers().isEmpty()) {
-            travelerDefaultState.viewModel.travelerStatusObserver.onNext(TravelerSummaryViewModel.Status.EMPTY)
-        } else if (viewModel.validateTravelersComplete()) {
-            travelerDefaultState.viewModel.travelerStatusObserver.onNext(TravelerSummaryViewModel.Status.INCOMPLETE)
-        } else {
-            travelerDefaultState.viewModel.travelerStatusObserver.onNext(TravelerSummaryViewModel.Status.COMPLETE)
-        }
-    }
-
-    private fun showTravelerEntryWidget(travelerViewModel: TravelerViewModel) {
-        travelerEntryWidget.viewModel = travelerViewModel
-        show(travelerEntryWidget)
     }
 
     override fun back(): Boolean {
@@ -107,11 +90,25 @@ class TravelerPresenter(context: Context, attrs: AttributeSet) : Presenter(conte
         return backHandled
     }
 
+    private fun validateAndBindTravelerSummary() {
+        if (viewModel.validateTravelersComplete()) {
+            travelerDefaultState.updateStatus(TravelerCheckoutStatus.COMPLETE)
+        } else {
+            travelerDefaultState.updateStatus(TravelerCheckoutStatus.DIRTY)
+        }
+    }
+
+    private fun showTravelerEntryWidget(travelerViewModel: TravelerViewModel) {
+        travelerEntryWidget.viewModel = travelerViewModel
+        show(travelerEntryWidget)
+    }
+
     private val defaultTransition = object : Presenter.DefaultTransition(TravelerDefaultState::class.java.name) {
         override fun endTransition(forward: Boolean) {
             travelerDefaultState.visibility = if (forward) View.VISIBLE else View.GONE
             travelerSelectState.visibility = if (!forward) View.VISIBLE else View.GONE
             travelerEntryWidget.visibility = if (!forward) View.VISIBLE else View.GONE
+            toolbarTitleSubject.onNext(getCheckoutToolbarTitle(resources, false))
         }
     }
 
@@ -119,12 +116,17 @@ class TravelerPresenter(context: Context, attrs: AttributeSet) : Presenter(conte
             TravelerSelectState::class.java) {
         override fun startTransition(forward: Boolean) {
             expandedSubject.onNext(forward)
+            if (forward) {
+                toolbarTitleSubject.onNext(resources.getString(R.string.select_travelers))
+            } else {
+                toolbarTitleSubject.onNext(getCheckoutToolbarTitle(resources, false))
+            }
         }
 
         override fun endTransition(forward: Boolean) {
             if (!forward) validateAndBindTravelerSummary()
             travelerDefaultState.visibility = if (!forward) View.VISIBLE else View.GONE
-            travelerSelectState.visibility = if (forward) View.VISIBLE else View.GONE
+            if (forward) travelerSelectState.show() else travelerSelectState.visibility = View.GONE
         }
     }
 
@@ -133,6 +135,16 @@ class TravelerPresenter(context: Context, attrs: AttributeSet) : Presenter(conte
         override fun startTransition(forward: Boolean) {
             expandedSubject.onNext(forward)
             travelerEntryWidget.travelerButton.visibility = if (User.isLoggedIn(context) && forward) View.VISIBLE else View.GONE
+
+            if (forward && travelerDefaultState.status == TravelerCheckoutStatus.DIRTY) {
+                travelerEntryWidget.viewModel.validate()
+            }
+
+            if (forward) {
+                toolbarTitleSubject.onNext(resources.getString(R.string.traveler_details_text))
+            } else {
+                toolbarTitleSubject.onNext(getCheckoutToolbarTitle(resources, false))
+            }
         }
 
         override fun endTransition(forward: Boolean) {
@@ -146,23 +158,16 @@ class TravelerPresenter(context: Context, attrs: AttributeSet) : Presenter(conte
             FlightTravelerEntryWidget::class.java) {
         override fun startTransition(forward: Boolean) {
             travelerEntryWidget.travelerButton.visibility = if (User.isLoggedIn(context) && forward) View.VISIBLE else View.GONE
+            if (forward) {
+                toolbarTitleSubject.onNext(resources.getString(R.string.traveler_details_text))
+            } else {
+                toolbarTitleSubject.onNext(resources.getString(R.string.select_travelers))
+            }
         }
 
         override fun endTransition(forward: Boolean) {
-            travelerSelectState.visibility = if (!forward) View.VISIBLE else View.GONE
+            if (!forward) travelerSelectState.show() else travelerSelectState.visibility = View.GONE
             travelerEntryWidget.visibility = if (forward) View.VISIBLE else View.GONE
-            if (!forward) {
-                travelerEntryWidget.viewModel.validate()
-            }
         }
-    }
-
-    override fun onTravelerChosen(traveler: Traveler) {
-        viewModel.updateTraveler(travelerEntryWidget.viewModel.travelerNumber - 1, traveler)
-        travelerEntryWidget.viewModel.travelerObservable.onNext(traveler)
-    }
-
-    override fun onAddNewTravelerSelected() {
-        // Adding for packages mvp
     }
 }

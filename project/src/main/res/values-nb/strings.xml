@@ -652,7 +652,7 @@
     <!-- Offers show more string -->
     <string name="lx_show_more_offers">Vis mer</string>
     <!-- Text for traveler details toolbar-->
-    <string name="lx_traveler_details_text">Den reisendes detaljer</string>
+    <string name="traveler_details_text">Den reisendes detaljer</string>
     <!-- Text for enter traveler details-->
     <string name="lx_traveler_enter_details_text">Oppgi kontaktdetaljer</string>
     <!-- Text for lx sort and filter-->

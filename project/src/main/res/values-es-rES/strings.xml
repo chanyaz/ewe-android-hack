@@ -652,7 +652,7 @@
     <!-- Offers show more string -->
     <string name="lx_show_more_offers">Mostrar más</string>
     <!-- Text for traveler details toolbar-->
-    <string name="lx_traveler_details_text">Datos del viajero</string>
+    <string name="traveler_details_text">Datos del viajero</string>
     <!-- Text for enter traveler details-->
     <string name="lx_traveler_enter_details_text">Introduce los datos del viajero</string>
     <!-- Text for lx sort and filter-->

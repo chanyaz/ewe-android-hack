@@ -6,6 +6,7 @@ import com.expedia.bookings.R
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.Phone
 import com.expedia.bookings.data.Traveler
+import com.expedia.bookings.enums.TravelerCheckoutStatus
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.widget.ContactDetailsCompletenessStatus
 import com.expedia.vm.traveler.TravelerSummaryViewModel
@@ -53,7 +54,7 @@ class TravelerSummaryViewModelTest {
 
     @Test
     fun updateToEmptyOneTraveler() {
-        summaryVM.travelerStatusObserver.onNext(TravelerSummaryViewModel.Status.EMPTY)
+        summaryVM.travelerStatusObserver.onNext(TravelerCheckoutStatus.CLEAN)
 
         assertEquals(expectedEmptyTitle, summaryVM.titleObservable.value)
         assertEquals(expectedEmptySubTitle, summaryVM.subtitleObservable.value)
@@ -63,7 +64,7 @@ class TravelerSummaryViewModelTest {
     @Test
     fun updateToIncompleteOneTravelerNoName() {
         updateDBTravelers(1, Traveler())
-        summaryVM.travelerStatusObserver.onNext(TravelerSummaryViewModel.Status.INCOMPLETE)
+        summaryVM.travelerStatusObserver.onNext(TravelerCheckoutStatus.DIRTY)
 
         assertEquals(expectedEmptyTitle, summaryVM.titleObservable.value)
         assertEquals(expectedEmptySubTitle, summaryVM.subtitleObservable.value)
@@ -75,7 +76,7 @@ class TravelerSummaryViewModelTest {
         val mockTraveler = Mockito.mock(Traveler::class.java)
         Mockito.`when`(mockTraveler.fullName).thenReturn(testName)
         updateDBTravelers(1, mockTraveler)
-        summaryVM.travelerStatusObserver.onNext(TravelerSummaryViewModel.Status.INCOMPLETE)
+        summaryVM.travelerStatusObserver.onNext(TravelerCheckoutStatus.DIRTY)
 
         assertEquals(testName, summaryVM.titleObservable.value)
         assertEquals(expectedEmptySubTitle, summaryVM.subtitleObservable.value)
@@ -85,7 +86,7 @@ class TravelerSummaryViewModelTest {
     @Test
     fun updateToCompleteOneTraveler() {
         updateDBTravelers(1, getCompleteTraveler())
-        summaryVM.travelerStatusObserver.onNext(TravelerSummaryViewModel.Status.COMPLETE)
+        summaryVM.travelerStatusObserver.onNext(TravelerCheckoutStatus.COMPLETE)
 
         assertEquals(testName, summaryVM.titleObservable.value)
         assertEquals(testNumber, summaryVM.subtitleObservable.value)
@@ -95,7 +96,7 @@ class TravelerSummaryViewModelTest {
     @Test
     fun emptyStateDefaultMultipleTravelers() {
         updateDBTravelers(2, getCompleteTraveler())
-        summaryVM.travelerStatusObserver.onNext(TravelerSummaryViewModel.Status.EMPTY)
+        summaryVM.travelerStatusObserver.onNext(TravelerCheckoutStatus.CLEAN)
 
         assertEquals(expectedEmptyTitle, summaryVM.titleObservable.value)
         assertEquals(expectedEmptySubTitle, summaryVM.subtitleObservable.value)
@@ -105,7 +106,7 @@ class TravelerSummaryViewModelTest {
     @Test
     fun updateToIncompleteMultipleTravelersNoName() {
         updateDBTravelers(2, Traveler())
-        summaryVM.travelerStatusObserver.onNext(TravelerSummaryViewModel.Status.INCOMPLETE)
+        summaryVM.travelerStatusObserver.onNext(TravelerCheckoutStatus.DIRTY)
 
         assertEquals(expectedEmptyTitle, summaryVM.titleObservable.value)
         assertEquals(getIncompleteSubTitle(2), summaryVM.subtitleObservable.value)
@@ -115,7 +116,7 @@ class TravelerSummaryViewModelTest {
     @Test
     fun updateToIncompleteMultipleTravelersWithName() {
         updateDBTravelers(2, getCompleteTraveler())
-        summaryVM.travelerStatusObserver.onNext(TravelerSummaryViewModel.Status.INCOMPLETE)
+        summaryVM.travelerStatusObserver.onNext(TravelerCheckoutStatus.DIRTY)
 
         assertEquals(testName, summaryVM.titleObservable.value)
         assertEquals(getIncompleteSubTitle(2), summaryVM.subtitleObservable.value)
@@ -125,7 +126,7 @@ class TravelerSummaryViewModelTest {
     @Test
     fun updateToCompleteMultipleTraveler() {
         updateDBTravelers(2, getCompleteTraveler())
-        summaryVM.travelerStatusObserver.onNext(TravelerSummaryViewModel.Status.COMPLETE)
+        summaryVM.travelerStatusObserver.onNext(TravelerCheckoutStatus.COMPLETE)
 
         assertEquals(testName, summaryVM.titleObservable.value)
         assertEquals(getIncompleteSubTitle(2), summaryVM.subtitleObservable.value)
