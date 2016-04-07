@@ -1,5 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
+    <!--Flight-->
+    <color name="action_bar_text_blue">#fff</color>
+
+    <!-- Calendar text colors -->
+    <color name="calendar_cell_selected_date_text">#FFFFFF</color>
+
     <color name="hotels_primary_color">#0099CC</color>
     <color name="review_screen_tab_indicator">#003366</color>
     <color name="hotel_checkout_account_button_background_color">@color/hotels_primary_color</color>
@@ -35,4 +42,4 @@
     <color name="cars_status_bar_color">@color/cars_primary_color</color>
     <color name="lx_color_primary_dark">@color/lx_primary_color</color>
     <color name="checkout_login_button_color">@android:color/white</color>
-</resources>
+ </resources>
