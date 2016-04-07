@@ -1,6 +1,8 @@
 package com.expedia.vm
 
+import android.content.Context
 import android.content.res.Resources
+import android.support.v4.content.ContextCompat
 import com.expedia.bookings.R
 import com.expedia.bookings.data.TripResponse
 import com.expedia.bookings.data.cars.ApiError
@@ -20,13 +22,13 @@ import rx.subjects.PublishSubject
 import java.math.BigDecimal
 import java.text.NumberFormat
 
-class PayWithPointsViewModel<T : TripResponse>(val paymentModel: PaymentModel<T>, val shopWithPointsViewModel: ShopWithPointsViewModel, val resources: Resources) : IPayWithPointsViewModel {
+class PayWithPointsViewModel<T : TripResponse>(val paymentModel: PaymentModel<T>, val shopWithPointsViewModel: ShopWithPointsViewModel, val context: Context) : IPayWithPointsViewModel {
     //ERROR MESSAGING
-    private val userEntersMoreThanTripTotalString = resources.getString(R.string.user_enters_more_than_trip)
-    private val calculatingPointsString = resources.getString(R.string.pwp_calculating_points)
-    private val pointsConversionUnauthenticatedAccess = resources.getString(R.string.pwp_points_conversion_unauthenticated_access)
-    private val tripServiceError = resources.getString(R.string.pwp_trip_service_error)
-    private val pwpUnknownError = resources.getString(R.string.pwp_unknown_error)
+    private val userEntersMoreThanTripTotalString = context.getString(R.string.user_enters_more_than_trip)
+    private val calculatingPointsString = context.getString(R.string.pwp_calculating_points)
+    private val pointsConversionUnauthenticatedAccess = context.getString(R.string.pwp_points_conversion_unauthenticated_access)
+    private val tripServiceError = context.getString(R.string.pwp_trip_service_error)
+    private val pwpUnknownError = context.getString(R.string.pwp_unknown_error)
 
     private fun amountToPointsConversionAPIErrorString(apiError: ApiError): String {
         when (apiError.errorCode) {
@@ -48,12 +50,12 @@ class PayWithPointsViewModel<T : TripResponse>(val paymentModel: PaymentModel<T>
         }
     }
 
-    private fun userEntersMoreThanAvailableBurnAmountMessage(amountForMaxPayableByPoints: String) = Phrase.from(resources, R.string.user_enters_more_than_available_points_TEMPLATE)
+    private fun userEntersMoreThanAvailableBurnAmountMessage(amountForMaxPayableByPoints: String) = Phrase.from(context, R.string.user_enters_more_than_available_points_TEMPLATE)
             .put("money", amountForMaxPayableByPoints)
             .format().toString()
 
     //POINTS APPLIED MESSAGING
-    private fun pointsAppliedMessage(paymentSplits: PaymentSplits) = Phrase.from(resources.getQuantityString(R.plurals.pwp_points_applied_TEMPLATE, paymentSplits.payingWithPoints.points))
+    private fun pointsAppliedMessage(paymentSplits: PaymentSplits) = Phrase.from(context.resources.getQuantityString(R.plurals.pwp_points_applied_TEMPLATE, paymentSplits.payingWithPoints.points))
             .put("points", NumberFormat.getInstance().format(paymentSplits.payingWithPoints.points))
             .format().toString();
 
@@ -68,7 +70,7 @@ class PayWithPointsViewModel<T : TripResponse>(val paymentModel: PaymentModel<T>
     //OUTLETS
     //MESSAGING START
     override val totalPointsAndAmountAvailableToRedeem = paymentModel.tripResponses.filter { it.isExpediaRewardsRedeemable() }.map {
-        Phrase.from(resources.getString(R.string.pay_with_point_total_available_TEMPLATE))
+        Phrase.from(context.getString(R.string.pay_with_point_total_available_TEMPLATE))
                 .put("money", it.getPointDetails(ProgramName.ExpediaRewards)!!.totalAvailable.amount.formattedMoneyFromAmountAndCurrencyCode)
                 .put("points", NumberFormat.getInstance().format(it.getPointDetails(ProgramName.ExpediaRewards)!!.totalAvailable.points))
                 .format().toString()
@@ -153,15 +155,15 @@ class PayWithPointsViewModel<T : TripResponse>(val paymentModel: PaymentModel<T>
 
     override val pointsAppliedMessageColor = pointsAppliedMessage.map {
         when (it.second) {
-            true -> resources.getColor((R.color.hotels_primary_color));
-            false -> resources.getColor(R.color.cvv_error);
+            true -> ContextCompat.getColor(context, R.color.hotels_primary_color);
+            false -> ContextCompat.getColor(context, R.color.cvv_error);
         }
     }
 
     override val payWithPointsMessage = pwpOpted.map {
         when (it) {
-            true -> resources.getString(R.string.paying_with_expedia_points)
-            false -> resources.getString(R.string.pay_with_expedia_points)
+            true -> context.getString(R.string.paying_with_expedia_points)
+            false -> context.getString(R.string.pay_with_expedia_points)
         }
     }
 

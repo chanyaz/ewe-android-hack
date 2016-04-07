@@ -21,9 +21,8 @@ class OperatorWithLatestFromWithMultipleArguments<T, A, B, C, R>(val other1: Obs
             override fun onNext(t: T) {
                 if (currentA.get() !== EMPTY && currentB.get() !== EMPTY && currentC.get() !== EMPTY) {
                     try {
-                        @SuppressWarnings("unchecked")
-                        val result = resultSelector(t, currentA.get() as A, currentB.get()as B, currentC.get() as C)
-
+                        @Suppress("UNCHECKED_CAST")
+                        val result = resultSelector(t, currentA.get() as A, currentB.get() as B, currentC.get() as C)
                         s.onNext(result)
                     } catch (e: Throwable) {
                         Exceptions.throwOrReport(e, this)

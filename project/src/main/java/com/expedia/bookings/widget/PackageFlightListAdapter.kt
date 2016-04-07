@@ -26,7 +26,7 @@ class PackageFlightListAdapter(context: Context, flightSelectedSubject: PublishS
             shouldShowBestFlight = !isChangePackageSearch && flights[0].isBestFlight
 
             //remove best flight view if there is only 1 flight
-            if (shouldShowBestFlight && flights?.size == 2) {
+            if (shouldShowBestFlight && flights.size == 2) {
                 shouldShowBestFlight = false
                 flights.removeAt(0)
             }

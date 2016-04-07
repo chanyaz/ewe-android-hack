@@ -93,7 +93,7 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
         presenter.searchViewModel = HotelSearchViewModel(context)
         presenter.searchViewModel.searchParamsObservable.subscribe(searchObserver)
         presenter.searchViewModel.searchParamsObservable.subscribe {
-            clientLogBuilder?.requestTime(DateTime.now())
+            clientLogBuilder.requestTime(DateTime.now())
         }
         presenter
     }
@@ -104,7 +104,7 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
         presenter.searchViewModel = HotelSearchViewModel(context)
         presenter.searchViewModel.searchParamsObservable.subscribe(searchObserver)
         presenter.searchViewModel.searchParamsObservable.subscribe {
-            clientLogBuilder?.requestTime(DateTime.now())
+            clientLogBuilder.requestTime(DateTime.now())
         }
         presenter
     }

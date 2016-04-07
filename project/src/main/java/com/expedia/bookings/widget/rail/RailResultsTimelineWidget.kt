@@ -60,7 +60,7 @@ class RailResultsTimelineWidget(context: Context, attrs: AttributeSet?) : View(c
                 separatorDrawable.draw(canvas)
                 iconRect.left = iconRect.right + horizontalSpacing
             }
-            var relevantDrawable = findMappedDrawable(leg)
+            var relevantDrawable = findMappedDrawable()
             iconRect.top = 0;
             iconRect.bottom = measuredHeight
             iconRect.right = iconRect.left + (( relevantDrawable.intrinsicWidth.toFloat() / relevantDrawable.intrinsicHeight.toFloat()) * drawableHeight.toFloat()).toInt()
@@ -72,7 +72,7 @@ class RailResultsTimelineWidget(context: Context, attrs: AttributeSet?) : View(c
         }
     }
 
-    private fun findMappedDrawable(leg: RailSearchResponse.LegOption): Drawable {
+    private fun findMappedDrawable(): Drawable {
         val randomNum = Random().nextInt(3) //TODO use the leg to determine which drawable to use
         when (randomNum) {
             0 -> return iconMap[KEY_UK_TRAIN]!!

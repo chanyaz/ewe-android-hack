@@ -338,8 +338,8 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet) : Pre
     }
 
     fun animateInSlideToPurchase(visible: Boolean) {
-        var visible = visible && viewModel.infoCompleted.value
-        var distance = if (!visible) slideToPurchaseLayout.height.toFloat() else 0f
+        var isSlideToPurchaseLayoutVisible = visible && viewModel.infoCompleted.value
+        var distance = if (!isSlideToPurchaseLayoutVisible) slideToPurchaseLayout.height.toFloat() else 0f
         if (bottomContainer.translationY == distance) {
             return
         }

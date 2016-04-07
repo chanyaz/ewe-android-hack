@@ -63,7 +63,7 @@ class CalendarDialogFragment(val datedSearchViewModel: DatedSearchViewModel) : D
                 } else {
                     datedSearchViewModel.datesObserver.onNext(Pair(start, end))
                 }
-                updateDoneVisibilityForDates(start, end)
+                updateDoneVisibilityForDate(start)
 
             } else {
                 datedSearchViewModel.datesObserver.onNext(Pair(start, end))
@@ -86,7 +86,7 @@ class CalendarDialogFragment(val datedSearchViewModel: DatedSearchViewModel) : D
         calendarPickerView
     }
 
-    private fun updateDoneVisibilityForDates(start: LocalDate?, end: LocalDate?) {
+    private fun updateDoneVisibilityForDate(start: LocalDate?) {
         if (dialog != null) { //callback may happen before we're visible on the screen
             (dialog as AlertDialog).getButton(AlertDialog.BUTTON_POSITIVE).isEnabled = start != null
         }

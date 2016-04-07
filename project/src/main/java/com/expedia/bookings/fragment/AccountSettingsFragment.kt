@@ -618,7 +618,7 @@ class AccountSettingsFragment : Fragment(),
         return false
     }
 
-    fun onAboutRowRebind(id: Int, titleTextView: TextView?, descriptionTextView: TextView?) {
+    fun onAboutRowRebind(id: Int, descriptionTextView: TextView?) {
         if (id == ROW_COUNTRY) {
             descriptionTextView?.text = getCountryDescription()
         }

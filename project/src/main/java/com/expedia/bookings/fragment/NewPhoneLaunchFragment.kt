@@ -42,9 +42,9 @@ class NewPhoneLaunchFragment : Fragment(), IPhoneLaunchActivityLaunchFragment {
                 }
 
                 override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PlaceHolderViewHolder {
-                    val view = TextView(parent.context)
-                    parent.addView(view, ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT))
-                    return PlaceHolderViewHolder(view)
+                    val viewLocal = TextView(parent.context)
+                    parent.addView(viewLocal, ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT))
+                    return PlaceHolderViewHolder(viewLocal)
                 }
 
                 override fun onBindViewHolder(holder: PlaceHolderViewHolder, position: Int) {

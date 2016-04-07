@@ -71,7 +71,7 @@ class PayWithPointsViewModelTest {
         Db.getTripBucket().add(TripBucketItemHotelV2(createTripResponse))
         paymentModel = PaymentModel<HotelCreateTripResponse>(loyaltyServiceRule.services!!)
         shopWithPointsViewModel = ShopWithPointsViewModel(activity.applicationContext, paymentModel, UserLoginStateChangedModel())
-        payWithPointsViewModel = PayWithPointsViewModel(paymentModel, shopWithPointsViewModel, activity.application.resources)
+        payWithPointsViewModel = PayWithPointsViewModel(paymentModel, shopWithPointsViewModel, activity.applicationContext)
 
         payWithPointsViewModel.pwpOpted.onNext(true)
 

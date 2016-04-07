@@ -170,9 +170,8 @@ class PackageFlightFilterWidget(context: Context, attrs: AttributeSet) : FrameLa
             stopsContainer.removeAllViews()
             if (sortedMap != null && !sortedMap.isEmpty()) {
                 stopsLabel.visibility = VISIBLE
-
                 for (key in sortedMap.keys) {
-                    val view = LayoutInflater.from(context).inflate(R.layout.labeled_checked_filter, this, false) as LabeledCheckableFilter<Int>
+                    val view = Ui.inflate<LabeledCheckableFilter<Int>>(LayoutInflater.from(context), R.layout.labeled_checked_filter, this, false)
                     view.bind(getStopFilterLabel(key.ordinal), key.ordinal, sortedMap.get(key), vm.selectStop)
                     view.subscribeOnClick(view.checkObserver)
                     stopsContainer.addView(view)
@@ -190,7 +189,7 @@ class PackageFlightFilterWidget(context: Context, attrs: AttributeSet) : FrameLa
                     airlinesMoreLessView.visibility = VISIBLE
                 }
                 for (key in sortedMap.keys) {
-                    val view = LayoutInflater.from(context).inflate(R.layout.labeled_checked_filter, this, false) as LabeledCheckableFilter<String>
+                    val view = Ui.inflate<LabeledCheckableFilter<String>>(LayoutInflater.from(context), R.layout.labeled_checked_filter, this, false)
                     view.bind(key, key, sortedMap.get(key), vm.selectAirline)
                     view.subscribeOnClick(view.checkObserver)
                     airlinesContainer.addView(view)

@@ -88,7 +88,6 @@ class GoogleWalletActivity : AppCompatActivity() {
 
         builder.setCart(WalletUtils.buildHotelV2Cart(this))
         builder.setPhoneNumberRequired(true)
-        builder.setUseMinimalBillingAddress(true)
 
         return builder.build()
     }

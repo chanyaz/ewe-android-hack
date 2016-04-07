@@ -161,7 +161,7 @@ class LxServices(endpoint: String, okHttpClient: OkHttpClient, requestIntercepto
     }
 
     private val HANDLE_ACTIVITY_DETAILS_ERROR = { response: ActivityDetailsResponse ->
-        if (response == null || response.offersDetail == null || response!!.offersDetail.offers == null) {
+        if (response.offersDetail == null || response.offersDetail.offers == null) {
             throw ApiError(ApiError.Code.LX_DETAILS_FETCH_ERROR)
         }
     }

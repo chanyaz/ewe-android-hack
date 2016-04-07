@@ -66,7 +66,7 @@ class LXCategoryResultsWidget(context: Context, attrs: AttributeSet): FrameLayou
     }
 
     @Subscribe
-    fun onLXShowLoadingAnimation(event: Events.LXShowLoadingAnimation) {
+    fun onLXShowLoadingAnimation(@Suppress("UNUSED_PARAMETER") event: Events.LXShowLoadingAnimation) {
         recyclerView.setVisibility(View.VISIBLE)
         errorScreen.setVisibility(View.GONE)
         val elements = createDummyListForAnimation()

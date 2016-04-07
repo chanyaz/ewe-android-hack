@@ -44,7 +44,7 @@ class FlightCheckoutPresenter(context: Context, attr: AttributeSet) : BaseChecko
         createTripViewModel.performCreateTrip.onNext(Unit)
     }
 
-    @Subscribe fun onUserLoggedIn(event: Events.LoggedInSuccessful) {
+    @Subscribe fun onUserLoggedIn( @Suppress("UNUSED_PARAMETER") event: Events.LoggedInSuccessful) {
         onLoginSuccess()
     }
 
