@@ -696,6 +696,7 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
     val hotelSelectedObserver: Observer<Hotel> = endlessObserver { hotel ->
         //If hotel is known to be "Sold Out", simply show the Hotel Details Screen in "Sold Out" state, otherwise fetch Offers and show those as well
         showDetails(hotel.hotelId, if (hotel.isSoldOut) false else true)
+        HotelV2Tracking().trackHotelV2CarouselClick()
     }
 
     data class HotelDetailsRequestMetadata(val hotelId: String, val hotelOffersResponse: HotelOffersResponse, val isOffersRequest: Boolean)

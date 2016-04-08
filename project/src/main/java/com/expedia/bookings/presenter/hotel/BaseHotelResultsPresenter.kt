@@ -277,7 +277,7 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
 
     val mapSelectedObserver: Observer<Unit> = endlessObserver {
         if (!shouldBlockTransition()) {
-            show(ResultsMap())
+            showWithTracking(ResultsMap())
         }
     }
 
@@ -447,7 +447,7 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
             if (markersForHotel.isNotEmpty()) {
                 val marker = markersForHotel.first()
                 mapViewModel.carouselSwipedObservable.onNext(marker)
-                HotelV2Tracking().trackHotelV2CarouselScroll()
+                trackCarouselScroll()
             }
         }
 
@@ -466,10 +466,11 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
 
         fab.setOnClickListener { view ->
             if (recyclerView.visibility == View.VISIBLE) {
-                show(ResultsMap())
+                showWithTracking(ResultsMap())
+                trackSearchMap()
             } else {
                 show(ResultsList(), Presenter.FLAG_CLEAR_BACKSTACK)
-                HotelV2Tracking().trackHotelV2MapToList()
+                trackMapToList()
             }
         }
 
@@ -553,7 +554,7 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
         googleMap?.setOnMarkerClickListener(clusterManager)
 
         clusterManager.setOnClusterItemClickListener {
-            HotelV2Tracking().trackHotelV2MapTapPin()
+            trackMapPinTap()
             selectMarker(it)
             updateCarouselItems()
             true
@@ -603,7 +604,7 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
 
             if (newState == RecyclerView.SCROLL_STATE_IDLE && ((topOffset >= threshold && isHeaderVisible()) || isHeaderCompletelyVisible())) {
                 //view has passed threshold, show map
-                show(ResultsMap())
+                showWithTracking(ResultsMap())
             } else if (newState == RecyclerView.SCROLL_STATE_IDLE && topOffset < threshold && topOffset > halfway && isHeaderVisible() && !isAtBottom) {
                 resetListOffset()
             }
@@ -639,7 +640,7 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
                 recyclerView.translationY = 0f
                 resetListOffset()
             } else if (currentState == RecyclerView.SCROLL_STATE_SETTLING && ((topOffset >= threshold && isHeaderVisible()) || isHeaderCompletelyVisible())) {
-                show(ResultsMap())
+                showWithTracking(ResultsMap())
             }
 
             if (dy > 0) {
@@ -1126,20 +1127,18 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
         //
     }
 
+    fun showWithTracking(newState: Any) {
+        when(newState) {
+            is ResultsMap -> trackSearchMap()
+            is ResultsFilter -> trackFilterShown()
+        }
+        show(newState)
+    }
+
     // Classes for state
     class ResultsList
-
-    class ResultsMap {
-        init {
-            HotelV2Tracking().trackHotelV2SearchMap()
-        }
-    }
-
-    class ResultsFilter {
-        init {
-            HotelV2Tracking().trackHotelV2Filter()
-        }
-    }
+    class ResultsMap
+    class ResultsFilter
 
     fun setMapToInitialState(suggestion: SuggestionV4?) {
         if (isMapReady) {
@@ -1191,4 +1190,16 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
     abstract fun hideSearchThisArea()
 
     abstract fun showSearchThisArea()
+
+    abstract fun trackSearchMap()
+
+    abstract fun trackMapToList()
+
+    abstract fun trackCarouselScroll()
+
+    abstract fun trackMapPinTap()
+
+    abstract fun trackFilterShown()
+
+    abstract fun trackMapSearchAreaClick()
 }

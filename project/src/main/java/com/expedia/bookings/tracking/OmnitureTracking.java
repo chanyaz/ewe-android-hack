@@ -78,6 +78,7 @@ import com.expedia.bookings.data.lx.LXSearchParams;
 import com.expedia.bookings.data.lx.LXSearchResponse;
 import com.expedia.bookings.data.lx.LXSortType;
 import com.expedia.bookings.data.packages.PackageCreateTripResponse;
+import com.expedia.bookings.data.packages.PackageSearchResponse;
 import com.expedia.bookings.data.payment.PaymentSplitsType;
 import com.expedia.bookings.data.payment.ProgramName;
 import com.expedia.bookings.data.pos.PointOfSale;
@@ -4914,19 +4915,19 @@ public class OmnitureTracking {
 
 	private static final String PACKAGES_LOB = "package:FH";
 	private static final String PACKAGES_CHECKOUT_INFO = "App.Package.Checkout.Info";
+	private static final String PACKAGES_DESTINATION_SEARCH = "App.Package.Dest-Search";
+	private static final String PACKAGES_HOTEL_SEARCH_RESULT_LOAD = "App.Package.Hotels.Search";
+	private static final String PACKAGES_HOTEL_SEARCH_ZERO_RESULT_LOAD = "App.Package.Hotels-Search.NoResults";
+	private static final String PACKAGES_HOTEL_SEARCH_SPONSORED_PRESENT = "App.Package.Hotels.Search.Sponsored.YES";
+	private static final String PACKAGES_HOTEL_SEARCH_SPONSORED_NOT_PRESENT = "App.Package.Hotels.Search.Sponsored.NO";
+	private static final String PACKAGES_HOTEL_SEARCH_MAP_LOAD = "App.Package.Hotels.Search.Map";
+	private static final String PACKAGES_HOTEL_MAP_TO_LIST_VIEW = "App.Package.Hotels.Search.Expand.List";
+	private static final String PACKAGES_HOTEL_MAP_PIN_TAP = "App.Package.Hotels.Search.TapPin";
+	private static final String PACKAGES_HOTEL_CAROUSEL_TAP = "App.Package.Hotels.Search.Expand.Package";
+	private static final String PACKAGES_HOTEL_MAP_SEARCH_AREA = "App.Package.Hotels.Search.AreaSearch";
+	private static final String PACKAGES_HOTEL_MAP_CAROUSEL_SCROLL = "App.Package.Hotels.Search.ShowNext";
 
-	/**
-	 * https://confluence/display/Omniture/Mobile+App%3A+Flight+and+Hotel+Package#MobileApp:FlightandHotelPackage-PackageCheckout:CheckoutStart
-	 *
-	 * @param packageDetails
-	 */
-	public static void trackPackagesCheckoutStart(PackageCreateTripResponse.PackageDetails packageDetails) {
-		Log.d(TAG, "Tracking \"" + PACKAGES_CHECKOUT_INFO);
-
-		ADMS_Measurement s = createTrackPageLoadEventBase(PACKAGES_CHECKOUT_INFO);
-		s.setEvents("event36");
-		s.setEvents("event70");
-
+	private static void addPackagesCommonFields(ADMS_Measurement s) {
 		s.setProp(2, PACKAGES_LOB);
 		s.setEvar(2, "D=c2");
 		s.setProp(3, "pkg:" + Db.getPackageParams().getOrigin().hierarchyInfo.airport.airportCode);
@@ -4934,6 +4935,20 @@ public class OmnitureTracking {
 		s.setProp(4, "pkg:" + Db.getPackageParams().getDestination().hierarchyInfo.airport.airportCode + ":" + Db.getPackageParams().getDestination().gaiaId);
 		s.setEvar(4, "D=c4");
 		setDateValues(s, Db.getPackageParams().getCheckIn(), Db.getPackageParams().getCheckOut());
+	}
+
+	/**
+	 * https://confluence/display/Omniture/Mobile+App%3A+Flight+and+Hotel+Package#MobileApp:FlightandHotelPackage-PackageCheckout:CheckoutStart
+	 *
+	 * @param packageDetails
+	 */
+	public static void trackPackagesCheckoutStart(PackageCreateTripResponse.PackageDetails packageDetails) {
+		Log.d(TAG, "Tracking \"" + PACKAGES_CHECKOUT_INFO + "\"");
+
+		ADMS_Measurement s = createTrackPageLoadEventBase(PACKAGES_CHECKOUT_INFO);
+		s.setEvents("event36");
+		s.setEvents("event70");
+		addPackagesCommonFields(s);
 		setPackageProducts(s, packageDetails);
 
 		s.track();
@@ -4969,5 +4984,92 @@ public class OmnitureTracking {
 		productString.append("eVar63=Agency:PKG");
 
 		s.setProducts(productString.toString());
+	}
+
+	private static void trackPackagePageLoadEventStandard(String pageName) {
+		Log.d(TAG, "Tracking \"" + pageName + "\" pageLoad");
+		ADMS_Measurement s = createTrackPageLoadEventBase(pageName);
+		s.setEvar(2, "D=c2");
+		s.setProp(2, PACKAGES_LOB);
+		s.track();
+	}
+
+	public static void trackPackagesDestinationSearchInit() {
+		trackPackagePageLoadEventStandard(PACKAGES_DESTINATION_SEARCH);
+	}
+
+	public static void trackPackagesHSRMapInit() {
+		trackPackagePageLoadEventStandard(PACKAGES_HOTEL_SEARCH_MAP_LOAD);
+	}
+
+	public static void trackPackagesHSRLoad(PackageSearchResponse response) {
+		ADMS_Measurement s = getFreshTrackingObject();
+
+		if (PackageSearchResponse.getHotelResultsCount(response) > 0) {
+			Log.d(TAG, "Tracking \"" + PACKAGES_HOTEL_SEARCH_RESULT_LOAD + "\"");
+			s.setAppState(PACKAGES_HOTEL_SEARCH_RESULT_LOAD);
+			addPackagesCommonFields(s);
+			s.setEvents("event12");
+			s.setEvents("event54");
+			s.setProp(1, String.valueOf(PackageSearchResponse.getHotelResultsCount(response)));
+
+			if (PackageSearchResponse.hasSponsoredHotelListing(response)) {
+				s.setEvar(28, PACKAGES_HOTEL_SEARCH_SPONSORED_PRESENT);
+				s.setProp(16, PACKAGES_HOTEL_SEARCH_SPONSORED_PRESENT);
+			}
+			else {
+				s.setEvar(28, PACKAGES_HOTEL_SEARCH_SPONSORED_NOT_PRESENT);
+				s.setProp(16, PACKAGES_HOTEL_SEARCH_SPONSORED_NOT_PRESENT);
+			}
+
+			/*
+				1R = num of rooms booked, since we don't support multi-room booking on the app yet hard coding it.
+				RT = Round Trip package
+		 	*/
+			StringBuilder evar47String = new StringBuilder("PKG|1R|RT|");
+			evar47String.append("A" + Db.getPackageParams().getAdults() + "|");
+			evar47String.append("C" + Db.getPackageParams().getChildren().size() + "|");
+			evar47String.append("L" + (Db.getPackageParams().getChildren().size() - Db.getPackageParams().getNumberOfSeatedChildren()) + "|");
+			s.setEvar(47, evar47String.toString());
+		}
+		else {
+			Log.d(TAG, "Tracking \"" + PACKAGES_HOTEL_SEARCH_ZERO_RESULT_LOAD + "\"");
+			s.setAppState(PACKAGES_HOTEL_SEARCH_ZERO_RESULT_LOAD);
+			s.setEvar(2, PACKAGES_LOB);
+			s.setProp(2, "D=c2");
+			s.setProp(36, response.getFirstError().toString());
+		}
+
+		s.track();
+	}
+
+	public static void createAndtrackLinkEvent(String link, String linkName) {
+		Log.d(TAG, "Tracking \"" + link + "\" click...");
+		ADMS_Measurement s = createTrackLinkEvent(link);
+		s.trackLink(null, "o", linkName, null, null);
+	}
+
+	public static void trackPackagesHotelMapLinkEvent(String link) {
+		createAndtrackLinkEvent(link, "Search Results Map View");
+	}
+
+	public static void trackPackagesHotelMapToList() {
+		trackPackagesHotelMapLinkEvent(PACKAGES_HOTEL_MAP_TO_LIST_VIEW);
+	}
+
+	public static void trackPackagesHotelMapPinTap() {
+		trackPackagesHotelMapLinkEvent(PACKAGES_HOTEL_MAP_PIN_TAP);
+	}
+
+	public static void trackPackagesHotelMapCarouselPropertyClick() {
+		trackPackagesHotelMapLinkEvent(PACKAGES_HOTEL_CAROUSEL_TAP);
+	}
+
+	public static void trackPackagesHotelMapCarouselScroll() {
+		trackPackagesHotelMapLinkEvent(PACKAGES_HOTEL_MAP_CAROUSEL_SCROLL);
+	}
+
+	public static void trackPackagesHotelMapSearchThisAreaClick() {
+		trackPackagesHotelMapLinkEvent(PACKAGES_HOTEL_MAP_SEARCH_AREA);
 	}
 }

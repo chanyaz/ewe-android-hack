@@ -24,6 +24,7 @@ import com.expedia.bookings.presenter.hotel.HotelDetailPresenter
 import com.expedia.bookings.presenter.hotel.HotelReviewsView
 import com.expedia.bookings.services.PackageServices
 import com.expedia.bookings.services.ReviewsServices
+import com.expedia.bookings.tracking.PackagesTracking
 import com.expedia.bookings.utils.Strings
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
@@ -245,6 +246,7 @@ class PackageHotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
     val hotelSelectedObserver: Observer<Hotel> = endlessObserver { hotel ->
         selectedPackageHotel = hotel
         getDetails(hotel.packageOfferModel.piid, hotel.hotelId, Db.getPackageParams().checkIn.toString(), Db.getPackageParams().checkOut.toString(), Db.getPackageSelectedRoom()?.ratePlanCode, Db.getPackageSelectedRoom()?.roomTypeCode)
+        PackagesTracking().trackHotelMapCarouselPropertyClick()
     }
 
     val hideBundlePriceOverviewObserver: Observer<Boolean> = endlessObserver { hide ->
@@ -387,6 +389,7 @@ class PackageHotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
                 resultsPresenter.showDefault()
                 resultsPresenter.viewmodel.paramsSubject.onNext(convertPackageToSearchParams(Db.getPackageParams(), resources.getInteger(R.integer.calendar_max_days_hotel_stay)))
                 resultsPresenter.viewmodel.hotelResultsObservable.onNext(HotelSearchResponse.convertPackageToSearchResponse(Db.getPackageResponse()))
+                PackagesTracking().trackHotelSearchResultLoad(Db.getPackageResponse())
             }
         }
     }
