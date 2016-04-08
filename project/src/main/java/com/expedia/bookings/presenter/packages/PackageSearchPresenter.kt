@@ -96,12 +96,12 @@ class PackageSearchPresenter(context: Context, attrs: AttributeSet) : BaseSearch
     override fun onFinishInflate() {
         super.onFinishInflate()
         destinationCardView.setOnClickListener {
-            searchLocationEditText?.queryHint = context.resources.getString(R.string.hint_departure_airport)
+            searchLocationEditText?.queryHint = context.resources.getString(R.string.fly_from_hint)
             isDepartureAirport = true
             show(SuggestionSelectionState())
         }
         arrivalCardView.setOnClickListener {
-            searchLocationEditText?.queryHint = context.resources.getString(R.string.hint_arrival_airport)
+            searchLocationEditText?.queryHint = context.resources.getString(R.string.fly_to_hint)
             isDepartureAirport = false
             show(SuggestionSelectionState())
             PackagesTracking().trackDestinationSearchInit()

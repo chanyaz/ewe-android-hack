@@ -295,8 +295,8 @@ class PackageHotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
             var packageSavings = Phrase.from(context, R.string.bundle_total_savings_TEMPLATE)
                     .put("savings", total.getFormattedMoney(Money.F_ALWAYS_TWO_PLACES_AFTER_DECIMAL))
                     .format().toString()
-            bundleSlidingWidget.bundlePriceWidget.viewModel.setTextObservable.onNext(Pair(total.getFormattedMoney(Money.F_NO_DECIMAL), packageSavings))
-            bundleSlidingWidget.bundlePriceFooter.viewModel.setTextObservable.onNext(Pair(total.getFormattedMoney(Money.F_NO_DECIMAL), packageSavings))
+            bundleSlidingWidget.bundlePriceWidget.viewModel.setTextObservable.onNext(Pair(total.getFormattedMoney(Money.F_ALWAYS_TWO_PLACES_AFTER_DECIMAL), packageSavings))
+            bundleSlidingWidget.bundlePriceFooter.viewModel.setTextObservable.onNext(Pair(total.getFormattedMoney(Money.F_ALWAYS_TWO_PLACES_AFTER_DECIMAL), packageSavings))
 
             resultsPresenter.animationFinalize(forward)
         }

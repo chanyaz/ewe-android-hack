@@ -59,14 +59,14 @@ class RailSearchViewModel(context: Context) : DatedSearchViewModel(context) {
         paramsBuilder.startDate(start)
         paramsBuilder.endDate(end)
 
-        dateTextObservable.onNext(computeDateRangeText(context, start, end))
+        dateTextObservable.onNext(computeDateRangeText(start, end))
 
-        dateInstructionObservable.onNext(computeDateInstructionText(context, start, end))
+        dateInstructionObservable.onNext(computeDateInstructionText(start, end))
 
         calendarTooltipTextObservable.onNext(computeTooltipText(start, end))
     }
 
-    private fun computeTooltipText(start: LocalDate?, end: LocalDate?): Pair<String, String> {
+    override fun computeTooltipText(start: LocalDate?, end: LocalDate?): Pair<String, String> {
         val resource =
                 if (end == null) R.string.hotel_calendar_tooltip_bottom
                 else R.string.calendar_drag_to_modify
@@ -74,12 +74,12 @@ class RailSearchViewModel(context: Context) : DatedSearchViewModel(context) {
         return Pair(computeTopTextForToolTip(start, end), instructions)
     }
 
-    private fun computeDateInstructionText(context: Context, start: LocalDate?, end: LocalDate?): CharSequence {
+    override fun computeDateInstructionText(start: LocalDate?, end: LocalDate?): CharSequence {
         if (start == null && end == null) {
             return context.getString(R.string.select_checkin_date);
         }
 
-        val dateRangeText = computeDateRangeText(context, start, end)
+        val dateRangeText = computeDateRangeText(start, end)
         val sb = SpannableBuilder()
         sb.append(dateRangeText)
 
@@ -92,7 +92,7 @@ class RailSearchViewModel(context: Context) : DatedSearchViewModel(context) {
         return sb.build()
     }
 
-    private fun computeDateRangeText(context: Context, start: LocalDate?, end: LocalDate?): String? {
+    override fun computeDateRangeText(start: LocalDate?, end: LocalDate?): String? {
         if (start == null && end == null) {
             return context.resources.getString(R.string.select_dates)
         } else if (end == null) {

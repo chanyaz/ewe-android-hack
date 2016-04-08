@@ -33,7 +33,7 @@ class TravelerWidgetV2(context: Context, attrs: AttributeSet?) : SearchInputCard
     }
 
     val travelerDialog: AlertDialog by lazy {
-        val builder = AlertDialog.Builder(context)
+        val builder = AlertDialog.Builder(context, R.style.Theme_AlertDialog)
         traveler
         builder.setView(travelerDialogView)
         builder.setPositiveButton(context.getString(R.string.DONE), { dialog, which ->

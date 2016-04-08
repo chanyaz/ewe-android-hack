@@ -4,10 +4,13 @@
     <!-- Hotels -->
     <!-- Hotels Calendar Strings -->
     <string name="select_checkin_date">Select check in date</string>
+    <!-- Package Calendar Strings -->
+    <string name="select_departure_date">Select departure date</string>
     <!-- Hotels calendar tooltip bottom line after a single date is selected -->
     <string name="hotel_calendar_tooltip_bottom">Next: Select check out date</string>
     <!-- When user hasn't picked check out date, we show something like: "Jan 21 - Select check out date" -->
     <string name="select_checkout_date_TEMPLATE">%1$s - Select check out date</string>
+
     <!-- Search form text hotels nights. %$s = formatted nights string. E.g. (3 nights) -->
     <string name="nights_count_TEMPLATE">(%1$s)</string>
     <!-- Hotels search form default text for number of guests -->
@@ -4064,5 +4067,9 @@
     <string name="via_scratchpad_label">via Scratchpad</string>
     <!-- Earn messaging -->
     <string name="earn_message_TEMPLATE">Earn {earn}</string>
+    <!-- Fly from hint -->
+    <string name="fly_from_hint">Flying from</string>
+    <!-- Fly to hint -->
+    <string name="fly_to_hint">Flying to</string>
 
 </resources>
