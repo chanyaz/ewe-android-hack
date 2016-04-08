@@ -1,6 +1,5 @@
 package com.expedia.bookings.section;
 
-import java.math.BigDecimal;
 import java.text.DecimalFormat;
 
 import org.joda.time.DateTime;
@@ -28,12 +27,11 @@ import com.expedia.bookings.data.FlightTripLeg;
 import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.TripBucketItemFlight;
 import com.expedia.bookings.data.abacus.AbacusUtils;
-import com.expedia.bookings.data.payment.LoyaltyEarnInfo;
-import com.expedia.bookings.data.payment.PointsEarnInfo;
-import com.expedia.bookings.data.payment.PriceEarnInfo;
 import com.expedia.bookings.utils.FontCache;
 import com.expedia.bookings.utils.JodaUtils;
+import com.expedia.bookings.utils.LoyaltyInfoParserUtil;
 import com.expedia.bookings.utils.SpannableBuilder;
+import com.expedia.bookings.utils.Strings;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.FlightTripView;
 import com.mobiata.flightlib.data.Airline;
@@ -227,31 +225,10 @@ public class FlightLegSummarySection extends RelativeLayout {
 		}
 
 		if (mEarnAmountTextView != null && trip != null) {
-			LoyaltyEarnInfo earnInfo = trip.getEarnInfo();
-			if (earnInfo != null) {
-				PriceEarnInfo price = earnInfo.getPrice();
-				if (price != null) {
-					if (price.getTotal().amount.compareTo(BigDecimal.ZERO) > 0) {
-						mEarnAmountTextView.setVisibility(VISIBLE);
-						mEarnAmountTextView.setText(
-							Phrase.from(context.getString(R.string.earn_amount_TEMPLATE))
-								.put("price", price.getTotal().formattedPrice)
-								.format());
-					}
-				}
-				else {
-					PointsEarnInfo points = earnInfo.getPoints();
-					if (points != null) {
-						int total = points.getTotal();
-						if (total > 0) {
-							mEarnAmountTextView.setVisibility(VISIBLE);
-							mEarnAmountTextView.setText(
-								Phrase.from(context.getString(R.string.earn_points_TEMPLATE))
-									.put("points", total)
-									.format());
-						}
-					}
-				}
+			CharSequence earnInfoTextToDisplay = LoyaltyInfoParserUtil.getEarnInfoTextToDisplay(context, trip);
+			if (Strings.isNotEmpty(earnInfoTextToDisplay)) {
+				mEarnAmountTextView.setVisibility(VISIBLE);
+				mEarnAmountTextView.setText(earnInfoTextToDisplay);
 			}
 		}
 
