@@ -293,20 +293,14 @@ class PackageFlightFilterViewModel(private val context: Context) {
     private fun resetDepartureRange() {
         val list = ArrayList(originalList)
         if (list.isNotEmpty()) {
-            val sortedList = list.sortedBy { getHourOfTheDay(it.departureDateTimeISO) }
-            val min = getHourOfTheDay(sortedList.first().departureDateTimeISO)
-            val max = getHourOfTheDay(sortedList.last().departureDateTimeISO)
-            newDepartureRangeObservable.onNext(TimeRange(context, min, max + 1))
+            newDepartureRangeObservable.onNext(TimeRange(context, 0, context.resources.getStringArray(R.array.hoursList).size - 1))
         }
     }
 
     private fun resetArrivalRange() {
         val list = ArrayList(originalList)
         if (list.isNotEmpty()) {
-            val sortedList = list.sortedBy { getHourOfTheDay(it.arrivalDateTimeISO) }
-            val min = getHourOfTheDay(sortedList.first().arrivalDateTimeISO)
-            val max = getHourOfTheDay(sortedList.last().arrivalDateTimeISO)
-            newArrivalRangeObservable.onNext(TimeRange(context, min, max + 1))
+            newArrivalRangeObservable.onNext(TimeRange(context, 0, context.resources.getStringArray(R.array.hoursList).size - 1))
         }
     }
 

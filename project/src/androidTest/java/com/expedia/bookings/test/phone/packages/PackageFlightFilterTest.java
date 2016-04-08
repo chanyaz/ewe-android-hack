@@ -39,10 +39,10 @@ public class PackageFlightFilterTest extends PackageTestCase {
 		scrollToViewWithId(R.id.duration);
 		visibleWithText(R.id.duration, "17hr");
 		scrollToViewWithId(R.id.departure_range_min_text);
-		visibleWithText(R.id.departure_range_min_text, "8:00 am");
-		visibleWithText(R.id.departure_range_max_text, "10:00 am");
+		visibleWithText(R.id.departure_range_min_text, "12:00 am");
+		visibleWithText(R.id.departure_range_max_text, "11:59 pm");
 		scrollToViewWithId(R.id.arrival_range_min_text);
-		visibleWithText(R.id.arrival_range_min_text, "11:00 am");
+		visibleWithText(R.id.arrival_range_min_text, "12:00 am");
 		visibleWithText(R.id.arrival_range_max_text, "11:59 pm");
 
 		// Fix these counts for best flight #6747
@@ -101,14 +101,14 @@ public class PackageFlightFilterTest extends PackageTestCase {
 
 		//filter by departure range
 		scrollToViewWithId(R.id.departure_range_min_text);
-		departureRangeSeekBar().perform(ViewActions.setCustomRangeSeekBarTo(0, 1));
+		departureRangeSeekBar().perform(ViewActions.setCustomRangeSeekBarTo(8, 9));
 		visibleWithText(R.id.departure_range_min_text, "8:00 am");
 		visibleWithText(R.id.departure_range_max_text, "9:00 am");
 		checkFilteredFlights("1 Result");
 
 		//filter by arrival range
 		scrollToViewWithId(R.id.arrival_range_min_text);
-		arrivalRangeSeekBar().perform(ViewActions.setCustomRangeSeekBarTo(1, 5));
+		arrivalRangeSeekBar().perform(ViewActions.setCustomRangeSeekBarTo(12, 16));
 		visibleWithText(R.id.arrival_range_min_text, "12:00 pm");
 		visibleWithText(R.id.arrival_range_max_text, "4:00 pm");
 		checkFilteredFlights("0 Results");
