@@ -150,7 +150,8 @@ class HotelRoomRateView(context: Context, var rowIndex: Int) : LinearLayout(cont
 
         vm.roomRateInfoTextObservable.subscribeText(roomInfoDescriptionText)
         vm.roomTypeObservable.subscribeText(roomType)
-        vm.discountPercentage.subscribeTextAndVisibility(roomDiscountPercentage)
+        vm.discountPercentage.subscribeText(roomDiscountPercentage)
+        vm.shouldShowDiscountPercentage.subscribeVisibility(roomDiscountPercentage)
         vm.collapsedBedTypeObservable.subscribeText(collapsedBedType)
         vm.expandedBedTypeObservable.subscribeText(expandedBedType)
         vm.perNightPriceVisibleObservable.map { it && !vm.onlyShowTotalPrice.value }.subscribeVisibility(perNight)
