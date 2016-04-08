@@ -4,6 +4,7 @@ import android.content.Context
 import android.util.AttributeSet
 import android.view.View
 import android.widget.AdapterView
+import android.widget.EditText
 import android.widget.ImageView
 import android.widget.Spinner
 import com.expedia.bookings.R
@@ -21,7 +22,7 @@ import com.expedia.vm.traveler.TravelerViewModel
 import rx.subjects.PublishSubject
 
 class FlightTravelerEntryWidget(context: Context, attrs: AttributeSet?) : FrameLayout(context, attrs),
-        TravelerButton.ITravelerButtonListener  {
+        TravelerButton.ITravelerButtonListener, View.OnFocusChangeListener  {
 
     val travelerButton: TravelerButton by bindView(R.id.traveler_button)
     val nameEntryView: NameEntryView by bindView(R.id.name_entry_widget)
@@ -29,12 +30,12 @@ class FlightTravelerEntryWidget(context: Context, attrs: AttributeSet?) : FrameL
     val tsaEntryView: TSAEntryView by bindView(R.id.tsa_entry_widget)
     val passportCountrySpinner: Spinner by bindView(R.id.passport_country_spinner)
     val advancedOptionsWidget: FlightTravelerAdvancedOptionsWidget by bindView(R.id.traveler_advanced_options_widget)
-
-    val doneButton: TextView by bindView(R.id.new_traveler_done_button)
     val advancedButton: TextView by bindView(R.id.advanced_options_button)
     val advancedOptionsIcon: ImageView by bindView(R.id.traveler_advanced_options_icon)
 
     val travelerCompleteSubject = PublishSubject.create<Traveler>()
+    val focusedView = PublishSubject.create<EditText>()
+    val doneClicked = PublishSubject.create<Unit>()
 
     var viewModel: TravelerViewModel by notNullAndObservable { vm ->
         nameEntryView.viewModel = vm.nameViewModel
@@ -62,6 +63,16 @@ class FlightTravelerEntryWidget(context: Context, attrs: AttributeSet?) : FrameL
         passportCountrySpinner.adapter = adapter
         passportCountrySpinner.onItemSelectedListener = CountryItemSelectedListener()
         travelerButton.setTravelButtonListener(this)
+        nameEntryView.firstName.onFocusChangeListener = this
+        nameEntryView.middleInitial.onFocusChangeListener = this
+        nameEntryView.lastName.onFocusChangeListener = this
+        phoneEntryView.phoneNumber.onFocusChangeListener = this
+
+        doneClicked.subscribe {
+            if (isValid()) {
+                travelerCompleteSubject.onNext(viewModel.getTraveler())
+            }
+        }
     }
 
     override fun onTravelerChosen(traveler: Traveler) {
@@ -74,12 +85,6 @@ class FlightTravelerEntryWidget(context: Context, attrs: AttributeSet?) : FrameL
 
     override fun onFinishInflate() {
         super.onFinishInflate()
-
-        doneButton.setOnClickListener {
-            if (isValid()) {
-                travelerCompleteSubject.onNext(viewModel.getTraveler())
-            }
-        }
 
         advancedButton.setOnClickListener {
             if (advancedOptionsWidget.visibility == Presenter.GONE) {
@@ -113,6 +118,12 @@ class FlightTravelerEntryWidget(context: Context, attrs: AttributeSet?) : FrameL
         override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
             val adapter = passportCountrySpinner.adapter as CountrySpinnerAdapter
             viewModel.passportCountryObserver.onNext(adapter.getItemValue(position, CountrySpinnerAdapter.CountryDisplayType.THREE_LETTER))
+        }
+    }
+
+    override fun onFocusChange(v: View, hasFocus: Boolean) {
+        if (hasFocus) {
+            focusedView.onNext(v as EditText)
         }
     }
 }

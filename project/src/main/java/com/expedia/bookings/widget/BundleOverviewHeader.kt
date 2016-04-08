@@ -6,6 +6,7 @@ import android.support.design.widget.CollapsingToolbarLayout
 import android.support.design.widget.CoordinatorLayout
 import android.support.v4.content.ContextCompat
 import android.support.v4.widget.NestedScrollView
+import android.support.v7.app.AppCompatActivity
 import android.util.AttributeSet
 import android.view.Gravity
 import android.view.View
@@ -39,6 +40,11 @@ class BundleOverviewHeader(context : Context, attrs : AttributeSet) : Coordinato
         toolbar.setSubtitleTextAppearance(context, R.style.ToolbarSubtitleTextAppearance)
         checkoutOverviewHeaderToolbar.checkoutHeaderImage = imageHeader
         checkoutOverviewFloatingToolbar.checkoutHeaderImage = imageHeader
+
+        toolbar.setNavigationOnClickListener {
+            val activity = context as AppCompatActivity
+            activity.onBackPressed()
+        }
     }
 
     /** Collapsing Toolbar **/

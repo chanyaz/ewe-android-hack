@@ -1,10 +1,13 @@
 package com.expedia.vm.traveler
 
+import android.widget.EditText
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.Traveler
 import com.expedia.bookings.data.packages.PackageSearchParams
 import com.expedia.bookings.enums.PassengerCategory
+import com.expedia.bookings.utils.ArrowXDrawableUtil
 import com.expedia.bookings.utils.validation.TravelerValidator
+import rx.subjects.PublishSubject
 
 open class CheckoutTravelerViewModel() {
 

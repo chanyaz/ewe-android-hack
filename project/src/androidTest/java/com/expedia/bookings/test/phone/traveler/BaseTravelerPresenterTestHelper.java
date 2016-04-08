@@ -19,6 +19,8 @@ import com.expedia.bookings.test.espresso.Common;
 import com.expedia.bookings.test.espresso.EspressoUtils;
 import com.expedia.bookings.test.phone.packages.PackageScreen;
 import com.expedia.bookings.test.rules.PlaygroundRule;
+import com.expedia.bookings.widget.CheckoutToolbar;
+import com.expedia.vm.CheckoutToolbarViewModel;
 import com.expedia.vm.traveler.CheckoutTravelerViewModel;
 import com.squareup.phrase.Phrase;
 
@@ -28,6 +30,7 @@ import static org.mockito.Mockito.when;
 
 public class BaseTravelerPresenterTestHelper {
 	protected TravelerPresenter testTravelerPresenter;
+	private CheckoutToolbar testToolbar;
 	protected CheckoutTravelerViewModel mockViewModel;
 
 	protected TravelerName testName = new TravelerName();
@@ -47,7 +50,13 @@ public class BaseTravelerPresenterTestHelper {
 
 	@Before
 	public void setUp() {
-		testTravelerPresenter = (TravelerPresenter) activityTestRule.getRoot();
+		testTravelerPresenter = (TravelerPresenter) activityTestRule.getRoot().findViewById(R.id.traveler_presenter);
+		testToolbar = (CheckoutToolbar) activityTestRule.getRoot().findViewById(R.id.checkout_toolbar);
+		testToolbar.setViewModel(new CheckoutToolbarViewModel(activityTestRule.getActivity()));
+		testTravelerPresenter.getToolbarTitleSubject().subscribe(testToolbar.getViewModel().getToolbarTitle());
+		testTravelerPresenter.getTravelerEntryWidget().getFocusedView().subscribe(testToolbar.getViewModel().getEditText());
+		testTravelerPresenter.getMenuVisibility().subscribe(testToolbar.getViewModel().getMenuVisibility());
+		testToolbar.getViewModel().getDoneClicked().subscribe(testTravelerPresenter.getTravelerEntryWidget().getDoneClicked());
 		testName.setFirstName(testFirstName);
 		testName.setLastName(testLastName);
 	}

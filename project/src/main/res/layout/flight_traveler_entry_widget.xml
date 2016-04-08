@@ -45,16 +45,6 @@
             android:textSize="@dimen/traveler_input_text_size"
             android:visibility="gone"/>
 
-        <com.expedia.bookings.widget.TextView
-            android:id="@+id/new_traveler_done_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="right"
-            android:background="@drawable/dialog_button"
-            android:padding="10dp"
-            android:text="@string/done"
-            android:textAllCaps="true" />
-
         <com.expedia.bookings.widget.FlightTravelerAdvancedOptionsWidget
             android:id="@+id/traveler_advanced_options_widget"
             android:layout_width="match_parent"

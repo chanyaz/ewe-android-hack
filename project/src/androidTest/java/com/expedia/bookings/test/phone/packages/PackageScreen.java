@@ -315,8 +315,8 @@ public class PackageScreen {
 	}
 
 	public static void clickTravelerDone() {
-		onView(withId(R.id.new_traveler_done_button)).perform(ViewActions.waitForViewToDisplay());
-		onView(withId(R.id.new_traveler_done_button)).perform(click());
+		onView(withId(R.id.menu_done)).perform(ViewActions.waitForViewToDisplay());
+		onView(withId(R.id.menu_done)).perform(click());
 	}
 
 	public static void clickTravelerAdvanced() {
