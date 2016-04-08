@@ -78,6 +78,12 @@
       "thisClass": {}
     },
     "bookingCurrency": "USD",
-    "isAllowedToShopWithPoints": true
+    "isAllowedToShopWithPoints": true,
+    "loyaltyMonetaryValue": {
+      "amount": "220597.75",
+      "formattedPrice": "$220,597.75",
+      "formattedWholePrice": "$220,598",
+      "currencyCode": "USD"
+    }
   }
 }

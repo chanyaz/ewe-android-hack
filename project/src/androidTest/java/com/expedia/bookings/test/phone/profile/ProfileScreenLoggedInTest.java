@@ -9,8 +9,9 @@ import org.junit.runner.RunWith;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.LayerDrawable;
 import android.support.annotation.DrawableRes;
-import android.support.annotation.IdRes;
+import android.support.test.espresso.ViewInteraction;
 import android.support.test.espresso.matcher.BoundedMatcher;
+import android.support.test.espresso.matcher.ViewMatchers;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 import android.view.View;
@@ -23,10 +24,14 @@ import com.expedia.bookings.test.phone.pagemodels.common.ProfileScreen;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
+import static android.support.test.espresso.matcher.ViewMatchers.isDescendantOfA;
+import static android.support.test.espresso.matcher.ViewMatchers.withEffectiveVisibility;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
+import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static com.expedia.bookings.test.espresso.CustomMatchers.sameBitmap;
 import static com.expedia.bookings.test.espresso.EspressoUtils.assertViewIsGone;
 import static com.expedia.bookings.test.espresso.EspressoUtils.assertViewWithTextIsDisplayed;
+import static org.hamcrest.CoreMatchers.allOf;
 
 @RunWith(AndroidJUnit4.class)
 public class ProfileScreenLoggedInTest {
@@ -43,7 +48,11 @@ public class ProfileScreenLoggedInTest {
 		assertViewIsGone(R.id.toolbar_loyalty_tier_text);
 		assertViewIsGone(R.id.available_points);
 		assertViewIsGone(R.id.pending_points);
-		assertViewIsGone(R.id.country);
+		getFirstRowCountry().check(matches(withEffectiveVisibility(ViewMatchers.Visibility.GONE)));
+		assertViewIsGone(R.id.points_monetary_value_label);
+		assertViewIsGone(R.id.points_monetary_value);
+		assertViewIsGone(R.id.currency_label);
+		assertViewIsGone(R.id.currency);
 	}
 
 	@Test
@@ -55,8 +64,13 @@ public class ProfileScreenLoggedInTest {
 		assertViewWithTextIsDisplayed(R.id.toolbar_loyalty_tier_text, R.string.plus_blue);
 		assertViewWithTextIsDisplayed(R.id.available_points, "1,802");
 		assertViewIsGone(R.id.pending_points); // 0 pending points == hide the view
-		assertViewWithTextIsDisplayed(R.id.country, "USA");
-		assertTextViewHasCompoundDrawableFlag(R.id.country, R.drawable.ic_flag_us);
+		ViewInteraction countryView = getFirstRowCountry();
+		countryView.check(matches(withText("USA")));
+		assertTextViewHasCompoundDrawableFlag(countryView, R.drawable.ic_flag_us);
+		assertViewIsGone(R.id.points_monetary_value_label);
+		assertViewIsGone(R.id.points_monetary_value);
+		assertViewIsGone(R.id.currency_label);
+		assertViewIsGone(R.id.currency);
 	}
 
 	@Test
@@ -68,8 +82,13 @@ public class ProfileScreenLoggedInTest {
 		assertViewWithTextIsDisplayed(R.id.toolbar_loyalty_tier_text, R.string.plus_silver);
 		assertViewWithTextIsDisplayed(R.id.available_points, "22,996");
 		assertViewWithTextIsDisplayed(R.id.pending_points, "965 pending");
-		assertViewWithTextIsDisplayed(R.id.country, "USA");
-		assertTextViewHasCompoundDrawableFlag(R.id.country, R.drawable.ic_flag_us);
+		ViewInteraction countryView = getSecondRowCountry();
+		countryView.check(matches(withText("USA")));
+		assertTextViewHasCompoundDrawableFlag(countryView, R.drawable.ic_flag_us);
+		assertViewWithTextIsDisplayed(R.id.currency_label, "Currency");
+		assertViewWithTextIsDisplayed(R.id.currency, "USD");
+		assertViewWithTextIsDisplayed(R.id.points_monetary_value_label, "Points value");
+		assertViewWithTextIsDisplayed(R.id.points_monetary_value, "$220,597.75");
 	}
 
 	@Test
@@ -81,8 +100,13 @@ public class ProfileScreenLoggedInTest {
 		assertViewWithTextIsDisplayed(R.id.toolbar_loyalty_tier_text, R.string.plus_gold);
 		assertViewWithTextIsDisplayed(R.id.available_points, "54,206");
 		assertViewWithTextIsDisplayed(R.id.pending_points, "5,601 pending");
-		assertViewWithTextIsDisplayed(R.id.country, "USA");
-		assertTextViewHasCompoundDrawableFlag(R.id.country, R.drawable.ic_flag_us);
+		ViewInteraction countryView = getSecondRowCountry();
+		countryView.check(matches(withText("USA")));
+		assertTextViewHasCompoundDrawableFlag(countryView, R.drawable.ic_flag_us);
+		assertViewWithTextIsDisplayed(R.id.currency_label, "Currency");
+		assertViewWithTextIsDisplayed(R.id.currency, "USD");
+		assertViewWithTextIsDisplayed(R.id.points_monetary_value_label, "Points value");
+		assertViewWithTextIsDisplayed(R.id.points_monetary_value, "$42.00");
 	}
 
 	// only spot checking a few countries as OOM issues are preventing testing all
@@ -113,14 +137,18 @@ public class ProfileScreenLoggedInTest {
 	}
 
 	private void doCountryTest(String countryName, String country3LetterCode, @DrawableRes int flagResId) {
+		switchCountry(countryName);
+		signInAsUser("goldstatus@mobiata.com");
+
+		ViewInteraction countryView = getSecondRowCountry();
+		countryView.check(matches(withText(country3LetterCode)));
+		assertTextViewHasCompoundDrawableFlag(countryView, flagResId);
+	}
+
+	private void switchCountry(String countryName) {
 		ProfileScreen.clickCountry();
 		ProfileScreen.clickCountryInList(countryName);
 		ProfileScreen.clickOK();
-
-		signInAsUser("goldstatus@mobiata.com");
-
-		assertViewWithTextIsDisplayed(R.id.country, country3LetterCode);
-		assertTextViewHasCompoundDrawableFlag(R.id.country, flagResId);
 	}
 
 	private void signInAsUser(String email) {
@@ -130,8 +158,8 @@ public class ProfileScreenLoggedInTest {
 		LogInScreen.clickOnLoginButton();
 	}
 
-	private static void assertTextViewHasCompoundDrawableFlag(@IdRes int viewId, @DrawableRes int drawableId) {
-		onView(withId(viewId)).check(matches(withCompoundDrawableInLayer(drawableId, 0)));
+	private static void assertTextViewHasCompoundDrawableFlag(ViewInteraction viewInteraction, @DrawableRes int drawableId) {
+		viewInteraction.check(matches(withCompoundDrawableInLayer(drawableId, 0)));
 	}
 
 	private static Matcher<View> withCompoundDrawableInLayer(final @DrawableRes int resId, final int layerIndex) {
@@ -156,4 +184,11 @@ public class ProfileScreenLoggedInTest {
 		};
 	}
 
+	private ViewInteraction getFirstRowCountry() {
+		return onView(allOf(isDescendantOfA(withId(R.id.first_row_country)), withId(R.id.country)));
+	}
+
+	private ViewInteraction getSecondRowCountry() {
+		return onView(allOf(isDescendantOfA(withId(R.id.second_row_country)), withId(R.id.country)));
+	}
 }

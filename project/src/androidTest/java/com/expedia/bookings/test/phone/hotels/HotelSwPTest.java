@@ -45,7 +45,7 @@ public class HotelSwPTest extends PhoneTestCase {
 	private void goToCheckout(boolean clickSwP) throws Throwable {
 		LaunchScreen.tripsButton().perform(click());
 		TripsScreen.clickOnLogInButton();
-		HotelScreen.signIn("qa-ehcc@mobiata.com");
+		HotelScreen.signIn("goldstatus@mobiata.com");
 		LaunchScreen.shopButton().perform(click());
 		LaunchScreen.launchHotels();
 		HotelScreen.doSearchWithSwPVisible(clickSwP);

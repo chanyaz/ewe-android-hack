@@ -33,6 +33,23 @@
   "loyaltyPointsPending": 0,
   "loyaltyMemebershipName": "REWARDS",
   "membershipTierName": "Blue",
+  "loyaltyMembershipInfo": {
+    "loyaltyAccountNumber": "872010",
+    "loyaltyMembershipNumber": "312172038",
+    "loyaltyMemebershipActive": true,
+    "loyaltyPointsAvailable": 1802,
+    "loyaltyPointsPending": 0,
+    "loyaltyMemebershipName": "REWARDS",
+    "membershipTierName": "Blue",
+    "bookingCurrency": "USD",
+    "isAllowedToShopWithPoints": false,
+    "loyaltyMonetaryValue": {
+      "amount": "1.01",
+      "formattedPrice": "$1.01",
+      "formattedWholePrice": "$1",
+      "currencyCode": "USD"
+    }
+  },
   "loyaltyTierCredits": {
     "m_pointsAmount": 0,
     "m_grossBookingValue": {
