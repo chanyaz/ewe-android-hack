@@ -164,6 +164,7 @@ open class PaymentWidget(context: Context, attr: AttributeSet) : Presenter(conte
             viewmodel.billingInfoAndStatusUpdate.onNext(Pair(sectionBillingInfo.billingInfo, ContactDetailsCompletenessStatus.COMPLETE))
             viewmodel.onStoredCardChosen.onNext(Unit)
             closePopup()
+            trackPaymentStoredCCSelect()
         }
 
         override fun onTemporarySavedCreditCardChosen(info: BillingInfo) {
@@ -197,8 +198,11 @@ open class PaymentWidget(context: Context, attr: AttributeSet) : Presenter(conte
         cardInfoContainer.setOnClickListener {
             if (shouldShowPaymentOptions()) {
                 show(PaymentOption(), FLAG_CLEAR_BACKSTACK)
+                trackShowPaymentOptions()
             } else {
                 show(PaymentDetails(), FLAG_CLEAR_BACKSTACK)
+                trackShowPaymentEdit()
+
             }
             viewmodel.expandObserver.onNext(true)
         }
@@ -214,6 +218,7 @@ open class PaymentWidget(context: Context, attr: AttributeSet) : Presenter(conte
             } else {
                 show(PaymentDetails(), FLAG_CLEAR_BACKSTACK)
             }
+            trackShowPaymentEdit()
         }
 
         paymentOptionGoogleWallet.setOnClickListener {
@@ -537,5 +542,21 @@ open class PaymentWidget(context: Context, attr: AttributeSet) : Presenter(conte
 
     open fun closePopup() {
         close()
+    }
+
+    /**
+     * Following methods are for tracking.
+     * Don't make this class abstract, since this is a persenter and could have it's own view .xml implementation
+     */
+    open fun trackShowPaymentOptions() {
+        // Let inheriting class call their respective tracking.
+    }
+
+    open fun trackShowPaymentEdit() {
+        // Let inheriting class call their respective tracking.
+    }
+
+    open fun trackPaymentStoredCCSelect() {
+        // Let inheriting class call their respective tracking.
     }
 }

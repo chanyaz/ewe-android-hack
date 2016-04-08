@@ -4926,6 +4926,10 @@ public class OmnitureTracking {
 	private static final String PACKAGES_HOTEL_CAROUSEL_TAP = "App.Package.Hotels.Search.Expand.Package";
 	private static final String PACKAGES_HOTEL_MAP_SEARCH_AREA = "App.Package.Hotels.Search.AreaSearch";
 	private static final String PACKAGES_HOTEL_MAP_CAROUSEL_SCROLL = "App.Package.Hotels.Search.ShowNext";
+	private static final String PACKAGES_CHECKOUT_PAYMENT_SELECT = "App.Package.Checkout.Payment.Select";
+	private static final String PACKAGES_CHECKOUT_PAYMENT_EDIT = "App.Package.Checkout.Payment.Edit.Card";
+	private static final String PACKAGES_CHECKOUT_PAYMENT_SELECT_STORED_CC = "App.Package.CKO.Payment.StoredCard";
+	private static final String PACKAGES_CHECKOUT_PAYMENT_CONFIRMATION = "App.Package.Checkout.Confirmation";
 
 	private static void addPackagesCommonFields(ADMS_Measurement s) {
 		s.setProp(2, PACKAGES_LOB);
@@ -5071,5 +5075,21 @@ public class OmnitureTracking {
 
 	public static void trackPackagesHotelMapSearchThisAreaClick() {
 		trackPackagesHotelMapLinkEvent(PACKAGES_HOTEL_MAP_SEARCH_AREA);
+	}
+
+	public static void trackPackagesPaymentSelect() {
+		trackPackagePageLoadEventStandard(PACKAGES_CHECKOUT_PAYMENT_SELECT);
+	}
+
+	public static void trackPackagesPaymentEdit() {
+		trackPackagePageLoadEventStandard(PACKAGES_CHECKOUT_PAYMENT_EDIT);
+	}
+
+	public static void trackPackagesPaymentStoredCCSelect() {
+		createAndtrackLinkEvent(PACKAGES_CHECKOUT_PAYMENT_SELECT_STORED_CC, "Package Checkout");
+	}
+
+	public static void trackPackagesConfirmation() {
+		// TODO: Will be creating a new PR for this
 	}
 }
