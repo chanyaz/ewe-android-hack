@@ -38,8 +38,10 @@ import com.expedia.util.notNullAndObservable
 import com.expedia.util.subscribeOnClick
 import com.expedia.vm.HotelFilterViewModel
 import com.expedia.vm.HotelFilterViewModel.Sort
+import com.expedia.vm.ShopWithPointsViewModel
 import rx.Observer
 import java.util.ArrayList
+import javax.inject.Inject
 
 class HotelFilterView(context: Context, attrs: AttributeSet) : FrameLayout(context, attrs) {
     val toolbar: Toolbar by bindView(R.id.filter_toolbar)
@@ -90,17 +92,26 @@ class HotelFilterView(context: Context, attrs: AttributeSet) : FrameLayout(conte
     val rowHeight = resources.getDimensionPixelSize(R.dimen.hotel_neighborhood_height)
     val ANIMATION_DURATION = 500L
 
+    val defaultSortOptions = resources.getStringArray(R.array.sort_options_material_hotels).toCollection(ArrayList())
+    val sortByAdapter = ArrayAdapter<String>(getContext(), R.layout.spinner_sort_dropdown_item)
+    val sortByDistanceString = getContext().getString(R.string.distance)
+    val sortByDealsString = getContext().getString(R.string.sort_description_deals)
+
+    var shopWithPointsViewModel: ShopWithPointsViewModel? = null
+
     val sortByObserver: Observer<Boolean> = endlessObserver { isCurrentLocationSearch ->
-        var sortOptions: ArrayList<String> = resources.getStringArray(R.array.sort_options_material_hotels).toCollection(ArrayList())
+        sortByAdapter.clear()
+        sortByAdapter.addAll(defaultSortOptions)
 
         if (isCurrentLocationSearch) {
-            sortOptions.add(getContext().getString(R.string.distance))
+            sortByAdapter.add(sortByDistanceString)
         }
 
-        val adapter = ArrayAdapter(getContext(), R.layout.spinner_sort_item, sortOptions)
-        adapter.setDropDownViewResource(R.layout.spinner_sort_dropdown_item)
-
-        sortByButtonGroup.adapter = adapter
+        // Remove Sort by Deals in case of SWP.
+        if (shopWithPointsViewModel?.swpEffectiveAvailability?.value ?: false) {
+            sortByAdapter.remove(sortByDealsString)
+        }
+        sortByAdapter.notifyDataSetChanged()
     }
 
     var viewmodel: HotelFilterViewModel by notNullAndObservable { vm ->
@@ -374,6 +385,8 @@ class HotelFilterView(context: Context, attrs: AttributeSet) : FrameLayout(conte
             }
         })
 
+        sortByAdapter.setNotifyOnChange(false)
+        sortByButtonGroup.adapter = sortByAdapter
         resetStars()
     }
 
