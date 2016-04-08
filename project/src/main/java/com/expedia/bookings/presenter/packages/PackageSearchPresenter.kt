@@ -7,6 +7,7 @@ import android.text.Html
 import android.util.AttributeSet
 import android.view.View
 import com.expedia.bookings.R
+import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.location.CurrentLocationObservable
 import com.expedia.bookings.presenter.BaseSearchPresenterV2
 import com.expedia.bookings.services.SuggestionV4Services
@@ -84,6 +85,7 @@ class PackageSearchPresenter(context: Context, attrs: AttributeSet) : BaseSearch
         departureAdapter = PackageSuggestionAdapter(departureSuggestionVM)
         arrivalAdapter = PackageSuggestionAdapter(arrivalSuggestionVM)
         travelerWidgetV2.traveler.viewmodel.showSeatingPreference = true
+        travelerWidgetV2.traveler.viewmodel.lob = LineOfBusiness.PACKAGES
     }
 
     override fun inflate() {
@@ -93,10 +95,12 @@ class PackageSearchPresenter(context: Context, attrs: AttributeSet) : BaseSearch
     override fun onFinishInflate() {
         super.onFinishInflate()
         destinationCardView.setOnClickListener {
+            searchLocationEditText?.queryHint = context.resources.getString(R.string.hint_departure_airport)
             isDepartureAirport = true
             show(SuggestionSelectionState())
         }
         arrivalCardView.setOnClickListener {
+            searchLocationEditText?.queryHint = context.resources.getString(R.string.hint_arrival_airport)
             isDepartureAirport = false
             show(SuggestionSelectionState())
         }

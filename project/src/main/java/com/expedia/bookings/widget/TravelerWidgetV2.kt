@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.WindowManager
 import com.expedia.bookings.R
+import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.TravelerParams
 import com.expedia.util.subscribeText
 import com.expedia.vm.HotelTravelerPickerViewModel
@@ -25,6 +26,9 @@ class TravelerWidgetV2(context: Context, attrs: AttributeSet?) : SearchInputCard
         travelerView.viewmodel = HotelTravelerPickerViewModel(context)
         travelerView.viewmodel.travelerParamsObservable.subscribe(travelersSubject)
         travelerView.viewmodel.guestsTextObservable.subscribeText(this.text)
+        travelerView.viewmodel.tooManyInfants.subscribe { enabled ->
+            travelerDialog.getButton(AlertDialog.BUTTON_POSITIVE).isEnabled = !enabled
+        }
         travelerView
     }
 

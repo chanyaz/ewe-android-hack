@@ -13,19 +13,19 @@
         android:layout_height="350dp"
         app:calendarBaseColor="@color/cars_valid_days_calendar"
         app:calendarDaySelectionFillColor="@android:color/white"
-        app:calendarDaysOfWeekColor="@color/hotels_primary_color"
-        app:calendarHeaderTextColor="@color/hotels_primary_color"
+        app:calendarDaysOfWeekColor="?attr/primary_color"
+        app:calendarHeaderTextColor="?attr/primary_color"
         app:calendarHeaderTextSize="16dp"
-        app:calendarHighlightColor="@color/hotels_primary_color"
-        app:calendarHighlightInverseColor="@color/hotels_primary_color"
+        app:calendarHighlightColor="?attr/primary_color"
+        app:calendarHighlightInverseColor="?attr/primary_color"
         app:calendarInvalidDaysColor="@color/cars_invalid_days_calendar"
         app:calendarLayout="@layout/calendar_cars_lx_layout"
         app:calendarSecondaryColor="@color/cars_valid_days_calendar"
-        app:calendarTodayColor="@color/hotels_primary_color"
+        app:calendarTodayColor="?attr/primary_color"
         app:calendarToolTipBackground="@drawable/toolbar_bg"
         app:calendarHeaderShowInstructions="true"
         app:calendarToolTipEnabled="true"
         app:calendarToolTipTailDrawable="@drawable/toolbar_arrow"
-        app:calendarWeekSelectionColor="@color/hotels_primary_color" />
+        app:calendarWeekSelectionColor="?attr/primary_color" />
 
 </LinearLayout>

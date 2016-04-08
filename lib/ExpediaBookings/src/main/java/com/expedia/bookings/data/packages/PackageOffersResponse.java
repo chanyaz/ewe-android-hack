@@ -14,5 +14,10 @@ public class PackageOffersResponse extends BaseApiResponse {
 		public HotelOffersResponse.HotelRoomResponse hotelOffer;
 		public Money pricePerPerson;
 		public Money priceDifferencePerNight;
+		public PackagePricing packagePricing;
+	}
+
+	public static class PackagePricing {
+		public Money savings;
 	}
 }

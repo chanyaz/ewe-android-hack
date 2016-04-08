@@ -30,7 +30,7 @@ class HotelTravelerPickerView(context: Context, attrs: AttributeSet) : FrameLayo
     val spinner4: Spinner by bindView(R.id.child_spinner_4)
     val infantError: TextView by bindView(R.id.error_message_infants)
     val infantPreferenceSeatingSpinner: Spinner by bindView(R.id.infant_preference_seating)
-    val infantSeatPreferenceOptions = listOf(resources.getString(R.string.in_seat), resources.getString(R.string.in_lap))
+    val infantSeatPreferenceOptions = listOf(resources.getString(R.string.in_lap), resources.getString(R.string.in_seat))
     val childSpinners by lazy {
         listOf(spinner1, spinner2, spinner3, spinner4)
     }
@@ -101,7 +101,7 @@ class HotelTravelerPickerView(context: Context, attrs: AttributeSet) : FrameLayo
                     val selectedText = textView as android.widget.TextView
                     selectedText.text = resources.getString(R.string.infants_under_two_TEMPLATE, infantSeatPreferenceOptions[position])
                 }
-                vm.isInfantInLapObservable.onNext(position != 0)
+                vm.isInfantInLapObservable.onNext(position != 1)
             }
 
             override fun onNothingSelected(parent: AdapterView<*>?) {

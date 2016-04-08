@@ -9,6 +9,7 @@ import com.expedia.bookings.BuildConfig
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Codes
 import com.expedia.bookings.data.Db
+import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.TravelerParams
 import com.expedia.bookings.data.abacus.AbacusUtils
@@ -173,6 +174,12 @@ class HotelSearchViewModel(context: Context) : DatedSearchViewModel(context) {
 
 class HotelTravelerPickerViewModel(val context: Context) {
     var showSeatingPreference = false
+    var lob = LineOfBusiness.HOTELS
+        set(value) {
+            field = value
+            val travelers = travelerParamsObservable.value
+            makeTravelerText(travelers)
+        }
 
     private val MAX_GUESTS = 6
     private val MIN_ADULTS = 1
@@ -193,14 +200,12 @@ class HotelTravelerPickerViewModel(val context: Context) {
     val childMinusObservable = BehaviorSubject.create<Boolean>()
     val infantPreferenceSeatingObservable = BehaviorSubject.create<Boolean>(false)
     val isInfantInLapObservable = BehaviorSubject.create<Boolean>(false)
-    val tooManyInfants = BehaviorSubject.create<Boolean>(false)
+    val tooManyInfants = PublishSubject.create<Boolean>()
 
     init {
         travelerParamsObservable.subscribe { travelers ->
             val total = travelers.numberOfAdults + travelers.children.size
-            guestsTextObservable.onNext(
-                    StrUtils.formatGuestString(context, total)
-            )
+            makeTravelerText(travelers)
 
             adultTextObservable.onNext(
                     context.resources.getQuantityString(R.plurals.number_of_adults, travelers.numberOfAdults, travelers.numberOfAdults)
@@ -241,7 +246,7 @@ class HotelTravelerPickerViewModel(val context: Context) {
     val incrementChildrenObserver: Observer<Unit> = endlessObserver {
         if (childPlusObservable.value) {
             val hotelTravelerParams = travelerParamsObservable.value
-            travelerParamsObservable.onNext(TravelerParams(hotelTravelerParams.numberOfAdults, hotelTravelerParams.children.plus(10)))
+            travelerParamsObservable.onNext(TravelerParams(hotelTravelerParams.numberOfAdults, hotelTravelerParams.children.plus(childAges[hotelTravelerParams.children.size])))
             HotelV2Tracking().trackTravelerPickerClick("Add.Child")
         }
     }
@@ -257,14 +262,29 @@ class HotelTravelerPickerViewModel(val context: Context) {
     val childAgeSelectedObserver: Observer<Pair<Int, Int>> = endlessObserver { p ->
         val (which, age) = p
         childAges[which] = age
-        infantPreferenceSeatingObservable.onNext(childAges.contains(0))
         val hotelTravelerParams = travelerParamsObservable.value
-        travelerParamsObservable.onNext(TravelerParams(hotelTravelerParams.numberOfAdults, (0..hotelTravelerParams.children.size - 1).map { childAges[it] }))
+        val children = hotelTravelerParams.children.toIntArray()
+        if (children.size > which) {
+            children[which] = childAges[which]
+        }
+        travelerParamsObservable.onNext(TravelerParams(hotelTravelerParams.numberOfAdults, children.toList()))
     }
 
     private fun validateInfants() {
         val hotelTravelerParams = travelerParamsObservable.value
-        tooManyInfants.onNext(isInfantInLapObservable.value && childAges.count { it == 0 } > hotelTravelerParams.numberOfAdults)
+        infantPreferenceSeatingObservable.onNext(hotelTravelerParams.children.contains(0))
+        tooManyInfants.onNext(isInfantInLapObservable.value && hotelTravelerParams.children.count { it == 0 } > hotelTravelerParams.numberOfAdults)
+    }
+
+    fun makeTravelerText(travelers: TravelerParams) {
+        val total = travelers.numberOfAdults + travelers.children.size
+        guestsTextObservable.onNext(
+                if (lob == LineOfBusiness.PACKAGES) {
+                    StrUtils.formatTravelerString(context, total)
+                } else {
+                    StrUtils.formatGuestString(context, total)
+                }
+        )
     }
 }
 
