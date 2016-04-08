@@ -398,7 +398,7 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
         }
     }
 
-    val searchBackgroundColor = TransitionElement(ContextCompat.getColor(context, R.color.hotel_search_background), Color.TRANSPARENT)
+    val searchBackgroundColor = TransitionElement(ContextCompat.getColor(context, R.color.search_anim_background), Color.TRANSPARENT)
     private val defaultResultsTransition = object : Presenter.DefaultTransition(HotelResultsPresenter::class.java.name) {
 
         override fun startTransition(forward: Boolean) {
