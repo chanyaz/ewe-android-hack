@@ -16,6 +16,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewStub;
+import android.view.ViewTreeObserver;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.Space;
@@ -336,50 +337,59 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 	}
 
 	private void scrollToEnterDetails() {
-		Ui.hideKeyboard(CheckoutBasePresenter.this);
-
-		int targetScrollY = loginWidget.getTop() - (int) TypedValue
-			.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 10f, getResources().getDisplayMetrics());
-		final ValueAnimator scrollAnimation =
-			ValueAnimator.ofInt(scrollView.getScrollY(), targetScrollY);
-		scrollAnimation.setDuration(300);
-		scrollAnimation.setInterpolator(new FastOutSlowInInterpolator());
-		scrollAnimation.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+		getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
 			@Override
-			public void onAnimationUpdate(ValueAnimator animation) {
-				int scrollTo = (Integer) animation.getAnimatedValue();
-				scrollView.scrollTo(0, scrollTo);
+			public void onGlobalLayout() {
+				if (scrollView.getHeight() != 0) {
+					getViewTreeObserver().removeOnGlobalLayoutListener(this);
+					updateSpacerHeight();
+					Ui.hideKeyboard(CheckoutBasePresenter.this);
+
+					int targetScrollY = loginWidget.getTop() - (int) TypedValue
+						.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 10f, getResources().getDisplayMetrics());
+					final ValueAnimator scrollAnimation =
+						ValueAnimator.ofInt(scrollView.getScrollY(), targetScrollY);
+					scrollAnimation.setDuration(300);
+					scrollAnimation.setInterpolator(new FastOutSlowInInterpolator());
+					scrollAnimation.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+						@Override
+						public void onAnimationUpdate(ValueAnimator animation) {
+							int scrollTo = (Integer) animation.getAnimatedValue();
+							scrollView.scrollTo(0, scrollTo);
+						}
+					});
+					scrollAnimation.addListener(new ValueAnimator.AnimatorListener() {
+						@Override
+						public void onAnimationStart(Animator animator) {
+							menuDone.setVisible(false);
+							listenToScroll = false;
+						}
+
+						@Override
+						public void onAnimationEnd(Animator animator) {
+							listenToScroll = true;
+						}
+
+						@Override
+						public void onAnimationCancel(Animator animator) {
+
+						}
+
+						@Override
+						public void onAnimationRepeat(Animator animator) {
+
+						}
+					});
+
+					scrollView.postDelayed(new Runnable() {
+						@Override
+						public void run() {
+							scrollAnimation.start();
+						}
+					}, 100L);
+				}
 			}
 		});
-		scrollAnimation.addListener(new ValueAnimator.AnimatorListener() {
-			@Override
-			public void onAnimationStart(Animator animator) {
-				menuDone.setVisible(false);
-				listenToScroll = false;
-			}
-
-			@Override
-			public void onAnimationEnd(Animator animator) {
-				listenToScroll = true;
-			}
-
-			@Override
-			public void onAnimationCancel(Animator animator) {
-
-			}
-
-			@Override
-			public void onAnimationRepeat(Animator animator) {
-
-			}
-		});
-
-		scrollView.postDelayed(new Runnable() {
-			@Override
-			public void run() {
-				scrollAnimation.start();
-			}
-		}, 100L);
 	}
 
 	com.expedia.bookings.widget.ScrollView.OnScrollListener checkoutScrollListener = new ScrollView.OnScrollListener() {
@@ -427,12 +437,7 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 		animator.start();
 
 		if (visible) {
-			scrollView.postDelayed(new Runnable() {
-				@Override
-				public void run() {
-					scrollView.fullScroll(ScrollView.FOCUS_DOWN);
-				}
-			}, 100);
+			scrollToEnterDetails();
 			String cardType = paymentInfoCardView.getCardType().getOmnitureTrackingCode();
 			switch (getLineOfBusiness()) {
 			case HOTELSV2:
@@ -536,6 +541,7 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 		public void endTransition(boolean forward) {
 			super.endTransition(forward);
 			showProgress(!forward);
+			updateSpacerHeight();
 			if (forward) {
 				resetMenuButton();
 				checkoutFormWasUpdated();
@@ -543,44 +549,37 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 			else {
 				animateInSlideToPurchase(false);
 			}
-
-			updateSpacerHeight();
 			listenToScroll = true;
 		}
 	};
 
 	private void updateSpacerHeight() {
-		postDelayed(new Runnable() {
-			@Override
-			public void run() {
-				if (getLineOfBusiness() != LineOfBusiness.HOTELSV2 || isCheckoutFormComplete()) {
-					float scrollViewActualHeight = scrollView.getHeight() - scrollView.getPaddingTop();
-					int bottom = (disclaimerText.getVisibility() == View.VISIBLE) ? disclaimerText.getBottom()
-						: legalInformationText.getBottom();
-					if (scrollViewActualHeight - bottom < slideToContainer.getHeight()) {
-						ViewGroup.LayoutParams params = space.getLayoutParams();
-						params.height = slideToContainer.getVisibility() == VISIBLE ? slideToContainer.getHeight() : 0;
+		if (getLineOfBusiness() != LineOfBusiness.HOTELSV2 || isCheckoutFormComplete()) {
+			float scrollViewActualHeight = scrollView.getHeight() - scrollView.getPaddingTop();
+			int bottom = (disclaimerText.getVisibility() == View.VISIBLE) ? disclaimerText.getBottom()
+				: legalInformationText.getBottom();
+			if (scrollViewActualHeight - bottom < slideToContainer.getHeight()) {
+				ViewGroup.LayoutParams params = space.getLayoutParams();
+				params.height = slideToContainer.getVisibility() == VISIBLE ? slideToContainer.getHeight() : 0;
 
-						if (slideToContainer.getVisibility() == VISIBLE
-							|| acceptTermsWidget.getVisibility() == VISIBLE) {
-							params.height = Math.max(slideToContainer.getHeight(), acceptTermsWidget.getHeight());
-						}
-						else {
-							params.height = 0;
-						}
-						space.setLayoutParams(params);
-					}
+				if (slideToContainer.getVisibility() == VISIBLE
+					|| acceptTermsWidget.getVisibility() == VISIBLE) {
+					params.height = Math.max(slideToContainer.getHeight(), acceptTermsWidget.getHeight());
 				}
 				else {
-					// if not complete, provide enough space for sign in button to be anchored at top of viewable area
-					int remainingHeight =
-						scrollView.getChildAt(0).getHeight() - space.getHeight() - summaryContainer.getHeight();
-					ViewGroup.LayoutParams params = space.getLayoutParams();
-					params.height = scrollView.getHeight() - remainingHeight - Ui.getToolbarSize(getContext());
-					space.setLayoutParams(params);
+					params.height = 0;
 				}
+				space.setLayoutParams(params);
 			}
-		}, 300L);
+		}
+		else {
+			// if not complete, provide enough space for sign in button to be anchored at top of viewable area
+			int remainingHeight =
+				scrollView.getChildAt(0).getHeight() - space.getHeight() - summaryContainer.getHeight();
+			ViewGroup.LayoutParams params = space.getLayoutParams();
+			params.height = scrollView.getHeight() - remainingHeight - Ui.getToolbarSize(getContext());
+			space.setLayoutParams(params);
+		}
 	}
 
 	private Transition defaultToCheckoutFailed = new Transition(CheckoutDefault.class, CheckoutFailed.class) {

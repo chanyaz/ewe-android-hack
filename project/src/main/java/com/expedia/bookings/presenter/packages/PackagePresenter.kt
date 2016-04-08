@@ -125,7 +125,6 @@ class PackagePresenter(context: Context, attrs: AttributeSet) : Presenter(contex
             show(bundlePresenter, Presenter.FLAG_CLEAR_TOP)
             bundlePresenter.getCheckoutPresenter().slideToPurchase.resetSlider()
             bundlePresenter.getCheckoutPresenter().paymentWidget.cardInfoContainer.performClick()
-            bundlePresenter.getCheckoutPresenter().show(bundlePresenter.getCheckoutPresenter(), Presenter.FLAG_CLEAR_TOP)
         }
     }
 

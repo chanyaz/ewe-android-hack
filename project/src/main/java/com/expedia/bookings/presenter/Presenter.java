@@ -49,6 +49,7 @@ public class Presenter extends FrameLayout {
 
 	// Animation vars
 	private boolean acceptAnimationUpdates = false;
+	private ValueAnimator animator;
 
 	// View lifecycle
 
@@ -165,6 +166,10 @@ public class Presenter extends FrameLayout {
 	}
 
 	public void show(Object newState, int flags) {
+		if (animator != null && animator.isRunning()) {
+			animator.cancel(); // cancel running animations so we have correct current state (triggers: endAnimation())
+		}
+
 		if (isHandlingBack) {
 			if (showCommandRequestedDuringBackHandling == null) {
 				showCommandRequestedDuringBackHandling = new Pair(newState, flags);
@@ -192,7 +197,7 @@ public class Presenter extends FrameLayout {
 			return;
 		}
 
-		ValueAnimator animator = null;
+
 		if ((flags & TEST_FLAG_FORCE_NEW_STATE) == 0) {
 			animator = getStateAnimator(newState);
 		}
