@@ -1,6 +1,7 @@
 package com.expedia.bookings.unit;
 
 import java.io.File;
+import java.util.Arrays;
 import java.util.concurrent.TimeUnit;
 
 import org.joda.time.LocalDate;
@@ -9,6 +10,8 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 
+import com.expedia.bookings.data.packages.PackageCreateTripParams;
+import com.expedia.bookings.data.packages.PackageCreateTripResponse;
 import com.expedia.bookings.data.packages.PackageSearchResponse;
 import com.expedia.bookings.data.SuggestionV4;
 import com.expedia.bookings.data.packages.PackageSearchParams;
@@ -82,6 +85,26 @@ public class PackageServicesTest {
 		PackageSearchResponse response = observer.getOnNextEvents().get(0);
 		Assert.assertEquals(50, response.packageResult.hotelsPackage.hotels.size());
 		Assert.assertEquals(2, response.packageResult.flightsPackage.flights.size());
+	}
+
+	@Test
+	public void testCreateTripMultiTravelerWorks() throws Throwable {
+		String root = new File("../mocked/templates").getCanonicalPath();
+		FileSystemOpener opener = new FileSystemOpener(root);
+		server.setDispatcher(new ExpediaDispatcher(opener));
+
+		String prodID = "create_trip_multitraveler";
+		String destID = "6139057";
+
+		TestSubscriber<PackageCreateTripResponse> observer = new TestSubscriber<>();
+		PackageCreateTripParams params = new PackageCreateTripParams(prodID, destID, 2, 0, Arrays.asList(0, 8, 12));
+		service.createTrip(params).subscribe(observer);
+		observer.awaitTerminalEvent(10, TimeUnit.SECONDS);
+		observer.assertNoErrors();
+		observer.assertCompleted();
+		PackageCreateTripResponse response = observer.getOnNextEvents().get(0);
+		Assert.assertEquals("$2,202.34", response.packageDetails.pricing.packageTotal.getFormattedMoneyFromAmountAndCurrencyCode());
+		Assert.assertEquals("4", response.packageDetails.flight.details.offer.numberOfTickets);
 	}
 
 	private SuggestionV4 getDummySuggestion()  {
