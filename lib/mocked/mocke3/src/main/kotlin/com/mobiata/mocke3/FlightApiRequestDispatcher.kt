@@ -35,16 +35,12 @@ class FlightApiRequestDispatcher(fileOpener: FileOpener) : AbstractDispatcher(fi
 class FlightApiMockResponseGenerator() {
     companion object {
         fun getSearchResponseFilePath(params: MutableMap<String, String>): String {
+            val isSignedIn = params["departureAirport"] == "SIGNED IN"
             val isPassportNeeded = params["departureAirport"] == "PEN" && params["arrivalAirport"] == "KUL"
             val isReturnFlightSearch = params.containsKey("returnDate")
             val departureDate = params["departureDate"]
-            val filename = if (isReturnFlightSearch) {
-                                "happy_roundtrip"
-                            } else if (isPassportNeeded) {
-                                "passport_needed_oneway"
-                            } else {
-                                "happy_oneway"
-                            }
+
+            var filename = getFileName(isPassportNeeded, isReturnFlightSearch, isSignedIn)
 
             val departCalTakeoff = parseYearMonthDay(departureDate, 10, 0)
             val departCalLanding = parseYearMonthDay(departureDate, 12 + 4, 0)
@@ -61,6 +57,23 @@ class FlightApiMockResponseGenerator() {
             params.put("tzOffsetSeconds", "" + (departCalTakeoff.timeZone.getOffset(departCalTakeoff.timeInMillis) / 1000))
 
             return "api/flight/search/$filename.json"
+        }
+
+        private fun getFileName(isPassportNeeded: Boolean, isReturnFlightSearch: Boolean, isSignedIn: Boolean): String {
+            return if (isPassportNeeded) {
+                "passport_needed_oneway"
+            } else {
+                var happyFileName =
+                        if (isReturnFlightSearch) {
+                            "happy_roundtrip"
+                        } else {
+                            "happy_oneway"
+                        }
+                if (isSignedIn) {
+                    happyFileName += "_signed_in";
+                }
+                happyFileName
+            }
         }
 
         fun getCheckoutResponseFilePath(params: MutableMap<String, String>): String {

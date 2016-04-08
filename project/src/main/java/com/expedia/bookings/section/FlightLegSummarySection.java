@@ -1,5 +1,6 @@
 package com.expedia.bookings.section;
 
+import java.math.BigDecimal;
 import java.text.DecimalFormat;
 
 import org.joda.time.DateTime;
@@ -15,6 +16,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.BillingInfo;
 import com.expedia.bookings.data.Db;
@@ -26,6 +28,9 @@ import com.expedia.bookings.data.FlightTripLeg;
 import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.TripBucketItemFlight;
 import com.expedia.bookings.data.abacus.AbacusUtils;
+import com.expedia.bookings.data.payment.LoyaltyEarnInfo;
+import com.expedia.bookings.data.payment.PointsEarnInfo;
+import com.expedia.bookings.data.payment.PriceEarnInfo;
 import com.expedia.bookings.utils.FontCache;
 import com.expedia.bookings.utils.JodaUtils;
 import com.expedia.bookings.utils.SpannableBuilder;
@@ -66,6 +71,7 @@ public class FlightLegSummarySection extends RelativeLayout {
 	private TextView mDepartureTimeTextView;
 	private TextView mArrivalTimeTextView;
 	private TextView mMultiDayTextView;
+	private TextView mEarnAmountTextView;
 	private FlightTripView mFlightTripView;
 
 	public FlightLegSummarySection(Context context, AttributeSet attrs) {
@@ -90,6 +96,9 @@ public class FlightLegSummarySection extends RelativeLayout {
 		mArrivalTimeTextView = Ui.findView(this, R.id.arrival_time_text_view);
 		mMultiDayTextView = Ui.findView(this, R.id.multi_day_text_view);
 		mFlightTripView = Ui.findView(this, R.id.flight_trip_view);
+		if (isShopWithPointsEnabled()) {
+			mEarnAmountTextView = Ui.findView(this, R.id.earn_amount_text_view);
+		}
 
 		if (mRoundtripTextView != null &&
 				!Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppFlightsRoundtripMessageTest)) {
@@ -217,6 +226,36 @@ public class FlightLegSummarySection extends RelativeLayout {
 			mArrivalTimeTextView.setText(formatTime(leg.getLastWaypoint().getBestSearchDateTime()));
 		}
 
+		if (mEarnAmountTextView != null && trip != null) {
+			LoyaltyEarnInfo earnInfo = trip.getEarnInfo();
+			if (earnInfo != null) {
+				PriceEarnInfo price = earnInfo.getPrice();
+				if (price != null) {
+					if (price.getTotal().amount.compareTo(BigDecimal.ZERO) > 0) {
+						mEarnAmountTextView.setVisibility(VISIBLE);
+						mEarnAmountTextView.setText(
+							Phrase.from(context.getString(R.string.earn_amount_TEMPLATE))
+								.put("price", price.getTotal().formattedPrice)
+								.format());
+					}
+				}
+				else {
+					PointsEarnInfo points = earnInfo.getPoints();
+					if (points != null) {
+						int total = points.getTotal();
+						if (total > 0) {
+							mEarnAmountTextView.setVisibility(VISIBLE);
+							mEarnAmountTextView.setText(
+								Phrase.from(context.getString(R.string.earn_points_TEMPLATE))
+									.put("points", total)
+									.format());
+						}
+					}
+				}
+			}
+		}
+
+
 		if (mMultiDayTextView != null) {
 			int daySpan = leg.getDaySpan();
 			if (daySpan != 0) {
@@ -280,6 +319,11 @@ public class FlightLegSummarySection extends RelativeLayout {
 		}
 
 		adjustLayout(leg, isIndividualFlight);
+	}
+
+	private boolean isShopWithPointsEnabled() {
+		//TODO consider Config if SWP is to be displayed
+		return BuildConfig.DEBUG;
 	}
 
 	private static String getAirlinesStr(Context context, Flight flight, FlightLeg leg, FlightLeg legTwo,
