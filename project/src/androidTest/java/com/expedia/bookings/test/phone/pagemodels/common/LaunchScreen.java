@@ -43,6 +43,10 @@ public class LaunchScreen {
 		return onView(withText(R.string.shop));
 	}
 
+	public static ViewInteraction accountButton() {
+		return onView(withText(R.string.account_settings_menu_label));
+	}
+
 	public static void launchHotels() {
 		hotelLaunchButton().perform(click());
 	}

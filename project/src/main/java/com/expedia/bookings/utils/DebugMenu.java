@@ -30,7 +30,7 @@ public class DebugMenu {
 
 	private Activity hostActivity;
 	private Class<? extends Activity> settingsActivityClass;
-	private List<String[]> debugActivities = new ArrayList<>();
+	public List<String[]> debugActivities = new ArrayList<>();
 
 	public DebugMenu(@NonNull Activity hostActivity, @Nullable Class<? extends Activity> settingsActivityClass) {
 		this.hostActivity = hostActivity;
@@ -61,14 +61,7 @@ public class DebugMenu {
 					item.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
 						@Override
 						public boolean onMenuItemClick(MenuItem item) {
-							try {
-								Intent intent = new Intent(hostActivity, Class.forName(activityInfo[1]));
-								hostActivity.startActivity(intent);
-							}
-							catch (ClassNotFoundException e) {
-								Log.d("DebugMenu", "Unable to launch activity", e);
-								Toast.makeText(hostActivity, "Unable to launch activity; see logs", Toast.LENGTH_LONG).show();
-							}
+							startTestActivity(activityInfo[1]);
 							return true;
 						}
 					});
@@ -77,30 +70,45 @@ public class DebugMenu {
 				item.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
 					@Override
 					public boolean onMenuItemClick(MenuItem item) {
-						for (String[] activityInfo : debugActivities) {
-							try {
-								Intent shortcutIntent = new Intent(hostActivity, Class.forName(activityInfo[1]));
-								shortcutIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-								shortcutIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-
-								Intent addIntent = new Intent();
-								addIntent.putExtra(Intent.EXTRA_SHORTCUT_INTENT, shortcutIntent);
-								addIntent.putExtra(Intent.EXTRA_SHORTCUT_NAME, getBuildSpecificActivityName(activityInfo[0]));
-								addIntent.putExtra(Intent.EXTRA_SHORTCUT_ICON_RESOURCE,
-									Intent.ShortcutIconResource.fromContext(hostActivity, R.drawable.ic_launcher));
-								addIntent.setAction("com.android.launcher.action.INSTALL_SHORTCUT");
-								hostActivity.sendBroadcast(addIntent);
-							}
-							catch (ClassNotFoundException e) {
-								Log.d("DebugMenu", "Unable to install shortcuts", e);
-								Toast.makeText(hostActivity, "Unable to install shortcuts; see logs", Toast.LENGTH_LONG).show();
-							}
-						}
+						addShortcutsForAllLaunchers();
 						return true;
 					}
 				});
 			}
 			updateStatus(menu);
+		}
+	}
+
+	public void addShortcutsForAllLaunchers() {
+		for (String[] activityInfo : debugActivities) {
+			try {
+				Intent shortcutIntent = new Intent(hostActivity, Class.forName(activityInfo[1]));
+				shortcutIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+				shortcutIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+
+				Intent addIntent = new Intent();
+				addIntent.putExtra(Intent.EXTRA_SHORTCUT_INTENT, shortcutIntent);
+				addIntent.putExtra(Intent.EXTRA_SHORTCUT_NAME, getBuildSpecificActivityName(activityInfo[0]));
+				addIntent.putExtra(Intent.EXTRA_SHORTCUT_ICON_RESOURCE,
+					Intent.ShortcutIconResource.fromContext(hostActivity, R.drawable.ic_launcher));
+				addIntent.setAction("com.android.launcher.action.INSTALL_SHORTCUT");
+				hostActivity.sendBroadcast(addIntent);
+			}
+			catch (ClassNotFoundException e) {
+				Log.d("DebugMenu", "Unable to install shortcuts", e);
+				Toast.makeText(hostActivity, "Unable to install shortcuts; see logs", Toast.LENGTH_LONG).show();
+			}
+		}
+	}
+
+	public void startTestActivity(String className) {
+		try {
+			Intent intent = new Intent(hostActivity, Class.forName(className));
+			hostActivity.startActivity(intent);
+		}
+		catch (ClassNotFoundException e) {
+			Log.d("DebugMenu", "Unable to launch activity", e);
+			Toast.makeText(hostActivity, "Unable to launch activity; see logs", Toast.LENGTH_LONG).show();
 		}
 	}
 
