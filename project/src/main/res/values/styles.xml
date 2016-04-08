@@ -668,15 +668,6 @@
         <item name="android:divider">#CCCCCC</item>
     </style>
 
-    <style name="LoginFormEditText">
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:padding">12dp</item>
-        <item name="android:paddingTop">0dp</item>
-        <item name="android:textColor">#c6c8c9</item>
-        <item name="android:textSize">18sp</item>
-    </style>
-
     <style name="LoginFormButton">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
@@ -838,16 +829,6 @@
         <item name="textStyle">light</item>
     </style>
 
-    <style name="TripBucketBookButton">
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">@dimen/tripbucket_bookbutton_height</item>
-        <item name="android:background">@android:color/white</item>
-        <item name="android:gravity">center</item>
-        <item name="android:textAlignment">center</item>
-        <item name="android:textSize">16sp</item>
-        <item name="android:textColor">#006BB2</item>
-    </style>
-
     <style name="TripBucketAmenitiesText">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
@@ -858,8 +839,7 @@
     </style>
 
     <style name="TripBucketAmenitiesText.Landscape">
-        <item name="android:drawableLeft">@drawable/ic_tablet_checkout_free_cancellation_checkmark
-        </item>
+        <item name="android:drawableLeft">@drawable/ic_tablet_checkout_free_cancellation_checkmark</item>
         <item name="android:drawablePadding">12dp</item>
         <item name="android:layout_marginBottom">1dp</item>
         <item name="android:layout_marginLeft">3dp</item>
@@ -992,20 +972,8 @@
         <item name="android:textSize">15sp</item>
     </style>
 
-    <!-- New hotel material design -->
-    <style name="Widget.SlidingRadioGroup.HotelFilterControls" parent="Widget">
-        <item name="android:gravity">center</item>
-        <item name="android:orientation">horizontal</item>
-        <item name="dividerWidth">1dp</item>
-        <item name="selectedDividerColor">#ff596a80</item>
-        <item name="selectedDrawable">@color/hotels_primary_color</item>
-        <item name="sluggishness">150</item>
-        <item name="unselectedDividerColor">#40999999</item>
-        <item name="unselectedDrawable">@color/itin_white_text</item>
-    </style>
-
-    <!--Header title text used inside search results or bundle overview stepper-->
-    <style name="ResultsHeadersText">
+    <!--Header title text used inside search results, bundle overview stepper, checkout headers etc.-->
+    <style name="HeaderTextAboveCardviews">
         <item name="android:textColor">@color/packages_results_header_text</item>
         <item name="android:textSize">@dimen/packages_bundle_overview_footer_primary_text</item>
         <item name="textStyle">medium</item>
@@ -1146,6 +1114,28 @@
         <item name="textStyle">normal</item>
     </style>
 
+    <!--Material Footer Button Text-->
+    <style name="MaterialFooterButtonText">
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textSize">@dimen/footer_button_text_size</item>
+        <item name="textStyle">medium</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:layout_height">@dimen/footer_button_height</item>
+    </style>
+
+    <!--Material CardView Style-->
+    <style name="MaterialCardView">
+        <item name="cardCornerRadius">@dimen/cardview_border_radius</item>
+        <item name="cardElevation">1dp</item>
+        <item name="cardBackgroundColor">@color/white</item>
+    </style>
+    
+    <style name="HotelPromoMessaging">
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:textSize">@dimen/hotel_details_promo_messaging_text_size</item>
+        <item name="textStyle">normal</item>
+    </style>
+
     <style name="AccountButton" parent="Widget.AppCompat.Button.Colored" />
 
     <style name="AccountButton.SignIn">
@@ -1172,4 +1162,19 @@
         <item name="android:colorButtonNormal">@color/account_sign_out_button_background_color</item>
     </style>
 
+    <style name="CheckoutWidgetPrimaryTextStyle">
+        <item name="android:textColor">@color/cars_lx_checkout_button_text_color</item>
+        <item name="android:textSize">@dimen/checkout_widget_primary_text_size</item>
+        <item name="android:gravity">center|left</item>
+        <item name="android:singleLine">true</item>
+        <item name="textStyle">medium</item>
+    </style>
+
+    <style name="CheckoutWidgetSecondaryTextStyle">
+        <item name="android:textColor">@color/cars_lx_checkout_button_text_color</item>
+        <item name="android:textSize">@dimen/checkout_widget_secondary_text_size</item>
+        <item name="android:gravity">center|left</item>
+        <item name="android:singleLine">true</item>
+        <item name="textStyle">normal</item>
+    </style>
 </resources>

@@ -30,13 +30,15 @@
             android:id="@+id/flight_segment_layover_in"
             style="@style/MaterialFlightCell.DurationText.LayoverCity"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_marginRight="14dp" />
 
         <com.expedia.bookings.widget.TextView
             android:id="@+id/flight_segment_layover_duration"
             style="@style/MaterialFlightCell.DurationText"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_marginRight="14dp" />
 
         <View
             android:layout_width="match_parent"

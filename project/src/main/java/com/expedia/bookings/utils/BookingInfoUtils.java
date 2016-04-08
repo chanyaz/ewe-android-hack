@@ -71,7 +71,7 @@ public class BookingInfoUtils {
 			if (Db.getUser() != null && Db.getUser().getAssociatedTravelers() != null
 				&& Db.getUser().getAssociatedTravelers().size() > 0) {
 				for (Traveler trav : Db.getUser().getAssociatedTravelers()) {
-					if (workingTraveler.compareNameTo(trav) == 0) {
+					if (workingTraveler.nameEquals(trav)) {
 						//A traveler with this name already exists on the account. Foo. ok so lets show a dialog and be all like "Hey yall, you wanna overwrite your buddy dave bob?"
 						travelerAlreadyExistsOnAccount = true;
 						break;

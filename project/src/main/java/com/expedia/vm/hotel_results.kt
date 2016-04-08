@@ -9,7 +9,7 @@ import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.cars.ApiError
-import com.expedia.bookings.data.cars.BaseApiResponse
+import com.expedia.bookings.data.BaseApiResponse
 import com.expedia.bookings.data.clientlog.ClientLog
 import com.expedia.bookings.data.hotels.Hotel
 import com.expedia.bookings.data.hotels.HotelRate
@@ -61,13 +61,14 @@ class HotelResultsViewModel(private val context: Context, private val hotelServi
 
         locationParamsSubject.subscribe(endlessObserver { suggestion ->
             val cachedParams: HotelSearchParams? = paramsSubject.value
-            val params = HotelSearchParams.Builder(context.resources.getInteger(R.integer.calendar_max_days_hotel_stay))
-                    .suggestion(suggestion)
-                    .checkIn(cachedParams?.checkIn)
-                    .checkOut(cachedParams?.checkOut)
+            val builder = HotelSearchParams.Builder(context.resources.getInteger(R.integer.calendar_max_days_hotel_stay))
+                    .departure(suggestion)
+                    .startDate(cachedParams?.checkIn)
+                    .endDate(cachedParams?.checkOut)
                     .adults(cachedParams?.adults!!)
-                    .children(cachedParams?.children!!)
-                    .build()
+                    .children(cachedParams?.children!!) as HotelSearchParams.Builder
+            val params = builder.shopWithPoints(cachedParams?.shopWithPoints ?: false).build()
+
             doSearch(params)
         })
 
@@ -87,7 +88,7 @@ class HotelResultsViewModel(private val context: Context, private val hotelServi
         subtitleSubject.onNext(Phrase.from(context, R.string.calendar_instructions_date_range_with_guests_TEMPLATE)
                 .put("startdate", DateUtils.localDateToMMMd(params.checkIn))
                 .put("enddate", DateUtils.localDateToMMMd(params.checkOut))
-                .put("guests", StrUtils.formatGuestString(context, params.guests()))
+                .put("guests", StrUtils.formatGuestString(context, params.guests))
                 .format())
 
         clientLogBuilder?.logTime(DateTime.now())
@@ -299,6 +300,4 @@ public open class HotelResultsMapViewModel(val context: Context, val currentLoca
 
         return box.build()
     }
-
-
 }

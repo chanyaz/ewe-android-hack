@@ -4,6 +4,7 @@ import org.jetbrains.annotations.NotNull;
 
 import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.TripResponse;
+import com.expedia.bookings.data.flights.FlightTripDetails;
 import com.expedia.bookings.data.hotels.HotelCreateTripResponse;
 
 public class PackageCreateTripResponse extends TripResponse {

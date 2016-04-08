@@ -1,6 +1,7 @@
 package com.expedia.bookings.widget
 
 import android.content.Context
+import android.graphics.PorterDuff
 import android.support.v4.content.ContextCompat
 import android.view.LayoutInflater
 import android.view.View
@@ -17,7 +18,8 @@ class InfantSeatPreferenceAdapter(val context: Context, val list: List<String>) 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
         val view = createViewFromResource(position, convertView, parent, R.layout.child_spinner_item)
         val textView = view as TextView
-        val icon = ContextCompat.getDrawable(parent.context, R.drawable.ic_infant_seating).mutate()
+        val icon = ContextCompat.getDrawable(parent.context, R.drawable.search_form_traveler_picker_infant).mutate()
+        icon.setColorFilter(parent.context.resources.getColor(R.color.search_dialog_gray), PorterDuff.Mode.SRC_IN)
         textView.setCompoundDrawablesRelativeWithIntrinsicBounds(icon, null, null, null)
         textView.setPadding(padding, 0, 0, 0)
         return view

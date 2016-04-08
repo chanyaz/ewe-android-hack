@@ -135,7 +135,6 @@ public class TravelerButton extends LinearLayout {
 		}
 		mStoredTravelerPopup.setInputMethodMode(ListPopupWindow.INPUT_METHOD_NEEDED);
 		mStoredTravelerPopup.setAnchorView(selectTraveler);
-		mStoredTravelerPopup.setInputMethodMode(ListPopupWindow.INPUT_METHOD_NEEDED);
 		int selectTravelerBtnHeight = selectTraveler.getHeight();
 		mStoredTravelerPopup.setVerticalOffset(-selectTravelerBtnHeight);
 		mStoredTravelerPopup.setAdapter(mTravelerAdapter);

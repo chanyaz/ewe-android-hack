@@ -23,6 +23,7 @@ import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.PassengerCategoryPrice;
 import com.expedia.bookings.data.ServerError.ApiMethod;
 import com.expedia.bookings.enums.PassengerCategory;
+import com.expedia.bookings.utils.LoyaltyInfoParserUtil;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonToken;
 import com.mobiata.android.Log;
@@ -39,7 +40,6 @@ import com.squareup.okhttp.Response;
 public class StreamingFlightSearchResponseHandler implements ResponseHandler<FlightSearchResponse> {
 
 	private boolean mIsRelease = false;
-
 
 	private FlightSearchResponse mResponse;
 
@@ -414,6 +414,9 @@ public class StreamingFlightSearchResponseHandler implements ResponseHandler<Fli
 			else if (name.equals("isSplitTicket")) {
 				trip.setSplitTicket(reader.nextBoolean());
 			}
+			else if (name.equals("loyaltyInfo")) {
+				trip.setEarnInfo(LoyaltyInfoParserUtil.getLoyaltyEarnInfo(reader));
+			}
 			else {
 				reader.skipValue();
 			}
@@ -430,6 +433,7 @@ public class StreamingFlightSearchResponseHandler implements ResponseHandler<Fli
 
 		return trip;
 	}
+
 
 	// Due to the sheer number of times this is called (once per FlightTrip, which is up to 1600 rows)
 	// we try to reduce object creation overhead by caching the dynamically-sized Lists.
@@ -472,7 +476,8 @@ public class StreamingFlightSearchResponseHandler implements ResponseHandler<Fli
 		return attrArray;
 	}
 
-	private PassengerCategoryPrice readPricePerPassengerCategory(JsonReader reader, String currencyCode) throws IOException {
+	private PassengerCategoryPrice readPricePerPassengerCategory(JsonReader reader, String currencyCode)
+		throws IOException {
 		PassengerCategory passengerCategory = null;
 		Money totalPrice = new Money();
 		Money basePrice = new Money();

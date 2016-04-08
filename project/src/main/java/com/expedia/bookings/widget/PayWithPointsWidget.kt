@@ -37,7 +37,7 @@ class PayWithPointsWidget(context: Context, attrs: AttributeSet) : LinearLayout(
     val pwpSwitchView: Switch by bindView(R.id.pwp_switch)
     val pwpEditBoxContainer: View by bindView(R.id.pwp_edit_box_container)
 
-    val wasLastEnableProgrammatic = BehaviorSubject.create<Boolean>(false)
+    val wasLastUpdateProgrammatic = BehaviorSubject.create<Boolean>(false)
     var payWithPointsViewModel: IPayWithPointsViewModel by notNullAndObservable<IPayWithPointsViewModel> { pwpViewModel ->
         pwpViewModel.currencySymbol.subscribeText(currencySymbolView)
         pwpViewModel.totalPointsAndAmountAvailableToRedeem.subscribeText(totalPointsAvailableView)
@@ -65,7 +65,7 @@ class PayWithPointsWidget(context: Context, attrs: AttributeSet) : LinearLayout(
         clearBtn.subscribeOnClick(pwpViewModel.clearUserEnteredBurnAmount)
         pwpViewModel.burnAmountUpdate.subscribeText(editAmountView)
         pwpSwitchView.subscribeOnCheckChanged(pwpViewModel.pwpOpted)
-        pwpViewModel.enablePwPToggle.doOnNext { if (!pwpSwitchView.isChecked) wasLastEnableProgrammatic.onNext(true) }.map { true }.subscribeChecked(pwpSwitchView)
+        pwpViewModel.updatePwPToggle.doOnNext { if (pwpSwitchView.isChecked != it) wasLastUpdateProgrammatic.onNext(true) }.subscribeChecked(pwpSwitchView)
         pwpViewModel.navigatingOutOfPaymentOptions.map { false }.subscribeCursorVisible(editAmountView)
 
         subscribeOnClick(endlessObserver {
@@ -77,16 +77,16 @@ class PayWithPointsWidget(context: Context, attrs: AttributeSet) : LinearLayout(
         }
 
         // Send Omniture tracking for PWP toggle only in case of user doing it.
-        pwpViewModel.pwpOpted.withLatestFrom(wasLastEnableProgrammatic, { pwpOpted, wasLastEnableProgrammatic ->
+        pwpViewModel.pwpOpted.withLatestFrom(wasLastUpdateProgrammatic, { pwpOpted, wasLastUpdateProgrammatic ->
             object {
                 val pwpOpted = pwpOpted
-                val wasLastEnableProgrammatic = wasLastEnableProgrammatic
+                val wasLastUpdateProgrammatic = wasLastUpdateProgrammatic
             }
         }).subscribe {
-            if (!it.wasLastEnableProgrammatic) {
+            if (!it.wasLastUpdateProgrammatic) {
                 pwpViewModel.userToggledPwPSwitchWithUserEnteredBurnedAmountSubject.onNext(Pair(it.pwpOpted, editAmountView.text.toString()))
             }
-            else wasLastEnableProgrammatic.onNext(false)
+            else wasLastUpdateProgrammatic.onNext(false)
         }
 
         pwpViewModel.pwpWidgetVisibility.subscribeVisibility(this)

@@ -158,15 +158,15 @@ public class HotelScreen {
 	public static ViewInteraction expandedFreeCancellation() {
 		return onView(
 			allOf(withId(R.id.expanded_free_cancellation_text_view),
-				withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE),
-				hasSibling(allOf(withId(R.id.view_room_button), allOf(withText("Book"))))));
+					withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE),
+					hasSibling(allOf(withId(R.id.view_room_button), allOf(withText("Book"))))));
 	}
 
 	public static ViewInteraction expandedBedType() {
 		return onView(
 			allOf(withId(R.id.expanded_bed_type_text_view),
-				withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE),
-				hasSibling(allOf(withId(R.id.view_room_button), allOf(withText("Book"))))));
+					withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE),
+					hasSibling(allOf(withId(R.id.view_room_button), allOf(withText("Book"))))));
 	}
 
 	public static ViewInteraction renovationContainer() {
@@ -266,7 +266,9 @@ public class HotelScreen {
 	public static void clickSortFilter() {
 		onView(withId(R.id.sort_filter_button_container)).perform(click());
 	}
-
+	public static ViewInteraction propertyInfoContainer() {
+		return onView(withId(R.id.property_info_container));
+	}
 	public static ViewInteraction filterVip() {
 		return onView(withId(R.id.filter_hotel_vip));
 	}
@@ -274,7 +276,7 @@ public class HotelScreen {
 	public static ViewInteraction clearFilter() {
 		return onView(
 			allOf(withId(R.id.dynamic_feedback_clear_button),
-				isDescendantOfA(withId(R.id.dynamic_feedback_container))));
+					isDescendantOfA(withId(R.id.dynamic_feedback_container))));
 	}
 
 	public static ViewInteraction filterResultsSnackBar() {
@@ -283,7 +285,7 @@ public class HotelScreen {
 
 	public static ViewInteraction filterResultsSnackBarCounter() {
 		return onView(allOf(withId(R.id.dynamic_feedback_counter),
-			isDescendantOfA(withId(R.id.dynamic_feedback_container))));
+				isDescendantOfA(withId(R.id.dynamic_feedback_container))));
 	}
 
 	public static ViewInteraction addRoom() {
@@ -300,7 +302,7 @@ public class HotelScreen {
 			allOf(
 				withId(R.id.view_room_button), allOf(withText("View Room")),
 				hasSibling(allOf(withId(R.id.parent_room_type_and_price_container),
-					withChild(allOf(withId(R.id.room_type_text_view), withText(roomName))))),
+						withChild(allOf(withId(R.id.room_type_text_view), withText(roomName))))),
 				withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE))
 		);
 	}
@@ -313,6 +315,9 @@ public class HotelScreen {
 	public static void clickViewRoom(String roomName) {
 		waitForDetailsLoaded();
 		viewRoom(roomName).perform(scrollTo(), click());
+	}
+	public static void scrollToPropertyInfoContainer() {
+		propertyInfoContainer().perform(scrollTo());
 	}
 
 	public static void clickPayLater() {
@@ -389,6 +394,19 @@ public class HotelScreen {
 		enterGenericSearchParams();
 		HotelScreen.clickSearchButton();
 		HotelScreen.waitForResultsLoaded();
+	}
+
+	public static void doSearchWithSwPVisible(boolean clickSwP) throws Throwable {
+		enterGenericSearchParams();
+		if (clickSwP) {
+			clickSwPToggle();
+		}
+		HotelScreen.clickSearchButton();
+		HotelScreen.waitForResultsLoaded();
+	}
+
+	public static void clickSwPToggle() throws Throwable {
+		onView(withId(R.id.swp_switch)).perform(click());
 	}
 
 	public static void selectHotel(String name) throws Throwable {
@@ -489,6 +507,10 @@ public class HotelScreen {
 
 	public static void clickSignIn() {
 		onView(withId(R.id.login_text_view)).perform(click());
+	}
+
+	public static void clickSignOut() {
+		onView(withId(R.id.account_logout_logout_button)).perform(click());
 	}
 
 	public static void signIn() {

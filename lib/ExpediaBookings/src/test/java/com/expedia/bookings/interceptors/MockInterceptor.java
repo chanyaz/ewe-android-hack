@@ -10,5 +10,6 @@ public class MockInterceptor implements RequestInterceptor {
 	@Override
 	public void intercept(RequestFacade request) {
 		request.addHeader("User-Agent", "ExpediaBookings/1.1 (EHad; Mobiata)");
+		request.addQueryParam("clientid", "expedia.app.android.phone:6.9.0");
 	}
 }

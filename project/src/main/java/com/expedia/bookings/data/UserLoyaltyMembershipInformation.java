@@ -24,6 +24,18 @@ public class UserLoyaltyMembershipInformation implements JSONable {
 		return isAllowedToShopWithPoints;
 	}
 
+	public void setLoyaltyPointsAvailable(double loyaltyPointsAvailable) {
+		this.loyaltyPointsAvailable = loyaltyPointsAvailable;
+	}
+
+	public void setBookingCurrency(String bookingCurrency) {
+		this.bookingCurrency = bookingCurrency;
+	}
+
+	public void setAllowedToShopWithPoints(boolean allowedToShopWithPoints) {
+		isAllowedToShopWithPoints = allowedToShopWithPoints;
+	}
+
 	@Override
 	public JSONObject toJson() {
 		JSONObject obj = new JSONObject();

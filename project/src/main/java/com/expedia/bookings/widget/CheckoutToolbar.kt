@@ -119,13 +119,22 @@ class CheckoutToolbar(context: Context, attrs: AttributeSet) : Toolbar(context, 
     private fun setNextFocus()
     {
         var v: View? = currentEditText?.focusSearch(View.FOCUS_RIGHT)
-        v?.requestFocus() ?: currentEditText?.focusSearch(View.FOCUS_DOWN)
+        v?.requestFocus() ?: currentEditText?.focusSearch(View.FOCUS_DOWN)?.requestFocus()
     }
 
     private fun setMenuTitle()
     {
-        var v: View? = currentEditText?.focusSearch(View.FOCUS_DOWN)
-        val hasNextFocus = (v != null);
-        viewModel.menuTitle.onNext(if (hasNextFocus) context.getString(R.string.next) else context.getString(R.string.done) )
+        var right: View? = currentEditText?.focusSearch(View.FOCUS_RIGHT)
+        val hasNextFocusRight = (right != null);
+
+        var up: View? = currentEditText?.focusSearch(View.FOCUS_UP)
+        val hasNextFocusUp = (up != null);
+
+        var below: View? = currentEditText?.focusSearch(View.FOCUS_DOWN)
+        val hasNextFocusDown = (below != null);
+
+        val doesNotHaveFocus = !hasNextFocusDown && ((hasNextFocusRight && hasNextFocusUp) || !hasNextFocusRight)
+
+        viewModel.menuTitle.onNext(if (doesNotHaveFocus) context.getString(R.string.done) else context.getString(R.string.next))
     }
 }

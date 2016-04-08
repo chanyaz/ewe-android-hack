@@ -1,8 +1,6 @@
 package com.expedia.bookings.widget
 
 import android.content.Context
-import android.graphics.PorterDuff
-import android.graphics.PorterDuffColorFilter
 import android.support.v7.widget.CardView
 import android.util.AttributeSet
 import android.view.View
@@ -24,9 +22,7 @@ open class SearchInputCardView(context: Context, attrs: AttributeSet?) : CardVie
             text.text = ta.getString(R.styleable.SearchInput_input_text)
             val drawableLeft = ta.getDrawable(R.styleable.SearchInput_input_icon)
             val color = ta.getColor(R.styleable.SearchInput_input_icon_tint_color, 0)
-            drawableLeft.colorFilter = PorterDuffColorFilter(color, PorterDuff.Mode.SRC_IN)
-            text.setCompoundDrawablesWithIntrinsicBounds(drawableLeft, null, null, null)
-
+            text.setTintedDrawable(drawableLeft, color)
         } finally {
             ta.recycle()
         }

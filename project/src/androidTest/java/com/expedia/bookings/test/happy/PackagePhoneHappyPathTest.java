@@ -4,26 +4,22 @@ import org.hamcrest.CoreMatchers;
 import org.joda.time.LocalDate;
 
 import android.support.test.espresso.Espresso;
-import android.support.test.espresso.ViewInteraction;
 import android.support.test.espresso.matcher.ViewMatchers;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.test.espresso.Common;
 import com.expedia.bookings.test.espresso.EspressoUtils;
 import com.expedia.bookings.test.espresso.PackageTestCase;
-import com.expedia.bookings.test.espresso.RecyclerViewAssertions;
 import com.expedia.bookings.test.espresso.ViewActions;
 import com.expedia.bookings.test.phone.hotels.HotelScreen;
 import com.expedia.bookings.test.phone.packages.PackageScreen;
 import com.expedia.bookings.test.phone.pagemodels.common.CheckoutViewModel;
-import com.expedia.bookings.utils.DateUtils;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
-import static android.support.test.espresso.action.ViewActions.typeText;
+import static android.support.test.espresso.action.ViewActions.scrollTo;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.hasDescendant;
-import static android.support.test.espresso.matcher.ViewMatchers.hasSibling;
 import static android.support.test.espresso.matcher.ViewMatchers.isDescendantOfA;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withEffectiveVisibility;
@@ -36,10 +32,7 @@ import static org.hamcrest.CoreMatchers.not;
 public class PackagePhoneHappyPathTest extends PackageTestCase {
 
 	public void testPackagePhoneHappyPath() throws Throwable {
-		PackageScreen.destination().perform(typeText("SFO"));
-		PackageScreen.selectLocation("San Francisco, CA (SFO-San Francisco Intl.)");
-		PackageScreen.arrival().perform(typeText("DTW"));
-		PackageScreen.selectLocation("Detroit, MI (DTW-Detroit Metropolitan Wayne County)");
+		PackageScreen.selectDepartureAndArrival();
 		LocalDate startDate = LocalDate.now().plusDays(3);
 		LocalDate endDate = LocalDate.now().plusDays(8);
 		PackageScreen.selectDates(startDate, endDate);
@@ -52,9 +45,7 @@ public class PackagePhoneHappyPathTest extends PackageTestCase {
 
 		PackageScreen.clickHotelBundle();
 
-		assertBundlePrice("$0", "View your bundle");
-		onView(allOf(withId(R.id.per_person_text), withParent(hasSibling(hasDescendant(withText("View your bundle")))), withText("per person"))).check(matches(isDisplayed()));
-		onView(allOf(withId(R.id.bundle_total_savings), withParent(hasSibling(hasDescendant(withText("View your bundle")))))).check(matches(not(isDisplayed())));
+		assertHotelBundlePrice("$0", "View your bundle", "$0.00 Saved");
 
 		HotelScreen.mapFab().perform(click());
 		assertHotelMap();
@@ -72,9 +63,7 @@ public class PackagePhoneHappyPathTest extends PackageTestCase {
 
 		assertHotelInfoSite();
 		reviews();
-		assertBundlePrice("$1,027", "View your bundle");
-		onView(allOf(withId(R.id.per_person_text), withParent(hasSibling(hasDescendant(withText("View your bundle")))), withText("per person"))).check(matches(isDisplayed()));
-		onView(allOf(withId(R.id.bundle_total_savings), withParent(hasSibling(hasDescendant(withText("View your bundle")))))).check(matches(not(isDisplayed())));
+		assertHotelBundlePrice("$1,027", "View your bundle", "$21.61 Saved");
 
 		HotelScreen.selectRoom();
 
@@ -84,7 +73,6 @@ public class PackagePhoneHappyPathTest extends PackageTestCase {
 
 		PackageScreen.outboundFlight().perform(click());
 
-		assertFlightOutbound();
 		PackageScreen.selectFlight(0);
 		assertBundlePriceInFlight("$3,864");
 		PackageScreen.selectThisFlight().perform(click());
@@ -95,7 +83,6 @@ public class PackagePhoneHappyPathTest extends PackageTestCase {
 
 		PackageScreen.inboundFLight().perform(click());
 
-		assertFlightInbound();
 		PackageScreen.selectFlight(0);
 		assertBundlePriceInFlight("$4,212");
 		PackageScreen.selectThisFlight().perform(click());
@@ -103,11 +90,21 @@ public class PackagePhoneHappyPathTest extends PackageTestCase {
 		assertBundlePrice("$2,538.62", "Bundle total");
 		onView(allOf(withId(R.id.bundle_total_savings), withText("$56.50 Saved"))).check(matches(isDisplayed()));
 		onView(allOf(withId(R.id.per_person_text))).check(matches(not(isDisplayed())));
-		assertCheckoutOverview();
+		assertCheckoutOverview(startDate, endDate);
 
 		PackageScreen.checkout().perform(click());
 
-		PackageScreen.enterTravelerInfo();
+		PackageScreen.travelerInfo().perform(scrollTo(), click());
+		onView(allOf(withId(R.id.boarding_warning), withText(mRes.getString(R.string.name_must_match_warning)))).check(matches(isDisplayed()));
+		PackageScreen.enterFirstName("FiveStar");
+		PackageScreen.enterLastName("Bear");
+		PackageScreen.enterPhoneNumber("7732025862");
+		PackageScreen.selectBirthDate(9, 6, 1989);
+
+		PackageScreen.clickTravelerAdvanced();
+		PackageScreen.enterRedressNumber("1234567");
+
+		PackageScreen.clickTravelerDone();
 		PackageScreen.enterPaymentInfo();
 
 		assetCheckout();
@@ -119,8 +116,8 @@ public class PackagePhoneHappyPathTest extends PackageTestCase {
 
 	private void assertConfirmation() {
 		onView(allOf(withId(R.id.destination), withText("Detroit"))).check(matches(isDisplayed()));
-		onView(allOf(withId(R.id.first_row), isDescendantOfA(withId(R.id.destination_card)), withText("Package Happy Path"))).check(matches(isDisplayed()));
-		onView(allOf(withId(R.id.second_row), isDescendantOfA(withId(R.id.destination_card)))).check(matches(isDisplayed()));
+		onView(allOf(withId(R.id.first_row), isDescendantOfA(withId(R.id.destination_card_row)), withText("Package Happy Path"))).check(matches(isDisplayed()));
+		onView(allOf(withId(R.id.second_row), isDescendantOfA(withId(R.id.destination_card_row)))).check(matches(isDisplayed()));
 		onView(allOf(withId(R.id.first_row), isDescendantOfA(withId(R.id.outbound_flight_card)), withText("Flight to (DTW) Detroit"))).check(matches(isDisplayed()));
 		onView(allOf(withId(R.id.second_row), isDescendantOfA(withId(R.id.outbound_flight_card)))).check(matches(isDisplayed()));
 		onView(allOf(withId(R.id.first_row), isDescendantOfA(withId(R.id.inbound_flight_card)), withText("Flight to (SFO) San Francisco"))).check(matches(isDisplayed()));
@@ -138,10 +135,11 @@ public class PackagePhoneHappyPathTest extends PackageTestCase {
 	private void assertHotelSRP() {
 		HotelScreen.hotelResultsToolbar().check(matches(hasDescendant(
 			CoreMatchers.allOf(isDisplayed(), withText("Hotels in Detroit, MI")))));
-		assertViewWithTextIsDisplayedAtPosition(HotelScreen.hotelResultsList(), 2, R.id.hotel_name_text_view,
+		EspressoUtils.assertViewWithTextIsDisplayedAtPosition(HotelScreen.hotelResultsList(), 2, R.id.hotel_name_text_view,
 			"Package Happy Path");
-		assertViewWithTextIsDisplayedAtPosition(HotelScreen.hotelResultsList(), 2, R.id.strike_through_price, "$538");
-		assertViewWithTextIsDisplayedAtPosition(HotelScreen.hotelResultsList(), 2, R.id.price_per_night, "$526");
+		EspressoUtils.assertViewWithTextIsDisplayedAtPosition(HotelScreen.hotelResultsList(), 2, R.id.strike_through_price, "$538");
+		EspressoUtils.assertViewWithTextIsDisplayedAtPosition(HotelScreen.hotelResultsList(), 2, R.id.price_per_night, "$526");
+		EspressoUtils.assertViewWithTextIsDisplayedAtPosition(HotelScreen.hotelResultsList(), 2, R.id.unreal_deal_message, "Save 3 nights and save");
 	}
 
 	private void assertHotelInfoSite() {
@@ -150,8 +148,6 @@ public class PackagePhoneHappyPathTest extends PackageTestCase {
 		float detailsHotelRating = EspressoUtils.getStarRatingValue(HotelScreen.hotelDetailsStarRating());
 		assertEquals(4.0f, detailsHotelRating);
 		onView(allOf(withId(R.id.user_rating), withText("4.4"))).check(matches(isDisplayed()));
-		String startDate = DateUtils.localDateToMMMd(LocalDate.now().plusDays(3));
-		String endDate = DateUtils.localDateToMMMd(LocalDate.now().plusDays(8));
 		onView(
 			allOf(withId(R.id.hotel_search_info), withText("1 Room, 1 Guest")))
 			.check(matches(isDisplayed()));
@@ -159,36 +155,25 @@ public class PackagePhoneHappyPathTest extends PackageTestCase {
 
 	private void assertHotelMap() {
 		onView(allOf(withId(R.id.package_map_price_messaging), withText("Price includes taxes, fees, flights + hotel per person"))).check(matches(isDisplayed()));
-		assertViewWithTextIsDisplayedAtPosition(HotelScreen.hotelCarousel(), 0, R.id.hotel_strike_through_price, "$571");
-		assertViewWithTextIsDisplayedAtPosition(HotelScreen.hotelCarousel(), 0, R.id.hotel_price_per_night, "$562");
+		EspressoUtils.assertViewWithTextIsDisplayedAtPosition(HotelScreen.hotelCarousel(), 0, R.id.hotel_strike_through_price, "$571");
+		EspressoUtils.assertViewWithTextIsDisplayedAtPosition(HotelScreen.hotelCarousel(), 0, R.id.hotel_price_per_night, "$562");
 	}
 
-	private void assertFlightOutbound() {
-		assertViewWithTextIsDisplayedAtPosition(PackageScreen.flightList(), 3, R.id.flight_time_detail_text_view,
-			"9:00 am - 11:12 am");
-		assertViewWithTextIsDisplayedAtPosition(PackageScreen.flightList(), 3, R.id.flight_duration_text_view, "5h 12m (Nonstop)");
-		assertViewWithTextIsDisplayedAtPosition(PackageScreen.flightList(), 3, R.id.price_text_view, "+$0");
-		assertViewWithIdIsDisplayedAtPosition(PackageScreen.flightList(), 3, R.id.custom_flight_layover_widget);
-	}
-
-	private void assertFlightInbound() {
-		assertViewWithTextIsDisplayedAtPosition(PackageScreen.flightList(), 3, R.id.flight_time_detail_text_view, "1:45 pm - 10:00 pm");
-		assertViewWithTextIsDisplayedAtPosition(PackageScreen.flightList(), 3, R.id.flight_duration_text_view, "5h 15m (Nonstop)");
-		assertViewWithTextIsDisplayedAtPosition(PackageScreen.flightList(), 3, R.id.price_text_view, "+$0");
-		assertViewWithIdIsDisplayedAtPosition(PackageScreen.flightList(), 3, R.id.custom_flight_layover_widget);
-	}
-
-	private void assertCheckoutOverview() {
-		onView(allOf(withId(R.id.destination), withParent(withId(R.id.checkout_overview_floating_toolbar)), withText("Detroit, MI"))).check(matches(isDisplayed()));
-		onView(allOf(withId(R.id.check_in_out_dates), withParent(withId(R.id.checkout_overview_floating_toolbar)), withText("Tue Feb 02, 2016 - Thu Feb 04, 2016"))).check(matches(isDisplayed()));
-		onView(allOf(withId(R.id.travelers), withParent(withId(R.id.checkout_overview_floating_toolbar)), withText("1 Traveler"))).check(matches(isDisplayed()));
+	private void assertCheckoutOverview(LocalDate startDate, LocalDate endDate) {
+		onView(allOf(withId(R.id.destination), withParent(withId(R.id.checkout_overview_floating_toolbar)),
+			withText("Detroit, MI"))).check(matches(isDisplayed()));
+		onView(allOf(withId(R.id.check_in_out_dates), withParent(withId(R.id.checkout_overview_floating_toolbar)),
+			withText("Tue Feb 02, 2016 - Thu Feb 04, 2016"))).check(matches(isDisplayed()));
+		onView(allOf(withId(R.id.travelers), withParent(withId(R.id.checkout_overview_floating_toolbar)),
+			withText("1 Traveler"))).check(matches(isDisplayed()));
 
 		onView(allOf(withId(R.id.step_one_text),
 			withText("Hotel in Detroit - 1 room, 2 nights"))).check(matches(isDisplayed()));
 		onView(allOf(withId(R.id.step_two_text), withText("Flights - SFO to DTW, round trip"))).check(
 			matches(isDisplayed()));
 		onView(allOf(withId(R.id.hotels_card_view_text))).check(matches(withText("Package Happy Path")));
-		onView(allOf(withId(R.id.hotels_room_guest_info_text))).check(matches(withText("1 Room, 1 Guest")));
+		onView(allOf(withId(R.id.hotels_dates_guest_info_text)))
+			.check(matches(withText(PackageScreen.getDatesGuestInfoText(startDate, endDate))));
 
 		onView(allOf(withId(R.id.flight_card_view_text),
 			isDescendantOfA(withId(R.id.package_bundle_outbound_flight_widget)))).check(
@@ -205,8 +190,11 @@ public class PackagePhoneHappyPathTest extends PackageTestCase {
 	}
 
 	private void assetCheckout() {
-		onView(allOf(withId(R.id.legal_information_text_view), withText("By completing this booking I agree that I have read and accept the Rules and Restrictions, the Terms and Conditions, and the Privacy Policy."))).check(matches(isDisplayed()));
-		onView(allOf(withId(R.id.purchase_total_text_view), withText("Your card will be charged $2,538.62"))).check(matches(isDisplayed()));
+		onView(allOf(withId(R.id.legal_information_text_view), withText(
+			"By completing this booking I agree that I have read and accept the Rules and Restrictions, the Terms and Conditions, and the Privacy Policy.")))
+			.check(matches(isDisplayed()));
+		onView(allOf(withId(R.id.purchase_total_text_view), withText("Your card will be charged $2,538.62")))
+			.check(matches(isDisplayed()));
 	}
 
 	private void assertBundlePrice(String price, String totalText) {
@@ -217,21 +205,24 @@ public class PackagePhoneHappyPathTest extends PackageTestCase {
 		onView(allOf(withId(R.id.bundle_total_price), withText(price))).check(matches(isDisplayed()));
 	}
 
+	private void assertHotelBundlePrice(String price, String totalText, String savings) {
+		onView(allOf(withId(R.id.bundle_total_text), isDescendantOfA(withId(R.id.bundle_price_widget)),
+			withText(totalText))).check(matches(isDisplayed()));
+		onView(allOf(withId(R.id.bundle_total_includes_text), isDescendantOfA(withId(R.id.bundle_price_widget)),
+			withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE),
+			withText(
+				"Includes taxes, fees, flights + hotel"))).check(matches(isDisplayed()));
+		onView(
+			allOf(withId(R.id.bundle_total_price), isDescendantOfA(withId(R.id.bundle_price_widget)), withText(price)))
+			.check(matches(isDisplayed()));
+		onView(
+			allOf(withId(R.id.bundle_total_savings), isDescendantOfA(withId(R.id.bundle_price_widget)), withText(savings)))
+			.check(matches(isDisplayed()));
+	}
+
 	private void assertBundlePriceInFlight(String price) {
 		onView(allOf(withId(R.id.bundle_price_label), withText("Bundle Total"))).check(matches(isDisplayed()));
 		onView(allOf(withId(R.id.bundle_price), withText(price + "/person"))).check(matches(isDisplayed()));
-	}
-
-	private void assertViewWithTextIsDisplayedAtPosition(ViewInteraction viewInteraction, int position, int id, String text) {
-		viewInteraction.check(
-			RecyclerViewAssertions.assertionOnItemAtPosition(position, hasDescendant(
-				CoreMatchers.allOf(withId(id), isDisplayed(), withText(text)))));
-	}
-
-	private void assertViewWithIdIsDisplayedAtPosition(ViewInteraction viewInteraction, int position, int id) {
-		viewInteraction.check(
-			RecyclerViewAssertions.assertionOnItemAtPosition(position, hasDescendant(
-				CoreMatchers.allOf(withId(id), isDisplayed()))));
 	}
 
 	private void reviews() throws Throwable {

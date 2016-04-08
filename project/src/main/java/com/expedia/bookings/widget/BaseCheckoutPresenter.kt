@@ -23,13 +23,16 @@ import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.User
 import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.presenter.packages.TravelerPresenter
+import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.UserAccountRefresher
 import com.expedia.bookings.utils.bindView
+import com.expedia.bookings.widget.packages.PackagePaymentWidget
 import com.expedia.util.notNullAndObservable
 import com.expedia.vm.BaseCheckoutViewModel
 import com.expedia.vm.BundlePriceViewModel
 import com.expedia.vm.PaymentViewModel
 import com.expedia.vm.PriceChangeViewModel
+import com.expedia.vm.traveler.CheckoutTravelerViewModel
 import com.mobiata.android.Log
 import rx.subjects.PublishSubject
 import kotlin.properties.Delegates
@@ -38,6 +41,7 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet) : Pre
         UserAccountRefresher.IUserAccountRefreshListener, AccountButton.AccountButtonClickListener {
 
     val handle: FrameLayout by bindView(R.id.handle)
+    val handleShadow: View by bindView(R.id.drop_shadow)
     val chevron: View by bindView(R.id.chevron)
     val mainContent: LinearLayout by bindView(R.id.main_content)
     val scrollView: ScrollView by bindView(R.id.scrollView)
@@ -45,12 +49,12 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet) : Pre
     var paymentWidget: PaymentWidget by Delegates.notNull()
     val paymentViewStub: ViewStub by bindView(R.id.payment_info_card_view_stub)
 
-    //TODO TEMP
-    val travelersButton: Button by bindView(R.id.travelers_button);
     val travelerPresenter: TravelerPresenter by bindView(R.id.traveler_presenter)
 
     val legalInformationText: TextView by bindView(R.id.legal_information_text_view)
     val hintContainer: LinearLayout by bindView(R.id.hint_container)
+    val boardingWarning: TextView by bindView(R.id.boarding_warning)
+    val dropShadowView: View by bindView(R.id.drop_shadow)
     val depositPolicyText: TextView by bindView(R.id.disclaimer_text)
 
     val bottomContainer: LinearLayout by bindView(R.id.bottom_container)
@@ -60,6 +64,11 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet) : Pre
     val slideToPurchase: SlideToWidgetLL by bindView(R.id.slide_to_purchase_widget)
     val slideTotalText: TextView by bindView(R.id.purchase_total_text_view)
     val checkoutButton: Button by bindView(R.id.checkout_button)
+
+    val paymentWidgetRootWindow by lazy { (context as Activity).window }
+    val paymentWidgetRootView by lazy { paymentWidgetRootWindow.decorView.findViewById(android.R.id.content) }
+    var globalLayoutListener: ViewTreeObserver.OnGlobalLayoutListener? = null
+    var toolbarHeight: Int = 0
 
     val checkoutDialog = ProgressDialog(context)
     val createTripDialog = ProgressDialog(context)
@@ -88,13 +97,22 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet) : Pre
         paymentWidget.viewmodel = PaymentViewModel(context)
         priceChangeWidget.viewmodel = PriceChangeViewModel(context)
         totalPriceWidget.viewModel = BundlePriceViewModel(context)
+        toolbarHeight = Ui.getToolbarSize(context)
+
         loginWidget.setListener(this)
         slideToPurchase.addSlideToListener(this)
 
-        loginWidget.bind(false, Db.getUser() != null, Db.getUser(), LineOfBusiness.PACKAGES)
+        loginWidget.bind(false, User.isLoggedIn(context), Db.getUser(), LineOfBusiness.PACKAGES)
 
-        travelersButton.setOnClickListener { showTravelerPresenter() }
         paymentWidget.viewmodel.expandObserver.subscribe { showPaymentPresenter() }
+
+        travelerPresenter.viewModel = CheckoutTravelerViewModel()
+        travelerPresenter.expandedSubject.subscribe { expanded ->
+            if (expanded) {
+                show(travelerPresenter)
+            }
+        }
+
         legalInformationText.setOnClickListener {
             context.startActivity(HotelRulesActivity.createIntent(context, LineOfBusiness.PACKAGES))
         }
@@ -105,6 +123,7 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet) : Pre
                 when (event.action) {
                     (MotionEvent.ACTION_DOWN) -> {
                         originY = event.rawY
+                        handleShadow.visibility = View.VISIBLE
                     }
                     (MotionEvent.ACTION_UP) -> {
                         val diff = event.rawY - originY
@@ -116,6 +135,7 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet) : Pre
                             animCheckoutToTop()
                         }
                         originY = 0f
+                        handleShadow.visibility = View.GONE
                     }
                     (MotionEvent.ACTION_MOVE) -> {
                         val diff = event.rawY - originY
@@ -140,7 +160,6 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet) : Pre
         addDefaultTransition(defaultTransition)
         addTransition(defaultToTraveler)
         addTransition(defaultToPayment)
-        slideToPurchase.addSlideToListener(this)
         travelerPresenter.travelersCompleteSubject.subscribe {
             show(CheckoutDefault(), FLAG_CLEAR_BACKSTACK)
         }
@@ -166,8 +185,9 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet) : Pre
 
     private val defaultTransition = object : Presenter.DefaultTransition(CheckoutDefault::class.java.name) {
         override fun endTransition(forward: Boolean) {
-            loginWidget.bind(false, Db.getUser() != null, Db.getUser(), LineOfBusiness.PACKAGES)
+            loginWidget.bind(false, User.isLoggedIn(context), Db.getUser(), LineOfBusiness.PACKAGES)
             paymentWidget.show(PaymentWidget.PaymentDefault(), Presenter.FLAG_CLEAR_BACKSTACK)
+            updateTravelerPresenter()
         }
     }
 
@@ -180,8 +200,6 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet) : Pre
             legalInformationText.setVisibility(forward)
             depositPolicyText.setVisibility(forward)
             bottomContainer.setVisibility(forward)
-            travelersButton.setVisibility(forward)
-            travelerPresenter.setVisibility(!forward)
         }
 
         override fun endTransition(forward: Boolean) {
@@ -197,13 +215,18 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet) : Pre
             handle.setVisibility(forward)
             loginWidget.setVisibility(forward)
             hintContainer.visibility = if (forward) View.GONE else if (User.isLoggedIn(getContext())) View.GONE else View.VISIBLE
-            travelersButton.setVisibility(forward)
+
+            travelerPresenter.visibility = if (!forward) View.VISIBLE else View.GONE
+
             legalInformationText.setVisibility(forward)
             depositPolicyText.setVisibility(forward)
             bottomContainer.setVisibility(forward)
             if (!forward) {
                 paymentWidget.show(PaymentWidget.PaymentDefault(), Presenter.FLAG_CLEAR_BACKSTACK)
                 animateInSlideToPurchase(true)
+                paymentWidgetRootView.viewTreeObserver.removeOnGlobalLayoutListener(globalLayoutListener)
+            } else {
+                paymentWidgetRootView.viewTreeObserver.addOnGlobalLayoutListener(globalLayoutListener)
             }
         }
 
@@ -271,15 +294,11 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet) : Pre
 
     override fun accountLogoutClicked() {
         User.signOut(context)
+        updateTravelerPresenter()
         loginWidget.bind(false, false, null, getLineOfBusiness())
-        //travelerWidget.onLogout()
         paymentWidget.viewmodel.userLogin.onNext(false)
         hintContainer.visibility = View.VISIBLE
         doCreateTrip()
-    }
-
-    private fun showTravelerPresenter() {
-        show(travelerPresenter)
     }
 
     private fun showPaymentPresenter() {
@@ -333,4 +352,8 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet) : Pre
     private fun View.setVisibility(forward: Boolean) {
         this.visibility = if (forward) View.GONE else View.VISIBLE
     }
+
+    abstract fun lineOfBusiness() : LineOfBusiness
+
+    abstract fun updateTravelerPresenter()
 }

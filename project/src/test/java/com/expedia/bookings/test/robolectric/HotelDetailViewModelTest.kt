@@ -4,6 +4,8 @@ import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.hotels.HotelOffersResponse
 import com.expedia.bookings.data.hotels.HotelRate
 import com.expedia.bookings.data.hotels.HotelSearchParams
+import com.expedia.bookings.data.payment.LoyaltyEarnInfo
+import com.expedia.bookings.data.payment.LoyaltyInformation
 import com.expedia.bookings.services.HotelServices
 import com.expedia.bookings.testrule.ServicesRule
 import com.expedia.bookings.utils.DateUtils
@@ -25,6 +27,7 @@ import kotlin.properties.Delegates
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
 import kotlin.test.assertNull
+import kotlin.test.assertTrue
 
 @RunWith(RobolectricRunner::class)
 class HotelDetailViewModelTest {
@@ -92,10 +95,38 @@ class HotelDetailViewModelTest {
         assertNull(vm.strikeThroughPriceObservable.value)
     }
 
-    @Test fun discountPercentageShouldNotShow() {
+    @Test fun discountPercentageShouldNotShowForPackages() {
         offer1.isPackage = true
         vm.hotelOffersSubject.onNext(offer1)
-        assertFalse(vm.hasDiscountPercentageObservable.value)
+        assertFalse(vm.showDiscountPercentageObservable.value)
+    }
+
+    @Test fun discountPercentageShouldNotShowForSWP() {
+        offer1.doesAnyHotelRateOfAnyRoomHaveLoyaltyInfo = true
+        val chargeableRateInfo = offer1.hotelRoomResponse[0].rateInfo.chargeableRateInfo
+        val loyaltyInfo = LoyaltyInformation(null, LoyaltyEarnInfo(null, null), true)
+        chargeableRateInfo.loyaltyInfo = loyaltyInfo
+        vm.hotelOffersSubject.onNext(offer1)
+        assertFalse(vm.showDiscountPercentageObservable.value)
+        assertFalse(vm.showAirAttachSWPImageObservable.value)
+    }
+
+    @Test fun zeroDiscountPercentageIsNotShown() {
+        val chargeableRateInfo = offer1.hotelRoomResponse[0].rateInfo.chargeableRateInfo
+        chargeableRateInfo.discountPercent = 0f
+        vm.hotelOffersSubject.onNext(offer1)
+        assertFalse(vm.showDiscountPercentageObservable.value)
+    }
+
+    @Test fun airAttachSWPImageShownForSWP() {
+        offer1.doesAnyHotelRateOfAnyRoomHaveLoyaltyInfo = true
+        val chargeableRateInfo = offer1.hotelRoomResponse[0].rateInfo.chargeableRateInfo
+        val loyaltyInfo = LoyaltyInformation(null, LoyaltyEarnInfo(null, null), true)
+        chargeableRateInfo.loyaltyInfo = loyaltyInfo
+        chargeableRateInfo.airAttached = true
+        vm.hotelOffersSubject.onNext(offer1)
+        assertFalse(vm.showDiscountPercentageObservable.value)
+        assertTrue(vm.showAirAttachSWPImageObservable.value)
     }
 
     @Test fun packageSearchInfoShouldShow() {
@@ -104,7 +135,7 @@ class HotelDetailViewModelTest {
         vm.paramsSubject.onNext(searchParams)
         val dates = DateUtils.localDateToMMMd(searchParams.checkIn) + " - " + DateUtils.localDateToMMMd(searchParams.checkOut)
         assertEquals(dates, vm.searchDatesObservable.value)
-        assertEquals("1 Room, ${searchParams.guests()} Guests", vm.searchInfoObservable.value)
+        assertEquals("1 Room, ${searchParams.guests} Guests", vm.searchInfoObservable.value)
     }
 
     @Test fun priceShownToCustomerIncludesCustomerFees() {
@@ -246,6 +277,6 @@ class HotelDetailViewModelTest {
         var checkIn = LocalDate.now().plusDays(2)
         var checkOut = LocalDate.now().plusDays(5)
         val numAdults = 2
-        return HotelSearchParams.Builder(0).suggestion(suggestionV4).checkIn(checkIn).checkOut(checkOut).adults(numAdults).children(childList).build()
+        return HotelSearchParams.Builder(0).departure(suggestionV4).startDate(checkIn).endDate(checkOut).adults(numAdults).children(childList).build() as HotelSearchParams
     }
 }

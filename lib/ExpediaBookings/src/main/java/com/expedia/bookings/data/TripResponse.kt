@@ -1,6 +1,5 @@
 package com.expedia.bookings.data
 
-import com.expedia.bookings.data.cars.BaseApiResponse
 import com.expedia.bookings.data.payment.PaymentSplits
 import com.expedia.bookings.data.payment.PointsAndCurrency
 import com.expedia.bookings.data.payment.PointsDetails
@@ -81,7 +80,11 @@ abstract class TripResponse : BaseApiResponse() {
     }
 
     //Note: Invoking this makes sense on the response received from Create-Trip only, so we are not dealing with
-    fun newTripPaymentSplits(): PaymentSplits {
+    fun paymentSplitsForNewCreateTrip(swpOpted: Boolean): PaymentSplits {
+        return if (isExpediaRewardsRedeemable() && swpOpted) paymentSplitsWhenMaxPayableWithPoints() else paymentSplitsWhenZeroPayableWithPoints()
+    }
+
+    fun paymentSplitsSuggestionsForNewCreateTrip(): PaymentSplits {
         return if (isExpediaRewardsRedeemable()) paymentSplitsWhenMaxPayableWithPoints() else paymentSplitsWhenZeroPayableWithPoints()
     }
 
@@ -97,7 +100,7 @@ abstract class TripResponse : BaseApiResponse() {
         }
     }
 
-    fun paymentSplitsSuggestions(pwpOpted: Boolean): PaymentSplits {
+    fun paymentSplitsSuggestionsForPriceChange(pwpOpted: Boolean): PaymentSplits {
         if (!isExpediaRewardsRedeemable()) {
             return paymentSplitsWhenZeroPayableWithPoints()
         } else if (!pwpOpted) {

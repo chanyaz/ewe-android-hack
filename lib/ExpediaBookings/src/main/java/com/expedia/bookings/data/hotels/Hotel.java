@@ -41,6 +41,7 @@ public class Hotel {
 	public boolean isSponsoredListing;
 	public transient boolean hasShownImpression;
 	public String clickTrackingUrl;
+	public String drrMessage;
 	public String impressionTrackingUrl;
 	public boolean hasFreeCancellation;
 	public List<HotelAmenity> amenities;
@@ -83,6 +84,7 @@ public class Hotel {
 		hotel.thumbnailUrl = packageHotel.thumbnailURL;
 		hotel.isVipAccess = packageHotel.vip;
 		hotel.packageOfferModel = packageHotel.packageOfferModel;
+		hotel.drrMessage = packageHotel.drrMessage;
 		hotel.isPackage = true;
 		return hotel;
 	}

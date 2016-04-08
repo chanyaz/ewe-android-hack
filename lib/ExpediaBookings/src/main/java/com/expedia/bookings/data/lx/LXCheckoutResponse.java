@@ -2,7 +2,7 @@ package com.expedia.bookings.data.lx;
 
 import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.TripInfo;
-import com.expedia.bookings.data.cars.BaseApiResponse;
+import com.expedia.bookings.data.BaseApiResponse;
 
 public class LXCheckoutResponse extends BaseApiResponse {
 	public String tripId;

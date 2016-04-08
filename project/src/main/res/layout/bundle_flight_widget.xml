@@ -7,7 +7,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@drawable/progress"
-        android:visibility="gone"/>
+        android:visibility="gone" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -20,39 +20,42 @@
             android:layout_height="match_parent"
             android:layout_gravity="center"
             android:orientation="horizontal"
-            android:padding="12dp">
+            android:paddingBottom="12dp"
+            android:paddingLeft="18dp"
+            android:paddingRight="12dp"
+            android:paddingTop="12dp">
 
             <ImageView
                 android:id="@+id/package_flight_icon"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:tint="@color/package_bundle_icon_color"
-                android:layout_marginRight="5dp"/>
+                android:layout_marginRight="12dp"
+                android:tint="@color/package_bundle_icon_color" />
 
             <LinearLayout
                 android:id="@+id/flight_info_container"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
+                android:layout_marginBottom="1dp"
                 android:layout_weight="1"
-                android:layout_marginLeft="10dp"
                 android:animateLayoutChanges="true"
                 android:orientation="vertical">
 
                 <com.expedia.bookings.widget.TextView
                     android:id="@+id/flight_card_view_text"
+                    style="@style/BundleOverviewWidgets.PrimaryText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:singleLine="true"
-                    style="@style/BundleOverviewWidgets.PrimaryText"/>
+                    android:singleLine="true" />
 
                 <com.expedia.bookings.widget.TextView
                     android:id="@+id/travel_info_view_text"
+                    style="@style/BundleOverviewWidgets.SecondaryText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:singleLine="true"
-                    style="@style/BundleOverviewWidgets.SecondaryText" />
+                    android:singleLine="true" />
             </LinearLayout>
 
             <ImageView
@@ -73,8 +76,8 @@
                 android:layout_height="wrap_content"
                 android:layout_alignBaseline="@+id/flight_info_container"
                 android:layout_gravity="center"
-                android:layout_marginRight="9dp"
                 android:layout_marginLeft="12dp"
+                android:layout_marginRight="9dp"
                 android:src="@drawable/bundle_forward_arrow"
                 android:tint="?attr/primary_color"
                 android:visibility="gone" />
@@ -86,18 +89,18 @@
             android:layout_height="match_parent"
             android:orientation="vertical"
             android:visibility="gone">
+
             <com.expedia.bookings.widget.FlightSegmentBreakdownView
                 android:id="@+id/segment_breakdown"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content" />
+
             <com.expedia.bookings.widget.TextView
                 android:id="@+id/flight_total_duration"
+                style="@style/PackagesFlightTotalDuration"
                 android:layout_width="match_parent"
-                android:layout_height="30dp"
-                android:layout_gravity="bottom"
-                android:background="@android:color/darker_gray"
-                android:gravity="center"
-                android:textColor="@android:color/white" />
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom" />
         </LinearLayout>
         <!--</FrameLayout>-->
     </LinearLayout>

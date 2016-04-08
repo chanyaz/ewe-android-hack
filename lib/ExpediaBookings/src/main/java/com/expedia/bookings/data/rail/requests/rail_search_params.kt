@@ -1,66 +1,50 @@
 package com.expedia.bookings.data.rail.requests;
 
+import com.expedia.bookings.data.BaseSearchParams
 import com.expedia.bookings.data.SuggestionV4
 import org.joda.time.LocalDate
 
-data class RailSearchRequest(val origin: SuggestionV4, val destination: SuggestionV4, val departDate: LocalDate, val returnDate: LocalDate?, val adults: Int, val children: List<Int>) {
+class RailSearchRequest(val origin: SuggestionV4, val destination: SuggestionV4, val departDate: LocalDate, val returnDate: LocalDate?, adults: Int, children: List<Int>)  : BaseSearchParams(adults, children){
 
-    class Builder() {
+    enum class SearchType {
+        ONE_WAY,
+        ROUND_TRIP,
+        OPEN_RETURN
+    }
+
+    class Builder() : BaseSearchParams.Builder(500) {
         private var origin: SuggestionV4? = null
         private var destination: SuggestionV4? = null
         private var departDate: LocalDate? = null
         private var returnDate: LocalDate? = null
-        private var adults: Int = 1
-        private var children: List<Int> = emptyList()
+        private var searchType = SearchType.ONE_WAY
 
-        fun origin(origin: SuggestionV4?): Builder {
-            this.origin = origin
-            return this
-        }
-
-        fun destination(destination: SuggestionV4?): Builder {
-            this.destination = destination
-            return this
-        }
-
-        fun departDate(departDate: LocalDate?): Builder {
-            this.departDate = departDate
-            return this
-        }
-
-        fun returnDate(returnDate: LocalDate?): Builder {
-            this.returnDate = returnDate
-            return this
-        }
-
-        fun adults(adults: Int): Builder {
-            this.adults = adults
-            return this
-        }
-
-        fun children(children: List<Int>): Builder {
-            this.children = children
-            return this
-        }
-
-        fun build(): RailSearchRequest {
+        override fun build(): RailSearchRequest {
             if (areRequiredParamsFilled()) {
-                return RailSearchRequest(origin!!, destination!!, departDate!!, returnDate, adults, children)
+                return RailSearchRequest(departure!!, arrival!!, startDate!!, endDate, adults, children)
             } else {
                 throw IllegalArgumentException();
             }
         }
 
-        fun areRequiredParamsFilled(): Boolean {
-            return hasOriginAndDestination() && hasStartDate()
+        override fun areRequiredParamsFilled(): Boolean {
+            return hasOriginAndDestination() && hasStartDate() && hasEndDate()
         }
 
         fun hasStartDate(): Boolean {
-            return departDate != null
+            return startDate != null
+        }
+
+        fun hasEndDate(): Boolean {
+            return SearchType.ONE_WAY == searchType || returnDate != null
+        }
+
+        override fun hasValidDates(): Boolean {
+            return hasStartDate() && hasEndDate()
         }
 
         fun hasOriginAndDestination(): Boolean {
-            return origin != null && destination != null
+            return departure != null && arrival != null
         }
     }
 }

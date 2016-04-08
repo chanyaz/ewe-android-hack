@@ -53,7 +53,7 @@ class HotelReviewsView(context: Context, attrs: AttributeSet) : FrameLayout(cont
         viewPager.offscreenPageLimit = Integer.MAX_VALUE
         val statusBarHeight = Ui.getStatusBarHeight(getContext())
         if (statusBarHeight > 0) {
-            val color = ContextCompat.getColor(context, R.color.hotels_primary_color)
+            val color = Ui.obtainThemeColor(context, R.attr.primary_color)
             val statusBar = Ui.setUpStatusBar(context, toolbar, reviewsContainer, color)
             addView(statusBar)
         }

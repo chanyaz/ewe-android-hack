@@ -24,14 +24,14 @@
         android:paddingLeft="20dp"
         android:paddingBottom="20dp">
 
-        <TextView
+        <com.expedia.bookings.widget.TextView
             android:id="@+id/first_line"
             android:layout_height="wrap_content"
             android:layout_width="match_parent"
             android:textColor="@color/text_black"
             android:textSize="18sp"/>
 
-        <TextView
+        <com.expedia.bookings.widget.TextView
             android:id="@+id/second_line"
             android:layout_height="wrap_content"
             android:layout_width="match_parent"

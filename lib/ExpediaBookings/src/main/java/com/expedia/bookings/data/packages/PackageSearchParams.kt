@@ -1,5 +1,6 @@
 package com.expedia.bookings.data.packages
 
+import com.expedia.bookings.data.BaseSearchParams
 import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.utils.Constants
 import org.joda.time.Days
@@ -7,7 +8,7 @@ import org.joda.time.LocalDate
 import java.util.HashMap
 import kotlin.properties.Delegates
 
-data class PackageSearchParams(val origin: SuggestionV4, val destination: SuggestionV4, val checkIn: LocalDate, val checkOut: LocalDate, val adults: Int, val children: List<Int>, val infantSeatingInLap: Boolean) {
+open class PackageSearchParams(val origin: SuggestionV4, val destination: SuggestionV4, val checkIn: LocalDate, val checkOut: LocalDate, adults: Int, children: List<Int>, val infantSeatingInLap: Boolean) : BaseSearchParams(adults, children) {
 
     var pageType: String? = null
     var searchProduct: String? = null
@@ -25,102 +26,43 @@ data class PackageSearchParams(val origin: SuggestionV4, val destination: Sugges
     var defaultFlights: Array<String?> by Delegates.notNull()
     var numberOfRooms: String = Constants.NUMBER_OF_ROOMS
 
-    class Builder(val maxStay: Int) {
-        private var origin: SuggestionV4? = null
-        private var destination: SuggestionV4? = null
-        private var checkIn: LocalDate? = null
-        private var checkOut: LocalDate? = null
-        private var adults: Int = 1
-        private var children: List<Int> = emptyList()
-        private var infantSeatingInLap: Boolean = false
+    class Builder(maxStay: Int) : BaseSearchParams.Builder(maxStay) {
 
-
-        fun origin(origin: SuggestionV4?): PackageSearchParams.Builder {
-            this.origin = origin
-            return this
-        }
-
-        fun destination(destination: SuggestionV4?): PackageSearchParams.Builder {
-            this.destination = destination
-            return this
-        }
-
-        fun checkIn(checkIn: LocalDate?): PackageSearchParams.Builder {
-            this.checkIn = checkIn
-            return this
-        }
-
-        fun checkOut(checkOut: LocalDate?): PackageSearchParams.Builder {
-            this.checkOut = checkOut
-            return this
-        }
-
-        fun adults(adults: Int): PackageSearchParams.Builder {
-            this.adults = adults
-            return this
-        }
-
-        fun children(children: List<Int>): PackageSearchParams.Builder {
-            this.children = children
-            return this
-        }
-
-        fun infantSeatingInLap(infantSeatingInLap: Boolean): PackageSearchParams.Builder {
-            this.infantSeatingInLap = infantSeatingInLap
-            return this
-        }
-
-        fun build(): PackageSearchParams {
-            val flightOrigin = origin ?: throw IllegalArgumentException()
-            val flightDestination = destination ?: throw IllegalArgumentException()
-            val checkInDate = checkIn ?: throw IllegalArgumentException()
-            val checkOutDate = checkOut ?: throw IllegalArgumentException()
+        override fun build(): PackageSearchParams {
+            val flightOrigin = departure ?: throw IllegalArgumentException()
+            val flightDestination = arrival ?: throw IllegalArgumentException()
+            val checkInDate = startDate ?: throw IllegalArgumentException()
+            val checkOutDate = endDate ?: throw IllegalArgumentException()
             return PackageSearchParams(flightOrigin, flightDestination, checkInDate, checkOutDate, adults, children, infantSeatingInLap)
         }
 
-        fun areRequiredParamsFilled(): Boolean {
-            return hasOriginAndDestination() && hasStartAndEndDates()
+        override fun areRequiredParamsFilled(): Boolean {
+            return hasDepartureAndArrival() && hasStartAndEndDates()
         }
 
-        fun hasStartAndEndDates(): Boolean {
-            return checkIn != null && checkOut != null
+        override fun hasValidDates(): Boolean {
+            return Days.daysBetween(startDate, endDate).days <= maxStay
         }
 
-        fun hasOriginAndDestination(): Boolean {
-            return hasOrigin() && hasDestination()
-        }
-
-        fun hasOrigin(): Boolean {
-            return origin != null
-        }
-
-        fun hasDestination(): Boolean {
-            return destination != null
-        }
-
-        fun hasValidDates(): Boolean {
-            return Days.daysBetween(checkIn, checkOut).days <= maxStay
+        fun isDepartureSameAsOrigin(): Boolean {
+            return departure?.hierarchyInfo?.airport?.multicity == arrival?.hierarchyInfo?.airport?.multicity
         }
     }
 
-    fun guests() : Int {
-        return children.size + adults
-    }
-
-    fun isOutboundSearch() : Boolean {
+    fun isOutboundSearch(): Boolean {
         return packagePIID != null && selectedLegId == null
     }
 
-    fun isChangePackageSearch() : Boolean {
+    fun isChangePackageSearch(): Boolean {
         return pageType == Constants.PACKAGE_CHANGE_HOTEL || pageType == Constants.PACKAGE_CHANGE_FLIGHT
     }
 
     fun toQueryMap(): Map<String, Any?> {
         val params = HashMap<String, Any?>()
         params.put("pageType", pageType)
-        params.put("originId", origin.gaiaId)
-        params.put("destinationId", destination.gaiaId)
-        params.put("ftla",origin.hierarchyInfo?.airport?.airportCode)
+        params.put("originId", origin.hierarchyInfo?.airport?.multicity)
+        params.put("destinationId", destination.hierarchyInfo?.airport?.multicity)
+        params.put("ftla", origin.hierarchyInfo?.airport?.airportCode)
         params.put("ttla", destination.hierarchyInfo?.airport?.airportCode)
         params.put("fromDate", checkIn.toString())
         params.put("toDate", checkOut.toString())
@@ -154,7 +96,17 @@ data class PackageSearchParams(val origin: SuggestionV4, val destination: Sugges
         for (i in startIndex..valueList.size) {
             var key = StringBuilder(keyString)
             key.append("[").append(i).append("]")
-            params.put(key.toString(), valueList[i-1])
+            params.put(key.toString(), valueList[i - 1])
         }
+    }
+
+    fun getNumberOfSeatedChildren(): Int {
+        var numberOfUnseatedTravelers = 0
+        for (child in children) {
+            if (child < 2 && infantSeatingInLap) {
+                numberOfUnseatedTravelers++
+            }
+        }
+        return children.size - numberOfUnseatedTravelers
     }
 }

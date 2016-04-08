@@ -4,7 +4,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
 import org.joda.time.LocalDate;
@@ -14,6 +13,7 @@ import org.junit.Rule;
 import org.junit.Test;
 
 import com.expedia.bookings.data.Money;
+import com.expedia.bookings.data.SuggestionV4;
 import com.expedia.bookings.data.cars.ApiError;
 import com.expedia.bookings.data.hotels.Hotel;
 import com.expedia.bookings.data.hotels.HotelApplyCouponParameters;
@@ -23,7 +23,6 @@ import com.expedia.bookings.data.hotels.HotelCreateTripResponse;
 import com.expedia.bookings.data.hotels.HotelOffersResponse;
 import com.expedia.bookings.data.hotels.HotelSearchParams;
 import com.expedia.bookings.data.hotels.NearbyHotelParams;
-import com.expedia.bookings.data.SuggestionV4;
 import com.expedia.bookings.data.payment.PointsAndCurrency;
 import com.expedia.bookings.data.payment.PointsType;
 import com.expedia.bookings.data.payment.ProgramName;
@@ -32,6 +31,7 @@ import com.expedia.bookings.data.payment.UserPreferencePointsDetails;
 import com.expedia.bookings.interceptors.MockInterceptor;
 import com.expedia.bookings.services.HotelCheckoutResponse;
 import com.expedia.bookings.services.HotelServices;
+import com.expedia.bookings.utils.NumberUtils;
 import com.mobiata.mocke3.ExpediaDispatcher;
 import com.mobiata.mocke3.FileSystemOpener;
 import com.squareup.okhttp.OkHttpClient;
@@ -103,8 +103,8 @@ public class HotelServicesTest {
 
 		SuggestionV4 suggestion = new SuggestionV4();
 		suggestion.coordinates = new SuggestionV4.LatLng();
-		HotelSearchParams params = new HotelSearchParams.Builder(0).suggestion(suggestion)
-			.checkIn(LocalDate.now().plusDays(5)).checkOut(LocalDate.now().plusDays(15)).adults(2)
+		HotelSearchParams params = (HotelSearchParams) new HotelSearchParams.Builder(0).departure(suggestion)
+			.startDate(LocalDate.now().plusDays(5)).endDate(LocalDate.now().plusDays(15)).adults(2)
 			.children(new ArrayList<Integer>()).build();
 		service.info(params, "happy", observer);
 		observer.awaitTerminalEvent(10, TimeUnit.SECONDS);
@@ -128,8 +128,8 @@ public class HotelServicesTest {
 
 		SuggestionV4 suggestion = new SuggestionV4();
 		suggestion.coordinates = new SuggestionV4.LatLng();
-		HotelSearchParams params = new HotelSearchParams.Builder(0).suggestion(suggestion)
-			.checkIn(LocalDate.now().plusDays(5)).checkOut(LocalDate.now().plusDays(15)).adults(2)
+		HotelSearchParams params = (HotelSearchParams) new HotelSearchParams.Builder(0).departure(suggestion)
+			.startDate(LocalDate.now().plusDays(5)).endDate(LocalDate.now().plusDays(15)).adults(2)
 			.children(new ArrayList<Integer>()).build();
 		service.offers(params, "happypath", observer);
 		observer.awaitTerminalEvent(10, TimeUnit.SECONDS);
@@ -287,12 +287,13 @@ public class HotelServicesTest {
 			hotel.hotelId = "Normal";
 			hotelList.add(hotel);
 		}
+
+		List<Integer> randomNumberList = NumberUtils.getRandomNumberList(hotelCount);
 		if (keepSponsoredItems) {
-			Random random = new Random();
-			setHotelAsSponsored(hotelList.get(random.nextInt(hotelCount)));
+			setHotelAsSponsored(hotelList.get(randomNumberList.get(0)));
 			if (hotelCount >= 50) {
-				setHotelAsSponsored(hotelList.get(random.nextInt(hotelCount)));
-				setHotelAsSponsored(hotelList.get(random.nextInt(hotelCount)));
+				setHotelAsSponsored(hotelList.get(randomNumberList.get(1)));
+				setHotelAsSponsored(hotelList.get(randomNumberList.get(2)));
 			}
 		}
 		return hotelList;

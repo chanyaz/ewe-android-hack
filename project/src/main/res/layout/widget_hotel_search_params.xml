@@ -107,6 +107,15 @@
                 android:textOn="@string/hotel_search_guest_default_text"
                 android:textSize="15sp"
                 android:textStyle="normal" />
+
+            <com.expedia.bookings.widget.ShopWithPointsWidget
+                android:id="@+id/widget_points_details"
+                android:layout_width="match_parent"
+                android:layout_height="70dp"
+                android:theme="@style/HotelWithSwitchStyleV1"
+                android:layout_below="@id/select_traveler"
+                android:paddingLeft="20dp"
+                android:visibility="gone" />
         </RelativeLayout>
 
         <View

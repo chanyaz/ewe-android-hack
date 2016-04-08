@@ -16,7 +16,7 @@ class FlightApiRequestDispatcher(fileOpener: FileOpener) : AbstractDispatcher(fi
             throwUnsupportedRequestException(urlPath)
         }
 
-        if (!FlightApiRequestMatcher.isRequestContainsClientId(params)) {
+        if (!FlightApiRequestMatcher.isRequestContainsClientId(params, urlPath)) {
             throwUnsupportedRequestException(urlPath)
         }
 
@@ -35,16 +35,12 @@ class FlightApiRequestDispatcher(fileOpener: FileOpener) : AbstractDispatcher(fi
 class FlightApiMockResponseGenerator() {
     companion object {
         fun getSearchResponseFilePath(params: MutableMap<String, String>): String {
+            val isSignedIn = params["departureAirport"] == "SIGNED IN"
             val isPassportNeeded = params["departureAirport"] == "PEN" && params["arrivalAirport"] == "KUL"
             val isReturnFlightSearch = params.containsKey("returnDate")
             val departureDate = params["departureDate"]
-            val filename = if (isReturnFlightSearch) {
-                                "happy_roundtrip"
-                            } else if (isPassportNeeded) {
-                                "passport_needed_oneway"
-                            } else {
-                                "happy_oneway"
-                            }
+
+            var filename = getFileName(isPassportNeeded, isReturnFlightSearch, isSignedIn)
 
             val departCalTakeoff = parseYearMonthDay(departureDate, 10, 0)
             val departCalLanding = parseYearMonthDay(departureDate, 12 + 4, 0)
@@ -63,6 +59,23 @@ class FlightApiMockResponseGenerator() {
             return "api/flight/search/$filename.json"
         }
 
+        private fun getFileName(isPassportNeeded: Boolean, isReturnFlightSearch: Boolean, isSignedIn: Boolean): String {
+            return if (isPassportNeeded) {
+                "passport_needed_oneway"
+            } else {
+                var happyFileName =
+                        if (isReturnFlightSearch) {
+                            "happy_roundtrip"
+                        } else {
+                            "happy_oneway"
+                        }
+                if (isSignedIn) {
+                    happyFileName += "_signed_in";
+                }
+                happyFileName
+            }
+        }
+
         fun getCheckoutResponseFilePath(params: MutableMap<String, String>): String {
             val tripId = params["tripId"] ?: throw RuntimeException("tripId required")
             val tealeafTransactionId = params["tealeafTransactionId"] ?: throw RuntimeException("teleafTransactionId required")
@@ -71,7 +84,7 @@ class FlightApiMockResponseGenerator() {
                 throw RuntimeException("tripId must match tealeafTransactionId ('tealeafFlight:<tripId>') got: $tealeafTransactionId")
             }
 
-            val isRequestingAirAttachMockResponse = FlightApiRequestMatcher.doesItMatch("^air_attach_0$", tripId)
+            val isRequestingAirAttachMockResponse = doesItMatch("^air_attach_0$", tripId)
 
             if (isRequestingAirAttachMockResponse) {
                 val c = Calendar.getInstance()
@@ -94,8 +107,8 @@ class FlightApiMockResponseGenerator() {
 
 class FlightApiRequestMatcher() {
     companion object {
-        fun isRequestContainsClientId(params: MutableMap<String, String>): Boolean {
-            return params.containsKey("clientid")
+        fun isRequestContainsClientId(params: MutableMap<String, String>, urlPath: String): Boolean {
+            return params.containsKey("clientid") || doesItMatch(".*clientid.*", urlPath)
         }
 
         fun isFlightApiRequest(urlPath: String): Boolean {
@@ -107,17 +120,11 @@ class FlightApiRequestMatcher() {
         }
 
         fun isCreateTripRequest(urlPath: String): Boolean {
-            return doesItMatch("^/api/flight/trip/create$", urlPath)
+            return doesItMatch("^/api/flight/trip/create.*$", urlPath)
         }
 
         fun isCheckoutRequest(urlPath: String): Boolean {
             return doesItMatch("^/api/flight/checkout$", urlPath)
-        }
-
-        fun doesItMatch(regExp: String, str: String): Boolean {
-            val pattern = Pattern.compile(regExp)
-            val matcher = pattern.matcher(str)
-            return matcher.matches()
         }
     }
 }

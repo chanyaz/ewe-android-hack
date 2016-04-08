@@ -99,6 +99,7 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
     var isMapReady = false
     val isBucketedForResultMap = Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelResultMapTest)
     val isUserBucketedSearchScreenTest = Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelsSearchScreenTest)
+    val mapLoyaltyHeaderHeight = context.resources.getDimension(R.dimen.hotel_map_loyalty_header_height).toInt()
 
     var clusterManager: ClusterManager<MapItem> by Delegates.notNull()
 
@@ -188,34 +189,32 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
             if (mapCarouselContainer.visibility != View.VISIBLE) {
                 mapCarouselContainer.translationX = screenWidth
                 mapCarouselContainer.visibility = View.VISIBLE
-                animateFabAndSearchThisArea(true, mapCarouselContainer.animate().translationX(0f).setInterpolator(DecelerateInterpolator()).setStartDelay(400))
+                animateFab(true, mapCarouselContainer.animate().translationX(0f).setInterpolator(DecelerateInterpolator()).setStartDelay(400))
             } else {
-                animateFabAndSearchThisArea(true)
+                animateFab(true)
             }
         } else {
             if (mapCarouselContainer.visibility != View.INVISIBLE) {
                 mapCarouselContainer.animate().translationX(screenWidth).setInterpolator(DecelerateInterpolator()).withEndAction {
                     mapCarouselContainer.visibility = View.INVISIBLE
-                    animateFabAndSearchThisArea(false)
+                    animateFab(false)
                 }.start()
             } else {
-                animateFabAndSearchThisArea(false)
+                animateFab(false)
             }
         }
     }
 
-    private fun animateFabAndSearchThisArea(animateUp: Boolean) {
-        animateFabAndSearchThisArea(animateUp, null)
+    private fun animateFab(animateUp: Boolean) {
+        animateFab(animateUp, null)
     }
 
-    private fun animateFabAndSearchThisArea(animateUp: Boolean, endInterpolator: ViewPropertyAnimator?) {
-        val mapCarouselHeight = mapCarouselContainer.height.toFloat()
+    private fun animateFab(animateUp: Boolean, endInterpolator: ViewPropertyAnimator?) {
+        val mapCarouselHeight = mapCarouselContainer.height.toFloat() - mapLoyaltyHeaderHeight
         if (animateUp) {
             fab.animate().translationY(filterHeight - mapCarouselHeight).setInterpolator(DecelerateInterpolator()).withEndAction { endInterpolator?.start() }.start()
-            searchThisArea?.animate()?.translationY(0f)?.setInterpolator(DecelerateInterpolator())?.start()
         } else {
             fab.animate().translationY(filterHeight).setInterpolator(DecelerateInterpolator()).withEndAction { endInterpolator?.start() }.start()
-            searchThisArea?.animate()?.translationY(mapCarouselHeight)?.setInterpolator(DecelerateInterpolator())?.start()
         }
     }
 
@@ -353,12 +352,12 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
 
     }
 
-    fun clearMarkers() {
+    fun clearMarkers(setUpMap: Boolean = true) {
         mapItems.clear()
         clusterManager.clearItems()
         clusterMarkers()
         if (mapViewModel.isClusteringEnabled) mapCarouselContainer.visibility = View.INVISIBLE
-        setUpMap()
+        if (setUpMap) setUpMap()
     }
 
     fun createMarkers(animateCarousel: Boolean = true) {
@@ -678,7 +677,7 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
                         fab.translationY = Math.min(scrolledDistance, 0).toFloat()
                     }
                 }
- 
+
             }
         }
 
@@ -789,7 +788,7 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
                         //Since we're not moving it manually, let's jump it to where it belongs,
                         // and let's get it showing the right thing
                         if (isMapPinSelected) {
-                            fab.translationY = -(mapCarouselContainer.height - filterHeight)
+                            fab.translationY = -(mapCarouselContainer.height - mapLoyaltyHeaderHeight - filterHeight)
                         } else {
                             fab.translationY = filterHeight
                         }
@@ -802,7 +801,7 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
                 if (forward) {
                     finalFabTranslation = if (filterBtnWithCountWidget != null) 0f  else filterHeight
                 } else {
-                    finalFabTranslation = if (isMapPinSelected) -(mapCarouselContainer.height - filterHeight) else filterHeight
+                    finalFabTranslation = if (isMapPinSelected) -(mapCarouselContainer.height - mapLoyaltyHeaderHeight - filterHeight) else filterHeight
                 }
                 hideBundlePriceOverview(!forward)
                 toolbarTitle.translationY = 0f
@@ -867,7 +866,7 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
                 } else {
                     mapView.translationY = 0f
                     recyclerView.translationY = screenHeight.toFloat()
-                    googleMap?.setPadding(0, toolbar.height, 0, mapCarouselContainer.height)
+                    googleMap?.setPadding(0, toolbar.height, 0, mapCarouselContainer.height - mapLoyaltyHeaderHeight)
                     filterBtnWithCountWidget?.translationY = resources.getDimension(R.dimen.hotel_filter_height)
                     if (isBucketedForResultMap || ExpediaBookingApp.isDeviceShitty()) {
                         googleMap?.mapType = GoogleMap.MAP_TYPE_NORMAL
@@ -1085,6 +1084,9 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
         navIcon.parameter = ArrowXDrawableUtil.ArrowDrawableType.BACK.type.toFloat()
         if (havePermissionToAccessLocation(context)) {
             googleMap?.isMyLocationEnabled = forward
+        }
+        if (!forward) {
+            clearMarkers(false)
         }
     }
 

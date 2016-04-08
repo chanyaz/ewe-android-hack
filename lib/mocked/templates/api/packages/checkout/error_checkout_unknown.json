@@ -1,0 +1,14 @@
+{
+  "errors": [
+    {
+      "errorCode": "UNKNOWN",
+      "errorInfo": {
+        "summary": "Unknown error",
+        "field": "Unknown",
+        "cause": "Unknown"
+      },
+      "diagnosticId": 0
+    }
+  ],
+  "activityId": "68f9ebb5-7269-4c61-8952-32fd9d39833d"
+}

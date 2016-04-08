@@ -3,7 +3,6 @@ package com.expedia.bookings.widget
 import android.animation.ArgbEvaluator
 import android.app.AlertDialog
 import android.content.Context
-import android.content.DialogInterface
 import android.graphics.Color
 import android.graphics.PorterDuff
 import android.support.v4.content.ContextCompat
@@ -34,7 +33,8 @@ class TotalPriceWidget(context: Context, attrs: AttributeSet?) : LinearLayout(co
     val bundleSubtitle: TextView by bindView(R.id.bundle_subtitle)
 
     val eval: ArgbEvaluator = ArgbEvaluator()
-    val textFade = TransitionElement(ContextCompat.getColor(context, R.color.package_bundle_icon_color), Color.WHITE)
+    val titleTextFade = TransitionElement(ContextCompat.getColor(context, R.color.packages_bundle_overview_footer_primary_text), Color.WHITE)
+    val subtitleTextFade = TransitionElement(ContextCompat.getColor(context, R.color.packages_bundle_overview_footer_secondary_text), Color.WHITE)
     val bgFade = TransitionElement(Color.WHITE, ContextCompat.getColor(context, R.color.packages_primary_color))
 
     var viewModel: BundlePriceViewModel by notNullAndObservable { vm ->
@@ -91,12 +91,13 @@ class TotalPriceWidget(context: Context, attrs: AttributeSet?) : LinearLayout(co
         val progress = if (forward) f else 1 - f
         val alpha = if (forward) (1 - f) else f
         setBackgroundColor(eval.evaluate(progress, bgFade.start, bgFade.end) as Int)
-        val currentToolbarTextColor = eval.evaluate(progress, textFade.start, textFade.end) as Int
-        bundleTotalText.setTextColor(currentToolbarTextColor)
-        bundleTotalIncludes.setTextColor(currentToolbarTextColor)
-        bundleTitle.setTextColor(currentToolbarTextColor)
-        bundleSubtitle.setTextColor(currentToolbarTextColor)
-        bundleChevron.drawable.setColorFilter(currentToolbarTextColor, PorterDuff.Mode.SRC_IN)
+        val titleTextColor = eval.evaluate(progress, titleTextFade.start, titleTextFade.end) as Int
+        val subTitleTextColor = eval.evaluate(progress, subtitleTextFade.start, subtitleTextFade.end) as Int
+        bundleTotalText.setTextColor(titleTextColor)
+        bundleTotalIncludes.setTextColor(subTitleTextColor)
+        bundleTitle.setTextColor(titleTextColor)
+        bundleSubtitle.setTextColor(subTitleTextColor)
+        bundleChevron.drawable.setColorFilter(titleTextColor, PorterDuff.Mode.SRC_IN)
         bundleTotalPrice.alpha = alpha
         bundleSavings.alpha = alpha
         perPersonText.alpha = alpha

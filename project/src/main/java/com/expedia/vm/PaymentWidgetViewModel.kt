@@ -3,9 +3,9 @@ package com.expedia.vm
 import android.content.Context
 import com.expedia.bookings.data.TripResponse
 import com.expedia.bookings.data.payment.PaymentModel
+import com.expedia.bookings.utils.ArrowXDrawableUtil
 import com.expedia.vm.interfaces.IPayWithPointsViewModel
 import com.expedia.vm.interfaces.IPaymentWidgetViewModel
-import com.expedia.bookings.utils.ArrowXDrawableUtil
 import rx.Observable
 import rx.subjects.PublishSubject
 
@@ -18,7 +18,7 @@ class PaymentWidgetViewModel<T : TripResponse>(val context: Context, paymentMode
     override val totalDueToday = paymentModel.tripResponses.map { it.getTripTotal().formattedMoneyFromAmountAndCurrencyCode }
     override val remainingBalanceDueOnCard = paymentModel.paymentSplits.map { it.payingWithCards.amount.formattedMoneyFromAmountAndCurrencyCode }
     override val remainingBalanceDueOnCardVisibility = paymentModel.tripResponses.map { it.isExpediaRewardsRedeemable() }
-    override val paymentSplitsAndTripResponse = paymentModel.paymentSplitsWithLatestTripResponse
+    override val paymentSplitsAndTripResponse = paymentModel.paymentSplitsWithLatestTripResponse.map { PaymentModel.PaymentSplitsAndTripResponse<TripResponse>(it.tripResponse, it.paymentSplits) }
     override val burnAmountApiCallResponsePending = PublishSubject.create<Boolean>()
     override val toolbarNavIcon = PublishSubject.create<ArrowXDrawableUtil.ArrowDrawableType>()
 

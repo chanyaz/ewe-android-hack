@@ -2,6 +2,7 @@ package com.expedia.bookings.dagger;
 
 import com.expedia.bookings.dagger.tags.LaunchScope;
 import com.expedia.bookings.server.EndpointProvider;
+import com.expedia.bookings.services.FeedsService;
 import com.expedia.bookings.services.HotelServices;
 import com.expedia.bookings.services.CollectionServices;
 import com.squareup.okhttp.OkHttpClient;
@@ -26,6 +27,13 @@ public final class LaunchModule {
 	CollectionServices provideCollectionServices(EndpointProvider endpointProvider, OkHttpClient client, RequestInterceptor interceptor, RestAdapter.LogLevel logLevel) {
 		final String endpoint = endpointProvider.getE3EndpointUrl();
 		return new CollectionServices(endpoint, client, interceptor, AndroidSchedulers.mainThread(), Schedulers.io(), logLevel);
+	}
+
+	@Provides
+	@LaunchScope
+	FeedsService provideFeedsService(EndpointProvider endpointProvider, OkHttpClient client, RequestInterceptor interceptor, RestAdapter.LogLevel logLevel) {
+		final String endpoint = endpointProvider.getE3EndpointUrl();
+		return new FeedsService(endpoint, client, interceptor, AndroidSchedulers.mainThread(), Schedulers.io(), logLevel);
 	}
 
 }

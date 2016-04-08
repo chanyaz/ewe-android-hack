@@ -48,6 +48,7 @@
         <item name="hotel_select_room_ripple_drawable">@drawable/hotel_select_room_ripple</item>
         <item name="hotel_map_tooltip_pressed_drawable">@drawable/hotel_tooltip_blue</item>
         <item name="hotel_map_tooltip_drawable">@drawable/hotel_tooltip</item>
+        <item name="spinner_text_color_drawable">@drawable/traveler_text_color</item>
     </style>
 
     <!--
@@ -59,7 +60,7 @@
             If something is common for all LOB's put it in  AppTheme.Base
          -->
         <item name="traveler_toolbar_text">@string/traveler_information</item>
-        <item name="traveler_checkout_circle_drawable">@drawable/hotelsv2_traveler_checkout_circle</item>
+        <item name="traveler_checkout_circle_drawable">@drawable/traveler_checkout_circle</item>
     </style>
 
     <style name="HotelTravelerIcon">

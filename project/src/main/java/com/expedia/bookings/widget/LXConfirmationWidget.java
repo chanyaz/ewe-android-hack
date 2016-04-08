@@ -37,6 +37,7 @@ import butterknife.InjectView;
 public class LXConfirmationWidget extends android.widget.LinearLayout {
 
 	LXCheckoutParams lxCheckoutParams;
+	private boolean isGroundTransport;
 
 	public LXConfirmationWidget(Context context, AttributeSet attrs) {
 		super(context, attrs);
@@ -117,7 +118,7 @@ public class LXConfirmationWidget extends android.widget.LinearLayout {
 	public void onCheckoutSuccess(Events.LXCheckoutSucceeded event) {
 		OmnitureTracking.trackAppLXCheckoutConfirmation(event.checkoutResponse, lxState.activity.id,
 			DateUtils.yyyyMMddHHmmssToLocalDate(lxState.offer.availabilityInfoOfSelectedDate.availabilities.valueDate),
-			lxState.selectedTicketsCount());
+			lxState.selectedTicketsCount(), isGroundTransport);
 		AdTracker.trackLXBooked(lxState.activity.location, lxState.latestTotalPrice(), lxState.selectedTickets().get(0).money,
 			lxState.offer.availabilityInfoOfSelectedDate.availabilities.valueDate, lxState.activity.categories,
 			event.checkoutResponse.orderId, lxState.activity.title, lxState.activity.id, lxState.searchParams.startDate,
@@ -149,5 +150,9 @@ public class LXConfirmationWidget extends android.widget.LinearLayout {
 
 		FontCache.setTypeface(confirmationText, FontCache.Font.ROBOTO_LIGHT);
 		FontCache.setTypeface(emailText, FontCache.Font.ROBOTO_LIGHT);
+	}
+
+	public void setIsFromGroundTransport(boolean isGroundTransport) {
+		this.isGroundTransport = isGroundTransport;
 	}
 }

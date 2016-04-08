@@ -15,12 +15,10 @@
         android:paddingLeft="12dp" />
 
     <android.support.v7.widget.CardView
+        style="@style/MaterialCardView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="4dp"
-        app:cardBackgroundColor="@color/about_section_card_background_color"
-        app:cardCornerRadius="@dimen/cardview_border_radius"
-        app:cardElevation="1dp">
+        android:layout_margin="4dp">
 
         <LinearLayout
             android:id="@+id/section_layout"

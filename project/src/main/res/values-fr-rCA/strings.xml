@@ -13,7 +13,7 @@
     <!-- Hotels search form default text for number of guests -->
     <string name="hotel_search_guest_default_text">1 personne</string>
     <!-- Hotel calendar tooltip bottom line after two dates are selected E.g. Drag to Modify -->
-    <string name="hotel_calendar_bottom_drag_to_modify">Glisser pour modifier</string>
+    <string name="calendar_drag_to_modify">Glisser pour modifier</string>
 
     <!-- Hotels Reviews Strings -->
     <!-- Hotels summary rating template-->
@@ -64,7 +64,7 @@
     <!-- Slide to reserve -->
     <string name="cars_slider_text">Glisser pour réserver</string>
     <!-- Text for checkout toolbar-->
-    <string name="cars_checkout_text">Sortie</string>
+    <string name="checkout_text">Sortie</string>
     <!-- Text for error toolbar-->
     <string name="cars_dupe_trip_text">Reproduire le voyage</string>
     <!-- Text for error toolbar-->
@@ -652,7 +652,7 @@
     <!-- Offers show more string -->
     <string name="lx_show_more_offers">Afficher plus</string>
     <!-- Text for traveler details toolbar-->
-    <string name="lx_traveler_details_text">Détails sur le voyageur</string>
+    <string name="traveler_details_text">Détails sur le voyageur</string>
     <!-- Text for enter traveler details-->
     <string name="lx_traveler_enter_details_text">Entrer les détails du voyageur</string>
     <!-- Text for lx sort and filter-->
@@ -1771,8 +1771,6 @@
     <string name="flight_details_no_plane_info_TEMPLATE">&lt;b&gt;%1$s&lt;/b&gt; – %2$s (%3$s)</string>
     <!-- Label for "coach" cabin code -->
     <string name="cabin_code_coach">Économie</string>
-    <!-- Label for "coach" cabin code -->
-    <string name="flight_class_selection">Touriste/Économie</string>
     <!-- Label for "premium coach" cabin code -->
     <string name="cabin_code_premium_coach">Économie supérieure</string>
     <!-- Label for "business" cabin code -->
@@ -2142,6 +2140,11 @@
     <!-- save -->
     <string name="save">Enregistrer</string>
 
+    <!-- Enter traveler details prompt -->
+    <string name="checkout_enter_traveler_details">Détails du voyageur</string>
+    <string name="checkout_enter_traveler_details_line2">Entrez vos renseignements</string>
+    <string name="checkout_more_travelers_TEMPLATE">+ {travelercount} autres voyageurs</string>
+    <string name="checkout_edit_traveler_TEMPLATE">Modifier le voyageur {travelernumber}</string>
     <!-- Save traveler dialog -->
     <!-- save traveler -->
     <string name="save_traveler">Enregistrer le voyageur</string>
@@ -2414,8 +2417,6 @@
     <string name="pick_new_hotel">Choisir un nouvel hôtel</string>
     <!-- Text for hotel error unknown -->
     <string name="error_hotel_unhandled">Désolés, nous ne pouvons pas traiter votre commande en ce moment. Veuillez réessayer.</string>
-    <!-- Text for hotel error toolbar duplicate trip-->
-    <string name="hotel_duplicate_trip_text">Reproduire le voyage</string>
     <!-- Text for hotel error toolbar payment failed-->
     <string name="hotel_payment_failed_text">Échec de paiement</string>
     <!-- Text for error toolbar session expired-->
@@ -2662,8 +2663,6 @@
     <string name="per_night">/nuit</string>
     <!-- The label for abbreviated price per night - "$120/nt", for example -->
     <string name="per_nt">/nt</string>
-    <!-- The label for abbreviated price per night - "$120/nt", for example -->
-    <string name="per_nt_TEMPLATE">{price}/nt</string>
     <!-- Label shown when a hotel has no user ratings -->
     <string name="not_rated">Non classé</string>
     <!-- Label indicating the percent savings for booking this hotel.  %2.0f is the savings amount. -->
@@ -2725,8 +2724,6 @@
     <string name="minus_x_percent">-%2.0f%%</string>
     <!-- Recommended string shown in hotel details -->
     <string name="x_percent_guests_recommend">%2.0f%% de clients recommandent cet hôtel.</string>
-    <!-- new material Hotel results cell guest rating -->
-    <string name="customer_rating_percent_Template">{rating}{percent}</string>
     <!-- new material Hotel results cell guest recommend-->
     <string name="hotel_guest_recommend">sur 5 – évaluation de client</string>
     <!-- Hotels V2 AB test: hotel reviews superlative suffixes -->
@@ -2740,8 +2737,6 @@
     <string name="hotel_discount_percent_Template">{discount} %</string>
 
     <!-- Amenity strings -->
-    <!-- Label to show amenities -->
-    <string name="AmenityTitle">Commodités</string>
     <!-- Text that indicates no amenities at this property -->
     <string name="AmenityNone">Aucune commodité offerte</string>
     <!-- Business center amenity -->
@@ -2960,8 +2955,6 @@
     <string name="view_room_button_text">Afficher la chambre</string>
     <!-- Book Room button text; verb; as in book a hotel room -->
     <string name="book_room_button_text">Réserver</string>
-    <!-- Share via when user is shareing hotel listing -->
-    <string name="share_via">Partager sur</string>
     <!-- Renovation Notice -->
     <string name="renovation_notice">Avis de rénovation</string>
     <!-- This property is undergoing renovations -->
@@ -3057,8 +3050,6 @@
     <string name="apply">Appliquer</string>
 
     <!-- Coupon dialog -->
-    <!-- Saved coupon title -->
-    <string name="saved_coupon">Bons sauvegardés</string>
     <!-- Coupon Widget Title -->
     <string name="coupon_promo_title">Bons et promotions</string>
     <!-- Title on dialog imploring users to enter coupons -->
@@ -4020,12 +4011,17 @@
     <string name="package_breakdown_taxes_fees">Taxes et frais</string>
     <string name="package_breakdown_taxes_fees_included_TEMPLATE">Taxes et frais compris ({taxes})</string>
     <string name="package_breakdown_total_savings">Économies totales</string>
+    <string name="package_breakdown_total_due_today">Montant dû aujourd\&apos;hui</string>
 
     <!-- Shop with points -->
     <string name="regular_loyalty_applied_message">Points Expedia+ utilisés!</string>
     <string name="vip_loyalty_applied_message">Le double des points utilisés!</string>
     <!-- String to be appended with +VIP in header of room rates. -->
     <string name="vip_loyalty_applied_header_message">Le double des points Expedia+ ont été utilisés!</string>
+    <string name="swp_widget_points_value_TEMPLATE">Vous avez {points} points</string>
+    <string name="vip_loyalty_applied_map_message">&lt;b&gt;+VIP&lt;/b&gt; 2x plus de points utilisés!</string>
+    <string name="swp_off_widget_header">Payez à l\&apos;aide de points Expedia+</string>
+    <string name="swp_on_widget_header">Points Expedia+ utilisés</string>
 
     <!-- Message telling you on confirmation screen where you've booked a package to -->
     <string name="yay_going_somewhere">Vous allez à</string>

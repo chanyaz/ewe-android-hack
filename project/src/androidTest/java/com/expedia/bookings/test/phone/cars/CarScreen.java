@@ -131,7 +131,8 @@ public final class CarScreen {
 	}
 
 	public static ViewInteraction searchErrorToolbarBack() {
-		return onView(allOf(isAssignableFrom(ImageButton.class), isDescendantOfA(allOf(withId(R.id.error_toolbar), isDescendantOfA(withId(R.id.car_results_presenter))))));
+		return onView(allOf(isAssignableFrom(ImageButton.class), isDescendantOfA(
+			allOf(withId(R.id.error_toolbar), isDescendantOfA(withId(R.id.car_results_presenter))))));
 	}
 
 	public static ViewInteraction searchWidgetToolbarBack() {
@@ -195,6 +196,10 @@ public final class CarScreen {
 		Common.delay(1);
 	}
 
+	public static ViewInteraction searchButtonOnDetails() {
+		return onView(allOf(withId(R.id.menu_search), isDescendantOfA((withId(R.id.car_results_presenter)))));
+	}
+
 	// Checkout
 
 	public static ViewInteraction travelerWidget() {
@@ -235,6 +240,10 @@ public final class CarScreen {
 
 	public static ViewInteraction checkoutErrorButton() {
 		return onView(allOf(isDescendantOfA(withId(R.id.checkout_error_widget)), withId(R.id.error_action_button)));
+	}
+
+	public static ViewInteraction acceptTermsWidget() {
+		return onView(withId(R.id.layout_confirm_tos));
 	}
 
 }

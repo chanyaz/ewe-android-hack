@@ -1,8 +1,5 @@
 package com.expedia.bookings.presenter.lx;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-
 import org.joda.time.LocalDate;
 
 import android.app.Activity;
@@ -34,7 +31,6 @@ import com.expedia.bookings.data.lx.SearchType;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.presenter.BaseSearchPresenter;
 import com.expedia.bookings.presenter.Presenter;
-import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.AnimUtils;
 import com.expedia.bookings.utils.ArrowXDrawableUtil;
 import com.expedia.bookings.utils.DateUtils;
@@ -53,6 +49,8 @@ import com.squareup.otto.Subscribe;
 import butterknife.InjectView;
 import butterknife.OnCheckedChanged;
 import butterknife.OnClick;
+import java.util.ArrayList;
+import java.util.Iterator;
 
 public class LXSearchParamsPresenter extends Presenter
 	implements EditText.OnEditorActionListener, CalendarPicker.DateSelectionChangedListener {
@@ -389,9 +387,6 @@ public class LXSearchParamsPresenter extends Presenter
 
 	@Subscribe
 	public void onShowSearchWidget(Events.LXShowSearchWidget event) {
-		// Search Box Omniture Tracking on load of search param screen.
-		OmnitureTracking.trackAppLXSearchBox();
-
 		show(new LXParamsDefault());
 		if (!Strings.isEmpty(location.getText())) {
 			show(new LXParamsCalendar());

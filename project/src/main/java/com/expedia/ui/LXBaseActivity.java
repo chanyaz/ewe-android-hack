@@ -38,6 +38,7 @@ public class LXBaseActivity extends AbstractAppCompatActivity {
 	private Subscription currentLocationSuggestionSubscription;
 
 	public static final String EXTRA_IS_GROUND_TRANSPORT = "IS_GROUND_TRANSPORT";
+	private boolean isGroundTransport;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -45,7 +46,7 @@ public class LXBaseActivity extends AbstractAppCompatActivity {
 		Ui.getApplication(this).defaultLXComponents();
 
 		Intent intent = getIntent();
-		boolean isGroundTransport = intent.getBooleanExtra(EXTRA_IS_GROUND_TRANSPORT, false);
+		isGroundTransport = intent.getBooleanExtra(EXTRA_IS_GROUND_TRANSPORT, false);
 		boolean isUserBucketedForTest = Db.getAbacusResponse()
 			.isUserBucketedForTest(AbacusUtils.EBAndroidAppLXCategoryABTest);
 		boolean isUserBucketedForRecommendationTest = Db.getAbacusResponse()
@@ -68,7 +69,7 @@ public class LXBaseActivity extends AbstractAppCompatActivity {
 		handleNavigationViaDeepLink();
 	}
 
-	private void triggerCurrentLocationSuggestions() {
+	private void triggerCurrentLocationSuggestions(boolean isGroundTransport) {
 		int permissionCheck = ContextCompat.checkSelfPermission(this,
 			Manifest.permission.ACCESS_FINE_LOCATION);
 
@@ -87,7 +88,8 @@ public class LXBaseActivity extends AbstractAppCompatActivity {
 
 		Observable<SuggestionV4> currentLocationSuggestionObservable =
 			Ui.getApplication(this).lxComponent().currentLocationSuggestionObservable();
-		currentLocationSuggestionObserver = new LXCurrentLocationSuggestionObserver(this, currentLocationSearchParams);
+		currentLocationSuggestionObserver = new LXCurrentLocationSuggestionObserver(this, currentLocationSearchParams,
+			isGroundTransport);
 		currentLocationSuggestionSubscription =
 			currentLocationSuggestionObservable.subscribe(currentLocationSuggestionObserver);
 	}
@@ -134,7 +136,7 @@ public class LXBaseActivity extends AbstractAppCompatActivity {
 					Events.post(new Events.LXNewSearchParamsAvailable(activityId, location, startDate, endDate));
 					return true;
 				}
-				triggerCurrentLocationSuggestions();
+				triggerCurrentLocationSuggestions(isGroundTransport);
 				return true;
 			}
 		});

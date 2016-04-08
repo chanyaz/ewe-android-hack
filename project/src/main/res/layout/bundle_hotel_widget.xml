@@ -21,14 +21,17 @@
             android:layout_height="match_parent"
             android:layout_gravity="center"
             android:orientation="horizontal"
-            android:padding="12dp">
+            android:paddingBottom="12dp"
+            android:paddingLeft="18dp"
+            android:paddingRight="12dp"
+            android:paddingTop="12dp">
 
             <ImageView
                 android:id="@+id/package_hotel_luggage_icon"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:layout_marginRight="5dp"
+                android:layout_marginRight="12dp"
                 android:src="@drawable/packages_hotel_icon" />
 
             <LinearLayout
@@ -36,7 +39,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_marginLeft="10dp"
+                android:layout_marginBottom="1dp"
                 android:layout_weight="1"
                 android:orientation="vertical">
 
@@ -48,7 +51,7 @@
                     android:singleLine="true" />
 
                 <com.expedia.bookings.widget.TextView
-                    android:id="@+id/hotels_room_guest_info_text"
+                    android:id="@+id/hotels_dates_guest_info_text"
                     style="@style/BundleOverviewWidgets.SecondaryText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -120,7 +123,7 @@
                     android:paddingBottom="8dp"
                     android:singleLine="true"
                     android:textSize="12sp"
-                    app:textStyle="medium" />
+                    app:textStyle="normal" />
 
                 <View
                     android:layout_width="match_parent"
@@ -134,7 +137,7 @@
                     android:paddingTop="8dp"
                     android:singleLine="true"
                     android:textSize="12sp"
-                    app:textStyle="medium" />
+                    app:textStyle="normal" />
 
                 <com.expedia.bookings.widget.TextView
                     android:id="@+id/hotel_city"
@@ -143,7 +146,7 @@
                     android:paddingBottom="8dp"
                     android:singleLine="true"
                     android:textSize="12sp"
-                    app:textStyle="medium" />
+                    app:textStyle="normal" />
 
                 <View
                     android:layout_width="match_parent"
@@ -166,7 +169,19 @@
                         android:drawablePadding="9dp"
                         android:singleLine="true"
                         android:textSize="12sp"
-                        app:textStyle="medium" />
+                        app:textStyle="normal"
+                        android:visibility="gone"/>
+
+                    <com.expedia.bookings.widget.TextView
+                        android:id="@+id/hotel_non_refundable"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:drawableLeft="@drawable/room_non_refundable"
+                        android:drawablePadding="9dp"
+                        android:singleLine="true"
+                        android:textSize="12sp"
+                        app:textStyle="normal"
+                        android:visibility="gone"/>
 
                     <com.expedia.bookings.widget.TextView
                         android:id="@+id/hotel_promo_text"
@@ -176,7 +191,7 @@
                         android:drawablePadding="9dp"
                         android:singleLine="true"
                         android:textSize="12sp"
-                        app:textStyle="medium" />
+                        app:textStyle="normal" />
                 </LinearLayout>
             </LinearLayout>
         </LinearLayout>

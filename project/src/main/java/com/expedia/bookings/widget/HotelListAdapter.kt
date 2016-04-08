@@ -22,7 +22,6 @@ import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.HotelMedia
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.hotels.Hotel
-import com.expedia.bookings.data.hotels.HotelRate
 import com.expedia.bookings.data.hotels.HotelSearchResponse
 import com.expedia.bookings.extension.shouldShowCircleForRatings
 import com.expedia.bookings.tracking.AdImpressionTracking
@@ -170,7 +169,7 @@ class HotelListAdapter(val hotelSelectedSubject: PublishSubject<Hotel>, val head
         super.onViewRecycled(holder)
     }
 
-    public inner class HotelViewHolder(root: ViewGroup, val width: Int) : RecyclerView.ViewHolder(root), View.OnClickListener {
+    inner class HotelViewHolder(root: ViewGroup, val width: Int) : RecyclerView.ViewHolder(root), View.OnClickListener {
 
         val PICASSO_TAG = "HOTEL_RESULTS_LIST"
         val DEFAULT_GRADIENT_POSITIONS = floatArrayOf(0f, .25f, .3f, 1f)
@@ -190,6 +189,8 @@ class HotelListAdapter(val hotelSelectedSubject: PublishSubject<Hotel>, val head
         var ratingBar: StarRatingBar by Delegates.notNull()
         val discountPercentage: TextView by root.bindView(R.id.discount_percentage)
         val hotelAmenityOrDistanceFromLocation: TextView by root.bindView(R.id.hotel_amenity_or_distance_from_location)
+        val unrealDealMessageContainer: LinearLayout by root.bindView(R.id.unreal_deal_container)
+        val unrealDealMessage: TextView by root.bindView(R.id.unreal_deal_message)
 
         val urgencyMessageContainer: LinearLayout by root.bindView (R.id.urgency_message_layout)
         val urgencyIcon: ImageView by root.bindView(R.id.urgency_icon)
@@ -199,6 +200,7 @@ class HotelListAdapter(val hotelSelectedSubject: PublishSubject<Hotel>, val head
         val airAttachDiscount: TextView by root.bindView(R.id.air_attach_discount)
         val airAttachSVG: SVGView by root.bindView(R.id.air_attach_curve)
         val airAttachContainer: LinearLayout by root.bindView(R.id.air_attach_layout)
+        val airAttachSWPImage: ImageView by root.bindView(R.id.air_attach_swp_image)
         val ratingAmenityContainer: View by root.bindView(R.id.rating_amenity_container)
         val priceIncludesFlightsView: LinearLayout by root.bindView(R.id.price_includes_flights)
 
@@ -236,18 +238,21 @@ class HotelListAdapter(val hotelSelectedSubject: PublishSubject<Hotel>, val head
             viewModel.isHotelGuestRatingAvailableObservable.subscribeVisibility(guestRating)
             viewModel.isHotelGuestRatingAvailableObservable.subscribeVisibility(guestRatingRecommendedText)
             viewModel.isHotelGuestRatingAvailableObservable.map { !it }.subscribeVisibility(noGuestRating)
-            viewModel.hasDiscountObservable.subscribeVisibility(discountPercentage)
+            viewModel.showDiscountObservable.subscribeVisibility(discountPercentage)
             viewModel.distanceFromCurrentLocation.subscribeText(hotelAmenityOrDistanceFromLocation)
             viewModel.topAmenityVisibilityObservable.subscribeVisibility(topAmenityTitle)
             viewModel.topAmenityTitleObservable.subscribeText(topAmenityTitle)
             viewModel.urgencyIconObservable.subscribeImageDrawable(urgencyIcon)
             viewModel.urgencyIconVisibilityObservable.subscribeVisibility(urgencyIcon)
             viewModel.urgencyMessageVisibilityObservable.subscribeVisibility(urgencyMessageContainer)
+            viewModel.unrealDealMessageContainerVisibilityObservable.subscribeVisibility(unrealDealMessageContainer)
             viewModel.urgencyMessageBackgroundObservable.subscribeBackgroundColor(urgencyMessageContainer)
             viewModel.urgencyMessageBoxObservable.subscribeText(urgencyMessageBox)
+            viewModel.unrealDealMessageObservable.subscribeText(unrealDealMessage)
             viewModel.vipMessageVisibilityObservable.subscribeVisibility(vipMessage)
             viewModel.vipLoyaltyMessageVisibilityObservable.subscribeVisibility(vipLoyaltyMessage)
-            viewModel.airAttachVisibilityObservable.subscribeVisibility(airAttachContainer)
+            viewModel.airAttachWithDiscountLabelVisibilityObservable.subscribeVisibility(airAttachContainer)
+            viewModel.airAttachIconWithoutDiscountLabelVisibility.subscribeVisibility(airAttachSWPImage)
             viewModel.hotelDiscountPercentageObservable.subscribeText(airAttachDiscount)
             viewModel.ratingAmenityContainerVisibilityObservable.subscribeVisibility(ratingAmenityContainer)
 

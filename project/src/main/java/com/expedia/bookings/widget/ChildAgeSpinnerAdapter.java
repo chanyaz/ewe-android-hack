@@ -2,6 +2,7 @@ package com.expedia.bookings.widget;
 
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
+import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,14 +13,13 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.utils.GuestsPickerUtils;
 import com.expedia.bookings.utils.StrUtils;
 
-
 public class ChildAgeSpinnerAdapter extends BaseAdapter {
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
 		View v = createViewFromResource(position, convertView, parent, R.layout.child_spinner_item);
 		TextView textView = (TextView) v;
-		Drawable icon = parent.getContext().getResources().getDrawable(R.drawable.traveler).mutate();
-		icon.setColorFilter(parent.getContext().getResources().getColor(R.color.cars_actionbar_text_color), PorterDuff.Mode.SRC_IN);
+		Drawable icon = ContextCompat.getDrawable(parent.getContext(), R.drawable.search_form_traveler_picker_person).mutate();
+		icon.setColorFilter(ContextCompat.getColor(parent.getContext(), R.color.search_dialog_gray), PorterDuff.Mode.SRC_IN);
 		textView.setCompoundDrawablesRelativeWithIntrinsicBounds(icon, null, null, null);
 		return v;
 	}

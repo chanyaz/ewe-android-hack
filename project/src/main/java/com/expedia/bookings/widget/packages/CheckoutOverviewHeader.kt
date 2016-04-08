@@ -20,6 +20,10 @@ import com.expedia.bookings.utils.ColorBuilder
 import com.expedia.bookings.utils.DateFormatUtils
 import com.expedia.bookings.utils.Images
 import com.expedia.bookings.utils.bindView
+import com.expedia.util.notNullAndObservable
+import com.expedia.util.subscribeText
+import com.expedia.vm.BaseCheckoutOverviewViewModel
+import com.expedia.vm.PackageCheckoutOverviewViewModel
 import com.squareup.phrase.Phrase
 import com.squareup.picasso.Picasso
 
@@ -34,21 +38,18 @@ class CheckoutOverviewHeader(context: Context, attrs: AttributeSet?) : LinearLay
         orientation = VERTICAL
     }
 
-    fun update(hotel: HotelCreateTripResponse.HotelProductResponse, imageView: ImageView, size: Int) {
-        checkoutHeaderImage = imageView
-        destinationText.text = Phrase.from(context, R.string.hotel_city_country_TEMPLATE)
-                .put("city", hotel.hotelCity)
-                .put("country", hotel.hotelStateProvince ?: Db.getPackageParams().destination.hierarchyInfo?.country?.name)
-                .format()
-        checkInOutDates.text = DateFormatUtils.formatPackageDateRange(context, hotel.checkInDate, hotel.checkOutDate)
-        var numTravelers = Db.getPackageParams().guests()
-        travelers.text = resources.getQuantityString(R.plurals.number_of_travelers_TEMPLATE, numTravelers, numTravelers);
-        PicassoHelper.Builder(context)
-                .setPlaceholder(R.drawable.room_fallback)
-                .setError(R.drawable.room_fallback)
-                .setTarget(picassoTarget)
-                .build()
-                .load(HotelMedia(Images.getMediaHost() + hotel.largeThumbnailUrl).getBestUrls(size / 2))
+    var viewmodel: BaseCheckoutOverviewViewModel by notNullAndObservable { vm ->
+        vm.cityTitle.subscribeText(destinationText)
+        vm.datesTitle.subscribeText(checkInOutDates)
+        vm.travelersTitle.subscribeText(travelers)
+        vm.url.subscribe { urls ->
+            PicassoHelper.Builder(context)
+                    .setPlaceholder(R.drawable.room_fallback)
+                    .setError(R.drawable.room_fallback)
+                    .setTarget(picassoTarget)
+                    .build()
+                    .load(urls)
+        }
     }
 
     val picassoTarget = object : PicassoTarget() {

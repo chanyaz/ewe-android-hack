@@ -3,13 +3,14 @@ package com.expedia.bookings.test.phone.packages;
 import java.util.concurrent.TimeUnit;
 
 import org.hamcrest.Matcher;
-import org.hamcrest.Matchers;
+import org.hamcrest.core.AllOf;
 import org.joda.time.LocalDate;
 
+import android.support.test.espresso.Espresso;
 import android.support.test.espresso.ViewInteraction;
+import android.support.test.espresso.contrib.PickerActions;
 import android.support.test.espresso.contrib.RecyclerViewActions;
 import android.view.View;
-
 import com.expedia.bookings.R;
 import com.expedia.bookings.test.espresso.Common;
 import com.expedia.bookings.test.espresso.SpoonScreenshotUtils;
@@ -18,16 +19,19 @@ import com.expedia.bookings.test.espresso.ViewActions;
 import com.expedia.bookings.test.phone.pagemodels.common.BillingAddressScreen;
 import com.expedia.bookings.test.phone.pagemodels.common.CardInfoScreen;
 import com.expedia.bookings.test.phone.pagemodels.common.CheckoutViewModel;
+import com.expedia.bookings.utils.DateUtils;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.action.ViewActions.scrollTo;
 import static android.support.test.espresso.action.ViewActions.typeText;
+import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.RootMatchers.withDecorView;
 import static android.support.test.espresso.matcher.ViewMatchers.hasDescendant;
-import static android.support.test.espresso.matcher.ViewMatchers.hasSibling;
 import static android.support.test.espresso.matcher.ViewMatchers.isDescendantOfA;
+import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
+import static android.support.test.espresso.matcher.ViewMatchers.withParent;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static com.expedia.bookings.test.espresso.ViewActions.waitForViewToDisplay;
 import static org.hamcrest.Matchers.allOf;
@@ -37,15 +41,20 @@ import static org.hamcrest.core.Is.is;
 public class PackageScreen {
 
 	public static ViewInteraction calendar() {
-		return onView(withId(R.id.calendar));
+		return onView(withId(R.id.calendar))
+			.inRoot(withDecorView(not(is(SpoonScreenshotUtils.getCurrentActivity().getWindow().getDecorView()))));
+	}
+
+	public static ViewInteraction calendarCard() {
+		return onView(withId(R.id.calendar_card));
 	}
 
 	public static ViewInteraction selectDateButton() {
-		return onView(withId(R.id.select_date));
+		return onView(allOf(withId(R.id.input_label), withParent(withId(R.id.calendar_card))));
 	}
 
 	public static ViewInteraction selectGuestsButton() {
-		return onView(withId(R.id.select_traveler));
+		return onView(withId(R.id.traveler_card));
 	}
 
 	public static void setGuests(int adults, int children) {
@@ -57,6 +66,7 @@ public class PackageScreen {
 		for (int i = 0; i < children; i++) {
 			incrementChildrenButton();
 		}
+		searchAlertDialogDone().perform(click());
 	}
 
 	public static void incrementChildrenButton() {
@@ -68,21 +78,29 @@ public class PackageScreen {
 	}
 
 	public static ViewInteraction destination() {
-		return onView(allOf(isDescendantOfA(withId(R.id.flying_from)), withId(R.id.location_edit_text)));
+		return onView(withId(R.id.destination_card));
 	}
 
 	public static ViewInteraction arrival() {
-		return onView(allOf(isDescendantOfA(withId(R.id.flying_to)), withId(R.id.location_edit_text)));
+		return onView(withId(R.id.arrival_card));
+	}
+
+	public static ViewInteraction searchEditText() {
+		return onView(withId(android.support.v7.appcompat.R.id.search_src_text));
 	}
 
 	public static ViewInteraction suggestionList() {
-		return onView(withId(R.id.drop_down_list)).inRoot(withDecorView(
-			not(Matchers.is(SpoonScreenshotUtils.getCurrentActivity(
-			).getWindow().getDecorView()))));
+		return onView(withId(R.id.suggestion_list));
 	}
 
 	public static void selectDates(LocalDate start, LocalDate end) {
+		calendarCard().perform(click());
 		calendar().perform(TabletViewActions.clickDates(start, end));
+		searchAlertDialogDone().perform(click());
+	}
+
+	public static ViewInteraction searchAlertDialogDone() {
+		return onView(withId(android.R.id.button1));
 	}
 
 	public static void selectLocation(String hotel) throws Throwable {
@@ -94,8 +112,7 @@ public class PackageScreen {
 	}
 
 	public static ViewInteraction searchButton() {
-		onView(withId(R.id.search_container)).perform(ViewActions.waitForViewToDisplay());
-		return onView(allOf(withId(R.id.search_btn), isDescendantOfA(hasSibling(withId(R.id.search_container)))));
+		return onView(withId(R.id.search_button_v2));
 	}
 
 	public static ViewInteraction errorDialog(String text) {
@@ -139,8 +156,8 @@ public class PackageScreen {
 		return onView(withId(R.id.package_bundle_hotel_widget));
 	}
 
-	public static ViewInteraction hotelGuestRoomInfo() {
-		return onView(withId(R.id.hotels_room_guest_info_text));
+	public static ViewInteraction hotelDatesRoomInfo() {
+		return onView(withId(R.id.hotels_dates_guest_info_text));
 	}
 
 	public static ViewInteraction outboundFlightCardInfo() {
@@ -212,6 +229,10 @@ public class PackageScreen {
 		return onView(withId(R.id.list_view));
 	}
 
+	public static ViewInteraction flightFilterView() {
+		return onView(withId(R.id.filter_container));
+	}
+
 	public static ViewInteraction selectFlight(int index) {
 		flightList().perform(waitForViewToDisplay());
 		int adjustPosition = 3;
@@ -236,7 +257,7 @@ public class PackageScreen {
 	}
 
 	public static ViewInteraction travelerInfo() {
-		return onView(withId(R.id.travelers_button));
+		return onView(withId(R.id.traveler_default_state));
 	}
 
 	public static ViewInteraction itin() {
@@ -252,56 +273,53 @@ public class PackageScreen {
 	}
 
 	public static void enterTravelerInfo() {
-		Common.delay(2);
 		travelerInfo().perform(scrollTo(), click());
-		Common.delay(1);
 		enterFirstName("FiveStar");
 		enterLastName("Bear");
-		Common.delay(1);
 		// TODO fix after adding email
 		//CheckoutViewModel.enterEmail("noah@mobiata.com");
 		//Common.closeSoftKeyboard(CheckoutViewModel.email());
-		Common.delay(1);
 		enterPhoneNumber("7732025862");
-		selectBirthDate();
+		selectBirthDate(9, 6, 1989);
 
 		clickTravelerAdvanced();
-		Common.delay(1);
 		enterRedressNumber("1234567");
 
 		clickTravelerDone();
-		Common.delay(2);
 	}
 
 	// TODO Probably want to move these methods somewhere else.
-	private static void enterFirstName(String name) {
+	public static void enterFirstName(String name) {
 		onView(withId(R.id.first_name_input)).perform(typeText(name));
 	}
 
-	private static void enterLastName(String name) {
+	public static void enterLastName(String name) {
 		onView(withId(R.id.last_name_input)).perform(typeText(name));
 	}
 
-	private static void enterRedressNumber(String redressNumber) {
+	public static void enterRedressNumber(String redressNumber) {
 		onView(withId(R.id.redress_number)).perform(typeText(redressNumber));
 	}
 
-	private static void enterPhoneNumber(String phoneNumber) {
+	public static void enterPhoneNumber(String phoneNumber) {
 		onView(withId(R.id.edit_phone_number)).perform(typeText(phoneNumber));
 	}
 
-	private static void selectBirthDate() {
+	public static void selectBirthDate(int year, int month, int day) {
 		onView(withId(R.id.edit_birth_date_text_btn)).perform(click());
-		Common.delay(1);
+		Espresso.closeSoftKeyboard();
+		onView(withId(R.id.datePicker)).perform(ViewActions.waitForViewToDisplay());
+		onView(withId(R.id.datePicker)).perform(PickerActions.setDate(year, month, day));
+		onView(withId(R.id.datePickerDoneButton)).perform(ViewActions.waitForViewToDisplay());
 		onView(withId(R.id.datePickerDoneButton)).perform(click());
-		Common.delay(1);
 	}
 
-	private static void clickTravelerDone() {
-		onView(withId(R.id.new_traveler_done_button)).perform(click());
+	public static void clickTravelerDone() {
+		onView(withId(R.id.menu_done)).perform(ViewActions.waitForViewToDisplay());
+		onView(withId(R.id.menu_done)).perform(click());
 	}
 
-	private static void clickTravelerAdvanced() {
+	public static void clickTravelerAdvanced() {
 		onView(withId(R.id.advanced_options_button)).perform(click());
 	}
 
@@ -331,10 +349,7 @@ public class PackageScreen {
 	}
 
 	private static void search(int adults, int children) throws Throwable {
-		PackageScreen.destination().perform(typeText("SFO"));
-		PackageScreen.selectLocation("San Francisco, CA (SFO-San Francisco Intl.)");
-		PackageScreen.arrival().perform(typeText("DTW"));
-		PackageScreen.selectLocation("Detroit, MI (DTW-Detroit Metropolitan Wayne County)");
+		selectDepartureAndArrival();
 		LocalDate startDate = LocalDate.now().plusDays(3);
 		LocalDate endDate = LocalDate.now().plusDays(8);
 		PackageScreen.selectDates(startDate, endDate);
@@ -342,4 +357,26 @@ public class PackageScreen {
 		PackageScreen.setGuests(adults, children);
 		PackageScreen.searchButton().perform(click());
 	}
+
+	public static void selectDepartureAndArrival() throws Throwable {
+		destination().perform(click());
+		searchEditText().perform(typeText("SFO"));
+		selectLocation("San Francisco, CA (SFO-San Francisco Intl.)");
+		arrival().perform(click());
+		searchEditText().perform(typeText("DTW"));
+		selectLocation("Detroit, MI (DTW-Detroit Metropolitan Wayne County)");
+	}
+
+	public static String getDatesGuestInfoText(LocalDate startDate, LocalDate endDate) {
+		StringBuilder sb = new StringBuilder(DateUtils.localDateToMMMd(startDate));
+		sb.append(" - ").append(DateUtils.localDateToMMMd(endDate));
+		sb.append(", 1 Guest");
+		return sb.toString();
+	}
+	public static void assertErrorScreen(String buttonText, String errorText) {
+		onView(AllOf.allOf(withId(R.id.error_action_button), withText(buttonText))).check(matches(isDisplayed()));
+		onView(AllOf.allOf(withId(R.id.error_text), withText(errorText))).check(matches(isDisplayed()));
+		onView(withId(R.id.error_image)).check(matches(isDisplayed()));
+	}
+
 }

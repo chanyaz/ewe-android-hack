@@ -69,11 +69,5 @@ class CarApiRequestMatcher() {
         fun isCheckoutRequest(urlPath: String): Boolean {
             return doesItMatch("^/m/api/cars/trip/checkout.*$", urlPath)
         }
-
-        fun doesItMatch(regExp: String, str: String): Boolean {
-            val pattern = Pattern.compile(regExp)
-            val matcher = pattern.matcher(str)
-            return matcher.matches()
-        }
     }
 }

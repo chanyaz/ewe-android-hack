@@ -24,6 +24,7 @@
             <enum name="condensed_light" value="512" />
             <enum name="expedia_light" value="1024" />
         </attr>
+        <attr name="drawableTintColor" format="reference"/>
     </declare-styleable>
 
     <declare-styleable name="Gallery">
@@ -319,5 +320,16 @@
         <attr name="android:cursorVisible"/>
         <attr name="android:longClickable"/>
         <attr name="android:maxLength"/>
+    </declare-styleable>
+
+    <declare-styleable name="ShopWithPointsWidget">
+        <attr name="show_in_card_layout" format="boolean" />
+    </declare-styleable>
+
+    <declare-styleable name="rsb__RangeSeekBar">
+        <attr format="dimension" name="rsb__barHeight"/>
+        <attr format="color" name="rsb__defaultColor"/>
+        <attr format="color" name="rsb__activeColor"/>
+        <attr format="reference" name="rsb__thumb"/>
     </declare-styleable>
 </resources>

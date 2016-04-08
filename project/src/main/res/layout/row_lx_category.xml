@@ -1,15 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v7.widget.CardView
-    android:id="@+id/results_card_view"
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/results_card_view"
+    style="@style/MaterialCardView"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginLeft="@dimen/car_search_list_image_container_margin"
-    android:layout_marginRight="@dimen/car_search_list_image_container_margin"
-    android:foreground="?android:attr/selectableItemBackground"
-    app:cardCornerRadius="@dimen/cardview_border_radius"
-    app:cardElevation="1dp">
+    android:layout_marginLeft="@dimen/card_view_container_margin"
+    android:layout_marginRight="@dimen/card_view_container_margin"
+    android:foreground="?android:attr/selectableItemBackground">
 
     <FrameLayout
         android:layout_width="match_parent"
@@ -44,10 +42,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="top|right"
-            android:gravity="center"
             android:layout_marginRight="12dp"
             android:layout_marginTop="9dp"
             android:background="@drawable/lx_category_count_background_more_than_one_digit"
+            android:gravity="center"
             android:paddingBottom="2dp"
             android:paddingLeft="5dp"
             android:paddingRight="5dp"

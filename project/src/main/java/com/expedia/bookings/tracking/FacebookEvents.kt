@@ -527,7 +527,7 @@ class FacebookEvents() {
         parameters.putString("Checkin_Date", dtf.print(searchParams.checkIn))
         parameters.putString("Checkout_Date", dtf.print(searchParams.checkOut))
         parameters.putInt("Booking_Window", getBookingWindow(searchParams.checkIn))
-        parameters.putInt("Num_People", searchParams.guests())
+        parameters.putInt("Num_People", searchParams.guests)
         parameters.putInt("Number_Children", searchParams.children.size)
         parameters.putInt("Number_Nights", numOfNight)
         if (facebookContext != null) {

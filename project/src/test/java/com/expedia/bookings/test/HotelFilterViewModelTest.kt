@@ -99,7 +99,7 @@ class HotelFilterViewModelTest {
 
         str = ""
         vm.filterHotelNameObserver.onNext(str)
-        assertEquals(2, vm.filteredResponse.hotelList.size)
+        assertEquals(3, vm.filteredResponse.hotelList.size)
 
         vm.userFilterChoices.hotelStarRating.three = false
         vm.threeStarFilterObserver.onNext(Unit)
@@ -107,6 +107,10 @@ class HotelFilterViewModelTest {
 
         vm.clearObservable.onNext(Unit)
         vm.vipFilteredObserver.onNext(true)
+        assertEquals(1, vm.filteredResponse.hotelList.size)
+
+        vm.clearObservable.onNext(Unit)
+        vm.priceRangeChangedObserver.onNext(Pair(0, 10))
         assertEquals(1, vm.filteredResponse.hotelList.size)
     }
 
@@ -274,7 +278,7 @@ class HotelFilterViewModelTest {
         hotel2.localizedName = "Double Tree"
         hotel2.lowRateInfo = HotelRate()
         hotel2.lowRateInfo.total = 200.0f
-        hotel1.lowRateInfo.priceToShowUsers = 200.0f
+        hotel2.lowRateInfo.priceToShowUsers = 200.0f
         hotel2.lowRateInfo.currencyCode = "USD"
         hotel2.lowRateInfo.discountPercent = -15f
         hotel2.hotelGuestRating = 5f
@@ -289,8 +293,25 @@ class HotelFilterViewModelTest {
         amenities2.add(amenity2)
         hotel2.amenities = amenities2
 
+        val hotel3 = Hotel()
+        hotel3.sortIndex = "3"
+        hotel3.localizedName = "Marriott"
+        hotel3.lowRateInfo = HotelRate()
+        hotel3.lowRateInfo.total = 300.0f
+        hotel3.lowRateInfo.priceToShowUsers = -300.0f
+        hotel3.lowRateInfo.currencyCode = "USD"
+        hotel3.lowRateInfo.discountPercent = -10f
+        hotel3.hotelGuestRating = 2.5f
+        hotel3.proximityDistanceInMiles = 1.2
+        hotel3.locationDescription = "Market St"
+        hotel3.hotelStarRating = 2f
+        hotel3.isVipAccess = false
+        hotel3.rateCurrencyCode = "USD"
+
+
         response.hotelList.add(hotel1)
         response.hotelList.add(hotel2)
+        response.hotelList.add(hotel3)
 
         return response
     }

@@ -25,8 +25,10 @@ import com.expedia.bookings.dagger.DaggerCarComponent;
 import com.expedia.bookings.dagger.DaggerHotelComponent;
 import com.expedia.bookings.dagger.DaggerLXComponent;
 import com.expedia.bookings.dagger.DaggerLaunchComponent;
+import com.expedia.bookings.dagger.DaggerFlightComponent;
 import com.expedia.bookings.dagger.DaggerPackageComponent;
 import com.expedia.bookings.dagger.DaggerRailComponent;
+import com.expedia.bookings.dagger.FlightComponent;
 import com.expedia.bookings.dagger.HotelComponent;
 import com.expedia.bookings.dagger.LXComponent;
 import com.expedia.bookings.dagger.LaunchComponent;
@@ -121,9 +123,14 @@ public class ExpediaBookingApp extends MultiDexApplication implements UncaughtEx
 
 	@Override
 	public void onCreate() {
-		AbacusHelperUtils.generateAbacusGuid(this);
-
 		TimingLogger startupTimer = new TimingLogger("ExpediaBookings", "startUp");
+
+		// We want this first so that we set this as the Provider before anything tries to use Joda time
+		JodaTimeAndroid.init(this);
+		startupTimer.addSplit("Joda TZ Provider Init");
+
+		AbacusHelperUtils.generateAbacusGuid(this);
+		startupTimer.addSplit("Generate Abacus GUID");
 
 		super.onCreate();
 		startupTimer.addSplit("super.onCreate()");
@@ -166,11 +173,6 @@ public class ExpediaBookingApp extends MultiDexApplication implements UncaughtEx
 		Log.configureLogging("ExpediaBookings", isLogEnablerInstalled);
 
 		startupTimer.addSplit("Logger Init");
-
-		// We want this fairly high up there so that we set this as
-		// the Provider before anything tries to use Joda time
-		JodaTimeAndroid.init(this);
-		startupTimer.addSplit("Joda TZ Provider Init");
 
 		try {
 			if (BuildConfig.DEBUG) {
@@ -361,6 +363,7 @@ public class ExpediaBookingApp extends MultiDexApplication implements UncaughtEx
 	private HotelComponent mHotelComponent;
 	private RailComponent mRailComponent;
 	private PackageComponent mPackageComponent;
+	private FlightComponent mFlightComponent;
 	private LaunchComponent mLaunchComponent;
 
 	private LXComponent mLXComponent;
@@ -424,6 +427,20 @@ public class ExpediaBookingApp extends MultiDexApplication implements UncaughtEx
 
 	public PackageComponent packageComponent() {
 		return mPackageComponent;
+	}
+
+	public void setFlightComponent(FlightComponent flightComponent) {
+		mFlightComponent = flightComponent;
+	}
+
+	public FlightComponent flightComponent() {
+		return mFlightComponent;
+	}
+
+	public void defaultFlightComponents() {
+		setFlightComponent(DaggerFlightComponent.builder()
+			.appComponent(mAppComponent)
+			.build());
 	}
 
 	public void defaultLXComponents() {

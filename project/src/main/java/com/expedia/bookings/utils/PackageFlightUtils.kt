@@ -2,20 +2,11 @@ package com.expedia.bookings.utils
 
 import android.content.Context
 import com.expedia.bookings.R
-import com.expedia.bookings.data.packages.Airline
-import com.expedia.bookings.data.packages.FlightLeg
+import com.expedia.bookings.data.flights.Airline
+import com.expedia.bookings.data.flights.FlightLeg
 import com.squareup.phrase.Phrase
 
 object PackageFlightUtils {
-
-    @JvmStatic fun getAllAirports(flight: FlightLeg): String {
-        var airports : String = ""
-        for (segment in flight.flightSegments) {
-            airports += segment.departureAirportCode + " "
-        }
-        airports += flight.flightSegments.last().arrivalAirportCode
-        return airports
-    }
 
     @JvmStatic fun getFlightDurationStopString(context: Context, flight: FlightLeg): String {
         return context.resources.getString(R.string.flight_duration_description_template, getFlightDurationString(context, flight), getFlightStopString(context, flight))
@@ -82,5 +73,14 @@ object PackageFlightUtils {
             return airlines.subList(0, 1)
         }
         return airlines
+    }
+
+    @JvmStatic fun isFlightMerchant(flightLeg: FlightLeg): Boolean {
+        // https://confluence/display/Omniture/Products+String+and+Events#ProductsStringandEvents-Flights
+        when (flightLeg.flightFareTypeString.toUpperCase()) {
+            "M", "SN", "N", "WP", "WPNS", "W", "SM" -> return true
+            "C", "L", "CN", "PP", "P" -> return false
+        }
+        return false
     }
 }

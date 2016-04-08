@@ -4,7 +4,7 @@ import java.util.List;
 
 import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.ValidPayment;
-import com.expedia.bookings.data.cars.BaseApiResponse;
+import com.expedia.bookings.data.BaseApiResponse;
 
 public class LXCreateTripResponse extends BaseApiResponse {
 	public String itineraryNumber;

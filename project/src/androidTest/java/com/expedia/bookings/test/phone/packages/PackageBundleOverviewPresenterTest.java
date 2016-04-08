@@ -1,22 +1,20 @@
 package com.expedia.bookings.test.phone.packages;
 
+import android.support.test.espresso.matcher.ViewMatchers;
+import com.expedia.bookings.R;
+import com.expedia.bookings.test.espresso.Common;
+import com.expedia.bookings.test.espresso.PackageTestCase;
+import com.expedia.bookings.test.phone.hotels.HotelScreen;
 import org.hamcrest.CoreMatchers;
 import org.joda.time.LocalDate;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 
-import android.support.test.espresso.matcher.ViewMatchers;
-
-import com.expedia.bookings.R;
-import com.expedia.bookings.test.espresso.Common;
-import com.expedia.bookings.test.espresso.PackageTestCase;
-import com.expedia.bookings.test.phone.hotels.HotelScreen;
-
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
-import static android.support.test.espresso.action.ViewActions.typeText;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.hasDescendant;
+import static android.support.test.espresso.matcher.ViewMatchers.isCompletelyDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.isEnabled;
 import static android.support.test.espresso.matcher.ViewMatchers.withEffectiveVisibility;
@@ -68,7 +66,8 @@ public class PackageBundleOverviewPresenterTest extends PackageTestCase {
 		PackageScreen.hotelBundle().check(matches(hasDescendant(
 			allOf(isDisplayed(), withText("Package Happy Path")))));
 		PackageScreen.hotelBundle().check(matches(hasDescendant(
-			allOf(isDisplayed(), withText("1 Room, 1 Guest")))));
+			allOf(isDisplayed(), withText(
+				PackageScreen.getDatesGuestInfoText(LocalDate.now().plusDays(3), LocalDate.now().plusDays(8)))))));
 		PackageScreen.hotelDetailsIcon().check(matches(isEnabled()));
 
 		PackageScreen.outboundFlightInfo().check(matches(isEnabled()));
@@ -88,28 +87,25 @@ public class PackageBundleOverviewPresenterTest extends PackageTestCase {
 	}
 
 	public void testHotelBundleOverviewFlow() throws Throwable {
-		LocalDate startDate = LocalDate.now().plusDays(5);
-		LocalDate endDate = LocalDate.now().plusDays(10);
+		LocalDate startDate = LocalDate.now().plusDays(3);
+		LocalDate endDate = LocalDate.now().plusDays(8);
 		DateTimeFormatter dateFormatter = DateTimeFormat.forPattern("MMM d");
 		String formattedStartString = startDate.toString(dateFormatter);
 		String formattedEndString = endDate.toString(dateFormatter);
 
-		PackageScreen.destination().perform(typeText("SFO"));
-		PackageScreen.selectLocation("San Francisco, CA (SFO-San Francisco Intl.)");
-		PackageScreen.arrival().perform(typeText("DTW"));
-		PackageScreen.selectLocation("Detroit, MI (DTW-Detroit Metropolitan Wayne County)");
-		PackageScreen.selectDates(startDate, endDate);
-		PackageScreen.searchButton().perform(click());
+		PackageScreen.searchPackage();
 		PackageScreen.clickHotelBundle();
 
 		//Test strings and bundle state
 		PackageScreen.hotelPriceWidget().perform(waitForViewToDisplay());
 		PackageScreen.hotelPriceWidget().perform(click());
+		Common.delay(1);
 		PackageScreen.hotelPriceWidget().check(matches(hasDescendant(
 			allOf(isDisplayed(), withText("Trip to Detroit, MI")))));
 		PackageScreen.hotelInfo().check(matches(hasDescendant(
 			allOf(isDisplayed(), withText("Select hotel in Detroit")))));
-		PackageScreen.hotelGuestRoomInfo().check(matches(withText("1 Room, 1 Guest")));
+
+		PackageScreen.hotelDatesRoomInfo().check(matches(withText(PackageScreen.getDatesGuestInfoText(startDate, endDate))));
 		PackageScreen.outboundFlightInfo().check(matches(hasDescendant(
 			allOf(isDisplayed(), withText("Flight to (DTW) Detroit")))));
 
@@ -120,24 +116,31 @@ public class PackageBundleOverviewPresenterTest extends PackageTestCase {
 
 		//Test clicking on toolbar returns to results
 		PackageScreen.hotelPriceWidget().perform(click());
-		PackageScreen.hotelBundleWidget().check(matches(not(isDisplayed())));
+		Common.delay(1);
+		PackageScreen.hotelBundleWidget().check(matches(not(isCompletelyDisplayed())));
 
 		//Test clicking on hotel returns to results
 		PackageScreen.hotelPriceWidget().perform(click());
+		Common.delay(1);
 		PackageScreen.clickHotelBundle();
-		PackageScreen.hotelBundleWidget().check(matches(not(isDisplayed())));
+		PackageScreen.hotelBundleWidget().check(matches(not(isCompletelyDisplayed())));
 
 		//Test back returns to results
 		PackageScreen.hotelPriceWidget().perform(click());
+		Common.delay(1);
 		Common.pressBack();
-		PackageScreen.hotelBundleWidget().check(matches(not(isDisplayed())));
+		PackageScreen.hotelBundleWidget().check(matches(not(isCompletelyDisplayed())));
 	}
 
 	public void testHotelOverview() throws Throwable {
 		PackageScreen.searchPackage();
 		PackageScreen.hotelBundle().perform(click());
 		HotelScreen.selectHotel("Package Happy Path");
-		HotelScreen.selectRoom();
+
+		HotelScreen.clickRoom("happy_outbound_flight");
+		HotelScreen.clickAddRoom();
+
+		//HotelScreen.selectRoom();
 
 		//expand
 		PackageScreen.clickHotelBundle();

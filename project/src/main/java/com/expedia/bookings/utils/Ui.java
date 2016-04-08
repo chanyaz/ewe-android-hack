@@ -20,7 +20,6 @@ import android.text.style.ForegroundColorSpan;
 import android.text.style.StyleSpan;
 import android.util.TypedValue;
 import android.view.View;
-import android.view.View.MeasureSpec;
 import android.view.ViewGroup;
 import android.view.ViewStub;
 import android.view.ViewTreeObserver.OnGlobalLayoutListener;
@@ -35,15 +34,6 @@ import com.mobiata.android.util.AndroidUtils;
  * Adds compatibility library fragment support to Ui.
  */
 public class Ui extends com.mobiata.android.util.Ui {
-
-	@SuppressWarnings("unchecked")
-	public static <T extends View> T inflateViewStub(Activity activity, int id) {
-		ViewStub stub = findView(activity, id);
-		if (stub != null) {
-			return (T) stub.inflate();
-		}
-		return null;
-	}
 
 	@SuppressWarnings("unchecked")
 	public static <T extends View> T inflateViewStub(View view, int id) {
@@ -78,18 +68,13 @@ public class Ui extends com.mobiata.android.util.Ui {
 		return (T) fragment.getChildFragmentManager().findFragmentByTag(tag);
 	}
 
-	@SuppressWarnings("unchecked")
-	public static <T extends android.support.v4.app.Fragment> T findChildSupportFragment(
-		android.support.v4.app.Fragment fragment, int id) {
-		return (T) fragment.getChildFragmentManager().findFragmentById(id);
-	}
-
 	/**
 	 * Even more convenient method for adding a single Fragment.
 	 * <p/>
 	 * Should only be used if there is a single Fragment that is in android.R.id.content.
 	 */
-	public static <T extends Fragment> T findOrAddSupportFragment(FragmentActivity activity, Class<T> fragmentClass, String tag) {
+	public static <T extends Fragment> T findOrAddSupportFragment(FragmentActivity activity, Class<T> fragmentClass,
+		String tag) {
 		return findOrAddSupportFragment(activity, android.R.id.content, fragmentClass, tag);
 	}
 
@@ -103,7 +88,8 @@ public class Ui extends com.mobiata.android.util.Ui {
 	 * <p/>
 	 * Should only be used if there is a single Fragment that is in android.R.id.content.
 	 */
-	public static <T extends Fragment> T findOrAddSupportFragment(FragmentActivity activity, int containerViewId, Class<T> fragmentClass, String tag) {
+	public static <T extends Fragment> T findOrAddSupportFragment(FragmentActivity activity, int containerViewId,
+		Class<T> fragmentClass, String tag) {
 		T fragment = findSupportFragment(activity, tag);
 		if (fragment == null) {
 			try {
@@ -148,47 +134,6 @@ public class Ui extends com.mobiata.android.util.Ui {
 		}
 	}
 
-	public static int[] measureRatio(int widthMeasureSpec, int heightMeasureSpec, double aspectRatio) {
-		int widthMode = MeasureSpec.getMode(widthMeasureSpec);
-		int widthSize = widthMode == MeasureSpec.UNSPECIFIED ? Integer.MAX_VALUE : MeasureSpec
-			.getSize(widthMeasureSpec);
-		int heightMode = MeasureSpec.getMode(heightMeasureSpec);
-		int heightSize = heightMode == MeasureSpec.UNSPECIFIED ? Integer.MAX_VALUE : MeasureSpec
-			.getSize(heightMeasureSpec);
-
-		int measuredWidth;
-		int measuredHeight;
-
-		if (heightMode == MeasureSpec.EXACTLY && widthMode == MeasureSpec.EXACTLY) {
-			measuredWidth = widthSize;
-			measuredHeight = heightSize;
-
-		}
-		else if (heightMode == MeasureSpec.EXACTLY) {
-			measuredWidth = (int) Math.min(widthSize, heightSize * aspectRatio);
-			measuredHeight = (int) (measuredWidth / aspectRatio);
-
-		}
-		else if (widthMode == MeasureSpec.EXACTLY) {
-			measuredHeight = (int) Math.min(heightSize, widthSize / aspectRatio);
-			measuredWidth = (int) (measuredHeight * aspectRatio);
-
-		}
-		else {
-			if (widthSize > heightSize * aspectRatio) {
-				measuredHeight = heightSize;
-				measuredWidth = (int) (measuredHeight * aspectRatio);
-			}
-			else {
-				measuredWidth = widthSize;
-				measuredHeight = (int) (measuredWidth / aspectRatio);
-			}
-
-		}
-
-		return new int[] {measuredWidth, measuredHeight};
-	}
-
 	/**
 	 * Run code once, on the next layout pass of the given View. This implements the
 	 * OnGlobalLayoutListener without having to worry about too much boilerplate.
@@ -205,22 +150,11 @@ public class Ui extends com.mobiata.android.util.Ui {
 		});
 	}
 
-	/**
-	 * Run code once, on the next layout pass of the fragment's getView(). This implements
-	 * the OnGlobalLayoutListener without having to worry about too much boilerplate.
-	 *
-	 * @param Support  Fragment
-	 * @param Runnable
-	 */
-	public static void runOnNextLayout(Fragment fragment, Runnable runnable) {
-		runOnNextLayout(fragment.getView(), runnable);
-	}
-
 	//
 	// Be careful that the passed Context supports Theme information.
 	//
 	private static TypedArray obtainTypedArray(Context context, int attr) {
-		TypedArray a = context.obtainStyledAttributes(new int[] {attr});
+		TypedArray a = context.obtainStyledAttributes(new int[] { attr });
 		if (!a.hasValue(0)) {
 			throw new RuntimeException("Theme attribute not defined for attr=" + Integer.toHexString(attr));
 		}
@@ -249,19 +183,6 @@ public class Ui extends com.mobiata.android.util.Ui {
 		a.recycle();
 
 		return resID;
-	}
-
-	/**
-	 * Convenience method to replace otherwise clunky code. Returns the Y coordinate of the
-	 * absolute screen position of the passed view.
-	 *
-	 * @param view
-	 * @return
-	 */
-	public static int getScreenLocationY(View view) {
-		int[] location = new int[2];
-		view.getLocationOnScreen(location);
-		return location[1];
 	}
 
 	public static Point getScreenSize(Context context) {
@@ -318,14 +239,14 @@ public class Ui extends com.mobiata.android.util.Ui {
 	}
 
 	@TargetApi(Build.VERSION_CODES.KITKAT)
-	public static int getStatusBarHeight(Context ctx) {
+	public static int getStatusBarHeight(Context context) {
 		if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
 			return 0;
 		}
 		int result = 0;
-		int resourceId = ctx.getResources().getIdentifier("status_bar_height", "dimen", "android");
+		int resourceId = context.getResources().getIdentifier("status_bar_height", "dimen", "android");
 		if (resourceId > 0) {
-			result = ctx.getResources().getDimensionPixelSize(resourceId);
+			result = context.getResources().getDimensionPixelSize(resourceId);
 		}
 		return result;
 	}
@@ -357,29 +278,44 @@ public class Ui extends com.mobiata.android.util.Ui {
 	 * @param color     of status bar
 	 */
 
-	public static View setUpStatusBar(Context ctx, View toolbar,
+	public static View setUpStatusBar(Context context, View toolbar,
 		ViewGroup viewGroup, int color) {
-		View v = new View(ctx);
+		View v = new View(context);
 		ViewGroup.LayoutParams lp = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
 			ViewGroup.LayoutParams.WRAP_CONTENT);
-		int statusBarHeight = getStatusBarHeight(ctx);
+		int statusBarHeight = getStatusBarHeight(context);
 		lp.height = statusBarHeight;
 		v.setLayoutParams(lp);
 		v.setBackgroundColor(color);
 		if (toolbar != null) {
 			toolbar.setPadding(0, statusBarHeight, 0, 0);
 		}
-		int toolbarSize = getToolbarSize(ctx);
+		int toolbarSize = getToolbarSize(context);
 		if (viewGroup != null) {
-			viewGroup.setPadding(0, (int) toolbarSize + statusBarHeight, 0, 0);
+			viewGroup.setPadding(0, toolbarSize + statusBarHeight, 0, 0);
 		}
 		return v;
 	}
 
-	public static int getToolbarSize(Context ctx) {
+	// tweak logic to work when there's a toolbar + tabs
+	public static View setUpStatusBarWithTabs(Context context, ViewGroup viewGroup, int color) {
+		View v = new View(context);
+		ViewGroup.LayoutParams lp = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+			ViewGroup.LayoutParams.WRAP_CONTENT);
+		int statusBarHeight = getStatusBarHeight(context);
+		lp.height = statusBarHeight;
+		v.setLayoutParams(lp);
+		v.setBackgroundColor(color);
+		if (viewGroup != null) {
+			viewGroup.setPadding(0, statusBarHeight, 0, 0);
+		}
+		return v;
+	}
+
+	public static int getToolbarSize(Context context) {
 		TypedValue typedValue = new TypedValue();
 		int[] textSizeAttr = new int[] { android.R.attr.actionBarSize };
-		TypedArray a = ctx.obtainStyledAttributes(typedValue.data, textSizeAttr);
+		TypedArray a = context.obtainStyledAttributes(typedValue.data, textSizeAttr);
 		return (int) a.getDimension(0, 44);
 	}
 
@@ -406,5 +342,4 @@ public class Ui extends com.mobiata.android.util.Ui {
 			stringToSpan.setSpan(new StyleSpan(Typeface.BOLD), startSpan, endSpan, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 		}
 	}
-
 }

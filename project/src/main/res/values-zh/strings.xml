@@ -13,7 +13,7 @@
     <!-- Hotels search form default text for number of guests -->
     <string name="hotel_search_guest_default_text">1 位住客</string>
     <!-- Hotel calendar tooltip bottom line after two dates are selected E.g. Drag to Modify -->
-    <string name="hotel_calendar_bottom_drag_to_modify">拖动屏幕，可进行修改</string>
+    <string name="calendar_drag_to_modify">拖动屏幕，可进行修改</string>
 
     <!-- Hotels Reviews Strings -->
     <!-- Hotels summary rating template-->
@@ -64,7 +64,7 @@
     <!-- Slide to reserve -->
     <string name="cars_slider_text">滑动屏幕，开始预订</string>
     <!-- Text for checkout toolbar-->
-    <string name="cars_checkout_text">付款</string>
+    <string name="checkout_text">付款</string>
     <!-- Text for error toolbar-->
     <string name="cars_dupe_trip_text">重复行程</string>
     <!-- Text for error toolbar-->
@@ -652,7 +652,7 @@
     <!-- Offers show more string -->
     <string name="lx_show_more_offers">显示更多选择</string>
     <!-- Text for traveler details toolbar-->
-    <string name="lx_traveler_details_text">旅客详细信息</string>
+    <string name="traveler_details_text">旅客详细信息</string>
     <!-- Text for enter traveler details-->
     <string name="lx_traveler_enter_details_text">输入旅客信息</string>
     <!-- Text for lx sort and filter-->
@@ -1771,8 +1771,6 @@
     <string name="flight_details_no_plane_info_TEMPLATE">&lt;b&gt;%1$s&lt;/b&gt; – %2$s (%3$s)</string>
     <!-- Label for "coach" cabin code -->
     <string name="cabin_code_coach">经济型</string>
-    <!-- Label for "coach" cabin code -->
-    <string name="flight_class_selection">经济舱</string>
     <!-- Label for "premium coach" cabin code -->
     <string name="cabin_code_premium_coach">高级经济舱</string>
     <!-- Label for "business" cabin code -->
@@ -2142,6 +2140,11 @@
     <!-- save -->
     <string name="save">保存</string>
 
+    <!-- Enter traveler details prompt -->
+    <string name="checkout_enter_traveler_details">旅客详细信息</string>
+    <string name="checkout_enter_traveler_details_line2">输入您的信息</string>
+    <string name="checkout_more_travelers_TEMPLATE">+ 多 {travelercount} 位旅客</string>
+    <string name="checkout_edit_traveler_TEMPLATE">编辑旅客 {travelernumber}</string>
     <!-- Save traveler dialog -->
     <!-- save traveler -->
     <string name="save_traveler">保存旅客</string>
@@ -2414,8 +2417,6 @@
     <string name="pick_new_hotel">选择其他酒店</string>
     <!-- Text for hotel error unknown -->
     <string name="error_hotel_unhandled">很抱歉，我们暂时无法处理您的订单。请再试一次。</string>
-    <!-- Text for hotel error toolbar duplicate trip-->
-    <string name="hotel_duplicate_trip_text">重复行程</string>
     <!-- Text for hotel error toolbar payment failed-->
     <string name="hotel_payment_failed_text">付款失败</string>
     <!-- Text for error toolbar session expired-->
@@ -2662,8 +2663,6 @@
     <string name="per_night">/晚</string>
     <!-- The label for abbreviated price per night - "$120/nt", for example -->
     <string name="per_nt">/晚</string>
-    <!-- The label for abbreviated price per night - "$120/nt", for example -->
-    <string name="per_nt_TEMPLATE">{price}/晚</string>
     <!-- Label shown when a hotel has no user ratings -->
     <string name="not_rated">没有评分</string>
     <!-- Label indicating the percent savings for booking this hotel.  %2.0f is the savings amount. -->
@@ -2725,8 +2724,6 @@
     <string name="minus_x_percent">-%2.0f%%</string>
     <!-- Recommended string shown in hotel details -->
     <string name="x_percent_guests_recommend">%2.0f%% 的住客推荐该酒店。</string>
-    <!-- new material Hotel results cell guest rating -->
-    <string name="customer_rating_percent_Template">{rating}{percent}</string>
     <!-- new material Hotel results cell guest recommend-->
     <string name="hotel_guest_recommend">/5 - 住客评分</string>
     <!-- Hotels V2 AB test: hotel reviews superlative suffixes -->
@@ -2740,8 +2737,6 @@
     <string name="hotel_discount_percent_Template">{discount}%</string>
 
     <!-- Amenity strings -->
-    <!-- Label to show amenities -->
-    <string name="AmenityTitle">设施</string>
     <!-- Text that indicates no amenities at this property -->
     <string name="AmenityNone">没有提供便利设施</string>
     <!-- Business center amenity -->
@@ -2960,8 +2955,6 @@
     <string name="view_room_button_text">查看客房</string>
     <!-- Book Room button text; verb; as in book a hotel room -->
     <string name="book_room_button_text">预订</string>
-    <!-- Share via when user is shareing hotel listing -->
-    <string name="share_via">分享方式</string>
     <!-- Renovation Notice -->
     <string name="renovation_notice">装修通知</string>
     <!-- This property is undergoing renovations -->
@@ -3057,8 +3050,6 @@
     <string name="apply">应用</string>
 
     <!-- Coupon dialog -->
-    <!-- Saved coupon title -->
-    <string name="saved_coupon">保存的优惠券</string>
     <!-- Coupon Widget Title -->
     <string name="coupon_promo_title">优惠券和促销</string>
     <!-- Title on dialog imploring users to enter coupons -->
@@ -4020,12 +4011,17 @@
     <string name="package_breakdown_taxes_fees">税款与服务费</string>
     <string name="package_breakdown_taxes_fees_included_TEMPLATE">含税费 ({taxes})</string>
     <string name="package_breakdown_total_savings">直降</string>
+    <string name="package_breakdown_total_due_today">今天应付总额</string>
 
     <!-- Shop with points -->
     <string name="regular_loyalty_applied_message">使用了 Expedia+ 积分！</string>
     <string name="vip_loyalty_applied_message">使用了 2 倍积分！</string>
     <!-- String to be appended with +VIP in header of room rates. -->
     <string name="vip_loyalty_applied_header_message">使用了 2 倍 Expedia+ 积分！</string>
+    <string name="swp_widget_points_value_TEMPLATE">您有 {points} 分</string>
+    <string name="vip_loyalty_applied_map_message">使用了 &lt;b&gt;+VIP&lt;/b&gt; 2 倍 Expedia+ 积分！</string>
+    <string name="swp_off_widget_header">使用 Expedia+ 积分预订</string>
+    <string name="swp_on_widget_header">使用了 Expedia+ 积分</string>
 
     <!-- Message telling you on confirmation screen where you've booked a package to -->
     <string name="yay_going_somewhere">您准备出发去</string>

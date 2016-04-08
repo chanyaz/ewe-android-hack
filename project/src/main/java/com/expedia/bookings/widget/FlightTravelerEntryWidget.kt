@@ -3,80 +3,88 @@ package com.expedia.bookings.widget
 import android.content.Context
 import android.util.AttributeSet
 import android.view.View
+import android.widget.AdapterView
+import android.widget.EditText
 import android.widget.ImageView
+import android.widget.Spinner
 import com.expedia.bookings.R
-import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.Traveler
-import com.expedia.bookings.data.User
-import com.expedia.bookings.enums.PassengerCategory
 import com.expedia.bookings.presenter.Presenter
+import com.expedia.bookings.section.CountrySpinnerAdapter
 import com.expedia.bookings.utils.AnimUtils
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.traveler.NameEntryView
 import com.expedia.bookings.widget.traveler.PhoneEntryView
 import com.expedia.bookings.widget.traveler.TSAEntryView
-import com.expedia.vm.traveler.NameEntryViewModel
-import com.expedia.vm.traveler.PhoneEntryViewModel
-import com.expedia.vm.traveler.TSAEntryViewModel
-import com.expedia.vm.traveler.TravelerAdvancedOptionsViewModel
+import com.expedia.util.notNullAndObservable
+import com.expedia.util.subscribeVisibility
+import com.expedia.vm.traveler.TravelerViewModel
 import rx.subjects.PublishSubject
 
-class FlightTravelerEntryWidget(context: Context, attrs: AttributeSet?) : FrameLayout(context, attrs) {
+class FlightTravelerEntryWidget(context: Context, attrs: AttributeSet?) : FrameLayout(context, attrs),
+        TravelerButton.ITravelerButtonListener, View.OnFocusChangeListener  {
 
-    var traveler: Traveler? = null
-
+    val travelerButton: TravelerButton by bindView(R.id.traveler_button)
     val nameEntryView: NameEntryView by bindView(R.id.name_entry_widget)
     val phoneEntryView: PhoneEntryView by bindView(R.id.phone_entry_widget)
     val tsaEntryView: TSAEntryView by bindView(R.id.tsa_entry_widget)
+    val passportCountrySpinner: Spinner by bindView(R.id.passport_country_spinner)
     val advancedOptionsWidget: FlightTravelerAdvancedOptionsWidget by bindView(R.id.traveler_advanced_options_widget)
-
-    val doneButton: TextView by bindView(R.id.new_traveler_done_button)
     val advancedButton: TextView by bindView(R.id.advanced_options_button)
     val advancedOptionsIcon: ImageView by bindView(R.id.traveler_advanced_options_icon)
 
     val travelerCompleteSubject = PublishSubject.create<Traveler>()
+    val focusedView = PublishSubject.create<EditText>()
+    val doneClicked = PublishSubject.create<Unit>()
 
-    lateinit var nameViewModel: NameEntryViewModel
-    lateinit var phoneViewModel: PhoneEntryViewModel
-    lateinit var tsaViewModel: TSAEntryViewModel
-    lateinit var advancedOptionsViewModel: TravelerAdvancedOptionsViewModel
+    var viewModel: TravelerViewModel by notNullAndObservable { vm ->
+        nameEntryView.viewModel = vm.nameViewModel
+        phoneEntryView.viewModel = vm.phoneViewModel
+        tsaEntryView.viewModel = vm.tsaViewModel
+        advancedOptionsWidget.viewModel = vm.advancedOptionsViewModel
+
+        vm.passportCountrySubject.subscribe { countryCode ->
+            val adapter = passportCountrySpinner.adapter as CountrySpinnerAdapter
+            val position = if (countryCode.isNullOrEmpty()) adapter.defaultLocalePosition else adapter.getPositionByCountryThreeLetterCode(countryCode)
+            passportCountrySpinner.setSelection(position)
+        }
+        vm.showPassportCountryObservable.subscribeVisibility(passportCountrySpinner)
+    }
 
     init {
         View.inflate(context, R.layout.flight_traveler_entry_widget, this)
+        travelerButton.visibility == View.GONE
+
+        val adapter = CountrySpinnerAdapter(context, CountrySpinnerAdapter.CountryDisplayType.FULL_NAME,
+                R.layout.material_spinner_item, R.layout.spinner_dropdown_item, false)
+        adapter.setPrefix(context.getString(R.string.passport_country_colon))
+        adapter.setColoredPrefix(false)
+
+        passportCountrySpinner.adapter = adapter
+        passportCountrySpinner.onItemSelectedListener = CountryItemSelectedListener()
+        travelerButton.setTravelButtonListener(this)
+        nameEntryView.firstName.onFocusChangeListener = this
+        nameEntryView.middleInitial.onFocusChangeListener = this
+        nameEntryView.lastName.onFocusChangeListener = this
+        phoneEntryView.phoneNumber.onFocusChangeListener = this
+
+        doneClicked.subscribe {
+            if (isValid()) {
+                travelerCompleteSubject.onNext(viewModel.getTraveler())
+            }
+        }
+    }
+
+    override fun onTravelerChosen(traveler: Traveler) {
+        viewModel.updateTraveler(traveler)
+    }
+
+    override fun onAddNewTravelerSelected() {
+        // Adding for packages mvp
     }
 
     override fun onFinishInflate() {
         super.onFinishInflate()
-
-        val isLoggedIn = User.isLoggedIn(context)
-        if (isLoggedIn) {
-            // User is logged in - default to primary
-            if (traveler == null) {
-                traveler = Db.getUser().primaryTraveler
-            }
-            Db.getWorkingTravelerManager().shiftWorkingTraveler(traveler)
-            traveler?.setEmail(Db.getUser().primaryTraveler.email)
-        }
-        if (traveler == null) {
-            traveler = Traveler()
-        }
-        // TODO add logic to determine traveler category.
-        traveler?.setPassengerCategory(PassengerCategory.ADULT)
-
-        nameViewModel = NameEntryViewModel(traveler!!)
-        phoneViewModel = PhoneEntryViewModel(traveler!!)
-        tsaViewModel = TSAEntryViewModel(context, traveler!!)
-
-        nameEntryView.viewModel = nameViewModel
-        phoneEntryView.viewModel = phoneViewModel
-        tsaEntryView.viewModel = tsaViewModel
-        advancedOptionsWidget.viewModel = TravelerAdvancedOptionsViewModel(traveler!!)
-
-        doneButton.setOnClickListener {
-            if (isValid()) {
-                travelerCompleteSubject.onNext(traveler)
-            }
-        }
 
         advancedButton.setOnClickListener {
             if (advancedOptionsWidget.visibility == Presenter.GONE) {
@@ -87,12 +95,8 @@ class FlightTravelerEntryWidget(context: Context, attrs: AttributeSet?) : FrameL
         }
     }
 
-    fun isValid(): Boolean {
-        val nameValid = nameViewModel.validate()
-        val phoneValid = phoneViewModel.validate()
-        val tsaValid = tsaViewModel.validate()
-
-        return nameValid && phoneValid && tsaValid
+    private fun isValid(): Boolean {
+        return viewModel.validate()
     }
 
     private fun showAdvancedOptions() {
@@ -104,5 +108,22 @@ class FlightTravelerEntryWidget(context: Context, attrs: AttributeSet?) : FrameL
         advancedOptionsWidget.visibility = Presenter.GONE
         AnimUtils.reverseRotate(advancedOptionsIcon)
         advancedOptionsIcon.clearAnimation()
+    }
+
+    private inner class CountryItemSelectedListener() : AdapterView.OnItemSelectedListener {
+        override fun onNothingSelected(parent: AdapterView<*>?) {
+            //do nothing
+        }
+
+        override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+            val adapter = passportCountrySpinner.adapter as CountrySpinnerAdapter
+            viewModel.passportCountryObserver.onNext(adapter.getItemValue(position, CountrySpinnerAdapter.CountryDisplayType.THREE_LETTER))
+        }
+    }
+
+    override fun onFocusChange(v: View, hasFocus: Boolean) {
+        if (hasFocus) {
+            focusedView.onNext(v as EditText)
+        }
     }
 }

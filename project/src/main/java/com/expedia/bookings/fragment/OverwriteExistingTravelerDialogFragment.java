@@ -53,7 +53,7 @@ public class OverwriteExistingTravelerDialogFragment extends DialogFragment {
 						if (User.isLoggedIn(getActivity()) && Db.getUser() != null
 								&& Db.getUser().getAssociatedTravelers() != null) {
 							for (Traveler trav : Db.getUser().getAssociatedTravelers()) {
-								if (Db.getWorkingTravelerManager().getWorkingTraveler().compareNameTo(trav) == 0) {
+								if (Db.getWorkingTravelerManager().getWorkingTraveler().nameEquals(trav)) {
 									//We find the traveler with the same name, and steal his tuid
 									Db.getWorkingTravelerManager().getWorkingTraveler().setTuid(trav.getTuid());
 								}

@@ -110,6 +110,7 @@ class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayout(conte
 
     val hotelMessagingContainer: RelativeLayout by bindView(R.id.promo_messaging_container)
     val discountPercentage: TextView by bindView(R.id.discount_percentage)
+    val airAttachSWPImage: ImageView by bindView(R.id.air_attach_swp_image_details)
     val vipAccessMessageContainer: LinearLayout by bindView(R.id.vip_access_message_container)
     val vipLoyaltyMessage: TextView by bindView(R.id.vip_loyalty_message_details)
     val regularLoyaltyMessage: TextView by bindView(R.id.regular_loyalty_applied)
@@ -142,7 +143,7 @@ class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayout(conte
     val resortFeeWidget: ResortFeeWidget by bindView(R.id.resort_fee_widget)
     val roomRateHeader: LinearLayout by bindView(R.id.room_rate_header)
     val commonAmenityText: TextView by bindView(R.id.common_amenities_text)
-    val roomRateRegularLoyaltyAppliedText: TextView by bindView(R.id.room_rate_regular_loyalty_applied_text)
+    val roomRateRegularLoyaltyAppliedView: LinearLayout by bindView(R.id.room_rate_regular_loyalty_applied_container)
     val roomRateVIPLoyaltyAppliedContainer: View by bindView(R.id.room_rate_vip_loyalty_applied_container)
     val commonAmenityDivider: View by bindView(R.id.common_amenities_divider)
     val roomContainer: TableLayout by bindView(R.id.room_container)
@@ -221,7 +222,7 @@ class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayout(conte
 
         vm.hasRegularLoyaltyPointsAppliedObservable.filter { it }.subscribe {
             displayRoomRateHeader()
-            roomRateRegularLoyaltyAppliedText.visibility = View.VISIBLE
+            roomRateRegularLoyaltyAppliedView.visibility = View.VISIBLE
         }
 
         vm.galleryItemChangeObservable.subscribe { galleryDescriptionBar: Pair<Int, String> ->
@@ -282,7 +283,8 @@ class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayout(conte
         vm.payByPhoneContainerVisibility.subscribeVisibility(payByPhoneContainer)
         vm.discountPercentageObservable.subscribeText(discountPercentage)
         vm.discountPercentageBackgroundObservable.subscribeBackgroundResource(discountPercentage)
-        vm.hasDiscountPercentageObservable.subscribeVisibility(discountPercentage)
+        vm.showDiscountPercentageObservable.subscribeVisibility(discountPercentage)
+        vm.showAirAttachSWPImageObservable.subscribeVisibility(airAttachSWPImage)
         vipAccessMessageContainer.subscribeOnClick(vm.vipAccessInfoObservable)
         vm.hasVipAccessObservable.subscribeVisibility(vipAccessMessageContainer)
         vm.hasVipAccessLoyaltyObservable.subscribeVisibility(vipLoyaltyMessage)
@@ -465,7 +467,8 @@ class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayout(conte
         hotelGalleryDescriptionContainer.alpha = 0f
         resortFeeWidget.visibility = View.GONE
         roomRateHeader.visibility = View.GONE
-        roomRateRegularLoyaltyAppliedText.visibility = View.GONE
+        commonAmenityText.visibility = View.GONE
+        roomRateRegularLoyaltyAppliedView.visibility = View.GONE
         roomRateVIPLoyaltyAppliedContainer.visibility = View.GONE
         commonAmenityDivider.visibility = View.GONE
         hideResortandSelectRoom()
@@ -505,7 +508,7 @@ class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayout(conte
             roomRateVIPLoyaltyAppliedContainer.visibility = View.VISIBLE
         } else if (viewmodel.hasRegularLoyaltyPointsAppliedObservable.value) {
             displayRoomRateHeader()
-            roomRateRegularLoyaltyAppliedText.visibility = View.VISIBLE
+            roomRateRegularLoyaltyAppliedView.visibility = View.VISIBLE
         }
 
         HotelV2Tracking().trackPayNowContainerClick()
@@ -516,7 +519,7 @@ class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayout(conte
         payNowLaterSelectionChanged(false)
         viewmodel.etpRoomResponseListObservable.onNext(Pair(viewmodel.etpOffersList, viewmodel.etpUniqueValueAddForRooms))
         roomRateVIPLoyaltyAppliedContainer.visibility = View.GONE
-        roomRateRegularLoyaltyAppliedText.visibility = View.GONE
+        roomRateRegularLoyaltyAppliedView.visibility = View.GONE
         HotelV2Tracking().trackPayLaterContainerClick()
     }
 

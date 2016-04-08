@@ -1,6 +1,7 @@
 package com.expedia.bookings.test
 
 import android.app.Activity
+import android.support.v4.content.ContextCompat
 import android.view.View
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Money
@@ -65,6 +66,16 @@ class HotelDetailsTest {
         offers.hotelStarRating = 5.0
         offers.deskTopOverrideNumber = false
         offers.telesalesNumber = "1-800-766-6658"
+    }
+
+    @Test
+    fun testReviewContainerDrawable() {
+        vm.hotelOffersSubject.onNext(offers)
+        Assert.assertEquals(ContextCompat.getDrawable(activity, R.drawable.hotel_detail_ripple), hotelDetailView.ratingContainer.background)
+        offers.hotelGuestRating = 0.0
+        vm.hotelOffersSubject.onNext(offers)
+        Assert.assertEquals(ContextCompat.getDrawable(activity, R.color.search_results_list_bg_gray), hotelDetailView.ratingContainer.background)
+        offers.hotelGuestRating = 5.0
     }
 
     @Test
@@ -256,7 +267,7 @@ class HotelDetailsTest {
         assertEquals(View.GONE, hotelDetailView.vipLoyaltyMessage.visibility)
         assertEquals(View.VISIBLE, hotelDetailView.regularLoyaltyMessage.visibility)
         assertEquals(View.VISIBLE, hotelDetailView.roomRateHeader.visibility)
-        assertEquals(View.VISIBLE, hotelDetailView.roomRateRegularLoyaltyAppliedText.visibility)
+        assertEquals(View.VISIBLE, hotelDetailView.roomRateRegularLoyaltyAppliedView.visibility)
         assertEquals("", hotelDetailView.promoMessage.text)
     }
 
@@ -579,11 +590,11 @@ class HotelDetailsTest {
         val suggestion = SuggestionV4()
         suggestion.gaiaId = ""
         searchParams = HotelSearchParams.Builder(activity.resources.getInteger(R.integer.calendar_max_days_hotel_stay))
-                .suggestion(suggestion)
+                .departure(suggestion)
                 .adults(2)
                 .children(listOf(10,10,10))
-                .checkIn(checkIn)
-                .checkOut(checkOut).build()
+                .startDate(checkIn)
+                .endDate(checkOut).build() as HotelSearchParams
         vm.paramsSubject.onNext(searchParams)
     }
 
