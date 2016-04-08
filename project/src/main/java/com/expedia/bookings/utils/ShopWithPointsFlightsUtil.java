@@ -5,6 +5,7 @@ import java.math.BigDecimal;
 
 import android.content.Context;
 
+import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.Money;
@@ -15,7 +16,8 @@ import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonToken;
 import com.squareup.phrase.Phrase;
 
-public class LoyaltyInfoParserUtil {
+public class ShopWithPointsFlightsUtil {
+
 
 	public static LoyaltyEarnInfo getLoyaltyEarnInfo(JsonReader reader) throws IOException {
 		LoyaltyEarnInfo loyaltyEarnInfo = null;
@@ -152,7 +154,7 @@ public class LoyaltyInfoParserUtil {
 				if (points != null) {
 					int total = points.getTotal();
 					if (total > 0) {
- 						earnInfoTextToDisplay = Phrase.from(context.getString(R.string.earn_points_TEMPLATE))
+						earnInfoTextToDisplay = Phrase.from(context.getString(R.string.earn_points_TEMPLATE))
 							.put("points", total)
 							.format();
 					}
@@ -160,5 +162,10 @@ public class LoyaltyInfoParserUtil {
 			}
 		}
 		return earnInfoTextToDisplay;
+	}
+
+	public static boolean isShopWithPointsEnabled() {
+		//TODO consider Config if SWP is to be displayed
+		return BuildConfig.DEBUG;
 	}
 }

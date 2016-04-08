@@ -15,7 +15,6 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.BillingInfo;
 import com.expedia.bookings.data.Db;
@@ -29,7 +28,7 @@ import com.expedia.bookings.data.TripBucketItemFlight;
 import com.expedia.bookings.data.abacus.AbacusUtils;
 import com.expedia.bookings.utils.FontCache;
 import com.expedia.bookings.utils.JodaUtils;
-import com.expedia.bookings.utils.LoyaltyInfoParserUtil;
+import com.expedia.bookings.utils.ShopWithPointsFlightsUtil;
 import com.expedia.bookings.utils.SpannableBuilder;
 import com.expedia.bookings.utils.Strings;
 import com.expedia.bookings.utils.Ui;
@@ -94,7 +93,7 @@ public class FlightLegSummarySection extends RelativeLayout {
 		mArrivalTimeTextView = Ui.findView(this, R.id.arrival_time_text_view);
 		mMultiDayTextView = Ui.findView(this, R.id.multi_day_text_view);
 		mFlightTripView = Ui.findView(this, R.id.flight_trip_view);
-		if (isShopWithPointsEnabled()) {
+		if (ShopWithPointsFlightsUtil.isShopWithPointsEnabled()) {
 			mEarnAmountTextView = Ui.findView(this, R.id.earn_amount_text_view);
 		}
 
@@ -225,7 +224,7 @@ public class FlightLegSummarySection extends RelativeLayout {
 		}
 
 		if (mEarnAmountTextView != null && trip != null) {
-			CharSequence earnInfoTextToDisplay = LoyaltyInfoParserUtil.getEarnInfoTextToDisplay(context, trip);
+			CharSequence earnInfoTextToDisplay = ShopWithPointsFlightsUtil.getEarnInfoTextToDisplay(context, trip);
 			if (Strings.isNotEmpty(earnInfoTextToDisplay)) {
 				mEarnAmountTextView.setVisibility(VISIBLE);
 				mEarnAmountTextView.setText(earnInfoTextToDisplay);
@@ -298,11 +297,6 @@ public class FlightLegSummarySection extends RelativeLayout {
 		adjustLayout(leg, isIndividualFlight);
 	}
 
-	private boolean isShopWithPointsEnabled() {
-		//TODO consider Config if SWP is to be displayed
-		return BuildConfig.DEBUG;
-	}
-
 	private static String getAirlinesStr(Context context, Flight flight, FlightLeg leg, FlightLeg legTwo,
 										 boolean isIndividualFlight) {
 		if (isIndividualFlight) {
@@ -364,6 +358,9 @@ public class FlightLegSummarySection extends RelativeLayout {
 			// section_flight_leg_summary_itin.xml does not require the container, so default to the TextView in that case
 			if (mRoundtripTextView != null && mRoundtripTextView.getVisibility() == View.VISIBLE) {
 				belowTarget = mRoundtripTextView.getId();
+			}
+			else if (mEarnAmountTextView != null && mEarnAmountTextView.getVisibility() == View.VISIBLE) {
+				belowTarget = mEarnAmountTextView.getId();
 			}
 			else if (mAirlineContainer != null) {
 				belowTarget = mAirlineContainer.getId();
