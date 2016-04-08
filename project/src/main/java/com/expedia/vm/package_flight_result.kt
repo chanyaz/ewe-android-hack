@@ -3,33 +3,25 @@ package com.expedia.vm
 import android.content.Context
 import android.text.format.DateUtils
 import com.expedia.bookings.R
-import com.expedia.bookings.data.Db
-import com.expedia.bookings.data.packages.FlightLeg
+import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.utils.JodaUtils
 import com.expedia.bookings.utils.StrUtils
+import org.joda.time.LocalDate
+import rx.Observable
 import rx.subjects.BehaviorSubject
 
 class FlightResultsViewModel() {
     val flightResultsObservable = BehaviorSubject.create<List<FlightLeg>>()
-
-    init {
-        val isOutboundSearch = Db.getPackageParams()?.isOutboundSearch() ?: false
-
-        val bestPlusAllFlights = Db.getPackageResponse().packageResult.flightsPackage.flights.filter { it.outbound == isOutboundSearch && it.packageOfferModel != null }
-
-        // move bestFlight to the first place of the list
-        val bestFlight = bestPlusAllFlights.find { it.isBestFlight }
-        var allFlights = bestPlusAllFlights.filterNot { it.isBestFlight }.sortedBy { it.packageOfferModel.price.packageTotalPrice.amount }.toMutableList()
-
-        allFlights.add(0, bestFlight)
-        flightResultsObservable.onNext(allFlights)
-    }
 }
 
 class FlightToolbarViewModel(private val context: Context) {
     //input
     val refreshToolBar = BehaviorSubject.create<Boolean>()
+    val isOutboundSearch = BehaviorSubject.create<Boolean>()
     val setTitleOnly = BehaviorSubject.create<String>()
+    val city = BehaviorSubject.create<String>()
+    val travelers = BehaviorSubject.create<Int>()
+    val date = BehaviorSubject.create<LocalDate>()
 
     //output
     val titleSubject = BehaviorSubject.create<String>()
@@ -43,21 +35,15 @@ class FlightToolbarViewModel(private val context: Context) {
             menuVisibilitySubject.onNext(false)
         }
 
-        refreshToolBar.subscribe { isResults ->
-            // Flights Toolbar content - 6235
-            var isOutboundSearch = Db.getPackageParams().isOutboundSearch()
-            var cityBound: String = if (isOutboundSearch) Db.getPackageParams().destination.regionNames.shortName else Db.getPackageParams().origin.regionNames.shortName
+        Observable.combineLatest(refreshToolBar, isOutboundSearch, city, travelers, date, { isResults, isOutboundSearch, cityBound, numTravelers, date ->
             var resultsTitle: String = StrUtils.formatCityName(context.resources.getString(R.string.select_flight_to, cityBound))
             var overviewTitle: String = StrUtils.formatCityName(context.resources.getString(R.string.flight_to_template, cityBound))
             var resultsOutInboundTitle: String = context.resources.getString(R.string.select_return_flight)
             titleSubject.onNext(if (isResults && !isOutboundSearch) resultsOutInboundTitle else if (isResults) resultsTitle else overviewTitle)
-
-            val numTravelers = Db.getPackageParams().guests()
             val travelers = context.resources.getQuantityString(R.plurals.number_of_travelers_TEMPLATE, numTravelers, numTravelers)
-            val date = if (isOutboundSearch) Db.getPackageParams().checkIn else Db.getPackageParams().checkOut
             val subtitle: CharSequence = JodaUtils.formatLocalDate(context, date, DateUtils.FORMAT_SHOW_DATE + DateUtils.FORMAT_SHOW_YEAR + DateUtils.FORMAT_SHOW_WEEKDAY) + ", " + travelers
             subtitleSubject.onNext(subtitle)
             menuVisibilitySubject.onNext(isResults)
-        }
+        }).subscribe()
     }
 }

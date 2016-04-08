@@ -5,6 +5,7 @@ import android.support.v4.content.ContextCompat
 import android.support.v4.widget.NestedScrollView
 import android.util.AttributeSet
 import android.view.View
+import android.widget.LinearLayout
 import android.widget.TextView
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Db
@@ -22,7 +23,7 @@ import com.expedia.vm.PackageSearchType
 import com.squareup.phrase.Phrase
 import rx.subjects.BehaviorSubject
 
-class BundleWidget(context: Context, attrs: AttributeSet) : NestedScrollView(context, attrs) {
+class BundleWidget(context: Context, attrs: AttributeSet) : LinearLayout(context, attrs) {
 
     val stepOneText: TextView by bindView(R.id.step_one_text)
     val stepTwoText: TextView by bindView(R.id.step_two_text)
@@ -36,6 +37,15 @@ class BundleWidget(context: Context, attrs: AttributeSet) : NestedScrollView(con
     var viewModel: BundleOverviewViewModel by notNullAndObservable { vm ->
         vm.hotelParamsObservable.subscribe { param ->
             bundleHotelWidget.viewModel.showLoadingStateObservable.onNext(true)
+
+            outboundFlightWidget.viewModel.suggestion.onNext(Db.getPackageParams().destination)
+            outboundFlightWidget.viewModel.date.onNext(Db.getPackageParams().checkIn)
+            outboundFlightWidget.viewModel.guests.onNext(Db.getPackageParams().guests)
+
+            inboundFlightWidget.viewModel.suggestion.onNext(Db.getPackageParams().origin)
+            inboundFlightWidget.viewModel.date.onNext(Db.getPackageParams().checkOut)
+            inboundFlightWidget.viewModel.guests.onNext(Db.getPackageParams().guests)
+
             if (!param.isChangePackageSearch()) {
                 outboundFlightWidget.viewModel.hotelLoadingStateObservable.onNext(PackageSearchType.OUTBOUND_FLIGHT)
                 inboundFlightWidget.viewModel.hotelLoadingStateObservable.onNext(PackageSearchType.INBOUND_FLIGHT)
@@ -64,7 +74,7 @@ class BundleWidget(context: Context, attrs: AttributeSet) : NestedScrollView(con
                 outboundFlightWidget.viewModel.flightTextObservable.onNext(context.getString(R.string.searching_flight_to, StrUtils.formatAirportCodeCityName(Db.getPackageParams().destination)))
                 inboundFlightWidget.viewModel.travelInfoTextObservable.onNext(Phrase.from(context, R.string.flight_toolbar_date_range_with_guests_TEMPLATE)
                         .put("date", DateUtils.localDateToMMMd(Db.getPackageParams().checkOut))
-                        .put("travelers", StrUtils.formatTravelerString(context, Db.getPackageParams().guests()))
+                        .put("travelers", StrUtils.formatTravelerString(context, Db.getPackageParams().guests))
                         .format()
                         .toString())
             } else {
@@ -82,13 +92,13 @@ class BundleWidget(context: Context, attrs: AttributeSet) : NestedScrollView(con
                 outboundFlightWidget.viewModel.flightTextObservable.onNext(context.getString(R.string.select_flight_to, StrUtils.formatAirportCodeCityName(Db.getPackageParams().destination)))
                 outboundFlightWidget.viewModel.travelInfoTextObservable.onNext(Phrase.from(context, R.string.flight_toolbar_date_range_with_guests_TEMPLATE)
                         .put("date", DateUtils.localDateToMMMd(Db.getPackageParams().checkIn))
-                        .put("travelers", StrUtils.formatTravelerString(context, Db.getPackageParams().guests())).format().toString())
+                        .put("travelers", StrUtils.formatTravelerString(context, Db.getPackageParams().guests)).format().toString())
             } else {
                 inboundFlightWidget.viewModel.showLoadingStateObservable.onNext(false)
                 inboundFlightWidget.viewModel.flightTextObservable.onNext(context.getString(R.string.select_flight_to, StrUtils.formatAirportCodeCityName(Db.getPackageParams().origin)))
                 inboundFlightWidget.viewModel.travelInfoTextObservable.onNext(Phrase.from(context, R.string.flight_toolbar_date_range_with_guests_TEMPLATE)
                         .put("date", DateUtils.localDateToMMMd(Db.getPackageParams().checkOut))
-                        .put("travelers", StrUtils.formatTravelerString(context, Db.getPackageParams().guests())).format().toString())
+                        .put("travelers", StrUtils.formatTravelerString(context, Db.getPackageParams().guests)).format().toString())
             }
         }
         vm.stepOneTextObservable.subscribeText(stepOneText)
@@ -98,8 +108,8 @@ class BundleWidget(context: Context, attrs: AttributeSet) : NestedScrollView(con
 
     init {
         View.inflate(context, R.layout.bundle_widget, this)
+        orientation = VERTICAL
         bundleHotelWidget.viewModel = BundleHotelViewModel(context)
-
         outboundFlightWidget.isOutbound = true
         inboundFlightWidget.isOutbound = false
         outboundFlightWidget.viewModel = BundleFlightViewModel(context)

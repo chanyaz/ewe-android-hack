@@ -16,7 +16,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
         android:paddingLeft="4dp"
-        android:textColor="#676767"
+        android:textColor="@color/defaultTextColor"
         android:textSize="15sp"
         app:textStyle="medium" />
 

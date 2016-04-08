@@ -95,7 +95,7 @@
             android:id="@+id/section_location_address"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            layout="@layout/section_edit_address"/>
+            layout="@layout/old_flights_section_edit_address"/>
 
     </LinearLayout>
 

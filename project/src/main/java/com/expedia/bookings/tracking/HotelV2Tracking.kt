@@ -12,12 +12,16 @@ import com.expedia.bookings.utils.TuneUtils
 
 class HotelV2Tracking {
 
-    fun trackHotelV2SearchBox() {
-        OmnitureTracking.trackHotelV2SearchBox()
+    fun trackHotelV2SearchBox(swpIsVisibleAndToggleIsOn: Boolean) {
+        OmnitureTracking.trackHotelV2SearchBox(swpIsVisibleAndToggleIsOn)
     }
 
     fun trackRecentSearchClick() {
         OmnitureTracking.trackRecentSearchClick()
+    }
+
+    fun trackSwPToggle(swpToggleState: Boolean){
+        OmnitureTracking.trackSwPToggle(swpToggleState)
     }
 
     fun trackTravelerPickerClick(text: String) {

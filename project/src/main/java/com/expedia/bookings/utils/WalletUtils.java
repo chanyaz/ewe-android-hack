@@ -177,7 +177,7 @@ public class WalletUtils {
 		List<Traveler> currTravelers = BookingInfoUtils.getAlternativeTravelers(context);
 		currTravelers.addAll(Db.getTravelers());
 		for (Traveler traveler : currTravelers) {
-			if (!traveler.fromGoogleWallet() && traveler.compareNameTo(gwTraveler) == 0) {
+			if (!traveler.fromGoogleWallet() && traveler.nameEquals(gwTraveler)) {
 				return null;
 			}
 		}

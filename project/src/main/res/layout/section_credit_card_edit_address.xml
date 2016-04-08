@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.expedia.bookings.section.SectionLocation xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <EditText
+        android:id="@+id/edit_address_line_one"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/traveler_input_bottom_margin"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:hint="@string/address_line_one_hint"
+        android:imeOptions="actionNext"
+        android:inputType="textPostalAddress|textCapWords"
+        android:nextFocusRight="@+id/edit_address_city"
+        android:paddingBottom="11dp"
+        android:singleLine="true"
+        android:textSize="@dimen/traveler_input_text_size" />
+
+    <EditText
+        android:id="@+id/edit_address_line_two"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/traveler_input_bottom_margin"
+        android:hint="@string/address_line_two_hint"
+        android:imeOptions="actionNext"
+        android:inputType="textPostalAddress|textCapWords"
+        android:nextFocusRight="@id/edit_address_city"
+        android:paddingBottom="11dp"
+        android:singleLine="true"
+        android:textSize="@dimen/traveler_input_text_size" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:baselineAligned="false"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="3"
+            android:orientation="vertical">
+
+            <EditText
+                android:id="@id/edit_address_city"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/traveler_input_bottom_margin"
+                android:hint="@string/address_city_hint"
+                android:imeOptions="actionNext"
+                android:inputType="textCapWords"
+                android:nextFocusRight="@+id/edit_address_state"
+                android:paddingBottom="11dp"
+                android:singleLine="true"
+                android:textSize="@dimen/traveler_input_text_size" />
+
+            <Spinner
+                android:id="@+id/edit_country_spinner"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:orientation="vertical">
+
+            <EditText
+                android:id="@id/edit_address_state"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/traveler_input_bottom_margin"
+                android:hint="@string/address_state_hint"
+                android:imeOptions="actionNext"
+                android:inputType="textCapCharacters"
+                android:nextFocusRight="@+id/edit_address_postal_code"
+                android:singleLine="true"
+                android:textSize="@dimen/traveler_input_text_size" />
+
+            <EditText
+                android:id="@id/edit_address_postal_code"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/address_postal_code_hint"
+                android:imeOptions="actionDone"
+                android:minHeight="43dp"
+                android:singleLine="true"
+                android:textSize="@dimen/traveler_input_text_size" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <!-- This empty view fixes a scrolling bug on older versions of android -->
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="@dimen/checkout_form_bottom_spacer_margin" />
+
+</com.expedia.bookings.section.SectionLocation>

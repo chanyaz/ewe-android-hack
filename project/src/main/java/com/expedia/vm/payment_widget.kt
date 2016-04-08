@@ -127,7 +127,7 @@ class PaymentViewModel(val context: Context) {
                 if (lineOfBusiness.value == LineOfBusiness.CARS) {
                     message = resources.getString(R.string.car_does_not_accept_cardtype_TEMPLATE,
                             (tripItem as TripBucketItemCar).mCarTripResponse.carProduct.vendor.name, cardName)
-                } else if (lineOfBusiness.value == LineOfBusiness.LX) {
+                } else if (lineOfBusiness.value == LineOfBusiness.LX || lineOfBusiness.value == LineOfBusiness.TRANSPORT) {
                     message = resources.getString(R.string.lx_does_not_accept_cardtype_TEMPLATE, cardName)
                 } else if (lineOfBusiness.value == LineOfBusiness.HOTELSV2) {
                     message = resources.getString(R.string.hotel_does_not_accept_cardtype_TEMPLATE, cardName)
@@ -137,8 +137,8 @@ class PaymentViewModel(val context: Context) {
         }
 
         lineOfBusiness.subscribe { lob ->
-            isCreditCardRequired.onNext(lob == LineOfBusiness.PACKAGES || lob == LineOfBusiness.HOTELSV2)
-            isZipValidationRequired.onNext(lob == LineOfBusiness.PACKAGES || lob == LineOfBusiness.HOTELSV2)
+            isCreditCardRequired.onNext(lob == LineOfBusiness.PACKAGES || lob == LineOfBusiness.HOTELSV2 || lob == LineOfBusiness.FLIGHTS)
+            isZipValidationRequired.onNext(lob == LineOfBusiness.PACKAGES || lob == LineOfBusiness.HOTELSV2 || lob == LineOfBusiness.FLIGHTS)
         }
     }
 

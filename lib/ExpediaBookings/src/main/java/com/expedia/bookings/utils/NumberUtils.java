@@ -1,6 +1,9 @@
 package com.expedia.bookings.utils;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 public class NumberUtils {
 
@@ -22,5 +25,14 @@ public class NumberUtils {
 			throw new IllegalArgumentException("Total cannot be zero while calculating percentage");
 		}
 		return fraction.divide(total, 2, BigDecimal.ROUND_HALF_UP).multiply(new BigDecimal("100")).intValue();
+	}
+
+	public static List<Integer> getRandomNumberList(int size) {
+		List<Integer> numberList = new ArrayList<>();
+		for (int index = 0; index < size; index++) {
+			numberList.add(index);
+		}
+		Collections.shuffle(numberList);
+		return numberList;
 	}
 }

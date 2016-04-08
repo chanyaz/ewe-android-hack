@@ -219,7 +219,7 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 	}
 
 	protected String getToolbarTitle() {
-		return getContext().getString(R.string.cars_checkout_text);
+		return getContext().getString(R.string.checkout_text);
 	}
 
 	public void setupToolbar() {
@@ -439,7 +439,8 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 				new HotelV2Tracking().trackHotelV2SlideToPurchase(paymentInfoCardView.getCardType(), paymentInfoCardView.getViewmodel().getSplitsType().getValue());
 				break;
 			case LX:
-				OmnitureTracking.trackAppLXCheckoutSlideToPurchase(cardType);
+			case TRANSPORT:
+				OmnitureTracking.trackAppLXCheckoutSlideToPurchase(getLineOfBusiness(), cardType);
 				break;
 			case CARS:
 				OmnitureTracking.trackAppCarCheckoutSlideToPurchase(cardType);
@@ -875,4 +876,25 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 			}
 		}
 	};
+
+	protected void updateLoginWidget() {
+		loginWidget.bind(false, User.isLoggedIn(getContext()),
+			User.isLoggedIn(getContext()) ? Db.getUser() : null, getLineOfBusiness());
+	}
+
+	protected void selectFirstAvailableCardIfOnlyOneAvailable() {
+		if (User.isLoggedIn(getContext())) {
+			if (paymentInfoCardView.getSectionBillingInfo().getBillingInfo() != null && !paymentInfoCardView
+				.getSectionBillingInfo().getBillingInfo().isCreditCardDataEnteredManually()
+				&& Db.getUser().getStoredCreditCards().size() == 1 && Db.getTemporarilySavedCard() == null) {
+				paymentInfoCardView.getSectionBillingInfo().bind(Db.getBillingInfo());
+				paymentInfoCardView.selectFirstAvailableCard();
+			}
+			else if (Db.getUser().getStoredCreditCards().size() == 0 && Db.getTemporarilySavedCard() != null) {
+				paymentInfoCardView.getStoredCreditCardListener().onTemporarySavedCreditCardChosen(
+					Db.getTemporarilySavedCard());
+			}
+		}
+	}
+
 }

@@ -4,6 +4,7 @@ import android.graphics.ColorMatrixColorFilter
 import android.graphics.drawable.Drawable
 import android.view.View
 import android.widget.CompoundButton
+import android.widget.EditText
 import android.widget.ImageView
 import android.widget.RatingBar
 import android.widget.TextView
@@ -14,9 +15,9 @@ import com.expedia.util.operators.OperatorDistinctUntilChangedWithComparer
 import com.google.android.gms.maps.GoogleMap
 import rx.Observable
 import rx.Observer
+import rx.Subscription
 import rx.exceptions.OnErrorNotImplementedException
 import rx.subjects.PublishSubject
-import kotlin.text.isNotBlank
 
 fun <T> endlessObserver(body: (T) -> Unit): Observer<T> {
     return object : Observer<T> {
@@ -72,6 +73,14 @@ fun <T : CharSequence> Observable<T>.subscribeText(textview: TextView?) {
     this.subscribe { textview?.text = it }
 }
 
+fun <T : CharSequence> Observable<T>.subscribeEditText(edittext: EditText?) {
+    this.subscribe { text ->
+        edittext?.setText(text)
+        val selection = edittext?.text?.length ?: 0
+        edittext?.setSelection(selection)
+    }
+}
+
 fun Observable<Int>.subscribeTextColor(textview: TextView) {
     this.subscribe { textview.setTextColor(it) }
 }
@@ -122,8 +131,8 @@ fun Observable<CharSequence>.subscribeToggleButton(togglebutton: ToggleButton) {
     }
 }
 
-fun Observable<Boolean>.subscribeVisibility(view: View?) {
-    this.subscribe { visible ->
+fun Observable<Boolean>.subscribeVisibility(view: View?): Subscription {
+    return this.subscribe { visible ->
         view?.visibility = if (visible) View.VISIBLE else View.GONE
     }
 }

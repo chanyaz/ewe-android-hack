@@ -26,7 +26,6 @@ import android.widget.ImageView
 import com.expedia.bookings.utils.AnimUtils
 import com.expedia.bookings.utils.FilterAmenity
 import com.expedia.bookings.utils.Strings
-import com.expedia.android.rangeseekbar.RangeSeekBar
 import com.expedia.bookings.R
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.extension.shouldShowCircleForRatings
@@ -154,13 +153,13 @@ class HotelFilterView(context: Context, attrs: AttributeSet) : FrameLayout(conte
             priceRangeMinText.text = priceRange.defaultMinPriceText
             priceRangeMaxText.text = priceRange.defaultMaxPriceTest
 
-            priceRangeBar.setOnRangeSeekBarChangeListener(object : RangeSeekBar.OnRangeSeekBarChangeListener {
-                override fun onRangeSeekBarDragChanged(bar: RangeSeekBar?, minValue: Int, maxValue: Int) {
+            priceRangeBar.setOnRangeSeekBarChangeListener(object : FilterRangeSeekBar.OnRangeSeekBarChangeListener {
+                override fun onRangeSeekBarDragChanged(bar: FilterRangeSeekBar?, minValue: Int, maxValue: Int) {
                     priceRangeMinText.text = priceRange.formatValue(minValue)
                     priceRangeMaxText.text = priceRange.formatValue(maxValue)
                 }
 
-                override fun onRangeSeekBarValuesChanged(bar: RangeSeekBar?, minValue: Int, maxValue: Int) {
+                override fun onRangeSeekBarValuesChanged(bar: FilterRangeSeekBar?, minValue: Int, maxValue: Int) {
                     priceRangeMinText.text = priceRange.formatValue(minValue)
                     priceRangeMaxText.text = priceRange.formatValue(maxValue)
                     vm.priceRangeChangedObserver.onNext(priceRange.update(minValue, maxValue))
@@ -355,7 +354,7 @@ class HotelFilterView(context: Context, attrs: AttributeSet) : FrameLayout(conte
 
         val statusBarHeight = Ui.getStatusBarHeight(getContext())
         if (statusBarHeight > 0) {
-            val color = ContextCompat.getColor(context, R.color.hotels_primary_color)
+            val color = ContextCompat.getColor(context, Ui.obtainThemeResID(context, R.attr.primary_color))
             val statusBar = Ui.setUpStatusBar(context, toolbar, filterContainer, color)
             addView(statusBar)
         }
@@ -390,9 +389,9 @@ class HotelFilterView(context: Context, attrs: AttributeSet) : FrameLayout(conte
         clearHotelNameFocus()
         if (value < 0) {
             star.setColorFilter(ContextCompat.getColor(context, android.R.color.white))
-            background.setBackgroundColor(ContextCompat.getColor(context, R.color.hotels_primary_color))
+            background.setBackgroundColor(ContextCompat.getColor(context, Ui.obtainThemeResID(context, R.attr.primary_color)))
         } else {
-            star.setColorFilter(ContextCompat.getColor(context, R.color.hotels_primary_color))
+            star.setColorFilter(ContextCompat.getColor(context, Ui.obtainThemeResID(context, R.attr.primary_color)))
             background.setBackgroundColor(ContextCompat.getColor(context, android.R.color.white))
         }
     }

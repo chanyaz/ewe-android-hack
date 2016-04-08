@@ -117,6 +117,9 @@
     <dimen name="single_amenity_margin">3dp</dimen>
     <dimen name="amenity_icon_size">30dp</dimen>
 
+    <!-- Text sizes for promo messaging on details screen -->
+    <dimen name="hotel_details_promo_messaging_text_size">11sp</dimen>
+
     <!-- Tablet hotel map popup dimens -->
     <dimen name="hotel_map_popup_thumbnail_height">126dp</dimen>
     <dimen name="hotel_map_popup_thumbnail_width">111dp</dimen>
@@ -228,7 +231,6 @@
     <dimen name="car_time_slider_text_size">12dp</dimen>
     <dimen name="car_time_slider_text_container">110dp</dimen>
     <dimen name="car_search_list_image_container_height">134dp</dimen>
-    <dimen name="car_search_list_image_container_margin">9dp</dimen>
     <dimen name="car_search_details_container_height">37dp</dimen>
 
     <!-- Car Details -->
@@ -254,12 +256,10 @@
     <dimen name="hotel_preview_margin_large">14dp</dimen>
     <dimen name="hotel_preview_margin_top">12dp</dimen>
     <dimen name="hotel_preview_margin_small">4dp</dimen>
-    <dimen name="hotel_marker_padding_width">20dp</dimen>
-    <dimen name="hotel_marker_padding_height">14dp</dimen>
     <dimen name="hotel_cluster_padding_horizontal">8dp</dimen>
     <dimen name="hotel_cluster_padding_vertical">6dp</dimen>
-    <dimen name="hotel_gallery_description_padding">5dp</dimen>
     <dimen name="hotel_filter_height">58dp</dimen>
+    <dimen name="hotel_map_loyalty_header_height">33dp</dimen>
 
     <!-- Dimensions for hotel details -->
     <dimen name="widget_hotel_info_padding">18dp</dimen>
@@ -311,11 +311,12 @@
     <!-- Package Results -->
     <dimen name="layover_bar_text_size">@dimen/temporary_font_size_small</dimen>
     <dimen name="layover_bar_padding">4dp</dimen>
-    <dimen name="card_view_container_margin">9dp</dimen>
 
-    <!-- Traveler Checkout -->
+    <!-- Material Checkout Forms-->
+    <dimen name="traveler_select_item_padding">12dp</dimen>
     <dimen name="traveler_input_bottom_margin">4dp</dimen>
     <dimen name="traveler_input_text_size">16sp</dimen>
+    <dimen name="checkout_form_padding">14dp</dimen>
 
     <!-- Package Bundle Overview Footer -->
     <dimen name="packages_bundle_overview_footer_primary_text">@dimen/temporary_font_size_medium</dimen>
@@ -327,7 +328,7 @@
 
     <!-- Package Hotel Map -->
     <dimen name="packages_hotel_map_message">@dimen/temporary_font_size_small</dimen>
-
+    
     <!-- Package Filter Sort -->
     <dimen name="package_sort_filter_label_text_size">15sp</dimen>
     <dimen name="package_sort_filter_value_text_size">13sp</dimen>
@@ -338,6 +339,9 @@
     <dimen name="checkout_data_button_sub_text_size">16sp</dimen>
     <dimen name="stored_credit_card_icon_size">48dp</dimen>
     <dimen name="stored_credit_card_button_padding">10dp</dimen>
+    <dimen name="checkout_widget_primary_text_size">15sp</dimen>
+    <dimen name="checkout_widget_secondary_text_size">13sp</dimen>
+
     <!-- Credit card dimens phone -->
     <dimen name="credit_card_checkout_width">318dp</dimen>
     <dimen name="credit_card_checkout_height">219dp</dimen>
@@ -397,10 +401,12 @@
     <!-- Dimension for left margin on icon of new login button on car >>>>>>> expedia-stable& LX checkout-->
     <dimen name="checkout_icon_right_margin_car_lx">16dp</dimen>
 
-    <!-- Standard paddings -->
+    <!-- Filter Screen Padding -->
     <dimen name="sort_filter_padding_small">5dp</dimen>
     <dimen name="sort_filter_padding_normal">16dp</dimen>
     <dimen name="sort_filter_padding_large">24dp</dimen>
+    <dimen name="sort_filter_padding_checkmarks">10dp</dimen>
+    <dimen name="sort_filter_padding_dropdowns">13dp</dimen>
 
     <!-- Account Screen -->
     <dimen name="about_row_title_text_size">14sp</dimen>
@@ -410,4 +416,11 @@
     <dimen name="account_loyalty_label_text_size">13sp</dimen>
     <dimen name="account_loyalty_value_text_size">20sp</dimen>
     <dimen name="about_section_margin">6dp</dimen>
+
+    <!-- Footer button height -->
+    <dimen name="footer_button_height">56dp</dimen>
+    <dimen name="default_search_card_height">58dp</dimen>
+
+    <dimen name="hotel_search_container_v1_height_with_swp">220dp</dimen>
+    <dimen name="hotel_search_container_v1_height_without_swp">150dp</dimen>
 </resources>

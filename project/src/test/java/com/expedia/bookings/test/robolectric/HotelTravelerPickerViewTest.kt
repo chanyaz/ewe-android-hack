@@ -1,6 +1,7 @@
 package com.expedia.bookings.test
 
 import android.app.Activity
+import android.view.View
 import com.expedia.bookings.R
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.widget.HotelTravelerPickerView
@@ -24,7 +25,7 @@ class HotelTravelerPickerViewTest {
     fun before() {
         activity = Robolectric.buildActivity(Activity::class.java).create().get()
         hotelTravelerPicker = android.view.LayoutInflater.from(activity).inflate(R.layout.hotel_traveler_picker_test, null) as HotelTravelerPickerView
-        vm = HotelTravelerPickerViewModel(activity, false)
+        vm = HotelTravelerPickerViewModel(activity)
         hotelTravelerPicker.viewmodel = vm
     }
 
@@ -38,6 +39,33 @@ class HotelTravelerPickerViewTest {
         assertFalse(isAdultIncrementButtonEnabled())
         assertFalse(isChildIncrementButtonEnabled())
         assertEquals(expectedChildText(0), getChildText())
+    }
+
+    @Test
+    fun testInfants() {
+        incrementChild()
+        incrementChild()
+
+        hotelTravelerPicker.spinner1.setSelection(0)
+        hotelTravelerPicker.infantPreferenceSeatingSpinner.setSelection(0)
+        assertEquals(View.GONE, hotelTravelerPicker.infantPreferenceSeatingSpinner.visibility)
+
+        vm.showSeatingPreference = true
+        hotelTravelerPicker.spinner1.setSelection(0)
+        hotelTravelerPicker.spinner2.setSelection(0)
+        hotelTravelerPicker.infantPreferenceSeatingSpinner.setSelection(0)
+        assertEquals(View.VISIBLE, hotelTravelerPicker.infantError.visibility)
+        hotelTravelerPicker.infantPreferenceSeatingSpinner.setSelection(1)
+        assertEquals(View.GONE, hotelTravelerPicker.infantError.visibility)
+
+        incrementChild()
+        hotelTravelerPicker.spinner2.setSelection(0)
+        hotelTravelerPicker.infantPreferenceSeatingSpinner.setSelection(0)
+        assertEquals(View.VISIBLE, hotelTravelerPicker.infantError.visibility)
+        decrementChild()
+        assertEquals(View.VISIBLE, hotelTravelerPicker.infantError.visibility)
+        decrementChild()
+        assertEquals(View.GONE, hotelTravelerPicker.infantError.visibility)
     }
 
     @Test

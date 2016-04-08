@@ -12,6 +12,8 @@
     <string name="forward_slash">/</string>
     <string name="connected_server">Server: %s</string>
     <string name="build_number">Build  %s</string>
+    <string name="debug_screens_sub_menu">Test Screens</string>
+    <string name="debug_install_shortcuts">>Install Shortcuts</string>
 
     <!-- Names of the open source libraries we use -->
     <!-- The translators should not translate these proper names and when they came back from loc they didn't touch them anyways -->
@@ -61,7 +63,6 @@
     <string name="bold_template">&lt;b&gt;%s&lt;/b&gt;</string>
     <string name="strike_template">&lt;strike&gt;%s&lt;/strike&gt;</string>
     <string name="ellipsize_text_template">%s…</string>
-    <string name="hotel_ellipsize_text_template">{text}</string>
 
     <!-- Preference keys -->
     <string name="PointOfSaleKey">point_of_sale_key</string>
@@ -442,5 +443,8 @@
     <!-- First name label hint for HK POS -->
     <string name="last_name_hk">Chan</string>
     <string name="omniture_tracking_server_url">om.expedia.com</string>
+
+    <!-- Plus sign for Expedia+ Reward Points on Hotel Infosite -->
+    <string name="plus_sign">+</string>
 
 </resources>

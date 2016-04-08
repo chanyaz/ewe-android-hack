@@ -10,8 +10,9 @@
         android:layout_weight="10"
         android:hint="@string/first_name"
         android:inputType="textPersonName|textCapWords"
+        android:nextFocusRight="@+id/middle_initial_input"
         android:singleLine="true"
-        android:textSize="@dimen/traveler_input_text_size"/>
+        android:textSize="@dimen/traveler_input_text_size" />
 
     <com.expedia.bookings.widget.traveler.TravelerEditText
         android:id="@+id/middle_initial_input"
@@ -20,9 +21,10 @@
         android:layout_weight="5"
         android:hint="@string/initial_middle_name"
         android:inputType="textPersonName|textCapWords"
-        android:singleLine="true"
         android:maxLength="1"
-        android:textSize="@dimen/traveler_input_text_size"/>
+        android:nextFocusRight="@+id/last_name_input"
+        android:singleLine="true"
+        android:textSize="@dimen/traveler_input_text_size" />
 
     <com.expedia.bookings.widget.traveler.TravelerEditText
         android:id="@+id/last_name_input"
@@ -31,6 +33,7 @@
         android:layout_weight="10"
         android:hint="@string/last_name"
         android:inputType="textPersonName|textCapWords"
+        android:nextFocusDown="@+id/edit_phone_number"
         android:singleLine="true"
-        android:textSize="@dimen/traveler_input_text_size"/>
+        android:textSize="@dimen/traveler_input_text_size" />
 </merge>

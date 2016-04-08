@@ -9,7 +9,7 @@ import android.view.View
 import com.expedia.bookings.R
 
 
-public open class MaterialTextInput(context: Context, attrs: AttributeSet?) : TextInputLayout(context, attrs) {
+open class MaterialTextInput(context: Context, attrs: AttributeSet?) : TextInputLayout(context, attrs) {
 
     init {
         View.inflate(context, R.layout.material_text_input, this)

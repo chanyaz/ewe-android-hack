@@ -3,6 +3,7 @@
     <!-- Used by tests only. Do not include in production apps unless necessary! -->
     <uses-permission android:name="android.permission.DISABLE_KEYGUARD" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="com.android.launcher.permission.INSTALL_SHORTCUT" />
 
     <application>
         <!-- Preferences are only for development purposes -->
@@ -17,20 +18,31 @@
 
         <activity
             android:name="com.expedia.bookings.activity.PlaygroundActivity"
-            android:label="@string/playground_launcher_name"
+            android:label="Playground"
             android:taskAffinity="com.expedia.bookings.activity.PlaygroundActivity"
             android:theme="@style/V2.Theme.Cars" />
         <activity
             android:name="com.expedia.ui.PackageActivity"
-            android:label="@string/packages_launcher_name"
+            android:exported="true"
+            android:label="Packages"
             android:screenOrientation="portrait"
             android:taskAffinity="com.expedia.ui.PackageActivity"
             android:theme="@style/V2.Theme.Packages">
+            <meta-data
+                android:name="debug"
+                android:value="true" />
+        </activity>
 
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+        <activity
+            android:name="com.expedia.ui.NewPhoneLaunchActivity"
+            android:exported="true"
+            android:label="New Launch Screen"
+            android:taskAffinity="com.expedia.ui.NewPhoneLaunchActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/NewLaunchTheme">
+            <meta-data
+                android:name="debug"
+                android:value="true" />
         </activity>
 
         <activity
@@ -41,34 +53,46 @@
             android:windowSoftInputMode="adjustPan" />
 
         <activity
-            android:name="com.expedia.ui.FlightPackageActivity"
+            android:name="com.expedia.ui.PackageFlightActivity"
             android:configChanges="screenSize|orientation|keyboardHidden"
             android:launchMode="singleTop"
             android:theme="@style/V2.Theme.Packages" />
 
         <activity
+            android:name="com.expedia.ui.FlightActivity"
+            android:exported="true"
+            android:label="Flights"
+            android:screenOrientation="portrait"
+            android:taskAffinity="com.expedia.ui.FlightActivity"
+            android:theme="@style/V2.Theme.Packages">
+            <meta-data
+                android:name="debug"
+                android:value="true" />
+        </activity>
+
+
+        <activity
             android:name="com.expedia.ui.RailActivity"
-            android:label="@string/rail_launcher_name"
+            android:exported="true"
+            android:label="Rail"
             android:screenOrientation="portrait"
             android:taskAffinity="com.expedia.ui.RailActivity"
             android:theme="@style/V2.Theme.Rail">
-
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+            <meta-data
+                android:name="debug"
+                android:value="true" />
         </activity>
 
         <activity
             android:name="com.expedia.bookings.deeplink.DeepLinkTestActivity"
-            android:label="@string/deeplinktest_launcher_name"
+            android:exported="true"
+            android:label="DeepLink Tester"
             android:screenOrientation="portrait"
             android:taskAffinity=""
             android:theme="@style/Theme.AppCompat.Light">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+            <meta-data
+                android:name="debug"
+                android:value="true" />
         </activity>
     </application>
 

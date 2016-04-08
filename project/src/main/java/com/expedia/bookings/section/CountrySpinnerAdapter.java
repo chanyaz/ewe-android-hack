@@ -19,6 +19,7 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.utils.LocaleUtils;
 import com.expedia.bookings.utils.SpannableBuilder;
+import com.expedia.bookings.utils.Strings;
 import com.expedia.bookings.utils.Ui;
 
 public class CountrySpinnerAdapter extends BaseAdapter {
@@ -29,6 +30,8 @@ public class CountrySpinnerAdapter extends BaseAdapter {
 	private int mItemResId = View.NO_ID;
 	private int mDropDownResId = View.NO_ID;
 	private boolean mShowEmptyRow = false;
+	private String prefix;
+	private boolean isColoredPrefix = true;
 
 	public enum CountryDisplayType {
 		FULL_NAME,
@@ -44,12 +47,14 @@ public class CountrySpinnerAdapter extends BaseAdapter {
 		this(context, displayType, itemResId, View.NO_ID, false);
 	}
 
-	public CountrySpinnerAdapter(Context context, CountryDisplayType displayType, int itemResId, int dropdownresource, boolean showEmptyRow) {
+	public CountrySpinnerAdapter(Context context, CountryDisplayType displayType, int itemResId, int dropdownresource,
+			boolean showEmptyRow) {
 		super();
 		init(context, displayType, itemResId, dropdownresource, showEmptyRow);
 	}
 
-	private void init(Context context, CountryDisplayType displayType, int itemResId, int dropDownResId, boolean showEmptyRow) {
+	private void init(Context context, CountryDisplayType displayType, int itemResId, int dropDownResId,
+		boolean showEmptyRow) {
 		mContext = context;
 		mItemResId = itemResId;
 		mDropDownResId = dropDownResId;
@@ -87,6 +92,14 @@ public class CountrySpinnerAdapter extends BaseAdapter {
 		return mCountries;
 	}
 
+	public void setPrefix(String prefix) {
+		this.prefix = prefix;
+	}
+
+	public void setColoredPrefix(boolean coloredPrefix) {
+		isColoredPrefix = coloredPrefix;
+	}
+
 	@Override
 	public int getCount() {
 		return mCountries.size();
@@ -104,7 +117,9 @@ public class CountrySpinnerAdapter extends BaseAdapter {
 
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
-		View viewImpl = getViewImpl(mShowEmptyRow ? getEmptyText(getItem(position)) : getItem(position), convertView, parent, mItemResId);
+		View viewImpl = getViewImpl(
+			mShowEmptyRow || usePrefix() ? getFormattedText(getItem(position)) : getItem(position),
+			convertView, parent, mItemResId);
 
 		boolean noCountrySelected = (position == 0);
 		if (mShowEmptyRow) {
@@ -113,9 +128,18 @@ public class CountrySpinnerAdapter extends BaseAdapter {
 		return viewImpl;
 	}
 
-	private CharSequence getEmptyText(String text) {
+	private CharSequence getFormattedText(String text) {
 		SpannableBuilder span = new SpannableBuilder();
-		span.append(mContext.getResources().getString(R.string.passport_country), new ForegroundColorSpan(0xFF808080));
+		String formatString = prefix;
+		if (Strings.isEmpty(formatString)) {
+			formatString = mContext.getResources().getString(R.string.passport_country);
+		}
+		if (isColoredPrefix) {
+			span.append(formatString, new ForegroundColorSpan(0xFF808080));
+		}
+		else {
+			span.append(formatString);
+		}
 		span.append(" ");
 		span.append(text);
 		return span.build();
@@ -133,6 +157,10 @@ public class CountrySpinnerAdapter extends BaseAdapter {
 			Drawable[] compounds = textView.getCompoundDrawables();
 			textView.setCompoundDrawablesWithIntrinsicBounds(compounds[0], compounds[1], null, compounds[3]);
 		}
+	}
+
+	private boolean usePrefix() {
+		return Strings.isNotEmpty(prefix);
 	}
 
 	@Override

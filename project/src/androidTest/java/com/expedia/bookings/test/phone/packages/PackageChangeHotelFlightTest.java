@@ -98,7 +98,10 @@ public class PackageChangeHotelFlightTest extends PackageTestCase {
 	private void assertBeforeChangeHotel() {
 		onView(withText("Select hotel in Detroit")).check(
 			matches(isDisplayed()));
-		onView(allOf(withId(R.id.hotels_room_guest_info_text), withText("1 Room, 1 Guest"))).check(matches(isDisplayed()));
+
+		String datesString = PackageScreen.getDatesGuestInfoText(LocalDate.now().plusDays(3), LocalDate.now().plusDays(8));
+
+		onView(allOf(withId(R.id.hotels_dates_guest_info_text), withText(datesString))).check(matches(isDisplayed()));
 		onView(withId(R.id.package_hotel_select_icon)).check(matches(isDisplayed()));
 		onView(allOf(withImageDrawable(R.drawable.packages_hotel_icon), isCompletelyDisplayed())).check(matches(isDisplayed()));
 
@@ -123,7 +126,8 @@ public class PackageChangeHotelFlightTest extends PackageTestCase {
 
 	private void assertBeforeChangeFlights() {
 		onView(withText("Price Change")).check(matches(isDisplayed()));
-		onView(allOf(withId(R.id.hotels_room_guest_info_text), withText("1 Room, 1 Guest"))).check(matches(isDisplayed()));
+		String datesString = PackageScreen.getDatesGuestInfoText(LocalDate.now().plusDays(3), LocalDate.now().plusDays(8));
+		onView(allOf(withId(R.id.hotels_dates_guest_info_text), withText(datesString))).check(matches(isDisplayed()));
 		onView(withImageDrawable(R.drawable.packages_hotels_checkmark_icon)).check(matches(isDisplayed()));
 		onView(withId(R.id.package_hotel_details_icon)).check(matches(isDisplayed()));
 

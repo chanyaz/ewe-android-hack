@@ -21,6 +21,8 @@ import butterknife.OnClick;
 import rx.subjects.PublishSubject;
 
 public class LXOffersListWidget extends android.widget.LinearLayout {
+	private boolean isGroundTransport;
+
 	public LXOffersListWidget(Context context, AttributeSet attrs) {
 		super(context, attrs);
 	}
@@ -55,7 +57,7 @@ public class LXOffersListWidget extends android.widget.LinearLayout {
 				availableOffers.add(offer);
 			}
 		}
-		adapter.setOffers(sortTicketByPriorityAndOfferByPrice(availableOffers), lxOfferSubject);
+		adapter.setOffers(sortTicketByPriorityAndOfferByPrice(availableOffers), lxOfferSubject, isGroundTransport);
 
 		offerContainer.removeAllViews();
 
@@ -112,5 +114,9 @@ public class LXOffersListWidget extends android.widget.LinearLayout {
 			}
 		});
 		return availableOffers;
+	}
+
+	public void setIsFromGroundTransport(boolean isGroundTransport) {
+		this.isGroundTransport = isGroundTransport;
 	}
 }

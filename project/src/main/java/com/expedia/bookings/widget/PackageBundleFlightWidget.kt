@@ -15,7 +15,7 @@ import com.expedia.bookings.utils.AnimUtils
 import com.expedia.bookings.utils.Constants
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
-import com.expedia.ui.FlightPackageActivity
+import com.expedia.ui.PackageFlightActivity
 import com.expedia.util.notNullAndObservable
 import com.expedia.util.subscribeEnabled
 import com.expedia.util.subscribeInverseVisibility
@@ -66,6 +66,13 @@ class PackageBundleFlightWidget(context: Context, attrs: AttributeSet?) : CardVi
                 flightInfoContainer.isEnabled = true
                 flightLoadingBar.clearAnimation()
                 flightIcon.setColorFilter(Ui.obtainThemeColor(context, R.attr.primary_color))
+                setOnClickListener {
+                    if (isOutbound) {
+                        openFlightsForDeparture()
+                    } else {
+                        openFlightsForArrival()
+                    }
+                }
             }
         }
         vm.flightSelectIconObservable.subscribe { showing ->
@@ -90,14 +97,6 @@ class PackageBundleFlightWidget(context: Context, attrs: AttributeSet?) : CardVi
     init {
         View.inflate(getContext(), R.layout.bundle_flight_widget, this)
         isEnabled = false
-        setOnClickListener {
-            if (isOutbound) {
-                openFlightsForDeparture()
-            } else {
-                openFlightsForArrival()
-            }
-        }
-
         flightDetailsIcon.setOnClickListener {
             if (flightDetailsContainer.visibility == Presenter.GONE) {
                 expandFlightDetails()
@@ -110,12 +109,14 @@ class PackageBundleFlightWidget(context: Context, attrs: AttributeSet?) : CardVi
     }
 
     fun openFlightsForDeparture() {
-        val intent = Intent(context, FlightPackageActivity::class.java)
+        val intent = Intent(context, PackageFlightActivity::class.java)
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
         (context as AppCompatActivity).startActivityForResult(intent, Constants.PACKAGE_FLIGHT_DEPARTURE_REQUEST_CODE, null)
     }
 
     fun openFlightsForArrival() {
-        val intent = Intent(context, FlightPackageActivity::class.java)
+        val intent = Intent(context, PackageFlightActivity::class.java)
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
         (context as AppCompatActivity).startActivityForResult(intent, Constants.PACKAGE_FLIGHT_ARRIVAL_REQUEST_CODE, null)
     }
 

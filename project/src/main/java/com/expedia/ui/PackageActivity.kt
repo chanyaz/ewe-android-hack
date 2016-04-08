@@ -44,12 +44,14 @@ class PackageActivity : AppCompatActivity() {
                 Activity.RESULT_OK -> {
                     packageFlightSearch()
                     packagePresenter.bundlePresenter.bundleWidget.outboundFlightWidget.viewModel.selectedFlightObservable.onNext(PackageSearchType.OUTBOUND_FLIGHT)
+                    packagePresenter.bundlePresenter.bundleWidget.outboundFlightWidget.viewModel.flight.onNext(Db.getPackageSelectedOutboundFlight())
                 }
             }
 
             Constants.PACKAGE_FLIGHT_ARRIVAL_REQUEST_CODE -> when (resultCode) {
                 Activity.RESULT_OK -> {
                     packagePresenter.bundlePresenter.bundleWidget.inboundFlightWidget.viewModel.selectedFlightObservable.onNext(PackageSearchType.INBOUND_FLIGHT)
+                    packagePresenter.bundlePresenter.bundleWidget.inboundFlightWidget.viewModel.flight.onNext(Db.getPackageSelectedInboundFlight())
                     packageCreateTrip()
                 }
             }
@@ -63,7 +65,7 @@ class PackageActivity : AppCompatActivity() {
     private fun packageCreateTrip() {
         val params = PackageCreateTripParams.fromPackageSearchParams(Db.getPackageParams())
         if (params.isValid) {
-            packagePresenter.bundlePresenter.checkoutPresenter.createTripViewModel.tripParams.onNext(params)
+            packagePresenter.bundlePresenter.getCheckoutPresenter().createTripViewModel.tripParams.onNext(params)
         }
     }
 

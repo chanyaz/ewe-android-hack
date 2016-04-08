@@ -52,7 +52,6 @@ import java.math.BigDecimal
 import java.util.ArrayList
 import java.util.Locale
 import kotlin.properties.Delegates
-import kotlin.text.startsWith
 
 class HotelMapViewModel(val context: Context, val selectARoomObserver: Observer<Unit>, val hotelSoldOut: Observable<Boolean>) {
     //Outputs for View
@@ -74,8 +73,8 @@ class HotelMapViewModel(val context: Context, val selectARoomObserver: Observer<
         hotelName.onNext(response.hotelName)
         hotelStarRating.onNext(response.hotelStarRating.toFloat())
         hotelStarRatingVisibility.onNext(response.hotelStarRating > 0)
-        price.onNext(priceFormatter(context.resources, response.hotelRoomResponse?.firstOrNull()?.rateInfo?.chargeableRateInfo, false))
-        strikethroughPrice.onNext(priceFormatter(context.resources, response.hotelRoomResponse?.firstOrNull()?.rateInfo?.chargeableRateInfo, true))
+        price.onNext(priceFormatter(context.resources, response.hotelRoomResponse?.firstOrNull()?.rateInfo?.chargeableRateInfo, false, !response.isPackage))
+        strikethroughPrice.onNext(priceFormatter(context.resources, response.hotelRoomResponse?.firstOrNull()?.rateInfo?.chargeableRateInfo, true, !response.isPackage))
         hotelLatLng.onNext(doubleArrayOf(response.latitude, response.longitude))
 
         val firstHotelRoomResponse = response.hotelRoomResponse?.firstOrNull()
@@ -95,7 +94,7 @@ class HotelMapViewModel(val context: Context, val selectARoomObserver: Observer<
                 return ""
             }
 
-            val roomDailyPrice = Money(BigDecimal(hotelRoomRate.priceToShowUsers.toDouble()), hotelRoomRate.currencyCode).getFormattedMoney(Money.F_NO_DECIMAL)
+            val roomDailyPrice = Money(BigDecimal(hotelRoomRate.priceToShowUsersFallbackToZeroIfNegative.toDouble()), hotelRoomRate.currencyCode).getFormattedMoney(Money.F_NO_DECIMAL)
 
             val fromPriceString = context.getString(R.string.map_snippet_price_template, roomDailyPrice)
             val fromPriceStyledString = SpannableString(fromPriceString)
@@ -185,12 +184,16 @@ class HotelDetailViewModel(val context: Context, val hotelServices: HotelService
     val userRatingObservable = BehaviorSubject.create<String>()
     val isUserRatingAvailableObservable = BehaviorSubject.create<Boolean>()
     val userRatingRecommendationTextObservable = BehaviorSubject.create<String>()
-    val ratingContainerBackground = isUserRatingAvailableObservable.map { if (it) ContextCompat.getDrawable(context, R.drawable.hotel_detail_ripple) else null }
+    val ratingContainerBackground = isUserRatingAvailableObservable.map { ratingAvailable ->
+        if (ratingAvailable) ContextCompat.getDrawable(context, R.drawable.hotel_detail_ripple)
+        else (ContextCompat.getDrawable(context, R.color.search_results_list_bg_gray))
+    }
     val numberOfReviewsObservable = BehaviorSubject.create<String>()
     val hotelLatLngObservable = BehaviorSubject.create<DoubleArray>()
     val discountPercentageBackgroundObservable = BehaviorSubject.create<Int>()
     val discountPercentageObservable = BehaviorSubject.create<String>()
-    val hasDiscountPercentageObservable = BehaviorSubject.create<Boolean>(false)
+    val showDiscountPercentageObservable = BehaviorSubject.create<Boolean>(false)
+    val showAirAttachSWPImageObservable = BehaviorSubject.create<Boolean>(false)
     val hasVipAccessObservable = BehaviorSubject.create<Boolean>(false)
     val hasVipAccessLoyaltyObservable = BehaviorSubject.create<Boolean>(false)
     val hasRegularLoyaltyPointsAppliedObservable = BehaviorSubject.create<Boolean>(false)
@@ -247,9 +250,13 @@ class HotelDetailViewModel(val context: Context, val hotelServices: HotelService
             val rate = firstHotelRoomResponse.rateInfo.chargeableRateInfo
             onlyShowTotalPrice.onNext(rate.getUserPriceType() == HotelRate.UserPriceType.RATE_FOR_WHOLE_STAY_WITH_TAXES)
             pricePerNightObservable.onNext(Money(BigDecimal(rate.averageRate.toDouble()), rate.currencyCode).getFormattedMoney(Money.F_NO_DECIMAL))
-            hotelDetailsBundleTotalObservable.onNext(Pair(Money(BigDecimal(rate.packagePricePerPerson.toDouble()), rate.currencyCode).getFormattedMoney(Money.F_NO_DECIMAL), ""))
+            var packageSavings = Phrase.from(context, R.string.bundle_total_savings_TEMPLATE)
+                    .put("savings", rate.packageSavings)
+                    .format().toString()
+            hotelDetailsBundleTotalObservable.onNext(Pair(rate.packagePricePerPerson, packageSavings))
             totalPriceObservable.onNext(Money(BigDecimal(rate.totalPriceWithMandatoryFees.toDouble()), rate.currencyCode).getFormattedMoney(Money.F_NO_DECIMAL))
             discountPercentageBackgroundObservable.onNext(if (rate.isShowAirAttached()) R.drawable.air_attach_background else R.drawable.guest_rating_background)
+            showAirAttachSWPImageObservable.onNext(rate.loyaltyInfo?.isShopWithPoints ?: false && rate.isShowAirAttached())
         }
 
         userRatingObservable.onNext(response.hotelGuestRating.toString())
@@ -263,11 +270,12 @@ class HotelDetailViewModel(val context: Context, val hotelServices: HotelService
                 else context.resources.getString(R.string.zero_reviews))
 
         val chargeableRateInfo = response.hotelRoomResponse?.firstOrNull()?.rateInfo?.chargeableRateInfo
+        val isRateShopWithPoints = chargeableRateInfo?.loyaltyInfo?.isShopWithPoints ?: false
         var discountPercentage: Int? = chargeableRateInfo?.discountPercent?.toInt()
         discountPercentageObservable.onNext(Phrase.from(context.resources, R.string.hotel_discount_percent_Template)
                 .put("discount", discountPercentage ?: 0).format().toString())
 
-        hasDiscountPercentageObservable.onNext(!response.isPackage && chargeableRateInfo?.isDiscountTenPercentOrBetter ?: false)
+        showDiscountPercentageObservable.onNext(!response.isPackage && !isRateShopWithPoints && chargeableRateInfo?.isDiscountPercentNotZero ?: false)
         val isVipAccess = response.isVipAccess && PointOfSale.getPointOfSale().supportsVipAccess()
         hasVipAccessObservable.onNext(isVipAccess)
         hasVipAccessLoyaltyObservable.onNext(isVipAccess && response.doesAnyHotelRateOfAnyRoomHaveLoyaltyInfo)
@@ -277,7 +285,7 @@ class HotelDetailViewModel(val context: Context, val hotelServices: HotelService
         val priceToShowUsers = chargeableRateInfo?.priceToShowUsers ?: 0f
         val strikethroughPriceToShowUsers = chargeableRateInfo?.strikethroughPriceToShowUsers ?: 0f
         if (priceToShowUsers < strikethroughPriceToShowUsers) {
-            strikeThroughPriceObservable.onNext(priceFormatter(context.resources, chargeableRateInfo, true))
+            strikeThroughPriceObservable.onNext(priceFormatter(context.resources, chargeableRateInfo, true, !hotelOffersResponse.isPackage))
         }
 
         hasFreeCancellationObservable.onNext(hasFreeCancellation(response))
@@ -332,17 +340,17 @@ class HotelDetailViewModel(val context: Context, val hotelServices: HotelService
         HotelV2Tracking().trackHotelV2EtpInfo()
     }
 
-    val strikeThroughPriceVisibility = Observable.combineLatest(hasDiscountPercentageObservable, hotelSoldOut)
+    val strikeThroughPriceVisibility = Observable.combineLatest(showDiscountPercentageObservable, hotelSoldOut)
     { hasDiscount, hotelSoldOut -> hasDiscount && !hotelSoldOut }
 
     val perNightVisibility = Observable.combineLatest(onlyShowTotalPrice, hotelSoldOut) { onlyShowTotalPrice, hotelSoldOut -> onlyShowTotalPrice || hotelSoldOut }
 
     val payByPhoneContainerVisibility = Observable.combineLatest(showBookByPhoneObservable, hotelSoldOut) { showBookByPhoneObservable, hotelSoldOut -> showBookByPhoneObservable && !hotelSoldOut }
 
-    val hotelMessagingContainerVisibility = Observable.combineLatest(hasDiscountPercentageObservable, hasVipAccessObservable, promoMessageObservable, hotelSoldOut, hasRegularLoyaltyPointsAppliedObservable)
+    val hotelMessagingContainerVisibility = Observable.combineLatest(showDiscountPercentageObservable, hasVipAccessObservable, promoMessageObservable, hotelSoldOut, hasRegularLoyaltyPointsAppliedObservable, showAirAttachSWPImageObservable)
     {
-        hasDiscount, hasVipAccess, promoMessage, hotelSoldOut, hasRegularLoyaltyPointsApplied ->
-        (hasDiscount || hasVipAccess || Strings.isNotEmpty(promoMessage) || hasRegularLoyaltyPointsApplied) && !hotelSoldOut
+        hasDiscount, hasVipAccess, promoMessage, hotelSoldOut, hasRegularLoyaltyPointsApplied, shouldShowAirAttachSWPImage ->
+        (hasDiscount || hasVipAccess || Strings.isNotEmpty(promoMessage) || hasRegularLoyaltyPointsApplied || shouldShowAirAttachSWPImage) && !hotelSoldOut
     }
 
     val etpContainerVisibility = Observable.combineLatest(hasETPObservable, hotelSoldOut) { hasETPOffer, hotelSoldOut -> hasETPOffer && !hotelSoldOut }
@@ -373,7 +381,7 @@ class HotelDetailViewModel(val context: Context, val hotelServices: HotelService
         paramsSubject.subscribe { params ->
             if (params.forPackage) {
                 searchInfoObservable.onNext(Phrase.from(context, R.string.room_with_guests_TEMPLATE)
-                        .put("guests", StrUtils.formatGuestString(context, params.guests()))
+                        .put("guests", StrUtils.formatGuestString(context, params.guests))
                         .format()
                         .toString())
                 val dates = context.resources.getString(R.string.calendar_instructions_date_range_TEMPLATE,
@@ -382,7 +390,7 @@ class HotelDetailViewModel(val context: Context, val hotelServices: HotelService
             } else {
                 searchInfoObservable.onNext(Phrase.from(context, R.string.calendar_instructions_date_range_with_guests_TEMPLATE).put("startdate",
                         DateUtils.localDateToMMMd(params.checkIn)).put("enddate",
-                        DateUtils.localDateToMMMd(params.checkOut)).put("guests", StrUtils.formatGuestString(context, params.guests()))
+                        DateUtils.localDateToMMMd(params.checkOut)).put("guests", StrUtils.formatGuestString(context, params.guests))
                         .format()
                         .toString())
             }
@@ -620,7 +628,9 @@ class HotelRoomRateViewModel(val context: Context, var hotelId: String, var hote
     // TODO: null all these out on init
     var roomTypeObservable = BehaviorSubject.create<String>(hotelRoomResponse.roomTypeDescription)
     var currencyCode = hotelRoomResponse.rateInfo.chargeableRateInfo.currencyCode
-    var dailyPrice = Money(BigDecimal(hotelRoomResponse.rateInfo.chargeableRateInfo.priceToShowUsers.toDouble()), currencyCode)
+    val hotelRate = hotelRoomResponse.rateInfo.chargeableRateInfo
+    var priceToShowUsers = if (hotelRoomResponse.isPackage) hotelRate.priceToShowUsers.toDouble() else hotelRate.priceToShowUsersFallbackToZeroIfNegative.toDouble()
+    var dailyPrice = Money(BigDecimal(priceToShowUsers), currencyCode)
     var roomHeaderImageObservable = BehaviorSubject.create<String>(Images.getMediaHost() + hotelRoomResponse.roomThumbnailUrl)
     var roomRateInfoTextObservable = BehaviorSubject.create<String>(hotelRoomResponse.roomLongDescription)
     var roomInfoVisibiltyObservable = roomRateInfoTextObservable.map { it != "" }
@@ -700,7 +710,8 @@ class HotelRoomRateViewModel(val context: Context, var hotelId: String, var hote
 
         roomTypeObservable.onNext(hotelRoomResponse.roomTypeDescription)
         currencyCode = hotelRoomResponse.rateInfo.chargeableRateInfo.currencyCode
-        dailyPrice = Money(BigDecimal(hotelRoomResponse.rateInfo.chargeableRateInfo.priceToShowUsers.toDouble()), currencyCode)
+        priceToShowUsers = if (hotelRoomResponse.isPackage) hotelRate.priceToShowUsers.toDouble() else hotelRate.priceToShowUsersFallbackToZeroIfNegative.toDouble()
+        dailyPrice = Money(BigDecimal(priceToShowUsers), currencyCode)
         roomHeaderImageObservable.onNext(Images.getMediaHost() + hotelRoomResponse.roomThumbnailUrl)
         roomRateInfoTextObservable.onNext(hotelRoomResponse.roomLongDescription)
         roomInfoVisibiltyObservable = roomRateInfoTextObservable.map { it != "" }

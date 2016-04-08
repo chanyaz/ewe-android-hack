@@ -76,7 +76,7 @@ class MockHotelServiceTestRule : ServicesRule<HotelServices>(HotelServices::clas
     private fun getOfferResponse(responseFileName: String): HotelOffersResponse {
         val suggestion = SuggestionV4()
         suggestion.coordinates = SuggestionV4.LatLng()
-        val hotelSearchParams = HotelSearchParams.Builder(0).suggestion(suggestion).checkIn(LocalDate()).checkOut(LocalDate()).adults(1).children(emptyList()).build()
+        val hotelSearchParams = HotelSearchParams.Builder(0).departure(suggestion).startDate(LocalDate()).endDate(LocalDate()).adults(1).children(emptyList()).build() as HotelSearchParams
         val observer = TestSubscriber<HotelOffersResponse>()
         services?.offers(hotelSearchParams, responseFileName, observer)
         observer.awaitTerminalEvent()
@@ -183,7 +183,7 @@ class MockHotelServiceTestRule : ServicesRule<HotelServices>(HotelServices::clas
         var observer = TestSubscriber<HotelOffersResponse>()
         val suggestion = SuggestionV4()
         suggestion.coordinates = SuggestionV4.LatLng()
-        val hotelSearchParams = HotelSearchParams.Builder(0).suggestion(suggestion).checkIn(LocalDate.now().plusDays(4)).checkOut(LocalDate.now().plusDays(6)).adults(2).children(listOf(2, 4)).build()
+        val hotelSearchParams = HotelSearchParams.Builder(0).departure(suggestion).startDate(LocalDate.now().plusDays(4)).endDate(LocalDate.now().plusDays(6)).adults(2).children(listOf(2, 4)).build() as HotelSearchParams
 
         services?.offers(hotelSearchParams, responseFileName, observer)
         observer.awaitTerminalEvent()

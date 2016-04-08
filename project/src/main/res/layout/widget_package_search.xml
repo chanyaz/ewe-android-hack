@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <ScrollView
+        android:id="@+id/scrollView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="@dimen/search_form_margin"
+        android:layout_marginRight="@dimen/search_form_margin"
+        android:fillViewport="true"
+        android:scrollbars="none">
+
+        <LinearLayout
+            android:id="@+id/search_v2_container"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="@dimen/search_form_top_margin"
+            android:clipToPadding="false"
+            android:orientation="vertical"
+            android:paddingTop="?attr/actionBarSize">
+
+            <android.support.v7.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardCornerRadius="@dimen/cardview_border_radius"
+                app:cardElevation="1dp"
+                app:cardUseCompatPadding="true">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <com.expedia.bookings.widget.SearchInputCardView
+                        android:id="@+id/destination_card"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/default_search_card_height"
+                        app:cardCornerRadius="0dp"
+                        app:input_icon="@drawable/packages_search_departure"
+                        app:input_icon_tint_color="@color/search_screen_icon_color_v2"
+                        app:input_text="@string/hint_departure_airport" />
+
+                    <com.expedia.bookings.widget.SearchInputCardView
+                        android:id="@+id/arrival_card"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/default_search_card_height"
+                        app:cardCornerRadius="0dp"
+                        app:input_icon="@drawable/packages_search_arrival"
+                        app:input_icon_tint_color="@color/search_screen_icon_color_v2"
+                        app:input_text="@string/hint_arrival_airport" />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1px"
+                    android:layout_marginLeft="57dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginRight="16dp"
+                    android:background="#BDBDBD" />
+
+            </android.support.v7.widget.CardView>
+
+            <com.expedia.bookings.widget.CalendarWidgetV2
+                android:id="@+id/calendar_card"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/default_search_card_height"
+                app:cardCornerRadius="@dimen/cardview_border_radius"
+                app:cardElevation="1dp"
+                app:cardUseCompatPadding="true"
+                app:input_icon="@drawable/search_form_icon_calendar"
+                app:input_icon_tint_color="@color/search_screen_icon_color_v2"
+                app:input_text="@string/select_dates" />
+
+            <com.expedia.bookings.widget.TravelerWidgetV2
+                android:id="@+id/traveler_card"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/default_search_card_height"
+                app:cardCornerRadius="@dimen/cardview_border_radius"
+                app:cardElevation="1dp"
+                app:cardUseCompatPadding="true"
+                app:input_icon="@drawable/search_form_icon_person"
+                app:input_icon_tint_color="@color/search_screen_icon_color_v2"
+                app:input_text="@string/package_search_traveler_default_text" />
+
+        </LinearLayout>
+
+    </ScrollView>
+
+    <FrameLayout
+        android:id="@+id/suggestions_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/search_suggestion_background_v2"
+        android:visibility="gone">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/suggestion_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@android:color/white"
+            android:paddingTop="?attr/actionBarSize"
+            android:visibility="gone" />
+
+    </FrameLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:orientation="vertical">
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="8dp"
+            android:background="@drawable/drop_shadow" />
+
+        <Button
+            android:id="@+id/search_button_v2"
+            style="@style/HotelButtonStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="?attr/hotel_select_room_ripple_drawable"
+            android:enabled="true"
+            android:minHeight="@dimen/recent_search_item_height"
+            android:text="@string/search"
+            android:textSize="17sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/search_v2_toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="top"
+            android:background="?attr/primary_color"
+            android:minHeight="?attr/actionBarSize"
+            app:navigationIcon="@drawable/ic_close_white_24dp">
+
+            <FrameLayout
+                android:id="@+id/toolbar_two"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center_vertical">
+
+                <com.expedia.bookings.widget.TextView
+                    android:id="@+id/title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:ellipsize="end"
+                    android:gravity="center_vertical"
+                    android:maxLines="1"
+                    android:paddingLeft="3dp"
+                    android:text="@string/package_toolbar_title"
+                    android:textColor="#FFFFFF"
+                    android:textSize="18sp"
+                    app:textStyle="medium" />
+
+                <!-- The -16dip is to undo the padding included inside searchView. This is risky behavior, as if that view changes, then we're
+                    going to be adjusting by the wrong amount. -->
+                <android.support.v7.widget.SearchView
+                    android:id="@+id/toolbar_searchView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="-16dip"
+                    android:iconifiedByDefault="false"
+                    android:paddingLeft="3dp">
+
+                </android.support.v7.widget.SearchView>
+
+            </FrameLayout>
+        </android.support.v7.widget.Toolbar>
+
+        <View
+            android:id="@+id/toolbar_dropshadow"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/toolbar_dropshadow_height"
+            android:background="@drawable/tb_shadow" />
+    </LinearLayout>
+
+</merge>

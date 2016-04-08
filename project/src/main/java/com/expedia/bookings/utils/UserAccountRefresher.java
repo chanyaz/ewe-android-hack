@@ -1,5 +1,7 @@
 package com.expedia.bookings.utils;
 
+import javax.inject.Inject;
+
 import android.content.Context;
 import android.support.annotation.Nullable;
 
@@ -11,6 +13,7 @@ import com.expedia.bookings.data.SignInResponse;
 import com.expedia.bookings.data.User;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.server.ExpediaServices;
+import com.expedia.model.UserLoginStateChangedModel;
 import com.facebook.AccessToken;
 import com.facebook.FacebookSdk;
 import com.mobiata.android.BackgroundDownloader;
@@ -31,11 +34,15 @@ public class UserAccountRefresher {
 
 	private Context context;
 
+	@Inject
+	UserLoginStateChangedModel userLoginStateChangedModel;
+
 	public UserAccountRefresher(Context context, LineOfBusiness lob,
 		@Nullable IUserAccountRefreshListener userAccountRefreshListener) {
 		this.context = context.getApplicationContext();
 		this.userAccountRefreshListener = userAccountRefreshListener;
 		this.keyRefreshUser = lob + "_" + "KEY_REFRESH_USER";
+		Ui.getApplication(context).appComponent().inject(this);
 	}
 
 	public void setUserAccountRefreshListener(IUserAccountRefreshListener listener) {
@@ -65,6 +72,7 @@ public class UserAccountRefresher {
 				User user = results.getUser();
 				user.save(context);
 				Db.setUser(user);
+				userLoginStateChangedModel.getUserLoginStateChanged().onNext(true);
 			}
 
 			if (userAccountRefreshListener != null) {
@@ -95,6 +103,7 @@ public class UserAccountRefresher {
 			if (userAccountRefreshListener != null) {
 				userAccountRefreshListener.onUserAccountRefreshed();
 			}
+			userLoginStateChangedModel.getUserLoginStateChanged().onNext(User.isLoggedIn(context));
 		}
 	}
 
@@ -102,6 +111,7 @@ public class UserAccountRefresher {
 		BackgroundDownloader.getInstance().cancelDownload(keyRefreshUser);
 		mLastRefreshedUserTimeMillis = 0L;
 		Events.post(new Events.SignOut());
+		userLoginStateChangedModel.getUserLoginStateChanged().onNext(false);
 	}
 
 	/**

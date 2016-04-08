@@ -26,7 +26,7 @@ import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.RetrofitUtils;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.CVVEntryWidget;
-import com.expedia.bookings.widget.LXCheckoutWidget;
+import com.expedia.bookings.widget.LXCheckoutMainViewPresenter;
 import com.expedia.bookings.widget.LXErrorWidget;
 import com.expedia.bookings.widget.LxRulesWidget;
 import com.mobiata.android.Log;
@@ -38,6 +38,8 @@ import rx.Observer;
 import rx.Subscription;
 
 public class LXCheckoutPresenter extends Presenter {
+	private boolean isGroundTransport;
+
 	public LXCheckoutPresenter(Context context, AttributeSet attrs) {
 		super(context, attrs);
 		inflate(context, R.layout.lx_checkout_presenter, this);
@@ -47,7 +49,7 @@ public class LXCheckoutPresenter extends Presenter {
 	LxServices lxServices;
 
 	@InjectView(R.id.checkout)
-	LXCheckoutWidget checkout;
+	LXCheckoutMainViewPresenter checkout;
 
 	@InjectView(R.id.rules)
 	LxRulesWidget rules;
@@ -147,7 +149,7 @@ public class LXCheckoutPresenter extends Presenter {
 		}
 	};
 
-	private DefaultTransition defaultCheckoutTransition = new DefaultTransition(LXCheckoutWidget.class.getName()) {
+	private DefaultTransition defaultCheckoutTransition = new DefaultTransition(LXCheckoutMainViewPresenter.class.getName()) {
 		@Override
 		public void endTransition(boolean forward) {
 			checkout.setVisibility(View.VISIBLE);
@@ -156,13 +158,13 @@ public class LXCheckoutPresenter extends Presenter {
 		}
 	};
 
-	private Transition checkoutToRules = new VisibilityTransition(this, LXCheckoutWidget.class, LxRulesWidget.class);
+	private Transition checkoutToRules = new VisibilityTransition(this, LXCheckoutMainViewPresenter.class, LxRulesWidget.class);
 
-	private Transition checkoutToCvv = new VisibilityTransition(this, CVVEntryWidget.class, LXCheckoutWidget.class);
+	private Transition checkoutToCvv = new VisibilityTransition(this, CVVEntryWidget.class, LXCheckoutMainViewPresenter.class);
 
 	private Transition cvvToError = new VisibilityTransition(this, CVVEntryWidget.class, LXErrorWidget.class);
 
-	private Transition checkoutToError = new VisibilityTransition(this, LXCheckoutWidget.class, LXErrorWidget.class) {
+	private Transition checkoutToError = new VisibilityTransition(this, LXCheckoutMainViewPresenter.class, LXErrorWidget.class) {
 		@Override
 		public void endTransition(boolean forward) {
 			super.endTransition(forward);
@@ -186,7 +188,7 @@ public class LXCheckoutPresenter extends Presenter {
 		show(cvv);
 		BillingInfo billingInfo = event.billingInfo;
 		cvv.bind(billingInfo);
-		OmnitureTracking.trackAppLXCheckoutCvvScreen();
+		OmnitureTracking.trackAppLXCheckoutCvvScreen(isGroundTransport);
 	}
 
 	@Subscribe
@@ -273,5 +275,9 @@ public class LXCheckoutPresenter extends Presenter {
 	public void onShowErrorScreen(Events.LXError event) {
 		errorScreen.bind(event.apiError);
 		show(errorScreen, FLAG_CLEAR_BACKSTACK);
+	}
+
+	public void setIsFromGroundTransport(boolean isGroundTransport) {
+		this.isGroundTransport = isGroundTransport;
 	}
 }

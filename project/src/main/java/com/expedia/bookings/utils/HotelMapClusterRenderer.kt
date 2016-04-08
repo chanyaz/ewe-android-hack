@@ -66,7 +66,7 @@ class HotelMapClusterRenderer(private val context: Context, private val map: Goo
         var minFormattedPrice: Money? = null
         var soldOutCluster = cluster.items.filter { !it.hotel.isSoldOut }.isEmpty()
         cluster.items.forEach {
-            val formattedPrice = HotelRate.getDisplayMoney(it.price, false)
+            val formattedPrice = it.price.getDisplayMoney(false, !it.hotel.isPackage)
             val price = formattedPrice.amount.toInt()
             if (minPrice > price) {
                 minPrice = price

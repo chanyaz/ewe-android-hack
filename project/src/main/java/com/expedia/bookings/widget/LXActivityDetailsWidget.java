@@ -123,6 +123,7 @@ public class LXActivityDetailsWidget extends LXDetailsScrollView implements Recy
 	LxServices lxServices;
 	private boolean isUserBucketedForRecommendationTest;
 	private boolean userBucketedForRTRTest;
+	private boolean isGroundTransport;
 
 	public LXActivityDetailsWidget(Context context, AttributeSet attrs) {
 		super(context, attrs);
@@ -176,7 +177,7 @@ public class LXActivityDetailsWidget extends LXDetailsScrollView implements Recy
 	public void onShowActivityDetails(ActivityDetailsResponse activityDetails) {
 		recommendations.setVisibility(GONE);
 		//  Track Product Information on load of this Local Expert Information screen.
-		OmnitureTracking.trackAppLXProductInformation(activityDetails, lxState.searchParams);
+		OmnitureTracking.trackAppLXProductInformation(activityDetails, lxState.searchParams, isGroundTransport);
 		this.activityDetails = activityDetails;
 
 		if (isUserBucketedForRecommendationTest) {
@@ -213,7 +214,7 @@ public class LXActivityDetailsWidget extends LXDetailsScrollView implements Recy
 
 		buttonSelected.setChecked(true);
 		//  Track Link to track Change of dates.
-		OmnitureTracking.trackLinkLXChangeDate();
+		OmnitureTracking.trackLinkLXChangeDate(isGroundTransport);
 		buildOffersSection(dateSelected);
 	}
 
@@ -534,6 +535,11 @@ public class LXActivityDetailsWidget extends LXDetailsScrollView implements Recy
 
 	public void setUserBucketedForRTRTest(boolean userBucketedForRTRTest) {
 		this.userBucketedForRTRTest = userBucketedForRTRTest;
+	}
+
+	public void setIsFromGroundTransport(boolean isGroundTransport) {
+		this.isGroundTransport = isGroundTransport;
+		offers.setIsFromGroundTransport(isGroundTransport);
 	}
 }
 

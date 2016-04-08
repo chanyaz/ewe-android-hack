@@ -2,7 +2,7 @@ package com.expedia.vm.test.traveler
 
 import com.expedia.bookings.data.Traveler
 import com.expedia.bookings.test.robolectric.RobolectricRunner
-import com.expedia.vm.traveler.TSAEntryViewModel
+import com.expedia.vm.traveler.TravelerTSAViewModel
 import org.joda.time.LocalDate
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -15,13 +15,14 @@ class TSAEntryViewModelTest {
     val EXPECTED_DEFAULT_DATE = LocalDate(1970, 1, 1)
     val TEST_BIRTH_DATE = LocalDate(1969, 10, 10)
     val TEST_GENDER = Traveler.Gender.MALE
-    lateinit var tsaVM: TSAEntryViewModel
+    lateinit var tsaVM: TravelerTSAViewModel
 
     val context = RuntimeEnvironment.application
 
     @Test
     fun testDefaultDate() {
-        tsaVM = TSAEntryViewModel(context, Traveler())
+        tsaVM = TravelerTSAViewModel(context)
+        tsaVM.updateTraveler(Traveler())
 
         assertEquals(EXPECTED_DEFAULT_DATE.dayOfMonth, tsaVM.defaultDateSubject.value.dayOfMonth)
         assertEquals(EXPECTED_DEFAULT_DATE.year, tsaVM.defaultDateSubject.value.year)
@@ -32,7 +33,8 @@ class TSAEntryViewModelTest {
     fun testBirthDatePrePopulated() {
         var traveler = Traveler()
         traveler.birthDate = TEST_BIRTH_DATE
-        tsaVM = TSAEntryViewModel(context, traveler)
+        tsaVM = TravelerTSAViewModel(context)
+        tsaVM.updateTraveler(traveler)
 
         val testSubscriber = TestSubscriber<LocalDate>(1)
         tsaVM.birthDateSubject.subscribe(testSubscriber)
@@ -45,7 +47,8 @@ class TSAEntryViewModelTest {
     fun testGenderPrePopulated() {
         var traveler = Traveler()
         traveler.gender = TEST_GENDER
-        tsaVM = TSAEntryViewModel(context, traveler)
+        tsaVM = TravelerTSAViewModel(context)
+        tsaVM.updateTraveler(traveler)
 
         val testSubscriber = TestSubscriber<Traveler.Gender>(1)
         tsaVM.genderSubject.subscribe(testSubscriber)

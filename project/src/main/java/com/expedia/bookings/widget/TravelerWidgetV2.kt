@@ -7,15 +7,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.WindowManager
 import com.expedia.bookings.R
+import com.expedia.bookings.data.LineOfBusiness
+import com.expedia.bookings.data.TravelerParams
 import com.expedia.util.subscribeText
-import com.expedia.vm.HotelSearchViewModel
-import com.expedia.vm.HotelTravelerParams
 import com.expedia.vm.HotelTravelerPickerViewModel
 import rx.subjects.BehaviorSubject
 
 class TravelerWidgetV2(context: Context, attrs: AttributeSet?) : SearchInputCardView(context, attrs) {
-    var oldTravelerData: HotelTravelerParams? = null;
-    val hotelSearchViewModelSubject = BehaviorSubject.create<HotelSearchViewModel>()
+    var oldTravelerData: TravelerParams? = null;
+    val travelersSubject = BehaviorSubject.create<TravelerParams>()
     val travelerDialogView: View by lazy {
         val view = LayoutInflater.from(context).inflate(R.layout.widget_hotel_traveler_search, null)
         view
@@ -23,9 +23,12 @@ class TravelerWidgetV2(context: Context, attrs: AttributeSet?) : SearchInputCard
 
     val traveler: HotelTravelerPickerView by lazy {
         val travelerView = travelerDialogView.findViewById(R.id.traveler_view) as HotelTravelerPickerView
-        travelerView.viewmodel = HotelTravelerPickerViewModel(context, false)
-        travelerView.viewmodel.travelerParamsObservable.subscribe(hotelSearchViewModelSubject.value.travelersObserver)
+        travelerView.viewmodel = HotelTravelerPickerViewModel(context)
+        travelerView.viewmodel.travelerParamsObservable.subscribe(travelersSubject)
         travelerView.viewmodel.guestsTextObservable.subscribeText(this.text)
+        travelerView.viewmodel.tooManyInfants.subscribe { enabled ->
+            travelerDialog.getButton(AlertDialog.BUTTON_POSITIVE).isEnabled = !enabled
+        }
         travelerView
     }
 

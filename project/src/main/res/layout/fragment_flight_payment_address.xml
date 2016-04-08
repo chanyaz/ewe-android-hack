@@ -13,7 +13,7 @@
 
         <include
             android:id="@+id/address_section"
-            layout="@layout/section_edit_address" />
+            layout="@layout/old_flights_section_edit_address" />
 
     </FrameLayout>
 

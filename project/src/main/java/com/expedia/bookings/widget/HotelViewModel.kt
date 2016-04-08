@@ -3,6 +3,8 @@ package com.expedia.bookings.widget
 import android.content.Context
 import android.content.res.Resources
 import android.support.v4.content.ContextCompat
+import android.text.Html
+import android.text.Spanned
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.Traveler
@@ -29,17 +31,18 @@ class HotelViewModel(private val context: Context, private val hotel: Hotel) {
     val toolBarRatingColor = soldOut.map { if (it) ContextCompat.getColor(context, R.color.hotelsv2_sold_out_hotel_gray) else ContextCompat.getColor(context, R.color.hotelsv2_detail_star_color) }
     val imageColorFilter = soldOut.map { if (it) HotelDetailView.zeroSaturationColorMatrixColorFilter else null }
     val hotelNameObservable = BehaviorSubject.create(hotel.localizedName)
-    val hotelPriceFormatted = BehaviorSubject.create(priceFormatter(resources, hotel.lowRateInfo, false))
-    val hotelStrikeThroughPriceFormatted = BehaviorSubject.create(priceFormatter(resources, hotel.lowRateInfo, true))
+    val hotelPriceFormatted = BehaviorSubject.create(priceFormatter(resources, hotel.lowRateInfo, false, !hotel.isPackage))
+    val hotelStrikeThroughPriceFormatted = BehaviorSubject.create(priceFormatter(resources, hotel.lowRateInfo, true, !hotel.isPackage))
     val strikethroughPriceToShowUsers = BehaviorSubject.create(hotel.lowRateInfo.strikethroughPriceToShowUsers)
     val priceToShowUsers = BehaviorSubject.create(hotel.lowRateInfo.priceToShowUsers)
     val hotelStrikeThroughPriceVisibility = BehaviorSubject.create(false)
-    val hasDiscountObservable = BehaviorSubject.create<Boolean>(hotel.lowRateInfo.isDiscountTenPercentOrBetter() && !hotel.lowRateInfo.airAttached)
+    val loyaltyAvailabilityObservable = BehaviorSubject.create<Boolean>(hotel.lowRateInfo?.loyaltyInfo?.isShopWithPoints ?: false)
+    val showDiscountObservable = BehaviorSubject.create<Boolean>(hotel.lowRateInfo.isDiscountPercentNotZero && !hotel.lowRateInfo.airAttached && !loyaltyAvailabilityObservable.value)
     val hotelGuestRatingObservable = BehaviorSubject.create(hotel.hotelGuestRating)
     val isHotelGuestRatingAvailableObservable = BehaviorSubject.create<Boolean>(hotel.hotelGuestRating > 0)
     val hotelPreviewRating = BehaviorSubject.create<Float>(hotel.hotelStarRating)
     val hotelPreviewRatingVisibility = BehaviorSubject.create<Float>(hotel.hotelStarRating).map { it >= 0.5f }
-    val pricePerNightObservable = BehaviorSubject.create(priceFormatter(resources, hotel.lowRateInfo, false))
+    val pricePerNightObservable = BehaviorSubject.create(priceFormatter(resources, hotel.lowRateInfo, false, !hotel.isPackage))
     val pricePerNightColorObservable = BehaviorSubject.create(ContextCompat.getColor(context, if (hotel.lowRateInfo?.loyaltyInfo?.isShopWithPoints ?: false) R.color.hotels_primary_color else R.color.hotel_cell_gray_text))
 
     val fewRoomsLeftUrgency = BehaviorSubject.create<UrgencyMessage>(null as UrgencyMessage?)
@@ -61,7 +64,9 @@ class HotelViewModel(private val context: Context, private val hotel: Hotel) {
 
     val vipMessageVisibilityObservable = BehaviorSubject.create<Boolean>()
     val vipLoyaltyMessageVisibilityObservable = BehaviorSubject.create<Boolean>()
-    val airAttachVisibilityObservable = BehaviorSubject.create<Boolean>(hotel.lowRateInfo.isShowAirAttached())
+    val mapLoyaltyMessageTextObservable = BehaviorSubject.create<Spanned>()
+    val airAttachWithDiscountLabelVisibilityObservable = BehaviorSubject.create<Boolean>(hotel.lowRateInfo.isShowAirAttached() && !loyaltyAvailabilityObservable.value)
+    val airAttachIconWithoutDiscountLabelVisibility = BehaviorSubject.create<Boolean>(hotel.lowRateInfo.isShowAirAttached() && loyaltyAvailabilityObservable.value)
     val topAmenityTitleObservable = BehaviorSubject.create(getTopAmenityTitle(hotel, resources))
     val topAmenityVisibilityObservable = topAmenityTitleObservable.map { (it != "") }
 
@@ -72,6 +77,8 @@ class HotelViewModel(private val context: Context, private val hotel: Hotel) {
     val distanceFromCurrentLocation = BehaviorSubject.create(if (hotel.proximityDistanceInMiles > 0) HotelUtils.formatDistanceForNearby(resources, hotel, true) else "")
     val adImpressionObservable = BehaviorSubject.create<String>()
     val priceIncludesFlightsObservable = BehaviorSubject.create<Boolean>(hotel.isPackage)
+    val unrealDealMessageObservable = BehaviorSubject.create(hotel.drrMessage)
+    val unrealDealMessageContainerVisibilityObservable = BehaviorSubject.create<Boolean>()
 
     init {
         if (hotel.isSponsoredListing && !hotel.hasShownImpression) {
@@ -83,9 +90,13 @@ class HotelViewModel(private val context: Context, private val hotel: Hotel) {
         val isVipAvailable = hotel.isVipAccess && PointOfSale.getPointOfSale().supportsVipAccess() && User.isLoggedIn(context)
         val isGoldOrSilver = Db.getUser() != null && (Db.getUser().primaryTraveler.loyaltyMembershipTier == Traveler.LoyaltyMembershipTier.SILVER || Db.getUser().primaryTraveler.loyaltyMembershipTier == Traveler.LoyaltyMembershipTier.GOLD)
         vipMessageVisibilityObservable.onNext(isVipAvailable && isGoldOrSilver)
-        val isVipLoyaltyAvailable = isVipAvailable && isGoldOrSilver && hotel.lowRateInfo?.loyaltyInfo?.isShopWithPoints ?: false
-        vipLoyaltyMessageVisibilityObservable.onNext(isVipLoyaltyAvailable)
+        val isVipLoyaltyApplied = isVipAvailable && isGoldOrSilver && loyaltyAvailabilityObservable.value
+        vipLoyaltyMessageVisibilityObservable.onNext(isVipLoyaltyApplied)
 
+        val mapLoyaltyMessageString = if (isVipLoyaltyApplied) resources.getString(R.string.vip_loyalty_applied_map_message) else resources.getString(R.string.regular_loyalty_applied_message)
+        mapLoyaltyMessageTextObservable.onNext(Html.fromHtml(mapLoyaltyMessageString))
+
+        unrealDealMessageContainerVisibilityObservable.onNext(!hotel.drrMessage.isNullOrEmpty())
         // NOTE: Any changes to this logic should also be made in HotelDetailViewModel.getPromoText()
         val isUserBucketedForTest = Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelsMemberDealTest)
         if (hotel.isMemberDeal && isUserBucketedForTest && User.isLoggedIn(context)) {

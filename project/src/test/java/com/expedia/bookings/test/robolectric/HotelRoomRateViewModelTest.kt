@@ -108,6 +108,13 @@ class HotelRoomRateViewModelTest {
         testSubscriber.assertValue("Sold Out")
     }
 
+    @Test
+    fun userSeesZeroPriceWhenPriceToShowUsersIsNegative() {
+        givenPriceToShowUsersIsNegative()
+        setupNonSoldOutRoomUnderTest()
+        assertEquals("$0", sut.dailyPricePerNightObservable.value)
+    }
+
     private fun givenDiscountLessThanTenPercent() {
         hotelRoomResponse.rateInfo.chargeableRateInfo.discountPercent = 9f
     }
@@ -118,6 +125,10 @@ class HotelRoomRateViewModelTest {
 
     private fun givenOfferHasFreeCancellation() {
         hotelRoomResponse.hasFreeCancellation = true
+    }
+
+    private fun givenPriceToShowUsersIsNegative() {
+        hotelRoomResponse.rateInfo.chargeableRateInfo.priceToShowUsers = -100.12f
     }
 
     private fun setupNonSoldOutRoomUnderTest() {

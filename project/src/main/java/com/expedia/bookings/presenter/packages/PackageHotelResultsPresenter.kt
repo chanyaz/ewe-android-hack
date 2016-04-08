@@ -53,7 +53,7 @@ class PackageHotelResultsPresenter(context: Context, attrs: AttributeSet) : Base
         super.onFinishInflate()
         inflateAndSetupToolbarMenu()
         recyclerView.viewTreeObserver.addOnGlobalLayoutListener(adapterListener)
-        filterMenuItem.setVisible(true)
+        filterMenuItem.isVisible = true
         filterButton.setOnClickListener { view ->
             show(ResultsFilter())
             filterView.viewmodel.sortContainerObservable.onNext(currentState == ResultsList::class.java.name)
@@ -66,7 +66,7 @@ class PackageHotelResultsPresenter(context: Context, attrs: AttributeSet) : Base
         mapFilterPlaceholderImageView = toolbarFilterItemActionView.findViewById(R.id.map_filter_placeholder_icon) as ImageView
         mapFilterPlaceholderImageView.setImageDrawable(filterPlaceholderIcon)
         filterButtonText = toolbarFilterItemActionView.findViewById(R.id.filter_text) as TextView
-        toolbar.menu.findItem(R.id.menu_filter).setActionView(toolbarFilterItemActionView)
+        toolbar.menu.findItem(R.id.menu_filter).actionView = toolbarFilterItemActionView
     }
 
     override fun doAreaSearch() {

@@ -27,6 +27,7 @@ import com.expedia.bookings.utils.ExpediaDebugUtil;
 import com.expedia.bookings.utils.ServicesUtil;
 import com.expedia.bookings.utils.StethoShim;
 import com.expedia.bookings.utils.Strings;
+import com.expedia.model.UserLoginStateChangedModel;
 import com.mobiata.android.DebugUtils;
 import com.squareup.okhttp.Cache;
 import com.squareup.okhttp.OkHttpClient;
@@ -207,5 +208,11 @@ public class AppModule {
 			.setLogLevel(loglevel)
 			.setClient(new OkClient(client))
 			.build().create(ExpediaAccountApi.class);
+	}
+
+	@Provides
+	@Singleton
+	UserLoginStateChangedModel provideUserLoginStateChangedModel() {
+		return new UserLoginStateChangedModel();
 	}
 }

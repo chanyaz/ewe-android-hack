@@ -19,10 +19,13 @@ public class LXCurrentLocationSuggestionObserver implements Observer<SuggestionV
 
 	private Context context;
 	private LXSearchParams currentLocationSearchParams = null;
+	private boolean isGroundTransport;
 
-	public LXCurrentLocationSuggestionObserver(Context context, LXSearchParams currentLocationSearchParams) {
+	public LXCurrentLocationSuggestionObserver(Context context, LXSearchParams currentLocationSearchParams,
+		boolean isGroundTransport) {
 		this.context = context;
 		this.currentLocationSearchParams = currentLocationSearchParams;
+		this.isGroundTransport = isGroundTransport;
 	}
 
 	@Override
@@ -36,7 +39,7 @@ public class LXCurrentLocationSuggestionObserver implements Observer<SuggestionV
 			return;
 		}
 		else {
-			LXNavUtils.handleLXSearchFailure(e, SearchType.DEFAULT_SEARCH);
+			LXNavUtils.handleLXSearchFailure(e, SearchType.DEFAULT_SEARCH, isGroundTransport);
 		}
 	}
 

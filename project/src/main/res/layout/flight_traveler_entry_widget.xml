@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView android:id="@+id/bundle_container"
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
@@ -9,7 +8,16 @@
         android:layout_height="match_parent"
         android:background="@drawable/card_background"
         android:orientation="vertical"
-        android:padding="16dp">
+        android:padding="@dimen/checkout_form_padding"
+        android:layout_marginTop="9dp">
+
+        <com.expedia.bookings.widget.TravelerButton
+            android:id="@+id/traveler_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/traveler_input_bottom_margin"
+            android:gravity="center_vertical"
+            android:orientation="horizontal" />
 
         <com.expedia.bookings.widget.traveler.NameEntryView
             android:id="@+id/name_entry_widget"
@@ -28,15 +36,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
-        <com.expedia.bookings.widget.TextView
-            android:id="@+id/new_traveler_done_button"
-            android:layout_width="wrap_content"
+        <Spinner
+            android:id="@+id/passport_country_spinner"
+            style="@style/FakeSpinner.Light"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="right"
-            android:background="@drawable/dialog_button"
-            android:padding="10dp"
-            android:text="@string/done"
-            android:textAllCaps="true" />
+            android:popupBackground="@android:color/white"
+            android:textSize="@dimen/traveler_input_text_size"
+            android:visibility="gone"/>
 
         <com.expedia.bookings.widget.FlightTravelerAdvancedOptionsWidget
             android:id="@+id/traveler_advanced_options_widget"
@@ -67,8 +74,8 @@
                 android:background="@drawable/dialog_button"
                 android:padding="10dp"
                 android:text="@string/advanced"
-                android:textColor="?attr/primary_color"
-                android:textAllCaps="true" />
+                android:textAllCaps="true"
+                android:textColor="?attr/primary_color" />
 
         </LinearLayout>
     </LinearLayout>

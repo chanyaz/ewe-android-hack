@@ -81,15 +81,7 @@ class HotelServices(endpoint: String, okHttpClient: OkHttpClient, requestInterce
 
 					response.hotelList = putSponsoredItemsInCorrectPlaces(response.hotelList)
 				}
-				.doOnNext { response ->
-					response.hotelList.forEach {
-						if (it.lowRateInfo?.loyaltyInfo?.isShopWithPoints ?: false) {
-							response.hasLoyaltyInformation = true
-							return@doOnNext
-						}
-
-					}
-				}
+				.doOnNext { it.setHasLoyaltyInformation() }
 	}
 
     fun offers(hotelSearchParams: HotelSearchParams, hotelId: String, observer: Observer<HotelOffersResponse>): Subscription {

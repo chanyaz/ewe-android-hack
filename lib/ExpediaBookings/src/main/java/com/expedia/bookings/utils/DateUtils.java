@@ -98,11 +98,19 @@ public class DateUtils {
 		return date.toString("yyyy-MM-dd");
 	}
 
+	public static String localDateToMMddyyyy(LocalDate date) {
+		return date.toString("MM/dd/yyy");
+	}
+
 	public static String localDateTohmma(DateTime date) {
 		return date.toString("h:mm a").toLowerCase();
 	}
 
 	public static String dateTimeToMMMdhmma(DateTime date) {
+		return date.toString("MMM d, h:mm a");
+	}
+
+	public static String dateTimeToMMMdhmma(LocalDate date) {
 		return date.toString("MMM d, h:mm a");
 	}
 
@@ -126,6 +134,11 @@ public class DateUtils {
 	public static DateTime yyyyMMddHHmmssToDateTime(String dateyyyyMMddHHmmss) {
 		return DateTime.parse(dateyyyyMMddHHmmss, DateTimeFormat.forPattern("yyyy-MM-dd HH:mm:ss"));
 	}
+
+	public static DateTime yyyyMMddHHmmToDateTime(String dateyyyyMMddHHmm) {
+		return DateTime.parse(dateyyyyMMddHHmm, DateTimeFormat.forPattern("yyyy-MM-dd HH:mm"));
+	}
+
 
 	public static DateTime yyyyMMddTHHmmssToDateTimeSafe(String dateyyyyMMddTHHmmss, DateTime defaultValue) {
 		try {

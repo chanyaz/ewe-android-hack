@@ -17,7 +17,6 @@ import android.widget.LinearLayout
 import android.widget.RelativeLayout
 import android.widget.Spinner
 import android.widget.TextView
-import com.expedia.android.rangeseekbar.RangeSeekBar
 import com.expedia.bookings.R
 import com.expedia.bookings.data.FlightFilter
 import com.expedia.bookings.utils.AnimUtils
@@ -38,9 +37,8 @@ class PackageFlightFilterWidget(context: Context, attrs: AttributeSet) : FrameLa
     val sortContainer: LinearLayout by bindView(R.id.sort_hotel)
     val sortByButtonGroup: Spinner by bindView(R.id.sort_by_selection_spinner)
 
-    val durationRangeBar: FilterRangeSeekBar by bindView(R.id.duration_range_bar)
-    val durationRangeMinText: TextView by bindView(R.id.duration_range_min_text)
-    val durationRangeMaxText: TextView by bindView(R.id.duration_range_max_text)
+    val durationSeekBar: FilterSeekBar by bindView(R.id.duration_seek_bar)
+    val duration: TextView by bindView(R.id.duration)
 
     val stopsLabel: android.widget.TextView by bindView(R.id.stops_label)
     val stopsContainer: LinearLayout by bindView(R.id.stops_container)
@@ -85,62 +83,57 @@ class PackageFlightFilterWidget(context: Context, attrs: AttributeSet) : FrameLa
             airlinesContainer.clearChecks()
         }
 
-        vm.newDurationRangeObservable.subscribe { timeRange ->
-            durationRangeBar.setUpperLimit(timeRange.notches)
-            durationRangeMinText.text = java.lang.String.format(timeRange.defaultMinText, context.getString(R.string.flight_duration_hour_short))
-            durationRangeMaxText.text = java.lang.String.format(timeRange.defaultMaxText, context.getString(R.string.flight_duration_hour_short))
 
-            durationRangeBar.setOnRangeSeekBarChangeListener(object : RangeSeekBar.OnRangeSeekBarChangeListener {
+        vm.newDurationRangeObservable.subscribe { durationRange ->
+            durationSeekBar.upperLimit = durationRange.notches
+            duration.text = java.lang.String.format(durationRange.defaultMaxText, context.getString(R.string.flight_duration_hour_short))
 
-                override fun onRangeSeekBarDragChanged(bar: RangeSeekBar?, minValue: Int, maxValue: Int) {
-                    durationRangeMinText.text = java.lang.String.format(timeRange.formatValue(minValue), context.getString(R.string.flight_duration_hour_short))
-                    durationRangeMaxText.text = java.lang.String.format(timeRange.formatValue(maxValue), context.getString(R.string.flight_duration_hour_short))
-                    vm.durationRangeChangedObserver.onNext(timeRange.update(minValue, maxValue))
+            durationSeekBar.setOnSeekBarChangeListener(object : FilterSeekBar.OnSeekBarChangeListener {
+                override fun onProgressChanged(seekBar: FilterSeekBar, progress: Int, fromUser: Boolean) {
+                    duration.text = java.lang.String.format(durationRange.formatHour(progress), context.getString(R.string.flight_duration_hour_short))
+                    vm.durationRangeChangedObserver.onNext(durationRange.update(progress))
                 }
 
-                override fun onRangeSeekBarValuesChanged(bar: RangeSeekBar?, minValue: Int, maxValue: Int) {
-                    durationRangeMinText.text = java.lang.String.format(timeRange.formatValue(minValue), context.getString(R.string.flight_duration_hour_short))
-                    durationRangeMaxText.text = java.lang.String.format(timeRange.formatValue(maxValue), context.getString(R.string.flight_duration_hour_short))
-                    vm.durationRangeChangedObserver.onNext(timeRange.update(minValue, maxValue))
-                }
+                override fun onStartTrackingTouch(seekBar: FilterSeekBar) {}
+                override fun onStopTrackingTouch(seekBar: FilterSeekBar) {}
             })
         }
 
         vm.newDepartureRangeObservable.subscribe { timeRange ->
-            departureRangeBar.setUpperLimit(timeRange.notches)
-            departureRangeMinText.text = java.lang.String.format(timeRange.defaultMinText, ":00")
-            departureRangeMaxText.text = java.lang.String.format(timeRange.defaultMaxText, ":00")
+            departureRangeBar.upperLimit = timeRange.notches
+            departureRangeMinText.text = timeRange.defaultMinText
+            departureRangeMaxText.text = timeRange.defaultMaxText
 
-            departureRangeBar.setOnRangeSeekBarChangeListener(object : RangeSeekBar.OnRangeSeekBarChangeListener {
-                override fun onRangeSeekBarDragChanged(bar: RangeSeekBar?, minValue: Int, maxValue: Int) {
-                    departureRangeMinText.text = java.lang.String.format(timeRange.formatValue(minValue), ":00")
-                    departureRangeMaxText.text = java.lang.String.format(timeRange.formatValue(maxValue), ":00")
+            departureRangeBar.setOnRangeSeekBarChangeListener(object : FilterRangeSeekBar.OnRangeSeekBarChangeListener {
+                override fun onRangeSeekBarDragChanged(bar: FilterRangeSeekBar?, minValue: Int, maxValue: Int) {
+                    departureRangeMinText.text = timeRange.formatValue(minValue)
+                    departureRangeMaxText.text = timeRange.formatValue(maxValue)
                     vm.departureRangeChangedObserver.onNext(timeRange.update(minValue, maxValue))
                 }
 
-                override fun onRangeSeekBarValuesChanged(bar: RangeSeekBar?, minValue: Int, maxValue: Int) {
-                    departureRangeMinText.text = java.lang.String.format(timeRange.formatValue(minValue), ":00")
-                    departureRangeMaxText.text = java.lang.String.format(timeRange.formatValue(maxValue), ":00")
+                override fun onRangeSeekBarValuesChanged(bar: FilterRangeSeekBar?, minValue: Int, maxValue: Int) {
+                    departureRangeMinText.text = timeRange.formatValue(minValue)
+                    departureRangeMaxText.text = timeRange.formatValue(maxValue)
                     vm.departureRangeChangedObserver.onNext(timeRange.update(minValue, maxValue))
                 }
             })
         }
 
         vm.newArrivalRangeObservable.subscribe { timeRange ->
-            arrivalRangeBar.setUpperLimit(timeRange.notches)
-            arrivalRangeMinText.text = java.lang.String.format(timeRange.defaultMinText, ":00")
-            arrivalRangeMaxText.text = java.lang.String.format(timeRange.defaultMaxText, ":00")
+            arrivalRangeBar.upperLimit = timeRange.notches
+            arrivalRangeMinText.text = timeRange.defaultMinText
+            arrivalRangeMaxText.text = timeRange.defaultMaxText
 
-            arrivalRangeBar.setOnRangeSeekBarChangeListener(object : RangeSeekBar.OnRangeSeekBarChangeListener {
-                override fun onRangeSeekBarDragChanged(bar: RangeSeekBar?, minValue: Int, maxValue: Int) {
-                    arrivalRangeMinText.text = java.lang.String.format(timeRange.formatValue(minValue), ":00")
-                    arrivalRangeMaxText.text = java.lang.String.format(timeRange.formatValue(maxValue), ":00")
+            arrivalRangeBar.setOnRangeSeekBarChangeListener(object : FilterRangeSeekBar.OnRangeSeekBarChangeListener {
+                override fun onRangeSeekBarDragChanged(bar: FilterRangeSeekBar?, minValue: Int, maxValue: Int) {
+                    arrivalRangeMinText.text = timeRange.formatValue(minValue)
+                    arrivalRangeMaxText.text = timeRange.formatValue(maxValue)
                     vm.arrivalRangeChangedObserver.onNext(timeRange.update(minValue, maxValue))
                 }
 
-                override fun onRangeSeekBarValuesChanged(bar: RangeSeekBar?, minValue: Int, maxValue: Int) {
-                    arrivalRangeMinText.text = java.lang.String.format(timeRange.formatValue(minValue), ":00")
-                    arrivalRangeMaxText.text = java.lang.String.format(timeRange.formatValue(maxValue), ":00")
+                override fun onRangeSeekBarValuesChanged(bar: FilterRangeSeekBar?, minValue: Int, maxValue: Int) {
+                    arrivalRangeMinText.text = timeRange.formatValue(minValue)
+                    arrivalRangeMaxText.text = timeRange.formatValue(maxValue)
                     vm.arrivalRangeChangedObserver.onNext(timeRange.update(minValue, maxValue))
                 }
             })

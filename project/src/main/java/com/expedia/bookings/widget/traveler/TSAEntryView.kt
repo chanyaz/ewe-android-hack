@@ -13,9 +13,9 @@ import com.expedia.bookings.section.GenderSpinnerAdapter
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
 import com.expedia.util.notNullAndObservable
-import com.expedia.vm.traveler.TSAEntryViewModel
+import com.expedia.util.subscribeEditText
+import com.expedia.vm.traveler.TravelerTSAViewModel
 import org.joda.time.LocalDate
-
 
 class TSAEntryView(context: Context, attrs: AttributeSet?) : LinearLayout(context, attrs),
         DatePickerDialogFragment.DateChosenListener {
@@ -26,17 +26,15 @@ class TSAEntryView(context: Context, attrs: AttributeSet?) : LinearLayout(contex
     val dateOfBirth: TravelerEditText by bindView(R.id.edit_birth_date_text_btn)
     val genderSpinner: Spinner by bindView(R.id.edit_gender_spinner)
 
-    var viewModel: TSAEntryViewModel by notNullAndObservable { vm ->
-        vm.formattedDateSubject.subscribe { date ->
-            setBirthDateText(date)
-        }
+    var viewModel: TravelerTSAViewModel by notNullAndObservable { vm ->
+        vm.formattedDateSubject.subscribeEditText(dateOfBirth)
+        dateOfBirth.subscribeToError(vm.dateOfBirthErrorSubject)
+
+        genderSpinner.onItemSelectedListener = GenderItemSelectedListener()
+
         vm.genderSubject.subscribe { gender ->
             val adapter = genderSpinner.adapter as GenderSpinnerAdapter
             genderSpinner.setSelection(adapter.getGenderPosition(gender))
-        }
-
-        vm.dateOfBirthErrorSubject.subscribe { error ->
-            dateOfBirth.setError()
         }
     }
 
@@ -49,22 +47,14 @@ class TSAEntryView(context: Context, attrs: AttributeSet?) : LinearLayout(contex
 
         val genderAdapter = GenderSpinnerAdapter(context, R.layout.material_spinner_item, R.layout.spinner_dropdown_item)
         genderSpinner.adapter = genderAdapter
-        genderSpinner.onItemSelectedListener = GenderItemSelectedListener()
-
         dateOfBirth.setOnClickListener(DateOfBirthClickListener(this))
     }
 
     override fun handleDateChosen(year: Int, month: Int, day: Int, formattedDate: String) {
         viewModel.dateOfBirthObserver.onNext(LocalDate(year, month, day))
-        setBirthDateText(formattedDate)
-        dateOfBirth.resetError()
     }
 
-    fun setBirthDateText(formattedDate: String) {
-        dateOfBirth.setText(formattedDate)
-    }
-
-    private inner class GenderItemSelectedListener(): AdapterView.OnItemSelectedListener {
+    private inner class GenderItemSelectedListener() : AdapterView.OnItemSelectedListener {
         override fun onNothingSelected(parent: AdapterView<*>?) {
             //do nothing
         }
@@ -75,7 +65,7 @@ class TSAEntryView(context: Context, attrs: AttributeSet?) : LinearLayout(contex
         }
     }
 
-    private inner class DateOfBirthClickListener(val dateSetListener: DatePickerDialogFragment.DateChosenListener): OnClickListener {
+    private inner class DateOfBirthClickListener(val dateSetListener: DatePickerDialogFragment.DateChosenListener) : OnClickListener {
         override fun onClick(v: View?) {
             var date = viewModel.birthDateSubject.value
             if (date == null) {

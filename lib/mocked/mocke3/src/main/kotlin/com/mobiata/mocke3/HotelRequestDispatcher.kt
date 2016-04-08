@@ -39,7 +39,7 @@ class HotelRequestDispatcher(fileOpener: FileOpener) : AbstractDispatcher(fileOp
 
             HotelRequestMatcher.isHotelProductRequest(urlPath) -> {
                 val productKey = params.get("productKey") ?: return make404()
-                val isHotelCouponError = HotelRequestMatcher.doesItMatch("^hotel_coupon_errors$", productKey)
+                val isHotelCouponError = doesItMatch("^hotel_coupon_errors$", productKey)
                 if (isHotelCouponError) params.put("productKey", "hotel_coupon_errors")
 
                 return getMockResponse("m/api/hotel/product/" + params.get("productKey") + ".json", params)
@@ -47,7 +47,7 @@ class HotelRequestDispatcher(fileOpener: FileOpener) : AbstractDispatcher(fileOp
 
             HotelRequestMatcher.isHotelCreateTripRequest(urlPath) -> {
                 val productKey = params.get("productKey") ?: return make404()
-                val isHotelCouponError = HotelRequestMatcher.doesItMatch("^hotel_coupon_errors$", productKey)
+                val isHotelCouponError = doesItMatch("^hotel_coupon_errors$", productKey)
                 var fileName = if (!isHotelCouponError) productKey else "hotel_coupon_errors"
                 if (productKey == "tealeaf_id" && createTripRequestCount++ == 1) {
                     fileName = "tealeaf_id_signed_in"
@@ -73,7 +73,7 @@ class HotelRequestDispatcher(fileOpener: FileOpener) : AbstractDispatcher(fileOp
                     throw RuntimeException("expectedTotalFare must be in decimal format")
                 }
 
-                val isHotelCouponError = HotelRequestMatcher.doesItMatch("^hotel_coupon_errors$", tripId)
+                val isHotelCouponError = doesItMatch("^hotel_coupon_errors$", tripId)
                 val fileName = if (!isHotelCouponError) tripId else "hotel_coupon_errors"
 
                 return getMockResponse("m/api/hotel/trip/checkout/$fileName.json", params)
@@ -95,7 +95,7 @@ class HotelRequestDispatcher(fileOpener: FileOpener) : AbstractDispatcher(fileOp
                     throw RuntimeException("expectedTotalFare must be in decimal format")
                 }
 
-                val isHotelCouponError = HotelRequestMatcher.doesItMatch("^hotel_coupon_errors$", tripId)
+                val isHotelCouponError = doesItMatch("^hotel_coupon_errors$", tripId)
                 val fileName = if (!isHotelCouponError) tripId else "hotel_coupon_errors"
 
                 return getMockResponse("m/api/hotel/trip/checkout/$fileName.json", params)
@@ -162,12 +162,6 @@ class HotelRequestMatcher() {
 
         fun isExpectedFareFormatDecimal(number: String) : Boolean {
             return doesItMatch("\\d*\\.\\d\\d", number)
-        }
-
-        fun doesItMatch(regExp: String, str: String): Boolean {
-            val pattern = Pattern.compile(regExp)
-            val matcher = pattern.matcher(str)
-            return matcher.matches()
         }
     }
 }

@@ -49,7 +49,7 @@ class HotelValueAddsTest {
         val dtf = DateTimeFormat.forPattern("yyyy-MM-dd")
         val suggestion = SuggestionV4()
         suggestion.coordinates = SuggestionV4.LatLng()
-        val hotelSearchParams = HotelSearchParams.Builder(0).suggestion(suggestion).checkIn(dtf.parseLocalDate("2015-09-12")).checkOut(dtf.parseLocalDate("2015-09-16")).adults(3).children(emptyList()).build()
+        val hotelSearchParams = HotelSearchParams.Builder(0).departure(suggestion).startDate(dtf.parseLocalDate("2015-09-12")).endDate(dtf.parseLocalDate("2015-09-16")).adults(3).children(emptyList()).build() as HotelSearchParams
         vm.paramsSubject.onNext(hotelSearchParams)
         service.offers(hotelSearchParams, "happypath", observer)
         return observer

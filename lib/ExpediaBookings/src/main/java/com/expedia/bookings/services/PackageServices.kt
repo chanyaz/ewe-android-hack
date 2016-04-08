@@ -47,6 +47,7 @@ class PackageServices(endpoint: String, okHttpClient: OkHttpClient, requestInter
 		return packageApi.packageSearch(params.toQueryMap()).observeOn(observeOn)
 				.subscribeOn(subscribeOn)
 				.doOnNext { response ->
+					if (response.hasErrors()) return@doOnNext
 					response.packageResult.hotelsPackage.hotels.forEach { hotel ->
 						hotel.packageOfferModel = response.packageResult.packageOfferModels.find { offer ->
 							offer.hotel == hotel.hotelPid

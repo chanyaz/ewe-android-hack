@@ -5,13 +5,13 @@ import org.joda.time.LocalDate;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.pos.PointOfSaleId;
 import com.expedia.bookings.test.espresso.Common;
+import com.expedia.bookings.test.espresso.EspressoUtils;
+import com.expedia.bookings.test.espresso.PhoneTestCase;
 import com.expedia.bookings.test.phone.pagemodels.common.CommonCheckoutScreen;
 import com.expedia.bookings.test.phone.pagemodels.common.LaunchScreen;
 import com.expedia.bookings.test.phone.pagemodels.flights.FlightLegScreen;
 import com.expedia.bookings.test.phone.pagemodels.flights.FlightsSearchResultsScreen;
 import com.expedia.bookings.test.phone.pagemodels.flights.FlightsSearchScreen;
-import com.expedia.bookings.test.espresso.EspressoUtils;
-import com.expedia.bookings.test.espresso.PhoneTestCase;
 import com.mobiata.android.Log;
 
 import static android.support.test.espresso.Espresso.pressBack;
@@ -264,5 +264,19 @@ public class FlightSearchTest extends PhoneTestCase {
 		CommonCheckoutScreen.clickCheckoutButton();
 		EspressoUtils.assertViewIsNotDisplayed(R.id.airline_notice_fee_added);
 		Log.v(TAG, "END TEST");
+	}
+
+	public void testSWPEarnMessaging() throws Exception {
+		LaunchScreen.launchFlights();
+		FlightsSearchScreen.clickDepartureAirportField();
+		FlightsSearchScreen.enterDepartureAirport("SIGNED IN");
+		FlightsSearchScreen.clickArrivalAirportField();
+		FlightsSearchScreen.enterArrivalAirport("SFO");
+		FlightsSearchScreen.clickSelectDepartureButton();
+		LocalDate startDate = LocalDate.now().plusDays(35);
+		FlightsSearchScreen.clickDate(startDate);
+		FlightsSearchScreen.clickSearchButton();
+		EspressoUtils.assertViewWithTextIsDisplayed("Earn 20 points");
+		EspressoUtils.assertViewWithTextIsDisplayed("Earn $6.39");
 	}
 }
