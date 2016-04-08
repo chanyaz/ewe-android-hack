@@ -499,6 +499,7 @@ DummyFiletoHandleKotlinLintError {
 		R.array.hoursList,
 		R.dimen.hotel_search_container_v1_height_with_swp,
 		R.dimen.hotel_search_container_v1_height_without_swp,
-		R.drawable.dim_background
+		R.drawable.dim_background,
+		R.string.earn_message_TEMPLATE
 	};
 }

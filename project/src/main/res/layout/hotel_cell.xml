@@ -333,6 +333,13 @@
                         android:layout_height="wrap_content"
                         android:textColor="@color/hotel_cell_gray_text"
                         android:textSize="10sp" />
+
+                    <com.expedia.bookings.widget.TextView
+                        android:id="@+id/earn_messaging"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/hotel_cell_gray_text"
+                        android:textSize="10sp" />
                 </LinearLayout>
 
             </LinearLayout>

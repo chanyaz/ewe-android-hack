@@ -16,6 +16,7 @@ import com.expedia.bookings.data.hotels.Hotel;
 import com.expedia.bookings.data.hotels.HotelRate;
 import com.expedia.bookings.data.payment.LoyaltyEarnInfo;
 import com.expedia.bookings.data.payment.LoyaltyInformation;
+import com.expedia.bookings.data.payment.PointsEarnInfo;
 import com.expedia.bookings.test.robolectric.shadows.ShadowAccountManagerEB;
 import com.expedia.bookings.test.robolectric.shadows.ShadowGCM;
 import com.expedia.bookings.test.robolectric.shadows.ShadowUserManager;
@@ -42,6 +43,8 @@ public class HotelViewModelTest {
 		hotel.distanceUnit = "Miles";
 		hotel.lowRateInfo.currencyCode = "USD";
 		hotel.percentRecommended = 2;
+		hotel.lowRateInfo.loyaltyInfo = new LoyaltyInformation(null,
+			new LoyaltyEarnInfo(new PointsEarnInfo(320, 0, 320), null), false);
 	}
 
 	@Test
