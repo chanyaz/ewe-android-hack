@@ -199,6 +199,7 @@ class HotelDetailViewModel(val context: Context, val hotelServices: HotelService
     val hasRegularLoyaltyPointsAppliedObservable = BehaviorSubject.create<Boolean>(false)
     val promoMessageObservable = BehaviorSubject.create<String>("")
     val strikeThroughPriceObservable = BehaviorSubject.create<CharSequence>()
+    val strikeThroughPriceGreaterThanPriceToShowUsersObservable = PublishSubject.create<Boolean>()
     val galleryItemChangeObservable = BehaviorSubject.create<Pair<Int, String>>()
     val depositInfoContainerClickObservable = BehaviorSubject.create<Pair<String, HotelOffersResponse.HotelRoomResponse>>()
     val hotelDetailsBundleTotalObservable = BehaviorSubject.create<Pair<String, String>>()
@@ -284,7 +285,10 @@ class HotelDetailViewModel(val context: Context, val hotelServices: HotelService
 
         val priceToShowUsers = chargeableRateInfo?.priceToShowUsers ?: 0f
         val strikethroughPriceToShowUsers = chargeableRateInfo?.strikethroughPriceToShowUsers ?: 0f
-        if (priceToShowUsers < strikethroughPriceToShowUsers) {
+
+        val isStrikeThroughPriceGreaterThanPriceToShowUsers = priceToShowUsers < strikethroughPriceToShowUsers
+        strikeThroughPriceGreaterThanPriceToShowUsersObservable.onNext(isStrikeThroughPriceGreaterThanPriceToShowUsers)
+        if (isStrikeThroughPriceGreaterThanPriceToShowUsers) {
             strikeThroughPriceObservable.onNext(priceFormatter(context.resources, chargeableRateInfo, true, !hotelOffersResponse.isPackage))
         }
 
@@ -340,8 +344,8 @@ class HotelDetailViewModel(val context: Context, val hotelServices: HotelService
         HotelV2Tracking().trackHotelV2EtpInfo()
     }
 
-    val strikeThroughPriceVisibility = Observable.combineLatest(showDiscountPercentageObservable, hotelSoldOut)
-    { hasDiscount, hotelSoldOut -> hasDiscount && !hotelSoldOut }
+    val strikeThroughPriceVisibility = Observable.combineLatest(strikeThroughPriceGreaterThanPriceToShowUsersObservable, hotelSoldOut)
+    { strikeThroughPriceGreaterThanPriceToShowUsers, hotelSoldOut -> strikeThroughPriceGreaterThanPriceToShowUsers && !hotelSoldOut }
 
     val perNightVisibility = Observable.combineLatest(onlyShowTotalPrice, hotelSoldOut) { onlyShowTotalPrice, hotelSoldOut -> onlyShowTotalPrice || hotelSoldOut }
 
@@ -653,6 +657,7 @@ class HotelRoomRateViewModel(val context: Context, var hotelId: String, var hote
     val expandedMeasurementsDone = PublishSubject.create<Unit>()
     val roomInfoExpandCollapseObservable = PublishSubject.create<Unit>()
     val roomInfoExpandCollapseObservable1 = PublishSubject.create<Unit>()
+    val shouldShowDiscountPercentage = BehaviorSubject.create<Boolean>()
     val discountPercentage = BehaviorSubject.create<String>()
     val depositTerms = BehaviorSubject.create<List<String>>()
 
@@ -721,19 +726,19 @@ class HotelRoomRateViewModel(val context: Context, var hotelId: String, var hote
         val isPayLater = hotelRoomResponse.isPayLater
         val chargeableRateInfo = rateInfo.chargeableRateInfo
         val discountPercent = HotelUtils.getDiscountPercent(chargeableRateInfo)
+        val isShopWithPoints = chargeableRateInfo.loyaltyInfo?.isShopWithPoints ?: false
 
         //resetting the text for views
         strikeThroughPriceObservable.onNext("")
         discountPercentage.onNext("")
         expandedAmenityObservable.onNext("")
 
-        if (discountPercent >= 9.5) {
-            // discount is 10% or better
-            discountPercentage.onNext(context.resources.getString(R.string.percent_off_TEMPLATE, discountPercent))
-            if (!isPayLater && (chargeableRateInfo.priceToShowUsers < chargeableRateInfo.strikethroughPriceToShowUsers)) {
-                val strikeThroughPriceToShowUsers = Money(BigDecimal(chargeableRateInfo.strikethroughPriceToShowUsers.toDouble()), currencyCode).formattedMoney
-                strikeThroughPriceObservable.onNext(Html.fromHtml(context.resources.getString(R.string.strike_template, strikeThroughPriceToShowUsers), null, StrikethroughTagHandler()))
-            }
+        shouldShowDiscountPercentage.onNext(chargeableRateInfo.isDiscountPercentNotZero && !isShopWithPoints && !chargeableRateInfo.isShowAirAttached())
+
+        discountPercentage.onNext(context.resources.getString(R.string.percent_off_TEMPLATE, discountPercent))
+        if (!isPayLater && (chargeableRateInfo.priceToShowUsers < chargeableRateInfo.strikethroughPriceToShowUsers)) {
+            val strikeThroughPriceToShowUsers = Money(BigDecimal(chargeableRateInfo.strikethroughPriceToShowUsers.toDouble()), currencyCode).formattedMoney
+            strikeThroughPriceObservable.onNext(Html.fromHtml(context.resources.getString(R.string.strike_template, strikeThroughPriceToShowUsers), null, StrikethroughTagHandler()))
         }
 
         //TODO: Get Package hotel Delta Price Type

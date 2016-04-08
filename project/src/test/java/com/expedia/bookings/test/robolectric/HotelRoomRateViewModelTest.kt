@@ -2,6 +2,8 @@ package com.expedia.bookings.test.robolectric
 
 import com.expedia.bookings.R
 import com.expedia.bookings.data.hotels.HotelOffersResponse
+import com.expedia.bookings.data.payment.LoyaltyEarnInfo
+import com.expedia.bookings.data.payment.LoyaltyInformation
 import com.expedia.bookings.test.MockHotelServiceTestRule
 import com.expedia.util.endlessObserver
 import com.expedia.vm.HotelDetailViewModel
@@ -74,12 +76,30 @@ class HotelRoomRateViewModelTest {
     }
 
     @Test
-    fun discountLessThanTenPercentDontShow() {
-        givenDiscountLessThanTenPercent()
+    fun discountPercentIsShown() {
         setupNonSoldOutRoomUnderTest()
 
-        assertEquals("", sut.discountPercentage.value)
+        assertTrue(sut.shouldShowDiscountPercentage.value)
+        assertEquals("-20%", sut.discountPercentage.value)
         assertEquals("", sut.strikeThroughPriceObservable.value)
+    }
+
+    @Test
+    fun zeroDiscountPercentIsNotShown() {
+        givenDiscountPercentIsZero()
+        setupNonSoldOutRoomUnderTest()
+
+        assertFalse(sut.shouldShowDiscountPercentage.value)
+    }
+
+    @Test
+    fun discountPercentNotShownWithSWP() {
+        val loyaltyInfo = LoyaltyInformation(null, LoyaltyEarnInfo(null, null), true)
+        hotelRoomResponse.rateInfo.chargeableRateInfo.loyaltyInfo = loyaltyInfo
+
+        setupNonSoldOutRoomUnderTest()
+
+        assertFalse(sut.shouldShowDiscountPercentage.value)
     }
 
     @Test
@@ -91,6 +111,15 @@ class HotelRoomRateViewModelTest {
         setupNonSoldOutRoomUnderTest()
 
         assertEquals("$" + df.format(newValidStrikeThroughPrice).toString(), sut.strikeThroughPriceObservable.value.toString())
+    }
+
+    @Test
+    fun strikeThroughPriceNotShownToUser() {
+        val chargeableRateInfo = hotelRoomResponse.rateInfo.chargeableRateInfo
+        chargeableRateInfo.strikethroughPriceToShowUsers = chargeableRateInfo.priceToShowUsers
+        setupNonSoldOutRoomUnderTest()
+
+        assertEquals("", sut.strikeThroughPriceObservable.value.toString())
     }
 
     private fun givenWeHaveValidStrikeThroughPrice(strikeThroughPrice: Float) {
@@ -115,8 +144,8 @@ class HotelRoomRateViewModelTest {
         assertEquals("$0", sut.dailyPricePerNightObservable.value)
     }
 
-    private fun givenDiscountLessThanTenPercent() {
-        hotelRoomResponse.rateInfo.chargeableRateInfo.discountPercent = 9f
+    private fun givenDiscountPercentIsZero() {
+        hotelRoomResponse.rateInfo.chargeableRateInfo.discountPercent = 0f
     }
 
     private fun givenOfferIsPayLater() {
