@@ -354,7 +354,6 @@ class PackageHotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
     }
 
     private val resultsToOverview = object : Presenter.Transition(PackageHotelResultsPresenter::class.java.name, SlidingBundleWidget::class.java.name, AccelerateDecelerateInterpolator(), REGULAR_ANIMATION_DURATION) {
-
         override fun startTransition(forward: Boolean) {
             bundleSlidingWidget.startBundleTransition(forward)
         }
