@@ -56,4 +56,18 @@ class PackagesTracking {
     fun trackCheckoutPaymentConfirmation() {
         OmnitureTracking.trackPackagesConfirmation()
     }
+
+    fun trackFlightRoundTripLoad(isOutBound: Boolean) {
+        if (isOutBound)
+            OmnitureTracking.trackPackagesFlightRoundTripOutLoad()
+        else
+            OmnitureTracking.trackPackagesFlightRoundTripInLoad()
+    }
+
+    fun trackFlightRoundTripDetailsLoad(isOutBound: Boolean) {
+        if (isOutBound)
+            OmnitureTracking.trackPackagesFlightRoundTripOutDetailsLoad()
+        else
+            OmnitureTracking.trackPackagesFlightRoundTripInDetailsLoad()
+    }
 }

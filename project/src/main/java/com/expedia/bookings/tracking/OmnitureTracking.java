@@ -4931,6 +4931,11 @@ public class OmnitureTracking {
 	private static final String PACKAGES_CHECKOUT_PAYMENT_SELECT_STORED_CC = "App.Package.CKO.Payment.StoredCard";
 	private static final String PACKAGES_CHECKOUT_PAYMENT_CONFIRMATION = "App.Package.Checkout.Confirmation";
 
+	private static final String PACKAGES_HOTEL_RT_OUT_RESULTS = "App.Package.Flight.Search.Roundtrip.Out";
+	private static final String PACKAGES_HOTEL_RT_IN_RESULTS = "App.Package.Flight.Search.Roundtrip.In";
+	private static final String PACKAGES_HOTEL_RT_OUT_DETAILS = "App.Package.Flight.Search.Roundtrip.Out.Details";
+	private static final String PACKAGES_HOTEL_RT_IN_DETAILS = "App.Package.Flight.Search.Roundtrip.In.Details";
+
 	private static void addPackagesCommonFields(ADMS_Measurement s) {
 		s.setProp(2, PACKAGES_LOB);
 		s.setEvar(2, "D=c2");
@@ -4990,12 +4995,16 @@ public class OmnitureTracking {
 		s.setProducts(productString.toString());
 	}
 
-	private static void trackPackagePageLoadEventStandard(String pageName) {
-		Log.d(TAG, "Tracking \"" + pageName + "\" pageLoad");
+	private static ADMS_Measurement createTrackPackagePageLoadEventBase(String pageName) {
 		ADMS_Measurement s = createTrackPageLoadEventBase(pageName);
 		s.setEvar(2, "D=c2");
 		s.setProp(2, PACKAGES_LOB);
-		s.track();
+		return s;
+	}
+
+	private static void trackPackagePageLoadEventStandard(String pageName) {
+		Log.d(TAG, "Tracking \"" + pageName + "\" pageLoad");
+		createTrackPackagePageLoadEventBase(pageName).track();
 	}
 
 	public static void trackPackagesDestinationSearchInit() {
@@ -5091,5 +5100,28 @@ public class OmnitureTracking {
 
 	public static void trackPackagesConfirmation() {
 		// TODO: Will be creating a new PR for this
+	}
+
+	public static void trackPackagesFlightPageLoad(String pageName) {
+		Log.d(TAG, "Tracking \"" + pageName + "\" pageLoad");
+		ADMS_Measurement s = createTrackPackagePageLoadEventBase(pageName);
+		s.setEvar(18, "D=" + pageName);
+		s.track();
+	}
+
+	public static void trackPackagesFlightRoundTripOutLoad() {
+		trackPackagesFlightPageLoad(PACKAGES_HOTEL_RT_OUT_RESULTS);
+	}
+
+	public static void trackPackagesFlightRoundTripOutDetailsLoad() {
+		trackPackagesFlightPageLoad(PACKAGES_HOTEL_RT_OUT_DETAILS);
+	}
+
+	public static void trackPackagesFlightRoundTripInLoad() {
+		trackPackagesFlightPageLoad(PACKAGES_HOTEL_RT_IN_RESULTS);
+	}
+
+	public static void trackPackagesFlightRoundTripInDetailsLoad() {
+		trackPackagesFlightPageLoad(PACKAGES_HOTEL_RT_IN_DETAILS);
 	}
 }
