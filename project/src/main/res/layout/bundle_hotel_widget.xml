@@ -95,7 +95,7 @@
             <ImageView
                 android:id="@+id/selected_hotel_room_image"
                 android:layout_width="match_parent"
-                android:layout_height="120dp"
+                android:layout_height="96dp"
                 android:scaleType="centerCrop"
                 android:src="@drawable/room_fallback" />
 
@@ -104,9 +104,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:paddingBottom="8dp"
-                android:paddingLeft="12dp"
-                android:paddingTop="8dp">
+                android:paddingBottom="6dp"
+                android:paddingLeft="20dp"
+                android:paddingTop="6dp">
 
                 <com.expedia.bookings.widget.TextView
                     android:id="@+id/hotel_room_info"
@@ -159,18 +159,18 @@
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
                     android:paddingBottom="8dp"
-                    android:paddingTop="8dp">
+                    android:paddingTop="13dp">
 
                     <com.expedia.bookings.widget.TextView
                         android:id="@+id/hotel_free_cancellation"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:drawableLeft="@drawable/all_rooms_amenity_checkmark"
+                        android:drawableLeft="@drawable/room_checkmark"
                         android:drawablePadding="9dp"
                         android:singleLine="true"
                         android:textSize="12sp"
-                        app:textStyle="normal"
-                        android:visibility="gone"/>
+                        android:visibility="gone"
+                        app:textStyle="normal" />
 
                     <com.expedia.bookings.widget.TextView
                         android:id="@+id/hotel_non_refundable"
@@ -180,14 +180,14 @@
                         android:drawablePadding="9dp"
                         android:singleLine="true"
                         android:textSize="12sp"
-                        app:textStyle="normal"
-                        android:visibility="gone"/>
+                        android:visibility="gone"
+                        app:textStyle="normal" />
 
                     <com.expedia.bookings.widget.TextView
                         android:id="@+id/hotel_promo_text"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:drawableLeft="@drawable/all_rooms_amenity_checkmark"
+                        android:drawableLeft="@drawable/room_checkmark"
                         android:drawablePadding="9dp"
                         android:singleLine="true"
                         android:textSize="12sp"
