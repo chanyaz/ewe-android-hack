@@ -8,6 +8,7 @@ public class PackageOfferModel {
 	public String flight;
 	public PackagePrice price;
 	public UrgencyMessage urgencyMessage;
+	public BrandedDealData brandedDealData;
 
 	public static class PackagePrice {
 		public Money packageTotalPrice;
@@ -35,5 +36,9 @@ public class PackageOfferModel {
 		public int ticketsLeft;
 		public boolean showRoomsUrgency;
 		public boolean showFlightUrgency;
+	}
+
+	public static class BrandedDealData {
+		public String dealVariation;
 	}
 }
