@@ -49,8 +49,6 @@
                 android:background="@drawable/hotel_detail_ripple"
                 android:layout_below="@+id/room_header_image">
 
-
-
                 <com.expedia.bookings.widget.TextView
                     android:id="@+id/collapsed_bed_type_text_view"
                     android:layout_width="match_parent"
@@ -62,6 +60,17 @@
                     android:textColor="@color/hotelsv2_checkout_text_color"
                     android:textSize="13sp"
                     app:textStyle="medium" />
+
+                <com.expedia.bookings.widget.TextView
+                    android:id="@+id/collapsed_earn_message_text_view"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/collapsed_bed_type_text_view"
+                    android:layout_marginBottom="15dp"
+                    android:layout_marginLeft="15dp"
+                    android:textColor="@color/hotel_earn_message_text_color"
+                    android:textSize="12sp"
+                    app:textStyle="normal" />
 
                 <com.expedia.bookings.widget.TextView
                     android:id="@+id/collapsed_urgency_text_view"

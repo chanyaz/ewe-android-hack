@@ -72,6 +72,7 @@ class HotelRoomRateView(context: Context, var rowIndex: Int) : LinearLayout(cont
     val spaceAboveRoomInfo: View by bindView(R.id.space_above_room_info)
     private val collapsedContainer: RelativeLayout by bindView(R.id.collapsed_container)
     private val depositTermsButton: TextView by bindView(R.id.deposit_terms_buttons)
+    private val collapsedEarnMessaging: TextView by bindView(R.id.collapsed_earn_message_text_view)
 
     var roomInfoHeaderTextHeight = -1
     var roomHeaderImageHeight = -1
@@ -88,6 +89,13 @@ class HotelRoomRateView(context: Context, var rowIndex: Int) : LinearLayout(cont
     var viewsToShowInExpandedState : Array<View> by Delegates.notNull()
     val animateRoom = PublishSubject.create<Pair<HotelRoomRateView, Boolean>>()
     var viewmodel: HotelRoomRateViewModel by notNullAndObservable { vm ->
+
+        vm.collapsedEarnMessageVisibilityObservable.subscribe {
+            viewsToHideInExpandedState = arrayOf(collapsedBedType, if(it) collapsedEarnMessaging else collapsedUrgency)
+            viewsToShowInExpandedState = arrayOf(expandedBedType, expandedAmenity, freeCancellation, strikeThroughPrice)
+        }
+        vm.collapsedUrgencyVisibilityObservable.subscribeVisibility(collapsedUrgency)
+        vm.collapsedEarnMessageVisibilityObservable.subscribeVisibility(collapsedEarnMessaging)
 
         vm.roomSoldOut.filter { it }.map { false }.subscribeChecked(viewRoom)
         vm.roomSoldOut.filter { it }.map { false }.subscribeEnabled(viewRoom)
@@ -160,6 +168,8 @@ class HotelRoomRateView(context: Context, var rowIndex: Int) : LinearLayout(cont
             expandedAmenity.text = text
         }
         vm.collapsedUrgencyObservable.subscribeText(collapsedUrgency)
+        vm.collapsedEarnMessageObservable.subscribeText(collapsedEarnMessaging)
+
         vm.expandedMessageObservable.subscribe { expandedMessagePair ->
             val drawable = ContextCompat.getDrawable(context, expandedMessagePair.second)
             freeCancellation.text = expandedMessagePair.first
@@ -359,9 +369,6 @@ class HotelRoomRateView(context: Context, var rowIndex: Int) : LinearLayout(cont
     init {
         View.inflate(getContext(), R.layout.hotel_room_row, this)
         orientation = LinearLayout.VERTICAL
-
-        viewsToHideInExpandedState = arrayOf(collapsedBedType, collapsedUrgency)
-        viewsToShowInExpandedState = arrayOf(expandedBedType, expandedAmenity, freeCancellation, strikeThroughPrice)
 
         val globalLayoutListener = object : ViewTreeObserver.OnGlobalLayoutListener {
             override fun onGlobalLayout() {

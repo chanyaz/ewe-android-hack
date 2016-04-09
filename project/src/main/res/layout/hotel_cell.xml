@@ -338,7 +338,7 @@
                         android:id="@+id/earn_messaging"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textColor="@color/hotel_cell_gray_text"
+                        android:textColor="@color/hotel_earn_message_text_color"
                         android:textSize="10sp" />
                 </LinearLayout>
 

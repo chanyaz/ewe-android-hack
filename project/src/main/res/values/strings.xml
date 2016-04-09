@@ -41,6 +41,8 @@
     <string name="change_dates">Change Dates</string>
     <!-- checkout view toolbar title -->
     <string name="secure_checkout">Secure Checkout</string>
+    <!-- Earn messaging -->
+    <string name="earn_message_TEMPLATE">Earn {earn}</string>
 
     <!-- Cars -->
     <!-- Cars Calendar Strings -->
@@ -4065,8 +4067,6 @@
     <string name="flight_search_card_title">Flight Search</string>
     <!-- Label for feeds/scratchpad card indicating source of given information -->
     <string name="via_scratchpad_label">via Scratchpad</string>
-    <!-- Earn messaging -->
-    <string name="earn_message_TEMPLATE">Earn {earn}</string>
     <!-- Fly from hint -->
     <string name="fly_from_hint">Flying from</string>
     <!-- Fly to hint -->

@@ -115,6 +115,7 @@ class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayout(conte
     val vipLoyaltyMessage: TextView by bindView(R.id.vip_loyalty_message_details)
     val regularLoyaltyMessage: TextView by bindView(R.id.regular_loyalty_applied)
     val promoMessage: TextView by bindView(R.id.promo_text)
+    val earnMessage: TextView by bindView(R.id.earn_message)
 
     val payLaterButtonContainer: FrameLayout by bindView(R.id.radius_pay_later_container)
     val payNowButtonContainer: FrameLayout by bindView(R.id.radius_pay_now_container)
@@ -290,6 +291,9 @@ class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayout(conte
         vm.hasVipAccessLoyaltyObservable.subscribeVisibility(vipLoyaltyMessage)
         vm.hasRegularLoyaltyPointsAppliedObservable.subscribeVisibility(regularLoyaltyMessage)
         vm.promoMessageObservable.subscribeText(promoMessage)
+        vm.promoMessageVisibilityObservable.subscribeVisibility(promoMessage)
+        vm.earnMessageObservable.subscribeText(earnMessage)
+        vm.earnMessageVisibilityObservable.subscribeVisibility(earnMessage)
 
         vm.hotelMessagingContainerVisibility.subscribeVisibility(hotelMessagingContainer)
 

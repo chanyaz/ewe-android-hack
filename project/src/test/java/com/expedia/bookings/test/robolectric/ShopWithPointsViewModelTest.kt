@@ -12,8 +12,8 @@ import com.expedia.bookings.test.robolectric.shadows.ShadowAccountManagerEB
 import com.expedia.bookings.test.robolectric.shadows.ShadowGCM
 import com.expedia.bookings.test.robolectric.shadows.ShadowUserManager
 import com.expedia.bookings.testrule.ServicesRule
-import com.expedia.vm.ShopWithPointsViewModel
 import com.expedia.model.UserLoginStateChangedModel
+import com.expedia.vm.ShopWithPointsViewModel
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -58,7 +58,7 @@ class ShopWithPointsViewModelTest {
     @Test
     fun loggedInUserWithoutLoyaltyPoints() {
         UserLoginTestUtil.Companion.setupUserAndMockLogin(mockUser())
-
+        UserLoginTestUtil.Companion.setupUserAndMockLogin(UserLoginTestUtil.Companion.mockUser())
         paymentModel = PaymentModel<HotelCreateTripResponse>(loyaltyServiceRule.services!!)
         shopWithPointsViewModel = ShopWithPointsViewModel(context, paymentModel, userLoginStateChangedModel)
         val testObserver: TestSubscriber<Boolean> = TestSubscriber.create()

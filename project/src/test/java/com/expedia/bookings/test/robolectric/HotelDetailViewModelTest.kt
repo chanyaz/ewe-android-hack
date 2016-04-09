@@ -1,12 +1,19 @@
 package com.expedia.bookings.test.robolectric
 
+import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.hotels.HotelOffersResponse
 import com.expedia.bookings.data.hotels.HotelRate
 import com.expedia.bookings.data.hotels.HotelSearchParams
 import com.expedia.bookings.data.payment.LoyaltyEarnInfo
 import com.expedia.bookings.data.payment.LoyaltyInformation
+import com.expedia.bookings.data.payment.PointsEarnInfo
+import com.expedia.bookings.data.payment.PriceEarnInfo
+import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.services.HotelServices
+import com.expedia.bookings.test.robolectric.shadows.ShadowAccountManagerEB
+import com.expedia.bookings.test.robolectric.shadows.ShadowGCM
+import com.expedia.bookings.test.robolectric.shadows.ShadowUserManager
 import com.expedia.bookings.testrule.ServicesRule
 import com.expedia.bookings.utils.DateUtils
 import com.expedia.util.endlessObserver
@@ -18,10 +25,11 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RuntimeEnvironment
+import org.robolectric.annotation.Config
 import rx.observers.TestSubscriber
 import rx.subjects.PublishSubject
 import java.text.DecimalFormat
-import java.util.ArrayList
+import java.util.*
 import java.util.concurrent.TimeUnit
 import kotlin.properties.Delegates
 import kotlin.test.assertEquals
@@ -30,6 +38,7 @@ import kotlin.test.assertNull
 import kotlin.test.assertTrue
 
 @RunWith(RobolectricRunner::class)
+@Config(shadows = arrayOf(ShadowGCM::class, ShadowUserManager::class, ShadowAccountManagerEB::class))
 class HotelDetailViewModelTest {
 
     // TODO: Improve HotelDetailViewModel test coverage
@@ -127,6 +136,29 @@ class HotelDetailViewModelTest {
         vm.hotelOffersSubject.onNext(offer1)
         assertFalse(vm.showDiscountPercentageObservable.value)
         assertTrue(vm.showAirAttachSWPImageObservable.value)
+    }
+
+    @Test fun earnMessageIsShown() {
+        PointOfSale.getPointOfSale().isEarnMessageEnabledForHotels = true
+        UserLoginTestUtil.setupUserAndMockLogin(UserLoginTestUtil.mockUser())
+        val chargeableRateInfo = offer1.hotelRoomResponse[0].rateInfo.chargeableRateInfo
+        val loyaltyInfo = LoyaltyInformation(null, LoyaltyEarnInfo(null, PriceEarnInfo(Money("320", "USD"), Money("0", "USD"), Money("320", "USD"))), true)
+
+        chargeableRateInfo.loyaltyInfo = loyaltyInfo
+        vm.hotelOffersSubject.onNext(offer1)
+        assertFalse(vm.promoMessageVisibilityObservable.value)
+        assertTrue(vm.earnMessageVisibilityObservable.value)
+        assertEquals("Earn $320", vm.earnMessageObservable.value.toString())
+    }
+
+    @Test fun earnMessageIsNotShown() {
+        PointOfSale.getPointOfSale().isEarnMessageEnabledForHotels = false
+        val chargeableRateInfo = offer1.hotelRoomResponse[0].rateInfo.chargeableRateInfo
+        val loyaltyInfo = LoyaltyInformation(null, LoyaltyEarnInfo(PointsEarnInfo(320, 0, 320), null), true)
+        chargeableRateInfo.loyaltyInfo = loyaltyInfo
+        vm.hotelOffersSubject.onNext(offer1)
+        assertFalse(vm.earnMessageVisibilityObservable.value)
+        assertTrue(vm.promoMessageVisibilityObservable.value)
     }
 
     @Test fun packageSearchInfoShouldShow() {
