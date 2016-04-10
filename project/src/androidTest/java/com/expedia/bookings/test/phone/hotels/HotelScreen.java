@@ -421,7 +421,7 @@ public class HotelScreen {
 
 	public static void selectRoom() throws Throwable {
 		HotelScreen.clickAddRoom();
-		Common.delay(1);
+		Common.delay(2);
 	}
 
 	public static void pickRoom(String name) {
