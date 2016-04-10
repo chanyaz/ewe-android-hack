@@ -39,7 +39,7 @@ class PackageHotelResultsPresenter(context: Context, attrs: AttributeSet) : Base
             filterView.viewmodel.clearObservable.onNext(Unit)
         }
 
-        mapViewModel.mapInitializedObservable.subscribe{
+        mapViewModel.mapInitializedObservable.subscribe {
             PackagesTracking().trackHotelMapLoad()
             setMapToInitialState(viewmodel.paramsSubject.value?.suggestion)
         }
@@ -88,13 +88,13 @@ class PackageHotelResultsPresenter(context: Context, attrs: AttributeSet) : Base
         }
     }
 
-    override fun showMenuItem(isResults: Boolean){
+    override fun showMenuItem(isResults: Boolean) {
         filterMenuItem.isVisible = true
         searchMenuItem.isVisible = isResults
     }
 
     override fun hideBundlePriceOverview(hide: Boolean) {
-       hideBundlePriceOverviewSubject.onNext(hide)
+        hideBundlePriceOverviewSubject.onNext(hide)
     }
 
     override fun trackSearchMap() {
@@ -120,4 +120,11 @@ class PackageHotelResultsPresenter(context: Context, attrs: AttributeSet) : Base
         PackagesTracking().trackHotelMapSearchThisAreaClick()
     }
 
+    override fun isMapClusteringEnabled(): Boolean {
+        return false
+    }
+
+    override fun isUserBucketedSearchScreenTest(): Boolean {
+        return false
+    }
 }
