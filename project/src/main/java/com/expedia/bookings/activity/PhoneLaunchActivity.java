@@ -21,6 +21,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
+import butterknife.ButterKnife;
+import butterknife.InjectView;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Codes;
 import com.expedia.bookings.data.Db;
@@ -49,9 +51,6 @@ import com.expedia.bookings.widget.ItinListView;
 import com.expedia.bookings.widget.PhoneLaunchToolbar;
 import com.facebook.appevents.AppEventsLogger;
 import com.squareup.phrase.Phrase;
-
-import butterknife.ButterKnife;
-import butterknife.InjectView;
 
 public class PhoneLaunchActivity extends ActionBarActivity implements ItinListView.OnListModeChangedListener,
 	ItinItemListFragmentListener, IPhoneLaunchFragmentListener, DoLogoutListener {
@@ -288,12 +287,6 @@ public class PhoneLaunchActivity extends ActionBarActivity implements ItinListVi
 		case R.id.account_settings: {
 			Intent intent = new Intent(this, AccountSettingsActivity.class);
 			startActivityForResult(intent, Constants.REQUEST_SETTINGS);
-			return true;
-		}
-		case R.id.add_itinerary_guest: {
-			if (Ui.isAdded(mItinListFragment)) {
-				mItinListFragment.startAddGuestItinActivity(false);
-			}
 			return true;
 		}
 		}

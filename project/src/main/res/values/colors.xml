@@ -305,6 +305,8 @@
     <!-- Launch colors -->
     <color name="launch_toolbar_background_color">#495863</color>
     <color name="launch_tab_indicator">#FFED18</color>
+    <!-- New Launch Screen colors -->
+    <color name="new_launch_toolbar_background_color">#5050FF</color>
 
     <!-- LX colors -->
     <color name="lx_primary_color">#E88534</color>

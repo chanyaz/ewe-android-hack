@@ -44,6 +44,7 @@
     <dimen name="launch_five_lob_button_top_padding">8dp</dimen>
     <dimen name="launch_lob_button_text_size">20sp</dimen>
     <dimen name="launch_five_lob_button_text_size">16sp</dimen>
+    <dimen name="launch_toolbar_elevation">10dp</dimen>
 
     <!-- Itinerary dimens -->
     <dimen name="itin_card_collapsed_height">138.5dp</dimen>
