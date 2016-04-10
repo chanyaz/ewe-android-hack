@@ -13,6 +13,7 @@ import android.view.animation.DecelerateInterpolator
 import com.expedia.bookings.R
 import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.presenter.Presenter
+import com.expedia.bookings.presenter.ScaleTransition
 import com.expedia.bookings.presenter.packages.PackageFlightOverviewPresenter
 import com.expedia.bookings.presenter.packages.PackageFlightResultsPresenter
 import com.expedia.bookings.utils.ArrowXDrawableUtil
@@ -139,12 +140,10 @@ open class BaseFlightPresenter(context: Context, attrs: AttributeSet) : Presente
         }
     }
 
-    private val overviewTransition = object : Transition(PackageFlightOverviewPresenter::class.java, PackageFlightResultsPresenter::class.java, DecelerateInterpolator(), ANIMATION_DURATION) {
+    private val overviewTransition = object : ScaleTransition(this, PackageFlightResultsPresenter::class.java, PackageFlightOverviewPresenter::class.java) {
         override fun endTransition(forward: Boolean) {
             super.endTransition(forward)
-            toolbarViewModel.refreshToolBar.onNext(forward)
-            overviewPresenter.visibility = if (!forward) View.VISIBLE else View.GONE
-            resultsPresenter.visibility = if (!forward) View.GONE else View.VISIBLE
+            toolbarViewModel.refreshToolBar.onNext(!forward)
         }
     }
 

@@ -502,6 +502,9 @@ DummyFiletoHandleKotlinLintError {
 		R.dimen.hotel_search_container_v1_height_with_swp,
 		R.dimen.hotel_search_container_v1_height_without_swp,
 		R.drawable.dim_background,
-		R.string.earn_message_TEMPLATE
+		R.string.earn_message_TEMPLATE,
+		R.string.fly_from_hint,
+		R.string.fly_to_hint,
+		R.string.select_departure_date
 	};
 }

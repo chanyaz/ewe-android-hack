@@ -7,6 +7,7 @@ import android.support.test.espresso.assertion.ViewAssertions.matches
 import android.support.test.espresso.matcher.ViewMatchers.isDisplayed
 import android.support.test.espresso.matcher.ViewMatchers.withId
 import android.support.test.espresso.matcher.ViewMatchers.withText
+import android.text.style.RelativeSizeSpan
 import com.expedia.bookings.R
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.test.espresso.AbacusTestUtils
@@ -14,8 +15,10 @@ import com.expedia.bookings.test.espresso.Common
 import com.expedia.bookings.test.espresso.EspressoUtils
 import com.expedia.bookings.test.espresso.HotelTestCase
 import com.expedia.bookings.test.espresso.ViewActions
+import com.expedia.bookings.utils.DateUtils
+import com.expedia.bookings.utils.SpannableBuilder
 import com.expedia.bookings.utils.StrUtils
-import com.expedia.vm.HotelSearchViewModel
+import com.mobiata.android.time.util.JodaUtils
 import org.joda.time.LocalDate
 
 class NewSearchScreenTest : HotelTestCase() {
@@ -47,7 +50,7 @@ class NewSearchScreenTest : HotelTestCase() {
 
 
         HotelScreen.selectCalendarV2().perform(ViewActions.waitForViewToDisplay())
-        HotelScreen.selectCalendarV2Text().check(matches(withText(HotelSearchViewModel.computeDateText(activity, firstStartDate, firstEndDate).toString())))
+        HotelScreen.selectCalendarV2Text().check(matches(withText(computeDateText(firstStartDate, firstEndDate).toString())))
 
         val secondStartDate = LocalDate.now().plusDays(20)
         val secondEndDate = LocalDate.now().plusDays(22)
@@ -59,7 +62,7 @@ class NewSearchScreenTest : HotelTestCase() {
 
         // verify updates when second set of dates is selected
         HotelScreen.selectCalendarV2().perform(ViewActions.waitForViewToDisplay())
-        HotelScreen.selectCalendarV2Text().check(matches(withText(HotelSearchViewModel.computeDateText(activity, secondStartDate, secondEndDate).toString())))
+        HotelScreen.selectCalendarV2Text().check(matches(withText(computeDateText(secondStartDate, secondEndDate).toString())))
 
         val thirdStartDate = LocalDate.now().plusDays(15)
         val thirdEndDate = LocalDate.now().plusDays(17)
@@ -71,7 +74,7 @@ class NewSearchScreenTest : HotelTestCase() {
 
         // make sure second date is still displayed on back
         HotelScreen.selectCalendarV2().perform(ViewActions.waitForViewToDisplay())
-        HotelScreen.selectCalendarV2Text().check(matches(withText(HotelSearchViewModel.computeDateText(activity, secondStartDate, secondEndDate).toString())))
+        HotelScreen.selectCalendarV2Text().check(matches(withText(computeDateText(secondStartDate, secondEndDate).toString())))
     }
 
     @Throws(Throwable::class)
@@ -169,5 +172,29 @@ class NewSearchScreenTest : HotelTestCase() {
         HotelScreen.searchButtonV2().perform(click())
         HotelScreen.waitForDetailsLoaded()
         HotelScreen.selectRoomButton().check(matches(isDisplayed()))
+    }
+
+    private fun computeDateText(start: LocalDate?, end: LocalDate?): CharSequence {
+        val dateRangeText = computeDateRangeText(start, end)
+        val sb = SpannableBuilder()
+        sb.append(dateRangeText)
+
+        if (start != null && end != null) {
+            val nightCount = JodaUtils.daysBetween(start, end)
+            val nightsString = instrumentation.targetContext.resources.getQuantityString(R.plurals.length_of_stay, nightCount, nightCount)
+            sb.append(" ");
+            sb.append(instrumentation.targetContext.resources.getString(R.string.nights_count_TEMPLATE, nightsString), RelativeSizeSpan(0.8f))
+        }
+        return sb.build()
+    }
+
+    private fun computeDateRangeText(start: LocalDate?, end: LocalDate?): String? {
+        if (start == null && end == null) {
+            return instrumentation.targetContext.resources.getString(R.string.select_dates)
+        } else if (end == null) {
+            return instrumentation.targetContext.resources.getString(R.string.select_checkout_date_TEMPLATE, DateUtils.localDateToMMMd(start))
+        } else {
+            return instrumentation.targetContext.resources.getString(R.string.calendar_instructions_date_range_TEMPLATE, DateUtils.localDateToMMMd(start), DateUtils.localDateToMMMd(end))
+        }
     }
 }

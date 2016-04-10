@@ -21,6 +21,12 @@
         android:inflatedId="@+id/widget_hotel_results"
         android:layout="@layout/package_hotel_results_presenter_stub" />
 
+    <com.expedia.bookings.widget.LoadingOverlayWidget
+        android:id="@+id/details_loading_overlay"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone" />
+
     <ViewStub
         android:id="@+id/details_stub"
         android:layout_width="match_parent"
@@ -41,10 +47,5 @@
         android:layout_height="match_parent"
         android:background="@color/search_results_list_bg_gray" />
 
-    <com.expedia.bookings.widget.LoadingOverlayWidget
-        android:id="@+id/details_loading_overlay"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:visibility="gone" />
 
 </merge>

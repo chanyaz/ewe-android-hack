@@ -1,16 +1,20 @@
 package com.expedia.bookings.presenter.packages
 
+import android.animation.ArgbEvaluator
 import android.content.Context
+import android.graphics.Color
+import android.support.v4.content.ContextCompat
 import android.util.AttributeSet
 import android.view.View
+import android.view.animation.AccelerateDecelerateInterpolator
 import android.view.animation.DecelerateInterpolator
 import com.expedia.bookings.R
+import com.expedia.bookings.animation.TransitionElement
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.packages.PackageCheckoutResponse
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.presenter.BaseOverviewPresenter
-import com.expedia.bookings.presenter.LeftToRightTransition
 import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.presenter.ScaleTransition
 import com.expedia.bookings.services.PackageServices
@@ -22,8 +26,8 @@ import com.expedia.vm.PackageCheckoutOverviewViewModel
 import com.expedia.vm.PackageCheckoutViewModel
 import com.expedia.vm.PackageConfirmationViewModel
 import com.expedia.vm.PackageCreateTripViewModel
-import com.expedia.vm.PackageSearchViewModel
 import com.expedia.vm.PackageErrorViewModel
+import com.expedia.vm.PackageSearchViewModel
 import com.squareup.phrase.Phrase
 import rx.android.schedulers.AndroidSchedulers
 import java.math.BigDecimal
@@ -144,9 +148,16 @@ class PackagePresenter(context: Context, attrs: AttributeSet) : Presenter(contex
         }
     }
 
-    private val searchToBundle = object : LeftToRightTransition(this, PackageSearchPresenter::class.java, PackageOverviewPresenter::class.java) {
+    val searchArgbEvaluator = ArgbEvaluator()
+    val searchBackgroundColor = TransitionElement(ContextCompat.getColor(context, R.color.search_anim_background), Color.TRANSPARENT)
+
+    private val searchToBundle = object : Transition(PackageSearchPresenter::class.java, PackageOverviewPresenter::class.java, AccelerateDecelerateInterpolator(), 500) {
+
         override fun startTransition(forward: Boolean) {
             super.startTransition(forward)
+            searchPresenter.visibility = View.VISIBLE
+            bundlePresenter.visibility = View.VISIBLE
+            searchPresenter.animationStart(!forward)
             if (forward) {
                 bundlePresenter.bundleOverviewHeader.checkoutOverviewHeaderToolbar.visibility = View.GONE
                 bundlePresenter.bundleOverviewHeader.toggleOverviewHeader(false)
@@ -159,6 +170,24 @@ class PackagePresenter(context: Context, attrs: AttributeSet) : Presenter(contex
                                 .put("savings", Money(BigDecimal("0.00"), currencyCode).formattedMoney)
                                 .format().toString()))
             }
+        }
+
+        override fun updateTransition(f: Float, forward: Boolean) {
+            super.updateTransition(f, forward)
+            searchPresenter.animationUpdate(f, !forward)
+            if(forward) {
+                searchPresenter.setBackgroundColor(searchArgbEvaluator.evaluate(f, searchBackgroundColor.start, searchBackgroundColor.end) as Int)
+            } else {
+                searchPresenter.setBackgroundColor(searchArgbEvaluator.evaluate(f, searchBackgroundColor.end, searchBackgroundColor.start) as Int)
+            }
+        }
+
+        override fun endTransition(forward: Boolean) {
+            super.endTransition(forward)
+            searchPresenter.setBackgroundColor(if (forward) searchBackgroundColor.end else searchBackgroundColor.start)
+            searchPresenter.animationFinalize(forward)
+            searchPresenter.visibility = if (forward) View.GONE else View.VISIBLE
+            bundlePresenter.visibility = if (forward) View.VISIBLE else View.GONE
         }
     }
 
@@ -188,14 +217,23 @@ class PackagePresenter(context: Context, attrs: AttributeSet) : Presenter(contex
         override fun startTransition(forward: Boolean) {
             super.startTransition(forward)
             searchPresenter.visibility = View.VISIBLE
+            searchPresenter.animationStart(forward)
         }
 
         override fun updateTransition(f: Float, forward: Boolean) {
             super.updateTransition(f, forward)
+            searchPresenter.animationUpdate(f, forward)
+            if(forward) {
+                searchPresenter.setBackgroundColor(searchArgbEvaluator.evaluate(f, searchBackgroundColor.start, searchBackgroundColor.end) as Int)
+            } else {
+                searchPresenter.setBackgroundColor(searchArgbEvaluator.evaluate(f, searchBackgroundColor.end, searchBackgroundColor.start) as Int)
+            }
         }
 
         override fun endTransition(forward: Boolean) {
             super.endTransition(forward)
+            searchPresenter.setBackgroundColor(if (!forward) searchBackgroundColor.end else searchBackgroundColor.start)
+            searchPresenter.animationFinalize(!forward)
             errorPresenter.visibility = if (forward) View.GONE else View.VISIBLE
             searchPresenter.visibility = if (forward) View.VISIBLE else View.GONE
         }
