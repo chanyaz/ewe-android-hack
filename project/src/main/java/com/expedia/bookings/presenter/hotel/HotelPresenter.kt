@@ -594,6 +594,9 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
 
         override fun startTransition(forward: Boolean) {
             super.startTransition(forward)
+            if (!forward) {
+                detailPresenter.hotelDetailView.resetViews()
+            }
             loadingOverlay.visibility = View.GONE
             searchPresenter.visibility = View.VISIBLE
             checkoutPresenter.visibility = View.VISIBLE
