@@ -4943,6 +4943,10 @@ public class OmnitureTracking {
 	private static final String PACKAGES_HOTEL_DETAILS_SELECT_ROOM_TEMPLATE = "App.Package.Infosite.SelectRoom.";
 	private static final String PACKAGES_HOTEL_DETAILS_BOOK_BY_PHONE = "App.Package.Infosite.BookPhone";
 
+	private static final String PACKAGES_BUNDLE_OVERVIEW_LOAD = "App.Package.RateDetails";
+	private static final String PACKAGES_BUNDLE_OVERVIEW_PRODUCT_EXPAND_TEMPLATE = "App.Package.RD.ViewDetails.";
+	private static final String PACKAGES_BUNDLE_OVERVIEW_COST_BREAKDOWN = "App.Package.RD.TotalCost";
+
 	private static void addPackagesCommonFields(ADMS_Measurement s) {
 		s.setProp(2, PACKAGES_LOB);
 		s.setEvar(2, "D=c2");
@@ -4965,12 +4969,12 @@ public class OmnitureTracking {
 		s.setEvents("event36");
 		s.setEvents("event70");
 		addPackagesCommonFields(s);
-		setPackageProducts(s, packageDetails);
+		setPackageProducts(s, packageDetails, true);
 
 		s.track();
 	}
 
-	private static void setPackageProducts(ADMS_Measurement s, PackageCreateTripResponse.PackageDetails packageDetails) {
+	private static void setPackageProducts(ADMS_Measurement s, PackageCreateTripResponse.PackageDetails packageDetails, boolean addEvar63) {
 		StringBuilder productString = new StringBuilder();
 		/*
 			Trip type:
@@ -4983,21 +4987,31 @@ public class OmnitureTracking {
 		int numTravelers = Db.getPackageParams().getAdults() + Db.getPackageParams().getNumberOfSeatedChildren();
 		productString.append(numTravelers + ";" + packageDetails.pricing.packageTotal.amount.doubleValue() + ";;");
 
-		//TODO: check inventoryType flight+hotel = agency/merchant or mixed
-		productString.append("eVar63=Mixed:PKG,;");
+		if (addEvar63) {
+			//TODO: check inventoryType flight+hotel = agency/merchant or mixed
+			productString.append("eVar63=Mixed:PKG");
+		}
+		productString.append(",;");
 
 		productString.append("Flight:" + Db.getPackageSelectedOutboundFlight().carrierCode + ":RT;");
 		// We do not expose breakdown prices, so we should hardcode to 0.00
 		productString.append(numTravelers + ";0.00;;");
-		String inventoryType = PackageFlightUtils.isFlightMerchant(Db.getPackageSelectedOutboundFlight()) ? "Merchant" : "Agency";
-		productString.append("eVar63=" + inventoryType + ":PKG,;");
+
+		if (addEvar63) {
+			String inventoryType = PackageFlightUtils.isFlightMerchant(Db.getPackageSelectedOutboundFlight()) ? "Merchant" : "Agency";
+			productString.append("eVar63=" + inventoryType + ":PKG");
+		}
+		productString.append(",;");
 
 		productString.append("Hotel:" + Db.getPackageSelectedHotel().hotelId + ";");
 		productString.append(Db.getPackageParams().getAdults() + Db.getPackageParams().getChildren().size());
 		productString.append(";0.00;;");
-		//TODO: check inventoryType hotel = agency/merchant blocked on API - should return in hotelOffers call
-		// https://confluence/display/Omniture/Products+String+and+Events#ProductsStringandEvents-Hotels
-		productString.append("eVar63=Agency:PKG");
+
+		if (addEvar63) {
+			//TODO: check inventoryType hotel = agency/merchant blocked on API - should return in hotelOffers call
+			// https://confluence/display/Omniture/Products+String+and+Events#ProductsStringandEvents-Hotels
+			productString.append("eVar63=Agency:PKG");
+		}
 
 		s.setProducts(productString.toString());
 	}
@@ -5165,5 +5179,23 @@ public class OmnitureTracking {
 
 	public static void trackPackagesHotelRenovationInfo() {
 		trackPackagePageLoadEventStandard(PACKAGES_HOTEL_DETAILS_RENOVATION_INFO);
+	}
+
+	public static void trackPackagesBundlePageLoad(PackageCreateTripResponse.PackageDetails packageDetails) {
+		Log.d(TAG, "Tracking \"" + PACKAGES_BUNDLE_OVERVIEW_LOAD + "\"");
+
+		ADMS_Measurement s = createTrackPageLoadEventBase(PACKAGES_BUNDLE_OVERVIEW_LOAD);
+		addPackagesCommonFields(s);
+		setPackageProducts(s, packageDetails, false);
+
+		s.track();
+	}
+
+	public static void trackPackagesBundleProductExpandClick(String lobClicked) {
+		createAndtrackLinkEvent(PACKAGES_BUNDLE_OVERVIEW_PRODUCT_EXPAND_TEMPLATE + lobClicked, "Rate Details");
+	}
+
+	public static void trackPackagesBundleCostBreakdownClick() {
+		createAndtrackLinkEvent(PACKAGES_BUNDLE_OVERVIEW_COST_BREAKDOWN, "Rate Details");
 	}
 }

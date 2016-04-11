@@ -15,6 +15,7 @@ import com.expedia.bookings.bitmaps.PicassoHelper
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.HotelMedia
 import com.expedia.bookings.presenter.Presenter
+import com.expedia.bookings.tracking.PackagesTracking
 import com.expedia.bookings.utils.AnimUtils
 import com.expedia.bookings.utils.Constants
 import com.expedia.bookings.utils.Ui
@@ -128,6 +129,7 @@ class PackageBundleHotelWidget(context: Context, attrs: AttributeSet?) : CardVie
     private fun expandSelectedHotel() {
         mainContainer.visibility = Presenter.VISIBLE
         AnimUtils.rotate(hotelDetailsIcon)
+        PackagesTracking().trackBundleOverviewHotelExpandClick()
     }
 
     fun collapseSelectedHotel() {

@@ -100,4 +100,20 @@ class PackagesTracking {
     fun trackHotelRenovationInfoClick() {
         OmnitureTracking.trackPackagesHotelRenovationInfo()
     }
+
+    fun trackBundleOverviewPageLoad(packageDetails: PackageCreateTripResponse.PackageDetails) {
+        OmnitureTracking.trackPackagesBundlePageLoad(packageDetails)
+    }
+
+    fun trackBundleOverviewHotelExpandClick() {
+        OmnitureTracking.trackPackagesBundleProductExpandClick("Hotel")
+    }
+
+    fun trackBundleOverviewFlightExpandClick() {
+        OmnitureTracking.trackPackagesBundleProductExpandClick("Flight")
+    }
+
+    fun trackBundleOverviewCostBreakdownClick() {
+        OmnitureTracking.trackPackagesBundleCostBreakdownClick()
+    }
 }
