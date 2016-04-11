@@ -64,7 +64,7 @@
     <!-- Slide to reserve -->
     <string name="cars_slider_text">Glisser pour réserver</string>
     <!-- Text for checkout toolbar-->
-    <string name="checkout_text">Sortie</string>
+    <string name="checkout_text">Paiement</string>
     <!-- Text for error toolbar-->
     <string name="cars_dupe_trip_text">Reproduire le voyage</string>
     <!-- Text for error toolbar-->
@@ -652,7 +652,7 @@
     <!-- Offers show more string -->
     <string name="lx_show_more_offers">Afficher plus</string>
     <!-- Text for traveler details toolbar-->
-    <string name="traveler_details_text">Détails sur le voyageur</string>
+    <string name="lx_traveler_details_text">Détails sur le voyageur</string>
     <!-- Text for enter traveler details-->
     <string name="lx_traveler_enter_details_text">Entrer les détails du voyageur</string>
     <!-- Text for lx sort and filter-->
@@ -1726,6 +1726,7 @@
     <!-- Calendar instruction text hotels date range template. %1$s = Formatted start date, %2$s = formatted end date. E.g. May 12 - May 15 -->
     <string name="calendar_instructions_date_range_with_guests_TEMPLATE">{startdate} - {enddate}, {guests}</string>
     <string name="room_with_guests_TEMPLATE">1 chambre, {guests}</string>
+    <string name="hotel_free_cancellation_TEMPLATE">Annulation sans frais avant le {date}</string>
 
     <!-- Flight details fragment -->
     <!-- Book now info label.  %s is the price.  E.g., "One way for $994" -->
@@ -2226,6 +2227,10 @@
     <string name="loading_traveler_info">Chargement de l\&apos;information voyageur…</string>
     <!-- Passport -->
     <string name="passport">Passeport</string>
+
+    <!-- Passport label -->
+    <string name="passport_country_colon">Passeport :</string>
+
     <!-- Current traveler - <firstname> <lastname> -->
     <string name="current_traveler_TEMPLATE">Voyageur actuel -%1$s %2$s</string>
 
@@ -3901,7 +3906,8 @@
     <string name="best_flight_title">Les meilleurs vols</string>
     <!-- Package Best Flight description -->
     <string name="best_flight_description">bon marché • court • départ populaire</string>
-
+    <!-- Package search error -->
+    <string name="error_package_search_message">Nous n\&apos;avons trouvé aucun résultat. Veuillez modifier votre recherche.</string>
     <!-- Package Filters Strings -->
     <plurals name="flight_filter_stops">
         <item quantity="zero">Sans escale</item>
@@ -4029,4 +4035,11 @@
     <string name="rental_car_message">Besoin d\&apos;une voiture de location?</string>
     <!-- Cars cross-sell message description on package confirmation -->
     <string name="rental_car_message_desc">Recherchez des voitures et économisez</string>
+
+    <!-- Feeds -->
+    <!-- Flight search title card -->
+    <string name="flight_search_card_title">Recherche de vol</string>
+    <!-- Label for feeds/scratchpad card indicating source of given information -->
+    <string name="via_scratchpad_label">dans le Scratchpad</string>
+
 </resources>

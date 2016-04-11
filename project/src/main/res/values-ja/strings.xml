@@ -652,7 +652,7 @@
     <!-- Offers show more string -->
     <string name="lx_show_more_offers">もっと見る</string>
     <!-- Text for traveler details toolbar-->
-    <string name="traveler_details_text">旅行者の詳細</string>
+    <string name="lx_traveler_details_text">旅行者の詳細</string>
     <!-- Text for enter traveler details-->
     <string name="lx_traveler_enter_details_text">旅行者情報を入力</string>
     <!-- Text for lx sort and filter-->
@@ -1726,6 +1726,7 @@
     <!-- Calendar instruction text hotels date range template. %1$s = Formatted start date, %2$s = formatted end date. E.g. May 12 - May 15 -->
     <string name="calendar_instructions_date_range_with_guests_TEMPLATE">{startdate} - {enddate}, {guests}</string>
     <string name="room_with_guests_TEMPLATE">1 室、{guests}</string>
+    <string name="hotel_free_cancellation_TEMPLATE">無料キャンセル期限 : {date}</string>
 
     <!-- Flight details fragment -->
     <!-- Book now info label.  %s is the price.  E.g., "One way for $994" -->
@@ -2226,6 +2227,10 @@
     <string name="loading_traveler_info">旅行者情報を読み込んでいます…</string>
     <!-- Passport -->
     <string name="passport">パスポート</string>
+
+    <!-- Passport label -->
+    <string name="passport_country_colon">パスポート :</string>
+
     <!-- Current traveler - <firstname> <lastname> -->
     <string name="current_traveler_TEMPLATE">現在の旅行者 - %1$s%2$s</string>
 
@@ -3901,7 +3906,8 @@
     <string name="best_flight_title">最良のフライト</string>
     <!-- Package Best Flight description -->
     <string name="best_flight_description">お得 • 短時間 • 人気都市</string>
-
+    <!-- Package search error -->
+    <string name="error_package_search_message">条件に一致するものは見つかりませんでした。検索条件を変更してください。</string>
     <!-- Package Filters Strings -->
     <plurals name="flight_filter_stops">
         <item quantity="zero">直行便</item>
@@ -4029,4 +4035,11 @@
     <string name="rental_car_message">レンタカーを予約しますか ?</string>
     <!-- Cars cross-sell message description on package confirmation -->
     <string name="rental_car_message_desc">レンタカーを割引予約</string>
+
+    <!-- Feeds -->
+    <!-- Flight search title card -->
+    <string name="flight_search_card_title">フライト検索</string>
+    <!-- Label for feeds/scratchpad card indicating source of given information -->
+    <string name="via_scratchpad_label">スクラッチパッドからの情報</string>
+
 </resources>

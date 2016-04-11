@@ -652,7 +652,7 @@
     <!-- Offers show more string -->
     <string name="lx_show_more_offers">显示更多选择</string>
     <!-- Text for traveler details toolbar-->
-    <string name="traveler_details_text">旅客详细信息</string>
+    <string name="lx_traveler_details_text">旅客详细信息</string>
     <!-- Text for enter traveler details-->
     <string name="lx_traveler_enter_details_text">输入旅客信息</string>
     <!-- Text for lx sort and filter-->
@@ -1726,6 +1726,7 @@
     <!-- Calendar instruction text hotels date range template. %1$s = Formatted start date, %2$s = formatted end date. E.g. May 12 - May 15 -->
     <string name="calendar_instructions_date_range_with_guests_TEMPLATE">{startdate} - {enddate}, {guests}</string>
     <string name="room_with_guests_TEMPLATE">1 间房，{guests}</string>
+    <string name="hotel_free_cancellation_TEMPLATE">{date}前免费取消预订</string>
 
     <!-- Flight details fragment -->
     <!-- Book now info label.  %s is the price.  E.g., "One way for $994" -->
@@ -2226,6 +2227,10 @@
     <string name="loading_traveler_info">正在加载旅客信息…</string>
     <!-- Passport -->
     <string name="passport">护照</string>
+
+    <!-- Passport label -->
+    <string name="passport_country_colon">护照：</string>
+
     <!-- Current traveler - <firstname> <lastname> -->
     <string name="current_traveler_TEMPLATE">当前旅客 - %1$s %2$s</string>
 
@@ -3901,7 +3906,8 @@
     <string name="best_flight_title">最佳航班</string>
     <!-- Package Best Flight description -->
     <string name="best_flight_description">廉价 • 时间短 • 出发时间适宜</string>
-
+    <!-- Package search error -->
+    <string name="error_package_search_message">我们无法找到任何结果。请调整您的搜索条件。</string>
     <!-- Package Filters Strings -->
     <plurals name="flight_filter_stops">
         <item quantity="zero">直飞</item>
@@ -4029,4 +4035,11 @@
     <string name="rental_car_message">需要租车？</string>
     <!-- Cars cross-sell message description on package confirmation -->
     <string name="rental_car_message_desc">搜索租车，享受更大优惠</string>
+
+    <!-- Feeds -->
+    <!-- Flight search title card -->
+    <string name="flight_search_card_title">机票搜索</string>
+    <!-- Label for feeds/scratchpad card indicating source of given information -->
+    <string name="via_scratchpad_label">通过 Scratchpad</string>
+
 </resources>

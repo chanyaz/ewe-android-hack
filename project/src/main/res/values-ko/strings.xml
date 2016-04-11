@@ -206,7 +206,7 @@
     <!-- Car confirmation pickup time label e.g. March 10, 12:30pm to -->
     <string name="car_confirmation_pickup_time_TEMPLATE">%1$s -</string>
     <!-- Car confirmation itin text -->
-    <string name="successful_checkout_email_label">일정이 전송된 수신 주소:</string>
+    <string name="successful_checkout_email_label">다음 주소로 일정 전송됨:</string>
     <!-- Car confirmation directions text -->
     <string name="car_confirmation_directions">%1$s까지의 길 안내</string>
     <!-- Hotel Checkout Credit/Debit Card Payment Option Label -->
@@ -652,7 +652,7 @@
     <!-- Offers show more string -->
     <string name="lx_show_more_offers">더 보기</string>
     <!-- Text for traveler details toolbar-->
-    <string name="traveler_details_text">여행객 정보</string>
+    <string name="lx_traveler_details_text">여행객 정보</string>
     <!-- Text for enter traveler details-->
     <string name="lx_traveler_enter_details_text">여행객 정보 입력</string>
     <!-- Text for lx sort and filter-->
@@ -1726,6 +1726,7 @@
     <!-- Calendar instruction text hotels date range template. %1$s = Formatted start date, %2$s = formatted end date. E.g. May 12 - May 15 -->
     <string name="calendar_instructions_date_range_with_guests_TEMPLATE">{startdate} - {enddate}, {guests}</string>
     <string name="room_with_guests_TEMPLATE">객실 1개, {guests}명</string>
+    <string name="hotel_free_cancellation_TEMPLATE">무료 취소: {date}까지</string>
 
     <!-- Flight details fragment -->
     <!-- Book now info label.  %s is the price.  E.g., "One way for $994" -->
@@ -1928,7 +1929,7 @@
     <!-- Expedia Rate - Non merchant default infosite messaging -->
     <string name="non_merchant_rate_TEMPLATE">{brand} 요금</string>
     <!-- Free cancellation template string where we insert the date the free cancellation expires -->
-    <string name="free_cancellation_date_TEMPLATE">&lt;b&gt;무료 취소 마감기한&lt;/b&gt;: &lt;b&gt;%s&lt;/b&gt;</string>
+    <string name="free_cancellation_date_TEMPLATE">&lt;b&gt;무료 취소&lt;/b&gt;: &lt;b&gt;%s&lt;/b&gt;까지</string>
     <!-- Sign out -->
     <string name="sign_out">로그아웃</string>
     <!-- AB Test 3x messaging for hotel points -->
@@ -2226,6 +2227,10 @@
     <string name="loading_traveler_info">여행객 정보 로드 중…</string>
     <!-- Passport -->
     <string name="passport">여권</string>
+
+    <!-- Passport label -->
+    <string name="passport_country_colon">여권:</string>
+
     <!-- Current traveler - <firstname> <lastname> -->
     <string name="current_traveler_TEMPLATE">현재 여행객 - %1$s %2$s</string>
 
@@ -3870,9 +3875,9 @@
     <!-- Label for per person -->
     <string name="per_person">1인당</string>
     <!-- Label for package bundle price on overview-->
-    <string name="bundle_total_text">패키지 총액</string>
+    <string name="bundle_total_text">항공+호텔 총액</string>
     <!-- Label for package bundle price on search-->
-    <string name="search_bundle_total_text">패키지 보기</string>
+    <string name="search_bundle_total_text">항공+호텔 보기</string>
     <!-- Fly from hint -->
     <string name="fly_from_hint">출발</string>
     <!-- Fly to hint -->
@@ -3901,7 +3906,8 @@
     <string name="best_flight_title">최적의 항공편</string>
     <!-- Package Best Flight description -->
     <string name="best_flight_description">저렴하고 • 짧은 • 인기 출발</string>
-
+    <!-- Package search error -->
+    <string name="error_package_search_message">검색 결과가 없습니다. 검색 조건을 변경해 주세요.</string>
     <!-- Package Filters Strings -->
     <plurals name="flight_filter_stops">
         <item quantity="zero">직항</item>
@@ -3988,7 +3994,7 @@
     <string name="package_flight_overview_urgency_message_TEMPLATE">{seats}개 좌석 남음</string>
     <string name="package_flight_overview_baggage_fees">수하물 요금 정보</string>
     <string name="package_flight_overview_select_flight">이 항공편 선택</string>
-    <string name="package_flight_overview_bundle_total_label">패키지 총액</string>
+    <string name="package_flight_overview_bundle_total_label">항공+호텔 총액</string>
     <string name="package_flight_overview_per_person_TEMPLATE">1인당 {money}</string>
     <string name="package_flight_overview_departure_arrival_TEMPLATE">({departureairportcode}) {departurecity} - ({arrivalairportcode}) {arrivalcity}</string>
     <string name="package_flight_overview_layover_in_TEMPLATE">({airportcode}) {city}에서 중간 경유</string>
@@ -4029,4 +4035,11 @@
     <string name="rental_car_message">렌터카가 필요하세요?</string>
     <!-- Cars cross-sell message description on package confirmation -->
     <string name="rental_car_message_desc">렌터카를 예약하고 할인받으세요.</string>
+
+    <!-- Feeds -->
+    <!-- Flight search title card -->
+    <string name="flight_search_card_title">항공편 검색</string>
+    <!-- Label for feeds/scratchpad card indicating source of given information -->
+    <string name="via_scratchpad_label">Scratchpad를 통해</string>
+
 </resources>

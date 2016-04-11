@@ -652,7 +652,7 @@
     <!-- Offers show more string -->
     <string name="lx_show_more_offers">Se mer</string>
     <!-- Text for traveler details toolbar-->
-    <string name="traveler_details_text">Resenärsinformation</string>
+    <string name="lx_traveler_details_text">Resenärsinformation</string>
     <!-- Text for enter traveler details-->
     <string name="lx_traveler_enter_details_text">Ange resenärens uppgifter</string>
     <!-- Text for lx sort and filter-->
@@ -933,7 +933,7 @@
 
     <!-- Tablet Checkout -->
     <!-- Actionbar Title - "Checkout" -->
-    <string name="Checkout">Betala</string>
+    <string name="Checkout">Betalning</string>
     <!-- Actionbar Title for default search results state -->
     <string name="Create_a_Trip">Skapa en resa</string>
     <!-- Your Trip -->
@@ -1726,6 +1726,7 @@
     <!-- Calendar instruction text hotels date range template. %1$s = Formatted start date, %2$s = formatted end date. E.g. May 12 - May 15 -->
     <string name="calendar_instructions_date_range_with_guests_TEMPLATE">{startdate} - {enddate}, {guests}</string>
     <string name="room_with_guests_TEMPLATE">1 rum, {guests}</string>
+    <string name="hotel_free_cancellation_TEMPLATE">Gratis avbokning fram till {date}</string>
 
     <!-- Flight details fragment -->
     <!-- Book now info label.  %s is the price.  E.g., "One way for $994" -->
@@ -1866,7 +1867,7 @@
         <item quantity="other">%1$d resenärer</item>
     </plurals>
     <!-- Checkout button text -->
-    <string name="checkout_btn">Betala</string>
+    <string name="checkout_btn">Betalning</string>
     <!-- Message when loading realtime flight information -->
     <string name="loading_flight_details">Kollar efter prisändringar</string>
     <!-- Price changed from -->
@@ -1918,7 +1919,7 @@
     <!-- "Finish Booking" button that appears after CVV is entered -->
     <string name="Finish_Booking">Slutför bokning</string>
     <!-- Checkout menu item -->
-    <string name="menu_checkout">Betala</string>
+    <string name="menu_checkout">Betalning</string>
     <!-- Our best price gaurentee string -->
     <string name="best_price_guarantee">Prisgaranti</string>
     <!-- Label for address of hotel in checkout/receipt screen-->
@@ -2226,6 +2227,10 @@
     <string name="loading_traveler_info">Hämtar resenärens uppgifter…</string>
     <!-- Passport -->
     <string name="passport">Pass</string>
+
+    <!-- Passport label -->
+    <string name="passport_country_colon">Pass:</string>
+
     <!-- Current traveler - <firstname> <lastname> -->
     <string name="current_traveler_TEMPLATE">Aktuell resenär - %1$s %2$s</string>
 
@@ -3901,7 +3906,8 @@
     <string name="best_flight_title">Bäst flyg</string>
     <!-- Package Best Flight description -->
     <string name="best_flight_description">billigt • kort • populär avgång</string>
-
+    <!-- Package search error -->
+    <string name="error_package_search_message">Vi hittade inga resultat. Ändra din sökning.</string>
     <!-- Package Filters Strings -->
     <plurals name="flight_filter_stops">
         <item quantity="zero">Direkt</item>
@@ -4029,4 +4035,11 @@
     <string name="rental_car_message">Behöver du hyrbil?</string>
     <!-- Cars cross-sell message description on package confirmation -->
     <string name="rental_car_message_desc">Boka en bil och spara</string>
+
+    <!-- Feeds -->
+    <!-- Flight search title card -->
+    <string name="flight_search_card_title">Flygsökning</string>
+    <!-- Label for feeds/scratchpad card indicating source of given information -->
+    <string name="via_scratchpad_label">via Scratchpad</string>
+
 </resources>

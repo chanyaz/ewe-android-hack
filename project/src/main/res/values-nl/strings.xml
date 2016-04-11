@@ -64,7 +64,7 @@
     <!-- Slide to reserve -->
     <string name="cars_slider_text">Swipe om te reserveren</string>
     <!-- Text for checkout toolbar-->
-    <string name="checkout_text">Betaling</string>
+    <string name="checkout_text">Afrekenen</string>
     <!-- Text for error toolbar-->
     <string name="cars_dupe_trip_text">Dubbele reis</string>
     <!-- Text for error toolbar-->
@@ -652,7 +652,7 @@
     <!-- Offers show more string -->
     <string name="lx_show_more_offers">Meer tonen</string>
     <!-- Text for traveler details toolbar-->
-    <string name="traveler_details_text">Reizigersinfo</string>
+    <string name="lx_traveler_details_text">Reizigersinfo</string>
     <!-- Text for enter traveler details-->
     <string name="lx_traveler_enter_details_text">Reizigersinfo invoeren</string>
     <!-- Text for lx sort and filter-->
@@ -1726,6 +1726,7 @@
     <!-- Calendar instruction text hotels date range template. %1$s = Formatted start date, %2$s = formatted end date. E.g. May 12 - May 15 -->
     <string name="calendar_instructions_date_range_with_guests_TEMPLATE">{startdate} - {enddate}, {guests}</string>
     <string name="room_with_guests_TEMPLATE">1 kamer, {guests}</string>
+    <string name="hotel_free_cancellation_TEMPLATE">Gratis annulering tot {date}</string>
 
     <!-- Flight details fragment -->
     <!-- Book now info label.  %s is the price.  E.g., "One way for $994" -->
@@ -2226,6 +2227,10 @@
     <string name="loading_traveler_info">Bezig met laden reizigersinformatie…</string>
     <!-- Passport -->
     <string name="passport">Paspoort</string>
+
+    <!-- Passport label -->
+    <string name="passport_country_colon">Paspoort:</string>
+
     <!-- Current traveler - <firstname> <lastname> -->
     <string name="current_traveler_TEMPLATE">Huidige reiziger - %1$s %2$s</string>
 
@@ -3901,7 +3906,8 @@
     <string name="best_flight_title">Beste vlucht</string>
     <!-- Package Best Flight description -->
     <string name="best_flight_description">goedkoop • snel • populaire vertrekplaats</string>
-
+    <!-- Package search error -->
+    <string name="error_package_search_message">We konden geen resultaten vinden. Pas je zoekopdracht aan.</string>
     <!-- Package Filters Strings -->
     <plurals name="flight_filter_stops">
         <item quantity="zero">Rechtstreeks</item>
@@ -4029,4 +4035,11 @@
     <string name="rental_car_message">Huurauto nodig?</string>
     <!-- Cars cross-sell message description on package confirmation -->
     <string name="rental_car_message_desc">Huur een auto en bespaar</string>
+
+    <!-- Feeds -->
+    <!-- Flight search title card -->
+    <string name="flight_search_card_title">Vluchten zoeken</string>
+    <!-- Label for feeds/scratchpad card indicating source of given information -->
+    <string name="via_scratchpad_label">via Scratchpad</string>
+
 </resources>
