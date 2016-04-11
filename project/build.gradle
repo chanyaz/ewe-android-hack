@@ -32,7 +32,6 @@ dependencies {
             'ADMS_AppLibrary-3.2.7-Android.jar',
             'MobileAppTracker-3.11.4.jar',
     ])
-    compile project(':lib:Utils')
     compile project(':lib:AndroidTime')
     // We keep some classes in a pure java project so we can test them with pure jvm unit tests
     compile (project(':lib:ExpediaBookings')) {
@@ -40,6 +39,7 @@ dependencies {
     }
     compile 'com.expedia:svg-android:0.1.0'
     compile 'com.expedia:android-account-lib:0.8.1'
+    compile 'com.mobiata:android-utils:1.0.3'
     compile 'com.dgmltn:share-everywhere:1.0.1'
     compile "org.jetbrains.kotlin:kotlin-stdlib:${kotlin_version}"
     compile "org.jetbrains.kotlin:kotlin-test:${kotlin_version}"
