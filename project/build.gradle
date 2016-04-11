@@ -39,7 +39,7 @@ dependencies {
         exclude group: 'org.json'
     }
     compile 'com.expedia:svg-android:0.1.0'
-    compile 'com.expedia:android-account-lib:0.8.0'
+    compile 'com.expedia:android-account-lib:0.8.1'
     compile 'com.dgmltn:share-everywhere:1.0.1'
     compile "org.jetbrains.kotlin:kotlin-stdlib:${kotlin_version}"
     compile "org.jetbrains.kotlin:kotlin-test:${kotlin_version}"
