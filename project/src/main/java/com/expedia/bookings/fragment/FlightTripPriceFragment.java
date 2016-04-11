@@ -51,7 +51,7 @@ public class FlightTripPriceFragment extends Fragment {
 		mPriceChangeContainer = Ui.findView(mFragmentContent, R.id.price_change_notification_container);
 		mPriceChangedTv = Ui.findView(mFragmentContent, R.id.price_change_notification_text);
 
-		if (ShopWithPointsFlightsUtil.isShopWithPointsEnabled()) {
+		if (ShopWithPointsFlightsUtil.isShopWithPointsEnabled(getContext())) {
 			CharSequence earnInfoTextToDisplay = ShopWithPointsFlightsUtil.getEarnInfoTextToDisplay(getContext(), mTrip);
 			if (Strings.isNotEmpty(earnInfoTextToDisplay)) {
 				TextView earnMessaging = Ui.findView(mTripSection, R.id.earn_message);
