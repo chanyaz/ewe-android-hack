@@ -49,6 +49,9 @@
     <color name="hotel_tonight_only_color">#C4204B</color>
     <color name="hotel_mobile_exclusive_color">#00253C</color>
 
+    <!-- flight color-->
+    <color name="flight_edit_search_button_color">@color/white</color>
+
     <!-- Cars and LX-->
     <color name="cars_primary_color">#004D7C</color>
     <color name="cars_unchecked_toggle_text_color">#dfe9f0</color>
