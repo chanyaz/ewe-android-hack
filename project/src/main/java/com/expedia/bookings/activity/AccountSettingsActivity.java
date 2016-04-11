@@ -295,9 +295,11 @@ public class AccountSettingsActivity extends AppCompatActivity implements AboutS
 	public boolean onAboutRowClicked(int id) {
 		switch (id) {
 		case ROW_COUNTRY: {
-			OmnitureTracking.trackClickCountrySetting();
-			DialogFragment selectCountryDialog = aboutUtils.createCountrySelectDialog();
-			selectCountryDialog.show(getSupportFragmentManager(), "selectCountryDialog");
+			if (PointOfSale.getAllPointsOfSale(this).size() > 1) {
+				OmnitureTracking.trackClickCountrySetting();
+				DialogFragment selectCountryDialog = aboutUtils.createCountrySelectDialog();
+				selectCountryDialog.show(getSupportFragmentManager(), "selectCountryDialog");
+			}
 			return true;
 		}
 		case ROW_BOOKING_SUPPORT: {
