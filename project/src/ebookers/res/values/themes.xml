@@ -14,7 +14,7 @@
         <item name="skin_actionBarSpinnerBackground">@drawable/ic_ab_arrow</item>
         <item name="skin_actionBarCheckMarkDrawable">@drawable/ic_action_bar_checkmark_blue</item>
         <item name="skin_actionBarCheckoutDrawable">@drawable/ic_action_bar_checkout_arrow</item>
-        <item name="skin_actionBarButtonTextColor">@color/action_bar_text</item>
+        <item name="skin_actionBarButtonTextColor">@color/action_bar_text_color</item>
         <item name="skin_loginBookNowButtonDrawable">@drawable/btn_signin</item>
         <item name="skin_bookNowButtonDrawable">@drawable/btn_signin</item>
         <item name="skin_calendarDatePickerCellDrawable">@drawable/calendar_date_picker_cell</item>
