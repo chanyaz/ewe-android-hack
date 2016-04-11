@@ -3,14 +3,21 @@ package com.expedia.bookings.utils;
 import java.io.IOException;
 import java.math.BigDecimal;
 
+import android.content.Context;
+
+import com.expedia.bookings.BuildConfig;
+import com.expedia.bookings.R;
+import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.payment.LoyaltyEarnInfo;
 import com.expedia.bookings.data.payment.PointsEarnInfo;
 import com.expedia.bookings.data.payment.PriceEarnInfo;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonToken;
+import com.squareup.phrase.Phrase;
 
-public class LoyaltyInfoParserUtil {
+public class ShopWithPointsFlightsUtil {
+
 
 	public static LoyaltyEarnInfo getLoyaltyEarnInfo(JsonReader reader) throws IOException {
 		LoyaltyEarnInfo loyaltyEarnInfo = null;
@@ -129,4 +136,36 @@ public class LoyaltyInfoParserUtil {
 		}
 	}
 
+	public static CharSequence getEarnInfoTextToDisplay(Context context, FlightTrip trip) {
+		CharSequence earnInfoTextToDisplay = null;
+
+		LoyaltyEarnInfo earnInfo = trip.getEarnInfo();
+		if (earnInfo != null) {
+			PriceEarnInfo price = earnInfo.getPrice();
+			if (price != null) {
+				if (price.getTotal().amount.compareTo(BigDecimal.ZERO) > 0) {
+					earnInfoTextToDisplay = Phrase.from(context.getString(R.string.earn_amount_TEMPLATE))
+						.put("price", price.getTotal().formattedPrice)
+						.format();
+				}
+			}
+			else {
+				PointsEarnInfo points = earnInfo.getPoints();
+				if (points != null) {
+					int total = points.getTotal();
+					if (total > 0) {
+						earnInfoTextToDisplay = Phrase.from(context.getString(R.string.earn_points_TEMPLATE))
+							.put("points", total)
+							.format();
+					}
+				}
+			}
+		}
+		return earnInfoTextToDisplay;
+	}
+
+	public static boolean isShopWithPointsEnabled() {
+		//TODO consider Config if SWP is to be displayed
+		return BuildConfig.DEBUG;
+	}
 }

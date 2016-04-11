@@ -57,7 +57,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_below="@id/price_container"
-        android:layout_marginRight="10dp"
+        android:layout_marginLeft="10dp"
         android:gravity="left"
         android:text="@string/roundtrip"
         android:textColor="#3D4652"

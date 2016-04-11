@@ -23,7 +23,7 @@ import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.PassengerCategoryPrice;
 import com.expedia.bookings.data.ServerError.ApiMethod;
 import com.expedia.bookings.enums.PassengerCategory;
-import com.expedia.bookings.utils.LoyaltyInfoParserUtil;
+import com.expedia.bookings.utils.ShopWithPointsFlightsUtil;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonToken;
 import com.mobiata.android.Log;
@@ -415,7 +415,7 @@ public class StreamingFlightSearchResponseHandler implements ResponseHandler<Fli
 				trip.setSplitTicket(reader.nextBoolean());
 			}
 			else if (name.equals("loyaltyInfo")) {
-				trip.setEarnInfo(LoyaltyInfoParserUtil.getLoyaltyEarnInfo(reader));
+				trip.setEarnInfo(ShopWithPointsFlightsUtil.getLoyaltyEarnInfo(reader));
 			}
 			else {
 				reader.skipValue();
