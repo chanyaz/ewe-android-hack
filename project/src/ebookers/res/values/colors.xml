@@ -52,9 +52,9 @@
     <color name="action_bar_text">#FFFFFF</color>
 
     <!--Account Lib Colors -->
-    <color name="btn_sign_in_normal">#003366</color>
-    <color name="btn_sign_in_pressed">#001935</color>
-    <color name="btn_sign_in_focused">#001935</color>
+    <color name="btn_sign_in_normal">#0099CC</color>
+    <color name="btn_sign_in_pressed">#007095</color>
+    <color name="btn_sign_in_focused">#007095</color>
     <color name="btn_sign_in_disabled">#12000000</color>
     <color name="acct__btn_sign_in_text">#FFFFFF</color>
     <color name="acct__bg_input_text_error">#FFFFFF</color>
