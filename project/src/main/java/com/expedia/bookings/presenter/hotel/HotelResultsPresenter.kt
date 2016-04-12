@@ -18,6 +18,7 @@ import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.tracking.HotelV2Tracking
+import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.FilterButtonWithCountWidget
 import com.expedia.bookings.widget.MapLoadingOverlayWidget
@@ -27,12 +28,17 @@ import com.expedia.util.subscribeInverseVisibility
 import com.expedia.util.subscribeText
 import com.expedia.util.subscribeVisibility
 import com.expedia.vm.HotelResultsViewModel
+import com.expedia.vm.ShopWithPointsViewModel
+import javax.inject.Inject
 
 class HotelResultsPresenter(context: Context, attrs: AttributeSet) : BaseHotelResultsPresenter(context, attrs) {
     override val filterBtnWithCountWidget: FilterButtonWithCountWidget by bindView(R.id.sort_filter_button_container)
     override val searchThisArea: Button by bindView(R.id.search_this_area)
     override val loadingOverlay: MapLoadingOverlayWidget by bindView(R.id.map_loading_overlay)
     var filterBtn: LinearLayout? = null
+
+    lateinit var shopWithPointsViewModel: ShopWithPointsViewModel
+        @Inject set
 
     var viewmodel: HotelResultsViewModel by notNullAndObservable { vm ->
         vm.hotelResultsObservable.subscribe {
@@ -84,6 +90,8 @@ class HotelResultsPresenter(context: Context, attrs: AttributeSet) : BaseHotelRe
 
     override fun onFinishInflate() {
         super.onFinishInflate()
+        Ui.getApplication(getContext()).hotelComponent().inject(this)
+
         ViewCompat.setElevation(loadingOverlay, context.resources.getDimension(R.dimen.launch_tile_margin_side))
         //Fetch, color, and slightly resize the searchThisArea location pin drawable
         val icon = ContextCompat.getDrawable(context, R.drawable.ic_material_location_pin).mutate()
@@ -103,6 +111,7 @@ class HotelResultsPresenter(context: Context, attrs: AttributeSet) : BaseHotelRe
         })
 
         inflateAndSetupToolbarMenu()
+        filterView.shopWithPointsViewModel = shopWithPointsViewModel
         filterView.viewmodel.filterCountObservable.map { it.toString() }.subscribeText(filterCountText)
         filterView.viewmodel.filterCountObservable.map { it > 0 }.subscribeVisibility(filterCountText)
         filterView.viewmodel.filterCountObservable.map { it > 0 }.subscribeInverseVisibility(filterPlaceholderImageView)
