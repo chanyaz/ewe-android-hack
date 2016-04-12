@@ -40,4 +40,20 @@ class PackagesTracking {
     fun trackHotelMapSearchThisAreaClick() {
         OmnitureTracking.trackPackagesHotelMapSearchThisAreaClick()
     }
+
+    fun trackCheckoutSelectPaymentClick() {
+        OmnitureTracking.trackPackagesPaymentSelect()
+    }
+
+    fun trackCheckoutPaymentSelectStoredCard() {
+        OmnitureTracking.trackPackagesPaymentStoredCCSelect()
+    }
+
+    fun trackCheckoutAddPaymentType() {
+        OmnitureTracking.trackPackagesPaymentEdit()
+    }
+
+    fun trackCheckoutPaymentConfirmation() {
+        OmnitureTracking.trackPackagesConfirmation()
+    }
 }

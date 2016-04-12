@@ -9,6 +9,7 @@ import com.expedia.bookings.R
 import com.expedia.bookings.data.Codes
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.presenter.BaseOverviewPresenter
+import com.expedia.bookings.tracking.PackagesTracking
 import com.expedia.bookings.utils.Constants
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.PackageCheckoutPresenter
@@ -17,7 +18,6 @@ import com.expedia.vm.PackageCheckoutOverviewViewModel
 import com.expedia.vm.PackageSearchType
 
 class PackageOverviewPresenter(context: Context, attrs: AttributeSet) : BaseOverviewPresenter(context, attrs) {
-
     val bundleWidget: BundleWidget by bindView(R.id.bundle_widget)
     val changeHotel by lazy { bundleOverviewHeader.toolbar.menu.findItem(R.id.package_change_hotel) }
     val changeHotelRoom by lazy { bundleOverviewHeader.toolbar.menu.findItem(R.id.package_change_hotel_room) }
@@ -94,5 +94,9 @@ class PackageOverviewPresenter(context: Context, attrs: AttributeSet) : BaseOver
 
     override fun getCheckoutTransitionClass() : Class<out Any> {
         return PackageCheckoutPresenter::class.java
+    }
+
+    override fun trackCheckoutPageLoad() {
+        PackagesTracking().trackCheckoutStart(Db.getTripBucket().`package`.mPackageTripResponse.packageDetails)
     }
 }

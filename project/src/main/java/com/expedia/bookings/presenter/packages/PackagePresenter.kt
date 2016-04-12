@@ -18,6 +18,7 @@ import com.expedia.bookings.presenter.BaseOverviewPresenter
 import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.presenter.ScaleTransition
 import com.expedia.bookings.services.PackageServices
+import com.expedia.bookings.tracking.PackagesTracking
 import com.expedia.bookings.utils.CurrencyUtils
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
@@ -91,6 +92,7 @@ class PackagePresenter(context: Context, attrs: AttributeSet) : Presenter(contex
             show(confirmationPresenter)
             confirmationPresenter.viewModel.showConfirmation.onNext(Pair(pair.first.newTrip?.itineraryNumber, pair.second))
             confirmationPresenter.viewModel.setExpediaRewardsPoints.onNext(expediaRewards)
+            PackagesTracking().trackCheckoutPaymentConfirmation()
         }
 
         searchPresenter.searchViewModel.searchParamsObservable.subscribe {

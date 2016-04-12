@@ -65,6 +65,7 @@ abstract class BaseOverviewPresenter(context: Context, attrs: AttributeSet) : Pr
         checkoutPresenter.checkoutButton.setOnClickListener {
             show(checkoutPresenter)
             checkoutPresenter.show(BaseCheckoutPresenter.CheckoutDefault(), FLAG_CLEAR_BACKSTACK)
+            trackCheckoutPageLoad()
         }
 
         bundleOverviewHeader.setUpCollapsingToolbar()
@@ -193,4 +194,6 @@ abstract class BaseOverviewPresenter(context: Context, attrs: AttributeSet) : Pr
     class BundleDefault
 
     abstract fun getCheckoutTransitionClass() : Class<out Any>
+
+    abstract fun trackCheckoutPageLoad()
 }
