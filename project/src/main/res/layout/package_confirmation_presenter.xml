@@ -5,9 +5,10 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:focusable="false"
         android:background="@drawable/confirmation_background"
-        android:fillViewport="true">
+        android:fillViewport="true"
+        android:focusable="false"
+        android:paddingBottom="@dimen/card_view_container_margin">
 
         <LinearLayout
             android:id="@+id/confirmation_container"
@@ -31,106 +32,137 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center"
-                    android:paddingTop="5dp"
+                    android:paddingTop="10dp"
                     android:text="@string/yay_going_somewhere"
                     android:textColor="@color/itin_white_text"
-                    android:textSize="14sp" />
+                    android:textSize="15sp" />
 
                 <com.expedia.bookings.widget.TextView
                     android:id="@+id/destination"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center"
-                    android:paddingTop="5dp"
                     android:textColor="@color/itin_white_text"
-                    android:textSize="20sp" />
+                    android:textSize="24sp"
+                    app:textStyle="medium" />
 
                 <com.expedia.bookings.widget.TextView
                     android:id="@+id/expedia_points"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center"
-                    android:paddingTop="5dp"
                     android:textColor="@color/itin_white_text"
                     android:textSize="12sp" />
             </LinearLayout>
 
-            <LinearLayout
+            <android.support.v7.widget.CardView
+                style="@style/MaterialCardView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="8dp"
-                android:background="@drawable/card_background"
-                android:gravity="center"
-                android:orientation="vertical">
-
-                <com.expedia.bookings.widget.packages.ConfirmationRowCardView
-                    android:id="@+id/destination_card_row"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    app:row_icon="@drawable/packages_hotel_icon"
-                    app:row_icon_tint_color="@color/package_bundle_icon_color" />
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1px"
-                    android:background="@drawable/grey_divider" />
-
-                <com.expedia.bookings.widget.packages.ConfirmationRowCardView
-                    android:id="@+id/outbound_flight_card"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    app:row_icon="@drawable/packages_flight1_icon"
-                    app:row_icon_tint_color="@color/package_bundle_icon_color" />
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1px"
-                    android:background="@drawable/grey_divider" />
-
-                <com.expedia.bookings.widget.packages.ConfirmationRowCardView
-                    android:id="@+id/inbound_flight_card"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    app:row_icon="@drawable/packages_flight2_icon"
-                    app:row_icon_tint_color="@color/package_bundle_icon_color" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="8dp"
-                android:background="@color/itin_white_text"
-                android:drawablePadding="8dp"
-                android:padding="8dp">
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginRight="5dp"
-                    android:src="@drawable/plus"
-                    android:tint="@color/packages_primary_color" />
+                android:layout_marginLeft="@dimen/card_view_container_margin"
+                android:layout_marginRight="@dimen/card_view_container_margin">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
 
-                    <com.expedia.bookings.widget.TextView
+                    <com.expedia.bookings.widget.packages.ConfirmationRowCardView
+                        android:id="@+id/destination_card_row"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="@string/rental_car_message"
-                        android:textColor="@color/packages_primary_color" />
+                        android:paddingBottom="12dp"
+                        android:paddingLeft="18dp"
+                        android:paddingRight="12dp"
+                        android:paddingTop="12dp"
+                        app:row_icon="@drawable/packages_hotel_icon"
+                        app:row_icon_tint_color="@color/packages_bundle_overview_widgets_primary_text" />
 
-                    <com.expedia.bookings.widget.TextView
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1px"
+                        android:background="@drawable/grey_divider" />
+
+                    <com.expedia.bookings.widget.packages.ConfirmationRowCardView
+                        android:id="@+id/outbound_flight_card"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="@string/rental_car_message_desc"
-                        android:textColor="@color/text_light_gray"
-                        android:textSize="12sp" />
+                        android:paddingBottom="12dp"
+                        android:paddingLeft="18dp"
+                        android:paddingRight="12dp"
+                        android:paddingTop="12dp"
+                        app:row_icon="@drawable/packages_flight1_icon"
+                        app:row_icon_tint_color="@color/packages_bundle_overview_widgets_primary_text" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1px"
+                        android:background="@drawable/grey_divider" />
+
+                    <com.expedia.bookings.widget.packages.ConfirmationRowCardView
+                        android:id="@+id/inbound_flight_card"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingBottom="12dp"
+                        android:paddingLeft="18dp"
+                        android:paddingRight="12dp"
+                        android:paddingTop="12dp"
+                        app:row_icon="@drawable/packages_flight2_icon"
+                        app:row_icon_tint_color="@color/packages_bundle_overview_widgets_primary_text" />
+
                 </LinearLayout>
-            </LinearLayout>
+            </android.support.v7.widget.CardView>
+
+            <android.support.v7.widget.CardView
+                style="@style/MaterialCardView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/card_view_container_margin"
+                android:layout_marginRight="@dimen/card_view_container_margin"
+                android:layout_marginTop="@dimen/card_view_container_margin"
+                android:foreground="?android:attr/selectableItemBackground">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:paddingBottom="12dp"
+                    android:paddingLeft="18dp"
+                    android:paddingRight="12dp"
+                    android:paddingTop="12dp">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginRight="12dp"
+                        android:src="@drawable/confirmation_plus_icon"
+                        android:tint="@color/packages_primary_color" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginBottom="1dp"
+                        android:orientation="vertical">
+
+                        <com.expedia.bookings.widget.TextView
+                            style="@style/BundleOverviewWidgets.PrimaryText"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:singleLine="true"
+                            android:text="@string/rental_car_message"
+                            android:textColor="@color/packages_primary_color" />
+
+                        <com.expedia.bookings.widget.TextView
+                            style="@style/BundleOverviewWidgets.SecondaryText"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:singleLine="true"
+                            android:text="@string/rental_car_message_desc" />
+                    </LinearLayout>
+                </LinearLayout>
+            </android.support.v7.widget.CardView>
         </LinearLayout>
 
     </ScrollView>
@@ -147,22 +179,22 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/transparent_light"
-            android:gravity="center"
-            android:padding="5dp"
             android:focusable="false"
+            android:gravity="center"
+            android:paddingBottom="6dp"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp"
+            android:paddingTop="5dp"
             android:textColor="@color/itin_white_text"
             android:textSize="12sp" />
 
         <Button
             android:id="@+id/view_itin_button"
+            style="@style/MaterialFooterButtonText"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
             android:layout_gravity="bottom"
-            android:background="@color/packages_primary_color"
-            android:text="@string/itin_action_view"
-            android:textColor="@color/itin_white_text"
-            android:textSize="16sp"
-            android:textStyle="normal" />
+            android:background="?attr/hotel_select_room_ripple_drawable"
+            android:text="@string/itin_action_view" />
 
     </LinearLayout>
 </merge>
