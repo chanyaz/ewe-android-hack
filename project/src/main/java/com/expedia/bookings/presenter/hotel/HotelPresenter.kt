@@ -7,6 +7,7 @@ import android.content.Context
 import android.content.DialogInterface
 import android.graphics.Color
 import android.support.v4.content.ContextCompat
+import android.support.v4.view.ViewPager
 import android.support.v7.app.AlertDialog
 import android.util.AttributeSet
 import android.view.View
@@ -231,6 +232,15 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
     val reviewsView: HotelReviewsView by lazy {
         var viewStub = findViewById(R.id.reviews_stub) as ViewStub
         var presenter = viewStub.inflate() as HotelReviewsView
+        presenter.hotelReviewsToolbar.slidingTabLayout.setOnPageChangeListener(object : ViewPager.OnPageChangeListener {
+            override fun onPageSelected(position: Int) {
+                HotelV2Tracking().trackHotelV2ReviewsCategories(position)
+            }
+            override fun onPageScrollStateChanged(state: Int) {
+            }
+            override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {
+            }
+        })
         presenter.reviewServices = reviewServices
         presenter
     }
@@ -739,7 +749,6 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
             hotelServices.info(hotelSearchParams, hotelId, subject)
         }
     }
-
 
     override fun back(): Boolean {
         if (searchPresenter.back()) {

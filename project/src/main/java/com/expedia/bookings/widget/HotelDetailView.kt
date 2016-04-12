@@ -29,9 +29,11 @@ import android.widget.TableLayout
 import android.widget.TableRow
 import com.expedia.bookings.R
 import com.expedia.bookings.activity.ExpediaBookingApp
+import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.Location
 import com.expedia.bookings.data.hotels.HotelOffersResponse
 import com.expedia.bookings.tracking.HotelV2Tracking
+import com.expedia.bookings.tracking.PackagesTracking
 import com.expedia.bookings.utils.Amenity
 import com.expedia.bookings.utils.AnimUtils
 import com.expedia.bookings.utils.ArrowXDrawableUtil
@@ -726,11 +728,11 @@ class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayout(conte
         payByPhoneTextView.setCompoundDrawablesWithIntrinsicBounds(phoneIconDrawable, null, null, null)
         selectRoomButton.setOnClickListener {
             scrollToRoom(true)
-            HotelV2Tracking().trackLinkHotelV2DetailSelectRoom()
+            trackSelectRoomClick(false)
         }
         stickySelectRoomButton.setOnClickListener {
             scrollToRoom(true)
-            HotelV2Tracking().trackLinkHotelV2DetailSelectRoom()
+            trackSelectRoomClick(true)
         }
         resortFeeWidget.measure(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
         resortViewHeight = resortFeeWidget.measuredHeight
@@ -746,6 +748,15 @@ class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayout(conte
 
         FontCache.setTypeface(payNowButton, FontCache.Font.ROBOTO_REGULAR)
         FontCache.setTypeface(payLaterButton, FontCache.Font.ROBOTO_REGULAR)
+    }
+
+    private fun trackSelectRoomClick(isStickyButton: Boolean) {
+        if (this.viewmodel.lob == LineOfBusiness.PACKAGES) {
+            PackagesTracking().trackHotelDetailSelectRoomClick(isStickyButton)
+        }
+        else {
+            HotelV2Tracking().trackLinkHotelV2DetailSelectRoom()
+        }
     }
 
     fun refresh() {

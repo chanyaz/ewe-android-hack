@@ -24,20 +24,6 @@ class HotelReviewsToolbar(context: Context, attrs: AttributeSet) : Toolbar(conte
         slidingTabLayout.setCustomTabView(R.layout.actionbar_tab_bg, R.id.tab_text)
         slidingTabLayout.setSelectedIndicatorColors(ContextCompat.getColor(context, R.color.action_bar_text_yellow))
         slidingTabLayout.setDistributeEvenly(true)
-        slidingTabLayout.setOnPageChangeListener(object : ViewPager.OnPageChangeListener {
-            override fun onPageSelected(position: Int) {
-                HotelV2Tracking().trackHotelV2ReviewsCategories(position)
-
-            }
-
-            override fun onPageScrollStateChanged(state: Int) {
-
-            }
-
-            override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {
-
-            }
-        })
     }
 
 }
