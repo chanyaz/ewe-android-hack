@@ -137,11 +137,10 @@ public class CarDataUtils {
 
 	public static final Map<RentalFareBreakdownType, Integer> RENTAL_FARE_BREAKDOWN_TYPE_MAP = new HashMap<RentalFareBreakdownType, Integer>() {
 		{
-			put(RentalFareBreakdownType.BASE, R.string.car_rental_breakdown_base);
+			put(RentalFareBreakdownType.CAR_RENTAL, R.string.car_rental_breakdown_base);
 			put(RentalFareBreakdownType.TAXES_AND_FEES, R.string.taxes_and_fees);
 			put(RentalFareBreakdownType.INSURANCE, R.string.car_rental_breakdown_insurance);
 			put(RentalFareBreakdownType.DROP_OFF_CHARGE, R.string.car_rental_breakdown_drop_off_charges);
-
 		}
 	};
 
