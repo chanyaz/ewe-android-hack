@@ -70,7 +70,7 @@ class OrbucksViewModelTest {
         createTripResponse.tripId = "happy";
         Db.getTripBucket().add(TripBucketItemHotelV2(createTripResponse))
         paymentModel = PaymentModel<HotelCreateTripResponse>(loyaltyServiceRule.services!!)
-        orbucksViewModel = OrbucksViewModel(paymentModel, activity.application.resources)
+        orbucksViewModel = OrbucksViewModel(paymentModel, activity.application)
 
         paymentModel.paymentSplits.subscribe(paymentSplitsTestSubscriber)
 

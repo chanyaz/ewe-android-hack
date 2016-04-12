@@ -244,8 +244,8 @@ DummyFiletoHandleKotlinLintError {
 		R.string.trip_overview,
 		R.drawable.search_form_traveler_picker_infant,
 		R.string.infants_under_two_TEMPLATE,
-		R.string.paying_with_expedia_points,
-		R.string.pay_with_expedia_points,
+		R.string.paying_with_rewards,
+		R.string.pay_with_rewards,
 		R.string.pay_with_point_total_available_TEMPLATE,
 		R.string.user_enters_more_than_available_points_TEMPLATE,
 		R.string.user_enters_more_than_trip,
@@ -503,13 +503,9 @@ DummyFiletoHandleKotlinLintError {
 		R.dimen.hotel_search_container_v1_height_without_swp,
 		R.drawable.dim_background,
 		R.layout.orbucks_widget,
-		R.string.paying_with_orbucks,
 		R.string.orbucks_available_TEMPLATE,
 		R.string.orbucks_applied_TEMPLATE,
 		R.string.you_are_using_orbucks_TEMPLATE,
 		R.string.payment_through_card_and_orbucks,
-		R.string.checkout_paying_with_orbucks_only_line1,
-		R.string.checkout_paying_with_orbucks_and_card_line1,
-		R.string.checkout_payment_options_orbucks
 	};
 }

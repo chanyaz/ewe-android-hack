@@ -356,7 +356,7 @@ class PaymentModelTest {
     }
 
     private fun getPaymentSplitsForSwpOff(): PaymentSplits{
-        val payingWithPoints = PointsAndCurrency(0, PointsType.BURN, Money("0", createTripResponse.getTripTotal().currencyCode))
+        val payingWithPoints = PointsAndCurrency(0f, PointsType.BURN, Money("0", createTripResponse.getTripTotal().currencyCode))
         val payingWithCards = PointsAndCurrency(createTripResponse.expediaRewards.totalPointsToEarn, PointsType.EARN, createTripResponse.getTripTotal())
         return PaymentSplits(payingWithPoints, payingWithCards)
     }

@@ -3993,8 +3993,8 @@
     <string name="package_change_flight">Change flights</string>
 
     <!-- Pay with points widget -->
-    <string name="paying_with_expedia_points">Paying with Expedia+ points</string>
-    <string name="pay_with_expedia_points">Pay with Expedia+ points</string>
+    <string name="paying_with_rewards">Paying with Expedia+ points</string>
+    <string name="pay_with_rewards">Pay with Expedia+ points</string>
     <string name="pay_with_point_total_available_TEMPLATE">{money} available ({points} Expedia+ points)</string>
     <string name="user_enters_more_than_available_points_TEMPLATE">The points value exceeds your available balance.\nPlease enter {money} or less.</string>
     <string name="user_enters_more_than_trip">The points value can not exceed the payment due today.</string>
@@ -4064,13 +4064,8 @@
     <string name="via_scratchpad_label">via Scratchpad</string>
 
     <!-- Orbucks -->
-    <string name="paying_with_orbucks">Paying with Orbucks</string>
     <string name="orbucks_available_TEMPLATE">{money} in Orbucks available</string>
     <string name="orbucks_applied_TEMPLATE">{money} Orbucks applied</string>
     <string name="you_are_using_orbucks_TEMPLATE">You are using {amount} in Orbucks</string>
     <string name="payment_through_card_and_orbucks">You are using {amount} in Orbucks\nYour card will be charged {dueamount}</string>
-
-    <string name="checkout_paying_with_orbucks_only_line1">Paying with Orbucks</string>
-    <string name="checkout_paying_with_orbucks_and_card_line1">Paying with Orbucks &amp; {carddescription}</string>
-    <string name="checkout_payment_options_orbucks">Credit card, pay with orbucks</string>
 </resources>

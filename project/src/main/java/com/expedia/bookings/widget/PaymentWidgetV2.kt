@@ -40,7 +40,6 @@ class PaymentWidgetV2(context: Context, attr: AttributeSet) : PaymentWidget(cont
         vm.paymentSplitsAndTripResponse.subscribe {
             viewmodel.isRedeemable.onNext(it.tripResponse.isRewardsRedeemable())
             viewmodel.splitsType.onNext(it.paymentSplits.paymentSplitsType())
-            viewmodel.programName.onNext(it.tripResponse.getProgramName())
             isRewardsRedeemable = it.tripResponse.isRewardsRedeemable()
             paymentSplitsType = it.paymentSplits.paymentSplitsType()
             isFullPayableWithPoints = !it.isCardRequired()

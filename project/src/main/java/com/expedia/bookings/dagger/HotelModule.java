@@ -74,7 +74,7 @@ public final class HotelModule {
 	@Provides
 	@HotelScope
 	IOrbucksViewModel provideOrbucksViewModel(Context context, PaymentModel<HotelCreateTripResponse> paymentModel) {
-		return new OrbucksViewModel<>(paymentModel, context.getResources());
+		return new OrbucksViewModel<>(paymentModel, context);
 	}
 
 	@Provides

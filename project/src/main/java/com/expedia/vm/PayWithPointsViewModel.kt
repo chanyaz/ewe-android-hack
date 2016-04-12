@@ -171,8 +171,8 @@ class PayWithPointsViewModel<T : TripResponse>(val paymentModel: PaymentModel<T>
 
     override val payWithPointsMessage = pwpOpted.map {
         when (it) {
-            true -> resources.getString(R.string.paying_with_expedia_points)
-            false -> resources.getString(R.string.pay_with_expedia_points)
+            true -> resources.getString(R.string.paying_with_rewards)
+            false -> resources.getString(R.string.pay_with_rewards)
         }
     }
 

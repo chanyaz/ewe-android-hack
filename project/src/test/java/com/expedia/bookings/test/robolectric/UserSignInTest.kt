@@ -76,13 +76,13 @@ class UserSignInTest {
     @Test
     fun testGetStoredPointsCardWithSingleStoredPointsCard() {
         val signInResponse = expediaServices.signInWithEmailForAutomationTests(ExpediaServices.F_HOTELS, "singlePointscard@mobiata.com")
-        assertNotNull(signInResponse.user.getStoredPointsCard(PaymentType.POINTS_EXPEDIA_REWARDS))
+        assertNotNull(signInResponse.user.getStoredPointsCard(PaymentType.POINTS_REWARDS))
     }
 
     @Test
     fun testGetStoredPointsCardWithNoPointsCard() {
         val signInResponse = expediaServices.signInWithEmailForAutomationTests(ExpediaServices.F_HOTELS, "singlecard@mobiata.com")
-        assertNull(signInResponse.user.getStoredPointsCard(PaymentType.POINTS_EXPEDIA_REWARDS))
+        assertNull(signInResponse.user.getStoredPointsCard(PaymentType.POINTS_REWARDS))
     }
 
     @Test(expected = UnsupportedOperationException::class)

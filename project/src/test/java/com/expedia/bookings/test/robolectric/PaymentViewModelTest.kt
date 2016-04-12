@@ -54,7 +54,6 @@ class PaymentViewModelTest {
     fun setup() {
         viewModel = PaymentViewModel(getContext())
         paymentModel = PaymentModel<HotelCreateTripResponse>(loyaltyServiceRule.services!!)
-        viewModel.programName.onNext(ProgramName.ExpediaRewards)
     }
 
     @Test

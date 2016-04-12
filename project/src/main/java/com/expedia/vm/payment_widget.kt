@@ -10,10 +10,10 @@ import com.expedia.bookings.data.BillingInfo
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.PaymentType
+import com.expedia.bookings.data.User
 import com.expedia.bookings.data.StoredCreditCard
 import com.expedia.bookings.data.TripBucketItemCar
 import com.expedia.bookings.data.payment.PaymentSplitsType
-import com.expedia.bookings.data.payment.ProgramName
 import com.expedia.bookings.utils.ArrowXDrawableUtil
 import com.expedia.bookings.utils.BookingInfoUtils
 import com.expedia.bookings.utils.CreditCardUtils
@@ -29,7 +29,6 @@ class PaymentViewModel(val context: Context) {
     // inputs
     val splitsType = BehaviorSubject.create<PaymentSplitsType>(PaymentSplitsType.IS_FULL_PAYABLE_WITH_CARD)
     val isRedeemable = BehaviorSubject.create<Boolean>(false)
-    val programName = BehaviorSubject.create<ProgramName?>(null as ProgramName?)
     val billingInfoAndStatusUpdate = BehaviorSubject.create<Pair<BillingInfo?,ContactDetailsCompletenessStatus>>()
     val emptyBillingInfo = PublishSubject.create<Unit>()
     val storedCardRemoved = PublishSubject.create<StoredCreditCard?>()
@@ -63,36 +62,23 @@ class PaymentViewModel(val context: Context) {
     val onStoredCardChosen = PublishSubject.create<Unit>()
 
     init {
-        Observable.combineLatest(billingInfoAndStatusUpdate, isRedeemable, splitsType, programName) {
-            infoAndStatus, isRedeemable, splitsType, programName ->
+        Observable.combineLatest(billingInfoAndStatusUpdate, isRedeemable, splitsType) {
+            infoAndStatus, isRedeemable, splitsType ->
             object {
                 val info = infoAndStatus.first
                 val status = infoAndStatus.second
                 val isRedeemable = isRedeemable
                 val splitsType = splitsType
-                val programName = programName
             }
         }.subscribe {
             if (it.isRedeemable && it.splitsType == PaymentSplitsType.IS_FULL_PAYABLE_WITH_POINT) {
-                if (it.programName == ProgramName.ExpediaRewards) {
-                    setPaymentTileInfo(PaymentType.POINTS_EXPEDIA_REWARDS,
-                            resources.getString(R.string.checkout_paying_with_points_only_line1),
-                            resources.getString(R.string.checkout_tap_to_edit), it.splitsType, ContactDetailsCompletenessStatus.COMPLETE)
-                } else if (it.programName == ProgramName.Orbucks) {
-                    setPaymentTileInfo(PaymentType.POINTS_ORBUCKS_REWARDS,
-                            resources.getString(R.string.checkout_paying_with_orbucks_only_line1),
-                            resources.getString(R.string.checkout_tap_to_edit), it.splitsType, ContactDetailsCompletenessStatus.COMPLETE)
-                }
+                setPaymentTileInfo(PaymentType.POINTS_REWARDS,
+                        resources.getString(R.string.checkout_paying_with_points_only_line1),
+                        resources.getString(R.string.checkout_tap_to_edit), it.splitsType, ContactDetailsCompletenessStatus.COMPLETE)
             } else if (it.info == null) {
                 val title = resources.getString(R.string.checkout_enter_payment_details)
                 val subTitle = resources.getString(
-                        if (it.isRedeemable) {
-                            if(it.programName == ProgramName.ExpediaRewards) R.string.checkout_payment_options
-                            else if(it.programName == ProgramName.Orbucks) R.string.checkout_payment_options_orbucks
-                            else R.string.checkout_hotelsv2_enter_payment_details_line2
-                        }
-                        else R.string.checkout_hotelsv2_enter_payment_details_line2
-                )
+                        if (it.isRedeemable) R.string.checkout_payment_options else R.string.checkout_hotelsv2_enter_payment_details_line2)
                 tempCard.onNext(Pair("", getCardIcon(null)))
                 setPaymentTileInfo(null, title, subTitle, it.splitsType, it.status)
             } else if (it.info.isTempCard && it.info.saveCardToExpediaAccount) {
@@ -159,8 +145,7 @@ class PaymentViewModel(val context: Context) {
     fun setPaymentTileInfo(type: PaymentType?, title: String, subTitle: String, splitsType: PaymentSplitsType, completeStatus: ContactDetailsCompletenessStatus) {
         var paymentTitle = title
         if (type != null && isRedeemable.value && splitsType == PaymentSplitsType.IS_PARTIAL_PAYABLE_WITH_CARD) {
-            paymentTitle = Phrase.from(context,
-                    if (programName.value == ProgramName.ExpediaRewards) R.string.checkout_paying_with_points_and_card_line1 else R.string.checkout_paying_with_orbucks_and_card_line1)
+            paymentTitle = Phrase.from(context, R.string.checkout_paying_with_points_and_card_line1)
                     .put("carddescription", title)
                     .format().toString()
         }

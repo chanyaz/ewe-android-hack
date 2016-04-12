@@ -35,27 +35,12 @@ abstract class TripResponse : BaseApiResponse() {
     }
 
     fun getPointDetails(): PointsDetails? {
-        pointsDetails?.forEach {
-            if (it.programName == getProgramName()) {
-                return it
-            }
-        }
-        return null
+        val programName = getProgramName()
+        return pointsDetails?.firstOrNull { it.programName == programName } ?: null
     }
 
     fun getProgramName(): ProgramName? {
-        if (pointsDetails?.map { it.programName }?.contains(ProgramName.ExpediaRewards) ?: false) {
-            return ProgramName.ExpediaRewards
-        } else if (pointsDetails?.map { it.programName }?.contains(ProgramName.Orbucks) ?: false) {
-            return ProgramName.Orbucks
-        }
-        return null
-    }
-
-    fun getPaymentType(): PaymentType? {
-        if (getProgramName() == ProgramName.ExpediaRewards) PaymentType.POINTS_EXPEDIA_REWARDS
-        else if (getProgramName() == ProgramName.Orbucks) PaymentType.POINTS_ORBUCKS_REWARDS
-        return null
+        return pointsDetails?.filter { it.programName == ProgramName.ExpediaRewards || it.programName == ProgramName.Orbucks }?.firstOrNull()?.programName ?: null
     }
 
     abstract fun getTripTotal(): Money

@@ -183,7 +183,7 @@ class HotelCheckoutPresenter(context: Context, attrs: AttributeSet) : Presenter(
         }
 
         if (!payingWithPointsSplit.amount.isZero) {
-            val pointsCard = Db.getUser().getStoredPointsCard(hotelCreateTripResponse.getPaymentType())
+            val pointsCard = Db.getUser().getStoredPointsCard(PaymentType.POINTS_REWARDS)
 
             // If the user has already used points before, points card will be returned in the Sign in response.
             if (pointsCard != null) {
