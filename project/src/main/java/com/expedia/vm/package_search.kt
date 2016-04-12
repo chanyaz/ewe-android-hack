@@ -21,7 +21,7 @@ class PackageSearchViewModel(context: Context) : DatedSearchViewModel(context) {
     val searchParamsObservable = PublishSubject.create<PackageSearchParams>()
     val destinationObservable = BehaviorSubject.create<Boolean>(false)
     val arrivalObservable = BehaviorSubject.create<Boolean>(false)
-    val departureTextObservable = BehaviorSubject.create<String>(computeDateInstructionText(null, null).toString())
+    val departureTextObservable = BehaviorSubject.create<String>()
     val arrivalTextObservable = PublishSubject.create<String>()
     val errorDepartureSameAsOrigin = PublishSubject.create<String>()
 
