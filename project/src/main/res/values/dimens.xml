@@ -143,6 +143,7 @@
     <dimen name="standard_content_width">@dimen/match_parent</dimen>
     <dimen name="hotel_checkout_overview_width">@dimen/standard_content_width</dimen>
     <dimen name="hotel_checkout_overview_image_height">120dp</dimen>
+    <dimen name="checkout_login_padding_top">10dp</dimen>
 
     <!-- Dimensions For hotel traveler edit page -->
     <dimen name="hotel_traveler_edit_email_disclaimer_text_size">12sp</dimen>

@@ -12,19 +12,12 @@ import android.widget.TextView
 import com.expedia.bookings.R
 import com.expedia.bookings.bitmaps.PicassoHelper
 import com.expedia.bookings.bitmaps.PicassoTarget
-import com.expedia.bookings.data.Db
-import com.expedia.bookings.data.HotelMedia
-import com.expedia.bookings.data.hotels.HotelCreateTripResponse
 import com.expedia.bookings.graphics.HeaderBitmapDrawable
 import com.expedia.bookings.utils.ColorBuilder
-import com.expedia.bookings.utils.DateFormatUtils
-import com.expedia.bookings.utils.Images
 import com.expedia.bookings.utils.bindView
 import com.expedia.util.notNullAndObservable
 import com.expedia.util.subscribeText
 import com.expedia.vm.BaseCheckoutOverviewViewModel
-import com.expedia.vm.PackageCheckoutOverviewViewModel
-import com.squareup.phrase.Phrase
 import com.squareup.picasso.Picasso
 
 class CheckoutOverviewHeader(context: Context, attrs: AttributeSet?) : LinearLayout(context, attrs) {

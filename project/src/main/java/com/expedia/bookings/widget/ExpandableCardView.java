@@ -48,29 +48,10 @@ public abstract class ExpandableCardView extends FrameLayout
 		mCurrentEditText = (EditText) v;
 
 		if (mToolbarListener != null) {
+			mToolbarListener.showRightActionButton(true);
 			mToolbarListener.editTextFocus(mCurrentEditText);
-			if (getMenuDoneButtonFocus()) {
-				mToolbarListener.setMenuLabel(getResources().getString(R.string.done));
-				mToolbarListener.onEditingComplete();
-			}
-			else {
-				mToolbarListener.showRightActionButton(true);
-				mToolbarListener.setMenuLabel(getResources().getString(R.string.next));
-			}
 		}
 
-	}
-
-	public void setNextFocus() {
-		if (mCurrentEditText != null) {
-			View v = mCurrentEditText.focusSearch(View.FOCUS_RIGHT);
-			if (v == null) {
-				v = mCurrentEditText.focusSearch(View.FOCUS_DOWN);
-			}
-			if (v != null) {
-				v.requestFocus();
-			}
-		}
 	}
 
 	public void setExpanded(boolean expand) {

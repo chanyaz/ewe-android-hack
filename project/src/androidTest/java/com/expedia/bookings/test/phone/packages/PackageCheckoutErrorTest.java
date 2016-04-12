@@ -62,11 +62,6 @@ public class PackageCheckoutErrorTest extends PackageTestCase {
 		CardInfoScreen.typeTextNameOnCardEditText("errorcheckoutunknown");
 
 		CheckoutViewModel.clickDone();
-		CheckoutViewModel.clickDone();
-		CheckoutViewModel.clickDone();
-		CheckoutViewModel.clickDone();
-		CheckoutViewModel.clickDone();
-		CheckoutViewModel.clickDone();
 		CheckoutViewModel.performSlideToPurchase();
 
 		PackageScreen.assertErrorScreen("Retry", "Sorry, we could not connect to Expedia's servers. Please try again later.");
@@ -76,11 +71,6 @@ public class PackageCheckoutErrorTest extends PackageTestCase {
 		CardInfoScreen.nameOnCardEditText().perform(clearText());
 		CardInfoScreen.typeTextNameOnCardEditText("abd def");
 
-		CheckoutViewModel.clickDone();
-		CheckoutViewModel.clickDone();
-		CheckoutViewModel.clickDone();
-		CheckoutViewModel.clickDone();
-		CheckoutViewModel.clickDone();
 		CheckoutViewModel.clickDone();
 		CheckoutViewModel.performSlideToPurchase();
 

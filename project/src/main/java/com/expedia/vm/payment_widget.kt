@@ -50,15 +50,7 @@ class PaymentViewModel(val context: Context) {
     val tempCard = PublishSubject.create<Pair<String, Drawable>>()
     val invalidPayment = PublishSubject.create<String?>()
 
-    val enableMenuItem = PublishSubject.create<Boolean>()
-    val menuVisibility = PublishSubject.create<Boolean>()
-    val visibleMenuWithTitleDone = PublishSubject.create<Unit>()
-    val toolbarTitle = PublishSubject.create<String>()
-    val toolbarNavIcon = PublishSubject.create<ArrowXDrawableUtil.ArrowDrawableType>()
-    val doneClicked = PublishSubject.create<Unit>()
-    val editText = PublishSubject.create<EditText>()
     val userHasAtleastOneStoredCard = PublishSubject.create<Boolean>()
-    val enableToolbarMenuButton = PublishSubject.create<Boolean>()
     val onStoredCardChosen = PublishSubject.create<Unit>()
 
     init {

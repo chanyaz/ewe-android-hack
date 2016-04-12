@@ -42,21 +42,23 @@ abstract class BaseOverviewPresenter(context: Context, attrs: AttributeSet) : Pr
             bundleOverviewHeader.toolbar.menu.setGroupVisible(R.id.package_change_menu, visible)
         }
 
-        checkoutPresenter.paymentWidget.viewmodel.toolbarTitle.subscribe(bundleOverviewHeader.toolbar.viewModel.toolbarTitle)
-        checkoutPresenter.paymentWidget.viewmodel.editText.subscribe(bundleOverviewHeader.toolbar.viewModel.editText)
-        checkoutPresenter.paymentWidget.viewmodel.menuVisibility.subscribe(bundleOverviewHeader.toolbar.viewModel.menuVisibility)
-        checkoutPresenter.paymentWidget.viewmodel.enableMenuItem.subscribe(bundleOverviewHeader.toolbar.viewModel.enableMenuItem)
-        checkoutPresenter.paymentWidget.viewmodel.visibleMenuWithTitleDone.subscribe(bundleOverviewHeader.toolbar.viewModel.visibleMenuWithTitleDone)
-        checkoutPresenter.paymentWidget.viewmodel.toolbarNavIcon.subscribe(bundleOverviewHeader.toolbar.viewModel.toolbarNavIcon)
+        checkoutPresenter.paymentWidget.toolbarTitle.subscribe(bundleOverviewHeader.toolbar.viewModel.toolbarTitle)
+        checkoutPresenter.paymentWidget.focusedView.subscribe(bundleOverviewHeader.toolbar.viewModel.currentFocus)
+        checkoutPresenter.paymentWidget.filledIn.subscribe(bundleOverviewHeader.toolbar.viewModel.formFilledIn)
+        checkoutPresenter.paymentWidget.menuVisibility.subscribe(bundleOverviewHeader.toolbar.viewModel.menuVisibility)
+        checkoutPresenter.paymentWidget.enableMenuItem.subscribe(bundleOverviewHeader.toolbar.viewModel.enableMenuItem)
+        checkoutPresenter.paymentWidget.visibleMenuWithTitleDone.subscribe(bundleOverviewHeader.toolbar.viewModel.visibleMenuWithTitleDone)
+        checkoutPresenter.paymentWidget.toolbarNavIcon.subscribe(bundleOverviewHeader.toolbar.viewModel.toolbarNavIcon)
 
         checkoutPresenter.travelerPresenter.toolbarTitleSubject.subscribe(bundleOverviewHeader.toolbar.viewModel.toolbarTitle)
-        checkoutPresenter.travelerPresenter.travelerEntryWidget.focusedView.subscribe(bundleOverviewHeader.toolbar.viewModel.editText)
+        checkoutPresenter.travelerPresenter.travelerEntryWidget.focusedView.subscribe(bundleOverviewHeader.toolbar.viewModel.currentFocus)
+        checkoutPresenter.travelerPresenter.travelerEntryWidget.filledIn.subscribe(bundleOverviewHeader.toolbar.viewModel.formFilledIn)
         checkoutPresenter.travelerPresenter.menuVisibility.subscribe(bundleOverviewHeader.toolbar.viewModel.menuVisibility)
         checkoutPresenter.travelerPresenter.toolbarNavIcon.subscribe(bundleOverviewHeader.toolbar.viewModel.toolbarNavIcon)
 
         bundleOverviewHeader.toolbar.viewModel.doneClicked.subscribe {
             if (checkoutPresenter.currentState == PackagePaymentWidget::class.java.name) {
-                checkoutPresenter.paymentWidget.viewmodel.doneClicked.onNext(Unit)
+                checkoutPresenter.paymentWidget.doneClicked.onNext(Unit)
             } else if (checkoutPresenter.currentState == TravelerPresenter::class.java.name) {
                 checkoutPresenter.travelerPresenter.travelerEntryWidget.doneClicked.onNext(Unit)
             }

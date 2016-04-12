@@ -9,7 +9,6 @@ import android.os.Bundle;
 import android.support.v4.view.animation.FastOutSlowInInterpolator;
 import android.text.method.LinkMovementMethod;
 import android.util.AttributeSet;
-import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.MotionEvent;
@@ -143,12 +142,14 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 		paymentInfoCardView.setViewmodel(new PaymentViewModel(getContext()));
 		paymentInfoCardView.getViewmodel().getLineOfBusiness().onNext(getLineOfBusiness());
 		paymentInfoCardView.getViewmodel().getExpandObserver().subscribe(expandPaymentObserver);
-		paymentInfoCardView.getViewmodel().getToolbarTitle().subscribe(toolbar.getViewModel().getToolbarTitle());
-		paymentInfoCardView.getViewmodel().getToolbarNavIcon().subscribe(toolbar.getViewModel().getToolbarNavIcon());
-		paymentInfoCardView.getViewmodel().getEditText().subscribe(toolbar.getViewModel().getEditText());
-		paymentInfoCardView.getViewmodel().getMenuVisibility().subscribe(toolbar.getViewModel().getMenuVisibility());
-		paymentInfoCardView.getViewmodel().getEnableMenuItem().subscribe(toolbar.getViewModel().getEnableMenuItem());
-		paymentInfoCardView.getViewmodel().getVisibleMenuWithTitleDone().subscribe(toolbar.getViewModel().getVisibleMenuWithTitleDone());
+		paymentInfoCardView.getFilledIn().subscribe(toolbar.getViewModel().getFormFilledIn());
+		paymentInfoCardView.getToolbarTitle().subscribe(toolbar.getViewModel().getToolbarTitle());
+		paymentInfoCardView.getToolbarNavIcon().subscribe(toolbar.getViewModel().getToolbarNavIcon());
+		paymentInfoCardView.getFocusedView().subscribe(toolbar.getViewModel().getCurrentFocus());
+		paymentInfoCardView.getMenuVisibility().subscribe(toolbar.getViewModel().getMenuVisibility());
+		paymentInfoCardView.getEnableMenuItem().subscribe(toolbar.getViewModel().getEnableMenuItem());
+		paymentInfoCardView.getVisibleMenuWithTitleDone().subscribe(toolbar.getViewModel().getVisibleMenuWithTitleDone());
+		mainContactInfoCardView.filledIn.subscribe(toolbar.getViewModel().getFormFilledIn());
 		if (paymentInfoCardView instanceof PaymentWidgetV2) {
 			paymentInfoCardView.getViewmodel().getUserLogin().filter(new Func1<Boolean, Boolean>() {
 				@Override
@@ -176,7 +177,7 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 			@Override
 			public void onNext(Unit unit) {
 				if (Strings.equals(getCurrentState(), PaymentWidget.class.getName()) || Strings.equals(getCurrentState(), PaymentWidgetV2.class.getName())) {
-					paymentInfoCardView.getViewmodel().getDoneClicked().onNext(Unit.INSTANCE);
+					paymentInfoCardView.getDoneClicked().onNext(Unit.INSTANCE);
 				}
 			}
 		});
@@ -337,59 +338,56 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 	}
 
 	private void scrollToEnterDetails() {
-		getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+		getViewTreeObserver().addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
 			@Override
-			public void onGlobalLayout() {
-				if (scrollView.getHeight() != 0) {
-					getViewTreeObserver().removeOnGlobalLayoutListener(this);
-					updateSpacerHeight();
-					Ui.hideKeyboard(CheckoutBasePresenter.this);
-
-					int targetScrollY = loginWidget.getTop() - (int) TypedValue
-						.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 10f, getResources().getDisplayMetrics());
-					final ValueAnimator scrollAnimation =
-						ValueAnimator.ofInt(scrollView.getScrollY(), targetScrollY);
-					scrollAnimation.setDuration(300);
-					scrollAnimation.setInterpolator(new FastOutSlowInInterpolator());
-					scrollAnimation.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-						@Override
-						public void onAnimationUpdate(ValueAnimator animation) {
-							int scrollTo = (Integer) animation.getAnimatedValue();
-							scrollView.scrollTo(0, scrollTo);
-						}
-					});
-					scrollAnimation.addListener(new ValueAnimator.AnimatorListener() {
-						@Override
-						public void onAnimationStart(Animator animator) {
-							menuDone.setVisible(false);
-							listenToScroll = false;
-						}
-
-						@Override
-						public void onAnimationEnd(Animator animator) {
-							listenToScroll = true;
-						}
-
-						@Override
-						public void onAnimationCancel(Animator animator) {
-
-						}
-
-						@Override
-						public void onAnimationRepeat(Animator animator) {
-
-						}
-					});
-
-					scrollView.postDelayed(new Runnable() {
-						@Override
-						public void run() {
-							scrollAnimation.start();
-						}
-					}, 100L);
-				}
+			public boolean onPreDraw() {
+				getViewTreeObserver().removeOnPreDrawListener(this);
+				scrollToLogin();
+				return false;
 			}
 		});
+	}
+
+	private void scrollToLogin() {
+		Ui.hideKeyboard(CheckoutBasePresenter.this);
+		updateSpacerHeight();
+		final int targetScrollY = loginWidget.getTop() - (int) getResources().getDimension(R.dimen.checkout_login_padding_top);
+		final ValueAnimator scrollAnimation =
+			ValueAnimator.ofInt(scrollView.getScrollY(), targetScrollY);
+		scrollAnimation.setDuration(300);
+		scrollAnimation.setInterpolator(new FastOutSlowInInterpolator());
+		scrollAnimation.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+			@Override
+			public void onAnimationUpdate(ValueAnimator animation) {
+				int scrollTo = (Integer) animation.getAnimatedValue();
+				scrollView.scrollTo(0, scrollTo);
+			}
+		});
+		scrollAnimation.addListener(new ValueAnimator.AnimatorListener() {
+			@Override
+			public void onAnimationStart(Animator animator) {
+				menuDone.setVisible(false);
+				listenToScroll = false;
+			}
+
+			@Override
+			public void onAnimationEnd(Animator animator) {
+				scrollView.scrollTo(0, targetScrollY);
+				listenToScroll = true;
+			}
+
+			@Override
+			public void onAnimationCancel(Animator animator) {
+
+			}
+
+			@Override
+			public void onAnimationRepeat(Animator animator) {
+
+			}
+		});
+
+		scrollAnimation.start();
 	}
 
 	com.expedia.bookings.widget.ScrollView.OnScrollListener checkoutScrollListener = new ScrollView.OnScrollListener() {
@@ -405,8 +403,7 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 					return;
 				}
 
-				int top = loginWidget.getTop() - (int) TypedValue
-					.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 10f, getResources().getDisplayMetrics());
+				int top = loginWidget.getTop() - (int) getResources().getDimension(R.dimen.checkout_login_padding_top);
 				if (y >= top) {
 					menuDone.setVisible(false);
 				}
@@ -680,7 +677,6 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 				resetMenuButton();
 
 			}
-
 
 			toolbar.getToolbarNavIcon().setParameter(
 				(float) (forward ? ArrowXDrawableUtil.ArrowDrawableType.BACK.getType()

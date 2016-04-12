@@ -10,7 +10,7 @@
         android:layout_weight="10"
         android:hint="@string/first_name"
         android:inputType="textPersonName|textCapWords"
-        android:nextFocusRight="@+id/middle_initial_input"
+        android:nextFocusForward="@+id/last_name_input"
         android:singleLine="true"
         android:textSize="@dimen/traveler_input_text_size" />
 
@@ -22,7 +22,7 @@
         android:hint="@string/initial_middle_name"
         android:inputType="textPersonName|textCapWords"
         android:maxLength="1"
-        android:nextFocusRight="@+id/last_name_input"
+        android:nextFocusForward="@+id/last_name_input"
         android:singleLine="true"
         android:textSize="@dimen/traveler_input_text_size" />
 
@@ -33,7 +33,7 @@
         android:layout_weight="10"
         android:hint="@string/last_name"
         android:inputType="textPersonName|textCapWords"
-        android:nextFocusDown="@+id/edit_phone_number"
+        android:nextFocusForward="@+id/edit_phone_number"
         android:singleLine="true"
         android:textSize="@dimen/traveler_input_text_size" />
 </merge>

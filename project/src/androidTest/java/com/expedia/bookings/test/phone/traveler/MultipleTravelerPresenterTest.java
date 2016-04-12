@@ -133,16 +133,23 @@ public class MultipleTravelerPresenterTest extends BaseTravelerPresenterTestHelp
 		PackageScreen.enterFirstName(testFirstName);
 		PackageScreen.clickTravelerDone();
 
-		assertEquals(true, testTravelerPresenter.getTravelerEntryWidget().getNameEntryView().getMiddleInitial().hasFocus());
-		PackageScreen.clickTravelerDone();
+		assertEquals(false, testTravelerPresenter.getTravelerEntryWidget().getNameEntryView().getMiddleInitial().hasFocus());
 
 		assertEquals(true, testTravelerPresenter.getTravelerEntryWidget().getNameEntryView().getLastName().hasFocus());
 		PackageScreen.enterLastName(testLastName);
 		PackageScreen.clickTravelerDone();
 
 		assertEquals(true, testTravelerPresenter.getTravelerEntryWidget().getPhoneEntryView().getPhoneNumber().hasFocus());
-		PackageScreen.enterPhoneNumber(testPhone);
+		//skip phone number, assert that focus went back to first name
 		PackageScreen.selectBirthDate(1989,6,9);
+		PackageScreen.clickTravelerDone();
+
+		assertEquals(true, testTravelerPresenter.getTravelerEntryWidget().getNameEntryView().getFirstName().hasFocus());
+		PackageScreen.clickTravelerDone();
+		assertEquals(true, testTravelerPresenter.getTravelerEntryWidget().getNameEntryView().getLastName().hasFocus());
+		PackageScreen.clickTravelerDone();
+		assertEquals(true, testTravelerPresenter.getTravelerEntryWidget().getPhoneEntryView().getPhoneNumber().hasFocus());
+		PackageScreen.enterPhoneNumber(testPhone);
 		PackageScreen.clickTravelerDone();
 
 		assertEquals("Select travelers", testSubscriber.getOnNextEvents().get(0));
