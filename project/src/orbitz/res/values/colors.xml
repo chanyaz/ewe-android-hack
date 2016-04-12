@@ -62,6 +62,10 @@
     <color name="lx_ticket_selector_disabled_color">#dde5ec</color>
     <color name="lx_offer_date_ripple_color">@color/lx_ripple_color</color>
     <color name="cars_ripple_color">@color/lx_ripple_color</color>
+
+    <!-- Itin Colors -->
+    <color name="itin_unable_to_find_error_color">#FFB80000</color>
+
     <!--Account Lib Colors -->
     <color name="btn_sign_in_normal">#C4204B</color>
     <color name="btn_sign_in_pressed">#9D2D4B</color>
