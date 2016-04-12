@@ -200,6 +200,7 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet) : Pre
             legalInformationText.setVisibility(forward)
             depositPolicyText.setVisibility(forward)
             bottomContainer.setVisibility(forward)
+            if (!forward) handleShadow.visibility = View.GONE
         }
 
         override fun endTransition(forward: Boolean) {
@@ -226,6 +227,8 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet) : Pre
                 paymentWidget.show(PaymentWidget.PaymentDefault(), Presenter.FLAG_CLEAR_BACKSTACK)
                 animateInSlideToPurchase(true)
                 paymentWidgetRootView.viewTreeObserver.removeOnGlobalLayoutListener(globalLayoutListener)
+                scrollView.layoutParams.height = height
+                handleShadow.visibility = View.GONE
             } else {
                 paymentWidgetRootView.viewTreeObserver.addOnGlobalLayoutListener(globalLayoutListener)
             }
