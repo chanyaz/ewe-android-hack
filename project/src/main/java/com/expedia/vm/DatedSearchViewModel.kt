@@ -36,7 +36,7 @@ abstract class DatedSearchViewModel(val context: Context) {
     init {
         travelersObserver.subscribe { update ->
             paramsBuilder.adults(update.numberOfAdults)
-            paramsBuilder.children(update.children)
+            paramsBuilder.children(update.childrenAges)
         }
     }
 

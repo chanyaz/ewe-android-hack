@@ -151,7 +151,7 @@ class HotelTravelerPickerViewModel(val context: Context) {
 
     init {
         travelerParamsObservable.subscribe { travelers ->
-            val total = travelers.numberOfAdults + travelers.children.size
+            val total = travelers.numberOfAdults + travelers.childrenAges.size
             makeTravelerText(travelers)
 
             adultTextObservable.onNext(
@@ -159,13 +159,13 @@ class HotelTravelerPickerViewModel(val context: Context) {
             )
 
             childTextObservable.onNext(
-                    context.resources.getQuantityString(R.plurals.number_of_children, travelers.children.size, travelers.children.size)
+                    context.resources.getQuantityString(R.plurals.number_of_children, travelers.childrenAges.size, travelers.childrenAges.size)
             )
 
             adultPlusObservable.onNext(total < MAX_GUESTS)
-            childPlusObservable.onNext(total < MAX_GUESTS && travelers.children.size < MAX_CHILDREN)
+            childPlusObservable.onNext(total < MAX_GUESTS && travelers.childrenAges.size < MAX_CHILDREN)
             adultMinusObservable.onNext(travelers.numberOfAdults > MIN_ADULTS)
-            childMinusObservable.onNext(travelers.children.size > MIN_CHILDREN)
+            childMinusObservable.onNext(travelers.childrenAges.size > MIN_CHILDREN)
             validateInfants()
         }
         isInfantInLapObservable.subscribe { inLap ->
@@ -177,7 +177,7 @@ class HotelTravelerPickerViewModel(val context: Context) {
     val incrementAdultsObserver: Observer<Unit> = endlessObserver {
         if (adultPlusObservable.value) {
             val hotelTravelerParams = travelerParamsObservable.value
-            travelerParamsObservable.onNext(TravelerParams(hotelTravelerParams.numberOfAdults + 1, hotelTravelerParams.children))
+            travelerParamsObservable.onNext(TravelerParams(hotelTravelerParams.numberOfAdults + 1, hotelTravelerParams.childrenAges))
             HotelV2Tracking().trackTravelerPickerClick("Add.Adult")
         }
     }
@@ -185,7 +185,7 @@ class HotelTravelerPickerViewModel(val context: Context) {
     val decrementAdultsObserver: Observer<Unit> = endlessObserver {
         if (adultMinusObservable.value) {
             val hotelTravelerParams = travelerParamsObservable.value
-            travelerParamsObservable.onNext(TravelerParams(hotelTravelerParams.numberOfAdults - 1, hotelTravelerParams.children))
+            travelerParamsObservable.onNext(TravelerParams(hotelTravelerParams.numberOfAdults - 1, hotelTravelerParams.childrenAges))
             HotelV2Tracking().trackTravelerPickerClick("Remove.Adult")
         }
     }
@@ -193,7 +193,7 @@ class HotelTravelerPickerViewModel(val context: Context) {
     val incrementChildrenObserver: Observer<Unit> = endlessObserver {
         if (childPlusObservable.value) {
             val hotelTravelerParams = travelerParamsObservable.value
-            travelerParamsObservable.onNext(TravelerParams(hotelTravelerParams.numberOfAdults, hotelTravelerParams.children.plus(childAges[hotelTravelerParams.children.size])))
+            travelerParamsObservable.onNext(TravelerParams(hotelTravelerParams.numberOfAdults, hotelTravelerParams.childrenAges.plus(childAges[hotelTravelerParams.childrenAges.size])))
             HotelV2Tracking().trackTravelerPickerClick("Add.Child")
         }
     }
@@ -201,7 +201,7 @@ class HotelTravelerPickerViewModel(val context: Context) {
     val decrementChildrenObserver: Observer<Unit> = endlessObserver {
         if (childMinusObservable.value) {
             val hotelTravelerParams = travelerParamsObservable.value
-            travelerParamsObservable.onNext(TravelerParams(hotelTravelerParams.numberOfAdults, hotelTravelerParams.children.subList(0, hotelTravelerParams.children.size - 1)))
+            travelerParamsObservable.onNext(TravelerParams(hotelTravelerParams.numberOfAdults, hotelTravelerParams.childrenAges.subList(0, hotelTravelerParams.childrenAges.size - 1)))
             HotelV2Tracking().trackTravelerPickerClick("Remove.Child")
         }
     }
@@ -210,7 +210,7 @@ class HotelTravelerPickerViewModel(val context: Context) {
         val (which, age) = p
         childAges[which] = age
         val hotelTravelerParams = travelerParamsObservable.value
-        val children = hotelTravelerParams.children.toIntArray()
+        val children = hotelTravelerParams.childrenAges.toIntArray()
         if (children.size > which) {
             children[which] = childAges[which]
         }
@@ -219,12 +219,13 @@ class HotelTravelerPickerViewModel(val context: Context) {
 
     private fun validateInfants() {
         val hotelTravelerParams = travelerParamsObservable.value
-        infantPreferenceSeatingObservable.onNext(hotelTravelerParams.children.contains(0))
-        tooManyInfants.onNext(isInfantInLapObservable.value && hotelTravelerParams.children.count { it == 0 } > hotelTravelerParams.numberOfAdults)
+        infantPreferenceSeatingObservable.onNext(hotelTravelerParams.childrenAges.contains(0))
+        val numberOfInfants = hotelTravelerParams.childrenAges.count { childAge -> childAge < 2 }
+        tooManyInfants.onNext(isInfantInLapObservable.value && (numberOfInfants > hotelTravelerParams.numberOfAdults))
     }
 
     fun makeTravelerText(travelers: TravelerParams) {
-        val total = travelers.numberOfAdults + travelers.children.size
+        val total = travelers.numberOfAdults + travelers.childrenAges.size
         guestsTextObservable.onNext(
                 if (lob == LineOfBusiness.PACKAGES) {
                     StrUtils.formatTravelerString(context, total)

@@ -21,6 +21,21 @@ class NewHotelDeepLinkTest: PhoneTestCase() {
     }
 
     @Throws(Throwable::class)
+    fun testHotelSearchWithMoreInfantsThanAdults() {
+        val intent = Intent()
+        val deepLinkText = Uri.parse("expda://hotelSearch?checkInDate=2018-01-01&checkOutDate=2018-01-02&numAdults=2&childAges=1,0,0&location=Miami")
+        intent.setData(deepLinkText)
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+        intent.setComponent(ComponentName(BuildConfig.APPLICATION_ID,
+                "com.expedia.bookings.activity.DeepLinkRouterActivity"))
+        Common.getApplication().startActivity(intent)
+
+        Common.delay(3)
+        EspressoUtils.assertViewIsDisplayed(R.id.widget_hotel_results)
+    }
+
+    @Throws(Throwable::class)
     fun testHotelDeepLinkWithLocation() {
         val intent = Intent()
         val deepLinkText = Uri.parse("expda://hotelSearch?location=Miami")

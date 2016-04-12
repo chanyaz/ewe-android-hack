@@ -848,7 +848,7 @@ public class DeepLinkRouterActivity extends Activity {
 			for (int a = 0; a < childAgesArr.length && children.size() < maxChildren; a++) {
 				int childAge = Integer.parseInt(childAgesArr[a]);
 
-				if (childAge <= GuestsPickerUtils.MIN_CHILD_AGE) {
+				if (childAge < GuestsPickerUtils.MIN_CHILD_AGE) {
 					Log.w(TAG, "Child age (" + childAge + ") less than that of a child, not adding: "
 						+ childAge);
 				}

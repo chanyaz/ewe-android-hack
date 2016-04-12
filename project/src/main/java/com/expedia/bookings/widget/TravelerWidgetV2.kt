@@ -26,8 +26,8 @@ class TravelerWidgetV2(context: Context, attrs: AttributeSet?) : SearchInputCard
         travelerView.viewmodel = HotelTravelerPickerViewModel(context)
         travelerView.viewmodel.travelerParamsObservable.subscribe(travelersSubject)
         travelerView.viewmodel.guestsTextObservable.subscribeText(this.text)
-        travelerView.viewmodel.tooManyInfants.subscribe { enabled ->
-            travelerDialog.getButton(AlertDialog.BUTTON_POSITIVE).isEnabled = !enabled
+        travelerView.viewmodel.tooManyInfants.subscribe { tooManyInfants ->
+            travelerDialog.getButton(AlertDialog.BUTTON_POSITIVE)?.isEnabled = !tooManyInfants
         }
         travelerView
     }
