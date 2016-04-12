@@ -24,15 +24,15 @@ class HotelTravelerPickerView(context: Context, attrs: AttributeSet) : FrameLayo
     val childText: TextView by bindView(R.id.children)
     val childAgeLabel: TextView by bindView(R.id.child_age_label)
 
-    val spinner1: Spinner by bindView(R.id.child_spinner_1)
-    val spinner2: Spinner by bindView(R.id.child_spinner_2)
-    val spinner3: Spinner by bindView(R.id.child_spinner_3)
-    val spinner4: Spinner by bindView(R.id.child_spinner_4)
+    val child1: Spinner by bindView(R.id.child_spinner_1)
+    val child2: Spinner by bindView(R.id.child_spinner_2)
+    val child3: Spinner by bindView(R.id.child_spinner_3)
+    val child4: Spinner by bindView(R.id.child_spinner_4)
     val infantError: TextView by bindView(R.id.error_message_infants)
     val infantPreferenceSeatingSpinner: Spinner by bindView(R.id.infant_preference_seating)
     val infantSeatPreferenceOptions = listOf(resources.getString(R.string.in_lap), resources.getString(R.string.in_seat))
     val childSpinners by lazy {
-        listOf(spinner1, spinner2, spinner3, spinner4)
+        listOf(child1, child2, child3, child4)
     }
 
     val adultPlus: ImageButton by bindView(R.id.adults_plus)
@@ -119,6 +119,10 @@ class HotelTravelerPickerView(context: Context, attrs: AttributeSet) : FrameLayo
                 val spinner = childSpinners[i]
                 if (i >= travelers.childrenAges.size) {
                     spinner.visibility = View.INVISIBLE
+                    val selectedListener = spinner.onItemSelectedListener
+                    spinner.onItemSelectedListener = null
+                    spinner.setSelection(DEFAULT_CHILD_AGE)
+                    spinner.onItemSelectedListener = selectedListener
                 } else {
                     spinner.visibility = View.VISIBLE
                 }
