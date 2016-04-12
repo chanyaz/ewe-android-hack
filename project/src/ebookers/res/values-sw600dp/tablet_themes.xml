@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <style name="Theme.Expedia.Tablet" parent="Theme.Expedia">
+    <style name="Theme.ebookers.Tablet" parent="Theme.ebookers">
         <item name="skin_actionbarTabletTitleColor">@color/actionbarTabletTitleColor</item>
         <item name="skin_hotelPriceStandardColor">#ffffff</item>
         <item name="skin_hotelPriceSaleColor">#ffffff</item>
@@ -46,8 +46,22 @@
         <item name="skin_roomRateRefundableCancellationTextColor">@color/room_rate_refundable_cancellation_text_color</item>
         <item name="skin_icRenovationTabletDrawable">@drawable/ic_renovation_tablet</item>
         <item name="skin_icFeesTabletDrawable">@drawable/ic_fees_tablet</item>
+        <item name="android:actionOverflowButtonStyle">@style/Widget.ActionBar.ActionButton.Overflow.White</item>
+        <item name="actionOverflowButtonStyle">@style/Widget.ActionBar.ActionButton.Overflow.White</item>
+
+        <!-- Confirmation Screen -->
+        <item name="skin_tablet_legal_blurb_text_color">@color/tablet_legal_blurb_text_color</item>
+        <item name="skin_tablet_confirmation_book_next_arrow_icon">@drawable/ic_tablet_confirmation_book_next_arrow</item>
+        <item name="skin_tablet_confirmation_book_next_arrow_color">@color/tablet_confirmation_action_color</item>
+        <item name="skin_tablet_confirmation_done_booking_icon">@drawable/ic_tablet_confirmation_done_booking</item>
+        <item name="skin_tablet_confirmation_done_booking_color">@color/tablet_confirmation_action_color</item>
+        <item name="skin_tablet_confirmation_calendar_icon">@drawable/ic_tablet_confirmation_calendar</item>
+        <item name="skin_tablet_confirmation_phone_icon">@drawable/ic_tablet_confirmation_phone</item>
+        <item name="skin_tablet_confirmation_share_icon">@drawable/ic_tablet_confirmation_share</item>
+        <item name="skin_tablet_confirmation_action_color">@color/tablet_confirmation_action_color</item>
+        <item name="skin_tablet_price_expanded_bucket_text_color">@color/tablet_price_expanded_bucket_text_color</item>
     </style>
 
-    <style name="V2.Theme" parent="Theme.Expedia.Tablet" />
+    <style name="V2.Theme" parent="Theme.ebookers.Tablet" />
 
 </resources>

@@ -7,6 +7,7 @@
     <color name="action_bar_text_color">@color/white</color>
     <color name="flight_card_airline_fee_warning">#0099CC</color>
     <color name="flight_free_cancellation_text_color">#0099CC</color>
+    <color name="credit_card_form_additional_fees_tablet_bg">@color/hotels_primary_color</color>
 
     <!-- Calendar text colors -->
     <color name="calendar_cell_selected_date_text">#FFFFFF</color>
@@ -14,6 +15,7 @@
     <color name="hotels_primary_color">#0099CC</color>
     <color name="review_screen_tab_indicator">#003366</color>
     <color name="hotel_checkout_account_button_background_color">@color/hotels_primary_color</color>
+    <color name="cost_summary_header_text_color">@color/hotels_primary_color</color>
 
     <!-- Popular Hotels Tonight Discount strips-->
     <color name="launch_mobile_exclusive">#9E0089</color>
@@ -55,8 +57,8 @@
     <color name="btn_sign_in_normal">#0099CC</color>
     <color name="btn_sign_in_pressed">#007095</color>
     <color name="btn_sign_in_focused">#007095</color>
-    <color name="btn_sign_in_disabled">#12000000</color>
-    <color name="acct__btn_sign_in_text">#FFFFFF</color>
+    <color name="btn_sign_in_disabled">#80000000</color>
+    <color name="acct__btn_sign_in_text">#C8C8C8</color>
     <color name="acct__bg_input_text_error">#FFFFFF</color>
     <color name="acct__bg_input_text_good">#EEEEEE</color>
 
