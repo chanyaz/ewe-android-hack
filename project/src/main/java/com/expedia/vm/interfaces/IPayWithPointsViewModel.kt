@@ -11,12 +11,11 @@ public interface IPayWithPointsViewModel {
     val pwpOpted: BehaviorSubject<Boolean>
     val hasPwpEditBoxFocus: PublishSubject<Boolean>
     val clearUserEnteredBurnAmount: PublishSubject<Unit>
-    val userSignedIn: PublishSubject<Unit>
     val navigatingOutOfPaymentOptions: PublishSubject<Unit>
     val userToggledPwPSwitchWithUserEnteredBurnedAmountSubject: PublishSubject<Pair<Boolean, String>>
 
     //OUTLETS
-    val updatePwPToggle: Observable<Boolean>
+    val updatePwPToggle: PublishSubject<Boolean>
     val burnAmountUpdate: Observable<String>
     val pwpWidgetVisibility: Observable<Boolean>
     val totalPointsAndAmountAvailableToRedeem: Observable<String>

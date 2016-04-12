@@ -11,6 +11,7 @@ import com.expedia.bookings.tracking.HotelV2Tracking
 import com.expedia.bookings.tracking.PayWithPointsErrorTrackingEnum
 import com.expedia.bookings.utils.NumberUtils
 import com.expedia.bookings.utils.Strings
+import com.expedia.util.withLatestFrom
 import com.expedia.vm.interfaces.IPayWithPointsViewModel
 import com.squareup.phrase.Phrase
 import rx.Observable
@@ -78,20 +79,8 @@ class PayWithPointsViewModel<T : TripResponse>(val paymentModel: PaymentModel<T>
     }
     //MESSAGING END
 
-    override val userSignedIn = PublishSubject.create<Unit>()
-
     //Programmatic Enable of PwP Toggle has to happen in case of 'User Sign In' or 'Redeemable New Trip' With SWP latest value
-    override val updatePwPToggle = Observable.merge(
-            userSignedIn.map { true },
-            paymentModel.paymentSplitsSuggestionUpdates.withLatestFrom(paymentModel.tripResponses, {
-                paymentSplitsSuggestionUpdate, tripResponse ->
-                object {
-                    val paymentSplitsSuggestionUpdate = paymentSplitsSuggestionUpdate
-                    val tripResponse = tripResponse
-                }
-                //paymentSplitsSuggestionUpdate` should be from a Create-Trip, and that Create-Trip should be Redeemable.
-            }).filter { it.paymentSplitsSuggestionUpdate.second }.map { it.tripResponse.isExpediaRewardsRedeemable() })
-            .withLatestFrom(paymentModel.swpOpted, { redeemableTrip, swpOpted -> redeemableTrip && swpOpted })
+    override val updatePwPToggle = PublishSubject.create<Boolean>()
 
     override val navigatingOutOfPaymentOptions = PublishSubject.create<Unit>()
 
@@ -181,14 +170,29 @@ class PayWithPointsViewModel<T : TripResponse>(val paymentModel: PaymentModel<T>
             showCalculatingPointsMessage.map { false } )
 
     init {
-        paymentModel.paymentSplitsSuggestionUpdates
-                .withLatestFrom(pwpOpted, { paymentSplitsSuggestionUpdates, pwpOpted ->
-                    Pair(paymentSplitsSuggestionUpdates.first.payingWithPoints.amount.amount, pwpOpted) })
-                .subscribe {
-                    //Ensure it goes first into burnAmountForComparison, and then into burnAmountUpdatesFromPaymentSplitsSuggestions
-                    burnAmountForComparison.onNext(if (!it.second) BigDecimal.ZERO else it.first)
-                    burnAmountUpdatesFromPaymentSplitsSuggestions.onNext(it.first)
+        paymentModel.paymentSplitsSuggestionUpdates.withLatestFrom(paymentModel.tripResponses,
+                paymentModel.pwpOpted, paymentModel.swpOpted, {
+            paymentSplitsSuggestionUpdate, tripResponse, pwpOpted, swpOpted ->
+            object {
+                val paymentSplitsSuggestionUpdate = paymentSplitsSuggestionUpdate
+                val tripResponse = tripResponse
+                val pwpOpted = pwpOpted
+                val swpOpted = swpOpted
+            }
+        }).subscribe {
+            var pwpOptedUpdatedValue = it.pwpOpted
+            if (it.paymentSplitsSuggestionUpdate.second) {
+                if (it.tripResponse.isExpediaRewardsRedeemable()) {
+                    pwpOptedUpdatedValue = it.swpOpted
+                } else {
+                    pwpOptedUpdatedValue = false
                 }
+            }
+            burnAmountForComparison.onNext(if (!pwpOptedUpdatedValue) BigDecimal.ZERO else it.paymentSplitsSuggestionUpdate.first.payingWithPoints.amount.amount)
+            burnAmountUpdatesFromPaymentSplitsSuggestions.onNext(it.paymentSplitsSuggestionUpdate.first.payingWithPoints.amount.amount)
+            updatePwPToggle.onNext(pwpOptedUpdatedValue)
+        }
+
         paymentModel.burnAmountToPointsApiError.map { null }.subscribe(burnAmountForComparison)
         paymentModel.restoredPaymentSplitsInCaseOfDiscardedApiCall.map { it.payingWithPoints.amount.amount }.subscribe(burnAmountForComparison)
 
