@@ -28,8 +28,7 @@
                 android:layout_marginBottom="12dp"
                 android:layout_marginLeft="@dimen/card_view_container_margin"
                 android:layout_marginRight="@dimen/card_view_container_margin"
-                app:cardCornerRadius="@dimen/cardview_border_radius"
-                app:cardElevation="1dp">
+                style="@style/MaterialCardView">
 
                 <com.expedia.bookings.widget.FlightSegmentBreakdownView
                     android:id="@+id/segment_breakdown"
