@@ -1,5 +1,6 @@
 package com.expedia.bookings.data.payment
 
+import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.TripResponse
 import com.expedia.bookings.data.cars.ApiError
 import com.expedia.bookings.services.LoyaltyServices
@@ -10,11 +11,12 @@ import rx.Subscription
 import rx.subjects.BehaviorSubject
 import rx.subjects.PublishSubject
 import java.math.BigDecimal
+import com.expedia.bookings.utils.withLatestFrom
 
 class PaymentModel<T : TripResponse>(loyaltyServices: LoyaltyServices) {
     val discardPendingCurrencyToPointsAPISubscription = PublishSubject.create<Unit>()
 
-    class PaymentSplitsAndTripResponse<T : TripResponse>(val tripResponse: T, val paymentSplits: PaymentSplits) {
+    class PaymentSplitsWithTripTotalAndTripResponse<T : TripResponse>(val tripResponse: T, val paymentSplits: PaymentSplits, val tripTotalPayableIncludingFee: Money) {
         fun isCardRequired(): Boolean = if (this.tripResponse.isRewardsRedeemable()) this.paymentSplits.paymentSplitsType() != PaymentSplitsType.IS_FULL_PAYABLE_WITH_POINT else this.tripResponse.isCardDetailsRequiredForBooking()
     }
 
@@ -58,6 +60,8 @@ class PaymentModel<T : TripResponse>(loyaltyServices: LoyaltyServices) {
     //Amount Chosen To Be Paid With Points
     val burnAmountSubject = PublishSubject.create<BigDecimal>()
 
+    val tripTotalPayable = BehaviorSubject.create<Money>()
+
     //OUTLETS
 
     //Merging to handle all 3 Trip Response Types homogeneously
@@ -77,26 +81,26 @@ class PaymentModel<T : TripResponse>(loyaltyServices: LoyaltyServices) {
     val swpOpted = BehaviorSubject.create<Boolean>(true)
 
     val togglePaymentByPoints = PublishSubject.create<Boolean>()
-    val togglePaymentByPointsIntermediateStream = togglePaymentByPoints.withLatestFrom(tripResponses, { togglePaymentByPoints, tripResponses ->
-        if (togglePaymentByPoints) tripResponses.paymentSplitsWhenMaxPayableWithPoints() else tripResponses.paymentSplitsWhenZeroPayableWithPoints()
-    })
+    val togglePaymentByPointsIntermediateStream = PublishSubject.create<PaymentSplits>()
 
     //If PwP is enabled, default to Max Payable With Points, otherwise default to Zero Payable With Points.
-    private val createTripResponsePaymentSplits = PublishSubject.create<PaymentSplits>()
+    private val paymentSplitsFromCreateTripResponse = PublishSubject.create<PaymentSplits>()
 
     //If PwP is disabled, API may still return Max-Payable-By-Points-Splits, but ignore those and fallback to Zero-Payable-With-Points
     //If PwP is enabled, simply take the Payment-Splits-For-Price-Change which have all fallbacks in place
-    val priceChangeResponsePaymentSplits = PublishSubject.create<PaymentSplits>()
+    val paymentSplitsFromPriceChangeResponse = PublishSubject.create<PaymentSplits>()
+
+    //If PwP is enabled, default to Max Payable With Points, otherwise default to Zero Payable With Points.
+    private val paymentSplitsFromBurnAmountUpdates = PublishSubject.create<PaymentSplits>()
 
     //Boolean in the Pair indicates whether the Suggestion Updates are from Create-Trip (true) or from Price-Change (false)
     val paymentSplitsSuggestionUpdates = PublishSubject.create<Pair<PaymentSplits, Boolean>>()
 
     //Payment Splits (amount payable by points and by card) to be consumed by clients.
     val paymentSplits: Observable<PaymentSplits> = Observable.merge(
-            createTripResponsePaymentSplits,
-            priceChangeResponsePaymentSplits,
-            burnAmountAndLatestTripResponse.filter { it.burnAmount.compareTo(BigDecimal.ZERO) == 0 }.map { it.latestTripResponse.paymentSplitsWhenZeroPayableWithPoints() },
-            burnAmountToPointsApiResponse.map { PaymentSplits(it.conversion!!, it.remainingPayableByCard!!) },
+            paymentSplitsFromCreateTripResponse,
+            paymentSplitsFromPriceChangeResponse,
+            paymentSplitsFromBurnAmountUpdates,
             togglePaymentByPointsIntermediateStream
     )
 
@@ -109,11 +113,11 @@ class PaymentModel<T : TripResponse>(loyaltyServices: LoyaltyServices) {
             .withLatestFrom(paymentSplits, { unit, paymentSplits -> paymentSplits })
 
     //Facade to ensure there are no glitches!
-    //Whenever you need Payment Splits and Latest Trip response, use this!
-    public val paymentSplitsWithLatestTripResponse = paymentSplits.withLatestFrom(tripResponses, { paymentSplits, tripResponse ->
-        PaymentSplitsAndTripResponse(tripResponse, paymentSplits)
-    })
-
+    //Whenever you need Payment Splits and Latest Trip response and TripTotal including fee paid at hotel, use this!
+    public val paymentSplitsWithLatestTripTotalPayableAndTripResponse = paymentSplits.withLatestFrom(tripTotalPayable, tripResponses,
+            { paymentSplits, tripTotalPayable, tripResponses ->
+                PaymentSplitsWithTripTotalAndTripResponse(tripResponses, paymentSplits, tripTotalPayable)
+            })
 
     //Conditions when Currency To Points Conversion can be locally handled without an API call
     fun canHandleCurrencyToPointsConversionLocally(burnAmount: BigDecimal, amountForMaxPayableWithPoints: BigDecimal): Boolean {
@@ -121,6 +125,31 @@ class PaymentModel<T : TripResponse>(loyaltyServices: LoyaltyServices) {
     }
 
     init {
+        burnAmountAndLatestTripResponse.filter { it.burnAmount.compareTo(BigDecimal.ZERO) == 0 }.map { it.latestTripResponse}.subscribe{
+            tripTotalPayable.onNext(it.tripTotalPayableIncludingFeeIfZeroPayableByPoints())
+            paymentSplitsFromBurnAmountUpdates.onNext(it.paymentSplitsWhenZeroPayableWithPoints() )
+        }
+
+        burnAmountToPointsApiResponse.subscribe {
+            tripTotalPayable.onNext(it.tripTotalPayable)
+            paymentSplitsFromBurnAmountUpdates.onNext(PaymentSplits(it.conversion!!, it.remainingPayableByCard!!))
+        }
+
+        togglePaymentByPoints.withLatestFrom(tripResponses, { togglePaymentByPoints, latestTripResponse ->
+            object {
+                val togglePaymentByPoints = togglePaymentByPoints
+                val latestTripResponse = latestTripResponse
+            }
+        }).subscribe {
+            if (it.togglePaymentByPoints) {
+                tripTotalPayable.onNext(it.latestTripResponse.rewardsUserAccountDetails().tripTotalPayable)
+                togglePaymentByPointsIntermediateStream.onNext(it.latestTripResponse.paymentSplitsWhenMaxPayableWithPoints())
+            } else {
+                tripTotalPayable.onNext(it.latestTripResponse.tripTotalPayableIncludingFeeIfZeroPayableByPoints())
+                togglePaymentByPointsIntermediateStream.onNext(it.latestTripResponse.paymentSplitsWhenZeroPayableWithPoints())
+            }
+        }
+
         createTripSubject.withLatestFrom(swpOpted, { createTripResponse, swpOpted ->
             object {
                 val createTripResponse = createTripResponse;
@@ -129,14 +158,16 @@ class PaymentModel<T : TripResponse>(loyaltyServices: LoyaltyServices) {
         }).subscribe {
             //Explicitly ensuring that tripResponses has the latest Trip Response onloaded to it before a Payment-Split is onloaded to paymentSplits (via createTripResponsePaymentSplits)
             tripResponses.onNext(it.createTripResponse)
-            createTripResponsePaymentSplits.onNext(it.createTripResponse.paymentSplitsForNewCreateTrip(it.swpOpted))
+            tripTotalPayable.onNext(it.createTripResponse.getTripTotalIncludingFeeForCreateTrip(it.swpOpted))
+            paymentSplitsFromCreateTripResponse.onNext(it.createTripResponse.paymentSplitsForNewCreateTrip(it.swpOpted))
             paymentSplitsSuggestionUpdates.onNext(Pair(it.createTripResponse.paymentSplitsSuggestionsForNewCreateTrip(), true))
         }
 
         Observable.merge(priceChangeDuringCheckoutSubject, couponChangeSubject).withLatestFrom(pwpOpted, { priceChangeResponse, pwpOpted -> Pair(priceChangeResponse, pwpOpted) }).subscribe {
             //Explicitly ensuring that tripResponses has the latest Trip Response onloaded to it before a Payment-Split is onloaded to paymentSplits (via priceChangeResponsePaymentSplits)
             tripResponses.onNext(it.first)
-            priceChangeResponsePaymentSplits.onNext(it.first.paymentSplitsForPriceChange(it.second))
+            tripTotalPayable.onNext(it.first.getTripTotalIncludingFeeForPriceChange(it.second))
+            paymentSplitsFromPriceChangeResponse.onNext(it.first.paymentSplitsForPriceChange(it.second))
             paymentSplitsSuggestionUpdates.onNext(Pair(it.first.paymentSplitsSuggestionsForPriceChange(it.second), false))
         }
 

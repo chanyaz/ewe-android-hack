@@ -22,7 +22,7 @@ class HotelCreateTripResponseTest {
     fun testGetPointDetailsWhenExpediaRewardsAvailable() {
         val hotelCreateTripResponse = HotelCreateTripResponse()
         val pointDetails = ArrayList<PointsDetails>()
-        pointDetails.add(PointsDetails(ProgramName.ExpediaRewards, true, 0, PointsAndCurrency(0f, PointsType.BURN, Money()), null, null, null, ""))
+        pointDetails.add(PointsDetails(ProgramName.ExpediaRewards, true, 0, PointsAndCurrency(0f, PointsType.BURN, Money()), null, null, null, null, ""))
         hotelCreateTripResponse.pointsDetails = pointDetails
         Assert.assertNotNull(hotelCreateTripResponse.getPointDetails())
         Assert.assertEquals(hotelCreateTripResponse.getPointDetails()!!.programName, ProgramName.ExpediaRewards)

@@ -51,7 +51,7 @@ class MockHotelServiceTestRule : ServicesRule<HotelServices>(HotelServices::clas
         return getCreateTripResponse("logged_in_user_with_redeemable_orbucks")
     }
 
-    fun getLoggedInUserWithNonRedeemeblePointsCreateTripResponse(): HotelCreateTripResponse {
+    fun getLoggedInUserWithNonRedeemablePointsCreateTripResponse(): HotelCreateTripResponse {
         return getCreateTripResponse("logged_in_user_with_non_redeemable_points")
     }
 

@@ -89,7 +89,7 @@ class HotelCheckoutMainViewPresenter(context: Context, attr: AttributeSet) : Che
         checkoutOverviewViewModel.legalTextInformation.subscribeText(legalInformationText)
         checkoutOverviewViewModel.disclaimerText.subscribeTextAndVisibility(disclaimerText)
         checkoutOverviewViewModel.depositPolicyText.subscribeTextAndVisibility(depositPolicyText)
-        checkoutOverviewViewModel.totalPriceCharged.subscribeText(sliderTotalText)
+        checkoutOverviewViewModel.priceAboveSlider.subscribeText(sliderTotalText)
         checkoutOverviewViewModel.resetMenuButton.subscribe { resetMenuButton() }
     }
 
@@ -129,7 +129,7 @@ class HotelCheckoutMainViewPresenter(context: Context, attr: AttributeSet) : Che
 
     override fun onFinishInflate() {
         super.onFinishInflate()
-        hotelCheckoutSummaryWidget = HotelCheckoutSummaryWidget(context, null, HotelCheckoutSummaryViewModel(context))
+        hotelCheckoutSummaryWidget = HotelCheckoutSummaryWidget(context, null, HotelCheckoutSummaryViewModel(context, paymentModel))
         summaryContainer.addView(hotelCheckoutSummaryWidget)
 
         mainContactInfoCardView.setLineOfBusiness(LineOfBusiness.HOTELSV2)
@@ -204,13 +204,13 @@ class HotelCheckoutMainViewPresenter(context: Context, attr: AttributeSet) : Che
     val createTripResponseListener: Observer<HotelCreateTripResponse> = endlessObserver { trip ->
         Db.getTripBucket().clearHotelV2()
         Db.getTripBucket().add(TripBucketItemHotelV2(trip))
-        hotelCheckoutSummaryWidget.viewModel.tripResponseObserver.onNext(trip)
         hotelCheckoutSummaryWidget.viewModel.guestCountObserver.onNext(hotelSearchParams.adults + hotelSearchParams.children.size)
         val couponRate = trip.newHotelProductResponse.hotelRoomResponse.rateInfo.chargeableRateInfo.getPriceAdjustments()
         hasDiscount = couponRate != null && !couponRate.isZero
         couponCardView.viewmodel.hasDiscountObservable.onNext(hasDiscount)
         checkoutOverviewViewModel = HotelCheckoutOverviewViewModel(getContext(), paymentModel)
         checkoutOverviewViewModel.newRateObserver.onNext(trip.newHotelProductResponse)
+        checkoutOverviewViewModel.resetMenuButton.onNext(Unit)
         bind()
         show(CheckoutBasePresenter.Ready(), Presenter.FLAG_CLEAR_BACKSTACK)
         acceptTermsWidget.vm.resetAcceptedTerms()

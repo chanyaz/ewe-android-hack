@@ -13,7 +13,7 @@ import com.expedia.bookings.tracking.HotelV2Tracking
 import com.expedia.bookings.tracking.PayWithPointsErrorTrackingEnum
 import com.expedia.bookings.utils.NumberUtils
 import com.expedia.bookings.utils.Strings
-import com.expedia.util.withLatestFrom
+import com.expedia.bookings.utils.withLatestFrom
 import com.expedia.vm.interfaces.IPayWithPointsViewModel
 import com.squareup.phrase.Phrase
 import rx.Observable
@@ -127,7 +127,7 @@ class PayWithPointsViewModel<T : TripResponse>(val paymentModel: PaymentModel<T>
             .withLatestFrom(paymentModel.tripResponses, { burnAmount, tripResponse ->
                 object {
                     val burnAmount = burnAmount
-                    val tripTotal = tripResponse.getTripTotal()
+                    val tripTotal = tripResponse.getTripTotalExcludingFee()
                     val maxPayableWithPoints = tripResponse.maxPayableWithRewardPoints()
                     val totalAvailableBurnAmount = tripResponse.totalAvailableBurnAmount()
                 }
@@ -235,7 +235,7 @@ class PayWithPointsViewModel<T : TripResponse>(val paymentModel: PaymentModel<T>
                 HotelV2Tracking().trackPayWithPointsDisabled()
             }
             else {
-                val percentage  = if(Strings.isNotEmpty(it.userEnteredBurnAmount)) NumberUtils.getPercentagePaidWithPointsForOmniture(BigDecimal(it.userEnteredBurnAmount), it.trip.getTripTotal().amount) else 0
+                val percentage  = if(Strings.isNotEmpty(it.userEnteredBurnAmount)) NumberUtils.getPercentagePaidWithPointsForOmniture(BigDecimal(it.userEnteredBurnAmount), it.trip.getTripTotalExcludingFee().amount) else 0
                 HotelV2Tracking().trackPayWithPointsReEnabled(percentage)
             }
         }

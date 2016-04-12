@@ -16,6 +16,7 @@ import rx.Observable
 import rx.subjects.BehaviorSubject
 import java.math.BigDecimal
 import java.text.NumberFormat
+import com.expedia.bookings.data.payment.PointsAndCurrency
 
 class HotelCheckoutOverviewViewModel(val context: Context, val paymentModel: PaymentModel<HotelCreateTripResponse>) {
     // input
@@ -26,63 +27,47 @@ class HotelCheckoutOverviewViewModel(val context: Context, val paymentModel: Pay
     val depositPolicyText = BehaviorSubject.create<Spanned>()
     val slideToText = BehaviorSubject.create<String>()
     val resetMenuButton = BehaviorSubject.create<Unit>()
-    val totalPriceCharged: Observable<String> =
-            paymentModel.paymentSplitsWithLatestTripResponse.map {
-                object {
-                    val payingWithPoints = it.paymentSplits.payingWithPoints
-                    val payingWithCards = it.paymentSplits.payingWithCards
-                    val paymentSplitsType = it.paymentSplits.paymentSplitsType()
-                    val isRewardsRedeemable = it.tripResponse.isRewardsRedeemable()
-                    val dueNowAmount = it.tripResponse.getTripTotal()
-                }
-            }.map {
-                when (it.isRewardsRedeemable) {
-                    true ->
-                        when (it.paymentSplitsType) {
-                            PaymentSplitsType.IS_FULL_PAYABLE_WITH_POINT ->
-                                Phrase.from(context, R.string.you_are_using_expedia_points_TEMPLATE)
-                                        .put("amount", it.payingWithPoints.amount.formattedMoneyFromAmountAndCurrencyCode)
-                                        .put("points", NumberFormat.getInstance().format(it.payingWithPoints.points))
-                                        .format().toString()
-
-                            PaymentSplitsType.IS_FULL_PAYABLE_WITH_CARD ->
-                                Phrase.from(context, R.string.your_card_will_be_charged_template)
-                                        .put("dueamount", it.payingWithCards.amount.formattedMoneyFromAmountAndCurrencyCode)
-                                        .format().toString()
-
-                            PaymentSplitsType.IS_PARTIAL_PAYABLE_WITH_CARD ->
-                                Phrase.from(context, R.string.payment_through_card_and_pwp_points)
-                                        .put("amount", it.payingWithPoints.amount.formattedMoneyFromAmountAndCurrencyCode)
-                                        .put("points", NumberFormat.getInstance().format(it.payingWithPoints.points))
-                                        .put("dueamount", it.payingWithCards.amount.formattedMoneyFromAmountAndCurrencyCode)
-                                        .format().toString()
-                        }
-                    false -> Phrase.from(context, R.string.your_card_will_be_charged_template)
-                            .put("dueamount", it.dueNowAmount.formattedMoney).format().toString()
-                }
-            }
+    val priceAboveSlider = BehaviorSubject.create<String>()
 
     init {
-        newRateObserver.subscribe {
+        Observable.combineLatest(paymentModel.paymentSplitsWithLatestTripTotalPayableAndTripResponse, newRateObserver, { paymentSplitsWithTripTotalPayableAndTripResponse, newRateObserver ->
+            object {
+                val payingWithPoints = paymentSplitsWithTripTotalPayableAndTripResponse.paymentSplits.payingWithPoints
+                val payingWithCards = paymentSplitsWithTripTotalPayableAndTripResponse.paymentSplits.payingWithCards
+                val paymentSplitsType = paymentSplitsWithTripTotalPayableAndTripResponse.paymentSplits.paymentSplitsType()
+                val isExpediaRewardsRedeemable = paymentSplitsWithTripTotalPayableAndTripResponse.tripResponse.isRewardsRedeemable()
+                val dueNowAmount = paymentSplitsWithTripTotalPayableAndTripResponse.tripResponse.getTripTotalExcludingFee()
+                val tripTotalPayableInclundingFee  = paymentSplitsWithTripTotalPayableAndTripResponse.tripTotalPayableIncludingFee
+                val roomResponse = newRateObserver.hotelRoomResponse
+            }
+        }).subscribe {
+            var tripTotal : String
+            if (it.isExpediaRewardsRedeemable) {
+                priceAboveSlider.onNext(getPayWithPointsAndOrCardMessaging(it.paymentSplitsType, it.payingWithPoints, it.payingWithCards))
+                tripTotal = it.tripTotalPayableInclundingFee.formattedMoneyFromAmountAndCurrencyCode
+            } else {
+                priceAboveSlider.onNext(Phrase.from(context, R.string.your_card_will_be_charged_template)
+                        .put("dueamount", it.dueNowAmount.formattedMoney).format().toString())
+                tripTotal = it.roomResponse.rateInfo.chargeableRateInfo.displayTotalPrice.formattedMoney
+            }
+
             disclaimerText.onNext(Html.fromHtml(""))
             depositPolicyText.onNext(Html.fromHtml(""))
 
-            val room = it.hotelRoomResponse
-            if (room.isPayLater) {
+            if (it.roomResponse.isPayLater) {
                 slideToText.onNext(context.getString(R.string.hotelsv2_slide_reserve))
             } else {
                 slideToText.onNext(context.getString(R.string.hotelsv2_slide_purchase))
             }
 
-            val currencyCode = room.rateInfo.chargeableRateInfo.currencyCode
-            val tripTotal = room.rateInfo.chargeableRateInfo.displayTotalPrice.formattedMoney
-            if (room.rateInfo.chargeableRateInfo.showResortFeeMessage) {
-                val resortFees = Money(BigDecimal(room.rateInfo.chargeableRateInfo.totalMandatoryFees.toDouble()), currencyCode).formattedMoney
+            val currencyCode = it.roomResponse.rateInfo.chargeableRateInfo.currencyCode
+            if (it.roomResponse.rateInfo.chargeableRateInfo.showResortFeeMessage) {
+                val resortFees = Money(BigDecimal(it.roomResponse.rateInfo.chargeableRateInfo.totalMandatoryFees.toDouble()), currencyCode).formattedMoney
                 val text = Html.fromHtml(context.getString(R.string.resort_fee_disclaimer_TEMPLATE, resortFees, tripTotal));
                 disclaimerText.onNext(text)
-            } else if (room.isPayLater) {
-                if (room.rateInfo.chargeableRateInfo.depositAmount != null) {
-                    val depositText = Html.fromHtml(room.depositPolicyAtIndex(0) + " " + room.depositPolicyAtIndex(1))
+            } else if (it.roomResponse.isPayLater) {
+                if (it.roomResponse.rateInfo.chargeableRateInfo.depositAmount != null) {
+                    val depositText = Html.fromHtml(it.roomResponse.depositPolicyAtIndex(0) + " " + it.roomResponse.depositPolicyAtIndex(1))
                     depositPolicyText.onNext(depositText)
                 }
                 val text = Html.fromHtml(context.getString(R.string.pay_later_disclaimer_TEMPLATE, tripTotal))
@@ -90,7 +75,29 @@ class HotelCheckoutOverviewViewModel(val context: Context, val paymentModel: Pay
             }
 
             legalTextInformation.onNext(StrUtils.generateHotelsBookingStatement(context, PointOfSale.getPointOfSale().hotelBookingStatement.toString(), false))
-            resetMenuButton.onNext(Unit)
+        }
+    }
+
+    fun getPayWithPointsAndOrCardMessaging(paymentSplitsType: PaymentSplitsType, payingWithPoints: PointsAndCurrency, payingWithCards: PointsAndCurrency): String {
+        when (paymentSplitsType) {
+            PaymentSplitsType.IS_FULL_PAYABLE_WITH_POINT ->
+
+                return Phrase.from(context, R.string.you_are_using_expedia_points_TEMPLATE)
+                        .put("amount", payingWithPoints.amount.formattedMoneyFromAmountAndCurrencyCode)
+                        .put("points", NumberFormat.getInstance().format(payingWithPoints.points))
+                        .format().toString()
+
+            PaymentSplitsType.IS_FULL_PAYABLE_WITH_CARD ->
+                return Phrase.from(context, R.string.your_card_will_be_charged_template)
+                        .put("dueamount", payingWithCards.amount.formattedMoneyFromAmountAndCurrencyCode)
+                        .format().toString()
+
+            PaymentSplitsType.IS_PARTIAL_PAYABLE_WITH_CARD ->
+                return Phrase.from(context, R.string.payment_through_card_and_pwp_points)
+                        .put("amount", payingWithPoints.amount.formattedMoneyFromAmountAndCurrencyCode)
+                        .put("points", NumberFormat.getInstance().format(payingWithPoints.points))
+                        .put("dueamount", payingWithCards.amount.formattedMoneyFromAmountAndCurrencyCode)
+                        .format().toString()
         }
     }
 }

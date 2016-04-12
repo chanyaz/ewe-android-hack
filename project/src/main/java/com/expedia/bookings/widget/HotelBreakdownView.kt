@@ -13,6 +13,7 @@ import com.expedia.bookings.R
 import com.expedia.bookings.utils.bindView
 import com.expedia.util.notNullAndObservable
 import com.expedia.vm.HotelBreakDownViewModel
+import com.expedia.vm.HotelBreakDownViewModel.BreakdownItem
 
 class HotelBreakDownView(context: Context, attrs: AttributeSet?) : ScrollView(context, attrs) {
     val linearLayout: LinearLayout by bindView(R.id.breakdown_container)
@@ -21,15 +22,18 @@ class HotelBreakDownView(context: Context, attrs: AttributeSet?) : ScrollView(co
         vm.addRows.subscribe {
             linearLayout.removeAllViews()
             for (breakdown in it) {
-                if (it.indexOf(breakdown) == it.size - 1) {
-                    linearLayout.addView(createLine())
-                }
-                if (breakdown.isDate) {
-                    linearLayout.addView(createDateRow(breakdown))
-                } else {
-                    linearLayout.addView(createRow(breakdown, breakdown.isDiscount))
-                }
+                when (breakdown.breakdownItem) {
+                    BreakdownItem.TRIPTOTAL -> {
+                        linearLayout.addView(createLine())
+                        linearLayout.addView(createRow(breakdown, false))
+                    }
 
+                    BreakdownItem.DATE -> linearLayout.addView(createDateRow(breakdown))
+
+                    BreakdownItem.DISCOUNT -> linearLayout.addView(createRow(breakdown, true))
+
+                    BreakdownItem.OTHER -> linearLayout.addView(createRow(breakdown, false))
+                }
             }
         }
     }

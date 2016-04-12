@@ -61,7 +61,7 @@ class PaymentModelTest {
         if (hasRedemablePoints)
             createTripResponse = mockHotelServiceTestRule.getLoggedInUserWithRedeemablePointsCreateTripResponse()
         else
-            createTripResponse = mockHotelServiceTestRule.getLoggedInUserWithNonRedeemeblePointsCreateTripResponse()
+            createTripResponse = mockHotelServiceTestRule.getLoggedInUserWithNonRedeemablePointsCreateTripResponse()
 
         createTripResponse.tripId = "happy";
         Db.getTripBucket().add(TripBucketItemHotelV2(createTripResponse))
@@ -356,8 +356,8 @@ class PaymentModelTest {
     }
 
     private fun getPaymentSplitsForSwpOff(): PaymentSplits{
-        val payingWithPoints = PointsAndCurrency(0f, PointsType.BURN, Money("0", createTripResponse.getTripTotal().currencyCode))
-        val payingWithCards = PointsAndCurrency(createTripResponse.rewards?.totalPointsToEarn ?: 0f, PointsType.EARN, createTripResponse.getTripTotal())
+        val payingWithPoints = PointsAndCurrency(0f, PointsType.BURN, Money("0", createTripResponse.getTripTotalExcludingFee().currencyCode))
+        val payingWithCards = PointsAndCurrency(createTripResponse.rewards?.totalPointsToEarn ?: 0f, PointsType.EARN, createTripResponse.getTripTotalExcludingFee())
         return PaymentSplits(payingWithPoints, payingWithCards)
     }
     //TODO unsubscribe of currencyToPointsApiSubscription can be tested.

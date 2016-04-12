@@ -34,7 +34,7 @@ class HotelCreateTripPayWithPointsTest {
 
     @Test
     fun testCreateTripForLoggedInUserWithNonRedeemablePoints() {
-        val createTripResponse = mockHotelServiceTestRule.getLoggedInUserWithNonRedeemeblePointsCreateTripResponse()
+        val createTripResponse = mockHotelServiceTestRule.getLoggedInUserWithNonRedeemablePointsCreateTripResponse()
         Db.getTripBucket().add(TripBucketItemHotelV2(createTripResponse))
         Assert.assertNotNull(createTripResponse.pointsDetails)
         Assert.assertNotNull(createTripResponse.getPointDetails())

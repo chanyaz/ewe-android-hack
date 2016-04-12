@@ -198,7 +198,7 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
         presenter.hotelCheckoutViewModel.checkoutParams.subscribe {
             checkoutDialog.show()
         }
-        presenter.hotelCheckoutWidget.slideAllTheWayObservable.withLatestFrom(paymentModel.paymentSplitsWithLatestTripResponse) { unit, paymentSplitsAndLatestTripResponse ->
+        presenter.hotelCheckoutWidget.slideAllTheWayObservable.withLatestFrom(paymentModel.paymentSplitsWithLatestTripTotalPayableAndTripResponse) { unit, paymentSplitsAndLatestTripResponse ->
             paymentSplitsAndLatestTripResponse.isCardRequired()
         }.filter { it }.subscribe {
             checkoutDialog.hide()

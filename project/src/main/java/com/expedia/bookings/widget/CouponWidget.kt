@@ -92,7 +92,7 @@ class CouponWidget(context: Context, attrs: AttributeSet?) : ExpandableCardView(
     init {
         com.expedia.bookings.utils.Ui.getApplication(getContext()).hotelComponent().inject(this)
         onCouponSubmitClicked
-                .withLatestFrom(paymentModel.paymentSplitsWithLatestTripResponse, { unit, paymentSplitsAndTripResponse -> paymentSplitsAndTripResponse})
+                .withLatestFrom(paymentModel.paymentSplitsWithLatestTripTotalPayableAndTripResponse, { unit, paymentSplitsAndTripResponse -> paymentSplitsAndTripResponse})
                 .subscribe { submitCoupon(it.paymentSplits, it.tripResponse) }
 
         View.inflate(getContext(), R.layout.coupon_widget, this)
