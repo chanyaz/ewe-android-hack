@@ -93,7 +93,7 @@ public class FlightLegSummarySection extends RelativeLayout {
 		mArrivalTimeTextView = Ui.findView(this, R.id.arrival_time_text_view);
 		mMultiDayTextView = Ui.findView(this, R.id.multi_day_text_view);
 		mFlightTripView = Ui.findView(this, R.id.flight_trip_view);
-		if (ShopWithPointsFlightsUtil.isShopWithPointsEnabled()) {
+		if (ShopWithPointsFlightsUtil.isShopWithPointsEnabled(getContext())) {
 			mEarnAmountTextView = Ui.findView(this, R.id.earn_amount_text_view);
 		}
 

@@ -7,13 +7,16 @@ import android.content.Context;
 
 import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
+import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.payment.LoyaltyEarnInfo;
 import com.expedia.bookings.data.payment.PointsEarnInfo;
 import com.expedia.bookings.data.payment.PriceEarnInfo;
+import com.expedia.bookings.data.pos.PointOfSale;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonToken;
+import com.mobiata.android.util.SettingUtils;
 import com.squareup.phrase.Phrase;
 
 public class ShopWithPointsFlightsUtil {
@@ -164,8 +167,13 @@ public class ShopWithPointsFlightsUtil {
 		return earnInfoTextToDisplay;
 	}
 
-	public static boolean isShopWithPointsEnabled() {
-		//TODO consider Config if SWP is to be displayed
-		return BuildConfig.DEBUG;
+	public static boolean isShopWithPointsEnabled(Context context) {
+		if (ExpediaBookingApp.isInstrumentation()) {
+			return true;
+		}
+		if (BuildConfig.DEBUG && SettingUtils.get(context, R.string.preference_swp_flights_earn_messaging, false)) {
+			return true;
+		}
+		return PointOfSale.getPointOfSale().isEarnMessageEnabledForFlights();
 	}
 }

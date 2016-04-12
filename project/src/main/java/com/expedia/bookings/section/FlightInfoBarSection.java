@@ -56,7 +56,7 @@ public class FlightInfoBarSection extends LinearLayout {
 		mLeftTextView.setTypeface(font);
 		mRightTextView.setTypeface(font);
 
-		if (ShopWithPointsFlightsUtil.isShopWithPointsEnabled()) {
+		if (ShopWithPointsFlightsUtil.isShopWithPointsEnabled(getContext())) {
 			mBottomTextView = Ui.findView(this, R.id.bottom_text_view);
 			mBottomTextView.setTypeface(font);
 		}

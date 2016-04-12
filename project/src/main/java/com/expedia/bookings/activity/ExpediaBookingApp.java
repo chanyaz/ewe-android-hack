@@ -22,10 +22,10 @@ import com.expedia.bookings.dagger.AppModule;
 import com.expedia.bookings.dagger.CarComponent;
 import com.expedia.bookings.dagger.DaggerAppComponent;
 import com.expedia.bookings.dagger.DaggerCarComponent;
+import com.expedia.bookings.dagger.DaggerFlightComponent;
 import com.expedia.bookings.dagger.DaggerHotelComponent;
 import com.expedia.bookings.dagger.DaggerLXComponent;
 import com.expedia.bookings.dagger.DaggerLaunchComponent;
-import com.expedia.bookings.dagger.DaggerFlightComponent;
 import com.expedia.bookings.dagger.DaggerPackageComponent;
 import com.expedia.bookings.dagger.DaggerRailComponent;
 import com.expedia.bookings.dagger.FlightComponent;
@@ -103,6 +103,10 @@ public class ExpediaBookingApp extends MultiDexApplication implements UncaughtEx
 
 	public static boolean isAutomation() {
 		return sIsRobolectric || sIsInstrumentation;
+	}
+
+	public static boolean isInstrumentation() {
+		return sIsInstrumentation;
 	}
 
 	public static boolean isRobolectric() {
