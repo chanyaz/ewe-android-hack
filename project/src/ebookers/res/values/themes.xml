@@ -182,14 +182,4 @@
         <item name="android:checkboxStyle">@style/Widget.CompoundButton.CheckBox</item>
     </style>
 
-    <style name="TerminalMapThemeSpinnerDropDownItemStyle" parent="@style/Widget.AppCompat.DropDownItem.Spinner">
-        <item name="android:background">@android:color/white</item>
-        <item name="background">@android:color/white</item>
-    </style>
-
-    <style name="TerminalMapThemeDropDownListView" parent="@android:style/Widget.Holo.Light.ListView.DropDown">
-        <item name="android:background">@android:color/white</item>
-        <item name="background">@android:color/white</item>
-    </style>
-
 </resources>
