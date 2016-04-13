@@ -100,7 +100,7 @@ class PackageServices(endpoint: String, okHttpClient: OkHttpClient, requestInter
 	}
 
 	fun createTrip(body: PackageCreateTripParams): Observable<PackageCreateTripResponse> {
-		return packageApi.createTrip(body.toQueryMap())
+		return packageApi.createTrip(body.productKey, body.destinationId, body.numOfAdults, body.anyInfantsInSeat(), body.childAges)
 				.observeOn(observeOn)
 				.subscribeOn(subscribeOn)
 	}
