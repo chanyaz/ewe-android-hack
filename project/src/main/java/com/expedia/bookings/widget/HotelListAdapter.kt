@@ -38,7 +38,6 @@ import com.expedia.util.subscribeImageDrawable
 import com.expedia.util.subscribeStarColor
 import com.expedia.util.subscribeStarRating
 import com.expedia.util.subscribeText
-import com.expedia.util.subscribeTextAndVisibility
 import com.expedia.util.subscribeTextColor
 import com.expedia.util.subscribeVisibility
 import com.expedia.vm.HotelResultsPricingStructureHeaderViewModel
@@ -47,10 +46,6 @@ import com.squareup.picasso.Picasso
 import rx.subjects.BehaviorSubject
 import rx.subjects.PublishSubject
 import java.util.ArrayList
-import kotlin.collections.emptyList
-import kotlin.collections.firstOrNull
-import kotlin.collections.indexOfFirst
-import kotlin.collections.listOf
 import kotlin.properties.Delegates
 
 class HotelListAdapter(val hotelSelectedSubject: PublishSubject<Hotel>, val headerSubject: PublishSubject<Unit>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
@@ -332,9 +327,9 @@ class HotelListAdapter(val hotelSelectedSubject: PublishSubject<Hotel>, val head
             }
         }
 
-        private fun getShader(array: IntArray) : ShapeDrawable.ShaderFactory {
+        private fun getShader(array: IntArray): ShapeDrawable.ShaderFactory {
             return object : ShapeDrawable.ShaderFactory() {
-                override fun resize(width: Int , height: Int) : Shader {
+                override fun resize(width: Int, height: Int): Shader {
                     val lg = LinearGradient(0f, 0f, 0f, height.toFloat(),
                             array, DEFAULT_GRADIENT_POSITIONS, Shader.TileMode.REPEAT)
                     return lg

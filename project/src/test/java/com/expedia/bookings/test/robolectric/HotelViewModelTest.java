@@ -30,7 +30,7 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 @RunWith(RobolectricRunner.class)
-@Config(shadows = { ShadowGCM.class, ShadowUserManager.class, ShadowAccountManagerEB.class})
+@Config(shadows = { ShadowGCM.class, ShadowUserManager.class, ShadowAccountManagerEB.class })
 public class HotelViewModelTest {
 
 	HotelViewModel vm;
@@ -111,8 +111,8 @@ public class HotelViewModelTest {
 		vm.getHighestPriorityUrgencyMessageObservable().subscribe(urgencyMessageTestSubscriber);
 
 		urgencyMessageTestSubscriber.assertValue(new HotelViewModel.UrgencyMessage(null,
-				R.color.hotel_sold_out_color,
-				RuntimeEnvironment.application.getResources().getString(R.string.trip_bucket_sold_out)));
+			R.color.hotel_sold_out_color,
+			RuntimeEnvironment.application.getResources().getString(R.string.trip_bucket_sold_out)));
 	}
 
 	@Test
@@ -126,8 +126,9 @@ public class HotelViewModelTest {
 		vm.getHighestPriorityUrgencyMessageObservable().subscribe(urgencyMessageTestSubscriber);
 
 		urgencyMessageTestSubscriber.assertValue(new HotelViewModel.UrgencyMessage(R.drawable.urgency,
-				R.color.hotel_urgency_message_color,
-				RuntimeEnvironment.application.getResources().getQuantityString(R.plurals.num_rooms_left, hotel.roomsLeftAtThisRate, hotel.roomsLeftAtThisRate)));
+			R.color.hotel_urgency_message_color,
+			RuntimeEnvironment.application.getResources()
+				.getQuantityString(R.plurals.num_rooms_left, hotel.roomsLeftAtThisRate, hotel.roomsLeftAtThisRate)));
 	}
 
 	@Test
@@ -141,8 +142,8 @@ public class HotelViewModelTest {
 		vm.getHighestPriorityUrgencyMessageObservable().subscribe(urgencyMessageTestSubscriber);
 
 		urgencyMessageTestSubscriber.assertValue(new HotelViewModel.UrgencyMessage(R.drawable.tonight_only,
-				R.color.hotel_tonight_only_color,
-				RuntimeEnvironment.application.getResources().getString(R.string.tonight_only)));
+			R.color.hotel_tonight_only_color,
+			RuntimeEnvironment.application.getResources().getString(R.string.tonight_only)));
 	}
 
 	@Test
@@ -155,8 +156,8 @@ public class HotelViewModelTest {
 		vm.getHighestPriorityUrgencyMessageObservable().subscribe(urgencyMessageTestSubscriber);
 
 		urgencyMessageTestSubscriber.assertValue(new HotelViewModel.UrgencyMessage(R.drawable.mobile_exclusive,
-				R.color.hotel_mobile_exclusive_color,
-				RuntimeEnvironment.application.getResources().getString(R.string.mobile_exclusive)));
+			R.color.hotel_mobile_exclusive_color,
+			RuntimeEnvironment.application.getResources().getString(R.string.mobile_exclusive)));
 	}
 
 	@Test
@@ -187,7 +188,8 @@ public class HotelViewModelTest {
 		setupSystemUnderTest();
 
 		assertTrue(vm.getLoyaltyAvailabilityObservable().getValue());
-		assertEquals(Html.fromHtml(RuntimeEnvironment.application.getString(R.string.vip_loyalty_applied_map_message)), vm.getMapLoyaltyMessageTextObservable().getValue());
+		assertEquals(Html.fromHtml(RuntimeEnvironment.application.getString(R.string.vip_loyalty_applied_map_message)),
+			vm.getMapLoyaltyMessageTextObservable().getValue());
 	}
 
 	@Test
@@ -197,7 +199,8 @@ public class HotelViewModelTest {
 		setupSystemUnderTest();
 
 		assertTrue(vm.getLoyaltyAvailabilityObservable().getValue());
-		assertEquals(RuntimeEnvironment.application.getString(R.string.regular_loyalty_applied_message), vm.getMapLoyaltyMessageTextObservable().getValue().toString());
+		assertEquals(RuntimeEnvironment.application.getString(R.string.regular_loyalty_applied_message),
+			vm.getMapLoyaltyMessageTextObservable().getValue().toString());
 	}
 
 	@Test
@@ -227,6 +230,19 @@ public class HotelViewModelTest {
 		assertTrue(vm.getLoyaltyAvailabilityObservable().getValue());
 	}
 
+	@Test
+	public void hotelThumbnailNotSetIfMissing() {
+		setupSystemUnderTest();
+		assertTrue(Strings.isEmpty(vm.getHotelLargeThumbnailUrlObservable().getValue()));
+	}
+
+	@Test
+	public void hotelThumbnailIsSet() {
+		givenPackageHotelWithThumbnail();
+		setupSystemUnderTest();
+		assertEquals("some_awesome_hotel_pix", vm.getHotelLargeThumbnailUrlObservable().getValue());
+	}
+
 	private void givenSoldOutHotel() {
 		hotel.isSoldOut = true;
 	}
@@ -254,6 +270,11 @@ public class HotelViewModelTest {
 	private void givenHotelWithShopWithPointsAvailable() {
 		LoyaltyInformation loyaltyInformation = new LoyaltyInformation(null, new LoyaltyEarnInfo(null, null), true);
 		hotel.lowRateInfo.loyaltyInfo = loyaltyInformation;
+	}
+
+	private void givenPackageHotelWithThumbnail() {
+		hotel.isPackage = true;
+		hotel.thumbnailUrl = "some_awesome_hotel_pix";
 	}
 
 	private void setupSystemUnderTest() {
