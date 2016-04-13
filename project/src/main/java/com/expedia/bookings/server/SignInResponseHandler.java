@@ -164,7 +164,10 @@ public class SignInResponseHandler extends JsonResponseHandler<SignInResponse> {
 				}
 
 				user.setExpediaRewardsMembershipId(response.optString("loyaltyAccountNumber"));
-				user.setLoyaltyMembershipInformation(JSONUtils.getJSONable(response, "loyaltyMembershipInfo", UserLoyaltyMembershipInformation.class));
+				if (response.has("loyaltyMembershipInfo")) {
+					user.setLoyaltyMembershipInformation(JSONUtils.getJSONable(response, "loyaltyMembershipInfo", UserLoyaltyMembershipInformation.class));
+				}
+
 				signInResponse.setUser(user);
 			}
 		}
