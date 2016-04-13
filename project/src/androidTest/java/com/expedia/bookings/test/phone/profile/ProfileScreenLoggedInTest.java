@@ -109,6 +109,21 @@ public class ProfileScreenLoggedInTest {
 		assertViewWithTextIsDisplayed(R.id.points_monetary_value, "$42.00");
 	}
 
+	@Test
+	public void testOldV1SignInResponse() {
+		// Tests old sign in response before loyalty points refactor
+		signInAsUser("goldstatus_v1@mobiata.com");
+
+		assertViewWithTextIsDisplayed(R.id.toolbar_name, "Gold Status");
+		assertViewWithTextIsDisplayed(R.id.toolbar_email, "goldstatus@mobiata.com");
+		assertViewWithTextIsDisplayed(R.id.toolbar_loyalty_tier_text, R.string.plus_gold);
+		assertViewWithTextIsDisplayed(R.id.available_points, "54,206");
+		assertViewWithTextIsDisplayed(R.id.pending_points, "5,601 pending");
+		ViewInteraction countryView = getFirstRowCountry();
+		countryView.check(matches(withText("USA")));
+		assertTextViewHasCompoundDrawableFlag(countryView, R.drawable.ic_flag_us);
+	}
+
 	// only spot checking a few countries as OOM issues are preventing testing all
 
 	@Test

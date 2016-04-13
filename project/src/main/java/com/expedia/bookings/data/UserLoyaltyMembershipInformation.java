@@ -58,6 +58,19 @@ public class UserLoyaltyMembershipInformation implements JSONable {
 		return loyaltyMembershipTier;
 	}
 
+	public void setLoyaltyPointsPending(double loyaltyPointsPending) {
+		this.loyaltyPointsPending = loyaltyPointsPending;
+	}
+
+	public void setLoyaltyMembershipActive(boolean loyaltyMembershipActive) {
+		isLoyaltyMembershipActive = loyaltyMembershipActive;
+	}
+
+	public void setLoyaltyMembershipTier(
+		LoyaltyMembershipTier loyaltyMembershipTier) {
+		this.loyaltyMembershipTier = loyaltyMembershipTier;
+	}
+
 	@Override
 	public JSONObject toJson() {
 		JSONObject obj = new JSONObject();
@@ -86,10 +99,16 @@ public class UserLoyaltyMembershipInformation implements JSONable {
 		loyaltyPointsPending = obj.optDouble("loyaltyPointsPending", 0);
 		bookingCurrency = obj.optString("bookingCurrency", null);
 		isAllowedToShopWithPoints = obj.optBoolean("isAllowedToShopWithPoints", false);
-		loyaltyMonetaryValue = new LoyaltyMonetaryValueObject(obj.optJSONObject("loyaltyMonetaryValue"));
 		isLoyaltyMembershipActive = obj.optBoolean("loyaltyMemebershipActive", false); // yes, the key is misspelt by the API
 		String membershipTierName = obj.optString("membershipTierName", "NONE").toUpperCase(Locale.US);
 		loyaltyMembershipTier = LoyaltyMembershipTier.valueOf(membershipTierName);
+		if (obj.has("loyaltyMonetaryValue")) { // the old api response doesn't return loyaltyMonetaryValue
+			// TODO - we can remove this check after 1st May 2016 (API will have been released to production)
+			loyaltyMonetaryValue = new LoyaltyMonetaryValueObject(obj.optJSONObject("loyaltyMonetaryValue"));
+		}
+		else {
+			isAllowedToShopWithPoints = false;
+		}
 
 		return true;
 	}
