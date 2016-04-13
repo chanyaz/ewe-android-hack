@@ -20,6 +20,7 @@ import com.expedia.bookings.data.payment.PointsEarnInfo;
 import com.expedia.bookings.test.robolectric.shadows.ShadowAccountManagerEB;
 import com.expedia.bookings.test.robolectric.shadows.ShadowGCM;
 import com.expedia.bookings.test.robolectric.shadows.ShadowUserManager;
+import com.expedia.bookings.utils.Images;
 import com.expedia.bookings.utils.Strings;
 import com.expedia.bookings.widget.HotelViewModel;
 
@@ -231,16 +232,31 @@ public class HotelViewModelTest {
 	}
 
 	@Test
-	public void hotelThumbnailNotSetIfMissing() {
+	public void packageHotelThumbnailNotSetIfMissing() {
+		hotel.isPackage = true;
 		setupSystemUnderTest();
 		assertTrue(Strings.isEmpty(vm.getHotelLargeThumbnailUrlObservable().getValue()));
 	}
 
 	@Test
-	public void hotelThumbnailIsSet() {
-		givenPackageHotelWithThumbnail();
+	public void hotelThumbnailErrorIsMissing() {
+		hotel.isPackage = false;
+		setupSystemUnderTest();
+		assertEquals(Images.getMediaHost() + null, vm.getHotelLargeThumbnailUrlObservable().getValue());
+	}
+
+	@Test
+	public void packageThumbnailIsSet() {
+		givenHotelWithThumbnail(true);
 		setupSystemUnderTest();
 		assertEquals("some_awesome_hotel_pix", vm.getHotelLargeThumbnailUrlObservable().getValue());
+	}
+
+	@Test
+	public void hotelThumbnailIsSet() {
+		givenHotelWithThumbnail(false);
+		setupSystemUnderTest();
+		assertEquals(Images.getMediaHost() + "some_awesome_hotel_pix", vm.getHotelLargeThumbnailUrlObservable().getValue());
 	}
 
 	private void givenSoldOutHotel() {
@@ -272,9 +288,10 @@ public class HotelViewModelTest {
 		hotel.lowRateInfo.loyaltyInfo = loyaltyInformation;
 	}
 
-	private void givenPackageHotelWithThumbnail() {
-		hotel.isPackage = true;
+	private void givenHotelWithThumbnail(boolean isPackage) {
+		hotel.isPackage = isPackage;
 		hotel.thumbnailUrl = "some_awesome_hotel_pix";
+		hotel.largeThumbnailUrl = "some_awesome_hotel_pix";
 	}
 
 	private void setupSystemUnderTest() {

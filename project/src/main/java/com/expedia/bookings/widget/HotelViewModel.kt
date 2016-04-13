@@ -14,6 +14,7 @@ import com.expedia.bookings.data.hotels.Hotel
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.extension.isShowAirAttached
 import com.expedia.bookings.utils.HotelUtils
+import com.expedia.bookings.utils.Images
 import com.squareup.phrase.Phrase
 import rx.Observable
 import rx.subjects.BehaviorSubject
@@ -88,7 +89,7 @@ class HotelViewModel(private val context: Context, private val hotel: Hotel) {
 
         Observable.combineLatest(strikethroughPriceToShowUsers, priceToShowUsers, soldOut) { strikethroughPriceToShowUsers, priceToShowUsers, soldOut -> !soldOut && (priceToShowUsers < strikethroughPriceToShowUsers) }.subscribe(hotelStrikeThroughPriceVisibility)
 
-        val url = if (hotel.isPackage) hotel.thumbnailUrl else hotel.largeThumbnailUrl
+        val url = if (hotel.isPackage) hotel.thumbnailUrl else Images.getMediaHost() + hotel.largeThumbnailUrl
         if (!url.isNullOrBlank()) hotelLargeThumbnailUrlObservable.onNext(url)
 
         val isVipAvailable = hotel.isVipAccess && PointOfSale.getPointOfSale().supportsVipAccess() && User.isLoggedIn(context)
