@@ -31,7 +31,7 @@ import rx.Observer
 import rx.exceptions.OnErrorNotImplementedException
 import kotlin.properties.Delegates
 
-open class BaseFlightPresenter(context: Context, attrs: AttributeSet) : Presenter(context, attrs) {
+abstract open class BaseFlightPresenter(context: Context, attrs: AttributeSet) : Presenter(context, attrs) {
 
     val ANIMATION_DURATION = 400
     val toolbar: Toolbar by bindView(R.id.flights_toolbar)
@@ -187,6 +187,7 @@ open class BaseFlightPresenter(context: Context, attrs: AttributeSet) : Presente
         override fun onNext(flight: FlightLeg) {
             show(overviewPresenter)
             overviewPresenter.vm.selectedFlightLeg.onNext(flight)
+            trackFlightOverviewLoad()
         }
 
         override fun onCompleted() {
@@ -208,5 +209,7 @@ open class BaseFlightPresenter(context: Context, attrs: AttributeSet) : Presente
         }
         return super.back()
     }
+
+    abstract fun trackFlightOverviewLoad()
 }
 
