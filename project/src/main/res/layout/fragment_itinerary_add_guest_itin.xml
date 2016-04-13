@@ -74,7 +74,7 @@
         android:gravity="center"
         android:text="@string/unable_to_find_itinerary"
         android:textColor="@color/roboto_light"
-        android:background="#FF642121"
+        android:background="@color/itin_unable_to_find_error_color"
         android:visibility="gone">
     </TextView>
 

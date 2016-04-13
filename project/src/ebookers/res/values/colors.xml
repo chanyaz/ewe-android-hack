@@ -49,6 +49,9 @@
     <color name="lx_color_primary_dark">@color/lx_primary_color</color>
     <color name="checkout_login_button_color">@android:color/white</color>
 
+    <!-- Itin Colors -->
+    <color name="itin_unable_to_find_error_color">#FFB80000</color>
+
     <!-- Launch colors -->
     <color name="action_menu_text_color">#FFFFFF</color>
     <color name="action_bar_text">#FFFFFF</color>
