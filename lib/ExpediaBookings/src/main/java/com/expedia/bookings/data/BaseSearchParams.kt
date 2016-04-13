@@ -89,4 +89,4 @@ open class BaseSearchParams(val adults: Int, val children: List<Int>) {
     }
 }
 
-data class TravelerParams(val numberOfAdults: Int, val children: List<Int>)
+data class TravelerParams(val numberOfAdults: Int, val childrenAges: List<Int>)

@@ -20,6 +20,7 @@ import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.hotels.HotelOffersResponse
 import com.expedia.bookings.data.hotels.HotelRate
 import com.expedia.bookings.data.hotels.HotelSearchParams
+import com.expedia.bookings.data.payment.LoyaltyEarnInfo
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.extension.isShowAirAttached
 import com.expedia.bookings.services.HotelServices
@@ -198,7 +199,12 @@ class HotelDetailViewModel(val context: Context, val hotelServices: HotelService
     val hasVipAccessLoyaltyObservable = BehaviorSubject.create<Boolean>(false)
     val hasRegularLoyaltyPointsAppliedObservable = BehaviorSubject.create<Boolean>(false)
     val promoMessageObservable = BehaviorSubject.create<String>("")
+    val promoMessageVisibilityObservable = BehaviorSubject.create<Boolean>()
+    val earnMessageObservable = BehaviorSubject.create<String>()
+    val earnMessageVisibilityObservable = BehaviorSubject.create<Boolean>()
+
     val strikeThroughPriceObservable = BehaviorSubject.create<CharSequence>()
+    val strikeThroughPriceGreaterThanPriceToShowUsersObservable = PublishSubject.create<Boolean>()
     val galleryItemChangeObservable = BehaviorSubject.create<Pair<Int, String>>()
     val depositInfoContainerClickObservable = BehaviorSubject.create<Pair<String, HotelOffersResponse.HotelRoomResponse>>()
     val hotelDetailsBundleTotalObservable = BehaviorSubject.create<Pair<String, String>>()
@@ -281,10 +287,18 @@ class HotelDetailViewModel(val context: Context, val hotelServices: HotelService
         hasVipAccessLoyaltyObservable.onNext(isVipAccess && response.doesAnyHotelRateOfAnyRoomHaveLoyaltyInfo)
         hasRegularLoyaltyPointsAppliedObservable.onNext(!isVipAccess && response.doesAnyHotelRateOfAnyRoomHaveLoyaltyInfo)
         promoMessageObservable.onNext(getPromoText(firstHotelRoomResponse))
+        val earnMessage = getEarnMessage(context, chargeableRateInfo?.loyaltyInfo?.earn)
+        val earnMessageVisibility = earnMessage.isNotBlank() && PointOfSale.getPointOfSale().isEarnMessageEnabledForHotels && User.isLoggedIn(context)
+        earnMessageObservable.onNext(earnMessage)
+        earnMessageVisibilityObservable.onNext(earnMessageVisibility)
+        promoMessageVisibilityObservable.onNext(!earnMessageVisibility)
 
         val priceToShowUsers = chargeableRateInfo?.priceToShowUsers ?: 0f
         val strikethroughPriceToShowUsers = chargeableRateInfo?.strikethroughPriceToShowUsers ?: 0f
-        if (priceToShowUsers < strikethroughPriceToShowUsers) {
+
+        val isStrikeThroughPriceGreaterThanPriceToShowUsers = priceToShowUsers < strikethroughPriceToShowUsers
+        strikeThroughPriceGreaterThanPriceToShowUsersObservable.onNext(isStrikeThroughPriceGreaterThanPriceToShowUsers)
+        if (isStrikeThroughPriceGreaterThanPriceToShowUsers) {
             strikeThroughPriceObservable.onNext(priceFormatter(context.resources, chargeableRateInfo, true, !hotelOffersResponse.isPackage))
         }
 
@@ -341,17 +355,17 @@ class HotelDetailViewModel(val context: Context, val hotelServices: HotelService
         HotelV2Tracking().trackHotelV2EtpInfo()
     }
 
-    val strikeThroughPriceVisibility = Observable.combineLatest(showDiscountPercentageObservable, hotelSoldOut)
-    { hasDiscount, hotelSoldOut -> hasDiscount && !hotelSoldOut }
+    val strikeThroughPriceVisibility = Observable.combineLatest(strikeThroughPriceGreaterThanPriceToShowUsersObservable, hotelSoldOut)
+    { strikeThroughPriceGreaterThanPriceToShowUsers, hotelSoldOut -> strikeThroughPriceGreaterThanPriceToShowUsers && !hotelSoldOut }
 
     val perNightVisibility = Observable.combineLatest(onlyShowTotalPrice, hotelSoldOut) { onlyShowTotalPrice, hotelSoldOut -> onlyShowTotalPrice || hotelSoldOut }
 
     val payByPhoneContainerVisibility = Observable.combineLatest(showBookByPhoneObservable, hotelSoldOut) { showBookByPhoneObservable, hotelSoldOut -> showBookByPhoneObservable && !hotelSoldOut }
 
-    val hotelMessagingContainerVisibility = Observable.combineLatest(showDiscountPercentageObservable, hasVipAccessObservable, promoMessageObservable, hotelSoldOut, hasRegularLoyaltyPointsAppliedObservable, showAirAttachSWPImageObservable)
+    val hotelMessagingContainerVisibility = Observable.combineLatest(showDiscountPercentageObservable, hasVipAccessObservable, promoMessageObservable, hotelSoldOut, hasRegularLoyaltyPointsAppliedObservable, showAirAttachSWPImageObservable, earnMessageObservable)
     {
-        hasDiscount, hasVipAccess, promoMessage, hotelSoldOut, hasRegularLoyaltyPointsApplied, shouldShowAirAttachSWPImage ->
-        (hasDiscount || hasVipAccess || Strings.isNotEmpty(promoMessage) || hasRegularLoyaltyPointsApplied || shouldShowAirAttachSWPImage) && !hotelSoldOut
+        hasDiscount, hasVipAccess, promoMessage, hotelSoldOut, hasRegularLoyaltyPointsApplied, shouldShowAirAttachSWPImage, earnMessage ->
+        (hasDiscount || hasVipAccess || Strings.isNotEmpty(promoMessage) || Strings.isNotEmpty(earnMessage) || hasRegularLoyaltyPointsApplied || shouldShowAirAttachSWPImage) && !hotelSoldOut
     }
 
     val etpContainerVisibility = Observable.combineLatest(hasETPObservable, hotelSoldOut) { hasETPOffer, hotelSoldOut -> hasETPOffer && !hotelSoldOut }
@@ -616,6 +630,11 @@ class HotelDetailViewModel(val context: Context, val hotelServices: HotelService
 }
 
 val ROOMS_LEFT_CUTOFF = 5
+private fun getEarnMessage(context: Context, earn: LoyaltyEarnInfo?): String {
+    val earnMessagePointsOrPrice = earn?.getEarnMessagePointsOrPrice()
+    if (earnMessagePointsOrPrice?.isNotBlank() ?: false) return Phrase.from(context.resources, R.string.earn_message_TEMPLATE).put("earn", earnMessagePointsOrPrice).format().toString()
+    else return ""
+}
 
 class HotelRoomRateViewModel(val context: Context, var hotelId: String, var hotelRoomResponse: HotelOffersResponse.HotelRoomResponse, var amenity: String, var rowIndex: Int, var rowExpanding: PublishSubject<Int>, var selectedRoomObserver: Observer<HotelOffersResponse.HotelRoomResponse>, val hasETP: Boolean) {
 
@@ -642,6 +661,9 @@ class HotelRoomRateViewModel(val context: Context, var hotelId: String, var hote
     val expandedAmenityObservable = BehaviorSubject.create<String>()
     val expandedMessageObservable = BehaviorSubject.create<Pair<String, @DrawableRes Int>>()
     val collapsedUrgencyObservable = BehaviorSubject.create<String>()
+    val collapsedEarnMessageObservable = BehaviorSubject.create<String>()
+    val collapsedUrgencyVisibilityObservable = BehaviorSubject.create<Boolean>()
+    val collapsedEarnMessageVisibilityObservable = BehaviorSubject.create<Boolean>()
     val strikeThroughPriceObservable = BehaviorSubject.create<CharSequence>()
     val dailyPricePerNightObservable = BehaviorSubject.create<String>()
     val perNightPriceVisibleObservable = BehaviorSubject.create<Boolean>()
@@ -654,6 +676,7 @@ class HotelRoomRateViewModel(val context: Context, var hotelId: String, var hote
     val expandedMeasurementsDone = PublishSubject.create<Unit>()
     val roomInfoExpandCollapseObservable = PublishSubject.create<Unit>()
     val roomInfoExpandCollapseObservable1 = PublishSubject.create<Unit>()
+    val shouldShowDiscountPercentage = BehaviorSubject.create<Boolean>()
     val discountPercentage = BehaviorSubject.create<String>()
     val depositTerms = BehaviorSubject.create<List<String>>()
 
@@ -722,19 +745,19 @@ class HotelRoomRateViewModel(val context: Context, var hotelId: String, var hote
         val isPayLater = hotelRoomResponse.isPayLater
         val chargeableRateInfo = rateInfo.chargeableRateInfo
         val discountPercent = HotelUtils.getDiscountPercent(chargeableRateInfo)
+        val isShopWithPoints = chargeableRateInfo.loyaltyInfo?.isShopWithPoints ?: false
 
         //resetting the text for views
         strikeThroughPriceObservable.onNext("")
         discountPercentage.onNext("")
         expandedAmenityObservable.onNext("")
 
-        if (discountPercent >= 9.5) {
-            // discount is 10% or better
-            discountPercentage.onNext(context.resources.getString(R.string.percent_off_TEMPLATE, discountPercent))
-            if (!isPayLater && (chargeableRateInfo.priceToShowUsers < chargeableRateInfo.strikethroughPriceToShowUsers)) {
-                val strikeThroughPriceToShowUsers = Money(BigDecimal(chargeableRateInfo.strikethroughPriceToShowUsers.toDouble()), currencyCode).formattedMoney
-                strikeThroughPriceObservable.onNext(Html.fromHtml(context.resources.getString(R.string.strike_template, strikeThroughPriceToShowUsers), null, StrikethroughTagHandler()))
-            }
+        shouldShowDiscountPercentage.onNext(chargeableRateInfo.isDiscountPercentNotZero && !isShopWithPoints && !chargeableRateInfo.isShowAirAttached())
+
+        discountPercentage.onNext(context.resources.getString(R.string.percent_off_TEMPLATE, discountPercent))
+        if (!isPayLater && (chargeableRateInfo.priceToShowUsers < chargeableRateInfo.strikethroughPriceToShowUsers)) {
+            val strikeThroughPriceToShowUsers = Money(BigDecimal(chargeableRateInfo.strikethroughPriceToShowUsers.toDouble()), currencyCode).formattedMoney
+            strikeThroughPriceObservable.onNext(Html.fromHtml(context.resources.getString(R.string.strike_template, strikeThroughPriceToShowUsers), null, StrikethroughTagHandler()))
         }
 
         //TODO: Get Package hotel Delta Price Type
@@ -775,6 +798,15 @@ class HotelRoomRateViewModel(val context: Context, var hotelId: String, var hote
         } else {
             collapsedUrgencyObservable.onNext(expandedPair.first)
         }
+
+        val earnMessage = getEarnMessage(context, chargeableRateInfo?.loyaltyInfo?.earn)
+        val earnMessageVisibility = earnMessage.isNotBlank() && PointOfSale.getPointOfSale().isEarnMessageEnabledForHotels && User.isLoggedIn(context)
+
+        collapsedEarnMessageVisibilityObservable.onNext(earnMessageVisibility)
+        collapsedEarnMessageObservable.onNext(earnMessage)
+        collapsedUrgencyVisibilityObservable.onNext(!earnMessageVisibility)
+
+
         if (Strings.isNotEmpty(amenity)) expandedAmenityObservable.onNext(amenity)
         roomInfoExpandCollapseObservable1.onNext(Unit)
         lastRoomSelectedSubscription?.unsubscribe()

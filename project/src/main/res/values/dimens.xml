@@ -44,6 +44,7 @@
     <dimen name="launch_five_lob_button_top_padding">8dp</dimen>
     <dimen name="launch_lob_button_text_size">20sp</dimen>
     <dimen name="launch_five_lob_button_text_size">16sp</dimen>
+    <dimen name="launch_toolbar_elevation">10dp</dimen>
 
     <!-- Itinerary dimens -->
     <dimen name="itin_card_collapsed_height">138.5dp</dimen>
@@ -142,6 +143,7 @@
     <dimen name="standard_content_width">@dimen/match_parent</dimen>
     <dimen name="hotel_checkout_overview_width">@dimen/standard_content_width</dimen>
     <dimen name="hotel_checkout_overview_image_height">120dp</dimen>
+    <dimen name="checkout_login_padding_top">10dp</dimen>
 
     <!-- Dimensions For hotel traveler edit page -->
     <dimen name="hotel_traveler_edit_email_disclaimer_text_size">12sp</dimen>
@@ -249,7 +251,6 @@
     <!-- Hotel Dimensions -->
     <!-- Dimensions for Hotel Traveler Table -->
     <dimen name="hotel_traveler_table_margin">14dp</dimen>
-    <dimen name="hotel_traveler_padding">28dp</dimen>
     <dimen name="hotel_traveler_plus_minus_size">40dp</dimen>
 
     <!-- Dimensions for Hotel Results -->

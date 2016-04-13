@@ -85,7 +85,6 @@ class HotelMapCarouselAdapter(var hotels: List<Hotel>, val hotelSubject: Publish
         override fun onClick(view: View) {
             val hotel: Hotel = hotels[adapterPosition]
             hotelSubject.onNext(hotel)
-            HotelV2Tracking().trackHotelV2CarouselClick()
         }
 
         var hotelId: String by Delegates.notNull()

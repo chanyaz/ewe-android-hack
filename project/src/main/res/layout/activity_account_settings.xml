@@ -89,8 +89,8 @@
                         android:paddingLeft="12dp"
                         android:paddingRight="12dp"
                         android:paddingTop="6dp"
-                        tools:text="+silver"
-                        tools:textColor="@color/expedia_plus_silver_text" />
+                        tools:textColor="@color/expedia_plus_silver_text"
+                        tools:text="+silver" />
                 </LinearLayout>
             </FrameLayout>
         </LinearLayout>
@@ -109,77 +109,145 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
-            <RelativeLayout
+            <LinearLayout
                 android:id="@+id/section_loyalty_info"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingLeft="55dp"
+                android:paddingRight="50dp"
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp"
                 android:background="@color/account_toolbar_background_color"
-                android:paddingBottom="16dp"
-                android:paddingLeft="20dp"
-                android:paddingRight="20dp"
-                android:paddingTop="16dp">
+                android:visibility="gone">
+
+                <RelativeLayout
+                    android:id="@+id/first_row_container"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="10dp">
+
+                    <View
+                        android:id="@+id/center"
+                        android:layout_width="1dp"
+                        android:layout_height="1dp"
+                        android:layout_centerHorizontal="true" />
+
+                    <com.expedia.bookings.widget.TextView
+                        android:id="@+id/available_points_label"
+                        style="@style/AccountDashboardLabel"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:layout_toLeftOf="@id/center"
+                        android:text="@string/available_loyalty_points" />
+
+                    <com.expedia.bookings.widget.TextView
+                        android:id="@+id/available_points"
+                        style="@style/AccountDashboardValue"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:layout_below="@id/available_points_label"
+                        android:layout_marginTop="4dp"
+                        android:layout_toLeftOf="@id/center"
+                        tools:text="51,203" />
+
+                    <com.expedia.bookings.widget.TextView
+                        android:id="@+id/pending_points"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:layout_below="@id/available_points"
+                        android:layout_toLeftOf="@id/center"
+                        android:textColor="@color/account_toolbar_text_color_light"
+                        android:textSize="13sp"
+                        app:textStyle="light"
+                        tools:text="1,176 pending" />
+
+                    <com.expedia.bookings.widget.TextView
+                        android:id="@+id/points_monetary_value_label"
+                        style="@style/AccountDashboardLabel"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignBaseline="@id/available_points_label"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginRight="20dp"
+                        android:layout_toRightOf="@+id/center"
+                        android:text="@string/points_value_label" />
+
+                    <com.expedia.bookings.widget.TextView
+                        android:id="@+id/points_monetary_value"
+                        style="@style/AccountDashboardValue"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignBaseline="@id/available_points"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginRight="20dp"
+                        android:layout_toRightOf="@+id/center"
+                        android:drawablePadding="8dp"
+                        android:gravity="center_vertical" />
+
+                    <include
+                        android:id="@+id/first_row_country"
+                        layout="@layout/account_settings_country"
+                        android:layout_height="wrap_content"
+                        android:layout_width="wrap_content"
+                        android:layout_marginLeft="20dp"
+                        android:visibility="visible"
+                        android:layout_toRightOf="@+id/center"
+                        android:layout_alignTop="@+id/available_points_label"
+                        android:gravity="center_vertical" />
+                </RelativeLayout>
 
                 <View
-                    android:id="@+id/center"
-                    android:layout_width="1dp"
+                    android:id="@+id/row_divider"
+                    android:layout_width="match_parent"
                     android:layout_height="1dp"
-                    android:layout_centerHorizontal="true" />
+                    android:background="#4CEEEEEE"/>
 
-                <com.expedia.bookings.widget.TextView
-                    android:id="@+id/available_points_label"
-                    style="@style/AccountDashboardLabel"
-                    android:layout_width="wrap_content"
+                <RelativeLayout
+                    android:id="@+id/second_row_container"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentLeft="true"
-                    android:layout_toLeftOf="@id/center"
-                    android:text="@string/available_loyalty_points" />
+                    android:paddingTop="10dp">
 
-                <com.expedia.bookings.widget.TextView
-                    android:id="@+id/available_points"
-                    style="@style/AccountDashboardValue"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentLeft="true"
-                    android:layout_below="@id/available_points_label"
-                    android:layout_marginTop="4dp"
-                    android:layout_toLeftOf="@id/center"
-                    tools:text="51,203" />
+                    <View
+                        android:id="@+id/center_second_row"
+                        android:layout_width="1dp"
+                        android:layout_height="1dp"
+                        android:layout_centerHorizontal="true" />
 
-                <com.expedia.bookings.widget.TextView
-                    android:id="@+id/pending_points"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentLeft="true"
-                    android:layout_below="@id/available_points"
-                    android:layout_toLeftOf="@id/center"
-                    android:textColor="@color/account_toolbar_text_color_light"
-                    android:textSize="13sp"
-                    app:textStyle="light"
-                    tools:text="1,176 pending" />
+                    <com.expedia.bookings.widget.TextView
+                        android:id="@+id/currency_label"
+                        style="@style/AccountDashboardLabel"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:layout_toLeftOf="@id/center_second_row"
+                        android:text="@string/currency_label" />
 
-                <com.expedia.bookings.widget.TextView
-                    android:id="@+id/country_label"
-                    style="@style/AccountDashboardLabel"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignBaseline="@id/available_points_label"
-                    android:layout_marginLeft="20dp"
-                    android:layout_toRightOf="@+id/center"
-                    android:text="@string/preference_point_of_sale_title" />
+                    <com.expedia.bookings.widget.TextView
+                        android:id="@+id/currency"
+                        style="@style/AccountDashboardValue"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:layout_below="@id/currency_label"
+                        android:layout_marginTop="4dp"
+                        android:layout_toLeftOf="@id/center_second_row"/>
 
-                <com.expedia.bookings.widget.TextView
-                    android:id="@+id/country"
-                    style="@style/AccountDashboardValue"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignBaseline="@id/available_points"
-                    android:layout_marginLeft="20dp"
-                    android:layout_toRightOf="@+id/center"
-                    android:drawablePadding="8dp"
-                    android:gravity="center_vertical"
-                    tools:drawableLeft="@drawable/ic_flag_us"
-                    tools:text="USA" />
-            </RelativeLayout>
+                    <include
+                        android:id="@+id/second_row_country"
+                        layout="@layout/account_settings_country"
+                        android:layout_height="wrap_content"
+                        android:layout_width="wrap_content"
+                        android:layout_marginLeft="20dp"
+                        android:layout_toRightOf="@+id/center_second_row"
+                        android:layout_alignTop="@+id/currency_label"
+                        android:gravity="center_vertical" />
+                </RelativeLayout>
+            </LinearLayout>
 
             <LinearLayout
                 android:id="@+id/section_sign_in"

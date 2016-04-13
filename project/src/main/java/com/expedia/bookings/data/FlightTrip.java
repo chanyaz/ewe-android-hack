@@ -11,6 +11,7 @@ import android.text.TextUtils;
 import com.expedia.bookings.data.payment.LoyaltyEarnInfo;
 import com.expedia.bookings.model.FlightPaymentFlowState;
 import com.expedia.bookings.utils.GsonUtil;
+import com.mobiata.android.Log;
 import com.mobiata.android.json.JSONUtils;
 import com.mobiata.android.json.JSONable;
 import com.mobiata.flightlib.data.Flight;
@@ -682,6 +683,8 @@ public class FlightTrip implements JSONable {
 	private static final String KEY_CURRENCY = "t";
 	private static final String KEY_PASSENGERS = "v";
 	private static final String KEY_AVG_TOTAL_FARE = "w";
+	private static final String KEY_EARN_INFO = "earnInfo";
+
 
 	@Override
 	public JSONObject toJson() {
@@ -696,6 +699,9 @@ public class FlightTrip implements JSONable {
 
 			obj.putOpt(KEY_PRODUCT_KEY, mProductKey);
 
+			if (earnInfo != null) {
+				obj.put(KEY_EARN_INFO, earnInfo);
+			}
 			if (includeFullLegData) {
 				JSONUtils.putJSONableList(obj, KEY_LEGS, mLegs);
 			}
@@ -794,6 +800,16 @@ public class FlightTrip implements JSONable {
 			for (int a = 0; a < legIds.length(); a++) {
 				addLeg(legMap.get(legIds.opt(a)));
 			}
+		}
+
+		try {
+			Object earnInfo = obj.get(KEY_EARN_INFO);
+			if (earnInfo != null) {
+				this.earnInfo = (LoyaltyEarnInfo) earnInfo;
+			}
+		}
+		catch (JSONException e) {
+			Log.e("Could not parse LoyaltyEarnInfo.", e);
 		}
 
 		String currency = obj.optString(KEY_CURRENCY);

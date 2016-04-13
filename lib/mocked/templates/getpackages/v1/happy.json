@@ -4670,6 +4670,19 @@
           "allTaxesAndAllFeesPerPersonFormatted": null
         },
         "urgencyMessage": null,
+        "brandedDealData": {
+          "dealVariation": "HotelDeal",
+          "freeNights": 1,
+          "savingsAmount": "$110",
+          "savingPercentageOverPackagePrice": 22,
+          "savingPercentageOverHotelPrice": 50,
+          "savingPercentageOverFlightPrice": 40,
+          "currentViewCount": 3
+        },
+        "brandedDeals": [
+          "HotelDeal",
+          "FreeOneNightHotel"
+        ],
         "promoCampaignLogoURI": "",
         "bookingCount": 0,
         "minutesSinceLastBooking": -1,

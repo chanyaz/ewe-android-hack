@@ -9,6 +9,7 @@ import com.google.gson.annotations.SerializedName;
 
 public class PackageSearchResponse extends PackageBaseApiResponse {
 	public PackageResult packageResult;
+	public UniversalDataObject universalDataObject;
 
 	public static class PackageResult {
 		@SerializedName("hotels")
@@ -25,5 +26,30 @@ public class PackageSearchResponse extends PackageBaseApiResponse {
 
 	public static class FlightPackage {
 		public transient List<FlightLeg> flights = new ArrayList<>();
+	}
+
+	public static class UniversalDataObject {
+		public Entity entity;
+	}
+
+	public static class Entity {
+		public PackageFHSearch packageFHSearch;
+	}
+
+	public static class PackageFHSearch {
+		public PackageFHSearchResults packageFHSearchResults;
+	}
+
+	public static class PackageFHSearchResults {
+		public int resultsCount;
+		public int sponsoredListingsSize;
+	}
+
+	public static int getHotelResultsCount(PackageSearchResponse response) {
+		return response.universalDataObject.entity.packageFHSearch.packageFHSearchResults.resultsCount;
+	}
+
+	public static boolean hasSponsoredHotelListing(PackageSearchResponse response) {
+		return response.universalDataObject.entity.packageFHSearch.packageFHSearchResults.sponsoredListingsSize > 0;
 	}
 }

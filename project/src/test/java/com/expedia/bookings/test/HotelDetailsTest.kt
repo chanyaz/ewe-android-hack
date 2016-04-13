@@ -505,6 +505,8 @@ class HotelDetailsTest {
         lowRateInfo.discountPercent = -20f
         lowRateInfo.currencyCode = "USD"
         lowRateInfo.showResortFeeMessage = false
+        lowRateInfo.priceToShowUsers = 200f
+        lowRateInfo.strikethroughPriceToShowUsers = 210f
 
         val rateInfo = HotelOffersResponse.RateInfo()
         rateInfo.chargeableRateInfo = lowRateInfo

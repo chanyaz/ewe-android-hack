@@ -26,14 +26,14 @@ class TravelerWidgetV2(context: Context, attrs: AttributeSet?) : SearchInputCard
         travelerView.viewmodel = HotelTravelerPickerViewModel(context)
         travelerView.viewmodel.travelerParamsObservable.subscribe(travelersSubject)
         travelerView.viewmodel.guestsTextObservable.subscribeText(this.text)
-        travelerView.viewmodel.tooManyInfants.subscribe { enabled ->
-            travelerDialog.getButton(AlertDialog.BUTTON_POSITIVE).isEnabled = !enabled
+        travelerView.viewmodel.tooManyInfants.subscribe { tooManyInfants ->
+            travelerDialog.getButton(AlertDialog.BUTTON_POSITIVE)?.isEnabled = !tooManyInfants
         }
         travelerView
     }
 
     val travelerDialog: AlertDialog by lazy {
-        val builder = AlertDialog.Builder(context)
+        val builder = AlertDialog.Builder(context, R.style.Theme_AlertDialog)
         traveler
         builder.setView(travelerDialogView)
         builder.setPositiveButton(context.getString(R.string.DONE), { dialog, which ->

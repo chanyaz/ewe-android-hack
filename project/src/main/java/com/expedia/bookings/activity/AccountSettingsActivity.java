@@ -32,8 +32,10 @@ import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.LineOfBusiness;
+import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.data.User;
+import com.expedia.bookings.data.UserLoyaltyMembershipInformation;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.dialog.ClearPrivateDataDialog;
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
@@ -405,27 +407,33 @@ public class AccountSettingsActivity extends AppCompatActivity implements AboutS
 	}
 
 	private void adjustLoggedInViews() {
-		if (User.isLoggedIn(this)) {
-			Ui.findView(this, R.id.toolbar_signed_in).setVisibility(View.VISIBLE);
-			Ui.findView(this, R.id.toolbar_not_signed_in).setVisibility(View.GONE);
-			Ui.findView(this, R.id.section_sign_in).setVisibility(View.GONE);
-			Ui.findView(this, R.id.sign_out_button).setVisibility(View.VISIBLE);
+		View signOutButton = Ui.findView(this, R.id.sign_out_button);
+		View toolbarNotSignedIn = Ui.findView(this, R.id.toolbar_not_signed_in);
+		View toolbarSignedIn = Ui.findView(this, R.id.toolbar_signed_in);
+		ViewGroup loyaltySection = Ui.findView(this, R.id.section_loyalty_info);
+		View sectionSignIn = Ui.findView(this, R.id.section_sign_in);
 
-			ViewGroup loyaltySection = Ui.findView(this, R.id.section_loyalty_info);
+		if (User.isLoggedIn(this)) {
+			sectionSignIn.setVisibility(View.GONE);
+			toolbarSignedIn.setVisibility(View.VISIBLE);
+			toolbarNotSignedIn.setVisibility(View.GONE);
+			signOutButton.setVisibility(View.VISIBLE);
+
 			TextView memberNameView = Ui.findView(this, R.id.toolbar_name);
 			TextView memberEmailView = Ui.findView(this, R.id.toolbar_email);
 			TextView memberTierView = Ui.findView(this, R.id.toolbar_loyalty_tier_text);
 
-			Traveler member = Db.getUser().getPrimaryTraveler();
+			User user = Db.getUser();
+			Traveler member = user.getPrimaryTraveler();
 
 			memberNameView.setText(member.getFullName());
 			memberEmailView.setText(member.getEmail());
 
-			if (member.getIsLoyaltyMembershipActive()) {
-				loyaltySection.setVisibility(View.VISIBLE);
-				memberTierView.setVisibility(View.VISIBLE);
+			UserLoyaltyMembershipInformation userLoyaltyInfo = user.getLoyaltyMembershipInformation();
 
-				switch (member.getLoyaltyMembershipTier()) {
+			if (userLoyaltyInfo != null && userLoyaltyInfo.isLoyaltyMembershipActive()) {
+
+				switch (userLoyaltyInfo.getLoyaltyMembershipTier()) {
 				case BLUE:
 					memberTierView.setBackgroundResource(R.drawable.bg_loyalty_badge_base_tier);
 					memberTierView.setTextColor(ContextCompat.getColor(this, R.color.expedia_plus_blue_text));
@@ -452,24 +460,44 @@ public class AccountSettingsActivity extends AppCompatActivity implements AboutS
 				TextView pendingPointsTextView = Ui.findView(this, R.id.pending_points);
 
 				NumberFormat numberFormatter = NumberFormat.getInstance();
-				availablePointsTextView.setText(numberFormatter.format(member.getLoyaltyPointsAvailable()));
+				availablePointsTextView.setText(numberFormatter.format(userLoyaltyInfo.getLoyaltyPointsAvailable()));
+
 				if (member.getLoyaltyPointsPending() > 0) {
 					pendingPointsTextView.setVisibility(View.VISIBLE);
-					pendingPointsTextView.setText(getString(R.string.loyalty_points_pending,
-							numberFormatter.format(member.getLoyaltyPointsPending())));
+					pendingPointsTextView.setText(getString(R.string.loyalty_points_pending, numberFormatter.format(userLoyaltyInfo.getLoyaltyPointsPending())));
 				}
 				else {
 					pendingPointsTextView.setVisibility(View.GONE);
 				}
 
-				TextView countryTextView = Ui.findView(this, R.id.country);
-				PointOfSale pos = PointOfSale.getPointOfSale();
-				countryTextView.setText(pos.getThreeLetterCountryCode());
-				LayerDrawable flag = new LayerDrawable(new Drawable[] {
-					ContextCompat.getDrawable(this, pos.getCountryFlagResId()),
-					ContextCompat.getDrawable(this, R.drawable.fg_flag_circle)
-				});
-				countryTextView.setCompoundDrawablesWithIntrinsicBounds(flag, null, null, null);
+				TextView currencyTextView = Ui.findView(this, R.id.currency);
+				TextView pointsMonetaryValueLabel = Ui.findView(this, R.id.points_monetary_value_label);
+				TextView pointsMonetaryValueTextView = Ui.findView(this, R.id.points_monetary_value);
+				View secondRowContainer = Ui.findView(this, R.id.second_row_container);
+				View rowDivider = Ui.findView(this, R.id.row_divider);
+				View firstRowCountry = Ui.findView(this, R.id.first_row_country);
+
+				if (userLoyaltyInfo.isAllowedToShopWithPoints()) {
+					Money loyaltyMonetaryValue = userLoyaltyInfo.getLoyaltyMonetaryValue();
+					currencyTextView.setText(loyaltyMonetaryValue.getCurrency());
+					pointsMonetaryValueTextView.setText(loyaltyMonetaryValue.getFormattedMoney());
+					setupCountryView((TextView) secondRowContainer.findViewById(R.id.country));
+					pointsMonetaryValueTextView.setVisibility(View.VISIBLE);
+					pointsMonetaryValueLabel.setVisibility(View.VISIBLE);
+					secondRowContainer.setVisibility(View.VISIBLE);
+					rowDivider.setVisibility(View.VISIBLE);
+					firstRowCountry.setVisibility(View.GONE);
+				}
+				else {
+					setupCountryView((TextView) firstRowCountry.findViewById(R.id.country));
+					secondRowContainer.setVisibility(View.GONE);
+					pointsMonetaryValueTextView.setVisibility(View.GONE);
+					pointsMonetaryValueLabel.setVisibility(View.GONE);
+					firstRowCountry.setVisibility(View.VISIBLE);
+					rowDivider.setVisibility(View.GONE);
+				}
+				loyaltySection.setVisibility(View.VISIBLE);
+				memberTierView.setVisibility(View.VISIBLE);
 			}
 			else {
 				loyaltySection.setVisibility(View.GONE);
@@ -477,12 +505,6 @@ public class AccountSettingsActivity extends AppCompatActivity implements AboutS
 			}
 		}
 		else {
-			Ui.findView(this, R.id.toolbar_signed_in).setVisibility(View.GONE);
-			Ui.findView(this, R.id.toolbar_not_signed_in).setVisibility(View.VISIBLE);
-			Ui.findView(this, R.id.section_loyalty_info).setVisibility(View.GONE);
-			Ui.findView(this, R.id.section_sign_in).setVisibility(View.VISIBLE);
-			Ui.findView(this, R.id.sign_out_button).setVisibility(View.GONE);
-
 			View facebookButton = Ui.findView(this, R.id.sign_in_with_facebook_button);
 			if (ProductFlavorFeatureConfiguration.getInstance().isFacebookLoginIntegrationEnabled()) {
 				facebookButton.setVisibility(View.VISIBLE);
@@ -496,6 +518,12 @@ public class AccountSettingsActivity extends AppCompatActivity implements AboutS
 				Phrase.from(this, R.string.acct__Create_a_new_brand_account)
 					.put("brand", BuildConfig.brand)
 					.format());
+
+			sectionSignIn.setVisibility(View.VISIBLE);
+			toolbarSignedIn.setVisibility(View.GONE);
+			toolbarNotSignedIn.setVisibility(View.VISIBLE);
+			loyaltySection.setVisibility(View.GONE);
+			signOutButton.setVisibility(View.GONE);
 		}
 	}
 
@@ -640,5 +668,15 @@ public class AccountSettingsActivity extends AppCompatActivity implements AboutS
 				Db.setMemoryTestActive(true);
 			}
 		}
+	}
+
+	private void setupCountryView(TextView countryTextView) {
+		PointOfSale pos = PointOfSale.getPointOfSale();
+		countryTextView.setText(pos.getThreeLetterCountryCode());
+		LayerDrawable flag = new LayerDrawable(new Drawable[] {
+			ContextCompat.getDrawable(this, pos.getCountryFlagResId()),
+			ContextCompat.getDrawable(this, R.drawable.fg_flag_circle)
+		});
+		countryTextView.setCompoundDrawablesWithIntrinsicBounds(flag, null, null, null);
 	}
 }

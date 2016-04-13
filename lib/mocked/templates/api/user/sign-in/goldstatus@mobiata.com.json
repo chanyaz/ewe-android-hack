@@ -33,19 +33,22 @@
   "loyaltyPointsPending": 5601,
   "loyaltyMemebershipName": "REWARDS",
   "membershipTierName": "Gold",
-  "loyaltyTierCredits": {
-    "m_pointsAmount": 0,
-    "m_grossBookingValue": {
-      "amount": 901.06,
-      "currency": {
-        "currencyCode": "USD"
-      },
-      "uCurrency": {
-        "isoCode": "USD"
-      }
-    },
-    "m_roomNights": 6,
-    "thisClass": {}
+  "loyaltyMembershipInfo": {
+    "loyaltyAccountNumber": "872010",
+    "loyaltyMembershipNumber": "312172038",
+    "loyaltyMemebershipActive": true,
+    "loyaltyPointsAvailable": 54206,
+    "loyaltyPointsPending": 5601,
+    "loyaltyMemebershipName": "REWARDS",
+    "membershipTierName": "Gold",
+    "bookingCurrency": "USD",
+    "isAllowedToShopWithPoints": true,
+    "loyaltyMonetaryValue": {
+      "amount": "42.00",
+      "formattedPrice": "$42.00",
+      "formattedWholePrice": "$42",
+      "currencyCode": "USD"
+    }
   },
   "isSmokingPreferred": false,
   "tsaDetails": {

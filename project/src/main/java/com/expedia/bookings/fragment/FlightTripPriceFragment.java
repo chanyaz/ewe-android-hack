@@ -16,6 +16,8 @@ import com.expedia.bookings.dialog.BreakdownDialogFragment;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.section.SectionFlightTrip;
 import com.expedia.bookings.utils.FragmentBailUtils;
+import com.expedia.bookings.utils.ShopWithPointsFlightsUtil;
+import com.expedia.bookings.utils.Strings;
 import com.expedia.bookings.utils.Ui;
 
 public class FlightTripPriceFragment extends Fragment {
@@ -48,6 +50,14 @@ public class FlightTripPriceFragment extends Fragment {
 
 		mPriceChangeContainer = Ui.findView(mFragmentContent, R.id.price_change_notification_container);
 		mPriceChangedTv = Ui.findView(mFragmentContent, R.id.price_change_notification_text);
+
+		if (ShopWithPointsFlightsUtil.isShopWithPointsEnabled(getContext())) {
+			CharSequence earnInfoTextToDisplay = ShopWithPointsFlightsUtil.getEarnInfoTextToDisplay(getContext(), mTrip);
+			if (Strings.isNotEmpty(earnInfoTextToDisplay)) {
+				TextView earnMessaging = Ui.findView(mTripSection, R.id.earn_message);
+				earnMessaging.setText(earnInfoTextToDisplay);
+			}
+		}
 
 		View priceSection = Ui.findView(mTripSection, R.id.price_section);
 		priceSection.setOnClickListener(new OnClickListener() {

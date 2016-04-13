@@ -54,7 +54,8 @@ public class BaseTravelerPresenterTestHelper {
 		testToolbar = (CheckoutToolbar) activityTestRule.getRoot().findViewById(R.id.checkout_toolbar);
 		testToolbar.setViewModel(new CheckoutToolbarViewModel(activityTestRule.getActivity()));
 		testTravelerPresenter.getToolbarTitleSubject().subscribe(testToolbar.getViewModel().getToolbarTitle());
-		testTravelerPresenter.getTravelerEntryWidget().getFocusedView().subscribe(testToolbar.getViewModel().getEditText());
+		testTravelerPresenter.getTravelerEntryWidget().getFocusedView().subscribe(testToolbar.getViewModel().getCurrentFocus());
+		testTravelerPresenter.getTravelerEntryWidget().getFilledIn().subscribe(testToolbar.getViewModel().getFormFilledIn());
 		testTravelerPresenter.getMenuVisibility().subscribe(testToolbar.getViewModel().getMenuVisibility());
 		testToolbar.getViewModel().getDoneClicked().subscribe(testTravelerPresenter.getTravelerEntryWidget().getDoneClicked());
 		testName.setFirstName(testFirstName);

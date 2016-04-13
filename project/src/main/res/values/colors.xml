@@ -99,7 +99,7 @@
     <color name="flight_edit_search_button_color">@color/black</color>
 
     <!-- Hotels colors -->
-    <color name="hotel_search_background">#EEEEEE</color>
+    <color name="search_anim_background">#EEEEEE</color>
     <color name="hotels_primary_color">@color/expedia_hotels_color</color>
     <color name="hotels_cc_text_color_secondary">#868a8f</color>
     <color name="hotelsv2_discount_green">#6BCA2C</color>
@@ -133,6 +133,7 @@
     <color name="hotel_review_actionbar_tab_text_unselected">@color/actionbar_tab_text_unselected</color>
     <color name="hotel_checkout_account_button_background_color">#384768</color>
     <color name="hotel_coupon_code_error_message_color">#FFDD2C00</color>
+    <color name="hotel_earn_message_text_color">#c4204b</color>
 
     <!-- Hotel reviews colors -->
     <color name="hotel_review_background_color">#FAFAFA</color>
@@ -322,6 +323,8 @@
     <!-- Launch colors -->
     <color name="launch_toolbar_background_color">#495863</color>
     <color name="launch_tab_indicator">#FFED18</color>
+    <!-- New Launch Screen colors -->
+    <color name="new_launch_toolbar_background_color">#5050FF</color>
 
     <!-- LX colors -->
     <color name="lx_primary_color">#E88534</color>

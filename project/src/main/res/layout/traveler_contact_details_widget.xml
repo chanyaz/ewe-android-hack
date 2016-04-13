@@ -27,15 +27,15 @@
 
             <com.expedia.bookings.widget.TextView
                 android:id="@+id/enter_details_text"
+                style="@style/CheckoutWidgetPrimaryTextStyle"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                style="@style/CheckoutWidgetPrimaryTextStyle" />
+                android:layout_height="wrap_content" />
 
             <com.expedia.bookings.widget.TextView
                 android:id="@+id/traveler_phone_text"
+                style="@style/CheckoutWidgetSecondaryTextStyle"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                style="@style/CheckoutWidgetSecondaryTextStyle" />
+                android:layout_height="wrap_content" />
 
         </LinearLayout>
 
@@ -79,8 +79,7 @@
                 android:focusableInTouchMode="true"
                 android:hint="@string/first_name"
                 android:inputType="textPersonName|textCapWords"
-                android:nextFocusDown="@+id/edit_last_name"
-                android:nextFocusRight="@+id/edit_last_name"
+                android:nextFocusForward="@+id/edit_last_name"
                 android:paddingBottom="12dp"
                 android:singleLine="true"></EditText>
 
@@ -92,8 +91,7 @@
                 android:layout_weight="1"
                 android:hint="@string/last_name"
                 android:inputType="textPersonName|textCapWords"
-                android:nextFocusDown="@+id/edit_email_address"
-                android:nextFocusRight="@+id/edit_email_address"
+                android:nextFocusForward="@+id/edit_email_address"
                 android:paddingBottom="12dp"
                 android:singleLine="true" />
         </LinearLayout>
@@ -104,8 +102,7 @@
             android:layout_height="wrap_content"
             android:hint="@string/email_address_hint"
             android:inputType="textEmailAddress"
-            android:nextFocusDown="@+id/edit_phone_number"
-            android:nextFocusRight="@+id/edit_phone_number"
+            android:nextFocusForward="@+id/edit_phone_number"
             android:singleLine="true"
             android:textSize="16sp" />
 
@@ -130,6 +127,7 @@
                 android:hint="@string/phone_number_hint"
                 android:imeOptions="actionDone"
                 android:inputType="phone"
+                android:nextFocusForward="@id/edit_first_name"
                 android:singleLine="true"
                 android:textSize="16sp" />
         </LinearLayout>

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_height="wrap_content"
+    android:layout_width="wrap_content"
+    android:orientation="vertical"
+    android:layout_marginLeft="20dp"
+    android:layout_marginRight="20dp">
+
+    <com.expedia.bookings.widget.TextView
+        android:id="@+id/country_label"
+        style="@style/AccountDashboardLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/preference_point_of_sale_title"/>
+
+    <com.expedia.bookings.widget.TextView
+        android:id="@+id/country"
+        style="@style/AccountDashboardValue"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:drawablePadding="8dp"
+        android:gravity="center_vertical"
+        tools:drawableLeft="@drawable/ic_flag_us"
+        tools:text="USA"/>
+</LinearLayout>

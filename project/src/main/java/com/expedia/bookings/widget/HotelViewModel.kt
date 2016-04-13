@@ -18,8 +18,6 @@ import com.expedia.bookings.utils.Images
 import com.squareup.phrase.Phrase
 import rx.Observable
 import rx.subjects.BehaviorSubject
-import kotlin.collections.firstOrNull
-import kotlin.collections.listOf
 
 class HotelViewModel(private val context: Context, private val hotel: Hotel) {
     val resources = context.resources
@@ -67,8 +65,12 @@ class HotelViewModel(private val context: Context, private val hotel: Hotel) {
     val mapLoyaltyMessageTextObservable = BehaviorSubject.create<Spanned>()
     val airAttachWithDiscountLabelVisibilityObservable = BehaviorSubject.create<Boolean>(hotel.lowRateInfo.isShowAirAttached() && !loyaltyAvailabilityObservable.value)
     val airAttachIconWithoutDiscountLabelVisibility = BehaviorSubject.create<Boolean>(hotel.lowRateInfo.isShowAirAttached() && loyaltyAvailabilityObservable.value)
+    val earnMessagingObservable = Observable.just(getEarnMessage())
+    val earnMessagingVisibilityObservable = earnMessagingObservable.map { it.isNotBlank() && PointOfSale.getPointOfSale().isEarnMessageEnabledForHotels && User.isLoggedIn(context)}
+
     val topAmenityTitleObservable = BehaviorSubject.create(getTopAmenityTitle(hotel, resources))
-    val topAmenityVisibilityObservable = topAmenityTitleObservable.map { (it != "") }
+    val topAmenityVisibilityObservable = earnMessagingVisibilityObservable.zipWith(topAmenityTitleObservable, { earnMessagingEnabled, topAmenityTitle ->
+        !earnMessagingEnabled && topAmenityTitle.isNotBlank()})
 
     val hotelStarRatingObservable = BehaviorSubject.create(hotel.hotelStarRating)
     val ratingAmenityContainerVisibilityObservable = BehaviorSubject.create<Boolean>(hotel.hotelStarRating > 0 || hotel.proximityDistanceInMiles > 0 || hotel.proximityDistanceInKiloMeters > 0)
@@ -77,7 +79,7 @@ class HotelViewModel(private val context: Context, private val hotel: Hotel) {
     val distanceFromCurrentLocation = BehaviorSubject.create(if (hotel.proximityDistanceInMiles > 0) HotelUtils.formatDistanceForNearby(resources, hotel, true) else "")
     val adImpressionObservable = BehaviorSubject.create<String>()
     val priceIncludesFlightsObservable = BehaviorSubject.create<Boolean>(hotel.isPackage)
-    val unrealDealMessageObservable = BehaviorSubject.create(hotel.drrMessage)
+    val unrealDealMessageObservable = BehaviorSubject.create(hotel.packageOfferModel?.brandedDealData?.dealVariation ?: "")
     val unrealDealMessageContainerVisibilityObservable = BehaviorSubject.create<Boolean>()
 
     init {
@@ -96,7 +98,7 @@ class HotelViewModel(private val context: Context, private val hotel: Hotel) {
         val mapLoyaltyMessageString = if (isVipLoyaltyApplied) resources.getString(R.string.vip_loyalty_applied_map_message) else resources.getString(R.string.regular_loyalty_applied_message)
         mapLoyaltyMessageTextObservable.onNext(Html.fromHtml(mapLoyaltyMessageString))
 
-        unrealDealMessageContainerVisibilityObservable.onNext(!hotel.drrMessage.isNullOrEmpty())
+        unrealDealMessageContainerVisibilityObservable.onNext(hotel.packageOfferModel?.brandedDealData?.dealVariation?.isNotEmpty() ?: false)
         // NOTE: Any changes to this logic should also be made in HotelDetailViewModel.getPromoText()
         val isUserBucketedForTest = Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelsMemberDealTest)
         if (hotel.isMemberDeal && isUserBucketedForTest && User.isLoggedIn(context)) {
@@ -133,6 +135,12 @@ class HotelViewModel(private val context: Context, private val hotel: Hotel) {
 
     fun setImpressionTracked(tracked: Boolean) {
         hotel.hasShownImpression = tracked
+    }
+
+    private fun getEarnMessage(): String {
+        val earnMessagePointsOrPrice = hotel.lowRateInfo?.loyaltyInfo?.earn?.getEarnMessagePointsOrPrice()
+        if (earnMessagePointsOrPrice?.isNotBlank() ?: false) return Phrase.from(resources, R.string.earn_message_TEMPLATE).put("earn", earnMessagePointsOrPrice).format().toString()
+        else return ""
     }
 }
 

@@ -8,11 +8,13 @@ import android.support.v7.widget.CardView
 import android.util.AttributeSet
 import android.view.View
 import android.widget.ImageView
+import android.widget.LinearLayout
 import com.expedia.bookings.R
 import com.expedia.bookings.utils.bindView
+import com.expedia.bookings.widget.FrameLayout
 import com.expedia.bookings.widget.TextView
 
-open class ConfirmationRowCardView(context: Context, attrs: AttributeSet?) : CardView(context, attrs) {
+open class ConfirmationRowCardView(context: Context, attrs: AttributeSet?) : LinearLayout(context, attrs) {
 
     val title: TextView by bindView(R.id.first_row)
     val subTitle: TextView by bindView(R.id.second_row)
@@ -20,6 +22,7 @@ open class ConfirmationRowCardView(context: Context, attrs: AttributeSet?) : Car
 
     override fun onFinishInflate() {
         super.onFinishInflate()
+        orientation = HORIZONTAL
     }
 
     init {

@@ -9,6 +9,7 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import com.expedia.bookings.R
 import com.expedia.bookings.presenter.hotel.BaseHotelResultsPresenter
+import com.expedia.bookings.tracking.PackagesTracking
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.TextView
 import com.expedia.util.notNullAndObservable
@@ -38,7 +39,8 @@ class PackageHotelResultsPresenter(context: Context, attrs: AttributeSet) : Base
             filterView.viewmodel.clearObservable.onNext(Unit)
         }
 
-        mapViewModel.mapInitializedObservable.subscribe{
+        mapViewModel.mapInitializedObservable.subscribe {
+            PackagesTracking().trackHotelMapLoad()
             setMapToInitialState(viewmodel.paramsSubject.value?.suggestion)
         }
 
@@ -55,7 +57,7 @@ class PackageHotelResultsPresenter(context: Context, attrs: AttributeSet) : Base
         recyclerView.viewTreeObserver.addOnGlobalLayoutListener(adapterListener)
         filterMenuItem.isVisible = true
         filterButton.setOnClickListener { view ->
-            show(ResultsFilter())
+            showWithTracking(ResultsFilter())
             filterView.viewmodel.sortContainerObservable.onNext(currentState == ResultsList::class.java.name)
             filterView.toolbar.title = resources.getString(R.string.filter)
         }
@@ -86,13 +88,43 @@ class PackageHotelResultsPresenter(context: Context, attrs: AttributeSet) : Base
         }
     }
 
-    override fun showMenuItem(isResults: Boolean){
+    override fun showMenuItem(isResults: Boolean) {
         filterMenuItem.isVisible = true
         searchMenuItem.isVisible = isResults
     }
 
     override fun hideBundlePriceOverview(hide: Boolean) {
-       hideBundlePriceOverviewSubject.onNext(hide)
+        hideBundlePriceOverviewSubject.onNext(hide)
     }
 
+    override fun trackSearchMap() {
+    }
+
+    override fun trackMapToList() {
+        PackagesTracking().trackHotelMapToList()
+    }
+
+    override fun trackCarouselScroll() {
+        PackagesTracking().trackHotelMapCarouselScroll()
+    }
+
+    override fun trackMapPinTap() {
+        PackagesTracking().trackHotelMapPinTap()
+    }
+
+    override fun trackFilterShown() {
+
+    }
+
+    override fun trackMapSearchAreaClick() {
+        PackagesTracking().trackHotelMapSearchThisAreaClick()
+    }
+
+    override fun isMapClusteringEnabled(): Boolean {
+        return false
+    }
+
+    override fun isUserBucketedSearchScreenTest(): Boolean {
+        return false
+    }
 }

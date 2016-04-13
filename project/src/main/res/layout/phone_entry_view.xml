@@ -22,6 +22,7 @@
         android:layout_height="wrap_content"
         android:layout_weight="3"
         android:hint="@string/phone_number_hint"
+        android:nextFocusForward="@id/first_name_input"
         android:imeOptions="actionDone"
         android:inputType="phone"
         android:singleLine="true"

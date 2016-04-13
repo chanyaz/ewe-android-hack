@@ -16,10 +16,14 @@ import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.traveler.NameEntryView
 import com.expedia.bookings.widget.traveler.PhoneEntryView
 import com.expedia.bookings.widget.traveler.TSAEntryView
+import com.expedia.util.endlessObserver
 import com.expedia.util.notNullAndObservable
 import com.expedia.util.subscribeVisibility
 import com.expedia.vm.traveler.TravelerViewModel
+import com.jakewharton.rxbinding.widget.RxTextView
+import com.jakewharton.rxbinding.widget.TextViewAfterTextChangeEvent
 import rx.subjects.PublishSubject
+import rx.subscriptions.CompositeSubscription
 
 class FlightTravelerEntryWidget(context: Context, attrs: AttributeSet?) : FrameLayout(context, attrs),
         TravelerButton.ITravelerButtonListener, View.OnFocusChangeListener  {
@@ -35,6 +39,7 @@ class FlightTravelerEntryWidget(context: Context, attrs: AttributeSet?) : FrameL
 
     val travelerCompleteSubject = PublishSubject.create<Traveler>()
     val focusedView = PublishSubject.create<EditText>()
+    val filledIn = PublishSubject.create<Boolean>()
     val doneClicked = PublishSubject.create<Unit>()
 
     var viewModel: TravelerViewModel by notNullAndObservable { vm ->
@@ -49,6 +54,11 @@ class FlightTravelerEntryWidget(context: Context, attrs: AttributeSet?) : FrameL
             passportCountrySpinner.setSelection(position)
         }
         vm.showPassportCountryObservable.subscribeVisibility(passportCountrySpinner)
+    }
+
+    var compositeSubscription: CompositeSubscription? = null
+    val formFilledSubscriber = endlessObserver<TextViewAfterTextChangeEvent>() {
+        filledIn.onNext(isCompletelyFilled())
     }
 
     init {
@@ -67,6 +77,7 @@ class FlightTravelerEntryWidget(context: Context, attrs: AttributeSet?) : FrameL
         nameEntryView.middleInitial.onFocusChangeListener = this
         nameEntryView.lastName.onFocusChangeListener = this
         phoneEntryView.phoneNumber.onFocusChangeListener = this
+        advancedOptionsWidget.redressNumber.onFocusChangeListener = this
 
         doneClicked.subscribe {
             if (isValid()) {
@@ -75,12 +86,23 @@ class FlightTravelerEntryWidget(context: Context, attrs: AttributeSet?) : FrameL
         }
     }
 
+    override fun onVisibilityChanged(changedView: View, visibility: Int) {
+        super.onVisibilityChanged(changedView, visibility)
+        if (visibility == View.VISIBLE) {
+            compositeSubscription = CompositeSubscription()
+            compositeSubscription?.add(RxTextView.afterTextChangeEvents(nameEntryView.firstName).distinctUntilChanged().subscribe(formFilledSubscriber))
+            compositeSubscription?.add(RxTextView.afterTextChangeEvents(nameEntryView.lastName).distinctUntilChanged().subscribe(formFilledSubscriber))
+            compositeSubscription?.add(RxTextView.afterTextChangeEvents(phoneEntryView.phoneNumber).distinctUntilChanged().subscribe(formFilledSubscriber))
+        } else {
+            compositeSubscription?.unsubscribe()
+        }
+    }
+
     override fun onTravelerChosen(traveler: Traveler) {
         viewModel.updateTraveler(traveler)
     }
 
     override fun onAddNewTravelerSelected() {
-        // Adding for packages mvp
     }
 
     override fun onFinishInflate() {
@@ -125,5 +147,11 @@ class FlightTravelerEntryWidget(context: Context, attrs: AttributeSet?) : FrameL
         if (hasFocus) {
             focusedView.onNext(v as EditText)
         }
+    }
+
+    fun isCompletelyFilled() : Boolean {
+        return nameEntryView.firstName.text.isNotEmpty() &&
+                nameEntryView.lastName.text.isNotEmpty() &&
+                phoneEntryView.phoneNumber.text.isNotEmpty()
     }
 }
