@@ -1,8 +1,8 @@
 package com.expedia.bookings.test.robolectric
 
 import android.app.Activity
-import android.view.ViewGroup
 import android.view.View
+import android.view.ViewGroup
 import com.expedia.bookings.R
 import com.expedia.bookings.data.hotels.Hotel
 import com.expedia.bookings.data.hotels.HotelRate
@@ -10,6 +10,9 @@ import com.expedia.bookings.data.payment.LoyaltyEarnInfo
 import com.expedia.bookings.data.payment.LoyaltyInformation
 import com.expedia.bookings.data.payment.PointsEarnInfo
 import com.expedia.bookings.data.pos.PointOfSale
+import com.expedia.bookings.test.robolectric.shadows.ShadowAccountManagerEB
+import com.expedia.bookings.test.robolectric.shadows.ShadowGCM
+import com.expedia.bookings.test.robolectric.shadows.ShadowUserManager
 import com.expedia.bookings.widget.HotelListAdapter
 import com.expedia.bookings.widget.HotelViewModel
 import org.junit.Assert
@@ -17,10 +20,12 @@ import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.Robolectric
+import org.robolectric.annotation.Config
 import rx.subjects.PublishSubject
 import kotlin.properties.Delegates
 
 @RunWith(RobolectricRunner::class)
+@Config(shadows = arrayOf(ShadowGCM::class, ShadowUserManager::class, ShadowAccountManagerEB::class))
 class HotelCellViewTest {
     private var hotelCellView: ViewGroup by Delegates.notNull()
     private var hotelViewHolder: HotelListAdapter.HotelViewHolder by Delegates.notNull()
@@ -136,6 +141,7 @@ class HotelCellViewTest {
     @Test fun testEarnMessaging() {
         val hotel = makeHotel()
         PointOfSale.getPointOfSale().isEarnMessageEnabledForHotels = true
+        UserLoginTestUtil.setupUserAndMockLogin(UserLoginTestUtil.mockUser())
         hotelViewHolder.bind(HotelViewModel(hotelViewHolder.itemView.context, hotel))
         Assert.assertEquals(View.GONE, hotelViewHolder.topAmenityTitle.visibility)
         Assert.assertEquals(View.VISIBLE, hotelViewHolder.earnMessagingText.visibility)

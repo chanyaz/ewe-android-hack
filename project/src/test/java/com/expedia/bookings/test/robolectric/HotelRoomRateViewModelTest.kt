@@ -1,10 +1,17 @@
 package com.expedia.bookings.test.robolectric
 
 import com.expedia.bookings.R
+import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.hotels.HotelOffersResponse
 import com.expedia.bookings.data.payment.LoyaltyEarnInfo
 import com.expedia.bookings.data.payment.LoyaltyInformation
+import com.expedia.bookings.data.payment.PointsEarnInfo
+import com.expedia.bookings.data.payment.PriceEarnInfo
+import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.test.MockHotelServiceTestRule
+import com.expedia.bookings.test.robolectric.shadows.ShadowAccountManagerEB
+import com.expedia.bookings.test.robolectric.shadows.ShadowGCM
+import com.expedia.bookings.test.robolectric.shadows.ShadowUserManager
 import com.expedia.util.endlessObserver
 import com.expedia.vm.HotelDetailViewModel
 import com.expedia.vm.HotelRoomRateViewModel
@@ -13,6 +20,7 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RuntimeEnvironment
+import org.robolectric.annotation.Config
 import rx.observers.TestSubscriber
 import java.text.DecimalFormat
 import kotlin.test.assertEquals
@@ -20,6 +28,7 @@ import kotlin.test.assertFalse
 import kotlin.test.assertTrue
 
 @RunWith(RobolectricRunner::class)
+@Config(shadows = arrayOf(ShadowGCM::class, ShadowUserManager::class, ShadowAccountManagerEB::class))
 class HotelRoomRateViewModelTest {
 
     val mockHotelServiceTestRule: MockHotelServiceTestRule = MockHotelServiceTestRule()
@@ -142,6 +151,30 @@ class HotelRoomRateViewModelTest {
         givenPriceToShowUsersIsNegative()
         setupNonSoldOutRoomUnderTest()
         assertEquals("$0", sut.dailyPricePerNightObservable.value)
+    }
+
+    @Test
+    fun earnMessageIsShown() {
+        PointOfSale.getPointOfSale().isEarnMessageEnabledForHotels = true
+        UserLoginTestUtil.setupUserAndMockLogin(UserLoginTestUtil.mockUser())
+        val loyaltyInfo = LoyaltyInformation(null, LoyaltyEarnInfo(null, PriceEarnInfo(Money("320", "USD"), Money("0", "USD"), Money("320", "USD"))), true)
+        hotelRoomResponse.rateInfo.chargeableRateInfo.loyaltyInfo = loyaltyInfo
+        setupNonSoldOutRoomUnderTest()
+
+
+        assertTrue(sut.collapsedEarnMessageVisibilityObservable.value)
+        assertEquals("Earn $320", sut.collapsedEarnMessageObservable.value.toString())
+    }
+
+    @Test
+    fun earnMessageIsNotShown() {
+        PointOfSale.getPointOfSale().isEarnMessageEnabledForHotels = false
+        val loyaltyInfo = LoyaltyInformation(null, LoyaltyEarnInfo(PointsEarnInfo(320, 0, 320), null), true)
+        hotelRoomResponse.rateInfo.chargeableRateInfo.loyaltyInfo = loyaltyInfo
+
+        setupNonSoldOutRoomUnderTest()
+
+        assertFalse(sut.collapsedEarnMessageVisibilityObservable.value)
     }
 
     private fun givenDiscountPercentIsZero() {
