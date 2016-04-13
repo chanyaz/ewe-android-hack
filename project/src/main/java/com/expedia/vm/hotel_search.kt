@@ -4,7 +4,6 @@ import android.app.Activity
 import android.content.Context
 import android.location.Location
 import android.text.Html
-import android.text.style.RelativeSizeSpan
 import com.expedia.bookings.BuildConfig
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Codes
@@ -20,14 +19,12 @@ import com.expedia.bookings.presenter.hotel.HotelPresenter
 import com.expedia.bookings.tracking.HotelV2Tracking
 import com.expedia.bookings.utils.DateUtils
 import com.expedia.bookings.utils.HotelSearchParamsUtil
-import com.expedia.bookings.utils.SpannableBuilder
 import com.expedia.bookings.utils.StrUtils
 import com.expedia.bookings.utils.Ui
 import com.expedia.ui.HotelActivity
 import com.expedia.util.endlessObserver
 import com.expedia.util.notNullAndObservable
 import com.mobiata.android.Log
-import com.mobiata.android.time.util.JodaUtils
 import com.squareup.phrase.Phrase
 import org.joda.time.LocalDate
 import rx.Observer

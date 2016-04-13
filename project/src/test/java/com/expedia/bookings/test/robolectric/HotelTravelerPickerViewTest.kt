@@ -33,7 +33,7 @@ class HotelTravelerPickerViewTest {
     fun testAdultIncrement() {
         for (i in 1..6) {
             assertEquals(expectedAdultText(i), getAdultText())
-            incrementAdult()
+            incrementAdult(1)
         }
 
         assertFalse(isAdultIncrementButtonEnabled())
@@ -43,28 +43,27 @@ class HotelTravelerPickerViewTest {
 
     @Test
     fun testInfants() {
-        incrementChild()
-        incrementChild()
+        incrementChild(2)
 
-        hotelTravelerPicker.spinner1.setSelection(0)
+        hotelTravelerPicker.child1.setSelection(0)
         hotelTravelerPicker.infantPreferenceSeatingSpinner.setSelection(0)
         assertEquals(View.GONE, hotelTravelerPicker.infantPreferenceSeatingSpinner.visibility)
 
         vm.showSeatingPreference = true
-        hotelTravelerPicker.spinner1.setSelection(0)
-        hotelTravelerPicker.spinner2.setSelection(0)
+        hotelTravelerPicker.child1.setSelection(0)
+        hotelTravelerPicker.child2.setSelection(1)
         hotelTravelerPicker.infantPreferenceSeatingSpinner.setSelection(0)
         assertEquals(View.VISIBLE, hotelTravelerPicker.infantError.visibility)
         hotelTravelerPicker.infantPreferenceSeatingSpinner.setSelection(1)
         assertEquals(View.GONE, hotelTravelerPicker.infantError.visibility)
 
-        incrementChild()
-        hotelTravelerPicker.spinner2.setSelection(0)
+        incrementChild(1)
+        hotelTravelerPicker.child2.setSelection(0)
         hotelTravelerPicker.infantPreferenceSeatingSpinner.setSelection(0)
         assertEquals(View.VISIBLE, hotelTravelerPicker.infantError.visibility)
-        decrementChild()
+        decrementChild(1)
         assertEquals(View.VISIBLE, hotelTravelerPicker.infantError.visibility)
-        decrementChild()
+        decrementChild(1)
         assertEquals(View.GONE, hotelTravelerPicker.infantError.visibility)
     }
 
@@ -72,16 +71,34 @@ class HotelTravelerPickerViewTest {
     fun testChildIncrement() {
         assertEquals(expectedAdultText(1), getAdultText())
         for (i in 1..4) {
-            incrementChild()
+            incrementChild(1)
             assertEquals(expectedChildText(i), getChildText())
         }
 
         assertFalse(isChildIncrementButtonEnabled())
         assertTrue(isAdultIncrementButtonEnabled())
 
-        incrementAdult()
+        incrementAdult(1)
         assertEquals(expectedAdultText(2), getAdultText())
         assertFalse(isAdultIncrementButtonEnabled())
+    }
+
+    @Test
+    fun testChildDefault() {
+        incrementChild(4)
+
+        hotelTravelerPicker.child1.setSelection(1)
+        hotelTravelerPicker.child2.setSelection(2)
+        hotelTravelerPicker.child3.setSelection(3)
+        hotelTravelerPicker.child4.setSelection(4)
+
+        decrementChild(3)
+        incrementAdult(3)
+
+        assertEquals("1", hotelTravelerPicker.child1.selectedItem.toString())
+        assertEquals("10", hotelTravelerPicker.child2.selectedItem.toString())
+        assertEquals("10", hotelTravelerPicker.child3.selectedItem.toString())
+        assertEquals("10", hotelTravelerPicker.child4.selectedItem.toString())
     }
 
     @Test
@@ -97,40 +114,40 @@ class HotelTravelerPickerViewTest {
     fun testBounds() {
         assertTrue(isAdultIncrementButtonEnabled())
         assertTrue(isChildIncrementButtonEnabled())
-        for (i in 1..5) {
-            incrementAdult()
-        }
+
+        incrementAdult(5)
+
         assertFalse(isAdultIncrementButtonEnabled())
         assertFalse(isChildIncrementButtonEnabled())
 
-        for (i in 1..5) {
-            decrementAdult()
-        }
+        decrementAdult(5)
+
         assertTrue(isAdultIncrementButtonEnabled())
         assertTrue(isChildIncrementButtonEnabled())
         assertFalse(isAdultDecrementButtonEnabled())
         assertFalse(isChildDecrementButtonEnabled())
 
-        for (i in 1..4) {
-            incrementChild()
-        }
+        incrementChild(4)
+
         assertFalse(isChildIncrementButtonEnabled())
         assertTrue(isAdultIncrementButtonEnabled())
         assertFalse(isAdultDecrementButtonEnabled())
         assertTrue(isChildDecrementButtonEnabled())
 
-        for (i in 1..4) {
-            decrementChild()
-        }
+        decrementChild(4)
         assertFalse(isChildDecrementButtonEnabled())
     }
 
-    fun incrementAdult() {
-        hotelTravelerPicker.adultPlus.performClick()
+    fun incrementAdult(count: Int) {
+        for (i in 1..count) {
+            hotelTravelerPicker.adultPlus.performClick()
+        }
     }
 
-    fun decrementAdult() {
-        hotelTravelerPicker.adultMinus.performClick()
+    fun decrementAdult(count: Int) {
+        for (i in 1..count) {
+            hotelTravelerPicker.adultMinus.performClick()
+        }
     }
 
     fun isAdultIncrementButtonEnabled() : Boolean {
@@ -141,12 +158,16 @@ class HotelTravelerPickerViewTest {
         return hotelTravelerPicker.adultMinus.isEnabled
     }
 
-    fun incrementChild() {
-        hotelTravelerPicker.childPlus.performClick()
+    fun incrementChild(count: Int) {
+        for (i in 1..count) {
+            hotelTravelerPicker.childPlus.performClick()
+        }
     }
 
-    fun decrementChild() {
-        hotelTravelerPicker.childMinus.performClick()
+    fun decrementChild(count: Int) {
+        for (i in 1..count) {
+            hotelTravelerPicker.childMinus.performClick()
+        }
     }
 
     fun isChildIncrementButtonEnabled() : Boolean {
