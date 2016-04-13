@@ -201,6 +201,7 @@
     <color name="bg_row_state_default">@color/white</color>
     <color name="bg_row_state_pressed">#f0f0f0</color>
     <color name="bg_tablet_button_state_pressed">#cccccc</color>
+    <color name="bg_tablet_clickable_button_done_color">@color/black</color>
     <color name="bg_payment_row_state_pressed">#33000000</color>
     <color name="text_shadow_color">#a5ffffff</color>
     <color name="text_dark">#ff545454</color>
