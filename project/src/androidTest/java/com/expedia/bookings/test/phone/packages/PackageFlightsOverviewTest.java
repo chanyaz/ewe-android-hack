@@ -103,6 +103,7 @@ public class PackageFlightsOverviewTest extends PackageTestCase {
 		onView(allOf(withId(R.id.departure_arrival_airport), withText("(OGG) Kahului - (HNL) Honolulu"))).check(matches(isDisplayed()));
 		onView(allOf(withId(R.id.flight_duration), withText("40m"))).check(matches(isDisplayed()));
 
+		onView(withId(R.id.flight_total_duration)).perform(scrollTo());
 		onView(allOf(withId(R.id.flight_total_duration), withText("Total Duration: 16h 50m"))).check(matches(isDisplayed()));
 	}
 
