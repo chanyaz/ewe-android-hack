@@ -52,7 +52,7 @@ class PayWithPointsViewModel<T : TripResponse>(val paymentModel: PaymentModel<T>
             .format().toString()
 
     //POINTS APPLIED MESSAGING
-    private fun pointsAppliedMessage(paymentSplits: PaymentSplits) = Phrase.from(resources.getQuantityString(R.plurals.pwp_points_applied_TEMPLATE, paymentSplits.payingWithPoints.points))
+    private fun pointsAppliedMessage(paymentSplits: PaymentSplits) = Phrase.from(resources.getQuantityString(R.plurals.pwp_points_applied_TEMPLATE, paymentSplits.payingWithPoints.points.toInt()))
             .put("points", NumberFormat.getInstance().format(paymentSplits.payingWithPoints.points))
             .format().toString();
 
@@ -66,15 +66,15 @@ class PayWithPointsViewModel<T : TripResponse>(val paymentModel: PaymentModel<T>
 
     //OUTLETS
     //MESSAGING START
-    override val totalPointsAndAmountAvailableToRedeem = paymentModel.tripResponses.filter { it.isExpediaRewardsRedeemable() }.map {
+    override val totalPointsAndAmountAvailableToRedeem = paymentModel.tripResponses.filter { it.isRewardsRedeemable() }.map {
         Phrase.from(resources.getString(R.string.pay_with_point_total_available_TEMPLATE))
-                .put("money", it.getPointDetails(ProgramName.ExpediaRewards)!!.totalAvailable.amount.formattedMoneyFromAmountAndCurrencyCode)
-                .put("points", NumberFormat.getInstance().format(it.getPointDetails(ProgramName.ExpediaRewards)!!.totalAvailable.points))
+                .put("money", it.getPointDetails()!!.totalAvailable.amount.formattedMoneyFromAmountAndCurrencyCode)
+                .put("points", NumberFormat.getInstance().format(it.getPointDetails()!!.totalAvailable.points))
                 .format().toString()
     }
 
-    override val currencySymbol = paymentModel.tripResponses.filter { it.isExpediaRewardsRedeemable() }.map {
-        it.getPointDetails(ProgramName.ExpediaRewards)!!.totalAvailable.amount.currencySymbol
+    override val currencySymbol = paymentModel.tripResponses.filter { it.isRewardsRedeemable() }.map {
+        it.getPointDetails()!!.totalAvailable.amount.currencySymbol
     }
     //MESSAGING END
 
@@ -90,13 +90,13 @@ class PayWithPointsViewModel<T : TripResponse>(val paymentModel: PaymentModel<T>
                     val tripResponse = tripResponse
                 }
                 //paymentSplitsSuggestionUpdate` should be from a Create-Trip, and that Create-Trip should be Redeemable.
-            }).filter { it.paymentSplitsSuggestionUpdate.second }.map { it.tripResponse.isExpediaRewardsRedeemable() })
+            }).filter { it.paymentSplitsSuggestionUpdate.second }.map { it.tripResponse.isRewardsRedeemable() })
             .withLatestFrom(paymentModel.swpOpted, { redeemableTrip, swpOpted -> redeemableTrip && swpOpted })
 
     override val navigatingOutOfPaymentOptions = PublishSubject.create<Unit>()
 
     //Critical to absorb tripResponses here as a trip can shift from redeemable to non-redeemable and vice-versa in case of Apply/Remove Coupon and Price Change on Checkout!
-    override val pwpWidgetVisibility = paymentModel.tripResponses.map { it.isExpediaRewardsRedeemable() }
+    override val pwpWidgetVisibility = paymentModel.tripResponses.map { ProgramName.ExpediaRewards == it.getProgramName() && it.isRewardsRedeemable() }
 
     private val burnAmountForComparison = PublishSubject.create<BigDecimal>()
 
@@ -137,8 +137,8 @@ class PayWithPointsViewModel<T : TripResponse>(val paymentModel: PaymentModel<T>
                 object {
                     val burnAmount = burnAmount
                     val tripTotal = tripResponse.getTripTotal()
-                    val maxPayableWithPoints = tripResponse.maxPayableWithExpediaRewardPoints()
-                    val totalAvailableBurnAmount = tripResponse.totalAvailableBurnAmount(ProgramName.ExpediaRewards)
+                    val maxPayableWithPoints = tripResponse.maxPayableWithRewardPoints()
+                    val totalAvailableBurnAmount = tripResponse.totalAvailableBurnAmount()
                 }
             })
 
@@ -171,8 +171,8 @@ class PayWithPointsViewModel<T : TripResponse>(val paymentModel: PaymentModel<T>
 
     override val payWithPointsMessage = pwpOpted.map {
         when (it) {
-            true -> resources.getString(R.string.paying_with_expedia_points)
-            false -> resources.getString(R.string.pay_with_expedia_points)
+            true -> resources.getString(R.string.paying_with_rewards)
+            false -> resources.getString(R.string.pay_with_rewards)
         }
     }
 

@@ -47,6 +47,10 @@ class MockHotelServiceTestRule : ServicesRule<HotelServices>(HotelServices::clas
         return getCreateTripResponse("logged_in_user_with_redeemable_points")
     }
 
+    fun getLoggedInUserWithRedeemableOrbucksCreateTripResponse(): HotelCreateTripResponse {
+        return getCreateTripResponse("logged_in_user_with_redeemable_orbucks")
+    }
+
     fun getLoggedInUserWithNonRedeemeblePointsCreateTripResponse(): HotelCreateTripResponse {
         return getCreateTripResponse("logged_in_user_with_non_redeemable_points")
     }
@@ -137,7 +141,7 @@ class MockHotelServiceTestRule : ServicesRule<HotelServices>(HotelServices::clas
         val observer = TestSubscriber<HotelCreateTripResponse>()
         val applyCouponParams = HotelApplyCouponParameters.Builder()
                 .couponCode(responseFileName).isFromNotSignedInToSignedIn(false).tripId("tripId").
-                userPreferencePointsDetails(listOf(UserPreferencePointsDetails(ProgramName.ExpediaRewards, PointsAndCurrency(1000, PointsType.BURN, Money("100", "USD")))))
+                userPreferencePointsDetails(listOf(UserPreferencePointsDetails(ProgramName.ExpediaRewards, PointsAndCurrency(1000f, PointsType.BURN, Money("100", "USD")))))
                 .build()
 
         services?.applyCoupon(applyCouponParams)!!.subscribe(observer)

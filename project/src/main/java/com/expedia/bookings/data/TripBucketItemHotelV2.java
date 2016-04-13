@@ -25,7 +25,7 @@ public class TripBucketItemHotelV2 extends TripBucketItem {
 		return mHotelTripResponse;
 	}
 
-	public HotelCreateTripResponse updateTotalPointsToEarn(int points) {
+	public HotelCreateTripResponse updateTotalPointsToEarn(float points) {
 		mHotelTripResponse.getExpediaRewards().setUpdatedExpediaRewards(points);
 		return mHotelTripResponse;
 	}

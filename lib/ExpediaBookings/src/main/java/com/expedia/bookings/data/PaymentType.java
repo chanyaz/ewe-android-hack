@@ -21,8 +21,8 @@ public enum PaymentType {
 	CARD_CARTA_SI("T", "CARTA_SI"),
 
 	WALLET_GOOGLE("GOOG", "GOOGLE_WALLET"),
-	
-	POINTS_EXPEDIA_REWARDS("ER", "EXPEDIA_REWARDS"),
+
+	POINTS_REWARDS("RW", "REWARDS"),
 	UNKNOWN("?", "UNKNOWN");
 
 	private String mCode;

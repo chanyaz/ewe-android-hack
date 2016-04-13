@@ -309,6 +309,7 @@ class HotelDetailViewModel(val context: Context, val hotelServices: HotelService
         val number = when (User.getLoggedInLoyaltyMembershipTier(context)) {
             Traveler.LoyaltyMembershipTier.SILVER -> PointOfSale.getPointOfSale().supportPhoneNumberSilver
             Traveler.LoyaltyMembershipTier.GOLD -> PointOfSale.getPointOfSale().supportPhoneNumberGold
+            Traveler.LoyaltyMembershipTier.PLATINUM -> PointOfSale.getPointOfSale().supportPhoneNumberPlatinum
             else -> hotelOffersResponse.telesalesNumber
         }
         SocialUtils.call(context, number)

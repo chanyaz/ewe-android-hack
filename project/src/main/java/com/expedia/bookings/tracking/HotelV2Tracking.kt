@@ -256,7 +256,7 @@ class HotelV2Tracking {
         OmnitureTracking.trackHotelV2CheckoutErrorRetry()
     }
 
-    fun trackHotelV2PurchaseConfirmation(hotelCheckoutResponse: HotelCheckoutResponse, percentagePaidWithPoints: Int, totalBurnedAmount: Int) {
+    fun trackHotelV2PurchaseConfirmation(hotelCheckoutResponse: HotelCheckoutResponse, percentagePaidWithPoints: Int, totalBurnedAmount: Float) {
         OmnitureTracking.trackHotelV2PurchaseConfirmation(hotelCheckoutResponse, percentagePaidWithPoints, totalBurnedAmount)
         LeanPlumUtils.trackHotelV2Booked(hotelCheckoutResponse)
         TuneUtils.trackHotelV2Confirmation(hotelCheckoutResponse)

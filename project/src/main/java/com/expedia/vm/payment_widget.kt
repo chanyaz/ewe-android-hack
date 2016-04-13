@@ -72,7 +72,7 @@ class PaymentViewModel(val context: Context) {
             }
         }.subscribe {
             if (it.isRedeemable && it.splitsType == PaymentSplitsType.IS_FULL_PAYABLE_WITH_POINT) {
-                setPaymentTileInfo(PaymentType.POINTS_EXPEDIA_REWARDS,
+                setPaymentTileInfo(PaymentType.POINTS_REWARDS,
                         resources.getString(R.string.checkout_paying_with_points_only_line1),
                         resources.getString(R.string.checkout_tap_to_edit), it.splitsType, ContactDetailsCompletenessStatus.COMPLETE)
             } else if (it.info == null) {

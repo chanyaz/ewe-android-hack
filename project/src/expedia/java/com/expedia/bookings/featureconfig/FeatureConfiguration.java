@@ -305,4 +305,9 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 		return false;
 	}
 
+	@Override
+	public int getRewardsLayoutId() {
+		return R.layout.pay_with_points_widget_stub;
+	}
+
 }

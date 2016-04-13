@@ -15,7 +15,7 @@ class PaymentModel<T : TripResponse>(loyaltyServices: LoyaltyServices) {
     val discardPendingCurrencyToPointsAPISubscription = PublishSubject.create<Unit>()
 
     class PaymentSplitsAndTripResponse<T : TripResponse>(val tripResponse: T, val paymentSplits: PaymentSplits) {
-        fun isCardRequired(): Boolean = if (this.tripResponse.isExpediaRewardsRedeemable()) this.paymentSplits.paymentSplitsType() != PaymentSplitsType.IS_FULL_PAYABLE_WITH_POINT else this.tripResponse.isCardDetailsRequiredForBooking()
+        fun isCardRequired(): Boolean = if (this.tripResponse.isRewardsRedeemable()) this.paymentSplits.paymentSplitsType() != PaymentSplitsType.IS_FULL_PAYABLE_WITH_POINT else this.tripResponse.isCardDetailsRequiredForBooking()
     }
 
     //API
@@ -76,6 +76,11 @@ class PaymentModel<T : TripResponse>(loyaltyServices: LoyaltyServices) {
     val pwpOpted = BehaviorSubject.create<Boolean>(true)
     val swpOpted = BehaviorSubject.create<Boolean>(true)
 
+    val togglePaymentByPoints = PublishSubject.create<Boolean>()
+    val togglePaymentByPointsIntermediateStream = togglePaymentByPoints.withLatestFrom(tripResponses, { togglePaymentByPoints, tripResponses ->
+        if (togglePaymentByPoints) tripResponses.paymentSplitsWhenMaxPayableWithPoints() else tripResponses.paymentSplitsWhenZeroPayableWithPoints()
+    })
+
     //If PwP is enabled, default to Max Payable With Points, otherwise default to Zero Payable With Points.
     private val createTripResponsePaymentSplits = PublishSubject.create<PaymentSplits>()
 
@@ -91,7 +96,8 @@ class PaymentModel<T : TripResponse>(loyaltyServices: LoyaltyServices) {
             createTripResponsePaymentSplits,
             priceChangeResponsePaymentSplits,
             burnAmountAndLatestTripResponse.filter { it.burnAmount.compareTo(BigDecimal.ZERO) == 0 }.map { it.latestTripResponse.paymentSplitsWhenZeroPayableWithPoints() },
-            burnAmountToPointsApiResponse.map { PaymentSplits(it.conversion!!, it.remainingPayableByCard!!) }
+            burnAmountToPointsApiResponse.map { PaymentSplits(it.conversion!!, it.remainingPayableByCard!!) },
+            togglePaymentByPointsIntermediateStream
     )
 
     val restoredPaymentSplitsInCaseOfDiscardedApiCall = PublishSubject.create<PaymentSplits>()
@@ -137,14 +143,14 @@ class PaymentModel<T : TripResponse>(loyaltyServices: LoyaltyServices) {
         burnAmountAndLatestTripResponse
                 .withLatestFrom(burnAmountToPointsApiSubscriptions, { burnAmountAndLatestTripResponse, burnAmountToPointsApiSubscription -> Pair(burnAmountAndLatestTripResponse, burnAmountToPointsApiSubscription) })
                 .doOnNext { it.second?.unsubscribe() }
-                .filter { !canHandleCurrencyToPointsConversionLocally(it.first.burnAmount, it.first.latestTripResponse.maxPayableWithExpediaRewardPoints().amount) }
+                .filter { !canHandleCurrencyToPointsConversionLocally(it.first.burnAmount, it.first.latestTripResponse.maxPayableWithRewardPoints().amount) }
                 .map { it.first }
                 .subscribe {
                     val calculatePointsParams = CalculatePointsParams.Builder()
                             .tripId(it.latestTripResponse.tripId)
-                            .programName(ProgramName.ExpediaRewards)
+                            .programName(it.latestTripResponse.getProgramName())
                             .amount(it.burnAmount.toString())
-                            .rateId(it.latestTripResponse.expediaRewardsUserAccountDetails().rateID)
+                            .rateId(it.latestTripResponse.rewardsUserAccountDetails().rateID)
                             .build()
 
                     burnAmountToPointsApiSubscriptions.onNext(loyaltyServices.currencyToPoints(calculatePointsParams, makeCalculatePointsApiResponseObserver()))

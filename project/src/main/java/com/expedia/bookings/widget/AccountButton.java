@@ -201,19 +201,24 @@ public class AccountButton extends LinearLayout {
 		int expediaPlusRewardsCategoryTextColorResId = 0;
 		switch (traveler.getLoyaltyMembershipTier()) {
 		case BLUE:
-			expediaPlusRewardsCategoryTextResId = R.string.Expedia_plus_blue;
+			expediaPlusRewardsCategoryTextResId = R.string.reward_plus_blue;
 			expediaPlusRewardsCategoryColorResId = R.color.expedia_plus_blue;
 			expediaPlusRewardsCategoryTextColorResId = R.color.expedia_plus_blue_text;
 			break;
 		case SILVER:
-			expediaPlusRewardsCategoryTextResId = R.string.Expedia_plus_silver;
+			expediaPlusRewardsCategoryTextResId = R.string.reward_plus_silver;
 			expediaPlusRewardsCategoryColorResId = R.color.expedia_plus_silver;
 			expediaPlusRewardsCategoryTextColorResId = R.color.expedia_plus_silver_text;
 			break;
 		case GOLD:
-			expediaPlusRewardsCategoryTextResId = R.string.Expedia_plus_gold;
+			expediaPlusRewardsCategoryTextResId = R.string.reward_plus_gold;
 			expediaPlusRewardsCategoryColorResId = R.color.expedia_plus_gold;
 			expediaPlusRewardsCategoryTextColorResId = R.color.expedia_plus_gold_text;
+			break;
+		case PLATINUM:
+			expediaPlusRewardsCategoryTextResId = R.string.reward_plus_platinum;
+			expediaPlusRewardsCategoryColorResId = R.color.expedia_plus_platinum;
+			expediaPlusRewardsCategoryTextColorResId = R.color.expedia_plus_platinum_text;
 			break;
 		}
 
@@ -224,7 +229,8 @@ public class AccountButton extends LinearLayout {
 		if (isRewardsEnabled && traveler.getLoyaltyMembershipTier() != Traveler.LoyaltyMembershipTier.NONE) {
 			//Show Rewards Category Text View
 			expediaPlusRewardsCategoryTextView.setVisibility(View.VISIBLE);
-			expediaPlusRewardsCategoryTextView.setText(expediaPlusRewardsCategoryTextResId);
+			expediaPlusRewardsCategoryTextView.setText(Phrase.from(this, expediaPlusRewardsCategoryTextResId)
+				.put("brand", BuildConfig.brand).format());
 			expediaPlusRewardsCategoryTextView.setTextColor(getResources().getColor(expediaPlusRewardsCategoryColorResId));
 			//Show Reward Points Container
 			mRewardsContainer.setVisibility(View.VISIBLE);
@@ -361,6 +367,9 @@ public class AccountButton extends LinearLayout {
 			break;
 		case GOLD:
 			rewardsBgResId = R.drawable.bg_checkout_info_bottom_gold;
+			break;
+		case PLATINUM:
+			rewardsBgResId = R.drawable.bg_checkout_info_bottom_platinum;
 			break;
 		}
 
