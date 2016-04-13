@@ -1078,13 +1078,14 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
         toolbarSubtitle.translationY = factor * toolbarSubtitleTop
     }
 
-    fun animationFinalize(forward: Boolean) {
+    fun animationFinalize(forward: Boolean, isSearchToResultsTransition: Boolean = false) {
         recyclerTempBackground.visibility = View.GONE
         navIcon.parameter = ArrowXDrawableUtil.ArrowDrawableType.BACK.type.toFloat()
         if (havePermissionToAccessLocation(context)) {
             googleMap?.isMyLocationEnabled = forward
         }
-        if (!forward) {
+        // Clear markers on going from results to search.
+        if (!forward && isSearchToResultsTransition) {
             clearMarkers(false)
         }
     }

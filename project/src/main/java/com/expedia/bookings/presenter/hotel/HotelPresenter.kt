@@ -450,7 +450,7 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
             searchPresenter.setBackgroundColor(if (forward) searchBackgroundColor.end else searchBackgroundColor.start)
             searchPresenter.visibility = if (forward) View.GONE else View.VISIBLE
             resultsPresenter.visibility = if (forward) View.VISIBLE else View.GONE
-            resultsPresenter.animationFinalize(forward)
+            resultsPresenter.animationFinalize(forward, true)
             searchPresenter.animationFinalize(forward)
             if (!forward) HotelV2Tracking().trackHotelV2SearchBox((searchPresenter.getSearchViewModel() as HotelSearchViewModel).shopWithPointsViewModel.swpEffectiveAvailability.value)
         }
