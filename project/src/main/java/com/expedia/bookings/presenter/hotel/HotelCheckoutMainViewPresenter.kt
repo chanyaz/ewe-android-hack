@@ -236,6 +236,7 @@ class HotelCheckoutMainViewPresenter(context: Context, attr: AttributeSet) : Che
         if ((CheckoutBasePresenter.Ready ::class.java.name == currentState ||
                 CheckoutBasePresenter.CheckoutFailed ::class.java.name == currentState )
                 && hotelCheckoutMainViewModel.userWithEffectiveSwPAvailableSignedOut.value ) {
+            hotelCheckoutMainViewModel.userWithEffectiveSwPAvailableSignedOut.onNext(false)
             backPressedAfterUserWithEffectiveSwPAvailableSignedOut.onNext(Unit)
             acceptTermsWidget.visibility = View.INVISIBLE
             return true
