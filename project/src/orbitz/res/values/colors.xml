@@ -86,4 +86,5 @@
     <color name="reward_color_middle">#FFC300</color>
     <color name="reward_color_top">#C4204B</color>
     <color name="reward_color_top_text">@color/white</color>
+    <color name="account_screen_back_nav_color">@color/white</color>
 </resources>

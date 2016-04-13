@@ -6,5 +6,4 @@
     <item name="ic_action_bar_logo_dark" type="drawable">@drawable/ic_action_bar_logo_dark_icon</item>
     <item name="ic_action_bar_brand_logo_title" type="drawable">@drawable/ic_action_bar_logo_dark_icon</item>
     <item name="brand_logo" type="drawable">@drawable/brand_phone_cko_logo_drawable</item>
-    <item name="ic_arrow_back" type="drawable">@drawable/ic_arrow_back_red</item>
 </resources>
