@@ -123,7 +123,7 @@
     <!-- Label for hotel search v2 toolbar -->
     <string name="hotel_search_v2_toolbar_title">Hotellit</string>
     <!-- Label for hotel suggestion -->
-    <string name="search_location"></string>
+    <string name="search_location">Hakukohde</string>
     <!-- Label for recent searches -->
     <string name="recent_searches">Viimeaikaiset haut</string>
     <!-- Label for pickup location selector -->
