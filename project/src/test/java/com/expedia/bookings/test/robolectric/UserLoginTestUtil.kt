@@ -5,6 +5,7 @@ import android.accounts.AccountManager
 import android.app.Activity
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Db
+import com.expedia.bookings.data.Traveler
 import com.expedia.bookings.data.User
 import org.robolectric.Robolectric
 
@@ -24,6 +25,13 @@ class UserLoginTestUtil {
             shadowAccountManager.addAccount(account)
 
             User.signIn(activity, null)
+        }
+        fun mockUser(): User {
+            val user = User()
+            val traveler = Traveler()
+            traveler.loyaltyMembershipTier = Traveler.LoyaltyMembershipTier.GOLD
+            user.primaryTraveler = traveler
+            return user
         }
     }
 }

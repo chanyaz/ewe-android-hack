@@ -155,7 +155,7 @@ public class HotelOffersResponse extends BaseApiResponse {
 				packageHotelOffer.hotelOffer.rateInfo.chargeableRateInfo.strikethroughPriceToShowUsers = 0;
 				packageHotelOffer.hotelOffer.rateInfo.chargeableRateInfo.userPriceType = Constants.PACKAGE_HOTEL_DELTA_PRICE_TYPE;
 			}
-			packageHotelOffer.hotelOffer.rateInfo.chargeableRateInfo.packagePricePerPerson = packageHotelOffer.pricePerPerson.formattedWholePrice;
+			packageHotelOffer.hotelOffer.rateInfo.chargeableRateInfo.packagePricePerPerson = packageHotelOffer.pricePerPerson.formattedPrice;
 			packageHotelOffer.hotelOffer.rateInfo.chargeableRateInfo.packageSavings = packageHotelOffer.packagePricing.savings.formattedPrice;
 
 			hotelOffer.hotelRoomResponse.add(packageHotelOffer.hotelOffer);

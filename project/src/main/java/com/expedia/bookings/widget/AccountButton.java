@@ -261,7 +261,8 @@ public class AccountButton extends LinearLayout {
 		mRewardsTextView.setText(getRewardPointsText(lob));
 	}
 
-	private boolean updateRewardsTextViewVisibility(String rewardPointsText, LineOfBusiness lob, boolean isLoyaltyMember) {
+	private boolean updateRewardsTextViewVisibility(String rewardPointsText, LineOfBusiness lob,
+		boolean isLoyaltyMember) {
 		if (!Strings.isEmpty(rewardPointsText)) {
 			mRewardsTextView.setVisibility(View.VISIBLE);
 			return true;
@@ -310,13 +311,14 @@ public class AccountButton extends LinearLayout {
 		case PACKAGES:
 			TripBucketItemPackages pkgItem = Db.getTripBucket().getPackage();
 			PackageCreateTripResponse packageTrip = pkgItem == null ? null : pkgItem.mPackageTripResponse;
-			rewardPoints = packageTrip == null ? "" : String.valueOf(packageTrip.getExpediaRewards().getUpdatedExpediaRewards());
+			rewardPoints =
+				packageTrip == null ? "" : String.valueOf(packageTrip.getExpediaRewards().getUpdatedExpediaRewards());
 			break;
 		}
 
 		CharSequence youllEarnRewardsPointsText = "";
 		if (Strings.isEmpty(rewardPoints)) {
-		//Do nothing
+			//Do nothing
 		}
 		else if (Strings.equals("0", rewardPoints)) {
 			youllEarnRewardsPointsText = mContext.getString(R.string.you_are_a_valued_member);
@@ -329,19 +331,20 @@ public class AccountButton extends LinearLayout {
 					.fromHtml(mContext.getString(R.string.x_points_for_this_trip_TEMPLATE, rewardPoints));
 				break;
 			case HOTELSV2:
-			case PACKAGES:
 			case HOTELS:
 				boolean isUserBucketedForTest = Db.getAbacusResponse()
 					.isUserBucketedForTest(AbacusUtils.EBAndroidAppHotel3xMessaging);
 				boolean isTablet = AndroidUtils.isTablet(getContext());
+				youllEarnRewardsPointsText = Html
+					.fromHtml(mContext.getString(R.string.youll_earn_points_TEMPLATE, rewardPoints));
 				if (isUserBucketedForTest && !isTablet) {
 					youllEarnRewardsPointsText = Html
 						.fromHtml(mContext.getString(R.string.youll_earn_points_ab_test_3x_TEMPLATE, rewardPoints));
 				}
-				else {
-					youllEarnRewardsPointsText = Html
-						.fromHtml(mContext.getString(R.string.youll_earn_points_TEMPLATE, rewardPoints));
-				}
+				break;
+			case PACKAGES:
+				youllEarnRewardsPointsText = Html
+					.fromHtml(mContext.getString(R.string.youll_earn_points_TEMPLATE, rewardPoints));
 				break;
 			case LX:
 				youllEarnRewardsPointsText = Html
@@ -375,6 +378,7 @@ public class AccountButton extends LinearLayout {
 
 		rewardsContainer.setBackgroundResource(rewardsBgResId);
 	}
+
 	private void clearCheckoutData() {
 		clearHotelCheckoutData();
 		clearFlightCheckoutData();
@@ -405,6 +409,7 @@ public class AccountButton extends LinearLayout {
 
 	public interface AccountButtonClickListener {
 		void accountLoginClicked();
+
 		void accountLogoutClicked();
 	}
 }

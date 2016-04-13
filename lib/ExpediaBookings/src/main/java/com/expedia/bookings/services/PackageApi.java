@@ -1,5 +1,6 @@
 package com.expedia.bookings.services;
 
+import java.util.List;
 import java.util.Map;
 
 import com.expedia.bookings.data.hotels.HotelOffersResponse;
@@ -8,6 +9,7 @@ import com.expedia.bookings.data.packages.PackageCreateTripResponse;
 import com.expedia.bookings.data.packages.PackageOffersResponse;
 import com.expedia.bookings.data.packages.PackageSearchResponse;
 
+import retrofit.http.Field;
 import retrofit.http.FieldMap;
 import retrofit.http.FormUrlEncoded;
 import retrofit.http.GET;
@@ -38,7 +40,11 @@ public interface PackageApi {
 	@FormUrlEncoded
 	@POST("/api/packages/createTrip")
 	Observable<PackageCreateTripResponse> createTrip(
-		@FieldMap Map<String, Object> queryParams);
+		@Field("productKey") String productKey,
+		@Query("destinationId") String destId,
+		@Query("roomOccupants[0].numberOfAdultGuests") int numberOfAdults,
+		@Query("roomOccupants[0].infantsInSeat") boolean infantInSeat,
+		@Query("roomOccupants[0].childGuestAge") List<Integer> childAges);
 
 	@FormUrlEncoded
 	@POST("/api/packages/checkout")

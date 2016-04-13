@@ -398,7 +398,7 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
         }
     }
 
-    val searchBackgroundColor = TransitionElement(ContextCompat.getColor(context, R.color.hotel_search_background), Color.TRANSPARENT)
+    val searchBackgroundColor = TransitionElement(ContextCompat.getColor(context, R.color.search_anim_background), Color.TRANSPARENT)
     private val defaultResultsTransition = object : Presenter.DefaultTransition(HotelResultsPresenter::class.java.name) {
 
         override fun startTransition(forward: Boolean) {
@@ -450,7 +450,7 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
             searchPresenter.setBackgroundColor(if (forward) searchBackgroundColor.end else searchBackgroundColor.start)
             searchPresenter.visibility = if (forward) View.GONE else View.VISIBLE
             resultsPresenter.visibility = if (forward) View.VISIBLE else View.GONE
-            resultsPresenter.animationFinalize(forward)
+            resultsPresenter.animationFinalize(forward, true)
             searchPresenter.animationFinalize(forward)
             if (!forward) HotelV2Tracking().trackHotelV2SearchBox((searchPresenter.getSearchViewModel() as HotelSearchViewModel).shopWithPointsViewModel.swpEffectiveAvailability.value)
         }
@@ -594,6 +594,9 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
 
         override fun startTransition(forward: Boolean) {
             super.startTransition(forward)
+            if (!forward) {
+                detailPresenter.hotelDetailView.resetViews()
+            }
             loadingOverlay.visibility = View.GONE
             searchPresenter.visibility = View.VISIBLE
             checkoutPresenter.visibility = View.VISIBLE
@@ -696,6 +699,7 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
     val hotelSelectedObserver: Observer<Hotel> = endlessObserver { hotel ->
         //If hotel is known to be "Sold Out", simply show the Hotel Details Screen in "Sold Out" state, otherwise fetch Offers and show those as well
         showDetails(hotel.hotelId, if (hotel.isSoldOut) false else true)
+        HotelV2Tracking().trackHotelV2CarouselClick()
     }
 
     data class HotelDetailsRequestMetadata(val hotelId: String, val hotelOffersResponse: HotelOffersResponse, val isOffersRequest: Boolean)

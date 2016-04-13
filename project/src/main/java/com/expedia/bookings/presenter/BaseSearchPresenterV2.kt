@@ -266,7 +266,6 @@ abstract class BaseSearchPresenterV2(context: Context, attrs: AttributeSet) : Ba
                 super.updateTransition(f, forward)
                 val progress = if (forward) f else 1f - f
                 val currentToolbarTextColor = eval.evaluate(progress, toolbarTextColor.start, toolbarTextColor.end) as Int
-                navIcon.setColorFilter(currentToolbarTextColor, PorterDuff.Mode.SRC_IN)
 
                 // toolbar fading
                 toolbar.setBackgroundColor(eval.evaluate(progress, toolbarBgColor.start, toolbarBgColor.end) as Int)
@@ -293,6 +292,7 @@ abstract class BaseSearchPresenterV2(context: Context, attrs: AttributeSet) : Ba
         override fun endTransition(forward: Boolean) {
             // Toolbar bg color
             toolbar.setBackgroundColor(if (forward) toolbarBgColor.end else toolbarBgColor.start)
+            navIcon.setColorFilter(if (forward) toolbarTextColor.end else toolbarTextColor.start, PorterDuff.Mode.SRC_IN)
             suggestionContainer.alpha = if (forward) bgFade.end else bgFade.start
             searchLocationEditText?.alpha = if (forward) bgFade.end else bgFade.start
             suggestionRecyclerView.translationY = if (forward) recyclerY.end else recyclerY.start

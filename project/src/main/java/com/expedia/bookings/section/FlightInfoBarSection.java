@@ -19,6 +19,8 @@ import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.utils.FlightUtils;
 import com.expedia.bookings.utils.FontCache;
 import com.expedia.bookings.utils.FontCache.Font;
+import com.expedia.bookings.utils.ShopWithPointsFlightsUtil;
+import com.expedia.bookings.utils.Strings;
 import com.mobiata.android.util.Ui;
 
 public class FlightInfoBarSection extends LinearLayout {
@@ -27,6 +29,7 @@ public class FlightInfoBarSection extends LinearLayout {
 
 	private TextView mLeftTextView;
 	private TextView mRightTextView;
+	private TextView mBottomTextView;
 
 	public FlightInfoBarSection(Context context) {
 		super(context);
@@ -52,6 +55,11 @@ public class FlightInfoBarSection extends LinearLayout {
 		Typeface font = FontCache.getTypeface(Font.ROBOTO_LIGHT);
 		mLeftTextView.setTypeface(font);
 		mRightTextView.setTypeface(font);
+
+		if (ShopWithPointsFlightsUtil.isShopWithPointsEnabled(getContext())) {
+			mBottomTextView = Ui.findView(this, R.id.bottom_text_view);
+			mBottomTextView.setTypeface(font);
+		}
 	}
 
 	public void bindFlightDetails(FlightTrip trip, FlightLeg leg) {
@@ -105,6 +113,14 @@ public class FlightInfoBarSection extends LinearLayout {
 				}
 			}
 			mRightTextView.setText(Html.fromHtml(context.getString(bookNowResId, fare)));
+		}
+
+		if (mBottomTextView != null) {
+			CharSequence earnInfoTextToDisplay = ShopWithPointsFlightsUtil.getEarnInfoTextToDisplay(context, trip);
+			if (Strings.isNotEmpty(earnInfoTextToDisplay)) {
+				mBottomTextView.setVisibility(VISIBLE);
+				mBottomTextView.setText(earnInfoTextToDisplay);
+			}
 		}
 	}
 

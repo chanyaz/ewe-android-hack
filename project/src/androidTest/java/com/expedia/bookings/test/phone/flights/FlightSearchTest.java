@@ -278,5 +278,9 @@ public class FlightSearchTest extends PhoneTestCase {
 		FlightsSearchScreen.clickSearchButton();
 		EspressoUtils.assertViewWithTextIsDisplayed("Earn 20 points");
 		EspressoUtils.assertViewWithTextIsDisplayed("Earn $6.39");
+		FlightsSearchResultsScreen.clickListItem(1);
+		EspressoUtils.assertViewWithTextIsDisplayed(R.id.bottom_text_view, "Earn 20 points");
+		FlightLegScreen.clickSelectFlightButton();
+		EspressoUtils.assertViewWithTextIsDisplayed(R.id.earn_message, "Earn 20 points");
 	}
 }

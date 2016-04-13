@@ -45,7 +45,7 @@ public class PackagePhoneHappyPathTest extends PackageTestCase {
 
 		PackageScreen.clickHotelBundle();
 
-		assertHotelBundlePrice("$0", "View your bundle", "$0.00 Saved");
+		assertHotelBundlePrice("$0.00", "View your bundle", "$0.00 Saved");
 
 		HotelScreen.mapFab().perform(click());
 		assertHotelMap();
@@ -63,7 +63,7 @@ public class PackagePhoneHappyPathTest extends PackageTestCase {
 
 		assertHotelInfoSite();
 		reviews();
-		assertHotelBundlePrice("$1,027", "View your bundle", "$21.61 Saved");
+		assertHotelBundlePrice("$1,027.34", "View your bundle", "$21.61 Saved");
 
 		HotelScreen.selectRoom();
 
@@ -139,7 +139,7 @@ public class PackagePhoneHappyPathTest extends PackageTestCase {
 			"Package Happy Path");
 		EspressoUtils.assertViewWithTextIsDisplayedAtPosition(HotelScreen.hotelResultsList(), 2, R.id.strike_through_price, "$538");
 		EspressoUtils.assertViewWithTextIsDisplayedAtPosition(HotelScreen.hotelResultsList(), 2, R.id.price_per_night, "$526");
-		EspressoUtils.assertViewWithTextIsDisplayedAtPosition(HotelScreen.hotelResultsList(), 2, R.id.unreal_deal_message, "Save 3 nights and save");
+		EspressoUtils.assertViewWithTextIsDisplayedAtPosition(HotelScreen.hotelResultsList(), 2, R.id.unreal_deal_message, "HotelDeal");
 	}
 
 	private void assertHotelInfoSite() {

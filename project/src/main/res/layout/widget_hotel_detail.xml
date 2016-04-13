@@ -91,7 +91,19 @@
                         android:paddingTop="10dp"
                         android:layout_centerVertical="true" />
 
-                    <LinearLayout
+                    <com.expedia.bookings.widget.TextView
+                        android:id="@+id/earn_message"
+                        style="@style/HotelPromoMessaging"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_alignParentRight="true"
+                        android:paddingBottom="10dp"
+                        android:paddingLeft="18dp"
+                        android:paddingRight="18dp"
+                        android:paddingTop="10dp"
+                        android:layout_centerVertical="true" />
+
+                        <LinearLayout
                         android:id="@+id/discount_loyalty_messaging_container"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"

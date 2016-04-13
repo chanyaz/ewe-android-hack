@@ -13,6 +13,7 @@ import android.view.animation.DecelerateInterpolator
 import com.expedia.bookings.R
 import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.presenter.Presenter
+import com.expedia.bookings.presenter.ScaleTransition
 import com.expedia.bookings.presenter.packages.PackageFlightOverviewPresenter
 import com.expedia.bookings.presenter.packages.PackageFlightResultsPresenter
 import com.expedia.bookings.utils.ArrowXDrawableUtil
@@ -30,7 +31,7 @@ import rx.Observer
 import rx.exceptions.OnErrorNotImplementedException
 import kotlin.properties.Delegates
 
-open class BaseFlightPresenter(context: Context, attrs: AttributeSet) : Presenter(context, attrs) {
+abstract open class BaseFlightPresenter(context: Context, attrs: AttributeSet) : Presenter(context, attrs) {
 
     val ANIMATION_DURATION = 400
     val toolbar: Toolbar by bindView(R.id.flights_toolbar)
@@ -139,12 +140,10 @@ open class BaseFlightPresenter(context: Context, attrs: AttributeSet) : Presente
         }
     }
 
-    private val overviewTransition = object : Transition(PackageFlightOverviewPresenter::class.java, PackageFlightResultsPresenter::class.java, DecelerateInterpolator(), ANIMATION_DURATION) {
+    private val overviewTransition = object : ScaleTransition(this, PackageFlightResultsPresenter::class.java, PackageFlightOverviewPresenter::class.java) {
         override fun endTransition(forward: Boolean) {
             super.endTransition(forward)
-            toolbarViewModel.refreshToolBar.onNext(forward)
-            overviewPresenter.visibility = if (!forward) View.VISIBLE else View.GONE
-            resultsPresenter.visibility = if (!forward) View.GONE else View.VISIBLE
+            toolbarViewModel.refreshToolBar.onNext(!forward)
         }
     }
 
@@ -188,6 +187,7 @@ open class BaseFlightPresenter(context: Context, attrs: AttributeSet) : Presente
         override fun onNext(flight: FlightLeg) {
             show(overviewPresenter)
             overviewPresenter.vm.selectedFlightLeg.onNext(flight)
+            trackFlightOverviewLoad()
         }
 
         override fun onCompleted() {
@@ -209,5 +209,7 @@ open class BaseFlightPresenter(context: Context, attrs: AttributeSet) : Presente
         }
         return super.back()
     }
+
+    abstract fun trackFlightOverviewLoad()
 }
 

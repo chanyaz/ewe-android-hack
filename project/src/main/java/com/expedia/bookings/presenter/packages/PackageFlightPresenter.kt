@@ -7,11 +7,11 @@ import android.util.AttributeSet
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.presenter.flight.BaseFlightPresenter
+import com.expedia.bookings.tracking.PackagesTracking
 import com.expedia.bookings.widget.PackageFlightListAdapter
 import com.expedia.util.endlessObserver
 
 class PackageFlightPresenter(context: Context, attrs: AttributeSet) : BaseFlightPresenter(context, attrs) {
-
     private val flightOverviewSelected = endlessObserver<FlightLeg> { flight ->
         val params = Db.getPackageParams()
         if (flight.outbound) {
@@ -48,7 +48,12 @@ class PackageFlightPresenter(context: Context, attrs: AttributeSet) : BaseFlight
         toolbarViewModel.city.onNext(cityBound)
         toolbarViewModel.travelers.onNext(numTravelers)
         toolbarViewModel.date.onNext(if (isOutboundSearch) Db.getPackageParams().checkIn else Db.getPackageParams().checkOut)
+        PackagesTracking().trackFlightRoundTripLoad(isOutboundSearch)
+    }
 
+    override fun trackFlightOverviewLoad() {
+        val isOutboundSearch = Db.getPackageParams()?.isOutboundSearch() ?: false
+        PackagesTracking().trackFlightRoundTripDetailsLoad(isOutboundSearch)
     }
 }
 

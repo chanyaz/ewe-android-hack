@@ -156,8 +156,7 @@
                         android:focusableInTouchMode="true"
                         android:hint="@string/credit_card_hint"
                         android:imeOptions="actionNext"
-                        android:nextFocusDown="@+id/edit_creditcard_cvv"
-                        android:nextFocusRight="@+id/edit_creditcard_cvv"
+                        android:nextFocusForward="@+id/edit_creditcard_cvv"
                         android:paddingLeft="48dp"
                         android:singleLine="true"
                         android:textSize="@dimen/traveler_input_text_size"
@@ -191,8 +190,7 @@
                         android:imeOptions="actionNext"
                         android:inputType="numberPassword"
                         android:maxLength="4"
-                        android:nextFocusDown="@+id/edit_name_on_card"
-                        android:nextFocusRight="@+id/edit_name_on_card"
+                        android:nextFocusForward="@+id/edit_name_on_card"
                         android:singleLine="true"
                         android:textSize="@dimen/traveler_input_text_size" />
 
@@ -208,8 +206,7 @@
                     android:hint="@string/cardholder_name_hint"
                     android:imeOptions="actionNext"
                     android:inputType="textPersonName|textCapWords"
-                    android:nextFocusDown="@+id/edit_email_address"
-                    android:nextFocusRight="@+id/edit_email_address"
+                    android:nextFocusForward="@+id/edit_email_address"
                     android:singleLine="true"
                     android:textSize="@dimen/traveler_input_text_size" />
 
@@ -222,8 +219,7 @@
                     android:hint="@string/email_address_hint_confirmation"
                     android:imeOptions="actionNext"
                     android:inputType="textEmailAddress"
-                    android:nextFocusDown="@+id/edit_address_line_one"
-                    android:nextFocusRight="@+id/edit_address_line_one"
+                    android:nextFocusForward="@+id/edit_address_line_one"
                     android:singleLine="true"
                     android:textSize="@dimen/traveler_input_text_size" />
 

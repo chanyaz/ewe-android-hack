@@ -15,6 +15,7 @@ import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.text.TextUtils;
 
 import com.expedia.account.AccountService;
@@ -125,6 +126,7 @@ public class User implements JSONable {
 		this.loyaltyMembershipInformation = loyaltyMembershipInformation;
 	}
 
+	@Nullable
 	public UserLoyaltyMembershipInformation getLoyaltyMembershipInformation() {
 		return loyaltyMembershipInformation;
 	}

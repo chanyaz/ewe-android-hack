@@ -105,7 +105,7 @@ class CalendarDialogFragment(val datedSearchViewModel: DatedSearchViewModel) : D
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        val builder = AlertDialog.Builder(context)
+        val builder = AlertDialog.Builder(context, R.style.Theme_AlertDialog)
         calendar
         builder.setView(calendarDialogView)
         builder.setPositiveButton(context.getString(R.string.DONE), { dialog, which ->
@@ -124,7 +124,7 @@ class CalendarDialogFragment(val datedSearchViewModel: DatedSearchViewModel) : D
             calendar.visibility = CardView.VISIBLE
             dialog.getButton(AlertDialog.BUTTON_POSITIVE).isEnabled = calendar.startDate != null
             oldCalendarSelection = Pair(calendar.startDate, calendar.endDate)
-            calendar.setInstructionText(HotelSearchViewModel.computeDateInstructionText(context, calendar.startDate, calendar.endDate))
+            calendar.setInstructionText(datedSearchViewModel.computeDateInstructionText(calendar.startDate, calendar.endDate))
 
             dialog.window?.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT)
         }

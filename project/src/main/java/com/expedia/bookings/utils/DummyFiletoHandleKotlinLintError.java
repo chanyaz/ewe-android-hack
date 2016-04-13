@@ -368,6 +368,7 @@ DummyFiletoHandleKotlinLintError {
 		R.dimen.airlines_filter_height,
 		R.layout.labeled_checked_filter,
 		R.string.flight_duration_hour_short,
+		R.color.greener_pastures,
 		R.layout.widget_package_flight_filter,
 		R.color.packages_breakdown_text_color,
 		R.color.packages_breakdown_total_cost_color,
@@ -403,6 +404,7 @@ DummyFiletoHandleKotlinLintError {
 		R.color.temporary_secondary_gray,
 		R.color.temporary_savings,
 		R.color.temporary_flight_duration_gray,
+		R.layout.activity_phone_new_launch,
 		R.dimen.account_button_rewards_text_size,
 		R.dimen.login_field_text_size,
 		R.dimen.login_field_padding,
@@ -507,5 +509,9 @@ DummyFiletoHandleKotlinLintError {
 		R.string.orbucks_applied_TEMPLATE,
 		R.string.you_are_using_orbucks_TEMPLATE,
 		R.string.payment_through_card_and_orbucks,
+		R.string.earn_message_TEMPLATE,
+		R.string.fly_from_hint,
+		R.string.fly_to_hint,
+		R.string.select_departure_date
 	};
 }

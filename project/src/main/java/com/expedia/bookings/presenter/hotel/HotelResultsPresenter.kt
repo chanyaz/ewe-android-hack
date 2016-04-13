@@ -14,8 +14,11 @@ import android.widget.Button
 import android.widget.ImageView
 import android.widget.LinearLayout
 import com.expedia.bookings.R
+import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.SuggestionV4
+import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.tracking.HotelV2Tracking
+import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.FilterButtonWithCountWidget
 import com.expedia.bookings.widget.MapLoadingOverlayWidget
@@ -25,12 +28,17 @@ import com.expedia.util.subscribeInverseVisibility
 import com.expedia.util.subscribeText
 import com.expedia.util.subscribeVisibility
 import com.expedia.vm.HotelResultsViewModel
+import com.expedia.vm.ShopWithPointsViewModel
+import javax.inject.Inject
 
 class HotelResultsPresenter(context: Context, attrs: AttributeSet) : BaseHotelResultsPresenter(context, attrs) {
     override val filterBtnWithCountWidget: FilterButtonWithCountWidget by bindView(R.id.sort_filter_button_container)
     override val searchThisArea: Button by bindView(R.id.search_this_area)
     override val loadingOverlay: MapLoadingOverlayWidget by bindView(R.id.map_loading_overlay)
     var filterBtn: LinearLayout? = null
+
+    lateinit var shopWithPointsViewModel: ShopWithPointsViewModel
+        @Inject set
 
     var viewmodel: HotelResultsViewModel by notNullAndObservable { vm ->
         vm.hotelResultsObservable.subscribe {
@@ -82,6 +90,8 @@ class HotelResultsPresenter(context: Context, attrs: AttributeSet) : BaseHotelRe
 
     override fun onFinishInflate() {
         super.onFinishInflate()
+        Ui.getApplication(getContext()).hotelComponent().inject(this)
+
         ViewCompat.setElevation(loadingOverlay, context.resources.getDimension(R.dimen.launch_tile_margin_side))
         //Fetch, color, and slightly resize the searchThisArea location pin drawable
         val icon = ContextCompat.getDrawable(context, R.drawable.ic_material_location_pin).mutate()
@@ -97,22 +107,23 @@ class HotelResultsPresenter(context: Context, attrs: AttributeSet) : BaseHotelRe
             clearMarkers()
             hideSearchThisArea()
             doAreaSearch()
-            HotelV2Tracking().trackHotelsV2SearchAreaClick()
+            trackMapSearchAreaClick()
         })
 
         inflateAndSetupToolbarMenu()
+        filterView.shopWithPointsViewModel = shopWithPointsViewModel
         filterView.viewmodel.filterCountObservable.map { it.toString() }.subscribeText(filterCountText)
         filterView.viewmodel.filterCountObservable.map { it > 0 }.subscribeVisibility(filterCountText)
         filterView.viewmodel.filterCountObservable.map { it > 0 }.subscribeInverseVisibility(filterPlaceholderImageView)
 
         filterBtn?.setOnClickListener { view ->
-            show(ResultsFilter())
+            showWithTracking(ResultsFilter())
             filterView.viewmodel.sortContainerObservable.onNext(false)
             filterView.toolbar.title = resources.getString(R.string.filter)
         }
 
         filterBtnWithCountWidget?.setOnClickListener {
-            show(ResultsFilter())
+            showWithTracking(ResultsFilter())
             filterView.viewmodel.sortContainerObservable.onNext(true)
             filterView.toolbar.title = resources.getString(R.string.Sort_and_Filter)
         }
@@ -178,5 +189,37 @@ class HotelResultsPresenter(context: Context, attrs: AttributeSet) : BaseHotelRe
             searchThisArea.visibility = View.VISIBLE
             ObjectAnimator.ofFloat(searchThisArea, "alpha", 0f, 1f).setDuration(DEFAULT_UI_ELEMENT_APPEAR_ANIM_DURATION).start()
         }
+    }
+
+    override fun trackSearchMap() {
+        HotelV2Tracking().trackHotelV2SearchMap()
+    }
+
+    override fun trackMapToList() {
+        HotelV2Tracking().trackHotelV2MapToList()
+    }
+
+    override fun trackCarouselScroll() {
+        HotelV2Tracking().trackHotelV2CarouselScroll()
+    }
+
+    override fun trackMapPinTap() {
+        HotelV2Tracking().trackHotelV2MapTapPin()
+    }
+
+    override fun trackFilterShown() {
+        HotelV2Tracking().trackHotelV2Filter()
+    }
+
+    override fun trackMapSearchAreaClick() {
+        HotelV2Tracking().trackHotelsV2SearchAreaClick()
+    }
+
+    override fun isMapClusteringEnabled(): Boolean {
+        return Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppHSRMapClusteringTest)
+    }
+
+    override fun isUserBucketedSearchScreenTest(): Boolean {
+        return Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelsSearchScreenTest)
     }
 }

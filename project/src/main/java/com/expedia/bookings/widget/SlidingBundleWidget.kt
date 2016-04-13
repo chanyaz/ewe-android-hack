@@ -41,8 +41,12 @@ class SlidingBundleWidget(context: Context, attrs: AttributeSet?) : FrameLayout(
             override fun onGlobalLayout() {
                 if (bundlePriceWidget.height != 0) {
                     bundlePriceWidget.viewTreeObserver.removeOnGlobalLayoutListener(this)
-                    translationY = height.toFloat() - bundlePriceWidget.height
+                    bundlePriceWidget.animateBundleWidget(1f, true)
+                    finalizeBundleTransition(true)
                     bundlePriceFooter.translationY = - statusBarHeight.toFloat()
+                    postDelayed({
+                        closeBundleOverview()
+                    }, 100)
                 }
             }
         })
@@ -68,6 +72,7 @@ class SlidingBundleWidget(context: Context, attrs: AttributeSet?) : FrameLayout(
         bundlePriceWidget.bundleTotalText.visibility = if (forward) View.GONE else View.VISIBLE
         bundlePriceWidget.bundleTotalIncludes.visibility = if (forward) View.GONE else View.VISIBLE
         bundlePriceWidget.bundleTotalPrice.visibility = if (forward) View.GONE else View.VISIBLE
+        bundlePriceWidget.bundleChevron.rotation = if (forward) 180f else 0f
         bundlePriceWidget.setBackgroundColor(if (forward) ContextCompat.getColor(context, R.color.packages_primary_color) else Color.WHITE)
         translationY = if (forward) statusBarHeight.toFloat() else height.toFloat() - bundlePriceWidget.height
         isMoving = false
@@ -113,6 +118,7 @@ class SlidingBundleWidget(context: Context, attrs: AttributeSet?) : FrameLayout(
             }
 
             override fun onAnimationEnd(animator: Animator) {
+                finalizeBundleTransition(open)
                 isMoving = false
             }
         })

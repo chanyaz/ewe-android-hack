@@ -12,12 +12,16 @@ import com.expedia.bookings.test.espresso.AbacusTestUtils;
 import com.expedia.bookings.test.espresso.Common;
 import com.expedia.bookings.test.espresso.EspressoUtils;
 import com.expedia.bookings.test.espresso.PhoneTestCase;
+import com.expedia.bookings.test.espresso.ViewActions;
 import com.expedia.bookings.test.phone.hotels.HotelScreen;
 import com.expedia.bookings.test.phone.pagemodels.common.LaunchScreen;
 import com.expedia.bookings.utils.DateUtils;
 
 import java.util.Arrays;
 import java.util.List;
+
+import static android.support.test.espresso.Espresso.onView;
+import static android.support.test.espresso.matcher.ViewMatchers.withId;
 
 public class HotelsABTest extends PhoneTestCase {
 
@@ -133,6 +137,7 @@ public class HotelsABTest extends PhoneTestCase {
 		hotelSearchParams.setCheckOutDate(checkOut);
 		Events.post(new Events.LaunchAirAttachBannerShow(hotelSearchParams));
 		Common.delay(2);
+		onView(withId(R.id.air_attach_banner)).perform(ViewActions.waitForViewToDisplay());
 		EspressoUtils.assertViewIsDisplayed(R.id.air_attach_banner);
 
 		LaunchScreen.clickOnAirAttachBanner();

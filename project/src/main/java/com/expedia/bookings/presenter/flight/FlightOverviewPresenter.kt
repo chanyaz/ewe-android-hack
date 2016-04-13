@@ -10,7 +10,6 @@ import com.expedia.bookings.widget.FlightCheckoutPresenter
 import com.expedia.vm.FlightCheckoutOverviewViewModel
 
 class FlightOverviewPresenter(context: Context, attrs: AttributeSet) : BaseOverviewPresenter(context, attrs) {
-
     val flightSummary: FlightSummaryWidget by bindView(R.id.flight_summary)
 
     override fun inflate() {
@@ -34,5 +33,8 @@ class FlightOverviewPresenter(context: Context, attrs: AttributeSet) : BaseOverv
 
     override fun getCheckoutTransitionClass() : Class<out Any> {
         return FlightCheckoutPresenter::class.java
+    }
+
+    override fun trackCheckoutPageLoad() {
     }
 }

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <merge xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:ignore="UnusedResources">
 
     <ScrollView
@@ -102,12 +103,12 @@
                     android:id="@+id/child_age_label"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="@dimen/hotel_traveler_padding"
-                    android:layout_marginTop="@dimen/hotel_traveler_padding"
+                    android:layout_marginBottom="@dimen/hotel_traveler_table_margin"
+                    android:layout_marginTop="@dimen/hotel_traveler_table_margin"
                     android:text="@string/child_age_label"
                     android:textColor="@color/cars_actionbar_text_color"
                     android:textSize="15sp"
-                    android:textStyle="bold" />
+                    app:textStyle="medium"/>
 
                 <LinearLayout
                     android:id="@+id/children_ages"
@@ -137,7 +138,6 @@
                         android:id="@+id/children_ages_bottom_container"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginBottom="@dimen/hotel_traveler_table_margin"
                         android:orientation="horizontal"
                         android:visibility="gone">
 

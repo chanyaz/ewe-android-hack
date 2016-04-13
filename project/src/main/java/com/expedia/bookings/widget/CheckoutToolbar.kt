@@ -18,7 +18,7 @@ import kotlin.properties.Delegates
 
 class CheckoutToolbar(context: Context, attrs: AttributeSet) : Toolbar(context, attrs), ToolbarListener {
     var menuItem: MenuItem by Delegates.notNull()
-    var currentEditText: EditText? = null
+    var currentFocus: EditText? = null
     var toolbarNavIcon = ArrowXDrawableUtil.getNavigationIconDrawable(getContext(), ArrowXDrawableUtil.ArrowDrawableType.BACK);
 
     var viewModel: CheckoutToolbarViewModel by notNullAndObservable { vm ->
@@ -47,13 +47,16 @@ class CheckoutToolbar(context: Context, attrs: AttributeSet) : Toolbar(context, 
             menuItem.setTitle(context.getString(R.string.done))
         }
 
-        vm.editText.subscribe {
-            currentEditText = it
-            setMenuTitle()
+        vm.currentFocus.subscribe {
+            currentFocus = it
         }
 
-        vm.toolbarNavIcon.subscribe{
+        vm.toolbarNavIcon.subscribe {
             setNavArrowBarParameter(it)
+        }
+
+        vm.formFilledIn.subscribe { isFilledIn ->
+            vm.menuTitle.onNext(if (isFilledIn) context.getString(R.string.done) else context.getString(R.string.next))
         }
     }
 
@@ -112,29 +115,12 @@ class CheckoutToolbar(context: Context, attrs: AttributeSet) : Toolbar(context, 
         toolbarNavIcon.parameter = arrowDrawableType.type.toFloat()
     }
 
-    override fun editTextFocus(editText: EditText?) {
-        viewModel.editText.onNext(editText)
+    override fun editTextFocus(edittext: EditText) {
+        viewModel.currentFocus.onNext(edittext)
     }
 
     private fun setNextFocus()
     {
-        var v: View? = currentEditText?.focusSearch(View.FOCUS_RIGHT)
-        v?.requestFocus() ?: currentEditText?.focusSearch(View.FOCUS_DOWN)?.requestFocus()
-    }
-
-    private fun setMenuTitle()
-    {
-        var right: View? = currentEditText?.focusSearch(View.FOCUS_RIGHT)
-        val hasNextFocusRight = (right != null);
-
-        var up: View? = currentEditText?.focusSearch(View.FOCUS_UP)
-        val hasNextFocusUp = (up != null);
-
-        var below: View? = currentEditText?.focusSearch(View.FOCUS_DOWN)
-        val hasNextFocusDown = (below != null);
-
-        val doesNotHaveFocus = !hasNextFocusDown && ((hasNextFocusRight && hasNextFocusUp) || !hasNextFocusRight)
-
-        viewModel.menuTitle.onNext(if (doesNotHaveFocus) context.getString(R.string.done) else context.getString(R.string.next))
+        currentFocus?.focusSearch(View.FOCUS_FORWARD)?.requestFocus()
     }
 }

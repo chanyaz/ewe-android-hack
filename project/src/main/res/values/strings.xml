@@ -4,10 +4,13 @@
     <!-- Hotels -->
     <!-- Hotels Calendar Strings -->
     <string name="select_checkin_date">Select check in date</string>
+    <!-- Package Calendar Strings -->
+    <string name="select_departure_date">Select departure date</string>
     <!-- Hotels calendar tooltip bottom line after a single date is selected -->
     <string name="hotel_calendar_tooltip_bottom">Next: Select check out date</string>
     <!-- When user hasn't picked check out date, we show something like: "Jan 21 - Select check out date" -->
     <string name="select_checkout_date_TEMPLATE">%1$s - Select check out date</string>
+
     <!-- Search form text hotels nights. %$s = formatted nights string. E.g. (3 nights) -->
     <string name="nights_count_TEMPLATE">(%1$s)</string>
     <!-- Hotels search form default text for number of guests -->
@@ -38,6 +41,8 @@
     <string name="change_dates">Change Dates</string>
     <!-- checkout view toolbar title -->
     <string name="secure_checkout">Secure Checkout</string>
+    <!-- Earn messaging -->
+    <string name="earn_message_TEMPLATE">Earn {earn}</string>
 
     <!-- Cars -->
     <!-- Cars Calendar Strings -->
@@ -3176,10 +3181,16 @@
     <string name="open_source_software_licenses">Open Source Software Licenses</string>
     <!-- String for acrediting the open source libraries we use -->
     <string name="this_app_makes_use_of_the_following">This app makes use of the following open-source libraries:</string>
+
+    <!-- Account settings view -->
     <!-- Label for a field containing the number of points that the user has accrued under the loyalty program (e.g. Expedia+) -->
     <string name="available_loyalty_points">Available points</string>
     <!-- String for showing the number of pending points that the user will accrue under the loyalty program (e.g. Expedia+); parameter is the number of points (e.g. "7,253 pending") -->
     <string name="loyalty_points_pending">%1$s pending</string>
+    <!-- Label (positioned above points) indicating the monetary ($) value of the customers points -->
+    <string name="points_value_label">Points value</string>
+    <!-- Label (positioned above) for customer points value currency -->
+    <string name="currency_label">Currency</string>
 
     <!-- App support WebView -->
     <!-- menu -->
@@ -4062,6 +4073,10 @@
     <string name="flight_search_card_title">Flight Search</string>
     <!-- Label for feeds/scratchpad card indicating source of given information -->
     <string name="via_scratchpad_label">via Scratchpad</string>
+    <!-- Fly from hint -->
+    <string name="fly_from_hint">Flying from</string>
+    <!-- Fly to hint -->
+    <string name="fly_to_hint">Flying to</string>
 
     <!-- Orbucks -->
     <string name="orbucks_available_TEMPLATE">{money} in Orbucks available</string>

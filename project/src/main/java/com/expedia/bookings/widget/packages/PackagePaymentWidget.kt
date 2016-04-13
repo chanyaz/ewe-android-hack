@@ -2,10 +2,13 @@ package com.expedia.bookings.widget.packages
 
 import android.content.Context
 import android.util.AttributeSet
+import android.view.View
 import android.widget.EditText
 import com.expedia.bookings.R
+import com.expedia.bookings.tracking.PackagesTracking
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.PaymentWidget
+import com.jakewharton.rxbinding.widget.RxTextView
 
 
 class PackagePaymentWidget(context: Context, attr: AttributeSet) : PaymentWidget(context, attr) {
@@ -26,6 +29,17 @@ class PackagePaymentWidget(context: Context, attr: AttributeSet) : PaymentWidget
         addressState.onFocusChangeListener = this;
     }
 
+    override fun onVisibilityChanged(changedView: View?, visibility: Int) {
+        super.onVisibilityChanged(changedView, visibility)
+        if (visibility == View.VISIBLE) {
+            compositeSubscription?.add(RxTextView.afterTextChangeEvents(editEmailAddress).distinctUntilChanged().subscribe(formFilledSubscriber))
+            compositeSubscription?.add(RxTextView.afterTextChangeEvents(creditCardCvv).distinctUntilChanged().subscribe(formFilledSubscriber))
+            compositeSubscription?.add(RxTextView.afterTextChangeEvents(addressLineOne).distinctUntilChanged().subscribe(formFilledSubscriber))
+            compositeSubscription?.add(RxTextView.afterTextChangeEvents(addressCity).distinctUntilChanged().subscribe(formFilledSubscriber))
+            compositeSubscription?.add(RxTextView.afterTextChangeEvents(addressState).distinctUntilChanged().subscribe(formFilledSubscriber))
+        }
+    }
+
     override fun isFilled() : Boolean {
         return super.isFilled()
                 || !creditCardCvv.text.toString().isEmpty()
@@ -33,7 +47,15 @@ class PackagePaymentWidget(context: Context, attr: AttributeSet) : PaymentWidget
                 || !addressCity.text.toString().isEmpty()
                 || !addressState.text.toString().isEmpty()
                 || !editEmailAddress.getText().toString().isEmpty();
+    }
 
+    override fun isCompletelyFilled(): Boolean {
+        return super.isCompletelyFilled()
+                && creditCardCvv.text.toString().isNotEmpty()
+                && addressLineOne.text.toString().isNotEmpty()
+                && addressCity.text.toString().isNotEmpty()
+                && addressState.text.toString().isNotEmpty()
+                && editEmailAddress.getText().toString().isNotEmpty();
     }
 
     override fun isSecureToolbarBucketed() : Boolean {
@@ -42,5 +64,17 @@ class PackagePaymentWidget(context: Context, attr: AttributeSet) : PaymentWidget
 
     override fun getCreditCardNumberHintResId() : Int {
         return R.string.credit_card_hint
+    }
+
+    override fun trackPaymentStoredCCSelect() {
+        PackagesTracking().trackCheckoutPaymentSelectStoredCard()
+    }
+
+    override fun trackShowPaymentEdit() {
+        PackagesTracking().trackCheckoutAddPaymentType()
+    }
+
+    override fun trackShowPaymentOptions() {
+        PackagesTracking().trackCheckoutSelectPaymentClick()
     }
 }

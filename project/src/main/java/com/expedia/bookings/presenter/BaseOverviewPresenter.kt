@@ -42,21 +42,23 @@ abstract class BaseOverviewPresenter(context: Context, attrs: AttributeSet) : Pr
             bundleOverviewHeader.toolbar.menu.setGroupVisible(R.id.package_change_menu, visible)
         }
 
-        checkoutPresenter.paymentWidget.viewmodel.toolbarTitle.subscribe(bundleOverviewHeader.toolbar.viewModel.toolbarTitle)
-        checkoutPresenter.paymentWidget.viewmodel.editText.subscribe(bundleOverviewHeader.toolbar.viewModel.editText)
-        checkoutPresenter.paymentWidget.viewmodel.menuVisibility.subscribe(bundleOverviewHeader.toolbar.viewModel.menuVisibility)
-        checkoutPresenter.paymentWidget.viewmodel.enableMenuItem.subscribe(bundleOverviewHeader.toolbar.viewModel.enableMenuItem)
-        checkoutPresenter.paymentWidget.viewmodel.visibleMenuWithTitleDone.subscribe(bundleOverviewHeader.toolbar.viewModel.visibleMenuWithTitleDone)
-        checkoutPresenter.paymentWidget.viewmodel.toolbarNavIcon.subscribe(bundleOverviewHeader.toolbar.viewModel.toolbarNavIcon)
+        checkoutPresenter.paymentWidget.toolbarTitle.subscribe(bundleOverviewHeader.toolbar.viewModel.toolbarTitle)
+        checkoutPresenter.paymentWidget.focusedView.subscribe(bundleOverviewHeader.toolbar.viewModel.currentFocus)
+        checkoutPresenter.paymentWidget.filledIn.subscribe(bundleOverviewHeader.toolbar.viewModel.formFilledIn)
+        checkoutPresenter.paymentWidget.menuVisibility.subscribe(bundleOverviewHeader.toolbar.viewModel.menuVisibility)
+        checkoutPresenter.paymentWidget.enableMenuItem.subscribe(bundleOverviewHeader.toolbar.viewModel.enableMenuItem)
+        checkoutPresenter.paymentWidget.visibleMenuWithTitleDone.subscribe(bundleOverviewHeader.toolbar.viewModel.visibleMenuWithTitleDone)
+        checkoutPresenter.paymentWidget.toolbarNavIcon.subscribe(bundleOverviewHeader.toolbar.viewModel.toolbarNavIcon)
 
         checkoutPresenter.travelerPresenter.toolbarTitleSubject.subscribe(bundleOverviewHeader.toolbar.viewModel.toolbarTitle)
-        checkoutPresenter.travelerPresenter.travelerEntryWidget.focusedView.subscribe(bundleOverviewHeader.toolbar.viewModel.editText)
+        checkoutPresenter.travelerPresenter.travelerEntryWidget.focusedView.subscribe(bundleOverviewHeader.toolbar.viewModel.currentFocus)
+        checkoutPresenter.travelerPresenter.travelerEntryWidget.filledIn.subscribe(bundleOverviewHeader.toolbar.viewModel.formFilledIn)
         checkoutPresenter.travelerPresenter.menuVisibility.subscribe(bundleOverviewHeader.toolbar.viewModel.menuVisibility)
         checkoutPresenter.travelerPresenter.toolbarNavIcon.subscribe(bundleOverviewHeader.toolbar.viewModel.toolbarNavIcon)
 
         bundleOverviewHeader.toolbar.viewModel.doneClicked.subscribe {
             if (checkoutPresenter.currentState == PackagePaymentWidget::class.java.name) {
-                checkoutPresenter.paymentWidget.viewmodel.doneClicked.onNext(Unit)
+                checkoutPresenter.paymentWidget.doneClicked.onNext(Unit)
             } else if (checkoutPresenter.currentState == TravelerPresenter::class.java.name) {
                 checkoutPresenter.travelerPresenter.travelerEntryWidget.doneClicked.onNext(Unit)
             }
@@ -65,6 +67,7 @@ abstract class BaseOverviewPresenter(context: Context, attrs: AttributeSet) : Pr
         checkoutPresenter.checkoutButton.setOnClickListener {
             show(checkoutPresenter)
             checkoutPresenter.show(BaseCheckoutPresenter.CheckoutDefault(), FLAG_CLEAR_BACKSTACK)
+            trackCheckoutPageLoad()
         }
 
         bundleOverviewHeader.setUpCollapsingToolbar()
@@ -107,6 +110,7 @@ abstract class BaseOverviewPresenter(context: Context, attrs: AttributeSet) : Pr
         var translationDistance = 0f
         var range = 0f
         override fun startTransition(forward: Boolean) {
+            bundleOverviewHeader.checkoutOverviewHeaderToolbar.visibility = View.VISIBLE
             bundleOverviewHeader.toggleCollapsingToolBar(true)
             translationDistance = checkoutPresenter.mainContent.translationY
             val params = bundleOverviewHeader.appBarLayout.layoutParams as CoordinatorLayout.LayoutParams
@@ -115,6 +119,11 @@ abstract class BaseOverviewPresenter(context: Context, attrs: AttributeSet) : Pr
             bundleOverviewHeader.toolbar.menu.setGroupVisible(R.id.package_change_menu, !forward)
             checkoutPresenter.mainContent.visibility = View.VISIBLE
             bundleOverviewHeader.nestedScrollView.foreground = ContextCompat.getDrawable(context, R.drawable.dim_background)
+            behavior.setDragCallback(object: AppBarLayout.Behavior.DragCallback() {
+                override fun canDrag(appBarLayout: AppBarLayout): Boolean {
+                    return currentState == BundleDefault::class.java.name
+                }
+            });
         }
 
         override fun updateTransition(f: Float, forward: Boolean) {
@@ -126,6 +135,7 @@ abstract class BaseOverviewPresenter(context: Context, attrs: AttributeSet) : Pr
 
         override fun endTransition(forward: Boolean) {
             super.endTransition(forward)
+            bundleOverviewHeader.checkoutOverviewHeaderToolbar.visibility = if (forward) View.GONE else View.VISIBLE
             bundleOverviewHeader.toggleCollapsingToolBar(!forward)
             checkoutPresenter.checkoutButton.translationY = if (forward) checkoutPresenter.checkoutButton.height.toFloat() else 0f
             checkoutPresenter.mainContent.visibility = if (forward) View.VISIBLE else View.GONE
@@ -193,4 +203,6 @@ abstract class BaseOverviewPresenter(context: Context, attrs: AttributeSet) : Pr
     class BundleDefault
 
     abstract fun getCheckoutTransitionClass() : Class<out Any>
+
+    abstract fun trackCheckoutPageLoad()
 }

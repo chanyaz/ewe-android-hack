@@ -26,10 +26,9 @@
         <item name="android:paddingRight">15dp</item>
     </style>
 
-    <style name="Theme.AlertDialog" parent="android:Theme.Material.Light.Dialog.Alert">
-        <item name="android:colorPrimary">?attr/skin_carsPrimaryColor</item>
-        <item name="android:colorPrimaryDark">?attr/skin_carsPrimaryColor</item>
-        <item name="android:colorAccent">?attr/skin_carsPrimaryColor</item>
+    <style name="Theme.AlertDialog" parent="Theme.AppCompat.Light.Dialog">
+        <item name="colorAccent">?attr/primary_color</item>
+        <item name="colorPrimary">?attr/primary_color</item>
     </style>
 
 </resources>

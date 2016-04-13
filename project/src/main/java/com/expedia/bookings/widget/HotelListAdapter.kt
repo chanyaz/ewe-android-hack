@@ -38,6 +38,7 @@ import com.expedia.util.subscribeImageDrawable
 import com.expedia.util.subscribeStarColor
 import com.expedia.util.subscribeStarRating
 import com.expedia.util.subscribeText
+import com.expedia.util.subscribeTextAndVisibility
 import com.expedia.util.subscribeTextColor
 import com.expedia.util.subscribeVisibility
 import com.expedia.vm.HotelResultsPricingStructureHeaderViewModel
@@ -203,6 +204,7 @@ class HotelListAdapter(val hotelSelectedSubject: PublishSubject<Hotel>, val head
         val airAttachSWPImage: ImageView by root.bindView(R.id.air_attach_swp_image)
         val ratingAmenityContainer: View by root.bindView(R.id.rating_amenity_container)
         val priceIncludesFlightsView: LinearLayout by root.bindView(R.id.price_includes_flights)
+        val earnMessagingText: TextView by root.bindView(R.id.earn_messaging)
 
         init {
             itemView.setOnClickListener(this)
@@ -255,6 +257,8 @@ class HotelListAdapter(val hotelSelectedSubject: PublishSubject<Hotel>, val head
             viewModel.airAttachIconWithoutDiscountLabelVisibility.subscribeVisibility(airAttachSWPImage)
             viewModel.hotelDiscountPercentageObservable.subscribeText(airAttachDiscount)
             viewModel.ratingAmenityContainerVisibilityObservable.subscribeVisibility(ratingAmenityContainer)
+            viewModel.earnMessagingObservable.subscribeText(earnMessagingText)
+            viewModel.earnMessagingVisibilityObservable.subscribeVisibility(earnMessagingText)
 
             viewModel.toolBarRatingColor.subscribeStarColor(ratingBar)
             viewModel.imageColorFilter.subscribeColorFilter(imageView)
