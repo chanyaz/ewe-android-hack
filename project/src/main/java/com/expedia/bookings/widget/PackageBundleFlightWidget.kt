@@ -11,6 +11,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import com.expedia.bookings.R
 import com.expedia.bookings.presenter.Presenter
+import com.expedia.bookings.tracking.PackagesTracking
 import com.expedia.bookings.utils.AnimUtils
 import com.expedia.bookings.utils.Constants
 import com.expedia.bookings.utils.Ui
@@ -123,6 +124,7 @@ class PackageBundleFlightWidget(context: Context, attrs: AttributeSet?) : CardVi
     private fun expandFlightDetails() {
         flightDetailsContainer.visibility = Presenter.VISIBLE
         AnimUtils.rotate(flightDetailsIcon)
+        PackagesTracking().trackBundleOverviewFlightExpandClick()
     }
 
     private fun collapseFlightDetails() {

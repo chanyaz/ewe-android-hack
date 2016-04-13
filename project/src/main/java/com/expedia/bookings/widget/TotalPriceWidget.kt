@@ -12,6 +12,7 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import com.expedia.bookings.R
 import com.expedia.bookings.animation.TransitionElement
+import com.expedia.bookings.tracking.PackagesTracking
 import com.expedia.bookings.utils.AnimUtils
 import com.expedia.bookings.utils.bindView
 import com.expedia.util.notNullAndObservable
@@ -64,8 +65,10 @@ class TotalPriceWidget(context: Context, attrs: AttributeSet?) : LinearLayout(co
         }
         this.setOnClickListener {
             // We want to show cost breakdown ONLY in checkout screen. We set the rightDrawable only when createTrip returns. So let's check
-            if (bundleTotalText.compoundDrawables[2] != null)
+            if (bundleTotalText.compoundDrawables[2] != null) {
                 dialog.show()
+                PackagesTracking().trackBundleOverviewCostBreakdownClick()
+            }
         }
     }
 
