@@ -70,4 +70,34 @@ class PackagesTracking {
         else
             OmnitureTracking.trackPackagesFlightRoundTripInDetailsLoad()
     }
+
+    fun trackHotelDetailBookPhoneClick() {
+        OmnitureTracking.trackPackagesHotelInfoActionBookPhone()
+    }
+
+    fun trackHotelDetailSelectRoomClick(stickyButton: Boolean) {
+        OmnitureTracking.trackPackagesHotelInfoActionSelectRoom(stickyButton)
+    }
+
+    fun trackHotelReviewPageLoad() {
+        OmnitureTracking.trackPackagesHotelReviewPageLoad()
+    }
+
+    fun trackHotelReviewCategoryChange(tabSelected: Int) {
+        val category = ( when (tabSelected) {
+            0 -> "Recent"
+            1 -> "Favorable"
+            2 -> "Critical"
+            else -> "N/A"
+        })
+        OmnitureTracking.trackPackagesHotelReviewCategoryChange(category)
+    }
+
+    fun trackHotelResortFeeInfoClick() {
+        OmnitureTracking.trackPackagesHotelResortFeeInfo()
+    }
+
+    fun trackHotelRenovationInfoClick() {
+        OmnitureTracking.trackPackagesHotelRenovationInfo()
+    }
 }

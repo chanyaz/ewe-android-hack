@@ -4936,6 +4936,13 @@ public class OmnitureTracking {
 	private static final String PACKAGES_HOTEL_RT_OUT_DETAILS = "App.Package.Flight.Search.Roundtrip.Out.Details";
 	private static final String PACKAGES_HOTEL_RT_IN_DETAILS = "App.Package.Flight.Search.Roundtrip.In.Details";
 
+	private static final String PACKAGES_HOTEL_DETAILS_REVIEWS = "App.Package.Reviews";
+	private static final String PACKAGES_HOTEL_DETAILS_REVIEWS_CATEGORY_TEMPLATE = "App.Package.Reviews.";
+	private static final String PACKAGES_HOTEL_DETAILS_RESORT_FEE_INFO = "App.Package.ResortFeeInfo";
+	private static final String PACKAGES_HOTEL_DETAILS_RENOVATION_INFO = "App.Package.RenovationInfo";
+	private static final String PACKAGES_HOTEL_DETAILS_SELECT_ROOM_TEMPLATE = "App.Package.Infosite.SelectRoom.";
+	private static final String PACKAGES_HOTEL_DETAILS_BOOK_BY_PHONE = "App.Package.Infosite.BookPhone";
+
 	private static void addPackagesCommonFields(ADMS_Measurement s) {
 		s.setProp(2, PACKAGES_LOB);
 		s.setEvar(2, "D=c2");
@@ -5123,5 +5130,40 @@ public class OmnitureTracking {
 
 	public static void trackPackagesFlightRoundTripInDetailsLoad() {
 		trackPackagesFlightPageLoad(PACKAGES_HOTEL_RT_IN_DETAILS);
+	}
+
+	public static void trackPackagesHotelInfoActionBookPhone() {
+		Log.d(TAG, "Tracking \"" + PACKAGES_HOTEL_DETAILS_BOOK_BY_PHONE + "\" click...");
+		ADMS_Measurement s = createTrackLinkEvent(PACKAGES_HOTEL_DETAILS_BOOK_BY_PHONE);
+		s.setEvents("event34");
+		s.trackLink(null, "o", "Package Infosite", null, null);
+	}
+
+	public static void trackPackagesHotelInfoActionSelectRoom(boolean stickyButton) {
+		StringBuilder link = new StringBuilder(PACKAGES_HOTEL_DETAILS_SELECT_ROOM_TEMPLATE);
+		if (stickyButton) {
+			link.append("Sticky");
+		}
+		else {
+			link.append("Top");
+		}
+		createAndtrackLinkEvent(link.toString(), "Package Infosite");
+	}
+
+	public static void trackPackagesHotelReviewPageLoad() {
+		trackPackagePageLoadEventStandard(PACKAGES_HOTEL_DETAILS_REVIEWS);
+	}
+
+	public static void trackPackagesHotelReviewCategoryChange(String category) {
+		String link = PACKAGES_HOTEL_DETAILS_REVIEWS_CATEGORY_TEMPLATE + category;
+		createAndtrackLinkEvent(link, "Package Reviews");
+	}
+
+	public static void trackPackagesHotelResortFeeInfo() {
+		trackPackagePageLoadEventStandard(PACKAGES_HOTEL_DETAILS_RESORT_FEE_INFO);
+	}
+
+	public static void trackPackagesHotelRenovationInfo() {
+		trackPackagePageLoadEventStandard(PACKAGES_HOTEL_DETAILS_RENOVATION_INFO);
 	}
 }

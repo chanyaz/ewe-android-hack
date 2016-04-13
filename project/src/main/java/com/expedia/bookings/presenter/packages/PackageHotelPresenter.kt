@@ -2,6 +2,7 @@ package com.expedia.bookings.presenter.packages
 
 import android.app.Activity
 import android.content.Context
+import android.support.v4.view.ViewPager
 import android.support.v7.app.AppCompatActivity
 import android.util.AttributeSet
 import android.view.GestureDetector
@@ -24,6 +25,7 @@ import com.expedia.bookings.presenter.hotel.HotelDetailPresenter
 import com.expedia.bookings.presenter.hotel.HotelReviewsView
 import com.expedia.bookings.services.PackageServices
 import com.expedia.bookings.services.ReviewsServices
+import com.expedia.bookings.tracking.HotelV2Tracking
 import com.expedia.bookings.tracking.PackagesTracking
 import com.expedia.bookings.utils.Strings
 import com.expedia.bookings.utils.Ui
@@ -81,7 +83,7 @@ class PackageHotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
         detailsStub.addView(detailsMapView)
         presenter.hotelMapView.mapView = detailsMapView
         presenter.hotelMapView.mapView.getMapAsync(presenter.hotelMapView);
-        presenter.hotelDetailView.viewmodel = HotelDetailViewModel(context, null, selectedRoomObserver)
+        presenter.hotelDetailView.viewmodel = HotelDetailViewModel(context, null, selectedRoomObserver, LineOfBusiness.PACKAGES)
         presenter.hotelDetailView.viewmodel.reviewsClickedWithHotelData.subscribe(reviewsObserver)
         presenter.hotelDetailView.viewmodel.mapClickedSubject.subscribe(presenter.hotelDetailsEmbeddedMapClickObserver)
         presenter.hotelDetailView.viewmodel.hotelDetailsBundleTotalObservable.subscribe { bundle ->
@@ -96,6 +98,15 @@ class PackageHotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
         var viewStub = findViewById(R.id.reviews_stub) as ViewStub
         var presenter = viewStub.inflate() as HotelReviewsView
         presenter.reviewServices = reviewServices
+        presenter.hotelReviewsToolbar.slidingTabLayout.setOnPageChangeListener(object : ViewPager.OnPageChangeListener {
+            override fun onPageSelected(position: Int) {
+                PackagesTracking().trackHotelReviewCategoryChange(position)
+            }
+            override fun onPageScrollStateChanged(state: Int) {
+            }
+            override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {
+            }
+        })
         setUpReviewsTransition(presenter)
         presenter
     }
@@ -113,7 +124,7 @@ class PackageHotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
     }
 
     val reviewsObserver: Observer<HotelOffersResponse> = endlessObserver { hotel ->
-        reviewsView.viewModel = HotelReviewsViewModel(getContext())
+        reviewsView.viewModel = HotelReviewsViewModel(getContext(), LineOfBusiness.PACKAGES)
         reviewsView.viewModel.hotelObserver.onNext(hotel)
         show(reviewsView)
     }

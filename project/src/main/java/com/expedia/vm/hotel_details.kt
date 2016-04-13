@@ -13,6 +13,7 @@ import android.text.style.StyleSpan
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.HotelMedia
+import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.Traveler
 import com.expedia.bookings.data.User
@@ -25,6 +26,7 @@ import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.extension.isShowAirAttached
 import com.expedia.bookings.services.HotelServices
 import com.expedia.bookings.tracking.HotelV2Tracking
+import com.expedia.bookings.tracking.PackagesTracking
 import com.expedia.bookings.utils.Amenity
 import com.expedia.bookings.utils.CollectionUtils
 import com.expedia.bookings.utils.DateUtils
@@ -109,7 +111,7 @@ class HotelMapViewModel(val context: Context, val selectARoomObserver: Observer<
     }
 }
 
-class HotelDetailViewModel(val context: Context, val hotelServices: HotelServices?, val roomSelectedObserver: Observer<HotelOffersResponse.HotelRoomResponse>) : RecyclerGallery.GalleryItemListener, RecyclerGallery.GalleryItemScrollListener {
+class HotelDetailViewModel(val context: Context, val hotelServices: HotelServices?, val roomSelectedObserver: Observer<HotelOffersResponse.HotelRoomResponse>, val lob: LineOfBusiness = LineOfBusiness.HOTELSV2) : RecyclerGallery.GalleryItemListener, RecyclerGallery.GalleryItemScrollListener {
 
     override fun onGalleryItemClicked(item: Any) {
         galleryClickedSubject.onNext(Unit)
@@ -326,7 +328,7 @@ class HotelDetailViewModel(val context: Context, val hotelServices: HotelService
             else -> hotelOffersResponse.telesalesNumber
         }
         SocialUtils.call(context, number)
-        HotelV2Tracking().trackLinkHotelV2DetailBookPhoneClick()
+        trackBookByPhoneClicked()
     }
 
     val mapClickedSubject = PublishSubject.create<Unit>()
@@ -339,14 +341,24 @@ class HotelDetailViewModel(val context: Context, val hotelServices: HotelService
         var renovationInfo = Pair<String, String>(context.resources.getString(R.string.renovation_notice),
                 hotelOffersResponse.hotelRenovationText?.content ?: "")
         hotelRenovationObservable.onNext(renovationInfo)
-        HotelV2Tracking().trackHotelV2RenovationInfo()
+        if (lob == LineOfBusiness.PACKAGES) {
+            PackagesTracking().trackHotelRenovationInfoClick()
+        }
+        else {
+            HotelV2Tracking().trackHotelV2RenovationInfo()
+        }
     }
 
     val resortFeeContainerClickObserver: Observer<Unit> = endlessObserver {
         var renovationInfo = Pair<String, String>(context.resources.getString(R.string.additional_fees),
                 hotelOffersResponse.hotelMandatoryFeesText?.content ?: "")
         hotelRenovationObservable.onNext(renovationInfo)
-        HotelV2Tracking().trackHotelV2ResortFeeInfo()
+        if (lob == LineOfBusiness.PACKAGES) {
+            PackagesTracking().trackHotelResortFeeInfoClick()
+        }
+        else {
+            HotelV2Tracking().trackHotelV2ResortFeeInfo()
+        }
     }
 
     val payLaterInfoContainerClickObserver: Observer<Unit> = endlessObserver {
@@ -625,6 +637,15 @@ class HotelDetailViewModel(val context: Context, val hotelServices: HotelService
     private fun hasMemberDeal(roomOffer: HotelOffersResponse.HotelRoomResponse): Boolean {
         val isUserBucketedForTest = Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelsMemberDealTest)
         return roomOffer.isMemberDeal && isUserBucketedForTest && User.isLoggedIn(context)
+    }
+
+    private fun trackBookByPhoneClicked() {
+        if (lob == LineOfBusiness.PACKAGES) {
+            PackagesTracking().trackHotelDetailBookPhoneClick()
+        }
+        else {
+            HotelV2Tracking().trackLinkHotelV2DetailBookPhoneClick()
+        }
     }
 }
 
