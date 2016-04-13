@@ -144,8 +144,7 @@
                     android:focusable="true"
                     android:focusableInTouchMode="true"
                     android:hint="@string/credit_card_hint"
-                    android:nextFocusRight="@+id/edit_address_postal_code"
-                    android:nextFocusDown="@+id/edit_address_postal_code"
+                    android:nextFocusForward="@+id/edit_address_postal_code"
                     android:paddingLeft="48dp"
                     android:singleLine="true"
                     app:numberFormat="creditcard" />
@@ -179,8 +178,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="@string/address_postal_code_hint"
-                        android:nextFocusRight="@+id/edit_name_on_card"
-                        android:nextFocusDown="@+id/edit_name_on_card"
+                        android:nextFocusForward="@+id/edit_name_on_card"
                         android:singleLine="true" />
 
                 </com.expedia.bookings.section.SectionLocation>
@@ -202,6 +200,7 @@
                 android:layout_height="wrap_content"
                 android:imeOptions="actionDone"
                 android:hint="@string/name_on_card_hint"
+                android:nextFocusForward="@id/edit_creditcard_number"
                 android:inputType="textPersonName|textCapWords"
                 android:singleLine="true" />
 

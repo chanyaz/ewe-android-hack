@@ -204,6 +204,7 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet) : Pre
 
         override fun endTransition(forward: Boolean) {
             if (!forward) {
+                Ui.hideKeyboard(travelerPresenter)
                 animateInSlideToPurchase(true)
             }
         }
@@ -232,6 +233,7 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet) : Pre
 
         override fun endTransition(forward: Boolean) {
             if (!forward) {
+                Ui.hideKeyboard(paymentWidget)
                 animateInSlideToPurchase(true)
             }
         }

@@ -42,17 +42,17 @@ class PaymentWidgetV2(context: Context, attr: AttributeSet) : PaymentWidget(cont
             isFullPayableWithPoints = !it.isCardRequired()
             vm.burnAmountApiCallResponsePending.onNext(false)
         }
-        viewmodel.enableToolbarMenuButton.subscribe{ enable ->
+        enableToolbarMenuButton.subscribe{ enable ->
             if (paymentOptionsContainer.visibility == View.VISIBLE) {
-                viewmodel.enableMenuItem.onNext(enable && isComplete())
+                enableMenuItem.onNext(enable && isComplete())
             }
         }
-        vm.isPwpDirty.map { !it }.subscribe(viewmodel.enableToolbarMenuButton)
+        vm.isPwpDirty.map { !it }.subscribe(enableToolbarMenuButton)
 
         viewmodel.onStoredCardChosen.withLatestFrom(vm.isPwpDirty, { x, y -> y })
                 .filter { !it }
                 .map { true }
-                .subscribe(viewmodel.enableToolbarMenuButton)
+                .subscribe(enableToolbarMenuButton)
     }
         @Inject set
 
@@ -96,17 +96,17 @@ class PaymentWidgetV2(context: Context, attr: AttributeSet) : PaymentWidget(cont
         super.updateToolbarMenu(forward)
         if (forward) {
             payWithPointsViewModel.hasPwpEditBoxFocus.onNext(false)
-            viewmodel.enableMenuItem.onNext(isComplete())
+            enableMenuItem.onNext(isComplete())
         } else {
             paymentWidgetViewModel.navigatingOutOfPaymentOptions.onNext(Unit)
-            viewmodel.enableMenuItem.onNext(true)
+            enableMenuItem.onNext(true)
         }
     }
 
     override fun back(): Boolean {
         if (currentState == PaymentOption::class.java.name) {
             paymentWidgetViewModel.navigatingOutOfPaymentOptions.onNext(Unit)
-            viewmodel.enableMenuItem.onNext(true)
+            enableMenuItem.onNext(true)
         }
         return super.back()
     }

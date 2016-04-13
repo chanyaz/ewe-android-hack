@@ -20,19 +20,23 @@ import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.data.User;
 import com.expedia.bookings.data.abacus.AbacusUtils;
+import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.data.pos.PointOfSaleId;
 import com.expedia.bookings.enums.MerchandiseSpam;
-import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.section.InvalidCharacterHelper;
 import com.expedia.bookings.section.SectionTravelerInfo;
 import com.expedia.bookings.tracking.HotelV2Tracking;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.FontCache;
 import com.expedia.bookings.utils.Ui;
+import com.jakewharton.rxbinding.widget.RxTextView;
 import com.squareup.phrase.Phrase;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
+import rx.Observer;
+import rx.subjects.PublishSubject;
+import rx.subscriptions.CompositeSubscription;
 
 public class TravelerContactDetailsWidget extends ExpandableCardView implements TravelerButton.ITravelerButtonListener {
 
@@ -84,6 +88,9 @@ public class TravelerContactDetailsWidget extends ExpandableCardView implements 
 	public Boolean emailOptIn;
 	MerchandiseSpam emailOptInStatus;
 
+	public PublishSubject<Boolean> filledIn = PublishSubject.create();
+	public CompositeSubscription compositeSubscription = new CompositeSubscription();
+
 	@Override
 	protected void onFinishInflate() {
 		super.onFinishInflate();
@@ -113,6 +120,7 @@ public class TravelerContactDetailsWidget extends ExpandableCardView implements 
 		lastName.setOnFocusChangeListener(this);
 		emailAddress.setOnFocusChangeListener(this);
 		phoneNumber.setOnFocusChangeListener(this);
+
 		sectionTravelerInfo.addInvalidCharacterListener(new InvalidCharacterHelper.InvalidCharacterListener() {
 			@Override
 			public void onInvalidCharacterEntered(CharSequence text, InvalidCharacterHelper.Mode mode) {
@@ -122,6 +130,35 @@ public class TravelerContactDetailsWidget extends ExpandableCardView implements 
 		});
 		bind();
 	}
+
+	@Override
+	protected void onVisibilityChanged(View changedView, int visibility) {
+		super.onVisibilityChanged(changedView, visibility);
+		if (visibility == View.VISIBLE) {
+			compositeSubscription = new CompositeSubscription();
+			compositeSubscription.add(RxTextView.afterTextChangeEvents(firstName).distinctUntilChanged().subscribe(formFilledSubscriber));
+			compositeSubscription.add(RxTextView.afterTextChangeEvents(lastName).distinctUntilChanged().subscribe(formFilledSubscriber));
+			compositeSubscription.add(RxTextView.afterTextChangeEvents(phoneNumber).distinctUntilChanged().subscribe(formFilledSubscriber));
+		}
+		else {
+			compositeSubscription.unsubscribe();
+		}
+	}
+
+	private Observer formFilledSubscriber = new Observer() {
+		@Override
+		public void onCompleted() {
+		}
+
+		@Override
+		public void onError(Throwable e) {
+		}
+
+		@Override
+		public void onNext(Object o) {
+			filledIn.onNext(isCompletelyFilled());
+		}
+	};
 
 	public void setUPEMailOptCheckBox(MerchandiseSpam value) {
 		emailOptInStatus = value;
@@ -368,6 +405,12 @@ public class TravelerContactDetailsWidget extends ExpandableCardView implements 
 
 	public boolean isFilled() {
 		return !firstName.getText().toString().isEmpty() || !lastName.getText().toString().isEmpty() || !phoneNumber.getText().toString().isEmpty();
+	}
+
+	public boolean isCompletelyFilled() {
+		return !firstName.getText().toString().isEmpty() &&
+			!lastName.getText().toString().isEmpty() &&
+			!phoneNumber.getText().toString().isEmpty();
 	}
 
 	public void setInvalid(String field) {

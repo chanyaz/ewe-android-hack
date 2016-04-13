@@ -30,9 +30,9 @@ import com.expedia.bookings.section.SectionBillingInfo;
 import com.expedia.bookings.utils.ArrowXDrawableUtil;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.ExpandableCardView;
-import com.expedia.bookings.widget.StoredCreditCardList;
 import com.expedia.bookings.widget.PaymentWidget;
 import com.expedia.bookings.widget.PaymentWidgetV2;
+import com.expedia.bookings.widget.StoredCreditCardList;
 import com.expedia.vm.PaymentViewModel;
 
 import static org.junit.Assert.assertEquals;
@@ -102,12 +102,12 @@ public class PaymentWidgetFlowTest {
 			}
 
 			@Override
-			public void editTextFocus(EditText editText) {
+			public void showRightActionButton(boolean show) {
 
 			}
 
 			@Override
-			public void showRightActionButton(boolean show) {
+			public void editTextFocus(EditText editText) {
 
 			}
 
