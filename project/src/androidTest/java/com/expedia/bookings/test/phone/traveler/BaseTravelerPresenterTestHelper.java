@@ -1,5 +1,6 @@
 package com.expedia.bookings.test.phone.traveler;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.joda.time.LocalDate;
@@ -24,26 +25,30 @@ import com.expedia.vm.CheckoutToolbarViewModel;
 import com.expedia.vm.traveler.CheckoutTravelerViewModel;
 import com.squareup.phrase.Phrase;
 
-import static org.mockito.Matchers.anyInt;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
-
 public class BaseTravelerPresenterTestHelper {
 	protected TravelerPresenter testTravelerPresenter;
 	private CheckoutToolbar testToolbar;
 	protected CheckoutTravelerViewModel mockViewModel;
 
 	protected TravelerName testName = new TravelerName();
+	protected final String testChildFullName = "Oscar Grouch Jr.";
 	protected final String testFirstName = "Oscar";
 	protected final String testMiddleName = "T";
 	protected final String testLastName = "Grouch";
+	protected final String testChildLastName = "Grouch Jr.";
 	protected final String testPhone = "7732025862";
 	protected final String testBirthDay = "Jan 27, 1991";
 
+	protected final String expectedMainText = "Main Traveler";
+	protected final String expectedAdditionalText = "Additional Travelers";
 	protected final String expectedTravelerOneText = Phrase.from(InstrumentationRegistry.getTargetContext()
-		.getString(R.string.checkout_edit_traveler_TEMPLATE)).put("travelernumber", 1).format().toString();
+		.getString(R.string.checkout_edit_traveler_TEMPLATE)).put("travelernumber", 1).put("passengercategory", "Adult").format().toString();
 	protected final String expectedTravelerTwoText = Phrase.from(InstrumentationRegistry.getTargetContext()
-		.getString(R.string.checkout_edit_traveler_TEMPLATE)).put("travelernumber", 2).format().toString();
+		.getString(R.string.checkout_edit_traveler_TEMPLATE)).put("travelernumber", 2).put("passengercategory", "Adult").format().toString();
+	protected final String expectedTravelerChildText = Phrase.from(InstrumentationRegistry.getTargetContext()
+		.getString(R.string.checkout_edit_traveler_TEMPLATE)).put("travelernumber", 3).put("passengercategory", "Child").format().toString();
+	protected final String expectedTravelerInfantText = Phrase.from(InstrumentationRegistry.getTargetContext()
+		.getString(R.string.checkout_edit_traveler_TEMPLATE)).put("travelernumber", 3).put("passengercategory", "Infant").format().toString();
 
 	@Rule
 	public PlaygroundRule activityTestRule = new PlaygroundRule(R.layout.test_traveler_presenter, R.style.V2_Theme_Packages);
@@ -71,14 +76,22 @@ public class BaseTravelerPresenterTestHelper {
 		PackageScreen.clickTravelerDone();
 	}
 
-	protected void setPackageParams() {
+	protected PackageSearchParams setPackageParams(int adults) {
+		return setPackageParams(adults, new ArrayList<Integer>(), false);
+	}
+
+	protected PackageSearchParams setPackageParams(int adults, List<Integer> children, boolean infantsInLap) {
 		PackageSearchParams packageParams = (PackageSearchParams) new PackageSearchParams.Builder(12)
 			.startDate(LocalDate.now().plusDays(1))
 			.endDate(LocalDate.now().plusDays(2))
 			.departure(new SuggestionV4())
 			.arrival(new SuggestionV4())
+			.adults(adults)
+			.children(children)
+			.infantSeatingInLap(infantsInLap)
 			.build();
 		Db.setPackageParams(packageParams);
+		return packageParams;
 	}
 
 	protected void addTravelerToDb(Traveler traveler) {
@@ -92,55 +105,56 @@ public class BaseTravelerPresenterTestHelper {
 		EspressoUtils.assertViewWithTextIsDisplayed(R.id.edit_phone_number, testPhone);
 	}
 
-	protected CheckoutTravelerViewModel getMockViewModelEmptyTravelers(int travelerCount) {
-		CheckoutTravelerViewModel mockViewModel = mock(CheckoutTravelerViewModel.class);
-		List<Traveler> mockTravelerList = mock(List.class);
-		when(mockTravelerList.size()).thenReturn(travelerCount);
-		when(mockViewModel.getTravelers()).thenReturn(mockTravelerList);
+	protected CheckoutTravelerViewModel getMockViewModelEmptyTravelersWithInfant(int adultCount, List<Integer> children, boolean infantsInLap) {
+		CheckoutTravelerViewModel mockViewModel = new CheckoutTravelerViewModel();
+		mockViewModel.refreshTravelerList(setPackageParams(adultCount, children, infantsInLap));
+		return mockViewModel;
+	}
 
-		when(mockTravelerList.get(anyInt())).thenReturn(new Traveler());
-		when(mockViewModel.getTraveler(anyInt())).thenReturn(new Traveler());
+	protected CheckoutTravelerViewModel getMockViewModelEmptyTravelers(int travelerCount) {
+		CheckoutTravelerViewModel mockViewModel = new CheckoutTravelerViewModel();
+		mockViewModel.refreshTravelerList(setPackageParams(travelerCount));
 		return mockViewModel;
 	}
 
 	protected CheckoutTravelerViewModel getMockViewModelIncompleteTravelers(int travelerCount) {
-		CheckoutTravelerViewModel mockViewModel = mock(CheckoutTravelerViewModel.class);
-		List<Traveler> mockTravelerList = mock(List.class);
-		when(mockTravelerList.size()).thenReturn(travelerCount);
-		when(mockViewModel.getTravelers()).thenReturn(mockTravelerList);
-
-		when(mockTravelerList.get(anyInt())).thenReturn(getIncompleteTraveler());
-		when(mockViewModel.getTraveler(anyInt())).thenReturn(getIncompleteTraveler());
+		CheckoutTravelerViewModel mockViewModel = new CheckoutTravelerViewModel();
+		mockViewModel.refreshTravelerList(setPackageParams(travelerCount));
+		for (int i = 0; i < travelerCount; i++) {
+			Traveler traveler = Db.getTravelers().get(i);
+			setIncompleteTraveler(traveler);
+		}
 		return mockViewModel;
 	}
 
 	protected CheckoutTravelerViewModel getMockViewModelValidTravelers(int travelerCount) {
-		CheckoutTravelerViewModel mockViewModel = mock(CheckoutTravelerViewModel.class);
-		List<Traveler> mockTravelerList = mock(List.class);
-		when(mockTravelerList.size()).thenReturn(travelerCount);
-		when(mockViewModel.getTravelers()).thenReturn(mockTravelerList);
-
-		when(mockTravelerList.get(anyInt())).thenReturn(getValidTraveler());
-		when(mockViewModel.getTraveler(anyInt())).thenReturn(getValidTraveler());
-		when(mockViewModel.validateTravelersComplete()).thenReturn(true);
+		CheckoutTravelerViewModel mockViewModel = new CheckoutTravelerViewModel();
+		mockViewModel.refreshTravelerList(setPackageParams(travelerCount));
+		for (int i = 0; i < travelerCount; i++) {
+			Traveler traveler = Db.getTravelers().get(i);
+			setValidTraveler(traveler);
+		}
 		return mockViewModel;
 	}
 
-	protected Traveler getIncompleteTraveler() {
-		Traveler validTraveler = new Traveler();
+	protected void setIncompleteTraveler(Traveler validTraveler) {
 		validTraveler.setFirstName(testFirstName);
-		return validTraveler;
 	}
 
-	protected Traveler getValidTraveler() {
-		Traveler validTraveler = new Traveler();
+	protected void setValidTraveler(Traveler validTraveler) {
 		validTraveler.setFirstName(testFirstName);
 		validTraveler.setLastName(testLastName);
 		validTraveler.setGender(Traveler.Gender.MALE);
 		validTraveler.setPhoneNumber(testPhone);
 		validTraveler.setBirthDate(LocalDate.now().minusYears(18));
+	}
 
-		return validTraveler;
+	protected void setChildTraveler(Traveler childTraveler, int yearsOld) {
+		childTraveler.setFirstName(testFirstName);
+		childTraveler.setLastName(testChildLastName);
+		childTraveler.setGender(Traveler.Gender.MALE);
+		childTraveler.setPhoneNumber(testPhone);
+		childTraveler.setBirthDate(LocalDate.now().minusYears(yearsOld));
 	}
 
 	protected Traveler makeStoredTraveler() {

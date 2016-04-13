@@ -5,6 +5,7 @@ import android.util.AttributeSet
 import android.view.View
 import android.widget.EditText
 import com.expedia.bookings.R
+import com.expedia.bookings.data.User
 import com.expedia.bookings.tracking.PackagesTracking
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.PaymentWidget
@@ -55,7 +56,7 @@ class PackagePaymentWidget(context: Context, attr: AttributeSet) : PaymentWidget
                 && addressLineOne.text.toString().isNotEmpty()
                 && addressCity.text.toString().isNotEmpty()
                 && addressState.text.toString().isNotEmpty()
-                && editEmailAddress.getText().toString().isNotEmpty();
+                && (editEmailAddress.text.toString().isNotEmpty() || User.isLoggedIn(context));
     }
 
     override fun isSecureToolbarBucketed() : Boolean {

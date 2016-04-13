@@ -2,10 +2,13 @@ package com.expedia.bookings.data.packages
 
 import com.expedia.bookings.data.BillingInfo
 import com.expedia.bookings.data.Traveler
+import com.expedia.bookings.utils.DateFormatUtils
+import org.joda.time.format.DateTimeFormat
 import java.util.ArrayList
 import java.util.HashMap
 
 data class PackageCheckoutParams(val billingInfo: BillingInfo, val travelers: ArrayList<Traveler>, val tripId: String, val expectedTotalFare: String, val expectedFareCurrencyCode: String, val bedType: String, val cvv: String, val suppressFinalBooking: Boolean) {
+    val dtf = DateTimeFormat.forPattern("MM-dd-yyyy");
 
     class Builder() {
         private var billingInfo: BillingInfo? = null
@@ -87,18 +90,22 @@ data class PackageCheckoutParams(val billingInfo: BillingInfo, val travelers: Ar
         params.put("hotel.primaryContactFullName", travelers[0].fullName)
 
         //TRAVELERS
-        params.put("flight.mainFlightPassenger.firstName", travelers[0].firstName)
-        params.put("flight.mainFlightPassenger.lastName", travelers[0].lastName)
-        params.put("flight.mainFlightPassenger.phoneCountryCode", travelers[0].phoneCountryCode)
-        params.put("flight.mainFlightPassenger.phone", travelers[0].phoneNumber)
-        //TODO: Get the actual birthday, current traveler form doesn't ask for it
-        params.put("flight.mainFlightPassenger.birthDate", "09-06-1989")
-        params.put("flight.mainFlightPassenger.gender", travelers[0].gender)
-        params.put("flight.mainFlightPassenger.passportCountryCode", travelers[0].primaryPassportCountry)
-        params.put("flight.mainFlightPassenger.specialAssistanceOption", travelers[0].assistance)
         params.put("flight.mainFlightPassenger.email", billingInfo.email)
-
-        //TODO: Support other travelers
+        travelers.forEachIndexed { i, traveler ->
+            var key = if (i == 0) {
+                "flight.mainFlightPassenger."
+            } else {
+                "flight.associatedFlightPassengers[" + (i - 1) + "]."
+            }
+            params.put(key+"firstName", travelers[i].firstName)
+            params.put(key+"lastName", travelers[i].lastName)
+            params.put(key+"phoneCountryCode", travelers[i].phoneCountryCode)
+            params.put(key+"phone", travelers[i].phoneNumber)
+            params.put(key+"birthDate", dtf.print(travelers[i].birthDate))
+            params.put(key+"gender", travelers[i].gender)
+            params.put(key+"passportCountryCode", travelers[i].primaryPassportCountry)
+            params.put(key+"specialAssistanceOption", travelers[i].assistance)
+        }
 
         //TRIP
         params.put("tripId", tripId)
@@ -107,7 +114,6 @@ data class PackageCheckoutParams(val billingInfo: BillingInfo, val travelers: Ar
         params.put("sendEmailConfirmation", true)
 
         //BILLING
-
         val hasStoredCard = billingInfo.hasStoredCard()
         if (hasStoredCard) {
             val storedCard = billingInfo.storedCard
@@ -126,8 +132,6 @@ data class PackageCheckoutParams(val billingInfo: BillingInfo, val travelers: Ar
             params.put("postalCode", billingInfo.location.postalCode)
         }
         params.put("cvv", cvv)
-
-        //TODO: Toggle this under dev settings
 
         params.put("suppressFinalBooking", suppressFinalBooking)
 

@@ -1,6 +1,8 @@
 package com.expedia.bookings.widget.traveler
 
+import android.app.AlertDialog
 import android.content.Context
+import android.content.DialogInterface
 import android.support.v4.app.FragmentActivity
 import android.util.AttributeSet
 import android.view.Gravity
@@ -35,6 +37,10 @@ class TSAEntryView(context: Context, attrs: AttributeSet?) : LinearLayout(contex
         vm.genderSubject.subscribe { gender ->
             val adapter = genderSpinner.adapter as GenderSpinnerAdapter
             genderSpinner.setSelection(adapter.getGenderPosition(gender))
+        }
+
+        vm.birthErrorTextSubject.subscribe { text ->
+            showBirthdateErrorDialog(text)
         }
     }
 
@@ -78,5 +84,18 @@ class TSAEntryView(context: Context, attrs: AttributeSet?) : LinearLayout(contex
             }
             newDatePickerFragment!!.show(fragmentActivity.getSupportFragmentManager(), TAG_DATE_PICKER)
         }
+    }
+
+    private fun showBirthdateErrorDialog(message: String) {
+        val builder = AlertDialog.Builder(context)
+        builder.setTitle(R.string.traveler_age_title)
+        builder.setMessage(message)
+        builder.setPositiveButton(context.getString(R.string.DONE), object : DialogInterface.OnClickListener {
+            override fun onClick(dialog: DialogInterface, which: Int) {
+                dialog.dismiss()
+            }
+        })
+        val dialog = builder.create()
+        dialog.show()
     }
 }

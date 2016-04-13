@@ -9,21 +9,21 @@ public class PackageCreateTripParams {
 	private String productKey;
 	private String destinationId;
 	private int numOfAdults;
-	private int numOfInfantsInSeat;
+	private boolean infantsInLap;
 	private List<Integer> childAges;
 
 	public PackageCreateTripParams(String productKey, String destinationId,
-		int numOfAdults, int numOfInfantsInSeat, List<Integer> childAges) {
+		int numOfAdults, boolean infantsInLap, List<Integer> childAges) {
 		this.productKey = productKey;
 		this.destinationId = destinationId;
 		this.numOfAdults = numOfAdults;
-		this.numOfInfantsInSeat = numOfInfantsInSeat;
+		this.infantsInLap = infantsInLap;
 		this.childAges = childAges;
 	}
 
 	public static PackageCreateTripParams fromPackageSearchParams(PackageSearchParams searchParams) {
 		return new PackageCreateTripParams(searchParams.getPackagePIID(), searchParams.getDestination().gaiaId,
-			searchParams.getAdults(), searchParams.getNumberOfSeatedChildren(), searchParams.getChildren());
+			searchParams.getAdults(), searchParams.getInfantSeatingInLap(), searchParams.getChildren());
 	}
 
 	public boolean isValid() {
@@ -42,8 +42,8 @@ public class PackageCreateTripParams {
 		return numOfAdults;
 	}
 
-	public boolean anyInfantsInSeat() {
-		return numOfInfantsInSeat > 0;
+	public boolean isInfantsInLap() {
+		return infantsInLap;
 	}
 
 	public List<Integer> getChildAges() {

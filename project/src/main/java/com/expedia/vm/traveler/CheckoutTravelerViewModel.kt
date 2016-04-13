@@ -1,13 +1,10 @@
 package com.expedia.vm.traveler
 
-import android.widget.EditText
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.Traveler
 import com.expedia.bookings.data.packages.PackageSearchParams
 import com.expedia.bookings.enums.PassengerCategory
-import com.expedia.bookings.utils.ArrowXDrawableUtil
 import com.expedia.bookings.utils.validation.TravelerValidator
-import rx.subjects.PublishSubject
 
 open class CheckoutTravelerViewModel() {
 
@@ -26,7 +23,11 @@ open class CheckoutTravelerViewModel() {
         }
         for (child in params.children) {
             val traveler = Traveler()
-            traveler.setPassengerCategory(PassengerCategory.CHILD)
+            var category = PassengerCategory.CHILD
+            if (child < 2) {
+                category = if (params.infantSeatingInLap) PassengerCategory.INFANT_IN_LAP else PassengerCategory.INFANT_IN_SEAT
+            }
+            traveler.setPassengerCategory(category)
             travelerList.add(traveler)
         }
         Db.setTravelers(travelerList)

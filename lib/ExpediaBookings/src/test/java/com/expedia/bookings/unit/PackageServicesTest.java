@@ -10,11 +10,11 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 
+import com.expedia.bookings.data.SuggestionV4;
 import com.expedia.bookings.data.packages.PackageCreateTripParams;
 import com.expedia.bookings.data.packages.PackageCreateTripResponse;
-import com.expedia.bookings.data.packages.PackageSearchResponse;
-import com.expedia.bookings.data.SuggestionV4;
 import com.expedia.bookings.data.packages.PackageSearchParams;
+import com.expedia.bookings.data.packages.PackageSearchResponse;
 import com.expedia.bookings.interceptors.MockInterceptor;
 import com.expedia.bookings.services.PackageServices;
 import com.mobiata.mocke3.ExpediaDispatcher;
@@ -97,7 +97,7 @@ public class PackageServicesTest {
 		String destID = "6139057";
 
 		TestSubscriber<PackageCreateTripResponse> observer = new TestSubscriber<>();
-		PackageCreateTripParams params = new PackageCreateTripParams(prodID, destID, 2, 0, Arrays.asList(0, 8, 12));
+		PackageCreateTripParams params = new PackageCreateTripParams(prodID, destID, 2, false, Arrays.asList(0, 8, 12));
 		service.createTrip(params).subscribe(observer);
 		observer.awaitTerminalEvent(10, TimeUnit.SECONDS);
 		observer.assertNoErrors();
@@ -105,6 +105,15 @@ public class PackageServicesTest {
 		PackageCreateTripResponse response = observer.getOnNextEvents().get(0);
 		Assert.assertEquals("$2,202.34", response.packageDetails.pricing.packageTotal.getFormattedMoneyFromAmountAndCurrencyCode());
 		Assert.assertEquals("4", response.packageDetails.flight.details.offer.numberOfTickets);
+	}
+
+	@Test
+	public void testInfantsInSeat() throws Throwable {
+		PackageCreateTripParams params = new PackageCreateTripParams("", "", 2, true, Arrays.asList(0, 8, 12));
+		Assert.assertTrue(params.isInfantsInLap());
+
+		params = new PackageCreateTripParams("", "", 2, false, Arrays.asList(8, 8, 12));
+		Assert.assertFalse(params.isInfantsInLap());
 	}
 
 	private SuggestionV4 getDummySuggestion()  {

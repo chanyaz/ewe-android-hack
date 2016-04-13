@@ -64,6 +64,7 @@ class PackageSearchPresenter(context: Context, attrs: AttributeSet) : BaseSearch
         searchLocationEditText?.setOnQueryTextListener(listener)
         calendarWidgetV2.viewModel = vm
         travelerWidgetV2.travelersSubject.subscribe(vm.travelersObserver)
+        travelerWidgetV2.traveler.viewmodel.isInfantInLapObservable.subscribe(vm.isInfantInLapObserver)
         vm.departureTextObservable.subscribe { text -> destinationCardView.setText(text) }
         vm.arrivalTextObservable.subscribe { text -> arrivalCardView.setText(text) }
         vm.searchButtonObservable.subscribe { enable ->

@@ -1,7 +1,10 @@
 package com.expedia.vm.traveler
 
 import android.content.Context
+import com.expedia.bookings.R
+import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.Traveler
+import com.expedia.bookings.enums.PassengerCategory
 import com.expedia.bookings.utils.DateFormatUtils
 import com.expedia.bookings.utils.validation.TravelerValidator
 import com.expedia.util.endlessObserver
@@ -20,6 +23,7 @@ class TravelerTSAViewModel(val context: Context) {
     val genderSubject = BehaviorSubject.create<Traveler.Gender>()
 
     val dateOfBirthErrorSubject = PublishSubject.create<Boolean>()
+    val birthErrorTextSubject = PublishSubject.create<String>()
 
     fun updateTraveler(traveler: Traveler) {
         this.traveler = traveler
@@ -39,6 +43,7 @@ class TravelerTSAViewModel(val context: Context) {
         traveler.birthDate = date
         birthDateSubject.onNext(date)
         formattedDateSubject.onNext(DateFormatUtils.formatBirthDate(context, date.year, date.monthOfYear, date.dayOfMonth))
+        validatePassengerCategory()
     }
 
     val genderObserver = endlessObserver<Traveler.Gender> { gender ->
@@ -50,5 +55,20 @@ class TravelerTSAViewModel(val context: Context) {
         val validBirthDate = TravelerValidator.hasValidBirthDate(traveler)
         dateOfBirthErrorSubject.onNext(!validBirthDate)
         return validBirthDate
+    }
+
+    fun validatePassengerCategory() {
+        val validBirthDate = TravelerValidator.hasValidBirthDate(traveler)
+        if (validBirthDate) {
+            return
+        }
+        val category = traveler.getPassengerCategory(Db.getPackageParams())
+        if (category == PassengerCategory.INFANT_IN_LAP || category == PassengerCategory.INFANT_IN_SEAT) {
+            birthErrorTextSubject.onNext(context.getString(R.string.traveler_infant_error))
+        } else if (category == PassengerCategory.CHILD) {
+            birthErrorTextSubject.onNext(context.getString(R.string.traveler_child_error))
+        } else {
+            birthErrorTextSubject.onNext(context.getString(R.string.traveler_adult_error))
+        }
     }
 }
