@@ -64,7 +64,7 @@
     <!-- Slide to reserve -->
     <string name="cars_slider_text">Liu\&apos;uta varataksesi</string>
     <!-- Text for checkout toolbar-->
-    <string name="cars_checkout_text">Maksu</string>
+    <string name="checkout_text">Maksu</string>
     <!-- Text for error toolbar-->
     <string name="cars_dupe_trip_text">Sama matka</string>
     <!-- Text for error toolbar-->
@@ -122,6 +122,8 @@
     <string name="hotel_toolbar_title">Etsi hotelleja</string>
     <!-- Label for hotel search v2 toolbar -->
     <string name="hotel_search_v2_toolbar_title">Hotellit</string>
+    <!-- Label for hotel suggestion -->
+    <string name="search_location">Hakukohde</string>
     <!-- Label for recent searches -->
     <string name="recent_searches">Viimeaikaiset haut</string>
     <!-- Label for pickup location selector -->
@@ -1724,6 +1726,7 @@
     <!-- Calendar instruction text hotels date range template. %1$s = Formatted start date, %2$s = formatted end date. E.g. May 12 - May 15 -->
     <string name="calendar_instructions_date_range_with_guests_TEMPLATE">{startdate}–{enddate}, {guests}</string>
     <string name="room_with_guests_TEMPLATE">1 huone, {guests}</string>
+    <string name="hotel_free_cancellation_TEMPLATE">Ilmainen peruutusoikeus {date} mennessä</string>
 
     <!-- Flight details fragment -->
     <!-- Book now info label.  %s is the price.  E.g., "One way for $994" -->
@@ -2224,6 +2227,10 @@
     <string name="loading_traveler_info">Matkustajan tietoja ladataan…</string>
     <!-- Passport -->
     <string name="passport">Passi</string>
+
+    <!-- Passport label -->
+    <string name="passport_country_colon">Passi:</string>
+
     <!-- Current traveler - <firstname> <lastname> -->
     <string name="current_traveler_TEMPLATE">Tämänhetkinen matkustaja – %1$s %2$s</string>
 
@@ -3899,7 +3906,8 @@
     <string name="best_flight_title">Paras lento</string>
     <!-- Package Best Flight description -->
     <string name="best_flight_description">halpa • lyhyt • suosittu lähtöaika</string>
-
+    <!-- Package search error -->
+    <string name="error_package_search_message">Emme löytäneet yhtään tulosta. Muokkaa hakuasi.</string>
     <!-- Package Filters Strings -->
     <plurals name="flight_filter_stops">
         <item quantity="zero">Suora lento</item>
@@ -4027,4 +4035,11 @@
     <string name="rental_car_message">Tarvitsetko vuokra-auton?</string>
     <!-- Cars cross-sell message description on package confirmation -->
     <string name="rental_car_message_desc">Varaa auto ja säästä</string>
+
+    <!-- Feeds -->
+    <!-- Flight search title card -->
+    <string name="flight_search_card_title">Lentohaku</string>
+    <!-- Label for feeds/scratchpad card indicating source of given information -->
+    <string name="via_scratchpad_label">Scratchpadin kautta</string>
+
 </resources>

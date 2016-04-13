@@ -652,7 +652,7 @@
     <!-- Offers show more string -->
     <string name="lx_show_more_offers">Mehr Angebote anzeigen</string>
     <!-- Text for traveler details toolbar-->
-    <string name="traveler_details_text">Angaben zum Reisenden</string>
+    <string name="lx_traveler_details_text">Angaben zum Reisenden</string>
     <!-- Text for enter traveler details-->
     <string name="lx_traveler_enter_details_text">Angaben zum Reisenden eingeben</string>
     <!-- Text for lx sort and filter-->
@@ -1726,6 +1726,7 @@
     <!-- Calendar instruction text hotels date range template. %1$s = Formatted start date, %2$s = formatted end date. E.g. May 12 - May 15 -->
     <string name="calendar_instructions_date_range_with_guests_TEMPLATE">{startdate} - {enddate}, {guests}</string>
     <string name="room_with_guests_TEMPLATE">1 Zimmer, {guests}</string>
+    <string name="hotel_free_cancellation_TEMPLATE">Kostenlos stornieren bis {date}</string>
 
     <!-- Flight details fragment -->
     <!-- Book now info label.  %s is the price.  E.g., "One way for $994" -->
@@ -2226,6 +2227,10 @@
     <string name="loading_traveler_info">Informationen zum Reisenden werden geladen…</string>
     <!-- Passport -->
     <string name="passport">Reisepass</string>
+
+    <!-- Passport label -->
+    <string name="passport_country_colon">Reisepass:</string>
+
     <!-- Current traveler - <firstname> <lastname> -->
     <string name="current_traveler_TEMPLATE">Aktueller Reisender - %1$s %2$s</string>
 
@@ -3902,7 +3907,8 @@
     <string name="best_flight_title">Der beste Flug</string>
     <!-- Package Best Flight description -->
     <string name="best_flight_description">günstig • kurz • beliebte Abflugzeit</string>
-
+    <!-- Package search error -->
+    <string name="error_package_search_message">Wir konnten keine Ergebnisse finden. Bitte passen Sie Ihre Suche an.</string>
     <!-- Package Filters Strings -->
     <plurals name="flight_filter_stops">
         <item quantity="zero">Nonstop</item>
@@ -4030,4 +4036,11 @@
     <string name="rental_car_message">Mietwagen gesucht?</string>
     <!-- Cars cross-sell message description on package confirmation -->
     <string name="rental_car_message_desc">Mietwagen buchen und sparen</string>
+
+    <!-- Feeds -->
+    <!-- Flight search title card -->
+    <string name="flight_search_card_title">Flugsuche</string>
+    <!-- Label for feeds/scratchpad card indicating source of given information -->
+    <string name="via_scratchpad_label">per Scratchpad</string>
+
 </resources>

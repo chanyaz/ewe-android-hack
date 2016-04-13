@@ -220,7 +220,6 @@
         <attr name="thumbPadding" format="dimension" />
     </declare-styleable>
     <declare-styleable name="Theme">
-        <attr name="switchStyle" format="reference" />
         <attr name="switchPreferenceStyle" format="reference" />
     </declare-styleable>
     <!-- This is part of the Switch backport too -->

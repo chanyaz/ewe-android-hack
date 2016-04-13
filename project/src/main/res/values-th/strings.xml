@@ -652,7 +652,7 @@
     <!-- Offers show more string -->
     <string name="lx_show_more_offers">แสดงเพิ่มเติม</string>
     <!-- Text for traveler details toolbar-->
-    <string name="traveler_details_text">รายละเอียดผู้เดินทาง</string>
+    <string name="lx_traveler_details_text">รายละเอียดผู้เดินทาง</string>
     <!-- Text for enter traveler details-->
     <string name="lx_traveler_enter_details_text">ป้อนรายละเอียดผู้เดินทาง</string>
     <!-- Text for lx sort and filter-->
@@ -1726,6 +1726,7 @@
     <!-- Calendar instruction text hotels date range template. %1$s = Formatted start date, %2$s = formatted end date. E.g. May 12 - May 15 -->
     <string name="calendar_instructions_date_range_with_guests_TEMPLATE">{startdate} - {enddate}, {guests}</string>
     <string name="room_with_guests_TEMPLATE">1 ห้อง, {guests}</string>
+    <string name="hotel_free_cancellation_TEMPLATE">ยกเลิกฟรี ภายใน {date}</string>
 
     <!-- Flight details fragment -->
     <!-- Book now info label.  %s is the price.  E.g., "One way for $994" -->
@@ -2226,6 +2227,10 @@
     <string name="loading_traveler_info">กำลังโหลดข้อมูลผู้เดินทาง…</string>
     <!-- Passport -->
     <string name="passport">หนังสือเดินทาง</string>
+
+    <!-- Passport label -->
+    <string name="passport_country_colon">หนังสือเดินทาง:</string>
+
     <!-- Current traveler - <firstname> <lastname> -->
     <string name="current_traveler_TEMPLATE">ผู้เดินทางคนปัจจุบัน - %1$s %2$s</string>
 
@@ -3900,8 +3905,9 @@
     <!-- Package Best Flight title -->
     <string name="best_flight_title">เที่ยวบินที่ดีที่สุด</string>
     <!-- Package Best Flight description -->
-    <string name="best_flight_description">ราคาถูก • ระยะทางสั้น • การออกเดินทางที่นิยม</string>
-
+    <string name="best_flight_description">ราคาถูก • ระยะทางสั้น • เวลาออกเดินทางที่นิยม</string>
+    <!-- Package search error -->
+    <string name="error_package_search_message">เราไม่พบผลลัพธ์ใดๆ โปรดปรับเปลี่ยนการค้นหาของคุณ</string>
     <!-- Package Filters Strings -->
     <plurals name="flight_filter_stops">
         <item quantity="zero">ไม่แวะพัก</item>
@@ -4029,4 +4035,11 @@
     <string name="rental_car_message">ต้องการรถเช่าไหม?</string>
     <!-- Cars cross-sell message description on package confirmation -->
     <string name="rental_car_message_desc">จองรถราคาประหยัด</string>
+
+    <!-- Feeds -->
+    <!-- Flight search title card -->
+    <string name="flight_search_card_title">ค้นหาเที่ยวบิน</string>
+    <!-- Label for feeds/scratchpad card indicating source of given information -->
+    <string name="via_scratchpad_label">ผ่านทาง Scratchpad</string>
+
 </resources>
