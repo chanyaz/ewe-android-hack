@@ -109,15 +109,15 @@ class HotelTravelerPickerView(context: Context, attrs: AttributeSet) : FrameLayo
         }
 
         vm.travelerParamsObservable.subscribe { travelers ->
-            if (travelers.children.size == 0) {
+            if (travelers.childrenAges.size == 0) {
                 childAgeLabel.visibility = View.GONE
             } else {
                 childAgeLabel.visibility = View.VISIBLE
-                childBottomContainer.visibility = if (travelers.children.size > 2) View.VISIBLE else View.GONE
+                childBottomContainer.visibility = if (travelers.childrenAges.size > 2) View.VISIBLE else View.GONE
             }
             for (i in childSpinners.indices) {
                 val spinner = childSpinners[i]
-                if (i >= travelers.children.size) {
+                if (i >= travelers.childrenAges.size) {
                     spinner.visibility = View.INVISIBLE
                 } else {
                     spinner.visibility = View.VISIBLE
