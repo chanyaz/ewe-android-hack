@@ -290,7 +290,7 @@ class HotelDetailViewModel(val context: Context, val hotelServices: HotelService
         hasRegularLoyaltyPointsAppliedObservable.onNext(!isVipAccess && response.doesAnyHotelRateOfAnyRoomHaveLoyaltyInfo)
         promoMessageObservable.onNext(getPromoText(firstHotelRoomResponse))
         val earnMessage = getEarnMessage(context, chargeableRateInfo?.loyaltyInfo?.earn)
-        val earnMessageVisibility = earnMessage.isNotBlank() && PointOfSale.getPointOfSale().isEarnMessageEnabledForHotels && User.isLoggedIn(context)
+        val earnMessageVisibility = earnMessage.isNotBlank() && PointOfSale.getPointOfSale().isEarnMessageEnabledForHotels
         earnMessageObservable.onNext(earnMessage)
         earnMessageVisibilityObservable.onNext(earnMessageVisibility)
         promoMessageVisibilityObservable.onNext(!earnMessageVisibility)
@@ -820,7 +820,7 @@ class HotelRoomRateViewModel(val context: Context, var hotelId: String, var hote
         }
 
         val earnMessage = getEarnMessage(context, chargeableRateInfo?.loyaltyInfo?.earn)
-        val earnMessageVisibility = earnMessage.isNotBlank() && PointOfSale.getPointOfSale().isEarnMessageEnabledForHotels && User.isLoggedIn(context)
+        val earnMessageVisibility = earnMessage.isNotBlank() && PointOfSale.getPointOfSale().isEarnMessageEnabledForHotels
 
         collapsedEarnMessageVisibilityObservable.onNext(earnMessageVisibility)
         collapsedEarnMessageObservable.onNext(earnMessage)
