@@ -82,7 +82,7 @@ class HotelResultsViewModel(private val context: Context, private val hotelServi
                 .format())
 
         clientLogBuilder?.logTime(DateTime.now())
-        hotelServices?.regionSearch(params, clientLogBuilder)?.subscribe(object : Observer<HotelSearchResponse> {
+        hotelServices?.search(params, clientLogBuilder)?.subscribe(object : Observer<HotelSearchResponse> {
             override fun onNext(it: HotelSearchResponse) {
                 clientLogBuilder?.processingTime(DateTime.now())
                 if (it.hasErrors()) {

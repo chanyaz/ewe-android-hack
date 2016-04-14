@@ -31,6 +31,8 @@ public interface HotelApi {
 	@GET("/m/api/hotel/search?sortOrder=ExpertPicks&resultsPerPage=200&pageIndex=0&filterUnavailable=true&enableSponsoredListings=true")
 	Observable<HotelSearchResponse> search(
 		@Query("regionId") String gaiaId,
+		@Query("latitude") Double lat,
+		@Query("longitude") Double lng,
 		@Query("checkInDate") String checkIn,
 		@Query("checkOutDate") String checkOut,
 		@Query("room1") String guestString,

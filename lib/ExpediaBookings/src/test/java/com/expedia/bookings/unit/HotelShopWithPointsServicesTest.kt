@@ -31,7 +31,7 @@ class HotelShopWithPointsServicesTest {
 
         val hotelSearchParams = HotelSearchParams.Builder(0).departure(suggestion).startDate(LocalDate.now()).endDate(LocalDate.now().plusDays(1)).build() as HotelSearchParams
 
-        serviceRule.services!!.regionSearch(hotelSearchParams, null).subscribe(testObserver)
+        serviceRule.services!!.search(hotelSearchParams, null).subscribe(testObserver)
 
         testObserver.awaitTerminalEvent()
         testObserver.assertCompleted()
@@ -53,7 +53,7 @@ class HotelShopWithPointsServicesTest {
         val builder = HotelSearchParams.Builder(0).departure(suggestion).startDate(LocalDate.now()).endDate(LocalDate.now().plusDays(1)) as HotelSearchParams.Builder
         val hotelSearchParams = builder.shopWithPoints(true).build()
 
-        serviceRule.services!!.regionSearch(hotelSearchParams, null).subscribe(testObserver)
+        serviceRule.services!!.search(hotelSearchParams, null).subscribe(testObserver)
 
         testObserver.awaitTerminalEvent()
         testObserver.assertCompleted()
@@ -80,7 +80,7 @@ class HotelShopWithPointsServicesTest {
 
         val hotelSearchParams = HotelSearchParams.Builder(0).departure(suggestion).startDate(LocalDate.now()).endDate(LocalDate.now().plusDays(1)).build() as HotelSearchParams
 
-        serviceRule.services!!.regionSearch(hotelSearchParams, null).subscribe(testObserver)
+        serviceRule.services!!.search(hotelSearchParams, null).subscribe(testObserver)
 
         testObserver.awaitTerminalEvent(10, TimeUnit.SECONDS)
         testObserver.assertCompleted()
