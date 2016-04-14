@@ -26,7 +26,8 @@
             android:textAllCaps="true"
             android:textSize="14dp"
             android:textStyle="bold"
-            app:textStyle="medium"/>
+            app:textStyle="medium"
+            android:textColor="@color/bg_tablet_clickable_button_done_color"/>
 
         <View
             android:layout_width="1dp"
