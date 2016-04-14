@@ -1639,9 +1639,9 @@
     <!-- Template string for error when we simple can't connect to E3 servers-->
     <string name="error_server_TEMPLATE">Sorry, we could not connect to {brand}\'s servers.  Please try again later.</string>
     <!-- Sort by departure timelabel -->
-    <string name="sort_description_departure">Departs</string>
+    <string name="sort_description_departure">Departure Time</string>
     <!-- Sort by arrival time label -->
-    <string name="sort_description_arrival">Arrives</string>
+    <string name="sort_description_arrival">Arrival Time</string>
     <!-- Sort by duration label -->
     <string name="sort_description_duration">Duration</string>
     <!-- Pluralization for # of days a flight takes up.  %s is the number of days, positive or minus (-1 day, +2 days) -->
