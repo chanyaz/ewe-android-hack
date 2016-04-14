@@ -43,7 +43,6 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 import kotlin.Unit;
 import rx.Observer;
-import rx.functions.Func1;
 
 public abstract class CheckoutBasePresenter extends Presenter implements SlideToWidgetLL.ISlideToListener,
 	UserAccountRefresher.IUserAccountRefreshListener, AccountButton.AccountButtonClickListener,
@@ -150,19 +149,6 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 		paymentInfoCardView.getEnableMenuItem().subscribe(toolbar.getViewModel().getEnableMenuItem());
 		paymentInfoCardView.getVisibleMenuWithTitleDone().subscribe(toolbar.getViewModel().getVisibleMenuWithTitleDone());
 		mainContactInfoCardView.filledIn.subscribe(toolbar.getViewModel().getFormFilledIn());
-		if (paymentInfoCardView instanceof PaymentWidgetV2) {
-			paymentInfoCardView.getViewmodel().getUserLogin().filter(new Func1<Boolean, Boolean>() {
-				@Override
-				public Boolean call(Boolean aBoolean) {
-					return aBoolean;
-				}
-			}).map(new Func1<Boolean, Unit>() {
-				@Override
-				public Unit call(Boolean aBoolean) {
-					return Unit.INSTANCE;
-				}
-			}).subscribe(((PaymentWidgetV2) paymentInfoCardView).payWithPointsViewModel.getUserSignedIn());
-		}
 		toolbar.getViewModel().getDoneClicked().subscribe(new Observer<Unit>() {
 			@Override
 			public void onCompleted() {

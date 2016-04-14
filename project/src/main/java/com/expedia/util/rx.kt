@@ -16,6 +16,7 @@ import com.google.android.gms.maps.GoogleMap
 import rx.Observable
 import rx.Observer
 import rx.Subscription
+import rx.internal.operators.OperatorWithLatestFromWithMultipleArguments
 import rx.exceptions.OnErrorNotImplementedException
 import rx.subjects.PublishSubject
 
@@ -191,4 +192,8 @@ fun Observable<Boolean>.subscribeCursorVisible(textView: TextView) {
  */
 fun <T> Observable<T>.distinctUntilChanged(comparer: (T?, T?) -> Boolean): Observable<T> {
     return lift(OperatorDistinctUntilChangedWithComparer(comparer))
+}
+
+fun <T, A, B, C, R> Observable<T>.withLatestFrom(other1: Observable<A>, other2: Observable<B>, other3: Observable<C>, resultSelector: (T, A, B, C) -> R): Observable<R> {
+    return lift(OperatorWithLatestFromWithMultipleArguments<T, A, B, C, R>(other1, other2, other3, resultSelector))
 }
