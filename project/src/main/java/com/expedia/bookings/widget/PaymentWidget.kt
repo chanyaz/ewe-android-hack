@@ -575,13 +575,16 @@ open class PaymentWidget(context: Context, attr: AttributeSet) : Presenter(conte
     }
 
     open fun close() {
-        clearBackStack()
-        val activity = context as Activity
-        activity.onBackPressed()
+        if (currentState != PaymentOption::class.java.name && shouldShowPaymentOptions()) {
+            show(PaymentOption(), FLAG_CLEAR_TOP)
+        } else {
+            clearBackStack()
+            val activity = context as Activity
+            activity.onBackPressed()
+        }
     }
 
     open fun closePopup() {
-        close()
     }
 
     /**
