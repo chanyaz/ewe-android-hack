@@ -1192,8 +1192,8 @@ public class PointOfSale {
 
 		pos.isPwPEnabledForHotels = data.optBoolean("pwpEnabled:hotels", false);
 		pos.isSWPEnabledForHotels = data.optBoolean("swpEnabled:hotels", false);
-		pos.isEarnMessageEnabledForFlights = data.optBoolean("enableFlightSearchEarnMessaging", false);
-		pos.isEarnMessageEnabledForHotels = data.optBoolean("enableHotelSearchEarnMessaging", false);
+		pos.isEarnMessageEnabledForFlights = data.optBoolean("earnMessageEnabled:flights", false);
+		pos.isEarnMessageEnabledForHotels = data.optBoolean("earnMessageEnabled:hotels", false);
 
 		// Parse POS locales
 		JSONArray supportedLocales = data.optJSONArray("supportedLocales");
