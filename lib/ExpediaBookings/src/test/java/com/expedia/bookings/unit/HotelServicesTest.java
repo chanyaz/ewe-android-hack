@@ -35,14 +35,17 @@ import com.expedia.bookings.utils.NumberUtils;
 import com.mobiata.mocke3.ExpediaDispatcher;
 import com.mobiata.mocke3.FileSystemOpener;
 import com.squareup.okhttp.OkHttpClient;
+import com.squareup.okhttp.mockwebserver.Dispatcher;
 import com.squareup.okhttp.mockwebserver.MockResponse;
 import com.squareup.okhttp.mockwebserver.MockWebServer;
+import com.squareup.okhttp.mockwebserver.RecordedRequest;
 
 import retrofit.RestAdapter;
 import retrofit.RetrofitError;
 import rx.observers.TestSubscriber;
 import rx.schedulers.Schedulers;
 
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
@@ -59,6 +62,44 @@ public class HotelServicesTest {
 			new OkHttpClient(), new MockInterceptor(),
 			Schedulers.immediate(), Schedulers.immediate(),
 			RestAdapter.LogLevel.FULL);
+	}
+
+	@Test
+	public void testSearchWithZeroLongLatAndNullRegionId() throws IOException {
+		MockWebServer server = new MockWebServer();
+		// final array to make the test result flag/boolean accessible in the anonymous dispatch
+		final boolean[] testResult = { true, true };
+		Dispatcher dispatcher = new Dispatcher() {
+			@Override
+			public MockResponse dispatch(RecordedRequest request) throws InterruptedException {
+				boolean containsLongitudeParam = request.getPath().contains("longitude");
+				boolean containsLatitudeParam = request.getPath().contains("latitude");
+				boolean containsRegionId = request.getPath().contains("regionId");
+				testResult[0] = containsLatitudeParam || containsLongitudeParam;
+				testResult[1] = containsRegionId;
+				return new MockResponse();
+			}
+		};
+		server.setDispatcher(dispatcher);
+		server.start();
+		HotelServices service = new HotelServices("http://localhost:" + server.getPort(),
+			new OkHttpClient(), new MockInterceptor(),
+			Schedulers.immediate(), Schedulers.immediate(),
+			RestAdapter.LogLevel.FULL);
+
+		SuggestionV4 suggestion = new SuggestionV4();
+		suggestion.coordinates = new SuggestionV4.LatLng();
+		suggestion.coordinates.lat = 0;
+		suggestion.coordinates.lng = 0;
+		HotelSearchParams hotelSearchParams = (HotelSearchParams) new HotelSearchParams.Builder(0).departure(suggestion)
+			.startDate(LocalDate.now().plusDays(5)).endDate(LocalDate.now().plusDays(15)).adults(2).build();
+
+		TestSubscriber testSubscriber = new TestSubscriber();
+		service.search(hotelSearchParams, null).subscribe(testSubscriber);
+		testSubscriber.awaitTerminalEvent();
+
+		assertFalse("I don't expect to see longitude or latitude in a request where both are 0", testResult[0]);
+		assertFalse("I don't expect to see regionId param in this request as it's not set", testResult[1]);
 	}
 
 	@Test
