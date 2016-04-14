@@ -19,19 +19,17 @@ public class NewLaunchScreenTest extends PhoneTestCase {
 
 	public void testGeneralUIElements() throws Throwable {
 		LaunchScreen.tripsButton().perform(click());
-		/**
-		 * TODO right now as account screen using Trip screen that reason we getting multiple views for log in button.
-		 * Have to update once we have correct account screen.
-		 *
-		 */
-		EspressoUtils.assertMultipleViewsWithSameIdIsDisplayed(R.id.login_button);
+		EspressoUtils.assertViewIsDisplayed(R.id.login_button);
 		Log.v(TAG, "Trips button on Launch screen is displayed and works");
 
 		LaunchScreen.shopButton().perform(click());
 		EspressoUtils.assertViewIsDisplayed(R.id.lobView);
 		Log.v(TAG, "Shop button on Launch screen is displayed ");
 
-		//TODO check the account button click
+		LaunchScreen.accountButton().perform(click());
+		EspressoUtils.assertViewIsDisplayed(R.id.sign_in_button);
+		Log.v(TAG, "Account button on Launch screen is displayed ");
+
 	}
 
 }

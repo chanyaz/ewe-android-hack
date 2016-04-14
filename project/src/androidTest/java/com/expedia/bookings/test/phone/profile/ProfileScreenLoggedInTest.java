@@ -2,6 +2,7 @@ package com.expedia.bookings.test.phone.profile;
 
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
+import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -18,11 +19,14 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.activity.AccountSettingsActivity;
+import com.expedia.bookings.test.phone.pagemodels.common.LaunchScreen;
 import com.expedia.bookings.test.phone.pagemodels.common.LogInScreen;
 import com.expedia.bookings.test.phone.pagemodels.common.ProfileScreen;
+import com.expedia.ui.NewPhoneLaunchActivity;
 
 import static android.support.test.espresso.Espresso.onView;
+import static android.support.test.espresso.action.ViewActions.click;
+import static android.support.test.espresso.action.ViewActions.scrollTo;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.isDescendantOfA;
 import static android.support.test.espresso.matcher.ViewMatchers.withEffectiveVisibility;
@@ -37,7 +41,12 @@ import static org.hamcrest.CoreMatchers.allOf;
 public class ProfileScreenLoggedInTest {
 
 	@Rule
-	public ActivityTestRule<AccountSettingsActivity> activityRule = new ActivityTestRule<>(AccountSettingsActivity.class, true);
+	public ActivityTestRule<NewPhoneLaunchActivity> activityRule = new ActivityTestRule<>(NewPhoneLaunchActivity.class, true);
+
+	@Before
+	public void setup() {
+		LaunchScreen.accountButton().perform(click());
+	}
 
 	@Test
 	public void notRewardsMember() {
@@ -153,6 +162,7 @@ public class ProfileScreenLoggedInTest {
 
 	private void doCountryTest(String countryName, String country3LetterCode, @DrawableRes int flagResId) {
 		switchCountry(countryName);
+		onView(withId(R.id.sign_in_button)).perform(scrollTo());
 		signInAsUser("goldstatus@mobiata.com");
 
 		ViewInteraction countryView = getSecondRowCountry();

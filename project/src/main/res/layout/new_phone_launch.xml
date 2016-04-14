@@ -32,7 +32,7 @@
             android:id="@+id/lobView"
             android:layout_width="match_parent"
             android:layout_height="180dp"
-            android:background="#5050FF" />
+            android:background="@color/new_launch_toolbar_background_color" />
 
         <View
             android:id="@+id/touch_catcher"

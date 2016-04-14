@@ -9,9 +9,11 @@
     <string name="app_copyright_name">@string/launcher_name</string>
 
     <!-- Generic strings/characters we use in various places that don't need translation -->
+    <string name="debug_settings">Debug Settings</string>
     <string name="forward_slash">/</string>
     <string name="connected_server">Server: %s</string>
     <string name="build_number">Build  %s</string>
+    <string name="hash">hash</string>
     <string name="debug_screens_sub_menu">Test Screens</string>
     <string name="debug_install_shortcuts">>Install Shortcuts</string>
 
@@ -66,6 +68,7 @@
 
     <!-- Preference keys -->
     <string name="PointOfSaleKey">point_of_sale_key</string>
+    <string name="preference_launch_screen_overflow">preference_launch_screen_overflow</string>
     <string name="preference_which_api_to_use_key">which_api</string>
     <string name="preference_proxy_server_address">proxy_server_address</string>
     <string name="preference_fake_hotel_price_change">fake_hotel_price_change</string>
