@@ -26,6 +26,7 @@
                 android:layout_height="match_parent"
                 android:background="?attr/controlBackground"
                 android:scaleType="center"
+                android:tint="@color/account_screen_back_nav_color"
                 android:src="@drawable/ic_arrow_back" />
 
             <FrameLayout
