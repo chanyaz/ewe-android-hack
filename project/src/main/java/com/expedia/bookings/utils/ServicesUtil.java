@@ -61,9 +61,13 @@ public class ServicesUtil {
 	}
 
 	public static String generateClientId(Context context) {
+		return generateClient(context) + ":" + BuildConfig.VERSION_NAME;
+	}
+
+	public static String generateClient(Context context) {
 		String clientName = ProductFlavorFeatureConfiguration.getInstance().getClientShortName();
 		String deviceType = ExpediaBookingApp.useTabletInterface(context) ? "tablet" : "phone";
-		return clientName + ".app.android." + deviceType + ":" + BuildConfig.VERSION_NAME;
+		return clientName + ".app.android." + deviceType;
 	}
 
 	public static String generateSourceType() {

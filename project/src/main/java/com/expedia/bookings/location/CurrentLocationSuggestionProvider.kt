@@ -17,7 +17,7 @@ class CurrentLocationSuggestionProvider(val suggestionServices: SuggestionServic
                 val latlong = "" + location.getLatitude() + "|" + location.getLongitude();
 
                 this@CurrentLocationSuggestionProvider.suggestionServices
-                    .getNearbyLxSuggestions(PointOfSale.getSuggestLocaleIdentifier(), latlong, PointOfSale.getPointOfSale().getSiteId(), ServicesUtil.generateClientId(context))
+                    .getNearbyLxSuggestions(PointOfSale.getSuggestLocaleIdentifier(), latlong, PointOfSale.getPointOfSale().getSiteId(), ServicesUtil.generateClient(context))
                     .doOnNext { suggestions -> if (suggestions.size < 1) throw ApiError(ApiError.Code.SUGGESTIONS_NO_RESULTS) }
                     .map { suggestions -> suggestions.get(0) }
             }

@@ -277,7 +277,7 @@ public class ExpediaServices implements DownloadListener {
 		}
 
 		params.add(new BasicNameValuePair("locale", PointOfSale.getSuggestLocaleIdentifier()));
-		params.add(new BasicNameValuePair("client", ServicesUtil.generateClientId(mContext)));
+		params.add(new BasicNameValuePair("client", ServicesUtil.generateClient(mContext)));
 
 		Request.Builder get = createHttpGet(url, params);
 		get.addHeader("Accept", "application/json");
@@ -300,7 +300,7 @@ public class ExpediaServices implements DownloadListener {
 		params.add(new BasicNameValuePair("regiontype", "" + regionType));
 		params.add(new BasicNameValuePair("features", "ta_hierarchy"));
 		params.add(new BasicNameValuePair("locale", PointOfSale.getSuggestLocaleIdentifier()));
-		params.add(new BasicNameValuePair("client", ServicesUtil.generateClientId(mContext)));
+		params.add(new BasicNameValuePair("client", ServicesUtil.generateClient(mContext)));
 
 		return doSuggestionRequest(url, params);
 	}
@@ -327,7 +327,7 @@ public class ExpediaServices implements DownloadListener {
 		params.add(new BasicNameValuePair("regiontype", "" + suggestionResultType));
 		params.add(new BasicNameValuePair("features", "ta_hierarchy"));
 		params.add(new BasicNameValuePair("locale", PointOfSale.getSuggestLocaleIdentifier()));
-		params.add(new BasicNameValuePair("client", ServicesUtil.generateClientId(mContext)));
+		params.add(new BasicNameValuePair("client", ServicesUtil.generateClient(mContext)));
 		params.add(new BasicNameValuePair("maxradius", "150"));
 		params.add(new BasicNameValuePair("maxresults", "50"));
 		params.add(new BasicNameValuePair("latlong", latitude + "|" + longitude));
@@ -356,7 +356,7 @@ public class ExpediaServices implements DownloadListener {
 
 		params.add(new BasicNameValuePair("gaiaid", regionId));
 		params.add(new BasicNameValuePair("locale", PointOfSale.getSuggestLocaleIdentifier()));
-		params.add(new BasicNameValuePair("client", ServicesUtil.generateClientId(mContext)));
+		params.add(new BasicNameValuePair("client", ServicesUtil.generateClient(mContext)));
 
 		return doSuggestionRequest(url, params);
 	}

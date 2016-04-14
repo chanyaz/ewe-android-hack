@@ -146,7 +146,7 @@ class HotelActivity : AbstractAppCompatActivity() {
 
     private fun startSuggestionLookup(displayName: String, callback: Observer<List<SuggestionV4>>) {
         val service = Ui.getApplication(this).hotelComponent().suggestionsService()
-        service.getHotelSuggestionsV4(displayName, ServicesUtil.generateClientId(this), callback, PointOfSale.getSuggestLocaleIdentifier())
+        service.getHotelSuggestionsV4(displayName, ServicesUtil.generateClient(this), callback, PointOfSale.getSuggestLocaleIdentifier())
     }
 
     private val currentLocationSearchObserver = endlessObserver<HotelSearchParams?> { hotelSearchParams ->

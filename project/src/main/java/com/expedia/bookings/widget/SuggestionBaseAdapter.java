@@ -107,7 +107,7 @@ public abstract class SuggestionBaseAdapter extends BaseAdapter implements Filte
 			showNearby = true;
 			String latlong = loc.getLatitude() + "|" + loc.getLongitude();
 
-			getNearbySuggestions(PointOfSale.getSuggestLocaleIdentifier(), latlong, PointOfSale.getPointOfSale().getSiteId(), ServicesUtil.generateClientId(ctx), suggestionsObserver);
+			getNearbySuggestions(PointOfSale.getSuggestLocaleIdentifier(), latlong, PointOfSale.getPointOfSale().getSiteId(), ServicesUtil.generateClient(ctx), suggestionsObserver);
 		}
 		else {
 			suggestions.add(getDummySuggestionItem());
@@ -151,7 +151,7 @@ public abstract class SuggestionBaseAdapter extends BaseAdapter implements Filte
 
 			if (Strings.isNotEmpty(query) && query.length() >= SuggestionV4Utils.getMinSuggestQueryLength(context)) {
 				cleanup();
-				suggestSubscription = suggest(suggestionServices, suggestionsObserver, query, ServicesUtil.generateClientId(context));
+				suggestSubscription = suggest(suggestionServices, suggestionsObserver, query, ServicesUtil.generateClient(context));
 				showRecentSearch = false;
 				showNearby = false;
 			}
