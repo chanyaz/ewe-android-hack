@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="?attr/selectableItemBackground"
+    android:paddingLeft="12dp"
+    android:paddingRight="12dp">
+
+    <com.expedia.bookings.widget.TextView
+        android:id="@+id/lob_cell_text"
+        android:layout_width="wrap_content"
+        android:layout_height="56dp"
+        android:drawablePadding="12dp"
+        android:gravity="center_vertical"
+        android:textColor="#3E6A85"
+        android:textSize="16sp" />
+</FrameLayout>
