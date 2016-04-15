@@ -13,29 +13,28 @@ import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.test.robolectric.shadows.ShadowAccountManagerEB
 import com.expedia.bookings.test.robolectric.shadows.ShadowGCM
 import com.expedia.bookings.test.robolectric.shadows.ShadowUserManager
-import com.expedia.bookings.widget.HotelListAdapter
 import com.expedia.bookings.widget.HotelViewModel
+import com.expedia.bookings.widget.hotel.HotelCellViewHolder
 import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.Robolectric
 import org.robolectric.annotation.Config
-import rx.subjects.PublishSubject
 import kotlin.properties.Delegates
 
 @RunWith(RobolectricRunner::class)
 @Config(shadows = arrayOf(ShadowGCM::class, ShadowUserManager::class, ShadowAccountManagerEB::class))
 class HotelCellViewTest {
     private var hotelCellView: ViewGroup by Delegates.notNull()
-    private var hotelViewHolder: HotelListAdapter.HotelViewHolder by Delegates.notNull()
+    private var hotelViewHolder: HotelCellViewHolder by Delegates.notNull()
     private var activity: Activity by Delegates.notNull()
 
     @Before fun before() {
         activity = Robolectric.buildActivity(Activity::class.java).create().get()
         activity.setTheme(R.style.V2_Theme_Hotels)
         hotelCellView = android.view.LayoutInflater.from(activity).inflate(R.layout.hotel_cell, null, false) as ViewGroup
-        hotelViewHolder = HotelListAdapter(PublishSubject.create<Hotel>(), PublishSubject.create<Unit>()).HotelViewHolder(hotelCellView, 200)
+        hotelViewHolder = HotelCellViewHolder(hotelCellView, 200)
     }
 
     @Test fun testSoldOut() {
