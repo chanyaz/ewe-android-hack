@@ -1,5 +1,11 @@
 package com.expedia.bookings.unit;
 
+import java.io.IOException;
+import java.math.BigDecimal;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+
 import org.joda.time.LocalDate;
 import org.junit.After;
 import org.junit.Before;
@@ -25,14 +31,9 @@ import com.expedia.bookings.data.lx.RecommendedActivitiesResponse;
 import com.expedia.bookings.data.lx.Ticket;
 import com.expedia.bookings.services.LxServices;
 import com.expedia.bookings.testrule.ServicesRule;
-import com.squareup.okhttp.mockwebserver.MockResponse;
+import com.google.gson.stream.MalformedJsonException;
 
-import java.io.IOException;
-import java.math.BigDecimal;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-import retrofit.RetrofitError;
+import okhttp3.mockwebserver.MockResponse;
 import rx.observers.TestSubscriber;
 
 import static org.junit.Assert.assertEquals;
@@ -50,6 +51,9 @@ public class LXServicesTest {
 	@Before
 	public void before() {
 		checkoutParams = new LXCheckoutParams();
+		checkoutParams.guid = "";
+		checkoutParams.suppressFinalBooking = true;
+		checkoutParams.storedCreditCardId = "";
 		checkoutParams.firstName = "FirstName";
 		checkoutParams.lastName = "LastName";
 		checkoutParams.phone = "415-111-111";
@@ -62,6 +66,8 @@ public class LXServicesTest {
 		checkoutParams.creditCardNumber = "4111111111111111";
 		checkoutParams.expirationDateYear = "2020";
 		checkoutParams.cvv = "111";
+		checkoutParams.expirationDateMonth = "9";
+		checkoutParams.expirationDateYear = "1989";
 		checkoutParams.email = "test@gmail.com";
 	}
 
@@ -99,10 +105,7 @@ public class LXServicesTest {
 		serviceRule.getServices().lxSearch(searchParams, observer);
 		observer.awaitTerminalEvent();
 
-		observer.assertCompleted();
-		observer.assertNoErrors();
-		observer.assertValueCount(1);
-		assertEquals(0, observer.getOnNextEvents().get(0).activities.size());
+		observer.assertError(MalformedJsonException.class);
 	}
 
 	@Test
@@ -115,7 +118,7 @@ public class LXServicesTest {
 		observer.awaitTerminalEvent();
 
 		observer.assertNoValues();
-		observer.assertError(RetrofitError.class);
+		observer.assertError(IOException.class);
 	}
 
 	@Test
@@ -127,10 +130,7 @@ public class LXServicesTest {
 		serviceRule.getServices().lxSearch(searchParams, observer);
 		observer.awaitTerminalEvent();
 
-		observer.assertNoValues();
-		observer.assertError(ApiError.class);
-		ApiError apiError = (ApiError)observer.getOnErrorEvents().get(0);
-		assertEquals(ApiError.Code.LX_SEARCH_NO_RESULTS, apiError.errorCode);
+		observer.assertError(MalformedJsonException.class);
 	}
 
 	// Details.
@@ -263,7 +263,7 @@ public class LXServicesTest {
 		observer.awaitTerminalEvent();
 
 		observer.assertNoValues();
-		observer.assertError(RetrofitError.class);
+		observer.assertError(IOException.class);
 	}
 
 	@Test
@@ -292,7 +292,7 @@ public class LXServicesTest {
 		observer.awaitTerminalEvent();
 
 		observer.assertNoValues();
-		observer.assertError(RetrofitError.class);
+		observer.assertError(IOException.class);
 	}
 
 	@Test

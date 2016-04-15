@@ -1,8 +1,8 @@
 package com.expedia.bookings.services
 
+import com.expedia.bookings.data.BaseApiResponse
 import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.cars.ApiError
-import com.expedia.bookings.data.BaseApiResponse
 import com.expedia.bookings.data.lx.ActivityDetailsResponse
 import com.expedia.bookings.data.lx.LXActivity
 import com.expedia.bookings.data.lx.LXCategoryMetadata
@@ -20,32 +20,30 @@ import com.expedia.bookings.utils.CollectionUtils
 import com.expedia.bookings.utils.DateUtils
 import com.expedia.bookings.utils.LXUtils
 import com.expedia.bookings.utils.Strings
-import com.squareup.okhttp.OkHttpClient
+import okhttp3.OkHttpClient
 import org.joda.time.LocalDate
-import retrofit.RequestInterceptor
-import retrofit.RestAdapter
-import retrofit.client.OkClient
+import retrofit2.Retrofit
+import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory
+import retrofit2.converter.gson.GsonConverterFactory
 import rx.Observable
 import rx.Observer
 import rx.Scheduler
 import rx.Subscription
-import rx.functions.Action1
 import java.util.Collections
 import java.util.Comparator
 import java.util.LinkedHashSet
 
-class LxServices(endpoint: String, okHttpClient: OkHttpClient, requestInterceptor: RequestInterceptor,
-                        val observeOn: Scheduler, val subscribeOn: Scheduler, logLevel: RestAdapter.LogLevel) {
+class LxServices(endpoint: String, okHttpClient: OkHttpClient, val observeOn: Scheduler, val subscribeOn: Scheduler) {
 
     private var cachedLXSearchResponse = LXSearchResponse()
 
     val lxApi: LXApi by lazy {
 
-        val adapter = RestAdapter.Builder()
-                .setEndpoint(endpoint)
-                .setRequestInterceptor(requestInterceptor)
-                .setLogLevel(logLevel)
-                .setClient(OkClient(okHttpClient))
+        val adapter = Retrofit.Builder()
+                .baseUrl(endpoint)
+                .client(okHttpClient)
+                .addConverterFactory(GsonConverterFactory.create())
+                .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                 .build()
 
         adapter.create(LXApi::class.java)

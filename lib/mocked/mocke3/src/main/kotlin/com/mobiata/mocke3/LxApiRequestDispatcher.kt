@@ -1,10 +1,9 @@
 package com.mobiata.mocke3
 
 import com.google.gson.JsonParser
-import com.squareup.okhttp.mockwebserver.MockResponse
-import com.squareup.okhttp.mockwebserver.RecordedRequest
+import okhttp3.mockwebserver.MockResponse
+import okhttp3.mockwebserver.RecordedRequest
 import org.joda.time.DateTime
-import java.util.regex.Pattern
 
 class LxApiRequestDispatcher(fileOpener: FileOpener) : AbstractDispatcher(fileOpener) {
 
@@ -17,7 +16,7 @@ class LxApiRequestDispatcher(fileOpener: FileOpener) : AbstractDispatcher(fileOp
 
         return when {
             LxApiRequestMatcher.isSearchRequest(urlPath) -> {
-                val params = parseRequest(request)
+                val params = parseHttpRequest(request)
                 val location = params.get("location")
                 // Return happy path response if not testing for special cases.
                 return if (location == "search_failure") {
@@ -28,7 +27,7 @@ class LxApiRequestDispatcher(fileOpener: FileOpener) : AbstractDispatcher(fileOp
             }
 
             LxApiRequestMatcher.isDetailsRequest(urlPath) -> {
-                val params = parseRequest(request)
+                val params = parseHttpRequest(request)
                 val activityId = params.get("activityId")
                 val DATE_TIME_PATTERN = "yyyy-MM-dd HH:mm:ss"
                 val startDateTime = DateTime.now().withTimeAtStartOfDay()
@@ -46,7 +45,7 @@ class LxApiRequestDispatcher(fileOpener: FileOpener) : AbstractDispatcher(fileOp
             }
 
             LxApiRequestMatcher.isRecommendRequest(urlPath) -> {
-                val params = parseRequest(request)
+                val params = parseHttpRequest(request)
                 return getMockResponse("lx/api/recommend/happy.json", params)
             }
 
@@ -60,7 +59,7 @@ class LxApiRequestDispatcher(fileOpener: FileOpener) : AbstractDispatcher(fileOp
             }
 
             LxApiRequestMatcher.isCheckoutRequest(urlPath) -> {
-                val params = parseRequest(request)
+                val params = parseHttpRequest(request)
                 val firstName = params.get("firstName")
                 val tripId = params.get("tripId")
 
