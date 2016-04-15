@@ -47,13 +47,6 @@ class SuggestionV4Services(endpoint: String, okHttpClient: OkHttpClient, interce
                 .map { response -> response.suggestions.take(2).toMutableList() }
     }
 
-    fun suggestNearbyFlightsV4(locale: String, latlng: String, siteId: Int, clientId: String): Observable<MutableList<SuggestionV4>> {
-        return suggestApi.suggestNearbyV4(locale, latlng, siteId, SuggestionResultType.AIRPORT, "distance", clientId, "PACKAGES")
-                .observeOn(observeOn)
-                .subscribeOn(subscribeOn)
-                .map { response -> response.suggestions.take(2).toMutableList() }
-    }
-
     fun suggestPackagesV4(query: String, clientId: String, isDest: Boolean, observer: Observer<List<SuggestionV4>>, locale: String): Subscription {
         var suggestType = SuggestionResultType.NEIGHBORHOOD or SuggestionResultType.POINT_OF_INTEREST or SuggestionResultType.MULTI_CITY or SuggestionResultType.CITY
         if (isDest) {

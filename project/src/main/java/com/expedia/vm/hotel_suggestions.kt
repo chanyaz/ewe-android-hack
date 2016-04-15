@@ -15,7 +15,7 @@ import rx.subjects.PublishSubject
 
 class HotelSuggestionAdapterViewModel(context: Context, suggestionsService: SuggestionV4Services, locationObservable: Observable<Location>?, shouldShowCurrentLocation: Boolean, rawQueryEnabled: Boolean) : SuggestionAdapterViewModel(context, suggestionsService, locationObservable, shouldShowCurrentLocation, rawQueryEnabled) {
     override fun getSuggestionService(query: String) {
-        suggestionsService.getHotelSuggestionsV4(query, ServicesUtil.generateClientId(context), generateSuggestionServiceCallback(), PointOfSale.getSuggestLocaleIdentifier())
+        suggestionsService.getHotelSuggestionsV4(query, ServicesUtil.generateClient(context), generateSuggestionServiceCallback(), PointOfSale.getSuggestLocaleIdentifier())
     }
 
     override fun getSuggestionHistoryFile(): String {
