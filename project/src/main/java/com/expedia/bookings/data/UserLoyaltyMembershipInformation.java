@@ -107,9 +107,8 @@ public class UserLoyaltyMembershipInformation implements JSONable {
 			loyaltyMonetaryValue = new LoyaltyMonetaryValueObject(obj.optJSONObject("loyaltyMonetaryValue"));
 		}
 		else {
-			isAllowedToShopWithPoints = false;
+			loyaltyMonetaryValue = new LoyaltyMonetaryValueObject(new Money("0.0", bookingCurrency));
 		}
-
 		return true;
 	}
 
@@ -117,6 +116,10 @@ public class UserLoyaltyMembershipInformation implements JSONable {
 
 		public LoyaltyMonetaryValueObject(JSONObject obj) {
 			fromJson(obj);
+		}
+
+		public LoyaltyMonetaryValueObject(Money money) {
+			super(money.amount, money.currencyCode);
 		}
 
 		@Override

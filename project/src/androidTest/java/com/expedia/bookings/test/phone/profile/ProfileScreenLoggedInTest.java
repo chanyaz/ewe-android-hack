@@ -128,7 +128,7 @@ public class ProfileScreenLoggedInTest {
 		assertViewWithTextIsDisplayed(R.id.toolbar_loyalty_tier_text, R.string.plus_gold);
 		assertViewWithTextIsDisplayed(R.id.available_points, "54,206");
 		assertViewWithTextIsDisplayed(R.id.pending_points, "5,601 pending");
-		ViewInteraction countryView = getFirstRowCountry();
+		ViewInteraction countryView = getSecondRowCountry();
 		countryView.check(matches(withText("USA")));
 		assertTextViewHasCompoundDrawableFlag(countryView, R.drawable.ic_flag_us);
 	}
