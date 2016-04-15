@@ -3,7 +3,6 @@ package com.expedia.ui
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.packages.PackageCreateTripParams
@@ -12,7 +11,7 @@ import com.expedia.bookings.utils.Constants
 import com.expedia.bookings.utils.Ui
 import com.expedia.vm.packages.PackageSearchType
 
-class PackageActivity : AppCompatActivity() {
+class PackageActivity : AbstractAppCompatActivity() {
 
     val packagePresenter: PackagePresenter by lazy {
         findViewById(R.id.hotel_presenter) as PackagePresenter
@@ -58,6 +57,21 @@ class PackageActivity : AppCompatActivity() {
         }
     }
 
+    override fun onBackPressed() {
+        if (!packagePresenter.back()) {
+            super.onBackPressed()
+        }
+    }
+
+    override fun onPause() {
+        super.onPause()
+
+        if (isFinishing) {
+            clearCCNumber()
+            clearStoredCard()
+        }
+    }
+
     private fun packageFlightSearch() {
         packagePresenter.bundlePresenter.bundleWidget.viewModel.flightParamsObservable.onNext(Db.getPackageParams())
     }
@@ -66,12 +80,6 @@ class PackageActivity : AppCompatActivity() {
         val params = PackageCreateTripParams.fromPackageSearchParams(Db.getPackageParams())
         if (params.isValid) {
             packagePresenter.bundlePresenter.getCheckoutPresenter().createTripViewModel.tripParams.onNext(params)
-        }
-    }
-
-    override fun onBackPressed() {
-        if (!packagePresenter.back()) {
-            super.onBackPressed()
         }
     }
 }

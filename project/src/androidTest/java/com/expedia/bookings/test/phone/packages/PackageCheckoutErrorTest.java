@@ -1,6 +1,7 @@
 package com.expedia.bookings.test.phone.packages;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.test.espresso.EspressoUtils;
 import com.expedia.bookings.test.espresso.PackageTestCase;
 import com.expedia.bookings.test.phone.hotels.HotelScreen;
 import com.expedia.bookings.test.phone.pagemodels.common.BillingAddressScreen;
@@ -57,7 +58,8 @@ public class PackageCheckoutErrorTest extends PackageTestCase {
 
 		PackageScreen.assertErrorScreen("Edit Payment", "We're sorry, but we were unable to process your payment. Please verify that you entered your information correctly.");
 		onView(withId(R.id.error_action_button)).perform(click());
-
+		EspressoUtils.assertViewWithTextIsDisplayed(R.id.edit_creditcard_number, "");
+		CardInfoScreen.typeTextCreditCardEditText("4111111111111111");
 		CardInfoScreen.nameOnCardEditText().perform(clearText());
 		CardInfoScreen.typeTextNameOnCardEditText("errorcheckoutunknown");
 
@@ -68,6 +70,7 @@ public class PackageCheckoutErrorTest extends PackageTestCase {
 		onView(withId(R.id.error_action_button)).perform(click());
 
 		onView(withId(R.id.card_info_container)).perform(click());
+
 		CardInfoScreen.nameOnCardEditText().perform(clearText());
 		CardInfoScreen.typeTextNameOnCardEditText("abd def");
 
@@ -75,7 +78,6 @@ public class PackageCheckoutErrorTest extends PackageTestCase {
 		CheckoutViewModel.performSlideToPurchase();
 
 		onView(allOf(withId(R.id.itin_number), withText("#1126420960431 sent to test@email.com"))).check(matches(isDisplayed()));
-
 	}
 
 }
