@@ -162,7 +162,7 @@ class HotelListAdapter(val hotelSelectedSubject: PublishSubject<Hotel>, val head
         super.onViewRecycled(holder)
     }
 
-    public inner class HotelResultsPricingStructureHeaderViewHolder(val root: ViewGroup, val vm: HotelResultsPricingStructureHeaderViewModel) : RecyclerView.ViewHolder(root) {
+    inner class HotelResultsPricingStructureHeaderViewHolder(val root: ViewGroup, val vm: HotelResultsPricingStructureHeaderViewModel) : RecyclerView.ViewHolder(root) {
         val pricingStructureHeader: TextView by root.bindView(R.id.pricing_structure_header)
         val loyaltyPointsAppliedHeader: TextView by root.bindView(R.id.loyalty_points_applied_message)
         val shadow: View by root.bindView(R.id.drop_shadow)
@@ -176,7 +176,7 @@ class HotelListAdapter(val hotelSelectedSubject: PublishSubject<Hotel>, val head
         }
     }
 
-    public inner class MapSwitchClickInterceptorTransparentHeaderViewHolder(root: View) : RecyclerView.ViewHolder(root) {
+    inner class MapSwitchClickInterceptorTransparentHeaderViewHolder(root: View) : RecyclerView.ViewHolder(root) {
         init {
             itemView.setOnClickListener {
                 headerSubject.onNext(Unit)

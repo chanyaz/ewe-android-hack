@@ -64,51 +64,34 @@ class RailResultsAdapter(val context: Context, val legSelectedSubject: PublishSu
         return RailViewHolder(view as ViewGroup)
     }
 
-    public inner class RailViewHolder(root: ViewGroup) : RecyclerView.ViewHolder(root), View.OnClickListener {
+    inner class RailViewHolder(root: ViewGroup) : RecyclerView.ViewHolder(root), View.OnClickListener {
         var viewModel: RailViewModel by Delegates.notNull<RailViewModel>()
 
         val resources = root.resources
 
-        val legId: TextView by root.bindView(R.id.legIdText)
         val timesView: TextView by root.bindView(R.id.timesView)
         val priceView: TextView by root.bindView(R.id.priceView)
         val operatorTextView: TextView by root.bindView(R.id.trainOperator)
         val durationTextView: TextView by root.bindView(R.id.layoverView)
-        val timeline: RailLayoverWidget by root.bindView(R.id.timeline)
+        val timelineView: RailResultsTimelineWidget by root.bindView(R.id.timeline_view)
 
         init {
             itemView.setOnClickListener(this)
-            viewModel = RailViewModel()
+            viewModel = RailViewModel(root.context)
         }
 
         fun bind(leg: RailSearchResponse.LegOption) {
             viewModel.legOptionObservable.onNext(leg)
 
-            viewModel.legIdObservable.subscribeText(legId)
             viewModel.priceObservable.subscribeText(priceView)
-            viewModel.operatorObservable.subscribeText(operatorTextView)
-            viewModel.durationObservable.subscribe({ timeInMillis ->
-                durationTextView.text = DateTimeUtils.formatDuration(context.resources, timeInMillis)
-            })
-
+            viewModel.operatorObservable.subscribeText(operatorTextView) //todo - revert
+            viewModel.formattedStopsAndDurationObservable.subscribeText(durationTextView)
             timesView.text = DateTimeUtils.formatInterval(context, leg.getDepartureDateTime(), leg.getArrivalDateTime())
-            timeline.update(leg.segmentList, leg.durationInMinutes / 60, leg.durationInMinutes, longestLegDuration())
+            timelineView.updateLeg(leg)
         }
 
         override fun onClick(v: View?) {
             legSelectedSubject.onNext(legs[adapterPosition])
-        }
-
-        private fun longestLegDuration(): Int {
-            var longest = 0
-            legs.forEach {
-                longest = if (it.durationInMinutes > longest) {
-                    it.durationInMinutes
-                } else {
-                    longest
-                }
-            }
-            return longest
         }
     }
 }

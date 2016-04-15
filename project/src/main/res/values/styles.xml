@@ -1177,4 +1177,10 @@
         <item name="android:singleLine">true</item>
         <item name="textStyle">normal</item>
     </style>
+
+    <style name="RailPrimaryText">
+        <item name="android:textColor">@color/flight_departure_date_color</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
 </resources>

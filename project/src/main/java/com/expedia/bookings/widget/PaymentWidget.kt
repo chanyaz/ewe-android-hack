@@ -168,11 +168,11 @@ open class PaymentWidget(context: Context, attr: AttributeSet) : Presenter(conte
 
         vm.userHasAtleastOneStoredCard.subscribe { hasCard ->
             if (hasCard) {
-                paymentOptionCreditDebitCard.setTextColor(getResources().getColor(R.color.hotelsv2_checkout_text_color))
-                paymentOptionCreditDebitCard.setCompoundDrawablesWithIntrinsicBounds(getContext().getResources().getDrawable(R.drawable.add_new_credit_card_icon_with_padding), null, null, null)
+                paymentOptionCreditDebitCard.setTextColor(ContextCompat.getColor(context, R.color.hotelsv2_checkout_text_color))
+                paymentOptionCreditDebitCard.setCompoundDrawablesWithIntrinsicBounds(ContextCompat.getDrawable(context, R.drawable.add_new_credit_card_icon_with_padding), null, null, null)
             } else {
-                paymentOptionCreditDebitCard.setTextColor(getResources().getColor(R.color.hotels_primary_color))
-                paymentOptionCreditDebitCard.setCompoundDrawablesWithIntrinsicBounds(getCreditCardIcon(R.drawable.add_new_credit_card_icon_with_padding), null, getContext().getResources().getDrawable(R.drawable.enter_new_credit_card_arrow), null)
+                paymentOptionCreditDebitCard.setTextColor(ContextCompat.getColor(context, R.color.hotels_primary_color))
+                paymentOptionCreditDebitCard.setCompoundDrawablesWithIntrinsicBounds(getCreditCardIcon(R.drawable.add_new_credit_card_icon_with_padding), null, ContextCompat.getDrawable(context, R.drawable.enter_new_credit_card_arrow), null)
             }
         }
     }

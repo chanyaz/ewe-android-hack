@@ -587,6 +587,11 @@
         <item quantity="one">%1$s Vehicle</item>
         <item quantity="other">%1$s Vehicles</item>
     </plurals>
+    <plurals name="rail_changes_TEMPLATE">
+        <item quantity="one">%1$s Change</item>
+        <item quantity="other">%1$s Changes</item>
+    </plurals>
+
     <!-- Activity search results per ticket type -->
     <string name="per_ticket_type_traveler">per traveler</string>
     <string name="per_ticket_type_adult">per adult</string>
@@ -4026,10 +4031,36 @@
     <string name="package_itinerary_confirmation_TEMPLATE">#{itinerary} sent to {email}</string>
     <!--Rail search screen title-->
     <string name="trains">Trains</string>
+
+    <!--used on the rail search screen - this is equivalent to a one way air ticket -->
     <string name="rail_single">Single</string>
+
+    <!--used on the rail search screen - this is equivalent to a round trip air ticket -->
     <string name="rail_return">Return</string>
+
+    <!--used on the rail search screen - this is equivalent to a round trip air ticket with a return trip any time within a 30 day window (typically)-->
     <string name="rail_open_return">Open Return</string>
 
+    <!--used on the rail results/details screen to signify that a trip doesn't have any stops -->
+    <string name="rail_direct">Direct</string>
+
+    <!--toolbar subtitle, will take the form of "Sept 12 - Sept 15 - 3 Travelers" -->
+    <string name="rail_results_toolbar_subtitle_TEMPLATE">{searchdates} - {travelerspart}</string>
+
+    <!--Rail details - will be in the format of "3 hours, 42 minutes, 4 stops" -->
+    <string name="rail_time_and_stops_line_TEMPLATE">{formattedduration}, {formattedchangecount}</string>
+
+    <!--Heading on the rail details screen (which shows a journey summary and a list of ticket classes for that set of legs) -->
+    <string name="rail_journey_details_and_fare_options">Journey details + Fare options</string>
+
+    <!--Use on the timeline on rail details when a customer has to walk from one station to another during a trip -->
+    <string name="rail_walk_from_a_to_b_TEMPLATE">Walk from {origin} to {destination}</string>
+
+    <!--Use on the timeline on rail details when a customer has to travel via a non-rail segment, like a shuttle bus or a ferry -->
+    <string name="rail_travel_from_a_to_b_TEMPLATE">Take the {travelmode} from {origin} to {destination}</string>
+
+    <!--Use on the timeline on rail details when a customer has to transfer from one train to another at the same station (likely a different platform within the same station) -->
+    <string name="rail_change_at_station_TEMPLATE">Change at {stationname}</string>
 
     <string name="pwp_points_conversion_unauthenticated_access">We\'re sorry but we experienced a server problem. Please try again.</string>
     <string name="pwp_trip_service_error">We\'re sorry but we experienced a server problem. Please try again.</string>

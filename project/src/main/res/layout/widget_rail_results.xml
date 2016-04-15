@@ -11,7 +11,8 @@
             android:id="@+id/list_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:overScrollMode="never" />
+            android:overScrollMode="never"
+            android:paddingTop="4dp" />
 
         <ProgressBar
             android:id="@+id/results_progress"
@@ -28,6 +29,6 @@
         android:layout_gravity="top"
         android:background="@color/rail_primary_color"
         android:minHeight="?attr/actionBarSize"
-        app:title="@string/trains"
+        app:subtitleTextAppearance="@style/ToolbarSubtitleTextAppearance"
         app:titleTextAppearance="@style/ToolbarTitleTextAppearance" />
 </merge>

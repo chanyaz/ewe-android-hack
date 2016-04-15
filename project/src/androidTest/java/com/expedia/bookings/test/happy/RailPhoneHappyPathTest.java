@@ -14,7 +14,7 @@ import static android.support.test.espresso.matcher.ViewMatchers.withText;
 
 public class RailPhoneHappyPathTest extends RailTestCase {
 
-	public void testPackagePhoneHappyPath() throws Throwable {
+	public void testRailPhoneHappyPath() throws Throwable {
 
 		RailScreen.calendarButton().perform(click());
 		LocalDate firstStartDate = LocalDate.now().plusDays(10);
@@ -24,6 +24,7 @@ public class RailPhoneHappyPathTest extends RailTestCase {
 		RailScreen.searchButton().perform(click());
 		Common.delay(1);
 
-		onView(withText("7:47 AM – 10:59 AM")).check(matches(isDisplayed()));
+		onView(withText("8:26 AM – 3:20 PM")).check(matches(isDisplayed())).perform(click());
+		onView(withText("Walk from Ryde Hoverport to Ryde Esplanade")).check(matches(isDisplayed()));
 	}
 }

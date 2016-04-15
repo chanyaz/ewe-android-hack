@@ -5,12 +5,14 @@ import android.util.AttributeSet
 import android.view.View
 import com.expedia.bookings.R
 import com.expedia.bookings.data.rail.requests.RailSearchRequest
+import com.expedia.bookings.data.rail.responses.RailSearchResponse
 import com.expedia.bookings.presenter.LeftToRightTransition
 import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.services.RailServices
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
 import com.expedia.util.endlessObserver
+import com.expedia.vm.RailDetailsViewModel
 import com.expedia.vm.RailResultsViewModel
 import com.expedia.vm.RailSearchViewModel
 import rx.Observer
@@ -38,11 +40,17 @@ class RailPresenter(context: Context, attrs: AttributeSet) : Presenter(context, 
         railSearchParams = params
 
         transitionToResults()
+        resultsPresenter.viewmodel.searchViewModel = searchPresenter.searchViewModel
         resultsPresenter.viewmodel.paramsSubject.onNext(params)
     }
 
+    val offerSelectedObserver :  Observer<RailSearchResponse.RailOffer> = endlessObserver { selectedOffer ->
+        transitionToDetails()
+        detailsPresenter.viewmodel.offerViewModel.offerSubject.onNext(selectedOffer)
+    }
+
     init {
-        Ui.getApplication(getContext()).railComponent().inject(this)
+        Ui.getApplication(context).railComponent().inject(this)
         View.inflate(context, R.layout.rail_presenter, this)
         addTransition(searchToResults)
         addTransition(resultsToDetails)
@@ -55,7 +63,9 @@ class RailPresenter(context: Context, attrs: AttributeSet) : Presenter(context, 
         searchPresenter.searchViewModel = RailSearchViewModel(context)
         searchPresenter.searchViewModel.searchParamsObservable.subscribe(searchObserver)
 
-        resultsPresenter.viewmodel = RailResultsViewModel(railServices)
+        resultsPresenter.viewmodel = RailResultsViewModel(context, railServices)
+        resultsPresenter.offerSelectedObserver = offerSelectedObserver
+        detailsPresenter.viewmodel = RailDetailsViewModel(context)
 
         show(searchPresenter)
     }

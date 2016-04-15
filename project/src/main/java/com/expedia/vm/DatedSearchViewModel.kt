@@ -40,7 +40,6 @@ abstract class DatedSearchViewModel(val context: Context) {
         }
     }
 
-
     val datesObserver = endlessObserver<Pair<LocalDate?, LocalDate?>> { data ->
         onDatesChanged(data)
     }
