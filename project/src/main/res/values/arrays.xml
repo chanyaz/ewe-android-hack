@@ -811,13 +811,6 @@
         <item>@string/rating</item>
     </string-array>
 
-    <string-array name="sort_options_material_hotels">
-        <item>@string/popular</item>
-        <item>@string/price</item>
-        <item>@string/sort_description_deals</item>
-        <item>@string/rating</item>
-    </string-array>
-
     <string-array name="sort_options_flights">
         <item>@string/sort_description_price</item>
         <item>@string/sort_description_departure</item>

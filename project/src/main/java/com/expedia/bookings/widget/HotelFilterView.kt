@@ -40,8 +40,6 @@ import com.expedia.vm.HotelFilterViewModel
 import com.expedia.vm.HotelFilterViewModel.Sort
 import com.expedia.vm.ShopWithPointsViewModel
 import rx.Observer
-import java.util.ArrayList
-import javax.inject.Inject
 
 class HotelFilterView(context: Context, attrs: AttributeSet) : FrameLayout(context, attrs) {
     val toolbar: Toolbar by bindView(R.id.filter_toolbar)
@@ -92,26 +90,33 @@ class HotelFilterView(context: Context, attrs: AttributeSet) : FrameLayout(conte
     val rowHeight = resources.getDimensionPixelSize(R.dimen.hotel_neighborhood_height)
     val ANIMATION_DURATION = 500L
 
-    val defaultSortOptions = resources.getStringArray(R.array.sort_options_material_hotels).toCollection(ArrayList())
-    val sortByAdapter = ArrayAdapter<String>(getContext(), R.layout.spinner_sort_dropdown_item)
-    val sortByDistanceString = getContext().getString(R.string.distance)
-    val sortByDealsString = getContext().getString(R.string.sort_description_deals)
+    val sortByAdapter = object : ArrayAdapter<Sort>(getContext(), R.layout.spinner_sort_dropdown_item) {
+        override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
+            val textView: TextView = super.getView(position, convertView, parent) as TextView
+            textView.text = resources.getString(getItem(position).resId)
+            return textView;
+        }
+    }
 
     var shopWithPointsViewModel: ShopWithPointsViewModel? = null
 
     val sortByObserver: Observer<Boolean> = endlessObserver { isCurrentLocationSearch ->
         sortByAdapter.clear()
-        sortByAdapter.addAll(defaultSortOptions)
+        val sortList = Sort.values().toList()
 
-        if (isCurrentLocationSearch) {
-            sortByAdapter.add(sortByDistanceString)
+        sortByAdapter.addAll(sortList)
+
+        if (!isCurrentLocationSearch) {
+            sortByAdapter.remove(sortList.first { it == Sort.DISTANCE })
         }
 
         // Remove Sort by Deals in case of SWP.
         if (shopWithPointsViewModel?.swpEffectiveAvailability?.value ?: false) {
-            sortByAdapter.remove(sortByDealsString)
+            sortByAdapter.remove(sortList.first { it == Sort.DEALS })
         }
+
         sortByAdapter.notifyDataSetChanged()
+        sortByButtonGroup.setSelection(0, false)
     }
 
     var viewmodel: HotelFilterViewModel by notNullAndObservable { vm ->
@@ -252,10 +257,8 @@ class HotelFilterView(context: Context, attrs: AttributeSet) : FrameLayout(conte
 
         sortByButtonGroup.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(p0: AdapterView<*>?, p1: View?, position: Int, p3: Long) {
-                val sort = Sort.values()[position]
-                vm.userFilterChoices.userSort = sort
+                vm.userFilterChoices.userSort = sortByAdapter.getItem(position)
             }
-
             override fun onNothingSelected(p0: AdapterView<*>?) {
             }
 
