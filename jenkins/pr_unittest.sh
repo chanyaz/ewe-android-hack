@@ -1,7 +1,5 @@
 #!/bin/bash
 
-TERM=dumb
-
 # ensure python environment for PR Police
 if [ ! -d 'virtualenv' ] ; then
     virtualenv -p python2.7 virtualenv
@@ -11,15 +9,20 @@ source ./virtualenv/bin/activate
 
 pip install --upgrade "pip"
 pip install enum
-pip install "github3.py==0.9.5"
+pip install "github3.py==1.0.0.a4"
+
+set -e
 
 GITHUB_TOKEN=7d400f5e78f24dbd24ee60814358aa0ab0cd8a76
 
-# Invoke PR Police to check for issues
-python ./jenkins/pr_police/PRPolice.py ${GITHUB_TOKEN} ${ghprbPullId}
-prPoliceStatus=$?
-
-set -e
+if [ "$isPRPoliceEnabled" == "true" ]; then
+    # Invoke PR Police to check for issues
+    python ./jenkins/pr_police/PRPolice.py ${GITHUB_TOKEN} ${ghprbPullId}
+    prPoliceStatus=$?
+else
+    echo "PR Police is disabled!"
+    prPoliceStatus=0
+fi
 
 # So the sdkmanager plugin can run and download if the libraries fail to resolve
 ./gradlew --no-daemon --continue "-Dorg.gradle.configureondemand=false" "clean"

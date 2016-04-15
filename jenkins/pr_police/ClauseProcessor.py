@@ -11,11 +11,16 @@ templatedStringShouldBeSuffixedWithTEMPLATE = TemplatedStringShouldBeSuffixedWit
 ClausesList = [stringShouldNotHavePositionalPlaceholders, stringShouldNotHaveBrandSpecificTerm, templatedStringShouldBeSuffixedWithTEMPLATE]
 
 class ClauseProcessor:
-        def __init__(self):
-                self.issueList = []
-
         def runClauses(self, pullRequest):
-                for file in pullRequest.files:
-                        for clause in ClausesList:
-                                self.issueList = clause.probableIssues(file, self.issueList)
-                return self.issueList
+			issues = []
+			for file in pullRequest.files:
+				for clause in ClausesList:
+					issues.extend(clause.probableIssues(file))
+			return issues
+
+        def anyFileRelevantForAnyClause(self, filepathList):
+			for filepath in filepathList:
+				for clause in ClausesList:
+					if clause.wantsToScanFile(filepath):
+						return True
+			return False
