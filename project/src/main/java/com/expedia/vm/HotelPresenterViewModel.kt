@@ -1,6 +1,7 @@
 package com.expedia.vm
 
 import com.expedia.bookings.data.cars.ApiError
+import com.expedia.vm.hotel.HotelDetailViewModel
 import rx.Observable
 import rx.android.schedulers.AndroidSchedulers
 import rx.subjects.BehaviorSubject

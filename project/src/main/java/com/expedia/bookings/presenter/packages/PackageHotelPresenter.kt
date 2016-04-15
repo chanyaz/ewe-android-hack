@@ -25,7 +25,6 @@ import com.expedia.bookings.presenter.hotel.HotelDetailPresenter
 import com.expedia.bookings.presenter.hotel.HotelReviewsView
 import com.expedia.bookings.services.PackageServices
 import com.expedia.bookings.services.ReviewsServices
-import com.expedia.bookings.tracking.HotelV2Tracking
 import com.expedia.bookings.tracking.PackagesTracking
 import com.expedia.bookings.utils.Strings
 import com.expedia.bookings.utils.Ui
@@ -35,7 +34,7 @@ import com.expedia.bookings.widget.LoadingOverlayWidget
 import com.expedia.bookings.widget.SlidingBundleWidget
 import com.expedia.ui.PackageHotelActivity
 import com.expedia.util.endlessObserver
-import com.expedia.vm.HotelDetailViewModel
+import com.expedia.vm.hotel.HotelDetailViewModel
 import com.expedia.vm.HotelMapViewModel
 import com.expedia.vm.HotelResultsViewModel
 import com.expedia.vm.HotelReviewsViewModel
@@ -83,7 +82,7 @@ class PackageHotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
         detailsStub.addView(detailsMapView)
         presenter.hotelMapView.mapView = detailsMapView
         presenter.hotelMapView.mapView.getMapAsync(presenter.hotelMapView);
-        presenter.hotelDetailView.viewmodel = HotelDetailViewModel(context, null, selectedRoomObserver, LineOfBusiness.PACKAGES)
+        presenter.hotelDetailView.viewmodel = HotelDetailViewModel(context, selectedRoomObserver, LineOfBusiness.PACKAGES)
         presenter.hotelDetailView.viewmodel.reviewsClickedWithHotelData.subscribe(reviewsObserver)
         presenter.hotelDetailView.viewmodel.mapClickedSubject.subscribe(presenter.hotelDetailsEmbeddedMapClickObserver)
         presenter.hotelDetailView.viewmodel.hotelDetailsBundleTotalObservable.subscribe { bundle ->

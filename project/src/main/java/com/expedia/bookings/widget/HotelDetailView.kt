@@ -54,7 +54,7 @@ import com.expedia.util.subscribeOnClick
 import com.expedia.util.subscribeText
 import com.expedia.util.subscribeVisibility
 import com.expedia.util.unsubscribeOnClick
-import com.expedia.vm.HotelDetailViewModel
+import com.expedia.vm.hotel.HotelDetailViewModel
 import com.expedia.vm.HotelRoomRateViewModel
 import com.mobiata.android.util.AndroidUtils
 import rx.Observable

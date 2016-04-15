@@ -19,7 +19,7 @@ import com.expedia.bookings.testrule.ServicesRule
 import com.expedia.bookings.utils.DateUtils
 import com.expedia.bookings.widget.HotelDetailView
 import com.expedia.util.endlessObserver
-import com.expedia.vm.HotelDetailViewModel
+import com.expedia.vm.hotel.HotelDetailViewModel
 import com.squareup.phrase.Phrase
 import org.joda.time.LocalDate
 import org.junit.Assert
@@ -35,8 +35,6 @@ import kotlin.test.assertNull
 
 @RunWith(RobolectricRunner::class)
 class HotelDetailsTest {
-    var service = ServicesRule(HotelServices::class.java)
-        @Rule get
 
     private var vm: HotelDetailViewModel by Delegates.notNull()
     private var hotelDetailView: HotelDetailView by Delegates.notNull()
@@ -52,7 +50,7 @@ class HotelDetailsTest {
         activity = Robolectric.buildActivity(Activity::class.java).create().get()
         activity.setTheme(R.style.V2_Theme_Hotels)
         hotelDetailView = android.view.LayoutInflater.from(activity).inflate(R.layout.test_hotel_details_widget, null) as HotelDetailView
-        vm = HotelDetailViewModel(activity.applicationContext, service.services, endlessObserver { /*ignore*/ })
+        vm = HotelDetailViewModel(activity.applicationContext, endlessObserver { /*ignore*/ })
         hotelDetailView.viewmodel = vm
 
         offers = HotelOffersResponse()

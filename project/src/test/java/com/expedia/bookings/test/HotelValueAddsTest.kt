@@ -8,7 +8,7 @@ import com.expedia.bookings.interceptors.MockInterceptor
 import com.expedia.bookings.services.HotelServices
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.util.endlessObserver
-import com.expedia.vm.HotelDetailViewModel
+import com.expedia.vm.hotel.HotelDetailViewModel
 import com.mobiata.mocke3.ExpediaDispatcher
 import com.mobiata.mocke3.FileSystemOpener
 import com.squareup.okhttp.OkHttpClient
@@ -38,7 +38,7 @@ class HotelValueAddsTest {
     fun before() {
         val activity = Robolectric.buildActivity(Activity::class.java).create().get()
         service = HotelServices("http://localhost:" + server.port, OkHttpClient(), MockInterceptor(), Schedulers.immediate(), Schedulers.immediate(), RestAdapter.LogLevel.FULL)
-        vm = HotelDetailViewModel(activity.applicationContext, service, endlessObserver { /*ignore*/ })
+        vm = HotelDetailViewModel(activity.applicationContext, endlessObserver { /*ignore*/ })
     }
 
     private fun setUpTest(): TestSubscriber<HotelOffersResponse> {

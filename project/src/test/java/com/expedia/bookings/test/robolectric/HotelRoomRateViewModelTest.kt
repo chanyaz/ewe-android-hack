@@ -13,8 +13,8 @@ import com.expedia.bookings.test.robolectric.shadows.ShadowAccountManagerEB
 import com.expedia.bookings.test.robolectric.shadows.ShadowGCM
 import com.expedia.bookings.test.robolectric.shadows.ShadowUserManager
 import com.expedia.util.endlessObserver
-import com.expedia.vm.HotelDetailViewModel
 import com.expedia.vm.HotelRoomRateViewModel
+import com.expedia.vm.hotel.HotelDetailViewModel
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -196,7 +196,7 @@ class HotelRoomRateViewModelTest {
     private fun setupNonSoldOutRoomUnderTest() {
         val rowIndex = 0
         expectedAmenity = "Free wifi"
-        mockHotelDetailViewModel = HotelDetailViewModel(context, mockHotelServiceTestRule.services!!, endlessObserver { /*ignore*/ })
+        mockHotelDetailViewModel = HotelDetailViewModel(context, endlessObserver { /*ignore*/ })
 
         sut = HotelRoomRateViewModel(context, hotelOfferResponse.hotelId, hotelRoomResponse, expectedAmenity, rowIndex, mockHotelDetailViewModel.rowExpandingObservable, endlessObserver { }, false)
     }
@@ -204,7 +204,7 @@ class HotelRoomRateViewModelTest {
     private fun setupSoldOutRoomUnderTest() {
         val rowIndex = 0
         expectedAmenity = "Free wifi"
-        mockHotelDetailViewModel = HotelDetailViewModel(context, mockHotelServiceTestRule.services!!, endlessObserver { /*ignore*/ })
+        mockHotelDetailViewModel = HotelDetailViewModel(context, endlessObserver { /*ignore*/ })
 
         sut = HotelRoomRateViewModel(context, hotelOfferResponse.hotelId, hotelRoomResponse, expectedAmenity, rowIndex, mockHotelDetailViewModel.rowExpandingObservable, endlessObserver { }, false)
     }

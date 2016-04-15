@@ -9,7 +9,7 @@ import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.HotelDetailsToolbar
 import com.expedia.util.notNullAndObservable
 import com.expedia.util.subscribeText
-import com.expedia.vm.HotelDetailViewModel
+import com.expedia.vm.hotel.HotelDetailViewModel
 import com.expedia.vm.HotelErrorViewModel
 
 class HotelErrorPresenter(context: Context, attr: AttributeSet?) : BaseErrorPresenter(context, attr) {

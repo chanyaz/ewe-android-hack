@@ -50,7 +50,7 @@ import com.expedia.vm.GeocodeSearchModel
 import com.expedia.vm.HotelCheckoutViewModel
 import com.expedia.vm.HotelConfirmationViewModel
 import com.expedia.vm.HotelCreateTripViewModel
-import com.expedia.vm.HotelDetailViewModel
+import com.expedia.vm.hotel.HotelDetailViewModel
 import com.expedia.vm.HotelErrorViewModel
 import com.expedia.vm.HotelMapViewModel
 import com.expedia.vm.HotelPresenterViewModel
@@ -253,7 +253,7 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
     init {
         Ui.getApplication(getContext()).hotelComponent().inject(this)
 
-        hotelDetailViewModel = HotelDetailViewModel(context, hotelServices, endlessObserver<HotelOffersResponse.HotelRoomResponse> {
+        hotelDetailViewModel = HotelDetailViewModel(context, endlessObserver<HotelOffersResponse.HotelRoomResponse> {
             checkoutPresenter.hotelCheckoutWidget.couponCardView.viewmodel.hasDiscountObservable.onNext(false)
             checkoutPresenter.setSearchParams(hotelSearchParams)
             checkoutPresenter.hotelCheckoutWidget.setSearchParams(hotelSearchParams)
