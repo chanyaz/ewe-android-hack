@@ -59,7 +59,7 @@ import com.expedia.util.endlessObserver
 import com.expedia.util.havePermissionToAccessLocation
 import com.expedia.util.notNullAndObservable
 import com.expedia.vm.HotelFilterViewModel
-import com.expedia.vm.HotelResultsMapViewModel
+import com.expedia.vm.hotel.HotelResultsMapViewModel
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.MapView

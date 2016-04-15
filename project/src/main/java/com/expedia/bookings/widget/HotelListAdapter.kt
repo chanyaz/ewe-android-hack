@@ -40,7 +40,7 @@ import com.expedia.util.subscribeStarRating
 import com.expedia.util.subscribeText
 import com.expedia.util.subscribeTextColor
 import com.expedia.util.subscribeVisibility
-import com.expedia.vm.HotelResultsPricingStructureHeaderViewModel
+import com.expedia.vm.hotel.HotelResultsPricingStructureHeaderViewModel
 import com.larvalabs.svgandroid.widget.SVGView
 import com.squareup.picasso.Picasso
 import rx.subjects.BehaviorSubject

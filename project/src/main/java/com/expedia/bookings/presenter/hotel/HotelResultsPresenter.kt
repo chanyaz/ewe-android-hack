@@ -27,7 +27,7 @@ import com.expedia.util.notNullAndObservable
 import com.expedia.util.subscribeInverseVisibility
 import com.expedia.util.subscribeText
 import com.expedia.util.subscribeVisibility
-import com.expedia.vm.HotelResultsViewModel
+import com.expedia.vm.hotel.HotelResultsViewModel
 import com.expedia.vm.ShopWithPointsViewModel
 import javax.inject.Inject
 

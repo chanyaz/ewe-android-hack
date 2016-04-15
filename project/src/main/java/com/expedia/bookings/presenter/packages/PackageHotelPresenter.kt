@@ -36,7 +36,7 @@ import com.expedia.ui.PackageHotelActivity
 import com.expedia.util.endlessObserver
 import com.expedia.vm.hotel.HotelDetailViewModel
 import com.expedia.vm.HotelMapViewModel
-import com.expedia.vm.HotelResultsViewModel
+import com.expedia.vm.hotel.HotelResultsViewModel
 import com.expedia.vm.HotelReviewsViewModel
 import com.google.android.gms.maps.MapView
 import com.squareup.phrase.Phrase
