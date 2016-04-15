@@ -41,7 +41,7 @@
     <string name="change_dates">Change Dates</string>
     <!-- checkout view toolbar title -->
     <string name="secure_checkout">Secure Checkout</string>
-    <!-- Earn messaging -->
+    <!-- Message to display to user indicating how many points or dollars will be earned for this booking; parameter may be number of points or currency amount; e.g. "Earn 478" or "Earn $5" -->
     <string name="earn_message_TEMPLATE">Earn {earn}</string>
 
     <!-- Cars -->
@@ -1793,9 +1793,9 @@
     <string name="arrive_at_TEMPLATE">Arrive at %s</string>
     <!-- Template for when a flight is operated by a different carrier.  %s is the other carrier, e.g. "Operated by American Airlines" -->
     <string name="operated_by_TEMPLATE">Operated by %s</string>
-    <!-- Template for points earned in SWP for flights-->
+    <!-- Message to user indicating how many points will be earned for this booking; parameter is the number of points; e.g. "Earn 478 points" -->
     <string name="earn_points_TEMPLATE">Earn {points} points</string>
-    <!-- Template for amount earned in SWP for flights-->
+    <!-- Message to user indicating how much currency will be earned for this booking; parameter is the currency amount; e.g. "Earn $5" -->
     <string name="earn_amount_TEMPLATE">Earn {price}</string>
     <!-- Carry-on baggage fees apply -->
     <string name="carry_on_baggage_fees_apply">Carry-on baggage fees apply</string>
