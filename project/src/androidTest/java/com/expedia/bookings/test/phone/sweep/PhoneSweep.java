@@ -5,9 +5,7 @@ import org.joda.time.DateTime;
 import android.support.test.espresso.contrib.RecyclerViewActions;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.data.abacus.AbacusUtils;
 import com.expedia.bookings.data.pos.PointOfSaleId;
-import com.expedia.bookings.test.espresso.AbacusTestUtils;
 import com.expedia.bookings.test.espresso.Common;
 import com.expedia.bookings.test.espresso.PhoneTestCase;
 import com.expedia.bookings.test.phone.hotels.HotelScreen;
@@ -35,8 +33,6 @@ public class PhoneSweep extends PhoneTestCase {
 		Common.setPOS(PointOfSaleId.valueOf(getPOS(getLocale())));
 		final DateTime startDateTime = DateTime.now().plusDays(60);
 		final DateTime endDateTime = startDateTime.plusDays(5);
-		AbacusTestUtils.updateABTest(AbacusUtils.EBAndroidAppHotelsABTest,
-			AbacusUtils.DefaultVariate.BUCKETED.ordinal());
 		Common.delay(1);
 
 		LaunchScreen.launchHotels();

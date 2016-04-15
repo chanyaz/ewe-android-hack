@@ -14,7 +14,6 @@ import org.json.JSONException;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.content.Context;
-import android.content.Intent;
 import android.location.Location;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
@@ -25,8 +24,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 
+import butterknife.ButterKnife;
+import butterknife.InjectView;
+import butterknife.OnClick;
 import com.expedia.bookings.R;
-import com.expedia.bookings.activity.HotelDetailsFragmentActivity;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.HotelSearchParams;
 import com.expedia.bookings.data.HotelSearchResponse;
@@ -38,7 +39,6 @@ import com.expedia.bookings.data.hotels.Hotel;
 import com.expedia.bookings.data.hotels.NearbyHotelParams;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
-import com.expedia.bookings.fragment.HotelDetailsMiniGalleryFragment;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.services.CollectionServices;
 import com.expedia.bookings.services.HotelServices;
@@ -49,10 +49,6 @@ import com.expedia.bookings.utils.NavUtils;
 import com.expedia.bookings.utils.Ui;
 import com.mobiata.android.Log;
 import com.squareup.otto.Subscribe;
-
-import butterknife.ButterKnife;
-import butterknife.InjectView;
-import butterknife.OnClick;
 import rx.Observer;
 import rx.Subscription;
 
@@ -300,41 +296,16 @@ public class PhoneLaunchWidget extends FrameLayout {
 	@Subscribe
 	public void onHotelOfferSelected(Events.LaunchListItemSelected event) throws JSONException {
 		Hotel offer = event.offer;
-		boolean isUserBucketedForTest = Db.getAbacusResponse().isUserBucketedForTest(
-			AbacusUtils.EBAndroidAppHotelsABTest);
-
-		if (isUserBucketedForTest) {
-			HotelSearchParams params = new HotelSearchParams();
-			params.hotelId = offer.hotelId;
-			params.setQuery(offer.localizedName);
-			params.setSearchType(HotelSearchParams.SearchType.HOTEL);
-			LocalDate now = LocalDate.now();
-			params.setCheckInDate(now);
-			params.setCheckOutDate(now.plusDays(1));
-			params.setNumAdults(2);
-			params.setChildren(null);
-			NavUtils.goToHotels(getContext(), params);
-		}
-		else {
-			Property property = new Property();
-			property.updateFrom(offer);
-
-			// Set search response to contain only the hotel that has been selected
-			HotelSearchResponse response = new HotelSearchResponse();
-			response.addProperty(property);
-			Db.getHotelSearch().setSearchResponse(response);
-
-			// Set search params to what we used for the launch list search
-			Db.getHotelSearch().resetSearchParams();
-			Db.getHotelSearch().getSearchParams().setSearchLatLon(searchParams.getSearchLatitude(),
-				searchParams.getSearchLongitude());
-			// Set selected property
-			Db.getHotelSearch().setSelectedProperty(property);
-
-			Intent intent = new Intent(getContext(), HotelDetailsFragmentActivity.class);
-			intent.putExtra(HotelDetailsMiniGalleryFragment.ARG_FROM_LAUNCH, true);
-			NavUtils.startActivity(getContext(), intent, null);
-		}
+		HotelSearchParams params = new HotelSearchParams();
+		params.hotelId = offer.hotelId;
+		params.setQuery(offer.localizedName);
+		params.setSearchType(HotelSearchParams.SearchType.HOTEL);
+		LocalDate now = LocalDate.now();
+		params.setCheckInDate(now);
+		params.setCheckOutDate(now.plusDays(1));
+		params.setNumAdults(2);
+		params.setChildren(null);
+		NavUtils.goToHotels(getContext(), params);
 	}
 
 	// Hotel Search

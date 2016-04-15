@@ -4,11 +4,9 @@ import org.joda.time.LocalDate;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.HotelSearchParams;
-import com.expedia.bookings.data.abacus.AbacusUtils;
 import com.expedia.bookings.data.collections.CollectionLocation;
 import com.expedia.bookings.data.hotels.Hotel;
 import com.expedia.bookings.otto.Events;
-import com.expedia.bookings.test.espresso.AbacusTestUtils;
 import com.expedia.bookings.test.espresso.Common;
 import com.expedia.bookings.test.espresso.EspressoUtils;
 import com.expedia.bookings.test.espresso.PhoneTestCase;
@@ -17,52 +15,12 @@ import com.expedia.bookings.test.phone.hotels.HotelScreen;
 import com.expedia.bookings.test.phone.pagemodels.common.LaunchScreen;
 import com.expedia.bookings.utils.DateUtils;
 
-import java.util.Arrays;
-import java.util.List;
-
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 
-public class HotelsABTest extends PhoneTestCase {
+public class LaunchScreenToHotelTest extends PhoneTestCase {
 
-	private static final List<String> bucketedTests = Arrays
-		.asList(
-			"testBucketedHotels",
-			"testAirAttachBannerClick",
-			"testSeeMore",
-			"testPopularHotelSelection",
-			"testPopularLocationSelection");
-
-	@Override
-	public void runTest() throws Throwable {
-		String testMethodName = getClass().getMethod(getName(), (Class[]) null).toString();
-		if (isBucketed(testMethodName)) {
-			AbacusTestUtils.updateABTest(AbacusUtils.EBAndroidAppHotelsABTest,
-				AbacusUtils.DefaultVariate.BUCKETED.ordinal());
-		}
-		else {
-			AbacusTestUtils.updateABTest(AbacusUtils.EBAndroidAppHotelsABTest,
-				AbacusUtils.DefaultVariate.CONTROL.ordinal());
-		}
-		super.runTest();
-	}
-
-	private boolean isBucketed(String testMethodName) {
-		for (String bucketedTest : bucketedTests) {
-			if (testMethodName.contains(bucketedTest)) {
-				return true;
-			}
-		}
-		return false;
-	}
-
-	public void testControlHotels() {
-		LaunchScreen.launchHotels();
-		// Assert that old hotels search screen is launched.
-		EspressoUtils.assertViewIsDisplayed(R.id.calendar_button_container);
-	}
-
-	public void testBucketedHotels() {
+	public void testHotelLobButton() {
 		LaunchScreen.launchHotels();
 		// Assert that materials hotels search screen is launched.
 		EspressoUtils.assertViewIsDisplayed(R.id.hotel_presenter);

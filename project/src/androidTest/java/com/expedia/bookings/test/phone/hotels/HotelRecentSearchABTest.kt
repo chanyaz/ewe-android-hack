@@ -11,7 +11,7 @@ class HotelRecentSearchABTest : PhoneTestCase() {
 
     @Throws(Throwable::class)
     override fun runTest() {
-        AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppHotelsABTest, AbacusUtils.EBAndroidAppHotelRecentSearchTest)
+        AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppHotelRecentSearchTest)
         super.runTest()
     }
 

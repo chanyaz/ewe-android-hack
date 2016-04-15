@@ -23,6 +23,8 @@ public class LaunchScreenUIElementsTest extends PhoneTestCase {
 	@Override
 	public void runTest() throws Throwable {
 		Common.setPOS(PointOfSaleId.UNITED_STATES);
+		AbacusTestUtils.updateABTest(AbacusUtils.EBAndroidAppHotelsSearchScreenTest,
+			AbacusUtils.DefaultVariate.CONTROL.ordinal());
 		String testMethodName = getClass().getMethod(getName(), (Class[]) null).toString();
 		if (testMethodName.contains("testLaunchButtonsForGroundTransport")) {
 			AbacusTestUtils.updateABTest(AbacusUtils.EBAndroidAppSplitGTandActivities,
@@ -34,14 +36,13 @@ public class LaunchScreenUIElementsTest extends PhoneTestCase {
 	public void testGeneralUIElements() throws Throwable {
 		EspressoUtils.assertTextWithChildrenIsDisplayed(R.id.hotels_button, mRes.getString(R.string.nav_hotels));
 		LaunchScreen.launchHotels();
-		screenshot("POS_US_Hotels_Launch");
-		EspressoUtils.assertViewIsDisplayed(R.id.hotel_list_container);
+		EspressoUtils.assertViewIsDisplayed(R.id.search_container);
+		Common.pressBack();
 		Common.pressBack();
 		Log.v(TAG, "Hotels button on Launch screen is displayed and works");
 
 		EspressoUtils.assertTextWithChildrenIsDisplayed(R.id.flights_button, mRes.getString(R.string.nav_flights));
 		LaunchScreen.launchFlights();
-		screenshot("POS_US_Flights_Launch");
 		EspressoUtils.assertViewIsDisplayed(R.id.departure_airport_edit_text);
 		Common.closeSoftKeyboard(FlightsSearchScreen.arrivalEditText());
 		Common.delay(2);
@@ -50,7 +51,6 @@ public class LaunchScreenUIElementsTest extends PhoneTestCase {
 
 		EspressoUtils.assertTextWithChildrenIsDisplayed(R.id.cars_button, mRes.getString(R.string.nav_cars));
 		LaunchScreen.launchCars();
-		screenshot("POS_US_Cars_Launch");
 		EspressoUtils.assertViewIsDisplayed(R.id.pickup_location);
 		Common.closeSoftKeyboard(onView(withId(R.id.pickup_location)));
 		CarScreen.searchWidgetToolbarBack().perform(click());
@@ -58,7 +58,6 @@ public class LaunchScreenUIElementsTest extends PhoneTestCase {
 
 		EspressoUtils.assertTextWithChildrenIsDisplayed(R.id.activities_button, mRes.getString(R.string.nav_lx));
 		LaunchScreen.launchActivities();
-		screenshot("POS_US_Activities_Launch");
 		Common.delay(1);
 		EspressoUtils.assertViewIsDisplayed(R.id.search_location);
 		Common.closeSoftKeyboard(onView(withId(R.id.search_location)));

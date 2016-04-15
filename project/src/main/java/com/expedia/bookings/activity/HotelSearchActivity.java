@@ -592,9 +592,6 @@ public class HotelSearchActivity extends FragmentActivity implements OnDrawStart
 
 		showFragment(mTag);
 		setShowDistance(mShowDistance);
-		if (savedInstanceState == null) {
-			OmnitureTracking.trackHotelsABTest();
-		}
 	}
 
 	@Override

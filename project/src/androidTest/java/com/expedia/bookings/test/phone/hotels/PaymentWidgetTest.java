@@ -1,8 +1,6 @@
 package com.expedia.bookings.test.phone.hotels;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.data.abacus.AbacusUtils;
-import com.expedia.bookings.test.espresso.AbacusTestUtils;
 import com.expedia.bookings.test.espresso.Common;
 import com.expedia.bookings.test.espresso.EspressoUtils;
 import com.expedia.bookings.test.espresso.PhoneTestCase;
@@ -21,13 +19,6 @@ import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static org.hamcrest.Matchers.not;
 
 public class PaymentWidgetTest extends PhoneTestCase {
-
-	@Override
-	public void runTest() throws Throwable {
-		AbacusTestUtils.updateABTest(AbacusUtils.EBAndroidAppHotelsABTest,
-			AbacusUtils.DefaultVariate.BUCKETED.ordinal());
-		super.runTest();
-	}
 
 	public void testPaymentWidgetFlow() throws Throwable {
 		goToCheckout();
