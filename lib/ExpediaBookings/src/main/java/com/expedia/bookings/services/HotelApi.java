@@ -18,7 +18,7 @@ import rx.Observable;
 
 public interface HotelApi {
 
-	@GET("/m/api/hotel/search")
+	@GET("/m/api/hotel/search?forceV2Search=true")
 	Observable<HotelSearchResponse> nearbyHotelSearch(
 		@Query("latitude") String latitude,
 		@Query("longitude") String longitude,
@@ -28,7 +28,7 @@ public interface HotelApi {
 		@Query("sortOrder") String sortOrder,
 		@Query("filterUnavailable") String filterUnavailable);
 
-	@GET("/m/api/hotel/search?sortOrder=ExpertPicks&resultsPerPage=200&pageIndex=0&filterUnavailable=true&enableSponsoredListings=true")
+	@GET("/m/api/hotel/search?sortOrder=ExpertPicks&resultsPerPage=200&pageIndex=0&filterUnavailable=true&enableSponsoredListings=true&forceV2Search=true")
 	Observable<HotelSearchResponse> search(
 		@Query("regionId") String gaiaId,
 		@Query("latitude") Double lat,

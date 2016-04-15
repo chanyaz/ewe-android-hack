@@ -22,6 +22,7 @@ import com.expedia.bookings.data.hotels.HotelCheckoutV2Params;
 import com.expedia.bookings.data.hotels.HotelCreateTripResponse;
 import com.expedia.bookings.data.hotels.HotelOffersResponse;
 import com.expedia.bookings.data.hotels.HotelSearchParams;
+import com.expedia.bookings.data.hotels.HotelSearchResponse;
 import com.expedia.bookings.data.hotels.NearbyHotelParams;
 import com.expedia.bookings.data.payment.PointsAndCurrency;
 import com.expedia.bookings.data.payment.PointsType;
@@ -103,12 +104,44 @@ public class HotelServicesTest {
 	}
 
 	@Test
+	public void testHotelSearchForceV2FlagPassedInRequest() throws IOException {
+		MockWebServer server = new MockWebServer();
+		// final array to make the test result flag/boolean accessible in the anonymous dispatch
+		final boolean[] testResult = { false };
+		Dispatcher dispatcher = new Dispatcher() {
+			@Override
+			public MockResponse dispatch(RecordedRequest request) throws InterruptedException {
+				boolean containsForceV2Param = request.getPath().contains("forceV2Search=true");
+				testResult[0] = containsForceV2Param;
+				return new MockResponse();
+			}
+		};
+		server.setDispatcher(dispatcher);
+		server.start();
+		HotelServices service = new HotelServices("http://localhost:" + server.getPort(),
+			new OkHttpClient(), new MockInterceptor(),
+			Schedulers.immediate(), Schedulers.immediate(),
+			RestAdapter.LogLevel.FULL);
+
+		String expectedMsg = "I expected to see forceV2Search=true passed in hotel search request (/m/api/hotel/search)";
+		TestSubscriber<List<Hotel>> nearbyHotelsSubscriber = new TestSubscriber<>();
+		service.nearbyHotels(givenNearbyHotelParams(), nearbyHotelsSubscriber);
+		nearbyHotelsSubscriber.awaitTerminalEvent(10, TimeUnit.SECONDS);
+		assertTrue(expectedMsg, testResult[0]);
+
+		TestSubscriber<HotelSearchResponse> regionSearchSubscriber = new TestSubscriber<>();
+		service.search(givenHappyHotelSearchParams(), null).subscribe(regionSearchSubscriber);
+		regionSearchSubscriber.awaitTerminalEvent();
+		assertTrue(expectedMsg, testResult[0]);
+	}
+
+	@Test
 	public void testMockSearchBlowsUp() throws Throwable {
 		server.enqueue(new MockResponse()
 			.setBody("{garbage}"));
 
 		TestSubscriber<List<Hotel>> observer = new TestSubscriber<>();
-		NearbyHotelParams params = new NearbyHotelParams("", "", "", "", "", "", "");
+		NearbyHotelParams params = givenNearbyHotelParams();
 
 		service.nearbyHotels(params, observer);
 		observer.awaitTerminalEvent(10, TimeUnit.SECONDS);
@@ -124,7 +157,7 @@ public class HotelServicesTest {
 		server.setDispatcher(new ExpediaDispatcher(opener));
 
 		TestSubscriber<List<Hotel>> observer = new TestSubscriber<>();
-		NearbyHotelParams params = new NearbyHotelParams("", "", "", "", "", "", "");
+		NearbyHotelParams params = givenNearbyHotelParams();
 
 		service.nearbyHotels(params, observer);
 		observer.awaitTerminalEvent(10, TimeUnit.SECONDS);
@@ -142,11 +175,7 @@ public class HotelServicesTest {
 
 		TestSubscriber<HotelOffersResponse> observer = new TestSubscriber<>();
 
-		SuggestionV4 suggestion = new SuggestionV4();
-		suggestion.coordinates = new SuggestionV4.LatLng();
-		HotelSearchParams params = (HotelSearchParams) new HotelSearchParams.Builder(0).departure(suggestion)
-			.startDate(LocalDate.now().plusDays(5)).endDate(LocalDate.now().plusDays(15)).adults(2)
-			.children(new ArrayList<Integer>()).build();
+		HotelSearchParams params = givenHappyHotelSearchParams();
 		service.info(params, "happy", observer);
 		observer.awaitTerminalEvent(10, TimeUnit.SECONDS);
 
@@ -167,11 +196,7 @@ public class HotelServicesTest {
 
 		TestSubscriber<HotelOffersResponse> observer = new TestSubscriber<>();
 
-		SuggestionV4 suggestion = new SuggestionV4();
-		suggestion.coordinates = new SuggestionV4.LatLng();
-		HotelSearchParams params = (HotelSearchParams) new HotelSearchParams.Builder(0).departure(suggestion)
-			.startDate(LocalDate.now().plusDays(5)).endDate(LocalDate.now().plusDays(15)).adults(2)
-			.children(new ArrayList<Integer>()).build();
+		HotelSearchParams params = givenHappyHotelSearchParams();
 		service.offers(params, "happypath", observer);
 		observer.awaitTerminalEvent(10, TimeUnit.SECONDS);
 
@@ -279,21 +304,6 @@ public class HotelServicesTest {
 		Assert.assertEquals(ApiError.Code.APPLY_COUPON_ERROR, apiError.errorCode);
 	}
 
-	private void givenServerUsingMockResponses() throws IOException {
-		String root = new File("../mocked/templates").getCanonicalPath();
-		FileSystemOpener opener = new FileSystemOpener(root);
-		server.setDispatcher(new ExpediaDispatcher(opener));
-	}
-
-	private void givenCouponParams(String mockFileName) {
-		List<UserPreferencePointsDetails> userPreferencePointsDetails = new ArrayList<>();
-		userPreferencePointsDetails.add(new UserPreferencePointsDetails(ProgramName.ExpediaRewards, new PointsAndCurrency(0, PointsType.BURN, new Money())));
-		couponParams = new HotelApplyCouponParameters.Builder().tripId("58b6be8a-d533-4eb0-aaa6-0228e000056c")
-			.couponCode(mockFileName)
-			.userPreferencePointsDetails(userPreferencePointsDetails)
-			.isFromNotSignedInToSignedIn(false).build();
-	}
-
 	@Test
 	public void testSponsoredOrderingWhenHotelCountIsMoreThan50AndHasSponsoredItems() throws Throwable {
 		testSponsoredOrdering(createDummyList(100, true), true);
@@ -347,5 +357,32 @@ public class HotelServicesTest {
 
 	private boolean isHotelSponsored(Hotel hotel) {
 		return hotel.isSponsoredListing && hotel.hotelId.equals("Sponsored");
+	}
+
+	private NearbyHotelParams givenNearbyHotelParams() {
+		return new NearbyHotelParams("", "", "", "", "", "", "");
+	}
+
+	private HotelSearchParams givenHappyHotelSearchParams() {
+		SuggestionV4 suggestion = new SuggestionV4();
+		suggestion.coordinates = new SuggestionV4.LatLng();
+		return (HotelSearchParams) new HotelSearchParams.Builder(0).departure(suggestion)
+			.startDate(LocalDate.now().plusDays(5)).endDate(LocalDate.now().plusDays(15)).adults(2)
+			.children(new ArrayList<Integer>()).build();
+	}
+
+	private void givenServerUsingMockResponses() throws IOException {
+		String root = new File("../mocked/templates").getCanonicalPath();
+		FileSystemOpener opener = new FileSystemOpener(root);
+		server.setDispatcher(new ExpediaDispatcher(opener));
+	}
+
+	private void givenCouponParams(String mockFileName) {
+		List<UserPreferencePointsDetails> userPreferencePointsDetails = new ArrayList<>();
+		userPreferencePointsDetails.add(new UserPreferencePointsDetails(ProgramName.ExpediaRewards, new PointsAndCurrency(0, PointsType.BURN, new Money())));
+		couponParams = new HotelApplyCouponParameters.Builder().tripId("58b6be8a-d533-4eb0-aaa6-0228e000056c")
+			.couponCode(mockFileName)
+			.userPreferencePointsDetails(userPreferencePointsDetails)
+			.isFromNotSignedInToSignedIn(false).build();
 	}
 }
