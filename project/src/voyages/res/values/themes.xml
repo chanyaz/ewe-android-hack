@@ -6,8 +6,7 @@
         <item name="skin_hotelPriceStandardColor">@color/hotel_price_text_color_vsc</item>
         <item name="skin_hotelPriceSaleColor">@color/hotel_price_sale_text_color_vsc</item>
         <item name="skin_hotelSearchActionBarPadding">5dp</item>
-        <item name="skin_webViewPreferencesActionBarLogo">@drawable/ic_logo_vsc</item>
-        <item name="skin_webViewPreferencesActionBarLogoWithTitle">@drawable/ic_logo_vsc</item>
+        <item name="skin_webViewPreferencesActionBarLogoWithTitle">@drawable/ic_action_bar_brand_logo</item>
         <item name="skin_actionBarCheckMarkDrawable">@drawable/ic_action_bar_checkmark_green</item>
         <item name="skin_actionBarButtonTextColor">@color/action_bar_text_green</item>
         <item name="skin_actionBarCheckoutDrawable">@drawable/ic_action_bar_checkout_arrow_green</item>
@@ -60,7 +59,7 @@
         <item name="skin_flightRulesActionBarLogo">@drawable/ic_ab_vsc_logo</item>
         <item name="skin_hotelLoginActionBarIcon">@drawable/ic_ab_vsc_logo</item>
         <item name="skin_flightLoginActionBarIcon">@drawable/ic_ab_vsc_logo</item>
-        <item name="skin_tabletCheckoutLoginLogoDrawable">@drawable/ic_logo_vsc</item>
+        <item name="skin_tabletCheckoutLoginLogoDrawable">@drawable/ic_action_bar_brand_logo</item>
         <item name="android:actionOverflowButtonStyle">@style/OverflowMenuButton</item>
         <item name="actionOverflowButtonStyle">@style/OverflowMenuButton</item>
         <item name="skin_tablet_pin_detail_button_background">@drawable/btn_tablet_launch_screen</item>
@@ -160,11 +159,11 @@
     </style>
 
     <style name="Theme.Phone.WebView">
-        <item name="android:logo">@drawable/ic_logo_vsc</item>
+        <item name="android:logo">@drawable/ic_action_bar_brand_logo</item>
     </style>
 
     <style name="ItineraryTheme" parent="Theme.VSC">
-        <item name="android:logo" tools:targetApi="11">@drawable/ic_logo_vsc</item>
+        <item name="android:logo" tools:targetApi="11">@drawable/ic_action_bar_brand_logo</item>
         <item name="skin_itinHotelPlaceholderDrawable">@drawable/placeholder_lg_confirmation_vsc</item>
         <item name="skin_itinFlightPlaceholderDrawable">@drawable/bg_itin_placeholder_flight</item>
         <item name="skin_icTypeCircleFlight">@drawable/ic_type_circle_flight_vsc</item>
@@ -184,7 +183,7 @@
     </style>
 
     <style name="LoginTheme" parent="Theme.Phone.Dark">
-        <item name="android:logo" tools:targetApi="11">@drawable/ic_logo_vsc</item>
+        <item name="android:logo" tools:targetApi="11">@drawable/ic_action_bar_brand_logo</item>
         <item name="android:windowBackground">@android:color/transparent</item>
         <item name="android:windowActionBarOverlay">true</item>
     </style>
@@ -195,7 +194,7 @@
     </style>
 
     <style name="TerminalMapTheme" parent="@android:style/Theme.Holo">
-        <item name="android:logo">@drawable/ic_logo_vsc</item>
+        <item name="android:logo">@drawable/ic_action_bar_brand_logo</item>
         <item name="android:actionBarStyle">@style/TerminalMapActionBar</item>
         <item name="android:actionOverflowButtonStyle">@style/Widget.ActionBar.ActionButton.Overflow</item>
         <item name="android:windowBackground">@android:color/white</item>

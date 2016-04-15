@@ -89,7 +89,6 @@
         <item name="skin_hotelPriceSaleColor">@color/hotel_price_sale_text_color</item>
         <item name="skin_hotelPriceAirAttachColor">@color/hotel_price_air_attach_text_color</item>
         <item name="skin_hotelSearchActionBarPadding">0dp</item>
-        <item name="skin_webViewPreferencesActionBarLogo">@drawable/ic_action_bar_expedia_logo</item>
         <item name="skin_webViewPreferencesActionBarLogoWithTitle">@drawable/ic_action_bar_expedia_logo_small</item>
         <item name="skin_actionBarCheckMarkDrawable">@drawable/ic_action_bar_checkmark</item>
         <item name="skin_actionBarButtonTextColor">@color/review_screen_tab_indicator</item>
@@ -214,7 +213,7 @@
     </style>
 
     <style name="Theme.Phone.WebView">
-        <item name="android:logo">?attr/skin_webViewPreferencesActionBarLogo</item>
+        <item name="android:logo">@drawable/ic_action_bar_brand_logo</item>
     </style>
 
     <style name="Theme.Phone.WebView.WithTitle">
@@ -222,7 +221,7 @@
     </style>
 
     <style name="Theme.Phone.Preferences" parent="Theme.AppCompat.Light.DarkActionBar">
-        <item name="android:logo">?attr/skin_webViewPreferencesActionBarLogo</item>
+        <item name="android:logo">@drawable/ic_action_bar_brand_logo</item>
         <item name="colorPrimaryDark">#3A464F</item>
         <item name="colorPrimary">#495863</item>
         <item name="android:windowBackground">@color/preferences_activity_bg</item>
