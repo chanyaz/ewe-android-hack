@@ -8,6 +8,7 @@ import android.view.View
 import android.widget.ImageView
 import android.widget.LinearLayout
 import com.expedia.bookings.R
+import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.presenter.hotel.BaseHotelResultsPresenter
 import com.expedia.bookings.tracking.PackagesTracking
 import com.expedia.bookings.utils.bindView
@@ -16,6 +17,7 @@ import com.expedia.bookings.widget.TextView
 import com.expedia.bookings.widget.packages.PackageHotelListAdapter
 import com.expedia.util.notNullAndObservable
 import com.expedia.vm.hotel.HotelResultsViewModel
+import com.expedia.vm.HotelFilterViewModel
 import kotlin.properties.Delegates
 
 class PackageHotelResultsPresenter(context: Context, attrs: AttributeSet) : BaseHotelResultsPresenter(context, attrs) {
@@ -73,6 +75,10 @@ class PackageHotelResultsPresenter(context: Context, attrs: AttributeSet) : Base
         toolbar.menu.findItem(R.id.menu_filter).actionView = toolbarFilterItemActionView
     }
 
+    override fun getFilterViewModel(): HotelFilterViewModel {
+        return HotelFilterViewModel(LineOfBusiness.PACKAGES)
+    }
+
     override fun doAreaSearch() {
     }
 
@@ -116,7 +122,7 @@ class PackageHotelResultsPresenter(context: Context, attrs: AttributeSet) : Base
     }
 
     override fun trackFilterShown() {
-
+        PackagesTracking().trackHotelFilterLoad()
     }
 
     override fun trackMapSearchAreaClick() {

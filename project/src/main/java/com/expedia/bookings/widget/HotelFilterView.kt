@@ -26,12 +26,14 @@ import com.expedia.bookings.utils.AnimUtils
 import com.expedia.bookings.utils.FilterAmenity
 import com.expedia.bookings.utils.Strings
 import com.expedia.bookings.R
+import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.extension.shouldShowCircleForRatings
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
 import com.expedia.util.endlessObserver
 import com.expedia.bookings.tracking.HotelV2Tracking
+import com.expedia.bookings.tracking.PackagesTracking
 import com.expedia.bookings.widget.animation.ResizeHeightAnimator
 import com.expedia.util.notNullAndObservable
 import com.expedia.util.subscribeOnClick
@@ -138,7 +140,12 @@ class HotelFilterView(context: Context, attrs: AttributeSet) : FrameLayout(conte
 
         dynamicFeedbackClearButton.setOnClickListener {
             vm.clearObservable.onNext(Unit)
-            HotelV2Tracking().trackLinkHotelV2ClearFilter()
+            if (vm.lob == LineOfBusiness.PACKAGES) {
+                PackagesTracking().trackHotelClearFilter()
+            }
+            else {
+                HotelV2Tracking().trackLinkHotelV2ClearFilter()
+            }
         }
 
         vm.finishClear.subscribe {
@@ -214,7 +221,12 @@ class HotelFilterView(context: Context, attrs: AttributeSet) : FrameLayout(conte
             }
 
             if (it <= 5) {
-                HotelV2Tracking().trackLinkHotelV2RefineRating(it.toString())
+                if (vm.lob == LineOfBusiness.PACKAGES) {
+                    PackagesTracking().trackHotelRefineRating(it.toString())
+                }
+                else {
+                    HotelV2Tracking().trackLinkHotelV2RefineRating(it.toString())
+                }
             }
         }
 
