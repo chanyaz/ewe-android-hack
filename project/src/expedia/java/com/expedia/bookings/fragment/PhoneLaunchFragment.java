@@ -1,5 +1,10 @@
 package com.expedia.bookings.fragment;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.concurrent.TimeUnit;
+
 import org.joda.time.LocalDate;
 
 import android.Manifest;
@@ -17,6 +22,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import butterknife.ButterKnife;
+import butterknife.InjectView;
 import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.ExpediaBookingApp;
@@ -43,13 +50,6 @@ import com.mobiata.android.Log;
 import com.mobiata.android.util.NetUtils;
 import com.mobiata.android.util.SettingUtils;
 import com.squareup.otto.Subscribe;
-
-import butterknife.ButterKnife;
-import butterknife.InjectView;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.concurrent.TimeUnit;
 import rx.Observer;
 import rx.Subscription;
 
@@ -59,7 +59,7 @@ public class PhoneLaunchFragment extends Fragment implements IPhoneLaunchActivit
 	private boolean wasOffline;
 	private List<Integer> abacusTestsAssociatedToPhoneLaunchScreen = Arrays
 		.asList(AbacusUtils.EBAndroidAppSplitGTandActivities,
-			AbacusUtils.EBAndroidAppHotelsABTest, AbacusUtils.EBAndroidAppHotelsSearchScreenTest);
+			AbacusUtils.EBAndroidAppHotelsSearchScreenTest);
 
 	@InjectView(R.id.phone_launch_widget)
 	PhoneLaunchWidget phoneLaunchWidget;

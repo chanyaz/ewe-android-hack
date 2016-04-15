@@ -11,7 +11,6 @@ import com.expedia.bookings.data.TravelerParams
 import com.expedia.bookings.data.hotels.HotelSearchParams
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.presenter.hotel.HotelPresenter
-import com.expedia.bookings.tracking.OmnitureTracking
 import com.expedia.bookings.utils.AddToCalendarUtils
 import com.expedia.bookings.utils.HotelsV2DataUtil
 import com.expedia.bookings.utils.ServicesUtil
@@ -47,10 +46,6 @@ class HotelActivity : AbstractAppCompatActivity() {
         Ui.showTransparentStatusBar(this)
         resultsMapView.onCreate(savedInstanceState)
         detailsMapView.onCreate(savedInstanceState)
-        if (savedInstanceState == null) {
-            OmnitureTracking.trackHotelsABTest()
-        }
-
         if (intent.hasExtra(Codes.TAG_EXTERNAL_SEARCH_PARAMS)) {
             handleDeeplink(intent)
         } else {

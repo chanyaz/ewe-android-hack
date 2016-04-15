@@ -19,7 +19,6 @@ import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.activity.FlightSearchActivity;
 import com.expedia.bookings.activity.FlightSearchResultsActivity;
 import com.expedia.bookings.activity.FlightUnsupportedPOSActivity;
-import com.expedia.bookings.activity.HotelBookingActivity;
 import com.expedia.bookings.activity.HotelSearchActivity;
 import com.expedia.bookings.activity.ItineraryActivity;
 import com.expedia.bookings.activity.PhoneLaunchActivity;
@@ -34,18 +33,15 @@ import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.SearchParams;
 import com.expedia.bookings.data.Sp;
 import com.expedia.bookings.data.User;
-import com.expedia.bookings.data.abacus.AbacusUtils;
 import com.expedia.bookings.data.cars.CarSearchParams;
 import com.expedia.bookings.data.lx.LXSearchParams;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
-import com.expedia.bookings.fragment.HotelBookingFragment;
 import com.expedia.bookings.services.CarServices;
 import com.expedia.ui.CarActivity;
 import com.expedia.ui.HotelActivity;
 import com.expedia.ui.LXBaseActivity;
 import com.google.gson.Gson;
-import com.mobiata.android.BackgroundDownloader;
 import com.mobiata.android.Log;
 
 /**
@@ -207,46 +203,25 @@ public class NavUtils {
 		sendKillActivityBroadcast(context);
 
 		Intent intent = new Intent();
-		Class<? extends Activity> routingTarget;
 
-		boolean isUserBucketedForTest = Db.getAbacusResponse().isUserBucketedForTest(
-			AbacusUtils.EBAndroidAppHotelsABTest);
-
-			if ((flags & FLAG_DEEPLINK) != 0) {
-				intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-				intent.putExtra(Codes.FROM_DEEPLINK, true);
-			}
-
-			if ((flags & FLAG_OPEN_SEARCH) != 0) {
-				intent.putExtra(Codes.EXTRA_OPEN_SEARCH, true);
-			}
-
-		if (isUserBucketedForTest) {
-			routingTarget = HotelActivity.class;
-			if (params != null) {
-				com.expedia.bookings.data.hotels.HotelSearchParams v2params = HotelsV2DataUtil.Companion.getHotelV2SearchParams(params);
-				Gson gson = HotelsV2DataUtil.Companion.generateGson();
-				intent.putExtra(HotelActivity.EXTRA_HOTEL_SEARCH_PARAMS, gson.toJson(v2params));
-				intent.putExtra(Codes.TAG_EXTERNAL_SEARCH_PARAMS, true);
-			}
+		if ((flags & FLAG_DEEPLINK) != 0) {
+			intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+			intent.putExtra(Codes.FROM_DEEPLINK, true);
 		}
-		else {
-			// Update the Db object to have our search params (which will be used by hotels search)
-			if (params != null) {
-				Db.getHotelSearch().setSearchParams(params);
 
-				// Only used by phone search currently, but won't harm to put on tablet as well
-				intent.putExtra(Codes.TAG_EXTERNAL_SEARCH_PARAMS, true);
-			}
-
-			// 13820: Check if a booking is in process at this moment (in case BookingInfoActivity died)
-			if (BackgroundDownloader.getInstance().isDownloading(HotelBookingFragment.KEY_DOWNLOAD_BOOKING)) {
-				routingTarget = HotelBookingActivity.class;
-			}
-			else {
-				routingTarget = HotelSearchActivity.class;
-			}
+		if ((flags & FLAG_OPEN_SEARCH) != 0) {
+			intent.putExtra(Codes.EXTRA_OPEN_SEARCH, true);
 		}
+
+		Class<HotelActivity> routingTarget = HotelActivity.class;
+		if (params != null) {
+			com.expedia.bookings.data.hotels.HotelSearchParams v2params = HotelsV2DataUtil.Companion
+				.getHotelV2SearchParams(params);
+			Gson gson = HotelsV2DataUtil.Companion.generateGson();
+			intent.putExtra(HotelActivity.EXTRA_HOTEL_SEARCH_PARAMS, gson.toJson(v2params));
+			intent.putExtra(Codes.TAG_EXTERNAL_SEARCH_PARAMS, true);
+		}
+
 		// Launch activity based on routing selection
 		intent.setClass(context, routingTarget);
 		startActivity(context, intent, animOptions);
