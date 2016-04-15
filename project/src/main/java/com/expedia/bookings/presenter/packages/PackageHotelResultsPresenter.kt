@@ -13,7 +13,7 @@ import com.expedia.bookings.tracking.PackagesTracking
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.TextView
 import com.expedia.util.notNullAndObservable
-import com.expedia.vm.HotelResultsViewModel
+import com.expedia.vm.hotel.HotelResultsViewModel
 import kotlin.properties.Delegates
 
 class PackageHotelResultsPresenter(context: Context, attrs: AttributeSet) : BaseHotelResultsPresenter(context, attrs) {

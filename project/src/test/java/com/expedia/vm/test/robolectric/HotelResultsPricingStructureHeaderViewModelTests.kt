@@ -5,7 +5,7 @@ import com.expedia.bookings.data.hotels.Hotel
 import com.expedia.bookings.data.hotels.HotelRate
 import com.expedia.bookings.data.hotels.HotelSearchResponse
 import com.expedia.bookings.test.robolectric.RobolectricRunner
-import com.expedia.vm.HotelResultsPricingStructureHeaderViewModel
+import com.expedia.vm.hotel.HotelResultsPricingStructureHeaderViewModel
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith

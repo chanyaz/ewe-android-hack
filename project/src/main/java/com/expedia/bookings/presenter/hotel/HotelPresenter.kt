@@ -54,7 +54,7 @@ import com.expedia.vm.hotel.HotelDetailViewModel
 import com.expedia.vm.HotelErrorViewModel
 import com.expedia.vm.HotelMapViewModel
 import com.expedia.vm.HotelPresenterViewModel
-import com.expedia.vm.HotelResultsViewModel
+import com.expedia.vm.hotel.HotelResultsViewModel
 import com.expedia.vm.HotelReviewsViewModel
 import com.expedia.vm.HotelSearchViewModel
 import com.google.android.gms.maps.MapView

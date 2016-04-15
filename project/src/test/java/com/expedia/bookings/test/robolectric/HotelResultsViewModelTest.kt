@@ -8,7 +8,7 @@ import com.expedia.bookings.data.hotels.HotelSearchResponse
 import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.test.MockHotelServiceTestRule
 import com.expedia.bookings.utils.DateUtils
-import com.expedia.vm.HotelResultsViewModel
+import com.expedia.vm.hotel.HotelResultsViewModel
 import org.joda.time.LocalDate
 import org.junit.Before
 import org.junit.Rule
