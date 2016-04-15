@@ -328,10 +328,6 @@ public class Traveler implements JSONable, Comparable<Traveler> {
 		if (mPassengerCategory == null) {
 			mPassengerCategory = determinePassengerCategory(searchParams.getCheckOut(), false);
 		}
-		if (mPassengerCategory == PassengerCategory.INFANT_IN_LAP
-				|| mPassengerCategory == PassengerCategory.INFANT_IN_SEAT) {
-			throw new UnsupportedOperationException("TODO MUST IMPLEMENT INFANT FUNCTIONALITY");
-		}
 		return mPassengerCategory;
 	}
 

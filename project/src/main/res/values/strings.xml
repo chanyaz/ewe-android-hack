@@ -665,6 +665,16 @@
     <string name="lx_show_more_offers">Show More</string>
     <!-- Text for traveler details toolbar-->
     <string name="traveler_details_text">Traveler details</string>
+    <!-- Text for traveler age dialog box when age is invalid-->
+    <string name="traveler_age_title">Traveler Age</string>
+    <!-- Text for traveler infant error-->
+    <string name="traveler_infant_error">This infant must be less than 2 years old</string>
+    <!-- Text for traveler child error-->
+    <string name="traveler_child_error">This traveler must be 2-17 years old</string>
+    <!-- Text for traveler adult error-->
+    <string name="traveler_adult_error">This adult must be older than 18 years old</string>
+    <!-- Text informing guest that main travler is checking into hotel-->
+    <string name="traveler_main_message">Main traveler must check into the hotel. Must be 18 or older.</string>
     <!-- Text for enter traveler details-->
     <string name="lx_traveler_enter_details_text">Enter traveler details</string>
     <!-- Text for lx sort and filter-->
@@ -2034,6 +2044,8 @@
     <string name="enter_traveler_info">Traveler Information</string>
     <!-- Traveler Details (for flights) -->
     <string name="traveler_details_variate2">Main Traveler</string>
+    <!-- Heading for selecting travelers on flights and packages -->
+    <string name="traveler_select_additional">Additional Travelers</string>
     <!-- Saved button for traveler/payment -->
     <string name="saved_button">Saved</string>
     <!-- Edit button for traveler/payment -->
@@ -2168,7 +2180,7 @@
         <item quantity="one">+ {travelercount} more traveler</item>
         <item quantity="other">+ {travelercount} more travelers</item>
     </plurals>
-    <string name="checkout_edit_traveler_TEMPLATE">Edit Traveler {travelernumber}</string>
+    <string name="checkout_edit_traveler_TEMPLATE">Edit Traveler {travelernumber} ({passengercategory})</string>
     <!-- Save traveler dialog -->
     <!-- save traveler -->
     <string name="save_traveler">Save Traveler</string>

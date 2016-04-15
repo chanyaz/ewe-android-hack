@@ -5,7 +5,11 @@ import android.content.Context
 import android.content.res.Resources
 import android.support.v4.content.ContextCompat
 import com.expedia.bookings.R
-import com.expedia.bookings.data.*
+import com.expedia.bookings.data.Db
+import com.expedia.bookings.data.Phone
+import com.expedia.bookings.data.SuggestionV4
+import com.expedia.bookings.data.Traveler
+import com.expedia.bookings.data.TravelerName
 import com.expedia.bookings.data.packages.PackageSearchParams
 import com.expedia.bookings.enums.PassengerCategory
 import com.expedia.bookings.enums.TravelerCheckoutStatus
@@ -29,6 +33,8 @@ class TravelerSelectViewModelTest {
     private var resources: Resources by Delegates.notNull()
 
     var expectedEmptyTitle: String by Delegates.notNull()
+    var expectedEmptyTitleChild: String by Delegates.notNull()
+    var expectedEmptyTitleInfant: String by Delegates.notNull()
     var expectedEmptySubTitle = ""
     var expectedDefaultColor: Int by Delegates.notNull()
     var expectedErrorColor: Int by Delegates.notNull()
@@ -42,15 +48,25 @@ class TravelerSelectViewModelTest {
         activity = Robolectric.buildActivity(Activity::class.java).create().get()
         resources = activity.resources
         expectedEmptyTitle = Phrase.from(resources.getString(R.string.checkout_edit_traveler_TEMPLATE))
-                .put("travelernumber", testIndex + 1).format().toString()
+                .put("travelernumber", testIndex + 1)
+                .put("passengercategory", "Adult")
+                .format().toString()
+        expectedEmptyTitleChild = Phrase.from(resources.getString(R.string.checkout_edit_traveler_TEMPLATE))
+                .put("travelernumber", testIndex + 1)
+                .put("passengercategory", "Child")
+                .format().toString()
+        expectedEmptyTitleInfant = Phrase.from(resources.getString(R.string.checkout_edit_traveler_TEMPLATE))
+                .put("travelernumber", testIndex + 1)
+                .put("passengercategory", "Infant")
+                .format().toString()
         expectedDefaultColor = ContextCompat.getColor(activity, R.color.traveler_default_card_text_color)
         expectedErrorColor = ContextCompat.getColor(activity, R.color.traveler_incomplete_text_color)
         setPackageParams()
     }
 
     @Test
-    fun testUpdateStatusClean() {
-        selectVM = TestTravelerSelectViewModel(activity, testIndex)
+    fun testAdultTitle() {
+        selectVM = TestTravelerSelectViewModel(activity, testIndex, PassengerCategory.ADULT)
         selectVM.updateStatus(TravelerCheckoutStatus.CLEAN)
 
         assertEquals(ContactDetailsCompletenessStatus.DEFAULT, selectVM.iconStatusObservable.value)
@@ -60,8 +76,35 @@ class TravelerSelectViewModelTest {
     }
 
     @Test
+    fun testChildTitle() {
+        selectVM = TestTravelerSelectViewModel(activity, testIndex, PassengerCategory.CHILD)
+        selectVM.updateStatus(TravelerCheckoutStatus.CLEAN)
+
+        assertEquals(ContactDetailsCompletenessStatus.DEFAULT, selectVM.iconStatusObservable.value)
+        assertEquals(expectedEmptyTitleChild, selectVM.titleObservable.value)
+        assertEquals(expectedEmptySubTitle, selectVM.subtitleObservable.value)
+        assertEquals(expectedDefaultColor, selectVM.textColorObservable.value)
+
+        selectVM = TestTravelerSelectViewModel(activity, testIndex, PassengerCategory.INFANT_IN_SEAT)
+        selectVM.updateStatus(TravelerCheckoutStatus.CLEAN)
+
+        assertEquals(ContactDetailsCompletenessStatus.DEFAULT, selectVM.iconStatusObservable.value)
+        assertEquals(expectedEmptyTitleInfant, selectVM.titleObservable.value)
+        assertEquals(expectedEmptySubTitle, selectVM.subtitleObservable.value)
+        assertEquals(expectedDefaultColor, selectVM.textColorObservable.value)
+
+        selectVM = TestTravelerSelectViewModel(activity, testIndex, PassengerCategory.INFANT_IN_LAP)
+        selectVM.updateStatus(TravelerCheckoutStatus.CLEAN)
+
+        assertEquals(ContactDetailsCompletenessStatus.DEFAULT, selectVM.iconStatusObservable.value)
+        assertEquals(expectedEmptyTitleInfant, selectVM.titleObservable.value)
+        assertEquals(expectedEmptySubTitle, selectVM.subtitleObservable.value)
+        assertEquals(expectedDefaultColor, selectVM.textColorObservable.value)
+    }
+
+    @Test
     fun testUpdateStatusDirtyEmptyTraveler() {
-        selectVM = TestTravelerSelectViewModel(activity, testIndex)
+        selectVM = TestTravelerSelectViewModel(activity, testIndex, PassengerCategory.ADULT)
         selectVM.updateStatus(TravelerCheckoutStatus.DIRTY)
 
         assertEquals(ContactDetailsCompletenessStatus.INCOMPLETE, selectVM.iconStatusObservable.value)
@@ -75,7 +118,7 @@ class TravelerSelectViewModelTest {
         val travelerWithName = Traveler()
         travelerWithName.fullName = testName
 
-        selectVM = TestTravelerSelectViewModel(activity, testIndex)
+        selectVM = TestTravelerSelectViewModel(activity, testIndex, PassengerCategory.ADULT)
         selectVM.testTraveler = travelerWithName
         selectVM.updateStatus(TravelerCheckoutStatus.DIRTY)
 
@@ -91,7 +134,7 @@ class TravelerSelectViewModelTest {
         val travelerWithPhone= Traveler()
         travelerWithPhone.phoneNumber = testNumber
 
-        selectVM = TestTravelerSelectViewModel(activity, testIndex)
+        selectVM = TestTravelerSelectViewModel(activity, testIndex, PassengerCategory.ADULT)
         selectVM.testTraveler = travelerWithPhone
         selectVM.updateStatus(TravelerCheckoutStatus.DIRTY)
 
@@ -108,7 +151,7 @@ class TravelerSelectViewModelTest {
         traveler.fullName = testName
         traveler.phoneNumber = testNumber
 
-        selectVM = TestTravelerSelectViewModel(activity, testIndex)
+        selectVM = TestTravelerSelectViewModel(activity, testIndex, PassengerCategory.ADULT)
         selectVM.testTraveler = traveler
         selectVM.updateStatus(TravelerCheckoutStatus.DIRTY)
 
@@ -120,7 +163,7 @@ class TravelerSelectViewModelTest {
 
     @Test
     fun testUpdateStatusDirtyValidTraveler() {
-        selectVM = TestTravelerSelectViewModel(activity, testIndex)
+        selectVM = TestTravelerSelectViewModel(activity, testIndex, PassengerCategory.ADULT)
         selectVM.testTraveler = getCompleteTraveler()
         selectVM.updateStatus(TravelerCheckoutStatus.DIRTY)
 
@@ -159,7 +202,7 @@ class TravelerSelectViewModelTest {
         Db.setPackageParams(packageParams)
     }
 
-    class TestTravelerSelectViewModel(context: Context, index: Int) : TravelerSelectViewModel(context, index) {
+    class TestTravelerSelectViewModel(context: Context, index: Int, category: PassengerCategory) : TravelerSelectViewModel(context, index, category) {
         var testTraveler = Traveler()
 
         override fun getTraveler(): Traveler {

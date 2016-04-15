@@ -14,8 +14,6 @@ import com.expedia.bookings.test.espresso.EspressoUser;
 import com.expedia.bookings.test.espresso.EspressoUtils;
 import com.expedia.bookings.test.phone.packages.PackageScreen;
 
-import static org.mockito.Mockito.when;
-
 @RunWith(AndroidJUnit4.class)
 public class SingleTravelerPresenterTest extends BaseTravelerPresenterTestHelper {
 	@Rule
@@ -34,12 +32,8 @@ public class SingleTravelerPresenterTest extends BaseTravelerPresenterTestHelper
 
 	@Test
 	public void testTravelerEntryPersists() {
-		addTravelerToDb(new Traveler());
-
 		mockViewModel = getMockViewModelEmptyTravelers(1);
-		when(mockViewModel.validateTravelersComplete()).thenReturn(true);
 		testTravelerPresenter.setViewModel(mockViewModel);
-		setPackageParams();
 
 		EspressoUser.clickOnView(R.id.traveler_default_state);
 		EspressoUtils.assertViewIsDisplayed(R.id.traveler_entry_widget);
@@ -54,11 +48,8 @@ public class SingleTravelerPresenterTest extends BaseTravelerPresenterTestHelper
 
 	@Test
 	public void testTravelerValidEntry() {
-		addTravelerToDb(getValidTraveler());
-
 		mockViewModel = getMockViewModelValidTravelers(1);
 		testTravelerPresenter.setViewModel(mockViewModel);
-		setPackageParams();
 		EspressoUser.clickOnView(R.id.traveler_default_state);
 		EspressoUser.clickOnView(R.id.edit_phone_number);
 		PackageScreen.clickTravelerDone();
@@ -67,10 +58,8 @@ public class SingleTravelerPresenterTest extends BaseTravelerPresenterTestHelper
 
 	@Test
 	public void testIncompleteTraveler() throws Throwable {
-		addTravelerToDb(getIncompleteTraveler());
 		mockViewModel = getMockViewModelIncompleteTravelers(1);
 		testTravelerPresenter.setViewModel(mockViewModel);
-		setPackageParams();
 		EspressoUser.clickOnView(R.id.traveler_default_state);
 
 		uiThreadTestRule.runOnUiThread(new Runnable() {
@@ -86,10 +75,8 @@ public class SingleTravelerPresenterTest extends BaseTravelerPresenterTestHelper
 
 	@Test
 	public void testEntryDirtyState() throws Throwable {
-		addTravelerToDb(new Traveler());
 		mockViewModel = getMockViewModelEmptyTravelers(1);
 		testTravelerPresenter.setViewModel(mockViewModel);
-		setPackageParams();
 		EspressoUser.clickOnView(R.id.traveler_default_state);
 
 		uiThreadTestRule.runOnUiThread(new Runnable() {
@@ -106,10 +93,8 @@ public class SingleTravelerPresenterTest extends BaseTravelerPresenterTestHelper
 
 	@Test
 	public void testStoredTravelerWorks() throws Throwable {
-		addTravelerToDb(new Traveler());
 		mockViewModel = getMockViewModelEmptyTravelers(1);
 		testTravelerPresenter.setViewModel(mockViewModel);
-		setPackageParams();
 
 		EspressoUser.clickOnView(R.id.traveler_default_state);
 

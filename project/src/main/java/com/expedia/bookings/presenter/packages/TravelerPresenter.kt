@@ -43,7 +43,9 @@ class TravelerPresenter(context: Context, attrs: AttributeSet) : Presenter(conte
 
         travelerEntryWidget.travelerCompleteSubject.subscribe(endlessObserver<Traveler> { traveler ->
             if (viewModel.validateTravelersComplete()) {
-                travelersCompleteSubject.onNext(viewModel.getTraveler(0))
+                viewModel.getTravelers().forEach { traveler ->
+                    travelersCompleteSubject.onNext(traveler)
+                }
                 expandedSubject.onNext(false)
                 travelerDefaultState.updateStatus(TravelerCheckoutStatus.COMPLETE)
                 show(travelerDefaultState, Presenter.FLAG_CLEAR_BACKSTACK)

@@ -216,8 +216,8 @@ class HotelTravelerPickerViewModel(val context: Context) {
 
     private fun validateInfants() {
         val hotelTravelerParams = travelerParamsObservable.value
-        infantPreferenceSeatingObservable.onNext(hotelTravelerParams.childrenAges.contains(0))
         val numberOfInfants = hotelTravelerParams.childrenAges.count { childAge -> childAge < 2 }
+        infantPreferenceSeatingObservable.onNext(numberOfInfants > 0)
         tooManyInfants.onNext(isInfantInLapObservable.value && (numberOfInfants > hotelTravelerParams.numberOfAdults))
     }
 
