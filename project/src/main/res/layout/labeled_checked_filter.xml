@@ -27,7 +27,7 @@
         android:ellipsize="end"
         android:maxLines="1"
         android:textColor="@color/hotel_filter_neighborhood_text"
-        android:textSize="@dimen/package_sort_filter_value_text_size" />
+        android:textSize="@dimen/package_sort_filter_label_text_size" />
 
     <com.expedia.bookings.widget.TextView
         android:id="@+id/results_label"
