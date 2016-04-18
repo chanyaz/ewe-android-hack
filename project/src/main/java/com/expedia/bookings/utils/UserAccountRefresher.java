@@ -82,28 +82,33 @@ public class UserAccountRefresher {
 	};
 
 	public void ensureAccountIsRefreshed() {
-		int userRefreshInterval = context.getResources().getInteger(R.integer.account_sync_interval_ms);
-		if (mLastRefreshedUserTimeMillis + userRefreshInterval < System.currentTimeMillis()) {
-			Log.d("Refreshing user profile...");
-			mLastRefreshedUserTimeMillis = System.currentTimeMillis();
-
-			FacebookSdk.sdkInitialize(context);
-			AccessToken token = AccessToken.getCurrentAccessToken();
-			if (token != null) {
-				fetchFacebookUserInfo();
-			}
-			else {
-				BackgroundDownloader bd = BackgroundDownloader.getInstance();
-				if (!bd.isDownloading(keyRefreshUser)) {
-					bd.startDownload(keyRefreshUser, mRefreshUserDownload, mRefreshUserCallback);
-				}
-			}
+		int userRefreshIntervalThreshold = context.getResources().getInteger(R.integer.account_sync_interval_ms);
+		if (mLastRefreshedUserTimeMillis + userRefreshIntervalThreshold < System.currentTimeMillis()) {
+			//Force Refresh if Threshold has expired!
+			forceAccountRefresh();
 		}
 		else {
 			if (userAccountRefreshListener != null) {
 				userAccountRefreshListener.onUserAccountRefreshed();
 			}
 			userLoginStateChangedModel.getUserLoginStateChanged().onNext(User.isLoggedIn(context));
+		}
+	}
+
+	public void forceAccountRefresh() {
+		Log.d("Refreshing user profile...");
+		mLastRefreshedUserTimeMillis = System.currentTimeMillis();
+
+		FacebookSdk.sdkInitialize(context);
+		AccessToken token = AccessToken.getCurrentAccessToken();
+		if (token != null) {
+			fetchFacebookUserInfo();
+		}
+		else {
+			BackgroundDownloader bd = BackgroundDownloader.getInstance();
+			if (!bd.isDownloading(keyRefreshUser)) {
+				bd.startDownload(keyRefreshUser, mRefreshUserDownload, mRefreshUserCallback);
+			}
 		}
 	}
 

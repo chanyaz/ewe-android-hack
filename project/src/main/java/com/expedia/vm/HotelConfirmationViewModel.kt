@@ -7,6 +7,7 @@ import android.net.Uri
 import com.expedia.bookings.BuildConfig
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Db
+import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.Location
 import com.expedia.bookings.data.Property
 import com.expedia.bookings.data.User
@@ -24,6 +25,7 @@ import com.expedia.bookings.utils.NavUtils
 import com.expedia.bookings.utils.NumberUtils
 import com.expedia.bookings.utils.Strings
 import com.expedia.bookings.utils.Ui
+import com.expedia.bookings.utils.UserAccountRefresher
 import com.mobiata.android.SocialUtils
 import org.joda.time.LocalDate
 import org.joda.time.format.DateTimeFormat
@@ -57,6 +59,7 @@ class HotelConfirmationViewModel(checkoutResponseObservable: Observable<HotelChe
         @Inject set
 
     val dtf = DateTimeFormat.forPattern("yyyy-MM-dd")
+    val userAccountRefresher: UserAccountRefresher = UserAccountRefresher(context, LineOfBusiness.HOTELS, null)
 
     init {
         Ui.getApplication(context).hotelComponent().inject(this)
@@ -94,6 +97,10 @@ class HotelConfirmationViewModel(checkoutResponseObservable: Observable<HotelChe
             // Adding the guest trip in itin
             if (!User.isLoggedIn(context)) {
                 ItineraryManager.getInstance().addGuestTrip(it.hotelCheckoutResponse.checkoutResponse.bookingResponse.email, itinNumber)
+            }
+            else if (PointOfSale.getPointOfSale().isPwPEnabledForHotels || PointOfSale.getPointOfSale().isSWPEnabledForHotels) {
+                // If user is logged in and if PWP or SWP is enabled for hotels, refresh user.
+                userAccountRefresher.forceAccountRefresh()
             }
             // disabled for now. See mingle: #5574
 //            val pointOfSale = PointOfSale.getPointOfSale(context)
