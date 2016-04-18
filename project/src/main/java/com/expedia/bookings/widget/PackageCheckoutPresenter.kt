@@ -59,7 +59,7 @@ class PackageCheckoutPresenter(context: Context, attr: AttributeSet) : BaseCheck
         createTripViewModel.performCreateTrip.onNext(Unit)
     }
 
-    @Subscribe fun onUserLoggedIn(event: Events.LoggedInSuccessful) {
+    @Subscribe fun onUserLoggedIn( @Suppress("UNUSED_PARAMETER") event: Events.LoggedInSuccessful) {
         onLoginSuccess()
     }
 
@@ -69,7 +69,7 @@ class PackageCheckoutPresenter(context: Context, attr: AttributeSet) : BaseCheck
             val windowVisibleDisplayFrameRect = Rect()
             decorView.getWindowVisibleDisplayFrame(windowVisibleDisplayFrameRect)
             var location = IntArray(2)
-            scrollView?.getLocationOnScreen(location)
+            scrollView.getLocationOnScreen(location)
             val lp = scrollView.layoutParams
             val newHeight = windowVisibleDisplayFrameRect.bottom - windowVisibleDisplayFrameRect.top - toolbarHeight
 

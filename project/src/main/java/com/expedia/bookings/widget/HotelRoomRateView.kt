@@ -114,7 +114,7 @@ class HotelRoomRateView(context: Context, var rowIndex: Int) : LinearLayout(cont
             roomInfoDescriptionText.visibility = View.GONE
         }
 
-        Observable.combineLatest(vm.roomInfoExpandCollapseObservable, vm.expandedMeasurementsDone) { visibility, unit -> visibility }.subscribe({
+        Observable.combineLatest(vm.roomInfoExpandCollapseObservable, vm.expandedMeasurementsDone) { roomInfoExpandCollapsed, expandedMeasurementsDone -> Unit }.subscribe({
             val shouldExpand = roomInfoDescriptionText.visibility == View.GONE
             val resizeAnimator = ResizeHeightAnimator(ANIMATION_DURATION)
             val lp = roomInfoChevron.layoutParams as RelativeLayout.LayoutParams
@@ -361,9 +361,8 @@ class HotelRoomRateView(context: Context, var rowIndex: Int) : LinearLayout(cont
     }
 
     fun recycleImageView(imageView: ImageView) {
-        var drawable = imageView.drawable;
-        drawable?.callback = null
-        drawable = null
+        imageView.drawable?.callback = null
+        imageView.setImageDrawable(null)
     }
 
     init {

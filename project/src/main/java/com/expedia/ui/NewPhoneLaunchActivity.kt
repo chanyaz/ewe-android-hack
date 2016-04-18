@@ -112,7 +112,7 @@ class NewPhoneLaunchActivity : AbstractAppCompatActivity(), IPhoneLaunchFragment
     private val pageChangeListener = object : ViewPager.SimpleOnPageChangeListener() {
 
         override fun onPageSelected(position: Int) {
-            if (viewPager != null && position != pagerPosition) {
+            if (position != pagerPosition) {
                 if (position == PAGER_POS_LAUNCH) {
                     gotoWaterfall()
                 } else if (position == PAGER_POS_ITIN) {
@@ -327,7 +327,7 @@ class NewPhoneLaunchActivity : AbstractAppCompatActivity(), IPhoneLaunchFragment
     }
 
     override fun onAboutRowRebind(tag: Int, titleTextView: TextView?, descriptionTextView: TextView?) {
-        accountFragment?.onAboutRowRebind(tag, titleTextView, descriptionTextView)
+        accountFragment?.onAboutRowRebind(tag, descriptionTextView)
     }
 
     override fun onPrivateDataCleared() {

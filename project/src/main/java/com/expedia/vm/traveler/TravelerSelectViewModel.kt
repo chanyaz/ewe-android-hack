@@ -42,21 +42,21 @@ open class TravelerSelectViewModel(val context: Context, val index: Int, val cat
             } else if (isPhoneEmpty(traveler)) {
                 setTravelerSummaryInfo(traveler.fullName, "", ContactDetailsCompletenessStatus.INCOMPLETE)
             } else if (!TravelerValidator.isValidForPackageBooking(traveler)) {
-                setTravelerSummaryInfo(traveler.fullName, traveler!!.primaryPhoneNumber.number,
+                setTravelerSummaryInfo(traveler.fullName, traveler.primaryPhoneNumber.number,
                         ContactDetailsCompletenessStatus.INCOMPLETE)
             } else {
-                setTravelerSummaryInfo(traveler.fullName, traveler!!.primaryPhoneNumber.number,
+                setTravelerSummaryInfo(traveler.fullName, traveler.primaryPhoneNumber.number,
                         ContactDetailsCompletenessStatus.COMPLETE)
             }
         }
     }
 
     private fun isNameEmpty(traveler: Traveler): Boolean{
-        return traveler?.fullName.isNullOrEmpty()
+        return traveler.fullName.isNullOrEmpty()
     }
 
     private fun isPhoneEmpty(traveler: Traveler): Boolean {
-        return traveler?.primaryPhoneNumber?.number.isNullOrEmpty()
+        return traveler.primaryPhoneNumber?.number.isNullOrEmpty()
     }
 
     private fun setTravelerSummaryInfo(title: String, subTitle: String, completenessStatus: ContactDetailsCompletenessStatus) {

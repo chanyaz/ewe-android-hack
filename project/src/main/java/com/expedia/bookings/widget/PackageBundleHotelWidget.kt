@@ -75,7 +75,7 @@ class PackageBundleHotelWidget(context: Context, attrs: AttributeSet?) : CardVie
         viewModel.showLoadingStateObservable.subscribeInverseVisibility(hotelsDatesGuestInfoText)
         viewModel.showLoadingStateObservable.subscribe { showLoading ->
             if (showLoading) {
-                rowContainer.setOnClickListener { null }
+                rowContainer.setClickable(false)
                 hotelInfoContainer.isEnabled = false
                 AnimUtils.progressForward(hotelLoadingBar)
                 hotelsText.setTextColor(ContextCompat.getColor(context, R.color.package_bundle_icon_color))

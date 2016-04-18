@@ -393,12 +393,12 @@ class HotelDetailViewModel(val context: Context, val roomSelectedObserver: Obser
             val listOfObservables = listOfListOfRoomRateViewModels.map { listOfRoomRateViewModels -> Observable.combineLatest(listOfRoomRateViewModels.map { it.roomSoldOut }, { obj -> obj.all({ it -> it as Boolean }) }) }
             Observable.combineLatest(listOfObservables, { obj -> obj.all({ it -> it as Boolean }) }).distinctUntilChanged().subscribe(allRoomsSoldOut)
 
-            subscriber = selectedRoomSoldOut.subscribe {
+            subscriber = selectedRoomSoldOut.subscribe selectedRoomSoldOutLabel@{
                 for (hotelRoomRateViewModel in hotelRoomRateViewModels.drop(lastExpandedRowObservable.value)) {
                     if (!hotelRoomRateViewModel.roomSoldOut.value) {
                         hotelRoomRateViewModel.expandRoomObservable.onNext(false)
                         hotelRoomRateViewModels.clear()
-                        return@subscribe
+                        return@selectedRoomSoldOutLabel
                     }
                 }
 
@@ -406,7 +406,7 @@ class HotelDetailViewModel(val context: Context, val roomSelectedObserver: Obser
                     if (!(hotelRoomRateViewModel.roomSoldOut.value)) {
                         hotelRoomRateViewModel.expandRoomObservable.onNext(false)
                         hotelRoomRateViewModels.clear()
-                        return@subscribe
+                        return@selectedRoomSoldOutLabel
                     }
                 }
             }

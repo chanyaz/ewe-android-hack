@@ -42,16 +42,16 @@ class LXRecommendedActivitiesListAdapter : BaseAdapter() {
     }
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
-        var convertView = convertView
+        var convertViewLocal = convertView
         val offer = getItem(position)
         val viewHolder: ViewHolder
-        if (convertView == null) {
-            convertView = initializeViewHolder(parent)
+        if (convertViewLocal == null) {
+            convertViewLocal = initializeViewHolder(parent)
         }
 
-        viewHolder = convertView.tag as ViewHolder
+        viewHolder = convertViewLocal.tag as ViewHolder
         viewHolder.bind(offer)
-        return convertView
+        return convertViewLocal
     }
 
     protected fun initializeViewHolder(parent: ViewGroup): View {

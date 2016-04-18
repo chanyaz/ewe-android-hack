@@ -51,8 +51,8 @@ class BundleOverviewHeader(context : Context, attrs : AttributeSet) : Coordinato
     fun setUpCollapsingToolbar() {
         //we need to set this empty space inorder to remove the title string
         collapsingToolbarLayout.title = " ";
-        collapsingToolbarLayout.setContentScrimColor(resources.getColor(R.color.packages_primary_color))
-        collapsingToolbarLayout.setStatusBarScrimColor(resources.getColor(R.color.packages_primary_color))
+        collapsingToolbarLayout.setContentScrimColor(ContextCompat.getColor(context, R.color.packages_primary_color))
+        collapsingToolbarLayout.setStatusBarScrimColor(ContextCompat.getColor(context, R.color.packages_primary_color))
         checkoutOverviewHeaderToolbar.travelers.visibility = View.GONE
         appBarLayout.addOnOffsetChangedListener(this);
         val floatingToolbarLayoutParams = checkoutOverviewFloatingToolbar.destinationText.layoutParams as LinearLayout.LayoutParams

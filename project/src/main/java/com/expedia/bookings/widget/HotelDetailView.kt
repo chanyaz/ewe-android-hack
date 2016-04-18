@@ -829,9 +829,8 @@ class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayout(conte
     }
 
     fun recycleImageView(imageView: ImageView) {
-        var drawable = imageView.drawable;
-        drawable?.callback = null
-        drawable = null
+        imageView.drawable?.callback = null
+        imageView.setImageDrawable(null)
     }
 
     private fun displayRoomRateHeader() {
