@@ -3,16 +3,11 @@ package com.expedia.vm
 import android.content.Context
 import android.text.format.DateUtils
 import com.expedia.bookings.R
-import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.utils.JodaUtils
 import com.expedia.bookings.utils.StrUtils
 import org.joda.time.LocalDate
 import rx.Observable
 import rx.subjects.BehaviorSubject
-
-class FlightResultsViewModel() {
-    val flightResultsObservable = BehaviorSubject.create<List<FlightLeg>>()
-}
 
 class FlightToolbarViewModel(private val context: Context) {
     //input

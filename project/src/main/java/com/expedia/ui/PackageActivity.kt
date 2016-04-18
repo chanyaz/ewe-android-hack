@@ -10,7 +10,7 @@ import com.expedia.bookings.data.packages.PackageCreateTripParams
 import com.expedia.bookings.presenter.packages.PackagePresenter
 import com.expedia.bookings.utils.Constants
 import com.expedia.bookings.utils.Ui
-import com.expedia.vm.PackageSearchType
+import com.expedia.vm.packages.PackageSearchType
 
 class PackageActivity : AppCompatActivity() {
 

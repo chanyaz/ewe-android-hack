@@ -12,8 +12,8 @@ import com.expedia.bookings.otto.Events
 import com.expedia.bookings.tracking.PackagesTracking
 import com.expedia.util.notNullAndObservable
 import com.expedia.util.subscribeTextAndVisibility
-import com.expedia.vm.PackageCheckoutViewModel
-import com.expedia.vm.PackageCreateTripViewModel
+import com.expedia.vm.packages.PackageCheckoutViewModel
+import com.expedia.vm.packages.PackageCreateTripViewModel
 import com.squareup.otto.Subscribe
 import java.math.BigDecimal
 

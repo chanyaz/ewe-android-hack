@@ -5,7 +5,7 @@ import android.util.AttributeSet
 import com.expedia.bookings.presenter.BaseErrorPresenter
 import com.expedia.util.notNullAndObservable
 import com.expedia.util.subscribeText
-import com.expedia.vm.PackageErrorViewModel
+import com.expedia.vm.packages.PackageErrorViewModel
 
 class PackageErrorPresenter(context: Context, attr: AttributeSet?) : BaseErrorPresenter(context, attr) {
 

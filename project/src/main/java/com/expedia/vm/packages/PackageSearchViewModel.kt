@@ -1,4 +1,4 @@
-package com.expedia.vm
+package com.expedia.vm.packages
 
 import android.content.Context
 import android.text.style.RelativeSizeSpan
@@ -9,6 +9,7 @@ import com.expedia.bookings.utils.DateUtils
 import com.expedia.bookings.utils.SpannableBuilder
 import com.expedia.bookings.utils.StrUtils
 import com.expedia.util.endlessObserver
+import com.expedia.vm.DatedSearchViewModel
 import com.mobiata.android.time.util.JodaUtils
 import org.joda.time.LocalDate
 import rx.subjects.BehaviorSubject

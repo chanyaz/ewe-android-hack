@@ -18,7 +18,7 @@ import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.rail.RailResultsAdapter
 import com.expedia.util.notNullAndObservable
-import com.expedia.vm.RailResultsViewModel
+import com.expedia.vm.rail.RailResultsViewModel
 import rx.Observer
 import rx.subjects.PublishSubject
 import kotlin.properties.Delegates

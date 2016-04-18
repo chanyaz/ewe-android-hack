@@ -8,7 +8,6 @@ import com.expedia.util.endlessObserver
 import com.squareup.phrase.Phrase
 import rx.Observer
 import rx.subjects.BehaviorSubject
-import rx.subjects.PublishSubject
 
 class FlightOverviewViewModel(val context: Context) {
 
@@ -55,12 +54,3 @@ class FlightOverviewViewModel(val context: Context) {
     }
 }
 
-data class FlightSegmentBreakdown(val segment: FlightLeg.FlightSegment, val hasLayover: Boolean)
-
-class FlightSegmentBreakdownViewModel(val context: Context) {
-    val addSegmentRowsObserver = PublishSubject.create<List<FlightSegmentBreakdown>>()
-}
-
-class BaggageFeeInfoViewModel() {
-    val baggageFeeURLObserver = PublishSubject.create<String>()
-}

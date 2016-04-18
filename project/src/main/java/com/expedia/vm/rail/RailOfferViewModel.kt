@@ -1,14 +1,10 @@
-package com.expedia.vm
+package com.expedia.vm.rail
 
 import android.content.Context
 import com.expedia.bookings.data.rail.responses.RailSearchResponse
 import com.expedia.bookings.widget.RailViewModel
 import com.mobiata.flightlib.utils.DateTimeUtils
 import rx.subjects.BehaviorSubject
-
-class RailDetailsViewModel(val context: Context) {
-    val offerViewModel = RailOfferViewModel(context)
-}
 
 class RailOfferViewModel(val context: Context) {
     val formattedTimeIntervalSubject = BehaviorSubject.create<CharSequence>()

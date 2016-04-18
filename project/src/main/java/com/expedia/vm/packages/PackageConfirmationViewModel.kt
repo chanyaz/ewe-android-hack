@@ -1,4 +1,4 @@
-package com.expedia.vm
+package com.expedia.vm.packages
 
 import android.content.Context
 import com.expedia.bookings.BuildConfig

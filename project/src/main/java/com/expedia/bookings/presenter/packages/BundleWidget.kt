@@ -16,10 +16,10 @@ import com.expedia.bookings.widget.PackageBundleFlightWidget
 import com.expedia.bookings.widget.PackageBundleHotelWidget
 import com.expedia.util.notNullAndObservable
 import com.expedia.util.subscribeText
-import com.expedia.vm.BundleFlightViewModel
-import com.expedia.vm.BundleHotelViewModel
-import com.expedia.vm.BundleOverviewViewModel
-import com.expedia.vm.PackageSearchType
+import com.expedia.vm.packages.BundleFlightViewModel
+import com.expedia.vm.packages.BundleHotelViewModel
+import com.expedia.vm.packages.BundleOverviewViewModel
+import com.expedia.vm.packages.PackageSearchType
 import com.squareup.phrase.Phrase
 import rx.subjects.BehaviorSubject
 

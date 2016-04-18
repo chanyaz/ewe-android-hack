@@ -13,9 +13,9 @@ import com.expedia.bookings.utils.StrUtils
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.PackageBundleFlightWidget
 import com.expedia.util.notNullAndObservable
-import com.expedia.vm.BundleFlightViewModel
-import com.expedia.vm.BundleOverviewViewModel
-import com.expedia.vm.PackageSearchType
+import com.expedia.vm.packages.BundleFlightViewModel
+import com.expedia.vm.packages.BundleOverviewViewModel
+import com.expedia.vm.packages.PackageSearchType
 import com.squareup.phrase.Phrase
 
 class FlightSummaryWidget(context: Context, attrs: AttributeSet) : LinearLayout(context, attrs) {

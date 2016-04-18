@@ -7,7 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import com.expedia.bookings.R
 import com.expedia.bookings.data.flights.FlightLeg
-import com.expedia.vm.PackageFlightViewModel
+import com.expedia.vm.packages.PackageFlightViewModel
 import rx.subjects.PublishSubject
 import java.util.ArrayList
 

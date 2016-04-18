@@ -1,4 +1,4 @@
-package com.expedia.vm
+package com.expedia.vm.rail
 
 import android.content.Context
 import com.expedia.bookings.R
@@ -7,6 +7,7 @@ import com.expedia.bookings.data.rail.requests.RailSearchRequest
 import com.expedia.bookings.utils.DateUtils
 import com.expedia.bookings.utils.SpannableBuilder
 import com.expedia.util.endlessObserver
+import com.expedia.vm.DatedSearchViewModel
 import com.mobiata.android.time.util.JodaUtils
 import org.joda.time.LocalDate
 import rx.subjects.BehaviorSubject

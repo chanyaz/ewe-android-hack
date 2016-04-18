@@ -16,8 +16,8 @@ import com.expedia.bookings.presenter.packages.BundleWidget
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
 import com.expedia.util.subscribeText
-import com.expedia.vm.BundleOverviewViewModel
-import com.expedia.vm.BundlePriceViewModel
+import com.expedia.vm.packages.BundleOverviewViewModel
+import com.expedia.vm.packages.BundlePriceViewModel
 
 class SlidingBundleWidget(context: Context, attrs: AttributeSet?) : FrameLayout(context, attrs) {
     val SWIPE_MIN_DISTANCE = 10

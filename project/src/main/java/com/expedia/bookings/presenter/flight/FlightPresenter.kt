@@ -24,7 +24,7 @@ import com.expedia.util.notNullAndObservable
 import com.expedia.vm.FlightCheckoutOverviewViewModel
 import com.expedia.vm.FlightCheckoutViewModel
 import com.expedia.vm.FlightSearchViewModel
-import com.expedia.vm.PackageSearchType
+import com.expedia.vm.packages.PackageSearchType
 import com.squareup.phrase.Phrase
 import org.joda.time.LocalDate
 import java.math.BigDecimal

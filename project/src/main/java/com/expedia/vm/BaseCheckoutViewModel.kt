@@ -1,10 +1,10 @@
 package com.expedia.vm
 
 import android.content.Context
+import com.expedia.bookings.data.BaseCheckoutParams
 import com.expedia.bookings.data.BillingInfo
 import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.Traveler
-import com.expedia.bookings.data.BaseCheckoutParams
 import rx.subjects.BehaviorSubject
 import rx.subjects.PublishSubject
 

@@ -11,7 +11,7 @@ import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.packages.FlightAirlineWidget
 import com.expedia.bookings.widget.packages.FlightLayoverWidget
 import com.expedia.util.subscribeText
-import com.expedia.vm.PackageFlightViewModel
+import com.expedia.vm.packages.PackageFlightViewModel
 import rx.subjects.BehaviorSubject
 import rx.subjects.PublishSubject
 import java.util.ArrayList

@@ -15,7 +15,7 @@ import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.rail.PositionObservableTabLayout
 import com.expedia.util.notNullAndObservable
-import com.expedia.vm.RailSearchViewModel
+import com.expedia.vm.rail.RailSearchViewModel
 
 class RailSearchPresenter(context: Context, attrs: AttributeSet) : BaseSearchPresenter(context, attrs) {
 

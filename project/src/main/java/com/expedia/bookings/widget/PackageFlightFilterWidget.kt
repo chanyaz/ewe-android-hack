@@ -25,7 +25,7 @@ import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.animation.ResizeHeightAnimator
 import com.expedia.util.notNullAndObservable
 import com.expedia.util.subscribeOnClick
-import com.expedia.vm.PackageFlightFilterViewModel
+import com.expedia.vm.packages.PackageFlightFilterViewModel
 
 class PackageFlightFilterWidget(context: Context, attrs: AttributeSet) : FrameLayout(context, attrs) {
     val ANIMATION_DURATION = 500L

@@ -1,0 +1,108 @@
+package com.expedia.vm.packages
+
+import android.content.Context
+import com.expedia.bookings.R
+import com.expedia.bookings.data.Db
+import com.expedia.bookings.data.packages.PackageApiError
+import com.expedia.bookings.data.packages.PackageCreateTripResponse
+import com.expedia.bookings.data.packages.PackageSearchParams
+import com.expedia.bookings.data.packages.PackageSearchResponse
+import com.expedia.bookings.services.PackageServices
+import com.expedia.bookings.utils.DateFormatUtils
+import com.expedia.bookings.utils.DateUtils
+import com.expedia.bookings.utils.StrUtils
+import com.expedia.vm.packages.PackageSearchType
+import com.squareup.phrase.Phrase
+import rx.Observer
+import rx.subjects.BehaviorSubject
+import rx.subjects.PublishSubject
+
+class BundleOverviewViewModel(val context: Context, val packageServices: PackageServices?) {
+    val hotelParamsObservable = PublishSubject.create<PackageSearchParams>()
+    val flightParamsObservable = PublishSubject.create<PackageSearchParams>()
+    val createTripObservable = PublishSubject.create<PackageCreateTripResponse>()
+    val errorObservable = PublishSubject.create<PackageApiError.Code>()
+
+    // Outputs
+    val hotelResultsObservable = BehaviorSubject.create<Unit>()
+    val flightResultsObservable = BehaviorSubject.create<PackageSearchType>()
+    val showBundleTotalObservable = BehaviorSubject.create<Boolean>()
+    val toolbarTitleObservable = BehaviorSubject.create<String>()
+    val toolbarSubtitleObservable = BehaviorSubject.create<String>()
+    val stepOneTextObservable = BehaviorSubject.create<String>()
+    val stepTwoTextObservable = BehaviorSubject.create<String>()
+
+    init {
+        hotelParamsObservable.subscribe { params ->
+            Db.setPackageParams(params)
+            val cityName = StrUtils.formatCity(params.destination)
+            toolbarTitleObservable.onNext(java.lang.String.format(context.getString(R.string.your_trip_to_TEMPLATE), cityName))
+            toolbarSubtitleObservable.onNext(Phrase.from(context, R.string.calendar_instructions_date_range_with_guests_TEMPLATE)
+                    .put("startdate", DateUtils.localDateToMMMd(params.checkIn))
+                    .put("enddate", DateUtils.localDateToMMMd(params.checkOut))
+                    .put("guests", StrUtils.formatTravelerString(context, params.guests))
+                    .format().toString())
+            packageServices?.packageSearch(params)?.subscribe(makeResultsObserver(PackageSearchType.HOTEL))
+        }
+
+        flightParamsObservable.subscribe { params ->
+            packageServices?.packageSearch(params)?.subscribe(makeResultsObserver(if (params.isOutboundSearch()) PackageSearchType.OUTBOUND_FLIGHT else PackageSearchType.INBOUND_FLIGHT))
+        }
+
+        createTripObservable.subscribe { trip ->
+            var hotel = trip.packageDetails.hotel
+            val stepOne = Phrase.from(context.resources.getQuantityString(R.plurals.hotel_checkout_overview_TEMPLATE, hotel.numberOfNights.toInt()))
+                    .put("number", hotel.numberOfNights)
+                    .put("city", hotel.hotelCity)
+                    .format().toString()
+            stepOneTextObservable.onNext(stepOne)
+
+            val stepTwo = Phrase.from(context, R.string.flight_checkout_overview_TEMPLATE)
+                    .put("origin", Db.getPackageParams().origin.hierarchyInfo?.airport?.airportCode)
+                    .put("destination", Db.getPackageParams().destination.hierarchyInfo?.airport?.airportCode)
+                    .format().toString()
+            stepTwoTextObservable.onNext(stepTwo)
+
+            val toolbarTitle = Phrase.from(context, R.string.hotel_city_country_TEMPLATE)
+                    .put("city", hotel.hotelCity)
+                    .put("country", Db.getPackageParams().destination.hierarchyInfo?.country?.name)
+                    .format().toString()
+            toolbarTitleObservable.onNext(toolbarTitle)
+            val toolbarSubtitle = DateFormatUtils.formatPackageDateRange(context, hotel.checkInDate, hotel.checkOutDate)
+            toolbarSubtitleObservable.onNext(toolbarSubtitle)
+
+        }
+    }
+
+    fun makeResultsObserver(type: PackageSearchType): Observer<PackageSearchResponse> {
+        return object : Observer<PackageSearchResponse> {
+            override fun onNext(response: PackageSearchResponse) {
+                if (response.hasErrors()) {
+                    errorObservable.onNext(response.firstError)
+                }
+                Db.setPackageResponse(response)
+                if (type == PackageSearchType.HOTEL) {
+                    hotelResultsObservable.onNext(Unit)
+                    val currentFlights = arrayOf(response.packageResult.flightsPackage.flights[0].legId, response.packageResult.flightsPackage.flights[1].legId)
+                    Db.getPackageParams().currentFlights = currentFlights
+                    Db.getPackageParams().defaultFlights = currentFlights.copyOf()
+                } else {
+                    flightResultsObservable.onNext(type)
+                }
+                if (response.packageResult.currentSelectedOffer != null) {
+                    showBundleTotalObservable.onNext(true)
+                    println("package success, Hotels:" + response.packageResult.hotelsPackage.hotels.size + "  Flights:" + response.packageResult.flightsPackage.flights.size)
+                }
+            }
+
+            override fun onCompleted() {
+                println("package completed")
+            }
+
+            override fun onError(e: Throwable?) {
+                println("package error: " + e?.message)
+            }
+        }
+    }
+}
+

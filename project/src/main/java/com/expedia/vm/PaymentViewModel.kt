@@ -4,17 +4,14 @@ import android.content.Context
 import android.graphics.PorterDuff
 import android.graphics.drawable.Drawable
 import android.support.v4.content.ContextCompat
-import android.widget.EditText
 import com.expedia.bookings.R
 import com.expedia.bookings.data.BillingInfo
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.PaymentType
-import com.expedia.bookings.data.User
 import com.expedia.bookings.data.StoredCreditCard
 import com.expedia.bookings.data.TripBucketItemCar
 import com.expedia.bookings.data.payment.PaymentSplitsType
-import com.expedia.bookings.utils.ArrowXDrawableUtil
 import com.expedia.bookings.utils.BookingInfoUtils
 import com.expedia.bookings.utils.CreditCardUtils
 import com.expedia.bookings.widget.ContactDetailsCompletenessStatus

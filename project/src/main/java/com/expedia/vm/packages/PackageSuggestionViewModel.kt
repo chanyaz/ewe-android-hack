@@ -1,27 +1,10 @@
-package com.expedia.vm
+package com.expedia.vm.packages
 
-import android.content.Context
-import android.location.Location
 import android.text.Html
 import com.expedia.bookings.R
 import com.expedia.bookings.data.SuggestionV4
-import com.expedia.bookings.data.pos.PointOfSale
-import com.expedia.bookings.services.SuggestionV4Services
-import com.expedia.bookings.utils.ServicesUtil
-import com.expedia.bookings.utils.SuggestionV4Utils
-import rx.Observable
 import rx.subjects.BehaviorSubject
 import rx.subjects.PublishSubject
-
-class PackageSuggestionAdapterViewModel(context: Context, suggestionsService: SuggestionV4Services, val isDest: Boolean, locationObservable: Observable<Location>?) : SuggestionAdapterViewModel(context, suggestionsService, locationObservable, false, false) {
-    override fun getSuggestionService(query: String) {
-        suggestionsService.suggestPackagesV4(query, ServicesUtil.generateClient(context), isDest, generateSuggestionServiceCallback(), PointOfSale.getSuggestLocaleIdentifier())
-    }
-
-    override fun getSuggestionHistoryFile(): String {
-        return SuggestionV4Utils.RECENT_PACKAGE_SUGGESTIONS_FILE
-    }
-}
 
 class PackageSuggestionViewModel() {
 

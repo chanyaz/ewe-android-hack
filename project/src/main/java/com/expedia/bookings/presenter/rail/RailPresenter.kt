@@ -12,9 +12,9 @@ import com.expedia.bookings.services.RailServices
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
 import com.expedia.util.endlessObserver
-import com.expedia.vm.RailDetailsViewModel
-import com.expedia.vm.RailResultsViewModel
-import com.expedia.vm.RailSearchViewModel
+import com.expedia.vm.rail.RailDetailsViewModel
+import com.expedia.vm.rail.RailResultsViewModel
+import com.expedia.vm.rail.RailSearchViewModel
 import rx.Observer
 import javax.inject.Inject
 import kotlin.properties.Delegates

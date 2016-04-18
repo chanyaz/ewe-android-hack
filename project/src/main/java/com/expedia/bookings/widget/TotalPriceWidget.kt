@@ -19,8 +19,8 @@ import com.expedia.util.notNullAndObservable
 import com.expedia.util.subscribeText
 import com.expedia.util.subscribeTextAndVisibility
 import com.expedia.util.subscribeVisibility
-import com.expedia.vm.BundlePriceViewModel
-import com.expedia.vm.PackageBreakdownViewModel
+import com.expedia.vm.packages.BundlePriceViewModel
+import com.expedia.vm.packages.PackageBreakdownViewModel
 
 class TotalPriceWidget(context: Context, attrs: AttributeSet?) : LinearLayout(context, attrs) {
 

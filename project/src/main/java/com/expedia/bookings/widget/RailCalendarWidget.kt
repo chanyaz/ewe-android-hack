@@ -13,7 +13,7 @@ import com.expedia.bookings.utils.Constants
 import com.expedia.bookings.utils.bindView
 import com.expedia.util.notNullAndObservable
 import com.expedia.util.subscribeText
-import com.expedia.vm.RailSearchViewModel
+import com.expedia.vm.rail.RailSearchViewModel
 
 class RailCalendarWidget(context: Context, attrs: AttributeSet?) : CardView(context, attrs) {
 

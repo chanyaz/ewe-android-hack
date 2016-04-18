@@ -15,7 +15,7 @@ import com.expedia.bookings.widget.RailViewModel
 import com.expedia.bookings.widget.rail.RailDetailsTimeline
 import com.expedia.util.notNullAndObservable
 import com.expedia.util.subscribeText
-import com.expedia.vm.RailDetailsViewModel
+import com.expedia.vm.rail.RailDetailsViewModel
 import com.mobiata.flightlib.utils.DateTimeUtils
 
 class RailDetailsPresenter(context: Context, attrs: AttributeSet) : Presenter(context, attrs) {
