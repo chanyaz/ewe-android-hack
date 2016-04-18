@@ -3,6 +3,20 @@
 
     <color name="action_bar_bg_color">#0099CC</color>
 
+    <color name="lob_btn_color">#0099CC</color>
+    <color name="hotel_lob_btn">@color/lob_btn_color</color>
+    <color name="flights_lob_btn">@color/lob_btn_color</color>
+    <color name="cars_lob_btn">@color/lob_btn_color</color>
+    <color name="lx_lob_btn">@color/lob_btn_color</color>
+    <color name="transport_lob_btn">@color/lob_btn_color</color>
+
+
+    <!-- Launch colors -->
+    <color name="launch_toolbar_background_color">#0099CC</color>
+    <color name="launch_tab_indicator">#003366</color>
+    <color name="action_menu_text_color">#FFFFFF</color>
+    <color name="action_bar_text">#FFFFFF</color>
+
     <!--Flight-->
     <color name="action_bar_text_color">@color/white</color>
     <color name="flight_card_airline_fee_warning">#0099CC</color>
@@ -51,10 +65,6 @@
 
     <!-- Itin Colors -->
     <color name="itin_unable_to_find_error_color">#FFB80000</color>
-
-    <!-- Launch colors -->
-    <color name="action_menu_text_color">#FFFFFF</color>
-    <color name="action_bar_text">#FFFFFF</color>
 
     <!--Account Lib Colors -->
     <color name="btn_sign_in_normal">#0099CC</color>
