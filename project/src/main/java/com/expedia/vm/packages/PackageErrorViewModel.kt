@@ -32,7 +32,7 @@ class PackageErrorViewModel(private val context: Context) {
     //handle different errors
     val defaultErrorObservable = BehaviorSubject.create<Unit>()
     val checkoutCardErrorObservable = BehaviorSubject.create<Unit>()
-    val checkoutTravellerErrorObservable = BehaviorSubject.create<Unit>()
+    val checkoutTravelerErrorObservable = BehaviorSubject.create<Unit>()
     val checkoutUnknownErrorObservable = BehaviorSubject.create<Unit>()
 
     init {
@@ -46,7 +46,7 @@ class PackageErrorViewModel(private val context: Context) {
                     checkoutCardErrorObservable.onNext(Unit)
                 }
                 ApiError.Code.PACKAGE_CHECKOUT_TRAVELLER_DETAILS -> {
-                    checkoutTravellerErrorObservable.onNext(Unit)
+                    checkoutTravelerErrorObservable.onNext(Unit)
                 }
                 ApiError.Code.UNKNOWN_ERROR -> {
                     checkoutUnknownErrorObservable.onNext(Unit)

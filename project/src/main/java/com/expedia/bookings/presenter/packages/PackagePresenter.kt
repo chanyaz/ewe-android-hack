@@ -120,7 +120,7 @@ class PackagePresenter(context: Context, attrs: AttributeSet) : Presenter(contex
             bundlePresenter.getCheckoutPresenter().slideToPurchase.resetSlider()
         }
 
-        errorPresenter.viewmodel.checkoutTravellerErrorObservable.delay(DELAY_INVOKING_ERROR_OBSERVABLES_DOING_SHOW, TimeUnit.MILLISECONDS).observeOn(AndroidSchedulers.mainThread()).subscribe {
+        errorPresenter.viewmodel.checkoutTravelerErrorObservable.delay(DELAY_INVOKING_ERROR_OBSERVABLES_DOING_SHOW, TimeUnit.MILLISECONDS).observeOn(AndroidSchedulers.mainThread()).subscribe {
             show(bundlePresenter, Presenter.FLAG_CLEAR_TOP)
             bundlePresenter.getCheckoutPresenter().slideToPurchase.resetSlider()
             bundlePresenter.getCheckoutPresenter().travelerPresenter.expandedSubject.onNext(true)
@@ -130,6 +130,7 @@ class PackagePresenter(context: Context, attrs: AttributeSet) : Presenter(contex
         errorPresenter.viewmodel.checkoutCardErrorObservable.delay(DELAY_INVOKING_ERROR_OBSERVABLES_DOING_SHOW, TimeUnit.MILLISECONDS).observeOn(AndroidSchedulers.mainThread()).subscribe {
             show(bundlePresenter, Presenter.FLAG_CLEAR_TOP)
             bundlePresenter.getCheckoutPresenter().slideToPurchase.resetSlider()
+            bundlePresenter.getCheckoutPresenter().clearCCNumber()
             bundlePresenter.getCheckoutPresenter().paymentWidget.cardInfoContainer.performClick()
         }
     }

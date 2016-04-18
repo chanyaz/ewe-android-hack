@@ -4,10 +4,10 @@ import android.content.Context
 import android.graphics.Rect
 import android.util.AttributeSet
 import android.view.View
+import android.view.ViewTreeObserver
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.Money
-import android.view.ViewTreeObserver
 import com.expedia.bookings.otto.Events
 import com.expedia.bookings.tracking.PackagesTracking
 import com.expedia.util.notNullAndObservable
@@ -39,6 +39,7 @@ class PackageCheckoutPresenter(context: Context, attr: AttributeSet) : BaseCheck
             userAccountRefresher.ensureAccountIsRefreshed()
         }
         vm.tripResponseObservable.subscribe { response ->
+            clearCCNumber()
             loginWidget.updateRewardsText(getLineOfBusiness())
             createTripDialog.hide()
             priceChangeWidget.viewmodel.originalPackagePrice.onNext(response.oldPackageDetails?.pricing?.packageTotal)
