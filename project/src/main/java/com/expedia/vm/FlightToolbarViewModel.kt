@@ -8,6 +8,7 @@ import com.expedia.bookings.utils.StrUtils
 import org.joda.time.LocalDate
 import rx.Observable
 import rx.subjects.BehaviorSubject
+import rx.subjects.PublishSubject
 
 class FlightToolbarViewModel(private val context: Context) {
     //input

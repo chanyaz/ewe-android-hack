@@ -13,9 +13,6 @@ class RailSearchRequest(val origin: SuggestionV4, val destination: SuggestionV4,
     }
 
     class Builder() : BaseSearchParams.Builder(500) {
-        private var origin: SuggestionV4? = null
-        private var destination: SuggestionV4? = null
-        private var departDate: LocalDate? = null
         private var returnDate: LocalDate? = null
         private var searchType = SearchType.ONE_WAY
 
@@ -45,6 +42,11 @@ class RailSearchRequest(val origin: SuggestionV4, val destination: SuggestionV4,
 
         fun hasOriginAndDestination(): Boolean {
             return departure != null && arrival != null
+        }
+
+        // TODO - implement this once we know where to get rail origin/destination from
+        override fun isDepartureSameAsOrigin(): Boolean {
+            return false
         }
     }
 }

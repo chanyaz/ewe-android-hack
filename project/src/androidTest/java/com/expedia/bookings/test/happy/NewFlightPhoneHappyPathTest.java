@@ -1,10 +1,12 @@
 package com.expedia.bookings.test.happy;
 
+import org.joda.time.LocalDate;
+
 import com.expedia.bookings.R;
-import com.expedia.bookings.test.espresso.Common;
 import com.expedia.bookings.test.espresso.EspressoUtils;
 import com.expedia.bookings.test.espresso.NewFlightTestCase;
 import com.expedia.bookings.test.phone.flights.FlightsScreen;
+import com.expedia.bookings.test.phone.packages.PackageScreen;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
@@ -20,8 +22,13 @@ import static org.hamcrest.CoreMatchers.allOf;
 public class NewFlightPhoneHappyPathTest extends NewFlightTestCase {
 
 	public void testNewFlightHappyPath() throws Throwable {
-		//TODO: Will remove the delay once we have a search presenter
-		Common.delay(2);
+		PackageScreen.selectDepartureAndArrival();
+		LocalDate startDate = LocalDate.now().plusDays(3);
+		LocalDate endDate = LocalDate.now().plusDays(8);
+		PackageScreen.selectDates(startDate, endDate);
+
+		PackageScreen.searchButton().perform(click());
+
 		assertFlightOutbound();
 		FlightsScreen.selectFlight(FlightsScreen.outboundFlightList(), 0);
 		FlightsScreen.selectOutboundFlight().perform(click());
@@ -52,15 +59,16 @@ public class NewFlightPhoneHappyPathTest extends NewFlightTestCase {
 
 	private void assertCheckoutOverview() {
 		onView(allOf(withId(R.id.destination), withParent(withId(R.id.checkout_overview_floating_toolbar)),
-			withText("San Francisco, CA"))).check(matches(isDisplayed()));
+			withText("San Francisco, CA (SFO-San Francisco Intl.)"))).check(matches(isDisplayed()));
 		onView(allOf(withId(R.id.travelers), withParent(withId(R.id.checkout_overview_floating_toolbar)),
 			withText("1 Traveler"))).check(matches(isDisplayed()));
 
 		onView(allOf(withId(R.id.flight_card_view_text),
 			isDescendantOfA(withId(R.id.package_bundle_outbound_flight_widget)))).check(
 			matches(withText("Flight to (SFO) San Francisco")));
+
 		onView(allOf(withId(R.id.flight_card_view_text),
 			isDescendantOfA(withId(R.id.package_bundle_inbound_flight_widget)))).check(
-			matches(withText("Flight to (SEA) San Francisco")));
+			matches(withText("Flight to (DTW) Detroit")));
 	}
 }

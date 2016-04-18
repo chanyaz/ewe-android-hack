@@ -38,8 +38,8 @@ class PackageFlightPresenter(context: Context, attrs: AttributeSet) : BaseFlight
         var allFlights = bestPlusAllFlights.filterNot { it.isBestFlight }.sortedBy { it.packageOfferModel.price.packageTotalPrice.amount }.toMutableList()
 
         allFlights.add(0, bestFlight)
-        resultsPresenter.adapterPackage = PackageFlightListAdapter(context, resultsPresenter.flightSelectedSubject,  Db.getPackageParams().isChangePackageSearch())
-        resultsPresenter.recyclerView.adapter = resultsPresenter.adapterPackage
+        val flightListAdapter = PackageFlightListAdapter(context, resultsPresenter.flightSelectedSubject, Db.getPackageParams().isChangePackageSearch())
+        resultsPresenter.setAdapter(flightListAdapter)
         resultsPresenter.resultsViewModel.flightResultsObservable.onNext(allFlights)
         overviewPresenter.vm.selectedFlightClicked.subscribe(flightOverviewSelected)
         var cityBound: String = if (isOutboundSearch) Db.getPackageParams().destination.regionNames.shortName else Db.getPackageParams().origin.regionNames.shortName

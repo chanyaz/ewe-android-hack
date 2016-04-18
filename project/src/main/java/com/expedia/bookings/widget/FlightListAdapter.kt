@@ -1,6 +1,7 @@
 package com.expedia.bookings.widget
 
 import android.content.Context
+import android.support.annotation.UiThread
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
@@ -17,26 +18,27 @@ import rx.subjects.PublishSubject
 import java.util.ArrayList
 
 open class FlightListAdapter(val context: Context, val flightSelectedSubject: PublishSubject<FlightLeg>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
-    protected  var flights: ArrayList<FlightLeg> = ArrayList()
-    var maxFlightDuration = 0
-    val resultsSubject = BehaviorSubject.create<List<FlightLeg>>()
+    private var flights: List<FlightLeg> = emptyList()
+    protected var maxFlightDuration = 0
     open val PRICING_STRUCTURE_HEADER_VIEW = 0
     open val ALL_FLIGHTS_HEADER_VIEW = 1
     open val ALL_FLIGHTS_VIEW = 2
 
-    init {
-        resultsSubject.subscribe {
-            flights = ArrayList(it)
-
-            for (flightLeg in flights) {
-                if (flightLeg.durationHour * 60 + flightLeg.durationMinute > maxFlightDuration) {
-                    maxFlightDuration = flightLeg.durationHour * 60 + flightLeg.durationMinute
-                }
-
+    @UiThread
+    open fun setNewFlights(flights: List<FlightLeg>) {
+        val newFlights = ArrayList(flights)
+        for (flightLeg in newFlights) {
+            if (flightLeg.durationHour * 60 + flightLeg.durationMinute > maxFlightDuration) {
+                maxFlightDuration = flightLeg.durationHour * 60 + flightLeg.durationMinute
             }
-            notifyDataSetChanged()
-        }
 
+        }
+        this.flights = newFlights
+        notifyDataSetChanged()
+    }
+
+    protected fun getFlights(): List<FlightLeg> {
+        return flights
     }
 
     override fun getItemCount(): Int {
@@ -100,16 +102,12 @@ open class FlightListAdapter(val context: Context, val flightSelectedSubject: Pu
         }
 
         fun bind(viewModel: PackageFlightViewModel) {
-            viewModel.flightTimeObserver.subscribeText(flightTimeTextView)
-            viewModel.priceObserver.subscribeText(priceTextView)
-            viewModel.durationObserver.subscribeText(flightDurationTextView)
-            viewModel.layoverObserver.subscribe { flight ->
-                flightLayoverWidget.update(flight.flightSegments, flight.durationHour, flight.durationMinute, maxFlightDuration)
-            }
-
-            viewModel.airlineObserver.subscribe { airlines ->
-                flightAirlineWidget.update(airlines)
-            }
+            flightTimeTextView.text = viewModel.flightTime
+            priceTextView.text = viewModel.price
+            flightDurationTextView.text = viewModel.duration
+            val flight = viewModel.layover
+            flightLayoverWidget.update(flight.flightSegments, flight.durationHour, flight.durationMinute, maxFlightDuration)
+            flightAirlineWidget.update(viewModel.airline)
         }
     }
 

@@ -12,6 +12,7 @@ import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.SearchView
 import android.support.v7.widget.Toolbar
+import android.text.Html
 import android.util.AttributeSet
 import android.util.TypedValue
 import android.view.View
@@ -27,14 +28,23 @@ import android.widget.ScrollView
 import com.expedia.account.graphics.ArrowXDrawable
 import com.expedia.bookings.R
 import com.expedia.bookings.animation.TransitionElement
+import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.TravelerParams
 import com.expedia.bookings.presenter.hotel.BaseHotelSearchPresenter
 import com.expedia.bookings.utils.ArrowXDrawableUtil
+import com.expedia.bookings.utils.SuggestionV4Utils
 import com.expedia.bookings.utils.Ui
+import com.expedia.bookings.utils.bindOptionalView
 import com.expedia.bookings.utils.bindView
-import com.expedia.bookings.widget.*
+import com.expedia.bookings.widget.CalendarWidgetV2
+import com.expedia.bookings.widget.RecyclerDividerDecoration
+import com.expedia.bookings.widget.SearchInputCardView
+import com.expedia.bookings.widget.TextView
+import com.expedia.bookings.widget.TravelerWidgetV2
+import com.expedia.util.notNullAndObservable
 import com.expedia.vm.SuggestionAdapterViewModel
 import org.joda.time.LocalDate
+import rx.Observer
 
 abstract class BaseSearchPresenterV2(context: Context, attrs: AttributeSet) : BaseHotelSearchPresenter(context, attrs) {
 
@@ -48,6 +58,7 @@ abstract class BaseSearchPresenterV2(context: Context, attrs: AttributeSet) : Ba
     val suggestionContainer: View by bindView(R.id.suggestions_container)
     val suggestionRecyclerView: RecyclerView by bindView(R.id.suggestion_list)
     var navIcon: ArrowXDrawable
+    val arrivalCardView by bindOptionalView<SearchInputCardView>(R.id.arrival_card) // optional (?) as not required for Hotels LOB
     val destinationCardView: SearchInputCardView by bindView(R.id.destination_card)
     val travelerWidgetV2: TravelerWidgetV2 by bindView(R.id.traveler_card)
     val searchButton: Button by bindView(R.id.search_button_v2)
@@ -63,6 +74,29 @@ abstract class BaseSearchPresenterV2(context: Context, attrs: AttributeSet) : Ba
         typedValue.data
     }
     var firstLaunch = true
+    protected var isCustomerSelectingDeparture = false
+
+    protected var departureSuggestionVM: SuggestionAdapterViewModel by notNullAndObservable { vm ->
+        val suggestionSelectedObserver = suggestionSelectedObserver(isDeparture = true, suggestionInputView = destinationCardView)
+        vm.suggestionSelectedSubject.subscribe(suggestionSelectedObserver)
+    }
+
+    protected var arrivalSuggestionVM: SuggestionAdapterViewModel by notNullAndObservable { vm ->
+        val suggestionSelectedObserver = suggestionSelectedObserver(isDeparture = false, suggestionInputView = arrivalCardView!!)
+        vm.suggestionSelectedSubject.subscribe(suggestionSelectedObserver)
+    }
+
+    private fun suggestionSelectedObserver(isDeparture: Boolean, suggestionInputView: SearchInputCardView): (SuggestionV4) -> Unit {
+        return { suggestion ->
+            val suggestionObserver = if (isDeparture) getSearchViewModel().departureObserver else getSearchViewModel().arrivalObserver
+            suggestionObserver.onNext(suggestion)
+            com.mobiata.android.util.Ui.hideKeyboard(this)
+            val suggestionName = Html.fromHtml(suggestion.regionNames.displayName).toString()
+            suggestionInputView.setText(suggestionName)
+            SuggestionV4Utils.saveSuggestionHistory(context, suggestion, getSuggestionHistoryFileName())
+            showDefault()
+        }
+    }
 
     override fun onFinishInflate() {
         super.onFinishInflate()
@@ -74,6 +108,16 @@ abstract class BaseSearchPresenterV2(context: Context, attrs: AttributeSet) : Ba
         searchButton.setTextColor(ContextCompat.getColor(context, R.color.white_disabled))
         calendarWidgetV2.setOnClickListener {
             calendarWidgetV2.showCalendarDialog()
+        }
+        destinationCardView.setOnClickListener(destArrivalClickListener(isDepartureAirport = true))
+        arrivalCardView?.setOnClickListener(destArrivalClickListener(isDepartureAirport = false))
+    }
+
+    private fun destArrivalClickListener(isDepartureAirport: Boolean): (View) -> Unit {
+        return {
+            searchLocationEditText?.queryHint = context.resources.getString(R.string.fly_to_hint)
+            this.isCustomerSelectingDeparture = isDepartureAirport
+            show(SuggestionSelectionState())
         }
     }
 
@@ -158,6 +202,8 @@ abstract class BaseSearchPresenterV2(context: Context, attrs: AttributeSet) : Ba
         travelerWidgetV2.setOnClickListener {
             travelerWidgetV2.travelerDialog.show()
         }
+
+        searchLocationEditText?.setOnQueryTextListener(listener)
     }
 
     //TODO try to style search view in xml
@@ -358,6 +404,7 @@ abstract class BaseSearchPresenterV2(context: Context, attrs: AttributeSet) : Ba
     }
 
     abstract fun inflate()
+    abstract fun getSuggestionHistoryFileName(): String
     abstract fun getSuggestionViewModel() : SuggestionAdapterViewModel
     abstract fun getSuggestionAdapter() :  RecyclerView.Adapter<RecyclerView.ViewHolder>
 }

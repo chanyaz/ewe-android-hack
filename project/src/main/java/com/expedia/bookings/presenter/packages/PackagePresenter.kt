@@ -102,6 +102,7 @@ class PackagePresenter(context: Context, attrs: AttributeSet) : Presenter(contex
             PackagesTracking().trackCheckoutPaymentConfirmation()
         }
 
+        // TODO - can we move this up to a common "base" presenter? (common between Package and Flight presenter)
         searchPresenter.searchViewModel.searchParamsObservable.subscribe {
             // Starting a new search clear previous selection
             Db.clearPackageSelection()

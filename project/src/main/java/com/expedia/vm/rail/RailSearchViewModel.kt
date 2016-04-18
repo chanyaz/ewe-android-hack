@@ -1,6 +1,7 @@
 package com.expedia.vm.rail
 
 import android.content.Context
+import android.text.style.RelativeSizeSpan
 import com.expedia.bookings.R
 import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.rail.requests.RailSearchRequest
@@ -54,17 +55,15 @@ class RailSearchViewModel(context: Context) : DatedSearchViewModel(context) {
     }
 
     override fun onDatesChanged(dates: Pair<LocalDate?, LocalDate?>) {
-        val (start, end) = dates
-        datesObservable.onNext(dates)
+        super.onDatesChanged(dates)
 
+        val (start, end) = dates
         paramsBuilder.startDate(start)
         paramsBuilder.endDate(end)
+    }
 
-        dateTextObservable.onNext(computeDateRangeText(start, end))
-
-        dateInstructionObservable.onNext(computeDateInstructionText(start, end))
-
-        calendarTooltipTextObservable.onNext(computeTooltipText(start, end))
+    override fun computeDateText(start: LocalDate?, end: LocalDate?): CharSequence {
+        return computeDateRangeText(start, end).toString()
     }
 
     override fun computeTooltipText(start: LocalDate?, end: LocalDate?): Pair<String, String> {
@@ -101,6 +100,10 @@ class RailSearchViewModel(context: Context) : DatedSearchViewModel(context) {
         } else {
             return context.resources.getString(R.string.calendar_instructions_date_range_TEMPLATE, DateUtils.localDateToMMMd(start), DateUtils.localDateToMMMd(end))
         }
+    }
+
+    override fun getMaxStay(): Int {
+        return 500
     }
 
     //TODO - rip these out once we have an ESS service that works for Rail

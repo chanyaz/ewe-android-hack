@@ -17,12 +17,19 @@ import rx.subjects.PublishSubject
 import kotlin.properties.Delegates
 
 class PackageFlightResultsPresenter(context: Context, attrs: AttributeSet) : Presenter(context, attrs) {
-    val recyclerView: FlightListRecyclerView by bindView(R.id.list_view)
-    var adapterPackage: FlightListAdapter by Delegates.notNull()
+    private val recyclerView: FlightListRecyclerView by bindView(R.id.list_view)
+    lateinit private var flightListAdapter: FlightListAdapter
+
+    // input
     val flightSelectedSubject = PublishSubject.create<FlightLeg>()
 
     init {
         View.inflate(getContext(), R.layout.widget_flight_results_package, this)
+    }
+
+    fun setAdapter(adapter: FlightListAdapter) {
+        flightListAdapter = adapter
+        recyclerView.adapter = adapter
     }
 
     var resultsViewModel: FlightResultsViewModel by notNullAndObservable { vm ->
@@ -30,7 +37,7 @@ class PackageFlightResultsPresenter(context: Context, attrs: AttributeSet) : Pre
     }
 
     val listResultsObserver = endlessObserver<List<FlightLeg>> {
-        adapterPackage.resultsSubject.onNext(it)
+        flightListAdapter.setNewFlights(it)
     }
 
 }

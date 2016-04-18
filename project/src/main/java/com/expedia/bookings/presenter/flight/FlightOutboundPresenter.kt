@@ -7,8 +7,8 @@ import com.expedia.bookings.widget.FlightListAdapter
 class FlightOutboundPresenter(context: Context, attrs: AttributeSet) : BaseFlightPresenter(context, attrs) {
 
     init {
-        resultsPresenter.adapterPackage = FlightListAdapter(context, resultsPresenter.flightSelectedSubject)
-        resultsPresenter.recyclerView.adapter = resultsPresenter.adapterPackage
+        val flightListAdapter = FlightListAdapter(context, resultsPresenter.flightSelectedSubject)
+        resultsPresenter.setAdapter(flightListAdapter)
         toolbarViewModel.isOutboundSearch.onNext(true)
     }
 

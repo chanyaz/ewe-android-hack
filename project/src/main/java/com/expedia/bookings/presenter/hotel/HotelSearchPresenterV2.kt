@@ -58,20 +58,23 @@ class HotelSearchPresenterV2(context: Context, attrs: AttributeSet) : BaseSearch
     }
 
     var suggestionViewModel: HotelSuggestionAdapterViewModel by notNullAndObservable { vm ->
-        searchLocationEditText?.setOnQueryTextListener(listener)
         vm.suggestionSelectedSubject.subscribe { suggestion ->
             com.mobiata.android.util.Ui.hideKeyboard(this)
             searchViewModel.suggestionObserver.onNext(suggestion)
             val suggestionName = Html.fromHtml(suggestion.regionNames.displayName).toString()
             destinationCardView.setText(suggestionName)
             searchLocationEditText?.setQuery(suggestionName, false)
-            SuggestionV4Utils.saveSuggestionHistory(context, suggestion, SuggestionV4Utils.RECENT_HOTEL_SUGGESTIONS_FILE)
+            SuggestionV4Utils.saveSuggestionHistory(context, suggestion, getSuggestionHistoryFileName())
             showDefault()
         }
     }
 
     override fun inflate() {
         View.inflate(context, R.layout.widget_hotel_search_params_v2, this)
+    }
+
+    override fun getSuggestionHistoryFileName(): String {
+        return SuggestionV4Utils.RECENT_HOTEL_SUGGESTIONS_FILE
     }
 
     override fun onFinishInflate() {

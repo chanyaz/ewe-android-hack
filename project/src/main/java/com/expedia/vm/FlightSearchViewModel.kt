@@ -1,33 +1,58 @@
 package com.expedia.vm
 
+import android.content.Context
+import com.expedia.bookings.R
 import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.data.flights.FlightSearchParams
 import com.expedia.bookings.data.flights.FlightSearchResponse
 import com.expedia.bookings.data.flights.FlightTripDetails
 import com.expedia.bookings.data.packages.PackageOfferModel
+import com.expedia.bookings.data.packages.PackageSearchParams
 import com.expedia.bookings.services.FlightServices
+import com.expedia.util.endlessObserver
+import org.joda.time.LocalDate
 import rx.Observable
 import rx.Observer
 import rx.subjects.PublishSubject
 import java.util.HashMap
 import java.util.LinkedHashSet
 
-class FlightSearchViewModel(val flightServices: FlightServices) {
+class FlightSearchViewModel(context: Context, val flightServices: FlightServices) : DatedSearchViewModel(context) {
+
+    override val paramsBuilder = FlightSearchParams.Builder(getMaxStay())
+
     var flightMap: HashMap<String, LinkedHashSet<FlightLeg>> = HashMap()
-    var outBoundFlights: LinkedHashSet<FlightLeg> = LinkedHashSet()
     var flightOfferModels: HashMap<String, FlightTripDetails.FlightOffer> = HashMap()
 
-    val flightParamsObservable = PublishSubject.create<FlightSearchParams>()
-    val outboundFlightSelected = PublishSubject.create<FlightLeg>()
-    val inboundFlightSelected = PublishSubject.create<FlightLeg>()
-
     // Outputs
+    val searchParamsObservable = PublishSubject.create<FlightSearchParams>()
     val outboundResultsObservable = PublishSubject.create<List<FlightLeg>>()
     val inboundResultsObservable = PublishSubject.create<List<FlightLeg>>()
     val flightProductId = PublishSubject.create<String>()
+    val outboundFlightSelected = PublishSubject.create<FlightLeg>()
+    val inboundFlightSelected = PublishSubject.create<FlightLeg>()
+
+    val searchObserver = endlessObserver<Unit> {
+        if (paramsBuilder.areRequiredParamsFilled()) {
+            if (paramsBuilder.isDepartureSameAsOrigin()) {
+                errorDepartureSameAsOrigin.onNext(context.getString(R.string.error_same_flight_departure_arrival))
+            } else if (!paramsBuilder.hasValidDates()) {
+                errorMaxDatesObservable.onNext(context.getString(R.string.hotel_search_range_error_TEMPLATE, getMaxStay()))
+            } else {
+                val flightSearchParams = paramsBuilder.build()
+                searchParamsObservable.onNext(flightSearchParams)
+            }
+        } else {
+            if (!paramsBuilder.hasDepartureAndArrival()) {
+                errorNoOriginObservable.onNext(Unit)
+            } else if (!paramsBuilder.hasStartAndEndDates()) {
+                errorNoDatesObservable.onNext(Unit)
+            }
+        }
+    }
 
     init {
-        flightParamsObservable.subscribe { params ->
+        searchParamsObservable.subscribe { params ->
             flightServices.flightSearch(params).subscribe(makeResultsObserver())
         }
 
@@ -39,6 +64,10 @@ class FlightSearchViewModel(val flightServices: FlightServices) {
             val offer = flightOfferModels[outbound.legId+inbound.legId]
             flightProductId.onNext(offer?.productKey)
         }).subscribe()
+    }
+
+    override fun getMaxStay(): Int {
+        return context.resources.getInteger(R.integer.calendar_max_days_flight_search)
     }
 
     fun makeResultsObserver(): Observer<FlightSearchResponse> {
@@ -58,6 +87,7 @@ class FlightSearchViewModel(val flightServices: FlightServices) {
     }
 
     private fun createFlightMap(response: FlightSearchResponse) {
+        val outBoundFlights: LinkedHashSet<FlightLeg> = LinkedHashSet()
         val offers = response.offers
         val legs = response.legs
         offers.forEach { offer ->

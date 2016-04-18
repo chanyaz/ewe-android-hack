@@ -23,6 +23,13 @@ class FlightSearchParams(val departureAirport: SuggestionV4, val arrivalAirport:
         override fun hasValidDates(): Boolean {
             return (hasStart() && !hasEnd()) || ((hasStart() && hasEnd() && Days.daysBetween(startDate, endDate).days <= maxStay))
         }
+
+        override fun isDepartureSameAsOrigin(): Boolean {
+            val departureAirportCode = departure?.hierarchyInfo?.airport?.airportCode ?: ""
+            val arrivalAirportCode = arrival?.hierarchyInfo?.airport?.airportCode ?: ""
+
+            return departureAirportCode.equals(arrivalAirportCode)
+        }
     }
 
     fun toQueryMap(): Map<String, Any?> {
