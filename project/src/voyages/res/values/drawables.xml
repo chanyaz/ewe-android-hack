@@ -2,5 +2,5 @@
 <resources>
 
     <item name="app_copyright_logo" type="drawable">@drawable/ic_voyages_sncf</item>
-
+    <item name="ic_action_bar_brand_logo_title" type="drawable">@drawable/ic_action_bar_brand_logo</item>
 </resources>

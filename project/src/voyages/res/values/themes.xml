@@ -6,7 +6,6 @@
         <item name="skin_hotelPriceStandardColor">@color/hotel_price_text_color_vsc</item>
         <item name="skin_hotelPriceSaleColor">@color/hotel_price_sale_text_color_vsc</item>
         <item name="skin_hotelSearchActionBarPadding">5dp</item>
-        <item name="skin_webViewPreferencesActionBarLogoWithTitle">@drawable/ic_action_bar_brand_logo</item>
         <item name="skin_actionBarCheckMarkDrawable">@drawable/ic_action_bar_checkmark_green</item>
         <item name="skin_actionBarButtonTextColor">@color/action_bar_text_green</item>
         <item name="skin_actionBarCheckoutDrawable">@drawable/ic_action_bar_checkout_arrow_green</item>

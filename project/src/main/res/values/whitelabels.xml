@@ -10,8 +10,6 @@
     <!-- PhoneSearchActivity's actionbar padding required in VSC due to rainbow bar -->
     <attr name="skin_hotelSearchActionBarPadding" format="reference|dimension" />
 
-    <!-- ActionBar icon/logo in WebView that also sets a title -->
-    <attr name="skin_webViewPreferencesActionBarLogoWithTitle" format="reference" />
     <!-- ActionBar icon/logo in HotelRulesActivities -->
     <attr name="skin_hotelWebViewActionBarLogo" format="reference" />
 
