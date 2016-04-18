@@ -21,8 +21,8 @@ import com.expedia.bookings.widget.SearchInputCardView
 import com.expedia.util.notNullAndObservable
 import com.expedia.util.subscribeOnClick
 import com.expedia.vm.DatedSearchViewModel
-import com.expedia.vm.PackageSearchViewModel
-import com.expedia.vm.PackageSuggestionAdapterViewModel
+import com.expedia.vm.packages.PackageSearchViewModel
+import com.expedia.vm.packages.PackageSuggestionAdapterViewModel
 import com.expedia.vm.SuggestionAdapterViewModel
 import kotlin.properties.Delegates
 

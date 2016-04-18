@@ -10,7 +10,7 @@ import com.expedia.bookings.data.packages.PackageCreateTripResponse
 import com.expedia.bookings.data.packages.PackageSearchParams
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.vm.FlightCheckoutOverviewViewModel
-import com.expedia.vm.PackageCheckoutOverviewViewModel
+import com.expedia.vm.packages.PackageCheckoutOverviewViewModel
 import org.joda.time.LocalDate
 import org.junit.Test
 import org.junit.runner.RunWith

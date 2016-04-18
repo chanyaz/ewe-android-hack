@@ -6,7 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import com.expedia.bookings.R
 import com.expedia.bookings.presenter.rail.RailSearchWidget
-import com.expedia.vm.RailSearchViewModel
+import com.expedia.vm.rail.RailSearchViewModel
 
 class RailSearchPagerAdapter(val context: Context, val searchViewModel: RailSearchViewModel) : PagerAdapter() {
 

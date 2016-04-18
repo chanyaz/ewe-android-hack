@@ -29,7 +29,7 @@ import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.packages.PackagePaymentWidget
 import com.expedia.util.notNullAndObservable
 import com.expedia.vm.BaseCheckoutViewModel
-import com.expedia.vm.BundlePriceViewModel
+import com.expedia.vm.packages.BundlePriceViewModel
 import com.expedia.vm.PaymentViewModel
 import com.expedia.vm.PriceChangeViewModel
 import com.expedia.vm.traveler.CheckoutTravelerViewModel

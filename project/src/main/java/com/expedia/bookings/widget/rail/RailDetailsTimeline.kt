@@ -11,7 +11,7 @@ import com.expedia.bookings.data.rail.responses.RailSearchResponse
 import com.expedia.bookings.utils.JodaUtils
 import com.expedia.bookings.utils.bindView
 import com.expedia.util.notNullAndObservable
-import com.expedia.vm.RailDetailsViewModel
+import com.expedia.vm.rail.RailDetailsViewModel
 import com.mobiata.flightlib.utils.DateTimeUtils
 import com.squareup.phrase.Phrase
 

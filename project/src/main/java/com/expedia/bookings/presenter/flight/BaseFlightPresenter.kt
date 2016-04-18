@@ -26,7 +26,7 @@ import com.expedia.vm.BaggageFeeInfoViewModel
 import com.expedia.vm.FlightOverviewViewModel
 import com.expedia.vm.FlightResultsViewModel
 import com.expedia.vm.FlightToolbarViewModel
-import com.expedia.vm.PackageFlightFilterViewModel
+import com.expedia.vm.packages.PackageFlightFilterViewModel
 import rx.Observer
 import rx.exceptions.OnErrorNotImplementedException
 import kotlin.properties.Delegates

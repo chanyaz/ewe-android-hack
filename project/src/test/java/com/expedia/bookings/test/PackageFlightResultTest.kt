@@ -8,7 +8,7 @@ import com.expedia.bookings.data.packages.PackageOfferModel
 import com.expedia.bookings.data.packages.PackageSearchResponse
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.vm.FlightResultsViewModel
-import com.expedia.vm.PackageFlightViewModel
+import com.expedia.vm.packages.PackageFlightViewModel
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith

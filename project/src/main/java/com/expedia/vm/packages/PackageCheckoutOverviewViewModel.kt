@@ -1,10 +1,11 @@
-package com.expedia.vm
+package com.expedia.vm.packages
 
 import android.content.Context
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.HotelMedia
 import com.expedia.bookings.data.packages.PackageCreateTripResponse
 import com.expedia.bookings.utils.Images
+import com.expedia.vm.BaseCheckoutOverviewViewModel
 import com.mobiata.android.util.AndroidUtils
 import rx.subjects.PublishSubject
 

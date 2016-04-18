@@ -4,7 +4,7 @@ import android.app.Activity
 import com.expedia.bookings.R
 import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.packages.PackageSearchParams
-import com.expedia.vm.PackageSearchViewModel
+import com.expedia.vm.packages.PackageSearchViewModel
 import org.joda.time.LocalDate
 import org.junit.Before
 import org.junit.Test

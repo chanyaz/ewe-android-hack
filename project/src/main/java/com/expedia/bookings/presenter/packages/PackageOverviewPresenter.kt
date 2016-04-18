@@ -14,8 +14,8 @@ import com.expedia.bookings.utils.Constants
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.PackageCheckoutPresenter
 import com.expedia.ui.PackageHotelActivity
-import com.expedia.vm.PackageCheckoutOverviewViewModel
-import com.expedia.vm.PackageSearchType
+import com.expedia.vm.packages.PackageCheckoutOverviewViewModel
+import com.expedia.vm.packages.PackageSearchType
 
 class PackageOverviewPresenter(context: Context, attrs: AttributeSet) : BaseOverviewPresenter(context, attrs) {
     val bundleWidget: BundleWidget by bindView(R.id.bundle_widget)

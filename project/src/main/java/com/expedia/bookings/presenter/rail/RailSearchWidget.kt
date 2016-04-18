@@ -7,7 +7,7 @@ import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.FrameLayout
 import com.expedia.bookings.widget.RailCalendarWidget
 import com.expedia.bookings.widget.RailSearchLocationWidget
-import com.expedia.vm.RailSearchViewModel
+import com.expedia.vm.rail.RailSearchViewModel
 
 class RailSearchWidget : FrameLayout {
 

@@ -12,7 +12,6 @@ import android.widget.LinearLayout
 import com.expedia.bookings.R
 import com.expedia.bookings.utils.bindView
 import com.expedia.util.notNullAndObservable
-import com.expedia.vm.Breakdown
 import com.expedia.vm.HotelBreakDownViewModel
 
 class HotelBreakDownView(context: Context, attrs: AttributeSet?) : ScrollView(context, attrs) {
@@ -39,7 +38,7 @@ class HotelBreakDownView(context: Context, attrs: AttributeSet?) : ScrollView(co
         View.inflate(getContext(), R.layout.hotel_breakdown, this)
     }
 
-    private fun createRow(breakdown: Breakdown, isDiscount: Boolean): View {
+    private fun createRow(breakdown: HotelBreakDownViewModel.Breakdown, isDiscount: Boolean): View {
         val row = LayoutInflater.from(context).inflate(R.layout.hotel_cost_summary_row, null)
         val priceDescription = row.findViewById(R.id.price_type_text_view) as TextView
         val priceValue = row.findViewById(R.id.price_text_view) as TextView
@@ -54,7 +53,7 @@ class HotelBreakDownView(context: Context, attrs: AttributeSet?) : ScrollView(co
         return row
     }
 
-    private fun createDateRow(breakdown: Breakdown): View {
+    private fun createDateRow(breakdown: HotelBreakDownViewModel.Breakdown): View {
         val row = LayoutInflater.from(context).inflate(R.layout.hotel_cost_summary_date_row, null)
         val priceDescription = row.findViewById(R.id.price_type_text_view) as TextView
         val priceValue = row.findViewById(R.id.price_text_view) as TextView

@@ -6,7 +6,7 @@ import com.expedia.bookings.BuildConfig
 import com.expedia.bookings.R
 import com.expedia.bookings.data.cars.ApiError
 import com.expedia.bookings.test.robolectric.RobolectricRunner
-import com.expedia.vm.PackageErrorViewModel
+import com.expedia.vm.packages.PackageErrorViewModel
 import com.squareup.phrase.Phrase
 import org.junit.Test
 import org.junit.runner.RunWith

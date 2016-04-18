@@ -3,7 +3,6 @@ package com.expedia.bookings.test
 import android.content.Context
 import android.content.res.Resources
 import com.expedia.bookings.data.hotels.HotelCreateTripResponse
-import com.expedia.vm.Breakdown
 import com.expedia.vm.HotelBreakDownViewModel
 import com.expedia.vm.HotelCheckoutSummaryViewModel
 import org.junit.Before
@@ -42,12 +41,15 @@ class HotelBreakdownTest {
 
         val latch = CountDownLatch(1)
         vm.addRows.subscribe { latch.countDown() }
-        val testSubscriber = TestSubscriber<List<Breakdown>>()
-        val expected = arrayListOf<List<Breakdown>>()
+        val testSubscriber = TestSubscriber<List<HotelBreakDownViewModel.Breakdown>>()
+        val expected = arrayListOf<List<HotelBreakDownViewModel.Breakdown>>()
         vm.addRows.subscribe(testSubscriber)
 
         hotelCheckoutSummaryViewModel.newRateObserver.onNext(createTripResponse.newHotelProductResponse)
-        expected.add(arrayListOf(Breakdown("", "$99.00", false, false), Breakdown("3/22/2013", "$99.00", true, false), Breakdown("", "$16.81", false, false), Breakdown("", "$135.81", false, false)))
+        expected.add(arrayListOf(HotelBreakDownViewModel.Breakdown("", "$99.00", false, false),
+                HotelBreakDownViewModel.Breakdown("3/22/2013", "$99.00", true, false),
+                HotelBreakDownViewModel.Breakdown("", "$16.81", false, false),
+                HotelBreakDownViewModel.Breakdown("", "$135.81", false, false)))
 
         assertTrue(latch.await(10, TimeUnit.SECONDS))
         vm.addRows.onCompleted()

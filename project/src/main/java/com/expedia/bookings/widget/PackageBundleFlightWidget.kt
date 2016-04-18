@@ -24,7 +24,7 @@ import com.expedia.util.subscribeText
 import com.expedia.util.subscribeTextAndVisibility
 import com.expedia.util.subscribeTextColor
 import com.expedia.util.subscribeVisibility
-import com.expedia.vm.BundleFlightViewModel
+import com.expedia.vm.packages.BundleFlightViewModel
 import com.expedia.vm.FlightSegmentBreakdown
 import com.expedia.vm.FlightSegmentBreakdownViewModel
 

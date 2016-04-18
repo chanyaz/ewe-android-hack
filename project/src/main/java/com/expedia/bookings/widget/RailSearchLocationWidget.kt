@@ -8,7 +8,7 @@ import com.expedia.bookings.R
 import com.expedia.bookings.utils.AnimUtils
 import com.expedia.bookings.utils.bindView
 import com.expedia.util.notNullAndObservable
-import com.expedia.vm.RailSearchViewModel
+import com.expedia.vm.rail.RailSearchViewModel
 
 class RailSearchLocationWidget(context: Context, attrs: AttributeSet?) : CardView(context, attrs) {
 

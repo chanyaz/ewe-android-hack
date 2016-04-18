@@ -12,7 +12,7 @@ import com.expedia.bookings.R
 import com.expedia.bookings.utils.bindView
 import com.expedia.util.subscribeText
 import com.expedia.vm.SuggestionAdapterViewModel
-import com.expedia.vm.PackageSuggestionViewModel
+import com.expedia.vm.packages.PackageSuggestionViewModel
 
 class PackageSuggestionAdapter(val viewmodel: SuggestionAdapterViewModel) : RecyclerView.Adapter<RecyclerView.ViewHolder>(), Filterable {
 

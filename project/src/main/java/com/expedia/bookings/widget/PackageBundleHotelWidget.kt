@@ -26,7 +26,7 @@ import com.expedia.util.subscribeInverseVisibility
 import com.expedia.util.subscribeText
 import com.expedia.util.subscribeTextAndVisibility
 import com.expedia.util.subscribeVisibility
-import com.expedia.vm.BundleHotelViewModel
+import com.expedia.vm.packages.BundleHotelViewModel
 
 class PackageBundleHotelWidget(context: Context, attrs: AttributeSet?) : CardView(context, attrs) {
 
