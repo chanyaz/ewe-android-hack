@@ -136,6 +136,40 @@ public class HotelServicesTest {
 	}
 
 	@Test
+	public void testHotelOffersForceV2FlagPassedInRequest() throws IOException {
+		MockWebServer server = new MockWebServer();
+		// final array to make the test result flag/boolean accessible in the anonymous dispatch
+		final boolean[] testResult = { false };
+		Dispatcher dispatcher = new Dispatcher() {
+			@Override
+			public MockResponse dispatch(RecordedRequest request) throws InterruptedException {
+				boolean containsForceV2Param = request.getPath().contains("forceV2Search=true");
+				testResult[0] = containsForceV2Param;
+				return new MockResponse();
+			}
+		};
+		server.setDispatcher(dispatcher);
+		server.start();
+		HotelServices service = new HotelServices("http://localhost:" + server.getPort(),
+			new OkHttpClient(), new MockInterceptor(),
+			Schedulers.immediate(), Schedulers.immediate(),
+			RestAdapter.LogLevel.FULL);
+
+		String expectedMsg = "I expected to see forceV2Search=true passed in hotel offer request (/m/api/hotel/info)";
+		TestSubscriber<HotelOffersResponse> infoObserver = new TestSubscriber<>();
+		HotelSearchParams params = givenHappyHotelSearchParams();
+		service.info(params, "happy", infoObserver);
+		infoObserver.awaitTerminalEvent(10, TimeUnit.SECONDS);
+		assertTrue(expectedMsg, testResult[0]);
+
+
+		TestSubscriber<HotelOffersResponse> offersObserver = new TestSubscriber<>();
+		service.offers(params, "happypath", offersObserver);
+		offersObserver.awaitTerminalEvent(10, TimeUnit.SECONDS);
+		assertTrue(expectedMsg, testResult[0]);
+	}
+
+	@Test
 	public void testMockSearchBlowsUp() throws Throwable {
 		server.enqueue(new MockResponse()
 			.setBody("{garbage}"));

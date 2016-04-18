@@ -38,11 +38,11 @@ public interface HotelApi {
 		@Query("room1") String guestString,
 		@Query("shopWithPoints") Boolean shopWithPoints);
 
-	@GET("/m/api/hotel/info")
+	@GET("/m/api/hotel/info?forceV2Search=true")
 	Observable<HotelOffersResponse> info(
 		@Query("hotelId") String propertyId);
 
-	@GET("/m/api/hotel/offers")
+	@GET("/m/api/hotel/offers?forceV2Search=true")
 	Observable<HotelOffersResponse> offers(
 		@Query("checkInDate") String checkInDate,
 		@Query("checkOutDate") String checkOutDate,
