@@ -4,5 +4,6 @@
     <item name="brand_phone_checkout_logo_drawable" type="drawable">@drawable/lm</item>
 
     <item name="app_copyright_logo" type="drawable">@drawable/ic_launcher</item>
+    <item name="ic_action_bar_brand_logo_title" type="drawable">@drawable/ic_action_bar_brand_logo</item>
 
 </resources>

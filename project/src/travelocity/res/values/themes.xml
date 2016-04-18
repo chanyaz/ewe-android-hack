@@ -25,8 +25,6 @@
         <item name="skin_loginButtonColor">@android:color/white</item>
         <item name="skin_hotelBookButtonColor">@android:color/white</item>
         <item name="skin_cvvBookButtonKeypadDrawable">@drawable/btn_cvv_keypad_book_tvly</item>
-        <item name="skin_webViewPreferencesActionBarLogo">@drawable/ic_action_bar_travelocity_logo_small</item>
-        <item name="skin_webViewPreferencesActionBarLogoWithTitle">@drawable/ic_action_bar_travelocity_logo_small</item>
         <item name="skin_actionBarBackgroundDrawable">@drawable/bg_action_bar_travelocity</item>
         <item name="skin_cvvBookButtonTextColor">@android:color/white</item>
         <item name="skin_hotelPrimaryTravelerInfoLogoDrawable">@drawable/ic_tvly_white_logo_small</item>
@@ -51,10 +49,10 @@
         <item name="skin_tablet_pin_detail_button_background">@drawable/btn_tablet_launch_screen_tvly</item>
         <item name="skin_tablet_pin_detail_button_text_color">@color/launch_pin_detail_button_text_travelocity</item>
         <item name="skin_menuAboutWebViewActivity">@menu/menu_webview</item>
-        <item name="skin_hotelRulesActionBarLogo">@drawable/ic_action_bar_travelocity_logo_small</item>
-        <item name="skin_flightRulesActionBarLogo">@drawable/ic_action_bar_travelocity_logo_small</item>
-        <item name="skin_hotelLoginActionBarIcon">@drawable/ic_action_bar_travelocity_logo_small</item>
-        <item name="skin_flightLoginActionBarIcon">@drawable/ic_action_bar_travelocity_logo_small</item>
+        <item name="skin_hotelRulesActionBarLogo">@drawable/ic_action_bar_brand_logo</item>
+        <item name="skin_flightRulesActionBarLogo">@drawable/ic_action_bar_brand_logo</item>
+        <item name="skin_hotelLoginActionBarIcon">@drawable/ic_action_bar_brand_logo</item>
+        <item name="skin_flightLoginActionBarIcon">@drawable/ic_action_bar_brand_logo</item>
         <item name="skin_tablet_hotel_coupon_text_color">@color/tablet_hotel_coupon_text_color</item>
         <item name="skin_phoneCheckoutLoginButtonDrawable">@drawable/card_background_tvly</item>
         <item name="skin_errorIndicationExclaimationDrawable">@drawable/invalid</item>
