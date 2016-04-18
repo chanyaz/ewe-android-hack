@@ -78,20 +78,6 @@ class PaymentWidgetV2(context: Context, attr: AttributeSet) : PaymentWidget(cont
         return isFullPayableWithPoints || super.isComplete()
     }
 
-    override fun close() {
-        if (currentState != PaymentOption::class.java.name && shouldShowPaymentOptions()) {
-            show(PaymentOption(), FLAG_CLEAR_TOP)
-        } else {
-            clearBackStack()
-            val activity = context as Activity
-            activity.onBackPressed()
-        }
-    }
-
-    override fun closePopup() {
-
-    }
-
     override fun updateToolbarMenu(forward: Boolean) {
         super.updateToolbarMenu(forward)
         if (forward) {

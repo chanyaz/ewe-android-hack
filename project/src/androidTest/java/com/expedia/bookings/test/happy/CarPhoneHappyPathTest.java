@@ -97,10 +97,15 @@ public class CarPhoneHappyPathTest extends PhoneTestCase {
 		CarScreen.selectCarOffer(CREDIT_CARD_REQUIRED);
 		doLogin();
 
-		CheckoutViewModel.clickPaymentInfo();
-		CheckoutViewModel.selectStoredCard("Saved AmexTesting");
+		selectSavedCreditCard();
 		slideToPurchase();
 		enterCVV("6286");
+	}
+
+	private void selectSavedCreditCard() throws Throwable {
+		CheckoutViewModel.clickPaymentInfo();
+		CheckoutViewModel.selectStoredCard("Saved AmexTesting");
+		CheckoutViewModel.clickDone();
 	}
 
 
@@ -114,8 +119,7 @@ public class CarPhoneHappyPathTest extends PhoneTestCase {
 		CheckoutViewModel.selectStoredTraveler("Expedia Automation First");
 		CheckoutViewModel.pressClose();
 
-		CheckoutViewModel.clickPaymentInfo();
-		CheckoutViewModel.selectStoredCard("Saved AmexTesting");
+		selectSavedCreditCard();
 		slideToPurchase();
 		enterCVV("6286");
 	}

@@ -1,5 +1,6 @@
 package com.expedia.bookings.widget.packages
 
+import android.app.Activity
 import android.content.Context
 import android.util.AttributeSet
 import android.view.View
@@ -77,5 +78,15 @@ class PackagePaymentWidget(context: Context, attr: AttributeSet) : PaymentWidget
 
     override fun trackShowPaymentOptions() {
         PackagesTracking().trackCheckoutSelectPaymentClick()
+    }
+
+    override fun close() {
+        clearBackStack()
+        val activity = context as Activity
+        activity.onBackPressed()
+    }
+
+    override fun closePopup() {
+        close()
     }
 }
