@@ -49,6 +49,9 @@
     <color name="hotel_tonight_only_color">#C4204B</color>
     <color name="hotel_mobile_exclusive_color">#00253C</color>
 
+    <!-- Hotels V2 Coupon applied text color -->
+    <color name="hotelsv2_coupon_applied_color">#477A00</color>
+
     <!-- flight color-->
     <color name="flight_edit_search_button_color">@color/white</color>
 
