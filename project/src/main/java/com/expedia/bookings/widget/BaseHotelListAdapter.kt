@@ -8,8 +8,6 @@ import android.view.ViewGroup
 import android.widget.LinearLayout
 import com.expedia.bookings.R
 import com.expedia.bookings.activity.ExpediaBookingApp
-import com.expedia.bookings.data.Db
-import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.hotels.Hotel
 import com.expedia.bookings.data.hotels.HotelSearchResponse
 import com.expedia.bookings.tracking.AdImpressionTracking
@@ -21,13 +19,18 @@ import com.expedia.util.endlessObserver
 import com.expedia.util.subscribeText
 import com.expedia.util.subscribeVisibility
 import com.expedia.vm.hotel.HotelResultsPricingStructureHeaderViewModel
-import com.larvalabs.svgandroid.widget.SVGView
-import com.squareup.picasso.Picasso
+import com.expedia.vm.hotel.HotelViewModel
 import rx.subjects.BehaviorSubject
 import rx.subjects.PublishSubject
 import java.util.ArrayList
 
-class HotelListAdapter(val hotelSelectedSubject: PublishSubject<Hotel>, val headerSubject: PublishSubject<Unit>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+abstract class BaseHotelListAdapter(val hotelSelectedSubject: PublishSubject<Hotel>,
+                                val headerSubject: PublishSubject<Unit>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+
+    abstract fun isBucketedForResultMap(): Boolean
+    abstract fun getHotelCellHolder(parent: ViewGroup): HotelCellViewHolder
+    abstract fun getHotelCellViewModel(context: Context, hotel: Hotel) : HotelViewModel
+
     val MAP_SWITCH_CLICK_INTERCEPTOR_TRANSPARENT_HEADER_VIEW = 0
     val PRICING_STRUCTURE_HEADER_VIEW = 1
     val HOTEL_VIEW = 2
@@ -40,9 +43,6 @@ class HotelListAdapter(val hotelSelectedSubject: PublishSubject<Hotel>, val head
         hotels.firstOrNull { it.hotelId == soldOutHotelId }?.isSoldOut = true
         hotelListItemsMetadata.firstOrNull { it.hotelId == soldOutHotelId }?.hotelSoldOut?.onNext(true)
     }
-
-    val isBucketedForResultMap = Db.getAbacusResponse().isUserBucketedForTest(
-            AbacusUtils.EBAndroidAppHotelResultMapTest)
 
     private data class HotelListItemMetadata(val hotelId: String, val hotelSoldOut: BehaviorSubject<Boolean>)
 
@@ -73,7 +73,7 @@ class HotelListAdapter(val hotelSelectedSubject: PublishSubject<Hotel>, val head
     fun showLoading() {
         loadingSubject.onNext(Unit)
         // show 3 tiles during loading if map is hidden to user
-        if (isBucketedForResultMap)
+        if (isBucketedForResultMap())
             hotels = listOf(Hotel(), Hotel(), Hotel())
         else
             hotels = listOf(Hotel(), Hotel())
@@ -104,7 +104,7 @@ class HotelListAdapter(val hotelSelectedSubject: PublishSubject<Hotel>, val head
         val fixedPosition = position - numHeaderItemsInHotelsList()
         when (holder) {
             is HotelCellViewHolder-> {
-                val viewModel = HotelViewModel(holder.itemView.context, hotels.get(fixedPosition))
+                val viewModel = getHotelCellViewModel(holder.itemView.context, hotels.get(fixedPosition))
                 hotelListItemsMetadata.add(HotelListItemMetadata(viewModel.hotelId, viewModel.soldOut))
                 holder.bind(viewModel)
             }
@@ -125,7 +125,7 @@ class HotelListAdapter(val hotelSelectedSubject: PublishSubject<Hotel>, val head
         if (viewType == MAP_SWITCH_CLICK_INTERCEPTOR_TRANSPARENT_HEADER_VIEW) {
             val header = View(parent.context)
             var lp = LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
-            lp.height = if (isBucketedForResultMap || (ExpediaBookingApp.isAutomation() || ExpediaBookingApp.isDeviceShitty())) 0 else parent.height
+            lp.height = if (isBucketedForResultMap() || (ExpediaBookingApp.isAutomation() || ExpediaBookingApp.isDeviceShitty())) 0 else parent.height
             header.layoutParams = lp
 
             return MapSwitchClickInterceptorTransparentHeaderViewHolder(header)
@@ -140,8 +140,7 @@ class HotelListAdapter(val hotelSelectedSubject: PublishSubject<Hotel>, val head
             val holder = HotelResultsPricingStructureHeaderViewHolder(view as ViewGroup, vm)
             return holder
         } else {
-            val view = LayoutInflater.from(parent.context).inflate(R.layout.hotel_cell, parent, false)
-            val holder: HotelCellViewHolder = HotelCellViewHolder(view as ViewGroup, parent.width)
+            val holder: HotelCellViewHolder = getHotelCellHolder(parent)
             holder.hotelClickedSubject.subscribe { position ->
                 hotelSelected(holder.itemView.context, position)
             }
@@ -169,7 +168,7 @@ class HotelListAdapter(val hotelSelectedSubject: PublishSubject<Hotel>, val head
         val shadow: View by root.bindView(R.id.drop_shadow)
 
         init {
-            if (isBucketedForResultMap || ExpediaBookingApp.isDeviceShitty()) {
+            if (isBucketedForResultMap() || ExpediaBookingApp.isDeviceShitty()) {
                 shadow.visibility = View.GONE
             }
             vm.pricingStructureHeaderObservable.subscribeText(pricingStructureHeader)

@@ -1,4 +1,4 @@
-package com.expedia.bookings.widget
+package com.expedia.vm.hotel
 
 import android.content.Context
 import android.content.res.Resources
@@ -15,11 +15,13 @@ import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.extension.isShowAirAttached
 import com.expedia.bookings.utils.HotelUtils
 import com.expedia.bookings.utils.Images
+import com.expedia.bookings.widget.HotelDetailView
+import com.expedia.bookings.widget.priceFormatter
 import com.squareup.phrase.Phrase
 import rx.Observable
 import rx.subjects.BehaviorSubject
 
-class HotelViewModel(private val context: Context, private val hotel: Hotel) {
+open class HotelViewModel(private val context: Context, protected  val hotel: Hotel) {
     val resources = context.resources
 
     val ROOMS_LEFT_CUTOFF_FOR_DECIDING_URGENCY = 5
@@ -78,9 +80,6 @@ class HotelViewModel(private val context: Context, private val hotel: Hotel) {
     val hotelDiscountPercentageObservable = BehaviorSubject.create(Phrase.from(resources, R.string.hotel_discount_percent_Template).put("discount", hotel.lowRateInfo.discountPercent.toInt()).format().toString())
     val distanceFromCurrentLocation = BehaviorSubject.create(if (hotel.proximityDistanceInMiles > 0) HotelUtils.formatDistanceForNearby(resources, hotel, true) else "")
     val adImpressionObservable = BehaviorSubject.create<String>()
-    val priceIncludesFlightsObservable = BehaviorSubject.create<Boolean>(hotel.isPackage)
-    val unrealDealMessageObservable = BehaviorSubject.create(hotel.packageOfferModel?.brandedDealData?.dealVariation ?: "")
-    val unrealDealMessageContainerVisibilityObservable = BehaviorSubject.create<Boolean>()
 
     init {
         if (hotel.isSponsoredListing && !hotel.hasShownImpression) {
@@ -101,10 +100,7 @@ class HotelViewModel(private val context: Context, private val hotel: Hotel) {
         val mapLoyaltyMessageString = if (isVipLoyaltyApplied) resources.getString(R.string.vip_loyalty_applied_map_message) else resources.getString(R.string.regular_loyalty_applied_message)
         mapLoyaltyMessageTextObservable.onNext(Html.fromHtml(mapLoyaltyMessageString))
 
-        unrealDealMessageContainerVisibilityObservable.onNext(hotel.packageOfferModel?.brandedDealData?.dealVariation?.isNotEmpty() ?: false)
-        // NOTE: Any changes to this logic should also be made in HotelDetailViewModel.getPromoText()
-        val isUserBucketedForTest = Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelsMemberDealTest)
-        if (hotel.isMemberDeal && isUserBucketedForTest && User.isLoggedIn(context)) {
+        if (hasMemberDeal()) {
             memberDealUrgency.onNext(UrgencyMessage(R.drawable.ic_hotel_banner_expedia, R.color.hotel_member_pricing_color,
                     resources.getString(R.string.member_pricing)))
         }
@@ -138,6 +134,11 @@ class HotelViewModel(private val context: Context, private val hotel: Hotel) {
 
     fun setImpressionTracked(tracked: Boolean) {
         hotel.hasShownImpression = tracked
+    }
+
+    open fun hasMemberDeal() : Boolean {
+        val isUserBucketedForTest = Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelsMemberDealTest)
+        return hotel.isMemberDeal && isUserBucketedForTest && User.isLoggedIn(context)
     }
 
     private fun getEarnMessage(): String {

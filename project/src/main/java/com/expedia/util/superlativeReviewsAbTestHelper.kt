@@ -8,7 +8,7 @@ import com.expedia.bookings.R
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.abacus.AbacusUtils
 
-fun getGuestRatingRecommendedText(rating: Float, resources: Resources): String {
+fun getABTestGuestRatingText(rating: Float, resources: Resources): String {
     return if (isSuperlativeReviewsABTestOn()) {
         if (isWithSuperlative()) {
             if (rating < 3.5f) {
@@ -34,7 +34,7 @@ fun getGuestRatingRecommendedText(rating: Float, resources: Resources): String {
     }
 }
 
-fun getGuestRatingBackgroundDrawable(rating: Float, context: Context): Drawable {
+fun getABTestGuestRatingBackground(rating: Float, context: Context): Drawable {
     val isRatingExceptional = rating > 4.6f
 
     return if (isSuperlativeReviewsABTestOn() && isShowColorBackground() && isRatingExceptional) {
@@ -53,21 +53,21 @@ private fun isShowColorBackground(): Boolean {
 }
 
 private fun isWithColorWithSuperlatives(): Boolean {
-    return isSuperlativeReviewsABVariant() == AbacusUtils.HotelSuperlativeReviewsVariate.WITH_COLOR_WITH_SUPERLATIVES.ordinal
+    return getSuperlativeReviewsABVariant() == AbacusUtils.HotelSuperlativeReviewsVariate.WITH_COLOR_WITH_SUPERLATIVES.ordinal
 }
 
 private fun isNoColorWithSuperlatives(): Boolean {
-    return isSuperlativeReviewsABVariant() == AbacusUtils.HotelSuperlativeReviewsVariate.NO_COLOR_WITH_SUPERLATIVES.ordinal
+    return getSuperlativeReviewsABVariant() == AbacusUtils.HotelSuperlativeReviewsVariate.NO_COLOR_WITH_SUPERLATIVES.ordinal
 }
 
 private fun isWithColorNoSuperlatives(): Boolean {
-    return isSuperlativeReviewsABVariant() == AbacusUtils.HotelSuperlativeReviewsVariate.WITH_COLOR_NO_SUPERLATIVES.ordinal
+    return getSuperlativeReviewsABVariant() == AbacusUtils.HotelSuperlativeReviewsVariate.WITH_COLOR_NO_SUPERLATIVES.ordinal
 }
 
 private fun isSuperlativeReviewsABTestOn(): Boolean {
     return Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelsV2SuperlativeReviewsABTest)
 }
 
-private fun isSuperlativeReviewsABVariant(): Int {
+private fun getSuperlativeReviewsABVariant(): Int {
     return Db.getAbacusResponse().variateForTest(AbacusUtils.EBAndroidAppHotelsV2SuperlativeReviewsABTest)
 }

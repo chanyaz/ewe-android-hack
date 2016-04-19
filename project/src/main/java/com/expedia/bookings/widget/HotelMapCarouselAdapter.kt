@@ -26,6 +26,7 @@ import com.expedia.util.subscribeStarColor
 import com.expedia.util.subscribeText
 import com.expedia.util.subscribeTextColor
 import com.expedia.util.subscribeVisibility
+import com.expedia.vm.hotel.HotelViewModel
 import com.mobiata.android.text.StrikethroughTagHandler
 import rx.subjects.BehaviorSubject
 import rx.subjects.PublishSubject

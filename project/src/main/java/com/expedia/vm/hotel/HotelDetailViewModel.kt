@@ -32,8 +32,8 @@ import com.expedia.bookings.widget.RecyclerGallery
 import com.expedia.bookings.widget.priceFormatter
 import com.expedia.util.endlessObserver
 import com.expedia.util.getEarnMessage
-import com.expedia.util.getGuestRatingBackgroundDrawable
-import com.expedia.util.getGuestRatingRecommendedText
+import com.expedia.util.getABTestGuestRatingBackground
+import com.expedia.util.getABTestGuestRatingText
 import com.expedia.vm.HotelRoomRateViewModel
 import com.expedia.vm.ROOMS_LEFT_CUTOFF
 import com.mobiata.android.FormatUtils
@@ -207,8 +207,8 @@ class HotelDetailViewModel(val context: Context, val roomSelectedObserver: Obser
         }
 
         userRatingObservable.onNext(response.hotelGuestRating.toString())
-        userRatingBackgroundColorObservable.onNext(getGuestRatingBackgroundDrawable(response.hotelGuestRating.toFloat(), context))
-        userRatingRecommendationTextObservable.onNext(getGuestRatingRecommendedText(response.hotelGuestRating.toFloat(), context.resources))
+        userRatingBackgroundColorObservable.onNext(getABTestGuestRatingBackground(response.hotelGuestRating.toFloat(), context))
+        userRatingRecommendationTextObservable.onNext(getABTestGuestRatingText(response.hotelGuestRating.toFloat(), context.resources))
         isUserRatingAvailableObservable.onNext(hotelOffersResponse.hotelGuestRating > 0)
 
         numberOfReviewsObservable.onNext(

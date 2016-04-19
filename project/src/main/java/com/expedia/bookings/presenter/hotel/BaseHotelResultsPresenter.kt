@@ -49,7 +49,7 @@ import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.FilterButtonWithCountWidget
 import com.expedia.bookings.widget.HotelCarouselRecycler
 import com.expedia.bookings.widget.HotelFilterView
-import com.expedia.bookings.widget.HotelListAdapter
+import com.expedia.bookings.widget.BaseHotelListAdapter
 import com.expedia.bookings.widget.HotelListRecyclerView
 import com.expedia.bookings.widget.HotelMapCarouselAdapter
 import com.expedia.bookings.widget.MapLoadingOverlayWidget
@@ -92,7 +92,7 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
     val mapCarouselContainer: ViewGroup by bindView(R.id.hotel_carousel_container)
     val mapCarouselRecycler: HotelCarouselRecycler by bindView(R.id.hotel_carousel)
     val fab: FloatingActionButton by bindView(R.id.fab)
-    var adapter: HotelListAdapter by Delegates.notNull()
+    var adapter: BaseHotelListAdapter by Delegates.notNull()
     open val filterBtnWithCountWidget: FilterButtonWithCountWidget? = null
     open val searchThisArea: Button? = null
     var isMapReady = false
@@ -242,7 +242,7 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
     }
 
     private fun shouldBlockTransition(): Boolean {
-        return (mapTransitionRunning || (recyclerView.adapter as HotelListAdapter).isLoading())
+        return (mapTransitionRunning || (recyclerView.adapter as BaseHotelListAdapter).isLoading())
     }
 
     val listResultsObserver = endlessObserver<HotelSearchResponse> {
@@ -319,7 +319,7 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
             updateCarouselItems()
         }
         headerClickedSubject.subscribe(mapSelectedObserver)
-        adapter = HotelListAdapter(hotelSelectedSubject, headerClickedSubject)
+        adapter = getHotelListAdapter()
         recyclerView.adapter = adapter
         filterView.viewmodel = HotelFilterViewModel()
         filterView.viewmodel.filterObservable.subscribe(filterObserver)
@@ -1189,6 +1189,8 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
     abstract fun trackMapPinTap()
     abstract fun trackFilterShown()
     abstract fun trackMapSearchAreaClick()
+
+    abstract fun getHotelListAdapter(): BaseHotelListAdapter
     abstract fun isMapClusteringEnabled(): Boolean
     abstract fun isUserBucketedSearchScreenTest(): Boolean
 }
