@@ -18,7 +18,7 @@ class TravelerSelectState(context: Context, attrs: AttributeSet?) : LinearLayout
     val mainTravelerContainer: LinearLayout by bindView(R.id.main_traveler_container)
     val addTravelersContainer: LinearLayout by bindView(R.id.additional_traveler_container)
 
-    val travelerIndexSelectedSubject = PublishSubject.create<Int>()
+    val travelerIndexSelectedSubject = PublishSubject.create<Pair<Int, String>>()
     val viewModelList = ArrayList<TravelerSelectViewModel>()
 
     init {
@@ -39,7 +39,7 @@ class TravelerSelectState(context: Context, attrs: AttributeSet?) : LinearLayout
 
             val travelerSelectItem = TravelerSelectItem(context, travelerViewModel)
             travelerSelectItem.setOnClickListener {
-                travelerIndexSelectedSubject.onNext(i - 1)
+                travelerIndexSelectedSubject.onNext(Pair(i - 1, travelerViewModel.emptyText))
                 travelerViewModel.status = TravelerCheckoutStatus.DIRTY
             }
             val parent = if (i==1) mainTravelerContainer else addTravelersContainer

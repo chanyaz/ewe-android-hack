@@ -142,9 +142,9 @@ public class MultipleTravelerPresenterTest extends BaseTravelerPresenterTestHelp
 		PackageScreen.enterPhoneNumber(testPhone);
 		PackageScreen.clickTravelerDone();
 
-		assertEquals("Select travelers", testSubscriber.getOnNextEvents().get(0));
-		assertEquals("Traveler details", testSubscriber.getOnNextEvents().get(1));
-		assertEquals("Select travelers", testSubscriber.getOnNextEvents().get(2));
+		assertEquals("Traveler details", testSubscriber.getOnNextEvents().get(0));
+		assertEquals("Edit Traveler 1 (Adult)", testSubscriber.getOnNextEvents().get(1));
+		assertEquals("Traveler details", testSubscriber.getOnNextEvents().get(2));
 
 		EspressoUtils.assertViewIsDisplayed(R.id.traveler_select_state);
 		EspressoUtils.assertViewWithTextIsDisplayed(testFirstName + " " + testLastName);

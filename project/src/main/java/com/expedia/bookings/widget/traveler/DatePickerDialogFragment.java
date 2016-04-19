@@ -1,5 +1,7 @@
 package com.expedia.bookings.widget.traveler;
 
+import java.util.Calendar;
+
 import org.joda.time.LocalDate;
 
 import android.os.Bundle;
@@ -48,6 +50,7 @@ public class DatePickerDialogFragment extends DialogFragment implements DatePick
 		getDialog().getWindow().requestFeature(Window.FEATURE_NO_TITLE);
 		View view = inflater.inflate(R.layout.spinner_date_picker, container);
 		datePicker = (DatePicker) view.findViewById(R.id.datePicker);
+		datePicker.setMaxDate(Calendar.getInstance().getTimeInMillis());
 		View doneButton = view.findViewById(R.id.datePickerDoneButton);
 		doneButton.setOnClickListener(new DateChosenClickListener());
 
