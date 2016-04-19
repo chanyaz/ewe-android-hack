@@ -7,7 +7,7 @@ import rx.android.schedulers.AndroidSchedulers
 import rx.subjects.BehaviorSubject
 import java.util.concurrent.TimeUnit
 
-class HotelPresenterViewModel(createTripViewModel: HotelCreateTripViewModel, checkoutViewModel: HotelCheckoutViewModel, detailViewModel: HotelDetailViewModel) {
+class HotelPresenterViewModel(createTripViewModel: HotelCreateTripViewModel, checkoutViewModel: HotelCheckoutViewModel, detailViewModel: BaseHotelDetailViewModel) {
 
     val didLastCreateTripOrCheckoutResultInRoomSoldOut = BehaviorSubject.create<Boolean>(false)
 

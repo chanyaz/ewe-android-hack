@@ -12,6 +12,8 @@ import com.expedia.bookings.utils.bindView
 import com.expedia.vm.hotel.HotelViewModel
 import com.expedia.bookings.widget.TextView
 import com.expedia.bookings.widget.hotel.HotelCellViewHolder
+import com.expedia.util.getControlGuestRatingBackground
+import com.expedia.util.getControlGuestRatingText
 import com.expedia.util.subscribeText
 import com.expedia.util.subscribeVisibility
 import com.expedia.vm.packages.PackageHotelViewModel
@@ -34,10 +36,10 @@ class PackageHotelCellViewHolder(root: ViewGroup, width: Int) : HotelCellViewHol
     }
 
     override fun getGuestRatingRecommendedText(rating: Float, resources: Resources): String {
-        return resources.getString(R.string.hotel_guest_recommend)
+        return getControlGuestRatingText(rating, resources)
     }
 
     override fun getGuestRatingBackground(rating: Float, context: Context): Drawable {
-        return ContextCompat.getDrawable(context, R.drawable.user_review_background)
+        return getControlGuestRatingBackground(rating, context)
     }
 }

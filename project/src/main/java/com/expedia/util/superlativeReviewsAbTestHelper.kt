@@ -30,7 +30,7 @@ fun getABTestGuestRatingText(rating: Float, resources: Resources): String {
             ""
         }
     } else {
-        resources.getString(R.string.hotel_guest_recommend)
+        getControlGuestRatingText(rating, resources)
     }
 }
 
@@ -40,8 +40,16 @@ fun getABTestGuestRatingBackground(rating: Float, context: Context): Drawable {
     return if (isSuperlativeReviewsABTestOn() && isShowColorBackground() && isRatingExceptional) {
         ContextCompat.getDrawable(context, R.drawable.user_review_background_green)
     } else {
-        ContextCompat.getDrawable(context, R.drawable.user_review_background)
+        getControlGuestRatingBackground(rating, context)
     }
+}
+
+fun getControlGuestRatingText(rating: Float, resources: Resources) : String {
+    return resources.getString(R.string.hotel_guest_recommend)
+}
+
+fun getControlGuestRatingBackground(rating: Float, context: Context): Drawable {
+    return ContextCompat.getDrawable(context, R.drawable.user_review_background)
 }
 
 private fun isWithSuperlative(): Boolean {

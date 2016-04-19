@@ -54,8 +54,10 @@ import com.expedia.util.subscribeOnClick
 import com.expedia.util.subscribeText
 import com.expedia.util.subscribeVisibility
 import com.expedia.util.unsubscribeOnClick
+import com.expedia.vm.BaseHotelDetailViewModel
 import com.expedia.vm.hotel.HotelDetailViewModel
 import com.expedia.vm.HotelRoomRateViewModel
+import com.expedia.vm.packages.PackageHotelDetailViewModel
 import com.mobiata.android.util.AndroidUtils
 import rx.Observable
 import rx.Observer
@@ -166,7 +168,7 @@ class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayout(conte
 
     private val ANIMATION_DURATION_ROOM_CONTAINER = if (ExpediaBookingApp.isAutomation()) 0L else 250L
 
-    var viewmodel: HotelDetailViewModel by notNullAndObservable { vm ->
+    var viewmodel: BaseHotelDetailViewModel by notNullAndObservable { vm ->
         detailContainer.setOnTouchListener(touchListener)
         hotelDetailsToolbar.setHotelDetailViewModel(vm)
 
@@ -751,12 +753,7 @@ class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayout(conte
     }
 
     private fun trackSelectRoomClick(isStickyButton: Boolean) {
-        if (this.viewmodel.lob == LineOfBusiness.PACKAGES) {
-            PackagesTracking().trackHotelDetailSelectRoomClick(isStickyButton)
-        }
-        else {
-            HotelV2Tracking().trackLinkHotelV2DetailSelectRoom()
-        }
+        viewmodel.trackHotelDetailSelectRoomClick(isStickyButton)
     }
 
     fun refresh() {
