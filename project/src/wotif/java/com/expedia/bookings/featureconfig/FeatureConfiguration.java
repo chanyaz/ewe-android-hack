@@ -140,11 +140,6 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 	}
 
 	@Override
-	public boolean isWeAreHiringInAboutEnabled() {
-		return false;
-	}
-
-	@Override
 	public boolean isClearPrivateDataInAboutEnabled() {
 		return false;
 	}
@@ -313,6 +308,11 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 
 	@Override
 	public boolean isRewardProgramPointsType() {
+		return false;
+	}
+
+	@Override
+	public boolean isCommunicateSectionEnabled() {
 		return false;
 	}
 
