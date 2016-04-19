@@ -258,6 +258,16 @@ public class Presenter extends FrameLayout {
 		public final Interpolator interpolator;
 		public int duration;
 
+		/**
+		 * The empty transition can be used easily in the TransitionPortion class as part of a CompoundTransition.
+		 * It doesn't need to know its state names because it is not handling the state progression.
+		 */
+		public Transition() {
+			// Casting to string exists to inform the compiler which version of the constructor to use
+			// In this case, that's the string one, so that we don't NPE
+			this((String) null, null, null, DEFAULT_ANIMATION_DURATION);
+		}
+
 		public Transition(Class state1, Class state2) {
 			this(state1.getName(), state2.getName());
 		}
