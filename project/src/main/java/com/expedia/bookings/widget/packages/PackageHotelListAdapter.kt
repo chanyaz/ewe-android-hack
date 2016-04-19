@@ -26,5 +26,4 @@ class PackageHotelListAdapter(hotelSelectedSubject: PublishSubject<Hotel>, heade
     override fun getHotelCellViewModel(context: Context, hotel: Hotel): HotelViewModel {
         return PackageHotelViewModel(context, hotel)
     }
-
 }

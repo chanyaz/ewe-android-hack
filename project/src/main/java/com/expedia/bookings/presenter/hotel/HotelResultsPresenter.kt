@@ -34,6 +34,7 @@ import com.expedia.vm.ShopWithPointsViewModel
 import javax.inject.Inject
 
 class HotelResultsPresenter(context: Context, attrs: AttributeSet) : BaseHotelResultsPresenter(context, attrs) {
+
     override val filterBtnWithCountWidget: FilterButtonWithCountWidget by bindView(R.id.sort_filter_button_container)
     override val searchThisArea: Button by bindView(R.id.search_this_area)
     override val loadingOverlay: MapLoadingOverlayWidget by bindView(R.id.map_loading_overlay)
@@ -219,6 +220,10 @@ class HotelResultsPresenter(context: Context, attrs: AttributeSet) : BaseHotelRe
 
     override fun isMapClusteringEnabled(): Boolean {
         return Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppHSRMapClusteringTest)
+    }
+
+    override fun isBucketedForResultMap(): Boolean {
+        return Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelResultMapTest)
     }
 
     override fun isUserBucketedSearchScreenTest(): Boolean {
