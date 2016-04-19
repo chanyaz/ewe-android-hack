@@ -116,4 +116,8 @@ class PackagesTracking {
     fun trackBundleOverviewCostBreakdownClick() {
         OmnitureTracking.trackPackagesBundleCostBreakdownClick()
     }
+
+    fun trackSearchTravelerPickerChooserClick(text: String) {
+        OmnitureTracking.trackPackagesSearchTravelerPickerChooser(text)
+    }
 }
