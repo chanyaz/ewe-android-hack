@@ -130,4 +130,12 @@ public interface IProductFlavorFeatureConfiguration {
 	boolean isNewHotelEnabled();
 
 	int getRewardsLayoutId();
+
+	/**
+	 * Reward program type
+	 * return
+	 * true: if type is points type
+	 * false: if type is amount type
+	 */
+	boolean isRewardProgramPointsType();
 }

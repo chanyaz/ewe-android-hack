@@ -302,4 +302,9 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 	public int getRewardsLayoutId() {
 		return 0;
 	}
+
+	@Override
+	public boolean isRewardProgramPointsType() {
+		return false;
+	}
 }

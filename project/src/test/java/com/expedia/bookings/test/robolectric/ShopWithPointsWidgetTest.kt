@@ -46,7 +46,7 @@ class ShopWithPointsWidgetTest {
         UserLoginTestUtil.Companion.setupUserAndMockLogin(user)
 
         shopWithPointsWidget = ShopWithPointsWidget(context, null)
-        val expectedText = Phrase.from(context.resources, R.string.swp_widget_points_value_TEMPLATE).put("points", NumberFormat.getInstance().format(1500)).format().toString()
+        val expectedText = Phrase.from(context.resources, R.string.swp_widget_points_value_TEMPLATE).put("points_or_amount", NumberFormat.getInstance().format(1500)).format().toString()
         assertEquals(expectedText, shopWithPointsWidget.loyaltyPointsInfo.text)
     }
 

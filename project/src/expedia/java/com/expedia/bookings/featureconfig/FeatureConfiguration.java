@@ -310,4 +310,8 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 		return R.layout.pay_with_points_widget_stub;
 	}
 
+	@Override
+	public boolean isRewardProgramPointsType() {
+		return true;
+	}
 }

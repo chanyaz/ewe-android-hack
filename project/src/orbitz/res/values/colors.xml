@@ -76,7 +76,11 @@
     <color name="acct__bg_input_text_good_orbitz">#EEEEEE</color>
 
     <!--Account Screen-->
-    <color name="expedia_plus_blue">#C4204B</color>
     <color name="account_sign_out_button_background_color">#C4204B</color>
     <color name="account_sign_in_button_background_color">#004D7C</color>
+
+    <color name="reward_color_base">#668193</color>
+    <color name="reward_color_middle">#FFC300</color>
+    <color name="reward_color_top">#C4204B</color>
+    <color name="reward_color_top_text">@color/white</color>
 </resources>

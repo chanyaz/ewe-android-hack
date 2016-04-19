@@ -1,29 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
     <string name="orbitz_best_price_guarantee">Orbitz Price Guarantee</string>
-
     <string name="customer_support_text">Call Orbitz Customer Support</string>
 
     <!-- Content description for action: Press to log in with your Orbitz account -->
     <string name="cd_checkout_log_in_with_orbitz">Press to log in to your Orbitz account</string>
-
     <string name="contact_orbitz">Contact Orbitz</string>
     <string name="orbitz_info_url">http://www.orbitz.com/</string>
 
     <!-- Label for logout confirmation -->
     <string name="logout_confirmation_orbitz">Are you sure you want to log out of your Orbitz account?</string>
 
-
-
-
-
-
-
     <!-- Contact Expedia via email subject -->
     <string name="contact_orbitz_email_subject">Orbitz Reservations Support</string>
-
-
 
     <!-- Message displayed when the hotel room is sold out -->
     <string name="error_room_is_now_sold_out_orbitz">We\&apos;re sorry but this room is no longer available from Orbitz.</string>
@@ -65,4 +54,14 @@
     <string name="checkout_paying_with_points_only_line1">Paying with Orbucks</string>
     <string name="checkout_paying_with_points_and_card_line1">Paying with Orbucks &amp; {carddescription}</string>
     <string name="checkout_payment_options">Credit card, pay with orbucks</string>
+
+    <!-- Shop with points -->
+    <string name="regular_loyalty_applied_message">Orbucks applied!</string>
+    <!-- String to be appended with +VIP in header of room rates. -->
+    <string name="swp_off_widget_header">Shop with Orbucks</string>
+    <string name="swp_on_widget_header">Orbucks applied</string>
+    <string name="available_loyalty_points">Available Orbucks</string>
+    <!-- SwP Widget you have points template. points_or_amount = it may have money (in case of Expedia) or point value (in case of Orbucks). E.g. You have $30 in Orbucks -->
+    <string name="swp_widget_points_value_TEMPLATE">You have {points_or_amount} in Orbucks</string>
+
 </resources>
