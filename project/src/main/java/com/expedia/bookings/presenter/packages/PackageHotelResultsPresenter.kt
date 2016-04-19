@@ -40,7 +40,6 @@ class PackageHotelResultsPresenter(context: Context, attrs: AttributeSet) : Base
         }
 
         mapViewModel.mapInitializedObservable.subscribe {
-            PackagesTracking().trackHotelMapLoad()
             setMapToInitialState(viewmodel.paramsSubject.value?.suggestion)
         }
 
@@ -98,6 +97,7 @@ class PackageHotelResultsPresenter(context: Context, attrs: AttributeSet) : Base
     }
 
     override fun trackSearchMap() {
+        PackagesTracking().trackHotelMapLoad()
     }
 
     override fun trackMapToList() {

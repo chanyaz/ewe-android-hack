@@ -1136,7 +1136,6 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
 
     // Classes for state
     class ResultsList
-
     class ResultsMap
     class ResultsFilter
 
