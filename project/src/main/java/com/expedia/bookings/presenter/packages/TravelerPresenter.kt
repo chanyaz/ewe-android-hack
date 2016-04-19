@@ -17,6 +17,7 @@ import com.expedia.bookings.widget.traveler.TravelerDefaultState
 import com.expedia.bookings.widget.traveler.TravelerSelectState
 import com.expedia.util.endlessObserver
 import com.expedia.util.getCheckoutToolbarTitle
+import com.expedia.util.getMainTravelerToolbarTitle
 import com.expedia.vm.traveler.CheckoutTravelerViewModel
 import com.expedia.vm.traveler.TravelerSummaryViewModel
 import com.expedia.vm.traveler.TravelerViewModel
@@ -64,8 +65,9 @@ class TravelerPresenter(context: Context, attrs: AttributeSet) : Presenter(conte
             }
         }
 
-        travelerSelectState.travelerIndexSelectedSubject.subscribe { index ->
-            val travelerVM = TravelerViewModel(context, index)
+        travelerSelectState.travelerIndexSelectedSubject.subscribe { selectedTraveler ->
+            toolbarTitleSubject.onNext(selectedTraveler.second)
+            val travelerVM = TravelerViewModel(context, selectedTraveler.first)
             showTravelerEntryWidget(travelerVM)
         }
     }
@@ -125,7 +127,7 @@ class TravelerPresenter(context: Context, attrs: AttributeSet) : Presenter(conte
             menuVisibility.onNext(false)
             expandedSubject.onNext(forward)
             if (forward) {
-                toolbarTitleSubject.onNext(resources.getString(R.string.select_travelers))
+                toolbarTitleSubject.onNext(resources.getString(R.string.traveler_details_text))
             } else {
                 toolbarTitleSubject.onNext(getCheckoutToolbarTitle(resources, false))
             }
@@ -150,7 +152,7 @@ class TravelerPresenter(context: Context, attrs: AttributeSet) : Presenter(conte
             }
 
             if (forward) {
-                toolbarTitleSubject.onNext(resources.getString(R.string.traveler_details_text))
+                toolbarTitleSubject.onNext(getMainTravelerToolbarTitle(resources))
             } else {
                 toolbarTitleSubject.onNext(getCheckoutToolbarTitle(resources, false))
             }
@@ -175,10 +177,8 @@ class TravelerPresenter(context: Context, attrs: AttributeSet) : Presenter(conte
             toolbarNavIcon.onNext(if (!forward) ArrowXDrawableUtil.ArrowDrawableType.BACK
             else ArrowXDrawableUtil.ArrowDrawableType.CLOSE)
             travelerEntryWidget.travelerButton.visibility = if (User.isLoggedIn(context) && forward) View.VISIBLE else View.GONE
-            if (forward) {
+            if (!forward) {
                 toolbarTitleSubject.onNext(resources.getString(R.string.traveler_details_text))
-            } else {
-                toolbarTitleSubject.onNext(resources.getString(R.string.select_travelers))
             }
         }
 

@@ -670,7 +670,7 @@
     <!-- Text for traveler infant error-->
     <string name="traveler_infant_error">This infant must be less than 2 years old</string>
     <!-- Text for traveler child error-->
-    <string name="traveler_child_error">This traveler must be 2-17 years old</string>
+    <string name="traveler_child_error">This child must be 2-17 years old</string>
     <!-- Text for traveler adult error-->
     <string name="traveler_adult_error">This adult must be older than 18 years old</string>
     <!-- Text informing guest that main travler is checking into hotel-->
