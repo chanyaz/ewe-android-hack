@@ -309,4 +309,9 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 	public int getRewardsLayoutId() {
 		return R.layout.orbucks_widget_stub;
 	}
+
+	@Override
+	public boolean isRewardProgramPointsType() {
+		return false;
+	}
 }

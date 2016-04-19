@@ -311,4 +311,9 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 		return 0;
 	}
 
+	@Override
+	public boolean isRewardProgramPointsType() {
+		return false;
+	}
+
 }

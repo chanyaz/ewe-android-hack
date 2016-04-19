@@ -202,23 +202,23 @@ public class AccountButton extends LinearLayout {
 		switch (traveler.getLoyaltyMembershipTier()) {
 		case BLUE:
 			expediaPlusRewardsCategoryTextResId = R.string.reward_plus_blue;
-			expediaPlusRewardsCategoryColorResId = R.color.expedia_plus_blue;
-			expediaPlusRewardsCategoryTextColorResId = R.color.expedia_plus_blue_text;
+			expediaPlusRewardsCategoryColorResId = R.color.reward_color_base;
+			expediaPlusRewardsCategoryTextColorResId = R.color.reward_color_base_text;
 			break;
 		case SILVER:
 			expediaPlusRewardsCategoryTextResId = R.string.reward_plus_silver;
-			expediaPlusRewardsCategoryColorResId = R.color.expedia_plus_silver;
-			expediaPlusRewardsCategoryTextColorResId = R.color.expedia_plus_silver_text;
+			expediaPlusRewardsCategoryColorResId = R.color.reward_color_middle;
+			expediaPlusRewardsCategoryTextColorResId = R.color.reward_color_middle_text;
 			break;
 		case GOLD:
 			expediaPlusRewardsCategoryTextResId = R.string.reward_plus_gold;
-			expediaPlusRewardsCategoryColorResId = R.color.expedia_plus_gold;
-			expediaPlusRewardsCategoryTextColorResId = R.color.expedia_plus_gold_text;
+			expediaPlusRewardsCategoryColorResId = R.color.reward_color_top;
+			expediaPlusRewardsCategoryTextColorResId = R.color.reward_color_top_text;
 			break;
 		case PLATINUM:
 			expediaPlusRewardsCategoryTextResId = R.string.reward_plus_platinum;
-			expediaPlusRewardsCategoryColorResId = R.color.expedia_plus_platinum;
-			expediaPlusRewardsCategoryTextColorResId = R.color.expedia_plus_platinum_text;
+			expediaPlusRewardsCategoryColorResId = R.color.reward_color_top;
+			expediaPlusRewardsCategoryTextColorResId = R.color.reward_color_top_text;
 			break;
 		}
 
