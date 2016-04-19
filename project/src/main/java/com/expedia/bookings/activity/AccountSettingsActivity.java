@@ -462,7 +462,14 @@ public class AccountSettingsActivity extends AppCompatActivity implements AboutS
 				TextView pendingPointsTextView = Ui.findView(this, R.id.pending_points);
 
 				NumberFormat numberFormatter = NumberFormat.getInstance();
-				availablePointsTextView.setText(numberFormatter.format(userLoyaltyInfo.getLoyaltyPointsAvailable()));
+				if (ProductFlavorFeatureConfiguration.getInstance().isRewardProgramPointsType()) {
+					availablePointsTextView
+						.setText(numberFormatter.format(userLoyaltyInfo.getLoyaltyPointsAvailable()));
+				}
+				else {
+					availablePointsTextView.setText(
+						userLoyaltyInfo.getLoyaltyMonetaryValue().getFormattedMoneyFromAmountAndCurrencyCode());
+				}
 
 				if (member.getLoyaltyPointsPending() > 0) {
 					pendingPointsTextView.setVisibility(View.VISIBLE);
@@ -479,7 +486,8 @@ public class AccountSettingsActivity extends AppCompatActivity implements AboutS
 				View rowDivider = Ui.findView(this, R.id.row_divider);
 				View firstRowCountry = Ui.findView(this, R.id.first_row_country);
 
-				if (userLoyaltyInfo.isAllowedToShopWithPoints()) {
+				if (userLoyaltyInfo.isAllowedToShopWithPoints() && ProductFlavorFeatureConfiguration.getInstance()
+					.isRewardProgramPointsType()) {
 					Money loyaltyMonetaryValue = userLoyaltyInfo.getLoyaltyMonetaryValue();
 					currencyTextView.setText(loyaltyMonetaryValue.getCurrency());
 					pointsMonetaryValueTextView.setText(loyaltyMonetaryValue.getFormattedMoney());
