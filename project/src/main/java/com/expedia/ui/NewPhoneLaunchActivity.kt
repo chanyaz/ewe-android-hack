@@ -71,6 +71,7 @@ class NewPhoneLaunchActivity : AbstractAppCompatActivity(), IPhoneLaunchFragment
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        Ui.getApplication(this).defaultLaunchComponents()
         setContentView(R.layout.activity_phone_new_launch)
         viewPager.offscreenPageLimit = 2
         viewPager.adapter = pagerAdapter
