@@ -13,7 +13,7 @@ DummyFiletoHandleKotlinLintError {
 	 * Add resources which are only used in kotlin files.
 	 */
 	private static final int[] USED_RESOURCES = {
-		R.layout.new_phone_launch,
+		R.layout.widget_phone_new_launch,
 		R.drawable.hotel_suggest,
 		R.drawable.airport_suggest,
 		R.drawable.room_fallback,
