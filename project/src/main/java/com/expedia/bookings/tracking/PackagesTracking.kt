@@ -1,6 +1,7 @@
 package com.expedia.bookings.tracking
 
 import com.expedia.bookings.data.FlightFilter
+import com.expedia.bookings.data.packages.PackageCheckoutResponse
 import com.expedia.bookings.data.packages.PackageCreateTripResponse
 import com.expedia.bookings.data.packages.PackageSearchResponse
 import com.expedia.vm.packages.PackageFlightFilterViewModel
@@ -88,8 +89,8 @@ class PackagesTracking {
         OmnitureTracking.trackPackagesPaymentEdit()
     }
 
-    fun trackCheckoutPaymentConfirmation() {
-        OmnitureTracking.trackPackagesConfirmation()
+    fun trackCheckoutPaymentConfirmation(response: PackageCheckoutResponse) {
+        OmnitureTracking.trackPackagesConfirmation(response)
     }
 
     fun trackFlightRoundTripLoad(isOutBound: Boolean) {

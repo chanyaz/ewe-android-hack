@@ -99,7 +99,7 @@ class PackagePresenter(context: Context, attrs: AttributeSet) : Presenter(contex
             show(confirmationPresenter)
             confirmationPresenter.viewModel.showConfirmation.onNext(Pair(pair.first.newTrip?.itineraryNumber, pair.second))
             confirmationPresenter.viewModel.setExpediaRewardsPoints.onNext(expediaRewards)
-            PackagesTracking().trackCheckoutPaymentConfirmation()
+            PackagesTracking().trackCheckoutPaymentConfirmation(pair.first)
         }
 
         // TODO - can we move this up to a common "base" presenter? (common between Package and Flight presenter)
