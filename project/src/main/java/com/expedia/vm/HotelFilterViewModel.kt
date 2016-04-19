@@ -1,5 +1,8 @@
 package com.expedia.vm
 
+import android.content.res.Resources
+import android.support.annotation.StringRes
+import com.expedia.bookings.R
 import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.hotels.Hotel
 import com.expedia.bookings.data.hotels.HotelSearchResponse
@@ -134,6 +137,7 @@ class HotelFilterViewModel() {
     }
 
     fun resetUserFilters() {
+        userFilterChoices.userSort = Sort.POPULAR
         userFilterChoices.isVipOnlyAccess = false
         userFilterChoices.hotelStarRating = StarRatings()
         userFilterChoices.name = ""
@@ -321,12 +325,12 @@ class HotelFilterViewModel() {
         }
     }
 
-    public enum class Sort {
-        POPULAR,
-        PRICE,
-        DEALS,
-        RATING,
-        DISTANCE,
+    enum class Sort(@StringRes val resId: Int) {
+        POPULAR(R.string.popular),
+        PRICE(R.string.price),
+        DEALS(R.string.sort_description_deals),
+        RATING(R.string.rating),
+        DISTANCE(R.string.distance);
     }
 
     val sortObserver = endlessObserver<Sort> { sort ->
