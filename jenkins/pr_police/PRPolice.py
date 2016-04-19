@@ -70,17 +70,17 @@ class PRPolice:
                 for issue in pullRequest.issueList:
                         fileCommitId = pullRequest.ensureCommitIdOfFileIsFilledIn(issue.filename)
                         try:
-                                print "%s, %s, %s, %d" % (issue.message, fileCommitId, issue.filename, issue.codelineNumber)
+                                print "%s, %s, %s, %d" % (issue.message, fileCommitId, issue.filename, issue.linePositionInDiff)
                                 if issue.filename is None:
                                         ghIssue.create_comment(issue.message)
                                 else:
-                                        pullRequest.pr.create_review_comment(issue.message, fileCommitId, issue.filename, issue.codelineNumber)
+                                        pullRequest.pr.create_review_comment(issue.message, fileCommitId, issue.filename, issue.linePositionInDiff)
                         except:
                                 print "Exception encountered while trying to create comment - %s" % (traceback.format_exc())
 
         def displayIssues(self, pullRequest):
                 for issue in pullRequest.issueList:
-                        print("File: %s\nLine: %d: \'%s\'\nIssue: %s\n\n" %(issue.filename, issue.codelineNumber, issue.codeLineContent, issue.message))
+                        print("File: %s\nLine: %d: \'%s\'\nIssue: %s\n\n" %(issue.filename, issue.linePositionInDiff, issue.codeLineContent, issue.message))
 
 def main():
         issuesCount = 0

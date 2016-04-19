@@ -14,12 +14,14 @@ class Patch:
 	def __init__(self, patch):
 		self.fileLines = []	
 		self.patchLineIndex = 0
+		self.linePositionInDiff = -1
 		if not patch is None:
 			patchLines = patch.split('\n')
 			self.parsePatch(patchLines)
 
 	def parsePatch(self, patchLines):
 		for patchLine in patchLines:
+			self.linePositionInDiff += 1
 			self.checkAndHandleStartOfANewBlock(patchLine, patchLines)
 			self.checkAndHandleAddedLine(patchLine, patchLines)
 			self.checkAndHandleDeletedLine(patchLine)	
@@ -43,7 +45,7 @@ class Patch:
 		if patchLine.startswith('-'):
 			self.lastDeletedLineIndex = self.codeLineNumberInFile = self.patchLineIndex - self.blockStartLineIndex + self.patchBlockMetaData.lineNumberBeforeModification - 1 - self.numAdditionsInBlock			
 			self.numDeletionsInBlock += 1
-			self.fileLines.append(Line('', patchLine[1:], LineOperation.deleted, self.codeLineNumberInFile))				
+			self.fileLines.append(Line('', patchLine[1:], LineOperation.deleted, self.codeLineNumberInFile, self.linePositionInDiff))
 
 	def checkAndHandleAddedLine(self, patchLine, patchLines):
 		if patchLine.startswith('+'):
@@ -53,9 +55,9 @@ class Patch:
 			#-1 accounts for the deleted line in lieu of which this line has been added, if this indeed is a modification operation, which we detect below
 			#Modification case
 			if self.oldCodeLineNumberInFileIfModified == self.lastDeletedLineIndex:
-				self.fileLines.append(Line(patchLine[1:], (patchLines[self.patchLineIndex - 1])[1:], LineOperation.added, self.codeLineNumberInFile ))
-			else :
+				self.fileLines.append(Line(patchLine[1:], (patchLines[self.patchLineIndex - 1])[1:], LineOperation.added, self.codeLineNumberInFile, self.linePositionInDiff))
+			else:
 				#pure Addition
-				self.fileLines.append(Line(patchLine[1:],'', LineOperation.added, self.codeLineNumberInFile ))
+				self.fileLines.append(Line(patchLine[1:], '', LineOperation.added, self.codeLineNumberInFile, self.linePositionInDiff))
 			self.numAdditionsInBlock += 1
-			self.lastDeletedLineIndex = 0		
+			self.lastDeletedLineIndex = 0

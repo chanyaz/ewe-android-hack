@@ -2,13 +2,15 @@ import Clauses
 from Clauses.StringShouldNotHavePositionalPlaceholders import *
 from Clauses.StringShouldNotHaveBrandSpecificTerm import *
 from Clauses.TemplatedStringShouldBeSuffixedWithTEMPLATE import *
+from Clauses.PlaceholderStringMustHaveSomeExamples import *
 from PullRequest import PullRequest
 
 stringShouldNotHavePositionalPlaceholders = StringShouldNotHavePositionalPlaceholders()
 stringShouldNotHaveBrandSpecificTerm = StringShouldNotHaveBrandSpecificTerm()
 templatedStringShouldBeSuffixedWithTEMPLATE = TemplatedStringShouldBeSuffixedWithTEMPLATE()
+placeholderStringsShouldHaveSomeExamples = PlaceholderStringMustHaveSomeExamples()
 
-ClausesList = [stringShouldNotHavePositionalPlaceholders, stringShouldNotHaveBrandSpecificTerm, templatedStringShouldBeSuffixedWithTEMPLATE]
+ClausesList = [stringShouldNotHavePositionalPlaceholders, stringShouldNotHaveBrandSpecificTerm, templatedStringShouldBeSuffixedWithTEMPLATE, placeholderStringsShouldHaveSomeExamples]
 
 class ClauseProcessor:
         def runClauses(self, pullRequest):

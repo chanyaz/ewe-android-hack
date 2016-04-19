@@ -1,13 +1,11 @@
 from IClause import *
-import File
 from Line import *
-import Patch
 from Issue import *
 import re
 import operator
 
 class StringValidationClause(IClause):
-	def probableIssuesOnLineInFile(self, file, line):
+	def probableIssuesOnLineInFile(self, file, line, index):
 		#Derived clauses should implement this method and return issues found on `line` in `file`
 		return []
 
@@ -17,6 +15,6 @@ class StringValidationClause(IClause):
 	def probableIssues(self, file):
 		issueList = []
 		if self.wantsToScanFile(file.filename):
-			issueLists = [self.probableIssuesOnLineInFile(file, line) for line in file.patch.fileLines if line.operation == LineOperation.added]
+			issueLists = [self.probableIssuesOnLineInFile(file, line, index) for index, line in enumerate(file.patch.fileLines) if line.operation == LineOperation.added]
 			issueList = reduce(operator.add, issueLists)
 		return issueList
