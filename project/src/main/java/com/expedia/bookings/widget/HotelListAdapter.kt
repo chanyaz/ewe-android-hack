@@ -107,9 +107,6 @@ class HotelListAdapter(val hotelSelectedSubject: PublishSubject<Hotel>, val head
                 val viewModel = HotelViewModel(holder.itemView.context, hotels.get(fixedPosition))
                 hotelListItemsMetadata.add(HotelListItemMetadata(viewModel.hotelId, viewModel.soldOut))
                 holder.bind(viewModel)
-                holder.hotelClickedSubject.subscribe { position ->
-                    hotelSelected(holder.itemView.context, position)
-                }
             }
             is LoadingViewHolder -> holder.setAnimator(AnimUtils.setupLoadingAnimation(holder.backgroundImageView, fixedPosition % 2 == 0))
         }
@@ -144,7 +141,11 @@ class HotelListAdapter(val hotelSelectedSubject: PublishSubject<Hotel>, val head
             return holder
         } else {
             val view = LayoutInflater.from(parent.context).inflate(R.layout.hotel_cell, parent, false)
-            return HotelCellViewHolder(view as ViewGroup, parent.width)
+            val holder: HotelCellViewHolder = HotelCellViewHolder(view as ViewGroup, parent.width)
+            holder.hotelClickedSubject.subscribe { position ->
+                hotelSelected(holder.itemView.context, position)
+            }
+            return holder
         }
     }
 
