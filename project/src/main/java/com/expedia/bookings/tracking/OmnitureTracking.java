@@ -5122,7 +5122,7 @@ public class OmnitureTracking {
 	public static void trackPackagesFlightPageLoad(String pageName) {
 		Log.d(TAG, "Tracking \"" + pageName + "\" pageLoad");
 		ADMS_Measurement s = createTrackPackagePageLoadEventBase(pageName);
-		s.setEvar(18, "D=" + pageName);
+		s.setEvar(18, "D=pageName");
 		s.track();
 	}
 
