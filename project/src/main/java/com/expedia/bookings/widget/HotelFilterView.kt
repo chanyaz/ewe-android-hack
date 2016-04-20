@@ -95,6 +95,10 @@ class HotelFilterView(context: Context, attrs: AttributeSet) : FrameLayout(conte
             textView.text = resources.getString(getItem(position).resId)
             return textView;
         }
+
+        override fun getDropDownView(position: Int, convertView: View?, parent: ViewGroup?): View {
+            return getView(position, convertView, parent)
+        }
     }
 
     var shopWithPointsViewModel: ShopWithPointsViewModel? = null
