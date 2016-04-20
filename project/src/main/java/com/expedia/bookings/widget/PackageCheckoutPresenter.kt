@@ -50,7 +50,6 @@ class PackageCheckoutPresenter(context: Context, attr: AttributeSet) : BaseCheck
                     packageTotalPrice.packageTotal.currencyCode))
             totalPriceWidget.viewModel.savings.onNext(Money(BigDecimal(packageTotalPrice.savings.amount.toDouble()),
                     packageTotalPrice.savings.currencyCode))
-            toggleCheckoutButton(true)
             PackagesTracking().trackBundleOverviewPageLoad(response.packageDetails)
         }
 
