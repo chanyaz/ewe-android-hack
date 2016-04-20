@@ -23,7 +23,7 @@
 
                 <com.expedia.bookings.widget.TextView
                         style="@style/V2.Widget.TextView.FilterTitle"
-                        android:text="@string/Sort_and_Filter" />
+                        android:text="@string/sort_and_filter" />
 
                 <com.expedia.bookings.widget.TextView
                         style="@style/V2.Widget.TextView.FilterHeader"

@@ -42,7 +42,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="8dp"
             android:textAllCaps="false"
-            android:text="@string/lx_sort_filter"
+            android:text="@string/sort_and_filter"
             android:textColor="@color/text_black"
             android:textSize="16sp" />
     </LinearLayout>

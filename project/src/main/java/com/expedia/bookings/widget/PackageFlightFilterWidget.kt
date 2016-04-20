@@ -267,7 +267,7 @@ class PackageFlightFilterWidget(context: Context, attrs: AttributeSet) : FrameLa
         View.inflate(getContext(), R.layout.widget_package_flight_filter, this)
         dynamicFeedbackWidget.hideDynamicFeedback()
         toolbar.inflateMenu(R.menu.action_mode_done)
-        toolbar.title = resources.getString(R.string.Sort_and_Filter)
+        toolbar.title = resources.getString(R.string.sort_and_filter)
         toolbar.setTitleTextAppearance(context, R.style.ToolbarTitleTextAppearance)
         toolbar.setTitleTextColor(ContextCompat.getColor(context, R.color.cars_actionbar_text_color))
         toolbar.menu.findItem(R.id.menu_done).setActionView(doneButton).setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS)

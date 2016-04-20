@@ -125,7 +125,7 @@ class HotelResultsPresenter(context: Context, attrs: AttributeSet) : BaseHotelRe
         filterBtnWithCountWidget.setOnClickListener {
             showWithTracking(ResultsFilter())
             filterView.viewmodel.sortContainerObservable.onNext(true)
-            filterView.toolbar.title = resources.getString(R.string.Sort_and_Filter)
+            filterView.toolbar.title = resources.getString(R.string.sort_and_filter)
         }
     }
 

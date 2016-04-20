@@ -519,7 +519,7 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 	private void setListState(ResultsHotelsState state) {
 		if (mHotelListFrag != null) {
 
-			mHotelListFrag.setTopRightTextButtonText(getString(R.string.Sort_and_Filter));
+			mHotelListFrag.setTopRightTextButtonText(getString(R.string.sort_and_filter));
 			mHotelListFrag.setTopSpacePixels(mGrid.getRowHeight(1));
 
 			// Button and locking

@@ -129,6 +129,7 @@ public class PackagePhoneHappyPathTest extends PackageTestCase {
 	private void assertFilter() {
 		onView(withId(R.id.filter_button)).perform(click());
 		onView(withId(R.id.sort_by_selection_spinner)).check(matches(isDisplayed()));
+		onView(withText(R.string.sort_and_filter)).check(matches(isDisplayed()));
 		Common.pressBack();
 	}
 

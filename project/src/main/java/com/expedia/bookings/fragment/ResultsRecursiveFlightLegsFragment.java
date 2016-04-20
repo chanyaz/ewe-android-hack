@@ -1112,7 +1112,7 @@ public class ResultsRecursiveFlightLegsFragment extends Fragment implements ISta
 			break;
 		case FTAG_LIST:
 			ResultsFlightListFragment listFrag = (ResultsFlightListFragment) frag;
-			listFrag.setTopRightTextButtonText(getString(R.string.Sort_and_Filter));
+			listFrag.setTopRightTextButtonText(getString(R.string.sort_and_filter));
 			listFrag.setTopSpacePixels(mGrid.getRowHeight(1));
 			break;
 		}

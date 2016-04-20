@@ -655,8 +655,6 @@
     <string name="lx_traveler_details_text">Angaben zum Reisenden</string>
     <!-- Text for enter traveler details-->
     <string name="lx_traveler_enter_details_text">Angaben zum Reisenden eingeben</string>
-    <!-- Text for lx sort and filter-->
-    <string name="lx_sort_filter">Sortieren &amp; Filtern</string>
     <!--Price sort button -->
     <string name="lx_price_sort_button">Preis</string>
     <!-- Popularity sort button -->
@@ -707,7 +705,7 @@
 
     <!-- Tablet Results strings -->
     <!-- Sort & Filter label -->
-    <string name="Sort_and_Filter">Sortieren &amp; Filtern</string>
+    <string name="sort_and_filter">Sortieren &amp; Filtern</string>
     <!-- "Done" list header label -->
     <string name="Done">Fertig</string>
     <!-- Pluralization for Number of Hotels returned from a search TEMPLATE e.g. "25 Hotels" -->
