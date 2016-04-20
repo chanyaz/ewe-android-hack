@@ -301,7 +301,7 @@ public class AccountButton extends LinearLayout {
 		case HOTELSV2:
 			TripBucketItemHotelV2 hotelV2 = Db.getTripBucket().getHotelV2();
 			HotelCreateTripResponse trip = hotelV2 == null ? null : hotelV2.mHotelTripResponse;
-			rewardPoints = trip == null ? "" : String.valueOf(trip.getExpediaRewards().getUpdatedExpediaRewards());
+			rewardPoints = trip == null ? "" : String.valueOf(trip.getRewards().getUpdatedExpediaRewards());
 			break;
 		case LX:
 			TripBucketItemLX lx = Db.getTripBucket().getLX();
@@ -312,7 +312,7 @@ public class AccountButton extends LinearLayout {
 			TripBucketItemPackages pkgItem = Db.getTripBucket().getPackage();
 			PackageCreateTripResponse packageTrip = pkgItem == null ? null : pkgItem.mPackageTripResponse;
 			rewardPoints =
-				packageTrip == null ? "" : String.valueOf(packageTrip.getExpediaRewards().getUpdatedExpediaRewards());
+				packageTrip == null ? "" : String.valueOf(packageTrip.getRewards().getUpdatedExpediaRewards());
 			break;
 		}
 
