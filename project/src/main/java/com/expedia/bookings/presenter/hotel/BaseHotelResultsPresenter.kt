@@ -600,10 +600,7 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
             val isAtBottom = manager.findLastCompletelyVisibleItemPosition() == (recyclerView.adapter.itemCount - 1)
             val topOffset = recyclerView.findViewHolderForAdapterPosition(1)?.itemView?.top ?: 0
 
-            if (newState == RecyclerView.SCROLL_STATE_IDLE && ((topOffset >= threshold && isHeaderVisible()) || isHeaderCompletelyVisible())) {
-                //view has passed threshold, show map
-                showWithTracking(ResultsMap())
-            } else if (newState == RecyclerView.SCROLL_STATE_IDLE && topOffset < threshold && topOffset > halfway && isHeaderVisible() && !isAtBottom) {
+            if (newState == RecyclerView.SCROLL_STATE_IDLE && topOffset < threshold && topOffset > halfway && isHeaderVisible() && !isAtBottom) {
                 resetListOffset()
             }
 
