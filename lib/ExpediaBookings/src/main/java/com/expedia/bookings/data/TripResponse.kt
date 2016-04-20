@@ -14,11 +14,12 @@ abstract class TripResponse : BaseApiResponse() {
     var pointsDetails: List<PointsDetails>? = null
     var userPreferencePoints: UserPaymentPreferences? = null
     lateinit var validFormsOfPayment: List<ValidPayment>
-    lateinit var expediaRewards: ExpediaRewards
+    var rewards: Rewards? = null
     var guestUserPromoEmailOptInStatus: String? = null
 
-    class ExpediaRewards {
+    class Rewards {
         val totalPointsToEarn: Float = 0f
+        var totalAmountToEarn: Money? = null
         val isActiveRewardsMember: Boolean = false
         val rewardsMembershipTierName: String by Delegates.notNull()
         //Utility Member for local modifications in case we receive updated expedia rewards when we modify the Points to be burned. Not received by deserialization/server-response.
@@ -31,7 +32,6 @@ abstract class TripResponse : BaseApiResponse() {
         fun getUpdatedExpediaRewards(): Float? {
             return if (updatedExpediaRewards != null) updatedExpediaRewards else totalPointsToEarn
         }
-
     }
 
     fun getPointDetails(): PointsDetails? {
@@ -70,7 +70,7 @@ abstract class TripResponse : BaseApiResponse() {
 
     fun paymentSplitsWhenZeroPayableWithPoints(): PaymentSplits {
         val payingWithPoints = PointsAndCurrency(0f, PointsType.BURN, Money(BigDecimal.ZERO, getTripTotal().currencyCode))
-        val payingWithCards = PointsAndCurrency(expediaRewards.totalPointsToEarn.toFloat(), PointsType.EARN, getTripTotal())
+        val payingWithCards = PointsAndCurrency(rewards?.totalPointsToEarn ?: 0f, PointsType.EARN, getTripTotal())
         return PaymentSplits(payingWithPoints, payingWithCards)
     }
 
