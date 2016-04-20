@@ -78,7 +78,7 @@ class OrbucksViewModelTest {
                 PointsAndCurrency(0f, PointsType.EARN, Money("0", "USD")))
 
         val payingWithPoints = PointsAndCurrency(0f, PointsType.BURN, Money("0", createTripResponse.getTripTotal().currencyCode))
-        val payingWithCards = PointsAndCurrency(createTripResponse.rewards.totalPointsToEarn, PointsType.EARN, createTripResponse.getTripTotal())
+        val payingWithCards = PointsAndCurrency(createTripResponse.rewards?.totalPointsToEarn ?: 0f, PointsType.EARN, createTripResponse.getTripTotal())
         fullPayableWithCardPaymentSplits = PaymentSplits(payingWithPoints, payingWithCards)
 
         orbucksWidget.viewModel = orbucksViewModel
