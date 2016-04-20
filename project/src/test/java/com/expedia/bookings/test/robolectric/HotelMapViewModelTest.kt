@@ -1,5 +1,6 @@
 package com.expedia.bookings.test.robolectric
 
+import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.hotels.HotelOffersResponse
 import com.expedia.bookings.test.MockHotelServiceTestRule
 import com.expedia.util.endlessObserver
@@ -39,7 +40,7 @@ class HotelMapViewModelTest {
         givenHotelOffersResponseWhenStrikethroughPriceAndPriceAreSame()
         val strikeThroughPriceVisibilitySubscriber = TestSubscriber<Boolean>()
 
-        val subjectUnderTest = HotelMapViewModel(RuntimeEnvironment.application, endlessObserver {  }, PublishSubject.create<Boolean>())
+        val subjectUnderTest = HotelMapViewModel(RuntimeEnvironment.application, endlessObserver {  }, PublishSubject.create<Boolean>(), LineOfBusiness.HOTELSV2)
         subjectUnderTest.strikethroughPriceVisibility.subscribe(strikeThroughPriceVisibilitySubscriber)
         subjectUnderTest.offersObserver.onNext(hotelOffersResponse)
 
@@ -62,7 +63,7 @@ class HotelMapViewModelTest {
     @Test fun testViewModelOutputsForViewWhenStrikethroughPriceAndPriceAreDifferent() {
         givenHotelOffersResponseWhenStrikethroughPriceAndPriceAreDifferent()
 
-        val subjectUnderTest = HotelMapViewModel(RuntimeEnvironment.application, endlessObserver {  }, PublishSubject.create<Boolean>())
+        val subjectUnderTest = HotelMapViewModel(RuntimeEnvironment.application, endlessObserver {  }, PublishSubject.create<Boolean>(), LineOfBusiness.HOTELSV2)
         subjectUnderTest.offersObserver.onNext(hotelOffersResponse)
 
         assertEquals("air_attached_hotel", subjectUnderTest.hotelName.value)
@@ -83,7 +84,7 @@ class HotelMapViewModelTest {
     @Test fun testViewModelOutputsForViewWhenHotelStarRatingIsZero() {
         givenHotelOffersResponseWhenHotelStarRatingIsZero()
 
-        var subjectUnderTest = HotelMapViewModel(RuntimeEnvironment.application, endlessObserver {  }, PublishSubject.create<Boolean>())
+        var subjectUnderTest = HotelMapViewModel(RuntimeEnvironment.application, endlessObserver {  }, PublishSubject.create<Boolean>(), LineOfBusiness.HOTELSV2)
         subjectUnderTest.offersObserver.onNext(hotelOffersResponse)
 
         assertEquals("zero_star_rating", subjectUnderTest.hotelName.value)
@@ -105,7 +106,7 @@ class HotelMapViewModelTest {
         givenHotelOffersResponseWhenRoomOffersAreNotAvailable()
 
         val hotelSoldOut = PublishSubject.create<Boolean>()
-        var subjectUnderTest = HotelMapViewModel(RuntimeEnvironment.application, endlessObserver {  }, hotelSoldOut)
+        var subjectUnderTest = HotelMapViewModel(RuntimeEnvironment.application, endlessObserver {  }, hotelSoldOut, LineOfBusiness.HOTELSV2)
         subjectUnderTest.offersObserver.onNext(hotelOffersResponse)
         hotelSoldOut.onNext(true)
 

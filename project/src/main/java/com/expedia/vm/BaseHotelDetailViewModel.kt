@@ -7,6 +7,7 @@ import android.support.v4.content.ContextCompat
 import android.text.Html
 import com.expedia.bookings.R
 import com.expedia.bookings.data.HotelMedia
+import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.Traveler
 import com.expedia.bookings.data.User
@@ -46,6 +47,7 @@ import kotlin.properties.Delegates
 abstract class BaseHotelDetailViewModel(val context: Context, val roomSelectedObserver: Observer<HotelOffersResponse.HotelRoomResponse>) :
         RecyclerGallery.GalleryItemListener, RecyclerGallery.GalleryItemScrollListener {
 
+    abstract fun getLOB() : LineOfBusiness
     abstract fun hasMemberDeal(roomOffer: HotelOffersResponse.HotelRoomResponse): Boolean
     abstract fun getGuestRatingRecommendedText(rating: Float, resources: Resources) : String
     abstract fun getGuestRatingBackground(rating: Float, context: Context): Drawable
@@ -53,6 +55,9 @@ abstract class BaseHotelDetailViewModel(val context: Context, val roomSelectedOb
     abstract fun trackHotelRenovationInfoClick()
     abstract fun trackHotelDetailBookPhoneClick()
     abstract fun trackHotelDetailSelectRoomClick(isStickyButton: Boolean)
+    abstract fun trackHotelViewBookClick()
+    abstract fun trackHotelDetailMapViewClick()
+    abstract fun trackHotelDetailLoad(hotelOffersResponse: HotelOffersResponse, hotelSearchParams: HotelSearchParams, hasEtpOffer: Boolean, currentLocationSearch: Boolean, hotelSoldOut: Boolean, isRoomSoldOut: Boolean)
 
     override fun onGalleryItemClicked(item: Any) {
         galleryClickedSubject.onNext(Unit)
@@ -503,7 +508,7 @@ abstract class BaseHotelDetailViewModel(val context: Context, val roomSelectedOb
         showBookByPhoneObservable.onNext(!hotelOffersResponse.deskTopOverrideNumber
                 && !Strings.isEmpty(hotelOffersResponse.telesalesNumber))
 
-        HotelV2Tracking().trackPageLoadHotelV2Infosite(hotelOffersResponse, paramsSubject.value, hasETPOffer, isCurrentLocationSearch, hotelSoldOut.value, false)
+        trackHotelDetailLoad(hotelOffersResponse, paramsSubject.value, hasETPOffer, isCurrentLocationSearch, hotelSoldOut.value, false)
     }
 
     fun hasEtpOffer(response: HotelOffersResponse): Boolean {

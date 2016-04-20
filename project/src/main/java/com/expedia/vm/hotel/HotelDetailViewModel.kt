@@ -4,9 +4,11 @@ import android.content.Context
 import android.content.res.Resources
 import android.graphics.drawable.Drawable
 import com.expedia.bookings.data.Db
+import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.User
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.hotels.HotelOffersResponse
+import com.expedia.bookings.data.hotels.HotelSearchParams
 import com.expedia.bookings.tracking.HotelV2Tracking
 import com.expedia.util.getABTestGuestRatingBackground
 import com.expedia.util.getABTestGuestRatingText
@@ -15,6 +17,14 @@ import rx.Observer
 
 open class HotelDetailViewModel(context: Context, roomSelectedObserver: Observer<HotelOffersResponse.HotelRoomResponse>) :
         BaseHotelDetailViewModel(context, roomSelectedObserver){
+
+    override fun trackHotelDetailLoad(hotelOffersResponse: HotelOffersResponse, hotelSearchParams: HotelSearchParams, hasEtpOffer: Boolean, currentLocationSearch: Boolean, hotelSoldOut: Boolean, isRoomSoldOut: Boolean) {
+        HotelV2Tracking().trackPageLoadHotelV2Infosite(hotelOffersResponse, hotelSearchParams, hasEtpOffer, currentLocationSearch, hotelSoldOut, isRoomSoldOut)
+    }
+
+    override fun getLOB(): LineOfBusiness {
+        return LineOfBusiness.HOTELSV2
+    }
 
     override fun hasMemberDeal(roomOffer: HotelOffersResponse.HotelRoomResponse) : Boolean {
         val isUserBucketedForTest = Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelsMemberDealTest)
@@ -43,5 +53,13 @@ open class HotelDetailViewModel(context: Context, roomSelectedObserver: Observer
 
     override fun trackHotelDetailSelectRoomClick(isStickyButton: Boolean) {
         HotelV2Tracking().trackLinkHotelV2DetailSelectRoom()
+    }
+
+    override fun trackHotelViewBookClick() {
+        HotelV2Tracking().trackLinkHotelV2ViewRoomClick()
+    }
+
+    override fun trackHotelDetailMapViewClick() {
+        HotelV2Tracking().trackHotelV2DetailMapView()
     }
 }

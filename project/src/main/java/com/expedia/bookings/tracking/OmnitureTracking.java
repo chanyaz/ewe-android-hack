@@ -4883,12 +4883,18 @@ public class OmnitureTracking {
 	private static final String PACKAGES_HOTEL_RT_OUT_DETAILS = "App.Package.Flight.Search.Roundtrip.Out.Details";
 	private static final String PACKAGES_HOTEL_RT_IN_DETAILS = "App.Package.Flight.Search.Roundtrip.In.Details";
 
+	private static final String PACKAGES_HOTEL_DETAILS_LOAD = "App.Package.Hotels.Infosite";
 	private static final String PACKAGES_HOTEL_DETAILS_REVIEWS = "App.Package.Reviews";
 	private static final String PACKAGES_HOTEL_DETAILS_REVIEWS_CATEGORY_TEMPLATE = "App.Package.Reviews.";
 	private static final String PACKAGES_HOTEL_DETAILS_RESORT_FEE_INFO = "App.Package.ResortFeeInfo";
 	private static final String PACKAGES_HOTEL_DETAILS_RENOVATION_INFO = "App.Package.RenovationInfo";
 	private static final String PACKAGES_HOTEL_DETAILS_SELECT_ROOM_TEMPLATE = "App.Package.Infosite.SelectRoom.";
 	private static final String PACKAGES_HOTEL_DETAILS_BOOK_BY_PHONE = "App.Package.Infosite.BookPhone";
+	private static final String PACKAGES_HOTEL_DETAILS_VIEW_ROOM = "App.Package.Hotels.IS.ViewRoom";
+	private static final String PACKAGES_HOTEL_DETAILS_BOOK_ROOM = "App.Package.Hotels.IS.BookRoom";
+	private static final String PACKAGES_HOTEL_DETAILS_ROOM_INFO = "App.Package.Hotels.IS.MoreRoomInfo";
+	private static final String PACKAGES_HOTEL_DETAILS_MAP = "App.Package.Infosite.Map";
+	private static final String PACKAGES_HOTEL_DETAILS_MAP_SELECT_ROOM = "App.Package.IS.Map.SelectRoom";
 
 	private static final String PACKAGES_BUNDLE_OVERVIEW_LOAD = "App.Package.RateDetails";
 	private static final String PACKAGES_BUNDLE_OVERVIEW_PRODUCT_EXPAND_TEMPLATE = "App.Package.RD.ViewDetails.";
@@ -5106,6 +5112,14 @@ public class OmnitureTracking {
 		trackPackagesFlightPageLoad(PACKAGES_HOTEL_RT_IN_DETAILS);
 	}
 
+	public static void trackPackagesHotelInfoLoad(String hotelId) {
+		ADMS_Measurement s = createTrackPackagePageLoadEventBase(PACKAGES_HOTEL_DETAILS_LOAD);
+		s.setEvents("event3");
+		String product = ";Hotel:" + hotelId + ";;";
+		s.setProducts(product);
+		s.track();
+	}
+
 	public static void trackPackagesHotelInfoActionBookPhone() {
 		Log.d(TAG, "Tracking \"" + PACKAGES_HOTEL_DETAILS_BOOK_BY_PHONE + "\" click...");
 		ADMS_Measurement s = createTrackLinkEvent(PACKAGES_HOTEL_DETAILS_BOOK_BY_PHONE);
@@ -5181,5 +5195,25 @@ public class OmnitureTracking {
 
 	public static void trackPackagesFlightFilterAirlines() {
 		createAndtrackLinkEvent(PACKAGES_FLIGHT_AIRLINES, "Search Results Filter");
+	}
+
+	public static void trackPackagesHotelRoomBookClick() {
+		createAndtrackLinkEvent(PACKAGES_HOTEL_DETAILS_BOOK_ROOM, "Room Info");
+	}
+
+	public static void trackPackagesHotelViewBookClick() {
+		createAndtrackLinkEvent(PACKAGES_HOTEL_DETAILS_VIEW_ROOM, "Room Info");
+	}
+
+	public static void trackPackagesHotelRoomInfoClick() {
+		createAndtrackLinkEvent(PACKAGES_HOTEL_DETAILS_ROOM_INFO, "Room Info");
+	}
+
+	public static void trackPackagesHotelMapViewClick() {
+		trackPackagePageLoadEventStandard(PACKAGES_HOTEL_DETAILS_MAP);
+	}
+
+	public static void trackPackagesHotelMapSelectRoomClick() {
+		createAndtrackLinkEvent(PACKAGES_HOTEL_DETAILS_MAP_SELECT_ROOM, "Infosite Map");
 	}
 }

@@ -3,6 +3,7 @@ package com.expedia.bookings.test.robolectric
 import android.app.Activity
 import android.view.View
 import com.expedia.bookings.R
+import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.hotels.HotelOffersResponse
 import com.expedia.bookings.test.MockHotelServiceTestRule
 import com.expedia.bookings.widget.FrameLayout
@@ -42,7 +43,7 @@ class HotelMapViewTest {
         detailsStub.addView(detailsMapView)
         hotelMapView.mapView = detailsMapView
         hotelMapView.mapView.getMapAsync(hotelMapView);
-        hotelMapView.viewmodel = HotelMapViewModel(RuntimeEnvironment.application, selectARoomTestSubscriber, PublishSubject.create<Boolean>())
+        hotelMapView.viewmodel = HotelMapViewModel(RuntimeEnvironment.application, selectARoomTestSubscriber, PublishSubject.create<Boolean>(), LineOfBusiness.HOTELSV2)
     }
 
     @Test fun testSelectARoomClicked() {
@@ -107,7 +108,7 @@ class HotelMapViewTest {
     }
 
     @Test fun testMapViewWhenRoomOffersAreNotAvailable() {
-        hotelMapView.viewmodel = HotelMapViewModel(RuntimeEnvironment.application, selectARoomTestSubscriber, BehaviorSubject.create<Boolean>(true))
+        hotelMapView.viewmodel = HotelMapViewModel(RuntimeEnvironment.application, selectARoomTestSubscriber, BehaviorSubject.create<Boolean>(true), LineOfBusiness.HOTELSV2)
         givenHotelOffersResponseWhenRoomOffersAreNotAvailable()
         hotelMapView.viewmodel.offersObserver.onNext(hotelOffersResponse)
 

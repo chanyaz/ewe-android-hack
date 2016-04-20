@@ -24,7 +24,9 @@ import com.expedia.bookings.R
 import com.expedia.bookings.activity.ExpediaBookingApp
 import com.expedia.bookings.bitmaps.PicassoHelper
 import com.expedia.bookings.data.HotelMedia
+import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.tracking.HotelV2Tracking
+import com.expedia.bookings.tracking.PackagesTracking
 import com.expedia.bookings.utils.AnimUtils
 import com.expedia.bookings.utils.Strings
 import com.expedia.bookings.utils.Ui
@@ -126,7 +128,12 @@ class HotelRoomRateView(context: Context, var rowIndex: Int) : LinearLayout(cont
                 resizeAnimator.start()
                 AnimUtils.rotate(roomInfoChevron)
                 //track only when expand the room info
-                HotelV2Tracking().trackLinkHotelV2RoomInfoClick()
+                if (viewmodel.lob == LineOfBusiness.PACKAGES) {
+                    PackagesTracking().trackHotelRoomMoreInfoClick()
+                }
+                else {
+                    HotelV2Tracking().trackLinkHotelV2RoomInfoClick()
+                }
             } else {
                 lp.addRule(RelativeLayout.BELOW, 0)
                 roomInfoChevron.layoutParams = lp

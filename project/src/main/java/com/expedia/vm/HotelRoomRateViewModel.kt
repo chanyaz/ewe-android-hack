@@ -4,12 +4,14 @@ import android.content.Context
 import android.support.annotation.DrawableRes
 import android.text.Html
 import com.expedia.bookings.R
+import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.hotels.HotelOffersResponse
 import com.expedia.bookings.data.hotels.HotelRate
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.extension.isShowAirAttached
 import com.expedia.bookings.tracking.HotelV2Tracking
+import com.expedia.bookings.tracking.PackagesTracking
 import com.expedia.bookings.utils.HotelUtils
 import com.expedia.bookings.utils.Images
 import com.expedia.bookings.utils.Strings
@@ -24,7 +26,7 @@ import rx.subjects.BehaviorSubject
 import rx.subjects.PublishSubject
 import java.math.BigDecimal
 
-class HotelRoomRateViewModel(val context: Context, var hotelId: String, var hotelRoomResponse: HotelOffersResponse.HotelRoomResponse, var amenity: String, var rowIndex: Int, var rowExpanding: PublishSubject<Int>, var selectedRoomObserver: Observer<HotelOffersResponse.HotelRoomResponse>, val hasETP: Boolean) {
+class HotelRoomRateViewModel(val context: Context, var hotelId: String, var hotelRoomResponse: HotelOffersResponse.HotelRoomResponse, var amenity: String, var rowIndex: Int, var rowExpanding: PublishSubject<Int>, var selectedRoomObserver: Observer<HotelOffersResponse.HotelRoomResponse>, val hasETP: Boolean, val lob:LineOfBusiness) {
 
     var lastRoomSelectedSubscription: Subscription? = null
 
@@ -85,8 +87,12 @@ class HotelRoomRateViewModel(val context: Context, var hotelId: String, var hote
             //don't change the state of toggle button
             viewRoomObservable.onNext(Unit)
 
-            HotelV2Tracking().trackLinkHotelV2RoomBookClick(hotelRoomResponse, hasETP)
-
+            if (lob == LineOfBusiness.PACKAGES) {
+                PackagesTracking().trackHotelRoomBookClick()
+            }
+            else {
+                HotelV2Tracking().trackLinkHotelV2RoomBookClick(hotelRoomResponse, hasETP)
+            }
 
             if (hotelRoomResponse.rateInfo.chargeableRateInfo?.airAttached ?: false) {
                 HotelV2Tracking().trackLinkHotelV2AirAttachEligible(hotelRoomResponse, hotelId)
@@ -94,7 +100,12 @@ class HotelRoomRateViewModel(val context: Context, var hotelId: String, var hote
         } else {
             // expand row
             expandRoomObservable.onNext(true)
-            HotelV2Tracking().trackLinkHotelV2ViewRoomClick()
+            if (lob == LineOfBusiness.PACKAGES) {
+                PackagesTracking().trackHotelViewBookClick()
+            }
+            else {
+                HotelV2Tracking().trackLinkHotelV2ViewRoomClick()
+            }
         }
     }
 
