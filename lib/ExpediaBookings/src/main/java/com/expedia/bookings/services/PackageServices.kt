@@ -11,18 +11,17 @@ import com.expedia.bookings.data.packages.PackageOffersResponse
 import com.expedia.bookings.data.packages.PackageSearchParams
 import com.expedia.bookings.data.packages.PackageSearchResponse
 import com.google.gson.GsonBuilder
-import com.squareup.okhttp.OkHttpClient
+import okhttp3.OkHttpClient
 import org.joda.time.DateTime
-import retrofit.RequestInterceptor
-import retrofit.RestAdapter
-import retrofit.client.OkClient
-import retrofit.converter.GsonConverter
+import retrofit2.Retrofit
+import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory
+import retrofit2.converter.gson.GsonConverterFactory
 import rx.Observable
 import rx.Scheduler
 import java.text.NumberFormat
 import java.util.Currency
 
-class PackageServices(endpoint: String, okHttpClient: OkHttpClient, requestInterceptor: RequestInterceptor, val observeOn: Scheduler, val subscribeOn: Scheduler, logLevel: RestAdapter.LogLevel) {
+class PackageServices(endpoint: String, okHttpClient: OkHttpClient, val observeOn: Scheduler, val subscribeOn: Scheduler) {
 
 	val packageApi: PackageApi by lazy {
 		val gson = GsonBuilder()
@@ -31,13 +30,12 @@ class PackageServices(endpoint: String, okHttpClient: OkHttpClient, requestInter
 				.registerTypeAdapter(PackageSearchResponse.FlightPackage::class.java, PackageFlightDeserializer())
 				.create()
 
-		val adapter = RestAdapter.Builder()
-			.setEndpoint(endpoint)
-			.setRequestInterceptor(requestInterceptor)
-			.setLogLevel(logLevel)
-			.setConverter(GsonConverter(gson))
-			.setClient(OkClient(okHttpClient))
-			.build()
+		val adapter = Retrofit.Builder()
+				.baseUrl(endpoint)
+				.addConverterFactory(GsonConverterFactory.create(gson))
+				.addCallAdapterFactory(RxJavaCallAdapterFactory.create())
+				.client(okHttpClient)
+				.build()
 
 		adapter.create(PackageApi::class.java)
 	}

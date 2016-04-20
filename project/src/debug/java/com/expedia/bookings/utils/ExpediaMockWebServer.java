@@ -8,9 +8,10 @@ import javax.net.ssl.SSLContext;
 import android.content.Context;
 
 import com.mobiata.mocke3.ExpediaDispatcher;
-import com.squareup.okhttp.HttpUrl;
-import com.squareup.okhttp.internal.SslContextBuilder;
-import com.squareup.okhttp.mockwebserver.MockWebServer;
+
+import okhttp3.HttpUrl;
+import okhttp3.internal.SslContextBuilder;
+import okhttp3.mockwebserver.MockWebServer;
 
 public final class ExpediaMockWebServer {
 

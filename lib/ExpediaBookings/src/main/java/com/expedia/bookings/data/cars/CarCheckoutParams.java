@@ -3,6 +3,8 @@ package com.expedia.bookings.data.cars;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.jetbrains.annotations.Nullable;
+
 import com.expedia.bookings.data.Money;
 
 public class CarCheckoutParams {
@@ -14,6 +16,7 @@ public class CarCheckoutParams {
 	public String firstName;
 	public String lastName;
 
+	@Nullable
 	public String ccNumber;
 	public String ccExpirationYear;
 	public String ccExpirationMonth;
@@ -60,17 +63,30 @@ public class CarCheckoutParams {
 		map.put("mainMobileTraveler.email", emailAddress);
 		map.put("mainMobileTraveler.firstName", firstName);
 		map.put("mainMobileTraveler.lastName", lastName);
-		map.put("creditCardNumber", ccNumber);
-		map.put("expirationDateYear", ccExpirationYear);
-		map.put("expirationDateMonth", ccExpirationMonth);
-		map.put("postalCode", ccPostalCode);
-		map.put("nameOnCard", ccName);
-		map.put("cvv", ccCVV);
-		map.put("storedCreditCardId", storedCCID);
+		if (ccNumber != null) {
+			map.put("creditCardNumber", ccNumber);
+		}
+		if (ccExpirationYear != null) {
+			map.put("expirationDateYear", ccExpirationYear);
+		}
+		if (ccExpirationMonth != null) {
+			map.put("expirationDateMonth", ccExpirationMonth);
+		}
+		if (ccPostalCode != null) {
+			map.put("postalCode", ccPostalCode);
+		}
+		if (ccName != null) {
+			map.put("nameOnCard", ccName);
+		}
+		if (ccCVV != null) {
+			map.put("cvv", ccCVV);
+		}
+		if (storedCCID != null) {
+			map.put("storedCreditCardId", storedCCID);
+		}
 		map.put("abacusUserGuid", guid);
 
 		return map;
 	}
-
 
 }

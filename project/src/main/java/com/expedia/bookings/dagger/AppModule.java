@@ -1,6 +1,7 @@
 package com.expedia.bookings.dagger;
 
 import java.io.File;
+import java.io.IOException;
 import java.io.InputStream;
 import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
@@ -27,14 +28,18 @@ import com.expedia.bookings.utils.StethoShim;
 import com.expedia.bookings.utils.Strings;
 import com.expedia.model.UserLoginStateChangedModel;
 import com.mobiata.android.DebugUtils;
-import com.squareup.okhttp.Cache;
-import com.squareup.okhttp.OkHttpClient;
 
 import dagger.Module;
 import dagger.Provides;
-import retrofit.RequestInterceptor;
-import retrofit.RestAdapter;
-import retrofit.client.OkClient;
+import okhttp3.Cache;
+import okhttp3.HttpUrl;
+import okhttp3.Interceptor;
+import okhttp3.JavaNetCookieJar;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
+import okhttp3.logging.HttpLoggingInterceptor;
+import retrofit2.Retrofit;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
@@ -67,13 +72,13 @@ public class AppModule {
 
 	@Provides
 	@Singleton
-	RestAdapter.LogLevel provideLogLevel() {
+	HttpLoggingInterceptor.Level provideLogLevel() {
 		if (BuildConfig.DEBUG
 			|| DebugUtils.isLogEnablerInstalled(context)
 			|| ExpediaDebugUtil.isEBToolApkInstalled(context)) {
-			return RestAdapter.LogLevel.FULL;
+			return HttpLoggingInterceptor.Level.BODY;
 		}
-		return RestAdapter.LogLevel.NONE;
+		return HttpLoggingInterceptor.Level.NONE;
 	}
 
 	@Provides
@@ -93,7 +98,7 @@ public class AppModule {
 
 					public X509Certificate[] getAcceptedIssuers() {
 						// So easy
-						return null;
+						return new X509Certificate[0];
 					}
 				},
 			};
@@ -119,48 +124,56 @@ public class AppModule {
 
 	@Provides
 	@Singleton
-	OkHttpClient provideOkHttpClient(PersistentCookieManager cookieManager, SSLContext sslContext, Cache cache) {
-		OkHttpClient client = new OkHttpClient();
-		client.setCache(cache);
+	OkHttpClient provideOkHttpClient(PersistentCookieManager cookieManager, SSLContext sslContext, Cache cache, HttpLoggingInterceptor.Level logLevel, Interceptor interceptor) {
+		OkHttpClient.Builder client = new OkHttpClient().newBuilder();
+		client.cache(cache);
+		HttpLoggingInterceptor logger = new HttpLoggingInterceptor();
+		logger.setLevel(logLevel);
+		client.addInterceptor(logger);
+		client.addInterceptor(interceptor);
+		client.followRedirects(true);
+		client.cookieJar(new JavaNetCookieJar(cookieManager));
 
-		client.setFollowSslRedirects(true);
-		client.setCookieHandler(cookieManager);
-
-		client.setConnectTimeout(10, TimeUnit.SECONDS);
-		client.setReadTimeout(60L, TimeUnit.SECONDS);
+		client.connectTimeout(10, TimeUnit.SECONDS);
+		client.readTimeout(60L, TimeUnit.SECONDS);
 
 		if (BuildConfig.DEBUG) {
 			// We don't care about cert validity for debug builds
-			client.setSslSocketFactory(sslContext.getSocketFactory());
+			client.sslSocketFactory(sslContext.getSocketFactory());
 			StethoShim.install(client);
 		}
 
-		return client;
+		return client.build();
 	}
 
 	@Provides
 	@Singleton
-	RequestInterceptor provideRequestInterceptor(final Context context, final EndpointProvider endpointProvider) {
-		return new RequestInterceptor() {
+	Interceptor provideRequestInterceptor(final Context context, final EndpointProvider endpointProvider) {
+		return new Interceptor() {
 			@Override
-			public void intercept(RequestFacade request) {
-				request.addHeader("User-Agent", ServicesUtil.generateUserAgentString(context));
+			public Response intercept(Interceptor.Chain chain) throws IOException {
+				HttpUrl.Builder url = chain.request().url().newBuilder();
+				Request.Builder request = chain.request().newBuilder();
+				request.header("User-Agent", ServicesUtil.generateUserAgentString(context));
 				if (!ExpediaBookingApp.isAutomation()) {
 					request.addHeader("x-eb-client", ServicesUtil.generateXEbClientString(context));
 				}
-				request.addEncodedQueryParam("clientid", ServicesUtil.generateClientId(context));
-				request.addEncodedQueryParam("sourceType", ServicesUtil.generateSourceType());
+				url.addEncodedQueryParameter("clientid", ServicesUtil.generateClientId(context));
+				url.addEncodedQueryParameter("sourceType", ServicesUtil.generateSourceType());
 
 				String langid = ServicesUtil.generateLangId();
 				if (Strings.isNotEmpty(langid)) {
-					request.addEncodedQueryParam("langid", langid);
+					url.addEncodedQueryParameter("langid", langid);
 				}
 
 				if (endpointProvider.requestRequiresSiteId()) {
-					request.addEncodedQueryParam("siteid", ServicesUtil.generateSiteId());
+					url.addEncodedQueryParameter("siteid", ServicesUtil.generateSiteId());
 				}
-
 				request.addHeader("Accept", "application/json");
+
+				request.url(url.build());
+				Response response = chain.proceed(request.build());
+				return response;
 			}
 		};
 	}
@@ -180,26 +193,26 @@ public class AppModule {
 
 	@Provides
 	@Singleton
-	AbacusServices provideAbacus(OkHttpClient client, EndpointProvider endpointProvider, RequestInterceptor interceptor, RestAdapter.LogLevel loglevel) {
+	AbacusServices provideAbacus(OkHttpClient client, EndpointProvider endpointProvider) {
 		final String endpoint = endpointProvider.getAbacusEndpointUrl();
-		return new AbacusServices(endpoint, client, interceptor, AndroidSchedulers.mainThread(), Schedulers.io(), loglevel);
+		return new AbacusServices(endpoint, client, AndroidSchedulers.mainThread(), Schedulers.io());
 	}
 
 	@Provides
 	@Singleton
-	ClientLogServices provideClientLog(OkHttpClient client, EndpointProvider endpointProvider, RequestInterceptor interceptor, RestAdapter.LogLevel loglevel) {
+	ClientLogServices provideClientLog(OkHttpClient client, EndpointProvider endpointProvider) {
 		final String endpoint = endpointProvider.getE3EndpointUrl();
-		return new ClientLogServices(endpoint, client, interceptor, AndroidSchedulers.mainThread(), Schedulers.io(), loglevel);
+		return new ClientLogServices(endpoint, client, AndroidSchedulers.mainThread(), Schedulers.io());
 	}
 
 	@Provides
 	@Singleton
-	ExpediaAccountApi provideExpediaAccountApi(OkHttpClient client, EndpointProvider endpointProvider, RestAdapter.LogLevel loglevel) {
+	ExpediaAccountApi provideExpediaAccountApi(OkHttpClient client, EndpointProvider endpointProvider) {
 		final String endpoint = endpointProvider.getE3EndpointUrl();
-		return new RestAdapter.Builder()
-			.setEndpoint(endpoint)
-			.setLogLevel(loglevel)
-			.setClient(new OkClient(client))
+
+		return new Retrofit.Builder()
+			.baseUrl(endpoint)
+			.client(client)
 			.build().create(ExpediaAccountApi.class);
 	}
 
