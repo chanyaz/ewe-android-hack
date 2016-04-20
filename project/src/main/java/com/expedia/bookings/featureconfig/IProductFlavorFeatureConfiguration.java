@@ -56,8 +56,6 @@ public interface IProductFlavorFeatureConfiguration {
 
 	boolean isTuneEnabled();
 
-	boolean isWeAreHiringInAboutEnabled();
-
 	boolean isClearPrivateDataInAboutEnabled();
 
 	String getCopyrightLogoUrl(Context context);
@@ -138,4 +136,6 @@ public interface IProductFlavorFeatureConfiguration {
 	 * false: if type is amount type
 	 */
 	boolean isRewardProgramPointsType();
+
+	boolean isCommunicateSectionEnabled();
 }
