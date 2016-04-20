@@ -19,7 +19,7 @@ class HotelListRecyclerView(context: Context, attrs: AttributeSet) : RecyclerVie
     }
 
     override fun dispatchTouchEvent(ev: MotionEvent): Boolean {
-        val adapter = adapter as HotelListAdapter
+        val adapter = adapter as BaseHotelListAdapter
 
         if (adapter.isLoading())
             return true;

@@ -17,6 +17,7 @@ import com.expedia.util.subscribeRating
 import com.expedia.util.subscribeStarColor
 import com.expedia.util.subscribeText
 import com.expedia.util.subscribeVisibility
+import com.expedia.vm.BaseHotelDetailViewModel
 import com.expedia.vm.hotel.HotelDetailViewModel
 import kotlin.properties.Delegates
 
@@ -28,7 +29,7 @@ class HotelDetailsToolbar(context: Context, attrs: AttributeSet?) : FrameLayout(
     val toolbarShadow: View by bindView(R.id.toolbar_dropshadow)
     val toolBarBackground: View by bindView(R.id.toolbar_background)
     val toolBarGradient: View by bindView(R.id.hotel_details_gradient)
-    var viewModel: HotelDetailViewModel by Delegates.notNull()
+    var viewModel: BaseHotelDetailViewModel by Delegates.notNull()
     var navIcon: ArrowXDrawable by Delegates.notNull()
 
     init {
@@ -59,7 +60,7 @@ class HotelDetailsToolbar(context: Context, attrs: AttributeSet?) : FrameLayout(
         toolBarGradient.visibility = View.GONE
     }
 
-    fun setHotelDetailViewModel(vm: HotelDetailViewModel) {
+    fun setHotelDetailViewModel(vm: BaseHotelDetailViewModel) {
         viewModel = vm
         vm.toolBarRatingColor.subscribeStarColor(toolBarRating)
         vm.hotelNameObservable.subscribeText(toolbarTitle)

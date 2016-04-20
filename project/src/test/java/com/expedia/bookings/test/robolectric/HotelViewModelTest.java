@@ -22,7 +22,7 @@ import com.expedia.bookings.test.robolectric.shadows.ShadowGCM;
 import com.expedia.bookings.test.robolectric.shadows.ShadowUserManager;
 import com.expedia.bookings.utils.Images;
 import com.expedia.bookings.utils.Strings;
-import com.expedia.bookings.widget.HotelViewModel;
+import com.expedia.vm.hotel.HotelViewModel;
 
 import rx.observers.TestSubscriber;
 

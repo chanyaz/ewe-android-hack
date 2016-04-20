@@ -49,7 +49,7 @@ import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.FilterButtonWithCountWidget
 import com.expedia.bookings.widget.HotelCarouselRecycler
 import com.expedia.bookings.widget.HotelFilterView
-import com.expedia.bookings.widget.HotelListAdapter
+import com.expedia.bookings.widget.BaseHotelListAdapter
 import com.expedia.bookings.widget.HotelListRecyclerView
 import com.expedia.bookings.widget.HotelMapCarouselAdapter
 import com.expedia.bookings.widget.MapLoadingOverlayWidget
@@ -92,11 +92,10 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
     val mapCarouselContainer: ViewGroup by bindView(R.id.hotel_carousel_container)
     val mapCarouselRecycler: HotelCarouselRecycler by bindView(R.id.hotel_carousel)
     val fab: FloatingActionButton by bindView(R.id.fab)
-    var adapter: HotelListAdapter by Delegates.notNull()
+    var adapter: BaseHotelListAdapter by Delegates.notNull()
     open val filterBtnWithCountWidget: FilterButtonWithCountWidget? = null
     open val searchThisArea: Button? = null
     var isMapReady = false
-    val isBucketedForResultMap = Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelResultMapTest)
     val mapLoyaltyHeaderHeight = context.resources.getDimension(R.dimen.hotel_map_loyalty_header_height).toInt()
 
     var clusterManager: ClusterManager<MapItem> by Delegates.notNull()
@@ -242,7 +241,7 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
     }
 
     private fun shouldBlockTransition(): Boolean {
-        return (mapTransitionRunning || (recyclerView.adapter as HotelListAdapter).isLoading())
+        return (mapTransitionRunning || (recyclerView.adapter as BaseHotelListAdapter).isLoading())
     }
 
     val listResultsObserver = endlessObserver<HotelSearchResponse> {
@@ -252,11 +251,11 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
         adapter.resultsSubject.onNext(it)
 
         // show fab button always in case of AB test or shitty device
-        if (ExpediaBookingApp.isDeviceShitty() || isBucketedForResultMap) {
+        if (ExpediaBookingApp.isDeviceShitty() || isBucketedForResultMap()) {
             fab.visibility = View.VISIBLE
             getFabAnimIn().start()
         }
-        if ((ExpediaBookingApp.isDeviceShitty() || isBucketedForResultMap) && it.hotelList.size <= 3) {
+        if ((ExpediaBookingApp.isDeviceShitty() || isBucketedForResultMap()) && it.hotelList.size <= 3) {
             recyclerView.setBackgroundColor(ContextCompat.getColor(context, R.color.hotel_result_background))
         } else {
             recyclerView.setBackgroundColor(ContextCompat.getColor(context, android.R.color.transparent))
@@ -293,7 +292,7 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
         (mapCarouselRecycler.adapter as HotelMapCarouselAdapter).setItems(response.hotelList)
         adapter.resultsSubject.onNext(response)
         mapViewModel.hotelResultsSubject.onNext(response)
-        if ((ExpediaBookingApp.isDeviceShitty() || isBucketedForResultMap) && response.hotelList.size <= 3 && previousWasList) {
+        if ((ExpediaBookingApp.isDeviceShitty() || isBucketedForResultMap()) && response.hotelList.size <= 3 && previousWasList) {
             recyclerView.setBackgroundColor(ContextCompat.getColor(context, R.color.hotel_result_background))
         } else {
             recyclerView.setBackgroundColor(ContextCompat.getColor(context, android.R.color.transparent))
@@ -319,7 +318,7 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
             updateCarouselItems()
         }
         headerClickedSubject.subscribe(mapSelectedObserver)
-        adapter = HotelListAdapter(hotelSelectedSubject, headerClickedSubject)
+        adapter = getHotelListAdapter()
         recyclerView.adapter = adapter
         filterView.viewmodel = HotelFilterViewModel()
         filterView.viewmodel.filterObservable.subscribe(filterObserver)
@@ -856,7 +855,7 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
                     mapView.translationY = -halfway.toFloat()
                     adjustGoogleMapLogo()
                     filterBtnWithCountWidget?.translationY = 0f
-                    if (isBucketedForResultMap || ExpediaBookingApp.isDeviceShitty()) {
+                    if (isBucketedForResultMap() || ExpediaBookingApp.isDeviceShitty()) {
                         lazyLoadMapAndMarkers()
                     }
                 } else {
@@ -864,7 +863,7 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
                     recyclerView.translationY = screenHeight.toFloat()
                     googleMap?.setPadding(0, toolbar.height, 0, mapCarouselContainer.height - mapLoyaltyHeaderHeight)
                     filterBtnWithCountWidget?.translationY = resources.getDimension(R.dimen.hotel_filter_height)
-                    if (isBucketedForResultMap || ExpediaBookingApp.isDeviceShitty()) {
+                    if (isBucketedForResultMap() || ExpediaBookingApp.isDeviceShitty()) {
                         googleMap?.mapType = GoogleMap.MAP_TYPE_NORMAL
                         createMarkers(false)
                     }
@@ -1189,6 +1188,9 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
     abstract fun trackMapPinTap()
     abstract fun trackFilterShown()
     abstract fun trackMapSearchAreaClick()
+
+    abstract fun getHotelListAdapter(): BaseHotelListAdapter
     abstract fun isMapClusteringEnabled(): Boolean
     abstract fun isUserBucketedSearchScreenTest(): Boolean
+    abstract fun isBucketedForResultMap() : Boolean
 }

@@ -1,5 +1,7 @@
 package com.expedia.bookings.widget.hotel
 
+import android.content.Context
+import android.content.res.Resources
 import android.graphics.Bitmap
 import android.graphics.LinearGradient
 import android.graphics.Shader
@@ -24,11 +26,11 @@ import com.expedia.bookings.tracking.AdImpressionTracking
 import com.expedia.bookings.tracking.HotelV2Tracking
 import com.expedia.bookings.utils.ColorBuilder
 import com.expedia.bookings.utils.bindView
-import com.expedia.bookings.widget.HotelViewModel
+import com.expedia.vm.hotel.HotelViewModel
 import com.expedia.bookings.widget.StarRatingBar
 import com.expedia.bookings.widget.TextView
-import com.expedia.util.getGuestRatingBackgroundDrawable
-import com.expedia.util.getGuestRatingRecommendedText
+import com.expedia.util.getABTestGuestRatingBackground
+import com.expedia.util.getABTestGuestRatingText
 import com.expedia.util.subscribeBackgroundColor
 import com.expedia.util.subscribeColorFilter
 import com.expedia.util.subscribeImageDrawable
@@ -42,7 +44,8 @@ import com.squareup.picasso.Picasso
 import rx.subjects.PublishSubject
 import kotlin.properties.Delegates
 
-class HotelCellViewHolder(root: ViewGroup, val width: Int) : RecyclerView.ViewHolder(root), View.OnClickListener {
+open class HotelCellViewHolder(root: ViewGroup, val width: Int) :
+        RecyclerView.ViewHolder(root), View.OnClickListener {
 
     val PICASSO_TAG = "HOTEL_RESULTS_LIST"
     val DEFAULT_GRADIENT_POSITIONS = floatArrayOf(0f, .25f, .3f, 1f)
@@ -62,8 +65,6 @@ class HotelCellViewHolder(root: ViewGroup, val width: Int) : RecyclerView.ViewHo
     var ratingBar: StarRatingBar by Delegates.notNull()
     val discountPercentage: TextView by root.bindView(R.id.discount_percentage)
     val hotelAmenityOrDistanceFromLocation: TextView by root.bindView(R.id.hotel_amenity_or_distance_from_location)
-    val unrealDealMessageContainer: LinearLayout by root.bindView(R.id.unreal_deal_container)
-    val unrealDealMessage: TextView by root.bindView(R.id.unreal_deal_message)
 
     val urgencyMessageContainer: LinearLayout by root.bindView (R.id.urgency_message_layout)
     val urgencyIcon: ImageView by root.bindView(R.id.urgency_icon)
@@ -75,7 +76,6 @@ class HotelCellViewHolder(root: ViewGroup, val width: Int) : RecyclerView.ViewHo
     val airAttachContainer: LinearLayout by root.bindView(R.id.air_attach_layout)
     val airAttachSWPImage: ImageView by root.bindView(R.id.air_attach_swp_image)
     val ratingAmenityContainer: View by root.bindView(R.id.rating_amenity_container)
-    val priceIncludesFlightsView: LinearLayout by root.bindView(R.id.price_includes_flights)
     val earnMessagingText: TextView by root.bindView(R.id.earn_messaging)
 
     val hotelClickedSubject = PublishSubject.create<Int>()
@@ -95,7 +95,7 @@ class HotelCellViewHolder(root: ViewGroup, val width: Int) : RecyclerView.ViewHo
         ratingBar.visibility = View.VISIBLE
     }
 
-    fun bind(viewModel: HotelViewModel) {
+    open fun bind(viewModel: HotelViewModel) {
         hotelId = viewModel.hotelId
 
         viewModel.hotelNameObservable.subscribeText(hotelName)
@@ -103,7 +103,7 @@ class HotelCellViewHolder(root: ViewGroup, val width: Int) : RecyclerView.ViewHo
         viewModel.pricePerNightColorObservable.subscribeTextColor(pricePerNight)
         viewModel.hotelGuestRatingObservable.subscribe { rating ->
             guestRating.text = rating.toString()
-            guestRating.background = getGuestRatingBackgroundDrawable(rating, itemView.context)
+            guestRating.background = getGuestRatingBackground(rating, itemView.context)
             guestRatingRecommendedText.text = getGuestRatingRecommendedText(rating, itemView.resources)
         }
         viewModel.topAmenityTitleObservable.subscribeText(topAmenityTitle)
@@ -120,10 +120,8 @@ class HotelCellViewHolder(root: ViewGroup, val width: Int) : RecyclerView.ViewHo
         viewModel.urgencyIconObservable.subscribeImageDrawable(urgencyIcon)
         viewModel.urgencyIconVisibilityObservable.subscribeVisibility(urgencyIcon)
         viewModel.urgencyMessageVisibilityObservable.subscribeVisibility(urgencyMessageContainer)
-        viewModel.unrealDealMessageContainerVisibilityObservable.subscribeVisibility(unrealDealMessageContainer)
         viewModel.urgencyMessageBackgroundObservable.subscribeBackgroundColor(urgencyMessageContainer)
         viewModel.urgencyMessageBoxObservable.subscribeText(urgencyMessageBox)
-        viewModel.unrealDealMessageObservable.subscribeText(unrealDealMessage)
         viewModel.vipMessageVisibilityObservable.subscribeVisibility(vipMessage)
         viewModel.vipLoyaltyMessageVisibilityObservable.subscribeVisibility(vipLoyaltyMessage)
         viewModel.airAttachWithDiscountLabelVisibilityObservable.subscribeVisibility(airAttachContainer)
@@ -136,7 +134,6 @@ class HotelCellViewHolder(root: ViewGroup, val width: Int) : RecyclerView.ViewHo
         viewModel.toolBarRatingColor.subscribeStarColor(ratingBar)
         viewModel.imageColorFilter.subscribeColorFilter(imageView)
         viewModel.hotelStarRatingObservable.subscribeStarRating(ratingBar)
-        viewModel.priceIncludesFlightsObservable.subscribeVisibility(priceIncludesFlightsView)
 
         viewModel.adImpressionObservable.subscribe {
             AdImpressionTracking.trackAdClickOrImpression(itemView.context, it, null)
@@ -156,6 +153,14 @@ class HotelCellViewHolder(root: ViewGroup, val width: Int) : RecyclerView.ViewHo
 
     override fun onClick(view: View) {
         hotelClickedSubject.onNext(adapterPosition)
+    }
+
+    open fun getGuestRatingRecommendedText(rating: Float, resources: Resources) : String {
+        return getABTestGuestRatingText(rating, resources)
+    }
+
+    open fun getGuestRatingBackground(rating: Float, context: Context) : Drawable {
+        return getABTestGuestRatingBackground(rating, context)
     }
 
     private val target = object : PicassoTarget() {

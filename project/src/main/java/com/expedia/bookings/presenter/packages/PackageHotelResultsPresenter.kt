@@ -11,7 +11,9 @@ import com.expedia.bookings.R
 import com.expedia.bookings.presenter.hotel.BaseHotelResultsPresenter
 import com.expedia.bookings.tracking.PackagesTracking
 import com.expedia.bookings.utils.bindView
+import com.expedia.bookings.widget.BaseHotelListAdapter
 import com.expedia.bookings.widget.TextView
+import com.expedia.bookings.widget.packages.PackageHotelListAdapter
 import com.expedia.util.notNullAndObservable
 import com.expedia.vm.hotel.HotelResultsViewModel
 import kotlin.properties.Delegates
@@ -127,5 +129,13 @@ class PackageHotelResultsPresenter(context: Context, attrs: AttributeSet) : Base
 
     override fun isUserBucketedSearchScreenTest(): Boolean {
         return false
+    }
+
+    override fun isBucketedForResultMap(): Boolean {
+        return false
+    }
+
+    override fun getHotelListAdapter(): BaseHotelListAdapter {
+        return PackageHotelListAdapter(hotelSelectedSubject, headerClickedSubject)
     }
 }

@@ -1,6 +1,7 @@
-package com.expedia.bookings.test.robolectric
+package com.expedia.bookings.test.widget.hotel
 
 import android.app.Activity
+import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.expedia.bookings.R
@@ -10,10 +11,12 @@ import com.expedia.bookings.data.payment.LoyaltyEarnInfo
 import com.expedia.bookings.data.payment.LoyaltyInformation
 import com.expedia.bookings.data.payment.PointsEarnInfo
 import com.expedia.bookings.data.pos.PointOfSale
+import com.expedia.bookings.test.robolectric.RobolectricRunner
+import com.expedia.bookings.test.robolectric.UserLoginTestUtil
 import com.expedia.bookings.test.robolectric.shadows.ShadowAccountManagerEB
 import com.expedia.bookings.test.robolectric.shadows.ShadowGCM
 import com.expedia.bookings.test.robolectric.shadows.ShadowUserManager
-import com.expedia.bookings.widget.HotelViewModel
+import com.expedia.vm.hotel.HotelViewModel
 import com.expedia.bookings.widget.hotel.HotelCellViewHolder
 import org.junit.Assert
 import org.junit.Before
@@ -33,7 +36,7 @@ class HotelCellViewTest {
     @Before fun before() {
         activity = Robolectric.buildActivity(Activity::class.java).create().get()
         activity.setTheme(R.style.V2_Theme_Hotels)
-        hotelCellView = android.view.LayoutInflater.from(activity).inflate(R.layout.hotel_cell, null, false) as ViewGroup
+        hotelCellView = LayoutInflater.from(activity).inflate(R.layout.new_hotel_cell, null, false) as ViewGroup
         hotelViewHolder = HotelCellViewHolder(hotelCellView, 200)
     }
 
@@ -117,24 +120,6 @@ class HotelCellViewTest {
         Assert.assertEquals(View.GONE, hotelViewHolder.urgencyMessageContainer.visibility)
         Assert.assertEquals("", hotelViewHolder.urgencyMessageBox.text)
         Assert.assertEquals(View.GONE, hotelViewHolder.urgencyIcon.visibility)
-    }
-
-    @Test fun testPriceIncludesFlights() {
-        val hotel = makeHotel()
-        hotelViewHolder.bind(HotelViewModel(hotelViewHolder.itemView.context, hotel))
-        Assert.assertEquals(View.GONE, hotelViewHolder.priceIncludesFlightsView.visibility)
-
-        hotel.isPackage = true
-        hotel.thumbnailUrl = "https://media.expedia.com"
-        hotelViewHolder.bind(HotelViewModel(hotelViewHolder.itemView.context, hotel))
-        Assert.assertEquals(View.VISIBLE, hotelViewHolder.priceIncludesFlightsView.visibility)
-
-    }
-
-    @Test fun testNoPriceIncludesFlights() {
-        val hotel = makeHotel()
-        hotelViewHolder.bind(HotelViewModel(hotelViewHolder.itemView.context, hotel))
-        Assert.assertEquals(View.GONE, hotelViewHolder.priceIncludesFlightsView.visibility)
     }
 
     @Test fun testEarnMessaging() {

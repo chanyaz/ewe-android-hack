@@ -20,9 +20,11 @@ import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.tracking.HotelV2Tracking
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
+import com.expedia.bookings.widget.BaseHotelListAdapter
 import com.expedia.bookings.widget.FilterButtonWithCountWidget
 import com.expedia.bookings.widget.MapLoadingOverlayWidget
 import com.expedia.bookings.widget.TextView
+import com.expedia.bookings.widget.hotel.HotelListAdapter
 import com.expedia.util.notNullAndObservable
 import com.expedia.util.subscribeInverseVisibility
 import com.expedia.util.subscribeText
@@ -32,6 +34,7 @@ import com.expedia.vm.ShopWithPointsViewModel
 import javax.inject.Inject
 
 class HotelResultsPresenter(context: Context, attrs: AttributeSet) : BaseHotelResultsPresenter(context, attrs) {
+
     override val filterBtnWithCountWidget: FilterButtonWithCountWidget by bindView(R.id.sort_filter_button_container)
     override val searchThisArea: Button by bindView(R.id.search_this_area)
     override val loadingOverlay: MapLoadingOverlayWidget by bindView(R.id.map_loading_overlay)
@@ -219,7 +222,15 @@ class HotelResultsPresenter(context: Context, attrs: AttributeSet) : BaseHotelRe
         return Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppHSRMapClusteringTest)
     }
 
+    override fun isBucketedForResultMap(): Boolean {
+        return Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelResultMapTest)
+    }
+
     override fun isUserBucketedSearchScreenTest(): Boolean {
         return Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelsSearchScreenTest)
+    }
+
+    override fun getHotelListAdapter(): BaseHotelListAdapter {
+        return HotelListAdapter(hotelSelectedSubject, headerClickedSubject)
     }
 }
