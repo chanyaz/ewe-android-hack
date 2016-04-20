@@ -137,7 +137,9 @@ abstract class BaseOverviewPresenter(context: Context, attrs: AttributeSet) : Pr
             super.endTransition(forward)
             bundleOverviewHeader.checkoutOverviewHeaderToolbar.visibility = if (forward) View.GONE else View.VISIBLE
             bundleOverviewHeader.toggleCollapsingToolBar(!forward)
-            checkoutPresenter.checkoutButton.translationY = if (forward) checkoutPresenter.checkoutButton.height.toFloat() else 0f
+
+            checkoutPresenter.toggleCheckoutButton(!forward)
+
             checkoutPresenter.mainContent.visibility = if (forward) View.VISIBLE else View.GONE
             checkoutPresenter.mainContent.translationY = 0f
             checkoutPresenter.handleShadow.visibility = View.GONE
