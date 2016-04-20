@@ -199,7 +199,7 @@ public class LXResultsPresenter extends Presenter {
 		}
 
 		searchResultsWidget.getRecyclerView().setOnScrollListener(recyclerScrollListener);
-		sortFilterButton.setFilterText(getResources().getString(R.string.lx_sort_filter));
+		sortFilterButton.setFilterText(getResources().getString(R.string.sort_and_filter));
 	}
 
 	@Override
@@ -236,7 +236,7 @@ public class LXResultsPresenter extends Presenter {
 					categoryMetadata.checked = false;
 				}
 				sortFilterWidget.bind(searchResponse.filterCategories);
-				sortFilterButton.setFilterText(getResources().getString(R.string.lx_sort_filter));
+				sortFilterButton.setFilterText(getResources().getString(R.string.sort_and_filter));
 			}
 			else {
 				sortFilterWidget.categoryFilterVisibility(false);
@@ -441,8 +441,8 @@ public class LXResultsPresenter extends Presenter {
 			searchSubscription = lxServices.lxSearchSortFilter(event.lxSearchParams,
 				areExternalFiltersSupplied ? new LXSortFilterMetadata(filters) : null,
 				areExternalFiltersSupplied ? searchResultFilterObserver : searchResultObserver);
-			sortFilterButton.setFilterText(getResources().getString(R.string.lx_sort_filter));
-			sortFilterWidget.setToolbarTitle(getResources().getString(R.string.lx_sort_filter));
+			sortFilterButton.setFilterText(getResources().getString(R.string.sort_and_filter));
+			sortFilterWidget.setToolbarTitle(getResources().getString(R.string.sort_and_filter));
 		}
 
 		if (areExternalFiltersSupplied) {

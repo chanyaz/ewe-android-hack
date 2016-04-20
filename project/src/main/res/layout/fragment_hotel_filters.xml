@@ -18,7 +18,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:layout_marginLeft="16dp"
-            android:text="@string/Sort_and_Filter"
+            android:text="@string/sort_and_filter"
             android:textSize="18sp"
             app:textStyle="light" />
 

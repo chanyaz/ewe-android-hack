@@ -57,8 +57,9 @@ class PackageHotelResultsPresenter(context: Context, attrs: AttributeSet) : Base
         filterMenuItem.isVisible = true
         filterButton.setOnClickListener { view ->
             showWithTracking(ResultsFilter())
-            filterView.viewmodel.sortContainerObservable.onNext(currentState == ResultsList::class.java.name)
-            filterView.toolbar.title = resources.getString(R.string.filter)
+            val isResults = currentState == ResultsList::class.java.name
+            filterView.viewmodel.sortContainerObservable.onNext(isResults)
+            filterView.toolbar.title = if (isResults) resources.getString(R.string.sort_and_filter) else resources.getString(R.string.filter)
         }
     }
 

@@ -655,8 +655,6 @@
     <string name="lx_traveler_details_text">旅行者の詳細</string>
     <!-- Text for enter traveler details-->
     <string name="lx_traveler_enter_details_text">旅行者情報を入力</string>
-    <!-- Text for lx sort and filter-->
-    <string name="lx_sort_filter">並び替え &amp; 絞り込み</string>
     <!--Price sort button -->
     <string name="lx_price_sort_button">料金</string>
     <!-- Popularity sort button -->
@@ -707,7 +705,7 @@
 
     <!-- Tablet Results strings -->
     <!-- Sort & Filter label -->
-    <string name="Sort_and_Filter">並び替え &amp; 絞り込み</string>
+    <string name="sort_and_filter">並び替え &amp; 絞り込み</string>
     <!-- "Done" list header label -->
     <string name="Done">完了</string>
     <!-- Pluralization for Number of Hotels returned from a search TEMPLATE e.g. "25 Hotels" -->

@@ -10,7 +10,6 @@ import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.ViewTreeObserver
 import android.view.MotionEvent
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
@@ -374,19 +373,17 @@ class HotelFilterView(context: Context, attrs: AttributeSet) : FrameLayout(conte
         }
 
         toolbar.inflateMenu(R.menu.cars_lx_filter_menu)
-        toolbar.title = resources.getString(R.string.Sort_and_Filter)
+        toolbar.title = resources.getString(R.string.sort_and_filter)
         toolbar.setTitleTextAppearance(context, R.style.ToolbarTitleTextAppearance)
         toolbar.setTitleTextColor(ContextCompat.getColor(context, R.color.cars_actionbar_text_color))
 
-        toolbar.menu.findItem(R.id.apply_check).setActionView(doneButton)
+        toolbar.menu.findItem(R.id.apply_check).actionView = doneButton
 
-        filterContainer.viewTreeObserver.addOnScrollChangedListener(object : ViewTreeObserver.OnScrollChangedListener {
-            override fun onScrollChanged() {
-                val scrollY = filterContainer.scrollY
-                val ratio = (scrollY).toFloat() / 100
-                toolbarDropshadow.alpha = ratio
-            }
-        })
+        filterContainer.viewTreeObserver.addOnScrollChangedListener {
+            val scrollY = filterContainer.scrollY
+            val ratio = (scrollY).toFloat() / 100
+            toolbarDropshadow.alpha = ratio
+        }
 
         sortByAdapter.setNotifyOnChange(false)
         sortByButtonGroup.adapter = sortByAdapter

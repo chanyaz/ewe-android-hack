@@ -677,8 +677,6 @@
     <string name="traveler_main_message">Main traveler must check into the hotel. Must be 18 or older.</string>
     <!-- Text for enter traveler details-->
     <string name="lx_traveler_enter_details_text">Enter traveler details</string>
-    <!-- Text for lx sort and filter-->
-    <string name="lx_sort_filter">Sort &amp; Filter</string>
     <!--Price sort button -->
     <string name="lx_price_sort_button">Price</string>
     <!-- Popularity sort button -->
@@ -727,9 +725,10 @@
     <!-- LX user recommended percentage template-->
     <string name="lx_recommend_percent_Template">{recommend}%</string>
 
-    <!-- Tablet Results strings -->
     <!-- Sort & Filter label -->
-    <string name="Sort_and_Filter">Sort &amp; Filter</string>
+    <string name="sort_and_filter">Sort &amp; Filter</string>
+
+    <!-- Tablet Results strings -->
     <!-- "Done" list header label -->
     <string name="Done">Done</string>
     <!-- Pluralization for Number of Hotels returned from a search TEMPLATE e.g. "25 Hotels" -->
