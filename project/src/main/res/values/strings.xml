@@ -829,6 +829,8 @@
     <!-- Tablet hotel filters -->
     <!-- "Sort By" section header -->
     <string name="Sort_By">Sort By</string>
+    <!-- "Filter By" section header -->
+    <string name="Filter_By">Filter By</string>
     <!-- "Filters" section header -->
     <string name="Filters">Filters</string>
     <!-- "Areas"/neighborhoods section header -->
@@ -2575,6 +2577,8 @@
     <string name="date_range_TEMPLATE">%1$s to %2$s</string>
     <!-- Hint for filtering results by hotel name -->
     <string name="filter_hotel_name_hint">Filter by hotel name</string>
+    <!-- Hint for filtering results by hotel name on material hotels -->
+    <string name="filter_hotel_name_hint2">Hotel name</string>
     <!-- Label indicating that there are no results matching their current filter -->
     <string name="no_filter_results">Sorry, no hotels match your current filters.</string>
     <!-- Label indicating that geolocation failed -->

@@ -59,6 +59,7 @@ public class HotelFilterTest extends HotelTestCase {
 
 		//deselect the filters, results snack bar hides
 		onView(withId(R.id.rating_one_background)).perform(click());
+		onView(withId(R.id.collapsed_container)).perform(scrollTo());
 		onView(withId(R.id.filter_vip_container)).perform(click());
 		filterResultsSnackBar().check(matches(not(isDisplayed())));
 
