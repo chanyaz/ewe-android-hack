@@ -175,6 +175,7 @@ abstract class BaseFlightPresenter(context: Context, attrs: AttributeSet) : Pres
                 toolbar.visibility = View.GONE
                 filter.visibility = View.VISIBLE
                 filter.translationY = 0f
+                trackFlightSortFilterLoad()
             } else {
                 toolbar.visibility = View.VISIBLE
                 filter.visibility = View.GONE
@@ -211,5 +212,6 @@ abstract class BaseFlightPresenter(context: Context, attrs: AttributeSet) : Pres
     }
 
     abstract fun trackFlightOverviewLoad()
+    abstract fun trackFlightSortFilterLoad()
 }
 

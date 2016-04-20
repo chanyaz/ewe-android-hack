@@ -6,6 +6,7 @@ import android.view.View
 import android.widget.Button
 import com.expedia.bookings.R
 import com.expedia.bookings.presenter.Presenter
+import com.expedia.bookings.tracking.PackagesTracking
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.FlightSegmentBreakdownView
@@ -46,6 +47,7 @@ class PackageFlightOverviewPresenter(context: Context, attrs: AttributeSet) : Pr
             baggageFeeURLText.setOnClickListener {
                 val e3EndpointUrl = Ui.getApplication(getContext()).appComponent().endpointProvider().e3EndpointUrl
                 baggageFeeShowSubject.onNext(e3EndpointUrl + selectedFlight.baggageFeesUrl)
+                PackagesTracking().trackFlightBaggageFeeClick()
             }
             flightSegmentWidget.viewmodel.addSegmentRowsObserver.onNext(segmentbreakdowns)
         }

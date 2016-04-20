@@ -14,5 +14,8 @@ class FlightOutboundPresenter(context: Context, attrs: AttributeSet) : BaseFligh
 
     override fun trackFlightOverviewLoad() {
     }
+
+    override fun trackFlightSortFilterLoad() {
+    }
 }
 

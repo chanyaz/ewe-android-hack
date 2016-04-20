@@ -4,6 +4,7 @@ import android.content.Context
 import com.expedia.bookings.R
 import com.expedia.bookings.data.FlightFilter
 import com.expedia.bookings.data.flights.FlightLeg
+import com.expedia.bookings.tracking.PackagesTracking
 import com.expedia.util.endlessObserver
 import org.joda.time.DateTime
 import org.joda.time.format.DateTimeFormat
@@ -310,7 +311,9 @@ class PackageFlightFilterViewModel(private val context: Context) {
 
     val selectStop = endlessObserver<Int> { s ->
         if (userFilterChoices.stops.isEmpty() || !userFilterChoices.stops.contains(getStops(s))) {
-            userFilterChoices.stops.add(getStops(s))
+            var stops: Stops = getStops(s)
+            userFilterChoices.stops.add(stops)
+            PackagesTracking().trackFlightFilterStops(stops)
         } else {
             userFilterChoices.stops.remove(getStops(s))
         }
@@ -324,6 +327,7 @@ class PackageFlightFilterViewModel(private val context: Context) {
             userFilterChoices.airlines.remove(s)
         }
         handleFiltering()
+        PackagesTracking().trackFlightFilterAirlines()
     }
 
     val airlinesMoreLessObservable: Observer<Unit> = endlessObserver {

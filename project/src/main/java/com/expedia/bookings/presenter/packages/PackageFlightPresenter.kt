@@ -55,5 +55,9 @@ class PackageFlightPresenter(context: Context, attrs: AttributeSet) : BaseFlight
         val isOutboundSearch = Db.getPackageParams()?.isOutboundSearch() ?: false
         PackagesTracking().trackFlightRoundTripDetailsLoad(isOutboundSearch)
     }
+
+    override fun trackFlightSortFilterLoad() {
+        PackagesTracking().trackFlightSortFilterLoad()
+    }
 }
 

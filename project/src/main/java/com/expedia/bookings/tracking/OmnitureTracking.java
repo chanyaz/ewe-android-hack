@@ -4940,6 +4940,12 @@ public class OmnitureTracking {
 	private static final String PACKAGES_BUNDLE_OVERVIEW_PRODUCT_EXPAND_TEMPLATE = "App.Package.RD.ViewDetails.";
 	private static final String PACKAGES_BUNDLE_OVERVIEW_COST_BREAKDOWN = "App.Package.RD.TotalCost";
 
+	private static final String PACKAGES_FLIGHT_BAGGAGE_FEE_CLICK = "App.Package.Flight.Search.BaggageFee";
+	private static final String PACKAGES_FLIGHT_SORT_FILTER_LOAD = "App.Package.Flight.Search.Filter";
+	private static final String PACKAGES_FLIGHT_SORTBY_TEMPLATE = "App.Package.Flight.Search.Sort.";
+	private static final String PACKAGES_FLIGHT_FILTER_STOPS_TEMPLATE = "App.Package.Flight.Search.Filter.";
+	private static final String PACKAGES_FLIGHT_AIRLINES = "App.Package.Flight.Search.Filter.Airline";
+
 	private static void addPackagesCommonFields(ADMS_Measurement s) {
 		s.setProp(2, PACKAGES_LOB);
 		s.setEvar(2, "D=c2");
@@ -5198,5 +5204,25 @@ public class OmnitureTracking {
 
 	public static void trackPackagesSearchTravelerPickerChooser(String text) {
 		createAndtrackLinkEvent(PACKAGES_SEARCH_TRAVELER_PICKER_CLICK_TEMPLATE + text, "Search Results Update");
+	}
+
+	public static void trackPackagesFlightBaggageFeeClick() {
+		createAndtrackLinkEvent(PACKAGES_FLIGHT_BAGGAGE_FEE_CLICK, "Flight Baggage Fee");
+	}
+
+	public static void trackPackagesFlightSortFilterLoad() {
+		trackPackagesFlightPageLoad(PACKAGES_FLIGHT_SORT_FILTER_LOAD);
+	}
+
+	public static void trackPackagesFlightSortBy(String sortedBy) {
+		createAndtrackLinkEvent(PACKAGES_FLIGHT_SORTBY_TEMPLATE + sortedBy, "Search Results Sort");
+	}
+
+	public static void trackPackagesFlightFilterStops(String stops) {
+		createAndtrackLinkEvent(PACKAGES_FLIGHT_FILTER_STOPS_TEMPLATE + stops, "Search Results Filter");
+	}
+
+	public static void trackPackagesFlightFilterAirlines() {
+		createAndtrackLinkEvent(PACKAGES_FLIGHT_AIRLINES, "Search Results Filter");
 	}
 }

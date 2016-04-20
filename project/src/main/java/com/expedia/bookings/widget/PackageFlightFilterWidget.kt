@@ -19,6 +19,7 @@ import android.widget.Spinner
 import android.widget.TextView
 import com.expedia.bookings.R
 import com.expedia.bookings.data.FlightFilter
+import com.expedia.bookings.tracking.PackagesTracking
 import com.expedia.bookings.utils.AnimUtils
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
@@ -160,6 +161,7 @@ class PackageFlightFilterWidget(context: Context, attrs: AttributeSet) : FrameLa
             override fun onItemSelected(p0: AdapterView<*>?, p1: View?, position: Int, p3: Long) {
                 val sort = FlightFilter.Sort.values()[position]
                 vm.userFilterChoices.userSort = sort
+                PackagesTracking().trackFlightSortBy(sort)
             }
 
             override fun onNothingSelected(p0: AdapterView<*>?) {
