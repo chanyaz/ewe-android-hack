@@ -1,9 +1,8 @@
 package com.expedia.vm
 
 import android.content.Context
-import android.text.format.DateUtils
 import com.expedia.bookings.R
-import com.expedia.bookings.utils.JodaUtils
+import com.expedia.bookings.utils.DateFormatUtils
 import com.expedia.bookings.utils.StrUtils
 import org.joda.time.LocalDate
 import rx.Observable
@@ -37,7 +36,7 @@ class FlightToolbarViewModel(private val context: Context) {
             var resultsOutInboundTitle: String = context.resources.getString(R.string.select_return_flight)
             titleSubject.onNext(if (isResults && !isOutboundSearch) resultsOutInboundTitle else if (isResults) resultsTitle else overviewTitle)
             val travelers = context.resources.getQuantityString(R.plurals.number_of_travelers_TEMPLATE, numTravelers, numTravelers)
-            val subtitle: CharSequence = JodaUtils.formatLocalDate(context, date, DateUtils.FORMAT_SHOW_DATE + DateUtils.FORMAT_SHOW_YEAR + DateUtils.FORMAT_SHOW_WEEKDAY) + ", " + travelers
+            val subtitle: CharSequence = DateFormatUtils.formatLocalDateToShortDayAndDate(context, date) + ", " + travelers
             subtitleSubject.onNext(subtitle)
             menuVisibilitySubject.onNext(isResults)
         }).subscribe()

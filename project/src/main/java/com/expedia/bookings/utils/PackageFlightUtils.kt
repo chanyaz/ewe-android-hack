@@ -41,10 +41,15 @@ object PackageFlightUtils {
     }
 
     @JvmStatic fun getFlightDepartureArivalTimeAndDays(context: Context, flight: FlightLeg): String {
-        if (flight.elapsedDays > 0) {
-            return context.resources.getString(R.string.flight_departure_arrival_time_multi_day_template, DateUtils.formatTimeShort(flight.departureDateTimeISO), DateUtils.formatTimeShort(flight.arrivalDateTimeISO), flight.elapsedDays)
+        return getFlightDepartureArivalTimeAndDays(context, flight.departureDateTimeISO, flight.arrivalDateTimeISO, flight.elapsedDays)
+    }
+
+    @JvmStatic fun getFlightDepartureArivalTimeAndDays(context: Context, departureTime: String, arrivalTime: String, elapsedDays: Int): String {
+        if (elapsedDays > 0) {
+            return context.resources.getString(R.string.flight_departure_arrival_time_multi_day_template,
+                    DateUtils.formatTimeShort(departureTime), DateUtils.formatTimeShort(arrivalTime), elapsedDays)
         }
-        return getFlightDepartureArivalTime(context, DateUtils.formatTimeShort(flight.departureDateTimeISO), DateUtils.formatTimeShort(flight.arrivalDateTimeISO))
+        return getFlightDepartureArivalTime(context, DateUtils.formatTimeShort(departureTime), DateUtils.formatTimeShort(arrivalTime))
     }
 
     @JvmStatic fun getFlightDepartureArivalTime(context: Context, departureTime: String, arrivalTime: String): String {
@@ -60,16 +65,16 @@ object PackageFlightUtils {
                 .format().toString()
     }
 
-    @JvmStatic fun getFlightAirlineAirplaneType(context: Context, flightSegment: FlightLeg.FlightSegment): String {
+    @JvmStatic fun getFlightAirlineAndAirplaneType(context: Context, flightSegment: FlightLeg.FlightSegment): String {
         return Phrase.from(context.resources.getString(R.string.package_flight_overview_airline_airplane_TEMPLATE))
                 .put("carrier", flightSegment.carrier)
                 .put("flightnumber", flightSegment.flightNumber)
-                .put("airplanetype", flightSegment.airplaneType)
+                .put("airplanetype", Strings.capitalize(flightSegment.airplaneType))
                 .format().toString()
     }
 
-    @JvmStatic fun getDistinctiveAirline(airlines: List<Airline>) : List<Airline> {
-        if (airlines.all{ it.airlineName == airlines[0].airlineName } ) {
+    @JvmStatic fun getDistinctiveAirline(airlines: List<Airline>): List<Airline> {
+        if (airlines.all { it.airlineName == airlines[0].airlineName } ) {
             return airlines.subList(0, 1)
         }
         return airlines

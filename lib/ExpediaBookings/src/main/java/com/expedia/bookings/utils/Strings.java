@@ -20,12 +20,12 @@ public class Strings {
 	/**
 	 * Joins together a bunch of Strings, much like in Python,
 	 * except that it ignores nulls and empty strings
-	 *
+	 * <p/>
 	 * For example, joining [ "a", "", "b", null, "c" ] with ", " would
 	 * result in "a, b, c"
 	 *
 	 * @param items a collection of strings
-	 * @param sep the separator between each item
+	 * @param sep   the separator between each item
 	 * @return joined string
 	 */
 	public static String joinWithoutEmpties(final CharSequence sep, final Collection<? extends CharSequence> items) {
@@ -88,7 +88,7 @@ public class Strings {
 
 	/**
 	 * Does a string slice in the style of Python
-	 *
+	 * <p/>
 	 * If you enter bullshit params, you will get an empty string.
 	 */
 
@@ -130,7 +130,7 @@ public class Strings {
 			return str;
 		}
 
-		for (byte b: str.getBytes()) {
+		for (byte b : str.getBytes()) {
 			sb.append(String.format("%02x", b & 0xff));
 		}
 
@@ -193,6 +193,38 @@ public class Strings {
 		return result.toString();
 	}
 
+	/**
+	 * Converts string to camel case using space as a delimiter
+	 */
+	public static String capitalize(String s) {
+		return capitalize(s, null);
+	}
+
+	public static String capitalize(String s, Character delimiter) {
+		if (isEmpty(s)) {
+			return s;
+		}
+
+		s = s.toLowerCase();
+
+		final char[] chars = s.toCharArray();
+		boolean capitalize = true;
+
+		for (int i = 0; i < chars.length; i++) {
+			char c = chars[i];
+
+			if (delimiter == null && Character.isWhitespace(c) || delimiter != null && c == delimiter) {
+				capitalize = true;
+			}
+			else if (capitalize) {
+				chars[i] = Character.toTitleCase(c);
+				capitalize = false;
+			}
+		}
+
+		return new String(chars);
+	}
+
 	public static String escapeQuotes(String content) {
 		if (isEmpty(content)) {
 			return content;
@@ -204,8 +236,9 @@ public class Strings {
 
 	/**
 	 * Use this method to get the character count encompassing the required bullet points.
-	 * @param content Content string for which we need to find the character count to cut off
-	 *                with specified minimum number of bullet points (html <li>) shown.
+	 *
+	 * @param content              Content string for which we need to find the character count to cut off
+	 *                             with specified minimum number of bullet points (html <li>) shown.
 	 * @param minBulletPointsShown Minimum number of bullet points to be shown.
 	 * @return Character count. If zero then show all characters in content.
 	 */

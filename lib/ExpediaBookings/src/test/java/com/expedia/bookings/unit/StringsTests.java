@@ -209,6 +209,16 @@ public class StringsTests {
 	}
 
 	@Test
+	public void testCapitalizeString() {
+		assertEquals("", Strings.capitalize(""));
+		assertEquals(null, Strings.capitalize(null));
+		assertEquals("Abcd_Efgh", Strings.capitalize("aBCD_EFGH", '_'));
+		assertEquals("Bcde*Dnas", Strings.capitalize("bCDE*dnAS", '*'));
+		assertEquals("Direct Agency", Strings.capitalize("DIRECT AGENCY"));
+		assertEquals("Merchant", Strings.capitalize("MERCHANT"));
+	}
+
+	@Test
 	public void testEscapeQuotes() {
 		String textWithQuotes = "Test &quot;One&quot;";
 		String expectedTextWithQuotes = "Test \"One\"";
