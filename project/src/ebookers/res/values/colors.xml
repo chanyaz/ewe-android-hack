@@ -18,6 +18,9 @@
     <color name="action_menu_text_color">#FFFFFF</color>
     <color name="action_bar_text">#FFFFFF</color>
 
+    <!-- Hotels V2 Coupon applied text color -->
+    <color name="hotelsv2_coupon_applied_color">#9E0089</color>
+
     <!--Flight-->
     <color name="action_bar_text_color">@color/white</color>
     <color name="flight_card_airline_fee_warning">#0099CC</color>

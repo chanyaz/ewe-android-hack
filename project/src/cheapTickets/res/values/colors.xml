@@ -76,6 +76,9 @@
     <color name="hotel_tonight_only_color">#990033</color>
     <color name="hotel_mobile_exclusive_color">#116FAA</color>
 
+    <!-- Hotels V2 Coupon applied text color -->
+    <color name="hotelsv2_coupon_applied_color">@color/hotels_primary_color</color>
+
     <!-- Cars and LX-->
     <color name="cars_primary_color">#116FAA</color>
     <color name="cars_unchecked_toggle_text_color">#dfe9f0</color>

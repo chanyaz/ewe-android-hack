@@ -399,6 +399,9 @@
     <!-- Hotels V2 Hotel Sold Out -->
     <color name="hotelsv2_sold_out_hotel_gray">@color/mediumGray</color>
 
+    <!-- Hotels V2 Hotel Sold Out -->
+    <color name="hotelsv2_coupon_applied_color">@color/defaultTextColor</color>
+
     <!-- Signed in user tier colors -->
     <color name="sign_in_user_tier_blue">#0085c9</color>
     <color name="sign_in_user_tier_silver">#808080</color>
