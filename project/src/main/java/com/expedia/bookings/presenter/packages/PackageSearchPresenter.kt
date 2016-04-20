@@ -105,7 +105,6 @@ class PackageSearchPresenter(context: Context, attrs: AttributeSet) : BaseSearch
             searchLocationEditText?.queryHint = context.resources.getString(R.string.fly_to_hint)
             isDepartureAirport = false
             show(SuggestionSelectionState())
-            PackagesTracking().trackDestinationSearchInit()
         }
     }
 

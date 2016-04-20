@@ -5035,8 +5035,7 @@ public class OmnitureTracking {
 			Log.d(TAG, "Tracking \"" + PACKAGES_HOTEL_SEARCH_RESULT_LOAD + "\"");
 			s.setAppState(PACKAGES_HOTEL_SEARCH_RESULT_LOAD);
 			addPackagesCommonFields(s);
-			s.setEvents("event12");
-			s.setEvents("event54");
+			s.setEvents("event12,event53");
 			s.setProp(1, String.valueOf(PackageSearchResponse.getHotelResultsCount(response)));
 
 			if (PackageSearchResponse.hasSponsoredHotelListing(response)) {
@@ -5055,8 +5054,13 @@ public class OmnitureTracking {
 			StringBuilder evar47String = new StringBuilder("PKG|1R|RT|");
 			evar47String.append("A" + Db.getPackageParams().getAdults() + "|");
 			evar47String.append("C" + Db.getPackageParams().getChildren().size() + "|");
-			evar47String.append("L" + (Db.getPackageParams().getChildren().size() - Db.getPackageParams().getNumberOfSeatedChildren()) + "|");
+			evar47String.append("L" + (Db.getPackageParams().getChildren().size() - Db.getPackageParams().getNumberOfSeatedChildren()));
 			s.setEvar(47, evar47String.toString());
+
+			// Freeform location
+			if (!TextUtils.isEmpty(Db.getPackageParams().getDestination().regionNames.fullName)) {
+				s.setEvar(48, Db.getPackageParams().getDestination().regionNames.fullName);
+			}
 		}
 		else {
 			Log.d(TAG, "Tracking \"" + PACKAGES_HOTEL_SEARCH_ZERO_RESULT_LOAD + "\"");

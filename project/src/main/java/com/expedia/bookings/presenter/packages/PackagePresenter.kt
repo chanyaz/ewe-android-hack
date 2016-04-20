@@ -148,6 +148,7 @@ class PackagePresenter(context: Context, attrs: AttributeSet) : Presenter(contex
     private val defaultSearchTransition = object : Presenter.DefaultTransition(PackageSearchPresenter::class.java.name) {
         override fun endTransition(forward: Boolean) {
             searchPresenter.visibility = View.VISIBLE
+            trackSearchPageLoad()
         }
     }
 
@@ -191,6 +192,9 @@ class PackagePresenter(context: Context, attrs: AttributeSet) : Presenter(contex
             searchPresenter.animationFinalize(forward)
             searchPresenter.visibility = if (forward) View.GONE else View.VISIBLE
             bundlePresenter.visibility = if (forward) View.VISIBLE else View.GONE
+            if (!forward) {
+                trackSearchPageLoad()
+            }
         }
     }
 
@@ -239,6 +243,13 @@ class PackagePresenter(context: Context, attrs: AttributeSet) : Presenter(contex
             searchPresenter.animationFinalize(!forward)
             errorPresenter.visibility = if (forward) View.GONE else View.VISIBLE
             searchPresenter.visibility = if (forward) View.VISIBLE else View.GONE
+            if (forward) {
+                trackSearchPageLoad()
+            }
         }
+    }
+
+    fun trackSearchPageLoad() {
+        PackagesTracking().trackDestinationSearchInit()
     }
 }
