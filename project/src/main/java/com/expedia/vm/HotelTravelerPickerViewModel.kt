@@ -5,6 +5,7 @@ import com.expedia.bookings.R
 import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.TravelerParams
 import com.expedia.bookings.tracking.HotelV2Tracking
+import com.expedia.bookings.tracking.PackagesTracking
 import com.expedia.bookings.utils.StrUtils
 import com.expedia.util.endlessObserver
 import rx.Observer
@@ -70,7 +71,7 @@ class HotelTravelerPickerViewModel(val context: Context) {
         if (adultPlusObservable.value) {
             val hotelTravelerParams = travelerParamsObservable.value
             travelerParamsObservable.onNext(TravelerParams(hotelTravelerParams.numberOfAdults + 1, hotelTravelerParams.childrenAges))
-            HotelV2Tracking().trackTravelerPickerClick("Add.Adult")
+            trackTravelerPickerClick("Add.Adult")
         }
     }
 
@@ -78,7 +79,7 @@ class HotelTravelerPickerViewModel(val context: Context) {
         if (adultMinusObservable.value) {
             val hotelTravelerParams = travelerParamsObservable.value
             travelerParamsObservable.onNext(TravelerParams(hotelTravelerParams.numberOfAdults - 1, hotelTravelerParams.childrenAges))
-            HotelV2Tracking().trackTravelerPickerClick("Remove.Adult")
+            trackTravelerPickerClick("Remove.Adult")
         }
     }
 
@@ -86,7 +87,7 @@ class HotelTravelerPickerViewModel(val context: Context) {
         if (childPlusObservable.value) {
             val hotelTravelerParams = travelerParamsObservable.value
             travelerParamsObservable.onNext(TravelerParams(hotelTravelerParams.numberOfAdults, hotelTravelerParams.childrenAges.plus(childAges[hotelTravelerParams.childrenAges.size])))
-            HotelV2Tracking().trackTravelerPickerClick("Add.Child")
+            trackTravelerPickerClick("Add.Child")
         }
     }
 
@@ -94,7 +95,7 @@ class HotelTravelerPickerViewModel(val context: Context) {
         if (childMinusObservable.value) {
             val hotelTravelerParams = travelerParamsObservable.value
             travelerParamsObservable.onNext(TravelerParams(hotelTravelerParams.numberOfAdults, hotelTravelerParams.childrenAges.subList(0, hotelTravelerParams.childrenAges.size - 1)))
-            HotelV2Tracking().trackTravelerPickerClick("Remove.Child")
+            trackTravelerPickerClick("Remove.Child")
         }
     }
 
@@ -125,5 +126,14 @@ class HotelTravelerPickerViewModel(val context: Context) {
                     StrUtils.formatGuestString(context, total)
                 }
         )
+    }
+
+    fun trackTravelerPickerClick(text: String) {
+        if (lob == LineOfBusiness.PACKAGES) {
+            PackagesTracking().trackSearchTravelerPickerChooserClick(text)
+        }
+        else {
+            HotelV2Tracking().trackTravelerPickerClick(text)
+        }
     }
 }
