@@ -155,6 +155,7 @@ class TravelerPresenter(context: Context, attrs: AttributeSet) : Presenter(conte
                 toolbarTitleSubject.onNext(getMainTravelerToolbarTitle(resources))
             } else {
                 toolbarTitleSubject.onNext(getCheckoutToolbarTitle(resources, false))
+                travelerEntryWidget.travelerButton.dismissPopup()
             }
         }
 
@@ -179,6 +180,7 @@ class TravelerPresenter(context: Context, attrs: AttributeSet) : Presenter(conte
             travelerEntryWidget.travelerButton.visibility = if (User.isLoggedIn(context) && forward) View.VISIBLE else View.GONE
             if (!forward) {
                 toolbarTitleSubject.onNext(resources.getString(R.string.traveler_details_text))
+                travelerEntryWidget.travelerButton.dismissPopup()
             }
         }
 
