@@ -14,21 +14,6 @@
             android:layout_height="4dp"
             android:background="@drawable/drop_shadow" />
 
-        <com.expedia.bookings.widget.TextView
-            android:id="@+id/boarding_warning"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/packages_secondary_color"
-            android:gravity="center"
-            android:lines="2"
-            android:paddingBottom="8dp"
-            android:paddingTop="8dp"
-            android:text="@string/name_must_match_warning"
-            android:textColor="@android:color/white"
-            android:textSize="12sp"
-            android:visibility="gone"
-            app:textStyle="normal" />
-
         <com.expedia.bookings.widget.FrameLayout
             android:id="@+id/handle"
             android:layout_width="match_parent"
@@ -122,9 +107,7 @@
                 <com.expedia.bookings.presenter.packages.TravelerPresenter
                     android:id="@+id/traveler_presenter"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginLeft="@dimen/card_view_container_margin"
-                    android:layout_marginRight="@dimen/card_view_container_margin" />
+                    android:layout_height="match_parent" />
 
                 <ViewStub
                     android:id="@+id/payment_info_card_view_stub"

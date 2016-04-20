@@ -13,6 +13,7 @@ import com.expedia.bookings.utils.ArrowXDrawableUtil
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.FlightTravelerEntryWidget
+import com.expedia.bookings.widget.TextView
 import com.expedia.bookings.widget.traveler.TravelerDefaultState
 import com.expedia.bookings.widget.traveler.TravelerSelectState
 import com.expedia.util.endlessObserver
@@ -28,6 +29,7 @@ class TravelerPresenter(context: Context, attrs: AttributeSet) : Presenter(conte
     val travelerDefaultState: TravelerDefaultState by bindView(R.id.traveler_default_state)
     val travelerSelectState: TravelerSelectState by bindView(R.id.traveler_select_state)
     val travelerEntryWidget: FlightTravelerEntryWidget by bindView(R.id.traveler_entry_widget)
+    val boardingWarning: TextView by bindView(R.id.boarding_warning)
 
     val expandedSubject = BehaviorSubject.create<Boolean>()
     val travelersCompleteSubject = BehaviorSubject.create<Traveler>()
@@ -163,6 +165,8 @@ class TravelerPresenter(context: Context, attrs: AttributeSet) : Presenter(conte
             if (!forward) validateAndBindTravelerSummary()
             travelerDefaultState.visibility = if (!forward) View.VISIBLE else View.GONE
             travelerEntryWidget.visibility = if (forward) View.VISIBLE else View.GONE
+            boardingWarning.visibility = if (forward) View.VISIBLE else View.GONE
+
             if (forward) {
                 travelerEntryWidget.nameEntryView.firstName.requestFocus()
                 travelerEntryWidget.onFocusChange(travelerEntryWidget.nameEntryView.firstName, true)
@@ -187,12 +191,13 @@ class TravelerPresenter(context: Context, attrs: AttributeSet) : Presenter(conte
         override fun endTransition(forward: Boolean) {
             if (!forward) travelerSelectState.show() else travelerSelectState.visibility = View.GONE
             travelerEntryWidget.visibility = if (forward) View.VISIBLE else View.GONE
-            if (!forward) {
-                travelerEntryWidget.viewModel.validate()
-            } else {
+            boardingWarning.visibility = if (forward) View.VISIBLE else View.GONE
+            if (forward) {
                 travelerEntryWidget.nameEntryView.firstName.requestFocus()
                 travelerEntryWidget.onFocusChange(travelerEntryWidget.nameEntryView.firstName, true)
                 Ui.showKeyboard(travelerEntryWidget.nameEntryView.firstName, null)
+            } else {
+                travelerEntryWidget.viewModel.validate()
             }
         }
     }

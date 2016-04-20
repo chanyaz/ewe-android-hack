@@ -81,11 +81,9 @@ class PackageCheckoutPresenter(context: Context, attr: AttributeSet) : BaseCheck
 
         travelerPresenter.expandedSubject.subscribe { expanded ->
             if (expanded) {
-                boardingWarning.visibility= View.VISIBLE
                 dropShadowView.visibility= View.GONE
             }
             else {
-                boardingWarning.visibility= View.GONE
                 dropShadowView.visibility= View.VISIBLE
             }
         }
