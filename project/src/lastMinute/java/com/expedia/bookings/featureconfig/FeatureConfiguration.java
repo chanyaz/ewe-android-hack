@@ -325,5 +325,10 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 	public boolean isCommunicateSectionEnabled() {
 		return false;
 	}
+
+	@Override
+	public PointOfSaleId getUSPointOfSaleId() {
+		return null;
+	}
 }
 

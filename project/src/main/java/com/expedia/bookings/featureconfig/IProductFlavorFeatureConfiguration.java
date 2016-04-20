@@ -138,4 +138,6 @@ public interface IProductFlavorFeatureConfiguration {
 	boolean isRewardProgramPointsType();
 
 	boolean isCommunicateSectionEnabled();
+
+	PointOfSaleId getUSPointOfSaleId();
 }

@@ -302,4 +302,8 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 		return true;
 	}
 
+	@Override
+	public PointOfSaleId getUSPointOfSaleId() {
+		return PointOfSaleId.UNITED_STATES;
+	}
 }
