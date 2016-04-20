@@ -4939,6 +4939,7 @@ public class OmnitureTracking {
 	private static final String PACKAGES_BUNDLE_OVERVIEW_LOAD = "App.Package.RateDetails";
 	private static final String PACKAGES_BUNDLE_OVERVIEW_PRODUCT_EXPAND_TEMPLATE = "App.Package.RD.ViewDetails.";
 	private static final String PACKAGES_BUNDLE_OVERVIEW_COST_BREAKDOWN = "App.Package.RD.TotalCost";
+	private static final String PACKAGES_BUNDLE_EDIT = "App.Package.RD.Edit";
 
 	private static final String PACKAGES_FLIGHT_BAGGAGE_FEE_CLICK = "App.Package.Flight.Search.BaggageFee";
 	private static final String PACKAGES_FLIGHT_SORT_FILTER_LOAD = "App.Package.Flight.Search.Filter";
@@ -5379,5 +5380,13 @@ public class OmnitureTracking {
 
 	public static void trackPackagesHotelClearFilter() {
 		createAndtrackLinkEvent(PACKAGES_HOTELS_FILTER_CLEAR, "Search Results Sort");
+	}
+
+	public static void trackPackagesBundleEditClick() {
+		createAndtrackLinkEvent(PACKAGES_BUNDLE_EDIT, "Rate Details");
+	}
+
+	public static void trackPackagesBundleEditItemClick(String itemType) {
+		createAndtrackLinkEvent(PACKAGES_BUNDLE_EDIT + "." + itemType, "Rate Details");
 	}
 }
