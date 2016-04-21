@@ -9,9 +9,13 @@ import com.expedia.util.notNullAndObservable
 import com.expedia.util.subscribeText
 import com.expedia.vm.BaseSearchViewModel
 
-class CalendarWidgetV2 : SearchInputCardView {
+class CalendarWidgetV2(context: Context, attrs: AttributeSet) : SearchInputCardView(context, attrs) {
 
-    constructor(context: Context, attrs: AttributeSet?) : super(context, attrs)
+    init {
+        setOnClickListener {
+            showCalendarDialog()
+        }
+    }
 
     var viewModel: BaseSearchViewModel by notNullAndObservable {
         it.dateTextObservable.subscribeText(this.text)

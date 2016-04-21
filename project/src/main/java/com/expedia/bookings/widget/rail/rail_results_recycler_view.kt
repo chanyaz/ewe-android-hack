@@ -8,7 +8,7 @@ import android.view.MotionEvent
 
 class RailResultsRecyclerView(context: Context, attrs: AttributeSet) : RecyclerView(context, attrs) {
     val PICASSO_TAG = "RAIL_RESULTS_LIST"
-    val layoutManager = LinearLayoutManager(getContext())
+    val layoutManager = LinearLayoutManager(context)
 
     init {
         setLayoutManager(layoutManager)

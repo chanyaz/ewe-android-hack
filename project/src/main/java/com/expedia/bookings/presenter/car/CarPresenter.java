@@ -75,10 +75,10 @@ public class CarPresenter extends Presenter {
 			carResultsPresenter.setVisibility(VISIBLE);
 			carSearchPresenter.setVisibility(VISIBLE);
 			if (forward) {
-				searchStartingAlpha = carResultsPresenter.animationStart(forward);
+				searchStartingAlpha = carResultsPresenter.animationStart();
 			}
 			else {
-				carResultsPresenter.animationStart(forward);
+				carResultsPresenter.animationStart();
 			}
 			carSearchPresenter.animationStart(forward, searchStartingAlpha);
 		}
@@ -93,7 +93,7 @@ public class CarPresenter extends Presenter {
 		public void endTransition(boolean forward) {
 			carResultsPresenter.setVisibility(VISIBLE);
 			carSearchPresenter.setVisibility(forward ? VISIBLE : GONE);
-			carResultsPresenter.animationFinalize(forward);
+			carResultsPresenter.animationFinalize();
 			carSearchPresenter.animationFinalize(forward);
 		}
 	};
@@ -104,7 +104,7 @@ public class CarPresenter extends Presenter {
 		public void startTransition(boolean forward) {
 			carResultsPresenter.setVisibility(VISIBLE);
 			carSearchPresenter.setVisibility(VISIBLE);
-			carResultsPresenter.animationStart(!forward);
+			carResultsPresenter.animationStart();
 			carSearchPresenter.animationStart(!forward, 1f);
 		}
 
@@ -129,7 +129,7 @@ public class CarPresenter extends Presenter {
 				}, 300);
 
 			}
-			carResultsPresenter.animationFinalize(!forward);
+			carResultsPresenter.animationFinalize();
 			carSearchPresenter.animationFinalize(!forward);
 		}
 	};

@@ -2,6 +2,8 @@ package com.expedia.vm.rail
 
 import android.content.Context
 import com.expedia.bookings.R
+import android.support.v4.content.ContextCompat
+import org.joda.time.DateTime
 import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.rail.requests.RailSearchRequest
 import com.expedia.bookings.utils.DateUtils
@@ -21,11 +23,31 @@ class RailSearchViewModel(context: Context) : BaseSearchViewModel(context) {
     val railOriginObservable = BehaviorSubject.create<SuggestionV4>()
     val railDestinationObservable = BehaviorSubject.create<SuggestionV4>()
 
+    val departTimeSubject = BehaviorSubject.create<Int>()
+    val returnTimeSubject = BehaviorSubject.create<Int>()
+    val departTimeSliderTooltipColor = BehaviorSubject.create<Int>()
+    val returnTimeSliderTooltipColor = BehaviorSubject.create<Int>()
+
     val railErrorNoLocationsObservable = PublishSubject.create<Unit>()
+
+    val defaultTimeTooltipColor = ContextCompat.getColor(context, R.color.rail_primary_color)
+    val errorTimeTooltipColor = ContextCompat.getColor(context, R.color.cars_tooltip_disabled_color)
 
     init {
         railOriginObservable.onNext(buildFakeOrigin())
         railDestinationObservable.onNext(buildFakeDestination())
+
+        departTimeSubject.subscribe {
+            val valid = it < DateTime.now().millisOfDay //todo more logic
+
+            departTimeSliderTooltipColor.onNext(if (valid) defaultTimeTooltipColor else errorTimeTooltipColor)
+        }
+
+        returnTimeSubject.subscribe {
+            val valid = it < DateTime.now().millisOfDay //todo more logic
+
+            returnTimeSliderTooltipColor.onNext(if (valid) defaultTimeTooltipColor else errorTimeTooltipColor)
+        }
     }
 
     val searchObserver = endlessObserver<Unit> {

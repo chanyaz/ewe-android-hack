@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/search_dialog_background_v2"
+    android:clipToPadding="false"
+    android:orientation="vertical">
+
+    <com.mobiata.android.time.widget.CalendarPicker
+        android:id="@+id/calendar"
+        android:layout_width="match_parent"
+        android:layout_height="350dp"
+        app:calendarBaseColor="@color/cars_valid_days_calendar"
+        app:calendarDaySelectionFillColor="@android:color/white"
+        app:calendarDaysOfWeekColor="?attr/primary_color"
+        app:calendarHeaderShowInstructions="true"
+        app:calendarHeaderTextColor="?attr/primary_color"
+        app:calendarHeaderTextSize="16dp"
+        app:calendarHighlightColor="?attr/primary_color"
+        app:calendarHighlightInverseColor="?attr/primary_color"
+        app:calendarInvalidDaysColor="@color/cars_invalid_days_calendar"
+        app:calendarLayout="@layout/calendar_cars_lx_layout"
+        app:calendarSecondaryColor="@color/cars_valid_days_calendar"
+        app:calendarTodayColor="?attr/primary_color"
+        app:calendarToolTipBackground="@drawable/toolbar_bg"
+        app:calendarToolTipEnabled="true"
+        app:calendarToolTipTailDrawable="@drawable/toolbar_arrow"
+        app:calendarWeekSelectionColor="?attr/primary_color" />
+
+    <ViewStub
+        android:id="@+id/timesStub"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/calendar"
+        android:layout="@layout/times_sliders_layout" />
+
+    <LinearLayout
+        android:id="@+id/pickup_time_popup_container"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="1dp"
+        android:visibility="gone">
+
+        <LinearLayout
+            android:id="@+id/pickup_time_popup_text_container"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="4dp">
+
+            <TextView
+                android:id="@+id/pickup_time_popup"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:layout_marginTop="4dp"
+                android:gravity="center"
+                android:singleLine="true"
+                android:textColor="@color/white"
+                android:textSize="14sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/pop_up_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginBottom="4dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:gravity="center"
+                android:singleLine="true"
+                android:textColor="@color/white"
+                android:textSize="10sp"
+                tools:text="pick up time" />
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/pickup_time_popup_tail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="13dp"
+            android:layout_marginRight="13dp"
+            android:adjustViewBounds="true"
+            android:src="@drawable/toolbar_arrow"
+            android:tint="@color/rail_primary_color" />
+
+    </LinearLayout>
+
+</RelativeLayout>

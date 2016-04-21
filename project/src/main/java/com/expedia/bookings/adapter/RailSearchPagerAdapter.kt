@@ -6,9 +6,10 @@ import android.view.View
 import android.view.ViewGroup
 import com.expedia.bookings.R
 import com.expedia.bookings.presenter.rail.RailSearchWidget
+import com.expedia.util.notNullAndObservable
 import com.expedia.vm.rail.RailSearchViewModel
 
-class RailSearchPagerAdapter(val context: Context, val searchViewModel: RailSearchViewModel) : PagerAdapter() {
+class RailSearchPagerAdapter(val context: Context) : PagerAdapter() {
 
     enum class Tab(val titleResourceId: Int) {
         SINGLE(R.string.rail_single),
@@ -24,11 +25,16 @@ class RailSearchPagerAdapter(val context: Context, val searchViewModel: RailSear
         return true
     }
 
+    val searchWidget = RailSearchWidget(context)
+
+    var searchViewModel by notNullAndObservable<RailSearchViewModel>() {
+        searchWidget.searchViewModel = it
+    }
+
     override fun instantiateItem(container: ViewGroup?, position: Int): Any? {
         if (position == 0) {
-            val view = RailSearchWidget(container!!.context, searchViewModel)
-            container.addView(view)
-            return view
+            container?.addView(searchWidget)
+            return searchWidget
         } else {
             val view = View(context);
             container?.addView(view)
