@@ -11,15 +11,14 @@ import com.expedia.util.endlessObserver
 import com.expedia.vm.hotel.HotelDetailViewModel
 import com.mobiata.mocke3.ExpediaDispatcher
 import com.mobiata.mocke3.FileSystemOpener
-import com.squareup.okhttp.OkHttpClient
-import com.squareup.okhttp.mockwebserver.MockWebServer
+import okhttp3.logging.HttpLoggingInterceptor
+import okhttp3.mockwebserver.MockWebServer
 import org.joda.time.format.DateTimeFormat
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.Robolectric
-import retrofit.RestAdapter
 import rx.observers.TestSubscriber
 import rx.schedulers.Schedulers
 import java.io.File
@@ -37,7 +36,12 @@ class HotelValueAddsTest {
     @Before
     fun before() {
         val activity = Robolectric.buildActivity(Activity::class.java).create().get()
-        service = HotelServices("http://localhost:" + server.port, OkHttpClient(), MockInterceptor(), Schedulers.immediate(), Schedulers.immediate(), RestAdapter.LogLevel.FULL)
+        val logger = HttpLoggingInterceptor()
+        logger.level = HttpLoggingInterceptor.Level.BODY
+        val interceptor = MockInterceptor()
+        service = HotelServices("http://localhost:" + server.getPort(),
+                okhttp3.OkHttpClient.Builder().addInterceptor(logger).addInterceptor(interceptor).build(),
+                Schedulers.immediate(), Schedulers.immediate())
         vm = HotelDetailViewModel(activity.applicationContext, endlessObserver { /*ignore*/ })
     }
 

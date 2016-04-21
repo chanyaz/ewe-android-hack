@@ -10,10 +10,10 @@ import com.expedia.bookings.data.rail.responses.RailDetailsResponse;
 import com.expedia.bookings.data.rail.responses.RailSearchResponse;
 import com.expedia.bookings.data.rail.responses.RailValidateResponse;
 
-import retrofit.http.Body;
-import retrofit.http.Field;
-import retrofit.http.FormUrlEncoded;
-import retrofit.http.POST;
+import retrofit2.http.Body;
+import retrofit2.http.Field;
+import retrofit2.http.FormUrlEncoded;
+import retrofit2.http.POST;
 import rx.Observable;
 
 public interface RailApi {

@@ -13,7 +13,7 @@ import com.expedia.bookings.data.SuggestionV2TypeAdapter;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.mobiata.android.Log;
-import com.squareup.okhttp.Response;
+import okhttp3.Response;
 
 public class AutoJsonResponseHandler<T> implements ResponseHandler<GsonResponse<T>> {
 

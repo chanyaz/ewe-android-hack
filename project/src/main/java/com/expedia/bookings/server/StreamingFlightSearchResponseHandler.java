@@ -30,7 +30,7 @@ import com.mobiata.android.Log;
 import com.mobiata.flightlib.data.Flight;
 import com.mobiata.flightlib.data.FlightCode;
 import com.mobiata.flightlib.data.Waypoint;
-import com.squareup.okhttp.Response;
+import okhttp3.Response;
 
 /**
  * A streaming flight search results parser.

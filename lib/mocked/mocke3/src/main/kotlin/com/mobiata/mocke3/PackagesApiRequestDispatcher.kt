@@ -1,7 +1,7 @@
 package com.mobiata.mocke3
 
-import com.squareup.okhttp.mockwebserver.MockResponse
-import com.squareup.okhttp.mockwebserver.RecordedRequest
+import okhttp3.mockwebserver.MockResponse
+import okhttp3.mockwebserver.RecordedRequest
 import java.io.BufferedReader
 import java.io.ByteArrayInputStream
 import java.io.ByteArrayOutputStream
@@ -14,7 +14,7 @@ class PackagesApiRequestDispatcher(fileOpener: FileOpener) : AbstractDispatcher(
         request.body.copyTo(output)
 
         val urlPath = request.path
-        val urlParams = parseRequest(request)
+        val urlParams = parseHttpRequest(request)
 
         return when {
             PackageApiRequestMatcher.isHotelSearchRequest(urlParams, urlPath) -> {

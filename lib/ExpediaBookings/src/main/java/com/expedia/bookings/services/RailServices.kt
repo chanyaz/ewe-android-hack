@@ -2,35 +2,32 @@ package com.expedia.bookings.services
 
 import com.expedia.bookings.data.rail.requests.RailCheckoutRequest
 import com.expedia.bookings.data.rail.requests.RailDetailsRequest
-import com.expedia.bookings.data.rail.requests.RailSearchRequest
-import com.expedia.bookings.data.rail.requests.api.RailApiSearchModel
-import com.expedia.bookings.data.rail.responses.RailSearchResponse
 import com.expedia.bookings.data.rail.requests.RailValidateRequest
+import com.expedia.bookings.data.rail.requests.api.RailApiSearchModel
 import com.expedia.bookings.data.rail.responses.RailCheckoutResponse
 import com.expedia.bookings.data.rail.responses.RailCreateTripResponse
 import com.expedia.bookings.data.rail.responses.RailDetailsResponse
+import com.expedia.bookings.data.rail.responses.RailSearchResponse
 import com.expedia.bookings.data.rail.responses.RailValidateResponse
 import com.google.gson.GsonBuilder
-import com.squareup.okhttp.OkHttpClient
-import retrofit.RequestInterceptor
-import retrofit.RestAdapter
-import retrofit.client.OkClient
-import retrofit.converter.GsonConverter
+import okhttp3.OkHttpClient
+import retrofit2.Retrofit
+import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory
+import retrofit2.converter.gson.GsonConverterFactory
 import rx.Observer
 import rx.Scheduler
 import rx.Subscription
 
-class RailServices(endpoint: String, okHttpClient: OkHttpClient, requestInterceptor: RequestInterceptor, val observeOn: Scheduler, val subscribeOn: Scheduler, logLevel: RestAdapter.LogLevel) {
+class RailServices(endpoint: String, okHttpClient: OkHttpClient, val observeOn: Scheduler, val subscribeOn: Scheduler) {
 
     val railApi by lazy {
 
         val gson = GsonBuilder().create();
-        val adapter = RestAdapter.Builder()
-                .setEndpoint(endpoint)
-                .setRequestInterceptor(requestInterceptor)
-                .setLogLevel(logLevel)
-                .setConverter(GsonConverter(gson))
-                .setClient(OkClient(okHttpClient))
+        val adapter = Retrofit.Builder()
+                .baseUrl(endpoint)
+                .addConverterFactory(GsonConverterFactory.create(gson))
+                .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
+                .client(okHttpClient)
                 .build()
 
         adapter.create(RailApi::class.java)

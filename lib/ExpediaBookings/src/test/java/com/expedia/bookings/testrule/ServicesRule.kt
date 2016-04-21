@@ -3,13 +3,12 @@ package com.expedia.bookings.testrule
 import com.expedia.bookings.interceptors.MockInterceptor
 import com.mobiata.mocke3.ExpediaDispatcher
 import com.mobiata.mocke3.FileSystemOpener
-import com.squareup.okhttp.OkHttpClient
-import com.squareup.okhttp.mockwebserver.MockWebServer
+import okhttp3.OkHttpClient
+import okhttp3.logging.HttpLoggingInterceptor
+import okhttp3.mockwebserver.MockWebServer
 import org.junit.rules.TestRule
 import org.junit.runner.Description
 import org.junit.runners.model.Statement
-import retrofit.RequestInterceptor
-import retrofit.RestAdapter
 import rx.Scheduler
 import rx.schedulers.Schedulers
 import java.io.File
@@ -46,9 +45,15 @@ open class ServicesRule<T : Any>(val servicesClass: Class<T>, val rootPath: Stri
     @Throws(IllegalAccessException::class, InstantiationException::class, NoSuchMethodException::class, InvocationTargetException::class)
     private fun generateServices(): T {
 
-        return servicesClass.getConstructor(String::class.java, OkHttpClient::class.java, RequestInterceptor::class.java, Scheduler::class.java,
-                Scheduler::class.java, RestAdapter.LogLevel::class.java).newInstance("http://localhost:" + server.port, OkHttpClient(), MockInterceptor(),
-                Schedulers.immediate(), Schedulers.immediate(), RestAdapter.LogLevel.FULL)
+        val client = OkHttpClient().newBuilder()
+        val logger = HttpLoggingInterceptor()
+        logger.level = HttpLoggingInterceptor.Level.BODY
+        client.addInterceptor(logger)
+        client.addInterceptor(MockInterceptor())
+
+        return servicesClass.getConstructor(String::class.java, OkHttpClient::class.java, Scheduler::class.java,
+                Scheduler::class.java).newInstance("http://localhost:" + server.port, client.build(),
+                Schedulers.immediate(), Schedulers.immediate())
     }
 
     private fun diskExpediaDispatcher(): ExpediaDispatcher {
