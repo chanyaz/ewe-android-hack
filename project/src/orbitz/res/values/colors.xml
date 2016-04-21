@@ -39,6 +39,7 @@
     <color name="checkout_additional_fees_tablet_bg">#004D7C</color>
     <color name="credit_card_form_additional_fees_tablet_bg">@color/checkout_additional_fees_tablet_bg</color>
     <color name="preferences_text">#495863</color>
+    <color name="hotel_points_applied_plus_color">#03AD1D</color>
 
     <!-- Popular Hotels Tonight Discount strips-->
     <color name="launch_mobile_exclusive">#00253C</color>
