@@ -129,33 +129,17 @@ public class LXCheckoutParams {
 		params.put("phone", phone);
 		params.put("phoneCountryCode", phoneCountryCode);
 		params.put("tripId", tripId);
-		if (postalCode != null) {
-			params.put("postalCode", postalCode);
-		}
+		params.put("postalCode", postalCode);
 		params.put("expectedFareCurrencyCode", expectedFareCurrencyCode);
 		params.put("expectedFareCurrencyCode", expectedFareCurrencyCode);
 		params.put("expectedTotalFare", expectedTotalFare);
-		if (nameOnCard != null) {
-			params.put("nameOnCard", nameOnCard);
-		}
-		if (creditCardNumber != null) {
-			params.put("creditCardNumber", creditCardNumber);
-		}
-		if (expirationDateYear != null) {
-			params.put("expirationDateYear", expirationDateYear);
-		}
-		if (expirationDateMonth != null) {
-			params.put("expirationDateMonth", expirationDateMonth);
-		}
-		if (cvv != null) {
-			params.put("cvv", cvv);
-		}
-		if (email != null) {
-			params.put("email", email);
-		}
-		if (storedCreditCardId != null) {
-			params.put("storedCreditCardId", storedCreditCardId);
-		}
+		params.put("nameOnCard", nameOnCard);
+		params.put("creditCardNumber", creditCardNumber);
+		params.put("expirationDateYear", expirationDateYear);
+		params.put("expirationDateMonth", expirationDateMonth);
+		params.put("cvv", cvv);
+		params.put("email", email);
+		params.put("storedCreditCardId", storedCreditCardId);
 		params.put("suppressFinalBooking", suppressFinalBooking);
 		params.put("abacusUserGuid", guid);
 		return params;

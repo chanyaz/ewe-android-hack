@@ -1,13 +1,14 @@
 package com.mobiata.mocke3
 
-import okhttp3.mockwebserver.MockResponse
-import okhttp3.mockwebserver.RecordedRequest
+import com.squareup.okhttp.mockwebserver.MockResponse
+import com.squareup.okhttp.mockwebserver.RecordedRequest
+import java.util.regex.Pattern
 
 class CarApiRequestDispatcher(fileOpener: FileOpener) : AbstractDispatcher(fileOpener) {
 
     override fun dispatch(request: RecordedRequest): MockResponse {
         val path = request.path
-        val params = parseHttpRequest(request)
+        val params = parseRequest(request)
 
         if (!CarApiRequestMatcher.isCarApiRequest(path)) {
             throwUnsupportedRequestException(path)

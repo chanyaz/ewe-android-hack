@@ -11,6 +11,7 @@ import com.expedia.vm.HotelCreateTripViewModel
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
+import retrofit.RetrofitError
 import rx.Observer
 import rx.observers.TestSubscriber
 import java.io.IOException
@@ -79,7 +80,8 @@ class HotelCreateTripViewModelTests {
         val testSubscriber = TestSubscriber<Unit>()
 
         sut.noResponseObservable.subscribe(testSubscriber)
-        sut.getCreateTripResponseObserver().onError(IOException())
+        sut.getCreateTripResponseObserver().onError(RetrofitError.networkError("", IOException()))
+
         testSubscriber.assertValueCount(1)
     }
 

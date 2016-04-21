@@ -2,11 +2,13 @@ package com.mobiata.mocke3
 
 import com.expedia.bookings.data.hotels.HotelCheckoutV2Params
 import com.google.gson.GsonBuilder
-import okhttp3.mockwebserver.MockResponse
-import okhttp3.mockwebserver.RecordedRequest
+import com.squareup.okhttp.mockwebserver.MockResponse
+import com.squareup.okhttp.mockwebserver.RecordedRequest
 import org.joda.time.DateTime
 import org.joda.time.format.DateTimeFormat
 import java.util.LinkedHashMap
+import java.util.regex.Pattern
+import kotlin.text.isNullOrBlank
 
 class HotelRequestDispatcher(fileOpener: FileOpener) : AbstractDispatcher(fileOpener) {
 
@@ -19,7 +21,7 @@ class HotelRequestDispatcher(fileOpener: FileOpener) : AbstractDispatcher(fileOp
 
         // Hotel checkout V2 uses JSON POST body which other requests do not.
         if (!HotelRequestMatcher.isHotelCheckoutV2Request(urlPath))
-            params = parseHttpRequest(request)
+            params = parseRequest(request)
 
         if (!HotelRequestMatcher.isHotelRequest(urlPath) && !HotelRequestMatcher.isCouponRequest(urlPath)) {
             throwUnsupportedRequestException(urlPath)
