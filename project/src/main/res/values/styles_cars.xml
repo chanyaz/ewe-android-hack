@@ -231,5 +231,12 @@
     <style name="CarNavigationButtonStyle" parent="Widget.AppCompat.Toolbar.Button.Navigation">
         <item name="android:background">?android:selectableItemBackground</item>
     </style>
-    
+
+    <style name="Theme.AlertDialog" parent="Theme.AppCompat.Light.Dialog">
+        <item name="colorAccent">?attr/primary_color</item>
+        <item name="colorPrimary">?attr/primary_color</item>
+    </style>
+
+
+
 </resources>
