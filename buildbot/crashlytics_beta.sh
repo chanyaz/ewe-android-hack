@@ -27,14 +27,18 @@ if [ -z "${TARGET}" ] ; then
 fi
 echo "TARGET=$TARGET"
 
-if [ -z "${APPLICATION_ID_SUFFIX}" ] ; then
-    echo "Must supply APPLICATION_ID_SUFFIX so we can figure out which crashlytics build to upload"
-    exit 1
+if [ -z “${BUILD_VARIANT}” ] ; then
+    BUILD_VARIANT=Debug
 fi
-echo "APPLICATION_ID_SUFFIX=${APPLICATION_ID_SUFFIX}"
+echo "BUILD_VARIANT=$BUILD_VARIANT"
 
 TERM=dumb
-./gradlew "-Pid=${APPLICATION_ID_SUFFIX}" "crashlyticsUploadDistribution${TARGET}Debug"
+
+if [ -z "${APPLICATION_ID_SUFFIX}" ] ; then
+    ./gradlew "-Pid=${APPLICATION_ID_SUFFIX}" "crashlyticsUploadDistribution${TARGET}${BUILD_VARIANT}"
+else
+    ./gradlew "crashlyticsUploadDistribution${TARGET}${BUILD_VARIANT}”
+fi
 
 RESULT=$?
 
