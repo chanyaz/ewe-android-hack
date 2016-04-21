@@ -419,17 +419,17 @@ class AccountSettingsFragment : Fragment(),
                 when (userLoyaltyInfo?.loyaltyMembershipTier) {
                     Traveler.LoyaltyMembershipTier.BLUE -> {
                         memberTierView.setBackgroundResource(R.drawable.bg_loyalty_badge_base_tier)
-                        memberTierView.setTextColor(ContextCompat.getColor(context, R.color.expedia_plus_blue_text))
+                        memberTierView.setTextColor(ContextCompat.getColor(context, R.color.reward_color_base_text))
                         memberTierView.setText(R.string.plus_blue)
                     }
                     Traveler.LoyaltyMembershipTier.SILVER -> {
                         memberTierView.setBackgroundResource(R.drawable.bg_loyalty_badge_middle_tier)
-                        memberTierView.setTextColor(ContextCompat.getColor(context, R.color.expedia_plus_silver_text))
+                        memberTierView.setTextColor(ContextCompat.getColor(context, R.color.reward_color_middle_text))
                         memberTierView.setText(R.string.plus_silver)
                     }
                     Traveler.LoyaltyMembershipTier.GOLD -> {
                         memberTierView.setBackgroundResource(R.drawable.bg_loyalty_badge_top_tier)
-                        memberTierView.setTextColor(ContextCompat.getColor(context, R.color.expedia_plus_gold_text))
+                        memberTierView.setTextColor(ContextCompat.getColor(context, R.color.reward_color_top_text))
                         memberTierView.setText(R.string.plus_gold)
                     }
                     else -> {

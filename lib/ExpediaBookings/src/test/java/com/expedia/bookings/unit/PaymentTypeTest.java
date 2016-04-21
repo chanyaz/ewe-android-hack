@@ -9,7 +9,7 @@ public class PaymentTypeTest {
 
 	@Test
 	public void isPointsWorks() {
-		Assert.assertTrue(PaymentType.POINTS_EXPEDIA_REWARDS.isPoints());
+		Assert.assertTrue(PaymentType.POINTS_REWARDS.isPoints());
 		Assert.assertFalse(PaymentType.CARD_AMERICAN_EXPRESS.isPoints());
 		Assert.assertFalse(PaymentType.CARD_CARTA_SI.isPoints());
 		Assert.assertFalse(PaymentType.CARD_CARTE_BLANCHE.isPoints());
@@ -25,7 +25,7 @@ public class PaymentTypeTest {
 
 	@Test
 	public void isCardWorks() {
-		Assert.assertFalse(PaymentType.POINTS_EXPEDIA_REWARDS.isCard());
+		Assert.assertFalse(PaymentType.POINTS_REWARDS.isCard());
 		Assert.assertTrue(PaymentType.CARD_AMERICAN_EXPRESS.isCard());
 		Assert.assertTrue(PaymentType.CARD_CARTA_SI.isCard());
 		Assert.assertTrue(PaymentType.CARD_CARTE_BLANCHE.isCard());
