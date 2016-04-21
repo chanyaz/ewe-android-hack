@@ -321,7 +321,7 @@ public class AccountButton extends LinearLayout {
 		if (Strings.isEmpty(rewardPoints)) {
 			//Do nothing
 		}
-		else if (Strings.equals("0", rewardPoints)) {
+		else if (Strings.equals("0.0", rewardPoints)) {
 			youllEarnRewardsPointsText = mContext.getString(R.string.you_are_a_valued_member);
 
 		}
