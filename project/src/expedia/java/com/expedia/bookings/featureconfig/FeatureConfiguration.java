@@ -319,4 +319,9 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 	public PointOfSaleId getUSPointOfSaleId() {
 		return PointOfSaleId.UNITED_STATES;
 	}
+
+	@Override
+	public boolean isEarnMessageOnCheckoutSignInButtonEnabled() {
+		return false;
+	}
 }

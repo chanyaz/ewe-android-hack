@@ -319,4 +319,9 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 	public PointOfSaleId getUSPointOfSaleId() {
 		return PointOfSaleId.ORBITZ;
 	}
+
+	@Override
+	public boolean isEarnMessageOnCheckoutSignInButtonEnabled() {
+		return true;
+	}
 }

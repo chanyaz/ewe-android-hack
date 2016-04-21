@@ -68,4 +68,6 @@
     <string name="vip_loyalty_applied_header_message">@string/vip_loyalty_applied_message</string>
     <string name="vip_loyalty_applied_map_message">&lt;b&gt;+VIP&lt;/b&gt; Orbucks applied!</string>
 
+    <!-- Sign in with earn message. Eg: Sign in to earn $123.22 in Orbucks -->
+    <string name="Sign_in_to_earn_TEMPLATE">Sign in to earn {reward} in Orbucks</string>
 </resources>

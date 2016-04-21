@@ -18,6 +18,7 @@ import com.expedia.bookings.data.CreateTripResponse;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.LineOfBusiness;
+import com.expedia.bookings.data.RewardsInfo;
 import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.data.TripBucketItemFlight;
 import com.expedia.bookings.data.TripBucketItemHotel;
@@ -100,9 +101,6 @@ public class AccountButton extends LinearLayout {
 			.put("brand", BuildConfig.brand)
 			.format());
 
-		mLoginTextView.setText(Phrase.from(this, R.string.Sign_in_with_TEMPLATE)
-			.put("brand", BuildConfig.brand)
-			.format());
 	}
 
 	@Override
@@ -186,7 +184,20 @@ public class AccountButton extends LinearLayout {
 			mLoginTextView.setGravity(Gravity.LEFT);
 			int padding = getResources().getDimensionPixelSize(R.dimen.account_button_text_padding);
 			mLoginTextView.setPadding(padding, padding, padding, padding);
+			if (isSignInEarnMessagingEnabled(lob)) {
+				mLoginTextView.setText(getSignInWithRewardsAmountText(lob));
+			}
+			else {
+				mLoginTextView.setText(Phrase.from(this, R.string.Sign_in_with_TEMPLATE)
+					.put("brand", BuildConfig.brand)
+					.format());
+			}
+
 		}
+	}
+
+	private boolean isSignInEarnMessagingEnabled(LineOfBusiness lob) {
+		return ProductFlavorFeatureConfiguration.getInstance().isEarnMessageOnCheckoutSignInButtonEnabled() && lob == LineOfBusiness.HOTELSV2;
 	}
 
 	private void bindLogoutContainer(Traveler traveler, LineOfBusiness lob) {
@@ -303,7 +314,7 @@ public class AccountButton extends LinearLayout {
 			TripBucketItemHotelV2 hotelV2 = Db.getTripBucket().getHotelV2();
 			HotelCreateTripResponse trip = hotelV2 == null ? null : hotelV2.mHotelTripResponse;
 			rewardPoints = trip == null ? "" : String.valueOf(trip.getRewards() != null ? NumberFormat.getInstance()
-				.format(trip.getRewards().getUpdatedExpediaRewards()) : 0);
+				.format(trip.getRewards().getUpdatedRewards()) : 0);
 			break;
 		case LX:
 			TripBucketItemLX lx = Db.getTripBucket().getLX();
@@ -315,7 +326,7 @@ public class AccountButton extends LinearLayout {
 			PackageCreateTripResponse packageTrip = pkgItem == null ? null : pkgItem.mPackageTripResponse;
 			rewardPoints = packageTrip == null ? "" : String.valueOf(
 				packageTrip.getRewards() != null ? NumberFormat.getInstance()
-					.format(packageTrip.getRewards().getUpdatedExpediaRewards()) : 0);
+					.format(packageTrip.getRewards().getUpdatedRewards()) : 0);
 			break;
 		}
 
@@ -356,6 +367,37 @@ public class AccountButton extends LinearLayout {
 		}
 
 		return youllEarnRewardsPointsText.toString();
+	}
+
+	private CharSequence getSignInWithRewardsAmountText(LineOfBusiness lob) {
+		RewardsInfo rewardsInfo = getRewardsForLOB(lob);
+
+		if (rewardsInfo != null) {
+			//noinspection ConstantConditions This can never be null from api.
+			String rewardsToEarn = rewardsInfo.getTotalAmountToEarn()
+				.getFormattedMoneyFromAmountAndCurrencyCode();
+			return Phrase.from(this, R.string.Sign_in_to_earn_TEMPLATE)
+				.put("reward", rewardsToEarn)
+				.format();
+		}
+		else {
+			return Phrase.from(this, R.string.Sign_in_with_TEMPLATE)
+				.put("brand", BuildConfig.brand)
+				.format();
+		}
+
+	}
+
+	public RewardsInfo getRewardsForLOB(LineOfBusiness lob) {
+		if (lob == LineOfBusiness.HOTELSV2) {
+			TripBucketItemHotelV2 hotelV2 = Db.getTripBucket().getHotelV2();
+			HotelCreateTripResponse trip = hotelV2 == null ? null : hotelV2.mHotelTripResponse;
+			//TODO Remove trip.getRewards() != null && trip.getRewards().getTotalAmountToEarn() != null. Currently we need to initialize it till we start getting this in production.
+			if (trip != null && trip.getRewards() != null && trip.getRewards().getTotalAmountToEarn() != null) {
+				return trip.getRewards();
+			}
+		}
+		return null;
 	}
 
 	protected void setLogoutContainerBackground(View logoutContainer) {

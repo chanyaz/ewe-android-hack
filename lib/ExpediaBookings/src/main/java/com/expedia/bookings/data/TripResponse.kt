@@ -14,25 +14,8 @@ abstract class TripResponse : BaseApiResponse() {
     var pointsDetails: List<PointsDetails>? = null
     var userPreferencePoints: UserPaymentPreferences? = null
     lateinit var validFormsOfPayment: List<ValidPayment>
-    var rewards: Rewards? = null
+    var rewards: RewardsInfo? = null
     var guestUserPromoEmailOptInStatus: String? = null
-
-    class Rewards {
-        val totalPointsToEarn: Float = 0f
-        var totalAmountToEarn: Money? = null
-        val isActiveRewardsMember: Boolean = false
-        val rewardsMembershipTierName: String by Delegates.notNull()
-        //Utility Member for local modifications in case we receive updated expedia rewards when we modify the Points to be burned. Not received by deserialization/server-response.
-        private var updatedExpediaRewards: Float? = null
-
-        fun setUpdatedExpediaRewards(points: Float) {
-            updatedExpediaRewards = points
-        }
-
-        fun getUpdatedExpediaRewards(): Float? {
-            return if (updatedExpediaRewards != null) updatedExpediaRewards else totalPointsToEarn
-        }
-    }
 
     fun getPointDetails(): PointsDetails? {
         val programName = getProgramName()

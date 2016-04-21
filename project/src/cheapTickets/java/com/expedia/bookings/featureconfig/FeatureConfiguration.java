@@ -319,4 +319,10 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 	public PointOfSaleId getUSPointOfSaleId() {
 		return PointOfSaleId.CHEAPTICKETS;
 	}
+
+	@Override
+	public boolean isEarnMessageOnCheckoutSignInButtonEnabled() {
+		return true;
+	}
+
 }

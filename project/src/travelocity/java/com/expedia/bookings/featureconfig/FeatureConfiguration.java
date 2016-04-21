@@ -317,4 +317,10 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 	public PointOfSaleId getUSPointOfSaleId() {
 		return PointOfSaleId.TRAVELOCITY;
 	}
+
+	@Override
+	public boolean isEarnMessageOnCheckoutSignInButtonEnabled() {
+		return false;
+	}
+
 }
