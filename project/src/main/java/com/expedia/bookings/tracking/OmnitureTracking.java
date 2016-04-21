@@ -1064,21 +1064,10 @@ public class OmnitureTracking {
 
 	private static String internalGenerateHotelV2DRRString(HotelOffersResponse hotelOffersResponse) {
 		if (hotelOffersResponse != null && CollectionUtils.isNotEmpty(hotelOffersResponse.hotelRoomResponse)) {
-			StringBuilder sb = new StringBuilder("Hotels | ");
 			HotelOffersResponse.HotelRoomResponse firstRoomDetails = hotelOffersResponse.hotelRoomResponse.get(0);
-			int discountPercent = (int) Math.abs(firstRoomDetails.rateInfo.chargeableRateInfo.discountPercent);
-			if (firstRoomDetails.isDiscountRestrictedToCurrentSourceType) {
-				sb.append("Mobile Exclusive");
-				if (discountPercent > 0) {
-					sb.append(": ");
-
-				}
+			if (Strings.isNotEmpty(firstRoomDetails.promoDescription)) {
+				return "Hotels | " + firstRoomDetails.promoDescription;
 			}
-			if (discountPercent > 0) {
-				sb.append(discountPercent);
-				sb.append("% OFF");
-			}
-			return sb.toString();
 		}
 		return null;
 	}
@@ -1216,9 +1205,6 @@ public class OmnitureTracking {
 
 		s.setAppState("App.Hotels.RoomsRates");
 
-		// Promo description
-		s.setEvar(9, internalGenerateDRRString(context, property));
-
 		if (ProductFlavorFeatureConfiguration.getInstance().isETPEnabled() && property.hasEtpOffer()) {
 			s.setEvents("event5");
 		}
@@ -1252,11 +1238,6 @@ public class OmnitureTracking {
 		s.setAppState(pageName);
 		s.setEvar(18, pageName);
 		s.setEvents("purchase");
-
-		// Promo description
-		if (rate != null) {
-			s.setEvar(9, internalGenerateDRRString(context, property));
-		}
 
 		// Product details
 		DateTimeFormatter dtf = ISODateTimeFormat.basicDate();
@@ -1308,33 +1289,11 @@ public class OmnitureTracking {
 			addProducts(s, property);
 		}
 
-		String drrString = internalGenerateDRRString(context, property);
-		s.setEvar(9, drrString);
-
 		// 4761 - AB Test: Collapse Amenities, Policies, and fees on Infosite
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppHotelCollapseAmenities);
 
 		// Send the tracking data
 		s.track();
-	}
-
-	private static String internalGenerateDRRString(Context context, Property property) {
-		StringBuilder sb = new StringBuilder("Hotels | ");
-		if (property != null) {
-			if (property.isLowestRateMobileExclusive()) {
-				sb.append("Mobile Exclusive");
-				if (property.getLowestRate() != null && property.getLowestRate().isOnSale()) {
-					sb.append(": ");
-				}
-			}
-			if (property.getLowestRate() != null && property.getLowestRate().isOnSale()) {
-				String discount = context.getString(R.string.percent_off_template,
-					(float) property.getLowestRate().getDiscountPercent());
-				sb.append(discount);
-			}
-			return sb.toString();
-		}
-		return null;
 	}
 
 	public static void trackPageLoadHotelsInfositeMap() {
