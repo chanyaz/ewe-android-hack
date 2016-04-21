@@ -187,6 +187,7 @@ abstract class BaseOverviewPresenter(context: Context, attrs: AttributeSet) : Pr
                 checkoutPresenter.slideToPurchase.resetSlider()
             } else {
                 cvv.visibility = View.VISIBLE
+                trackPaymentCIDLoad()
             }
         }
     }
@@ -207,4 +208,5 @@ abstract class BaseOverviewPresenter(context: Context, attrs: AttributeSet) : Pr
     abstract fun getCheckoutTransitionClass() : Class<out Any>
 
     abstract fun trackCheckoutPageLoad()
+    abstract fun trackPaymentCIDLoad()
 }

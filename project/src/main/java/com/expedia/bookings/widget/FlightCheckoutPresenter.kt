@@ -12,7 +12,6 @@ import com.expedia.vm.FlightCheckoutViewModel
 import com.squareup.otto.Subscribe
 
 class FlightCheckoutPresenter(context: Context, attr: AttributeSet) : BaseCheckoutPresenter(context, attr) {
-
     var checkoutViewModel: FlightCheckoutViewModel by notNullAndObservable { vm ->
         viewModel.checkoutInfoCompleted.subscribe(vm.baseParams)
         vm.legalText.subscribeTextAndVisibility(legalInformationText)
@@ -54,5 +53,8 @@ class FlightCheckoutPresenter(context: Context, attr: AttributeSet) : BaseChecko
 
     override fun updateTravelerPresenter() {
         travelerPresenter.visibility = View.VISIBLE
+    }
+
+    override fun trackShowSlideToPurchase() {
     }
 }

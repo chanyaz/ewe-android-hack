@@ -4906,6 +4906,17 @@ public class OmnitureTracking {
 	private static final String PACKAGES_FLIGHT_FILTER_STOPS_TEMPLATE = "App.Package.Flight.Search.Filter.";
 	private static final String PACKAGES_FLIGHT_AIRLINES = "App.Package.Flight.Search.Filter.Airline";
 
+	private static final String PACKAGES_SEARCH_ERROR = "App.Package.Hotels-Search.NoResults";
+	private static final String PACKAGES_CHECKOUT_ERROR = "App.Package.Checkout.Error";
+	private static final String PACKAGES_CHECKOUT_ERROR_RETRY = "App.Package.CKO.Error.Retry";
+
+	private static final String PACKAGES_CHECKOUT_SELECT_TRAVELER = "App.Package.Checkout.Traveler.Select";
+	private static final String PACKAGES_CHECKOUT_EDIT_TRAVELER = "App.Package.Checkout.Traveler.Edit.Info";
+	private static final String PACKAGES_CHECKOUT_SLIDE_TO_PURCHASE = "App.Package.Checkout.SlideToPurchase";
+	private static final String PACKAGES_CHECKOUT_PAYMENT_CID = "App.Package.Checkout.Payment.CID";
+	private static final String PACKAGES_CHECKOUT_PRICE_CHANGE = "App.Package.CKO.PriceChange";
+
+
 	private static void addPackagesCommonFields(ADMS_Measurement s) {
 		s.setProp(2, PACKAGES_LOB);
 		s.setEvar(2, "D=c2");
@@ -5215,5 +5226,47 @@ public class OmnitureTracking {
 
 	public static void trackPackagesHotelMapSelectRoomClick() {
 		createAndtrackLinkEvent(PACKAGES_HOTEL_DETAILS_MAP_SELECT_ROOM, "Infosite Map");
+	}
+
+	public static void trackPackagesSearchError(String errorType) {
+		Log.d(TAG, "Tracking \"" + PACKAGES_SEARCH_ERROR + "\" pageLoad...");
+		ADMS_Measurement s = createTrackPageLoadEventBase(PACKAGES_SEARCH_ERROR);
+		s.setProp(36, errorType);
+	}
+
+	public static void trackPackagesCheckoutError(String errorType) {
+		Log.d(TAG, "Tracking \"" + PACKAGES_CHECKOUT_ERROR + "\" pageLoad...");
+		ADMS_Measurement s = createTrackPageLoadEventBase(PACKAGES_CHECKOUT_ERROR);
+		s.setEvents("event38");
+		s.setProp(36, errorType);
+		s.track();
+	}
+
+	public static void trackPackagesCheckoutErrorRetry() {
+		createAndtrackLinkEvent(PACKAGES_CHECKOUT_ERROR_RETRY, "Package Checkout");
+	}
+
+	public static void trackPackagesCheckoutSelectTraveler() {
+		createTrackPageLoadEventBase(PACKAGES_CHECKOUT_SELECT_TRAVELER).track();
+	}
+
+	public static void trackPackagesCheckoutEditTraveler() {
+		createTrackPageLoadEventBase(PACKAGES_CHECKOUT_EDIT_TRAVELER).track();
+	}
+
+	public static void trackPackagesCheckoutSlideToPurchase() {
+		createTrackPageLoadEventBase(PACKAGES_CHECKOUT_SLIDE_TO_PURCHASE).track();
+	}
+
+	public static void trackPackagesCheckoutPaymentCID() {
+		createTrackPageLoadEventBase(PACKAGES_CHECKOUT_PAYMENT_CID).track();
+	}
+
+	public static void trackPackagesCheckoutPriceChange(int priceDiff) {
+		Log.d(TAG, "Tracking \"" + PACKAGES_CHECKOUT_PRICE_CHANGE + "\" click...");
+		ADMS_Measurement s = createTrackLinkEvent(PACKAGES_CHECKOUT_PRICE_CHANGE);
+		s.setEvents("event62");
+		s.setProp(9, "PKG|" + priceDiff);
+		s.trackLink(null, "o", "Package Checkout", null, null);
 	}
 }

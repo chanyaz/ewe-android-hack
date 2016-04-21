@@ -14,12 +14,14 @@ import android.widget.ListPopupWindow;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
+import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.SignInResponse;
 import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.dialog.ThrobberDialog;
 import com.expedia.bookings.fragment.SimpleSupportDialogFragment;
 import com.expedia.bookings.section.TravelerAutoCompleteAdapter;
 import com.expedia.bookings.server.ExpediaServices;
+import com.expedia.bookings.tracking.PackagesTracking;
 import com.expedia.bookings.utils.TravelerUtils;
 import com.expedia.bookings.utils.Ui;
 import com.mobiata.android.BackgroundDownloader;
@@ -45,6 +47,8 @@ public class TravelerButton extends LinearLayout {
 
 	private static final String DL_FETCH_TRAVELER_INFO = "DL_FETCH_TRAVELER_INFO";
 	private static final String FTAG_FETCH_TRAVELER_INFO = "FTAG_FETCH_TRAVELER_INFO";
+
+	private LineOfBusiness lineOfBusiness;
 
 	private TravelerAutoCompleteAdapter mTravelerAdapter;
 	private ListPopupWindow mStoredTravelerPopup;
@@ -82,6 +86,10 @@ public class TravelerButton extends LinearLayout {
 		mTravelerButtonListener = listener;
 	}
 
+	public void setLOB(LineOfBusiness lob) {
+		lineOfBusiness = lob;
+	}
+
 	private void onStoredTravelerSelected(int position) {
 		boolean isAddNewTravelerSelected = (position == mTravelerAdapter.getCount() - 1);
 		if (isAddNewTravelerSelected) {
@@ -106,6 +114,9 @@ public class TravelerButton extends LinearLayout {
 		}
 		mTraveler = mTravelerAdapter.getItem(position);
 		if (mTraveler.isSelectable()) {
+			if (lineOfBusiness == LineOfBusiness.PACKAGES) {
+				new PackagesTracking().trackCheckoutSelectTraveler();
+			}
 			BackgroundDownloader dl = BackgroundDownloader.getInstance();
 			if (dl.isDownloading(getTravelerDownloadKey())) {
 				dl.cancelDownload(getTravelerDownloadKey());

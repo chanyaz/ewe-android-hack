@@ -64,7 +64,6 @@ class FlightTravelerEntryWidget(context: Context, attrs: AttributeSet?) : FrameL
     init {
         View.inflate(context, R.layout.flight_traveler_entry_widget, this)
         travelerButton.visibility == View.GONE
-
         val adapter = CountrySpinnerAdapter(context, CountrySpinnerAdapter.CountryDisplayType.FULL_NAME,
                 R.layout.material_spinner_item, R.layout.spinner_dropdown_item, false)
         adapter.setPrefix(context.getString(R.string.passport_country_colon))

@@ -37,4 +37,7 @@ class FlightOverviewPresenter(context: Context, attrs: AttributeSet) : BaseOverv
 
     override fun trackCheckoutPageLoad() {
     }
+
+    override fun trackPaymentCIDLoad() {
+    }
 }
