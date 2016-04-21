@@ -10,6 +10,7 @@ import com.expedia.bookings.data.rail.responses.RailDetailsResponse
 import com.expedia.bookings.data.rail.responses.RailSearchResponse
 import com.expedia.bookings.data.rail.responses.RailValidateResponse
 import com.google.gson.GsonBuilder
+import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory
@@ -18,7 +19,7 @@ import rx.Observer
 import rx.Scheduler
 import rx.Subscription
 
-class RailServices(endpoint: String, okHttpClient: OkHttpClient, val observeOn: Scheduler, val subscribeOn: Scheduler) {
+class RailServices(endpoint: String, okHttpClient: OkHttpClient, interceptor: Interceptor, val observeOn: Scheduler, val subscribeOn: Scheduler) {
 
     val railApi by lazy {
 
@@ -27,7 +28,7 @@ class RailServices(endpoint: String, okHttpClient: OkHttpClient, val observeOn: 
                 .baseUrl(endpoint)
                 .addConverterFactory(GsonConverterFactory.create(gson))
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
-                .client(okHttpClient)
+                .client(okHttpClient.newBuilder().addInterceptor(interceptor).build())
                 .build()
 
         adapter.create(RailApi::class.java)

@@ -4,6 +4,7 @@ import com.expedia.bookings.data.SuggestionResultType
 import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.cars.SuggestionResponse
 import com.google.gson.GsonBuilder
+import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory
@@ -15,7 +16,7 @@ import rx.Subscription
 import java.util.Collections
 import java.util.Comparator
 
-class SuggestionServices(endpoint: String, okHttpClient: OkHttpClient, val observeOn: Scheduler, val subscribeOn: Scheduler) {
+class SuggestionServices(endpoint: String, okHttpClient: OkHttpClient, interceptor: Interceptor, val observeOn: Scheduler, val subscribeOn: Scheduler) {
 
     val suggestApi: SuggestApi by lazy {
         val gson = GsonBuilder().registerTypeAdapter(SuggestionResponse::class.java, SuggestionResponse()).create()
@@ -24,7 +25,7 @@ class SuggestionServices(endpoint: String, okHttpClient: OkHttpClient, val obser
                 .baseUrl(endpoint)
                 .addConverterFactory(GsonConverterFactory.create(gson))
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
-                .client(okHttpClient)
+                .client(okHttpClient.newBuilder().addInterceptor(interceptor).build())
                 .build()
 
 

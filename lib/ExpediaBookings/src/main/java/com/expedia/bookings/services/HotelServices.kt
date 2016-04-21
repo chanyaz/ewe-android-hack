@@ -13,6 +13,7 @@ import com.expedia.bookings.data.hotels.HotelSearchResponse
 import com.expedia.bookings.data.hotels.NearbyHotelParams
 import com.expedia.bookings.utils.Strings
 import com.google.gson.GsonBuilder
+import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import org.joda.time.DateTime
 import org.joda.time.format.DateTimeFormat
@@ -24,7 +25,7 @@ import rx.Observer
 import rx.Scheduler
 import rx.Subscription
 
-class HotelServices(endpoint: String, okHttpClient: OkHttpClient, val observeOn: Scheduler, val subscribeOn: Scheduler) {
+class HotelServices(endpoint: String, okHttpClient: OkHttpClient, interceptor: Interceptor, val observeOn: Scheduler, val subscribeOn: Scheduler) {
 
 	val hotelApi: HotelApi by lazy {
 		val gson = GsonBuilder()
@@ -35,7 +36,7 @@ class HotelServices(endpoint: String, okHttpClient: OkHttpClient, val observeOn:
 				.baseUrl(endpoint)
 				.addConverterFactory(GsonConverterFactory.create(gson))
 				.addCallAdapterFactory(RxJavaCallAdapterFactory.create())
-				.client(okHttpClient)
+				.client(okHttpClient.newBuilder().addInterceptor(interceptor).build())
 				.build()
 
 		adapter.create(HotelApi::class.java)

@@ -35,8 +35,8 @@ public class FeedsServiceTest {
 		logger.setLevel(HttpLoggingInterceptor.Level.BODY);
 		Interceptor interceptor = new MockInterceptor();
 		service = new FeedsService("http://localhost:" + server.getPort(),
-			new OkHttpClient.Builder().addInterceptor(logger).addInterceptor(interceptor).build(),
-			Schedulers.immediate(), Schedulers.immediate());
+			new OkHttpClient.Builder().addInterceptor(logger).build(),
+			interceptor, Schedulers.immediate(), Schedulers.immediate());
 
 		String root = new File("../mocked/templates").getCanonicalPath();
 		FileSystemOpener opener = new FileSystemOpener(root);

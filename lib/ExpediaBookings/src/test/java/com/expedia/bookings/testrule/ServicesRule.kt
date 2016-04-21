@@ -3,6 +3,7 @@ package com.expedia.bookings.testrule
 import com.expedia.bookings.interceptors.MockInterceptor
 import com.mobiata.mocke3.ExpediaDispatcher
 import com.mobiata.mocke3.FileSystemOpener
+import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import okhttp3.mockwebserver.MockWebServer
@@ -49,11 +50,10 @@ open class ServicesRule<T : Any>(val servicesClass: Class<T>, val rootPath: Stri
         val logger = HttpLoggingInterceptor()
         logger.level = HttpLoggingInterceptor.Level.BODY
         client.addInterceptor(logger)
-        client.addInterceptor(MockInterceptor())
 
-        return servicesClass.getConstructor(String::class.java, OkHttpClient::class.java, Scheduler::class.java,
-                Scheduler::class.java).newInstance("http://localhost:" + server.port, client.build(),
-                Schedulers.immediate(), Schedulers.immediate())
+        return servicesClass.getConstructor(String::class.java, OkHttpClient::class.java, Interceptor::class.java, Scheduler::class.java,
+                Scheduler::class.java).newInstance("http://localhost:" + server.port, client.build(), MockInterceptor(),
+                Schedulers.immediate(), Schedulers.io())
     }
 
     private fun diskExpediaDispatcher(): ExpediaDispatcher {

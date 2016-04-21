@@ -6,6 +6,7 @@ import com.expedia.bookings.services.RailServices;
 
 import dagger.Module;
 import dagger.Provides;
+import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -15,9 +16,9 @@ public final class RailModule {
 
 	@Provides
 	@RailScope
-	RailServices provideRailServices(EndpointProvider endpointProvider, OkHttpClient client) {
+	RailServices provideRailServices(EndpointProvider endpointProvider, OkHttpClient client, Interceptor interceptor) {
 		final String endpoint = endpointProvider.getRailEndpointUrl();
-		return new RailServices(endpoint, client, AndroidSchedulers.mainThread(), Schedulers.io());
+		return new RailServices(endpoint, client, interceptor, AndroidSchedulers.mainThread(), Schedulers.io());
 	}
 
 }

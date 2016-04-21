@@ -3,6 +3,7 @@ package com.expedia.bookings.services
 import com.expedia.bookings.data.payment.CalculatePointsParams
 import com.expedia.bookings.data.payment.CalculatePointsResponse
 import com.google.gson.GsonBuilder
+import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory
@@ -11,7 +12,7 @@ import rx.Observer
 import rx.Scheduler
 import rx.Subscription
 
-class LoyaltyServices(endpoint: String, okHttpClient: OkHttpClient, val observeOn: Scheduler, val subscribeOn: Scheduler) {
+class LoyaltyServices(endpoint: String, okHttpClient: OkHttpClient, interceptor: Interceptor, val observeOn: Scheduler, val subscribeOn: Scheduler) {
 
     val loyaltyApi: LoyaltyApi by lazy {
         val gson = GsonBuilder().create()
@@ -20,7 +21,7 @@ class LoyaltyServices(endpoint: String, okHttpClient: OkHttpClient, val observeO
                 .baseUrl(endpoint)
                 .addConverterFactory(GsonConverterFactory.create(gson))
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
-                .client(okHttpClient)
+                .client(okHttpClient.newBuilder().addInterceptor(interceptor).build())
                 .build()
 
         adapter.create(LoyaltyApi::class.java)
