@@ -1,8 +1,8 @@
 package com.mobiata.mocke3
 
-import okhttp3.mockwebserver.RecordedRequest
-import org.junit.Test
+import com.squareup.okhttp.mockwebserver.RecordedRequest
 import kotlin.test.assertEquals
+import org.junit.Test
 
 // TODO more coverage on the dispatching utilities
 class DispatcherUtilitiesTest {
@@ -20,12 +20,12 @@ class DispatcherUtilitiesTest {
 
 	@Test fun response404() {
 		val response404 = make404()
-		assertEquals("HTTP/1.1 404 Client Error", response404.status)
+		assertEquals("HTTP/1.1 404 OK", response404.status)
 	}
 
     @Test fun parseRequestWorks() {
         val request = RecordedRequest("GET /hint/es/v2/ac/en_US/LAX?type=95&lob=Flights&  HTTP/1.1", null, null, 0, null, 0, null);
-        parseHttpRequest(request)
+        parseRequest(request)
     }
 
 }

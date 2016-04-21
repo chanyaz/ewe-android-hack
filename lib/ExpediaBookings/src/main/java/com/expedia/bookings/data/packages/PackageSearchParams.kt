@@ -59,7 +59,7 @@ open class PackageSearchParams(val origin: SuggestionV4, val destination: Sugges
 
     fun toQueryMap(): Map<String, Any?> {
         val params = HashMap<String, Any?>()
-        if (pageType != null) params.put("pageType", pageType)
+        params.put("pageType", pageType)
         params.put("originId", origin.hierarchyInfo?.airport?.multicity)
         params.put("destinationId", destination.hierarchyInfo?.airport?.multicity)
         params.put("ftla", origin.hierarchyInfo?.airport?.airportCode)
@@ -73,9 +73,9 @@ open class PackageSearchParams(val origin: SuggestionV4, val destination: Sugges
             params.put("childrenPerRoom[1]", children.size)
             makeChildrenAgesParams(params, "childAges[1]", children, 1)
         }
-        if (searchProduct != null) params.put("searchProduct", searchProduct)
-        if (packagePIID != null) params.put("packagePIID", packagePIID)
-        if (selectedLegId != null)  params.put("selectedLegId", selectedLegId)
+        params.put("searchProduct", searchProduct)
+        params.put("packagePIID", packagePIID)
+        params.put("selectedLegId", selectedLegId)
         params.put("packageTripType", Constants.PACKAGE_TRIP_TYPE)
         if (isOutboundSearch() || isChangePackageSearch()) {
             params.put("currentFlights", currentFlights.joinToString(","))

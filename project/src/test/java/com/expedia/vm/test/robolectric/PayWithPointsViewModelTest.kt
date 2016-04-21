@@ -14,10 +14,10 @@ import com.expedia.bookings.testrule.ServicesRule
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.widget.PayWithPointsWidget
 import com.expedia.bookings.widget.PaymentWidgetV2
-import com.expedia.model.UserLoginStateChangedModel
 import com.expedia.util.notNullAndObservable
 import com.expedia.vm.PayWithPointsViewModel
 import com.expedia.vm.ShopWithPointsViewModel
+import com.expedia.model.UserLoginStateChangedModel
 import com.expedia.vm.interfaces.IPayWithPointsViewModel
 import org.junit.Before
 import org.junit.Rule
@@ -26,6 +26,7 @@ import org.junit.runner.RunWith
 import org.robolectric.Robolectric
 import rx.observers.TestSubscriber
 import rx.subjects.PublishSubject
+import java.math.BigDecimal
 import java.util.ArrayList
 import java.util.concurrent.CountDownLatch
 import java.util.concurrent.TimeUnit
@@ -33,7 +34,6 @@ import kotlin.properties.Delegates
 
 @RunWith(RobolectricRunner::class)
 class PayWithPointsViewModelTest {
-    private var LOTS_MORE: Long = 100
     var mockHotelServiceTestRule: MockHotelServiceTestRule = MockHotelServiceTestRule()
         @Rule get
 
@@ -133,7 +133,7 @@ class PayWithPointsViewModelTest {
         payWithPointsViewModel.userEnteredBurnAmount.onNext("32")
         latch.await(10, TimeUnit.SECONDS)
 
-        pointsAppliedMessageTestSubscriber.assertValues(Pair("1,000 points applied", true), Pair("14,005 points applied", true), Pair("Calculating points…", true))
+        pointsAppliedMessageTestSubscriber.assertValues(Pair("1,000 points applied", true), Pair("Calculating points…", true), Pair("14,005 points applied", true))
     }
 
     @Test
@@ -147,7 +147,7 @@ class PayWithPointsViewModelTest {
         payWithPointsViewModel.userEnteredBurnAmount.onNext("30")
         latch.await(10, TimeUnit.SECONDS)
 
-        pointsAppliedMessageTestSubscriber.assertValues(Pair("1,000 points applied", true), Pair("14,005 points applied", true), Pair("Calculating points…", true), Pair("300 points applied", true), Pair("Calculating points…", true))
+        pointsAppliedMessageTestSubscriber.assertValues(Pair("1,000 points applied", true), Pair("Calculating points…", true), Pair("Calculating points…", true), Pair("300 points applied", true))
     }
 
     @Test
@@ -155,8 +155,15 @@ class PayWithPointsViewModelTest {
         //Toggle switch off
         payWithPointsViewModel.pwpOpted.onNext(false)
 
+        pointsAppliedMessageTestSubscriber.assertValues(Pair("1,000 points applied", true), Pair("0 points applied", true))
+
         //Toggle switch on
+        val latch1 = CountDownLatch(2)
+        payWithPointsViewModel.pointsAppliedMessage.subscribe { latch1.countDown() }
         payWithPointsViewModel.pwpOpted.onNext(true)
+        latch1.await(10, TimeUnit.SECONDS)
+
+        pointsAppliedMessageTestSubscriber.assertValues(Pair("1,000 points applied", true), Pair("0 points applied", true), Pair("Calculating points…", true), Pair("14,005 points applied", true))
 
         //New value entered and before calculation API response, PwP toggle off (call gets ignored)
         createTripResponse.tripId = "happy|500"
@@ -164,13 +171,18 @@ class PayWithPointsViewModelTest {
 
         payWithPointsViewModel.pwpOpted.onNext(false)
 
+        pointsAppliedMessageTestSubscriber.assertValues(Pair("1,000 points applied", true), Pair("0 points applied", true), Pair("Calculating points…", true),
+                Pair("14,005 points applied", true), Pair("Calculating points…", true), Pair("0 points applied", true))
+
         //Toggle switch on, last entered value in pwp edit box is used to make API call
         createTripResponse.tripId = "happy"
+        val latch3 = CountDownLatch(1)
+        payWithPointsViewModel.pointsAppliedMessage.subscribe { latch3.countDown() }
         payWithPointsViewModel.pwpOpted.onNext(true)
+        latch3.await(10, TimeUnit.SECONDS)
 
-        pointsAppliedMessageTestSubscriber.requestMore(LOTS_MORE)
-        pointsAppliedMessageTestSubscriber.assertValues(Pair("1,000 points applied", true), Pair("0 points applied", true), Pair("14,005 points applied", true),
-                Pair("Calculating points…", true), Pair("14,005 points applied", true), Pair("Calculating points…", true), Pair("0 points applied", true), Pair("14,005 points applied", true), Pair("Calculating points…", true))
+        pointsAppliedMessageTestSubscriber.assertValues(Pair("1,000 points applied", true), Pair("0 points applied", true), Pair("Calculating points…", true),
+                Pair("14,005 points applied", true), Pair("Calculating points…", true), Pair("0 points applied", true), Pair("Calculating points…", true), Pair("14,005 points applied", true))
     }
 
     @Test
@@ -189,7 +201,7 @@ class PayWithPointsViewModelTest {
         payWithPointsViewModel.userEnteredBurnAmount.onNext("32")
         latch.await(10, TimeUnit.SECONDS)
 
-        pointsAppliedMessageTestSubscriber.assertValues(Pair("1,000 points applied", true), Pair("An unknown error occurred. Please try again.", false),  Pair("Calculating points…", true))
+        pointsAppliedMessageTestSubscriber.assertValues(Pair("1,000 points applied", true), Pair("Calculating points…", true), Pair("An unknown error occurred. Please try again.", false))
     }
 
     @Test
@@ -200,7 +212,7 @@ class PayWithPointsViewModelTest {
         payWithPointsViewModel.userEnteredBurnAmount.onNext("32")
         latch.await(10, TimeUnit.SECONDS)
 
-        pointsAppliedMessageTestSubscriber.assertValues(Pair("1,000 points applied", true), Pair("An unknown error occurred. Please try again.", false), Pair("Calculating points…", true))
+        pointsAppliedMessageTestSubscriber.assertValues(Pair("1,000 points applied", true), Pair("Calculating points…", true), Pair("An unknown error occurred. Please try again.", false))
     }
 
     @Test
@@ -211,7 +223,7 @@ class PayWithPointsViewModelTest {
         payWithPointsViewModel.userEnteredBurnAmount.onNext("32")
         latch.await(10, TimeUnit.SECONDS)
 
-        pointsAppliedMessageTestSubscriber.assertValues(Pair("1,000 points applied", true), Pair("We're sorry but we experienced a server problem. Please try again.", false), Pair("Calculating points…", true))
+        pointsAppliedMessageTestSubscriber.assertValues(Pair("1,000 points applied", true), Pair("Calculating points…", true), Pair("We're sorry but we experienced a server problem. Please try again.", false))
     }
 
     @Test
@@ -223,7 +235,7 @@ class PayWithPointsViewModelTest {
         payWithPointsViewModel.userEnteredBurnAmount.onNext("32")
         latch.await(10, TimeUnit.SECONDS)
 
-        pointsAppliedMessageTestSubscriber.assertValues(Pair("1,000 points applied", true), Pair("We're sorry but we experienced a server problem. Please try again.", false), Pair("Calculating points…", true))
+        pointsAppliedMessageTestSubscriber.assertValues(Pair("1,000 points applied", true), Pair("Calculating points…", true), Pair("We're sorry but we experienced a server problem. Please try again.", false))
     }
 
     @Test
@@ -240,8 +252,8 @@ class PayWithPointsViewModelTest {
         payWithPointsViewModel.userEnteredBurnAmount.onNext("20")
         latch1.await(10, TimeUnit.SECONDS)
 
-        expectedMessagesList.add(Pair("14,005 points applied", true))
         expectedMessagesList.add(Pair("Calculating points…", true))
+        expectedMessagesList.add(Pair("14,005 points applied", true))
         assertExpectedValuesOfSubscriber(pointsAppliedMessageTestSubscriber, expectedMessagesList)
 
         //User again entered 20 which should be ignored
@@ -256,8 +268,8 @@ class PayWithPointsViewModelTest {
         payWithPointsViewModel.userEnteredBurnAmount.onNext("30")
         latch2.await(10, TimeUnit.SECONDS)
 
-        expectedMessagesList.add(Pair("We're sorry but we experienced a server problem. Please try again.", false))
         expectedMessagesList.add(Pair("Calculating points…", true))
+        expectedMessagesList.add(Pair("We're sorry but we experienced a server problem. Please try again.", false))
         assertExpectedValuesOfSubscriber(pointsAppliedMessageTestSubscriber, expectedMessagesList)
 
         //User entered value exceeds available balance
@@ -274,8 +286,8 @@ class PayWithPointsViewModelTest {
         payWithPointsViewModel.userEnteredBurnAmount.onNext("20")
         latch3.await(10, TimeUnit.SECONDS)
 
-        expectedMessagesList.add(Pair("14,005 points applied", true))
         expectedMessagesList.add(Pair("Calculating points…", true))
+        expectedMessagesList.add(Pair("14,005 points applied", true))
         assertExpectedValuesOfSubscriber(pointsAppliedMessageTestSubscriber, expectedMessagesList)
 
         //User press back

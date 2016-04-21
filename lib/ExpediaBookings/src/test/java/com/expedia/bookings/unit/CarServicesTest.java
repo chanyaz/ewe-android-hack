@@ -24,15 +24,14 @@ import com.expedia.bookings.data.cars.SearchCarOffer;
 import com.expedia.bookings.data.cars.Transmission;
 import com.expedia.bookings.interceptors.MockInterceptor;
 import com.expedia.bookings.services.CarServices;
-import com.google.gson.stream.MalformedJsonException;
 import com.mobiata.mocke3.ExpediaDispatcher;
 import com.mobiata.mocke3.FileSystemOpener;
+import com.squareup.okhttp.OkHttpClient;
+import com.squareup.okhttp.mockwebserver.MockResponse;
+import com.squareup.okhttp.mockwebserver.MockWebServer;
 
-import okhttp3.Interceptor;
-import okhttp3.OkHttpClient;
-import okhttp3.logging.HttpLoggingInterceptor;
-import okhttp3.mockwebserver.MockResponse;
-import okhttp3.mockwebserver.MockWebServer;
+import retrofit.RestAdapter;
+import retrofit.RetrofitError;
 import rx.observers.TestSubscriber;
 import rx.schedulers.Schedulers;
 
@@ -50,12 +49,9 @@ public class CarServicesTest {
 
 	@Before
 	public void before() {
-		HttpLoggingInterceptor logger = new HttpLoggingInterceptor();
-		logger.setLevel(HttpLoggingInterceptor.Level.BODY);
-		Interceptor interceptor = new MockInterceptor();
-		service = new CarServices("http://localhost:" + server.getPort(),
-			new OkHttpClient.Builder().addInterceptor(logger).addInterceptor(interceptor).build(),
-			Schedulers.immediate(), Schedulers.immediate());
+
+		service = new CarServices("http://localhost:" + server.getPort(), new OkHttpClient(),
+			new MockInterceptor(), Schedulers.immediate(), Schedulers.immediate(), RestAdapter.LogLevel.FULL);
 	}
 
 	@After
@@ -77,7 +73,7 @@ public class CarServicesTest {
 		observer.awaitTerminalEvent();
 
 		observer.assertNoValues();
-		observer.assertError(IOException.class);
+		observer.assertError(RetrofitError.class);
 	}
 
 	@Test
@@ -91,7 +87,9 @@ public class CarServicesTest {
 		service.carSearch(params, observer);
 		observer.awaitTerminalEvent();
 
-		observer.assertError(MalformedJsonException.class);
+		observer.assertValueCount(1);
+		observer.assertNoErrors();
+		observer.assertCompleted();
 	}
 
 	@Test
@@ -406,23 +404,8 @@ public class CarServicesTest {
 
 	private void givenCheckoutParams(String mockFileName) {
 		params = new CarCheckoutParams();
-		params.suppressFinalBooking = true;
-		params.tripId = "";
-		params.phoneCountryCode = "";
-		params.phoneNumber = "";
-		params.emailAddress = "";
-		params.firstName = "";
-		params.lastName = "";
-		params.ccNumber = "";
-		params.ccExpirationYear = "";
-		params.ccExpirationMonth = "";
-		params.ccPostalCode = "";
-		params.ccName = "";
-		params.ccCVV = "";
-		params.storedCCID = "";
-		params.guid = "";
 		params.firstName = mockFileName;
-		params.grandTotal = new Money(0, "USD");
+		params.grandTotal = new Money();
 	}
 
 	private void givenServerUsingMockResponses() throws IOException {

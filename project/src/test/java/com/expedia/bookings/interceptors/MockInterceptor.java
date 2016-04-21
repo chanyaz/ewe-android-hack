@@ -1,25 +1,15 @@
 package com.expedia.bookings.interceptors;
 
-import java.io.IOException;
-
-import okhttp3.HttpUrl;
-import okhttp3.Interceptor;
-import okhttp3.Request;
-import okhttp3.Response;
+import retrofit.RequestInterceptor;
 
 /**
  * Satisfies ExpediaDispatcher's user-agent checks
  */
-public class MockInterceptor implements Interceptor {
+public class MockInterceptor implements RequestInterceptor {
 
 	@Override
-	public Response intercept(Interceptor.Chain chain) throws IOException {
-		HttpUrl.Builder url = chain.request().url().newBuilder();
-		Request.Builder request = chain.request().newBuilder();
+	public void intercept(RequestFacade request) {
 		request.addHeader("User-Agent", "ExpediaBookings/1.1 (EHad; Mobiata)");
-		url.addQueryParameter("clientid", "expedia.app.android.phone:6.9.0");
-		request.url(url.build());
-		Response response = chain.proceed(request.build());
-		return response;
+		request.addQueryParam("clientid", "expedia.app.android.phone:6.9.0");
 	}
 }
