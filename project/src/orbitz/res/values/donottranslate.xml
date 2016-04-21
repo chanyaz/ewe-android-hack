@@ -21,5 +21,8 @@
 
     <string name="lean_plum_sdk_prod_appid">app_J53CmKbY3S1vMo2MST9Bgd50a4G7ZBO3Vq1GT2VVvzU</string>
     <string name="lean_plum_sdk_prod_key">prod_NmjBXjshFUza8aCpSvSQyiL2JLG9ie9zRafYToEmxM8</string>
-    
+
+    <!-- Brand reward name -->
+    <string name="brand_reward_name">Orbitz Rewards</string>
+
 </resources>
