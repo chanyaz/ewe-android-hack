@@ -30,8 +30,6 @@ public interface IProductFlavorFeatureConfiguration {
 
 	boolean shouldDisplayInsuranceDetailsIfAvailableOnItinCard();
 
-	String getActionForLocaleChangeEvent();
-
 	boolean wantsCustomHandlingForLocaleConfiguration();
 
 	int getSearchProgressImageResId();
@@ -43,10 +41,6 @@ public interface IProductFlavorFeatureConfiguration {
 	boolean shouldShowBrandLogoOnAccountButton();
 
 	PointOfSaleId getDefaultPOS();
-
-	String getOmnitureReportSuiteIds();
-
-	String getOmnitureTrackingServer();
 
 	void contactUsViaWeb(Context context);
 
@@ -61,8 +55,6 @@ public interface IProductFlavorFeatureConfiguration {
 	boolean isLeanPlumEnabled();
 
 	boolean isTuneEnabled();
-
-	boolean isWeAreHiringInAboutEnabled();
 
 	boolean isClearPrivateDataInAboutEnabled();
 
@@ -90,19 +82,11 @@ public interface IProductFlavorFeatureConfiguration {
 
 	String getClientShortName();
 
-	boolean isLOBChooserScreenEnabled();
-
 	String getAdXKey();
 
 	boolean isAppSupportUrlEnabled();
 
 	boolean isSigninEnabled();
-
-	boolean isAppCrossSellInHotelShareContentEnabled();
-
-	boolean isAppCrossSellInFlightShareContentEnabled();
-
-	boolean isItinDisabled();
 
 	boolean isAppIntroEnabled();
 
@@ -137,5 +121,23 @@ public interface IProductFlavorFeatureConfiguration {
 
 	boolean sortByDistanceForCurrentLocation();
 
+	boolean isFacebookTrackingEnabled();
+
 	boolean isAbacusTestEnabled();
+
+	boolean isNewHotelEnabled();
+
+	int getRewardsLayoutId();
+
+	/**
+	 * Reward program type
+	 * return
+	 * true: if type is points type
+	 * false: if type is amount type
+	 */
+	boolean isRewardProgramPointsType();
+
+	boolean isCommunicateSectionEnabled();
+
+	PointOfSaleId getUSPointOfSaleId();
 }

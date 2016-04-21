@@ -32,7 +32,7 @@ data class RewardDetails(
         val paymentInstrumentId: String? = null,
         val programName: ProgramName,
         val amountToChargeInRealCurrency: Float,
-        val amountToChargeInVirtualCurrency: Int,
+        val amountToChargeInVirtualCurrency: Float,
         val rateId: String,
         val currencyCode: String)
 

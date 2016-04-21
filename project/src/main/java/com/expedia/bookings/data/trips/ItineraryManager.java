@@ -41,7 +41,6 @@ import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.data.trips.ItinShareInfo.ItinSharable;
 import com.expedia.bookings.data.trips.Trip.LevelOfDetail;
 import com.expedia.bookings.data.trips.TripComponent.Type;
-import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.notification.GCMRegistrationKeeper;
 import com.expedia.bookings.notification.Notification;
 import com.expedia.bookings.notification.PushNotificationUtils;
@@ -1107,10 +1106,6 @@ public class ItineraryManager implements JSONable {
 		@Override
 		protected Collection<Trip> doInBackground(Void... params) {
 
-			if (ProductFlavorFeatureConfiguration.getInstance().isItinDisabled()) {
-				mTrips = new HashMap<>();
-				return null;
-			}
 			while (!mSyncOpQueue.isEmpty()) {
 				Task nextTask = mSyncOpQueue.remove();
 

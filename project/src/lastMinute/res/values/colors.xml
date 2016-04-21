@@ -3,6 +3,8 @@
     <color name="action_bar_bg_color">#E40088</color>
     <color name="action_bar_text_color">@color/white</color>
     <color name="action_bar_selected_tab_underline_color">@color/white</color>
+    <color name="last_minute_primary_color">#E40088</color>
+    <color name="hotel_promo_background">#88146A</color>
 
     <color name="lob_btn_color">#006e8c</color>
     <color name="hotel_lob_btn">@color/lob_btn_color</color>
@@ -13,12 +15,11 @@
     <color name="lob_box_shadow_start_color">#FF000000</color>
     <color name="lob_box_shadow_center_color">#99000000</color>
     <color name="lob_box_shadow_end_color">#00000000</color>
-
+    <color name="review_screen_tab_indicator">@color/action_bar_selected_tab_underline_color</color>
     <color name="actionbar_button_background_pressed">#004888</color>
     <color name="action_bar_text_white_lm">@color/white</color>
     <color name="bg_btn_pressed_color_lm">@color/white</color>
     <color name="itin_flight_line_color_lm">#7da426</color>
-    <color name="login_text_hotels">@color/white</color>
     <color name="login_text_flight">@color/white</color>
     <color name="coupon_success_message_color_lm">#E40088</color>
     <color name="collection_overlay_color">#56a1d5</color>
@@ -27,6 +28,10 @@
     <color name="hotel_room_rate_add_room_button_lm">@color/action_bar_bg_color</color>
     <color name="hotel_room_rate_add_room_button_pressed_lm">#A1266C</color>
     <color name="launch_pin_detail_button_text_lm">@color/action_bar_bg_color</color>
+
+    <color name="hotel_urgency_message_color">#E40088</color>
+    <color name="hotel_tonight_only_color">#EA8D00</color>
+    <color name="hotel_mobile_exclusive_color">#1F8EDE</color>
 
     <color name="hotel_price_text_color">#4F4F4F</color>
     <color name="hotel_price_sale_text_color">#0079a1</color>
@@ -65,21 +70,30 @@
     <color name="tablet_hotel_coupon_text_color_lm">@color/action_bar_bg_color</color>
 
     <!-- Cars and LX -->
-    <color name="cars_primary_color">#E40088</color>
+    <color name="cars_primary_color">@color/last_minute_primary_color</color>
     <color name="cars_unchecked_toggle_text_color">#B3FFFFFF</color>
     <color name="lx_primary_color">#E40088</color>
     <color name="lx_ripple_color">#A1266C</color>
-    <color name="lx_secondary_color_disabled">#A1266C</color>
+    <color name="lx_secondary_color_disabled">#fd20a4</color>
     <color name="lx_unchecked_toggle_text_color">@android:color/white</color>
+    <color name="lx_ticket_selector_disabled_color_lm">#40E40088</color>
+    <color name="cars_ripple_color">@color/lx_ripple_color</color>
+    <color name="lx_offer_date_ripple_color">@color/lx_ripple_color</color>
 
     <!-- Launch screen colors -->
     <color name="launch_toolbar_background_color">@color/action_bar_bg_color</color>
 
     <!--Account Lib Colors -->
+    <color name="btn_sign_in_normal">#E40088</color>
+    <color name="btn_sign_in_pressed">#A1266C</color>
+    <color name="btn_sign_in_focused">#F8159C</color>
+    <color name="btn_sign_in_disabled">#80004C</color>
     <color name="acct__btn_sign_in_text_lm">@color/white</color>
     <color name="acct__bg_input_text_error_lm">@color/white</color>
     <color name="acct__bg_input_text_good_lm">#EEEEEE</color>
 
     <color name="launch_discount">#006E8C</color>
+    <color name="hotels_primary_color">@color/last_minute_primary_color</color>
+    <color name="hotel_checkout_account_button_background_color">@color/hotels_primary_color</color>
 
 </resources>

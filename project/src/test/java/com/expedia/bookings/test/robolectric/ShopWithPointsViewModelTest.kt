@@ -83,12 +83,12 @@ class ShopWithPointsViewModelTest {
         val testObserver: TestSubscriber<Boolean> = TestSubscriber.create()
         shopWithPointsViewModel.isShopWithPointsAvailableObservable.subscribe(testObserver)
 
-        val testPointsAvailableObserver: TestSubscriber<Double> = TestSubscriber.create()
-        shopWithPointsViewModel.numberOfPointsObservable.subscribe(testPointsAvailableObserver)
+        val testPointsDetailStringObserver: TestSubscriber<String> = TestSubscriber.create()
+        shopWithPointsViewModel.pointsDetailStringObservable.subscribe(testPointsDetailStringObserver)
 
         assertTrue(shopWithPointsViewModel.shopWithPointsToggleObservable.value)
         assertTrue(testObserver.onNextEvents[0])
-        assertEquals(pointsAvailable, testPointsAvailableObserver.onNextEvents[0])
+        assertEquals("You have 4,444 points", testPointsDetailStringObserver.onNextEvents[0])
     }
 
     @Test
@@ -107,19 +107,19 @@ class ShopWithPointsViewModelTest {
         val testObserver: TestSubscriber<Boolean> = TestSubscriber.create()
         shopWithPointsViewModel.isShopWithPointsAvailableObservable.subscribe(testObserver)
 
-        val testPointsAvailableObserver: TestSubscriber<Double> = TestSubscriber.create()
-        shopWithPointsViewModel.numberOfPointsObservable.subscribe(testPointsAvailableObserver)
+        val testPointsDetailStringObserver: TestSubscriber<String> = TestSubscriber.create()
+        shopWithPointsViewModel.pointsDetailStringObservable.subscribe(testPointsDetailStringObserver)
 
         assertTrue(shopWithPointsViewModel.shopWithPointsToggleObservable.value)
         assertTrue(testObserver.onNextEvents[0])
-        assertEquals(pointsAvailable, testPointsAvailableObserver.onNextEvents[0])
+        assertEquals("You have 4,444 points", testPointsDetailStringObserver.onNextEvents[0])
 
         pointsAvailable = 3600.0
         loyaltyInfo.loyaltyPointsAvailable = pointsAvailable
         Db.setUser(user)
         userLoginStateChangedModel.userLoginStateChanged.onNext(true)
         assertTrue(testObserver.onNextEvents[1])
-        assertEquals(pointsAvailable, testPointsAvailableObserver.onNextEvents[1])
+        assertEquals("You have 3,600 points", testPointsDetailStringObserver.onNextEvents[1])
 
         loyaltyInfo.isAllowedToShopWithPoints = false
         Db.setUser(user)

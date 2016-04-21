@@ -2,14 +2,6 @@
 
     <application>
 
-        <receiver
-            android:name="com.expedia.bookings.activity.VSCLocaleChangeReceiver"
-            android:exported="false">
-            <intent-filter>
-                <action android:name="com.expedia.bookings.action.vsc_locale_changed" />
-            </intent-filter>
-        </receiver>
-
         <!-- Deep link routing activity -->
         <activity
             android:name="com.expedia.bookings.activity.DeepLinkRouterActivity"
@@ -31,7 +23,15 @@
 
                 <data android:scheme="vygs" />
                 <data android:host="home" />
+                <data android:host="trips" />
+                <data android:host="showTrips" />
                 <data android:host="hotelSearch" />
+                <data android:host="flightSearch" />
+                <data android:host="destination" />
+                <data android:host="carSearch"/>
+                <data android:host="activitySearch"/>
+                <data android:host="signIn"/>
+
             </intent-filter>
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />

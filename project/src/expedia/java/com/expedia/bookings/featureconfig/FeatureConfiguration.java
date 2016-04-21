@@ -9,7 +9,6 @@ import android.view.View;
 
 import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
-import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.activity.WebViewActivity;
 import com.expedia.bookings.data.HotelFilter;
 import com.expedia.bookings.data.pos.PointOfSale;
@@ -65,14 +64,6 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 	}
 
 	@Override
-	public String getActionForLocaleChangeEvent() {
-		if (ExpediaBookingApp.isAutomation()) {
-			return null;
-		}
-		throw new UnsupportedOperationException("Not Required/Implemented for Expedia App");
-	}
-
-	@Override
 	public boolean wantsCustomHandlingForLocaleConfiguration() {
 		return false;
 	}
@@ -101,22 +92,7 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 	public PointOfSaleId getDefaultPOS() {
 		return PointOfSaleId.UNITED_KINGDOM;
 	}
-
-	@Override
-	public String getOmnitureReportSuiteIds() {
-		if (BuildConfig.RELEASE) {
-			return "expediaglobalapp";
-		}
-		else {
-			return "expediaglobalappdev";
-		}
-	}
-
-	@Override
-	public String getOmnitureTrackingServer() {
-		return "om.expedia.com";
-	}
-
+	
 	@Override
 	public void contactUsViaWeb(Context context) {
 		AboutUtils.openWebsite(context, PointOfSale.getPointOfSale().getAppSupportUrl(), true);
@@ -162,11 +138,6 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 
 	@Override
 	public boolean isTuneEnabled() {
-		return true;
-	}
-
-	@Override
-	public boolean isWeAreHiringInAboutEnabled() {
 		return true;
 	}
 
@@ -234,11 +205,6 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 		return "expedia";
 	}
 
-	@Override
-	public boolean isLOBChooserScreenEnabled() {
-		return true;
-	}
-
 	public String getAdXKey() {
 		return "f2d75b7e-ed66-4f96-cf66-870f4c6b723e";
 	}
@@ -250,21 +216,6 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 
 	public boolean isAppSupportUrlEnabled() {
 		return true;
-	}
-
-	@Override
-	public boolean isAppCrossSellInHotelShareContentEnabled() {
-		return true;
-	}
-
-	@Override
-	public boolean isAppCrossSellInFlightShareContentEnabled() {
-		return true;
-	}
-
-	@Override
-	public boolean isItinDisabled() {
-		return false;
 	}
 
 	@Override
@@ -335,7 +286,37 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 	}
 
 	@Override
+	public boolean isFacebookTrackingEnabled() {
+		return true;
+	}
+
+	@Override
 	public boolean isAbacusTestEnabled() {
 		return true;
+	}
+
+	@Override
+	public boolean isNewHotelEnabled() {
+		return false;
+	}
+
+	@Override
+	public int getRewardsLayoutId() {
+		return R.layout.pay_with_points_widget_stub;
+	}
+
+	@Override
+	public boolean isRewardProgramPointsType() {
+		return true;
+	}
+
+	@Override
+	public boolean isCommunicateSectionEnabled() {
+		return true;
+	}
+
+	@Override
+	public PointOfSaleId getUSPointOfSaleId() {
+		return PointOfSaleId.UNITED_STATES;
 	}
 }

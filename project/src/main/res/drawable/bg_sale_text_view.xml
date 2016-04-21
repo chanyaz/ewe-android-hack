@@ -2,6 +2,6 @@
 <shape xmlns:android="http://schemas.android.com/apk/res/android"
     android:shape="rectangle" >
 
-    <solid android:color="#e500b277" />
+    <solid android:color="@color/tablet_hotel_sale_bg_color" />
 
 </shape>

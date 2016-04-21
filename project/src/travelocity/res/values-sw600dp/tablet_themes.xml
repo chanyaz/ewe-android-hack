@@ -5,7 +5,6 @@
         <item name="skin_actionbarTabletTitleColor">@color/actionbarTabletTitleColor</item>
         <item name="skin_collection_overlay_static_color">@color/collection_overlay_color</item>
         <item name="skin_tablet_book_button_text_color">@color/tablet_book_button_text_color_travelocity</item>
-        <item name="skin_tablet_trip_bucket_arrow">@drawable/ic_book_bucket_arrow_travelocity</item>
         <item name="skin_collection_placeholder">@drawable/bg_itin_placeholder_travelocity</item>
         <item name="skin_tablet_hotel_room_rate_select_button">@drawable/tablet_hotel_room_select_button_travelocity</item>
         <item name="skin_tablet_addToTrip_button">@drawable/tablet_hotel_room_add_button_travelocity</item>
@@ -28,7 +27,7 @@
 
         <item name="skin_tablet_search_result_error_button_drawable">@drawable/bg_tablet_search_result_error_action_button_tvly</item>
         <item name="skin_tablet_search_result_error_button_text_color">@color/tablet_search_error_text_color_tvly</item>
-        <item name="skin_tablet_dates_popup_done_color">@color/tablet_results_search_blue_tvly</item>
+        <item name="skin_tablet_dates_popup_done_color">@color/tablet_dates_popup_done_color_tvly</item>
         <item name="android:homeAsUpIndicator" >@drawable/ic_action_bar_back_arrow_white_tvly</item>
         <item name="skin_skin_tablet_dates_popup_done_drawable">@drawable/ic_tablet_search_results_popup_done_check_tvly</item>
         <item name="skin_tablet_hotel_details_background_drawable">@drawable/ic_hotel_details_background_layer_list_tvly</item>
@@ -58,5 +57,7 @@
         <item name="android:displayOptions">showHome|useLogo|showCustom</item>
         <item name="android:background">@drawable/bg_action_bar_travelocity</item>
     </style>
+
+    <style name="SplashTheme" parent="@android:style/Theme.NoDisplay"/>
 
 </resources>

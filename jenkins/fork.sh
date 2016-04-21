@@ -15,7 +15,7 @@ internal_artifact() {
 ./tools/uninstall.sh com.expedia.bookings
 
 build() {
-./gradlew --no-daemon aED aEDAT
+./gradlew --no-daemon aExpediaDebug aExpediaDebugAT
 }
 
 run() {

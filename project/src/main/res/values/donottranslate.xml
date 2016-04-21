@@ -446,6 +446,7 @@
     <string name="last_name_kr">Hong</string>
     <!-- First name label hint for HK POS -->
     <string name="last_name_hk">Chan</string>
+    <string name="omniture_tracking_server_url">om.expedia.com</string>
 
     <!-- Plus sign for Expedia+ Reward Points on Hotel Infosite -->
     <string name="plus_sign">+</string>

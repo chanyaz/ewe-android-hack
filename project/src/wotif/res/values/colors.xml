@@ -2,9 +2,10 @@
 <resources>
     <color name="action_bar_bg_color">#F1F1F1</color>
     <color name="action_bar_text_color">#1F8EDE</color>
+    <color name="hotels_primary_color">#7AC231</color>
     <color name="action_bar_selected_tab_underline_color">#599027</color>
-    <color name="action_bar_text_selected">@color/action_bar_text_color</color>
-    <color name="action_bar_text_unselected">#8C1F8EDE</color>
+    <color name="actionbar_tab_text_selected">@color/action_bar_text_color</color>
+    <color name="actionbar_tab_text_unselected">#8C1F8EDE</color>
 
     <color name="lob_btn_color">#1F8EDE</color>
     <color name="hotel_lob_btn">@color/lob_btn_color</color>
@@ -22,7 +23,6 @@
     <color name="bg_btn_color_wotif">#7bae00</color>
     <color name="bg_btn_pressed_color_wotif">#295600</color>
     <color name="itin_flight_line_color_wotif">#7da426</color>
-    <color name="login_text_hotels">@color/white</color>
     <color name="login_text_flight">@color/white</color>
     <color name="coupon_success_message_color_wotif">#7baed4</color>
     <color name="collection_overlay_color">#56a1d5</color>
@@ -39,6 +39,12 @@
     <color name="actionbar_menu_text_color">#7AC231</color>
     <color name="menu_bar_text_color">#DDDFE1</color>
     <color name="actionbar_suggestion_text_color">#DDDFE1</color>
+    <color name="review_screen_tab_indicator">@color/action_bar_selected_tab_underline_color</color>
+    <color name="hotel_checkout_account_button_background_color">@color/hotels_primary_color</color>
+
+    <color name="hotel_urgency_message_color">#7AC231</color>
+    <color name="hotel_tonight_only_color">#FFBA12</color>
+    <color name="hotel_mobile_exclusive_color">#1F8EDE</color>
 
     <color name="flight_trip">#1972B2</color>
     <color name="flight_trip_price">#1972B2</color>
@@ -61,27 +67,41 @@
     <color name="tablet_confirmation_action_color_wotif">#2CA2E2</color>
     <color name="tablet_price_expanded_bucket_text_color">#599027</color>
     <color name="tablet_calender_results_search_blue_wotif">#1972B2</color>
-
+    <color name="flight_checkout_fee_warning_background">#7AC231</color>
+    <color name="hotelsv2_detail_star_color">#1F8EDE</color>
+    <color name="hotel_promo_background">#599027</color>
     <color name="section_flight_edit_traveler_link_color_wotif">#1F8EDE</color>
     <color name="room_rate_refundable_cancellation_text_color_wotif">#599027</color>
     <color name="tablet_hotel_coupon_text_color_wotif">#1F8EDE</color>
 
+    <!--Splash-->
+    <color name="splash_screen_bg">#7AC231</color>
+
     <!-- Cars and LX -->
-    <color name="cars_primary_color_wotif">#7AC231</color>
     <color name="cars_primary_color">#7AC231</color>
     <color name="cars_unchecked_toggle_text_color_wotif">#B3FFFFFF</color>
-    <color name="lx_primary_color_wotif">#7AC231</color>
-    <color name="lx_ripple_color_wotif">#599027</color>
-    <color name="lx_secondary_color_disabled_wotif">#599027</color>
+    <color name="lx_primary_color">#7AC231</color>
+    <color name="lx_ripple_color">#599027</color>
+    <color name="lx_secondary_color_disabled">#7fa92c</color>
     <color name="lx_unchecked_toggle_text_color_wotif">@android:color/white</color>
+    <color name="lx_ticket_selector_disabled_color_wotif">#407AC231</color>
+    <color name="cars_ripple_color">@color/lx_ripple_color</color>
+    <color name="lx_offer_date_ripple_color">@color/lx_ripple_color</color>
 
     <!-- Launch colors -->
     <color name="launch_toolbar_background_color">@color/action_bar_bg_color</color>
 
     <!--Account Lib Colors -->
+    <color name="btn_sign_in_normal">#7AC231</color>
+    <color name="btn_sign_in_pressed">#C5E38E</color>
+    <color name="btn_sign_in_focused">#456F1E</color>
+    <color name="btn_sign_in_disabled">#52970C</color>
     <color name="acct__btn_sign_in_text_wotif">@color/white</color>
     <color name="acct__bg_input_text_error_wotif">@color/white</color>
     <color name="acct__bg_input_text_good_wotif">#EEEEEE</color>
     <color name="acct__welcome_text_color">@color/white</color>
+
+    <color name="bg_air_attach_banner_default">#1972b2</color>
+    <color name="bg_air_attach_phone_launch">#1972b2</color>
 
 </resources>

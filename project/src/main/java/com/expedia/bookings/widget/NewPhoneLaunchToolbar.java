@@ -35,7 +35,7 @@ public class NewPhoneLaunchToolbar extends Toolbar {
 	public void onFinishInflate() {
 		super.onFinishInflate();
 
-		slidingTabLayout.setCustomTabView(R.layout.actionbar_tab_bg, R.id.tab_text);
+		slidingTabLayout.setCustomTabView(R.layout.phone_actionbar_tab_bg, R.id.tab_text);
 		slidingTabLayout.setSelectedIndicatorColors(
 			getResources().getColor(Ui.obtainThemeResID(getContext(), R.attr.skin_launchTabIndicatorColor)));
 		slidingTabLayout.setDistributeEvenly(true);

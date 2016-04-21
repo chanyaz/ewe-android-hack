@@ -17,7 +17,7 @@ class PaymentWidgetViewModel<T : TripResponse>(val context: Context, paymentMode
     //Outlets
     override val totalDueToday = paymentModel.tripResponses.map { it.getTripTotal().formattedMoneyFromAmountAndCurrencyCode }
     override val remainingBalanceDueOnCard = paymentModel.paymentSplits.map { it.payingWithCards.amount.formattedMoneyFromAmountAndCurrencyCode }
-    override val remainingBalanceDueOnCardVisibility = paymentModel.tripResponses.map { it.isExpediaRewardsRedeemable() }
+    override val remainingBalanceDueOnCardVisibility = paymentModel.tripResponses.map { it.isRewardsRedeemable() }
     override val paymentSplitsAndTripResponse = paymentModel.paymentSplitsWithLatestTripResponse.map { PaymentModel.PaymentSplitsAndTripResponse<TripResponse>(it.tripResponse, it.paymentSplits) }
     override val burnAmountApiCallResponsePending = PublishSubject.create<Boolean>()
     override val toolbarNavIcon = PublishSubject.create<ArrowXDrawableUtil.ArrowDrawableType>()

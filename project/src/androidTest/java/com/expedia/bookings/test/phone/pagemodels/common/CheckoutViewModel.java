@@ -67,6 +67,7 @@ public class CheckoutViewModel {
 	}
 
 	public static void clickPaymentInfo() {
+		Common.delay(1);
 		paymentInfo().perform(scrollTo(), click());
 	}
 

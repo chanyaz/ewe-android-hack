@@ -84,6 +84,9 @@ public class PointOfSale {
 	// The POS's silver rewards member contact phone number
 	private String mSupportPhoneNumberSilver;
 
+	// The POS's platinum rewards member phone number
+	private String mSupportPhoneNumberPlatinum;
+
 	// The POS's gold rewards member phone number
 	private String mSupportPhoneNumberGold;
 
@@ -553,6 +556,10 @@ public class PointOfSale {
 		return mSupportPhoneNumberGold;
 	}
 
+	public String getSupportPhoneNumberPlatinum() {
+		return mSupportPhoneNumberPlatinum;
+	}
+
 	public String getSupportEmailSilver() {
 		return mSupportEmailSilver;
 	}
@@ -711,8 +718,9 @@ public class PointOfSale {
 		return getPosLocale().mTermsAndConditionsUrl;
 	}
 
-	public String getLoyaltyTermsAndConditionsURL() {
-		return getPosLocale().mLoyaltyTermsAndConditionsUrl;
+	public String getAccountCreationTermsAndConditionsURL() {
+		return getPosLocale().mLoyaltyTermsAndConditionsUrl == null ? getPosLocale().mTermsAndConditionsUrl
+			: getPosLocale().mLoyaltyTermsAndConditionsUrl;
 	}
 
 	public String getAirlineFeeBasedOnPaymentMethodTermsAndConditionsURL() {
@@ -1150,6 +1158,7 @@ public class PointOfSale {
 		pos.mSupportPhoneNumber = parseDeviceSpecificPhoneNumber(context, data, "supportPhoneNumber");
 		pos.mSupportPhoneNumberSilver = parseDeviceSpecificPhoneNumber(context, data, "supportPhoneNumberSilver");
 		pos.mSupportPhoneNumberGold = parseDeviceSpecificPhoneNumber(context, data, "supportPhoneNumberGold");
+		pos.mSupportPhoneNumberPlatinum = parseDeviceSpecificPhoneNumber(context, data, "supportPhoneNumberPlatinum");
 
 		// Support email
 		pos.mSupportEmailGold = data.optString("supportEmailGold", null);
@@ -1183,8 +1192,8 @@ public class PointOfSale {
 
 		pos.isPwPEnabledForHotels = data.optBoolean("pwpEnabled:hotels", false);
 		pos.isSWPEnabledForHotels = data.optBoolean("swpEnabled:hotels", false);
-		pos.isEarnMessageEnabledForFlights = data.optBoolean("enableFlightSearchEarnMessaging", false);
-		pos.isEarnMessageEnabledForHotels = data.optBoolean("enableHotelSearchEarnMessaging", false);
+		pos.isEarnMessageEnabledForFlights = data.optBoolean("earnMessageEnabled:flights", false);
+		pos.isEarnMessageEnabledForHotels = data.optBoolean("earnMessageEnabled:hotels", false);
 
 		// Parse POS locales
 		JSONArray supportedLocales = data.optJSONArray("supportedLocales");

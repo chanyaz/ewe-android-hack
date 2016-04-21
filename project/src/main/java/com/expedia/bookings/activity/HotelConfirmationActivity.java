@@ -9,15 +9,14 @@ import android.widget.TextView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.CreateTripResponse;
-import com.expedia.bookings.data.HotelBookingResponse;
 import com.expedia.bookings.data.Db;
+import com.expedia.bookings.data.HotelBookingResponse;
 import com.expedia.bookings.data.HotelSearchParams;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.TripBucketItemHotel;
 import com.expedia.bookings.data.User;
 import com.expedia.bookings.data.trips.ItineraryManager;
-import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.fragment.SimpleSupportDialogFragment;
 import com.expedia.bookings.tracking.AdImpressionTracking;
 import com.expedia.bookings.tracking.OmnitureTracking;
@@ -105,7 +104,7 @@ public class HotelConfirmationActivity extends FragmentActivity {
 			mKillReceiver.onDestroy();
 		}
 
-		if (isFinishing() && ProductFlavorFeatureConfiguration.getInstance().isLOBChooserScreenEnabled()) {
+		if (isFinishing()) {
 			Db.getHotelSearch().resetSearchData();
 		}
 	}
@@ -126,13 +125,7 @@ public class HotelConfirmationActivity extends FragmentActivity {
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 		case R.id.menu_done:
-			if (!ProductFlavorFeatureConfiguration.getInstance().isLOBChooserScreenEnabled()) {
-				Db.getHotelSearch().resetSearchParams();
-				NavUtils.goToVSC(this);
-			}
-			else {
-				NavUtils.goToItin(this);
-			}
+			NavUtils.goToItin(this);
 			finish();
 			return true;
 		}

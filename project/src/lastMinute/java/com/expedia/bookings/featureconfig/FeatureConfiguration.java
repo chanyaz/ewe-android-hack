@@ -12,9 +12,7 @@ import android.net.Uri;
 import android.text.format.DateUtils;
 import android.view.View;
 
-import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
-import com.expedia.bookings.activity.LastMinuteLocaleChangeReceiver;
 import com.expedia.bookings.data.HotelFilter;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.data.pos.PointOfSaleId;
@@ -47,12 +45,12 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 
 	@Override
 	public boolean isAppCrossSellInActivityShareContentEnabled() {
-		return false;
+		return true;
 	}
 
 	@Override
 	public boolean isAppCrossSellInCarShareContentEnabled() {
-		return false;
+		return true;
 	}
 
 	@Override
@@ -63,11 +61,6 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 	@Override
 	public boolean shouldDisplayInsuranceDetailsIfAvailableOnItinCard() {
 		return true;
-	}
-
-	@Override
-	public String getActionForLocaleChangeEvent() {
-		return LastMinuteLocaleChangeReceiver.ACTION_LOCALE_CHANGED;
 	}
 
 	@Override
@@ -98,21 +91,6 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 	@Override
 	public PointOfSaleId getDefaultPOS() {
 		return PointOfSaleId.LASTMINUTE;
-	}
-
-	@Override
-	public String getOmnitureReportSuiteIds() {
-		if (BuildConfig.RELEASE) {
-			return "expediaglobalapp";
-		}
-		else {
-			return "expediaglobalappdev";
-		}
-	}
-
-	@Override
-	public String getOmnitureTrackingServer() {
-		return "om.expedia.com";
 	}
 
 	@Override
@@ -152,17 +130,12 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 
 	@Override
 	public boolean isLeanPlumEnabled() {
-		return false;
+		return true;
 	}
 
 	@Override
 	public boolean isTuneEnabled() {
 		return true;
-	}
-
-	@Override
-	public boolean isWeAreHiringInAboutEnabled() {
-		return false;
 	}
 
 	@Override
@@ -230,11 +203,6 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 	}
 
 	@Override
-	public boolean isLOBChooserScreenEnabled() {
-		return true;
-	}
-
-	@Override
 	public String getAdXKey() {
 		//TODO Add correct AdX key.
 		return "";
@@ -247,21 +215,6 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 
 	public boolean isAppSupportUrlEnabled() {
 		return true;
-	}
-
-	@Override
-	public boolean isAppCrossSellInHotelShareContentEnabled() {
-		return false;
-	}
-
-	@Override
-	public boolean isAppCrossSellInFlightShareContentEnabled() {
-		return false;
-	}
-
-	@Override
-	public boolean isItinDisabled() {
-		return false;
 	}
 
 	@Override
@@ -330,7 +283,7 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 
 	@Override
 	public int getFlightSearchProgressImageResId() {
-		return R.drawable.search_progress_static_flight_lm;
+		return 0;
 	}
 
 	@Override
@@ -344,8 +297,38 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 	}
 
 	@Override
+	public boolean isFacebookTrackingEnabled() {
+		return true;
+	}
+
+	@Override
 	public boolean isAbacusTestEnabled() {
 		return false;
+	}
+
+	@Override
+	public boolean isNewHotelEnabled() {
+		return true;
+	}
+
+	@Override
+	public int getRewardsLayoutId() {
+		return 0;
+	}
+
+	@Override
+	public boolean isRewardProgramPointsType() {
+		return false;
+	}
+
+	@Override
+	public boolean isCommunicateSectionEnabled() {
+		return false;
+	}
+
+	@Override
+	public PointOfSaleId getUSPointOfSaleId() {
+		return null;
 	}
 }
 

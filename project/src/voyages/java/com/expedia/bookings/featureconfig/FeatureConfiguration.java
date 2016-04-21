@@ -17,7 +17,6 @@ import android.widget.TextView;
 import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.AccountSettingsActivity;
-import com.expedia.bookings.activity.VSCLocaleChangeReceiver;
 import com.expedia.bookings.activity.WebViewActivity;
 import com.expedia.bookings.data.HotelFilter;
 import com.expedia.bookings.data.pos.PointOfSale;
@@ -42,7 +41,7 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 
 	@Override
 	public String getAppNameForMobiataPushNameHeader() {
-		return null;
+		return "VSCBookings";
 	}
 
 	@Override
@@ -68,11 +67,6 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 	@Override
 	public boolean shouldDisplayInsuranceDetailsIfAvailableOnItinCard() {
 		return true;
-	}
-
-	@Override
-	public String getActionForLocaleChangeEvent() {
-		return VSCLocaleChangeReceiver.ACTION_LOCALE_CHANGED;
 	}
 
 	@Override
@@ -103,21 +97,6 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 	@Override
 	public PointOfSaleId getDefaultPOS() {
 		return PointOfSaleId.VSC;
-	}
-
-	@Override
-	public String getOmnitureReportSuiteIds() {
-		if (BuildConfig.RELEASE) {
-			return "expediaglobalapp" + ",expedia7androidapp";
-		}
-		else {
-			return "expediaglobalappdev" + ",expedia7androidappdev";
-		}
-	}
-
-	@Override
-	public String getOmnitureTrackingServer() {
-		return "om.expedia.com";
 	}
 
 	@Override
@@ -164,11 +143,6 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 
 	@Override
 	public boolean isTuneEnabled() {
-		return false;
-	}
-
-	@Override
-	public boolean isWeAreHiringInAboutEnabled() {
 		return false;
 	}
 
@@ -234,10 +208,6 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 
 	@Override
 	public void setupOtherAppsCrossSellInConfirmationScreen(final Context context, View view) {
-
-		TextView actionTextView = Ui.findView(view, R.id.call_action_text_view);
-		actionTextView.setText(R.string.vsc_customer_support);
-
 		View vscAppDivider = Ui.findView(view, R.id.vsc_app_divider);
 		vscAppDivider.setVisibility(View.VISIBLE);
 
@@ -257,22 +227,6 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 		descriptionView.setText(R.string.VSC_Voyages_SNF_description);
 		ImageView imageView = Ui.findView(view, R.id.image);
 		imageView.setImageResource(R.drawable.ic_vsc_train_app);
-
-		Ui.setOnClickListener(view, R.id.call_action_text_view, getCallActionTextViewClickListener(context));
-	}
-
-	private View.OnClickListener getCallActionTextViewClickListener(final Context context) {
-		return new View.OnClickListener() {
-			@Override
-			public void onClick(View arg0) {
-				// 1617. VSC Contact URL
-				WebViewActivity.IntentBuilder webBuilder = new WebViewActivity.IntentBuilder(context);
-				webBuilder.setUrl("http://voyages-sncf.mobi/aide-appli-2/aide-appli-hotel/pagecontactandroid.html");
-				webBuilder.setTheme(R.style.Theme_Phone);
-				webBuilder.setTitle(R.string.vsc_customer_support);
-				context.startActivity(webBuilder.getIntent());
-			}
-		};
 	}
 
 	@Override
@@ -290,11 +244,6 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 		return "vsc";
 	}
 
-	@Override
-	public boolean isLOBChooserScreenEnabled() {
-		return false;
-	}
-
 	public String getAdXKey() {
 		//Key not available for VSC for now, so passing blank.
 		return "";
@@ -310,23 +259,8 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 	}
 
 	@Override
-	public boolean isAppCrossSellInHotelShareContentEnabled() {
-		return true;
-	}
-
-	@Override
-	public boolean isAppCrossSellInFlightShareContentEnabled() {
-		return true;
-	}
-
-	@Override
-	public boolean isItinDisabled() {
-		return true;
-	}
-
-	@Override
 	public int getFlightSearchProgressImageResId() {
-		return R.drawable.search_progress_static_flight_vsc;
+		return 0;
 	}
 
 	@Override
@@ -392,7 +326,37 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 	}
 
 	@Override
+	public boolean isFacebookTrackingEnabled() {
+		return false;
+	}
+
+	@Override
 	public boolean isAbacusTestEnabled() {
 		return false;
+	}
+
+	@Override
+	public boolean isNewHotelEnabled() {
+		return false;
+	}
+
+	@Override
+	public int getRewardsLayoutId() {
+		return 0;
+	}
+
+	@Override
+	public boolean isRewardProgramPointsType() {
+		return false;
+	}
+
+	@Override
+	public boolean isCommunicateSectionEnabled() {
+		return false;
+	}
+
+	@Override
+	public PointOfSaleId getUSPointOfSaleId() {
+		return null;
 	}
 }

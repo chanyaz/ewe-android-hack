@@ -15,7 +15,6 @@ import android.view.View;
 import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.AppIntroActivity;
-import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.activity.WebViewActivity;
 import com.expedia.bookings.data.HotelFilter;
 import com.expedia.bookings.data.pos.PointOfSale;
@@ -59,13 +58,6 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 		return true;
 	}
 
-	public String getActionForLocaleChangeEvent() {
-		if (ExpediaBookingApp.isAutomation()) {
-			return null;
-		}
-		throw new UnsupportedOperationException("Not Required/Implemented for Expedia App");
-	}
-
 	public boolean wantsCustomHandlingForLocaleConfiguration() {
 		return false;
 	}
@@ -96,19 +88,6 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 
 	public int getAdXPosIdentifier() {
 		return 2601;
-	}
-
-	public String getOmnitureReportSuiteIds() {
-		if (BuildConfig.RELEASE) {
-			return "expediaglobalapp";
-		}
-		else {
-			return "expediaglobalappdev";
-		}
-	}
-
-	public String getOmnitureTrackingServer() {
-		return "om.expedia.com";
 	}
 
 	public void contactUsViaWeb(Context context) {
@@ -153,10 +132,6 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 	}
 
 	public boolean isKahunaEnabled() {
-		return true;
-	}
-
-	public boolean isWeAreHiringInAboutEnabled() {
 		return true;
 	}
 
@@ -219,11 +194,6 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 		return "samsung";
 	}
 
-	@Override
-	public boolean isLOBChooserScreenEnabled() {
-		return true;
-	}
-
 	public String getAdXKey() {
 		return "f2d75b7e-ed66-4f96-cf66-870f4c6b723e";
 	}
@@ -234,19 +204,6 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 
 	public boolean isSigninEnabled() {
 		return true;
-	}
-
-	public boolean isAppCrossSellInHotelShareContentEnabled() {
-		return true;
-	}
-
-	public boolean isAppCrossSellInFlightShareContentEnabled() {
-		return true;
-	}
-
-	@Override
-	public boolean isItinDisabled() {
-		return false;
 	}
 
 	public boolean isAppIntroEnabled() {
@@ -316,7 +273,37 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 	}
 
 	@Override
+	public boolean isFacebookTrackingEnabled() {
+		return false;
+	}
+
+	@Override
 	public boolean isAbacusTestEnabled() {
 		return false;
+	}
+
+	@Override
+	public boolean isNewHotelEnabled() {
+		return false;
+	}
+
+	@Override
+	public int getRewardsLayoutId() {
+		return 0;
+	}
+
+	@Override
+	public boolean isRewardProgramPointsType() {
+		return true;
+	}
+
+	@Override
+	public boolean isCommunicateSectionEnabled() {
+		return true;
+	}
+
+	@Override
+	public PointOfSaleId getUSPointOfSaleId() {
+		return PointOfSaleId.UNITED_STATES;
 	}
 }

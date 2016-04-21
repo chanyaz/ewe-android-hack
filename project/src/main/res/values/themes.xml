@@ -89,10 +89,8 @@
         <item name="skin_hotelPriceSaleColor">@color/hotel_price_sale_text_color</item>
         <item name="skin_hotelPriceAirAttachColor">@color/hotel_price_air_attach_text_color</item>
         <item name="skin_hotelSearchActionBarPadding">0dp</item>
-        <item name="skin_webViewPreferencesActionBarLogo">@drawable/ic_action_bar_expedia_logo</item>
-        <item name="skin_webViewPreferencesActionBarLogoWithTitle">@drawable/ic_action_bar_expedia_logo_small</item>
         <item name="skin_actionBarCheckMarkDrawable">@drawable/ic_action_bar_checkmark</item>
-        <item name="skin_actionBarButtonTextColor">@color/action_bar_text_yellow</item>
+        <item name="skin_actionBarButtonTextColor">@color/review_screen_tab_indicator</item>
         <item name="skin_actionBarCheckoutDrawable">@drawable/ic_action_bar_checkout_arrow</item>
         <item name="skin_costSummaryHeaderTextColor">@color/cost_summary_header_text_color</item>
         <item name="skin_actionBarBackgroundDrawable">@drawable/bg_action_bar</item>
@@ -126,10 +124,10 @@
         <item name="skin_hotelBookButtonColor">@android:color/black</item>
         <item name="skin_hotelDetailPlaceHolderDrawable">@drawable/placeholder_lg</item>
         <item name="skin_hotelConfirmationCallActionDrawable">@drawable/ic_phone</item>
-        <item name="skin_hotelCheckoutLogoutLogoDrawable">@drawable/ic_tablet_checkout_expedia_logo</item>
-        <item name="skin_phoneCheckoutLoginLogoDrawable">@drawable/ic_expedia_white_logo_small</item>
-        <item name="skin_phoneCheckoutLoginButtonDrawable">@drawable/btn_login_hotels</item>
-        <item name="skin_phoneCheckoutLoginButtonTextColor">@color/login_text_hotels</item>
+        <item name="skin_hotelCheckoutLogoutLogoDrawable">@drawable/ic_tablet_checkout_logo</item>
+        <item name="skin_phoneCheckoutLoginLogoDrawable">@drawable/brand_phone_checkout_logo_drawable</item>
+        <item name="skin_phoneCheckoutLoginButtonDrawable">@drawable/card_background</item>
+        <item name="skin_phoneCheckoutLoginButtonTextColor">@color/cars_lx_checkout_button_text_color</item>
         <item name="skin_tabletCheckoutLoginButtonTextColor">@color/login_text_tablet</item>
         <item name="skin_cvvBookButtonKeypadDrawable">@drawable/btn_cvv_keypad_book</item>
         <item name="skin_hotelPrimaryTravelerInfoLogoDrawable">@drawable/ic_expedia_white_logo_small</item>
@@ -160,7 +158,7 @@
         <item name="skin_flightLineColor">@color/flight_trip</item>
         <item name="skin_icSuitCaseBaggage">@drawable/ic_suitcase_baggage_fee_blue</item>
         <item name="skin_candycaneProgressDrawable">@drawable/progressbar_candycane_horizontal</item>
-        <item name="skin_tabletCheckoutLoginLogoDrawable">@drawable/ic_tablet_checkout_expedia_logo</item>
+        <item name="skin_tabletCheckoutLoginLogoDrawable">@drawable/ic_tablet_checkout_logo</item>
         <item name="skin_actionMenuDoneButtonText">@string/button_confirmation_done</item>
         <item name="skin_tablet_pin_detail_image_size">@dimen/launch_pin_detail_size</item>
         <item name="skin_tablet_ab_launch_text1_base">@string/Explore</item>
@@ -171,10 +169,10 @@
         <item name="skin_HotelCheckout_CreditCardEditTextStyle">@style/CreditCardEditText</item>
         <item name="skin_HotelCheckout_PostalCodeSectionStyle">@style/PostalCodeSection</item>
         <item name="skin_HotelCheckout_couponEditTextStyle">@style/CouponEditText</item>
-        <item name="skin_hotelRulesActionBarLogo">@drawable/ic_expedia_action_bar_logo_dark</item>
-        <item name="skin_flightRulesActionBarLogo">@drawable/ic_expedia_action_bar_logo_dark</item>
-        <item name="skin_hotelLoginActionBarIcon">@drawable/ic_expedia_action_bar_logo_dark</item>
-        <item name="skin_flightLoginActionBarIcon">@drawable/ic_expedia_action_bar_logo_dark</item>
+        <item name="skin_hotelRulesActionBarLogo">@drawable/ic_action_bar_logo_dark</item>
+        <item name="skin_flightRulesActionBarLogo">@drawable/ic_action_bar_logo_dark</item>
+        <item name="skin_hotelLoginActionBarIcon">@drawable/ic_action_bar_logo_dark</item>
+        <item name="skin_flightLoginActionBarIcon">@drawable/ic_action_bar_logo_dark</item>
         <item name="skin_tablet_hotel_coupon_text_color">@color/tablet_hotel_coupon_text_color</item>
         <item name="skin_itinActionOverflowDrawable">@drawable/ic_itin_action_overflow_white</item>
         <item name="skin_launchCirclePlaceholderDrawable">@drawable/launch_circle_placeholder</item>
@@ -214,21 +212,22 @@
     </style>
 
     <style name="Theme.Phone.WebView">
-        <item name="android:logo">?attr/skin_webViewPreferencesActionBarLogo</item>
+        <item name="android:logo">@drawable/ic_action_bar_brand_logo</item>
     </style>
 
     <style name="Theme.Phone.WebView.WithTitle">
-        <item name="android:logo">?attr/skin_webViewPreferencesActionBarLogoWithTitle</item>
+        <item name="android:logo">@drawable/ic_action_bar_brand_logo_title</item>
     </style>
 
     <style name="Theme.Phone.Preferences" parent="Theme.AppCompat.Light.DarkActionBar">
-        <item name="android:logo">?attr/skin_webViewPreferencesActionBarLogo</item>
+        <item name="android:logo">@drawable/ic_action_bar_brand_logo</item>
         <item name="colorPrimaryDark">#3A464F</item>
         <item name="colorPrimary">#495863</item>
         <item name="android:windowBackground">@color/preferences_activity_bg</item>
     </style>
 
     <style name="Theme.Phone.Dark" parent="Theme.Phone">
+        <item name="checkout_icon_right_margin_attr">@dimen/checkout_icon_right_margin_hotel</item>
         <item name="android:windowBackground">@color/window_background_dark</item>
         <item name="android:editTextStyle">@style/Widget.EditText.Phone.Dark</item>
         <item name="android:textViewStyle">@style/Widget.TextView.Phone.Dark</item>
@@ -236,7 +235,7 @@
     </style>
 
     <style name="LoginTheme" parent="Theme.Phone.Dark">
-        <item name="android:logo">@drawable/ic_ab_expedia_logo</item>
+        <item name="android:logo">@drawable/ic_ab_logo</item>
         <item name="android:windowBackground">@android:color/transparent</item>
         <item name="android:windowActionBarOverlay">true</item>
     </style>
@@ -409,7 +408,7 @@
     <style name="LaunchActionBar" parent="Widget.AppCompat.Toolbar">
         <item name="android:icon">@android:color/transparent</item>
         <item name="android:displayOptions">showHome|showTitle</item>
-        <item name="android:background">@color/launch_toolbar_background_color</item>
+        <item name="android:background">@color/launch_actionbar_bg_color</item>
     </style>
 
     <style name="LaunchActionBarTabStyle" parent="@style/Widget.AppCompat.ActionBar.TabView">
@@ -430,6 +429,8 @@
         <item name="skin_flightCalendarDatePickerCellDrawable">@drawable/calendar_date_picker_cell</item>
         <item name="skin_flightCalendarDatePickerPopupDrawable">@drawable/calendar_date_picker_popup</item>
         <item name="skin_flightFreeCancellationTextColor">@color/flight_free_cancellation_text_color</item>
+        <item name="checkout_icon_right_margin_attr">@dimen/checkout_icon_right_margin_flight</item>
+
     </style>
 
     <style name="FlightTheme.DropDownSearch">
@@ -504,16 +505,20 @@
     </style>
 
     <style name="TerminalMapTheme" parent="@android:style/Theme.Holo">
-        <item name="android:logo">@drawable/ic_ab_expedia_logo</item>
+        <item name="android:logo">@drawable/ic_ab_logo</item>
         <item name="android:actionBarStyle">@style/TerminalMapActionBar</item>
         <item name="android:actionOverflowButtonStyle">@style/Widget.ActionBar.ActionButton.Overflow</item>
         <item name="android:windowBackground">@android:color/white</item>
 
         <!-- PopupMenu -->
-        <item name="android:dropDownListViewStyle">@android:style/Widget.Holo.Light.ListView.DropDown</item>
-        <item name="skin_terminalChooserTextColor">@color/itin_white_text</item>
-
+        <item name="android:dropDownListViewStyle">@style/TerminalMapThemeDropDownListView</item>
+        <item name="android:spinnerDropDownItemStyle">@style/TerminalMapThemeSpinnerDropDownItemStyle</item>
+        <item name="skin_terminalChooserTextColor">@color/actionbar_terminal_text_ctx</item>
     </style>
+
+    <style name="TerminalMapThemeSpinnerDropDownItemStyle" parent="@style/Widget.AppCompat.DropDownItem.Spinner" />
+
+    <style name="TerminalMapThemeDropDownListView" parent="@android:style/Widget.Holo.Light.ListView.DropDown" />
 
     <style name="FlightTheme.Rules">
         <item name="android:logo">?attr/skin_flightRulesActionBarLogo</item>

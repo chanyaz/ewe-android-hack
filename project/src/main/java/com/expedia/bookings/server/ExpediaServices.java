@@ -520,7 +520,7 @@ public class ExpediaServices implements DownloadListener {
 		query.add(new BasicNameValuePair("tripId", itinerary.getTripId()));
 		query.add(new BasicNameValuePair("expectedTotalFare", flightTrip.getTotalFare().getAmount().toString() + ""));
 		query.add(new BasicNameValuePair("expectedFareCurrencyCode", flightTrip.getTotalFare().getCurrency()));
-		query.add(new BasicNameValuePair("abacusUserGuid", Db.getAbacusGuid()));
+		addAbacusUserGuidIfNotEmpty(query);
 
 		Money cardFee = flightItem.getPaymentFee(billingInfo.getPaymentType());
 		if (cardFee != null) {
@@ -866,7 +866,7 @@ public class ExpediaServices implements DownloadListener {
 			query.add(new BasicNameValuePair("suppressFinalBooking", "true"));
 		}
 
-		query.add(new BasicNameValuePair("abacusUserGuid", Db.getAbacusGuid()));
+		addAbacusUserGuidIfNotEmpty(query);
 
 		return query;
 	}
@@ -900,6 +900,12 @@ public class ExpediaServices implements DownloadListener {
 		if (!TextUtils.isEmpty(tealeafId)) {
 			query.add(new BasicNameValuePair("tlPaymentsSubmitEvent", "1"));
 			query.add(new BasicNameValuePair("tealeafTransactionId", tealeafId));
+		}
+	}
+
+	private void addAbacusUserGuidIfNotEmpty(List<BasicNameValuePair> query) {
+		if (Strings.isNotEmpty(Db.getAbacusGuid())) {
+			query.add(new BasicNameValuePair("abacusUserGuid", Db.getAbacusGuid()));
 		}
 	}
 
@@ -1239,12 +1245,6 @@ public class ExpediaServices implements DownloadListener {
 		String serverUrl, ResponseHandler<PushNotificationRegistrationResponse> responseHandler,
 		JSONObject payload, String regId) {
 
-		String appNameForMobiataPushNameHeader = ProductFlavorFeatureConfiguration.getInstance().getAppNameForMobiataPushNameHeader();
-		if (Strings.isEmpty(appNameForMobiataPushNameHeader)) {
-			Log.d("PushNotification registration key is null/blank in feature config!");
-			return null;
-		}
-
 		// Create the request
 		Request.Builder post = new Request.Builder().url(serverUrl);
 		String data = payload.toString();
@@ -1253,6 +1253,7 @@ public class ExpediaServices implements DownloadListener {
 		// Adding the body sets the Content-type header for us
 		post.post(body);
 
+		String appNameForMobiataPushNameHeader = ProductFlavorFeatureConfiguration.getInstance().getAppNameForMobiataPushNameHeader();
 		if (PushNotificationUtils.REGISTRATION_URL_PRODUCTION.equals(serverUrl)) {
 			post.addHeader("MobiataPushName", appNameForMobiataPushNameHeader);
 		}

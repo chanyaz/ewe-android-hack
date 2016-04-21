@@ -169,15 +169,17 @@ public class AccountButton extends LinearLayout {
 				lpt.gravity = Gravity.CENTER;
 				mLoginContainer.setBackgroundResource(R.drawable.account_sign_in_button_ripple);
 				mLoginTextView.setTextColor(getResources().getColor(android.R.color.white));
-				mLoginTextView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.expedia_white, 0, 0, 0);
+				mLoginTextView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.brand_logo_white, 0, 0, 0);
 			}
 			else {
 				int bgResourceId = Ui.obtainThemeResID(getContext(), android.R.attr.selectableItemBackground);
 				lpt.width = LayoutParams.MATCH_PARENT;
 				lpt.gravity = Gravity.CENTER_VERTICAL | Gravity.LEFT;
-				mLoginContainer.setBackgroundResource(R.drawable.card_background);
-				mLoginTextView.setTextColor(getResources().getColor(R.color.cars_lx_checkout_button_text_color));
-				mLoginTextView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.expedia, 0, 0, 0);
+				mLoginContainer.setBackgroundResource(
+					Ui.obtainThemeResID(mContext, R.attr.skin_phoneCheckoutLoginButtonDrawable));
+				mLoginTextView.setTextColor(Ui.obtainThemeColor(mContext, R.attr.skin_phoneCheckoutLoginButtonTextColor));
+				mLoginTextView.setCompoundDrawablesWithIntrinsicBounds(
+					Ui.obtainThemeResID(mContext, R.attr.skin_phoneCheckoutLoginLogoDrawable), 0, 0, 0);
 				mLoginTextView.setBackgroundResource(bgResourceId);
 			}
 			mLoginTextView.setGravity(Gravity.LEFT);
@@ -199,19 +201,24 @@ public class AccountButton extends LinearLayout {
 		int expediaPlusRewardsCategoryTextColorResId = 0;
 		switch (traveler.getLoyaltyMembershipTier()) {
 		case BLUE:
-			expediaPlusRewardsCategoryTextResId = R.string.Expedia_plus_blue;
-			expediaPlusRewardsCategoryColorResId = R.color.expedia_plus_blue;
-			expediaPlusRewardsCategoryTextColorResId = R.color.expedia_plus_blue_text;
+			expediaPlusRewardsCategoryTextResId = R.string.reward_plus_blue;
+			expediaPlusRewardsCategoryColorResId = R.color.reward_color_base;
+			expediaPlusRewardsCategoryTextColorResId = R.color.reward_color_base_text;
 			break;
 		case SILVER:
-			expediaPlusRewardsCategoryTextResId = R.string.Expedia_plus_silver;
-			expediaPlusRewardsCategoryColorResId = R.color.expedia_plus_silver;
-			expediaPlusRewardsCategoryTextColorResId = R.color.expedia_plus_silver_text;
+			expediaPlusRewardsCategoryTextResId = R.string.reward_plus_silver;
+			expediaPlusRewardsCategoryColorResId = R.color.reward_color_middle;
+			expediaPlusRewardsCategoryTextColorResId = R.color.reward_color_middle_text;
 			break;
 		case GOLD:
-			expediaPlusRewardsCategoryTextResId = R.string.Expedia_plus_gold;
-			expediaPlusRewardsCategoryColorResId = R.color.expedia_plus_gold;
-			expediaPlusRewardsCategoryTextColorResId = R.color.expedia_plus_gold_text;
+			expediaPlusRewardsCategoryTextResId = R.string.reward_plus_gold;
+			expediaPlusRewardsCategoryColorResId = R.color.reward_color_top;
+			expediaPlusRewardsCategoryTextColorResId = R.color.reward_color_top_text;
+			break;
+		case PLATINUM:
+			expediaPlusRewardsCategoryTextResId = R.string.reward_plus_platinum;
+			expediaPlusRewardsCategoryColorResId = R.color.reward_color_top;
+			expediaPlusRewardsCategoryTextColorResId = R.color.reward_color_top_text;
 			break;
 		}
 
@@ -222,9 +229,9 @@ public class AccountButton extends LinearLayout {
 		if (isRewardsEnabled && traveler.getLoyaltyMembershipTier() != Traveler.LoyaltyMembershipTier.NONE) {
 			//Show Rewards Category Text View
 			expediaPlusRewardsCategoryTextView.setVisibility(View.VISIBLE);
-			expediaPlusRewardsCategoryTextView.setText(expediaPlusRewardsCategoryTextResId);
-			expediaPlusRewardsCategoryTextView
-				.setTextColor(getResources().getColor(expediaPlusRewardsCategoryColorResId));
+			expediaPlusRewardsCategoryTextView.setText(Phrase.from(this, expediaPlusRewardsCategoryTextResId)
+				.put("brand", BuildConfig.brand).format());
+			expediaPlusRewardsCategoryTextView.setTextColor(getResources().getColor(expediaPlusRewardsCategoryColorResId));
 			//Show Reward Points Container
 			mRewardsContainer.setVisibility(View.VISIBLE);
 			FontCache.setTypeface(expediaPlusRewardsCategoryTextView, FontCache.Font.EXPEDIASANS_REGULAR);
@@ -294,7 +301,8 @@ public class AccountButton extends LinearLayout {
 		case HOTELSV2:
 			TripBucketItemHotelV2 hotelV2 = Db.getTripBucket().getHotelV2();
 			HotelCreateTripResponse trip = hotelV2 == null ? null : hotelV2.mHotelTripResponse;
-			rewardPoints = trip == null ? "" : String.valueOf(trip.getExpediaRewards().getUpdatedExpediaRewards());
+			rewardPoints = trip == null ? ""
+				: String.valueOf(trip.getRewards() != null ? trip.getRewards().getUpdatedExpediaRewards() : 0f);
 			break;
 		case LX:
 			TripBucketItemLX lx = Db.getTripBucket().getLX();
@@ -304,8 +312,8 @@ public class AccountButton extends LinearLayout {
 		case PACKAGES:
 			TripBucketItemPackages pkgItem = Db.getTripBucket().getPackage();
 			PackageCreateTripResponse packageTrip = pkgItem == null ? null : pkgItem.mPackageTripResponse;
-			rewardPoints =
-				packageTrip == null ? "" : String.valueOf(packageTrip.getExpediaRewards().getUpdatedExpediaRewards());
+			rewardPoints = packageTrip == null ? "" : String
+				.valueOf(packageTrip.getRewards() != null ? packageTrip.getRewards().getUpdatedExpediaRewards() : 0f);
 			break;
 		}
 
@@ -313,7 +321,7 @@ public class AccountButton extends LinearLayout {
 		if (Strings.isEmpty(rewardPoints)) {
 			//Do nothing
 		}
-		else if (Strings.equals("0", rewardPoints)) {
+		else if (Strings.equals("0.0", rewardPoints)) {
 			youllEarnRewardsPointsText = mContext.getString(R.string.you_are_a_valued_member);
 
 		}
@@ -363,6 +371,9 @@ public class AccountButton extends LinearLayout {
 			break;
 		case GOLD:
 			rewardsBgResId = R.drawable.bg_checkout_info_bottom_gold;
+			break;
+		case PLATINUM:
+			rewardsBgResId = R.drawable.bg_checkout_info_bottom_platinum;
 			break;
 		}
 

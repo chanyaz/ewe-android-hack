@@ -54,7 +54,7 @@ class HotelCouponTest {
         var couponParamsBuilder = HotelApplyCouponParameters.Builder()
                 .tripId("58b6be8a-d533-4eb0-aaa6-0228e000056c")
                 .isFromNotSignedInToSignedIn(false)
-                .userPreferencePointsDetails(listOf(UserPreferencePointsDetails(ProgramName.ExpediaRewards, PointsAndCurrency(0, PointsType.BURN, Money()))))
+                .userPreferencePointsDetails(listOf(UserPreferencePointsDetails(ProgramName.ExpediaRewards, PointsAndCurrency(0f, PointsType.BURN, Money()))))
 
         vm.couponParamsObservable.onNext(couponParamsBuilder.couponCode("hotel_coupon_errors_expired").build())
         expected.add(makeErrorInfo(ApiError.Code.APPLY_COUPON_ERROR, "Expired"))
@@ -81,7 +81,7 @@ class HotelCouponTest {
 
     @Test
     fun applyCouponWithUserPreference() {
-        var pointsDetails = UserPreferencePointsDetails(ProgramName.ExpediaRewards, PointsAndCurrency(1000, PointsType.BURN, Money("100", "USD")))
+        var pointsDetails = UserPreferencePointsDetails(ProgramName.ExpediaRewards, PointsAndCurrency(1000f, PointsType.BURN, Money("100", "USD")))
         var couponParams = HotelApplyCouponParameters.Builder()
                 .tripId("b33f3017-6f65-4b02-8f73-87c9bf39ea76")
                 .isFromNotSignedInToSignedIn(false)
