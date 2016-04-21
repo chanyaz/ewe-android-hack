@@ -26,9 +26,4 @@
         <item name="android:paddingRight">15dp</item>
     </style>
 
-    <style name="Theme.AlertDialog" parent="Theme.AppCompat.Light.Dialog">
-        <item name="colorAccent">?attr/primary_color</item>
-        <item name="colorPrimary">?attr/primary_color</item>
-    </style>
-
 </resources>
