@@ -219,6 +219,7 @@
     <dimen name="lx_sort_filter_container_height">58dp</dimen>
     <dimen name="lx_sort_filter_padding">16dp</dimen>
     <dimen name="lx_sort_filter_margin">16dp</dimen>
+    <dimen name="lx_sort_filter_margin_cards">14dp</dimen>
     <dimen name="lx_unexpanded_space_height">190dp</dimen>
     <dimen name="lx_results_bottom_padding">58dp</dimen>
     <dimen name="gt_results_bottom_padding">0dp</dimen>
