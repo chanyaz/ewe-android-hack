@@ -20,6 +20,7 @@ import com.expedia.bookings.utils.CollectionUtils
 import com.expedia.bookings.utils.DateUtils
 import com.expedia.bookings.utils.LXUtils
 import com.expedia.bookings.utils.Strings
+import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import org.joda.time.LocalDate
 import retrofit2.Retrofit
@@ -33,7 +34,7 @@ import java.util.Collections
 import java.util.Comparator
 import java.util.LinkedHashSet
 
-class LxServices(endpoint: String, okHttpClient: OkHttpClient, val observeOn: Scheduler, val subscribeOn: Scheduler) {
+class LxServices(endpoint: String, okHttpClient: OkHttpClient, interceptor: Interceptor, val observeOn: Scheduler, val subscribeOn: Scheduler) {
 
     private var cachedLXSearchResponse = LXSearchResponse()
 
@@ -41,7 +42,7 @@ class LxServices(endpoint: String, okHttpClient: OkHttpClient, val observeOn: Sc
 
         val adapter = Retrofit.Builder()
                 .baseUrl(endpoint)
-                .client(okHttpClient)
+                .client(okHttpClient.newBuilder().addInterceptor(interceptor).build())
                 .addConverterFactory(GsonConverterFactory.create())
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                 .build()

@@ -24,7 +24,6 @@ import com.expedia.bookings.data.cars.SearchCarOffer;
 import com.expedia.bookings.data.cars.Transmission;
 import com.expedia.bookings.interceptors.MockInterceptor;
 import com.expedia.bookings.services.CarServices;
-import com.google.gson.stream.MalformedJsonException;
 import com.mobiata.mocke3.ExpediaDispatcher;
 import com.mobiata.mocke3.FileSystemOpener;
 
@@ -54,8 +53,8 @@ public class CarServicesTest {
 		logger.setLevel(HttpLoggingInterceptor.Level.BODY);
 		Interceptor interceptor = new MockInterceptor();
 		service = new CarServices("http://localhost:" + server.getPort(),
-			new OkHttpClient.Builder().addInterceptor(logger).addInterceptor(interceptor).build(),
-			Schedulers.immediate(), Schedulers.immediate());
+			new OkHttpClient.Builder().addInterceptor(logger).build(),
+			interceptor, Schedulers.immediate(), Schedulers.immediate());
 	}
 
 	@After
@@ -83,7 +82,7 @@ public class CarServicesTest {
 	@Test
 	public void testEmptyMockSearchWorks() throws Throwable {
 		server.enqueue(new MockResponse()
-			.setBody("{\"offers\" = []}"));
+			.setBody("{\"offers\" : []}"));
 
 		TestSubscriber<CarSearch> observer = new TestSubscriber<>();
 		CarSearchParams params = new CarSearchParams();
@@ -91,7 +90,9 @@ public class CarServicesTest {
 		service.carSearch(params, observer);
 		observer.awaitTerminalEvent();
 
-		observer.assertError(MalformedJsonException.class);
+		observer.assertValueCount(1);
+		observer.assertNoErrors();
+		observer.assertCompleted();
 	}
 
 	@Test

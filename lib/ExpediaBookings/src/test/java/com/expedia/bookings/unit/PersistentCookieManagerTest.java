@@ -3,12 +3,9 @@ package com.expedia.bookings.unit;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
-import java.net.HttpCookie;
-import java.net.URI;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.junit.Assert;
 import org.junit.Before;
@@ -19,6 +16,8 @@ import org.junit.rules.TemporaryFolder;
 import com.expedia.bookings.services.PersistentCookieManager;
 import com.expedia.bookings.utils.Strings;
 
+import okhttp3.Cookie;
+import okhttp3.HttpUrl;
 import okio.BufferedSink;
 import okio.Okio;
 import okio.Source;
@@ -27,10 +26,12 @@ public class PersistentCookieManagerTest {
 	@Rule
 	public TemporaryFolder folder = new TemporaryFolder();
 
-	private static final Map<String, List<String>> NO_COOKIES = new HashMap<>();
-	private static final Map<String, List<String>> EXPEDIA_COOKIES = new HashMap<>();
-	private static final Map<String, List<String>> REVIEWS_EXPEDIA_COOKIES = new HashMap<>();
-	private static final Map<String, List<String>> EXPIRED_COOKIES = new HashMap<>();
+	private static final List<Cookie> NO_COOKIES = new ArrayList<>();
+	private static final List<Cookie> EXPEDIA_COOKIES = new ArrayList<>();
+	private static final List<Cookie> REVIEWS_EXPEDIA_COOKIES = new ArrayList<>();
+	private static final List<Cookie> EXPIRED_COOKIES = new ArrayList<>();
+	private static final HttpUrl expedia = HttpUrl.parse("https://www.expedia.com");
+	private static final HttpUrl reviews = HttpUrl.parse("https://reviewsvc.expedia.com");
 
 	static {
 		ArrayList<String> list = new ArrayList<>();
@@ -46,32 +47,34 @@ public class PersistentCookieManagerTest {
 		list.add("iEAPID=0,; Domain=.expedia.com; Path=/");
 		list.add("linfo=v.4,|0|0|255|1|0||||||||1033|0|0||0|0|0|-1|-1; Domain=.expedia.com; Path=/");
 		list.add("minfo=v.5,EX015B0EEC4B$0E$81O$3Bq$8C$98$DF$CC$93$DE$A1$ABS$EB$A36$CA$D6$5B$D4g$FF$81$C2a$DD$A6$19$D1$1B0$26$EC$B4$86$C3$27$1D$FB$3F$3A$C6$24$E3$A2$A4$A7X$F7P; Domain=.expedia.com; Path=/");
-		EXPEDIA_COOKIES.put("Set-Cookie", list);
+		for (String string : list) {
+			EXPEDIA_COOKIES.add(Cookie.parse(expedia, string));
+		}
 
 		list = new ArrayList<>();
 		list.add("minfo=v.5,EX016141700E$B3$98$D7$34$37$A0J$C2$E9$2Ae$A0$B98$AA$B9$99$93f$E9l$D1$2D$EB$E3$BD$D6L$DB$9A$B33$89w$81$92$FB0$9F$C7D$B1G$CF$83$B5$CE3$B2gu$A7v$B6$9B$89$87$E5$3F$89$DD$89$F5$E8$BBtd$94; Domain=.expedia.com; Path=/");
-		REVIEWS_EXPEDIA_COOKIES.put("Set-Cookie", list);
+		for (String string : list) {
+			REVIEWS_EXPEDIA_COOKIES.add(Cookie.parse(reviews, string));
+		}
 
 		list = new ArrayList<>();
 		list.add("MC1=GUID=4a7e5c02232b479aa4807d32c6b7129c; Domain=.expedia.com; Path=/; Expires=Fri, 26-Feb-2016 00:08:28 GMT");
-		EXPIRED_COOKIES.put("Set-Cookie", list);
+		for (String string : list) {
+			EXPIRED_COOKIES.add(Cookie.parse(expedia, string));
+		}
 	}
 
-	private URI expedia;
-	private URI reviews;
 	private File storage;
+	private File oldCookieStorage;
 	private PersistentCookieManager manager;
 
 	@SuppressWarnings("ResultOfMethodCallIgnored")
 	@Before
 	public void before() throws Throwable {
-
-		expedia = new URI("https://www.expedia.com");
-		reviews = new URI("https://reviewsvc.expedia.com");
 		storage = folder.newFile();
 		storage.delete();
 
-		File oldCookieStorage = folder.newFile();
+		oldCookieStorage = folder.newFile();
 		oldCookieStorage.delete();
 		manager = new PersistentCookieManager(storage);
 	}
@@ -84,7 +87,7 @@ public class PersistentCookieManagerTest {
 	@Test
 	public void saveNoCookies() throws Throwable {
 		expectNotExists(storage);
-		manager.put(expedia, NO_COOKIES);
+		manager.saveFromResponse(expedia, NO_COOKIES);
 		expectCookies(0);
 		expectExists(storage);
 	}
@@ -92,13 +95,13 @@ public class PersistentCookieManagerTest {
 	@Test
 	public void saveExpediaCookies() throws Throwable {
 		expectNotExists(storage);
-		manager.put(expedia, EXPEDIA_COOKIES);
+		manager.saveFromResponse(expedia, EXPEDIA_COOKIES);
 		expectCookies(12);
 		expectCookie(expedia, "MC1", "GUID=4a7e5c02232b479aa4807d32c6b7129c");
 		expectExists(storage);
 
 		// Make sure we can overwrite the file
-		manager.put(expedia, EXPEDIA_COOKIES);
+		manager.saveFromResponse(expedia, EXPEDIA_COOKIES);
 		expectCookies(12);
 		expectExists(storage);
 		expectCookie(expedia, "MC1", "GUID=4a7e5c02232b479aa4807d32c6b7129c");
@@ -107,22 +110,22 @@ public class PersistentCookieManagerTest {
 	@Test
 	public void ignoreExpiredCookies() throws Throwable {
 		expectNotExists(storage);
-		manager.put(expedia, EXPIRED_COOKIES);
+		manager.saveFromResponse(expedia, EXPIRED_COOKIES);
 		expectCookies(0);
 		expectExists(storage);
 	}
 
 	@Test
 	public void get() throws Throwable {
-		manager.put(expedia, EXPEDIA_COOKIES);
-		Map<String, List<String>> cookies = manager.get(expedia, new HashMap<String, List<String>>());
+		manager.saveFromResponse(expedia, EXPEDIA_COOKIES);
+		List<Cookie> cookies = manager.loadForRequest(expedia);
 		Assert.assertNotEquals("Expected cookies " + Strings.toPrettyString(cookies), 0, cookies.size());
 	}
 
 	@Test
 	public void clearingCookies() throws Throwable {
 		expectNotExists(storage);
-		manager.put(expedia, EXPEDIA_COOKIES);
+		manager.saveFromResponse(expedia, EXPEDIA_COOKIES);
 		expectExists(storage);
 		expectCookies(12);
 
@@ -134,7 +137,7 @@ public class PersistentCookieManagerTest {
 	@Test
 	public void removeCookiesByName() throws Throwable {
 		expectNotExists(storage);
-		manager.put(expedia, EXPEDIA_COOKIES);
+		manager.saveFromResponse(expedia, EXPEDIA_COOKIES);
 		expectExists(storage);
 		expectCookies(12);
 
@@ -160,13 +163,13 @@ public class PersistentCookieManagerTest {
 
 	@Test
 	public void mixCookies() throws Throwable {
-		manager.put(expedia, EXPEDIA_COOKIES);
+		manager.saveFromResponse(expedia, EXPEDIA_COOKIES);
 		expectCookie(expedia, "minfo",
 			"v.5,EX015B0EEC4B$0E$81O$3Bq$8C$98$DF$CC$93$DE$A1$ABS$EB$A36$CA$D6$5B$D4g$FF$81$C2a$DD$A6$19$D1$1B0$26$EC$B4$86$C3$27$1D$FB$3F$3A$C6$24$E3$A2$A4$A7X$F7P");
-		manager.put(reviews, REVIEWS_EXPEDIA_COOKIES);
+		manager.saveFromResponse(reviews, REVIEWS_EXPEDIA_COOKIES);
 		expectCookie(reviews, "minfo",
 			"v.5,EX016141700E$B3$98$D7$34$37$A0J$C2$E9$2Ae$A0$B98$AA$B9$99$93f$E9l$D1$2D$EB$E3$BD$D6L$DB$9A$B33$89w$81$92$FB0$9F$C7D$B1G$CF$83$B5$CE3$B2gu$A7v$B6$9B$89$87$E5$3F$89$DD$89$F5$E8$BBtd$94");
-		manager.put(expedia, EXPEDIA_COOKIES);
+		manager.saveFromResponse(expedia, EXPEDIA_COOKIES);
 		expectCookie(expedia, "minfo",
 			"v.5,EX015B0EEC4B$0E$81O$3Bq$8C$98$DF$CC$93$DE$A1$ABS$EB$A36$CA$D6$5B$D4g$FF$81$C2a$DD$A6$19$D1$1B0$26$EC$B4$86$C3$27$1D$FB$3F$3A$C6$24$E3$A2$A4$A7X$F7P");
 	}
@@ -194,21 +197,21 @@ public class PersistentCookieManagerTest {
 	}
 
 	public void expectCookies(int num) {
-		List<HttpCookie> cookies = manager.getCookieStore().getCookies();
-		Assert.assertEquals("cookies: " + Strings.toPrettyString(cookies), num, cookies.size());
+		HashMap<String, HashMap<String, Cookie>> cookieStore = manager.getCookieStore();
+		java.util.Collection<HashMap<String, Cookie>> cookiesList = cookieStore.values();
+		List<Cookie> allCookies = new ArrayList<>();
+		for (HashMap<String, Cookie> cookies : cookiesList) {
+			allCookies.addAll(cookies.values());
+		}
+		Assert.assertEquals("cookies: " + Strings.toPrettyString(allCookies), num, allCookies.size());
 	}
 
-	public void expectCookie(final URI uri, final String name, final String value) throws Throwable {
-		Map<String, List<String>> map = manager.get(uri, new HashMap<String, List<String>>());
-		for (List<String> cookieHeaders : map.values()) {
-			for (String header : cookieHeaders) {
-				List<HttpCookie> cookies = HttpCookie.parse(header);
-				for (HttpCookie cookie : cookies) {
-					if (Strings.equals(name, cookie.getName())) {
-						Assert.assertEquals(value, cookie.getValue());
-						return;
-					}
-				}
+	public void expectCookie(final HttpUrl uri, final String name, final String value) throws Throwable {
+		List<Cookie> cookies = manager.loadForRequest(uri);
+		for (Cookie cookie : cookies) {
+			if (Strings.equals(name, cookie.name())) {
+				Assert.assertEquals(value, cookie.value());
+				return;
 			}
 		}
 		throw new RuntimeException("cookie not found");
@@ -225,20 +228,19 @@ public class PersistentCookieManagerTest {
 	@Test
 	public void loadSampleDataFromDisk() throws Throwable {
 		File file = new File("src/test/resources/cookies-4.dat");
-
 		Source from = Okio.source(file);
-		BufferedSink to = Okio.buffer(Okio.sink(storage));
+		BufferedSink to = Okio.buffer(Okio.sink(oldCookieStorage));
 		to.writeAll(from);
 		to.close();
-		manager = new PersistentCookieManager(storage);
+		manager = new PersistentCookieManager(storage, oldCookieStorage);
 
-		expectCookies(19);
+		expectCookies(35);
 		expectCookie(expedia, "minfo",
 			"v.5,EX01734B8FD0$21$A6$DE$34$0B$C7$F1$0F$7C$A8$DF$EA$A6$F6$2C$9E$FE$D4$CC$15$B6yY$FAxO$D8U$B7RJ$39$CA$0D$E4$EB$EAh$89$0E$97$C0$0E4$B1$9A$AA$95$97$C3$AA$E0$F2$A4$36$C6$31$E8$BBX!2$DFD$B8$F3$AF$81$9C");
-		manager.put(reviews, REVIEWS_EXPEDIA_COOKIES);
+		manager.saveFromResponse(reviews, REVIEWS_EXPEDIA_COOKIES);
 		expectCookie(reviews, "minfo",
 			"v.5,EX016141700E$B3$98$D7$34$37$A0J$C2$E9$2Ae$A0$B98$AA$B9$99$93f$E9l$D1$2D$EB$E3$BD$D6L$DB$9A$B33$89w$81$92$FB0$9F$C7D$B1G$CF$83$B5$CE3$B2gu$A7v$B6$9B$89$87$E5$3F$89$DD$89$F5$E8$BBtd$94");
-		manager.put(expedia, EXPEDIA_COOKIES);
+		manager.saveFromResponse(expedia, EXPEDIA_COOKIES);
 		expectCookie(expedia, "minfo", "v.5,EX015B0EEC4B$0E$81O$3Bq$8C$98$DF$CC$93$DE$A1$ABS$EB$A36$CA$D6$5B$D4g$FF$81$C2a$DD$A6$19$D1$1B0$26$EC$B4$86$C3$27$1D$FB$3F$3A$C6$24$E3$A2$A4$A7X$F7P");
 	}
 }

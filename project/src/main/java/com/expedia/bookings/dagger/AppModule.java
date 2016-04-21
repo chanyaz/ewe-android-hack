@@ -34,7 +34,6 @@ import dagger.Provides;
 import okhttp3.Cache;
 import okhttp3.HttpUrl;
 import okhttp3.Interceptor;
-import okhttp3.JavaNetCookieJar;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
@@ -112,27 +111,29 @@ public class AppModule {
 		}
 	}
 
+	private static final String COOKIE_FILE_V5 = "cookies-5.dat";
 	private static final String COOKIE_FILE_V4 = "cookies-4.dat";
-	private static final String COOKIE_FILE_LATEST = COOKIE_FILE_V4;
+	private static final String COOKIE_FILE_OLD = COOKIE_FILE_V4;
+	private static final String COOKIE_FILE_LATEST = COOKIE_FILE_V5;
 	@Provides
 	@Singleton
 	PersistentCookieManager provideCookieManager(Context context) {
+		File oldStorage = context.getFileStreamPath(COOKIE_FILE_OLD);
 		File storage = context.getFileStreamPath(COOKIE_FILE_LATEST);
-		PersistentCookieManager manager = new PersistentCookieManager(storage);
+		PersistentCookieManager manager = new PersistentCookieManager(storage, oldStorage);
 		return manager;
 	}
 
 	@Provides
 	@Singleton
-	OkHttpClient provideOkHttpClient(PersistentCookieManager cookieManager, SSLContext sslContext, Cache cache, HttpLoggingInterceptor.Level logLevel, Interceptor interceptor) {
+	OkHttpClient provideOkHttpClient(PersistentCookieManager cookieManager, SSLContext sslContext, Cache cache, HttpLoggingInterceptor.Level logLevel) {
 		OkHttpClient.Builder client = new OkHttpClient().newBuilder();
 		client.cache(cache);
 		HttpLoggingInterceptor logger = new HttpLoggingInterceptor();
 		logger.setLevel(logLevel);
 		client.addInterceptor(logger);
-		client.addInterceptor(interceptor);
 		client.followRedirects(true);
-		client.cookieJar(new JavaNetCookieJar(cookieManager));
+		client.cookieJar(cookieManager);
 
 		client.connectTimeout(10, TimeUnit.SECONDS);
 		client.readTimeout(60L, TimeUnit.SECONDS);
@@ -193,16 +194,16 @@ public class AppModule {
 
 	@Provides
 	@Singleton
-	AbacusServices provideAbacus(OkHttpClient client, EndpointProvider endpointProvider) {
+	AbacusServices provideAbacus(OkHttpClient client, EndpointProvider endpointProvider, Interceptor interceptor) {
 		final String endpoint = endpointProvider.getAbacusEndpointUrl();
-		return new AbacusServices(endpoint, client, AndroidSchedulers.mainThread(), Schedulers.io());
+		return new AbacusServices(endpoint, client, interceptor, AndroidSchedulers.mainThread(), Schedulers.io());
 	}
 
 	@Provides
 	@Singleton
-	ClientLogServices provideClientLog(OkHttpClient client, EndpointProvider endpointProvider) {
+	ClientLogServices provideClientLog(OkHttpClient client, EndpointProvider endpointProvider, Interceptor interceptor) {
 		final String endpoint = endpointProvider.getE3EndpointUrl();
-		return new ClientLogServices(endpoint, client, AndroidSchedulers.mainThread(), Schedulers.io());
+		return new ClientLogServices(endpoint, client, interceptor, AndroidSchedulers.mainThread(), Schedulers.io());
 	}
 
 	@Provides

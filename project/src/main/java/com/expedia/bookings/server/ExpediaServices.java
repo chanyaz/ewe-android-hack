@@ -4,12 +4,12 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.CookieManager;
 import java.net.CookiePolicy;
-import java.net.HttpCookie;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.concurrent.CountDownLatch;
@@ -101,6 +101,7 @@ import com.mobiata.flightlib.data.Flight;
 import com.mobiata.flightlib.data.FlightCode;
 
 import okhttp3.Call;
+import okhttp3.Cookie;
 import okhttp3.JavaNetCookieJar;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
@@ -210,9 +211,9 @@ public class ExpediaServices implements DownloadListener {
 
 	// Allows one to get the cookie store out of services, in case we need to
 	// inject the cookies elsewhere (e.g., a WebView)
-	public static List<HttpCookie> getCookies(Context context) {
+	public static HashMap<String, HashMap<String, Cookie>> getCookies(Context context) {
 		ExpediaServices services = new ExpediaServices(context);
-		return services.mCookieManager.getCookieStore().getCookies();
+		return services.mCookieManager.getCookieStore();
 	}
 
 	public static void removeUserLoginCookies(Context context) {

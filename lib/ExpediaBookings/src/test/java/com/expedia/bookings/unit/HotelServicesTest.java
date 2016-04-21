@@ -63,8 +63,8 @@ public class HotelServicesTest {
 		logger.setLevel(HttpLoggingInterceptor.Level.BODY);
 		Interceptor interceptor = new MockInterceptor();
 		service = new HotelServices("http://localhost:" + server.getPort(),
-			new OkHttpClient.Builder().addInterceptor(logger).addInterceptor(interceptor).build(),
-			Schedulers.immediate(), Schedulers.immediate());
+			new OkHttpClient.Builder().addInterceptor(logger).build(),
+			interceptor, Schedulers.immediate(), Schedulers.immediate());
 	}
 
 	@Test

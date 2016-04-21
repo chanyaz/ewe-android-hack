@@ -6,6 +6,7 @@ import com.google.gson.GsonBuilder
 import com.google.gson.TypeAdapter
 import com.google.gson.stream.JsonReader
 import com.google.gson.stream.JsonWriter
+import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import org.joda.time.DateTime
 import org.joda.time.format.ISODateTimeFormat
@@ -16,7 +17,7 @@ import rx.Observable
 import rx.Scheduler
 import java.io.IOException
 
-class ReviewsServices(endPoint: String, client: OkHttpClient, private val observeOn: Scheduler, private val subscribeOn: Scheduler) {
+class ReviewsServices(endPoint: String, client: OkHttpClient, interceptor: Interceptor, private val observeOn: Scheduler, private val subscribeOn: Scheduler) {
 
     val reviewsApi: ReviewsApi by lazy {
         val gson = GsonBuilder()
@@ -38,7 +39,7 @@ class ReviewsServices(endPoint: String, client: OkHttpClient, private val observ
                 .baseUrl(endPoint)
                 .addConverterFactory(GsonConverterFactory.create(gson))
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
-                .client(client)
+                .client(client.newBuilder().addInterceptor(interceptor).build())
                 .build()
 
         adapter.create(ReviewsApi::class.java)
