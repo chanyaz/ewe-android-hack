@@ -316,4 +316,8 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 		return false;
 	}
 
+	@Override
+	public PointOfSaleId getUSPointOfSaleId() {
+		return null;
+	}
 }
