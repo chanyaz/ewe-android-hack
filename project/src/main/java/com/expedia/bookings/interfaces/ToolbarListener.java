@@ -14,6 +14,8 @@ public interface ToolbarListener {
 
 	void onEditingComplete();
 
+	void enableRightActionButton(boolean enable);
+
 	void setMenuLabel(String label);
 
 	void showRightActionButton(boolean show);

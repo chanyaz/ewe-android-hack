@@ -28,6 +28,7 @@ class HotelCouponViewModel(val context: Context, val hotelServices: HotelService
     val couponParamsObservable = BehaviorSubject.create<HotelApplyCouponParameters>()
     val couponRemoveObservable = PublishSubject.create<String>()
     val hasDiscountObservable = BehaviorSubject.create<Boolean>()
+    val enableSubmitButtonObservable = PublishSubject.create<Boolean>()
 
     val createTripDownloadsObservable = PublishSubject.create<Observable<HotelCreateTripResponse>>()
     private val createTripObservable = Observable.concat(createTripDownloadsObservable)
@@ -53,6 +54,7 @@ class HotelCouponViewModel(val context: Context, val hotelServices: HotelService
         }
 
         createTripObservable.subscribe(endlessObserver { trip ->
+            enableSubmitButtonObservable.onNext(true)
             if (trip.hasErrors()) {
                 val errorType = trip.firstError.errorInfo.couponErrorType
                 val stringId = couponErrorMap.get(errorType) ?: R.string.coupon_error_fallback

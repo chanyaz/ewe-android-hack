@@ -5,7 +5,6 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.util.AttributeSet
 import android.view.Gravity
-import android.view.KeyEvent
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
@@ -22,7 +21,6 @@ import com.expedia.bookings.data.hotels.HotelApplyCouponParameters
 import com.expedia.bookings.data.hotels.HotelCreateTripResponse
 import com.expedia.bookings.data.payment.PaymentModel
 import com.expedia.bookings.data.payment.PaymentSplits
-import com.expedia.bookings.data.payment.ProgramName
 import com.expedia.bookings.data.payment.UserPreferencePointsDetails
 import com.expedia.bookings.tracking.HotelV2Tracking
 import com.expedia.bookings.utils.bindView
@@ -71,11 +69,14 @@ class CouponWidget(context: Context, attrs: AttributeSet?) : ExpandableCardView(
         viewmodel.discountObservable.subscribe {
             appliedCouponMessage.text = context.getString(R.string.applied_coupon_message, it)
         }
+        viewmodel.enableSubmitButtonObservable.subscribe { showButton ->
+            mToolbarListener.enableRightActionButton(showButton)
+        }
     }
 
     val textWatcher: TextWatcher = object : TextWatcher {
         override fun afterTextChanged(s: Editable) {
-            mToolbarListener.showRightActionButton(s.length > 3)
+            mToolbarListener.enableRightActionButton(s.length > 3)
         }
 
         override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
@@ -166,6 +167,7 @@ class CouponWidget(context: Context, attrs: AttributeSet?) : ExpandableCardView(
     }
 
     override fun onMenuButtonPressed() {
+        viewmodel.enableSubmitButtonObservable.onNext(false)
         onCouponSubmitClicked.onNext(Unit)
     }
 
