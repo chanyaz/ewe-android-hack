@@ -37,6 +37,9 @@ open class HotelSearchParams(val suggestion: SuggestionV4, val checkIn: LocalDat
             return hasDeparture() && hasStartAndEndDates()
         }
 
+        override fun isDepartureSameAsOrigin(): Boolean {
+            return false // not possible for hotel search
+        }
     }
 }
 

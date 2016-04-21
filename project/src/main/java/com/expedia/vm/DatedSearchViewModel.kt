@@ -4,9 +4,11 @@ import android.content.Context
 import android.text.style.RelativeSizeSpan
 import com.expedia.bookings.R
 import com.expedia.bookings.data.BaseSearchParams
+import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.TravelerParams
 import com.expedia.bookings.utils.DateUtils
 import com.expedia.bookings.utils.SpannableBuilder
+import com.expedia.bookings.utils.StrUtils
 import com.expedia.util.endlessObserver
 import com.mobiata.android.time.util.JodaUtils
 import org.joda.time.LocalDate
@@ -32,6 +34,12 @@ abstract class DatedSearchViewModel(val context: Context) {
     val enableDateObservable = PublishSubject.create<Boolean>()
     val enableTravelerObservable = PublishSubject.create<Boolean>()
     val travelersObserver = BehaviorSubject.create<TravelerParams>()
+    val errorDepartureSameAsOrigin = PublishSubject.create<String>()
+
+    val departureTextObservable = BehaviorSubject.create<String>()
+    val arrivalTextObservable = PublishSubject.create<String>()
+    val destinationObservable = BehaviorSubject.create<Boolean>(false)
+    val arrivalObservable = BehaviorSubject.create<Boolean>(false)
 
     init {
         travelersObserver.subscribe { update ->
@@ -52,6 +60,25 @@ abstract class DatedSearchViewModel(val context: Context) {
         enableTravelerObservable.onNext(paramsBuilder.hasDeparture())
     }
 
+    open var requiredSearchParamsObserver = endlessObserver<Unit> { // open so HotelSearchViewModel can override it
+        searchButtonObservable.onNext(paramsBuilder.areRequiredParamsFilled())
+        destinationObservable.onNext(paramsBuilder.hasDeparture())
+        arrivalObservable.onNext(paramsBuilder.hasArrival())
+        originObservable.onNext(paramsBuilder.hasDepartureAndArrival())
+    }
+
+    val departureObserver = endlessObserver<SuggestionV4> { suggestion ->
+        paramsBuilder.departure(suggestion)
+        departureTextObservable.onNext(StrUtils.formatAirport(suggestion))
+        requiredSearchParamsObserver.onNext(Unit)
+    }
+
+    val arrivalObserver = endlessObserver<SuggestionV4> { suggestion ->
+        paramsBuilder.arrival(suggestion)
+        arrivalTextObservable.onNext(StrUtils.formatAirport(suggestion))
+        requiredSearchParamsObserver.onNext(Unit)
+    }
+
     fun startDate(): LocalDate? {
         return datesObservable?.value?.first
     }
@@ -60,7 +87,25 @@ abstract class DatedSearchViewModel(val context: Context) {
         return datesObservable?.value?.second
     }
 
-    abstract fun onDatesChanged(dates: Pair<LocalDate?, LocalDate?>)
+    open fun onDatesChanged(dates: Pair<LocalDate?, LocalDate?>) {
+        val (start, end) = dates
+        datesObservable.onNext(dates)
+
+        paramsBuilder.startDate(start)
+        if (start != null && end == null) {
+            paramsBuilder.endDate(start.plusDays(1))
+        } else {
+            paramsBuilder.endDate(end)
+        }
+
+        dateTextObservable.onNext(computeDateText(start, end))
+        dateInstructionObservable.onNext(computeDateInstructionText(start, end))
+        calendarTooltipTextObservable.onNext(computeTooltipText(start, end))
+
+        requiredSearchParamsObserver.onNext(Unit)
+    }
+
+    abstract fun getMaxStay(): Int;
 
     protected fun computeTopTextForToolTip(start: LocalDate?, end: LocalDate?): String {
         if (start == null && end == null) {

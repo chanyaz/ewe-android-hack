@@ -44,8 +44,11 @@ open class PackageSearchParams(val origin: SuggestionV4, val destination: Sugges
             return Days.daysBetween(startDate, endDate).days <= maxStay
         }
 
-        fun isDepartureSameAsOrigin(): Boolean {
-            return departure?.hierarchyInfo?.airport?.multicity == arrival?.hierarchyInfo?.airport?.multicity
+        override fun isDepartureSameAsOrigin(): Boolean {
+            val departureCity = departure?.hierarchyInfo?.airport?.multicity ?: ""
+            val arrivalCity = arrival?.hierarchyInfo?.airport?.multicity ?: ""
+
+            return departureCity.equals(arrivalCity)
         }
     }
 

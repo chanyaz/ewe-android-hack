@@ -13,6 +13,7 @@ object SuggestionV4Utils {
 
     val RECENT_HOTEL_SUGGESTIONS_FILE = "recent-hotel-suggest-list.dat"
     val RECENT_PACKAGE_SUGGESTIONS_FILE = "recent-package-suggest-list.dat"
+    val RECENT_AIRPORT_SUGGESTIONS_FILE = "recent-airport-suggest-list.dat"
 
     fun saveSuggestionHistory(context: Context, suggestion: SuggestionV4, file: String) {
         Thread(Runnable {
@@ -54,7 +55,7 @@ object SuggestionV4Utils {
     }
 
     @JvmStatic fun deleteCachedSuggestions(context: Context) {
-        val locationFiles = arrayOf(RECENT_HOTEL_SUGGESTIONS_FILE, RECENT_PACKAGE_SUGGESTIONS_FILE)
+        val locationFiles = arrayOf(RECENT_HOTEL_SUGGESTIONS_FILE, RECENT_PACKAGE_SUGGESTIONS_FILE, RECENT_AIRPORT_SUGGESTIONS_FILE)
         for (locationFile in locationFiles) {
             val file = context.getFileStreamPath(locationFile)
             val fileExists = file.exists()

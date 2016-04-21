@@ -30,43 +30,16 @@ class PackageSearchPresenter(context: Context, attrs: AttributeSet) : BaseSearch
     val suggestionServices: SuggestionV4Services by lazy {
         Ui.getApplication(getContext()).packageComponent().suggestionsService()
     }
-
-    val arrivalCardView: SearchInputCardView by bindView(R.id.arrival_card)
-
     private var departureAdapter: PackageSuggestionAdapter by Delegates.notNull()
     private var arrivalAdapter: PackageSuggestionAdapter by Delegates.notNull()
 
-    private var isDepartureAirport = true
-
-    private var departureSuggestionVM: PackageSuggestionAdapterViewModel by notNullAndObservable { vm ->
-        vm.suggestionSelectedSubject.subscribe { suggestion ->
-            searchViewModel.departureObserver.onNext(suggestion)
-            com.mobiata.android.util.Ui.hideKeyboard(this)
-            val suggestionName = Html.fromHtml(suggestion.regionNames.displayName).toString()
-            destinationCardView.setText(suggestionName)
-            SuggestionV4Utils.saveSuggestionHistory(context, suggestion, SuggestionV4Utils.RECENT_PACKAGE_SUGGESTIONS_FILE)
-            showDefault()
-        }
-    }
-
-    private var arrivalSuggestionVM: PackageSuggestionAdapterViewModel by notNullAndObservable { vm ->
-        vm.suggestionSelectedSubject.subscribe { suggestion ->
-            searchViewModel.arrivalObserver.onNext(suggestion)
-            com.mobiata.android.util.Ui.hideKeyboard(this)
-            val suggestionName = Html.fromHtml(suggestion.regionNames.displayName).toString()
-            arrivalCardView.setText(suggestionName)
-            SuggestionV4Utils.saveSuggestionHistory(context, suggestion, SuggestionV4Utils.RECENT_PACKAGE_SUGGESTIONS_FILE)
-            showDefault()
-        }
-    }
-
     var searchViewModel: PackageSearchViewModel by notNullAndObservable { vm ->
-        searchLocationEditText?.setOnQueryTextListener(listener)
         calendarWidgetV2.viewModel = vm
         travelerWidgetV2.travelersSubject.subscribe(vm.travelersObserver)
         travelerWidgetV2.traveler.viewmodel.isInfantInLapObservable.subscribe(vm.isInfantInLapObserver)
         vm.departureTextObservable.subscribe { text -> destinationCardView.setText(text) }
-        vm.arrivalTextObservable.subscribe { text -> arrivalCardView.setText(text) }
+        vm.arrivalTextObservable.subscribe { text -> arrivalCardView!!.setText(text) }
+
         vm.searchButtonObservable.subscribe { enable ->
             searchButton.setTextColor(if (enable) ContextCompat.getColor(context, R.color.hotel_filter_spinner_dropdown_color) else ContextCompat.getColor(context, R.color.white_disabled))
         }
@@ -93,27 +66,17 @@ class PackageSearchPresenter(context: Context, attrs: AttributeSet) : BaseSearch
     override fun inflate() {
         View.inflate(context, R.layout.widget_package_search, this)
     }
-
-    override fun onFinishInflate() {
-        super.onFinishInflate()
-        destinationCardView.setOnClickListener {
-            searchLocationEditText?.queryHint = context.resources.getString(R.string.fly_from_hint)
-            isDepartureAirport = true
-            show(SuggestionSelectionState())
-        }
-        arrivalCardView.setOnClickListener {
-            searchLocationEditText?.queryHint = context.resources.getString(R.string.fly_to_hint)
-            isDepartureAirport = false
-            show(SuggestionSelectionState())
-        }
+    
+    override fun getSuggestionHistoryFileName(): String {
+        return SuggestionV4Utils.RECENT_PACKAGE_SUGGESTIONS_FILE
     }
 
     override fun getSuggestionViewModel(): SuggestionAdapterViewModel {
-        return if (isDepartureAirport) departureSuggestionVM else arrivalSuggestionVM
+        return if (isCustomerSelectingDeparture) departureSuggestionVM else arrivalSuggestionVM
     }
 
     override fun getSuggestionAdapter(): RecyclerView.Adapter<RecyclerView.ViewHolder> {
-        return if (isDepartureAirport) departureAdapter else arrivalAdapter
+        return if (isCustomerSelectingDeparture) departureAdapter else arrivalAdapter
     }
 
     override fun getSearchViewModel(): DatedSearchViewModel {

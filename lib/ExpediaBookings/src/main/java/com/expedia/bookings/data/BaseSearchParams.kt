@@ -18,6 +18,8 @@ open class BaseSearchParams(val adults: Int, val children: List<Int>) {
         protected var children: List<Int> = emptyList()
         protected var infantSeatingInLap: Boolean = false
 
+        abstract fun isDepartureSameAsOrigin(): Boolean;
+
         fun departure(city: SuggestionV4?): Builder {
             this.departure = city
             return this

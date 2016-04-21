@@ -5,6 +5,7 @@ import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.data.flights.FlightSearchParams
 import com.expedia.bookings.interceptors.MockInterceptor
 import com.expedia.bookings.services.FlightServices
+import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.vm.FlightSearchViewModel
 import com.mobiata.mocke3.ExpediaDispatcher
 import com.mobiata.mocke3.FileSystemOpener
@@ -14,6 +15,8 @@ import org.joda.time.LocalDate
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
+import org.junit.runner.RunWith
+import org.robolectric.RuntimeEnvironment
 import retrofit.RestAdapter
 import rx.observers.TestSubscriber
 import rx.schedulers.Schedulers
@@ -22,6 +25,7 @@ import java.util.concurrent.TimeUnit
 import kotlin.properties.Delegates
 import kotlin.test.assertEquals
 
+@RunWith(RobolectricRunner::class)
 class FlightSearchViewModelTest {
 
     var server: MockWebServer = MockWebServer()
@@ -40,7 +44,8 @@ class FlightSearchViewModelTest {
         val root = File("../lib/mocked/templates").canonicalPath
         val opener = FileSystemOpener(root)
         server.setDispatcher(ExpediaDispatcher(opener))
-        vm = FlightSearchViewModel(service)
+        val context = RuntimeEnvironment.application
+        vm = FlightSearchViewModel(context, service)
     }
 
     @Test
@@ -100,7 +105,7 @@ class FlightSearchViewModelTest {
                 .endDate(LocalDate.now().plusDays(1))
                 .adults(1)
                 .build() as FlightSearchParams
-        vm.flightParamsObservable.onNext(params)
+        vm.searchParamsObservable.onNext(params)
     }
 
     private fun getDummySuggestion(): SuggestionV4 {

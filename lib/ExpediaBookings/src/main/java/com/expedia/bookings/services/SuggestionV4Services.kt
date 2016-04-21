@@ -58,4 +58,14 @@ class SuggestionV4Services(endpoint: String, okHttpClient: OkHttpClient, interce
                 .map { response -> response.suggestions ?: emptyList() }
                 .subscribe(observer)
     }
+
+    fun getAirports(query: String, clientId: String, isDest: Boolean, observer: Observer<List<SuggestionV4>>, locale: String): Subscription {
+        var suggestType = SuggestionResultType.AIRPORT or SuggestionResultType.AIRPORT_METRO_CODE
+
+        return suggestApi.suggestV4(query, locale, suggestType, isDest, "ta_hierarchy", clientId, "FLIGHTS")
+                .observeOn(observeOn)
+                .subscribeOn(subscribeOn)
+                .map { response -> response.suggestions ?: emptyList() }
+                .subscribe(observer)
+    }
 }

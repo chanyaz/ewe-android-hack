@@ -13,6 +13,7 @@ import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RuntimeEnvironment
+import rx.observers.TestSubscriber
 import java.util.ArrayList
 import kotlin.properties.Delegates
 import kotlin.test.assertEquals
@@ -32,56 +33,56 @@ class PackageFlightResultTest {
     @Test
     fun testFlightTime(){
         vm = PackageFlightViewModel(context, flight)
-        assertEquals(vm.flightTimeObserver.value, "1:10 am - 12:20 pm +1d")
+        assertEquals(vm.flightTime, "1:10 am - 12:20 pm +1d")
         flight.elapsedDays = 0
         vm = PackageFlightViewModel(context, flight)
-        assertEquals(vm.flightTimeObserver.value, "1:10 am - 12:20 pm")
+        assertEquals(vm.flightTime, "1:10 am - 12:20 pm")
     }
 
     @Test
     fun testDeltaPrice() {
         vm = PackageFlightViewModel(context, flight)
-        assertEquals(vm.priceObserver.value, "+$11")
+        assertEquals(vm.price, "+$11")
         flight.packageOfferModel.price.deltaPositive = false
         flight.packageOfferModel.price.differentialPriceFormatted = "-$11"
         vm = PackageFlightViewModel(context, flight)
-        assertEquals(vm.priceObserver.value, "-$11")
+        assertEquals(vm.price, "-$11")
     }
 
     @Test
     fun testAirlines() {
         vm = PackageFlightViewModel(context, flight)
-        assertEquals(vm.airlineObserver.value[0].airlineName, "United" )
-        assertEquals(vm.airlineObserver.value[1].airlineName, "Delta" )
-        assertEquals(vm.airlineObserver.value.size, 2)
+        assertEquals(vm.airline[0].airlineName, "United" )
+        assertEquals(vm.airline[1].airlineName, "Delta" )
+        assertEquals(vm.airline.size, 2)
 
         flight.airlines[1].airlineName = "United"
         vm = PackageFlightViewModel(context, flight)
-        assertEquals(vm.airlineObserver.value[0].airlineName, "United" )
-        assertEquals(vm.airlineObserver.value.size, 1)
+        assertEquals(vm.airline[0].airlineName, "United" )
+        assertEquals(vm.airline.size, 1)
 
         val airline3 = Airline("Delta", null)
         flight.airlines.add(airline3)
         vm = PackageFlightViewModel(context, flight)
-        assertEquals(vm.airlineObserver.value[0].airlineName, "United" )
-        assertEquals(vm.airlineObserver.value[1].airlineName, "United" )
-        assertEquals(vm.airlineObserver.value[2].airlineName, "Delta" )
-        assertEquals(vm.airlineObserver.value.size, 3)
+        assertEquals(vm.airline[0].airlineName, "United" )
+        assertEquals(vm.airline[1].airlineName, "United" )
+        assertEquals(vm.airline[2].airlineName, "Delta" )
+        assertEquals(vm.airline.size, 3)
     }
 
     @Test
     fun testFlightDuration(){
         vm = PackageFlightViewModel(context, flight)
-        assertEquals(vm.durationObserver.value, "19h 10m (1 Stop)")
+        assertEquals(vm.duration, "19h 10m (1 Stop)")
         flight.stopCount = 0
         vm = PackageFlightViewModel(context, flight)
-        assertEquals(vm.durationObserver.value, "19h 10m (Nonstop)")
+        assertEquals(vm.duration, "19h 10m (Nonstop)")
         flight.durationHour = 0
         vm = PackageFlightViewModel(context, flight)
-        assertEquals(vm.durationObserver.value, "10m (Nonstop)")
+        assertEquals(vm.duration, "10m (Nonstop)")
         flight.durationHour = 25
         vm = PackageFlightViewModel(context, flight)
-        assertEquals(vm.durationObserver.value, "25h 10m (Nonstop)")
+        assertEquals(vm.duration, "25h 10m (Nonstop)")
     }
 
     @Test
@@ -93,10 +94,14 @@ class PackageFlightResultTest {
         Db.setPackageResponse(searchResponse)
 
         val resultsVM = FlightResultsViewModel()
+        val testSubscriber = TestSubscriber<List<FlightLeg>>()
+        resultsVM.flightResultsObservable.subscribe(testSubscriber)
         resultsVM.flightResultsObservable.onNext(searchResponse.packageResult.flightsPackage.flights)
-        for (i in 2..resultsVM.flightResultsObservable.value.size - 1) {
-            val current = resultsVM.flightResultsObservable.value[i].packageOfferModel.price.packageTotalPrice.amount
-            val previous = resultsVM.flightResultsObservable.value[i - 1].packageOfferModel.price.packageTotalPrice.amount
+        val testSubscriberResult = testSubscriber.onNextEvents[0]
+
+        for (i in 2..testSubscriberResult.size - 1) {
+            val current = testSubscriberResult[i].packageOfferModel.price.packageTotalPrice.amount
+            val previous = testSubscriberResult[i - 1].packageOfferModel.price.packageTotalPrice.amount
             assertTrue(current.compareTo(previous) > 0, "Expected $current >= $previous")
         }
     }

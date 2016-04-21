@@ -1,6 +1,7 @@
 package com.expedia.bookings.widget
 
 import android.content.Context
+import android.support.annotation.UiThread
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
@@ -18,37 +19,29 @@ class PackageFlightListAdapter(context: Context, flightSelectedSubject: PublishS
     override val ALL_FLIGHTS_VIEW = 3
     var shouldShowBestFlight = false
 
-    init {
-        resultsSubject.subscribe {
-            flights = ArrayList(it)
+    @UiThread
+    override fun setNewFlights(flights: List<FlightLeg>) {
+        val newFlights = ArrayList(flights)
 
-            //best flight could be filtered out
-            shouldShowBestFlight = !isChangePackageSearch && flights[0].isBestFlight
+        //best flight could be filtered out
+        shouldShowBestFlight = !isChangePackageSearch && newFlights[0].isBestFlight
 
-            //remove best flight view if there is only 1 flight
-            if (shouldShowBestFlight && flights.size == 2) {
-                shouldShowBestFlight = false
-                flights.removeAt(0)
-            }
-
-            for (flightLeg in flights) {
-                if (flightLeg.durationHour * 60 + flightLeg.durationMinute > maxFlightDuration) {
-                    maxFlightDuration = flightLeg.durationHour * 60 + flightLeg.durationMinute
-                }
-
-            }
-            notifyDataSetChanged()
+        //remove best flight view if there is only 1 flight
+        if (shouldShowBestFlight && newFlights.size == 2) {
+            shouldShowBestFlight = false
+            newFlights.removeAt(0)
         }
 
+        super.setNewFlights(newFlights)
     }
 
     override fun getItemCount(): Int {
-        return flights.size + adjustPosition()
+        return getFlights().size + adjustPosition()
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder?, position: Int) {
         if (holder is PackageFlightListAdapter.BestFlightViewHolder) {
-            holder.bind(PackageFlightViewModel(holder.itemView.context, flights[0]))
+            holder.bind(PackageFlightViewModel(holder.itemView.context, getFlights()[0]))
         } else {
            super.onBindViewHolder(holder, position)
         }
@@ -86,7 +79,7 @@ class PackageFlightListAdapter(context: Context, flightSelectedSubject: PublishS
         }
 
         override fun onClick(view: View) {
-            flightSelectedSubject.onNext(flights[0])
+            flightSelectedSubject.onNext(getFlights()[0])
         }
     }
 

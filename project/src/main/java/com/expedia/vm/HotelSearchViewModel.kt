@@ -19,7 +19,7 @@ import rx.subjects.PublishSubject
 import javax.inject.Inject
 
 class HotelSearchViewModel(context: Context) : DatedSearchViewModel(context) {
-    override val paramsBuilder = HotelSearchParams.Builder(context.resources.getInteger(R.integer.calendar_max_days_hotel_stay))
+    override val paramsBuilder = HotelSearchParams.Builder(getMaxStay())
 
     val userBucketedObservable = BehaviorSubject.create<Boolean>()
     val externalSearchParamsObservable = BehaviorSubject.create<Boolean>()
@@ -28,16 +28,14 @@ class HotelSearchViewModel(context: Context) : DatedSearchViewModel(context) {
     // Outputs
 
     var shopWithPointsViewModel: ShopWithPointsViewModel by notNullAndObservable {
-        it.swpEffectiveAvailability.subscribe {
+        it.swpEffectiveAvailability.subscribe{
             paramsBuilder.shopWithPoints(it)
         }
     }
         @Inject set
 
-    val maxHotelStay = context.resources.getInteger(R.integer.calendar_max_days_hotel_stay)
-
     // Inputs
-    var requiredSearchParamsObserver = endlessObserver<Unit> {
+    override var requiredSearchParamsObserver = endlessObserver<Unit> {
         searchButtonObservable.onNext(paramsBuilder.areRequiredParamsFilled())
         originObservable.onNext(paramsBuilder.hasDeparture())
     }
@@ -56,7 +54,7 @@ class HotelSearchViewModel(context: Context) : DatedSearchViewModel(context) {
     val searchObserver = endlessObserver<Unit> {
         if (paramsBuilder.areRequiredParamsFilled()) {
             if (!paramsBuilder.hasValidDates()) {
-                errorMaxDatesObservable.onNext(context.getString(R.string.hotel_search_range_error_TEMPLATE, maxHotelStay))
+                errorMaxDatesObservable.onNext(context.getString(R.string.hotel_search_range_error_TEMPLATE, getMaxStay()))
             } else {
                 val hotelSearchParams = paramsBuilder.build()
                 HotelSearchParamsUtil.saveSearchHistory(context, hotelSearchParams)
@@ -70,6 +68,10 @@ class HotelSearchViewModel(context: Context) : DatedSearchViewModel(context) {
                 errorNoDatesObservable.onNext(Unit)
             }
         }
+    }
+
+    override fun getMaxStay(): Int {
+        return context.resources.getInteger(R.integer.calendar_max_days_hotel_stay)
     }
 
     override fun onDatesChanged(dates: Pair<LocalDate?, LocalDate?>) {

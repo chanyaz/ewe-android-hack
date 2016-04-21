@@ -2,6 +2,14 @@
 <merge xmlns:android="http://schemas.android.com/apk/res/android">
 
     <ViewStub
+        android:id="@+id/search_presenter"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:inflatedId="@+id/widget_flight_search"
+        android:layout="@layout/flight_search_stub"
+        android:visibility="gone" />
+
+    <ViewStub
         android:id="@+id/outbound_presenter"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
