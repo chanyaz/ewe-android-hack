@@ -27,7 +27,7 @@ if [ -z "${TARGET}" ] ; then
 fi
 echo "TARGET=$TARGET"
 
-if [ -z “${BUILD_VARIANT}” ] ; then
+if [ -z "${BUILD_VARIANT}" ] ; then
     BUILD_VARIANT=Debug
 fi
 echo "BUILD_VARIANT=$BUILD_VARIANT"
@@ -37,7 +37,7 @@ TERM=dumb
 if [ -z "${APPLICATION_ID_SUFFIX}" ] ; then
     ./gradlew "-Pid=${APPLICATION_ID_SUFFIX}" "crashlyticsUploadDistribution${TARGET}${BUILD_VARIANT}"
 else
-    ./gradlew "crashlyticsUploadDistribution${TARGET}${BUILD_VARIANT}”
+    ./gradlew "crashlyticsUploadDistribution${TARGET}${BUILD_VARIANT}"
 fi
 
 RESULT=$?
