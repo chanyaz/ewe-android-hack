@@ -147,7 +147,7 @@ public class UserLoyaltyMembershipInformation implements JSONable {
 	}
 
 	public enum LoyaltyMembershipTier {
-		NONE, BLUE, SILVER, GOLD;
+		NONE, BLUE, SILVER, GOLD, PLATINUM;
 
 		public boolean isGoldOrSilver() {
 			return this == SILVER || this == GOLD;

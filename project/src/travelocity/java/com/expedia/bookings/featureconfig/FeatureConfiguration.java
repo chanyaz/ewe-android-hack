@@ -14,7 +14,6 @@ import android.view.View;
 
 import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
-import com.expedia.bookings.activity.TravelocityLocaleChangeReceiver;
 import com.expedia.bookings.data.HotelFilter;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.data.pos.PointOfSaleId;
@@ -66,18 +65,13 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 	}
 
 	@Override
-	public String getActionForLocaleChangeEvent() {
-		return TravelocityLocaleChangeReceiver.ACTION_LOCALE_CHANGED;
-	}
-
-	@Override
 	public boolean wantsCustomHandlingForLocaleConfiguration() {
 		return true;
 	}
 
 	@Override
 	public int getSearchProgressImageResId() {
-		return R.id.search_progress_image_tvly;
+		return 0;
 	}
 
 	@Override
@@ -101,21 +95,6 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 	}
 
 	@Override
-	public String getOmnitureReportSuiteIds() {
-		if (BuildConfig.RELEASE) {
-			return "expediaglobalapp,tvlglobalapp";
-		}
-		else {
-			return "expediaglobalappdev";
-		}
-	}
-
-	@Override
-	public String getOmnitureTrackingServer() {
-		return "om.travelocity.com";
-	}
-
-	@Override
 	public void contactUsViaWeb(Context context) {
 		AboutUtils.openWebsite(context, PointOfSale.getPointOfSale().getAppSupportUrl(), true);
 	}
@@ -123,7 +102,7 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 	@Override
 	public List<BasicNameValuePair> getAdditionalParamsForReviewsRequest() {
 		List<BasicNameValuePair> additionalParamsForReviewsRequest = new ArrayList<>();
-		additionalParamsForReviewsRequest.add(new BasicNameValuePair("origin", "TRAVELOCITY"));
+		additionalParamsForReviewsRequest.add(new BasicNameValuePair("caller", "TRAVELOCITY"));
 		additionalParamsForReviewsRequest.add(new BasicNameValuePair("locale", PointOfSale.getPointOfSale().getLocaleIdentifier()));
 		return additionalParamsForReviewsRequest;
 	}
@@ -152,17 +131,12 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 
 	@Override
 	public boolean isLeanPlumEnabled() {
-		return false;
+		return true;
 	}
 
 	@Override
 	public boolean isTuneEnabled() {
 		return true;
-	}
-
-	@Override
-	public boolean isWeAreHiringInAboutEnabled() {
-		return false;
 	}
 
 	@Override
@@ -187,17 +161,17 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 
 	@Override
 	public boolean isFacebookLoginIntegrationEnabled() {
-		return false;
+		return true;
 	}
 
 	@Override
 	public boolean isFacebookShareIntegrationEnabled() {
-		return false;
+		return true;
 	}
 
 	@Override
 	public boolean isHangTagProgressBarEnabled() {
-		return false;
+		return true;
 	}
 
 	@Override
@@ -229,11 +203,6 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 		return "tvly";
 	}
 
-	@Override
-	public boolean isLOBChooserScreenEnabled() {
-		return true;
-	}
-
 	public String getAdXKey() {
 		return "65bcdbdb-8841-4d72-b792-4123773d5725";
 	}
@@ -248,23 +217,8 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 	}
 
 	@Override
-	public boolean isAppCrossSellInHotelShareContentEnabled() {
-		return true;
-	}
-
-	@Override
-	public boolean isAppCrossSellInFlightShareContentEnabled() {
-		return true;
-	}
-
-	@Override
-	public boolean isItinDisabled() {
-		return false;
-	}
-
-	@Override
 	public int getFlightSearchProgressImageResId() {
-		return R.drawable.search_progress_static_flight_tvly;
+		return 0;
 	}
 
 	@Override
@@ -330,7 +284,37 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 	}
 
 	@Override
+	public boolean isFacebookTrackingEnabled() {
+		return true;
+	}
+
+	@Override
 	public boolean isAbacusTestEnabled() {
 		return false;
+	}
+
+	@Override
+	public boolean isNewHotelEnabled() {
+		return true;
+	}
+
+	@Override
+	public int getRewardsLayoutId() {
+		return 0;
+	}
+
+	@Override
+	public boolean isRewardProgramPointsType() {
+		return false;
+	}
+
+	@Override
+	public boolean isCommunicateSectionEnabled() {
+		return false;
+	}
+
+	@Override
+	public PointOfSaleId getUSPointOfSaleId() {
+		return PointOfSaleId.TRAVELOCITY;
 	}
 }

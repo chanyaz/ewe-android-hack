@@ -1,6 +1,6 @@
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <item android:drawable="@color/launch_lob_bg" />
+    <item android:drawable="@color/splash_screen_bg" />
 
     <item>
         <bitmap

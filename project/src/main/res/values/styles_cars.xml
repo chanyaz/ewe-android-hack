@@ -17,10 +17,12 @@
         must be added in all Whitelabel.CarsTheme.Base for all whitelabels
     -->
     <style name="Whitelabel.CarsTheme.Base" parent="AppTheme.Base.Cars">
-        <item name="android:colorPrimaryDark">#532C45</item>
+        <item name="android:colorPrimaryDark">@color/cars_color_primary_dark</item>
         <item name="android:colorButtonNormal">@color/cars_primary_color</item>
         <item name="colorAccent">@color/cars_primary_color</item>
         <item name="android:colorEdgeEffect">@color/cars_primary_color</item>
+        <item name="checkout_icon_right_margin_attr">@dimen/checkout_icon_right_margin_car_lx</item>
+
 
         <!-- Skins added for whitelabel -->
         <item name="skin_carsPrimaryColor">@color/cars_primary_color</item>
@@ -31,12 +33,12 @@
         <item name="skin_carsSortButtonSelectorDrawable">@drawable/cars_sort_button_selector</item>
         <item name="skin_carsSortButtonTextSelectorDrawable">@drawable/cars_sort_button_text_selector</item>
         <item name="skin_carsToggleBackgroundSelectorDrawable">@drawable/cars_toggle_background_selector</item>
-        <item name="skin_loginBrandLogoDrawable">@drawable/expedia</item>
+        <item name="skin_loginBrandLogoDrawable">@drawable/brand_phone_checkout_logo_drawable</item>
         <item name="skin_costSummaryAlertDrawable">@drawable/border_horizontal_expedia_striped</item>
         <item name="skin_cvvBookButtonKeypadDrawable">@drawable/btn_cvv_keypad_book</item>
         <item name="skin_cvvDivDrawable">@drawable/div_cvv</item>
         <item name="skin_checkoutLoginBookNowButtonDrawable">@drawable/btn_signin_cars</item>
-        <item name="skin_checkoutLoginButtonColor">#836B11</item>
+        <item name="skin_checkoutLoginButtonColor">@color/checkout_login_button_color</item>
         <item name="skin_loginBrandIconDrawable">@drawable/expedia_login</item>
         <item name="skin_carsUncheckedToggleTextColor">@color/cars_unchecked_toggle_text_color</item>
         <item name="skin_carsPinDrawable">@drawable/cars_pin</item>
@@ -45,13 +47,12 @@
         <item name="skin_rippleDrawable">@drawable/car_button_ripple</item>
 
         <item name="skin_loginBookNowButtonDrawable">@drawable/btn_signin</item>
-        <item name="skin_phoneCheckoutLoginLogoDrawable">@drawable/expedia</item>
-        <item name="skin_hotelCheckoutLogoutLogoDrawable">@drawable/expedia</item>
-        <item name="skin_tabletCheckoutLoginLogoDrawable">@drawable/expedia</item>
+        <item name="skin_phoneCheckoutLoginLogoDrawable">@drawable/brand_tablet_checkout_login_logo_drawable</item>
+        <item name="skin_hotelCheckoutLogoutLogoDrawable">@drawable/brand_phone_checkout_logo_drawable</item>
+        <item name="skin_tabletCheckoutLoginLogoDrawable">@drawable/brand_phone_checkout_logo_drawable</item>
         <item name="skin_errorIndicationExclaimationDrawable">@drawable/ic_error_blue</item>
         <item name="traveler_checkout_circle_drawable">@drawable/car_driver_checkout_circle</item>
         <item name="paymentWidgetLayout">@layout/payment_widget</item>
-        <item name="sliderText">@string/cars_slider_text</item>
 
     </style>
 
@@ -75,7 +76,7 @@
         <item name="android:textColorSecondary">@color/cars_actionbar_text_color</item>
         <item name="windowActionModeOverlay">true</item>
         <item name="toolbarNavigationButtonStyle">@style/CarNavigationButtonStyle</item>
-
+        <item name="sliderText">@string/cars_slider_text</item>
     </style>
 
     <!--
@@ -99,7 +100,7 @@
         <item name="android:actionBarItemBackground">?android:selectableItemBackground</item>
 
         <!-- CVV attrs -->
-        <item name="skin_cvvBookButtonTextColor">@android:color/black</item>
+        <item name="skin_cvvBookButtonTextColor">@color/cvv_book_button_text_color</item>
         <item name="skin_errorWidgetEditButtonStyle">@style/CarButton</item>
     </style>
 

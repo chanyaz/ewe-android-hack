@@ -186,15 +186,14 @@ public class AccountSettingsActivity extends AppCompatActivity implements AboutS
 		// Communicate
 		AboutSectionFragment communicateFragment = Ui.findSupportFragment(this, TAG_COMMUNICATE);
 		if (communicateFragment == null) {
-			builder = new AboutSectionFragment.Builder(this);
-
-			builder.setTitle(R.string.about_section_communicate);
-
-			builder.addRow(R.string.rate_our_app, ROW_RATE_APP);
-			builder.addRow(R.string.WereHiring, ROW_WERE_HIRING);
-
-			communicateFragment = builder.build();
-			ft.add(R.id.section_communicate, communicateFragment, TAG_COMMUNICATE);
+			if (ProductFlavorFeatureConfiguration.getInstance().isCommunicateSectionEnabled()) {
+				builder = new AboutSectionFragment.Builder(this);
+				builder.setTitle(R.string.about_section_communicate);
+				builder.addRow(R.string.rate_our_app, ROW_RATE_APP);
+				builder.addRow(R.string.WereHiring, ROW_WERE_HIRING);
+				communicateFragment = builder.build();
+				ft.add(R.id.section_communicate, communicateFragment, TAG_COMMUNICATE);
+			}
 		}
 
 		// T&C, privacy, etc
@@ -292,9 +291,11 @@ public class AccountSettingsActivity extends AppCompatActivity implements AboutS
 	public boolean onAboutRowClicked(int id) {
 		switch (id) {
 		case ROW_COUNTRY: {
-			OmnitureTracking.trackClickCountrySetting();
-			DialogFragment selectCountryDialog = aboutUtils.createCountrySelectDialog();
-			selectCountryDialog.show(getSupportFragmentManager(), "selectCountryDialog");
+			if (PointOfSale.getAllPointsOfSale(this).size() > 1) {
+				OmnitureTracking.trackClickCountrySetting();
+				DialogFragment selectCountryDialog = aboutUtils.createCountrySelectDialog();
+				selectCountryDialog.show(getSupportFragmentManager(), "selectCountryDialog");
+			}
 			return true;
 		}
 		case ROW_BOOKING_SUPPORT: {
@@ -433,18 +434,23 @@ public class AccountSettingsActivity extends AppCompatActivity implements AboutS
 				switch (userLoyaltyInfo.getLoyaltyMembershipTier()) {
 				case BLUE:
 					memberTierView.setBackgroundResource(R.drawable.bg_loyalty_badge_base_tier);
-					memberTierView.setTextColor(ContextCompat.getColor(this, R.color.expedia_plus_blue_text));
+					memberTierView.setTextColor(ContextCompat.getColor(this, R.color.reward_color_base_text));
 					memberTierView.setText(R.string.plus_blue);
 					break;
 				case SILVER:
 					memberTierView.setBackgroundResource(R.drawable.bg_loyalty_badge_middle_tier);
-					memberTierView.setTextColor(ContextCompat.getColor(this, R.color.expedia_plus_silver_text));
+					memberTierView.setTextColor(ContextCompat.getColor(this, R.color.reward_color_middle_text));
 					memberTierView.setText(R.string.plus_silver);
 					break;
 				case GOLD:
 					memberTierView.setBackgroundResource(R.drawable.bg_loyalty_badge_top_tier);
-					memberTierView.setTextColor(ContextCompat.getColor(this, R.color.expedia_plus_gold_text));
+					memberTierView.setTextColor(ContextCompat.getColor(this, R.color.reward_color_top_text));
 					memberTierView.setText(R.string.plus_gold);
+					break;
+				case PLATINUM:
+					memberTierView.setBackgroundResource(R.drawable.bg_loyalty_badge_top_tier);
+					memberTierView.setTextColor(ContextCompat.getColor(this, R.color.reward_color_top_text));
+					memberTierView.setText(R.string.plus_platinum);
 					break;
 				}
 
@@ -452,7 +458,14 @@ public class AccountSettingsActivity extends AppCompatActivity implements AboutS
 				TextView pendingPointsTextView = Ui.findView(this, R.id.pending_points);
 
 				NumberFormat numberFormatter = NumberFormat.getInstance();
-				availablePointsTextView.setText(numberFormatter.format(userLoyaltyInfo.getLoyaltyPointsAvailable()));
+				if (ProductFlavorFeatureConfiguration.getInstance().isRewardProgramPointsType()) {
+					availablePointsTextView
+						.setText(numberFormatter.format(userLoyaltyInfo.getLoyaltyPointsAvailable()));
+				}
+				else {
+					availablePointsTextView.setText(
+						userLoyaltyInfo.getLoyaltyMonetaryValue().getFormattedMoneyFromAmountAndCurrencyCode());
+				}
 
 				if (member.getLoyaltyPointsPending() > 0) {
 					pendingPointsTextView.setVisibility(View.VISIBLE);
@@ -469,7 +482,8 @@ public class AccountSettingsActivity extends AppCompatActivity implements AboutS
 				View rowDivider = Ui.findView(this, R.id.row_divider);
 				View firstRowCountry = Ui.findView(this, R.id.first_row_country);
 
-				if (userLoyaltyInfo.isAllowedToShopWithPoints()) {
+				if (userLoyaltyInfo.isAllowedToShopWithPoints() && ProductFlavorFeatureConfiguration.getInstance()
+					.isRewardProgramPointsType()) {
 					Money loyaltyMonetaryValue = userLoyaltyInfo.getLoyaltyMonetaryValue();
 					currencyTextView.setText(loyaltyMonetaryValue.getCurrency());
 					pointsMonetaryValueTextView.setText(loyaltyMonetaryValue.getFormattedMoney());

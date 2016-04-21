@@ -24,6 +24,7 @@ import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.Location;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.data.pos.PointOfSaleId;
+import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.section.CountrySpinnerAdapter.CountryDisplayType;
 import com.expedia.bookings.section.InvalidCharacterHelper.InvalidCharacterListener;
 import com.expedia.bookings.section.InvalidCharacterHelper.Mode;
@@ -531,8 +532,7 @@ public class SectionLocation extends LinearLayout
 				//If we set the country to USA (or we dont select a country, but POS is USA) use the number keyboard and set hint to use zip code (instead of postal code)
 				if ((location != null && location.getCountryCode() != null
 					&& location.getCountryCode().equalsIgnoreCase("USA"))
-					|| (!mEditCountrySpinner.hasBoundField() && (posId == PointOfSaleId.UNITED_STATES
-					|| posId == PointOfSaleId.TRAVELOCITY))) {
+					|| (!mEditCountrySpinner.hasBoundField() && posId == ProductFlavorFeatureConfiguration.getInstance().getUSPointOfSaleId())) {
 					this.getField().setInputType(InputType.TYPE_CLASS_NUMBER);
 					if (mLineOfBusiness == LineOfBusiness.PACKAGES) {
 						this.getField().setHint(R.string.address_zip_code_hint);

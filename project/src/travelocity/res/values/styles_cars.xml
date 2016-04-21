@@ -1,20 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <style name="Whitelabel.CarsTheme.Base" parent="AppTheme.Base.Cars">
-        <item name="android:colorPrimaryDark">@color/cars_primary_color_tvly</item>
-        <item name="android:colorButtonNormal">@color/cars_primary_color_tvly</item>
-        <item name="colorAccent">@color/cars_primary_color_tvly</item>
-        <item name="android:colorEdgeEffect">@color/cars_primary_color_tvly</item>
+        <item name="android:colorPrimaryDark">@color/cars_primary_color</item>
+        <item name="android:colorButtonNormal">@color/cars_primary_color</item>
+        <item name="colorAccent">@color/cars_primary_color</item>
+        <item name="android:colorEdgeEffect">@color/cars_primary_color</item>
 
         <!-- Skins added for whitelabel -->
-        <item name="skin_carsPrimaryColor">@color/cars_primary_color_tvly</item>
-        <item name="skin_carsSecondaryColor">@color/cars_primary_color_tvly</item>
-        <item name="skin_carsTooltipColor">@color/cars_primary_color_tvly</item>
-        <item name="primary_color">@color/cars_primary_color_tvly</item>
-        <item name="skin_carsStatusBarColor">@color/cars_primary_color_tvly</item>
-        <item name="skin_carsSortButtonSelectorDrawable">@drawable/cars_sort_button_selector_tvly</item>
-        <item name="skin_carsSortButtonTextSelectorDrawable">@drawable/cars_sort_button_text_selector_tvly</item>
-        <item name="skin_carsToggleBackgroundSelectorDrawable">@drawable/cars_toggle_background_selector_tvly</item>
+        <item name="skin_carsPrimaryColor">@color/cars_primary_color</item>
+        <item name="skin_carsSecondaryColor">@color/cars_primary_color</item>
+        <item name="skin_carsTooltipColor">@color/cars_primary_color</item>
+        <item name="primary_color">@color/cars_primary_color</item>
+        <item name="skin_carsStatusBarColor">@color/cars_primary_color</item>
+        <item name="skin_carsSortButtonSelectorDrawable">@drawable/cars_sort_button_selector</item>
+        <item name="skin_carsSortButtonTextSelectorDrawable">@drawable/cars_sort_button_text_selector</item>
+        <item name="skin_carsToggleBackgroundSelectorDrawable">@drawable/cars_toggle_background_selector</item>
         <item name="skin_loginBrandLogoDrawable">@drawable/tvly</item>
         <item name="skin_costSummaryAlertDrawable">@drawable/dialog_breakdown_stripe_travelocity</item>
         <item name="skin_cvvBookButtonKeypadDrawable">@drawable/btn_cvv_keypad_book_tvly</item>
@@ -30,8 +30,11 @@
         <item name="skin_phoneCheckoutLoginLogoDrawable">@drawable/tvly</item>
         <item name="skin_hotelCheckoutLogoutLogoDrawable">@drawable/tvly</item>
         <item name="skin_tabletCheckoutLoginLogoDrawable">@drawable/tvly</item>
-        <item name="skin_filterNumberBgDrawable">@drawable/filter_number_bg_cars_tvly</item>
+        <item name="skin_filterNumberBgDrawable">@drawable/filter_number_bg_cars</item>
         <item name="skin_errorIndicationExclaimationDrawable">@drawable/invalid</item>
-        <item name="traveler_checkout_circle_drawable">@drawable/car_driver_checkout_circle_tvly</item>
+        <item name="traveler_checkout_circle_drawable">@drawable/car_driver_checkout_circle</item>
+        <item name="skin_rippleDrawable">@drawable/car_button_ripple</item>
+        <item name="paymentWidgetLayout">@layout/payment_widget</item>
+        <item name="checkout_icon_right_margin_attr">@dimen/checkout_icon_right_margin_car_lx</item>
     </style>
 </resources>

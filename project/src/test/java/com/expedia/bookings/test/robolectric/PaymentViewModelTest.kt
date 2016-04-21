@@ -22,6 +22,7 @@ import org.robolectric.RuntimeEnvironment
 import rx.observers.TestSubscriber
 import kotlin.properties.Delegates
 import android.content.res.Resources
+import com.expedia.bookings.data.payment.ProgramName
 
 
 @RunWith(RobolectricRunner::class)

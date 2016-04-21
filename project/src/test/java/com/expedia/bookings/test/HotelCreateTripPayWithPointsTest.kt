@@ -19,8 +19,8 @@ class HotelCreateTripPayWithPointsTest {
         val createTripResponse = mockHotelServiceTestRule.getLoggedInUserWithRedeemablePointsCreateTripResponse()
         Db.getTripBucket().add(TripBucketItemHotelV2(createTripResponse))
         Assert.assertNotNull(createTripResponse.pointsDetails)
-        Assert.assertNotNull(createTripResponse.getPointDetails(ProgramName.ExpediaRewards))
-        val pointDetails = createTripResponse.getPointDetails(ProgramName.ExpediaRewards)!!
+        Assert.assertNotNull(createTripResponse.getPointDetails())
+        val pointDetails = createTripResponse.getPointDetails()!!
         Assert.assertTrue(pointDetails.isAllowedToRedeem)
         Assert.assertNotNull(pointDetails.totalAvailable)
         Assert.assertNotNull(pointDetails.maxPayableWithPoints)
@@ -28,7 +28,7 @@ class HotelCreateTripPayWithPointsTest {
         Assert.assertNotNull(pointDetails.programName)
         Assert.assertNotNull(pointDetails.paymentsInstrumentsId)
         Assert.assertNotNull(pointDetails.rateID)
-        Assert.assertTrue(ValidPayment.isPaymentTypeSupported(createTripResponse.validFormsOfPayment, PaymentType.POINTS_EXPEDIA_REWARDS))
+        Assert.assertTrue(ValidPayment.isPaymentTypeSupported(createTripResponse.validFormsOfPayment, PaymentType.POINTS_REWARDS))
         Assert.assertTrue(pointDetails.minimumPointsRequiredToRedeem > 0)
     }
 
@@ -37,8 +37,8 @@ class HotelCreateTripPayWithPointsTest {
         val createTripResponse = mockHotelServiceTestRule.getLoggedInUserWithNonRedeemeblePointsCreateTripResponse()
         Db.getTripBucket().add(TripBucketItemHotelV2(createTripResponse))
         Assert.assertNotNull(createTripResponse.pointsDetails)
-        Assert.assertNotNull(createTripResponse.getPointDetails(ProgramName.ExpediaRewards))
-        val pointDetails = createTripResponse.getPointDetails(ProgramName.ExpediaRewards)!!
+        Assert.assertNotNull(createTripResponse.getPointDetails())
+        val pointDetails = createTripResponse.getPointDetails()!!
         Assert.assertFalse(pointDetails.isAllowedToRedeem)
         Assert.assertNotNull(pointDetails.totalAvailable)
         Assert.assertNull(pointDetails.maxPayableWithPoints)
@@ -46,7 +46,7 @@ class HotelCreateTripPayWithPointsTest {
         Assert.assertNotNull(pointDetails.programName)
         Assert.assertTrue(pointDetails.minimumPointsRequiredToRedeem > 0)
         Assert.assertNotNull(pointDetails.rateID)
-        Assert.assertFalse(ValidPayment.isPaymentTypeSupported(createTripResponse.validFormsOfPayment, PaymentType.POINTS_EXPEDIA_REWARDS))
+        Assert.assertFalse(ValidPayment.isPaymentTypeSupported(createTripResponse.validFormsOfPayment, PaymentType.POINTS_REWARDS))
     }
 
     @Test
@@ -55,8 +55,8 @@ class HotelCreateTripPayWithPointsTest {
         Db.getTripBucket().add(TripBucketItemHotelV2(createTripResponse))
         // No Pay with points details returned for guest users
         Assert.assertNull(createTripResponse.pointsDetails)
-        Assert.assertFalse(ValidPayment.isPaymentTypeSupported(createTripResponse.validFormsOfPayment, PaymentType.POINTS_EXPEDIA_REWARDS))
-        Assert.assertNull(createTripResponse.getPointDetails(ProgramName.ExpediaRewards))
+        Assert.assertFalse(ValidPayment.isPaymentTypeSupported(createTripResponse.validFormsOfPayment, PaymentType.POINTS_REWARDS))
+        Assert.assertNull(createTripResponse.getPointDetails())
     }
 
     @After

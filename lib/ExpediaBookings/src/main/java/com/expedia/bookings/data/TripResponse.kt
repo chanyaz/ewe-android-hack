@@ -14,33 +14,33 @@ abstract class TripResponse : BaseApiResponse() {
     var pointsDetails: List<PointsDetails>? = null
     var userPreferencePoints: UserPaymentPreferences? = null
     lateinit var validFormsOfPayment: List<ValidPayment>
-    lateinit var expediaRewards: ExpediaRewards
+    var rewards: Rewards? = null
     var guestUserPromoEmailOptInStatus: String? = null
 
-    class ExpediaRewards {
-        val totalPointsToEarn: Int = 0
+    class Rewards {
+        val totalPointsToEarn: Float = 0f
+        var totalAmountToEarn: Money? = null
         val isActiveRewardsMember: Boolean = false
         val rewardsMembershipTierName: String by Delegates.notNull()
         //Utility Member for local modifications in case we receive updated expedia rewards when we modify the Points to be burned. Not received by deserialization/server-response.
-        private var updatedExpediaRewards: Int? = null
+        private var updatedExpediaRewards: Float? = null
 
-        fun setUpdatedExpediaRewards(points: Int) {
+        fun setUpdatedExpediaRewards(points: Float) {
             updatedExpediaRewards = points
         }
 
-        fun getUpdatedExpediaRewards(): Int? {
+        fun getUpdatedExpediaRewards(): Float? {
             return if (updatedExpediaRewards != null) updatedExpediaRewards else totalPointsToEarn
         }
-
     }
 
-    fun getPointDetails(programName: ProgramName): PointsDetails? {
-        pointsDetails?.forEach {
-            if (it.programName == programName) {
-                return it
-            }
-        }
-        return null
+    fun getPointDetails(): PointsDetails? {
+        val programName = getProgramName()
+        return pointsDetails?.firstOrNull { it.programName == programName } ?: null
+    }
+
+    fun getProgramName(): ProgramName? {
+        return pointsDetails?.filter { it.programName == ProgramName.ExpediaRewards || it.programName == ProgramName.Orbucks }?.firstOrNull()?.programName ?: null
     }
 
     abstract fun getTripTotal(): Money
@@ -51,62 +51,62 @@ abstract class TripResponse : BaseApiResponse() {
     */
     abstract fun isCardDetailsRequiredForBooking(): Boolean
 
-    fun isExpediaRewardsRedeemable(): Boolean {
-        val expediaRewardsPointsDetails = getPointDetails(ProgramName.ExpediaRewards)
-        return if (expediaRewardsPointsDetails != null) expediaRewardsPointsDetails.isAllowedToRedeem else false
+    fun isRewardsRedeemable(): Boolean {
+        val rewardsPointsDetails = getPointDetails()
+        return if (rewardsPointsDetails != null) rewardsPointsDetails.isAllowedToRedeem else false
     }
 
-    fun expediaRewardsUserAccountDetails(): PointsDetails {
-        return getPointDetails(ProgramName.ExpediaRewards)!!
+    fun rewardsUserAccountDetails(): PointsDetails {
+        return getPointDetails()!!
     }
 
-    fun totalAvailableBurnAmount(programName: ProgramName): Money {
-        return getPointDetails(programName)!!.totalAvailable.amount
+    fun totalAvailableBurnAmount(): Money {
+        return getPointDetails()!!.totalAvailable.amount
     }
 
-    fun maxPayableWithExpediaRewardPoints(): Money {
-        return expediaRewardsUserAccountDetails().maxPayableWithPoints!!.amount
+    fun maxPayableWithRewardPoints(): Money {
+        return rewardsUserAccountDetails().maxPayableWithPoints!!.amount
     }
 
     fun paymentSplitsWhenZeroPayableWithPoints(): PaymentSplits {
-        val payingWithPoints = PointsAndCurrency(0, PointsType.BURN, Money(BigDecimal.ZERO, getTripTotal().currencyCode))
-        val payingWithCards = PointsAndCurrency(expediaRewards.totalPointsToEarn, PointsType.EARN, getTripTotal())
+        val payingWithPoints = PointsAndCurrency(0f, PointsType.BURN, Money(BigDecimal.ZERO, getTripTotal().currencyCode))
+        val payingWithCards = PointsAndCurrency(rewards?.totalPointsToEarn ?: 0f, PointsType.EARN, getTripTotal())
         return PaymentSplits(payingWithPoints, payingWithCards)
     }
 
     fun paymentSplitsWhenMaxPayableWithPoints(): PaymentSplits {
-        val expediaPointDetails = expediaRewardsUserAccountDetails()
-        return PaymentSplits(expediaPointDetails.maxPayableWithPoints!!, expediaPointDetails.remainingPayableByCard!!)
+        val pointDetails = rewardsUserAccountDetails()
+        return PaymentSplits(pointDetails.maxPayableWithPoints!!, pointDetails.remainingPayableByCard!!)
     }
 
     //Note: Invoking this makes sense on the response received from Create-Trip only, so we are not dealing with
     fun paymentSplitsForNewCreateTrip(swpOpted: Boolean): PaymentSplits {
-        return if (isExpediaRewardsRedeemable() && swpOpted) paymentSplitsWhenMaxPayableWithPoints() else paymentSplitsWhenZeroPayableWithPoints()
+        return if (isRewardsRedeemable() && swpOpted) paymentSplitsWhenMaxPayableWithPoints() else paymentSplitsWhenZeroPayableWithPoints()
     }
 
     fun paymentSplitsSuggestionsForNewCreateTrip(): PaymentSplits {
-        return if (isExpediaRewardsRedeemable()) paymentSplitsWhenMaxPayableWithPoints() else paymentSplitsWhenZeroPayableWithPoints()
+        return if (isRewardsRedeemable()) paymentSplitsWhenMaxPayableWithPoints() else paymentSplitsWhenZeroPayableWithPoints()
     }
 
     fun paymentSplitsForPriceChange(pwpOpted: Boolean): PaymentSplits {
         if (!pwpOpted) {
             return paymentSplitsWhenZeroPayableWithPoints()
-        } else if (!isExpediaRewardsRedeemable()) {
+        } else if (!isRewardsRedeemable()) {
             return paymentSplitsWhenZeroPayableWithPoints()
         } else if (userPreferencePoints != null) {
-            return PaymentSplits(userPreferencePoints!!.getUserPreference(ProgramName.ExpediaRewards)!!, userPreferencePoints!!.remainingPayableByCard)
+            return PaymentSplits(userPreferencePoints!!.getUserPreference(getProgramName()!!)!!, userPreferencePoints!!.remainingPayableByCard)
         } else {
             return paymentSplitsWhenMaxPayableWithPoints()
         }
     }
 
     fun paymentSplitsSuggestionsForPriceChange(pwpOpted: Boolean): PaymentSplits {
-        if (!isExpediaRewardsRedeemable()) {
+        if (!isRewardsRedeemable()) {
             return paymentSplitsWhenZeroPayableWithPoints()
         } else if (!pwpOpted) {
             return paymentSplitsWhenMaxPayableWithPoints()
         } else if (userPreferencePoints != null)
-            return PaymentSplits(userPreferencePoints!!.getUserPreference(ProgramName.ExpediaRewards)!!, userPreferencePoints!!.remainingPayableByCard)
+            return PaymentSplits(userPreferencePoints!!.getUserPreference(getProgramName()!!)!!, userPreferencePoints!!.remainingPayableByCard)
         else
             return paymentSplitsWhenMaxPayableWithPoints()
     }

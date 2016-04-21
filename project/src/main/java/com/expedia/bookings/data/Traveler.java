@@ -81,7 +81,7 @@ public class Traveler implements JSONable, Comparable<Traveler> {
 	}
 
 	public enum LoyaltyMembershipTier {
-		NONE, BLUE, SILVER, GOLD;
+		NONE, BLUE, SILVER, GOLD, PLATINUM;
 
 		public boolean isGoldOrSilver() {
 			return this == SILVER || this == GOLD;

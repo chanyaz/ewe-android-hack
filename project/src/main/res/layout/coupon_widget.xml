@@ -34,7 +34,8 @@
             android:padding="16dp"
             android:text="@string/applied_coupon_message"
             android:textSize="15sp"
-            app:textStyle="normal" />
+            app:textStyle="normal"
+            android:textColor="@color/hotelsv2_coupon_applied_color" />
 
         <ImageView
             android:id="@+id/remove_coupon_button"
@@ -86,7 +87,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/coupon_error_unrecognized"
-                android:textColor="#FFDD2C00"
+                android:textColor="@color/hotel_coupon_code_error_message_color"
                 android:textSize="14sp"
                 android:visibility="gone"
                 app:textStyle="light" />

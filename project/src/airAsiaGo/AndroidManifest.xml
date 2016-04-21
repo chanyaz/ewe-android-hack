@@ -2,18 +2,11 @@
 
     <application>
 
-        <receiver
-            android:name="com.expedia.bookings.activity.AirAsiaGoLocaleChangeReceiver"
-            android:exported="false" >
-            <intent-filter>
-                <action android:name="com.expedia.bookings.action.aag_locale_changed" />
-            </intent-filter>
-        </receiver>
-
         <!-- Deep link routing activity -->
         <activity
             android:name="com.expedia.bookings.activity.DeepLinkRouterActivity"
-            android:theme="@android:style/Theme.NoDisplay" >
+            android:theme="@android:style/Theme.NoDisplay" android:launchMode="singleTask" >
+
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
 
@@ -35,6 +28,10 @@
                 <data android:host="showTrips" />
                 <data android:host="hotelSearch" />
                 <data android:host="flightSearch" />
+                <data android:host="destination" />
+                <data android:host="activitySearch"/>
+                <data android:host="carSearch"/>
+                <data android:host="signIn"/>
 
                 <!-- We will handle iOS implementation of ItinSharing as well, just cause we can -->
                 <data android:host="addSharedItinerary" />

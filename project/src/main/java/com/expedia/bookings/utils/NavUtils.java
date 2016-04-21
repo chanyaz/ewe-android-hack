@@ -36,7 +36,6 @@ import com.expedia.bookings.data.User;
 import com.expedia.bookings.data.cars.CarSearchParams;
 import com.expedia.bookings.data.lx.LXSearchParams;
 import com.expedia.bookings.data.pos.PointOfSale;
-import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.services.CarServices;
 import com.expedia.ui.CarActivity;
 import com.expedia.ui.HotelActivity;
@@ -69,7 +68,7 @@ public class NavUtils {
 		}
 		else {
 			// Future thought: Should we be showing a toast at all and let app handle it?
-			Toast.makeText(context, R.string.app_not_available, Toast.LENGTH_LONG).show();
+				Toast.makeText(context, R.string.app_not_available, Toast.LENGTH_LONG).show();
 			return false;
 		}
 	}
@@ -85,20 +84,12 @@ public class NavUtils {
 			context.startActivity(intent);
 		}
 		else {
-			Intent intent = null;
-
-			if (ProductFlavorFeatureConfiguration.getInstance().isLOBChooserScreenEnabled()) {
-				intent = new Intent(context, PhoneLaunchActivity.class);
-
-				if (forceShowWaterfall) {
-					intent.putExtra(PhoneLaunchActivity.ARG_FORCE_SHOW_WATERFALL, true);
-				}
-			}
-			else {
-				intent = new Intent(context, HotelSearchActivity.class);
-			}
-
+			Intent intent = new Intent(context, PhoneLaunchActivity.class);
 			intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+
+			if (forceShowWaterfall) {
+				intent.putExtra(PhoneLaunchActivity.ARG_FORCE_SHOW_WATERFALL, true);
+			}
 			sendKillActivityBroadcast(context);
 			context.startActivity(intent);
 		}
@@ -500,19 +491,5 @@ public class NavUtils {
 		final PackageManager packageManager = context.getPackageManager();
 		List<ResolveInfo> list = packageManager.queryIntentActivities(intent, PackageManager.MATCH_DEFAULT_ONLY);
 		return list.size() > 0;
-	}
-
-	// Takes care of the VSC flow. For now we only support for phone UI.
-	// TODO: How do we handle for tablets?
-	public static void goToVSC(Context context) {
-		sendKillActivityBroadcast(context);
-
-		Class<? extends Activity> routingTarget;
-
-		// Send user to hotelListing by default
-		routingTarget = HotelSearchActivity.class;
-
-		Intent intent = new Intent(context, routingTarget);
-		context.startActivity(intent);
 	}
 }

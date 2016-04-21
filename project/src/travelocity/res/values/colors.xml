@@ -3,13 +3,14 @@
 
     <color name="bg_blue_color_travelocity">#003e74</color>
     <color name="actionbar_button_background_pressed">#004888</color>
+    <color name="hotels_primary_color">#003E74</color>
+    <color name="hotel_promo_background">#57A3CC</color>
     <color name="launch_tab_indicator_tvly">@color/action_bar_text_blue_travelocity</color>
     <color name="launch_toolbar_background_color">@color/bg_blue_color_travelocity</color>
     <color name="action_bar_text_blue_travelocity">#7baed4</color>
     <color name="bg_btn_color_travelocity">#7bae00</color>
     <color name="bg_btn_pressed_color_travelocity">#295600</color>
     <color name="itin_flight_line_color_tvly">#7da426</color>
-    <color name="login_text_hotels">@color/white</color>
     <color name="login_text_flight">@color/white</color>
     <color name="coupon_success_message_color_tvly">#7baed4</color>
     <color name="collection_overlay_color">#56a1d5</color>
@@ -21,25 +22,41 @@
     <color name="tablet_trip_bucket_text_color_tvly">@color/white</color>
     <color name="tablet_search_result_error_button_tvly">#004E93</color>
     <color name="tablet_search_result_error_button_pressed_tvly">#D1EAFF</color>
-    <color name="tablet_results_search_blue_tvly">#608405</color>
+    <color name="tablet_dates_popup_done_color_tvly">#7abb00</color>
     <color name="launch_pin_detail_button_text_travelocity">#D1EAFF</color>
-
     <color name="launch_card_back_container_color">#393939</color>
     <color name="launch_card_explore_now_background_color">#4791C0</color>
     <color name="destination_list_launch_card_title_text_color">#003E6F</color>
     <color name="destination_list_launch_card_country_text_color">#57A3CC</color>
     <color name="destination_list_detail_container_background">#ff070f24</color>
+    <color name="accept_terms_color">#608405</color>
+    <color name="accept_terms_ripple_color">#7dad06</color>
+    <color name="review_screen_tab_indicator">@color/launch_tab_indicator_tvly</color>
+    <color name="hotel_checkout_account_button_background_color">@color/hotels_primary_color</color>
+
+    <color name="hotel_urgency_message_color">#57A3CC</color>
+    <color name="hotel_tonight_only_color">#7AC231</color>
+    <color name="hotel_mobile_exclusive_color">#F58025</color>
 
     <!-- Cars -->
-    <color name="cars_primary_color_tvly">#003E74</color>
+    <color name="cars_primary_color">#003E74</color>
     <color name="cars_unchecked_toggle_text_color_tvly">#B3FFFFFF</color>
-    <color name="lx_primary_color_tvly">#003E74</color>
-    <color name="lx_ripple_color_tvly">#53a0d3</color>
-    <color name="lx_secondary_color_disabled_tvly">#032E4D</color>
+    <color name="cars_drop_off_hint_text_color">#4b7fad</color>
+    <color name="cars_ripple_color">@color/lx_ripple_color</color>
+
+    <!-- Lx -->
+    <color name="lx_primary_color">#003E74</color>
+    <color name="lx_ripple_color">#53a0d3</color>
+    <color name="lx_secondary_color_disabled">#032E4D</color>
     <color name="lx_unchecked_toggle_text_color_tvly">@android:color/white</color>
     <color name="lx_ticket_selector_disabled_color_tvly">#40003E74</color>
+    <color name="lx_offer_date_ripple_color">@color/lx_ripple_color</color>
 
     <!--Account Lib Colors -->
+    <color name="btn_sign_in_normal">#7ABC00</color>
+    <color name="btn_sign_in_pressed">#6B9B11</color>
+    <color name="btn_sign_in_focused">#446801</color>
+    <color name="btn_sign_in_disabled">#C5E38E</color>
     <color name="acct__btn_sign_in_text_tvly">@color/white</color>
     <color name="acct__bg_input_text_error_tvly">@color/white</color>
     <color name="acct__bg_input_text_good_tvly">#EEEEEE</color>

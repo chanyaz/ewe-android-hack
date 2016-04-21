@@ -80,7 +80,6 @@ import com.expedia.bookings.data.lx.LXSortType;
 import com.expedia.bookings.data.packages.PackageCreateTripResponse;
 import com.expedia.bookings.data.packages.PackageSearchResponse;
 import com.expedia.bookings.data.payment.PaymentSplitsType;
-import com.expedia.bookings.data.payment.ProgramName;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.data.trips.Trip;
 import com.expedia.bookings.data.trips.TripComponent.Type;
@@ -757,9 +756,9 @@ public class OmnitureTracking {
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppHotelSecureCheckoutMessaging);
 
 		StringBuilder events = new StringBuilder("event70");
-		if (trip.isExpediaRewardsRedeemable()) {
+		if (trip.isRewardsRedeemable()) {
 			events.append(",event114");
-			BigDecimal amountPaidWithPoints = trip.getPointDetails(ProgramName.ExpediaRewards).getMaxPayableWithPoints().getAmount().amount;
+			BigDecimal amountPaidWithPoints = trip.getPointDetails().getMaxPayableWithPoints().getAmount().amount;
 			BigDecimal totalAmount = trip.getTripTotal().amount;
 			int percentagePaidWithPoints = NumberUtils.getPercentagePaidWithPointsForOmniture(amountPaidWithPoints,
 				totalAmount);
@@ -892,7 +891,7 @@ public class OmnitureTracking {
 		s.trackLink(null, "o", "Hotel Checkout", null, null);
 	}
 
-	public static void trackHotelV2PurchaseConfirmation(HotelCheckoutResponse hotelCheckoutResponse, int percentagePaidWithPoints, int totalBurnedAmount) {
+	public static void trackHotelV2PurchaseConfirmation(HotelCheckoutResponse hotelCheckoutResponse, int percentagePaidWithPoints, float totalBurnedAmount) {
 		Log.d(TAG, "Tracking \"" + HOTELSV2_PURCHASE_CONFIRMATION + "\" pageLoad");
 
 		ADMS_Measurement s = createTrackPageLoadEventBase(HOTELSV2_PURCHASE_CONFIRMATION);
@@ -4497,7 +4496,12 @@ public class OmnitureTracking {
 	}
 
 	private static String getReportSuiteIds() {
-		return ProductFlavorFeatureConfiguration.getInstance().getOmnitureReportSuiteIds();
+		if (BuildConfig.RELEASE) {
+			return "expediaglobalapp";
+		}
+		else {
+			return "expediaglobalappdev";
+		}
 	}
 
 	private static String getTrackingServer(Context context) {
@@ -4507,7 +4511,7 @@ public class OmnitureTracking {
 				"localhost:3000");
 		}
 		else {
-			return ProductFlavorFeatureConfiguration.getInstance().getOmnitureTrackingServer();
+			return context.getString(R.string.omniture_tracking_server_url);
 		}
 	}
 

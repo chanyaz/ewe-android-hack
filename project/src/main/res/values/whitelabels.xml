@@ -10,11 +10,6 @@
     <!-- PhoneSearchActivity's actionbar padding required in VSC due to rainbow bar -->
     <attr name="skin_hotelSearchActionBarPadding" format="reference|dimension" />
 
-    <!-- ActionBar icon/logo in WebView/Preference Activities -->
-    <attr name="skin_webViewPreferencesActionBarLogo" format="reference" />
-
-    <!-- ActionBar icon/logo in WebView that also sets a title -->
-    <attr name="skin_webViewPreferencesActionBarLogoWithTitle" format="reference" />
     <!-- ActionBar icon/logo in HotelRulesActivities -->
     <attr name="skin_hotelWebViewActionBarLogo" format="reference" />
 
@@ -208,7 +203,6 @@
     <attr name="skin_action_bar_logo_tablet" format="reference"/>
     <attr name="skin_collection_overlay_static_color" format="reference|color" />
     <attr name="skin_tablet_book_button_text_color" format="reference|color" />
-    <attr name="skin_tablet_trip_bucket_arrow" format="reference" />
     <attr name="skin_collection_placeholder" format="reference" />
     <attr name="skin_tablet_hotel_room_rate_select_button" format="reference" />
     <attr name="skin_tablet_addToTrip_button" format="reference" />

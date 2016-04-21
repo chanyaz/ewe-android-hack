@@ -517,17 +517,20 @@ public class StrUtils {
 		String spannedPrivacy = context.getResources().getString(R.string.textview_spannable_hyperlink_TEMPLATE,
 			PointOfSale.getPointOfSale().getPrivacyPolicyUrl(),
 			context.getResources().getString(R.string.privacy_policy));
-		String spannedTermsOfUse = context.getResources().getString(R.string.textview_spannable_hyperlink_TEMPLATE,
-			PointOfSale.getPointOfSale().getLoyaltyTermsAndConditionsURL(),
+		String spannedTermsAndConditions = context.getResources().getString(R.string.textview_spannable_hyperlink_TEMPLATE,
+			PointOfSale.getPointOfSale().getAccountCreationTermsAndConditionsURL(),
 			context.getResources().getString(R.string.info_label_terms_conditions));
 
-		String statement = context.getResources()
-			.getString(R.string.account_creation_legal_TEMPLATE, spannedTerms, spannedPrivacy, spannedTermsOfUse);
+		int statementResId = PointOfSale.getPointOfSale().shouldShowRewards() ? R.string.account_creation_legal_TEMPLATE
+			: R.string.account_creation_legal_excluding_rewards_TEMPLATE;
 
-		legalTextSpan.append(Html.fromHtml(Phrase.from(statement)
-			.put("brand", context.getString(R.string.app_name))
+		legalTextSpan.append(Html.fromHtml(Phrase.from(context.getResources(), statementResId)
+			.put("privacy_policy", spannedPrivacy)
+			.put("terms_of_use", spannedTerms)
+			.putOptional("terms_and_conditions", spannedTermsAndConditions)
+			.putOptional("brand", context.getString(R.string.app_name))
 			.format().toString()));
-		URLSpan[] spans = legalTextSpan.getSpans(0, statement.length(), URLSpan.class);
+		URLSpan[] spans = legalTextSpan.getSpans(0, legalTextSpan.length(), URLSpan.class);
 
 		for (final URLSpan span : spans) {
 			int start = legalTextSpan.getSpanStart(span);

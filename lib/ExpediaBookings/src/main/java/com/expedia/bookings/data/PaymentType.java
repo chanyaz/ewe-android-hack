@@ -20,7 +20,7 @@ public enum PaymentType {
 
 	WALLET_GOOGLE("GOOG", "GoogleWallet"),
 	
-	POINTS_EXPEDIA_REWARDS("ER", "ExpediaRewards"),
+	POINTS_REWARDS("ER", "Rewards"),
 	UNKNOWN("?", "no card required");
 
 	private String mCode;

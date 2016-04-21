@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <color name="action_bar_bg_color">#0099CC</color>
+    <color name="launch_toolbar_background_color">@color/action_bar_bg_color</color>
+    <color name="preferences_text">#495863</color>
+
+    <color name="lob_btn_color">#0099CC</color>
+    <color name="hotel_lob_btn">@color/lob_btn_color</color>
+    <color name="flights_lob_btn">@color/lob_btn_color</color>
+    <color name="cars_lob_btn">@color/lob_btn_color</color>
+    <color name="lx_lob_btn">@color/lob_btn_color</color>
+    <color name="transport_lob_btn">@color/lob_btn_color</color>
+
+
+    <!-- Launch colors -->
+    <color name="launch_tab_indicator">#003366</color>
+    <color name="action_menu_text_color">#FFFFFF</color>
+    <color name="action_bar_text">#FFFFFF</color>
+
+    <!-- Hotels V2 Coupon applied text color -->
+    <color name="hotelsv2_coupon_applied_color">#9E0089</color>
+
+    <!--Flight-->
+    <color name="action_bar_text_color">@color/white</color>
+    <color name="flight_card_airline_fee_warning">#0099CC</color>
+    <color name="flight_free_cancellation_text_color">#0099CC</color>
+    <color name="credit_card_form_additional_fees_tablet_bg">@color/hotels_primary_color</color>
+
+    <!-- Calendar text colors -->
+    <color name="calendar_cell_selected_date_text">#FFFFFF</color>
+
+    <color name="hotels_primary_color">#0099CC</color>
+    <color name="review_screen_tab_indicator">#003366</color>
+    <color name="hotel_checkout_account_button_background_color">@color/hotels_primary_color</color>
+    <color name="cost_summary_header_text_color">@color/hotels_primary_color</color>
+
+    <!-- Popular Hotels Tonight Discount strips-->
+    <color name="launch_mobile_exclusive">#9E0089</color>
+    <color name="launch_discount">#FF960D</color>
+    <color name="launch_tonight_only">#003366</color>
+
+    <color name="hotel_urgency_message_color">#D60000</color>
+    <color name="hotel_tonight_only_color">#6AC4E9</color>
+    <color name="hotel_mobile_exclusive_color">#F60B61</color>
+
+    <color name="hotel_promo_background">#6AC4E9</color>
+    <color name="hotel_coupon_code_error_message_color">#B80000</color>
+
+    <!-- CVV entry colors -->
+    <color name="cvv_book_button_text_color">@android:color/white</color>
+
+    <!-- Cars and LX-->
+    <color name="cars_primary_color">#0099CC</color>
+    <color name="cars_unchecked_toggle_text_color">#6AC4E9</color>
+    <color name="lx_primary_color">#0099CC</color>
+    <color name="lx_ripple_color">#6AC4E9</color>
+    <color name="lx_secondary_color_disabled">#003366</color>
+    <color name="lx_unchecked_toggle_text_color">#6AC4E9</color>
+    <color name="lx_primary_disabled_color">#400099CC</color>
+    <color name="lx_offer_date_ripple_color">@color/lx_ripple_color</color>
+    <color name="cars_ripple_color">@color/lx_ripple_color</color>
+    <color name="cars_color_primary_dark">@color/cars_primary_color</color>
+    <color name="cars_secondary_color">@color/cars_primary_color</color>
+    <color name="cars_tooltip_color">@color/cars_primary_color</color>
+    <color name="cars_status_bar_color">@color/cars_primary_color</color>
+    <color name="lx_color_primary_dark">@color/lx_primary_color</color>
+    <color name="checkout_login_button_color">@android:color/white</color>
+
+    <!-- Itin Colors -->
+    <color name="itin_unable_to_find_error_color">#FFB80000</color>
+
+    <!--Account Lib Colors -->
+    <color name="btn_sign_in_normal">#0099CC</color>
+    <color name="btn_sign_in_pressed">#007095</color>
+    <color name="btn_sign_in_focused">#007095</color>
+    <color name="btn_sign_in_disabled">#80000000</color>
+    <color name="acct__btn_sign_in_text">#C8C8C8</color>
+    <color name="acct__bg_input_text_error">#FFFFFF</color>
+    <color name="acct__bg_input_text_good">#EEEEEE</color>
+
+    <color name="account_screen_back_nav_color">@color/white</color>
+    <color name="account_sign_out_button_background_color">#003366</color>
+    <color name="account_sign_in_button_background_color">@color/action_bar_bg_color</color>
+</resources>

@@ -26,7 +26,8 @@
             android:textAllCaps="true"
             android:textSize="14dp"
             android:textStyle="bold"
-            app:textStyle="medium"/>
+            app:textStyle="medium"
+            android:textColor="@color/bg_tablet_clickable_button_done_color"/>
 
         <View
             android:layout_width="1dp"
@@ -100,7 +101,7 @@
                 android:layout_height="48dp"
                 android:layout_below="@id/content_container"
                 android:layout_gravity="bottom"
-                android:background="#282828"
+                android:background="@color/credit_card_form_additional_fees_tablet_bg"
                 android:bufferType="spannable"
                 android:gravity="center"
                 android:textColor="@android:color/white"

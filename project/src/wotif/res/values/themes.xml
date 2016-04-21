@@ -1,13 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:android="http://schemas.android.com/apk/res/android" xmlns:tools="http://schemas.android.com/tools">
 
-    <style name="LaunchActionBar" parent="@style/Widget.AppCompat.Light.ActionBar.Solid">
-        <item name="android:background">@color/action_bar_bg_color</item>
-        <item name="background">@color/action_bar_bg_color</item>
-        <item name="android:titleTextStyle">@style/TitleBarTextColor</item>
-        <item name="titleTextStyle">@style/TitleBarTextColor</item>
-    </style>
-
     <style name="TitleBarTextColor" parent="@android:style/TextAppearance.Medium">
         <item name="android:textColor">@color/actionbar_text_wotif</item>
         <item name="textColor">@color/actionbar_text_wotif</item>
@@ -42,13 +35,13 @@
         <item name="skin_bookNowButtonDrawable">@drawable/btn_signin_wotif</item>
         <item name="skin_calendarDatePickerCellDrawable">@drawable/calendar_date_picker_cell_wotif</item>
         <item name="skin_calendarDatePickerPopupDrawable">@drawable/calendar_date_picker_popup_wotif</item>
-        <item name="skin_phoneCheckoutLoginLogoDrawable">@drawable/ic_log_in_wotif</item>
+        <item name="skin_phoneCheckoutLoginButtonDrawable">@drawable/card_background_wotif</item>
+        <item name="skin_phoneCheckoutLoginButtonTextColor">@android:color/white</item>
+        <item name="skin_phoneCheckoutLoginLogoDrawable">@drawable/ic_wotif_logo_white</item>
         <item name="skin_hotelCheckoutLogoutLogoDrawable">@drawable/ic_log_out_wotif</item>
         <item name="skin_loginButtonColor">@android:color/white</item>
         <item name="skin_hotelBookButtonColor">@android:color/white</item>
         <item name="skin_cvvBookButtonKeypadDrawable">@drawable/btn_cvv_keypad_book_wotif</item>
-        <item name="skin_webViewPreferencesActionBarLogo">@drawable/ic_action_bar_wotif_logo</item>
-        <item name="skin_webViewPreferencesActionBarLogoWithTitle">@drawable/ic_action_bar_wotif_logo_small</item>
         <item name="skin_actionBarBackgroundDrawable">@drawable/bg_action_bar_wotif</item>
         <item name="skin_cvvBookButtonTextColor">@android:color/white</item>
         <item name="skin_hotelPrimaryTravelerInfoLogoDrawable">@drawable/ic_wotif_white_logo_small</item>
@@ -99,6 +92,7 @@
         <item name="skin_flightFreeCancellationTextColor">@color/flight_free_cancellation_text_color_wotif</item>
         <item name="skin_itinHotelAttachButtonDrawable">@drawable/btn_hotel_attach_wotif</item>
         <item name="skin_itinAirAttachButtonDrawable">@drawable/btn_hotel_attach_normal_wotif</item>
+        <item name="checkout_icon_right_margin_attr">@dimen/checkout_icon_right_margin_flight</item>
     </style>
 
     <!-- Override the phone theme -->
@@ -245,7 +239,7 @@
         <item name="skin_acctLogoTextDrawable">@drawable/acct__logo_text_wotif</item>
         <item name="skin_acctInputTextErrorColor">@color/acct__bg_input_text_error_wotif</item>
         <item name="skin_acctInputTextGoodColor">@color/acct__bg_input_text_good_wotif</item>
-        <item name="skin_acctSignInButtonBackgroundDrawable">@drawable/btn_signin_wotif</item>
+        <item name="skin_acctSignInButtonBackgroundDrawable">@drawable/acct__bg_btn_sign_in</item>
         <item name="skin_acctSignInButtonTextColor">@color/acct__btn_sign_in_text_wotif</item>
         <item name="skin_acctCheckmarkGoodDrawable">@drawable/acct__ic_checkmark_wotif</item>
         <item name="skin_acctCheckmarkWarningDrawable">@drawable/acct__ic_warning_wotif</item>

@@ -306,6 +306,9 @@
     <dimen name="hotel_special_and_etp_margin">15dp</dimen>
     <dimen name="hotel_checkout_image_corner_radius">3dp</dimen>
 
+    <!--Height of LOB box shadow height-->
+    <dimen name="shadow_height">5dp</dimen>
+
     <!-- Package Results -->
     <dimen name="layover_bar_text_size">@dimen/temporary_font_size_small</dimen>
     <dimen name="layover_bar_padding">4dp</dimen>
@@ -388,6 +391,16 @@
     <!-- Recent Search item height -->
     <dimen name="recent_search_item_height">55dp</dimen>
     <dimen name="package_bundle_scroll_view_padding">200dp</dimen>
+
+
+    <!-- Dimension for left margin on icon of new login button on flight checkout-->
+    <dimen name="checkout_icon_right_margin_flight">16dp</dimen>
+
+    <!-- Dimension for left margin on icon of new login button on gotel checkout-->
+    <dimen name="checkout_icon_right_margin_hotel">16dp</dimen>
+
+    <!-- Dimension for left margin on icon of new login button on car >>>>>>> expedia-stable& LX checkout-->
+    <dimen name="checkout_icon_right_margin_car_lx">16dp</dimen>
 
     <!-- Filter Screen Padding -->
     <dimen name="sort_filter_padding_small">5dp</dimen>

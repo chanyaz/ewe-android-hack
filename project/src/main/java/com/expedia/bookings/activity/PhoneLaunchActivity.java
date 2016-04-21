@@ -40,6 +40,7 @@ import com.expedia.bookings.interfaces.IPhoneLaunchFragmentListener;
 import com.expedia.bookings.notification.Notification;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.tracking.AdTracker;
+import com.expedia.bookings.tracking.FacebookEvents;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.AbacusHelperUtils;
 import com.expedia.bookings.utils.Constants;
@@ -49,7 +50,6 @@ import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.DisableableViewPager;
 import com.expedia.bookings.widget.ItinListView;
 import com.expedia.bookings.widget.PhoneLaunchToolbar;
-import com.facebook.appevents.AppEventsLogger;
 import com.squareup.phrase.Phrase;
 
 public class PhoneLaunchActivity extends ActionBarActivity implements ItinListView.OnListModeChangedListener,
@@ -174,7 +174,7 @@ public class PhoneLaunchActivity extends ActionBarActivity implements ItinListVi
 	@Override
 	protected void onResume() {
 		super.onResume();
-		AppEventsLogger.activateApp(this);
+		FacebookEvents.Companion.activateAppIfEnabledInConfig(this);
 		GooglePlayServicesDialog gpsd = new GooglePlayServicesDialog(this);
 		gpsd.startChecking();
 
@@ -188,7 +188,7 @@ public class PhoneLaunchActivity extends ActionBarActivity implements ItinListVi
 	@Override
 	protected void onPause() {
 		super.onPause();
-		AppEventsLogger.deactivateApp(this);
+		FacebookEvents.Companion.deactivateAppIfEnabledInConfig(this);
 	}
 
 	@Override

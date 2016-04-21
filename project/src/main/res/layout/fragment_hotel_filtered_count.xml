@@ -15,7 +15,7 @@
         app:captionTextSize="18sp"
         app:countTextColor="#ffffff"
         app:countTextSize="56sp"
-        app:primaryColor="#66ace3"
+        app:primaryColor="@color/tablet_hotel_filter_count_ring_color"
         app:ringThickness="10dp"
         app:secondaryColor="#ffffff" />
 

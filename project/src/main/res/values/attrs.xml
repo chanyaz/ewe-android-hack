@@ -3,6 +3,9 @@
     <!-- Used in more than one custom view -->
     <attr name="caption" format="reference|string" />
 
+    <!-- Used in providing margin on sign in btn on checkout screen-->
+    <attr name="checkout_icon_right_margin_attr" format="dimension" />
+
     <!-- To allow us to define the waypoint top margin in the activity theme
     (it's different for launch and results activities) -->
     <attr name="waypointFragmentTopMargin" format="dimension" />
