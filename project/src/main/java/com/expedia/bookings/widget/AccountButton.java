@@ -1,5 +1,7 @@
 package com.expedia.bookings.widget;
 
+import java.text.NumberFormat;
+
 import android.content.Context;
 import android.support.v4.content.ContextCompat;
 import android.text.Html;
@@ -300,8 +302,8 @@ public class AccountButton extends LinearLayout {
 		case HOTELSV2:
 			TripBucketItemHotelV2 hotelV2 = Db.getTripBucket().getHotelV2();
 			HotelCreateTripResponse trip = hotelV2 == null ? null : hotelV2.mHotelTripResponse;
-			rewardPoints = trip == null ? ""
-				: String.valueOf(trip.getRewards() != null ? trip.getRewards().getUpdatedExpediaRewards() : 0f);
+			rewardPoints = trip == null ? "" : String.valueOf(trip.getRewards() != null ? NumberFormat.getInstance()
+				.format(trip.getRewards().getUpdatedExpediaRewards()) : 0);
 			break;
 		case LX:
 			TripBucketItemLX lx = Db.getTripBucket().getLX();
@@ -311,8 +313,9 @@ public class AccountButton extends LinearLayout {
 		case PACKAGES:
 			TripBucketItemPackages pkgItem = Db.getTripBucket().getPackage();
 			PackageCreateTripResponse packageTrip = pkgItem == null ? null : pkgItem.mPackageTripResponse;
-			rewardPoints = packageTrip == null ? "" : String
-				.valueOf(packageTrip.getRewards() != null ? packageTrip.getRewards().getUpdatedExpediaRewards() : 0f);
+			rewardPoints = packageTrip == null ? "" : String.valueOf(
+				packageTrip.getRewards() != null ? NumberFormat.getInstance()
+					.format(packageTrip.getRewards().getUpdatedExpediaRewards()) : 0);
 			break;
 		}
 
