@@ -64,4 +64,8 @@
     <!-- SwP Widget you have points template. points_or_amount = it may have money (in case of Expedia) or point value (in case of Orbucks). E.g. You have $30 in Orbucks -->
     <string name="swp_widget_points_value_TEMPLATE">You have {points_or_amount} in Orbucks</string>
 
+    <string name="vip_loyalty_applied_message">Orbucks applied!</string>
+    <string name="vip_loyalty_applied_header_message">@string/vip_loyalty_applied_message</string>
+    <string name="vip_loyalty_applied_map_message">&lt;b&gt;+VIP&lt;/b&gt; Orbucks applied!</string>
+
 </resources>
