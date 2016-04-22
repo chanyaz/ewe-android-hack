@@ -52,6 +52,9 @@ public class ItinPhoneHappyPathTest extends PhoneTestCase {
 		assertViewWithTextIsDisplayed(R.id.non_price_promotion_text_view, "The minibar is free");
 		assertViewWithTextIsDisplayed(R.id.bed_type_header_text_view, "Bed Type");
 		assertViewWithTextIsDisplayed(R.id.bed_type_text_view, "1 king bed");
+		onView(withId(R.id.cancel_hotel_room)).perform(scrollTo(), click());
+		assertViewWithTextIsDisplayed("Cancel Hotel Room");
+		Common.pressBack();
 		hotelRow.onChildView(withText(containsString("Check in"))).perform(scrollTo(), click());
 
 		//TODO - For now, just replicating the "Inject flight DateTimes" from ExpediaDispatcher::dispatchTrip

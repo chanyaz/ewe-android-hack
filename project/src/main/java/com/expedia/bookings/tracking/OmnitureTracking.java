@@ -3254,6 +3254,7 @@ public class OmnitureTracking {
 	private static final String ITIN_ACTIVITY_INFO = "App.Itinerary.Activity.Info.Additional";
 	private static final String ITIN_ACTIVITY_SHARE_PREFIX = "App.Itinerary.Activity.Share.";
 	private static final String ITIN_RELOAD_TEMPLATE = "App.Itinerary.%s.Info.Reload";
+	private static final String ITIN_HOTEL_ROOM_CANCEL_CLICK = "App.Itinerary.Hotel.Cancel";
 
 	public static void trackItinEmpty() {
 		internalTrackPageLoadEventStandard(ITIN_EMPTY);
@@ -3345,6 +3346,15 @@ public class OmnitureTracking {
 		s.setEvents("event48");
 
 		internalTrackLink(s);
+	}
+
+	public static void trackHotelItinCancelRoomClick() {
+		Log.d(TAG, "Tracking \"" + ITIN_HOTEL_ROOM_CANCEL_CLICK + "\" click...");
+
+		ADMS_Measurement s = getFreshTrackingObject();
+		s.setEvar(28, ITIN_HOTEL_ROOM_CANCEL_CLICK);
+		s.setProp(16, ITIN_HOTEL_ROOM_CANCEL_CLICK);
+		s.trackLink(null, "o", "Itinerary Action", null, null);
 	}
 
 	///////////////////////////////////////////////////////////////////////////////////////////

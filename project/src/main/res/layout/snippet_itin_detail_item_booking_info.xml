@@ -19,6 +19,30 @@
         android:visibility="visible" />
 
     <com.expedia.bookings.widget.TextView
+        android:id="@+id/cancel_hotel_room"
+        style="@style/TextView.Itin.SectionText"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:background="?android:attr/selectableItemBackground"
+        android:drawableLeft="@drawable/cancel_icon"
+        android:drawablePadding="8dp"
+        android:gravity="center_vertical"
+        android:padding="8dp"
+        android:text="@string/itin_card_details_cancel_hotel_room" />
+
+    <View
+        android:id="@+id/divider_cancel_hotel_room"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:background="#4D555D" />
+
+    <com.expedia.bookings.widget.TextView
         android:id="@+id/booking_info"
         style="@style/TextView.Itin.SectionText"
         android:layout_width="match_parent"

@@ -21,8 +21,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
-import butterknife.ButterKnife;
-import butterknife.InjectView;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Codes;
 import com.expedia.bookings.data.Db;
@@ -51,6 +49,9 @@ import com.expedia.bookings.widget.DisableableViewPager;
 import com.expedia.bookings.widget.ItinListView;
 import com.expedia.bookings.widget.PhoneLaunchToolbar;
 import com.squareup.phrase.Phrase;
+
+import butterknife.ButterKnife;
+import butterknife.InjectView;
 
 public class PhoneLaunchActivity extends ActionBarActivity implements ItinListView.OnListModeChangedListener,
 	ItinItemListFragmentListener, IPhoneLaunchFragmentListener, DoLogoutListener {
@@ -245,6 +246,12 @@ public class PhoneLaunchActivity extends ActionBarActivity implements ItinListVi
 		else if (requestCode == Constants.ITIN_CHECK_IN_WEBPAGE_CODE) {
 			if (resultCode == RESULT_OK && data != null) {
 				showFlightItinCheckinDialog(data);
+			}
+		}
+		else if (requestCode == Constants.ITIN_CANCEL_ROOM_WEBPAGE_CODE) {
+			if (resultCode == RESULT_OK && data != null && !ExpediaBookingApp.isAutomation()) {
+				String tripId = data.getStringExtra(Constants.ITIN_CANCEL_ROOM_BOOKING_TRIP_ID);
+				ItineraryManager.getInstance().deepRefreshTrip(tripId, true);
 			}
 		}
 	}

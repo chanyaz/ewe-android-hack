@@ -29,6 +29,10 @@ public class ItinCardData {
 		return mId;
 	}
 
+	public String getTripNumber() {
+		return mTripComponent.getParentTrip().getTripNumber();
+	}
+
 	public String getTripId() {
 		return mTripComponent.getParentTrip().getTripId();
 	}

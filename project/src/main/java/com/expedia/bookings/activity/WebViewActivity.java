@@ -29,6 +29,7 @@ public class WebViewActivity extends FragmentActivity implements WebViewFragment
 	private static final String ARG_ITIN_CHECKIN = "ARG_ITIN_CHECKIN";
 	private static final String ARG_ALLOW_MOBILE_REDIRECTS = "ARG_ALLOW_MOBILE_REDIRECTS";
 	private static final String ARG_ATTEMPT_FORCE_MOBILE_SITE = "ARG_ATTEMPT_FORCE_MOBILE_SITE";
+	private static final String ARG_RETURN_FROM_CANCEL_ROOM_BOOKING = "ARG_RETURN_FROM_CANCEL_ROOM_BOOKING";
 
 	private WebViewFragment mFragment;
 
@@ -68,6 +69,11 @@ public class WebViewActivity extends FragmentActivity implements WebViewFragment
 
 		public IntentBuilder setCheckInLink(Boolean checkInLink) {
 			mIntent.putExtra(ARG_ITIN_CHECKIN, checkInLink);
+			return this;
+		}
+
+		public IntentBuilder setRoomCancelType() {
+			mIntent.putExtra(ARG_RETURN_FROM_CANCEL_ROOM_BOOKING, true);
 			return this;
 		}
 
@@ -127,6 +133,10 @@ public class WebViewActivity extends FragmentActivity implements WebViewFragment
 			resultIntent.putExtra(Constants.ITIN_CHECK_IN_AIRLINE_NAME, airlineName);
 			resultIntent.putExtra(Constants.ITIN_CHECK_IN_AIRLINE_CODE, airlineCode);
 			resultIntent.putExtra(Constants.ITIN_CHECK_IN_CONFIRMATION_CODE, confirmationCode);
+			setResult(RESULT_OK, resultIntent);
+		}
+		else if (extras.getBoolean(ARG_RETURN_FROM_CANCEL_ROOM_BOOKING)) {
+			Intent resultIntent = new Intent(intent);
 			setResult(RESULT_OK, resultIntent);
 		}
 		// Title

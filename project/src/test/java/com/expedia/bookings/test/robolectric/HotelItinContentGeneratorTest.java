@@ -43,6 +43,14 @@ public class HotelItinContentGeneratorTest {
 	}
 
 	@Test
+	public void testDontShowCancelLinkPastCheckInDate() {
+		DateTime oldCheckInDate = mTodayAtNoon.minusMinutes(30);
+		DateTime checkOutDate = mTodayAtNoon.plusDays(2);
+		HotelItinContentGenerator hotelItinGenerator = getHotelItinGenerator(oldCheckInDate, checkOutDate);
+		Assert.assertTrue(hotelItinGenerator.getItinCardData().isPastCheckInDate());
+	}
+
+	@Test
 	public void testSummaryCheckInFuture4d() {
 		DateTime checkInTime = mTodayAtNoon.plusDays(4);
 		DateTime checkOutTime = mTodayAtNoon.plusDays(5);
