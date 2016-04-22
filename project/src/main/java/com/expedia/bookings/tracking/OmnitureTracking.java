@@ -92,7 +92,6 @@ import com.expedia.bookings.server.EndPoint;
 import com.expedia.bookings.services.HotelCheckoutResponse;
 import com.expedia.bookings.utils.CollectionUtils;
 import com.expedia.bookings.utils.CurrencyUtils;
-import com.expedia.bookings.utils.ExpediaNetUtils;
 import com.expedia.bookings.utils.JodaUtils;
 import com.expedia.bookings.utils.NumberUtils;
 import com.expedia.bookings.utils.PackageFlightUtils;
@@ -305,7 +304,7 @@ public class OmnitureTracking {
 
 		s.setAppState(HOTELSV2_RESULT);
 		s.setEvar(18, HOTELSV2_RESULT);
-		s.setEvents("event30,event51");
+		s.setEvents("event12,event51");
 
 		// LOB Search
 		s.setEvar(2, "D=c2");
@@ -534,19 +533,19 @@ public class OmnitureTracking {
 		s.setEvar(9, drrString);
 
 		if (isHotelSoldOut) {
-			s.setEvents("event32,event14");
+			s.setEvents("event3,event14");
 		}
 		else if (isRoomSoldOut && isETPEligible) {
-			s.setEvents("event32,event5,event18");
+			s.setEvents("event3,event5,event18");
 		}
 		else if (isRoomSoldOut) {
-			s.setEvents("event32,event18");
+			s.setEvents("event3,event18");
 		}
 		else if (isETPEligible) {
-			s.setEvents("event32,event5");
+			s.setEvents("event3,event5");
 		}
 		else if (!isETPEligible) {
-			s.setEvents("event32");
+			s.setEvents("event3");
 		}
 
 		s.setEvar(2, "D=c2");
@@ -1272,7 +1271,7 @@ public class OmnitureTracking {
 		ADMS_Measurement s = getFreshTrackingObject();
 
 		s.setAppState("App.Hotels.Rooms.Infosite");
-		s.setEvents("event32");
+		s.setEvents("event3");
 
 		addStandardHotelFields(s, Db.getHotelSearch().getSearchParams());
 		addHotelRegionId(s, Db.getHotelSearch().getSearchParams());
@@ -3377,7 +3376,7 @@ public class OmnitureTracking {
 		Log.d(TAG, "Tracking \"" + ITIN + "\" pageLoad");
 		ADMS_Measurement s = createTrackPageLoadEventBase(ITIN);
 
-		addEvent15And16Maybe(context, s);
+		s.setEvents("event63");
 
 		s.track();
 	}
@@ -3385,7 +3384,7 @@ public class OmnitureTracking {
 	public static void trackItinHotel(Context context) {
 		Log.d(TAG, "Tracking \"" + ITIN_HOTEL + "\" pageLoad");
 		ADMS_Measurement s = createTrackPageLoadEventBase(ITIN_HOTEL);
-		addEvent15And16Maybe(context, s);
+		s.setEvents("event63");
 		s.track();
 	}
 
@@ -3426,7 +3425,7 @@ public class OmnitureTracking {
 	public static void trackItinFlight(Context context) {
 		Log.d(TAG, "Tracking \"" + ITIN_FLIGHT + "\" pageLoad");
 		ADMS_Measurement s = createTrackPageLoadEventBase(ITIN_FLIGHT);
-		addEvent15And16Maybe(context, s);
+		s.setEvents("event63");
 		s.track();
 	}
 
@@ -3487,7 +3486,7 @@ public class OmnitureTracking {
 	public static void trackItinCar(Context context) {
 		Log.d(TAG, "Tracking \"" + ITIN_CAR + "\" pageLoad");
 		ADMS_Measurement s = createTrackPageLoadEventBase(ITIN_CAR);
-		addEvent15And16Maybe(context, s);
+		s.setEvents("event63");
 		s.track();
 	}
 
@@ -3506,7 +3505,7 @@ public class OmnitureTracking {
 	public static void trackItinActivity(Context context) {
 		Log.d(TAG, "Tracking \"" + ITIN_ACTIVITY + "\" pageLoad");
 		ADMS_Measurement s = createTrackPageLoadEventBase(ITIN_ACTIVITY);
-		addEvent15And16Maybe(context, s);
+		s.setEvents("event63");
 		s.track();
 	}
 
@@ -3520,14 +3519,6 @@ public class OmnitureTracking {
 
 	public static void trackItinActivityInfo() {
 		internalTrackLink(ITIN_ACTIVITY_INFO);
-	}
-
-	private static void addEvent15And16Maybe(Context context, ADMS_Measurement s) {
-		String event = "event15";
-		if (!ExpediaNetUtils.isOnline(context)) {
-			event += ",event16";
-		}
-		s.setEvents(event);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -3606,7 +3597,7 @@ public class OmnitureTracking {
 
 
 		s.setEvar(11, link);
-		s.setEvents("event12");
+		s.setEvents("event212");
 
 		s.trackLink(null, "o", link, null, null);
 	}
@@ -3622,7 +3613,7 @@ public class OmnitureTracking {
 
 
 		s.setEvar(11, campaignText);
-		s.setEvents("event12");
+		s.setEvents("event212");
 
 		s.trackLink(null, "o", "App Notification", null, null);
 	}
@@ -3927,7 +3918,7 @@ public class OmnitureTracking {
 
 	public static void trackClickDownloadAppLink(String appName) {
 		ADMS_Measurement s = createTrackLinkEvent(ACCOUNT_APP_DOWNLOAD);
-		s.setEvents("event10");
+		s.setEvents("event210");
 		s.setEvar(32, appName);
 		s.trackLink(null, "o", "Accounts", null, null);
 	}
