@@ -21,7 +21,6 @@
         <item name="skin_cvvDivDrawable">@drawable/div_cvv_samsung</item>
         <item name="skin_checkoutLoginBookNowButtonDrawable">@drawable/btn_signin</item>
         <item name="skin_checkoutLoginButtonColor">#836B11</item>
-        <item name="skin_loginBrandIconDrawable">@drawable/expedia_login</item>
         <item name="skin_carsUncheckedToggleTextColor">@color/cars_unchecked_toggle_text_color_samsung</item>
         <item name="skin_carsPinDrawable">@drawable/cars_pin_samsung</item>
 

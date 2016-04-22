@@ -21,7 +21,6 @@
         <item name="skin_cvvDivDrawable">@drawable/div_cvv_orb</item>
         <item name="skin_checkoutLoginBookNowButtonDrawable">@drawable/btn_signin_orbitz</item>
         <item name="skin_checkoutLoginButtonColor">@android:color/white</item>
-        <item name="skin_loginBrandIconDrawable">@drawable/orb_login</item>
         <item name="skin_carsUncheckedToggleTextColor">@color/cars_unchecked_toggle_text_color</item>
         <item name="skin_carsPinDrawable">@drawable/cars_pin_orb</item>
         <item name="skin_carsErrorDefaultDrawable">@drawable/error_default</item>
