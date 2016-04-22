@@ -27,7 +27,7 @@ public class ItinUtils {
 		DateTime today = DateTime.now();
 		int hoursBetween = JodaUtils.hoursBetween(today, flightTime);
 
-		return hoursBetween < 24;
+		return hoursBetween >= 1 && hoursBetween < 24;
 	}
 
 }
