@@ -39,7 +39,6 @@
         <item name="skin_cvvDivDrawable">@drawable/div_cvv</item>
         <item name="skin_checkoutLoginBookNowButtonDrawable">@drawable/btn_signin_cars</item>
         <item name="skin_checkoutLoginButtonColor">@color/checkout_login_button_color</item>
-        <item name="skin_loginBrandIconDrawable">@drawable/expedia_login</item>
         <item name="skin_carsUncheckedToggleTextColor">@color/cars_unchecked_toggle_text_color</item>
         <item name="skin_carsPinDrawable">@drawable/cars_pin</item>
         <item name="skin_carsErrorDefaultDrawable">@drawable/error_default</item>

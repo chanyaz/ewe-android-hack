@@ -304,7 +304,6 @@
     <attr name="skin_costSummaryAlertDrawable" format="reference" />
     <attr name="skin_checkoutLoginBookNowButtonDrawable" format="reference" />
     <attr name="skin_checkoutLoginButtonColor" format="reference|color" />
-    <attr name="skin_loginBrandIconDrawable" format="reference" />
     <attr name="skin_carsUncheckedToggleTextColor" format="reference|color" />
     <attr name="skin_carsPinDrawable" format="reference" />
     <attr name="skin_carsErrorDefaultDrawable" format="reference" />

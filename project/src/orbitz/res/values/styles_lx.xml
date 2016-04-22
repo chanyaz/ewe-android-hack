@@ -19,7 +19,6 @@
         <item name="skin_cvvDivDrawable">@drawable/div_cvv</item>
         <item name="skin_checkoutLoginBookNowButtonDrawable">@drawable/btn_signin_orbitz</item>
         <item name="skin_checkoutLoginButtonColor">@android:color/white</item>
-        <item name="skin_loginBrandIconDrawable">@drawable/orb_login</item>
         <item name="skin_lxPrimaryColor">@color/lx_primary_color</item>
 
         <item name="skin_lxBookNowButtonSelectorDrawable">@drawable/lx_book_now_button_selector</item>
