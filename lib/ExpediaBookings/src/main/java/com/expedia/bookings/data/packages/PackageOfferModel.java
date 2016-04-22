@@ -50,7 +50,7 @@ public class PackageOfferModel {
 		FreeHotel,
 		FreeFlight,
 		HotelDeal,
-		FreeOneNightHotel;
+		FreeOneNightHotel
 	}
 }
 

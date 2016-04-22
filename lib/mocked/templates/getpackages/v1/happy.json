@@ -3314,6 +3314,125 @@
     "currentSelectedOffer": null,
     "packageOfferModels": [
       {
+        "piid": "package_happy",
+        "hotel": "897118536276357",
+        "flight": "bdaeb3b97acaea318d4c5b02f99f0002",
+        "car": null,
+        "price": {
+          "packageTotalPrice": {
+            "amount": 1052.67,
+            "currency": "USD",
+            "negative": false,
+            "currencyCode": "USD",
+            "double": 1052.67
+          },
+          "pricePerPerson": {
+            "amount": 526.34,
+            "currency": "USD",
+            "negative": false,
+            "currencyCode": "USD",
+            "double": 526.34
+          },
+          "hotelPrice": {
+            "amount": 171.88,
+            "currency": "USD",
+            "negative": false,
+            "currencyCode": "USD",
+            "double": 171.88
+          },
+          "flightPrice": {
+            "amount": 904.40,
+            "currency": "USD",
+            "negative": false,
+            "currencyCode": "USD",
+            "double": 904.4
+          },
+          "carPrice": null,
+          "sumFlightAndHotel": {
+            "amount": 1076.00,
+            "currency": "USD",
+            "negative": false,
+            "currencyCode": "USD",
+            "double": 1076.0
+          },
+          "tripSavings": {
+            "amount": 23.61,
+            "currency": "USD",
+            "negative": false,
+            "currencyCode": "USD",
+            "double": 23.61
+          },
+          "packageTotalPriceFormatted": "$1,053",
+          "pricePerPersonFormatted": "$527",
+          "pricePerPersonUnformatted": "527",
+          "hotelPriceFormatted": "$172",
+          "flightPriceFormatted": "$905",
+          "sumFlightAndHotelFormatted": "$1,076",
+          "tripSavingsFormatted": "$23",
+          "showTripSavings": false,
+          "freeFlightPromotion": false,
+          "showReferencePrices": false,
+          "mandatoryFeeIncludedInTotal": false,
+          "flightPlusHotelPricePerPersonFormatted": "$538",
+          "numNightsPriced": 1,
+          "hotelAvgPricePerNight": {
+            "amount": 171.88,
+            "currency": "USD",
+            "negative": false,
+            "currencyCode": "USD",
+            "double": 171.88
+          },
+          "hotelAvgDrrPricePerNight": {
+            "amount": 171.88,
+            "currency": "USD",
+            "negative": false,
+            "currencyCode": "USD",
+            "double": 171.88
+          },
+          "hotelAvgPricePerNightFormatted": "$172",
+          "hotelAvgDrrPricePerNightFormatted": "$172",
+          "hotelAvgPricePerNightUnformatted": "172",
+          "hotelAvgDrrPricePerNightUnformatted": "172",
+          "absSavingsPerPerson": {
+            "amount": 11.81,
+            "currency": "USD",
+            "negative": false,
+            "currencyCode": "USD",
+            "double": 11.81
+          },
+          "absSavingsPerPersonFormatted": "$11",
+          "percentageSavings": 2,
+          "hotelWithSavingsAppliedPricePerNightFormatted": "$149",
+          "isHotelPriceWithSavingsPositive": true,
+          "flightPricePerPersonFormatted": "$453",
+          "basePricePerPersonFormatted": null,
+          "basePriceBeforeSavingsPerPersonFormatted": null,
+          "allTaxesAndAllFeesPerPersonFormatted": null
+        },
+        "urgencyMessage": null,
+        "brandedDealData": {
+          "dealVariation": "HotelDeal",
+          "freeNights": 1,
+          "savingsAmount": "$110",
+          "savingPercentageOverPackagePrice": 22,
+          "savingPercentageOverHotelPrice": 50,
+          "savingPercentageOverFlightPrice": 40,
+          "currentViewCount": 3
+        },
+        "brandedDeals": [
+          "HotelDeal",
+          "FreeOneNightHotel"
+        ],
+        "promoCampaignLogoURI": "",
+        "bookingCount": 0,
+        "featuredDeal": true,
+        "minutesSinceLastBooking": -1,
+        "changeFlightUrl": "/changeflight?packagePIID=c698fd40-63b4-4a5f-9e00-9a5dbc547ec7-12&usePS=1&sourceType=mobileapp&packageType=fh&originId=6000581&ftla=SFO&packageTripType=2&ttla=DTW&toDate=2016-02-04&hlrId=0&clientid=expedia.app.android.phone%3A6.7.0&fromDate=2016-02-02&defaultFlights=bc35173f55f3dafc2c3a52ffa44a7ca1%2Cd7e01407041745020fc703efbd624b70&destinationId=6000199&currentFlights=bc35173f55f3dafc2c3a52ffa44a7ca1%2Cd7e01407041745020fc703efbd624b70",
+        "rateDetailsUrl": "/packagesearch?action=details&sourceType=mobileapp&packagePIID=c698fd40-63b4-4a5f-9e00-9a5dbc547ec7-12&packageType=fh&originId=6000581&pqtp=1052.67&ftla=SFO&origin=San+Francisco%2C+CA+%28SFO-San+Francisco+Intl.%29&curc=USD&ttla=DTW&toDate=2016-02-04&destination=Detroit%2C+MI+%28DTW-Detroit+Metropolitan+Wayne+County%29&hlrId=0&clientid=expedia.app.android.phone%3A6.7.0&dest=6000199&fromDate=2016-02-02&defaultFlights=bc35173f55f3dafc2c3a52ffa44a7ca1%2Cd7e01407041745020fc703efbd624b70&returnToRD=1&destinationId=6000199&part=0&currentFlights=bc35173f55f3dafc2c3a52ffa44a7ca1%2Cd7e01407041745020fc703efbd624b70",
+        "ffpp": false,
+        "packageCancelable": true
+      },
+      {
         "piid": "c698fd40-63b4-4a5f-9e00-9a5dbc547ec7-0",
         "hotel": "17514170503423425",
         "flight": "bdaeb3b97acaea318d4c5b02f99f0002",
@@ -4572,124 +4691,6 @@
         "rateDetailsUrl": "/packagesearch?action=details&sourceType=mobileapp&packagePIID=c698fd40-63b4-4a5f-9e00-9a5dbc547ec7-11&packageType=fh&originId=6000581&pqtp=1101.34&ftla=SFO&origin=San+Francisco%2C+CA+%28SFO-San+Francisco+Intl.%29&curc=USD&ttla=DTW&toDate=2016-02-04&destination=Detroit%2C+MI+%28DTW-Detroit+Metropolitan+Wayne+County%29&hlrId=0&clientid=expedia.app.android.phone%3A6.7.0&dest=6000199&fromDate=2016-02-02&defaultFlights=bc35173f55f3dafc2c3a52ffa44a7ca1%2Cd7e01407041745020fc703efbd624b70&returnToRD=1&destinationId=6000199&part=0&currentFlights=bc35173f55f3dafc2c3a52ffa44a7ca1%2Cd7e01407041745020fc703efbd624b70",
         "ffpp": false,
         "packageCancelable": false
-      },
-      {
-        "piid": "package_happy",
-        "hotel": "897118536276357",
-        "flight": "bdaeb3b97acaea318d4c5b02f99f0002",
-        "car": null,
-        "price": {
-          "packageTotalPrice": {
-            "amount": 1052.67,
-            "currency": "USD",
-            "negative": false,
-            "currencyCode": "USD",
-            "double": 1052.67
-          },
-          "pricePerPerson": {
-            "amount": 526.34,
-            "currency": "USD",
-            "negative": false,
-            "currencyCode": "USD",
-            "double": 526.34
-          },
-          "hotelPrice": {
-            "amount": 171.88,
-            "currency": "USD",
-            "negative": false,
-            "currencyCode": "USD",
-            "double": 171.88
-          },
-          "flightPrice": {
-            "amount": 904.40,
-            "currency": "USD",
-            "negative": false,
-            "currencyCode": "USD",
-            "double": 904.4
-          },
-          "carPrice": null,
-          "sumFlightAndHotel": {
-            "amount": 1076.00,
-            "currency": "USD",
-            "negative": false,
-            "currencyCode": "USD",
-            "double": 1076.0
-          },
-          "tripSavings": {
-            "amount": 23.61,
-            "currency": "USD",
-            "negative": false,
-            "currencyCode": "USD",
-            "double": 23.61
-          },
-          "packageTotalPriceFormatted": "$1,053",
-          "pricePerPersonFormatted": "$527",
-          "pricePerPersonUnformatted": "527",
-          "hotelPriceFormatted": "$172",
-          "flightPriceFormatted": "$905",
-          "sumFlightAndHotelFormatted": "$1,076",
-          "tripSavingsFormatted": "$23",
-          "showTripSavings": false,
-          "freeFlightPromotion": false,
-          "showReferencePrices": false,
-          "mandatoryFeeIncludedInTotal": false,
-          "flightPlusHotelPricePerPersonFormatted": "$538",
-          "numNightsPriced": 1,
-          "hotelAvgPricePerNight": {
-            "amount": 171.88,
-            "currency": "USD",
-            "negative": false,
-            "currencyCode": "USD",
-            "double": 171.88
-          },
-          "hotelAvgDrrPricePerNight": {
-            "amount": 171.88,
-            "currency": "USD",
-            "negative": false,
-            "currencyCode": "USD",
-            "double": 171.88
-          },
-          "hotelAvgPricePerNightFormatted": "$172",
-          "hotelAvgDrrPricePerNightFormatted": "$172",
-          "hotelAvgPricePerNightUnformatted": "172",
-          "hotelAvgDrrPricePerNightUnformatted": "172",
-          "absSavingsPerPerson": {
-            "amount": 11.81,
-            "currency": "USD",
-            "negative": false,
-            "currencyCode": "USD",
-            "double": 11.81
-          },
-          "absSavingsPerPersonFormatted": "$11",
-          "percentageSavings": 2,
-          "hotelWithSavingsAppliedPricePerNightFormatted": "$149",
-          "isHotelPriceWithSavingsPositive": true,
-          "flightPricePerPersonFormatted": "$453",
-          "basePricePerPersonFormatted": null,
-          "basePriceBeforeSavingsPerPersonFormatted": null,
-          "allTaxesAndAllFeesPerPersonFormatted": null
-        },
-        "urgencyMessage": null,
-        "brandedDealData": {
-          "dealVariation": "HotelDeal",
-          "freeNights": 1,
-          "savingsAmount": "$110",
-          "savingPercentageOverPackagePrice": 22,
-          "savingPercentageOverHotelPrice": 50,
-          "savingPercentageOverFlightPrice": 40,
-          "currentViewCount": 3
-        },
-        "brandedDeals": [
-          "HotelDeal",
-          "FreeOneNightHotel"
-        ],
-        "promoCampaignLogoURI": "",
-        "bookingCount": 0,
-        "minutesSinceLastBooking": -1,
-        "changeFlightUrl": "/changeflight?packagePIID=c698fd40-63b4-4a5f-9e00-9a5dbc547ec7-12&usePS=1&sourceType=mobileapp&packageType=fh&originId=6000581&ftla=SFO&packageTripType=2&ttla=DTW&toDate=2016-02-04&hlrId=0&clientid=expedia.app.android.phone%3A6.7.0&fromDate=2016-02-02&defaultFlights=bc35173f55f3dafc2c3a52ffa44a7ca1%2Cd7e01407041745020fc703efbd624b70&destinationId=6000199&currentFlights=bc35173f55f3dafc2c3a52ffa44a7ca1%2Cd7e01407041745020fc703efbd624b70",
-        "rateDetailsUrl": "/packagesearch?action=details&sourceType=mobileapp&packagePIID=c698fd40-63b4-4a5f-9e00-9a5dbc547ec7-12&packageType=fh&originId=6000581&pqtp=1052.67&ftla=SFO&origin=San+Francisco%2C+CA+%28SFO-San+Francisco+Intl.%29&curc=USD&ttla=DTW&toDate=2016-02-04&destination=Detroit%2C+MI+%28DTW-Detroit+Metropolitan+Wayne+County%29&hlrId=0&clientid=expedia.app.android.phone%3A6.7.0&dest=6000199&fromDate=2016-02-02&defaultFlights=bc35173f55f3dafc2c3a52ffa44a7ca1%2Cd7e01407041745020fc703efbd624b70&returnToRD=1&destinationId=6000199&part=0&currentFlights=bc35173f55f3dafc2c3a52ffa44a7ca1%2Cd7e01407041745020fc703efbd624b70",
-        "ffpp": false,
-        "packageCancelable": true
       },
       {
         "piid": "c698fd40-63b4-4a5f-9e00-9a5dbc547ec7-13",

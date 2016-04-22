@@ -19,7 +19,7 @@ class PackageHotelViewModel(context: Context, hotel: Hotel) : HotelViewModel(con
     }
 
     private fun getUnrealDeal(): String {
-        if (hotel.packageOfferModel.featuredDeal) {
+        if (hotel.packageOfferModel?.featuredDeal ?: false) {
             val dealVariation = hotel.packageOfferModel?.brandedDealData?.dealVariation ?: ""
             return when (dealVariation) {
                 PackageOfferModel.DealVariation.FreeHotel -> resources.getString(R.string.free_hotel_deal)
