@@ -111,4 +111,23 @@ public class SingleTravelerPresenterTest extends BaseTravelerPresenterTestHelper
 		EspressoUtils.assertViewWithTextIsDisplayed(R.id.edit_phone_number, testPhone);
 		EspressoUtils.assertViewWithTextIsDisplayed(R.id.edit_birth_date_text_btn, testBirthDay);
 	}
+
+	@Test
+	public void testBoardingWarningVisible() {
+		mockViewModel = getMockViewModelValidTravelers(1);
+		testTravelerPresenter.setViewModel(mockViewModel);
+		EspressoUser.clickOnView(R.id.traveler_default_state);
+		EspressoUtils.assertViewWithTextIsDisplayed(R.id.boarding_warning, R.string.name_must_match_warning);
+	}
+
+	@Test
+	public void testBoardingWarningCleared() {
+		mockViewModel = getMockViewModelValidTravelers(1);
+		testTravelerPresenter.setViewModel(mockViewModel);
+		EspressoUser.clickOnView(R.id.traveler_default_state);
+		EspressoUtils.assertViewWithTextIsDisplayed(R.id.boarding_warning, R.string.name_must_match_warning);
+
+		PackageScreen.clickTravelerDone();
+		EspressoUtils.assertViewIsNotDisplayed(R.id.boarding_warning);
+	}
 }

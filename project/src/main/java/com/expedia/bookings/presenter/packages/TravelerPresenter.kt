@@ -31,6 +31,7 @@ class TravelerPresenter(context: Context, attrs: AttributeSet) : Presenter(conte
     val travelerSelectState: TravelerSelectState by bindView(R.id.traveler_select_state)
     val travelerEntryWidget: FlightTravelerEntryWidget by bindView(R.id.traveler_entry_widget)
     val boardingWarning: TextView by bindView(R.id.boarding_warning)
+    val dropShadow: View by bindView(R.id.drop_shadow)
 
     val expandedSubject = BehaviorSubject.create<Boolean>()
     val travelersCompleteSubject = BehaviorSubject.create<Traveler>()
@@ -117,9 +118,11 @@ class TravelerPresenter(context: Context, attrs: AttributeSet) : Presenter(conte
     private val defaultTransition = object : Presenter.DefaultTransition(TravelerDefaultState::class.java.name) {
         override fun endTransition(forward: Boolean) {
             menuVisibility.onNext(false)
-            travelerDefaultState.visibility = if (forward) View.VISIBLE else View.GONE
-            travelerSelectState.visibility = if (!forward) View.VISIBLE else View.GONE
-            travelerEntryWidget.visibility = if (!forward) View.VISIBLE else View.GONE
+            travelerDefaultState.visibility = View.VISIBLE
+            travelerSelectState.visibility = View.GONE
+            travelerEntryWidget.visibility = View.GONE
+            boardingWarning.visibility = View.GONE
+            dropShadow.visibility = View.GONE
             toolbarTitleSubject.onNext(getCheckoutToolbarTitle(resources, false))
         }
     }
@@ -129,6 +132,7 @@ class TravelerPresenter(context: Context, attrs: AttributeSet) : Presenter(conte
         override fun startTransition(forward: Boolean) {
             menuVisibility.onNext(false)
             expandedSubject.onNext(forward)
+            dropShadow.visibility = if (forward) View.VISIBLE else View.GONE
             if (forward) {
                 toolbarTitleSubject.onNext(resources.getString(R.string.traveler_details_text))
             } else {
@@ -148,7 +152,11 @@ class TravelerPresenter(context: Context, attrs: AttributeSet) : Presenter(conte
         override fun startTransition(forward: Boolean) {
             menuVisibility.onNext(forward)
             expandedSubject.onNext(forward)
+
+            travelerEntryWidget.visibility = if (forward) View.VISIBLE else View.GONE
             travelerEntryWidget.travelerButton.visibility = if (User.isLoggedIn(context) && forward) View.VISIBLE else View.GONE
+            dropShadow.visibility = if (forward) View.VISIBLE else View.GONE
+            boardingWarning.visibility = if (forward) View.VISIBLE else View.GONE
 
             if (forward && travelerDefaultState.status == TravelerCheckoutStatus.DIRTY) {
                 travelerEntryWidget.viewModel.validate()
@@ -165,9 +173,6 @@ class TravelerPresenter(context: Context, attrs: AttributeSet) : Presenter(conte
         override fun endTransition(forward: Boolean) {
             if (!forward) validateAndBindTravelerSummary()
             travelerDefaultState.visibility = if (!forward) View.VISIBLE else View.GONE
-            travelerEntryWidget.visibility = if (forward) View.VISIBLE else View.GONE
-            boardingWarning.visibility = if (forward) View.VISIBLE else View.GONE
-
             if (forward) {
                 travelerEntryWidget.nameEntryView.firstName.requestFocus()
                 travelerEntryWidget.onFocusChange(travelerEntryWidget.nameEntryView.firstName, true)
@@ -183,6 +188,8 @@ class TravelerPresenter(context: Context, attrs: AttributeSet) : Presenter(conte
             menuVisibility.onNext(forward)
             toolbarNavIcon.onNext(if (!forward) ArrowXDrawableUtil.ArrowDrawableType.BACK
             else ArrowXDrawableUtil.ArrowDrawableType.CLOSE)
+            dropShadow.visibility = View.VISIBLE
+            boardingWarning.visibility =  if (forward) View.VISIBLE else View.GONE
             travelerEntryWidget.travelerButton.visibility = if (User.isLoggedIn(context) && forward) View.VISIBLE else View.GONE
             if (!forward) {
                 toolbarTitleSubject.onNext(resources.getString(R.string.traveler_details_text))
@@ -193,7 +200,6 @@ class TravelerPresenter(context: Context, attrs: AttributeSet) : Presenter(conte
         override fun endTransition(forward: Boolean) {
             if (!forward) travelerSelectState.show() else travelerSelectState.visibility = View.GONE
             travelerEntryWidget.visibility = if (forward) View.VISIBLE else View.GONE
-            boardingWarning.visibility = if (forward) View.VISIBLE else View.GONE
             if (forward) {
                 travelerEntryWidget.nameEntryView.firstName.requestFocus()
                 travelerEntryWidget.onFocusChange(travelerEntryWidget.nameEntryView.firstName, true)
