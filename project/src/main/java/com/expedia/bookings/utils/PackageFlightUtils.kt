@@ -1,6 +1,10 @@
 package com.expedia.bookings.utils
 
 import android.content.Context
+import android.support.v4.content.ContextCompat
+import android.text.Spannable
+import android.text.SpannableStringBuilder
+import android.text.style.ForegroundColorSpan
 import com.expedia.bookings.R
 import com.expedia.bookings.data.flights.Airline
 import com.expedia.bookings.data.flights.FlightLeg
@@ -18,6 +22,22 @@ object PackageFlightUtils {
 
     @JvmStatic fun getFlightSegmentLayoverDurationString(context: Context, segment: FlightLeg.FlightSegment): String {
         return getDurationString(context, segment.layoverDurationHours, segment.layoverDurationMinutes)
+    }
+
+
+    @JvmStatic fun getStylizedFlightDurationString(context: Context, flight: FlightLeg, colorId: Int): CharSequence {
+        val flightDuration = PackageFlightUtils.getFlightDurationString(context, flight)
+        var totalDuration = Phrase.from(context.resources.getString(R.string.package_flight_overview_total_duration_TEMPLATE))
+                .put("duration", flightDuration)
+                .format().toString()
+
+        val start = totalDuration.indexOf(flightDuration)
+        val end = start + flightDuration.length
+        val colorSpan = ForegroundColorSpan(ContextCompat.getColor(context, colorId))
+        val totalDurationStyledString = SpannableStringBuilder(totalDuration)
+        totalDurationStyledString.setSpan(colorSpan, start, end, Spannable.SPAN_EXCLUSIVE_INCLUSIVE)
+
+        return totalDurationStyledString
     }
 
     @JvmStatic fun getFlightDurationString(context: Context, flight: FlightLeg): String {

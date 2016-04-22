@@ -35,7 +35,7 @@ class BundleFlightViewModel(val context: Context) {
     val flightTravelInfoColorObservable = BehaviorSubject.create<Int>()
     val flightInfoContainerObservable = BehaviorSubject.create<Boolean>()
     val selectedFlightLegObservable = BehaviorSubject.create<FlightLeg>()
-    val totalDurationObserver = BehaviorSubject.create<String>()
+    val totalDurationObserver = BehaviorSubject.create<CharSequence>()
 
     init {
         Observable.combineLatest(hotelLoadingStateObservable, suggestion, date, guests, { searchType, suggestion, date, guests ->
@@ -92,10 +92,7 @@ class BundleFlightViewModel(val context: Context) {
                 flightTextObservable.onNext(context.getString(R.string.flight_to, StrUtils.formatAirportCodeCityName(suggestion)))
                 flightIconImageObservable.onNext(Pair(R.drawable.packages_flight2_checkmark_icon, 0))
             }
-            var totalDuration = Phrase.from(context.resources.getString(R.string.package_flight_overview_total_duration_TEMPLATE))
-                    .put("duration", PackageFlightUtils.getFlightDurationString(context, flight))
-                    .format().toString()
-            totalDurationObserver.onNext(totalDuration)
+            totalDurationObserver.onNext(PackageFlightUtils.getStylizedFlightDurationString(context, flight, R.color.packages_total_duration_text))
             selectedFlightLegObservable.onNext(flight)
         }).subscribe()
     }
