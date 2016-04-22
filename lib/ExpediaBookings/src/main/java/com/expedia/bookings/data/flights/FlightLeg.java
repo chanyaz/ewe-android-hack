@@ -79,6 +79,7 @@ public class FlightLeg {
 		public String departureAirportLocation;
 		public String departureTime;
 		public String departureTimeRaw;
+		public String departureDateTimeISO;
 
 		public String arrivalCity;
 		public String arrivalAirport;
@@ -86,12 +87,14 @@ public class FlightLeg {
 		public String arrivalAirportLocation;
 		public String arrivalTime;
 		public String arrivalTimeRaw;
+		public String arrivalDateTimeISO;
 
 		public String duration;
 		public int durationHours;
 		public int durationMinutes;
 		public int layoverDurationHours;
 		public int layoverDurationMinutes;
+		public int elapsedDays;
 
 		public String seatClass;
 	}

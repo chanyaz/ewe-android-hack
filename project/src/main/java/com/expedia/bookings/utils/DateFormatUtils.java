@@ -167,8 +167,8 @@ public class DateFormatUtils {
 
 	public static String formatPackageDateRange(Context context, String checkinDate, String checkoutDate) {
 		DateTimeFormatter parser = DateTimeFormat.forPattern("yyyy-MM-dd");
-		String checkinDateTime = getFormattedDateDay(context, parser.parseDateTime(checkinDate));
-		String checkoutDateTime = getFormattedDateDay(context, parser.parseDateTime(checkoutDate));
+		String checkinDateTime = formatDateToShortDayAndDate(context, parser.parseDateTime(checkinDate));
+		String checkoutDateTime = formatDateToShortDayAndDate(context, parser.parseDateTime(checkoutDate));
 
 		return context.getString(R.string.calendar_instructions_date_range_TEMPLATE, checkinDateTime, checkoutDateTime);
 	}
@@ -181,10 +181,11 @@ public class DateFormatUtils {
 		return JodaUtils.formatLocalDate(context, new LocalDate(year, month, day), FLAGS_MEDIUM_DATE_FORMAT);
 	}
 
-	/**
-	 * Convenience method for formatting date range in packages from 2015-10-1 to Tue Oct 01, 2015
-	 */
-	private static String getFormattedDateDay(Context context, DateTime date) {
+	public static String formatLocalDateToShortDayAndDate(Context context, LocalDate localDate) {
+		return formatDateToShortDayAndDate(context, localDate.toDateTimeAtStartOfDay());
+	}
+
+	public static String formatDateToShortDayAndDate(Context context, DateTime date) {
 		SimpleDateFormat ft = new SimpleDateFormat("EEE MMM dd, yyyy", Locale.getDefault());
 		return ft.format(new Date(JodaUtils.formatDateTime(context, date, DateUtils.FORMAT_SHOW_DATE
 			| DateUtils.FORMAT_SHOW_WEEKDAY | DateUtils.FORMAT_ABBREV_WEEKDAY | DateUtils.FORMAT_SHOW_YEAR

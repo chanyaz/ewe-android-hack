@@ -25,6 +25,7 @@
     <color name="search_dialog_gray">#6A6A6A</color>
 
     <color name="white">#FFFFFFFF</color>
+    <color name="white70">#B3FFFFFF</color>
     <color name="black">#FF000000</color>
     <color name="greener_pastures">#19BF00</color>
 

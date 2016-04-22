@@ -1,11 +1,11 @@
 package com.expedia.bookings.services
 
+import com.expedia.bookings.data.flights.Airline
 import com.expedia.bookings.data.flights.FlightCreateTripParams
 import com.expedia.bookings.data.flights.FlightCreateTripResponse
 import com.expedia.bookings.data.flights.FlightLeg
-import com.expedia.bookings.data.flights.FlightSearchResponse
-import com.expedia.bookings.data.flights.Airline
 import com.expedia.bookings.data.flights.FlightSearchParams
+import com.expedia.bookings.data.flights.FlightSearchResponse
 import com.expedia.bookings.utils.DateUtils
 import com.google.gson.GsonBuilder
 import com.squareup.okhttp.OkHttpClient
@@ -61,6 +61,13 @@ class FlightServices(endpoint: String, okHttpClient: OkHttpClient, requestInterc
                             segment.airplaneType = segment.equipmentDescription
                             segment.departureCity = segment.departureAirportLocation
                             segment.arrivalCity = segment.arrivalAirportLocation
+                            segment.departureDateTimeISO = segment.departureTimeRaw
+                            segment.arrivalDateTimeISO = segment.arrivalTimeRaw
+
+                            val arrivalTime = DateUtils.yyyyMMddTHHmmssToDateTimeSafe(segment.arrivalTime, DateTime.now())
+                            val departureTime = DateUtils.yyyyMMddTHHmmssToDateTimeSafe(segment.departureTime, DateTime.now())
+                            segment.elapsedDays = Days.daysBetween(arrivalTime, departureTime).days
+
                             val airline = Airline(segment.airlineName, segment.airlineLogoURL)
                             airlines.add(airline)
 
