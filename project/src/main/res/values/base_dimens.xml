@@ -16,4 +16,7 @@
 
     <!--This is left/right margin for all cardviews-->
     <dimen name="card_view_container_margin">9dp</dimen>
+
+    <!--Universal Sort and filter dimensions should live here going forward-->
+    <dimen name="sort_filter_cards_left_right_margin">14dp</dimen>
 </resources>

@@ -41,15 +41,15 @@
                         style="@style/MaterialCardView"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="@dimen/lx_sort_filter_margin_cards"
-                        android:layout_marginRight="@dimen/lx_sort_filter_margin_cards"
+                        android:layout_marginLeft="@dimen/sort_filter_cards_left_right_margin"
+                        android:layout_marginRight="@dimen/sort_filter_cards_left_right_margin"
                         android:layout_marginTop="6dp"
                         android:background="?android:attr/selectableItemBackground"
                         app:cardUseCompatPadding="true">
 
                         <Spinner
                             android:id="@+id/sort_by_selection_spinner"
-                            android:layout_width="fill_parent"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:background="@drawable/spinner_hotel_filter_sort"
                             android:dropDownWidth="match_parent" />
@@ -60,7 +60,6 @@
                         android:layout_width="match_parent"
                         android:layout_height="1px"
                         android:layout_marginTop="15dp"
-                        android:layout_weight="1"
                         android:background="@color/lx_sort_filter_pressed_row_color" />
 
                 </LinearLayout>
