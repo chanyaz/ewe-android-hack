@@ -1,9 +1,9 @@
 package com.expedia.bookings.test.utils.validation
 
-import com.expedia.bookings.data.TravelerName
-import com.expedia.bookings.data.Traveler
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.SuggestionV4
+import com.expedia.bookings.data.Traveler
+import com.expedia.bookings.data.TravelerName
 import com.expedia.bookings.data.packages.PackageSearchParams
 import com.expedia.bookings.enums.PassengerCategory
 import com.expedia.bookings.test.robolectric.RobolectricRunner
@@ -11,10 +11,9 @@ import com.expedia.bookings.utils.validation.TravelerValidator
 import org.joda.time.LocalDate
 import org.junit.Test
 import org.junit.runner.RunWith
-import org.mockito.Mockito
 import org.mockito.Matchers.any
+import org.mockito.Mockito
 import kotlin.test.assertFalse
-
 import kotlin.test.assertTrue
 
 @RunWith(RobolectricRunner::class)
@@ -221,8 +220,8 @@ class TravelerValidatorTest {
         val packageParams = PackageSearchParams.Builder(12)
                 .startDate(checkIn)
                 .endDate(checkOut)
-                .departure(SuggestionV4())
-                .arrival(SuggestionV4())
+                .origin(SuggestionV4())
+                .destination(SuggestionV4())
         .build() as PackageSearchParams
         return packageParams
     }

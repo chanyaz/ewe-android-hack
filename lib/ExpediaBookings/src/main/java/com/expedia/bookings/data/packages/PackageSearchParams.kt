@@ -29,24 +29,24 @@ open class PackageSearchParams(val origin: SuggestionV4, val destination: Sugges
     class Builder(maxStay: Int) : BaseSearchParams.Builder(maxStay) {
 
         override fun build(): PackageSearchParams {
-            val flightOrigin = departure ?: throw IllegalArgumentException()
-            val flightDestination = arrival ?: throw IllegalArgumentException()
+            val flightOrigin = originLocation ?: throw IllegalArgumentException()
+            val flightDestination = destinationLocation ?: throw IllegalArgumentException()
             val checkInDate = startDate ?: throw IllegalArgumentException()
             val checkOutDate = endDate ?: throw IllegalArgumentException()
             return PackageSearchParams(flightOrigin, flightDestination, checkInDate, checkOutDate, adults, children, infantSeatingInLap)
         }
 
         override fun areRequiredParamsFilled(): Boolean {
-            return hasDepartureAndArrival() && hasStartAndEndDates()
+            return hasOriginAndDestination() && hasStartAndEndDates()
         }
 
         override fun hasValidDates(): Boolean {
             return Days.daysBetween(startDate, endDate).days <= maxStay
         }
 
-        override fun isDepartureSameAsOrigin(): Boolean {
-            val departureCity = departure?.hierarchyInfo?.airport?.multicity ?: ""
-            val arrivalCity = arrival?.hierarchyInfo?.airport?.multicity ?: ""
+        override fun isOriginSameAsDestination(): Boolean {
+            val departureCity = originLocation?.hierarchyInfo?.airport?.multicity ?: ""
+            val arrivalCity = destinationLocation?.hierarchyInfo?.airport?.multicity ?: ""
 
             return departureCity.equals(arrivalCity)
         }

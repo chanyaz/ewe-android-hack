@@ -16,10 +16,8 @@ import rx.subjects.BehaviorSubject
 import rx.subjects.PublishSubject
 import kotlin.properties.Delegates
 
-abstract class DatedSearchViewModel(val context: Context) {
+abstract class BaseSearchViewModel(val context: Context) {
     open val paramsBuilder: BaseSearchParams.Builder by Delegates.notNull()
-
-    val originObservable = BehaviorSubject.create<Boolean>(false)
 
     // Outputs
     val dateTextObservable = BehaviorSubject.create<CharSequence>()
@@ -28,18 +26,18 @@ abstract class DatedSearchViewModel(val context: Context) {
     val datesObservable = BehaviorSubject.create<Pair<LocalDate?, LocalDate?>>()
     val locationTextObservable = PublishSubject.create<String>()
     val searchButtonObservable = PublishSubject.create<Boolean>()
-    val errorNoOriginObservable = PublishSubject.create<Unit>()
+    val errorNoDestinationObservable = PublishSubject.create<Unit>()
     val errorNoDatesObservable = PublishSubject.create<Unit>()
     val errorMaxDatesObservable = PublishSubject.create<String>()
     val enableDateObservable = PublishSubject.create<Boolean>()
     val enableTravelerObservable = PublishSubject.create<Boolean>()
     val travelersObserver = BehaviorSubject.create<TravelerParams>()
-    val errorDepartureSameAsOrigin = PublishSubject.create<String>()
+    val errorOriginSameAsDestinationObservable = PublishSubject.create<String>()
 
-    val departureTextObservable = BehaviorSubject.create<String>()
-    val arrivalTextObservable = PublishSubject.create<String>()
-    val destinationObservable = BehaviorSubject.create<Boolean>(false)
-    val arrivalObservable = BehaviorSubject.create<Boolean>(false)
+    val formattedOriginObservable = BehaviorSubject.create<String>()
+    val formattedDestinationObservable = PublishSubject.create<String>()
+    val destinationValidObservable = BehaviorSubject.create<Boolean>(false)
+    val originValidObservable = BehaviorSubject.create<Boolean>(false)
 
     init {
         travelersObserver.subscribe { update ->
@@ -48,34 +46,35 @@ abstract class DatedSearchViewModel(val context: Context) {
         }
     }
 
+    abstract fun getMaxSearchDurationDays(): Int;
+
     val datesObserver = endlessObserver<Pair<LocalDate?, LocalDate?>> { data ->
         onDatesChanged(data)
     }
 
     val enableDateObserver = endlessObserver<Unit> {
-        enableDateObservable.onNext(paramsBuilder.hasDeparture())
+        enableDateObservable.onNext(paramsBuilder.hasOriginAndDestination())
     }
 
     val enableTravelerObserver = endlessObserver<Unit> {
-        enableTravelerObservable.onNext(paramsBuilder.hasDeparture())
+        enableTravelerObservable.onNext(paramsBuilder.hasOriginLocation())
     }
 
     open var requiredSearchParamsObserver = endlessObserver<Unit> { // open so HotelSearchViewModel can override it
         searchButtonObservable.onNext(paramsBuilder.areRequiredParamsFilled())
-        destinationObservable.onNext(paramsBuilder.hasDeparture())
-        arrivalObservable.onNext(paramsBuilder.hasArrival())
-        originObservable.onNext(paramsBuilder.hasDepartureAndArrival())
+        destinationValidObservable.onNext(paramsBuilder.hasDestinationLocation())
+        originValidObservable.onNext(paramsBuilder.hasOriginAndDestination())
     }
 
-    val departureObserver = endlessObserver<SuggestionV4> { suggestion ->
-        paramsBuilder.departure(suggestion)
-        departureTextObservable.onNext(StrUtils.formatAirport(suggestion))
+    val originLocationObserver = endlessObserver<SuggestionV4> { suggestion ->
+        paramsBuilder.origin(suggestion)
+        formattedOriginObservable.onNext(StrUtils.formatAirport(suggestion))
         requiredSearchParamsObserver.onNext(Unit)
     }
 
-    val arrivalObserver = endlessObserver<SuggestionV4> { suggestion ->
-        paramsBuilder.arrival(suggestion)
-        arrivalTextObservable.onNext(StrUtils.formatAirport(suggestion))
+    open val destinationLocationObserver = endlessObserver<SuggestionV4> { suggestion ->
+        paramsBuilder.destination(suggestion)
+        formattedDestinationObservable.onNext(StrUtils.formatAirport(suggestion))
         requiredSearchParamsObserver.onNext(Unit)
     }
 
@@ -105,7 +104,6 @@ abstract class DatedSearchViewModel(val context: Context) {
         requiredSearchParamsObserver.onNext(Unit)
     }
 
-    abstract fun getMaxStay(): Int;
 
     protected fun computeTopTextForToolTip(start: LocalDate?, end: LocalDate?): String {
         if (start == null && end == null) {

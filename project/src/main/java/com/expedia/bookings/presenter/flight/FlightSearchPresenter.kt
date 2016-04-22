@@ -7,7 +7,7 @@ import android.util.AttributeSet
 import android.view.View
 import com.expedia.bookings.R
 import com.expedia.bookings.location.CurrentLocationObservable
-import com.expedia.bookings.presenter.BaseSearchPresenterV2
+import com.expedia.bookings.presenter.BaseTwoLocationSearchPresenter
 import com.expedia.bookings.services.SuggestionV4Services
 import com.expedia.bookings.utils.SuggestionV4Utils
 import com.expedia.bookings.utils.Ui
@@ -15,17 +15,17 @@ import com.expedia.bookings.widget.PackageSuggestionAdapter
 import com.expedia.util.notNullAndObservable
 import com.expedia.util.subscribeOnClick
 import com.expedia.vm.AirportSuggestionViewModel
-import com.expedia.vm.DatedSearchViewModel
+import com.expedia.vm.BaseSearchViewModel
 import com.expedia.vm.FlightSearchViewModel
 import com.expedia.vm.SuggestionAdapterViewModel
 
-class FlightSearchPresenter(context: Context, attrs: AttributeSet) : BaseSearchPresenterV2(context, attrs) {
+class FlightSearchPresenter(context: Context, attrs: AttributeSet) : BaseTwoLocationSearchPresenter(context, attrs) {
 
     val suggestionServices: SuggestionV4Services by lazy {
         Ui.getApplication(getContext()).flightComponent().suggestionsService()
     }
-    lateinit private var departureAdapter: PackageSuggestionAdapter
-    lateinit private var arrivalAdapter: PackageSuggestionAdapter
+    lateinit private var originSuggestionAdapter: PackageSuggestionAdapter
+    lateinit private var destinationSuggestionAdapter: PackageSuggestionAdapter
 
     var searchViewModel: FlightSearchViewModel by notNullAndObservable { vm ->
         calendarWidgetV2.viewModel = vm
@@ -33,13 +33,11 @@ class FlightSearchPresenter(context: Context, attrs: AttributeSet) : BaseSearchP
             searchButton.setTextColor(if (enable) ContextCompat.getColor(context, R.color.hotel_filter_spinner_dropdown_color) else ContextCompat.getColor(context, R.color.white_disabled))
         }
         searchButton.subscribeOnClick(vm.searchObserver)
-    }
 
-    init {
-        departureSuggestionVM = AirportSuggestionViewModel(getContext(), suggestionServices, false, CurrentLocationObservable.create(getContext()))
-        arrivalSuggestionVM = AirportSuggestionViewModel(getContext(), suggestionServices, true, null)
-        departureAdapter = PackageSuggestionAdapter(departureSuggestionVM)
-        arrivalAdapter = PackageSuggestionAdapter(arrivalSuggestionVM)
+        originSuggestionViewModel = AirportSuggestionViewModel(getContext(), suggestionServices, false, CurrentLocationObservable.create(getContext()))
+        destinationSuggestionViewModel = AirportSuggestionViewModel(getContext(), suggestionServices, true, null)
+        originSuggestionAdapter = PackageSuggestionAdapter(originSuggestionViewModel)
+        destinationSuggestionAdapter = PackageSuggestionAdapter(destinationSuggestionViewModel)
     }
 
     override fun inflate() {
@@ -52,14 +50,14 @@ class FlightSearchPresenter(context: Context, attrs: AttributeSet) : BaseSearchP
     }
 
     override fun getSuggestionViewModel(): SuggestionAdapterViewModel {
-        return if (isCustomerSelectingDeparture) departureSuggestionVM else arrivalSuggestionVM
+        return if (isCustomerSelectingOrigin) originSuggestionViewModel else destinationSuggestionViewModel
     }
 
     override fun getSuggestionAdapter(): RecyclerView.Adapter<RecyclerView.ViewHolder> {
-        return if (isCustomerSelectingDeparture) departureAdapter else arrivalAdapter
+        return if (isCustomerSelectingOrigin) originSuggestionAdapter else destinationSuggestionAdapter
     }
 
-    override fun getSearchViewModel(): DatedSearchViewModel {
+    override fun getSearchViewModel(): BaseSearchViewModel {
         return searchViewModel
     }
 

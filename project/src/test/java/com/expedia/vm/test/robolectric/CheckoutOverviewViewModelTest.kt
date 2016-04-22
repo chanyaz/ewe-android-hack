@@ -64,11 +64,11 @@ class CheckoutOverviewViewModelTest {
     fun flightViewModelTest() {
         val viewmodel = FlightCheckoutOverviewViewModel(getContext())
 
-        val departure = getFakeSuggestion("SFO")
-        val arrival = getFakeSuggestion("SEA")
+        val origin = getFakeSuggestion("SFO")
+        val destination = getFakeSuggestion("SEA")
         val params = FlightSearchParams.Builder(100)
-                .departure(departure)
-                .arrival(arrival)
+                .origin(origin)
+                .destination(destination)
                 .startDate(LocalDate.now().withYear(1989).withMonthOfYear(9).withDayOfMonth(6))
                 .endDate(LocalDate.now().withYear(2021).withMonthOfYear(9).withDayOfMonth(6))
                 .adults(1).build() as FlightSearchParams

@@ -45,7 +45,7 @@ import com.expedia.util.endlessObserver
 import com.expedia.util.notNullAndObservable
 import com.expedia.util.subscribeOnClick
 import com.expedia.util.subscribeToggleButton
-import com.expedia.vm.DatedSearchViewModel
+import com.expedia.vm.BaseSearchViewModel
 import com.expedia.vm.HotelSearchViewModel
 import com.expedia.vm.HotelSuggestionAdapterViewModel
 import com.expedia.vm.HotelTravelerPickerViewModel
@@ -54,7 +54,7 @@ import com.mobiata.android.time.util.JodaUtils
 import org.joda.time.LocalDate
 
 class HotelSearchPresenterV1(context: Context, attrs: AttributeSet) : BaseHotelSearchPresenter(context, attrs) {
-    override fun getSearchViewModel(): DatedSearchViewModel {
+    override fun getSearchViewModel(): BaseSearchViewModel {
         return searchViewModel
     }
 
@@ -67,7 +67,7 @@ class HotelSearchPresenterV1(context: Context, attrs: AttributeSet) : BaseHotelS
     val selectTraveler: ToggleButton by bindView(R.id.select_traveler)
     val recentSearches: RecentSearchesWidget by bindView(R.id.recent_searches)
     val monthSelectionView by lazy {
-        findViewById(R.id.previous_month).getParent() as LinearLayout
+        findViewById(R.id.previous_month).parent as LinearLayout
     }
     val traveler: HotelTravelerPickerView by bindView(R.id.traveler_view)
     var navIcon: ArrowXDrawable
@@ -85,8 +85,8 @@ class HotelSearchPresenterV1(context: Context, attrs: AttributeSet) : BaseHotelS
         button.setCompoundDrawablesWithIntrinsicBounds(navIcon, null, null, null)
         button.setTextColor(ContextCompat.getColor(context, android.R.color.white))
         // Disable search button initially
-        button.setAlpha(0.15f)
-        toolbar.getMenu().findItem(R.id.menu_check).setActionView(button)
+        button.alpha = 0.15f
+        toolbar.menu.findItem(R.id.menu_check).actionView = button
 
         button
     }
@@ -94,18 +94,18 @@ class HotelSearchPresenterV1(context: Context, attrs: AttributeSet) : BaseHotelS
     var suggestionViewModel: HotelSuggestionAdapterViewModel by notNullAndObservable { vm ->
         vm.suggestionSelectedSubject.subscribe { suggestion ->
             searchContainer.setBackgroundColor(Color.WHITE)
-            searchViewModel.suggestionObserver.onNext(suggestion)
+            searchViewModel.destinationLocationObserver.onNext(suggestion)
             searchLocationEditText.clearFocus()
             searchLocationEditText.visibility = View.INVISIBLE
             searchLocationTextView.visibility = View.VISIBLE
             clearLocationButton.visibility = View.INVISIBLE
             com.mobiata.android.util.Ui.hideKeyboard(this)
 
-            selectDate.setChecked(true)
-            selectTraveler.setChecked(true)
+            selectDate.isChecked = true
+            selectTraveler.isChecked = true
 
-            calendar.setVisibility(View.VISIBLE)
-            traveler.setVisibility(View.GONE)
+            calendar.visibility = View.VISIBLE
+            traveler.visibility = View.GONE
             SuggestionV4Utils.saveSuggestionHistory(context, suggestion, SuggestionV4Utils.RECENT_HOTEL_SUGGESTIONS_FILE)
             if (currentState == null) {
                 show(HotelParamsDefault())
@@ -114,11 +114,11 @@ class HotelSearchPresenterV1(context: Context, attrs: AttributeSet) : BaseHotelS
         }
     }
 
-    val hotelSearchContainerV1WithSwpHeight by lazy{
+    val hotelSearchContainerV1WithSwpHeight by lazy {
         context.resources.getDimensionPixelSize(R.dimen.hotel_search_container_v1_height_with_swp)
     }
 
-    val hotelSearchContainerV1WithoutSwpHeight by lazy{
+    val hotelSearchContainerV1WithoutSwpHeight by lazy {
         context.resources.getDimensionPixelSize(R.dimen.hotel_search_container_v1_height_without_swp).toInt()
     }
 
@@ -152,22 +152,20 @@ class HotelSearchPresenterV1(context: Context, attrs: AttributeSet) : BaseHotelS
 
         val mRootWindow = (context as Activity).window
         val mRootView = mRootWindow.decorView.findViewById(android.R.id.content)
-        mRootView.viewTreeObserver.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
-            override fun onGlobalLayout() {
-                val decorView = mRootWindow.decorView
-                val windowVisibleDisplayFrameRect = Rect()
-                decorView.getWindowVisibleDisplayFrame(windowVisibleDisplayFrameRect)
-                var location = IntArray(2)
-                anchor.getLocationOnScreen(location)
-                val lp = suggestionRecyclerView.layoutParams
-                val newHeight = windowVisibleDisplayFrameRect.bottom - windowVisibleDisplayFrameRect.top - (location[1] + anchor.height) + Ui.getStatusBarHeight(context)
-                if (lp.height != newHeight) {
-                    lp.height = newHeight
-                    suggestionRecyclerView.layoutParams = lp
-                }
-                suggestionRecyclerView.translationY = (location[1] + anchor.height).toFloat()
+        mRootView.viewTreeObserver.addOnGlobalLayoutListener {
+            val decorView = mRootWindow.decorView
+            val windowVisibleDisplayFrameRect = Rect()
+            decorView.getWindowVisibleDisplayFrame(windowVisibleDisplayFrameRect)
+            var location = IntArray(2)
+            anchor.getLocationOnScreen(location)
+            val lp = suggestionRecyclerView.layoutParams
+            val newHeight = windowVisibleDisplayFrameRect.bottom - windowVisibleDisplayFrameRect.top - (location[1] + anchor.height) + Ui.getStatusBarHeight(context)
+            if (lp.height != newHeight) {
+                lp.height = newHeight
+                suggestionRecyclerView.layoutParams = lp
             }
-        })
+            suggestionRecyclerView.translationY = (location[1] + anchor.height).toFloat()
+        }
 
         clearLocationButton.viewTreeObserver.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
             override fun onGlobalLayout() {
@@ -181,14 +179,14 @@ class HotelSearchPresenterV1(context: Context, attrs: AttributeSet) : BaseHotelS
     var searchViewModel: HotelSearchViewModel by notNullAndObservable { vm ->
         suggestionRecyclerView.layoutManager = LinearLayoutManager(context)
         suggestionRecyclerView.addItemDecoration(RecyclerDividerDecoration(getContext(), 0, 0, 0, 0, 0, TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 25f, resources.displayMetrics).toInt(), false))
-        val maxDate = LocalDate.now().plusDays(getResources().getInteger(R.integer.calendar_max_selectable_date_range))
+        val maxDate = LocalDate.now().plusDays(resources.getInteger(R.integer.calendar_max_selectable_date_range))
         calendar.setSelectableDateRange(LocalDate.now(), maxDate)
         calendar.setMaxSelectableDateRange(resources.getInteger(R.integer.calendar_max_selectable_date_range))
         recentSearches.recentSearchesAdapterViewModel.recentSearchSelectedSubject.subscribe {
             searchViewModel.searchParamsObservable.onNext(it)
-            vm.suggestionObserver.onNext(it.suggestion)
+            vm.destinationLocationObserver.onNext(it.suggestion)
             traveler.viewmodel.travelerParamsObservable.onNext(TravelerParams(it.adults, it.children))
-            for (index in 0..it.children.size -1) {
+            for (index in 0..it.children.size - 1) {
                 val spinner = traveler.childSpinners[index]
                 spinner.setSelection(it.children[index])
             }
@@ -232,16 +230,14 @@ class HotelSearchPresenterV1(context: Context, attrs: AttributeSet) : BaseHotelS
         selectDate.subscribeOnClick(vm.enableDateObserver)
         vm.enableDateObservable.subscribe { enable ->
             if (enable) {
-                selectDate.setChecked(true)
+                selectDate.isChecked = true
                 searchLocationEditText.clearFocus()
-                calendar.setVisibility(View.VISIBLE)
-                traveler.setVisibility(View.GONE)
+                calendar.visibility = View.VISIBLE
+                traveler.visibility = View.GONE
                 if (currentState == null) {
                     show(HotelParamsDefault())
                 }
                 show(HotelParamsCalendar(), Presenter.FLAG_CLEAR_BACKSTACK)
-            } else {
-                vm.errorNoOriginObservable.onNext(Unit)
             }
         }
 
@@ -255,8 +251,6 @@ class HotelSearchPresenterV1(context: Context, attrs: AttributeSet) : BaseHotelS
                 calendar.visibility = View.GONE
                 traveler.visibility = View.VISIBLE
                 calendar.hideToolTip()
-            } else {
-                vm.errorNoOriginObservable.onNext(Unit)
             }
         }
 
@@ -311,7 +305,7 @@ class HotelSearchPresenterV1(context: Context, attrs: AttributeSet) : BaseHotelS
                 searchButton.alpha = 0.15f
             }
         }
-        vm.errorNoOriginObservable.subscribe {
+        vm.errorNoDestinationObservable.subscribe {
             selectDate.isChecked = false
             selectTraveler.isChecked = false
             if (currentState == null) {
@@ -351,9 +345,9 @@ class HotelSearchPresenterV1(context: Context, attrs: AttributeSet) : BaseHotelS
         traveler.viewmodel = HotelTravelerPickerViewModel(getContext())
         recentSearches.recentSearchesAdapterViewModel = RecentSearchesAdapterViewModel(getContext())
         recentSearches.recentSearchesAdapterViewModel.recentSearchesObservable.subscribe { searchList ->
-            if(searchList.isEmpty()) {
+            if (searchList.isEmpty()) {
                 showSuggestions()
-            }else{
+            } else {
                 searchLocationEditText.clearFocus()
                 searchLocationEditText.visibility = View.INVISIBLE
                 searchLocationTextView.visibility = View.VISIBLE
@@ -402,7 +396,7 @@ class HotelSearchPresenterV1(context: Context, attrs: AttributeSet) : BaseHotelS
 
         override fun startTransition(forward: Boolean) {
             com.mobiata.android.util.Ui.hideKeyboard(this@HotelSearchPresenterV1)
-            if(forward) recentSearches.visibility = View.GONE
+            if (forward) recentSearches.visibility = View.GONE
             suggestionRecyclerView.visibility = View.GONE
             val parentHeight = height
             calendarHeight = calendar.height
@@ -439,10 +433,10 @@ class HotelSearchPresenterV1(context: Context, attrs: AttributeSet) : BaseHotelS
             val pos = (if (forward) parentHeight + calendarHeight else calendarHeight).toFloat()
             calendar.translationY = pos
             calendar.visibility = View.VISIBLE
-            val hasOrigin = searchViewModel.originObservable.value
+            val hasDestination = searchViewModel.destinationValidObservable.value
             searchLocationEditText.visibility = if (forward) View.INVISIBLE else View.VISIBLE
             searchLocationTextView.visibility = if (forward) View.VISIBLE else View.GONE
-            if (forward && !hasOrigin) {
+            if (forward && !hasDestination) {
                 searchViewModel.locationTextObservable.onNext("")
             }
         }
@@ -472,16 +466,16 @@ class HotelSearchPresenterV1(context: Context, attrs: AttributeSet) : BaseHotelS
     }
 
     var toolbarTitleTop = 0
-    override fun animationStart(forward : Boolean) {
+    override fun animationStart(forward: Boolean) {
         searchParamsContainerHeight = if (shopWithPointsWidget.visibility == View.VISIBLE) hotelSearchContainerV1WithSwpHeight else hotelSearchContainerV1WithoutSwpHeight
         recentSearches.translationY = (if (forward) recentSearches.height else 0).toFloat()
         calendar.translationY = (if (forward) calendar.height else 0).toFloat()
         traveler.translationY = (if (forward) traveler.height else 0).toFloat()
         searchContainer.setBackgroundColor(Color.TRANSPARENT)
-        toolbarTitleTop = (toolbarTitle.bottom - toolbarTitle.top)/3
+        toolbarTitleTop = (toolbarTitle.bottom - toolbarTitle.top) / 3
     }
 
-    override fun animationUpdate(f : Float, forward : Boolean) {
+    override fun animationUpdate(f: Float, forward: Boolean) {
         val translationCalendar = if (forward) calendar.height * (1 - f) else calendar.height * f
         val translationRecentSearches = if (forward) recentSearches.height * (1 - f) else recentSearches.height * f
         val layoutParams = searchParamsContainer.layoutParams
@@ -512,7 +506,7 @@ class HotelSearchPresenterV1(context: Context, attrs: AttributeSet) : BaseHotelS
             searchViewModel.enableDateObservable.onNext(true)
         }
         searchContainer.setBackgroundColor(Color.WHITE)
-        navIcon.parameter = ArrowXDrawableUtil.ArrowDrawableType.CLOSE.getType().toFloat()
+        navIcon.parameter = ArrowXDrawableUtil.ArrowDrawableType.CLOSE.type.toFloat()
     }
 
     private fun resetSuggestion() {

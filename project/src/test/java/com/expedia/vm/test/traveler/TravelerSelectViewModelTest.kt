@@ -209,7 +209,8 @@ class TravelerSelectViewModelTest {
         val packageParams = PackageSearchParams.Builder(12)
                 .startDate(LocalDate.now().plusDays(1))
                 .endDate(LocalDate.now().plusDays(2))
-                .departure(SuggestionV4()).arrival(SuggestionV4())
+                .origin(SuggestionV4())
+                .destination(SuggestionV4())
                 .build() as PackageSearchParams
         Db.setPackageParams(packageParams)
     }

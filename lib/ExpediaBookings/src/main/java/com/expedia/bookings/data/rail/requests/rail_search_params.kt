@@ -18,7 +18,7 @@ class RailSearchRequest(val origin: SuggestionV4, val destination: SuggestionV4,
 
         override fun build(): RailSearchRequest {
             if (areRequiredParamsFilled()) {
-                return RailSearchRequest(departure!!, arrival!!, startDate!!, endDate, adults, children)
+                return RailSearchRequest(originLocation!!, destinationLocation!!, startDate!!, endDate, adults, children)
             } else {
                 throw IllegalArgumentException();
             }
@@ -40,12 +40,8 @@ class RailSearchRequest(val origin: SuggestionV4, val destination: SuggestionV4,
             return hasStartDate() && hasEndDate()
         }
 
-        fun hasOriginAndDestination(): Boolean {
-            return departure != null && arrival != null
-        }
-
         // TODO - implement this once we know where to get rail origin/destination from
-        override fun isDepartureSameAsOrigin(): Boolean {
+        override fun isOriginSameAsDestination(): Boolean {
             return false
         }
     }

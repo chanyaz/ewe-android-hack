@@ -1,8 +1,8 @@
 package com.expedia.bookings.test.robolectric
 
 import android.app.Activity
-import com.expedia.bookings.data.hotels.HotelSearchParams
 import com.expedia.bookings.data.SuggestionV4
+import com.expedia.bookings.data.hotels.HotelSearchParams
 import com.expedia.bookings.services.LocalDateTypeAdapter
 import com.expedia.bookings.utils.HotelSearchParamsUtil
 import com.expedia.bookings.utils.Ui
@@ -50,21 +50,21 @@ class HotelRecentSearchTest {
         val anotherSuggestion = getDummySuggestion("anotherSuggestion")
 
         // Searching once should save a new search.
-        vm.suggestionObserver.onNext(suggestion)
+        vm.destinationLocationObserver.onNext(suggestion)
         vm.datesObserver.onNext(Pair(LocalDate.now(), null))
         vm.searchObserver.onNext(Unit)
         Thread.sleep(2000)
         assertEquals(1, HotelSearchParamsUtil.loadSearchHistory(activity).size)
 
         // Searching with the same params should not add another saved search.
-        vm.suggestionObserver.onNext(suggestion)
+        vm.destinationLocationObserver.onNext(suggestion)
         vm.datesObserver.onNext(Pair(LocalDate.now(), null))
         vm.searchObserver.onNext(Unit)
         Thread.sleep(2000)
         assertEquals(1, HotelSearchParamsUtil.loadSearchHistory(activity).size)
 
         // Selecting another suggestion and searching should add another saved search.
-        vm.suggestionObserver.onNext(anotherSuggestion)
+        vm.destinationLocationObserver.onNext(anotherSuggestion)
         vm.datesObserver.onNext(Pair(LocalDate.now(), null))
         vm.searchObserver.onNext(Unit)
         Thread.sleep(2000)
@@ -73,7 +73,7 @@ class HotelRecentSearchTest {
         assertEquals(anotherSuggestion.regionNames.displayName, HotelSearchParamsUtil.loadSearchHistory(activity).get(0).suggestion.regionNames.displayName)
 
         // Re-doing an old search should bring that search to top.
-        vm.suggestionObserver.onNext(suggestion)
+        vm.destinationLocationObserver.onNext(suggestion)
         vm.datesObserver.onNext(Pair(LocalDate.now(), null))
         vm.searchObserver.onNext(Unit)
         Thread.sleep(2000)
@@ -81,14 +81,14 @@ class HotelRecentSearchTest {
         assertEquals(suggestion.regionNames.displayName, HotelSearchParamsUtil.loadSearchHistory(activity).get(0).suggestion.regionNames.displayName)
 
         // Selecting another date and searching should add another saved search.
-        vm.suggestionObserver.onNext(anotherSuggestion)
+        vm.destinationLocationObserver.onNext(anotherSuggestion)
         vm.datesObserver.onNext(Pair(LocalDate.now().plusDays(1), null))
         vm.searchObserver.onNext(Unit)
         Thread.sleep(2000)
         assertEquals(3, HotelSearchParamsUtil.loadSearchHistory(activity).size)
 
         // Changing traveler info should add another saved search.
-        vm.suggestionObserver.onNext(anotherSuggestion)
+        vm.destinationLocationObserver.onNext(anotherSuggestion)
         vm.datesObserver.onNext(Pair(LocalDate.now().plusDays(1), null))
         vm.searchObserver.onNext(Unit)
         Thread.sleep(2000)

@@ -33,7 +33,7 @@
                     android:orientation="vertical">
 
                     <com.expedia.bookings.widget.SearchInputCardView
-                        android:id="@+id/destination_card"
+                        android:id="@+id/origin_card"
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/default_search_card_height"
                         app:cardCornerRadius="0dp"
@@ -42,7 +42,7 @@
                         app:input_text="@string/fly_from_hint" />
 
                     <com.expedia.bookings.widget.SearchInputCardView
-                        android:id="@+id/arrival_card"
+                        android:id="@+id/destination_card"
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/default_search_card_height"
                         app:cardCornerRadius="0dp"

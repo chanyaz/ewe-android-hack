@@ -11,22 +11,22 @@ class FlightSearchParams(val departureAirport: SuggestionV4, val arrivalAirport:
     class Builder(maxStay: Int) : BaseSearchParams.Builder(maxStay) {
 
         override fun build(): FlightSearchParams {
-            val departureAirport = departure ?: throw IllegalArgumentException()
+            val departureAirport = originLocation ?: throw IllegalArgumentException()
             val departureDate = startDate ?: throw IllegalArgumentException()
-            return FlightSearchParams(departureAirport, arrival, departureDate, endDate, adults, children, infantSeatingInLap)
+            return FlightSearchParams(departureAirport, destinationLocation, departureDate, endDate, adults, children, infantSeatingInLap)
         }
 
         override fun areRequiredParamsFilled(): Boolean {
-            return hasDeparture() && hasStart()
+            return hasOriginLocation() && hasStart()
         }
 
         override fun hasValidDates(): Boolean {
             return (hasStart() && !hasEnd()) || ((hasStart() && hasEnd() && Days.daysBetween(startDate, endDate).days <= maxStay))
         }
 
-        override fun isDepartureSameAsOrigin(): Boolean {
-            val departureAirportCode = departure?.hierarchyInfo?.airport?.airportCode ?: ""
-            val arrivalAirportCode = arrival?.hierarchyInfo?.airport?.airportCode ?: ""
+        override fun isOriginSameAsDestination(): Boolean {
+            val departureAirportCode = originLocation?.hierarchyInfo?.airport?.airportCode ?: ""
+            val arrivalAirportCode = destinationLocation?.hierarchyInfo?.airport?.airportCode ?: ""
 
             return departureAirportCode.equals(arrivalAirportCode)
         }

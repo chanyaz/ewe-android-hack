@@ -17,7 +17,7 @@ import static org.hamcrest.Matchers.not;
 public class PackageFlightsToolbarTest extends PackageTestCase {
 
 	public void testPackageFlightsToolbar() throws Throwable {
-		PackageScreen.selectDepartureAndArrival();
+		PackageScreen.selectOriginAndDestination();
 		LocalDate startDate = LocalDate.now().plusDays(3);
 		LocalDate endDate = LocalDate.now().plusDays(8);
 		PackageScreen.selectDates(startDate, endDate);

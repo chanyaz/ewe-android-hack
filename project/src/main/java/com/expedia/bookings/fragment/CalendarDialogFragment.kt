@@ -14,7 +14,7 @@ import com.expedia.bookings.presenter.BaseSearchPresenter
 import com.expedia.bookings.utils.CalendarShortDateRenderer
 import com.expedia.bookings.utils.FontCache
 import com.expedia.util.endlessObserver
-import com.expedia.vm.DatedSearchViewModel
+import com.expedia.vm.BaseSearchViewModel
 import com.expedia.vm.HotelSearchViewModel
 import com.mobiata.android.time.util.JodaUtils
 import com.mobiata.android.time.widget.CalendarPicker
@@ -22,13 +22,13 @@ import com.mobiata.android.time.widget.DaysOfWeekView
 import com.mobiata.android.time.widget.MonthView
 import org.joda.time.LocalDate
 
-class CalendarDialogFragment(val datedSearchViewModel: DatedSearchViewModel) : DialogFragment() {
+class CalendarDialogFragment(val baseSearchViewModel: BaseSearchViewModel) : DialogFragment() {
 
     var oldCalendarSelection: Pair<LocalDate, LocalDate>? = null;
     var userTappedDone = false
 
     companion object {
-        fun createFragment(searchViewModel: DatedSearchViewModel): CalendarDialogFragment {
+        fun createFragment(searchViewModel: BaseSearchViewModel): CalendarDialogFragment {
             val fragment = CalendarDialogFragment(searchViewModel)
             return fragment
         }
@@ -61,24 +61,24 @@ class CalendarDialogFragment(val datedSearchViewModel: DatedSearchViewModel) : D
                         calendarPickerView.setSelectedDates(start, null)
                     }
                 } else {
-                    datedSearchViewModel.datesObserver.onNext(Pair(start, end))
+                    baseSearchViewModel.datesObserver.onNext(Pair(start, end))
                 }
                 updateDoneVisibilityForDate(start)
 
             } else {
-                datedSearchViewModel.datesObserver.onNext(Pair(start, end))
+                baseSearchViewModel.datesObserver.onNext(Pair(start, end))
             }
         }
         calendarPickerView.setYearMonthDisplayedChangedListener {
             calendarPickerView.hideToolTip()
         }
 
-        datedSearchViewModel.calendarTooltipTextObservable.subscribe(endlessObserver { p ->
+        baseSearchViewModel.calendarTooltipTextObservable.subscribe(endlessObserver { p ->
             val (top, bottom) = p
             calendarPickerView.setToolTipText(top, bottom, true)
         })
 
-        datedSearchViewModel.dateInstructionObservable.subscribe({
+        baseSearchViewModel.dateInstructionObservable.subscribe({
             calendar.setInstructionText(it)
         })
 
@@ -96,7 +96,7 @@ class CalendarDialogFragment(val datedSearchViewModel: DatedSearchViewModel) : D
         super.onDismiss(dialog)
         if (!userTappedDone) {
             calendar.visibility = CardView.GONE // ensures tooltip does not reopen
-            datedSearchViewModel.datesObserver.onNext(oldCalendarSelection)
+            baseSearchViewModel.datesObserver.onNext(oldCalendarSelection)
             calendar.setSelectedDates(oldCalendarSelection?.first, oldCalendarSelection?.second)
             oldCalendarSelection = null
         }
@@ -124,12 +124,12 @@ class CalendarDialogFragment(val datedSearchViewModel: DatedSearchViewModel) : D
             calendar.visibility = CardView.VISIBLE
             dialog.getButton(AlertDialog.BUTTON_POSITIVE).isEnabled = calendar.startDate != null
             oldCalendarSelection = Pair(calendar.startDate, calendar.endDate)
-            calendar.setInstructionText(datedSearchViewModel.computeDateInstructionText(calendar.startDate, calendar.endDate))
+            calendar.setInstructionText(baseSearchViewModel.computeDateInstructionText(calendar.startDate, calendar.endDate))
 
             dialog.window?.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT)
         }
 
-        calendar.setSelectedDates(datedSearchViewModel.startDate(), datedSearchViewModel.endDate())
+        calendar.setSelectedDates(baseSearchViewModel.startDate(), baseSearchViewModel.endDate())
 
         return dialog
     }

@@ -7,13 +7,13 @@ import com.expedia.bookings.fragment.CalendarDialogFragment
 import com.expedia.bookings.utils.Constants
 import com.expedia.util.notNullAndObservable
 import com.expedia.util.subscribeText
-import com.expedia.vm.DatedSearchViewModel
+import com.expedia.vm.BaseSearchViewModel
 
 class CalendarWidgetV2 : SearchInputCardView {
 
     constructor(context: Context, attrs: AttributeSet?) : super(context, attrs)
 
-    var viewModel: DatedSearchViewModel by notNullAndObservable {
+    var viewModel: BaseSearchViewModel by notNullAndObservable {
         it.dateTextObservable.subscribeText(this.text)
     }
 

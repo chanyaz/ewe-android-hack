@@ -32,7 +32,7 @@ import static org.hamcrest.CoreMatchers.not;
 public class PackagePhoneHappyPathTest extends PackageTestCase {
 
 	public void testPackagePhoneHappyPath() throws Throwable {
-		PackageScreen.selectDepartureAndArrival();
+		PackageScreen.selectOriginAndDestination();
 		LocalDate startDate = LocalDate.now().plusDays(3);
 		LocalDate endDate = LocalDate.now().plusDays(8);
 		PackageScreen.selectDates(startDate, endDate);

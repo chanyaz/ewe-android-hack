@@ -38,10 +38,10 @@ class FlightSegmentBreakdownView(context: Context, attrs: AttributeSet?) : Scrol
         val airlineAirplaneType = row.findViewById(R.id.airline_airplane_type) as TextView
         val departureArrivalAirports = row.findViewById(R.id.departure_arrival_airport) as TextView
         val segmentDuration = row.findViewById(R.id.flight_duration) as TextView
-        departureArrivalTime.text = PackageFlightUtils.getFlightDepartureArivalTimeAndDays(context,
+        departureArrivalTime.text = PackageFlightUtils.getFlightDepartureArrivalTimeAndDays(context,
                 breakdown.segment.departureDateTimeISO, breakdown.segment.arrivalDateTimeISO, breakdown.segment.elapsedDays)
         airlineAirplaneType.text = PackageFlightUtils.getFlightAirlineAndAirplaneType(context, breakdown.segment)
-        departureArrivalAirports.text = PackageFlightUtils.getFlightDepartureArivalCityAirport(context, breakdown.segment)
+        departureArrivalAirports.text = PackageFlightUtils.getFlightDepartureArrivalCityAirport(context, breakdown.segment)
         segmentDuration.text = PackageFlightUtils.getFlightSegmentDurationString(context, breakdown.segment)
         return row
     }

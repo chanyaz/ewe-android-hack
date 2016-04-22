@@ -29,7 +29,12 @@ public class HotelsV2DataUtilTest {
 		LocalDate checkIn = new LocalDate("2015-10-20");
 		LocalDate checkOut = new LocalDate("2015-10-25");
 		int numAdults = 2;
-		HotelSearchParams v2params = (HotelSearchParams) new HotelSearchParams.Builder(0).departure(suggestionV4).startDate(checkIn).endDate(checkOut).adults(numAdults).children(childList).build();
+		HotelSearchParams v2params = (HotelSearchParams) new HotelSearchParams.Builder(0)
+			.destination(suggestionV4)
+			.startDate(checkIn)
+			.endDate(checkOut)
+			.adults(numAdults)
+			.children(childList).build();
 
 		Gson gson = HotelsV2DataUtil.Companion.generateGson();
 		String paramsJsonString = gson.toJson(v2params);
@@ -74,7 +79,6 @@ public class HotelsV2DataUtilTest {
 		}
 
 		Assert.assertEquals(child, v2params.getChildren());
-
 	}
 
 	@Test
@@ -107,17 +111,21 @@ public class HotelsV2DataUtilTest {
 		}
 
 		Assert.assertEquals(child, v2params.getChildren());
-
 	}
 
 	@Test
 	public void testGuestString() {
-		ArrayList children = new ArrayList<Integer>();
+		ArrayList<Integer> children = new ArrayList<>();
 		children.add(10);
 		children.add(7);
 		SuggestionV4 suggestion = new SuggestionV4();
 		suggestion.coordinates = new SuggestionV4.LatLng();
-		HotelSearchParams params = (HotelSearchParams) new HotelSearchParams.Builder(0).departure(suggestion).startDate(LocalDate.now().plusDays(5)).endDate(LocalDate.now().plusDays(15)).adults(2).children(children).build();
+		HotelSearchParams params = (HotelSearchParams) new HotelSearchParams.Builder(0)
+			.destination(suggestion)
+			.startDate(LocalDate.now().plusDays(5))
+			.endDate(LocalDate.now().plusDays(15))
+			.adults(2)
+			.children(children).build();
 		Assert.assertEquals("2,10,7", params.getGuestString());
 	}
 }

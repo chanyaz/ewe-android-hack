@@ -9,20 +9,20 @@ import com.expedia.bookings.utils.DateUtils
 import com.expedia.bookings.utils.SpannableBuilder
 import com.expedia.bookings.utils.StrUtils
 import com.expedia.util.endlessObserver
-import com.expedia.vm.DatedSearchViewModel
+import com.expedia.vm.BaseSearchViewModel
 import com.mobiata.android.time.util.JodaUtils
 import org.joda.time.LocalDate
 import rx.subjects.BehaviorSubject
 import rx.subjects.PublishSubject
 
-class PackageSearchViewModel(context: Context) : DatedSearchViewModel(context) {
-    override val paramsBuilder = PackageSearchParams.Builder(getMaxStay())
+class PackageSearchViewModel(context: Context) : BaseSearchViewModel(context) {
+    override val paramsBuilder = PackageSearchParams.Builder(getMaxSearchDurationDays())
 
     // Outputs
     val searchParamsObservable = PublishSubject.create<PackageSearchParams>()
 
 
-    override fun getMaxStay(): Int {
+    override fun getMaxSearchDurationDays(): Int {
         return context.resources.getInteger(R.integer.calendar_max_days_package_stay);
     }
 
@@ -33,23 +33,23 @@ class PackageSearchViewModel(context: Context) : DatedSearchViewModel(context) {
     }
 
     val suggestionTextChangedObserver = endlessObserver<Boolean> {
-        if (it) paramsBuilder.departure(null) else paramsBuilder.arrival(null)
+        if (it) paramsBuilder.origin(null) else paramsBuilder.destination(null)
         requiredSearchParamsObserver.onNext(Unit)
     }
 
     val searchObserver = endlessObserver<Unit> {
         if (paramsBuilder.areRequiredParamsFilled()) {
-            if (paramsBuilder.isDepartureSameAsOrigin()) {
-                errorDepartureSameAsOrigin.onNext(context.getString(R.string.error_same_flight_departure_arrival))
+            if (paramsBuilder.isOriginSameAsDestination()) {
+                errorOriginSameAsDestinationObservable.onNext(context.getString(R.string.error_same_flight_departure_arrival))
             } else if (!paramsBuilder.hasValidDates()) {
-                errorMaxDatesObservable.onNext(context.getString(R.string.hotel_search_range_error_TEMPLATE, getMaxStay()))
+                errorMaxDatesObservable.onNext(context.getString(R.string.hotel_search_range_error_TEMPLATE, getMaxSearchDurationDays()))
             } else {
                 val packageSearchParams = paramsBuilder.build()
                 searchParamsObservable.onNext(packageSearchParams)
             }
         } else {
-            if (!paramsBuilder.hasDepartureAndArrival()) {
-                errorNoOriginObservable.onNext(Unit)
+            if (!paramsBuilder.hasOriginAndDestination()) {
+                errorNoDestinationObservable.onNext(Unit)
             } else if (!paramsBuilder.hasStartAndEndDates()) {
                 errorNoDatesObservable.onNext(Unit)
             }

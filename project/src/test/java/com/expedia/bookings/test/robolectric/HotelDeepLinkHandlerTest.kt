@@ -1,7 +1,7 @@
 package com.expedia.bookings.test.robolectric
 
-import com.expedia.bookings.data.hotels.HotelSearchParams
 import com.expedia.bookings.data.SuggestionV4
+import com.expedia.bookings.data.hotels.HotelSearchParams
 import com.expedia.bookings.presenter.hotel.HotelPresenter
 import com.expedia.ui.HotelActivity
 import com.expedia.vm.HotelDeepLinkHandler
@@ -162,6 +162,10 @@ class HotelDeepLinkHandlerTest {
     private fun createHotelSearchParamsForSuggestion(suggestion: SuggestionV4): HotelSearchParams {
         val checkInDate = LocalDate()
         val checkOutDate = checkInDate.plusDays(1)
-        return HotelSearchParams.Builder(10).departure(suggestion).adults(1).startDate(checkInDate).endDate(checkOutDate).build() as HotelSearchParams
+        return HotelSearchParams.Builder(10)
+                .destination(suggestion)
+                .adults(1)
+                .startDate(checkInDate)
+                .endDate(checkOutDate).build() as HotelSearchParams
     }
 }

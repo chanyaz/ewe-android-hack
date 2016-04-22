@@ -3,7 +3,6 @@ package com.expedia.bookings.data.hotels
 import com.expedia.bookings.data.BaseSearchParams
 import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.packages.PackageSearchParams
-import org.joda.time.Days
 import org.joda.time.LocalDate
 
 open class HotelSearchParams(val suggestion: SuggestionV4, val checkIn: LocalDate, val checkOut: LocalDate, adults: Int, children: List<Int>, val shopWithPoints: Boolean) : BaseSearchParams(adults, children) {
@@ -24,8 +23,8 @@ open class HotelSearchParams(val suggestion: SuggestionV4, val checkIn: LocalDat
         }
 
         override fun build(): HotelSearchParams {
-            val location = departure ?: throw IllegalArgumentException()
-            if (departure?.gaiaId == null && departure?.coordinates == null) throw IllegalArgumentException()
+            val location = destinationLocation ?: throw IllegalArgumentException()
+            if (destinationLocation?.gaiaId == null && destinationLocation?.coordinates == null) throw IllegalArgumentException()
             val checkInDate = startDate ?: throw IllegalArgumentException()
             val checkOutDate = endDate ?: throw IllegalArgumentException()
             var params = HotelSearchParams(location, checkInDate, checkOutDate, adults, children, shopWithPoints)
@@ -34,17 +33,21 @@ open class HotelSearchParams(val suggestion: SuggestionV4, val checkIn: LocalDat
         }
 
         override fun areRequiredParamsFilled(): Boolean {
-            return hasDeparture() && hasStartAndEndDates()
+            return hasDestinationLocation() && hasStartAndEndDates()
         }
 
-        override fun isDepartureSameAsOrigin(): Boolean {
+        override fun hasOriginAndDestination(): Boolean {
+            return hasDestinationLocation() //origin won't be set
+        }
+
+        override fun isOriginSameAsDestination(): Boolean {
             return false // not possible for hotel search
         }
     }
 }
 
 fun convertPackageToSearchParams(packageParams: PackageSearchParams, maxStay: Int): HotelSearchParams {
-    val builder = HotelSearchParams.Builder(maxStay).departure(packageParams.destination)
+    val builder = HotelSearchParams.Builder(maxStay).destination(packageParams.destination)
             .startDate(packageParams.checkIn).endDate(packageParams.checkOut).adults(packageParams.adults)
             .children(packageParams.children) as HotelSearchParams.Builder
     return builder.forPackage(true).build()
