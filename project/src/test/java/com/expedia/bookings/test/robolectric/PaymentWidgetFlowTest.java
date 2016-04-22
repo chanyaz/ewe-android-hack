@@ -2,6 +2,7 @@ package com.expedia.bookings.test.robolectric;
 
 import java.util.ArrayList;
 
+import org.joda.time.LocalDate;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -10,7 +11,6 @@ import org.robolectric.Robolectric;
 import android.app.Activity;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.EditText;
 import android.widget.LinearLayout;
 
 import com.expedia.bookings.R;
@@ -21,15 +21,13 @@ import com.expedia.bookings.data.Location;
 import com.expedia.bookings.data.PaymentType;
 import com.expedia.bookings.data.StoredCreditCard;
 import com.expedia.bookings.data.TripBucketItemHotelV2;
+import com.expedia.bookings.data.ValidPayment;
 import com.expedia.bookings.data.hotels.HotelCreateTripResponse;
 import com.expedia.bookings.data.hotels.HotelOffersResponse;
 import com.expedia.bookings.data.hotels.HotelRate;
-import com.expedia.bookings.interfaces.ToolbarListener;
 import com.expedia.bookings.presenter.Presenter;
 import com.expedia.bookings.section.SectionBillingInfo;
-import com.expedia.bookings.utils.ArrowXDrawableUtil;
 import com.expedia.bookings.utils.Ui;
-import com.expedia.bookings.widget.ExpandableCardView;
 import com.expedia.bookings.widget.PaymentWidget;
 import com.expedia.bookings.widget.PaymentWidgetV2;
 import com.expedia.bookings.widget.StoredCreditCardList;
@@ -39,19 +37,18 @@ import static org.junit.Assert.assertEquals;
 
 @RunWith(RobolectricRunner.class)
 public class PaymentWidgetFlowTest {
-	BillingInfo info;
-	Location location;
-	StoredCreditCard card;
-	ToolbarListener listener;
+	private BillingInfo storedCardBillingInfo;
+	private BillingInfo tempSavedCardBillingInfo;
+	private BillingInfo tempNotSavedCardBillingInfo;
 
 	@Before
 	public void before() {
 
-		card = new StoredCreditCard();
-		card.setCardNumber("4111111111111111");
-		card.setType(PaymentType.CARD_AMERICAN_EXPRESS);
+		StoredCreditCard storedCreditCard = new StoredCreditCard();
+		storedCreditCard.setCardNumber("4111111111111111");
+		storedCreditCard.setType(PaymentType.CARD_AMERICAN_EXPRESS);
 
-		location = new Location();
+		Location location = new Location();
 		location.setCity("San Francisco");
 		location.setCountryCode("USA");
 		location.setDescription("Cool description");
@@ -62,68 +59,40 @@ public class PaymentWidgetFlowTest {
 		location.setLongitude(122.4167);
 		location.setDestinationId("SF");
 
-		info = new BillingInfo();
-		info.setEmail("qa-ehcc@mobiata.com");
-		info.setFirstName("JexperCC");
-		info.setLastName("MobiataTestaverde");
-		info.setNameOnCard(info.getFirstName() + " " + info.getLastName());
-		info.setNumberAndDetectType("4111111111111111");
-		info.setSecurityCode("111");
-		info.setTelephone("4155555555");
-		info.setTelephoneCountryCode("1");
+		BillingInfo billingInfo = new BillingInfo();
+		billingInfo = new BillingInfo();
+		billingInfo.setEmail("qa-ehcc@mobiata.com");
+		billingInfo.setFirstName("JexperCC");
+		billingInfo.setLastName("MobiataTestaverde");
+		billingInfo.setNameOnCard("JexperCC MobiataTestaverde");
+		billingInfo.setNumberAndDetectType("4111111111111111");
+		billingInfo.setExpirationDate(LocalDate.now().plusYears(1));
+		billingInfo.setSecurityCode("111");
+		billingInfo.setTelephone("4155555555");
+		billingInfo.setTelephoneCountryCode("1");
+		billingInfo.setLocation(location);
 
-		info.setLocation(location);
-		info.setStoredCard(card);
+		storedCardBillingInfo = new BillingInfo(billingInfo);
+		storedCardBillingInfo.setStoredCard(storedCreditCard);
 
-		listener = new ToolbarListener() {
-			@Override
-			public void setActionBarTitle(String title) {
+		tempSavedCardBillingInfo = new BillingInfo(billingInfo);
 
-			}
+		tempNotSavedCardBillingInfo = new BillingInfo(billingInfo);
+		tempNotSavedCardBillingInfo.setNumberAndDetectType("6011111111111111");
 
-			@Override
-			public void onWidgetExpanded(ExpandableCardView cardView) {
-
-			}
-
-			@Override
-			public void onWidgetClosed() {
-
-			}
-
-			@Override
-			public void onEditingComplete() {
-
-			}
-
-			@Override
-			public void enableRightActionButton(boolean enable) {
-
-			}
-
-			@Override
-			public void setMenuLabel(String label) {
-
-			}
-
-			@Override
-			public void showRightActionButton(boolean show) {
-
-			}
-
-			@Override
-			public void editTextFocus(EditText editText) {
-
-			}
-
-			@Override
-			public void setNavArrowBarParameter(ArrowXDrawableUtil.ArrowDrawableType arrowDrawableType) {
-
-			}
-		};
+		ArrayList<ValidPayment> validFormsOfPayment = new ArrayList<>();
+		ValidPayment validPayment = new ValidPayment();
+		validPayment.name = "AmericanExpress";
+		ValidPayment.addValidPayment(validFormsOfPayment, validPayment);
+		validPayment = new ValidPayment();
+		validPayment.name = "Visa";
+		ValidPayment.addValidPayment(validFormsOfPayment, validPayment);
+		validPayment = new ValidPayment();
+		validPayment.name = "Discover";
+		ValidPayment.addValidPayment(validFormsOfPayment, validPayment);
 
 		HotelCreateTripResponse response = new HotelCreateTripResponse();
-		response.validFormsOfPayment = new ArrayList<>();
+		response.validFormsOfPayment = validFormsOfPayment;
 		response.newHotelProductResponse = new HotelCreateTripResponse.HotelProductResponse();
 		response.newHotelProductResponse.hotelRoomResponse = new HotelOffersResponse.HotelRoomResponse();
 		response.newHotelProductResponse.hotelRoomResponse.rateInfo = new HotelOffersResponse.RateInfo();
@@ -199,7 +168,7 @@ public class PaymentWidgetFlowTest {
 			.inflate(R.layout.payment_widget_v2, null);
 		paymentWidget.setViewmodel(new PaymentViewModel(activity));
 		paymentWidget.getViewmodel().getLineOfBusiness().onNext(LineOfBusiness.HOTELSV2);
-		paymentWidget.getSectionBillingInfo().bind(info);
+		paymentWidget.getSectionBillingInfo().bind(storedCardBillingInfo);
 
 		SectionBillingInfo sectionBillingInfo = (SectionBillingInfo) paymentWidget.findViewById(R.id.section_billing_info);
 		LinearLayout paymentOptions = (LinearLayout) paymentWidget.findViewById(R.id.section_payment_options_container);
@@ -208,5 +177,37 @@ public class PaymentWidgetFlowTest {
 		assertEquals(View.VISIBLE, sectionBillingInfo.getVisibility());
 		assertEquals(View.VISIBLE, paymentOptions.getVisibility());
 		assertEquals(View.VISIBLE, storedCreditCardList.getVisibility());
+
+		assertEquals(PaymentType.CARD_AMERICAN_EXPRESS, paymentWidget.getCardType());
+	}
+
+	@Test
+	public void testTempSavedCardType() {
+		Activity activity = Robolectric.buildActivity(Activity.class).create().get();
+		activity.setTheme(R.style.V2_Theme_Hotels);
+		Ui.getApplication(activity).defaultHotelComponents();
+		PaymentWidgetV2 paymentWidget =  (PaymentWidgetV2) LayoutInflater.from(activity)
+				.inflate(R.layout.payment_widget_v2, null);
+		paymentWidget.setViewmodel(new PaymentViewModel(activity));
+		paymentWidget.getViewmodel().getLineOfBusiness().onNext(LineOfBusiness.HOTELSV2);
+		paymentWidget.getSectionBillingInfo().bind(tempSavedCardBillingInfo);
+		paymentWidget.userChoosesToSaveCard();
+
+		assertEquals(PaymentType.CARD_VISA, paymentWidget.getCardType());
+	}
+
+	@Test
+	public void testTempNotSavedCardType() {
+		Activity activity = Robolectric.buildActivity(Activity.class).create().get();
+		activity.setTheme(R.style.V2_Theme_Hotels);
+		Ui.getApplication(activity).defaultHotelComponents();
+		PaymentWidgetV2 paymentWidget =  (PaymentWidgetV2) LayoutInflater.from(activity)
+				.inflate(R.layout.payment_widget_v2, null);
+		paymentWidget.setViewmodel(new PaymentViewModel(activity));
+		paymentWidget.getViewmodel().getLineOfBusiness().onNext(LineOfBusiness.HOTELSV2);
+		paymentWidget.getSectionBillingInfo().bind(tempNotSavedCardBillingInfo);
+		paymentWidget.userChoosesNotToSaveCard();
+
+		assertEquals(PaymentType.CARD_DISCOVER, paymentWidget.getCardType());
 	}
 }

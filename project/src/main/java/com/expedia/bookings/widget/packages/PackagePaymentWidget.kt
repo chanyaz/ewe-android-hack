@@ -42,13 +42,13 @@ class PackagePaymentWidget(context: Context, attr: AttributeSet) : PaymentWidget
         }
     }
 
-    override fun isFilled() : Boolean {
-        return super.isFilled()
-                || !creditCardCvv.text.toString().isEmpty()
-                || !addressLineOne.text.toString().isEmpty()
-                || !addressCity.text.toString().isEmpty()
-                || !addressState.text.toString().isEmpty()
-                || !editEmailAddress.getText().toString().isEmpty();
+    override fun isAtLeastPartiallyFilled() : Boolean {
+        return super.isAtLeastPartiallyFilled()
+                || creditCardCvv.text.toString().isNotEmpty()
+                || addressLineOne.text.toString().isNotEmpty()
+                || addressCity.text.toString().isNotEmpty()
+                || addressState.text.toString().isNotEmpty()
+                || editEmailAddress.getText().toString().isNotEmpty();
     }
 
     override fun isCompletelyFilled(): Boolean {
