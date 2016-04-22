@@ -97,6 +97,11 @@ public class PaymentWidgetFlowTest {
 			}
 
 			@Override
+			public void enableRightActionButton(boolean enable) {
+
+			}
+
+			@Override
 			public void setMenuLabel(String label) {
 
 			}

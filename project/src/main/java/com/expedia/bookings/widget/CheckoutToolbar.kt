@@ -123,4 +123,9 @@ class CheckoutToolbar(context: Context, attrs: AttributeSet) : Toolbar(context, 
     {
         currentFocus?.focusSearch(View.FOCUS_FORWARD)?.requestFocus()
     }
+
+    override fun enableRightActionButton(enable: Boolean) {
+        viewModel.enableMenuItem.onNext(enable)
+    }
+
 }
