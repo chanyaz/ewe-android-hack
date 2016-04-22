@@ -1,10 +1,6 @@
 package com.expedia.vm
 
 import android.content.Context
-import android.support.v4.content.ContextCompat
-import android.text.Spannable
-import android.text.SpannableStringBuilder
-import android.text.style.ForegroundColorSpan
 import com.expedia.bookings.R
 import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.utils.PackageFlightUtils
@@ -42,7 +38,8 @@ class FlightOverviewViewModel(val context: Context) {
             }
             urgencyMessagingObserver.onNext(urgencyMessage)
 
-            totalDurationObserver.onNext(getStylizedDuration(selectedFlight))
+            totalDurationObserver.onNext(PackageFlightUtils.getStylizedFlightDurationString(context, selectedFlight, R.color.packages_total_duration_text))
+
             var perPersonPrice = Phrase.from(context.resources.getString(R.string.package_flight_overview_per_person_TEMPLATE))
                     .put("money", selectedFlight.packageOfferModel.price.packageTotalPriceFormatted)
                     .format().toString()
@@ -53,21 +50,6 @@ class FlightOverviewViewModel(val context: Context) {
 
     val selectFlightClickObserver: Observer<Unit> = endlessObserver {
         selectedFlightClicked.onNext(selectedFlightLeg.value)
-    }
-
-    private fun getStylizedDuration(selectedFlight: FlightLeg): CharSequence {
-        val flightDuration = PackageFlightUtils.getFlightDurationString(context, selectedFlight)
-        var totalDuration = Phrase.from(context.resources.getString(R.string.package_flight_overview_total_duration_TEMPLATE))
-                .put("duration", flightDuration)
-                .format().toString()
-
-        val start = totalDuration.indexOf(flightDuration)
-        val end = start + flightDuration.length
-        val colorSpan = ForegroundColorSpan(ContextCompat.getColor(context, R.color.packages_total_duration_text))
-        val totalDurationStyledString = SpannableStringBuilder(totalDuration)
-        totalDurationStyledString.setSpan(colorSpan, start, end, Spannable.SPAN_EXCLUSIVE_INCLUSIVE)
-
-        return totalDurationStyledString
     }
 }
 
