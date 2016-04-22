@@ -451,4 +451,7 @@
     <!-- Plus sign for Expedia+ Reward Points on Hotel Infosite -->
     <string name="plus_sign">+</string>
 
+    <!-- Brand reward name -->
+    <string name="brand_reward_name">Expedia+</string>
+
 </resources>

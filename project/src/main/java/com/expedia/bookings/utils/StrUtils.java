@@ -528,7 +528,7 @@ public class StrUtils {
 			.put("privacy_policy", spannedPrivacy)
 			.put("terms_of_use", spannedTerms)
 			.putOptional("terms_and_conditions", spannedTermsAndConditions)
-			.putOptional("brand", context.getString(R.string.app_name))
+			.putOptional("brand_reward_name", context.getString(R.string.brand_reward_name))
 			.format().toString()));
 		URLSpan[] spans = legalTextSpan.getSpans(0, legalTextSpan.length(), URLSpan.class);
 

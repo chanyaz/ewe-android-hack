@@ -22,4 +22,7 @@
     <string name="lean_plum_sdk_prod_appid">app_SJoOsLZYYbd4S6vlrYOxudwsMpa4YYk5dok4yDUlWCw</string>
     <string name="lean_plum_sdk_prod_key">prod_fkwhC04Y1oMBwUxkgQQAsASDaTnTASMqFAsGUoctG10</string>
 
+    <!-- Brand reward name -->
+    <string name="brand_reward_name">CheapCash</string>
+
 </resources>
