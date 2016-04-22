@@ -29,9 +29,6 @@
         <item name="primary_color">@color/hotels_primary_color</item>
         <item name="skin_cvvBookButtonKeypadDrawable">@drawable/btn_cvv_keypad_book</item>
         <item name="skin_loginBookNowButtonDrawable">@drawable/btn_signin</item>
-        <item name="skin_phoneCheckoutLoginLogoDrawable">@drawable/brand_phone_checkout_login_logo_drawable</item>
-        <item name="skin_hotelCheckoutLogoutLogoDrawable">@drawable/brand_phone_checkout_logo_drawable</item>
-        <item name="skin_tabletCheckoutLoginLogoDrawable">@drawable/brand_tablet_checkout_login_logo_drawable</item>
         <item name="skin_cvvDivDrawable">@drawable/div_cvv</item>
         <item name="skin_hotelFilterBackground">@color/hotel_filter_background_color</item>
         <item name="skin_filterNumberBgDrawable">@drawable/filter_number_bg_hotels</item>

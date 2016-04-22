@@ -94,6 +94,9 @@
 
     <color name="launch_discount">#006E8C</color>
     <color name="hotels_primary_color">@color/last_minute_primary_color</color>
-    <color name="hotel_checkout_account_button_background_color">@color/hotels_primary_color</color>
+    <color name="material_checkout_account_button_background_color">@color/hotels_primary_color</color>
 
+
+    <!-- Checkout Colors -->
+    <color name="old_checkout_account_button_text_color">@android:color/white</color>
 </resources>

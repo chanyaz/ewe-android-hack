@@ -93,7 +93,7 @@
             android:layout_height="40dp"
             android:layout_gravity="center_vertical"
             android:layout_marginLeft="16dp"
-            android:src="?attr/skin_phoneCheckoutLoginLogoDrawable"
+            android:src="@drawable/checkout_logout_logo"
             android:scaleType="center"/>
 
         <LinearLayout

@@ -20,8 +20,6 @@
         <item name="skin_bookNowButtonDrawable">@drawable/btn_signin</item>
         <item name="skin_calendarDatePickerCellDrawable">@drawable/calendar_date_picker_cell</item>
         <item name="skin_calendarDatePickerPopupDrawable">@drawable/calendar_date_picker_popup</item>
-        <item name="skin_phoneCheckoutLoginLogoDrawable">@drawable/brand_phone_checkout_logo_drawable</item>
-        <item name="skin_hotelCheckoutLogoutLogoDrawable">@drawable/brand_phone_checkout_logo_drawable</item>
         <item name="skin_loginButtonColor">@android:color/white</item>
         <item name="skin_hotelBookButtonColor">@android:color/white</item>
         <item name="skin_cvvBookButtonKeypadDrawable">@drawable/btn_cvv_keypad_book</item>
@@ -43,7 +41,6 @@
         <item name="skin_cvvDivErrorDrawable">@drawable/div_cvv_error</item>
         <item name="skin_userRatingBarDrawable">@drawable/ratingbar_userreview_flat_blue</item>
         <item name="skin_clearEditTextImage">@drawable/ic_clear_edittext_dark</item>
-        <item name="skin_tabletCheckoutLoginLogoDrawable">@drawable/brand_tablet_checkout_login_logo_drawable</item>
         <item name="skin_candycaneProgressDrawable">@drawable/progressbar_candycane_horizontal</item>
         <item name="skin_tablet_pin_detail_image_size">@dimen/launch_pin_detail_size</item>
         <item name="skin_tablet_ab_launch_text1_base">@string/app_name</item>
@@ -56,7 +53,6 @@
         <item name="skin_hotelLoginActionBarIcon">@drawable/ic_action_bar_logo_dark</item>
         <item name="skin_flightLoginActionBarIcon">@drawable/ic_action_bar_logo_dark</item>
         <item name="skin_tablet_hotel_coupon_text_color">@color/tablet_hotel_coupon_text_color</item>
-        <item name="skin_phoneCheckoutLoginButtonDrawable">@drawable/card_background</item>
         <item name="skin_errorIndicationExclaimationDrawable">@drawable/ic_error_blue</item>
     </style>
 
