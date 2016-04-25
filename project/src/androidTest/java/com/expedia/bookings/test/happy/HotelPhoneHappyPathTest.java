@@ -133,7 +133,7 @@ public class HotelPhoneHappyPathTest extends HotelTestCase {
 		Common.delay(1);
 		pickRoom("happypath_pwp_points_with_card");
 		CheckoutViewModel.signInOnCheckout("singlecard@mobiata.com", "password");
-//		CheckoutViewModel.assertEarnPointsText("earn 795 points");
+		CheckoutViewModel.assertEarnPointsText("earn 795 points");
 		CheckoutViewModel.assertPurchaseTotalText("You are using 3,600 ($3,600) Expedia+ points\nYour card will be charged $794.88");
 		CheckoutViewModel.assertCardInfoText("Paying with Points & Visa 1111");
 		CheckoutViewModel.assertSlideToPurchaseDisplayed();
@@ -171,7 +171,7 @@ public class HotelPhoneHappyPathTest extends HotelTestCase {
 		PaymentOptionsScreen.assertMenuDoneClickable();
 		PaymentOptionsScreen.assertCardSectionEnabled();
 		PaymentOptionsScreen.clickMenuDone();
-//		CheckoutViewModel.assertEarnPointsText("earn 4295 points");
+		CheckoutViewModel.assertEarnPointsText("earn 4,295 points");
 		CheckoutViewModel.assertCardInfoText("Paying with Points & Visa 1111");
 		CheckoutViewModel.assertPurchaseTotalText("You are using 100 ($100.00) Expedia+ points\nYour card will be charged $4,294.88");
 		CheckoutViewModel.assertSlideToPurchaseDisplayed();
