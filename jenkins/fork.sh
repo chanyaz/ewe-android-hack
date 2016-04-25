@@ -1,6 +1,21 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
-export TERM=dumb
+set -x
+
+GITHUB_TOKEN=0a1f692d47819eec1349e990240525233a12b4fd
+HIPCHAT_TOKEN=3htGpj4sE9XxUToWvWCWWmISA3op2U1roRufVjpQ
+
+if [ ! -d 'virtualenv' ] ; then
+    virtualenv -p python2.7 virtualenv
+fi
+
+source ./virtualenv/bin/activate
+
+pip install --upgrade "pip"
+pip install enum
+pip install "github3.py==1.0.0.a4"
+pip install "hypchat==0.21"
+pip install objectpath
 
 internal_artifact() {
 	 pushd project/build/fork
@@ -37,8 +52,6 @@ for runCount in `seq 3`
 		# run test
 		run $failed_test_classes
 
-		# Check tests.
-		# Creating a comma seprated list for the classes which house the failed tests.
 		cat project/build/fork/expedia/debug/summary/fork-*.json |
 		tr '}' '\n' |
 		grep failureTrace |
@@ -50,10 +63,11 @@ for runCount in `seq 3`
 		if [ "$failed_test_classes" == "" ]; then
 			echo "All tests passed quit build."
 			internal_artifact "$runCount-success"
-			exit 0
+			break
 		else
 			internal_artifact "$runCount-failure"
 		fi
 	done
 
-exit 1
+python ./jenkins/pr_ui_feedback.py $GITHUB_TOKEN $ghprbGhRepository $ghprbPullId $HIPCHAT_TOKEN
+exit $?
