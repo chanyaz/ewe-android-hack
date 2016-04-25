@@ -14,6 +14,7 @@ import com.expedia.bookings.data.packages.PackageSearchParams
 import com.expedia.bookings.enums.PassengerCategory
 import com.expedia.bookings.enums.TravelerCheckoutStatus
 import com.expedia.bookings.test.robolectric.RobolectricRunner
+import com.expedia.bookings.utils.FontCache
 import com.expedia.bookings.widget.ContactDetailsCompletenessStatus
 import com.expedia.vm.traveler.TravelerSelectViewModel
 import com.squareup.phrase.Phrase
@@ -36,7 +37,9 @@ class TravelerSelectViewModelTest {
     var expectedEmptyTitleChild: String by Delegates.notNull()
     var expectedEmptyTitleInfant: String by Delegates.notNull()
     var expectedEmptySubTitle = ""
+    var expectedEmptyFont = FontCache.Font.ROBOTO_REGULAR
     var expectedDefaultColor: Int by Delegates.notNull()
+    var expectedDefaultFont = FontCache.Font.ROBOTO_MEDIUM
     var expectedErrorColor: Int by Delegates.notNull()
 
     val testName = "Oscar Grouch"
@@ -73,6 +76,7 @@ class TravelerSelectViewModelTest {
         assertEquals(expectedEmptyTitle, selectVM.titleObservable.value)
         assertEquals(expectedEmptySubTitle, selectVM.subtitleObservable.value)
         assertEquals(expectedDefaultColor, selectVM.textColorObservable.value)
+        assertEquals(expectedEmptyFont, selectVM.titleFontObservable.value)
     }
 
     @Test
@@ -84,6 +88,7 @@ class TravelerSelectViewModelTest {
         assertEquals(expectedEmptyTitleChild, selectVM.titleObservable.value)
         assertEquals(expectedEmptySubTitle, selectVM.subtitleObservable.value)
         assertEquals(expectedDefaultColor, selectVM.textColorObservable.value)
+        assertEquals(expectedEmptyFont, selectVM.titleFontObservable.value)
 
         selectVM = TestTravelerSelectViewModel(activity, testIndex, PassengerCategory.INFANT_IN_SEAT)
         selectVM.updateStatus(TravelerCheckoutStatus.CLEAN)
@@ -92,6 +97,7 @@ class TravelerSelectViewModelTest {
         assertEquals(expectedEmptyTitleInfant, selectVM.titleObservable.value)
         assertEquals(expectedEmptySubTitle, selectVM.subtitleObservable.value)
         assertEquals(expectedDefaultColor, selectVM.textColorObservable.value)
+        assertEquals(expectedEmptyFont, selectVM.titleFontObservable.value)
 
         selectVM = TestTravelerSelectViewModel(activity, testIndex, PassengerCategory.INFANT_IN_LAP)
         selectVM.updateStatus(TravelerCheckoutStatus.CLEAN)
@@ -100,6 +106,7 @@ class TravelerSelectViewModelTest {
         assertEquals(expectedEmptyTitleInfant, selectVM.titleObservable.value)
         assertEquals(expectedEmptySubTitle, selectVM.subtitleObservable.value)
         assertEquals(expectedDefaultColor, selectVM.textColorObservable.value)
+        assertEquals(expectedEmptyFont, selectVM.titleFontObservable.value)
     }
 
     @Test
@@ -111,6 +118,7 @@ class TravelerSelectViewModelTest {
         assertEquals(expectedEmptyTitle, selectVM.titleObservable.value)
         assertEquals(expectedEmptySubTitle, selectVM.subtitleObservable.value)
         assertEquals(expectedErrorColor, selectVM.textColorObservable.value)
+        assertEquals(expectedEmptyFont, selectVM.titleFontObservable.value)
     }
 
     @Test
@@ -127,6 +135,7 @@ class TravelerSelectViewModelTest {
         assertEquals(expectedEmptySubTitle, selectVM.subtitleObservable.value)
         assertEquals(expectedDefaultColor, selectVM.textColorObservable.value,
                 "Color should be the default if name field is populated")
+        assertEquals(expectedDefaultFont, selectVM.titleFontObservable.value)
     }
 
     @Test
@@ -143,6 +152,7 @@ class TravelerSelectViewModelTest {
         assertEquals(expectedEmptySubTitle, selectVM.subtitleObservable.value,
                 "Expected that no phone shows unless there is also a name")
         assertEquals(expectedErrorColor, selectVM.textColorObservable.value)
+        assertEquals(expectedEmptyFont, selectVM.titleFontObservable.value)
     }
 
     @Test
@@ -159,6 +169,7 @@ class TravelerSelectViewModelTest {
         assertEquals(testName, selectVM.titleObservable.value)
         assertEquals(testNumber, selectVM.subtitleObservable.value)
         assertEquals(expectedDefaultColor, selectVM.textColorObservable.value)
+        assertEquals(expectedDefaultFont, selectVM.titleFontObservable.value)
     }
 
     @Test
@@ -171,6 +182,7 @@ class TravelerSelectViewModelTest {
         assertEquals(testName, selectVM.titleObservable.value)
         assertEquals(testNumber, selectVM.subtitleObservable.value)
         assertEquals(expectedDefaultColor, selectVM.textColorObservable.value)
+        assertEquals(expectedDefaultFont, selectVM.titleFontObservable.value)
     }
 
     private fun getCompleteTraveler(): Traveler {

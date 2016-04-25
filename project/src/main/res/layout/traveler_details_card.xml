@@ -41,28 +41,6 @@
             app:textStyle="normal" />
     </LinearLayout>
 
-    <LinearLayout
-        android:id="@+id/edit_traveler_prompt_container"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_vertical"
-        android:layout_weight="1"
-        android:orientation="vertical"
-        android:paddingLeft="15dp"
-        android:visibility="gone">
-
-        <com.expedia.bookings.widget.TextView
-            android:id="@+id/edit_traveler_prompt"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center|left"
-            android:singleLine="true"
-            android:textColor="@color/traveler_default_card_text_color"
-            android:textSize="16sp"
-            app:textStyle="medium" />
-
-    </LinearLayout>
-
     <com.expedia.bookings.widget.ContactDetailsCompletenessStatusImageView
         android:id="@+id/traveler_status_icon"
         android:layout_width="22dp"
