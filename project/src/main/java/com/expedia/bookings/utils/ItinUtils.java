@@ -13,7 +13,7 @@ import com.mobiata.android.util.SettingUtils;
 public class ItinUtils {
 
 	public static boolean shouldShowCheckInLink(Context context, TripComponent.Type type, DateTime flightTime,
-		String checkInLink) {
+		String checkInLink, DateTime today) {
 		if (AndroidUtils.isTablet(context) || !type.equals(TripComponent.Type.FLIGHT) || Strings.isEmpty(checkInLink)) {
 			return false;
 		}
@@ -24,7 +24,6 @@ public class ItinUtils {
 			return true;
 		}
 
-		DateTime today = DateTime.now();
 		int hoursBetween = JodaUtils.hoursBetween(today, flightTime);
 
 		return hoursBetween >= 1 && hoursBetween < 24;

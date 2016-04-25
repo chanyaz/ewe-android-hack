@@ -3,6 +3,8 @@ package com.expedia.bookings.widget;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.joda.time.DateTime;
+
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.AnimatorSet;
@@ -516,7 +518,7 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout
 
 	private boolean shouldShowCheckInLink(T itinCardData) {
 		return ItinUtils.shouldShowCheckInLink(getContext(), getType(), itinCardData.getStartDate(),
-			mItinContentGenerator.getCheckInLink());
+			mItinContentGenerator.getCheckInLink(), DateTime.now());
 	}
 
 
