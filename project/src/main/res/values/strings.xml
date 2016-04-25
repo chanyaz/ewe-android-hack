@@ -4125,16 +4125,18 @@
     <string name="rental_car_message">Need a rental car?</string>
     <!-- Cars cross-sell message description on package confirmation -->
     <string name="rental_car_message_desc">Shop cars and save money</string>
+    <!-- Fly from hint -->
+    <string name="fly_from_hint">Flying from</string>
+    <!-- Fly to hint -->
+    <string name="fly_to_hint">Flying to</string>
 
     <!-- Feeds -->
     <!-- Flight search title card -->
     <string name="flight_search_card_title">Flight Search</string>
     <!-- Label for feeds/scratchpad card indicating source of given information -->
     <string name="via_scratchpad_label">via Scratchpad</string>
-    <!-- Fly from hint -->
-    <string name="fly_from_hint">Flying from</string>
-    <!-- Fly to hint -->
-    <string name="fly_to_hint">Flying to</string>
+    <!-- Label for Browse hotels card for staff picked city/destination -->
+    <string name="browse_hotels_label">Browse hotels</string>
 
     <!-- Orbucks -->
     <string name="orbucks_available_TEMPLATE">{money} in Orbucks available</string>
