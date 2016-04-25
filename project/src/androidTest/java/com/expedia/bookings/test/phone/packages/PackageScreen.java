@@ -320,7 +320,7 @@ public class PackageScreen {
 	}
 
 	public static void clickTravelerAdvanced() {
-		onView(withId(R.id.advanced_options_button)).perform(click());
+		onView(withId(R.id.traveler_advanced_options_button)).perform(click());
 	}
 
 	public static void clickHotelBundleContainer() {

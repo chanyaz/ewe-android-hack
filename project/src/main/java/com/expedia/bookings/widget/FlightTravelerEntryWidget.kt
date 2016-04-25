@@ -1,11 +1,13 @@
 package com.expedia.bookings.widget
 
+import android.animation.Animator
 import android.content.Context
 import android.util.AttributeSet
 import android.view.View
 import android.widget.AdapterView
 import android.widget.EditText
 import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.Spinner
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Traveler
@@ -13,6 +15,7 @@ import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.section.CountrySpinnerAdapter
 import com.expedia.bookings.utils.AnimUtils
 import com.expedia.bookings.utils.bindView
+import com.expedia.bookings.widget.animation.ResizeHeightAnimator
 import com.expedia.bookings.widget.traveler.NameEntryView
 import com.expedia.bookings.widget.traveler.PhoneEntryView
 import com.expedia.bookings.widget.traveler.TSAEntryView
@@ -26,21 +29,51 @@ import rx.subjects.PublishSubject
 import rx.subscriptions.CompositeSubscription
 
 class FlightTravelerEntryWidget(context: Context, attrs: AttributeSet?) : FrameLayout(context, attrs),
-        TravelerButton.ITravelerButtonListener, View.OnFocusChangeListener  {
+        TravelerButton.ITravelerButtonListener, View.OnFocusChangeListener {
 
+    val ANIMATION_DURATION = 500L
     val travelerButton: TravelerButton by bindView(R.id.traveler_button)
     val nameEntryView: NameEntryView by bindView(R.id.name_entry_widget)
     val phoneEntryView: PhoneEntryView by bindView(R.id.phone_entry_widget)
     val tsaEntryView: TSAEntryView by bindView(R.id.tsa_entry_widget)
     val passportCountrySpinner: Spinner by bindView(R.id.passport_country_spinner)
     val advancedOptionsWidget: FlightTravelerAdvancedOptionsWidget by bindView(R.id.traveler_advanced_options_widget)
-    val advancedButton: TextView by bindView(R.id.advanced_options_button)
+    val advancedButton: LinearLayout by bindView(R.id.traveler_advanced_options_button)
     val advancedOptionsIcon: ImageView by bindView(R.id.traveler_advanced_options_icon)
 
     val travelerCompleteSubject = PublishSubject.create<Traveler>()
     val focusedView = PublishSubject.create<EditText>()
     val filledIn = PublishSubject.create<Boolean>()
     val doneClicked = PublishSubject.create<Unit>()
+
+    val resizeOpenAnimator: ResizeHeightAnimator by lazy {
+        val resizeAnimator = ResizeHeightAnimator(ANIMATION_DURATION)
+        val heightMeasureSpec = MeasureSpec.makeMeasureSpec(height, MeasureSpec.EXACTLY);
+        val widthMeasureSpec = MeasureSpec.makeMeasureSpec(width, MeasureSpec.EXACTLY);
+        advancedOptionsWidget.measure(widthMeasureSpec, heightMeasureSpec);
+        resizeAnimator.addViewSpec(advancedOptionsWidget, advancedOptionsWidget.measuredHeight)
+        resizeAnimator
+    }
+
+    val resizeCloseAnimator: ResizeHeightAnimator by lazy {
+        val resizeAnimator = ResizeHeightAnimator(ANIMATION_DURATION)
+        resizeAnimator.addViewSpec(advancedOptionsWidget, 0)
+        resizeAnimator.addListener(object : Animator.AnimatorListener {
+            override fun onAnimationRepeat(animation: Animator?) {
+            }
+
+            override fun onAnimationCancel(animation: Animator?) {
+            }
+
+            override fun onAnimationStart(animation: Animator?) {
+            }
+
+            override fun onAnimationEnd(animation: Animator?) {
+                advancedOptionsWidget.visibility = Presenter.GONE
+            }
+        })
+        resizeAnimator
+    }
 
     var viewModel: TravelerViewModel by notNullAndObservable { vm ->
         nameEntryView.viewModel = vm.nameViewModel
@@ -122,11 +155,12 @@ class FlightTravelerEntryWidget(context: Context, attrs: AttributeSet?) : FrameL
 
     private fun showAdvancedOptions() {
         advancedOptionsWidget.visibility = Presenter.VISIBLE
+        resizeOpenAnimator.start()
         AnimUtils.rotate(advancedOptionsIcon)
     }
 
     private fun hideAdvancedOptions() {
-        advancedOptionsWidget.visibility = Presenter.GONE
+        resizeCloseAnimator.start()
         AnimUtils.reverseRotate(advancedOptionsIcon)
         advancedOptionsIcon.clearAnimation()
     }
@@ -148,7 +182,7 @@ class FlightTravelerEntryWidget(context: Context, attrs: AttributeSet?) : FrameL
         }
     }
 
-    fun isCompletelyFilled() : Boolean {
+    fun isCompletelyFilled(): Boolean {
         return nameEntryView.firstName.text.isNotEmpty() &&
                 nameEntryView.lastName.text.isNotEmpty() &&
                 phoneEntryView.phoneNumber.text.isNotEmpty()
