@@ -73,15 +73,17 @@
         android:layout_marginTop="?attr/card_list_image_container_height"
         android:background="@android:color/white"
         android:gravity="center"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:paddingBottom="2dp"
+        android:paddingLeft="14dp"
+        android:paddingRight="14dp">
 
         <LinearLayout
             android:id="@+id/recommendation_percentage_container"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@android:color/white"
-            android:orientation="horizontal"
-            android:paddingLeft="12dp">
+            android:orientation="horizontal">
 
             <com.expedia.bookings.widget.TextView
                 android:id="@+id/recommended_percentage"
@@ -123,7 +125,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="right"
-                android:layout_marginRight="12dp"
                 android:orientation="horizontal">
 
                 <com.expedia.bookings.widget.TextView
@@ -131,8 +132,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="right|bottom"
-                    android:layout_marginRight="5dp"
-                    android:textColor="@color/lx_search_result_info_text_color"
+                    android:layout_marginRight="4dp"
+                    android:alpha=".7"
+                    android:textColor="@color/result_cells_gray_text"
                     android:textSize="12sp"
                     app:textStyle="medium" />
 
@@ -141,8 +143,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="right|bottom"
-                    android:textColor="@color/lx_search_result_info_text_color"
-                    android:textSize="16sp"
+                    android:textColor="@color/result_cells_gray_text"
+                    android:textSize="15sp"
                     app:textStyle="medium" />
 
             </LinearLayout>
@@ -153,9 +155,8 @@
                 android:layout_height="match_parent"
                 android:layout_gravity="right|center_vertical"
                 android:layout_marginLeft="4dp"
-                android:layout_marginRight="12dp"
                 android:gravity="right"
-                android:textColor="@color/lx_search_result_info_text_color"
+                android:textColor="@color/result_cells_gray_text"
                 android:textSize="10sp" />
         </LinearLayout>
     </LinearLayout>

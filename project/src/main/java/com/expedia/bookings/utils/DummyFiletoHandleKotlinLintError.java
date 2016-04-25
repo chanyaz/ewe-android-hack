@@ -410,7 +410,6 @@ DummyFiletoHandleKotlinLintError {
 		R.color.packages_flight_cell_duration_text,
 		R.color.temporary_secondary_gray,
 		R.color.temporary_savings,
-		R.color.temporary_flight_duration_gray,
 		R.layout.activity_phone_new_launch,
 		R.dimen.account_button_rewards_text_size,
 		R.dimen.login_field_text_size,
