@@ -18,23 +18,15 @@ class FlightItinCheckinTest {
 
     @Test
     fun testShouldShowCheckin() {
-        assertTrue(ItinUtils.shouldShowCheckInLink(context, TripComponent.Type.FLIGHT, DateTime.now().plusHours(1),
-                "checkInLink"))
-        assertFalse(ItinUtils.shouldShowCheckInLink(context, TripComponent.Type.FLIGHT, DateTime.now().plusMinutes(59),
-                "checkInLink"))
-        assertFalse(ItinUtils.shouldShowCheckInLink(context, TripComponent.Type.FLIGHT, DateTime.now().minusHours(1),
-                "checkInLink"))
-        assertTrue(ItinUtils.shouldShowCheckInLink(context, TripComponent.Type.FLIGHT, DateTime.now().plusHours(23),
-                "checkInLink"))
-        assertFalse(ItinUtils.shouldShowCheckInLink(context, TripComponent.Type.FLIGHT, DateTime.now().plusHours(25),
-                "checkInLink"))
-        assertFalse(ItinUtils.shouldShowCheckInLink(context, TripComponent.Type.HOTEL, DateTime.now().plusHours(23),
-                "checkInLink"))
-        assertFalse(ItinUtils.shouldShowCheckInLink(context, TripComponent.Type.HOTEL, DateTime.now().plusHours(23),
-                "checkInLink"))
-        assertFalse(ItinUtils.shouldShowCheckInLink(context, TripComponent.Type.FLIGHT, DateTime.now().plusHours(23),
-                ""))
-        assertFalse(ItinUtils.shouldShowCheckInLink(context, TripComponent.Type.FLIGHT, DateTime.now().plusHours(23),
-                null))
+        val dateTime = DateTime.now();
+        assertTrue(ItinUtils.shouldShowCheckInLink(context, TripComponent.Type.FLIGHT, dateTime.plusHours(1), "checkInLink", dateTime))
+        assertFalse(ItinUtils.shouldShowCheckInLink(context, TripComponent.Type.FLIGHT, dateTime.plusMinutes(59), "checkInLink", dateTime))
+        assertFalse(ItinUtils.shouldShowCheckInLink(context, TripComponent.Type.FLIGHT, dateTime.minusHours(1), "checkInLink", dateTime))
+        assertTrue(ItinUtils.shouldShowCheckInLink(context, TripComponent.Type.FLIGHT, dateTime.plusHours(23), "checkInLink", dateTime))
+        assertFalse(ItinUtils.shouldShowCheckInLink(context, TripComponent.Type.FLIGHT, dateTime.plusHours(25), "checkInLink", dateTime))
+        assertFalse(ItinUtils.shouldShowCheckInLink(context, TripComponent.Type.HOTEL, dateTime.plusHours(23), "checkInLink", dateTime))
+        assertFalse(ItinUtils.shouldShowCheckInLink(context, TripComponent.Type.HOTEL, dateTime.plusHours(23), "checkInLink", dateTime))
+        assertFalse(ItinUtils.shouldShowCheckInLink(context, TripComponent.Type.FLIGHT, dateTime.plusHours(23), "", dateTime))
+        assertFalse(ItinUtils.shouldShowCheckInLink(context, TripComponent.Type.FLIGHT, dateTime.plusHours(23), null, dateTime))
     }
 }
