@@ -3832,7 +3832,7 @@
     <!-- Car and LX checkout legal text eg: I have read and accept the Rules and Restrictions, the Terms & Conditions and Privacy Policy-->
     <string name="legal_TEMPLATE">Tekemällä tämän varauksen vahvistan, että olen lukenut ja hyväksyn %1$s, %2$s ja %3$s.</string>
     <!-- Account creation legal template text eg: I have read and agree to the Terms of Use and the Privacy Policy. By joining Expedia+, I accept all Terms and Conditions -->
-    <string name="account_creation_legal_TEMPLATE">Vahvistan, että olen lukenut ja hyväksyn %1$s ja %2$s. Liittymällä {brand}+-ohjelmaan, hyväksyn kaikki %3$s.</string>
+    <string name="account_creation_legal_TEMPLATE">Vahvistan, että olen lukenut ja hyväksyn {terms_of_use} ja {privacy_policy}. Liittymällä {brand_reward_name}-ohjelmaan, hyväksyn kaikki {terms_and_conditions}.</string>
 
     <!-- Used in hotel search for specifying traveler -->
     <string name="child_age_label">Valitse jokaisen lapsen ikä</string>
