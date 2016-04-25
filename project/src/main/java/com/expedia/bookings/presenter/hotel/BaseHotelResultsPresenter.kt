@@ -106,6 +106,8 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
     val filterHeight by lazy { resources.getDimension(R.dimen.hotel_filter_height) }
     var screenHeight: Int = 0
     var screenWidth: Float = 0f
+
+    var filterScreenShown: Boolean = false
     var mapTransitionRunning: Boolean = false
     var hideFabAnimationRunning: Boolean = false
 
@@ -643,7 +645,7 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
                 scrolledDistance = Math.max(0, scrolledDistance + dy)
             }
 
-            if (!mapTransitionRunning) {
+            if (!mapTransitionRunning && !filterScreenShown) {
                 if (!fabShouldBeHiddenOnList() && fab.visibility != View.VISIBLE) {
                     fab.visibility = View.VISIBLE
                     getFabAnimIn().start()
@@ -973,6 +975,7 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
         override fun startTransition(forward: Boolean) {
             super.startTransition(forward)
             filterView.visibility = View.VISIBLE
+            filterScreenShown = forward
             if (forward) {
                 fab.visibility = View.GONE
             }
