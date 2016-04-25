@@ -90,7 +90,7 @@ class PackageHotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
             bundleSlidingWidget.bundlePriceWidget.viewModel.setTextObservable.onNext(bundle)
             bundleSlidingWidget.bundlePriceFooter.viewModel.setTextObservable.onNext(bundle)
         }
-        presenter.hotelMapView.viewmodel = HotelMapViewModel(context, presenter.hotelDetailView.viewmodel.scrollToRoom, presenter.hotelDetailView.viewmodel.hotelSoldOut)
+        presenter.hotelMapView.viewmodel = HotelMapViewModel(context, presenter.hotelDetailView.viewmodel.scrollToRoom, presenter.hotelDetailView.viewmodel.hotelSoldOut, presenter.hotelDetailView.viewmodel.getLOB())
         presenter
     }
 

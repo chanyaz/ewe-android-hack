@@ -7,6 +7,7 @@ import android.text.Spanned
 import android.text.style.RelativeSizeSpan
 import android.text.style.StyleSpan
 import com.expedia.bookings.R
+import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.hotels.HotelOffersResponse
 import com.expedia.bookings.data.hotels.HotelRate
@@ -20,7 +21,7 @@ import java.math.BigDecimal
 
 val ROOMS_LEFT_CUTOFF = 5
 
-class HotelMapViewModel(val context: Context, val selectARoomObserver: Observer<Unit>, val hotelSoldOut: Observable<Boolean>) {
+class HotelMapViewModel(val context: Context, val selectARoomObserver: Observer<Unit>, val hotelSoldOut: Observable<Boolean>, val lob:LineOfBusiness) {
     //Outputs for View
     val hotelName = BehaviorSubject.create<String>()
     val hotelStarRating = BehaviorSubject.create<Float>()

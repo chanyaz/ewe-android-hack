@@ -1,5 +1,6 @@
 package com.expedia.bookings.test.robolectric
 
+import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.hotels.HotelOffersResponse
@@ -242,7 +243,7 @@ class HotelDetailViewModelTest {
 
         val hotelRoomRateViewModels = ArrayList<HotelRoomRateViewModel>()
         (1..20).forEach {
-            hotelRoomRateViewModels.add(HotelRoomRateViewModel(RuntimeEnvironment.application, offer1.hotelId, offer1.hotelRoomResponse.first(), "", it, PublishSubject.create(), endlessObserver { }, false))
+            hotelRoomRateViewModels.add(HotelRoomRateViewModel(RuntimeEnvironment.application, offer1.hotelId, offer1.hotelRoomResponse.first(), "", it, PublishSubject.create(), endlessObserver { }, false, LineOfBusiness.HOTELSV2))
         }
         vm.hotelRoomRateViewModelsObservable.onNext(hotelRoomRateViewModels)
 

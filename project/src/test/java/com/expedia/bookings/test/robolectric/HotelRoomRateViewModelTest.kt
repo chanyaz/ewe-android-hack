@@ -1,6 +1,7 @@
 package com.expedia.bookings.test.robolectric
 
 import com.expedia.bookings.R
+import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.hotels.HotelOffersResponse
 import com.expedia.bookings.data.payment.LoyaltyEarnInfo
@@ -198,7 +199,7 @@ class HotelRoomRateViewModelTest {
         expectedAmenity = "Free wifi"
         mockHotelDetailViewModel = HotelDetailViewModel(context, endlessObserver { /*ignore*/ })
 
-        sut = HotelRoomRateViewModel(context, hotelOfferResponse.hotelId, hotelRoomResponse, expectedAmenity, rowIndex, mockHotelDetailViewModel.rowExpandingObservable, endlessObserver { }, false)
+        sut = HotelRoomRateViewModel(context, hotelOfferResponse.hotelId, hotelRoomResponse, expectedAmenity, rowIndex, mockHotelDetailViewModel.rowExpandingObservable, endlessObserver { }, false, LineOfBusiness.HOTELSV2)
     }
 
     private fun setupSoldOutRoomUnderTest() {
@@ -206,6 +207,6 @@ class HotelRoomRateViewModelTest {
         expectedAmenity = "Free wifi"
         mockHotelDetailViewModel = HotelDetailViewModel(context, endlessObserver { /*ignore*/ })
 
-        sut = HotelRoomRateViewModel(context, hotelOfferResponse.hotelId, hotelRoomResponse, expectedAmenity, rowIndex, mockHotelDetailViewModel.rowExpandingObservable, endlessObserver { }, false)
+        sut = HotelRoomRateViewModel(context, hotelOfferResponse.hotelId, hotelRoomResponse, expectedAmenity, rowIndex, mockHotelDetailViewModel.rowExpandingObservable, endlessObserver { }, false, LineOfBusiness.HOTELSV2)
     }
 }

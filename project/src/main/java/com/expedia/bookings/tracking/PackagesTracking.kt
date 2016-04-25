@@ -73,6 +73,10 @@ class PackagesTracking {
             OmnitureTracking.trackPackagesFlightRoundTripInDetailsLoad()
     }
 
+    fun trackHotelDetailLoad(hotelId: String) {
+        OmnitureTracking.trackPackagesHotelInfoLoad(hotelId)
+    }
+
     fun trackHotelDetailBookPhoneClick() {
         OmnitureTracking.trackPackagesHotelInfoActionBookPhone()
     }
@@ -152,5 +156,25 @@ class PackagesTracking {
 
     fun trackFlightFilterAirlines() {
         OmnitureTracking.trackPackagesFlightFilterAirlines()
+    }
+
+    fun trackHotelRoomBookClick() {
+        OmnitureTracking.trackPackagesHotelRoomBookClick()
+    }
+
+    fun trackHotelViewBookClick() {
+        OmnitureTracking.trackPackagesHotelViewBookClick()
+    }
+
+    fun trackHotelRoomMoreInfoClick() {
+        OmnitureTracking.trackPackagesHotelRoomInfoClick()
+    }
+
+    fun trackHotelDetailMapViewClick() {
+        OmnitureTracking.trackPackagesHotelMapViewClick()
+    }
+
+    fun trackHotelMapViewSelectRoomClick() {
+        OmnitureTracking.trackPackagesHotelMapSelectRoomClick()
     }
 }

@@ -3,7 +3,9 @@ package com.expedia.vm.packages
 import android.content.Context
 import android.content.res.Resources
 import android.graphics.drawable.Drawable
+import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.hotels.HotelOffersResponse
+import com.expedia.bookings.data.hotels.HotelSearchParams
 import com.expedia.bookings.tracking.PackagesTracking
 import com.expedia.util.getControlGuestRatingBackground
 import com.expedia.util.getControlGuestRatingText
@@ -12,6 +14,15 @@ import rx.Observer
 
 class PackageHotelDetailViewModel(context: Context, roomSelectedObserver: Observer<HotelOffersResponse.HotelRoomResponse>) :
         BaseHotelDetailViewModel(context, roomSelectedObserver) {
+
+    override fun getLOB(): LineOfBusiness {
+        return LineOfBusiness.PACKAGES
+    }
+
+    override fun trackHotelDetailMapViewClick() {
+        PackagesTracking().trackHotelDetailMapViewClick()
+    }
+
     override fun hasMemberDeal(roomOffer: HotelOffersResponse.HotelRoomResponse): Boolean {
         return false
     }
@@ -39,4 +50,13 @@ class PackageHotelDetailViewModel(context: Context, roomSelectedObserver: Observ
     override fun trackHotelDetailSelectRoomClick(isStickyButton: Boolean) {
         PackagesTracking().trackHotelDetailSelectRoomClick(isStickyButton)
     }
+
+    override fun trackHotelViewBookClick() {
+        PackagesTracking().trackHotelViewBookClick()
+    }
+
+    override fun trackHotelDetailLoad(hotelOffersResponse: HotelOffersResponse, hotelSearchParams: HotelSearchParams, hasEtpOffer: Boolean, currentLocationSearch: Boolean, hotelSoldOut: Boolean, isRoomSoldOut: Boolean) {
+        PackagesTracking().trackHotelDetailLoad(hotelOffersResponse.hotelId)
+    }
+
 }

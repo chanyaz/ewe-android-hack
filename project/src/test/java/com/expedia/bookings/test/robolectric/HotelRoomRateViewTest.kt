@@ -1,6 +1,7 @@
 package com.expedia.bookings.test.robolectric
 
 import com.expedia.bookings.R
+import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.hotels.HotelOffersResponse
 import com.expedia.bookings.test.MockHotelServiceTestRule
 import com.expedia.bookings.widget.HotelRoomRateView
@@ -30,7 +31,7 @@ class HotelRoomRateViewTest {
     @Test
     fun soldOutRoomAutoCollapses() {
         givenHotelOffersResponse()
-        hotelRoomRateView.viewmodel = HotelRoomRateViewModel(RuntimeEnvironment.application, hotelOffersResponse.hotelId, hotelOffersResponse.hotelRoomResponse.first(), "", 0, PublishSubject.create<Int>(), endlessObserver { }, false)
+        hotelRoomRateView.viewmodel = HotelRoomRateViewModel(RuntimeEnvironment.application, hotelOffersResponse.hotelId, hotelOffersResponse.hotelRoomResponse.first(), "", 0, PublishSubject.create<Int>(), endlessObserver { }, false, LineOfBusiness.HOTELSV2)
 
         assertEquals(true, hotelRoomRateView.viewRoom.isEnabled)
         assertEquals(false, hotelRoomRateView.viewRoom.isChecked)
