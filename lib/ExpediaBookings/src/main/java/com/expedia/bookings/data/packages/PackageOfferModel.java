@@ -9,6 +9,7 @@ public class PackageOfferModel {
 	public PackagePrice price;
 	public UrgencyMessage urgencyMessage;
 	public BrandedDealData brandedDealData;
+	public boolean featuredDeal;
 
 	public static class PackagePrice {
 		public Money packageTotalPrice;
@@ -39,6 +40,17 @@ public class PackageOfferModel {
 	}
 
 	public static class BrandedDealData {
-		public String dealVariation;
+		public DealVariation dealVariation;
+		public String savingsAmount;
+		public String savingPercentageOverPackagePrice;
+		public String freeNights;
+	}
+
+	public enum DealVariation {
+		FreeHotel,
+		FreeFlight,
+		HotelDeal,
+		FreeOneNightHotel
 	}
 }
+

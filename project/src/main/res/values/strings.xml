@@ -3934,6 +3934,17 @@
     <string name="step_two">Step 2: Select Flights</string>
     <!-- package hotel results unreal deal text label -->
     <string name="unreal_deal_text">Unreal Deal</string>
+    <!-- package hotel results unreal deal message for freeHotel -->
+    <string name="free_hotel_deal">Get your hotel for free by booking together.</string>
+    <!-- package hotel results unreal deal message for freeFlight -->
+    <string name="free_flight_deal">Book this and save 100% on your flight.</string>
+    <!-- package hotel results unreal deal message for hotelDeal -->
+    <string name="hotel_deal_TEMPLATE">Book this and save {price} ({savings}%)</string>
+    <!-- package hotel results unreal deal message for freeOneNightHotel -->
+    <plurals name="free_one_night_hotel_deal_TEMPLATE">
+        <item quantity="one">{night} free night when you book with a flight.</item>
+        <item quantity="other">{night} free nights when you book with a flight.</item>
+    </plurals>
     <!-- Package hotel cell: Price Includes flights -->
     <string name="package_price_include_flights">Price includes hotel + flights</string>
     <!-- Package hotel map cell: Price Includes Taxes and Fees -->
