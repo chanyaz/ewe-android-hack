@@ -152,7 +152,7 @@ open class PaymentWidget(context: Context, attr: AttributeSet) : Presenter(conte
         }
 
         vm.userLogin.subscribe { isLoggedIn ->
-            if (isLoggedIn && !isFilled()) {
+            if (isLoggedIn && !isAtLeastPartiallyFilled()) {
                 if (Db.getUser()?.storedCreditCards?.size == 1 && Db.getTemporarilySavedCard() == null) {
                     sectionBillingInfo.bind(Db.getBillingInfo())
                     selectFirstAvailableCard()
@@ -299,10 +299,10 @@ open class PaymentWidget(context: Context, attr: AttributeSet) : Presenter(conte
         viewmodel.billingInfoAndStatusUpdate.onNext(Pair(sectionBillingInfo.billingInfo, ContactDetailsCompletenessStatus.COMPLETE))
     }
 
-    open fun isFilled(): Boolean {
-        return !creditCardNumber.text.toString().isEmpty()
-                || !creditCardPostalCode.text.toString().isEmpty()
-                || !creditCardName.text.toString().isEmpty()
+    open fun isAtLeastPartiallyFilled(): Boolean {
+        return creditCardNumber.text.toString().isNotEmpty()
+                || creditCardPostalCode.text.toString().isNotEmpty()
+                || creditCardName.text.toString().isNotEmpty()
     }
 
     open fun isCompletelyFilled(): Boolean {
@@ -317,7 +317,7 @@ open class PaymentWidget(context: Context, attr: AttributeSet) : Presenter(conte
             viewmodel.emptyBillingInfo.onNext(Unit)
         } else if (isCreditCardRequired() && (hasStoredCard())) {
             viewmodel.billingInfoAndStatusUpdate.onNext(Pair(sectionBillingInfo.billingInfo, ContactDetailsCompletenessStatus.COMPLETE))
-        } else if (isCreditCardRequired() && (isFilled())) {
+        } else if (isCreditCardRequired() && (isAtLeastPartiallyFilled())) {
             val isBillingInfoFilled = sectionBillingInfo.performValidation()
             val isLocationFilled = sectionLocation.performValidation()
             if (isBillingInfoFilled && isLocationFilled) {
@@ -327,7 +327,7 @@ open class PaymentWidget(context: Context, attr: AttributeSet) : Presenter(conte
             }
         } else if (isCreditCardRequired() && hasTempCard()) {
             viewmodel.billingInfoAndStatusUpdate.onNext(Pair(Db.getTemporarilySavedCard(), ContactDetailsCompletenessStatus.COMPLETE))
-        } else if (isFilled()) {
+        } else if (isAtLeastPartiallyFilled()) {
             viewmodel.billingInfoAndStatusUpdate.onNext(Pair(null, ContactDetailsCompletenessStatus.INCOMPLETE))
         } else {
             viewmodel.billingInfoAndStatusUpdate.onNext(Pair(null, ContactDetailsCompletenessStatus.DEFAULT))
@@ -345,7 +345,7 @@ open class PaymentWidget(context: Context, attr: AttributeSet) : Presenter(conte
             return true
         } else if (isCreditCardRequired() && (hasStoredCard())) {
             return true
-        } else if (isCreditCardRequired() && (isFilled() && sectionBillingInfo.performValidation() && sectionLocation.performValidation())) {
+        } else if (isCreditCardRequired() && (isAtLeastPartiallyFilled() && sectionBillingInfo.performValidation() && sectionLocation.performValidation())) {
             return true
         } else if (isCreditCardRequired() && Db.getTemporarilySavedCard() != null && Db.getTemporarilySavedCard().saveCardToExpediaAccount) {
             return true
@@ -532,8 +532,10 @@ open class PaymentWidget(context: Context, attr: AttributeSet) : Presenter(conte
     fun getCardType(): PaymentType {
         if (isCreditCardRequired() && hasStoredCard()) {
             return sectionBillingInfo.billingInfo.storedCard.type
-        } else if (isCreditCardRequired() && (isFilled() && sectionBillingInfo.performValidation() && sectionLocation.performValidation())) {
+        } else if (isCreditCardRequired() && (isAtLeastPartiallyFilled() && sectionBillingInfo.performValidation() && sectionLocation.performValidation())) {
             return sectionBillingInfo.billingInfo.paymentType
+        } else if (hasTempCard()) {
+            return Db.getTemporarilySavedCard().paymentType
         }
 
         return PaymentType.UNKNOWN
