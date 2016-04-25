@@ -4,7 +4,9 @@ import android.content.Context
 import com.expedia.bookings.R
 import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.TravelerParams
+import com.expedia.bookings.tracking.FlightsV2Tracking
 import com.expedia.bookings.tracking.HotelV2Tracking
+import com.expedia.bookings.tracking.OmnitureTracking
 import com.expedia.bookings.tracking.PackagesTracking
 import com.expedia.bookings.utils.StrUtils
 import com.expedia.util.endlessObserver
@@ -12,7 +14,7 @@ import rx.Observer
 import rx.subjects.BehaviorSubject
 import rx.subjects.PublishSubject
 
-class HotelTravelerPickerViewModel(val context: Context) {
+class TravelerPickerViewModel(val context: Context) {
     var showSeatingPreference = false
     var lob = LineOfBusiness.HOTELS
         set(value) {
@@ -121,7 +123,7 @@ class HotelTravelerPickerViewModel(val context: Context) {
     fun makeTravelerText(travelers: TravelerParams) {
         val total = travelers.numberOfAdults + travelers.childrenAges.size
         guestsTextObservable.onNext(
-                if (lob == LineOfBusiness.PACKAGES) {
+                if (lob == LineOfBusiness.PACKAGES || lob == LineOfBusiness.FLIGHTS_V2) {
                     StrUtils.formatTravelerString(context, total)
                 } else {
                     StrUtils.formatGuestString(context, total)
@@ -129,12 +131,24 @@ class HotelTravelerPickerViewModel(val context: Context) {
         )
     }
 
-    fun trackTravelerPickerClick(text: String) {
-        if (lob == LineOfBusiness.PACKAGES) {
-            PackagesTracking().trackSearchTravelerPickerChooserClick(text)
-        }
-        else {
-            HotelV2Tracking().trackTravelerPickerClick(text)
+    fun trackTravelerPickerClick(actionLabel: String) {
+        when (lob) {
+            LineOfBusiness.PACKAGES -> {
+                PackagesTracking().trackSearchTravelerPickerChooserClick(actionLabel)
+            }
+
+            LineOfBusiness.HOTELS -> {
+                HotelV2Tracking().trackTravelerPickerClick(actionLabel)
+            }
+
+            LineOfBusiness.FLIGHTS_V2 -> {
+                FlightsV2Tracking.trackTravelerPickerClick(actionLabel)
+                FlightsV2Tracking.trackSearchPageLoad()
+            }
+
+            else -> { // required to satisfy kotlin codestyle check
+                // do nothing
+            }
         }
     }
 }

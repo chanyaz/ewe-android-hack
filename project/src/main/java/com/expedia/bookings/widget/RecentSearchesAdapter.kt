@@ -89,4 +89,3 @@ class RecentSearchesViewHolder(val root: ViewGroup, val vm : RecentSearchViewMod
         HotelV2Tracking().trackRecentSearchClick()
     }
 }
-

@@ -48,7 +48,7 @@ import com.expedia.util.subscribeToggleButton
 import com.expedia.vm.BaseSearchViewModel
 import com.expedia.vm.HotelSearchViewModel
 import com.expedia.vm.HotelSuggestionAdapterViewModel
-import com.expedia.vm.HotelTravelerPickerViewModel
+import com.expedia.vm.TravelerPickerViewModel
 import com.expedia.vm.RecentSearchesAdapterViewModel
 import com.mobiata.android.time.util.JodaUtils
 import org.joda.time.LocalDate
@@ -342,8 +342,8 @@ class HotelSearchPresenterV1(context: Context, attrs: AttributeSet) : BaseHotelS
 
     init {
         View.inflate(context, R.layout.widget_hotel_search_params, this)
-        traveler.viewmodel = HotelTravelerPickerViewModel(getContext())
-        recentSearches.recentSearchesAdapterViewModel = RecentSearchesAdapterViewModel(getContext())
+        traveler.viewmodel = TravelerPickerViewModel(context)
+        recentSearches.recentSearchesAdapterViewModel = RecentSearchesAdapterViewModel(context)
         recentSearches.recentSearchesAdapterViewModel.recentSearchesObservable.subscribe { searchList ->
             if (searchList.isEmpty()) {
                 showSuggestions()
@@ -361,19 +361,19 @@ class HotelSearchPresenterV1(context: Context, attrs: AttributeSet) : BaseHotelS
         selectDate.isChecked = false
         selectTraveler.isChecked = false
 
-        val statusBarHeight = Ui.getStatusBarHeight(getContext())
+        val statusBarHeight = Ui.getStatusBarHeight(context)
         if (statusBarHeight > 0) {
             val color = ContextCompat.getColor(context, R.color.hotels_primary_color)
-            val statusBar = Ui.setUpStatusBar(getContext(), toolbar, searchContainer, color)
+            val statusBar = Ui.setUpStatusBar(context, toolbar, searchContainer, color)
             addView(statusBar)
         }
 
-        navIcon = ArrowXDrawableUtil.getNavigationIconDrawable(getContext(), ArrowXDrawableUtil.ArrowDrawableType.CLOSE)
+        navIcon = ArrowXDrawableUtil.getNavigationIconDrawable(context, ArrowXDrawableUtil.ArrowDrawableType.CLOSE)
         navIcon.setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_IN)
         toolbar.navigationIcon = navIcon
         toolbar.setNavigationOnClickListener {
             com.mobiata.android.util.Ui.hideKeyboard(this@HotelSearchPresenterV1)
-            val activity = getContext() as AppCompatActivity
+            val activity = context as AppCompatActivity
             activity.onBackPressed()
         }
         toolbar.inflateMenu(R.menu.cars_search_menu)

@@ -262,7 +262,7 @@ public class OmnitureTracking {
 
 	}
 
-	public static void trackRecentSearchClick() {
+	public static void trackHotelRecentSearchClick() {
 		Log.d(TAG, "Tracking \"" + HOTELSV2_RECENT_SEARCH_CLICK + "\" click...");
 
 		ADMS_Measurement s = getFreshTrackingObject();
@@ -280,14 +280,13 @@ public class OmnitureTracking {
 		s.trackLink(null, "o", "Search Results Update", null, null);
 	}
 
-	public static void trackTravelerPickerClick(String text) {
+	public static void trackHotelTravelerPickerClick(String text) {
 		Log.d(TAG, "Tracking \"" + HOTELSV2_SEARCH_BOX + "\" pageLoad...");
 
 		ADMS_Measurement s = getFreshTrackingObject();
 		s.setEvar(28, HOTELSV2_TRAVELER + text);
 		s.setProp(16, HOTELSV2_TRAVELER + text);
 		s.trackLink(null, "o", HOTELSV2_TRAVELER_LINK_NAME, null, null);
-
 	}
 
 	public static void trackGeoSuggestionClick() {
@@ -1669,6 +1668,10 @@ public class OmnitureTracking {
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 	private static final String FLIGHT_SEARCH = "App.Flight.Search";
+	private static final String FLIGHT_SEARCH_V2 = "App.Flight.Dest-Search";
+	private static final String FLIGHT_RECENT_SEARCH_V2 = "App.Flight.DS.RecentSearch";
+	private static final String FLIGHTS_V2_TRAVELER_CHANGE_PREFIX = "App.Flight.DS.";
+	private static final String FLIGHTS_V2_TRAVELER_LINK_NAME = "Search Results Update";
 	private static final String FLIGHT_SEARCH_INTERSTITIAL = "App.Flight.Search.Interstitial";
 	private static final String FLIGHT_SEARCH_ROUNDTRIP_OUT = "App.Flight.Search.Roundtrip.Out";
 	private static final String FLIGHT_SEARCH_ROUNDTRIP_OUT_DETAILS = "App.Flight.Search.Roundtrip.Out.Details";
@@ -2101,6 +2104,28 @@ public class OmnitureTracking {
 
 	public static void trackPageLoadFlightSearch() {
 		internalTrackPageLoadEventStandard(FLIGHT_SEARCH);
+	}
+
+	public static void trackFlightTravelerPickerClick(String actionLabel) {
+		Log.d(TAG, "Tracking \"" + FLIGHT_SEARCH_V2 + "\" pageLoad...");
+
+		ADMS_Measurement s = getFreshTrackingObject();
+		s.setEvar(28, FLIGHTS_V2_TRAVELER_CHANGE_PREFIX + actionLabel);
+		s.setProp(16, FLIGHTS_V2_TRAVELER_CHANGE_PREFIX + actionLabel);
+		s.trackLink(null, "o", FLIGHTS_V2_TRAVELER_LINK_NAME, null, null);
+	}
+
+	public static void trackFlightRecentSearchClick() {
+		Log.d(TAG, "Tracking \"" + FLIGHT_RECENT_SEARCH_V2 + "\" click...");
+
+		ADMS_Measurement s = getFreshTrackingObject();
+		s.setEvar(28, FLIGHT_RECENT_SEARCH_V2);
+		s.setProp(16, FLIGHT_RECENT_SEARCH_V2);
+		s.trackLink(null, "o", "Search Results Update", null, null);
+	}
+
+	public static void trackPageLoadFlightSearchV2() {
+		internalTrackPageLoadEventStandard(FLIGHT_SEARCH_V2);
 	}
 
 	public static void trackLinkFlightSearchSelect(int selectPos, int legPos) {

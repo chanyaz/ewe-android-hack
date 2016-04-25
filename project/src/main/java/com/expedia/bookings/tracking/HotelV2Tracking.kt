@@ -17,7 +17,7 @@ class HotelV2Tracking {
     }
 
     fun trackRecentSearchClick() {
-        OmnitureTracking.trackRecentSearchClick()
+        OmnitureTracking.trackHotelRecentSearchClick()
     }
 
     fun trackSwPToggle(swpToggleState: Boolean){
@@ -25,7 +25,7 @@ class HotelV2Tracking {
     }
 
     fun trackTravelerPickerClick(text: String) {
-        OmnitureTracking.trackTravelerPickerClick(text)
+        OmnitureTracking.trackHotelTravelerPickerClick(text)
     }
 
     fun trackGeoSuggestionClick() {

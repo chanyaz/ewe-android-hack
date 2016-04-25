@@ -10,6 +10,7 @@ package com.expedia.bookings.data;
  */
 public enum LineOfBusiness {
 	FLIGHTS,
+	FLIGHTS_V2,
 	HOTELS,
 	HOTELSV2,
 	CARS,

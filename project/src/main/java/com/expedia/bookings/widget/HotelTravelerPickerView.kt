@@ -16,7 +16,7 @@ import com.expedia.util.notNullAndObservable
 import com.expedia.util.subscribeOnClick
 import com.expedia.util.subscribeText
 import com.expedia.util.subscribeVisibility
-import com.expedia.vm.HotelTravelerPickerViewModel
+import com.expedia.vm.TravelerPickerViewModel
 
 class HotelTravelerPickerView(context: Context, attrs: AttributeSet) : FrameLayout(context, attrs) {
 
@@ -46,7 +46,7 @@ class HotelTravelerPickerView(context: Context, attrs: AttributeSet) : FrameLayo
     val enabledColor = ContextCompat.getColor(context, R.color.hotel_guest_selector_enabled_color)
     val disabledColor = ContextCompat.getColor(context, R.color.hotel_guest_selector_disabled_color)
 
-    var viewmodel: HotelTravelerPickerViewModel by notNullAndObservable { vm ->
+    var viewmodel: TravelerPickerViewModel by notNullAndObservable { vm ->
         vm.tooManyInfants.subscribeVisibility(infantError)
         adultPlus.subscribeOnClick(vm.incrementAdultsObserver)
         adultMinus.subscribeOnClick(vm.decrementAdultsObserver)
