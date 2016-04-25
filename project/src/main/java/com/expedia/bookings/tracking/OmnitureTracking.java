@@ -4919,8 +4919,7 @@ public class OmnitureTracking {
 		Log.d(TAG, "Tracking \"" + PACKAGES_CHECKOUT_INFO + "\"");
 
 		ADMS_Measurement s = createTrackPageLoadEventBase(PACKAGES_CHECKOUT_INFO);
-		s.setEvents("event36");
-		s.setEvents("event70");
+		s.setEvents("event36, event72");
 		addPackagesCommonFields(s);
 		setPackageProducts(s, packageDetails, true);
 
@@ -4957,7 +4956,11 @@ public class OmnitureTracking {
 		productString.append(",;");
 
 		productString.append("Hotel:" + Db.getPackageSelectedHotel().hotelId + ";");
-		productString.append(Db.getPackageParams().getAdults() + Db.getPackageParams().getChildren().size());
+		String duration = "0";
+		if (Db.getPackageParams().getCheckOut() != null) {
+			duration = Integer.toString(JodaUtils.daysBetween(Db.getPackageParams().getCheckIn(), Db.getPackageParams().getCheckOut()));
+		}
+		productString.append(duration);
 		productString.append(";0.00;;");
 
 		if (addEvar63) {
