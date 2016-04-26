@@ -113,7 +113,8 @@ class CalendarDialogFragment(val baseSearchViewModel: BaseSearchViewModel) : Dia
             calendar.visibility = CardView.INVISIBLE
             calendar.hideToolTip()
             if (calendar.startDate != null && calendar.endDate == null) {
-                calendar.setSelectedDates(calendar.startDate, calendar.startDate.plusDays(1))
+                val endDate = if (!baseSearchViewModel.isStartDateOnlyAllowed()) calendar.startDate.plusDays(1) else null
+                calendar.setSelectedDates(calendar.startDate, endDate)
             }
             userTappedDone = true
             dialog.dismiss()

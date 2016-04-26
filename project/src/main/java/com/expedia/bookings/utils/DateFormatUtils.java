@@ -181,6 +181,13 @@ public class DateFormatUtils {
 		return JodaUtils.formatLocalDate(context, new LocalDate(year, month, day), FLAGS_MEDIUM_DATE_FORMAT);
 	}
 
+
+	public static String formatLocalDateToShortDayAndDate(Context context, String date) {
+		DateTimeFormatter parser = DateTimeFormat.forPattern("yyyy-MM-dd");
+		return formatDateToShortDayAndDate(context, parser.parseDateTime(date));
+	}
+
+
 	public static String formatLocalDateToShortDayAndDate(Context context, LocalDate localDate) {
 		return formatDateToShortDayAndDate(context, localDate.toDateTimeAtStartOfDay());
 	}

@@ -70,6 +70,10 @@ class HotelSearchViewModel(context: Context) : BaseSearchViewModel(context) {
         }
     }
 
+    override fun isStartDateOnlyAllowed(): Boolean {
+        return false // check-in and out dates required
+    }
+
     override fun getMaxSearchDurationDays(): Int {
         return context.resources.getInteger(R.integer.calendar_max_days_hotel_stay)
     }

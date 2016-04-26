@@ -121,8 +121,8 @@ class PackageSearchParamsTest {
         vm.searchObserver.onNext(Unit)
 
         searchParamsSubscriber.requestMore(LOTS_MORE)
-        assertEquals(searchParamsSubscriber.onNextEvents[0].checkOut, expectedSearchParams[0].checkOut)
-        assertEquals(searchParamsSubscriber.onNextEvents[1].checkOut, expectedSearchParams[1].checkOut)
+        assertEquals(expectedSearchParams[0].checkOut, searchParamsSubscriber.onNextEvents[0].checkOut)
+        assertEquals(expectedSearchParams[1].checkOut, searchParamsSubscriber.onNextEvents[1].checkOut)
         noDatesSubscriber.requestMore(LOTS_MORE)
         noDatesSubscriber.assertReceivedOnNext(expectedDates)
         noOriginSubscriber.requestMore(LOTS_MORE)

@@ -56,6 +56,10 @@ class PackageSearchViewModel(context: Context) : BaseSearchViewModel(context) {
         }
     }
 
+    override fun isStartDateOnlyAllowed(): Boolean {
+        return false
+    }
+
     // Helpers
     override fun computeDateInstructionText(start: LocalDate?, end: LocalDate?): CharSequence {
         if (start == null && end == null) {

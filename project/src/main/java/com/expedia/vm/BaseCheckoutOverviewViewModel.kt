@@ -13,7 +13,7 @@ open class BaseCheckoutOverviewViewModel(context: Context) {
     val country = PublishSubject.create<String>()
 
     val checkIn = PublishSubject.create<String>()
-    val checkOut = PublishSubject.create<String>()
+    val checkOut = PublishSubject.create<String?>()
     val guests = PublishSubject.create<Int>()
 
     val cityTitle = BehaviorSubject.create<String>()
@@ -31,7 +31,12 @@ open class BaseCheckoutOverviewViewModel(context: Context) {
         }).subscribe()
 
         Observable.zip(checkIn, checkOut, { checkIn, checkOut ->
-            val text = DateFormatUtils.formatPackageDateRange(context, checkIn, checkOut)
+            val text =
+                    if (checkIn != null && checkOut != null) {
+                        DateFormatUtils.formatPackageDateRange(context, checkIn, checkOut)
+                    } else {
+                        DateFormatUtils.formatLocalDateToShortDayAndDate(context, checkIn)
+                    }
             datesTitle.onNext(text)
         }).subscribe()
 

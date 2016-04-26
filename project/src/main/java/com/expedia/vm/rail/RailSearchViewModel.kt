@@ -53,6 +53,10 @@ class RailSearchViewModel(context: Context) : BaseSearchViewModel(context) {
         railDestinationObservable.onNext(oldOrigin)
     }
 
+    override fun isStartDateOnlyAllowed(): Boolean {
+        return true // one way train journeys possible
+    }
+
     override fun onDatesChanged(dates: Pair<LocalDate?, LocalDate?>) {
         super.onDatesChanged(dates)
 

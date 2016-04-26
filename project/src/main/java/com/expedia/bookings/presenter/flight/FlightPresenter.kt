@@ -72,8 +72,10 @@ class FlightPresenter(context: Context, attrs: AttributeSet) : Presenter(context
 
             inboundPresenter.toolbarViewModel.city.onNext(params.arrivalAirport?.regionNames?.shortName)
             inboundPresenter.toolbarViewModel.travelers.onNext(params.guests)
-            inboundPresenter.toolbarViewModel.date.onNext(params.returnDate)
-
+            if (params.returnDate != null) {
+                inboundPresenter.toolbarViewModel.date.onNext(params.returnDate)
+                flightOverviewPresenter.flightSummary.inboundFlightWidget.viewModel.searchTypeStateObservable.onNext(PackageSearchType.INBOUND_FLIGHT)
+            }
             flightOverviewPresenter.flightSummary.outboundFlightWidget.viewModel.suggestion.onNext(params.departureAirport)
             flightOverviewPresenter.flightSummary.outboundFlightWidget.viewModel.date.onNext(params.departureDate)
             flightOverviewPresenter.flightSummary.outboundFlightWidget.viewModel.guests.onNext(params.guests)
@@ -82,8 +84,7 @@ class FlightPresenter(context: Context, attrs: AttributeSet) : Presenter(context
             flightOverviewPresenter.flightSummary.inboundFlightWidget.viewModel.date.onNext(params.returnDate)
             flightOverviewPresenter.flightSummary.inboundFlightWidget.viewModel.guests.onNext(params.guests)
 
-            flightOverviewPresenter.flightSummary.outboundFlightWidget.viewModel.hotelLoadingStateObservable.onNext(PackageSearchType.OUTBOUND_FLIGHT)
-            flightOverviewPresenter.flightSummary.inboundFlightWidget.viewModel.hotelLoadingStateObservable.onNext(PackageSearchType.INBOUND_FLIGHT)
+            flightOverviewPresenter.flightSummary.outboundFlightWidget.viewModel.searchTypeStateObservable.onNext(PackageSearchType.OUTBOUND_FLIGHT)
 
             flightOverviewPresenter.flightSummary.setPadding(0, 0, 0, 0)
 

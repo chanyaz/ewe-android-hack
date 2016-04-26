@@ -1742,6 +1742,10 @@
     <string name="calendar_tooltip_bottom_drag_to_modify">Drag End Dates to Modify</string>
     <!-- Calendar instruction text hotels date range template. %1$s = Formatted start date, %2$s = formatted end date. E.g. May 12 - May 15 -->
     <string name="calendar_instructions_date_range_TEMPLATE">%1$s - %2$s</string>
+    <!-- Calendar instructions flight start date selected and label indicating this will be a one way search -->
+    <string name="calendar_instructions_date_range_flight_one_way_TEMPLATE">{startdate} (One Way)</string>
+    <!-- Calendar instructions flight: Customer has selected start date. Label indicating return date is optional -->
+    <string name="calendar_instructions_date_range_flight_select_return_date_optional">Next: Select return date (optional)</string>
     <!-- Calendar instruction text hotels no dates selected - "Select Check-in Date" -->
     <string name="calendar_instructions_hotels_no_dates_selected">Select Check-in Date</string>
     <!-- Calendar instruction text hotels date range template. %1$s = Formatted start date, %2$s = formatted end date. E.g. May 12 - May 15 -->

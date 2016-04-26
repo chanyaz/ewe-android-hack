@@ -91,10 +91,11 @@ abstract class BaseSearchViewModel(val context: Context) {
         datesObservable.onNext(dates)
 
         paramsBuilder.startDate(start)
-        if (start != null && end == null) {
-            paramsBuilder.endDate(start.plusDays(1))
-        } else {
-            paramsBuilder.endDate(end)
+        paramsBuilder.endDate(end)
+        if (!isStartDateOnlyAllowed()) {
+            if (start != null && end == null) {
+                paramsBuilder.endDate(start.plusDays(1))
+            }
         }
 
         dateTextObservable.onNext(computeDateText(start, end))
@@ -104,6 +105,7 @@ abstract class BaseSearchViewModel(val context: Context) {
         requiredSearchParamsObserver.onNext(Unit)
     }
 
+    abstract fun isStartDateOnlyAllowed(): Boolean
 
     protected fun computeTopTextForToolTip(start: LocalDate?, end: LocalDate?): String {
         if (start == null && end == null) {
