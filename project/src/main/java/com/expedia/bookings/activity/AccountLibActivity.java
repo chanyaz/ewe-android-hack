@@ -8,6 +8,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.LinearLayout;
 
+import butterknife.ButterKnife;
+import butterknife.InjectView;
 import com.expedia.account.AccountView;
 import com.expedia.account.AnalyticsListener;
 import com.expedia.account.Config;
@@ -21,7 +23,6 @@ import com.expedia.bookings.data.abacus.AbacusUtils;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.interfaces.LoginExtenderListener;
-import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.tracking.AdTracker;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.LoginExtender;
@@ -30,9 +31,6 @@ import com.expedia.bookings.utils.StrUtils;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.utils.UserAccountRefresher;
 import com.expedia.bookings.widget.TextView;
-
-import butterknife.ButterKnife;
-import butterknife.InjectView;
 
 public class AccountLibActivity extends AppCompatActivity
 	implements UserAccountRefresher.IUserAccountRefreshListener, LoginExtenderListener {
@@ -188,7 +186,6 @@ public class AccountLibActivity extends AppCompatActivity
 	public void onUserAccountRefreshed() {
 		User.addUserToAccountManager(this, Db.getUser());
 		if (User.isLoggedIn(this)) {
-			Events.post(new Events.LoggedInSuccessful());
 			if (loginWithFacebook) {
 				OmnitureTracking.trackLoginSuccess();
 			}
