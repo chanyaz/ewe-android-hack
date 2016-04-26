@@ -140,7 +140,7 @@ class FlightLayoverWidgetTest {
             return LEFT_RIGHT_PADDING
         }
 
-        override fun calculateTextBounds(airportCode: String) : Rect {
+        override fun calculateTextBounds(locationCode: String) : Rect {
             val mockRect = Mockito.mock(Rect::class.java)
             Mockito.`when`(mockRect.width()).thenReturn(CODE_WIDTH)
             return mockRect;

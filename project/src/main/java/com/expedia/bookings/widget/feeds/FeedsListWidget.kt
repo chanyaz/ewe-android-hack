@@ -102,13 +102,13 @@ class FeedsListWidget(context: Context, attrs: AttributeSet) : RecyclerView(cont
         // TODO locale param always default? we should fix that in the service layer if that's the case
     }
 
-    @Subscribe fun onUserLoggedIn(event: Events.LoggedInSuccessful) {
+    @Subscribe fun onUserLoggedIn(@Suppress("UNUSED_PARAMETER") event: Events.LoggedInSuccessful) {
         // load Feeds
         isUserLoggedIn = true
         feedsListAdapter.showFeeds()
     }
 
-    @Subscribe fun onSignOut(event: Events.SignOut) {
+    @Subscribe fun onSignOut(@Suppress("UNUSED_PARAMETER") event: Events.SignOut) {
         isUserLoggedIn = false
         // is staff picks already showing? >Do nothing
 

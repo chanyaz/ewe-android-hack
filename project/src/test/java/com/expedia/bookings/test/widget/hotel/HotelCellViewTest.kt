@@ -1,6 +1,8 @@
 package com.expedia.bookings.test.widget.hotel
 
 import android.app.Activity
+import android.content.Context
+import android.support.v4.content.ContextCompat
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -23,6 +25,7 @@ import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.Robolectric
+import org.robolectric.RuntimeEnvironment
 import org.robolectric.annotation.Config
 import kotlin.properties.Delegates
 
@@ -32,6 +35,10 @@ class HotelCellViewTest {
     private var hotelCellView: ViewGroup by Delegates.notNull()
     private var hotelViewHolder: HotelCellViewHolder by Delegates.notNull()
     private var activity: Activity by Delegates.notNull()
+
+    private fun getContext(): Context {
+        return RuntimeEnvironment.application
+    }
 
     @Before fun before() {
         activity = Robolectric.buildActivity(Activity::class.java).create().get()
@@ -52,7 +59,7 @@ class HotelCellViewTest {
         Assert.assertEquals("Sold Out", hotelViewHolder.urgencyMessageBox.text)
         Assert.assertEquals(View.GONE, hotelViewHolder.urgencyIcon.visibility)
 
-        Assert.assertEquals(activity.getResources().getColor(R.color.hotelsv2_sold_out_hotel_gray), hotelViewHolder.ratingBar.getStarColor())
+        Assert.assertEquals(ContextCompat.getColor(getContext(), R.color.hotelsv2_sold_out_hotel_gray), hotelViewHolder.ratingBar.getStarColor())
         Assert.assertNotNull(hotelViewHolder.imageView.colorFilter)
     }
 
@@ -71,7 +78,7 @@ class HotelCellViewTest {
         Assert.assertNotEquals("Sold Out", hotelViewHolder.urgencyMessageBox.text)
         Assert.assertEquals(View.VISIBLE, hotelViewHolder.urgencyIcon.visibility)
 
-        Assert.assertEquals(activity.getResources().getColor(R.color.hotelsv2_detail_star_color), hotelViewHolder.ratingBar.getStarColor())
+        Assert.assertEquals(ContextCompat.getColor(getContext(), R.color.hotelsv2_detail_star_color), hotelViewHolder.ratingBar.getStarColor())
         Assert.assertNull(hotelViewHolder.imageView.colorFilter)
     }
 

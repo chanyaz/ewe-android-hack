@@ -554,7 +554,7 @@ class HotelDetailsTest {
 
         Assert.assertEquals(View.VISIBLE, hotelDetailView.changeDatesButton.visibility)
         Assert.assertEquals(View.VISIBLE, hotelDetailView.detailsSoldOut.visibility)
-        Assert.assertEquals(activity.resources.getColor(android.R.color.white), hotelDetailView.hotelDetailsToolbar.toolBarRating.getStarColor())
+        Assert.assertEquals(ContextCompat.getColor(activity.getApplicationContext(), android.R.color.white), hotelDetailView.hotelDetailsToolbar.toolBarRating.getStarColor())
         Assert.assertEquals(View.GONE, hotelDetailView.selectRoomButton.visibility)
         Assert.assertEquals(View.GONE, hotelDetailView.roomContainer.visibility)
         Assert.assertEquals(View.GONE, hotelDetailView.price.visibility)
@@ -570,7 +570,7 @@ class HotelDetailsTest {
     private fun testDefaultDetailView() {
         Assert.assertEquals(View.GONE, hotelDetailView.changeDatesButton.visibility)
         Assert.assertEquals(View.GONE, hotelDetailView.detailsSoldOut.visibility)
-        Assert.assertEquals(activity.resources.getColor(R.color.hotelsv2_detail_star_color), hotelDetailView.hotelDetailsToolbar.toolBarRating.getStarColor())
+        Assert.assertEquals(ContextCompat.getColor(activity.getApplicationContext(), R.color.hotelsv2_detail_star_color), hotelDetailView.hotelDetailsToolbar.toolBarRating.getStarColor())
         Assert.assertEquals(View.VISIBLE, hotelDetailView.selectRoomButton.visibility)
         Assert.assertEquals(View.VISIBLE, hotelDetailView.roomContainer.visibility)
         Assert.assertEquals(View.VISIBLE, hotelDetailView.price.visibility)
