@@ -3832,7 +3832,7 @@
     <!-- Car and LX checkout legal text eg: I have read and accept the Rules and Restrictions, the Terms & Conditions and Privacy Policy-->
     <string name="legal_TEMPLATE">이 예약을 완료함으로써 본인은 %1$s, %2$s 및 %3$s을 읽었으며 이를 수락하는 데 동의합니다.</string>
     <!-- Account creation legal template text eg: I have read and agree to the Terms of Use and the Privacy Policy. By joining Expedia+, I accept all Terms and Conditions -->
-    <string name="account_creation_legal_TEMPLATE">%1$s 및 %2$s 내용을 읽었고 이에 동의합니다. {brand}+에 가입함으로써 본인은 모든 %3$s에 동의합니다.</string>
+    <string name="account_creation_legal_TEMPLATE">{terms_of_use} 및 {privacy_policy} 내용을 읽었고 이에 동의합니다. {brand_reward_name}에 가입함으로써 본인은 모든 {terms_and_conditions}에 동의합니다.</string>
 
     <!-- Used in hotel search for specifying traveler -->
     <string name="child_age_label">각 아동의 나이 선택</string>
