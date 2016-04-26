@@ -1,21 +1,22 @@
 package com.expedia.bookings.test.phone.traveler;
 
-import android.support.test.InstrumentationRegistry;
-import android.support.test.rule.UiThreadTestRule;
-import android.support.test.runner.AndroidJUnit4;
-import com.expedia.bookings.R;
-import com.expedia.bookings.data.Db;
-import com.expedia.bookings.data.Traveler;
-import com.expedia.bookings.test.espresso.EspressoUser;
-import com.expedia.bookings.test.espresso.EspressoUtils;
-import com.expedia.bookings.test.rules.PlaygroundRule;
-import com.expedia.bookings.widget.FlightTravelerEntryWidget;
-import com.expedia.vm.traveler.TravelerViewModel;
-
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+
+import android.support.test.InstrumentationRegistry;
+import android.support.test.rule.UiThreadTestRule;
+import android.support.test.runner.AndroidJUnit4;
+
+import com.expedia.bookings.R;
+import com.expedia.bookings.data.Db;
+import com.expedia.bookings.data.Traveler;
+import com.expedia.bookings.test.espresso.EspressoUtils;
+import com.expedia.bookings.test.phone.packages.PackageScreen;
+import com.expedia.bookings.test.rules.PlaygroundRule;
+import com.expedia.bookings.widget.FlightTravelerEntryWidget;
+import com.expedia.vm.traveler.TravelerViewModel;
 
 @RunWith(AndroidJUnit4.class)
 public class FlightTravelerEntryWidgetTest {
@@ -41,7 +42,7 @@ public class FlightTravelerEntryWidgetTest {
 		testVM.getShowPassportCountryObservable().onNext(true);
 		setViewModel(testVM);
 
-		EspressoUser.clickOnView(R.id.advanced_options_button);
+		PackageScreen.clickTravelerAdvanced();
 		EspressoUtils.assertViewIsDisplayed(R.id.redress_number);
 		EspressoUtils.assertViewIsDisplayed(R.id.passport_country_spinner);
 	}
@@ -53,7 +54,7 @@ public class FlightTravelerEntryWidgetTest {
 		testVM.getShowPassportCountryObservable().onNext(false);
 		setViewModel(testVM);
 
-		EspressoUser.clickOnView(R.id.advanced_options_button);
+		PackageScreen.clickTravelerAdvanced();
 		EspressoUtils.assertViewIsDisplayed(R.id.redress_number);
 		EspressoUtils.assertViewIsNotDisplayed(R.id.passport_country_spinner);
 	}

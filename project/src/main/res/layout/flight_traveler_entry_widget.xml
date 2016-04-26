@@ -1,17 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginTop="9dp"
         android:background="@drawable/card_background"
         android:orientation="vertical"
-        android:padding="@dimen/checkout_form_padding"
-        android:layout_marginTop="9dp">
+        android:padding="@dimen/checkout_form_padding">
 
-        <com.expedia.bookings.widget.TravelerButton
+    <com.expedia.bookings.widget.TravelerButton
             android:id="@+id/traveler_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -52,6 +53,7 @@
             android:visibility="gone" />
 
         <LinearLayout
+            android:id="@+id/traveler_advanced_options_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="right"
@@ -61,13 +63,13 @@
                 android:id="@+id/traveler_advanced_options_icon"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignBaseline="@+id/advanced_options_button"
+                android:layout_alignBaseline="@+id/advanced_options_text"
                 android:layout_gravity="center"
                 android:src="@drawable/read_more"
                 android:tint="?attr/primary_color" />
 
             <com.expedia.bookings.widget.TextView
-                android:id="@+id/advanced_options_button"
+                android:id="@+id/advanced_options_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="right"
@@ -75,7 +77,9 @@
                 android:padding="10dp"
                 android:text="@string/advanced"
                 android:textAllCaps="true"
-                android:textColor="?attr/primary_color" />
+                android:textColor="?attr/primary_color"
+                app:textStyle="medium"
+                />
 
         </LinearLayout>
     </LinearLayout>
