@@ -340,6 +340,7 @@ public class LXResultsPresenter extends Presenter {
 		@Override
 		public void onNext(LXSearchResponse lxSearchResponse) {
 			searchResponse = lxSearchResponse;
+			trackLXSearch();
 			Events.post(new Events.LXSearchFilterResultsReady(lxSearchResponse.activities, lxSearchResponse.filterCategories));
 			if (!lxSearchResponse.isFromCachedResponse) {
 				Events.post(new Events.LXSearchResultsAvailable(lxSearchResponse));

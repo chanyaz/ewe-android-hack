@@ -2304,7 +2304,7 @@ public class OmnitureTracking {
 		s.setEvar(4, "D=c4");
 
 		// Success event for Product Search, Local Expert Search
-		s.setEvents("event30,event56");
+		s.setEvents(isGroundTransport ? "event30,event47" : "event30,event56");
 
 		// prop and evar 5, 6
 		setDateValues(s, lxSearchParams.startDate, lxSearchParams.endDate);
@@ -2437,7 +2437,7 @@ public class OmnitureTracking {
 		ADMS_Measurement s = internalTrackAppLX(
 			isGroundTransport ? LX_GT_INFOSITE_INFORMATION : LX_INFOSITE_INFORMATION);
 
-		s.setEvents("event32");
+		s.setEvents(isGroundTransport ? "event3" : "event32");
 
 		s.setProducts("LX;Merchant LX:" + activityDetailsResponse.id);
 
@@ -2466,7 +2466,7 @@ public class OmnitureTracking {
 	}
 
 	public static void trackAppLXCheckoutConfirmation(LXCheckoutResponse checkoutResponse,
-		String lxActivityId, LocalDate lxActivityStartDate, int selectedTicketsCount, boolean isGroundTransport) {
+		String lxActivityId, LocalDate lxActivityStartDate, LocalDate lxActivityEndDate, int selectedTicketsCount, boolean isGroundTransport) {
 		Log.d(TAG, "Tracking \"" + LX_CHECKOUT_CONFIRMATION + "\" pageLoad...");
 
 		ADMS_Measurement s = internalTrackAppLX(
@@ -2484,6 +2484,11 @@ public class OmnitureTracking {
 		s.setCurrencyCode(currencyCode);
 		s.setProducts(addLXProducts(lxActivityId, totalMoney, selectedTicketsCount));
 
+		String activityStartDateString = lxActivityStartDate.toString(PROP_DATE_FORMAT);
+		String activityEndDateString = lxActivityEndDate.toString(PROP_DATE_FORMAT);
+
+		s.setEvar(30, "LX:" + activityStartDateString + "-" + activityEndDateString);
+
 		setLXDateValues(lxActivityStartDate, s);
 
 		// Send the tracking data
@@ -2496,6 +2501,7 @@ public class OmnitureTracking {
 		Log.d(TAG, "Tracking \"" + LX_CHECKOUT_TRAVELER_INFO + "\" pageLoad...");
 		ADMS_Measurement s = getFreshTrackingObject();
 		s.setAppState(isGroundTransport ? LX_GT_CHECKOUT_TRAVELER_INFO : LX_CHECKOUT_TRAVELER_INFO);
+		s.setEvar(30, isGroundTransport ? LX_GT_CHECKOUT_TRAVELER_INFO : LX_CHECKOUT_TRAVELER_INFO);
 		s.track();
 
 	}
