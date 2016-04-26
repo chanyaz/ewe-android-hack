@@ -36,7 +36,7 @@
                         "formattedPrice": "$70.10",
                         "formattedWholePrice": "$70"
                     },
-                    "type": "CAR_RENTAL"
+                    "type": "BASE"
                 },
                 {
                     "includedInTotal": true,

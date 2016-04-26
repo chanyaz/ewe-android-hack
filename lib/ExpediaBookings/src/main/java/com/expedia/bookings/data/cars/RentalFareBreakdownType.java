@@ -3,6 +3,6 @@ package com.expedia.bookings.data.cars;
 public enum RentalFareBreakdownType {
 	TAXES_AND_FEES,
 	INSURANCE,
-	CAR_RENTAL,
+	BASE,
 	DROP_OFF_CHARGE
 }
