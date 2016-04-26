@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <dimen name="hotel_checkout_overview_width">@dimen/standard_content_width</dimen>
-
     <!-- Trip Bucket -->
     <fraction name="results_grid_tripbucket_height">23%</fraction>
 

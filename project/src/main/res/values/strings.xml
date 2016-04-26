@@ -1738,14 +1738,8 @@
     <string name="calendar_tooltip_bottom_select_return_date">(Optional) Select Return Date</string>
     <!-- Calendar tooltip bottom line after two dates are selected E.g. Drag End Dates to Modify -->
     <string name="calendar_tooltip_bottom_drag_to_modify">Drag End Dates to Modify</string>
-    <!-- Calendar tooltip hotels bottom line after a single date is selected "Select Checkout Date" -->
-    <string name="calendar_tooltip_hotel_bottom_select_checkout_date">Select Check-out Date</string>
-    <!-- Calendar tooltip hotels bottom line after two dates are selected TEMPLATE arg1=start date string, arg2=end date string, arg3=number of nights e.g. "May 26 - May 28 (2 nights)" -->
-    <string name="calendar_tooltip_hotel_top_text_date_range_and_nights_TEMPLATE">%1$s - %2$s (%3$s)</string>
     <!-- Calendar instruction text hotels date range template. %1$s = Formatted start date, %2$s = formatted end date. E.g. May 12 - May 15 -->
     <string name="calendar_instructions_date_range_TEMPLATE">%1$s - %2$s</string>
-    <!-- Calendar instruction text hotels date range template with nights. %1$s = Formatted start date, %2$s = formatted end date, %3$s = formatted nights string. E.g. May 12 - May 15 (3 nights) -->
-    <string name="calendar_instructions_date_range_with_nights_TEMPLATE">%1$s - %2$s (%3$s)</string>
     <!-- Calendar instruction text hotels no dates selected - "Select Check-in Date" -->
     <string name="calendar_instructions_hotels_no_dates_selected">Select Check-in Date</string>
     <!-- Calendar instruction text hotels date range template. %1$s = Formatted start date, %2$s = formatted end date. E.g. May 12 - May 15 -->
@@ -1947,16 +1941,12 @@
     <string name="to_be_collected_by_the_hotel_TEMPLATE">To be collected by hotel: {dueamount}</string>
     <!-- "Finish Booking" button that appears after CVV is entered -->
     <string name="Finish_Booking">Finish Booking</string>
-    <!-- Checkout menu item -->
-    <string name="menu_checkout">Checkout</string>
     <!-- Our best price gaurentee string -->
     <string name="best_price_guarantee">Best Price Guarantee</string>
     <!-- Label for address of hotel in checkout/receipt screen-->
     <string name="hotel_receipt_address">Address:</string>
     <!-- Label to view map of hotel in checkout/receipt screen-->
     <string name="hotel_receipt_view_map">View Map</string>
-    <!-- Expedia Rate - Non merchant default infosite messaging -->
-    <string name="non_merchant_rate_TEMPLATE">{brand} Rate</string>
     <!-- Free cancellation template string where we insert the date the free cancellation expires -->
     <string name="free_cancellation_date_TEMPLATE">&lt;b&gt;Free Cancellation&lt;/b&gt; by &lt;b&gt;%s&lt;/b&gt;</string>
     <!-- Sign out -->
@@ -2041,8 +2031,6 @@
     <!-- Label for "Add Traveler" in task manager -->
     <string name="Add_Traveler">Add Traveler</string>
 
-    <!-- Label for "Add Payment" in task manager -->
-    <string name="Add_Payment">Add Payment</string>
     <!-- Enter travler info button text -->
     <string name="enter_traveler_info">Traveler Information</string>
     <!-- Traveler Details (for flights) -->
@@ -2539,13 +2527,6 @@
     <string name="button_done">Done</string>
     <!-- Done button text in Confirmation screens -->
     <string name="button_confirmation_done">Done</string>
-    <!-- Label for child age selection prompt -->
-    <plurals name="select_each_childs_age">
-        <item quantity="one">Select child\'s age</item>
-        <item quantity="two">Select each child\'s age</item>
-        <item quantity="many">Select each child\'s age</item>
-        <item quantity="other">Select each child\'s age</item>
-    </plurals>
     <!-- Title of "select child age" spinner dialog box -->
     <string name="prompt_select_child_age">Select Child Age (%1$s–%2$s)</string>
     <!-- Text for child's age on search refinements and in spinner -->
@@ -2580,30 +2561,16 @@
     <string name="filter_hotel_name_hint">Filter by hotel name</string>
     <!-- Hint for filtering results by hotel name on material hotels -->
     <string name="filter_hotel_name_hint2">Hotel name</string>
-    <!-- Label indicating that there are no results matching their current filter -->
-    <string name="no_filter_results">Sorry, no hotels match your current filters.</string>
     <!-- Label indicating that geolocation failed -->
     <string name="geolocation_failed">Unable to determine search location.</string>
-    <!-- Message displayed when failed to find a particular location.  %s is the search term the user entered (e.g., "Could not find location of San Francisco"). -->
-    <string name="NoGeocodingResults">Could not find location of %s.</string>
     <!-- Title of geocoding location disambiguation dialog (when a location may have multiple choices). -->
     <string name="ChooseLocation">Did you mean…</string>
-    <!-- Button label for upgrading the app -->
-    <string name="upgrade">Upgrade</string>
-    <!-- Button label for searching with newly selected parameters -->
-    <string name="SEARCH">SEARCH</string>
     <!-- Button label for dismissing the flight guest picker -->
     <string name="DONE">DONE</string>
-    <!-- Button label for searching the visible map area -->
-    <string name="map_search_button">Search Map</string>
     <!-- Button label for toggling to the map -->
     <string name="map_text">Map</string>
-    <!-- Button label for toggling to the hotel list -->
-    <string name="list_text">List</string>
     <!-- Label for sort hotels in hotel list -->
     <string name="sort">Sort</string>
-    <!-- Label to swtich between map and list search results -->
-    <string name="switch_view">Switch View</string>
     <!-- Expedia Deal for a given property, Mobile exclusive -->
     <string name="mobile_exclusive">Mobile Exclusive</string>
     <!-- Expedia Deal for a given property, tonight only -->
@@ -2635,8 +2602,6 @@
 
     <!-- Dialog message asking user if they want to enable a location provider. -->
     <string name="EnableLocationSettings">To use Current Location, you must first turn on a Location source in Settings.\n\nGo to Settings and turn it on now?</string>
-    <!-- Message displayed when user has disabled finding the device's location. -->
-    <string name="ProviderDisabled">Your location provider has been disabled. Please re-enable it to search by your location.</string>
 
     <!-- Sort descriptions, e.g. Sorted by "description" -->
     <!-- Sort by distance label -->
@@ -2662,26 +2627,14 @@
     <string name="filter_price_moderate">$$</string>
     <!-- Filter option for "show expensive hotels".  (Should remain abbreviated) -->
     <string name="filter_price_expensive">$$$</string>
-    <!-- Filter option for "show 3 star hotels or better."  (Should remain abbreviated) -->
-    <string name="filter_stars_three">3+</string>
-    <!-- Filter option for "show 4 star hotels or better."  (Should remain abbreviated) -->
-    <string name="filter_stars_four">4+</string>
-    <!-- Filter option for "show 5 star hotels ."  (Should remain abbreviated) -->
-    <string name="filter_stars_five">5</string>
     <!-- Filter option template for filtering hotels by distance in miles.  (E.g., "5 mi"). -->
     <string name="filter_distance_miles_template">%s mi</string>
     <!-- Filter option template for filtering hotels by distance in kilometers.  (E.g., "7.5 km"). -->
     <string name="filter_distance_kilometers_template">%s km</string>
 
     <!-- Progress messages -->
-    <!-- Message displayed when app is trying to find where it is (via network/GPS) -->
-    <string name="progress_finding_location">Finding Current Location…</string>
-    <!-- Message displayed when app is searching a location for hotels -->
-    <string name="progress_searching_message">Searching!</string>
     <!-- Message displayed when app is searching a location for hotels -->
     <string name="progress_searching_hotels_hundreds">Searching hundreds of hotels for you!</string>
-    <!-- Message displayed when app is searching for a particular hotel -->
-    <string name="progress_searching_selected_hotel">Searching for the Hotel…</string>
     <!-- Message displayed when search comes up with zero results -->
     <string name="no_hotels_availiable_tonight">No hotels available tonight</string>
     <!-- Message displayed when search comes up with zero results -->
@@ -2745,8 +2698,6 @@
     <string name="bullet_point">•</string>
     <!-- Label for button that lets the user complete the booking through the normal flow -->
     <string name="book_now">Book Now</string>
-    <!-- Label for button that lets the user complete the booking through the normal flow -->
-    <string name="book_now_ab_test">Select Room</string>
     <!-- Label for button that lets the user complete the booking by calling a phone number -->
     <string name="book_by_phone">Book by phone</string>
     <!-- Hotel Details Fragment -->
@@ -2767,8 +2718,6 @@
     <!-- HotelDetailsFragmentActivity and friends -->
     <!-- Discount percent shown in hotel results list -->
     <string name="minus_x_percent">-%2.0f%%</string>
-    <!-- Recommended string shown in hotel details -->
-    <string name="x_percent_guests_recommend">%2.0f%% of guests recommend this hotel.</string>
     <!-- new material Hotel results cell guest recommend-->
     <string name="hotel_guest_recommend">of 5 - guest rating</string>
     <!-- Hotels V2 AB test: hotel reviews superlative suffixes -->
@@ -2875,14 +2824,6 @@
     <string name="user_review_recommendation_tag_text">&lt;b&gt;%1$d&lt;/b&gt; out of &lt;b&gt;%2$d&lt;/b&gt; guests recommend this hotel.</string>
     <!-- Special case for 0 reviews -->
     <string name="no_reviews">No Reviews</string>
-    <!-- A number of reviews -->
-    <plurals name="number_of_reviews">
-        <item quantity="zero">No Reviews</item>
-        <item quantity="one">%d Review</item>
-        <item quantity="two">%d Reviews</item>
-        <item quantity="many">%d Reviews</item>
-        <item quantity="other">%d Reviews</item>
-    </plurals>
 
     <!-- HOtel V2A number of reviews -->
     <plurals name="hotel_number_of_reviews">
@@ -2914,7 +2855,6 @@
     <string name="pay_later_info_text">Book Now, Pay Later</string>
     <string name="etp_payment_options_text">Your hotel payment options</string>
     <string name="etp_pay_later_option_text">Pay later</string>
-    <string name="etp_pay_later_charges_text">You will not be charged until your stay, unless a deposit is required.</string>
     <string name="etp_pay_later_currency_text_TEMPLATE">Pay the hotel directly, in the hotel\'s local currency (%s).</string>
     <string name="etp_pay_later_payment_info_text">Payment information is only needed to hold your reservation.</string>
     <string name="etp_pay_later_cancellation_text">Cancellation is free, right up to the hotel\'s cancellation window.</string>
@@ -2938,10 +2878,6 @@
     <string name="rate_per_night">per night</string>
     <!-- Rate price displayed "average per night" -->
     <string name="rate_avg_per_night">avg/night</string>
-    <!-- Rate price for entire list, encompasses a group of hotel properties -->
-    <string name="total_price_for_stay">Total price for stay</string>
-    <!-- Rate price for entire list, encompasses a group of hotel properties -->
-    <string name="prices_avg_per_night">Prices average, per night</string>
 
     <!-- Hotel Results Pricing Header - Prices Avg Per Night along with the Number of Search Results -->
     <plurals name="hotel_results_pricing_header_prices_avg_per_night_TEMPLATE">
@@ -2987,8 +2923,6 @@
     <!-- Instruction as the header of the list to select a room from the list -->
     <string name="select_a_room_instruction">Select a Room</string>
     <!-- The text we use when the search date it tonight -->
-    <string name="Tonight">Tonight</string>
-    <!-- The text we use when the search date it tonight -->
     <string name="free_cancellation">Free Cancellation</string>
     <!-- Top line of resort fee text -->
     <string name="hotel_fees_for_this_stay">Hotel fees for this stay</string>
@@ -3029,10 +2963,6 @@
     <string name="invalid_postal_code">We\'re sorry, but a valid postal code is required to process your credit card.</string>
     <!-- Message to display to user while booking is in progress -->
     <string name="booking_loading">Booking…</string>
-    <!-- Title for error dialog when booking fails -->
-    <string name="error_booking_title">Error</string>
-    <!-- Error message when booking completed with errors -->
-    <string name="error_booking_succeeded_with_errors">Your hotel room has been booked and reserved. However, there were the following errors: %s</string>
     <!-- Error message when booking completed with errors - specifically if email was not sent -->
     <string name="error_unable_to_send_email">We are unable to send a confirmation email.</string>
 
@@ -3157,8 +3087,6 @@
     <string name="coupon_error_exceeded_earn_limit">Sorry, this coupon has been used too many times and can no longer be applied.</string>
     <!-- Error when applying coupon - Invalid Average Price -->
     <string name="coupon_error_invalid_average_price">Sorry, but the average price per night doesn\&apos;t meet the minimum for this coupon.</string>
-    <!-- Error when applying coupon - Pay Later Hotel -->
-    <string name="coupon_error_pay_later_hotel">Coupons cannot be applied to Pay Later rooms, please select a Pay Now room.</string>
     <!-- Error when applying coupon - Not Active -->
     <string name="coupon_error_not_active">Sorry, but this coupon has expired.</string>
 
@@ -3720,13 +3648,6 @@
     <!-- Trips Screen -->
     <!-- Content description for action: Press to refresh trips list -->
     <string name="cd_trips_refresh_trips_list">Press to refresh trips list</string>
-    <!-- Hotel Search Screen -->
-    <!-- Content description for action: Enter text into Hotel Search Field -->
-    <string name="cd_hotel_search_edittext">Enter text into hotel search Field</string>
-    <!-- Content description for action: Open hotel booking dates calendar -->
-    <string name="cd_hotel_search_open_calendar">Open hotel booking calendar</string>
-    <!-- Content description for action: Open hotel guest picker -->
-    <string name="cd_hotel_search_open_guest_picker">Open hotel guest picker</string>
     <!-- Hotel star filters -->
     <!-- Content description for action: Press to filter for hotels hotels with three or more stars -->
     <string name="cd_filter_hotels_for_three_or_more_stars">Press to filter for hotels with three or more stars</string>
@@ -3757,12 +3678,6 @@
     <!-- Hotel info screen -->
     <!-- Content description for action: Press to select this hotel -->
     <string name="cd_hotel_info_select_button">Press to select this hotel</string>
-    <!-- Content description for action: Press to go to this hotel's reviews -->
-    <string name="cd_hotel_info_go_to_hotel_reviews">Press to go to this hotel\'s reviews</string>
-    <!-- Content description for action: Press to book this hotel now -->
-    <string name="cd_hotel_info_press_book_now">Press to book this hotel now</string>
-    <!-- Content description for action: Press to book this hotel by phone -->
-    <string name="cd_hotel_info_press_book_by_phone">Press to book this hotel by phone</string>
     <!-- Hotel review screen -->
     <!-- Content description for action: Press to display recent reviews -->
     <string name="cd_display_recent_reviews">Press to display recent reviews</string>
@@ -3788,10 +3703,6 @@
     <!-- Checkout screen -->
     <!-- Content description for action: Press to begin checkout -->
     <string name="cd_checkout">Press to begin checkout</string>
-    <!-- Content description for action: Press to add a traveler to this booking -->
-    <string name="cd_checkout_add_traveler">Press to add a traveler to this booking</string>
-    <!-- Content description for action: Press to select payment for this booking -->
-    <string name="cd_checkout_select_payment">Press to select payment for this booking</string>
     <!-- Content description for action: Press to enter a coupon or promotional code -->
     <string name="cd_checkout_enter_coupon">Press to enter a coupon or promotional code</string>
     <!-- Traveler Information screen -->

@@ -51,11 +51,6 @@
     <string name="email_app_support">Expedia-Android@mobiata.com</string>
 
     <!-- Fragment tags -->
-    <string name="tag_hotel_list">HOTEL_LIST</string>
-    <string name="tag_hotel_map">HOTEL_MAP</string>
-    <string name="tag_single_hotel_map">SINGLE_HOTEL_MAP</string>
-    <string name="tag_rooms_and_rates">ROOMS_AND_RATES</string>
-    <string name="tag_simple_dialog">SIMPLE_DIALOG</string>
     <string name="tag_itinerary_list">ITINERARY_LIST</string>
     <string name="tag_itinerary_map">ITINERARY_MAP</string>
     <string name="tag_itinerary_card">ITINERARY_CARD</string>
@@ -420,7 +415,6 @@
 
     <!-- Non-localized content descriptions (Automation) -->
     <string name="cd_top_flight_calendar">Top of flight calendar</string>
-    <string name="cd_hotel_calendar_header">Top of hotel calendar</string>
     <string name="cd_slide_to_checkout_start">Slide to checkout start</string>
     <string name="cd_slide_to_checkout_end">Slide to checkout end</string>
     <string name="cd_one_btn">One</string>

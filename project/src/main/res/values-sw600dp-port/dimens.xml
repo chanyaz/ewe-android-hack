@@ -10,8 +10,6 @@
     <dimen name="itin_card_expanded_image_height">240dp</dimen>
     <dimen name="itin_card_mini_image_height">136dp</dimen>
 
-    <dimen name="hotel_checkout_overview_width">450dp</dimen>
-
     <!-- GridManager numbers for Search Results screen -->
     <fraction name="results_grid_bottom_half">60%</fraction>
     <!-- Note: results_grid_tripbucket_height + results_grid_collapsed_lists = results_grid_bottom_half -->

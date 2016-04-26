@@ -86,7 +86,6 @@
     <dimen name="login_field_spacing">2dp</dimen>
 
     <!-- Account / Login button -->
-    <dimen name="account_button_margin_top">12dp</dimen>
     <dimen name="account_button_text_padding">16dp</dimen>
     <dimen name="account_button_height">40dp</dimen>
     <dimen name="account_button_padding">0dp</dimen>
@@ -140,8 +139,6 @@
 
     <!-- Hotel Checkout -->
     <!-- This is overridden for tablets in landscape -->
-    <dimen name="standard_content_width">@dimen/match_parent</dimen>
-    <dimen name="hotel_checkout_overview_width">@dimen/standard_content_width</dimen>
     <dimen name="hotel_checkout_overview_image_height">120dp</dimen>
     <dimen name="checkout_login_padding_top">10dp</dimen>
 
@@ -265,15 +262,8 @@
     <!-- Dimensions for hotel details -->
     <dimen name="widget_hotel_info_padding">18dp</dimen>
     <dimen name="hotel_detail_gradient_height">120dp</dimen>
-    <!-- The visible area of the map on the Hotel Details screen (when collapsed) -->
-    <dimen name="hotel_details_map_visible_size">150dp</dimen>
-    <!-- The total height of the map on the Hotel Details screen that can be scrolled to -->
-    <dimen name="hotel_details_map_total_size">200dp</dimen>
 
     <dimen name="hotel_room_list_container_margin">9dp</dimen>
-    <!-- Offset so that the price and "mobile exclusive" overlaps the gallery -->
-    <dimen name="promo_banner_height">89dp</dimen>
-    <dimen name="hotel_details_intro_offset">-89dp</dimen>
     <dimen name="price_promo_banner_height">45dp</dimen>
 
     <!--Dimensions for hotel review row-->
@@ -352,11 +342,8 @@
     <!-- Coupon code dimensions -->
     <dimen name="one_px_hdpi_two_px_xhdpi">0.75dip</dimen>
     <dimen name="hotel_row_strikethrough_price_text_size">12dp</dimen>
-    <dimen name="actionbar_refinement_width">50dp</dimen>
-    <dimen name="popup_filter_row_height">50dp</dimen>
 
     <!-- Common Dimensions, Shared among LOBs -->
-    <dimen name="phone_search_calendar_height">300dp</dimen>
     <dimen name="location_suggestion_row_height">60dp</dimen>
     <dimen name="toolbar_dropshadow_height">5dp</dimen>
 

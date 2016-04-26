@@ -547,6 +547,12 @@ DummyFiletoHandleKotlinLintError {
 		R.string.traveler_adult_error,
 		R.color.white70,
 		R.color.packages_total_duration_text,
-		R.layout.account_button_v2_test
+		R.layout.account_button_v2_test,
+		R.string.spinner_text_hotel_create_trip,
+		R.string.ChooseLocation,
+		R.string.search_error,
+		R.string.etp_pay_now_charges_text_TEMPLATE,
+		R.string.etp_pay_now_currency_text_TEMPLATE,
+		R.string.etp_pay_later_currency_text_TEMPLATE
 	};
 }
