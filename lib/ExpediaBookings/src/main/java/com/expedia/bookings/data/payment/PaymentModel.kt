@@ -60,7 +60,7 @@ class PaymentModel<T : TripResponse>(loyaltyServices: LoyaltyServices) {
     //Amount Chosen To Be Paid With Points
     val burnAmountSubject = PublishSubject.create<BigDecimal>()
 
-    val tripTotalPayable = BehaviorSubject.create<Money>()
+    val tripTotalPayable = BehaviorSubject.create<Money>(Money())
 
     //OUTLETS
 
@@ -131,7 +131,9 @@ class PaymentModel<T : TripResponse>(loyaltyServices: LoyaltyServices) {
         }
 
         burnAmountToPointsApiResponse.subscribe {
-            tripTotalPayable.onNext(it.tripTotalPayable)
+            val tripTotal = it.tripTotalPayable
+            if(tripTotal !=null)
+                tripTotalPayable.onNext(tripTotal)
             paymentSplitsFromBurnAmountUpdates.onNext(PaymentSplits(it.conversion!!, it.remainingPayableByCard!!))
         }
 
