@@ -154,12 +154,14 @@
     <color name="hotel_filter_text">#5c5c5c</color>
 
     <!-- Login -->
-    <color name="reward_color_base">#085BA5</color>
-    <color name="reward_color_base_text">@color/white</color>
-    <color name="reward_color_middle">#668193</color>
-    <color name="reward_color_middle_text">@color/white</color>
-    <color name="reward_color_top">#FFC300</color>
-    <color name="reward_color_top_text">#403f3f</color>
+    <color name="reward_color_blue">#085BA5</color>
+    <color name="reward_color_blue_text">@color/white</color>
+    <color name="reward_color_silver">#668193</color>
+    <color name="reward_color_silver_text">@color/white</color>
+    <color name="reward_color_gold">#FFC300</color>
+    <color name="reward_color_gold_text">#403f3f</color>
+    <color name="reward_color_platinum">#C4204B</color>
+    <color name="reward_color_platinum_text">@color/white</color>
 
     <!-- CVV entry colors -->
     <color name="cvv_normal">@color/white</color>

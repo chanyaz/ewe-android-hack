@@ -418,19 +418,24 @@ class AccountSettingsFragment : Fragment(),
 
                 when (userLoyaltyInfo?.loyaltyMembershipTier) {
                     Traveler.LoyaltyMembershipTier.BLUE -> {
-                        memberTierView.setBackgroundResource(R.drawable.bg_loyalty_badge_base_tier)
-                        memberTierView.setTextColor(ContextCompat.getColor(context, R.color.reward_color_base_text))
+                        memberTierView.setBackgroundResource(R.drawable.bg_loyalty_badge_blue_tier)
+                        memberTierView.setTextColor(ContextCompat.getColor(context, R.color.reward_color_blue_text))
                         memberTierView.setText(R.string.plus_blue)
                     }
                     Traveler.LoyaltyMembershipTier.SILVER -> {
-                        memberTierView.setBackgroundResource(R.drawable.bg_loyalty_badge_middle_tier)
-                        memberTierView.setTextColor(ContextCompat.getColor(context, R.color.reward_color_middle_text))
+                        memberTierView.setBackgroundResource(R.drawable.bg_loyalty_badge_silver_tier)
+                        memberTierView.setTextColor(ContextCompat.getColor(context, R.color.reward_color_silver_text))
                         memberTierView.setText(R.string.plus_silver)
                     }
                     Traveler.LoyaltyMembershipTier.GOLD -> {
-                        memberTierView.setBackgroundResource(R.drawable.bg_loyalty_badge_top_tier)
-                        memberTierView.setTextColor(ContextCompat.getColor(context, R.color.reward_color_top_text))
+                        memberTierView.setBackgroundResource(R.drawable.bg_loyalty_badge_gold_tier)
+                        memberTierView.setTextColor(ContextCompat.getColor(context, R.color.reward_color_gold_text))
                         memberTierView.setText(R.string.plus_gold)
+                    }
+                    Traveler.LoyaltyMembershipTier.PLATINUM -> {
+                        memberTierView.setBackgroundResource(R.drawable.bg_loyalty_badge_platinum_tier)
+                        memberTierView.setTextColor(ContextCompat.getColor(context, R.color.reward_color_platinum_text))
+                        memberTierView.setText(R.string.plus_platinum)
                     }
                     else -> {
                         // User is not in member ship tier
