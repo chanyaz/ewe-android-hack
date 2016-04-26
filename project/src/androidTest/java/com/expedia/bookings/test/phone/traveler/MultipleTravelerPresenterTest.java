@@ -244,4 +244,32 @@ public class MultipleTravelerPresenterTest extends BaseTravelerPresenterTestHelp
 		EspressoUtils.assertViewIsDisplayed(R.id.traveler_select_state);
 		checkOscarInvalid(R.id.traveler_status_icon, R.drawable.invalid, testChildFullName);
 	}
+
+	@Test
+	public void testBoardingWarning() {
+		mockViewModel = getMockViewModelEmptyTravelers(2);
+		testTravelerPresenter.setViewModel(mockViewModel);
+
+		EspressoUser.clickOnView(R.id.traveler_default_state);
+		EspressoUtils.assertViewIsDisplayed(R.id.traveler_select_state);
+		EspressoUtils.assertViewIsNotDisplayed(R.id.boarding_warning);
+
+		EspressoUser.clickOnText(expectedTravelerOneText);
+		EspressoUtils.assertViewWithTextIsDisplayed(R.id.boarding_warning, R.string.name_must_match_warning);
+	}
+
+	@Test
+	public void testBoardingWarningCleared() {
+		mockViewModel = getMockViewModelValidTravelers(2);
+		testTravelerPresenter.setViewModel(mockViewModel);
+
+		EspressoUser.clickOnView(R.id.traveler_default_state);
+		EspressoUtils.assertViewIsDisplayed(R.id.traveler_select_state);
+		EspressoUtils.assertViewIsNotDisplayed(R.id.boarding_warning);
+
+		EspressoUser.clickOnText(expectedTravelerOneText);
+		EspressoUtils.assertViewWithTextIsDisplayed(R.id.boarding_warning, R.string.name_must_match_warning);
+		PackageScreen.clickTravelerDone();
+		EspressoUtils.assertViewIsNotDisplayed(R.id.boarding_warning);
+	}
 }
