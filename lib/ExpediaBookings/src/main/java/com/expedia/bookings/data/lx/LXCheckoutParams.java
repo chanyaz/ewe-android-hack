@@ -23,6 +23,7 @@ public class LXCheckoutParams {
 	public String storedCreditCardId;
 	public String guid;
 	public boolean suppressFinalBooking;
+	public boolean storeCreditCardInUserProfile;
 
 	public LXCheckoutParams firstName(String firstName) {
 		this.firstName = firstName;
@@ -104,6 +105,11 @@ public class LXCheckoutParams {
 		return this;
 	}
 
+	public LXCheckoutParams storeCreditCardInUserProfile(boolean storeCreditCardInUserProfile) {
+		this.storeCreditCardInUserProfile = storeCreditCardInUserProfile;
+		return this;
+	}
+
 	public LXCheckoutParams guid(String guid) {
 		this.guid = guid;
 		return this;
@@ -142,6 +148,7 @@ public class LXCheckoutParams {
 		params.put("storedCreditCardId", storedCreditCardId);
 		params.put("suppressFinalBooking", suppressFinalBooking);
 		params.put("abacusUserGuid", guid);
+		params.put("storeCreditCardInUserProfile", storeCreditCardInUserProfile);
 		return params;
 	}
 }

@@ -163,7 +163,8 @@ public class LXCheckoutMainViewPresenter extends CheckoutBasePresenter implement
 				.expirationDateYear(expirationYear)
 				.expirationDateMonth(expirationMonth)
 				.postalCode(info.getLocation().getPostalCode())
-				.nameOnCard(info.getNameOnCard()).cvv(cvv);
+				.nameOnCard(info.getNameOnCard()).cvv(cvv)
+				.storeCreditCardInUserProfile(info.getSaveCardToExpediaAccount());
 		}
 		Events.post(new Events.LXKickOffCheckoutCall(checkoutParams));
 	}
