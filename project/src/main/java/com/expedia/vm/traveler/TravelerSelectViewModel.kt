@@ -7,6 +7,7 @@ import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.Traveler
 import com.expedia.bookings.enums.PassengerCategory
 import com.expedia.bookings.enums.TravelerCheckoutStatus
+import com.expedia.bookings.utils.FontCache
 import com.expedia.bookings.utils.validation.TravelerValidator
 import com.expedia.bookings.widget.ContactDetailsCompletenessStatus
 import com.squareup.phrase.Phrase
@@ -23,11 +24,12 @@ open class TravelerSelectViewModel(val context: Context, val index: Int, val cat
     val titleObservable = BehaviorSubject.create<String>()
     val subtitleObservable = BehaviorSubject.create<String>()
     val textColorObservable = BehaviorSubject.create<Int>()
+    val titleFontObservable = BehaviorSubject.create<FontCache.Font>()
 
     var status: TravelerCheckoutStatus
 
     init {
-        setTravelerSummaryInfo(emptyText, "", ContactDetailsCompletenessStatus.DEFAULT)
+        setTravelerSummaryInfo(emptyText, "", ContactDetailsCompletenessStatus.DEFAULT, FontCache.Font.ROBOTO_REGULAR)
         status = TravelerCheckoutStatus.CLEAN
     }
 
@@ -37,16 +39,16 @@ open class TravelerSelectViewModel(val context: Context, val index: Int, val cat
         textColorObservable.onNext(ContextCompat.getColor(context, R.color.traveler_default_card_text_color))
         if (status != TravelerCheckoutStatus.CLEAN) {
             if (isNameEmpty(traveler)) {
-                setTravelerSummaryInfo(emptyText, "", ContactDetailsCompletenessStatus.INCOMPLETE)
+                setTravelerSummaryInfo(emptyText, "", ContactDetailsCompletenessStatus.INCOMPLETE, FontCache.Font.ROBOTO_REGULAR)
                 textColorObservable.onNext(ContextCompat.getColor(context, R.color.traveler_incomplete_text_color))
             } else if (isPhoneEmpty(traveler)) {
-                setTravelerSummaryInfo(traveler.fullName, "", ContactDetailsCompletenessStatus.INCOMPLETE)
+                setTravelerSummaryInfo(traveler.fullName, "", ContactDetailsCompletenessStatus.INCOMPLETE, FontCache.Font.ROBOTO_MEDIUM)
             } else if (!TravelerValidator.isValidForPackageBooking(traveler)) {
                 setTravelerSummaryInfo(traveler.fullName, traveler.primaryPhoneNumber.number,
-                        ContactDetailsCompletenessStatus.INCOMPLETE)
+                        ContactDetailsCompletenessStatus.INCOMPLETE, FontCache.Font.ROBOTO_MEDIUM)
             } else {
                 setTravelerSummaryInfo(traveler.fullName, traveler.primaryPhoneNumber.number,
-                        ContactDetailsCompletenessStatus.COMPLETE)
+                        ContactDetailsCompletenessStatus.COMPLETE, FontCache.Font.ROBOTO_MEDIUM)
             }
         }
     }
@@ -59,10 +61,11 @@ open class TravelerSelectViewModel(val context: Context, val index: Int, val cat
         return traveler.primaryPhoneNumber?.number.isNullOrEmpty()
     }
 
-    private fun setTravelerSummaryInfo(title: String, subTitle: String, completenessStatus: ContactDetailsCompletenessStatus) {
+    private fun setTravelerSummaryInfo(title: String, subTitle: String, completenessStatus: ContactDetailsCompletenessStatus, font: FontCache.Font) {
         titleObservable.onNext(title)
         subtitleObservable.onNext(subTitle)
         iconStatusObservable.onNext(completenessStatus)
+        titleFontObservable.onNext(font)
     }
 
     open fun getTraveler() : Traveler {

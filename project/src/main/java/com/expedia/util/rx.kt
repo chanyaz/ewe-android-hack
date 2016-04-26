@@ -9,6 +9,7 @@ import android.widget.ImageView
 import android.widget.RatingBar
 import android.widget.TextView
 import android.widget.ToggleButton
+import com.expedia.bookings.utils.FontCache
 import com.expedia.bookings.widget.RecyclerGallery
 import com.expedia.bookings.widget.StarRatingBar
 import com.expedia.util.operators.OperatorDistinctUntilChangedWithComparer
@@ -67,6 +68,12 @@ fun View.unsubscribeOnClick() {
 fun View.publishOnClick(publishSubject: PublishSubject<Unit>) {
     this.setOnClickListener {
         publishSubject.onNext(Unit)
+    }
+}
+
+fun Observable<FontCache.Font>.subscribeFont(textview: TextView?) {
+    this.subscribe { font ->
+        FontCache.setTypeface(textview, font)
     }
 }
 

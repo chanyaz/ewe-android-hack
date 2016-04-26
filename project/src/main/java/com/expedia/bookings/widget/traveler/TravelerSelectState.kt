@@ -45,7 +45,7 @@ class TravelerSelectState(context: Context, attrs: AttributeSet?) : LinearLayout
             val parent = if (i==1) mainTravelerContainer else addTravelersContainer
             parent.addView(travelerSelectItem)
 
-            if (i != travelerList.size || i != 1) {
+            if (i != travelerList.size && i != 1) {
                 View.inflate(context, R.layout.traveler_divider_bar, parent)
             }
         }
