@@ -36,14 +36,14 @@ open class HotelViewModel(private val context: Context, protected  val hotel: Ho
     val strikethroughPriceToShowUsers = BehaviorSubject.create(hotel.lowRateInfo.strikethroughPriceToShowUsers)
     val priceToShowUsers = BehaviorSubject.create(hotel.lowRateInfo.priceToShowUsers)
     val hotelStrikeThroughPriceVisibility = BehaviorSubject.create(false)
-    val loyaltyAvailabilityObservable = BehaviorSubject.create<Boolean>(hotel.lowRateInfo?.loyaltyInfo?.isShopWithPoints ?: false)
+    val loyaltyAvailabilityObservable = BehaviorSubject.create<Boolean>(hotel.lowRateInfo?.loyaltyInfo?.isBurnApplied ?: false)
     val showDiscountObservable = BehaviorSubject.create<Boolean>(hotel.lowRateInfo.isDiscountPercentNotZero && !hotel.lowRateInfo.airAttached && !loyaltyAvailabilityObservable.value)
     val hotelGuestRatingObservable = BehaviorSubject.create(hotel.hotelGuestRating)
     val isHotelGuestRatingAvailableObservable = BehaviorSubject.create<Boolean>(hotel.hotelGuestRating > 0)
     val hotelPreviewRating = BehaviorSubject.create<Float>(hotel.hotelStarRating)
     val hotelPreviewRatingVisibility = BehaviorSubject.create<Float>(hotel.hotelStarRating).map { it >= 0.5f }
     val pricePerNightObservable = BehaviorSubject.create(priceFormatter(resources, hotel.lowRateInfo, false, !hotel.isPackage))
-    val pricePerNightColorObservable = BehaviorSubject.create(ContextCompat.getColor(context, if (hotel.lowRateInfo?.loyaltyInfo?.isShopWithPoints ?: false) R.color.hotels_primary_color else R.color.hotel_cell_gray_text))
+    val pricePerNightColorObservable = BehaviorSubject.create(ContextCompat.getColor(context, if (hotel.lowRateInfo?.loyaltyInfo?.isBurnApplied ?: false) R.color.hotels_primary_color else R.color.hotel_cell_gray_text))
 
     val fewRoomsLeftUrgency = BehaviorSubject.create<UrgencyMessage>(null as UrgencyMessage?)
     val tonightOnlyUrgency = BehaviorSubject.create<UrgencyMessage>(null as UrgencyMessage?)

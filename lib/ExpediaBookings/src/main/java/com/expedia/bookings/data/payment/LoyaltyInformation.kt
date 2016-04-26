@@ -4,7 +4,7 @@ import com.expedia.bookings.data.Money
 import java.math.BigDecimal
 
 data class LoyaltyInformation(
-        val burn: LoyaltyBurnInfo?, val earn: LoyaltyEarnInfo, val isShopWithPoints: Boolean
+        val burn: LoyaltyBurnInfo?, val earn: LoyaltyEarnInfo, val isBurnApplied: Boolean
 )
 
 data class LoyaltyBurnInfo(val type: LoyaltyType, val amount: Money)

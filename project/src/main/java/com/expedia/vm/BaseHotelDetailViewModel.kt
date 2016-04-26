@@ -210,7 +210,7 @@ abstract class BaseHotelDetailViewModel(val context: Context, val roomSelectedOb
             hotelDetailsBundleTotalObservable.onNext(Pair(rate.packagePricePerPerson, packageSavings))
             totalPriceObservable.onNext(Money(BigDecimal(rate.totalPriceWithMandatoryFees.toDouble()), rate.currencyCode).getFormattedMoney(Money.F_NO_DECIMAL))
             discountPercentageBackgroundObservable.onNext(if (rate.isShowAirAttached()) R.drawable.air_attach_background else R.drawable.guest_rating_background)
-            showAirAttachSWPImageObservable.onNext(rate.loyaltyInfo?.isShopWithPoints ?: false && rate.isShowAirAttached())
+            showAirAttachSWPImageObservable.onNext(rate.loyaltyInfo?.isBurnApplied ?: false && rate.isShowAirAttached())
         }
 
         userRatingObservable.onNext(response.hotelGuestRating.toString())
@@ -224,7 +224,7 @@ abstract class BaseHotelDetailViewModel(val context: Context, val roomSelectedOb
                 else context.resources.getString(R.string.zero_reviews))
 
         val chargeableRateInfo = response.hotelRoomResponse?.firstOrNull()?.rateInfo?.chargeableRateInfo
-        val isRateShopWithPoints = chargeableRateInfo?.loyaltyInfo?.isShopWithPoints ?: false
+        val isRateShopWithPoints = chargeableRateInfo?.loyaltyInfo?.isBurnApplied ?: false
         var discountPercentage: Int? = chargeableRateInfo?.discountPercent?.toInt()
         discountPercentageObservable.onNext(Phrase.from(context.resources, R.string.hotel_discount_percent_Template)
                 .put("discount", discountPercentage ?: 0).format().toString())

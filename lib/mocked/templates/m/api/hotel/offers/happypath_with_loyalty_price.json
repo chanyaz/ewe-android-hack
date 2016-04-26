@@ -126,7 +126,7 @@
                                 }
                             }
                         },
-                        "isShopWithPoints": true
+                        "isBurnApplied": true
                     }
                 },
                 "priceBreakdown": true,
