@@ -66,7 +66,7 @@ class HotelShopWithPointsServicesTest {
         assertNotNull(loyaltyInfo.earn)
         assertNotNull(loyaltyInfo.earn.points)
         assertNull(loyaltyInfo.earn.price)
-        assertTrue(loyaltyInfo.isShopWithPoints)
+        assertTrue(loyaltyInfo.isBurnApplied)
     }
 
     // Loyalty earn in Orbitz is in money (Orbucks)
@@ -93,7 +93,7 @@ class HotelShopWithPointsServicesTest {
         assertNotNull(loyaltyInfo.earn)
         assertNull(loyaltyInfo.earn.points)
         assertNotNull(loyaltyInfo.earn.price)
-        assertTrue(loyaltyInfo.isShopWithPoints)
+        assertTrue(loyaltyInfo.isBurnApplied)
     }
 
     @Test
@@ -136,7 +136,7 @@ class HotelShopWithPointsServicesTest {
         assertNotNull(loyaltyInfo.earn)
         assertNotNull(loyaltyInfo.earn.points)
         assertNull(loyaltyInfo.earn.price)
-        assertTrue(loyaltyInfo.isShopWithPoints)
+        assertTrue(loyaltyInfo.isBurnApplied)
     }
 
     // Loyalty earn in Orbitz is in money (Orbucks)
@@ -161,7 +161,7 @@ class HotelShopWithPointsServicesTest {
         assertNotNull(loyaltyInfo.earn)
         assertNull(loyaltyInfo.earn.points)
         assertNotNull(loyaltyInfo.earn.price)
-        assertTrue(loyaltyInfo.isShopWithPoints)
+        assertTrue(loyaltyInfo.isBurnApplied)
     }
 
 }

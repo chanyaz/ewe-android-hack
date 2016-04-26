@@ -107,7 +107,7 @@ class HotelServices(endpoint: String, okHttpClient: OkHttpClient, requestInterce
 				}
 				.doOnNext { hotelOffersResponse ->
 					hotelOffersResponse.hotelRoomResponse?.forEach {
-						if (it.rateInfo?.chargeableRateInfo?.loyaltyInfo?.isShopWithPoints ?: false) {
+						if (it.rateInfo?.chargeableRateInfo?.loyaltyInfo?.isBurnApplied ?: false) {
 							hotelOffersResponse.doesAnyHotelRateOfAnyRoomHaveLoyaltyInfo = true
 							return@doOnNext
 						}

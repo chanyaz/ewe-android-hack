@@ -144,14 +144,14 @@ class HotelRoomRateViewModel(val context: Context, var hotelId: String, var hote
         val isPayLater = hotelRoomResponse.isPayLater
         val chargeableRateInfo = rateInfo.chargeableRateInfo
         val discountPercent = HotelUtils.getDiscountPercent(chargeableRateInfo)
-        val isShopWithPoints = chargeableRateInfo.loyaltyInfo?.isShopWithPoints ?: false
+        val isBurnApplied = chargeableRateInfo.loyaltyInfo?.isBurnApplied ?: false
 
         //resetting the text for views
         strikeThroughPriceObservable.onNext("")
         discountPercentage.onNext("")
         expandedAmenityObservable.onNext("")
 
-        shouldShowDiscountPercentage.onNext(chargeableRateInfo.isDiscountPercentNotZero && !isShopWithPoints && !chargeableRateInfo.isShowAirAttached())
+        shouldShowDiscountPercentage.onNext(chargeableRateInfo.isDiscountPercentNotZero && !isBurnApplied && !chargeableRateInfo.isShowAirAttached())
 
         discountPercentage.onNext(context.resources.getString(R.string.percent_off_TEMPLATE, discountPercent))
         if (!isPayLater && (chargeableRateInfo.priceToShowUsers < chargeableRateInfo.strikethroughPriceToShowUsers)) {
