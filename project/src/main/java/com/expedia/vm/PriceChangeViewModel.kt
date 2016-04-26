@@ -4,11 +4,13 @@ import android.content.Context
 import android.graphics.drawable.Drawable
 import android.support.v4.content.ContextCompat
 import com.expedia.bookings.R
+import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.Money
+import com.expedia.bookings.tracking.PackagesTracking
 import rx.Observable
 import rx.subjects.BehaviorSubject
 
-class PriceChangeViewModel(context: Context) {
+class PriceChangeViewModel(context: Context, lob: LineOfBusiness) {
     val originalPackagePrice = BehaviorSubject.create<Money>()
     val packagePrice = BehaviorSubject.create<Money>()
 
@@ -19,6 +21,7 @@ class PriceChangeViewModel(context: Context) {
     init {
         Observable.zip(originalPackagePrice, packagePrice, { originalPrice, newPrice ->
             val hasPriceChange = originalPrice != null
+            var priceDiff: Int
 
             if (hasPriceChange) {
                 if (newPrice.amount > originalPrice?.amount) {
@@ -31,6 +34,14 @@ class PriceChangeViewModel(context: Context) {
                     // API could return price change error with no difference in price (see: hotel_price_change_checkout.json)
                     priceChangeDrawable.onNext(ContextCompat.getDrawable(context, R.drawable.price_change_decrease))
                     priceChangeText.onNext(context.getString(R.string.price_changed_from_TEMPLATE, originalPrice?.formattedMoney))
+                }
+                priceDiff = newPrice.amount.toInt() - originalPrice.amount.toInt()
+                if (lob == LineOfBusiness.PACKAGES) {
+                    var diffPercentage: Int = 0
+                    if (priceDiff.toInt() != 0) {
+                        diffPercentage = (priceDiff * 100) / originalPrice.amount.toInt()
+                    }
+                    PackagesTracking().trackPriceChange(diffPercentage)
                 }
             }
             priceChangeVisibility.onNext(hasPriceChange)

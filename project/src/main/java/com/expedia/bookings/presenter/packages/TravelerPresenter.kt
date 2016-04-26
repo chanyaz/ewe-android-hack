@@ -9,6 +9,7 @@ import com.expedia.bookings.data.User
 import com.expedia.bookings.data.packages.PackageSearchParams
 import com.expedia.bookings.enums.TravelerCheckoutStatus
 import com.expedia.bookings.presenter.Presenter
+import com.expedia.bookings.tracking.PackagesTracking
 import com.expedia.bookings.utils.ArrowXDrawableUtil
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
@@ -171,6 +172,7 @@ class TravelerPresenter(context: Context, attrs: AttributeSet) : Presenter(conte
                 travelerEntryWidget.nameEntryView.firstName.requestFocus()
                 travelerEntryWidget.onFocusChange(travelerEntryWidget.nameEntryView.firstName, true)
                 Ui.showKeyboard(travelerEntryWidget.nameEntryView.firstName, null)
+                PackagesTracking().trackCheckoutEditTraveler()
             }
         }
     }

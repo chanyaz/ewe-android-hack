@@ -94,7 +94,7 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet) : Pre
         View.inflate(context, R.layout.widget_base_checkout, this)
         paymentWidget = paymentViewStub.inflate() as PaymentWidget
         paymentWidget.viewmodel = PaymentViewModel(context)
-        priceChangeWidget.viewmodel = PriceChangeViewModel(context)
+        priceChangeWidget.viewmodel = PriceChangeViewModel(context, lineOfBusiness())
         totalPriceWidget.viewModel = BundlePriceViewModel(context)
         toolbarHeight = Ui.getToolbarSize(context)
 
@@ -111,6 +111,7 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet) : Pre
                 show(travelerPresenter)
             }
         }
+        travelerPresenter.travelerEntryWidget.travelerButton.setLOB(lineOfBusiness())
 
         legalInformationText.setOnClickListener {
             context.startActivity(HotelRulesActivity.createIntent(context, LineOfBusiness.PACKAGES))
@@ -224,7 +225,6 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet) : Pre
             bottomContainer.setVisibility(forward)
             if (!forward) {
                 paymentWidget.show(PaymentWidget.PaymentDefault(), Presenter.FLAG_CLEAR_BACKSTACK)
-                animateInSlideToPurchase(true)
                 paymentWidgetRootView.viewTreeObserver.removeOnGlobalLayoutListener(globalLayoutListener)
                 scrollView.layoutParams.height = height
                 handleShadow.visibility = View.GONE
@@ -338,6 +338,9 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet) : Pre
 
     fun animateInSlideToPurchase(visible: Boolean) {
         var isSlideToPurchaseLayoutVisible = visible && viewModel.infoCompleted.value
+        if (isSlideToPurchaseLayoutVisible) {
+            trackShowSlideToPurchase()
+        }
         var distance = if (!isSlideToPurchaseLayoutVisible) slideToPurchaseLayout.height.toFloat() else 0f
         if (bottomContainer.translationY == distance) {
             return
@@ -360,4 +363,5 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet) : Pre
     abstract fun lineOfBusiness() : LineOfBusiness
 
     abstract fun updateTravelerPresenter()
+    abstract fun trackShowSlideToPurchase()
 }

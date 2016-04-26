@@ -177,4 +177,36 @@ class PackagesTracking {
     fun trackHotelMapViewSelectRoomClick() {
         OmnitureTracking.trackPackagesHotelMapSelectRoomClick()
     }
+
+    fun trackSearchError(errorType: String) {
+        OmnitureTracking.trackPackagesSearchError(errorType)
+    }
+
+    fun trackCheckoutError(errorType: String) {
+        OmnitureTracking.trackPackagesCheckoutError(errorType)
+    }
+
+    fun trackCheckoutErrorRetry() {
+        OmnitureTracking.trackPackagesCheckoutErrorRetry()
+    }
+
+    fun trackPriceChange(priceDiff: Int) {
+        OmnitureTracking.trackPackagesCheckoutPriceChange(priceDiff)
+    }
+
+    fun trackCheckoutSelectTraveler() {
+        OmnitureTracking.trackPackagesCheckoutSelectTraveler()
+    }
+
+    fun trackCheckoutEditTraveler() {
+        OmnitureTracking.trackPackagesCheckoutEditTraveler()
+    }
+
+    fun trackCheckoutSlideToPurchase() {
+        OmnitureTracking.trackPackagesCheckoutSlideToPurchase()
+    }
+
+    fun trackCheckoutPaymentCID() {
+        OmnitureTracking.trackPackagesCheckoutPaymentCID()
+    }
 }

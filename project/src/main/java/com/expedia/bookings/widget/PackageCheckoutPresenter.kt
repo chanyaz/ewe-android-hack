@@ -96,4 +96,8 @@ class PackageCheckoutPresenter(context: Context, attr: AttributeSet) : BaseCheck
     override fun updateTravelerPresenter() {
         travelerPresenter.refreshAndShow(Db.getPackageParams())
     }
+
+    override fun trackShowSlideToPurchase() {
+        PackagesTracking().trackCheckoutSlideToPurchase()
+    }
 }

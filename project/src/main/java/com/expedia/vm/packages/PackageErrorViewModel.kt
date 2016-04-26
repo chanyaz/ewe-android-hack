@@ -6,6 +6,7 @@ import com.expedia.bookings.R
 import com.expedia.bookings.data.cars.ApiError
 import com.expedia.bookings.data.packages.PackageApiError
 import com.expedia.bookings.data.packages.PackageSearchParams
+import com.expedia.bookings.tracking.PackagesTracking
 import com.expedia.bookings.utils.DateUtils
 import com.expedia.bookings.utils.StrUtils
 import com.squareup.phrase.Phrase
@@ -44,21 +45,26 @@ class PackageErrorViewModel(private val context: Context) {
                 ApiError.Code.INVALID_CARD_EXPIRATION_DATE,
                 ApiError.Code.CARD_LIMIT_EXCEEDED -> {
                     checkoutCardErrorObservable.onNext(Unit)
+                    PackagesTracking().trackCheckoutErrorRetry()
                 }
                 ApiError.Code.PACKAGE_CHECKOUT_TRAVELLER_DETAILS -> {
                     checkoutTravelerErrorObservable.onNext(Unit)
+                    PackagesTracking().trackCheckoutErrorRetry()
                 }
                 ApiError.Code.UNKNOWN_ERROR -> {
                     checkoutUnknownErrorObservable.onNext(Unit)
+                    PackagesTracking().trackCheckoutErrorRetry()
                 }
                 else -> {
                     defaultErrorObservable.onNext(Unit)
+                    PackagesTracking().trackCheckoutErrorRetry()
                 }
             }
         }
 
         searchApiErrorObserver.subscribe {
             error = ApiError(ApiError.Code.PACKAGE_SEARCH_ERROR)
+            PackagesTracking().trackSearchError(it.toString())
             when (it) {
                 PackageApiError.Code.pkg_unknown_error,
                 PackageApiError.Code.search_response_null,
@@ -77,6 +83,7 @@ class PackageErrorViewModel(private val context: Context) {
 
         checkoutApiErrorObserver.subscribe() {
             error = it
+            PackagesTracking().trackCheckoutError(error.errorCode.toString())
             when (it.errorCode) {
                 ApiError.Code.PACKAGE_CHECKOUT_CARD_DETAILS -> {
                     imageObservable.onNext(R.drawable.error_payment)
