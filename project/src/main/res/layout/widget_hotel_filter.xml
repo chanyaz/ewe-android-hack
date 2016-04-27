@@ -16,70 +16,59 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:clickable="true"
-                android:focusable="true"
-                android:focusableInTouchMode="true"
                 android:orientation="vertical">
 
                 <LinearLayout
+                    android:id="@+id/sort_hotel"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:layout_weight="1"
                     android:clickable="true"
-                    android:focusable="true"
-                    android:focusableInTouchMode="true"
                     android:orientation="vertical"
-                    android:paddingLeft="@dimen/lx_sort_filter_padding"
-                    android:paddingRight="@dimen/lx_sort_filter_padding"
                     android:paddingTop="@dimen/lx_sort_filter_padding">
 
-                    <LinearLayout
-                        android:id="@+id/sort_hotel"
+                    <com.expedia.bookings.widget.TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingLeft="@dimen/lx_sort_filter_padding"
+                        android:paddingRight="@dimen/lx_sort_filter_padding"
+                        android:text="@string/Sort_By"
+                        android:textColor="@color/hotel_filter_text"
+                        android:textSize="15sp"
+                        app:textStyle="medium" />
+
+                    <android.support.v7.widget.CardView
+                        style="@style/MaterialCardView"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical">
+                        android:layout_marginLeft="@dimen/sort_filter_cards_left_right_margin"
+                        android:layout_marginRight="@dimen/sort_filter_cards_left_right_margin"
+                        android:layout_marginTop="6dp"
+                        android:background="?android:attr/selectableItemBackground"
+                        app:cardUseCompatPadding="true">
 
-                        <com.expedia.bookings.widget.TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/Sort_By"
-                            android:textColor="@color/hotel_filter_text"
-                            android:textSize="15sp"
-                            app:textStyle="medium" />
-
-                        <android.support.v7.widget.CardView
-                            style="@style/MaterialCardView"
+                        <Spinner
+                            android:id="@+id/sort_by_selection_spinner"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="6dp"
-                            android:background="?android:attr/selectableItemBackground"
-                            app:cardUseCompatPadding="true">
+                            android:background="@drawable/spinner_hotel_filter_sort"
+                            android:dropDownWidth="match_parent" />
 
-                            <Spinner
-                                android:id="@+id/sort_by_selection_spinner"
-                                android:layout_width="fill_parent"
-                                android:layout_height="wrap_content"
-                                android:background="@drawable/spinner_hotel_filter_sort"
-                                android:dropDownWidth="match_parent" />
+                    </android.support.v7.widget.CardView>
 
-                        </android.support.v7.widget.CardView>
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1px"
+                        android:layout_marginTop="15dp"
+                        android:background="@color/lx_sort_filter_pressed_row_color" />
 
-                    </LinearLayout>
                 </LinearLayout>
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1px"
-                    android:layout_marginTop="15dp"
-                    android:layout_weight="1"
-                    android:background="@color/lx_sort_filter_pressed_row_color" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:layout_weight="1"
                     android:clickable="true"
-                    android:focusable="true"
-                    android:focusableInTouchMode="true"
                     android:orientation="vertical"
                     android:paddingLeft="@dimen/lx_sort_filter_padding"
                     android:paddingRight="@dimen/lx_sort_filter_padding"
