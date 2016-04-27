@@ -64,9 +64,9 @@ class FlightServices(endpoint: String, okHttpClient: OkHttpClient, requestInterc
                             segment.departureDateTimeISO = segment.departureTimeRaw
                             segment.arrivalDateTimeISO = segment.arrivalTimeRaw
 
-                            val arrivalTime = DateUtils.yyyyMMddTHHmmssToDateTimeSafe(segment.arrivalTime, DateTime.now())
-                            val departureTime = DateUtils.yyyyMMddTHHmmssToDateTimeSafe(segment.departureTime, DateTime.now())
-                            segment.elapsedDays = Days.daysBetween(arrivalTime, departureTime).days
+                            val arrvalTime = DateUtils.yyyyMMddTHHmmssToDateTimeSafe(segment.arrivalTime, DateTime.now())
+                            val depTime = DateUtils.yyyyMMddTHHmmssToDateTimeSafe(segment.departureTime, DateTime.now())
+                            segment.elapsedDays = Days.daysBetween(arrvalTime, depTime).days
 
                             val airline = Airline(segment.airlineName, segment.airlineLogoURL)
                             airlines.add(airline)

@@ -1,4 +1,6 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
+import org.gradle.logging.internal.OutputEvent
+import org.gradle.logging.internal.OutputEventListener
 
 buildscript {
     ext.kotlin_version = '1.0.0'
@@ -55,4 +57,27 @@ subprojects {
             project.android.dexOptions.preDexLibraries = rootProject.ext.preDexLibs
         }
     }
+
+    tasks.withType(AbstractCompile) {
+        def outputEvents = []
+        def listener = new OutputEventListener() {
+            void onOutput(OutputEvent event) {
+                outputEvents << event
+            }
+        };
+        doFirst {
+            getLogging().addOutputEventListener(listener)
+        }
+        doLast {
+            getLogging().removeOutputEventListener(listener)
+            outputEvents.each { e ->
+                if(e.toString() =~ /^\[WARN\]/) {
+                    throw new GradleException("Please fix the compilation warnings so the project stays warnings-free!");
+                }
+            }
+        }
+    }
+
 }
+
+

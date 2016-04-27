@@ -1,7 +1,9 @@
 package com.expedia.bookings.test.robolectric
 
 import android.app.Activity
+import android.content.Context
 import android.graphics.drawable.Drawable
+import android.support.v4.content.ContextCompat
 import android.view.View
 import android.widget.ImageView
 import com.expedia.bookings.R
@@ -39,6 +41,7 @@ import com.expedia.vm.ShopWithPointsViewModel
 import kotlin.test.assertFalse
 import kotlin.test.assertTrue
 import com.expedia.model.UserLoginStateChangedModel
+import org.robolectric.RuntimeEnvironment
 
 @RunWith(RobolectricRunner::class)
 class PaymentWidgetV2Test {
@@ -57,6 +60,10 @@ class PaymentWidgetV2Test {
     lateinit var paymentTileOption: TextView
     lateinit var paymentTileIcon: RoundImageView
     lateinit var pwpSmallIcon: ImageView
+
+    private fun getContext(): Context {
+        return RuntimeEnvironment.application
+    }
 
     @Before
     fun setup() {
@@ -82,7 +89,7 @@ class PaymentWidgetV2Test {
         sut.validateAndBind()
         //For Paying With Points Only
         paymentModel.createTripSubject.onNext(getCreateTripResponse(true))
-        testPaymentTileInfo("Paying with Points", "Tap to edit", activity.resources.getDrawable(R.drawable.pwp_icon), View.GONE)
+        testPaymentTileInfo("Paying with Points", "Tap to edit", ContextCompat.getDrawable(getContext(), R.drawable.pwp_icon), View.GONE)
 
         //When user chooses to pay through card and reward points
         val latch = CountDownLatch(1)
@@ -90,12 +97,12 @@ class PaymentWidgetV2Test {
         paymentModel.burnAmountSubject.onNext(BigDecimal(32))
         latch.await(10, TimeUnit.SECONDS)
         setUserWithStoredCard()
-        testPaymentTileInfo("Paying with Points & Visa 4111", "Tap to edit", activity.resources.getDrawable(R.drawable.ic_tablet_checkout_visa), View.VISIBLE)
+        testPaymentTileInfo("Paying with Points & Visa 4111", "Tap to edit", ContextCompat.getDrawable(getContext(), R.drawable.ic_tablet_checkout_visa), View.VISIBLE)
 
         //WithoutPayingWithPoints
         paymentModel.createTripSubject.onNext(getCreateTripResponse(false))
         setUserWithStoredCard()
-        testPaymentTileInfo("Visa 4111", "Tap to edit", activity.resources.getDrawable(R.drawable.ic_tablet_checkout_visa), View.GONE)
+        testPaymentTileInfo("Visa 4111", "Tap to edit", ContextCompat.getDrawable(getContext(), R.drawable.ic_tablet_checkout_visa), View.GONE)
     }
 
     @Test

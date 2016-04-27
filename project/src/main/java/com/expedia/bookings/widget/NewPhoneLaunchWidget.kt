@@ -80,22 +80,20 @@ class NewPhoneLaunchWidget(context: Context, attrs: AttributeSet?) : RelativeLay
     fun onLobVisibilityChanged(lobVisible: Boolean) {
         // Just avoiding null changing while we're looking at it - fab should be replaced by proper binding eliminating this
         val curFab = fab
-        if (curFab != null) {
-            val fabAnim: ObjectAnimator
-            if (lobVisible) {
-                // The lines of business are now visible, adjust accordingly.
-                // When the actual fab animation happens, don't just move it by a randomly chosen number like this 500 here
-                fabAnim = ObjectAnimator.ofFloat(curFab, "translationY", curFab.translationY, 500f)
+        val fabAnim: ObjectAnimator
+        if (lobVisible) {
+            // The lines of business are now visible, adjust accordingly.
+            // When the actual fab animation happens, don't just move it by a randomly chosen number like this 500 here
+            fabAnim = ObjectAnimator.ofFloat(curFab, "translationY", curFab.translationY, 500f)
 
-            } else {
-                lobView.setBackgroundResource(R.color.new_launch_toolbar_background_color)
-                // The lines of business are no longer visible, adjust accordingly
-                fabAnim = ObjectAnimator.ofFloat(curFab, "translationY", curFab.translationY, 0f)
-            }
-            fabAnim.duration = 250
-            fabAnim.interpolator = AccelerateDecelerateInterpolator()
-            fabAnim.start()
+        } else {
+            lobView.setBackgroundResource(R.color.new_launch_toolbar_background_color)
+            // The lines of business are no longer visible, adjust accordingly
+            fabAnim = ObjectAnimator.ofFloat(curFab, "translationY", curFab.translationY, 0f)
         }
+        fabAnim.duration = 250
+        fabAnim.interpolator = AccelerateDecelerateInterpolator()
+        fabAnim.start()
     }
 
 }

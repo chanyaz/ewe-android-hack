@@ -140,7 +140,6 @@ class CompoundTransitionTest {
                 TransitionPortion(TestTransition("c", eventOrder), 0f, 1f),
                 TransitionPortion(TestTransition("d", eventOrder), 0f, 1f)))
         runTransition(trans, false, 10)
-        val string = eventOrder.joinToString(" ")
         assert(eventOrder.indexOf("d start") < eventOrder.indexOf("c start"), { "When backwards, two equally timed ends must have the later defined one start first" })
         assert(eventOrder.indexOf("c start") < eventOrder.indexOf("a start"), { "When backwards, an end time of 1f must start before an end time of .75f" })
         assert(eventOrder.indexOf("a start") < eventOrder.indexOf("b start"), { "When backwards, an end time of .75f must start before an end time of .60f" })
@@ -153,7 +152,6 @@ class CompoundTransitionTest {
         val trans = CompoundTransition(parts = *arrayOf(
                 TransitionPortion(TestTransition("a", eventOrder), 0.4f, 0.8f)))
         runTransition(trans, false, 10)
-        val string = eventOrder.joinToString(" ")
         assertEquals("a start a 0 a 25 a 50 a 75 a end", eventOrder.joinToString(" "))
     }
 
@@ -162,7 +160,6 @@ class CompoundTransitionTest {
                 TransitionPortion(TestTransition("a", eventOrder), 0.4f, 0.8f),
                 TransitionPortion(TestTransition("b", eventOrder), 0.3f, .7f)))
         runTransition(trans, false, 10)
-        val string = eventOrder.joinToString(" ")
         assertEquals("a start a 0 b start a 25 b 0 a 50 b 25 a 75 b 50 a end b 75 b end", eventOrder.joinToString(" "))
     }
 }

@@ -1,6 +1,8 @@
 package com.expedia.bookings.test.widget.packages
 
 import android.app.Activity
+import android.content.Context
+import android.support.v4.content.ContextCompat
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -23,6 +25,7 @@ import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.Robolectric
+import org.robolectric.RuntimeEnvironment
 import org.robolectric.annotation.Config
 import kotlin.properties.Delegates
 import kotlin.test.assertEquals
@@ -41,6 +44,10 @@ class PackageHotelCellTest {
         packageHotelHolder = PackageHotelCellViewHolder(hotelCellView, 200)
     }
 
+    private fun getContext(): Context {
+        return RuntimeEnvironment.application
+    }
+
     @Test fun testSoldOut() {
         val hotel = makeHotel()
         givenSoldOutHotel(hotel)
@@ -53,7 +60,7 @@ class PackageHotelCellTest {
         Assert.assertEquals("Sold Out", packageHotelHolder.urgencyMessageBox.text)
         Assert.assertEquals(View.GONE, packageHotelHolder.urgencyIcon.visibility)
 
-        Assert.assertEquals(activity.getResources().getColor(R.color.hotelsv2_sold_out_hotel_gray), packageHotelHolder.ratingBar.getStarColor())
+        Assert.assertEquals(ContextCompat.getColor(getContext(), R.color.hotelsv2_sold_out_hotel_gray), packageHotelHolder.ratingBar.getStarColor())
         Assert.assertNotNull(packageHotelHolder.imageView.colorFilter)
     }
 
@@ -72,7 +79,7 @@ class PackageHotelCellTest {
         Assert.assertNotEquals("Sold Out", packageHotelHolder.urgencyMessageBox.text)
         Assert.assertEquals(View.VISIBLE, packageHotelHolder.urgencyIcon.visibility)
 
-        Assert.assertEquals(activity.getResources().getColor(R.color.hotelsv2_detail_star_color), packageHotelHolder.ratingBar.getStarColor())
+        Assert.assertEquals(ContextCompat.getColor(getContext(), R.color.hotelsv2_detail_star_color), packageHotelHolder.ratingBar.getStarColor())
         Assert.assertNull(packageHotelHolder.imageView.colorFilter)
     }
 

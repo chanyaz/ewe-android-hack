@@ -149,6 +149,7 @@ class TravelerSummaryViewModelTest {
         return mockTraveler
     }
 
+    @Suppress("UNCHECKED_CAST")
     private fun updateDBTravelers(travelerCount: Int, mockTraveler: Traveler) {
         val mockTravelerList = Mockito.mock(List::class.java)
         Mockito.`when`(mockTravelerList.size).thenReturn(travelerCount)

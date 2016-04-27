@@ -180,12 +180,12 @@ class PackagesTracking {
     }
 
     fun trackFlightFilterStops(stops: PackageFlightFilterViewModel.Stops) {
-        val stops = ( when (stops) {
+        val processedStops = ( when (stops) {
             PackageFlightFilterViewModel.Stops.NONSTOP -> "No Stops"
             PackageFlightFilterViewModel.Stops.ONE_STOP -> "1 Stop"
             PackageFlightFilterViewModel.Stops.TWO_PLUS_STOPS -> "2 Stops"
         })
-        OmnitureTracking.trackPackagesFlightFilterStops(stops)
+        OmnitureTracking.trackPackagesFlightFilterStops(processedStops)
     }
 
     fun trackFlightFilterAirlines() {

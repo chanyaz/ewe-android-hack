@@ -44,11 +44,11 @@ fun getABTestGuestRatingBackground(rating: Float, context: Context): Drawable {
     }
 }
 
-fun getControlGuestRatingText(rating: Float, resources: Resources) : String {
+fun getControlGuestRatingText(@Suppress("UNUSED_PARAMETER") rating: Float, resources: Resources) : String {
     return resources.getString(R.string.hotel_guest_recommend)
 }
 
-fun getControlGuestRatingBackground(rating: Float, context: Context): Drawable {
+fun getControlGuestRatingBackground(@Suppress("UNUSED_PARAMETER") rating: Float, context: Context): Drawable {
     return ContextCompat.getDrawable(context, R.drawable.user_review_background)
 }
 

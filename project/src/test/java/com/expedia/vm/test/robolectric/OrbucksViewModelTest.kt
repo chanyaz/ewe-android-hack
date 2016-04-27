@@ -1,6 +1,8 @@
 package com.expedia.vm.test.robolectric
 
 import android.app.Activity
+import android.content.Context
+import android.support.v4.content.ContextCompat
 import android.view.LayoutInflater
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Db
@@ -26,6 +28,7 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.Robolectric
+import org.robolectric.RuntimeEnvironment
 import rx.observers.TestSubscriber
 import kotlin.properties.Delegates
 
@@ -43,6 +46,10 @@ class OrbucksViewModelTest {
         it.enableOrbucksToggle.subscribe(enableOrbucksToggleTestSubscriber)
         it.pointsAppliedMessageColor.subscribe(pointsAppliedMessageColorTestSubscriber)
         it.orbucksWidgetVisibility.subscribe(orbucksWidgetVisibilityTestSubscriber)
+    }
+
+    private fun getContext(): Context {
+        return RuntimeEnvironment.application
     }
 
     private val enableOrbucksToggleTestSubscriber = TestSubscriber.create<Unit>()
@@ -63,8 +70,8 @@ class OrbucksViewModelTest {
         Ui.getApplication(activity).defaultHotelComponents()
         val orbucksWidget = LayoutInflater.from(activity).inflate(R.layout.orbucks_widget_stub, null) as OrbucksWidget
 
-        enableColor = activity.resources.getColor((R.color.hotels_primary_color));
-        disableColor = activity.resources.getColor(R.color.hotelsv2_checkout_text_color);
+        enableColor = ContextCompat.getColor(getContext(), R.color.hotels_primary_color);
+        disableColor = ContextCompat.getColor(getContext(), R.color.hotelsv2_checkout_text_color);
 
         val createTripResponse = mockHotelServiceTestRule.getLoggedInUserWithRedeemableOrbucksCreateTripResponse()
         createTripResponse.tripId = "happy";

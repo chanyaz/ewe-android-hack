@@ -3,12 +3,12 @@ package com.expedia.bookings.test.robolectric
 import android.content.Context
 import com.expedia.bookings.data.trips.TripComponent
 import com.expedia.bookings.utils.ItinUtils
-import junit.framework.Assert.assertFalse
-import junit.framework.Assert.assertTrue
 import org.joda.time.DateTime
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RuntimeEnvironment
+import kotlin.test.assertFalse
+import kotlin.test.assertTrue
 
 @RunWith(RobolectricRunner::class)
 class FlightItinCheckinTest {
