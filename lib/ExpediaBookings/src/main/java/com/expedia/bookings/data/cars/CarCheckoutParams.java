@@ -25,6 +25,7 @@ public class CarCheckoutParams {
 	public String storedCCID;
 
 	public boolean suppressFinalBooking;
+	public boolean storeCreditCardInUserProfile;
 
 	@Override
 	public CarCheckoutParams clone() {
@@ -45,6 +46,7 @@ public class CarCheckoutParams {
 		clone.ccCVV = ccCVV;
 		clone.guid = guid;
 
+		clone.storeCreditCardInUserProfile = storeCreditCardInUserProfile;
 		clone.storedCCID = storedCCID;
 		return clone;
 	}
@@ -68,6 +70,7 @@ public class CarCheckoutParams {
 		map.put("cvv", ccCVV);
 		map.put("storedCreditCardId", storedCCID);
 		map.put("abacusUserGuid", guid);
+		map.put("storeCreditCardInUserProfile", storeCreditCardInUserProfile);
 
 		return map;
 	}

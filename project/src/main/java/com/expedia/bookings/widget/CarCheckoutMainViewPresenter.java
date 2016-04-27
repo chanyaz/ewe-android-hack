@@ -273,6 +273,7 @@ public class CarCheckoutMainViewPresenter extends CheckoutBasePresenter implemen
 
 			builder.ccNumber(info.getNumber()).expirationYear(expirationYear)
 				.expirationMonth(expirationMonth).ccPostalCode(info.getLocation().getPostalCode())
+				.storeCreditCardInUserProfile(info.getSaveCardToExpediaAccount())
 				.ccName(info.getNameOnCard()).cvv(cvv);
 		}
 		Events.post(new Events.CarsKickOffCheckoutCall(builder));
