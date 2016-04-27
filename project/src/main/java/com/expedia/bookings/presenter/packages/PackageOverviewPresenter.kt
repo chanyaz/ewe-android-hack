@@ -49,6 +49,7 @@ class PackageOverviewPresenter(context: Context, attrs: AttributeSet) : BaseOver
             params.pageType = Constants.PACKAGE_CHANGE_HOTEL
             params.searchProduct = null
             bundleWidget.viewModel.hotelParamsObservable.onNext(params)
+            PackagesTracking().trackBundleEditItemClick("Hotel")
             true
         })
 
@@ -60,6 +61,7 @@ class PackageOverviewPresenter(context: Context, attrs: AttributeSet) : BaseOver
             val intent = Intent(context, PackageHotelActivity::class.java)
             intent.putExtra(Codes.TAG_EXTERNAL_SEARCH_PARAMS, true)
             (context as AppCompatActivity).startActivityForResult(intent, Constants.HOTEL_REQUEST_CODE, null)
+            PackagesTracking().trackBundleEditItemClick("Room")
             true
         })
 
@@ -71,6 +73,7 @@ class PackageOverviewPresenter(context: Context, attrs: AttributeSet) : BaseOver
             params.searchProduct = Constants.PRODUCT_FLIGHT
             params.selectedLegId = null
             bundleWidget.viewModel.flightParamsObservable.onNext(params)
+            PackagesTracking().trackBundleEditItemClick("Flight")
             true
         })
     }

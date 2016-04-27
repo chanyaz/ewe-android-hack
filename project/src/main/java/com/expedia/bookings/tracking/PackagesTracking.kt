@@ -243,4 +243,13 @@ class PackagesTracking {
     fun trackCheckoutPaymentCID() {
         OmnitureTracking.trackPackagesCheckoutPaymentCID()
     }
+
+    fun trackBundleEditClick() {
+        // TODO: Can't seem to figure out how to fire this event, need to get back to this.
+        OmnitureTracking.trackPackagesBundleEditClick()
+    }
+
+    fun trackBundleEditItemClick(itemType: String) {
+        OmnitureTracking.trackPackagesBundleEditItemClick(itemType)
+    }
 }
