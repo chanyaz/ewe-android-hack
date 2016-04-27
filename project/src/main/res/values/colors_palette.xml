@@ -11,7 +11,6 @@
     <color name="temporary_primary_gray">#494949</color>
     <color name="temporary_secondary_gray">#818181</color>
     <color name="temporary_savings">#4CBD08</color>
-    <color name="temporary_flight_duration_gray">#898989</color>
 
     <!-- This color should be used everywhere on search results list's gray background.  -->
     <color name="search_results_list_bg_gray">#EEEEEE</color>
@@ -20,8 +19,12 @@
 
     <!-- This color is for divider lines within cardviews.  -->
     <color name="cardview_divider_lines_gray">#DFDFDF</color>
+    <!-- This color is for all LOB results cell gray text on cardviews.  -->
+    <color name="result_cells_gray_text">#767676</color>
 
+    <!-- LOB colors -->
     <color name="expedia_hotels_color">#009688</color>
+
     <color name="search_dialog_gray">#6A6A6A</color>
 
     <color name="white">#FFFFFFFF</color>

@@ -96,7 +96,7 @@
                 android:includeFontPadding="false"
                 android:paddingLeft="4dp"
                 android:text="5"
-                android:textColor="#888888"
+                android:textColor="@color/result_cells_gray_text"
                 android:textSize="10sp" />
 
             <TextView
@@ -110,7 +110,7 @@
                 android:includeFontPadding="false"
                 android:paddingLeft="4dp"
                 android:text="4"
-                android:textColor="#888888"
+                android:textColor="@color/result_cells_gray_text"
                 android:textSize="10sp" />
 
             <TextView
@@ -124,7 +124,7 @@
                 android:includeFontPadding="false"
                 android:paddingLeft="4dp"
                 android:text="3"
-                android:textColor="#888888"
+                android:textColor="@color/result_cells_gray_text"
                 android:textSize="10sp" />
 
             <TextView
@@ -135,7 +135,7 @@
                 android:layout_marginLeft="4dp"
                 android:layout_weight="1"
                 android:gravity="right"
-                android:textColor="#888888"
+                android:textColor="@color/result_cells_gray_text"
                 android:textSize="10sp"
                 tools:text="Total $2132" />
         </LinearLayout>
