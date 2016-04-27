@@ -7,7 +7,6 @@ import com.expedia.bookings.data.payment.PointsType
 import com.expedia.bookings.data.payment.ProgramName
 import com.expedia.bookings.data.payment.UserPaymentPreferences
 import java.math.BigDecimal
-import kotlin.properties.Delegates
 
 abstract class TripResponse : BaseApiResponse() {
     lateinit var tripId: String

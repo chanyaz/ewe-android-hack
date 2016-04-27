@@ -18,6 +18,7 @@ import com.expedia.bookings.data.CreateTripResponse;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.LineOfBusiness;
+import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.RewardsInfo;
 import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.data.TripBucketItemFlight;
@@ -313,8 +314,7 @@ public class AccountButton extends LinearLayout {
 		case HOTELSV2:
 			TripBucketItemHotelV2 hotelV2 = Db.getTripBucket().getHotelV2();
 			HotelCreateTripResponse trip = hotelV2 == null ? null : hotelV2.mHotelTripResponse;
-			rewardPoints = trip == null ? "" : String.valueOf(trip.getRewards() != null ? NumberFormat.getInstance()
-				.format(trip.getRewards().getUpdatedRewards()) : 0);
+			rewardPoints = trip == null ? "" : getRewardsString(trip.getRewards());
 			break;
 		case LX:
 			TripBucketItemLX lx = Db.getTripBucket().getLX();
@@ -324,9 +324,7 @@ public class AccountButton extends LinearLayout {
 		case PACKAGES:
 			TripBucketItemPackages pkgItem = Db.getTripBucket().getPackage();
 			PackageCreateTripResponse packageTrip = pkgItem == null ? null : pkgItem.mPackageTripResponse;
-			rewardPoints = packageTrip == null ? "" : String.valueOf(
-				packageTrip.getRewards() != null ? NumberFormat.getInstance()
-					.format(packageTrip.getRewards().getUpdatedRewards()) : 0);
+			rewardPoints = packageTrip == null ? "" : getRewardsString(packageTrip.getRewards());
 			break;
 		}
 
@@ -346,19 +344,17 @@ public class AccountButton extends LinearLayout {
 				break;
 			case HOTELSV2:
 			case HOTELS:
+			case PACKAGES:
 				boolean isUserBucketedForTest = Db.getAbacusResponse()
 					.isUserBucketedForTest(AbacusUtils.EBAndroidAppHotel3xMessaging);
 				boolean isTablet = AndroidUtils.isTablet(getContext());
-				youllEarnRewardsPointsText = Html
-					.fromHtml(mContext.getString(R.string.youll_earn_points_TEMPLATE, rewardPoints));
-				if (isUserBucketedForTest && !isTablet) {
+				youllEarnRewardsPointsText = Html.fromHtml(
+					Phrase.from(this, R.string.youll_earn_points_TEMPLATE).put("reward_currency", rewardPoints).format()
+						.toString());
+				if (isUserBucketedForTest && !isTablet && lob == LineOfBusiness.HOTELSV2) {
 					youllEarnRewardsPointsText = Html
 						.fromHtml(mContext.getString(R.string.youll_earn_points_ab_test_3x_TEMPLATE, rewardPoints));
 				}
-				break;
-			case PACKAGES:
-				youllEarnRewardsPointsText = Html
-					.fromHtml(mContext.getString(R.string.youll_earn_points_TEMPLATE, rewardPoints));
 				break;
 			case LX:
 				youllEarnRewardsPointsText = Html
@@ -367,6 +363,18 @@ public class AccountButton extends LinearLayout {
 		}
 
 		return youllEarnRewardsPointsText.toString();
+	}
+
+	private String getRewardsString(RewardsInfo rewards) {
+		if (rewards != null) {
+			if (ProductFlavorFeatureConfiguration.getInstance().isRewardProgramPointsType()) {
+				return NumberFormat.getInstance().format(rewards.getPointsToEarn());
+			}
+			else if (rewards.getAmountToEarn() != null) {
+				return rewards.getAmountToEarn().getFormattedMoney(Money.F_NO_DECIMAL_IF_INTEGER_ELSE_TWO_PLACES_AFTER_DECIMAL);
+			}
+		}
+		return "0";
 	}
 
 	private CharSequence getSignInWithRewardsAmountText(LineOfBusiness lob) {

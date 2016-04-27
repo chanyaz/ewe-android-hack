@@ -104,7 +104,7 @@ class HotelCheckoutMainViewPresenter(context: Context, attr: AttributeSet) : Che
 
     var hotelCheckoutMainViewModel: HotelCheckoutMainViewModel by notNullAndObservable { vm ->
         vm.updateEarnedRewards.subscribe { it ->
-            Db.getTripBucket().hotelV2.updateTotalPointsToEarn(it)
+            Db.getTripBucket().hotelV2.updateTotalPointsAndCurrencyToEarn(it)
             loginWidget.updateRewardsText(lineOfBusiness)
         }
         vm.animateSlideToPurchaseWithPaymentSplits.subscribe {

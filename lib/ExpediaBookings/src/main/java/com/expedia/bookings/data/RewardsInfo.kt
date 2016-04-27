@@ -1,5 +1,6 @@
 package com.expedia.bookings.data
 
+import com.expedia.bookings.data.payment.PointsAndCurrency
 import kotlin.properties.Delegates
 
 class RewardsInfo {
@@ -8,13 +9,17 @@ class RewardsInfo {
     val isActiveRewardsMember: Boolean = false
     val rewardsMembershipTierName: String by Delegates.notNull()
     //Utility Member for local modifications in case we receive updated expedia rewards when we modify the Points to be burned. Not received by deserialization/server-response.
-    private var updatedRewards: Float? = null
+    private var updatedPointsAndCurrencyToEarn: PointsAndCurrency? = null
 
-    fun setUpdatedRewards(points: Float) {
-        updatedRewards = points
+    fun updatePointsAndCurrencyToEarn(pointsAndCurrency: PointsAndCurrency) {
+        updatedPointsAndCurrencyToEarn = pointsAndCurrency
     }
 
-    fun getUpdatedRewards(): Float? {
-        return if (updatedRewards != null) updatedRewards else totalPointsToEarn
+    fun getPointsToEarn(): Float? {
+        return updatedPointsAndCurrencyToEarn?.points ?: totalPointsToEarn
+    }
+
+    fun getAmountToEarn(): Money? {
+        return updatedPointsAndCurrencyToEarn?.amountToEarn ?: totalAmountToEarn
     }
 }
