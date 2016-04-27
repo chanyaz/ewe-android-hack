@@ -546,6 +546,7 @@ DummyFiletoHandleKotlinLintError {
 		R.string.traveler_child_error,
 		R.string.traveler_adult_error,
 		R.color.white70,
-		R.color.packages_total_duration_text
+		R.color.packages_total_duration_text,
+		R.layout.account_button_v2_test
 	};
 }

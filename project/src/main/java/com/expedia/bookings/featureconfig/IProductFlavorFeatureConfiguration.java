@@ -140,4 +140,6 @@ public interface IProductFlavorFeatureConfiguration {
 	boolean isCommunicateSectionEnabled();
 
 	PointOfSaleId getUSPointOfSaleId();
+
+	boolean isEarnMessageOnCheckoutSignInButtonEnabled();
 }
