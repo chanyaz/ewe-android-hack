@@ -77,6 +77,7 @@ import com.expedia.bookings.data.lx.LXCheckoutResponse;
 import com.expedia.bookings.data.lx.LXSearchParams;
 import com.expedia.bookings.data.lx.LXSearchResponse;
 import com.expedia.bookings.data.lx.LXSortType;
+import com.expedia.bookings.data.packages.PackageCheckoutResponse;
 import com.expedia.bookings.data.packages.PackageCreateTripResponse;
 import com.expedia.bookings.data.packages.PackageSearchResponse;
 import com.expedia.bookings.data.payment.PaymentSplitsType;
@@ -4946,12 +4947,20 @@ public class OmnitureTracking {
 		ADMS_Measurement s = createTrackPageLoadEventBase(PACKAGES_CHECKOUT_INFO);
 		s.setEvents("event36, event72");
 		addPackagesCommonFields(s);
-		setPackageProducts(s, packageDetails, true);
+		setPackageProducts(s, packageDetails.pricing.packageTotal.amount.doubleValue(), true);
 
 		s.track();
 	}
 
-	private static void setPackageProducts(ADMS_Measurement s, PackageCreateTripResponse.PackageDetails packageDetails, boolean addEvar63) {
+	private static void setPackageProducts(ADMS_Measurement s, double productPrice) {
+		setPackageProducts(s, productPrice, false, false);
+	}
+
+	private static void setPackageProducts(ADMS_Measurement s, double productPrice, boolean addEvar63) {
+		setPackageProducts(s, productPrice, addEvar63, false);
+	}
+
+	private static void setPackageProducts(ADMS_Measurement s, double productPrice, boolean addEvarInventory, boolean isConfirmation) {
 		StringBuilder productString = new StringBuilder();
 		/*
 			Trip type:
@@ -4962,22 +4971,36 @@ public class OmnitureTracking {
 		productString.append(";RT:FLT+HOT;");
 
 		int numTravelers = Db.getPackageParams().getAdults() + Db.getPackageParams().getNumberOfSeatedChildren();
-		productString.append(numTravelers + ";" + packageDetails.pricing.packageTotal.amount.doubleValue() + ";;");
+		productString.append(numTravelers + ";" + productPrice + ";;");
 
-		if (addEvar63) {
+		String eVarNumber = isConfirmation ? "eVar30" : "eVar63";
+		if (addEvarInventory) {
 			//TODO: check inventoryType flight+hotel = agency/merchant or mixed
-			productString.append("eVar63=Mixed:PKG");
+			productString.append(eVarNumber + "=Mixed:PKG");
 		}
+
+		String eVar30DurationString = null;
+		if (isConfirmation) {
+			eVar30DurationString = ":" + Db.getPackageParams().getCheckIn().toString(EVAR30_DATE_FORMAT) + "-" + Db.getPackageParams().getCheckOut().toString(EVAR30_DATE_FORMAT);
+			productString.append(eVar30DurationString);
+		}
+
 		productString.append(",;");
 
 		productString.append("Flight:" + Db.getPackageSelectedOutboundFlight().carrierCode + ":RT;");
 		// We do not expose breakdown prices, so we should hardcode to 0.00
 		productString.append(numTravelers + ";0.00;;");
 
-		if (addEvar63) {
+		if (addEvarInventory) {
 			String inventoryType = PackageFlightUtils.isFlightMerchant(Db.getPackageSelectedOutboundFlight()) ? "Merchant" : "Agency";
-			productString.append("eVar63=" + inventoryType + ":PKG");
+			productString.append(eVarNumber + "=" + inventoryType + ":PKG");
 		}
+
+		if (isConfirmation) {
+			productString.append(":FLT:" + Db.getPackageParams().getOrigin().hierarchyInfo.airport.airportCode + "-" + Db.getPackageParams().getDestination().hierarchyInfo.airport.airportCode);
+			productString.append(eVar30DurationString);
+		}
+
 		productString.append(",;");
 
 		productString.append("Hotel:" + Db.getPackageSelectedHotel().hotelId + ";");
@@ -4988,10 +5011,15 @@ public class OmnitureTracking {
 		productString.append(duration);
 		productString.append(";0.00;;");
 
-		if (addEvar63) {
+		if (addEvarInventory) {
 			//TODO: check inventoryType hotel = agency/merchant blocked on API - should return in hotelOffers call
 			// https://confluence/display/Omniture/Products+String+and+Events#ProductsStringandEvents-Hotels
-			productString.append("eVar63=Agency:PKG");
+			productString.append(eVarNumber + "=Agency:PKG");
+		}
+
+		if (isConfirmation) {
+			productString.append(":HOT:");
+			productString.append(eVar30DurationString);
 		}
 
 		s.setProducts(productString.toString());
@@ -5104,8 +5132,16 @@ public class OmnitureTracking {
 		createAndtrackLinkEvent(PACKAGES_CHECKOUT_PAYMENT_SELECT_STORED_CC, "Package Checkout");
 	}
 
-	public static void trackPackagesConfirmation() {
-		// TODO: Will be creating a new PR for this
+	public static void trackPackagesConfirmation(PackageCheckoutResponse response) {
+		Log.d(TAG, "Tracking \"" + PACKAGES_CHECKOUT_PAYMENT_CONFIRMATION + "\" pageLoad");
+		ADMS_Measurement s = createTrackPackagePageLoadEventBase(PACKAGES_CHECKOUT_PAYMENT_CONFIRMATION);
+		setPackageProducts(s, response.getTotalChargesPrice().amount.doubleValue(), true, true);
+		s.setCurrencyCode(response.getTotalChargesPrice().currencyCode);
+		s.setEvents("purchase");
+		s.setPurchaseID("onum" + response.getOrderId());
+		s.setProp(71, response.getNewTrip().getTravelRecordLocator());
+		s.setProp(72, response.getOrderId());
+		s.track();
 	}
 
 	public static void trackPackagesPageLoadWithDPageName(String pageName) {
@@ -5179,7 +5215,7 @@ public class OmnitureTracking {
 
 		ADMS_Measurement s = createTrackPageLoadEventBase(PACKAGES_BUNDLE_OVERVIEW_LOAD);
 		addPackagesCommonFields(s);
-		setPackageProducts(s, packageDetails, false);
+		setPackageProducts(s, packageDetails.pricing.packageTotal.amount.doubleValue());
 
 		s.track();
 	}
