@@ -590,6 +590,9 @@ public class PointOfSale {
 				case GOLD:
 					number = getSupportPhoneNumberGold();
 					break;
+				case PLATINUM:
+					number = getSupportPhoneNumberPlatinum();
+					break;
 				}
 			}
 		}
