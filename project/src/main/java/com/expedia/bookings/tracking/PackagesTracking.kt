@@ -43,6 +43,39 @@ class PackagesTracking {
         OmnitureTracking.trackPackagesHotelMapSearchThisAreaClick()
     }
 
+    fun trackHotelFilterLoad() {
+        OmnitureTracking.trackPackagesHotelFilterPageLoad()
+    }
+
+    fun trackHotelSortBy(type: String) {
+        OmnitureTracking.trackPackagesHotelSortBy(type)
+    }
+
+    fun trackHotelFilterPriceSlider() {
+        OmnitureTracking.trackPackagesHotelFilterPriceSlider()
+    }
+
+    fun trackHotelFilterVIP(isChecked: Boolean) {
+        val state = if (isChecked) "On" else "Off"
+        OmnitureTracking.trackPackagesHotelFilterVIP(state)
+    }
+
+    fun trackHotelFilterNeighbourhood() {
+        OmnitureTracking.trackPackagesHotelFilterNeighborhood()
+    }
+
+    fun trackHotelFilterByName() {
+        OmnitureTracking.trackPackagesHotelFilterByName()
+    }
+
+    fun trackHotelClearFilter() {
+        OmnitureTracking.trackPackagesHotelClearFilter()
+    }
+
+    fun trackHotelRefineRating(rating: String) {
+        OmnitureTracking.trackPackagesHotelFilterRating(rating + "Star")
+    }
+
     fun trackCheckoutSelectPaymentClick() {
         OmnitureTracking.trackPackagesPaymentSelect()
     }

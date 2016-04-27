@@ -3,11 +3,13 @@ package com.expedia.vm
 import android.content.res.Resources
 import android.support.annotation.StringRes
 import com.expedia.bookings.R
+import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.hotels.Hotel
 import com.expedia.bookings.data.hotels.HotelSearchResponse
 import com.expedia.bookings.services.HotelServices
 import com.expedia.bookings.tracking.HotelV2Tracking
+import com.expedia.bookings.tracking.PackagesTracking
 import com.expedia.bookings.utils.FilterAmenity
 import com.expedia.bookings.utils.Strings
 import com.expedia.util.endlessObserver
@@ -20,7 +22,7 @@ import java.util.Comparator
 import java.util.HashSet
 import java.util.regex.Pattern
 
-class HotelFilterViewModel() {
+class HotelFilterViewModel(val lob: LineOfBusiness = LineOfBusiness.HOTELSV2) {
     val doneObservable = PublishSubject.create<Unit>()
     val doneButtonEnableObservable = PublishSubject.create<Boolean>()
     val clearObservable = PublishSubject.create<Unit>()
@@ -101,7 +103,13 @@ class HotelFilterViewModel() {
             if (userFilterChoices.userSort != Sort.POPULAR || previousSort != Sort.POPULAR) {
                 previousSort = userFilterChoices.userSort
                 sortObserver.onNext(userFilterChoices.userSort)
-                HotelV2Tracking().trackHotelV2SortBy(Strings.capitalizeFirstLetter(userFilterChoices.userSort.toString()))
+                var sortByString: String = Strings.capitalizeFirstLetter(userFilterChoices.userSort.toString())
+                if (lob == LineOfBusiness.PACKAGES) {
+                    PackagesTracking().trackHotelSortBy(sortByString)
+                }
+                else {
+                    HotelV2Tracking().trackHotelV2SortBy(sortByString)
+                }
             }
 
             if (filteredResponse.hotelList != null && filteredResponse.hotelList.isNotEmpty()) {
@@ -218,7 +226,12 @@ class HotelFilterViewModel() {
     val vipFilteredObserver: Observer<Boolean> = endlessObserver {
         userFilterChoices.isVipOnlyAccess = it
         handleFiltering()
-        HotelV2Tracking().trackLinkHotelV2FilterVip(it)
+        if (lob == LineOfBusiness.PACKAGES) {
+            PackagesTracking().trackHotelFilterVIP(it)
+        }
+        else {
+            HotelV2Tracking().trackLinkHotelV2FilterVip(it)
+        }
     }
 
     val oneStarFilterObserver: Observer<Unit> = endlessObserver {
@@ -284,7 +297,12 @@ class HotelFilterViewModel() {
     val priceRangeChangedObserver = endlessObserver<Pair<Int, Int>> { p ->
         userFilterChoices.minPrice = p.first
         userFilterChoices.maxPrice = p.second
-        HotelV2Tracking().trackHotelV2SortPriceSlider()
+        if (lob == LineOfBusiness.PACKAGES) {
+            PackagesTracking().trackHotelFilterPriceSlider()
+        }
+        else {
+            HotelV2Tracking().trackHotelV2SortPriceSlider()
+        }
         handleFiltering()
     }
 
@@ -295,7 +313,12 @@ class HotelFilterViewModel() {
         handleFiltering()
         if (s.length == 1 && !trackingDone) {
             trackingDone = true
-            HotelV2Tracking().trackLinkHotelV2FilterByName()
+            if (lob == LineOfBusiness.PACKAGES) {
+                PackagesTracking().trackHotelFilterByName()
+            }
+            else {
+                HotelV2Tracking().trackLinkHotelV2FilterByName()
+            }
         }
         if (s.length == 0) trackingDone = false
     }

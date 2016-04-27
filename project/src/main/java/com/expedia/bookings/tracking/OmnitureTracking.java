@@ -4896,6 +4896,14 @@ public class OmnitureTracking {
 	private static final String PACKAGES_HOTEL_DETAILS_MAP = "App.Package.Infosite.Map";
 	private static final String PACKAGES_HOTEL_DETAILS_MAP_SELECT_ROOM = "App.Package.IS.Map.SelectRoom";
 
+	private static final String PACKAGES_HOTELS_SEARCH_REFINE = "App.Package.Hotels.Search.Filter";
+	private static final String PACKAGES_HOTELS_SORT_BY_TEMPLATE = "App.Package.Hotels.Search.Sort.";
+	private static final String PACKAGES_HOTELS_FILTER_PRICE = "App.Package.Hotels.Search.Price";
+	private static final String PACKAGES_HOTELS_FILTER_VIP_TEMPLATE = "App.Package.Hotels.Search.Filter.VIP.";
+	private static final String PACKAGES_HOTELS_FILTER_NEIGHBOURHOOD = "App.Package.Hotels.Search.Neighborhood";
+	private static final String PACKAGES_HOTELS_FILTER_BY_NAME = "App.Package.Hotels.Search.PackageName";
+	private static final String PACKAGES_HOTELS_FILTER_CLEAR = "App.Package.Hotels.Search.ClearFilter";
+
 	private static final String PACKAGES_BUNDLE_OVERVIEW_LOAD = "App.Package.RateDetails";
 	private static final String PACKAGES_BUNDLE_OVERVIEW_PRODUCT_EXPAND_TEMPLATE = "App.Package.RD.ViewDetails.";
 	private static final String PACKAGES_BUNDLE_OVERVIEW_COST_BREAKDOWN = "App.Package.RD.TotalCost";
@@ -5100,7 +5108,7 @@ public class OmnitureTracking {
 		// TODO: Will be creating a new PR for this
 	}
 
-	public static void trackPackagesFlightPageLoad(String pageName) {
+	public static void trackPackagesPageLoadWithDPageName(String pageName) {
 		Log.d(TAG, "Tracking \"" + pageName + "\" pageLoad");
 		ADMS_Measurement s = createTrackPackagePageLoadEventBase(pageName);
 		s.setEvar(18, "D=pageName");
@@ -5108,19 +5116,19 @@ public class OmnitureTracking {
 	}
 
 	public static void trackPackagesFlightRoundTripOutLoad() {
-		trackPackagesFlightPageLoad(PACKAGES_HOTEL_RT_OUT_RESULTS);
+		trackPackagesPageLoadWithDPageName(PACKAGES_HOTEL_RT_OUT_RESULTS);
 	}
 
 	public static void trackPackagesFlightRoundTripOutDetailsLoad() {
-		trackPackagesFlightPageLoad(PACKAGES_HOTEL_RT_OUT_DETAILS);
+		trackPackagesPageLoadWithDPageName(PACKAGES_HOTEL_RT_OUT_DETAILS);
 	}
 
 	public static void trackPackagesFlightRoundTripInLoad() {
-		trackPackagesFlightPageLoad(PACKAGES_HOTEL_RT_IN_RESULTS);
+		trackPackagesPageLoadWithDPageName(PACKAGES_HOTEL_RT_IN_RESULTS);
 	}
 
 	public static void trackPackagesFlightRoundTripInDetailsLoad() {
-		trackPackagesFlightPageLoad(PACKAGES_HOTEL_RT_IN_DETAILS);
+		trackPackagesPageLoadWithDPageName(PACKAGES_HOTEL_RT_IN_DETAILS);
 	}
 
 	public static void trackPackagesHotelInfoLoad(String hotelId) {
@@ -5193,7 +5201,7 @@ public class OmnitureTracking {
 	}
 
 	public static void trackPackagesFlightSortFilterLoad() {
-		trackPackagesFlightPageLoad(PACKAGES_FLIGHT_SORT_FILTER_LOAD);
+		trackPackagesPageLoadWithDPageName(PACKAGES_FLIGHT_SORT_FILTER_LOAD);
 	}
 
 	public static void trackPackagesFlightSortBy(String sortedBy) {
@@ -5268,5 +5276,40 @@ public class OmnitureTracking {
 		s.setEvents("event62");
 		s.setProp(9, "PKG|" + priceDiff);
 		s.trackLink(null, "o", "Package Checkout", null, null);
+	}
+
+	public static void trackPackagesHotelFilterPageLoad() {
+		trackPackagesPageLoadWithDPageName(PACKAGES_HOTELS_SEARCH_REFINE);
+	}
+
+	public static void trackPackagesHotelFilterRating(String rating) {
+		String pageName = PACKAGES_HOTELS_SEARCH_REFINE + "." + rating;
+		createAndtrackLinkEvent(pageName, "Search Results Sort");
+	}
+
+	public static void trackPackagesHotelSortBy(String type) {
+		String pageName = PACKAGES_HOTELS_SORT_BY_TEMPLATE + type;
+		createAndtrackLinkEvent(pageName, "Search Results Sort");
+	}
+
+	public static void trackPackagesHotelFilterPriceSlider() {
+		createAndtrackLinkEvent(PACKAGES_HOTELS_FILTER_PRICE, "Search Results Sort");
+	}
+
+	public static void trackPackagesHotelFilterVIP(String type) {
+		String pageName = PACKAGES_HOTELS_FILTER_VIP_TEMPLATE + type;
+		createAndtrackLinkEvent(pageName, "Search Results Sort");
+	}
+
+	public static void trackPackagesHotelFilterNeighborhood() {
+		createAndtrackLinkEvent(PACKAGES_HOTELS_FILTER_NEIGHBOURHOOD, "Search Results Sort");
+	}
+
+	public static void trackPackagesHotelFilterByName() {
+		createAndtrackLinkEvent(PACKAGES_HOTELS_FILTER_BY_NAME, "Search Results Sort");
+	}
+
+	public static void trackPackagesHotelClearFilter() {
+		createAndtrackLinkEvent(PACKAGES_HOTELS_FILTER_CLEAR, "Search Results Sort");
 	}
 }

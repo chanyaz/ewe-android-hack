@@ -29,8 +29,9 @@ import com.expedia.util.notNullAndObservable
 import com.expedia.util.subscribeInverseVisibility
 import com.expedia.util.subscribeText
 import com.expedia.util.subscribeVisibility
-import com.expedia.vm.hotel.HotelResultsViewModel
+import com.expedia.vm.HotelFilterViewModel
 import com.expedia.vm.ShopWithPointsViewModel
+import com.expedia.vm.hotel.HotelResultsViewModel
 import javax.inject.Inject
 
 class HotelResultsPresenter(context: Context, attrs: AttributeSet) : BaseHotelResultsPresenter(context, attrs) {
@@ -144,6 +145,10 @@ class HotelResultsPresenter(context: Context, attrs: AttributeSet) : BaseHotelRe
     override fun inflate() {
         View.inflate(context, R.layout.widget_hotel_results, this)
         toolbar.setBackgroundColor(ContextCompat.getColor(context, R.color.hotels_primary_color))
+    }
+
+    override fun getFilterViewModel(): HotelFilterViewModel {
+        return HotelFilterViewModel()
     }
 
     override fun doAreaSearch() {

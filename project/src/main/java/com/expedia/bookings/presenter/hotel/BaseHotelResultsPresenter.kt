@@ -320,7 +320,7 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
         headerClickedSubject.subscribe(mapSelectedObserver)
         adapter = getHotelListAdapter()
         recyclerView.adapter = adapter
-        filterView.viewmodel = HotelFilterViewModel()
+        filterView.viewmodel = getFilterViewModel()
         filterView.viewmodel.filterObservable.subscribe(filterObserver)
         navIcon.setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_IN)
         toolbar.navigationIcon = navIcon
@@ -1179,6 +1179,7 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
     }
 
     abstract fun inflate()
+    abstract fun getFilterViewModel(): HotelFilterViewModel
     abstract fun doAreaSearch()
     abstract fun hideSearchThisArea()
     abstract fun showSearchThisArea()
