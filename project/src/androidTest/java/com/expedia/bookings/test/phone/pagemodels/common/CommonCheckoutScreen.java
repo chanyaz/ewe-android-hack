@@ -18,7 +18,6 @@ public class CommonCheckoutScreen {
 	private static final int LOG_IN_BUTTON_ID = R.id.login_text_view;
 	private static final int LOG_OUT_BUTTON_ID = R.id.account_logout_logout_button;
 	private static final int SELECT_PAYMENT_BUTTON_ID = R.id.payment_info_btn;
-	private static final int RULES_RESTRICTIONS_TEXT_VIEW_ID = R.id.legal_information_text_view;
 
 	// Object access
 
@@ -42,10 +41,6 @@ public class CommonCheckoutScreen {
 		return onView(withId(R.id.slide_to_purchase_widget));
 	}
 
-	public static ViewInteraction legalInfoTextView() {
-		return onView(withId(RULES_RESTRICTIONS_TEXT_VIEW_ID));
-	}
-
 	public static ViewInteraction flightsLegalTextView() {
 		return onView(withId(R.id.legal_blurb));
 	}
@@ -55,11 +50,6 @@ public class CommonCheckoutScreen {
 	public static void clickCheckoutButton() {
 		Common.delay(1);
 		checkoutButton().perform(ViewActions.waitForViewToDisplay(), click());
-	}
-
-	public static void clickLogInButton() {
-		Common.delay(2);
-		logInButton().perform(scrollTo(), click());
 	}
 
 	public static void clickLogOutButton() {
@@ -80,10 +70,6 @@ public class CommonCheckoutScreen {
 		selectPaymentButton().perform(scrollTo(), click());
 	}
 
-	public static void clickOnLegalInfoButton() {
-		legalInfoTextView().perform(scrollTo(), click());
-	}
-
 	public static void slideToCheckout() {
 		slideToPurchaseStartView().perform(swipeRight());
 	}
@@ -96,17 +82,8 @@ public class CommonCheckoutScreen {
 		onView(withId(R.id.layout_i_accept)).perform(click());
 	}
 
-	public static void clickEnterInfoButton() {
-		onView(withId(R.id.enter_info_manually_button)).perform(click());
-	}
-
 	public static void clickTravelerDetails() {
 		onView(withId(R.id.traveler_empty_text_view)).perform(scrollTo());
 		onView(withId(R.id.traveler_empty_text_view)).perform(click());
-	}
-
-	public static void clickGuestDetails() {
-		onView(withId(R.id.traveler_info_btn)).perform(scrollTo());
-		onView(withId(R.id.traveler_info_btn)).perform(click());
 	}
 }

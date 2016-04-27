@@ -19,7 +19,6 @@ import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.activity.FlightSearchActivity;
 import com.expedia.bookings.activity.FlightSearchResultsActivity;
 import com.expedia.bookings.activity.FlightUnsupportedPOSActivity;
-import com.expedia.bookings.activity.HotelSearchActivity;
 import com.expedia.bookings.activity.ItineraryActivity;
 import com.expedia.bookings.activity.PhoneLaunchActivity;
 import com.expedia.bookings.activity.TabletCheckoutActivity;
@@ -366,7 +365,6 @@ public class NavUtils {
 	}
 
 	public static void restartHotelSearch(Activity activity) {
-		Context context = activity;
 		// Clear out old data
 		Db.resetBillingInfo();
 		Db.getHotelSearch().setSearchResponse(null);
@@ -375,12 +373,6 @@ public class NavUtils {
 		if (activity instanceof TabletCheckoutActivity) {
 			Db.getTripBucket().clearHotel();
 			activity.finish();
-		}
-		else {
-			// Launch hotel search activity (new search should start automatically due to blank data)
-			Intent intent = new Intent(context, HotelSearchActivity.class);
-			intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-			context.startActivity(intent);
 		}
 	}
 

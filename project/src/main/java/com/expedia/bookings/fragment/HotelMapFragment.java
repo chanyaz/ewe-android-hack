@@ -25,7 +25,6 @@ import android.widget.TextView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.ExpediaBookingApp;
-import com.expedia.bookings.activity.HotelMapActivity;
 import com.expedia.bookings.bitmaps.PicassoHelper;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.Distance;
@@ -61,7 +60,7 @@ import com.mobiata.android.Log;
 import com.squareup.picasso.Callback;
 
 public class HotelMapFragment extends SupportMapFragment implements OnFilterChangedListener {
-
+	public static final String INSTANCE_IS_HOTEL_RECEIPT = "INSTANCE_IS_HOTEL_RECEIPT";
 	private static final String INSTANCE_INFO_WINDOW_SHOWING = "INSTANCE_INFO_WINDOW_SHOWING";
 	private static final String EXACT_LOCATION_MARKER = "EXACT_LOCATION_MARKER";
 
@@ -344,7 +343,7 @@ public class HotelMapFragment extends SupportMapFragment implements OnFilterChan
 				}
 			}
 		}
-		bundle.putBoolean(HotelMapActivity.INSTANCE_IS_HOTEL_RECEIPT, mIsFromHotelReceipt);
+		bundle.putBoolean(INSTANCE_IS_HOTEL_RECEIPT, mIsFromHotelReceipt);
 	}
 
 	public void onRestoreSavedInstanceState(Bundle bundle) {
@@ -354,7 +353,7 @@ public class HotelMapFragment extends SupportMapFragment implements OnFilterChan
 		}
 
 		mInstanceInfoWindowShowing = bundle.getString(INSTANCE_INFO_WINDOW_SHOWING);
-		mIsFromHotelReceipt = bundle.getBoolean(HotelMapActivity.INSTANCE_IS_HOTEL_RECEIPT, false);
+		mIsFromHotelReceipt = bundle.getBoolean(INSTANCE_IS_HOTEL_RECEIPT, false);
 	}
 
 	public boolean isReady() {

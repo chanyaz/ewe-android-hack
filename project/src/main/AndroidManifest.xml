@@ -146,61 +146,10 @@
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
 
         <!-- Hotels activities -->
-
-        <activity
-            android:name="com.expedia.bookings.activity.HotelSearchActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/Theme.Phone.HotelSearchActivity"
-            android:uiOptions="splitActionBarWhenNarrow"
-            android:windowSoftInputMode="adjustResize" />
-        <activity
-            android:name="com.expedia.bookings.activity.HotelDetailsFragmentActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/Theme.Phone" />
-        <activity
-            android:name="com.expedia.bookings.activity.HotelMapActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/Theme.Phone" />
-        <activity
-            android:name="com.expedia.bookings.activity.UserReviewsListActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/Theme.Phone" />
-        <activity
-            android:name="com.expedia.bookings.activity.HotelPayLaterInfoActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/Theme.Phone" />
-        <activity
-            android:name="com.expedia.bookings.activity.HotelRoomsAndRatesActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/Theme.Phone" />
-        <activity
-            android:name="com.expedia.bookings.activity.HotelOverviewActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/Theme.Phone.Dark"
-            android:windowSoftInputMode="adjustPan" />
         <activity
             android:name="com.expedia.bookings.activity.HotelRulesActivity"
             android:label="@string/legal_information"
             android:theme="@style/Theme.Phone.Rules" />
-        <activity
-            android:name="com.expedia.bookings.activity.HotelTravelerInfoOptionsActivity"
-            android:label="@string/Add_Traveler"
-            android:screenOrientation="portrait"
-            android:theme="@style/Theme.Phone.Dark" />
-        <activity
-            android:name="com.expedia.bookings.activity.HotelPaymentOptionsActivity"
-            android:label="@string/Add_Payment"
-            android:screenOrientation="portrait"
-            android:theme="@style/Theme.Phone.Dark" />
-        <activity
-            android:name="com.expedia.bookings.activity.HotelBookingActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/Theme.Phone.Dark" />
-        <activity
-            android:name="com.expedia.bookings.activity.HotelConfirmationActivity"
-            android:label="@string/booking_complete"
-            android:screenOrientation="portrait"
-            android:theme="@style/Theme.Phone.Dark" />
 
         <!-- Flights activities -->
 

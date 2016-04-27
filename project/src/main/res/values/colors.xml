@@ -101,7 +101,6 @@
     <!-- Hotels colors -->
     <color name="search_anim_background">#EEEEEE</color>
     <color name="hotels_primary_color">@color/expedia_hotels_color</color>
-    <color name="hotels_cc_text_color_secondary">#868a8f</color>
     <color name="hotelsv2_discount_green">#6BCA2C</color>
     <color name="hotel_price_breakdown_discount_green">#218b22</color>
     <color name="hotel_result_background">@color/search_results_list_bg_gray</color>
@@ -173,7 +172,6 @@
     <color name="window_background_dark">#2D3742</color>
     <color name="light_gray">#777777</color>
     <color name="dark_blue">#1C3061</color>
-    <color name="dismiss">#72000000</color>
     <color name="calendar_header">#FFF3F3F3</color>
     <color name="calendar_instruction_text_color">#717171</color>
     <color name="bg_expedia_list">#f5f5f5</color>
@@ -197,8 +195,6 @@
     <color name="hotel_price_text_color">#064192</color>
     <color name="hotel_price_sale_text_color">#00b277</color>
     <color name="hotel_price_air_attach_text_color">#fd8126</color>
-    <color name="bg_hotel_details_mini_gallery">#262626</color>
-    <color name="bg_row_state_default">@color/white</color>
     <color name="bg_row_state_pressed">#f0f0f0</color>
     <color name="bg_tablet_button_state_pressed">#cccccc</color>
     <color name="bg_tablet_clickable_button_done_color">@color/black</color>
@@ -206,7 +202,6 @@
     <color name="text_shadow_color">#a5ffffff</color>
     <color name="text_dark">#ff545454</color>
     <color name="text_black">#ff232323</color>
-    <color name="bottom_bar_background">#c000</color>
     <color name="tab_text">#d7d9dc</color>
     <color name="actionbar_bg">#232b33</color>
     <color name="bg_signin_dialog_button">@android:color/transparent</color>
@@ -225,8 +220,6 @@
     <color name="nav_dropdown_dividers">#26ffffff</color>
     <color name="price_promo_banner_text_color">@color/white</color>
     <color name="price_promo_banner_strikethrough_text_color">#aaa</color>
-    <color name="bg_sub_header">#cccccc</color>
-    <color name="text_sub_header">#3d4453</color>
     <color name="action_bar_flight_text_color">#F5F5F5</color>
     <color name="confirmation_header_divider_flight">#7D7ab6f5</color>
     <color name="confirmation_header_divider_hotel">#cccccc</color>
@@ -237,8 +230,6 @@
     <color name="flight_checkout_fee_warning_background">#1A2C40</color>
 
     <!-- Hotels search hangtag/mapsearch colors -->
-    <color name="hotel_list_progress_text_color">#555555</color>
-    <color name="hotel_map_progress_text_color">@color/actionbar_text</color>
     <color name="map_dimmer">#c0495359</color>
     <color name="hotel_map_text_color">#3c7cf2</color>
 
@@ -389,11 +380,6 @@
     <color name="acct__flavor_text">@color/white</color>
     <color name="acct__user_info_text_color">@color/white</color>
     <color name="toolbar_icon">@color/white</color>
-
-    <!-- MER Email Opt checkbox color -->
-    <color name="mer_email_checkbox_unchecked_color">#F7F8FA</color>
-    <color name="mer_email_checkbox_checked_color">#00B9E6</color>
-    <color name="mer_email_text_color">#F7F8FA</color>
 
     <!-- Hotels V2 Checkout Colors -->
     <color name="hotelsv2_checkout_text_color">@color/mediumGray</color>

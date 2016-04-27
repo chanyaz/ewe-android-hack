@@ -2,7 +2,6 @@
 <resources>
 
     <!-- Tablet Flights -->
-    <dimen name="standard_content_width">600dp</dimen>
     <dimen name="plane_window_height">400dp</dimen>
     <dimen name="plane_window_text_offset">-40dp</dimen>
     <dimen name="flight_search_calendar_height">@dimen/match_parent</dimen>
