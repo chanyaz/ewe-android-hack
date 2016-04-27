@@ -15,6 +15,7 @@ import com.expedia.bookings.data.SuggestionV4;
 import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.data.TravelerName;
 import com.expedia.bookings.data.packages.PackageSearchParams;
+import com.expedia.bookings.enums.PassengerCategory;
 import com.expedia.bookings.presenter.packages.TravelerPresenter;
 import com.expedia.bookings.test.espresso.Common;
 import com.expedia.bookings.test.espresso.EspressoUtils;
@@ -94,6 +95,28 @@ public class BaseTravelerPresenterTestHelper {
 		return packageParams;
 	}
 
+	private void setDbTravelers(int adults, List<Integer> children, boolean infantsInLap) {
+		List<Traveler> travelers = new ArrayList<>();
+		for (int i = 0; i < adults; i++) {
+			Traveler adultTraveler = new Traveler();
+			adultTraveler.setPassengerCategory(PassengerCategory.ADULT);
+			travelers.add(adultTraveler);
+		}
+		if (children != null) {
+			for (int i = 0; i < children.size(); i++) {
+				Traveler childTraveler = new Traveler();
+				if (infantsInLap) {
+					childTraveler.setPassengerCategory(PassengerCategory.INFANT_IN_LAP);
+				}
+				else {
+					childTraveler.setPassengerCategory(PassengerCategory.CHILD);
+				}
+				travelers.add(childTraveler);
+			}
+		}
+		Db.setTravelers(travelers);
+	}
+
 	protected void addTravelerToDb(Traveler traveler) {
 		Db.getTravelers().add(traveler);
 	}
@@ -107,19 +130,22 @@ public class BaseTravelerPresenterTestHelper {
 
 	protected CheckoutTravelerViewModel getMockViewModelEmptyTravelersWithInfant(int adultCount, List<Integer> children, boolean infantsInLap) {
 		CheckoutTravelerViewModel mockViewModel = new CheckoutTravelerViewModel();
-		mockViewModel.refreshTravelerList(setPackageParams(adultCount, children, infantsInLap));
+		setPackageParams(adultCount, children, infantsInLap);
+		setDbTravelers(adultCount, children, infantsInLap);
 		return mockViewModel;
 	}
 
 	protected CheckoutTravelerViewModel getMockViewModelEmptyTravelers(int travelerCount) {
 		CheckoutTravelerViewModel mockViewModel = new CheckoutTravelerViewModel();
-		mockViewModel.refreshTravelerList(setPackageParams(travelerCount));
+		setPackageParams(travelerCount);
+		setDbTravelers(travelerCount, null, false);
 		return mockViewModel;
 	}
 
 	protected CheckoutTravelerViewModel getMockViewModelIncompleteTravelers(int travelerCount) {
 		CheckoutTravelerViewModel mockViewModel = new CheckoutTravelerViewModel();
-		mockViewModel.refreshTravelerList(setPackageParams(travelerCount));
+		setPackageParams(travelerCount);
+		setDbTravelers(travelerCount, null, false);
 		for (int i = 0; i < travelerCount; i++) {
 			Traveler traveler = Db.getTravelers().get(i);
 			setIncompleteTraveler(traveler);
@@ -129,7 +155,8 @@ public class BaseTravelerPresenterTestHelper {
 
 	protected CheckoutTravelerViewModel getMockViewModelValidTravelers(int travelerCount) {
 		CheckoutTravelerViewModel mockViewModel = new CheckoutTravelerViewModel();
-		mockViewModel.refreshTravelerList(setPackageParams(travelerCount));
+		setPackageParams(travelerCount);
+		setDbTravelers(travelerCount, null, false);
 		for (int i = 0; i < travelerCount; i++) {
 			Traveler traveler = Db.getTravelers().get(i);
 			setValidTraveler(traveler);

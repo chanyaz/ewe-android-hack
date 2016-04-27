@@ -83,9 +83,14 @@ class TravelerPresenter(context: Context, attrs: AttributeSet) : Presenter(conte
         show(travelerDefaultState, Presenter.FLAG_CLEAR_BACKSTACK)
     }
 
-    fun refreshAndShow(packageParams: PackageSearchParams) {
-        viewModel.refreshTravelerList(packageParams)
-        travelerDefaultState.updateStatus(TravelerCheckoutStatus.CLEAN)
+    fun refreshAndShow() {
+        if (viewModel.areTravelersEmpty()) {
+            travelerDefaultState.updateStatus(TravelerCheckoutStatus.CLEAN)
+        } else if (viewModel.validateTravelersComplete()){
+            travelerDefaultState.updateStatus(TravelerCheckoutStatus.COMPLETE)
+        } else {
+            travelerDefaultState.updateStatus(TravelerCheckoutStatus.DIRTY)
+        }
         visibility = View.VISIBLE
     }
 

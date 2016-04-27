@@ -59,6 +59,10 @@ public class TravelerName {
 		this.lastName = lastName;
 	}
 
+	public boolean isEmpty() {
+		return TextUtils.isEmpty(firstName) && TextUtils.isEmpty(middleName) && TextUtils.isEmpty(lastName);
+	}
+
 	public void toJson(JSONObject obj) throws JSONException {
 		obj.putOpt("firstName", firstName);
 		obj.putOpt("middleName", middleName);

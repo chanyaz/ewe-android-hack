@@ -92,6 +92,42 @@ class TravelerNameTest {
         assertTrue(oscarOne.equals(oscarTwo))
     }
 
+    @Test
+    fun firstNameEmpty() {
+        val oscarOne = getTestName("", oscarMiddleName, oscarLastName)
+        val oscarTwo = getTestName(null, oscarMiddleName, oscarLastName)
+
+        assertFalse(oscarOne.isEmpty)
+        assertFalse(oscarTwo.isEmpty)
+    }
+
+    @Test
+    fun middleNameEmpty() {
+        val oscarOne = getTestName(oscarFirstName, "", oscarLastName)
+        val oscarTwo = getTestName(oscarFirstName, null, oscarLastName)
+
+        assertFalse(oscarOne.isEmpty)
+        assertFalse(oscarTwo.isEmpty)
+    }
+
+    @Test
+    fun lastNameEmpty() {
+        val oscarOne = getTestName(oscarFirstName, oscarMiddleName, "")
+        val oscarTwo = getTestName(oscarFirstName, oscarMiddleName, null)
+
+        assertFalse(oscarOne.isEmpty)
+        assertFalse(oscarTwo.isEmpty)
+    }
+
+    @Test
+    fun testIsEmpty() {
+        val oscarOne = getTestName("", "", "")
+        val oscarTwo = getTestName(null, null, null)
+
+        assertTrue(oscarOne.isEmpty)
+        assertTrue(oscarTwo.isEmpty)
+    }
+
     private fun getTestName(first: String?, middle: String?, last: String?) : TravelerName {
         val travelerName = TravelerName()
         travelerName.firstName = first
