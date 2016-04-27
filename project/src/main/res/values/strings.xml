@@ -4052,6 +4052,16 @@
     <!-- Fly to hint -->
     <string name="fly_to_hint">Flying to</string>
 
+    <!-- Strings used in Orbitz where amount type is rewards  -->
+    <!-- Label indicating Orbucks Available. Eg: $1000.12 in Orbucks available-->
+    <string name="bucks_available_TEMPLATE">{money} in Orbucks available</string>
+    <!-- Label indicating Orbucks Applied By User. Eg: $1000.12 in Orbucks applied-->
+    <string name="bucks_applied_TEMPLATE">{money} in Orbucks applied</string>
+    <!-- Label above the slider when user is fully paying with Orbucks. Eg: You are using $1000.12 in Orbucks-->
+    <string name="you_are_using_bucks_TEMPLATE">You are using {amount} in Orbucks</string>
+    <!-- Label above the slider when user is paying with Orbucks and Card. Eg: You are using $1000.12 in Orbucks\nYour card will be charged $100.00-->
+    <string name="payment_through_card_and_bucks">You are using {amount} in Orbucks\nYour card will be charged {dueamount}</string>
+
     <!-- Feeds -->
     <!-- Flight search title card -->
     <string name="flight_search_card_title">Flight Search</string>
@@ -4060,9 +4070,4 @@
     <!-- Label for Browse hotels card for staff picked city/destination -->
     <string name="browse_hotels_label">Browse hotels</string>
 
-    <!-- Orbucks -->
-    <string name="orbucks_available_TEMPLATE">{money} in Orbucks available</string>
-    <string name="orbucks_applied_TEMPLATE">{money} in Orbucks applied</string>
-    <string name="you_are_using_bucks_TEMPLATE">You are using {amount} in Orbucks</string>
-    <string name="payment_through_card_and_bucks">You are using {amount} in Orbucks\nYour card will be charged {dueamount}</string>
 </resources>

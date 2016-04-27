@@ -12,8 +12,8 @@ import com.expedia.bookings.services.ReviewsServices;
 import com.expedia.bookings.services.SuggestionV4Services;
 import com.expedia.vm.ShopWithPointsViewModel;
 import com.expedia.model.UserLoginStateChangedModel;
-import com.expedia.bookings.widget.IOrbucksViewModel;
-import com.expedia.bookings.widget.OrbucksViewModel;
+import com.expedia.vm.BucksViewModel;
+import com.expedia.vm.interfaces.IBucksViewModel;
 import com.expedia.vm.interfaces.IPayWithPointsViewModel;
 import com.expedia.vm.PaymentWidgetViewModel;
 import com.expedia.vm.interfaces.IPaymentWidgetViewModel;
@@ -73,8 +73,8 @@ public final class HotelModule {
 
 	@Provides
 	@HotelScope
-	IOrbucksViewModel provideOrbucksViewModel(Context context, PaymentModel<HotelCreateTripResponse> paymentModel) {
-		return new OrbucksViewModel<>(paymentModel, context);
+	IBucksViewModel provideBucksViewModel(Context context, PaymentModel<HotelCreateTripResponse> paymentModel) {
+		return new BucksViewModel<>(paymentModel, context);
 	}
 
 	@Provides

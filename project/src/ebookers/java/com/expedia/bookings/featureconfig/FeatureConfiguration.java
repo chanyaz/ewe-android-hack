@@ -303,7 +303,7 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 
 	@Override
 	public int getRewardsLayoutId() {
-		return R.layout.orbucks_widget_stub;
+		return R.layout.bucks_widget_stub;
 	}
 
 	@Override

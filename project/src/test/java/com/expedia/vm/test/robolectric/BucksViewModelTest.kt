@@ -18,9 +18,9 @@ import com.expedia.bookings.test.MockHotelServiceTestRule
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.testrule.ServicesRule
 import com.expedia.bookings.utils.Ui
-import com.expedia.bookings.widget.IOrbucksViewModel
-import com.expedia.bookings.widget.OrbucksViewModel
-import com.expedia.bookings.widget.OrbucksWidget
+import com.expedia.vm.interfaces.IBucksViewModel
+import com.expedia.vm.BucksViewModel
+import com.expedia.bookings.widget.BucksWidget
 import com.expedia.util.notNullAndObservable
 import org.junit.Assert
 import org.junit.Before
@@ -33,7 +33,7 @@ import rx.observers.TestSubscriber
 import kotlin.properties.Delegates
 
 @RunWith(RobolectricRunner::class)
-class OrbucksViewModelTest {
+class BucksViewModelTest {
     var mockHotelServiceTestRule: MockHotelServiceTestRule = MockHotelServiceTestRule()
         @Rule get
 
@@ -42,10 +42,10 @@ class OrbucksViewModelTest {
 
     private var paymentModel: PaymentModel<HotelCreateTripResponse> by Delegates.notNull()
 
-    private var orbucksViewModel by notNullAndObservable<IOrbucksViewModel> {
+    private var bucksViewModel by notNullAndObservable<IBucksViewModel> {
         it.updateToggle.subscribe(updateToggleTestSubscriber)
         it.pointsAppliedMessageColor.subscribe(pointsAppliedMessageColorTestSubscriber)
-        it.orbucksWidgetVisibility.subscribe(orbucksWidgetVisibilityTestSubscriber)
+        it.bucksWidgetVisibility.subscribe(bucksWidgetVisibilityTestSubscriber)
     }
 
     private fun getContext(): Context {
@@ -54,7 +54,7 @@ class OrbucksViewModelTest {
 
     private val updateToggleTestSubscriber = TestSubscriber.create<Boolean>()
     private val pointsAppliedMessageColorTestSubscriber = TestSubscriber.create<Int>()
-    private val orbucksWidgetVisibilityTestSubscriber = TestSubscriber.create<Boolean>()
+    private val bucksWidgetVisibilityTestSubscriber = TestSubscriber.create<Boolean>()
     private val paymentSplitsTestSubscriber = TestSubscriber<PaymentSplits>()
 
     private var enableColor: Int by Delegates.notNull()
@@ -68,7 +68,7 @@ class OrbucksViewModelTest {
         val activity = Robolectric.buildActivity(Activity::class.java).create().get()
         activity.setTheme(R.style.V2_Theme_Hotels)
         Ui.getApplication(activity).defaultHotelComponents()
-        val orbucksWidget = LayoutInflater.from(activity).inflate(R.layout.orbucks_widget_stub, null) as OrbucksWidget
+        val bucksWidget = LayoutInflater.from(activity).inflate(R.layout.bucks_widget_stub, null) as BucksWidget
 
         enableColor = ContextCompat.getColor(getContext(), R.color.hotels_primary_color);
         disableColor = ContextCompat.getColor(getContext(), R.color.hotelsv2_checkout_text_color);
@@ -77,7 +77,7 @@ class OrbucksViewModelTest {
         createTripResponse.tripId = "happy";
         Db.getTripBucket().add(TripBucketItemHotelV2(createTripResponse))
         paymentModel = PaymentModel<HotelCreateTripResponse>(loyaltyServiceRule.services!!)
-        orbucksViewModel = OrbucksViewModel(paymentModel, activity.application)
+        bucksViewModel = BucksViewModel(paymentModel, activity.application)
 
         paymentModel.paymentSplits.subscribe(paymentSplitsTestSubscriber)
 
@@ -88,7 +88,7 @@ class OrbucksViewModelTest {
         val payingWithCards = PointsAndCurrency(createTripResponse.rewards.totalPointsToEarn, PointsType.EARN, createTripResponse.getTripTotalExcludingFee())
         fullPayableWithCardPaymentSplits = PaymentSplits(payingWithPoints, payingWithCards)
 
-        orbucksWidget.viewModel = orbucksViewModel
+        bucksWidget.viewModel = bucksViewModel
         paymentModel.createTripSubject.onNext(createTripResponse)
     }
 
@@ -96,19 +96,19 @@ class OrbucksViewModelTest {
     fun testSubscribersAfterCreateTrip() {
         updateToggleTestSubscriber.assertValueCount(1)
         pointsAppliedMessageColorTestSubscriber.assertValue(enableColor)
-        orbucksWidgetVisibilityTestSubscriber.assertValue(true)
+        bucksWidgetVisibilityTestSubscriber.assertValue(true)
 
         Assert.assertTrue(comparePaymentSplits(paymentSplitsTestSubscriber.onNextEvents[0], fullPayableWithPointsPaymentSplits))
     }
 
     @Test
     fun userToggleOrbucksSwitch() {
-        orbucksViewModel.orbucksOpted.onNext(false)
+        bucksViewModel.bucksOpted.onNext(false)
 
         pointsAppliedMessageColorTestSubscriber.assertValues(enableColor, disableColor)
         Assert.assertTrue(comparePaymentSplits(paymentSplitsTestSubscriber.onNextEvents[1], fullPayableWithCardPaymentSplits))
 
-        orbucksViewModel.orbucksOpted.onNext(true)
+        bucksViewModel.bucksOpted.onNext(true)
 
         pointsAppliedMessageColorTestSubscriber.assertValues(enableColor, disableColor, enableColor)
         Assert.assertTrue(comparePaymentSplits(paymentSplitsTestSubscriber.onNextEvents[2], fullPayableWithPointsPaymentSplits))

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.expedia.bookings.widget.OrbucksWidget
+<com.expedia.bookings.widget.BucksWidget
     android:id="@+id/orbucks_widget"
     style="@style/RewardWidget"
     xmlns:android="http://schemas.android.com/apk/res/android"

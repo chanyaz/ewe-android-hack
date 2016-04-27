@@ -75,6 +75,15 @@
     <string name="loyalty_applied_excluding_taxes_and_fees_message">Orbucks applied! (excludes taxes and fees)</string>
     <string name="youll_earn_points_TEMPLATE">You\'ll earn {reward_currency} in Orbucks for this booking!</string>
 
+    <!-- Label indicating Orbucks Available. Eg: $1000.12 in Orbucks available-->
+    <string name="bucks_available_TEMPLATE">{money} in Orbucks available</string>
+    <!-- Label indicating Orbucks Applied By User. Eg: $1000.12 in Orbucks applied-->
+    <string name="bucks_applied_TEMPLATE">{money} in Orbucks applied</string>
+    <!-- Label above the slider when user is fully paying with Orbucks. Eg: You are using $1000.12 in Orbucks-->
+    <string name="you_are_using_bucks_TEMPLATE">You are using {amount} in Orbucks</string>
+    <!-- Label above the slider when user is paying with Orbucks and Card. Eg: You are using $1000.12 in Orbucks\nYour card will be charged $100.00-->
+    <string name="payment_through_card_and_bucks">You are using {amount} in Orbucks\nYour card will be charged {dueamount}</string>
+
     <!-- Label for Orbitz silver rewards program name -->
     <string name="reward_plus_silver_TEMPLATE">{brand} silver</string>
     <!-- Label for Orbitz silver rewards tier without brand name-->
@@ -87,4 +96,5 @@
     <string name="reward_plus_platinum_TEMPLATE">{brand} platinum</string>
     <!-- Label for Orbitz platinum rewards tier without brand name -->
     <string name="plus_platinum">platinum</string>
+
 </resources>
