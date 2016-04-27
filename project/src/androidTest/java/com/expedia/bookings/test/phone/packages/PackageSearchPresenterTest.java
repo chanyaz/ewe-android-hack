@@ -66,7 +66,7 @@ public class PackageSearchPresenterTest extends PackageTestCase {
 
 	public void testDateButtonTextPopulation() throws Throwable {
 		// Select location
-		PackageScreen.selectDepartureAndArrival();
+		PackageScreen.selectOriginAndDestination();
 		// Open calendar
 		PackageScreen.selectDateButton().check(matches(withText(R.string.select_dates)));
 
@@ -89,7 +89,7 @@ public class PackageSearchPresenterTest extends PackageTestCase {
 
 	public void testMaxPackageDuration() throws Throwable {
 		// Select location
-		PackageScreen.selectDepartureAndArrival();
+		PackageScreen.selectOriginAndDestination();
 
 		LocalDate startDate = LocalDate.now();
 		LocalDate endDate = LocalDate.now().plusDays(27);
@@ -111,7 +111,7 @@ public class PackageSearchPresenterTest extends PackageTestCase {
 
 	public void testPackageSearchWindow() throws Throwable {
 		// Select location
-		PackageScreen.selectDepartureAndArrival();
+		PackageScreen.selectOriginAndDestination();
 
 		LocalDate startDate = LocalDate.now().plusDays(335);
 		LocalDate endDate = LocalDate.now().plusDays(340);
@@ -129,7 +129,7 @@ public class PackageSearchPresenterTest extends PackageTestCase {
 
 	public void testSameDay() throws Throwable {
 		// Select location
-		PackageScreen.selectDepartureAndArrival();
+		PackageScreen.selectOriginAndDestination();
 		LocalDate startDate = LocalDate.now();
 		LocalDate endDate = LocalDate.now();
 

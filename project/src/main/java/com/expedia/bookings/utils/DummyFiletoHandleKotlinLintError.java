@@ -242,6 +242,7 @@ DummyFiletoHandleKotlinLintError {
 		R.layout.widget_search_autocomplete,
 		R.layout.suggestion_popup,
 		R.integer.calendar_max_days_package_stay,
+		R.integer.calendar_max_days_rail_search,
 		R.color.hotel_result_background,
 		R.string.hotels_guest_TEMPLATE,
 		R.layout.bundle_hotel_widget,

@@ -7,19 +7,17 @@ import com.expedia.bookings.data.flights.FlightSearchParams
 import com.expedia.bookings.data.flights.FlightSearchResponse
 import com.expedia.bookings.data.flights.FlightTripDetails
 import com.expedia.bookings.data.packages.PackageOfferModel
-import com.expedia.bookings.data.packages.PackageSearchParams
 import com.expedia.bookings.services.FlightServices
 import com.expedia.util.endlessObserver
-import org.joda.time.LocalDate
 import rx.Observable
 import rx.Observer
 import rx.subjects.PublishSubject
 import java.util.HashMap
 import java.util.LinkedHashSet
 
-class FlightSearchViewModel(context: Context, val flightServices: FlightServices) : DatedSearchViewModel(context) {
+class FlightSearchViewModel(context: Context, val flightServices: FlightServices) : BaseSearchViewModel(context) {
 
-    override val paramsBuilder = FlightSearchParams.Builder(getMaxStay())
+    override val paramsBuilder = FlightSearchParams.Builder(getMaxSearchDurationDays())
 
     var flightMap: HashMap<String, LinkedHashSet<FlightLeg>> = HashMap()
     var flightOfferModels: HashMap<String, FlightTripDetails.FlightOffer> = HashMap()
@@ -34,17 +32,17 @@ class FlightSearchViewModel(context: Context, val flightServices: FlightServices
 
     val searchObserver = endlessObserver<Unit> {
         if (paramsBuilder.areRequiredParamsFilled()) {
-            if (paramsBuilder.isDepartureSameAsOrigin()) {
-                errorDepartureSameAsOrigin.onNext(context.getString(R.string.error_same_flight_departure_arrival))
+            if (paramsBuilder.isOriginSameAsDestination()) {
+                errorOriginSameAsDestinationObservable.onNext(context.getString(R.string.error_same_flight_departure_arrival))
             } else if (!paramsBuilder.hasValidDates()) {
-                errorMaxDatesObservable.onNext(context.getString(R.string.hotel_search_range_error_TEMPLATE, getMaxStay()))
+                errorMaxDatesObservable.onNext(context.getString(R.string.hotel_search_range_error_TEMPLATE, getMaxSearchDurationDays()))
             } else {
                 val flightSearchParams = paramsBuilder.build()
                 searchParamsObservable.onNext(flightSearchParams)
             }
         } else {
-            if (!paramsBuilder.hasDepartureAndArrival()) {
-                errorNoOriginObservable.onNext(Unit)
+            if (!paramsBuilder.hasOriginAndDestination()) {
+                errorNoDestinationObservable.onNext(Unit)
             } else if (!paramsBuilder.hasStartAndEndDates()) {
                 errorNoDatesObservable.onNext(Unit)
             }
@@ -66,7 +64,7 @@ class FlightSearchViewModel(context: Context, val flightServices: FlightServices
         }).subscribe()
     }
 
-    override fun getMaxStay(): Int {
+    override fun getMaxSearchDurationDays(): Int {
         return context.resources.getInteger(R.integer.calendar_max_days_flight_search)
     }
 

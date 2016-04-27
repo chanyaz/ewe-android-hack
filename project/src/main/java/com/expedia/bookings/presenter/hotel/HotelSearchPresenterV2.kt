@@ -15,7 +15,7 @@ import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.widget.HotelSuggestionAdapter
 import com.expedia.util.notNullAndObservable
 import com.expedia.util.subscribeOnClick
-import com.expedia.vm.DatedSearchViewModel
+import com.expedia.vm.BaseSearchViewModel
 import com.expedia.vm.HotelSearchViewModel
 import com.expedia.vm.HotelSuggestionAdapterViewModel
 import com.expedia.vm.SuggestionAdapterViewModel
@@ -36,7 +36,7 @@ class HotelSearchPresenterV2(context: Context, attrs: AttributeSet) : BaseSearch
                 calendarWidgetV2.showCalendarDialog()
             }
         }
-        vm.errorNoOriginObservable.subscribe {
+        vm.errorNoDestinationObservable.subscribe {
             AnimUtils.doTheHarlemShake(destinationCardView)
         }
 
@@ -60,7 +60,7 @@ class HotelSearchPresenterV2(context: Context, attrs: AttributeSet) : BaseSearch
     var suggestionViewModel: HotelSuggestionAdapterViewModel by notNullAndObservable { vm ->
         vm.suggestionSelectedSubject.subscribe { suggestion ->
             com.mobiata.android.util.Ui.hideKeyboard(this)
-            searchViewModel.suggestionObserver.onNext(suggestion)
+            searchViewModel.destinationLocationObserver.onNext(suggestion)
             val suggestionName = Html.fromHtml(suggestion.regionNames.displayName).toString()
             destinationCardView.setText(suggestionName)
             searchLocationEditText?.setQuery(suggestionName, false)
@@ -82,7 +82,7 @@ class HotelSearchPresenterV2(context: Context, attrs: AttributeSet) : BaseSearch
         searchLocationEditText?.queryHint = context.resources.getString(R.string.enter_destination_hint)
     }
 
-    override fun getSearchViewModel(): DatedSearchViewModel {
+    override fun getSearchViewModel(): BaseSearchViewModel {
        return searchViewModel
     }
 
@@ -93,5 +93,4 @@ class HotelSearchPresenterV2(context: Context, attrs: AttributeSet) : BaseSearch
     override fun getSuggestionAdapter(): RecyclerView.Adapter<RecyclerView.ViewHolder> {
        return hotelSuggestionAdapter
     }
-
 }

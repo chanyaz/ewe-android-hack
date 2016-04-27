@@ -60,23 +60,23 @@ object PackageFlightUtils {
         }
     }
 
-    @JvmStatic fun getFlightDepartureArivalTimeAndDays(context: Context, flight: FlightLeg): String {
-        return getFlightDepartureArivalTimeAndDays(context, flight.departureDateTimeISO, flight.arrivalDateTimeISO, flight.elapsedDays)
+    @JvmStatic fun getFlightDepartureArrivalTimeAndDays(context: Context, flight: FlightLeg): String {
+        return getFlightDepartureArrivalTimeAndDays(context, flight.departureDateTimeISO, flight.arrivalDateTimeISO, flight.elapsedDays)
     }
 
-    @JvmStatic fun getFlightDepartureArivalTimeAndDays(context: Context, departureTime: String, arrivalTime: String, elapsedDays: Int): String {
+    @JvmStatic fun getFlightDepartureArrivalTimeAndDays(context: Context, departureTime: String, arrivalTime: String, elapsedDays: Int): String {
         if (elapsedDays > 0) {
             return context.resources.getString(R.string.flight_departure_arrival_time_multi_day_template,
                     DateUtils.formatTimeShort(departureTime), DateUtils.formatTimeShort(arrivalTime), elapsedDays)
         }
-        return getFlightDepartureArivalTime(context, DateUtils.formatTimeShort(departureTime), DateUtils.formatTimeShort(arrivalTime))
+        return getFlightDepartureArrivalTime(context, DateUtils.formatTimeShort(departureTime), DateUtils.formatTimeShort(arrivalTime))
     }
 
-    @JvmStatic fun getFlightDepartureArivalTime(context: Context, departureTime: String, arrivalTime: String): String {
+    @JvmStatic fun getFlightDepartureArrivalTime(context: Context, departureTime: String, arrivalTime: String): String {
         return context.resources.getString(R.string.flight_departure_arrival_time_template, departureTime, arrivalTime)
     }
 
-    @JvmStatic fun getFlightDepartureArivalCityAirport(context: Context, flightSegment: FlightLeg.FlightSegment): String {
+    @JvmStatic fun getFlightDepartureArrivalCityAirport(context: Context, flightSegment: FlightLeg.FlightSegment): String {
         return Phrase.from(context.resources.getString(R.string.package_flight_overview_departure_arrival_TEMPLATE))
                 .put("departurecity", flightSegment.departureCity)
                 .put("departureairportcode", flightSegment.departureAirportCode)

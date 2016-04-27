@@ -78,11 +78,11 @@ public class PackageScreen {
 	}
 
 	public static ViewInteraction destination() {
-		return onView(withId(R.id.destination_card));
+		return onView(withId(R.id.origin_card));
 	}
 
 	public static ViewInteraction arrival() {
-		return onView(withId(R.id.arrival_card));
+		return onView(withId(R.id.destination_card));
 	}
 
 	public static ViewInteraction searchEditText() {
@@ -349,7 +349,7 @@ public class PackageScreen {
 	}
 
 	private static void search(int adults, int children) throws Throwable {
-		selectDepartureAndArrival();
+		selectOriginAndDestination();
 		LocalDate startDate = LocalDate.now().plusDays(3);
 		LocalDate endDate = LocalDate.now().plusDays(8);
 		PackageScreen.selectDates(startDate, endDate);
@@ -358,7 +358,7 @@ public class PackageScreen {
 		PackageScreen.searchButton().perform(click());
 	}
 
-	public static void selectDepartureAndArrival() throws Throwable {
+	public static void selectOriginAndDestination() throws Throwable {
 		destination().perform(click());
 		searchEditText().perform(typeText("SFO"));
 		selectLocation("San Francisco, CA (SFO-San Francisco Intl.)");

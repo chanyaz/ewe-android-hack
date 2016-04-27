@@ -46,8 +46,8 @@ public class FlightServicesTest {
 
 		TestSubscriber<FlightSearchResponse> observer = new TestSubscriber<>();
 		FlightSearchParams params = (FlightSearchParams) new FlightSearchParams.Builder(26)
-			.departure(getDummySuggestion())
-			.arrival(getDummySuggestion())
+			.origin(getDummySuggestion())
+			.destination(getDummySuggestion())
 			.startDate(LocalDate.now())
 			.endDate(LocalDate.now().plusDays(1))
 			.adults(1)
@@ -68,8 +68,8 @@ public class FlightServicesTest {
 
 		TestSubscriber<FlightSearchResponse> observer = new TestSubscriber<>();
 		FlightSearchParams params = (FlightSearchParams) new FlightSearchParams.Builder(26)
-			.departure(getDummySuggestion())
-			.arrival(getDummySuggestion())
+			.origin(getDummySuggestion())
+			.destination(getDummySuggestion())
 			.startDate(LocalDate.now())
 			.endDate(LocalDate.now().plusDays(1))
 			.adults(1)

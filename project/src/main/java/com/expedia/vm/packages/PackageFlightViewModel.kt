@@ -8,7 +8,7 @@ import rx.subjects.BehaviorSubject
 class PackageFlightViewModel(private val context: Context, private val flight: FlightLeg) {
     val resources = context.resources
 
-    val flightTime = PackageFlightUtils.getFlightDepartureArivalTimeAndDays(context, flight)
+    val flightTime = PackageFlightUtils.getFlightDepartureArrivalTimeAndDays(context, flight)
     val price = if (flight.packageOfferModel.price.deltaPositive) ("+" + flight.packageOfferModel.price.differentialPriceFormatted) else flight.packageOfferModel.price.differentialPriceFormatted
     val airline = PackageFlightUtils.getDistinctiveAirline(flight.airlines)
     val duration = PackageFlightUtils.getFlightDurationStopString(context, flight)

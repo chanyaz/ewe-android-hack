@@ -60,7 +60,7 @@ class HotelActivity : AbstractAppCompatActivity() {
                 suggestionLookupObserver,
                 currentLocationSearchObserver,
                 hotelPresenter,
-                getSearchViewModel().suggestionObserver)
+                getSearchViewModel().destinationLocationObserver)
                 .handleNavigationViaDeepLink(hotelSearchParams)
     }
 
@@ -80,7 +80,7 @@ class HotelActivity : AbstractAppCompatActivity() {
         detailsMapView.onPause()
         super.onPause()
 
-        if (isFinishing()) {
+        if (isFinishing) {
             clearCCNumber()
             clearStoredCard()
         }
@@ -150,7 +150,7 @@ class HotelActivity : AbstractAppCompatActivity() {
 
     private fun startCurrentLocationSearch(hotelSearchParams: HotelSearchParams?) {
         hotelPresenter.setDefaultTransition(Screen.RESULTS)
-        getSearchViewModel().suggestionObserver.onNext(hotelSearchParams?.suggestion)
+        getSearchViewModel().destinationLocationObserver.onNext(hotelSearchParams?.suggestion)
         hotelPresenter.searchObserver.onNext(hotelSearchParams)
         setupDeepLinkSearch(hotelSearchParams, false)
     }

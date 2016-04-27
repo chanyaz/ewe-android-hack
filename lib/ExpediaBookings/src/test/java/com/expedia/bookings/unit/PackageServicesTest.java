@@ -49,8 +49,8 @@ public class PackageServicesTest {
 
 		TestSubscriber<PackageSearchResponse> observer = new TestSubscriber<>();
 		PackageSearchParams params = (PackageSearchParams) new PackageSearchParams.Builder(26)
-			.departure(getDummySuggestion())
-			.arrival(getDummySuggestion())
+			.origin(getDummySuggestion())
+			.destination(getDummySuggestion())
 			.startDate(LocalDate.now())
 			.endDate(LocalDate.now().plusDays(1))
 			.build();
@@ -70,8 +70,8 @@ public class PackageServicesTest {
 
 		TestSubscriber<PackageSearchResponse> observer = new TestSubscriber<>();
 		PackageSearchParams params = (PackageSearchParams) new PackageSearchParams.Builder(26)
-			.departure(getDummySuggestion())
-			.arrival(getDummySuggestion())
+			.origin(getDummySuggestion())
+			.destination(getDummySuggestion())
 			.startDate(LocalDate.now())
 			.endDate(LocalDate.now().plusDays(1))
 			.build();

@@ -18,7 +18,7 @@ import static org.hamcrest.CoreMatchers.allOf;
 public class PackagePriceChangeTest extends PackageTestCase {
 
 	public void testPackagePriceChange() throws Throwable {
-		PackageScreen.selectDepartureAndArrival();
+		PackageScreen.selectOriginAndDestination();
 		LocalDate startDate = LocalDate.now().plusDays(3);
 		LocalDate endDate = LocalDate.now().plusDays(8);
 		PackageScreen.selectDates(startDate, endDate);

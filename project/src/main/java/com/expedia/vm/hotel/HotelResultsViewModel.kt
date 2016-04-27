@@ -44,7 +44,7 @@ class HotelResultsViewModel(private val context: Context, private val hotelServi
         locationParamsSubject.subscribe(endlessObserver { suggestion ->
             val cachedParams: HotelSearchParams? = paramsSubject.value
             val builder = HotelSearchParams.Builder(context.resources.getInteger(R.integer.calendar_max_days_hotel_stay))
-                    .departure(suggestion)
+                    .destination(suggestion)
                     .startDate(cachedParams?.checkIn)
                     .endDate(cachedParams?.checkOut)
                     .adults(cachedParams?.adults!!)

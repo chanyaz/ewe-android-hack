@@ -10,23 +10,23 @@ open class BaseSearchParams(val adults: Int, val children: List<Int>) {
     val childrenString = children.joinToString(",")
 
     abstract class Builder(val maxStay: Int) {
-        protected  var departure: SuggestionV4? = null
-        protected var arrival: SuggestionV4? = null
+        protected var originLocation: SuggestionV4? = null
+        protected var destinationLocation: SuggestionV4? = null
         protected var startDate: LocalDate? = null
         protected var endDate: LocalDate? = null
         protected var adults: Int = 1
         protected var children: List<Int> = emptyList()
         protected var infantSeatingInLap: Boolean = false
 
-        abstract fun isDepartureSameAsOrigin(): Boolean;
+        abstract fun isOriginSameAsDestination(): Boolean;
 
-        fun departure(city: SuggestionV4?): Builder {
-            this.departure = city
+        fun origin(city: SuggestionV4?): Builder {
+            this.originLocation = city
             return this
         }
 
-        fun arrival(city: SuggestionV4?): Builder {
-            this.arrival = city
+        fun destination(city: SuggestionV4?): Builder {
+            this.destinationLocation = city
             return this
         }
 
@@ -58,7 +58,7 @@ open class BaseSearchParams(val adults: Int, val children: List<Int>) {
         abstract fun build(): BaseSearchParams
 
         open fun areRequiredParamsFilled(): Boolean {
-            return hasDeparture() && hasStartAndEndDates()
+            return hasOriginLocation() && hasStartAndEndDates()
         }
 
         open fun hasStartAndEndDates(): Boolean {
@@ -73,16 +73,16 @@ open class BaseSearchParams(val adults: Int, val children: List<Int>) {
             return endDate != null
         }
 
-        fun hasDepartureAndArrival(): Boolean {
-            return hasDeparture() && hasArrival()
+        open fun hasOriginAndDestination(): Boolean {
+            return hasOriginLocation() && hasDestinationLocation()
         }
 
-        fun hasDeparture(): Boolean {
-            return departure != null
+        fun hasOriginLocation(): Boolean {
+            return originLocation != null
         }
 
-        fun hasArrival(): Boolean {
-            return arrival != null
+        fun hasDestinationLocation(): Boolean {
+            return destinationLocation != null
         }
 
         open fun hasValidDates(): Boolean {

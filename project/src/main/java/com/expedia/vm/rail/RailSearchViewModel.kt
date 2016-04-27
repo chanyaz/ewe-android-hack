@@ -1,20 +1,19 @@
 package com.expedia.vm.rail
 
 import android.content.Context
-import android.text.style.RelativeSizeSpan
 import com.expedia.bookings.R
 import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.rail.requests.RailSearchRequest
 import com.expedia.bookings.utils.DateUtils
 import com.expedia.bookings.utils.SpannableBuilder
 import com.expedia.util.endlessObserver
-import com.expedia.vm.DatedSearchViewModel
+import com.expedia.vm.BaseSearchViewModel
 import com.mobiata.android.time.util.JodaUtils
 import org.joda.time.LocalDate
 import rx.subjects.BehaviorSubject
 import rx.subjects.PublishSubject
 
-class RailSearchViewModel(context: Context) : DatedSearchViewModel(context) {
+class RailSearchViewModel(context: Context) : BaseSearchViewModel(context) {
     override val paramsBuilder = RailSearchRequest.Builder()
 
     // Outputs
@@ -30,8 +29,8 @@ class RailSearchViewModel(context: Context) : DatedSearchViewModel(context) {
     }
 
     val searchObserver = endlessObserver<Unit> {
-        paramsBuilder.departure(railOriginObservable.value)
-        paramsBuilder.arrival(railDestinationObservable.value)
+        paramsBuilder.origin(railOriginObservable.value)
+        paramsBuilder.destination(railDestinationObservable.value)
         paramsBuilder.startDate(datesObservable.value?.first)
         paramsBuilder.endDate(datesObservable.value?.second)
 
@@ -102,8 +101,8 @@ class RailSearchViewModel(context: Context) : DatedSearchViewModel(context) {
         }
     }
 
-    override fun getMaxStay(): Int {
-        return 500
+    override fun getMaxSearchDurationDays(): Int {
+        return context.resources.getInteger(R.integer.calendar_max_days_rail_search)
     }
 
     //TODO - rip these out once we have an ESS service that works for Rail

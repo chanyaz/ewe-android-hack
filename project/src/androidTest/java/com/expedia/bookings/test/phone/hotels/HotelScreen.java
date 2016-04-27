@@ -77,7 +77,6 @@ public class HotelScreen {
 		return onView(allOf(withId(R.id.input_label), withParent(withId(R.id.calendar_card))));
 	}
 
-
 	public static ViewInteraction searchAlertDialogDoneV2() {
 		return onView(withId(android.R.id.button1));
 	}
