@@ -10,7 +10,7 @@ import com.expedia.bookings.R
 import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.TravelerParams
 import com.expedia.util.subscribeText
-import com.expedia.vm.HotelTravelerPickerViewModel
+import com.expedia.vm.TravelerPickerViewModel
 import rx.subjects.BehaviorSubject
 
 class TravelerWidgetV2(context: Context, attrs: AttributeSet?) : SearchInputCardView(context, attrs) {
@@ -23,7 +23,7 @@ class TravelerWidgetV2(context: Context, attrs: AttributeSet?) : SearchInputCard
 
     val traveler: HotelTravelerPickerView by lazy {
         val travelerView = travelerDialogView.findViewById(R.id.traveler_view) as HotelTravelerPickerView
-        travelerView.viewmodel = HotelTravelerPickerViewModel(context)
+        travelerView.viewmodel = TravelerPickerViewModel(context)
         travelerView.viewmodel.travelerParamsObservable.subscribe(travelersSubject)
         travelerView.viewmodel.guestsTextObservable.subscribeText(this.text)
         travelerView.viewmodel.tooManyInfants.subscribe { tooManyInfants ->

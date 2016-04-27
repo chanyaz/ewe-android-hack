@@ -6,12 +6,13 @@ import android.support.v7.widget.RecyclerView
 import android.util.AttributeSet
 import android.view.View
 import com.expedia.bookings.R
+import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.location.CurrentLocationObservable
 import com.expedia.bookings.presenter.BaseTwoLocationSearchPresenter
 import com.expedia.bookings.services.SuggestionV4Services
 import com.expedia.bookings.utils.SuggestionV4Utils
 import com.expedia.bookings.utils.Ui
-import com.expedia.bookings.widget.PackageSuggestionAdapter
+import com.expedia.bookings.widget.suggestions.FlightSuggestionAdapter
 import com.expedia.util.notNullAndObservable
 import com.expedia.util.subscribeOnClick
 import com.expedia.vm.AirportSuggestionViewModel
@@ -24,8 +25,9 @@ class FlightSearchPresenter(context: Context, attrs: AttributeSet) : BaseTwoLoca
     val suggestionServices: SuggestionV4Services by lazy {
         Ui.getApplication(getContext()).flightComponent().suggestionsService()
     }
-    lateinit private var originSuggestionAdapter: PackageSuggestionAdapter
-    lateinit private var destinationSuggestionAdapter: PackageSuggestionAdapter
+
+    lateinit private var originSuggestionAdapter: FlightSuggestionAdapter
+    lateinit private var destinationSuggestionAdapter: FlightSuggestionAdapter
 
     var searchViewModel: FlightSearchViewModel by notNullAndObservable { vm ->
         calendarWidgetV2.viewModel = vm
@@ -36,8 +38,13 @@ class FlightSearchPresenter(context: Context, attrs: AttributeSet) : BaseTwoLoca
 
         originSuggestionViewModel = AirportSuggestionViewModel(getContext(), suggestionServices, false, CurrentLocationObservable.create(getContext()))
         destinationSuggestionViewModel = AirportSuggestionViewModel(getContext(), suggestionServices, true, null)
-        originSuggestionAdapter = PackageSuggestionAdapter(originSuggestionViewModel)
-        destinationSuggestionAdapter = PackageSuggestionAdapter(destinationSuggestionViewModel)
+        originSuggestionAdapter = FlightSuggestionAdapter(originSuggestionViewModel)
+        destinationSuggestionAdapter = FlightSuggestionAdapter(destinationSuggestionViewModel)
+    }
+
+    init {
+        travelerWidgetV2.traveler.viewmodel.showSeatingPreference = true
+        travelerWidgetV2.traveler.viewmodel.lob = LineOfBusiness.FLIGHTS_V2
     }
 
     override fun inflate() {

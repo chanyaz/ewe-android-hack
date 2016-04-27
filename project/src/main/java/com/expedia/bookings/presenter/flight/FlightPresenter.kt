@@ -2,6 +2,7 @@ package com.expedia.bookings.presenter.flight
 
 import android.content.Context
 import android.util.AttributeSet
+import android.util.Log
 import android.view.View
 import android.view.ViewStub
 import com.expedia.bookings.R
@@ -15,6 +16,7 @@ import com.expedia.bookings.presenter.LeftToRightTransition
 import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.presenter.ScaleTransition
 import com.expedia.bookings.services.FlightServices
+import com.expedia.bookings.tracking.FlightsV2Tracking
 import com.expedia.bookings.utils.CurrencyUtils
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
@@ -110,7 +112,12 @@ class FlightPresenter(context: Context, attrs: AttributeSet) : Presenter(context
         flightOverviewPresenter.getCheckoutPresenter().createTripViewModel = FlightCreateTripViewModel(flightServices)
         flightOverviewPresenter.getCheckoutPresenter().createTripViewModel.tripResponseObservable.subscribe(flightOverviewPresenter.getCheckoutPresenter().checkoutViewModel.tripResponseObservable)
 
-        searchViewModel = FlightSearchViewModel(context, flightServices)
+
+        try {
+            searchViewModel = FlightSearchViewModel(context, flightServices)
+        } catch(e: Exception) {
+            Log.d("Some tag", Log.getStackTraceString(e.cause?.cause));
+        }
     }
 
     override fun onFinishInflate() {
@@ -143,7 +150,14 @@ class FlightPresenter(context: Context, attrs: AttributeSet) : Presenter(context
 
     private val outboundToInbound = ScaleTransition(this, FlightOutboundPresenter::class.java, FlightInboundPresenter::class.java)
 
-    private val searchToOutbound = ScaleTransition(this, FlightSearchPresenter::class.java, FlightOutboundPresenter::class.java)
+    private val searchToOutbound = object: ScaleTransition(this, FlightSearchPresenter::class.java, FlightOutboundPresenter::class.java) {
+        override fun endTransition(forward: Boolean) {
+            super.endTransition(forward)
+            if (!forward) {
+                FlightsV2Tracking.trackSearchPageLoad()
+            }
+        }
+    }
 
     private val defaultTransition = object : Presenter.DefaultTransition(FlightSearchPresenter::class.java.name) {
         override fun endTransition(forward: Boolean) {
@@ -151,8 +165,8 @@ class FlightPresenter(context: Context, attrs: AttributeSet) : Presenter(context
             outBoundPresenter.visibility = View.GONE
             inboundPresenter.visibility = View.GONE
             flightOverviewPresenter.visibility = View.GONE
+            FlightsV2Tracking.trackSearchPageLoad()
         }
     }
 
 }
-

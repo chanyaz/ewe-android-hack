@@ -2,7 +2,7 @@ package com.expedia.bookings.test
 
 import com.expedia.bookings.data.TravelerParams
 import com.expedia.bookings.test.robolectric.RobolectricRunner
-import com.expedia.vm.HotelTravelerPickerViewModel
+import com.expedia.vm.TravelerPickerViewModel
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -12,13 +12,13 @@ import kotlin.properties.Delegates
 
 @RunWith(RobolectricRunner::class)
 class HotelTravelerPickerTest {
-    var vm: HotelTravelerPickerViewModel by Delegates.notNull()
+    var vm: TravelerPickerViewModel by Delegates.notNull()
     private var LOTS_MORE: Long = 100
 
     @Before
     fun before() {
         val context = RuntimeEnvironment.application
-        vm = HotelTravelerPickerViewModel(context)
+        vm = TravelerPickerViewModel(context)
     }
 
     @Test

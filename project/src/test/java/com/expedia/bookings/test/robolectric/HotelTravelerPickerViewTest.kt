@@ -5,7 +5,7 @@ import android.view.View
 import com.expedia.bookings.R
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.widget.HotelTravelerPickerView
-import com.expedia.vm.HotelTravelerPickerViewModel
+import com.expedia.vm.TravelerPickerViewModel
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -17,7 +17,7 @@ import kotlin.test.assertTrue
 
 @RunWith(RobolectricRunner::class)
 class HotelTravelerPickerViewTest {
-    var vm: HotelTravelerPickerViewModel by Delegates.notNull()
+    var vm: TravelerPickerViewModel by Delegates.notNull()
     var hotelTravelerPicker: HotelTravelerPickerView by Delegates.notNull()
     private var activity: Activity by Delegates.notNull()
 
@@ -25,7 +25,7 @@ class HotelTravelerPickerViewTest {
     fun before() {
         activity = Robolectric.buildActivity(Activity::class.java).create().get()
         hotelTravelerPicker = android.view.LayoutInflater.from(activity).inflate(R.layout.hotel_traveler_picker_test, null) as HotelTravelerPickerView
-        vm = HotelTravelerPickerViewModel(activity)
+        vm = TravelerPickerViewModel(activity)
         hotelTravelerPicker.viewmodel = vm
     }
 

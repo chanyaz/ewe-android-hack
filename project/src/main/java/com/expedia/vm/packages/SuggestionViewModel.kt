@@ -6,7 +6,7 @@ import com.expedia.bookings.data.SuggestionV4
 import rx.subjects.BehaviorSubject
 import rx.subjects.PublishSubject
 
-class PackageSuggestionViewModel() {
+class SuggestionViewModel() {
 
     // Outputs
     val titleObservable = BehaviorSubject.create<String>()
