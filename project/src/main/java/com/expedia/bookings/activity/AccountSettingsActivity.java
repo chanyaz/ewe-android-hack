@@ -433,23 +433,23 @@ public class AccountSettingsActivity extends AppCompatActivity implements AboutS
 
 				switch (userLoyaltyInfo.getLoyaltyMembershipTier()) {
 				case BLUE:
-					memberTierView.setBackgroundResource(R.drawable.bg_loyalty_badge_base_tier);
-					memberTierView.setTextColor(ContextCompat.getColor(this, R.color.reward_color_base_text));
+					memberTierView.setBackgroundResource(R.drawable.bg_loyalty_badge_blue_tier);
+					memberTierView.setTextColor(ContextCompat.getColor(this, R.color.reward_color_blue_text));
 					memberTierView.setText(R.string.plus_blue);
 					break;
 				case SILVER:
-					memberTierView.setBackgroundResource(R.drawable.bg_loyalty_badge_middle_tier);
-					memberTierView.setTextColor(ContextCompat.getColor(this, R.color.reward_color_middle_text));
+					memberTierView.setBackgroundResource(R.drawable.bg_loyalty_badge_silver_tier);
+					memberTierView.setTextColor(ContextCompat.getColor(this, R.color.reward_color_silver_text));
 					memberTierView.setText(R.string.plus_silver);
 					break;
 				case GOLD:
-					memberTierView.setBackgroundResource(R.drawable.bg_loyalty_badge_top_tier);
-					memberTierView.setTextColor(ContextCompat.getColor(this, R.color.reward_color_top_text));
+					memberTierView.setBackgroundResource(R.drawable.bg_loyalty_badge_gold_tier);
+					memberTierView.setTextColor(ContextCompat.getColor(this, R.color.reward_color_gold_text));
 					memberTierView.setText(R.string.plus_gold);
 					break;
 				case PLATINUM:
-					memberTierView.setBackgroundResource(R.drawable.bg_loyalty_badge_top_tier);
-					memberTierView.setTextColor(ContextCompat.getColor(this, R.color.reward_color_top_text));
+					memberTierView.setBackgroundResource(R.drawable.bg_loyalty_badge_platinum_tier);
+					memberTierView.setTextColor(ContextCompat.getColor(this, R.color.reward_color_platinum_text));
 					memberTierView.setText(R.string.plus_platinum);
 					break;
 				}
