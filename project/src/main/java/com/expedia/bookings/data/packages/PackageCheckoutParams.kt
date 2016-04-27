@@ -26,6 +26,7 @@ data class PackageCheckoutParams(val billingInfo: BillingInfo, val travelers: Ar
         }
 
         fun travelers(travelers: ArrayList<Traveler>): PackageCheckoutParams.Builder {
+            this.travelers.clear()
             this.travelers.addAll(travelers)
             return this
         }

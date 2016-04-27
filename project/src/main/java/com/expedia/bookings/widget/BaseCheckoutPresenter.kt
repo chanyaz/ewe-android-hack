@@ -86,8 +86,7 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet) : Pre
         vm.creditCardRequired.subscribe { required ->
             paymentWidget.viewmodel.isCreditCardRequired.onNext(required)
         }
-
-        travelerPresenter.travelersCompleteSubject.subscribe(vm.travelerCompleted)
+        travelerPresenter.allTravelersCompleteSubject.subscribe(vm.travelerCompleted)
     }
 
     init {
@@ -160,7 +159,7 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet) : Pre
         addDefaultTransition(defaultTransition)
         addTransition(defaultToTraveler)
         addTransition(defaultToPayment)
-        travelerPresenter.travelersCompleteSubject.subscribe {
+        travelerPresenter.allTravelersCompleteSubject.subscribe {
             show(CheckoutDefault(), FLAG_CLEAR_BACKSTACK)
         }
         slideToPurchaseLayout.viewTreeObserver.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {

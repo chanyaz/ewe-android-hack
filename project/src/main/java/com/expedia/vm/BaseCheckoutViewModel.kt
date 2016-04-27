@@ -14,7 +14,7 @@ class BaseCheckoutViewModel(val context: Context) {
     // Inputs
     val lineOfBusiness = BehaviorSubject.create<LineOfBusiness>()
     val creditCardRequired = PublishSubject.create<Boolean>()
-    val travelerCompleted = BehaviorSubject.create<Traveler?>()
+    val travelerCompleted = BehaviorSubject.create<List<Traveler>>()
     val paymentCompleted = BehaviorSubject.create<BillingInfo?>()
     val cvvCompleted = BehaviorSubject.create<String>()
     val checkoutInfoCompleted = PublishSubject.create<BaseCheckoutParams>()
