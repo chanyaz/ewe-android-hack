@@ -43,7 +43,7 @@ class OrbucksViewModelTest {
     private var paymentModel: PaymentModel<HotelCreateTripResponse> by Delegates.notNull()
 
     private var orbucksViewModel by notNullAndObservable<IOrbucksViewModel> {
-        it.enableOrbucksToggle.subscribe(enableOrbucksToggleTestSubscriber)
+        it.updateToggle.subscribe(updateToggleTestSubscriber)
         it.pointsAppliedMessageColor.subscribe(pointsAppliedMessageColorTestSubscriber)
         it.orbucksWidgetVisibility.subscribe(orbucksWidgetVisibilityTestSubscriber)
     }
@@ -52,7 +52,7 @@ class OrbucksViewModelTest {
         return RuntimeEnvironment.application
     }
 
-    private val enableOrbucksToggleTestSubscriber = TestSubscriber.create<Unit>()
+    private val updateToggleTestSubscriber = TestSubscriber.create<Boolean>()
     private val pointsAppliedMessageColorTestSubscriber = TestSubscriber.create<Int>()
     private val orbucksWidgetVisibilityTestSubscriber = TestSubscriber.create<Boolean>()
     private val paymentSplitsTestSubscriber = TestSubscriber<PaymentSplits>()
@@ -94,7 +94,7 @@ class OrbucksViewModelTest {
 
     @Test
     fun testSubscribersAfterCreateTrip() {
-        enableOrbucksToggleTestSubscriber.assertValueCount(1)
+        updateToggleTestSubscriber.assertValueCount(1)
         pointsAppliedMessageColorTestSubscriber.assertValue(enableColor)
         orbucksWidgetVisibilityTestSubscriber.assertValue(true)
 

@@ -32,10 +32,10 @@ class OrbucksWidget(context: Context, attrs: AttributeSet) : LinearLayout(contex
     var viewModel: IOrbucksViewModel by notNullAndObservable {
         it.orbucksWidgetVisibility.subscribeVisibility(this)
         it.orbucksMessage.subscribeText(orbucksMessage)
-        it.enableOrbucksToggle.map { true }.subscribeChecked(orbucksSwitchView)
         orbucksSwitchView.subscribeOnCheckChanged(it.orbucksOpted)
         it.pointsAppliedMessageColor.subscribeTextColor(orbucksMessage)
         it.payWithRewardsMessage.subscribeText(payWithRewardMessage)
+        it.updateToggle.subscribeChecked(orbucksSwitchView)
     }
         @Inject set
 
@@ -51,10 +51,10 @@ interface IOrbucksViewModel {
 
     //Outlet
     val orbucksMessage: Observable<String>
-    val enableOrbucksToggle: Observable<Unit>
     val pointsAppliedMessageColor: Observable<Int>
     val orbucksWidgetVisibility: Observable<Boolean>
     val payWithRewardsMessage: Observable<String>
+    val updateToggle: Observable<Boolean>
 }
 
 class OrbucksViewModel<T : TripResponse>(paymentModel: PaymentModel<T>, val context: Context) : IOrbucksViewModel {
@@ -77,7 +77,6 @@ class OrbucksViewModel<T : TripResponse>(paymentModel: PaymentModel<T>, val cont
             .map { pointsAppliedMessage(it.paymentSplits, it.tripResponse) }
 
     //Outlet
-    override val enableOrbucksToggle = paymentModel.createTripSubject.filter { ProgramName.Orbucks == it.getProgramName() && it.isRewardsRedeemable() }.map { Unit }
     override val orbucksWidgetVisibility = paymentModel.tripResponses.map { ProgramName.Orbucks == it.getProgramName() && it.isRewardsRedeemable() }
     override val payWithRewardsMessage = orbucksOpted.map {
         when (it) {
@@ -92,6 +91,25 @@ class OrbucksViewModel<T : TripResponse>(paymentModel: PaymentModel<T>, val cont
             false -> ContextCompat.getColor(context, R.color.hotelsv2_checkout_text_color);
         }
     }
+
+    override val updateToggle = paymentModel.paymentSplitsSuggestionUpdates
+            .withLatestFrom(paymentModel.swpOpted, {
+                paymentSplitsSuggestionUpdate, isSwpOpted ->
+                object {
+                    val isCreateTrip = paymentSplitsSuggestionUpdate.second
+                    val isSwpOpted = isSwpOpted
+                }
+            })
+            .withLatestFrom(paymentModel.tripResponses, {
+                isCreateTripAndIsSwpOpted, tripResponse ->
+                object {
+                    val isCreateTrip = isCreateTripAndIsSwpOpted.isCreateTrip
+                    val isSwpOpted = isCreateTripAndIsSwpOpted.isSwpOpted
+                    val isRewardsRedeemable = tripResponse.isRewardsRedeemable()
+                }
+            })
+            .filter { it.isCreateTrip && it.isRewardsRedeemable }
+            .map { it.isSwpOpted }
 
     init {
         orbucksOpted.subscribe(paymentModel.togglePaymentByPoints)
