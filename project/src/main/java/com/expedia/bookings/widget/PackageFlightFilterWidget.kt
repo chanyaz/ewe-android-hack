@@ -158,10 +158,14 @@ class PackageFlightFilterWidget(context: Context, attrs: AttributeSet) : FrameLa
         }
 
         sortByButtonGroup.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            var isFirstLoad: Boolean = true
             override fun onItemSelected(p0: AdapterView<*>?, p1: View?, position: Int, p3: Long) {
                 val sort = FlightFilter.Sort.values()[position]
                 vm.userFilterChoices.userSort = sort
-                PackagesTracking().trackFlightSortBy(sort)
+                if (!isFirstLoad) {
+                    PackagesTracking().trackFlightSortBy(sort)
+                }
+                isFirstLoad = false
             }
 
             override fun onNothingSelected(p0: AdapterView<*>?) {

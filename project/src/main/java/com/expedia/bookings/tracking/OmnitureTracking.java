@@ -5222,7 +5222,7 @@ public class OmnitureTracking {
 		ADMS_Measurement s = createTrackPageLoadEventBase(PACKAGES_BUNDLE_OVERVIEW_LOAD);
 		addPackagesCommonFields(s);
 		setPackageProducts(s, packageDetails.pricing.packageTotal.amount.doubleValue());
-
+		s.setEvents("event4");
 		s.track();
 	}
 
@@ -5282,6 +5282,7 @@ public class OmnitureTracking {
 		Log.d(TAG, "Tracking \"" + PACKAGES_SEARCH_ERROR + "\" pageLoad...");
 		ADMS_Measurement s = createTrackPageLoadEventBase(PACKAGES_SEARCH_ERROR);
 		s.setProp(36, errorType);
+		s.track();
 	}
 
 	public static void trackPackagesCheckoutError(String errorType) {
