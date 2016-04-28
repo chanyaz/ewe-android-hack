@@ -14,10 +14,9 @@ data class BaseCheckoutParams(val billingInfo: BillingInfo, val travelers: Array
             return this
         }
 
-        fun travelers(traveler: Traveler?): Builder {
-            if (traveler != null) {
-                this.travelers.add(traveler)
-            }
+        fun travelers(travelers: List<Traveler>): Builder {
+            this.travelers.clear()
+            this.travelers.addAll(travelers)
             return this
         }
 

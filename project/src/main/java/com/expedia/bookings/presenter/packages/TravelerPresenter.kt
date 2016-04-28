@@ -34,7 +34,7 @@ class TravelerPresenter(context: Context, attrs: AttributeSet) : Presenter(conte
     val dropShadow: View by bindView(R.id.drop_shadow)
 
     val expandedSubject = BehaviorSubject.create<Boolean>()
-    val travelersCompleteSubject = BehaviorSubject.create<Traveler>()
+    val allTravelersCompleteSubject = BehaviorSubject.create<List<Traveler>>()
     val toolbarTitleSubject = PublishSubject.create<String>()
 
     val menuVisibility = PublishSubject.create<Boolean>()
@@ -48,9 +48,7 @@ class TravelerPresenter(context: Context, attrs: AttributeSet) : Presenter(conte
 
         travelerEntryWidget.travelerCompleteSubject.subscribe(endlessObserver<Traveler> { traveler ->
             if (viewModel.validateTravelersComplete()) {
-                viewModel.getTravelers().forEach { traveler ->
-                    travelersCompleteSubject.onNext(traveler)
-                }
+                allTravelersCompleteSubject.onNext(viewModel.getTravelers())
                 expandedSubject.onNext(false)
                 travelerDefaultState.updateStatus(TravelerCheckoutStatus.COMPLETE)
                 show(travelerDefaultState, Presenter.FLAG_CLEAR_BACKSTACK)
