@@ -86,6 +86,15 @@ class TravelerValidatorTest {
     }
 
     @Test
+    fun testInValidLastName() {
+        assertFalse(TravelerValidator.isLastNameValid(""))
+        assertFalse(TravelerValidator.isLastNameValid("a"))
+        assertFalse(TravelerValidator.isLastNameValid("1"))
+        assertFalse(TravelerValidator.isLastNameValid("a1"))
+        assertTrue(TravelerValidator.isLastNameValid("Sn"))
+    }
+
+    @Test
     fun invalidPhone() {
         assertFalse(TravelerValidator.isValidPhone("12"))
     }

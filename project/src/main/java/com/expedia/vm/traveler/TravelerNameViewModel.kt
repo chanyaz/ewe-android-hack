@@ -57,7 +57,7 @@ class TravelerNameViewModel(): InvalidCharacterHelper.InvalidCharacterListener {
         val middleNameValid = TravelerValidator.isMiddleNameValid(travelerName.middleName)
         middleNameErrorSubject.onNext(!middleNameValid)
 
-        val lastNameValid = TravelerValidator.isRequiredNameValid(travelerName.lastName)
+        val lastNameValid = TravelerValidator.isLastNameValid(travelerName.lastName)
         lastNameErrorSubject.onNext(!lastNameValid)
 
         return firstNameValid && middleNameValid && lastNameValid
