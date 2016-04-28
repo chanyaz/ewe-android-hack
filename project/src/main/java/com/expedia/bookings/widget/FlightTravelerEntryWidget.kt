@@ -160,9 +160,8 @@ class FlightTravelerEntryWidget(context: Context, attrs: AttributeSet?) : FrameL
     }
 
     private fun hideAdvancedOptions() {
-        resizeCloseAnimator.start()
         AnimUtils.reverseRotate(advancedOptionsIcon)
-        advancedOptionsIcon.clearAnimation()
+        resizeCloseAnimator.start()
     }
 
     private inner class CountryItemSelectedListener() : AdapterView.OnItemSelectedListener {
