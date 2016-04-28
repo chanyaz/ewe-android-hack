@@ -413,4 +413,7 @@
 
     <dimen name="hotel_search_container_v1_height_with_swp">220dp</dimen>
     <dimen name="hotel_search_container_v1_height_without_swp">150dp</dimen>
+
+    <dimen name="new_launch_screen_fab_bottom_margin">32dp</dimen>
+    <dimen name="new_launch_screen_fab_height">48dp</dimen>
 </resources>

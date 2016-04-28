@@ -1,6 +1,7 @@
 package com.expedia.bookings.dagger;
 
 import com.expedia.bookings.dagger.tags.LaunchScope;
+import com.expedia.bookings.widget.NewPhoneLaunchWidget;
 import com.expedia.bookings.widget.PhoneLaunchWidget;
 import com.expedia.bookings.widget.feeds.FeedsListWidget;
 
@@ -11,4 +12,5 @@ import dagger.Component;
 public interface LaunchComponent {
 	void inject(PhoneLaunchWidget phoneLaunchWidget);
 	void inject(FeedsListWidget feedsListWidget);
+	void inject(NewPhoneLaunchWidget newPhoneLaunchWidget);
 }

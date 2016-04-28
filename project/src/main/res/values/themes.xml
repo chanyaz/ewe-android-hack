@@ -305,7 +305,7 @@
     <style name="NewLaunchTheme" parent="AppTheme.Base.Cars">
 
         <item name="android:windowIsTranslucent">true</item>
-        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowBackground">@android:color/white</item>
         <item name="android:colorPrimaryDark">#04445e</item>
         <item name="android:colorButtonNormal">@color/packages_primary_color</item>
         <item name="colorAccent">@color/packages_primary_color</item>

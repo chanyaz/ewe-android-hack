@@ -16,6 +16,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import butterknife.ButterKnife;
+import butterknife.InjectView;
+import butterknife.Optional;
 import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
@@ -33,10 +36,6 @@ import com.expedia.bookings.utils.HotelUtils;
 import com.expedia.bookings.utils.Images;
 import com.expedia.bookings.utils.StrUtils;
 import com.mobiata.android.text.StrikethroughTagHandler;
-
-import butterknife.ButterKnife;
-import butterknife.InjectView;
-import butterknife.Optional;
 
 public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 	private static final String PICASSO_TAG = "LAUNCH_LIST";
