@@ -146,6 +146,10 @@ abstract class BaseOverviewPresenter(context: Context, attrs: AttributeSet) : Pr
             bundleOverviewHeader.isDisabled = forward
             bundleOverviewHeader.nestedScrollView.foreground.alpha = if (forward) 255 else 0
             checkoutPresenter.chevron.rotation = if (forward) 0f else 180f
+
+            if (!forward) {
+                checkoutPresenter.trackShowBundleOverview()
+            }
         }
 
         private fun translateHeader(f: Float, forward: Boolean) {

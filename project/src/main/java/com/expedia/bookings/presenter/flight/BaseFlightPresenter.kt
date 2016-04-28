@@ -11,11 +11,13 @@ import android.view.View
 import android.view.ViewStub
 import android.view.animation.DecelerateInterpolator
 import com.expedia.bookings.R
+import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.presenter.ScaleTransition
 import com.expedia.bookings.presenter.packages.PackageFlightOverviewPresenter
 import com.expedia.bookings.presenter.packages.PackageFlightResultsPresenter
+import com.expedia.bookings.tracking.PackagesTracking
 import com.expedia.bookings.utils.ArrowXDrawableUtil
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
@@ -144,6 +146,9 @@ abstract class BaseFlightPresenter(context: Context, attrs: AttributeSet) : Pres
         override fun endTransition(forward: Boolean) {
             super.endTransition(forward)
             toolbarViewModel.refreshToolBar.onNext(!forward)
+            if (!forward) {
+                trackFlightResultsLoad()
+            }
         }
     }
 
@@ -211,6 +216,7 @@ abstract class BaseFlightPresenter(context: Context, attrs: AttributeSet) : Pres
         return super.back()
     }
 
+    abstract fun trackFlightResultsLoad()
     abstract fun trackFlightOverviewLoad()
     abstract fun trackFlightSortFilterLoad()
 }

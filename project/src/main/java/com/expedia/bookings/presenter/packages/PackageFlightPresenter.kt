@@ -48,7 +48,7 @@ class PackageFlightPresenter(context: Context, attrs: AttributeSet) : BaseFlight
         toolbarViewModel.city.onNext(cityBound)
         toolbarViewModel.travelers.onNext(numTravelers)
         toolbarViewModel.date.onNext(if (isOutboundSearch) Db.getPackageParams().checkIn else Db.getPackageParams().checkOut)
-        PackagesTracking().trackFlightRoundTripLoad(isOutboundSearch)
+        trackFlightResultsLoad()
     }
 
     override fun trackFlightOverviewLoad() {
@@ -58,6 +58,10 @@ class PackageFlightPresenter(context: Context, attrs: AttributeSet) : BaseFlight
 
     override fun trackFlightSortFilterLoad() {
         PackagesTracking().trackFlightSortFilterLoad()
+    }
+
+    override fun trackFlightResultsLoad() {
+        PackagesTracking().trackFlightRoundTripLoad(Db.getPackageParams()?.isOutboundSearch() ?: false)
     }
 }
 
