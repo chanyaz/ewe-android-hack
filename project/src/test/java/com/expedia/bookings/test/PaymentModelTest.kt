@@ -357,7 +357,7 @@ class PaymentModelTest {
 
     private fun getPaymentSplitsForSwpOff(): PaymentSplits{
         val payingWithPoints = PointsAndCurrency(0f, PointsType.BURN, Money("0", createTripResponse.getTripTotalExcludingFee().currencyCode))
-        val payingWithCards = PointsAndCurrency(createTripResponse.rewards?.totalPointsToEarn ?: 0f, PointsType.EARN, createTripResponse.getTripTotalExcludingFee())
+        val payingWithCards = PointsAndCurrency(createTripResponse.rewards.totalPointsToEarn, PointsType.EARN, createTripResponse.getTripTotalExcludingFee())
         return PaymentSplits(payingWithPoints, payingWithCards)
     }
     //TODO unsubscribe of currencyToPointsApiSubscription can be tested.

@@ -13,7 +13,7 @@ abstract class TripResponse : BaseApiResponse() {
     var pointsDetails: List<PointsDetails>? = null
     var userPreferencePoints: UserPaymentPreferences? = null
     lateinit var validFormsOfPayment: List<ValidPayment>
-    var rewards: RewardsInfo? = null
+    lateinit var rewards: RewardsInfo
     var guestUserPromoEmailOptInStatus: String? = null
 
     fun getPointDetails(): PointsDetails? {
@@ -54,7 +54,7 @@ abstract class TripResponse : BaseApiResponse() {
 
     fun paymentSplitsWhenZeroPayableWithPoints(): PaymentSplits {
         val payingWithPoints = PointsAndCurrency(0f, PointsType.BURN, Money(BigDecimal.ZERO, getTripTotalExcludingFee().currencyCode))
-        val payingWithCards = PointsAndCurrency(rewards?.totalPointsToEarn ?: 0f, PointsType.EARN, getTripTotalExcludingFee())
+        val payingWithCards = PointsAndCurrency(rewards.totalPointsToEarn, PointsType.EARN, getTripTotalExcludingFee())
         return PaymentSplits(payingWithPoints, payingWithCards)
     }
 

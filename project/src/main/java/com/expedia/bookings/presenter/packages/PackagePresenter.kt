@@ -93,7 +93,7 @@ class PackagePresenter(context: Context, attrs: AttributeSet) : Presenter(contex
         checkoutPresenter.createTripViewModel.tripResponseObservable.subscribe((bundlePresenter.bundleOverviewHeader.checkoutOverviewHeaderToolbar.viewmodel as PackageCheckoutOverviewViewModel).tripResponse)
         checkoutPresenter.createTripViewModel.tripResponseObservable.subscribe { trip ->
             bundlePresenter.bundleWidget.setPadding(0, 0, 0, 0)
-            expediaRewards = trip.rewards?.totalPointsToEarn?.toString() ?: "0.0"
+            expediaRewards = trip.rewards.totalPointsToEarn.toString()
         }
         checkoutPresenter.checkoutViewModel.checkoutResponse.subscribe { pair: Pair<PackageCheckoutResponse, String> ->
             show(confirmationPresenter)
