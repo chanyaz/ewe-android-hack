@@ -4022,6 +4022,7 @@
     <string name="package_breakdown_total_due_today">Total Due Today</string>
 
     <!-- Shop with points -->
+    <string name="loyalty_applied_excluding_taxes_and_fees_message">Expedia+ Points applied! (excludes taxes and fees)</string>
     <string name="regular_loyalty_applied_message">Expedia+ Points applied!</string>
     <string name="vip_loyalty_applied_message">2x points applied!</string>
     <!-- String to be appended with +VIP in header of room rates. -->

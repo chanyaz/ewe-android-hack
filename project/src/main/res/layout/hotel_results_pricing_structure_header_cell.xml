@@ -30,7 +30,7 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:paddingTop="2dp"
-            android:text="@string/regular_loyalty_applied_message"
+            android:text="@string/loyalty_applied_excluding_taxes_and_fees_message"
             android:textColor="@color/hotels_primary_color"
             android:visibility="gone" />
     </LinearLayout>
