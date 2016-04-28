@@ -8,6 +8,7 @@ import org.joda.time.DateTimeZone;
 import org.joda.time.LocalDate;
 import org.joda.time.MutableDateTime;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
@@ -20,6 +21,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.activity.WebViewActivity;
 import com.expedia.bookings.bitmaps.FailedUrlCache;
 import com.expedia.bookings.bitmaps.PicassoHelper;
 import com.expedia.bookings.data.Property;
@@ -33,9 +35,11 @@ import com.expedia.bookings.notification.Notification.NotificationType;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.AddToCalendarUtils;
 import com.expedia.bookings.utils.ClipboardUtils;
+import com.expedia.bookings.utils.Constants;
 import com.expedia.bookings.utils.JodaUtils;
 import com.expedia.bookings.utils.NavUtils;
 import com.expedia.bookings.utils.ShareUtils;
+import com.expedia.bookings.utils.Strings;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.InfoTripletView;
 import com.expedia.bookings.widget.LocationMapImageView;
@@ -347,6 +351,38 @@ public class HotelItinContentGenerator extends ItinContentGenerator<ItinCardData
 		addSharedGuiElements(commonItinDataContainer);
 
 		return view;
+	}
+
+	@Override
+	protected boolean addBookingInfo(ViewGroup container) {
+		boolean result = super.addBookingInfo(container);
+
+		// Cancel booking button
+		TextView cancelHotelHotelRoomTv = Ui.findView(container, R.id.cancel_hotel_room);
+		View lineDivider = Ui.findView(container, R.id.divider_cancel_hotel_room);
+
+
+
+		String roomCancelLink = getItinCardData().getProperty().getRoomCancelLink();
+		boolean showCancelHotelRoomBtn = !getItinCardData().isPastCheckInDate() && Strings.isNotEmpty(roomCancelLink);
+		if (showCancelHotelRoomBtn) {
+			cancelHotelHotelRoomTv.setVisibility(View.VISIBLE);
+			lineDivider.setVisibility(View.VISIBLE);
+			cancelHotelHotelRoomTv.setOnClickListener(new OnClickListener() {
+				String roomCancelLink = getItinCardData().getProperty().getRoomCancelLink();
+				@Override
+				public void onClick(View v) {
+					WebViewActivity.IntentBuilder intentBuilder =
+						buildWebViewIntent(R.string.itin_card_details_cancel_hotel_room, roomCancelLink).setRoomCancelType();
+					Intent intent = intentBuilder.getIntent();
+					intent.putExtra(Constants.ITIN_CANCEL_ROOM_BOOKING_TRIP_ID, getItinCardData().getTripNumber());
+					((Activity) getContext()).startActivityForResult(intent, Constants.ITIN_CANCEL_ROOM_WEBPAGE_CODE);
+					OmnitureTracking.trackHotelItinCancelRoomClick();
+				}
+			});
+		}
+
+		return result;
 	}
 
 	@Override

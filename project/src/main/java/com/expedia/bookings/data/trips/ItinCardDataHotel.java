@@ -97,6 +97,10 @@ public class ItinCardDataHotel extends ItinCardData implements ConfirmationNumbe
 		return null;
 	}
 
+	public boolean isPastCheckInDate() {
+		return getStartDate().isBeforeNow();
+	}
+
 	public String getCheckInTime() {
 		return ((TripHotel) getTripComponent()).getCheckInTime();
 	}

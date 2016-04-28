@@ -12,6 +12,7 @@ import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.support.annotation.StringRes;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.text.Html;
@@ -535,15 +536,7 @@ public abstract class ItinContentGenerator<T extends ItinCardData> {
 
 					@Override
 					public void onClick(View arg0) {
-						WebViewActivity.IntentBuilder builder = new WebViewActivity.IntentBuilder(getContext());
-						builder.setUrl(getItinCardData().getDetailsUrl());
-						builder.setTitle(R.string.itin_card_details_details);
-						builder.setTheme(R.style.ItineraryTheme);
-						builder.setInjectExpediaCookies(true);
-						builder.setAllowMobileRedirects(false);
-						builder.setAttemptForceMobileSite(true);
-						getContext().startActivity(builder.getIntent());
-
+						getContext().startActivity(buildWebViewIntent(R.string.itin_card_details_details, getItinCardData().getDetailsUrl()).getIntent());
 						OmnitureTracking.trackItinInfoClicked(getItinCardData().getTripComponent()
 							.getType());
 					}
@@ -579,6 +572,17 @@ public abstract class ItinContentGenerator<T extends ItinCardData> {
 			return true;
 		}
 		return false;
+	}
+
+	protected WebViewActivity.IntentBuilder buildWebViewIntent(@StringRes int titleResId, String url) {
+		WebViewActivity.IntentBuilder builder = new WebViewActivity.IntentBuilder(getContext());
+		builder.setUrl(url);
+		builder.setTitle(titleResId);
+		builder.setTheme(R.style.ItineraryTheme);
+		builder.setInjectExpediaCookies(true);
+		builder.setAllowMobileRedirects(false);
+		builder.setAttemptForceMobileSite(true);
+		return builder;
 	}
 
 	/**

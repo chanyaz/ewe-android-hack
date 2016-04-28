@@ -210,7 +210,8 @@
                 "id": "1",
                 "version": "1",
                 "text": "The minibar is free"
-              }
+              },
+              "roomCancelLink": "https://localhost/hotel-cancel-details?tripid=5196d5cf-6274-4695-9e2d-0f5ff8c69ec1&ordernumber=8024355663759&orderlineguid=155cfc84-8fe1-4d44-ab59-d04ee4482c1d&roomNumber=0"
             }
           ],
           "isFreeCancellationAvailable": true

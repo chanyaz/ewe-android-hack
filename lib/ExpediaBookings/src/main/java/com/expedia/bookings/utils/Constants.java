@@ -30,4 +30,7 @@ public class Constants {
 	public static final int REQUEST_SETTINGS = 11;
 	public static final int RESULT_NO_CHANGES = 1;
 	public static final int RESULT_CHANGED_PREFS = 2;
+	// customer returned from room cancellation web view
+	public static final int ITIN_CANCEL_ROOM_WEBPAGE_CODE = 31;
+	public static final String ITIN_CANCEL_ROOM_BOOKING_TRIP_ID = "ITIN_CANCEL_ROOM_BOOKING_TRIP_ID";
 }

@@ -277,6 +277,8 @@ public class TripParser {
 					}
 				}
 			}
+			JSONObject firstRoom = roomsJson.optJSONObject(0);
+			property.setRoomCancelLink(firstRoom.optString("roomCancelLink"));
 		}
 
 		hotel.setGuests(guests);

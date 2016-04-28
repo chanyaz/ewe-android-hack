@@ -948,8 +948,6 @@ public class ExpediaServices implements DownloadListener {
 
 			// This param is deprecated; remove it once it's safely removed from prod
 			query.add(new BasicNameValuePair("idtype", "itineraryNumber"));
-
-			flags |= F_IGNORE_COOKIES;
 		}
 		else {
 			tripIdentifier = trip.getTripId();
