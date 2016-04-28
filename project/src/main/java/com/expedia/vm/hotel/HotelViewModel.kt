@@ -12,6 +12,7 @@ import com.expedia.bookings.data.User
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.hotels.Hotel
 import com.expedia.bookings.data.pos.PointOfSale
+import com.expedia.bookings.extension.getEarnMessage
 import com.expedia.bookings.extension.isShowAirAttached
 import com.expedia.bookings.utils.HotelUtils
 import com.expedia.bookings.utils.Images
@@ -67,7 +68,7 @@ open class HotelViewModel(private val context: Context, protected  val hotel: Ho
     val mapLoyaltyMessageTextObservable = BehaviorSubject.create<Spanned>()
     val airAttachWithDiscountLabelVisibilityObservable = BehaviorSubject.create<Boolean>(hotel.lowRateInfo.isShowAirAttached() && !loyaltyAvailabilityObservable.value)
     val airAttachIconWithoutDiscountLabelVisibility = BehaviorSubject.create<Boolean>(hotel.lowRateInfo.isShowAirAttached() && loyaltyAvailabilityObservable.value)
-    val earnMessagingObservable = Observable.just(getEarnMessage())
+    val earnMessagingObservable = Observable.just(hotel.lowRateInfo?.loyaltyInfo?.earn?.getEarnMessage(context) ?: "")
     val earnMessagingVisibilityObservable = earnMessagingObservable.map { it.isNotBlank() && PointOfSale.getPointOfSale().isEarnMessageEnabledForHotels }
 
     val topAmenityTitleObservable = BehaviorSubject.create(getTopAmenityTitle(hotel, resources))
@@ -140,11 +141,4 @@ open class HotelViewModel(private val context: Context, protected  val hotel: Ho
         val isUserBucketedForTest = Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelsMemberDealTest)
         return hotel.isMemberDeal && isUserBucketedForTest && User.isLoggedIn(context)
     }
-
-    private fun getEarnMessage(): String {
-        val earnMessagePointsOrPrice = hotel.lowRateInfo?.loyaltyInfo?.earn?.getEarnMessagePointsOrPrice()
-        if (earnMessagePointsOrPrice?.isNotBlank() ?: false) return Phrase.from(resources, R.string.earn_message_TEMPLATE).put("earn", earnMessagePointsOrPrice).format().toString()
-        else return ""
-    }
 }
-

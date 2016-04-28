@@ -9,6 +9,7 @@ import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.hotels.HotelOffersResponse
 import com.expedia.bookings.data.hotels.HotelRate
 import com.expedia.bookings.data.pos.PointOfSale
+import com.expedia.bookings.extension.getEarnMessage
 import com.expedia.bookings.extension.isShowAirAttached
 import com.expedia.bookings.tracking.HotelV2Tracking
 import com.expedia.bookings.tracking.PackagesTracking
@@ -16,7 +17,6 @@ import com.expedia.bookings.utils.HotelUtils
 import com.expedia.bookings.utils.Images
 import com.expedia.bookings.utils.Strings
 import com.expedia.util.endlessObserver
-import com.expedia.util.getEarnMessage
 import com.mobiata.android.text.StrikethroughTagHandler
 import com.squareup.phrase.Phrase
 import rx.Observable
@@ -198,7 +198,7 @@ class HotelRoomRateViewModel(val context: Context, var hotelId: String, var hote
             collapsedUrgencyObservable.onNext(expandedPair.first)
         }
 
-        val earnMessage = getEarnMessage(context, chargeableRateInfo?.loyaltyInfo?.earn)
+        val earnMessage = chargeableRateInfo?.loyaltyInfo?.earn?.getEarnMessage(context) ?: ""
         val earnMessageVisibility = earnMessage.isNotBlank() && PointOfSale.getPointOfSale().isEarnMessageEnabledForHotels
 
         collapsedEarnMessageVisibilityObservable.onNext(earnMessageVisibility)

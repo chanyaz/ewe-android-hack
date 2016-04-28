@@ -17,7 +17,6 @@ import com.expedia.bookings.data.pos.PointOfSale;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonToken;
 import com.mobiata.android.util.SettingUtils;
-import com.squareup.phrase.Phrase;
 
 public class ShopWithPointsFlightsUtil {
 
@@ -140,31 +139,15 @@ public class ShopWithPointsFlightsUtil {
 	}
 
 	public static CharSequence getEarnInfoTextToDisplay(Context context, FlightTrip trip) {
-		CharSequence earnInfoTextToDisplay = null;
-
 		LoyaltyEarnInfo earnInfo = trip.getEarnInfo();
 		if (earnInfo != null) {
-			PriceEarnInfo price = earnInfo.getPrice();
-			if (price != null) {
-				if (price.getTotal().amount.compareTo(BigDecimal.ZERO) > 0) {
-					earnInfoTextToDisplay = Phrase.from(context.getString(R.string.earn_amount_TEMPLATE))
-						.put("price", price.getTotal().formattedPrice)
-						.format();
-				}
-			}
-			else {
-				PointsEarnInfo points = earnInfo.getPoints();
-				if (points != null) {
-					int total = points.getTotal();
-					if (total > 0) {
-						earnInfoTextToDisplay = Phrase.from(context.getString(R.string.earn_points_TEMPLATE))
-							.put("points", total)
-							.format();
-					}
-				}
+			CharSequence earnInfoTextToDisplay = com.expedia.bookings.extension.LoyaltyEarnInfoExtensionsKt.getEarnMessage(earnInfo, context);
+			if (Strings.isNotEmpty(earnInfoTextToDisplay)) {
+				return earnInfoTextToDisplay;
 			}
 		}
-		return earnInfoTextToDisplay;
+
+		return null;
 	}
 
 	public static boolean isShopWithPointsEnabled(Context context) {

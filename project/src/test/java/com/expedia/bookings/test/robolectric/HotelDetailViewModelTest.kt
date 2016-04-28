@@ -133,23 +133,37 @@ class HotelDetailViewModelTest {
         assertTrue(vm.showAirAttachSWPImageObservable.value)
     }
 
-    @Test fun earnMessageIsShown() {
-        PointOfSale.getPointOfSale().isEarnMessageEnabledForHotels = true
-        UserLoginTestUtil.setupUserAndMockLogin(UserLoginTestUtil.mockUser())
-        val chargeableRateInfo = offer1.hotelRoomResponse[0].rateInfo.chargeableRateInfo
-        val loyaltyInfo = LoyaltyInformation(null, LoyaltyEarnInfo(null, PriceEarnInfo(Money("320", "USD"), Money("0", "USD"), Money("320", "USD"))), true)
+    @Test fun earnMessagePriceIsShownWithDecimalPoints() {
+        loyaltyPriceInfo("320.56")
+        vm.hotelOffersSubject.onNext(offer1)
+        assertFalse(vm.promoMessageVisibilityObservable.value)
+        assertTrue(vm.earnMessageVisibilityObservable.value)
+        assertEquals("Earn $320.56", vm.earnMessageObservable.value.toString())
+    }
 
-        chargeableRateInfo.loyaltyInfo = loyaltyInfo
+    @Test fun earnMessagePriceIsShownWithoutDecimalPoints() {
+        loyaltyPriceInfo("320")
         vm.hotelOffersSubject.onNext(offer1)
         assertFalse(vm.promoMessageVisibilityObservable.value)
         assertTrue(vm.earnMessageVisibilityObservable.value)
         assertEquals("Earn $320", vm.earnMessageObservable.value.toString())
     }
 
-    @Test fun earnMessageIsNotShown() {
+    @Test fun earnMessagePointsIsShown() {
+        PointOfSale.getPointOfSale().isEarnMessageEnabledForHotels = true
+        val chargeableRateInfo = offer1.hotelRoomResponse[0].rateInfo.chargeableRateInfo
+        val loyaltyInfo = LoyaltyInformation(null, LoyaltyEarnInfo(PointsEarnInfo(320, 100, 420), null), true)
+        chargeableRateInfo.loyaltyInfo = loyaltyInfo
+        vm.hotelOffersSubject.onNext(offer1)
+        assertTrue(vm.earnMessageVisibilityObservable.value)
+        assertEquals("Earn 420 points", vm.earnMessageObservable.value.toString())
+        assertFalse(vm.promoMessageVisibilityObservable.value)
+    }
+
+    @Test fun earnMessagePointsIsNotShown() {
         PointOfSale.getPointOfSale().isEarnMessageEnabledForHotels = false
         val chargeableRateInfo = offer1.hotelRoomResponse[0].rateInfo.chargeableRateInfo
-        val loyaltyInfo = LoyaltyInformation(null, LoyaltyEarnInfo(PointsEarnInfo(320, 0, 320), null), true)
+        val loyaltyInfo = LoyaltyInformation(null, LoyaltyEarnInfo(PointsEarnInfo(320, 100, 420), null), true)
         chargeableRateInfo.loyaltyInfo = loyaltyInfo
         vm.hotelOffersSubject.onNext(offer1)
         assertFalse(vm.earnMessageVisibilityObservable.value)
@@ -259,6 +273,15 @@ class HotelDetailViewModelTest {
 
         hotelSoldOutTestSubscriber.assertValues(false, false, true)
     }
+
+    private fun loyaltyPriceInfo(price: String) {
+        PointOfSale.getPointOfSale().isEarnMessageEnabledForHotels = true
+        UserLoginTestUtil.setupUserAndMockLogin(UserLoginTestUtil.mockUser())
+        val chargeableRateInfo = offer1.hotelRoomResponse[0].rateInfo.chargeableRateInfo
+        val loyaltyInfo = LoyaltyInformation(null, LoyaltyEarnInfo(null, PriceEarnInfo(Money(price, "USD"), Money("0", "USD"), Money(price, "USD"))), true)
+        chargeableRateInfo.loyaltyInfo = loyaltyInfo
+    }
+
 
     private fun makeHotel(): ArrayList<HotelOffersResponse.HotelRoomResponse> {
         var rooms = ArrayList<HotelOffersResponse.HotelRoomResponse>();
