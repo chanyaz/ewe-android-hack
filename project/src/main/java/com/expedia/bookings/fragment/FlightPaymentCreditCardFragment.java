@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.text.Html;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -21,6 +22,7 @@ import com.expedia.bookings.activity.FlightPaymentOptionsActivity.Validatable;
 import com.expedia.bookings.data.BillingInfo;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.LineOfBusiness;
+import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.TripBucketItemFlight;
 import com.expedia.bookings.data.User;
 import com.expedia.bookings.data.pos.PointOfSale;
@@ -88,6 +90,7 @@ public class FlightPaymentCreditCardFragment extends Fragment implements Validat
 			public void onChange() {
 				if (mBillingInfo.getPaymentType() != null) {
 					TripBucketItemFlight flightItem = Db.getTripBucket().getFlight();
+					Money paymentFee = flightItem.getPaymentFee(mBillingInfo);
 					if (!flightItem.isPaymentTypeSupported(mBillingInfo.getPaymentType())) {
 						String cardName = CreditCardUtils
 							.getHumanReadableName(getActivity(), mBillingInfo.getPaymentType());
@@ -95,10 +98,11 @@ public class FlightPaymentCreditCardFragment extends Fragment implements Validat
 						updateCardMessage(message, getResources().getColor(R.color.flight_card_unsupported_warning));
 						toggleCardMessage(true, true);
 					}
-					else if (flightItem.getPaymentFee(mBillingInfo) != null) {
+					else if (paymentFee != null && !paymentFee.isZero()) {
 						String message = getString(R.string.airline_processing_fee_TEMPLATE,
-							flightItem.getPaymentFee(mBillingInfo).getFormattedMoney());
-						updateCardMessage(message, getResources().getColor(R.color.flight_card_airline_fee_warning));
+							paymentFee.getFormattedMoney());
+						updateCardMessage(message,
+							ContextCompat.getColor(getContext(), R.color.flight_card_airline_fee_warning));
 						toggleCardMessage(true, true);
 					}
 					else {
