@@ -5342,7 +5342,10 @@ public class OmnitureTracking {
 	}
 
 	public static void trackPackagesCheckoutSlideToPurchase() {
-		createTrackPageLoadEventBase(PACKAGES_CHECKOUT_SLIDE_TO_PURCHASE).track();
+		Log.d(TAG, "Tracking \"" + PACKAGES_CHECKOUT_SLIDE_TO_PURCHASE + "\" load...");
+		ADMS_Measurement s = createTrackPageLoadEventBase(PACKAGES_CHECKOUT_SLIDE_TO_PURCHASE);
+		s.setEvar(37, getPaymentType());
+		s.track();
 	}
 
 	public static void trackPackagesCheckoutPaymentCID() {
