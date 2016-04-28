@@ -137,6 +137,10 @@ public class Money {
 		return getFormattedMoneyFromAmountAndCurrencyCode(amount, currencyCode, 0);
 	}
 
+	public String getFormattedMoneyFromAmountAndCurrencyCode(int flags) {
+		return getFormattedMoneyFromAmountAndCurrencyCode(amount, currencyCode, flags);
+	}
+
 	public static String getFormattedMoneyFromAmountAndCurrencyCode(BigDecimal amount, String currencyCode) {
 		return getFormattedMoneyFromAmountAndCurrencyCode(amount, currencyCode, 0);
 	}

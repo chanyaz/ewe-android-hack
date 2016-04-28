@@ -41,8 +41,6 @@
     <string name="change_dates">Change Dates</string>
     <!-- checkout view toolbar title -->
     <string name="secure_checkout">Secure Checkout</string>
-    <!-- Message to display to user indicating how many points or dollars will be earned for this booking; parameter may be number of points or currency amount; e.g. "Earn 478" or "Earn $5" -->
-    <string name="earn_message_TEMPLATE">Earn {earn}</string>
 
     <!-- Cars -->
     <!-- Cars Calendar Strings -->

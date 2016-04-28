@@ -15,6 +15,7 @@ import com.expedia.bookings.data.hotels.HotelOffersResponse
 import com.expedia.bookings.data.hotels.HotelRate
 import com.expedia.bookings.data.hotels.HotelSearchParams
 import com.expedia.bookings.data.pos.PointOfSale
+import com.expedia.bookings.extension.getEarnMessage
 import com.expedia.bookings.extension.isShowAirAttached
 import com.expedia.bookings.tracking.HotelV2Tracking
 import com.expedia.bookings.utils.Amenity
@@ -29,7 +30,6 @@ import com.expedia.bookings.widget.HotelDetailView
 import com.expedia.bookings.widget.RecyclerGallery
 import com.expedia.bookings.widget.priceFormatter
 import com.expedia.util.endlessObserver
-import com.expedia.util.getEarnMessage
 import com.mobiata.android.FormatUtils
 import com.mobiata.android.SocialUtils
 import com.squareup.phrase.Phrase
@@ -235,7 +235,7 @@ abstract class BaseHotelDetailViewModel(val context: Context, val roomSelectedOb
         hasVipAccessLoyaltyObservable.onNext(isVipAccess && response.doesAnyHotelRateOfAnyRoomHaveLoyaltyInfo)
         hasRegularLoyaltyPointsAppliedObservable.onNext(!isVipAccess && response.doesAnyHotelRateOfAnyRoomHaveLoyaltyInfo)
         promoMessageObservable.onNext(getPromoText(firstHotelRoomResponse))
-        val earnMessage = getEarnMessage(context, chargeableRateInfo?.loyaltyInfo?.earn)
+        val earnMessage = chargeableRateInfo?.loyaltyInfo?.earn?.getEarnMessage(context) ?: ""
         val earnMessageVisibility = earnMessage.isNotBlank() && PointOfSale.getPointOfSale().isEarnMessageEnabledForHotels
         earnMessageObservable.onNext(earnMessage)
         earnMessageVisibilityObservable.onNext(earnMessageVisibility)

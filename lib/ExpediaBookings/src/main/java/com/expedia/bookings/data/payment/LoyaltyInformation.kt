@@ -3,6 +3,12 @@ package com.expedia.bookings.data.payment
 import com.expedia.bookings.data.Money
 import java.math.BigDecimal
 
+enum class LoyaltyEarnInfoType {
+        NONE,
+        POINTS,
+        MONEY
+}
+
 data class LoyaltyInformation(
         val burn: LoyaltyBurnInfo?, val earn: LoyaltyEarnInfo, val isBurnApplied: Boolean
 )
@@ -10,17 +16,25 @@ data class LoyaltyInformation(
 data class LoyaltyBurnInfo(val type: LoyaltyType, val amount: Money)
 
 data class LoyaltyEarnInfo(val points: PointsEarnInfo?, val price: PriceEarnInfo?) {
-        fun getEarnMessagePointsOrPrice(): String {
-                var earnMessage = ""
-                if (points?.total ?: 0 > 0) {
-                        earnMessage = points?.total?.toString() ?: ""
-                }
 
-                // Earn Price
-                else if (price?.total?.amount ?: BigDecimal(0) > BigDecimal(0)) {
-                        earnMessage = price?.total?.formattedMoney ?: ""
+        fun loyaltyEarnInfoType(): LoyaltyEarnInfoType {
+                if (points?.total ?: 0 > 0) {
+                        return LoyaltyEarnInfoType.POINTS
                 }
-                return earnMessage
+                else if (price?.total?.amount ?: BigDecimal(0) > BigDecimal(0)) {
+                        return LoyaltyEarnInfoType.MONEY
+                }
+                else {
+                        return LoyaltyEarnInfoType.NONE
+                }
+        }
+
+        fun getEarnMessagePointsOrPrice(): String {
+                when (loyaltyEarnInfoType()) {
+                        LoyaltyEarnInfoType.POINTS -> return points?.total.toString()
+                        LoyaltyEarnInfoType.MONEY -> return price?.total?.getFormattedMoneyFromAmountAndCurrencyCode(Money.F_NO_DECIMAL_IF_INTEGER_ELSE_TWO_PLACES_AFTER_DECIMAL)!!
+                        LoyaltyEarnInfoType.NONE -> return ""
+                }
         }
 }
 
