@@ -22,6 +22,7 @@ import com.expedia.bookings.data.HotelFilter;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.data.pos.PointOfSaleId;
 import com.expedia.bookings.server.EndPoint;
+import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.AboutUtils;
 import com.expedia.bookings.utils.Ui;
 import com.mobiata.android.SocialUtils;
@@ -368,6 +369,12 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 	@Override
 	public boolean isGoogleAccountChangeEnabled() {
 		return false;
+	}
+
+	@Override
+	public String getOmnitureEventValue(OmnitureTracking.OmnitureEventName key) {
+		//Ignore
+		return null;
 	}
 
 }

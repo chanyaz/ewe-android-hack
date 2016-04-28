@@ -16,6 +16,7 @@ import com.expedia.bookings.data.hotels.HotelCreateTripResponse
 import com.expedia.bookings.data.payment.PaymentModel
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.data.trips.ItineraryManager
+import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration
 import com.expedia.bookings.services.HotelCheckoutResponse
 import com.expedia.bookings.tracking.AdImpressionTracking
 import com.expedia.bookings.tracking.HotelV2Tracking
@@ -68,7 +69,7 @@ class HotelConfirmationViewModel(checkoutResponseObservable: Observable<HotelChe
             object {
                 val hotelCheckoutResponse = checkoutResponse
                 val percentagePaidWithPoints = if (BigDecimal(checkoutResponse.totalCharges).equals(BigDecimal.ZERO)) 0 else NumberUtils.getPercentagePaidWithPointsForOmniture(paymentSplits.payingWithPoints.amount.amount, BigDecimal(checkoutResponse.totalCharges))
-                val totalBurnedAmount = paymentSplits.payingWithPoints.points
+                val totalAppliedRewardCurrency = if (ProductFlavorFeatureConfiguration.getInstance().isRewardProgramPointsType) paymentSplits.payingWithPoints.points.toString() else paymentSplits.payingWithPoints.amount.amount.toString()
             }
         } ).subscribe{
             val product = it.hotelCheckoutResponse.checkoutResponse.productResponse
@@ -116,7 +117,7 @@ class HotelConfirmationViewModel(checkoutResponseObservable: Observable<HotelChe
             location.addStreetAddressLine(product.hotelAddress)
             hotelLocation.onNext(location)
             AdImpressionTracking.trackAdConversion(context, it.hotelCheckoutResponse.checkoutResponse.bookingResponse.tripId)
-            HotelV2Tracking().trackHotelV2PurchaseConfirmation(it.hotelCheckoutResponse, it.percentagePaidWithPoints, it.totalBurnedAmount)
+            HotelV2Tracking().trackHotelV2PurchaseConfirmation(it.hotelCheckoutResponse, it.percentagePaidWithPoints, it.totalAppliedRewardCurrency)
         }
 
     }
