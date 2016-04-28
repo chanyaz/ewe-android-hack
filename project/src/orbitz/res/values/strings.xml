@@ -70,4 +70,6 @@
 
     <!-- Sign in with earn message. Eg: Sign in to earn $123.22 in Orbucks -->
     <string name="Sign_in_to_earn_TEMPLATE">Sign in to earn {reward} in Orbucks</string>
+    <string name="loyalty_applied_excluding_taxes_and_fees_message">Orbucks applied! (excludes taxes and fees)</string>
+
 </resources>
