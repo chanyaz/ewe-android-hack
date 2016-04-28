@@ -21,6 +21,7 @@ import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static com.expedia.bookings.test.espresso.CustomMatchers.withImageDrawable;
 import static com.expedia.bookings.test.espresso.EspressoUtils.assertViewIsDisplayed;
+import static com.expedia.bookings.test.espresso.EspressoUtils.assertViewIsNotDisplayed;
 import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.startsWith;
@@ -85,5 +86,21 @@ public class HotelSearchTest extends HotelTestCase {
 		//Assert search screen is displayed
 		onView(withId(R.id.search_container)).perform(ViewActions.waitForViewToDisplay());
 		assertViewIsDisplayed(R.id.search_container);
+	}
+
+	public void testTravelerButton() throws Throwable {
+		//By default search text field should be empty
+		HotelScreen.location().check(matches(withHint(R.string.search_location)));
+
+		HotelScreen.location().perform(typeText("SFO"));
+		Espresso.closeSoftKeyboard();
+		HotelScreen.selectLocation("Hyatt Regency San Francisco");
+		onView(withId(R.id.search_container)).perform(ViewActions.waitForViewToDisplay());
+
+		HotelScreen.guestPicker().perform(click());
+		assertViewIsDisplayed(R.id.adult);
+
+		HotelScreen.selectDateButton().perform(click());
+		assertViewIsNotDisplayed(R.id.adult);
 	}
 }
