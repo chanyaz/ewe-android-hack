@@ -559,6 +559,16 @@ DummyFiletoHandleKotlinLintError {
 		R.string.calendar_instructions_date_range_flight_one_way_TEMPLATE,
 		R.string.calendar_instructions_date_range_flight_select_return_date_optional,
 		R.integer.calendar_max_package_selectable_date_range,
-		R.bool.acct__isGoogleAccountChangeEnabled
+		R.bool.acct__isGoogleAccountChangeEnabled,
+		R.string.loading_flights_from_400_airlines,
+		R.layout.flight_results_loading_tile_widget,
+		R.layout.flight_results_loading_header_cell,
+		R.bool.acct__isGoogleAccountChangeEnabled,
+		R.bool.acct__isGoogleAccountChangeEnabled,
+		R.string.loading_flights_from_400_airlines,
+		R.layout.flight_results_loading_tile_widget,
+		R.layout.flight_results_loading_header_cell,
+		R.bool.acct__isGoogleAccountChangeEnabled,
+		R.layout.flight_results_loading_header_cell
 	};
 }

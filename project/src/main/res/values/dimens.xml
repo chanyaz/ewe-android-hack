@@ -416,4 +416,7 @@
 
     <dimen name="new_launch_screen_fab_bottom_margin">32dp</dimen>
     <dimen name="new_launch_screen_fab_height">48dp</dimen>
+
+    <!-- Flights v2 dimensions -->
+    <dimen name="loading_tile_height">115dp</dimen>
 </resources>

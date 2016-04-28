@@ -1,4 +1,4 @@
-package com.expedia.bookings.presenter.packages
+package com.expedia.bookings.presenter.shared
 
 import android.content.Context
 import android.util.AttributeSet
@@ -16,7 +16,7 @@ import com.expedia.vm.FlightResultsViewModel
 import rx.subjects.PublishSubject
 import kotlin.properties.Delegates
 
-class PackageFlightResultsPresenter(context: Context, attrs: AttributeSet) : Presenter(context, attrs) {
+class FlightResultsPresenter(context: Context, attrs: AttributeSet) : Presenter(context, attrs) {
     private val recyclerView: FlightListRecyclerView by bindView(R.id.list_view)
     lateinit private var flightListAdapter: FlightListAdapter
 
@@ -30,6 +30,10 @@ class PackageFlightResultsPresenter(context: Context, attrs: AttributeSet) : Pre
     fun setAdapter(adapter: FlightListAdapter) {
         flightListAdapter = adapter
         recyclerView.adapter = adapter
+    }
+
+    fun setLoadingState() {
+        flightListAdapter.setLoadingState()
     }
 
     var resultsViewModel: FlightResultsViewModel by notNullAndObservable { vm ->

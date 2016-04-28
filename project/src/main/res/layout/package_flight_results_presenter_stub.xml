@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.expedia.bookings.presenter.packages.PackageFlightResultsPresenter
+<com.expedia.bookings.presenter.shared.FlightResultsPresenter
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/widget_flight_results"
     android:layout_width="match_parent"

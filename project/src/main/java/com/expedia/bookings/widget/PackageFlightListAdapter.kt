@@ -13,10 +13,7 @@ import rx.subjects.PublishSubject
 import java.util.ArrayList
 
 class PackageFlightListAdapter(context: Context, flightSelectedSubject: PublishSubject<FlightLeg>, val isChangePackageSearch: Boolean)  : FlightListAdapter(context, flightSelectedSubject) {
-    override val PRICING_STRUCTURE_HEADER_VIEW = 0
-    val BEST_FLIGHT_VIEW = 1
-    override val ALL_FLIGHTS_HEADER_VIEW = 2
-    override val ALL_FLIGHTS_VIEW = 3
+
     var shouldShowBestFlight = false
 
     @UiThread
@@ -49,7 +46,7 @@ class PackageFlightListAdapter(context: Context, flightSelectedSubject: PublishS
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder? {
         when (viewType) {
-            BEST_FLIGHT_VIEW -> {
+            ViewTypes.BEST_FLIGHT_VIEW.ordinal -> {
                 val view = LayoutInflater.from(parent.context).inflate(R.layout.flight_cell, parent, false)
                 return BestFlightViewHolder(view as ViewGroup, parent.width)
             }
@@ -61,14 +58,14 @@ class PackageFlightListAdapter(context: Context, flightSelectedSubject: PublishS
 
     override fun getItemViewType(position: Int): Int {
         if (position == 0) {
-            return PRICING_STRUCTURE_HEADER_VIEW
+            return ViewTypes.PRICING_STRUCTURE_HEADER_VIEW.ordinal
         } else if (!shouldShowBestFlight) {
-            return ALL_FLIGHTS_VIEW
+            return ViewTypes.FLIGHT_CELL_VIEW.ordinal
         } else {
             when (position) {
-                1 -> return BEST_FLIGHT_VIEW
-                2 -> return ALL_FLIGHTS_HEADER_VIEW
-                else -> return ALL_FLIGHTS_VIEW
+                1 -> return ViewTypes.BEST_FLIGHT_VIEW.ordinal
+                2 -> return ViewTypes.ALL_FLIGHTS_HEADER_VIEW.ordinal
+                else -> return ViewTypes.FLIGHT_CELL_VIEW.ordinal
             }
         }
     }

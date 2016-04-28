@@ -1638,6 +1638,8 @@
     <string name="hint_arrival_airport">Arrival Airport</string>
     <!-- Label for when flights are loading -->
     <string name="loading_flights">Loading flights…</string>
+    <!-- Label at head of flight results while we're waiting for them to load -->
+    <string name="loading_flights_from_400_airlines">Finding your flights from 400+ airlines</string>
     <!-- Label for screen that is doing searches -->
     <string name="searching">Searching…</string>
     <!-- Error message when we find no flights -->

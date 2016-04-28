@@ -8,24 +8,34 @@ import android.view.View
 import android.view.ViewGroup
 import com.expedia.bookings.R
 import com.expedia.bookings.data.flights.FlightLeg
+import com.expedia.bookings.data.pos.PointOfSale
+import com.expedia.bookings.utils.AnimUtils
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.packages.FlightAirlineWidget
 import com.expedia.bookings.widget.packages.FlightLayoverWidget
-import com.expedia.util.subscribeText
 import com.expedia.vm.packages.PackageFlightViewModel
-import rx.subjects.BehaviorSubject
 import rx.subjects.PublishSubject
 import java.util.ArrayList
+import java.util.Locale
 
 open class FlightListAdapter(val context: Context, val flightSelectedSubject: PublishSubject<FlightLeg>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+    private val NUMBER_LOADING_TILES = 5
+    private var loadingState = true
     private var flights: List<FlightLeg> = emptyList()
     protected var maxFlightDuration = 0
-    open val PRICING_STRUCTURE_HEADER_VIEW = 0
-    open val ALL_FLIGHTS_HEADER_VIEW = 1
-    open val ALL_FLIGHTS_VIEW = 2
+
+    enum class ViewTypes {
+        PRICING_STRUCTURE_HEADER_VIEW,
+        ALL_FLIGHTS_HEADER_VIEW,
+        LOADING_FLIGHTS_VIEW,
+        LOADING_FLIGHTS_HEADER_VIEW,
+        BEST_FLIGHT_VIEW,
+        FLIGHT_CELL_VIEW
+    }
 
     @UiThread
     open fun setNewFlights(flights: List<FlightLeg>) {
+        loadingState = false
         val newFlights = ArrayList(flights)
         for (flightLeg in newFlights) {
             if (flightLeg.durationHour * 60 + flightLeg.durationMinute > maxFlightDuration) {
@@ -34,6 +44,19 @@ open class FlightListAdapter(val context: Context, val flightSelectedSubject: Pu
 
         }
         this.flights = newFlights
+        notifyDataSetChanged()
+    }
+
+    fun setLoadingState() {
+        loadingState = true
+        val mockFlights = ArrayList<FlightLeg>()
+        val flightLeg = FlightLeg()
+        var tileCount = 0
+        while (tileCount < NUMBER_LOADING_TILES) {
+            tileCount++
+            mockFlights.add(flightLeg)
+        }
+        this.flights = mockFlights
         notifyDataSetChanged()
     }
 
@@ -49,37 +72,74 @@ open class FlightListAdapter(val context: Context, val flightSelectedSubject: Pu
         if (holder is FlightViewHolder) {
             holder.bind(PackageFlightViewModel(holder.itemView.context, flights[position - adjustPosition()]))
         }
+        else if (holder is LoadingViewHolder) {
+            val animation = AnimUtils.setupLoadingAnimation(holder.backgroundImageView, position % 2 == 0)
+            holder.setAnimator(animation)
+        }
+        else if (holder is LoadingFlightsHeaderViewHolder) {
+            holder.bind()
+        }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder? {
         when (viewType) {
-            PRICING_STRUCTURE_HEADER_VIEW -> {
+            ViewTypes.PRICING_STRUCTURE_HEADER_VIEW.ordinal -> {
                 val view = LayoutInflater.from(parent.context).inflate(R.layout.flight_results_pricing_structure_header_cell, parent, false)
                 return HeaderViewHolder(view as ViewGroup)
             }
-            ALL_FLIGHTS_HEADER_VIEW -> {
+            ViewTypes.ALL_FLIGHTS_HEADER_VIEW.ordinal -> {
                 val view = LayoutInflater.from(parent.context).inflate(R.layout.all_flights_header_cell, parent, false)
                 return HeaderViewHolder(view as ViewGroup)
             }
-            else -> {
+            ViewTypes.LOADING_FLIGHTS_HEADER_VIEW.ordinal -> {
+                val view = LayoutInflater.from(parent.context).inflate(R.layout.flight_results_loading_header_cell, parent, false)
+                return LoadingFlightsHeaderViewHolder(view)
+            }
+            ViewTypes.LOADING_FLIGHTS_VIEW.ordinal-> {
+                val view = LayoutInflater.from(parent.context).inflate(R.layout.flight_results_loading_tile_widget, parent, false)
+                return LoadingViewHolder(view)
+            }
+            ViewTypes.FLIGHT_CELL_VIEW.ordinal -> {
                 val view = LayoutInflater.from(parent.context).inflate(R.layout.flight_cell, parent, false)
                 return FlightViewHolder(view as ViewGroup, parent.width)
+            }
+            else -> {
+                throw UnsupportedOperationException("Did not recognise the viewType")
             }
         }
     }
 
     override fun getItemViewType(position: Int): Int {
+        if (loadingState) {
+            return if (position == 0) ViewTypes.LOADING_FLIGHTS_HEADER_VIEW.ordinal else ViewTypes.LOADING_FLIGHTS_VIEW.ordinal
+        }
+
         var viewType =
                 when (position) {
-                    0 -> PRICING_STRUCTURE_HEADER_VIEW
-                    1 -> ALL_FLIGHTS_HEADER_VIEW
-                    else -> ALL_FLIGHTS_VIEW
+                    0 -> ViewTypes.PRICING_STRUCTURE_HEADER_VIEW.ordinal
+                    1 -> ViewTypes.ALL_FLIGHTS_HEADER_VIEW.ordinal
+                    else -> ViewTypes.FLIGHT_CELL_VIEW.ordinal
                 }
         return viewType
     }
 
     inner class HeaderViewHolder(val root: ViewGroup) : RecyclerView.ViewHolder(root) {
 
+    }
+
+    inner class LoadingFlightsHeaderViewHolder(root: View) : RecyclerView.ViewHolder(root) {
+        val title: TextView by bindView(R.id.title)
+
+        fun bind() {
+            val pointOfSale = PointOfSale.getPointOfSale()
+            val twoLetterCountryCode = pointOfSale.twoLetterCountryCode
+            val isPointOfSaleWithHundredsOfAirlines = !twoLetterCountryCode.toUpperCase(Locale.US).contains(Regex("PH|ID|KR"))
+            title.text =
+                    if (isPointOfSaleWithHundredsOfAirlines)
+                        context.resources.getString(R.string.loading_flights_from_400_airlines)
+                    else
+                        context.resources.getString(R.string.loading_flights)
+        }
     }
 
     inner open class FlightViewHolder(root: ViewGroup, val width: Int) : RecyclerView.ViewHolder(root), View.OnClickListener {
