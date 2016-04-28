@@ -47,8 +47,8 @@ class BundleWidget(context: Context, attrs: AttributeSet) : LinearLayout(context
             inboundFlightWidget.viewModel.guests.onNext(Db.getPackageParams().guests)
 
             if (!param.isChangePackageSearch()) {
-                outboundFlightWidget.viewModel.hotelLoadingStateObservable.onNext(PackageSearchType.OUTBOUND_FLIGHT)
-                inboundFlightWidget.viewModel.hotelLoadingStateObservable.onNext(PackageSearchType.INBOUND_FLIGHT)
+                outboundFlightWidget.viewModel.searchTypeStateObservable.onNext(PackageSearchType.OUTBOUND_FLIGHT)
+                inboundFlightWidget.viewModel.searchTypeStateObservable.onNext(PackageSearchType.INBOUND_FLIGHT)
             } else {
                 toggleMenuObservable.onNext(false)
             }

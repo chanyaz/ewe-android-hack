@@ -37,7 +37,9 @@ class FlightSearchParams(val departureAirport: SuggestionV4, val arrivalAirport:
         params.put("departureAirport", departureAirport.hierarchyInfo?.airport?.airportCode)
         params.put("arrivalAirport", arrivalAirport?.hierarchyInfo?.airport?.airportCode)
         params.put("departureDate", departureDate.toString())
-        params.put("returnDate", returnDate?.toString())
+        if (returnDate != null) {
+            params.put("returnDate", returnDate.toString())
+        }
         params.put("numberOfAdultTravelers", adults)
         params.put("infantSeatingInLap", infantSeatingInLap)
         if (children.isNotEmpty()) {

@@ -19,7 +19,7 @@ import rx.subjects.PublishSubject
 class BundleFlightViewModel(val context: Context) {
     val showLoadingStateObservable = PublishSubject.create<Boolean>()
     val selectedFlightObservable = PublishSubject.create<PackageSearchType>()
-    val hotelLoadingStateObservable = BehaviorSubject.create<PackageSearchType>()
+    val searchTypeStateObservable = BehaviorSubject.create<PackageSearchType>()
     val date = PublishSubject.create<LocalDate>()
     val guests = BehaviorSubject.create<Int>()
     val suggestion = BehaviorSubject.create<SuggestionV4>()
@@ -38,7 +38,7 @@ class BundleFlightViewModel(val context: Context) {
     val totalDurationObserver = BehaviorSubject.create<CharSequence>()
 
     init {
-        Observable.combineLatest(hotelLoadingStateObservable, suggestion, date, guests, { searchType, suggestion, date, guests ->
+        Observable.combineLatest(searchTypeStateObservable, suggestion, date, guests, { searchType, suggestion, date, guests ->
             if (searchType == PackageSearchType.OUTBOUND_FLIGHT) {
                 flightIconImageObservable.onNext(Pair(R.drawable.packages_flight1_icon, ContextCompat.getColor(context, R.color.package_bundle_icon_color)))
                 flightTextObservable.onNext(context.getString(R.string.flight_to, StrUtils.formatAirportCodeCityName(suggestion)))
@@ -50,11 +50,13 @@ class BundleFlightViewModel(val context: Context) {
             } else {
                 flightIconImageObservable.onNext(Pair(R.drawable.packages_flight2_icon, ContextCompat.getColor(context, R.color.package_bundle_icon_color)))
                 flightTextObservable.onNext(context.getString(R.string.flight_to, StrUtils.formatAirportCodeCityName(suggestion)))
-                travelInfoTextObservable.onNext(Phrase.from(context, R.string.flight_toolbar_date_range_with_guests_TEMPLATE)
-                        .put("date", DateUtils.localDateToMMMd(date))
-                        .put("travelers", StrUtils.formatTravelerString(context, guests))
-                        .format()
-                        .toString())
+                if (date != null) {
+                    travelInfoTextObservable.onNext(Phrase.from(context, R.string.flight_toolbar_date_range_with_guests_TEMPLATE)
+                            .put("date", DateUtils.localDateToMMMd(date))
+                            .put("travelers", StrUtils.formatTravelerString(context, guests))
+                            .format()
+                            .toString())
+                }
             }
             flightInfoContainerObservable.onNext(false)
             flightDetailsIconObservable.onNext(false)
