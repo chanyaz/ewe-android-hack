@@ -758,7 +758,7 @@ public class OmnitureTracking {
 		if (trip.isRewardsRedeemable()) {
 			events.append(",event114");
 			BigDecimal amountPaidWithPoints = trip.getPointDetails().getMaxPayableWithPoints().getAmount().amount;
-			BigDecimal totalAmount = trip.getTripTotal().amount;
+			BigDecimal totalAmount = trip.getTripTotalExcludingFee().amount;
 			int percentagePaidWithPoints = NumberUtils.getPercentagePaidWithPointsForOmniture(amountPaidWithPoints,
 				totalAmount);
 			s.setEvar(53, String.format(Locale.getDefault(), EXPEDIA_POINTS_PERCENTAGE, percentagePaidWithPoints));

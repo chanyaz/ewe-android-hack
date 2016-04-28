@@ -36,8 +36,8 @@ class PaymentWidgetV2(context: Context, attr: AttributeSet) : PaymentWidget(cont
         vm.totalDueToday.subscribeText(totalDueTodayAmount)
         vm.remainingBalanceDueOnCard.subscribeText(remainingBalanceAmount)
         vm.remainingBalanceDueOnCardVisibility.subscribeVisibility(remainingBalance)
-        vm.paymentSplitsAndTripResponse.map { it.isCardRequired() }.subscribeEnabled(sectionCreditCardContainer)
-        vm.paymentSplitsAndTripResponse.subscribe {
+        vm.paymentSplitsWithTripTotalAndTripResponse.map { it.isCardRequired() }.subscribeEnabled(sectionCreditCardContainer)
+        vm.paymentSplitsWithTripTotalAndTripResponse.subscribe {
             viewmodel.isRedeemable.onNext(it.tripResponse.isRewardsRedeemable())
             viewmodel.splitsType.onNext(it.paymentSplits.paymentSplitsType())
             isRewardsRedeemable = it.tripResponse.isRewardsRedeemable()

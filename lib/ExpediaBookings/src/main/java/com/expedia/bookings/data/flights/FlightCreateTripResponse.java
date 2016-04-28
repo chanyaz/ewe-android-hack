@@ -15,8 +15,13 @@ public class FlightCreateTripResponse extends TripResponse {
 
 	@NotNull
 	@Override
-	public Money getTripTotal() {
+	public Money getTripTotalExcludingFee() {
 		return totalPrice;
+	}
+
+	@Override
+	public Money tripTotalPayableIncludingFeeIfZeroPayableByPoints() {
+		throw new UnsupportedOperationException("TripTotalIncludingFee is not implemented for flights");
 	}
 
 	@NotNull

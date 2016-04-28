@@ -16,7 +16,7 @@ class HotelCheckoutMainViewModel(paymentModel: PaymentModel<HotelCreateTripRespo
     val updateEarnedRewards: Observable<Float> = paymentModel.paymentSplits.map { it.payingWithCards.points }
 
     val animateSlideToPurchaseWithPaymentSplits = animateInSlideToPurchaseSubject
-            .withLatestFrom(paymentModel.paymentSplitsWithLatestTripResponse, { Unit, paymentSplitsAndLatestTrip ->
+            .withLatestFrom(paymentModel.paymentSplitsWithLatestTripTotalPayableAndTripResponse, { Unit, paymentSplitsAndLatestTrip ->
                 if (paymentSplitsAndLatestTrip.tripResponse.isRewardsRedeemable()) paymentSplitsAndLatestTrip.paymentSplits.paymentSplitsType()
                 else PaymentSplitsType.IS_FULL_PAYABLE_WITH_CARD
             })

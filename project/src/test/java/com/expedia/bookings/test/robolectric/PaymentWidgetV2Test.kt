@@ -151,7 +151,7 @@ class PaymentWidgetV2Test {
         if (hasRedeemablePoints)
             createTripResponse = mockHotelServiceTestRule.getLoggedInUserWithRedeemablePointsCreateTripResponse()
         else
-            createTripResponse = mockHotelServiceTestRule.getLoggedInUserWithNonRedeemeblePointsCreateTripResponse()
+            createTripResponse = mockHotelServiceTestRule.getLoggedInUserWithNonRedeemablePointsCreateTripResponse()
 
         createTripResponse.tripId = "happy"
         Db.getTripBucket().add(TripBucketItemHotelV2(createTripResponse))

@@ -545,6 +545,7 @@ DummyFiletoHandleKotlinLintError {
 		R.string.traveler_infant_error,
 		R.string.traveler_child_error,
 		R.string.traveler_adult_error,
+		R.string.hotel_cost_breakdown_burn_points_TEMPLATE,
 		R.color.white70,
 		R.color.packages_total_duration_text,
 		R.layout.account_button_v2_test,

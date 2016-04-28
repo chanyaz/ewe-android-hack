@@ -52,7 +52,7 @@ class HotelCheckoutPresenter(context: Context, attrs: AttributeSet) : Presenter(
             onBookV2(null, it)
         }
 
-        hotelCheckoutWidget.slideAllTheWayObservable.withLatestFrom(vm.paymentModel.paymentSplitsWithLatestTripResponse) { unit, paymentSplitsAndLatestTripResponse ->
+        hotelCheckoutWidget.slideAllTheWayObservable.withLatestFrom(vm.paymentModel.paymentSplitsWithLatestTripTotalPayableAndTripResponse) { unit, paymentSplitsAndLatestTripResponse ->
             paymentSplitsAndLatestTripResponse.isCardRequired()
         }.subscribe(checkoutSliderSlidObserver)
 

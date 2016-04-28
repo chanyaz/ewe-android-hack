@@ -397,7 +397,13 @@
                     "currencyCode": "USD"
                 }
             },
-            "paymentsInstrumentsId": "1111111111111-1111"
+            "paymentsInstrumentsId": "1111111111111-1111",
+            "tripTotalPayable": {
+              "amount": "0.00",
+              "formattedPrice": "$0.00",
+              "formattedWholePrice": "$0",
+              "currencyCode": "USD"
+            }
         }
     ]
 }

@@ -73,7 +73,7 @@ class OrbucksViewModel<T : TripResponse>(paymentModel: PaymentModel<T>, val cont
 
     //Inlet
     override val orbucksOpted = PublishSubject.create<Boolean>()
-    override val orbucksMessage = paymentModel.paymentSplitsWithLatestTripResponse.filter { ProgramName.Orbucks == it.tripResponse.getProgramName() }
+    override val orbucksMessage = paymentModel.paymentSplitsWithLatestTripTotalPayableAndTripResponse.filter { ProgramName.Orbucks == it.tripResponse.getProgramName() }
             .map { pointsAppliedMessage(it.paymentSplits, it.tripResponse) }
 
     //Outlet

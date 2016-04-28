@@ -26,7 +26,9 @@ abstract class TripResponse : BaseApiResponse() {
         return pointsDetails?.filter { it.programName == ProgramName.ExpediaRewards || it.programName == ProgramName.Orbucks }?.firstOrNull()?.programName ?: null
     }
 
-    abstract fun getTripTotal(): Money
+    abstract fun getTripTotalExcludingFee(): Money
+
+    abstract fun tripTotalPayableIncludingFeeIfZeroPayableByPoints(): Money
 
     /* Card details are not always required for booking.
        1) Cars : If create trip response has the flag checkoutRequiresCard.
@@ -52,8 +54,8 @@ abstract class TripResponse : BaseApiResponse() {
     }
 
     fun paymentSplitsWhenZeroPayableWithPoints(): PaymentSplits {
-        val payingWithPoints = PointsAndCurrency(0f, PointsType.BURN, Money(BigDecimal.ZERO, getTripTotal().currencyCode))
-        val payingWithCards = PointsAndCurrency(rewards?.totalPointsToEarn ?: 0f, PointsType.EARN, getTripTotal())
+        val payingWithPoints = PointsAndCurrency(0f, PointsType.BURN, Money(BigDecimal.ZERO, getTripTotalExcludingFee().currencyCode))
+        val payingWithCards = PointsAndCurrency(rewards?.totalPointsToEarn ?: 0f, PointsType.EARN, getTripTotalExcludingFee())
         return PaymentSplits(payingWithPoints, payingWithCards)
     }
 
@@ -69,6 +71,17 @@ abstract class TripResponse : BaseApiResponse() {
 
     fun paymentSplitsSuggestionsForNewCreateTrip(): PaymentSplits {
         return if (isRewardsRedeemable()) paymentSplitsWhenMaxPayableWithPoints() else paymentSplitsWhenZeroPayableWithPoints()
+    }
+
+    fun getTripTotalIncludingFeeForCreateTrip(swpOpted: Boolean): Money {
+        if (isRewardsRedeemable() && swpOpted) {
+            val tripTotalPayable = rewardsUserAccountDetails().tripTotalPayable
+            if (tripTotalPayable == null)
+                return tripTotalPayableIncludingFeeIfZeroPayableByPoints()
+            else
+                return tripTotalPayable
+        } else
+            return tripTotalPayableIncludingFeeIfZeroPayableByPoints()
     }
 
     fun paymentSplitsForPriceChange(pwpOpted: Boolean): PaymentSplits {
@@ -92,5 +105,19 @@ abstract class TripResponse : BaseApiResponse() {
             return PaymentSplits(userPreferencePoints!!.getUserPreference(getProgramName()!!)!!, userPreferencePoints!!.remainingPayableByCard)
         else
             return paymentSplitsWhenMaxPayableWithPoints()
+    }
+
+    fun getTripTotalIncludingFeeForPriceChange(pwpOpted: Boolean): Money {
+        if (!pwpOpted || !isRewardsRedeemable()) {
+            return tripTotalPayableIncludingFeeIfZeroPayableByPoints()
+        } else if (userPreferencePoints != null) {
+            return userPreferencePoints!!.tripTotalPayable
+        } else {
+            val tripTotalPayable = rewardsUserAccountDetails().tripTotalPayable
+            if(tripTotalPayable == null)
+                return tripTotalPayableIncludingFeeIfZeroPayableByPoints()
+            else
+                return tripTotalPayable
+        }
     }
 }

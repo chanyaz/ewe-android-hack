@@ -1,4 +1,4 @@
-package com.expedia.util.operators
+package com.expedia.bookings.utils.operators
 
 import rx.Observable
 import rx.Subscriber

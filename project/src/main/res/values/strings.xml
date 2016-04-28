@@ -2985,6 +2985,8 @@
     <string name="discount">Discount</string>
     <!-- Label indicating that the taxes for a hotel room booking is unknown (as returned from API) -->
     <string name="unknown">Unknown</string>
+    <!-- Label indicating the points consumed by a user eg: 5000 points-->
+    <string name="hotel_cost_breakdown_burn_points_TEMPLATE">{points} points</string>
 
     <!-- Expedia Accounts -->
     <!-- Label for messaging on sign in Variate 1 -->

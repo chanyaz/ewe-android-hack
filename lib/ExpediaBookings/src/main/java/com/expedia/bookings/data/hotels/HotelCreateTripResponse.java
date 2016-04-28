@@ -68,8 +68,13 @@ public class HotelCreateTripResponse extends TripResponse {
 
 	@NotNull
 	@Override
-	public Money getTripTotal() {
+	public Money getTripTotalExcludingFee() {
 		return newHotelProductResponse.getDueNowAmount();
+	}
+
+	@Override
+	public Money tripTotalPayableIncludingFeeIfZeroPayableByPoints() {
+		return newHotelProductResponse.hotelRoomResponse.rateInfo.chargeableRateInfo.getDisplayTotalPrice();
 	}
 
 	@NotNull

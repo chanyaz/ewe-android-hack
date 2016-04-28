@@ -4,7 +4,10 @@ import android.app.Application
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.hotels.HotelCreateTripResponse
+import com.expedia.bookings.data.payment.PaymentModel
+import com.expedia.bookings.services.LoyaltyServices
 import com.expedia.bookings.test.robolectric.RobolectricRunner
+import com.expedia.bookings.testrule.ServicesRule
 import com.expedia.vm.HotelCheckoutSummaryViewModel
 import org.junit.Before
 import org.junit.Rule
@@ -15,6 +18,9 @@ import java.math.BigDecimal
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
 import kotlin.test.assertTrue
+import kotlin.test.assertNull
+import java.util.concurrent.CountDownLatch
+import java.util.concurrent.TimeUnit
 
 @RunWith(RobolectricRunner::class)
 class HotelCheckoutSummaryViewModelTest {
@@ -22,9 +28,12 @@ class HotelCheckoutSummaryViewModelTest {
     var mockHotelServiceTestRule: MockHotelServiceTestRule = MockHotelServiceTestRule()
         @Rule get
 
+    var loyaltyServiceRule = ServicesRule(LoyaltyServices::class.java)
+        @Rule get
     lateinit private var sut: HotelCheckoutSummaryViewModel
     lateinit private var createTripResponse: HotelCreateTripResponse
     lateinit private var hotelProductResponse: HotelCreateTripResponse.HotelProductResponse
+    lateinit private var paymentModel: PaymentModel<HotelCreateTripResponse>
     lateinit private var context: Application
 
     @Before
@@ -37,7 +46,7 @@ class HotelCheckoutSummaryViewModelTest {
         givenHappyHotelProductResponse()
         setup()
 
-        sut.newRateObserver.onNext(hotelProductResponse)
+        paymentModel.createTripSubject.onNext(createTripResponse)
         val hotelRoomResponse = hotelProductResponse.hotelRoomResponse
         val rate = hotelRoomResponse.rateInfo.chargeableRateInfo
         val expectedRateAdjustments = rate.getPriceAdjustments()
@@ -68,6 +77,7 @@ class HotelCheckoutSummaryViewModelTest {
         assertEquals(Money(BigDecimal(rate.totalMandatoryFees.toString()), rate.currencyCode).formattedMoney, sut.feesPaidAtHotel.value)
         assertTrue(sut.isBestPriceGuarantee.value)
         assertEquals(sut, sut.newDataObservable.value)
+        assertNull(sut.burnAmountShownOnHotelCostBreakdown.value)
     }
 
     @Test
@@ -75,7 +85,7 @@ class HotelCheckoutSummaryViewModelTest {
         givenHappyHotelProductResponse()
         setup()
 
-        sut.newRateObserver.onNext(hotelProductResponse)
+        paymentModel.createTripSubject.onNext(createTripResponse)
         val expectedDueNow = "$" + hotelProductResponse.hotelRoomResponse.rateInfo.chargeableRateInfo.total
 
         assertEquals(expectedDueNow, sut.dueNowAmount.value)
@@ -86,7 +96,7 @@ class HotelCheckoutSummaryViewModelTest {
         givenPayLaterHotelProductResponse()
         setup()
 
-        sut.newRateObserver.onNext(hotelProductResponse)
+        paymentModel.createTripSubject.onNext(createTripResponse)
         val expectedDueNow = "AUD" + hotelProductResponse.hotelRoomResponse.rateInfo.chargeableRateInfo.depositAmount
 
         assertEquals(expectedDueNow, sut.dueNowAmount.value)
@@ -97,7 +107,7 @@ class HotelCheckoutSummaryViewModelTest {
         givenPriceChangedUpResponse()
         setup()
 
-        sut.tripResponseObserver.onNext(createTripResponse)
+        paymentModel.createTripSubject.onNext(createTripResponse)
         assertEquals("Price changed from $2,394.88", sut.priceChangeMessage.value)
         assertEquals(R.drawable.price_change_increase, sut.priceChangeIconResourceId.value)
         assertTrue(sut.isPriceChange.value)
@@ -108,14 +118,76 @@ class HotelCheckoutSummaryViewModelTest {
         givenPriceChangedDownResponse()
         setup()
 
-        sut.tripResponseObserver.onNext(createTripResponse)
+        paymentModel.createTripSubject.onNext(createTripResponse)
         assertEquals("Price dropped from $2,394.88", sut.priceChangeMessage.value)
         assertEquals(R.drawable.price_change_decrease, sut.priceChangeIconResourceId.value)
         assertTrue(sut.isPriceChange.value)
     }
 
-    private fun givenPriceChangedUpResponse() {
+    @Test
+    fun testBurningRewardPointsForLoggedInUserWithEnoughRedeemablePointsResponse() {
+        setup()
+
+        //User is fully paying with points
+        givenLoggedInUserWithRedeemablePointsMoreThanTripTotalResponse()
+        paymentModel.createTripSubject.onNext(createTripResponse)
+        assertTrue(sut.isShoppingWithPoints.value)
+        assertEquals("$1,000.00", sut.burnAmountShownOnHotelCostBreakdown.value)
+        assertEquals("2,500 points", sut.burnPointsShownOnHotelCostBreakdown.value)
+        assertEquals("$0.00", sut.tripTotalPrice.value)
+
+        //User changes the payment splits
+        val latch1 = CountDownLatch(1)
+        paymentModel.burnAmountToPointsApiResponse.subscribe { latch1.countDown() }
+        paymentModel.burnAmountSubject.onNext(BigDecimal(32))
+        latch1.await(10, TimeUnit.SECONDS)
+
+        assertTrue(sut.isShoppingWithPoints.value)
+        assertEquals("$100.00", sut.burnAmountShownOnHotelCostBreakdown.value)
+        assertEquals("14,005 points", sut.burnPointsShownOnHotelCostBreakdown.value)
+        assertEquals("$3.70", sut.tripTotalPrice.value)
+    }
+
+    @Test
+    fun testBurningRewardPointsForLoggedInUserWithRedeemablePointsLessThanTripTotalResponse() {
+        setup()
+
+        //User is paying with points and card both
+        givenLoggedInUserWithRedeemablePointsLessThanTripTotalResponse()
+        paymentModel.createTripSubject.onNext(createTripResponse)
+        assertTrue(sut.isShoppingWithPoints.value)
+        assertEquals("$100.00", sut.burnAmountShownOnHotelCostBreakdown.value)
+        assertEquals("1,000 points", sut.burnPointsShownOnHotelCostBreakdown.value)
+        assertEquals("$35.00", sut.tripTotalPrice.value)
+    }
+
+    @Test
+    fun testBurningRewardPointsForLoggedInUserWithNonRedeemablePointsResponse() {
+        setup()
+
+        //User has less than 3500 points
+        givenLoggedInUserWithNonRedeemablePointsResponse()
+        paymentModel.createTripSubject.onNext(createTripResponse)
+        assertFalse(sut.isShoppingWithPoints.value)
+    }
+        private fun givenPriceChangedUpResponse() {
         createTripResponse = mockHotelServiceTestRule.getPriceChangeUpCreateTripResponse()
+        hotelProductResponse = createTripResponse.originalHotelProductResponse
+    }
+
+    private fun givenLoggedInUserWithNonRedeemablePointsResponse(){
+        createTripResponse =  mockHotelServiceTestRule.getLoggedInUserWithNonRedeemablePointsCreateTripResponse()
+        hotelProductResponse = createTripResponse.newHotelProductResponse
+    }
+
+    private fun givenLoggedInUserWithRedeemablePointsMoreThanTripTotalResponse() {
+        createTripResponse =  mockHotelServiceTestRule.getLoggedInUserWithRedeemablePointsCreateTripResponse()
+        hotelProductResponse = createTripResponse.newHotelProductResponse
+        createTripResponse.tripId = "happy"
+    }
+
+    private fun givenLoggedInUserWithRedeemablePointsLessThanTripTotalResponse(){
+        createTripResponse = mockHotelServiceTestRule.getLoggedInUserWithRedeemablePointsLessThanTripTotalCreateTripResponse()
         hotelProductResponse = createTripResponse.originalHotelProductResponse
     }
 
@@ -135,6 +207,6 @@ class HotelCheckoutSummaryViewModelTest {
     }
 
     private fun setup() {
-        sut = HotelCheckoutSummaryViewModel(context)
-    }
+        paymentModel = PaymentModel<HotelCreateTripResponse>(loyaltyServiceRule.services!!)
+        sut = HotelCheckoutSummaryViewModel(context, paymentModel)    }
 }

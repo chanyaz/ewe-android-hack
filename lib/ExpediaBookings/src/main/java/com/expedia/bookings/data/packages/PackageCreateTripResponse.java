@@ -38,8 +38,13 @@ public class PackageCreateTripResponse extends TripResponse {
 
 	@NotNull
 	@Override
-	public Money getTripTotal() {
+	public Money getTripTotalExcludingFee() {
 		return packageDetails.pricing.packageTotal;
+	}
+
+	@Override
+	public Money tripTotalPayableIncludingFeeIfZeroPayableByPoints() {
+		throw new UnsupportedOperationException("TripTotalIncludingFee is not implemented for packages");
 	}
 
 	@NotNull

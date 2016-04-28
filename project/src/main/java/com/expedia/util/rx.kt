@@ -12,12 +12,10 @@ import android.widget.ToggleButton
 import com.expedia.bookings.utils.FontCache
 import com.expedia.bookings.widget.RecyclerGallery
 import com.expedia.bookings.widget.StarRatingBar
-import com.expedia.util.operators.OperatorDistinctUntilChangedWithComparer
 import com.google.android.gms.maps.GoogleMap
 import rx.Observable
 import rx.Observer
 import rx.Subscription
-import rx.internal.operators.OperatorWithLatestFromWithMultipleArguments
 import rx.exceptions.OnErrorNotImplementedException
 import rx.subjects.PublishSubject
 
@@ -187,20 +185,4 @@ fun Observable<Boolean>.subscribeChecked(compoundButton: CompoundButton) {
 
 fun Observable<Boolean>.subscribeCursorVisible(textView: TextView) {
     this.subscribe { textView.isCursorVisible = it }
-}
-
-/**
- *  Returns an observable sequence that contains only distinct contiguous elements according to the comparer.
- *
- *  var obs = observable.distinctUntilChanged{ x, y-> x == y };
- *
- * @param {Function} [comparer] Equality comparer for computed key values. If not provided, defaults to an equality comparer function.
- * @returns {Observable} An observable sequence only containing the distinct contiguous elements, based on a computed key value, from the source sequence.
- */
-fun <T> Observable<T>.distinctUntilChanged(comparer: (T?, T?) -> Boolean): Observable<T> {
-    return lift(OperatorDistinctUntilChangedWithComparer(comparer))
-}
-
-fun <T, A, B, C, R> Observable<T>.withLatestFrom(other1: Observable<A>, other2: Observable<B>, other3: Observable<C>, resultSelector: (T, A, B, C) -> R): Observable<R> {
-    return lift(OperatorWithLatestFromWithMultipleArguments<T, A, B, C, R>(other1, other2, other3, resultSelector))
 }

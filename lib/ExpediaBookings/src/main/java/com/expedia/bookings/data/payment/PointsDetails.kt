@@ -1,5 +1,7 @@
 package com.expedia.bookings.data.payment
 
+import com.expedia.bookings.data.Money
+
 data class PointsDetails(
         val programName: ProgramName,
         val isAllowedToRedeem: Boolean,
@@ -7,6 +9,7 @@ data class PointsDetails(
         val totalAvailable: PointsAndCurrency,
         val maxPayableWithPoints: PointsAndCurrency?,
         val remainingPayableByCard: PointsAndCurrency?,
+        val tripTotalPayable: Money?,
         val paymentsInstrumentsId: String?,
         val rateID: String
 )

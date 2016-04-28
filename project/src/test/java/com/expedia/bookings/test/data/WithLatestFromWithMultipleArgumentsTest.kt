@@ -4,7 +4,7 @@ import com.expedia.bookings.test.robolectric.RobolectricRunner
 import org.junit.Test
 import org.junit.runner.RunWith
 import rx.observers.TestSubscriber
-import com.expedia.util.withLatestFrom
+import com.expedia.bookings.utils.withLatestFrom
 import org.junit.Before
 import rx.subjects.PublishSubject
 

@@ -15,7 +15,7 @@ interface IPaymentWidgetViewModel {
     val totalDueToday: Observable<String>
     val remainingBalanceDueOnCard: Observable<String>
     val remainingBalanceDueOnCardVisibility: Observable<Boolean>
-    val paymentSplitsAndTripResponse: Observable<PaymentModel.PaymentSplitsAndTripResponse<TripResponse>>
+    val paymentSplitsWithTripTotalAndTripResponse: Observable<PaymentModel.PaymentSplitsWithTripTotalAndTripResponse<TripResponse>>
     val burnAmountApiCallResponsePending: PublishSubject<Boolean>
     val isPwpDirty: Observable<Boolean>
     val toolbarNavIcon: PublishSubject<ArrowXDrawableUtil.ArrowDrawableType>
