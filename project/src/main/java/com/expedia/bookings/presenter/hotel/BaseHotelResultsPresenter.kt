@@ -32,9 +32,7 @@ import android.widget.ImageView
 import com.expedia.bookings.R
 import com.expedia.bookings.activity.ExpediaBookingApp
 import com.expedia.bookings.bitmaps.PicassoScrollListener
-import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.SuggestionV4
-import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.hotels.Hotel
 import com.expedia.bookings.data.hotels.HotelSearchResponse
 import com.expedia.bookings.extension.isShowAirAttached
@@ -46,10 +44,10 @@ import com.expedia.bookings.utils.MapItem
 import com.expedia.bookings.utils.Strings
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
+import com.expedia.bookings.widget.BaseHotelListAdapter
 import com.expedia.bookings.widget.FilterButtonWithCountWidget
 import com.expedia.bookings.widget.HotelCarouselRecycler
 import com.expedia.bookings.widget.HotelFilterView
-import com.expedia.bookings.widget.BaseHotelListAdapter
 import com.expedia.bookings.widget.HotelListRecyclerView
 import com.expedia.bookings.widget.HotelMapCarouselAdapter
 import com.expedia.bookings.widget.MapLoadingOverlayWidget
@@ -96,7 +94,6 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
     open val filterBtnWithCountWidget: FilterButtonWithCountWidget? = null
     open val searchThisArea: Button? = null
     var isMapReady = false
-    val mapLoyaltyHeaderHeight = context.resources.getDimension(R.dimen.hotel_map_loyalty_header_height).toInt()
 
     var clusterManager: ClusterManager<MapItem> by Delegates.notNull()
 
@@ -209,7 +206,7 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
     }
 
     private fun animateFab(animateUp: Boolean, endInterpolator: ViewPropertyAnimator?) {
-        val mapCarouselHeight = mapCarouselContainer.height.toFloat() - mapLoyaltyHeaderHeight
+        val mapCarouselHeight = mapCarouselContainer.height.toFloat()
         if (animateUp) {
             fab.animate().translationY(filterHeight - mapCarouselHeight).setInterpolator(DecelerateInterpolator()).withEndAction { endInterpolator?.start() }.start()
         } else {
@@ -785,7 +782,7 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
                         //Since we're not moving it manually, let's jump it to where it belongs,
                         // and let's get it showing the right thing
                         if (isMapPinSelected) {
-                            fab.translationY = -(mapCarouselContainer.height - mapLoyaltyHeaderHeight - filterHeight)
+                            fab.translationY = -(mapCarouselContainer.height - filterHeight)
                         } else {
                             fab.translationY = filterHeight
                         }
@@ -798,7 +795,7 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
                 if (forward) {
                     finalFabTranslation = if (filterBtnWithCountWidget != null) 0f else filterHeight
                 } else {
-                    finalFabTranslation = if (isMapPinSelected) -(mapCarouselContainer.height - mapLoyaltyHeaderHeight - filterHeight) else filterHeight
+                    finalFabTranslation = if (isMapPinSelected) -(mapCarouselContainer.height - filterHeight) else filterHeight
                 }
                 hideBundlePriceOverview(!forward)
                 toolbarTitle.translationY = 0f
@@ -863,7 +860,7 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
                 } else {
                     mapView.translationY = 0f
                     recyclerView.translationY = screenHeight.toFloat()
-                    googleMap?.setPadding(0, toolbar.height, 0, mapCarouselContainer.height - mapLoyaltyHeaderHeight)
+                    googleMap?.setPadding(0, toolbar.height, 0, mapCarouselContainer.height)
                     filterBtnWithCountWidget?.translationY = resources.getDimension(R.dimen.hotel_filter_height)
                     if (isBucketedForResultMap() || ExpediaBookingApp.isDeviceShitty()) {
                         googleMap?.mapType = GoogleMap.MAP_TYPE_NORMAL

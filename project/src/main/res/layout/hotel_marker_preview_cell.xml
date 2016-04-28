@@ -3,21 +3,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/root"
     android:layout_width="match_parent"
-    android:layout_height="131dp"
+    android:layout_height="wrap_content"
     android:orientation="vertical">
-
-    <View
-        android:id="@+id/extra_view"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1" />
-
-    <View
-        android:id="@+id/preview_shadow"
-        android:layout_width="match_parent"
-        android:layout_height="8dp"
-        android:background="@drawable/map_shadow" />
-
+    
     <LinearLayout
         android:id="@+id/map_loyalty_message_container"
         android:layout_width="match_parent"
