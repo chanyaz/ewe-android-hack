@@ -107,7 +107,7 @@
     <color name="account_toolbar_text_color">@color/actionbar_text_color</color>
     <color name="account_toolbar_text_color_light">#99D00000</color>
     <color name="account_sign_out_button_background_color">#D00000</color>
-    <color name="account_screen_back_nav_color">#99D00000</color>
+    <color name="account_screen_back_nav_color">#D00000</color>
 
     <!-- Checkout Colors -->
     <color name="old_checkout_account_button_text_color">@android:color/white</color>
