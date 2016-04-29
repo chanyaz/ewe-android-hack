@@ -4063,6 +4063,6 @@
     <!-- Orbucks -->
     <string name="orbucks_available_TEMPLATE">{money} in Orbucks available</string>
     <string name="orbucks_applied_TEMPLATE">{money} in Orbucks applied</string>
-    <string name="you_are_using_orbucks_TEMPLATE">You are using {amount} in Orbucks</string>
-    <string name="payment_through_card_and_orbucks">You are using {amount} in Orbucks\nYour card will be charged {dueamount}</string>
+    <string name="you_are_using_bucks_TEMPLATE">You are using {amount} in Orbucks</string>
+    <string name="payment_through_card_and_bucks">You are using {amount} in Orbucks\nYour card will be charged {dueamount}</string>
 </resources>
