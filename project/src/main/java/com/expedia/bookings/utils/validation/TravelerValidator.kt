@@ -40,6 +40,10 @@ object TravelerValidator {
                 && hasAllValidChars(name)
     }
 
+    fun isLastNameValid(name: String?) : Boolean {
+        return isRequiredNameValid(name) && name?.length ?: 0 >= 2
+    }
+
     fun isMiddleNameValid(name: String?) : Boolean {
         return hasAllValidChars(name)
     }
@@ -54,7 +58,7 @@ object TravelerValidator {
     fun hasValidName(name: TravelerName): Boolean {
         val validFirstName = isRequiredNameValid(name.firstName)
         val validMiddleName = isMiddleNameValid(name.middleName)
-        val validLastName = isRequiredNameValid(name.lastName)
+        val validLastName = isLastNameValid(name.lastName)
 
         return validFirstName && validMiddleName && validLastName
     }
