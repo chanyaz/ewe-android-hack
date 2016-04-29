@@ -14,10 +14,10 @@ import com.expedia.bookings.testrule.ServicesRule
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.widget.PayWithPointsWidget
 import com.expedia.bookings.widget.PaymentWidgetV2
+import com.expedia.model.UserLoginStateChangedModel
 import com.expedia.util.notNullAndObservable
 import com.expedia.vm.PayWithPointsViewModel
 import com.expedia.vm.ShopWithPointsViewModel
-import com.expedia.model.UserLoginStateChangedModel
 import com.expedia.vm.interfaces.IPayWithPointsViewModel
 import org.junit.Before
 import org.junit.Rule
@@ -26,7 +26,6 @@ import org.junit.runner.RunWith
 import org.robolectric.Robolectric
 import rx.observers.TestSubscriber
 import rx.subjects.PublishSubject
-import java.math.BigDecimal
 import java.util.ArrayList
 import java.util.concurrent.CountDownLatch
 import java.util.concurrent.TimeUnit

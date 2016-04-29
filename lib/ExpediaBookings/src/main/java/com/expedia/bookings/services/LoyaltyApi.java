@@ -3,8 +3,8 @@ package com.expedia.bookings.services;
 import com.expedia.bookings.data.payment.CalculatePointsResponse;
 import com.expedia.bookings.data.payment.ProgramName;
 
-import retrofit.http.GET;
-import retrofit.http.Query;
+import retrofit2.http.GET;
+import retrofit2.http.Query;
 import rx.Observable;
 
 public interface LoyaltyApi {

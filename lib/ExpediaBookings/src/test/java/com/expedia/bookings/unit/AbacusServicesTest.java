@@ -12,14 +12,15 @@ import com.expedia.bookings.data.abacus.AbacusResponse;
 import com.expedia.bookings.data.abacus.AbacusUtils;
 import com.expedia.bookings.interceptors.MockInterceptor;
 import com.expedia.bookings.services.AbacusServices;
+import com.google.gson.JsonSyntaxException;
 import com.mobiata.mocke3.ExpediaDispatcher;
 import com.mobiata.mocke3.FileSystemOpener;
-import com.squareup.okhttp.OkHttpClient;
-import com.squareup.okhttp.mockwebserver.MockResponse;
-import com.squareup.okhttp.mockwebserver.MockWebServer;
 
-import retrofit.RestAdapter;
-import retrofit.RetrofitError;
+import okhttp3.Interceptor;
+import okhttp3.OkHttpClient;
+import okhttp3.logging.HttpLoggingInterceptor;
+import okhttp3.mockwebserver.MockResponse;
+import okhttp3.mockwebserver.MockWebServer;
 import rx.observers.TestSubscriber;
 import rx.schedulers.Schedulers;
 
@@ -36,12 +37,14 @@ public class AbacusServicesTest {
 
 	@Before
 	public void before() {
+		HttpLoggingInterceptor logger = new HttpLoggingInterceptor();
+		logger.setLevel(HttpLoggingInterceptor.Level.BODY);
+		Interceptor interceptor = new MockInterceptor();
 		service = new AbacusServices("http://localhost:" + server.getPort(),
-			new OkHttpClient(),
-			new MockInterceptor(),
+			new OkHttpClient.Builder().addInterceptor(logger).build(),
+			interceptor,
 			Schedulers.immediate(),
-			Schedulers.immediate(),
-			RestAdapter.LogLevel.FULL);
+			Schedulers.immediate());
 	}
 
 	@Test
@@ -55,13 +58,13 @@ public class AbacusServicesTest {
 		observer.awaitTerminalEvent();
 
 		observer.assertNoValues();
-		observer.assertError(RetrofitError.class);
+		observer.assertError(JsonSyntaxException.class);
 	}
 
 	@Test
 	public void testEmptyMockDownloadWorks() throws Throwable {
 		server.enqueue(new MockResponse()
-			.setBody("{\"evaluatedExperiments\" = []}"));
+			.setBody("{\"evaluatedExperiments\" : []}"));
 
 		TestSubscriber<AbacusResponse> observer = new TestSubscriber<>();
 		AbacusEvaluateQuery query = new AbacusEvaluateQuery("TEST-TEST-TEST-TEST", 1, 0);

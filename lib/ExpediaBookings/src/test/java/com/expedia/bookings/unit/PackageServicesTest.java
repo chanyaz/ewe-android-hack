@@ -1,6 +1,7 @@
 package com.expedia.bookings.unit;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.concurrent.TimeUnit;
 
@@ -19,12 +20,12 @@ import com.expedia.bookings.interceptors.MockInterceptor;
 import com.expedia.bookings.services.PackageServices;
 import com.mobiata.mocke3.ExpediaDispatcher;
 import com.mobiata.mocke3.FileSystemOpener;
-import com.squareup.okhttp.OkHttpClient;
-import com.squareup.okhttp.mockwebserver.MockResponse;
-import com.squareup.okhttp.mockwebserver.MockWebServer;
 
-import retrofit.RestAdapter;
-import retrofit.RetrofitError;
+import okhttp3.Interceptor;
+import okhttp3.OkHttpClient;
+import okhttp3.logging.HttpLoggingInterceptor;
+import okhttp3.mockwebserver.MockResponse;
+import okhttp3.mockwebserver.MockWebServer;
 import rx.observers.TestSubscriber;
 import rx.schedulers.Schedulers;
 
@@ -36,10 +37,12 @@ public class PackageServicesTest {
 
 	@Before
 	public void before() {
+		HttpLoggingInterceptor logger = new HttpLoggingInterceptor();
+		logger.setLevel(HttpLoggingInterceptor.Level.BODY);
+		Interceptor interceptor = new MockInterceptor();
 		service = new PackageServices("http://localhost:" + server.getPort(),
-			new OkHttpClient(), new MockInterceptor(),
-			Schedulers.immediate(), Schedulers.immediate(),
-			RestAdapter.LogLevel.FULL);
+			new OkHttpClient.Builder().addInterceptor(logger).build(),
+			interceptor, Schedulers.immediate(), Schedulers.immediate());
 	}
 
 	@Test
@@ -59,7 +62,7 @@ public class PackageServicesTest {
 		observer.awaitTerminalEvent(10, TimeUnit.SECONDS);
 
 		observer.assertNoValues();
-		observer.assertError(RetrofitError.class);
+		observer.assertError(IOException.class);
 	}
 
 	@Test

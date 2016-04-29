@@ -8,21 +8,21 @@ import com.expedia.bookings.data.flights.FlightSearchParams
 import com.expedia.bookings.data.flights.FlightSearchResponse
 import com.expedia.bookings.utils.DateUtils
 import com.google.gson.GsonBuilder
-import com.squareup.okhttp.OkHttpClient
+import okhttp3.Interceptor
+import okhttp3.OkHttpClient
 import org.joda.time.DateTime
 import org.joda.time.Days
 import org.joda.time.Hours
 import org.joda.time.Minutes
-import retrofit.RequestInterceptor
-import retrofit.RestAdapter
-import retrofit.client.OkClient
-import retrofit.converter.GsonConverter
+import retrofit2.Retrofit
+import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory
+import retrofit2.converter.gson.GsonConverterFactory
 import rx.Observable
 import rx.Scheduler
 import java.util.ArrayList
 import java.util.regex.Pattern
 
-class FlightServices(endpoint: String, okHttpClient: OkHttpClient, requestInterceptor: RequestInterceptor, val observeOn: Scheduler, val subscribeOn: Scheduler, logLevel: RestAdapter.LogLevel) {
+class FlightServices(endpoint: String, okHttpClient: OkHttpClient, interceptor: Interceptor, val observeOn: Scheduler, val subscribeOn: Scheduler) {
     val patternHour = Pattern.compile("(?<=PT)([0-9]+)(?=H)")
     val patternMin = Pattern.compile("(?<=PT)([0-9]+)(?=M)")
     val flightApi: FlightApi by lazy {
@@ -30,12 +30,11 @@ class FlightServices(endpoint: String, okHttpClient: OkHttpClient, requestInterc
                 .registerTypeAdapter(DateTime::class.java, DateTimeTypeAdapter())
                 .create()
 
-        val adapter = RestAdapter.Builder()
-                .setEndpoint(endpoint)
-                .setRequestInterceptor(requestInterceptor)
-                .setLogLevel(logLevel)
-                .setConverter(GsonConverter(gson))
-                .setClient(OkClient(okHttpClient))
+        val adapter = Retrofit.Builder()
+                .baseUrl(endpoint)
+                .addConverterFactory(GsonConverterFactory.create(gson))
+                .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
+                .client(okHttpClient.newBuilder().addInterceptor(interceptor).build())
                 .build()
 
         adapter.create(FlightApi::class.java)

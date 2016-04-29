@@ -2,14 +2,14 @@ package com.expedia.bookings.dagger;
 
 import com.expedia.bookings.dagger.tags.LaunchScope;
 import com.expedia.bookings.server.EndpointProvider;
+import com.expedia.bookings.services.CollectionServices;
 import com.expedia.bookings.services.FeedsService;
 import com.expedia.bookings.services.HotelServices;
-import com.expedia.bookings.services.CollectionServices;
-import com.squareup.okhttp.OkHttpClient;
+
 import dagger.Module;
 import dagger.Provides;
-import retrofit.RequestInterceptor;
-import retrofit.RestAdapter;
+import okhttp3.Interceptor;
+import okhttp3.OkHttpClient;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
@@ -17,23 +17,23 @@ import rx.schedulers.Schedulers;
 public final class LaunchModule {
 	@Provides
 	@LaunchScope
-	HotelServices provideHotelServices(EndpointProvider endpointProvider, OkHttpClient client, RequestInterceptor interceptor, RestAdapter.LogLevel logLevel) {
+	HotelServices provideHotelServices(EndpointProvider endpointProvider, OkHttpClient client, Interceptor interceptor) {
 		final String endpoint = endpointProvider.getE3EndpointUrl();
-		return new HotelServices(endpoint, client, interceptor, AndroidSchedulers.mainThread(), Schedulers.io(), logLevel);
+		return new HotelServices(endpoint, client, interceptor, AndroidSchedulers.mainThread(), Schedulers.io());
 	}
 
 	@Provides
 	@LaunchScope
-	CollectionServices provideCollectionServices(EndpointProvider endpointProvider, OkHttpClient client, RequestInterceptor interceptor, RestAdapter.LogLevel logLevel) {
+	CollectionServices provideCollectionServices(EndpointProvider endpointProvider, OkHttpClient client, Interceptor interceptor) {
 		final String endpoint = endpointProvider.getE3EndpointUrl();
-		return new CollectionServices(endpoint, client, interceptor, AndroidSchedulers.mainThread(), Schedulers.io(), logLevel);
+		return new CollectionServices(endpoint, client, interceptor, AndroidSchedulers.mainThread(), Schedulers.io());
 	}
 
 	@Provides
 	@LaunchScope
-	FeedsService provideFeedsService(EndpointProvider endpointProvider, OkHttpClient client, RequestInterceptor interceptor, RestAdapter.LogLevel logLevel) {
+	FeedsService provideFeedsService(EndpointProvider endpointProvider, OkHttpClient client, Interceptor interceptor) {
 		final String endpoint = endpointProvider.getE3EndpointUrl();
-		return new FeedsService(endpoint, client, interceptor, AndroidSchedulers.mainThread(), Schedulers.io(), logLevel);
+		return new FeedsService(endpoint, client, interceptor, AndroidSchedulers.mainThread(), Schedulers.io());
 	}
 
 }

@@ -12,10 +12,11 @@ import com.expedia.bookings.interceptors.MockInterceptor;
 import com.expedia.bookings.services.FeedsService;
 import com.mobiata.mocke3.ExpediaDispatcher;
 import com.mobiata.mocke3.FileSystemOpener;
-import com.squareup.okhttp.OkHttpClient;
-import com.squareup.okhttp.mockwebserver.MockWebServer;
 
-import retrofit.RestAdapter;
+import okhttp3.Interceptor;
+import okhttp3.OkHttpClient;
+import okhttp3.logging.HttpLoggingInterceptor;
+import okhttp3.mockwebserver.MockWebServer;
 import rx.observers.TestSubscriber;
 import rx.schedulers.Schedulers;
 
@@ -30,8 +31,12 @@ public class FeedsServiceTest {
 
 	@Before
 	public void before() throws IOException {
-		service = new FeedsService("http://localhost:" + server.getPort(), new OkHttpClient(),
-			new MockInterceptor(), Schedulers.immediate(), Schedulers.immediate(), RestAdapter.LogLevel.FULL);
+		HttpLoggingInterceptor logger = new HttpLoggingInterceptor();
+		logger.setLevel(HttpLoggingInterceptor.Level.BODY);
+		Interceptor interceptor = new MockInterceptor();
+		service = new FeedsService("http://localhost:" + server.getPort(),
+			new OkHttpClient.Builder().addInterceptor(logger).build(),
+			interceptor, Schedulers.immediate(), Schedulers.immediate());
 
 		String root = new File("../mocked/templates").getCanonicalPath();
 		FileSystemOpener opener = new FileSystemOpener(root);

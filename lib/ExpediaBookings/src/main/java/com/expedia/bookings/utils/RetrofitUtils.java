@@ -1,12 +1,12 @@
 package com.expedia.bookings.utils;
 
-import retrofit.RetrofitError;
+import java.io.IOException;
 
 public class RetrofitUtils {
 
 	public static boolean isNetworkError(Throwable e) {
-		if (e instanceof RetrofitError) {
-			return ((RetrofitError) e).getKind() == RetrofitError.Kind.NETWORK;
+		if (e instanceof IOException) {
+			return true;
 		}
 		return false;
 	}
