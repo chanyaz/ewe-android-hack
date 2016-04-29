@@ -121,7 +121,7 @@
                         android:layout_height="wrap_content"
                         android:layout_alignParentTop="true"
                         android:layout_gravity="right"
-                        android:textColor="#7D7D7D"
+                        android:textColor="@color/cars_details_price"
                         android:textSize="14sp"
                         app:textStyle="medium"
                         tools:text="" />

@@ -90,10 +90,19 @@
             android:orientation="vertical"
             android:visibility="gone">
 
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:background="@color/divider_grey" />
+
             <com.expedia.bookings.widget.FlightSegmentBreakdownView
                 android:id="@+id/segment_breakdown"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:paddingLeft="0dp"
+                android:paddingRight="0dp"
+                android:paddingBottom="14dp"
+                android:paddingTop="12dp"/>
 
             <com.expedia.bookings.widget.TextView
                 android:id="@+id/flight_total_duration"

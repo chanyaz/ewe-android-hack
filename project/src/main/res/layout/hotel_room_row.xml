@@ -140,7 +140,7 @@
                         android:ellipsize="end"
                         android:maxLines="2"
                         android:paddingRight="10dp"
-                        android:textColor="#3C3C3C"
+                        android:textColor="@color/hotels_room_title"
                         android:textSize="15sp"
                         app:textStyle="medium" />
 
@@ -249,7 +249,7 @@
                     android:layout_height="wrap_content"
                     android:paddingTop="2dp"
                     android:text="@string/room_information"
-                    android:textColor="#808080"
+                    android:textColor="@color/hotels_room_info"
                     android:textSize="13sp"
                     app:textStyle="medium" />
 
