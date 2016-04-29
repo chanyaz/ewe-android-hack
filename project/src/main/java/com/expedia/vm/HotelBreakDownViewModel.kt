@@ -34,12 +34,6 @@ class HotelBreakDownViewModel(val context: Context, val hotelCheckoutSummaryView
                 count++
             }
 
-            // Discount
-            val couponRate = it.priceAdjustments.value
-            if (couponRate != null && !couponRate.isZero) {
-                breakdowns.add(Breakdown(context.getString(R.string.discount), couponRate.formattedMoney, BreakdownItem.DISCOUNT))
-            }
-
             // Taxes & Fees
             val surchargeTotal = it.surchargeTotalForEntireStay.value
             val taxStatusType = it.taxStatusType.value
@@ -55,6 +49,12 @@ class HotelBreakDownViewModel(val context: Context, val hotelCheckoutSummaryView
             val extraGuestFees = it.extraGuestFees.value
             if (extraGuestFees != null && !extraGuestFees.isZero) {
                 breakdowns.add(Breakdown(context.getString(R.string.extra_guest_charge), extraGuestFees.formattedMoney, BreakdownItem.OTHER))
+            }
+
+            // Discount
+            val couponRate = it.priceAdjustments.value
+            if (couponRate != null && !couponRate.isZero) {
+                breakdowns.add(Breakdown(context.getString(R.string.discount), couponRate.formattedMoney, BreakdownItem.DISCOUNT))
             }
 
             //When user is paying with Expedia+ points
