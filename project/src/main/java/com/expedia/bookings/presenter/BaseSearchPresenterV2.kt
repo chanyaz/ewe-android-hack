@@ -107,7 +107,8 @@ abstract class BaseSearchPresenterV2(context: Context, attrs: AttributeSet) : Ba
 
     protected fun locationClickListener(isCustomerSelectingOrigin: Boolean): (View) -> Unit {
         return {
-            searchLocationEditText?.queryHint = context.resources.getString(R.string.fly_to_hint)
+            searchLocationEditText?.queryHint = context.resources.getString(if (isCustomerSelectingOrigin) R.string.fly_from_hint else R.string.fly_to_hint)
+            searchLocationEditText?.setQuery("", true)
             this.isCustomerSelectingOrigin = isCustomerSelectingOrigin
             show(SuggestionSelectionState())
         }

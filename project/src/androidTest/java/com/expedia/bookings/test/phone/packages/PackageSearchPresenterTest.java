@@ -10,6 +10,7 @@ import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.action.ViewActions.typeText;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
+import static android.support.test.espresso.matcher.ViewMatchers.withHint;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 
 public class PackageSearchPresenterTest extends PackageTestCase {
@@ -45,12 +46,14 @@ public class PackageSearchPresenterTest extends PackageTestCase {
 		PackageScreen.searchButton().perform(click());
 		PackageScreen.searchButton().check(matches(isDisplayed()));
 		PackageScreen.destination().perform(click());
+		PackageScreen.searchEditText().check(matches(withHint("Flying from")));
 		PackageScreen.searchEditText().perform(typeText("SFO"));
 		PackageScreen.selectLocation("San Francisco, CA (SFO-San Francisco Intl.)");
 		//Search button will still be disabled
 		PackageScreen.searchButton().perform(click());
 		PackageScreen.searchButton().check(matches(isDisplayed()));
 		PackageScreen.arrival().perform(click());
+		PackageScreen.searchEditText().check(matches(withHint("Flying to")));
 		PackageScreen.searchEditText().perform(typeText("DTW"));
 		PackageScreen.selectLocation("Detroit, MI (DTW-Detroit Metropolitan Wayne County)");
 		//Search button will still be disabled
