@@ -14,6 +14,11 @@ import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.SuggestionV4;
 import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.data.TravelerName;
+import com.expedia.bookings.data.TripBucket;
+import com.expedia.bookings.data.TripBucketItemPackages;
+import com.expedia.bookings.data.ValidPayment;
+import com.expedia.bookings.data.flights.FlightTripDetails;
+import com.expedia.bookings.data.packages.PackageCreateTripResponse;
 import com.expedia.bookings.data.packages.PackageSearchParams;
 import com.expedia.bookings.enums.PassengerCategory;
 import com.expedia.bookings.presenter.packages.TravelerPresenter;
@@ -25,6 +30,8 @@ import com.expedia.bookings.widget.CheckoutToolbar;
 import com.expedia.vm.CheckoutToolbarViewModel;
 import com.expedia.vm.traveler.CheckoutTravelerViewModel;
 import com.squareup.phrase.Phrase;
+
+import static org.mockito.Mockito.mock;
 
 public class BaseTravelerPresenterTestHelper {
 	protected TravelerPresenter testTravelerPresenter;
@@ -193,5 +200,30 @@ public class BaseTravelerPresenterTestHelper {
 		storedTraveler.setPhoneNumber(testPhone);
 		storedTraveler.setBirthDate(LocalDate.now().withYear(1991).withMonthOfYear(1).withDayOfMonth(27));
 		return storedTraveler;
+	}
+
+	protected void generateMockTripWithPassport() {
+		PackageCreateTripResponse mockCreateTrip = mock(PackageCreateTripResponse.class);
+		mockCreateTrip.validFormsOfPayment = new ArrayList<ValidPayment>();
+
+		TripBucketItemPackages mockPackagesItem = new TripBucketItemPackages(mockCreateTrip);
+
+		PackageCreateTripResponse.PackageDetails mockPackageDetails = new PackageCreateTripResponse.PackageDetails();
+		mockCreateTrip.packageDetails = mockPackageDetails;
+
+		PackageCreateTripResponse.FlightProduct mockFlightProduct = new PackageCreateTripResponse.FlightProduct();
+		mockPackageDetails.flight = mockFlightProduct;
+
+		FlightTripDetails mockFlightDetails = new FlightTripDetails();
+		mockFlightProduct.details = mockFlightDetails;
+
+		FlightTripDetails.FlightOffer mockFlightOffer = new FlightTripDetails.FlightOffer();
+		mockFlightDetails.offer = mockFlightOffer;
+
+		mockFlightOffer.isInternational = true;
+
+		TripBucket dbTripBucket = Db.getTripBucket();
+		dbTripBucket.add(mockPackagesItem);
+		Db.saveTripBucket(InstrumentationRegistry.getTargetContext());
 	}
 }
