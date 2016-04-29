@@ -190,6 +190,12 @@ public class EspressoUtils {
 				CoreMatchers.allOf(withId(id), isDisplayed()))));
 	}
 
+	public static void assertViewWithIdIsNotDisplayedAtPosition(ViewInteraction viewInteraction, int position, int id) {
+		viewInteraction.check(
+			RecyclerViewAssertions.assertionOnItemAtPosition(position, hasDescendant(
+				CoreMatchers.allOf(withId(id), CoreMatchers.not(isDisplayed())))));
+	}
+
 	public static void assertViewHasCompoundDrawable(@IdRes int viewId, @DrawableRes int drawableId) {
 		onView(withId(viewId)).check(matches(allOf(withCompoundDrawable(drawableId), isDisplayed())));
 	}

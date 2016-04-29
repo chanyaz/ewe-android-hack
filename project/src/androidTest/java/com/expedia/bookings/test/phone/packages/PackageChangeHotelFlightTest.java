@@ -4,6 +4,7 @@ import org.joda.time.LocalDate;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.test.espresso.Common;
+import com.expedia.bookings.test.espresso.EspressoUtils;
 import com.expedia.bookings.test.espresso.PackageTestCase;
 import com.expedia.bookings.test.phone.hotels.HotelScreen;
 import com.expedia.bookings.utils.DateUtils;
@@ -83,13 +84,16 @@ public class PackageChangeHotelFlightTest extends PackageTestCase {
 		PackageScreen.outboundFlight().perform(click());
 		Common.delay(1);
 
-		PackageScreen.selectFlight(-3);
+		onView(withId(R.id.flight_results_price_header)).check(matches(isDisplayed()));
+		EspressoUtils.assertViewWithIdIsNotDisplayedAtPosition(PackageScreen.flightList(), 1, R.id.package_best_flight);
+
+		PackageScreen.selectFlight(-2);
 		PackageScreen.selectThisFlight().perform(click());
 		Common.delay(1);
 
 		PackageScreen.inboundFLight().perform(click());
 		Common.delay(1);
-		PackageScreen.selectFlight(-3);
+		PackageScreen.selectFlight(-2);
 		PackageScreen.selectThisFlight().perform(click());
 		Common.delay(1);
 		assertAfterChange();
@@ -159,6 +163,5 @@ public class PackageChangeHotelFlightTest extends PackageTestCase {
 	private void assertDisabledMenu() {
 		onView(withId(R.id.package_change_menu)).check(doesNotExist());
 	}
-
 }
 

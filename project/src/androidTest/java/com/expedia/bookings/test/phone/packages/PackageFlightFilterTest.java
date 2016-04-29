@@ -147,10 +147,10 @@ public class PackageFlightFilterTest extends PackageTestCase {
 		PackageScreen.flightList().perform(waitForViewToDisplay());
 
 		EspressoUtils
-			.assertViewWithTextIsDisplayedAtPosition(PackageScreen.flightList(), 0, R.id.flight_time_detail_text_view,
+			.assertViewWithTextIsDisplayedAtPosition(PackageScreen.flightList(), 1, R.id.flight_time_detail_text_view,
 				"8:20 am - 11:00 am");
 		EspressoUtils
-			.assertViewWithTextIsDisplayedAtPosition(PackageScreen.flightList(), 1, R.id.flight_time_detail_text_view,
+			.assertViewWithTextIsDisplayedAtPosition(PackageScreen.flightList(), 2, R.id.flight_time_detail_text_view,
 				"9:50 am - 11:40 pm");
 	}
 
@@ -172,6 +172,7 @@ public class PackageFlightFilterTest extends PackageTestCase {
 		tickCheckboxWithText("Hawaiian Airlines");
 		clickDone();
 		PackageScreen.flightList().perform(waitForViewToDisplay());
+		onView(withId(R.id.flight_results_price_header)).check(matches(isDisplayed()));
 		onView(withId(R.id.package_best_flight)).check(matches(not(isDisplayed())));
 
 		PackageScreen.flightsToolbarFilterMenu().perform(click());
@@ -182,6 +183,13 @@ public class PackageFlightFilterTest extends PackageTestCase {
 		clickDone();
 		PackageScreen.flightList().perform(waitForViewToDisplay());
 		onView(withId(R.id.package_best_flight)).check(matches(not(isDisplayed())));
+
+		PackageScreen.flightsToolbarFilterMenu().perform(click());
+		Common.delay(1);
+		tickCheckboxWithText("Virgin America");
+		clickDone();
+		Common.delay(1);
+		onView(withId(R.id.flight_results_price_header)).check(matches(isDisplayed()));
 	}
 
 	private void assertBestFlightOnTop() {
