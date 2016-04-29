@@ -55,7 +55,7 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 
 	@Override
 	public String getHostnameForShortUrl() {
-		return "e.xpda.co";
+		return "c.hptk.us";
 	}
 
 	@Override
