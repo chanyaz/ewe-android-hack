@@ -403,6 +403,7 @@ DummyFiletoHandleKotlinLintError {
 		R.color.itin_section_divider_text,
 		R.color.widget_text_color,
 		R.color.text_shadow_color,
+		R.color.hotels_cc_text_color_secondary,
 		R.color.packages_bundle_overview_footer_secondary_text,
 		R.color.packages_bundle_overview_footer_secondary_text_savings,
 		R.color.packages_bundle_overview_widgets_primary_text,

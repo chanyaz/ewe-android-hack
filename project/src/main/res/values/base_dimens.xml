@@ -11,12 +11,15 @@
     <dimen name="temporary_font_size_large">16sp</dimen>
     <dimen name="temporary_font_size_medium">14sp</dimen>
     <dimen name="temporary_font_size_small">12sp</dimen>
-    <dimen name="cardview_border_radius">3dp</dimen>
+
+    <!--Full width footer buttons for things like "Checkout" "Select a Room" "Select this flight" "Search" etc-->
     <dimen name="footer_button_text_size">16sp</dimen>
 
-    <!--This is left/right margin for all cardviews-->
+    <!--Universal Cardview Dimensions-->
     <dimen name="card_view_container_margin">9dp</dimen>
+    <dimen name="cardview_border_radius">3dp</dimen>
 
     <!--Universal Sort and filter dimensions should live here going forward-->
     <dimen name="sort_filter_cards_left_right_margin">14dp</dimen>
+
 </resources>

@@ -12,18 +12,30 @@
     <color name="temporary_secondary_gray">#818181</color>
     <color name="temporary_savings">#4CBD08</color>
 
-    <!-- This color should be used everywhere on search results list's gray background.  -->
+    <!-- Launch Screen colors -->
+    <color name="launchscreen_primary_color_old">#495863</color>
+    <color name="launchscreen_primary_color_new">#0063BB</color>
+    <color name="launchscreen_tab_indicator_color">#FFED18</color>
+
+    <!-- LOB colors -->
+    <color name="lob_hotels_primary_color">#009688</color>
+    <color name="lob_hotels_secondary_color">#00877B</color>
+    <color name="lob_packages_primary_color">#0888BD</color>
+    <color name="lob_packages_secondary_color">#0B75A1</color>
+    <color name="lob_cars_primary_color">#9E4E7F</color>
+    <color name="lob_cars_secondary_color">#915B7C</color>
+    <color name="lob_lx_primary_color">#E88534</color>
+    <color name="lob_gt_primary_color">#B93F62</color>
+
+    <!-- Search Results gray background (behind all cardviews) -->
     <color name="search_results_list_bg_gray">#EEEEEE</color>
     <!-- This color should be used on search result list header texts such as "All Flights", "Searching hundreds of hotels" and "Step 1: Select Hotel".  -->
     <color name="search_results_list_header_gray">#797979</color>
 
     <!-- This color is for divider lines within cardviews.  -->
     <color name="cardview_divider_lines_gray">#DFDFDF</color>
-    <!-- This color is for all LOB results cell gray text on cardviews.  -->
+    <!-- This color is for all search result cells gray text on cardviews.  -->
     <color name="result_cells_gray_text">#767676</color>
-
-    <!-- LOB colors -->
-    <color name="expedia_hotels_color">#009688</color>
 
     <color name="search_dialog_gray">#6A6A6A</color>
 
