@@ -4022,7 +4022,7 @@
     <string name="vip_loyalty_applied_message">已使用 2 倍點數！</string>
     <!-- String to be appended with +VIP in header of room rates. -->
     <string name="vip_loyalty_applied_header_message">已使用 2 倍 Expedia+ 點數！</string>
-    <string name="swp_widget_points_value_TEMPLATE">您有 {points} 點</string>
+    <string name="swp_widget_points_value_TEMPLATE">您有 {points_or_amount} 點</string>
     <string name="vip_loyalty_applied_map_message">&lt;b&gt;+VIP&lt;/b&gt; 已使用 2 倍 Expedia+ 點數！</string>
     <string name="swp_off_widget_header">使用 Expedia+ 點數預訂</string>
     <string name="swp_on_widget_header">已使用 Expedia+ 點數！</string>

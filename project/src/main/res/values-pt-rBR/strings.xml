@@ -4022,7 +4022,7 @@
     <string name="vip_loyalty_applied_message">2x mais pontos aplicados!</string>
     <!-- String to be appended with +VIP in header of room rates. -->
     <string name="vip_loyalty_applied_header_message">2x mais pontos do Expedia+ aplicados!</string>
-    <string name="swp_widget_points_value_TEMPLATE">Você tem {points} pontos</string>
+    <string name="swp_widget_points_value_TEMPLATE">Você tem {points_or_amount} pontos</string>
     <string name="vip_loyalty_applied_map_message">&lt;b&gt;+VIP&lt;/b&gt; 2x mais pontos do Expedia+ aplicados!</string>
     <string name="swp_off_widget_header">Reserve com pontos do Expedia+</string>
     <string name="swp_on_widget_header">Pontos do Expedia+ aplicados</string>
