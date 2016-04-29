@@ -1,5 +1,6 @@
 package com.expedia.bookings.utils.validation
 
+import android.text.TextUtils
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.Traveler
 import com.expedia.bookings.data.TravelerName
@@ -56,5 +57,9 @@ object TravelerValidator {
         val validLastName = isRequiredNameValid(name.lastName)
 
         return validFirstName && validMiddleName && validLastName
+    }
+
+    fun isTravelerEmpty(traveler: Traveler) : Boolean {
+        return traveler.name.isEmpty && TextUtils.isEmpty(traveler.phoneNumber) && traveler.birthDate == null
     }
 }

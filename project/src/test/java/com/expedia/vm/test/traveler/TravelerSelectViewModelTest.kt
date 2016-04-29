@@ -42,9 +42,9 @@ class TravelerSelectViewModelTest {
     var expectedDefaultFont = FontCache.Font.ROBOTO_MEDIUM
     var expectedErrorColor: Int by Delegates.notNull()
 
-    val testName = "Oscar Grouch"
-    val testNumber = "7732025862"
     val testIndex = 0
+
+    val mockTravelerProvider = MockTravelerProvider()
 
     @Before
     fun setUp() {
@@ -124,14 +124,14 @@ class TravelerSelectViewModelTest {
     @Test
     fun testUpdateStatusDirtyNamedTraveler() {
         val travelerWithName = Traveler()
-        travelerWithName.fullName = testName
+        travelerWithName.fullName = mockTravelerProvider.testFullName
 
         selectVM = TestTravelerSelectViewModel(activity, testIndex, PassengerCategory.ADULT)
         selectVM.testTraveler = travelerWithName
         selectVM.updateStatus(TravelerCheckoutStatus.DIRTY)
 
         assertEquals(ContactDetailsCompletenessStatus.INCOMPLETE, selectVM.iconStatusObservable.value)
-        assertEquals(testName, selectVM.titleObservable.value)
+        assertEquals(mockTravelerProvider.testFullName, selectVM.titleObservable.value)
         assertEquals(expectedEmptySubTitle, selectVM.subtitleObservable.value)
         assertEquals(expectedDefaultColor, selectVM.textColorObservable.value,
                 "Color should be the default if name field is populated")
@@ -141,7 +141,7 @@ class TravelerSelectViewModelTest {
     @Test
     fun testUpdateStatusDirtyPhoneNoName() {
         val travelerWithPhone= Traveler()
-        travelerWithPhone.phoneNumber = testNumber
+        travelerWithPhone.phoneNumber = mockTravelerProvider.testNumber
 
         selectVM = TestTravelerSelectViewModel(activity, testIndex, PassengerCategory.ADULT)
         selectVM.testTraveler = travelerWithPhone
@@ -158,16 +158,16 @@ class TravelerSelectViewModelTest {
     @Test
     fun testUpdateStatusDirtyPhoneAndName() {
         val traveler = Traveler()
-        traveler.fullName = testName
-        traveler.phoneNumber = testNumber
+        traveler.fullName = mockTravelerProvider.testFullName
+        traveler.phoneNumber = mockTravelerProvider.testNumber
 
         selectVM = TestTravelerSelectViewModel(activity, testIndex, PassengerCategory.ADULT)
         selectVM.testTraveler = traveler
         selectVM.updateStatus(TravelerCheckoutStatus.DIRTY)
 
         assertEquals(ContactDetailsCompletenessStatus.INCOMPLETE, selectVM.iconStatusObservable.value)
-        assertEquals(testName, selectVM.titleObservable.value)
-        assertEquals(testNumber, selectVM.subtitleObservable.value)
+        assertEquals(mockTravelerProvider.testFullName, selectVM.titleObservable.value)
+        assertEquals(mockTravelerProvider.testNumber, selectVM.subtitleObservable.value)
         assertEquals(expectedDefaultColor, selectVM.textColorObservable.value)
         assertEquals(expectedDefaultFont, selectVM.titleFontObservable.value)
     }
@@ -175,34 +175,14 @@ class TravelerSelectViewModelTest {
     @Test
     fun testUpdateStatusDirtyValidTraveler() {
         selectVM = TestTravelerSelectViewModel(activity, testIndex, PassengerCategory.ADULT)
-        selectVM.testTraveler = getCompleteTraveler()
+        selectVM.testTraveler = mockTravelerProvider.getCompleteMockTraveler()
         selectVM.updateStatus(TravelerCheckoutStatus.DIRTY)
 
         assertEquals(ContactDetailsCompletenessStatus.COMPLETE, selectVM.iconStatusObservable.value)
-        assertEquals(testName, selectVM.titleObservable.value)
-        assertEquals(testNumber, selectVM.subtitleObservable.value)
+        assertEquals(mockTravelerProvider.testFullName, selectVM.titleObservable.value)
+        assertEquals(mockTravelerProvider.testNumber, selectVM.subtitleObservable.value)
         assertEquals(expectedDefaultColor, selectVM.textColorObservable.value)
         assertEquals(expectedDefaultFont, selectVM.titleFontObservable.value)
-    }
-
-    private fun getCompleteTraveler(): Traveler {
-        val mockPhone = Mockito.mock(Phone::class.java)
-        Mockito.`when`(mockPhone.number).thenReturn(testNumber)
-
-        val mockName = Mockito.mock(TravelerName::class.java)
-        Mockito.`when`(mockName.firstName).thenReturn("Oscar")
-        Mockito.`when`(mockName.lastName).thenReturn("Grouch")
-
-        val mockTraveler = Mockito.mock(Traveler::class.java)
-        Mockito.`when`(mockTraveler.name).thenReturn(mockName)
-        Mockito.`when`(mockTraveler.fullName).thenReturn(testName)
-        Mockito.`when`(mockTraveler.primaryPhoneNumber).thenReturn(mockPhone)
-        Mockito.`when`(mockTraveler.phoneNumber).thenReturn(testNumber)
-        Mockito.`when`(mockTraveler.birthDate).thenReturn(LocalDate.now().minusYears(18))
-        Mockito.`when`(mockTraveler.getPassengerCategory(Mockito.any<PackageSearchParams>()))
-                .thenReturn(PassengerCategory.ADULT)
-
-        return mockTraveler
     }
 
     private fun setPackageParams() {

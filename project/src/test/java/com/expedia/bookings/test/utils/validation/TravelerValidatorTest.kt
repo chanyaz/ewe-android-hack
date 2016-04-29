@@ -198,6 +198,38 @@ class TravelerValidatorTest {
         assertTrue(TravelerValidator.isValidForPackageBooking(mockTraveler))
     }
 
+    @Test
+    fun testIsEmptyWithName() {
+        val mockTraveler = Mockito.mock(Traveler::class.java)
+        Mockito.`when`(mockTraveler.name).thenReturn(getValidName())
+
+        assertFalse(TravelerValidator.isTravelerEmpty(mockTraveler))
+    }
+
+    @Test
+    fun testIsEmptyWithPhone() {
+        val mockTraveler = Mockito.mock(Traveler::class.java)
+        Mockito.`when`(mockTraveler.phoneNumber).thenReturn(TEST_NUMBER)
+        Mockito.`when`(mockTraveler.name).thenReturn(TravelerName())
+
+        assertFalse(TravelerValidator.isTravelerEmpty(mockTraveler))
+    }
+
+
+    @Test
+    fun testIsEmptyWithBirthDate() {
+        val adultBirthDate = TOMORROW.minusYears(24)
+        val mockTraveler = getMockAdultTravelerWithBirthDate(adultBirthDate)
+        Mockito.`when`(mockTraveler.name).thenReturn(TravelerName())
+
+        assertFalse(TravelerValidator.isTravelerEmpty(mockTraveler))
+    }
+
+    @Test
+    fun testIsEmpty() {
+        assertTrue(TravelerValidator.isTravelerEmpty(Traveler()))
+    }
+
     private fun getValidName(): TravelerName {
         val validName = TravelerName()
         validName.firstName = validFirstName

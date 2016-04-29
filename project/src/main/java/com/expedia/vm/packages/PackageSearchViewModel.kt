@@ -3,8 +3,11 @@ package com.expedia.vm.packages
 import android.content.Context
 import android.text.style.RelativeSizeSpan
 import com.expedia.bookings.R
+import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.SuggestionV4
+import com.expedia.bookings.data.Traveler
 import com.expedia.bookings.data.packages.PackageSearchParams
+import com.expedia.bookings.enums.PassengerCategory
 import com.expedia.bookings.utils.DateUtils
 import com.expedia.bookings.utils.SpannableBuilder
 import com.expedia.bookings.utils.StrUtils
@@ -45,6 +48,7 @@ class PackageSearchViewModel(context: Context) : BaseSearchViewModel(context) {
                 errorMaxDatesObservable.onNext(context.getString(R.string.hotel_search_range_error_TEMPLATE, getMaxSearchDurationDays()))
             } else {
                 val packageSearchParams = paramsBuilder.build()
+                updateDbTravelers(packageSearchParams) // This is required for the checkout screen to correctly populate traveler entry screen.
                 searchParamsObservable.onNext(packageSearchParams)
             }
         } else {
@@ -111,5 +115,28 @@ class PackageSearchViewModel(context: Context) : BaseSearchViewModel(context) {
         return Pair(computeTopTextForToolTip(start, end), instructions)
     }
 
+    private fun updateDbTravelers(params: PackageSearchParams) {
+        // This is required for the checkout screen to correctly populate traveler entry screen.
+        val travelerList = Db.getTravelers()
+        if (travelerList.isNotEmpty()) {
+            travelerList.clear()
+        }
+
+        for (i in 1..params.adults) {
+            val traveler = Traveler()
+            traveler.setPassengerCategory(PassengerCategory.ADULT)
+            travelerList.add(traveler)
+        }
+        for (child in params.children) {
+            val traveler = Traveler()
+            var category = PassengerCategory.CHILD
+            if (child < 2) {
+                category = if (params.infantSeatingInLap) PassengerCategory.INFANT_IN_LAP else PassengerCategory.INFANT_IN_SEAT
+            }
+            traveler.setPassengerCategory(category)
+            travelerList.add(traveler)
+        }
+        Db.setTravelers(travelerList)
+    }
 }
 
