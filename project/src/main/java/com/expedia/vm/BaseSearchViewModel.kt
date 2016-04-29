@@ -48,6 +48,8 @@ abstract class BaseSearchViewModel(val context: Context) {
 
     abstract fun getMaxSearchDurationDays(): Int;
 
+    abstract fun getMaxDateRange(): Int;
+
     val datesObserver = endlessObserver<Pair<LocalDate?, LocalDate?>> { data ->
         onDatesChanged(data)
     }

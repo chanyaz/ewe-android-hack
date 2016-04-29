@@ -78,6 +78,10 @@ class HotelSearchViewModel(context: Context) : BaseSearchViewModel(context) {
         return context.resources.getInteger(R.integer.calendar_max_days_hotel_stay)
     }
 
+    override fun getMaxDateRange(): Int {
+        return context.resources.getInteger(R.integer.calendar_max_selectable_date_range)
+    }
+
     override fun onDatesChanged(dates: Pair<LocalDate?, LocalDate?>) {
         val (start, end) = dates
 

@@ -95,37 +95,38 @@ public class PackageSearchPresenterTest extends PackageTestCase {
 		PackageScreen.selectOriginAndDestination();
 
 		LocalDate startDate = LocalDate.now();
-		LocalDate endDate = LocalDate.now().plusDays(27);
+		LocalDate validEndDate = LocalDate.now().plusDays(26);
+		LocalDate invalidEndDate = LocalDate.now().plusDays(27);
 
 		//max duration of travel is 26 nights
 		PackageScreen.selectDates(startDate, null);
-		PackageScreen.selectDates(startDate, endDate);
+		PackageScreen.selectDates(startDate, invalidEndDate);
 		String expectedStartDate = DateUtils.localDateToMMMd(startDate);
-		String expectedEndDate = DateUtils.localDateToMMMd(endDate);
+		String expectedEndDate = DateUtils.localDateToMMMd(validEndDate);
 
-		String expected = expectedStartDate + " - " + expectedEndDate + " (27 nights)";
+		String expected = expectedStartDate + " - " + expectedEndDate + " (26 nights)";
 		PackageScreen.selectDateButton().check(matches(withText(expected)));
 		PackageScreen.searchButton().perform(click());
-		//we should see a pop up message
-		PackageScreen.errorDialog(
-				"We're sorry, but we are unable to search for hotel stays longer than 26 days.").check(matches(isDisplayed()));
 
+		//Dialog no longer pops up because this is enforced within the calendar
 	}
 
 	public void testPackageSearchWindow() throws Throwable {
 		// Select location
 		PackageScreen.selectOriginAndDestination();
 
-		LocalDate startDate = LocalDate.now().plusDays(335);
-		LocalDate endDate = LocalDate.now().plusDays(340);
+		LocalDate startDate = LocalDate.now().plusDays(300);
+		LocalDate validEndDate = LocalDate.now().plusDays(326);
+		LocalDate invalidEndDate = LocalDate.now().plusDays(360);
 
 		//search upto 11 months in advance
 		PackageScreen.selectDates(startDate, null);
-		PackageScreen.selectDates(startDate, endDate);
+		PackageScreen.selectDates(startDate, invalidEndDate);
 		String expectedStartDate = DateUtils.localDateToMMMd(startDate);
-		String expectedEndDate = DateUtils.localDateToMMMd(endDate);
+		String expectedEndDate = DateUtils.localDateToMMMd(validEndDate);
 
-		String expected = expectedStartDate + " - " + expectedEndDate + " (5 nights)";
+		//We tried to click 360 days ahead but that's beyond the max, so defaults to 26
+		String expected = expectedStartDate + " - " + expectedEndDate + " (26 nights)";
 		PackageScreen.selectDateButton().check(matches(withText(expected)));
 		PackageScreen.searchButton().perform(click());
 	}

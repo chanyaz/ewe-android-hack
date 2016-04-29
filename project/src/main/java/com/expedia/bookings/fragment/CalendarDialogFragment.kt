@@ -41,9 +41,9 @@ class CalendarDialogFragment(val baseSearchViewModel: BaseSearchViewModel) : Dia
 
     val calendar: CalendarPicker by lazy {
         val calendarPickerView = calendarDialogView.findViewById(R.id.calendar) as CalendarPicker
-        val maxDate = LocalDate.now().plusDays(resources.getInteger(R.integer.calendar_max_selectable_date_range))
+        val maxDate = LocalDate.now().plusDays(baseSearchViewModel.getMaxDateRange())
         calendarPickerView.setSelectableDateRange(LocalDate.now(), maxDate)
-        calendarPickerView.setMaxSelectableDateRange(resources.getInteger(R.integer.calendar_max_selectable_date_range))
+        calendarPickerView.setMaxSelectableDateRange(baseSearchViewModel.getMaxSearchDurationDays())
 
         val monthView = calendarPickerView.findViewById(R.id.month) as MonthView
         val dayOfWeek = calendarPickerView.findViewById(R.id.days_of_week) as DaysOfWeekView

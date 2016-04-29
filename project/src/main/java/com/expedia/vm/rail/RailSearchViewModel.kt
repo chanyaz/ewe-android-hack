@@ -109,6 +109,10 @@ class RailSearchViewModel(context: Context) : BaseSearchViewModel(context) {
         return context.resources.getInteger(R.integer.calendar_max_days_rail_search)
     }
 
+    override fun getMaxDateRange(): Int {
+        return context.resources.getInteger(R.integer.calendar_max_selectable_date_range)
+    }
+
     //TODO - rip these out once we have an ESS service that works for Rail
     private fun buildFakeOrigin(): SuggestionV4 {
         val suggestion = SuggestionV4()
