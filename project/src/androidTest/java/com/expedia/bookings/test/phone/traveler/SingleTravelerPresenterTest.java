@@ -106,7 +106,7 @@ public class SingleTravelerPresenterTest extends BaseTravelerPresenterTestHelper
 		});
 
 		EspressoUtils.assertViewWithTextIsDisplayed(R.id.first_name_input, testFirstName);
-		EspressoUtils.assertViewWithTextIsDisplayed(R.id.middle_initial_input, testMiddleName);
+		EspressoUtils.assertViewWithTextIsDisplayed(R.id.middle_name_input, testMiddleName);
 		EspressoUtils.assertViewWithTextIsDisplayed(R.id.last_name_input, testLastName);
 		EspressoUtils.assertViewWithTextIsDisplayed(R.id.edit_phone_number, testPhone);
 		EspressoUtils.assertViewWithTextIsDisplayed(R.id.edit_birth_date_text_btn, testBirthDay);

@@ -123,7 +123,7 @@ public class MultipleTravelerPresenterTest extends BaseTravelerPresenterTestHelp
 		PackageScreen.enterFirstName(testFirstName);
 		PackageScreen.clickTravelerDone();
 
-		assertEquals(false, testTravelerPresenter.getTravelerEntryWidget().getNameEntryView().getMiddleInitial().hasFocus());
+		assertEquals(false, testTravelerPresenter.getTravelerEntryWidget().getNameEntryView().getMiddleName().hasFocus());
 
 		assertEquals(true, testTravelerPresenter.getTravelerEntryWidget().getNameEntryView().getLastName().hasFocus());
 		PackageScreen.enterLastName(testLastName);

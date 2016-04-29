@@ -45,7 +45,7 @@ public class NameEntryViewTest {
 		setViewModel(testViewModel);
 
 		onView(withId(R.id.first_name_input)).perform(typeText(testFirstName));
-		onView(withId(R.id.middle_initial_input)).perform(typeText(testMiddleInitial));
+		onView(withId(R.id.middle_name_input)).perform(typeText(testMiddleInitial));
 		onView(withId(R.id.last_name_input)).perform(typeText(testLastName));
 
 		assertEquals(testFirstName, traveler.getFirstName());
@@ -91,26 +91,26 @@ public class NameEntryViewTest {
 			nameView.getFirstName().getErrorIcon());
 
 		onView(withId(R.id.first_name_input)).perform(typeText(testFirstName));
-		onView(withId(R.id.middle_initial_input)).perform(typeText(testMiddleInitial));
+		onView(withId(R.id.middle_name_input)).perform(typeText(testMiddleInitial));
 		onView(withId(R.id.last_name_input)).perform(typeText(testLastName));
 
 		assertEquals(nameView.getFirstName().getCompoundDrawables()[2], null);
-		assertEquals(nameView.getMiddleInitial().getCompoundDrawables()[2], null);
+		assertEquals(nameView.getMiddleName().getCompoundDrawables()[2], null);
 		assertEquals(nameView.getLastName().getCompoundDrawables()[2], null);
 	}
 
 	@Test
-	public void testMiddleNameOnlyOneLetter() throws Throwable {
-		final String invalidMiddleName = "The";
-		String initial = "T";
+	public void testMiddleNameAcceptsOneOrMoreLetter() throws Throwable {
+		final String validMiddleName = "The";
+		String initial = "The";
 		TravelerNameViewModel testViewModel = new TravelerNameViewModel();
 		TravelerName traveler = new TravelerName();
 		testViewModel.updateTravelerName(traveler);
 		setViewModel(testViewModel);
 
-		onView(withId(R.id.middle_initial_input)).perform(typeText(invalidMiddleName));
-		assertEquals("Only One Letter Allowed", initial, traveler.getMiddleName());
-		assertEquals("Only One LetterAllowed", initial, nameView.getMiddleInitial().getText().toString());
+		onView(withId(R.id.middle_name_input)).perform(typeText(validMiddleName));
+		assertEquals("More than one letter allowed", initial, traveler.getMiddleName());
+		assertEquals("More than one letter allowed", initial, nameView.getMiddleName().getText().toString());
 	}
 
 	private void setViewModel(final TravelerNameViewModel viewModel) throws Throwable {

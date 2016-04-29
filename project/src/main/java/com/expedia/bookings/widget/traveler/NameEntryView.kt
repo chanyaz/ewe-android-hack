@@ -13,7 +13,7 @@ import com.expedia.vm.traveler.TravelerNameViewModel
 class NameEntryView(context: Context, attrs: AttributeSet?) : LinearLayout(context, attrs) {
 
     val firstName: TravelerEditText by bindView(R.id.first_name_input)
-    val middleInitial: TravelerEditText by bindView(R.id.middle_initial_input)
+    val middleName: TravelerEditText by bindView(R.id.middle_name_input)
     val lastName: TravelerEditText by bindView(R.id.last_name_input)
 
     var viewModel: TravelerNameViewModel by notNullAndObservable {
@@ -21,9 +21,9 @@ class NameEntryView(context: Context, attrs: AttributeSet?) : LinearLayout(conte
         firstName.subscribeToError(viewModel.firstNameErrorSubject)
         firstName.addTextChangedSubscriber(viewModel.firstNameObserver)
 
-        viewModel.middleNameSubject.subscribeEditText(middleInitial)
-        middleInitial.subscribeToError(viewModel.middleNameErrorSubject)
-        middleInitial.addTextChangedSubscriber(viewModel.middleNameObserver)
+        viewModel.middleNameSubject.subscribeEditText(middleName)
+        middleName.subscribeToError(viewModel.middleNameErrorSubject)
+        middleName.addTextChangedSubscriber(viewModel.middleNameObserver)
 
         viewModel.lastNameSubject.subscribeEditText(lastName)
         lastName.subscribeToError(viewModel.lastNameErrorSubject)
@@ -32,6 +32,6 @@ class NameEntryView(context: Context, attrs: AttributeSet?) : LinearLayout(conte
 
     init {
         View.inflate(context, R.layout.name_entry_view, this)
-        orientation = HORIZONTAL
+        orientation = VERTICAL
     }
 }
