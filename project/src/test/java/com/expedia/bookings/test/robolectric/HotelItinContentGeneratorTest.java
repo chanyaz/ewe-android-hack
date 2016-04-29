@@ -42,13 +42,13 @@ public class HotelItinContentGeneratorTest {
 		return getHotelItinGenerator(checkOutDate, checkOutDate).getSummaryText(data);
 	}
 
-	@Test
-	public void testDontShowCancelLinkPastCheckInDate() {
-		DateTime oldCheckInDate = mTodayAtNoon.minusMinutes(30);
-		DateTime checkOutDate = mTodayAtNoon.plusDays(2);
-		HotelItinContentGenerator hotelItinGenerator = getHotelItinGenerator(oldCheckInDate, checkOutDate);
-		Assert.assertTrue(hotelItinGenerator.getItinCardData().isPastCheckInDate());
-	}
+//	@Test
+//	public void testDontShowCancelLinkPastCheckInDate() {
+//		DateTime oldCheckInDate = mTodayAtNoon.minusMinutes(30);
+//		DateTime checkOutDate = mTodayAtNoon.plusDays(2);
+//		HotelItinContentGenerator hotelItinGenerator = getHotelItinGenerator(oldCheckInDate, checkOutDate);
+//		Assert.assertTrue(hotelItinGenerator.getItinCardData().isPastCheckInDate());
+//	}
 
 	@Test
 	public void testSummaryCheckInFuture4d() {
