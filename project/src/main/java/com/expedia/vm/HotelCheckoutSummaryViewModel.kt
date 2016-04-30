@@ -123,7 +123,7 @@ class HotelCheckoutSummaryViewModel(val context: Context, val paymentModel: Paym
             if (it.isExpediaRewardsRedeemable && !it.paymentSplitsType.equals(PaymentSplitsType.IS_FULL_PAYABLE_WITH_CARD)) {
                 dueNowAmount.onNext(it.payingWithCard.amount.formattedMoneyFromAmountAndCurrencyCode)
                 burnPointsShownOnHotelCostBreakdown.onNext(Phrase.from(context, R.string.hotel_cost_breakdown_burn_points_TEMPLATE)
-                        .put("points", NumberFormat.getInstance().format(it.payingWithPoints.points)).format().toString())
+                        .putOptional("points", NumberFormat.getInstance().format(it.payingWithPoints.points)).format().toString())
                 burnAmountShownOnHotelCostBreakdown.onNext(it.payingWithPoints.amount.formattedMoneyFromAmountAndCurrencyCode)
                 tripTotalPrice.onNext(it.tripTotalPayableIncludingFee.formattedMoneyFromAmountAndCurrencyCode)
                 isShoppingWithPoints.onNext(true)
