@@ -175,6 +175,9 @@ open class PaymentWidget(context: Context, attr: AttributeSet) : Presenter(conte
                 paymentOptionCreditDebitCard.setCompoundDrawablesWithIntrinsicBounds(getCreditCardIcon(R.drawable.add_new_credit_card_icon_with_padding), null, ContextCompat.getDrawable(context, R.drawable.enter_new_credit_card_arrow), null)
             }
         }
+
+        vm.onStoredCardChosen.map { true }.subscribe(enableMenuItem)
+
     }
 
     override fun onVisibilityChanged(changedView: View?, visibility: Int) {
@@ -394,7 +397,7 @@ open class PaymentWidget(context: Context, attr: AttributeSet) : Presenter(conte
     }
 
     private fun showSaveBillingInfoDialog() {
-        val dialog = AlertDialog.Builder(context)
+        val dialog = AlertDialog.Builder(context, R.style.Theme_AlertDialog)
                 .setTitle(R.string.save_billing_info)
                 .setCancelable(false)
                 .setMessage(Phrase.from(context, R.string.save_billing_info_message_TEMPLATE)
@@ -458,6 +461,10 @@ open class PaymentWidget(context: Context, attr: AttributeSet) : Presenter(conte
         if (forward) {
             visibleMenuWithTitleDone.onNext(Unit)
             enableToolbarMenuButton.onNext(true)
+            enableMenuItem.onNext(isComplete())
+        }
+        else {
+            enableMenuItem.onNext(true)
         }
     }
 
