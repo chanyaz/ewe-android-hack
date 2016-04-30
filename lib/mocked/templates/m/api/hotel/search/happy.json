@@ -1065,7 +1065,7 @@
             "totalRecommendations": "0",
             "totalReviews": "100"
         },
-        
+
         {
             "address": "55 Cyril Magnin St",
             "airportCode": "SFO",
@@ -1287,6 +1287,64 @@
             "largeThumbnailUrl": "/hotels/1000000/570000/564900/564858/564858_43_d.jpg",
             "latitude": "37.78458",
             "localizedName": "happypath_pwp",
+            "locationDescription": "Union Square - Convention Center",
+            "locationId": "800177",
+            "longitude": "-122.40854",
+            "lowRateInfo": {
+                "averageBaseRate": "109.00",
+                "averageRate": "109.00",
+                "currencyCode": "USD",
+                "discountPercent": 0,
+                "maxNightlyRate": "109.00",
+                "nightlyRateTotal": "109.00",
+                "nightlyRatesPerRoom": [
+                    {
+                        "baseRate": "109.00",
+                        "promo": "false",
+                        "rate": "109.00"
+                    }
+                ],
+                "priceAdjustments": [],
+                "priceToShowUsers": "109",
+                "strikethroughPriceToShowUsers": "109",
+                "total": "109.00",
+                "totalMandatoryFees": "0.00",
+                "totalPriceWithMandatoryFees": "109.00",
+                "userPriceType": "PerNightRateNoTaxes"
+            },
+            "name": "happypath_pwp",
+            "postalCode": "94101",
+            "proximityDistanceInKiloMeters": "0.0",
+            "proximityDistanceInMiles": "0.0",
+            "roomsLeftAtThisRate": "40",
+            "shortDescription": "SHORT_DESCRIPTION",
+            "stateProvinceCode": "CA",
+            "supplierType": "MERCHANT",
+            "thumbnailUrl": "/hotels/1000000/570000/564900/564858/564858_43_d.jpg",
+            "totalRecommendations": "0",
+            "totalReviews": "100"
+        },
+        {
+            "address": "551 Cyril Magnin St PWP",
+            "airportCode": "SFO",
+            "city": "San Francisco",
+            "countryCode": "USA",
+            "distanceUnit": "Miles",
+            "hasFreeCancellation": true,
+            "highestSurveyPriceAsPrice": {
+                "amount": 249,
+                "currency": {
+                    "currencyCode": "USD"
+                }
+            },
+            "hotelGuestRating": "4.4",
+            "hotelId": "visa_not_supported",
+            "hotelStarRating": "4.0",
+            "isDiscountRestrictedToCurrentSourceType": false,
+            "isSameDayDRR": false,
+            "largeThumbnailUrl": "/hotels/1000000/570000/564900/564858/564858_43_d.jpg",
+            "latitude": "37.78458",
+            "localizedName": "visa_not_supported",
             "locationDescription": "Union Square - Convention Center",
             "locationId": "800177",
             "longitude": "-122.40854",
