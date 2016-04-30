@@ -8,6 +8,7 @@ import android.graphics.Color
 import android.graphics.PorterDuff
 import android.support.v4.content.ContextCompat
 import android.util.AttributeSet
+import android.view.MotionEvent
 import android.view.View
 import android.view.ViewTreeObserver
 import com.expedia.bookings.R
@@ -140,5 +141,9 @@ class SlidingBundleWidget(context: Context, attrs: AttributeSet?) : FrameLayout(
         bundleOverViewWidget.setPadding(0, Ui.getToolbarSize(context), 0, 0)
         val icon = ContextCompat.getDrawable(context, R.drawable.read_more).mutate()
         icon.setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_IN)
+    }
+
+    override fun onTouchEvent(event: MotionEvent?): Boolean {
+        return true
     }
 }
