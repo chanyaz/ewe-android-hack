@@ -4022,7 +4022,7 @@
     <string name="vip_loyalty_applied_message">포인트 두 배 적용됨!</string>
     <!-- String to be appended with +VIP in header of room rates. -->
     <string name="vip_loyalty_applied_header_message">Expedia+ 포인트 두 배 적용됨!</string>
-    <string name="swp_widget_points_value_TEMPLATE">고객님은 {points}포인트를 갖고 계세요.</string>
+    <string name="swp_widget_points_value_TEMPLATE">고객님은 {points_or_amount}포인트를 갖고 계세요.</string>
     <string name="vip_loyalty_applied_map_message">&lt;b&gt;+VIP&lt;/b&gt; Expedia+ 포인트 두 배 적용됨!</string>
     <string name="swp_off_widget_header">Expedia+ 포인트로 예약</string>
     <string name="swp_on_widget_header">Expedia+ 포인트 적용됨</string>
