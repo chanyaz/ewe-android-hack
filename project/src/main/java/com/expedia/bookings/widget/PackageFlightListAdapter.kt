@@ -60,17 +60,17 @@ class PackageFlightListAdapter(context: Context, flightSelectedSubject: PublishS
     }
 
     override fun getItemViewType(position: Int): Int {
-        var viewType = if (!shouldShowBestFlight) {
-            ALL_FLIGHTS_VIEW
+        if (position == 0) {
+            return PRICING_STRUCTURE_HEADER_VIEW
+        } else if (!shouldShowBestFlight) {
+            return ALL_FLIGHTS_VIEW
         } else {
             when (position) {
-                0 -> PRICING_STRUCTURE_HEADER_VIEW
-                1 -> BEST_FLIGHT_VIEW
-                2 -> ALL_FLIGHTS_HEADER_VIEW
-                else -> ALL_FLIGHTS_VIEW
+                1 -> return BEST_FLIGHT_VIEW
+                2 -> return ALL_FLIGHTS_HEADER_VIEW
+                else -> return ALL_FLIGHTS_VIEW
             }
         }
-        return viewType
     }
 
     inner class BestFlightViewHolder(root: ViewGroup, width: Int) : FlightViewHolder(root, width) {
@@ -84,6 +84,6 @@ class PackageFlightListAdapter(context: Context, flightSelectedSubject: PublishS
     }
 
     override fun adjustPosition(): Int {
-        return if (shouldShowBestFlight) 2 else (if (isChangePackageSearch) -1 else 0)
+        return if (shouldShowBestFlight) 2 else (if (isChangePackageSearch) 0 else 1)
     }
 }
