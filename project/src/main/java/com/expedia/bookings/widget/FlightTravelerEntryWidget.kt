@@ -106,7 +106,7 @@ class FlightTravelerEntryWidget(context: Context, attrs: AttributeSet?) : FrameL
         passportCountrySpinner.onItemSelectedListener = CountryItemSelectedListener()
         travelerButton.setTravelButtonListener(this)
         nameEntryView.firstName.onFocusChangeListener = this
-        nameEntryView.middleInitial.onFocusChangeListener = this
+        nameEntryView.middleName.onFocusChangeListener = this
         nameEntryView.lastName.onFocusChangeListener = this
         phoneEntryView.phoneNumber.onFocusChangeListener = this
         advancedOptionsWidget.redressNumber.onFocusChangeListener = this
