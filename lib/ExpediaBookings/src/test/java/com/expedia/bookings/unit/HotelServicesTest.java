@@ -35,14 +35,14 @@ import com.expedia.bookings.services.HotelServices;
 import com.expedia.bookings.utils.NumberUtils;
 import com.mobiata.mocke3.ExpediaDispatcher;
 import com.mobiata.mocke3.FileSystemOpener;
+import com.squareup.okhttp.OkHttpClient;
+import com.squareup.okhttp.mockwebserver.Dispatcher;
+import com.squareup.okhttp.mockwebserver.MockResponse;
+import com.squareup.okhttp.mockwebserver.MockWebServer;
+import com.squareup.okhttp.mockwebserver.RecordedRequest;
 
-import okhttp3.Interceptor;
-import okhttp3.OkHttpClient;
-import okhttp3.logging.HttpLoggingInterceptor;
-import okhttp3.mockwebserver.Dispatcher;
-import okhttp3.mockwebserver.MockResponse;
-import okhttp3.mockwebserver.MockWebServer;
-import okhttp3.mockwebserver.RecordedRequest;
+import retrofit.RestAdapter;
+import retrofit.RetrofitError;
 import rx.observers.TestSubscriber;
 import rx.schedulers.Schedulers;
 
@@ -59,16 +59,15 @@ public class HotelServicesTest {
 
 	@Before
 	public void before() {
-		HttpLoggingInterceptor logger = new HttpLoggingInterceptor();
-		logger.setLevel(HttpLoggingInterceptor.Level.BODY);
-		Interceptor interceptor = new MockInterceptor();
 		service = new HotelServices("http://localhost:" + server.getPort(),
-			new OkHttpClient.Builder().addInterceptor(logger).addInterceptor(interceptor).build(),
-			Schedulers.immediate(), Schedulers.immediate());
+			new OkHttpClient(), new MockInterceptor(),
+			Schedulers.immediate(), Schedulers.immediate(),
+			RestAdapter.LogLevel.FULL);
 	}
 
 	@Test
 	public void testSearchWithZeroLongLatAndNullRegionId() throws IOException {
+		MockWebServer server = new MockWebServer();
 		// final array to make the test result flag/boolean accessible in the anonymous dispatch
 		final boolean[] testResult = { true, true };
 		Dispatcher dispatcher = new Dispatcher() {
@@ -83,6 +82,12 @@ public class HotelServicesTest {
 			}
 		};
 		server.setDispatcher(dispatcher);
+		server.start();
+		HotelServices service = new HotelServices("http://localhost:" + server.getPort(),
+			new OkHttpClient(), new MockInterceptor(),
+			Schedulers.immediate(), Schedulers.immediate(),
+			RestAdapter.LogLevel.FULL);
+
 		SuggestionV4 suggestion = new SuggestionV4();
 		suggestion.coordinates = new SuggestionV4.LatLng();
 		suggestion.coordinates.lat = 0;
@@ -100,6 +105,7 @@ public class HotelServicesTest {
 
 	@Test
 	public void testHotelSearchForceV2FlagPassedInRequest() throws IOException {
+		MockWebServer server = new MockWebServer();
 		// final array to make the test result flag/boolean accessible in the anonymous dispatch
 		final boolean[] testResult = { false };
 		Dispatcher dispatcher = new Dispatcher() {
@@ -111,6 +117,11 @@ public class HotelServicesTest {
 			}
 		};
 		server.setDispatcher(dispatcher);
+		server.start();
+		HotelServices service = new HotelServices("http://localhost:" + server.getPort(),
+			new OkHttpClient(), new MockInterceptor(),
+			Schedulers.immediate(), Schedulers.immediate(),
+			RestAdapter.LogLevel.FULL);
 
 		String expectedMsg = "I expected to see forceV2Search=true passed in hotel search request (/m/api/hotel/search)";
 		TestSubscriber<List<Hotel>> nearbyHotelsSubscriber = new TestSubscriber<>();
@@ -126,6 +137,7 @@ public class HotelServicesTest {
 
 	@Test
 	public void testHotelOffersForceV2FlagPassedInRequest() throws IOException {
+		MockWebServer server = new MockWebServer();
 		// final array to make the test result flag/boolean accessible in the anonymous dispatch
 		final boolean[] testResult = { false };
 		Dispatcher dispatcher = new Dispatcher() {
@@ -137,6 +149,11 @@ public class HotelServicesTest {
 			}
 		};
 		server.setDispatcher(dispatcher);
+		server.start();
+		HotelServices service = new HotelServices("http://localhost:" + server.getPort(),
+			new OkHttpClient(), new MockInterceptor(),
+			Schedulers.immediate(), Schedulers.immediate(),
+			RestAdapter.LogLevel.FULL);
 
 		String expectedMsg = "I expected to see forceV2Search=true passed in hotel offer request (/m/api/hotel/info)";
 		TestSubscriber<HotelOffersResponse> infoObserver = new TestSubscriber<>();
@@ -164,7 +181,7 @@ public class HotelServicesTest {
 		observer.awaitTerminalEvent(10, TimeUnit.SECONDS);
 
 		observer.assertNoValues();
-		observer.assertError(IOException.class);
+		observer.assertError(RetrofitError.class);
 	}
 
 	@Test

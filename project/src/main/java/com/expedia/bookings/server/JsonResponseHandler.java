@@ -14,9 +14,7 @@ import android.text.TextUtils;
 
 import com.mobiata.android.Log;
 import com.mobiata.android.util.IoUtils;
-
-import okhttp3.Response;
-
+import com.squareup.okhttp.Response;
 
 /**
  * Important info: if the response is a JSONArray, it's wrapped as such:

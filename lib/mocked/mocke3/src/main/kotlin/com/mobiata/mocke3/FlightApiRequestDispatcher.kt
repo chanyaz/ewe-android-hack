@@ -1,15 +1,16 @@
 package com.mobiata.mocke3
 
-import okhttp3.mockwebserver.MockResponse
-import okhttp3.mockwebserver.RecordedRequest
+import com.squareup.okhttp.mockwebserver.MockResponse
+import com.squareup.okhttp.mockwebserver.RecordedRequest
 import java.util.Calendar
 import java.util.Date
+import java.util.regex.Pattern
 
 class FlightApiRequestDispatcher(fileOpener: FileOpener) : AbstractDispatcher(fileOpener) {
 
     override fun dispatch(request: RecordedRequest): MockResponse {
         val urlPath = request.path
-        val params = parseHttpRequest(request)
+        val params = parseRequest(request)
 
         if (!FlightApiRequestMatcher.isFlightApiRequest(urlPath)) {
             throwUnsupportedRequestException(urlPath)
@@ -123,7 +124,7 @@ class FlightApiRequestMatcher() {
         }
 
         fun isCheckoutRequest(urlPath: String): Boolean {
-            return doesItMatch("^/api/flight/checkout.*$", urlPath)
+            return doesItMatch("^/api/flight/checkout$", urlPath)
         }
     }
 }

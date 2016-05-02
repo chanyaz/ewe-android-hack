@@ -1,7 +1,7 @@
 package com.mobiata.mocke3
 
-import okhttp3.mockwebserver.MockResponse
-import okhttp3.mockwebserver.RecordedRequest
+import com.squareup.okhttp.mockwebserver.MockResponse
+import com.squareup.okhttp.mockwebserver.RecordedRequest
 import java.io.BufferedReader
 import java.io.IOException
 import java.io.InputStreamReader
@@ -9,6 +9,8 @@ import java.io.UnsupportedEncodingException
 import java.net.URLDecoder
 import java.util.Calendar
 import java.util.LinkedHashMap
+import java.util.Random
+import java.util.concurrent.TimeUnit
 
 fun unUrlEscape(str: String): String {
     return str.replace("%20", " ")
@@ -21,7 +23,7 @@ fun parseYearMonthDay(ymd: String?, hour: Int, minute: Int): Calendar {
     return cal
 }
 
-fun parseHttpRequest(request: RecordedRequest): MutableMap<String, String> {
+fun parseRequest(request: RecordedRequest): MutableMap<String, String> {
     if ("GET" == request.method && request.requestLine.contains("?")) {
         var requestLine = request.requestLine.split("?")[1]
         // Replace "HTTP version" from request line.

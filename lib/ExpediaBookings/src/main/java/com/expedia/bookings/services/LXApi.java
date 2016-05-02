@@ -9,13 +9,13 @@ import com.expedia.bookings.data.lx.LXCreateTripResponse;
 import com.expedia.bookings.data.lx.LXSearchResponse;
 import com.expedia.bookings.data.lx.RecommendedActivitiesResponse;
 
-import retrofit2.http.Body;
-import retrofit2.http.FieldMap;
-import retrofit2.http.FormUrlEncoded;
-import retrofit2.http.GET;
-import retrofit2.http.Headers;
-import retrofit2.http.POST;
-import retrofit2.http.Query;
+import retrofit.http.Body;
+import retrofit.http.FieldMap;
+import retrofit.http.FormUrlEncoded;
+import retrofit.http.GET;
+import retrofit.http.Headers;
+import retrofit.http.POST;
+import retrofit.http.Query;
 import rx.Observable;
 
 public interface LXApi {
@@ -29,14 +29,14 @@ public interface LXApi {
 	 */
 	@GET("/lx/api/search")
 	@Headers("Cache-Control: no-cache")
-	Observable<LXSearchResponse> searchLXActivities(
+	public Observable<LXSearchResponse> searchLXActivities(
 		@Query("location") String location,
 		@Query("startDate") String startDate,
 		@Query("endDate") String endDate);
 
 	@GET("/lx/api/activity")
 	@Headers("Cache-Control: no-cache")
-	Observable<ActivityDetailsResponse> activityDetails(
+	public Observable<ActivityDetailsResponse> activityDetails(
 		@Query("activityId") String activityId,
 		@Query("location") String location,
 		@Query("startDate") String startDate,
@@ -44,7 +44,7 @@ public interface LXApi {
 
 	@GET("/lx/api/recommend")
 	@Headers("Cache-Control: no-cache")
-	Observable<RecommendedActivitiesResponse> recommendedActivities(
+	public Observable<RecommendedActivitiesResponse> recommendedActivities(
 		@Query("activityId") String activityId,
 		@Query("location") String location,
 		@Query("startDate") String startDate,
@@ -52,13 +52,13 @@ public interface LXApi {
 
 	@Headers("Content-Type: application/json")
 	@POST("/m/api/lx/trip/create")
-	Observable<LXCreateTripResponse> createTrip(
+	public Observable<LXCreateTripResponse> createTrip(
 		@Body LXCreateTripParams createTripParams
 	);
 
 	@FormUrlEncoded
 	@POST("/m/api/lx/trip/checkout")
-	Observable<LXCheckoutResponse> checkout(
+	public Observable<LXCheckoutResponse> checkout(
 		@FieldMap Map<String, Object> params
 	);
 }

@@ -10,18 +10,20 @@ import com.expedia.bookings.services.HotelServices;
 import com.expedia.bookings.services.LoyaltyServices;
 import com.expedia.bookings.services.ReviewsServices;
 import com.expedia.bookings.services.SuggestionV4Services;
+import com.expedia.vm.ShopWithPointsViewModel;
+import com.expedia.model.UserLoginStateChangedModel;
 import com.expedia.bookings.widget.IOrbucksViewModel;
 import com.expedia.bookings.widget.OrbucksViewModel;
-import com.expedia.model.UserLoginStateChangedModel;
-import com.expedia.vm.PayWithPointsViewModel;
-import com.expedia.vm.PaymentWidgetViewModel;
-import com.expedia.vm.ShopWithPointsViewModel;
 import com.expedia.vm.interfaces.IPayWithPointsViewModel;
+import com.expedia.vm.PaymentWidgetViewModel;
 import com.expedia.vm.interfaces.IPaymentWidgetViewModel;
+import com.expedia.vm.PayWithPointsViewModel;
+import com.squareup.okhttp.OkHttpClient;
 
 import dagger.Module;
 import dagger.Provides;
-import okhttp3.OkHttpClient;
+import retrofit.RequestInterceptor;
+import retrofit.RestAdapter;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
@@ -29,30 +31,31 @@ import rx.schedulers.Schedulers;
 public final class HotelModule {
 	@Provides
 	@HotelScope
-	HotelServices provideHotelServices(EndpointProvider endpointProvider, OkHttpClient client) {
+	HotelServices provideHotelServices(EndpointProvider endpointProvider, OkHttpClient client, RequestInterceptor interceptor, RestAdapter.LogLevel logLevel) {
 		final String endpoint = endpointProvider.getE3EndpointUrl();
-		return new HotelServices(endpoint, client, AndroidSchedulers.mainThread(), Schedulers.io());
+		return new HotelServices(endpoint, client, interceptor, AndroidSchedulers.mainThread(), Schedulers.io(), logLevel);
 	}
 
 	@Provides
 	@HotelScope
-	SuggestionV4Services provideHotelSuggestionV4Services(EndpointProvider endpointProvider, OkHttpClient client) {
+	SuggestionV4Services provideHotelSuggestionV4Services(EndpointProvider endpointProvider, OkHttpClient client, RequestInterceptor interceptor, RestAdapter.LogLevel logLevel) {
 		final String endpoint = endpointProvider.getEssEndpointUrl();
-		return new SuggestionV4Services(endpoint, client, AndroidSchedulers.mainThread(), Schedulers.io());
+		return new SuggestionV4Services(endpoint, client, interceptor, AndroidSchedulers.mainThread(), Schedulers.io(), logLevel);
 	}
 
 	@Provides
 	@HotelScope
-	ReviewsServices provideHotelReviewsServices(EndpointProvider endpointProvider, OkHttpClient client) {
+	ReviewsServices provideHotelReviewsServices(EndpointProvider endpointProvider, OkHttpClient client, RequestInterceptor interceptor,
+		RestAdapter.LogLevel logLevel) {
 		final String endpoint = endpointProvider.getReviewsEndpointUrl();
-		return new ReviewsServices(endpoint, client, AndroidSchedulers.mainThread(), Schedulers.io());
+		return new ReviewsServices(endpoint, client, interceptor, AndroidSchedulers.mainThread(), Schedulers.io(), logLevel);
 	}
 
 	@Provides
 	@HotelScope
-	LoyaltyServices provideLoyaltyServices(EndpointProvider endpointProvider, OkHttpClient client) {
+	LoyaltyServices provideLoyaltyServices(EndpointProvider endpointProvider, OkHttpClient client, RequestInterceptor interceptor, RestAdapter.LogLevel logLevel) {
 		final String endpoint = endpointProvider.getE3EndpointUrl();
-		return new LoyaltyServices(endpoint, client, AndroidSchedulers.mainThread(), Schedulers.io());
+		return new LoyaltyServices(endpoint, client, interceptor, AndroidSchedulers.mainThread(), Schedulers.io(), logLevel);
 	}
 
 	@Provides

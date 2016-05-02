@@ -12,35 +12,37 @@ import com.expedia.bookings.data.packages.PackageOffersResponse
 import com.expedia.bookings.data.packages.PackageSearchParams
 import com.expedia.bookings.data.packages.PackageSearchResponse
 import com.google.gson.GsonBuilder
-import okhttp3.OkHttpClient
+import com.squareup.okhttp.OkHttpClient
 import org.joda.time.DateTime
-import retrofit2.Retrofit
-import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory
-import retrofit2.converter.gson.GsonConverterFactory
+import retrofit.RequestInterceptor
+import retrofit.RestAdapter
+import retrofit.client.OkClient
+import retrofit.converter.GsonConverter
 import rx.Observable
 import rx.Scheduler
 import java.text.NumberFormat
 import java.util.ArrayList
-import java.util.Currency
 import java.util.HashMap
+import java.util.Currency
 
-class PackageServices(endpoint: String, okHttpClient: OkHttpClient, val observeOn: Scheduler, val subscribeOn: Scheduler) {
+class PackageServices(endpoint: String, okHttpClient: OkHttpClient, requestInterceptor: RequestInterceptor, val observeOn: Scheduler, val subscribeOn: Scheduler, logLevel: RestAdapter.LogLevel) {
 
     val packageApi: PackageApi by lazy {
-		val gson = GsonBuilder()
-				.registerTypeAdapter(DateTime::class.java, DateTimeTypeAdapter())
-				.registerTypeAdapter(PackageSearchResponse.HotelPackage::class.java, PackageHotelDeserializer())
-				.registerTypeAdapter(PackageSearchResponse.FlightPackage::class.java, PackageFlightDeserializer())
-				.create()
+        val gson = GsonBuilder()
+                .registerTypeAdapter(DateTime::class.java, DateTimeTypeAdapter())
+                .registerTypeAdapter(PackageSearchResponse.HotelPackage::class.java, PackageHotelDeserializer())
+                .registerTypeAdapter(PackageSearchResponse.FlightPackage::class.java, PackageFlightDeserializer())
+                .create()
 
-		val adapter = Retrofit.Builder()
-				.baseUrl(endpoint)
-				.addConverterFactory(GsonConverterFactory.create(gson))
-				.addCallAdapterFactory(RxJavaCallAdapterFactory.create())
-				.client(okHttpClient)
-				.build()
+        val adapter = RestAdapter.Builder()
+                .setEndpoint(endpoint)
+                .setRequestInterceptor(requestInterceptor)
+                .setLogLevel(logLevel)
+                .setConverter(GsonConverter(gson))
+                .setClient(OkClient(okHttpClient))
+                .build()
 
-		adapter.create(PackageApi::class.java)
+        adapter.create(PackageApi::class.java)
     }
 
     fun packageSearch(params: PackageSearchParams): Observable<PackageSearchResponse> {

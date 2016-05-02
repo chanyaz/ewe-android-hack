@@ -1,6 +1,6 @@
 package com.mobiata.mocke3
 
-import okhttp3.mockwebserver.MockWebServer
+import com.squareup.okhttp.mockwebserver.MockWebServer
 import java.io.File
 import java.net.InetAddress
 

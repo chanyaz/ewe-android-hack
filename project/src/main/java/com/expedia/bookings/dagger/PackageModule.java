@@ -5,10 +5,12 @@ import com.expedia.bookings.server.EndpointProvider;
 import com.expedia.bookings.services.PackageServices;
 import com.expedia.bookings.services.ReviewsServices;
 import com.expedia.bookings.services.SuggestionV4Services;
+import com.squareup.okhttp.OkHttpClient;
 
 import dagger.Module;
 import dagger.Provides;
-import okhttp3.OkHttpClient;
+import retrofit.RequestInterceptor;
+import retrofit.RestAdapter;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
@@ -16,23 +18,26 @@ import rx.schedulers.Schedulers;
 public final class PackageModule {
 	@Provides
 	@PackageScope
-	PackageServices providePackageServices(EndpointProvider endpointProvider, OkHttpClient client) {
+	PackageServices providePackageServices(EndpointProvider endpointProvider, OkHttpClient client, RequestInterceptor interceptor, RestAdapter.LogLevel logLevel) {
 		final String endpoint = endpointProvider.getE3EndpointUrl();
-		return new PackageServices(endpoint, client, AndroidSchedulers.mainThread(), Schedulers.io());
+		return new PackageServices(endpoint, client, interceptor, AndroidSchedulers.mainThread(), Schedulers.io(), logLevel);
 	}
 
 	@Provides
 	@PackageScope
-	SuggestionV4Services provideSuggestionV4Services(EndpointProvider endpointProvider, OkHttpClient client) {
+	SuggestionV4Services provideSuggestionV4Services(EndpointProvider endpointProvider, OkHttpClient client,
+		RequestInterceptor interceptor, RestAdapter.LogLevel logLevel) {
 		final String endpoint = endpointProvider.getEssEndpointUrl();
-		return new SuggestionV4Services(endpoint, client, AndroidSchedulers.mainThread(), Schedulers.io());
+		return new SuggestionV4Services(endpoint, client, interceptor, AndroidSchedulers.mainThread(), Schedulers.io(),
+			logLevel);
 	}
 
 	@Provides
 	@PackageScope
-	ReviewsServices provideReviewsServices(EndpointProvider endpointProvider, OkHttpClient client) {
+	ReviewsServices provideReviewsServices(EndpointProvider endpointProvider, OkHttpClient client, RequestInterceptor interceptor,
+		RestAdapter.LogLevel logLevel) {
 		final String endpoint = endpointProvider.getReviewsEndpointUrl();
-		return new ReviewsServices(endpoint, client, AndroidSchedulers.mainThread(), Schedulers.io());
+		return new ReviewsServices(endpoint, client, interceptor, AndroidSchedulers.mainThread(), Schedulers.io(), logLevel);
 	}
 }
 

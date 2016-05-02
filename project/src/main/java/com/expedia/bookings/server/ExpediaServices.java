@@ -99,13 +99,10 @@ import com.mobiata.android.util.NetUtils;
 import com.mobiata.android.util.SettingUtils;
 import com.mobiata.flightlib.data.Flight;
 import com.mobiata.flightlib.data.FlightCode;
-
-import okhttp3.Call;
-import okhttp3.JavaNetCookieJar;
-import okhttp3.MediaType;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.RequestBody;
+import com.squareup.okhttp.MediaType;
+import com.squareup.okhttp.OkHttpClient;
+import com.squareup.okhttp.Request;
+import com.squareup.okhttp.RequestBody;
 
 @SuppressLint("SimpleDateFormat")
 public class ExpediaServices implements DownloadListener {
@@ -168,7 +165,6 @@ public class ExpediaServices implements DownloadListener {
 	public SSLContext mSSLContext;
 
 	private OkHttpClient mClient;
-	private Call call;
 	private Request mRequest;
 
 	// This is just so that the error messages aren't treated severely when a download is canceled - naturally,
@@ -185,24 +181,24 @@ public class ExpediaServices implements DownloadListener {
 	}
 
 	private OkHttpClient makeOkHttpClient() {
-		OkHttpClient.Builder client = new OkHttpClient().newBuilder();
+		OkHttpClient client = new OkHttpClient();
 
-		client.readTimeout(100L, TimeUnit.SECONDS);
+		client.setReadTimeout(100L, TimeUnit.SECONDS);
 
 		// 1902 - Allow redirecting from API calls
-		client.followRedirects(true);
+		client.setFollowSslRedirects(true);
 
 		// When not a release build, allow SSL from all connections
 		// Our test servers use self signed certs
 		if (BuildConfig.DEBUG) {
-			client.sslSocketFactory(mSSLContext.getSocketFactory());
-			client.hostnameVerifier(new AllowAllHostnameVerifier());
+			client.setSslSocketFactory(mSSLContext.getSocketFactory());
+			client.setHostnameVerifier(new AllowAllHostnameVerifier());
 		}
 
 		// Add Stetho debugging network interceptor
 		StethoShim.install(client);
 
-		return client.build();
+		return client;
 	}
 
 	//////////////////////////////////////////////////////////////////////////
@@ -1440,19 +1436,17 @@ public class ExpediaServices implements DownloadListener {
 		final boolean ignoreCookies = (flags & F_IGNORE_COOKIES) != 0;
 		if (ignoreCookies) {
 			// We don't want cookies so we cannot use the cached client
-			OkHttpClient.Builder builder = makeOkHttpClient().newBuilder();
-			builder.cookieJar(new JavaNetCookieJar(sBlackHoleCookieManager));
-			mClient = builder.build();
+			mClient = makeOkHttpClient();
+			mClient.setCookieHandler(sBlackHoleCookieManager);
 		}
 
 		// Make the request
 		long start = System.currentTimeMillis();
 		mCancellingDownload = false;
-		okhttp3.Response response = null;
+		com.squareup.okhttp.Response response = null;
 		try {
 			mRequest = request.build();
-			call = mClient.newCall(mRequest);
-			response = call.execute();
+			response = mClient.newCall(mRequest).execute();
 			T processedResponse = responseHandler.handleResponse(response);
 			return processedResponse;
 		}
@@ -1466,7 +1460,12 @@ public class ExpediaServices implements DownloadListener {
 		}
 		finally {
 			if (response != null) {
-				response.body().close();
+				try {
+					response.body().close();
+				}
+				catch (IOException e) {
+					Log.e("Response body failed to close:", e);
+				}
 			}
 			Log.d("Total request time: " + (System.currentTimeMillis() - start) + " ms");
 			mRequest = null;
@@ -1488,11 +1487,10 @@ public class ExpediaServices implements DownloadListener {
 		// Make the request
 		long start = System.currentTimeMillis();
 		mCancellingDownload = false;
-		okhttp3.Response response = null;
+		com.squareup.okhttp.Response response = null;
 		try {
 			mRequest = request.build();
-			call = mClient.newCall(mRequest);
-			response = call.execute();
+			response = mClient.newCall(mRequest).execute();
 			return response.code() == 200;
 		}
 		catch (IOException e) {
@@ -1505,7 +1503,12 @@ public class ExpediaServices implements DownloadListener {
 		}
 		finally {
 			if (response != null) {
-				response.body().close();
+				try {
+					response.body().close();
+				}
+				catch (IOException e) {
+					Log.e("Response body failed to close:", e);
+				}
 			}
 			Log.d("Total request time: " + (System.currentTimeMillis() - start) + " ms");
 			mRequest = null;
@@ -1534,7 +1537,7 @@ public class ExpediaServices implements DownloadListener {
 			@Override
 			public void run() {
 				if (mRequest != null) {
-					call.cancel();
+					mClient.cancel(mRequest);
 					mRequest = null;
 				}
 				latch.countDown();

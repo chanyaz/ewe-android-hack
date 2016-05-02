@@ -6,17 +6,18 @@ import com.google.gson.GsonBuilder
 import com.google.gson.TypeAdapter
 import com.google.gson.stream.JsonReader
 import com.google.gson.stream.JsonWriter
-import okhttp3.OkHttpClient
+import com.squareup.okhttp.OkHttpClient
 import org.joda.time.DateTime
 import org.joda.time.format.ISODateTimeFormat
-import retrofit2.Retrofit
-import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory
-import retrofit2.converter.gson.GsonConverterFactory
+import retrofit.RequestInterceptor
+import retrofit.RestAdapter
+import retrofit.client.OkClient
+import retrofit.converter.GsonConverter
 import rx.Observable
 import rx.Scheduler
 import java.io.IOException
 
-class ReviewsServices(endPoint: String, client: OkHttpClient, private val observeOn: Scheduler, private val subscribeOn: Scheduler) {
+class ReviewsServices(endPoint: String, client: OkHttpClient, requestInterceptor: RequestInterceptor, private val observeOn: Scheduler, private val subscribeOn: Scheduler, logLevel: RestAdapter.LogLevel) {
 
     val reviewsApi: ReviewsApi by lazy {
         val gson = GsonBuilder()
@@ -34,11 +35,12 @@ class ReviewsServices(endPoint: String, client: OkHttpClient, private val observ
                     }
                 }).create()
 
-        val adapter = Retrofit.Builder()
-                .baseUrl(endPoint)
-                .addConverterFactory(GsonConverterFactory.create(gson))
-                .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
-                .client(client)
+        val adapter = RestAdapter.Builder()
+                .setEndpoint(endPoint)
+                .setLogLevel(logLevel)
+                .setRequestInterceptor(requestInterceptor)
+                .setConverter(GsonConverter(gson))
+                .setClient(OkClient(client))
                 .build()
 
         adapter.create(ReviewsApi::class.java)

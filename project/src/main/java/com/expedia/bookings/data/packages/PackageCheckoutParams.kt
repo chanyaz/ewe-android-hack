@@ -104,12 +104,8 @@ data class PackageCheckoutParams(val billingInfo: BillingInfo, val travelers: Ar
             params.put(key+"phone", travelers[i].phoneNumber)
             params.put(key+"birthDate", dtf.print(travelers[i].birthDate))
             params.put(key+"gender", travelers[i].gender)
-            if (travelers[i].primaryPassportCountry != null) {
-                params.put(key+"passportCountryCode", travelers[i].primaryPassportCountry)
-            }
-            if (travelers[i].assistance != null) {
-                params.put(key + "specialAssistanceOption", travelers[i].assistance)
-            }
+            params.put(key+"passportCountryCode", travelers[i].primaryPassportCountry)
+            params.put(key+"specialAssistanceOption", travelers[i].assistance)
         }
 
         //TRIP
