@@ -3031,6 +3031,10 @@
     <string name="optional">Optional</string>
     <!-- Label applying a coupon -->
     <string name="apply">Apply</string>
+    <!-- Google Account Change -->
+    <string name="google_account_change_string">Looking to sign in with Google?</string>
+    <string name="google_account_change_message_TEMPLATE">We no longer support sign in with Google, but we still have your {brand} travel info!
+    To sign in, you\&apos;ll need to set a password using your Google email address on our website</string>
 
     <!-- Coupon dialog -->
     <!-- Coupon Widget Title -->

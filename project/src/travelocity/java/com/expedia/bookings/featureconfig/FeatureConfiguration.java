@@ -323,4 +323,9 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 		return false;
 	}
 
+	@Override
+	public boolean isGoogleAccountChangeEnabled() {
+		return false;
+	}
+
 }
