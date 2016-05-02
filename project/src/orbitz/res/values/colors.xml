@@ -83,6 +83,10 @@
     <color name="account_sign_in_button_background_color">#004D7C</color>
     <color name="account_screen_back_nav_color">@color/white</color>
 
+    <!--Rewards-->
+    <color name="reward_color_platinum">#787878</color>
+    <color name="sign_in_user_tier_platinum">@color/reward_color_platinum</color>
+
     <!-- Checkout Colors -->
     <color name="material_checkout_account_button_background_color">@color/lob_btn_color</color>
     <color name="old_checkout_account_button_text_color">@android:color/white</color>
