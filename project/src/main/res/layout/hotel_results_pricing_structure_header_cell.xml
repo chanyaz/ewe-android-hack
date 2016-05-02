@@ -32,6 +32,7 @@
             android:paddingTop="2dp"
             android:text="@string/loyalty_applied_excluding_taxes_and_fees_message"
             android:textColor="@color/hotels_primary_color"
+            android:textSize="@dimen/temporary_font_size_small"
             android:visibility="gone" />
     </LinearLayout>
 </LinearLayout>
