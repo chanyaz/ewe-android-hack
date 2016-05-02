@@ -17,17 +17,15 @@ def createUpdateOrDeleteAutomatedFeedbackComment(githubAccessToken, githubOrgani
 
     automatedCommentsFromPRBuilder = [comment for comment in issue.comments() if comment.body[:len(automatedFeedbackCommentSignature)] == automatedFeedbackCommentSignature]
     try:
-        if errorMsg != "":
-            if len(automatedCommentsFromPRBuilder) == 0:
-                #No existing comment added by me, so nothing to edit, need to create a new one!
-                issue.create_comment(automatedFeedbackCommentSignature + errorMsg)
-            else:
-                #An existing comment added by me, and an error message to update the PR Author, so edit the existing comment!
-                print automatedCommentsFromPRBuilder[0]
-                automatedCommentsFromPRBuilder[0].edit(automatedFeedbackCommentSignature + errorMsg)
-        else:
-            if len(automatedCommentsFromPRBuilder) != 0:
-                #An existing comment added by me, but no error message to update the PR Author, so delete the existing comment!
-                automatedCommentsFromPRBuilder[0].delete()
+        if len(automatedCommentsFromPRBuilder) > 0:
+            #Delete any existing comment added by me!
+            automatedCommentsFromPRBuilder[0].delete()
     except:
-        print "Exception encountered while trying to create, edit or delete a comment. Stack Trace \n{stack_trace}".format(stack_trace=traceback.format_exc())
+        print "Exception encountered while trying to delete existing comment. Stack Trace \n{stack_trace}".format(stack_trace=traceback.format_exc())
+
+    try:
+        if errorMsg != "":
+            #Create a new comment if there is an error message to surface up!
+            issue.create_comment(automatedFeedbackCommentSignature + errorMsg)
+    except:
+        print "Exception encountered while trying to create new comment. Stack Trace \n{stack_trace}".format(stack_trace=traceback.format_exc())
