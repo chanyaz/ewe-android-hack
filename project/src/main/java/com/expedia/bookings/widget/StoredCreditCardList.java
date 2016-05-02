@@ -46,6 +46,8 @@ public class StoredCreditCardList extends LinearLayout {
 		inflater.inflate(R.layout.stored_credit_card_list, this);
 		ButterKnife.inject(this);
 		mStoredCardList = (ListView) findViewById(R.id.stored_card_list);
+		// Defect 7359 we should clear any billing info which is saved earlier.
+		Db.getWorkingBillingInfoManager().clearWorkingBillingInfo();
 		mStoredCardList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {

@@ -1,6 +1,7 @@
 package com.expedia.bookings.test.phone.launch;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.test.espresso.Common;
 import com.expedia.bookings.test.espresso.EspressoUtils;
 import com.expedia.bookings.test.espresso.PhoneTestCase;
 import com.expedia.bookings.test.espresso.ViewActions;
@@ -45,6 +46,7 @@ public class NewLaunchScreenTest extends PhoneTestCase {
 		Log.v(TAG, "fab button and darkness is hidden");
 
 		LaunchScreen.newPhoneLaunchWidget().perform(ViewActions.swipeUp());
+		Common.delay(3);
 		EspressoUtils.assertViewIsNotDisplayed(R.id.lobView);
 		Log.v(TAG, "Lob view is not displayed ");
 		EspressoUtils.assertViewIsDisplayed(R.id.fab);
