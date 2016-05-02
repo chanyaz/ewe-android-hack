@@ -108,7 +108,6 @@ class HotelCheckoutSummaryViewModel(val context: Context, val paymentModel: Paym
             roomDescriptions.onNext(room.roomTypeDescription)
             numNights.onNext(context.resources.getQuantityString(R.plurals.number_of_nights, it.newHotelProductResponse.numberOfNights.toInt(), it.newHotelProductResponse.numberOfNights.toInt()))
             bedDescriptions.onNext(room.formattedBedNames)
-            numGuests.onNext(StrUtils.formatGuestString(context, it.newHotelProductResponse.adultCount.toInt()))
             hasFreeCancellation.onNext(room.hasFreeCancellation)
             currencyCode.onNext(rate.currencyCode)
             nightlyRatesPerRoom.onNext(rate.nightlyRatesPerRoom)
