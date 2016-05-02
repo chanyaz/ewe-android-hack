@@ -6,7 +6,7 @@
     <style name="Widget" />
 
     <style name="Widget.Button.Phone">
-        <item name="android:background">@drawable/btn_default_grey</item>
+        <item name="android:background">@drawable/btn_default_gray</item>
         <item name="android:clickable">true</item>
         <item name="android:focusable">true</item>
         <item name="android:gravity">center_vertical|center_horizontal</item>

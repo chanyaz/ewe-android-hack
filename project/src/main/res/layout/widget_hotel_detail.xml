@@ -739,7 +739,7 @@
                             <View
                                 android:layout_width="1px"
                                 android:layout_height="match_parent"
-                                android:background="@color/divider_grey" />
+                                android:background="@color/divider_gray" />
 
                             <com.expedia.bookings.widget.FrameLayout
                                 android:id="@+id/radius_pay_later_container"

@@ -206,9 +206,9 @@ public class FlightPaymentOptionsFragment extends Fragment {
 				if (!firstCard) {
 					View divider = new View(getActivity());
 					LinearLayout.LayoutParams divLayoutParams = new LinearLayout.LayoutParams(
-							LayoutParams.MATCH_PARENT, res.getDimensionPixelSize(R.dimen.simple_grey_divider_height));
+							LayoutParams.MATCH_PARENT, res.getDimensionPixelSize(R.dimen.simple_gray_divider_height));
 					divider.setLayoutParams(divLayoutParams);
-					divider.setBackgroundColor(res.getColor(R.color.divider_grey));
+					divider.setBackgroundColor(res.getColor(R.color.divider_gray));
 					mStoredCardsContainer.addView(divider);
 				}
 

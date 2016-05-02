@@ -90,7 +90,7 @@ public class SectionStoredCreditCard extends LinearLayout implements ISection<St
 		}
 
 		if (mSecondaryTextColor == null) {
-			mSecondaryTextColor = context.getResources().getColorStateList(R.color.data_review_grey);
+			mSecondaryTextColor = context.getResources().getColorStateList(R.color.data_review_gray);
 		}
 	}
 

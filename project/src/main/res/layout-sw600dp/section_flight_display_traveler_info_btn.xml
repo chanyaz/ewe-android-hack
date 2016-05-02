@@ -37,7 +37,7 @@
             android:id="@+id/display_phone_number_with_country_code"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="@color/data_review_grey"
+            android:textColor="@color/data_review_gray"
             android:textSize="@dimen/tablet_data_button_sub_text_size" />
 
         <TextView
@@ -46,7 +46,7 @@
             android:layout_height="wrap_content"
             android:ellipsize="end"
             android:singleLine="true"
-            android:textColor="@color/data_review_grey"
+            android:textColor="@color/data_review_gray"
             android:textSize="@dimen/tablet_data_button_sub_text_size" />
     </LinearLayout>
 

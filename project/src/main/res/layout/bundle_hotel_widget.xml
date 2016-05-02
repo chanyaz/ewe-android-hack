@@ -132,7 +132,7 @@
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1px"
-                    android:background="@color/divider_grey" />
+                    android:background="@color/divider_gray" />
 
                 <com.expedia.bookings.widget.TextView
                     android:id="@+id/hotel_address"
@@ -159,7 +159,7 @@
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1px"
-                    android:background="@color/divider_grey" />
+                    android:background="@color/divider_gray" />
 
                 <LinearLayout
                     android:id="@+id/message_container"

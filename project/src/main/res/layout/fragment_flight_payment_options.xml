@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/flight_checkout_opaque_grey"
+    android:background="@color/flight_checkout_opaque_gray"
     android:fillViewport="true"
     android:orientation="vertical" >
 
@@ -64,10 +64,10 @@
             <View
                 android:id="@+id/current_payment_cc_address_divider"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/simple_grey_divider_height"
+                android:layout_height="@dimen/simple_gray_divider_height"
                 android:layout_marginBottom="15dp"
                 android:layout_marginTop="15dp"
-                android:background="@color/divider_grey" />
+                android:background="@color/divider_gray" />
 
             <include
                 android:id="@+id/current_payment_address_section"
@@ -162,10 +162,10 @@
             <View
                 android:id="@+id/new_payment_partial_card_divider"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/simple_grey_divider_height"
-                android:layout_marginBottom="@dimen/simple_grey_divider_margin_bottom"
-                android:layout_marginTop="@dimen/simple_grey_divider_margin_top"
-                android:background="@color/divider_grey" />
+                android:layout_height="@dimen/simple_gray_divider_height"
+                android:layout_marginBottom="@dimen/simple_gray_divider_margin_bottom"
+                android:layout_marginTop="@dimen/simple_gray_divider_margin_top"
+                android:background="@color/divider_gray" />
 
             <TextView
                 android:id="@+id/new_payment_new_card"

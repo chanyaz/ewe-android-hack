@@ -187,7 +187,7 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="1px"
-            android:background="@color/divider_grey" />
+            android:background="@color/divider_gray" />
 
         <LinearLayout
             android:id="@+id/slide_to_purchase_layout"

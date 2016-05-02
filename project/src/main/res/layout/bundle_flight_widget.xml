@@ -93,7 +93,7 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1px"
-                android:background="@color/divider_grey" />
+                android:background="@color/divider_gray" />
 
             <com.expedia.bookings.widget.FlightSegmentBreakdownView
                 android:id="@+id/segment_breakdown"
