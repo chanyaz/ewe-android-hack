@@ -1,7 +1,7 @@
 package com.mobiata.mocke3
 
-import okhttp3.mockwebserver.MockResponse
-import okhttp3.mockwebserver.RecordedRequest
+import com.squareup.okhttp.mockwebserver.MockResponse
+import com.squareup.okhttp.mockwebserver.RecordedRequest
 
 class FeedsApiRequestDispatcher(fileOpener: FileOpener) : AbstractDispatcher(fileOpener) {
 

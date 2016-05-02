@@ -1,18 +1,20 @@
 package com.expedia.bookings.services
 
 import com.expedia.bookings.data.clientlog.ClientLog
+import com.expedia.bookings.data.clientlog.ClientLogApi
 import com.expedia.bookings.data.clientlog.EmptyResponse
 import com.google.gson.GsonBuilder
-import okhttp3.Interceptor
-import okhttp3.OkHttpClient
-import retrofit2.Retrofit
-import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory
-import retrofit2.converter.gson.GsonConverterFactory
+import com.squareup.okhttp.OkHttpClient
+import org.joda.time.DateTime
+import retrofit.RequestInterceptor
+import retrofit.RestAdapter
+import retrofit.client.OkClient
+import retrofit.converter.GsonConverter
 import rx.Observer
 import rx.Scheduler
 import java.net.URL
 
-class ClientLogServices(endpoint: String, okHttpClient: OkHttpClient, interceptor: Interceptor, val observeOn: Scheduler, val subscribeOn: Scheduler) {
+class ClientLogServices(endpoint: String, okHttpClient: OkHttpClient, requestInterceptor: RequestInterceptor, val observeOn: Scheduler, val subscribeOn: Scheduler, logLevel: RestAdapter.LogLevel) {
 	var domain: String? = null
 	val clientLogApi: ClientLogApi by lazy {
 		domain = URL(endpoint).host
@@ -20,11 +22,12 @@ class ClientLogServices(endpoint: String, okHttpClient: OkHttpClient, intercepto
 		val gson = GsonBuilder()
 				.create()
 
-		val adapter = Retrofit.Builder()
-			.baseUrl(endpoint)
-			.addConverterFactory(GsonConverterFactory.create(gson))
-			.addCallAdapterFactory(RxJavaCallAdapterFactory.create())
-			.client(okHttpClient.newBuilder().addInterceptor(interceptor).build())
+		val adapter = RestAdapter.Builder()
+			.setEndpoint(endpoint)
+			.setRequestInterceptor(requestInterceptor)
+			.setLogLevel(logLevel)
+			.setConverter(GsonConverter(gson))
+			.setClient(OkClient(okHttpClient))
 			.build()
 
 		adapter.create(ClientLogApi::class.java)

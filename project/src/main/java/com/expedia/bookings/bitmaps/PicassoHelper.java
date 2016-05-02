@@ -10,15 +10,14 @@ import android.widget.ImageView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.ExpediaBookingApp;
-import com.jakewharton.picasso.OkHttp3Downloader;
 import com.mobiata.android.util.SettingUtils;
+import com.squareup.okhttp.OkHttpClient;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.MemoryPolicy;
+import com.squareup.picasso.OkHttpDownloader;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.RequestCreator;
 import com.squareup.picasso.Target;
-
-import okhttp3.OkHttpClient;
 
 public class PicassoHelper implements Target, Callback {
 	// We allow you to define a series of URLs to try (in order, from 0 and up).
@@ -52,7 +51,7 @@ public class PicassoHelper implements Target, Callback {
 	public static void init(Context context, OkHttpClient client) {
 		if (!ExpediaBookingApp.isAutomation()) {
 
-			OkHttp3Downloader okHttpDownloader = new OkHttp3Downloader(client);
+			OkHttpDownloader okHttpDownloader = new OkHttpDownloader(client);
 
 			boolean isLoggingEnabled = SettingUtils
 				.get(context, context.getString(R.string.preference_enable_picasso_logging), false);

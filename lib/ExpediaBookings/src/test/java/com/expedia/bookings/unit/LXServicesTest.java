@@ -1,11 +1,5 @@
 package com.expedia.bookings.unit;
 
-import java.io.IOException;
-import java.math.BigDecimal;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-
 import org.joda.time.LocalDate;
 import org.junit.After;
 import org.junit.Before;
@@ -31,8 +25,14 @@ import com.expedia.bookings.data.lx.RecommendedActivitiesResponse;
 import com.expedia.bookings.data.lx.Ticket;
 import com.expedia.bookings.services.LxServices;
 import com.expedia.bookings.testrule.ServicesRule;
+import com.squareup.okhttp.mockwebserver.MockResponse;
 
-import okhttp3.mockwebserver.MockResponse;
+import java.io.IOException;
+import java.math.BigDecimal;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+import retrofit.RetrofitError;
 import rx.observers.TestSubscriber;
 
 import static org.junit.Assert.assertEquals;
@@ -50,9 +50,6 @@ public class LXServicesTest {
 	@Before
 	public void before() {
 		checkoutParams = new LXCheckoutParams();
-		checkoutParams.guid = "";
-		checkoutParams.suppressFinalBooking = true;
-		checkoutParams.storedCreditCardId = "";
 		checkoutParams.firstName = "FirstName";
 		checkoutParams.lastName = "LastName";
 		checkoutParams.phone = "415-111-111";
@@ -65,8 +62,6 @@ public class LXServicesTest {
 		checkoutParams.creditCardNumber = "4111111111111111";
 		checkoutParams.expirationDateYear = "2020";
 		checkoutParams.cvv = "111";
-		checkoutParams.expirationDateMonth = "9";
-		checkoutParams.expirationDateYear = "1989";
 		checkoutParams.email = "test@gmail.com";
 	}
 
@@ -97,7 +92,7 @@ public class LXServicesTest {
 
 	@Test
 	public void emptySearchResponse() throws Throwable {
-		serviceRule.getServer().enqueue(new MockResponse().setBody("{\"regionId\":1,\"activities\": []}"));
+		serviceRule.getServer().enqueue(new MockResponse().setBody("{regionId:1,\"activities\": []}"));
 		TestSubscriber<LXSearchResponse> observer = new TestSubscriber<>();
 		LXSearchParams searchParams = new LXSearchParams();
 
@@ -120,12 +115,12 @@ public class LXServicesTest {
 		observer.awaitTerminalEvent();
 
 		observer.assertNoValues();
-		observer.assertError(IOException.class);
+		observer.assertError(RetrofitError.class);
 	}
 
 	@Test
 	public void searchFailure() throws Throwable {
-		serviceRule.getServer().enqueue(new MockResponse().setBody("{\"regionId\":1, \"searchFailure\": true}"));
+		serviceRule.getServer().enqueue(new MockResponse().setBody("{regionId:1, searchFailure: true}"));
 		TestSubscriber<LXSearchResponse> observer = new TestSubscriber<>();
 		LXSearchParams searchParams = new LXSearchParams();
 
@@ -268,7 +263,7 @@ public class LXServicesTest {
 		observer.awaitTerminalEvent();
 
 		observer.assertNoValues();
-		observer.assertError(IOException.class);
+		observer.assertError(RetrofitError.class);
 	}
 
 	@Test
@@ -297,7 +292,7 @@ public class LXServicesTest {
 		observer.awaitTerminalEvent();
 
 		observer.assertNoValues();
-		observer.assertError(IOException.class);
+		observer.assertError(RetrofitError.class);
 	}
 
 	@Test

@@ -6,23 +6,20 @@ import java.util.zip.GZIPOutputStream;
 
 import org.junit.Test;
 
-import com.expedia.bookings.data.BaseApiResponse;
+import com.squareup.okhttp.OkHttpClient;
+import com.squareup.okhttp.Request;
+import com.squareup.okhttp.Response;
+import com.squareup.okhttp.mockwebserver.Dispatcher;
+import com.squareup.okhttp.mockwebserver.MockResponse;
+import com.squareup.okhttp.mockwebserver.MockWebServer;
+import com.squareup.okhttp.mockwebserver.RecordedRequest;
 
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.Response;
-import okhttp3.mockwebserver.Dispatcher;
-import okhttp3.mockwebserver.MockResponse;
-import okhttp3.mockwebserver.MockWebServer;
-import okhttp3.mockwebserver.RecordedRequest;
+import retrofit.RestAdapter;
+import retrofit.http.GET;
 import okio.Buffer;
-import retrofit2.Retrofit;
-import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
-import retrofit2.converter.gson.GsonConverterFactory;
-import retrofit2.http.GET;
-import rx.Observable;
 
 import static org.junit.Assert.assertEquals;
+
 public class GzipNetworkTests {
 
 	private static final String TEST_STRING = "{foo}";
@@ -106,11 +103,9 @@ public class GzipNetworkTests {
 
 		String endpoint = "http://localhost:" + mockWebServer.getPort();
 
-		Retrofit adapter = new Retrofit.Builder()
-			.baseUrl(endpoint)
-			.client(new OkHttpClient())
-			.addConverterFactory(GsonConverterFactory.create())
-			.addCallAdapterFactory(RxJavaCallAdapterFactory.create())
+		RestAdapter adapter = new RestAdapter.Builder()
+			.setEndpoint(endpoint)
+				//.setLogLevel(RestAdapter.LogLevel.FULL)
 			.build();
 
 		LameApi api = adapter.create(LameApi.class);
@@ -119,6 +114,6 @@ public class GzipNetworkTests {
 
 	public interface LameApi {
 		@GET("/foo")
-		Observable<BaseApiResponse> foo();
+		int foo();
 	}
 }
