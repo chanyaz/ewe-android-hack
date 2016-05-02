@@ -97,6 +97,7 @@
     <color name="checkout_additional_fees_tablet_bg">#99424242</color>
     <color name="credit_card_form_additional_fees_tablet_bg">#282828</color>
     <color name="flight_edit_search_button_color">@color/black</color>
+    <color name="flight_earn_message_text_color">#3D4652</color>
 
     <!-- Hotels colors -->
     <color name="hotels_primary_color">@color/lob_hotels_primary_color</color>
