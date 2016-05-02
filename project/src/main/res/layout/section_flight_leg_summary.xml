@@ -46,7 +46,7 @@
         android:layout_below="@id/price_container"
         android:layout_marginRight="10dp"
         android:gravity="right"
-        android:textColor="#3D4652"
+        android:textColor="@color/flight_earn_message_text_color"
         android:textSize="12dp"
         android:visibility="invisible"/>
 

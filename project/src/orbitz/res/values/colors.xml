@@ -9,6 +9,7 @@
     <color name="flights_lob_btn">@color/lob_btn_color</color>
     <color name="cars_lob_btn">@color/lob_btn_color</color>
     <color name="lx_lob_btn">@color/lob_btn_color</color>
+    <color name="earn_message_text_color">#8d1598</color>
 
     <!-- Launch colors -->
     <color name="launch_toolbar_background_color">@color/lob_btn_color</color>
@@ -48,12 +49,14 @@
     <color name="hotel_urgency_message_color">#00B1FF</color>
     <color name="hotel_tonight_only_color">#C4204B</color>
     <color name="hotel_mobile_exclusive_color">#00253C</color>
+    <color name="hotel_earn_message_text_color">@color/earn_message_text_color</color>
 
     <!-- Hotels V2 Coupon applied text color -->
     <color name="hotelsv2_coupon_applied_color">#477A00</color>
 
     <!-- flight color-->
     <color name="flight_edit_search_button_color">@color/white</color>
+    <color name="flight_earn_message_text_color">@color/earn_message_text_color</color>
 
     <!-- Cars and LX-->
     <color name="cars_primary_color">#004D7C</color>
