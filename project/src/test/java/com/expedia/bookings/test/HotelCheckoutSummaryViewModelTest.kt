@@ -51,6 +51,7 @@ class HotelCheckoutSummaryViewModelTest {
         val rate = hotelRoomResponse.rateInfo.chargeableRateInfo
         val expectedRateAdjustments = rate.getPriceAdjustments()
         val expectedHotelName = hotelProductResponse.getHotelName()
+        sut.guestCountObserver.onNext(1)
 
         assertFalse(sut.isPayLater.value)
         assertFalse(sut.isResortCase.value)
