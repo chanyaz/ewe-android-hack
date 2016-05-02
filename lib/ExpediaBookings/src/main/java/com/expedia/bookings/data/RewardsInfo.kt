@@ -4,7 +4,7 @@ import com.expedia.bookings.data.payment.PointsAndCurrency
 import kotlin.properties.Delegates
 
 class RewardsInfo {
-    val totalPointsToEarn: Float = 0f
+    var totalPointsToEarn: Float = 0f
     var totalAmountToEarn: Money? = null
     val isActiveRewardsMember: Boolean = false
     val rewardsMembershipTierName: String by Delegates.notNull()

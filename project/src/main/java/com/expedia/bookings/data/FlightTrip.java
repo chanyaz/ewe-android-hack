@@ -45,6 +45,7 @@ public class FlightTrip implements JSONable {
 	private Money mFees;
 
 	private LoyaltyEarnInfo earnInfo;
+	private RewardsInfo rewards;
 
 	private boolean isPassportNeeded;
 	private boolean isSplitTicket;
@@ -282,6 +283,14 @@ public class FlightTrip implements JSONable {
 
 	public String getRewardsPoints() {
 		return mRewardsPoints;
+	}
+
+	public RewardsInfo getRewards() {
+		return rewards;
+	}
+
+	public void setRewards(RewardsInfo rewards) {
+		this.rewards = rewards;
 	}
 
 	public void setMayChargeObFees(boolean mayChargeObFees) {
@@ -641,6 +650,10 @@ public class FlightTrip implements JSONable {
 			mRewardsPoints = other.getRewardsPoints();
 		}
 
+		if (other.getRewards() != null) {
+			rewards = other.getRewards();
+		}
+
 		if (other.mRules != null) {
 			mRules = other.mRules;
 		}
@@ -684,6 +697,7 @@ public class FlightTrip implements JSONable {
 	private static final String KEY_PASSENGERS = "v";
 	private static final String KEY_AVG_TOTAL_FARE = "w";
 	private static final String KEY_EARN_INFO = "earnInfo";
+	private static final String KEY_REWARS = "rewards";
 
 
 	@Override
@@ -701,6 +715,9 @@ public class FlightTrip implements JSONable {
 
 			if (earnInfo != null) {
 				obj.put(KEY_EARN_INFO, earnInfo);
+			}
+			if (rewards != null) {
+				obj.put(KEY_REWARS, rewards);
 			}
 			if (includeFullLegData) {
 				JSONUtils.putJSONableList(obj, KEY_LEGS, mLegs);
@@ -812,6 +829,16 @@ public class FlightTrip implements JSONable {
 			Log.e("Could not parse LoyaltyEarnInfo.", e);
 		}
 
+		try {
+			Object rewards = obj.get(KEY_REWARS);
+			if (rewards != null) {
+				this.rewards = (RewardsInfo) rewards;
+			}
+		}
+		catch (JSONException e) {
+			Log.e("Could not parse RewardsInfo.", e);
+		}
+
 		String currency = obj.optString(KEY_CURRENCY);
 		if (!TextUtils.isEmpty(currency)) {
 			mBaseFare = parseMoney(obj, KEY_BASE_FARE, currency);
@@ -887,6 +914,7 @@ public class FlightTrip implements JSONable {
 		mMayChargeObFees = obj.optBoolean("mayChargeObFees");
 		mHasBagFee = obj.optBoolean("showBaggageFeesNotIncluded");
 		mFareName = obj.optString("fareName");
+		rewards = GsonUtil.getForJsonable(obj, "rewards", RewardsInfo.class);
 
 		JSONArray arr = obj.optJSONArray("flightSegmentAttributes");
 		if (arr != null) {

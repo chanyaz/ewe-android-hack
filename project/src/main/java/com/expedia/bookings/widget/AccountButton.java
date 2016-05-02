@@ -300,7 +300,7 @@ public class AccountButton extends LinearLayout {
 		case FLIGHTS:
 			TripBucketItemFlight flight = Db.getTripBucket().getFlight();
 			FlightTrip flightTrip = flight == null ? null : flight.getFlightTrip();
-			rewardPoints = flightTrip == null ? "" : flightTrip.getRewardsPoints();
+			rewardPoints = flightTrip == null ? "" :  getRewardsString(flightTrip.getRewards());
 			break;
 
 		case HOTELS:
@@ -336,8 +336,10 @@ public class AccountButton extends LinearLayout {
 		else {
 			switch (lob) {
 			case FLIGHTS:
-				youllEarnRewardsPointsText = Html
-					.fromHtml(mContext.getString(R.string.x_points_for_this_trip_TEMPLATE, rewardPoints));
+				youllEarnRewardsPointsText = Html.fromHtml(
+					Phrase.from(this, R.string.x_rewards_currency_for_this_trip_TEMPLATE)
+						.put("reward_currency", rewardPoints).format()
+						.toString());
 				break;
 			case HOTELSV2:
 			case HOTELS:
