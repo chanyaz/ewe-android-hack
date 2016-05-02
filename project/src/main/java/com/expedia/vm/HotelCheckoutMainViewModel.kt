@@ -3,6 +3,7 @@ package com.expedia.vm
 import com.expedia.bookings.data.hotels.HotelCreateTripResponse
 import com.expedia.bookings.data.payment.PaymentModel
 import com.expedia.bookings.data.payment.PaymentSplitsType
+import com.expedia.bookings.data.payment.PointsAndCurrency
 import rx.Observable
 import rx.subjects.BehaviorSubject
 import rx.subjects.PublishSubject
@@ -13,7 +14,7 @@ class HotelCheckoutMainViewModel(paymentModel: PaymentModel<HotelCreateTripRespo
     val userWithEffectiveSwPAvailableSignedOut = BehaviorSubject.create<Boolean>(false)
 
     //OUTLETS
-    val updateEarnedRewards: Observable<Float> = paymentModel.paymentSplits.map { it.payingWithCards.points }
+    val updateEarnedRewards: Observable<PointsAndCurrency> = paymentModel.paymentSplits.map { it.payingWithCards }
 
     val animateSlideToPurchaseWithPaymentSplits = animateInSlideToPurchaseSubject
             .withLatestFrom(paymentModel.paymentSplitsWithLatestTripTotalPayableAndTripResponse, { Unit, paymentSplitsAndLatestTrip ->

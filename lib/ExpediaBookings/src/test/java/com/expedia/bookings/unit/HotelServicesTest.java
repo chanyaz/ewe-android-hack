@@ -399,7 +399,7 @@ public class HotelServicesTest {
 
 	private void givenCouponParams(String mockFileName) {
 		List<UserPreferencePointsDetails> userPreferencePointsDetails = new ArrayList<>();
-		userPreferencePointsDetails.add(new UserPreferencePointsDetails(ProgramName.ExpediaRewards, new PointsAndCurrency(0, PointsType.BURN, new Money())));
+		userPreferencePointsDetails.add(new UserPreferencePointsDetails(ProgramName.ExpediaRewards, new PointsAndCurrency(0, PointsType.BURN, new Money(), null)));
 		couponParams = new HotelApplyCouponParameters.Builder().tripId("58b6be8a-d533-4eb0-aaa6-0228e000056c")
 			.couponCode(mockFileName)
 			.userPreferencePointsDetails(userPreferencePointsDetails)

@@ -1,6 +1,7 @@
 package com.expedia.bookings.data;
 
 import com.expedia.bookings.data.hotels.HotelCreateTripResponse;
+import com.expedia.bookings.data.payment.PointsAndCurrency;
 import com.expedia.bookings.services.HotelCheckoutResponse;
 import com.expedia.bookings.utils.CurrencyUtils;
 
@@ -25,9 +26,9 @@ public class TripBucketItemHotelV2 extends TripBucketItem {
 		return mHotelTripResponse;
 	}
 
-	public HotelCreateTripResponse updateTotalPointsToEarn(float points) {
+	public HotelCreateTripResponse updateTotalPointsAndCurrencyToEarn(PointsAndCurrency pointsAndCurrency) {
 		if (mHotelTripResponse.getRewards() != null) {
-			mHotelTripResponse.getRewards().setUpdatedRewards(points);
+			mHotelTripResponse.getRewards().updatePointsAndCurrencyToEarn(pointsAndCurrency);
 		}
 		return mHotelTripResponse;
 	}

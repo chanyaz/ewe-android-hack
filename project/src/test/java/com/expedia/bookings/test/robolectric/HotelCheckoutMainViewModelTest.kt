@@ -44,7 +44,7 @@ class HotelCheckoutMainViewModelTest {
     @Test
     fun testUpdateEarnedRewardsPoint(){
         val updateEarnPointsText = TestSubscriber.create<Float>()
-        sut.updateEarnedRewards.subscribe(updateEarnPointsText)
+        sut.updateEarnedRewards.map { it.points }.subscribe(updateEarnPointsText)
         paymentModel.createTripSubject.onNext(getCreateTripResponse())
 
         updateEarnPointsText.assertValueCount(1)
