@@ -15,6 +15,9 @@
     <!-- The maximum number of days for paging in the future (from now) users can select to search -->
     <integer name="calendar_max_selectable_date_range">500</integer>
 
+    <!-- The maximum number of days for paging in the future (from now) users can select to search -->
+    <integer name="calendar_max_package_selectable_date_range">329</integer>
+
     <!-- The maximum number of days for a hotel stay -->
     <integer name="calendar_max_days_hotel_stay">28</integer>
 

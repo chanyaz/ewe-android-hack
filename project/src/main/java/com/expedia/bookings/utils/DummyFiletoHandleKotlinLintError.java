@@ -558,6 +558,7 @@ DummyFiletoHandleKotlinLintError {
 		R.string.etp_pay_now_currency_text_TEMPLATE,
 		R.string.etp_pay_later_currency_text_TEMPLATE,
 		R.string.calendar_instructions_date_range_flight_one_way_TEMPLATE,
-		R.string.calendar_instructions_date_range_flight_select_return_date_optional
+		R.string.calendar_instructions_date_range_flight_select_return_date_optional,
+		R.integer.calendar_max_package_selectable_date_range
 	};
 }

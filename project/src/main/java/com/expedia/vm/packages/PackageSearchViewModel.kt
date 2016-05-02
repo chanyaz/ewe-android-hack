@@ -29,6 +29,10 @@ class PackageSearchViewModel(context: Context) : BaseSearchViewModel(context) {
         return context.resources.getInteger(R.integer.calendar_max_days_package_stay);
     }
 
+    override fun getMaxDateRange(): Int {
+        return context.resources.getInteger(R.integer.calendar_max_package_selectable_date_range)
+    }
+
     // Inputs
 
     val isInfantInLapObserver = endlessObserver<Boolean> { isInfantInLap ->
