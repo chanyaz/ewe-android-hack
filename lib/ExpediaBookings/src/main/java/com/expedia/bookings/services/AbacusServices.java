@@ -10,7 +10,6 @@ import com.expedia.bookings.data.abacus.PayloadDeserializer;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
-import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
@@ -26,7 +25,7 @@ public class AbacusServices {
 	private Scheduler observeOn;
 	private Scheduler subscribeOn;
 
-	public AbacusServices(String endpoint, OkHttpClient client, Interceptor interceptor, Scheduler observeOn,
+	public AbacusServices(String endpoint, OkHttpClient client, Scheduler observeOn,
 		Scheduler subscribeOn) {
 		this.observeOn = observeOn;
 		this.subscribeOn = subscribeOn;
@@ -37,7 +36,7 @@ public class AbacusServices {
 			.baseUrl(endpoint)
 			.addConverterFactory(GsonConverterFactory.create(gson))
 			.addCallAdapterFactory(RxJavaCallAdapterFactory.create())
-			.client(client.newBuilder().addInterceptor(interceptor).build())
+			.client(client)
 			.build();
 
 		api = adapter.create(AbacusApi.class);

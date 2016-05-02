@@ -12,7 +12,6 @@ import com.expedia.bookings.data.packages.PackageOffersResponse
 import com.expedia.bookings.data.packages.PackageSearchParams
 import com.expedia.bookings.data.packages.PackageSearchResponse
 import com.google.gson.GsonBuilder
-import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import org.joda.time.DateTime
 import retrofit2.Retrofit
@@ -25,7 +24,7 @@ import java.util.ArrayList
 import java.util.Currency
 import java.util.HashMap
 
-class PackageServices(endpoint: String, okHttpClient: OkHttpClient, interceptor: Interceptor, val observeOn: Scheduler, val subscribeOn: Scheduler) {
+class PackageServices(endpoint: String, okHttpClient: OkHttpClient, val observeOn: Scheduler, val subscribeOn: Scheduler) {
 
     val packageApi: PackageApi by lazy {
 		val gson = GsonBuilder()
@@ -38,7 +37,7 @@ class PackageServices(endpoint: String, okHttpClient: OkHttpClient, interceptor:
 				.baseUrl(endpoint)
 				.addConverterFactory(GsonConverterFactory.create(gson))
 				.addCallAdapterFactory(RxJavaCallAdapterFactory.create())
-				.client(okHttpClient.newBuilder().addInterceptor(interceptor).build())
+				.client(okHttpClient)
 				.build()
 
 		adapter.create(PackageApi::class.java)

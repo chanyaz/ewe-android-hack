@@ -18,7 +18,6 @@ import com.expedia.bookings.data.cars.SearchCarOffer
 import com.expedia.bookings.utils.Strings
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
-import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import org.joda.time.DateTime
 import retrofit2.Retrofit
@@ -35,7 +34,7 @@ import java.util.Collections
 import java.util.Comparator
 import java.util.HashMap
 
-class CarServices(endpoint: String, okHttpClient: OkHttpClient, interceptor: Interceptor, val ObserveOn: Scheduler, val SubscribeOn: Scheduler) {
+class CarServices(endpoint: String, okHttpClient: OkHttpClient, val ObserveOn: Scheduler, val SubscribeOn: Scheduler) {
 
     private var cachedCarSearchResponse = CarSearchResponse()
 
@@ -47,7 +46,7 @@ class CarServices(endpoint: String, okHttpClient: OkHttpClient, interceptor: Int
                 .baseUrl(endpoint)
                 .addConverterFactory(GsonConverterFactory.create(gson))
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
-                .client(okHttpClient.newBuilder().addInterceptor(interceptor).build())
+                .client(okHttpClient)
                 .build()
 
         adapter.create(CarApi::class.java)

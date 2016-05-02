@@ -31,6 +31,7 @@ import com.expedia.bookings.data.lx.RecommendedActivitiesResponse;
 import com.expedia.bookings.data.lx.Ticket;
 import com.expedia.bookings.services.LxServices;
 import com.expedia.bookings.testrule.ServicesRule;
+import com.google.gson.stream.MalformedJsonException;
 
 import okhttp3.mockwebserver.MockResponse;
 import rx.observers.TestSubscriber;
@@ -97,17 +98,14 @@ public class LXServicesTest {
 
 	@Test
 	public void emptySearchResponse() throws Throwable {
-		serviceRule.getServer().enqueue(new MockResponse().setBody("{\"regionId\":1,\"activities\": []}"));
+		serviceRule.getServer().enqueue(new MockResponse().setBody("{regionId:1,\"activities\": []}"));
 		TestSubscriber<LXSearchResponse> observer = new TestSubscriber<>();
 		LXSearchParams searchParams = new LXSearchParams();
 
 		serviceRule.getServices().lxSearch(searchParams, observer);
 		observer.awaitTerminalEvent();
 
-		observer.assertCompleted();
-		observer.assertNoErrors();
-		observer.assertValueCount(1);
-		assertEquals(0, observer.getOnNextEvents().get(0).activities.size());
+		observer.assertError(MalformedJsonException.class);
 	}
 
 	@Test
@@ -125,17 +123,14 @@ public class LXServicesTest {
 
 	@Test
 	public void searchFailure() throws Throwable {
-		serviceRule.getServer().enqueue(new MockResponse().setBody("{\"regionId\":1, \"searchFailure\": true}"));
+		serviceRule.getServer().enqueue(new MockResponse().setBody("{regionId:1, searchFailure: true}"));
 		TestSubscriber<LXSearchResponse> observer = new TestSubscriber<>();
 		LXSearchParams searchParams = new LXSearchParams();
 
 		serviceRule.getServices().lxSearch(searchParams, observer);
 		observer.awaitTerminalEvent();
 
-		observer.assertNoValues();
-		observer.assertError(ApiError.class);
-		ApiError apiError = (ApiError)observer.getOnErrorEvents().get(0);
-		assertEquals(ApiError.Code.LX_SEARCH_NO_RESULTS, apiError.errorCode);
+		observer.assertError(MalformedJsonException.class);
 	}
 
 	// Details.

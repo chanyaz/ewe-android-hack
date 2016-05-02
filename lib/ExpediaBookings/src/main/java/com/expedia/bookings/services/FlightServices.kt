@@ -8,7 +8,6 @@ import com.expedia.bookings.data.flights.FlightSearchParams
 import com.expedia.bookings.data.flights.FlightSearchResponse
 import com.expedia.bookings.utils.DateUtils
 import com.google.gson.GsonBuilder
-import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import org.joda.time.DateTime
 import org.joda.time.Days
@@ -22,7 +21,7 @@ import rx.Scheduler
 import java.util.ArrayList
 import java.util.regex.Pattern
 
-class FlightServices(endpoint: String, okHttpClient: OkHttpClient, interceptor: Interceptor, val observeOn: Scheduler, val subscribeOn: Scheduler) {
+class FlightServices(endpoint: String, okHttpClient: OkHttpClient, val observeOn: Scheduler, val subscribeOn: Scheduler) {
     val patternHour = Pattern.compile("(?<=PT)([0-9]+)(?=H)")
     val patternMin = Pattern.compile("(?<=PT)([0-9]+)(?=M)")
     val flightApi: FlightApi by lazy {
@@ -34,7 +33,7 @@ class FlightServices(endpoint: String, okHttpClient: OkHttpClient, interceptor: 
                 .baseUrl(endpoint)
                 .addConverterFactory(GsonConverterFactory.create(gson))
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
-                .client(okHttpClient.newBuilder().addInterceptor(interceptor).build())
+                .client(okHttpClient)
                 .build()
 
         adapter.create(FlightApi::class.java)

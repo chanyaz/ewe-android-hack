@@ -164,7 +164,7 @@ public class ExpediaBookingApp extends MultiDexApplication implements UncaughtEx
 		FacebookSdk.sdkInitialize(this);
 		startupTimer.addSplit("FacebookSdk started.");
 
-		PicassoHelper.init(this, appComponent().okHttpClient());
+		PicassoHelper.init(this, mAppComponent.okHttpClient());
 		startupTimer.addSplit("Picasso started.");
 
 		ActiveAndroid.initialize(this);

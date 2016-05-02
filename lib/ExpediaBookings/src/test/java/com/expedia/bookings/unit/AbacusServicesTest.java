@@ -41,8 +41,7 @@ public class AbacusServicesTest {
 		logger.setLevel(HttpLoggingInterceptor.Level.BODY);
 		Interceptor interceptor = new MockInterceptor();
 		service = new AbacusServices("http://localhost:" + server.getPort(),
-			new OkHttpClient.Builder().addInterceptor(logger).build(),
-			interceptor,
+			new OkHttpClient.Builder().addInterceptor(logger).addInterceptor(interceptor).build(),
 			Schedulers.immediate(),
 			Schedulers.immediate());
 	}
@@ -64,7 +63,7 @@ public class AbacusServicesTest {
 	@Test
 	public void testEmptyMockDownloadWorks() throws Throwable {
 		server.enqueue(new MockResponse()
-			.setBody("{\"evaluatedExperiments\" : []}"));
+			.setBody("{\"evaluatedExperiments\" = []}"));
 
 		TestSubscriber<AbacusResponse> observer = new TestSubscriber<>();
 		AbacusEvaluateQuery query = new AbacusEvaluateQuery("TEST-TEST-TEST-TEST", 1, 0);
@@ -74,7 +73,7 @@ public class AbacusServicesTest {
 		for (AbacusResponse abacus : observer.getOnNextEvents()) {
 			assertEquals(0, abacus.numberOfTests());
 		}
-		observer.assertCompleted();
+		observer.assertError(JsonSyntaxException.class);
 	}
 
 	@Test

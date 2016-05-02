@@ -21,7 +21,6 @@ import com.expedia.vm.interfaces.IPaymentWidgetViewModel;
 
 import dagger.Module;
 import dagger.Provides;
-import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -30,30 +29,30 @@ import rx.schedulers.Schedulers;
 public final class HotelModule {
 	@Provides
 	@HotelScope
-	HotelServices provideHotelServices(EndpointProvider endpointProvider, OkHttpClient client, Interceptor interceptor) {
+	HotelServices provideHotelServices(EndpointProvider endpointProvider, OkHttpClient client) {
 		final String endpoint = endpointProvider.getE3EndpointUrl();
-		return new HotelServices(endpoint, client, interceptor, AndroidSchedulers.mainThread(), Schedulers.io());
+		return new HotelServices(endpoint, client, AndroidSchedulers.mainThread(), Schedulers.io());
 	}
 
 	@Provides
 	@HotelScope
-	SuggestionV4Services provideHotelSuggestionV4Services(EndpointProvider endpointProvider, OkHttpClient client, Interceptor interceptor) {
+	SuggestionV4Services provideHotelSuggestionV4Services(EndpointProvider endpointProvider, OkHttpClient client) {
 		final String endpoint = endpointProvider.getEssEndpointUrl();
-		return new SuggestionV4Services(endpoint, client, interceptor, AndroidSchedulers.mainThread(), Schedulers.io());
+		return new SuggestionV4Services(endpoint, client, AndroidSchedulers.mainThread(), Schedulers.io());
 	}
 
 	@Provides
 	@HotelScope
-	ReviewsServices provideHotelReviewsServices(EndpointProvider endpointProvider, OkHttpClient client, Interceptor interceptor) {
+	ReviewsServices provideHotelReviewsServices(EndpointProvider endpointProvider, OkHttpClient client) {
 		final String endpoint = endpointProvider.getReviewsEndpointUrl();
-		return new ReviewsServices(endpoint, client, interceptor, AndroidSchedulers.mainThread(), Schedulers.io());
+		return new ReviewsServices(endpoint, client, AndroidSchedulers.mainThread(), Schedulers.io());
 	}
 
 	@Provides
 	@HotelScope
-	LoyaltyServices provideLoyaltyServices(EndpointProvider endpointProvider, OkHttpClient client, Interceptor interceptor) {
+	LoyaltyServices provideLoyaltyServices(EndpointProvider endpointProvider, OkHttpClient client) {
 		final String endpoint = endpointProvider.getE3EndpointUrl();
-		return new LoyaltyServices(endpoint, client, interceptor, AndroidSchedulers.mainThread(), Schedulers.io());
+		return new LoyaltyServices(endpoint, client, AndroidSchedulers.mainThread(), Schedulers.io());
 	}
 
 	@Provides

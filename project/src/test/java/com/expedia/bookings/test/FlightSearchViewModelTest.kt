@@ -40,8 +40,8 @@ class FlightSearchViewModelTest {
         logger.level = HttpLoggingInterceptor.Level.BODY
         val interceptor = MockInterceptor()
         service = FlightServices("http://localhost:" + server.port,
-                okhttp3.OkHttpClient.Builder().addInterceptor(logger).build(),
-                interceptor, Schedulers.immediate(), Schedulers.immediate())
+                okhttp3.OkHttpClient.Builder().addInterceptor(logger).addInterceptor(interceptor).build(),
+                Schedulers.immediate(), Schedulers.immediate())
         val root = File("../lib/mocked/templates").canonicalPath
         val opener = FileSystemOpener(root)
         server.setDispatcher(ExpediaDispatcher(opener))

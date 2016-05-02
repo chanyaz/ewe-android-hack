@@ -1,6 +1,4 @@
-package com.expedia.bookings.services;
-
-import com.expedia.bookings.data.clientlog.EmptyResponse;
+package com.expedia.bookings.data.clientlog;
 
 import retrofit2.http.GET;
 import retrofit2.http.Query;
