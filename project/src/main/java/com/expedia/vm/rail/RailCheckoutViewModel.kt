@@ -1,8 +1,9 @@
 package com.expedia.vm.rail
 
-import com.expedia.bookings.data.rail.responses.RailSearchResponse
+import android.content.Context
+import com.expedia.vm.BaseCheckoutViewModel
 
-open class RailCheckoutViewModel(val selectedOffer : RailSearchResponse.RailOffer) {
+open class RailCheckoutViewModel(context: Context) : BaseCheckoutViewModel(context) {
 
 }
 

@@ -24,10 +24,11 @@
         android:background="@color/rail_background_color"
         android:visibility="gone" />
 
-    <com.expedia.bookings.presenter.rail.RailCheckoutPresenter
-        android:id="@+id/widget_rail_checkout_presenter"
+    <com.expedia.bookings.presenter.rail.RailTripOverviewPresenter
+        android:id="@+id/widget_rail_trip_overview_presenter"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/rail_background_color"
         android:visibility="gone" />
+
 </merge>

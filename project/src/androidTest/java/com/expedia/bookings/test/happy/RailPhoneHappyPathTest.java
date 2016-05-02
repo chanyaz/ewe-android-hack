@@ -9,12 +9,12 @@ import com.expedia.bookings.test.phone.packages.RailScreen;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
-import static android.support.test.espresso.action.ViewActions.scrollTo;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
+import static android.support.test.espresso.matcher.ViewMatchers.isDescendantOfA;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
-import static org.hamcrest.CoreMatchers.allOf;
+import static org.hamcrest.Matchers.allOf;
 
 public class RailPhoneHappyPathTest extends RailTestCase {
 
@@ -31,8 +31,12 @@ public class RailPhoneHappyPathTest extends RailTestCase {
 		onView(withText("12:33 PM – 5:09 PM")).check(matches(isDisplayed())).perform(click());
 		onView(withText("Take the Ferry from Portsmouth Harbour to Ryde Pier Head")).check(matches(isDisplayed()));
 
-		Common.delay(1);
-		onView(allOf(withId(R.id.details_fare_options))).perform(scrollTo());
+		RailScreen.scrollToFareOptions();
 		onView(withText("Specified train only")).check(matches(isDisplayed()));
+
+		RailScreen.clickSelectFareOption();
+
+		onView(allOf(withText("4h 36m, 3 Changes"), isDescendantOfA(allOf(withId(R.id.rail_leg_container)))))
+			.check(matches(isDisplayed()));
 	}
 }

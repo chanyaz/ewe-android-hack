@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <LinearLayout
+        android:id="@+id/rail_leg_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="12dp">
+
+        <com.expedia.bookings.widget.TextView
+            android:id="@+id/dates_view"
+            style="@style/RailPrimaryText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tools:text="Mon, Feb 22" />
+
+        <com.expedia.bookings.widget.TextView
+            android:id="@+id/times_view"
+            style="@style/RailPrimaryText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tools:text="9:07 - 11:21" />
+
+        <com.expedia.bookings.widget.TextView
+            android:id="@+id/train_operator"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:textColor="@color/light_gray"
+            android:textSize="12sp"
+            tools:text="Virgin Trains, London Midland" />
+
+        <com.expedia.bookings.widget.TextView
+            android:id="@+id/layover_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:textColor="@color/flight_departure_date_color"
+            android:textSize="12sp" />
+
+        <com.expedia.bookings.widget.rail.RailResultsTimelineWidget
+            android:id="@+id/timeline_view"
+            android:layout_width="wrap_content"
+            android:layout_height="12dp"
+            android:layout_marginTop="8dp"
+            android:orientation="horizontal"
+            tools:layout_width="200dp"/>
+
+    </LinearLayout>
+
+</merge>

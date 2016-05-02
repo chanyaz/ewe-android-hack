@@ -21,9 +21,12 @@ import com.expedia.bookings.activity.AccountLibActivity
 import com.expedia.bookings.activity.HotelRulesActivity
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.LineOfBusiness
+import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.User
+import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.presenter.packages.TravelerPresenter
+import com.expedia.bookings.utils.CurrencyUtils
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.UserAccountRefresher
 import com.expedia.bookings.utils.bindView
@@ -37,7 +40,9 @@ import com.expedia.vm.packages.BaseCreateTripViewModel
 import com.expedia.vm.packages.BundlePriceViewModel
 import com.expedia.vm.traveler.CheckoutTravelerViewModel
 import com.mobiata.android.Log
+import com.squareup.phrase.Phrase
 import rx.subjects.PublishSubject
+import java.math.BigDecimal
 import kotlin.properties.Delegates
 
 abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet) : Presenter(context, attr), SlideToWidgetLL.ISlideToListener,
@@ -402,14 +407,23 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet) : Pre
         this.visibility = if (forward) View.GONE else View.VISIBLE
     }
 
-    abstract fun lineOfBusiness() : LineOfBusiness
+    fun resetAndShowTotalPriceWidget() {
+        var countryCode = PointOfSale.getPointOfSale().threeLetterCountryCode
+        var currencyCode = CurrencyUtils.currencyForLocale(countryCode)
+        totalPriceWidget.visibility = View.VISIBLE
+        totalPriceWidget.viewModel.setTextObservable.onNext(Pair(Money(BigDecimal("0.00"), currencyCode).formattedMoney,
+                Phrase.from(context, R.string.bundle_total_savings_TEMPLATE)
+                        .put("savings", Money(BigDecimal("0.00"), currencyCode).formattedMoney)
+                        .format().toString()))
+    }
 
+    abstract fun lineOfBusiness(): LineOfBusiness
     abstract fun updateTravelerPresenter()
     abstract fun trackShowSlideToPurchase()
     abstract fun trackShowBundleOverview()
-    abstract fun setCheckoutViewModel() : BaseCheckoutViewModel
-    abstract fun setCreateTripViewModel() : BaseCreateTripViewModel
-    abstract fun getCheckoutViewModel() : BaseCheckoutViewModel
-    abstract fun getCreateTripViewModel() : BaseCreateTripViewModel
-    abstract fun setUpCreateTripViewModel(vm : BaseCreateTripViewModel)
+    abstract fun setCheckoutViewModel(): BaseCheckoutViewModel
+    abstract fun setCreateTripViewModel(): BaseCreateTripViewModel
+    abstract fun getCheckoutViewModel(): BaseCheckoutViewModel
+    abstract fun getCreateTripViewModel(): BaseCreateTripViewModel
+    abstract fun setUpCreateTripViewModel(vm: BaseCreateTripViewModel)
 }

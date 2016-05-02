@@ -17,7 +17,6 @@ class PackageCheckoutOverviewViewModel(context: Context) : BaseCheckoutOverviewV
         tripResponse.subscribe { trip ->
             val hotel = trip.packageDetails.hotel
             val links = HotelMedia(Images.getMediaHost() + hotel.largeThumbnailUrl).getBestUrls(width)
-
             city.onNext(hotel.hotelCity)
             country.onNext(hotel.hotelStateProvince ?: Db.getPackageParams().destination.hierarchyInfo?.country?.name)
             checkIn.onNext(hotel.checkInDate)

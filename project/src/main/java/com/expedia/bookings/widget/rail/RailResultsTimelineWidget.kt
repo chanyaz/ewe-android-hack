@@ -26,6 +26,7 @@ class RailResultsTimelineWidget(context: Context, attrs: AttributeSet?) : View(c
     var drawableHeight by Delegates.notNull<Int>()
     var caretPadding by Delegates.notNull<Int>()
     val iconMap = HashMap<String, Drawable>()
+
     private var leg by Delegates.notNull<RailSearchResponse.LegOption>()
 
     init {
@@ -51,8 +52,11 @@ class RailResultsTimelineWidget(context: Context, attrs: AttributeSet?) : View(c
 
         var iconRect = Rect(0, 0, 0, drawableHeight)
         var first = true
+
+
         leg.travelSegmentList.forEach {
-            if (!first) { // put down a separator first as long as we're not the first icon being drawn
+            if (!first) {
+                // put down a separator first as long as we're not the first icon being drawn
                 iconRect.right = iconRect.left + (( separatorDrawable.intrinsicWidth.toFloat() / separatorDrawable.intrinsicHeight.toFloat()) * (drawableHeight - (2 * caretPadding)).toFloat()).toInt()
                 iconRect.top = caretPadding
                 iconRect.bottom = measuredHeight - caretPadding
