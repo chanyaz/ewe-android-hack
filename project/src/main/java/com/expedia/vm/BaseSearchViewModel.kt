@@ -59,7 +59,7 @@ abstract class BaseSearchViewModel(val context: Context) {
     }
 
     val enableTravelerObserver = endlessObserver<Unit> {
-        enableTravelerObservable.onNext(paramsBuilder.hasOriginLocation())
+        enableTravelerObservable.onNext(paramsBuilder.hasDestinationLocation())
     }
 
     open var requiredSearchParamsObserver = endlessObserver<Unit> { // open so HotelSearchViewModel can override it
