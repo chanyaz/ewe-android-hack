@@ -75,4 +75,16 @@
     <string name="loyalty_applied_excluding_taxes_and_fees_message">Orbucks applied! (excludes taxes and fees)</string>
     <string name="youll_earn_points_TEMPLATE">You\'ll earn {reward_currency} in Orbucks for this booking!</string>
 
+    <!-- Label for Orbitz silver rewards program name -->
+    <string name="reward_plus_silver_TEMPLATE">{brand} silver</string>
+    <!-- Label for Orbitz silver rewards tier without brand name-->
+    <string name="plus_silver">silver</string>
+    <!-- Label for Orbitz gold rewards program name -->
+    <string name="reward_plus_gold_TEMPLATE">{brand} gold</string>
+    <!-- Label for Orbitz gold rewards tier without brand name -->
+    <string name="plus_gold">gold</string>
+    <!-- Label for Orbitz platinum rewards program name -->
+    <string name="reward_plus_platinum_TEMPLATE">{brand} platinum</string>
+    <!-- Label for Orbitz platinum rewards tier without brand name -->
+    <string name="plus_platinum">platinum</string>
 </resources>
