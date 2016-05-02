@@ -455,7 +455,7 @@
         "supplierType": "MERCHANT",
         "thumbnailUrl": "/hotels/1000000/560000/553900/553859/553859_8_n.jpg"
     },
-    "expediaRewards":
+    "rewards":
     {
         "totalPointsToEarn": 2111,
         "isActiveRewardsMember": false,

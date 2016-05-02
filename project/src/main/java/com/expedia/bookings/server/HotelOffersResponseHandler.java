@@ -508,7 +508,7 @@ public class HotelOffersResponseHandler extends JsonResponseHandler<HotelOffersR
 	public String parseRewardPoints(JSONObject obj) {
 		String points = "";
 		try {
-			JSONObject expediaRewards = obj.getJSONObject("expediaRewards");
+			JSONObject expediaRewards = obj.getJSONObject("rewards");
 			if (expediaRewards != null) {
 				points = expediaRewards.optString("totalPointsToEarn");
 			}

@@ -333,7 +333,7 @@
     "formattedWholePrice": "$2",
     "currencyCode": "USD"
   },
-  "expediaRewards": {
+  "rewards": {
     "totalPointsToEarn": 4509,
     "isActiveRewardsMember": false,
     "rewardsMembershipTierName": "Invalid Tier"

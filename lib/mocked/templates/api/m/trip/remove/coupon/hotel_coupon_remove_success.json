@@ -145,7 +145,7 @@
       "pointType": "offerPoint"
     }]
   },
-  "expediaRewards": {
+  "rewards": {
     "totalPointsToEarn": 133,
     "isActiveRewardsMember": true,
     "rewardsMembershipTierName": "Silver"

@@ -344,7 +344,7 @@
     }
   ],
   "isCustomerTitleRequired": true,
-  "expediaRewards": {
+  "rewards": {
     "totalPointsToEarn": 13,
     "isActiveRewardsMember": false,
     "rewardsMembershipTierName": "Invalid Tier"

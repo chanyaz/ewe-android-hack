@@ -442,7 +442,7 @@
     },
     "tealeafTransactionId": "2566118da7a749f4b4fa397aa7818617"
   },
-  "expediaRewards": {
+  "rewards": {
     "totalPointsToEarn": 13383,
     "isActiveRewardsMember": false,
     "rewardsMembershipTierName": "Invalid Tier"

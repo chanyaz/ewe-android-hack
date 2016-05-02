@@ -2,7 +2,7 @@
    "tripId": "${productKey}",
    "userId": 570429434,
    "originalHotelProductResponse": {},
-   "expediaRewards":
+   "rewards":
    {
       "totalPointsToEarn": 2111,
       "isActiveRewardsMember": false,

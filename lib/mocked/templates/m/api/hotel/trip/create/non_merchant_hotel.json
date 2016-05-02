@@ -142,7 +142,7 @@
       }
     ]
   },
-  "expediaRewards": {
+  "rewards": {
     "totalPointsToEarn": 108,
     "isActiveRewardsMember": true,
     "rewardsMembershipTierName": "Blue"
