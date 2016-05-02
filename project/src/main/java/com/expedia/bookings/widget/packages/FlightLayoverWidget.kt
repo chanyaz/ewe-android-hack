@@ -2,6 +2,7 @@ package com.expedia.bookings.widget.packages
 
 import android.content.Context
 import android.graphics.RectF
+import android.support.v4.view.ViewCompat
 import android.util.AttributeSet
 import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.widget.BaseLayoverWidget
@@ -27,7 +28,7 @@ open class FlightLayoverWidget(context: Context, attrs: AttributeSet?) : BaseLay
         if (width > 0) {
             totalWidthForDurationBars = width - calculateLocationsAndPaddingWidth()
             createDrawObjects()
-            if (isLaidOut) {
+            if (ViewCompat.isLaidOut(this)) {
                 postInvalidate()
             }
         }
