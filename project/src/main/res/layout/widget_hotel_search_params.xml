@@ -48,6 +48,7 @@
                 style="@style/MaterialCardView"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/default_search_card_height"
+                android:layout_marginBottom="@dimen/material_search_field_bottom_margin"
                 app:cardUseCompatPadding="true"
                 app:input_icon="@drawable/search_form_icon_person"
                 app:input_icon_tint_color="@color/search_screen_icon_color_v2"
