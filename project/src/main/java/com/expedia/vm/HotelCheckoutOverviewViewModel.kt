@@ -17,6 +17,7 @@ import rx.subjects.BehaviorSubject
 import java.math.BigDecimal
 import java.text.NumberFormat
 import com.expedia.bookings.data.payment.PointsAndCurrency
+import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration
 
 class HotelCheckoutOverviewViewModel(val context: Context, val paymentModel: PaymentModel<HotelCreateTripResponse>) {
     // input
@@ -82,10 +83,16 @@ class HotelCheckoutOverviewViewModel(val context: Context, val paymentModel: Pay
         when (paymentSplitsType) {
             PaymentSplitsType.IS_FULL_PAYABLE_WITH_POINT ->
 
+            if (ProductFlavorFeatureConfiguration.getInstance().isRewardProgramPointsType()) {
                 return Phrase.from(context, R.string.you_are_using_expedia_points_TEMPLATE)
                         .put("amount", payingWithPoints.amount.formattedMoneyFromAmountAndCurrencyCode)
                         .put("points", NumberFormat.getInstance().format(payingWithPoints.points))
                         .format().toString()
+            } else {
+                return Phrase.from(context, R.string.you_are_using_bucks_TEMPLATE)
+                        .put("amount", payingWithPoints.amount.formattedMoneyFromAmountAndCurrencyCode)
+                        .format().toString()
+            }
 
             PaymentSplitsType.IS_FULL_PAYABLE_WITH_CARD ->
                 return Phrase.from(context, R.string.your_card_will_be_charged_template)
@@ -93,11 +100,20 @@ class HotelCheckoutOverviewViewModel(val context: Context, val paymentModel: Pay
                         .format().toString()
 
             PaymentSplitsType.IS_PARTIAL_PAYABLE_WITH_CARD ->
-                return Phrase.from(context, R.string.payment_through_card_and_pwp_points)
-                        .put("amount", payingWithPoints.amount.formattedMoneyFromAmountAndCurrencyCode)
-                        .put("points", NumberFormat.getInstance().format(payingWithPoints.points))
-                        .put("dueamount", payingWithCards.amount.formattedMoneyFromAmountAndCurrencyCode)
-                        .format().toString()
+
+                if (ProductFlavorFeatureConfiguration.getInstance().isRewardProgramPointsType()) {
+                    return Phrase.from(context, R.string.payment_through_card_and_pwp_points)
+                            .put("amount", payingWithPoints.amount.formattedMoneyFromAmountAndCurrencyCode)
+                            .put("points", NumberFormat.getInstance().format(payingWithPoints.points))
+                            .put("dueamount", payingWithCards.amount.formattedMoneyFromAmountAndCurrencyCode)
+                            .format().toString()
+                } else {
+                    return Phrase.from(context, R.string.payment_through_card_and_bucks)
+                            .put("amount", payingWithPoints.amount.formattedMoneyFromAmountAndCurrencyCode)
+                            .put("dueamount", payingWithCards.amount.formattedMoneyFromAmountAndCurrencyCode)
+                            .format().toString()
+                }
+
         }
     }
 }
