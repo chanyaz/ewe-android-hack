@@ -25,7 +25,7 @@
             android:layout_height="?attr/actionBarSize"
             android:layout_alignParentBottom="true"
             android:layout_gravity="bottom"
-            android:background="@drawable/hotel_select_room_ripple"
+            android:background="?attr/hotel_select_room_ripple_drawable"
             android:orientation="horizontal"
             android:paddingBottom="3dp"
             android:paddingTop="3dp">
@@ -75,7 +75,7 @@
         android:id="@+id/toolbar_background"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:background="@color/hotels_primary_color"/>
+        android:background="?attr/primary_color"/>
 
     <LinearLayout
         android:layout_width="match_parent"
