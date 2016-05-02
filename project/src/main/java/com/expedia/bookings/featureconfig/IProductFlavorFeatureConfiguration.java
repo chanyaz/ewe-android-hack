@@ -142,4 +142,7 @@ public interface IProductFlavorFeatureConfiguration {
 	PointOfSaleId getUSPointOfSaleId();
 
 	boolean isEarnMessageOnCheckoutSignInButtonEnabled();
+
+	boolean isGoogleAccountChangeEnabled();
+
 }

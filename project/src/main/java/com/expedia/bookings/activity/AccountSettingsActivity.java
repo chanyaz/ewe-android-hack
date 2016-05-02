@@ -9,6 +9,7 @@ import android.graphics.drawable.Drawable;
 import android.graphics.drawable.LayerDrawable;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GestureDetectorCompat;
@@ -38,6 +39,7 @@ import com.expedia.bookings.data.User;
 import com.expedia.bookings.data.UserLoyaltyMembershipInformation;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.dialog.ClearPrivateDataDialog;
+import com.expedia.bookings.dialog.TextViewDialog;
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.fragment.LoginConfirmLogoutDialogFragment;
 import com.expedia.bookings.tracking.AdTracker;
@@ -69,6 +71,7 @@ public class AccountSettingsActivity extends AppCompatActivity implements AboutS
 	private static final String TAG_COPYRIGHT = "TAG_COPYRIGHT";
 	private static final String TAG_COMMUNICATE = "TAG_COMMUNICATE";
 	private static final String TAG_APP_SETTINGS = "TAG_APP_SETTINGS";
+	private static final String GOOGLE_SIGN_IN_SUPPORT = "GOOGLE_SIGN_IN_SUPPORT";
 
 	private static final int ROW_BOOKING_SUPPORT = 1;
 	private static final int ROW_EXPEDIA_WEBSITE = 2;
@@ -123,6 +126,11 @@ public class AccountSettingsActivity extends AppCompatActivity implements AboutS
 
 		Toolbar toolbar = Ui.findView(this, R.id.toolbar);
 		setSupportActionBar(toolbar);
+
+		TextView googleAccountChange = Ui.findView(this, R.id.google_account_change);
+		setGoogleAccountChangeVisiblity(googleAccountChange);
+		googleAccountChange.setOnClickListener(new GoogleAccountChangeListener());
+
 		Ui.findView(this, android.R.id.home).setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -599,7 +607,7 @@ public class AccountSettingsActivity extends AppCompatActivity implements AboutS
 		User.signIn(this, args);
 	}
 
-
+	
 	//////////////////////////
 	// Sign Out Button
 
@@ -685,4 +693,30 @@ public class AccountSettingsActivity extends AppCompatActivity implements AboutS
 		});
 		countryTextView.setCompoundDrawablesWithIntrinsicBounds(flag, null, null, null);
 	}
+
+	private void setGoogleAccountChangeVisiblity(View view) {
+		view.setVisibility(ProductFlavorFeatureConfiguration.getInstance().isGoogleAccountChangeEnabled() ? View.VISIBLE
+			: View.GONE);
+	}
+
+	private class GoogleAccountChangeListener implements View.OnClickListener {
+
+		@Override
+		public void onClick(View view) {
+			FragmentManager fm = getSupportFragmentManager();
+			TextViewDialog mDialog = (TextViewDialog) fm.findFragmentByTag(GOOGLE_SIGN_IN_SUPPORT);
+			if (mDialog == null) {
+				//Create the dialog
+				mDialog = new TextViewDialog();
+				mDialog.setCancelable(false);
+				mDialog.setCanceledOnTouchOutside(false);
+				mDialog.setMessage(
+					Phrase.from(AccountSettingsActivity.this, R.string.google_account_change_message_TEMPLATE)
+						.put("brand", BuildConfig.brand)
+						.format());
+			}
+			mDialog.show(fm, GOOGLE_SIGN_IN_SUPPORT);
+		}
+	}
+
 }
