@@ -76,7 +76,7 @@
                         <View
                             android:layout_width="1px"
                             android:layout_height="match_parent"
-                            android:background="@color/divider_grey" />
+                            android:background="@color/divider_gray" />
 
                         <Button
                             android:id="@+id/transmission_filter_manual"
@@ -91,7 +91,7 @@
                         <View
                             android:layout_width="1px"
                             android:layout_height="match_parent"
-                            android:background="@color/divider_grey" />
+                            android:background="@color/divider_gray" />
 
                         <Button
                             android:id="@+id/transmission_filter_all"
@@ -167,7 +167,7 @@
                     android:layout_height="1dp"
                     android:layout_marginBottom="15dp"
                     android:layout_marginTop="15dp"
-                    android:background="@color/divider_grey" />
+                    android:background="@color/divider_gray" />
 
                 <TextView
                     android:id="@+id/car_type_text"
@@ -190,7 +190,7 @@
                     android:layout_height="1dp"
                     android:layout_marginBottom="15dp"
                     android:layout_marginTop="15dp"
-                    android:background="@color/divider_grey" />
+                    android:background="@color/divider_gray" />
 
                 <TextView
                     android:layout_width="wrap_content"

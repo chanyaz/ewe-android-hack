@@ -35,7 +35,7 @@
             android:layout_marginRight="72dp"
             android:gravity="center_horizontal"
             android:maxWidth="180dp"
-            android:textColor="#7D7D7D"
+            android:textColor="@color/error_widget_text"
             android:textSize="13sp" />
 
     </LinearLayout>

@@ -8,7 +8,7 @@
         android:id="@+id/imageView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="15dp"
+        android:layout_marginLeft="21dp"
         android:layout_marginTop="24dp"
         android:src="@drawable/flights_details_icon_layover"
         android:tint="#E0A81C" />
@@ -17,7 +17,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:paddingLeft="14dp">
+        android:paddingLeft="23dp">
 
         <View
             android:layout_width="match_parent"

@@ -8,8 +8,6 @@
             prepended with "temporary" are almost definitely going to change when we finalize the
             style guide, so we want to avoid naming them fully for now, while still having this
             paradigm in place. -->
-    <color name="temporary_primary_gray">#494949</color>
-    <color name="temporary_secondary_gray">#818181</color>
     <color name="temporary_savings">#4CBD08</color>
 
     <!-- Launch Screen colors -->
@@ -27,24 +25,26 @@
     <color name="lob_lx_primary_color">#E88534</color>
     <color name="lob_gt_primary_color">#B93F62</color>
 
-    <!-- Search Results gray background (behind all cardviews) -->
-    <color name="search_results_list_bg_gray">#EEEEEE</color>
-    <!-- This color should be used on search result list header texts such as "All Flights", "Searching hundreds of hotels" and "Step 1: Select Hotel".  -->
-    <color name="search_results_list_header_gray">#797979</color>
-
-    <!-- This color is for divider lines within cardviews.  -->
-    <color name="cardview_divider_lines_gray">#DFDFDF</color>
-    <!-- This color is for all search result cells gray text on cardviews.  -->
-    <color name="result_cells_gray_text">#767676</color>
-
-    <color name="search_dialog_gray">#6A6A6A</color>
-
+    <!-- Gray Values (These are the ONLY gray values we should use in our app going forward) -->
+    <color name="gray1_light">#767676</color>
+    <color name="gray2_medium_light">#656565</color>
+    <color name="gray3_medium">#585858</color>
+    <color name="gray4_medium_dark">#4A4A4A</color>
+    <color name="gray5_dark">#3C3C3C</color>
     <color name="white">#FFFFFFFF</color>
     <color name="white70">#B3FFFFFF</color>
     <color name="black">#FF000000</color>
+
+    <!-- Search Results gray background (behind all cardviews) -->
+    <color name="search_results_list_bg_gray">#EEEEEE</color>
+
+    <!-- This color is for divider lines within cardviews.  -->
+    <color name="cardview_divider_lines_gray">#DFDFDF</color>
+
+    <color name="search_dialog_gray">#6A6A6A</color>
+
     <color name="greener_pastures">#19BF00</color>
 
-    <color name="mediumGray">#676767</color>
 
     <color name="transparent">#00000000</color>
 </resources>

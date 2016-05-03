@@ -67,17 +67,17 @@
     <color name="flight_trip_price">#22599C</color>
     <color name="trip_info_text">#FEFEFE</color>
     <color name="airport_text">#607480</color>
-    <color name="divider_grey">#DCDCDC</color>
+    <color name="divider_gray">#DCDCDC</color>
     <color name="data_entry_text">#121212</color>
     <color name="data_entry_heading">#1D5380</color>
     <color name="data_entry_heading_divider">#37658D</color>
     <color name="data_review_dark">#333333</color>
     <color name="review_screen_tab_indicator">#FEE36C</color>
-    <color name="data_review_grey">@color/mediumGray</color>
+    <color name="data_review_gray">@color/gray2_medium_light</color>
     <color name="dialog_background_light">#F5F5F5</color>
     <color name="roboto_light">#fff3f3f3</color>
     <color name="flights_holo_blue_light">#ff33b5e5</color>
-    <color name="flights_traveler_disabled_grey">#ffa5a5a5</color>
+    <color name="flights_traveler_disabled_gray">#ffa5a5a5</color>
     <color name="flight_card_airline_fee_warning">#577494</color>
     <color name="flight_card_unsupported_warning">#BA4D4D</color>
     <color name="flight_card_no_debit_warning">#A33B3B</color>
@@ -110,6 +110,8 @@
     <color name="actionbar_text_disabled">#505c69</color>
     <color name="amenity_text_color_large">#79848f</color>
     <color name="amenity_icon_color">#717880</color>
+    <color name="hotels_room_title">@color/gray5_dark</color>
+    <color name="hotels_room_info">@color/gray1_light</color>
     <color name="hotel_filter_spinner_dropdown_color">@color/white</color>
     <color name="hotel_filter_spinner_dropdown_color_selected">#878F94</color>
     <color name="hotel_filter_spinner_color">#DFE0E2</color>>
@@ -120,7 +122,7 @@
     <color name="hotel_cell_gray_text">#888888</color>
     <color name="hotel_cell_light_gray_text">#D7D7D7</color>
     <color name="hotel_cell_secondary_text_color">#9A9A9A</color>
-    <color name="hotel_cell_disabled_text">#7D7D7D</color>
+    <color name="hotel_cell_disabled_text">@color/gray1_light</color>
     <color name="hotel_detail_divider">#CACACA</color>
     <color name="hotel_filter_background_color">#efefef</color>
     <color name="pwp_total_available_points">#969696</color>
@@ -130,7 +132,7 @@
     <color name="hotel_tonight_only_color">#4A90E2</color>
     <color name="hotel_mobile_exclusive_color">#E2624A</color>
     <color name="hotel_member_pricing_color">#00355F</color>
-    <color name="hotel_sold_out_color">#8C8C8C</color>
+    <color name="hotel_sold_out_color">@color/gray1_light</color>
     <color name="hotel_review_actionbar_tab_text_selected">@color/actionbar_tab_text_selected</color>
     <color name="hotel_review_actionbar_tab_text_unselected">@color/actionbar_tab_text_unselected</color>
     <color name="hotel_coupon_code_error_message_color">#FFDD2C00</color>
@@ -149,7 +151,7 @@
 
     <!--Hotel Filter Colors -->
     <color name="hotel_filter_hotel_name_icon">#868686</color>
-    <color name="hotel_filter_neighborhood_text">@color/mediumGray</color>
+    <color name="hotel_filter_neighborhood_text">@color/gray2_medium_light</color>
     <color name="hotel_filter_show_more_less">#8B8B8B</color>
     <color name="hotel_filter_text">#5c5c5c</color>
 
@@ -215,7 +217,7 @@
     <color name="header_text">#777</color>
     <color name="hotel_strikethrough_price_text_color">#777</color>
     <color name="flight_checkout_opaque_white">#BBE8E8E8</color>
-    <color name="flight_checkout_opaque_grey">#D9D9D9</color>
+    <color name="flight_checkout_opaque_gray">#D9D9D9</color>
     <color name="nav_dropdown_dividers">#26ffffff</color>
     <color name="price_promo_banner_text_color">@color/white</color>
     <color name="price_promo_banner_strikethrough_text_color">#aaa</color>
@@ -259,7 +261,7 @@
     <color name="trip_bucket_sold_out_unselected">#cc525252</color>
 
     <!-- About Activity -->
-    <color name="AboutRowTextColor">#797979</color>
+    <color name="AboutRowTextColor">@color/gray1_light</color>
 
     <!-- AboutSectionFragment -->
     <color name="about_row_bg_normal">#0000</color>
@@ -287,12 +289,13 @@
     <color name="cars_primary_color">@color/lob_cars_primary_color</color>
     <color name="cars_secondary_color">@color/lob_cars_secondary_color</color>
     <color name="cars_status_bar_color">#7E4569</color>
-    <color name="cars_checkout_text_color">@color/mediumGray</color>
+    <color name="cars_details_price">@color/gray1_light</color>
+    <color name="cars_checkout_text_color">@color/gray2_medium_light</color>
     <color name="cars_ripple_color">#A4638D</color>
     <color name="cars_tooltip_color">#915B7C</color>
     <color name="cars_tooltip_disabled_color">#9D9D9D</color>
     <color name="cars_actionbar_text_color">#5C5C5C</color>
-    <color name="cars_lx_checkout_button_text_color">@color/mediumGray</color>
+    <color name="cars_lx_checkout_button_text_color">@color/gray2_medium_light</color>
     <color name="cars_invalid_days_calendar">#A9A9A9</color>
     <color name="cars_valid_days_calendar">#3A3A3A</color>
     <color name="cars_checkmark_color">#29a653</color>
@@ -337,7 +340,7 @@
     <color name="lx_details_heading_text_color">#3C3C3C</color>
     <color name="lx_details_content_text_color">#585858</color>
     <color name="lx_details_background_color">@color/search_results_list_bg_gray</color>
-    <color name="lx_ticket_summary_color">@color/mediumGray</color>
+    <color name="lx_ticket_summary_color">@color/gray2_medium_light</color>
     <color name="lx_ticket_title_color">#3C3C3C</color>
     <color name="lx_select_ticket_button_color">#7C7C7C</color>
     <color name="lx_date_disabled_background_color">@android:color/white</color>
@@ -348,7 +351,7 @@
     <color name="lx_confirmation_background">#1A1D20</color>
     <color name="lx_confirmation_action_text_color">#F3F3F3</color>
     <color name="lx_confirmation_email_text_color">#C8C8C8</color>
-    <color name="lx_checkout_text_color">@color/mediumGray</color>
+    <color name="lx_checkout_text_color">@color/gray2_medium_light</color>
     <color name="lx_dates_disabled_text_color">#D7D7D7</color>
     <color name="lx_secondary_color_disabled">#F6DAC0</color>
     <color name="lx_dates_container_border_color">#CCCCCC</color>
@@ -381,18 +384,18 @@
     <color name="toolbar_icon">@color/white</color>
 
     <!-- Hotels V2 Checkout Colors -->
-    <color name="hotelsv2_checkout_text_color">@color/mediumGray</color>
+    <color name="hotelsv2_checkout_text_color">@color/gray2_medium_light</color>
     <color name="hotelsv2_checkout_divider_color">#DFDFDF</color>
     <color name="hotel_guest_selector_enabled_color">#5C5C5C</color>
     <color name="hotel_guest_selector_disabled_color">#405C5C5C</color>
 
-    <color name="defaultTextColor">@color/mediumGray</color>
+    <color name="defaultTextColor">@color/gray2_medium_light</color>
 
     <!-- Hotels V2 Detail star color -->
     <color name="hotelsv2_detail_star_color">#F1B906</color>
 
     <!-- Hotels V2 Hotel Sold Out -->
-    <color name="hotelsv2_sold_out_hotel_gray">@color/mediumGray</color>
+    <color name="hotelsv2_sold_out_hotel_gray">@color/gray2_medium_light</color>
 
     <!-- Hotels V2 Hotel Sold Out -->
     <color name="hotelsv2_coupon_applied_color">@color/defaultTextColor</color>
@@ -429,19 +432,20 @@
     <color name="packages_flight_filter_background_color">#efefef</color>
     <color name="packages_flight_filter_show_more_less">#8B8B8B</color>
     <color name="packages_flight_filter_divider">#D8D8D8</color>
-    <color name="packages_bundle_overview_footer_primary_text">@color/temporary_primary_gray</color>
-    <color name="packages_bundle_overview_footer_secondary_text">@color/temporary_secondary_gray</color>
+    <color name="packages_bundle_overview_footer_primary_text">@color/gray4_medium_dark</color>
+    <color name="packages_bundle_overview_footer_secondary_text">@color/gray1_light</color>
     <color name="packages_bundle_overview_footer_secondary_text_savings">@color/temporary_savings</color>
-    <color name="packages_bundle_overview_widgets_primary_text">@color/mediumGray</color>
+    <color name="packages_bundle_overview_widgets_primary_text">@color/gray2_medium_light</color>
     <color name="packages_bundle_overview_widgets_secondary_text">#969696</color>
+    <color name="packages_bundle_overview_hotel_expanded_text">@color/gray2_medium_light</color>
     <color name="packages_results_header_text">@color/search_results_list_header_gray</color>
-    <color name="packages_flight_cell_primary_text">@color/temporary_primary_gray</color>
+    <color name="packages_flight_cell_primary_text">@color/gray4_medium_dark</color>
     <color name="packages_flight_cell_duration_text">@color/result_cells_gray_text</color>
-    <color name="packages_hotel_map_message">#696969</color>
+    <color name="packages_hotel_map_message">@color/gray2_medium_light</color>
     <color name="packages_result_background">@color/search_results_list_bg_gray</color>
     <color name="traveler_drop_down_unchecked_color">#6C6C6C</color>
     <color name="packages_filter_color">#B9B9B9</color>
-    <color name="traveler_default_card_text_color">@color/mediumGray</color>
+    <color name="traveler_default_card_text_color">@color/gray2_medium_light</color>
     <color name="traveler_incomplete_text_color">#FC9F23</color>
     <color name="packages_total_duration_text">@color/white70</color>
 
@@ -468,8 +472,8 @@
     <color name="search_suggestion_hint_v2">#458a8a8a</color>
 
     <!-- Account Screen -->
-    <color name="about_row_primary_text_color">@color/mediumGray</color>
-    <color name="about_row_secondary_text_color">#969696</color>
+    <color name="about_row_primary_text_color">@color/gray2_medium_light</color>
+    <color name="about_row_secondary_text_color">@color/gray1_light</color>
     <color name="account_toolbar_background_color">@color/launch_toolbar_background_color</color>
     <color name="account_background_color">#eee</color>
     <color name="account_toolbar_text_color">@color/white</color>
@@ -486,4 +490,13 @@
     <color name="material_tab_text">@color/cardview_divider_lines_gray</color>
     <color name="material_tab_text_selected">@color/white</color>
     <color name="account_screen_back_nav_color">@color/white</color>
+
+    <!-- Search result cells gray text on cardviews.  -->
+    <color name="result_cells_gray_text">@color/gray1_light</color>
+
+    <!-- This color should be used on search result list header texts such as "All Flights", "Searching hundreds of hotels" and "Step 1: Select Hotel".  -->
+    <color name="search_results_list_header_gray">@color/gray1_light</color>
+
+    <color name="error_widget_text">@color/gray1_light</color>
+
 </resources>

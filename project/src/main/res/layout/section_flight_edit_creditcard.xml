@@ -90,7 +90,7 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="8dp"
         android:paddingBottom="12dp"
-        android:textColor="@color/data_review_grey"
+        android:textColor="@color/data_review_gray"
         android:textSize="12sp" />
 
     <!-- This empty view fixes a scrolling bug on older versions of android -->

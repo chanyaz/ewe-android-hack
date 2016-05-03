@@ -33,7 +33,7 @@
             android:id="@+id/display_phone_number_with_country_code"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="@color/data_review_grey"
+            android:textColor="@color/data_review_gray"
             android:textSize="@dimen/data_display_sub_text" />
 
         <TextView
@@ -42,7 +42,7 @@
             android:layout_height="wrap_content"
             android:ellipsize="end"
             android:singleLine="true"
-            android:textColor="@color/data_review_grey"
+            android:textColor="@color/data_review_gray"
             android:textSize="@dimen/data_display_sub_text" />
     </LinearLayout>
 

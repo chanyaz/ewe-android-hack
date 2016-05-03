@@ -165,11 +165,11 @@ public class FlightTravelerInfoOptionsFragment extends Fragment {
 			//Add divider
 			View divider = new View(getActivity());
 			LinearLayout.LayoutParams divLayoutParams = new LinearLayout.LayoutParams(
-				LayoutParams.MATCH_PARENT, res.getDimensionPixelSize(R.dimen.simple_grey_divider_height));
-			divLayoutParams.setMargins(0, res.getDimensionPixelSize(R.dimen.simple_grey_divider_margin_top), 0,
-				res.getDimensionPixelSize(R.dimen.simple_grey_divider_margin_bottom));
+				LayoutParams.MATCH_PARENT, res.getDimensionPixelSize(R.dimen.simple_gray_divider_height));
+			divLayoutParams.setMargins(0, res.getDimensionPixelSize(R.dimen.simple_gray_divider_margin_top), 0,
+				res.getDimensionPixelSize(R.dimen.simple_gray_divider_margin_bottom));
 			divider.setLayoutParams(divLayoutParams);
-			divider.setBackgroundColor(res.getColor(R.color.divider_grey));
+			divider.setBackgroundColor(res.getColor(R.color.divider_gray));
 			mAssociatedTravelersContainer.addView(divider);
 		}
 
@@ -338,7 +338,7 @@ public class FlightTravelerInfoOptionsFragment extends Fragment {
 				TextView phone = Ui.findView(section, R.id.display_phone_number_with_country_code);
 				TextView assist = Ui.findView(section, R.id.display_special_assistance);
 				Resources res = getActivity().getResources();
-				int disabledGrey = res.getColor(R.color.flights_traveler_disabled_grey);
+				int disabledGrey = res.getColor(R.color.flights_traveler_disabled_gray);
 				name.setTextColor(disabledGrey);
 				phone.setTextColor(disabledGrey);
 				assist.setTextColor(disabledGrey);

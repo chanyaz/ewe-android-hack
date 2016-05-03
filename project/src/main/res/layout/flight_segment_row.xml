@@ -8,7 +8,7 @@
         android:id="@+id/imageView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="15dp"
+        android:layout_marginLeft="21dp"
         android:layout_marginTop="5dp"
         android:src="@drawable/flights_details_icon_flight"
         android:tint="@color/packages_primary_color" />
@@ -17,7 +17,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:paddingLeft="14dp"
+        android:paddingLeft="23dp"
         android:paddingRight="14dp">
 
         <com.expedia.bookings.widget.TextView

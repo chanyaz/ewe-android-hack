@@ -30,7 +30,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="0dp"
             android:layout_marginTop="-3dp"
-            android:textColor="@color/data_review_grey"
+            android:textColor="@color/data_review_gray"
             android:textSize="@dimen/data_display_sub_text" />
 
         <TextView
@@ -39,7 +39,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="0dp"
             android:layout_marginTop="-3dp"
-            android:textColor="@color/data_review_grey"
+            android:textColor="@color/data_review_gray"
             android:textSize="@dimen/data_display_sub_text" />
     </LinearLayout>
 

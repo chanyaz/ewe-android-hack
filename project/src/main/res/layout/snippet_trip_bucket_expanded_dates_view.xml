@@ -80,7 +80,7 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="@dimen/one_px_hdpi_two_px_xhdpi"
-        android:background="@color/divider_grey" />
+        android:background="@color/divider_gray" />
 
     <include layout="@layout/snippet_trip_bucket_expanded_price" />
 

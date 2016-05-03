@@ -4,4 +4,4 @@
     android:layout_width="match_parent"
     android:layout_height="@dimen/one_px_hdpi_two_px_xhdpi"
     android:layout_marginTop="@dimen/breakdown_margin"
-    android:background="@color/divider_grey" />
+    android:background="@color/divider_gray" />

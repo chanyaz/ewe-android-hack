@@ -2,7 +2,7 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/flight_checkout_opaque_grey"
+    android:background="@color/flight_checkout_opaque_gray"
     android:fillViewport="true"
     android:orientation="vertical" >
 
@@ -46,10 +46,10 @@
 
             <View
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/simple_grey_divider_height"
+                android:layout_height="@dimen/simple_gray_divider_height"
                 android:layout_marginBottom="10dp"
                 android:layout_marginTop="10dp"
-                android:background="@color/divider_grey" />
+                android:background="@color/divider_gray" />
 
             <include
                 android:id="@+id/current_traveler_prefs"
@@ -58,10 +58,10 @@
             <View
                 android:id="@+id/current_traveler_passport_country_divider"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/simple_grey_divider_height"
+                android:layout_height="@dimen/simple_gray_divider_height"
                 android:layout_marginBottom="15dp"
                 android:layout_marginTop="15dp"
-                android:background="@color/divider_grey" />
+                android:background="@color/divider_gray" />
 
             <include
                 android:id="@+id/current_traveler_passport_country"
@@ -122,10 +122,10 @@
             <View
                 android:id="@+id/new_traveler_partial_divider"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/simple_grey_divider_height"
-                android:layout_marginBottom="@dimen/simple_grey_divider_margin_bottom"
-                android:layout_marginTop="@dimen/simple_grey_divider_margin_top"
-                android:background="@color/divider_grey" />
+                android:layout_height="@dimen/simple_gray_divider_height"
+                android:layout_marginBottom="@dimen/simple_gray_divider_margin_bottom"
+                android:layout_marginTop="@dimen/simple_gray_divider_margin_top"
+                android:background="@color/divider_gray" />
 
             <LinearLayout
                 android:id="@+id/associated_travelers_container"

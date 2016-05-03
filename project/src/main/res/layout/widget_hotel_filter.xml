@@ -226,7 +226,7 @@
                             <View
                                 android:layout_width="1px"
                                 android:layout_height="match_parent"
-                                android:background="@color/divider_grey" />
+                                android:background="@color/divider_gray" />
 
                             <LinearLayout
                                 android:id="@+id/rating_two_background"
@@ -248,7 +248,7 @@
                             <View
                                 android:layout_width="1px"
                                 android:layout_height="match_parent"
-                                android:background="@color/divider_grey" />
+                                android:background="@color/divider_gray" />
 
                             <LinearLayout
                                 android:id="@+id/rating_three_background"
@@ -270,7 +270,7 @@
                             <View
                                 android:layout_width="1px"
                                 android:layout_height="match_parent"
-                                android:background="@color/divider_grey" />
+                                android:background="@color/divider_gray" />
 
                             <LinearLayout
                                 android:id="@+id/rating_four_background"
@@ -292,7 +292,7 @@
                             <View
                                 android:layout_width="1px"
                                 android:layout_height="match_parent"
-                                android:background="@color/divider_grey" />
+                                android:background="@color/divider_gray" />
 
                             <LinearLayout
                                 android:id="@+id/rating_five_background"

@@ -68,5 +68,5 @@
         android:background="?attr/selectableItemBackground"
         android:padding="13dp"
         android:src="@drawable/ic_swap"
-        android:tint="@color/mediumGray" />
+        android:tint="@color/gray2_medium_light" />
 </LinearLayout>

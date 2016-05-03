@@ -19,7 +19,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@+id/name_match_warning_text_view"
-        android:background="@color/flight_checkout_opaque_grey"
+        android:background="@color/flight_checkout_opaque_gray"
         android:fillViewport="true" >
 
         <FrameLayout
