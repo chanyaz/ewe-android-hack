@@ -11,6 +11,7 @@ import android.view.View;
 import com.expedia.bookings.data.HotelFilter;
 import com.expedia.bookings.data.pos.PointOfSaleId;
 import com.expedia.bookings.server.EndPoint;
+import com.expedia.bookings.tracking.OmnitureTracking;
 import com.mobiata.android.fragment.AboutSectionFragment;
 
 public interface IProductFlavorFeatureConfiguration {
@@ -145,4 +146,5 @@ public interface IProductFlavorFeatureConfiguration {
 
 	boolean isGoogleAccountChangeEnabled();
 
+	String getOmnitureEventValue(OmnitureTracking.OmnitureEventName key);
 }

@@ -11,8 +11,11 @@ import com.expedia.bookings.data.TripResponse
 import com.expedia.bookings.data.payment.PaymentModel
 import com.expedia.bookings.data.payment.PaymentSplits
 import com.expedia.bookings.data.payment.ProgramName
+import com.expedia.bookings.tracking.HotelV2Tracking
+import com.expedia.bookings.utils.NumberUtils
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
+import com.expedia.bookings.utils.withLatestFrom
 import com.expedia.util.notNullAndObservable
 import com.expedia.util.subscribeChecked
 import com.expedia.util.subscribeOnCheckChanged
@@ -21,7 +24,8 @@ import com.expedia.util.subscribeTextColor
 import com.expedia.util.subscribeVisibility
 import com.squareup.phrase.Phrase
 import rx.Observable
-import rx.subjects.PublishSubject
+import rx.subjects.BehaviorSubject
+import java.math.BigDecimal
 import javax.inject.Inject
 
 class OrbucksWidget(context: Context, attrs: AttributeSet) : LinearLayout(context, attrs) {
@@ -47,7 +51,7 @@ class OrbucksWidget(context: Context, attrs: AttributeSet) : LinearLayout(contex
 
 interface IOrbucksViewModel {
     //Inlets
-    val orbucksOpted: PublishSubject<Boolean>
+    val orbucksOpted: BehaviorSubject<Boolean>
 
     //Outlet
     val orbucksMessage: Observable<String>
@@ -71,8 +75,10 @@ class OrbucksViewModel<T : TripResponse>(paymentModel: PaymentModel<T>, val cont
         }
     }
 
+    private val programmaticToggle = BehaviorSubject.create<Boolean>(false)
+
     //Inlet
-    override val orbucksOpted = PublishSubject.create<Boolean>()
+    override val orbucksOpted = BehaviorSubject.create<Boolean>(true)
     override val orbucksMessage = paymentModel.paymentSplitsWithLatestTripTotalPayableAndTripResponse.filter { ProgramName.Orbucks == it.tripResponse.getProgramName() }
             .map { pointsAppliedMessage(it.paymentSplits, it.tripResponse) }
 
@@ -93,25 +99,38 @@ class OrbucksViewModel<T : TripResponse>(paymentModel: PaymentModel<T>, val cont
     }
 
     override val updateToggle = paymentModel.paymentSplitsSuggestionUpdates
-            .withLatestFrom(paymentModel.swpOpted, {
-                paymentSplitsSuggestionUpdate, isSwpOpted ->
+            .withLatestFrom(paymentModel.swpOpted, paymentModel.tripResponses, orbucksOpted, {
+                paymentSplitsSuggestionUpdate, isSwpOpted, tripResponse, orbucksOpted ->
                 object {
                     val isCreateTrip = paymentSplitsSuggestionUpdate.second
                     val isSwpOpted = isSwpOpted
-                }
-            })
-            .withLatestFrom(paymentModel.tripResponses, {
-                isCreateTripAndIsSwpOpted, tripResponse ->
-                object {
-                    val isCreateTrip = isCreateTripAndIsSwpOpted.isCreateTrip
-                    val isSwpOpted = isCreateTripAndIsSwpOpted.isSwpOpted
                     val isRewardsRedeemable = tripResponse.isRewardsRedeemable()
+                    val orbucksOpted = orbucksOpted
                 }
             })
             .filter { it.isCreateTrip && it.isRewardsRedeemable }
+            .doOnNext { if (it.orbucksOpted != it.isSwpOpted) programmaticToggle.onNext(true) }
             .map { it.isSwpOpted }
 
     init {
         orbucksOpted.subscribe(paymentModel.togglePaymentByPoints)
+
+        orbucksOpted.withLatestFrom(paymentModel.tripResponses, programmaticToggle, {
+            orbucksOpted, tripResponses, programmaticToggle ->
+            object {
+                val orbucksOpted = orbucksOpted
+                val tripResponses = tripResponses
+                val programmaticToggle = programmaticToggle
+            }
+        }).doOnNext { programmaticToggle.onNext(false) }.filter { !it.programmaticToggle }.subscribe {
+            if (it.orbucksOpted) {
+                val newPaymentSplits = it.tripResponses.paymentSplitsWhenMaxPayableWithPoints()
+                val tripTotal = it.tripResponses.getTripTotalExcludingFee().amount;
+                val percentage = NumberUtils.getPercentagePaidWithPointsForOmniture(newPaymentSplits.payingWithPoints.amount.amount, tripTotal)
+                HotelV2Tracking().trackPayWithPointsReEnabled(percentage)
+            } else {
+                HotelV2Tracking().trackPayWithPointsDisabled()
+            }
+        }
     }
 }

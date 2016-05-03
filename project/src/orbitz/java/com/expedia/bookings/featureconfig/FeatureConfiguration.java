@@ -17,6 +17,7 @@ import com.expedia.bookings.data.HotelFilter;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.data.pos.PointOfSaleId;
 import com.expedia.bookings.server.EndPoint;
+import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.AboutUtils;
 import com.expedia.bookings.utils.JodaUtils;
 import com.expedia.bookings.utils.Ui;
@@ -330,4 +331,22 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 		return true;
 	}
 
+	public String getOmnitureEventValue(OmnitureTracking.OmnitureEventName key) {
+		switch (key) {
+		case REWARD_PROGRAM_NAME:
+			return "orbitz";
+		case HOTEL_CHECKOUT_START_REWARDS_REDEEMABLE:
+			return "event119";
+		case REWARD_APPLIED_PERCENTAGE_TEMPLATE:
+			return "orbitz | %d";
+		case NO_REWARDS_USED:
+			return "no orbucks used";
+		case TOTAL_POINTS_BURNED:
+			return "event123";
+		case CHECKOUT_PAY_WITH_REWARDS_REENABLED:
+			return "App.Hotels.CKO.Points.Select.Orbitz";
+		}
+		//It should not be the case
+		throw new IllegalArgumentException("Unknown enum value");
+	}
 }

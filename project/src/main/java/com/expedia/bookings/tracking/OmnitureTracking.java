@@ -230,12 +230,19 @@ public class OmnitureTracking {
 	private static final String HOTELSV2_CONFIRMATION_COUPON_FAIL = "App.CKO.Coupon.Fail";
 	private static final String HOTELSV2_CONFIRMATION_COUPON_REMOVE = "App.CKO.Coupon.Remove";
 
-	private static final String EXPEDIA_POINTS_PERCENTAGE = "expedia | %d";
 	private static final String REWARDS_POINTS_UPDATE = "App.Hotels.CKO.Points.Update";
 	private static final String PAY_WITH_POINTS_DISABLED = "App.Hotels.CKO.Points.None";
-	private static final String PAY_WITH_POINTS_REENABLED = "App.Hotels.CKO.Points.Select.Expedia";
 	private static final String PAY_WITH_POINTS_ERROR = "App.Hotels.CKO.Points.Error";
 	private static final String SHOP_WITH_POINTS_TOGGLE_STATE = "App.Hotels.DS.SWP.";
+
+	public enum OmnitureEventName {
+		REWARD_PROGRAM_NAME,
+		HOTEL_CHECKOUT_START_REWARDS_REDEEMABLE,
+		REWARD_APPLIED_PERCENTAGE_TEMPLATE,
+		NO_REWARDS_USED,
+		TOTAL_POINTS_BURNED,
+		CHECKOUT_PAY_WITH_REWARDS_REENABLED
+	}
 
 	public static void trackHotelV2SearchBox(boolean swpIsVisibleAndToggleIsOn) {
 		Log.d(TAG, "Tracking \"" + HOTELSV2_SEARCH_BOX + "\" pageLoad...");
@@ -756,12 +763,15 @@ public class OmnitureTracking {
 
 		StringBuilder events = new StringBuilder("event70");
 		if (trip.isRewardsRedeemable()) {
-			events.append(",event114");
+			events.append(",");
+			events.append(ProductFlavorFeatureConfiguration.getInstance().getOmnitureEventValue(OmnitureEventName.HOTEL_CHECKOUT_START_REWARDS_REDEEMABLE));
 			BigDecimal amountPaidWithPoints = trip.getPointDetails().getMaxPayableWithPoints().getAmount().amount;
 			BigDecimal totalAmount = trip.getTripTotalExcludingFee().amount;
 			int percentagePaidWithPoints = NumberUtils.getPercentagePaidWithPointsForOmniture(amountPaidWithPoints,
 				totalAmount);
-			s.setEvar(53, String.format(Locale.getDefault(), EXPEDIA_POINTS_PERCENTAGE, percentagePaidWithPoints));
+			String rewardAppliedPercentage = ProductFlavorFeatureConfiguration.getInstance()
+				.getOmnitureEventValue(OmnitureEventName.REWARD_APPLIED_PERCENTAGE_TEMPLATE);
+			s.setEvar(53, String.format(Locale.getDefault(), rewardAppliedPercentage, percentagePaidWithPoints));
 		}
 		s.setEvents(events.toString());
 		addHotelV2RegionId(s, searchParams);
@@ -890,11 +900,12 @@ public class OmnitureTracking {
 		s.trackLink(null, "o", "Hotel Checkout", null, null);
 	}
 
-	public static void trackHotelV2PurchaseConfirmation(HotelCheckoutResponse hotelCheckoutResponse, int percentagePaidWithPoints, float totalBurnedAmount) {
+	public static void trackHotelV2PurchaseConfirmation(HotelCheckoutResponse hotelCheckoutResponse, int percentagePaidWithPoints, String totalAppliedRewardCurrency) {
 		Log.d(TAG, "Tracking \"" + HOTELSV2_PURCHASE_CONFIRMATION + "\" pageLoad");
 
 		ADMS_Measurement s = createTrackPageLoadEventBase(HOTELSV2_PURCHASE_CONFIRMATION);
-		s.setEvents("purchase,event117=" + totalBurnedAmount);
+		s.setEvents("purchase," + ProductFlavorFeatureConfiguration.getInstance().getOmnitureEventValue(
+			OmnitureEventName.TOTAL_POINTS_BURNED) + "=" + totalAppliedRewardCurrency);
 
 		// Product details
 		DateTimeFormatter dtf = ISODateTimeFormat.basicDate();
@@ -929,10 +940,20 @@ public class OmnitureTracking {
 		// Currency code
 		s.setCurrencyCode(hotelCheckoutResponse.currencyCode);
 
-		String percentageOfAmountPaidWithPoints = percentagePaidWithPoints == 0 ? "no points used" : String.format(Locale.ENGLISH, EXPEDIA_POINTS_PERCENTAGE, percentagePaidWithPoints);
-		s.setEvar(53, percentageOfAmountPaidWithPoints);
+		s.setEvar(53, getPercentageOfAmountPaidWithPoints(percentagePaidWithPoints));
 		// Send the tracking data
 		s.track();
+	}
+
+	private static String getPercentageOfAmountPaidWithPoints(int percentagePaidWithPoints) {
+		if (percentagePaidWithPoints == 0) {
+			return ProductFlavorFeatureConfiguration.getInstance()
+				.getOmnitureEventValue(OmnitureEventName.NO_REWARDS_USED);
+		}
+		else {
+			return String.format(Locale.ENGLISH, ProductFlavorFeatureConfiguration.getInstance()
+				.getOmnitureEventValue(OmnitureEventName.REWARD_APPLIED_PERCENTAGE_TEMPLATE), percentagePaidWithPoints);
+		}
 	}
 
 	public static void trackHotelV2ConfirmationCalendar() {
@@ -4860,7 +4881,10 @@ public class OmnitureTracking {
 		ADMS_Measurement s = getFreshTrackingObject();
 		s.setEvar(28, REWARDS_POINTS_UPDATE);
 		s.setProp(16, REWARDS_POINTS_UPDATE);
-		s.setEvar(53, String.format(Locale.getDefault(), EXPEDIA_POINTS_PERCENTAGE, percentagePaidWithPoints));
+
+		String rewardAppliedPercentage = ProductFlavorFeatureConfiguration.getInstance()
+			.getOmnitureEventValue(OmnitureEventName.REWARD_APPLIED_PERCENTAGE_TEMPLATE);
+		s.setEvar(53, String.format(Locale.getDefault(), rewardAppliedPercentage, percentagePaidWithPoints));
 		s.trackLink(null, "o", PAY_WITH_POINTS_CUSTOM_LINK_NAME, null, null);
 	}
 
@@ -4870,17 +4894,21 @@ public class OmnitureTracking {
 		ADMS_Measurement s = getFreshTrackingObject();
 		s.setEvar(28, PAY_WITH_POINTS_DISABLED);
 		s.setProp(16, PAY_WITH_POINTS_DISABLED);
-		s.setEvar(53, "no points used");
+		s.setEvar(53, ProductFlavorFeatureConfiguration.getInstance().getOmnitureEventValue(OmnitureEventName.NO_REWARDS_USED));
 		s.trackLink(null, "o", PAY_WITH_POINTS_CUSTOM_LINK_NAME, null, null);
 	}
 
 	public static void trackPayWithPointsReEnabled(int percentagePaidWithPoints) {
-		Log.d(TAG, "Tracking \"" + PAY_WITH_POINTS_REENABLED);
+		String payWithPointsReenabled = ProductFlavorFeatureConfiguration.getInstance()
+			.getOmnitureEventValue(OmnitureEventName.CHECKOUT_PAY_WITH_REWARDS_REENABLED);
+		Log.d(TAG, "Tracking \"" + payWithPointsReenabled);
 
 		ADMS_Measurement s = getFreshTrackingObject();
-		s.setEvar(28, PAY_WITH_POINTS_REENABLED);
-		s.setProp(16, PAY_WITH_POINTS_REENABLED);
-		s.setEvar(53, String.format(Locale.getDefault(), EXPEDIA_POINTS_PERCENTAGE, percentagePaidWithPoints));
+		s.setEvar(28, payWithPointsReenabled);
+		s.setProp(16, payWithPointsReenabled);
+		String rewardAppliedPercentage = ProductFlavorFeatureConfiguration.getInstance()
+			.getOmnitureEventValue(OmnitureEventName.REWARD_APPLIED_PERCENTAGE_TEMPLATE);
+		s.setEvar(53, String.format(Locale.getDefault(), rewardAppliedPercentage, percentagePaidWithPoints));
 		s.trackLink(null, "o", PAY_WITH_POINTS_CUSTOM_LINK_NAME, null, null);
 	}
 

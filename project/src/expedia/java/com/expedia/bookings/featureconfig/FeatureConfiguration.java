@@ -1,5 +1,8 @@
 package com.expedia.bookings.featureconfig;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.apache.http.message.BasicNameValuePair;
 import org.joda.time.DateTime;
 
@@ -14,13 +17,11 @@ import com.expedia.bookings.data.HotelFilter;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.data.pos.PointOfSaleId;
 import com.expedia.bookings.server.EndPoint;
+import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.AboutUtils;
 import com.expedia.bookings.utils.JodaUtils;
 import com.expedia.bookings.utils.Ui;
 import com.mobiata.android.fragment.AboutSectionFragment;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class FeatureConfiguration implements IProductFlavorFeatureConfiguration {
 	@Override
@@ -330,4 +331,23 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 		return false;
 	}
 
+	@Override
+	public String getOmnitureEventValue(OmnitureTracking.OmnitureEventName key) {
+		switch (key) {
+		case REWARD_PROGRAM_NAME:
+			return "expedia";
+		case HOTEL_CHECKOUT_START_REWARDS_REDEEMABLE:
+			return "event114";
+		case REWARD_APPLIED_PERCENTAGE_TEMPLATE:
+			return "expedia | %d";
+		case NO_REWARDS_USED:
+			return "no points used";
+		case TOTAL_POINTS_BURNED:
+			return "event117";
+		case CHECKOUT_PAY_WITH_REWARDS_REENABLED:
+			return "App.Hotels.CKO.Points.Select.Expedia";
+		}
+		//It should not be the case
+		throw new IllegalArgumentException("Unknown enum value");
+	}
 }
