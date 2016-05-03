@@ -4653,10 +4653,14 @@ public class OmnitureTracking {
 		s.track();
 	}
 
-	public static void trackAppCarNoResults(String errorMessage) {
+	public static void trackAppCarNoResults(ApiError apiError) {
 		Log.d(TAG, "Tracking \"" + CAR_NO_RESULT + "\" pageLoad...");
 		ADMS_Measurement s = internalTrackAppCar(CAR_NO_RESULT);
-		s.setProp(36, errorMessage);
+		if (apiError.errorInfo != null && (Strings.isNotEmpty(apiError.errorInfo.cause) || Strings
+			.isNotEmpty(apiError.errorInfo.summary))) {
+			s.setProp(36,
+				Strings.isNotEmpty(apiError.errorInfo.cause) ? apiError.errorInfo.cause : apiError.errorInfo.summary);
+		}
 		s.track();
 	}
 

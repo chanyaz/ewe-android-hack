@@ -203,7 +203,6 @@ public class CarResultsPresenter extends Presenter {
 
 		@Override
 		public void onError(Throwable e) {
-			OmnitureTracking.trackAppCarNoResults(e.getMessage());
 			Log.e("CarSearch - onError", e);
 
 			if (RetrofitUtils.isNetworkError(e)) {
@@ -213,6 +212,7 @@ public class CarResultsPresenter extends Presenter {
 
 			if (e instanceof ApiError) {
 				handleInputValidationErrors((ApiError) e);
+				OmnitureTracking.trackAppCarNoResults((ApiError) e);
 				return;
 			}
 		}

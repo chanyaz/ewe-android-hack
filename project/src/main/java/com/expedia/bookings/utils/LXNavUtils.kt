@@ -18,12 +18,7 @@ class LXNavUtils {
                 apiError = if (e == null || e !is ApiError) ApiError(ApiError.Code.SUGGESTIONS_NO_RESULTS) else e
                 Events.post(Events.LXShowSearchWidget())
             } else if (searchType == SearchType.EXPLICIT_SEARCH) {
-                if (e == null || e !is ApiError) {
-                    apiError = ApiError(ApiError.Code.UNKNOWN_ERROR)
-                    apiError.errorInfo = ApiError.ErrorInfo()
-                    apiError.errorInfo.summary = "Unknown"
-                    apiError.errorInfo.cause = "Unknown"
-                } else {
+                if (e != null && e is ApiError) {
                     apiError = e
                 }
                 Events.post(Events.LXShowSearchError(apiError, searchType))
