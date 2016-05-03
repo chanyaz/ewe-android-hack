@@ -1933,7 +1933,7 @@
     <!-- AB Test 3x messaging for hotel points -->
     <string name="youll_earn_points_ab_test_3x_TEMPLATE">%1$s포인트 적립! 앱에서 예약하면 포인트가 3배 적립됩니다!</string>
     <!-- You'll earn points for this trip -->
-    <string name="youll_earn_points_TEMPLATE">이 예약으로 %1$s포인트가 적립됩니다!</string>
+    <string name="youll_earn_points_TEMPLATE">이 예약으로 {reward_currency}포인트가 적립됩니다!</string>
     <!-- You are a valued member -->
     <string name="you_are_a_valued_member">고객님은 저희 소중한 회원이십니다!</string>
     <!-- Blurb text displayed on account sign in button when already signed in -->

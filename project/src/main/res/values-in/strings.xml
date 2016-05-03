@@ -1933,7 +1933,7 @@
     <!-- AB Test 3x messaging for hotel points -->
     <string name="youll_earn_points_ab_test_3x_TEMPLATE">Dapatkan %1$s poin — 3x lipat jika memesan dari aplikasi!</string>
     <!-- You'll earn points for this trip -->
-    <string name="youll_earn_points_TEMPLATE">Anda akan mendapat %1$s poin dari pemesanan ini!</string>
+    <string name="youll_earn_points_TEMPLATE">Anda akan mendapat {reward_currency} poin dari pemesanan ini!</string>
     <!-- You are a valued member -->
     <string name="you_are_a_valued_member">Anda member kami!</string>
     <!-- Blurb text displayed on account sign in button when already signed in -->

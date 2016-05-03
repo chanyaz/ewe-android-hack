@@ -1933,7 +1933,7 @@
     <!-- AB Test 3x messaging for hotel points -->
     <string name="youll_earn_points_ab_test_3x_TEMPLATE">รับ %1$s คะแนน — 3 เท่าของคะแนนปกติเพราะคุณจองผ่านแอพ!</string>
     <!-- You'll earn points for this trip -->
-    <string name="youll_earn_points_TEMPLATE">คุณจะได้รับ %1$s คะแนนจากการจองนี้!</string>
+    <string name="youll_earn_points_TEMPLATE">คุณจะได้รับ {reward_currency} คะแนนจากการจองนี้!</string>
     <!-- You are a valued member -->
     <string name="you_are_a_valued_member">คุณเป็นสมาชิกผู้ทรงเกียรติ</string>
     <!-- Blurb text displayed on account sign in button when already signed in -->

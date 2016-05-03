@@ -1933,7 +1933,7 @@
     <!-- AB Test 3x messaging for hotel points -->
     <string name="youll_earn_points_ab_test_3x_TEMPLATE">Acumule %1$s pontos: 3x para reservas através do app!</string>
     <!-- You'll earn points for this trip -->
-    <string name="youll_earn_points_TEMPLATE">Você ganhará %1$s pontos com esta reserva!</string>
+    <string name="youll_earn_points_TEMPLATE">Você ganhará {reward_currency} pontos com esta reserva!</string>
     <!-- You are a valued member -->
     <string name="you_are_a_valued_member">Você é um estimado associado!</string>
     <!-- Blurb text displayed on account sign in button when already signed in -->
