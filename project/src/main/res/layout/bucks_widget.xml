@@ -21,7 +21,7 @@
             app:textStyle="medium" />
 
         <com.expedia.bookings.widget.TextView
-            android:id="@+id/orbucks_message_view"
+            android:id="@+id/bucks_message_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/pwp_total_available_points"
@@ -30,7 +30,7 @@
     </LinearLayout>
 
     <Switch
-        android:id="@+id/orbucks_switch"
+        android:id="@+id/bucks_switch"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:checked="true" />

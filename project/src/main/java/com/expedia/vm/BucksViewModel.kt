@@ -1,4 +1,4 @@
-package com.expedia.bookings.widget
+package com.expedia.vm
 
 import android.content.Context
 import android.support.v4.content.ContextCompat
@@ -22,54 +22,22 @@ import com.expedia.util.subscribeOnCheckChanged
 import com.expedia.util.subscribeText
 import com.expedia.util.subscribeTextColor
 import com.expedia.util.subscribeVisibility
+import com.expedia.vm.interfaces.IBucksViewModel
 import com.squareup.phrase.Phrase
 import rx.Observable
 import rx.subjects.BehaviorSubject
 import java.math.BigDecimal
 import javax.inject.Inject
 
-class OrbucksWidget(context: Context, attrs: AttributeSet) : LinearLayout(context, attrs) {
-    val orbucksMessage: TextView by bindView(R.id.orbucks_message_view)
-    val orbucksSwitchView: Switch by bindView(R.id.orbucks_switch)
-    val payWithRewardMessage: TextView by bindView(R.id.pay_with_reward_message)
-
-    var viewModel: IOrbucksViewModel by notNullAndObservable {
-        it.orbucksWidgetVisibility.subscribeVisibility(this)
-        it.orbucksMessage.subscribeText(orbucksMessage)
-        orbucksSwitchView.subscribeOnCheckChanged(it.orbucksOpted)
-        it.pointsAppliedMessageColor.subscribeTextColor(orbucksMessage)
-        it.payWithRewardsMessage.subscribeText(payWithRewardMessage)
-        it.updateToggle.subscribeChecked(orbucksSwitchView)
-    }
-        @Inject set
-
-    init {
-        View.inflate(getContext(), R.layout.orbucks_widget, this)
-        Ui.getApplication(context).hotelComponent().inject(this)
-    }
-}
-
-interface IOrbucksViewModel {
-    //Inlets
-    val orbucksOpted: BehaviorSubject<Boolean>
-
-    //Outlet
-    val orbucksMessage: Observable<String>
-    val pointsAppliedMessageColor: Observable<Int>
-    val orbucksWidgetVisibility: Observable<Boolean>
-    val payWithRewardsMessage: Observable<String>
-    val updateToggle: Observable<Boolean>
-}
-
-class OrbucksViewModel<T : TripResponse>(paymentModel: PaymentModel<T>, val context: Context) : IOrbucksViewModel {
+class BucksViewModel<T : TripResponse>(paymentModel: PaymentModel<T>, val context: Context) : IBucksViewModel {
     //MESSAGING
     private fun pointsAppliedMessage(paymentSplits: PaymentSplits, tripResponse: TripResponse): String {
         if (paymentSplits.payingWithPoints.points != 0f) {
-            return Phrase.from(context, R.string.orbucks_applied_TEMPLATE)
+            return Phrase.from(context, R.string.bucks_applied_TEMPLATE)
                     .put("money", paymentSplits.payingWithPoints.amount.formattedMoneyFromAmountAndCurrencyCode)
                     .format().toString();
         } else {
-            return Phrase.from(context, R.string.orbucks_available_TEMPLATE)
+            return Phrase.from(context, R.string.bucks_available_TEMPLATE)
                     .put("money", tripResponse.getPointDetails()!!.totalAvailable.amount.formattedMoneyFromAmountAndCurrencyCode)
                     .format().toString();
         }
@@ -78,13 +46,13 @@ class OrbucksViewModel<T : TripResponse>(paymentModel: PaymentModel<T>, val cont
     private val programmaticToggle = BehaviorSubject.create<Boolean>(false)
 
     //Inlet
-    override val orbucksOpted = BehaviorSubject.create<Boolean>(true)
-    override val orbucksMessage = paymentModel.paymentSplitsWithLatestTripTotalPayableAndTripResponse.filter { ProgramName.Orbucks == it.tripResponse.getProgramName() }
+    override val bucksOpted = BehaviorSubject.create<Boolean>(true)
+    override val bucksMessage = paymentModel.paymentSplitsWithLatestTripTotalPayableAndTripResponse.filter { ProgramName.Orbucks == it.tripResponse.getProgramName() }
             .map { pointsAppliedMessage(it.paymentSplits, it.tripResponse) }
 
     //Outlet
-    override val orbucksWidgetVisibility = paymentModel.tripResponses.map { ProgramName.Orbucks == it.getProgramName() && it.isRewardsRedeemable() }
-    override val payWithRewardsMessage = orbucksOpted.map {
+    override val bucksWidgetVisibility = paymentModel.tripResponses.map { ProgramName.Orbucks == it.getProgramName() && it.isRewardsRedeemable() }
+    override val payWithRewardsMessage = bucksOpted.map {
         when (it) {
             true -> context.resources.getString(R.string.paying_with_rewards)
             false -> context.resources.getString(R.string.pay_with_rewards)
@@ -99,31 +67,31 @@ class OrbucksViewModel<T : TripResponse>(paymentModel: PaymentModel<T>, val cont
     }
 
     override val updateToggle = paymentModel.paymentSplitsSuggestionUpdates
-            .withLatestFrom(paymentModel.swpOpted, paymentModel.tripResponses, orbucksOpted, {
-                paymentSplitsSuggestionUpdate, isSwpOpted, tripResponse, orbucksOpted ->
+            .withLatestFrom(paymentModel.swpOpted, paymentModel.tripResponses, bucksOpted, {
+                paymentSplitsSuggestionUpdate, isSwpOpted, tripResponse, bucksOpted ->
                 object {
                     val isCreateTrip = paymentSplitsSuggestionUpdate.second
                     val isSwpOpted = isSwpOpted
                     val isRewardsRedeemable = tripResponse.isRewardsRedeemable()
-                    val orbucksOpted = orbucksOpted
+                    val bucksOpted = bucksOpted
                 }
             })
             .filter { it.isCreateTrip && it.isRewardsRedeemable }
-            .doOnNext { if (it.orbucksOpted != it.isSwpOpted) programmaticToggle.onNext(true) }
+            .doOnNext { if (it.bucksOpted != it.isSwpOpted) programmaticToggle.onNext(true) }
             .map { it.isSwpOpted }
 
     init {
-        orbucksOpted.subscribe(paymentModel.togglePaymentByPoints)
+        bucksOpted.subscribe(paymentModel.togglePaymentByPoints)
 
-        orbucksOpted.withLatestFrom(paymentModel.tripResponses, programmaticToggle, {
-            orbucksOpted, tripResponses, programmaticToggle ->
+        bucksOpted.withLatestFrom(paymentModel.tripResponses, programmaticToggle, {
+            bucksOpted, tripResponses, programmaticToggle ->
             object {
-                val orbucksOpted = orbucksOpted
+                val bucksOpted = bucksOpted
                 val tripResponses = tripResponses
                 val programmaticToggle = programmaticToggle
             }
         }).doOnNext { programmaticToggle.onNext(false) }.filter { !it.programmaticToggle }.subscribe {
-            if (it.orbucksOpted) {
+            if (it.bucksOpted) {
                 val newPaymentSplits = it.tripResponses.paymentSplitsWhenMaxPayableWithPoints()
                 val tripTotal = it.tripResponses.getTripTotalExcludingFee().amount;
                 val percentage = NumberUtils.getPercentagePaidWithPointsForOmniture(newPaymentSplits.payingWithPoints.amount.amount, tripTotal)
