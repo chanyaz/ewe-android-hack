@@ -87,7 +87,7 @@ class HotelCheckoutMainViewPresenter(context: Context, attr: AttributeSet) : Che
     var checkoutOverviewViewModel: HotelCheckoutOverviewViewModel by notNullAndObservable {
         checkoutOverviewViewModel.slideToText.subscribe { slideWidget.setText(it) }
         checkoutOverviewViewModel.legalTextInformation.subscribeText(legalInformationText)
-        checkoutOverviewViewModel.disclaimerText.subscribeTextAndVisibility(disclaimerText)
+        checkoutOverviewViewModel.disclaimerText.subscribeText(disclaimerText)
         checkoutOverviewViewModel.depositPolicyText.subscribeTextAndVisibility(depositPolicyText)
         checkoutOverviewViewModel.priceAboveSlider.subscribeText(sliderTotalText)
         checkoutOverviewViewModel.resetMenuButton.subscribe { resetMenuButton() }

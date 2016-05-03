@@ -12,6 +12,8 @@ import com.expedia.bookings.test.espresso.EspressoUtils
 import com.expedia.bookings.test.espresso.HotelTestCase
 import com.expedia.bookings.test.espresso.ViewActions
 import com.expedia.bookings.test.phone.pagemodels.common.CheckoutViewModel
+import android.support.test.espresso.matcher.ViewMatchers
+import android.support.test.espresso.matcher.ViewMatchers.*
 import org.junit.Assert
 
 class HotelCheckoutTest: HotelTestCase() {
@@ -100,5 +102,27 @@ class HotelCheckoutTest: HotelTestCase() {
         // Pick a different room, should refresh createTrip with a new price
         CheckoutViewModel.scrollView().perform(ViewActions.swipeDown())
         EspressoUtils.assertViewWithTextIsDisplayed(R.id.total_price_with_tax_and_fees, "$2,394.88")
+    }
+
+    fun testResortFeeDisclaimerTextVisibility() {
+        HotelScreen.doGenericSearch()
+        // Check to make sure non merchant shows up in result list
+        HotelScreen.selectHotel("Non Merchant Hotel")
+        Common.delay(1)
+
+        HotelScreen.selectRoomButton().perform(click())
+        Common.delay(1)
+
+        HotelScreen.selectRoom()
+
+        CheckoutViewModel.resortFeeDisclaimerText().perform(scrollTo())
+        Common.delay(1)
+
+        //On Checkout page resortFeeDisclaimerText is Visible
+        CheckoutViewModel.resortFeeDisclaimerText().check(matches(withText("The $3 resort fee will be collected at the hotel. The total price for your stay will be $21.08.")))
+        CheckoutViewModel.clickPaymentInfo()
+
+        //On paymentInfo page resortFeeDisclaimerText's Visibility is Gone
+        CheckoutViewModel.resortFeeDisclaimerText().check(matches(withEffectiveVisibility(ViewMatchers.Visibility.GONE)))
     }
 }
