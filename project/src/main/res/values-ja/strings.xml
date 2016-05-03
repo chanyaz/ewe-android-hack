@@ -1059,9 +1059,9 @@
     <!-- Expedia Itinerary -->
     <string name="itinerary_TEMPLATE">{brand} 旅程番号</string>
     <!-- Label for exclusive +silver phone number, "Expedia +silver Customer Support" -->
-    <string name="Expedia_plus_Silver_Customer_Support">Expedia +シルバー カスタマー サポート</string>
+    <string name="rewards_middle_tier_customer_support">Expedia +シルバー カスタマー サポート</string>
     <!-- Label for exclusive +gold phone number, "Expedia +gold Customer Support" -->
-    <string name="Expedia_plus_Gold_Customer_Support">Expedia +ゴールド カスタマー サポート</string>
+    <string name="rewards_top_tier_customer_support">Expedia +ゴールド カスタマー サポート</string>
     <!-- No upcoming trips -->
     <string name="no_upcoming_trips">予約された旅行はありません。</string>
     <!-- Enter itinerary number -->

@@ -3,6 +3,8 @@ package com.expedia.bookings.widget;
 import java.text.NumberFormat;
 
 import android.content.Context;
+import android.support.annotation.ColorRes;
+import android.support.annotation.StringRes;
 import android.support.v4.content.ContextCompat;
 import android.text.Html;
 import android.util.AttributeSet;
@@ -19,6 +21,7 @@ import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.Money;
+import com.expedia.bookings.data.LoyaltyMembershipTier;
 import com.expedia.bookings.data.RewardsInfo;
 import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.data.TripBucketItemFlight;
@@ -209,59 +212,53 @@ public class AccountButton extends LinearLayout {
 		travelerEmailTextView.setText(traveler.getEmail());
 
 		// Bottom text -- rewards
-		int expediaPlusRewardsCategoryTextResId = 0;
-		int expediaPlusRewardsCategoryColorResId = 0;
-		int expediaPlusRewardsCategoryTextColorResId = 0;
+		@StringRes int rewardsCategoryTextResId = 0;
+		@ColorRes int rewardsCategoryColorResId = 0;
+		@ColorRes int rewardsCategoryTextColorResId = 0;
 		switch (traveler.getLoyaltyMembershipTier()) {
-		case BLUE:
-			expediaPlusRewardsCategoryTextResId = R.string.reward_plus_blue;
-			expediaPlusRewardsCategoryColorResId = R.color.reward_color_blue;
-			expediaPlusRewardsCategoryTextColorResId = R.color.reward_color_blue_text;
+		case BASE:
+			rewardsCategoryTextResId = R.string.reward_base_tier_name_long;
+			rewardsCategoryColorResId = R.color.reward_base_tier_color;
+			rewardsCategoryTextColorResId = R.color.reward_base_tier_text_color;
 			break;
-		case SILVER:
-			expediaPlusRewardsCategoryTextResId = R.string.reward_plus_silver;
-			expediaPlusRewardsCategoryColorResId = R.color.reward_color_silver;
-			expediaPlusRewardsCategoryTextColorResId = R.color.reward_color_silver_text;
+		case MIDDLE:
+			rewardsCategoryTextResId = R.string.reward_middle_tier_name_long;
+			rewardsCategoryColorResId = R.color.reward_middle_tier_color;
+			rewardsCategoryTextColorResId = R.color.reward_middle_tier_text_color;
 			break;
-		case GOLD:
-			expediaPlusRewardsCategoryTextResId = R.string.reward_plus_gold;
-			expediaPlusRewardsCategoryColorResId = R.color.reward_color_gold;
-			expediaPlusRewardsCategoryTextColorResId = R.color.reward_color_gold_text;
-			break;
-		case PLATINUM:
-			expediaPlusRewardsCategoryTextResId = R.string.reward_plus_platinum;
-			expediaPlusRewardsCategoryColorResId = R.color.reward_color_platinum;
-			expediaPlusRewardsCategoryTextColorResId = R.color.reward_color_platinum_text;
+		case TOP:
+			rewardsCategoryTextResId = R.string.reward_top_tier_name_long;
+			rewardsCategoryColorResId = R.color.reward_top_tier_color;
+			rewardsCategoryTextColorResId = R.color.reward_top_tier_text_color;
 			break;
 		}
 
-		TextView expediaPlusRewardsCategoryTextView = Ui.findView(mLogoutContainer, R.id.account_bottom_textview);
+		TextView rewardsCategoryTextView = Ui.findView(mLogoutContainer, R.id.account_bottom_textview);
 
 		// If we should show rewards
 		final boolean isRewardsEnabled = PointOfSale.getPointOfSale().shouldShowRewards();
-		if (isRewardsEnabled && traveler.getLoyaltyMembershipTier() != Traveler.LoyaltyMembershipTier.NONE) {
+		if (isRewardsEnabled && traveler.getLoyaltyMembershipTier() != LoyaltyMembershipTier.NONE) {
 			//Show Rewards Category Text View
-			expediaPlusRewardsCategoryTextView.setVisibility(View.VISIBLE);
-			expediaPlusRewardsCategoryTextView.setText(Phrase.from(this, expediaPlusRewardsCategoryTextResId)
-				.put("brand", BuildConfig.brand).format());
-			expediaPlusRewardsCategoryTextView.setTextColor(getResources().getColor(expediaPlusRewardsCategoryColorResId));
+			rewardsCategoryTextView.setVisibility(View.VISIBLE);
+			rewardsCategoryTextView.setText(rewardsCategoryTextResId);
+			rewardsCategoryTextView.setTextColor(ContextCompat.getColor(getContext(), rewardsCategoryColorResId));
 			//Show Reward Points Container
 			mRewardsContainer.setVisibility(View.VISIBLE);
-			FontCache.setTypeface(expediaPlusRewardsCategoryTextView, FontCache.Font.EXPEDIASANS_REGULAR);
+			FontCache.setTypeface(rewardsCategoryTextView, FontCache.Font.EXPEDIASANS_REGULAR);
 			setRewardsContainerBackground(mRewardsContainer, traveler.getLoyaltyMembershipTier());
 
 			//Show/Update Reward Points Text
 			String rewardPointsText = getRewardPointsText(lob);
 			if (updateRewardsTextViewVisibility(rewardPointsText, lob, traveler.isLoyaltyMember())) {
 				updateRewardsText(lob);
-				mRewardsTextView.setTextColor(getResources().getColor(expediaPlusRewardsCategoryTextColorResId));
+				mRewardsTextView.setTextColor(ContextCompat.getColor(getContext(), rewardsCategoryTextColorResId));
 			}
 
 			//Update Logout Container
 			mLogoutContainer.setBackgroundResource(R.drawable.bg_checkout_information_top_tab);
 		}
 		else {
-			expediaPlusRewardsCategoryTextView.setVisibility(View.GONE);
+			rewardsCategoryTextView.setVisibility(View.GONE);
 			mRewardsContainer.setVisibility(View.GONE);
 			setLogoutContainerBackground(mLogoutContainer);
 		}
@@ -412,20 +409,17 @@ public class AccountButton extends LinearLayout {
 		logoutContainer.setBackgroundResource(R.drawable.bg_checkout_information_single);
 	}
 
-	protected void setRewardsContainerBackground(View rewardsContainer, Traveler.LoyaltyMembershipTier membershipTier) {
+	protected void setRewardsContainerBackground(View rewardsContainer, LoyaltyMembershipTier membershipTier) {
 		int rewardsBgResId = 0;
 		switch (membershipTier) {
-		case BLUE:
-			rewardsBgResId = R.drawable.bg_checkout_info_bottom_blue;
+		case BASE:
+			rewardsBgResId = R.drawable.bg_checkout_info_bottom_base_tier;
 			break;
-		case SILVER:
-			rewardsBgResId = R.drawable.bg_checkout_info_bottom_silver;
+		case MIDDLE:
+			rewardsBgResId = R.drawable.bg_checkout_info_bottom_middle_tier;
 			break;
-		case GOLD:
-			rewardsBgResId = R.drawable.bg_checkout_info_bottom_gold;
-			break;
-		case PLATINUM:
-			rewardsBgResId = R.drawable.bg_checkout_info_bottom_platinum;
+		case TOP:
+			rewardsBgResId = R.drawable.bg_checkout_info_bottom_top_tier;
 			break;
 		}
 

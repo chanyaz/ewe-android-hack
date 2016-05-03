@@ -524,7 +524,7 @@ public class User implements JSONable {
 	 * @param context
 	 * @return
 	 */
-	public static Traveler.LoyaltyMembershipTier getLoggedInLoyaltyMembershipTier(Context context) {
+	public static LoyaltyMembershipTier getLoggedInLoyaltyMembershipTier(Context context) {
 		if (User.isLoggedIn(context)) {
 
 			if (Db.getUser() == null) {
@@ -535,7 +535,7 @@ public class User implements JSONable {
 			}
 		}
 
-		return Traveler.LoyaltyMembershipTier.NONE;
+		return LoyaltyMembershipTier.NONE;
 	}
 
 	public StoredPointsCard getStoredPointsCard(PaymentType paymentType) {

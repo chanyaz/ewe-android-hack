@@ -1083,10 +1083,12 @@
     <string name="find_itinerary_pound">Find Itinerary #</string>
     <!-- Expedia Itinerary -->
     <string name="itinerary_TEMPLATE">{brand} Itinerary #</string>
-    <!-- Label for exclusive +silver phone number, "Expedia +silver Customer Support" -->
-    <string name="Expedia_plus_Silver_Customer_Support">Expedia +silver Customer Support</string>
-    <!-- Label for exclusive +gold phone number, "Expedia +gold Customer Support" -->
-    <string name="Expedia_plus_Gold_Customer_Support">Expedia +gold Customer Support</string>
+    <!-- Label for exclusive phone number for base tier rewards customers; brand name not parameterized as other brands will have to completely customize -->
+    <string name="rewards_base_tier_customer_support">Expedia +blue Customer Support</string>
+    <!-- Label for exclusive phone number for middle tier rewards customers; brand name not parameterized as other brands will have to completely customize -->
+    <string name="rewards_middle_tier_customer_support">Expedia +silver Customer Support</string>
+    <!-- Label for exclusive phone number for top tier rewards customers; brand name not parameterized as other brands will have to completely customize -->
+    <string name="rewards_top_tier_customer_support">Expedia +gold Customer Support</string>
     <!-- No upcoming trips -->
     <string name="no_upcoming_trips">No upcoming trips.</string>
     <!-- Enter itinerary number -->
@@ -3007,22 +3009,6 @@
     <string name="sign_in_failed">Please sign in again</string>
     <!-- Label for sign out confirmation -->
     <string name="sign_out_confirmation_TEMPLATE">Are you sure you want to sign out of your {brand} account?</string>
-    <!-- Label for Expedia +blue rewards program name -->
-    <string name="reward_plus_blue">{brand} +blue</string>
-    <!-- Label for Expedia +blue rewards tier without brand name -->
-    <string name="plus_blue">+blue</string>
-    <!-- Label for Expedia +silver rewards program name -->
-    <string name="reward_plus_silver">{brand} +silver</string>
-    <!-- Label for Expedia +silver rewards tier without brand name-->
-    <string name="plus_silver">+silver</string>
-    <!-- Label for Expedia +gold rewards program name -->
-    <string name="reward_plus_gold">{brand} +gold</string>
-    <!-- Label for Expedia +gold rewards tier without brand name -->
-    <string name="plus_gold">+gold</string>
-    <!-- Label for Expedia +platinum rewards program name -->
-    <string name="reward_plus_platinum">{brand} +platinum</string>
-    <!-- Label for Expedia +platinum rewards tier without brand name -->
-    <string name="plus_platinum">+platinum</string>
     <!-- Label for loading user profile from Expedia -->
     <string name="loading_brand_account_TEMPLATE">Loading {brand} Account</string>
     <!-- Label for coupon code area of booking form -->
@@ -4070,4 +4056,17 @@
     <!-- Label for Browse hotels card for staff picked city/destination -->
     <string name="browse_hotels_label">Browse hotels</string>
 
+    <!-- Rewards -->
+    <!-- Long name for rewards base tier; note that brand name is not parameterized here as other brands will need to completely override this string -->
+    <string name="reward_base_tier_name_long">Expedia +blue</string>
+    <!-- Long name for rewards middle tier; note that brand name is not parameterized here as other brands will need to completely override this string -->
+    <string name="reward_middle_tier_name_long">Expedia +silver</string>
+    <!-- Long name for rewards top tier; note that brand name is not parameterized here as other brands will need to completely override this string -->
+    <string name="reward_top_tier_name_long">Expedia +gold</string>
+    <!-- Short name for rewards base tier -->
+    <string name="reward_base_tier_name_short">+blue</string>
+    <!-- Short name for rewards middle tier -->
+    <string name="reward_middle_tier_name_short">+silver</string>
+    <!-- Short name for rewards top tier -->
+    <string name="reward_top_tier_name_short">+gold</string>
 </resources>

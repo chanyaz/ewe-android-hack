@@ -30,7 +30,7 @@ import com.expedia.bookings.activity.ExpediaBookingPreferenceActivity
 import com.expedia.bookings.activity.WebViewActivity
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.LineOfBusiness
-import com.expedia.bookings.data.Traveler
+import com.expedia.bookings.data.LoyaltyMembershipTier
 import com.expedia.bookings.data.User
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.dialog.ClearPrivateDataDialog
@@ -417,25 +417,20 @@ class AccountSettingsFragment : Fragment(),
                 rowDivider1.visibility = View.VISIBLE
 
                 when (userLoyaltyInfo?.loyaltyMembershipTier) {
-                    Traveler.LoyaltyMembershipTier.BLUE -> {
-                        memberTierView.setBackgroundResource(R.drawable.bg_loyalty_badge_blue_tier)
-                        memberTierView.setTextColor(ContextCompat.getColor(context, R.color.reward_color_blue_text))
-                        memberTierView.setText(R.string.plus_blue)
+                    LoyaltyMembershipTier.BASE -> {
+                        memberTierView.setBackgroundResource(R.drawable.bg_loyalty_badge_base_tier)
+                        memberTierView.setTextColor(ContextCompat.getColor(context, R.color.reward_base_tier_text_color))
+                        memberTierView.setText(R.string.reward_base_tier_name_short)
                     }
-                    Traveler.LoyaltyMembershipTier.SILVER -> {
-                        memberTierView.setBackgroundResource(R.drawable.bg_loyalty_badge_silver_tier)
-                        memberTierView.setTextColor(ContextCompat.getColor(context, R.color.reward_color_silver_text))
-                        memberTierView.setText(R.string.plus_silver)
+                    LoyaltyMembershipTier.MIDDLE -> {
+                        memberTierView.setBackgroundResource(R.drawable.bg_loyalty_badge_middle_tier)
+                        memberTierView.setTextColor(ContextCompat.getColor(context, R.color.reward_middle_tier_text_color))
+                        memberTierView.setText(R.string.reward_middle_tier_name_short)
                     }
-                    Traveler.LoyaltyMembershipTier.GOLD -> {
-                        memberTierView.setBackgroundResource(R.drawable.bg_loyalty_badge_gold_tier)
-                        memberTierView.setTextColor(ContextCompat.getColor(context, R.color.reward_color_gold_text))
-                        memberTierView.setText(R.string.plus_gold)
-                    }
-                    Traveler.LoyaltyMembershipTier.PLATINUM -> {
-                        memberTierView.setBackgroundResource(R.drawable.bg_loyalty_badge_platinum_tier)
-                        memberTierView.setTextColor(ContextCompat.getColor(context, R.color.reward_color_platinum_text))
-                        memberTierView.setText(R.string.plus_platinum)
+                    LoyaltyMembershipTier.TOP -> {
+                        memberTierView.setBackgroundResource(R.drawable.bg_loyalty_badge_top_tier)
+                        memberTierView.setTextColor(ContextCompat.getColor(context, R.color.reward_top_tier_text_color))
+                        memberTierView.setText(R.string.reward_top_tier_name_short)
                     }
                     else -> {
                         // User is not in member ship tier

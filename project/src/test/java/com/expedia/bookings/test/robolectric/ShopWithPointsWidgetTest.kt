@@ -1,6 +1,7 @@
 package com.expedia.bookings.test.robolectric
 
 import com.expedia.bookings.R
+import com.expedia.bookings.data.LoyaltyMembershipTier
 import com.expedia.bookings.data.Traveler
 import com.expedia.bookings.data.User
 import com.expedia.bookings.data.UserLoyaltyMembershipInformation
@@ -36,7 +37,7 @@ class ShopWithPointsWidgetTest {
     fun pointsAvailableMessage() {
         val user = User()
         val traveler = Traveler()
-        traveler.loyaltyMembershipTier = Traveler.LoyaltyMembershipTier.GOLD
+        traveler.loyaltyMembershipTier = LoyaltyMembershipTier.TOP
         user.primaryTraveler = traveler
         val loyaltyInfo = UserLoyaltyMembershipInformation()
         val pointsAvailable = 1500.toDouble()

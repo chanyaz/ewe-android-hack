@@ -311,6 +311,29 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 		return true;
 	}
 
+	private static final String[] rewardTierAPINames = new String[] { "BLUE", "SILVER", "GOLD" };
+	private static final String[] rewardTierSupportPhoneNumberConfigNames = new String[] {
+			null, "supportPhoneNumberSilver", "supportPhoneNumberGold"
+	};
+	private static final String[] rewardTierSupportEmailConfigNames = new String[] {
+			null, "supportEmailSilver", "supportEmailGold"
+	};
+
+	@Override
+	public String[] getRewardTierAPINames() {
+		return rewardTierAPINames;
+	}
+
+	@Override
+	public String[] getRewardTierSupportNumberConfigNames() {
+		return rewardTierSupportPhoneNumberConfigNames;
+	}
+
+	@Override
+	public String[] getRewardTierSupportEmailConfigNames() {
+		return rewardTierSupportEmailConfigNames;
+	}
+
 	@Override
 	public boolean isCommunicateSectionEnabled() {
 		return true;

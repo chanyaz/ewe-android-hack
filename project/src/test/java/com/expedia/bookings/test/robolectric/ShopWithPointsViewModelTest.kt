@@ -2,6 +2,7 @@ package com.expedia.bookings.test.robolectric
 
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Db
+import com.expedia.bookings.data.LoyaltyMembershipTier
 import com.expedia.bookings.data.Traveler
 import com.expedia.bookings.data.User
 import com.expedia.bookings.data.UserLoyaltyMembershipInformation
@@ -146,7 +147,7 @@ class ShopWithPointsViewModelTest {
     private fun mockUser(): User {
         val user = User()
         val traveler = Traveler()
-        traveler.loyaltyMembershipTier = Traveler.LoyaltyMembershipTier.GOLD
+        traveler.loyaltyMembershipTier = LoyaltyMembershipTier.TOP
         user.primaryTraveler = traveler
         return user
     }

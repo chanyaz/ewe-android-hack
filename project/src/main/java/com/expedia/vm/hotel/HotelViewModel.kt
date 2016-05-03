@@ -7,7 +7,6 @@ import android.text.Html
 import android.text.Spanned
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Db
-import com.expedia.bookings.data.Traveler
 import com.expedia.bookings.data.User
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.hotels.Hotel
@@ -93,9 +92,9 @@ open class HotelViewModel(private val context: Context, protected  val hotel: Ho
         if (!url.isNullOrBlank()) hotelLargeThumbnailUrlObservable.onNext(url)
 
         val isVipAvailable = hotel.isVipAccess && PointOfSale.getPointOfSale().supportsVipAccess() && User.isLoggedIn(context)
-        val isGoldOrSilver = Db.getUser() != null && (Db.getUser().primaryTraveler.loyaltyMembershipTier == Traveler.LoyaltyMembershipTier.SILVER || Db.getUser().primaryTraveler.loyaltyMembershipTier == Traveler.LoyaltyMembershipTier.GOLD)
-        vipMessageVisibilityObservable.onNext(isVipAvailable && isGoldOrSilver)
-        val isVipLoyaltyApplied = isVipAvailable && isGoldOrSilver && loyaltyAvailabilityObservable.value
+        val isMidOrTopTier = Db.getUser() != null && Db.getUser().primaryTraveler.loyaltyMembershipTier.isMidOrTopTier
+        vipMessageVisibilityObservable.onNext(isVipAvailable && isMidOrTopTier)
+        val isVipLoyaltyApplied = isVipAvailable && isMidOrTopTier && loyaltyAvailabilityObservable.value
         vipLoyaltyMessageVisibilityObservable.onNext(isVipLoyaltyApplied)
 
         val mapLoyaltyMessageString = if (isVipLoyaltyApplied) resources.getString(R.string.vip_loyalty_applied_map_message) else resources.getString(R.string.regular_loyalty_applied_message)

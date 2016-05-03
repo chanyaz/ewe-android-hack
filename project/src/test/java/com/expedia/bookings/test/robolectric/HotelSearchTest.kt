@@ -2,6 +2,7 @@ package com.expedia.bookings.test.robolectric
 
 import android.app.Activity
 import com.expedia.bookings.R
+import com.expedia.bookings.data.LoyaltyMembershipTier
 import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.Traveler
 import com.expedia.bookings.data.User
@@ -136,7 +137,7 @@ class HotelSearchTest {
     private fun getUserWithSWPEnabled(): User {
         val user = User()
         val traveler = Traveler()
-        traveler.loyaltyMembershipTier = Traveler.LoyaltyMembershipTier.GOLD
+        traveler.loyaltyMembershipTier = LoyaltyMembershipTier.TOP
         user.primaryTraveler = traveler
         var pointsAvailable = 4444.0
         val loyaltyInfo = UserLoyaltyMembershipInformation()

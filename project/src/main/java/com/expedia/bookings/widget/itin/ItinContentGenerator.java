@@ -408,15 +408,20 @@ public abstract class ItinContentGenerator<T extends ItinCardData> {
 		final String supportEmail;
 		View view = null;
 		switch(User.getLoggedInLoyaltyMembershipTier(mContext)) {
-		case SILVER:
-			labelResId = R.string.Expedia_plus_Silver_Customer_Support;
-			supportPhoneNumber = PointOfSale.getPointOfSale().getSupportPhoneNumberSilver();
-			supportEmail = PointOfSale.getPointOfSale().getSupportEmailSilver();
+		case BASE:
+			labelResId = R.string.rewards_base_tier_customer_support;
+			supportPhoneNumber = PointOfSale.getPointOfSale().getSupportPhoneNumberBaseTier();
+			supportEmail = null;
 			break;
-		case GOLD:
-			labelResId = R.string.Expedia_plus_Gold_Customer_Support;
-			supportPhoneNumber = PointOfSale.getPointOfSale().getSupportPhoneNumberGold();
-			supportEmail = PointOfSale.getPointOfSale().getSupportEmailGold();
+		case MIDDLE:
+			labelResId = R.string.rewards_middle_tier_customer_support;
+			supportPhoneNumber = PointOfSale.getPointOfSale().getSupportPhoneNumberMiddleTier();
+			supportEmail = PointOfSale.getPointOfSale().getSupportEmailMiddleTier();
+			break;
+		case TOP:
+			labelResId = R.string.rewards_top_tier_customer_support;
+			supportPhoneNumber = PointOfSale.getPointOfSale().getSupportPhoneNumberTopTier();
+			supportEmail = PointOfSale.getPointOfSale().getSupportEmailTopTier();
 			break;
 		default:
 			supportPhoneNumber = null;

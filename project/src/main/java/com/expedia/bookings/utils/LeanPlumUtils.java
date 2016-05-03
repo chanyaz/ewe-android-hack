@@ -141,7 +141,7 @@ public class LeanPlumUtils {
 						Db.getUser().getPrimaryTraveler().getFirstName());
 				}
 				userAtrributes.put("membershipTier",
-					User.getLoggedInLoyaltyMembershipTier(context).toString());
+					User.getLoggedInLoyaltyMembershipTier(context).toApiValue());
 			}
 			boolean isUserAirAttachQualified = Db.getTripBucket() != null &&
 				Db.getTripBucket().isUserAirAttachQualified();

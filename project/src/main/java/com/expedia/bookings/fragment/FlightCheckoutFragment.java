@@ -1,5 +1,10 @@
 package com.expedia.bookings.fragment;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Iterator;
+import java.util.List;
+
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -23,6 +28,7 @@ import com.expedia.bookings.data.Codes;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.Location;
+import com.expedia.bookings.data.LoyaltyMembershipTier;
 import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.PassengerCategoryPrice;
 import com.expedia.bookings.data.SignInResponse;
@@ -50,11 +56,6 @@ import com.mobiata.android.BackgroundDownloader;
 import com.mobiata.android.BackgroundDownloader.Download;
 import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
 import com.mobiata.android.Log;
-
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Iterator;
-import java.util.List;
 
 public class FlightCheckoutFragment extends Fragment implements AccountButtonClickListener,
 	LoginConfirmLogoutDialogFragment.DoLogoutListener {
@@ -630,7 +631,7 @@ public class FlightCheckoutFragment extends Fragment implements AccountButtonCli
 	}
 
 	public void onLoginCompleted() {
-		Traveler.LoyaltyMembershipTier userTier = Db.getUser().getLoggedInLoyaltyMembershipTier(getActivity());
+		LoyaltyMembershipTier userTier = Db.getUser().getLoggedInLoyaltyMembershipTier(getActivity());
 		if (User.isLoggedIn(getActivity()) != mWasLoggedIn) {
 			mLogInListener.onLoginCompleted();
 			mWasLoggedIn = true;

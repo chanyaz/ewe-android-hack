@@ -132,11 +132,35 @@ public interface IProductFlavorFeatureConfiguration {
 
 	/**
 	 * Reward program type
-	 * return
-	 * true: if type is points type
-	 * false: if type is amount type
+	 *
+	 * @return true if points type, false if money/currency type
 	 */
 	boolean isRewardProgramPointsType();
+
+	/**
+	 * Gets the constant strings used by the API to indicate the reward tier. These should be ordered from lowest
+	 * tier to highest tier. Tier names are case-insensitive. For example, for Expedia, this would be
+	 * <code>["BLUE", "SILVER", "GOLD"]</code>.
+	 */
+	String[] getRewardTierAPINames();
+
+	/**
+	 * Gets the constant strings used in the POS Config files to indicate the support phone number for use by members
+	 * at a given reward tier. These should be ordered from lowest tier to highest tier. You may leave an entry in the
+	 * array as null to indicate that no tier-specific number applies. These values <strong>are case sensitive</strong>
+	 * and must match exactly with how they will show up in the POS Config files. For example, for Expedia, this would
+	 * be <code>[null, "supportPhoneNumberSilver", "supportPhoneNumberGold"]</code>.
+	 */
+	String[] getRewardTierSupportNumberConfigNames();
+
+	/**
+	 * Gets the constant strings used in the POS Config files to indicate the support email address for use by members
+	 * at a given reward tier. These should be ordered from lowest tier to highest tier. You may leave an entry in the
+	 * array as null to indicate that no tier-specific number applies. These values <strong>are case sensitive</strong>
+	 * and must match exactly with how they will show up in the POS Config files. For example, for Expedia, this would
+	 * be <code>[null, "supportEmailSilver", "supportEmailGold"]</code>.
+	 */
+	String[] getRewardTierSupportEmailConfigNames();
 
 	boolean isCommunicateSectionEnabled();
 

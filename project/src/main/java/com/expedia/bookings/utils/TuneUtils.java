@@ -784,7 +784,7 @@ public class TuneUtils {
 	private static String getMembershipTier() {
 		if (User.isLoggedIn(context)) {
 			lazyLoadUser();
-			return User.getLoggedInLoyaltyMembershipTier(context).toString();
+			return User.getLoggedInLoyaltyMembershipTier(context).toApiValue();
 		}
 		return "";
 	}

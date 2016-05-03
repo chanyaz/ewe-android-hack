@@ -1059,9 +1059,9 @@
     <!-- Expedia Itinerary -->
     <string name="itinerary_TEMPLATE">{brand} 行程編號</string>
     <!-- Label for exclusive +silver phone number, "Expedia +silver Customer Support" -->
-    <string name="Expedia_plus_Silver_Customer_Support">Expedia +silver 客戶支援</string>
+    <string name="rewards_middle_tier_customer_support">Expedia +silver 客戶支援</string>
     <!-- Label for exclusive +gold phone number, "Expedia +gold Customer Support" -->
-    <string name="Expedia_plus_Gold_Customer_Support">Expedia +gold 客戶支援</string>
+    <string name="rewards_top_tier_customer_support">Expedia +gold 客戶支援</string>
     <!-- No upcoming trips -->
     <string name="no_upcoming_trips">沒有即將進行的旅程。</string>
     <!-- Enter itinerary number -->

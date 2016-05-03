@@ -8,8 +8,8 @@ import android.text.Html
 import com.expedia.bookings.R
 import com.expedia.bookings.data.HotelMedia
 import com.expedia.bookings.data.LineOfBusiness
+import com.expedia.bookings.data.LoyaltyMembershipTier
 import com.expedia.bookings.data.Money
-import com.expedia.bookings.data.Traveler
 import com.expedia.bookings.data.User
 import com.expedia.bookings.data.hotels.HotelOffersResponse
 import com.expedia.bookings.data.hotels.HotelRate
@@ -269,9 +269,9 @@ abstract class BaseHotelDetailViewModel(val context: Context, val roomSelectedOb
 
     val bookByPhoneContainerClickObserver: Observer<Unit> = endlessObserver {
         val number = when (User.getLoggedInLoyaltyMembershipTier(context)) {
-            Traveler.LoyaltyMembershipTier.SILVER -> PointOfSale.getPointOfSale().supportPhoneNumberSilver
-            Traveler.LoyaltyMembershipTier.GOLD -> PointOfSale.getPointOfSale().supportPhoneNumberGold
-            Traveler.LoyaltyMembershipTier.PLATINUM -> PointOfSale.getPointOfSale().supportPhoneNumberPlatinum
+            LoyaltyMembershipTier.BASE -> PointOfSale.getPointOfSale().supportPhoneNumberBaseTier
+            LoyaltyMembershipTier.MIDDLE -> PointOfSale.getPointOfSale().supportPhoneNumberMiddleTier
+            LoyaltyMembershipTier.TOP -> PointOfSale.getPointOfSale().supportPhoneNumberTopTier
             else -> hotelOffersResponse.telesalesNumber
         }
         SocialUtils.call(context, number)

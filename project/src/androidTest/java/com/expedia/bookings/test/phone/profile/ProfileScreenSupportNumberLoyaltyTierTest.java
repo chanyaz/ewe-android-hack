@@ -14,6 +14,7 @@ import android.support.test.runner.AndroidJUnit4;
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.AccountSettingsActivity;
 import com.expedia.bookings.data.Db;
+import com.expedia.bookings.data.LoyaltyMembershipTier;
 import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.data.User;
 import com.expedia.bookings.data.pos.PointOfSale;
@@ -50,7 +51,7 @@ public class ProfileScreenSupportNumberLoyaltyTierTest {
 			.respondWith(new Instrumentation.ActivityResult(Activity.RESULT_OK, null));
 	}
 
-	public void setPOSUserTier(PointOfSaleId pos, Traveler.LoyaltyMembershipTier tier) {
+	public void setPOSUserTier(PointOfSaleId pos, LoyaltyMembershipTier tier) {
 		SettingUtils.save(InstrumentationRegistry.getTargetContext(), R.string.PointOfSaleKey, String.valueOf(pos.getId()));
 		PointOfSale.onPointOfSaleChanged(InstrumentationRegistry.getTargetContext());
 
@@ -77,224 +78,224 @@ public class ProfileScreenSupportNumberLoyaltyTierTest {
 
 	@Test
 	public void testAustraliaGold() {
-		setPOSUserTier(PointOfSaleId.AUSTRALIA, Traveler.LoyaltyMembershipTier.GOLD);
+		setPOSUserTier(PointOfSaleId.AUSTRALIA, LoyaltyMembershipTier.TOP);
 		Log.v(TAG, "AUSTRALIA POS Set");
 		clickAndVerifyNumber();
 	}
 
 	@Test
 	public void testAustraliaSilver() {
-		setPOSUserTier(PointOfSaleId.AUSTRALIA, Traveler.LoyaltyMembershipTier.SILVER);
+		setPOSUserTier(PointOfSaleId.AUSTRALIA, LoyaltyMembershipTier.MIDDLE);
 		Log.v(TAG, "AUSTRALIA POS Set");
 		clickAndVerifyNumber();
 	}
 
 	@Test
 	public void testNetherlandsGold() {
-		setPOSUserTier(PointOfSaleId.NETHERLANDS, Traveler.LoyaltyMembershipTier.GOLD);
+		setPOSUserTier(PointOfSaleId.NETHERLANDS, LoyaltyMembershipTier.TOP);
 		Log.v(TAG, "NETHERLANDS POS Set");
 		clickAndVerifyNumber();
 	}
 
 	@Test
 	public void testNetherlandsSilver() {
-		setPOSUserTier(PointOfSaleId.NETHERLANDS, Traveler.LoyaltyMembershipTier.SILVER);
+		setPOSUserTier(PointOfSaleId.NETHERLANDS, LoyaltyMembershipTier.MIDDLE);
 		Log.v(TAG, "NETHERLANDS POS Set");
 		clickAndVerifyNumber();
 	}
 
 	@Test
 	public void testNewZealandGold() {
-		setPOSUserTier(PointOfSaleId.NEW_ZEALND, Traveler.LoyaltyMembershipTier.GOLD);
+		setPOSUserTier(PointOfSaleId.NEW_ZEALND, LoyaltyMembershipTier.TOP);
 		Log.v(TAG, "NEW_ZEALAND POS Set");
 		clickAndVerifyNumber();
 	}
 
 	@Test
 	public void testNewZealandSilver() {
-		setPOSUserTier(PointOfSaleId.NEW_ZEALND, Traveler.LoyaltyMembershipTier.SILVER);
+		setPOSUserTier(PointOfSaleId.NEW_ZEALND, LoyaltyMembershipTier.MIDDLE);
 		Log.v(TAG, "NEW_ZEALAND POS Set");
 		clickAndVerifyNumber();
 	}
 
 	@Test
 	public void testMexicoGold() {
-		setPOSUserTier(PointOfSaleId.MEXICO, Traveler.LoyaltyMembershipTier.GOLD);
+		setPOSUserTier(PointOfSaleId.MEXICO, LoyaltyMembershipTier.TOP);
 		Log.v(TAG, "MEXICO POS Set");
 		clickAndVerifyNumber();
 	}
 
 	@Test
 	public void testMexicoSilver() {
-		setPOSUserTier(PointOfSaleId.MEXICO, Traveler.LoyaltyMembershipTier.SILVER);
+		setPOSUserTier(PointOfSaleId.MEXICO, LoyaltyMembershipTier.MIDDLE);
 		Log.v(TAG, "MEXICO POS Set");
 		clickAndVerifyNumber();
 	}
 
 	@Test
 	public void testJapanGold() {
-		setPOSUserTier(PointOfSaleId.JAPAN, Traveler.LoyaltyMembershipTier.GOLD);
+		setPOSUserTier(PointOfSaleId.JAPAN, LoyaltyMembershipTier.TOP);
 		Log.v(TAG, "Japan POS Set");
 		clickAndVerifyNumber();
 	}
 
 	@Test
 	public void testJapanSilver() {
-		setPOSUserTier(PointOfSaleId.JAPAN, Traveler.LoyaltyMembershipTier.SILVER);
+		setPOSUserTier(PointOfSaleId.JAPAN, LoyaltyMembershipTier.MIDDLE);
 		Log.v(TAG, "Japan POS Set");
 		clickAndVerifyNumber();
 	}
 
 	@Test
 	public void testSingaporeGold() {
-		setPOSUserTier(PointOfSaleId.SINGAPORE, Traveler.LoyaltyMembershipTier.GOLD);
+		setPOSUserTier(PointOfSaleId.SINGAPORE, LoyaltyMembershipTier.TOP);
 		Log.v(TAG, "Singapore POS Set");
 		clickAndVerifyNumber();
 	}
 
 	@Test
 	public void testSingaporeSilver() {
-		setPOSUserTier(PointOfSaleId.SINGAPORE, Traveler.LoyaltyMembershipTier.SILVER);
+		setPOSUserTier(PointOfSaleId.SINGAPORE, LoyaltyMembershipTier.MIDDLE);
 		Log.v(TAG, "Singapore POS Set");
 		clickAndVerifyNumber();
 	}
 
 	@Test
 	public void testSpainGold() {
-		setPOSUserTier(PointOfSaleId.SPAIN, Traveler.LoyaltyMembershipTier.GOLD);
+		setPOSUserTier(PointOfSaleId.SPAIN, LoyaltyMembershipTier.TOP);
 		Log.v(TAG, "Spain POS Set");
 		clickAndVerifyNumber();
 	}
 
 	@Test
 	public void testSpainSilver() {
-		setPOSUserTier(PointOfSaleId.SPAIN, Traveler.LoyaltyMembershipTier.SILVER);
+		setPOSUserTier(PointOfSaleId.SPAIN, LoyaltyMembershipTier.MIDDLE);
 		Log.v(TAG, "Spain POS Set");
 		clickAndVerifyNumber();
 	}
 
 	@Test
 	public void testNorwayGold() {
-		setPOSUserTier(PointOfSaleId.NORWAY, Traveler.LoyaltyMembershipTier.GOLD);
+		setPOSUserTier(PointOfSaleId.NORWAY, LoyaltyMembershipTier.TOP);
 		Log.v(TAG, "Norway POS Set");
 		clickAndVerifyNumber();
 	}
 
 	@Test
 	public void testNorwaySilver() {
-		setPOSUserTier(PointOfSaleId.NORWAY, Traveler.LoyaltyMembershipTier.SILVER);
+		setPOSUserTier(PointOfSaleId.NORWAY, LoyaltyMembershipTier.MIDDLE);
 		Log.v(TAG, "Norway POS Set");
 		clickAndVerifyNumber();
 	}
 
 	@Test
 	public void testSwedenGold() {
-		setPOSUserTier(PointOfSaleId.SWEDEN, Traveler.LoyaltyMembershipTier.GOLD);
+		setPOSUserTier(PointOfSaleId.SWEDEN, LoyaltyMembershipTier.TOP);
 		Log.v(TAG, "Sweden POS Set");
 		clickAndVerifyNumber();
 	}
 
 	@Test
 	public void testSwedenSilver() {
-		setPOSUserTier(PointOfSaleId.SWEDEN, Traveler.LoyaltyMembershipTier.SILVER);
+		setPOSUserTier(PointOfSaleId.SWEDEN, LoyaltyMembershipTier.MIDDLE);
 		Log.v(TAG, "Sweden POS Set");
 		clickAndVerifyNumber();
 	}
 
 	@Test
 	public void testHongKongGold() {
-		setPOSUserTier(PointOfSaleId.HONG_KONG, Traveler.LoyaltyMembershipTier.GOLD);
+		setPOSUserTier(PointOfSaleId.HONG_KONG, LoyaltyMembershipTier.TOP);
 		Log.v(TAG, "Hong Kong POS Set");
 		clickAndVerifyNumber();
 	}
 
 	@Test
 	public void testHongKongSilver() {
-		setPOSUserTier(PointOfSaleId.HONG_KONG, Traveler.LoyaltyMembershipTier.SILVER);
+		setPOSUserTier(PointOfSaleId.HONG_KONG, LoyaltyMembershipTier.MIDDLE);
 		Log.v(TAG, "Hong Kong POS Set");
 		clickAndVerifyNumber();
 	}
 
 	@Test
 	public void testBrazilGold() {
-		setPOSUserTier(PointOfSaleId.BRAZIL, Traveler.LoyaltyMembershipTier.GOLD);
+		setPOSUserTier(PointOfSaleId.BRAZIL, LoyaltyMembershipTier.TOP);
 		Log.v(TAG, "BRAZIL POS Set");
 		clickAndVerifyNumber();
 	}
 
 	@Test
 	public void testBrazilSilver() {
-		setPOSUserTier(PointOfSaleId.BRAZIL, Traveler.LoyaltyMembershipTier.SILVER);
+		setPOSUserTier(PointOfSaleId.BRAZIL, LoyaltyMembershipTier.MIDDLE);
 		Log.v(TAG, "BRAZIL POS Set");
 		clickAndVerifyNumber();
 	}
 
 	@Test
 	public void testThailandGold() {
-		setPOSUserTier(PointOfSaleId.THAILAND, Traveler.LoyaltyMembershipTier.GOLD);
+		setPOSUserTier(PointOfSaleId.THAILAND, LoyaltyMembershipTier.TOP);
 		Log.v(TAG, "THAILAND POS Set");
 		clickAndVerifyNumber();
 	}
 
 	@Test
 	public void testThailandSilver() {
-		setPOSUserTier(PointOfSaleId.THAILAND, Traveler.LoyaltyMembershipTier.SILVER);
+		setPOSUserTier(PointOfSaleId.THAILAND, LoyaltyMembershipTier.MIDDLE);
 		Log.v(TAG, "THAILAND POS Set");
 		clickAndVerifyNumber();
 	}
 
 	@Test
 	public void testIrelandGold() {
-		setPOSUserTier(PointOfSaleId.IRELAND, Traveler.LoyaltyMembershipTier.GOLD);
+		setPOSUserTier(PointOfSaleId.IRELAND, LoyaltyMembershipTier.TOP);
 		Log.v(TAG, "IRELAND POS Set");
 		clickAndVerifyNumber();
 	}
 
 	@Test
 	public void testIrelandSilver() {
-		setPOSUserTier(PointOfSaleId.IRELAND, Traveler.LoyaltyMembershipTier.SILVER);
+		setPOSUserTier(PointOfSaleId.IRELAND, LoyaltyMembershipTier.MIDDLE);
 		Log.v(TAG, "IRELAND POS Set");
 		clickAndVerifyNumber();
 	}
 
 	@Test
 	public void testDenmarkGold() {
-		setPOSUserTier(PointOfSaleId.DENMARK, Traveler.LoyaltyMembershipTier.GOLD);
+		setPOSUserTier(PointOfSaleId.DENMARK, LoyaltyMembershipTier.TOP);
 		Log.v(TAG, "DENMARK POS Set");
 		clickAndVerifyNumber();
 	}
 
 	@Test
 	public void testDenmarkSilver() {
-		setPOSUserTier(PointOfSaleId.DENMARK, Traveler.LoyaltyMembershipTier.SILVER);
+		setPOSUserTier(PointOfSaleId.DENMARK, LoyaltyMembershipTier.MIDDLE);
 		Log.v(TAG, "DENMARK POS Set");
 		clickAndVerifyNumber();
 	}
 
 	@Test
 	public void testBelgiumGold() {
-		setPOSUserTier(PointOfSaleId.BELGIUM, Traveler.LoyaltyMembershipTier.GOLD);
+		setPOSUserTier(PointOfSaleId.BELGIUM, LoyaltyMembershipTier.TOP);
 		Log.v(TAG, "BELGIUM POS Set");
 		clickAndVerifyNumber();
 	}
 
 	@Test
 	public void testBelgiumSilver() {
-		setPOSUserTier(PointOfSaleId.BELGIUM, Traveler.LoyaltyMembershipTier.SILVER);
+		setPOSUserTier(PointOfSaleId.BELGIUM, LoyaltyMembershipTier.MIDDLE);
 		Log.v(TAG, "BELGIUM POS Set");
 		clickAndVerifyNumber();
 	}
 
 	@Test
 	public void testMalaysiaGold() {
-		setPOSUserTier(PointOfSaleId.MALAYSIA, Traveler.LoyaltyMembershipTier.GOLD);
+		setPOSUserTier(PointOfSaleId.MALAYSIA, LoyaltyMembershipTier.TOP);
 		Log.v(TAG, "MALAYSIA POS Set");
 		clickAndVerifyNumber();
 	}
 
 	@Test
 	public void testMalaysiaSilver() {
-		setPOSUserTier(PointOfSaleId.MALAYSIA, Traveler.LoyaltyMembershipTier.SILVER);
+		setPOSUserTier(PointOfSaleId.MALAYSIA, LoyaltyMembershipTier.MIDDLE);
 		Log.v(TAG, "MALAYSIA POS Set");
 		clickAndVerifyNumber();
 	}
