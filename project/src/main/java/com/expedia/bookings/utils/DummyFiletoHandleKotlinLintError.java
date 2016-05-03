@@ -550,7 +550,6 @@ DummyFiletoHandleKotlinLintError {
 		R.string.hotel_cost_breakdown_burn_points_TEMPLATE,
 		R.color.white70,
 		R.color.packages_total_duration_text,
-		R.layout.account_button_v2_test,
 		R.string.spinner_text_hotel_create_trip,
 		R.string.ChooseLocation,
 		R.string.search_error,

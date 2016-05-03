@@ -14,6 +14,9 @@
         <!-- remove from values/strings.xml the will be -->
         <!-- eventually -->
         <ignore path="src/main/res/values-*/strings.xml" />
+
+        <!-- Ignore all debug resources  -->
+        <ignore path="src/debug/res/*" />
     </issue>
 
     <!-- datePickerMode=spinner, Android framework ignores the attributes for us pre lollipop-->
