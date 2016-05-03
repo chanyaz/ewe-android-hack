@@ -87,7 +87,7 @@
     <color name="account_screen_back_nav_color">@color/white</color>
 
     <!-- Checkout Colors -->
-    <color name="material_checkout_account_button_background_color">@color/lob_btn_color</color>
+    <color name="material_checkout_account_button_background_color">#C4204B</color>
     <color name="old_checkout_account_button_text_color">@android:color/white</color>
 
     <!-- Rewards -->
