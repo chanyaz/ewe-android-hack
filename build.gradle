@@ -44,7 +44,7 @@ ext.supportLibVersion = "23.1.1"
 ext.googlePlayServicesVersion = "8.4.0"
 
 ext.compileSdkVersion = 23
-ext.buildToolsVersion = "22.0.1"
+ext.buildToolsVersion = "23.0.3"
 
 ext.preDexLibs = !project.hasProperty('disablePreDex')
 
