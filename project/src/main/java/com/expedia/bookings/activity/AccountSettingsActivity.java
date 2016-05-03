@@ -506,7 +506,12 @@ public class AccountSettingsActivity extends AppCompatActivity implements AboutS
 					rowDivider.setVisibility(View.GONE);
 				}
 				loyaltySection.setVisibility(View.VISIBLE);
-				memberTierView.setVisibility(View.VISIBLE);
+				if (ProductFlavorFeatureConfiguration.getInstance().shouldShowMemberTier()) {
+					memberTierView.setVisibility(View.VISIBLE);
+				}
+				else {
+					memberTierView.setVisibility(View.GONE);
+				}
 			}
 			else {
 				loyaltySection.setVisibility(View.GONE);

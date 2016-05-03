@@ -344,4 +344,9 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 		//Ignore
 		return null;
 	}
+
+	@Override
+	public boolean shouldShowMemberTier() {
+		return true;
+	}
 }

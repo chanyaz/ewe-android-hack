@@ -370,4 +370,9 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 		//It should not be the case
 		throw new IllegalArgumentException("Unknown enum value");
 	}
+
+	@Override
+	public boolean shouldShowMemberTier() {
+		return false;
+	}
 }

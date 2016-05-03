@@ -93,7 +93,7 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 	public PointOfSaleId getDefaultPOS() {
 		return PointOfSaleId.UNITED_KINGDOM;
 	}
-	
+
 	@Override
 	public void contactUsViaWeb(Context context) {
 		AboutUtils.openWebsite(context, PointOfSale.getPointOfSale().getAppSupportUrl(), true);
@@ -357,4 +357,8 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 		return null;
 	}
 
+	@Override
+	public boolean shouldShowMemberTier() {
+		return true;
+	}
 }

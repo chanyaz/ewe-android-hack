@@ -351,6 +351,7 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 		return true;
 	}
 
+	@Override
 	public String getOmnitureEventValue(OmnitureTracking.OmnitureEventName key) {
 		switch (key) {
 		case REWARD_PROGRAM_NAME:
@@ -368,5 +369,10 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 		}
 		//It should not be the case
 		throw new IllegalArgumentException("Unknown enum value");
+	}
+
+	@Override
+	public boolean shouldShowMemberTier() {
+		return true;
 	}
 }
