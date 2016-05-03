@@ -34,8 +34,7 @@ class RailResultsPresenter(context: Context, attrs: AttributeSet) : Presenter(co
         vm.railResultsObservable.subscribe {
             resultsProgress.visibility = GONE
             recyclerView.visibility = VISIBLE
-            it.initialize()
-            adapter.resultsSubject.onNext(it.railSearchResult)
+            adapter.resultsSubject.onNext(it)
         }
 
         vm.titleSubject.subscribe {

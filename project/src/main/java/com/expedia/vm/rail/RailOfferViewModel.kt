@@ -18,7 +18,7 @@ class RailOfferViewModel(val context: Context) {
                 formattedTimeIntervalSubject.onNext(DateTimeUtils.formatInterval(context, leg.getDepartureDateTime(), leg.getArrivalDateTime()))
 
                 val changesString = RailViewModel.formatChangesText(context, leg.changesCount())
-                formattedLegInfoSubject.onNext("${DateTimeUtils.formatDuration(context.resources, leg.durationInMinutes)}, $changesString")
+                formattedLegInfoSubject.onNext("${DateTimeUtils.formatDuration(context.resources, leg.totalDurationInMinutes)}, $changesString")
             }
         }
     }

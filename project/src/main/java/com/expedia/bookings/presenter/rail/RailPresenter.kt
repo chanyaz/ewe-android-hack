@@ -3,6 +3,7 @@ package com.expedia.bookings.presenter.rail;
 import android.content.Context
 import android.util.AttributeSet
 import android.view.View
+import android.widget.Toast
 import com.expedia.bookings.R
 import com.expedia.bookings.data.rail.requests.RailSearchRequest
 import com.expedia.bookings.data.rail.responses.RailSearchResponse
@@ -12,6 +13,7 @@ import com.expedia.bookings.services.RailServices
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
 import com.expedia.util.endlessObserver
+import com.expedia.vm.rail.RailCheckoutViewModel
 import com.expedia.vm.rail.RailDetailsViewModel
 import com.expedia.vm.rail.RailResultsViewModel
 import com.expedia.vm.rail.RailSearchViewModel
@@ -44,7 +46,7 @@ class RailPresenter(context: Context, attrs: AttributeSet) : Presenter(context, 
         resultsPresenter.viewmodel.paramsSubject.onNext(params)
     }
 
-    val offerSelectedObserver :  Observer<RailSearchResponse.RailOffer> = endlessObserver { selectedOffer ->
+    val offerSelectedObserver: Observer<RailSearchResponse.RailOffer> = endlessObserver { selectedOffer ->
         transitionToDetails()
         detailsPresenter.viewmodel.offerViewModel.offerSubject.onNext(selectedOffer)
     }
@@ -64,8 +66,17 @@ class RailPresenter(context: Context, attrs: AttributeSet) : Presenter(context, 
         searchPresenter.searchViewModel.searchParamsObservable.subscribe(searchObserver)
 
         resultsPresenter.viewmodel = RailResultsViewModel(context, railServices)
+        resultsPresenter.viewmodel.railResultsObservable.subscribe {
+            detailsPresenter.viewmodel.railResultsObservable.onNext(it)
+        }
         resultsPresenter.offerSelectedObserver = offerSelectedObserver
         detailsPresenter.viewmodel = RailDetailsViewModel(context)
+        detailsPresenter.viewmodel.offerSelectedObservable.subscribe {
+            Toast.makeText(context, it.railProductList.first().aggregatedFareDescription, Toast.LENGTH_LONG).show()
+
+            checkoutPresenter.checkoutViewModel = RailCheckoutViewModel(it)
+            transitionToCheckout()
+        }
 
         show(searchPresenter)
     }

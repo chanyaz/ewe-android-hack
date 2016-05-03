@@ -51,7 +51,7 @@ class RailResultsTimelineWidget(context: Context, attrs: AttributeSet?) : View(c
 
         var iconRect = Rect(0, 0, 0, drawableHeight)
         var first = true
-        leg.segmentList.forEach {
+        leg.travelSegmentList.forEach {
             if (!first) { // put down a separator first as long as we're not the first icon being drawn
                 iconRect.right = iconRect.left + (( separatorDrawable.intrinsicWidth.toFloat() / separatorDrawable.intrinsicHeight.toFloat()) * (drawableHeight - (2 * caretPadding)).toFloat()).toInt()
                 iconRect.top = caretPadding

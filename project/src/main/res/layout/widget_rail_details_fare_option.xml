@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="10dp"
+    android:gravity="center_vertical"
+    android:orientation="horizontal"
+    tools:background="@color/white">
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/fare_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingTop="5dp"
+            android:text="Fare Title"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            tools:text="Change at Crewe" />
+
+        <TextView
+            android:id="@+id/fare_description"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingBottom="2dp"
+            android:paddingTop="2dp"
+            android:text="Fare Description"
+            android:textSize="12sp"
+            android:textStyle="bold"
+            tools:text="Change at Crewe" />
+
+        <TextView
+            android:id="@+id/amenities_link"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingBottom="5dp"
+            android:paddingTop="2dp"
+            android:text="@string/amenities"
+            android:textAllCaps="true"
+            android:textColor="@color/wallet_link_text_light"
+            android:textSize="12sp"
+            tools:text="Change at Crewe" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="right"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingTop="5dp"
+            android:paddingRight="4dp"
+            android:text="$120.00"
+            android:textSize="14sp"
+            tools:text="Change at Crewe" />
+
+        <Button
+            android:id="@+id/select_button"
+            style="@style/CarButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/select" />
+    </LinearLayout>
+
+</LinearLayout>

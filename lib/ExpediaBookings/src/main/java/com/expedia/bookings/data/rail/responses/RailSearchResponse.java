@@ -1,170 +1,151 @@
 package com.expedia.bookings.data.rail.responses;
 
-import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.joda.time.DateTime;
 
-import com.expedia.bookings.data.Money;
-import com.expedia.bookings.data.rail.Passengers;
+import com.expedia.bookings.data.rail.RailPassenger;
 
 public class RailSearchResponse {
 
-	public void initialize() {
-		for (RailLeg leg : railSearchResult.legList) {
-			for (LegOption option : leg.legOptions) {
-				option.setCheapestOffer(findCheapestOfferContainingLegOption(option.legOptionId));
+	public List<RailPassenger> passengerList;
+	public List<RailLeg> legList;
+	public List<RailOffer> offerList;
+
+	public RailOffer findOfferForLeg(@NotNull LegOption it) {
+		for (RailOffer offer : offerList) {
+			if (offer.containsLegOptionId(it.legOptionIndex)) {
+				return offer;
 			}
 		}
+		return null;
 	}
 
-	private RailOffer findCheapestOfferContainingLegOption(String legOptionId) {
-		float amount = Float.MAX_VALUE;
-		RailOffer cheapestOffer = null;
-		for (RailOffer offer : railSearchResult.railOfferList) {
-			if (offer.getTotalPrice().getAmount().floatValue() < amount && offer.containsLegOptionId(legOptionId)) {
-				cheapestOffer = offer;
-				amount = offer.getTotalPrice().getAmount().floatValue();
+	public List<RailOffer> findOffersForLegOption(Integer optionId) {
+		List<RailOffer> offers = new ArrayList<>();
+
+		for (RailOffer offer : offerList) {
+			if (offer.containsLegOptionId(optionId)) {
+				offers.add(offer);
 			}
 		}
-		return cheapestOffer;
-	}
 
-	public RailSearchResult railSearchResult;
-
-	public static class RailSearchResult {
-		public List<Passengers> passengers;
-		public List<RailLeg> legList;
-		public List<RailOffer> railOfferList;
-
-		public RailOffer findOfferForLeg(@NotNull LegOption it) {
-			for (RailOffer offer : railOfferList) {
-				if (offer.containsLegOptionId(it.legOptionId)) {
-					return offer;
-				}
-			}
-			return null;
-		}
+		return offers;
 	}
 
 	public static class RailLeg {
 		public String legId;
-		public RailStation departureStationDetails;
-		public RailStation arrivalStationDetails;
-		public List<LegOption> legOptions;
+		public RailStation departureStation;
+		public RailStation arrivalStation;
+		public List<LegOption> legOptionList;
+	}
+
+	public static class RailDateTime {
+		public String formattedDateTime;
+
+		public DateTime toDateTime() {
+			return DateTime.parse(formattedDateTime);
+		}
+	}
+
+	public static class RailMoney {
+		public String formattedDisplayPrice;
 	}
 
 	public static class LegOption {
-		public RailStation departureStationDetails;
-		public RailStation arrivalStationDetails;
-		public String departureDateTime;
-		public String arrivalDateTime;
-		public int durationInMinutes;
-		public String legOptionId;
-		public List<RailSegment> segmentList;
-		private RailOffer cheapestOffer;
-
-		public String formattedPrice() {
-			if (cheapestOffer != null) {
-				return cheapestOffer.getTotalPrice().getFormattedMoney();
-			}
-			throw new RuntimeException("Price should not be null!");
-		}
+		public RailStation departureStation;
+		public RailStation arrivalStation;
+		public RailDateTime departureDateTime;
+		public RailDateTime arrivalDateTime;
+		public int totalDurationInMinutes;
+		public Integer legOptionIndex;
+		public RailMoney bestPrice;
+		public List<RailSegment> travelSegmentList;
 
 		public String allOperators() {
 			boolean first = true;
 			String result = "";
-			for (RailSegment segment : segmentList) {
+			for (RailSegment segment : travelSegmentList) {
 				if (!first) {
 					result += ", ";
 				}
-				result += segment.supplier.operatingCarrier;
+				result += segment.marketingCarrier;
 				first = false;
 			}
 
 			return result;
 		}
 
-		public void setCheapestOffer(RailOffer cheapestOffer) {
-			this.cheapestOffer = cheapestOffer;
-		}
-
 		@NotNull
 		public DateTime getDepartureDateTime() {
-			return DateTime.parse(departureDateTime);
+			return departureDateTime.toDateTime();
 		}
 
 		@NotNull
 		public DateTime getArrivalDateTime() {
-			return DateTime.parse(arrivalDateTime);
+			return arrivalDateTime.toDateTime();
 		}
 
 		public int changesCount() {
-			return segmentList.size() - 1;
+			return travelSegmentList.size() - 1;
 		}
 	}
 
 	public static class RailSegment {
 		public String travelMode;
-		public RailStation departureStationDetails;
-		public RailStation arrivalStationDetails;
-		public String departureDateTime;
-		public String arrivalDateTime;
-		public String serviceName; //"Virgin"
-		public int durationInMinutes;
-		public RailEquipment equipment;
-		public RailSupplier supplier;
+		public RailStation departureStation;
+		public RailStation arrivalStation;
+		public RailDateTime departureDateTime;
+		public RailDateTime arrivalDateTime;
+		public String marketingCarrier; //"Virgin"
+		public String operatingCarrier; //"Virgin"
+		public int totalDurationInMinutes;
+		public RailTravelMedium travelMedium;
 		public String segmentId;
 
 		public boolean isTransfer() {
 			return !"Train".equals(travelMode);
 		}
 
-		public static class RailEquipment {
-			public String code; //"ICY"
-			public String name; //"Inter-City"
-		}
-
-		public static class RailSupplier {
-			public String operatingCarrier; //"Virgin"
+		public static class RailTravelMedium {
+			public String travelMediumCode; //"ICY"
+			public String travelMediumName; //"Inter-City"
 		}
 
 		public int durationHours() {
-			return durationInMinutes / 60;
+			return totalDurationInMinutes / 60;
 		}
 
 		public int durationMinutes() {
-			return durationInMinutes % 60;
+			return totalDurationInMinutes % 60;
 		}
 
 		@NotNull
 		public DateTime getDepartureDateTime() {
-			return DateTime.parse(departureDateTime);
+			return departureDateTime.toDateTime();
 		}
 
 		@NotNull
 		public DateTime getArrivalDateTime() {
-			return DateTime.parse(arrivalDateTime);
+			return arrivalDateTime.toDateTime();
 		}
 	}
 
 	public static class RailOffer {
-		private RailMoney totalPrice;
+		public RailMoney totalPrice;
 		public List<RailProduct> railProductList;
+		public String railOfferToken;
 
 		@Nullable
 		public LegOption outboundLeg; //set in code on the offer when the leg/offer combo is selected
 
-		public Money getTotalPrice() {
-			return totalPrice.toMoney();
-		}
-
-		public boolean containsLegOptionId(String legOptionId) {
+		public boolean containsLegOptionId(Integer legOptionId) {
 			for (RailProduct product : railProductList) {
-				for (String legOption : product.legOptionReferences) {
-					if (legOptionId.equalsIgnoreCase(legOption)) {
+				for (Integer legId : product.legOptionIndexList) {
+					if (legOptionId.equals(legId)) {
 						return true;
 					}
 				}
@@ -174,38 +155,32 @@ public class RailSearchResponse {
 
 		public static class RailProduct {
 			public RailMoney totalPrice;
-			public List<String> legOptionReferences;
-			public List<FareBreakUp> fareBreakUpList;
+			public List<Integer> legOptionIndexList;
+			public List<FareBreakUp> fareBreakdownList;
 			public String serviceClassCode;
 			public String fareClass;
 			public boolean refundable;
 			public boolean exchangeable;
 			public String railProductToken;
+			public String aggregatedCarrierServiceClassDisplayName;
+			public String aggregatedFareDescription;
 
 			public static class FareBreakUp {
-				public List<PassengerReference> passengerReferences;
+				public List<PassengerReference> passengerFareList;
 
 				public static class PassengerReference {
-					public List<FareCode> fareCodes;
+					public List<FareCode> passengerSegmentFareList;
 
 					public static class FareCode {
-						public String travelSegmentIdRef;
-						public String serviceClassCode;
-						public String carrierCabinClass;
-						public String fareClass;
+						public String fareCode;
+						public String serviceClassCategory;
+						public String carrierServiceClassDisplayName;
+						public String fareClassCategory;
+						public String carrierFareClassDisplayName;
+						public Integer travelSegmentIndex;
 					}
 				}
 			}
 		}
 	}
-
-	private static class RailMoney {
-		private BigDecimal value;
-		private String currency;
-
-		public Money toMoney() {
-			return new Money(value, currency);
-		}
-	}
 }
-

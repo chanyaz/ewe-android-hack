@@ -235,6 +235,7 @@ DummyFiletoHandleKotlinLintError {
 		R.string.rail_single,
 		R.string.rail_return,
 		R.string.rail_open_return,
+		R.layout.widget_rail_details_fare_option,
 		R.layout.widget_rail_calendar,
 		R.layout.widget_rail_locations,
 		R.layout.widget_rail_search_content,
