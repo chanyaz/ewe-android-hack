@@ -1933,7 +1933,7 @@
     <!-- AB Test 3x messaging for hotel points -->
     <string name="youll_earn_points_ab_test_3x_TEMPLATE">Tjen %1$s poeng – 3 ganger så mange ved bestilling med appen!</string>
     <!-- You'll earn points for this trip -->
-    <string name="youll_earn_points_TEMPLATE">Du vil tjene %1$s poeng for denne reisen!</string>
+    <string name="youll_earn_points_TEMPLATE">Du vil tjene {reward_currency} poeng for denne reisen!</string>
     <!-- You are a valued member -->
     <string name="you_are_a_valued_member">Vi setter pris på deg som medlem!</string>
     <!-- Blurb text displayed on account sign in button when already signed in -->

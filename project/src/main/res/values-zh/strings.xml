@@ -1933,7 +1933,7 @@
     <!-- AB Test 3x messaging for hotel points -->
     <string name="youll_earn_points_ab_test_3x_TEMPLATE">累积 %1$s 分 — 使用 App 预订可获 3 倍积分！</string>
     <!-- You'll earn points for this trip -->
-    <string name="youll_earn_points_TEMPLATE">此次预订将累积 %1$s 分！</string>
+    <string name="youll_earn_points_TEMPLATE">此次预订将累积 {reward_currency} 分！</string>
     <!-- You are a valued member -->
     <string name="you_are_a_valued_member">您是我们尊贵的会员！</string>
     <!-- Blurb text displayed on account sign in button when already signed in -->
