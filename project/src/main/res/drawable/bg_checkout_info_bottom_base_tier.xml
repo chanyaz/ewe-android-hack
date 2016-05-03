@@ -5,6 +5,6 @@
     <corners
         android:bottomLeftRadius="3dp"
         android:bottomRightRadius="3dp" />
-    <solid android:color="@color/sign_in_user_tier_blue" />
+    <solid android:color="@color/sign_in_user_base_tier" />
 
 </shape>

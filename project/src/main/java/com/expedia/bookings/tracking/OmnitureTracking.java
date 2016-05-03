@@ -52,6 +52,7 @@ import com.expedia.bookings.data.HotelSearchParams;
 import com.expedia.bookings.data.HotelSearchResponse;
 import com.expedia.bookings.data.Itinerary;
 import com.expedia.bookings.data.LineOfBusiness;
+import com.expedia.bookings.data.LoyaltyMembershipTier;
 import com.expedia.bookings.data.PaymentType;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Rate;
@@ -4458,15 +4459,12 @@ public class OmnitureTracking {
 	}
 
 	private static String getRewardsStatusString(User user) {
-		switch (user.getPrimaryTraveler().getLoyaltyMembershipTier()) {
-		case BLUE:
-			return "blue";
-		case SILVER:
-			return "silver";
-		case GOLD:
-			return "gold";
-		default:
+		LoyaltyMembershipTier userTier = user.getPrimaryTraveler().getLoyaltyMembershipTier();
+		if (userTier == null || userTier == LoyaltyMembershipTier.NONE) {
 			return null;
+		}
+		else {
+			return userTier.toApiValue().toLowerCase(Locale.US);
 		}
 	}
 

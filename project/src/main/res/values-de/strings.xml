@@ -1059,9 +1059,9 @@
     <!-- Expedia Itinerary -->
     <string name="itinerary_TEMPLATE">{brand}-Reiseplannr.</string>
     <!-- Label for exclusive +silver phone number, "Expedia +silver Customer Support" -->
-    <string name="Expedia_plus_Silver_Customer_Support">Kundenservice für Expedia +silver</string>
+    <string name="rewards_middle_tier_customer_support">Kundenservice für Expedia +silver</string>
     <!-- Label for exclusive +gold phone number, "Expedia +gold Customer Support" -->
-    <string name="Expedia_plus_Gold_Customer_Support">Kundenservice für Expedia +gold</string>
+    <string name="rewards_top_tier_customer_support">Kundenservice für Expedia +gold</string>
     <!-- No upcoming trips -->
     <string name="no_upcoming_trips">Es stehen keine Reisen bevor.</string>
     <!-- Enter itinerary number -->

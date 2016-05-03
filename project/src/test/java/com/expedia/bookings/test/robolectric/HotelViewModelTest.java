@@ -10,6 +10,7 @@ import android.app.Application;
 import android.text.Html;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.data.LoyaltyMembershipTier;
 import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.data.User;
 import com.expedia.bookings.data.hotels.Hotel;
@@ -303,7 +304,7 @@ public class HotelViewModelTest {
 		User user = new User();
 		Traveler traveler = new Traveler();
 		user.setPrimaryTraveler(traveler);
-		user.getPrimaryTraveler().setLoyaltyMembershipTier(Traveler.LoyaltyMembershipTier.GOLD);
+		user.getPrimaryTraveler().setLoyaltyMembershipTier(LoyaltyMembershipTier.TOP);
 		return user;
 	}
 

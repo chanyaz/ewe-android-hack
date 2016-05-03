@@ -70,7 +70,7 @@ public class ProfileScreenLoggedInTest {
 
 		assertViewWithTextIsDisplayed(R.id.toolbar_name, "single card");
 		assertViewWithTextIsDisplayed(R.id.toolbar_email, "singlecard@mobiata.com");
-		assertViewWithTextIsDisplayed(R.id.toolbar_loyalty_tier_text, R.string.plus_blue);
+		assertViewWithTextIsDisplayed(R.id.toolbar_loyalty_tier_text, R.string.reward_base_tier_name_short);
 		assertViewWithTextIsDisplayed(R.id.available_points, "1,802");
 		assertViewIsGone(R.id.pending_points); // 0 pending points == hide the view
 		ViewInteraction countryView = getFirstRowCountry();
@@ -88,7 +88,7 @@ public class ProfileScreenLoggedInTest {
 
 		assertViewWithTextIsDisplayed(R.id.toolbar_name, "Silver Status");
 		assertViewWithTextIsDisplayed(R.id.toolbar_email, "silverstatus@mobiata.com");
-		assertViewWithTextIsDisplayed(R.id.toolbar_loyalty_tier_text, R.string.plus_silver);
+		assertViewWithTextIsDisplayed(R.id.toolbar_loyalty_tier_text, R.string.reward_middle_tier_name_short);
 		assertViewWithTextIsDisplayed(R.id.available_points, "22,996");
 		assertViewWithTextIsDisplayed(R.id.pending_points, "965 pending");
 		ViewInteraction countryView = getSecondRowCountry();
@@ -106,7 +106,7 @@ public class ProfileScreenLoggedInTest {
 
 		assertViewWithTextIsDisplayed(R.id.toolbar_name, "Gold Status");
 		assertViewWithTextIsDisplayed(R.id.toolbar_email, "goldstatus@mobiata.com");
-		assertViewWithTextIsDisplayed(R.id.toolbar_loyalty_tier_text, R.string.plus_gold);
+		assertViewWithTextIsDisplayed(R.id.toolbar_loyalty_tier_text, R.string.reward_top_tier_name_short);
 		assertViewWithTextIsDisplayed(R.id.available_points, "54,206");
 		assertViewWithTextIsDisplayed(R.id.pending_points, "5,601 pending");
 		ViewInteraction countryView = getSecondRowCountry();
@@ -125,7 +125,7 @@ public class ProfileScreenLoggedInTest {
 
 		assertViewWithTextIsDisplayed(R.id.toolbar_name, "Gold Status");
 		assertViewWithTextIsDisplayed(R.id.toolbar_email, "goldstatus@mobiata.com");
-		assertViewWithTextIsDisplayed(R.id.toolbar_loyalty_tier_text, R.string.plus_gold);
+		assertViewWithTextIsDisplayed(R.id.toolbar_loyalty_tier_text, R.string.reward_top_tier_name_short);
 		assertViewWithTextIsDisplayed(R.id.available_points, "54,206");
 		assertViewWithTextIsDisplayed(R.id.pending_points, "5,601 pending");
 		ViewInteraction countryView = getSecondRowCountry();

@@ -1,7 +1,5 @@
 package com.expedia.bookings.data;
 
-import java.util.Locale;
-
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -84,7 +82,7 @@ public class UserLoyaltyMembershipInformation implements JSONable {
 				obj.putOpt("loyaltyMonetaryValue", loyaltyMonetaryValue.toJson());
 			}
 			obj.putOpt("loyaltyMemebershipActive", isLoyaltyMembershipActive);
-			obj.putOpt("membershipTierName", loyaltyMembershipTier.name());
+			obj.putOpt("membershipTierName", loyaltyMembershipTier.toApiValue());
 			return obj;
 		}
 		catch (JSONException e) {
@@ -100,8 +98,8 @@ public class UserLoyaltyMembershipInformation implements JSONable {
 		bookingCurrency = obj.optString("bookingCurrency", null);
 		isAllowedToShopWithPoints = obj.optBoolean("isAllowedToShopWithPoints", false);
 		isLoyaltyMembershipActive = obj.optBoolean("loyaltyMemebershipActive", false); // yes, the key is misspelt by the API
-		String membershipTierName = obj.optString("membershipTierName", "NONE").toUpperCase(Locale.US);
-		loyaltyMembershipTier = LoyaltyMembershipTier.valueOf(membershipTierName);
+		String membershipTierName = obj.optString("membershipTierName", null);
+		loyaltyMembershipTier = LoyaltyMembershipTier.fromApiValue(membershipTierName);
 		if (obj.has("loyaltyMonetaryValue")) { // the old api response doesn't return loyaltyMonetaryValue
 			// TODO - we can remove this check after 1st May 2016 (API will have been released to production)
 			loyaltyMonetaryValue = new LoyaltyMonetaryValueObject(obj.optJSONObject("loyaltyMonetaryValue"));
@@ -143,14 +141,6 @@ public class UserLoyaltyMembershipInformation implements JSONable {
 			this.setAmount(obj.optString("amount", ""));
 			this.setCurrency(obj.optString("currencyCode", ""));
 			return true;
-		}
-	}
-
-	public enum LoyaltyMembershipTier {
-		NONE, BLUE, SILVER, GOLD, PLATINUM;
-
-		public boolean isGoldOrSilver() {
-			return this == SILVER || this == GOLD;
 		}
 	}
 }

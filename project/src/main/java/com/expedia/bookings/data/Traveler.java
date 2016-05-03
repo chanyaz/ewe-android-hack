@@ -3,7 +3,6 @@ package com.expedia.bookings.data;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Locale;
 
 import org.joda.time.LocalDate;
 import org.joda.time.Years;
@@ -40,7 +39,7 @@ public class Traveler implements JSONable, Comparable<Traveler> {
 	// General
 	private TravelerName mName = new TravelerName();
 	private Location mHomeAddress;
-	private List<Phone> mPhoneNumbers = new ArrayList<Phone>();
+	private List<Phone> mPhoneNumbers = new ArrayList<>();
 	private String mEmail;
 
 	// Hotels
@@ -78,14 +77,6 @@ public class Traveler implements JSONable, Comparable<Traveler> {
 
 	public enum Gender {
 		MALE, FEMALE, OTHER
-	}
-
-	public enum LoyaltyMembershipTier {
-		NONE, BLUE, SILVER, GOLD, PLATINUM;
-
-		public boolean isGoldOrSilver() {
-			return this == SILVER || this == GOLD;
-		}
 	}
 
 	//This is silly, we only want to offer WINDOW and AISLE, but when downloading from an expedia account
@@ -254,7 +245,7 @@ public class Traveler implements JSONable, Comparable<Traveler> {
 	public String getSeatPreferenceString(Context context) {
 		SeatPreference pref = getSeatPreference();
 		Resources res = context.getResources();
-		String retStr = "";
+		String retStr;
 
 		switch (pref) {
 		case WINDOW:
@@ -278,7 +269,7 @@ public class Traveler implements JSONable, Comparable<Traveler> {
 	public String getAssistanceString(Context context) {
 		AssistanceType assistanceType = getAssistance();
 		Resources res = context.getResources();
-		String retStr = "";
+		String retStr;
 
 		switch (assistanceType) {
 		case WHEELCHAIR_IMMOBILE:
@@ -362,7 +353,6 @@ public class Traveler implements JSONable, Comparable<Traveler> {
 
 	/***
 	 * Does the traveler have non-blank first and last name values
-	 * @return
 	 */
 	public boolean hasName() {
 		return !TextUtils.isEmpty(getFirstName()) && !TextUtils.isEmpty(getLastName());
@@ -400,16 +390,7 @@ public class Traveler implements JSONable, Comparable<Traveler> {
 	}
 
 	public void setLoyaltyMembershipTier(String tierString) {
-		try {
-			if (tierString != null) {
-				setLoyaltyMembershipTier(LoyaltyMembershipTier.valueOf(tierString.toUpperCase(Locale.US)));
-				return;
-			}
-		}
-		catch (IllegalArgumentException e) {
-			// tierString doesn't match anything
-		}
-		setLoyaltyMembershipTier(LoyaltyMembershipTier.NONE);
+		setLoyaltyMembershipTier(LoyaltyMembershipTier.fromApiValue(tierString));
 	}
 
 	public void setLoyaltyMembershipTier(LoyaltyMembershipTier loyaltyMembershipTier) {
@@ -441,7 +422,6 @@ public class Traveler implements JSONable, Comparable<Traveler> {
 	 * Calling setFullName WILL NOT change the values of first/middle/last name.
 	 * However, calling getFullName() will return the value supplied here.
 	 * If this method is never called, calling getFullName() will return first + middle + last with proper spacing.
-	 * @param fullName
 	 */
 	public void setFullName(String fullName) {
 		mName.setFullName(fullName);
@@ -505,7 +485,7 @@ public class Traveler implements JSONable, Comparable<Traveler> {
 
 	public void addPassportCountry(String passportCountry) {
 		if (mPassportCountries == null) {
-			mPassportCountries = new ArrayList<String>();
+			mPassportCountries = new ArrayList<>();
 		}
 
 		mPassportCountries.add(passportCountry);
@@ -597,7 +577,7 @@ public class Traveler implements JSONable, Comparable<Traveler> {
 			obj.putOpt("expUserId", mExpediaUserId);
 			obj.putOpt("loyaltyMemebershipActive", mIsLoyaltyMembershipActive);
 			obj.putOpt("loyaltyMemebershipName", mLoyaltyMembershipName);
-			obj.putOpt("membershipTier", mLoyaltyMembershipTier.name());
+			obj.putOpt("membershipTier", mLoyaltyMembershipTier.toApiValue());
 			obj.putOpt("loyaltyPointsAvailable", mLoyaltyPointsAvailable);
 			obj.putOpt("loyaltyPointsPending", mLoyaltyPointsPending);
 
@@ -725,7 +705,7 @@ public class Traveler implements JSONable, Comparable<Traveler> {
 			return BEFORE;
 		}
 
-		int diff = 0;
+		int diff;
 
 		if (!mName.equals(another.mName)) {
 			return NOT_EQUAL;

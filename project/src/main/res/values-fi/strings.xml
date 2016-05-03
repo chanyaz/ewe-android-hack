@@ -1059,9 +1059,9 @@
     <!-- Expedia Itinerary -->
     <string name="itinerary_TEMPLATE">{brand}n matkasuunnitelman numero</string>
     <!-- Label for exclusive +silver phone number, "Expedia +silver Customer Support" -->
-    <string name="Expedia_plus_Silver_Customer_Support">Expedia +silver -asiakaspalvelu</string>
+    <string name="rewards_middle_tier_customer_support">Expedia +silver -asiakaspalvelu</string>
     <!-- Label for exclusive +gold phone number, "Expedia +gold Customer Support" -->
-    <string name="Expedia_plus_Gold_Customer_Support">Expedia +gold -asiakaspalvelu</string>
+    <string name="rewards_top_tier_customer_support">Expedia +gold -asiakaspalvelu</string>
     <!-- No upcoming trips -->
     <string name="no_upcoming_trips">Ei tulevia matkoja.</string>
     <!-- Enter itinerary number -->

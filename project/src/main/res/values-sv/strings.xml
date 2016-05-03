@@ -1059,9 +1059,9 @@
     <!-- Expedia Itinerary -->
     <string name="itinerary_TEMPLATE">{brand} resplan #</string>
     <!-- Label for exclusive +silver phone number, "Expedia +silver Customer Support" -->
-    <string name="Expedia_plus_Silver_Customer_Support">Expedia +silver kundsupport</string>
+    <string name="rewards_middle_tier_customer_support">Expedia +silver kundsupport</string>
     <!-- Label for exclusive +gold phone number, "Expedia +gold Customer Support" -->
-    <string name="Expedia_plus_Gold_Customer_Support">Expedia +silver kundsupport</string>
+    <string name="rewards_top_tier_customer_support">Expedia +silver kundsupport</string>
     <!-- No upcoming trips -->
     <string name="no_upcoming_trips">Inga kommande resor.</string>
     <!-- Enter itinerary number -->

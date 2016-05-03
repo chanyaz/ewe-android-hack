@@ -12,6 +12,7 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.activity.AccountLibActivity;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.LineOfBusiness;
+import com.expedia.bookings.data.LoyaltyMembershipTier;
 import com.expedia.bookings.data.SignInResponse;
 import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.data.User;
@@ -178,8 +179,8 @@ public class CheckoutLoginButtonsFragment extends Fragment
 						bd.startDownload(KEY_REFRESH_USER, mRefreshUserDownload, mRefreshUserCallback);
 					}
 				}
-				Traveler.LoyaltyMembershipTier userTier = Db.getUser().getLoggedInLoyaltyMembershipTier(getActivity());
-				if (userTier.isGoldOrSilver() && User.isLoggedIn(getActivity()) != mWasLoggedIn) {
+				LoyaltyMembershipTier userTier = Db.getUser().getLoggedInLoyaltyMembershipTier(getActivity());
+				if (userTier.isMidOrTopTier() && User.isLoggedIn(getActivity()) != mWasLoggedIn) {
 					if (getLob() == LineOfBusiness.FLIGHTS) {
 						Db.getTripBucket().getFlight().getFlightTrip().setRewardsPoints("");
 					}

@@ -81,20 +81,20 @@ public class PointOfSale {
 	// The POS's contact phone number
 	private String mSupportPhoneNumber;
 
-	// The POS's silver rewards member contact phone number
-	private String mSupportPhoneNumberSilver;
+	// The POS's base tier rewards member contact phone number
+	private String mSupportPhoneNumberBaseTier;
 
-	// The POS's platinum rewards member phone number
-	private String mSupportPhoneNumberPlatinum;
+	// The POS's middle tier rewards member contact phone number
+	private String mSupportPhoneNumberMiddleTier;
 
-	// The POS's gold rewards member phone number
-	private String mSupportPhoneNumberGold;
+	// The POS's top tier rewards member phone number
+	private String mSupportPhoneNumberTopTier;
 
 	// The POS's silver rewards member contact email
-	private String mSupportEmailSilver;
+	private String mSupportEmailMiddleTier;
 
 	// The POS's gold rewards member contact email
-	private String mSupportEmailGold;
+	private String mSupportEmailTopTier;
 
 	// The two-letter country code associated with this locale (e.g. "US")
 	private String mTwoLetterCountryCode;
@@ -553,24 +553,24 @@ public class PointOfSale {
 		return number;
 	}
 
-	public String getSupportPhoneNumberSilver() {
-		return mSupportPhoneNumberSilver;
+	public String getSupportPhoneNumberBaseTier() {
+		return mSupportPhoneNumberBaseTier;
 	}
 
-	public String getSupportPhoneNumberGold() {
-		return mSupportPhoneNumberGold;
+	public String getSupportPhoneNumberMiddleTier() {
+		return mSupportPhoneNumberMiddleTier;
 	}
 
-	public String getSupportPhoneNumberPlatinum() {
-		return mSupportPhoneNumberPlatinum;
+	public String getSupportPhoneNumberTopTier() {
+		return mSupportPhoneNumberTopTier;
 	}
 
-	public String getSupportEmailSilver() {
-		return mSupportEmailSilver;
+	public String getSupportEmailMiddleTier() {
+		return mSupportEmailMiddleTier;
 	}
 
-	public String getSupportEmailGold() {
-		return mSupportEmailGold;
+	public String getSupportEmailTopTier() {
+		return mSupportEmailTopTier;
 	}
 
 	/**
@@ -587,14 +587,11 @@ public class PointOfSale {
 			Traveler traveler = usr.getPrimaryTraveler();
 			if (traveler.getIsLoyaltyMembershipActive()) {
 				switch (traveler.getLoyaltyMembershipTier()) {
-				case SILVER:
-					number = getSupportPhoneNumberSilver();
+				case MIDDLE:
+					number = getSupportPhoneNumberMiddleTier();
 					break;
-				case GOLD:
-					number = getSupportPhoneNumberGold();
-					break;
-				case PLATINUM:
-					number = getSupportPhoneNumberPlatinum();
+				case TOP:
+					number = getSupportPhoneNumberTopTier();
 					break;
 				}
 			}
@@ -1171,14 +1168,33 @@ public class PointOfSale {
 		pos.mEAPID = data.optInt("EAPID", INVALID_EAPID);
 
 		// Support
+		String[] supportPhoneNumberTierNames = ProductFlavorFeatureConfiguration.getInstance().getRewardTierSupportNumberConfigNames();
 		pos.mSupportPhoneNumber = parseDeviceSpecificPhoneNumber(context, data, "supportPhoneNumber");
-		pos.mSupportPhoneNumberSilver = parseDeviceSpecificPhoneNumber(context, data, "supportPhoneNumberSilver");
-		pos.mSupportPhoneNumberGold = parseDeviceSpecificPhoneNumber(context, data, "supportPhoneNumberGold");
-		pos.mSupportPhoneNumberPlatinum = parseDeviceSpecificPhoneNumber(context, data, "supportPhoneNumberPlatinum");
+		if (supportPhoneNumberTierNames != null) {
+			if (supportPhoneNumberTierNames.length > 0 && supportPhoneNumberTierNames[0] != null) {
+				pos.mSupportPhoneNumberBaseTier = parseDeviceSpecificPhoneNumber(context, data,
+						supportPhoneNumberTierNames[0]);
+			}
+			if (supportPhoneNumberTierNames.length > 1 && supportPhoneNumberTierNames[1] != null) {
+				pos.mSupportPhoneNumberMiddleTier = parseDeviceSpecificPhoneNumber(context, data,
+						supportPhoneNumberTierNames[1]);
+			}
+			if (supportPhoneNumberTierNames.length > 2 && supportPhoneNumberTierNames[2] != null) {
+				pos.mSupportPhoneNumberTopTier = parseDeviceSpecificPhoneNumber(context, data,
+						supportPhoneNumberTierNames[2]);
+			}
+		}
 
 		// Support email
-		pos.mSupportEmailGold = data.optString("supportEmailGold", null);
-		pos.mSupportEmailSilver = data.optString("supportEmailSilver", null);
+		String[] supportEmailTierNames = ProductFlavorFeatureConfiguration.getInstance().getRewardTierSupportEmailConfigNames();
+		if (supportEmailTierNames != null) {
+			if (supportEmailTierNames.length > 1 && supportEmailTierNames[1] != null) {
+				pos.mSupportEmailMiddleTier = data.optString(supportEmailTierNames[1], null);
+			}
+			if (supportEmailTierNames.length > 2 && supportEmailTierNames[2] != null) {
+				pos.mSupportEmailTopTier = data.optString(supportEmailTierNames[2], null);
+			}
+		}
 
 		// POS config
 		pos.mDistanceUnit = data.optString("distanceUnit", "").equals("miles") ? DistanceUnit.MILES

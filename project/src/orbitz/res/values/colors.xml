@@ -86,11 +86,21 @@
     <color name="account_sign_in_button_background_color">#004D7C</color>
     <color name="account_screen_back_nav_color">@color/white</color>
 
-    <!--Rewards-->
-    <color name="reward_color_platinum">#787878</color>
-    <color name="sign_in_user_tier_platinum">@color/reward_color_platinum</color>
-
     <!-- Checkout Colors -->
     <color name="material_checkout_account_button_background_color">@color/lob_btn_color</color>
     <color name="old_checkout_account_button_text_color">@android:color/white</color>
+
+    <!-- Rewards -->
+    <color name="reward_base_tier_color">#668193</color>
+    <color name="reward_base_tier_text_color">@color/white</color>
+    <color name="reward_middle_tier_color">#FFC300</color>
+    <color name="reward_middle_tier_text_color">#403f3f</color>
+    <color name="reward_top_tier_color">#787878</color>
+    <color name="reward_top_tier_text_color">@color/white</color>
+
+    <!-- Signed in user tier colors -->
+    <color name="sign_in_user_base_tier">#808080</color>
+    <color name="sign_in_user_middle_tier">#e7b40d</color>
+    <color name="sign_in_user_top_tier">#787878</color>
+
 </resources>

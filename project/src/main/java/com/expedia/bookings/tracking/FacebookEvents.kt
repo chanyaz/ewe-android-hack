@@ -10,10 +10,10 @@ import com.expedia.bookings.data.HotelSearch
 import com.expedia.bookings.data.HotelSearchParams
 import com.expedia.bookings.data.HotelSearchResponse
 import com.expedia.bookings.data.Location
+import com.expedia.bookings.data.LoyaltyMembershipTier
 import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.Property
 import com.expedia.bookings.data.Rate
-import com.expedia.bookings.data.Traveler
 import com.expedia.bookings.data.TripBucketItemFlight
 import com.expedia.bookings.data.TripBucketItemHotel
 import com.expedia.bookings.data.User
@@ -31,8 +31,8 @@ import com.expedia.bookings.data.hotels.HotelRate
 import com.expedia.bookings.data.lx.LXSearchParams
 import com.expedia.bookings.data.lx.LXSearchResponse
 import com.expedia.bookings.data.pos.PointOfSale
-import com.expedia.bookings.services.HotelCheckoutResponse
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration
+import com.expedia.bookings.services.HotelCheckoutResponse
 import com.expedia.bookings.utils.CollectionUtils
 import com.expedia.bookings.utils.StrUtils
 import com.expedia.bookings.utils.Strings
@@ -487,8 +487,8 @@ class FacebookEvents() {
 
     private fun getLoyaltyTier(user: User?): String {
         var loyaltyTier = "N/A"
-        if (user != null && user.getPrimaryTraveler().getLoyaltyMembershipTier() != Traveler.LoyaltyMembershipTier.NONE) {
-            loyaltyTier = Db.getUser().getPrimaryTraveler().getLoyaltyMembershipTier().name
+        if (user != null && user.getPrimaryTraveler().getLoyaltyMembershipTier() != LoyaltyMembershipTier.NONE) {
+            loyaltyTier = Db.getUser().getPrimaryTraveler().getLoyaltyMembershipTier().toApiValue()
         }
         return loyaltyTier
     }

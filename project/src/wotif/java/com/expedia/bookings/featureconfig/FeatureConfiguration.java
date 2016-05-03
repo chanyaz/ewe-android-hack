@@ -313,6 +313,21 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 	}
 
 	@Override
+	public String[] getRewardTierAPINames() {
+		return null;
+	}
+
+	@Override
+	public String[] getRewardTierSupportNumberConfigNames() {
+		return null;
+	}
+
+	@Override
+	public String[] getRewardTierSupportEmailConfigNames() {
+		return null;
+	}
+
+	@Override
 	public boolean isCommunicateSectionEnabled() {
 		return false;
 	}
