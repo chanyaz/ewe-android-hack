@@ -32,8 +32,8 @@ class PackageCheckoutPresenter(context: Context, attr: AttributeSet) : BaseCheck
     }
 
     var createTripViewModel: PackageCreateTripViewModel by notNullAndObservable { vm ->
-        vm.showCreateTripDialogObservable.subscribe {
-            createTripDialog.show()
+        vm.showCreateTripDialogObservable.subscribe { show ->
+            if (show) createTripDialog.show() else createTripDialog.hide()
         }
         vm.tripParams.subscribe {
             userAccountRefresher.ensureAccountIsRefreshed()
@@ -41,7 +41,6 @@ class PackageCheckoutPresenter(context: Context, attr: AttributeSet) : BaseCheck
         vm.tripResponseObservable.subscribe { response ->
             clearCCNumber()
             loginWidget.updateRewardsText(getLineOfBusiness())
-            createTripDialog.hide()
             priceChangeWidget.viewmodel.originalPackagePrice.onNext(response.oldPackageDetails?.pricing?.packageTotal)
             priceChangeWidget.viewmodel.packagePrice.onNext(response.packageDetails.pricing.packageTotal)
             totalPriceWidget.packagebreakdown.viewmodel.newDataObservable.onNext(response.packageDetails)
@@ -59,7 +58,7 @@ class PackageCheckoutPresenter(context: Context, attr: AttributeSet) : BaseCheck
         createTripViewModel.performCreateTrip.onNext(Unit)
     }
 
-    @Subscribe fun onUserLoggedIn( @Suppress("UNUSED_PARAMETER") event: Events.LoggedInSuccessful) {
+    @Subscribe fun onUserLoggedIn(@Suppress("UNUSED_PARAMETER") event: Events.LoggedInSuccessful) {
         onLoginSuccess()
     }
 
@@ -81,10 +80,9 @@ class PackageCheckoutPresenter(context: Context, attr: AttributeSet) : BaseCheck
 
         travelerPresenter.expandedSubject.subscribe { expanded ->
             if (expanded) {
-                dropShadowView.visibility= View.GONE
-            }
-            else {
-                dropShadowView.visibility= View.VISIBLE
+                dropShadowView.visibility = View.GONE
+            } else {
+                dropShadowView.visibility = View.VISIBLE
             }
         }
     }
