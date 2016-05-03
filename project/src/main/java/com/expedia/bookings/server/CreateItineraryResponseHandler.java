@@ -15,6 +15,7 @@ import com.expedia.bookings.data.CreateItineraryResponse;
 import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.Itinerary;
 import com.expedia.bookings.data.Money;
+import com.expedia.bookings.data.RewardsInfo;
 import com.expedia.bookings.data.Rule;
 import com.expedia.bookings.data.ServerError.ApiMethod;
 import com.expedia.bookings.data.ValidPayment;
@@ -78,6 +79,23 @@ public class CreateItineraryResponseHandler extends JsonResponseHandler<CreateIt
 		if (!TextUtils.isEmpty(rewardsPoints)) {
 			offer.setRewardsPoints(rewardsPoints);
 		}
+
+		JSONObject rewards = response.optJSONObject("rewards");
+		if (rewards != null) {
+			RewardsInfo rewardsInfo = new RewardsInfo();
+			String totalPointsToEarn = rewards.optString("totalPointsToEarn");
+			if (!TextUtils.isEmpty(totalPointsToEarn)) {
+				rewardsInfo.setTotalPointsToEarn(Float.parseFloat(totalPointsToEarn));
+			}
+			JSONObject totalAmountToEarn = rewards.optJSONObject("totalAmountToEarn");
+			if (totalAmountToEarn != null) {
+				String amount = totalAmountToEarn.optString("amount");
+				String currencyCode = totalAmountToEarn.optString("currencyCode");
+				rewardsInfo.setTotalAmountToEarn(ParserUtils.createMoney(amount, currencyCode));
+			}
+			offer.setRewards(rewardsInfo);
+		}
+
 
 		// Parse rules
 		JSONObject rulesJson = response.optJSONObject("rules");

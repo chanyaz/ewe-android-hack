@@ -1964,7 +1964,7 @@
     <!-- You are a valued member -->
     <string name="you_are_a_valued_member">You are a valued member!</string>
     <!-- Blurb text displayed on account sign in button when already signed in -->
-    <string name="x_points_for_this_trip_TEMPLATE">You\'ll earn %1$s points for this trip!</string>
+    <string name="x_rewards_currency_for_this_trip_TEMPLATE">You\'ll earn {reward_currency} points for this trip!</string>
     <!-- Label to show while we are checking for price changes on the checkout receipt -->
     <string name="calculating_taxes_and_fees">Calculating Taxes and Fees…</string>
     <!-- String to use when a price change alert should be shown to the user -->
@@ -3804,7 +3804,6 @@
     <!-- Hotel Filters Strings -->
     <string name="neighborhoods">Neighborhoods</string>
     <string name="amenities">Amenities</string>
-    <string name="plus_vip">+VIP</string>
     <string name="star_rating">Star Rating</string>
     <string name="show_more">SHOW MORE</string>
     <string name="show_less">SHOW LESS</string>
