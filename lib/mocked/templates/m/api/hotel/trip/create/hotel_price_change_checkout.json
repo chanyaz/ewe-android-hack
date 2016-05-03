@@ -173,7 +173,7 @@
         "thumbnailUrl": "/hotels/1000000/30000/27300/27274/27274_170_n.jpg"
     },
     "originalHotelProductResponse": { },
-    "expediaRewards":
+    "rewards":
     {
         "totalPointsToEarn": 2111,
         "isActiveRewardsMember": false,

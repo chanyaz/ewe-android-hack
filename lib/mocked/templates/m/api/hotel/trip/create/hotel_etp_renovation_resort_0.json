@@ -4,7 +4,7 @@
   "originalHotelProductResponse": {
 
   },
-  "expediaRewards":
+  "rewards":
   {
     "totalPointsToEarn": 2111,
     "isActiveRewardsMember": false,
@@ -161,7 +161,7 @@
       }
     ]
   },
-  "expediaRewards": {
+  "rewards": {
     "totalPointsToEarn": 900,
     "isActiveRewardsMember": false,
     "rewardsMembershipTierName": "Invalid Tier"

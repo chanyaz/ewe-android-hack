@@ -89,7 +89,7 @@
       "name": "Visa"
     }
   ],
-  "expediaRewards": {
+  "rewards": {
     "totalPointsToEarn": 740,
     "isActiveRewardsMember": false,
     "rewardsMembershipTierName": "Invalid Tier"

@@ -169,7 +169,7 @@
       }
     ]
   },
-  "expediaRewards": {
+  "rewards": {
     "totalPointsToEarn": 690,
     "isActiveRewardsMember": false,
     "rewardsMembershipTierName": "Invalid Tier"

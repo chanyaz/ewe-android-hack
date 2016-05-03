@@ -140,7 +140,7 @@
       "pointType": "basePoint"
     }]
   },
-  "expediaRewards": {
+  "rewards": {
     "totalPointsToEarn": 295,
     "isActiveRewardsMember": false,
     "rewardsMembershipTierName": "Invalid Tier"

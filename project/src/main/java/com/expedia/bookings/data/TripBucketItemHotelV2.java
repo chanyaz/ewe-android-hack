@@ -27,9 +27,7 @@ public class TripBucketItemHotelV2 extends TripBucketItem {
 	}
 
 	public HotelCreateTripResponse updateTotalPointsAndCurrencyToEarn(PointsAndCurrency pointsAndCurrency) {
-		if (mHotelTripResponse.getRewards() != null) {
-			mHotelTripResponse.getRewards().updatePointsAndCurrencyToEarn(pointsAndCurrency);
-		}
+		mHotelTripResponse.getRewards().updatePointsAndCurrencyToEarn(pointsAndCurrency);
 		return mHotelTripResponse;
 	}
 
