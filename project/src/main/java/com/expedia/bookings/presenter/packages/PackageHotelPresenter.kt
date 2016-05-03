@@ -348,6 +348,7 @@ class PackageHotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
                 detailPresenter.hotelDetailView.viewmodel.addViewsAfterTransition()
             } else {
                 resultsPresenter.recyclerView.adapter.notifyDataSetChanged()
+                trackSearchResult()
             }
         }
     }
@@ -400,9 +401,13 @@ class PackageHotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
                 resultsPresenter.showDefault()
                 resultsPresenter.viewmodel.paramsSubject.onNext(convertPackageToSearchParams(Db.getPackageParams(), resources.getInteger(R.integer.calendar_max_days_hotel_stay)))
                 resultsPresenter.viewmodel.hotelResultsObservable.onNext(HotelSearchResponse.convertPackageToSearchResponse(Db.getPackageResponse()))
-                PackagesTracking().trackHotelSearchResultLoad(Db.getPackageResponse())
+                trackSearchResult()
             }
         }
+    }
+
+    private fun trackSearchResult() {
+        PackagesTracking().trackHotelSearchResultLoad(Db.getPackageResponse())
     }
 
     private val defaultDetailsTransition = object : Presenter.DefaultTransition(HotelDetailPresenter::class.java.name) {

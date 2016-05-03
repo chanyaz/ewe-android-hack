@@ -50,7 +50,7 @@ class PackageCheckoutPresenter(context: Context, attr: AttributeSet) : BaseCheck
                     packageTotalPrice.packageTotal.currencyCode))
             totalPriceWidget.viewModel.savings.onNext(Money(BigDecimal(packageTotalPrice.savings.amount.toDouble()),
                     packageTotalPrice.savings.currencyCode))
-            PackagesTracking().trackBundleOverviewPageLoad(response.packageDetails)
+            trackShowBundleOverview()
         }
 
     }
@@ -100,4 +100,9 @@ class PackageCheckoutPresenter(context: Context, attr: AttributeSet) : BaseCheck
     override fun trackShowSlideToPurchase() {
         PackagesTracking().trackCheckoutSlideToPurchase()
     }
+
+    override fun trackShowBundleOverview() {
+        PackagesTracking().trackBundleOverviewPageLoad(Db.getTripBucket().`package`.mPackageTripResponse.packageDetails)
+    }
+
 }

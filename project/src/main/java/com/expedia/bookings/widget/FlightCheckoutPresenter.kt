@@ -57,4 +57,7 @@ class FlightCheckoutPresenter(context: Context, attr: AttributeSet) : BaseChecko
 
     override fun trackShowSlideToPurchase() {
     }
+
+    override fun trackShowBundleOverview() {
+    }
 }
