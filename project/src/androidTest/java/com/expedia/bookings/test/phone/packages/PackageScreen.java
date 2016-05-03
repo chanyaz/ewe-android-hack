@@ -10,6 +10,7 @@ import android.support.test.espresso.Espresso;
 import android.support.test.espresso.ViewInteraction;
 import android.support.test.espresso.contrib.PickerActions;
 import android.support.test.espresso.contrib.RecyclerViewActions;
+import android.support.test.espresso.matcher.ViewMatchers;
 import android.view.View;
 import android.widget.ImageButton;
 
@@ -33,6 +34,7 @@ import static android.support.test.espresso.matcher.ViewMatchers.hasDescendant;
 import static android.support.test.espresso.matcher.ViewMatchers.isDescendantOfA;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withClassName;
+import static android.support.test.espresso.matcher.ViewMatchers.withEffectiveVisibility;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withParent;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
@@ -274,8 +276,31 @@ public class PackageScreen {
 		return onView(withId(R.id.selected_hotel_room_image));
 	}
 
-	public static ViewInteraction hotelBundleContainer() {
+ 	public static ViewInteraction hotelBundleContainer() {
 		return onView(allOf(isDescendantOfA(withId(R.id.package_bundle_hotel_widget)), withId(R.id.row_container)));
+	}
+
+	public static ViewInteraction addRoom() {
+		return onView(
+			allOf(
+				withId(R.id.view_room_button), allOf(withText(R.string.select)),
+				isDescendantOfA(allOf(withId(R.id.collapsed_container))),
+				withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE))
+		);
+	}
+
+	public static void clickAddRoom() {
+		waitForDetailsLoaded();
+		addRoom().perform(scrollTo(), click());
+	}
+
+	public static void selectRoom() throws Throwable {
+		clickAddRoom();
+		Common.delay(2);
+	}
+
+	public static void waitForDetailsLoaded() {
+		onView(withId(R.id.hotel_detail)).perform(waitForViewToDisplay());
 	}
 
 	public static void enterTravelerInfo() {
