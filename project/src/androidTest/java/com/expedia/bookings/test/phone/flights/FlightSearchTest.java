@@ -269,7 +269,7 @@ public class FlightSearchTest extends PhoneTestCase {
 	public void testSWPEarnMessaging() throws Exception {
 		LaunchScreen.launchFlights();
 		FlightsSearchScreen.clickDepartureAirportField();
-		FlightsSearchScreen.enterDepartureAirport("SIGNED IN");
+		FlightsSearchScreen.enterDepartureAirport("EARN");
 		FlightsSearchScreen.clickArrivalAirportField();
 		FlightsSearchScreen.enterArrivalAirport("SFO");
 		FlightsSearchScreen.clickSelectDepartureButton();

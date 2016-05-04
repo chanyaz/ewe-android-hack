@@ -35,12 +35,12 @@ class FlightApiRequestDispatcher(fileOpener: FileOpener) : AbstractDispatcher(fi
 class FlightApiMockResponseGenerator() {
     companion object {
         fun getSearchResponseFilePath(params: MutableMap<String, String>): String {
-            val isSignedIn = params["departureAirport"] == "SIGNED IN"
+            val isEarnResponse = params["departureAirport"] == "EARN"
             val isPassportNeeded = params["departureAirport"] == "PEN" && params["arrivalAirport"] == "KUL"
             val isReturnFlightSearch = params.containsKey("returnDate")
             val departureDate = params["departureDate"]
 
-            var filename = getFileName(isPassportNeeded, isReturnFlightSearch, isSignedIn)
+            var filename = getFileName(isPassportNeeded, isReturnFlightSearch, isEarnResponse)
 
             val departCalTakeoff = parseYearMonthDay(departureDate, 10, 0)
             val departCalLanding = parseYearMonthDay(departureDate, 12 + 4, 0)
@@ -59,7 +59,7 @@ class FlightApiMockResponseGenerator() {
             return "api/flight/search/$filename.json"
         }
 
-        private fun getFileName(isPassportNeeded: Boolean, isReturnFlightSearch: Boolean, isSignedIn: Boolean): String {
+        private fun getFileName(isPassportNeeded: Boolean, isReturnFlightSearch: Boolean, isEarnResponse: Boolean): String {
             return if (isPassportNeeded) {
                 "passport_needed_oneway"
             } else {
@@ -69,8 +69,8 @@ class FlightApiMockResponseGenerator() {
                         } else {
                             "happy_oneway"
                         }
-                if (isSignedIn) {
-                    happyFileName += "_signed_in";
+                if (isEarnResponse) {
+                    happyFileName += "_earn";
                 }
                 happyFileName
             }
