@@ -53,6 +53,11 @@
         <item name="actionOverflowButtonStyle">@style/Widget.ActionBar.ActionButton.Overflow.White</item>
     </style>
 
+    <style name="Theme.Phone.WebView">
+        <item name="android:logo">@drawable/ic_action_bar_brand_logo</item>
+        <item name="android:actionMenuTextColor">#D00000</item>
+    </style>
+
     <style name="V2.Theme" parent="Theme.CheapTickets.Tablet" />
 
 </resources>
