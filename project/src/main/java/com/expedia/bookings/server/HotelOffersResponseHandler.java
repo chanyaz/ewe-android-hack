@@ -1,5 +1,6 @@
 package com.expedia.bookings.server;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,6 +27,7 @@ import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.RateBreakdown;
 import com.expedia.bookings.data.ServerError.ApiMethod;
+import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.mobiata.android.Log;
 import com.mobiata.android.json.JSONUtils;
 import com.mobiata.android.util.AndroidUtils;
@@ -508,9 +510,26 @@ public class HotelOffersResponseHandler extends JsonResponseHandler<HotelOffersR
 	public String parseRewardPoints(JSONObject obj) {
 		String points = "";
 		try {
-			JSONObject expediaRewards = obj.getJSONObject("rewards");
-			if (expediaRewards != null) {
-				points = expediaRewards.optString("totalPointsToEarn");
+			JSONObject rewards = obj.getJSONObject("rewards");
+			if (rewards != null) {
+				if (ProductFlavorFeatureConfiguration.getInstance().isRewardProgramPointsType()) {
+					points = rewards.optString("totalPointsToEarn");
+				}
+				else {
+					JSONObject totalAmountToEarn = rewards.optJSONObject("totalAmountToEarn");
+					if (totalAmountToEarn != null) {
+						String amount = totalAmountToEarn.optString("amount");
+						String currencyCode = totalAmountToEarn.optString("currencyCode");
+						Money totalAmountToEarnMoney = ParserUtils.createMoney(amount, currencyCode);
+						if (totalAmountToEarnMoney.getAmount().equals(BigDecimal.ZERO)) {
+							points = "0";
+						}
+						else {
+							points = totalAmountToEarnMoney
+								.getFormattedMoney(Money.F_NO_DECIMAL_IF_INTEGER_ELSE_TWO_PLACES_AFTER_DECIMAL);
+						}
+					}
+				}
 			}
 		}
 		catch (JSONException e) {
