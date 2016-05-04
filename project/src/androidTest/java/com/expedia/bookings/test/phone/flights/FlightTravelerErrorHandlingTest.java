@@ -196,6 +196,7 @@ public class FlightTravelerErrorHandlingTest extends PhoneTestCase {
 		CommonCheckoutScreen.clickSelectPaymentButton();
 		BillingAddressScreen.typeTextAddressLineOne("123 California Street");
 		BillingAddressScreen.typeTextCity("San Francisco");
+		BillingAddressScreen.typeTextState("CA");
 		BillingAddressScreen.typeTextPostalCode("94105");
 		BillingAddressScreen.clickNextButton();
 

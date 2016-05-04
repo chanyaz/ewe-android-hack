@@ -63,6 +63,7 @@ public class FlightPhoneHappyPathTest extends PhoneTestCase {
 		screenshot("Checkout_Payment_Address");
 		BillingAddressScreen.typeTextAddressLineOne("123 California Street");
 		BillingAddressScreen.typeTextCity("San Francisco");
+		BillingAddressScreen.typeTextState("CA");
 		BillingAddressScreen.typeTextPostalCode("94105");
 		screenshot("Checkout_Address_Entered");
 		BillingAddressScreen.clickNextButton();
