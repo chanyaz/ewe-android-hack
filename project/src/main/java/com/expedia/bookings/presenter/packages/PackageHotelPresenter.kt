@@ -34,10 +34,9 @@ import com.expedia.bookings.widget.LoadingOverlayWidget
 import com.expedia.bookings.widget.SlidingBundleWidget
 import com.expedia.ui.PackageHotelActivity
 import com.expedia.util.endlessObserver
-import com.expedia.vm.hotel.HotelDetailViewModel
 import com.expedia.vm.HotelMapViewModel
-import com.expedia.vm.hotel.HotelResultsViewModel
 import com.expedia.vm.HotelReviewsViewModel
+import com.expedia.vm.hotel.HotelResultsViewModel
 import com.expedia.vm.packages.PackageHotelDetailViewModel
 import com.google.android.gms.maps.MapView
 import com.squareup.phrase.Phrase
@@ -210,6 +209,7 @@ class PackageHotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
         addTransition(resultsToDetail)
         addTransition(resultsToOverview)
         addTransition(detailsToOverview)
+        addTransition(reviewsToOverview)
         bundleSlidingWidget.bundleOverViewWidget.bundleHotelWidget.rowContainer.setOnClickListener {
             back()
         }
@@ -261,7 +261,7 @@ class PackageHotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
     }
 
     val hideBundlePriceOverviewObserver: Observer<Boolean> = endlessObserver { hide ->
-        bundleSlidingWidget.bundlePriceWidget.visibility = if (hide) GONE else VISIBLE
+        bundleSlidingWidget.visibility = if (hide) GONE else VISIBLE
     }
 
     private fun getDetails(piid: String, hotelId: String, checkIn: String, checkOut: String, ratePlanCode: String?, roomTypeCode: String?) {
@@ -299,7 +299,7 @@ class PackageHotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
         override fun endTransition(forward: Boolean) {
             super.endTransition(forward)
             resultsPresenter.visibility = if (forward) View.VISIBLE else View.GONE
-            bundleSlidingWidget.bundlePriceWidget.visibility = View.VISIBLE
+            bundleSlidingWidget.visibility = View.VISIBLE
             bundleSlidingWidget.bundlePriceWidget.viewModel.bundleTextLabelObservable.onNext(context.getString(R.string.search_bundle_total_text))
             val currencyCode = Db.getPackageResponse().packageResult.packageOfferModels[0].price.packageTotalPrice.currencyCode
             val total = Money(BigDecimal(0), currencyCode)
@@ -368,6 +368,20 @@ class PackageHotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
     }
 
     private val resultsToOverview = object : Presenter.Transition(PackageHotelResultsPresenter::class.java.name, SlidingBundleWidget::class.java.name, AccelerateDecelerateInterpolator(), REGULAR_ANIMATION_DURATION) {
+        override fun startTransition(forward: Boolean) {
+            bundleSlidingWidget.startBundleTransition(forward)
+        }
+
+        override fun updateTransition(f: Float, forward: Boolean) {
+            bundleSlidingWidget.updateBundleTransition(f, forward)
+        }
+
+        override fun endTransition(forward: Boolean) {
+            bundleSlidingWidget.finalizeBundleTransition(forward)
+        }
+    }
+
+    private val reviewsToOverview = object : Presenter.Transition(HotelReviewsView::class.java.name, SlidingBundleWidget::class.java.name, AccelerateDecelerateInterpolator(), REGULAR_ANIMATION_DURATION) {
         override fun startTransition(forward: Boolean) {
             bundleSlidingWidget.startBundleTransition(forward)
         }

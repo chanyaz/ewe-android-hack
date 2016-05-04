@@ -100,7 +100,9 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
     private val PICASSO_TAG = "HOTEL_RESULTS_LIST"
     val DEFAULT_UI_ELEMENT_APPEAR_ANIM_DURATION = 200L
 
-    val filterHeight by lazy { resources.getDimension(R.dimen.hotel_filter_height) }
+    open val filterHeight by lazy { resources.getDimension(R.dimen.hotel_filter_height) }
+    open val heightOfButton = resources.getDimension(R.dimen.lx_sort_filter_container_height).toInt()
+
     var screenHeight: Int = 0
     var screenWidth: Float = 0f
 
@@ -589,7 +591,6 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
     val scrollListener: RecyclerView.OnScrollListener = object : RecyclerView.OnScrollListener() {
         var currentState = RecyclerView.SCROLL_STATE_IDLE
         var scrolledDistance = 0
-        val heightOfButton = resources.getDimension(R.dimen.lx_sort_filter_container_height).toInt()
 
         override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
             currentState = newState
@@ -603,7 +604,7 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
             }
 
             // Filter button translation
-            if (filterBtnWithCountWidget != null && !mapTransitionRunning && newState == RecyclerView.SCROLL_STATE_IDLE && !Strings.equals(ResultsMap::class.java.name, getCurrentState())) {
+            if (!mapTransitionRunning && newState == RecyclerView.SCROLL_STATE_IDLE && !Strings.equals(ResultsMap::class.java.name, getCurrentState())) {
                 if (topOffset == halfway) {
                     filterBtnWithCountWidget?.animate()?.translationY(0f)?.setInterpolator(DecelerateInterpolator())?.start()
                 } else if (scrolledDistance > heightOfButton / 2) {
@@ -659,7 +660,7 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
                 }
 
                 // Filter button translation
-                if (filterBtnWithCountWidget != null && currentState != RecyclerView.SCROLL_STATE_SETTLING && currentState != RecyclerView.SCROLL_STATE_IDLE) {
+                if (currentState != RecyclerView.SCROLL_STATE_SETTLING && currentState != RecyclerView.SCROLL_STATE_IDLE) {
                     if (topOffset > halfway) {
                         filterBtnWithCountWidget?.translationY = 0f
                         fab.translationY = 0f
@@ -756,9 +757,9 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
                     toolbarTextGoal = toolbarSubtitleTop.toFloat()
                     googleMap?.mapType = GoogleMap.MAP_TYPE_NORMAL
                 }
-                if (filterBtnWithCountWidget != null) {
-                    filterViewGoal = if (forward) 0f else filterBtnWithCountWidget?.height?.toFloat()!!
-                }
+                val start = if (filterBtnWithCountWidget != null ) 0f else filterHeight
+                filterViewGoal = if (forward) start else filterBtnWithCountWidget?.height?.toFloat() ?: 0f
+
                 recyclerView.visibility = View.VISIBLE
                 previousWasList = forward
                 fabShouldVisiblyMove = if (forward) !fabShouldBeHiddenOnList() else (fab.visibility == View.VISIBLE)
@@ -793,7 +794,7 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
                 }
                 startingFabTranslation = fab.translationY
                 if (forward) {
-                    finalFabTranslation = if (filterBtnWithCountWidget != null) 0f else filterHeight
+                    finalFabTranslation = 0f
                 } else {
                     finalFabTranslation = if (isMapPinSelected) -(mapCarouselContainer.height - filterHeight) else filterHeight
                 }
