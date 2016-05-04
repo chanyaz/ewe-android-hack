@@ -12,6 +12,7 @@ import org.json.JSONObject;
 import android.text.TextUtils;
 
 import com.expedia.bookings.data.pos.PointOfSale;
+import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.utils.JodaUtils;
 import com.expedia.bookings.utils.LeanPlumUtils;
@@ -413,7 +414,7 @@ public class TripBucket implements JSONable {
 
 	public boolean isUserAirAttachQualified() {
 		return mAirAttach != null && mAirAttach.isAirAttachQualified() && !mAirAttach.getExpirationDate().isBeforeNow()
-			&& PointOfSale.getPointOfSale().showHotelCrossSell() && PointOfSale.getPointOfSale().shouldShowAirAttach();
+			&& PointOfSale.getPointOfSale().showHotelCrossSell() && ProductFlavorFeatureConfiguration.getInstance().shouldShowAirAttach();
 	}
 
 	//////////////////////////////////////////////////////////////////////////
