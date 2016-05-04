@@ -335,4 +335,8 @@ public class CheckoutViewModel {
 	public static  void assertEarnPointsText(String earnPoints) {
 		accountEarnPointText().check(matches(isDisplayed())).check(matches(withText(containsString(earnPoints))));
 	}
+
+	public static ViewInteraction resortFeeDisclaimerText() {
+		return onView(withId(R.id.disclaimer_text));
+	}
 }
