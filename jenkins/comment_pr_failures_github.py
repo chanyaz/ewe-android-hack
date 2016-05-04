@@ -6,15 +6,9 @@ def createUpdateOrDeleteAutomatedFeedbackComment(githubAccessToken, githubOrgani
     gh = login(token=githubAccessToken)
     repo = gh.repository(githubOrganization, githubRepository)
     issue = repo.issue(prId)
-    uitestsPRBuilder = "ui"
-    unittestsPRBuilder = "unit"
-    uiTestsAutomatedFeedbackCommentSignature = '```java\n' + uitestsPRBuilder + 'FeedbackBot:'
-    unitTestsAutomatedFeedbackCommentSignature = '```java\n' + unittestsPRBuilder + 'FeedbackBot:'
     if errorMsg != "":
         errorMsg = errorMsg + '\n```'
-
-    automatedFeedbackCommentSignature = uiTestsAutomatedFeedbackCommentSignature if prBuilderType == uitestsPRBuilder else unitTestsAutomatedFeedbackCommentSignature
-
+    automatedFeedbackCommentSignature = '```java\n' + prBuilderType + 'FeedbackBot:\n\n'
     automatedCommentsFromPRBuilder = [comment for comment in issue.comments() if comment.body[:len(automatedFeedbackCommentSignature)] == automatedFeedbackCommentSignature]
     try:
         if len(automatedCommentsFromPRBuilder) > 0:
