@@ -228,7 +228,7 @@
     <!-- Text for enter payment details line 1 when paying with pwp only -->
     <string name="checkout_paying_with_points_only_line1">포인트로 결제</string>
     <!-- Text for enter payment details line 1 when paying with pwp and Card -->
-    <string name="checkout_paying_with_points_and_card_line1">포인트 및 {carddescription} 이용하여 결제</string>
+    <string name="checkout_paying_with_points_and_card_line1_TEMPLATE">포인트 및 {carddescription} 이용하여 결제</string>
     <!-- Text for enter payment details line 2 for pwp -->
     <string name="checkout_tap_to_edit">탭하여 수정</string>
     <!-- Text for enter payment details line 2 for pwp -->
