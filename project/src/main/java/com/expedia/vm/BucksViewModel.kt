@@ -2,32 +2,16 @@ package com.expedia.vm
 
 import android.content.Context
 import android.support.v4.content.ContextCompat
-import android.util.AttributeSet
-import android.view.View
-import android.widget.LinearLayout
-import android.widget.Switch
 import com.expedia.bookings.R
 import com.expedia.bookings.data.TripResponse
 import com.expedia.bookings.data.payment.PaymentModel
 import com.expedia.bookings.data.payment.PaymentSplits
-import com.expedia.bookings.data.payment.ProgramName
 import com.expedia.bookings.tracking.HotelV2Tracking
 import com.expedia.bookings.utils.NumberUtils
-import com.expedia.bookings.utils.Ui
-import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.utils.withLatestFrom
-import com.expedia.util.notNullAndObservable
-import com.expedia.util.subscribeChecked
-import com.expedia.util.subscribeOnCheckChanged
-import com.expedia.util.subscribeText
-import com.expedia.util.subscribeTextColor
-import com.expedia.util.subscribeVisibility
 import com.expedia.vm.interfaces.IBucksViewModel
 import com.squareup.phrase.Phrase
-import rx.Observable
 import rx.subjects.BehaviorSubject
-import java.math.BigDecimal
-import javax.inject.Inject
 
 class BucksViewModel<T : TripResponse>(paymentModel: PaymentModel<T>, val context: Context) : IBucksViewModel {
     //MESSAGING
@@ -47,11 +31,11 @@ class BucksViewModel<T : TripResponse>(paymentModel: PaymentModel<T>, val contex
 
     //Inlet
     override val bucksOpted = BehaviorSubject.create<Boolean>(true)
-    override val bucksMessage = paymentModel.paymentSplitsWithLatestTripTotalPayableAndTripResponse.filter { ProgramName.Orbucks == it.tripResponse.getProgramName() }
+    override val bucksMessage = paymentModel.paymentSplitsWithLatestTripTotalPayableAndTripResponse.filter { it.tripResponse.isRewardsRedeemable() }
             .map { pointsAppliedMessage(it.paymentSplits, it.tripResponse) }
 
     //Outlet
-    override val bucksWidgetVisibility = paymentModel.tripResponses.map { ProgramName.Orbucks == it.getProgramName() && it.isRewardsRedeemable() }
+    override val bucksWidgetVisibility = paymentModel.tripResponses.map { it.isRewardsRedeemable() }
     override val payWithRewardsMessage = bucksOpted.map {
         when (it) {
             true -> context.resources.getString(R.string.paying_with_rewards)

@@ -22,7 +22,7 @@ abstract class TripResponse : BaseApiResponse() {
     }
 
     fun getProgramName(): ProgramName? {
-        return pointsDetails?.filter { it.programName == ProgramName.ExpediaRewards || it.programName == ProgramName.Orbucks }?.firstOrNull()?.programName ?: null
+        return pointsDetails?.firstOrNull()?.programName ?: null
     }
 
     abstract fun getTripTotalExcludingFee(): Money
