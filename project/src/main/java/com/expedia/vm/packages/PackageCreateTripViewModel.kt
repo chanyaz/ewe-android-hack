@@ -17,12 +17,12 @@ class PackageCreateTripViewModel(val packageServices: PackageServices) {
     val tripParams = PublishSubject.create<PackageCreateTripParams>()
     val performCreateTrip = PublishSubject.create<Unit>()
     val tripResponseObservable = BehaviorSubject.create<PackageCreateTripResponse>()
-    val showCreateTripDialogObservable = PublishSubject.create<Unit>()
+    val showCreateTripDialogObservable = PublishSubject.create<Boolean>()
     val createTripErrorObservable = PublishSubject.create<ApiError>()
 
     init {
         Observable.combineLatest(tripParams, performCreateTrip, { params, createTrip ->
-            showCreateTripDialogObservable.onNext(Unit)
+            showCreateTripDialogObservable.onNext(true)
             packageServices.createTrip(params).subscribe(makeCreateTripResponseObserver())
         }).subscribe()
     }
@@ -30,6 +30,7 @@ class PackageCreateTripViewModel(val packageServices: PackageServices) {
     fun makeCreateTripResponseObserver(): Observer<PackageCreateTripResponse> {
         return object : Observer<PackageCreateTripResponse> {
             override fun onNext(response: PackageCreateTripResponse) {
+                showCreateTripDialogObservable.onNext(false)
                 if (response.hasErrors() && !response.hasPriceChange()) {
                     if (response.firstError.errorCode == ApiError.Code.UNKNOWN_ERROR) {
                         createTripErrorObservable.onNext(ApiError(ApiError.Code.UNKNOWN_ERROR))
