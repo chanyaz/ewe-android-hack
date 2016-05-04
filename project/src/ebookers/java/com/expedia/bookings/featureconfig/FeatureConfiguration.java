@@ -361,4 +361,9 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 	public boolean shouldShowMemberTier() {
 		return true;
 	}
+
+	@Override
+	public boolean shouldShowAirAttach() {
+		return false;
+	}
 }
