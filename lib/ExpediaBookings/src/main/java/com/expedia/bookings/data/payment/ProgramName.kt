@@ -1,5 +1,5 @@
 package com.expedia.bookings.data.payment
 
 enum class ProgramName {
-    ExpediaRewards, Orbucks
+    ExpediaRewards, Orbucks, CheapCash, BonusPlus, MrJetCash
 }

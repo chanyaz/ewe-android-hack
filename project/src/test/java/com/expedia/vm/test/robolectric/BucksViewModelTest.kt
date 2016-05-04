@@ -102,7 +102,7 @@ class BucksViewModelTest {
     }
 
     @Test
-    fun userToggleOrbucksSwitch() {
+    fun userToggleBucksSwitch() {
         bucksViewModel.bucksOpted.onNext(false)
 
         pointsAppliedMessageColorTestSubscriber.assertValues(enableColor, disableColor)

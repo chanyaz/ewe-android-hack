@@ -11,6 +11,7 @@ import java.util.Map;
 import android.content.Context;
 
 import com.expedia.bookings.data.PaymentType;
+import com.expedia.bookings.data.payment.ProgramName;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.mobiata.android.Log;
@@ -143,7 +144,7 @@ public class CurrencyUtils {
 		else if (type.equals("CarteSi")) {
 			return PaymentType.CARD_CARTA_SI;
 		}
-		else if (type.equals("ExpediaRewards") || type.equals("Orbucks")) {
+		else if (ProgramName.valueOf(type) != null) {
 			return PaymentType.POINTS_REWARDS;
 		}
 		else {

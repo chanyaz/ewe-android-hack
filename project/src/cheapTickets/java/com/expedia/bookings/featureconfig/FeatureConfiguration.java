@@ -303,7 +303,7 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 
 	@Override
 	public int getRewardsLayoutId() {
-		return 0;
+		return R.layout.bucks_widget_stub;
 	}
 
 	@Override
@@ -353,8 +353,21 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 
 	@Override
 	public String getOmnitureEventValue(OmnitureTracking.OmnitureEventName key) {
-		//Ignore
-		return null;
+		switch (key) {
+		case REWARD_PROGRAM_NAME:
+			return "cheaptickets";
+		case HOTEL_CHECKOUT_START_REWARDS_REDEEMABLE:
+			return "event119";
+		case REWARD_APPLIED_PERCENTAGE_TEMPLATE:
+			return "cheaptickets | %d";
+		case NO_REWARDS_USED:
+			return "no cheapcash used";
+		case TOTAL_POINTS_BURNED:
+			return "event123";
+		case CHECKOUT_PAY_WITH_REWARDS_REENABLED:
+			return "App.Hotels.CKO.Points.Select.Orbitz";
+		}
+		//It should not be the case
+		throw new IllegalArgumentException("Unknown enum value");
 	}
-
 }
