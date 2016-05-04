@@ -24,7 +24,6 @@ public class PackageHotelDetailsTest extends PackageTestCase {
 		PackageScreen.searchPackage();
 		Common.delay(1);
 
-		PackageScreen.hotelBundle().perform(click());
 		Common.delay(1);
 
 		HotelScreen.selectHotel("Package Happy Path");
@@ -46,7 +45,6 @@ public class PackageHotelDetailsTest extends PackageTestCase {
 
 	public void testHotelDetailsToolbarText() throws Throwable {
 		PackageScreen.searchPackageFor(2, 1);
-		PackageScreen.hotelBundle().perform(click());
 		Common.delay(1);
 
 		HotelScreen.selectHotel("Package Happy Path");

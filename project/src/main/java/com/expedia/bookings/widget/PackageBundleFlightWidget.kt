@@ -36,7 +36,7 @@ class PackageBundleFlightWidget(context: Context, attrs: AttributeSet?) : CardVi
     val travelInfoText: TextView by bindView(R.id.travel_info_view_text)
     val flightIcon: ImageView by bindView(R.id.package_flight_icon)
     val flightDetailsIcon: ImageView by bindView(R.id.package_flight_details_icon)
-    val flightSelectIcon: ImageView by bindView(R.id.package_flight_select_icon)
+    val forwardArrow: ImageView by bindView(R.id.flight_forward_arrow_icon)
     val flightDetailsContainer: ViewGroup by bindView(R.id.flight_details_container)
     val flightSegmentWidget: FlightSegmentBreakdownView by bindView(R.id.segment_breakdown)
     val totalDurationText: TextView by bindView(R.id.flight_total_duration)
@@ -81,11 +81,9 @@ class PackageBundleFlightWidget(context: Context, attrs: AttributeSet?) : CardVi
         }
         vm.flightSelectIconObservable.subscribe { showing ->
             if (showing) {
-                flightSelectIcon.visibility = View.VISIBLE
-                AnimUtils.getFadeInRotateAnim(flightSelectIcon).start()
+                forwardArrow.visibility = View.VISIBLE
             } else {
-                flightSelectIcon.clearAnimation()
-                flightSelectIcon.visibility = View.GONE
+                forwardArrow.visibility = View.GONE
             }
         }
 

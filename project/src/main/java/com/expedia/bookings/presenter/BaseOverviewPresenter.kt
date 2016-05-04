@@ -32,11 +32,12 @@ abstract class BaseOverviewPresenter(context: Context, attrs: AttributeSet) : Pr
         inflate()
         checkoutPresenter.paymentWidget.viewmodel.billingInfoAndStatusUpdate.map{it.first}.subscribe(checkoutPresenter.getCheckoutViewModel().paymentCompleted)
         checkoutPresenter.getCreateTripViewModel().tripResponseObservable.subscribe { trip ->
+            checkoutPresenter.getCheckoutViewModel().tripResponseObservable.onNext(trip)
+
             if (currentState == BaseOverviewPresenter.BundleDefault::class.java.name) {
                 bundleOverviewHeader.toggleOverviewHeader(true)
-                checkoutPresenter.toggleCheckoutButton(true)
+                showCheckout()
             }
-            checkoutPresenter.getCheckoutViewModel().tripResponseObservable.onNext(trip)
         }
 
         bundleOverviewHeader.toolbar.overflowIcon = ContextCompat.getDrawable(context, R.drawable.ic_create_white_24dp)
@@ -67,9 +68,7 @@ abstract class BaseOverviewPresenter(context: Context, attrs: AttributeSet) : Pr
         }
 
         checkoutPresenter.checkoutButton.setOnClickListener {
-            show(checkoutPresenter)
-            checkoutPresenter.show(BaseCheckoutPresenter.CheckoutDefault(), FLAG_CLEAR_BACKSTACK)
-            trackCheckoutPageLoad()
+            showCheckout()
         }
 
         bundleOverviewHeader.setUpCollapsingToolbar()
@@ -84,6 +83,12 @@ abstract class BaseOverviewPresenter(context: Context, attrs: AttributeSet) : Pr
             bundleOverviewHeader.nestedScrollView.foreground.alpha = (255 * range).toInt()
             translateBottomContainer(range, true)
         }
+    }
+
+    fun showCheckout() {
+        show(checkoutPresenter)
+        checkoutPresenter.show(BaseCheckoutPresenter.CheckoutDefault(), FLAG_CLEAR_BACKSTACK)
+        trackCheckoutPageLoad()
     }
 
     override fun onFinishInflate() {

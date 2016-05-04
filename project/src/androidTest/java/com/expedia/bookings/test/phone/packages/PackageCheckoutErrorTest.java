@@ -20,7 +20,6 @@ public class PackageCheckoutErrorTest extends PackageTestCase {
 
 	public void testCheckoutError() throws Throwable {
 		PackageScreen.doPackageSearch();
-		PackageScreen.checkout().perform(click());
 
 		PackageScreen.enterTravelerInfo();
 		CheckoutViewModel.clickPaymentInfo();

@@ -36,7 +36,7 @@ class BundleHotelViewModel(val context: Context) {
             if (isShowing) {
                 hotelTextObservable.onNext(context.getString(R.string.progress_searching_hotels_hundreds))
                 hotelIconImageObservable.onNext(R.drawable.packages_hotel_icon)
-                hotelSelectIconObservable.onNext(false)
+                hotelSelectIconObservable.onNext(true)
                 hotelDetailsIconObservable.onNext(false)
             } else {
                 hotelTextObservable.onNext(context.getString(R.string.select_hotel_template, StrUtils.formatCityName(Db.getPackageParams().destination)))

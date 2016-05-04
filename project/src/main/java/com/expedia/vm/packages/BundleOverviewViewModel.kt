@@ -82,25 +82,26 @@ class BundleOverviewViewModel(val context: Context, val packageServices: Package
                 }
                 else if (response.packageResult.hotelsPackage.hotels.isEmpty()) {
                     errorObservable.onNext(PackageApiError.Code.search_response_null)
-                }
-                Db.setPackageResponse(response)
-                if (type == PackageSearchType.HOTEL) {
-                    hotelResultsObservable.onNext(Unit)
-                    val currentFlights = arrayOf(response.packageResult.flightsPackage.flights[0].legId, response.packageResult.flightsPackage.flights[1].legId)
-                    Db.getPackageParams().currentFlights = currentFlights
-                    Db.getPackageParams().defaultFlights = currentFlights.copyOf()
-                    PackageResponseUtils.savePackageResponse(context, response, PackageResponseUtils.RECENT_PACKAGE_HOTELS_FILE)
                 } else {
-                    if (type == PackageSearchType.OUTBOUND_FLIGHT) {
-                        PackageResponseUtils.savePackageResponse(context, response, PackageResponseUtils.RECENT_PACKAGE_OUTBOUND_FLIGHT_FILE)
+                    Db.setPackageResponse(response)
+                    if (type == PackageSearchType.HOTEL) {
+                        hotelResultsObservable.onNext(Unit)
+                        val currentFlights = arrayOf(response.packageResult.flightsPackage.flights[0].legId, response.packageResult.flightsPackage.flights[1].legId)
+                        Db.getPackageParams().currentFlights = currentFlights
+                        Db.getPackageParams().defaultFlights = currentFlights.copyOf()
+                        PackageResponseUtils.savePackageResponse(context, response, PackageResponseUtils.RECENT_PACKAGE_HOTELS_FILE)
                     } else {
-                        PackageResponseUtils.savePackageResponse(context, response, PackageResponseUtils.RECENT_PACKAGE_INBOUND_FLIGHT_FILE)
+                        if (type == PackageSearchType.OUTBOUND_FLIGHT) {
+                            PackageResponseUtils.savePackageResponse(context, response, PackageResponseUtils.RECENT_PACKAGE_OUTBOUND_FLIGHT_FILE)
+                        } else {
+                            PackageResponseUtils.savePackageResponse(context, response, PackageResponseUtils.RECENT_PACKAGE_INBOUND_FLIGHT_FILE)
+                        }
+                        flightResultsObservable.onNext(type)
                     }
-                    flightResultsObservable.onNext(type)
-                }
-                if (response.packageResult.currentSelectedOffer != null) {
-                    showBundleTotalObservable.onNext(true)
-                    println("package success, Hotels:" + response.packageResult.hotelsPackage.hotels.size + "  Flights:" + response.packageResult.flightsPackage.flights.size)
+                    if (response.packageResult.currentSelectedOffer != null) {
+                        showBundleTotalObservable.onNext(true)
+                        println("package success, Hotels:" + response.packageResult.hotelsPackage.hotels.size + "  Flights:" + response.packageResult.flightsPackage.flights.size)
+                    }
                 }
             }
 

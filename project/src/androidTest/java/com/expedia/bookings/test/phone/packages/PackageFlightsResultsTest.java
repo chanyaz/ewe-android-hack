@@ -25,8 +25,6 @@ public class PackageFlightsResultsTest extends PackageTestCase {
 		SearchScreen.searchButton().perform(click());
 		Common.delay(1);
 
-		PackageScreen.hotelBundle().perform(click());
-		Common.delay(1);
 
 		HotelScreen.selectHotel("Package Happy Path");
 		Common.delay(1);
@@ -34,16 +32,11 @@ public class PackageFlightsResultsTest extends PackageTestCase {
 		PackageScreen.selectRoom();
 		Common.delay(1);
 
-		PackageScreen.outboundFlight().perform(click());
-		Common.delay(1);
-
 		assertFlightOutbound(3);
 		onView(withId(R.id.all_flights_header)).check(matches(isDisplayed()));
 		assertBestFlight();
 		PackageScreen.selectFlight(0);
 		PackageScreen.selectThisFlight().perform(click());
-
-		PackageScreen.inboundFLight().perform(click());
 
 		assertFlightInbound(3);
 		PackageScreen.selectFlight(0);

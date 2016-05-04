@@ -50,10 +50,6 @@ public class PackageScreen {
 			.inRoot(withDecorView(not(is(SpoonScreenshotUtils.getCurrentActivity().getWindow().getDecorView()))));
 	}
 
-	public static void seeHotelResults() {
-		onView(withId(R.id.hotel_info_container)).perform(click());
-	}
-
 	public static ViewInteraction hotelResultsHeader() {
 		return onView(withId(R.id.pricing_structure_header));
 	}
@@ -330,16 +326,11 @@ public class PackageScreen {
 
 	public static void doPackageSearch() throws Throwable {
 		searchPackage();
-		PackageScreen.clickHotelBundle();
 		HotelScreen.selectHotel("Package Happy Path");
 		PackageScreen.selectRoom();
 
-		PackageScreen.outboundFlight().perform(click());
-
 		PackageScreen.selectFlight(0);
 		PackageScreen.selectThisFlight().perform(click());
-
-		PackageScreen.inboundFLight().perform(click());
 
 		PackageScreen.selectFlight(0);
 		PackageScreen.selectThisFlight().perform(click());

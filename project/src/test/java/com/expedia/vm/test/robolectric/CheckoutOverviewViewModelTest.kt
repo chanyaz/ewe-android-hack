@@ -50,7 +50,7 @@ class CheckoutOverviewViewModelTest {
         viewmodel.travelersTitle.subscribe(titleTestSubscriber)
         viewmodel.url.subscribe(urlTestSubscriber)
 
-        viewmodel.tripResponse.onNext(trip)
+        viewmodel.tripResponseSubject.onNext(trip)
 
         assertEquals("New York, NY", titleTestSubscriber.onNextEvents[0])
         assertEquals("Wed Sep 06, 1989 - Mon Sep 06, 2021", titleTestSubscriber.onNextEvents[1])

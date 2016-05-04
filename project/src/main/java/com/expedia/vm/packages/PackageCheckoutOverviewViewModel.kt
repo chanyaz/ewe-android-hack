@@ -11,10 +11,10 @@ import rx.subjects.PublishSubject
 
 class PackageCheckoutOverviewViewModel(context: Context) : BaseCheckoutOverviewViewModel(context) {
     val width = AndroidUtils.getScreenSize(context).x / 2
-    val tripResponse = PublishSubject.create<PackageCreateTripResponse>()
+    val tripResponseSubject = PublishSubject.create<PackageCreateTripResponse>()
 
     init {
-        tripResponse.subscribe { trip ->
+        tripResponseSubject.subscribe { trip ->
             val hotel = trip.packageDetails.hotel
             val links = HotelMedia(Images.getMediaHost() + hotel.largeThumbnailUrl).getBestUrls(width)
             city.onNext(hotel.hotelCity)

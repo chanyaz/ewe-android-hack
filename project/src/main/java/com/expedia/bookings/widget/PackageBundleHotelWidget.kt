@@ -36,7 +36,7 @@ class PackageBundleHotelWidget(context: Context, attrs: AttributeSet?) : Accessi
     val hotelsText: TextView by bindView(R.id.hotels_card_view_text)
     val hotelsDatesGuestInfoText: TextView by bindView(R.id.hotels_dates_guest_info_text)
     val hotelDetailsIcon: ImageView by bindView(R.id.package_hotel_details_icon)
-    val hotelSelectIcon: ImageView by bindView(R.id.package_hotel_select_icon)
+    val selectArrowIcon: ImageView by bindView(R.id.package_hotel_select_icon)
     val hotelLuggageIcon: ImageView by bindView(R.id.package_hotel_luggage_icon)
     val hotelRoomImage: ImageView by bindView(R.id.selected_hotel_room_image)
     val hotelRoomInfo: TextView by bindView(R.id.hotel_room_info)
@@ -80,10 +80,12 @@ class PackageBundleHotelWidget(context: Context, attrs: AttributeSet?) : Accessi
                 rowContainer.setClickable(false)
                 hotelInfoContainer.isEnabled = false
                 AnimUtils.progressForward(hotelLoadingBar)
+                selectArrowIcon.visibility = View.GONE
                 hotelsText.setTextColor(ContextCompat.getColor(context, R.color.package_bundle_icon_color))
                 hotelLuggageIcon.setColorFilter(ContextCompat.getColor(context, R.color.package_bundle_icon_color))
             } else {
                 hotelInfoContainer.isEnabled = true
+                selectArrowIcon.visibility = View.VISIBLE
                 rowContainer.setOnClickListener {
                     openHotels()
                 }
@@ -95,11 +97,8 @@ class PackageBundleHotelWidget(context: Context, attrs: AttributeSet?) : Accessi
         }
         viewModel.hotelSelectIconObservable.subscribe { showing ->
             if (showing) {
-                hotelSelectIcon.visibility = View.VISIBLE
-                AnimUtils.getFadeInRotateAnim(hotelSelectIcon).start()
             } else {
-                hotelSelectIcon.clearAnimation()
-                hotelSelectIcon.visibility = View.GONE
+                selectArrowIcon.visibility = View.GONE
             }
         }
         viewModel.selectedHotelObservable.subscribe {

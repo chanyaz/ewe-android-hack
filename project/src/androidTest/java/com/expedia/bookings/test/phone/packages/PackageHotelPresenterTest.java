@@ -20,7 +20,6 @@ public class PackageHotelPresenterTest extends PackageTestCase {
 		PackageScreen.searchPackage();
 
 		// results to bundle overview
-		PackageScreen.clickHotelBundle();
 		assertBundleOverview();
 
 		//details to bundle overview

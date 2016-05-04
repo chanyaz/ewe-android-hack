@@ -30,8 +30,6 @@ public class PackageCostBreakdownTest extends PackageTestCase {
 		SearchScreen.searchButton().perform(click());
 		Common.delay(1);
 
-		assertBundleTotalIconVisibility("Bundle total", false);
-		PackageScreen.hotelBundle().perform(click());
 		Common.delay(1);
 
 		assertBundleTotalIconVisibility("View your bundle", false);
@@ -42,15 +40,11 @@ public class PackageCostBreakdownTest extends PackageTestCase {
 		PackageScreen.selectRoom();
 		Common.delay(1);
 
-		assertBundleTotalIconVisibility("Bundle total", false);
-		PackageScreen.outboundFlight().perform(click());
 		Common.delay(1);
 		PackageScreen.selectFlight(0);
 		PackageScreen.selectThisFlight().perform(click());
 		Common.delay(1);
 
-		assertBundleTotalIconVisibility("Bundle total", false);
-		PackageScreen.inboundFLight().perform(click());
 		Common.delay(1);
 		PackageScreen.selectFlight(0);
 		PackageScreen.selectThisFlight().perform(click());
