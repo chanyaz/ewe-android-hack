@@ -26,6 +26,7 @@ import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.RootMatchers.withDecorView;
 import static android.support.test.espresso.matcher.ViewMatchers.isDescendantOfA;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
+import static android.support.test.espresso.matcher.ViewMatchers.isEnabled;
 import static android.support.test.espresso.matcher.ViewMatchers.withClassName;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withParent;
@@ -193,6 +194,11 @@ public class CheckoutViewModel {
 
 	public static void clickDone() {
 		onView(withId(R.id.menu_done)).perform(click());
+	}
+
+	public static void isDoneEnabled() {
+		onView(withId(R.id.menu_done)).check(matches(isEnabled()));
+
 	}
 
 	public static void enterLoginDetails() {
