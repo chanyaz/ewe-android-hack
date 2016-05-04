@@ -144,7 +144,7 @@ public class CurrencyUtils {
 		else if (type.equals("CarteSi")) {
 			return PaymentType.CARD_CARTA_SI;
 		}
-		else if (ProgramName.valueOf(type) != null) {
+		else if (ProgramName.Companion.valueOf(type) != null) {
 			return PaymentType.POINTS_REWARDS;
 		}
 		else {
