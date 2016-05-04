@@ -2205,6 +2205,8 @@
     <string name="first_name">First Name</string>
     <!-- Middle name label -->
     <string name="middle_name">Middle Name</string>
+    <!-- Middle name optional label -->
+    <string name="middle_name_optional">Middle (optional)</string>
     <!-- Last name label -->
     <string name="last_name">Last Name</string>
     <!-- date of birth label -->

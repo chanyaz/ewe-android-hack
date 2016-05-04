@@ -24,7 +24,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="5"
-            android:hint="@string/middle_name"
+            android:hint="@string/middle_name_optional"
             android:inputType="textPersonName|textCapWords"
             android:nextFocusForward="@+id/last_name_input"
             android:singleLine="true"
