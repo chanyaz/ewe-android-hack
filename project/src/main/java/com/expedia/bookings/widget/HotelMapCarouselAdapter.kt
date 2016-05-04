@@ -97,7 +97,6 @@ class HotelMapCarouselAdapter(var hotels: List<Hotel>, val hotelSubject: Publish
         val loyaltyMessageContainer: LinearLayout by bindView(R.id.map_loyalty_message_container)
         val loyaltyMessage: TextView by bindView(R.id.map_loyalty_applied_message)
         var hotelPreviewRating: StarRatingBar by Delegates.notNull()
-        val extraView: View by  bindView(R.id.extra_view)
 
         init {
             hotelPreviewRating = root.findViewById(if (shouldShowCircleForRatings()) R.id.hotel_preview_circle_rating else R.id.hotel_preview_star_rating) as StarRatingBar
@@ -139,7 +138,6 @@ class HotelMapCarouselAdapter(var hotels: List<Hotel>, val hotelSubject: Publish
             hotelStrikeThroughPrice.typeface = FontCache.getTypeface(FontCache.Font.ROBOTO_REGULAR)
             hotelGuestRating.typeface = FontCache.getTypeface(FontCache.Font.ROBOTO_MEDIUM)
             hotelGuestRecommend.typeface = FontCache.getTypeface(FontCache.Font.ROBOTO_REGULAR)
-            viewModel.loyaltyAvailabilityObservable.map{!it}.subscribeVisibility(extraView)
         }
     }
 }

@@ -20,6 +20,7 @@ import com.expedia.util.subscribeText
 import com.expedia.util.subscribeVisibility
 import com.expedia.vm.hotel.HotelResultsPricingStructureHeaderViewModel
 import com.expedia.vm.hotel.HotelViewModel
+import com.mobiata.android.util.AndroidUtils
 import rx.subjects.BehaviorSubject
 import rx.subjects.PublishSubject
 import java.util.ArrayList
@@ -125,7 +126,7 @@ abstract class BaseHotelListAdapter(val hotelSelectedSubject: PublishSubject<Hot
         if (viewType == MAP_SWITCH_CLICK_INTERCEPTOR_TRANSPARENT_HEADER_VIEW) {
             val header = View(parent.context)
             var lp = LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
-            lp.height = if (isBucketedForResultMap() || (ExpediaBookingApp.isAutomation() || ExpediaBookingApp.isDeviceShitty())) 0 else parent.height
+            lp.height = if (isBucketedForResultMap() || (ExpediaBookingApp.isAutomation() || ExpediaBookingApp.isDeviceShitty())) 0 else AndroidUtils.getScreenSize(parent.context).y
             header.layoutParams = lp
 
             return MapSwitchClickInterceptorTransparentHeaderViewHolder(header)

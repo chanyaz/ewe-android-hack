@@ -14,10 +14,16 @@
         android:visibility="invisible"
         android:orientation="vertical">
 
+        <View
+            android:id="@+id/preview_shadow"
+            android:layout_width="match_parent"
+            android:layout_height="8dp"
+            android:background="@drawable/map_shadow" />
+
         <com.expedia.bookings.widget.HotelCarouselRecycler
             android:id="@+id/hotel_carousel"
             android:layout_width="match_parent"
-            android:layout_height="131dp" />
+            android:layout_height="wrap_content" />
     </LinearLayout>
 
     <View
@@ -29,7 +35,7 @@
     <com.expedia.bookings.widget.HotelListRecyclerView
         android:id="@+id/list_view"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:overScrollMode="never"
         android:layout_marginTop="?attr/actionBarSize" />
 

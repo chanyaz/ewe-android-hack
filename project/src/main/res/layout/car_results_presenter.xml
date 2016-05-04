@@ -35,7 +35,7 @@
         <android.support.v7.widget.RecyclerView
             android:id="@+id/offer_list"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="wrap_content" />
 
     </com.expedia.bookings.widget.CarCategoryDetailsWidget>
 
@@ -47,7 +47,7 @@
         <android.support.v7.widget.RecyclerView
             android:id="@+id/category_list"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="wrap_content" />
 
     </com.expedia.bookings.widget.CarCategoryListWidget>
 
