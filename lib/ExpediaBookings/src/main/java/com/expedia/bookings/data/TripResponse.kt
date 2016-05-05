@@ -73,14 +73,8 @@ abstract class TripResponse : BaseApiResponse() {
     }
 
     fun getTripTotalIncludingFeeForCreateTrip(swpOpted: Boolean): Money {
-        if (isRewardsRedeemable() && swpOpted) {
-            val tripTotalPayable = rewardsUserAccountDetails().tripTotalPayable
-            if (tripTotalPayable == null)
-                return tripTotalPayableIncludingFeeIfZeroPayableByPoints()
-            else
-                return tripTotalPayable
-        } else
-            return tripTotalPayableIncludingFeeIfZeroPayableByPoints()
+        return if (isRewardsRedeemable() && swpOpted) rewardsUserAccountDetails().tripTotalPayable!!
+        else tripTotalPayableIncludingFeeIfZeroPayableByPoints()
     }
 
     fun paymentSplitsForPriceChange(pwpOpted: Boolean): PaymentSplits {
@@ -112,11 +106,7 @@ abstract class TripResponse : BaseApiResponse() {
         } else if (userPreferencePoints != null) {
             return userPreferencePoints!!.tripTotalPayable
         } else {
-            val tripTotalPayable = rewardsUserAccountDetails().tripTotalPayable
-            if(tripTotalPayable == null)
-                return tripTotalPayableIncludingFeeIfZeroPayableByPoints()
-            else
-                return tripTotalPayable
+            return rewardsUserAccountDetails().tripTotalPayable!!
         }
     }
 }
