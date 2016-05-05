@@ -171,4 +171,6 @@ public interface IProductFlavorFeatureConfiguration {
 	boolean isGoogleAccountChangeEnabled();
 
 	String getOmnitureEventValue(OmnitureTracking.OmnitureEventName key);
+
+	boolean shouldShowMemberTier();
 }

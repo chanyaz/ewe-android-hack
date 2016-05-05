@@ -353,4 +353,8 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 		return null;
 	}
 
+	@Override
+	public boolean shouldShowMemberTier() {
+		return true;
+	}
 }

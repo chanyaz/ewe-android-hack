@@ -239,9 +239,15 @@ public class AccountButton extends LinearLayout {
 		final boolean isRewardsEnabled = PointOfSale.getPointOfSale().shouldShowRewards();
 		if (isRewardsEnabled && traveler.getLoyaltyMembershipTier() != LoyaltyMembershipTier.NONE) {
 			//Show Rewards Category Text View
-			rewardsCategoryTextView.setVisibility(View.VISIBLE);
-			rewardsCategoryTextView.setText(rewardsCategoryTextResId);
-			rewardsCategoryTextView.setTextColor(ContextCompat.getColor(getContext(), rewardsCategoryColorResId));
+			if (ProductFlavorFeatureConfiguration.getInstance().shouldShowMemberTier()) {
+				rewardsCategoryTextView.setVisibility(View.VISIBLE);
+				rewardsCategoryTextView.setText(rewardsCategoryTextResId);
+				rewardsCategoryTextView.setTextColor(ContextCompat.getColor(getContext(), rewardsCategoryColorResId));
+
+			}
+			else {
+				rewardsCategoryTextView.setVisibility(View.GONE);
+			}
 			//Show Reward Points Container
 			mRewardsContainer.setVisibility(View.VISIBLE);
 			FontCache.setTypeface(rewardsCategoryTextView, FontCache.Font.EXPEDIASANS_REGULAR);
