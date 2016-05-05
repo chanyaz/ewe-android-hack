@@ -21,7 +21,7 @@ open class ServicesRule<T : Any>(val servicesClass: Class<T>, val rootPath: Stri
     var server: MockWebServer by Delegates.notNull()
     var services: T? = null
 
-    public fun setDefaultExpediaDispatcher(){
+    fun setDefaultExpediaDispatcher(){
         server.setDispatcher(diskExpediaDispatcher())
     }
 
