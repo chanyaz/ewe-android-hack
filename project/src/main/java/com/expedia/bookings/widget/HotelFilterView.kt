@@ -7,7 +7,6 @@ import android.support.v7.widget.Toolbar
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.AttributeSet
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -65,6 +64,8 @@ class HotelFilterView(context: Context, attrs: AttributeSet) : FrameLayout(conte
     val dynamicFeedbackWidget: DynamicFeedbackWidget by bindView(R.id.dynamic_feedback_container)
     val dynamicFeedbackClearButton: TextView by bindView(R.id.dynamic_feedback_clear_button)
     val filterContainer: ViewGroup by bindView(R.id.filter_container)
+    var lob: LineOfBusiness = LineOfBusiness.HOTELSV2
+
     val doneButton: Button by lazy {
         val button = LayoutInflater.from(context).inflate(R.layout.toolbar_checkmark_item, null) as Button
         button.setTextColor(ContextCompat.getColor(context, R.color.cars_actionbar_text_color))
@@ -110,7 +111,7 @@ class HotelFilterView(context: Context, attrs: AttributeSet) : FrameLayout(conte
         sortByAdapter.clear()
         val sortList = Sort.values().toMutableList()
 
-        if (viewmodel.lob == LineOfBusiness.PACKAGES) sortList.remove(Sort.DEALS) else sortList.remove(Sort.PACKAGE_DISCOUNT)
+        if (lob == LineOfBusiness.PACKAGES) sortList.remove(Sort.DEALS) else sortList.remove(Sort.PACKAGE_DISCOUNT)
         sortByAdapter.addAll(sortList)
 
         if (!isCurrentLocationSearch) {

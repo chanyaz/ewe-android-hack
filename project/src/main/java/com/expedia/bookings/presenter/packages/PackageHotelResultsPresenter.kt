@@ -61,6 +61,7 @@ class PackageHotelResultsPresenter(context: Context, attrs: AttributeSet) : Base
         inflateAndSetupToolbarMenu()
         recyclerView.viewTreeObserver.addOnGlobalLayoutListener(adapterListener)
         filterMenuItem.isVisible = true
+        filterView.lob = LineOfBusiness.PACKAGES
         filterButton.setOnClickListener { view ->
             showWithTracking(ResultsFilter())
             val isResults = currentState == ResultsList::class.java.name

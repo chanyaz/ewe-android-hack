@@ -1,13 +1,16 @@
 package com.expedia.bookings.test
 
+import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.hotels.Hotel
 import com.expedia.bookings.data.hotels.HotelRate
 import com.expedia.bookings.data.hotels.HotelSearchResponse
+import com.expedia.bookings.data.packages.PackageOfferModel
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.vm.HotelFilterViewModel
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
+import java.math.BigDecimal
 import java.util.ArrayList
 import kotlin.properties.Delegates
 import kotlin.test.assertEquals
@@ -176,6 +179,17 @@ class HotelFilterViewModelTest {
     }
 
     @Test
+    fun sortByPackageDiscount() {
+        vm.filteredResponse = fakeFilteredResponse()
+        vm.sortObserver.onNext(HotelFilterViewModel.Sort.PACKAGE_DISCOUNT)
+        for (i in 1..vm.filteredResponse.hotelList.size - 1) {
+            val currentDeals = vm.filteredResponse.hotelList.elementAt(i).lowRateInfo.discountPercent
+            val previousDeals = vm.filteredResponse.hotelList.elementAt(i-1).lowRateInfo.discountPercent
+            assertTrue(currentDeals >= previousDeals, "Expected $currentDeals >= $previousDeals")
+        }
+    }
+    
+    @Test
     fun sortByRating() {
         vm.filteredResponse = fakeFilteredResponse()
         vm.sortObserver.onNext(HotelFilterViewModel.Sort.RATING)
@@ -266,6 +280,10 @@ class HotelFilterViewModelTest {
         hotel1.hotelStarRating = 5f
         hotel1.isVipAccess = true
         hotel1.rateCurrencyCode = "USD"
+        hotel1.packageOfferModel = PackageOfferModel()
+        hotel1.packageOfferModel.price = PackageOfferModel.PackagePrice()
+        hotel1.packageOfferModel.price.tripSavings = Money()
+        hotel1.packageOfferModel.price.tripSavings.amount = BigDecimal(36.5)
         var amenities1 = ArrayList<Hotel.HotelAmenity>()
         var amenity1 = Hotel.HotelAmenity()
         amenity1.id = "4"
@@ -287,6 +305,10 @@ class HotelFilterViewModelTest {
         hotel2.hotelStarRating = 3.5f
         hotel2.isVipAccess = false
         hotel2.rateCurrencyCode = "USD"
+        hotel2.packageOfferModel = PackageOfferModel()
+        hotel2.packageOfferModel.price = PackageOfferModel.PackagePrice()
+        hotel2.packageOfferModel.price.tripSavings = Money()
+        hotel2.packageOfferModel.price.tripSavings.amount = BigDecimal(46.5)
         var amenities2 = ArrayList<Hotel.HotelAmenity>()
         var amenity2 = Hotel.HotelAmenity()
         amenity2.id = "1"
@@ -307,7 +329,10 @@ class HotelFilterViewModelTest {
         hotel3.hotelStarRating = 2f
         hotel3.isVipAccess = false
         hotel3.rateCurrencyCode = "USD"
-
+        hotel3.packageOfferModel = PackageOfferModel()
+        hotel3.packageOfferModel.price = PackageOfferModel.PackagePrice()
+        hotel3.packageOfferModel.price.tripSavings = Money()
+        hotel3.packageOfferModel.price.tripSavings.amount = BigDecimal(16.5)
 
         response.hotelList.add(hotel1)
         response.hotelList.add(hotel2)
