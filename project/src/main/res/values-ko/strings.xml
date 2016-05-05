@@ -88,7 +88,7 @@
     <!-- Text for enter driver details-->
     <string name="enter_driver_details">운전자 정보 입력</string>
     <!-- Text for select saved contacts-->
-    <string name="cars_saved_contacts_text">저장된 연락처 선택</string>
+    <string name="traveler_saved_contacts_text">저장된 연락처 선택</string>
     <!-- Text for enter payment details-->
     <string name="enter_payment_details">결제 정보 입력</string>
     <!-- Template for selected credit card-->

@@ -301,6 +301,8 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet) : Pre
         loginWidget.bind(false, false, null, getLineOfBusiness())
         paymentWidget.viewmodel.userLogin.onNext(false)
         hintContainer.visibility = View.VISIBLE
+        val lp = loginWidget.layoutParams as LinearLayout.LayoutParams
+        lp.bottomMargin = 0
         doCreateTrip()
     }
 
@@ -329,9 +331,10 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet) : Pre
 
     fun onLoginSuccess() {
         loginWidget.bind(false, true, Db.getUser(), getLineOfBusiness())
-        //travelerWidget.onLogin()
         paymentWidget.viewmodel.userLogin.onNext(true)
         hintContainer.visibility = View.GONE
+        val lp = loginWidget.layoutParams as LinearLayout.LayoutParams
+        lp.bottomMargin = resources.getDimension(R.dimen.card_view_container_margin).toInt()
         doCreateTrip()
     }
 

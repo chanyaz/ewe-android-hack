@@ -295,4 +295,24 @@ public class MultipleTravelerPresenterTest extends BaseTravelerPresenterTestHelp
 			}
 		});
 	}
+	
+	public void testStoredTravelerButtonActions() throws Throwable {
+		mockViewModel = getMockViewModelEmptyTravelers(1);
+		testTravelerPresenter.setViewModel(mockViewModel);
+
+		EspressoUser.clickOnView(R.id.traveler_default_state);
+
+		uiThreadTestRule.runOnUiThread(new Runnable() {
+			@Override
+			public void run() {
+				testTravelerPresenter.getTravelerEntryWidget().onAddNewTravelerSelected();
+			}
+		});
+
+		EspressoUtils.assertViewWithTextIsDisplayed(R.id.first_name_input, "");
+		EspressoUtils.assertViewWithTextIsDisplayed(R.id.middle_name_input, "");
+		EspressoUtils.assertViewWithTextIsDisplayed(R.id.last_name_input, "");
+		EspressoUtils.assertViewWithTextIsDisplayed(R.id.edit_phone_number, "");
+		EspressoUtils.assertViewWithTextIsDisplayed(R.id.edit_birth_date_text_btn, "");
+	}
 }

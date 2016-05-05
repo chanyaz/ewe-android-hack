@@ -80,7 +80,11 @@ class PackagePresenter(context: Context, attrs: AttributeSet) : Presenter(contex
                     packagePrice.packageTotalPrice.currencyCode).formattedMoney, packageSavings))
         }
         //TODO:Move this checkout stuff into a common place not specific to package presenter
-        checkoutPresenter.createTripViewModel.tripResponseObservable.subscribe { bundlePresenter.bundleOverviewHeader.toggleOverviewHeader(true) }
+        checkoutPresenter.createTripViewModel.tripResponseObservable.subscribe {
+            if (bundlePresenter.currentState == BaseOverviewPresenter.BundleDefault::class.java.name) {
+                bundlePresenter.bundleOverviewHeader.toggleOverviewHeader(true)
+            }
+        }
         checkoutPresenter.createTripViewModel.tripResponseObservable.subscribe {
             if (BaseOverviewPresenter.BundleDefault::class.java.name.equals(bundlePresenter.currentState)) {
                 checkoutPresenter.toggleCheckoutButton(true)

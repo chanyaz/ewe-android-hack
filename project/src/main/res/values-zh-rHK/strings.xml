@@ -88,7 +88,7 @@
     <!-- Text for enter driver details-->
     <string name="enter_driver_details">輸入駕駛者資料</string>
     <!-- Text for select saved contacts-->
-    <string name="cars_saved_contacts_text">選擇已儲存的聯絡人</string>
+    <string name="traveler_saved_contacts_text">選擇已儲存的聯絡人</string>
     <!-- Text for enter payment details-->
     <string name="enter_payment_details">輸入付款資料</string>
     <!-- Template for selected credit card-->

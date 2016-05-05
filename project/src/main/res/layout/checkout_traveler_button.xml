@@ -12,7 +12,7 @@
         android:drawablePadding="12dp"
         android:gravity="left|center_vertical"
         android:paddingLeft="8dp"
-        android:text="@string/cars_saved_contacts_text"
+        android:text="@string/traveler_saved_contacts_text"
         android:textAllCaps="false"
         android:textColor="@color/cars_actionbar_text_color"
         android:textSize="16sp" />

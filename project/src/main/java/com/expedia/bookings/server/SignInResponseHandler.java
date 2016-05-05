@@ -116,7 +116,7 @@ public class SignInResponseHandler extends JsonResponseHandler<SignInResponse> {
 
 				traveler.setSeatPreference(JSONUtils.getEnum(response, "seatPreference", SeatPreference.class));
 				traveler.setAssistance(JSONUtils.getEnum(response, "specialAssistance", AssistanceType.class));
-
+				traveler.setIsStoredTraveler(true);
 				user.setPrimaryTraveler(traveler);
 
 				// Parse stored credit cards
@@ -191,7 +191,7 @@ public class SignInResponseHandler extends JsonResponseHandler<SignInResponse> {
 		traveler.setLoyaltyMembershipTier(obj.optString("membershipTierName", null));
 		traveler.setLoyaltyPointsAvailable(obj.optLong("loyaltyPointsAvailable", 0));
 		traveler.setLoyaltyPointsPending(obj.optLong("loyaltyPointsPending", 0));
-
+		traveler.setIsStoredTraveler(true);
 		return traveler;
 	}
 
