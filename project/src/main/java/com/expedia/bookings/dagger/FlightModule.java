@@ -4,12 +4,10 @@ import com.expedia.bookings.dagger.tags.FlightScope;
 import com.expedia.bookings.server.EndpointProvider;
 import com.expedia.bookings.services.FlightServices;
 import com.expedia.bookings.services.SuggestionV4Services;
-import com.squareup.okhttp.OkHttpClient;
 
 import dagger.Module;
 import dagger.Provides;
-import retrofit.RequestInterceptor;
-import retrofit.RestAdapter;
+import okhttp3.OkHttpClient;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
@@ -17,18 +15,16 @@ import rx.schedulers.Schedulers;
 public final class FlightModule {
 	@Provides
 	@FlightScope
-	FlightServices provideFlightServices(EndpointProvider endpointProvider, OkHttpClient client, RequestInterceptor interceptor, RestAdapter.LogLevel logLevel) {
+	FlightServices provideFlightServices(EndpointProvider endpointProvider, OkHttpClient client) {
 		final String endpoint = endpointProvider.getE3EndpointUrl();
-		return new FlightServices(endpoint, client, interceptor, AndroidSchedulers.mainThread(), Schedulers.io(), logLevel);
+		return new FlightServices(endpoint, client, AndroidSchedulers.mainThread(), Schedulers.io());
 	}
 
 	@Provides
 	@FlightScope
-	SuggestionV4Services provideSuggestionV4Services(EndpointProvider endpointProvider, OkHttpClient client,
-		RequestInterceptor interceptor, RestAdapter.LogLevel logLevel) {
+	SuggestionV4Services provideSuggestionV4Services(EndpointProvider endpointProvider, OkHttpClient client) {
 		final String endpoint = endpointProvider.getEssEndpointUrl();
-		return new SuggestionV4Services(endpoint, client, interceptor, AndroidSchedulers.mainThread(), Schedulers.io(),
-			logLevel);
+		return new SuggestionV4Services(endpoint, client, AndroidSchedulers.mainThread(), Schedulers.io());
 	}
 }
 

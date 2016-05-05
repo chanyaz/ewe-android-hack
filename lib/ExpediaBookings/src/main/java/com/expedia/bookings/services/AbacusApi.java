@@ -6,16 +6,16 @@ import com.expedia.bookings.data.abacus.AbacusLogQuery;
 import com.expedia.bookings.data.abacus.AbacusLogResponse;
 import com.expedia.bookings.data.abacus.AbacusResponse;
 
-import retrofit.http.Body;
-import retrofit.http.GET;
-import retrofit.http.POST;
-import retrofit.http.Query;
+import retrofit2.http.Body;
+import retrofit2.http.GET;
+import retrofit2.http.POST;
+import retrofit2.http.Query;
 import rx.Observable;
 
 public interface AbacusApi {
 
 	@GET("/api/bucketing/v1/evaluateExperiments")
-	public Observable<AbacusResponse> evaluateExperiments(
+	Observable<AbacusResponse> evaluateExperiments(
 		@Query("guid") String guid,
 		@Query("eapid") int eapid,
 		@Query("tpid") int tpid,
@@ -23,7 +23,7 @@ public interface AbacusApi {
 	;
 
 	@POST("/api/bucketing/v1/logExperiments")
-	public Observable<AbacusLogResponse> logExperiment(
+	Observable<AbacusLogResponse> logExperiment(
 		@Body AbacusLogQuery body)
 	;
 }

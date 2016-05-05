@@ -12,10 +12,11 @@ import com.expedia.bookings.services.ClientLogServices;
 import com.expedia.bookings.services.PersistentCookieManager;
 import com.expedia.bookings.utils.UserAccountRefresher;
 import com.expedia.model.UserLoginStateChangedModel;
-import com.squareup.okhttp.OkHttpClient;
+
 import dagger.Component;
-import retrofit.RequestInterceptor;
-import retrofit.RestAdapter;
+import okhttp3.Interceptor;
+import okhttp3.OkHttpClient;
+import okhttp3.logging.HttpLoggingInterceptor;
 
 @Component(modules = {AppModule.class})
 @Singleton
@@ -26,9 +27,9 @@ public interface AppComponent {
 	Context appContext();
 	EndpointProvider endpointProvider();
 	OkHttpClient okHttpClient();
-	RequestInterceptor requestInterceptor();
+	Interceptor requestInterceptor();
 	PersistentCookieManager persistentCookieManager();
-	RestAdapter.LogLevel logLevel();
+	HttpLoggingInterceptor.Level logLevel();
 	AbacusServices abacus();
 	ClientLogServices clientLog();
 	ExpediaAccountApi accountApi();

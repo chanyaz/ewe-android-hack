@@ -1,7 +1,8 @@
 package com.mobiata.mocke3
 
-import com.squareup.okhttp.mockwebserver.Dispatcher
-import com.squareup.okhttp.mockwebserver.MockResponse
+import okhttp3.mockwebserver.Dispatcher
+import okhttp3.mockwebserver.MockResponse
+
 
 abstract class AbstractDispatcher(open val fileOpener: FileOpener) : Dispatcher() {
 

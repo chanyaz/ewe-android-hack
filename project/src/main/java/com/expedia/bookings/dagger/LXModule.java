@@ -1,16 +1,14 @@
 package com.expedia.bookings.dagger;
 
-import com.expedia.bookings.data.LXState;
 import com.expedia.bookings.dagger.tags.LXScope;
+import com.expedia.bookings.data.LXState;
 import com.expedia.bookings.server.EndpointProvider;
 import com.expedia.bookings.services.LxServices;
 import com.expedia.bookings.services.SuggestionServices;
-import com.squareup.okhttp.OkHttpClient;
 
 import dagger.Module;
 import dagger.Provides;
-import retrofit.RequestInterceptor;
-import retrofit.RestAdapter;
+import okhttp3.OkHttpClient;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
@@ -18,16 +16,16 @@ import rx.schedulers.Schedulers;
 public class LXModule {
 	@Provides
 	@LXScope
-	LxServices provideLxServices(EndpointProvider endpointProvider, OkHttpClient client, RequestInterceptor interceptor, RestAdapter.LogLevel logLevel) {
+	LxServices provideLxServices(EndpointProvider endpointProvider, OkHttpClient client) {
 		final String endpoint = endpointProvider.getE3EndpointUrl();
-		return new LxServices(endpoint, client, interceptor, AndroidSchedulers.mainThread(), Schedulers.io(), logLevel);
+		return new LxServices(endpoint, client, AndroidSchedulers.mainThread(), Schedulers.io());
 	}
 
 	@Provides
 	@LXScope
-	SuggestionServices provideLxSuggestionServices(EndpointProvider endpointProvider, OkHttpClient client, RequestInterceptor requestInterceptor, RestAdapter.LogLevel logLevel) {
+	SuggestionServices provideLxSuggestionServices(EndpointProvider endpointProvider, OkHttpClient client) {
 		final String endpoint = endpointProvider.getEssEndpointUrl();
-		return new SuggestionServices(endpoint, client, requestInterceptor, AndroidSchedulers.mainThread(), Schedulers.io(), logLevel);
+		return new SuggestionServices(endpoint, client, AndroidSchedulers.mainThread(), Schedulers.io());
 	}
 
 	@Provides
