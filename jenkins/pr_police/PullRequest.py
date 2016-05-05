@@ -10,7 +10,7 @@ class PullRequest:
 		self.pr = repo.pull_request(prId)
 
 	def isOkayToProcess(self, maxCommits):
-		commitCount = self.pr.commits
+		commitCount = self.pr.commits_count
 		return commitCount < maxCommits
 
 	def addIssueList(self, issues):
