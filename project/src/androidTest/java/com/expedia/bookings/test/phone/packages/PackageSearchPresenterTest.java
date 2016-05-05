@@ -3,7 +3,9 @@ package com.expedia.bookings.test.phone.packages;
 import org.joda.time.LocalDate;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.test.espresso.Common;
 import com.expedia.bookings.test.espresso.PackageTestCase;
+import com.expedia.bookings.test.espresso.ViewActions;
 import com.expedia.bookings.utils.DateUtils;
 
 import static android.support.test.espresso.action.ViewActions.click;
@@ -15,24 +17,17 @@ import static android.support.test.espresso.matcher.ViewMatchers.withText;
 
 public class PackageSearchPresenterTest extends PackageTestCase {
 
-	public void testOriginSameAsDesitination() throws Throwable {
+	public void testOriginSameAsDestination() throws Throwable {
+		PackageScreen.toolbarNavigationUp(R.id.search_v2_toolbar).perform(click());
 		// search button disabled upon entry. Enter location.
-		PackageScreen.searchButton().perform(click());
 		PackageScreen.searchButton().check(matches(isDisplayed()));
 		PackageScreen.destination().perform(click());
 		PackageScreen.searchEditText().perform(typeText("SFO"));
 		PackageScreen.selectLocation("San Francisco, CA (SFO-San Francisco Intl.)");
-		//Search button will still be disabled
-		PackageScreen.searchButton().perform(click());
-		PackageScreen.searchButton().check(matches(isDisplayed()));
-		PackageScreen.arrival().perform(click());
+		Common.delay(1);
+		PackageScreen.searchEditText().perform(ViewActions.waitForViewToDisplay());
 		PackageScreen.searchEditText().perform(typeText("SFO"));
 		PackageScreen.selectLocation("San Francisco, CA (SFO-San Francisco Intl.)");
-		//Search button will still be disabled
-		PackageScreen.searchButton().perform(click());
-		PackageScreen.searchButton().check(matches(isDisplayed()));
-		// Open calendar and select dates
-		PackageScreen.selectDateButton().check(matches(withText(R.string.select_dates)));
 		LocalDate startDate = LocalDate.now().plusDays(35);
 		PackageScreen.selectDates(startDate, null);
 		//Search button will be enabled
@@ -42,13 +37,16 @@ public class PackageSearchPresenterTest extends PackageTestCase {
 	}
 
 	public void testNoSearchUntilDateAndLocationSelected() throws Throwable {
+		PackageScreen.toolbarNavigationUp(R.id.search_v2_toolbar).perform(click());
 		// search button disabled upon entry. Enter location.
-		PackageScreen.searchButton().perform(click());
 		PackageScreen.searchButton().check(matches(isDisplayed()));
 		PackageScreen.destination().perform(click());
 		PackageScreen.searchEditText().check(matches(withHint("Flying from")));
 		PackageScreen.searchEditText().perform(typeText("SFO"));
 		PackageScreen.selectLocation("San Francisco, CA (SFO-San Francisco Intl.)");
+		Common.delay(1);
+		PackageScreen.searchEditText().perform(ViewActions.waitForViewToDisplay());
+		PackageScreen.toolbarNavigationUp(R.id.search_v2_toolbar).perform(click());
 		//Search button will still be disabled
 		PackageScreen.searchButton().perform(click());
 		PackageScreen.searchButton().check(matches(isDisplayed()));
@@ -56,12 +54,14 @@ public class PackageSearchPresenterTest extends PackageTestCase {
 		PackageScreen.searchEditText().check(matches(withHint("Flying to")));
 		PackageScreen.searchEditText().perform(typeText("DTW"));
 		PackageScreen.selectLocation("Detroit, MI (DTW-Detroit Metropolitan Wayne County)");
+		Common.pressBack();
 		//Search button will still be disabled
 		PackageScreen.searchButton().perform(click());
 		PackageScreen.searchButton().check(matches(isDisplayed()));
 		// Open calendar and select dates
 		PackageScreen.selectDateButton().check(matches(withText(R.string.select_dates)));
 		LocalDate startDate = LocalDate.now().plusDays(35);
+		PackageScreen.calendarCard().perform(click());
 		PackageScreen.selectDates(startDate, null);
 		//Search button will be enabled
 		PackageScreen.searchButton().perform(click());
@@ -70,6 +70,7 @@ public class PackageSearchPresenterTest extends PackageTestCase {
 	public void testDateButtonTextPopulation() throws Throwable {
 		// Select location
 		PackageScreen.selectOriginAndDestination();
+		Common.pressBack();
 		// Open calendar
 		PackageScreen.selectDateButton().check(matches(withText(R.string.select_dates)));
 
@@ -78,12 +79,14 @@ public class PackageSearchPresenterTest extends PackageTestCase {
 		LocalDate endDate = LocalDate.now().plusDays(40);
 
 		// Select start date
+		PackageScreen.calendarCard().perform(click());
 		PackageScreen.selectDates(startDate, null);
 		String expectedStartDate = DateUtils.localDateToMMMd(startDate);
 		String autoEndDate = DateUtils.localDateToMMMd(autoDate);
 		PackageScreen.selectDateButton().check(matches(withText(expectedStartDate + " - " + autoEndDate + " (1 night)")));
 
 		// Select end date
+		PackageScreen.calendarCard().perform(click());
 		PackageScreen.selectDates(startDate, endDate);
 		String expectedEndDate = DateUtils.localDateToMMMd(endDate);
 		String expected = expectedStartDate + " - " + expectedEndDate + " (5 nights)" ;
@@ -100,6 +103,7 @@ public class PackageSearchPresenterTest extends PackageTestCase {
 
 		//max duration of travel is 26 nights
 		PackageScreen.selectDates(startDate, null);
+		PackageScreen.calendarCard().perform(click());
 		PackageScreen.selectDates(startDate, invalidEndDate);
 		String expectedStartDate = DateUtils.localDateToMMMd(startDate);
 		String expectedEndDate = DateUtils.localDateToMMMd(validEndDate);
@@ -121,6 +125,7 @@ public class PackageSearchPresenterTest extends PackageTestCase {
 
 		//search upto 11 months in advance
 		PackageScreen.selectDates(startDate, null);
+		PackageScreen.calendarCard().perform(click());
 		PackageScreen.selectDates(startDate, invalidEndDate);
 		String expectedStartDate = DateUtils.localDateToMMMd(startDate);
 		String expectedEndDate = DateUtils.localDateToMMMd(validEndDate);
@@ -139,6 +144,7 @@ public class PackageSearchPresenterTest extends PackageTestCase {
 
 		//select same day
 		PackageScreen.selectDates(startDate, null);
+		PackageScreen.calendarCard().perform(click());
 		PackageScreen.selectDates(startDate, endDate);
 		String expectedStartDate = DateUtils.localDateToMMMd(startDate);
 		String expectedEndDate = DateUtils.localDateToMMMd(endDate.plusDays(1));
