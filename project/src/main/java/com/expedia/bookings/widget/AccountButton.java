@@ -20,8 +20,8 @@ import com.expedia.bookings.data.CreateTripResponse;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.LineOfBusiness;
-import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.LoyaltyMembershipTier;
+import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.RewardsInfo;
 import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.data.TripBucketItemFlight;
@@ -161,7 +161,8 @@ public class AccountButton extends LinearLayout {
 			lpt.gravity = Gravity.CENTER_VERTICAL | Gravity.LEFT;
 			mLoginContainer.setBackgroundResource(R.drawable.bg_checkout_information_single);
 			mLoginTextView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.tablet_checkout_login_logo, 0, 0, 0);
-			mLoginTextView.setTextColor(ContextCompat.getColor(getContext(), R.color.tablet_checkout_account_button_text_color));
+			mLoginTextView
+				.setTextColor(ContextCompat.getColor(getContext(), R.color.tablet_checkout_account_button_text_color));
 		}
 		else {
 			LayoutParams lp = (LayoutParams) mLoginContainer.getLayoutParams();
@@ -172,8 +173,10 @@ public class AccountButton extends LinearLayout {
 				lpt.width = LayoutParams.WRAP_CONTENT;
 				lpt.gravity = Gravity.CENTER;
 				mLoginContainer.setBackgroundResource(R.drawable.material_account_sign_in_button_ripple);
-				mLoginTextView.setTextColor(ContextCompat.getColor(getContext(), R.color.material_checkout_account_button_text_color));
-				mLoginTextView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.material_checkout_account_logo, 0, 0, 0);
+				mLoginTextView.setTextColor(
+					ContextCompat.getColor(getContext(), R.color.material_checkout_account_button_text_color));
+				mLoginTextView
+					.setCompoundDrawablesWithIntrinsicBounds(R.drawable.material_checkout_account_logo, 0, 0, 0);
 			}
 			else {
 				int bgResourceId = Ui.obtainThemeResID(getContext(), android.R.attr.selectableItemBackground);
@@ -181,7 +184,8 @@ public class AccountButton extends LinearLayout {
 				lpt.gravity = Gravity.CENTER_VERTICAL | Gravity.LEFT;
 
 				mLoginContainer.setBackgroundResource(R.drawable.old_checkout_account_button_background);
-				mLoginTextView.setTextColor(ContextCompat.getColor(getContext(), R.color.old_checkout_account_button_text_color));
+				mLoginTextView
+					.setTextColor(ContextCompat.getColor(getContext(), R.color.old_checkout_account_button_text_color));
 				mLoginTextView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.old_checkout_account_logo, 0, 0, 0);
 				mLoginTextView.setBackgroundResource(bgResourceId);
 			}
@@ -201,7 +205,8 @@ public class AccountButton extends LinearLayout {
 	}
 
 	private boolean isSignInEarnMessagingEnabled(LineOfBusiness lob) {
-		return ProductFlavorFeatureConfiguration.getInstance().isEarnMessageOnCheckoutSignInButtonEnabled() && lob == LineOfBusiness.HOTELSV2;
+		return ProductFlavorFeatureConfiguration.getInstance().isEarnMessageOnCheckoutSignInButtonEnabled() && (
+			lob == LineOfBusiness.HOTELSV2 || lob == LineOfBusiness.FLIGHTS);
 	}
 
 	private void bindLogoutContainer(Traveler traveler, LineOfBusiness lob) {
@@ -306,7 +311,7 @@ public class AccountButton extends LinearLayout {
 		case FLIGHTS:
 			TripBucketItemFlight flight = Db.getTripBucket().getFlight();
 			FlightTrip flightTrip = flight == null ? null : flight.getFlightTrip();
-			rewardPoints = flightTrip == null ? "" :  getRewardsString(flightTrip.getRewards());
+			rewardPoints = flightTrip == null ? "" : getRewardsString(flightTrip.getRewards());
 			break;
 
 		case HOTELS:
@@ -376,7 +381,8 @@ public class AccountButton extends LinearLayout {
 				return NumberFormat.getInstance().format(rewards.getPointsToEarn());
 			}
 			else if (rewards.getAmountToEarn() != null) {
-				return rewards.getAmountToEarn().getFormattedMoney(Money.F_NO_DECIMAL_IF_INTEGER_ELSE_TWO_PLACES_AFTER_DECIMAL);
+				return rewards.getAmountToEarn()
+					.getFormattedMoney(Money.F_NO_DECIMAL_IF_INTEGER_ELSE_TWO_PLACES_AFTER_DECIMAL);
 			}
 		}
 		return "0";
@@ -406,6 +412,12 @@ public class AccountButton extends LinearLayout {
 			TripBucketItemHotelV2 hotelV2 = Db.getTripBucket().getHotelV2();
 			HotelCreateTripResponse trip = hotelV2 == null ? null : hotelV2.mHotelTripResponse;
 			//TODO Remove trip.getRewards() != null && trip.getRewards().getTotalAmountToEarn() != null. Currently we need to initialize it till we start getting this in production.
+			if (trip != null && trip.getRewards() != null && trip.getRewards().getTotalAmountToEarn() != null) {
+				return trip.getRewards();
+			}
+		}
+		else if (lob == LineOfBusiness.FLIGHTS) {
+			FlightTrip trip = Db.getTripBucket().getFlight().getFlightTrip();
 			if (trip != null && trip.getRewards() != null && trip.getRewards().getTotalAmountToEarn() != null) {
 				return trip.getRewards();
 			}
