@@ -192,21 +192,20 @@ public class AccountButton extends LinearLayout {
 			mLoginTextView.setGravity(Gravity.LEFT);
 			int padding = getResources().getDimensionPixelSize(R.dimen.account_button_text_padding);
 			mLoginTextView.setPadding(padding, padding, padding, padding);
-			if (isSignInEarnMessagingEnabled(lob)) {
-				mLoginTextView.setText(getSignInWithRewardsAmountText(lob));
-			}
-			else {
-				mLoginTextView.setText(Phrase.from(this, R.string.Sign_in_with_TEMPLATE)
-					.put("brand", BuildConfig.brand)
-					.format());
-			}
-
+		}
+		if (isSignInEarnMessagingEnabled(lob)) {
+			mLoginTextView.setText(getSignInWithRewardsAmountText(lob));
+		}
+		else {
+			mLoginTextView.setText(Phrase.from(this, R.string.Sign_in_with_TEMPLATE)
+				.put("brand", BuildConfig.brand)
+				.format());
 		}
 	}
 
 	private boolean isSignInEarnMessagingEnabled(LineOfBusiness lob) {
 		return ProductFlavorFeatureConfiguration.getInstance().isEarnMessageOnCheckoutSignInButtonEnabled() && (
-			lob == LineOfBusiness.HOTELSV2 || lob == LineOfBusiness.FLIGHTS);
+			lob == LineOfBusiness.HOTELSV2 || lob == LineOfBusiness.FLIGHTS) && !AndroidUtils.isTablet(getContext());
 	}
 
 	private void bindLogoutContainer(Traveler traveler, LineOfBusiness lob) {
