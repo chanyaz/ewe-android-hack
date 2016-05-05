@@ -7,6 +7,7 @@ import android.support.v7.widget.Toolbar
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.AttributeSet
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -107,8 +108,9 @@ class HotelFilterView(context: Context, attrs: AttributeSet) : FrameLayout(conte
 
     val sortByObserver: Observer<Boolean> = endlessObserver { isCurrentLocationSearch ->
         sortByAdapter.clear()
-        val sortList = Sort.values().toList()
+        val sortList = Sort.values().toMutableList()
 
+        if (viewmodel.lob == LineOfBusiness.PACKAGES) sortList.remove(Sort.DEALS) else sortList.remove(Sort.PACKAGE_DISCOUNT)
         sortByAdapter.addAll(sortList)
 
         if (!isCurrentLocationSearch) {
@@ -142,8 +144,7 @@ class HotelFilterView(context: Context, attrs: AttributeSet) : FrameLayout(conte
             vm.clearObservable.onNext(Unit)
             if (vm.lob == LineOfBusiness.PACKAGES) {
                 PackagesTracking().trackHotelClearFilter()
-            }
-            else {
+            } else {
                 HotelV2Tracking().trackLinkHotelV2ClearFilter()
             }
         }
@@ -175,7 +176,7 @@ class HotelFilterView(context: Context, attrs: AttributeSet) : FrameLayout(conte
         }
 
         vm.newPriceRangeObservable.subscribe { priceRange ->
-            priceRangeBar.setUpperLimit(priceRange.notches)
+            priceRangeBar.upperLimit = priceRange.notches
             priceRangeMinText.text = priceRange.defaultMinPriceText
             priceRangeMaxText.text = priceRange.defaultMaxPriceTest
 
@@ -223,8 +224,7 @@ class HotelFilterView(context: Context, attrs: AttributeSet) : FrameLayout(conte
             if (it <= 5) {
                 if (vm.lob == LineOfBusiness.PACKAGES) {
                     PackagesTracking().trackHotelRefineRating(it.toString())
-                }
-                else {
+                } else {
                     HotelV2Tracking().trackLinkHotelV2RefineRating(it.toString())
                 }
             }
@@ -274,6 +274,7 @@ class HotelFilterView(context: Context, attrs: AttributeSet) : FrameLayout(conte
             override fun onItemSelected(p0: AdapterView<*>?, p1: View?, position: Int, p3: Long) {
                 vm.userFilterChoices.userSort = sortByAdapter.getItem(position)
             }
+
             override fun onNothingSelected(p0: AdapterView<*>?) {
             }
 

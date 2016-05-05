@@ -2622,6 +2622,8 @@
     <string name="sort_description_deals">Deals</string>
     <!-- Sort by user rating label -->
     <string name="sort_description_rating">Rating</string>
+    <!-- Sort by user rating label -->
+    <string name="sort_description_package_discount">Package Discount</string>
 
     <!-- Stop descriptions, e.g. Stops filtered by "description" -->
     <!-- Nonstop flights -->
