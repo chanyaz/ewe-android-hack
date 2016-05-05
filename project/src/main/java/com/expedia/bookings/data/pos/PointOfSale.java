@@ -553,6 +553,10 @@ public class PointOfSale {
 		return number;
 	}
 
+	public String getDefaultSupportPhoneNumber() {
+		return mSupportPhoneNumber;
+	}
+
 	public String getSupportPhoneNumberBaseTier() {
 		return mSupportPhoneNumberBaseTier;
 	}
