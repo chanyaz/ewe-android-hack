@@ -18,13 +18,11 @@ data class LoyaltyBurnInfo(val type: LoyaltyType, val amount: Money)
 data class LoyaltyEarnInfo(val points: PointsEarnInfo?, val price: PriceEarnInfo?) {
 
         fun loyaltyEarnInfoType(): LoyaltyEarnInfoType {
-                if (points?.total ?: 0 > 0) {
+                if (points?.total != null) {
                         return LoyaltyEarnInfoType.POINTS
-                }
-                else if (price?.total?.amount ?: BigDecimal(0) > BigDecimal(0)) {
+                } else if (price?.total?.amount != null) {
                         return LoyaltyEarnInfoType.MONEY
-                }
-                else {
+                } else {
                         return LoyaltyEarnInfoType.NONE
                 }
         }
