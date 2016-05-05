@@ -1,14 +1,11 @@
 package com.expedia.bookings.widget
 
-import android.app.Activity
 import android.content.Context
 import android.util.AttributeSet
 import android.view.View
 import android.view.ViewStub
 import android.widget.LinearLayout
-import com.expedia.bookings.BuildConfig
 import com.expedia.bookings.R
-import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.payment.PaymentSplitsType
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration
 import com.expedia.bookings.utils.Ui
@@ -50,7 +47,6 @@ class PaymentWidgetV2(context: Context, attr: AttributeSet) : PaymentWidget(cont
                 enableMenuItem.onNext(enable && isComplete())
             }
         }
-        vm.isPwpDirty.map { !it }.subscribe(enableToolbarMenuButton)
 
         viewmodel.onStoredCardChosen.withLatestFrom(vm.isPwpDirty, { x, y -> y })
                 .filter { !it }

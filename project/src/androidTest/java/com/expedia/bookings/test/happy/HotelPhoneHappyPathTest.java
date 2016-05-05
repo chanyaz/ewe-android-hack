@@ -103,6 +103,11 @@ public class HotelPhoneHappyPathTest extends HotelTestCase {
 		PaymentOptionsScreen.assertTextInEditAmountMatches("2394.88");
 		PaymentOptionsScreen.assertTotalDueAmountMatches("2,394.88");
 		PaymentOptionsScreen.assertMenuDoneClickable();
+
+		PaymentOptionsScreen.clickPwpSwitch();
+		PaymentOptionsScreen.assertMenuDoneClickable();
+		PaymentOptionsScreen.clickPwpSwitch();
+
 		PaymentOptionsScreen.assertRemainingDueMatches("0.00");
 		PaymentOptionsScreen.assertTotalPointsAvailableMatches("30,000");
 		PaymentOptionsScreen.assertTotalAmountAvailableMatches("30,000.00");

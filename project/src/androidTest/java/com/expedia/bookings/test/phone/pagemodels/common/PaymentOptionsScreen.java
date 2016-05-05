@@ -125,6 +125,11 @@ public class PaymentOptionsScreen {
 		menuDone().check(matches(isClickable()));
 	}
 
+	public static void clickPwpSwitch() {
+		onView(withId(R.id.pwp_switch)).perform(click());
+
+	}
+
 	public static void clickMenuDone() {
 		menuDone().perform(click());
 	}
