@@ -16,14 +16,16 @@ import com.expedia.bookings.widget.BaseHotelListAdapter
 import com.expedia.bookings.widget.TextView
 import com.expedia.bookings.widget.packages.PackageHotelListAdapter
 import com.expedia.util.notNullAndObservable
-import com.expedia.vm.hotel.HotelResultsViewModel
 import com.expedia.vm.HotelFilterViewModel
+import com.expedia.vm.hotel.HotelResultsViewModel
 import kotlin.properties.Delegates
 
 class PackageHotelResultsPresenter(context: Context, attrs: AttributeSet) : BaseHotelResultsPresenter(context, attrs) {
     val filterButton: LinearLayout by bindView(R.id.filter_button)
     var mapFilterPlaceholderImageView: ImageView by Delegates.notNull()
     var filterButtonText: TextView by Delegates.notNull()
+    override val filterHeight by lazy { resources.getDimension(R.dimen.footer_button_height) }
+    override val heightOfButton = 0
 
     var viewmodel: HotelResultsViewModel by notNullAndObservable { vm ->
         vm.hotelResultsObservable.subscribe(listResultsObserver)
