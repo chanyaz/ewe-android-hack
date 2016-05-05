@@ -91,7 +91,7 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 
 	@Override
 	public PointOfSaleId getDefaultPOS() {
-		return PointOfSaleId.UNITED_KINGDOM;
+		return PointOfSaleId.EBOOKERS_UNITED_KINGDOM;
 	}
 
 	@Override
