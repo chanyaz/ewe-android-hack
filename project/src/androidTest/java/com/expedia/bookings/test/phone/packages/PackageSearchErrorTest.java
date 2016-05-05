@@ -5,6 +5,7 @@ import org.joda.time.LocalDate;
 import com.expedia.bookings.R;
 import com.expedia.bookings.test.espresso.Common;
 import com.expedia.bookings.test.espresso.PackageTestCase;
+import com.expedia.bookings.test.espresso.ViewActions;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
@@ -16,11 +17,11 @@ import static android.support.test.espresso.matcher.ViewMatchers.withId;
 public class PackageSearchErrorTest extends PackageTestCase {
 
 	public void testSearchError() throws Throwable {
-		PackageScreen.destination().perform(click());
 		PackageScreen.searchEditText().perform(typeText("GGW"));
 		Common.closeSoftKeyboard(PackageScreen.destination());
 		PackageScreen.selectLocation("Glasgow, MT (GGW-Glasgow Intl.)");
-		PackageScreen.arrival().perform(click());
+		Common.delay(1);
+		PackageScreen.searchEditText().perform(ViewActions.waitForViewToDisplay());
 		PackageScreen.searchEditText().perform(typeText("DTW"));
 		PackageScreen.selectLocation("Detroit, MI (DTW-Detroit Metropolitan Wayne County)");
 

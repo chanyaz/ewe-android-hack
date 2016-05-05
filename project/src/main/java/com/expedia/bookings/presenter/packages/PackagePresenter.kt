@@ -156,6 +156,7 @@ class PackagePresenter(context: Context, attrs: AttributeSet) : Presenter(contex
     private val defaultSearchTransition = object : Presenter.DefaultTransition(PackageSearchPresenter::class.java.name) {
         override fun endTransition(forward: Boolean) {
             searchPresenter.visibility = View.VISIBLE
+            searchPresenter.originCardView.performClick()
             trackSearchPageLoad()
         }
     }

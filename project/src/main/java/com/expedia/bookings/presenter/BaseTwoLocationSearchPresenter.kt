@@ -7,6 +7,8 @@ import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.SearchInputCardView
 import com.expedia.util.notNullAndObservable
 import com.expedia.vm.SuggestionAdapterViewModel
+import rx.android.schedulers.AndroidSchedulers
+import java.util.concurrent.TimeUnit
 
 abstract class BaseTwoLocationSearchPresenter(context: Context, attrs: AttributeSet) : BaseSearchPresenterV2(context, attrs) {
 
@@ -14,8 +16,15 @@ abstract class BaseTwoLocationSearchPresenter(context: Context, attrs: Attribute
 
     protected var originSuggestionViewModel: SuggestionAdapterViewModel by notNullAndObservable { vm ->
         val suggestionSelectedObserver = suggestionSelectedObserver(getSearchViewModel().originLocationObserver, suggestionInputView = originCardView)
-        vm.suggestionSelectedSubject.subscribe(suggestionSelectedObserver)
+        vm.suggestionSelectedSubject
+                .doOnNext(suggestionSelectedObserver)
+                .debounce(350, TimeUnit.MILLISECONDS)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe {
+                    destinationCardView.performClick()
+                }
     }
+
 
     override fun onFinishInflate() {
         super.onFinishInflate()

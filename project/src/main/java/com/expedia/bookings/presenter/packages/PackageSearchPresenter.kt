@@ -36,7 +36,12 @@ class PackageSearchPresenter(context: Context, attrs: AttributeSet) : BaseTwoLoc
         travelerWidgetV2.travelersSubject.subscribe(vm.travelersObserver)
         travelerWidgetV2.traveler.viewmodel.isInfantInLapObservable.subscribe(vm.isInfantInLapObserver)
         vm.formattedOriginObservable.subscribe { text -> originCardView.setText(text) }
-        vm.formattedDestinationObservable.subscribe { text -> destinationCardView.setText(text) }
+        vm.formattedDestinationObservable.subscribe {
+            text -> destinationCardView.setText(text)
+            if (this.visibility == VISIBLE && vm.startDate() == null) {
+                calendarWidgetV2.showCalendarDialog()
+            }
+        }
 
         vm.searchButtonObservable.subscribe { enable ->
             searchButton.setTextColor(if (enable) ContextCompat.getColor(context, R.color.hotel_filter_spinner_dropdown_color) else ContextCompat.getColor(context, R.color.white_disabled))

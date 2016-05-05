@@ -167,6 +167,7 @@ class FlightPresenter(context: Context, attrs: AttributeSet) : Presenter(context
             outBoundPresenter.visibility = View.GONE
             inboundPresenter.visibility = View.GONE
             flightOverviewPresenter.visibility = View.GONE
+            searchPresenter.originCardView.performClick()
             FlightsV2Tracking.trackSearchPageLoad()
         }
     }

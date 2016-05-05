@@ -35,6 +35,13 @@ class FlightSearchPresenter(context: Context, attrs: AttributeSet) : BaseTwoLoca
             searchButton.setTextColor(if (enable) ContextCompat.getColor(context, R.color.hotel_filter_spinner_dropdown_color) else ContextCompat.getColor(context, R.color.white_disabled))
         }
         searchButton.subscribeOnClick(vm.searchObserver)
+        vm.formattedOriginObservable.subscribe { text -> originCardView.setText(text) }
+        vm.formattedDestinationObservable.subscribe {
+            text -> destinationCardView.setText(text)
+            if (this.visibility == VISIBLE && vm.startDate() == null) {
+                calendarWidgetV2.showCalendarDialog()
+            }
+        }
 
         originSuggestionViewModel = AirportSuggestionViewModel(getContext(), suggestionServices, false, CurrentLocationObservable.create(getContext()))
         destinationSuggestionViewModel = AirportSuggestionViewModel(getContext(), suggestionServices, true, null)
