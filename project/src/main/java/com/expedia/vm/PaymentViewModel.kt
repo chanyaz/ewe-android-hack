@@ -134,7 +134,7 @@ class PaymentViewModel(val context: Context) {
     fun setPaymentTileInfo(type: PaymentType?, title: String, subTitle: String, splitsType: PaymentSplitsType, completeStatus: ContactDetailsCompletenessStatus) {
         var paymentTitle = title
         if (type != null && isRedeemable.value && splitsType == PaymentSplitsType.IS_PARTIAL_PAYABLE_WITH_CARD) {
-            paymentTitle = Phrase.from(context, R.string.checkout_paying_with_points_and_card_line1)
+            paymentTitle = Phrase.from(context, R.string.checkout_paying_with_points_and_card_line1_TEMPLATE)
                     .put("carddescription", title)
                     .format().toString()
         }

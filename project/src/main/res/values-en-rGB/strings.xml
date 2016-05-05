@@ -228,7 +228,7 @@
     <!-- Text for enter payment details line 1 when paying with pwp only -->
     <string name="checkout_paying_with_points_only_line1">Paying with Points</string>
     <!-- Text for enter payment details line 1 when paying with pwp and Card -->
-    <string name="checkout_paying_with_points_and_card_line1">Paying with Points &amp; {carddescription}</string>
+    <string name="checkout_paying_with_points_and_card_line1_TEMPLATE">Paying with Points &amp; {carddescription}</string>
     <!-- Text for enter payment details line 2 for pwp -->
     <string name="checkout_tap_to_edit">Tap to edit</string>
     <!-- Text for enter payment details line 2 for pwp -->

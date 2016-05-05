@@ -52,7 +52,7 @@
     <string name="pay_with_rewards">Pay with Orbucks</string>
 
     <string name="checkout_paying_with_points_only_line1">Paying with Orbucks</string>
-    <string name="checkout_paying_with_points_and_card_line1">Paying with Orbucks &amp; {carddescription}</string>
+    <string name="checkout_paying_with_points_and_card_line1_TEMPLATE">Paying with Orbucks &amp; {carddescription}</string>
     <string name="checkout_payment_options">Credit card, pay with orbucks</string>
 
     <!-- Shop with points -->
@@ -94,7 +94,7 @@
     <!-- Label above the slider when user is fully paying with Orbucks. Eg: You are using $1000.12 in Orbucks-->
     <string name="you_are_using_bucks_TEMPLATE">You are using {amount} in Orbucks</string>
     <!-- Label above the slider when user is paying with Orbucks and Card. Eg: You are using $1000.12 in Orbucks\nYour card will be charged $100.00-->
-    <string name="payment_through_card_and_bucks">You are using {amount} in Orbucks\nYour card will be charged {dueamount}</string>
+    <string name="payment_through_card_and_bucks_TEMPLATE">You are using {amount} in Orbucks\nYour card will be charged {dueamount}</string>
 
     <!-- Rewards -->
     <!-- Long name for rewards base tier; note that brand name is not parameterized here as other brands will need to completely override this string -->

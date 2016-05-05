@@ -108,7 +108,7 @@ class HotelCheckoutOverviewViewModel(val context: Context, val paymentModel: Pay
                             .put("dueamount", payingWithCards.amount.formattedMoneyFromAmountAndCurrencyCode)
                             .format().toString()
                 } else {
-                    return Phrase.from(context, R.string.payment_through_card_and_bucks)
+                    return Phrase.from(context, R.string.payment_through_card_and_bucks_TEMPLATE)
                             .put("amount", payingWithPoints.amount.formattedMoneyFromAmountAndCurrencyCode)
                             .put("dueamount", payingWithCards.amount.formattedMoneyFromAmountAndCurrencyCode)
                             .format().toString()

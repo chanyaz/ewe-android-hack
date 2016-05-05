@@ -51,4 +51,47 @@
     <string name="acct_CheapTickets_account_already_exists">A CheapTickets account already exists with this email</string>
     <!-- Sign in with earn message. Eg: Sign in to earn $123.22 in CheapCash -->
     <string name="Sign_in_to_earn_TEMPLATE">Sign in to earn {reward} in CheapCash</string>
+
+    <!-- Earn Points -->
+    <!-- You'll earn points in CheapCash. Eg: You'll earn $10 in CheapCash for this booking! -->
+    <string name="youll_earn_points_TEMPLATE">You\'ll earn {reward_currency} in CheapCash for this booking!</string>
+    <!-- Blurb text displayed on account sign in button when already signed in -->
+    <string name="x_rewards_currency_for_this_trip_TEMPLATE">You\'ll earn {reward_currency} in CheapCash for this trip!</string>
+
+    <!-- CheapCash -->
+    <!-- Paying with reward points -->
+    <string name="paying_with_rewards">Paying with CheapCash</string>
+    <!-- Pay with reward points -->
+    <string name="pay_with_rewards">Pay with CheapCash</string>
+    <!-- Paying only with reward points -->
+    <string name="checkout_paying_with_points_only_line1">Paying with CheapCash</string>
+    <!-- Paying with reward points and card-->
+    <string name="checkout_paying_with_points_and_card_line1_TEMPLATE">Paying with CheapCash &amp; {carddescription}</string>
+    <!-- Checkout payment options available -->
+    <string name="checkout_payment_options">Credit card, pay with CheapCash</string>
+
+    <!-- Shop with points -->
+    <!-- Loyalty applied excluding taxes and fees -->
+    <string name="loyalty_applied_excluding_taxes_and_fees_message">CheapCash applied! (excludes taxes and fees)</string>
+    <!-- Loyalty applied.-->
+    <string name="regular_loyalty_applied_message">CheapCash applied!</string>
+    <!-- SWP off header - Apply CheapCash -->
+    <string name="swp_off_widget_header">Apply CheapCash</string>
+    <!-- SWP on header - CheapCash Applied -->
+    <string name="swp_on_widget_header">CheapCash applied</string>
+    <!-- Available loyalty points -->
+    <string name="available_loyalty_points">Available CheapCash</string>
+    <!-- SwP Widget you have points template. points_or_amount = it may have money (in case of Expedia) or point value (in case of CheapCash). E.g. You have $30 in CheapCash -->
+    <string name="swp_widget_points_value_TEMPLATE">You have {points_or_amount} in CheapCash</string>
+    <!-- Label indicating CheapCash used by the user -->
+    <string name="hotel_cost_breakdown_burn_points_TEMPLATE">CheapCash Used</string>
+    <!-- Label indicating CheapCash Available. Eg: $1000.12 in CheapCash available-->
+    <string name="bucks_available_TEMPLATE">{money} in CheapCash available</string>
+    <!-- Label indicating CheapCash Applied By User. Eg: $1000.12 in CheapCash applied-->
+    <string name="bucks_applied_TEMPLATE">{money} in CheapCash applied</string>
+    <!-- Label above the slider when user is fully paying with CheapCash. Eg: You are using $1000.12 in CheapCash-->
+    <string name="you_are_using_bucks_TEMPLATE">You are using {amount} in CheapCash</string>
+    <!-- Label above the slider when user is paying with CheapCash and Card. Eg: You are using $1000.12 in CheapCash\nYour card will be charged $100.00-->
+    <string name="payment_through_card_and_bucks_TEMPLATE">You are using {amount} in CheapCash\nYour card will be charged {dueamount}</string>
+
 </resources>
