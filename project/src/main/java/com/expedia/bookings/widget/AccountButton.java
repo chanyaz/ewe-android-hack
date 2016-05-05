@@ -380,9 +380,8 @@ public class AccountButton extends LinearLayout {
 			if (ProductFlavorFeatureConfiguration.getInstance().isRewardProgramPointsType()) {
 				return NumberFormat.getInstance().format(rewards.getPointsToEarn());
 			}
-			else if (rewards.getAmountToEarn() != null) {
-				return rewards.getAmountToEarn()
-					.getFormattedMoney(Money.F_NO_DECIMAL_IF_INTEGER_ELSE_TWO_PLACES_AFTER_DECIMAL);
+			else if (rewards.getAmountToEarn() != null && !rewards.getAmountToEarn().isZero()) {
+				return rewards.getAmountToEarn().getFormattedMoney(Money.F_NO_DECIMAL_IF_INTEGER_ELSE_TWO_PLACES_AFTER_DECIMAL);
 			}
 		}
 		return "0";
@@ -391,10 +390,10 @@ public class AccountButton extends LinearLayout {
 	private CharSequence getSignInWithRewardsAmountText(LineOfBusiness lob) {
 		RewardsInfo rewardsInfo = getRewardsForLOB(lob);
 
-		if (rewardsInfo != null) {
+		if (rewardsInfo != null && !rewardsInfo.getTotalAmountToEarn().isZero()) {
 			//noinspection ConstantConditions This can never be null from api.
 			String rewardsToEarn = rewardsInfo.getTotalAmountToEarn()
-				.getFormattedMoneyFromAmountAndCurrencyCode();
+				.getFormattedMoney(Money.F_NO_DECIMAL_IF_INTEGER_ELSE_TWO_PLACES_AFTER_DECIMAL);
 			return Phrase.from(this, R.string.Sign_in_to_earn_TEMPLATE)
 				.put("reward", rewardsToEarn)
 				.format();
