@@ -90,6 +90,7 @@ class FlightPresenter(context: Context, attrs: AttributeSet) : Presenter(context
 
             // Starting a new search clear previous selection
             Db.clearPackageFlightSelection()
+            outBoundPresenter.resultsPresenter.setLoadingState()
             show(outBoundPresenter)
         }
         vm.flightProductId.subscribe { productKey ->

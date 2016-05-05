@@ -16,8 +16,8 @@ import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.presenter.ScaleTransition
 import com.expedia.bookings.presenter.packages.PackageFlightOverviewPresenter
-import com.expedia.bookings.presenter.packages.PackageFlightResultsPresenter
 import com.expedia.bookings.tracking.PackagesTracking
+import com.expedia.bookings.presenter.shared.FlightResultsPresenter
 import com.expedia.bookings.utils.ArrowXDrawableUtil
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
@@ -67,9 +67,9 @@ abstract class BaseFlightPresenter(context: Context, attrs: AttributeSet) : Pres
         filterView
     }
 
-    val resultsPresenter: PackageFlightResultsPresenter by lazy {
+    val resultsPresenter: FlightResultsPresenter by lazy {
         var viewStub = findViewById(R.id.results_stub) as ViewStub
-        var presenter = viewStub.inflate() as PackageFlightResultsPresenter
+        var presenter = viewStub.inflate() as FlightResultsPresenter
         presenter.resultsViewModel = FlightResultsViewModel()
         presenter.flightSelectedSubject.subscribe(selectedFlightResults)
         presenter
@@ -133,7 +133,7 @@ abstract class BaseFlightPresenter(context: Context, attrs: AttributeSet) : Pres
     }
 
 
-    private val defaultTransition = object : DefaultTransition(PackageFlightResultsPresenter::class.java.name) {
+    private val defaultTransition = object : DefaultTransition(FlightResultsPresenter::class.java.name) {
         override fun endTransition(forward: Boolean) {
             super.endTransition(forward)
             toolbarViewModel.refreshToolBar.onNext(forward)
@@ -142,7 +142,7 @@ abstract class BaseFlightPresenter(context: Context, attrs: AttributeSet) : Pres
         }
     }
 
-    private val overviewTransition = object : ScaleTransition(this, PackageFlightResultsPresenter::class.java, PackageFlightOverviewPresenter::class.java) {
+    private val overviewTransition = object : ScaleTransition(this, FlightResultsPresenter::class.java, PackageFlightOverviewPresenter::class.java) {
         override fun endTransition(forward: Boolean) {
             super.endTransition(forward)
             toolbarViewModel.refreshToolBar.onNext(!forward)
@@ -166,7 +166,7 @@ abstract class BaseFlightPresenter(context: Context, attrs: AttributeSet) : Pres
         }
     }
 
-    val listToFiltersTransition: Transition = object : Transition(PackageFlightResultsPresenter::class.java, PackageFlightFilterWidget::class.java, DecelerateInterpolator(2f), 500) {
+    val listToFiltersTransition: Transition = object : Transition(FlightResultsPresenter::class.java, PackageFlightFilterWidget::class.java, DecelerateInterpolator(2f), 500) {
         override fun startTransition(forward: Boolean) {
         }
 
