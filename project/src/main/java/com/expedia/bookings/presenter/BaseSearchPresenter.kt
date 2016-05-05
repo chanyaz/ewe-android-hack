@@ -140,6 +140,15 @@ abstract class BaseSearchPresenter(context: Context, attrs: AttributeSet) : Pres
         show(SuggestionSelectionState())
     }
 
+    fun setNavIconContentDescription(isBack: Boolean) {
+        if (isBack) {
+            toolbar.setNavigationContentDescription(R.string.package_toolbar_back_to_search_content_description)
+        }
+        else {
+            toolbar.setNavigationContentDescription(R.string.package_toolbar_close_content_description)
+        }
+    }
+
     fun showSuggestionState(selectOrigin: Boolean) {
         searchLocationEditText?.queryHint = if (selectOrigin) getOriginSearchBoxPlaceholderText() else getDestinationSearchBoxPlaceholderText()
         searchLocationEditText?.setQuery("", true)
@@ -147,6 +156,7 @@ abstract class BaseSearchPresenter(context: Context, attrs: AttributeSet) : Pres
         navIcon = ArrowXDrawableUtil.getNavigationIconDrawable(context, ArrowXDrawableUtil.ArrowDrawableType.BACK)
         navIcon.setColorFilter(ContextCompat.getColor(context, R.color.search_suggestion_v2), PorterDuff.Mode.SRC_IN)
         toolbar.navigationIcon = navIcon
+        setNavIconContentDescription(true)
         show(SuggestionSelectionState())
     }
 
@@ -197,6 +207,7 @@ abstract class BaseSearchPresenter(context: Context, attrs: AttributeSet) : Pres
         navIcon = ArrowXDrawableUtil.getNavigationIconDrawable(getContext(), ArrowXDrawableUtil.ArrowDrawableType.CLOSE)
         navIcon.setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_IN)
         toolbar.navigationIcon = navIcon
+        setNavIconContentDescription(false)
         toolbar.setNavigationOnClickListener {
             if (navIcon.parameter.toInt() == ArrowXDrawableUtil.ArrowDrawableType.BACK.type) {
                 firstLaunch = false
@@ -308,9 +319,16 @@ abstract class BaseSearchPresenter(context: Context, attrs: AttributeSet) : Pres
             if (!firstLaunch && forward) {
                 navIcon = ArrowXDrawableUtil.getNavigationIconDrawable(context, ArrowXDrawableUtil.ArrowDrawableType.CLOSE)
                 navIcon.setColorFilter(toolbarTextColor.start, PorterDuff.Mode.SRC_IN)
+                setNavIconContentDescription(true)
             } else {
                 navIcon = ArrowXDrawableUtil.getNavigationIconDrawable(context, ArrowXDrawableUtil.ArrowDrawableType.BACK)
                 navIcon.setColorFilter(toolbarTextColor.end, PorterDuff.Mode.SRC_IN)
+                if (firstLaunch) {
+                    setNavIconContentDescription(true)
+                }
+                else {
+                    setNavIconContentDescription(false)
+                }
             }
             toolbar.navigationIcon = navIcon
 

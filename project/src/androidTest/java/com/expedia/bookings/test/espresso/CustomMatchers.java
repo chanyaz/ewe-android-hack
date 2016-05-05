@@ -19,6 +19,7 @@ import android.support.annotation.NonNull;
 import android.support.test.espresso.matcher.BoundedMatcher;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
@@ -333,5 +334,20 @@ public class CustomMatchers {
 		};
 	}
 
+	public static Matcher<View> withNavigationContentDescription(final String contentDescription) {
+		return new BoundedMatcher<View, Toolbar>(Toolbar.class) {
+			@Override
+			public void describeTo(Description description) {
+				description.appendText("Toolbar navigation has this content description -> " + contentDescription);
+			}
 
+			@Override
+			public boolean matchesSafely(Toolbar toolbar) {
+				if (toolbar.getNavigationContentDescription().toString().equals(contentDescription)) {
+					return true;
+				}
+				return false;
+			}
+		};
+	}
 }
