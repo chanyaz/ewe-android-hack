@@ -5,12 +5,10 @@ import com.expedia.bookings.server.EndpointProvider;
 import com.expedia.bookings.services.PackageServices;
 import com.expedia.bookings.services.ReviewsServices;
 import com.expedia.bookings.services.SuggestionV4Services;
-import com.squareup.okhttp.OkHttpClient;
 
 import dagger.Module;
 import dagger.Provides;
-import retrofit.RequestInterceptor;
-import retrofit.RestAdapter;
+import okhttp3.OkHttpClient;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
@@ -18,26 +16,23 @@ import rx.schedulers.Schedulers;
 public final class PackageModule {
 	@Provides
 	@PackageScope
-	PackageServices providePackageServices(EndpointProvider endpointProvider, OkHttpClient client, RequestInterceptor interceptor, RestAdapter.LogLevel logLevel) {
+	PackageServices providePackageServices(EndpointProvider endpointProvider, OkHttpClient client) {
 		final String endpoint = endpointProvider.getE3EndpointUrl();
-		return new PackageServices(endpoint, client, interceptor, AndroidSchedulers.mainThread(), Schedulers.io(), logLevel);
+		return new PackageServices(endpoint, client, AndroidSchedulers.mainThread(), Schedulers.io());
 	}
 
 	@Provides
 	@PackageScope
-	SuggestionV4Services provideSuggestionV4Services(EndpointProvider endpointProvider, OkHttpClient client,
-		RequestInterceptor interceptor, RestAdapter.LogLevel logLevel) {
+	SuggestionV4Services provideSuggestionV4Services(EndpointProvider endpointProvider, OkHttpClient client) {
 		final String endpoint = endpointProvider.getEssEndpointUrl();
-		return new SuggestionV4Services(endpoint, client, interceptor, AndroidSchedulers.mainThread(), Schedulers.io(),
-			logLevel);
+		return new SuggestionV4Services(endpoint, client, AndroidSchedulers.mainThread(), Schedulers.io());
 	}
 
 	@Provides
 	@PackageScope
-	ReviewsServices provideReviewsServices(EndpointProvider endpointProvider, OkHttpClient client, RequestInterceptor interceptor,
-		RestAdapter.LogLevel logLevel) {
+	ReviewsServices provideReviewsServices(EndpointProvider endpointProvider, OkHttpClient client) {
 		final String endpoint = endpointProvider.getReviewsEndpointUrl();
-		return new ReviewsServices(endpoint, client, interceptor, AndroidSchedulers.mainThread(), Schedulers.io(), logLevel);
+		return new ReviewsServices(endpoint, client, AndroidSchedulers.mainThread(), Schedulers.io());
 	}
 }
 

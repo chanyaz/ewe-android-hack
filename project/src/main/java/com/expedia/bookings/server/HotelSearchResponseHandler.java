@@ -55,7 +55,7 @@ public class HotelSearchResponseHandler implements ResponseHandler<HotelSearchRe
 	}
 
 	@Override
-	public HotelSearchResponse handleResponse(com.squareup.okhttp.Response response) throws IOException {
+	public HotelSearchResponse handleResponse(okhttp3.Response response) throws IOException {
 		if (response == null) {
 			return null;
 		}

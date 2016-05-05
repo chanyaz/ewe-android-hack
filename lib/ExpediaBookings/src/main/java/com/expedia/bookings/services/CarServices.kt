@@ -1,8 +1,8 @@
 package com.expedia.bookings.services
 
+import com.expedia.bookings.data.BaseApiResponse
 import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.cars.ApiError
-import com.expedia.bookings.data.BaseApiResponse
 import com.expedia.bookings.data.cars.CarCheckoutParams
 import com.expedia.bookings.data.cars.CarCheckoutResponse
 import com.expedia.bookings.data.cars.CarCreateTripResponse
@@ -18,12 +18,11 @@ import com.expedia.bookings.data.cars.SearchCarOffer
 import com.expedia.bookings.utils.Strings
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
-import com.squareup.okhttp.OkHttpClient
+import okhttp3.OkHttpClient
 import org.joda.time.DateTime
-import retrofit.RequestInterceptor
-import retrofit.RestAdapter
-import retrofit.client.OkClient
-import retrofit.converter.GsonConverter
+import retrofit2.Retrofit
+import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory
+import retrofit2.converter.gson.GsonConverterFactory
 import rx.Observable
 import rx.Observer
 import rx.Scheduler
@@ -35,8 +34,7 @@ import java.util.Collections
 import java.util.Comparator
 import java.util.HashMap
 
-class CarServices(endpoint: String, okHttpClient: OkHttpClient, requestInterceptor: RequestInterceptor,
-                         val ObserveOn: Scheduler, val SubscribeOn: Scheduler, logLevel: RestAdapter.LogLevel) {
+class CarServices(endpoint: String, okHttpClient: OkHttpClient, val ObserveOn: Scheduler, val SubscribeOn: Scheduler) {
 
     private var cachedCarSearchResponse = CarSearchResponse()
 
@@ -44,12 +42,11 @@ class CarServices(endpoint: String, okHttpClient: OkHttpClient, requestIntercept
 
         val gson = generateGson()
 
-        val adapter = RestAdapter.Builder()
-                .setEndpoint(endpoint)
-                .setRequestInterceptor(requestInterceptor)
-                .setLogLevel(logLevel)
-                .setConverter(GsonConverter(gson))
-                .setClient(OkClient(okHttpClient))
+        val adapter = Retrofit.Builder()
+                .baseUrl(endpoint)
+                .addConverterFactory(GsonConverterFactory.create(gson))
+                .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
+                .client(okHttpClient)
                 .build()
 
         adapter.create(CarApi::class.java)
@@ -107,7 +104,7 @@ class CarServices(endpoint: String, okHttpClient: OkHttpClient, requestIntercept
     }
 
     fun createTrip(productKey: String, fare: Money, isInsuranceIncluded: Boolean,
-                          observer: Observer<CarCreateTripResponse>): Subscription {
+                   observer: Observer<CarCreateTripResponse>): Subscription {
 
         return carApi.createTrip(productKey, fare.amount.toString())
                 .doOnNext(HANDLE_ERRORS)
@@ -151,7 +148,7 @@ class CarServices(endpoint: String, okHttpClient: OkHttpClient, requestIntercept
 
     private val BUCKET_OFFERS = { carSearchResponse: CarSearchResponse ->
         val buckets = HashMap<String, CategorizedCarOffers>()
-        carSearchResponse.offers.forEach{ offer ->
+        carSearchResponse.offers.forEach { offer ->
             val label = offer.vehicleInfo.carCategoryDisplayLabel
             val category = offer.vehicleInfo.category
             if (Strings.isEmpty(label)) {

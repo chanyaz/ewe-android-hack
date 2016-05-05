@@ -9,12 +9,11 @@ import com.expedia.bookings.data.abacus.AbacusResponse;
 import com.expedia.bookings.data.abacus.PayloadDeserializer;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.squareup.okhttp.OkHttpClient;
 
-import retrofit.RequestInterceptor;
-import retrofit.RestAdapter;
-import retrofit.client.OkClient;
-import retrofit.converter.GsonConverter;
+import okhttp3.OkHttpClient;
+import retrofit2.Retrofit;
+import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
+import retrofit2.converter.gson.GsonConverterFactory;
 import rx.Observer;
 import rx.Scheduler;
 import rx.Subscription;
@@ -26,19 +25,18 @@ public class AbacusServices {
 	private Scheduler observeOn;
 	private Scheduler subscribeOn;
 
-	public AbacusServices(String endpoint, OkHttpClient client, RequestInterceptor interceptor, Scheduler observeOn,
-		Scheduler subscribeOn, RestAdapter.LogLevel logLevel) {
+	public AbacusServices(String endpoint, OkHttpClient client, Scheduler observeOn,
+		Scheduler subscribeOn) {
 		this.observeOn = observeOn;
 		this.subscribeOn = subscribeOn;
 
 		gson = new GsonBuilder().registerTypeAdapter(AbacusResponse.class, new PayloadDeserializer()).create();
 
-		RestAdapter adapter = new RestAdapter.Builder()
-			.setEndpoint(endpoint)
-			.setLogLevel(logLevel)
-			.setConverter(new GsonConverter(gson))
-			.setClient(new OkClient(client))
-			.setRequestInterceptor(interceptor)
+		Retrofit adapter = new Retrofit.Builder()
+			.baseUrl(endpoint)
+			.addConverterFactory(GsonConverterFactory.create(gson))
+			.addCallAdapterFactory(RxJavaCallAdapterFactory.create())
+			.client(client)
 			.build();
 
 		api = adapter.create(AbacusApi.class);

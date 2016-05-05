@@ -1,15 +1,12 @@
 package com.mobiata.mocke3
 
-import com.squareup.okhttp.mockwebserver.Dispatcher
-import com.squareup.okhttp.mockwebserver.MockResponse
-import com.squareup.okhttp.mockwebserver.RecordedRequest
+import okhttp3.mockwebserver.Dispatcher
+import okhttp3.mockwebserver.MockResponse
+import okhttp3.mockwebserver.RecordedRequest
 import org.joda.time.DateTime
 import org.joda.time.DateTimeZone
 import org.joda.time.Days
 import java.util.concurrent.TimeUnit
-import kotlin.collections.listOf
-import kotlin.text.Regex
-import kotlin.text.contains
 
 // Mocks out various mobile Expedia APIs
 class ExpediaDispatcher(protected var fileOpener: FileOpener) : Dispatcher() {
@@ -149,7 +146,7 @@ class ExpediaDispatcher(protected var fileOpener: FileOpener) : Dispatcher() {
     // Path dispatching
 
     private fun dispatchTrip(request: RecordedRequest): MockResponse {
-        val params = parseRequest(request)
+        val params = parseHttpRequest(request)
 
         // Common to all trips
         // NOTE: using static hour offset so that daylight savings doesn't muck with the data
@@ -241,7 +238,7 @@ class ExpediaDispatcher(protected var fileOpener: FileOpener) : Dispatcher() {
         var type: String? = ""
         var latlong: String? = ""
         var lob: String? = ""
-        val params = parseRequest(request)
+        val params = parseHttpRequest(request)
         if (params.containsKey("type")) {
             type = params.get("type")
         }
@@ -290,7 +287,7 @@ class ExpediaDispatcher(protected var fileOpener: FileOpener) : Dispatcher() {
 
     private fun dispatchSignIn(request: RecordedRequest): MockResponse {
         // TODO Handle the case when there's no email parameter in 2nd sign-in request
-        val params = parseRequest(request)
+        val params = parseHttpRequest(request)
         lastSignInEmail = params.get("email") ?: lastSignInEmail
         params.put("email", lastSignInEmail)
         return if (lastSignInEmail.isNotEmpty()) {
@@ -305,7 +302,7 @@ class ExpediaDispatcher(protected var fileOpener: FileOpener) : Dispatcher() {
     }
 
     private fun dispatchUserProfile(request: RecordedRequest): MockResponse {
-        val params = parseRequest(request)
+        val params = parseHttpRequest(request)
         return makeResponse("api/user/profile/user_profile_" + params.get("tuid") + ".json")
     }
 
@@ -324,7 +321,7 @@ class ExpediaDispatcher(protected var fileOpener: FileOpener) : Dispatcher() {
     }
 
     private fun dispatchCalculatePoints(request: RecordedRequest): MockResponse {
-        val params = parseRequest(request)
+        val params = parseHttpRequest(request)
         val tripParams = params["tripId"]?.split("|") ?: listOf(params["tripId"])
         val response = makeResponse("/m/api/trip/calculatePoints/"+ tripParams[0] +".json")
         if (tripParams.size > 1) {

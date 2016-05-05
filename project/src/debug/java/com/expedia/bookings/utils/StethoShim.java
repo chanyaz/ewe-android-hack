@@ -3,8 +3,9 @@ package com.expedia.bookings.utils;
 import android.app.Application;
 
 import com.facebook.stetho.Stetho;
-import com.facebook.stetho.okhttp.StethoInterceptor;
-import com.squareup.okhttp.OkHttpClient;
+import com.facebook.stetho.okhttp3.StethoInterceptor;
+
+import okhttp3.OkHttpClient;
 
 public class StethoShim {
 
@@ -18,7 +19,7 @@ public class StethoShim {
 				.build());
 	}
 
-	public static void install(OkHttpClient client) {
+	public static void install(OkHttpClient.Builder client) {
 		client.networkInterceptors().add(new StethoInterceptor());
 	}
 
