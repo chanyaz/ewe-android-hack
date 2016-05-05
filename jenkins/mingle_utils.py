@@ -34,9 +34,13 @@ def createCard(mingleProjectId, mingleAccessId, mingleAccessSecret, cardName, ca
 			auth=HMACAuth(mingleAccessId, mingleAccessSecret), \
 			headers={'Date': httpDateHeader(), 'Content-Md5': base64.b64encode(md5Digest.digest()), 'Connection':'close', 'Content-Type': 'multipart/form-data; boundary=-----------PythonMingleMultipartPost'})
 
+		print response
+		if response.status_code != 201:
+			return -1
 		print "Location of card = " + response.headers['Location']
 		cardCreatedLink = response.headers['Location']
 		cardNumber = re.findall('/(\d+).xml$', cardCreatedLink)[0]
+		print "Mingle card Link = https://eiwork.mingle.thoughtworks.com/projects/{mingle_project_id}/cards/{card_number}".format(mingle_project_id=mingleProjectId, card_number=cardNumber)
 		return cardNumber
 	except:
 		print "Exception encountered while creating card '{card_name}'. Stack Trace: \n{stack_trace}".format(card_name=cardName, stack_trace=traceback.format_exc())
