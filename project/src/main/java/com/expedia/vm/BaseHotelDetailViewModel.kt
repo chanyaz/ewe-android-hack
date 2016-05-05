@@ -268,13 +268,18 @@ abstract class BaseHotelDetailViewModel(val context: Context, val roomSelectedOb
     }
 
     val bookByPhoneContainerClickObserver: Observer<Unit> = endlessObserver {
-        val number = when (User.getLoggedInLoyaltyMembershipTier(context)) {
+        var supportPhoneNumber = when (User.getLoggedInLoyaltyMembershipTier(context)) {
             LoyaltyMembershipTier.BASE -> PointOfSale.getPointOfSale().supportPhoneNumberBaseTier
             LoyaltyMembershipTier.MIDDLE -> PointOfSale.getPointOfSale().supportPhoneNumberMiddleTier
             LoyaltyMembershipTier.TOP -> PointOfSale.getPointOfSale().supportPhoneNumberTopTier
             else -> hotelOffersResponse.telesalesNumber
         }
-        SocialUtils.call(context, number)
+
+        if(supportPhoneNumber == null) {
+            supportPhoneNumber = PointOfSale.getPointOfSale().getDefaultSupportPhoneNumber()
+        }
+
+        SocialUtils.call(context, supportPhoneNumber)
         trackHotelDetailBookPhoneClick()
     }
 
