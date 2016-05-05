@@ -12,6 +12,7 @@ import android.location.Address
 import android.location.Location
 import android.support.design.widget.FloatingActionButton
 import android.support.v4.content.ContextCompat
+import android.support.v4.view.ViewCompat
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
@@ -335,14 +336,15 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
                 val latLng = LatLng(center.latitude, center.longitude)
                 mapViewModel.mapBoundsSubject.onNext(latLng)
                 val padding = 60
-                googleMap?.animateCamera(CameraUpdateFactory.newLatLngBounds(it, resources.displayMetrics.density.toInt() * padding), object : GoogleMap.CancelableCallback {
-                    override fun onFinish() {
+                if (ViewCompat.isLaidOut(mapView)) {
+                    googleMap?.animateCamera(CameraUpdateFactory.newLatLngBounds(it, resources.displayMetrics.density.toInt() * padding), object : GoogleMap.CancelableCallback {
+                        override fun onFinish() {
+                        }
 
-                    }
-
-                    override fun onCancel() {
-                    }
-                })
+                        override fun onCancel() {
+                        }
+                    })
+                }
             }
         }
 

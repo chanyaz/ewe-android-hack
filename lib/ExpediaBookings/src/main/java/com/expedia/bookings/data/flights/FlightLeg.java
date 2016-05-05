@@ -47,11 +47,11 @@ public class FlightLeg {
 	public String totalTravelDistance;
 	public String totalTravelDistanceUnits;
 
-	public transient PackageOfferModel packageOfferModel;
-	public transient String flightPid;
-	public transient String departureLeg;
-	public transient List<Airline> airlines = new ArrayList<>();
-	public transient boolean isBestFlight;
+	public PackageOfferModel packageOfferModel;
+	public String flightPid;
+	public String departureLeg;
+	public List<Airline> airlines = new ArrayList<>();
+	public boolean isBestFlight;
 
 	public static class AirlineMessageModel {
 		public String airlineFeeLink;

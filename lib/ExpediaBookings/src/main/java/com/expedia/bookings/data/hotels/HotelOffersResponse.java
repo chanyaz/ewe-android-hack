@@ -48,8 +48,8 @@ public class HotelOffersResponse extends BaseApiResponse {
 	public List<Photos> photos;
 	public HotelText hotelRenovationText;
 
-	public transient boolean isPackage;
-	public transient boolean doesAnyHotelRateOfAnyRoomHaveLoyaltyInfo;
+	public boolean isPackage;
+	public boolean doesAnyHotelRateOfAnyRoomHaveLoyaltyInfo;
 
 	public static class HotelAmenities {
 		public String id;
@@ -90,7 +90,7 @@ public class HotelOffersResponse extends BaseApiResponse {
 		public String roomTypeCode;
 		public String promoDescription;
 
-		public transient Money packageHotelDeltaPrice;
+		public Money packageHotelDeltaPrice;
 
 		public String depositPolicyAtIndex(int index) {
 			String policy = "";

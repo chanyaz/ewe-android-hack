@@ -40,7 +40,7 @@ public class Presenter extends FrameLayout {
 	// the necessity of the StateAnimator getting to its end.
 	public static final int TEST_FLAG_FORCE_NEW_STATE = 0x00000002;
 
-	private Stack<Object> backstack = new Stack<>();
+	protected Stack<Object> backstack = new Stack<>();
 
 	// Transition vars
 	private Map<String, Map<String, Transition>> transitions = new HashMap<>();
@@ -108,27 +108,7 @@ public class Presenter extends FrameLayout {
 		}
 		else {
 			Object currentChild = getBackStack().pop();
-			boolean backPressHandled = currentChild instanceof Presenter && ((Presenter) currentChild).back();
-
-			// BackPress was not handled by the top child in the stack; handle it here.
-			if (!backPressHandled) {
-
-				if (getBackStack().isEmpty()) {
-					currentState = null;
-					didHandleBack = false;
-				}
-				else {
-					Object previousState = getBackStack().pop();
-					//Only test flags should go through!
-					show(previousState, flags & TEST_FLAG_FORCE_NEW_STATE);
-					didHandleBack = true;
-				}
-			}
-			// BackPress has been handled by the top child in the stack.
-			else {
-				getBackStack().push(currentChild);
-				didHandleBack = true;
-			}
+			didHandleBack = handleBack(flags, currentChild);
 		}
 
 		isHandlingBack = false;
@@ -143,6 +123,31 @@ public class Presenter extends FrameLayout {
 			showCommandRequestedDuringBackHandling = null;
 		}
 
+		return didHandleBack;
+	}
+
+	protected boolean handleBack(int flags, Object currentChild) {
+		boolean didHandleBack;
+		boolean backPressHandled = currentChild instanceof Presenter && ((Presenter) currentChild).back();
+
+		// BackPress was not handled by the top child in the stack; handle it here.
+		if (!backPressHandled) {
+			if (getBackStack().isEmpty()) {
+				currentState = null;
+				didHandleBack = false;
+			}
+			else {
+				Object previousState = getBackStack().pop();
+				//Only test flags should go through!
+				show(previousState, flags & TEST_FLAG_FORCE_NEW_STATE);
+				didHandleBack = true;
+			}
+		}
+		// BackPress has been handled by the top child in the stack.
+		else {
+			getBackStack().push(currentChild);
+			didHandleBack = true;
+		}
 		return didHandleBack;
 	}
 
@@ -169,7 +174,10 @@ public class Presenter extends FrameLayout {
 		if (animator != null && animator.isRunning()) {
 			animator.cancel(); // cancel running animations so we have correct current state (triggers: endAnimation())
 		}
+		handleNewState(newState, flags);
+	}
 
+	protected void handleNewState(Object newState, int flags) {
 		if (isHandlingBack) {
 			if (showCommandRequestedDuringBackHandling == null) {
 				showCommandRequestedDuringBackHandling = new Pair(newState, flags);

@@ -17,6 +17,7 @@ import com.expedia.bookings.data.cars.ApiError
 import com.expedia.bookings.data.packages.PackageCheckoutResponse
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.presenter.BaseOverviewPresenter
+import com.expedia.bookings.presenter.IntentPresenter
 import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.presenter.ScaleTransition
 import com.expedia.bookings.services.PackageServices
@@ -33,7 +34,7 @@ import rx.subjects.PublishSubject
 import java.math.BigDecimal
 import javax.inject.Inject
 
-class PackagePresenter(context: Context, attrs: AttributeSet) : Presenter(context, attrs) {
+class PackagePresenter(context: Context, attrs: AttributeSet) : IntentPresenter(context, attrs) {
     lateinit var packageServices: PackageServices
         @Inject set
 

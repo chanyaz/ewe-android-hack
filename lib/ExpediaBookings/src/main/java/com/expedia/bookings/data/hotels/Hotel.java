@@ -51,11 +51,11 @@ public class Hotel {
 	public boolean isShowEtpChoice;
 	public boolean isMemberDeal;
 
-	public transient List<Integer> amenityFilterIdList;
-	public transient boolean isSoldOut = false;
-	public transient boolean isPackage = false;
-	public transient String hotelPid;
-	public transient PackageOfferModel packageOfferModel;
+	public  List<Integer> amenityFilterIdList;
+	public  boolean isSoldOut = false;
+	public  boolean isPackage = false;
+	public  String hotelPid;
+	public  PackageOfferModel packageOfferModel;
 
 	public static class HotelAmenity {
 		public String id;

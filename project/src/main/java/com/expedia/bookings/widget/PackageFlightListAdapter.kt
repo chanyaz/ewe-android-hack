@@ -21,7 +21,7 @@ class PackageFlightListAdapter(context: Context, flightSelectedSubject: PublishS
         val newFlights = ArrayList(flights)
 
         //best flight could be filtered out
-        shouldShowBestFlight = !isChangePackageSearch && newFlights[0].isBestFlight
+        shouldShowBestFlight = !isChangePackageSearch && (newFlights[0]?.isBestFlight?:false)
 
         //remove best flight view if there is only 1 flight
         if (shouldShowBestFlight && newFlights.size == 2) {

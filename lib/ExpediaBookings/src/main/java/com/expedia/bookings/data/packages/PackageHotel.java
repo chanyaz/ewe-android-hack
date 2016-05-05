@@ -33,7 +33,7 @@ public class PackageHotel {
 	public String superlative;
 	public String thumbnailURL;
 	public boolean vip;
-	public transient PackageOfferModel packageOfferModel;
+	public PackageOfferModel packageOfferModel;
 
 	public static class HotelAddress {
 		public String city;
