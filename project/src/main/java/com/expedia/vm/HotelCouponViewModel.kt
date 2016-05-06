@@ -8,6 +8,7 @@ import com.expedia.bookings.data.cars.ApiError
 import com.expedia.bookings.data.hotels.HotelApplyCouponParameters
 import com.expedia.bookings.data.hotels.HotelCreateTripResponse
 import com.expedia.bookings.data.payment.PaymentModel
+import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.services.HotelServices
 import com.expedia.bookings.tracking.HotelV2Tracking
 import com.expedia.util.endlessObserver
@@ -36,13 +37,13 @@ class HotelCouponViewModel(val context: Context, val hotelServices: HotelService
     init {
         couponParamsObservable.subscribe { params ->
             applyObservable.onNext(params.tripId)
-            val observable = hotelServices.applyCoupon(params)
+            val observable = hotelServices.applyCoupon(params, PointOfSale.getPointOfSale().isPwPEnabledForHotels)
             createTripDownloadsObservable.onNext(observable)
         }
 
         couponRemoveObservable.subscribe { tripId ->
             removeObservable.onNext(false)
-            val observable = hotelServices.removeCoupon(tripId)
+            val observable = hotelServices.removeCoupon(tripId, PointOfSale.getPointOfSale().isPwPEnabledForHotels)
             observable.subscribe { trip ->
                 if (trip.hasErrors()) {
                     errorRemoveCouponShowDialogObservable.onNext(trip.firstError)

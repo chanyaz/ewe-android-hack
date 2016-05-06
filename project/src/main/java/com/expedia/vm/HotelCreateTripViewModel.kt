@@ -6,6 +6,7 @@ import com.expedia.bookings.data.cars.ApiError
 import com.expedia.bookings.data.hotels.HotelCreateTripParams
 import com.expedia.bookings.data.hotels.HotelCreateTripResponse
 import com.expedia.bookings.data.payment.PaymentModel
+import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.services.HotelServices
 import com.expedia.bookings.utils.RetrofitUtils
 import rx.Observer
@@ -24,7 +25,7 @@ open class HotelCreateTripViewModel(val hotelServices: HotelServices, val paymen
 
     init {
         tripParams.subscribe { params ->
-            hotelServices.createTrip(params, getCreateTripResponseObserver())
+            hotelServices.createTrip(params, PointOfSale.getPointOfSale().isPwPEnabledForHotels,  getCreateTripResponseObserver())
         }
     }
 

@@ -807,6 +807,13 @@ public class PointOfSale {
 		return isPwPEnabledForHotels;
 	}
 
+	public void setPwPEnabledForHotels(boolean isPwPEnabledForHotels) {
+		if (!ExpediaBookingApp.isAutomation()) {
+			throw new RuntimeException("PointOfSale.setPwPEnabledForHotels can only be invoked from Tests.");
+		}
+		this.isPwPEnabledForHotels = isPwPEnabledForHotels;
+	}
+
 	public boolean isSWPEnabledForHotels() {
 		return isSWPEnabledForHotels;
 	}
@@ -815,9 +822,11 @@ public class PointOfSale {
 		return isEarnMessageEnabledForHotels;
 	}
 
-	public PointOfSale setEarnMessageEnabledForHotels(boolean earnMessageEnabledForHotels) {
+	public void setEarnMessageEnabledForHotels(boolean earnMessageEnabledForHotels) {
+		if (!ExpediaBookingApp.isAutomation()) {
+			throw new RuntimeException("PointOfSale.setEarnMessageEnabledForHotels can only be invoked from Tests.");
+		}
 		isEarnMessageEnabledForHotels = earnMessageEnabledForHotels;
-		return this;
 	}
 
 	public boolean isEarnMessageEnabledForFlights() {
@@ -825,6 +834,9 @@ public class PointOfSale {
 	}
 
 	public void setEarnMessageEnabledForFlights(boolean earnMessageEnabledForFlights) {
+		if (!ExpediaBookingApp.isAutomation()) {
+			throw new RuntimeException("PointOfSale.setEarnMessageEnabledForFlights can only be invoked from Tests.");
+		}
 		isEarnMessageEnabledForFlights = earnMessageEnabledForFlights;
 	}
 
@@ -1214,7 +1226,7 @@ public class PointOfSale {
 		pos.mShowHalfTileStrikethroughPrice = data.optBoolean("launchScreenStrikethroughEnabled", false);
 		pos.mShowFlightsFreeCancellation = data.optBoolean("shouldShowFlightsFreeCancellation", false);
 		pos.mMarketingOptIn = MarketingOptIn
-			.valueOf(data.optString("marketingOptIn", MarketingOptIn.DO_NOT_SHOW.name()));
+				.valueOf(data.optString("marketingOptIn", MarketingOptIn.DO_NOT_SHOW.name()));
 		pos.shouldShowCircleForRatings = data.optBoolean("shouldDisplayCirclesForRatings", false);
 		pos.doAirlinesChargeAdditionalFeeBasedOnPaymentMethod = data.optBoolean("doAirlinesChargeAdditionalFeeBasedOnPaymentMethod", false);
 		pos.mRequiresHotelPostalCode = data.optString("requiredPaymentFields:hotels").equals("postalCode");
