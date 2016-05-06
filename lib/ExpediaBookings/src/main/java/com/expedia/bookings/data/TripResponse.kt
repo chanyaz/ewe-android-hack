@@ -7,6 +7,7 @@ import com.expedia.bookings.data.payment.PointsType
 import com.expedia.bookings.data.payment.ProgramName
 import com.expedia.bookings.data.payment.UserPaymentPreferences
 import java.math.BigDecimal
+import kotlin.properties.Delegates
 
 abstract class TripResponse : BaseApiResponse() {
     lateinit var tripId: String
@@ -35,7 +36,12 @@ abstract class TripResponse : BaseApiResponse() {
     */
     abstract fun isCardDetailsRequiredForBooking(): Boolean
 
+    var isRewardsEnabledForCurrentPOS: Boolean by Delegates.notNull()
     fun isRewardsRedeemable(): Boolean {
+        if (!isRewardsEnabledForCurrentPOS) {
+            return false;
+        }
+
         val rewardsPointsDetails = getPointDetails()
         return if (rewardsPointsDetails != null) rewardsPointsDetails.isAllowedToRedeem else false
     }

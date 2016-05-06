@@ -131,7 +131,7 @@ class MockHotelServiceTestRule : ServicesRule<HotelServices>(HotelServices::clas
     private fun getCreateTripResponse(responseFileName: String): HotelCreateTripResponse {
         val productKey = responseFileName
         val observer = TestSubscriber<HotelCreateTripResponse>()
-        services?.createTrip(HotelCreateTripParams(productKey, false, 1, emptyList()), observer)
+        services?.createTrip(HotelCreateTripParams(productKey, false, 1, emptyList()), true, observer)
         observer.awaitTerminalEvent()
         observer.assertCompleted()
         return observer.onNextEvents.get(0)
@@ -144,7 +144,7 @@ class MockHotelServiceTestRule : ServicesRule<HotelServices>(HotelServices::clas
                 userPreferencePointsDetails(listOf(UserPreferencePointsDetails(ProgramName.ExpediaRewards, PointsAndCurrency(1000f, PointsType.BURN, Money("100", "USD")))))
                 .build()
 
-        services?.applyCoupon(applyCouponParams)!!.subscribe(observer)
+        services?.applyCoupon(applyCouponParams, true)!!.subscribe(observer)
         observer.awaitTerminalEvent()
         observer.assertCompleted()
         return observer.onNextEvents[0]

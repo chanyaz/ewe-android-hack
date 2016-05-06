@@ -4,19 +4,24 @@ import com.expedia.bookings.data.cars.ApiError
 import com.expedia.bookings.data.hotels.HotelCreateTripParams
 import com.expedia.bookings.data.hotels.HotelCreateTripResponse
 import com.expedia.bookings.data.payment.PaymentModel
+import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.services.HotelServices
 import com.expedia.bookings.services.LoyaltyServices
+import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.testrule.ServicesRule
 import com.expedia.vm.HotelCreateTripViewModel
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
+import org.junit.runner.RunWith
 import retrofit.RetrofitError
 import rx.Observer
 import rx.observers.TestSubscriber
 import java.io.IOException
 import kotlin.test.assertEquals
+import kotlin.test.assertFalse
 
+@RunWith(RobolectricRunner::class)
 class HotelCreateTripViewModelTests {
 
     val mockHotelServicesTestRule = MockHotelServiceTestRule()
@@ -26,6 +31,7 @@ class HotelCreateTripViewModelTests {
         @Rule get
 
     private val happyMockProductKey = "happypath_0"
+    private val redeemableTripMockProductKey = "happypath_pwp_points_only"
 
     lateinit var paymentModel: PaymentModel<HotelCreateTripResponse>
     lateinit var sut: HotelCreateTripViewModel
@@ -41,6 +47,7 @@ class HotelCreateTripViewModelTests {
 
     @Test
     fun hotelServicesCreateTripIsCalled() {
+        PointOfSale.getPointOfSale().isPwPEnabledForHotels = true
         givenGoodCreateTripParams()
         sut = TestHotelCreateTripViewModel(testSubscriber, mockHotelServicesTestRule.services!!, paymentModel)
 
@@ -50,6 +57,20 @@ class HotelCreateTripViewModelTests {
         testSubscriber.assertCompleted()
         val createTripResponse = testSubscriber.onNextEvents.get(0)
         assertEquals(happyMockProductKey, createTripResponse.tripId)
+    }
+
+    @Test
+    fun tripRewardsRedeemableIsFalseForPOSWithPwPDisabled() {
+        PointOfSale.getPointOfSale().isPwPEnabledForHotels = false
+        givenRedeemableCreateTripParams()
+        sut = TestHotelCreateTripViewModel(testSubscriber, mockHotelServicesTestRule.services!!, paymentModel)
+
+        sut.tripParams.onNext(hotelCreateTripParams)
+        testSubscriber.awaitTerminalEvent()
+
+        testSubscriber.assertCompleted()
+        val createTripResponse = testSubscriber.onNextEvents.get(0)
+        assertFalse(createTripResponse.isRewardsRedeemable())
     }
 
     @Test
@@ -87,6 +108,10 @@ class HotelCreateTripViewModelTests {
 
     private fun givenGoodCreateTripParams() {
         hotelCreateTripParams = HotelCreateTripParams(happyMockProductKey, false, 1, listOf(1))
+    }
+
+    private fun givenRedeemableCreateTripParams() {
+        hotelCreateTripParams = HotelCreateTripParams(redeemableTripMockProductKey, false, 1, listOf(1))
     }
 
     class TestHotelCreateTripViewModel(val testSubscriber: TestSubscriber<HotelCreateTripResponse>, hotelServices: HotelServices, paymentModel: PaymentModel<HotelCreateTripResponse>) : HotelCreateTripViewModel(hotelServices, paymentModel) {
