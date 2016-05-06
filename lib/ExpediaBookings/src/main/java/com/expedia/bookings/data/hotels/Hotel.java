@@ -6,7 +6,7 @@ import com.expedia.bookings.data.packages.PackageHotel;
 import com.expedia.bookings.data.packages.PackageOfferModel;
 
 public class Hotel {
-	public String sortIndex;
+	public int sortIndex;
 	public String hotelId;
 	public String localizedName;
 	public String address;
