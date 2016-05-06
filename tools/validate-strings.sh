@@ -24,14 +24,16 @@ searchRegex[7]="[^:] </item>"
 
 # check for bunk apos
 searchRegex[8]="’"
+searchRegex[9]="<string.*[^\]'"
+searchRegex[10]="<item.*[^\]'"
 
 # check for too many spaces
-searchRegex[9]=">.*[^.!]  "
+searchRegex[11]=">.*[^.!]  "
 
 # check for unescaped html tags
-#searchRegex[10]="<a "
-#searchRegex[11]="<a>"
-#searchRegex[12]="</a>"
+#searchRegex[12]="<a "
+#searchRegex[13]="<a>"
+#searchRegex[14]="</a>"
 
 for i in $path/values*/strings.xml ; do
     # Xml file validity

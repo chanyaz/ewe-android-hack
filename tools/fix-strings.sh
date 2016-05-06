@@ -16,12 +16,16 @@ good_apos="\\\\\&apos;"
 fix_comment="$start_loop s/\(<!--.*\)’/\1'/ $end_loop"
 fix_string="$start_loop s/\(<string.*\)’/\1$good_apos/ $end_loop"
 fix_item="$start_loop s/\(<item.*\)’/\1$good_apos/ $end_loop"
+fix_string_straight="$start_loop s/\(<string.*[^\]\)'/\1$good_apos/ $end_loop"
+fix_item_straight="$start_loop s/\(<item.*[^\]\)'/\1$good_apos/ $end_loop"
 
 for i in $path/values*/strings.xml ; do
     echo $i
     gsed -i "$fix_comment" $i
     gsed -i "$fix_string" $i
     gsed -i "$fix_item" $i
+    gsed -i "$fix_string_straight" $i
+    gsed -i "$fix_item_straight" $i
 
     # Fix tab indentation
     gsed -i "s/^\t/    /" $i
