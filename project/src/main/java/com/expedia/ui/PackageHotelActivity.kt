@@ -73,9 +73,8 @@ class PackageHotelActivity : AbstractAppCompatActivity() {
         }
     }
 
-    public enum class Screen {
+    enum class Screen {
         DETAILS,
         RESULTS
     }
-
 }

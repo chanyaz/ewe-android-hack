@@ -3,9 +3,8 @@ package com.expedia.vm.interfaces
 import rx.Observable
 import rx.subjects.BehaviorSubject
 import rx.subjects.PublishSubject
-import java.math.BigDecimal
 
-public interface IPayWithPointsViewModel {
+interface IPayWithPointsViewModel {
     //INLETS
     val userEnteredBurnAmount: PublishSubject<String>
     val pwpOpted: BehaviorSubject<Boolean>

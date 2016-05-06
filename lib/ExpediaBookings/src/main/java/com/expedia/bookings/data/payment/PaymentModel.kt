@@ -4,6 +4,7 @@ import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.TripResponse
 import com.expedia.bookings.data.cars.ApiError
 import com.expedia.bookings.services.LoyaltyServices
+import com.expedia.bookings.utils.withLatestFrom
 import rx.Observable
 import rx.Observer
 import rx.Subscriber
@@ -11,7 +12,6 @@ import rx.Subscription
 import rx.subjects.BehaviorSubject
 import rx.subjects.PublishSubject
 import java.math.BigDecimal
-import com.expedia.bookings.utils.withLatestFrom
 
 class PaymentModel<T : TripResponse>(loyaltyServices: LoyaltyServices) {
     val discardPendingCurrencyToPointsAPISubscription = PublishSubject.create<Unit>()
@@ -114,7 +114,7 @@ class PaymentModel<T : TripResponse>(loyaltyServices: LoyaltyServices) {
 
     //Facade to ensure there are no glitches!
     //Whenever you need Payment Splits and Latest Trip response and TripTotal including fee paid at hotel, use this!
-    public val paymentSplitsWithLatestTripTotalPayableAndTripResponse = paymentSplits.withLatestFrom(tripTotalPayable, tripResponses,
+    val paymentSplitsWithLatestTripTotalPayableAndTripResponse = paymentSplits.withLatestFrom(tripTotalPayable, tripResponses,
             { paymentSplits, tripTotalPayable, tripResponses ->
                 PaymentSplitsWithTripTotalAndTripResponse(tripResponses, paymentSplits, tripTotalPayable)
             })

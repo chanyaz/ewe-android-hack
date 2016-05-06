@@ -250,7 +250,7 @@ class LxServices(endpoint: String, okHttpClient: OkHttpClient, interceptor: Inte
 
     private val HANDLE_ERRORS = { response: BaseApiResponse ->
         if (response.hasErrors() && !response.hasPriceChange()) {
-            throw response.getFirstError()
+            throw response.firstError
         }
     }
 
@@ -285,7 +285,7 @@ class LxServices(endpoint: String, okHttpClient: OkHttpClient, interceptor: Inte
 
         if (lxSortType == LXSortType.PRICE) {
             Collections.sort<LXActivity>(lxCategoryMetadata.activities, object : Comparator<LXActivity> {
-                public override fun compare(lhs: LXActivity, rhs: LXActivity): Int {
+                override fun compare(lhs: LXActivity, rhs: LXActivity): Int {
                     val leftMoney = lhs.price
                     val rightMoney = rhs.price
                     return leftMoney.compareTo(rightMoney)
@@ -293,7 +293,7 @@ class LxServices(endpoint: String, okHttpClient: OkHttpClient, interceptor: Inte
             })
         } else if (lxSortType == LXSortType.POPULARITY) {
             Collections.sort<LXActivity>(lxCategoryMetadata.activities, object : Comparator<LXActivity> {
-                public override fun compare(lhs: LXActivity, rhs: LXActivity): Int {
+                override fun compare(lhs: LXActivity, rhs: LXActivity): Int {
                     return if ((lhs.popularityForClientSort < rhs.popularityForClientSort))
                         -1
                     else
@@ -367,7 +367,7 @@ class LxServices(endpoint: String, okHttpClient: OkHttpClient, interceptor: Inte
         // Sorting.
         if (lxSortFilterMetadata.sort == LXSortType.PRICE) {
             Collections.sort<LXActivity>(lxSearchResponse.activities, object : Comparator<LXActivity> {
-                public override fun compare(lhs: LXActivity, rhs: LXActivity): Int {
+                override fun compare(lhs: LXActivity, rhs: LXActivity): Int {
                     val leftMoney = lhs.price
                     val rightMoney = rhs.price
                     return leftMoney.compareTo(rightMoney)

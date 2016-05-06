@@ -6,7 +6,7 @@ import com.expedia.bookings.otto.Events
 import com.expedia.bookings.tracking.OmnitureTracking
 
 class LXNavUtils {
-    public companion object {
+    companion object {
         /**
          * If searchType is default take the user to the search form, Default ApiError is SUGGESTIONS_NO_RESULTS
          * If searchType is explicit show user the appropriate error message, Bucket all other errors as
