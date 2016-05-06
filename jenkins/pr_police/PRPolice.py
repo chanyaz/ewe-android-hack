@@ -29,7 +29,6 @@ class PRPolice:
                 else:
                         pullRequest.scanPullRequest()
                         self.executeClausesAgainstPullRequest(pullRequest)
-
                 if len(pullRequest.issueList) > 0:
                         ghIssue = repo.issue(prId)
                         self.displayIssues(pullRequest)
@@ -38,7 +37,7 @@ class PRPolice:
                 else:
                         print "All safe! No issues in the PR - %s." % (prId)
 
-                return len(pullRequest.issueList)
+                return len([issue for issue in pullRequest.issueList if issue.issueType==IssueType.error ])
 
         def anyFileRelevantForAnyClause(self, filepathList):
                 return self.clauseProcessor.anyFileRelevantForAnyClause(filepathList)
