@@ -174,9 +174,6 @@ public class PointOfSale {
 	// 5810 - Do Airlines Charge Additional Fee Based On Payment Method?
 	private boolean doAirlinesChargeAdditionalFeeBasedOnPaymentMethod;
 
-	// Should we not show air attach.
-	private boolean mShouldShowAirAttach;
-
 	private static boolean mIsTablet;
 
 	private boolean mRequiresHotelPostalCode;
@@ -782,10 +779,6 @@ public class PointOfSale {
 		return mShouldShowRewards;
 	}
 
-	public boolean shouldShowAirAttach() {
-		return mShouldShowAirAttach;
-	}
-
 	public boolean isDisabledForProduction() {
 		return mDisableForProduction;
 	}
@@ -1226,7 +1219,6 @@ public class PointOfSale {
 		pos.doAirlinesChargeAdditionalFeeBasedOnPaymentMethod = data.optBoolean("doAirlinesChargeAdditionalFeeBasedOnPaymentMethod", false);
 		pos.mRequiresHotelPostalCode = data.optString("requiredPaymentFields:hotels").equals("postalCode");
 		pos.mRequiresLXPostalCode = data.optString("requiredPaymentFields:lx").equals("postalCode");
-		pos.mShouldShowAirAttach = !data.optBoolean("shouldNotShowAirAttach", false);
 
 		pos.isPwPEnabledForHotels = data.optBoolean("pwpEnabled:hotels", false);
 		pos.isSWPEnabledForHotels = data.optBoolean("swpEnabled:hotels", false);
