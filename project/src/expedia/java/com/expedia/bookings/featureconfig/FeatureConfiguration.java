@@ -383,4 +383,14 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 	public boolean shouldShowAirAttach() {
 		return true;
 	}
+
+	@Override
+	public String getSharableFallbackImageURL() {
+		return "http://media.expedia.com/mobiata/fb/exp-fb-share.png";
+	}
+
+	@Override
+	public boolean shouldDisplayItinTrackAppLink() {
+		return true;
+	}
 }

@@ -175,4 +175,8 @@ public interface IProductFlavorFeatureConfiguration {
 	boolean shouldShowMemberTier();
 
 	boolean shouldShowAirAttach();
+
+	String getSharableFallbackImageURL();
+
+	boolean shouldDisplayItinTrackAppLink();
 }
