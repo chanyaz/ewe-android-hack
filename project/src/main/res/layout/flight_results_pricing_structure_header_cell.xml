@@ -6,11 +6,9 @@
 
     <com.expedia.bookings.widget.TextView
         android:id="@+id/flight_results_price_header"
-        style="@style/ResultsDescriptionText"
+        style="@style/FlightsResultsDescriptionText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingBottom="9dp"
-        android:paddingTop="8dp"
         android:text="@string/prices_roundtrip_label" />
 </LinearLayout>
 

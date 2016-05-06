@@ -990,6 +990,13 @@
         <item name="android:gravity">center</item>
     </style>
 
+    <!--Header title text used inside search results for things like "50 Results" or "Prices roundtrip per person"-->
+    <style name="FlightsResultsDescriptionText" parent="ResultsDescriptionText">
+        <item name="android:paddingBottom">9dp</item>
+        <item name="android:paddingTop">8dp</item>
+        <item name="android:gravity">center_horizontal</item>
+    </style>
+
     <!-- Borderless button for "Enter Itinerary Number" in login screen -->
     <style name="Widget.BorderlessButton" parent="Widget.AppCompat.Button.Borderless">
         <item name="android:background">@drawable/bg_btn_borderless_kitkat</item>
