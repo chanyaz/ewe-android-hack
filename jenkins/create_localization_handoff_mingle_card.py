@@ -12,11 +12,14 @@ MINGLE_ACCESS_SECRET="5ISptP8ZqZDO7YNh0ZbwADo2NYRNLRIDSIFDxT0qS+Q="
 
 UTC = pytz.utc
 handoffDate = datetime.datetime.now(tz=UTC).strftime('%A %d, %b %Y, %H:%M %p %Z')
-cardProperties = {'Team':'PF_US', 'Releases - Release':'(Current Release)', 'Theme':'Localizations', 'Schedule - Iteration':'(Current PF Iteration)'}
+
 brandName = sys.argv[1]
 branchName = sys.argv[2]
 fileLocation = sys.argv[3]
 hipchatAccessToken = sys.argv[4]
+assignTo = sys.argv[5]
+
+cardProperties = {'Team':'PF_US', 'Releases - Release':'(Current Release)', 'Theme':'Localizations', 'Schedule - Iteration':'(Current PF Iteration)', 'Status':'Analysis', 'Assigned':assignTo}
 #TODO - update this room name to Android team
 hipchatRoomName = 'TestLoc1'
 
