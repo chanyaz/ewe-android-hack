@@ -56,7 +56,10 @@ public class PersistentCookieManager implements CookieJar {
 
 	@Override
 	public void saveFromResponse(HttpUrl url, List<Cookie> cookies) {
-		HashMap<String, Cookie> cookieMap = new HashMap<>();
+		HashMap<String, Cookie> cookieMap = cookieStore.get(url.host());
+		if (cookieMap == null) {
+			cookieMap = new HashMap<>();
+		}
 		for (Cookie cookie : cookies) {
 			if (cookie.expiresAt() < System.currentTimeMillis()) {
 				continue;

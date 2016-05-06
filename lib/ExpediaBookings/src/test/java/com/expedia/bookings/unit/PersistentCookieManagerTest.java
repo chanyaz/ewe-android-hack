@@ -30,6 +30,7 @@ public class PersistentCookieManagerTest {
 	private static final List<Cookie> EXPEDIA_COOKIES = new ArrayList<>();
 	private static final List<Cookie> REVIEWS_EXPEDIA_COOKIES = new ArrayList<>();
 	private static final List<Cookie> EXPIRED_COOKIES = new ArrayList<>();
+	private static final List<Cookie> LINFO_COOKIE = new ArrayList<>();
 	private static final HttpUrl expedia = HttpUrl.parse("https://www.expedia.com");
 	private static final HttpUrl reviews = HttpUrl.parse("https://reviewsvc.expedia.com");
 
@@ -61,6 +62,12 @@ public class PersistentCookieManagerTest {
 		list.add("MC1=GUID=4a7e5c02232b479aa4807d32c6b7129c; Domain=.expedia.com; Path=/; Expires=Fri, 26-Feb-2016 00:08:28 GMT");
 		for (String string : list) {
 			EXPIRED_COOKIES.add(Cookie.parse(expedia, string));
+		}
+
+		list = new ArrayList<>();
+		list.add("linfo=v.4,|0|0|255|1|0||||||||1033|0|0||0|0|0|-1|-1; Domain=.expedia.com; Path=/");
+		for (String string : list) {
+			LINFO_COOKIE.add(Cookie.parse(expedia, string));
 		}
 	}
 
@@ -173,6 +180,17 @@ public class PersistentCookieManagerTest {
 		expectCookie(expedia, "minfo",
 			"v.5,EX015B0EEC4B$0E$81O$3Bq$8C$98$DF$CC$93$DE$A1$ABS$EB$A36$CA$D6$5B$D4g$FF$81$C2a$DD$A6$19$D1$1B0$26$EC$B4$86$C3$27$1D$FB$3F$3A$C6$24$E3$A2$A4$A7X$F7P");
 	}
+
+	@Test
+	public void retainsPreviousCookies() throws Throwable {
+		manager.saveFromResponse(expedia, EXPEDIA_COOKIES);
+		expectCookie(expedia, "minfo",
+			"v.5,EX015B0EEC4B$0E$81O$3Bq$8C$98$DF$CC$93$DE$A1$ABS$EB$A36$CA$D6$5B$D4g$FF$81$C2a$DD$A6$19$D1$1B0$26$EC$B4$86$C3$27$1D$FB$3F$3A$C6$24$E3$A2$A4$A7X$F7P");
+		manager.saveFromResponse(expedia, LINFO_COOKIE);
+		expectCookie(expedia, "minfo",
+			"v.5,EX015B0EEC4B$0E$81O$3Bq$8C$98$DF$CC$93$DE$A1$ABS$EB$A36$CA$D6$5B$D4g$FF$81$C2a$DD$A6$19$D1$1B0$26$EC$B4$86$C3$27$1D$FB$3F$3A$C6$24$E3$A2$A4$A7X$F7P");
+	}
+
 
 	@Test
 	public void parseEmptyData() throws Throwable {
