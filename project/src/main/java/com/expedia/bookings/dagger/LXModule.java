@@ -8,6 +8,7 @@ import com.expedia.bookings.services.SuggestionServices;
 
 import dagger.Module;
 import dagger.Provides;
+import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -16,16 +17,16 @@ import rx.schedulers.Schedulers;
 public class LXModule {
 	@Provides
 	@LXScope
-	LxServices provideLxServices(EndpointProvider endpointProvider, OkHttpClient client) {
+	LxServices provideLxServices(EndpointProvider endpointProvider, OkHttpClient client, Interceptor interceptor) {
 		final String endpoint = endpointProvider.getE3EndpointUrl();
-		return new LxServices(endpoint, client, AndroidSchedulers.mainThread(), Schedulers.io());
+		return new LxServices(endpoint, client, interceptor, AndroidSchedulers.mainThread(), Schedulers.io());
 	}
 
 	@Provides
 	@LXScope
-	SuggestionServices provideLxSuggestionServices(EndpointProvider endpointProvider, OkHttpClient client) {
+	SuggestionServices provideLxSuggestionServices(EndpointProvider endpointProvider, OkHttpClient client, Interceptor interceptor) {
 		final String endpoint = endpointProvider.getEssEndpointUrl();
-		return new SuggestionServices(endpoint, client, AndroidSchedulers.mainThread(), Schedulers.io());
+		return new SuggestionServices(endpoint, client, interceptor, AndroidSchedulers.mainThread(), Schedulers.io());
 	}
 
 	@Provides

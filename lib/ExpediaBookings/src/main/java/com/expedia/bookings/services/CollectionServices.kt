@@ -2,6 +2,7 @@ package com.expedia.bookings.services
 
 import com.expedia.bookings.data.collections.Collection
 import com.google.gson.GsonBuilder
+import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory
@@ -10,7 +11,7 @@ import rx.Observer
 import rx.Scheduler
 import rx.Subscription
 
-class CollectionServices(endpoint: String, okHttpClient: OkHttpClient, val observeOn: Scheduler, val subscribeOn: Scheduler) {
+class CollectionServices(endpoint: String, okHttpClient: OkHttpClient, interceptor: Interceptor, val observeOn: Scheduler, val subscribeOn: Scheduler) {
 
     val collectionApi: CollectionApi by lazy {
         val gson = GsonBuilder().create()
@@ -19,7 +20,7 @@ class CollectionServices(endpoint: String, okHttpClient: OkHttpClient, val obser
                 .baseUrl(endpoint)
                 .addConverterFactory(GsonConverterFactory.create(gson))
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
-                .client(okHttpClient)
+                .client(okHttpClient.newBuilder().addInterceptor(interceptor).build())
                 .build()
 
         adapter.create(CollectionApi::class.java)

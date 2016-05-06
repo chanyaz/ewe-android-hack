@@ -1,7 +1,6 @@
 package com.expedia.bookings.utils;
 
-import java.net.HttpCookie;
-import java.util.List;
+import java.util.HashMap;
 import java.util.Locale;
 
 import android.content.Context;
@@ -18,6 +17,8 @@ import com.expedia.bookings.server.ExpediaServices;
 import com.mobiata.android.DebugUtils;
 import com.mobiata.android.util.AndroidUtils;
 import com.squareup.phrase.Phrase;
+
+import okhttp3.Cookie;
 
 public class DebugInfoUtils {
 
@@ -101,11 +102,11 @@ public class DebugInfoUtils {
 	}
 
 	public static String getMC1CookieStr(Context context) {
-		List<HttpCookie> cookies = ExpediaServices.getCookies(context);
-		if (cookies != null) {
-			for (HttpCookie cookie : cookies) {
-				if (cookie.getName() != null && cookie.getName().equals("MC1")) {
-					return cookie.getValue();
+		HashMap<String, HashMap<String, Cookie>> cookiesStore = ExpediaServices.getCookies(context);
+		if (cookiesStore != null) {
+			for (HashMap<String, Cookie> cookies : cookiesStore.values()) {
+				if (cookies.containsKey("MC1")) {
+					return cookies.get("MC1").value();
 				}
 			}
 		}

@@ -7,6 +7,7 @@ import com.expedia.bookings.services.SuggestionServices;
 
 import dagger.Module;
 import dagger.Provides;
+import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -15,15 +16,15 @@ import rx.schedulers.Schedulers;
 public final class CarModule {
 	@Provides
 	@CarScope
-	CarServices provideCarServices(EndpointProvider endpointProvider, OkHttpClient client) {
+	CarServices provideCarServices(EndpointProvider endpointProvider, OkHttpClient client, Interceptor interceptor) {
 		final String endpoint = endpointProvider.getE3EndpointUrl();
-		return new CarServices(endpoint, client, AndroidSchedulers.mainThread(), Schedulers.io());
+		return new CarServices(endpoint, client, interceptor, AndroidSchedulers.mainThread(), Schedulers.io());
 	}
 
 	@Provides
 	@CarScope
-	SuggestionServices provideCarSuggestionServices(EndpointProvider endpointProvider, OkHttpClient client) {
+	SuggestionServices provideCarSuggestionServices(EndpointProvider endpointProvider, OkHttpClient client, Interceptor interceptor) {
 		final String endpoint = endpointProvider.getEssEndpointUrl();
-		return new SuggestionServices(endpoint, client, AndroidSchedulers.mainThread(), Schedulers.io());
+		return new SuggestionServices(endpoint, client, interceptor, AndroidSchedulers.mainThread(), Schedulers.io());
 	}
 }

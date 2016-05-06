@@ -8,6 +8,7 @@ import com.expedia.bookings.services.HotelServices;
 
 import dagger.Module;
 import dagger.Provides;
+import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -16,23 +17,23 @@ import rx.schedulers.Schedulers;
 public final class LaunchModule {
 	@Provides
 	@LaunchScope
-	HotelServices provideHotelServices(EndpointProvider endpointProvider, OkHttpClient client) {
+	HotelServices provideHotelServices(EndpointProvider endpointProvider, OkHttpClient client, Interceptor interceptor) {
 		final String endpoint = endpointProvider.getE3EndpointUrl();
-		return new HotelServices(endpoint, client, AndroidSchedulers.mainThread(), Schedulers.io());
+		return new HotelServices(endpoint, client, interceptor, AndroidSchedulers.mainThread(), Schedulers.io());
 	}
 
 	@Provides
 	@LaunchScope
-	CollectionServices provideCollectionServices(EndpointProvider endpointProvider, OkHttpClient client) {
+	CollectionServices provideCollectionServices(EndpointProvider endpointProvider, OkHttpClient client, Interceptor interceptor) {
 		final String endpoint = endpointProvider.getE3EndpointUrl();
-		return new CollectionServices(endpoint, client, AndroidSchedulers.mainThread(), Schedulers.io());
+		return new CollectionServices(endpoint, client, interceptor, AndroidSchedulers.mainThread(), Schedulers.io());
 	}
 
 	@Provides
 	@LaunchScope
-	FeedsService provideFeedsService(EndpointProvider endpointProvider, OkHttpClient client) {
+	FeedsService provideFeedsService(EndpointProvider endpointProvider, OkHttpClient client, Interceptor interceptor) {
 		final String endpoint = endpointProvider.getE3EndpointUrl();
-		return new FeedsService(endpoint, client, AndroidSchedulers.mainThread(), Schedulers.io());
+		return new FeedsService(endpoint, client, interceptor, AndroidSchedulers.mainThread(), Schedulers.io());
 	}
 
 }

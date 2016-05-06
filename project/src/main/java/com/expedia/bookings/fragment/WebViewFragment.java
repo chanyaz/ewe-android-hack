@@ -1,7 +1,6 @@
 package com.expedia.bookings.fragment;
 
-import java.net.HttpCookie;
-import java.util.List;
+import java.util.HashMap;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
@@ -33,6 +32,8 @@ import com.expedia.bookings.utils.ServicesUtil;
 import com.mobiata.android.Log;
 import com.mobiata.android.SocialUtils;
 import com.mobiata.android.util.Ui;
+
+import okhttp3.Cookie;
 
 @SuppressLint("SetJavaScriptEnabled")
 public class WebViewFragment extends DialogFragment {
@@ -423,12 +424,16 @@ public class WebViewFragment extends DialogFragment {
 		CookieManager cookieManager = CookieManager.getInstance();
 
 		// Set the Expedia cookies for loading the URL properly
-		List<HttpCookie> cookies = ExpediaServices.getCookies(getActivity());
+		HashMap<String, HashMap<String, Cookie>> cookiesStore = ExpediaServices.getCookies(getActivity());
 		cookieManager.setAcceptCookie(true);
 		cookieManager.removeSessionCookie();
 
-		for (HttpCookie cookie : cookies) {
-			cookieManager.setCookie(cookie.getDomain(), cookie.toString());
+		if (cookiesStore != null) {
+			for (HashMap<String, Cookie> cookies : cookiesStore.values()) {
+				for (Cookie cookie : cookies.values()) {
+					cookieManager.setCookie(cookie.domain(), cookie.toString());
+				}
+			}
 		}
 
 		cookieSyncManager.sync();
