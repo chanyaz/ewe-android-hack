@@ -377,5 +377,10 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 	public String getSharableFallbackImageURL() {
 		return null;
 	}
+
+	@Override
+	public boolean shouldDisplayItinTrackAppLink() {
+		return true;
+	}
 }
 

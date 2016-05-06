@@ -7,6 +7,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
 
+import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.data.trips.ItinCardDataFlight;
 import com.expedia.bookings.data.trips.ItinCardDataHotel;
 import com.expedia.bookings.widget.itin.ItinContentGenerator;
@@ -39,7 +40,7 @@ public class FacebookShareActivity extends Activity {
 		}
 		else {
 			// Product decided to link the FB share post to the app download desktop page (below) - for anything but flights and hotels.
-			detailsUrl = "http://www.expedia.com/app";
+			detailsUrl = PointOfSale.getPointOfSale().getAppInfoUrl();
 		}
 
 		// The shortText now consists of the shortenedURL embedded in it. So let's just get rid of that when sharing on FB
@@ -75,12 +76,14 @@ public class FacebookShareActivity extends Activity {
 		ShareDialog dialog = new ShareDialog(this);
 
 		ShareLinkContent.Builder linkContentBuilder = new ShareLinkContent.Builder()
-			.setContentUrl(Uri.parse(mShareURL))
 			.setContentTitle(mShareName)
 			.setContentDescription(mShareDescription);
 
 		if (!TextUtils.isEmpty(mShareThumbnailURL)) {
 			linkContentBuilder.setImageUrl(Uri.parse(mShareThumbnailURL));
+		}
+		if (!TextUtils.isEmpty(mShareURL)) {
+			linkContentBuilder.setContentUrl(Uri.parse(mShareURL));
 		}
 
 		dialog.show(linkContentBuilder.build());
