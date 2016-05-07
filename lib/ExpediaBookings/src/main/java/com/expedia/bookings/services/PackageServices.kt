@@ -102,6 +102,11 @@ class PackageServices(endpoint: String, okHttpClient: OkHttpClient, interceptor:
                         sortedHotels.add(hotelsMap[offer.hotel])
                     }
 
+                    //add default sort index to hotel list items
+                    for (i in sortedHotels.indices) {
+                        sortedHotels[i]?.sortIndex = i
+                    }
+
                     response.packageResult.hotelsPackage.hotels = sortedHotels
                 }
     }

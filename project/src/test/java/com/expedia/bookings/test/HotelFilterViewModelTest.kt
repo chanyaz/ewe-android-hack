@@ -253,7 +253,7 @@ class HotelFilterViewModelTest {
         response.hotelList = ArrayList<Hotel>()
 
         val  hotel1 = Hotel()
-        hotel1.sortIndex = "1"
+        hotel1.sortIndex = 1
         hotel1.localizedName = "Hilton"
         hotel1.lowRateInfo = HotelRate()
         hotel1.lowRateInfo.total = 100.0f
@@ -274,7 +274,7 @@ class HotelFilterViewModelTest {
 
 
         val hotel2 = Hotel()
-        hotel2.sortIndex = "2"
+        hotel2.sortIndex = 2
         hotel2.localizedName = "Double Tree"
         hotel2.lowRateInfo = HotelRate()
         hotel2.lowRateInfo.total = 200.0f
@@ -294,7 +294,7 @@ class HotelFilterViewModelTest {
         hotel2.amenities = amenities2
 
         val hotel3 = Hotel()
-        hotel3.sortIndex = "3"
+        hotel3.sortIndex = 3
         hotel3.localizedName = "Marriott"
         hotel3.lowRateInfo = HotelRate()
         hotel3.lowRateInfo.total = 300.0f
