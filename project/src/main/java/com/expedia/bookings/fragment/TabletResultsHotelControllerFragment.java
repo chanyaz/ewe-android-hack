@@ -21,7 +21,9 @@ import com.expedia.bookings.data.Sp;
 import com.expedia.bookings.enums.ResultsHotelsListState;
 import com.expedia.bookings.enums.ResultsHotelsState;
 import com.expedia.bookings.enums.ResultsState;
+import com.expedia.bookings.fragment.HotelMapFragment.HotelMapFragmentListener;
 import com.expedia.bookings.fragment.ResultsHotelListFragment.ISortAndFilterListener;
+import com.expedia.bookings.fragment.SupportMapFragment.SupportMapFragmentListener;
 import com.expedia.bookings.interfaces.IAcceptingListenersListener;
 import com.expedia.bookings.interfaces.IAddToBucketListener;
 import com.expedia.bookings.interfaces.IBackManageable;
@@ -40,8 +42,6 @@ import com.expedia.bookings.interfaces.helpers.StateListenerCollection;
 import com.expedia.bookings.interfaces.helpers.StateListenerHelper;
 import com.expedia.bookings.interfaces.helpers.StateListenerLogger;
 import com.expedia.bookings.interfaces.helpers.StateManager;
-import com.expedia.bookings.fragment.HotelMapFragment.HotelMapFragmentListener;
-import com.expedia.bookings.fragment.SupportMapFragment.SupportMapFragmentListener;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.tracking.AdImpressionTracking;
 import com.expedia.bookings.tracking.AdTracker;
@@ -717,8 +717,13 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 	}
 
 	private void updateFragsForRoomsAndRates() {
+		Property property = Db.getHotelSearch().getSelectedProperty();
+		if (property == null) {
+			return;
+		}
 		Log.d("TabletResultsHotelControllerFragment.updateFragsForRoomsAndRates");
-		TimingLogger logger = new TimingLogger("TabletResultsHotelControllerFragment", "updateFragsForRoomsAndRates");
+		TimingLogger logger = new TimingLogger("TabletResultsHotelControllerFragment",
+			"updateFragsForRoomsAndRates");
 		if (mMapFragment != null && mMapFragment.isAdded()) {
 			mMapFragment.onHotelSelected(mHotelDetailsFrag == null ? 0 : mHotelDetailsFrag.getTailHeight());
 			logger.addSplit("mMapFragment.onHotelSelected()");
