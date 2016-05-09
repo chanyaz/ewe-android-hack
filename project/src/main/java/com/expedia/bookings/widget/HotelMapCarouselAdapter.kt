@@ -10,6 +10,7 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import com.expedia.bookings.R
 import com.expedia.bookings.bitmaps.PicassoHelper
+import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.hotels.Hotel
 import com.expedia.bookings.data.hotels.HotelRate
@@ -39,6 +40,8 @@ class HotelMapCarouselAdapter(var hotels: List<Hotel>, val hotelSubject: Publish
         hotelListItemsMetadata.firstOrNull { it.hotelId == soldOutHotelId }?.hotelSoldOut?.onNext(true)
     }
 
+    var lineOfBusiness = LineOfBusiness.HOTELSV2
+
     private data class HotelListItemMetadata(val hotelId: String, val hotelSoldOut: BehaviorSubject<Boolean>)
     private val hotelListItemsMetadata: MutableList<HotelListItemMetadata> = ArrayList()
 
@@ -49,6 +52,10 @@ class HotelMapCarouselAdapter(var hotels: List<Hotel>, val hotelSubject: Publish
     fun setItems(newHotels: List<Hotel>) {
         hotels = newHotels
         notifyDataSetChanged()
+    }
+
+    fun setLob(lob: LineOfBusiness) {
+        lineOfBusiness = lob
     }
 
     override fun onBindViewHolder(given: RecyclerView.ViewHolder?, position: Int) {
@@ -96,6 +103,9 @@ class HotelMapCarouselAdapter(var hotels: List<Hotel>, val hotelSubject: Publish
         val hotelNoGuestRating: TextView by bindView(R.id.no_guest_rating)
         val loyaltyMessageContainer: LinearLayout by bindView(R.id.map_loyalty_message_container)
         val loyaltyMessage: TextView by bindView(R.id.map_loyalty_applied_message)
+        val shadowOnLoyaltyMessageContainer: View by bindView(R.id.shadow_on_loyalty_message_container)
+        val shadowOnHotelCell: View by bindView(R.id.shadow_on_hotel_preview_cell)
+
         var hotelPreviewRating: StarRatingBar by Delegates.notNull()
 
         init {
@@ -113,7 +123,6 @@ class HotelMapCarouselAdapter(var hotels: List<Hotel>, val hotelSubject: Publish
                         .build()
                         .load(it)
             }
-
             viewModel.hotelNameObservable.subscribeText(hotelPreviewText)
             viewModel.hotelPreviewRatingVisibility.subscribeVisibility(hotelPreviewRating)
             viewModel.hotelPreviewRating.subscribeRating(hotelPreviewRating)
@@ -126,9 +135,16 @@ class HotelMapCarouselAdapter(var hotels: List<Hotel>, val hotelSubject: Publish
             viewModel.hotelGuestRatingObservable.subscribe { hotelGuestRating.text = it.toString() }
             viewModel.soldOut.subscribeVisibility(hotelSoldOut)
             viewModel.soldOut.subscribeInverseVisibility(hotelPricePerNight)
-            viewModel.loyaltyAvailabilityObservable.subscribeVisibility(loyaltyMessageContainer)
-            viewModel.mapLoyaltyMessageTextObservable.subscribeText(loyaltyMessage)
+            viewModel.loyaltyAvailabilityObservable.subscribe { isVisible ->
+                loyaltyMessageContainer.visibility =
+                        if (isVisible) View.VISIBLE
+                        else if (lineOfBusiness == LineOfBusiness.HOTELSV2) View.INVISIBLE
+                        else View.GONE
+                shadowOnLoyaltyMessageContainer.visibility = if (isVisible) View.VISIBLE else View.GONE
+                shadowOnHotelCell.visibility = if (!isVisible && lineOfBusiness == LineOfBusiness.HOTELSV2) View.VISIBLE else View.GONE
+            }
 
+            viewModel.mapLoyaltyMessageTextObservable.subscribeText(loyaltyMessage)
             viewModel.isHotelGuestRatingAvailableObservable.subscribeVisibility(hotelGuestRating)
             viewModel.isHotelGuestRatingAvailableObservable.subscribeVisibility(hotelGuestRecommend)
             viewModel.isHotelGuestRatingAvailableObservable.map { !it }.subscribeVisibility(hotelNoGuestRating)
