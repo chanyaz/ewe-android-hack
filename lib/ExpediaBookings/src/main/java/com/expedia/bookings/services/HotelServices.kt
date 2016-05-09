@@ -128,25 +128,28 @@ class HotelServices(endpoint: String, okHttpClient: OkHttpClient, requestInterce
                 .subscribe(observer)
     }
 
-	fun createTrip(body: HotelCreateTripParams, observer: Observer<HotelCreateTripResponse>): Subscription {
+	fun createTrip(body: HotelCreateTripParams, isRewardsEnabledForCurrentPOS: Boolean, observer: Observer<HotelCreateTripResponse>): Subscription {
 		return hotelApi.createTrip(body.toQueryMap())
 				.observeOn(observeOn)
 				.subscribeOn(subscribeOn)
+				.doOnNext { it.isRewardsEnabledForCurrentPOS = isRewardsEnabledForCurrentPOS }
 				.doOnNext { updatePayLaterRateInfo(it) }
 				.subscribe(observer)
 	}
 
-	fun applyCoupon(body: HotelApplyCouponParameters): Observable<HotelCreateTripResponse> {
+	fun applyCoupon(body: HotelApplyCouponParameters, isRewardsEnabledForCurrentPOS: Boolean): Observable<HotelCreateTripResponse> {
 		return hotelApi.applyCoupon(body.toQueryMap())
 				.observeOn(observeOn)
 				.subscribeOn(subscribeOn)
+				.doOnNext { it.isRewardsEnabledForCurrentPOS = isRewardsEnabledForCurrentPOS }
 				.doOnNext { updatePayLaterRateInfo(it) }
 	}
 
-	fun removeCoupon(tripId: String): Observable<HotelCreateTripResponse> {
+	fun removeCoupon(tripId: String, isRewardsEnabledForCurrentPOS: Boolean): Observable<HotelCreateTripResponse> {
 		return hotelApi.removeCoupon(tripId)
 				.observeOn(observeOn)
 				.subscribeOn(subscribeOn)
+				.doOnNext { it.isRewardsEnabledForCurrentPOS = isRewardsEnabledForCurrentPOS }
 				.doOnNext { updatePayLaterRateInfo(it) }
 	}
 
