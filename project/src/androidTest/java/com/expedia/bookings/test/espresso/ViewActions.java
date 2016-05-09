@@ -44,6 +44,7 @@ import com.mobiata.android.Log;
 import com.mobiata.android.widget.CalendarDatePicker;
 
 import static android.support.test.espresso.matcher.ViewMatchers.isAssignableFrom;
+import static android.support.test.espresso.matcher.ViewMatchers.isCompletelyDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 
 public final class ViewActions {
@@ -497,6 +498,10 @@ public final class ViewActions {
 
 	public static ViewAction waitForViewToDisplay() {
 		return waitFor(isDisplayed(), 10, TimeUnit.SECONDS);
+	}
+
+	public static ViewAction waitForViewToCompletelyDisplay() {
+		return waitFor(isCompletelyDisplayed(), 10, TimeUnit.SECONDS);
 	}
 
 	// View action to set visibility of a view
