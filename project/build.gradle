@@ -310,6 +310,19 @@ android {
             versionCode GradleUtil.versionCode(major, minor, patch, build)
             versionName GradleUtil.versionName(major, minor, patch, build)
         }
+
+        mrJet {
+            buildConfigField "String", "brand", "\"MrJet\""
+            buildConfigField "String", "MEDIA_URL", "\"https://media.expedia.com\""
+            applicationId "se.mrjet"
+
+            def major = 5
+            def minor = 0
+            def patch = 0
+            def build = 0
+            versionCode GradleUtil.versionCode(major, minor, patch, build)
+            versionName GradleUtil.versionName(major, minor, patch, build)
+        }
     }
 
     buildTypes {
