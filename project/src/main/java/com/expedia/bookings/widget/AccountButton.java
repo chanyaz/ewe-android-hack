@@ -380,7 +380,7 @@ public class AccountButton extends LinearLayout {
 				return NumberFormat.getInstance().format(rewards.getPointsToEarn());
 			}
 			else if (rewards.getAmountToEarn() != null && !rewards.getAmountToEarn().isZero()) {
-				return rewards.getAmountToEarn().getFormattedMoney(Money.F_NO_DECIMAL_IF_INTEGER_ELSE_TWO_PLACES_AFTER_DECIMAL);
+				return rewards.getAmountToEarn().getFormattedMoneyFromAmountAndCurrencyCode(Money.F_NO_DECIMAL_IF_INTEGER_ELSE_TWO_PLACES_AFTER_DECIMAL);
 			}
 		}
 		return "0";
@@ -392,7 +392,7 @@ public class AccountButton extends LinearLayout {
 		if (rewardsInfo != null && !rewardsInfo.getTotalAmountToEarn().isZero()) {
 			//noinspection ConstantConditions This can never be null from api.
 			String rewardsToEarn = rewardsInfo.getTotalAmountToEarn()
-				.getFormattedMoney(Money.F_NO_DECIMAL_IF_INTEGER_ELSE_TWO_PLACES_AFTER_DECIMAL);
+				.getFormattedMoneyFromAmountAndCurrencyCode(Money.F_NO_DECIMAL_IF_INTEGER_ELSE_TWO_PLACES_AFTER_DECIMAL);
 			return Phrase.from(this, R.string.Sign_in_to_earn_TEMPLATE)
 				.put("reward", rewardsToEarn)
 				.format();
