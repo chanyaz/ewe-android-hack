@@ -19,7 +19,7 @@ buildscript {
         classpath('com.shazam.fork:fork-gradle-plugin:1.2.0') {
             exclude group: 'com.google.guava'
         }
-        classpath 'com.github.ben-manes:gradle-versions-plugin:0.11.3'
+        classpath 'com.github.ben-manes:gradle-versions-plugin:0.12.0'
         classpath "net.rdrei.android.buildtimetracker:gradle-plugin:0.5.0"
     }
 }
@@ -80,4 +80,13 @@ subprojects {
 
 }
 
-
+dependencyUpdates.resolutionStrategy = {
+    componentSelection { rules ->
+        rules.all { ComponentSelection selection ->
+            boolean rejected = selection.candidate.version ==~ /(?i).*[.-]alpha[.\d-]*/
+            if (rejected) {
+                selection.reject('alpha versions not allowed')
+            }
+        }
+    }
+}
