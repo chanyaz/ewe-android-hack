@@ -16,6 +16,7 @@
         android:orientation="vertical">
 
         <LinearLayout
+            android:id="@+id/row_container"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_gravity="center"
@@ -64,8 +65,8 @@
                 android:layout_height="wrap_content"
                 android:layout_alignBaseline="@+id/flight_info_container"
                 android:layout_gravity="center"
+                android:layout_marginLeft="12dp"
                 android:layout_marginRight="9dp"
-                android:paddingLeft="12dp"
                 android:src="@drawable/read_more"
                 android:tint="@color/package_bundle_icon_color"
                 android:visibility="gone" />
