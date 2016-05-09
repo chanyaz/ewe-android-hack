@@ -291,15 +291,18 @@ open class PaymentWidget(context: Context, attr: AttributeSet) : Presenter(conte
     }
 
     fun selectFirstAvailableCard() {
-        Db.getWorkingBillingInfoManager().shiftWorkingBillingInfo(BillingInfo())
-        val currentCC = Db.getBillingInfo().storedCard
-        BookingInfoUtils.resetPreviousCreditCardSelectState(context, currentCC)
-        val card = Db.getUser().storedCreditCards[0]
-        Db.getWorkingBillingInfoManager().workingBillingInfo.storedCard = card
-        Db.getWorkingBillingInfoManager().commitWorkingBillingInfoToDB()
-        sectionBillingInfo.billingInfo.storedCard = card
-        temporarilySavedCardIsSelected(false, sectionBillingInfo.billingInfo)
-        viewmodel.billingInfoAndStatusUpdate.onNext(Pair(sectionBillingInfo.billingInfo, ContactDetailsCompletenessStatus.COMPLETE))
+        val storedCreditCard = Db.getUser().storedCreditCards[0]
+        if (Db.getTripBucket().getItem(getLineOfBusiness()).isPaymentTypeSupported(storedCreditCard.type)) {
+            Db.getWorkingBillingInfoManager().shiftWorkingBillingInfo(BillingInfo())
+            val currentCC = Db.getBillingInfo().storedCard
+            BookingInfoUtils.resetPreviousCreditCardSelectState(context, currentCC)
+            val card = storedCreditCard
+            Db.getWorkingBillingInfoManager().workingBillingInfo.storedCard = card
+            Db.getWorkingBillingInfoManager().commitWorkingBillingInfoToDB()
+            sectionBillingInfo.billingInfo.storedCard = card
+            temporarilySavedCardIsSelected(false, sectionBillingInfo.billingInfo)
+            viewmodel.billingInfoAndStatusUpdate.onNext(Pair(sectionBillingInfo.billingInfo, ContactDetailsCompletenessStatus.COMPLETE))
+        }
     }
 
     open fun isAtLeastPartiallyFilled(): Boolean {
