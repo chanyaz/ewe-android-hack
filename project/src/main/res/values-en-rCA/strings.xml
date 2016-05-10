@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <!-- State code hint -->
-    <string name="address_state_hint">Prov.</string>
-    <!-- Zip code hint -->
-    <string name="address_postal_code_hint">Postal Code</string>
-</resources>
