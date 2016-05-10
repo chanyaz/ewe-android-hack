@@ -120,7 +120,7 @@ public abstract class AbsTabletLaunchControllerFragment extends MeasurableFragme
 		mAbText1 = Ui.findView(ab.getCustomView(), R.id.text1);
 		mAbText1.setText(Ui.obtainThemeResID(getActivity(), R.attr.skin_tablet_ab_launch_text1_base));
 		mAbText2 = Ui.findView(ab.getCustomView(), R.id.text2);
-		mAbText2.setText(Ui.obtainThemeResID(getActivity(), R.attr.skin_tablet_ab_launch_text2_pin_detail));
+		mAbText2.setText(R.string.Destination);
 		mAbText2.setAlpha(0f);
 		registerStateListener(mCheckedForServicesListener, false);
 		registerStateListener(mCurrentLocationStateListener, false);

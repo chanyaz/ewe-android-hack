@@ -11,7 +11,7 @@
     <style name="RatingBar.UserReview.AAG"/>
 
     <style name="Dark.ActionBar.AirAsiaGo" parent="Dark.ActionBar">
-        <item name="android:background">@drawable/bg_action_bar_airasiago</item>
+        <item name="android:background">@drawable/bg_action_bar</item>
     </style>
 
     <style name="LoginButtonTopTextStyle">

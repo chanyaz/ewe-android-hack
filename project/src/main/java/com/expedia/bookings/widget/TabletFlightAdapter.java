@@ -24,11 +24,11 @@ public class TabletFlightAdapter extends FlightAdapter {
 		Drawable background;
 		if (mLegPosition == 0) {
 			background = parent.getContext().getResources().getDrawable(
-				Ui.obtainThemeResID(parent.getContext(), R.attr.skin_bgFlightSummaryRowTablet));
+				R.drawable.bg_flight_summary_row_tablet);
 		}
 		else {
 			background = parent.getContext().getResources().getDrawable(
-				Ui.obtainThemeResID(parent.getContext(), R.attr.skin_bgFlightSummaryRowReturnLegTabletDrawable));
+				R.drawable.bg_flight_summary_row_return_leg_tablet);
 		}
 		FlightLegSummarySectionTablet flightView = Ui.findView(convertView, R.id.flight_card_container);
 		flightView.setBackgroundDrawable(background);

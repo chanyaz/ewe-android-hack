@@ -23,7 +23,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/car_details_image_size"
                 android:scaleType="centerCrop"
-                tools:src="?attr/skin_bgFlightSummaryRowReturnLegTabletDrawable" />
+                tools:src="@drawable/bg_flight_summary_row_return_leg_tablet" />
 
             <View
                 android:id="@+id/cars_details_gradient"
@@ -55,7 +55,7 @@
         android:id="@+id/toolbar_background"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:background="?attr/skin_carsPrimaryColor" />
+        android:background="@color/cars_primary_color" />
 
     <LinearLayout
         android:layout_width="match_parent"

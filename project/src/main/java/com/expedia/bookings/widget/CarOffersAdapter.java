@@ -23,7 +23,6 @@ import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.CarDataUtils;
 import com.expedia.bookings.utils.Strings;
-import com.expedia.bookings.utils.Ui;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
@@ -219,7 +218,7 @@ public class CarOffersAdapter extends RecyclerView.Adapter<CarOffersAdapter.View
 			root.setBackground(background);
 
 			ratePrice.setTextColor(isChecked ? mContext.getResources()
-				.getColor(Ui.obtainThemeResID(mContext, R.attr.skin_carsPrimaryColor))
+				.getColor(R.color.cars_primary_color)
 				: mContext.getResources().getColor(R.color.cars_checkout_text_color));
 
 			collapsedContainer.setPadding(isChecked ? sideExpanded : sideCollapsed,
@@ -286,7 +285,7 @@ public class CarOffersAdapter extends RecyclerView.Adapter<CarOffersAdapter.View
 			MarkerOptions marker = new MarkerOptions();
 			marker.position(new LatLng(offer.pickUpLocation.latitude, offer.pickUpLocation.longitude));
 			marker
-				.icon(BitmapDescriptorFactory.fromResource(Ui.obtainThemeResID(mContext, R.attr.skin_carsPinDrawable)));
+				.icon(BitmapDescriptorFactory.fromResource(R.drawable.cars_pin));
 			googleMap.addMarker(marker);
 		}
 	}

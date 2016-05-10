@@ -119,7 +119,7 @@
 
         <TextView
             android:id="@+id/price_text_view"
-            style="?attr/skin_hotelPriceTextStyle"
+            style="@style/HotelPriceTextStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
@@ -160,7 +160,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
-        android:src="?attr/skin_hotelListingSaleDrawable" />
+        android:src="@drawable/bg_hotel_cell_sale" />
 
     <com.mobiata.android.widget.TiltedTextView
         android:id="@+id/sale_text_view"

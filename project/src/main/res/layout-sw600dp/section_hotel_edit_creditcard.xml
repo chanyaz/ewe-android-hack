@@ -88,7 +88,7 @@
 
             <EditText
                 android:id="@+id/edit_name_on_card"
-                style="?attr/skin_HotelCheckout_CreditCardEditTextStyle" />
+                style="@style/CreditCardEditText" />
 
             <include
                 android:id="@+id/section_location_address"

@@ -24,12 +24,12 @@
     </style>
 
     <style name="Dark.ActionBar.Orbitz" parent="Dark.ActionBar">
-        <item name="android:background">@drawable/bg_action_bar_orb</item>
+        <item name="android:background">@drawable/bg_action_bar</item>
         <item name="android:backgroundSplit">@drawable/bg_action_bar_bottom_orb</item>
     </style>
 
     <style name="Widget.ListView.DropDown.Orbitz" parent="@android:style/Widget.Holo.Light.ListView.DropDown">
-        <item name="android:background">@drawable/bg_action_bar_orb</item>
+        <item name="android:background">@drawable/bg_action_bar</item>
     </style>
 
     <style name="DestinationTileUpperTextAppearance">

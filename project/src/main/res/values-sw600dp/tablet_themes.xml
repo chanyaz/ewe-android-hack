@@ -161,13 +161,13 @@
 
     <style name="V2.Widget.TextView.RateButton.AddToTrip">
         <item name="android:text">@string/room_rate_button_add_to_trip</item>
-        <item name="android:background">?attr/skin_tablet_addToTrip_button</item>
+        <item name="android:background">@drawable/tablet_hotel_room_add_button</item>
         <item name="android:textSize">@dimen/tablet_flight_details_price_textsize</item>
     </style>
 
     <style name="V2.Widget.TextView.RateButton.SelectRoom">
         <item name="android:text">@string/room_rate_button_select_room</item>
-        <item name="android:background">?attr/skin_tablet_hotel_room_rate_select_button</item>
+        <item name="android:background">@drawable/tablet_hotel_room_select_button</item>
     </style>
 
     <style name="V2.Widget.TextView.FlightDetailsHeader" />

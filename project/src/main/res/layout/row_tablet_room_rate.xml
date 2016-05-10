@@ -39,7 +39,7 @@
                 android:layout_alignTop="@id/room_rate_image_view"
                 android:layout_marginRight="8dp"
                 android:layout_marginTop="8dp"
-                android:background="?attr/skin_bgSaleTextViewDrawable"
+                android:background="@drawable/bg_sale_text_view"
                 android:paddingBottom="1dp"
                 android:paddingLeft="5dp"
                 android:paddingRight="5dp"
@@ -75,7 +75,7 @@
                     android:id="@+id/room_rate_refundable_cancellation_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="?attr/skin_roomRateRefundableCancellationTextColor"
+                    android:textColor="@color/room_rate_refundable_cancellation_text_color"
                     android:textSize="16sp"
                     app:textStyle="bold"/>
 
@@ -107,7 +107,7 @@
                 <com.expedia.bookings.widget.TextView
                     android:id="@+id/room_rate_renovation_notice_text"
                     style="@style/TabletRoomRateNoticeFeesText"
-                    android:drawableLeft="?attr/skin_icRenovationTabletDrawable"
+                    android:drawableLeft="@drawable/ic_renovation_tablet"
                     android:text="@string/property_undergoing_renovations"
                     app:textStyle="light"/>
 
@@ -127,7 +127,7 @@
                 <com.expedia.bookings.widget.TextView
                     android:id="@+id/room_rate_resort_fees_text"
                     style="@style/TabletRoomRateNoticeFeesText"
-                    android:drawableLeft="?attr/skin_icFeesTabletDrawable"
+                    android:drawableLeft="@drawable/ic_fees_tablet"
                     android:text="@string/property_undergoing_renovations"
                     app:textStyle="light"/>
 

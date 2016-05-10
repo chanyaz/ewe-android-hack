@@ -6,5 +6,5 @@
     android:layout_marginTop="16dp"
     android:linksClickable="false"
     android:autoLink="web"
-    android:textColorLink="?attr/skin_tablet_legal_blurb_text_color"
+    android:textColorLink="@color/tablet_legal_blurb_text_color"
     android:textColor="@android:color/white"/>

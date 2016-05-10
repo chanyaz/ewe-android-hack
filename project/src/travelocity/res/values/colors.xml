@@ -58,8 +58,8 @@
     <color name="btn_sign_in_focused">#446801</color>
     <color name="btn_sign_in_disabled">#C5E38E</color>
     <color name="acct__btn_sign_in_text_tvly">@color/white</color>
-    <color name="acct__bg_input_text_error_tvly">@color/white</color>
-    <color name="acct__bg_input_text_good_tvly">#EEEEEE</color>
+    <color name="acct__bg_input_text_error">@color/white</color>
+    <color name="acct__bg_input_text_good">#EEEEEE</color>
     <!-- Checkout Colors -->
     <color name="old_checkout_account_button_text_color">@android:color/white</color>
 </resources>

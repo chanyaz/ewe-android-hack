@@ -4,7 +4,7 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_gravity="center_vertical"
-    android:drawableLeft="?attr/skin_actionBarCheckoutDrawable"
+    android:drawableLeft="@drawable/ic_action_bar_checkout_arrow"
     android:focusable="true"
     android:gravity="center_vertical"
     android:minHeight="?android:attr/actionBarSize"

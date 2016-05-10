@@ -151,14 +151,14 @@ public class CheckBoxFilterWidget extends LinearLayout implements Checkable, Com
 			int end = start + str.length();
 
 			ForegroundColorSpan span = new ForegroundColorSpan(getResources()
-				.getColorStateList(Ui.obtainThemeResID(getContext(), R.attr.skin_tabletFilterPriceTextColor)));
+				.getColorStateList(R.color.tablet_filter_price_text));
 			builder.setSpan(span, start, end, 0);
 			mPriceTextView.setText(builder);
 		}
 		else {
 			mPriceTextView.setText(str);
 			mPriceTextView.setTextColor(getResources()
-				.getColorStateList(Ui.obtainThemeResID(getContext(), R.attr.skin_tabletFilterPriceTextColor)));
+				.getColorStateList(R.color.tablet_filter_price_text));
 
 		}
 	}

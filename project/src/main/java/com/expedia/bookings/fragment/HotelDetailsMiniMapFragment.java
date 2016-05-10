@@ -11,7 +11,6 @@ import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.abacus.AbacusUtils;
 import com.expedia.bookings.utils.GoogleMapsUtil;
-import com.expedia.bookings.utils.Ui;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
@@ -66,24 +65,24 @@ public class HotelDetailsMiniMapFragment extends SupportMapFragment {
 			AbacusUtils.EBAndroidAppHotelHSRSalePinTest);
 		int pinSaleAttrID;
 		if (isUserBucketedForSalePinGreenTest) {
-			pinSaleAttrID = R.attr.skin_hotelListMapMarkerSaleGreenABTestDrawable;
+			pinSaleAttrID = R.drawable.map_pin_sale_green;
 		}
 		else {
-			pinSaleAttrID = R.attr.skin_hotelListMapMarkerSaleDrawable;
+			pinSaleAttrID = R.drawable.map_pin_sale;
 		}
 
 		if (isOnSale) {
 			if (isAirAttach) {
 				marker.icon(BitmapDescriptorFactory.fromResource(
-					Ui.obtainThemeResID(getActivity(), R.attr.skin_hotelListMapMarkerAirAttachDrawable)));
+					R.drawable.map_pin_airattach));
 			}
 			else {
-				marker.icon(BitmapDescriptorFactory.fromResource(Ui.obtainThemeResID(getActivity(), pinSaleAttrID)));
+				marker.icon(BitmapDescriptorFactory.fromResource(pinSaleAttrID));
 			}
 		}
 		else {
 			marker.icon(BitmapDescriptorFactory.fromResource(
-				Ui.obtainThemeResID(getActivity(), R.attr.skin_hotelListMapMarkerDrawable)));
+				R.drawable.map_pin_normal));
 		}
 		mMap.addMarker(marker);
 	}

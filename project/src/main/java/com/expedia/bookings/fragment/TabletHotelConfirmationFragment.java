@@ -70,11 +70,11 @@ public class TabletHotelConfirmationFragment extends TabletConfirmationFragment 
 		HotelMedia hotelMedia = Db.getTripBucket().getHotel().getProperty().getThumbnail();
 		if (hotelMedia != null) {
 			new PicassoHelper.Builder(getActivity())
-				.setPlaceholder(Ui.obtainThemeResID(getActivity(), R.attr.skin_tablet_hotel_confirmation_placeholder)).setTarget(headerBitmapDrawable.getCallBack()).build().load(hotelMedia.getHighResUrls());
+				.setPlaceholder(R.drawable.bg_itin_placeholder).setTarget(headerBitmapDrawable.getCallBack()).build().load(hotelMedia.getHighResUrls());
 		}
 		else {
 			headerBitmapDrawable
-					.setBitmap(BitmapFactory.decodeResource(getResources(), Ui.obtainThemeResID(getActivity(), R.attr.skin_tablet_hotel_confirmation_placeholder)));
+					.setBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.bg_itin_placeholder));
 		}
 
 		setLob(LineOfBusiness.HOTELS);

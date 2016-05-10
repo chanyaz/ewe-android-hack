@@ -140,7 +140,7 @@
         android:id="@+id/cvv_text_view"
         android:layout_width="84dp"
         android:layout_height="wrap_content"
-        android:background="?attr/skin_cvvDivDrawable"
+        android:background="@drawable/div_cvv"
         android:freezesText="true"
         android:gravity="center"
         android:inputType="textPassword"

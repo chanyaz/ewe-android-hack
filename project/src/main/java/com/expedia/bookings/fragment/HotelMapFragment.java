@@ -290,19 +290,18 @@ public class HotelMapFragment extends SupportMapFragment implements OnFilterChan
 		int pinSaleAttrID;
 
 		if (isUserBucketedForSalePinGreenTest) {
-			pinSaleAttrID = R.attr.skin_hotelListMapMarkerSaleGreenABTestDrawable;
+			pinSaleAttrID = R.drawable.map_pin_sale_green;
 		}
 		else {
-			pinSaleAttrID = R.attr.skin_hotelListMapMarkerSaleDrawable;
+			pinSaleAttrID = R.drawable.map_pin_sale;
 		}
 
 		// Load graphics
 		mPin = BitmapDescriptorFactory
-			.fromResource(Ui.obtainThemeResID(getActivity(), R.attr.skin_hotelListMapMarkerDrawable));
-		mPinSale = BitmapDescriptorFactory
-			.fromResource(Ui.obtainThemeResID(getActivity(), pinSaleAttrID));
+			.fromResource(R.drawable.map_pin_normal);
+		mPinSale = BitmapDescriptorFactory.fromResource(pinSaleAttrID);
 		mPinAirAttach = BitmapDescriptorFactory
-			.fromResource(Ui.obtainThemeResID(getActivity(), R.attr.skin_hotelListMapMarkerAirAttachDrawable));
+			.fromResource(R.drawable.map_pin_airattach);
 
 		onRestoreSavedInstanceState(savedInstanceState);
 		runReadyActions();

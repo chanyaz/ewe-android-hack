@@ -150,7 +150,7 @@
     </style>
 
     <style name="ProgressBar.CandyCane" parent="@android:style/Widget.Holo.ProgressBar.Horizontal">
-        <item name="android:indeterminateDrawable">?attr/skin_candycaneProgressDrawable</item>
+        <item name="android:indeterminateDrawable">@drawable/progressbar_candycane_horizontal</item>
         <item name="android:indeterminateOnly">true</item>
     </style>
 
@@ -306,7 +306,7 @@
     </style>
 
     <style name="Dark.ActionBar" parent="@android:style/Widget.Holo.ActionBar">
-        <item name="android:background">?attr/skin_actionBarBackgroundDrawable</item>
+        <item name="android:background">@drawable/bg_action_bar</item>
         <item name="android:backgroundSplit">@drawable/bg_action_bar_bottom</item>
         <item name="android:titleTextStyle">@style/ActionBarTitle</item>
     </style>
@@ -571,7 +571,7 @@
         <item name="android:gravity">center</item>
         <item name="android:padding">8dp</item>
         <item name="android:textAllCaps">true</item>
-        <item name="android:textColor">?attr/skin_tablet_confirmation_action_color</item>
+        <item name="android:textColor">@color/tablet_confirmation_action_color</item>
         <item name="android:textSize">@dimen/confirmation_custom_action_textsize</item>
         <item name="textStyle">condensed_bold</item>
     </style>
@@ -693,7 +693,7 @@
         <item name="android:textColor">@color/btn_find_color</item>
         <item name="android:textSize">16sp</item>
         <item name="android:textStyle">bold</item>
-        <item name="android:background">?attr/skin_bgFindItineraryButton</item>
+        <item name="android:background">@drawable/btn_find</item>
     </style>
 
     <!-- DIALOGS -->

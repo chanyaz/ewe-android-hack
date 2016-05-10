@@ -123,7 +123,7 @@ public class ErrorWidget extends FrameLayout {
 			else if (error.errorInfo.field.equals("creditCardNumber")) {
 				message = getResources().getString(R.string.reservation_payment_failed);
 			}
-			bindText(Ui.obtainThemeResID(getContext(), R.attr.skin_carsErrorDefaultDrawable),
+			bindText(R.drawable.error_default,
 				message,
 				R.string.cars_invalid_input_text,
 				R.string.edit_info);
@@ -179,7 +179,7 @@ public class ErrorWidget extends FrameLayout {
 	}
 
 	private void showDefaultError() {
-		bindText(Ui.obtainThemeResID(getContext(), R.attr.skin_carsErrorDefaultDrawable),
+		bindText(R.drawable.error_default,
 			Phrase.from(getContext(), R.string.error_server_TEMPLATE).put("brand", BuildConfig.brand).format()
 				.toString(),
 			R.string.cars_error_text,
@@ -193,7 +193,7 @@ public class ErrorWidget extends FrameLayout {
 	}
 
 	public void showDefaultSearchError() {
-		bindText(Ui.obtainThemeResID(getContext(), R.attr.skin_carsErrorDefaultDrawable),
+		bindText(R.drawable.error_default,
 			Phrase.from(getContext(), R.string.error_server_TEMPLATE).put("brand", BuildConfig.brand).format()
 				.toString(),
 			R.string.cars_error_text,

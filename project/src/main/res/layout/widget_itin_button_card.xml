@@ -13,7 +13,7 @@
         android:layout_width="match_parent"
         android:layout_height="56dp"
         android:orientation="horizontal"
-        android:background="?attr/skin_itinHotelAttachButtonDrawable"
+        android:background="@drawable/btn_hotel_attach"
         android:gravity="center">
 
         <FrameLayout

@@ -100,19 +100,19 @@
                     android:id="@+id/price_cheap_button"
                     style="@style/V2.Widget.RadioButton.Filter"
                     android:contentDescription="@string/cd_filter_for_low_range_hotel_prices"
-                    android:text="?attr/skin_hotelListingFilterPriceCheapString" />
+                    android:text="@string/filter_price_cheap" />
 
                 <RadioButton
                     android:id="@+id/price_moderate_button"
                     style="@style/V2.Widget.RadioButton.Filter"
                     android:contentDescription="@string/cd_filter_for_mid_range_hotel_prices"
-                    android:text="?attr/skin_hotelListingFilterPriceModerateString" />
+                    android:text="@string/filter_price_moderate" />
 
                 <RadioButton
                     android:id="@+id/price_expensive_button"
                     style="@style/V2.Widget.RadioButton.Filter"
                     android:contentDescription="@string/cd_filter_for_high_range_hotel_prices"
-                    android:text="?attr/skin_hotelListingFilterPriceExpensiveString" />
+                    android:text="@string/filter_price_expensive" />
 
                 <RadioButton
                     android:id="@+id/price_all_button"

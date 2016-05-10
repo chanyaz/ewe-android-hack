@@ -39,7 +39,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:layout_marginRight="9dp"
-                android:src="?attr/skin_tablet_checkout_price_breakdown_icon" />
+                android:src="@drawable/ic_tablet_checkout_price_breakdown" />
 
             <com.expedia.bookings.widget.TextView
                 android:id="@+id/price_expanded_bucket_text_view"

@@ -91,7 +91,7 @@ public class LXErrorWidget extends FrameLayout {
 			else if (error.errorInfo.field.equals("phone")) {
 				message = getResources().getString(R.string.reservation_invalid_phone);
 			}
-			bindText(Ui.obtainThemeResID(getContext(), R.attr.skin_lxErrorDefaultDrawable),
+			bindText(R.drawable.error_default,
 				message,
 				R.string.lx_invalid_input_text,
 				R.string.edit_info);
@@ -194,7 +194,7 @@ public class LXErrorWidget extends FrameLayout {
 	}
 
 	private void showDefaultError() {
-		bindText(Ui.obtainThemeResID(getContext(), R.attr.skin_lxErrorDefaultDrawable),
+		bindText(R.drawable.error_default,
 			Phrase.from(getContext(), R.string.error_server_TEMPLATE).put("brand", BuildConfig.brand).format().toString(),
 			R.string.lx_error_text,
 			R.string.retry);

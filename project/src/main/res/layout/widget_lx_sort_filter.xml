@@ -68,20 +68,20 @@
                             android:layout_width="0dp"
                             android:layout_height="40dp"
                             android:layout_weight="1"
-                            android:background="?attr/skin_lxSortButtonSelectorDrawable"
+                            android:background="@drawable/lx_sort_button_selector"
                             android:text="@string/lx_price_sort_button"
                             android:textAllCaps="false"
-                            android:textColor="?attr/skin_lxSortButtonTextSelectorDrawable" />
+                            android:textColor="@drawable/lx_sort_button_text_selector" />
 
                         <Button
                             android:id="@+id/popularity_sort_button"
                             android:layout_width="0dp"
                             android:layout_height="40dp"
                             android:layout_weight="1"
-                            android:background="?attr/skin_lxSortButtonSelectorDrawable"
+                            android:background="@drawable/lx_sort_button_selector"
                             android:text="@string/lx_popularity_sort_button"
                             android:textAllCaps="false"
-                            android:textColor="?attr/skin_lxSortButtonTextSelectorDrawable" />
+                            android:textColor="@drawable/lx_sort_button_text_selector" />
                     </LinearLayout>
                 </android.support.v7.widget.CardView>
 

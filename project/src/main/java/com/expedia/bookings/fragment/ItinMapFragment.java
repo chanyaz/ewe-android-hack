@@ -144,7 +144,7 @@ public class ItinMapFragment extends SupportMapFragment implements OnMyLocationC
 
 				MarkerOptions opts = new MarkerOptions();
 				opts.position(loc);
-				opts.icon(BitmapDescriptorFactory.fromResource(Ui.obtainThemeResID(getActivity(), R.attr.skin_hotelListMapMarkerDrawable)));
+				opts.icon(BitmapDescriptorFactory.fromResource(R.drawable.map_pin_normal));
 				Marker marker = map.addMarker(opts);
 
 				mMarkerToCard.put(marker, card);

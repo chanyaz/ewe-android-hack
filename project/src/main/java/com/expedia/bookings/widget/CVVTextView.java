@@ -6,7 +6,6 @@ import android.util.AttributeSet;
 import com.expedia.bookings.R;
 import com.expedia.bookings.section.CreditCardInputSection;
 import com.expedia.bookings.utils.FontCache;
-import com.expedia.bookings.utils.Ui;
 
 /**
  * Created by dmelton on 3/4/14.
@@ -34,8 +33,8 @@ public class CVVTextView extends TextView implements CreditCardInputSection.Cred
 		int top = getPaddingTop();
 		int right = getPaddingRight();
 		int bottom = getPaddingBottom();
-		int bgResId = (enabled) ? Ui.obtainThemeResID(getContext(), R.attr.skin_cvvDivErrorDrawable)
-			: Ui.obtainThemeResID(getContext(), R.attr.skin_cvvDivDrawable);
+		int bgResId = (enabled) ? R.drawable.div_cvv_error
+			: R.drawable.div_cvv;
 		setBackgroundResource(bgResId);
 		setPadding(left, top, right, bottom);
 	}

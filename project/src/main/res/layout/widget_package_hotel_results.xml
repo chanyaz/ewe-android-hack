@@ -81,7 +81,7 @@
         android:id="@+id/filter_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="?attr/skin_hotelFilterBackground"
+        android:background="@color/hotel_filter_background_color"
         android:visibility="gone" />
 
 </merge>

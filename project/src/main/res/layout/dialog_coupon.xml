@@ -32,6 +32,6 @@
         android:id="@+id/coupon_edit_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        style="?attr/skin_HotelCheckout_couponEditTextStyle" />
+        style="@style/CouponEditText" />
 
 </LinearLayout>

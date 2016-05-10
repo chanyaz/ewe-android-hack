@@ -65,7 +65,7 @@ public class HotelItinContentGenerator extends ItinContentGenerator<ItinCardData
 			return R.drawable.ic_itin_shared_placeholder_hotel;
 		}
 		else {
-			return Ui.obtainThemeResID(getContext(), R.attr.skin_icTypeCircleHotel);
+			return R.drawable.ic_type_circle_hotel;
 		}
 	}
 

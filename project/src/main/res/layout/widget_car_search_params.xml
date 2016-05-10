@@ -16,7 +16,7 @@
             android:id="@+id/search_params_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="?attr/skin_carsPrimaryColor"
+            android:background="@color/cars_primary_color"
             android:orientation="vertical">
 
         <LinearLayout

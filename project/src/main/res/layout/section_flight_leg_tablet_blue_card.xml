@@ -11,7 +11,7 @@
         android:layout_height="@dimen/hotel_flight_card_height"
         android:paddingLeft="@dimen/hotel_flight_card_padding_x"
         android:paddingRight="@dimen/hotel_flight_card_padding_x"
-        android:background="?attr/skin_bgFlightSummaryRowTablet" >
+        android:background="@drawable/bg_flight_summary_row_tablet" >
 
         <LinearLayout
             android:id="@+id/flight_card_details"

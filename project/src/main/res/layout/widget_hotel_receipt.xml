@@ -182,7 +182,7 @@
 
                 <com.expedia.bookings.widget.AutoResizeTextView
                     android:id="@+id/price_text"
-                    style="?attr/skin_hotelPriceTextStyle"
+                    style="@style/HotelPriceTextStyle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"

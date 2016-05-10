@@ -37,8 +37,6 @@
     <attr name="skin_flightCalendarDatePickerCellDrawable" format="reference" />
     <attr name="skin_flightCalendarDatePickerPopupDrawable" format="reference" />
 
-    <attr name="skin_hotelCancellationPolicyDateFormat" format="reference|string" />
-
     <!-- Hotel promo pricing related styling -->
     <attr name="skin_hotelListingSaleDrawable" format="reference" />
     <attr name="skin_hotelDetailSaleRibbonDrawable" format="reference" />
@@ -68,7 +66,6 @@
 
     <!-- Hotel details tablet popup styles -->
     <attr name="skin_hotelDetailsUserRatingStyle" format="reference" />
-    <attr name="skin_hotelDetailsStarRatingStyle" format="reference" />
 
     <!-- HangTag assets -->
     <attr name="skin_hangTagProgressDrawable" format="reference" />
@@ -99,8 +96,6 @@
 
     <!-- HotelCheckout Traveler Info screen after logged in, Logo to the left of the primary traveler -->
     <attr name="skin_hotelPrimaryTravelerInfoLogoDrawable" format="reference" />
-    <attr name="skin_hotelListMapMarkerSaleDrawable" format="reference" />
-    <attr name="skin_hotelListMapMarkerSaleGreenABTestDrawable" format="reference" />
     <attr name="skin_hotelListMapMarkerDrawable" format="reference" />
     <attr name="skin_hotelListMapMarkerAirAttachDrawable" format="reference" />
 
@@ -117,8 +112,6 @@
 
     <!-- for hotels best price guarantee type -->
     <attr name="skin_bestPriceGuaranteeString" format="reference|string" />
-    <!-- for hotels details book button -->
-    <attr name="skin_hotelBookButtonString" format="reference|string" />
     <!-- for hotels etp info book button -->
     <attr name="skin_etpHotelSelectRoomString" format="reference|string" />
 
@@ -142,7 +135,6 @@
     <attr name="skin_itinCardBackground" format="reference"/>
     <attr name="skin_itinFlightsTripLineColor" format="reference"/>
 
-    <attr name="skin_companyLogoForReceipt" format="reference"/>
 
     <attr name="skin_itinHotelAttachButtonDrawable" format="reference"/>
     <attr name="skin_itinAirAttachButtonDrawable" format="reference"/>
@@ -162,7 +154,6 @@
     <attr name="skin_itinActionOverflowDrawable" format="reference"/>
 
     <!-- Room not Available Error Msg-->
-    <attr name="skin_roomNotAvailableError" format="string"/>
 
 
     <!--CVV and CVV Error-->
@@ -192,15 +183,12 @@
     <attr name="skin_icSuitCaseBaggage" format="reference" />
 
     <attr name="skin_action_bar_logo_tablet" format="reference"/>
-    <attr name="skin_collection_overlay_static_color" format="reference|color" />
     <attr name="skin_tablet_book_button_text_color" format="reference|color" />
     <attr name="skin_collection_placeholder" format="reference" />
     <attr name="skin_tablet_hotel_room_rate_select_button" format="reference" />
     <attr name="skin_tablet_addToTrip_button" format="reference" />
     <attr name="skin_tablet_bucket_item_counter" format="reference" />
     <attr name="skin_tablet_bucket_text_color" format="reference|color" />
-    <attr name="skin_tablet_hotel_details_star_drawable" format="reference" />
-    <attr name="skin_tablet_hotel_details_star_small_drawable" format="reference" />
     <attr name="skin_tablet_search_result_error_button_drawable" format="reference" />
     <attr name="skin_tablet_search_result_error_button_text_color" format="color|reference" />
     <attr name="skin_tablet_dates_popup_done_color" format="color|reference" />
@@ -324,29 +312,20 @@
     <attr name="skin_lxErrorWidgetDrawable" format="reference" />
 
     <attr name="skin_errorWidgetEditButtonStyle" format="reference" />
-    <attr name="skin_lxTicketPlusButtonSelectorDrawable" format="reference" />
-    <attr name="skin_lxTicketMinusButtonSelectorDrawable" format="reference" />
 
     <attr name="skin_rippleDrawable" format="reference" />
 
     <!-- AccountView -->
     <attr name="skin_acctInputTextErrorColor" format="reference|color" />
     <attr name="skin_acctInputTextGoodColor" format="reference|color" />
-    <attr name="skin_acctSignInButtonBackgroundDrawable" format="reference" />
     <attr name="skin_acctSignInButtonTextColor" format="reference|color" />
     <attr name="skin_acctLogoSmallDrawable" format="reference" />
-    <attr name="skin_acctLogoLargeDrawable" format="reference" />
     <attr name="skin_acctLogoTextDrawable" format="reference" />
     <attr name="skin_acctCheckmarkGoodDrawable" format="reference" />
-    <attr name="skin_acctCheckmarkWarningDrawable" format="reference" />
     <attr name="skin_acctLogoTextDrawableMarginLeft" format="reference|dimension" />
     <attr name="skin_acctLogoTextDrawableMarginTop" format="reference|dimension" />
     <attr name="skin_acctBrand" format="reference" />
     <attr name="skin_acctFlavorTextColor" format="reference|color" />
     <attr name="skin_acctInputTextDefaultColor" format="reference|color" />
-    <attr name="skin_acctToolbarIconColor" format="reference|color" />
-    <attr name="skin_acctUserInfoTextColor" format="reference|color" />
-    <attr name="skin_acctWelcomeTextColor" format="reference|color" />
-
 
 </resources>
