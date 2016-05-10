@@ -1,6 +1,7 @@
 package com.expedia.bookings.server;
 
 import java.math.BigDecimal;
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -513,7 +514,7 @@ public class HotelOffersResponseHandler extends JsonResponseHandler<HotelOffersR
 			JSONObject rewards = obj.getJSONObject("rewards");
 			if (rewards != null) {
 				if (ProductFlavorFeatureConfiguration.getInstance().isRewardProgramPointsType()) {
-					points = rewards.optString("totalPointsToEarn");
+					points = NumberFormat.getInstance().format(rewards.optInt("totalPointsToEarn"));
 				}
 				else {
 					JSONObject totalAmountToEarn = rewards.optJSONObject("totalAmountToEarn");
