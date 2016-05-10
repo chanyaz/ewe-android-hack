@@ -88,7 +88,7 @@
     <!-- Text for enter driver details-->
     <string name="enter_driver_details">Indtast oplysninger om fører</string>
     <!-- Text for select saved contacts-->
-    <string name="cars_saved_contacts_text">Vælg gemte kontakter</string>
+    <string name="traveler_saved_contacts_text">Vælg gemte kontakter</string>
     <!-- Text for enter payment details-->
     <string name="enter_payment_details">Indtast betalingsoplysninger</string>
     <!-- Template for selected credit card-->

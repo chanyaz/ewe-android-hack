@@ -177,6 +177,7 @@ class TravelerPresenter(context: Context, attrs: AttributeSet) : Presenter(conte
             if (!forward) validateAndBindTravelerSummary()
             travelerDefaultState.visibility = if (!forward) View.VISIBLE else View.GONE
             if (forward) {
+                travelerEntryWidget.resetStoredTravelerSelection()
                 travelerEntryWidget.nameEntryView.firstName.requestFocus()
                 travelerEntryWidget.onFocusChange(travelerEntryWidget.nameEntryView.firstName, true)
                 Ui.showKeyboard(travelerEntryWidget.nameEntryView.firstName, null)
@@ -204,6 +205,7 @@ class TravelerPresenter(context: Context, attrs: AttributeSet) : Presenter(conte
             if (!forward) travelerSelectState.show() else travelerSelectState.visibility = View.GONE
             travelerEntryWidget.visibility = if (forward) View.VISIBLE else View.GONE
             if (forward) {
+                travelerEntryWidget.resetStoredTravelerSelection()
                 travelerEntryWidget.nameEntryView.firstName.requestFocus()
                 travelerEntryWidget.onFocusChange(travelerEntryWidget.nameEntryView.firstName, true)
                 Ui.showKeyboard(travelerEntryWidget.nameEntryView.firstName, null)

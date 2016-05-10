@@ -41,6 +41,7 @@ public class Traveler implements JSONable, Comparable<Traveler> {
 	private Location mHomeAddress;
 	private List<Phone> mPhoneNumbers = new ArrayList<>();
 	private String mEmail;
+	private boolean isStoredTraveler = false;
 
 	// Hotels
 	private boolean mIsSmokingPreferred;
@@ -834,5 +835,13 @@ public class Traveler implements JSONable, Comparable<Traveler> {
 
 	public boolean isChangedPrimaryPassportCountry() {
 		return mChangedPrimaryPassportCountry;
+	}
+
+	public void setIsStoredTraveler(boolean isStoredTraveler) {
+		this.isStoredTraveler = isStoredTraveler;
+	}
+
+	public boolean isStoredTraveler() {
+		return isStoredTraveler;
 	}
 }

@@ -88,7 +88,7 @@
     <!-- Text for enter driver details-->
     <string name="enter_driver_details">ป้อนรายละเอียดผู้ขับรถ</string>
     <!-- Text for select saved contacts-->
-    <string name="cars_saved_contacts_text">เลือกจากรายชื่อที่บันทึกไว้</string>
+    <string name="traveler_saved_contacts_text">เลือกจากรายชื่อที่บันทึกไว้</string>
     <!-- Text for enter payment details-->
     <string name="enter_payment_details">ป้อนรายละเอียดการชำระเงิน</string>
     <!-- Template for selected credit card-->

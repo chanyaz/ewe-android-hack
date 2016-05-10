@@ -10,6 +10,7 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.Spinner
 import com.expedia.bookings.R
+import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.Traveler
 import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.section.CountrySpinnerAdapter
@@ -82,9 +83,7 @@ class FlightTravelerEntryWidget(context: Context, attrs: AttributeSet?) : FrameL
         advancedOptionsWidget.viewModel = vm.advancedOptionsViewModel
 
         vm.passportCountrySubject.subscribe { countryCode ->
-            val adapter = passportCountrySpinner.adapter as CountrySpinnerAdapter
-            val position = if (countryCode.isNullOrEmpty()) adapter.defaultLocalePosition else adapter.getPositionByCountryThreeLetterCode(countryCode)
-            passportCountrySpinner.setSelection(position)
+            selectPassport(countryCode)
         }
         vm.showPassportCountryObservable.subscribeVisibility(passportCountrySpinner)
     }
@@ -132,9 +131,14 @@ class FlightTravelerEntryWidget(context: Context, attrs: AttributeSet?) : FrameL
 
     override fun onTravelerChosen(traveler: Traveler) {
         viewModel.updateTraveler(traveler)
+        selectPassport(traveler.primaryPassportCountry)
     }
 
     override fun onAddNewTravelerSelected() {
+        val newTraveler = Traveler()
+        val passengerCategory = viewModel.getTraveler().getPassengerCategory(Db.getPackageParams())
+        newTraveler.setPassengerCategory(passengerCategory)
+        viewModel.updateTraveler(newTraveler)
     }
 
     override fun onFinishInflate() {
@@ -185,5 +189,20 @@ class FlightTravelerEntryWidget(context: Context, attrs: AttributeSet?) : FrameL
         return nameEntryView.firstName.text.isNotEmpty() &&
                 nameEntryView.lastName.text.isNotEmpty() &&
                 phoneEntryView.phoneNumber.text.isNotEmpty()
+    }
+
+    fun resetStoredTravelerSelection() {
+        val traveler = viewModel.getTraveler()
+        if (traveler.isStoredTraveler) {
+            travelerButton.selectTraveler.text = traveler.fullName
+        } else {
+            travelerButton.selectTraveler.text = resources.getString(R.string.traveler_saved_contacts_text)
+        }
+    }
+
+    private fun selectPassport(countryCode: String?) {
+        val adapter = passportCountrySpinner.adapter as CountrySpinnerAdapter
+        val position = if (countryCode?.isNullOrEmpty() ?: true) adapter.defaultLocalePosition else adapter.getPositionByCountryThreeLetterCode(countryCode)
+        passportCountrySpinner.setSelection(position)
     }
 }

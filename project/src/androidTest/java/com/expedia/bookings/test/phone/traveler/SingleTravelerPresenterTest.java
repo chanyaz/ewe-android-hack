@@ -14,6 +14,10 @@ import com.expedia.bookings.test.espresso.EspressoUser;
 import com.expedia.bookings.test.espresso.EspressoUtils;
 import com.expedia.bookings.test.phone.packages.PackageScreen;
 
+import static android.support.test.espresso.Espresso.onView;
+import static android.support.test.espresso.matcher.ViewMatchers.withSpinnerText;
+import static org.hamcrest.core.AllOf.allOf;
+
 @RunWith(AndroidJUnit4.class)
 public class SingleTravelerPresenterTest extends BaseTravelerPresenterTestHelper {
 	@Rule
@@ -101,6 +105,7 @@ public class SingleTravelerPresenterTest extends BaseTravelerPresenterTestHelper
 		uiThreadTestRule.runOnUiThread(new Runnable() {
 			@Override
 			public void run() {
+				testTravelerPresenter.getTravelerEntryWidget().getViewModel().getShowPassportCountryObservable().onNext(true);
 				testTravelerPresenter.getTravelerEntryWidget().onTravelerChosen(makeStoredTraveler());
 			}
 		});
@@ -110,6 +115,7 @@ public class SingleTravelerPresenterTest extends BaseTravelerPresenterTestHelper
 		EspressoUtils.assertViewWithTextIsDisplayed(R.id.last_name_input, testLastName);
 		EspressoUtils.assertViewWithTextIsDisplayed(R.id.edit_phone_number, testPhone);
 		EspressoUtils.assertViewWithTextIsDisplayed(R.id.edit_birth_date_text_btn, testBirthDay);
+ 		onView(allOf(withSpinnerText(testPassport)));
 	}
 
 	@Test
