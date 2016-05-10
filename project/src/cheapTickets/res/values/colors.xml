@@ -114,4 +114,7 @@
 
     <!-- Checkout Colors -->
     <color name="old_checkout_account_button_text_color">@android:color/white</color>
+
+    <!-- Signed in user base tier color. As Ctx does not support any rewards, keeping the base color as silver -->
+    <color name="sign_in_user_base_tier">#808080</color>
 </resources>
