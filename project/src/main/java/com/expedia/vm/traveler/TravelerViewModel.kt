@@ -30,6 +30,7 @@ open class TravelerViewModel(private val context: Context, val travelerIndex: In
         phoneViewModel.updatePhone(traveler.orCreatePrimaryPhoneNumber)
         tsaViewModel.updateTraveler(traveler)
         advancedOptionsViewModel.updateTraveler(traveler)
+        passportCountrySubject.onNext(traveler.primaryPassportCountry)
     }
 
     fun validate(): Boolean {

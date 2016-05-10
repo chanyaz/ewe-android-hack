@@ -23,8 +23,10 @@ import com.expedia.bookings.test.phone.packages.PackageScreen;
 import rx.observers.TestSubscriber;
 
 import static android.support.test.espresso.Espresso.onView;
+import static android.support.test.espresso.assertion.ViewAssertions.doesNotExist;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.hasSibling;
+import static android.support.test.espresso.matcher.ViewMatchers.isChecked;
 import static android.support.test.espresso.matcher.ViewMatchers.withChild;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
@@ -90,12 +92,7 @@ public class MultipleTravelerPresenterTest extends BaseTravelerPresenterTestHelp
 		EspressoUtils.assertViewIsDisplayed(R.id.traveler_select_state);
 		EspressoUser.clickOnText(expectedTravelerOneText);
 
-		uiThreadTestRule.runOnUiThread(new Runnable() {
-			@Override
-			public void run() {
-				testTravelerPresenter.back();
-			}
-		});
+		travelerPresenterBack();
 
 		Common.delay(2);
 		checkOscarInvalid(R.id.traveler_status_icon, R.drawable.invalid, testFirstName);
@@ -176,12 +173,7 @@ public class MultipleTravelerPresenterTest extends BaseTravelerPresenterTestHelp
 		EspressoUser.clickOnView(R.id.traveler_default_state);
 		EspressoUtils.assertViewIsDisplayed(R.id.traveler_select_state);
 		EspressoUser.clickOnText(expectedTravelerInfantText);
-		uiThreadTestRule.runOnUiThread(new Runnable() {
-			@Override
-			public void run() {
-				testTravelerPresenter.back();
-			}
-		});
+		travelerPresenterBack();
 
 		Common.delay(2);
 		EspressoUtils.assertViewIsDisplayed(R.id.traveler_select_state);
@@ -233,12 +225,7 @@ public class MultipleTravelerPresenterTest extends BaseTravelerPresenterTestHelp
 		EspressoUser.clickOnView(R.id.traveler_default_state);
 		EspressoUtils.assertViewIsDisplayed(R.id.traveler_select_state);
 		EspressoUser.clickOnText(expectedTravelerChildText);
-		uiThreadTestRule.runOnUiThread(new Runnable() {
-			@Override
-			public void run() {
-				testTravelerPresenter.back();
-			}
-		});
+		travelerPresenterBack();
 
 		Common.delay(2);
 		EspressoUtils.assertViewIsDisplayed(R.id.traveler_select_state);
@@ -271,5 +258,41 @@ public class MultipleTravelerPresenterTest extends BaseTravelerPresenterTestHelp
 		EspressoUtils.assertViewWithTextIsDisplayed(R.id.boarding_warning, R.string.name_must_match_warning);
 		PackageScreen.clickTravelerDone();
 		EspressoUtils.assertViewIsNotDisplayed(R.id.boarding_warning);
+	}
+
+	@Test
+	public void testPassportIndependent() throws Throwable {
+		mockViewModel = getMockViewModelValidTravelers(2);
+		generateMockTripWithPassport();
+		testTravelerPresenter.setViewModel(mockViewModel);
+
+		EspressoUser.clickOnView(R.id.traveler_default_state);
+		EspressoUser.clickOnText(expectedTravelerOneText);
+
+		EspressoUser.scrollToView(R.id.passport_country_spinner);
+		EspressoUser.clickOnView(R.id.passport_country_spinner);
+		EspressoUtils.assertViewWithTextIsDisplayed("United States");
+		onView(withText("United States")).check(matches(isChecked()));
+		EspressoUser.clickOnText("Uruguay");
+
+		EspressoUser.scrollToView(R.id.passport_country_spinner);
+		EspressoUtils.assertViewWithTextIsDisplayed("Passport: Uruguay");
+
+		travelerPresenterBack();
+		Common.delay(1);
+
+		EspressoUser.clickOnText(expectedTravelerTwoText);
+		EspressoUser.scrollToView(R.id.passport_country_spinner);
+		EspressoUtils.assertViewWithTextIsDisplayed("Passport: United States");
+		onView(withText("Passport: Uruguay")).check(doesNotExist());
+	}
+
+	private void travelerPresenterBack() throws Throwable {
+		uiThreadTestRule.runOnUiThread(new Runnable() {
+			@Override
+			public void run() {
+				testTravelerPresenter.back();
+			}
+		});
 	}
 }
