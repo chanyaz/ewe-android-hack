@@ -85,7 +85,7 @@ class BucksViewModelTest {
                 PointsAndCurrency(0f, PointsType.EARN, Money("0", "USD")))
 
         val payingWithPoints = PointsAndCurrency(0f, PointsType.BURN, Money("0", createTripResponse.getTripTotalExcludingFee().currencyCode))
-        val payingWithCards = PointsAndCurrency(createTripResponse.rewards.totalPointsToEarn, PointsType.EARN, createTripResponse.getTripTotalExcludingFee())
+        val payingWithCards = PointsAndCurrency(createTripResponse.rewards?.totalPointsToEarn ?: 0f, PointsType.EARN, createTripResponse.getTripTotalExcludingFee())
         fullPayableWithCardPaymentSplits = PaymentSplits(payingWithPoints, payingWithCards)
 
         bucksWidget.viewModel = bucksViewModel

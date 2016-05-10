@@ -18,10 +18,13 @@ import com.expedia.vm.BaseCheckoutViewModel
 import com.squareup.phrase.Phrase
 import rx.Observer
 import rx.exceptions.OnErrorNotImplementedException
+import rx.subjects.PublishSubject
 import java.math.BigDecimal
 
 class PackageCheckoutViewModel(context: Context, val packageServices: PackageServices) : BaseCheckoutViewModel(context) {
     override val builder = PackageCheckoutParams.Builder()
+
+    val priceChangeObservable = PublishSubject.create<PackageCheckoutResponse>()
 
     init {
         tripResponseObservable.subscribe { it as PackageCreateTripResponse
@@ -86,6 +89,9 @@ class PackageCheckoutViewModel(context: Context, val packageServices: PackageSer
                         }
                         ApiError.Code.CARD_LIMIT_EXCEEDED -> {
                             checkoutErrorObservable.onNext(response.firstError)
+                        }
+                        ApiError.Code.PRICE_CHANGE -> {
+                            priceChangeObservable.onNext(response)
                         }
                         else -> {
                             checkoutErrorObservable.onNext(ApiError(ApiError.Code.UNKNOWN_ERROR))

@@ -46,7 +46,9 @@ class PackagesApiRequestDispatcher(fileOpener: FileOpener) : AbstractDispatcher(
 
             PackageApiRequestMatcher.isCheckout(urlPath) -> {
                 val requestBody = getRequestBody(output)
-                if (requestBody.contains("errorcheckoutcard")) {
+                if (requestBody.contains("errorcheckoutpricechange")) {
+                    getMockResponse("api/packages/checkout/checkout_price_change.json")
+                } else if (requestBody.contains("errorcheckoutcard")) {
                     getMockResponse("api/packages/checkout/error_checkout_card.json")
                 } else if (requestBody.contains("errorcheckoutunknown")) {
                     getMockResponse("api/packages/checkout/error_checkout_unknown.json")

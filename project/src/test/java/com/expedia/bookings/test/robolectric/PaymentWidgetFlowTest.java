@@ -92,7 +92,7 @@ public class PaymentWidgetFlowTest {
 		ValidPayment.addValidPayment(validFormsOfPayment, validPayment);
 
 		HotelCreateTripResponse response = new HotelCreateTripResponse();
-		response.validFormsOfPayment = validFormsOfPayment;
+		response.setValidFormsOfPayment(validFormsOfPayment);
 		response.newHotelProductResponse = new HotelCreateTripResponse.HotelProductResponse();
 		response.newHotelProductResponse.hotelRoomResponse = new HotelOffersResponse.HotelRoomResponse();
 		response.newHotelProductResponse.hotelRoomResponse.rateInfo = new HotelOffersResponse.RateInfo();

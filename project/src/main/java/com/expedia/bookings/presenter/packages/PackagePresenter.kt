@@ -69,7 +69,7 @@ class PackagePresenter(context: Context, attrs: AttributeSet) : Presenter(contex
                     packagePrice.packageTotalPrice.currencyCode).formattedMoney, packageSavings))
         }
         checkoutPresenter.getCreateTripViewModel().tripResponseObservable.subscribe { trip ->
-            expediaRewards = trip.rewards.totalPointsToEarn.toString()
+            expediaRewards = trip.rewards?.totalPointsToEarn?.toString()
         }
         checkoutPresenter.getCheckoutViewModel().checkoutResponse.subscribe { pair: Pair<BaseApiResponse, String> ->
             val response = pair.first as PackageCheckoutResponse
@@ -100,6 +100,11 @@ class PackagePresenter(context: Context, attrs: AttributeSet) : Presenter(contex
         checkoutPresenter.getCheckoutViewModel().checkoutErrorObservable.subscribe(errorPresenter.viewmodel.checkoutApiErrorObserver)
         checkoutPresenter.getCreateTripViewModel().createTripErrorObservable.delay(DELAY_INVOKING_ERROR_OBSERVABLES_DOING_SHOW, TimeUnit.MILLISECONDS).observeOn(AndroidSchedulers.mainThread()).subscribe { show(errorPresenter) }
         checkoutPresenter.getCheckoutViewModel().checkoutErrorObservable.delay(DELAY_INVOKING_ERROR_OBSERVABLES_DOING_SHOW, TimeUnit.MILLISECONDS).observeOn(AndroidSchedulers.mainThread()).subscribe { show(errorPresenter) }
+        checkoutPresenter.getCheckoutViewModel().priceChangeObservable.subscribe {
+            checkoutPresenter.slideToPurchase.resetSlider()
+            checkoutPresenter.getCreateTripViewModel().tripResponseObservable.onNext(it)
+        }
+
         errorPresenter.viewmodel.checkoutUnknownErrorObservable.delay(DELAY_INVOKING_ERROR_OBSERVABLES_DOING_SHOW, TimeUnit.MILLISECONDS).observeOn(AndroidSchedulers.mainThread()).subscribe {
             show(bundlePresenter, Presenter.FLAG_CLEAR_TOP)
             checkoutPresenter.slideToPurchase.resetSlider()
