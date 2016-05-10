@@ -150,7 +150,7 @@ public class PackageChangeHotelFlightTest extends PackageTestCase {
 			isDescendantOfA(withId(R.id.package_bundle_inbound_flight_widget)))).check(
 			matches(not(isDisplayed())));
 		onView(withId(R.id.package_bundle_hotel_widget)).check(matches(not(isEnabled())));
-		onView(withId(R.id.row_container)).check(matches(not(isEnabled())));
+		PackageScreen.hotelBundleContainer().check(matches(not(isEnabled())));
 		onView(withId(R.id.package_bundle_inbound_flight_widget)).check(matches(not(isEnabled())));
 		onView(withId(R.id.checkout_button)).check(matches(not(isEnabled())));
 		assertDisabledMenu();

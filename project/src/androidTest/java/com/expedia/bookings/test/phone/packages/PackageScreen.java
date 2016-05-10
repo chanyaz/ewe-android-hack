@@ -266,16 +266,16 @@ public class PackageScreen {
 		return onView(withId(R.id.traveler_default_state));
 	}
 
-	public static ViewInteraction itin() {
-		return onView(withId(R.id.itin_number));
-	}
-
 	public static ViewInteraction hotelPriceWidget() {
 		return onView(withId(R.id.bundle_price_widget));
 	}
 
 	public static ViewInteraction hotelRoomImageView() {
 		return onView(withId(R.id.selected_hotel_room_image));
+	}
+
+	public static ViewInteraction hotelBundleContainer() {
+		return onView(allOf(isDescendantOfA(withId(R.id.package_bundle_hotel_widget)), withId(R.id.row_container)));
 	}
 
 	public static void enterTravelerInfo() {
@@ -327,10 +327,6 @@ public class PackageScreen {
 
 	public static void clickTravelerAdvanced() {
 		onView(withId(R.id.traveler_advanced_options_button)).perform(click());
-	}
-
-	public static void clickHotelBundleContainer() {
-		onView(withId(R.id.row_container)).perform(click());
 	}
 
 	public static void enterPaymentInfo() {

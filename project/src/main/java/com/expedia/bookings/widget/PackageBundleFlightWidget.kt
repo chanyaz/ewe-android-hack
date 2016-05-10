@@ -30,6 +30,7 @@ import com.expedia.vm.FlightSegmentBreakdownViewModel
 
 class PackageBundleFlightWidget(context: Context, attrs: AttributeSet?) : CardView(context, attrs) {
     val flightLoadingBar: ImageView by bindView(R.id.flight_loading_bar)
+    val rowContainer: ViewGroup by bindView(R.id.row_container)
     val flightInfoContainer: ViewGroup by bindView(R.id.flight_info_container)
     val flightCardText: TextView by bindView(R.id.flight_card_view_text)
     val travelInfoText: TextView by bindView(R.id.travel_info_view_text)
@@ -60,14 +61,16 @@ class PackageBundleFlightWidget(context: Context, attrs: AttributeSet?) : CardVi
 
         vm.showLoadingStateObservable.subscribe { showLoading ->
             if (showLoading) {
+                rowContainer.isEnabled = false
                 flightInfoContainer.isEnabled = false
                 AnimUtils.progressForward(flightLoadingBar)
                 flightCardText.setTextColor(ContextCompat.getColor(context, R.color.package_bundle_icon_color))
             } else {
+                rowContainer.isEnabled = true
                 flightInfoContainer.isEnabled = true
                 flightLoadingBar.clearAnimation()
                 flightIcon.setColorFilter(Ui.obtainThemeColor(context, R.attr.primary_color))
-                setOnClickListener {
+                rowContainer.setOnClickListener {
                     if (isOutbound) {
                         openFlightsForDeparture()
                     } else {
@@ -92,20 +95,20 @@ class PackageBundleFlightWidget(context: Context, attrs: AttributeSet?) : CardVi
                 segmentBreakdowns.add(FlightSegmentBreakdown(segment, selectedFlight.hasLayover))
             }
             flightSegmentWidget.viewmodel.addSegmentRowsObserver.onNext(segmentBreakdowns)
+
+            rowContainer.setOnClickListener {
+                if (!isFlightSegmentDetailsExpanded()) {
+                    expandFlightDetails()
+                } else {
+                    collapseFlightDetails()
+                }
+            }
         }
     }
 
     init {
         View.inflate(getContext(), R.layout.bundle_flight_widget, this)
         isEnabled = false
-        flightDetailsIcon.setOnClickListener {
-            if (flightDetailsContainer.visibility == Presenter.GONE) {
-                expandFlightDetails()
-            } else {
-                collapseFlightDetails()
-            }
-        }
-
         flightSegmentWidget.viewmodel = FlightSegmentBreakdownViewModel(context)
     }
 
@@ -150,5 +153,6 @@ class PackageBundleFlightWidget(context: Context, attrs: AttributeSet?) : CardVi
         flightDetailsIcon.alpha = alpha
         this.isEnabled = isEnabled
         flightDetailsIcon.isEnabled = isEnabled
+        rowContainer.isEnabled = isEnabled
     }
 }

@@ -79,7 +79,7 @@ class PackageOverviewPresenter(context: Context, attrs: AttributeSet) : BaseOver
     }
 
     override fun back(): Boolean {
-        bundleWidget.bundleHotelWidget.backButtonPressed()
+        bundleWidget.collapseBundleWidgets()
         var params = Db.getPackageParams()
         if (params.pageType == Constants.PACKAGE_CHANGE_FLIGHT) {
             checkoutPresenter.doCreateTrip()

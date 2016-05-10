@@ -157,7 +157,7 @@ public class PackageBundleOverviewPresenterTest extends PackageTestCase {
 		PackageScreen.hotelRoomImageView().check(matches(isDisplayed()));
 
 		//collapse
-		PackageScreen.clickHotelBundleContainer();
+		PackageScreen.hotelBundleContainer().perform(click());
 		PackageScreen.hotelRoomImageView().check(matches(CoreMatchers.not(isDisplayed())));
 	}
 }

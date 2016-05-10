@@ -17,7 +17,7 @@ import static org.hamcrest.CoreMatchers.allOf;
 
 public class PackagePriceChangeTest extends PackageTestCase {
 
-	public void testPackagePriceChange() throws Throwable {
+	public void testPackagePriceChangeUp() throws Throwable {
 		PackageScreen.selectOriginAndDestination();
 		LocalDate startDate = LocalDate.now().plusDays(3);
 		LocalDate endDate = LocalDate.now().plusDays(8);
@@ -51,6 +51,32 @@ public class PackagePriceChangeTest extends PackageTestCase {
 		Common.delay(1);
 
 		assertPriceChangeUp();
+	}
+
+	public void testPackagePriceChangeDown() throws Throwable {
+		PackageScreen.selectOriginAndDestination();
+		LocalDate startDate = LocalDate.now().plusDays(3);
+		LocalDate endDate = LocalDate.now().plusDays(8);
+		PackageScreen.selectDates(startDate, endDate);
+
+		PackageScreen.searchButton().perform(click());
+		Common.delay(1);
+
+		PackageScreen.hotelBundle().perform(click());
+		Common.delay(1);
+
+		HotelScreen.selectHotel("Price Change");
+		Common.delay(1);
+
+		HotelScreen.selectRoom();
+		Common.delay(1);
+
+		PackageScreen.outboundFlight().perform(click());
+		Common.delay(1);
+
+		PackageScreen.selectFlight(0);
+		PackageScreen.selectThisFlight().perform(click());
+		Common.delay(1);
 
 		PackageScreen.inboundFLight().perform(click());
 		Common.delay(1);
@@ -61,7 +87,6 @@ public class PackagePriceChangeTest extends PackageTestCase {
 		Common.delay(1);
 
 		assertPriceChangeDown();
-
 	}
 
 	private void assertPriceChangeUp() {
