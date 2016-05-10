@@ -12,6 +12,7 @@ import com.expedia.bookings.data.PaymentType
 import com.expedia.bookings.data.StoredCreditCard
 import com.expedia.bookings.data.TripBucketItemCar
 import com.expedia.bookings.data.payment.PaymentSplitsType
+import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.utils.BookingInfoUtils
 import com.expedia.bookings.utils.CreditCardUtils
 import com.expedia.bookings.widget.ContactDetailsCompletenessStatus
@@ -127,7 +128,13 @@ class PaymentViewModel(val context: Context) {
 
         lineOfBusiness.subscribe { lob ->
             isCreditCardRequired.onNext(lob == LineOfBusiness.PACKAGES || lob == LineOfBusiness.HOTELSV2 || lob == LineOfBusiness.FLIGHTS)
-            isZipValidationRequired.onNext(lob == LineOfBusiness.PACKAGES || lob == LineOfBusiness.HOTELSV2 || lob == LineOfBusiness.FLIGHTS)
+            val isPostalCodeRequired = when (lob) {
+                LineOfBusiness.HOTELSV2 -> PointOfSale.getPointOfSale().requiresHotelPostalCode()
+                LineOfBusiness.CARS -> PointOfSale.getPointOfSale().requiresCarsPostalCode()
+                LineOfBusiness.LX -> PointOfSale.getPointOfSale().requiresLXPostalCode()
+                else -> true
+            }
+            isZipValidationRequired.onNext(isPostalCodeRequired)
         }
     }
 
