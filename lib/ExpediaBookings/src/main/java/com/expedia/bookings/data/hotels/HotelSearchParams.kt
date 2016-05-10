@@ -8,7 +8,7 @@ import org.joda.time.LocalDate
 open class HotelSearchParams(val suggestion: SuggestionV4, val checkIn: LocalDate, val checkOut: LocalDate, adults: Int, children: List<Int>, val shopWithPoints: Boolean) : BaseSearchParams(adults, children) {
     var forPackage = false
 
-    class Builder(maxStay: Int) : BaseSearchParams.Builder(maxStay) {
+    class Builder(maxStay: Int, maxRange: Int) : BaseSearchParams.Builder(maxStay, maxRange) {
         private var isPackage: Boolean = false
         private var shopWithPoints: Boolean = false
 
@@ -46,8 +46,8 @@ open class HotelSearchParams(val suggestion: SuggestionV4, val checkIn: LocalDat
     }
 }
 
-fun convertPackageToSearchParams(packageParams: PackageSearchParams, maxStay: Int): HotelSearchParams {
-    val builder = HotelSearchParams.Builder(maxStay).destination(packageParams.destination)
+fun convertPackageToSearchParams(packageParams: PackageSearchParams, maxStay: Int, maxRange: Int): HotelSearchParams {
+    val builder = HotelSearchParams.Builder(maxStay, maxRange).destination(packageParams.destination)
             .startDate(packageParams.checkIn).endDate(packageParams.checkOut).adults(packageParams.adults)
             .children(packageParams.children) as HotelSearchParams.Builder
     return builder.forPackage(true).build()

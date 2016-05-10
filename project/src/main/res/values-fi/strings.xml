@@ -246,7 +246,7 @@
     <!-- Message for user that pick-up time is too early.  -->
     <string name="pick_up_time_error">Ole hyvä ja muokkaa nouto- ja palautusaikoja.</string>
     <!-- Message for user  to choose a closer date.  -->
-    <string name="drop_off_too_far_error">Tämä päivämäärä on liian kaukana tulevaisuudessa, valitse uusi päivä.</string>
+    <string name="error_date_too_far">Tämä päivämäärä on liian kaukana tulevaisuudessa, valitse uusi päivä.</string>
     <!-- Message for user that date is too far out.  -->
     <string name="date_out_of_range">Tämä päivämäärä on liian kaukana tulevaisuudessa, valitse uusi päivä.</string>
     <!-- Message for user that increase your reservation duration. -->

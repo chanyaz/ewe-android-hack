@@ -246,7 +246,7 @@
     <!-- Message for user that pick-up time is too early.  -->
     <string name="pick_up_time_error">請調整您的取車或還車時間。</string>
     <!-- Message for user  to choose a closer date.  -->
-    <string name="drop_off_too_far_error">此日期距現在太遠，請選擇距現在較近的日期。</string>
+    <string name="error_date_too_far">此日期距現在太遠，請選擇距現在較近的日期。</string>
     <!-- Message for user that date is too far out.  -->
     <string name="date_out_of_range">此日期距現在太遠，請選擇距現在較近的日期。</string>
     <!-- Message for user that increase your reservation duration. -->

@@ -53,7 +53,7 @@ class HotelValueAddsTest {
         val dtf = DateTimeFormat.forPattern("yyyy-MM-dd")
         val suggestion = SuggestionV4()
         suggestion.coordinates = SuggestionV4.LatLng()
-        val hotelSearchParams = HotelSearchParams.Builder(0)
+        val hotelSearchParams = HotelSearchParams.Builder(0, 0)
                 .destination(suggestion).startDate(dtf.parseLocalDate("2015-09-12"))
                 .endDate(dtf.parseLocalDate("2015-09-16"))
                 .adults(3)

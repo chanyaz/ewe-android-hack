@@ -63,7 +63,7 @@ class RailSearchViewModel(context: Context) : BaseSearchViewModel(context) {
             if (!paramsBuilder.hasOriginAndDestination()) {
                 railErrorNoLocationsObservable.onNext(Unit)
             }
-            if (!paramsBuilder.hasValidDates()) {
+            if (!paramsBuilder.hasValidDateDuration()) {
                 errorNoDatesObservable.onNext(Unit)
             }
         }

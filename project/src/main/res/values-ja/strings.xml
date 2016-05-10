@@ -246,7 +246,7 @@
     <!-- Message for user that pick-up time is too early.  -->
     <string name="pick_up_time_error">借出時間または返却時間を調整してください。</string>
     <!-- Message for user  to choose a closer date.  -->
-    <string name="drop_off_too_far_error">指定できる期間を超えています。近い日にちを選択してください。</string>
+    <string name="error_date_too_far">指定できる期間を超えています。近い日にちを選択してください。</string>
     <!-- Message for user that date is too far out.  -->
     <string name="date_out_of_range">指定できる期間を超えています。近い日にちを選択してください。</string>
     <!-- Message for user that increase your reservation duration. -->

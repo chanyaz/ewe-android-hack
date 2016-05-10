@@ -124,7 +124,7 @@ class HotelResultsViewModelTest {
         checkInDate = LocalDate.now()
         checkOutDate = checkInDate.plusDays(3)
         val suggestion = makeSuggestion(gaiaId, regionShortName)
-        val hotelSearchParams = HotelSearchParams.Builder(3).destination(suggestion).startDate(checkInDate).endDate(checkOutDate).build() as HotelSearchParams
+        val hotelSearchParams = HotelSearchParams.Builder(3, 500).destination(suggestion).startDate(checkInDate).endDate(checkOutDate).build() as HotelSearchParams
 
         return hotelSearchParams
     }

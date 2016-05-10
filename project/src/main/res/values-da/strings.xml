@@ -246,7 +246,7 @@
     <!-- Message for user that pick-up time is too early.  -->
     <string name="pick_up_time_error">Tilpas tidspunkter for aflevering og afhentning.</string>
     <!-- Message for user  to choose a closer date.  -->
-    <string name="drop_off_too_far_error">Denne dato ligger for langt ude i fremtiden. Vælg en tidligere dato.</string>
+    <string name="error_date_too_far">Denne dato ligger for langt ude i fremtiden. Vælg en tidligere dato.</string>
     <!-- Message for user that date is too far out.  -->
     <string name="date_out_of_range">Denne dato ligger for langt ude i fremtiden. Vælg en tidligere dato.</string>
     <!-- Message for user that increase your reservation duration. -->

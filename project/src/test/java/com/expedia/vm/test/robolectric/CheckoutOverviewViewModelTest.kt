@@ -66,7 +66,7 @@ class CheckoutOverviewViewModelTest {
 
         val origin = getFakeSuggestion("SFO")
         val destination = getFakeSuggestion("SEA")
-        val params = FlightSearchParams.Builder(100)
+        val params = FlightSearchParams.Builder(100, 500)
                 .origin(origin)
                 .destination(destination)
                 .startDate(LocalDate.now().withYear(1989).withMonthOfYear(9).withDayOfMonth(6))

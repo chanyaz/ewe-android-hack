@@ -19,7 +19,7 @@ import rx.subjects.BehaviorSubject
 import rx.subjects.PublishSubject
 
 class PackageSearchViewModel(context: Context) : BaseSearchViewModel(context) {
-    override val paramsBuilder = PackageSearchParams.Builder(getMaxSearchDurationDays())
+    override val paramsBuilder = PackageSearchParams.Builder(getMaxSearchDurationDays(), getMaxDateRange())
 
     // Outputs
     val searchParamsObservable = PublishSubject.create<PackageSearchParams>()
@@ -48,8 +48,10 @@ class PackageSearchViewModel(context: Context) : BaseSearchViewModel(context) {
         if (paramsBuilder.areRequiredParamsFilled()) {
             if (paramsBuilder.isOriginSameAsDestination()) {
                 errorOriginSameAsDestinationObservable.onNext(context.getString(R.string.error_same_flight_departure_arrival))
-            } else if (!paramsBuilder.hasValidDates()) {
-                errorMaxDatesObservable.onNext(context.getString(R.string.hotel_search_range_error_TEMPLATE, getMaxSearchDurationDays()))
+            } else if (!paramsBuilder.hasValidDateDuration()) {
+                errorMaxDurationObservable.onNext(context.getString(R.string.hotel_search_range_error_TEMPLATE, getMaxSearchDurationDays()))
+            } else if (!paramsBuilder.isWithinDateRange()) {
+               errorMaxRangeObservable.onNext(context.getString(R.string.error_date_too_far, getMaxSearchDurationDays()))
             } else {
                 val packageSearchParams = paramsBuilder.build()
                 updateDbTravelers(packageSearchParams) // This is required for the checkout screen to correctly populate traveler entry screen.

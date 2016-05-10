@@ -28,7 +28,8 @@ class PackageSearchParamsTest {
 
     @Test
     fun testNumberOfGuests() {
-        val params = PackageSearchParams.Builder(activity.resources.getInteger(R.integer.calendar_max_days_hotel_stay))
+        val params = PackageSearchParams.Builder(activity.resources.getInteger(R.integer.calendar_max_days_hotel_stay),
+                activity.resources.getInteger(R.integer.calendar_max_package_selectable_date_range))
                 .origin(getDummySuggestion("123"))
                 .destination(getDummySuggestion("456"))
                 .adults(1)
@@ -42,7 +43,8 @@ class PackageSearchParamsTest {
 
     @Test
     fun testGuestString() {
-        val params = PackageSearchParams.Builder(activity.resources.getInteger(R.integer.calendar_max_days_hotel_stay))
+        val params = PackageSearchParams.Builder(activity.resources.getInteger(R.integer.calendar_max_days_hotel_stay),
+                activity.resources.getInteger(R.integer.calendar_max_package_selectable_date_range))
                 .origin(getDummySuggestion("123"))
                 .destination(getDummySuggestion("456"))
                 .adults(1)
@@ -56,7 +58,8 @@ class PackageSearchParamsTest {
 
     @Test
     fun testChildrenString() {
-        val params = PackageSearchParams.Builder(activity.resources.getInteger(R.integer.calendar_max_days_hotel_stay))
+        val params = PackageSearchParams.Builder(activity.resources.getInteger(R.integer.calendar_max_days_hotel_stay),
+                activity.resources.getInteger(R.integer.calendar_max_package_selectable_date_range))
                 .origin(getDummySuggestion("123"))
                 .destination(getDummySuggestion("456"))
                 .adults(1)
@@ -73,14 +76,17 @@ class PackageSearchParamsTest {
         val searchParamsSubscriber = TestSubscriber<PackageSearchParams>()
         val noOriginSubscriber = TestSubscriber<Unit>()
         val noDatesSubscriber = TestSubscriber<Unit>()
+        val maxRangeSubscriber = TestSubscriber<String>()
         val expectedSearchParams = arrayListOf<PackageSearchParams>()
         val expectedOrigins = arrayListOf<Unit>()
         val expectedDates = arrayListOf<Unit>()
+        val expectedRangeErrors = arrayListOf("This date is too far out, please choose a closer date.")
         val origin = getDummySuggestion("123")
         val destination = getDummySuggestion("456")
 
         vm.searchParamsObservable.subscribe(searchParamsSubscriber)
         vm.errorNoDatesObservable.subscribe(noDatesSubscriber)
+        vm.errorMaxRangeObservable.subscribe(maxRangeSubscriber)
         vm.errorNoDestinationObservable.subscribe(noOriginSubscriber)
 
         // Selecting a location suggestion for search, as it is a necessary parameter for search
@@ -96,16 +102,23 @@ class PackageSearchParamsTest {
         // Selecting only start date should search with end date as the next day
         vm.datesObserver.onNext(Pair(LocalDate.now(), null))
         vm.searchObserver.onNext(Unit)
-        expectedSearchParams.add(PackageSearchParams.Builder(activity.resources.getInteger(R.integer.calendar_max_days_hotel_stay))
+        expectedSearchParams.add(PackageSearchParams.Builder(activity.resources.getInteger(R.integer.calendar_max_days_hotel_stay),
+                activity.resources.getInteger(R.integer.calendar_max_package_selectable_date_range))
                 .origin(origin)
                 .destination(destination)
                 .startDate(LocalDate.now())
                 .endDate(LocalDate.now().plusDays(1)).build() as PackageSearchParams)
 
+
+        // Select days beyond 329
+        vm.datesObserver.onNext(Pair(LocalDate.now().plusDays(329), LocalDate.now().plusDays(330)))
+        vm.searchObserver.onNext(Unit)
+
         // Select both start date and end date and search
         vm.datesObserver.onNext(Pair(LocalDate.now(), LocalDate.now().plusDays(3)))
         vm.searchObserver.onNext(Unit)
-        expectedSearchParams.add(PackageSearchParams.Builder(activity.resources.getInteger(R.integer.calendar_max_days_hotel_stay))
+        expectedSearchParams.add(PackageSearchParams.Builder(activity.resources.getInteger(R.integer.calendar_max_days_hotel_stay),
+                activity.resources.getInteger(R.integer.calendar_max_package_selectable_date_range))
                 .origin(origin)
                 .destination(destination)
                 .startDate(LocalDate.now())
@@ -125,6 +138,8 @@ class PackageSearchParamsTest {
         assertEquals(expectedSearchParams[1].checkOut, searchParamsSubscriber.onNextEvents[1].checkOut)
         noDatesSubscriber.requestMore(LOTS_MORE)
         noDatesSubscriber.assertReceivedOnNext(expectedDates)
+        maxRangeSubscriber.requestMore(LOTS_MORE)
+        maxRangeSubscriber.assertReceivedOnNext(expectedRangeErrors)
         noOriginSubscriber.requestMore(LOTS_MORE)
         noOriginSubscriber.assertReceivedOnNext(expectedOrigins)
     }

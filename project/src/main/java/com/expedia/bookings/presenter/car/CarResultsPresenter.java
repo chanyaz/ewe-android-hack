@@ -298,13 +298,13 @@ public class CarResultsPresenter extends Presenter {
 
 		switch (apiError.errorDetailCode) {
 		case DROP_OFF_DATE_TOO_LATE:
-			showInvalidInputErrorDialog(R.string.drop_off_too_far_error);
+			showInvalidInputErrorDialog(R.string.error_date_too_far);
 			break;
 		case SEARCH_DURATION_TOO_SMALL:
 			showInvalidInputErrorDialog(R.string.reservation_time_too_short);
 			break;
 		case SEARCH_DURATION_TOO_LARGE:
-			showInvalidInputErrorDialog(R.string.date_out_of_range);
+			showInvalidInputErrorDialog(R.string.error_date_too_far);
 			break;
 		case PICKUP_DATE_TOO_EARLY:
 			showInvalidInputErrorDialog(R.string.pick_up_time_error);

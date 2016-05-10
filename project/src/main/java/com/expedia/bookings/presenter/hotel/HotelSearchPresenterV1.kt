@@ -323,7 +323,7 @@ class HotelSearchPresenterV1(context: Context, attrs: AttributeSet) : BaseHotelS
                 AnimUtils.doTheHarlemShake(selectDate)
             }
         }
-        vm.errorMaxDatesObservable.subscribe { message ->
+        vm.errorMaxDurationObservable.subscribe { message ->
             showErrorDialog(message)
         }
         vm.searchParamsObservable.subscribe {
