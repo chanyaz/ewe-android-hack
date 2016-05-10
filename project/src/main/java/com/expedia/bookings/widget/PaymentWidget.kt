@@ -138,7 +138,7 @@ open class PaymentWidget(context: Context, attr: AttributeSet) : Presenter(conte
             if (currentState == PaymentDetails::class.java.name) {
                 val hasStoredCard = hasStoredCard()
                 val billingIsValid = !hasStoredCard && sectionBillingInfo.performValidation()
-                val postalIsValid = !hasStoredCard && sectionLocation.performValidation()
+                val postalIsValid = !hasStoredCard && (!isZipValidationRequired() || sectionLocation.performValidation())
                 if (hasStoredCard || (billingIsValid && postalIsValid)) {
                     if (shouldShowSaveDialog()) {
                         showSaveBillingInfoDialog()
@@ -307,13 +307,13 @@ open class PaymentWidget(context: Context, attr: AttributeSet) : Presenter(conte
 
     open fun isAtLeastPartiallyFilled(): Boolean {
         return creditCardNumber.text.toString().isNotEmpty()
-                || creditCardPostalCode.text.toString().isNotEmpty()
+                || (isZipValidationRequired() && creditCardPostalCode.text.toString().isNotEmpty())
                 || creditCardName.text.toString().isNotEmpty()
     }
 
     open fun isCompletelyFilled(): Boolean {
         return creditCardNumber.text.toString().isNotEmpty()
-                && creditCardPostalCode.text.toString().isNotEmpty()
+                && (!isZipValidationRequired() || creditCardPostalCode.text.toString().isNotEmpty())
                 && creditCardName.text.toString().isNotEmpty()
     }
 
