@@ -374,6 +374,6 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 
 	@Override
 	public boolean shouldDisplayItinTrackAppLink() {
-		return true;
+		return false;
 	}
 }
