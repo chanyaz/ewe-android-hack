@@ -21,12 +21,6 @@ import static android.support.test.espresso.matcher.ViewMatchers.withId;
 
 public class LaunchScreenToHotelTest extends PhoneTestCase {
 
-	public void testHotelLobButton() {
-		LaunchScreen.launchHotels();
-		// Assert that materials hotels search screen is launched.
-		EspressoUtils.assertViewIsDisplayed(R.id.hotel_presenter);
-	}
-
 	public void testPopularLocationSelection() {
 		CollectionLocation collectionLocation = new CollectionLocation();
 		CollectionLocation.Location suggestion = new CollectionLocation.Location();
