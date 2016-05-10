@@ -23,6 +23,14 @@ internal_artifact() {
 	 popd
 }
 
+# exit if finds 'needs-human' label
+python ./jenkins/prLabeledAsNeedsHuman.py $GITHUB_TOKEN $ghprbPullId
+prLabeledAsNeedsHumanStatus=$?
+if [ $prLabeledAsNeedsHumanStatus -ne 0 ]; then
+   echo "PR is labeled needs-human, so exiting..."
+   exit 1
+fi
+
 ./gradlew --no-daemon clean --continue
 ./gradlew --no-daemon clean
 

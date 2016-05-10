@@ -16,6 +16,14 @@ pip install "lxml==3.5.0"
 GITHUB_TOKEN=7d400f5e78f24dbd24ee60814358aa0ab0cd8a76
 HIPCHAT_TOKEN=3htGpj4sE9XxUToWvWCWWmISA3op2U1roRufVjpQ
 
+# exit if finds 'needs-human' label
+python ./jenkins/prLabeledAsNeedsHuman.py $GITHUB_TOKEN $ghprbPullId
+prLabeledAsNeedsHumanStatus=$?
+if [ $prLabeledAsNeedsHumanStatus -ne 0 ]; then
+   echo "PR is labeled needs-human, so exiting..."
+   exit 1
+fi
+
 if [ "$isPRPoliceEnabled" == "true" ]; then
     # Invoke PR Police to check for issues
     python ./jenkins/pr_police/PRPolice.py ${GITHUB_TOKEN} ${ghprbPullId}
