@@ -12,7 +12,7 @@ import java.util.concurrent.TimeUnit
 
 abstract class BaseTwoLocationSearchPresenter(context: Context, attrs: AttributeSet) : BaseSearchPresenterV2(context, attrs) {
 
-    val originCardView by bindView<SearchInputCardView>(R.id.origin_card)
+    open val originCardView by bindView<SearchInputCardView>(R.id.origin_card)
 
     protected var originSuggestionViewModel: SuggestionAdapterViewModel by notNullAndObservable { vm ->
         val suggestionSelectedObserver = suggestionSelectedObserver(getSearchViewModel().originLocationObserver, suggestionInputView = originCardView)

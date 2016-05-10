@@ -8,6 +8,7 @@ import android.view.View
 import android.view.animation.AccelerateDecelerateInterpolator
 import com.expedia.bookings.R
 import com.expedia.bookings.fragment.CalendarDialogFragment
+import com.expedia.bookings.fragment.TimeAndCalendarDialogFragment
 import com.expedia.bookings.utils.AnimUtils
 import com.expedia.bookings.utils.Constants
 import com.expedia.bookings.utils.bindView
@@ -45,7 +46,7 @@ class RailCalendarWidget(context: Context, attrs: AttributeSet?) : CardView(cont
     var calendarDialog: CalendarDialogFragment? = null
 
     fun showCalendarDialog() {
-        calendarDialog = CalendarDialogFragment.createFragment(viewModel)
+        calendarDialog = TimeAndCalendarDialogFragment.createFragment(viewModel)
 
         val fragmentManager = (context as FragmentActivity).supportFragmentManager
         calendarDialog?.show(fragmentManager, Constants.TAG_CALENDAR_DIALOG)

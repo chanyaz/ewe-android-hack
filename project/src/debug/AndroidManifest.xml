@@ -70,7 +70,6 @@
                 android:value="true" />
         </activity>
 
-
         <activity
             android:name="com.expedia.ui.RailActivity"
             android:exported="true"

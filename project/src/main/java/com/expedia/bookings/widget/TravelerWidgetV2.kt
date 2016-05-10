@@ -7,7 +7,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.WindowManager
 import com.expedia.bookings.R
-import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.TravelerParams
 import com.expedia.util.subscribeText
 import com.expedia.vm.TravelerPickerViewModel
@@ -16,6 +15,13 @@ import rx.subjects.BehaviorSubject
 class TravelerWidgetV2(context: Context, attrs: AttributeSet?) : SearchInputCardView(context, attrs) {
     var oldTravelerData: TravelerParams? = null;
     val travelersSubject = BehaviorSubject.create<TravelerParams>()
+
+    init {
+        setOnClickListener {
+            travelerDialog.show()
+        }
+    }
+
     val travelerDialogView: View by lazy {
         val view = LayoutInflater.from(context).inflate(R.layout.widget_hotel_traveler_search, null)
         view

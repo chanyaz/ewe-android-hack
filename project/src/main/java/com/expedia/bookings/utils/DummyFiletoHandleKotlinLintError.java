@@ -293,7 +293,7 @@ DummyFiletoHandleKotlinLintError {
 		R.layout.checkout_overview_header,
 		R.string.hotel_city_country_TEMPLATE,
 		R.dimen.package_bundle_scroll_view_padding,
-		R.layout.widget_hotel_calendar_search,
+		R.layout.widget_calendar_search,
 		R.string.coupon_error_remove_dialog_title,
 		R.string.per_person,
 		R.string.package_hotel_results_toolbar_title_TEMPLATE,

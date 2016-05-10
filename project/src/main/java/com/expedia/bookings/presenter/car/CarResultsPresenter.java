@@ -106,7 +106,6 @@ public class CarResultsPresenter extends Presenter {
 	private CategorizedCarOffers selectedCategorizedCarOffers;
 	private CarSearch unfilteredSearch = new CarSearch();
 	private int searchTop;
-	private String lastState;
 	private CarSearch filteredSearch = new CarSearch();
 	PublishSubject filterDonePublishSubject = PublishSubject.create();
 
@@ -158,7 +157,6 @@ public class CarResultsPresenter extends Presenter {
 		filterToolbar.setFilterText(getResources().getString(R.string.filter));
 		details.getSearchCarOfferPublishSubject().subscribe(carOfferObserver);
 		filterDonePublishSubject.subscribe(filterDoneObserver);
-
 	}
 
 	@Override
@@ -406,7 +404,6 @@ public class CarResultsPresenter extends Presenter {
 			super.startTransition(forward);
 
 			toolbarBackground.setTranslationX(forward ? 0 : -toolbarBackground.getWidth());
-			lastState = forward ? CarCategoryDetailsWidget.class.getName() : CarCategoryListWidget.class.getName();
 			toolbarBackground.setVisibility(VISIBLE);
 			toolbarBackground.setAlpha(1f);
 			toolbarDropshadow.setAlpha(1f);
@@ -468,7 +465,6 @@ public class CarResultsPresenter extends Presenter {
 	DefaultTransition setUpLoading = new DefaultTransition(CarCategoryListWidget.class.getName()) {
 		@Override
 		public void endTransition(boolean forward) {
-			lastState = CarCategoryListWidget.class.getName();
 			categories.setVisibility(View.VISIBLE);
 			details.setVisibility(View.GONE);
 			errorScreen.setVisibility(View.GONE);
@@ -601,7 +597,7 @@ public class CarResultsPresenter extends Presenter {
 		setToolBarResultsText();
 	}
 
-	public float animationStart(boolean forward) {
+	public float animationStart() {
 		toolbar.setVisibility(VISIBLE);
 		searchTop = toolBarSearchText.getTop() - toolbarTwo.getTop();
 		toolBarDetailText.setTranslationY(searchTop);
@@ -620,7 +616,7 @@ public class CarResultsPresenter extends Presenter {
 		errorScreen.animationUpdate(Math.abs(1 - alphaD));
 	}
 
-	public void animationFinalize(boolean forward) {
+	public void animationFinalize() {
 		toolbarBackground.setAlpha(
 			Strings.equals(getCurrentState(), CarCategoryDetailsWidget.class.getName()) ? toolbarBackground.getAlpha()
 				: 1f);

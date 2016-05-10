@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import org.joda.time.DateTime;
 
 import android.content.Context;
+import android.content.res.TypedArray;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -14,60 +15,87 @@ import android.graphics.Rect;
 import android.graphics.RectF;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.support.annotation.ColorInt;
+import android.support.v4.content.ContextCompat;
 import android.text.format.DateUtils;
 import android.util.AttributeSet;
+import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.ScaleAnimation;
 import android.widget.SeekBar;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.utils.DateFormatUtils;
-import com.expedia.bookings.utils.Ui;
 
-/**
- * Created by mohsharma on 2/9/15.
- */
-public class CarTimeSlider extends com.expedia.bookings.widget.SeekBar {
+public class TimeSlider extends SeekBar {
 
-	private Drawable mThumb;
+	@ColorInt
+	private final int textColor;
+
+	@ColorInt
+	private final int trackColor;
+
+	@ColorInt
+	private final int thumbColor;
+
+	private Drawable thumb;
 	private ArrayList<OnSeekBarChangeListener> onSeekBarChangeListeners = new ArrayList<>();
 
 	private Paint textPaint;
-	private Paint canvasPaint;
+	private Paint thumbPaint;
 	private RectF rectF;
-	private final float scale = getContext().getResources().getDisplayMetrics().density;
-	private final int imageWidth = (int) getContext().getResources().getDimension(
-		R.dimen.car_time_slider_rectangle_width);
-	private final int imageHeight = (int) getContext().getResources().getDimension(
-		R.dimen.car_time_slider_rectangle_height);
-	private final int thumbnailRadius = (int) getContext().getResources().getDimension(
-		R.dimen.car_time_slider_thumbnail_radius);
-	private final int cornerRadius = (int) getContext().getResources().getDimension(
-		R.dimen.car_time_slider_corner_radius);
+
+	private final int thumbnailRadius =
+		(int) getContext().getResources().getDimension(R.dimen.time_slider_thumbnail_radius);
+	private final int imageHeight =
+		(int) getContext().getResources().getDimension(R.dimen.time_slider_rectangle_height);
+	private final int imageWidth = (int) getContext().getResources().getDimension(R.dimen.time_slider_rectangle_width);
+	private final int cornerRadius = (int) getContext().getResources().getDimension(R.dimen.time_slider_corner_radius);
 
 	private Canvas imageCanvas;
 	private Bitmap canvasBitmap;
-	private int thumbPadding;
 
-	public CarTimeSlider(Context context, AttributeSet attrs) {
+	public static int convertProgressToMillis(int progress) {
+		return progress * (30 * 60 * 1000);
+	}
+
+	public static int convertMillisToProgress(int millis) {
+		return millis / (30 * 60 * 1000);
+	}
+
+	public static void animateToolTip(View toolTipView) {
+		ScaleAnimation animation = new ScaleAnimation(0f, 1f, 0f, 1f, Animation.RELATIVE_TO_SELF, 0.5f,
+			Animation.RELATIVE_TO_SELF, 1f);
+		animation.setDuration(300);
+		toolTipView.startAnimation(animation);
+	}
+
+	public TimeSlider(Context context, AttributeSet attrs) {
 		super(context, attrs);
-		init();
+		TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.TimeSlider);
+		int defaultColor = ContextCompat.getColor(getContext(), R.color.white);
+		textColor = a.getColor(R.styleable.TimeSlider_slider_text_color, defaultColor);
+		trackColor = a.getColor(R.styleable.TimeSlider_slider_track_color, defaultColor);
+		thumbColor = a.getColor(R.styleable.TimeSlider_slider_color, defaultColor);
+		a.recycle();
+
+		setupThumbnail();
+		setThumb(getThumbnail(calculateProgress(getProgress()), false));
+		int thumbPadding = getThumb().getIntrinsicWidth() / 2;
+		setPadding(thumbPadding, 0, thumbPadding, 0);
+		setOnSeekBarChangeListener(onSeekBarChangeListener);
+
+		getProgressDrawable().setTint(trackColor);
 	}
 
 	@Override
 	public void setThumb(Drawable thumb) {
 		super.setThumb(thumb);
-		mThumb = thumb;
+		this.thumb = thumb;
 	}
 
 	public Drawable getThumb() {
-		return mThumb;
-	}
-
-	public void init() {
-		setupThumbnail();
-		setThumb(getThumbnail(calculateProgress(getProgress()), false));
-		thumbPadding = getThumb().getIntrinsicWidth() / 2;
-		setPadding(thumbPadding, 0, thumbPadding, 0);
-		setOnSeekBarChangeListener(onSeekBarChangeListener);
+		return thumb;
 	}
 
 	public void addOnSeekBarChangeListener(OnSeekBarChangeListener listener) {
@@ -102,24 +130,22 @@ public class CarTimeSlider extends com.expedia.bookings.widget.SeekBar {
 		}
 	};
 
-
 	public void setupThumbnail() {
 		textPaint = new Paint(Paint.LINEAR_TEXT_FLAG | Paint.ANTI_ALIAS_FLAG);
-		textPaint.setColor(getResources().getColor(Ui.obtainThemeResID(getContext(), R.attr.skin_carsSecondaryColor)));
+		textPaint.setColor(textColor);
 		textPaint.setTextAlign(Paint.Align.CENTER);
-		textPaint.setTextSize(getContext().getResources().getDimension(R.dimen.car_time_slider_text_size));
+		textPaint.setTextSize(getContext().getResources().getDimension(R.dimen.time_slider_text_size));
 		textPaint.setAntiAlias(true);
 		textPaint.setStyle(Paint.Style.FILL);
 		textPaint.setFakeBoldText(false);
-		textPaint.setStrokeWidth(getContext().getResources().getDimension(R.dimen.car_time_slider_text_container));
+		textPaint.setStrokeWidth(getContext().getResources().getDimension(R.dimen.time_slider_text_container));
 
-		canvasPaint = new Paint();
-		canvasPaint.setAntiAlias(true);
-		canvasPaint.setColor(Color.WHITE);
-		canvasPaint.setStyle(Paint.Style.FILL);
+		thumbPaint = new Paint();
+		thumbPaint.setAntiAlias(true);
+		thumbPaint.setColor(thumbColor);
+		thumbPaint.setStyle(Paint.Style.FILL);
 
-		Rect rect = new Rect(0, 0, imageWidth,
-			imageHeight);
+		Rect rect = new Rect(0, 0, imageWidth, imageHeight);
 		rectF = new RectF(rect);
 
 		canvasBitmap = Bitmap.createBitmap(imageWidth, imageHeight, Bitmap.Config.ARGB_8888);
@@ -127,14 +153,13 @@ public class CarTimeSlider extends com.expedia.bookings.widget.SeekBar {
 		imageCanvas = new Canvas(canvasBitmap);
 	}
 
-
 	public Drawable getThumbnail(String text, boolean isTouching) {
 		imageCanvas.drawColor(Color.TRANSPARENT, PorterDuff.Mode.CLEAR);
 		if (isTouching) {
-			imageCanvas.drawCircle(imageWidth / 2, imageHeight / 2, thumbnailRadius / 2, canvasPaint);
+			imageCanvas.drawCircle(imageWidth / 2, imageHeight / 2, thumbnailRadius / 2, thumbPaint);
 		}
 		else {
-			imageCanvas.drawRoundRect(rectF, cornerRadius, cornerRadius, canvasPaint);
+			imageCanvas.drawRoundRect(rectF, cornerRadius, cornerRadius, thumbPaint);
 
 			int xPos = (imageWidth / 2);
 			int yPos = (int) (imageHeight / 2 - ((textPaint.descent() + textPaint.ascent()) / 2));
@@ -153,8 +178,7 @@ public class CarTimeSlider extends com.expedia.bookings.widget.SeekBar {
 	public DateTime getDateTime(int progress) {
 		DateTime date = new DateTime();
 		DateTime startTime = date.withTimeAtStartOfDay();
-		DateTime newTime = startTime.plusMinutes(progress * 30);
-		return newTime;
+		return startTime.plusMinutes(progress * 30);
 	}
 
 	public DateTime getDateTime() {

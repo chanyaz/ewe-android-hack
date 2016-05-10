@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.expedia.bookings.widget.CarDateTimeWidget
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<com.expedia.bookings.widget.CarDateTimeWidget xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -58,7 +58,7 @@
             android:textColor="@color/white"
             android:textSize="12sp" />
 
-        <com.expedia.bookings.widget.CarTimeSlider
+        <com.expedia.bookings.widget.TimeSlider
             android:id="@+id/pickup_time_seek_bar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -67,7 +67,10 @@
             android:layout_marginBottom="4dp"
             android:max="47"
             android:maxHeight="6dp"
-            android:progressDrawable="@drawable/cars_slider_progress" />
+            android:progressDrawable="@drawable/cars_slider_progress"
+            app:slider_color="@color/white"
+            app:slider_text_color="?attr/skin_carsSecondaryColor"
+            app:slider_track_color="@color/white" />
 
         <TextView
             android:id="@+id/dropoff_time_title"
@@ -76,14 +79,14 @@
             android:layout_alignBottom="@+id/dropoff_time_seek_bar"
             android:layout_alignParentLeft="true"
             android:layout_alignTop="@+id/dropoff_time_seek_bar"
+            android:layout_marginRight="5dp"
             android:gravity="center_vertical"
             android:paddingLeft="16dp"
-            android:layout_marginRight="5dp"
             android:text="@string/drop_off_time_label"
             android:textColor="@color/white"
             android:textSize="12sp" />
 
-        <com.expedia.bookings.widget.CarTimeSlider
+        <com.expedia.bookings.widget.TimeSlider
             android:id="@+id/dropoff_time_seek_bar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -92,7 +95,10 @@
             android:layout_toRightOf="@+id/dropoff_time_title"
             android:max="47"
             android:maxHeight="6dp"
-            android:progressDrawable="@drawable/cars_slider_progress" />
+            android:progressDrawable="@drawable/cars_slider_progress"
+            app:slider_color="@color/white"
+            app:slider_text_color="?attr/skin_carsSecondaryColor"
+            app:slider_track_color="@color/white" />
 
     </RelativeLayout>
 
@@ -135,9 +141,9 @@
                 android:layout_marginRight="8dp"
                 android:gravity="center"
                 android:singleLine="true"
-                android:text="pick up time"
                 android:textColor="@android:color/white"
-                android:textSize="10sp" />
+                android:textSize="10sp"
+                tools:text="pick up time" />
         </LinearLayout>
 
         <ImageView

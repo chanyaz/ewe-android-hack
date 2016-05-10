@@ -15,14 +15,13 @@ import com.expedia.bookings.utils.CalendarShortDateRenderer
 import com.expedia.bookings.utils.FontCache
 import com.expedia.util.endlessObserver
 import com.expedia.vm.BaseSearchViewModel
-import com.expedia.vm.HotelSearchViewModel
 import com.mobiata.android.time.util.JodaUtils
 import com.mobiata.android.time.widget.CalendarPicker
 import com.mobiata.android.time.widget.DaysOfWeekView
 import com.mobiata.android.time.widget.MonthView
 import org.joda.time.LocalDate
 
-class CalendarDialogFragment(val baseSearchViewModel: BaseSearchViewModel) : DialogFragment() {
+open class CalendarDialogFragment(val baseSearchViewModel: BaseSearchViewModel) : DialogFragment() {
 
     var oldCalendarSelection: Pair<LocalDate, LocalDate>? = null;
     var userTappedDone = false
@@ -35,7 +34,7 @@ class CalendarDialogFragment(val baseSearchViewModel: BaseSearchViewModel) : Dia
     }
 
     val calendarDialogView: View by lazy {
-        val view = LayoutInflater.from(context).inflate(R.layout.widget_hotel_calendar_search, null)
+        val view = LayoutInflater.from(context).inflate(R.layout.widget_calendar_search, null)
         view
     }
 

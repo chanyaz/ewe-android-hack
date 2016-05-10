@@ -12,8 +12,8 @@ import com.expedia.vm.rail.RailSearchViewModel
 
 class RailSearchLocationWidget(context: Context, attrs: AttributeSet?) : CardView(context, attrs) {
 
-    val originLocationText: TextView by bindView(R.id.originLocationView)
-    val destinationLocationText: TextView by bindView(R.id.destinationLocationView)
+    val originLocationText: SearchInputCardView by bindView(R.id.origin_card)
+    val destinationLocationText: SearchInputCardView by bindView(R.id.destination_card)
     val swapLocationsButton: View by bindView(R.id.swapLocationsButton)
 
     init {
@@ -25,10 +25,10 @@ class RailSearchLocationWidget(context: Context, attrs: AttributeSet?) : CardVie
 
     var viewModel: RailSearchViewModel by notNullAndObservable {
         it.railOriginObservable.subscribe {
-            this.originLocationText.text = it.regionNames.displayName
+            this.originLocationText.text.text = it.regionNames.displayName
         }
         it.railDestinationObservable.subscribe({
-            this.destinationLocationText.text = it.regionNames.displayName
+            this.destinationLocationText.text.text = it.regionNames.displayName
         })
         it.railErrorNoLocationsObservable.subscribe {
             AnimUtils.doTheHarlemShake(this)

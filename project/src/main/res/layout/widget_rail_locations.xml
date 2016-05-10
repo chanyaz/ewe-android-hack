@@ -14,49 +14,23 @@
         android:gravity="center"
         android:orientation="vertical">
 
-        <com.expedia.bookings.widget.TextView
-            android:id="@+id/originLocationView"
+        <com.expedia.bookings.widget.SearchInputCardView
+            android:id="@+id/origin_card"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:drawableLeft="@drawable/ic_arrow_forward"
-            android:drawablePadding="23dp"
-            android:ellipsize="end"
-            android:gravity="center_vertical"
-            android:maxLines="1"
-            android:paddingLeft="19dp"
-            android:paddingRight="19dp"
-            android:textColor="@color/defaultTextColor"
-            android:textSize="15sp"
-            app:drawableTintColor="@color/defaultTextColor"
-            tools:text="London" />
+            android:layout_height="@dimen/default_search_card_height"
+            app:cardCornerRadius="0dp"
+            app:input_icon="@drawable/packages_search_departure"
+            app:input_icon_tint_color="@color/search_screen_icon_color_v2"
+            app:input_text="@string/fly_from_hint" />
 
-        <View
-            android:id="@+id/divider"
+        <com.expedia.bookings.widget.SearchInputCardView
+            android:id="@+id/destination_card"
             android:layout_width="match_parent"
-            android:layout_height="1px"
-            android:layout_below="@id/originLocationView"
-            android:layout_marginLeft="24dp"
-            android:layout_marginRight="12dp"
-            android:background="@color/cardview_divider_lines_gray" />
-
-        <com.expedia.bookings.widget.TextView
-            android:id="@+id/destinationLocationView"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_below="@id/divider"
-            android:layout_weight="1"
-            android:drawableLeft="@drawable/ic_arrow_back"
-            android:drawablePadding="23dp"
-            android:ellipsize="end"
-            android:gravity="center_vertical"
-            android:maxLines="1"
-            android:paddingLeft="19dp"
-            android:paddingRight="19dp"
-            android:textColor="@color/defaultTextColor"
-            android:textSize="15sp"
-            app:drawableTintColor="@color/defaultTextColor"
-            tools:text="Manchester" />
+            android:layout_height="@dimen/default_search_card_height"
+            app:cardCornerRadius="0dp"
+            app:input_icon="@drawable/packages_search_arrival"
+            app:input_icon_tint_color="@color/search_screen_icon_color_v2"
+            app:input_text="@string/fly_to_hint" />
     </LinearLayout>
 
     <ImageView

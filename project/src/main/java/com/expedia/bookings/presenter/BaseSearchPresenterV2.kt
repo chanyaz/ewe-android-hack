@@ -57,10 +57,10 @@ abstract class BaseSearchPresenterV2(context: Context, attrs: AttributeSet) : Ba
     val suggestionContainer: View by bindView(R.id.suggestions_container)
     val suggestionRecyclerView: RecyclerView by bindView(R.id.suggestion_list)
     var navIcon: ArrowXDrawable
-    val destinationCardView: SearchInputCardView by bindView(R.id.destination_card)
-    val travelerWidgetV2: TravelerWidgetV2 by bindView(R.id.traveler_card)
+    open val destinationCardView: SearchInputCardView by bindView(R.id.destination_card)
+    open val travelerWidgetV2: TravelerWidgetV2 by bindView(R.id.traveler_card)
     val searchButton: Button by bindView(R.id.search_button_v2)
-    var searchLocationEditText: SearchView? = null
+    open var searchLocationEditText: SearchView? = null
     val toolBarTitle: TextView by bindView(R.id.title)
     val statusBarHeight by lazy { Ui.getStatusBarHeight(context) }
     val mRootWindow by lazy { (context as Activity).window }
@@ -99,10 +99,8 @@ abstract class BaseSearchPresenterV2(context: Context, attrs: AttributeSet) : Ba
         com.mobiata.android.util.Ui.hideKeyboard(this)
         scrollView.scrollTo(0, scrollView.top)
         searchButton.setTextColor(ContextCompat.getColor(context, R.color.white_disabled))
-        calendarWidgetV2.setOnClickListener {
-            calendarWidgetV2.showCalendarDialog()
-        }
         destinationCardView.setOnClickListener(locationClickListener(isCustomerSelectingOrigin = false))
+        searchLocationEditText?.setOnQueryTextListener(listener)
     }
 
     protected fun locationClickListener(isCustomerSelectingOrigin: Boolean): (View) -> Unit {
@@ -187,12 +185,6 @@ abstract class BaseSearchPresenterV2(context: Context, attrs: AttributeSet) : Ba
 
         suggestionRecyclerView.layoutManager = LinearLayoutManager(context)
         suggestionRecyclerView.addItemDecoration(RecyclerDividerDecoration(getContext(), 0, 0, 0, 0, 0, TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 25f, resources.displayMetrics).toInt(), false))
-
-        travelerWidgetV2.setOnClickListener {
-            travelerWidgetV2.travelerDialog.show()
-        }
-
-        searchLocationEditText?.setOnQueryTextListener(listener)
     }
 
     //TODO try to style search view in xml

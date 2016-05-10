@@ -13,6 +13,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.Toolbar;
 import android.text.Html;
 import android.util.AttributeSet;
@@ -282,7 +283,7 @@ public class CarSearchPresenter extends Presenter
 				}
 			}
 		});
-		Drawable navIcon = getResources().getDrawable(R.drawable.ic_check_white_24dp).mutate();
+		Drawable navIcon = ContextCompat.getDrawable(getContext(), R.drawable.ic_check_white_24dp).mutate();
 		navIcon.setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_IN);
 		tv.setCompoundDrawablesWithIntrinsicBounds(navIcon, null, null, null);
 		menuItem.setActionView(tv);
@@ -366,7 +367,7 @@ public class CarSearchPresenter extends Presenter
 
 	@OnCheckedChanged(R.id.select_date)
 	public void onDateCheckedChanged(boolean isChecked) {
-		Drawable drawableEnabled = getResources().getDrawable(R.drawable.date).mutate();
+		Drawable drawableEnabled = ContextCompat.getDrawable(getContext(), R.drawable.date).mutate();
 		drawableEnabled.setColorFilter(isChecked ? Color.WHITE
 			: getResources().getColor(Ui.obtainThemeResID(getContext(), R.attr.skin_carsUncheckedToggleTextColor)),
 			PorterDuff.Mode.SRC_IN);

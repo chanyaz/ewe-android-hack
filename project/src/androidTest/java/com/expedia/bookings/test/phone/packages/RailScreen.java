@@ -26,8 +26,8 @@ public class RailScreen {
 	}
 
 	public static ViewInteraction searchButton() {
-		onView(withId(R.id.search_container)).perform(ViewActions.waitForViewToDisplay());
-		return onView(withId(R.id.search_button));
+		onView(withId(R.id.search_button_v2)).perform(ViewActions.waitForViewToDisplay());
+		return onView(withId(R.id.search_button_v2));
 	}
 
 	public static ViewInteraction dialogDoneButton() {
