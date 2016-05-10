@@ -14,12 +14,6 @@
         android:visibility="invisible"
         android:orientation="vertical">
 
-        <View
-            android:id="@+id/preview_shadow"
-            android:layout_width="match_parent"
-            android:layout_height="8dp"
-            android:background="@drawable/map_shadow" />
-
         <com.expedia.bookings.widget.HotelCarouselRecycler
             android:id="@+id/hotel_carousel"
             android:layout_width="match_parent"

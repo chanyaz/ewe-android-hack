@@ -1,29 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout android:id="@+id/root"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/root"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical">
-    
+
     <LinearLayout
         android:id="@+id/map_loyalty_message_container"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/hotel_map_loyalty_header_height"
-        android:background="#F8F8F8"
+        android:layout_height="wrap_content"
         android:gravity="center"
         android:orientation="vertical"
         android:visibility="gone">
 
+        <View
+            android:id="@+id/shadow_on_loyalty_message_container"
+            android:layout_width="match_parent"
+            android:layout_height="8dp"
+            android:background="@drawable/map_shadow" />
+
         <com.expedia.bookings.widget.TextView
             android:id="@+id/map_loyalty_applied_message"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="@dimen/hotel_map_loyalty_header_height"
+            android:background="#F8F8F8"
             android:gravity="center"
             android:textColor="@color/hotels_primary_color"
             android:textSize="12sp" />
 
     </LinearLayout>
+
+    <View
+        android:id="@+id/shadow_on_hotel_preview_cell"
+        android:layout_width="match_parent"
+        android:layout_height="8dp"
+        android:background="@drawable/map_shadow"
+        android:visibility="gone" />
 
     <LinearLayout
         android:layout_width="match_parent"
