@@ -185,6 +185,8 @@ public class PointOfSale {
 	private boolean isEarnMessageEnabledForFlights;
 
 	private boolean mRequiresLXPostalCode;
+	private boolean mRequiresCarsPostalCode;
+
 
 	private static class CountryResources {
 		@StringRes
@@ -653,6 +655,10 @@ public class PointOfSale {
 
 	public boolean requiresLXPostalCode() {
 		return mRequiresLXPostalCode;
+	}
+
+	public boolean requiresCarsPostalCode() {
+		return mRequiresCarsPostalCode;
 	}
 
 	public boolean supports(LineOfBusiness lob) {
@@ -1231,6 +1237,7 @@ public class PointOfSale {
 		pos.doAirlinesChargeAdditionalFeeBasedOnPaymentMethod = data.optBoolean("doAirlinesChargeAdditionalFeeBasedOnPaymentMethod", false);
 		pos.mRequiresHotelPostalCode = data.optString("requiredPaymentFields:hotels").equals("postalCode");
 		pos.mRequiresLXPostalCode = data.optString("requiredPaymentFields:lx").equals("postalCode");
+		pos.mRequiresCarsPostalCode = data.optString("requiredPaymentFields:cars").equals("postalCode");
 
 		pos.isPwPEnabledForHotels = data.optBoolean("pwpEnabled:hotels", false);
 		pos.isSWPEnabledForHotels = data.optBoolean("swpEnabled:hotels", false);
