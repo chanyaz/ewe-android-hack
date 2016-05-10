@@ -1,0 +1,91 @@
+import sys
+import glob
+import os
+from lxml import etree
+from github3 import login
+from comment_pr_failures_github import createUpdateOrDeleteAutomatedFeedbackComment
+from pr_utils import pingPRAuthors, prUrl
+
+def scanAndProcessLintTestRunOutputXmlData(lintTestRunOutputXmlData):
+    lintErrorMessage = ""
+    linterrorIssueMessages = lintTestRunOutputXmlData.xpath('//issue/@message')
+    linterrorIssueExplanations = lintTestRunOutputXmlData.xpath('//issue/@explanation')
+    for linterrorCount in range(0,len(linterrorIssueMessages)):
+        lintIssueLocation = lintTestRunOutputXmlData.xpath('//issue['+str(linterrorCount+1)+']/location/@file')
+        lintErrorMessage = lintErrorMessage + "**ERROR" + str(linterrorCount+1) + "**\n\n" + "Lint Error: " +  linterrorIssueMessages[linterrorCount] + "\nExplanation: " + linterrorIssueExplanations[linterrorCount]+ "\nLocation: "+ ','.join(lintIssueLocation) + "\n\n"
+    return lintErrorMessage
+
+def extractCheckstyleErrorMessage(errorMessageList, errorLineList):
+    return reduce(lambda accumulator, (index, line, message): accumulator + "**ERROR " + str(index+1) + "**\n\n" + "Checkstyle Error on Line: " + line + " is: " + message + "\n\n", zip(range(len(errorLineList)), errorLineList, errorMessageList), "")
+
+
+def extractUnitTestErrorMessage(failureMessageList, failureClassList):
+    return reduce(lambda accumulator, (index, failureClass, message): accumulator + "**ERROR " + str(index+1) + "**\n\n" + failureClass + ":" + message + "\n\n", zip(range(len(failureMessageList)), failureClassList, failureMessageList), "")
+
+def formatLintErrorMessage(lintTestReportFileList):
+    lintTestErrorMsg = ""
+    for filepath in lintTestReportFileList:
+        if not os.path.exists(filepath):
+            continue
+        with open(filepath) as lintErrorXmlFile:
+            lintTestRunXmlData = etree.parse(lintErrorXmlFile)
+            lintTestErrorMsg = scanAndProcessLintTestRunOutputXmlData(lintTestRunXmlData)
+    return lintTestErrorMsg
+
+def formatCheckstyleErrorMessage(checkstyleReportFileList):
+    errorMessageList = []
+    errorLineList = []
+    for filePath in checkstyleReportFileList:
+        if not os.path.exists(filePath):
+            continue
+        with open(filePath) as checkstyleErrorXmlFile:
+            checkstyleRunOutputXmlData = etree.parse(checkstyleErrorXmlFile)
+            errorMessageList.extend(checkstyleRunOutputXmlData.xpath('//file/error/@message'))
+            errorLineList.extend(checkstyleRunOutputXmlData.xpath('//file/error/@line'))
+
+    return extractCheckstyleErrorMessage(errorMessageList, errorLineList)
+
+def formatUnitTestErrorMessage(unitTestReportFilePatternList):
+    failureMessageList = []
+    failureClassList = []
+    unitTestReportFileList = reduce(lambda x,y: x+y, map(lambda x: glob.glob(x), unitTestReportFilePatternList))
+    for filePath in unitTestReportFileList:
+        with open(filePath) as errorXmlFile:
+            unitTestRunOutputXmlData = etree.parse(errorXmlFile)
+            failureMessageList.extend(unitTestRunOutputXmlData.xpath('//failure/text()'))
+            failureClassList.extend(unitTestRunOutputXmlData.xpath('//testcase[descendant::failure]/@classname'))
+
+    return extractUnitTestErrorMessage(failureMessageList, failureClassList)
+
+
+def pingUnitTestsFailed(githubAccessToken, githubOrganization, githubRepository, prPullId, hipchatAccessToken):
+    github = login(token=githubAccessToken)
+    repo = github.repository(githubOrganization, githubRepository)
+    pr = repo.pull_request(prPullId)
+    messageToBePinged = "Unit Tests failed for PR {pr_url}.\nFailure details injected as comment in the PR.".format(pr_url=prUrl(pr))
+    pingPRAuthors(pr, hipchatAccessToken, messageToBePinged)
+
+def main():
+    githubAccessToken = sys.argv[1]
+    githubRepoId = sys.argv[2]
+    prPullId = sys.argv[3]
+    hipchatAccessToken = sys.argv[4]
+    prBuilderType = "unit"
+    githubRepo = githubRepoId.split("/")
+    githubOrganization = githubRepo[0]
+    githubRepository = githubRepo[1]
+    checkstyleReportFileList = ['./lib/ExpediaBookings/build/reports/checkstyle/main.xml', './lib/ExpediaBookings/build/reports/checkstyle/test.xml', './project/build/reports/checkstyle/checkstyle.xml']
+    unitTestReportFileList = ['./lib/ExpediaBookings/build/test-results/TEST-com.expedia.*', './project/build/test-results/TEST-com.expedia.*']
+    lintTestReportFilePath = ['./project/build/outputs/lint-results-expediaDebug.xml', './project/build/outputs/lint-results-expediaRelease.xml']
+
+    unittestsErrorMessage = formatUnitTestErrorMessage(unitTestReportFileList) + formatCheckstyleErrorMessage(checkstyleReportFileList) + formatLintErrorMessage(lintTestReportFilePath)
+    print unittestsErrorMessage
+    createUpdateOrDeleteAutomatedFeedbackComment(githubAccessToken, githubOrganization, githubRepository, prPullId, prBuilderType, unittestsErrorMessage)
+
+    if unittestsErrorMessage != "":
+        #Ping the authors that the PR Builder failed
+        pingUnitTestsFailed(githubAccessToken, githubOrganization, githubRepository, prPullId, hipchatAccessToken)
+
+
+if __name__ == "__main__":
+    main()
