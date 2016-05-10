@@ -149,6 +149,7 @@ public class PhoneLaunchWidget extends FrameLayout {
 		@Override
 		public void onError(Throwable e) {
 			Log.d(TAG, e.getMessage());
+			Events.post(new Events.LaunchLocationFetchError());
 		}
 
 		@Override
