@@ -104,10 +104,10 @@ public class PackageBundleOverviewPresenterTest extends PackageTestCase {
 		PackageScreen.searchPackage();
 
 		//Test strings and bundle state
-		PackageScreen.hotelPriceWidget().perform(waitForViewToDisplay());
-		PackageScreen.hotelPriceWidget().perform(click());
+		PackageScreen.bundlePriceWidget().perform(waitForViewToDisplay());
+		PackageScreen.bundlePriceWidget().perform(click());
 		Common.delay(1);
-		PackageScreen.hotelPriceWidget().check(matches(hasDescendant(
+		PackageScreen.bundlePriceWidget().check(matches(hasDescendant(
 			allOf(isDisplayed(), withText("Trip to Detroit, MI")))));
 		PackageScreen.hotelInfo().check(matches(hasDescendant(
 			allOf(isDisplayed(), withText("Select hotel in Detroit")))));
@@ -122,18 +122,18 @@ public class PackageBundleOverviewPresenterTest extends PackageTestCase {
 		PackageScreen.inboundFlightCardInfo().check(matches(withText(formattedEndString + ", 1 Traveler")));
 
 		//Test clicking on toolbar returns to results
-		PackageScreen.hotelPriceWidget().perform(click());
+		PackageScreen.bundlePriceWidget().perform(click());
 		Common.delay(1);
 		PackageScreen.hotelBundleWidget().check(matches(not(isCompletelyDisplayed())));
 
 		//Test clicking on hotel returns to results
-		PackageScreen.hotelPriceWidget().perform(click());
+		PackageScreen.bundlePriceWidget().perform(click());
 		Common.delay(1);
 		PackageScreen.clickHotelBundle();
 		PackageScreen.hotelBundleWidget().check(matches(not(isCompletelyDisplayed())));
 
 		//Test back returns to results
-		PackageScreen.hotelPriceWidget().perform(click());
+		PackageScreen.bundlePriceWidget().perform(click());
 		Common.delay(1);
 		Common.pressBack();
 		PackageScreen.hotelBundleWidget().check(matches(not(isCompletelyDisplayed())));

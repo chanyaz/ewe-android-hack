@@ -12,8 +12,12 @@ import android.util.AttributeSet
 import android.view.MotionEvent
 import android.view.View
 import android.view.ViewTreeObserver
+import android.view.animation.AccelerateDecelerateInterpolator
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Db
+import com.expedia.bookings.data.Money
+import com.expedia.bookings.data.packages.PackageOfferModel
+import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.presenter.packages.BundleWidget
 import com.expedia.bookings.utils.Constants
 import com.expedia.bookings.utils.Ui
@@ -22,7 +26,9 @@ import com.expedia.util.subscribeText
 import com.expedia.vm.packages.BundleOverviewViewModel
 import com.expedia.vm.packages.BundlePriceViewModel
 import com.expedia.vm.packages.PackageSearchType
+import com.squareup.phrase.Phrase
 import rx.subjects.PublishSubject
+import java.math.BigDecimal
 
 class SlidingBundleWidget(context: Context, attrs: AttributeSet?) : FrameLayout(context, attrs) {
     val REGULAR_ANIMATION_DURATION = 400
@@ -49,7 +55,7 @@ class SlidingBundleWidget(context: Context, attrs: AttributeSet?) : FrameLayout(
                     if (!activity.intent.hasExtra(Constants.PACKAGE_LOAD_HOTEL_ROOM)) {
                         bundlePriceWidget.animateBundleWidget(1f, true)
                         finalizeBundleTransition(true)
-                        bundlePriceFooter.translationY = - statusBarHeight.toFloat()
+                        bundlePriceFooter.translationY = -statusBarHeight.toFloat()
                         post({
                             closeBundleOverview()
                         })
@@ -67,14 +73,14 @@ class SlidingBundleWidget(context: Context, attrs: AttributeSet?) : FrameLayout(
         translationDistance = translationY
         bundlePriceWidget.bundleTitle.visibility = View.VISIBLE
         bundlePriceWidget.bundleSubtitle.visibility = View.VISIBLE
-        bundlePriceWidget.bundleTotalText.visibility =  View.VISIBLE
-        bundlePriceWidget.bundleTotalIncludes.visibility =  View.VISIBLE
-        bundlePriceWidget.bundleTotalPrice.visibility =  View.VISIBLE
+        bundlePriceWidget.bundleTotalText.visibility = View.VISIBLE
+        bundlePriceWidget.bundleTotalIncludes.visibility = View.VISIBLE
+        bundlePriceWidget.bundleTotalPrice.visibility = View.VISIBLE
         bundlePriceWidget.setBackgroundColor(if (forward) Color.WHITE else ContextCompat.getColor(context, R.color.packages_primary_color))
     }
 
     fun updateBundleTransition(f: Float, forward: Boolean) {
-        var distance = height.toFloat() - bundlePriceWidget.height - translationDistance
+        val distance = height.toFloat() - bundlePriceWidget.height - translationDistance
         val pos = if (forward) Math.max(statusBarHeight.toFloat(), (1 - f) * translationDistance) else translationDistance + (f * distance)
         translateBundleOverview(pos)
     }
@@ -146,10 +152,36 @@ class SlidingBundleWidget(context: Context, attrs: AttributeSet?) : FrameLayout(
         animator.start()
     }
 
-    fun setupBundleViews() {
-        bundleOverViewWidget.viewModel = BundleOverviewViewModel(context, null)
+    fun updateBundleViews(product: String) {
         bundleOverViewWidget.viewModel.hotelParamsObservable.onNext(Db.getPackageParams())
         bundleOverViewWidget.viewModel.hotelResultsObservable.onNext(Unit)
+
+        if (product == Constants.PRODUCT_FLIGHT) {
+            bundleOverViewWidget.viewModel.flightParamsObservable.onNext(Db.getPackageParams())
+            val type = if (Db.getPackageParams().isOutboundSearch()) PackageSearchType.OUTBOUND_FLIGHT else PackageSearchType.INBOUND_FLIGHT
+            bundleOverViewWidget.viewModel.flightResultsObservable.onNext(type)
+
+            if (!Db.getPackageParams().isOutboundSearch() && Db.getPackageSelectedOutboundFlight() != null) {
+                bundleOverViewWidget.outboundFlightWidget.viewModel.selectedFlightObservable.onNext(PackageSearchType.OUTBOUND_FLIGHT)
+                bundleOverViewWidget.outboundFlightWidget.viewModel.flight.onNext(Db.getPackageSelectedOutboundFlight())
+                bundleOverViewWidget.outboundFlightWidget.toggleFlightWidget(1f, true)
+            }
+            if (Db.getPackageSelectedHotel() != null) {
+                bundleOverViewWidget.bundleHotelWidget.viewModel.selectedHotelObservable.onNext(Unit)
+            }
+            updateBundlePricing()
+        }
+
+        if (Db.getPackageParams()?.pageType == Constants.PACKAGE_CHANGE_HOTEL) {
+            bundleOverViewWidget.outboundFlightWidget.viewModel.selectedFlightObservable.onNext(PackageSearchType.OUTBOUND_FLIGHT)
+            bundleOverViewWidget.outboundFlightWidget.viewModel.flight.onNext(Db.getPackageSelectedOutboundFlight())
+            bundleOverViewWidget.inboundFlightWidget.viewModel.selectedFlightObservable.onNext(PackageSearchType.INBOUND_FLIGHT)
+            bundleOverViewWidget.inboundFlightWidget.viewModel.flight.onNext(Db.getPackageSelectedInboundFlight())
+        }
+    }
+
+    fun setupBundleViews(product: String) {
+        bundleOverViewWidget.viewModel = BundleOverviewViewModel(context, null)
         bundleOverViewWidget.viewModel.toolbarTitleObservable.subscribeText(bundlePriceWidget.bundleTitle)
         bundleOverViewWidget.viewModel.toolbarSubtitleObservable.subscribeText(bundlePriceWidget.bundleSubtitle)
         bundlePriceFooter.viewModel = BundlePriceViewModel(context)
@@ -159,13 +191,37 @@ class SlidingBundleWidget(context: Context, attrs: AttributeSet?) : FrameLayout(
         val icon = ContextCompat.getDrawable(context, R.drawable.read_more).mutate()
         icon.setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_IN)
 
-        //if change package hotel search
-        if (Db.getPackageParams()?.pageType == Constants.PACKAGE_CHANGE_HOTEL) {
-            bundleOverViewWidget.outboundFlightWidget.viewModel.selectedFlightObservable.onNext(PackageSearchType.OUTBOUND_FLIGHT)
-            bundleOverViewWidget.outboundFlightWidget.viewModel.flight.onNext(Db.getPackageSelectedOutboundFlight())
-            bundleOverViewWidget.inboundFlightWidget.viewModel.selectedFlightObservable.onNext(PackageSearchType.INBOUND_FLIGHT)
-            bundleOverViewWidget.inboundFlightWidget.viewModel.flight.onNext(Db.getPackageSelectedInboundFlight())
+        updateBundleViews(product)
+    }
+
+    fun addBundleTransitionFrom(fromClass: String): Presenter.Transition {
+        val transition = object : Presenter.Transition(fromClass, SlidingBundleWidget::class.java.name, AccelerateDecelerateInterpolator(), REGULAR_ANIMATION_DURATION) {
+            override fun startTransition(forward: Boolean) {
+                startBundleTransition(forward)
+            }
+
+            override fun updateTransition(f: Float, forward: Boolean) {
+                updateBundleTransition(f, forward)
+            }
+
+            override fun endTransition(forward: Boolean) {
+                finalizeBundleTransition(forward)
+            }
         }
+        return transition
+    }
+
+    private fun updateBundlePricing() {
+        val currentOffer: PackageOfferModel = Db.getPackageResponse().packageResult.currentSelectedOffer
+        val packagePrice: PackageOfferModel.PackagePrice = currentOffer.price
+        bundlePriceWidget.viewModel.bundleTextLabelObservable.onNext(context.getString(R.string.search_bundle_total_text))
+        val packageSavings = Phrase.from(context, R.string.bundle_total_savings_TEMPLATE)
+                .put("savings", Money(BigDecimal(packagePrice.tripSavings.amount.toDouble()),
+                        packagePrice.tripSavings.currencyCode).formattedMoney).format().toString()
+        bundlePriceWidget.viewModel.setTextObservable.onNext(Pair(Money(BigDecimal(packagePrice.packageTotalPrice.amount.toDouble()),
+                packagePrice.packageTotalPrice.currencyCode).formattedMoney, packageSavings))
+        bundlePriceFooter.viewModel.setTextObservable.onNext(Pair(Money(BigDecimal(packagePrice.packageTotalPrice.amount.toDouble()),
+                packagePrice.packageTotalPrice.currencyCode).formattedMoney, packageSavings))
     }
 
     override fun onTouchEvent(event: MotionEvent?): Boolean {

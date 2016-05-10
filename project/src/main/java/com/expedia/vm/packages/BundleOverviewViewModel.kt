@@ -45,6 +45,13 @@ class BundleOverviewViewModel(val context: Context, val packageServices: Package
         }
 
         flightParamsObservable.subscribe { params ->
+            val cityName = StrUtils.formatCity(params.destination)
+            toolbarTitleObservable.onNext(java.lang.String.format(context.getString(R.string.your_trip_to_TEMPLATE), cityName))
+            toolbarSubtitleObservable.onNext(Phrase.from(context, R.string.calendar_instructions_date_range_with_guests_TEMPLATE)
+                    .put("startdate", DateUtils.localDateToMMMd(params.checkIn))
+                    .put("enddate", DateUtils.localDateToMMMd(params.checkOut))
+                    .put("guests", StrUtils.formatTravelerString(context, params.guests))
+                    .format().toString())
             packageServices?.packageSearch(params)?.subscribe(makeResultsObserver(if (params.isOutboundSearch()) PackageSearchType.OUTBOUND_FLIGHT else PackageSearchType.INBOUND_FLIGHT))
         }
 

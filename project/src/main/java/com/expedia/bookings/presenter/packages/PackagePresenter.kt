@@ -60,9 +60,9 @@ class PackagePresenter(context: Context, attrs: AttributeSet) : IntentPresenter(
         errorPresenter.viewmodel = PackageErrorViewModel(context)
 
         bundlePresenter.bundleWidget.viewModel.showBundleTotalObservable.subscribe { visible ->
-            var packagePrice = Db.getPackageResponse().packageResult.currentSelectedOffer.price
+            val packagePrice = Db.getPackageResponse().packageResult.currentSelectedOffer.price
 
-            var packageSavings = Phrase.from(context, R.string.bundle_total_savings_TEMPLATE)
+            val packageSavings = Phrase.from(context, R.string.bundle_total_savings_TEMPLATE)
                     .put("savings", Money(BigDecimal(packagePrice.tripSavings.amount.toDouble()),
                             packagePrice.tripSavings.currencyCode).formattedMoney)
                     .format().toString()

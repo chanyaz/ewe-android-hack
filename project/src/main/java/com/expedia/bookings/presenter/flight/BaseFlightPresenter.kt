@@ -113,8 +113,9 @@ abstract class BaseFlightPresenter(context: Context, attrs: AttributeSet) : Pres
     }
 
     init {
-        View.inflate(context, R.layout.package_flight_presenter, this)
+        View.inflate(context, R.layout.base_flight_presenter, this)
         setupToolbar()
+
         overviewPresenter.baggageFeeShowSubject.subscribe { url ->
             baggageFeeInfo.viewModel.webViewURLObservable.onNext(url)
             trackShowBaggageFee()
@@ -158,6 +159,7 @@ abstract class BaseFlightPresenter(context: Context, attrs: AttributeSet) : Pres
         override fun endTransition(forward: Boolean) {
             super.endTransition(forward)
             toolbarViewModel.refreshToolBar.onNext(forward)
+            viewBundleSetVisibility(forward)
             resultsPresenter.visibility = if (forward) View.VISIBLE else View.GONE
             overviewPresenter.visibility = if (forward) View.GONE else View.VISIBLE
             baggageFeeInfo.visibility = View.GONE
@@ -170,6 +172,7 @@ abstract class BaseFlightPresenter(context: Context, attrs: AttributeSet) : Pres
         override fun endTransition(forward: Boolean) {
             super.endTransition(forward)
             toolbarViewModel.refreshToolBar.onNext(!forward)
+            viewBundleSetVisibility(!forward)
             if (!forward) {
                 trackFlightResultsLoad()
             }
@@ -185,6 +188,7 @@ abstract class BaseFlightPresenter(context: Context, attrs: AttributeSet) : Pres
             else {
                 toolbarViewModel.refreshToolBar.onNext(false)
             }
+            viewBundleSetVisibility(false)
             overviewPresenter.visibility = if (!forward) View.VISIBLE else View.GONE
             paymentFeeInfo.visibility = View.GONE
             baggageFeeInfo.visibility = if (!forward) View.GONE else View.VISIBLE
@@ -216,6 +220,7 @@ abstract class BaseFlightPresenter(context: Context, attrs: AttributeSet) : Pres
         }
 
         override fun endTransition(forward: Boolean) {
+            viewBundleSetVisibility(!forward)
             if (forward) {
                 toolbar.visibility = View.GONE
                 filter.visibility = View.VISIBLE
@@ -273,5 +278,6 @@ abstract class BaseFlightPresenter(context: Context, attrs: AttributeSet) : Pres
     abstract fun trackFlightSortFilterLoad()
     abstract fun trackShowBaggageFee()
     abstract fun trackShowPaymentFees()
+    abstract fun viewBundleSetVisibility(forward: Boolean)
 }
 

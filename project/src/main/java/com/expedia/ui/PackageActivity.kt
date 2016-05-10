@@ -3,7 +3,6 @@ package com.expedia.ui
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.cars.ApiError
@@ -48,7 +47,6 @@ class PackageActivity : AbstractAppCompatActivity() {
                     //revert bundle view to be the state loaded inbound flights
                     packagePresenter.bundlePresenter.bundleWidget.revertBundleViewToSelectInbound()
                     packagePresenter.bundlePresenter.bundleWidget.inboundFlightWidget.viewModel.showLoadingStateObservable.onNext(false)
-
                 } else if (obj is Intent && obj.hasExtra(Constants.PACKAGE_LOAD_HOTEL_ROOM) ) {
                     //revert bundle view to be the state loaded inbound flights
                     packagePresenter.bundlePresenter.bundleWidget.revertBundleViewToSelectOutbound()

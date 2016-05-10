@@ -202,7 +202,7 @@ DummyFiletoHandleKotlinLintError {
 		R.layout.package_hotel_activity,
 		R.layout.flight_cell,
 		R.layout.package_flight_activity,
-		R.layout.package_flight_presenter,
+		R.layout.base_flight_presenter,
 		R.layout.package_flight_results_presenter_stub,
 		R.layout.widget_flight_results_package,
 		R.dimen.card_view_container_margin,
@@ -643,6 +643,7 @@ DummyFiletoHandleKotlinLintError {
 		R.string.bundle_overview_price_widget_button_close,
 		R.string.packages_search_child_drop_down_TEMPLATE,
 		R.layout.material_flights_spinner_airport_dropdown_row,
-		R.drawable.search_dropdown
+		R.drawable.search_dropdown,
+		R.layout.package_flight_presenter
 	};
 }

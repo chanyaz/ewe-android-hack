@@ -2,6 +2,7 @@ package com.expedia.bookings.utils;
 
 public class Constants {
 	public static final String PRODUCT_FLIGHT = "flight";
+	public static final String PRODUCT_HOTEL = "hotel";
 	public static final int HOTEL_REQUEST_CODE = 101;
 	public static final String RAW_TEXT_SEARCH = "RAW_TEXT_SEARCH";
 	public static final int PERMISSION_REQUEST_LOCATION = 7;
