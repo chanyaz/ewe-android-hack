@@ -50,13 +50,13 @@
                     android:pathPrefix="/m/trips/shared"
                     android:scheme="https"/>
 
-                <data android:host="www.expedia.com" />
+                <data android:host="www.orbitz.com" />
 
                 <!-- Integration Server -->
-                <data android:host="wwwexpediacom.integration.sb.karmalab.net" />
+                <data android:host="wwworbitzcom.integration.sb.karmalab.net" />
 
                 <!-- Trunk Server -->
-                <data android:host="wwwexpediacom.trunk.sb.karmalab.net" />
+                <data android:host="wwworbitzcom.trunk.sb.karmalab.net" />
             </intent-filter>
         </activity>
 
