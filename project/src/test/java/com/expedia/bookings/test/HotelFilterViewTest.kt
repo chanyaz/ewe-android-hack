@@ -34,7 +34,6 @@ class HotelFilterViewTest {
     private var shopWithPointsViewModel: ShopWithPointsViewModel by Delegates.notNull()
     private var paymentModel: PaymentModel<HotelCreateTripResponse> by Delegates.notNull()
 
-
     @Before fun before() {
         paymentModel = PaymentModel<HotelCreateTripResponse>(loyaltyServiceRule.services!!)
         shopWithPointsViewModel = ShopWithPointsViewModel(RuntimeEnvironment.application, paymentModel, UserLoginStateChangedModel())

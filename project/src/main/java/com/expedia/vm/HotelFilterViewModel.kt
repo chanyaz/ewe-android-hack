@@ -1,6 +1,5 @@
 package com.expedia.vm
 
-import android.content.res.Resources
 import android.support.annotation.StringRes
 import com.expedia.bookings.R
 import com.expedia.bookings.data.LineOfBusiness
@@ -106,8 +105,7 @@ class HotelFilterViewModel(val lob: LineOfBusiness = LineOfBusiness.HOTELSV2) {
                 var sortByString: String = Strings.capitalizeFirstLetter(userFilterChoices.userSort.toString())
                 if (lob == LineOfBusiness.PACKAGES) {
                     PackagesTracking().trackHotelSortBy(sortByString)
-                }
-                else {
+                } else {
                     HotelV2Tracking().trackHotelV2SortBy(sortByString)
                 }
             }
@@ -228,8 +226,7 @@ class HotelFilterViewModel(val lob: LineOfBusiness = LineOfBusiness.HOTELSV2) {
         handleFiltering()
         if (lob == LineOfBusiness.PACKAGES) {
             PackagesTracking().trackHotelFilterVIP(it)
-        }
-        else {
+        } else {
             HotelV2Tracking().trackLinkHotelV2FilterVip(it)
         }
     }
@@ -299,8 +296,7 @@ class HotelFilterViewModel(val lob: LineOfBusiness = LineOfBusiness.HOTELSV2) {
         userFilterChoices.maxPrice = p.second
         if (lob == LineOfBusiness.PACKAGES) {
             PackagesTracking().trackHotelFilterPriceSlider()
-        }
-        else {
+        } else {
             HotelV2Tracking().trackHotelV2SortPriceSlider()
         }
         handleFiltering()
@@ -315,8 +311,7 @@ class HotelFilterViewModel(val lob: LineOfBusiness = LineOfBusiness.HOTELSV2) {
             trackingDone = true
             if (lob == LineOfBusiness.PACKAGES) {
                 PackagesTracking().trackHotelFilterByName()
-            }
-            else {
+            } else {
                 HotelV2Tracking().trackLinkHotelV2FilterByName()
             }
         }
@@ -352,6 +347,7 @@ class HotelFilterViewModel(val lob: LineOfBusiness = LineOfBusiness.HOTELSV2) {
         POPULAR(R.string.popular),
         PRICE(R.string.price),
         DEALS(R.string.sort_description_deals),
+        PACKAGE_DISCOUNT(R.string.sort_description_package_discount),
         RATING(R.string.rating),
         DISTANCE(R.string.distance);
     }
@@ -364,6 +360,7 @@ class HotelFilterViewModel(val lob: LineOfBusiness = LineOfBusiness.HOTELSV2) {
             Sort.PRICE -> Collections.sort(hotels, price_comparator)
             Sort.RATING -> Collections.sort(hotels, rating_comparator_fallback_price)
             Sort.DEALS -> Collections.sort(hotels, deals_comparator)
+            Sort.PACKAGE_DISCOUNT -> Collections.sort(hotels, package_discount_comparator)
             Sort.DISTANCE -> Collections.sort(hotels, distance_comparator_fallback_name)
         }
         setFilteredHotelListAndRetainLoyaltyInformation(HotelServices.putSponsoredItemsInCorrectPlaces(hotels))
@@ -395,6 +392,10 @@ class HotelFilterViewModel(val lob: LineOfBusiness = LineOfBusiness.HOTELSV2) {
 
     private val deals_comparator: Comparator<Hotel> = Comparator { hotel1, hotel2 ->
         hotel1.lowRateInfo.discountPercent.compareTo(hotel2.lowRateInfo.discountPercent)
+    }
+
+    private val package_discount_comparator: Comparator<Hotel> = Comparator { hotel1, hotel2 ->
+        hotel2.packageOfferModel.price.tripSavings.amount.compareTo(hotel1.packageOfferModel.price.tripSavings.amount)
     }
 
     private val rating_comparator_fallback_price: Comparator<Hotel> = Comparator { hotel1, hotel2 ->
