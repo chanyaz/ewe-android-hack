@@ -32,14 +32,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:background="?attr/skin_hotelDetailSaleRibbonDrawable"
+                android:background="@drawable/bg_sale_ribbon"
                 style="@style/BannerTextView"
             />
             <TextView
                 android:id="@+id/air_attach_banner_text_view"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="?attr/skin_hotelDetailAirAttachRibbonDrawable"
+                android:background="@drawable/bg_sale_airattach_ribbon"
                 android:layout_gravity="center_vertical"
                 style="@style/BannerTextView"
                 android:visibility="gone"

@@ -138,7 +138,7 @@
                 android:layout_height="match_parent"
                 android:gravity="center_vertical"
                 android:drawablePadding="8dp"
-                android:drawableLeft="?attr/skin_skin_tablet_dates_popup_done_drawable"
+                android:drawableLeft="@drawable/ic_tablet_search_results_popup_done_check"
                 android:paddingLeft="16dp"
                 android:paddingTop="22dp"
                 android:paddingRight="24dp"

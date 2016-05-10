@@ -164,7 +164,7 @@ public class CarSearchPresenter extends Presenter
 		toolbar.setNavigationIcon(navIcon);
 		toolBarSearchText.setText(getResources().getString(R.string.toolbar_search_cars));
 		toolbar.setBackgroundColor(
-			getResources().getColor(Ui.obtainThemeResID(getContext(), R.attr.skin_carsPrimaryColor)));
+			getResources().getColor(R.color.cars_primary_color));
 		toolbar.inflateMenu(R.menu.cars_search_menu);
 
 		toolbar.setNavigationOnClickListener(new OnClickListener() {
@@ -200,7 +200,7 @@ public class CarSearchPresenter extends Presenter
 		int statusBarHeight = Ui.getStatusBarHeight(getContext());
 		if (statusBarHeight > 0) {
 			int color = getContext().getResources()
-				.getColor(Ui.obtainThemeResID(getContext(), R.attr.skin_carsPrimaryColor));
+				.getColor(R.color.cars_primary_color);
 			statusBar = Ui.setUpStatusBar(getContext(), toolbar, searchContainer, color);
 			addView(statusBar);
 		}
@@ -369,7 +369,7 @@ public class CarSearchPresenter extends Presenter
 	public void onDateCheckedChanged(boolean isChecked) {
 		Drawable drawableEnabled = ContextCompat.getDrawable(getContext(), R.drawable.date).mutate();
 		drawableEnabled.setColorFilter(isChecked ? Color.WHITE
-			: getResources().getColor(Ui.obtainThemeResID(getContext(), R.attr.skin_carsUncheckedToggleTextColor)),
+			: getResources().getColor(R.color.cars_unchecked_toggle_text_color),
 			PorterDuff.Mode.SRC_IN);
 		selectDateButton.setCompoundDrawablesWithIntrinsicBounds(drawableEnabled, null, null, null);
 	}

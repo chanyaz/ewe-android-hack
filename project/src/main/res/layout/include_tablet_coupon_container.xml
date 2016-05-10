@@ -64,7 +64,7 @@
             android:layout_below="@+id/coupon_applied_text_view"
             android:ellipsize="end"
             android:singleLine="true"
-            android:textColor="?attr/skin_tablet_hotel_coupon_text_color"
+            android:textColor="@color/tablet_hotel_coupon_text_color"
             android:textSize="@dimen/tablet_checkout_coupon_code_text_size"/>
     </RelativeLayout>
 

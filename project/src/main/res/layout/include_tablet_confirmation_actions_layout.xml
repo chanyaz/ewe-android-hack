@@ -5,18 +5,18 @@
     <com.expedia.bookings.widget.TextView
         android:id="@+id/calendar_action_text_view"
         style="@style/Confirmation.Tablet.Action"
-        android:drawableLeft="?attr/skin_tablet_confirmation_calendar_icon"
+        android:drawableLeft="@drawable/ic_tablet_confirmation_calendar"
         android:text="@string/add_to_calendar" />
 
     <com.expedia.bookings.widget.TextView
         android:id="@+id/share_action_text_view"
         style="@style/Confirmation.Tablet.Action"
-        android:drawableLeft="?attr/skin_tablet_confirmation_share_icon" />
+        android:drawableLeft="@drawable/ic_tablet_confirmation_share" />
 
     <com.expedia.bookings.widget.TextView
         android:id="@+id/call_action_text_view"
         style="@style/Confirmation.Tablet.Action"
-        android:drawableLeft="?attr/skin_tablet_confirmation_phone_icon"
+        android:drawableLeft="@drawable/ic_tablet_confirmation_phone"
         android:text="@string/tablet_confirmation_call_support" />
 
 </merge>

@@ -97,7 +97,7 @@
                 android:layout_height="@dimen/confirmation_checkmark_size"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="@dimen/confirmation_checkmark_margin"
-                android:src="?attr/skin_icTabletConfirmationCheckmarkDrawable" />
+                android:src="@drawable/ic_tablet_confirmation_checkmark" />
 
         </FrameLayout>
 
@@ -120,7 +120,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:drawableLeft="?attr/skin_tablet_confirmation_book_next_arrow_icon"
+                    android:drawableLeft="@drawable/ic_tablet_confirmation_book_next_arrow"
                     android:drawablePadding="10dp"
                     android:gravity="center"
                     android:padding="10dp"
@@ -164,7 +164,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
-                            android:drawableLeft="?attr/skin_tablet_confirmation_book_next_arrow_icon"
+                            android:drawableLeft="@drawable/ic_tablet_confirmation_book_next_arrow"
                             android:drawablePadding="10dp" />
 
                         <LinearLayout
@@ -222,7 +222,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:drawableLeft="?attr/skin_tablet_confirmation_done_booking_icon"
+                    android:drawableLeft="@drawable/ic_tablet_confirmation_done_booking"
                     android:drawablePadding="10dp"
                     android:gravity="center"
                     android:padding="10dp"
@@ -246,7 +246,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:drawableLeft="?attr/skin_tablet_confirmation_done_booking_icon"
+                    android:drawableLeft="@drawable/ic_tablet_confirmation_done_booking"
                     android:drawablePadding="10dp"
                     android:gravity="center"
                     android:padding="10dp"

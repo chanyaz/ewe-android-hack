@@ -32,7 +32,7 @@
             android:id="@+id/price_text_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="?attr/skin_flightPriceTextColor"
+            android:textColor="@color/flight_trip_price"
             android:textSize="20dp"
             android:textStyle="bold" />
     </LinearLayout>
@@ -164,7 +164,7 @@
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:layout_marginTop="10dp"
-        app:flightLineColor="?attr/skin_flightLineColor"
+        app:flightLineColor="@color/flight_trip"
         android:layout_toLeftOf="@+id/arrival_time_text_view"
         android:layout_toRightOf="@+id/departure_time_text_view" />
 

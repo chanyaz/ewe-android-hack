@@ -6,7 +6,7 @@
     android:id="@+id/root_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="?attr/skin_tablet_hotel_details_background_drawable">
+    android:background="@drawable/ic_hotel_details_background_layer_list">
 
     <com.expedia.bookings.widget.ScrollView
         android:id="@+id/scrolling_content"
@@ -105,7 +105,7 @@
 
                     <RatingBar
                         android:id="@+id/user_rating_bar"
-                        style="?attr/skin_hotelDetailsUserRatingStyle"
+                        style="@style/RatingBar.UserReview.HotelDetails"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
@@ -289,7 +289,7 @@
 
                     <RatingBar
                         android:id="@+id/star_rating_bar"
-                        style="?attr/skin_tabletHotelDetailsStarRatingStyle"
+                        style="@style/RatingBar.Star.HotelDetails"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"

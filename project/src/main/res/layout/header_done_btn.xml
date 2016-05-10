@@ -5,7 +5,7 @@
     android:layout_height="wrap_content"
     android:layout_gravity="center_vertical"
     android:contentDescription="@string/cd_traveler_information_done"
-    android:drawableLeft="?attr/skin_actionBarCheckMarkDrawable"
+    android:drawableLeft="@drawable/ic_action_bar_checkmark"
     android:focusable="true"
     android:gravity="center_vertical"
     android:minHeight="?android:attr/actionBarSize"

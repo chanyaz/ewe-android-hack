@@ -5,7 +5,7 @@
     android:layout_height="fill_parent"
     android:background="?android:attr/selectableItemBackground"
     android:contentDescription="@string/cd_hotel_info_select_button"
-    android:drawableLeft="?attr/skin_actionBarCheckMarkDrawable"
+    android:drawableLeft="@drawable/ic_action_bar_checkmark"
     android:paddingRight="8dp"
     android:text="@string/select"
     android:textColor="?attr/skin_actionBarButtonTextColor" />

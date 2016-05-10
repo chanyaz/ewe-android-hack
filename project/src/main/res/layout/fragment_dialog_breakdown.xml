@@ -16,7 +16,7 @@
         android:paddingBottom="20dp"
         android:paddingLeft="15dp"
         android:paddingTop="20dp"
-        android:textColor="?attr/skin_costSummaryHeaderTextColor"
+        android:textColor="@color/cost_summary_header_text_color"
         android:textSize="20sp"
         app:textStyle="bold" />
 

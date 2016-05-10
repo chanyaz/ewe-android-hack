@@ -7,24 +7,24 @@
         <item name="android:colorEdgeEffect">@color/cars_primary_color</item>
 
         <!-- Skins added for whitelabel -->
-        <item name="skin_carsPrimaryColor">@color/cars_primary_color</item>
+        
         <item name="skin_carsSecondaryColor">@color/cars_primary_color</item>
         <item name="skin_carsTooltipColor">@color/cars_primary_color</item>
         <item name="primary_color">@color/cars_primary_color</item>
         <item name="skin_carsStatusBarColor">@color/cars_primary_color</item>
-        <item name="skin_carsSortButtonSelectorDrawable">@drawable/cars_sort_button_selector_orbitz</item>
-        <item name="skin_carsSortButtonTextSelectorDrawable">@drawable/cars_sort_button_text_selector_orbitz</item>
-        <item name="skin_carsToggleBackgroundSelectorDrawable">@drawable/cars_toggle_background_selector</item>
+        
+        
+        
         <item name="skin_costSummaryAlertDrawable">@drawable/dialog_breakdown_stripe</item>
-        <item name="skin_cvvBookButtonKeypadDrawable">@drawable/btn_cvv_keypad_book</item>
-        <item name="skin_cvvDivDrawable">@drawable/div_cvv_orb</item>
-        <item name="skin_checkoutLoginBookNowButtonDrawable">@drawable/btn_signin_orbitz</item>
+        
+        
+        <item name="skin_checkoutLoginBookNowButtonDrawable">@drawable/btn_signin</item>
         <item name="skin_checkoutLoginButtonColor">@android:color/white</item>
-        <item name="skin_carsUncheckedToggleTextColor">@color/cars_unchecked_toggle_text_color</item>
-        <item name="skin_carsPinDrawable">@drawable/cars_pin_orb</item>
-        <item name="skin_carsErrorDefaultDrawable">@drawable/error_default</item>
+        
+        
+        
 
-        <item name="skin_loginBookNowButtonDrawable">@drawable/btn_signin_orbitz</item>
+        
         <item name="skin_filterNumberBgDrawable">@drawable/filter_number_bg_cars_orbitz</item>
         <item name="skin_errorIndicationExclaimationDrawable">@drawable/ic_error_blue</item>
         <item name="traveler_checkout_circle_drawable">@drawable/car_driver_checkout_circle_orbitz</item>

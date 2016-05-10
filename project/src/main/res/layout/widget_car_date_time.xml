@@ -15,18 +15,18 @@
         app:calendarBaseColor="@color/cars_valid_days_calendar"
         app:calendarDaySelectionFillColor="@android:color/white"
         app:calendarDaysOfWeekColor="?attr/skin_carsTooltipColor"
-        app:calendarHeaderTextColor="?attr/skin_carsPrimaryColor"
+        app:calendarHeaderTextColor="@color/cars_primary_color"
         app:calendarHeaderTextSize="16dp"
-        app:calendarHighlightColor="?attr/skin_carsPrimaryColor"
-        app:calendarHighlightInverseColor="?attr/skin_carsPrimaryColor"
+        app:calendarHighlightColor="@color/cars_primary_color"
+        app:calendarHighlightInverseColor="@color/cars_primary_color"
         app:calendarInvalidDaysColor="@color/cars_invalid_days_calendar"
         app:calendarLayout="@layout/calendar_cars_lx_layout"
         app:calendarSecondaryColor="@color/cars_valid_days_calendar"
-        app:calendarTodayColor="?attr/skin_carsPrimaryColor"
+        app:calendarTodayColor="@color/cars_primary_color"
         app:calendarToolTipBackground="@drawable/toolbar_bg"
         app:calendarToolTipEnabled="true"
         app:calendarToolTipTailDrawable="@drawable/toolbar_arrow"
-        app:calendarWeekSelectionColor="?attr/skin_carsPrimaryColor" />
+        app:calendarWeekSelectionColor="@color/cars_primary_color" />
 
     <View
         android:id="@+id/slider_shadow"
@@ -40,7 +40,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:background="?attr/skin_carsPrimaryColor"
+        android:background="@color/cars_primary_color"
         android:paddingBottom="12dp"
         android:paddingTop="12dp">
 

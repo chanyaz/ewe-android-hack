@@ -105,8 +105,8 @@ public class TabletLaunchPinDetailFragment extends Fragment {
 			final String imageUrl = getResizedImageUrl(getActivity(), event.launchLocation);
 
 			new PicassoHelper.Builder(mRoundImage)
-				.setError(Ui.obtainThemeResID(getActivity(), R.attr.skin_launchCirclePlaceholderDrawable))
-				.setPlaceholder(Ui.obtainThemeResID(getActivity(), R.attr.skin_launchCirclePlaceholderDrawable))
+				.setError(R.drawable.launch_circle_placeholder)
+				.setPlaceholder(R.drawable.launch_circle_placeholder)
 				.setTarget(callback).build().load(
 				imageUrl);
 

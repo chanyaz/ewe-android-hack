@@ -11,7 +11,6 @@ import android.view.View;
 import com.expedia.bookings.R;
 import com.expedia.bookings.utils.ColorBuilder;
 import com.expedia.bookings.utils.LayoutUtils;
-import com.expedia.bookings.utils.Ui;
 
 /**
  * Defines common utilities for working with TVLY tablet home screen animations.
@@ -40,7 +39,7 @@ public class LaunchScreenAnimationUtil {
 
 	public static void applyColorToOverlay(Activity activity, View... views) {
 		ColorBuilder fullColorBuilder = new ColorBuilder(
-			Ui.obtainThemeColor(activity, R.attr.skin_collection_overlay_static_color));
+			activity.getResources().getColor(R.color.collection_overlay_color));
 		int textColor = fullColorBuilder
 			.setOpacity(0.9f)
 			.darkenBy(0.9f)

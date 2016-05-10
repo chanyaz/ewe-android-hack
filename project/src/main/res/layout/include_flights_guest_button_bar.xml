@@ -30,7 +30,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
         android:background="?android:attr/selectableItemBackground"
-        android:drawableLeft="?attr/skin_actionBarCheckMarkDrawable"
+        android:drawableLeft="@drawable/ic_action_bar_checkmark"
         android:gravity="center_vertical"
         android:paddingBottom="6dp"
         android:paddingRight="6dp"

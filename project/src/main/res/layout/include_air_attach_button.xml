@@ -12,7 +12,7 @@
         android:id="@+id/itin_button_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="?attr/skin_itinAirAttachButtonDrawable"
+        android:background="@drawable/btn_hotel_attach_normal"
         android:orientation="vertical">
 
         <LinearLayout

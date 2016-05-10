@@ -5,6 +5,6 @@
         android:id="@+id/menu_done"
         android:actionLayout="@layout/header_done_btn"
         android:showAsAction="always"
-        android:title="?attr/skin_actionMenuDoneButtonText"/>
+        android:title="@string/button_confirmation_done"/>
 
 </menu>

@@ -99,7 +99,7 @@ public class FlightUtils {
 		UnderlineSpan underlineSpan = cardFeeSb.getSpans(0, cardFeeHtml.length(), UnderlineSpan.class)[0];
 		int spanStart = cardFeeSb.getSpanStart(underlineSpan);
 		int spanEnd = cardFeeSb.getSpanEnd(underlineSpan);
-		int color = Ui.obtainThemeColor(context, R.attr.skin_tablet_legal_blurb_text_color);
+		int color = R.color.tablet_legal_blurb_text_color;
 		cardFeeSb.setSpan(new ForegroundColorSpan(color), spanStart, spanEnd, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
 
 		return cardFeeSb;

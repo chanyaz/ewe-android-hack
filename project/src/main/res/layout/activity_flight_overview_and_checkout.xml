@@ -41,13 +41,13 @@
                     android:id="@+id/free_cancellation_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:drawableLeft="?attr/skin_checkmarkFlightDrawable"
+                    android:drawableLeft="@drawable/checkmark_flight"
                     android:drawablePadding="8dp"
                     android:layout_gravity="center"
                     android:gravity="center"
                     android:visibility="gone"
                     android:text="@string/ab_test_flights_free_cancellation"
-                    android:textColor="?attr/skin_flightFreeCancellationTextColor"/>
+                    android:textColor="@color/flight_free_cancellation_text_color"/>
 
                 <TextView
                     android:id="@+id/airline_fee_notice"

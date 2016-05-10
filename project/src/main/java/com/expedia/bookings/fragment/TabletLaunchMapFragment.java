@@ -30,7 +30,6 @@ import com.expedia.bookings.interfaces.ISingleStateListener;
 import com.expedia.bookings.interfaces.helpers.SingleStateListener;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.tracking.OmnitureTracking;
-import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.LaunchPin;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -341,7 +340,7 @@ public class TabletLaunchMapFragment extends SupportMapFragment {
 			PinCallback target = new PinCallback(launchLocation);
 			targetList.add(target);
 			new PicassoHelper.Builder(getActivity())
-				.setPlaceholder(Ui.obtainThemeResID(getActivity(), R.attr.skin_launchCirclePlaceholderDrawable))
+				.setPlaceholder(R.drawable.launch_circle_placeholder)
 				.setTarget(target).build().load(imageUrl);
 
 		}

@@ -89,8 +89,8 @@
     <color name="btn_sign_in_focused">#F8159C</color>
     <color name="btn_sign_in_disabled">#80004C</color>
     <color name="acct__btn_sign_in_text_lm">@color/white</color>
-    <color name="acct__bg_input_text_error_lm">@color/white</color>
-    <color name="acct__bg_input_text_good_lm">#EEEEEE</color>
+    <color name="acct__bg_input_text_error">@color/white</color>
+    <color name="acct__bg_input_text_good">#EEEEEE</color>
 
     <color name="launch_discount">#006E8C</color>
     <color name="hotels_primary_color">@color/last_minute_primary_color</color>

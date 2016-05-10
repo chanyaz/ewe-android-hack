@@ -29,9 +29,9 @@ public class FallbackItinContentGenerator extends ItinContentGenerator<ItinCardD
 	public int getTypeIconResId() {
 		switch (this.getItinCardData().getTripComponentType()) {
 		case FLIGHT:
-			return Ui.obtainThemeResID(getContext(), R.attr.skin_icTypeCircleFlight);
+			return R.drawable.ic_type_circle_flight;
 		case HOTEL:
-			return Ui.obtainThemeResID(getContext(), R.attr.skin_icTypeCircleHotel);
+			return R.drawable.ic_type_circle_hotel;
 		case CAR:
 			return R.drawable.ic_type_circle_car;
 		case CRUISE:

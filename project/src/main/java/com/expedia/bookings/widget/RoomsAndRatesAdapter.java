@@ -23,7 +23,6 @@ import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.utils.LayoutUtils;
 import com.expedia.bookings.utils.StrUtils;
-import com.expedia.bookings.utils.Ui;
 import com.mobiata.android.FormatUtils;
 import com.mobiata.android.text.StrikethroughTagHandler;
 
@@ -205,11 +204,11 @@ public class RoomsAndRatesAdapter extends BaseAdapter {
 				StrUtils.formatHotelPrice(rate.getDisplayBasePrice())));
 			mBuilder.append(' ');
 			if (rate.isSaleTenPercentOrBetter() && rate.isAirAttached()) {
-				holder.saleLabel.setBackgroundResource(Ui.obtainThemeResID(mContext, R.attr.skin_roomsRatesAirAttachRibbonDrawable));
-				priceTextColor = Ui.obtainThemeColor(mContext, R.attr.skin_hotelPriceAirAttachColor);
+				holder.saleLabel.setBackgroundResource(R.drawable.rooms_rates_airattach_ribbon);
+				priceTextColor = R.color.hotel_price_air_attach_text_color;
 			}
 			else {
-				holder.saleLabel.setBackgroundResource(Ui.obtainThemeResID(mContext, R.attr.skin_roomsRatesSaleRibbonDrawable));
+				holder.saleLabel.setBackgroundResource(R.drawable.rooms_rates_ribbon);
 				priceTextColor = ProductFlavorFeatureConfiguration.getInstance()
 					.getHotelSalePriceTextColorResourceId(mContext);
 			}

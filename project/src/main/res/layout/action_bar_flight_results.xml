@@ -81,7 +81,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="6dp"
-                android:src="?attr/skin_actionBarCheckMarkDrawable" />
+                android:src="@drawable/ic_action_bar_checkmark" />
 
             <TextView
                 android:id="@+id/select_text_view"

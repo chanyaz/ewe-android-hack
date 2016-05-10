@@ -30,7 +30,7 @@
             android:layout_marginLeft="8dp"
             android:layout_marginRight="8dp"
             android:gravity="center"
-            android:textColor="?attr/skin_flightLoadingMessageTextColor"
+            android:textColor="@color/flight_loading_message_text_color"
             android:textSize="18sp"
             android:textStyle="bold" />
 

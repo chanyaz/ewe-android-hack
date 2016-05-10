@@ -55,7 +55,7 @@
             android:paddingTop="11dp"
             android:paddingBottom="13dp"
             android:includeFontPadding="false"
-            android:background="?attr/skin_tablet_pin_detail_button_background"
+            android:background="@drawable/btn_tablet_launch_screen"
             android:textColor="?attr/skin_tablet_pin_detail_button_text_color"
             android:textSize="16sp"
             android:textStyle="bold"

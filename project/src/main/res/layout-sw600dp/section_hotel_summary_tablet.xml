@@ -199,7 +199,7 @@
         android:layout_alignTop="@id/hotel_background_view"
         android:layout_marginRight="@dimen/hotel_flight_card_content_margin_x"
         android:layout_marginTop="@dimen/hotel_flight_card_content_margin_y"
-        android:background="?attr/skin_bgSaleTextViewDrawable"
+        android:background="@drawable/bg_sale_text_view"
         android:paddingBottom="1dp"
         android:paddingLeft="5dp"
         android:paddingRight="5dp"

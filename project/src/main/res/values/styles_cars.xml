@@ -25,26 +25,26 @@
 
 
         <!-- Skins added for whitelabel -->
-        <item name="skin_carsPrimaryColor">@color/cars_primary_color</item>
+        
         <item name="skin_carsSecondaryColor">@color/cars_secondary_color</item>
         <item name="skin_carsTooltipColor">@color/cars_tooltip_color</item>
         <item name="primary_color">@color/cars_primary_color</item>
         <item name="skin_carsStatusBarColor">@color/cars_status_bar_color</item>
-        <item name="skin_carsSortButtonSelectorDrawable">@drawable/cars_sort_button_selector</item>
-        <item name="skin_carsSortButtonTextSelectorDrawable">@drawable/cars_sort_button_text_selector</item>
-        <item name="skin_carsToggleBackgroundSelectorDrawable">@drawable/cars_toggle_background_selector</item>
+        
+        
+        
         <item name="skin_costSummaryAlertDrawable">@drawable/border_horizontal_expedia_striped</item>
-        <item name="skin_cvvBookButtonKeypadDrawable">@drawable/btn_cvv_keypad_book</item>
-        <item name="skin_cvvDivDrawable">@drawable/div_cvv</item>
+        
+        
         <item name="skin_checkoutLoginBookNowButtonDrawable">@drawable/btn_signin_cars</item>
         <item name="skin_checkoutLoginButtonColor">@color/checkout_login_button_color</item>
-        <item name="skin_carsUncheckedToggleTextColor">@color/cars_unchecked_toggle_text_color</item>
-        <item name="skin_carsPinDrawable">@drawable/cars_pin</item>
-        <item name="skin_carsErrorDefaultDrawable">@drawable/error_default</item>
+        
+        
+        
         <item name="skin_filterNumberBgDrawable">@drawable/filter_number_bg_cars</item>
         <item name="skin_rippleDrawable">@drawable/car_button_ripple</item>
 
-        <item name="skin_loginBookNowButtonDrawable">@drawable/btn_signin</item>
+        
         <item name="skin_errorIndicationExclaimationDrawable">@drawable/ic_error_blue</item>
         <item name="traveler_checkout_circle_drawable">@drawable/car_driver_checkout_circle</item>
         <item name="paymentWidgetLayout">@layout/payment_widget</item>
@@ -84,7 +84,7 @@
         <item name="android:windowNoTitle">true</item>
 
         <item name="skin_loginButtonColor">@android:color/black</item>
-        <item name="skin_icCheckoutCheckmarkDrawable">@drawable/ic_checkout_checkmark</item>
+        
 
         <item name="colorControlNormal">#C3C3C3</item>
         <item name="android:actionMenuTextColor">@color/white</item>
@@ -193,7 +193,7 @@
         <item name="android:textOff">@string/cars_view_details_text</item>
         <item name="android:textOn">@string/cars_reserve_text</item>
         <item name="android:textSize">17sp</item>
-        <item name="android:background">?attr/skin_carsToggleBackgroundSelectorDrawable</item>
+        <item name="android:background">@drawable/cars_toggle_background_selector</item>
     </style>
 
     <style name="CarOfferText">

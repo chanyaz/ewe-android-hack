@@ -2706,8 +2706,7 @@
     <!-- Hotel Details Fragment Activity -->
     <!-- Bullet point for list items -->
     <string name="bullet_point">•</string>
-    <!-- Label for button that lets the user complete the booking through the normal flow -->
-    <string name="book_now">Book Now</string>
+
     <!-- Label for button that lets the user complete the booking by calling a phone number -->
     <string name="book_by_phone">Book by phone</string>
     <!-- Hotel Details Fragment -->
@@ -2872,7 +2871,6 @@
     <string name="etp_pay_now_charges_text_TEMPLATE">{brand} will process your payment details.</string>
     <string name="etp_pay_now_currency_text_TEMPLATE">You will pay in your local currency (%s).</string>
     <string name="etp_pay_now_cancellation_text">Cancellation is free, right up to the hotel\'s cancellation window.</string>
-    <string name="etp_select_room">Select Room</string>
 
     <!-- ETP pay later deposit info message -->
     <string name="etp_pay_later_deposit_text">Your deposits will never exceed the total cost of your booking.</string>

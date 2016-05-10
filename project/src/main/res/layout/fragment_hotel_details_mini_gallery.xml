@@ -5,7 +5,7 @@
     android:id="@+id/images_gallery"
     android:layout_width="match_parent"
     android:layout_height="@dimen/gallery_size"
-    android:background="?attr/skin_hotelDetailPlaceHolderDrawable"
+    android:background="@drawable/placeholder_lg"
     android:fadingEdge="none"
     android:spacing="20dp"
     android:unselectedAlpha="1.0"

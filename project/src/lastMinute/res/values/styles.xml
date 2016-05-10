@@ -8,12 +8,12 @@
     </style>
 
     <style name="Dark.ActionBar.LM" parent="Dark.ActionBar">
-        <item name="android:background">@drawable/bg_action_bar_lm</item>
+        <item name="android:background">@drawable/bg_action_bar</item>
         <item name="android:backgroundSplit">@drawable/bg_action_bar_bottom_lm</item>
     </style>
 
     <style name="Widget.ListView.DropDown.LM" parent="@android:style/Widget.Holo.Light.ListView.DropDown">
-        <item name="android:background">@drawable/bg_action_bar_lm</item>
+        <item name="android:background">@drawable/bg_action_bar</item>
     </style>
 
     <style name="ActionBarMenu.NoCaps">

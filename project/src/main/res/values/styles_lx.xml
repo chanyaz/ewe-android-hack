@@ -12,7 +12,7 @@
     -->
     <style name="Whitelabel.LXTheme.Base" parent="AppTheme.Base.LX">
         <!-- Required white label attr for login widget -->
-        <item name="skin_loginBookNowButtonDrawable">@drawable/btn_signin</item>
+        
         <item name="primary_color">@color/lx_primary_color</item>
         <item name="android:colorPrimaryDark">@color/lx_color_primary_dark</item>
         <item name="android:colorButtonNormal">@color/lx_primary_color</item>
@@ -22,8 +22,8 @@
 
         <!-- Skins added for whitelabel -->
         <item name="skin_costSummaryAlertDrawable">@drawable/border_horizontal_expedia_striped</item>
-        <item name="skin_cvvBookButtonKeypadDrawable">@drawable/btn_cvv_keypad_book</item>
-        <item name="skin_cvvDivDrawable">@drawable/div_cvv</item>
+        
+        
         <item name="skin_checkoutLoginBookNowButtonDrawable">@drawable/btn_signin_cars</item>
         <item name="skin_checkoutLoginButtonColor">@color/checkout_login_button_color</item>
         <item name="skin_lxPrimaryColor">@color/lx_primary_color</item>
@@ -32,12 +32,12 @@
         <item name="skin_lxOfferDateSelectorDrawable">@drawable/lx_offer_date_selector</item>
         <item name="skin_lxSelectTicketButtonSelectorDrawable">@drawable/lx_select_ticket_button_selector</item>
         <item name="skin_lxShowMoreBackgroundDrawable">@drawable/lx_show_more_background</item>
-        <item name="skin_lxSortButtonSelectorDrawable">@drawable/lx_sort_button_selector</item>
-        <item name="skin_lxSortButtonTextSelectorDrawable">@drawable/lx_sort_button_text_selector</item>
+        
+        
         <item name="traveler_checkout_circle_drawable">@drawable/lx_traveler_checkout_circle</item>
         <item name="skin_lxTextSelectorDrawable">@drawable/lx_text_selector</item>
         <item name="skin_lxUncheckedToggleTextColor">@color/lx_unchecked_toggle_text_color</item>
-        <item name="skin_lxErrorDefaultDrawable">@drawable/error_default</item>
+        
         <item name="skin_filterNumberBgDrawable">@drawable/filter_number_bg_lx</item>
         <item name="skin_errorIndicationExclaimationDrawable">@drawable/ic_error_blue</item>
 
@@ -83,7 +83,7 @@
         <item name="sliderText">@string/cars_slider_text</item>
         <item name="toolbar_title_style">@style/LXToolbarTitleTextAppearance</item>
         <item name="android:textColorSecondary">@color/lx_actionbar_text_color</item>
-        <item name="skin_icCheckoutCheckmarkDrawable">@drawable/ic_checkout_checkmark</item>
+        
 
         <!-- CVV attrs -->
         <item name="traveler_toolbar_text">@string/traveler_details_text</item>

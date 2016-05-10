@@ -53,7 +53,7 @@
         android:layout_marginLeft="5dp"
         android:layout_marginRight="10dp"
         android:layout_weight="0"
-        android:src="?attr/skin_icCheckoutCheckmarkDrawable"
+        android:src="@drawable/ic_checkout_checkmark"
         android:visibility="gone" />
 
 </com.expedia.bookings.section.SectionTravelerInfo>

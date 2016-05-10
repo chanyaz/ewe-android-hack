@@ -6,12 +6,12 @@
     </style>
 
     <style name="Dark.ActionBar.Wotif" parent="Dark.ActionBar">
-        <item name="android:background">@drawable/bg_action_bar_wotif</item>
+        <item name="android:background">@drawable/bg_action_bar</item>
         <item name="android:backgroundSplit">@drawable/bg_action_bar_bottom_wotif</item>
     </style>
 
     <style name="Widget.ListView.DropDown.Wotif" parent="@android:style/Widget.Holo.Light.ListView.DropDown">
-        <item name="android:background">@drawable/bg_action_bar_wotif</item>
+        <item name="android:background">@drawable/bg_action_bar</item>
     </style>
 
     <style name="ActionBarMenu.NoCaps">

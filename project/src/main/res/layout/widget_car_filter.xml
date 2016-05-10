@@ -48,7 +48,7 @@
                     android:paddingLeft="16dp"
                     android:paddingRight="16dp"
                     android:text="@string/options"
-                    android:textColor="?attr/skin_carsPrimaryColor" />
+                    android:textColor="@color/cars_primary_color" />
 
                 <android.support.v7.widget.CardView
                     style="@style/MaterialCardView"
@@ -68,10 +68,10 @@
                             android:layout_width="0dp"
                             android:layout_height="40dp"
                             android:layout_weight="1"
-                            android:background="?attr/skin_carsSortButtonSelectorDrawable"
+                            android:background="@drawable/cars_sort_button_selector"
                             android:text="@string/car_filter_automatic"
                             android:textAllCaps="false"
-                            android:textColor="?attr/skin_carsSortButtonTextSelectorDrawable" />
+                            android:textColor="@drawable/cars_sort_button_text_selector" />
 
                         <View
                             android:layout_width="1px"
@@ -83,10 +83,10 @@
                             android:layout_width="0dp"
                             android:layout_height="40dp"
                             android:layout_weight="1"
-                            android:background="?attr/skin_carsSortButtonSelectorDrawable"
+                            android:background="@drawable/cars_sort_button_selector"
                             android:text="@string/car_filter_manual"
                             android:textAllCaps="false"
-                            android:textColor="?attr/skin_carsSortButtonTextSelectorDrawable" />
+                            android:textColor="@drawable/cars_sort_button_text_selector" />
 
                         <View
                             android:layout_width="1px"
@@ -98,10 +98,10 @@
                             android:layout_width="0dp"
                             android:layout_height="40dp"
                             android:layout_weight="1"
-                            android:background="?attr/skin_carsSortButtonSelectorDrawable"
+                            android:background="@drawable/cars_sort_button_selector"
                             android:text="@string/car_filter_all"
                             android:textAllCaps="false"
-                            android:textColor="?attr/skin_carsSortButtonTextSelectorDrawable" />
+                            android:textColor="@drawable/cars_sort_button_text_selector" />
                     </LinearLayout>
                 </android.support.v7.widget.CardView>
 
@@ -131,7 +131,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:textColor="?attr/skin_carsPrimaryColor" />
+                        android:textColor="@color/cars_primary_color" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -159,7 +159,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:textColor="?attr/skin_carsPrimaryColor" />
+                        android:textColor="@color/cars_primary_color" />
                 </LinearLayout>
 
                 <View
@@ -176,7 +176,7 @@
                     android:paddingLeft="16dp"
                     android:paddingRight="16dp"
                     android:text="@string/car_types"
-                    android:textColor="?attr/skin_carsPrimaryColor" />
+                    android:textColor="@color/cars_primary_color" />
 
                 <LinearLayout
                     android:id="@+id/filter_categories"
@@ -198,7 +198,7 @@
                     android:paddingLeft="16dp"
                     android:paddingRight="16dp"
                     android:text="@string/car_vendors"
-                    android:textColor="?attr/skin_carsPrimaryColor" />
+                    android:textColor="@color/cars_primary_color" />
 
                 <LinearLayout
                     android:id="@+id/filter_suppliers"

@@ -47,8 +47,8 @@
 
     <!--Account Lib Colors -->
     <color name="acct__btn_sign_in_text_aag">#FFFFFF</color>
-    <color name="acct__bg_input_text_error_aag">#FFFFFF</color>
-    <color name="acct__bg_input_text_good_aag">#EEEEEE</color>
+    <color name="acct__bg_input_text_error">#FFFFFF</color>
+    <color name="acct__bg_input_text_good">#EEEEEE</color>
 
     <!-- Checkout Colors -->
     <color name="login_text_aag">#333333</color>

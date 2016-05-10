@@ -72,7 +72,7 @@
         <item name="android:layout_height">40dp</item>
         <item name="android:layout_centerHorizontal">true</item>
         <item name="android:layout_marginTop">@dimen/pick_airport_button_top_margin</item>
-        <item name="android:background">?attr/skin_tablet_search_result_error_button_drawable</item>
+        <item name="android:background">@drawable/bg_tablet_search_result_error_action_button</item>
         <item name="android:gravity">center</item>
         <item name="android:textColor">?attr/skin_tablet_search_result_error_button_text_color</item>
         <item name="android:textSize">14sp</item>
