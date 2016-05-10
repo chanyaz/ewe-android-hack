@@ -532,7 +532,8 @@ public class ShareUtils {
 			builder.append("\n\n");
 		}
 
-		if (!TextUtils.isEmpty(sharableDetailsUrl)) {
+		if (ProductFlavorFeatureConfiguration.getInstance().shouldDisplayItinTrackAppLink() && !TextUtils
+			.isEmpty(sharableDetailsUrl)) {
 			builder.append(mContext.getString(R.string.share_link_section, sharableDetailsUrl));
 			builder.append("\n\n");
 		}
@@ -676,7 +677,8 @@ public class ShareUtils {
 			sb.append("\n");
 		}
 
-		if (!TextUtils.isEmpty(sharableDetailsURL)) {
+		if (ProductFlavorFeatureConfiguration.getInstance().shouldDisplayItinTrackAppLink() && !TextUtils
+			.isEmpty(sharableDetailsURL)) {
 			sb.append(mContext.getString(R.string.share_link_section, sharableDetailsURL));
 			sb.append("\n");
 		}
@@ -767,7 +769,8 @@ public class ShareUtils {
 
 		sb.append("\n");
 
-		if (!TextUtils.isEmpty(sharableDetailsURL)) {
+		if (ProductFlavorFeatureConfiguration.getInstance().shouldDisplayItinTrackAppLink() && !TextUtils
+			.isEmpty(sharableDetailsURL)) {
 			sb.append("\n");
 			sb.append(mContext.getString(R.string.share_link_section, sharableDetailsURL));
 			sb.append("\n");
