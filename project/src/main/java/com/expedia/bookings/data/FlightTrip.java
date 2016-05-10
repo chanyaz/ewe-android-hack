@@ -1,21 +1,5 @@
 package com.expedia.bookings.data;
 
-import org.joda.time.DateTime;
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import android.content.Context;
-import android.text.TextUtils;
-
-import com.expedia.bookings.data.payment.LoyaltyEarnInfo;
-import com.expedia.bookings.model.FlightPaymentFlowState;
-import com.expedia.bookings.utils.GsonUtil;
-import com.mobiata.android.Log;
-import com.mobiata.android.json.JSONUtils;
-import com.mobiata.android.json.JSONable;
-import com.mobiata.flightlib.data.Flight;
-
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.ArrayList;
@@ -26,9 +10,33 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.joda.time.DateTime;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import android.content.Context;
+import android.text.TextUtils;
+
+import com.expedia.bookings.data.payment.LoyaltyEarnInfo;
+import com.expedia.bookings.data.payment.PointsEarnInfo;
+import com.expedia.bookings.data.payment.PriceEarnInfo;
+import com.expedia.bookings.model.FlightPaymentFlowState;
+import com.expedia.bookings.utils.GsonUtil;
+import com.mobiata.android.Log;
+import com.mobiata.android.json.JSONUtils;
+import com.mobiata.android.json.JSONable;
+import com.mobiata.flightlib.data.Flight;
+
 public class FlightTrip implements JSONable {
 
 	private static final double PRICE_CHANGE_NOTIFY_CUTOFF = .01;
+	private static final String LOYALTY_TOTAL_POINTS = "loyaltyTotalPoints";
+	private static final String LOYALTY_TOTAL_PRICE = "loyaltyTotalPrice";
+	private static final String LOYALTY_CURRENCY = "loyaltyCurrency";
+	private static final String TOTAL_REWARDS_POINTS = "totalRewardsPoints";
+	private static final String REWARDS_CURRENCY = "rewardsCurrency";
+	private static final String TOTAL_REWARDS_AMOUNT_TO_EARN = "totalRewardsAmountToEarn";
 
 	private String mProductKey;
 
@@ -696,9 +704,6 @@ public class FlightTrip implements JSONable {
 	private static final String KEY_CURRENCY = "t";
 	private static final String KEY_PASSENGERS = "v";
 	private static final String KEY_AVG_TOTAL_FARE = "w";
-	private static final String KEY_EARN_INFO = "earnInfo";
-	private static final String KEY_REWARS = "rewards";
-
 
 	@Override
 	public JSONObject toJson() {
@@ -714,10 +719,10 @@ public class FlightTrip implements JSONable {
 			obj.putOpt(KEY_PRODUCT_KEY, mProductKey);
 
 			if (earnInfo != null) {
-				obj.put(KEY_EARN_INFO, earnInfo);
+				addEarnInfo(obj, earnInfo);
 			}
 			if (rewards != null) {
-				obj.put(KEY_REWARS, rewards);
+				addRewardsInfo(obj, rewards);
 			}
 			if (includeFullLegData) {
 				JSONUtils.putJSONableList(obj, KEY_LEGS, mLegs);
@@ -780,6 +785,54 @@ public class FlightTrip implements JSONable {
 		}
 	}
 
+	private RewardsInfo getRewardsInfo(JSONObject obj) throws JSONException {
+		RewardsInfo rewardsInfo = new RewardsInfo();
+		float totalRewardsPoints = (float) obj.optDouble(TOTAL_REWARDS_POINTS, 0);
+		rewardsInfo.setTotalPointsToEarn(totalRewardsPoints);
+		String rewardsCurrency = obj.optString(REWARDS_CURRENCY);
+		rewardsInfo.setTotalAmountToEarn(parseMoney(obj, TOTAL_REWARDS_AMOUNT_TO_EARN, rewardsCurrency));
+		return rewardsInfo;
+	}
+
+	private void addRewardsInfo(JSONObject obj, RewardsInfo rewards) throws JSONException {
+		float totalRewardsPoints = rewards.getTotalPointsToEarn();
+		Money totalAmountToEarn = rewards.getTotalAmountToEarn();
+		obj.put(TOTAL_REWARDS_POINTS, totalRewardsPoints);
+		if (totalAmountToEarn != null) {
+			obj.put(REWARDS_CURRENCY, totalAmountToEarn.getCurrency());
+			addMoney(obj, TOTAL_REWARDS_AMOUNT_TO_EARN, totalAmountToEarn);
+		}
+	}
+
+	private void addEarnInfo(JSONObject obj, LoyaltyEarnInfo loyaltyEarnInfo) throws JSONException {
+		PointsEarnInfo pointsEarnInfo = loyaltyEarnInfo.getPoints();
+		if (pointsEarnInfo != null) {
+			int totalPoints = pointsEarnInfo.getTotal();
+			obj.put(LOYALTY_TOTAL_POINTS, totalPoints);
+		}
+		PriceEarnInfo priceEarnInfo = loyaltyEarnInfo.getPrice();
+		if (priceEarnInfo != null) {
+			Money totalPrice = priceEarnInfo.getTotal();
+			addMoney(obj, LOYALTY_TOTAL_PRICE, totalPrice);
+			obj.put(LOYALTY_CURRENCY, totalPrice.getCurrency());
+		}
+	}
+
+	private LoyaltyEarnInfo getEarnInfo(JSONObject obj) throws JSONException {
+		PointsEarnInfo pointsEarnInfo = null;
+		PriceEarnInfo priceEarnInfo = null;
+		int loyaltyTotalPoints = obj.optInt(LOYALTY_TOTAL_POINTS);
+		if (loyaltyTotalPoints != 0) {
+			pointsEarnInfo = new PointsEarnInfo(0, 0, loyaltyTotalPoints);
+		}
+		String loyaltyCurrency = obj.optString(LOYALTY_CURRENCY);
+		Money loyaltyTotalPrice = parseMoney(obj, LOYALTY_TOTAL_PRICE, loyaltyCurrency);
+		if (loyaltyTotalPrice != null) {
+			priceEarnInfo = new PriceEarnInfo(null, null, loyaltyTotalPrice);
+		}
+		return new LoyaltyEarnInfo(pointsEarnInfo, priceEarnInfo);
+	}
+
 	private void addMoney(JSONObject obj, String key, Money money) throws JSONException {
 		if (money != null) {
 			obj.put(key, money.getAmount().toPlainString());
@@ -820,20 +873,14 @@ public class FlightTrip implements JSONable {
 		}
 
 		try {
-			Object earnInfo = obj.get(KEY_EARN_INFO);
-			if (earnInfo != null) {
-				this.earnInfo = (LoyaltyEarnInfo) earnInfo;
-			}
+			this.earnInfo = getEarnInfo(obj);
 		}
 		catch (JSONException e) {
 			Log.e("Could not parse LoyaltyEarnInfo.", e);
 		}
 
 		try {
-			Object rewards = obj.get(KEY_REWARS);
-			if (rewards != null) {
-				this.rewards = (RewardsInfo) rewards;
-			}
+			this.rewards = getRewardsInfo(obj);
 		}
 		catch (JSONException e) {
 			Log.e("Could not parse RewardsInfo.", e);
