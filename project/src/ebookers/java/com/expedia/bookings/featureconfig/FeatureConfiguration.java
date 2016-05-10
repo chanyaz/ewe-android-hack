@@ -338,7 +338,7 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 
 	@Override
 	public PointOfSaleId getUSPointOfSaleId() {
-		return PointOfSaleId.UNITED_STATES;
+		return null;
 	}
 
 	@Override
@@ -353,8 +353,22 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 
 	@Override
 	public String getOmnitureEventValue(OmnitureTracking.OmnitureEventName key) {
-		//Ignore
-		return null;
+		switch (key) {
+		case REWARD_PROGRAM_NAME:
+			return "ebookers";
+		case HOTEL_CHECKOUT_START_REWARDS_REDEEMABLE:
+			return "event119";
+		case REWARD_APPLIED_PERCENTAGE_TEMPLATE:
+			return "ebookers | %d";
+		case NO_REWARDS_USED:
+			return "no bonus+ used";
+		case TOTAL_POINTS_BURNED:
+			return "event123";
+		case BRAND_KEY_FOR_OMNITURE:
+			return "EBookers";
+		}
+		//It should not be the case
+		throw new IllegalArgumentException("Unknown enum value");
 	}
 
 	@Override
