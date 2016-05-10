@@ -2082,6 +2082,8 @@
     <string name="add_infant_in_seat_variate2">Infant in seat</string>
     <!-- Warning shown to users when they enter their name -->
     <string name="name_must_match_warning">Boarding may be denied if traveler name does not match government-issued photo ID.</string>
+    <!-- Warning shown to users when they enter their name (Material design message) -->
+    <string name="name_must_match_warning_new">Traveler names must match government-issued photo ID exactly.</string>
 
     <!-- Special Assistance label template -->
     <string name="special_assistance_label_TEMPLATE">Special Assistance: %1$s</string>
