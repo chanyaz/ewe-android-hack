@@ -16,12 +16,18 @@ pip install "lxml==3.5.0"
 GITHUB_TOKEN=7d400f5e78f24dbd24ee60814358aa0ab0cd8a76
 HIPCHAT_TOKEN=3htGpj4sE9XxUToWvWCWWmISA3op2U1roRufVjpQ
 
-# exit if finds 'needs-human' label
-python ./jenkins/prLabeledAsNeedsHuman.py $GITHUB_TOKEN $ghprbPullId
-prLabeledAsNeedsHumanStatus=$?
-if [ $prLabeledAsNeedsHumanStatus -ne 0 ]; then
-   echo "PR is labeled needs-human, so exiting..."
-   exit 1
+if [ -n "${BUILD_NUMBER}" ]; then
+	isJenkins=true
+fi
+
+if [ $isJenkins ]; then
+    # exit if finds 'needs-human' label
+    python ./jenkins/prLabeledAsNeedsHuman.py $GITHUB_TOKEN $ghprbPullId
+    prLabeledAsNeedsHumanStatus=$?
+    if [ $prLabeledAsNeedsHumanStatus -ne 0 ]; then
+       echo "PR is labeled needs-human, so exiting..."
+       exit 1
+    fi
 fi
 
 if [ "$isPRPoliceEnabled" == "true" ]; then
@@ -52,7 +58,9 @@ run() {
 run || run
 unitTestStatus=$?
 
-python ./jenkins/pr_unit_feedback.py $GITHUB_TOKEN $ghprbGhRepository $ghprbPullId $HIPCHAT_TOKEN
+if [ $isJenkins ]; then
+    python ./jenkins/pr_unit_feedback.py $GITHUB_TOKEN $ghprbGhRepository $ghprbPullId $HIPCHAT_TOKEN
+fi
 
 if [[ ($unitTestStatus -ne 0) || ($prPoliceStatus -ne 0) ]]; then
     exit 1
