@@ -619,13 +619,14 @@ public class Property implements JSONable {
 		mLocation.setLongitude(offer.longitude);
 
 		String thumbnailUrl = offer.largeThumbnailUrl;
-		if (!TextUtils.isEmpty(thumbnailUrl) && !thumbnailUrl.startsWith("http://")) {
-			mThumbnail = new HotelMedia(Images.getMediaHost() + thumbnailUrl);
+		if (!TextUtils.isEmpty(thumbnailUrl)) {
+			if (!thumbnailUrl.startsWith("http://")) {
+				mThumbnail = new HotelMedia(Images.getMediaHost() + thumbnailUrl);
+			}
+			else {
+				mThumbnail = new HotelMedia(thumbnailUrl);
+			}
 		}
-		else {
-			mThumbnail = new HotelMedia(thumbnailUrl);
-		}
-
 		mAvailable = offer.isHotelAvailable;
 		mDistanceFromUser = offer.distanceUnit.equals("Miles") ?
 			new Distance(offer.proximityDistanceInMiles, Distance.DistanceUnit.MILES) :
