@@ -18,6 +18,14 @@ pip install enum
 pip install "github3.py==1.0.0.a4"
 pip install "hypchat==0.21"
 
+# exit if finds 'needs-human' label
+python ./jenkins/prLabeledAsNeedsHuman.py $GITHUB_TOKEN $ghprbPullId
+prLabeledAsNeedsHumanStatus=$?
+if [ $prLabeledAsNeedsHumanStatus -ne 0 ]; then
+   echo "PR is labeled needs-human, so exiting..."
+   exit 1
+fi
+
 # So the sdkmanager plugin can run and download if the libraries fail to resolve
 ./gradlew --no-daemon --continue "-Dorg.gradle.configureondemand=false" "clean"
 
