@@ -11,7 +11,6 @@ import com.expedia.bookings.services.PackageServices
 import com.expedia.bookings.utils.DateFormatUtils
 import com.expedia.bookings.utils.DateUtils
 import com.expedia.bookings.utils.StrUtils
-import com.expedia.vm.packages.PackageSearchType
 import com.squareup.phrase.Phrase
 import rx.Observer
 import rx.subjects.BehaviorSubject
@@ -77,6 +76,9 @@ class BundleOverviewViewModel(val context: Context, val packageServices: Package
     fun makeResultsObserver(type: PackageSearchType): Observer<PackageSearchResponse> {
         return object : Observer<PackageSearchResponse> {
             override fun onNext(response: PackageSearchResponse) {
+                if (response.packageResult.hotelsPackage.hotels.isEmpty()) {
+                    errorObservable.onNext(PackageApiError.Code.search_response_null)
+                }
                 if (response.hasErrors()) {
                     errorObservable.onNext(response.firstError)
                 }

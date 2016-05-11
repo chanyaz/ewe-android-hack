@@ -28,20 +28,20 @@ import java.util.HashMap
 class PackageServices(endpoint: String, okHttpClient: OkHttpClient, interceptor: Interceptor, val observeOn: Scheduler, val subscribeOn: Scheduler) {
 
     val packageApi: PackageApi by lazy {
-		val gson = GsonBuilder()
-				.registerTypeAdapter(DateTime::class.java, DateTimeTypeAdapter())
-				.registerTypeAdapter(PackageSearchResponse.HotelPackage::class.java, PackageHotelDeserializer())
-				.registerTypeAdapter(PackageSearchResponse.FlightPackage::class.java, PackageFlightDeserializer())
-				.create()
+        val gson = GsonBuilder()
+                .registerTypeAdapter(DateTime::class.java, DateTimeTypeAdapter())
+                .registerTypeAdapter(PackageSearchResponse.HotelPackage::class.java, PackageHotelDeserializer())
+                .registerTypeAdapter(PackageSearchResponse.FlightPackage::class.java, PackageFlightDeserializer())
+                .create()
 
-		val adapter = Retrofit.Builder()
-				.baseUrl(endpoint)
-				.addConverterFactory(GsonConverterFactory.create(gson))
-				.addCallAdapterFactory(RxJavaCallAdapterFactory.create())
-				.client(okHttpClient.newBuilder().addInterceptor(interceptor).build())
-				.build()
+        val adapter = Retrofit.Builder()
+                .baseUrl(endpoint)
+                .addConverterFactory(GsonConverterFactory.create(gson))
+                .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
+                .client(okHttpClient.newBuilder().addInterceptor(interceptor).build())
+                .build()
 
-		adapter.create(PackageApi::class.java)
+        adapter.create(PackageApi::class.java)
     }
 
     fun packageSearch(params: PackageSearchParams): Observable<PackageSearchResponse> {
@@ -54,6 +54,18 @@ class PackageServices(endpoint: String, okHttpClient: OkHttpClient, interceptor:
                         hotel.packageOfferModel = response.packageResult.packageOfferModels.find { offer ->
                             offer.hotel == hotel.hotelPid
                         }
+                    }
+
+                    //filter out the hotels and packageoffer model list with null piid, price or price per person values
+                    response.packageResult.hotelsPackage.hotels = response.packageResult.hotelsPackage.hotels.filter { it.packageOfferModel?.price?.pricePerPerson != null }
+                    response.packageResult.packageOfferModels = response.packageResult.packageOfferModels.filter { it.price?.pricePerPerson != null }
+
+                    //return if the hotels list is empty after filtering
+                    if (response.packageResult.hotelsPackage.hotels.isEmpty()) {
+                        return@doOnNext
+                    }
+
+                    response.packageResult.hotelsPackage.hotels.forEach { hotel ->
                         val lowRateInfo = HotelRate()
                         val currencyCode = hotel.packageOfferModel.price.pricePerPerson.currencyCode
                         val currency = Currency.getInstance(currencyCode)
