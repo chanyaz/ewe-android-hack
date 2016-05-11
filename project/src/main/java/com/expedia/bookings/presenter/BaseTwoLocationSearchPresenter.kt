@@ -16,12 +16,14 @@ abstract class BaseTwoLocationSearchPresenter(context: Context, attrs: Attribute
 
     protected var originSuggestionViewModel: SuggestionAdapterViewModel by notNullAndObservable { vm ->
         val suggestionSelectedObserver = suggestionSelectedObserver(getSearchViewModel().originLocationObserver, suggestionInputView = originCardView)
+        val delayBeforeShowingDestinationSuggestions = 325L
+        val waitForOtherSuggestionListeners = 350L
         vm.suggestionSelectedSubject
                 .doOnNext(suggestionSelectedObserver)
-                .debounce(350, TimeUnit.MILLISECONDS)
+                .debounce(waitForOtherSuggestionListeners + delayBeforeShowingDestinationSuggestions, TimeUnit.MILLISECONDS)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe {
-                    destinationCardView.performClick()
+                    showSuggestionState(selectOrigin = false)
                 }
     }
 
@@ -32,6 +34,6 @@ abstract class BaseTwoLocationSearchPresenter(context: Context, attrs: Attribute
 
     override fun onFinishInflate() {
         super.onFinishInflate()
-        originCardView.setOnClickListener(locationClickListener(isCustomerSelectingOrigin = true))
+        originCardView.setOnClickListener({ showSuggestionState(selectOrigin = true) })
     }
 }
