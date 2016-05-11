@@ -316,4 +316,22 @@ public class CustomMatchers {
 		};
 	}
 
+	public static Matcher<View> withContentDescription(final String contentDescription) {
+		return new BoundedMatcher<View, ViewGroup>(ViewGroup.class) {
+			@Override
+			public void describeTo(Description description) {
+				description.appendText("ViewGroup has this content description -> " + contentDescription);
+			}
+
+			@Override
+			public boolean matchesSafely(ViewGroup viewGroup) {
+				if (viewGroup.getContentDescription().toString().equals(contentDescription)) {
+					return true;
+				}
+				return false;
+			}
+		};
+	}
+
+
 }

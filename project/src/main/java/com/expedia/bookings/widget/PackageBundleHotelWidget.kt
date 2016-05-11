@@ -4,7 +4,6 @@ import android.content.Context
 import android.content.Intent
 import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
-import android.support.v7.widget.CardView
 import android.util.AttributeSet
 import android.view.View
 import android.view.ViewGroup
@@ -18,6 +17,8 @@ import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.tracking.PackagesTracking
 import com.expedia.bookings.utils.AnimUtils
 import com.expedia.bookings.utils.Constants
+import com.expedia.bookings.utils.DateUtils
+import com.expedia.bookings.utils.StrUtils
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
 import com.expedia.ui.PackageHotelActivity
@@ -27,9 +28,9 @@ import com.expedia.util.subscribeText
 import com.expedia.util.subscribeTextAndVisibility
 import com.expedia.util.subscribeVisibility
 import com.expedia.vm.packages.BundleHotelViewModel
+import com.squareup.phrase.Phrase
 
-class PackageBundleHotelWidget(context: Context, attrs: AttributeSet?) : CardView(context, attrs) {
-
+class PackageBundleHotelWidget(context: Context, attrs: AttributeSet?) : AccessibleCardView(context, attrs) {
     val hotelLoadingBar: ImageView by bindView(R.id.hotel_loading_bar)
     val hotelInfoContainer: ViewGroup by bindView(R.id.hotel_info_container)
     val hotelsText: TextView by bindView(R.id.hotels_card_view_text)
@@ -74,6 +75,7 @@ class PackageBundleHotelWidget(context: Context, attrs: AttributeSet?) : CardVie
         viewModel.showLoadingStateObservable.subscribeVisibility(hotelLoadingBar)
         viewModel.showLoadingStateObservable.subscribeInverseVisibility(hotelsDatesGuestInfoText)
         viewModel.showLoadingStateObservable.subscribe { showLoading ->
+            this.loadingStateObservable.onNext(showLoading)
             if (showLoading) {
                 rowContainer.setClickable(false)
                 hotelInfoContainer.isEnabled = false
@@ -152,5 +154,39 @@ class PackageBundleHotelWidget(context: Context, attrs: AttributeSet?) : CardVie
         this.isEnabled = isEnabled
         hotelDetailsIcon.isEnabled = isEnabled
         rowContainer.isEnabled = isEnabled
+    }
+
+    override fun getRowInfoContainer(): ViewGroup {
+        return rowContainer
+    }
+
+    override fun disabledContentDescription(): String {
+        return ""
+    }
+
+    override fun loadingContentDescription(): String {
+        val startDate = DateUtils.localDateToMMMd(Db.getPackageParams().checkIn)
+        val endDate = DateUtils.localDateToMMMd(Db.getPackageParams().checkOut)
+        val guests = StrUtils.formatGuestString(context, Db.getPackageParams().guests)
+        return Phrase.from(context, R.string.select_hotel_content_description_searching)
+                .put("destination", StrUtils.formatCityName(Db.getPackageParams().destination))
+                .put("startdate", startDate)
+                .put("enddate", endDate)
+                .put("guests", guests)
+                .format()
+                .toString()
+    }
+
+    override fun contentDescription(): String {
+        val startDate = DateUtils.localDateToMMMd(Db.getPackageParams().checkIn)
+        val endDate = DateUtils.localDateToMMMd(Db.getPackageParams().checkOut)
+        val guests = StrUtils.formatGuestString(context, Db.getPackageParams().guests)
+        return Phrase.from(context, R.string.select_hotel_content_description)
+                .put("destination", StrUtils.formatCityName(Db.getPackageParams().destination))
+                .put("startdate", startDate)
+                .put("enddate", endDate)
+                .put("guests", guests)
+                .format()
+                .toString()
     }
 }

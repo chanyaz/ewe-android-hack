@@ -571,6 +571,8 @@ DummyFiletoHandleKotlinLintError {
 		R.layout.flight_results_loading_tile_widget,
 		R.layout.flight_results_loading_header_cell,
 		R.bool.acct__isGoogleAccountChangeEnabled,
-		R.layout.flight_results_loading_header_cell
+		R.layout.flight_results_loading_header_cell,
+		R.string.select_hotel_content_description,
+		R.string.select_hotel_content_description_searching
 	};
 }
