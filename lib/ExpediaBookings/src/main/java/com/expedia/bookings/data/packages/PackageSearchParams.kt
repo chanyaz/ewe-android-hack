@@ -26,7 +26,7 @@ open class PackageSearchParams(val origin: SuggestionV4, val destination: Sugges
     var defaultFlights: Array<String?> by Delegates.notNull()
     var numberOfRooms: String = Constants.NUMBER_OF_ROOMS
 
-    class Builder(maxStay: Int) : BaseSearchParams.Builder(maxStay) {
+    class Builder(maxStay: Int, maxRange: Int) : BaseSearchParams.Builder(maxStay, maxRange) {
 
         override fun build(): PackageSearchParams {
             val flightOrigin = originLocation ?: throw IllegalArgumentException()
@@ -40,7 +40,7 @@ open class PackageSearchParams(val origin: SuggestionV4, val destination: Sugges
             return hasOriginAndDestination() && hasStartAndEndDates()
         }
 
-        override fun hasValidDates(): Boolean {
+        override fun hasValidDateDuration(): Boolean {
             return Days.daysBetween(startDate, endDate).days <= maxStay
         }
 

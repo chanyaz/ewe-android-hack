@@ -246,7 +246,7 @@
     <!-- Message for user that pick-up time is too early.  -->
     <string name="pick_up_time_error">Ändra dina tider för hämtning eller avlämning.</string>
     <!-- Message for user  to choose a closer date.  -->
-    <string name="drop_off_too_far_error">Datumet är för sent, välj ett tidigare datum.</string>
+    <string name="error_date_too_far">Datumet är för sent, välj ett tidigare datum.</string>
     <!-- Message for user that date is too far out.  -->
     <string name="date_out_of_range">Datumet är för sent, välj ett tidigare datum.</string>
     <!-- Message for user that increase your reservation duration. -->

@@ -48,7 +48,7 @@ public class FlightServicesTest {
 			.setBody("{garbage}"));
 
 		TestSubscriber<FlightSearchResponse> observer = new TestSubscriber<>();
-		FlightSearchParams params = (FlightSearchParams) new FlightSearchParams.Builder(26)
+		FlightSearchParams params = (FlightSearchParams) new FlightSearchParams.Builder(26, 500)
 			.origin(getDummySuggestion())
 			.destination(getDummySuggestion())
 			.startDate(LocalDate.now())
@@ -70,7 +70,7 @@ public class FlightServicesTest {
 		server.setDispatcher(new ExpediaDispatcher(opener));
 
 		TestSubscriber<FlightSearchResponse> observer = new TestSubscriber<>();
-		FlightSearchParams params = (FlightSearchParams) new FlightSearchParams.Builder(26)
+		FlightSearchParams params = (FlightSearchParams) new FlightSearchParams.Builder(26, 500)
 			.origin(getDummySuggestion())
 			.destination(getDummySuggestion())
 			.startDate(LocalDate.now())

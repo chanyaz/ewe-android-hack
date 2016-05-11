@@ -246,7 +246,7 @@
     <!-- Message for user that pick-up time is too early.  -->
     <string name="pick_up_time_error">Modifica el horario de recogida o entrega.</string>
     <!-- Message for user  to choose a closer date.  -->
-    <string name="drop_off_too_far_error">La fecha está demasiado lejana en el tiempo, elige otra más cercana.</string>
+    <string name="error_date_too_far">La fecha está demasiado lejana en el tiempo, elige otra más cercana.</string>
     <!-- Message for user that date is too far out.  -->
     <string name="date_out_of_range">La fecha está demasiado lejana en el tiempo, elige otra más cercana.</string>
     <!-- Message for user that increase your reservation duration. -->

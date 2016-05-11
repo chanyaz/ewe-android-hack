@@ -11,7 +11,7 @@ class NewFlightSearchParamsTest {
 
     @Test
     fun testParamsValidation() {
-        val builder = FlightSearchParams.Builder(330)
+        val builder = FlightSearchParams.Builder(26, 329)
         val expectedNumAdults = 2
         val expectedNumChildren = 2
 		val expectedDepartureDate = LocalDate.now()
@@ -30,7 +30,7 @@ class NewFlightSearchParamsTest {
 		Assert.assertEquals(false, builder.hasOriginLocation())
 		Assert.assertEquals(false, builder.hasDestinationLocation())
 		Assert.assertEquals(false, builder.areRequiredParamsFilled())
-		Assert.assertEquals(false, builder.hasValidDates())
+		Assert.assertEquals(false, builder.hasValidDateDuration())
 
         builder.adults(expectedNumAdults)
 		Assert.assertEquals(false, builder.hasStart())
@@ -38,7 +38,7 @@ class NewFlightSearchParamsTest {
 		Assert.assertEquals(false, builder.hasOriginLocation())
 		Assert.assertEquals(false, builder.hasDestinationLocation())
 		Assert.assertEquals(false, builder.areRequiredParamsFilled())
-		Assert.assertEquals(false, builder.hasValidDates())
+		Assert.assertEquals(false, builder.hasValidDateDuration())
 
 		builder.startDate(expectedDepartureDate)
 		Assert.assertEquals(true, builder.hasStart())
@@ -46,10 +46,10 @@ class NewFlightSearchParamsTest {
 		Assert.assertEquals(false, builder.hasOriginLocation())
 		Assert.assertEquals(false, builder.hasDestinationLocation())
 		Assert.assertEquals(false, builder.areRequiredParamsFilled())
-		Assert.assertEquals(true, builder.hasValidDates())
+		Assert.assertEquals(true, builder.hasValidDateDuration())
 
 		builder.endDate(LocalDate.now().plusDays(400))
-		Assert.assertEquals(false, builder.hasValidDates())
+		Assert.assertEquals(false, builder.hasValidDateDuration())
 
 		builder.endDate(expectedReturnDate)
 		Assert.assertEquals(true, builder.hasStart())
@@ -57,7 +57,7 @@ class NewFlightSearchParamsTest {
 		Assert.assertEquals(false, builder.hasOriginLocation())
 		Assert.assertEquals(false, builder.hasDestinationLocation())
 		Assert.assertEquals(false, builder.areRequiredParamsFilled())
-		Assert.assertEquals(true, builder.hasValidDates())
+		Assert.assertEquals(true, builder.hasValidDateDuration())
 
 		builder.origin(expectedOrigin)
 		Assert.assertEquals(true, builder.hasStart())
@@ -65,7 +65,7 @@ class NewFlightSearchParamsTest {
 		Assert.assertEquals(true, builder.hasOriginLocation())
 		Assert.assertEquals(false, builder.hasDestinationLocation())
 		Assert.assertEquals(true, builder.areRequiredParamsFilled())
-		Assert.assertEquals(true, builder.hasValidDates())
+		Assert.assertEquals(true, builder.hasValidDateDuration())
 
 		builder.destination(expectedDestination)
 		Assert.assertEquals(true, builder.hasStart())
@@ -73,7 +73,7 @@ class NewFlightSearchParamsTest {
 		Assert.assertEquals(true, builder.hasOriginLocation())
 		Assert.assertEquals(true, builder.hasDestinationLocation())
 		Assert.assertEquals(true, builder.areRequiredParamsFilled())
-		Assert.assertEquals(true, builder.hasValidDates())
+		Assert.assertEquals(true, builder.hasValidDateDuration())
 
 		val params = builder.build()
 		Assert.assertEquals(expectedNumAdults.toLong(), params.adults.toLong())

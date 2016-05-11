@@ -48,7 +48,10 @@ class PackageSearchPresenter(context: Context, attrs: AttributeSet) : BaseTwoLoc
         }
         vm.errorNoDestinationObservable.subscribe { AnimUtils.doTheHarlemShake(originCardView) }
         vm.errorNoDatesObservable.subscribe { AnimUtils.doTheHarlemShake(calendarWidgetV2) }
-        vm.errorMaxDatesObservable.subscribe { message ->
+        vm.errorMaxDurationObservable.subscribe { message ->
+            showErrorDialog(message)
+        }
+        vm.errorMaxRangeObservable.subscribe { message ->
             showErrorDialog(message)
         }
         vm.errorOriginSameAsDestinationObservable.subscribe { message ->

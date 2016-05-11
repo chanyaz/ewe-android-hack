@@ -99,7 +99,7 @@ class FlightSearchViewModelTest {
     }
 
     private fun doFlightSearch() {
-        val params = FlightSearchParams.Builder(26)
+        val params = FlightSearchParams.Builder(26, 500)
                 .origin(getDummySuggestion())
                 .destination(getDummySuggestion())
                 .startDate(LocalDate.now())

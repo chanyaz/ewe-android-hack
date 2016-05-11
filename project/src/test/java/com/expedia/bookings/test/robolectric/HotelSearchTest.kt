@@ -64,7 +64,8 @@ class HotelSearchTest {
         // Selecting only start date should search with end date as the next day
         vm.datesObserver.onNext(Pair(LocalDate.now(), null))
         vm.searchObserver.onNext(Unit)
-        expected.add(HotelSearchParams.Builder(activity.resources.getInteger(R.integer.calendar_max_days_hotel_stay))
+        expected.add(HotelSearchParams.Builder(activity.resources.getInteger(R.integer.calendar_max_days_hotel_stay),
+                activity.resources.getInteger(R.integer.calendar_max_selectable_date_range))
                 .destination(suggestion)
                 .startDate(LocalDate.now())
                 .endDate(LocalDate.now().plusDays(1)).build() as HotelSearchParams)
@@ -72,7 +73,8 @@ class HotelSearchTest {
         // Select both start date and end date and search
         vm.datesObserver.onNext(Pair(LocalDate.now(), LocalDate.now().plusDays(3)))
         vm.searchObserver.onNext(Unit)
-        expected.add(HotelSearchParams.Builder(activity.resources.getInteger(R.integer.calendar_max_days_hotel_stay))
+        expected.add(HotelSearchParams.Builder(activity.resources.getInteger(R.integer.calendar_max_days_hotel_stay),
+                activity.resources.getInteger(R.integer.calendar_max_selectable_date_range))
                 .destination(suggestion)
                 .startDate(LocalDate.now())
                 .endDate(LocalDate.now().plusDays(3)).build() as HotelSearchParams)
@@ -103,7 +105,8 @@ class HotelSearchTest {
         vm.datesObserver.onNext(Pair(LocalDate.now(), null))
         vm.searchObserver.onNext(Unit)
 
-        val builder = HotelSearchParams.Builder(activity.resources.getInteger(R.integer.calendar_max_days_hotel_stay))
+        val builder = HotelSearchParams.Builder(activity.resources.getInteger(R.integer.calendar_max_days_hotel_stay),
+                activity.resources.getInteger(R.integer.calendar_max_selectable_date_range))
                 .destination(suggestion)
                 .startDate(LocalDate.now())
                 .endDate(LocalDate.now().plusDays(1)) as HotelSearchParams.Builder

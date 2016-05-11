@@ -246,7 +246,7 @@
     <!-- Message for user that pick-up time is too early.  -->
     <string name="pick_up_time_error">Pas de ophaal- of inlevertijden aan</string>
     <!-- Message for user  to choose a closer date.  -->
-    <string name="drop_off_too_far_error">Kies een datum die minder ver in de toekomst ligt.</string>
+    <string name="error_date_too_far">Kies een datum die minder ver in de toekomst ligt.</string>
     <!-- Message for user that date is too far out.  -->
     <string name="date_out_of_range">Kies een datum die minder ver in de toekomst ligt.</string>
     <!-- Message for user that increase your reservation duration. -->

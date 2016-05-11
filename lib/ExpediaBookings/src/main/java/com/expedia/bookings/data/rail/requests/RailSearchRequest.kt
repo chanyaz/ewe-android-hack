@@ -12,7 +12,7 @@ class RailSearchRequest(val origin: SuggestionV4, val destination: SuggestionV4,
         OPEN_RETURN
     }
 
-    class Builder() : BaseSearchParams.Builder(500) {
+    class Builder() : BaseSearchParams.Builder(330, 500) {
         private var returnDate: LocalDate? = null
         private var searchType = SearchType.ONE_WAY
 
@@ -36,7 +36,7 @@ class RailSearchRequest(val origin: SuggestionV4, val destination: SuggestionV4,
             return SearchType.ONE_WAY == searchType || returnDate != null
         }
 
-        override fun hasValidDates(): Boolean {
+        override fun hasValidDateDuration(): Boolean {
             return hasStartDate() && hasEndDate()
         }
 

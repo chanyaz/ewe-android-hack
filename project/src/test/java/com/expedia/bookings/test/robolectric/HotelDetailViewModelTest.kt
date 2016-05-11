@@ -327,7 +327,7 @@ class HotelDetailViewModelTest {
         var checkIn = LocalDate.now().plusDays(2)
         var checkOut = LocalDate.now().plusDays(5)
         val numAdults = 2
-        return HotelSearchParams.Builder(0)
+        return HotelSearchParams.Builder(0, 0)
                 .destination(suggestionV4)
                 .startDate(checkIn)
                 .endDate(checkOut)

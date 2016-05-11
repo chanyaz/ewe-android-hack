@@ -19,7 +19,7 @@ import rx.subjects.PublishSubject
 import javax.inject.Inject
 
 class HotelSearchViewModel(context: Context) : BaseSearchViewModel(context) {
-    override val paramsBuilder = HotelSearchParams.Builder(getMaxSearchDurationDays())
+    override val paramsBuilder = HotelSearchParams.Builder(getMaxSearchDurationDays(), getMaxDateRange())
 
     val userBucketedObservable = BehaviorSubject.create<Boolean>()
     val externalSearchParamsObservable = BehaviorSubject.create<Boolean>()
@@ -53,8 +53,8 @@ class HotelSearchViewModel(context: Context) : BaseSearchViewModel(context) {
 
     val searchObserver = endlessObserver<Unit> {
         if (paramsBuilder.areRequiredParamsFilled()) {
-            if (!paramsBuilder.hasValidDates()) {
-                errorMaxDatesObservable.onNext(context.getString(R.string.hotel_search_range_error_TEMPLATE, getMaxSearchDurationDays()))
+            if (!paramsBuilder.hasValidDateDuration()) {
+                errorMaxDurationObservable.onNext(context.getString(R.string.hotel_search_range_error_TEMPLATE, getMaxSearchDurationDays()))
             } else {
                 val hotelSearchParams = paramsBuilder.build()
                 HotelSearchParamsUtil.saveSearchHistory(context, hotelSearchParams)

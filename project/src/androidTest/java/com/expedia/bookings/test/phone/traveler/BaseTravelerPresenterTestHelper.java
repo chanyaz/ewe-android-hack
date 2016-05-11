@@ -90,7 +90,7 @@ public class BaseTravelerPresenterTestHelper {
 	}
 
 	protected PackageSearchParams setPackageParams(int adults, List<Integer> children, boolean infantsInLap) {
-		PackageSearchParams packageParams = (PackageSearchParams) new PackageSearchParams.Builder(12)
+		PackageSearchParams packageParams = (PackageSearchParams) new PackageSearchParams.Builder(12, 329)
 			.startDate(LocalDate.now().plusDays(1))
 			.endDate(LocalDate.now().plusDays(2))
 			.origin(new SuggestionV4())

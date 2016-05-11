@@ -20,7 +20,7 @@ import java.util.*
 
 class FlightSearchViewModel(context: Context, val flightServices: FlightServices) : BaseSearchViewModel(context) {
 
-    override val paramsBuilder = FlightSearchParams.Builder(getMaxSearchDurationDays())
+    override val paramsBuilder = FlightSearchParams.Builder(getMaxSearchDurationDays(), getMaxDateRange())
 
     var flightMap: HashMap<String, LinkedHashSet<FlightLeg>> = HashMap()
     var flightOfferModels: HashMap<String, FlightTripDetails.FlightOffer> = HashMap()
@@ -37,8 +37,8 @@ class FlightSearchViewModel(context: Context, val flightServices: FlightServices
         if (paramsBuilder.areRequiredParamsFilled()) {
             if (paramsBuilder.isOriginSameAsDestination()) {
                 errorOriginSameAsDestinationObservable.onNext(context.getString(R.string.error_same_flight_departure_arrival))
-            } else if (!paramsBuilder.hasValidDates()) {
-                errorMaxDatesObservable.onNext(context.getString(R.string.hotel_search_range_error_TEMPLATE, getMaxSearchDurationDays()))
+            } else if (!paramsBuilder.hasValidDateDuration()) {
+                errorMaxDurationObservable.onNext(context.getString(R.string.hotel_search_range_error_TEMPLATE, getMaxSearchDurationDays()))
             } else {
                 val flightSearchParams = paramsBuilder.build()
                 searchParamsObservable.onNext(flightSearchParams)

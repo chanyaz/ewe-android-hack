@@ -8,7 +8,7 @@ import java.util.HashMap
 
 class FlightSearchParams(val departureAirport: SuggestionV4, val arrivalAirport: SuggestionV4?, val departureDate: LocalDate, val returnDate: LocalDate?, adults: Int, children: List<Int>, val infantSeatingInLap: Boolean) : BaseSearchParams(adults, children) {
 
-    class Builder(maxStay: Int) : BaseSearchParams.Builder(maxStay) {
+    class Builder(maxStay: Int, maxRange: Int) : BaseSearchParams.Builder(maxStay, maxRange) {
 
         override fun build(): FlightSearchParams {
             val departureAirport = originLocation ?: throw IllegalArgumentException()
@@ -20,7 +20,7 @@ class FlightSearchParams(val departureAirport: SuggestionV4, val arrivalAirport:
             return hasOriginLocation() && hasStart()
         }
 
-        override fun hasValidDates(): Boolean {
+        override fun hasValidDateDuration(): Boolean {
             return (hasStart() && !hasEnd()) || ((hasStart() && hasEnd() && Days.daysBetween(startDate, endDate).days <= maxStay))
         }
 
