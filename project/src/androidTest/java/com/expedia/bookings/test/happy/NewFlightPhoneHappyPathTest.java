@@ -3,10 +3,10 @@ package com.expedia.bookings.test.happy;
 import org.joda.time.LocalDate;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.test.espresso.EspressoUtils;
 import com.expedia.bookings.test.espresso.NewFlightTestCase;
-import com.expedia.bookings.test.phone.flights.FlightsScreen;
-import com.expedia.bookings.test.phone.packages.PackageScreen;
+import com.expedia.bookings.test.phone.newflights.FlightsScreen;
+import com.expedia.bookings.test.phone.newflights.FlightTestHelpers;
+import com.expedia.bookings.test.phone.pagemodels.common.SearchScreen;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
@@ -16,45 +16,28 @@ import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withParent;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
-import static com.expedia.bookings.test.espresso.ViewActions.waitForViewToDisplay;
 import static org.hamcrest.CoreMatchers.allOf;
 
 public class NewFlightPhoneHappyPathTest extends NewFlightTestCase {
 
 	public void testNewFlightHappyPath() throws Throwable {
-		PackageScreen.selectOriginAndDestination();
+		SearchScreen.destination().perform(click());
+		SearchScreen.selectOriginAndDestination();
 		LocalDate startDate = LocalDate.now().plusDays(3);
 		LocalDate endDate = LocalDate.now().plusDays(8);
-		PackageScreen.selectDates(startDate, endDate);
+		SearchScreen.selectDates(startDate, endDate);
 
-		PackageScreen.searchButton().perform(click());
+		SearchScreen.searchButton().perform(click());
 
-		assertFlightOutbound();
+		FlightTestHelpers.assertFlightOutbound();
 		FlightsScreen.selectFlight(FlightsScreen.outboundFlightList(), 0);
 		FlightsScreen.selectOutboundFlight().perform(click());
 
-		assertFlightInbound();
+		FlightTestHelpers.assertFlightInbound();
 		FlightsScreen.selectFlight(FlightsScreen.inboundFlightList(), 0);
 		FlightsScreen.selectInboundFlight().perform(click());
 
 		assertCheckoutOverview();
-	}
-
-	private void assertFlightOutbound() {
-		FlightsScreen.outboundFlightList().perform(waitForViewToDisplay());
-		EspressoUtils.assertViewWithTextIsDisplayedAtPosition(FlightsScreen.outboundFlightList(), 2, R.id.flight_time_detail_text_view,
-			"9:00 pm - 8:15 pm");
-		EspressoUtils.assertViewWithTextIsDisplayedAtPosition(FlightsScreen.outboundFlightList(), 2, R.id.flight_duration_text_view, "2h 0m (Nonstop)");
-		EspressoUtils.assertViewWithTextIsDisplayedAtPosition(FlightsScreen.outboundFlightList(), 2, R.id.price_text_view, "$696.00");
-		EspressoUtils.assertViewWithIdIsDisplayedAtPosition(FlightsScreen.outboundFlightList(), 2, R.id.custom_flight_layover_widget);
-	}
-
-	private void assertFlightInbound() {
-		FlightsScreen.inboundFlightList().perform(waitForViewToDisplay());
-		EspressoUtils.assertViewWithTextIsDisplayedAtPosition(FlightsScreen.inboundFlightList(), 2, R.id.flight_time_detail_text_view, "5:40 pm - 8:15 pm");
-		EspressoUtils.assertViewWithTextIsDisplayedAtPosition(FlightsScreen.inboundFlightList(), 2, R.id.flight_duration_text_view, "2h 0m (Nonstop)");
-		EspressoUtils.assertViewWithTextIsDisplayedAtPosition(FlightsScreen.inboundFlightList(), 2, R.id.price_text_view, "$696.00");
-		EspressoUtils.assertViewWithIdIsDisplayedAtPosition(FlightsScreen.inboundFlightList(), 2, R.id.custom_flight_layover_widget);
 	}
 
 	private void assertCheckoutOverview() {

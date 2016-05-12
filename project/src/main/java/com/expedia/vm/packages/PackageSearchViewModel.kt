@@ -14,6 +14,7 @@ import com.expedia.bookings.utils.StrUtils
 import com.expedia.util.endlessObserver
 import com.expedia.vm.BaseSearchViewModel
 import com.mobiata.android.time.util.JodaUtils
+import com.squareup.phrase.Phrase
 import org.joda.time.LocalDate
 import rx.subjects.BehaviorSubject
 import rx.subjects.PublishSubject
@@ -93,7 +94,7 @@ class PackageSearchViewModel(context: Context) : BaseSearchViewModel(context) {
         if (start == null && end == null) {
             return context.resources.getString(R.string.select_dates)
         } else if (end == null) {
-            return context.resources.getString(R.string.select_return_date_TEMPLATE, DateUtils.localDateToMMMd(start))
+            return Phrase.from(context.resources, R.string.select_return_date_TEMPLATE).put("startdate", DateUtils.localDateToMMMd(start)).format().toString()
         } else {
             return context.resources.getString(R.string.calendar_instructions_date_range_TEMPLATE, DateUtils.localDateToMMMd(start), DateUtils.localDateToMMMd(end))
         }

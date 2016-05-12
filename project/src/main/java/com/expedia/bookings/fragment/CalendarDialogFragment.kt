@@ -121,6 +121,7 @@ open class CalendarDialogFragment(val baseSearchViewModel: BaseSearchViewModel) 
 
         var dialog: AlertDialog = builder.create()
         dialog.setOnShowListener() {
+            setMaxSelectableDateRange()
             calendar.visibility = CardView.VISIBLE
             dialog.getButton(AlertDialog.BUTTON_POSITIVE).isEnabled = calendar.startDate != null
             oldCalendarSelection = Pair(calendar.startDate, calendar.endDate)
@@ -132,5 +133,9 @@ open class CalendarDialogFragment(val baseSearchViewModel: BaseSearchViewModel) 
         calendar.setSelectedDates(baseSearchViewModel.startDate(), baseSearchViewModel.endDate())
 
         return dialog
+    }
+
+    private fun setMaxSelectableDateRange() {
+        calendar.setMaxSelectableDateRange(baseSearchViewModel.getMaxSearchDurationDays())
     }
 }

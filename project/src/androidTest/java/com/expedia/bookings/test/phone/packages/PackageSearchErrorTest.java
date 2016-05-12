@@ -6,6 +6,7 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.test.espresso.Common;
 import com.expedia.bookings.test.espresso.PackageTestCase;
 import com.expedia.bookings.test.espresso.ViewActions;
+import com.expedia.bookings.test.phone.pagemodels.common.SearchScreen;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
@@ -17,22 +18,22 @@ import static android.support.test.espresso.matcher.ViewMatchers.withId;
 public class PackageSearchErrorTest extends PackageTestCase {
 
 	public void testSearchError() throws Throwable {
-		PackageScreen.searchEditText().perform(typeText("GGW"));
-		Common.closeSoftKeyboard(PackageScreen.destination());
-		PackageScreen.selectLocation("Glasgow, MT (GGW-Glasgow Intl.)");
+		SearchScreen.searchEditText().perform(typeText("GGW"));
+		Common.closeSoftKeyboard(SearchScreen.destination());
+		SearchScreen.selectLocation("Glasgow, MT (GGW-Glasgow Intl.)");
 		Common.delay(1);
-		PackageScreen.searchEditText().perform(ViewActions.waitForViewToDisplay());
-		PackageScreen.searchEditText().perform(typeText("DTW"));
-		PackageScreen.selectLocation("Detroit, MI (DTW-Detroit Metropolitan Wayne County)");
+		SearchScreen.searchEditText().perform(ViewActions.waitForViewToDisplay());
+		SearchScreen.searchEditText().perform(typeText("DTW"));
+		SearchScreen.selectLocation("Detroit, MI (DTW-Detroit Metropolitan Wayne County)");
 
 		LocalDate startDate = LocalDate.now().plusDays(3);
 		LocalDate endDate = LocalDate.now().plusDays(8);
-		PackageScreen.selectDates(startDate, endDate);
-		PackageScreen.searchButton().perform(click());
+		SearchScreen.selectDates(startDate, endDate);
+		SearchScreen.searchButton().perform(click());
 
 		PackageScreen.assertErrorScreen("Edit Search", "We were unable to find any results. Please adjust your search.");
 		onView(withId(R.id.error_action_button)).perform(click());
-		PackageScreen.searchButton().check(matches(isDisplayed()));
+		SearchScreen.searchButton().check(matches(isDisplayed()));
 	}
 
 }

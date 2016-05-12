@@ -373,6 +373,7 @@
     <dimen name="material_search_field_height">64dp</dimen>
     <dimen name="search_form_margin">9dp</dimen>
     <dimen name="search_form_top_margin">10dp</dimen>
+    <dimen name="flights_search_form_top_margin">60dp</dimen>
     <dimen name="material_search_field_bottom_margin">3dp</dimen>
 
     <!-- Recent Search item height -->

@@ -55,8 +55,8 @@ class RailSearchPresenter(context: Context, attrs: AttributeSet) : BaseTwoLocati
         return searchViewModel
     }
 
-    val tabs: PositionObservableTabLayout by bindView(R.id.tabs)
-    val viewpager: ViewPager by bindView<ViewPager>(R.id.viewpager)
+    override val tabs: PositionObservableTabLayout by bindView(R.id.tabs)
+    override val viewpager: ViewPager by bindView<ViewPager>(R.id.viewpager)
     override val travelerWidgetV2: TravelerWidgetV2 by lazy {
         adapter.searchWidget.travelerWidget
     }

@@ -1,11 +1,14 @@
 package com.expedia.bookings.presenter.flight
 
 import android.content.Context
+import android.support.design.widget.TabLayout
 import android.support.v4.content.ContextCompat
+import android.support.v4.view.ViewPager
 import android.support.v7.widget.RecyclerView
 import android.util.AttributeSet
 import android.view.View
 import com.expedia.bookings.R
+import com.expedia.bookings.adapter.FlightSearchPageAdapter
 import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.location.CurrentLocationObservable
 import com.expedia.bookings.presenter.BaseTwoLocationSearchPresenter
@@ -52,11 +55,39 @@ class FlightSearchPresenter(context: Context, attrs: AttributeSet) : BaseTwoLoca
     init {
         travelerWidgetV2.traveler.viewmodel.showSeatingPreference = true
         travelerWidgetV2.traveler.viewmodel.lob = LineOfBusiness.FLIGHTS_V2
+        showFlightOneWayRoundTripOptions = true
     }
 
     override fun inflate() {
         View.inflate(context, R.layout.widget_package_search, this)
         toolBarTitle.text = context.resources.getText(R.string.search_flights)
+    }
+
+    override fun onFinishInflate() {
+        super.onFinishInflate()
+        setSearchContainerTopMargin(showingSuggestions = false)
+        tabs.visibility = View.VISIBLE
+
+        val pagerAdapter = FlightSearchPageAdapter(context)
+        viewpager.adapter = pagerAdapter
+        viewpager.overScrollMode = ViewPager.OVER_SCROLL_NEVER
+
+        tabs.setupWithViewPager(viewpager)
+
+        tabs.setOnTabSelectedListener(object: TabLayout.OnTabSelectedListener {
+            override fun onTabReselected(tab: TabLayout.Tab?) {
+                // do nothing
+            }
+
+            override fun onTabUnselected(tab: TabLayout.Tab?) {
+                // do nothing
+            }
+
+            override fun onTabSelected(tab: TabLayout.Tab) {
+                searchViewModel.resetDates()
+                searchViewModel.isRoundTripSearch = (tab.position == 0)
+            }
+        })
     }
 
     override fun getSuggestionHistoryFileName(): String {

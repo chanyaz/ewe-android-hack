@@ -9,7 +9,7 @@ open class BaseSearchParams(val adults: Int, val children: List<Int>) {
     val guestString = listOf(adults).plus(children).joinToString(",")
     val childrenString = children.joinToString(",")
 
-    abstract class Builder(val maxStay: Int, val maxRange: Int) {
+    abstract class Builder(var maxStay: Int, val maxRange: Int) {
         protected var originLocation: SuggestionV4? = null
         protected var destinationLocation: SuggestionV4? = null
         protected var startDate: LocalDate? = null

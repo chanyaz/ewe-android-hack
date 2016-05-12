@@ -7,6 +7,7 @@ import com.expedia.bookings.test.espresso.Common;
 import com.expedia.bookings.test.espresso.EspressoUtils;
 import com.expedia.bookings.test.espresso.PackageTestCase;
 import com.expedia.bookings.test.phone.hotels.HotelScreen;
+import com.expedia.bookings.test.phone.pagemodels.common.SearchScreen;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
@@ -17,11 +18,11 @@ import static android.support.test.espresso.matcher.ViewMatchers.withId;
 public class PackageFlightsResultsTest extends PackageTestCase {
 
 	public void testPackageFlightsResultsTest() throws Throwable {
-		PackageScreen.selectOriginAndDestination();
+		SearchScreen.selectOriginAndDestination();
 		LocalDate startDate = LocalDate.now().plusDays(3);
 		LocalDate endDate = LocalDate.now().plusDays(8);
-		PackageScreen.selectDates(startDate, endDate);
-		PackageScreen.searchButton().perform(click());
+		SearchScreen.selectDates(startDate, endDate);
+		SearchScreen.searchButton().perform(click());
 		Common.delay(1);
 
 		PackageScreen.hotelBundle().perform(click());

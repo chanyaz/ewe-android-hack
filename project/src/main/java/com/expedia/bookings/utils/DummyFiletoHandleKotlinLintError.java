@@ -559,7 +559,6 @@ DummyFiletoHandleKotlinLintError {
 		R.string.etp_pay_now_currency_text_TEMPLATE,
 		R.string.etp_pay_later_currency_text_TEMPLATE,
 		R.string.calendar_instructions_date_range_flight_one_way_TEMPLATE,
-		R.string.calendar_instructions_date_range_flight_select_return_date_optional,
 		R.integer.calendar_max_package_selectable_date_range,
 		R.bool.acct__isGoogleAccountChangeEnabled,
 		R.string.loading_flights_from_400_airlines,
@@ -573,6 +572,11 @@ DummyFiletoHandleKotlinLintError {
 		R.bool.acct__isGoogleAccountChangeEnabled,
 		R.layout.flight_results_loading_header_cell,
 		R.string.select_hotel_content_description,
-		R.string.select_hotel_content_description_searching
+		R.string.select_hotel_content_description_searching,
+		R.integer.calendar_max_package_selectable_date_range,
+		R.string.calendar_instructions_date_range_flight_select_return_date,
+		R.string.flights_round_trip_label,
+		R.string.flights_one_way_label,
+		R.dimen.flights_search_form_top_margin
 	};
 }
