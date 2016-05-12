@@ -65,7 +65,7 @@ public class PackagePhoneHappyPathTest extends PackageTestCase {
 		reviews();
 		assertHotelBundlePrice("$1,027.34", "View your bundle", "$21.61 Saved");
 
-		HotelScreen.selectRoom();
+		PackageScreen.selectRoom();
 
 		assertBundlePrice("$3,863.38", "Bundle total");
 		onView(allOf(withId(R.id.bundle_total_savings), withText("$595.24 Saved"))).check(matches(isDisplayed()));

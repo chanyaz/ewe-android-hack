@@ -41,7 +41,7 @@ public class PackageBundleOverviewPresenterTest extends PackageTestCase {
 
 		HotelScreen.selectHotel("Package Happy Path");
 
-		HotelScreen.selectRoom();
+		PackageScreen.selectRoom();
 
 		PackageScreen.outboundFlightInfo().check(matches(hasDescendant(
 			allOf(isDisplayed(), withText("Select flight to (DTW) Detroit")))));
@@ -138,7 +138,7 @@ public class PackageBundleOverviewPresenterTest extends PackageTestCase {
 		HotelScreen.selectHotel("Package Happy Path");
 
 		HotelScreen.clickRoom("happy_outbound_flight");
-		HotelScreen.clickAddRoom();
+		PackageScreen.clickAddRoom();
 
 		//HotelScreen.selectRoom();
 

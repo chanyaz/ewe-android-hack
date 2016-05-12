@@ -24,7 +24,7 @@ public class PackageCheckoutErrorTest extends PackageTestCase {
 
 		PackageScreen.clickHotelBundle();
 		HotelScreen.selectHotel("Package Happy Path");
-		HotelScreen.selectRoom();
+		PackageScreen.selectRoom();
 
 		PackageScreen.outboundFlight().perform(click());
 

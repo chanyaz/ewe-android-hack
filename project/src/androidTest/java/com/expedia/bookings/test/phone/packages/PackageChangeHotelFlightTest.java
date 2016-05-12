@@ -33,7 +33,7 @@ public class PackageChangeHotelFlightTest extends PackageTestCase {
 		Common.delay(1);
 		HotelScreen.selectHotel("Package Happy Path");
 		Common.delay(1);
-		HotelScreen.selectRoom();
+		PackageScreen.selectRoom();
 		Common.delay(1);
 		PackageScreen.outboundFlight().perform(click());
 		Common.delay(1);
@@ -54,7 +54,7 @@ public class PackageChangeHotelFlightTest extends PackageTestCase {
 		HotelScreen.selectRoomButton().perform(click());
 		Common.delay(1);
 		HotelScreen.clickRoom("change_hotel_room");
-		HotelScreen.clickAddRoom();
+		PackageScreen.clickAddRoom();
 		Common.delay(2);
 		assertAfterChange();
 
@@ -72,7 +72,7 @@ public class PackageChangeHotelFlightTest extends PackageTestCase {
 		HotelScreen.selectRoomButton().perform(click());
 		Common.delay(1);
 		HotelScreen.clickRoom("change_hotel");
-		HotelScreen.clickAddRoom();
+		PackageScreen.clickAddRoom();
 		Common.delay(1);
 		assertAfterChange();
 

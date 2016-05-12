@@ -32,7 +32,7 @@ public class PackagePriceChangeTest extends PackageTestCase {
 		HotelScreen.selectHotel("Price Change");
 		Common.delay(1);
 
-		HotelScreen.selectRoom();
+		PackageScreen.selectRoom();
 		Common.delay(1);
 
 		PackageScreen.outboundFlight().perform(click());
@@ -68,7 +68,7 @@ public class PackagePriceChangeTest extends PackageTestCase {
 		HotelScreen.selectHotel("Price Change");
 		Common.delay(1);
 
-		HotelScreen.selectRoom();
+		PackageScreen.selectRoom();
 		Common.delay(1);
 
 		PackageScreen.outboundFlight().perform(click());

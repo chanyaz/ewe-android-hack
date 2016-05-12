@@ -224,7 +224,7 @@ public class PackageFlightFilterTest extends PackageTestCase {
 		PackageScreen.hotelBundle().perform(click());
 
 		HotelScreen.selectHotel("Package Happy Path");
-		HotelScreen.selectRoom();
+		PackageScreen.selectRoom();
 
 		PackageScreen.outboundFlight().perform(waitForViewToDisplay());
 		PackageScreen.outboundFlight().perform(click());

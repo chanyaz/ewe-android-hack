@@ -92,6 +92,10 @@ class HotelRoomRateView(context: Context, var rowIndex: Int) : LinearLayout(cont
     val animateRoom = PublishSubject.create<Pair<HotelRoomRateView, Boolean>>()
     var viewmodel: HotelRoomRateViewModel by notNullAndObservable { vm ->
 
+        if (viewmodel.lob == LineOfBusiness.PACKAGES) {
+            viewRoom.textOn = resources.getString(R.string.select)
+        }
+
         vm.collapsedEarnMessageVisibilityObservable.subscribe {
             viewsToHideInExpandedState = arrayOf(collapsedBedType, if(it) collapsedEarnMessaging else collapsedUrgency)
             viewsToShowInExpandedState = arrayOf(expandedBedType, expandedAmenity, freeCancellation, strikeThroughPrice)
