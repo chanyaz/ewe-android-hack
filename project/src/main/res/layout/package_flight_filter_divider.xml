@@ -6,5 +6,5 @@
         android:layout_height="1px"
         android:layout_marginTop="@dimen/sort_filter_padding_normal"
         android:layout_marginBottom="@dimen/sort_filter_padding_normal"
-        android:background="@color/packages_flight_filter_divider" />
+        android:background="@color/filter_divider_lines" />
 </merge>

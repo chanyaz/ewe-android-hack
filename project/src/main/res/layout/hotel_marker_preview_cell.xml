@@ -68,7 +68,7 @@
                 android:layout_marginBottom="@dimen/hotel_preview_margin_small"
                 android:ellipsize="end"
                 android:singleLine="true"
-                android:textColor="@color/gray2_medium_light"
+                android:textColor="@color/gray7"
                 android:textSize="14sp" />
 
             <LinearLayout
@@ -169,7 +169,7 @@
                     android:layout_marginLeft="4dp"
                     android:layout_weight="1"
                     android:text="@string/hotel_guest_recommend"
-                    android:textColor="@color/gray2_medium_light"
+                    android:textColor="@color/gray7"
                     android:textSize="13sp" />
 
             </LinearLayout>

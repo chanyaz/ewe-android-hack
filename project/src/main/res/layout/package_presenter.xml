@@ -5,14 +5,14 @@
         android:id="@+id/widget_bundle_overview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/search_results_list_bg_gray"
+        android:background="@color/gray1"
         android:visibility="gone" />
 
     <com.expedia.bookings.presenter.packages.PackageSearchPresenter
         android:id="@+id/widget_package_search_presenter"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/search_results_list_bg_gray" />
+        android:background="@color/gray1" />
 
     <com.expedia.bookings.presenter.packages.PackageConfirmationPresenter
         android:id="@+id/widget_package_confirmation"
@@ -25,6 +25,6 @@
         android:id="@+id/widget_package_hotel_errors"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/search_results_list_bg_gray"
+        android:background="@color/gray1"
         android:visibility="gone"/>
 </merge>

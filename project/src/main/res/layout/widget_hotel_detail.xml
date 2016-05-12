@@ -377,7 +377,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/rating_divider"
-                    android:background="@color/search_results_list_bg_gray"
+                    android:background="@color/gray1"
                     android:orientation="horizontal"
                     android:visibility="gone">
 
@@ -492,7 +492,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/etp_and_free_cancellation_messaging_info_divider"
-                    android:background="@color/search_results_list_bg_gray"
+                    android:background="@color/gray1"
                     android:fillViewport="true"
                     android:scrollbarSize="3dp">
 
@@ -694,7 +694,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/map_click_container"
-                    android:background="@color/search_results_list_bg_gray">
+                    android:background="@color/gray1">
 
                     <android.support.v7.widget.CardView
                         android:id="@+id/radius_pay_options"
@@ -805,7 +805,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/book_by_phone_container"
-                    android:background="@color/search_results_list_bg_gray" />
+                    android:background="@color/gray1" />
 
             </RelativeLayout>
 

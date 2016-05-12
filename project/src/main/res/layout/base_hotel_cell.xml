@@ -125,7 +125,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:layout_marginLeft="6dp"
-                    android:textColor="@color/hotel_cell_light_gray_text"
+                    android:textColor="@color/hotel_cell_distance_text"
                     android:textSize="12sp" />
 
             </LinearLayout>

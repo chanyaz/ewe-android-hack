@@ -135,7 +135,7 @@ abstract class BaseHotelDetailViewModel(val context: Context, val roomSelectedOb
     val userRatingRecommendationTextObservable = BehaviorSubject.create<String>()
     val ratingContainerBackground = isUserRatingAvailableObservable.map { ratingAvailable ->
         if (ratingAvailable) ContextCompat.getDrawable(context, R.drawable.hotel_detail_ripple)
-        else (ContextCompat.getDrawable(context, R.color.search_results_list_bg_gray))
+        else (ContextCompat.getDrawable(context, R.color.gray1))
     }
     val numberOfReviewsObservable = BehaviorSubject.create<String>()
     val hotelLatLngObservable = BehaviorSubject.create<DoubleArray>()
