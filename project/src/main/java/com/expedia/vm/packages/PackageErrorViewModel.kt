@@ -71,6 +71,7 @@ class PackageErrorViewModel(private val context: Context) {
                 PackageApiError.Code.search_response_null,
                 PackageApiError.Code.pkg_destination_resolution_failed,
                 PackageApiError.Code.pkg_flight_no_longer_available,
+                PackageApiError.Code.pkg_too_many_children_in_lap,
                 PackageApiError.Code.pkg_invalid_checkin_checkout_dates -> {
                     imageObservable.onNext(R.drawable.error_default)
                     errorMessageObservable.onNext(context.getString(R.string.error_package_search_message))

@@ -66,7 +66,7 @@ public class Hotel {
 		Hotel hotel = new Hotel();
 		hotel.hotelPid = packageHotel.hotelPid;
 		hotel.hotelId = packageHotel.hotelId;
-		hotel.localizedName = packageHotel.localizedHotelName;
+		hotel.localizedName = packageHotel.localizedHotelName == null ? packageHotel.hotelName : packageHotel.localizedHotelName;
 		hotel.address = packageHotel.hotelAddress.firstAddressLine;
 		hotel.city = packageHotel.hotelAddress.city;
 		hotel.stateProvinceCode = packageHotel.hotelAddress.province;
