@@ -35,7 +35,10 @@ import static org.hamcrest.Matchers.is;
 public class PackageFlightFilterTest extends PackageTestCase {
 
 	public void testPackageFlightsFiltersOverview() throws Throwable {
-		openFlightFilter();
+		navigateFromLaunchToFlightFilter();
+		//Check default sort is price
+		onView(withId(R.id.sort_by_selection_spinner)).check(matches(withSpinnerText(containsString("Price"))));
+
 		scrollToViewWithId(R.id.duration);
 		visibleWithText(R.id.duration, "17hr");
 		scrollToViewWithId(R.id.departure_range_min_text);
@@ -54,45 +57,34 @@ public class PackageFlightFilterTest extends PackageTestCase {
 
 		// No show more displayed since only 3 airlines
 		EspressoUtils.assertViewIsNotDisplayed(R.id.show_more_less_text);
-	}
 
-	public void testCheckableFilters() throws Throwable {
-		openFlightFilter();
-
+		// Check ability to check checkable filters
 		tickCheckboxWithText("Nonstop");
 		checkFilteredFlights("2 Results");
 		resetFilters();
-
 		tickCheckboxWithText("2+ Stops");
 		checkFilteredFlights("1 Result");
 		resetFilters();
-
 		tickCheckboxWithText("Nonstop");
 		tickCheckboxWithText("2+ Stops");
 		checkFilteredFlights("3 Results");
 		resetFilters();
-
 		tickCheckboxWithText("Hawaiian Airlines");
 		checkFilteredFlights("1 Result");
 		resetFilters();
-
 		tickCheckboxWithText("United");
 		checkFilteredFlights("1 Result");
 		resetFilters();
-
 		tickCheckboxWithText("Virgin America");
 		checkFilteredFlights("1 Result");
 		resetFilters();
-
 		tickCheckboxWithText("United");
 		tickCheckboxWithText("Hawaiian Airlines");
 		tickCheckboxWithText("Virgin America");
 		checkFilteredFlights("3 Results");
-	}
+		resetFilters();
 
-	public void testSliders() throws Throwable {
-		openFlightFilter();
-
+		// test sliders
 		//filter by duration
 		scrollToViewWithId(R.id.duration);
 		durationSeekBar().perform(ViewActions.setCustomSeekBarTo(9));
@@ -114,19 +106,18 @@ public class PackageFlightFilterTest extends PackageTestCase {
 		checkFilteredFlights("0 Results");
 
 		resetFilters();
-	}
 
-	public void testZeroResults() throws Throwable {
-		openFlightFilter();
-
+		// test zero results
 		scrollToViewWithId(R.id.duration);
 		durationSeekBar().perform(ViewActions.setCustomSeekBarTo(1));
 		visibleWithText(R.id.duration, "1hr");
 		checkFilteredFlights("0 Results");
 
+		// verify cannot click done since there are zero results
 		clickDone();
-		//dynamic feedback counter still displayed
 		checkFilteredFlights("0 Results");
+
+		// verify cannot click back since there are zero results
 		Common.pressBack();
 		checkFilteredFlights("0 Results");
 
@@ -134,11 +125,9 @@ public class PackageFlightFilterTest extends PackageTestCase {
 		clickDone();
 		PackageScreen.flightList().perform(waitForViewToDisplay());
 		assertBestFlightOnTop();
-	}
 
-	public void testFlightResultsFiltered() throws Throwable {
+		// test flight results filtered
 		openFlightFilter();
-
 		selectSorting("Duration");
 		tickCheckboxWithText("Virgin America");
 		tickCheckboxWithText("Hawaiian Airlines");
@@ -152,22 +141,18 @@ public class PackageFlightFilterTest extends PackageTestCase {
 		EspressoUtils
 			.assertViewWithTextIsDisplayedAtPosition(PackageScreen.flightList(), 2, R.id.flight_time_detail_text_view,
 				"9:50 am - 11:40 pm");
-	}
 
-	public void testSorting() throws Throwable {
+		// test sorting
 		openFlightFilter();
-
-		//Check default sort is price
-		onView(withId(R.id.sort_by_selection_spinner)).check(matches(withSpinnerText(containsString("Price"))));
+		resetFilters();
 
 		//sort by duration
 		selectSorting("Duration");
 		clickDone();
 		PackageScreen.flightList().perform(waitForViewToDisplay());
 		assertBestFlightOnTop();
-	}
 
-	public void testBestFlightFilter() throws Throwable {
+		// test best flight filter
 		openFlightFilter();
 		tickCheckboxWithText("Hawaiian Airlines");
 		clickDone();
@@ -175,8 +160,7 @@ public class PackageFlightFilterTest extends PackageTestCase {
 		onView(withId(R.id.flight_results_price_header)).check(matches(isDisplayed()));
 		onView(withId(R.id.package_best_flight)).check(matches(not(isDisplayed())));
 
-		PackageScreen.flightsToolbarFilterMenu().perform(click());
-		PackageScreen.flightFilterView().perform(waitForViewToDisplay());
+		openFlightFilter();
 		resetFilters();
 		// best flight banner hidden if only flight in filtered list
 		tickCheckboxWithText("United");
@@ -184,11 +168,10 @@ public class PackageFlightFilterTest extends PackageTestCase {
 		PackageScreen.flightList().perform(waitForViewToDisplay());
 		onView(withId(R.id.package_best_flight)).check(matches(not(isDisplayed())));
 
-		PackageScreen.flightsToolbarFilterMenu().perform(click());
-		Common.delay(1);
+		openFlightFilter();
 		tickCheckboxWithText("Virgin America");
 		clickDone();
-		Common.delay(1);
+		PackageScreen.flightList().perform(waitForViewToDisplay());
 		onView(withId(R.id.flight_results_price_header)).check(matches(isDisplayed()));
 	}
 
@@ -208,12 +191,12 @@ public class PackageFlightFilterTest extends PackageTestCase {
 	}
 
 	private void selectSorting(String duration) {
-		onView(withId(R.id.sort_by_selection_spinner)).perform(click());
+		onView(withId(R.id.sort_by_selection_spinner)).perform(scrollTo(), click());
 		onData(allOf(is(instanceOf(String.class)), is(duration))).perform(click());
 		onView(withId(R.id.sort_by_selection_spinner)).check(matches(withSpinnerText(containsString(duration))));
 	}
 
-	private void openFlightFilter() throws Throwable {
+	private void navigateFromLaunchToFlightFilter() throws Throwable {
 		PackageScreen.selectOriginAndDestination();
 		LocalDate startDate = LocalDate.now().plusDays(3);
 		LocalDate endDate = LocalDate.now().plusDays(8);
@@ -230,6 +213,10 @@ public class PackageFlightFilterTest extends PackageTestCase {
 		PackageScreen.outboundFlight().perform(click());
 
 		PackageScreen.flightList().perform(waitForViewToDisplay());
+		openFlightFilter();
+	}
+
+	private void openFlightFilter() {
 		PackageScreen.flightsToolbarFilterMenu().perform(click());
 		PackageScreen.flightFilterView().perform(waitForViewToDisplay());
 	}
