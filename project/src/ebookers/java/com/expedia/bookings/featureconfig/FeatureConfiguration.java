@@ -36,7 +36,7 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 
 	@Override
 	public String getAppNameForMobiataPushNameHeader() {
-		return "ExpediaBookings";
+		return "EbookersBookings";
 	}
 
 	@Override
