@@ -32,7 +32,6 @@
 
     <color name="hotels_primary_color">#0099CC</color>
     <color name="review_screen_tab_indicator">#003366</color>
-    <color name="hotel_checkout_account_button_background_color">@color/hotels_primary_color</color>
     <color name="cost_summary_header_text_color">@color/hotels_primary_color</color>
 
     <!-- Popular Hotels Tonight Discount strips-->
@@ -51,6 +50,10 @@
 
     <!-- flight color-->
     <color name="flight_earn_message_text_color">@color/earn_message_text_color</color>
+
+    <!-- Checkout Colors -->
+    <color name="material_checkout_account_button_background_color">@color/hotels_primary_color</color>
+    <color name="old_checkout_account_button_text_color">@android:color/white</color>
 
     <!-- CVV entry colors -->
     <color name="cvv_book_button_text_color">@android:color/white</color>
