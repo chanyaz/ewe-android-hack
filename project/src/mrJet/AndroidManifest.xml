@@ -18,7 +18,7 @@
                 <category android:name="android.intent.category.BROWSABLE" />
 
                 <data android:scheme="http" />
-                <data android:host="e.xpda.co" />
+                <data android:host="s.mret.co" />
             </intent-filter>
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
@@ -26,7 +26,7 @@
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
 
-                <data android:scheme="expda" />
+                <data android:scheme="mret" />
                 <data android:host="home" />
                 <data android:host="trips" />
                 <data android:host="showTrips" />
@@ -50,13 +50,13 @@
                     android:pathPrefix="/m/trips/shared"
                     android:scheme="https"/>
 
-                <data android:host="www.expedia.com" />
+                <data android:host="www.mrjet.se" />
 
                 <!-- Integration Server -->
-                <data android:host="wwwexpediacom.integration.sb.karmalab.net" />
+                <data android:host="wwwmrjetse.integration.sb.karmalab.net" />
 
                 <!-- Trunk Server -->
-                <data android:host="wwwexpediacom.trunk.sb.karmalab.net" />
+                <data android:host="wwwmrjetse.trunk.sb.karmalab.net" />
             </intent-filter>
         </activity>
 
