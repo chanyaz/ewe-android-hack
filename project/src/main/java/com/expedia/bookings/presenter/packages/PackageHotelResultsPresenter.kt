@@ -13,6 +13,7 @@ import com.expedia.bookings.presenter.hotel.BaseHotelResultsPresenter
 import com.expedia.bookings.tracking.PackagesTracking
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.BaseHotelListAdapter
+import com.expedia.bookings.widget.HotelMapCarouselAdapter
 import com.expedia.bookings.widget.TextView
 import com.expedia.bookings.widget.packages.PackageHotelListAdapter
 import com.expedia.util.notNullAndObservable
@@ -68,6 +69,7 @@ class PackageHotelResultsPresenter(context: Context, attrs: AttributeSet) : Base
             filterView.viewmodel.sortContainerObservable.onNext(isResults)
             filterView.toolbar.title = if (isResults) resources.getString(R.string.sort_and_filter) else resources.getString(R.string.filter)
         }
+        (mapCarouselRecycler.adapter as HotelMapCarouselAdapter).setLob(LineOfBusiness.PACKAGES)
     }
 
     private fun inflateAndSetupToolbarMenu() {

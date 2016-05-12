@@ -242,7 +242,7 @@ public class OmnitureTracking {
 		REWARD_APPLIED_PERCENTAGE_TEMPLATE,
 		NO_REWARDS_USED,
 		TOTAL_POINTS_BURNED,
-		CHECKOUT_PAY_WITH_REWARDS_REENABLED
+		BRAND_KEY_FOR_OMNITURE
 	}
 
 	public static void trackHotelV2SearchBox(boolean swpIsVisibleAndToggleIsOn) {
@@ -4901,8 +4901,9 @@ public class OmnitureTracking {
 	}
 
 	public static void trackPayWithPointsReEnabled(int percentagePaidWithPoints) {
-		String payWithPointsReenabled = ProductFlavorFeatureConfiguration.getInstance()
-			.getOmnitureEventValue(OmnitureEventName.CHECKOUT_PAY_WITH_REWARDS_REENABLED);
+		String payWithPointsReenabled =
+			"App.Hotels.CKO.Points.Select." + ProductFlavorFeatureConfiguration.getInstance()
+				.getOmnitureEventValue(OmnitureEventName.BRAND_KEY_FOR_OMNITURE);
 		Log.d(TAG, "Tracking \"" + payWithPointsReenabled);
 
 		ADMS_Measurement s = getFreshTrackingObject();

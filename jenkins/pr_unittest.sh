@@ -10,8 +10,8 @@ source ./virtualenv/bin/activate
 pip install --upgrade "pip"
 pip install enum
 pip install "github3.py==1.0.0.a4"
-pip install "hypchat==0.21"
-pip install "lxml==3.5.0"
+#pip install "hypchat==0.21"
+#pip install "lxml==3.5.0"
 
 GITHUB_TOKEN=7d400f5e78f24dbd24ee60814358aa0ab0cd8a76
 HIPCHAT_TOKEN=3htGpj4sE9XxUToWvWCWWmISA3op2U1roRufVjpQ
@@ -59,9 +59,9 @@ run() {
 run || run
 unitTestStatus=$?
 
-if [ $isJenkins ]; then
-    python ./jenkins/pr_unit_feedback.py $GITHUB_TOKEN $ghprbGhRepository $ghprbPullId $HIPCHAT_TOKEN
-fi
+#if [ $isJenkins ]; then
+#    python ./jenkins/pr_unit_feedback.py $GITHUB_TOKEN $ghprbGhRepository $ghprbPullId $HIPCHAT_TOKEN
+#fi
 
 if [[ ($unitTestStatus -ne 0) || ($prPoliceStatus -ne 0) ]]; then
     exit 1

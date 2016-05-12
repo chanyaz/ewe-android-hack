@@ -20,10 +20,20 @@ import static org.hamcrest.Matchers.not;
 
 public class PaymentWidgetTest extends PhoneTestCase {
 
-	public void testPaymentWidgetFlow() throws Throwable {
-		goToCheckout();
+	public void testHappyPaymentWidgetFlow() throws Throwable {
+		goToCheckout("happypath");
 		assertSavedCardSelected();
 		assertTempCardRemoved();
+	}
+
+	public void testCheckoutWithUnsupportedCard() throws Throwable {
+		goToCheckout("visa_not_supported");
+		assertSavedCardNotSelected();
+	}
+
+	private void assertSavedCardNotSelected() {
+		onView(withId(R.id.card_info_container)).perform(scrollTo());
+		EspressoUtils.assertViewWithTextIsDisplayed(R.id.card_info_expiration, R.string.checkout_hotelsv2_enter_payment_details_line2);
 	}
 
 	private void assertSavedCardSelected()  throws Throwable {
@@ -47,14 +57,14 @@ public class PaymentWidgetTest extends PhoneTestCase {
 		onView(withId(R.id.filled_in_card_details_mini_container)).check(matches(not(isDisplayed())));
 	}
 
-	private void goToCheckout() throws Throwable {
+	private void goToCheckout(String hotel) throws Throwable {
 		LaunchScreen.tripsButton().perform(click());
 		TripsScreen.clickOnLogInButton();
 		HotelScreen.signIn("singlecard@mobiata.com");
 		LaunchScreen.shopButton().perform(click());
 		LaunchScreen.launchHotels();
 		HotelScreen.doGenericSearch();
-		HotelScreen.selectHotel("happypath");
+		HotelScreen.selectHotel(hotel);
 		HotelScreen.selectRoom();
 	}
 

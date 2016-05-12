@@ -225,7 +225,7 @@ public class SectionStoredCreditCard extends LinearLayout implements ISection<St
 					}
 					mIconView.setImageResource(errorIconResId);
 				}
-				else if (cardFee != null) {
+				else if (cardFee != null && !cardFee.isZero()) {
 					final String feeText = cardFee.getFormattedMoney();
 					mLccFeeTextView.setVisibility(View.VISIBLE);
 					mLccDivider.setVisibility(View.VISIBLE);

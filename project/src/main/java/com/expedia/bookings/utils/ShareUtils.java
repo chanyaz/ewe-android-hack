@@ -414,7 +414,9 @@ public class ShareUtils {
 			body.append(traveler.getFirstName() + " " + traveler.getLastName());
 			body.append("\n");
 		}
-		if (!TextUtils.isEmpty(sharableDetailsURL)) {
+
+		if (ProductFlavorFeatureConfiguration.getInstance().shouldDisplayItinTrackAppLink() && !TextUtils
+			.isEmpty(sharableDetailsURL)) {
 			body.append("\n");
 			body.append(mContext.getString(R.string.share_link_section, sharableDetailsURL));
 			body.append("\n");

@@ -174,9 +174,6 @@ public class PointOfSale {
 	// 5810 - Do Airlines Charge Additional Fee Based On Payment Method?
 	private boolean doAirlinesChargeAdditionalFeeBasedOnPaymentMethod;
 
-	// Should we not show air attach.
-	private boolean mShouldShowAirAttach;
-
 	private static boolean mIsTablet;
 
 	private boolean mRequiresHotelPostalCode;
@@ -188,6 +185,8 @@ public class PointOfSale {
 	private boolean isEarnMessageEnabledForFlights;
 
 	private boolean mRequiresLXPostalCode;
+	private boolean mRequiresCarsPostalCode;
+
 
 	private static class CountryResources {
 		@StringRes
@@ -658,6 +657,10 @@ public class PointOfSale {
 		return mRequiresLXPostalCode;
 	}
 
+	public boolean requiresCarsPostalCode() {
+		return mRequiresCarsPostalCode;
+	}
+
 	public boolean supports(LineOfBusiness lob) {
 		switch (lob) {
 		case CARS:
@@ -782,10 +785,6 @@ public class PointOfSale {
 		return mShouldShowRewards;
 	}
 
-	public boolean shouldShowAirAttach() {
-		return mShouldShowAirAttach;
-	}
-
 	public boolean isDisabledForProduction() {
 		return mDisableForProduction;
 	}
@@ -814,6 +813,13 @@ public class PointOfSale {
 		return isPwPEnabledForHotels;
 	}
 
+	public void setPwPEnabledForHotels(boolean isPwPEnabledForHotels) {
+		if (!ExpediaBookingApp.isAutomation()) {
+			throw new RuntimeException("PointOfSale.setPwPEnabledForHotels can only be invoked from Tests.");
+		}
+		this.isPwPEnabledForHotels = isPwPEnabledForHotels;
+	}
+
 	public boolean isSWPEnabledForHotels() {
 		return isSWPEnabledForHotels;
 	}
@@ -822,9 +828,11 @@ public class PointOfSale {
 		return isEarnMessageEnabledForHotels;
 	}
 
-	public PointOfSale setEarnMessageEnabledForHotels(boolean earnMessageEnabledForHotels) {
+	public void setEarnMessageEnabledForHotels(boolean earnMessageEnabledForHotels) {
+		if (!ExpediaBookingApp.isAutomation()) {
+			throw new RuntimeException("PointOfSale.setEarnMessageEnabledForHotels can only be invoked from Tests.");
+		}
 		isEarnMessageEnabledForHotels = earnMessageEnabledForHotels;
-		return this;
 	}
 
 	public boolean isEarnMessageEnabledForFlights() {
@@ -832,6 +840,9 @@ public class PointOfSale {
 	}
 
 	public void setEarnMessageEnabledForFlights(boolean earnMessageEnabledForFlights) {
+		if (!ExpediaBookingApp.isAutomation()) {
+			throw new RuntimeException("PointOfSale.setEarnMessageEnabledForFlights can only be invoked from Tests.");
+		}
 		isEarnMessageEnabledForFlights = earnMessageEnabledForFlights;
 	}
 
@@ -1221,12 +1232,12 @@ public class PointOfSale {
 		pos.mShowHalfTileStrikethroughPrice = data.optBoolean("launchScreenStrikethroughEnabled", false);
 		pos.mShowFlightsFreeCancellation = data.optBoolean("shouldShowFlightsFreeCancellation", false);
 		pos.mMarketingOptIn = MarketingOptIn
-			.valueOf(data.optString("marketingOptIn", MarketingOptIn.DO_NOT_SHOW.name()));
+				.valueOf(data.optString("marketingOptIn", MarketingOptIn.DO_NOT_SHOW.name()));
 		pos.shouldShowCircleForRatings = data.optBoolean("shouldDisplayCirclesForRatings", false);
 		pos.doAirlinesChargeAdditionalFeeBasedOnPaymentMethod = data.optBoolean("doAirlinesChargeAdditionalFeeBasedOnPaymentMethod", false);
 		pos.mRequiresHotelPostalCode = data.optString("requiredPaymentFields:hotels").equals("postalCode");
 		pos.mRequiresLXPostalCode = data.optString("requiredPaymentFields:lx").equals("postalCode");
-		pos.mShouldShowAirAttach = !data.optBoolean("shouldNotShowAirAttach", false);
+		pos.mRequiresCarsPostalCode = data.optString("requiredPaymentFields:cars").equals("postalCode");
 
 		pos.isPwPEnabledForHotels = data.optBoolean("pwpEnabled:hotels", false);
 		pos.isSWPEnabledForHotels = data.optBoolean("swpEnabled:hotels", false);

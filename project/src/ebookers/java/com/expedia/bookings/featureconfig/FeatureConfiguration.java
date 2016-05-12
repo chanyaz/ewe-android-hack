@@ -91,7 +91,7 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 
 	@Override
 	public PointOfSaleId getDefaultPOS() {
-		return PointOfSaleId.UNITED_KINGDOM;
+		return PointOfSaleId.EBOOKERS_UNITED_KINGDOM;
 	}
 
 	@Override
@@ -359,6 +359,21 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 
 	@Override
 	public boolean shouldShowMemberTier() {
+		return true;
+	}
+
+	@Override
+	public boolean shouldShowAirAttach() {
+		return false;
+	}
+
+	@Override
+	public String getSharableFallbackImageURL() {
+		return null;
+	}
+
+	@Override
+	public boolean shouldDisplayItinTrackAppLink() {
 		return true;
 	}
 }

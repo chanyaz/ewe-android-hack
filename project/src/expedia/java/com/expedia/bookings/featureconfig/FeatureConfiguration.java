@@ -367,8 +367,8 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 			return "no points used";
 		case TOTAL_POINTS_BURNED:
 			return "event117";
-		case CHECKOUT_PAY_WITH_REWARDS_REENABLED:
-			return "App.Hotels.CKO.Points.Select.Expedia";
+		case BRAND_KEY_FOR_OMNITURE:
+			return "Expedia";
 		}
 		//It should not be the case
 		throw new IllegalArgumentException("Unknown enum value");
@@ -376,6 +376,21 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 
 	@Override
 	public boolean shouldShowMemberTier() {
+		return true;
+	}
+
+	@Override
+	public boolean shouldShowAirAttach() {
+		return true;
+	}
+
+	@Override
+	public String getSharableFallbackImageURL() {
+		return "http://media.expedia.com/mobiata/fb/exp-fb-share.png";
+	}
+
+	@Override
+	public boolean shouldDisplayItinTrackAppLink() {
 		return true;
 	}
 }

@@ -525,7 +525,7 @@ public class FlightCheckoutFragment extends Fragment implements AccountButtonCli
 		}
 
 		Money cardFee = Db.getTripBucket().getFlight().getPaymentFee(mBillingInfo);
-		if (hasValidCard && cardFee != null) {
+		if (hasValidCard && cardFee != null && !cardFee.isZero()) {
 			setPaymentContainerBg(R.drawable.bg_lcc_checkout_information_bottom_tab, false);
 
 			mCardFeeTextView.setText(Html.fromHtml(getString(R.string.airline_card_fee_TEMPLATE,

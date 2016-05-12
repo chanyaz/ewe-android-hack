@@ -173,4 +173,10 @@ public interface IProductFlavorFeatureConfiguration {
 	String getOmnitureEventValue(OmnitureTracking.OmnitureEventName key);
 
 	boolean shouldShowMemberTier();
+
+	boolean shouldShowAirAttach();
+
+	String getSharableFallbackImageURL();
+
+	boolean shouldDisplayItinTrackAppLink();
 }

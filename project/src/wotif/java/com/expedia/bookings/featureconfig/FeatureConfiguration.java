@@ -357,4 +357,19 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 	public boolean shouldShowMemberTier() {
 		return true;
 	}
+
+	@Override
+	public boolean shouldShowAirAttach() {
+		return true;
+	}
+
+	@Override
+	public String getSharableFallbackImageURL() {
+		return null;
+	}
+
+	@Override
+	public boolean shouldDisplayItinTrackAppLink() {
+		return true;
+	}
 }

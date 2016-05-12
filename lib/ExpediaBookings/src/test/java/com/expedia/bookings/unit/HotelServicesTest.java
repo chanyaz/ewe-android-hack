@@ -300,7 +300,7 @@ public class HotelServicesTest {
 		givenServerUsingMockResponses();
 
 		TestSubscriber<HotelCreateTripResponse> subscriber = new TestSubscriber<>();
-		service.removeCoupon("hotel_coupon_remove_success").subscribe(subscriber);
+		service.removeCoupon("hotel_coupon_remove_success", true).subscribe(subscriber);
 		subscriber.awaitTerminalEvent(2, TimeUnit.SECONDS);
 		subscriber.assertCompleted();
 
@@ -314,7 +314,7 @@ public class HotelServicesTest {
 		TestSubscriber<HotelCreateTripResponse> observer = new TestSubscriber<>();
 		givenCouponParams("hotel_coupon_errors_expired");
 
-		service.applyCoupon(couponParams).subscribe(observer);
+		service.applyCoupon(couponParams, true).subscribe(observer);
 		observer.awaitTerminalEvent(10, TimeUnit.SECONDS);
 		observer.assertCompleted();
 		ApiError apiError = observer.getOnNextEvents().get(0).getFirstError();

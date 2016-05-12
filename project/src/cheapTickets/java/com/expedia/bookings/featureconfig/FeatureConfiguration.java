@@ -364,8 +364,8 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 			return "no cheapcash used";
 		case TOTAL_POINTS_BURNED:
 			return "event123";
-		case CHECKOUT_PAY_WITH_REWARDS_REENABLED:
-			return "App.Hotels.CKO.Points.Select.Orbitz";
+		case BRAND_KEY_FOR_OMNITURE:
+			return "CheapTickets";
 		}
 		//It should not be the case
 		throw new IllegalArgumentException("Unknown enum value");
@@ -373,6 +373,21 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 
 	@Override
 	public boolean shouldShowMemberTier() {
+		return false;
+	}
+
+	@Override
+	public boolean shouldShowAirAttach() {
+		return false;
+	}
+
+	@Override
+	public String getSharableFallbackImageURL() {
+		return null;
+	}
+
+	@Override
+	public boolean shouldDisplayItinTrackAppLink() {
 		return false;
 	}
 }
