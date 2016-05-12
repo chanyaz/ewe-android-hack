@@ -76,11 +76,11 @@ class BundleOverviewViewModel(val context: Context, val packageServices: Package
     fun makeResultsObserver(type: PackageSearchType): Observer<PackageSearchResponse> {
         return object : Observer<PackageSearchResponse> {
             override fun onNext(response: PackageSearchResponse) {
-                if (response.packageResult.hotelsPackage.hotels.isEmpty()) {
-                    errorObservable.onNext(PackageApiError.Code.search_response_null)
-                }
                 if (response.hasErrors()) {
                     errorObservable.onNext(response.firstError)
+                }
+                else if (response.packageResult.hotelsPackage.hotels.isEmpty()) {
+                    errorObservable.onNext(PackageApiError.Code.search_response_null)
                 }
                 Db.setPackageResponse(response)
                 if (type == PackageSearchType.HOTEL) {

@@ -4180,13 +4180,7 @@
             "currencyCode": "USD",
             "double": 1073.24
           },
-          "pricePerPerson": {
-            "amount": 536.62,
-            "currency": "USD",
-            "negative": false,
-            "currencyCode": "USD",
-            "double": 536.62
-          },
+          "pricePerPerson": null,
           "hotelPrice": {
             "amount": 226.86,
             "currency": "USD",
@@ -4277,97 +4271,7 @@
         "hotel": "27205201334908206487557",
         "flight": "bdaeb3b97acaea318d4c5b02f99f0002",
         "car": null,
-        "price": {
-          "packageTotalPrice": {
-            "amount": 1003.77,
-            "currency": "USD",
-            "negative": false,
-            "currencyCode": "USD",
-            "double": 1003.77
-          },
-          "pricePerPerson": {
-            "amount": 501.89,
-            "currency": "USD",
-            "negative": false,
-            "currencyCode": "USD",
-            "double": 501.89
-          },
-          "hotelPrice": {
-            "amount": 124.69,
-            "currency": "USD",
-            "negative": false,
-            "currencyCode": "USD",
-            "double": 124.69
-          },
-          "flightPrice": {
-            "amount": 904.40,
-            "currency": "USD",
-            "negative": false,
-            "currencyCode": "USD",
-            "double": 904.4
-          },
-          "carPrice": null,
-          "sumFlightAndHotel": {
-            "amount": 1029.00,
-            "currency": "USD",
-            "negative": false,
-            "currencyCode": "USD",
-            "double": 1029.0
-          },
-          "tripSavings": {
-            "amount": 25.32,
-            "currency": "USD",
-            "negative": false,
-            "currencyCode": "USD",
-            "double": 25.32
-          },
-          "packageTotalPriceFormatted": "$1,004",
-          "pricePerPersonFormatted": "$502",
-          "pricePerPersonUnformatted": "502",
-          "hotelPriceFormatted": "$125",
-          "flightPriceFormatted": "$905",
-          "sumFlightAndHotelFormatted": "$1,029",
-          "tripSavingsFormatted": "$25",
-          "showTripSavings": false,
-          "freeFlightPromotion": false,
-          "showReferencePrices": false,
-          "mandatoryFeeIncludedInTotal": false,
-          "flightPlusHotelPricePerPersonFormatted": "$515",
-          "numNightsPriced": 1,
-          "hotelAvgPricePerNight": {
-            "amount": 124.69,
-            "currency": "USD",
-            "negative": false,
-            "currencyCode": "USD",
-            "double": 124.69
-          },
-          "hotelAvgDrrPricePerNight": {
-            "amount": 161.02,
-            "currency": "USD",
-            "negative": false,
-            "currencyCode": "USD",
-            "double": 161.02
-          },
-          "hotelAvgPricePerNightFormatted": "$125",
-          "hotelAvgDrrPricePerNightFormatted": "$162",
-          "hotelAvgPricePerNightUnformatted": "125",
-          "hotelAvgDrrPricePerNightUnformatted": "162",
-          "absSavingsPerPerson": {
-            "amount": 12.66,
-            "currency": "USD",
-            "negative": false,
-            "currencyCode": "USD",
-            "double": 12.66
-          },
-          "absSavingsPerPersonFormatted": "$12",
-          "percentageSavings": 2,
-          "hotelWithSavingsAppliedPricePerNightFormatted": "$100",
-          "isHotelPriceWithSavingsPositive": true,
-          "flightPricePerPersonFormatted": "$453",
-          "basePricePerPersonFormatted": null,
-          "basePriceBeforeSavingsPerPersonFormatted": null,
-          "allTaxesAndAllFeesPerPersonFormatted": null
-        },
+        "price": null,
         "urgencyMessage": null,
         "promoCampaignLogoURI": "",
         "bookingCount": 0,

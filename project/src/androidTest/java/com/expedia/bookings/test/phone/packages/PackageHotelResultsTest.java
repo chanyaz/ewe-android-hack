@@ -20,7 +20,7 @@ public class PackageHotelResultsTest extends PackageTestCase {
 	public void testResultsHeader() throws Throwable {
 		PackageScreen.searchPackage();
 		PackageScreen.seeHotelResults();
-		PackageScreen.hotelResultsHeader().check(matches(withText("50 Results")));
+		PackageScreen.hotelResultsHeader().check(matches(withText("48 Results")));
 	}
 
 	public void testToolbarText() throws Throwable {
