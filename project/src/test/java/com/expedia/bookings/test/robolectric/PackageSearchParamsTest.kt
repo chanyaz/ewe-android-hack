@@ -80,7 +80,7 @@ class PackageSearchParamsTest {
         val expectedSearchParams = arrayListOf<PackageSearchParams>()
         val expectedOrigins = arrayListOf<Unit>()
         val expectedDates = arrayListOf<Unit>()
-        val expectedRangeErrors = arrayListOf("This date is too far out, please choose a closer date.")
+        val expectedRangeErrors = arrayListOf("This date is too far out, please choose a closer date.", "This date is too far out, please choose a closer date.")
         val origin = getDummySuggestion("123")
         val destination = getDummySuggestion("456")
 
@@ -112,6 +112,10 @@ class PackageSearchParamsTest {
 
         // Select days beyond 329
         vm.datesObserver.onNext(Pair(LocalDate.now().plusDays(329), LocalDate.now().plusDays(330)))
+        vm.searchObserver.onNext(Unit)
+
+        // Select days beyond 329 but same day
+        vm.datesObserver.onNext(Pair(LocalDate.now().plusDays(329), LocalDate.now().plusDays(329)))
         vm.searchObserver.onNext(Unit)
 
         // Select both start date and end date and search

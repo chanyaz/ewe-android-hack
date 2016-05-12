@@ -4,19 +4,16 @@ import android.content.Context
 import android.text.style.RelativeSizeSpan
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Db
-import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.Traveler
 import com.expedia.bookings.data.packages.PackageSearchParams
 import com.expedia.bookings.enums.PassengerCategory
 import com.expedia.bookings.utils.DateUtils
 import com.expedia.bookings.utils.SpannableBuilder
-import com.expedia.bookings.utils.StrUtils
 import com.expedia.util.endlessObserver
 import com.expedia.vm.BaseSearchViewModel
 import com.mobiata.android.time.util.JodaUtils
 import com.squareup.phrase.Phrase
 import org.joda.time.LocalDate
-import rx.subjects.BehaviorSubject
 import rx.subjects.PublishSubject
 
 class PackageSearchViewModel(context: Context) : BaseSearchViewModel(context) {
@@ -69,6 +66,18 @@ class PackageSearchViewModel(context: Context) : BaseSearchViewModel(context) {
 
     override fun isStartDateOnlyAllowed(): Boolean {
         return false
+    }
+
+    override fun onDatesChanged(dates: Pair<LocalDate?, LocalDate?>) {
+        var startEndDates = dates
+        val (start, end) = startEndDates
+        //dates cant be the same, shift end by 1 day
+        if (!isStartDateOnlyAllowed()) {
+            if (start != null && (end == null || end.isEqual(start))) {
+                startEndDates = Pair(start, start.plusDays(1))
+            }
+        }
+        super.onDatesChanged(startEndDates)
     }
 
     // Helpers
