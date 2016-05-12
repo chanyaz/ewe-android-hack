@@ -242,7 +242,7 @@ public class MultipleTravelerPresenterTest extends BaseTravelerPresenterTestHelp
 		EspressoUtils.assertViewIsNotDisplayed(R.id.boarding_warning);
 
 		EspressoUser.clickOnText(expectedTravelerOneText);
-		EspressoUtils.assertViewWithTextIsDisplayed(R.id.boarding_warning, R.string.name_must_match_warning);
+		EspressoUtils.assertViewWithTextIsDisplayed(R.id.boarding_warning, R.string.name_must_match_warning_new);
 	}
 
 	@Test
@@ -255,7 +255,7 @@ public class MultipleTravelerPresenterTest extends BaseTravelerPresenterTestHelp
 		EspressoUtils.assertViewIsNotDisplayed(R.id.boarding_warning);
 
 		EspressoUser.clickOnText(expectedTravelerOneText);
-		EspressoUtils.assertViewWithTextIsDisplayed(R.id.boarding_warning, R.string.name_must_match_warning);
+		EspressoUtils.assertViewWithTextIsDisplayed(R.id.boarding_warning, R.string.name_must_match_warning_new);
 		PackageScreen.clickTravelerDone();
 		EspressoUtils.assertViewIsNotDisplayed(R.id.boarding_warning);
 	}

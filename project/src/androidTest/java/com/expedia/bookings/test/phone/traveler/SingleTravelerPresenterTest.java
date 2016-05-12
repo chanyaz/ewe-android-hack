@@ -123,7 +123,7 @@ public class SingleTravelerPresenterTest extends BaseTravelerPresenterTestHelper
 		mockViewModel = getMockViewModelValidTravelers(1);
 		testTravelerPresenter.setViewModel(mockViewModel);
 		EspressoUser.clickOnView(R.id.traveler_default_state);
-		EspressoUtils.assertViewWithTextIsDisplayed(R.id.boarding_warning, R.string.name_must_match_warning);
+		EspressoUtils.assertViewWithTextIsDisplayed(R.id.boarding_warning, R.string.name_must_match_warning_new);
 	}
 
 	@Test
@@ -131,7 +131,7 @@ public class SingleTravelerPresenterTest extends BaseTravelerPresenterTestHelper
 		mockViewModel = getMockViewModelValidTravelers(1);
 		testTravelerPresenter.setViewModel(mockViewModel);
 		EspressoUser.clickOnView(R.id.traveler_default_state);
-		EspressoUtils.assertViewWithTextIsDisplayed(R.id.boarding_warning, R.string.name_must_match_warning);
+		EspressoUtils.assertViewWithTextIsDisplayed(R.id.boarding_warning, R.string.name_must_match_warning_new);
 
 		PackageScreen.clickTravelerDone();
 		EspressoUtils.assertViewIsNotDisplayed(R.id.boarding_warning);
