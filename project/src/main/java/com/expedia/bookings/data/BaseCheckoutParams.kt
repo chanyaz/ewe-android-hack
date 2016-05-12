@@ -2,12 +2,12 @@ package com.expedia.bookings.data
 
 import java.util.ArrayList
 
-data class BaseCheckoutParams(val billingInfo: BillingInfo, val travelers: ArrayList<Traveler>, val cvv: String) {
+open class BaseCheckoutParams(val billingInfo: BillingInfo, val travelers: ArrayList<Traveler>, val cvv: String) {
 
-    class Builder() {
-        private var billingInfo: BillingInfo? = null
-        private var travelers: ArrayList<Traveler> = ArrayList()
-        private var cvv: String? = null
+    open class Builder() {
+        protected var billingInfo: BillingInfo? = null
+        protected var travelers: ArrayList<Traveler> = ArrayList()
+        protected var cvv: String? = null
 
         fun billingInfo(billingInfo: BillingInfo?): Builder {
             this.billingInfo = billingInfo
@@ -26,7 +26,7 @@ data class BaseCheckoutParams(val billingInfo: BillingInfo, val travelers: Array
         }
 
 
-        fun build(): BaseCheckoutParams {
+        open fun build(): BaseCheckoutParams {
             val billingInfo = billingInfo ?: throw IllegalArgumentException()
             val travelers = if (travelers.isEmpty()) throw IllegalArgumentException() else {
                 travelers
@@ -39,7 +39,7 @@ data class BaseCheckoutParams(val billingInfo: BillingInfo, val travelers: Array
             return travelers.isNotEmpty() && billingInfo != null
         }
 
-        fun hasValidParams(): Boolean {
+        open fun hasValidParams(): Boolean {
             return travelers.isNotEmpty() &&
                     billingInfo != null &&
                     !cvv.isNullOrEmpty()

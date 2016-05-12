@@ -15,9 +15,7 @@ import com.expedia.bookings.widget.BaseCheckoutPresenter
 import com.expedia.bookings.widget.BundleOverviewHeader
 import com.expedia.bookings.widget.CVVEntryWidget
 import com.expedia.bookings.widget.packages.PackagePaymentWidget
-
 import com.expedia.util.endlessObserver
-import com.expedia.vm.BaseCheckoutViewModel
 
 abstract class BaseOverviewPresenter(context: Context, attrs: AttributeSet) : Presenter(context, attrs), CVVEntryWidget.CVVEntryFragmentListener {
     val ANIMATION_DURATION = 400
@@ -34,9 +32,17 @@ abstract class BaseOverviewPresenter(context: Context, attrs: AttributeSet) : Pr
 
     init {
         inflate()
-        checkoutPresenter.viewModel = BaseCheckoutViewModel(context)
-        checkoutPresenter.viewModel.lineOfBusiness.onNext(checkoutPresenter.lineOfBusiness())
-        checkoutPresenter.paymentWidget.viewmodel.billingInfoAndStatusUpdate.map{it.first}.subscribe(checkoutPresenter.viewModel.paymentCompleted)
+        checkoutPresenter.getCheckoutViewModel().lineOfBusiness.onNext(checkoutPresenter.lineOfBusiness())
+        checkoutPresenter.paymentWidget.viewmodel.billingInfoAndStatusUpdate.map{it.first}.subscribe(checkoutPresenter.getCheckoutViewModel().paymentCompleted)
+
+        checkoutPresenter.getCreateTripViewModel().tripResponseObservable.subscribe { trip ->
+            if (currentState == BaseOverviewPresenter.BundleDefault::class.java.name) {
+                bundleOverviewHeader.toggleOverviewHeader(true)
+                checkoutPresenter.toggleCheckoutButton(true)
+            }
+            checkoutPresenter.getCheckoutViewModel().tripResponseObservable.onNext(trip)
+        }
+
         bundleOverviewHeader.toolbar.overflowIcon = ContextCompat.getDrawable(context, R.drawable.ic_create_white_24dp)
         bundleOverviewHeader.toolbar.viewModel.showChangePackageMenuObservable.subscribe { visible ->
             bundleOverviewHeader.toolbar.menu.setGroupVisible(R.id.package_change_menu, visible)
@@ -168,7 +174,7 @@ abstract class BaseOverviewPresenter(context: Context, attrs: AttributeSet) : Pr
     }
 
     private fun translateBottomContainer(f: Float, forward: Boolean) {
-        val hasCompleteInfo = checkoutPresenter.viewModel.infoCompleted.value
+        val hasCompleteInfo = checkoutPresenter.getCheckoutViewModel().infoCompleted.value
         val bottomDistance = checkoutPresenter.sliderHeight - checkoutPresenter.checkoutButtonHeight
         var slideIn = if (hasCompleteInfo) {
             bottomDistance - (f * (bottomDistance))
@@ -203,7 +209,7 @@ abstract class BaseOverviewPresenter(context: Context, attrs: AttributeSet) : Pr
     }
 
     override fun onBook(cvv: String?) {
-        checkoutPresenter.viewModel.cvvCompleted.onNext(cvv)
+        checkoutPresenter.getCheckoutViewModel().cvvCompleted.onNext(cvv)
     }
 
 

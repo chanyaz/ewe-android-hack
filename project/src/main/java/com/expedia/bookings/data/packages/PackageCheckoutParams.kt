@@ -1,5 +1,7 @@
 package com.expedia.bookings.data.packages
 
+import com.expedia.bookings.data.BaseCheckoutParams
+import com.expedia.bookings.data.BaseSearchParams
 import com.expedia.bookings.data.BillingInfo
 import com.expedia.bookings.data.Traveler
 import com.expedia.bookings.utils.DateFormatUtils
@@ -7,29 +9,15 @@ import org.joda.time.format.DateTimeFormat
 import java.util.ArrayList
 import java.util.HashMap
 
-data class PackageCheckoutParams(val billingInfo: BillingInfo, val travelers: ArrayList<Traveler>, val tripId: String, val expectedTotalFare: String, val expectedFareCurrencyCode: String, val bedType: String, val cvv: String, val suppressFinalBooking: Boolean) {
+class PackageCheckoutParams(billingInfo: BillingInfo, travelers: ArrayList<Traveler>, val tripId: String, val expectedTotalFare: String, val expectedFareCurrencyCode: String, val bedType: String, cvv: String, val suppressFinalBooking: Boolean) : BaseCheckoutParams(billingInfo, travelers, cvv){
     val dtf = DateTimeFormat.forPattern("MM-dd-yyyy");
 
-    class Builder() {
-        private var billingInfo: BillingInfo? = null
-        private var travelers: ArrayList<Traveler> = ArrayList()
+    class Builder() : BaseCheckoutParams.Builder() {
         private var tripId: String? = null
         private var expectedTotalFare: String? = null
         private var expectedFareCurrencyCode: String? = null
-        private var cvv: String? = null
         private var bedType: String? = null
         private var suppressFinalBooking = true
-
-        fun billingInfo(billingInfo: BillingInfo?): PackageCheckoutParams.Builder {
-            this.billingInfo = billingInfo
-            return this
-        }
-
-        fun travelers(travelers: ArrayList<Traveler>): PackageCheckoutParams.Builder {
-            this.travelers.clear()
-            this.travelers.addAll(travelers)
-            return this
-        }
 
         fun tripId(tripId: String?): PackageCheckoutParams.Builder {
             this.tripId = tripId
@@ -46,11 +34,6 @@ data class PackageCheckoutParams(val billingInfo: BillingInfo, val travelers: Ar
             return this
         }
 
-        fun cvv(cvv: String?): PackageCheckoutParams.Builder {
-            this.cvv = cvv
-            return this
-        }
-
         fun bedType(bedType: String?): PackageCheckoutParams.Builder {
             this.bedType = bedType
             return this
@@ -61,7 +44,7 @@ data class PackageCheckoutParams(val billingInfo: BillingInfo, val travelers: Ar
             return this
         }
 
-        fun build(): PackageCheckoutParams {
+        override fun build(): PackageCheckoutParams {
             val billingInfo = billingInfo ?: throw IllegalArgumentException()
             val travelers = if (travelers.isEmpty()) throw IllegalArgumentException() else {
                 travelers
@@ -74,11 +57,8 @@ data class PackageCheckoutParams(val billingInfo: BillingInfo, val travelers: Ar
             return PackageCheckoutParams(billingInfo, travelers, tripId, expectedTotalFare, expectedFareCurrencyCode, bedType, cvv, suppressFinalBooking)
         }
 
-        fun hasValidParams(): Boolean {
-            return travelers.isNotEmpty() &&
-                    billingInfo != null &&
-                    !cvv.isNullOrEmpty() &&
-                    tripId != null &&
+        override fun hasValidParams(): Boolean {
+            return super.hasValidParams() &&
                     expectedTotalFare != null &&
                     expectedFareCurrencyCode != null
         }

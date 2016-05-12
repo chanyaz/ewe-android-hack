@@ -10,7 +10,7 @@ import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.flights.FlightCreateTripParams
-import com.expedia.bookings.data.flights.FlightCreateTripViewModel
+import com.expedia.vm.flights.FlightCreateTripViewModel
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.presenter.LeftToRightTransition
 import com.expedia.bookings.presenter.Presenter
@@ -96,7 +96,7 @@ class FlightPresenter(context: Context, attrs: AttributeSet) : Presenter(context
         vm.flightProductId.subscribe { productKey ->
             val requestInsurance = Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.INS_AddInsuranceOnMobileAppFlights)
             val createTripParams = FlightCreateTripParams(productKey, requestInsurance)
-            flightOverviewPresenter.getCheckoutPresenter().createTripViewModel.tripParams.onNext(createTripParams)
+            flightOverviewPresenter.getCheckoutPresenter().getCreateTripViewModel().tripParams.onNext(createTripParams)
             show(flightOverviewPresenter)
         }
         vm.inboundResultsObservable.subscribe {
@@ -110,10 +110,6 @@ class FlightPresenter(context: Context, attrs: AttributeSet) : Presenter(context
     init {
         Ui.getApplication(getContext()).flightComponent().inject(this)
         View.inflate(context, R.layout.flight_presenter, this)
-        flightOverviewPresenter.getCheckoutPresenter().checkoutViewModel = FlightCheckoutViewModel(context, flightServices)
-        flightOverviewPresenter.getCheckoutPresenter().createTripViewModel = FlightCreateTripViewModel(flightServices)
-        flightOverviewPresenter.getCheckoutPresenter().createTripViewModel.tripResponseObservable.subscribe(flightOverviewPresenter.getCheckoutPresenter().checkoutViewModel.tripResponseObservable)
-
 
         try {
             searchViewModel = FlightSearchViewModel(context, flightServices)

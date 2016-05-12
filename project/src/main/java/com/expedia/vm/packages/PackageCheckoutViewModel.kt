@@ -2,10 +2,7 @@ package com.expedia.vm.packages
 
 import android.content.Context
 import android.text.Html
-import android.text.SpannableStringBuilder
-import android.text.Spanned
 import com.expedia.bookings.R
-import com.expedia.bookings.data.BaseCheckoutParams
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.User
@@ -17,31 +14,17 @@ import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.services.PackageServices
 import com.expedia.bookings.utils.BookingSuppressionUtils
 import com.expedia.bookings.utils.StrUtils
+import com.expedia.vm.BaseCheckoutViewModel
 import com.squareup.phrase.Phrase
 import rx.Observer
 import rx.exceptions.OnErrorNotImplementedException
-import rx.subjects.BehaviorSubject
-import rx.subjects.PublishSubject
 import java.math.BigDecimal
-import kotlin.properties.Delegates
 
-class PackageCheckoutViewModel(val context: Context, val packageServices: PackageServices) {
-    val builder = PackageCheckoutParams.Builder()
-
-    val tripResponseObservable = BehaviorSubject.create<PackageCreateTripResponse>()
-    val baseParams = PublishSubject.create<BaseCheckoutParams>()
-    val checkoutParams = PublishSubject.create<PackageCheckoutParams>()
-    val checkoutResponse = PublishSubject.create<Pair<PackageCheckoutResponse, String>>()
-
-    // Outputs
-    val depositPolicyText = PublishSubject.create<Spanned>()
-    val legalText = PublishSubject.create<SpannableStringBuilder>()
-    val sliderPurchaseTotalText = PublishSubject.create<CharSequence>()
-    val checkoutErrorObservable = PublishSubject.create<ApiError>()
-    var email: String by Delegates.notNull()
+class PackageCheckoutViewModel(context: Context, val packageServices: PackageServices) : BaseCheckoutViewModel(context) {
+    override val builder = PackageCheckoutParams.Builder()
 
     init {
-        tripResponseObservable.subscribe {
+        tripResponseObservable.subscribe { it as PackageCreateTripResponse
             builder.tripId(it.packageDetails.tripId)
             builder.expectedTotalFare(it.packageDetails.pricing.packageTotal.amount.toString())
             builder.expectedFareCurrencyCode(it.packageDetails.pricing.packageTotal.currencyCode)
@@ -59,23 +42,14 @@ class PackageCheckoutViewModel(val context: Context, val packageServices: Packag
             sliderPurchaseTotalText.onNext(Phrase.from(context, R.string.your_card_will_be_charged_template).put("dueamount", it.getTripTotalExcludingFee().formattedPrice).format())
         }
 
-        baseParams.subscribe { params ->
+        checkoutParams.subscribe { params -> params as PackageCheckoutParams
             val suppressFinalBooking = BookingSuppressionUtils.shouldSuppressFinalBooking(context, R.string.preference_suppress_package_bookings)
             if (User.isLoggedIn(context)) {
                 params.billingInfo.email = Db.getUser().primaryTraveler.email
             }
-            builder.billingInfo(params.billingInfo)
-            builder.travelers(params.travelers)
-            builder.cvv(params.cvv)
             builder.suppressFinalBooking(suppressFinalBooking)
-            if (builder.hasValidParams()) {
-                checkoutParams.onNext(builder.build())
-            }
-        }
-
-        checkoutParams.subscribe { body ->
-            packageServices.checkout(body.toQueryMap()).subscribe(makeCheckoutResponseObserver())
-            email = body.billingInfo.email
+            packageServices.checkout(params.toQueryMap()).subscribe(makeCheckoutResponseObserver())
+            email = params.billingInfo.email
         }
 
     }

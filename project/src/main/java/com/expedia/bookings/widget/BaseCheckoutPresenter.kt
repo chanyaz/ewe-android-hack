@@ -7,6 +7,7 @@ import android.animation.ValueAnimator
 import android.app.Activity
 import android.app.ProgressDialog
 import android.content.Context
+import android.graphics.Rect
 import android.support.v7.app.AppCompatActivity
 import android.util.AttributeSet
 import android.view.MotionEvent
@@ -28,10 +29,12 @@ import com.expedia.bookings.utils.UserAccountRefresher
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.packages.PackagePaymentWidget
 import com.expedia.util.notNullAndObservable
+import com.expedia.util.subscribeTextAndVisibility
 import com.expedia.vm.BaseCheckoutViewModel
-import com.expedia.vm.packages.BundlePriceViewModel
 import com.expedia.vm.PaymentViewModel
 import com.expedia.vm.PriceChangeViewModel
+import com.expedia.vm.packages.BaseCreateTripViewModel
+import com.expedia.vm.packages.BundlePriceViewModel
 import com.expedia.vm.traveler.CheckoutTravelerViewModel
 import com.mobiata.android.Log
 import rx.subjects.PublishSubject
@@ -78,7 +81,7 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet) : Pre
 
     var sliderHeight = 0f
     var checkoutButtonHeight = 0f
-    var viewModel: BaseCheckoutViewModel by notNullAndObservable { vm ->
+    protected var ckoViewModel: BaseCheckoutViewModel by notNullAndObservable { vm ->
         vm.lineOfBusiness.subscribe { lob ->
             paymentWidget.viewmodel.lineOfBusiness.onNext(lob)
             userAccountRefresher = UserAccountRefresher(context, lob, this)
@@ -87,6 +90,23 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet) : Pre
             paymentWidget.viewmodel.isCreditCardRequired.onNext(required)
         }
         travelerPresenter.allTravelersCompleteSubject.subscribe(vm.travelerCompleted)
+        paymentWidget.viewmodel.billingInfoAndStatusUpdate.map { it.first }.subscribe(vm.paymentCompleted)
+        vm.legalText.subscribeTextAndVisibility(legalInformationText)
+        vm.depositPolicyText.subscribeTextAndVisibility(depositPolicyText)
+        vm.sliderPurchaseTotalText.subscribeTextAndVisibility(slideTotalText)
+        vm.checkoutParams.subscribe {
+            checkoutDialog.show()
+        }
+        vm.checkoutResponse.subscribe {
+            checkoutDialog.hide()
+        }
+    }
+
+    protected var tripViewModel: BaseCreateTripViewModel by notNullAndObservable { vm ->
+        vm.showCreateTripDialogObservable.subscribe { show ->
+            if (show) createTripDialog.show() else createTripDialog.hide()
+        }
+        setUpCreateTripViewModel(vm)
     }
 
     init {
@@ -95,6 +115,23 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet) : Pre
         paymentWidget.viewmodel = PaymentViewModel(context)
         priceChangeWidget.viewmodel = PriceChangeViewModel(context, lineOfBusiness())
         totalPriceWidget.viewModel = BundlePriceViewModel(context)
+        ckoViewModel = setCheckoutViewModel()
+        tripViewModel = setCreateTripViewModel()
+        globalLayoutListener = (ViewTreeObserver.OnGlobalLayoutListener {
+            val decorView = paymentWidgetRootWindow.decorView
+            val windowVisibleDisplayFrameRect = Rect()
+            decorView.getWindowVisibleDisplayFrame(windowVisibleDisplayFrameRect)
+            var location = IntArray(2)
+            scrollView.getLocationOnScreen(location)
+            val lp = scrollView.layoutParams
+            val newHeight = windowVisibleDisplayFrameRect.bottom - windowVisibleDisplayFrameRect.top - toolbarHeight
+
+            if (lp.height != newHeight) {
+                lp.height = newHeight
+                scrollView.layoutParams = lp
+            }
+        })
+
         toolbarHeight = Ui.getToolbarSize(context)
 
         loginWidget.setListener(this)
@@ -107,11 +144,13 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet) : Pre
         travelerPresenter.viewModel = CheckoutTravelerViewModel()
         travelerPresenter.expandedSubject.subscribe { expanded ->
             if (expanded) {
+                dropShadowView.visibility = View.GONE
                 show(travelerPresenter)
+            } else {
+                dropShadowView.visibility = View.VISIBLE
             }
         }
         travelerPresenter.travelerEntryWidget.travelerButton.setLOB(lineOfBusiness())
-
         legalInformationText.setOnClickListener {
             context.startActivity(HotelRulesActivity.createIntent(context, LineOfBusiness.PACKAGES))
         }
@@ -274,9 +313,8 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet) : Pre
     }
 
     override fun onSlideAllTheWay() {
-        if (viewModel.builder.hasValidParams()) {
-            val checkoutParams = viewModel.builder.build()
-            viewModel.checkoutInfoCompleted.onNext(checkoutParams)
+        if (ckoViewModel.builder.hasValidParams()) {
+            ckoViewModel.checkoutParams.onNext(ckoViewModel.builder.build())
         } else {
             slideAllTheWayObservable.onNext(Unit)
         }
@@ -291,7 +329,7 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet) : Pre
     }
 
     override fun accountLoginClicked() {
-        val args = AccountLibActivity.createArgumentsBundle(viewModel.lineOfBusiness.value, CheckoutLoginExtender());
+        val args = AccountLibActivity.createArgumentsBundle(ckoViewModel.lineOfBusiness.value, CheckoutLoginExtender());
         User.signIn(context as Activity, args);
     }
 
@@ -312,10 +350,12 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet) : Pre
 
     class CheckoutDefault
 
-    abstract fun doCreateTrip()
+    fun doCreateTrip() {
+        tripViewModel.performCreateTrip.onNext(Unit)
+    }
 
     fun getLineOfBusiness(): LineOfBusiness {
-        return viewModel.lineOfBusiness.value
+        return ckoViewModel.lineOfBusiness.value
     }
 
     fun clearCCNumber() {
@@ -339,7 +379,7 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet) : Pre
     }
 
     fun animateInSlideToPurchase(visible: Boolean) {
-        var isSlideToPurchaseLayoutVisible = visible && viewModel.infoCompleted.value
+        var isSlideToPurchaseLayoutVisible = visible && ckoViewModel.infoCompleted.value
         if (isSlideToPurchaseLayoutVisible) {
             trackShowSlideToPurchase()
         }
@@ -367,4 +407,9 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet) : Pre
     abstract fun updateTravelerPresenter()
     abstract fun trackShowSlideToPurchase()
     abstract fun trackShowBundleOverview()
+    abstract fun setCheckoutViewModel() : BaseCheckoutViewModel
+    abstract fun setCreateTripViewModel() : BaseCreateTripViewModel
+    abstract fun getCheckoutViewModel() : BaseCheckoutViewModel
+    abstract fun getCreateTripViewModel() : BaseCreateTripViewModel
+    abstract fun setUpCreateTripViewModel(vm : BaseCreateTripViewModel)
 }

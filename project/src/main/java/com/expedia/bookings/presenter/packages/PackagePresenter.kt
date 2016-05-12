@@ -10,6 +10,7 @@ import android.view.animation.AccelerateDecelerateInterpolator
 import android.view.animation.DecelerateInterpolator
 import com.expedia.bookings.R
 import com.expedia.bookings.animation.TransitionElement
+import com.expedia.bookings.data.BaseApiResponse
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.packages.PackageCheckoutResponse
@@ -23,10 +24,7 @@ import com.expedia.bookings.utils.CurrencyUtils
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
 import com.expedia.vm.packages.BundleOverviewViewModel
-import com.expedia.vm.packages.PackageCheckoutOverviewViewModel
-import com.expedia.vm.packages.PackageCheckoutViewModel
 import com.expedia.vm.packages.PackageConfirmationViewModel
-import com.expedia.vm.packages.PackageCreateTripViewModel
 import com.expedia.vm.packages.PackageErrorViewModel
 import com.expedia.vm.packages.PackageSearchViewModel
 import com.squareup.phrase.Phrase
@@ -56,18 +54,9 @@ class PackagePresenter(context: Context, attrs: AttributeSet) : Presenter(contex
 
         searchPresenter.searchViewModel = PackageSearchViewModel(context)
         bundlePresenter.bundleWidget.viewModel = BundleOverviewViewModel(context, packageServices)
-        checkoutPresenter.createTripViewModel = PackageCreateTripViewModel(packageServices)
-        checkoutPresenter.checkoutViewModel = PackageCheckoutViewModel(context, packageServices)
         confirmationPresenter.viewModel = PackageConfirmationViewModel(context)
         errorPresenter.viewmodel = PackageErrorViewModel(context)
 
-        checkoutPresenter.createTripViewModel.tripResponseObservable.subscribe { trip ->
-            bundlePresenter.bundleOverviewHeader.toolbar.viewModel.showChangePackageMenuObservable.onNext(true)
-            bundlePresenter.bundleWidget.outboundFlightWidget.toggleFlightWidget(1f, true)
-            bundlePresenter.bundleWidget.inboundFlightWidget.toggleFlightWidget(1f, true)
-            bundlePresenter.bundleWidget.bundleHotelWidget.toggleHotelWidget(1f, true)
-            bundlePresenter.bundleWidget.toggleMenuObservable.onNext(true)
-        }
         bundlePresenter.bundleWidget.viewModel.showBundleTotalObservable.subscribe { visible ->
             var packagePrice = Db.getPackageResponse().packageResult.currentSelectedOffer.price
 
@@ -79,31 +68,15 @@ class PackagePresenter(context: Context, attrs: AttributeSet) : Presenter(contex
             checkoutPresenter.totalPriceWidget.viewModel.setTextObservable.onNext(Pair(Money(BigDecimal(packagePrice.packageTotalPrice.amount.toDouble()),
                     packagePrice.packageTotalPrice.currencyCode).formattedMoney, packageSavings))
         }
-        //TODO:Move this checkout stuff into a common place not specific to package presenter
-        checkoutPresenter.createTripViewModel.tripResponseObservable.subscribe {
-            if (bundlePresenter.currentState == BaseOverviewPresenter.BundleDefault::class.java.name) {
-                bundlePresenter.bundleOverviewHeader.toggleOverviewHeader(true)
-            }
-        }
-        checkoutPresenter.createTripViewModel.tripResponseObservable.subscribe {
-            if (BaseOverviewPresenter.BundleDefault::class.java.name.equals(bundlePresenter.currentState)) {
-                checkoutPresenter.toggleCheckoutButton(true)
-            }
-        }
-        checkoutPresenter.createTripViewModel.tripResponseObservable.subscribe(checkoutPresenter.checkoutViewModel.tripResponseObservable)
-        checkoutPresenter.paymentWidget.viewmodel.billingInfoAndStatusUpdate.map { it.first }.subscribe(checkoutPresenter.viewModel.paymentCompleted)
-        checkoutPresenter.createTripViewModel.tripResponseObservable.subscribe(bundlePresenter.bundleWidget.viewModel.createTripObservable)
-        checkoutPresenter.createTripViewModel.tripResponseObservable.subscribe((bundlePresenter.bundleOverviewHeader.checkoutOverviewFloatingToolbar.viewmodel as PackageCheckoutOverviewViewModel).tripResponse)
-        checkoutPresenter.createTripViewModel.tripResponseObservable.subscribe((bundlePresenter.bundleOverviewHeader.checkoutOverviewHeaderToolbar.viewmodel as PackageCheckoutOverviewViewModel).tripResponse)
-        checkoutPresenter.createTripViewModel.tripResponseObservable.subscribe { trip ->
-            bundlePresenter.bundleWidget.setPadding(0, 0, 0, 0)
+        checkoutPresenter.getCreateTripViewModel().tripResponseObservable.subscribe { trip ->
             expediaRewards = trip.rewards.totalPointsToEarn.toString()
         }
-        checkoutPresenter.checkoutViewModel.checkoutResponse.subscribe { pair: Pair<PackageCheckoutResponse, String> ->
+        checkoutPresenter.getCheckoutViewModel().checkoutResponse.subscribe { pair: Pair<BaseApiResponse, String> ->
+            val response = pair.first as PackageCheckoutResponse
             show(confirmationPresenter)
-            confirmationPresenter.viewModel.showConfirmation.onNext(Pair(pair.first.newTrip?.itineraryNumber, pair.second))
+            confirmationPresenter.viewModel.showConfirmation.onNext(Pair(response.newTrip?.itineraryNumber, pair.second))
             confirmationPresenter.viewModel.setExpediaRewardsPoints.onNext(expediaRewards)
-            PackagesTracking().trackCheckoutPaymentConfirmation(pair.first)
+            PackagesTracking().trackCheckoutPaymentConfirmation(response)
         }
 
         // TODO - can we move this up to a common "base" presenter? (common between Package and Flight presenter)
@@ -123,10 +96,10 @@ class PackagePresenter(context: Context, attrs: AttributeSet) : Presenter(contex
             show(searchPresenter, FLAG_CLEAR_TOP)
         }
 
-        checkoutPresenter.createTripViewModel.createTripErrorObservable.subscribe(errorPresenter.viewmodel.checkoutApiErrorObserver)
-        checkoutPresenter.checkoutViewModel.checkoutErrorObservable.subscribe(errorPresenter.viewmodel.checkoutApiErrorObserver)
-        checkoutPresenter.createTripViewModel.createTripErrorObservable.delay(DELAY_INVOKING_ERROR_OBSERVABLES_DOING_SHOW, TimeUnit.MILLISECONDS).observeOn(AndroidSchedulers.mainThread()).subscribe { show(errorPresenter) }
-        checkoutPresenter.checkoutViewModel.checkoutErrorObservable.delay(DELAY_INVOKING_ERROR_OBSERVABLES_DOING_SHOW, TimeUnit.MILLISECONDS).observeOn(AndroidSchedulers.mainThread()).subscribe { show(errorPresenter) }
+        checkoutPresenter.getCreateTripViewModel().createTripErrorObservable.subscribe(errorPresenter.viewmodel.checkoutApiErrorObserver)
+        checkoutPresenter.getCheckoutViewModel().checkoutErrorObservable.subscribe(errorPresenter.viewmodel.checkoutApiErrorObserver)
+        checkoutPresenter.getCreateTripViewModel().createTripErrorObservable.delay(DELAY_INVOKING_ERROR_OBSERVABLES_DOING_SHOW, TimeUnit.MILLISECONDS).observeOn(AndroidSchedulers.mainThread()).subscribe { show(errorPresenter) }
+        checkoutPresenter.getCheckoutViewModel().checkoutErrorObservable.delay(DELAY_INVOKING_ERROR_OBSERVABLES_DOING_SHOW, TimeUnit.MILLISECONDS).observeOn(AndroidSchedulers.mainThread()).subscribe { show(errorPresenter) }
         errorPresenter.viewmodel.checkoutUnknownErrorObservable.delay(DELAY_INVOKING_ERROR_OBSERVABLES_DOING_SHOW, TimeUnit.MILLISECONDS).observeOn(AndroidSchedulers.mainThread()).subscribe {
             show(bundlePresenter, Presenter.FLAG_CLEAR_TOP)
             checkoutPresenter.slideToPurchase.resetSlider()

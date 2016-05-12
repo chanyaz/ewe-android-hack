@@ -9,16 +9,11 @@ import com.expedia.bookings.services.PackageServices
 import rx.Observable
 import rx.Observer
 import rx.exceptions.OnErrorNotImplementedException
-import rx.subjects.BehaviorSubject
 import rx.subjects.PublishSubject
 
-class PackageCreateTripViewModel(val packageServices: PackageServices) {
+class PackageCreateTripViewModel(val packageServices: PackageServices) : BaseCreateTripViewModel() {
 
     val tripParams = PublishSubject.create<PackageCreateTripParams>()
-    val performCreateTrip = PublishSubject.create<Unit>()
-    val tripResponseObservable = BehaviorSubject.create<PackageCreateTripResponse>()
-    val showCreateTripDialogObservable = PublishSubject.create<Boolean>()
-    val createTripErrorObservable = PublishSubject.create<ApiError>()
 
     init {
         Observable.combineLatest(tripParams, performCreateTrip, { params, createTrip ->
