@@ -23,22 +23,30 @@ def transitionMingleCards(mingleProject, mingleAccessId, mingleAccessSecret, hip
 	else:
 		print "No cards to be moved to PR..."
 
-def labelPRAsNeedsTestsIfTestsNotFound(pr):
-	testDirectories = ['/test/', '/androidTest/']
-	hasAnyChangeInTestDirectories = False
+def nudgeAuthorsTowardsWritingUnitTests(pr):
+	fileTypesWhichMightRequireTests = ['.kt', '.java']
+	unitTestDirectory = '/test/'
+	uiTestDirectory = '/androidTest/'
+	testDirectories = [unitTestDirectory, uiTestDirectory]
 
-	for file in pr.files():
-		if any(dir in file.filename for dir in testDirectories):
-			hasChangesToTest = True
-			break
+	prFiles = [file.filename for file in pr.files()]
 
-	if not hasAnyChangeInTestDirectories:
+	hasChangesInFilesWhichMightRequireTests = any(file.endswith(fileType) for file in prFiles for fileType in fileTypesWhichMightRequireTests)
+	hasAnyChangeInTestDirectories = any(dir in file for file in prFiles for dir in testDirectories)
+	hasUITestChanges = any(uiTestDirectory in file for file in prFiles)
+
+	if hasChangesInFilesWhichMightRequireTests and not hasAnyChangeInTestDirectories:
 		print "No tests found. Adding needs-test tag"
 		pr.issue().add_labels('needs-tests')
 
+	if hasUITestChanges:
+		print "Found changes in androidTest. Creating a comment."
+		pr.create_comment("This PR touches some methods in /androidTest/. Can we do a quick check if these can be implemented via Robolectric?")
+		pr.issue().add_labels('question')
+
 def processPR(mingleProject, mingleAccessId, mingleAccessSecret, hipchatAccessToken, pr):
 	transitionMingleCards(mingleProject, mingleAccessId, mingleAccessSecret, hipchatAccessToken, pr)
-	labelPRAsNeedsTestsIfTestsNotFound(pr)
+	nudgeAuthorsTowardsWritingUnitTests(pr)
 
 def main():
 	githubAccessToken = sys.argv[1]
