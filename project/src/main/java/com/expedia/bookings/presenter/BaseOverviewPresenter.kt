@@ -30,9 +30,7 @@ abstract class BaseOverviewPresenter(context: Context, attrs: AttributeSet) : Pr
 
     init {
         inflate()
-        checkoutPresenter.getCheckoutViewModel().lineOfBusiness.onNext(checkoutPresenter.lineOfBusiness())
         checkoutPresenter.paymentWidget.viewmodel.billingInfoAndStatusUpdate.map{it.first}.subscribe(checkoutPresenter.getCheckoutViewModel().paymentCompleted)
-
         checkoutPresenter.getCreateTripViewModel().tripResponseObservable.subscribe { trip ->
             if (currentState == BaseOverviewPresenter.BundleDefault::class.java.name) {
                 bundleOverviewHeader.toggleOverviewHeader(true)

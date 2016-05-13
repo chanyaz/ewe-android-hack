@@ -12,7 +12,7 @@ import com.expedia.vm.rail.RailCreateTripViewModel
 
 class RailCheckoutPresenter(context: Context, attrs: AttributeSet) : BaseCheckoutPresenter(context, attrs) {
 
-    override fun lineOfBusiness(): LineOfBusiness {
+    override fun getLineOfBusiness(): LineOfBusiness {
         return LineOfBusiness.RAIL
     }
 
