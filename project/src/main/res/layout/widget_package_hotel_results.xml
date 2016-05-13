@@ -24,7 +24,7 @@
             style="@style/PackagesHotelMapMessage"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/search_results_list_bg_gray"
+            android:background="@color/gray1"
             android:gravity="center"
             android:text="@string/package_price_includes_taxes_fees" />
 
@@ -38,7 +38,7 @@
         android:id="@+id/recycler_view_temp_background"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/search_results_list_bg_gray"
+        android:background="@color/gray1"
         android:visibility="gone" />
 
     <com.expedia.bookings.widget.HotelListRecyclerView

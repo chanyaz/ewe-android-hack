@@ -13,7 +13,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/search_results_list_bg_gray"
+        android:background="@color/gray1"
         android:orientation="vertical"
         android:paddingBottom="8dp"
         android:paddingTop="9dp">

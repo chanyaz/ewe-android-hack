@@ -37,7 +37,7 @@
         android:padding="12dp"
         android:singleLine="true"
         android:text="@string/traveler_main_message"
-        android:textColor="#878787"
+        android:textColor="@color/checkout_main_traveler_message"
         android:textSize="10sp"
         app:textStyle="normal" />
 
