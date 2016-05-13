@@ -42,7 +42,7 @@ dependencies {
     compile 'com.mobiata:android-utils:1.0.3'
     compile 'com.dgmltn:share-everywhere:1.0.1'
     compile "org.jetbrains.kotlin:kotlin-stdlib:${kotlin_version}"
-    compile "org.jetbrains.kotlin:kotlin-test:${kotlin_version}"
+    testCompile "org.jetbrains.kotlin:kotlin-test:${kotlin_version}"
     compile 'com.google.maps.android:android-maps-utils:0.4+'
 
     // Google Play Services deps on the support lib
@@ -348,6 +348,8 @@ android {
     }
 
     sourceSets {
+        main.java.srcDirs += 'src/main/kotlin'
+
         debug {
             assets.srcDirs = ['../lib/mocked/templates']
         }
