@@ -24,7 +24,8 @@
             android:paddingBottom="12dp"
             android:paddingLeft="18dp"
             android:paddingRight="12dp"
-            android:paddingTop="12dp">
+            android:paddingTop="12dp"
+            android:focusable="true" >
 
             <ImageView
                 android:id="@+id/package_hotel_luggage_icon"
@@ -41,6 +42,7 @@
                 android:layout_gravity="center"
                 android:layout_marginBottom="1dp"
                 android:layout_weight="1"
+                android:contentDescription="@null"
                 android:orientation="vertical">
 
                 <com.expedia.bookings.widget.TextView
@@ -48,6 +50,7 @@
                     style="@style/BundleOverviewWidgets.PrimaryText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:contentDescription="@null"
                     android:singleLine="true" />
 
                 <com.expedia.bookings.widget.TextView
@@ -55,6 +58,7 @@
                     style="@style/BundleOverviewWidgets.SecondaryText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:contentDescription="@null"
                     android:singleLine="true"
                     android:tint="?attr/primary_color"
                     android:visibility="gone" />

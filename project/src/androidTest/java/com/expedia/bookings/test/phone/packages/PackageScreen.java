@@ -407,4 +407,7 @@ public class PackageScreen {
 		onView(withId(R.id.error_image)).check(matches(isDisplayed()));
 	}
 
+	public static ViewInteraction bundleOverviewHotelRowContainer() {
+		return onView(allOf(withId(R.id.row_container), isDescendantOfA(withId(R.id.package_bundle_hotel_widget))));
+	}
 }
