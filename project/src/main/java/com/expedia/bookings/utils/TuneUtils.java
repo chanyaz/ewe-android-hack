@@ -14,6 +14,7 @@ import android.content.Intent;
 import android.net.Uri;
 
 import com.adobe.adms.measurement.ADMS_Measurement;
+import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.data.Db;
@@ -42,6 +43,7 @@ import com.expedia.bookings.data.lx.LXSearchResponse;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.services.HotelCheckoutResponse;
 import com.mobiata.android.Log;
+import com.mobiata.android.util.SettingUtils;
 import com.mobileapptracker.MATDeeplinkListener;
 import com.mobileapptracker.MATEvent;
 import com.mobileapptracker.MATEventItem;
@@ -62,7 +64,8 @@ public class TuneUtils {
 
 		mobileAppTracker = MobileAppTracker.init(app, advertiserID, conversionKey);
 		mobileAppTracker.setUserId(ADMS_Measurement.sharedInstance(app.getApplicationContext()).getVisitorID());
-		mobileAppTracker.setDebugMode(false);
+		mobileAppTracker.setDebugMode(BuildConfig.DEBUG && SettingUtils
+			.get(context, context.getString(R.string.preference_enable_tune), false));
 		mobileAppTracker.checkForDeferredDeeplink(new MATDeeplinkListener() {
 			@Override
 			public void didReceiveDeeplink(String deepLink) {
