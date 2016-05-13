@@ -12,6 +12,7 @@ import com.expedia.bookings.test.espresso.EspressoUtils;
 import com.expedia.bookings.test.espresso.PackageTestCase;
 import com.expedia.bookings.test.espresso.ViewActions;
 import com.expedia.bookings.test.phone.hotels.HotelScreen;
+import com.expedia.bookings.test.phone.pagemodels.common.SearchScreen;
 
 import static android.support.test.espresso.Espresso.onData;
 import static android.support.test.espresso.Espresso.onView;
@@ -213,11 +214,11 @@ public class PackageFlightFilterTest extends PackageTestCase {
 	}
 
 	private void navigateFromLaunchToFlightFilter() throws Throwable {
-		PackageScreen.selectOriginAndDestination();
+		SearchScreen.selectOriginAndDestination();
 		LocalDate startDate = LocalDate.now().plusDays(3);
 		LocalDate endDate = LocalDate.now().plusDays(8);
-		PackageScreen.selectDates(startDate, endDate);
-		PackageScreen.searchButton().perform(click());
+		SearchScreen.selectDates(startDate, endDate);
+		SearchScreen.searchButton().perform(click());
 
 		PackageScreen.hotelBundle().perform(waitForViewToDisplay());
 		PackageScreen.hotelBundle().perform(click());

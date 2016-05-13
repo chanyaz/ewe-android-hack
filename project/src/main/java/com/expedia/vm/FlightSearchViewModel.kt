@@ -16,7 +16,8 @@ import org.joda.time.LocalDate
 import rx.Observable
 import rx.Observer
 import rx.subjects.PublishSubject
-import java.util.*
+import java.util.HashMap
+import java.util.LinkedHashSet
 
 class FlightSearchViewModel(context: Context, val flightServices: FlightServices) : BaseSearchViewModel(context) {
 
@@ -33,7 +34,10 @@ class FlightSearchViewModel(context: Context, val flightServices: FlightServices
     val outboundFlightSelected = PublishSubject.create<FlightLeg>()
     val inboundFlightSelected = PublishSubject.create<FlightLeg>()
 
+    var isRoundTripSearch = true // default to roundTrip search
+
     val searchObserver = endlessObserver<Unit> {
+        paramsBuilder.maxStay = getMaxSearchDurationDays()
         if (paramsBuilder.areRequiredParamsFilled()) {
             if (paramsBuilder.isOriginSameAsDestination()) {
                 errorOriginSameAsDestinationObservable.onNext(context.getString(R.string.error_same_flight_departure_arrival))
@@ -72,7 +76,8 @@ class FlightSearchViewModel(context: Context, val flightServices: FlightServices
     }
 
     override fun getMaxSearchDurationDays(): Int {
-        return context.resources.getInteger(R.integer.calendar_max_days_flight_search)
+        // 0 for one-way searches
+        return if (isRoundTripSearch) context.resources.getInteger(R.integer.calendar_max_days_flight_search) else 0
     }
 
     override fun getMaxDateRange(): Int {
@@ -95,7 +100,13 @@ class FlightSearchViewModel(context: Context, val flightServices: FlightServices
         if (start == null && end == null) {
             return context.resources.getString(R.string.select_dates)
         } else if (end == null) {
-            return Phrase.from(context.resources, R.string.calendar_instructions_date_range_flight_one_way_TEMPLATE)
+            val stringResId =
+                    if (isRoundTripSearch)
+                        R.string.select_return_date_TEMPLATE
+                    else
+                        R.string.calendar_instructions_date_range_flight_one_way_TEMPLATE
+
+            return Phrase.from(context.resources, stringResId)
                     .put("startdate", DateUtils.localDateToMMMd(start))
                     .format().toString()
         } else {
@@ -108,8 +119,18 @@ class FlightSearchViewModel(context: Context, val flightServices: FlightServices
     }
 
     override fun computeTooltipText(start: LocalDate?, end: LocalDate?): Pair<String, String> {
-        val resource = if (end == null) R.string.calendar_instructions_date_range_flight_select_return_date_optional else R.string.calendar_drag_to_modify
-        val instructions = context.resources.getString(resource)
+        val instructions =
+                if (isRoundTripSearch) {
+                    val instructionStringResId =
+                            if (end == null)
+                                R.string.calendar_instructions_date_range_flight_select_return_date
+                            else
+                                R.string.calendar_drag_to_modify
+                    context.resources.getString(instructionStringResId)
+                }
+                else {
+                    ""
+                }
         return Pair(computeTopTextForToolTip(start, end), instructions)
     }
 

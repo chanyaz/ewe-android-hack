@@ -14,6 +14,7 @@ import com.expedia.bookings.test.espresso.ViewActions;
 import com.expedia.bookings.test.phone.hotels.HotelScreen;
 import com.expedia.bookings.test.phone.packages.PackageScreen;
 import com.expedia.bookings.test.phone.pagemodels.common.CheckoutViewModel;
+import com.expedia.bookings.test.phone.pagemodels.common.SearchScreen;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
@@ -32,12 +33,12 @@ import static org.hamcrest.CoreMatchers.not;
 public class PackagePhoneHappyPathTest extends PackageTestCase {
 
 	public void testPackagePhoneHappyPath() throws Throwable {
-		PackageScreen.selectOriginAndDestination();
+		SearchScreen.selectOriginAndDestination();
 		LocalDate startDate = LocalDate.now().plusDays(3);
 		LocalDate endDate = LocalDate.now().plusDays(8);
-		PackageScreen.selectDates(startDate, endDate);
+		SearchScreen.selectDates(startDate, endDate);
 
-		PackageScreen.searchButton().perform(click());
+		SearchScreen.searchButton().perform(click());
 
 		assertBundlePrice("$0.00", "Bundle total");
 		onView(allOf(withId(R.id.bundle_total_savings), withText("$0.00 Saved"))).check(matches(isDisplayed()));

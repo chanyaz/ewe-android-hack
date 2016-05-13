@@ -6,7 +6,9 @@ import android.content.Context
 import android.graphics.Color
 import android.graphics.PorterDuff
 import android.graphics.Rect
+import android.support.design.widget.TabLayout
 import android.support.v4.content.ContextCompat
+import android.support.v4.view.ViewPager
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
@@ -23,6 +25,7 @@ import android.view.animation.DecelerateInterpolator
 import android.view.inputmethod.InputMethodManager
 import android.widget.Button
 import android.widget.EditText
+import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.ScrollView
 import com.expedia.account.graphics.ArrowXDrawable
@@ -71,8 +74,11 @@ abstract class BaseSearchPresenterV2(context: Context, attrs: AttributeSet) : Ba
         theme.resolveAttribute(R.attr.primary_color, typedValue, true)
         typedValue.data
     }
+    open val tabs: TabLayout by bindView(R.id.tabs)
+    open val viewpager: ViewPager by bindView(R.id.viewpager)
 
     var firstLaunch = true
+    var showFlightOneWayRoundTripOptions = false
     protected var isCustomerSelectingOrigin = false
 
     protected var destinationSuggestionViewModel: SuggestionAdapterViewModel by notNullAndObservable { vm ->
@@ -248,11 +254,11 @@ abstract class BaseSearchPresenterV2(context: Context, attrs: AttributeSet) : Ba
         val toolbarBgColor = TransitionElement(primaryColor, Color.WHITE)
 
         override fun startTransition(forward: Boolean) {
-
             recyclerY = TransitionElement(-(suggestionContainer.height.toFloat()), 0f)
 
             searchLocationEditText?.visibility = VISIBLE
             toolBarTitle.visibility = VISIBLE
+
             suggestionRecyclerView.visibility = VISIBLE
             suggestionContainer.visibility = VISIBLE
 
@@ -287,6 +293,11 @@ abstract class BaseSearchPresenterV2(context: Context, attrs: AttributeSet) : Ba
             }
             toolbar.navigationIcon = navIcon
 
+            if (showFlightOneWayRoundTripOptions) {
+                tabs.visibility = VISIBLE
+                tabs.alpha = TransitionElement.calculateStep(bgFade.end, bgFade.start, 0f)
+            }
+
             if (firstLaunch) {
                 endTransition(forward)
             }
@@ -317,6 +328,10 @@ abstract class BaseSearchPresenterV2(context: Context, attrs: AttributeSet) : Ba
                 } else if (!forward && progress > recyclerStartTime) {
                     suggestionRecyclerView.translationY = TransitionElement.calculateStep(recyclerY.start, recyclerY.end, com.expedia.util.scaleValueToRange(recyclerStartTime, 1f, 0f, 1f, progress))
                 }
+
+                if (showFlightOneWayRoundTripOptions) {
+                    tabs.alpha = TransitionElement.calculateStep(bgFade.end, bgFade.start, progress)
+                }
             }
         }
 
@@ -339,7 +354,23 @@ abstract class BaseSearchPresenterV2(context: Context, attrs: AttributeSet) : Ba
             }
 
             toolBarTitle.visibility = if (forward) GONE else VISIBLE
+            if (showFlightOneWayRoundTripOptions) {
+                tabs.visibility = if (forward) GONE else VISIBLE
+                setSearchContainerTopMargin(forward)
+            }
         }
+    }
+
+    protected fun setSearchContainerTopMargin(showingSuggestions: Boolean) {
+        val newMarginDimensionId =
+                if (showFlightOneWayRoundTripOptions && !showingSuggestions) {
+                    R.dimen.flights_search_form_top_margin
+                } else {
+                    R.dimen.search_form_top_margin
+                }
+        val newLayoutParams = searchContainer.layoutParams as FrameLayout.LayoutParams
+        newLayoutParams.topMargin = Math.round(context.resources.getDimension(newMarginDimensionId))
+        searchContainer.layoutParams = newLayoutParams
     }
 
     fun applyAdapter() {

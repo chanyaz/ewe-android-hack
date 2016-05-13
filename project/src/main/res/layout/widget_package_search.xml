@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <merge xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <ScrollView
         android:id="@+id/scrollView"
@@ -10,77 +9,85 @@
         android:fillViewport="true"
         android:scrollbars="none">
 
-        <LinearLayout
-            android:id="@+id/search_v2_container"
+        <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginTop="@dimen/search_form_top_margin"
-            android:clipToPadding="false"
-            android:orientation="vertical"
-            android:paddingTop="?attr/actionBarSize">
+            android:layout_height="match_parent">
 
-            <android.support.v7.widget.CardView
+            <android.support.v4.view.ViewPager
+                android:id="@+id/viewpager"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:cardUseCompatPadding="true"
-                style="@style/MaterialCardView.PackageSearch">
+                android:layout_height="match_parent"
+                android:background="@color/transparent" />
 
-                <LinearLayout
+            <LinearLayout
+                android:id="@+id/search_v2_container"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="@dimen/search_form_top_margin"
+                android:clipToPadding="false"
+                android:orientation="vertical"
+                android:paddingTop="?attr/actionBarSize">
+
+                <android.support.v7.widget.CardView
+                    style="@style/MaterialCardView.PackageSearch"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical">
+                    app:cardUseCompatPadding="true">
 
-                    <com.expedia.bookings.widget.SearchInputCardView
-                        android:id="@+id/origin_card"
+                    <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="@dimen/default_search_card_height"
-                        app:cardCornerRadius="0dp"
-                        app:input_icon="@drawable/packages_search_departure"
-                        app:input_icon_tint_color="@color/search_screen_icon_color_v2"
-                        app:input_text="@string/fly_from_hint" />
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
 
-                    <com.expedia.bookings.widget.SearchInputCardView
-                        android:id="@+id/destination_card"
+                        <com.expedia.bookings.widget.SearchInputCardView
+                            android:id="@+id/origin_card"
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/default_search_card_height"
+                            app:cardCornerRadius="0dp"
+                            app:input_icon="@drawable/packages_search_departure"
+                            app:input_icon_tint_color="@color/search_screen_icon_color_v2"
+                            app:input_text="@string/fly_from_hint" />
+
+                        <com.expedia.bookings.widget.SearchInputCardView
+                            android:id="@+id/destination_card"
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/default_search_card_height"
+                            app:cardCornerRadius="0dp"
+                            app:input_icon="@drawable/packages_search_arrival"
+                            app:input_icon_tint_color="@color/search_screen_icon_color_v2"
+                            app:input_text="@string/fly_to_hint" />
+                    </LinearLayout>
+
+                    <View
                         android:layout_width="match_parent"
-                        android:layout_height="@dimen/default_search_card_height"
-                        app:cardCornerRadius="0dp"
-                        app:input_icon="@drawable/packages_search_arrival"
-                        app:input_icon_tint_color="@color/search_screen_icon_color_v2"
-                        app:input_text="@string/fly_to_hint" />
-                </LinearLayout>
+                        android:layout_height="1px"
+                        android:layout_marginLeft="57dp"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginRight="16dp"
+                        android:background="#BDBDBD" />
 
-                <View
+                </android.support.v7.widget.CardView>
+
+                <com.expedia.bookings.widget.CalendarWidgetV2
+                    android:id="@+id/calendar_card"
                     android:layout_width="match_parent"
-                    android:layout_height="1px"
-                    android:layout_marginLeft="57dp"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginRight="16dp"
-                    android:background="#BDBDBD" />
+                    android:layout_height="@dimen/default_search_card_height"
+                    android:layout_margin="3dp"
+                    app:input_icon="@drawable/search_form_icon_calendar"
+                    app:input_icon_tint_color="@color/search_screen_icon_color_v2"
+                    app:input_text="@string/select_dates" />
 
-            </android.support.v7.widget.CardView>
+                <com.expedia.bookings.widget.TravelerWidgetV2
+                    android:id="@+id/traveler_card"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/default_search_card_height"
+                    android:layout_margin="3dp"
+                    app:input_icon="@drawable/search_form_icon_person"
+                    app:input_icon_tint_color="@color/search_screen_icon_color_v2"
+                    app:input_text="@string/package_search_traveler_default_text" />
 
-            <com.expedia.bookings.widget.CalendarWidgetV2
-                android:id="@+id/calendar_card"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/default_search_card_height"
-                android:layout_margin="3dp"
-                app:input_icon="@drawable/search_form_icon_calendar"
-                app:input_icon_tint_color="@color/search_screen_icon_color_v2"
-                app:input_text="@string/select_dates"
-                style="@style/MaterialCardView.PackageSearch" />
-
-            <com.expedia.bookings.widget.TravelerWidgetV2
-                android:id="@+id/traveler_card"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/default_search_card_height"
-                android:layout_margin="3dp"
-                app:input_icon="@drawable/search_form_icon_person"
-                app:input_icon_tint_color="@color/search_screen_icon_color_v2"
-                app:input_text="@string/package_search_traveler_default_text"
-                style="@style/MaterialCardView.PackageSearch" />
-
-        </LinearLayout>
-
+            </LinearLayout>
+        </FrameLayout>
     </ScrollView>
 
     <FrameLayout
@@ -152,7 +159,7 @@
                     android:maxLines="1"
                     android:paddingLeft="3dp"
                     android:text="@string/package_toolbar_title"
-                    android:textColor="#FFFFFF"
+                    android:textColor="@android:color/white"
                     android:textSize="18sp"
                     app:textStyle="medium" />
 
@@ -168,6 +175,16 @@
 
             </FrameLayout>
         </android.support.v7.widget.Toolbar>
+
+        <android.support.design.widget.TabLayout
+            android:id="@+id/tabs"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="?attr/primary_color"
+            android:visibility="gone"
+            app:tabIndicatorColor="@color/launch_tab_indicator"
+            app:tabSelectedTextColor="@color/material_tab_text_selected"
+            app:tabTextColor="@color/material_tab_text" />
 
         <View
             android:id="@+id/toolbar_dropshadow"

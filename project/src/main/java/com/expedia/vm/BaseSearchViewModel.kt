@@ -89,6 +89,10 @@ abstract class BaseSearchViewModel(val context: Context) {
         return datesObservable?.value?.second
     }
 
+    fun resetDates() {
+        onDatesChanged(Pair(null, null))
+    }
+
     open fun onDatesChanged(dates: Pair<LocalDate?, LocalDate?>) {
         val (start, end) = dates
         datesObservable.onNext(dates)
