@@ -86,7 +86,7 @@ public class PackageServicesTest {
 		observer.assertCompleted();
 		observer.assertValueCount(1);
 		PackageSearchResponse response = observer.getOnNextEvents().get(0);
-		Assert.assertEquals(50, response.packageResult.hotelsPackage.hotels.size());
+		Assert.assertEquals(48, response.packageResult.hotelsPackage.hotels.size());
 		Assert.assertEquals(2, response.packageResult.flightsPackage.flights.size());
 	}
 
