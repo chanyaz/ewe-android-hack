@@ -3,7 +3,7 @@ import org.gradle.logging.internal.OutputEvent
 import org.gradle.logging.internal.OutputEventListener
 
 buildscript {
-    ext.kotlin_version = '1.0.0'
+    ext.kotlin_version = '1.0.2'
 
     repositories {
         jcenter()
@@ -59,6 +59,8 @@ subprojects {
     }
 
     tasks.withType(AbstractCompile) {
+        def ignoreWarning = ["Using experimental kotlin incremental compilation",
+                             "[org.jetbrains.kotlin.gradle.tasks.KotlinCompile_Decorated] w: Classpath entry points to a non-existent location:"]
         def outputEvents = []
         def listener = new OutputEventListener() {
             void onOutput(OutputEvent event) {
@@ -71,8 +73,11 @@ subprojects {
         doLast {
             getLogging().removeOutputEventListener(listener)
             outputEvents.each { e ->
-                if(e.toString() =~ /^\[WARN\]/) {
-                    throw new GradleException("Please fix the compilation warnings so the project stays warnings-free!");
+                def valid = ignoreWarning.findAll { a ->
+                    ignoreWarning.any { e.toString().contains(a) }
+                }
+                if(e.toString() =~ /^\[WARN\]/ && !valid) {
+                    throw new GradleException("Please fix the compilation warnings so the project stays warnings-free!" + e.toString());
                 }
             }
         }
