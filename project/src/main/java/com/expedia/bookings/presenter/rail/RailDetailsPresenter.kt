@@ -11,23 +11,24 @@ import com.expedia.bookings.R
 import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
-import com.expedia.bookings.widget.RailViewModel
+import com.expedia.bookings.widget.rail.RailDetailsFareOptionsView
 import com.expedia.bookings.widget.rail.RailDetailsTimeline
 import com.expedia.util.notNullAndObservable
 import com.expedia.util.subscribeText
 import com.expedia.vm.rail.RailDetailsViewModel
-import com.mobiata.flightlib.utils.DateTimeUtils
 
 class RailDetailsPresenter(context: Context, attrs: AttributeSet) : Presenter(context, attrs) {
     val detailsContainer: ViewGroup by bindView(R.id.details_container)
     val toolbar: Toolbar by bindView(R.id.toolbar)
     val timeline: RailDetailsTimeline by bindView(R.id.details_timeline)
-    val timesLine: TextView by bindView(R.id.details_times)
+    val fareOptionsView: RailDetailsFareOptionsView by bindView(R.id.details_fare_options)
+    val timeRangeTextView: TextView by bindView(R.id.details_times)
     val infoLine: TextView by bindView(R.id.details_info)
 
     var viewmodel: RailDetailsViewModel by notNullAndObservable { vm ->
         timeline.viewmodel = vm
-        vm.offerViewModel.formattedTimeIntervalSubject.subscribeText(timesLine)
+        fareOptionsView.viewmodel = vm
+        vm.offerViewModel.formattedTimeIntervalSubject.subscribeText(timeRangeTextView)
         vm.offerViewModel.formattedLegInfoSubject.subscribeText(infoLine)
     }
 

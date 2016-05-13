@@ -47,12 +47,22 @@
                         android:id="@+id/details_timeline"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:paddingTop="12dp"
                         android:layout_marginTop="16dp"
+                        android:paddingTop="12dp"
                         tools:background="@color/light_gray"
                         tools:layout_height="100dp" />
                 </LinearLayout>
             </android.support.v7.widget.CardView>
+
+            <com.expedia.bookings.widget.rail.RailDetailsFareOptionsView
+                android:id="@+id/details_fare_options"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:paddingLeft="12dp"
+                android:paddingRight="12dp"
+                tools:background="#ff00ff"
+                tools:layout_height="100dp" />
 
         </LinearLayout>
     </ScrollView>

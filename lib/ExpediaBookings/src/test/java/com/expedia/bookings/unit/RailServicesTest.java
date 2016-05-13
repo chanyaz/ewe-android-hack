@@ -10,7 +10,7 @@ import org.junit.Rule;
 import org.junit.Test;
 
 import com.expedia.bookings.data.SuggestionV4;
-import com.expedia.bookings.data.rail.Passengers;
+import com.expedia.bookings.data.rail.RailPassenger;
 import com.expedia.bookings.data.rail.requests.RailCheckoutRequest;
 import com.expedia.bookings.data.rail.requests.RailDetailsRequest;
 import com.expedia.bookings.data.rail.requests.RailValidateRequest;
@@ -80,9 +80,9 @@ public class RailServicesTest {
 		searchResponseObserver.assertCompleted();
 		searchResponseObserver.assertValueCount(1);
 		RailSearchResponse railSearchResponse = searchResponseObserver.getOnNextEvents().get(0);
-		List<Passengers> passengers = railSearchResponse.railSearchResult.passengers;
+		List<RailPassenger> passengers = railSearchResponse.passengerList;
 		assertEquals(1, passengers.size());
-		assertEquals(30, passengers.get(0).age);
+		assertEquals(25, passengers.get(0).age);
 	}
 
 	@Test

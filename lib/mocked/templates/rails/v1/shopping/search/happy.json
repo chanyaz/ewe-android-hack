@@ -1,1646 +1,1602 @@
 {
-  "responseStatus": {
-    "status": "SUCCESS"
-  },
-  "railSearchResult": {
-    "passengers": [
-      {
-        "isPrimaryTraveler": false,
-        "age": 30
-      }
-    ],
-    "legList": [
-      {
-        "departureStationDetails": {
-          "stationCode": "GBQQY",
-          "stationName": "York",
-          "stationType": "STATION"
-        },
-        "arrivalStationDetails": {
-          "stationCode": "GBRYD",
-          "stationName": "Ryde Esplanade",
-          "stationType": "STATION"
-        },
-        "legOptions": [
-          {
-            "departureStationDetails": {
-              "stationCode": "GBQQY",
-              "stationName": "York",
-              "stationType": "STATION"
-            },
-            "arrivalStationDetails": {
-              "stationCode": "GBRYD",
-              "stationName": "Ryde Esplanade",
-              "stationType": "STATION"
-            },
-            "departureDateTime": "2016-05-26T08:26:00.000Z",
-            "arrivalDateTime": "2016-05-26T15:20:00.000Z",
-            "durationInMinutes": 414,
-            "segmentList": [
-              {
-                "travelMode": "Train",
-                "departureStationDetails": {
-                  "stationCode": "GBQQY",
-                  "stationName": "York",
-                  "stationType": "STATION"
-                },
-                "arrivalStationDetails": {
-                  "stationCode": "GBBSK",
-                  "stationName": "Basingstoke",
-                  "stationType": "STATION"
-                },
-                "departureDateTime": "2016-05-26T08:26:00.000Z",
-                "arrivalDateTime": "2016-05-26T12:39:00.000Z",
-                "serviceName": "CrossCountry",
-                "durationInMinutes": 253,
-                "equipment": {
-                  "code": "ICY",
-                  "name": "Inter-City"
-                },
-                "supplier": {
-                  "supplierEquipmentId": "XC2580",
-                  "supplierEquipmentType": "CrossCountry-ICY",
-                  "operatingCarrier": "CrossCountry",
-                  "marketingCarrier": "CrossCountry"
-                },
-                "segmentId": "LS_1_0_TS_0"
-              },
-              {
-                "travelMode": "Train",
-                "departureStationDetails": {
-                  "stationCode": "GBBSK",
-                  "stationName": "Basingstoke",
-                  "stationType": "STATION"
-                },
-                "arrivalStationDetails": {
-                  "stationCode": "GBPMS",
-                  "stationName": "Portsmouth & Southsea",
-                  "stationType": "STATION"
-                },
-                "departureDateTime": "2016-05-26T13:00:00.000Z",
-                "arrivalDateTime": "2016-05-26T14:11:00.000Z",
-                "serviceName": "SouthWest",
-                "durationInMinutes": 71,
-                "equipment": {
-                  "code": "ICY",
-                  "name": "Inter-City"
-                },
-                "supplier": {
-                  "supplierEquipmentId": "SW8433",
-                  "supplierEquipmentType": "SouthWest-ICY",
-                  "operatingCarrier": "SouthWest",
-                  "marketingCarrier": "SouthWest"
-                },
-                "segmentId": "LS_1_0_TS_1"
-              },
-              {
-                "travelMode": "Bus",
-                "departureStationDetails": {
-                  "stationCode": "GBPMS",
-                  "stationName": "Portsmouth & Southsea",
-                  "stationType": "STATION"
-                },
-                "arrivalStationDetails": {
-                  "stationCode": "GBSHV",
-                  "stationName": "Southsea Hoverport",
-                  "stationType": "STATION"
-                },
-                "departureDateTime": "2016-05-26T14:45:00.000Z",
-                "arrivalDateTime": "2016-05-26T14:53:00.000Z",
-                "serviceName": "Hover",
-                "durationInMinutes": 8,
-                "equipment": {
-                  "code": "BUS",
-                  "name": "Bus"
-                },
-                "supplier": {
-                  "supplierEquipmentType": "Hover-BUS",
-                  "operatingCarrier": "Hover",
-                  "marketingCarrier": "Hover"
-                },
-                "segmentId": "LS_1_0_TS_2"
-              },
-              {
-                "travelMode": "Ferry",
-                "departureStationDetails": {
-                  "stationCode": "GBSHV",
-                  "stationName": "Southsea Hoverport",
-                  "stationType": "STATION"
-                },
-                "arrivalStationDetails": {
-                  "stationCode": "GBXRD",
-                  "stationName": "Ryde Hoverport",
-                  "stationType": "STATION"
-                },
-                "departureDateTime": "2016-05-26T15:00:00.000Z",
-                "arrivalDateTime": "2016-05-26T15:10:00.000Z",
-                "serviceName": "Hover",
-                "durationInMinutes": 10,
-                "equipment": {
-                  "code": "FRY",
-                  "name": "Ferry"
-                },
-                "supplier": {
-                  "supplierEquipmentType": "Hover-FRY",
-                  "operatingCarrier": "Hover",
-                  "marketingCarrier": "Hover"
-                },
-                "segmentId": "LS_1_0_TS_3"
-              },
-              {
-                "travelMode": "Transfer",
-                "departureStationDetails": {
-                  "stationCode": "GBXRD",
-                  "stationName": "Ryde Hoverport",
-                  "stationType": "STATION"
-                },
-                "arrivalStationDetails": {
-                  "stationCode": "GBRYD",
-                  "stationName": "Ryde Esplanade",
-                  "stationType": "STATION"
-                },
-                "departureDateTime": "2016-05-26T15:10:00.000Z",
-                "arrivalDateTime": "2016-05-26T15:20:00.000Z",
-                "durationInMinutes": 10,
-                "equipment": {
-                  "code": "PED",
-                  "name": "Pedestrian"
-                },
-                "supplier": {},
-                "segmentId": "LS_1_0_TS_4"
-              }
-            ],
-            "legOptionId": "LS_1_0"
+  "passengerList": [
+    {
+      "primaryTraveler": false,
+      "age": 25,
+      "passengerIndex": 1
+    }
+  ],
+  "legList": [
+    {
+      "departureStation": {
+        "stationCode": "GBQQN",
+        "stationDisplayName": "Birmingham New Street"
+      },
+      "arrivalStation": {
+        "stationCode": "GBRYD",
+        "stationDisplayName": "Ryde Esplanade"
+      },
+      "legOptionList": [
+        {
+          "legOptionIndex": 1,
+          "departureStation": {
+            "stationCode": "GBQQN",
+            "stationDisplayName": "Birmingham New Street"
           },
-          {
-            "departureStationDetails": {
-              "stationCode": "GBQQY",
-              "stationName": "York",
-              "stationType": "STATION"
-            },
-            "arrivalStationDetails": {
-              "stationCode": "GBRYD",
-              "stationName": "Ryde Esplanade",
-              "stationType": "STATION"
-            },
-            "departureDateTime": "2016-05-26T10:35:00.000Z",
-            "arrivalDateTime": "2016-05-26T17:09:00.000Z",
-            "durationInMinutes": 394,
-            "segmentList": [
-              {
-                "travelMode": "Train",
-                "departureStationDetails": {
-                  "stationCode": "GBQQY",
-                  "stationName": "York",
-                  "stationType": "STATION"
-                },
-                "arrivalStationDetails": {
-                  "stationCode": "GBBSK",
-                  "stationName": "Basingstoke",
-                  "stationType": "STATION"
-                },
-                "departureDateTime": "2016-05-26T10:35:00.000Z",
-                "arrivalDateTime": "2016-05-26T14:39:00.000Z",
-                "serviceName": "CrossCountry",
-                "durationInMinutes": 244,
-                "equipment": {
-                  "code": "ICY",
-                  "name": "Inter-City"
-                },
-                "supplier": {
-                  "supplierEquipmentId": "XC2620",
-                  "supplierEquipmentType": "CrossCountry-ICY",
-                  "operatingCarrier": "CrossCountry",
-                  "marketingCarrier": "CrossCountry"
-                },
-                "segmentId": "LS_1_1_TS_0"
-              },
-              {
-                "travelMode": "Train",
-                "departureStationDetails": {
-                  "stationCode": "GBBSK",
-                  "stationName": "Basingstoke",
-                  "stationType": "STATION"
-                },
-                "arrivalStationDetails": {
-                  "stationCode": "GBPMH",
-                  "stationName": "Portsmouth Harbour",
-                  "stationType": "STATION"
-                },
-                "departureDateTime": "2016-05-26T15:00:00.000Z",
-                "arrivalDateTime": "2016-05-26T16:20:00.000Z",
-                "serviceName": "SouthWest",
-                "durationInMinutes": 80,
-                "equipment": {
-                  "code": "ICY",
-                  "name": "Inter-City"
-                },
-                "supplier": {
-                  "supplierEquipmentId": "SW8441",
-                  "supplierEquipmentType": "SouthWest-ICY",
-                  "operatingCarrier": "SouthWest",
-                  "marketingCarrier": "SouthWest"
-                },
-                "segmentId": "LS_1_1_TS_1"
-              },
-              {
-                "travelMode": "Ferry",
-                "departureStationDetails": {
-                  "stationCode": "GBPMH",
-                  "stationName": "Portsmouth Harbour",
-                  "stationType": "STATION"
-                },
-                "arrivalStationDetails": {
-                  "stationCode": "GBRYP",
-                  "stationName": "Ryde Pier Head",
-                  "stationType": "STATION"
-                },
-                "departureDateTime": "2016-05-26T16:40:00.000Z",
-                "arrivalDateTime": "2016-05-26T17:02:00.000Z",
-                "serviceName": "SouthWest",
-                "durationInMinutes": 22,
-                "equipment": {
-                  "code": "FRY",
-                  "name": "Ferry"
-                },
-                "supplier": {
-                  "supplierEquipmentId": "SW4457",
-                  "supplierEquipmentType": "SouthWest-FRY",
-                  "operatingCarrier": "SouthWest",
-                  "marketingCarrier": "SouthWest"
-                },
-                "segmentId": "LS_1_1_TS_2"
-              },
-              {
-                "travelMode": "Train",
-                "departureStationDetails": {
-                  "stationCode": "GBRYP",
-                  "stationName": "Ryde Pier Head",
-                  "stationType": "STATION"
-                },
-                "arrivalStationDetails": {
-                  "stationCode": "GBRYD",
-                  "stationName": "Ryde Esplanade",
-                  "stationType": "STATION"
-                },
-                "departureDateTime": "2016-05-26T17:07:00.000Z",
-                "arrivalDateTime": "2016-05-26T17:09:00.000Z",
-                "serviceName": "IslandLine",
-                "durationInMinutes": 2,
-                "equipment": {
-                  "code": "BLR",
-                  "name": "Branch-Line/Regional"
-                },
-                "supplier": {
-                  "supplierEquipmentId": "IL0023",
-                  "supplierEquipmentType": "IslandLine-BLR",
-                  "operatingCarrier": "IslandLine",
-                  "marketingCarrier": "IslandLine"
-                },
-                "segmentId": "LS_1_1_TS_3"
-              }
-            ],
-            "legOptionId": "LS_1_1"
+          "arrivalStation": {
+            "stationCode": "GBRYD",
+            "stationDisplayName": "Ryde Esplanade"
           },
-          {
-            "departureStationDetails": {
-              "stationCode": "GBQQY",
-              "stationName": "York",
-              "stationType": "STATION"
-            },
-            "arrivalStationDetails": {
-              "stationCode": "GBRYD",
-              "stationName": "Ryde Esplanade",
-              "stationType": "STATION"
-            },
-            "departureDateTime": "2016-05-26T12:35:00.000Z",
-            "arrivalDateTime": "2016-05-26T19:20:00.000Z",
-            "durationInMinutes": 405,
-            "segmentList": [
-              {
-                "travelMode": "Train",
-                "departureStationDetails": {
-                  "stationCode": "GBQQY",
-                  "stationName": "York",
-                  "stationType": "STATION"
-                },
-                "arrivalStationDetails": {
-                  "stationCode": "GBBSK",
-                  "stationName": "Basingstoke",
-                  "stationType": "STATION"
-                },
-                "departureDateTime": "2016-05-26T12:35:00.000Z",
-                "arrivalDateTime": "2016-05-26T16:39:00.000Z",
-                "serviceName": "CrossCountry",
-                "durationInMinutes": 244,
-                "equipment": {
-                  "code": "ICY",
-                  "name": "Inter-City"
-                },
-                "supplier": {
-                  "supplierEquipmentId": "XC2660",
-                  "supplierEquipmentType": "CrossCountry-ICY",
-                  "operatingCarrier": "CrossCountry",
-                  "marketingCarrier": "CrossCountry"
-                },
-                "segmentId": "LS_1_2_TS_0"
-              },
-              {
-                "travelMode": "Train",
-                "departureStationDetails": {
-                  "stationCode": "GBBSK",
-                  "stationName": "Basingstoke",
-                  "stationType": "STATION"
-                },
-                "arrivalStationDetails": {
-                  "stationCode": "GBPMS",
-                  "stationName": "Portsmouth & Southsea",
-                  "stationType": "STATION"
-                },
-                "departureDateTime": "2016-05-26T17:00:00.000Z",
-                "arrivalDateTime": "2016-05-26T18:12:00.000Z",
-                "serviceName": "SouthWest",
-                "durationInMinutes": 72,
-                "equipment": {
-                  "code": "ICY",
-                  "name": "Inter-City"
-                },
-                "supplier": {
-                  "supplierEquipmentId": "SW8449",
-                  "supplierEquipmentType": "SouthWest-ICY",
-                  "operatingCarrier": "SouthWest",
-                  "marketingCarrier": "SouthWest"
-                },
-                "segmentId": "LS_1_2_TS_1"
-              },
-              {
-                "travelMode": "Bus",
-                "departureStationDetails": {
-                  "stationCode": "GBPMS",
-                  "stationName": "Portsmouth & Southsea",
-                  "stationType": "STATION"
-                },
-                "arrivalStationDetails": {
-                  "stationCode": "GBSHV",
-                  "stationName": "Southsea Hoverport",
-                  "stationType": "STATION"
-                },
-                "departureDateTime": "2016-05-26T18:45:00.000Z",
-                "arrivalDateTime": "2016-05-26T18:53:00.000Z",
-                "serviceName": "Hover",
-                "durationInMinutes": 8,
-                "equipment": {
-                  "code": "BUS",
-                  "name": "Bus"
-                },
-                "supplier": {
-                  "supplierEquipmentType": "Hover-BUS",
-                  "operatingCarrier": "Hover",
-                  "marketingCarrier": "Hover"
-                },
-                "segmentId": "LS_1_2_TS_2"
-              },
-              {
-                "travelMode": "Ferry",
-                "departureStationDetails": {
-                  "stationCode": "GBSHV",
-                  "stationName": "Southsea Hoverport",
-                  "stationType": "STATION"
-                },
-                "arrivalStationDetails": {
-                  "stationCode": "GBXRD",
-                  "stationName": "Ryde Hoverport",
-                  "stationType": "STATION"
-                },
-                "departureDateTime": "2016-05-26T19:00:00.000Z",
-                "arrivalDateTime": "2016-05-26T19:10:00.000Z",
-                "serviceName": "Hover",
-                "durationInMinutes": 10,
-                "equipment": {
-                  "code": "FRY",
-                  "name": "Ferry"
-                },
-                "supplier": {
-                  "supplierEquipmentType": "Hover-FRY",
-                  "operatingCarrier": "Hover",
-                  "marketingCarrier": "Hover"
-                },
-                "segmentId": "LS_1_2_TS_3"
-              },
-              {
-                "travelMode": "Transfer",
-                "departureStationDetails": {
-                  "stationCode": "GBXRD",
-                  "stationName": "Ryde Hoverport",
-                  "stationType": "STATION"
-                },
-                "arrivalStationDetails": {
-                  "stationCode": "GBRYD",
-                  "stationName": "Ryde Esplanade",
-                  "stationType": "STATION"
-                },
-                "departureDateTime": "2016-05-26T19:10:00.000Z",
-                "arrivalDateTime": "2016-05-26T19:20:00.000Z",
-                "durationInMinutes": 10,
-                "equipment": {
-                  "code": "PED",
-                  "name": "Pedestrian"
-                },
-                "supplier": {},
-                "segmentId": "LS_1_2_TS_4"
-              }
-            ],
-            "legOptionId": "LS_1_2"
+          "departureDateTime": {
+            "formattedDateTime": "2016-05-12T12:04:00.000",
+            "timestamp": 1463054640000
           },
-          {
-            "departureStationDetails": {
-              "stationCode": "GBQQY",
-              "stationName": "York",
-              "stationType": "STATION"
-            },
-            "arrivalStationDetails": {
-              "stationCode": "GBRYD",
-              "stationName": "Ryde Esplanade",
-              "stationType": "STATION"
-            },
-            "departureDateTime": "2016-05-26T14:35:00.000Z",
-            "arrivalDateTime": "2016-05-26T20:51:00.000Z",
-            "durationInMinutes": 376,
-            "segmentList": [
-              {
-                "travelMode": "Train",
-                "departureStationDetails": {
-                  "stationCode": "GBQQY",
-                  "stationName": "York",
-                  "stationType": "STATION"
-                },
-                "arrivalStationDetails": {
-                  "stationCode": "GBGLD",
-                  "stationName": "Guildford",
-                  "stationType": "STATION"
-                },
-                "departureDateTime": "2016-05-26T14:35:00.000Z",
-                "arrivalDateTime": "2016-05-26T18:59:00.000Z",
-                "serviceName": "CrossCountry",
-                "durationInMinutes": 264,
-                "equipment": {
-                  "code": "ICY",
-                  "name": "Inter-City"
-                },
-                "supplier": {
-                  "supplierEquipmentId": "XC2700",
-                  "supplierEquipmentType": "CrossCountry-ICY",
-                  "operatingCarrier": "CrossCountry",
-                  "marketingCarrier": "CrossCountry"
-                },
-                "segmentId": "LS_1_3_TS_0"
-              },
-              {
-                "travelMode": "Train",
-                "departureStationDetails": {
-                  "stationCode": "GBGLD",
-                  "stationName": "Guildford",
-                  "stationType": "STATION"
-                },
-                "arrivalStationDetails": {
-                  "stationCode": "GBPMH",
-                  "stationName": "Portsmouth Harbour",
-                  "stationType": "STATION"
-                },
-                "departureDateTime": "2016-05-26T19:08:00.000Z",
-                "arrivalDateTime": "2016-05-26T20:10:00.000Z",
-                "serviceName": "SouthWest",
-                "durationInMinutes": 62,
-                "equipment": {
-                  "code": "ICY",
-                  "name": "Inter-City"
-                },
-                "supplier": {
-                  "supplierEquipmentId": "SW8159",
-                  "supplierEquipmentType": "SouthWest-ICY",
-                  "operatingCarrier": "SouthWest",
-                  "marketingCarrier": "SouthWest"
-                },
-                "segmentId": "LS_1_3_TS_1"
-              },
-              {
-                "travelMode": "Ferry",
-                "departureStationDetails": {
-                  "stationCode": "GBPMH",
-                  "stationName": "Portsmouth Harbour",
-                  "stationType": "STATION"
-                },
-                "arrivalStationDetails": {
-                  "stationCode": "GBRYP",
-                  "stationName": "Ryde Pier Head",
-                  "stationType": "STATION"
-                },
-                "departureDateTime": "2016-05-26T20:20:00.000Z",
-                "arrivalDateTime": "2016-05-26T20:42:00.000Z",
-                "serviceName": "SouthWest",
-                "durationInMinutes": 22,
-                "equipment": {
-                  "code": "FRY",
-                  "name": "Ferry"
-                },
-                "supplier": {
-                  "supplierEquipmentId": "SW4460",
-                  "supplierEquipmentType": "SouthWest-FRY",
-                  "operatingCarrier": "SouthWest",
-                  "marketingCarrier": "SouthWest"
-                },
-                "segmentId": "LS_1_3_TS_2"
-              },
-              {
-                "travelMode": "Train",
-                "departureStationDetails": {
-                  "stationCode": "GBRYP",
-                  "stationName": "Ryde Pier Head",
-                  "stationType": "STATION"
-                },
-                "arrivalStationDetails": {
-                  "stationCode": "GBRYD",
-                  "stationName": "Ryde Esplanade",
-                  "stationType": "STATION"
-                },
-                "departureDateTime": "2016-05-26T20:49:00.000Z",
-                "arrivalDateTime": "2016-05-26T20:51:00.000Z",
-                "serviceName": "IslandLine",
-                "durationInMinutes": 2,
-                "equipment": {
-                  "code": "BLR",
-                  "name": "Branch-Line/Regional"
-                },
-                "supplier": {
-                  "supplierEquipmentId": "IL0030",
-                  "supplierEquipmentType": "IslandLine-BLR",
-                  "operatingCarrier": "IslandLine",
-                  "marketingCarrier": "IslandLine"
-                },
-                "segmentId": "LS_1_3_TS_3"
-              }
-            ],
-            "legOptionId": "LS_1_3"
+          "arrivalDateTime": {
+            "formattedDateTime": "2016-05-12T16:50:00.000",
+            "timestamp": 1463071800000
           },
-          {
-            "departureStationDetails": {
-              "stationCode": "GBQQY",
-              "stationName": "York",
-              "stationType": "STATION"
-            },
-            "arrivalStationDetails": {
-              "stationCode": "GBRYD",
-              "stationName": "Ryde Esplanade",
-              "stationType": "STATION"
-            },
-            "departureDateTime": "2016-05-26T18:35:00.000Z",
-            "arrivalDateTime": "2016-05-27T05:51:00.000Z",
-            "durationInMinutes": 676,
-            "segmentList": [
-              {
-                "travelMode": "Train",
-                "departureStationDetails": {
-                  "stationCode": "GBQQY",
-                  "stationName": "York",
-                  "stationType": "STATION"
-                },
-                "arrivalStationDetails": {
-                  "stationCode": "GBBSK",
-                  "stationName": "Basingstoke",
-                  "stationType": "STATION"
-                },
-                "departureDateTime": "2016-05-26T18:35:00.000Z",
-                "arrivalDateTime": "2016-05-26T22:39:00.000Z",
-                "serviceName": "CrossCountry",
-                "durationInMinutes": 244,
-                "equipment": {
-                  "code": "ICY",
-                  "name": "Inter-City"
-                },
-                "supplier": {
-                  "supplierEquipmentId": "XC2780",
-                  "supplierEquipmentType": "CrossCountry-ICY",
-                  "operatingCarrier": "CrossCountry",
-                  "marketingCarrier": "CrossCountry"
-                },
-                "segmentId": "LS_1_4_TS_0"
+          "totalDurationInMinutes": 286,
+          "aggregatedMarketingCarrier": "Multiple trains",
+          "aggregatedOperatingCarrier": "Multiple trains",
+          "travelSegmentList": [
+            {
+              "travelSegmentIndex": 1,
+              "travelMode": "Train",
+              "departureStation": {
+                "stationCode": "GBQQN",
+                "stationDisplayName": "Birmingham New Street"
               },
-              {
-                "travelMode": "Train",
-                "departureStationDetails": {
-                  "stationCode": "GBBSK",
-                  "stationName": "Basingstoke",
-                  "stationType": "STATION"
-                },
-                "arrivalStationDetails": {
-                  "stationCode": "GBPMH",
-                  "stationName": "Portsmouth Harbour",
-                  "stationType": "STATION"
-                },
-                "departureDateTime": "2016-05-26T23:00:00.000Z",
-                "arrivalDateTime": "2016-05-27T00:16:00.000Z",
-                "serviceName": "SouthWest",
-                "durationInMinutes": 76,
-                "equipment": {
-                  "code": "BLR",
-                  "name": "Branch-Line/Regional"
-                },
-                "supplier": {
-                  "supplierEquipmentId": "SW6258",
-                  "supplierEquipmentType": "SouthWest-BLR",
-                  "operatingCarrier": "SouthWest",
-                  "marketingCarrier": "SouthWest"
-                },
-                "segmentId": "LS_1_4_TS_1"
+              "arrivalStation": {
+                "stationCode": "GBSOU",
+                "stationDisplayName": "Southampton Central"
               },
-              {
-                "travelMode": "Ferry",
-                "departureStationDetails": {
-                  "stationCode": "GBPMH",
-                  "stationName": "Portsmouth Harbour",
-                  "stationType": "STATION"
-                },
-                "arrivalStationDetails": {
-                  "stationCode": "GBRYP",
-                  "stationName": "Ryde Pier Head",
-                  "stationType": "STATION"
-                },
-                "departureDateTime": "2016-05-27T05:15:00.000Z",
-                "arrivalDateTime": "2016-05-27T05:37:00.000Z",
-                "serviceName": "SouthWest",
-                "durationInMinutes": 22,
-                "equipment": {
-                  "code": "FRY",
-                  "name": "Ferry"
-                },
-                "supplier": {
-                  "supplierEquipmentId": "SW1753",
-                  "supplierEquipmentType": "SouthWest-FRY",
-                  "operatingCarrier": "SouthWest",
-                  "marketingCarrier": "SouthWest"
-                },
-                "segmentId": "LS_1_4_TS_2"
+              "departureDateTime": {
+                "formattedDateTime": "2016-05-12T12:04:00.000",
+                "timestamp": 1463054640000
               },
-              {
-                "travelMode": "Train",
-                "departureStationDetails": {
-                  "stationCode": "GBRYP",
-                  "stationName": "Ryde Pier Head",
-                  "stationType": "STATION"
-                },
-                "arrivalStationDetails": {
-                  "stationCode": "GBRYD",
-                  "stationName": "Ryde Esplanade",
-                  "stationType": "STATION"
-                },
-                "departureDateTime": "2016-05-27T05:49:00.000Z",
-                "arrivalDateTime": "2016-05-27T05:51:00.000Z",
-                "serviceName": "IslandLine",
-                "durationInMinutes": 2,
-                "equipment": {
-                  "code": "BLR",
-                  "name": "Branch-Line/Regional"
-                },
-                "supplier": {
-                  "supplierEquipmentId": "IL0000",
-                  "supplierEquipmentType": "IslandLine-BLR",
-                  "operatingCarrier": "IslandLine",
-                  "marketingCarrier": "IslandLine"
-                },
-                "segmentId": "LS_1_4_TS_3"
-              }
-            ],
-            "legOptionId": "LS_1_4"
-          }
-        ],
-        "legId": "LS_1_4"
-      }
-    ],
-    "railOfferList": [
-      {
-        "totalPrice": {
-          "value": 235.04,
-          "currency": "USD"
-        },
-        "railProductList": [
-          {
-            "totalPrice": {
-              "value": 235.04,
-              "currency": "USD"
+              "arrivalDateTime": {
+                "formattedDateTime": "2016-05-12T14:41:00.000",
+                "timestamp": 1463064060000
+              },
+              "marketingCarrier": "CrossCountry",
+              "operatingCarrier": "CrossCountry",
+              "travelMedium": {
+                "travelMediumCode": "ICY",
+                "travelMediumName": "Inter-City",
+                "supplierTravelMediumId": "XC3620",
+                "supplierTravelMediumName": "CrossCountry-ICY"
+              },
+              "totalDurationInMinutes": 37
             },
-            "legOptionReferences": [
-              "LS_1_0"
-            ],
-            "fareBreakUpList": [
-              {
-                "passengerReferences": [
-                  {
-                    "passengerIDRef": "100",
-                    "passengerTypeCode": "A",
-                    "fareCodes": [
-                      {
-                        "fareCodeId": "IXC-SOS-00700-STD-1",
-                        "travelSegmentIDRef": "LS_1_0_TS_1",
-                        "serviceClassCode": "THIRD",
-                        "carrierCabinClass": "Standard",
-                        "fareClass": "ANYTIME"
-                      },
-                      {
-                        "fareCodeId": "IXC-SOS-00700-STD-1",
-                        "travelSegmentIDRef": "LS_1_0_TS_2",
-                        "serviceClassCode": "THIRD",
-                        "carrierCabinClass": "Standard",
-                        "fareClass": "ANYTIME"
-                      },
-                      {
-                        "fareCodeId": "IXC-SOS-00700-STD-1",
-                        "travelSegmentIDRef": "LS_1_0_TS_4",
-                        "serviceClassCode": "THIRD",
-                        "carrierCabinClass": "Standard",
-                        "fareClass": "ANYTIME"
-                      },
-                      {
-                        "fareCodeId": "IXC-SOS-00700-STD-1",
-                        "travelSegmentIDRef": "LS_1_0_TS_3",
-                        "serviceClassCode": "THIRD",
-                        "carrierCabinClass": "Standard",
-                        "fareClass": "ANYTIME"
-                      },
-                      {
-                        "fareCodeId": "IXC-SOS-00700-STD-1",
-                        "travelSegmentIDRef": "LS_1_0_TS_0",
-                        "serviceClassCode": "THIRD",
-                        "carrierCabinClass": "Standard",
-                        "fareClass": "ANYTIME"
-                      }
-                    ]
-                  }
-                ]
-              }
-            ],
-            "passengerReferences": [
-              ""
-            ],
-            "productHoldExpirationDateTime": "2016-04-06T23:44:31.000Z",
-            "railProductToken": "CNr4LBD4-ywaGgimgKEMEKaIpAUY2vgsINf6LCoGWEMyNTgwGhoIpoikBRCm-JgJGOz6LCCz-ywqBlNXODQzMxoUCKb4mAkQppDPChjV-ywg3fssKgAaFAimkM8KEKa44wEY5PssIO77LCoAGhQIprjjARCmiPEBGO77LCD4-ywqACICCB4qFQoHQU5ZVElNRRADGghTdGFuZGFyZA=="
-          }
-        ],
-        "offerHoldExpirationDateTime": "2016-04-06T23:44:31.000Z",
-        "railOfferToken": "OFFER_CNr4LBD4-ywaGgimgKEMEKaIpAUY2vgsINf6LCoGWEMyNTgwGhoIpoikBRCm-JgJGOz6LCCz-ywqBlNXODQzMxoUCKb4mAkQppDPChjV-ywg3fssKgAaFAimkM8KEKa44wEY5PssIO77LCoAGhQIprjjARCmiPEBGO77LCD4-ywqACICCB4qFQoHQU5ZVElNRRADGghTdGFuZGFyZA=="
+            {
+              "travelSegmentIndex": 2,
+              "travelMode": "Train",
+              "departureStation": {
+                "stationCode": "GBSOU",
+                "stationDisplayName": "Southampton Central"
+              },
+              "arrivalStation": {
+                "stationCode": "GBPMS",
+                "stationDisplayName": "Portsmouth & Southsea"
+              },
+              "departureDateTime": {
+                "formattedDateTime": "2016-05-12T15:05:00.000",
+                "timestamp": 1463065500000
+              },
+              "arrivalDateTime": {
+                "formattedDateTime": "2016-05-12T15:46:00.000",
+                "timestamp": 1463067960000
+              },
+              "marketingCarrier": "FirstGrtWest",
+              "operatingCarrier": "FirstGrtWest",
+              "travelMedium": {
+                "travelMediumCode": "ICY",
+                "travelMediumName": "Inter-City",
+                "supplierTravelMediumId": "GW8407",
+                "supplierTravelMediumName": "FirstGrtWest-ICY"
+              },
+              "totalDurationInMinutes": 41
+            },
+            {
+              "travelSegmentIndex": 3,
+              "travelMode": "Bus",
+              "departureStation": {
+                "stationCode": "GBPMS",
+                "stationDisplayName": "Portsmouth & Southsea"
+              },
+              "arrivalStation": {
+                "stationCode": "GBSHV",
+                "stationDisplayName": "Southsea Hoverport"
+              },
+              "departureDateTime": {
+                "formattedDateTime": "2016-05-12T16:15:00.000",
+                "timestamp": 1463069700000
+              },
+              "arrivalDateTime": {
+                "formattedDateTime": "2016-05-12T16:23:00.000",
+                "timestamp": 1463070180000
+              },
+              "marketingCarrier": "Hover",
+              "operatingCarrier": "Hover",
+              "travelMedium": {
+                "travelMediumCode": "BUS",
+                "travelMediumName": "Bus",
+                "supplierTravelMediumName": "Hover-BUS"
+              },
+              "totalDurationInMinutes": 8
+            },
+            {
+              "travelSegmentIndex": 4,
+              "travelMode": "Ferry",
+              "departureStation": {
+                "stationCode": "GBSHV",
+                "stationDisplayName": "Southsea Hoverport"
+              },
+              "arrivalStation": {
+                "stationCode": "GBXRD",
+                "stationDisplayName": "Ryde Hoverport"
+              },
+              "departureDateTime": {
+                "formattedDateTime": "2016-05-12T16:30:00.000",
+                "timestamp": 1463070600000
+              },
+              "arrivalDateTime": {
+                "formattedDateTime": "2016-05-12T16:40:00.000",
+                "timestamp": 1463071200000
+              },
+              "marketingCarrier": "Hover",
+              "operatingCarrier": "Hover",
+              "travelMedium": {
+                "travelMediumCode": "FRY",
+                "travelMediumName": "Ferry",
+                "supplierTravelMediumName": "Hover-FRY"
+              },
+              "totalDurationInMinutes": 10
+            },
+            {
+              "travelSegmentIndex": 5,
+              "travelMode": "Transfer",
+              "departureStation": {
+                "stationCode": "GBXRD",
+                "stationDisplayName": "Ryde Hoverport"
+              },
+              "arrivalStation": {
+                "stationCode": "GBRYD",
+                "stationDisplayName": "Ryde Esplanade"
+              },
+              "departureDateTime": {
+                "formattedDateTime": "2016-05-12T16:40:00.000",
+                "timestamp": 1463071200000
+              },
+              "arrivalDateTime": {
+                "formattedDateTime": "2016-05-12T16:50:00.000",
+                "timestamp": 1463071800000
+              },
+              "travelMedium": {
+                "travelMediumCode": "PED",
+                "travelMediumName": "Pedestrian"
+              },
+              "totalDurationInMinutes": 10
+            }
+          ],
+          "bestPrice": {
+            "formattedDisplayPrice": "£ 94.70"
+          },
+          "showTrainIcon": false,
+          "toc": "ATOC"
+        },
+        {
+          "legOptionIndex": 2,
+          "departureStation": {
+            "stationCode": "GBQQN",
+            "stationDisplayName": "Birmingham New Street"
+          },
+          "arrivalStation": {
+            "stationCode": "GBRYD",
+            "stationDisplayName": "Ryde Esplanade"
+          },
+          "departureDateTime": {
+            "formattedDateTime": "2016-05-12T12:33:00.000",
+            "timestamp": 1463056380000
+          },
+          "arrivalDateTime": {
+            "formattedDateTime": "2016-05-12T17:09:00.000",
+            "timestamp": 1463072940000
+          },
+          "totalDurationInMinutes": 276,
+          "aggregatedMarketingCarrier": "Multiple trains",
+          "aggregatedOperatingCarrier": "Multiple trains",
+          "travelSegmentList": [
+            {
+              "travelSegmentIndex": 1,
+              "travelMode": "Train",
+              "departureStation": {
+                "stationCode": "GBQQN",
+                "stationDisplayName": "Birmingham New Street"
+              },
+              "arrivalStation": {
+                "stationCode": "GBBSK",
+                "stationDisplayName": "Basingstoke"
+              },
+              "departureDateTime": {
+                "formattedDateTime": "2016-05-12T12:33:00.000",
+                "timestamp": 1463056380000
+              },
+              "arrivalDateTime": {
+                "formattedDateTime": "2016-05-12T14:39:00.000",
+                "timestamp": 1463063940000
+              },
+              "marketingCarrier": "CrossCountry",
+              "operatingCarrier": "CrossCountry",
+              "travelMedium": {
+                "travelMediumCode": "ICY",
+                "travelMediumName": "Inter-City",
+                "supplierTravelMediumId": "XC2620",
+                "supplierTravelMediumName": "CrossCountry-ICY"
+              },
+              "totalDurationInMinutes": 6
+            },
+            {
+              "travelSegmentIndex": 2,
+              "travelMode": "Train",
+              "departureStation": {
+                "stationCode": "GBBSK",
+                "stationDisplayName": "Basingstoke"
+              },
+              "arrivalStation": {
+                "stationCode": "GBPMH",
+                "stationDisplayName": "Portsmouth Harbour"
+              },
+              "departureDateTime": {
+                "formattedDateTime": "2016-05-12T15:00:00.000",
+                "timestamp": 1463065200000
+              },
+              "arrivalDateTime": {
+                "formattedDateTime": "2016-05-12T16:20:00.000",
+                "timestamp": 1463070000000
+              },
+              "marketingCarrier": "SouthWest",
+              "operatingCarrier": "SouthWest",
+              "travelMedium": {
+                "travelMediumCode": "ICY",
+                "travelMediumName": "Inter-City",
+                "supplierTravelMediumId": "SW8441",
+                "supplierTravelMediumName": "SouthWest-ICY"
+              },
+              "totalDurationInMinutes": 20
+            },
+            {
+              "travelSegmentIndex": 3,
+              "travelMode": "Ferry",
+              "departureStation": {
+                "stationCode": "GBPMH",
+                "stationDisplayName": "Portsmouth Harbour"
+              },
+              "arrivalStation": {
+                "stationCode": "GBRYP",
+                "stationDisplayName": "Ryde Pier Head"
+              },
+              "departureDateTime": {
+                "formattedDateTime": "2016-05-12T16:40:00.000",
+                "timestamp": 1463071200000
+              },
+              "arrivalDateTime": {
+                "formattedDateTime": "2016-05-12T17:02:00.000",
+                "timestamp": 1463072520000
+              },
+              "marketingCarrier": "SouthWest",
+              "operatingCarrier": "SouthWest",
+              "travelMedium": {
+                "travelMediumCode": "FRY",
+                "travelMediumName": "Ferry",
+                "supplierTravelMediumId": "SW2062",
+                "supplierTravelMediumName": "SouthWest-FRY"
+              },
+              "totalDurationInMinutes": 22
+            },
+            {
+              "travelSegmentIndex": 4,
+              "travelMode": "Train",
+              "departureStation": {
+                "stationCode": "GBRYP",
+                "stationDisplayName": "Ryde Pier Head"
+              },
+              "arrivalStation": {
+                "stationCode": "GBRYD",
+                "stationDisplayName": "Ryde Esplanade"
+              },
+              "departureDateTime": {
+                "formattedDateTime": "2016-05-12T17:07:00.000",
+                "timestamp": 1463072820000
+              },
+              "arrivalDateTime": {
+                "formattedDateTime": "2016-05-12T17:09:00.000",
+                "timestamp": 1463072940000
+              },
+              "marketingCarrier": "IslandLine",
+              "operatingCarrier": "IslandLine",
+              "travelMedium": {
+                "travelMediumCode": "BLR",
+                "travelMediumName": "Branch-Line/Regional",
+                "supplierTravelMediumId": "IL0023",
+                "supplierTravelMediumName": "IslandLine-BLR"
+              },
+              "totalDurationInMinutes": 2
+            }
+          ],
+          "bestPrice": {
+            "formattedDisplayPrice": "£ 54.30"
+          },
+          "showTrainIcon": false,
+          "toc": "ATOC"
+        },
+        {
+          "legOptionIndex": 3,
+          "departureStation": {
+            "stationCode": "GBQQN",
+            "stationDisplayName": "Birmingham New Street"
+          },
+          "arrivalStation": {
+            "stationCode": "GBRYD",
+            "stationDisplayName": "Ryde Esplanade"
+          },
+          "departureDateTime": {
+            "formattedDateTime": "2016-05-12T13:04:00.000",
+            "timestamp": 1463058240000
+          },
+          "arrivalDateTime": {
+            "formattedDateTime": "2016-05-12T17:50:00.000",
+            "timestamp": 1463075400000
+          },
+          "totalDurationInMinutes": 286,
+          "aggregatedMarketingCarrier": "Multiple trains",
+          "aggregatedOperatingCarrier": "Multiple trains",
+          "travelSegmentList": [
+            {
+              "travelSegmentIndex": 1,
+              "travelMode": "Train",
+              "departureStation": {
+                "stationCode": "GBQQN",
+                "stationDisplayName": "Birmingham New Street"
+              },
+              "arrivalStation": {
+                "stationCode": "GBSOU",
+                "stationDisplayName": "Southampton Central"
+              },
+              "departureDateTime": {
+                "formattedDateTime": "2016-05-12T13:04:00.000",
+                "timestamp": 1463058240000
+              },
+              "arrivalDateTime": {
+                "formattedDateTime": "2016-05-12T15:41:00.000",
+                "timestamp": 1463067660000
+              },
+              "marketingCarrier": "CrossCountry",
+              "operatingCarrier": "CrossCountry",
+              "travelMedium": {
+                "travelMediumCode": "ICY",
+                "travelMediumName": "Inter-City",
+                "supplierTravelMediumId": "XC3640",
+                "supplierTravelMediumName": "CrossCountry-ICY"
+              },
+              "totalDurationInMinutes": 37
+            },
+            {
+              "travelSegmentIndex": 2,
+              "travelMode": "Train",
+              "departureStation": {
+                "stationCode": "GBSOU",
+                "stationDisplayName": "Southampton Central"
+              },
+              "arrivalStation": {
+                "stationCode": "GBPMS",
+                "stationDisplayName": "Portsmouth & Southsea"
+              },
+              "departureDateTime": {
+                "formattedDateTime": "2016-05-12T16:05:00.000",
+                "timestamp": 1463069100000
+              },
+              "arrivalDateTime": {
+                "formattedDateTime": "2016-05-12T16:46:00.000",
+                "timestamp": 1463071560000
+              },
+              "marketingCarrier": "FirstGrtWest",
+              "operatingCarrier": "FirstGrtWest",
+              "travelMedium": {
+                "travelMediumCode": "ICY",
+                "travelMediumName": "Inter-City",
+                "supplierTravelMediumId": "GW8408",
+                "supplierTravelMediumName": "FirstGrtWest-ICY"
+              },
+              "totalDurationInMinutes": 41
+            },
+            {
+              "travelSegmentIndex": 3,
+              "travelMode": "Bus",
+              "departureStation": {
+                "stationCode": "GBPMS",
+                "stationDisplayName": "Portsmouth & Southsea"
+              },
+              "arrivalStation": {
+                "stationCode": "GBSHV",
+                "stationDisplayName": "Southsea Hoverport"
+              },
+              "departureDateTime": {
+                "formattedDateTime": "2016-05-12T17:15:00.000",
+                "timestamp": 1463073300000
+              },
+              "arrivalDateTime": {
+                "formattedDateTime": "2016-05-12T17:23:00.000",
+                "timestamp": 1463073780000
+              },
+              "marketingCarrier": "Hover",
+              "operatingCarrier": "Hover",
+              "travelMedium": {
+                "travelMediumCode": "BUS",
+                "travelMediumName": "Bus",
+                "supplierTravelMediumName": "Hover-BUS"
+              },
+              "totalDurationInMinutes": 8
+            },
+            {
+              "travelSegmentIndex": 4,
+              "travelMode": "Ferry",
+              "departureStation": {
+                "stationCode": "GBSHV",
+                "stationDisplayName": "Southsea Hoverport"
+              },
+              "arrivalStation": {
+                "stationCode": "GBXRD",
+                "stationDisplayName": "Ryde Hoverport"
+              },
+              "departureDateTime": {
+                "formattedDateTime": "2016-05-12T17:30:00.000",
+                "timestamp": 1463074200000
+              },
+              "arrivalDateTime": {
+                "formattedDateTime": "2016-05-12T17:40:00.000",
+                "timestamp": 1463074800000
+              },
+              "marketingCarrier": "Hover",
+              "operatingCarrier": "Hover",
+              "travelMedium": {
+                "travelMediumCode": "FRY",
+                "travelMediumName": "Ferry",
+                "supplierTravelMediumName": "Hover-FRY"
+              },
+              "totalDurationInMinutes": 10
+            },
+            {
+              "travelSegmentIndex": 5,
+              "travelMode": "Transfer",
+              "departureStation": {
+                "stationCode": "GBXRD",
+                "stationDisplayName": "Ryde Hoverport"
+              },
+              "arrivalStation": {
+                "stationCode": "GBRYD",
+                "stationDisplayName": "Ryde Esplanade"
+              },
+              "departureDateTime": {
+                "formattedDateTime": "2016-05-12T17:40:00.000",
+                "timestamp": 1463074800000
+              },
+              "arrivalDateTime": {
+                "formattedDateTime": "2016-05-12T17:50:00.000",
+                "timestamp": 1463075400000
+              },
+              "travelMedium": {
+                "travelMediumCode": "PED",
+                "travelMediumName": "Pedestrian"
+              },
+              "totalDurationInMinutes": 10
+            }
+          ],
+          "bestPrice": {
+            "formattedDisplayPrice": "£ 94.70"
+          },
+          "showTrainIcon": false,
+          "toc": "ATOC"
+        },
+        {
+          "legOptionIndex": 4,
+          "departureStation": {
+            "stationCode": "GBQQN",
+            "stationDisplayName": "Birmingham New Street"
+          },
+          "arrivalStation": {
+            "stationCode": "GBRYD",
+            "stationDisplayName": "Ryde Esplanade"
+          },
+          "departureDateTime": {
+            "formattedDateTime": "2016-05-12T14:04:00.000",
+            "timestamp": 1463061840000
+          },
+          "arrivalDateTime": {
+            "formattedDateTime": "2016-05-12T18:20:00.000",
+            "timestamp": 1463077200000
+          },
+          "totalDurationInMinutes": 256,
+          "aggregatedMarketingCarrier": "Multiple trains",
+          "aggregatedOperatingCarrier": "Multiple trains",
+          "travelSegmentList": [
+            {
+              "travelSegmentIndex": 1,
+              "travelMode": "Train",
+              "departureStation": {
+                "stationCode": "GBQQN",
+                "stationDisplayName": "Birmingham New Street"
+              },
+              "arrivalStation": {
+                "stationCode": "GBBSK",
+                "stationDisplayName": "Basingstoke"
+              },
+              "departureDateTime": {
+                "formattedDateTime": "2016-05-12T14:04:00.000",
+                "timestamp": 1463061840000
+              },
+              "arrivalDateTime": {
+                "formattedDateTime": "2016-05-12T16:08:00.000",
+                "timestamp": 1463069280000
+              },
+              "marketingCarrier": "CrossCountry",
+              "operatingCarrier": "CrossCountry",
+              "travelMedium": {
+                "travelMediumCode": "ICY",
+                "travelMediumName": "Inter-City",
+                "supplierTravelMediumId": "XC3660",
+                "supplierTravelMediumName": "CrossCountry-ICY"
+              },
+              "totalDurationInMinutes": 4
+            },
+            {
+              "travelSegmentIndex": 2,
+              "travelMode": "Train",
+              "departureStation": {
+                "stationCode": "GBBSK",
+                "stationDisplayName": "Basingstoke"
+              },
+              "arrivalStation": {
+                "stationCode": "GBPMS",
+                "stationDisplayName": "Portsmouth & Southsea"
+              },
+              "departureDateTime": {
+                "formattedDateTime": "2016-05-12T16:26:00.000",
+                "timestamp": 1463070360000
+              },
+              "arrivalDateTime": {
+                "formattedDateTime": "2016-05-12T17:35:00.000",
+                "timestamp": 1463074500000
+              },
+              "marketingCarrier": "SouthWest",
+              "operatingCarrier": "SouthWest",
+              "travelMedium": {
+                "travelMediumCode": "BLR",
+                "travelMediumName": "Branch-Line/Regional",
+                "supplierTravelMediumId": "SW7131",
+                "supplierTravelMediumName": "SouthWest-BLR"
+              },
+              "totalDurationInMinutes": 9
+            },
+            {
+              "travelSegmentIndex": 3,
+              "travelMode": "Bus",
+              "departureStation": {
+                "stationCode": "GBPMS",
+                "stationDisplayName": "Portsmouth & Southsea"
+              },
+              "arrivalStation": {
+                "stationCode": "GBSHV",
+                "stationDisplayName": "Southsea Hoverport"
+              },
+              "departureDateTime": {
+                "formattedDateTime": "2016-05-12T17:45:00.000",
+                "timestamp": 1463075100000
+              },
+              "arrivalDateTime": {
+                "formattedDateTime": "2016-05-12T17:53:00.000",
+                "timestamp": 1463075580000
+              },
+              "marketingCarrier": "Hover",
+              "operatingCarrier": "Hover",
+              "travelMedium": {
+                "travelMediumCode": "BUS",
+                "travelMediumName": "Bus",
+                "supplierTravelMediumName": "Hover-BUS"
+              },
+              "totalDurationInMinutes": 8
+            },
+            {
+              "travelSegmentIndex": 4,
+              "travelMode": "Ferry",
+              "departureStation": {
+                "stationCode": "GBSHV",
+                "stationDisplayName": "Southsea Hoverport"
+              },
+              "arrivalStation": {
+                "stationCode": "GBXRD",
+                "stationDisplayName": "Ryde Hoverport"
+              },
+              "departureDateTime": {
+                "formattedDateTime": "2016-05-12T18:00:00.000",
+                "timestamp": 1463076000000
+              },
+              "arrivalDateTime": {
+                "formattedDateTime": "2016-05-12T18:10:00.000",
+                "timestamp": 1463076600000
+              },
+              "marketingCarrier": "Hover",
+              "operatingCarrier": "Hover",
+              "travelMedium": {
+                "travelMediumCode": "FRY",
+                "travelMediumName": "Ferry",
+                "supplierTravelMediumName": "Hover-FRY"
+              },
+              "totalDurationInMinutes": 10
+            },
+            {
+              "travelSegmentIndex": 5,
+              "travelMode": "Transfer",
+              "departureStation": {
+                "stationCode": "GBXRD",
+                "stationDisplayName": "Ryde Hoverport"
+              },
+              "arrivalStation": {
+                "stationCode": "GBRYD",
+                "stationDisplayName": "Ryde Esplanade"
+              },
+              "departureDateTime": {
+                "formattedDateTime": "2016-05-12T18:10:00.000",
+                "timestamp": 1463076600000
+              },
+              "arrivalDateTime": {
+                "formattedDateTime": "2016-05-12T18:20:00.000",
+                "timestamp": 1463077200000
+              },
+              "travelMedium": {
+                "travelMediumCode": "PED",
+                "travelMediumName": "Pedestrian"
+              },
+              "totalDurationInMinutes": 10
+            }
+          ],
+          "bestPrice": {
+            "formattedDisplayPrice": "£ 94.70"
+          },
+          "showTrainIcon": false,
+          "toc": "ATOC"
+        },
+        {
+          "legOptionIndex": 5,
+          "departureStation": {
+            "stationCode": "GBQQN",
+            "stationDisplayName": "Birmingham New Street"
+          },
+          "arrivalStation": {
+            "stationCode": "GBRYD",
+            "stationDisplayName": "Ryde Esplanade"
+          },
+          "departureDateTime": {
+            "formattedDateTime": "2016-05-12T14:33:00.000",
+            "timestamp": 1463063580000
+          },
+          "arrivalDateTime": {
+            "formattedDateTime": "2016-05-12T19:20:00.000",
+            "timestamp": 1463080800000
+          },
+          "totalDurationInMinutes": 287,
+          "aggregatedMarketingCarrier": "Multiple trains",
+          "aggregatedOperatingCarrier": "Multiple trains",
+          "travelSegmentList": [
+            {
+              "travelSegmentIndex": 1,
+              "travelMode": "Train",
+              "departureStation": {
+                "stationCode": "GBQQN",
+                "stationDisplayName": "Birmingham New Street"
+              },
+              "arrivalStation": {
+                "stationCode": "GBBSK",
+                "stationDisplayName": "Basingstoke"
+              },
+              "departureDateTime": {
+                "formattedDateTime": "2016-05-12T14:33:00.000",
+                "timestamp": 1463063580000
+              },
+              "arrivalDateTime": {
+                "formattedDateTime": "2016-05-12T16:39:00.000",
+                "timestamp": 1463071140000
+              },
+              "marketingCarrier": "CrossCountry",
+              "operatingCarrier": "CrossCountry",
+              "travelMedium": {
+                "travelMediumCode": "ICY",
+                "travelMediumName": "Inter-City",
+                "supplierTravelMediumId": "XC2660",
+                "supplierTravelMediumName": "CrossCountry-ICY"
+              },
+              "totalDurationInMinutes": 6
+            },
+            {
+              "travelSegmentIndex": 2,
+              "travelMode": "Train",
+              "departureStation": {
+                "stationCode": "GBBSK",
+                "stationDisplayName": "Basingstoke"
+              },
+              "arrivalStation": {
+                "stationCode": "GBPMS",
+                "stationDisplayName": "Portsmouth & Southsea"
+              },
+              "departureDateTime": {
+                "formattedDateTime": "2016-05-12T17:00:00.000",
+                "timestamp": 1463072400000
+              },
+              "arrivalDateTime": {
+                "formattedDateTime": "2016-05-12T18:12:00.000",
+                "timestamp": 1463076720000
+              },
+              "marketingCarrier": "SouthWest",
+              "operatingCarrier": "SouthWest",
+              "travelMedium": {
+                "travelMediumCode": "ICY",
+                "travelMediumName": "Inter-City",
+                "supplierTravelMediumId": "SW8449",
+                "supplierTravelMediumName": "SouthWest-ICY"
+              },
+              "totalDurationInMinutes": 12
+            },
+            {
+              "travelSegmentIndex": 3,
+              "travelMode": "Bus",
+              "departureStation": {
+                "stationCode": "GBPMS",
+                "stationDisplayName": "Portsmouth & Southsea"
+              },
+              "arrivalStation": {
+                "stationCode": "GBSHV",
+                "stationDisplayName": "Southsea Hoverport"
+              },
+              "departureDateTime": {
+                "formattedDateTime": "2016-05-12T18:45:00.000",
+                "timestamp": 1463078700000
+              },
+              "arrivalDateTime": {
+                "formattedDateTime": "2016-05-12T18:53:00.000",
+                "timestamp": 1463079180000
+              },
+              "marketingCarrier": "Hover",
+              "operatingCarrier": "Hover",
+              "travelMedium": {
+                "travelMediumCode": "BUS",
+                "travelMediumName": "Bus",
+                "supplierTravelMediumName": "Hover-BUS"
+              },
+              "totalDurationInMinutes": 8
+            },
+            {
+              "travelSegmentIndex": 4,
+              "travelMode": "Ferry",
+              "departureStation": {
+                "stationCode": "GBSHV",
+                "stationDisplayName": "Southsea Hoverport"
+              },
+              "arrivalStation": {
+                "stationCode": "GBXRD",
+                "stationDisplayName": "Ryde Hoverport"
+              },
+              "departureDateTime": {
+                "formattedDateTime": "2016-05-12T19:00:00.000",
+                "timestamp": 1463079600000
+              },
+              "arrivalDateTime": {
+                "formattedDateTime": "2016-05-12T19:10:00.000",
+                "timestamp": 1463080200000
+              },
+              "marketingCarrier": "Hover",
+              "operatingCarrier": "Hover",
+              "travelMedium": {
+                "travelMediumCode": "FRY",
+                "travelMediumName": "Ferry",
+                "supplierTravelMediumName": "Hover-FRY"
+              },
+              "totalDurationInMinutes": 10
+            },
+            {
+              "travelSegmentIndex": 5,
+              "travelMode": "Transfer",
+              "departureStation": {
+                "stationCode": "GBXRD",
+                "stationDisplayName": "Ryde Hoverport"
+              },
+              "arrivalStation": {
+                "stationCode": "GBRYD",
+                "stationDisplayName": "Ryde Esplanade"
+              },
+              "departureDateTime": {
+                "formattedDateTime": "2016-05-12T19:10:00.000",
+                "timestamp": 1463080200000
+              },
+              "arrivalDateTime": {
+                "formattedDateTime": "2016-05-12T19:20:00.000",
+                "timestamp": 1463080800000
+              },
+              "travelMedium": {
+                "travelMediumCode": "PED",
+                "travelMediumName": "Pedestrian"
+              },
+              "totalDurationInMinutes": 10
+            }
+          ],
+          "bestPrice": {
+            "formattedDisplayPrice": "£ 94.70"
+          },
+          "showTrainIcon": false,
+          "toc": "ATOC"
+        }
+      ],
+      "legIndex": 0
+    }
+  ],
+  "offerList": [
+    {
+      "totalPrice": {
+        "formattedDisplayPrice": "£ 94.70"
       },
-      {
-        "totalPrice": {
-          "value": 499.75,
-          "currency": "USD"
-        },
-        "railProductList": [
-          {
-            "totalPrice": {
-              "value": 499.75,
-              "currency": "USD"
-            },
-            "legOptionReferences": [
-              "LS_1_0"
-            ],
-            "fareBreakUpList": [
-              {
-                "passengerReferences": [
-                  {
-                    "passengerIDRef": "100",
-                    "passengerTypeCode": "A",
-                    "fareCodes": [
-                      {
-                        "fareCodeId": "IXC-FOS-00700-STD-1",
-                        "travelSegmentIDRef": "LS_1_0_TS_1",
-                        "serviceClassCode": "FIRST",
-                        "carrierCabinClass": "First",
-                        "fareClass": "ANYTIME"
-                      },
-                      {
-                        "fareCodeId": "IXC-FOS-00700-STD-1",
-                        "travelSegmentIDRef": "LS_1_0_TS_2",
-                        "serviceClassCode": "FIRST",
-                        "carrierCabinClass": "First",
-                        "fareClass": "ANYTIME"
-                      },
-                      {
-                        "fareCodeId": "IXC-FOS-00700-STD-1",
-                        "travelSegmentIDRef": "LS_1_0_TS_4",
-                        "serviceClassCode": "FIRST",
-                        "carrierCabinClass": "First",
-                        "fareClass": "ANYTIME"
-                      },
-                      {
-                        "fareCodeId": "IXC-FOS-00700-STD-1",
-                        "travelSegmentIDRef": "LS_1_0_TS_3",
-                        "serviceClassCode": "FIRST",
-                        "carrierCabinClass": "First",
-                        "fareClass": "ANYTIME"
-                      },
-                      {
-                        "fareCodeId": "IXC-FOS-00700-STD-1",
-                        "travelSegmentIDRef": "LS_1_0_TS_0",
-                        "serviceClassCode": "FIRST",
-                        "carrierCabinClass": "First",
-                        "fareClass": "ANYTIME"
-                      }
-                    ]
-                  }
-                ]
-              }
-            ],
-            "passengerReferences": [
-              ""
-            ],
-            "productHoldExpirationDateTime": "2016-04-06T23:44:31.000Z",
-            "railProductToken": "CNr4LBD4-ywaGgimgKEMEKaIpAUY2vgsINf6LCoGWEMyNTgwGhoIpoikBRCm-JgJGOz6LCCz-ywqBlNXODQzMxoUCKb4mAkQppDPChjV-ywg3fssKgAaFAimkM8KEKa44wEY5PssIO77LCoAGhQIprjjARCmiPEBGO77LCD4-ywqACICCB4qEgoHQU5ZVElNRRABGgVGaXJzdA=="
-          }
-        ],
-        "offerHoldExpirationDateTime": "2016-04-06T23:44:31.000Z",
-        "railOfferToken": "OFFER_CNr4LBD4-ywaGgimgKEMEKaIpAUY2vgsINf6LCoGWEMyNTgwGhoIpoikBRCm-JgJGOz6LCCz-ywqBlNXODQzMxoUCKb4mAkQppDPChjV-ywg3fssKgAaFAimkM8KEKa44wEY5PssIO77LCoAGhQIprjjARCmiPEBGO77LCD4-ywqACICCB4qEgoHQU5ZVElNRRABGgVGaXJzdA=="
+      "railProductList": [
+        {
+          "aggregatedCarrierServiceClassDisplayName": "Standard",
+          "aggregatedCarrierFareClassDisplayName": "Anytime Single",
+          "aggregatedFareDescription": "Travel any time of day",
+          "legOptionIndexList": [
+            1
+          ],
+          "fareBreakdownList": [
+            {
+              "passengerFareList": [
+                {
+                  "passengerIndex": 0,
+                  "passengerTypeCode": "A",
+                  "passengerSegmentFareList": [
+                    {
+                      "fareCode": "IXC-SOS-00700-STD-1",
+                      "travelSegmentIndex": 3,
+                      "carrierServiceClassDisplayName": "Standard",
+                      "carrierFareClassDisplayName": "Anytime Single",
+                      "fareDescription": "Travel any time of day"
+                    },
+                    {
+                      "fareCode": "IXC-SOS-00700-STD-1",
+                      "travelSegmentIndex": 5,
+                      "carrierServiceClassDisplayName": "Standard",
+                      "carrierFareClassDisplayName": "Anytime Single",
+                      "fareDescription": "Travel any time of day"
+                    },
+                    {
+                      "fareCode": "IXC-SOS-00700-STD-1",
+                      "travelSegmentIndex": 4,
+                      "carrierServiceClassDisplayName": "Standard",
+                      "carrierFareClassDisplayName": "Anytime Single",
+                      "fareDescription": "Travel any time of day"
+                    },
+                    {
+                      "fareCode": "IXC-SOS-00700-STD-1",
+                      "travelSegmentIndex": 1,
+                      "carrierServiceClassDisplayName": "Standard",
+                      "carrierFareClassDisplayName": "Anytime Single",
+                      "fareDescription": "Travel any time of day",
+                      "amenityList": [
+                        {
+                          "displayName": "Snack Trolley Service"
+                        }
+                      ]
+                    },
+                    {
+                      "fareCode": "IXC-SOS-00700-STD-1",
+                      "travelSegmentIndex": 2,
+                      "carrierServiceClassDisplayName": "Standard",
+                      "carrierFareClassDisplayName": "Anytime Single",
+                      "fareDescription": "Travel any time of day",
+                      "amenityList": [
+                        {
+                          "displayName": "Snack Trolley Service"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "railProductToken": "CPTcKxCS3ysaGgimgOEGEKaQnQoY9NwrIJHeKyoGWEMzNjIwGhoIppCdChCm-JgJGKneKyDS3isqBkdXODQwNxoUCKb4mAkQppDPChjv3isg994rKgAaFAimkM8KEKa44wEY_t4rIIjfKyoAGhQIprjjARCmiPEBGIjfKyCS3ysqACIVCgdBTllUSU1FEAMaCFN0YW5kYXJk"
+        }
+      ],
+      "railOfferToken": "CgQI0twrEpkBCPTcKxCS3ysaGgimgOEGEKaQnQoY9NwrIJHeKyoGWEMzNjIwGhoIppCdChCm-JgJGKneKyDS3isqBkdXODQwNxoUCKb4mAkQppDPChjv3isg994rKgAaFAimkM8KEKa44wEY_t4rIIjfKyoAGhQIprjjARCmiPEBGIjfKyCS3ysqACIVCgdBTllUSU1FEAMaCFN0YW5kYXJkGgIIGQ=="
+    },
+    {
+      "totalPrice": {
+        "formattedDisplayPrice": "£ 203.90"
       },
-      {
-        "totalPrice": {
-          "value": 240.69,
-          "currency": "USD"
-        },
-        "railProductList": [
-          {
-            "totalPrice": {
-              "value": 240.69,
-              "currency": "USD"
-            },
-            "legOptionReferences": [
-              "LS_1_1"
-            ],
-            "fareBreakUpList": [
-              {
-                "passengerReferences": [
-                  {
-                    "passengerIDRef": "100",
-                    "passengerTypeCode": "A",
-                    "fareCodes": [
-                      {
-                        "fareCodeId": "IXC-SOS-00700-STD-1",
-                        "travelSegmentIDRef": "LS_1_1_TS_1",
-                        "serviceClassCode": "THIRD",
-                        "carrierCabinClass": "Standard",
-                        "fareClass": "ANYTIME"
-                      },
-                      {
-                        "fareCodeId": "IXC-SOS-00700-STD-1",
-                        "travelSegmentIDRef": "LS_1_1_TS_2",
-                        "serviceClassCode": "THIRD",
-                        "carrierCabinClass": "Standard",
-                        "fareClass": "ANYTIME"
-                      },
-                      {
-                        "fareCodeId": "IXC-SOS-00700-STD-1",
-                        "travelSegmentIDRef": "LS_1_1_TS_3",
-                        "serviceClassCode": "THIRD",
-                        "carrierCabinClass": "Standard",
-                        "fareClass": "ANYTIME"
-                      },
-                      {
-                        "fareCodeId": "IXC-SOS-00700-STD-1",
-                        "travelSegmentIDRef": "LS_1_1_TS_0",
-                        "serviceClassCode": "THIRD",
-                        "carrierCabinClass": "Standard",
-                        "fareClass": "ANYTIME"
-                      }
-                    ]
-                  }
-                ]
-              }
-            ],
-            "passengerReferences": [
-              ""
-            ],
-            "productHoldExpirationDateTime": "2016-04-06T23:44:31.000Z",
-            "railProductToken": "CNv5LBDl_CwaGgimgKEMEKaIpAUY2_ksIM_7LCoGWEMyNjIwGhoIpoikBRCm-NgDGOT7LCC0_CwqBlNXODQ0MRoaCKb42AMQpojxBxjI_Cwg3vwsKgZTVzQ0NTcaGgimiPEHEKaI8QEY4_wsIOX8LCoGSUwwMDIzIgIIHioVCgdBTllUSU1FEAMaCFN0YW5kYXJk"
-          }
-        ],
-        "offerHoldExpirationDateTime": "2016-04-06T23:44:31.000Z",
-        "railOfferToken": "OFFER_CNv5LBDl_CwaGgimgKEMEKaIpAUY2_ksIM_7LCoGWEMyNjIwGhoIpoikBRCm-NgDGOT7LCC0_CwqBlNXODQ0MRoaCKb42AMQpojxBxjI_Cwg3vwsKgZTVzQ0NTcaGgimiPEHEKaI8QEY4_wsIOX8LCoGSUwwMDIzIgIIHioVCgdBTllUSU1FEAMaCFN0YW5kYXJk"
+      "railProductList": [
+        {
+          "aggregatedCarrierServiceClassDisplayName": "First",
+          "aggregatedCarrierFareClassDisplayName": "Anytime Single (1st Class)",
+          "aggregatedFareDescription": "Travel any time of day",
+          "legOptionIndexList": [
+            1
+          ],
+          "fareBreakdownList": [
+            {
+              "passengerFareList": [
+                {
+                  "passengerIndex": 0,
+                  "passengerTypeCode": "A",
+                  "passengerSegmentFareList": [
+                    {
+                      "fareCode": "IXC-FOS-00700-STD-1",
+                      "travelSegmentIndex": 3,
+                      "carrierServiceClassDisplayName": "First",
+                      "carrierFareClassDisplayName": "Anytime Single (1st Class)",
+                      "fareDescription": "Travel any time of day"
+                    },
+                    {
+                      "fareCode": "IXC-FOS-00700-STD-1",
+                      "travelSegmentIndex": 5,
+                      "carrierServiceClassDisplayName": "First",
+                      "carrierFareClassDisplayName": "Anytime Single (1st Class)",
+                      "fareDescription": "Travel any time of day"
+                    },
+                    {
+                      "fareCode": "IXC-FOS-00700-STD-1",
+                      "travelSegmentIndex": 4,
+                      "carrierServiceClassDisplayName": "First",
+                      "carrierFareClassDisplayName": "Anytime Single (1st Class)",
+                      "fareDescription": "Travel any time of day"
+                    },
+                    {
+                      "fareCode": "IXC-FOS-00700-STD-1",
+                      "travelSegmentIndex": 1,
+                      "carrierServiceClassDisplayName": "First",
+                      "carrierFareClassDisplayName": "Anytime Single (1st Class)",
+                      "fareDescription": "Travel any time of day",
+                      "amenityList": [
+                        {
+                          "displayName": "Snack Trolley Service"
+                        }
+                      ]
+                    },
+                    {
+                      "fareCode": "IXC-FOS-00700-STD-1",
+                      "travelSegmentIndex": 2,
+                      "carrierServiceClassDisplayName": "First",
+                      "carrierFareClassDisplayName": "Anytime Single (1st Class)",
+                      "fareDescription": "Travel any time of day",
+                      "amenityList": [
+                        {
+                          "displayName": "Snack Trolley Service"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "railProductToken": "CPTcKxCS3ysaGgimgOEGEKaQnQoY9NwrIJHeKyoGWEMzNjIwGhoIppCdChCm-JgJGKneKyDS3isqBkdXODQwNxoUCKb4mAkQppDPChjv3isg994rKgAaFAimkM8KEKa44wEY_t4rIIjfKyoAGhQIprjjARCmiPEBGIjfKyCS3ysqACISCgdBTllUSU1FEAEaBUZpcnN0"
+        }
+      ],
+      "railOfferToken": "CgQI0twrEpYBCPTcKxCS3ysaGgimgOEGEKaQnQoY9NwrIJHeKyoGWEMzNjIwGhoIppCdChCm-JgJGKneKyDS3isqBkdXODQwNxoUCKb4mAkQppDPChjv3isg994rKgAaFAimkM8KEKa44wEY_t4rIIjfKyoAGhQIprjjARCmiPEBGIjfKyCS3ysqACISCgdBTllUSU1FEAEaBUZpcnN0GgIIGQ=="
+    },
+    {
+      "totalPrice": {
+        "formattedDisplayPrice": "£ 54.30"
       },
-      {
-        "totalPrice": {
-          "value": 376.1,
-          "currency": "USD"
-        },
-        "railProductList": [
-          {
-            "totalPrice": {
-              "value": 376.1,
-              "currency": "USD"
-            },
-            "legOptionReferences": [
-              "LS_1_1"
-            ],
-            "fareBreakUpList": [
-              {
-                "passengerReferences": [
-                  {
-                    "passengerIDRef": "100",
-                    "passengerTypeCode": "A",
-                    "fareCodes": [
-                      {
-                        "fareCodeId": "IEC-FOS-00000-STD-1",
-                        "travelSegmentIDRef": "LS_1_1_TS_1",
-                        "serviceClassCode": "FIRST",
-                        "carrierCabinClass": "First",
-                        "fareClass": "ANYTIME"
-                      },
-                      {
-                        "fareCodeId": "IEC-FOS-00000-STD-1",
-                        "travelSegmentIDRef": "LS_1_1_TS_2",
-                        "serviceClassCode": "FIRST",
-                        "carrierCabinClass": "First",
-                        "fareClass": "ANYTIME"
-                      },
-                      {
-                        "fareCodeId": "IEC-FOS-00000-STD-1",
-                        "travelSegmentIDRef": "LS_1_1_TS_3",
-                        "serviceClassCode": "FIRST",
-                        "carrierCabinClass": "First",
-                        "fareClass": "ANYTIME"
-                      },
-                      {
-                        "fareCodeId": "IEC-FOS-00000-STD-1",
-                        "travelSegmentIDRef": "LS_1_1_TS_0",
-                        "serviceClassCode": "FIRST",
-                        "carrierCabinClass": "First",
-                        "fareClass": "ANYTIME"
-                      }
-                    ]
-                  }
-                ]
-              }
-            ],
-            "passengerReferences": [
-              ""
-            ],
-            "productHoldExpirationDateTime": "2016-04-06T23:44:31.000Z",
-            "railProductToken": "CNv5LBDl_CwaGgimgKEMEKaIpAUY2_ksIM_7LCoGWEMyNjIwGhoIpoikBRCm-NgDGOT7LCC0_CwqBlNXODQ0MRoaCKb42AMQpojxBxjI_Cwg3vwsKgZTVzQ0NTcaGgimiPEHEKaI8QEY4_wsIOX8LCoGSUwwMDIzIgIIHioSCgdBTllUSU1FEAEaBUZpcnN0"
-          }
-        ],
-        "offerHoldExpirationDateTime": "2016-04-06T23:44:31.000Z",
-        "railOfferToken": "OFFER_CNv5LBDl_CwaGgimgKEMEKaIpAUY2_ksIM_7LCoGWEMyNjIwGhoIpoikBRCm-NgDGOT7LCC0_CwqBlNXODQ0MRoaCKb42AMQpojxBxjI_Cwg3vwsKgZTVzQ0NTcaGgimiPEHEKaI8QEY4_wsIOX8LCoGSUwwMDIzIgIIHioSCgdBTllUSU1FEAEaBUZpcnN0"
+      "railProductList": [
+        {
+          "aggregatedCarrierServiceClassDisplayName": "Standard",
+          "aggregatedCarrierFareClassDisplayName": "Advance Single",
+          "aggregatedFareDescription": "Specified train only",
+          "legOptionIndexList": [
+            2
+          ],
+          "fareBreakdownList": [
+            {
+              "passengerFareList": [
+                {
+                  "passengerIndex": 0,
+                  "passengerTypeCode": "A",
+                  "passengerSegmentFareList": [
+                    {
+                      "fareCode": "IXC-MAS-00439-STD-1",
+                      "travelSegmentIndex": 1,
+                      "carrierServiceClassDisplayName": "Standard",
+                      "carrierFareClassDisplayName": "Advance Single",
+                      "fareDescription": "Specified train only",
+                      "amenityList": [
+                        {
+                          "displayName": "Snack Trolley Service"
+                        }
+                      ]
+                    },
+                    {
+                      "fareCode": "IXC-MAS-00439-STD-1",
+                      "travelSegmentIndex": 2,
+                      "carrierServiceClassDisplayName": "Standard",
+                      "carrierFareClassDisplayName": "Advance Single",
+                      "fareDescription": "Specified train only"
+                    },
+                    {
+                      "fareCode": "IXC-MAS-00439-STD-1",
+                      "travelSegmentIndex": 3,
+                      "carrierServiceClassDisplayName": "Standard",
+                      "carrierFareClassDisplayName": "Advance Single",
+                      "fareDescription": "Specified train only"
+                    },
+                    {
+                      "fareCode": "IXC-MAS-00439-STD-1",
+                      "travelSegmentIndex": 4,
+                      "carrierServiceClassDisplayName": "Standard",
+                      "carrierFareClassDisplayName": "Advance Single",
+                      "fareDescription": "Specified train only"
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "railProductToken": "CJHdKxCl3ysaGgimgOEGEKaIpAUYkd0rII_eKyoGWEMyNjIwGhoIpoikBRCm-NgDGKTeKyD03isqBlNXODQ0MRoaCKb42AMQpojxBxiI3ysgnt8rKgZTVzIwNjIaGgimiPEHEKaI8QEYo98rIKXfKyoGSUwwMDIzIhUKB0FEVkFOQ0UQAxoIU3RhbmRhcmQ="
+        }
+      ],
+      "railOfferToken": "CgQI0twrEo8BCJHdKxCl3ysaGgimgOEGEKaIpAUYkd0rII_eKyoGWEMyNjIwGhoIpoikBRCm-NgDGKTeKyD03isqBlNXODQ0MRoaCKb42AMQpojxBxiI3ysgnt8rKgZTVzIwNjIaGgimiPEHEKaI8QEYo98rIKXfKyoGSUwwMDIzIhUKB0FEVkFOQ0UQAxoIU3RhbmRhcmQaAggZ"
+    },
+    {
+      "totalPrice": {
+        "formattedDisplayPrice": "£ 98.20"
       },
-      {
-        "totalPrice": {
-          "value": 216.51,
-          "currency": "USD"
-        },
-        "railProductList": [
-          {
-            "totalPrice": {
-              "value": 216.51,
-              "currency": "USD"
-            },
-            "legOptionReferences": [
-              "LS_1_1"
-            ],
-            "fareBreakUpList": [
-              {
-                "passengerReferences": [
-                  {
-                    "passengerIDRef": "100",
-                    "passengerTypeCode": "A",
-                    "fareCodes": [
-                      {
-                        "fareCodeId": "IEC-SSS-00000-STD-1",
-                        "travelSegmentIDRef": "LS_1_1_TS_1",
-                        "serviceClassCode": "THIRD",
-                        "carrierCabinClass": "Standard",
-                        "fareClass": "SUPER_OFFPEAK_DAY"
-                      },
-                      {
-                        "fareCodeId": "IEC-SSS-00000-STD-1",
-                        "travelSegmentIDRef": "LS_1_1_TS_2",
-                        "serviceClassCode": "THIRD",
-                        "carrierCabinClass": "Standard",
-                        "fareClass": "SUPER_OFFPEAK_DAY"
-                      },
-                      {
-                        "fareCodeId": "IEC-SSS-00000-STD-1",
-                        "travelSegmentIDRef": "LS_1_1_TS_3",
-                        "serviceClassCode": "THIRD",
-                        "carrierCabinClass": "Standard",
-                        "fareClass": "SUPER_OFFPEAK_DAY"
-                      },
-                      {
-                        "fareCodeId": "IEC-SSS-00000-STD-1",
-                        "travelSegmentIDRef": "LS_1_1_TS_0",
-                        "serviceClassCode": "THIRD",
-                        "carrierCabinClass": "Standard",
-                        "fareClass": "SUPER_OFFPEAK_DAY"
-                      }
-                    ]
-                  }
-                ]
-              }
-            ],
-            "passengerReferences": [
-              ""
-            ],
-            "productHoldExpirationDateTime": "2016-04-06T23:44:31.000Z",
-            "railProductToken": "CNv5LBDl_CwaGgimgKEMEKaIpAUY2_ksIM_7LCoGWEMyNjIwGhoIpoikBRCm-NgDGOT7LCC0_CwqBlNXODQ0MRoaCKb42AMQpojxBxjI_Cwg3vwsKgZTVzQ0NTcaGgimiPEHEKaI8QEY4_wsIOX8LCoGSUwwMDIzIgIIHiofChFTVVBFUl9PRkZQRUFLX0RBWRADGghTdGFuZGFyZA=="
-          }
-        ],
-        "offerHoldExpirationDateTime": "2016-04-06T23:44:31.000Z",
-        "railOfferToken": "OFFER_CNv5LBDl_CwaGgimgKEMEKaIpAUY2_ksIM_7LCoGWEMyNjIwGhoIpoikBRCm-NgDGOT7LCC0_CwqBlNXODQ0MRoaCKb42AMQpojxBxjI_Cwg3vwsKgZTVzQ0NTcaGgimiPEHEKaI8QEY4_wsIOX8LCoGSUwwMDIzIgIIHiofChFTVVBFUl9PRkZQRUFLX0RBWRADGghTdGFuZGFyZA=="
+      "railProductList": [
+        {
+          "aggregatedCarrierServiceClassDisplayName": "Standard",
+          "aggregatedCarrierFareClassDisplayName": "Anytime Single",
+          "aggregatedFareDescription": "Travel any time of day",
+          "legOptionIndexList": [
+            2
+          ],
+          "fareBreakdownList": [
+            {
+              "passengerFareList": [
+                {
+                  "passengerIndex": 0,
+                  "passengerTypeCode": "A",
+                  "passengerSegmentFareList": [
+                    {
+                      "fareCode": "IXC-SOS-00700-STD-1",
+                      "travelSegmentIndex": 2,
+                      "carrierServiceClassDisplayName": "Standard",
+                      "carrierFareClassDisplayName": "Anytime Single",
+                      "fareDescription": "Travel any time of day"
+                    },
+                    {
+                      "fareCode": "IXC-SOS-00700-STD-1",
+                      "travelSegmentIndex": 3,
+                      "carrierServiceClassDisplayName": "Standard",
+                      "carrierFareClassDisplayName": "Anytime Single",
+                      "fareDescription": "Travel any time of day"
+                    },
+                    {
+                      "fareCode": "IXC-SOS-00700-STD-1",
+                      "travelSegmentIndex": 4,
+                      "carrierServiceClassDisplayName": "Standard",
+                      "carrierFareClassDisplayName": "Anytime Single",
+                      "fareDescription": "Travel any time of day"
+                    },
+                    {
+                      "fareCode": "IXC-SOS-00700-STD-1",
+                      "travelSegmentIndex": 1,
+                      "carrierServiceClassDisplayName": "Standard",
+                      "carrierFareClassDisplayName": "Anytime Single",
+                      "fareDescription": "Travel any time of day",
+                      "amenityList": [
+                        {
+                          "displayName": "Snack Trolley Service"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "railProductToken": "CJHdKxCl3ysaGgimgOEGEKaIpAUYkd0rII_eKyoGWEMyNjIwGhoIpoikBRCm-NgDGKTeKyD03isqBlNXODQ0MRoaCKb42AMQpojxBxiI3ysgnt8rKgZTVzIwNjIaGgimiPEHEKaI8QEYo98rIKXfKyoGSUwwMDIzIhUKB0FOWVRJTUUQAxoIU3RhbmRhcmQ="
+        }
+      ],
+      "railOfferToken": "CgQI0twrEo8BCJHdKxCl3ysaGgimgOEGEKaIpAUYkd0rII_eKyoGWEMyNjIwGhoIpoikBRCm-NgDGKTeKyD03isqBlNXODQ0MRoaCKb42AMQpojxBxiI3ysgnt8rKgZTVzIwNjIaGgimiPEHEKaI8QEYo98rIKXfKyoGSUwwMDIzIhUKB0FOWVRJTUUQAxoIU3RhbmRhcmQaAggZ"
+    },
+    {
+      "totalPrice": {
+        "formattedDisplayPrice": "£ 207.40"
       },
-      {
-        "totalPrice": {
-          "value": 104.46,
-          "currency": "USD"
-        },
-        "railProductList": [
-          {
-            "totalPrice": {
-              "value": 104.46,
-              "currency": "USD"
-            },
-            "legOptionReferences": [
-              "LS_1_1"
-            ],
-            "fareBreakUpList": [
-              {
-                "passengerReferences": [
-                  {
-                    "passengerIDRef": "100",
-                    "passengerTypeCode": "A",
-                    "fareCodes": [
-                      {
-                        "fareCodeId": "IXC-MBS-00439-STD-1",
-                        "travelSegmentIDRef": "LS_1_1_TS_0",
-                        "serviceClassCode": "THIRD",
-                        "carrierCabinClass": "Standard",
-                        "fareClass": "ADVANCE"
-                      },
-                      {
-                        "fareCodeId": "IXC-MBS-00439-STD-1",
-                        "travelSegmentIDRef": "LS_1_1_TS_1",
-                        "serviceClassCode": "THIRD",
-                        "carrierCabinClass": "Standard",
-                        "fareClass": "ADVANCE"
-                      },
-                      {
-                        "fareCodeId": "IXC-MBS-00439-STD-1",
-                        "travelSegmentIDRef": "LS_1_1_TS_2",
-                        "serviceClassCode": "THIRD",
-                        "carrierCabinClass": "Standard",
-                        "fareClass": "ADVANCE"
-                      },
-                      {
-                        "fareCodeId": "IXC-MBS-00439-STD-1",
-                        "travelSegmentIDRef": "LS_1_1_TS_3",
-                        "serviceClassCode": "THIRD",
-                        "carrierCabinClass": "Standard",
-                        "fareClass": "ADVANCE"
-                      }
-                    ]
-                  }
-                ]
-              }
-            ],
-            "passengerReferences": [
-              ""
-            ],
-            "productHoldExpirationDateTime": "2016-04-06T23:44:31.000Z",
-            "railProductToken": "CNv5LBDl_CwaGgimgKEMEKaIpAUY2_ksIM_7LCoGWEMyNjIwGhoIpoikBRCm-NgDGOT7LCC0_CwqBlNXODQ0MRoaCKb42AMQpojxBxjI_Cwg3vwsKgZTVzQ0NTcaGgimiPEHEKaI8QEY4_wsIOX8LCoGSUwwMDIzIgIIHioVCgdBRFZBTkNFEAMaCFN0YW5kYXJk"
-          }
-        ],
-        "offerHoldExpirationDateTime": "2016-04-06T23:44:31.000Z",
-        "railOfferToken": "OFFER_CNv5LBDl_CwaGgimgKEMEKaIpAUY2_ksIM_7LCoGWEMyNjIwGhoIpoikBRCm-NgDGOT7LCC0_CwqBlNXODQ0MRoaCKb42AMQpojxBxjI_Cwg3vwsKgZTVzQ0NTcaGgimiPEHEKaI8QEY4_wsIOX8LCoGSUwwMDIzIgIIHioVCgdBRFZBTkNFEAMaCFN0YW5kYXJk"
+      "railProductList": [
+        {
+          "aggregatedCarrierServiceClassDisplayName": "First",
+          "aggregatedCarrierFareClassDisplayName": "Anytime Single (1st Class)",
+          "aggregatedFareDescription": "Travel any time of day",
+          "legOptionIndexList": [
+            2
+          ],
+          "fareBreakdownList": [
+            {
+              "passengerFareList": [
+                {
+                  "passengerIndex": 0,
+                  "passengerTypeCode": "A",
+                  "passengerSegmentFareList": [
+                    {
+                      "fareCode": "IXC-FOS-00700-STD-1",
+                      "travelSegmentIndex": 2,
+                      "carrierServiceClassDisplayName": "First",
+                      "carrierFareClassDisplayName": "Anytime Single (1st Class)",
+                      "fareDescription": "Travel any time of day"
+                    },
+                    {
+                      "fareCode": "IXC-FOS-00700-STD-1",
+                      "travelSegmentIndex": 3,
+                      "carrierServiceClassDisplayName": "First",
+                      "carrierFareClassDisplayName": "Anytime Single (1st Class)",
+                      "fareDescription": "Travel any time of day"
+                    },
+                    {
+                      "fareCode": "IXC-FOS-00700-STD-1",
+                      "travelSegmentIndex": 4,
+                      "carrierServiceClassDisplayName": "First",
+                      "carrierFareClassDisplayName": "Anytime Single (1st Class)",
+                      "fareDescription": "Travel any time of day"
+                    },
+                    {
+                      "fareCode": "IXC-FOS-00700-STD-1",
+                      "travelSegmentIndex": 1,
+                      "carrierServiceClassDisplayName": "First",
+                      "carrierFareClassDisplayName": "Anytime Single (1st Class)",
+                      "fareDescription": "Travel any time of day",
+                      "amenityList": [
+                        {
+                          "displayName": "Snack Trolley Service"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "railProductToken": "CJHdKxCl3ysaGgimgOEGEKaIpAUYkd0rII_eKyoGWEMyNjIwGhoIpoikBRCm-NgDGKTeKyD03isqBlNXODQ0MRoaCKb42AMQpojxBxiI3ysgnt8rKgZTVzIwNjIaGgimiPEHEKaI8QEYo98rIKXfKyoGSUwwMDIzIhIKB0FOWVRJTUUQARoFRmlyc3Q="
+        }
+      ],
+      "railOfferToken": "CgQI0twrEowBCJHdKxCl3ysaGgimgOEGEKaIpAUYkd0rII_eKyoGWEMyNjIwGhoIpoikBRCm-NgDGKTeKyD03isqBlNXODQ0MRoaCKb42AMQpojxBxiI3ysgnt8rKgZTVzIwNjIaGgimiPEHEKaI8QEYo98rIKXfKyoGSUwwMDIzIhIKB0FOWVRJTUUQARoFRmlyc3QaAggZ"
+    },
+    {
+      "totalPrice": {
+        "formattedDisplayPrice": "£ 94.70"
       },
-      {
-        "totalPrice": {
-          "value": 235.04,
-          "currency": "USD"
-        },
-        "railProductList": [
-          {
-            "totalPrice": {
-              "value": 235.04,
-              "currency": "USD"
-            },
-            "legOptionReferences": [
-              "LS_1_2"
-            ],
-            "fareBreakUpList": [
-              {
-                "passengerReferences": [
-                  {
-                    "passengerIDRef": "100",
-                    "passengerTypeCode": "A",
-                    "fareCodes": [
-                      {
-                        "fareCodeId": "IXC-SOS-00700-STD-1",
-                        "travelSegmentIDRef": "LS_1_2_TS_1",
-                        "serviceClassCode": "THIRD",
-                        "carrierCabinClass": "Standard",
-                        "fareClass": "ANYTIME"
-                      },
-                      {
-                        "fareCodeId": "IXC-SOS-00700-STD-1",
-                        "travelSegmentIDRef": "LS_1_2_TS_2",
-                        "serviceClassCode": "THIRD",
-                        "carrierCabinClass": "Standard",
-                        "fareClass": "ANYTIME"
-                      },
-                      {
-                        "fareCodeId": "IXC-SOS-00700-STD-1",
-                        "travelSegmentIDRef": "LS_1_2_TS_4",
-                        "serviceClassCode": "THIRD",
-                        "carrierCabinClass": "Standard",
-                        "fareClass": "ANYTIME"
-                      },
-                      {
-                        "fareCodeId": "IXC-SOS-00700-STD-1",
-                        "travelSegmentIDRef": "LS_1_2_TS_3",
-                        "serviceClassCode": "THIRD",
-                        "carrierCabinClass": "Standard",
-                        "fareClass": "ANYTIME"
-                      },
-                      {
-                        "fareCodeId": "IXC-SOS-00700-STD-1",
-                        "travelSegmentIDRef": "LS_1_2_TS_0",
-                        "serviceClassCode": "THIRD",
-                        "carrierCabinClass": "Standard",
-                        "fareClass": "ANYTIME"
-                      }
-                    ]
-                  }
-                ]
-              }
-            ],
-            "passengerReferences": [
-              ""
-            ],
-            "productHoldExpirationDateTime": "2016-04-06T23:44:31.000Z",
-            "railProductToken": "CNP6LBDo_SwaGgimgKEMEKaIpAUY0_osIMf8LCoGWEMyNjYwGhoIpoikBRCm-JgJGNz8LCCk_SwqBlNXODQ0ORoUCKb4mAkQppDPChjF_Swgzf0sKgAaFAimkM8KEKa44wEY1P0sIN79LCoAGhQIprjjARCmiPEBGN79LCDo_SwqACICCB4qFQoHQU5ZVElNRRADGghTdGFuZGFyZA=="
-          }
-        ],
-        "offerHoldExpirationDateTime": "2016-04-06T23:44:31.000Z",
-        "railOfferToken": "OFFER_CNP6LBDo_SwaGgimgKEMEKaIpAUY0_osIMf8LCoGWEMyNjYwGhoIpoikBRCm-JgJGNz8LCCk_SwqBlNXODQ0ORoUCKb4mAkQppDPChjF_Swgzf0sKgAaFAimkM8KEKa44wEY1P0sIN79LCoAGhQIprjjARCmiPEBGN79LCDo_SwqACICCB4qFQoHQU5ZVElNRRADGghTdGFuZGFyZA=="
+      "railProductList": [
+        {
+          "aggregatedCarrierServiceClassDisplayName": "Standard",
+          "aggregatedCarrierFareClassDisplayName": "Anytime Single",
+          "aggregatedFareDescription": "Travel any time of day",
+          "legOptionIndexList": [
+            3
+          ],
+          "fareBreakdownList": [
+            {
+              "passengerFareList": [
+                {
+                  "passengerIndex": 0,
+                  "passengerTypeCode": "A",
+                  "passengerSegmentFareList": [
+                    {
+                      "fareCode": "IXC-SOS-00700-STD-1",
+                      "travelSegmentIndex": 3,
+                      "carrierServiceClassDisplayName": "Standard",
+                      "carrierFareClassDisplayName": "Anytime Single",
+                      "fareDescription": "Travel any time of day"
+                    },
+                    {
+                      "fareCode": "IXC-SOS-00700-STD-1",
+                      "travelSegmentIndex": 5,
+                      "carrierServiceClassDisplayName": "Standard",
+                      "carrierFareClassDisplayName": "Anytime Single",
+                      "fareDescription": "Travel any time of day"
+                    },
+                    {
+                      "fareCode": "IXC-SOS-00700-STD-1",
+                      "travelSegmentIndex": 4,
+                      "carrierServiceClassDisplayName": "Standard",
+                      "carrierFareClassDisplayName": "Anytime Single",
+                      "fareDescription": "Travel any time of day"
+                    },
+                    {
+                      "fareCode": "IXC-SOS-00700-STD-1",
+                      "travelSegmentIndex": 1,
+                      "carrierServiceClassDisplayName": "Standard",
+                      "carrierFareClassDisplayName": "Anytime Single",
+                      "fareDescription": "Travel any time of day",
+                      "amenityList": [
+                        {
+                          "displayName": "Snack Trolley Service"
+                        }
+                      ]
+                    },
+                    {
+                      "fareCode": "IXC-SOS-00700-STD-1",
+                      "travelSegmentIndex": 2,
+                      "carrierServiceClassDisplayName": "Standard",
+                      "carrierFareClassDisplayName": "Anytime Single",
+                      "fareDescription": "Travel any time of day",
+                      "amenityList": [
+                        {
+                          "displayName": "Snack Trolley Service"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "railProductToken": "CLDdKxDO3ysaGgimgOEGEKaQnQoYsN0rIM3eKyoGWEMzNjQwGhoIppCdChCm-JgJGOXeKyCO3ysqBkdXODQwOBoUCKb4mAkQppDPChir3ysgs98rKgAaFAimkM8KEKa44wEYut8rIMTfKyoAGhQIprjjARCmiPEBGMTfKyDO3ysqACIVCgdBTllUSU1FEAMaCFN0YW5kYXJk"
+        }
+      ],
+      "railOfferToken": "CgQI0twrEpkBCLDdKxDO3ysaGgimgOEGEKaQnQoYsN0rIM3eKyoGWEMzNjQwGhoIppCdChCm-JgJGOXeKyCO3ysqBkdXODQwOBoUCKb4mAkQppDPChir3ysgs98rKgAaFAimkM8KEKa44wEYut8rIMTfKyoAGhQIprjjARCmiPEBGMTfKyDO3ysqACIVCgdBTllUSU1FEAMaCFN0YW5kYXJkGgIIGQ=="
+    },
+    {
+      "totalPrice": {
+        "formattedDisplayPrice": "£ 203.90"
       },
-      {
-        "totalPrice": {
-          "value": 499.75,
-          "currency": "USD"
-        },
-        "railProductList": [
-          {
-            "totalPrice": {
-              "value": 499.75,
-              "currency": "USD"
-            },
-            "legOptionReferences": [
-              "LS_1_2"
-            ],
-            "fareBreakUpList": [
-              {
-                "passengerReferences": [
-                  {
-                    "passengerIDRef": "100",
-                    "passengerTypeCode": "A",
-                    "fareCodes": [
-                      {
-                        "fareCodeId": "IXC-FOS-00700-STD-1",
-                        "travelSegmentIDRef": "LS_1_2_TS_1",
-                        "serviceClassCode": "FIRST",
-                        "carrierCabinClass": "First",
-                        "fareClass": "ANYTIME"
-                      },
-                      {
-                        "fareCodeId": "IXC-FOS-00700-STD-1",
-                        "travelSegmentIDRef": "LS_1_2_TS_2",
-                        "serviceClassCode": "FIRST",
-                        "carrierCabinClass": "First",
-                        "fareClass": "ANYTIME"
-                      },
-                      {
-                        "fareCodeId": "IXC-FOS-00700-STD-1",
-                        "travelSegmentIDRef": "LS_1_2_TS_4",
-                        "serviceClassCode": "FIRST",
-                        "carrierCabinClass": "First",
-                        "fareClass": "ANYTIME"
-                      },
-                      {
-                        "fareCodeId": "IXC-FOS-00700-STD-1",
-                        "travelSegmentIDRef": "LS_1_2_TS_3",
-                        "serviceClassCode": "FIRST",
-                        "carrierCabinClass": "First",
-                        "fareClass": "ANYTIME"
-                      },
-                      {
-                        "fareCodeId": "IXC-FOS-00700-STD-1",
-                        "travelSegmentIDRef": "LS_1_2_TS_0",
-                        "serviceClassCode": "FIRST",
-                        "carrierCabinClass": "First",
-                        "fareClass": "ANYTIME"
-                      }
-                    ]
-                  }
-                ]
-              }
-            ],
-            "passengerReferences": [
-              ""
-            ],
-            "productHoldExpirationDateTime": "2016-04-06T23:44:31.000Z",
-            "railProductToken": "CNP6LBDo_SwaGgimgKEMEKaIpAUY0_osIMf8LCoGWEMyNjYwGhoIpoikBRCm-JgJGNz8LCCk_SwqBlNXODQ0ORoUCKb4mAkQppDPChjF_Swgzf0sKgAaFAimkM8KEKa44wEY1P0sIN79LCoAGhQIprjjARCmiPEBGN79LCDo_SwqACICCB4qEgoHQU5ZVElNRRABGgVGaXJzdA=="
-          }
-        ],
-        "offerHoldExpirationDateTime": "2016-04-06T23:44:31.000Z",
-        "railOfferToken": "OFFER_CNP6LBDo_SwaGgimgKEMEKaIpAUY0_osIMf8LCoGWEMyNjYwGhoIpoikBRCm-JgJGNz8LCCk_SwqBlNXODQ0ORoUCKb4mAkQppDPChjF_Swgzf0sKgAaFAimkM8KEKa44wEY1P0sIN79LCoAGhQIprjjARCmiPEBGN79LCDo_SwqACICCB4qEgoHQU5ZVElNRRABGgVGaXJzdA=="
+      "railProductList": [
+        {
+          "aggregatedCarrierServiceClassDisplayName": "First",
+          "aggregatedCarrierFareClassDisplayName": "Anytime Single (1st Class)",
+          "aggregatedFareDescription": "Travel any time of day",
+          "legOptionIndexList": [
+            3
+          ],
+          "fareBreakdownList": [
+            {
+              "passengerFareList": [
+                {
+                  "passengerIndex": 0,
+                  "passengerTypeCode": "A",
+                  "passengerSegmentFareList": [
+                    {
+                      "fareCode": "IXC-FOS-00700-STD-1",
+                      "travelSegmentIndex": 3,
+                      "carrierServiceClassDisplayName": "First",
+                      "carrierFareClassDisplayName": "Anytime Single (1st Class)",
+                      "fareDescription": "Travel any time of day"
+                    },
+                    {
+                      "fareCode": "IXC-FOS-00700-STD-1",
+                      "travelSegmentIndex": 5,
+                      "carrierServiceClassDisplayName": "First",
+                      "carrierFareClassDisplayName": "Anytime Single (1st Class)",
+                      "fareDescription": "Travel any time of day"
+                    },
+                    {
+                      "fareCode": "IXC-FOS-00700-STD-1",
+                      "travelSegmentIndex": 4,
+                      "carrierServiceClassDisplayName": "First",
+                      "carrierFareClassDisplayName": "Anytime Single (1st Class)",
+                      "fareDescription": "Travel any time of day"
+                    },
+                    {
+                      "fareCode": "IXC-FOS-00700-STD-1",
+                      "travelSegmentIndex": 1,
+                      "carrierServiceClassDisplayName": "First",
+                      "carrierFareClassDisplayName": "Anytime Single (1st Class)",
+                      "fareDescription": "Travel any time of day",
+                      "amenityList": [
+                        {
+                          "displayName": "Snack Trolley Service"
+                        }
+                      ]
+                    },
+                    {
+                      "fareCode": "IXC-FOS-00700-STD-1",
+                      "travelSegmentIndex": 2,
+                      "carrierServiceClassDisplayName": "First",
+                      "carrierFareClassDisplayName": "Anytime Single (1st Class)",
+                      "fareDescription": "Travel any time of day",
+                      "amenityList": [
+                        {
+                          "displayName": "Snack Trolley Service"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "railProductToken": "CLDdKxDO3ysaGgimgOEGEKaQnQoYsN0rIM3eKyoGWEMzNjQwGhoIppCdChCm-JgJGOXeKyCO3ysqBkdXODQwOBoUCKb4mAkQppDPChir3ysgs98rKgAaFAimkM8KEKa44wEYut8rIMTfKyoAGhQIprjjARCmiPEBGMTfKyDO3ysqACISCgdBTllUSU1FEAEaBUZpcnN0"
+        }
+      ],
+      "railOfferToken": "CgQI0twrEpYBCLDdKxDO3ysaGgimgOEGEKaQnQoYsN0rIM3eKyoGWEMzNjQwGhoIppCdChCm-JgJGOXeKyCO3ysqBkdXODQwOBoUCKb4mAkQppDPChir3ysgs98rKgAaFAimkM8KEKa44wEYut8rIMTfKyoAGhQIprjjARCmiPEBGMTfKyDO3ysqACISCgdBTllUSU1FEAEaBUZpcnN0GgIIGQ=="
+    },
+    {
+      "totalPrice": {
+        "formattedDisplayPrice": "£ 94.70"
       },
-      {
-        "totalPrice": {
-          "value": 376.1,
-          "currency": "USD"
-        },
-        "railProductList": [
-          {
-            "totalPrice": {
-              "value": 376.1,
-              "currency": "USD"
-            },
-            "legOptionReferences": [
-              "LS_1_3"
-            ],
-            "fareBreakUpList": [
-              {
-                "passengerReferences": [
-                  {
-                    "passengerIDRef": "100",
-                    "passengerTypeCode": "A",
-                    "fareCodes": [
-                      {
-                        "fareCodeId": "IEC-FOS-00000-STD-1",
-                        "travelSegmentIDRef": "LS_1_3_TS_2",
-                        "serviceClassCode": "FIRST",
-                        "carrierCabinClass": "First",
-                        "fareClass": "ANYTIME"
-                      },
-                      {
-                        "fareCodeId": "IEC-FOS-00000-STD-1",
-                        "travelSegmentIDRef": "LS_1_3_TS_3",
-                        "serviceClassCode": "FIRST",
-                        "carrierCabinClass": "First",
-                        "fareClass": "ANYTIME"
-                      },
-                      {
-                        "fareCodeId": "IEC-FOS-00000-STD-1",
-                        "travelSegmentIDRef": "LS_1_3_TS_1",
-                        "serviceClassCode": "FIRST",
-                        "carrierCabinClass": "First",
-                        "fareClass": "ANYTIME"
-                      },
-                      {
-                        "fareCodeId": "IEC-FOS-00000-STD-1",
-                        "travelSegmentIDRef": "LS_1_3_TS_0",
-                        "serviceClassCode": "FIRST",
-                        "carrierCabinClass": "First",
-                        "fareClass": "ANYTIME"
-                      }
-                    ]
-                  }
-                ]
-              }
-            ],
-            "passengerReferences": [
-              ""
-            ],
-            "productHoldExpirationDateTime": "2016-04-06T23:44:31.000Z",
-            "railProductToken": "CMv7LBDD_iwaGgimgKEMEKaw1gEYy_ssINP9LCoGWEMyNzAwGhoIprDWARCm-NgDGNz9LCCa_iwqBlNXODE1ORoaCKb42AMQpojxBxik_iwguv4sKgZTVzQ0NjAaGgimiPEHEKaI8QEYwf4sIMP-LCoGSUwwMDMwIgIIHioSCgdBTllUSU1FEAEaBUZpcnN0"
-          }
-        ],
-        "offerHoldExpirationDateTime": "2016-04-06T23:44:31.000Z",
-        "railOfferToken": "OFFER_CMv7LBDD_iwaGgimgKEMEKaw1gEYy_ssINP9LCoGWEMyNzAwGhoIprDWARCm-NgDGNz9LCCa_iwqBlNXODE1ORoaCKb42AMQpojxBxik_iwguv4sKgZTVzQ0NjAaGgimiPEHEKaI8QEYwf4sIMP-LCoGSUwwMDMwIgIIHioSCgdBTllUSU1FEAEaBUZpcnN0"
+      "railProductList": [
+        {
+          "aggregatedCarrierServiceClassDisplayName": "Standard",
+          "aggregatedCarrierFareClassDisplayName": "Anytime Single",
+          "aggregatedFareDescription": "Travel any time of day",
+          "legOptionIndexList": [
+            4
+          ],
+          "fareBreakdownList": [
+            {
+              "passengerFareList": [
+                {
+                  "passengerIndex": 0,
+                  "passengerTypeCode": "A",
+                  "passengerSegmentFareList": [
+                    {
+                      "fareCode": "IXC-SOS-00700-STD-1",
+                      "travelSegmentIndex": 2,
+                      "carrierServiceClassDisplayName": "Standard",
+                      "carrierFareClassDisplayName": "Anytime Single",
+                      "fareDescription": "Travel any time of day"
+                    },
+                    {
+                      "fareCode": "IXC-SOS-00700-STD-1",
+                      "travelSegmentIndex": 3,
+                      "carrierServiceClassDisplayName": "Standard",
+                      "carrierFareClassDisplayName": "Anytime Single",
+                      "fareDescription": "Travel any time of day"
+                    },
+                    {
+                      "fareCode": "IXC-SOS-00700-STD-1",
+                      "travelSegmentIndex": 5,
+                      "carrierServiceClassDisplayName": "Standard",
+                      "carrierFareClassDisplayName": "Anytime Single",
+                      "fareDescription": "Travel any time of day"
+                    },
+                    {
+                      "fareCode": "IXC-SOS-00700-STD-1",
+                      "travelSegmentIndex": 4,
+                      "carrierServiceClassDisplayName": "Standard",
+                      "carrierFareClassDisplayName": "Anytime Single",
+                      "fareDescription": "Travel any time of day"
+                    },
+                    {
+                      "fareCode": "IXC-SOS-00700-STD-1",
+                      "travelSegmentIndex": 1,
+                      "carrierServiceClassDisplayName": "Standard",
+                      "carrierFareClassDisplayName": "Anytime Single",
+                      "fareDescription": "Travel any time of day",
+                      "amenityList": [
+                        {
+                          "displayName": "Snack Trolley Service"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "railProductToken": "COzdKxDs3ysaGgimgOEGEKaIpAUY7N0rIOjeKyoGWEMzNjYwGhoIpoikBRCm-JgJGPreKyC_3ysqBlNXNzEzMRoUCKb4mAkQppDPChjJ3ysg0d8rKgAaFAimkM8KEKa44wEY2N8rIOLfKyoAGhQIprjjARCmiPEBGOLfKyDs3ysqACIVCgdBTllUSU1FEAMaCFN0YW5kYXJk"
+        }
+      ],
+      "railOfferToken": "CgQI0twrEpkBCOzdKxDs3ysaGgimgOEGEKaIpAUY7N0rIOjeKyoGWEMzNjYwGhoIpoikBRCm-JgJGPreKyC_3ysqBlNXNzEzMRoUCKb4mAkQppDPChjJ3ysg0d8rKgAaFAimkM8KEKa44wEY2N8rIOLfKyoAGhQIprjjARCmiPEBGOLfKyDs3ysqACIVCgdBTllUSU1FEAMaCFN0YW5kYXJkGgIIGQ=="
+    },
+    {
+      "totalPrice": {
+        "formattedDisplayPrice": "£ 203.90"
       },
-      {
-        "totalPrice": {
-          "value": 216.51,
-          "currency": "USD"
-        },
-        "railProductList": [
-          {
-            "totalPrice": {
-              "value": 216.51,
-              "currency": "USD"
-            },
-            "legOptionReferences": [
-              "LS_1_3"
-            ],
-            "fareBreakUpList": [
-              {
-                "passengerReferences": [
-                  {
-                    "passengerIDRef": "100",
-                    "passengerTypeCode": "A",
-                    "fareCodes": [
-                      {
-                        "fareCodeId": "IEC-SSS-00000-STD-1",
-                        "travelSegmentIDRef": "LS_1_3_TS_2",
-                        "serviceClassCode": "THIRD",
-                        "carrierCabinClass": "Standard",
-                        "fareClass": "SUPER_OFFPEAK_DAY"
-                      },
-                      {
-                        "fareCodeId": "IEC-SSS-00000-STD-1",
-                        "travelSegmentIDRef": "LS_1_3_TS_3",
-                        "serviceClassCode": "THIRD",
-                        "carrierCabinClass": "Standard",
-                        "fareClass": "SUPER_OFFPEAK_DAY"
-                      },
-                      {
-                        "fareCodeId": "IEC-SSS-00000-STD-1",
-                        "travelSegmentIDRef": "LS_1_3_TS_1",
-                        "serviceClassCode": "THIRD",
-                        "carrierCabinClass": "Standard",
-                        "fareClass": "SUPER_OFFPEAK_DAY"
-                      },
-                      {
-                        "fareCodeId": "IEC-SSS-00000-STD-1",
-                        "travelSegmentIDRef": "LS_1_3_TS_0",
-                        "serviceClassCode": "THIRD",
-                        "carrierCabinClass": "Standard",
-                        "fareClass": "SUPER_OFFPEAK_DAY"
-                      }
-                    ]
-                  }
-                ]
-              }
-            ],
-            "passengerReferences": [
-              ""
-            ],
-            "productHoldExpirationDateTime": "2016-04-06T23:44:31.000Z",
-            "railProductToken": "CMv7LBDD_iwaGgimgKEMEKaw1gEYy_ssINP9LCoGWEMyNzAwGhoIprDWARCm-NgDGNz9LCCa_iwqBlNXODE1ORoaCKb42AMQpojxBxik_iwguv4sKgZTVzQ0NjAaGgimiPEHEKaI8QEYwf4sIMP-LCoGSUwwMDMwIgIIHiofChFTVVBFUl9PRkZQRUFLX0RBWRADGghTdGFuZGFyZA=="
-          }
-        ],
-        "offerHoldExpirationDateTime": "2016-04-06T23:44:31.000Z",
-        "railOfferToken": "OFFER_CMv7LBDD_iwaGgimgKEMEKaw1gEYy_ssINP9LCoGWEMyNzAwGhoIprDWARCm-NgDGNz9LCCa_iwqBlNXODE1ORoaCKb42AMQpojxBxik_iwguv4sKgZTVzQ0NjAaGgimiPEHEKaI8QEYwf4sIMP-LCoGSUwwMDMwIgIIHiofChFTVVBFUl9PRkZQRUFLX0RBWRADGghTdGFuZGFyZA=="
+      "railProductList": [
+        {
+          "aggregatedCarrierServiceClassDisplayName": "First",
+          "aggregatedCarrierFareClassDisplayName": "Anytime Single (1st Class)",
+          "aggregatedFareDescription": "Travel any time of day",
+          "legOptionIndexList": [
+            4
+          ],
+          "fareBreakdownList": [
+            {
+              "passengerFareList": [
+                {
+                  "passengerIndex": 0,
+                  "passengerTypeCode": "A",
+                  "passengerSegmentFareList": [
+                    {
+                      "fareCode": "IXC-FOS-00700-STD-1",
+                      "travelSegmentIndex": 2,
+                      "carrierServiceClassDisplayName": "First",
+                      "carrierFareClassDisplayName": "Anytime Single (1st Class)",
+                      "fareDescription": "Travel any time of day"
+                    },
+                    {
+                      "fareCode": "IXC-FOS-00700-STD-1",
+                      "travelSegmentIndex": 3,
+                      "carrierServiceClassDisplayName": "First",
+                      "carrierFareClassDisplayName": "Anytime Single (1st Class)",
+                      "fareDescription": "Travel any time of day"
+                    },
+                    {
+                      "fareCode": "IXC-FOS-00700-STD-1",
+                      "travelSegmentIndex": 5,
+                      "carrierServiceClassDisplayName": "First",
+                      "carrierFareClassDisplayName": "Anytime Single (1st Class)",
+                      "fareDescription": "Travel any time of day"
+                    },
+                    {
+                      "fareCode": "IXC-FOS-00700-STD-1",
+                      "travelSegmentIndex": 4,
+                      "carrierServiceClassDisplayName": "First",
+                      "carrierFareClassDisplayName": "Anytime Single (1st Class)",
+                      "fareDescription": "Travel any time of day"
+                    },
+                    {
+                      "fareCode": "IXC-FOS-00700-STD-1",
+                      "travelSegmentIndex": 1,
+                      "carrierServiceClassDisplayName": "First",
+                      "carrierFareClassDisplayName": "Anytime Single (1st Class)",
+                      "fareDescription": "Travel any time of day",
+                      "amenityList": [
+                        {
+                          "displayName": "Snack Trolley Service"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "railProductToken": "COzdKxDs3ysaGgimgOEGEKaIpAUY7N0rIOjeKyoGWEMzNjYwGhoIpoikBRCm-JgJGPreKyC_3ysqBlNXNzEzMRoUCKb4mAkQppDPChjJ3ysg0d8rKgAaFAimkM8KEKa44wEY2N8rIOLfKyoAGhQIprjjARCmiPEBGOLfKyDs3ysqACISCgdBTllUSU1FEAEaBUZpcnN0"
+        }
+      ],
+      "railOfferToken": "CgQI0twrEpYBCOzdKxDs3ysaGgimgOEGEKaIpAUY7N0rIOjeKyoGWEMzNjYwGhoIpoikBRCm-JgJGPreKyC_3ysqBlNXNzEzMRoUCKb4mAkQppDPChjJ3ysg0d8rKgAaFAimkM8KEKa44wEY2N8rIOLfKyoAGhQIprjjARCmiPEBGOLfKyDs3ysqACISCgdBTllUSU1FEAEaBUZpcnN0GgIIGQ=="
+    },
+    {
+      "totalPrice": {
+        "formattedDisplayPrice": "£ 94.70"
       },
-      {
-        "totalPrice": {
-          "value": 240.69,
-          "currency": "USD"
-        },
-        "railProductList": [
-          {
-            "totalPrice": {
-              "value": 240.69,
-              "currency": "USD"
-            },
-            "legOptionReferences": [
-              "LS_1_3"
-            ],
-            "fareBreakUpList": [
-              {
-                "passengerReferences": [
-                  {
-                    "passengerIDRef": "100",
-                    "passengerTypeCode": "A",
-                    "fareCodes": [
-                      {
-                        "fareCodeId": "IXC-SOS-00700-STD-1",
-                        "travelSegmentIDRef": "LS_1_3_TS_2",
-                        "serviceClassCode": "THIRD",
-                        "carrierCabinClass": "Standard",
-                        "fareClass": "ANYTIME"
-                      },
-                      {
-                        "fareCodeId": "IXC-SOS-00700-STD-1",
-                        "travelSegmentIDRef": "LS_1_3_TS_3",
-                        "serviceClassCode": "THIRD",
-                        "carrierCabinClass": "Standard",
-                        "fareClass": "ANYTIME"
-                      },
-                      {
-                        "fareCodeId": "IXC-SOS-00700-STD-1",
-                        "travelSegmentIDRef": "LS_1_3_TS_1",
-                        "serviceClassCode": "THIRD",
-                        "carrierCabinClass": "Standard",
-                        "fareClass": "ANYTIME"
-                      },
-                      {
-                        "fareCodeId": "IXC-SOS-00700-STD-1",
-                        "travelSegmentIDRef": "LS_1_3_TS_0",
-                        "serviceClassCode": "THIRD",
-                        "carrierCabinClass": "Standard",
-                        "fareClass": "ANYTIME"
-                      }
-                    ]
-                  }
-                ]
-              }
-            ],
-            "passengerReferences": [
-              ""
-            ],
-            "productHoldExpirationDateTime": "2016-04-06T23:44:31.000Z",
-            "railProductToken": "CMv7LBDD_iwaGgimgKEMEKaw1gEYy_ssINP9LCoGWEMyNzAwGhoIprDWARCm-NgDGNz9LCCa_iwqBlNXODE1ORoaCKb42AMQpojxBxik_iwguv4sKgZTVzQ0NjAaGgimiPEHEKaI8QEYwf4sIMP-LCoGSUwwMDMwIgIIHioVCgdBTllUSU1FEAMaCFN0YW5kYXJk"
-          }
-        ],
-        "offerHoldExpirationDateTime": "2016-04-06T23:44:31.000Z",
-        "railOfferToken": "OFFER_CMv7LBDD_iwaGgimgKEMEKaw1gEYy_ssINP9LCoGWEMyNzAwGhoIprDWARCm-NgDGNz9LCCa_iwqBlNXODE1ORoaCKb42AMQpojxBxik_iwguv4sKgZTVzQ0NjAaGgimiPEHEKaI8QEYwf4sIMP-LCoGSUwwMDMwIgIIHioVCgdBTllUSU1FEAMaCFN0YW5kYXJk"
+      "railProductList": [
+        {
+          "aggregatedCarrierServiceClassDisplayName": "Standard",
+          "aggregatedCarrierFareClassDisplayName": "Anytime Single",
+          "aggregatedFareDescription": "Travel any time of day",
+          "legOptionIndexList": [
+            5
+          ],
+          "fareBreakdownList": [
+            {
+              "passengerFareList": [
+                {
+                  "passengerIndex": 0,
+                  "passengerTypeCode": "A",
+                  "passengerSegmentFareList": [
+                    {
+                      "fareCode": "IXC-SOS-00700-STD-1",
+                      "travelSegmentIndex": 3,
+                      "carrierServiceClassDisplayName": "Standard",
+                      "carrierFareClassDisplayName": "Anytime Single",
+                      "fareDescription": "Travel any time of day"
+                    },
+                    {
+                      "fareCode": "IXC-SOS-00700-STD-1",
+                      "travelSegmentIndex": 5,
+                      "carrierServiceClassDisplayName": "Standard",
+                      "carrierFareClassDisplayName": "Anytime Single",
+                      "fareDescription": "Travel any time of day"
+                    },
+                    {
+                      "fareCode": "IXC-SOS-00700-STD-1",
+                      "travelSegmentIndex": 2,
+                      "carrierServiceClassDisplayName": "Standard",
+                      "carrierFareClassDisplayName": "Anytime Single",
+                      "fareDescription": "Travel any time of day"
+                    },
+                    {
+                      "fareCode": "IXC-SOS-00700-STD-1",
+                      "travelSegmentIndex": 4,
+                      "carrierServiceClassDisplayName": "Standard",
+                      "carrierFareClassDisplayName": "Anytime Single",
+                      "fareDescription": "Travel any time of day"
+                    },
+                    {
+                      "fareCode": "IXC-SOS-00700-STD-1",
+                      "travelSegmentIndex": 1,
+                      "carrierServiceClassDisplayName": "Standard",
+                      "carrierFareClassDisplayName": "Anytime Single",
+                      "fareDescription": "Travel any time of day",
+                      "amenityList": [
+                        {
+                          "displayName": "Snack Trolley Service"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "railProductToken": "CIneKxCo4CsaGgimgOEGEKaIpAUYid4rIIffKyoGWEMyNjYwGhoIpoikBRCm-JgJGJzfKyDk3ysqBlNXODQ0ORoUCKb4mAkQppDPChiF4CsgjeArKgAaFAimkM8KEKa44wEYlOArIJ7gKyoAGhQIprjjARCmiPEBGJ7gKyCo4CsqACIVCgdBTllUSU1FEAMaCFN0YW5kYXJk"
+        }
+      ],
+      "railOfferToken": "CgQI0twrEpkBCIneKxCo4CsaGgimgOEGEKaIpAUYid4rIIffKyoGWEMyNjYwGhoIpoikBRCm-JgJGJzfKyDk3ysqBlNXODQ0ORoUCKb4mAkQppDPChiF4CsgjeArKgAaFAimkM8KEKa44wEYlOArIJ7gKyoAGhQIprjjARCmiPEBGJ7gKyCo4CsqACIVCgdBTllUSU1FEAMaCFN0YW5kYXJkGgIIGQ=="
+    },
+    {
+      "totalPrice": {
+        "formattedDisplayPrice": "£ 203.90"
       },
-      {
-        "totalPrice": {
-          "value": 376.1,
-          "currency": "USD"
-        },
-        "railProductList": [
-          {
-            "totalPrice": {
-              "value": 376.1,
-              "currency": "USD"
-            },
-            "legOptionReferences": [
-              "LS_1_4"
-            ],
-            "fareBreakUpList": [
-              {
-                "passengerReferences": [
-                  {
-                    "passengerIDRef": "100",
-                    "passengerTypeCode": "A",
-                    "fareCodes": [
-                      {
-                        "fareCodeId": "IEC-FOS-00000-STD-1",
-                        "travelSegmentIDRef": "LS_1_4_TS_1",
-                        "serviceClassCode": "FIRST",
-                        "carrierCabinClass": "First",
-                        "fareClass": "ANYTIME"
-                      },
-                      {
-                        "fareCodeId": "IEC-FOS-00000-STD-1",
-                        "travelSegmentIDRef": "LS_1_4_TS_2",
-                        "serviceClassCode": "FIRST",
-                        "carrierCabinClass": "First",
-                        "fareClass": "ANYTIME"
-                      },
-                      {
-                        "fareCodeId": "IEC-FOS-00000-STD-1",
-                        "travelSegmentIDRef": "LS_1_4_TS_3",
-                        "serviceClassCode": "FIRST",
-                        "carrierCabinClass": "First",
-                        "fareClass": "ANYTIME"
-                      },
-                      {
-                        "fareCodeId": "IEC-FOS-00000-STD-1",
-                        "travelSegmentIDRef": "LS_1_4_TS_0",
-                        "serviceClassCode": "FIRST",
-                        "carrierCabinClass": "First",
-                        "fareClass": "ANYTIME"
-                      }
-                    ]
-                  }
-                ]
-              }
-            ],
-            "passengerReferences": [
-              ""
-            ],
-            "productHoldExpirationDateTime": "2016-04-06T23:44:31.000Z",
-            "railProductToken": "CLv9LBDfgi0aGgimgKEMEKaIpAUYu_0sIK__LCoGWEMyNzgwGhoIpoikBRCm-NgDGMT_LCCQgC0qBlNXNjI1OBoaCKb42AMQpojxBxi7gi0g0YItKgZTVzE3NTMaGgimiPEHEKaI8QEY3YItIN-CLSoGSUwwMDAwIgIIHioSCgdBTllUSU1FEAEaBUZpcnN0"
-          }
-        ],
-        "offerHoldExpirationDateTime": "2016-04-06T23:44:31.000Z",
-        "railOfferToken": "OFFER_CLv9LBDfgi0aGgimgKEMEKaIpAUYu_0sIK__LCoGWEMyNzgwGhoIpoikBRCm-NgDGMT_LCCQgC0qBlNXNjI1OBoaCKb42AMQpojxBxi7gi0g0YItKgZTVzE3NTMaGgimiPEHEKaI8QEY3YItIN-CLSoGSUwwMDAwIgIIHioSCgdBTllUSU1FEAEaBUZpcnN0"
-      },
-      {
-        "totalPrice": {
-          "value": 216.51,
-          "currency": "USD"
-        },
-        "railProductList": [
-          {
-            "totalPrice": {
-              "value": 216.51,
-              "currency": "USD"
-            },
-            "legOptionReferences": [
-              "LS_1_4"
-            ],
-            "fareBreakUpList": [
-              {
-                "passengerReferences": [
-                  {
-                    "passengerIDRef": "100",
-                    "passengerTypeCode": "A",
-                    "fareCodes": [
-                      {
-                        "fareCodeId": "IEC-SSS-00000-STD-1",
-                        "travelSegmentIDRef": "LS_1_4_TS_1",
-                        "serviceClassCode": "THIRD",
-                        "carrierCabinClass": "Standard",
-                        "fareClass": "SUPER_OFFPEAK_DAY"
-                      },
-                      {
-                        "fareCodeId": "IEC-SSS-00000-STD-1",
-                        "travelSegmentIDRef": "LS_1_4_TS_2",
-                        "serviceClassCode": "THIRD",
-                        "carrierCabinClass": "Standard",
-                        "fareClass": "SUPER_OFFPEAK_DAY"
-                      },
-                      {
-                        "fareCodeId": "IEC-SSS-00000-STD-1",
-                        "travelSegmentIDRef": "LS_1_4_TS_3",
-                        "serviceClassCode": "THIRD",
-                        "carrierCabinClass": "Standard",
-                        "fareClass": "SUPER_OFFPEAK_DAY"
-                      },
-                      {
-                        "fareCodeId": "IEC-SSS-00000-STD-1",
-                        "travelSegmentIDRef": "LS_1_4_TS_0",
-                        "serviceClassCode": "THIRD",
-                        "carrierCabinClass": "Standard",
-                        "fareClass": "SUPER_OFFPEAK_DAY"
-                      }
-                    ]
-                  }
-                ]
-              }
-            ],
-            "passengerReferences": [
-              ""
-            ],
-            "productHoldExpirationDateTime": "2016-04-06T23:44:31.000Z",
-            "railProductToken": "CLv9LBDfgi0aGgimgKEMEKaIpAUYu_0sIK__LCoGWEMyNzgwGhoIpoikBRCm-NgDGMT_LCCQgC0qBlNXNjI1OBoaCKb42AMQpojxBxi7gi0g0YItKgZTVzE3NTMaGgimiPEHEKaI8QEY3YItIN-CLSoGSUwwMDAwIgIIHiofChFTVVBFUl9PRkZQRUFLX0RBWRADGghTdGFuZGFyZA=="
-          }
-        ],
-        "offerHoldExpirationDateTime": "2016-04-06T23:44:31.000Z",
-        "railOfferToken": "OFFER_CLv9LBDfgi0aGgimgKEMEKaIpAUYu_0sIK__LCoGWEMyNzgwGhoIpoikBRCm-NgDGMT_LCCQgC0qBlNXNjI1OBoaCKb42AMQpojxBxi7gi0g0YItKgZTVzE3NTMaGgimiPEHEKaI8QEY3YItIN-CLSoGSUwwMDAwIgIIHiofChFTVVBFUl9PRkZQRUFLX0RBWRADGghTdGFuZGFyZA=="
-      },
-      {
-        "totalPrice": {
-          "value": 240.69,
-          "currency": "USD"
-        },
-        "railProductList": [
-          {
-            "totalPrice": {
-              "value": 240.69,
-              "currency": "USD"
-            },
-            "legOptionReferences": [
-              "LS_1_4"
-            ],
-            "fareBreakUpList": [
-              {
-                "passengerReferences": [
-                  {
-                    "passengerIDRef": "100",
-                    "passengerTypeCode": "A",
-                    "fareCodes": [
-                      {
-                        "fareCodeId": "IXC-SOS-00700-STD-1",
-                        "travelSegmentIDRef": "LS_1_4_TS_1",
-                        "serviceClassCode": "THIRD",
-                        "carrierCabinClass": "Standard",
-                        "fareClass": "ANYTIME"
-                      },
-                      {
-                        "fareCodeId": "IXC-SOS-00700-STD-1",
-                        "travelSegmentIDRef": "LS_1_4_TS_2",
-                        "serviceClassCode": "THIRD",
-                        "carrierCabinClass": "Standard",
-                        "fareClass": "ANYTIME"
-                      },
-                      {
-                        "fareCodeId": "IXC-SOS-00700-STD-1",
-                        "travelSegmentIDRef": "LS_1_4_TS_3",
-                        "serviceClassCode": "THIRD",
-                        "carrierCabinClass": "Standard",
-                        "fareClass": "ANYTIME"
-                      },
-                      {
-                        "fareCodeId": "IXC-SOS-00700-STD-1",
-                        "travelSegmentIDRef": "LS_1_4_TS_0",
-                        "serviceClassCode": "THIRD",
-                        "carrierCabinClass": "Standard",
-                        "fareClass": "ANYTIME"
-                      }
-                    ]
-                  }
-                ]
-              }
-            ],
-            "passengerReferences": [
-              ""
-            ],
-            "productHoldExpirationDateTime": "2016-04-06T23:44:31.000Z",
-            "railProductToken": "CLv9LBDfgi0aGgimgKEMEKaIpAUYu_0sIK__LCoGWEMyNzgwGhoIpoikBRCm-NgDGMT_LCCQgC0qBlNXNjI1OBoaCKb42AMQpojxBxi7gi0g0YItKgZTVzE3NTMaGgimiPEHEKaI8QEY3YItIN-CLSoGSUwwMDAwIgIIHioVCgdBTllUSU1FEAMaCFN0YW5kYXJk"
-          }
-        ],
-        "offerHoldExpirationDateTime": "2016-04-06T23:44:31.000Z",
-        "railOfferToken": "OFFER_CLv9LBDfgi0aGgimgKEMEKaIpAUYu_0sIK__LCoGWEMyNzgwGhoIpoikBRCm-NgDGMT_LCCQgC0qBlNXNjI1OBoaCKb42AMQpojxBxi7gi0g0YItKgZTVzE3NTMaGgimiPEHEKaI8QEY3YItIN-CLSoGSUwwMDAwIgIIHioVCgdBTllUSU1FEAMaCFN0YW5kYXJk"
-      }
-    ]
-  }
+      "railProductList": [
+        {
+          "aggregatedCarrierServiceClassDisplayName": "First",
+          "aggregatedCarrierFareClassDisplayName": "Anytime Single (1st Class)",
+          "aggregatedFareDescription": "Travel any time of day",
+          "legOptionIndexList": [
+            5
+          ],
+          "fareBreakdownList": [
+            {
+              "passengerFareList": [
+                {
+                  "passengerIndex": 0,
+                  "passengerTypeCode": "A",
+                  "passengerSegmentFareList": [
+                    {
+                      "fareCode": "IXC-FOS-00700-STD-1",
+                      "travelSegmentIndex": 3,
+                      "carrierServiceClassDisplayName": "First",
+                      "carrierFareClassDisplayName": "Anytime Single (1st Class)",
+                      "fareDescription": "Travel any time of day"
+                    },
+                    {
+                      "fareCode": "IXC-FOS-00700-STD-1",
+                      "travelSegmentIndex": 5,
+                      "carrierServiceClassDisplayName": "First",
+                      "carrierFareClassDisplayName": "Anytime Single (1st Class)",
+                      "fareDescription": "Travel any time of day"
+                    },
+                    {
+                      "fareCode": "IXC-FOS-00700-STD-1",
+                      "travelSegmentIndex": 2,
+                      "carrierServiceClassDisplayName": "First",
+                      "carrierFareClassDisplayName": "Anytime Single (1st Class)",
+                      "fareDescription": "Travel any time of day"
+                    },
+                    {
+                      "fareCode": "IXC-FOS-00700-STD-1",
+                      "travelSegmentIndex": 4,
+                      "carrierServiceClassDisplayName": "First",
+                      "carrierFareClassDisplayName": "Anytime Single (1st Class)",
+                      "fareDescription": "Travel any time of day"
+                    },
+                    {
+                      "fareCode": "IXC-FOS-00700-STD-1",
+                      "travelSegmentIndex": 1,
+                      "carrierServiceClassDisplayName": "First",
+                      "carrierFareClassDisplayName": "Anytime Single (1st Class)",
+                      "fareDescription": "Travel any time of day",
+                      "amenityList": [
+                        {
+                          "displayName": "Snack Trolley Service"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "railProductToken": "CIneKxCo4CsaGgimgOEGEKaIpAUYid4rIIffKyoGWEMyNjYwGhoIpoikBRCm-JgJGJzfKyDk3ysqBlNXODQ0ORoUCKb4mAkQppDPChiF4CsgjeArKgAaFAimkM8KEKa44wEYlOArIJ7gKyoAGhQIprjjARCmiPEBGJ7gKyCo4CsqACISCgdBTllUSU1FEAEaBUZpcnN0"
+        }
+      ],
+      "railOfferToken": "CgQI0twrEpYBCIneKxCo4CsaGgimgOEGEKaIpAUYid4rIIffKyoGWEMyNjYwGhoIpoikBRCm-JgJGJzfKyDk3ysqBlNXODQ0ORoUCKb4mAkQppDPChiF4CsgjeArKgAaFAimkM8KEKa44wEYlOArIJ7gKyoAGhQIprjjARCmiPEBGJ7gKyCo4CsqACISCgdBTllUSU1FEAEaBUZpcnN0GgIIGQ=="
+    }
+  ],
+  "success": true
 }

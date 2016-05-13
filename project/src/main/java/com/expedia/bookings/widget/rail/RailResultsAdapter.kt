@@ -21,14 +21,14 @@ class RailResultsAdapter(val context: Context, val legSelectedSubject: PublishSu
 
     var loading = true
     val loadingSubject = BehaviorSubject.create<Unit>()
-    val resultsSubject = BehaviorSubject.create<RailSearchResponse.RailSearchResult>()
+    val resultsSubject = BehaviorSubject.create<RailSearchResponse>()
 
     private var legs: List<RailSearchResponse.LegOption> = emptyList()
 
     init {
         resultsSubject.subscribe { response ->
             loading = false
-            legs = response.legList[0].legOptions
+            legs = response.legList[0].legOptionList
             notifyDataSetChanged()
         }
         loadingSubject.subscribe {
