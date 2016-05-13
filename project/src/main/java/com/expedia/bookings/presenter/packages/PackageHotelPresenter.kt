@@ -2,6 +2,7 @@ package com.expedia.bookings.presenter.packages
 
 import android.app.Activity
 import android.content.Context
+import android.content.Intent
 import android.support.v4.view.ViewPager
 import android.support.v7.app.AppCompatActivity
 import android.util.AttributeSet
@@ -26,6 +27,7 @@ import com.expedia.bookings.presenter.hotel.HotelReviewsView
 import com.expedia.bookings.services.PackageServices
 import com.expedia.bookings.services.ReviewsServices
 import com.expedia.bookings.tracking.PackagesTracking
+import com.expedia.bookings.utils.Constants
 import com.expedia.bookings.utils.Strings
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
@@ -101,8 +103,10 @@ class PackageHotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
             override fun onPageSelected(position: Int) {
                 PackagesTracking().trackHotelReviewCategoryChange(position)
             }
+
             override fun onPageScrollStateChanged(state: Int) {
             }
+
             override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {
             }
         })
@@ -149,8 +153,7 @@ class PackageHotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
                 }
                 if (!isShowingBundle()) {
                     show(bundleSlidingWidget)
-                }
-                else {
+                } else {
                     back()
                 }
                 return true
@@ -267,10 +270,20 @@ class PackageHotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
     private fun getDetails(piid: String, hotelId: String, checkIn: String, checkOut: String, ratePlanCode: String?, roomTypeCode: String?) {
         loadingOverlay.visibility = View.VISIBLE
         loadingOverlay.animate(true)
-        detailPresenter.hotelDetailView.viewmodel.paramsSubject.onNext(convertPackageToSearchParams(Db.getPackageParams(), resources.getInteger(R.integer.calendar_max_days_hotel_stay),  resources.getInteger(R.integer.calendar_max_selectable_date_range)))
+        detailPresenter.hotelDetailView.viewmodel.paramsSubject.onNext(convertPackageToSearchParams(Db.getPackageParams(), resources.getInteger(R.integer.calendar_max_days_hotel_stay), resources.getInteger(R.integer.calendar_max_selectable_date_range)))
         val packageHotelOffers = packageServices.hotelOffer(piid, checkIn, checkOut, ratePlanCode, roomTypeCode)
         val info = packageServices.hotelInfo(hotelId)
+        packageHotelOffers.subscribe()
         Observable.zip(packageHotelOffers, info, { packageHotelOffers, info ->
+            if (packageHotelOffers.hasErrors()) {
+                val activity = (context as AppCompatActivity)
+                val resultIntent = Intent()
+                resultIntent.putExtra(Constants.PACKAGE_HOTEL_OFFERS_ERROR, packageHotelOffers.firstError.errorCode.name)
+                activity.setResult(Activity.RESULT_OK, resultIntent)
+                activity.finish()
+                return@zip
+            }
+
             val hotelOffers = HotelOffersResponse.convertToHotelOffersResponse(info, packageHotelOffers, Db.getPackageParams())
             loadingOverlay.animate(false)
             detailPresenter.hotelDetailView.viewmodel.hotelOffersSubject.onNext(hotelOffers)
@@ -278,7 +291,6 @@ class PackageHotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
             show(detailPresenter)
             detailPresenter.showDefault()
         }).subscribe()
-        packageHotelOffers.subscribe()
         info.subscribe()
     }
 
@@ -413,7 +425,7 @@ class PackageHotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
                 addDefaultTransition(defaultResultsTransition)
                 show(resultsPresenter)
                 resultsPresenter.showDefault()
-                resultsPresenter.viewmodel.paramsSubject.onNext(convertPackageToSearchParams(Db.getPackageParams(), resources.getInteger(R.integer.calendar_max_days_hotel_stay),  resources.getInteger(R.integer.calendar_max_package_selectable_date_range)))
+                resultsPresenter.viewmodel.paramsSubject.onNext(convertPackageToSearchParams(Db.getPackageParams(), resources.getInteger(R.integer.calendar_max_days_hotel_stay), resources.getInteger(R.integer.calendar_max_package_selectable_date_range)))
                 resultsPresenter.viewmodel.hotelResultsObservable.onNext(HotelSearchResponse.convertPackageToSearchResponse(Db.getPackageResponse()))
                 trackSearchResult()
             }

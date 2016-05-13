@@ -3,8 +3,10 @@ package com.expedia.ui
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Db
+import com.expedia.bookings.data.cars.ApiError
 import com.expedia.bookings.data.packages.PackageCreateTripParams
 import com.expedia.bookings.presenter.packages.PackagePresenter
 import com.expedia.bookings.utils.Constants
@@ -29,14 +31,19 @@ class PackageActivity : AbstractAppCompatActivity() {
 
         when (requestCode) {
             Constants.HOTEL_REQUEST_CODE -> when (resultCode) {
+
                 Activity.RESULT_OK -> {
-                    //is is change hotel search, call createTrip, otherwise start outbound flight search
-                    if (!Db.getPackageParams().isChangePackageSearch()) {
-                        packageFlightSearch()
+                    if (data?.extras?.getString(Constants.PACKAGE_HOTEL_OFFERS_ERROR)?.equals(ApiError.Code.PACKAGE_SEARCH_ERROR.name) ?: false) {
+                        packagePresenter.hotelOffersErrorObservable.onNext(ApiError.Code.PACKAGE_SEARCH_ERROR)
                     } else {
-                        packageCreateTrip()
+                        //is is change hotel search, call createTrip, otherwise start outbound flight search
+                        if (!Db.getPackageParams().isChangePackageSearch()) {
+                            packageFlightSearch()
+                        } else {
+                            packageCreateTrip()
+                        }
+                        packagePresenter.bundlePresenter.bundleWidget.bundleHotelWidget.viewModel.selectedHotelObservable.onNext(Unit)
                     }
-                    packagePresenter.bundlePresenter.bundleWidget.bundleHotelWidget.viewModel.selectedHotelObservable.onNext(Unit)
                 }
             }
             Constants.PACKAGE_FLIGHT_OUTBOUND_REQUEST_CODE -> when (resultCode) {

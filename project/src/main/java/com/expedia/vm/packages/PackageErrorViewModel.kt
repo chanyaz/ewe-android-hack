@@ -19,6 +19,7 @@ class PackageErrorViewModel(private val context: Context) {
 
     // Inputs
     val searchApiErrorObserver = PublishSubject.create<PackageApiError.Code>()
+    val hotelOffersApiErrorObserver = PublishSubject.create<ApiError.Code>()
     val checkoutApiErrorObserver = PublishSubject.create<ApiError>()
     val paramsSubject = PublishSubject.create<PackageSearchParams>()
 
@@ -71,6 +72,21 @@ class PackageErrorViewModel(private val context: Context) {
                 PackageApiError.Code.pkg_destination_resolution_failed,
                 PackageApiError.Code.pkg_flight_no_longer_available,
                 PackageApiError.Code.pkg_invalid_checkin_checkout_dates -> {
+                    imageObservable.onNext(R.drawable.error_default)
+                    errorMessageObservable.onNext(context.getString(R.string.error_package_search_message))
+                    buttonTextObservable.onNext(context.getString(R.string.edit_search))
+                }
+                else -> {
+                    makeDefaultError()
+                }
+            }
+        }
+
+        hotelOffersApiErrorObserver.subscribe {
+            error = ApiError(ApiError.Code.PACKAGE_SEARCH_ERROR)
+            PackagesTracking().trackSearchError(it.toString())
+            when (it) {
+                ApiError.Code.PACKAGE_SEARCH_ERROR -> {
                     imageObservable.onNext(R.drawable.error_default)
                     errorMessageObservable.onNext(context.getString(R.string.error_package_search_message))
                     buttonTextObservable.onNext(context.getString(R.string.edit_search))
