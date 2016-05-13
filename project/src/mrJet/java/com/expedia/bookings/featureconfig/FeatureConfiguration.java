@@ -91,7 +91,7 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 
 	@Override
 	public PointOfSaleId getDefaultPOS() {
-		return PointOfSaleId.UNITED_KINGDOM;
+		return PointOfSaleId.MRJET_SWEDEN;
 	}
 
 	@Override
@@ -341,7 +341,7 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 
 	@Override
 	public PointOfSaleId getUSPointOfSaleId() {
-		return PointOfSaleId.UNITED_STATES;
+		return null;
 	}
 
 	@Override
