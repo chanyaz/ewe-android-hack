@@ -10,14 +10,18 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.expedia.bookings.R
+import com.expedia.bookings.data.HotelSearchParams
 import com.expedia.bookings.interfaces.IPhoneLaunchActivityLaunchFragment
 import com.expedia.bookings.location.CurrentLocationObservable
 import com.expedia.bookings.otto.Events
 import com.expedia.bookings.utils.Constants
+import com.expedia.bookings.utils.NavUtils
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.NewPhoneLaunchWidget
 import com.expedia.util.havePermissionToAccessLocation
 import com.expedia.util.requestLocationPermission
+import com.squareup.otto.Subscribe
+import org.joda.time.LocalDate
 import rx.Observer
 import rx.Subscription
 
@@ -97,5 +101,21 @@ class NewPhoneLaunchFragment : Fragment(), IPhoneLaunchActivityLaunchFragment {
         }
     }
 
+    // Hotel search in collection location
+    @Subscribe
+    fun onCollectionLocationSelected(event: Events.LaunchCollectionItemSelected) {
+        val location = event.collectionLocation.location
+        val params = HotelSearchParams()
+        params.query = location.shortName
+        params.searchType = HotelSearchParams.SearchType.valueOf(location.type)
+        params.regionId = location.id
+        params.setSearchLatLon(location.latLong.lat, location.latLong.lng)
+        val now = LocalDate.now()
+        params.checkInDate = now.plusDays(1)
+        params.checkOutDate = now.plusDays(2)
+        params.numAdults = 2
+        params.children = null
+        NavUtils.goToHotels(activity, params, event.animOptions, 0)
+    }
 
 }

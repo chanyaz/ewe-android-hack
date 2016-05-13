@@ -19,7 +19,8 @@ import com.expedia.bookings.data.hotels.Hotel;
 import com.expedia.bookings.data.hotels.HotelRate;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.widget.CollectionViewHolder;
-import com.expedia.bookings.widget.LaunchListAdapter;
+import com.expedia.bookings.widget.HotelViewHolder;
+import com.expedia.bookings.widget.LaunchHeaderViewHolder;
 import com.expedia.bookings.widget.LaunchListWidget;
 
 import static org.junit.Assert.assertEquals;
@@ -87,9 +88,8 @@ public class LaunchScreenTest {
 		launchListWidget.measure(0, 0);
 		launchListWidget.layout(0, 0, 100, 10000);
 
-		assertEquals(LaunchListAdapter.HeaderViewHolder.class, launchListWidget.findViewHolderForAdapterPosition(0).getClass());
+		assertEquals(LaunchHeaderViewHolder.class, launchListWidget.findViewHolderForAdapterPosition(0).getClass());
 		assertEquals(CollectionViewHolder.class, launchListWidget.findViewHolderForAdapterPosition(1).getClass());
-
 	}
 
 	@Test
@@ -110,8 +110,8 @@ public class LaunchScreenTest {
 		launchListWidget.measure(0, 0);
 		launchListWidget.layout(0, 0, 100, 10000);
 
-		assertEquals(LaunchListAdapter.HeaderViewHolder.class, launchListWidget.findViewHolderForAdapterPosition(0).getClass());
-		assertEquals(LaunchListAdapter.HotelViewHolder.class, launchListWidget.findViewHolderForAdapterPosition(1).getClass());
+		assertEquals(LaunchHeaderViewHolder.class, launchListWidget.findViewHolderForAdapterPosition(0).getClass());
+		assertEquals(HotelViewHolder.class, launchListWidget.findViewHolderForAdapterPosition(1).getClass());
 
 	}
 
@@ -136,30 +136,30 @@ public class LaunchScreenTest {
 		launchListWidget.layout(0, 0, 100, 10000);
 
 
-		LaunchListAdapter.HotelViewHolder h1 = (LaunchListAdapter.HotelViewHolder) launchListWidget.findViewHolderForAdapterPosition(1);
-		LaunchListAdapter.HotelViewHolder h2 = (LaunchListAdapter.HotelViewHolder) launchListWidget.findViewHolderForAdapterPosition(2);
-		LaunchListAdapter.HotelViewHolder h3 = (LaunchListAdapter.HotelViewHolder) launchListWidget.findViewHolderForAdapterPosition(3);
-		LaunchListAdapter.HotelViewHolder h4 = (LaunchListAdapter.HotelViewHolder) launchListWidget.findViewHolderForAdapterPosition(4);
-		LaunchListAdapter.HotelViewHolder h5 = (LaunchListAdapter.HotelViewHolder) launchListWidget.findViewHolderForAdapterPosition(5);
-		LaunchListAdapter.HotelViewHolder h6 = (LaunchListAdapter.HotelViewHolder) launchListWidget.findViewHolderForAdapterPosition(6);
+		HotelViewHolder h1 = (HotelViewHolder) launchListWidget.findViewHolderForAdapterPosition(1);
+		HotelViewHolder h2 = (HotelViewHolder) launchListWidget.findViewHolderForAdapterPosition(2);
+		HotelViewHolder h3 = (HotelViewHolder) launchListWidget.findViewHolderForAdapterPosition(3);
+		HotelViewHolder h4 = (HotelViewHolder) launchListWidget.findViewHolderForAdapterPosition(4);
+		HotelViewHolder h5 = (HotelViewHolder) launchListWidget.findViewHolderForAdapterPosition(5);
+		HotelViewHolder h6 = (HotelViewHolder) launchListWidget.findViewHolderForAdapterPosition(6);
 
-		assertEquals("5.0", h1.rating.getText());
-		assertEquals(View.VISIBLE, h1.ratingText.getVisibility());
+		assertEquals("5.0", h1.getRating().getText());
+		assertEquals(View.VISIBLE, h1.getRatingText().getVisibility());
 
-		assertEquals(View.INVISIBLE, h2.ratingInfo.getVisibility());
-		assertEquals(View.GONE, h2.ratingText.getVisibility());
+		assertEquals(View.INVISIBLE, h2.getRatingInfo().getVisibility());
+		assertEquals(View.GONE, h2.getRatingText().getVisibility());
 
-		assertEquals(View.INVISIBLE, h3.ratingInfo.getVisibility());
-		assertEquals(View.GONE, h3.ratingText.getVisibility());
+		assertEquals(View.INVISIBLE, h3.getRatingInfo().getVisibility());
+		assertEquals(View.GONE, h3.getRatingText().getVisibility());
 
-		assertEquals(View.INVISIBLE, h4.ratingInfo.getVisibility());
-		assertEquals(View.GONE, h4.ratingText.getVisibility());
+		assertEquals(View.INVISIBLE, h4.getRatingInfo().getVisibility());
+		assertEquals(View.GONE, h4.getRatingText().getVisibility());
 
-		assertEquals(View.INVISIBLE, h5.ratingInfo.getVisibility());
-		assertEquals(View.GONE, h5.ratingText.getVisibility());
+		assertEquals(View.INVISIBLE, h5.getRatingInfo().getVisibility());
+		assertEquals(View.GONE, h5.getRatingText().getVisibility());
 
-		assertEquals("Not Rated", h6.noRatingText.getText());
-		assertEquals(View.VISIBLE, h6.noRatingText.getVisibility());
-		assertEquals(View.GONE, h6.ratingInfo.getVisibility());
+		assertEquals("Not Rated", h6.getNoRatingText().getText());
+		assertEquals(View.VISIBLE, h6.getNoRatingText().getVisibility());
+		assertEquals(View.GONE, h6.getRatingInfo().getVisibility());
 	}
 }

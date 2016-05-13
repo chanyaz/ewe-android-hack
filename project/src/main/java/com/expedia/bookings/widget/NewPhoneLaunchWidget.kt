@@ -22,6 +22,7 @@ import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration
 import com.expedia.bookings.otto.Events
 import com.expedia.bookings.services.CollectionServices
 import com.expedia.bookings.services.HotelServices
+import com.expedia.bookings.utils.NavUtils
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
 import com.mobiata.android.Log
@@ -44,8 +45,10 @@ class NewPhoneLaunchWidget(context: Context, attrs: AttributeSet?) : Coordinator
     lateinit var hotelServices: HotelServices
         @Inject set
 
+    var searchParams: HotelSearchParams ? = null
     private var downloadSubscription: Subscription? = null
     private var wasHotelsDownloadEmpty: Boolean = false
+
 
     val fab: FloatingActionButton by lazy {
         findViewById(R.id.fab) as FloatingActionButton
@@ -63,10 +66,15 @@ class NewPhoneLaunchWidget(context: Context, attrs: AttributeSet?) : Coordinator
         appBarLayout.height
     }
 
+    init {
+
+    }
+
     override fun onFinishInflate() {
         super.onFinishInflate()
         Ui.getApplication(context).defaultLaunchComponents()
         Ui.getApplication(context).launchComponent().inject(this)
+
         launchListWidget.addOnScrollListener(scrollListener)
 
         fab.setOnClickListener {
@@ -79,6 +87,23 @@ class NewPhoneLaunchWidget(context: Context, attrs: AttributeSet?) : Coordinator
 
         darkView.setOnClickListener {
             hideLobAndDarkView()
+        }
+
+        (launchListWidget.adapter as LaunchListAdapter).hotelSelectedSubject.subscribe { selectedHotel ->
+            val params = HotelSearchParams()
+            params.hotelId = selectedHotel.hotelId
+            params.query = selectedHotel.localizedName
+            params.searchType = HotelSearchParams.SearchType.HOTEL
+            val now = LocalDate.now()
+            params.checkInDate = now
+            params.checkOutDate = now.plusDays(1)
+            params.numAdults = 2
+            params.children = null
+            NavUtils.goToHotels(context, params)
+        }
+
+        (launchListWidget.adapter as LaunchListAdapter).seeAllClickSubject.subscribe { animOptions ->
+            NavUtils.goToHotels(context, searchParams, animOptions, 0)
         }
     }
 
@@ -201,11 +226,11 @@ class NewPhoneLaunchWidget(context: Context, attrs: AttributeSet?) : Coordinator
         val params = NearbyHotelParams(loc.latitude.toString(),
                 loc.longitude.toString(), "1",
                 today, tomorrow, HOTEL_SORT, "true")
-        val searchParams = HotelSearchParams()
-        searchParams.checkInDate = currentDate
-        searchParams.checkOutDate = currentDate.plusDays(1)
-        searchParams.setSearchLatLon(loc.latitude, loc.longitude)
-        searchParams.setFromLaunchScreen(true)
+        searchParams = HotelSearchParams()
+        searchParams?.checkInDate = currentDate
+        searchParams?.checkOutDate = currentDate.plusDays(1)
+        searchParams?.setSearchLatLon(loc.latitude, loc.longitude)
+        searchParams?.setFromLaunchScreen(true)
         downloadSubscription = hotelServices.nearbyHotels(params, getNearByHotelObserver())
 
     }

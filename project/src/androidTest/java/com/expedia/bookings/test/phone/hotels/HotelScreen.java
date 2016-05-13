@@ -214,6 +214,10 @@ public class HotelScreen {
 		return onView(withId(R.id.list_view));
 	}
 
+	public static ViewInteraction launchList() {
+		return onView(withId(R.id.launch_list_widget));
+	}
+
 	public static ViewInteraction recentSearchList() {
 		return onView(withId(R.id.recent_searches_adapter));
 	}
