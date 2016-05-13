@@ -149,7 +149,7 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 
 	@Override
 	public String getCopyrightLogoUrl(Context context) {
-		return context.getString(R.string.app_copyright_logo_url);
+		return PointOfSale.getPointOfSale().getWebsiteUrl();
 	}
 
 	@Override
