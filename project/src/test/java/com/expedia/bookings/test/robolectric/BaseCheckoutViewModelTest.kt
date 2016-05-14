@@ -21,16 +21,20 @@ class BaseCheckoutViewModelTest {
     var activity : Activity by Delegates.notNull()
     private var LOTS_MORE: Long = 100
 
+
+
     @Before
     fun before() {
         activity = Robolectric.buildActivity(Activity::class.java).create().get()
-        testViewModel = BaseCheckoutViewModel(activity)
+        testViewModel = object : BaseCheckoutViewModel(activity) {
+            // blah
+        }
     }
 
     @Test
     fun testTravelersCleared() {
         val testSubscriber = TestSubscriber<BaseCheckoutParams>()
-        testViewModel.checkoutInfoCompleted.subscribe(testSubscriber)
+        testViewModel.checkoutParams.subscribe(testSubscriber)
 
         var travelers = arrayListOf(getTraveler(), getTraveler(), getTraveler())
         testViewModel.travelerCompleted.onNext(travelers)
@@ -52,7 +56,7 @@ class BaseCheckoutViewModelTest {
     @Test
     fun testRequiredInfoCompleted() {
         val testSubscriber = TestSubscriber<BaseCheckoutParams>()
-        testViewModel.checkoutInfoCompleted.subscribe(testSubscriber)
+        testViewModel.checkoutParams.subscribe(testSubscriber)
 
         val testInfoCompletedSubscriber = TestSubscriber<Boolean>()
         testViewModel.infoCompleted.subscribe(testInfoCompletedSubscriber)

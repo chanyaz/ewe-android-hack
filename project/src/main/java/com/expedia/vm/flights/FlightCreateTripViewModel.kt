@@ -1,17 +1,17 @@
-package com.expedia.bookings.data.flights
+package com.expedia.vm.flights
 
+import com.expedia.bookings.data.flights.FlightCreateTripParams
+import com.expedia.bookings.data.flights.FlightCreateTripResponse
 import com.expedia.bookings.services.FlightServices
+import com.expedia.vm.packages.BaseCreateTripViewModel
 import rx.Observable
 import rx.Observer
 import rx.exceptions.OnErrorNotImplementedException
-import rx.subjects.BehaviorSubject
 import rx.subjects.PublishSubject
 
-class FlightCreateTripViewModel(val flightServices: FlightServices) {
+class FlightCreateTripViewModel(val flightServices: FlightServices) : BaseCreateTripViewModel() {
 
     val tripParams = PublishSubject.create<FlightCreateTripParams>()
-    val performCreateTrip = PublishSubject.create<Unit>()
-    val tripResponseObservable = BehaviorSubject.create<FlightCreateTripResponse>()
 
     init {
         tripParams.subscribe {

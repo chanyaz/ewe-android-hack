@@ -36,13 +36,14 @@ class PackageCheckoutParamsTest {
     @Test
     fun testTravelerNameValuePair() {
         val travelers = arrayListOf(getTraveler(), getTraveler(), getTraveler())
-        val params = builder.billingInfo(getBillingInfo())
+        val builder = builder.billingInfo(getBillingInfo())
                 .travelers(travelers)
-                .expectedFareCurrencyCode("")
+                .cvv("123") as PackageCheckoutParams.Builder
+
+        val params = builder.expectedFareCurrencyCode("")
                 .expectedTotalFare("")
                 .bedType("")
                 .tripId("")
-                .cvv("123")
                 .build()
 
         assertTrue(params.toQueryMap().containsKey(expectedMainTravelerKey))
@@ -58,13 +59,14 @@ class PackageCheckoutParamsTest {
         val travelers = arrayListOf(getTraveler(), getTraveler(), getTraveler())
         val billing = getBillingInfo()
         billing.storedCard = getStoredCard()
-        val params = builder.billingInfo(billing)
+        val builder = builder.billingInfo(billing)
                 .travelers(travelers)
-                .expectedFareCurrencyCode("")
+                .cvv("123") as PackageCheckoutParams.Builder
+
+        val params = builder.expectedFareCurrencyCode("")
                 .expectedTotalFare("")
                 .bedType("")
                 .tripId("")
-                .cvv("123")
                 .build()
 
         assertTrue(params.toQueryMap().containsKey(expectedStoredCardKey))

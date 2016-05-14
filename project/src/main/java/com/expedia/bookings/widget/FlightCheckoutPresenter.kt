@@ -4,29 +4,23 @@ import android.content.Context
 import android.util.AttributeSet
 import android.view.View
 import com.expedia.bookings.data.LineOfBusiness
-import com.expedia.bookings.data.flights.FlightCreateTripViewModel
+import com.expedia.bookings.data.flights.FlightCreateTripResponse
 import com.expedia.bookings.otto.Events
-import com.expedia.util.notNullAndObservable
-import com.expedia.util.subscribeTextAndVisibility
+import com.expedia.bookings.utils.Ui
 import com.expedia.vm.FlightCheckoutViewModel
+import com.expedia.vm.flights.FlightCreateTripViewModel
+import com.expedia.vm.packages.BaseCreateTripViewModel
 import com.squareup.otto.Subscribe
 
 class FlightCheckoutPresenter(context: Context, attr: AttributeSet) : BaseCheckoutPresenter(context, attr) {
-    var checkoutViewModel: FlightCheckoutViewModel by notNullAndObservable { vm ->
-        viewModel.checkoutInfoCompleted.subscribe(vm.baseParams)
-        vm.legalText.subscribeTextAndVisibility(legalInformationText)
-        vm.depositPolicyText.subscribeTextAndVisibility(depositPolicyText)
-        vm.sliderPurchaseTotalText.subscribeTextAndVisibility(slideTotalText)
-    }
-
-    var createTripViewModel: FlightCreateTripViewModel by notNullAndObservable { vm ->
-
+    override fun setUpCreateTripViewModel(vm : BaseCreateTripViewModel) {
+        vm as FlightCreateTripViewModel
         vm.tripParams.subscribe {
             createTripDialog.show()
             userAccountRefresher.ensureAccountIsRefreshed()
         }
 
-        vm.tripResponseObservable.subscribe { response ->
+        vm.tripResponseObservable.subscribe { response -> response as FlightCreateTripResponse
             loginWidget.updateRewardsText(getLineOfBusiness())
             createTripDialog.hide()
             priceChangeWidget.viewmodel.originalPackagePrice.onNext(response.totalPrice)
@@ -37,10 +31,6 @@ class FlightCheckoutPresenter(context: Context, attr: AttributeSet) : BaseChecko
             toggleCheckoutButton(true)
         }
 
-    }
-
-    override fun doCreateTrip() {
-        createTripViewModel.performCreateTrip.onNext(Unit)
     }
 
     @Subscribe fun onUserLoggedIn( @Suppress("UNUSED_PARAMETER") event: Events.LoggedInSuccessful) {
@@ -59,5 +49,21 @@ class FlightCheckoutPresenter(context: Context, attr: AttributeSet) : BaseChecko
     }
 
     override fun trackShowBundleOverview() {
+    }
+
+    override fun setCheckoutViewModel(): FlightCheckoutViewModel {
+        return FlightCheckoutViewModel(context, Ui.getApplication(context).flightComponent().flightServices())
+    }
+
+    override fun setCreateTripViewModel(): FlightCreateTripViewModel {
+        return FlightCreateTripViewModel(Ui.getApplication(context).flightComponent().flightServices())
+    }
+
+    override fun getCheckoutViewModel(): FlightCheckoutViewModel {
+        return ckoViewModel as FlightCheckoutViewModel
+    }
+
+    override fun getCreateTripViewModel(): FlightCreateTripViewModel {
+        return tripViewModel as FlightCreateTripViewModel
     }
 }

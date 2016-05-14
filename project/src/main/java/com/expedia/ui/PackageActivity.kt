@@ -79,7 +79,7 @@ class PackageActivity : AbstractAppCompatActivity() {
     private fun packageCreateTrip() {
         val params = PackageCreateTripParams.fromPackageSearchParams(Db.getPackageParams())
         if (params.isValid) {
-            packagePresenter.bundlePresenter.getCheckoutPresenter().createTripViewModel.tripParams.onNext(params)
+            packagePresenter.bundlePresenter.getCheckoutPresenter().getCreateTripViewModel().tripParams.onNext(params)
         }
     }
 }
