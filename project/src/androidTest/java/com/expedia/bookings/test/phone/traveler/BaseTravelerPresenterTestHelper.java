@@ -206,7 +206,7 @@ public class BaseTravelerPresenterTestHelper {
 
 	protected void generateMockTripWithPassport() {
 		PackageCreateTripResponse mockCreateTrip = mock(PackageCreateTripResponse.class);
-		mockCreateTrip.validFormsOfPayment = new ArrayList<ValidPayment>();
+		mockCreateTrip.setValidFormsOfPayment(new ArrayList<ValidPayment>());
 
 		TripBucketItemPackages mockPackagesItem = new TripBucketItemPackages(mockCreateTrip);
 

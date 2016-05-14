@@ -25,7 +25,6 @@ open class BaseCheckoutParams(val billingInfo: BillingInfo, val travelers: Array
             return this
         }
 
-
         open fun build(): BaseCheckoutParams {
             val billingInfo = billingInfo ?: throw IllegalArgumentException()
             val travelers = if (travelers.isEmpty()) throw IllegalArgumentException() else {

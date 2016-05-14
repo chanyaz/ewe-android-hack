@@ -1,9 +1,8 @@
 package com.expedia.bookings.data.packages
 
-import com.expedia.bookings.data.BaseApiResponse
 import com.expedia.bookings.data.Money
 
-class PackageCheckoutResponse() : BaseApiResponse() {
+class PackageCheckoutResponse() : PackageCreateTripResponse() {
     val newTrip: TripDetails? = null
     val orderId: String? = null
     val totalChargesPrice: Money? = null

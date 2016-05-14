@@ -10,7 +10,7 @@ public class TripBucketItemPackages extends TripBucketItem {
 	public TripBucketItemPackages(PackageCreateTripResponse packageTripResponse) {
 		mPackageTripResponse = packageTripResponse;
 		if (mPackageTripResponse.getValidFormsOfPayment() != null) {
-			for (ValidPayment payment : mPackageTripResponse.validFormsOfPayment) {
+			for (ValidPayment payment : mPackageTripResponse.getValidFormsOfPayment()) {
 				payment.setPaymentType(CurrencyUtils.parsePaymentType(payment.name));
 			}
 			addValidPayments(mPackageTripResponse.getValidFormsOfPayment());
