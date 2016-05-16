@@ -21,4 +21,8 @@ object FlightTestHelpers {
         EspressoUtils.assertViewWithTextIsDisplayedAtPosition(FlightsScreen.inboundFlightList(), 2, R.id.price_text_view, "$696.00")
         EspressoUtils.assertViewWithIdIsDisplayedAtPosition(FlightsScreen.inboundFlightList(), 2, R.id.custom_flight_layover_widget)
     }
+
+    @JvmStatic fun assertDockedOutboundFlightSelectionWidget() {
+        FlightsResultsScreen.dockedOutboundFlightSelection().perform(waitForViewToDisplay())
+    }
 }

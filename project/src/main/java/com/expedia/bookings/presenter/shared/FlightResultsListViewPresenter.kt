@@ -9,22 +9,31 @@ import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.FlightListAdapter
 import com.expedia.bookings.widget.FlightListRecyclerView
-import com.expedia.bookings.widget.PackageFlightListAdapter
+import com.expedia.bookings.widget.flights.DockedOutboundFlightSelectionView
 import com.expedia.util.endlessObserver
 import com.expedia.util.notNullAndObservable
+import com.expedia.util.subscribeInverseVisibility
 import com.expedia.vm.FlightResultsViewModel
+import com.expedia.vm.flights.SelectedOutboundFlightViewModel
 import rx.subjects.PublishSubject
-import kotlin.properties.Delegates
 
-class FlightResultsPresenter(context: Context, attrs: AttributeSet) : Presenter(context, attrs) {
+class FlightResultsListViewPresenter(context: Context, attrs: AttributeSet) : Presenter(context, attrs) {
     private val recyclerView: FlightListRecyclerView by bindView(R.id.list_view)
+    private val dockedOutboundFlightSelection: DockedOutboundFlightSelectionView by bindView(R.id.docked_outbound_flight_selection)
     lateinit private var flightListAdapter: FlightListAdapter
 
     // input
     val flightSelectedSubject = PublishSubject.create<FlightLeg>()
+    val outboundFlightSelectedSubject = PublishSubject.create<FlightLeg>()
 
     init {
         View.inflate(getContext(), R.layout.widget_flight_results_package, this)
+    }
+
+    override fun onFinishInflate() {
+        super.onFinishInflate()
+        val selectedOutboundFlightViewModel = SelectedOutboundFlightViewModel(outboundFlightSelectedSubject, context)
+        dockedOutboundFlightSelection.viewModel = selectedOutboundFlightViewModel
     }
 
     fun setAdapter(adapter: FlightListAdapter) {
@@ -38,6 +47,7 @@ class FlightResultsPresenter(context: Context, attrs: AttributeSet) : Presenter(
 
     var resultsViewModel: FlightResultsViewModel by notNullAndObservable { vm ->
         vm.flightResultsObservable.subscribe(listResultsObserver)
+        vm.isOutboundResults.subscribeInverseVisibility(dockedOutboundFlightSelection)
     }
 
     val listResultsObserver = endlessObserver<List<FlightLeg>> {

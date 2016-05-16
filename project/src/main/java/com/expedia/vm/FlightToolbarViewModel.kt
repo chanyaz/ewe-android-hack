@@ -12,7 +12,7 @@ import rx.subjects.PublishSubject
 class FlightToolbarViewModel(private val context: Context) {
     //input
     val refreshToolBar = BehaviorSubject.create<Boolean>()
-    val isOutboundSearch = BehaviorSubject.create<Boolean>()
+    val isOutboundSearch = BehaviorSubject.create<Boolean>() // TODO - move this into flightSearchViewModel
     val setTitleOnly = BehaviorSubject.create<String>()
     val city = BehaviorSubject.create<String>()
     val travelers = BehaviorSubject.create<Int>()

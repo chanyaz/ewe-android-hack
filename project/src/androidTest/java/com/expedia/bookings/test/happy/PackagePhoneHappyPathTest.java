@@ -12,6 +12,8 @@ import com.expedia.bookings.test.espresso.EspressoUtils;
 import com.expedia.bookings.test.espresso.PackageTestCase;
 import com.expedia.bookings.test.espresso.ViewActions;
 import com.expedia.bookings.test.phone.hotels.HotelScreen;
+import com.expedia.bookings.test.phone.newflights.FlightTestHelpers;
+import com.expedia.bookings.test.phone.newflights.FlightsResultsScreen;
 import com.expedia.bookings.test.phone.packages.PackageScreen;
 import com.expedia.bookings.test.phone.pagemodels.common.CheckoutViewModel;
 import com.expedia.bookings.test.phone.pagemodels.common.SearchScreen;
@@ -82,6 +84,10 @@ public class PackagePhoneHappyPathTest extends PackageTestCase {
 
 		PackageScreen.inboundFLight().perform(click());
 
+		FlightTestHelpers.assertDockedOutboundFlightSelectionWidget();
+		FlightsResultsScreen.dockedOutboundFlightSelectionWidgetContainsText("Outbound");
+		FlightsResultsScreen.dockedOutboundFlightSelectionWidgetContainsText("United");
+		FlightsResultsScreen.dockedOutboundFlightSelectionWidgetContainsText("9:00 am - 11:12 am (5h 12m)");
 		PackageScreen.selectFlight(0);
 		assertBundlePriceInFlight("$4,212");
 		PackageScreen.selectThisFlight().perform(click());

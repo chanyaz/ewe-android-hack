@@ -1630,6 +1630,8 @@
     <string name="flights_round_trip_label">ROUND TRIP</string>
     <!-- Flights Search view button label for one-way searches -->
     <string name="flights_one_way_label">ONE WAY</string>
+    <!-- Flights label for selected outbound flight -->
+    <string name="flights_outbound_label">Outbound</string>
 
     <!-- Flights -->
     <!-- Label for Flight Search in task manager -->
