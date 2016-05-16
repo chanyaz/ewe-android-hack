@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resources>
+
+    <string name="ebookers_best_price_guarantee">ebookersin hintatakuu</string>
+
+    <string name="customer_support_text">Soita ebookersin asiakaspalveluun</string>
+
+    <!-- Content description for action: Press to log in with your ebookers account -->
+    <string name="cd_checkout_log_in_with_ebookers">Napauta kirjautuaksesi sisään ebookersin tilillesi</string>
+
+    <string name="contact_ebookers">Ota yhteyttä ebookersiin</string>
+    <string name="ebookers_info_url">http://www.ebookers.fi/</string>
+
+    <!-- Label for logout confirmation -->
+    <string name="logout_confirmation_ebookers">Haluatko varmasti kirjautua ulos ebookersin tililtäsi?</string>
+
+    <!-- Contact Expedia via email subject -->
+    <string name="contact_ebookers_email_subject">ebookersin asiakaspalvelu</string>
+
+    <!-- Message displayed when the hotel room is sold out -->
+    <string name="error_room_is_now_sold_out_ebookers">Valitettavasti tämä huone ei ole enää saatavilla ebookersin kautta.</string>
+    <!--A message stating this hotel is Not currently available on ebookers -->
+    <string name="not_currently_available_ebookers">Ei saatavilla ebookersin kautta tällä hetkellä</string>
+    <!-- Shown when a hotel is sold out for a generic set of dates.  %s is the set of dates, e.g. "Not available from ebookers Nov. 3-4" -->
+    <string name="not_currently_available_ebookers_TEMPLATE">Ei saatavilla ebookersin kautta %s</string>
+
+    <!-- Missing strings for ebookers from Expedia-->
+    <string name="tell_a_friend_body_ebookers">Hei,\n\nTutustu ebookersin iPhone- ja Android-hotellisovellukseen. Se on ILMAINEN ja voit helposti etsiä ja varata huoneita yli 140 000 hotellista ympäri maailman. Se on helpoin tapa varata hotellihuoneita puhelimesi kautta.</string>
+    <string name="cd_log_in_email_edit_text_ebookers">Anna ebookersin tilin sähköpostiosoite</string>
+    <string name="tell_a_friend_subject_ebookers">ebookers-hotellit</string>
+    <string name="cd_log_in_password_edit_text_ebookers">Anna ebookersin salasana</string>
+    <string name="cd_launch_open_eb_info_screen_ebookers">Avaa varauksen tietonäyttö</string>
+    <string name="loading_ebookers_account">ebookersin tiliä ladataan</string>
+    <string name="ebookers_password_hint">ebookersin salasana</string>
+    <string name="dialog_message_launch_ebookers_mobile_site">Haluatko avata ebookersin mobiilisivuston?</string>
+    <!-- ebookers App download link -->
+    <!-- Row header for when the grand total of the user's hotel stay is more than what they owe Expedia at the time of reservation-->
+    <string name="total_due_to_our_brand_today">Nyt ebookersille maksettava summa:</string>
+    <!-- User needs to reset password -->
+    <string name="login_reset_password">Sinun tulee luoda uudet kaikilla ebookersin sivustoilla käytettävät sisäänkirjautumistiedot.&lt;br&gt;Ole hyvä ja aseta salasanasi uudelleen käyttäen Unohditko salasanasi? -linkkiä</string>
+
+    <!-- Label to show user in cost breakdown for the total being charged to them right now -->
+    <string name="total_due_today">Nyt ebookersille maksettava summa</string>
+
+    <!-- Account Creation Strings -->
+    <!-- Button text for account creation button -->
+    <string name="acct_Create_a_ebookers_account">Luo ebookersin tili</string>
+    <!-- Message displayed after a successful create account -->
+    <string name="acct_Welcome_to_ebookers">Tervetuloa ebookersin sivuille</string>
+    <!-- Title of "Account Already Exists" error dialog box -->
+    <string name="acct_ebookers_account_already_exists">Tällä sähköpostiosoitteella on jo luotu ebookersin tili.</string>
+    <!-- Sign in with earn message. Eg: Sign in to earn $123.22 in BONUS+ -->
+    <string name="Sign_in_to_earn_TEMPLATE">Kirjaudu sisään ansaitaksesi {reward} BONUS+-etuna</string>
+
+    <!-- Bonus+ -->
+    <string name="paying_with_rewards">Maksu BONUS+-edulla</string>
+    <string name="pay_with_rewards">Maksa BONUS+-edulla</string>
+
+    <string name="checkout_paying_with_points_only_line1">Maksu BONUS+-edulla</string>
+    <string name="checkout_paying_with_points_and_card_line1_TEMPLATE">Maksu BONUS+-edulla ja {carddescription}-kortilla</string>
+    <string name="checkout_payment_options">Luottokortti, maksu BONUS+-edulla</string>
+
+    <!-- Shop with points -->
+    <string name="regular_loyalty_applied_message">BONUS+-etu käytetty!</string>
+    <!-- String to be displayed on switching SWP off -->
+    <string name="swp_off_widget_header">Käytä BONUS+-etua</string>
+    <!-- String to be displayed on switching SWP on -->
+    <string name="swp_on_widget_header">BONUS+-etu käytetty</string>
+    <!-- Available loyalty points -->
+    <string name="available_loyalty_points">Saatavilla oleva BONUS+-etu</string>
+    <!-- SwP Widget you have points template. points_or_amount = it may have money (in case of Expedia) or point value (in case of BONUS+). E.g. You have $30 in BONUS+ -->
+    <string name="swp_widget_points_value_TEMPLATE">Sinulla on {points_or_amount} BONUS+-etuna</string>
+    <!-- Label indicating BONUS+ used by the user -->
+    <string name="hotel_cost_breakdown_burn_points_TEMPLATE">BONUS+-etu käytetty</string>
+
+    <string name="loyalty_applied_excluding_taxes_and_fees_message">BONUS+-etu käytetty! (ei sisällä veroja ja maksuja)</string>
+    <string name="youll_earn_points_TEMPLATE">Ansaitset {reward_currency} BONUS+-etuna tästä varauksesta!</string>
+    <string name="x_rewards_currency_for_this_trip_TEMPLATE">Ansaitset {reward_currency} BONUS+-etuna tästä matkasta!</string>
+
+    <!-- Label indicating BONUS+ Available. Eg: $1000.12 in BONUS+ available-->
+    <string name="bucks_available_TEMPLATE">{money} BONUS+-etuna saatavilla</string>
+    <!-- Label indicating BONUS+ Applied By User. Eg: $1000.12 in BONUS+ applied-->
+    <string name="bucks_applied_TEMPLATE">{money} BONUS+-etuna käytetty!</string>
+    <!-- Label above the slider when user is fully paying with BONUS+. Eg: You are using $1000.12 in BONUS+-->
+    <string name="you_are_using_bucks_TEMPLATE">Käytät {amount} BONUS+-etuna</string>
+    <!-- Label above the slider when user is paying with BONUS+ and Card. Eg: You are using $1000.12 in BONUS+\nYour card will be charged $100.00-->
+    <string name="payment_through_card_and_bucks_TEMPLATE">Käytät {amount} BONUS+-etuna\nKortiltasi veloitetaan {dueamount}</string>
+
+    <!-- Rewards -->
+    <!-- Long name for rewards base tier; note that brand name is not parameterized here as other brands will need to completely override this string -->
+    <string name="reward_base_tier_name_long">Silver-jäsen</string>
+    <!-- Long name for rewards middle tier; note that brand name is not parameterized here as other brands will need to completely override this string -->
+    <string name="reward_middle_tier_name_long">Gold-jäsen</string>
+    <!-- Long name for rewards top tier; note that brand name is not parameterized here as other brands will need to completely override this string -->
+    <string name="reward_top_tier_name_long">Platinum-jäsen</string>
+    <!-- Short name for rewards base tier -->
+    <string name="reward_base_tier_name_short">Silver</string>
+    <!-- Short name for rewards middle tier -->
+    <string name="reward_middle_tier_name_short">Gold</string>
+    <!-- Short name for rewards top tier -->
+    <string name="reward_top_tier_name_short">Platinum</string>
+
+    <!-- Customer Support -->
+    <string name="customer_support">Asiakaspalvelu</string>
+    <!-- Label for exclusive phone number for base tier rewards customers -->
+    <string name="rewards_base_tier_customer_support">@string/customer_support</string>
+    <!-- Label for exclusive phone number for middle tier rewards customers -->
+    <string name="rewards_middle_tier_customer_support">@string/customer_support</string>
+    <!-- Label for exclusive phone number for top tier rewards customers -->
+    <string name="rewards_top_tier_customer_support">@string/customer_support</string>
+
+</resources>
