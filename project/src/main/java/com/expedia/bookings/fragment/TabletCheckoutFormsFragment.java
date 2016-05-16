@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.content.ContextCompat;
 import android.text.Html;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
@@ -647,10 +648,8 @@ public class TabletCheckoutFormsFragment extends LobableFragment implements IBac
 
 				String baggageFeesTextWithLinks =
 					getString(R.string.split_ticket_baggage_fees_tablet, baggageFeesUrlLegOne, baggageFeesUrlLegTwo);
-				int color = com.expedia.bookings.utils.Ui.obtainThemeColor(getContext(),
-					R.attr.skin_tablet_legal_blurb_text_color);
 				SpannableStringBuilder spannableStringBuilder =
-					StrUtils.getSpannableTextByColor(baggageFeesTextWithLinks, color, true);
+					StrUtils.getSpannableTextByColor(baggageFeesTextWithLinks, ContextCompat.getColor(getContext(),R.color.tablet_legal_blurb_text_color), true);
 				mSplitTicketFeeLinks.setText(spannableStringBuilder);
 				mSplitTicketFeeLinks.setMovementMethod(LinkMovementMethod.getInstance());
 			}
