@@ -17,6 +17,9 @@
     <color name="launch_tab_indicator">#003366</color>
     <color name="action_menu_text_color">#FFFFFF</color>
     <color name="action_bar_text">#FFFFFF</color>
+    <color name="bg_air_attach_banner_default">@color/lob_btn_color</color>
+    <color name="bg_air_attach_phone_launch">@color/lob_btn_color</color>
+    <color name="bg_air_attach_banner_divider">@color/white</color>
 
     <!-- Hotels V2 Coupon applied text color -->
     <color name="hotelsv2_coupon_applied_color">#9E0089</color>
