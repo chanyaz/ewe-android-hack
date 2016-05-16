@@ -4,6 +4,7 @@ import com.expedia.bookings.R
 import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.hotels.HotelOffersResponse
 import com.expedia.bookings.test.MockHotelServiceTestRule
+import org.robolectric.shadows.ShadowResourcesEB
 import com.expedia.bookings.widget.HotelRoomRateView
 import com.expedia.util.endlessObserver
 import com.expedia.vm.HotelRoomRateViewModel
@@ -12,10 +13,12 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RuntimeEnvironment
+import org.robolectric.annotation.Config
 import rx.subjects.PublishSubject
 import kotlin.test.assertEquals
 
 @RunWith(RobolectricRunner::class)
+@Config(shadows = arrayOf(ShadowResourcesEB::class))
 class HotelRoomRateViewTest {
     var mockHotelServiceTestRule: MockHotelServiceTestRule = MockHotelServiceTestRule()
         @Rule get

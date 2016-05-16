@@ -15,6 +15,7 @@ import com.expedia.bookings.data.payment.LoyaltyInformation
 import com.expedia.bookings.data.payment.LoyaltyType
 import com.expedia.bookings.services.HotelServices
 import com.expedia.bookings.test.robolectric.RobolectricRunner
+import org.robolectric.shadows.ShadowResourcesEB
 import com.expedia.bookings.testrule.ServicesRule
 import com.expedia.bookings.utils.DateUtils
 import com.expedia.bookings.widget.HotelDetailView
@@ -28,12 +29,14 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.Robolectric
+import org.robolectric.annotation.Config
 import java.util.ArrayList
 import kotlin.properties.Delegates
 import kotlin.test.assertEquals
 import kotlin.test.assertNull
 
 @RunWith(RobolectricRunner::class)
+@Config(shadows = arrayOf(ShadowResourcesEB::class))
 class HotelDetailsTest {
 
     private var vm: HotelDetailViewModel by Delegates.notNull()

@@ -17,6 +17,7 @@ import com.expedia.bookings.test.robolectric.RoboTestHelper
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.test.robolectric.shadows.ShadowAccountManagerEB
 import com.expedia.bookings.test.robolectric.shadows.ShadowGCM
+import org.robolectric.shadows.ShadowResourcesEB
 import com.expedia.bookings.test.robolectric.shadows.ShadowUserManager
 import com.expedia.bookings.widget.packages.PackageHotelCellViewHolder
 import com.expedia.vm.packages.PackageHotelViewModel
@@ -31,7 +32,7 @@ import kotlin.properties.Delegates
 import kotlin.test.assertEquals
 
 @RunWith(RobolectricRunner::class)
-@Config(shadows = arrayOf(ShadowGCM::class, ShadowUserManager::class, ShadowAccountManagerEB::class))
+@Config(shadows = arrayOf(ShadowGCM::class, ShadowUserManager::class, ShadowAccountManagerEB::class, ShadowResourcesEB::class))
 class PackageHotelCellTest {
     private var hotelCellView: ViewGroup by Delegates.notNull()
     private var packageHotelHolder: PackageHotelCellViewHolder by Delegates.notNull()
