@@ -56,7 +56,7 @@
 
     <!-- Checkout Colors -->
     <color name="material_checkout_account_button_background_color">@color/hotels_primary_color</color>
-    <color name="old_checkout_account_button_text_color">@android:color/white</color>
+    <color name="old_checkout_account_button_text_color">#FF960D</color>
 
     <!-- CVV entry colors -->
     <color name="cvv_book_button_text_color">@android:color/white</color>
