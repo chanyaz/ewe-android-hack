@@ -32,6 +32,7 @@ import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.SearchParams;
 import com.expedia.bookings.data.Sp;
 import com.expedia.bookings.data.User;
+import com.expedia.bookings.data.abacus.AbacusUtils;
 import com.expedia.bookings.data.cars.CarSearchParams;
 import com.expedia.bookings.data.lx.LXSearchParams;
 import com.expedia.bookings.data.pos.PointOfSale;
@@ -39,6 +40,7 @@ import com.expedia.bookings.services.CarServices;
 import com.expedia.ui.CarActivity;
 import com.expedia.ui.HotelActivity;
 import com.expedia.ui.LXBaseActivity;
+import com.expedia.ui.NewPhoneLaunchActivity;
 import com.google.gson.Gson;
 import com.mobiata.android.Log;
 
@@ -51,6 +53,7 @@ public class NavUtils {
 	public static final int FLAG_DEEPLINK = 1;
 	public static final int FLAG_OPEN_SEARCH = 2;
 	public static final int FLAG_OPEN_RESULTS = 3;
+
 
 	public static boolean canHandleIntent(Context context, Intent intent) {
 		return intent.resolveActivity(context.getPackageManager()) != null;
@@ -83,7 +86,7 @@ public class NavUtils {
 			context.startActivity(intent);
 		}
 		else {
-			Intent intent = new Intent(context, PhoneLaunchActivity.class);
+			Intent intent = getLaunchIntent(context);
 			intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
 
 			if (forceShowWaterfall) {
@@ -101,7 +104,7 @@ public class NavUtils {
 			intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
 		}
 		else {
-			intent = new Intent(context, PhoneLaunchActivity.class);
+			intent = getLaunchIntent(context);
 			intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
 
 			if (forceShowWaterfall) {
@@ -153,7 +156,7 @@ public class NavUtils {
 			builder.startActivities();
 		}
 		else {
-			intent = new Intent(context, PhoneLaunchActivity.class);
+			intent = getLaunchIntent(context);
 			intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
 			intent.putExtra(PhoneLaunchActivity.ARG_FORCE_SHOW_ITIN, true);
 			context.startActivity(intent);
@@ -172,7 +175,7 @@ public class NavUtils {
 				intent = new Intent(context, TabletLaunchActivity.class);
 			}
 			else {
-				intent = new Intent(context, PhoneLaunchActivity.class);
+				intent = getLaunchIntent(context);
 			}
 			intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
 			builder.addNextIntent(intent);
@@ -483,5 +486,20 @@ public class NavUtils {
 		final PackageManager packageManager = context.getPackageManager();
 		List<ResolveInfo> list = packageManager.queryIntentActivities(intent, PackageManager.MATCH_DEFAULT_ONLY);
 		return list.size() > 0;
+	}
+
+	public static boolean isUserBucketedForLaunchScreenTest() {
+		return Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppLaunchScreenTest);
+	}
+
+	public static Intent getLaunchIntent(Context context) {
+		Intent intent;
+		if (isUserBucketedForLaunchScreenTest()) {
+			intent = new Intent(context, NewPhoneLaunchActivity.class);
+		}
+		else {
+			intent = new Intent(context, PhoneLaunchActivity.class);
+		}
+		return intent;
 	}
 }

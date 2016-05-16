@@ -35,14 +35,9 @@
 
         <activity
             android:name="com.expedia.ui.NewPhoneLaunchActivity"
-            android:exported="true"
-            android:label="New Launch Screen"
-            android:taskAffinity="com.expedia.ui.NewPhoneLaunchActivity"
+            android:launchMode="singleTop"
             android:screenOrientation="portrait"
             android:theme="@style/NewLaunchTheme">
-            <meta-data
-                android:name="debug"
-                android:value="true" />
         </activity>
 
         <activity
