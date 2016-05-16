@@ -417,4 +417,5 @@
 
     <!-- Flights v2 dimensions -->
     <dimen name="loading_tile_height">115dp</dimen>
+    <dimen name="lob_view_height">180dp</dimen>
 </resources>

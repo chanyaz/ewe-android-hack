@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?><!-- TODO This entire layout is gonna change. it just placeholder, all colors, heights are just placeholders. -->
-<com.expedia.bookings.widget.NewPhoneLaunchWidget
-    android:id="@+id/new_phone_launch_widget"
+<com.expedia.bookings.widget.NewPhoneLaunchWidget android:id="@+id/new_phone_launch_widget"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
@@ -10,16 +9,15 @@
     <android.support.design.widget.AppBarLayout
         android:id="@+id/app_bar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <!-- This View (id: lobView) will be replaced with whatever view ends up actually containing the lines of business
-       This view just has dummy values for now (height and bg)-->
-        <View
-            android:id="@+id/lobView"
-            android:layout_width="match_parent"
-            android:layout_height="180dp"
-            android:background="@color/new_launch_toolbar_background_color"
-            app:layout_scrollFlags="scroll" />
+        android:layout_height="wrap_content"
+        android:fitsSystemWindows="true"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        android:visibility="invisible">
 
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/lob_view_height"
+            app:layout_scrollFlags="scroll|exitUntilCollapsed" />
 
     </android.support.design.widget.AppBarLayout>
 
@@ -39,6 +37,15 @@
         android:background="#000000"
         android:visibility="invisible" />
 
+
+    <View
+        android:id="@+id/lobView"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/lob_view_height"
+        android:background="@color/new_launch_toolbar_background_color"
+        app:layout_behavior="com.expedia.bookings.widget.ScrollMatchBehaviour" />
+
+
     <!-- TODO: replace with actual FAB exactly how we want it -->
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab"
@@ -46,8 +53,8 @@
         android:layout_height="@dimen/new_launch_screen_fab_height"
         android:layout_marginBottom="@dimen/new_launch_screen_fab_bottom_margin"
         android:layout_marginRight="24dp"
-        app:layout_anchor="@id/launch_list_widget"
         android:visibility="gone"
+        app:layout_anchor="@id/launch_list_widget"
         app:layout_anchorGravity="bottom|right|end" />
 
 </com.expedia.bookings.widget.NewPhoneLaunchWidget>
