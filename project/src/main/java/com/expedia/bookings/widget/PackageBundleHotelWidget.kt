@@ -103,6 +103,7 @@ class PackageBundleHotelWidget(context: Context, attrs: AttributeSet?) : Accessi
             }
         }
         viewModel.selectedHotelObservable.subscribe {
+            this.selectedHotelObservable.onNext(Unit)
             hotelsText.setTextColor(ContextCompat.getColor(context, R.color.packages_bundle_overview_widgets_primary_text))
             hotelLuggageIcon.setColorFilter(0)
             hotelsDatesGuestInfoText.setTextColor(ContextCompat.getColor(context, R.color.packages_bundle_overview_widgets_secondary_text))
@@ -183,6 +184,19 @@ class PackageBundleHotelWidget(context: Context, attrs: AttributeSet?) : Accessi
         val guests = StrUtils.formatGuestString(context, Db.getPackageParams().guests)
         return Phrase.from(context, R.string.select_hotel_content_description)
                 .put("destination", StrUtils.formatCityName(Db.getPackageParams().destination))
+                .put("startdate", startDate)
+                .put("enddate", endDate)
+                .put("guests", guests)
+                .format()
+                .toString()
+    }
+
+    override fun selectedHotelContentDescription(): String {
+        val startDate = DateUtils.localDateToMMMd(Db.getPackageParams().checkIn)
+        val endDate = DateUtils.localDateToMMMd(Db.getPackageParams().checkOut)
+        val guests = StrUtils.formatGuestString(context, Db.getPackageParams().guests)
+        return Phrase.from(context, R.string.select_hotel_content_description_selected)
+                .put("hotel", Db.getPackageSelectedHotel().localizedName)
                 .put("startdate", startDate)
                 .put("enddate", endDate)
                 .put("guests", guests)

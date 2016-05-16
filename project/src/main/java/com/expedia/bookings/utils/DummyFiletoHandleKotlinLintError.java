@@ -580,6 +580,7 @@ DummyFiletoHandleKotlinLintError {
 		R.dimen.flights_search_form_top_margin,
 		R.layout.rail_leg_summary,
 		R.layout.rail_overview,
-		R.layout.rail_summary
+		R.layout.rail_summary,
+		R.string.select_hotel_content_description_selected
 	};
 }
