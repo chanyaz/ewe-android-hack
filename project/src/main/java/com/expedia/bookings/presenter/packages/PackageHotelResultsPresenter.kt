@@ -42,6 +42,8 @@ class PackageHotelResultsPresenter(context: Context, attrs: AttributeSet) : Base
 
         vm.paramsSubject.subscribe { params ->
             setMapToInitialState(params.suggestion)
+            showLoading()
+            show(ResultsList())
             filterView.sortByObserver.onNext(params.suggestion.isCurrentLocationSearch && !params.suggestion.isGoogleSuggestionSearch)
             filterView.viewmodel.clearObservable.onNext(Unit)
         }

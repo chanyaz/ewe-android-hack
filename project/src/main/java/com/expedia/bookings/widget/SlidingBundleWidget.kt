@@ -21,11 +21,9 @@ import com.expedia.bookings.utils.bindView
 import com.expedia.util.subscribeText
 import com.expedia.vm.packages.BundleOverviewViewModel
 import com.expedia.vm.packages.BundlePriceViewModel
+import rx.subjects.PublishSubject
 
 class SlidingBundleWidget(context: Context, attrs: AttributeSet?) : FrameLayout(context, attrs) {
-    val SWIPE_MIN_DISTANCE = 10
-    val SWIPE_THRESHOLD_VELOCITY = 300
-    val FAST_ANIMATION_DURATION = 150
     val REGULAR_ANIMATION_DURATION = 400
 
     val bundlePriceWidget: TotalPriceWidget by bindView(R.id.bundle_price_widget)
@@ -37,6 +35,8 @@ class SlidingBundleWidget(context: Context, attrs: AttributeSet?) : FrameLayout(
 
     var isMoving = false
     var canMove = false
+    var isFirstLaunch = true
+    var animationFinished = PublishSubject.create<Unit>()
 
     init {
         View.inflate(getContext(), R.layout.bundle_slide_widget, this)
@@ -49,9 +49,9 @@ class SlidingBundleWidget(context: Context, attrs: AttributeSet?) : FrameLayout(
                         bundlePriceWidget.animateBundleWidget(1f, true)
                         finalizeBundleTransition(true)
                         bundlePriceFooter.translationY = - statusBarHeight.toFloat()
-                        postDelayed({
+                        post({
                             closeBundleOverview()
-                        }, 100)
+                        })
                     } else {
                         translationY = height.toFloat() - bundlePriceWidget.height
                     }
@@ -65,6 +65,9 @@ class SlidingBundleWidget(context: Context, attrs: AttributeSet?) : FrameLayout(
         translationDistance = translationY
         bundlePriceWidget.bundleTitle.visibility = View.VISIBLE
         bundlePriceWidget.bundleSubtitle.visibility = View.VISIBLE
+        bundlePriceWidget.bundleTotalText.visibility =  View.VISIBLE
+        bundlePriceWidget.bundleTotalIncludes.visibility =  View.VISIBLE
+        bundlePriceWidget.bundleTotalPrice.visibility =  View.VISIBLE
         bundlePriceWidget.setBackgroundColor(if (forward) Color.WHITE else ContextCompat.getColor(context, R.color.packages_primary_color))
     }
 
@@ -122,16 +125,20 @@ class SlidingBundleWidget(context: Context, attrs: AttributeSet?) : FrameLayout(
             }
 
             override fun onAnimationStart(animator: Animator?) {
-                isMoving = true
+                startBundleTransition(open)
             }
 
             override fun onAnimationEnd(animator: Animator) {
+                if (isFirstLaunch) {
+                    animationFinished.onNext(Unit)
+                }
+                isFirstLaunch = false
                 finalizeBundleTransition(open)
                 isMoving = false
             }
         })
         animator.addUpdateListener(ValueAnimator.AnimatorUpdateListener { anim ->
-            bundlePriceWidget.animateBundleWidget((translationY / distanceMax), false)
+            bundlePriceWidget.animateBundleWidget((translationY / distanceMax), open)
         })
         animator.start()
     }

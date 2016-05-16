@@ -21,7 +21,7 @@ class PackageActivity : AbstractAppCompatActivity() {
     var changedOutboundFlight = false;
 
     val packagePresenter: PackagePresenter by lazy {
-        findViewById(R.id.hotel_presenter) as PackagePresenter
+        findViewById(R.id.package_presenter) as PackagePresenter
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
