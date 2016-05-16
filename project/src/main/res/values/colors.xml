@@ -460,6 +460,7 @@
     <color name="preferences_highlight">#40000000</color>
 
     <color name="bg_air_attach_banner_default">#F5495863</color>
+    <color name="bg_air_attach_banner_divider">#4D555D</color>
     <color name="preferences_text">@color/launch_toolbar_background_color</color>
     <color name="bundle_price_background_color">@color/white</color>
 
