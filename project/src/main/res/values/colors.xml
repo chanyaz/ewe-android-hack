@@ -393,6 +393,9 @@
 
     <color name="defaultTextColor">@color/gray7</color>
 
+    <!-- Hotels V2 Confirmation Colors -->
+    <color name="hotel_confirmation_cross_sell_text_color">#F3F3F3</color>
+
     <!-- Hotels V2 Detail star color -->
     <color name="hotelsv2_detail_star_color">#F1B906</color>
 

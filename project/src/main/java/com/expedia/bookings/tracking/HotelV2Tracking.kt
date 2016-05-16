@@ -283,6 +283,10 @@ class HotelV2Tracking {
         trackHotelV2ConfirmationCrossSell("Flights")
     }
 
+    fun trackHotelV2CrossSellLX() {
+        trackHotelV2ConfirmationCrossSell("Local Expert")
+    }
+
     private fun trackHotelV2ConfirmationCrossSell(businessType: String) {
         OmnitureTracking.trackHotelV2ConfirmationCrossSell(businessType)
     }
@@ -318,5 +322,4 @@ class HotelV2Tracking {
     fun trackPayWithPointsError(error: PayWithPointsErrorTrackingEnum) {
         OmnitureTracking.trackPayWithPointsError(error.errorMessage)
     }
-
 }

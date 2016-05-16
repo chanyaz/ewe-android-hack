@@ -14,19 +14,24 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 
+import com.expedia.bookings.R;
 import com.expedia.bookings.activity.FlightSearchActivity;
 import com.expedia.bookings.data.Codes;
+import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.Location;
+import com.expedia.bookings.data.abacus.AbacusUtils;
 import com.expedia.bookings.data.cars.CarSearchParamsBuilder;
 import com.expedia.bookings.services.CarServices;
 import com.expedia.bookings.services.HotelCheckoutResponse;
 import com.expedia.bookings.test.robolectric.AddToCalendarUtilsTests;
 import com.expedia.bookings.test.robolectric.RobolectricRunner;
 import com.expedia.bookings.utils.Ui;
+import com.expedia.ui.LXBaseActivity;
 import com.expedia.vm.HotelConfirmationViewModel;
 import com.google.gson.Gson;
 
 import rx.Observable;
+import rx.observers.TestSubscriber;
 import rx.subjects.BehaviorSubject;
 
 import static org.junit.Assert.assertEquals;
@@ -43,6 +48,8 @@ public class HotelConfirmationViewModelTest {
 	private Location hotelLocation;
 	private String hotelAddress;
 	private String hotelName;
+	private String hotelCity;
+
 	private String itineraryNumber;
 
 	@Before
@@ -131,6 +138,38 @@ public class HotelConfirmationViewModelTest {
 
 		assertEquals(FlightSearchActivity.class.getName(), intent.getComponent().getClassName());
 		assertTrue(intent.getBooleanExtra(FlightSearchActivity.ARG_USE_PRESET_SEARCH_PARAMS, false));
+	}
+
+	@Test
+	public void lxCrossSellButtonClickTakeUsToLXLOB() {
+		givenHotelLocation();
+		givenCheckInDate();
+		givenCheckOutDate();
+
+		vm.getAddLXBtnObserver(getContext()).onNext(null);
+		Intent intent = shadowApplication.getNextStartedActivity();
+
+		assertEquals(LXBaseActivity.class.getName(), intent.getComponent().getClassName());
+		assertTrue(intent.getBooleanExtra(Codes.EXTRA_OPEN_SEARCH, false));
+	}
+
+	@Test
+	public void lxCrossSellButtonText() {
+		hotelCity = "San francisco";
+		givenHotelLocation();
+		givenCheckInDate();
+		givenCheckOutDate();
+
+		TestSubscriber testSubscriber = new TestSubscriber<>();
+		Db.getAbacusResponse().updateABTestForDebug(AbacusUtils.EBAndroidAppLXCrossSellOnHotelConfirmationTest,
+			AbacusUtils.DefaultVariate.BUCKETED.ordinal());
+		vm.getAddLXBtn().subscribe(testSubscriber);
+		vm.getAddLXBtn().onNext(getContext().getResources().getString(R.string.add_lx_TEMPLATE, hotelCity));
+
+		testSubscriber.assertValueCount(1);
+		testSubscriber.assertNoTerminalEvent();
+		assertEquals(testSubscriber.getOnNextEvents().get(0),
+			"Find activities while in San francisco");
 	}
 
 	private void givenHotelName() {
