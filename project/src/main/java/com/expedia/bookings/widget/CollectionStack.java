@@ -156,8 +156,8 @@ public class CollectionStack extends FrameLayout {
 				.build();
 			urls.add(defaultImageUrl);
 		}
-		new PicassoHelper.Builder(getContext()).setPlaceholder(Ui.obtainThemeResID(getContext(),
-			R.attr.skin_collection_placeholder)).setTarget(callback).build().load(urls);
+		new PicassoHelper.Builder(getContext()).setPlaceholder(
+			R.drawable.bg_itin_placeholder).setTarget(callback).build().load(urls);
 
 		headerBitmapDrawable.setScaleType(HeaderBitmapDrawable.ScaleType.TOP_CROP);
 

@@ -256,8 +256,8 @@ public class DestinationCollection extends FrameLayout implements View.OnClickLi
 
 		if (bitmap == null) {
 			picassoTargetCallback = new PicassoTargetCallback(frontImageHeaderBitmapDrawable, imageUrl);
-			new PicassoHelper.Builder(getContext()).setPlaceholder(Ui.obtainThemeResID(getContext(),
-				R.attr.skin_collection_placeholder)).setTarget(picassoTargetCallback).build().load(urls);
+			new PicassoHelper.Builder(getContext()).setPlaceholder(
+				R.drawable.bg_itin_placeholder).setTarget(picassoTargetCallback).build().load(urls);
 		}
 		else {
 			updateFrontDestinationImage(frontImageHeaderBitmapDrawable, bitmap);

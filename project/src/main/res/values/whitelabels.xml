@@ -184,7 +184,6 @@
 
     <attr name="skin_action_bar_logo_tablet" format="reference"/>
     <attr name="skin_tablet_book_button_text_color" format="reference|color" />
-    <attr name="skin_collection_placeholder" format="reference" />
     <attr name="skin_tablet_hotel_room_rate_select_button" format="reference" />
     <attr name="skin_tablet_addToTrip_button" format="reference" />
     <attr name="skin_tablet_bucket_item_counter" format="reference" />
@@ -242,7 +241,6 @@
     <attr name="skin_bgFlightSummaryRowReturnLegTabletDrawable" format="reference" />
     <attr name="skin_launchCirclePlaceholderDrawable" format="reference" />
     <attr name="skin_icActionBarTripsDrawable" format="reference" />
-    <attr name="skin_tablet_legal_blurb_text_color" format="reference|color" />
     <attr name="skin_tablet_confirmation_book_next_arrow_icon" format="reference" />
     <attr name="skin_tablet_confirmation_book_next_arrow_color" format="reference|color" />
     <attr name="skin_tablet_confirmation_done_booking_icon" format="reference" />
