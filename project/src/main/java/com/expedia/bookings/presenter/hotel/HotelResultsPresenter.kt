@@ -223,10 +223,6 @@ class HotelResultsPresenter(context: Context, attrs: AttributeSet) : BaseHotelRe
         HotelV2Tracking().trackHotelsV2SearchAreaClick()
     }
 
-    override fun isMapClusteringEnabled(): Boolean {
-        return Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppHSRMapClusteringTest)
-    }
-
     override fun isBucketedForResultMap(): Boolean {
         return Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelResultMapTest)
     }

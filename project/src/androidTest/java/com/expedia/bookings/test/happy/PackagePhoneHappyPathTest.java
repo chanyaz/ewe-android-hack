@@ -49,9 +49,7 @@ public class PackagePhoneHappyPathTest extends PackageTestCase {
 		assertHotelBundlePrice("$0.00", "View your bundle", "$0.00 Saved");
 
 		HotelScreen.mapFab().perform(click());
-		assertHotelMap();
 		Common.pressBack();
-
 		assertHotelSRP();
 
 		Common.pressBack();
@@ -153,12 +151,6 @@ public class PackagePhoneHappyPathTest extends PackageTestCase {
 		onView(
 			allOf(withId(R.id.hotel_search_info), withText("1 Room, 1 Guest")))
 			.check(matches(isDisplayed()));
-	}
-
-	private void assertHotelMap() {
-		onView(allOf(withId(R.id.package_map_price_messaging), withText("Price includes taxes, fees, flights + hotel per person"))).check(matches(isDisplayed()));
-		EspressoUtils.assertViewWithTextIsDisplayedAtPosition(HotelScreen.hotelCarousel(), 0, R.id.hotel_strike_through_price, "$571");
-		EspressoUtils.assertViewWithTextIsDisplayedAtPosition(HotelScreen.hotelCarousel(), 0, R.id.hotel_price_per_night, "$562");
 	}
 
 	private void assertCheckoutOverview(LocalDate startDate, LocalDate endDate) {

@@ -6,7 +6,6 @@ import android.util.Log
 import android.view.LayoutInflater
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Money
-import com.expedia.bookings.data.hotels.HotelRate
 import com.expedia.bookings.widget.TextView
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.model.BitmapDescriptor
@@ -17,7 +16,7 @@ import com.google.maps.android.clustering.ClusterManager
 import com.google.maps.android.ui.IconGenerator
 import rx.subjects.PublishSubject
 
-class HotelMapClusterRenderer(private val context: Context, private val map: GoogleMap?, private val clusterManager: ClusterManager<MapItem>?, private val isClusteringEnabled: Boolean, clusterChangeSubject: PublishSubject<Unit>) : DefaultClusterRenderer<MapItem>(context, map, clusterManager, clusterChangeSubject) {
+class HotelMapClusterRenderer(private val context: Context, private val map: GoogleMap?, private val clusterManager: ClusterManager<MapItem>?, clusterChangeSubject: PublishSubject<Unit>) : DefaultClusterRenderer<MapItem>(context, map, clusterManager, clusterChangeSubject) {
     private val clusterIconGenerator = IconGenerator(context)
     private val clusterCountText: TextView
     private val clusterRangeText: TextView
@@ -58,7 +57,7 @@ class HotelMapClusterRenderer(private val context: Context, private val map: Goo
     }
 
     override protected fun shouldRenderAsCluster(cluster: Cluster<MapItem>): Boolean {
-        return isClusteringEnabled && cluster.size > 10
+        return cluster.size > 10
     }
 
     fun createClusterMarkerIcon(context: Context, factory: IconGenerator, cluster: Cluster<MapItem>): BitmapDescriptor {
