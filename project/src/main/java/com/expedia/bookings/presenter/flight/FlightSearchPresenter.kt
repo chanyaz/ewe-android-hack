@@ -85,7 +85,8 @@ class FlightSearchPresenter(context: Context, attrs: AttributeSet) : BaseTwoLoca
 
             override fun onTabSelected(tab: TabLayout.Tab) {
                 searchViewModel.resetDates()
-                searchViewModel.isRoundTripSearch = (tab.position == 0)
+                val isRoundTripSearch = tab.position == 0
+                searchViewModel.isRoundTripSearchObservable.onNext(isRoundTripSearch)
             }
         })
     }

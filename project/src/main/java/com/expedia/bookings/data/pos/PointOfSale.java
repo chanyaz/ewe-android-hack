@@ -805,6 +805,13 @@ public class PointOfSale {
 		return shouldShowCircleForRatings;
 	}
 
+	public void setDoAirlinesChargeAdditionalFeeBasedOnPaymentMethod(boolean doAirlinesChargeAdditionalFeeBasedOnPaymentMethod) {
+		if (!ExpediaBookingApp.isAutomation()) {
+			throw new RuntimeException("PointOfSale.setDoAirlinesChargeAdditionalFeeBasedOnPaymentMethod can only be invoked from Tests.");
+		}
+		this.doAirlinesChargeAdditionalFeeBasedOnPaymentMethod = doAirlinesChargeAdditionalFeeBasedOnPaymentMethod;
+	}
+
 	public boolean doAirlinesChargeAdditionalFeeBasedOnPaymentMethod() {
 		return doAirlinesChargeAdditionalFeeBasedOnPaymentMethod;
 	}

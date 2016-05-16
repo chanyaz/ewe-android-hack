@@ -48,6 +48,8 @@ class FlightPresenter(context: Context, attrs: AttributeSet) : Presenter(context
 
     var searchViewModel: FlightSearchViewModel by notNullAndObservable { vm ->
         searchPresenter.searchViewModel = vm
+        outBoundPresenter.flightSearchViewModel = vm
+        inboundPresenter.flightSearchViewModel = vm
         flightOverviewPresenter.flightSummary.outboundFlightWidget.viewModel.selectedFlightObservable.onNext(PackageSearchType.OUTBOUND_FLIGHT)
         flightOverviewPresenter.flightSummary.inboundFlightWidget.viewModel.selectedFlightObservable.onNext(PackageSearchType.INBOUND_FLIGHT)
         outBoundPresenter.overviewPresenter.vm.selectedFlightClicked.subscribe(flightOverviewPresenter.flightSummary.outboundFlightWidget.viewModel.flight)
@@ -103,12 +105,7 @@ class FlightPresenter(context: Context, attrs: AttributeSet) : Presenter(context
     init {
         Ui.getApplication(getContext()).flightComponent().inject(this)
         View.inflate(context, R.layout.flight_presenter, this)
-
-        try {
-            searchViewModel = FlightSearchViewModel(context, flightServices)
-        } catch(e: Exception) {
-            Log.d("Some tag", Log.getStackTraceString(e.cause?.cause));
-        }
+        searchViewModel = FlightSearchViewModel(context, flightServices)
     }
 
     override fun onFinishInflate() {

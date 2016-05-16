@@ -2,7 +2,6 @@ package com.expedia.bookings.test.phone.newflights
 
 import com.expedia.bookings.R
 import com.expedia.bookings.test.espresso.EspressoUtils
-import com.expedia.bookings.test.phone.newflights.FlightsScreen
 import com.expedia.bookings.test.espresso.ViewActions.waitForViewToDisplay
 
 object FlightTestHelpers {
