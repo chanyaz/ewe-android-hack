@@ -7,26 +7,19 @@ import android.view.View
 import android.view.ViewStub
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Db
-import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.flights.FlightCreateTripParams
-import com.expedia.vm.flights.FlightCreateTripViewModel
-import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.presenter.LeftToRightTransition
 import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.presenter.ScaleTransition
 import com.expedia.bookings.services.FlightServices
 import com.expedia.bookings.tracking.FlightsV2Tracking
-import com.expedia.bookings.utils.CurrencyUtils
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
 import com.expedia.util.notNullAndObservable
 import com.expedia.vm.FlightCheckoutOverviewViewModel
-import com.expedia.vm.FlightCheckoutViewModel
 import com.expedia.vm.FlightSearchViewModel
 import com.expedia.vm.packages.PackageSearchType
-import com.squareup.phrase.Phrase
-import java.math.BigDecimal
 import javax.inject.Inject
 
 class FlightPresenter(context: Context, attrs: AttributeSet) : Presenter(context, attrs) {
@@ -135,20 +128,14 @@ class FlightPresenter(context: Context, attrs: AttributeSet) : Presenter(context
             if (forward) {
                 flightOverviewPresenter.bundleOverviewHeader.checkoutOverviewHeaderToolbar.visibility = View.VISIBLE
                 flightOverviewPresenter.bundleOverviewHeader.toggleOverviewHeader(true)
-                var countryCode = PointOfSale.getPointOfSale().threeLetterCountryCode
-                var currencyCode = CurrencyUtils.currencyForLocale(countryCode)
-                flightOverviewPresenter.getCheckoutPresenter().totalPriceWidget.visibility = View.VISIBLE
-                flightOverviewPresenter.getCheckoutPresenter().totalPriceWidget.viewModel.setTextObservable.onNext(Pair(Money(BigDecimal("0.00"), currencyCode).formattedMoney,
-                        Phrase.from(context, R.string.bundle_total_savings_TEMPLATE)
-                                .put("savings", Money(BigDecimal("0.00"), currencyCode).formattedMoney)
-                                .format().toString()))
+                flightOverviewPresenter.getCheckoutPresenter().resetAndShowTotalPriceWidget()
             }
         }
     }
 
     private val outboundToInbound = ScaleTransition(this, FlightOutboundPresenter::class.java, FlightInboundPresenter::class.java)
 
-    private val searchToOutbound = object: ScaleTransition(this, FlightSearchPresenter::class.java, FlightOutboundPresenter::class.java) {
+    private val searchToOutbound = object : ScaleTransition(this, FlightSearchPresenter::class.java, FlightOutboundPresenter::class.java) {
         override fun endTransition(forward: Boolean) {
             super.endTransition(forward)
             if (!forward) {

@@ -577,6 +577,9 @@ DummyFiletoHandleKotlinLintError {
 		R.string.calendar_instructions_date_range_flight_select_return_date,
 		R.string.flights_round_trip_label,
 		R.string.flights_one_way_label,
-		R.dimen.flights_search_form_top_margin
+		R.dimen.flights_search_form_top_margin,
+		R.layout.rail_leg_summary,
+		R.layout.rail_overview,
+		R.layout.rail_summary
 	};
 }

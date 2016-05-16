@@ -25,7 +25,6 @@ class HotelAmenityFilter(context: Context, attrs: AttributeSet) : LinearLayout(c
 
     var viewModel: HotelFilterViewModel by Delegates.notNull()
 
-
     fun bind(amenity: FilterAmenity, id:Int, vm: HotelFilterViewModel) {
         this.viewModel = vm
         this.amenity = amenity

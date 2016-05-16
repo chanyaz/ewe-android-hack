@@ -26,9 +26,7 @@ abstract class BaseOverviewPresenter(context: Context, attrs: AttributeSet) : Pr
 
     val toolbarHeight = Ui.getStatusBarHeight(context) + Ui.getToolbarSize(context)
 
-    open fun inflate() {
-
-    }
+    abstract fun inflate()
 
     init {
         inflate()

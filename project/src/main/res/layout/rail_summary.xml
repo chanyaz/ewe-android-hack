@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<merge xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <com.expedia.bookings.widget.rail.RailLegSummaryWidget
+        android:id="@+id/rail_outbound_leg_widget"
+        style="@style/MaterialCardView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="12dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginLeft="@dimen/card_view_container_margin"
+        android:layout_marginRight="@dimen/card_view_container_margin"
+        android:animateLayoutChanges="true"
+        android:foreground="?android:attr/selectableItemBackground" />
+
+    <!--TODO handle inbound for roundtrips -->
+
+</merge>

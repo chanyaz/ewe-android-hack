@@ -157,13 +157,7 @@ class PackagePresenter(context: Context, attrs: AttributeSet) : Presenter(contex
                 bundlePresenter.bundleOverviewHeader.checkoutOverviewHeaderToolbar.visibility = View.GONE
                 bundlePresenter.bundleOverviewHeader.toggleOverviewHeader(false)
                 bundlePresenter.getCheckoutPresenter().toggleCheckoutButton(false)
-                var countryCode = PointOfSale.getPointOfSale().threeLetterCountryCode
-                var currencyCode = CurrencyUtils.currencyForLocale(countryCode)
-                bundlePresenter.getCheckoutPresenter().totalPriceWidget.visibility = View.VISIBLE
-                bundlePresenter.getCheckoutPresenter().totalPriceWidget.viewModel.setTextObservable.onNext(Pair(Money(BigDecimal("0.00"), currencyCode).formattedMoney,
-                        Phrase.from(context, R.string.bundle_total_savings_TEMPLATE)
-                                .put("savings", Money(BigDecimal("0.00"), currencyCode).formattedMoney)
-                                .format().toString()))
+                bundlePresenter.getCheckoutPresenter().resetAndShowTotalPriceWidget()
             }
         }
 
