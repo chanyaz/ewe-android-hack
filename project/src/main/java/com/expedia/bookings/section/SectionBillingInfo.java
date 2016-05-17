@@ -634,7 +634,7 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 			return retArr;
 		}
 	};
-	
+
 	SectionFieldEditable<EditText, BillingInfo> mEditLastName = new SectionFieldEditableFocusChangeTrimmer<EditText, BillingInfo>(
 		R.id.edit_last_name) {
 
@@ -686,11 +686,7 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 		Validator<EditText> mValidator = new Validator<EditText>() {
 			@Override
 			public int validate(EditText obj) {
-				if ((mLineOfBusiness == LineOfBusiness.HOTELSV2 && PointOfSale
-					.getPointOfSale().requiresHotelPostalCode())
-					|| (mLineOfBusiness == LineOfBusiness.LX
-					|| mLineOfBusiness == LineOfBusiness.TRANSPORT && PointOfSale.getPointOfSale()
-					.requiresLXPostalCode())) {
+				if (isPostalCodeRequired()) {
 					if (obj == null) {
 						return ValidationError.ERROR_DATA_MISSING;
 					}
@@ -738,6 +734,21 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 			});
 		}
 	};
+
+	private boolean isPostalCodeRequired() {
+		PointOfSale currentPOS = PointOfSale.getPointOfSale();
+		switch (mLineOfBusiness) {
+		case HOTELSV2:
+			return currentPOS.requiresHotelPostalCode();
+		case CARS:
+			return currentPOS.requiresCarsPostalCode();
+		case LX:
+		case TRANSPORT:
+			return currentPOS.requiresLXPostalCode();
+		default:
+			return true;
+		}
+	}
 
 	SectionFieldEditable<EditText, BillingInfo> mEditNameOnCard = new SectionFieldEditableFocusChangeTrimmer<EditText, BillingInfo>(
 		R.id.edit_name_on_card) {

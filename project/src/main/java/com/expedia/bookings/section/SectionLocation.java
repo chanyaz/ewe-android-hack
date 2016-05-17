@@ -540,15 +540,6 @@ public class SectionLocation extends LinearLayout
 			return PointOfSale.countryPaymentRequiresPostalCode(selectedCountry);
 		}
 
-		if (mLineOfBusiness == LineOfBusiness.HOTELS) {
-			// #1056. Postal code for hotels is always optional, regardless of POS or country of billing.
-			return false;
-		}
-
-		if (mLineOfBusiness == LineOfBusiness.CARS) {
-			// TODO Check with product for CARS lob postal code restrictions.
-			return true;
-		}
 		if (mLineOfBusiness == LineOfBusiness.PACKAGES) {
 			// TODO Check with product for PACKAGES lob postal code restrictions.
 			return true;

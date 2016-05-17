@@ -131,6 +131,7 @@ class PaymentViewModel(val context: Context) {
             val isPostalCodeRequired = when (lob) {
                 LineOfBusiness.HOTELSV2 -> PointOfSale.getPointOfSale().requiresHotelPostalCode()
                 LineOfBusiness.CARS -> PointOfSale.getPointOfSale().requiresCarsPostalCode()
+                LineOfBusiness.TRANSPORT -> PointOfSale.getPointOfSale().requiresLXPostalCode()
                 LineOfBusiness.LX -> PointOfSale.getPointOfSale().requiresLXPostalCode()
                 else -> true
             }

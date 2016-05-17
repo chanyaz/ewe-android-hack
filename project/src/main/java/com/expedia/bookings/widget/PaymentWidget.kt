@@ -178,6 +178,7 @@ open class PaymentWidget(context: Context, attr: AttributeSet) : Presenter(conte
 
         vm.onStoredCardChosen.map { true }.subscribe(enableMenuItem)
 
+        viewmodel.isZipValidationRequired.subscribeVisibility(sectionLocation)
     }
 
     override fun onVisibilityChanged(changedView: View?, visibility: Int) {
@@ -530,9 +531,6 @@ open class PaymentWidget(context: Context, attr: AttributeSet) : Presenter(conte
         if (!ExpediaBookingApp.isAutomation()) {
             if (getLineOfBusiness() == LineOfBusiness.HOTELSV2) {
                 HotelV2Tracking().trackHotelV2PaymentEdit()
-                if (Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelCKOPostalCodeTest) && !PointOfSale.getPointOfSale().requiresHotelPostalCode()) {
-                    sectionLocation.visibility = View.GONE
-                }
             } else {
                 OmnitureTracking.trackCheckoutPayment(getLineOfBusiness())
             }
