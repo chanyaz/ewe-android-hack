@@ -1,35 +1,34 @@
 #!/usr/bin/env bash
 
-# ensure python environment for PR Police
-if [ ! -d 'virtualenv' ] ; then
-    virtualenv -p python2.7 virtualenv
-fi
-
-source ./virtualenv/bin/activate
-
-pip install --upgrade "pip"
-pip install enum
-pip install "github3.py==1.0.0.a4"
-#pip install "hypchat==0.21"
-#pip install "lxml==3.5.0"
-
-GITHUB_TOKEN=7d400f5e78f24dbd24ee60814358aa0ab0cd8a76
-HIPCHAT_TOKEN=3htGpj4sE9XxUToWvWCWWmISA3op2U1roRufVjpQ
-
 if [ -n "${BUILD_NUMBER}" ]; then
 	isJenkins=true
 fi
 
-# commenting out as this is breaking on jenkins
-# if [ $isJenkins ]; then
+# do python scripts related setup only if we are running in CI context and a special feature requiring python setup is asked for
+if [[ $isJenkins && ("$isPRPoliceEnabled" == "true" || "$isUnitTestsFeedbackBotEnabled" == "true")]]; then
+    GITHUB_TOKEN=7d400f5e78f24dbd24ee60814358aa0ab0cd8a76
+    HIPCHAT_TOKEN=3htGpj4sE9XxUToWvWCWWmISA3op2U1roRufVjpQ
+
+    if [ ! -d 'virtualenv' ]; then
+        virtualenv -p python2.7 virtualenv
+    fi
+
+    source ./virtualenv/bin/activate
+
+    pip install --upgrade "pip"
+    pip install enum
+    pip install "github3.py==1.0.0.a4"
+    pip install "hypchat==0.21"
+    pip install "lxml==3.5.0"
+
     # exit if finds 'needs-human' label
-    # python ./jenkins/prLabeledAsNeedsHuman.py $GITHUB_TOKEN $ghprbPullId
-    # prLabeledAsNeedsHumanStatus=$?
-    # if [ $prLabeledAsNeedsHumanStatus -ne 0 ]; then
-       # echo "PR is labeled needs-human, so exiting..."
-       # exit 1
-    # fi
-# fi
+    python ./jenkins/prLabeledAsNeedsHuman.py $GITHUB_TOKEN $ghprbPullId
+    prLabeledAsNeedsHumanStatus=$?
+    if [ $prLabeledAsNeedsHumanStatus -ne 0 ]; then
+       echo "PR is labeled needs-human, so exiting..."
+       exit 1
+    fi
+fi
 
 if [ "$isPRPoliceEnabled" == "true" ]; then
     # Invoke PR Police to check for issues
@@ -59,10 +58,13 @@ run() {
 run || run
 unitTestStatus=$?
 
-#if [ $isJenkins ]; then
-#    python ./jenkins/pr_unit_feedback.py $GITHUB_TOKEN $ghprbGhRepository $ghprbPullId $HIPCHAT_TOKEN
-#fi
+# only if we are running in CI context and unittests Feedback Bot is enabled
+if [[ $isJenkins && "$isUnitTestsFeedbackBotEnabled" == "true" ]]; then
+    python ./jenkins/pr_unit_feedback.py $GITHUB_TOKEN $ghprbGhRepository $ghprbPullId $HIPCHAT_TOKEN
+fi
 
 if [[ ($unitTestStatus -ne 0) || ($prPoliceStatus -ne 0) ]]; then
     exit 1
+else
+    exit 0
 fi
