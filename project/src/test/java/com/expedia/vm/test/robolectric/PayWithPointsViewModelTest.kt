@@ -30,6 +30,8 @@ import java.util.ArrayList
 import java.util.concurrent.CountDownLatch
 import java.util.concurrent.TimeUnit
 import kotlin.properties.Delegates
+import kotlin.test.assertFalse
+import kotlin.test.assertTrue
 
 @RunWith(RobolectricRunner::class)
 class PayWithPointsViewModelTest {
@@ -65,21 +67,17 @@ class PayWithPointsViewModelTest {
         val paymentWidget = LayoutInflater.from(activity).inflate(R.layout.payment_widget_v2, null) as PaymentWidgetV2
         val pwpWidget = paymentWidget.findViewById(R.id.pwp_widget) as PayWithPointsWidget
 
-        createTripResponse = mockHotelServiceTestRule.getLoggedInUserWithRedeemablePointsLessThanTripTotalCreateTripResponse()
-        createTripResponse.tripId = "happy";
-        Db.getTripBucket().add(TripBucketItemHotelV2(createTripResponse))
         paymentModel = PaymentModel<HotelCreateTripResponse>(loyaltyServiceRule.services!!)
         shopWithPointsViewModel = ShopWithPointsViewModel(activity.applicationContext, paymentModel, UserLoginStateChangedModel())
         payWithPointsViewModel = PayWithPointsViewModel(paymentModel, shopWithPointsViewModel, activity.applicationContext)
 
-        payWithPointsViewModel.pwpOpted.onNext(true)
-
         pwpWidget.payWithPointsViewModel = payWithPointsViewModel
-        paymentModel.createTripSubject.onNext(createTripResponse)
     }
 
     @Test
     fun testSubscribersAfterCreateTrip() {
+        createTripWithShopWithPointsOpted(true)
+        optForPwp(true)
         totalPointsAndAmountAvailableToRedeemTestSubscriber.assertNoErrors()
         totalPointsAndAmountAvailableToRedeemTestSubscriber.assertValue("$100.00 available (1,000 Expedia+ points)")
 
@@ -95,6 +93,8 @@ class PayWithPointsViewModelTest {
 
     @Test
     fun userEntersBlankEditBoxAndSubmit() {
+        createTripWithShopWithPointsOpted(true)
+        optForPwp(true)
         payWithPointsViewModel.userEnteredBurnAmount.onNext("")
 
         pointsAppliedMessageTestSubscriber.assertNoErrors()
@@ -103,6 +103,8 @@ class PayWithPointsViewModelTest {
 
     @Test
     fun userEntersMoreValueThanTripTotal() {
+        createTripWithShopWithPointsOpted(true)
+        optForPwp(true)
         payWithPointsViewModel.userEnteredBurnAmount.onNext("140")
 
         pointsAppliedMessageTestSubscriber.assertNoErrors()
@@ -111,6 +113,8 @@ class PayWithPointsViewModelTest {
 
     @Test
     fun userEntersMoreValueThanAvailablePoints() {
+        createTripWithShopWithPointsOpted(true)
+        optForPwp(true)
         payWithPointsViewModel.userEnteredBurnAmount.onNext("110")
 
         pointsAppliedMessageTestSubscriber.assertNoErrors()
@@ -119,6 +123,8 @@ class PayWithPointsViewModelTest {
 
     @Test
     fun userEntersZeroAmount() {
+        createTripWithShopWithPointsOpted(true);
+        optForPwp(true)
         payWithPointsViewModel.userEnteredBurnAmount.onNext("0")
 
         pointsAppliedMessageTestSubscriber.assertNoErrors()
@@ -127,6 +133,8 @@ class PayWithPointsViewModelTest {
 
     @Test
     fun userEntersAmountLessThanTripTotalAndAvailablePoints() {
+        createTripWithShopWithPointsOpted(true)
+        optForPwp(true)
         val latch = CountDownLatch(1)
         paymentModel.burnAmountToPointsApiResponse.subscribe { latch.countDown() }
         payWithPointsViewModel.userEnteredBurnAmount.onNext("32")
@@ -137,6 +145,8 @@ class PayWithPointsViewModelTest {
 
     @Test
     fun userEntersAmountLessThanTripTotalAndAvailablePointsBeforePreviousAPIResponse() {
+        createTripWithShopWithPointsOpted(true)
+        optForPwp(true)
         val latch = CountDownLatch(3)
         payWithPointsViewModel.pointsAppliedMessage.subscribe { latch.countDown() }
 
@@ -151,8 +161,9 @@ class PayWithPointsViewModelTest {
 
     @Test
     fun userTogglePwpSwitch() {
+        createTripWithShopWithPointsOpted(true);
         //Toggle switch off
-        payWithPointsViewModel.pwpOpted.onNext(false)
+        optForPwp(false)
 
         pointsAppliedMessageTestSubscriber.assertValues(Pair("1,000 points applied", true), Pair("0 points applied", true))
 
@@ -185,7 +196,41 @@ class PayWithPointsViewModelTest {
     }
 
     @Test
+    fun pwpToggleStateWithRespectToSwpToggleState() {
+        //Toggle SwP OFF
+        shopWithPointsViewModel.shopWithPointsToggleObservable.onNext(false)
+        createTripWithShopWithPointsOpted(false)
+
+        assertFalse(payWithPointsViewModel.pwpOpted.value)
+
+        //Toggle Swp ON
+        shopWithPointsViewModel.shopWithPointsToggleObservable.onNext(true)
+        createTripWithShopWithPointsOpted(true)
+
+        assertTrue(payWithPointsViewModel.pwpOpted.value)
+
+        //Toggle Pwp OFF
+        optForPwp(false)
+        //Toggle Swp ON after you have toggled Pwp OFF
+        shopWithPointsViewModel.shopWithPointsToggleObservable.onNext(true)
+        createTripWithShopWithPointsOpted(true)
+
+        assertTrue(payWithPointsViewModel.pwpOpted.value)
+
+        //Toggle Pwp ON
+        optForPwp(true)
+        //Toggle Swp OFF after you have toggle Pwp ON
+        shopWithPointsViewModel.shopWithPointsToggleObservable.onNext(false)
+        createTripWithShopWithPointsOpted(false)
+
+        assertFalse(payWithPointsViewModel.pwpOpted.value)
+    }
+
+
+    @Test
     fun clearButtonClicked() {
+        createTripWithShopWithPointsOpted(true)
+        optForPwp(true)
         payWithPointsViewModel.clearUserEnteredBurnAmount.onNext(Unit)
 
         pointsAppliedMessageTestSubscriber.assertNoErrors()
@@ -194,6 +239,8 @@ class PayWithPointsViewModelTest {
 
     @Test
     fun userEntersPointAndAPIErrorThrown() {
+        createTripWithShopWithPointsOpted(true)
+        optForPwp(true)
         createTripResponse.tripId = "garbage";
         val latch = CountDownLatch(1)
         paymentModel.burnAmountToPointsApiError.subscribe { latch.countDown() }
@@ -205,6 +252,8 @@ class PayWithPointsViewModelTest {
 
     @Test
     fun pointsNotRedeemable() {
+        createTripWithShopWithPointsOpted(true)
+        optForPwp(true)
         createTripResponse.tripId = "garbage";
         val latch = CountDownLatch(1)
         paymentModel.burnAmountToPointsApiError.subscribe { latch.countDown() }
@@ -216,6 +265,8 @@ class PayWithPointsViewModelTest {
 
     @Test
     fun pwpCurrencyToPoints_TripServiceError() {
+        createTripWithShopWithPointsOpted(true)
+        optForPwp(true)
         createTripResponse.tripId = "trip_service_error";
         val latch = CountDownLatch(1)
         paymentModel.burnAmountToPointsApiError.subscribe { latch.countDown() }
@@ -227,6 +278,8 @@ class PayWithPointsViewModelTest {
 
     @Test
     fun pwpCurrencyToPoints_PointsConversionUnauthenticated() {
+        createTripWithShopWithPointsOpted(true)
+        optForPwp(true)
         createTripResponse.tripId = "points_conversion_unauthenticated";
 
         val latch = CountDownLatch(1)
@@ -239,6 +292,8 @@ class PayWithPointsViewModelTest {
 
     @Test
     fun testingMixedScenarios() {
+        createTripWithShopWithPointsOpted(true)
+        optForPwp(true)
         val expectedMessagesList = ArrayList<Pair<String, Boolean>>()
 
         //Default Splits
@@ -305,5 +360,20 @@ class PayWithPointsViewModelTest {
         testSubscriber.assertNoErrors()
         testSubscriber.assertValueCount(expectedValues.size)
         testSubscriber.assertReceivedOnNext(expectedValues)
+    }
+
+    private fun createTripWithShopWithPointsOpted(shopWithPoints: Boolean) {
+        if (shopWithPoints) {
+            createTripResponse = mockHotelServiceTestRule.getLoggedInUserWithRedeemablePointsLessThanTripTotalCreateTripResponse()
+        } else {
+            createTripResponse = mockHotelServiceTestRule.getHappyCreateTripResponse()
+        }
+        createTripResponse.tripId = "happy";
+        Db.getTripBucket().add(TripBucketItemHotelV2(createTripResponse))
+        paymentModel.createTripSubject.onNext(createTripResponse)
+    }
+
+    private fun optForPwp(pwpToggledOn : Boolean) {
+        payWithPointsViewModel.updatePwPToggle.onNext(pwpToggledOn)
     }
 }
