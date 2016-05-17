@@ -33,6 +33,6 @@
         android:layout_marginBottom="10dp"
         android:layout_marginTop="10dp"
         android:paddingLeft="4dp"
-        android:textColor="#858585" />
+        android:textColor="@color/search_autocomplete_text" />
 
 </LinearLayout>

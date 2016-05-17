@@ -28,6 +28,7 @@
     <color name="white">#FFFFFFFF</color>
     <color name="white_70">#B3FFFFFF</color>
     <color name="white_25">#40FFFFFF</color>
+    <color name="white_30">#30FFFFFF</color> <!-- Disabled white text -->
     <color name="gray1">#EEEEEE</color> <!-- Lightest gray, used for backgrounds (behind cardviews etc) -->
     <color name="gray2">#D6D6D6</color>
     <color name="gray3">#B9B9B9</color>

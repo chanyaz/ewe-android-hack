@@ -127,7 +127,8 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:gravity="center"
-        android:padding="14dp">
+        android:padding="14dp"
+        android:clipToPadding="false">
 
         <TextView
             android:id="@+id/selected_ticket_summary"
@@ -141,7 +142,7 @@
         <Button
             android:id="@+id/lx_book_now"
             android:layout_width="wrap_content"
-            android:layout_height="34dp"
+            android:layout_height="37dp"
             android:background="?attr/skin_lxBookNowButtonSelectorDrawable"
             android:textAllCaps="false"
             android:textColor="@android:color/white"

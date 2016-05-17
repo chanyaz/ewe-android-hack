@@ -118,9 +118,8 @@ public class LxPhoneHappyPathTest extends PhoneTestCase {
 		LXInfositeScreen.selectCalendarOnRecommendations().perform(scrollTo());
 		LXInfositeScreen.selectOfferOnRecommendations("2-Day New York Pass").perform(scrollTo(), click());
 		Common.delay(1);
-		LXInfositeScreen.ticketAddButtonOnRecommendations(ticketName, "Adult").perform(click());
-		LXInfositeScreen.bookNowButtonOnRecommendations(ticketName).perform(scrollTo());
-		LXInfositeScreen.bookNowButtonOnRecommendations(ticketName).perform(click());
+		LXInfositeScreen.ticketAddButtonOnRecommendations(ticketName, "Adult").perform(scrollTo(), click());
+		LXInfositeScreen.bookNowButtonOnRecommendations(ticketName).perform(scrollTo(), click());
 		Common.delay(1);
 
 		manuallyEnterTravelerInfo();

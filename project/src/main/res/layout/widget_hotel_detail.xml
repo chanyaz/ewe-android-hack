@@ -184,7 +184,8 @@
                     android:paddingBottom="16dp"
                     android:paddingLeft="18dp"
                     android:paddingRight="18dp"
-                    android:paddingTop="13dp">
+                    android:paddingTop="13dp"
+                    android:clipToPadding="false">
 
                     <com.expedia.bookings.widget.TextView
                         android:id="@+id/details_sold_out"
@@ -270,15 +271,13 @@
                     <Button
                         android:id="@+id/select_room_button"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_height="36dp"
                         android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
                         android:background="@drawable/hotel_select_room_button_selector"
                         android:minHeight="0dp"
-                        android:paddingBottom="5dp"
                         android:paddingLeft="10dp"
                         android:paddingRight="10dp"
-                        android:paddingTop="5dp"
                         android:text="@string/select_a_room_instruction"
                         android:textAllCaps="false"
                         android:textAppearance="@style/HotelButtonTextAppearance" />
@@ -286,15 +285,13 @@
                     <Button
                         android:id="@+id/change_dates_button"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_height="36dp"
                         android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
                         android:background="@drawable/hotel_select_room_button_selector"
                         android:minHeight="0dp"
-                        android:paddingBottom="5dp"
                         android:paddingLeft="10dp"
                         android:paddingRight="10dp"
-                        android:paddingTop="5dp"
                         android:text="@string/change_dates"
                         android:textAllCaps="false"
                         android:textAppearance="@style/HotelButtonTextAppearance"

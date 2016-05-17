@@ -121,8 +121,7 @@
     <color name="room_rate_refundable_cancellation_text_color">#008C5D</color>
     <color name="hotel_cell_gray_text">@color/gray6</color>
     <color name="hotel_cell_distance_text">#D7D7D7</color>
-    <color name="hotel_cell_secondary_text_color">@color/gray4</color>
-    <color name="hotel_cell_disabled_text">@color/gray6</color>
+    <color name="hotel_cell_disabled_text">@color/gray7</color>
     <color name="hotel_detail_divider">#CACACA</color>
     <color name="hotel_filter_background_color">@color/gray1</color>
     <color name="pwp_total_available_points">#969696</color>
@@ -430,7 +429,7 @@
     <color name="calendar_cell_out_of_valid_range_text">#C7C7C7</color>
 
     <!-- Packages colors -->
-    <color name="package_bundle_icon_color">@color/gray5</color>
+    <color name="package_bundle_icon_color">@color/gray6</color>
     <color name="packages_primary_color">@color/lob_packages_primary_color</color>
     <color name="packages_secondary_color">@color/lob_packages_secondary_color</color>
     <color name="packages_ripple_mask_color">@color/packages_secondary_color</color>
@@ -446,17 +445,17 @@
     <color name="packages_bundle_overview_footer_secondary_text">@color/gray6</color>
     <color name="packages_bundle_overview_footer_secondary_text_savings">@color/temporary_savings</color>
     <color name="packages_bundle_overview_widgets_primary_text">@color/gray7</color>
-    <color name="packages_bundle_overview_widgets_secondary_text">@color/gray4</color>
+    <color name="packages_bundle_overview_widgets_secondary_text">@color/gray6</color>
     <color name="packages_bundle_overview_hotel_expanded_text">@color/gray7</color>
     <color name="packages_results_header_text">@color/search_results_list_header_gray</color>
     <color name="packages_flight_cell_primary_text">@color/gray9</color>
     <color name="packages_flight_cell_duration_text">@color/result_cells_gray_text</color>
     <color name="packages_hotel_map_message">@color/gray7</color>
     <color name="packages_result_background">@color/gray1</color>
-    <color name="traveler_drop_down_unchecked_color">@color/gray7</color>
     <color name="packages_filter_color">@color/gray6</color>
     <color name="traveler_default_card_text_color">@color/gray7</color>
     <color name="traveler_incomplete_text_color">@color/orange_crush</color>
+    <color name="traveler_drop_down_unchecked_color">@color/gray7</color>
     <color name="packages_total_duration_text">@color/white_70</color>
     <color name="flights_error_message_infants">@color/orange_crush</color>
 
@@ -474,13 +473,16 @@
     <color name="preferences_text">@color/launch_toolbar_background_color</color>
     <color name="bundle_price_background_color">@color/white</color>
 
-    <!-- New Search Screen -->
+    <!-- Unified Search Screen -->
     <color name="search_screen_icon_color_v2">@color/gray6</color>
-    <color name="white_disabled">#30FFFFFF</color>
+    <color name="white_disabled">@color/white_30</color>
     <color name="search_dialog_background_v2">@color/white</color>
     <color name="search_suggestion_background_v2">#FAFAFA</color>
     <color name="search_suggestion_v2">@color/gray6</color>
     <color name="search_suggestion_hint_v2">@color/gray6_65</color>
+    <color name="search_autocomplete_text">@color/gray6</color>
+    <color name="traveler_picker_main_text">@color/gray8</color>
+    <color name="traveler_picker_secondary_text">@color/gray6</color>
 
     <!-- Account Screen -->
     <color name="about_row_primary_text_color">@color/gray7</color>
@@ -506,7 +508,7 @@
     <color name="result_cells_gray_text">@color/gray6</color>
 
     <!-- This color should be used on search result list header texts such as "All Flights", "Searching hundreds of hotels" and "Step 1: Select Hotel".  -->
-    <color name="search_results_list_header_gray">@color/gray6</color>
+    <color name="search_results_list_header_gray">@color/gray7</color>
 
     <!-- Flight docked bar title text -->
     <color name="flight_docked_text">@color/gray7</color>
