@@ -19,8 +19,8 @@ import rx.subjects.PublishSubject
 import javax.inject.Inject
 
 class HotelSearchViewModel(context: Context) : BaseSearchViewModel(context) {
-    override val paramsBuilder = HotelSearchParams.Builder(getMaxSearchDurationDays(), getMaxDateRange())
 
+    val hotelParamsBuilder = HotelSearchParams.Builder(getMaxSearchDurationDays(), getMaxDateRange())
     val userBucketedObservable = BehaviorSubject.create<Boolean>()
     val externalSearchParamsObservable = BehaviorSubject.create<Boolean>()
     val searchParamsObservable = PublishSubject.create<HotelSearchParams>()
@@ -29,45 +29,49 @@ class HotelSearchViewModel(context: Context) : BaseSearchViewModel(context) {
 
     var shopWithPointsViewModel: ShopWithPointsViewModel by notNullAndObservable {
         it.swpEffectiveAvailability.subscribe{
-            paramsBuilder.shopWithPoints(it)
+            getParamsBuilder().shopWithPoints(it)
         }
     }
         @Inject set
 
     // Inputs
     override var requiredSearchParamsObserver = endlessObserver<Unit> {
-        searchButtonObservable.onNext(paramsBuilder.areRequiredParamsFilled())
-        destinationValidObservable.onNext(paramsBuilder.hasDestinationLocation())
+        searchButtonObservable.onNext(getParamsBuilder().areRequiredParamsFilled())
+        destinationValidObservable.onNext(getParamsBuilder().hasDestinationLocation())
     }
 
     override val destinationLocationObserver = endlessObserver<SuggestionV4> { suggestion ->
-        paramsBuilder.destination(suggestion)
+        getParamsBuilder().destination(suggestion)
         locationTextObservable.onNext(Html.fromHtml(suggestion.regionNames.displayName).toString())
         requiredSearchParamsObserver.onNext(Unit)
     }
 
     val suggestionTextChangedObserver = endlessObserver<Unit> {
-        paramsBuilder.destination(null)
+        getParamsBuilder().destination(null)
         requiredSearchParamsObserver.onNext(Unit)
     }
 
     val searchObserver = endlessObserver<Unit> {
-        if (paramsBuilder.areRequiredParamsFilled()) {
-            if (!paramsBuilder.hasValidDateDuration()) {
+        if (getParamsBuilder().areRequiredParamsFilled()) {
+            if (!getParamsBuilder().hasValidDateDuration()) {
                 errorMaxDurationObservable.onNext(context.getString(R.string.hotel_search_range_error_TEMPLATE, getMaxSearchDurationDays()))
             } else {
-                val hotelSearchParams = paramsBuilder.build()
+                val hotelSearchParams = getParamsBuilder().build()
                 HotelSearchParamsUtil.saveSearchHistory(context, hotelSearchParams)
 
                 searchParamsObservable.onNext(hotelSearchParams)
             }
         } else {
-            if (!paramsBuilder.hasDestinationLocation()) {
+            if (!getParamsBuilder().hasDestinationLocation()) {
                 errorNoDestinationObservable.onNext(Unit)
-            } else if (!paramsBuilder.hasStartAndEndDates()) {
+            } else if (!getParamsBuilder().hasStartAndEndDates()) {
                 errorNoDatesObservable.onNext(Unit)
             }
         }
+    }
+
+    override fun getParamsBuilder(): HotelSearchParams.Builder {
+        return hotelParamsBuilder
     }
 
     override fun isStartDateOnlyAllowed(): Boolean {
@@ -85,11 +89,11 @@ class HotelSearchViewModel(context: Context) : BaseSearchViewModel(context) {
     override fun onDatesChanged(dates: Pair<LocalDate?, LocalDate?>) {
         val (start, end) = dates
 
-        paramsBuilder.startDate(start)
+        getParamsBuilder().startDate(start)
         if (start != null && end == null) {
-            paramsBuilder.endDate(start.plusDays(1))
+            getParamsBuilder().endDate(start.plusDays(1))
         } else {
-            paramsBuilder.endDate(end)
+            getParamsBuilder().endDate(end)
         }
 
         dateTextObservable.onNext(computeDateText(start, end))

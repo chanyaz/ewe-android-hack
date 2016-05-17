@@ -15,13 +15,12 @@ import com.squareup.phrase.Phrase
 import org.joda.time.LocalDate
 import rx.Observable
 import rx.Observer
+import rx.subjects.BehaviorSubject
 import rx.subjects.PublishSubject
 import java.util.HashMap
 import java.util.LinkedHashSet
 
 class FlightSearchViewModel(context: Context, val flightServices: FlightServices) : BaseSearchViewModel(context) {
-
-    override val paramsBuilder = FlightSearchParams.Builder(getMaxSearchDurationDays(), getMaxDateRange())
 
     var flightMap: HashMap<String, LinkedHashSet<FlightLeg>> = HashMap()
     var flightOfferModels: HashMap<String, FlightTripDetails.FlightOffer> = HashMap()
@@ -33,24 +32,25 @@ class FlightSearchViewModel(context: Context, val flightServices: FlightServices
     val flightProductId = PublishSubject.create<String>()
     val outboundFlightSelected = PublishSubject.create<FlightLeg>()
     val inboundFlightSelected = PublishSubject.create<FlightLeg>()
+    val isRoundTripSearchObservable = BehaviorSubject.create<Boolean>(true)
 
-    var isRoundTripSearch = true // default to roundTrip search
+    val flightParamsBuilder = FlightSearchParams.Builder(getMaxSearchDurationDays(), getMaxDateRange())
 
     val searchObserver = endlessObserver<Unit> {
-        paramsBuilder.maxStay = getMaxSearchDurationDays()
-        if (paramsBuilder.areRequiredParamsFilled()) {
-            if (paramsBuilder.isOriginSameAsDestination()) {
+        getParamsBuilder().maxStay = getMaxSearchDurationDays()
+        if (getParamsBuilder().areRequiredParamsFilled()) {
+            if (getParamsBuilder().isOriginSameAsDestination()) {
                 errorOriginSameAsDestinationObservable.onNext(context.getString(R.string.error_same_flight_departure_arrival))
-            } else if (!paramsBuilder.hasValidDateDuration()) {
+            } else if (!getParamsBuilder().hasValidDateDuration()) {
                 errorMaxDurationObservable.onNext(context.getString(R.string.hotel_search_range_error_TEMPLATE, getMaxSearchDurationDays()))
             } else {
-                val flightSearchParams = paramsBuilder.build()
+                val flightSearchParams = getParamsBuilder().build()
                 searchParamsObservable.onNext(flightSearchParams)
             }
         } else {
-            if (!paramsBuilder.hasOriginAndDestination()) {
+            if (!getParamsBuilder().hasOriginAndDestination()) {
                 errorNoDestinationObservable.onNext(Unit)
-            } else if (!paramsBuilder.hasStartAndEndDates()) {
+            } else if (!getParamsBuilder().hasStartAndEndDates()) {
                 errorNoDatesObservable.onNext(Unit)
             }
         }
@@ -71,13 +71,17 @@ class FlightSearchViewModel(context: Context, val flightServices: FlightServices
         }).subscribe()
     }
 
+    override fun getParamsBuilder(): FlightSearchParams.Builder {
+        return flightParamsBuilder
+    }
+
     override fun isStartDateOnlyAllowed(): Boolean {
         return true
     }
 
     override fun getMaxSearchDurationDays(): Int {
         // 0 for one-way searches
-        return if (isRoundTripSearch) context.resources.getInteger(R.integer.calendar_max_days_flight_search) else 0
+        return if (isRoundTripSearchObservable.value) context.resources.getInteger(R.integer.calendar_max_days_flight_search) else 0
     }
 
     override fun getMaxDateRange(): Int {
@@ -101,7 +105,7 @@ class FlightSearchViewModel(context: Context, val flightServices: FlightServices
             return context.resources.getString(R.string.select_dates)
         } else if (end == null) {
             val stringResId =
-                    if (isRoundTripSearch)
+                    if (isRoundTripSearchObservable.value)
                         R.string.select_return_date_TEMPLATE
                     else
                         R.string.calendar_instructions_date_range_flight_one_way_TEMPLATE
@@ -120,7 +124,7 @@ class FlightSearchViewModel(context: Context, val flightServices: FlightServices
 
     override fun computeTooltipText(start: LocalDate?, end: LocalDate?): Pair<String, String> {
         val instructions =
-                if (isRoundTripSearch) {
+                if (isRoundTripSearchObservable.value) {
                     val instructionStringResId =
                             if (end == null)
                                 R.string.calendar_instructions_date_range_flight_select_return_date

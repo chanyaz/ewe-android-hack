@@ -17,7 +17,8 @@ import org.joda.time.LocalDate
 import rx.subjects.PublishSubject
 
 class PackageSearchViewModel(context: Context) : BaseSearchViewModel(context) {
-    override val paramsBuilder = PackageSearchParams.Builder(getMaxSearchDurationDays(), getMaxDateRange())
+
+    val packageParamsBuilder = PackageSearchParams.Builder(getMaxSearchDurationDays(), getMaxDateRange())
 
     // Outputs
     val searchParamsObservable = PublishSubject.create<PackageSearchParams>()
@@ -34,35 +35,40 @@ class PackageSearchViewModel(context: Context) : BaseSearchViewModel(context) {
     // Inputs
 
     val isInfantInLapObserver = endlessObserver<Boolean> { isInfantInLap ->
-        paramsBuilder.infantSeatingInLap(isInfantInLap)
+        getParamsBuilder().infantSeatingInLap(isInfantInLap)
     }
 
     val suggestionTextChangedObserver = endlessObserver<Boolean> {
-        if (it) paramsBuilder.origin(null) else paramsBuilder.destination(null)
+        if (it) getParamsBuilder().origin(null) else getParamsBuilder().destination(null)
         requiredSearchParamsObserver.onNext(Unit)
     }
 
     val searchObserver = endlessObserver<Unit> {
-        if (paramsBuilder.areRequiredParamsFilled()) {
-            if (paramsBuilder.isOriginSameAsDestination()) {
+        if (getParamsBuilder().areRequiredParamsFilled()) {
+            if (getParamsBuilder().isOriginSameAsDestination()) {
                 errorOriginSameAsDestinationObservable.onNext(context.getString(R.string.error_same_flight_departure_arrival))
-            } else if (!paramsBuilder.hasValidDateDuration()) {
+            } else if (!getParamsBuilder().hasValidDateDuration()) {
                 errorMaxDurationObservable.onNext(context.getString(R.string.hotel_search_range_error_TEMPLATE, getMaxSearchDurationDays()))
-            } else if (!paramsBuilder.isWithinDateRange()) {
+            } else if (!getParamsBuilder().isWithinDateRange()) {
                errorMaxRangeObservable.onNext(context.getString(R.string.error_date_too_far, getMaxSearchDurationDays()))
             } else {
-                val packageSearchParams = paramsBuilder.build()
+                val packageSearchParams = getParamsBuilder().build()
                 updateDbTravelers(packageSearchParams) // This is required for the checkout screen to correctly populate traveler entry screen.
                 searchParamsObservable.onNext(packageSearchParams)
             }
         } else {
-            if (!paramsBuilder.hasOriginAndDestination()) {
+            if (!getParamsBuilder().hasOriginAndDestination()) {
                 errorNoDestinationObservable.onNext(Unit)
-            } else if (!paramsBuilder.hasStartAndEndDates()) {
+            } else if (!getParamsBuilder().hasStartAndEndDates()) {
                 errorNoDatesObservable.onNext(Unit)
             }
         }
     }
+
+    override fun getParamsBuilder(): PackageSearchParams.Builder {
+        return packageParamsBuilder
+    }
+
 
     override fun isStartDateOnlyAllowed(): Boolean {
         return false

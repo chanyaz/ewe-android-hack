@@ -7,7 +7,6 @@ import com.expedia.bookings.test.espresso.SpoonScreenshotUtils
 import android.support.test.espresso.Espresso.onView
 import android.support.test.espresso.matcher.ViewMatchers.withId
 import android.support.test.espresso.matcher.RootMatchers.withDecorView
-import com.expedia.bookings.test.phone.packages.PackageScreen
 import org.hamcrest.Matchers.not
 import org.hamcrest.core.Is.`is`
 import org.joda.time.LocalDate

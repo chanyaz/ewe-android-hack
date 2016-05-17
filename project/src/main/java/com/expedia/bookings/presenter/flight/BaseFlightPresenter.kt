@@ -22,11 +22,13 @@ import com.expedia.bookings.utils.ArrowXDrawableUtil
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.BaggageFeeInfoWidget
+import com.expedia.bookings.widget.FlightListAdapter
 import com.expedia.bookings.widget.PackageFlightFilterWidget
 import com.expedia.util.notNullAndObservable
 import com.expedia.vm.BaggageFeeInfoViewModel
 import com.expedia.vm.FlightOverviewViewModel
 import com.expedia.vm.FlightResultsViewModel
+import com.expedia.vm.FlightSearchViewModel
 import com.expedia.vm.FlightToolbarViewModel
 import com.expedia.vm.packages.PackageFlightFilterViewModel
 import rx.Observer
@@ -40,6 +42,12 @@ abstract class BaseFlightPresenter(context: Context, attrs: AttributeSet) : Pres
     var navIcon = ArrowXDrawableUtil.getNavigationIconDrawable(getContext(), ArrowXDrawableUtil.ArrowDrawableType.BACK)
     var menuFilter: ActionMenuItemView by Delegates.notNull()
     var menuSearch: ActionMenuItemView by Delegates.notNull()
+    var flightSearchViewModel: FlightSearchViewModel by notNullAndObservable { vm ->
+        val flightListAdapter = FlightListAdapter(context, resultsPresenter.flightSelectedSubject, vm)
+        resultsPresenter.setAdapter(flightListAdapter)
+        toolbarViewModel.isOutboundSearch.onNext(false)
+    }
+
     val filterPlaceholderIcon by lazy {
         val sortDrawable = ContextCompat.getDrawable(context, R.drawable.sort).mutate()
         sortDrawable.setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_IN)

@@ -17,7 +17,6 @@ import rx.subjects.PublishSubject
 import kotlin.properties.Delegates
 
 abstract class BaseSearchViewModel(val context: Context) {
-    open val paramsBuilder: BaseSearchParams.Builder by Delegates.notNull()
 
     // Outputs
     val dateTextObservable = BehaviorSubject.create<CharSequence>()
@@ -42,10 +41,12 @@ abstract class BaseSearchViewModel(val context: Context) {
 
     init {
         travelersObserver.subscribe { update ->
-            paramsBuilder.adults(update.numberOfAdults)
-            paramsBuilder.children(update.childrenAges)
+            getParamsBuilder().adults(update.numberOfAdults)
+            getParamsBuilder().children(update.childrenAges)
         }
     }
+
+    abstract fun getParamsBuilder(): BaseSearchParams.Builder
 
     abstract fun getMaxSearchDurationDays(): Int;
 
@@ -56,27 +57,27 @@ abstract class BaseSearchViewModel(val context: Context) {
     }
 
     val enableDateObserver = endlessObserver<Unit> {
-        enableDateObservable.onNext(paramsBuilder.hasOriginAndDestination())
+        enableDateObservable.onNext(getParamsBuilder().hasOriginAndDestination())
     }
 
     val enableTravelerObserver = endlessObserver<Unit> {
-        enableTravelerObservable.onNext(paramsBuilder.hasDestinationLocation())
+        enableTravelerObservable.onNext(getParamsBuilder().hasDestinationLocation())
     }
 
     open var requiredSearchParamsObserver = endlessObserver<Unit> { // open so HotelSearchViewModel can override it
-        searchButtonObservable.onNext(paramsBuilder.areRequiredParamsFilled())
-        destinationValidObservable.onNext(paramsBuilder.hasDestinationLocation())
-        originValidObservable.onNext(paramsBuilder.hasOriginAndDestination())
+        searchButtonObservable.onNext(getParamsBuilder().areRequiredParamsFilled())
+        destinationValidObservable.onNext(getParamsBuilder().hasDestinationLocation())
+        originValidObservable.onNext(getParamsBuilder().hasOriginAndDestination())
     }
 
     val originLocationObserver = endlessObserver<SuggestionV4> { suggestion ->
-        paramsBuilder.origin(suggestion)
+        getParamsBuilder().origin(suggestion)
         formattedOriginObservable.onNext(StrUtils.formatAirport(suggestion))
         requiredSearchParamsObserver.onNext(Unit)
     }
 
     open val destinationLocationObserver = endlessObserver<SuggestionV4> { suggestion ->
-        paramsBuilder.destination(suggestion)
+        getParamsBuilder().destination(suggestion)
         formattedDestinationObservable.onNext(StrUtils.formatAirport(suggestion))
         requiredSearchParamsObserver.onNext(Unit)
     }
@@ -97,11 +98,11 @@ abstract class BaseSearchViewModel(val context: Context) {
         val (start, end) = dates
         datesObservable.onNext(dates)
 
-        paramsBuilder.startDate(start)
-        paramsBuilder.endDate(end)
+        getParamsBuilder().startDate(start)
+        getParamsBuilder().endDate(end)
         if (!isStartDateOnlyAllowed()) {
             if (start != null && end == null) {
-                paramsBuilder.endDate(start.plusDays(1))
+                getParamsBuilder().endDate(start.plusDays(1))
             }
         }
 

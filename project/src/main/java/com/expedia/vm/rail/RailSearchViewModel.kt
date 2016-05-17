@@ -16,7 +16,8 @@ import rx.subjects.BehaviorSubject
 import rx.subjects.PublishSubject
 
 class RailSearchViewModel(context: Context) : BaseSearchViewModel(context) {
-    override val paramsBuilder = RailSearchRequest.Builder()
+
+    val railRequestBuilder = RailSearchRequest.Builder()
 
     // Outputs
     val searchParamsObservable = PublishSubject.create<RailSearchRequest>()
@@ -51,19 +52,19 @@ class RailSearchViewModel(context: Context) : BaseSearchViewModel(context) {
     }
 
     val searchObserver = endlessObserver<Unit> {
-        paramsBuilder.origin(railOriginObservable.value)
-        paramsBuilder.destination(railDestinationObservable.value)
-        paramsBuilder.startDate(datesObservable.value?.first)
-        paramsBuilder.endDate(datesObservable.value?.second)
+        getParamsBuilder().origin(railOriginObservable.value)
+        getParamsBuilder().destination(railDestinationObservable.value)
+        getParamsBuilder().startDate(datesObservable.value?.first)
+        getParamsBuilder().endDate(datesObservable.value?.second)
 
-        if (paramsBuilder.areRequiredParamsFilled()) {
-            var searchParams = paramsBuilder.build()
+        if (getParamsBuilder().areRequiredParamsFilled()) {
+            var searchParams = getParamsBuilder().build()
             searchParamsObservable.onNext(searchParams)
         } else {
-            if (!paramsBuilder.hasOriginAndDestination()) {
+            if (!getParamsBuilder().hasOriginAndDestination()) {
                 railErrorNoLocationsObservable.onNext(Unit)
             }
-            if (!paramsBuilder.hasValidDateDuration()) {
+            if (!getParamsBuilder().hasValidDateDuration()) {
                 errorNoDatesObservable.onNext(Unit)
             }
         }
@@ -75,6 +76,10 @@ class RailSearchViewModel(context: Context) : BaseSearchViewModel(context) {
         railDestinationObservable.onNext(oldOrigin)
     }
 
+    override fun getParamsBuilder(): RailSearchRequest.Builder {
+        return railRequestBuilder
+    }
+
     override fun isStartDateOnlyAllowed(): Boolean {
         return true // one way train journeys possible
     }
@@ -83,8 +88,8 @@ class RailSearchViewModel(context: Context) : BaseSearchViewModel(context) {
         super.onDatesChanged(dates)
 
         val (start, end) = dates
-        paramsBuilder.startDate(start)
-        paramsBuilder.endDate(end)
+        getParamsBuilder().startDate(start)
+        getParamsBuilder().endDate(end)
     }
 
     override fun computeDateText(start: LocalDate?, end: LocalDate?): CharSequence {

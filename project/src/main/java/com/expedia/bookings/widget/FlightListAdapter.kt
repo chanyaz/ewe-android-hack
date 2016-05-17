@@ -13,12 +13,13 @@ import com.expedia.bookings.utils.AnimUtils
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.packages.FlightAirlineWidget
 import com.expedia.bookings.widget.packages.FlightLayoverWidget
+import com.expedia.vm.FlightSearchViewModel
 import com.expedia.vm.packages.PackageFlightViewModel
 import rx.subjects.PublishSubject
 import java.util.ArrayList
 import java.util.Locale
 
-open class FlightListAdapter(val context: Context, val flightSelectedSubject: PublishSubject<FlightLeg>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+open class FlightListAdapter(val context: Context, val flightSelectedSubject: PublishSubject<FlightLeg>, var isRoundTripSearch: Boolean = true, val isFlightsLOB: Boolean = false) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     private val NUMBER_LOADING_TILES = 5
     private var loadingState = true
     private var flights: List<FlightLeg> = emptyList()
@@ -31,6 +32,10 @@ open class FlightListAdapter(val context: Context, val flightSelectedSubject: Pu
         LOADING_FLIGHTS_HEADER_VIEW,
         BEST_FLIGHT_VIEW,
         FLIGHT_CELL_VIEW
+    }
+
+    constructor(context: Context, flightSelectedSubject: PublishSubject<FlightLeg>, flightSearchViewModel: FlightSearchViewModel): this(context, flightSelectedSubject, true, true) {
+        flightSearchViewModel.isRoundTripSearchObservable.subscribe({ isRoundTripSearch = it })
     }
 
     @UiThread
@@ -69,15 +74,23 @@ open class FlightListAdapter(val context: Context, val flightSelectedSubject: Pu
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder?, position: Int) {
-        if (holder is FlightViewHolder) {
-            holder.bind(PackageFlightViewModel(holder.itemView.context, flights[position - adjustPosition()]))
-        }
-        else if (holder is LoadingViewHolder) {
-            val animation = AnimUtils.setupLoadingAnimation(holder.backgroundImageView, position % 2 == 0)
-            holder.setAnimator(animation)
-        }
-        else if (holder is LoadingFlightsHeaderViewHolder) {
-            holder.bind()
+        when (holder) {
+            is FlightViewHolder -> {
+                holder.bind(PackageFlightViewModel(holder.itemView.context, flights[position - adjustPosition()]))
+            }
+
+            is LoadingViewHolder -> {
+                val animation = AnimUtils.setupLoadingAnimation(holder.backgroundImageView, position % 2 == 0)
+                holder.setAnimator(animation)
+            }
+
+            is LoadingFlightsHeaderViewHolder -> {
+                holder.bind()
+            }
+
+            is HeaderViewHolder -> {
+                holder.bind(isRoundTripSearch)
+            }
         }
     }
 
@@ -89,7 +102,7 @@ open class FlightListAdapter(val context: Context, val flightSelectedSubject: Pu
             }
             ViewTypes.ALL_FLIGHTS_HEADER_VIEW.ordinal -> {
                 val view = LayoutInflater.from(parent.context).inflate(R.layout.all_flights_header_cell, parent, false)
-                return HeaderViewHolder(view as ViewGroup)
+                return AllFlightsHeaderViewHolder(view as ViewGroup)
             }
             ViewTypes.LOADING_FLIGHTS_HEADER_VIEW.ordinal -> {
                 val view = LayoutInflater.from(parent.context).inflate(R.layout.flight_results_loading_header_cell, parent, false)
@@ -124,8 +137,17 @@ open class FlightListAdapter(val context: Context, val flightSelectedSubject: Pu
     }
 
     inner class HeaderViewHolder(val root: ViewGroup) : RecyclerView.ViewHolder(root) {
+        val title: TextView by bindView(R.id.flight_results_price_header)
 
+        fun bind(isRoundTripSearch: Boolean) {
+            val airlinesChargePaymentMethodFee = isFlightsLOB && PointOfSale.getPointOfSale().doAirlinesChargeAdditionalFeeBasedOnPaymentMethod()
+            val roundTripStringResId = if (airlinesChargePaymentMethodFee) R.string.prices_roundtrip_minimum_label else R.string.prices_roundtrip_label
+            val oneWayStringResId = if (airlinesChargePaymentMethodFee) R.string.prices_oneway_minimum_label else R.string.prices_oneway_label
+            title.text = context.resources.getText(if (isRoundTripSearch) roundTripStringResId else oneWayStringResId)
+        }
     }
+
+    inner class AllFlightsHeaderViewHolder(val root: ViewGroup) : RecyclerView.ViewHolder(root)
 
     inner class LoadingFlightsHeaderViewHolder(root: View) : RecyclerView.ViewHolder(root) {
         val title: TextView by bindView(R.id.title)
