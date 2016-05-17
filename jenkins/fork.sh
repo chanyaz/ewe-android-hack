@@ -18,9 +18,11 @@ pip install "hypchat==0.21"
 pip install objectpath
 
 internal_artifact() {
-	 pushd project/build/fork
-	 tar -czvf ~/artifacts/uitests-$BUILD_NUMBER-$1.tar.gz expedia
-	 popd
+	# Cook up the frequencies of flaky UI tests so they are readily available for consumption by the Topmost-Flaky-UI-Tests-Daily-Report Job
+	python ./jenkins/prepare_frequencies_of_flaky_ui_tests.py project/build/fork ~/artifacts/uitests-$BUILD_NUMBER-$1.flaky.tests.frequency.txt
+	pushd project/build/fork
+	tar -czvf ~/artifacts/uitests-$BUILD_NUMBER-$1.tar.gz expedia
+	popd
 }
 
 # exit if finds 'needs-human' label
