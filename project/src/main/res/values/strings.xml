@@ -3875,6 +3875,8 @@
     <string name="select_hotel_content_description">Search completed, please press this button to select a hotel in {destination} from {startdate} to {enddate}, for {guests}</string>
     <!-- Bundle Overview select hotel accessibility content description when still searching -->
     <string name="select_hotel_content_description_searching">Searching for hotels in {destination} from {startdate} to {enddate}, for {guests}. Please wait</string>
+    <!-- Bundle Overview selected hotel accessibility content description -->
+    <string name="select_hotel_content_description_selected">You have selected hotel {hotel} from {startdate} to {enddate}, for {guests}. Please press this button to show more details.</string>
     <!-- Bundle Overview select hotel -->
     <string name="select_hotel_template">Select hotel in %s</string>
     <!-- Bundle Overview searching flight -->

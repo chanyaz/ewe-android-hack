@@ -50,6 +50,8 @@ public class PackageBundleOverviewPresenterTest extends PackageTestCase {
 
 		PackageScreen.selectRoom();
 
+		checkBundleOverviewHotelContentDescription("Package Happy Path");
+
 		PackageScreen.outboundFlightInfo().check(matches(hasDescendant(
 			allOf(isDisplayed(), withText("Select flight to (DTW) Detroit")))));
 
@@ -179,6 +181,13 @@ public class PackageBundleOverviewPresenterTest extends PackageTestCase {
 			PackageScreen.bundleOverviewHotelRowContainer().check(matches(withContentDescription("" +
 				"Searching for hotels in Detroit from " + startDate + " to " + endDate + ", for 1 Guest. Please wait")));
 		}
+	}
+
+	private void checkBundleOverviewHotelContentDescription(String selectedHotelName) {
+		String startDate = DateUtils.localDateToMMMd(LocalDate.now().plusDays(3));
+		String endDate = DateUtils.localDateToMMMd(LocalDate.now().plusDays(8));
+		PackageScreen.bundleOverviewHotelRowContainer().check(matches(withContentDescription("" +
+			"You have selected hotel " + selectedHotelName + " from " + startDate + " to " + endDate + ", for 1 Guest. Please press this button to show more details.")));
 	}
 
 }
