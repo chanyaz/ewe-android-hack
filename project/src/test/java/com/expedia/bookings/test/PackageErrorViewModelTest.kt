@@ -5,6 +5,7 @@ import android.support.annotation.StringRes
 import com.expedia.bookings.BuildConfig
 import com.expedia.bookings.R
 import com.expedia.bookings.data.cars.ApiError
+import com.expedia.bookings.data.packages.PackageApiError
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.vm.packages.PackageErrorViewModel
 import com.squareup.phrase.Phrase
@@ -17,6 +18,29 @@ import rx.observers.TestSubscriber
 class PackageErrorViewModelTest {
     private fun getContext(): Context {
         return RuntimeEnvironment.application
+    }
+
+    @Test fun observableEmissionsOnSearchApiError() {
+        observableEmissionsOnSearchError(PackageApiError.Code.pkg_unknown_error)
+        observableEmissionsOnSearchError(PackageApiError.Code.search_response_null)
+        observableEmissionsOnSearchError(PackageApiError.Code.pkg_destination_resolution_failed)
+        observableEmissionsOnSearchError(PackageApiError.Code.pkg_flight_no_longer_available)
+        observableEmissionsOnSearchError(PackageApiError.Code.pkg_too_many_children_in_lap)
+        observableEmissionsOnSearchError(PackageApiError.Code.pkg_invalid_checkin_checkout_dates)
+    }
+
+    fun observableEmissionsOnSearchError(apiError: PackageApiError.Code) {
+        val subjectUnderTest = PackageErrorViewModel(RuntimeEnvironment.application)
+
+        val searchApiObservableTestSubscriber = TestSubscriber.create<PackageApiError.Code>()
+        subjectUnderTest.searchApiErrorObserver.subscribe(searchApiObservableTestSubscriber)
+
+        val errorMessageObservableTestSubscriber = TestSubscriber.create<String>()
+        subjectUnderTest.errorMessageObservable.subscribe(errorMessageObservableTestSubscriber)
+
+        subjectUnderTest.searchApiErrorObserver.onNext(apiError)
+
+        errorMessageObservableTestSubscriber.assertValues(RuntimeEnvironment.application.getString(R.string.error_package_search_message))
     }
 
     @Test fun observableEmissionsOnPaymentCardApiError() {
