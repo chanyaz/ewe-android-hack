@@ -1654,6 +1654,8 @@
     <string name="error_invalid_arrival_airport">Invalid arrival airport.</string>
     <!-- Error message when we find no flights because of invalid departure AND arrival airports -->
     <string name="error_invalid_departure_arrival_airports">Invalid departure and arrival airports.</string>
+    <!-- Error message when we find no flights because of invalid departure date -->
+    <string name="error_invalid_departure_date">Invalid departure date.</string>
     <!-- "Details" button label, for seeing details of a flight -->
     <string name="details">Details</string>
     <!-- "Select" button label, for selecting a particular leg of a flight -->

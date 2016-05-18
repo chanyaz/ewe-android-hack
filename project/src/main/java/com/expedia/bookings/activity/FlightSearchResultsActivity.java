@@ -802,7 +802,6 @@ public class FlightSearchResultsActivity extends FragmentActivity implements Fli
 		@Override
 		public void onDownload(FlightSearchResponse response) {
 			Log.i("Finished flights download!");
-
 			// If the response is null, fake an error response (for the sake of cleaner code)
 			if (response == null) {
 				response = new FlightSearchResponse();
@@ -859,7 +858,7 @@ public class FlightSearchResultsActivity extends FragmentActivity implements Fli
 		if (invalidFields.size() > 0) {
 			boolean invalidDeparture = invalidFields.contains("departureAirport");
 			boolean invalidArrival = invalidFields.contains("arrivalAirport");
-
+			boolean invalidDepartureDate = invalidFields.contains("departureDate");
 			int resId = 0;
 			if (invalidDeparture && invalidArrival) {
 				resId = R.string.error_invalid_departure_arrival_airports;
@@ -869,6 +868,9 @@ public class FlightSearchResultsActivity extends FragmentActivity implements Fli
 			}
 			else if (invalidArrival) {
 				resId = R.string.error_invalid_arrival_airport;
+			}
+			else if (invalidDepartureDate) {
+				resId = R.string.error_invalid_departure_date;
 			}
 
 			if (resId != 0) {
