@@ -6,7 +6,6 @@ import android.text.Spanned
 import com.expedia.bookings.data.BaseApiResponse
 import com.expedia.bookings.data.BaseCheckoutParams
 import com.expedia.bookings.data.BillingInfo
-import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.Traveler
 import com.expedia.bookings.data.TripResponse
 import com.expedia.bookings.data.cars.ApiError
@@ -18,7 +17,6 @@ abstract  class BaseCheckoutViewModel(val context: Context) {
     open val builder = BaseCheckoutParams.Builder()
 
     // Inputs
-    val lineOfBusiness = BehaviorSubject.create<LineOfBusiness>()
     val creditCardRequired = PublishSubject.create<Boolean>()
     val travelerCompleted = BehaviorSubject.create<List<Traveler>>()
     val paymentCompleted = BehaviorSubject.create<BillingInfo?>()

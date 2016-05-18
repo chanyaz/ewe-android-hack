@@ -6,7 +6,6 @@ import android.view.View
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Traveler
 import com.expedia.bookings.data.User
-import com.expedia.bookings.data.packages.PackageSearchParams
 import com.expedia.bookings.enums.TravelerCheckoutStatus
 import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.tracking.PackagesTracking
@@ -127,6 +126,7 @@ class TravelerPresenter(context: Context, attrs: AttributeSet) : Presenter(conte
             boardingWarning.visibility = View.GONE
             dropShadow.visibility = View.GONE
             toolbarTitleSubject.onNext(getCheckoutToolbarTitle(resources, false))
+            toolbarNavIcon.onNext(ArrowXDrawableUtil.ArrowDrawableType.BACK)
         }
     }
 
@@ -144,6 +144,7 @@ class TravelerPresenter(context: Context, attrs: AttributeSet) : Presenter(conte
         }
 
         override fun endTransition(forward: Boolean) {
+            toolbarNavIcon.onNext(ArrowXDrawableUtil.ArrowDrawableType.BACK)
             if (!forward) validateAndBindTravelerSummary()
             travelerDefaultState.visibility = if (!forward) View.VISIBLE else View.GONE
             if (forward) travelerSelectState.show() else travelerSelectState.visibility = View.GONE
@@ -155,12 +156,11 @@ class TravelerPresenter(context: Context, attrs: AttributeSet) : Presenter(conte
         override fun startTransition(forward: Boolean) {
             menuVisibility.onNext(forward)
             expandedSubject.onNext(forward)
-
             travelerEntryWidget.visibility = if (forward) View.VISIBLE else View.GONE
             travelerEntryWidget.travelerButton.visibility = if (User.isLoggedIn(context) && forward) View.VISIBLE else View.GONE
             dropShadow.visibility = if (forward) View.VISIBLE else View.GONE
             boardingWarning.visibility = if (forward) View.VISIBLE else View.GONE
-
+            travelerDefaultState.visibility = if (!forward) View.VISIBLE else View.GONE
             if (forward && travelerDefaultState.status == TravelerCheckoutStatus.DIRTY) {
                 travelerEntryWidget.viewModel.validate()
             }
@@ -174,8 +174,8 @@ class TravelerPresenter(context: Context, attrs: AttributeSet) : Presenter(conte
         }
 
         override fun endTransition(forward: Boolean) {
+            setToolbarNavIcon(forward)
             if (!forward) validateAndBindTravelerSummary()
-            travelerDefaultState.visibility = if (!forward) View.VISIBLE else View.GONE
             if (forward) {
                 travelerEntryWidget.resetStoredTravelerSelection()
                 travelerEntryWidget.nameEntryView.firstName.requestFocus()
@@ -190,8 +190,6 @@ class TravelerPresenter(context: Context, attrs: AttributeSet) : Presenter(conte
             FlightTravelerEntryWidget::class.java) {
         override fun startTransition(forward: Boolean) {
             menuVisibility.onNext(forward)
-            toolbarNavIcon.onNext(if (!forward) ArrowXDrawableUtil.ArrowDrawableType.BACK
-            else ArrowXDrawableUtil.ArrowDrawableType.CLOSE)
             dropShadow.visibility = View.VISIBLE
             boardingWarning.visibility =  if (forward) View.VISIBLE else View.GONE
             travelerEntryWidget.travelerButton.visibility = if (User.isLoggedIn(context) && forward) View.VISIBLE else View.GONE
@@ -202,6 +200,7 @@ class TravelerPresenter(context: Context, attrs: AttributeSet) : Presenter(conte
         }
 
         override fun endTransition(forward: Boolean) {
+            setToolbarNavIcon(forward)
             if (!forward) travelerSelectState.show() else travelerSelectState.visibility = View.GONE
             travelerEntryWidget.visibility = if (forward) View.VISIBLE else View.GONE
             if (forward) {
@@ -213,5 +212,10 @@ class TravelerPresenter(context: Context, attrs: AttributeSet) : Presenter(conte
                 travelerEntryWidget.viewModel.validate()
             }
         }
+    }
+
+    private fun setToolbarNavIcon(forward : Boolean) {
+        toolbarNavIcon.onNext(if (!forward) ArrowXDrawableUtil.ArrowDrawableType.BACK
+        else ArrowXDrawableUtil.ArrowDrawableType.CLOSE)
     }
 }

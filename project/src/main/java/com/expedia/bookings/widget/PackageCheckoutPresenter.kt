@@ -42,7 +42,7 @@ class PackageCheckoutPresenter(context: Context, attr: AttributeSet) : BaseCheck
         onLoginSuccess()
     }
 
-    override fun lineOfBusiness(): LineOfBusiness {
+    override fun getLineOfBusiness(): LineOfBusiness {
         return LineOfBusiness.PACKAGES
     }
 
