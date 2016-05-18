@@ -2897,9 +2897,9 @@
         "available": true
       },
       "17514170503423425": {
-        "hotelId": "17514",
-        "hotelName": "Detroit Metro Airport Marriott",
-        "localizedHotelName": "Detroit Metro Airport Marriott",
+        "hotelId": "offers_error",
+        "hotelName": "hotel offers error",
+        "localizedHotelName": "hotel offers error",
         "hotelAddress": {
           "firstAddressLine": "30559 Flynn Dr",
           "secondAddressLine": "",
@@ -3433,7 +3433,7 @@
         "packageCancelable": true
       },
       {
-        "piid": "c698fd40-63b4-4a5f-9e00-9a5dbc547ec7-0",
+        "piid": "offers_error",
         "hotel": "17514170503423425",
         "flight": "bdaeb3b97acaea318d4c5b02f99f0002",
         "car": null,

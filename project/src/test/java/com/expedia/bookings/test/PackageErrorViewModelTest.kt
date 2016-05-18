@@ -95,4 +95,30 @@ class PackageErrorViewModelTest {
         errorMessageObservableTestSubscriber.assertValues(message)
         errorButtonObservableTestSubscriber.assertValues(getContext().getString(R.string.retry))
     }
+
+    @Test fun observableEmissionsOnHotelOffersError() {
+        val subjectUnderTest = PackageErrorViewModel(RuntimeEnvironment.application)
+
+        val hotelOfferErrorObservableTestSubscriber = TestSubscriber.create<Unit>()
+        subjectUnderTest.defaultErrorObservable.subscribe(hotelOfferErrorObservableTestSubscriber)
+
+        val errorImageObservableTestSubscriber = TestSubscriber.create<Int>()
+        subjectUnderTest.imageObservable.subscribe(errorImageObservableTestSubscriber)
+
+        val errorMessageObservableTestSubscriber = TestSubscriber.create<String>()
+        subjectUnderTest.errorMessageObservable.subscribe(errorMessageObservableTestSubscriber)
+
+        val errorButtonObservableTestSubscriber = TestSubscriber.create<String>()
+        subjectUnderTest.buttonTextObservable.subscribe(errorButtonObservableTestSubscriber)
+
+        val apiError = ApiError(ApiError.Code.PACKAGE_SEARCH_ERROR);
+
+        subjectUnderTest.hotelOffersApiErrorObserver.onNext(apiError.errorCode)
+        subjectUnderTest.actionObservable.onNext(Unit)
+
+        hotelOfferErrorObservableTestSubscriber.assertValues(Unit)
+        errorImageObservableTestSubscriber.assertValues(R.drawable.error_default)
+        errorMessageObservableTestSubscriber.assertValues(getContext().getString(R.string.error_package_search_message))
+        errorButtonObservableTestSubscriber.assertValues(getContext().getString(R.string.edit_search))
+    }
 }

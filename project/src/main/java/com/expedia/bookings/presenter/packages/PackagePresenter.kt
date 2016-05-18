@@ -13,6 +13,7 @@ import com.expedia.bookings.animation.TransitionElement
 import com.expedia.bookings.data.BaseApiResponse
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.Money
+import com.expedia.bookings.data.cars.ApiError
 import com.expedia.bookings.data.packages.PackageCheckoutResponse
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.presenter.BaseOverviewPresenter
@@ -28,9 +29,8 @@ import com.expedia.vm.packages.PackageConfirmationViewModel
 import com.expedia.vm.packages.PackageErrorViewModel
 import com.expedia.vm.packages.PackageSearchViewModel
 import com.squareup.phrase.Phrase
-import rx.android.schedulers.AndroidSchedulers
+import rx.subjects.PublishSubject
 import java.math.BigDecimal
-import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 class PackagePresenter(context: Context, attrs: AttributeSet) : Presenter(context, attrs) {
@@ -41,8 +41,8 @@ class PackagePresenter(context: Context, attrs: AttributeSet) : Presenter(contex
     val bundlePresenter: PackageOverviewPresenter by bindView(R.id.widget_bundle_overview)
     val confirmationPresenter: PackageConfirmationPresenter by bindView(R.id.widget_package_confirmation)
     val errorPresenter: PackageErrorPresenter by bindView(R.id.widget_package_hotel_errors)
+    val hotelOffersErrorObservable = PublishSubject.create<ApiError.Code>()
 
-    private val DELAY_INVOKING_ERROR_OBSERVABLES_DOING_SHOW = 100L
     private val ANIMATION_DURATION = 400
 
     var expediaRewards: String? = null
@@ -91,33 +91,37 @@ class PackagePresenter(context: Context, attrs: AttributeSet) : Presenter(contex
         bundlePresenter.bundleWidget.viewModel.toolbarTitleObservable.subscribe(bundlePresenter.bundleOverviewHeader.toolbar.viewModel.toolbarTitle)
         bundlePresenter.bundleWidget.viewModel.toolbarSubtitleObservable.subscribe(bundlePresenter.bundleOverviewHeader.toolbar.viewModel.toolbarSubtitle)
         bundlePresenter.bundleWidget.viewModel.errorObservable.subscribe(errorPresenter.viewmodel.searchApiErrorObserver)
-        bundlePresenter.bundleWidget.viewModel.errorObservable.delay(DELAY_INVOKING_ERROR_OBSERVABLES_DOING_SHOW, TimeUnit.MILLISECONDS).observeOn(AndroidSchedulers.mainThread()).subscribe { show(errorPresenter) }
-        errorPresenter.viewmodel.defaultErrorObservable.delay(DELAY_INVOKING_ERROR_OBSERVABLES_DOING_SHOW, TimeUnit.MILLISECONDS).observeOn(AndroidSchedulers.mainThread()).subscribe {
+        bundlePresenter.bundleWidget.viewModel.errorObservable.subscribe { show(errorPresenter) }
+        errorPresenter.viewmodel.defaultErrorObservable.subscribe {
             show(searchPresenter, FLAG_CLEAR_TOP)
         }
 
         checkoutPresenter.getCreateTripViewModel().createTripErrorObservable.subscribe(errorPresenter.viewmodel.checkoutApiErrorObserver)
         checkoutPresenter.getCheckoutViewModel().checkoutErrorObservable.subscribe(errorPresenter.viewmodel.checkoutApiErrorObserver)
-        checkoutPresenter.getCreateTripViewModel().createTripErrorObservable.delay(DELAY_INVOKING_ERROR_OBSERVABLES_DOING_SHOW, TimeUnit.MILLISECONDS).observeOn(AndroidSchedulers.mainThread()).subscribe { show(errorPresenter) }
-        checkoutPresenter.getCheckoutViewModel().checkoutErrorObservable.delay(DELAY_INVOKING_ERROR_OBSERVABLES_DOING_SHOW, TimeUnit.MILLISECONDS).observeOn(AndroidSchedulers.mainThread()).subscribe { show(errorPresenter) }
+        checkoutPresenter.getCreateTripViewModel().createTripErrorObservable.subscribe { show(errorPresenter) }
+        checkoutPresenter.getCheckoutViewModel().checkoutErrorObservable.subscribe { show(errorPresenter) }
         checkoutPresenter.getCheckoutViewModel().priceChangeObservable.subscribe {
             checkoutPresenter.slideToPurchase.resetSlider()
             checkoutPresenter.getCreateTripViewModel().tripResponseObservable.onNext(it)
         }
 
-        errorPresenter.viewmodel.checkoutUnknownErrorObservable.delay(DELAY_INVOKING_ERROR_OBSERVABLES_DOING_SHOW, TimeUnit.MILLISECONDS).observeOn(AndroidSchedulers.mainThread()).subscribe {
+        hotelOffersErrorObservable.subscribe(errorPresenter.viewmodel.hotelOffersApiErrorObserver)
+        hotelOffersErrorObservable.subscribe { show(errorPresenter) }
+
+
+        errorPresenter.viewmodel.checkoutUnknownErrorObservable.subscribe {
             show(bundlePresenter, Presenter.FLAG_CLEAR_TOP)
             checkoutPresenter.slideToPurchase.resetSlider()
         }
 
-        errorPresenter.viewmodel.checkoutTravelerErrorObservable.delay(DELAY_INVOKING_ERROR_OBSERVABLES_DOING_SHOW, TimeUnit.MILLISECONDS).observeOn(AndroidSchedulers.mainThread()).subscribe {
+        errorPresenter.viewmodel.checkoutTravelerErrorObservable.subscribe {
             show(bundlePresenter, Presenter.FLAG_CLEAR_TOP)
             checkoutPresenter.slideToPurchase.resetSlider()
             checkoutPresenter.travelerPresenter.expandedSubject.onNext(true)
             checkoutPresenter.show(checkoutPresenter, Presenter.FLAG_CLEAR_TOP)
         }
 
-        errorPresenter.viewmodel.checkoutCardErrorObservable.delay(DELAY_INVOKING_ERROR_OBSERVABLES_DOING_SHOW, TimeUnit.MILLISECONDS).observeOn(AndroidSchedulers.mainThread()).subscribe {
+        errorPresenter.viewmodel.checkoutCardErrorObservable.subscribe {
             show(bundlePresenter, Presenter.FLAG_CLEAR_TOP)
             checkoutPresenter.slideToPurchase.resetSlider()
             checkoutPresenter.clearCCNumber()

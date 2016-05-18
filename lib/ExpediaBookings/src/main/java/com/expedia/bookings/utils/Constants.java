@@ -16,6 +16,7 @@ public class Constants {
 	public static final String PACKAGE_CHANGE_HOTEL = "CHANGE_HOTEL";
 	public static final String PACKAGE_CHANGE_FLIGHT = "CHANGE_FLIGHT";
 	public static final String PACKAGE_FILTER_CHANGE_FLIGHT = "filterChangeFlight";
+	public static final String PACKAGE_HOTEL_OFFERS_ERROR = "package hotel offers error";
 
 	// itin airline code for check in
 	public static final String ITIN_CHECK_IN_AIRLINE_NAME = "ITIN_CHECK_IN_AIRLINE_NAME";

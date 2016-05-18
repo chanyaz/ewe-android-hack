@@ -1,0 +1,13 @@
+{
+  "errors": [
+    {
+      "errorCode": "PACKAGE_SEARCH_ERROR",
+      "errorInfo": {
+        "summary": "Package Search Failed.",
+        "1805": "Found Unhandled Error string in Amadeus Pricing Process.\r\n"
+      },
+      "diagnosticId": 0
+    }
+  ],
+  "activityId": "a482c2cc-4482-4421-b22d-5e7994f9f4b9"
+}
