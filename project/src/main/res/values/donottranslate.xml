@@ -382,5 +382,6 @@
 
     <!-- Brand reward name -->
     <string name="brand_reward_name">Expedia+</string>
-
+    <string name="acct__google_account_change_string">@string/google_account_change_string</string>
+    <string name="acct__google_account_change_message_TEMPLATE">@string/google_account_change_message_TEMPLATE</string>
 </resources>
