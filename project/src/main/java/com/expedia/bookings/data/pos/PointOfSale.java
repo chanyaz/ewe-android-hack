@@ -590,6 +590,9 @@ public class PointOfSale {
 			Traveler traveler = usr.getPrimaryTraveler();
 			if (traveler.getIsLoyaltyMembershipActive()) {
 				switch (traveler.getLoyaltyMembershipTier()) {
+				case BASE:
+					number = getSupportPhoneNumberBaseTier();
+					break;
 				case MIDDLE:
 					number = getSupportPhoneNumberMiddleTier();
 					break;
