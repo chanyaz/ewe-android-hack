@@ -21,8 +21,10 @@
     <color name="bg_air_attach_phone_launch">@color/lob_btn_color</color>
     <color name="bg_air_attach_banner_divider">@color/white</color>
 
+    <!-- ebookers promotional offers color -->
+    <color name="ebk_promo_color">#9E0089</color>
     <!-- Hotels V2 Coupon applied text color -->
-    <color name="hotelsv2_coupon_applied_color">#9E0089</color>
+    <color name="hotelsv2_coupon_applied_color">@color/ebk_promo_color</color>
 
     <!--Flight-->
     <color name="action_bar_text_color">@color/white</color>
@@ -38,13 +40,14 @@
     <color name="cost_summary_header_text_color">@color/hotels_primary_color</color>
 
     <!-- Popular Hotels Tonight Discount strips-->
-    <color name="launch_mobile_exclusive">#9E0089</color>
+    <color name="launch_mobile_exclusive">@color/ebk_promo_color</color>
     <color name="launch_discount">#FF960D</color>
     <color name="launch_tonight_only">#003366</color>
 
     <color name="hotel_urgency_message_color">#D60000</color>
     <color name="hotel_tonight_only_color">#6AC4E9</color>
     <color name="hotel_mobile_exclusive_color">#F60B61</color>
+    <color name="hotelsv2_discount_green">@color/ebk_promo_color</color>
 
     <color name="hotel_promo_background">#6AC4E9</color>
     <color name="hotel_coupon_code_error_message_color">#B80000</color>
