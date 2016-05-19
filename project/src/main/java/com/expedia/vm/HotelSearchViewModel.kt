@@ -32,7 +32,7 @@ class HotelSearchViewModel(context: Context) : BaseSearchViewModel(context) {
             getParamsBuilder().shopWithPoints(it)
         }
     }
-        @Inject set
+    @Inject set
 
     // Inputs
     override var requiredSearchParamsObserver = endlessObserver<Unit> {

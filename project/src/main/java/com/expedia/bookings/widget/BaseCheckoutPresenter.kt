@@ -106,7 +106,12 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet) : Pre
 
     protected var tripViewModel: BaseCreateTripViewModel by notNullAndObservable { vm ->
         vm.showCreateTripDialogObservable.subscribe { show ->
-            if (show) createTripDialog.show() else createTripDialog.hide()
+            if (show) {
+                createTripDialog.show();
+                createTripDialog.setContentView(R.layout.process_dialog_layout);
+            } else {
+                createTripDialog.hide()
+            }
         }
         setUpCreateTripViewModel(vm)
     }
@@ -167,10 +172,8 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet) : Pre
 
         handle.setOnTouchListener(HandleTouchListner())
 
-        createTripDialog.setMessage(resources.getString(R.string.spinner_text_hotel_create_trip))
         createTripDialog.setCancelable(false)
         createTripDialog.isIndeterminate = true
-
         checkoutDialog.setMessage(resources.getString(R.string.booking_loading))
         checkoutDialog.setCancelable(false)
         checkoutDialog.isIndeterminate = true
