@@ -134,10 +134,6 @@ class PackageHotelResultsPresenter(context: Context, attrs: AttributeSet) : Base
         PackagesTracking().trackHotelMapSearchThisAreaClick()
     }
 
-    override fun isMapClusteringEnabled(): Boolean {
-        return false
-    }
-
     override fun isUserBucketedSearchScreenTest(): Boolean {
         return false
     }
