@@ -87,6 +87,7 @@ public class RouterActivity extends Activity {
 		if (loadSignInViewAbTest) {
 			AbacusEvaluateQuery query = new AbacusEvaluateQuery(Db.getAbacusGuid(), PointOfSale.getPointOfSale().getTpid(), 0);
 			query.addExperiment(AbacusUtils.EBAndroidAppShowSignInOnLaunch);
+			query.addExperiment(AbacusUtils.EBAndroidAppLaunchScreenTest);
 			Ui.getApplication(this).appComponent().abacus().downloadBucket(query, showSignInViewABTestSubscriber, 3, TimeUnit.SECONDS);
 		}
 		else {
