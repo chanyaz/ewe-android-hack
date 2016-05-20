@@ -28,6 +28,7 @@ import com.expedia.bookings.data.cars.CarCreateTripResponse;
 import com.expedia.bookings.data.cars.CategorizedCarOffers;
 import com.expedia.bookings.data.cars.CreateTripCarOffer;
 import com.expedia.bookings.data.trips.ItineraryManager;
+import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.tracking.AdTracker;
 import com.expedia.bookings.tracking.OmnitureTracking;
@@ -217,6 +218,11 @@ public class CarConfirmationWidget extends FrameLayout {
 			String email = builder.getEmailAddress();
 			String tripId = response.newTrip.itineraryNumber;
 			ItineraryManager.getInstance().addGuestTrip(email, tripId);
+		}
+
+		// Show Add to Calendar only if sharing is supported.
+		if (!ProductFlavorFeatureConfiguration.getInstance().shouldShowItinShare()) {
+			calendarTextView.setVisibility(View.GONE);
 		}
 
 		OmnitureTracking.trackAppCarCheckoutConfirmation(response);
