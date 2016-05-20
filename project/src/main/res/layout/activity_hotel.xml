@@ -36,16 +36,9 @@
         android:visibility="gone"/>
 
     <ViewStub
-        android:id="@+id/search_v1_stub"
-        android:inflatedId="@+id/widget_hotel_search_v1"
-        android:layout="@layout/hotel_search_presenter_v1_stub"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
-
-    <ViewStub
-        android:id="@+id/search_v2_stub"
-        android:inflatedId="@+id/widget_hotel_search_v2"
-        android:layout="@layout/hotel_search_presenter_v2_stub"
+        android:id="@+id/search_stub"
+        android:inflatedId="@+id/widget_hotel_search"
+        android:layout="@layout/hotel_search_presenter_stub"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 

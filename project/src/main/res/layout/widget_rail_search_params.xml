@@ -11,12 +11,12 @@
         android:fillViewport="true">
 
         <RelativeLayout
-            android:id="@+id/search_v2_container"
+            android:id="@+id/search_container"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
             <Button
-                android:id="@id/search_button_v2"
+                android:id="@id/search_button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
@@ -63,7 +63,7 @@
     </FrameLayout>
 
     <android.support.v7.widget.Toolbar
-        android:id="@+id/search_v2_toolbar"
+        android:id="@+id/search_toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="top"

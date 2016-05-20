@@ -73,7 +73,7 @@ class HotelDeepLinkHandlerTest {
         handlerUnderTest.handleNavigationViaDeepLink(hotelSearchParams)
 
         // 4) verify
-        Mockito.verify(hotelPresenter).setDefaultTransition(HotelActivity.Screen.SEARCH)
+        Mockito.verify(hotelPresenter).setDefaultTransition(HotelActivity.Screen.DETAILS)
         Assert.assertEquals(0, testCurrentLocationSearchObserver.onNextEvents.size)
         Assert.assertEquals(0, testSuggestionLookupObserver.onNextEvents.size)
         testDeepLinkSearchObserver.assertReceivedOnNext(listOf(hotelSearchParams))
@@ -127,7 +127,7 @@ class HotelDeepLinkHandlerTest {
         handlerUnderTest.handleNavigationViaDeepLink(hotelSearchParams)
 
         // 4) verify
-        Mockito.verify(hotelPresenter).setDefaultTransition(HotelActivity.Screen.SEARCH)
+        Mockito.verify(hotelPresenter).setDefaultTransition(HotelActivity.Screen.RESULTS)
         Assert.assertEquals(0, testCurrentLocationSearchObserver.onNextEvents.size)
         Assert.assertEquals(0, testSuggestionLookupObserver.onNextEvents.size)
         testDeepLinkSearchObserver.assertReceivedOnNext(listOf(hotelSearchParams))
@@ -152,7 +152,7 @@ class HotelDeepLinkHandlerTest {
         handlerUnderTest.handleNavigationViaDeepLink(hotelSearchParams)
 
         // 4) verify
-        Mockito.verify(hotelPresenter).setDefaultTransition(HotelActivity.Screen.SEARCH)
+        Mockito.verify(hotelPresenter).setDefaultTransition(HotelActivity.Screen.RESULTS)
         Assert.assertEquals(0, testCurrentLocationSearchObserver.onNextEvents.size)
         Assert.assertEquals(0, testSuggestionLookupObserver.onNextEvents.size)
         testDeepLinkSearchObserver.assertReceivedOnNext(listOf(hotelSearchParams))

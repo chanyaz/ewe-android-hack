@@ -10,7 +10,7 @@ import com.expedia.vm.SuggestionAdapterViewModel
 import rx.android.schedulers.AndroidSchedulers
 import java.util.concurrent.TimeUnit
 
-abstract class BaseTwoLocationSearchPresenter(context: Context, attrs: AttributeSet) : BaseSearchPresenterV2(context, attrs) {
+abstract class BaseTwoLocationSearchPresenter(context: Context, attrs: AttributeSet) : BaseSearchPresenter(context, attrs) {
 
     open val originCardView by bindView<SearchInputCardView>(R.id.origin_card)
 

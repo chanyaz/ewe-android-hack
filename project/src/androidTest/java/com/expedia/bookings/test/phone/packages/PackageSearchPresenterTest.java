@@ -20,10 +20,10 @@ public class PackageSearchPresenterTest extends PackageTestCase {
 
 	public void testOriginSameAsDestination() throws Throwable {
 		Common.delay(1);
-		PackageScreen.toolbarNavigationUp(R.id.search_v2_toolbar).perform(click());
+		PackageScreen.toolbarNavigationUp(R.id.search_toolbar).perform(click());
 		// search button disabled upon entry. Enter location.
 		SearchScreen.searchButton().check(matches(isDisplayed()));
-		SearchScreen.destination().perform(click());
+		SearchScreen.origin().perform(click());
 		SearchScreen.searchEditText().perform(typeText("SFO"));
 		SearchScreen.selectLocation("San Francisco, CA (SFO-San Francisco Intl.)");
 		Common.delay(1);
@@ -40,20 +40,20 @@ public class PackageSearchPresenterTest extends PackageTestCase {
 
 	public void testNoSearchUntilDateAndLocationSelected() throws Throwable {
 		Common.delay(1);
-		PackageScreen.toolbarNavigationUp(R.id.search_v2_toolbar).perform(click());
+		PackageScreen.toolbarNavigationUp(R.id.search_toolbar).perform(click());
 		// search button disabled upon entry. Enter location.
 		SearchScreen.searchButton().check(matches(isDisplayed()));
-		SearchScreen.destination().perform(click());
+		SearchScreen.origin().perform(click());
 		SearchScreen.searchEditText().check(matches(withHint("Flying from")));
 		SearchScreen.searchEditText().perform(typeText("SFO"));
 		SearchScreen.selectLocation("San Francisco, CA (SFO-San Francisco Intl.)");
 		Common.delay(1);
 		SearchScreen.searchEditText().perform(ViewActions.waitForViewToDisplay());
-		PackageScreen.toolbarNavigationUp(R.id.search_v2_toolbar).perform(click());
+		PackageScreen.toolbarNavigationUp(R.id.search_toolbar).perform(click());
 		//Search button will still be disabled
 		SearchScreen.searchButton().perform(click());
 		SearchScreen.searchButton().check(matches(isDisplayed()));
-		SearchScreen.arrival().perform(click());
+		SearchScreen.destination().perform(click());
 		SearchScreen.searchEditText().check(matches(withHint("Flying to")));
 		SearchScreen.searchEditText().perform(typeText("DTW"));
 		SearchScreen.selectLocation("Detroit, MI (DTW-Detroit Metropolitan Wayne County)");

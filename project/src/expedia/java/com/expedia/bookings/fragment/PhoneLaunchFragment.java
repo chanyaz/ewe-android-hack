@@ -58,8 +58,7 @@ public class PhoneLaunchFragment extends Fragment implements IPhoneLaunchActivit
 	private Subscription abacusSubscription;
 	private boolean wasOffline;
 	private List<Integer> abacusTestsAssociatedToPhoneLaunchScreen = Arrays
-		.asList(AbacusUtils.EBAndroidAppSplitGTandActivities,
-			AbacusUtils.EBAndroidAppHotelsSearchScreenTest);
+		.asList(AbacusUtils.EBAndroidAppSplitGTandActivities);
 
 	@InjectView(R.id.phone_launch_widget)
 	PhoneLaunchWidget phoneLaunchWidget;

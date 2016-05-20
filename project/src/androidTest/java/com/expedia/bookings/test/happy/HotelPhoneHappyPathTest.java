@@ -8,6 +8,7 @@ import com.expedia.bookings.test.espresso.EspressoUtils;
 import com.expedia.bookings.test.espresso.HotelTestCase;
 import com.expedia.bookings.test.phone.hotels.HotelScreen;
 import com.expedia.bookings.test.phone.pagemodels.common.CheckoutViewModel;
+import com.expedia.bookings.test.phone.pagemodels.common.SearchScreen;
 import com.expedia.bookings.utils.MockModeShim;
 import com.mobiata.mocke3.ExpediaDispatcher;
 
@@ -18,7 +19,7 @@ import static android.support.test.espresso.matcher.ViewMatchers.withText;
 public class HotelPhoneHappyPathTest extends HotelTestCase {
 
 	public void testHotelPhoneHappyPath() throws Throwable {
-		HotelScreen.doGenericSearch();
+		SearchScreen.doGenericHotelSearch();
 		HotelScreen.selectHotel();
 		reviews();
 		launchFullMap();
@@ -35,7 +36,7 @@ public class HotelPhoneHappyPathTest extends HotelTestCase {
 	}
 
 	public void testNewHotelPhoneHappyPathLoggedInCustomer() throws Throwable {
-		HotelScreen.doGenericSearch();
+		SearchScreen.doGenericHotelSearch();
 		HotelScreen.selectHotel();
 		HotelScreen.selectRoom();
 		CheckoutViewModel.clickDone();
@@ -80,5 +81,4 @@ public class HotelPhoneHappyPathTest extends HotelTestCase {
 		assertEquals(1, dispatcher.numOfTravelAdRequests("/TravelAdsService/v3/Hotels/TravelAdClick"));
 		assertEquals(1, dispatcher.numOfTravelAdRequests("/ads/hooklogic"));
 	}
-
 }

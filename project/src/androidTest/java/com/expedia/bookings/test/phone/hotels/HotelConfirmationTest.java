@@ -6,6 +6,7 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.test.espresso.EspressoUtils;
 import com.expedia.bookings.test.espresso.HotelTestCase;
 import com.expedia.bookings.test.phone.pagemodels.common.CheckoutViewModel;
+import com.expedia.bookings.test.phone.pagemodels.common.SearchScreen;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
@@ -14,13 +15,12 @@ import static android.support.test.espresso.matcher.ViewMatchers.withEffectiveVi
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static com.expedia.bookings.test.espresso.EspressoUtils.assertViewIsDisplayed;
-import static com.expedia.bookings.test.phone.hotels.HotelScreen.doGenericSearch;
 import static org.hamcrest.Matchers.allOf;
 
 public class HotelConfirmationTest extends HotelTestCase {
 
 	public void testConfirmationView() throws Throwable {
-		doGenericSearch();
+		SearchScreen.doGenericHotelSearch();
 		HotelScreen.selectHotel();
 		HotelScreen.selectRoom();
 		HotelScreen.checkout(true);

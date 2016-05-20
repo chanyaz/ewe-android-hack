@@ -221,10 +221,6 @@ class HotelResultsPresenter(context: Context, attrs: AttributeSet) : BaseHotelRe
         return Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelResultMapTest)
     }
 
-    override fun isUserBucketedSearchScreenTest(): Boolean {
-        return Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelsSearchScreenTest)
-    }
-
     override fun getHotelListAdapter(): BaseHotelListAdapter {
         return HotelListAdapter(hotelSelectedSubject, headerClickedSubject)
     }

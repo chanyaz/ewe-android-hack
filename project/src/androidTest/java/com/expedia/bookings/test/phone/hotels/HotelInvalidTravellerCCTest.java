@@ -5,16 +5,16 @@ import com.expedia.bookings.test.espresso.Common;
 import com.expedia.bookings.test.espresso.HotelTestCase;
 import com.expedia.bookings.test.espresso.ViewActions;
 import com.expedia.bookings.test.phone.pagemodels.common.CheckoutViewModel;
+import com.expedia.bookings.test.phone.pagemodels.common.SearchScreen;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static com.expedia.bookings.test.espresso.EspressoUtils.assertViewIsDisplayed;
-import static com.expedia.bookings.test.phone.hotels.HotelScreen.doGenericSearch;
 
 public class HotelInvalidTravellerCCTest extends HotelTestCase {
 
 	public void testInvalidCardDetails() throws Throwable {
-		doGenericSearch();
+		SearchScreen.doGenericHotelSearch();
 		HotelScreen.selectHotel("error_checkout_card");
 		Common.delay(1);
 		HotelScreen.selectRoom();
@@ -30,7 +30,7 @@ public class HotelInvalidTravellerCCTest extends HotelTestCase {
 	}
 
 	public void testInvalidTravellerInfo() throws Throwable {
-		doGenericSearch();
+		SearchScreen.doGenericHotelSearch();
 		HotelScreen.selectHotel("error_checkout_traveller_info");
 		Common.delay(1);
 

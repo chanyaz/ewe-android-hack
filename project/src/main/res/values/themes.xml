@@ -420,8 +420,4 @@
         <item name="android:background">@drawable/splash_screen</item>
     </style>
 
-    <style name="HotelWithSwitchStyleV1" style="@style/V2.Theme.Hotels">
-        <item name="colorControlActivated">@color/switch_thumb_material_light</item>
-    </style>
-
 </resources>

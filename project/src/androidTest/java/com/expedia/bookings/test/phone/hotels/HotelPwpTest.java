@@ -4,6 +4,7 @@ import com.expedia.bookings.test.espresso.Common;
 import com.expedia.bookings.test.espresso.HotelTestCase;
 import com.expedia.bookings.test.phone.pagemodels.common.CheckoutViewModel;
 import com.expedia.bookings.test.phone.pagemodels.common.PaymentOptionsScreen;
+import com.expedia.bookings.test.phone.pagemodels.common.SearchScreen;
 
 import static com.expedia.bookings.test.phone.hotels.HotelScreen.pickRoom;
 
@@ -16,7 +17,7 @@ public class HotelPwpTest extends HotelTestCase {
 	 * @author lsagar@
 	 */
 	public void testPwPHappyPathPayWithPointsOnly() throws Throwable {
-		HotelScreen.doGenericSearch();
+		SearchScreen.doGenericHotelSearch();
 		HotelScreen.selectHotel("happypath_pwp");
 		Common.delay(1);
 		pickRoom("happypath_pwp_points_only");
@@ -59,7 +60,7 @@ public class HotelPwpTest extends HotelTestCase {
 	 * @author lsagar@
 	 */
 	public void testPwPHappyPathPayWithPointsAndCard() throws Throwable {
-		HotelScreen.doGenericSearch();
+		SearchScreen.doGenericHotelSearch();
 		HotelScreen.selectHotel("happypath_pwp");
 		Common.delay(1);
 		pickRoom("happypath_pwp_points_with_card");
@@ -88,7 +89,7 @@ public class HotelPwpTest extends HotelTestCase {
 	 * @author lsagar@
 	 */
 	public void testPwPCalculatePoints() throws Throwable {
-		HotelScreen.doGenericSearch();
+		SearchScreen.doGenericHotelSearch();
 		HotelScreen.selectHotel("happypath_pwp");
 		Common.delay(1);
 		pickRoom("happypath_pwp_points_with_card");

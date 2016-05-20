@@ -20,7 +20,7 @@
                 android:background="@color/transparent" />
 
             <LinearLayout
-                android:id="@+id/search_v2_container"
+                android:id="@+id/search_container"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginTop="@dimen/search_form_top_margin"
@@ -120,7 +120,7 @@
             android:background="@drawable/drop_shadow" />
 
         <Button
-            android:id="@+id/search_button_v2"
+            android:id="@+id/search_button"
             style="@style/HotelButtonStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -137,7 +137,7 @@
         android:orientation="vertical">
 
         <android.support.v7.widget.Toolbar
-            android:id="@+id/search_v2_toolbar"
+            android:id="@+id/search_toolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="top"

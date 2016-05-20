@@ -1,5 +1,8 @@
 package com.expedia.bookings.presenter.lx;
 
+import java.util.ArrayList;
+import java.util.Iterator;
+
 import org.joda.time.LocalDate;
 
 import android.app.Activity;
@@ -49,8 +52,6 @@ import com.squareup.otto.Subscribe;
 import butterknife.InjectView;
 import butterknife.OnCheckedChanged;
 import butterknife.OnClick;
-import java.util.ArrayList;
-import java.util.Iterator;
 
 public class LXSearchParamsPresenter extends Presenter
 	implements EditText.OnEditorActionListener, CalendarPicker.DateSelectionChangedListener {

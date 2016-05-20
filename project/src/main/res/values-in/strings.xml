@@ -126,7 +126,7 @@
     <!-- Label for hotel search toolbar -->
     <string name="hotel_toolbar_title">Cari Hotel</string>
     <!-- Label for hotel search v2 toolbar -->
-    <string name="hotel_search_v2_toolbar_title">Hotel</string>
+    <string name="hotel_search_toolbar_title">Hotel</string>
     <!-- Label for hotel suggestion -->
     <string name="search_location">Cari Lokasi</string>
     <!-- Label for recent searches -->
