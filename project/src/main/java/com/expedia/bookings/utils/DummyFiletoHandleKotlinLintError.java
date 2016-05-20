@@ -590,6 +590,8 @@ DummyFiletoHandleKotlinLintError {
 		R.layout.rail_leg_summary,
 		R.layout.rail_overview,
 		R.layout.rail_summary,
-		R.string.select_hotel_content_description_selected
+		R.string.select_hotel_content_description_selected,
+		R.string.flights_outbound_label,
+		R.layout.widget_docked_outbound_flight_selection
 	};
 }

@@ -6,7 +6,7 @@ import com.expedia.bookings.widget.FlightListAdapter
 import com.expedia.util.notNullAndObservable
 import com.expedia.vm.FlightSearchViewModel
 
-class FlightInboundPresenter(context: Context, attrs: AttributeSet) : FlightResultsPresenter(context, attrs) {
+class FlightInboundPresenter(context: Context, attrs: AttributeSet) : BaseFlightPresenter(context, attrs) {
 
     override fun isOutboundResultsPresenter(): Boolean {
         return false

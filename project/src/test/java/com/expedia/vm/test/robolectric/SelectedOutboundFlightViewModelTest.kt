@@ -1,0 +1,73 @@
+package com.expedia.vm.test.robolectric
+
+import com.expedia.bookings.data.flights.Airline
+import com.expedia.bookings.data.flights.FlightLeg
+import com.expedia.bookings.test.robolectric.RobolectricRunner
+import com.expedia.vm.flights.SelectedOutboundFlightViewModel
+import org.junit.Before
+import org.junit.Test
+import org.junit.runner.RunWith
+import org.robolectric.RuntimeEnvironment
+import rx.observers.TestSubscriber
+import rx.subjects.PublishSubject
+import java.util.concurrent.TimeUnit
+import kotlin.test.assertEquals
+
+@RunWith(RobolectricRunner::class)
+class SelectedOutboundFlightViewModelTest {
+
+    private val AIRLINE_NAME = "Tom Air"
+
+    private lateinit var sut: SelectedOutboundFlightViewModel
+    private val context = RuntimeEnvironment.application
+    private val mockFlightSelectedSubject = PublishSubject.create<FlightLeg>()
+
+    @Before
+    fun setup() {
+        sut = SelectedOutboundFlightViewModel(mockFlightSelectedSubject, context)
+    }
+
+    @Test
+    fun airlineName() {
+        val testSubscriber = TestSubscriber.create<String>()
+        sut.airlineNameObservable.subscribe(testSubscriber)
+
+        val flightLeg = createFakeFlightLeg()
+        mockFlightSelectedSubject.onNext(flightLeg)
+
+        testSubscriber.awaitTerminalEvent(200, TimeUnit.MILLISECONDS)
+        val resultAirline = testSubscriber.onNextEvents[0]
+
+        assertEquals(AIRLINE_NAME, resultAirline)
+    }
+
+    @Test
+    fun arrivalDepartureTimeAndDuration() {
+        val testSubscriber = TestSubscriber.create<String>()
+        sut.arrivalDepartureTimeObservable.subscribe(testSubscriber)
+
+        mockFlightSelectedSubject.onNext(createFakeFlightLeg())
+
+        testSubscriber.awaitTerminalEvent(200, TimeUnit.MILLISECONDS)
+        val resultArrivalDepartureTimeAndDuration = testSubscriber.onNextEvents[0]
+
+        val expected = "1:10 am - 12:20 pm +1d (13h 59m)"
+        assertEquals(expected, resultArrivalDepartureTimeAndDuration)
+    }
+
+    private fun createFakeFlightLeg(): FlightLeg {
+        val flightLeg = FlightLeg()
+        val airline = Airline(AIRLINE_NAME, "")
+
+        flightLeg.airlines = listOf(airline)
+        flightLeg.durationHour = 13
+        flightLeg.durationMinute = 59
+        flightLeg.stopCount = 1
+        flightLeg.departureDateTimeISO = "2016-03-09T01:10:00.000-05:00"
+        flightLeg.arrivalDateTimeISO = "2016-03-10T12:20:00.000-07:00"
+        flightLeg.elapsedDays = 1
+
+        return flightLeg
+    }
+
+}

@@ -48,16 +48,16 @@ class FlightServices(endpoint: String, okHttpClient: OkHttpClient, interceptor: 
                         leg.flightSegments = leg.segments
                         val departure = leg.flightSegments.first()
                         val arrival = leg.flightSegments.last()
-                        val arrivalTime = DateUtils.yyyyMMddTHHmmssToDateTimeSafe(arrival.arrivalTime, DateTime.now())
-                        val departureTime = DateUtils.yyyyMMddTHHmmssToDateTimeSafe(departure.departureTime, DateTime.now())
-                        leg.elapsedDays = Days.daysBetween(arrivalTime, departureTime).days
+                        val arrivalTime = DateUtils.dateyyyyMMddHHmmSSSZToDateTime(arrival.arrivalTimeRaw)
+                        val departureTime = DateUtils.dateyyyyMMddHHmmSSSZToDateTime(departure.departureTimeRaw)
+                        leg.elapsedDays = Days.daysBetween(departureTime.toLocalDate(), arrivalTime.toLocalDate()).days
                         leg.departureDateTimeISO = departure.departureTimeRaw
                         leg.arrivalDateTimeISO = arrival.arrivalTimeRaw
                         val airlines = ArrayList<Airline>()
                         var lastSegment: FlightLeg.FlightSegment? = null
                         for (segment in leg.flightSegments) {
                             segment.carrier = segment.airlineName
-                            segment.airplaneType = segment.equipmentDescription
+                            segment.airplaneType = segment.equipmentDescription ?: "" // not always returned by API
                             segment.departureCity = segment.departureAirportLocation
                             segment.arrivalCity = segment.arrivalAirportLocation
                             segment.departureDateTimeISO = segment.departureTimeRaw

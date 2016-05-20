@@ -139,6 +139,9 @@ public class DateUtils {
 		return DateTime.parse(dateyyyyMMddHHmm, DateTimeFormat.forPattern("yyyy-MM-dd HH:mm"));
 	}
 
+	public static DateTime dateyyyyMMddHHmmSSSZToDateTime(String dateyyyyMMddHHmmSSSZ) {
+		return DateTime.parse(dateyyyyMMddHHmmSSSZ, DateTimeFormat.forPattern("yyyy-MM-dd'T'HH:mm:ss.SSSZ"));
+	}
 
 	public static DateTime yyyyMMddTHHmmssToDateTimeSafe(String dateyyyyMMddTHHmmss, DateTime defaultValue) {
 		try {

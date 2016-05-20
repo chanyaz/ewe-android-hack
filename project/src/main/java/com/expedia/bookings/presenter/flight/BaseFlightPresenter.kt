@@ -17,7 +17,7 @@ import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.presenter.ScaleTransition
 import com.expedia.bookings.presenter.packages.PackageFlightOverviewPresenter
 import com.expedia.bookings.tracking.PackagesTracking
-import com.expedia.bookings.presenter.shared.FlightResultsPresenter
+import com.expedia.bookings.presenter.shared.FlightResultsListViewPresenter
 import com.expedia.bookings.utils.ArrowXDrawableUtil
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
@@ -45,7 +45,8 @@ abstract class BaseFlightPresenter(context: Context, attrs: AttributeSet) : Pres
     var flightSearchViewModel: FlightSearchViewModel by notNullAndObservable { vm ->
         val flightListAdapter = FlightListAdapter(context, resultsPresenter.flightSelectedSubject, vm)
         resultsPresenter.setAdapter(flightListAdapter)
-        toolbarViewModel.isOutboundSearch.onNext(false)
+        toolbarViewModel.isOutboundSearch.onNext(isOutboundResultsPresenter())
+        vm.outboundFlightSelected.subscribe(resultsPresenter.outboundFlightSelectedSubject)
     }
 
     val filterPlaceholderIcon by lazy {
@@ -75,10 +76,11 @@ abstract class BaseFlightPresenter(context: Context, attrs: AttributeSet) : Pres
         filterView
     }
 
-    val resultsPresenter: FlightResultsPresenter by lazy {
+    val resultsPresenter: FlightResultsListViewPresenter by lazy {
         var viewStub = findViewById(R.id.results_stub) as ViewStub
-        var presenter = viewStub.inflate() as FlightResultsPresenter
+        var presenter = viewStub.inflate() as FlightResultsListViewPresenter
         presenter.resultsViewModel = FlightResultsViewModel()
+        toolbarViewModel.isOutboundSearch.subscribe(presenter.resultsViewModel.isOutboundResults)
         presenter.flightSelectedSubject.subscribe(selectedFlightResults)
         presenter
     }
@@ -141,7 +143,7 @@ abstract class BaseFlightPresenter(context: Context, attrs: AttributeSet) : Pres
     }
 
 
-    private val defaultTransition = object : DefaultTransition(FlightResultsPresenter::class.java.name) {
+    private val defaultTransition = object : DefaultTransition(FlightResultsListViewPresenter::class.java.name) {
         override fun endTransition(forward: Boolean) {
             super.endTransition(forward)
             toolbarViewModel.refreshToolBar.onNext(forward)
@@ -150,7 +152,7 @@ abstract class BaseFlightPresenter(context: Context, attrs: AttributeSet) : Pres
         }
     }
 
-    private val overviewTransition = object : ScaleTransition(this, FlightResultsPresenter::class.java, PackageFlightOverviewPresenter::class.java) {
+    private val overviewTransition = object : ScaleTransition(this, FlightResultsListViewPresenter::class.java, PackageFlightOverviewPresenter::class.java) {
         override fun endTransition(forward: Boolean) {
             super.endTransition(forward)
             toolbarViewModel.refreshToolBar.onNext(!forward)
@@ -174,7 +176,7 @@ abstract class BaseFlightPresenter(context: Context, attrs: AttributeSet) : Pres
         }
     }
 
-    val listToFiltersTransition: Transition = object : Transition(FlightResultsPresenter::class.java, PackageFlightFilterWidget::class.java, DecelerateInterpolator(2f), 500) {
+    val listToFiltersTransition: Transition = object : Transition(FlightResultsListViewPresenter::class.java, PackageFlightFilterWidget::class.java, DecelerateInterpolator(2f), 500) {
         override fun startTransition(forward: Boolean) {
         }
 
@@ -224,6 +226,7 @@ abstract class BaseFlightPresenter(context: Context, attrs: AttributeSet) : Pres
         return super.back()
     }
 
+    abstract fun isOutboundResultsPresenter(): Boolean
     abstract fun trackFlightResultsLoad()
     abstract fun trackFlightOverviewLoad()
     abstract fun trackFlightSortFilterLoad()

@@ -4,6 +4,7 @@ import org.joda.time.LocalDate;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.test.espresso.NewFlightTestCase;
+import com.expedia.bookings.test.phone.newflights.FlightsResultsScreen;
 import com.expedia.bookings.test.phone.newflights.FlightsScreen;
 import com.expedia.bookings.test.phone.newflights.FlightTestHelpers;
 import com.expedia.bookings.test.phone.pagemodels.common.SearchScreen;
@@ -34,6 +35,10 @@ public class NewFlightPhoneHappyPathTest extends NewFlightTestCase {
 		FlightsScreen.selectOutboundFlight().perform(click());
 
 		FlightTestHelpers.assertFlightInbound();
+		FlightTestHelpers.assertDockedOutboundFlightSelectionWidget();
+		FlightsResultsScreen.dockedOutboundFlightSelectionWidgetContainsText("Outbound");
+		FlightsResultsScreen.dockedOutboundFlightSelectionWidgetContainsText("Delta");
+		FlightsResultsScreen.dockedOutboundFlightSelectionWidgetContainsText("9:00 pm - 8:15 pm (2h 0m)");
 		FlightsScreen.selectFlight(FlightsScreen.inboundFlightList(), 0);
 		FlightsScreen.selectInboundFlight().perform(click());
 
