@@ -19,7 +19,9 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RuntimeEnvironment
+import rx.Observable
 import rx.observers.TestSubscriber
+import java.util.concurrent.CountDownLatch
 import java.util.concurrent.TimeUnit
 import kotlin.properties.Delegates
 import kotlin.test.assertEquals
@@ -47,36 +49,35 @@ class HotelCouponTest {
     @Test
     fun couponErrors() {
         val testSubscriber = TestSubscriber<ApiError>(2)
+        val s = TestSubscriber<Observable<HotelCreateTripResponse>>()
         val expected = arrayListOf<ApiError>()
 
         vm.errorObservable.take(6).subscribe(testSubscriber)
+        vm.createTripDownloadsObservable.subscribe(s)
 
         var couponParamsBuilder = HotelApplyCouponParameters.Builder()
                 .tripId("58b6be8a-d533-4eb0-aaa6-0228e000056c")
                 .isFromNotSignedInToSignedIn(false)
                 .userPreferencePointsDetails(listOf(UserPreferencePointsDetails(ProgramName.ExpediaRewards, PointsAndCurrency(0f, PointsType.BURN, Money()))))
 
-        vm.couponParamsObservable.onNext(couponParamsBuilder.couponCode("hotel_coupon_errors_expired").build())
-        expected.add(makeErrorInfo(ApiError.Code.APPLY_COUPON_ERROR, "Expired"))
-
-        vm.couponParamsObservable.onNext(couponParamsBuilder.couponCode("hotel_coupon_errors_duplicate").build())
-        expected.add(makeErrorInfo(ApiError.Code.APPLY_COUPON_ERROR, "Duplicate"))
-
-        vm.couponParamsObservable.onNext(couponParamsBuilder.couponCode("hotel_coupon_errors_not_active").build())
-        expected.add(makeErrorInfo(ApiError.Code.APPLY_COUPON_ERROR, "NotActive"))
-
-        vm.couponParamsObservable.onNext(couponParamsBuilder.couponCode("hotel_coupon_errors_not_exists").build())
-        expected.add(makeErrorInfo(ApiError.Code.APPLY_COUPON_ERROR, "DoesNotExist"))
-
-        vm.couponParamsObservable.onNext(couponParamsBuilder.couponCode("hotel_coupon_errors_not_configured").build())
-        expected.add(makeErrorInfo(ApiError.Code.APPLY_COUPON_ERROR, "CampaignIsNotConfigured"))
-
-        vm.couponParamsObservable.onNext(couponParamsBuilder.couponCode("hotel_coupon_errors_product_missing").build())
-        expected.add(makeErrorInfo(ApiError.Code.APPLY_COUPON_ERROR, "PackageProductMissing"))
+        expected.add(applyCouponWithError(couponParamsBuilder.couponCode("hotel_coupon_errors_expired").build(), "Expired"))
+        expected.add(applyCouponWithError(couponParamsBuilder.couponCode("hotel_coupon_errors_duplicate").build(), "Duplicate"))
+        expected.add(applyCouponWithError(couponParamsBuilder.couponCode("hotel_coupon_errors_not_active").build(), "NotActive"))
+        expected.add(applyCouponWithError(couponParamsBuilder.couponCode("hotel_coupon_errors_not_exists").build(), "DoesNotExist"))
+        expected.add(applyCouponWithError(couponParamsBuilder.couponCode("hotel_coupon_errors_not_configured").build(), "CampaignIsNotConfigured"))
+        expected.add(applyCouponWithError(couponParamsBuilder.couponCode("hotel_coupon_errors_product_missing").build(), "PackageProductMissing"))
 
         testSubscriber.awaitTerminalEvent(10, TimeUnit.SECONDS)
         testSubscriber.assertCompleted()
         testSubscriber.assertReceivedOnNext(expected)
+    }
+
+    private fun applyCouponWithError(couponParameters: HotelApplyCouponParameters, expectedError: String): ApiError {
+        val latch = CountDownLatch(1)
+        vm.enableSubmitButtonObservable.subscribe { latch.countDown() }
+        vm.couponParamsObservable.onNext(couponParameters)
+        latch.await(10, TimeUnit.SECONDS)
+        return makeErrorInfo(ApiError.Code.APPLY_COUPON_ERROR, expectedError)
     }
 
     @Test
