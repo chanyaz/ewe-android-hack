@@ -34,7 +34,7 @@ run() {
         "clean" \
         ":lib:mocked:mocke3:test" \
         ":lib:ExpediaBookings:test" ":lib:ExpediaBookings:jacocoTestReport" \
-        ":project:testExpediaDebug" \
+        ":project:jacocoExpediaDebug" \
         ":lib:ExpediaBookings:checkstyleMain" ":lib:ExpediaBookings:checkstyleTest" \
         "checkstyle" "lintExpediaDebug"
 }
