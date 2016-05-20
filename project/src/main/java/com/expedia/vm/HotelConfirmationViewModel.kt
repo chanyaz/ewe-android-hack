@@ -34,6 +34,7 @@ import rx.Observable
 import rx.Observer
 import rx.exceptions.OnErrorNotImplementedException
 import rx.subjects.BehaviorSubject
+import rx.subjects.PublishSubject
 import java.math.BigDecimal
 import javax.inject.Inject
 
@@ -56,6 +57,7 @@ class HotelConfirmationViewModel(checkoutResponseObservable: Observable<HotelChe
     val hotelLocation = BehaviorSubject.create<Location>()
     val showFlightCrossSell = BehaviorSubject.create<Boolean>()
     val showCarCrossSell = BehaviorSubject.create<Boolean>()
+    val showAddToCalendar = PublishSubject.create<Boolean>()
     lateinit var paymentModel: PaymentModel<HotelCreateTripResponse>
         @Inject set
 
@@ -110,6 +112,9 @@ class HotelConfirmationViewModel(checkoutResponseObservable: Observable<HotelChe
 //            showCarCrossSell.onNext(showHotelCrossSell && pointOfSale.supports(LineOfBusiness.CARS))
             showFlightCrossSell.onNext(false)
             showCarCrossSell.onNext(false)
+
+            // Show Add to Calendar only if sharing is supported.
+            showAddToCalendar.onNext(ProductFlavorFeatureConfiguration.getInstance().shouldShowItinShare())
 
             location.setCity(product.hotelCity)
             location.setCountryCode(product.hotelCountry)
