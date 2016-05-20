@@ -43,6 +43,8 @@ class RailPresenter(context: Context, attrs: AttributeSet) : Presenter(context, 
                 overviewHeader.toggleOverviewHeader(true)
                 tripOverviewPresenter.getCheckoutPresenter().toggleCheckoutButton(false)
                 tripOverviewPresenter.getCheckoutPresenter().resetAndShowTotalPriceWidget()
+                tripOverviewPresenter.getCheckoutPresenter().totalPriceWidget.viewModel.bundleTextLabelObservable.onNext(context.getString(R.string.total))
+                tripOverviewPresenter.getCheckoutPresenter().totalPriceWidget.viewModel.bundleTotalIncludesObservable.onNext(context.getString(R.string.includes_taxes_and_fees))
             }
         }
     }

@@ -14,6 +14,7 @@ import com.expedia.bookings.bitmaps.PicassoHelper
 import com.expedia.bookings.bitmaps.PicassoTarget
 import com.expedia.bookings.graphics.HeaderBitmapDrawable
 import com.expedia.bookings.utils.ColorBuilder
+import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
 import com.expedia.util.notNullAndObservable
 import com.expedia.util.subscribeText
@@ -55,7 +56,7 @@ class CheckoutOverviewHeader(context: Context, attrs: AttributeSet?) : LinearLay
             var textColor: Int
             if (!mIsFallbackImage) {
                 // only apply gradient treatment to hotels with images #5647
-                val fullColorBuilder = ColorBuilder(ContextCompat.getColor(context, R.color.packages_primary_color))
+                val fullColorBuilder = ColorBuilder(ContextCompat.getColor(context, Ui.obtainThemeResID(context, R.attr.primary_color)))
                 val gradientColor = fullColorBuilder.setAlpha(230).build()
                 val colorArrayBottom = intArrayOf(gradientColor, gradientColor)
                 drawable.setGradient(colorArrayBottom, floatArrayOf(0f, 1f))
