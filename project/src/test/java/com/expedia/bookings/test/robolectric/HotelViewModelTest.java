@@ -82,6 +82,16 @@ public class HotelViewModelTest {
 	}
 
 	@Test
+	public void zeroIsDisplayedWhenPriceToShowUsersIsNegative() {
+		hotel.lowRateInfo.priceToShowUsers = -10f;
+		hotel.lowRateInfo.strikethroughPriceToShowUsers = 12f;
+		setupSystemUnderTest();
+
+		assertTrue(vm.getHotelStrikeThroughPriceVisibility().getValue());
+		assertEquals("$0",vm.getHotelPriceFormatted().getValue());
+	}
+
+	@Test
 	public void distanceFromLocationObservableNonZeroDistance() {
 		double distanceInMiles = 0.42;
 		givenHotelWithProximityDistance(distanceInMiles);
