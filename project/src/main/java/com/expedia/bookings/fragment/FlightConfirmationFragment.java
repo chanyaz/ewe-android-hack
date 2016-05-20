@@ -28,6 +28,7 @@ import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.cars.CarSearchParams;
 import com.expedia.bookings.data.lx.LXSearchParams;
 import com.expedia.bookings.data.pos.PointOfSale;
+import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.section.FlightLegSummarySection;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.AddToCalendarUtils;
@@ -177,13 +178,21 @@ public class FlightConfirmationFragment extends ConfirmationFragment {
 			});
 		}
 
-		Ui.setOnClickListener(v, R.id.share_action_text_view, new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				share();
-			}
-		});
-		if (CalendarAPIUtils.deviceSupportsCalendarAPI(getActivity())) {
+		// Show Share button only if sharing is supported.
+		if (ProductFlavorFeatureConfiguration.getInstance().shouldShowItinShare()) {
+			Ui.setOnClickListener(v, R.id.share_action_text_view, new OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					share();
+				}
+			});
+		}
+		else {
+			Ui.findView(v, R.id.share_action_text_view).setVisibility(View.GONE);
+		}
+
+		// Show Add to Calendar only if sharing is supported.
+		if (CalendarAPIUtils.deviceSupportsCalendarAPI(getActivity()) && ProductFlavorFeatureConfiguration.getInstance().shouldShowItinShare()) {
 			Ui.setOnClickListener(v, R.id.calendar_action_text_view, new OnClickListener() {
 				@Override
 				public void onClick(View v) {
