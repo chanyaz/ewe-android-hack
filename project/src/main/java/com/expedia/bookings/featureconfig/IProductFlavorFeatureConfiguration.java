@@ -181,4 +181,6 @@ public interface IProductFlavorFeatureConfiguration {
 	boolean shouldDisplayItinTrackAppLink();
 
 	boolean shouldSetExistingUserForTune();
+
+	boolean shouldShowItinShare();
 }
