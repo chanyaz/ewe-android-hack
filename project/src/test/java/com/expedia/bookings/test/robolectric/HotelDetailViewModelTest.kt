@@ -274,6 +274,37 @@ class HotelDetailViewModelTest {
         hotelSoldOutTestSubscriber.assertValues(false, false, true)
     }
 
+    @Test fun regularAndVIPLoyaltyPointsAppliedHeaderVisibility() {
+
+        //Non VIP hotel and one of the hotel room has loyality info (isBurnApplied = true)
+        offer1.doesAnyHotelRateOfAnyRoomHaveLoyaltyInfo = true
+        offer1.isVipAccess=false;
+        vm.hotelOffersSubject.onNext(offer1)
+        assertTrue(vm.hasRegularLoyaltyPointsAppliedObservable.value)
+        assertFalse(vm.hasVipAccessLoyaltyObservable.value)
+
+        //Non VIP hotel and none of the hotel room has loyality info (isBurnApplied = false)
+        offer1.doesAnyHotelRateOfAnyRoomHaveLoyaltyInfo = false
+        offer1.isVipAccess=false;
+        vm.hotelOffersSubject.onNext(offer1)
+        assertFalse(vm.hasRegularLoyaltyPointsAppliedObservable.value)
+        assertFalse(vm.hasVipAccessLoyaltyObservable.value)
+
+        //VIP hotel and one of the hotel room has loyality info (isBurnApplied = true)
+        offer1.doesAnyHotelRateOfAnyRoomHaveLoyaltyInfo = true
+        offer1.isVipAccess=true;
+        vm.hotelOffersSubject.onNext(offer1)
+        assertTrue(vm.hasVipAccessLoyaltyObservable.value)
+        assertFalse(vm.hasRegularLoyaltyPointsAppliedObservable.value)
+
+        //VIP hotel and none of the hotel room has loyality info (isBurnApplied = false)
+        offer1.doesAnyHotelRateOfAnyRoomHaveLoyaltyInfo = false
+        offer1.isVipAccess=true;
+        vm.hotelOffersSubject.onNext(offer1)
+        assertFalse(vm.hasVipAccessLoyaltyObservable.value)
+        assertFalse(vm.hasRegularLoyaltyPointsAppliedObservable.value)
+    }
+
     private fun loyaltyPriceInfo(price: String) {
         PointOfSale.getPointOfSale().isEarnMessageEnabledForHotels = true
         UserLoginTestUtil.setupUserAndMockLogin(UserLoginTestUtil.mockUser())
