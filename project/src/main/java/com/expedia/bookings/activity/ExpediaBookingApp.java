@@ -208,7 +208,7 @@ public class ExpediaBookingApp extends MultiDexApplication implements UncaughtEx
 		startupTimer.addSplit("Omniture Init");
 
 		// Initialize some parts of the code that require a Context
-		PointOfSale.init(this);
+		PointOfSale.init(this, ProductFlavorFeatureConfiguration.getInstance().getPOSConfigurationPath());
 		startupTimer.addSplit("PointOfSale Init");
 
 		if (ProductFlavorFeatureConfiguration.getInstance().wantsCustomHandlingForLocaleConfiguration()) {
