@@ -451,68 +451,6 @@ public class PointOfSale {
 		sCountryCodeMap.put("ax", new CountryResources(R.string.country_ax));
 	}
 
-	/**
-	 * There can be multiple different locales for a given POS.
-	 * <p/>
-	 * I'm purposefully obscuring this from the POS, so you don't have to figure this stuff out
-	 * (we select the locale automatically based on the current Locale of the system).
-	 */
-	private static class PointOfSaleLocale {
-		// The locale identifier (e.g., "es_AR") for this locale
-		private String mLocaleIdentifier;
-
-		// The url leading to the support part of the website
-		private String mAppSupportUrl;
-
-		// A locale specific phone number, takes precedence over the POS supportNumber
-		private String mSupportNumber;
-
-		// The url for please to be downloading this app
-		private String mAppInfoUrl;
-
-		// The url for just the website
-		private String mWebsiteUrl;
-
-		// The url for travel insurance. Not present for all POS
-		private String mInsuranceUrl;
-
-		// The url for the best price guarantee policy (if available in the POS)
-		private String mBestPriceGuaranteePolicyUrl;
-
-		// The rules & restrictions disclaimer for every hotel booking
-		private String mHotelBookingStatement;
-
-		// The rules & restrictions disclaimer for every flight booking
-		private String mFlightBookingStatement;
-
-		// The URL for Terms and Conditions for this POS
-		private String mTermsAndConditionsUrl;
-
-		// The URL for Loyalty Terms and Conditions for this POS
-		private String mLoyaltyTermsAndConditionsUrl;
-
-		// The URL for Help Url for Airlines Additional Fee Based On Payment Method for this POS
-		private String airlineFeeBasedOnPaymentMethodTermsAndConditionsURL;
-
-		// The URL for Terms of Booking for this POS (see GB)
-		private String mTermsOfBookingUrl;
-
-		// The URL for Privacy Policy for this POS
-		private String mPrivacyPolicyUrl;
-
-		// The language code that this locale associates with
-		private String mLanguageCode;
-
-		// The language identifier linked to this locale (linked to language code)
-		private int mLanguageId;
-
-		// directly gives the forgot_password Url for the POS
-		private String mForgotPasswordUrl;
-
-		// Account creation marketing text
-		private String mMarketingText;
-	}
-
 	//////////////////////////////////////////////////////////////////////////
 	// Info on each POS
 
@@ -545,7 +483,7 @@ public class PointOfSale {
 	 * If there is a locale-specific support number, use that over the generic POS support number.
 	 */
 	private String getSupportPhoneNumber() {
-		String number = getPosLocale().mSupportNumber;
+		String number = getPosLocale().getSupportNumber();
 		if (TextUtils.isEmpty(number)) {
 			number = mSupportPhoneNumber;
 		}
@@ -710,48 +648,48 @@ public class PointOfSale {
 	}
 
 	public String getLocaleIdentifier() {
-		return getPosLocale().mLocaleIdentifier;
+		return getPosLocale().getLocaleIdentifier();
 	}
 
 	public String getAppSupportUrl() {
-		return getPosLocale().mAppSupportUrl;
+		return getPosLocale().getAppSupportUrl();
 	}
 
 	public String getAppInfoUrl() {
-		return getPosLocale().mAppInfoUrl;
+		return getPosLocale().getAppInfoUrl();
 	}
 
 	public String getWebsiteUrl() {
-		return getPosLocale().mWebsiteUrl;
+		return getPosLocale().getWebsiteUrl();
 	}
 
 	public String getInsuranceUrl() {
-		return getPosLocale().mInsuranceUrl;
+		return getPosLocale().getInsuranceUrl();
 	}
 
 	public String getBestPriceGuaranteeUrl() {
-		return getPosLocale().mBestPriceGuaranteePolicyUrl;
+		return getPosLocale().getBestPriceGuaranteePolicyUrl();
 	}
 
 	public String getTermsAndConditionsUrl() {
-		return getPosLocale().mTermsAndConditionsUrl;
+		return getPosLocale().getTermsAndConditionsUrl();
 	}
 
 	public String getAccountCreationTermsAndConditionsURL() {
-		return getPosLocale().mLoyaltyTermsAndConditionsUrl == null ? getPosLocale().mTermsAndConditionsUrl
-			: getPosLocale().mLoyaltyTermsAndConditionsUrl;
+		return getPosLocale().getLoyaltyTermsAndConditionsUrl() == null ? getPosLocale().getTermsAndConditionsUrl()
+			: getPosLocale().getLoyaltyTermsAndConditionsUrl();
 	}
 
 	public String getAirlineFeeBasedOnPaymentMethodTermsAndConditionsURL() {
-		return getPosLocale().airlineFeeBasedOnPaymentMethodTermsAndConditionsURL;
+		return getPosLocale().getAirlineFeeBasedOnPaymentMethodTermsAndConditionsURL();
 	}
 
 	public String getTermsOfBookingUrl() {
-		return getPosLocale().mTermsOfBookingUrl;
+		return getPosLocale().getTermsOfBookingUrl();
 	}
 
 	public String getPrivacyPolicyUrl() {
-		return getPosLocale().mPrivacyPolicyUrl;
+		return getPosLocale().getPrivacyPolicyUrl();
 	}
 
 	public int getEAPID() {
@@ -759,11 +697,11 @@ public class PointOfSale {
 	}
 
 	public String getForgotPasswordUrl() {
-		return getPosLocale().mForgotPasswordUrl;
+		return getPosLocale().getForgotPasswordUrl();
 	}
 
 	public String getHotelBookingStatement() {
-		return getPosLocale().mHotelBookingStatement;
+		return getPosLocale().getHotelBookingStatement();
 	}
 
 	// TODO: As more complicated payment combinations arise, think about a refactor
@@ -801,7 +739,7 @@ public class PointOfSale {
 	}
 
 	public String getMarketingText() {
-		return getPosLocale().mMarketingText;
+		return getPosLocale().getMarketingText();
 	}
 
 	public boolean shouldShowCircleForRatings() {
@@ -855,7 +793,7 @@ public class PointOfSale {
 	 * @return Stylized CharSequence
 	 */
 	public CharSequence getStylizedHotelBookingStatement() {
-		return getStylizedStatement(getPosLocale().mHotelBookingStatement, false);
+		return getStylizedStatement(getPosLocale().getHotelBookingStatement(), false);
 	}
 
 	/**
@@ -865,7 +803,7 @@ public class PointOfSale {
 	 * @return Stylized CharSequence
 	 */
 	public CharSequence getStylizedHotelBookingStatement(boolean keepHyperLinks) {
-		return getStylizedStatement(getPosLocale().mHotelBookingStatement, keepHyperLinks);
+		return getStylizedStatement(getPosLocale().getHotelBookingStatement(), keepHyperLinks);
 	}
 
 	/**
@@ -884,8 +822,8 @@ public class PointOfSale {
 	 * @return Stylized CharSequence
 	 */
 	public CharSequence getStylizedFlightBookingStatement(boolean keepHyperLinks) {
-		if (!TextUtils.isEmpty(getPosLocale().mFlightBookingStatement)) {
-			return getStylizedStatement(getPosLocale().mFlightBookingStatement, keepHyperLinks);
+		if (!TextUtils.isEmpty(getPosLocale().getFlightBookingStatement())) {
+			return getStylizedStatement(getPosLocale().getFlightBookingStatement(), keepHyperLinks);
 		}
 		return "FAIL FAIL FAIL LOC NEEDED: flightBookingStatement";
 	}
@@ -912,12 +850,16 @@ public class PointOfSale {
 	}
 
 	public int getDualLanguageId() {
-		return getPosLocale().mLanguageId;
+		return getPosLocale().getLanguageId();
 	}
 
 	// Returns the correct POSLocale based on the user's current locale
 	private PointOfSaleLocale getPosLocale() {
 		Locale locale = Locale.getDefault();
+		return getPosLocale(locale);
+	}
+
+	public PointOfSaleLocale getPosLocale(Locale locale) {
 		String localeString = locale.toString();
 
 		Log.d("PointOfSale: getPosLocale, device locale=" + localeString);
@@ -925,8 +867,8 @@ public class PointOfSale {
 		if (mLocales.size() > 1) {
 			// First look for an exact match on the Locale, languageCode and countryCode
 			for (PointOfSaleLocale posLocale : mLocales) {
-				if (posLocale.mLocaleIdentifier.equalsIgnoreCase(localeString)) {
-					Log.d("PointOfSale: Selecting POSLocale by locale, locale=" + posLocale.mLocaleIdentifier);
+				if (posLocale.getLocaleIdentifier().equalsIgnoreCase(localeString)) {
+					Log.d("PointOfSale: Selecting POSLocale by locale, locale=" + posLocale.getLocaleIdentifier());
 					return posLocale;
 				}
 			}
@@ -934,8 +876,8 @@ public class PointOfSale {
 			// If there is no exact match on Locale, attempt to match on languageCode only
 			String langCode = locale.getLanguage();
 			for (PointOfSaleLocale posLocale : mLocales) {
-				if (posLocale.mLanguageCode.equalsIgnoreCase(langCode)) {
-					Log.d("PointOfSale: Selecting POSLocale by langCode, locale=" + posLocale.mLocaleIdentifier);
+				if (posLocale.getLanguageCode().equalsIgnoreCase(langCode)) {
+					Log.d("PointOfSale: Selecting POSLocale by langCode, locale=" + posLocale.getLanguageCode());
 					return posLocale;
 				}
 			}
@@ -944,7 +886,7 @@ public class PointOfSale {
 		// In the case that we can't find the right locale (or there
 		// is only one locale),  default to the first locale.
 		PointOfSaleLocale posLocale = mLocales.get(0);
-		Log.d("PointOfSale: Selecting default POSLocale locale=" + posLocale.mLocaleIdentifier);
+		Log.d("PointOfSale: Selecting default POSLocale locale=" + posLocale.getLocaleIdentifier());
 		return posLocale;
 	}
 
@@ -963,9 +905,9 @@ public class PointOfSale {
 	/**
 	 * MUST be called before using any other POS methods
 	 */
-	public static void init(Context context) {
+	public static void init(Context context, String posConfigJsonPath) {
 		// Load all data; in the future we may want to load only the POS requested, to save startup time
-		loadPointOfSaleInfo(context);
+		loadPointOfSaleInfo(context, posConfigJsonPath);
 
 		// Load supported Expedia suggest locales
 		loadExpediaSuggestSupportedLanguages(context);
@@ -1133,14 +1075,13 @@ public class PointOfSale {
 	// Data loading
 
 	@SuppressWarnings("unchecked")
-	private static void loadPointOfSaleInfo(Context context) {
+	private static void loadPointOfSaleInfo(Context context, String posConfigJsonPath) {
 		long start = System.nanoTime();
 
 		sPointOfSale.clear();
 
 		try {
-			InputStream is = context.getAssets()
-				.open(ProductFlavorFeatureConfiguration.getInstance().getPOSConfigurationPath());
+			InputStream is = context.getAssets().open(posConfigJsonPath);
 			String data = IoUtils.convertStreamToString(is);
 			JSONObject posData = new JSONObject(data);
 			Iterator<String> keys = posData.keys();
@@ -1250,7 +1191,7 @@ public class PointOfSale {
 		// Parse POS locales
 		JSONArray supportedLocales = data.optJSONArray("supportedLocales");
 		for (int a = 0; a < supportedLocales.length(); a++) {
-			pos.mLocales.add(parseLocale(supportedLocales.optJSONObject(a)));
+			pos.mLocales.add(new PointOfSaleLocale(supportedLocales.optJSONObject(a)));
 		}
 
 		JSONArray mappedLocales = data.optJSONArray("automaticallyMappedLocales");
@@ -1308,41 +1249,6 @@ public class PointOfSale {
 			arr[a] = stringJsonArr.optString(a);
 		}
 		return arr;
-	}
-
-	private static PointOfSaleLocale parseLocale(JSONObject data) {
-		PointOfSaleLocale locale = new PointOfSaleLocale();
-
-		locale.mLocaleIdentifier = data.optString("localeIdentifier", null);
-
-		// Various URLs
-		locale.mAppSupportUrl = data.optString("appSupportURL", null);
-		locale.mSupportNumber = data.optString("localeSpecificSupportPhoneNumber", null);
-		locale.mAppInfoUrl = data.optString("appInfoURL", null);
-		locale.mWebsiteUrl = data.optString("websiteURL", null);
-		locale.mInsuranceUrl = data.optString("insuranceURL", null);
-		locale.mBestPriceGuaranteePolicyUrl = data.optString("bestPriceGuaranteePolicyURL", null);
-
-		// All fields for rules & restrictions disclaimer
-		locale.mHotelBookingStatement = data.optString("hotelBookingStatement", null);
-		locale.mFlightBookingStatement = data.optString("flightBookingStatement", null);
-		locale.mTermsAndConditionsUrl = data.optString("termsAndConditionsURL", null);
-		locale.mLoyaltyTermsAndConditionsUrl = data.optString("loyaltyTermsAndConditionsURL", null);
-		locale.mTermsOfBookingUrl = data.optString("termsOfBookingURL", null);
-		locale.mPrivacyPolicyUrl = data.optString("privacyPolicyURL", null);
-		locale.airlineFeeBasedOnPaymentMethodTermsAndConditionsURL = data.optString("airlineFeeBasedOnPaymentMethodTermsAndConditionsURL", null);
-
-		// Language identifier
-		locale.mLanguageCode = data.optString("languageCode", null);
-		locale.mLanguageId = data.optInt("languageIdentifier");
-		locale.mForgotPasswordUrl = data.optString("forgotPasswordURL", null);
-		locale.mMarketingText = data.optString("createAccountMarketingText");
-		// Fix one thing with the iOS-based data...
-		if ("zh-Hant".equals(locale.mLanguageCode)) {
-			locale.mLanguageCode = "zh";
-		}
-
-		return locale;
 	}
 
 	private static void loadExpediaSuggestSupportedLanguages(Context context) {
