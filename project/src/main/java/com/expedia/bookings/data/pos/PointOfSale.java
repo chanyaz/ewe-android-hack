@@ -591,6 +591,10 @@ public class PointOfSale {
 		return mRequiresHotelPostalCode;
 	}
 
+	public void setRequiresHotelPostalCode(boolean mRequiresHotelPostalCode) {
+		this.mRequiresHotelPostalCode = mRequiresHotelPostalCode;
+	}
+
 	public boolean requiresLXPostalCode() {
 		return mRequiresLXPostalCode;
 	}

@@ -162,6 +162,11 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 
 			@Override
 			public void onNext(Unit unit) {
+				if (currentExpandedCard != null) {
+					currentExpandedCard.onMenuButtonPressed();
+				}
+				Ui.hideKeyboard(CheckoutBasePresenter.this);
+
 				if (Strings.equals(getCurrentState(), PaymentWidget.class.getName()) || Strings.equals(getCurrentState(), PaymentWidgetV2.class.getName())) {
 					paymentInfoCardView.getDoneClicked().onNext(Unit.INSTANCE);
 				}
@@ -241,26 +246,6 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 				if (getLineOfBusiness() == LineOfBusiness.HOTELSV2 && listenToScroll) {
 					scrollToEnterDetails();
 				}
-			}
-		});
-
-		toolbar.getViewModel().getDoneClicked().subscribe(new Observer<Unit>() {
-			@Override
-			public void onCompleted() {
-
-			}
-
-			@Override
-			public void onError(Throwable e) {
-
-			}
-
-			@Override
-			public void onNext(Unit unit) {
-				if (currentExpandedCard != null) {
-					currentExpandedCard.onMenuButtonPressed();
-				}
-				Ui.hideKeyboard(CheckoutBasePresenter.this);
 			}
 		});
 
