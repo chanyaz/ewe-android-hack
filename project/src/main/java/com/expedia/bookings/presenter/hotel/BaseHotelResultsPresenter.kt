@@ -515,6 +515,12 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
         mapView.viewTreeObserver.addOnGlobalLayoutListener(mapViewLayoutReadyListener)
     }
 
+    fun showLoading() {
+        adapter.showLoading()
+        recyclerView.viewTreeObserver.addOnGlobalLayoutListener(adapterListener)
+        filterBtnWithCountWidget?.visibility = View.GONE
+    }
+
     private val mapViewLayoutReadyListener = object : ViewTreeObserver.OnGlobalLayoutListener {
         override fun onGlobalLayout() {
             isMapReady = true
@@ -710,6 +716,7 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
         override fun onGlobalLayout() {
             recyclerView.viewTreeObserver.removeOnGlobalLayoutListener(this)
             screenHeight = if (ExpediaBookingApp.isAutomation()) {
+                fab.visibility = View.VISIBLE
                 0
             } else {
                 height

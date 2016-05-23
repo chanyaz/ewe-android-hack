@@ -201,6 +201,17 @@ class PackageHotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
         Ui.getApplication(context).packageComponent().inject(this)
         View.inflate(getContext(), R.layout.package_hotel_presenter, this)
         bundleSlidingWidget.setupBundleViews()
+        bundleSlidingWidget.animationFinished.subscribe {
+            resultsPresenter.viewmodel.hotelResultsObservable.onNext(HotelSearchResponse.convertPackageToSearchResponse(Db.getPackageResponse()))
+        }
+        bundleSlidingWidget.bundlePriceWidget.viewModel.bundleTextLabelObservable.onNext(context.getString(R.string.search_bundle_total_text))
+        val currencyCode = Db.getPackageResponse().packageResult.packageOfferModels[0].price.packageTotalPrice.currencyCode
+        val total = Money(BigDecimal(0), currencyCode)
+        var packageSavings = Phrase.from(context, R.string.bundle_total_savings_TEMPLATE)
+                .put("savings", total.getFormattedMoney(Money.F_ALWAYS_TWO_PLACES_AFTER_DECIMAL))
+                .format().toString()
+        bundleSlidingWidget.bundlePriceWidget.viewModel.setTextObservable.onNext(Pair(total.getFormattedMoney(Money.F_ALWAYS_TWO_PLACES_AFTER_DECIMAL), packageSavings))
+        bundleSlidingWidget.bundlePriceFooter.viewModel.setTextObservable.onNext(Pair(total.getFormattedMoney(Money.F_ALWAYS_TWO_PLACES_AFTER_DECIMAL), packageSavings))
     }
 
     fun updateOverviewAnimationDuration(duration: Int) {
@@ -313,16 +324,6 @@ class PackageHotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
         override fun endTransition(forward: Boolean) {
             super.endTransition(forward)
             resultsPresenter.visibility = if (forward) View.VISIBLE else View.GONE
-            bundleSlidingWidget.visibility = View.VISIBLE
-            bundleSlidingWidget.bundlePriceWidget.viewModel.bundleTextLabelObservable.onNext(context.getString(R.string.search_bundle_total_text))
-            val currencyCode = Db.getPackageResponse().packageResult.packageOfferModels[0].price.packageTotalPrice.currencyCode
-            val total = Money(BigDecimal(0), currencyCode)
-            var packageSavings = Phrase.from(context, R.string.bundle_total_savings_TEMPLATE)
-                    .put("savings", total.getFormattedMoney(Money.F_ALWAYS_TWO_PLACES_AFTER_DECIMAL))
-                    .format().toString()
-            bundleSlidingWidget.bundlePriceWidget.viewModel.setTextObservable.onNext(Pair(total.getFormattedMoney(Money.F_ALWAYS_TWO_PLACES_AFTER_DECIMAL), packageSavings))
-            bundleSlidingWidget.bundlePriceFooter.viewModel.setTextObservable.onNext(Pair(total.getFormattedMoney(Money.F_ALWAYS_TWO_PLACES_AFTER_DECIMAL), packageSavings))
-
             resultsPresenter.animationFinalize(forward)
         }
     }
@@ -433,8 +434,7 @@ class PackageHotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
                 addDefaultTransition(defaultResultsTransition)
                 show(resultsPresenter)
                 resultsPresenter.showDefault()
-                resultsPresenter.viewmodel.paramsSubject.onNext(convertPackageToSearchParams(Db.getPackageParams(), resources.getInteger(R.integer.calendar_max_days_hotel_stay), resources.getInteger(R.integer.calendar_max_package_selectable_date_range)))
-                resultsPresenter.viewmodel.hotelResultsObservable.onNext(HotelSearchResponse.convertPackageToSearchResponse(Db.getPackageResponse()))
+                resultsPresenter.viewmodel.paramsSubject.onNext(convertPackageToSearchParams(Db.getPackageParams(), resources.getInteger(R.integer.calendar_max_days_hotel_stay),  resources.getInteger(R.integer.calendar_max_package_selectable_date_range)))
                 trackSearchResult()
             }
             PackageHotelActivity.Screen.DETAILS_ONLY -> {

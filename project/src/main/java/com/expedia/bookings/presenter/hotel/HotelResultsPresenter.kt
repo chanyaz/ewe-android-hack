@@ -86,12 +86,6 @@ class HotelResultsPresenter(context: Context, attrs: AttributeSet) : BaseHotelRe
         }
     }
 
-    fun showLoading() {
-        adapter.showLoading()
-        recyclerView.viewTreeObserver.addOnGlobalLayoutListener(adapterListener)
-        filterBtnWithCountWidget.visibility = View.GONE
-    }
-
     override fun onFinishInflate() {
         super.onFinishInflate()
         Ui.getApplication(getContext()).hotelComponent().inject(this)
