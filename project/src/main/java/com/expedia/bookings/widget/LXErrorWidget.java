@@ -122,7 +122,7 @@ public class LXErrorWidget extends FrameLayout {
 		case SESSION_TIMEOUT:
 			bindText(R.drawable.error_timeout,
 				R.string.reservation_time_out,
-				R.string.lx_session_timeout_text,
+				R.string.session_timeout,
 				R.string.edit_search);
 			errorButton.setOnClickListener(new OnClickListener() {
 				@Override

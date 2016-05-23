@@ -54,7 +54,7 @@ public class CarErrorWidgetTest {
 
 		errorWidget.bind(apiError);
 
-		assertEquals("Session Timeout", errorToolbar.getTitle());
+		assertEquals("Session Expired", errorToolbar.getTitle());
 		assertEquals("Still there? Your session has expired. Please try your search again.", errorText.getText());
 		assertEquals("Edit Search", errorButton.getText());
 

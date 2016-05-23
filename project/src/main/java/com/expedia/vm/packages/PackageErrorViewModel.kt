@@ -77,6 +77,14 @@ class PackageErrorViewModel(private val context: Context) {
                     errorMessageObservable.onNext(context.getString(R.string.error_package_search_message))
                     buttonTextObservable.onNext(context.getString(R.string.edit_search))
                 }
+                PackageApiError.Code.pkg_piid_expired -> {
+                    imageObservable.onNext(R.drawable.error_timeout)
+                    errorMessageObservable.onNext(context.getString(R.string.reservation_time_out))
+                    buttonTextObservable.onNext(context.getString(R.string.search_again))
+                    titleObservable.onNext(context.getString(R.string.session_timeout))
+                    subTitleObservable.onNext("")
+                    buttonTextObservable.onNext(context.getString(R.string.search_again))
+                }
                 else -> {
                     makeDefaultError()
                 }

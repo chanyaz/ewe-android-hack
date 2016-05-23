@@ -1,0 +1,32 @@
+{
+  "version": "V1",
+  "pageReferrerId": "CH",
+  "searchType": "HOTEL_SEARCH",
+  "pageData": {},
+  "packageResult": null,
+  "pageState": {
+    "readFromCache": false,
+    "selectedHotelStarRating": 0,
+    "selectedHotelName": null,
+    "selectedRegionId": 178248,
+    "selectedBoardType": 0,
+    "selectedSortOrder": 0,
+    "selectedPoiId": null,
+    "selectedAmenities": null,
+    "pagination": {
+      "pageCount": 13,
+      "currentPageNumber": 0,
+      "enablePreviousLink": false,
+      "enableNextLink": true
+    }
+  },
+  "siteAnalyticsModel": {},
+  "errors": [
+    "pkg_piid_expired"
+  ],
+  "packagePageInput": null,
+  "coalitionPackageInfoModel": null,
+  "universalDataObject": null
+}
+
+

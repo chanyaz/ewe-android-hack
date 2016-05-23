@@ -10,6 +10,7 @@ class PackageApiError {
         pkg_destination_resolution_failed,
         pkg_flight_no_longer_available,
         pkg_invalid_checkin_checkout_dates,
+        pkg_piid_expired,
         pkg_too_many_children_in_lap
     }
 

@@ -149,7 +149,7 @@ public class ErrorWidget extends FrameLayout {
 		case SESSION_TIMEOUT:
 			bindText(R.drawable.error_timeout,
 				getResources().getString(R.string.reservation_time_out),
-				R.string.cars_session_timeout_text,
+				R.string.session_timeout,
 				R.string.edit_search);
 			errorButton.setOnClickListener(new OnClickListener() {
 				@Override
