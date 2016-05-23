@@ -274,7 +274,7 @@ class NewPhoneLaunchWidget(context: Context, attrs: AttributeSet?) : Coordinator
         Log.i(TAG, "Start collection download " + event)
         launchListWidget.visibility = View.VISIBLE
         val country = PointOfSale.getPointOfSale().twoLetterCountryCode.toLowerCase(Locale.US)
-        val localeCode = context.resources.configuration.locale.toString()
+        val localeCode = PointOfSale.getPointOfSale().localeIdentifier
         downloadSubscription = collectionServices.getPhoneCollection(
                 ProductFlavorFeatureConfiguration.getInstance().phoneCollectionId, country, localeCode,
                 collectionDownloadListener)
