@@ -2,7 +2,7 @@ package com.expedia.bookings.utils;
 
 import android.app.Application;
 
-import com.squareup.okhttp.OkHttpClient;
+import okhttp3.OkHttpClient;
 
 public class StethoShim {
 
@@ -10,7 +10,7 @@ public class StethoShim {
 		// Do nothing for release builds
 	}
 
-	public static void install(OkHttpClient client) {
+	public static void install(OkHttpClient.Builder client) {
 		// Do nothing for release builds
 	}
 }
