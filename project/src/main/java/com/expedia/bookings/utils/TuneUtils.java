@@ -40,6 +40,7 @@ import com.expedia.bookings.data.lx.LXActivity;
 import com.expedia.bookings.data.lx.LXSearchParams;
 import com.expedia.bookings.data.lx.LXSearchResponse;
 import com.expedia.bookings.data.pos.PointOfSale;
+import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.services.HotelCheckoutResponse;
 import com.mobiata.android.Log;
 import com.mobileapptracker.MATDeeplinkListener;
@@ -61,6 +62,9 @@ public class TuneUtils {
 		String conversionKey = app.getString(R.string.tune_sdk_app_conversion_key);
 
 		mobileAppTracker = MobileAppTracker.init(app, advertiserID, conversionKey);
+		if (ProductFlavorFeatureConfiguration.getInstance().shouldSetExistingUserForTune()) {
+			mobileAppTracker.setExistingUser(true);
+		}
 		mobileAppTracker.setUserId(ADMS_Measurement.sharedInstance(app.getApplicationContext()).getVisitorID());
 		mobileAppTracker.setDebugMode(false);
 		mobileAppTracker.checkForDeferredDeeplink(new MATDeeplinkListener() {
