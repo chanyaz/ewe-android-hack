@@ -27,6 +27,7 @@ abstract class SuggestionAdapterViewModel(val context: Context, val suggestionsS
 
     private var nearby: ArrayList<SuggestionV4> = ArrayList()
     private var lastQuery: String = ""
+    private var isCustomerSelectingOrigin: Boolean = false
 
     init {
         locationObservable?.subscribe(generateLocationServiceCallback());
@@ -139,4 +140,12 @@ abstract class SuggestionAdapterViewModel(val context: Context, val suggestionsS
     abstract fun getSuggestionService(query: String)
 
     abstract fun getSuggestionHistoryFile(): String
+
+    fun setCustomerSelectingOrigin(isOrigin: Boolean) {
+        isCustomerSelectingOrigin = isOrigin
+    }
+
+    fun getCustomerSelectingOrigin(): Boolean {
+        return isCustomerSelectingOrigin
+    }
 }
