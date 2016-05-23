@@ -26,8 +26,8 @@
 
     <!--Flight-->
     <color name="action_bar_text_color">@color/white</color>
-    <color name="flight_card_airline_fee_warning">#0099CC</color>
-    <color name="flight_free_cancellation_text_color">#0099CC</color>
+    <color name="flight_card_airline_fee_warning">@color/hotels_primary_color</color>
+    <color name="flight_free_cancellation_text_color">@color/hotels_primary_color</color>
     <color name="credit_card_form_additional_fees_tablet_bg">@color/hotels_primary_color</color>
 
     <color name="flight_trip">#D6682D</color>

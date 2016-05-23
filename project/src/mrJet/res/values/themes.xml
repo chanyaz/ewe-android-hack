@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:android="http://schemas.android.com/apk/res/android" xmlns:tools="http://schemas.android.com/tools">
 
-    <style name="Theme.mrjet" parent="@style/Theme.Expedia">
+    <style name="Theme.MrJet" parent="@style/Theme.Expedia">
         <item name="skin_hotelImagePlaceHolderDrawable">@drawable/ic_image_placeholder</item>
         <item name="skin_HotelRowThumbPlaceHolderDrawable">@drawable/ic_row_thumb_placeholder</item>
         <item name="skin_hotelDetailPlaceHolderDrawable">@drawable/placeholder_lg_detail_screen</item>
@@ -64,7 +64,7 @@
         <item name="android:src">@drawable/ic_overflow_white</item>
     </style>
 
-    <style name="FlightTheme" parent="@style/Theme.mrjet">
+    <style name="FlightTheme" parent="@style/Theme.MrJet">
         <item name="android:dropDownListViewStyle">@style/DropDownListView</item>
         <item name="android:logo" tools:targetApi="11">@drawable/ic_logo_flights</item>
         <item name="android:actionMenuTextColor">@color/action_menu_text_color</item>
@@ -80,7 +80,7 @@
     </style>
 
     <!-- Override the phone theme -->
-    <style name="Theme.Phone" parent="@style/Theme.mrjet">
+    <style name="Theme.Phone" parent="@style/Theme.MrJet">
         <item name="android:actionBarStyle" tools:targetApi="11">@style/Dark.ActionBar</item>
         <item name="android:actionBarTabStyle">@style/LaunchActionBarTabMrJetStyle</item>
     </style>
@@ -120,7 +120,7 @@
         <item name="android:background" tools:targetApi="11">@drawable/tab_indicator_ab_launch</item>
     </style>
 
-    <style name="ItineraryTheme" parent="Theme.mrjet">
+    <style name="ItineraryTheme" parent="Theme.MrJet">
         <item name="android:logo" tools:targetApi="11">@drawable/ic_ab_logo</item>
         <item name="android:actionBarStyle" tools:targetApi="11">@style/Dark.ActionBar</item>
 

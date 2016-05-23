@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <style name="Theme.MrJet.Tablet" parent="Theme.MrJet">
+    <style name="Theme.MrJet.Tablet" parent="@style/Theme.MrJet">
         <item name="skin_actionbarTabletTitleColor">@color/actionbarTabletTitleColor</item>
         <item name="skin_hotelPriceStandardColor">#ffffff</item>
         <item name="skin_hotelPriceSaleColor">#ffffff</item>
         <item name="skin_hotelListingUserRatingStyle">@style/RatingBar.UserReview.White</item>
+        <item name="skin_ratingBarUserReviewStyle">@style/RatingBar.UserReview.Blue</item>
         <item name="skin_hotelListingFilterGroupStyle">@style/Widget.SlidingRadioGroup.TabletFilterControls</item>
         <item name="skin_hotelListingFilterToggleButtonStyle">@style/Widget.CompoundButton.Switch.TabletFilterControls</item>
         <item name="skin_HotelRowThumbPlaceHolderDrawable">@drawable/bg_tablet_hotel_results_placeholder</item>
@@ -48,6 +49,6 @@
         <item name="skin_icFeesTabletDrawable">@drawable/ic_fees_tablet</item>
     </style>
 
-    <style name="V2.Theme" parent="Theme.mrJet.Tablet" />
+    <style name="V2.Theme" parent="@style/Theme.MrJet.Tablet" />
 
 </resources>
