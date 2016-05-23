@@ -5,7 +5,11 @@ import android.os.PersistableBundle
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Codes
 import com.expedia.bookings.data.Db
+import com.expedia.bookings.data.hotels.convertPackageToSearchParams
+import com.expedia.bookings.data.packages.PackageSearchResponse
 import com.expedia.bookings.presenter.packages.PackageHotelPresenter
+import com.expedia.bookings.utils.Constants
+import com.expedia.bookings.utils.PackageResponseUtils
 import com.expedia.bookings.utils.Ui
 import com.google.android.gms.maps.MapView
 
@@ -29,9 +33,21 @@ class PackageHotelActivity : AbstractAppCompatActivity() {
         resultsMapView.onCreate(savedInstanceState)
         detailsMapView.onCreate(savedInstanceState)
 
-        if (intent.hasExtra(Codes.TAG_EXTERNAL_SEARCH_PARAMS)) {
+        if (intent.hasExtra(Constants.PACKAGE_LOAD_HOTEL_ROOM)) {
+            // back to hotel room, should also be able to back to hotel results
+            Db.setPackageResponse(PackageResponseUtils.loadPackageResponse(this, PackageResponseUtils.RECENT_PACKAGE_HOTELS_FILE))
+            val hotelOffers = PackageResponseUtils.loadHotelOfferResponse(this, PackageResponseUtils.RECENT_PACKAGE_HOTEL_OFFER_FILE)
+            hotelsPresenter.selectedPackageHotel = Db.getPackageSelectedHotel()
+            hotelsPresenter.detailPresenter.hotelDetailView.viewmodel.paramsSubject.onNext(convertPackageToSearchParams(Db.getPackageParams(), resources.getInteger(R.integer.calendar_max_days_hotel_stay),  resources.getInteger(R.integer.calendar_max_package_selectable_date_range)))
+            hotelsPresenter.detailPresenter.hotelDetailView.viewmodel.hotelOffersSubject.onNext(hotelOffers)
+            hotelsPresenter.detailPresenter.hotelMapView.viewmodel.offersObserver.onNext(hotelOffers)
             hotelsPresenter.defaultTransitionObserver.onNext(Screen.DETAILS)
+
+        } else if (intent.hasExtra(Codes.TAG_EXTERNAL_SEARCH_PARAMS)) {
+            // change hotel room
+            hotelsPresenter.defaultTransitionObserver.onNext(Screen.DETAILS_ONLY)
             hotelsPresenter.hotelSelectedObserver.onNext(Db.getPackageSelectedHotel())
+
         } else {
             hotelsPresenter.defaultTransitionObserver.onNext(Screen.RESULTS)
         }
@@ -75,6 +91,7 @@ class PackageHotelActivity : AbstractAppCompatActivity() {
 
     enum class Screen {
         DETAILS,
-        RESULTS
+        RESULTS,
+        DETAILS_ONLY
     }
 }

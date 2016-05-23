@@ -28,6 +28,7 @@ import com.expedia.bookings.services.PackageServices
 import com.expedia.bookings.services.ReviewsServices
 import com.expedia.bookings.tracking.PackagesTracking
 import com.expedia.bookings.utils.Constants
+import com.expedia.bookings.utils.PackageResponseUtils
 import com.expedia.bookings.utils.Strings
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
@@ -285,6 +286,7 @@ class PackageHotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
             }
 
             val hotelOffers = HotelOffersResponse.convertToHotelOffersResponse(info, packageHotelOffers, Db.getPackageParams())
+            PackageResponseUtils.saveHotelOfferResponse(context, hotelOffers, PackageResponseUtils.RECENT_PACKAGE_HOTEL_OFFER_FILE)
             loadingOverlay.animate(false)
             detailPresenter.hotelDetailView.viewmodel.hotelOffersSubject.onNext(hotelOffers)
             detailPresenter.hotelMapView.viewmodel.offersObserver.onNext(hotelOffers)
@@ -359,6 +361,8 @@ class PackageHotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
             if (forward) {
                 detailPresenter.hotelDetailView.viewmodel.addViewsAfterTransition()
             } else {
+                resultsPresenter.viewmodel.paramsSubject.onNext(convertPackageToSearchParams(Db.getPackageParams(), resources.getInteger(R.integer.calendar_max_days_hotel_stay),  resources.getInteger(R.integer.calendar_max_package_selectable_date_range)))
+                resultsPresenter.viewmodel.hotelResultsObservable.onNext(HotelSearchResponse.convertPackageToSearchResponse(Db.getPackageResponse()))
                 resultsPresenter.recyclerView.adapter.notifyDataSetChanged()
                 trackSearchResult()
             }
@@ -419,7 +423,11 @@ class PackageHotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
     val defaultTransitionObserver: Observer<PackageHotelActivity.Screen> = endlessObserver {
         when (it) {
             PackageHotelActivity.Screen.DETAILS -> {
-                addDefaultTransition(defaultDetailsTransition)
+                addDefaultTransition(defaultResultsTransition)
+                show(resultsPresenter)
+                resultsPresenter.showDefault()
+                show(detailPresenter)
+                detailPresenter.showDefault()
             }
             PackageHotelActivity.Screen.RESULTS -> {
                 addDefaultTransition(defaultResultsTransition)
@@ -429,6 +437,11 @@ class PackageHotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
                 resultsPresenter.viewmodel.hotelResultsObservable.onNext(HotelSearchResponse.convertPackageToSearchResponse(Db.getPackageResponse()))
                 trackSearchResult()
             }
+            PackageHotelActivity.Screen.DETAILS_ONLY -> {
+                //change hotel room
+                addDefaultTransition(defaultDetailsTransition)
+            }
+
         }
     }
 

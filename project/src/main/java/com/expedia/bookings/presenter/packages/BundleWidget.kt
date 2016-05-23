@@ -106,6 +106,56 @@ class BundleWidget(context: Context, attrs: AttributeSet) : LinearLayout(context
 
     }
 
+    fun revertBundleViewToSelectHotel() {
+        bundleHotelWidget.viewModel.hotelIconImageObservable.onNext(R.drawable.packages_hotel_icon)
+        outboundFlightWidget.toggleFlightWidget(opacity, false)
+        inboundFlightWidget.toggleFlightWidget(opacity, false)
+        outboundFlightWidget.viewModel.flightIconImageObservable.onNext(Pair(R.drawable.packages_flight1_icon, ContextCompat.getColor(context, R.color.package_bundle_icon_color)))
+        outboundFlightWidget.viewModel.flightTextObservable.onNext(context.getString(R.string.flight_to, StrUtils.formatAirportCodeCityName(Db.getPackageParams().origin)))
+        outboundFlightWidget.viewModel.flightTextColorObservable.onNext(ContextCompat.getColor(context, R.color.package_bundle_icon_color))
+        outboundFlightWidget.viewModel.flightTravelInfoColorObservable.onNext(ContextCompat.getColor(context, R.color.package_bundle_icon_color))
+        outboundFlightWidget.viewModel.flightSelectIconObservable.onNext(false)
+    }
+
+    fun revertBundleViewToSelectOutbound() {
+        outboundFlightWidget.toggleFlightWidget(1f, true)
+        inboundFlightWidget.toggleFlightWidget(opacity, false)
+
+        outboundFlightWidget.viewModel.flightDetailsIconObservable.onNext(false)
+        outboundFlightWidget.viewModel.flightIconImageObservable.onNext(Pair(R.drawable.packages_flight1_icon, ContextCompat.getColor(context, R.color.package_bundle_icon_color)))
+        outboundFlightWidget.viewModel.flightTextObservable.onNext(context.getString(R.string.select_flight_to, StrUtils.formatAirportCodeCityName(Db.getPackageParams().destination)))
+        outboundFlightWidget.viewModel.travelInfoTextObservable.onNext(Phrase.from(context, R.string.flight_toolbar_date_range_with_guests_TEMPLATE)
+                .put("date", DateUtils.localDateToMMMd(Db.getPackageParams().checkOut))
+                .put("travelers", StrUtils.formatTravelerString(context, Db.getPackageParams().guests))
+                .format()
+                .toString())
+        inboundFlightWidget.viewModel.flightIconImageObservable.onNext(Pair(R.drawable.packages_flight2_icon, ContextCompat.getColor(context, R.color.package_bundle_icon_color)))
+        inboundFlightWidget.viewModel.flightTextObservable.onNext(context.getString(R.string.flight_to, StrUtils.formatAirportCodeCityName(Db.getPackageParams().origin)))
+        inboundFlightWidget.viewModel.flightTextColorObservable.onNext(ContextCompat.getColor(context, R.color.package_bundle_icon_color))
+        inboundFlightWidget.viewModel.flightTravelInfoColorObservable.onNext(ContextCompat.getColor(context, R.color.package_bundle_icon_color))
+        inboundFlightWidget.viewModel.flightSelectIconObservable.onNext(false)
+    }
+
+    fun revertBundleViewToSelectInbound() {
+        inboundFlightWidget.toggleFlightWidget(1f, true)
+        inboundFlightWidget.viewModel.flightDetailsIconObservable.onNext(false)
+        inboundFlightWidget.viewModel.flightIconImageObservable.onNext(Pair(R.drawable.packages_flight2_icon, ContextCompat.getColor(context, R.color.package_bundle_icon_color)))
+        inboundFlightWidget.viewModel.flightTextObservable.onNext(context.getString(R.string.select_flight_to, StrUtils.formatAirportCodeCityName(Db.getPackageParams().origin)))
+        inboundFlightWidget.viewModel.travelInfoTextObservable.onNext(Phrase.from(context, R.string.flight_toolbar_date_range_with_guests_TEMPLATE)
+                .put("date", DateUtils.localDateToMMMd(Db.getPackageParams().checkOut))
+                .put("travelers", StrUtils.formatTravelerString(context, Db.getPackageParams().guests))
+                .format()
+                .toString())
+    }
+
+    fun revertBundleViewAfterChangedOutbound() {
+        revertBundleViewToSelectInbound()
+        revertBundleViewToSelectOutbound()
+        bundleHotelWidget.toggleHotelWidget(1f, true)
+        outboundFlightWidget.toggleFlightWidget(1f, true)
+        inboundFlightWidget.toggleFlightWidget(1f, true)
+    }
+
     init {
         View.inflate(context, R.layout.bundle_widget, this)
         orientation = VERTICAL

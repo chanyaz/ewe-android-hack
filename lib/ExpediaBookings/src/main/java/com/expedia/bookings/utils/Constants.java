@@ -34,4 +34,9 @@ public class Constants {
 	// customer returned from room cancellation web view
 	public static final int ITIN_CANCEL_ROOM_WEBPAGE_CODE = 31;
 	public static final String ITIN_CANCEL_ROOM_BOOKING_TRIP_ID = "ITIN_CANCEL_ROOM_BOOKING_TRIP_ID";
+	public static final String PACKAGE_LOAD_HOTEL_ROOM = "LOAD_HOTEL_ROOM";
+	public static final String PACKAGE_LOAD_OUTBOUND_FLIGHT = "LOAD_OUTBOUND_FLIGHT";
+	public static final String PACKAGE_LOAD_INBOUND_FLIGHT = "LOAD_INBOUND_FLIGHT";
+	public static final String REQUEST = "REQUEST";
+
 }

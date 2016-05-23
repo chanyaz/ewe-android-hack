@@ -21,11 +21,11 @@ public class PackageSearchResponse extends PackageBaseApiResponse {
 	}
 
 	public static class HotelPackage {
-		public transient List<Hotel> hotels = new ArrayList<>();
+		public List<Hotel> hotels = new ArrayList<>();
 	}
 
 	public static class FlightPackage {
-		public transient List<FlightLeg> flights = new ArrayList<>();
+		public List<FlightLeg> flights = new ArrayList<>();
 	}
 
 	public static class UniversalDataObject {

@@ -8,6 +8,8 @@ import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.presenter.flight.BaseFlightPresenter
 import com.expedia.bookings.tracking.PackagesTracking
+import com.expedia.bookings.utils.Constants
+import com.expedia.bookings.utils.PackageResponseUtils
 import com.expedia.bookings.widget.PackageFlightListAdapter
 import com.expedia.util.endlessObserver
 
@@ -30,8 +32,32 @@ class PackageFlightPresenter(context: Context, attrs: AttributeSet) : BaseFlight
         activity.finish()
     }
 
+    override fun onFinishInflate() {
+        super.onFinishInflate()
+        val activity = (context as AppCompatActivity)
+        val intent = activity.intent
+        if (intent.hasExtra(Constants.PACKAGE_LOAD_OUTBOUND_FLIGHT)) {
+            show(resultsPresenter)
+            selectedFlightResults.onNext(Db.getPackageSelectedOutboundFlight())
+        } else if (intent.hasExtra(Constants.PACKAGE_LOAD_INBOUND_FLIGHT)) {
+            show(resultsPresenter)
+            selectedFlightResults.onNext(Db.getPackageSelectedInboundFlight())
+        }
+    }
+
     init {
-        val bestPlusAllFlights = Db.getPackageResponse().packageResult.flightsPackage.flights.filter { it.outbound == isOutboundSearch() && it.packageOfferModel != null }
+        val activity = (context as AppCompatActivity)
+        val intent = activity.intent
+        if (intent.hasExtra(Constants.PACKAGE_LOAD_OUTBOUND_FLIGHT)) {
+            val params = Db.getPackageParams()
+            params.selectedLegId = null
+            Db.setPackageResponse(PackageResponseUtils.loadPackageResponse(context, PackageResponseUtils.RECENT_PACKAGE_OUTBOUND_FLIGHT_FILE))
+        } else if (intent.hasExtra(Constants.PACKAGE_LOAD_INBOUND_FLIGHT)) {
+            Db.setPackageResponse(PackageResponseUtils.loadPackageResponse(context, PackageResponseUtils.RECENT_PACKAGE_INBOUND_FLIGHT_FILE))
+        }
+
+        val isOutboundSearch = Db.getPackageParams()?.isOutboundSearch() ?: false
+        val bestPlusAllFlights = Db.getPackageResponse().packageResult.flightsPackage.flights.filter { it.outbound == isOutboundSearch && it.packageOfferModel != null }
 
         // move bestFlight to the first place of the list
         val bestFlight = bestPlusAllFlights.find { it.isBestFlight }

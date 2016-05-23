@@ -95,14 +95,6 @@ class PackageOverviewPresenter(context: Context, attrs: AttributeSet) : BaseOver
 
     override fun back(): Boolean {
         bundleWidget.collapseBundleWidgets()
-        var params = Db.getPackageParams()
-        if (params.pageType == Constants.PACKAGE_CHANGE_FLIGHT) {
-            checkoutPresenter.doCreateTrip()
-            params.pageType = null
-            bundleWidget.outboundFlightWidget.viewModel.selectedFlightObservable.onNext(PackageSearchType.OUTBOUND_FLIGHT)
-            bundleWidget.inboundFlightWidget.viewModel.selectedFlightObservable.onNext(PackageSearchType.INBOUND_FLIGHT)
-            return true
-        }
         return super.back()
     }
 

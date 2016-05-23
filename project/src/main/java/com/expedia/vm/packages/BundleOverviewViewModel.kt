@@ -10,6 +10,7 @@ import com.expedia.bookings.data.packages.PackageSearchResponse
 import com.expedia.bookings.services.PackageServices
 import com.expedia.bookings.utils.DateFormatUtils
 import com.expedia.bookings.utils.DateUtils
+import com.expedia.bookings.utils.PackageResponseUtils
 import com.expedia.bookings.utils.StrUtils
 import com.squareup.phrase.Phrase
 import rx.Observer
@@ -88,7 +89,13 @@ class BundleOverviewViewModel(val context: Context, val packageServices: Package
                     val currentFlights = arrayOf(response.packageResult.flightsPackage.flights[0].legId, response.packageResult.flightsPackage.flights[1].legId)
                     Db.getPackageParams().currentFlights = currentFlights
                     Db.getPackageParams().defaultFlights = currentFlights.copyOf()
+                    PackageResponseUtils.savePackageResponse(context, response, PackageResponseUtils.RECENT_PACKAGE_HOTELS_FILE)
                 } else {
+                    if (type == PackageSearchType.OUTBOUND_FLIGHT) {
+                        PackageResponseUtils.savePackageResponse(context, response, PackageResponseUtils.RECENT_PACKAGE_OUTBOUND_FLIGHT_FILE)
+                    } else {
+                        PackageResponseUtils.savePackageResponse(context, response, PackageResponseUtils.RECENT_PACKAGE_INBOUND_FLIGHT_FILE)
+                    }
                     flightResultsObservable.onNext(type)
                 }
                 if (response.packageResult.currentSelectedOffer != null) {
