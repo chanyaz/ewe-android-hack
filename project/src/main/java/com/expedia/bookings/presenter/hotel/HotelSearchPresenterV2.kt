@@ -52,8 +52,6 @@ class HotelSearchPresenterV2(context: Context, attrs: AttributeSet) : BaseSearch
     }
 
     private val hotelSuggestionAdapter by lazy {
-        val service = Ui.getApplication(getContext()).hotelComponent().suggestionsService()
-        suggestionViewModel = HotelSuggestionAdapterViewModel(getContext(), service, CurrentLocationObservable.create(getContext()), true, true)
         HotelSuggestionAdapter(suggestionViewModel)
     }
 
@@ -79,6 +77,8 @@ class HotelSearchPresenterV2(context: Context, attrs: AttributeSet) : BaseSearch
 
     override fun onFinishInflate() {
         super.onFinishInflate()
+        val service = Ui.getApplication(context).hotelComponent().suggestionsService()
+        suggestionViewModel = HotelSuggestionAdapterViewModel(context, service, CurrentLocationObservable.create(context), true, true)
         searchLocationEditText?.queryHint = context.resources.getString(R.string.enter_destination_hint)
     }
 

@@ -27,7 +27,7 @@ abstract class BaseHotelSearchPresenter(context: Context, attrs: AttributeSet) :
     }
 
     // will be used only v2 search screen
-    open fun showSuggestionState() {
+    open fun showSuggestionState(selectOrigin: Boolean = false) {
 
     }
 
@@ -38,11 +38,7 @@ abstract class BaseHotelSearchPresenter(context: Context, attrs: AttributeSet) :
         val builder = AlertDialog.Builder(context)
         builder.setTitle(R.string.search_error)
         builder.setMessage(message)
-        builder.setPositiveButton(context.getString(R.string.DONE), object : DialogInterface.OnClickListener {
-            override fun onClick(dialog: DialogInterface, which: Int) {
-                dialog.dismiss()
-            }
-        })
+        builder.setPositiveButton(context.getString(R.string.DONE)) { dialog, which -> dialog.dismiss() }
         val dialog = builder.create()
         dialog.show()
     }

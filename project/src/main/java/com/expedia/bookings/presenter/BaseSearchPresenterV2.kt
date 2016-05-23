@@ -47,10 +47,11 @@ import com.expedia.util.notNullAndObservable
 import com.expedia.vm.SuggestionAdapterViewModel
 import org.joda.time.LocalDate
 import rx.Observer
+import java.util.concurrent.TimeUnit
 
 abstract class BaseSearchPresenterV2(context: Context, attrs: AttributeSet) : BaseHotelSearchPresenter(context, attrs) {
 
-    val ANIMATION_DURATION = 200L
+    private val selectionToSuggestionTransitionDuration = 300
     val toolbar: Toolbar by bindView(R.id.search_v2_toolbar)
     val scrollView: ScrollView by bindView(R.id.scrollView)
     val searchContainer: ViewGroup by bindView(R.id.search_v2_container)
@@ -79,11 +80,16 @@ abstract class BaseSearchPresenterV2(context: Context, attrs: AttributeSet) : Ba
 
     var firstLaunch = true
     var showFlightOneWayRoundTripOptions = false
+    var transitioningFromOriginToDestination = true
     protected var isCustomerSelectingOrigin = false
 
     protected var destinationSuggestionViewModel: SuggestionAdapterViewModel by notNullAndObservable { vm ->
         val suggestionSelectedObserver = suggestionSelectedObserver(getSearchViewModel().destinationLocationObserver, suggestionInputView = destinationCardView)
         vm.suggestionSelectedSubject.subscribe(suggestionSelectedObserver)
+
+        getSearchViewModel().formattedDestinationObservable
+                .debounce(selectionToSuggestionTransitionDuration.toLong() + 100L, TimeUnit.MILLISECONDS)
+                .subscribe({ transitioningFromOriginToDestination = false })
     }
 
     protected fun suggestionSelectedObserver(observer: Observer<SuggestionV4>, suggestionInputView: SearchInputCardView): (SuggestionV4) -> Unit {
@@ -93,6 +99,10 @@ abstract class BaseSearchPresenterV2(context: Context, attrs: AttributeSet) : Ba
             val suggestionName = Html.fromHtml(suggestion.regionNames.displayName).toString()
             suggestionInputView.setText(suggestionName)
             SuggestionV4Utils.saveSuggestionHistory(context, suggestion, getSuggestionHistoryFileName())
+            val isOriginSelected = (observer == getSearchViewModel().originLocationObserver)
+            if (isOriginSelected) {
+                firstLaunch = false
+            }
             showDefault()
         }
     }
@@ -105,14 +115,8 @@ abstract class BaseSearchPresenterV2(context: Context, attrs: AttributeSet) : Ba
         com.mobiata.android.util.Ui.hideKeyboard(this)
         scrollView.scrollTo(0, scrollView.top)
         searchButton.setTextColor(ContextCompat.getColor(context, R.color.white_disabled))
-        destinationCardView.setOnClickListener(locationClickListener(isCustomerSelectingOrigin = false))
+        destinationCardView.setOnClickListener({ showSuggestionState(selectOrigin = false) })
         searchLocationEditText?.setOnQueryTextListener(listener)
-    }
-
-    protected  fun locationClickListener(isCustomerSelectingOrigin: Boolean): (View) -> Unit {
-        return {
-           performLocationClick(isCustomerSelectingOrigin)
-        }
     }
 
     open fun performLocationClick(isCustomerSelectingOrigin: Boolean) {
@@ -122,7 +126,10 @@ abstract class BaseSearchPresenterV2(context: Context, attrs: AttributeSet) : Ba
         show(SuggestionSelectionState())
     }
 
-    override fun showSuggestionState() {
+    override fun showSuggestionState(selectOrigin: Boolean) {
+        searchLocationEditText?.queryHint = context.resources.getString(if (selectOrigin) R.string.fly_from_hint else R.string.fly_to_hint)
+        searchLocationEditText?.setQuery("", true)
+        this.isCustomerSelectingOrigin = selectOrigin
         navIcon = ArrowXDrawableUtil.getNavigationIconDrawable(context, ArrowXDrawableUtil.ArrowDrawableType.BACK)
         navIcon.setColorFilter(ContextCompat.getColor(context, R.color.search_suggestion_v2), PorterDuff.Mode.SRC_IN)
         toolbar.navigationIcon = navIcon
@@ -240,11 +247,13 @@ abstract class BaseSearchPresenterV2(context: Context, attrs: AttributeSet) : Ba
      * for us, and we run calculatestep on it.
      */
 
-    private val selectionToSuggestionTransition = object : Transition(InputSelectionState::class.java, SuggestionSelectionState::class.java, AccelerateDecelerateInterpolator(), 300) {
+    private val selectionToSuggestionTransition = object : Transition(InputSelectionState::class.java, SuggestionSelectionState::class.java, AccelerateDecelerateInterpolator(), selectionToSuggestionTransitionDuration) {
 
         val bgFade = TransitionElement(0f, 1f)
         // Start with a large dummy value, and adjust it once we have an actual height
         var recyclerY = TransitionElement(-2000f, 0f)
+        val xScale = 0.25f
+        val yScale = 0.25f
 
         val recyclerStartTime = .33f
         // This is probably not even
@@ -254,6 +263,7 @@ abstract class BaseSearchPresenterV2(context: Context, attrs: AttributeSet) : Ba
         val toolbarBgColor = TransitionElement(primaryColor, Color.WHITE)
 
         override fun startTransition(forward: Boolean) {
+
             recyclerY = TransitionElement(-(suggestionContainer.height.toFloat()), 0f)
 
             searchLocationEditText?.visibility = VISIBLE
@@ -268,12 +278,23 @@ abstract class BaseSearchPresenterV2(context: Context, attrs: AttributeSet) : Ba
 
             // Suggestion Fade In
             suggestionContainer.alpha = TransitionElement.calculateStep(bgFade.start, bgFade.end, 0f, forward)
+            if (transitioningFromOriginToDestination && !firstLaunch) {
+                // scale for origin to destination transition
+                suggestionContainer.scaleX = (if (forward) xScale else 1f)
+                suggestionContainer.scaleY = (if (forward) yScale else 1f)
+            }
 
             // Edit text fade in
             searchLocationEditText?.alpha = TransitionElement.calculateStep(bgFade.start, bgFade.end, 0f, forward)
 
             // RecyclerView vertical transition
-            suggestionRecyclerView.translationY = recyclerY.start;
+            if (!firstLaunch && !transitioningFromOriginToDestination) {
+                recyclerY = TransitionElement(-(suggestionContainer.height.toFloat()), 0f)
+                suggestionRecyclerView.translationY = recyclerY.start;
+            }
+            else {
+                suggestionRecyclerView.translationY = recyclerY.end
+            }
 
             if (forward) {
                 applyAdapter()
@@ -281,7 +302,7 @@ abstract class BaseSearchPresenterV2(context: Context, attrs: AttributeSet) : Ba
 
             searchButton.visibility = if (forward) GONE else VISIBLE
             if (!firstLaunch) {
-                searchContainer.visibility = if (forward) VISIBLE else GONE
+                searchContainer.visibility = if (forward || transitioningFromOriginToDestination) VISIBLE else GONE
             }
 
             if (!firstLaunch && forward) {
@@ -306,6 +327,7 @@ abstract class BaseSearchPresenterV2(context: Context, attrs: AttributeSet) : Ba
         override fun updateTransition(f: Float, forward: Boolean) {
             if (!firstLaunch) {
                 super.updateTransition(f, forward)
+
                 val progress = if (forward) f else 1f - f
                 val currentToolbarTextColor = eval.evaluate(progress, toolbarTextColor.start, toolbarTextColor.end) as Int
 
@@ -316,17 +338,22 @@ abstract class BaseSearchPresenterV2(context: Context, attrs: AttributeSet) : Ba
                 navIcon.setColorFilter(currentToolbarTextColor, PorterDuff.Mode.SRC_IN)
                 navIcon.parameter = 1f - progress
 
-                //recycler bg
-                suggestionContainer.alpha = TransitionElement.calculateStep(bgFade.start, bgFade.end, progress)
                 searchLocationEditText?.alpha = TransitionElement.calculateStep(bgFade.start, bgFade.end, progress)
-
                 toolBarTitle.alpha = TransitionElement.calculateStep(bgFade.end, bgFade.start, progress)
 
+                suggestionContainer.alpha = TransitionElement.calculateStep(bgFade.start, bgFade.end, progress)
                 // recycler movement - only moves during its portion of the animation
-                if (forward && f > recyclerStartTime) {
-                    suggestionRecyclerView.translationY = TransitionElement.calculateStep(recyclerY.start, recyclerY.end, decelInterp.getInterpolation(com.expedia.util.scaleValueToRange(recyclerStartTime, 1f, 0f, 1f, f)))
-                } else if (!forward && progress > recyclerStartTime) {
-                    suggestionRecyclerView.translationY = TransitionElement.calculateStep(recyclerY.start, recyclerY.end, com.expedia.util.scaleValueToRange(recyclerStartTime, 1f, 0f, 1f, progress))
+                if (!transitioningFromOriginToDestination) {
+                    if (forward && f > recyclerStartTime) {
+                        suggestionRecyclerView.translationY = TransitionElement.calculateStep(recyclerY.start, recyclerY.end, decelInterp.getInterpolation(com.expedia.util.scaleValueToRange(recyclerStartTime, 1f, 0f, 1f, f)))
+                    } else if (!forward && progress > recyclerStartTime) {
+                        suggestionRecyclerView.translationY = TransitionElement.calculateStep(recyclerY.start, recyclerY.end, com.expedia.util.scaleValueToRange(recyclerStartTime, 1f, 0f, 1f, progress))
+                    }
+                }
+                else {
+                    // scale suggestion container between origin and destination suggestion views
+                    suggestionContainer.scaleX = (if (forward) (1 - (1-xScale) * -(f-1)) else (xScale + (1-xScale) * -(f-1)))
+                    suggestionContainer.scaleY = (if (forward) (1 - (1-yScale) * -(f-1)) else (yScale + (1-yScale) * -(f-1)))
                 }
 
                 if (showFlightOneWayRoundTripOptions) {
@@ -339,8 +366,15 @@ abstract class BaseSearchPresenterV2(context: Context, attrs: AttributeSet) : Ba
             // Toolbar bg color
             toolbar.setBackgroundColor(if (forward) toolbarBgColor.end else toolbarBgColor.start)
             navIcon.setColorFilter(if (forward) toolbarTextColor.end else toolbarTextColor.start, PorterDuff.Mode.SRC_IN)
+
             suggestionContainer.alpha = if (forward) bgFade.end else bgFade.start
+            if (transitioningFromOriginToDestination && !firstLaunch) { // end scale transition
+                suggestionContainer.scaleX = 1f
+                suggestionContainer.scaleY = 1f
+            }
+
             searchLocationEditText?.alpha = if (forward) bgFade.end else bgFade.start
+
             suggestionRecyclerView.translationY = if (forward) recyclerY.end else recyclerY.start
             suggestionRecyclerView.visibility = if (forward) VISIBLE else GONE
 
