@@ -7,6 +7,7 @@ import android.support.test.espresso.matcher.ViewMatchers;
 import com.expedia.bookings.R;
 import com.expedia.bookings.test.espresso.Common;
 import com.expedia.bookings.test.espresso.PackageTestCase;
+import com.expedia.bookings.test.espresso.TestValues;
 import com.expedia.bookings.test.phone.packages.PackageScreen;
 import com.expedia.bookings.test.phone.pagemodels.common.SearchScreen;
 import com.expedia.bookings.utils.DateUtils;
@@ -27,8 +28,8 @@ public class PackagesSearchScreenTest extends PackageTestCase {
 		SearchScreen.origin().check(matches(withContentDescription("Button to select where you want to fly from")));
 		SearchScreen.origin().perform(click());
 		checkToolbarNavContentDescription(true);
-		SearchScreen.searchEditText().perform(typeText("SFO"));
-		SearchScreen.selectLocation("San Francisco, CA (SFO-San Francisco Intl.)");
+		SearchScreen.searchEditText().perform(typeText(TestValues.TYPE_TEXT_SFO));
+		SearchScreen.selectLocation(TestValues.PACKAGE_ORIGIN_LOCATION_SFO);
 		Common.delay(1);
 		checkToolbarNavContentDescription(true);
 		PackageScreen.toolbarNavigationUp(R.id.search_toolbar).perform(click());
@@ -36,8 +37,8 @@ public class PackagesSearchScreenTest extends PackageTestCase {
 		SearchScreen.destination().check(matches(withContentDescription("Button to select where you want to fly to")));
 		SearchScreen.destination().perform(click());
 		checkToolbarNavContentDescription(true);
-		SearchScreen.searchEditText().perform(typeText("DTW"));
-		SearchScreen.selectLocation("Detroit, MI (DTW-Detroit Metropolitan Wayne County)");
+		SearchScreen.searchEditText().perform(typeText(TestValues.TYPE_TEXT_DTW));
+		SearchScreen.selectLocation(TestValues.DESTINATION_LOCATION_DTW);
 		Common.delay(1);
 
 		Common.pressBack();

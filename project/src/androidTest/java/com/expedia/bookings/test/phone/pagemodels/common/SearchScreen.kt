@@ -22,6 +22,7 @@ import java.util.concurrent.TimeUnit
 import android.support.test.espresso.matcher.ViewMatchers.hasDescendant
 import android.support.test.espresso.matcher.ViewMatchers.withEffectiveVisibility
 import android.support.test.espresso.matcher.ViewMatchers.withText
+import com.expedia.bookings.test.espresso.TestValues
 import com.expedia.bookings.test.espresso.TabletViewActions
 import android.support.test.espresso.matcher.ViewMatchers.withParent
 import com.expedia.bookings.test.phone.hotels.HotelScreen
@@ -132,7 +133,7 @@ object SearchScreen {
             selectDestination()
         }
         else {
-            selectOriginAndDestination()
+            selectPackageOriginAndDestination()
         }
         val startDate = LocalDate.now().plusDays(3)
         val endDate = LocalDate.now().plusDays(8)
@@ -159,20 +160,31 @@ object SearchScreen {
     }
 
     @Throws(Throwable::class)
-    @JvmStatic fun selectOriginAndDestination() {
-        searchEditText().perform(typeText("SFO"))
-        selectLocation("San Francisco, CA (SFO-San Francisco Intl.)")
+    @JvmStatic fun selectFlightOriginAndDestination() {
+        searchEditText().perform(typeText(TestValues.TYPE_TEXT_SFO))
+        selectLocation(TestValues.FLIGHT_ORIGIN_LOCATION_SFO)
         //Delay from the auto advance anim
         Common.delay(1)
         searchEditText().perform(ViewActions.waitForViewToDisplay())
-        searchEditText().perform(typeText("DTW"))
-        selectLocation("Detroit, MI (DTW-Detroit Metropolitan Wayne County)")
+        searchEditText().perform(typeText(TestValues.TYPE_TEXT_DTW))
+        selectLocation(TestValues.DESTINATION_LOCATION_DTW)
+    }
+
+    @Throws(Throwable::class)
+    @JvmStatic fun selectPackageOriginAndDestination() {
+        searchEditText().perform(typeText(TestValues.TYPE_TEXT_SFO))
+        selectLocation(TestValues.PACKAGE_ORIGIN_LOCATION_SFO)
+        //Delay from the auto advance anim
+        Common.delay(1)
+        searchEditText().perform(ViewActions.waitForViewToDisplay())
+        searchEditText().perform(typeText(TestValues.TYPE_TEXT_DTW))
+        selectLocation(TestValues.DESTINATION_LOCATION_DTW)
     }
 
     @Throws(Throwable::class)
     @JvmStatic fun selectDestination() {
-        searchEditText().perform(typeText("SFO"))
-        selectLocation("San Francisco, CA (SFO-San Francisco Intl.)")
+        searchEditText().perform(typeText(TestValues.TYPE_TEXT_SFO))
+        selectLocation(TestValues.DESTINATION_LOCATION_SFO)
     }
 
     @Throws(Throwable::class)

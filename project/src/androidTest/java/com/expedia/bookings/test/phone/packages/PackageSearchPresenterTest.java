@@ -5,6 +5,7 @@ import org.joda.time.LocalDate;
 import com.expedia.bookings.R;
 import com.expedia.bookings.test.espresso.Common;
 import com.expedia.bookings.test.espresso.PackageTestCase;
+import com.expedia.bookings.test.espresso.TestValues;
 import com.expedia.bookings.test.espresso.ViewActions;
 import com.expedia.bookings.test.phone.pagemodels.common.SearchScreen;
 import com.expedia.bookings.utils.DateUtils;
@@ -24,12 +25,12 @@ public class PackageSearchPresenterTest extends PackageTestCase {
 		// search button disabled upon entry. Enter location.
 		SearchScreen.searchButton().check(matches(isDisplayed()));
 		SearchScreen.origin().perform(click());
-		SearchScreen.searchEditText().perform(typeText("SFO"));
-		SearchScreen.selectLocation("San Francisco, CA (SFO-San Francisco Intl.)");
+		SearchScreen.searchEditText().perform(typeText(TestValues.TYPE_TEXT_SFO));
+		SearchScreen.selectLocation(TestValues.PACKAGE_ORIGIN_LOCATION_SFO);
 		Common.delay(1);
 		SearchScreen.searchEditText().perform(ViewActions.waitForViewToDisplay());
-		SearchScreen.searchEditText().perform(typeText("SFO"));
-		SearchScreen.selectLocation("San Francisco, CA (SFO-San Francisco Intl.)");
+		SearchScreen.searchEditText().perform(typeText(TestValues.TYPE_TEXT_SFO));
+		SearchScreen.selectLocation(TestValues.DESTINATION_LOCATION_SFO);
 		LocalDate startDate = LocalDate.now().plusDays(35);
 		SearchScreen.selectDates(startDate, null);
 		//Search button will be enabled
@@ -45,8 +46,8 @@ public class PackageSearchPresenterTest extends PackageTestCase {
 		SearchScreen.searchButton().check(matches(isDisplayed()));
 		SearchScreen.origin().perform(click());
 		SearchScreen.searchEditText().check(matches(withHint("Flying from")));
-		SearchScreen.searchEditText().perform(typeText("SFO"));
-		SearchScreen.selectLocation("San Francisco, CA (SFO-San Francisco Intl.)");
+		SearchScreen.searchEditText().perform(typeText(TestValues.TYPE_TEXT_SFO));
+		SearchScreen.selectLocation(TestValues.PACKAGE_ORIGIN_LOCATION_SFO);
 		Common.delay(1);
 		SearchScreen.searchEditText().perform(ViewActions.waitForViewToDisplay());
 		PackageScreen.toolbarNavigationUp(R.id.search_toolbar).perform(click());
@@ -55,8 +56,8 @@ public class PackageSearchPresenterTest extends PackageTestCase {
 		SearchScreen.searchButton().check(matches(isDisplayed()));
 		SearchScreen.destination().perform(click());
 		SearchScreen.searchEditText().check(matches(withHint("Flying to")));
-		SearchScreen.searchEditText().perform(typeText("DTW"));
-		SearchScreen.selectLocation("Detroit, MI (DTW-Detroit Metropolitan Wayne County)");
+		SearchScreen.searchEditText().perform(typeText(TestValues.TYPE_TEXT_DTW));
+		SearchScreen.selectLocation(TestValues.DESTINATION_LOCATION_DTW);
 		Common.pressBack();
 		//Search button will still be disabled
 		SearchScreen.searchButton().perform(click());
@@ -72,7 +73,7 @@ public class PackageSearchPresenterTest extends PackageTestCase {
 
 	public void testDateButtonTextPopulation() throws Throwable {
 		// Select location
-		SearchScreen.selectOriginAndDestination();
+		SearchScreen.selectPackageOriginAndDestination();
 		Common.pressBack();
 		// Open calendar
 		SearchScreen.selectDateButton().check(matches(withText(R.string.select_dates)));
@@ -98,7 +99,7 @@ public class PackageSearchPresenterTest extends PackageTestCase {
 
 	public void testMaxPackageDuration() throws Throwable {
 		// Select location
-		SearchScreen.selectOriginAndDestination();
+		SearchScreen.selectPackageOriginAndDestination();
 
 		LocalDate startDate = LocalDate.now();
 		LocalDate validEndDate = LocalDate.now().plusDays(26);
@@ -120,7 +121,7 @@ public class PackageSearchPresenterTest extends PackageTestCase {
 
 	public void testPackageSearchWindow() throws Throwable {
 		// Select location
-		SearchScreen.selectOriginAndDestination();
+		SearchScreen.selectPackageOriginAndDestination();
 
 		LocalDate startDate = LocalDate.now().plusDays(300);
 		LocalDate validEndDate = LocalDate.now().plusDays(326);
@@ -141,7 +142,7 @@ public class PackageSearchPresenterTest extends PackageTestCase {
 
 	public void testSameDay() throws Throwable {
 		// Select location
-		SearchScreen.selectOriginAndDestination();
+		SearchScreen.selectPackageOriginAndDestination();
 		LocalDate startDate = LocalDate.now();
 		LocalDate endDate = LocalDate.now();
 

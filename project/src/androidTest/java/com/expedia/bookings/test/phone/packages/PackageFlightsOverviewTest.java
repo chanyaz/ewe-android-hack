@@ -24,7 +24,7 @@ import static org.hamcrest.CoreMatchers.allOf;
 public class PackageFlightsOverviewTest extends PackageTestCase {
 
 	public void testPackageFlightsOverview() throws Throwable {
-		SearchScreen.selectOriginAndDestination();
+		SearchScreen.selectPackageOriginAndDestination();
 		LocalDate startDate = LocalDate.now().plusDays(3);
 		LocalDate endDate = LocalDate.now().plusDays(8);
 		SearchScreen.selectDates(startDate, endDate);
