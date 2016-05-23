@@ -3,13 +3,12 @@ package com.expedia.bookings.test.robolectric
 
 import android.widget.FrameLayout
 import com.expedia.bookings.data.flights.FlightLeg
-import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.interceptors.MockInterceptor
 import com.expedia.bookings.services.FlightServices
+import com.expedia.bookings.test.PointOfSaleTestConfiguration
 import com.expedia.bookings.widget.FlightListAdapter
 import com.expedia.vm.FlightSearchViewModel
 import okhttp3.OkHttpClient
-import okhttp3.logging.HttpLoggingInterceptor
 import okhttp3.mockwebserver.MockWebServer
 import org.junit.Before
 import org.junit.Test
@@ -61,7 +60,7 @@ class FlightListAdapterTest {
 
     @Test
     fun flightResultsHeaderOneWayMinPrice() {
-        configurePointOfSale(airlinesChargeAdditionalFeePerPaymentMethod = true)
+        configurePointOfSale()
         createSystemUnderTest()
         flightSearchViewModel.isRoundTripSearchObservable.onNext(false)
         val headerViewHolder = createHeaderViewHolder()
@@ -71,15 +70,15 @@ class FlightListAdapterTest {
 
     @Test
     fun flightResultsHeaderReturnMinPrice() {
-        configurePointOfSale(airlinesChargeAdditionalFeePerPaymentMethod = true)
+        configurePointOfSale()
         createSystemUnderTest()
         val headerViewHolder = createHeaderViewHolder()
         sut.onBindViewHolder(headerViewHolder, 0)
         assertEquals("Prices roundtrip, per person, from", headerViewHolder.title.text)
     }
 
-    private fun configurePointOfSale(airlinesChargeAdditionalFeePerPaymentMethod: Boolean) {
-        PointOfSale.getPointOfSale().setDoAirlinesChargeAdditionalFeeBasedOnPaymentMethod(airlinesChargeAdditionalFeePerPaymentMethod)
+    private fun configurePointOfSale() {
+        PointOfSaleTestConfiguration.configurePointOfSale(context, "MockSharedData/pos_with_airline_payment_fees.json")
     }
 
     private fun createHeaderViewHolder(): FlightListAdapter.HeaderViewHolder {

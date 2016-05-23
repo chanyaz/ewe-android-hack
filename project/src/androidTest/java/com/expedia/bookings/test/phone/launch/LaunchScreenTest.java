@@ -30,22 +30,38 @@ public class LaunchScreenTest {
 	public PointOfSaleRule pos = new PointOfSaleRule();
 
 	@Test
-	public void testCarLXSupport() {
+	public void testCarLxGtSupport() {
 		boolean carsEnabled = PointOfSale.getPointOfSale().supports(LineOfBusiness.CARS);
 		boolean lxEnabled = PointOfSale.getPointOfSale().supports(LineOfBusiness.LX);
+		boolean gtEnabled = PointOfSale.getPointOfSale().supports(LineOfBusiness.TRANSPORT);
+
+		boolean lobSingleRowShouldDisplay = !(carsEnabled && lxEnabled);
+		boolean lobDoubleRowShouldDisplay = (carsEnabled && lxEnabled && !gtEnabled);
+		boolean lobDoubleRowFiveShouldDisplay = (carsEnabled && lxEnabled && gtEnabled);
 
 		LaunchScreen.lobSingleRowWidget()
-			.check(matches(((carsEnabled && lxEnabled) ? not(isDisplayed()) : isDisplayed())));
+			.check(matches(lobSingleRowShouldDisplay ? isDisplayed() : not(isDisplayed())));
 		LaunchScreen.lobDoubleRowWidget()
-			.check(matches((!(carsEnabled && lxEnabled) ? not(isDisplayed()) : isDisplayed())));
+			.check(matches(lobDoubleRowShouldDisplay ? isDisplayed() : not(isDisplayed())));
+		LaunchScreen.fiveLOBDoubleRowWidget()
+			.check(matches(lobDoubleRowFiveShouldDisplay ? isDisplayed() : not(isDisplayed())));
+
 		LaunchScreen.carLaunchButtonInSingleRow()
-			.check(matches(((carsEnabled && !lxEnabled) ? isDisplayed() : not(isDisplayed()))));
+			.check(matches((lobSingleRowShouldDisplay && carsEnabled) ? isDisplayed() : not(isDisplayed())));
 		LaunchScreen.lxLaunchButtonInSingleRow()
-			.check(matches(((!carsEnabled && lxEnabled) ? isDisplayed() : not(isDisplayed()))));
+			.check(matches((lobSingleRowShouldDisplay && lxEnabled) ? isDisplayed() : not(isDisplayed())));
+
 		LaunchScreen.carLaunchButtonInDoubleRow()
-			.check(matches(((carsEnabled && lxEnabled) ? isDisplayed() : not(isDisplayed()))));
+			.check(matches(lobDoubleRowShouldDisplay ? isDisplayed() : not(isDisplayed())));
 		LaunchScreen.lxLaunchButtonInDoubleRow()
-			.check(matches(((carsEnabled && lxEnabled) ? isDisplayed() : not(isDisplayed()))));
+			.check(matches(lobDoubleRowShouldDisplay ? isDisplayed() : not(isDisplayed())));
+
+		LaunchScreen.carLaunchButtonInDoubleRowFive()
+			.check(matches(lobDoubleRowFiveShouldDisplay ? isDisplayed() : not(isDisplayed())));
+		LaunchScreen.lxLaunchButtonInDoubleRowFive()
+			.check(matches(lobDoubleRowFiveShouldDisplay ? isDisplayed() : not(isDisplayed())));
+		LaunchScreen.gtLaunchButtonInDoubleRowFive()
+			.check(matches(lobDoubleRowFiveShouldDisplay ? isDisplayed() : not(isDisplayed())));
 	}
 }
 

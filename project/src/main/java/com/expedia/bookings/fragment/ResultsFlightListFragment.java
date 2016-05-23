@@ -230,7 +230,7 @@ public class ResultsFlightListFragment extends ResultsListFragment<ResultsFlight
 	}
 
 	private void setCardFeeWarningVisibility() {
-		boolean isVisible = PointOfSale.getPointOfSale(getContext()).doAirlinesChargeAdditionalFeeBasedOnPaymentMethod();
+		boolean isVisible = PointOfSale.getPointOfSale().doAirlinesChargeAdditionalFeeBasedOnPaymentMethod();
 		mCardFeeWarningTv.setVisibility(isVisible ? View.VISIBLE : View.GONE);
 	}
 

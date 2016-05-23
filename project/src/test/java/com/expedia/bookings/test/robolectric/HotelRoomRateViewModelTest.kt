@@ -8,8 +8,8 @@ import com.expedia.bookings.data.payment.LoyaltyEarnInfo
 import com.expedia.bookings.data.payment.LoyaltyInformation
 import com.expedia.bookings.data.payment.PointsEarnInfo
 import com.expedia.bookings.data.payment.PriceEarnInfo
-import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.test.MockHotelServiceTestRule
+import com.expedia.bookings.test.PointOfSaleTestConfiguration
 import com.expedia.bookings.test.robolectric.shadows.ShadowAccountManagerEB
 import com.expedia.bookings.test.robolectric.shadows.ShadowGCM
 import com.expedia.bookings.test.robolectric.shadows.ShadowUserManager
@@ -156,7 +156,7 @@ class HotelRoomRateViewModelTest {
 
     @Test
     fun earnMessageIsShown() {
-        PointOfSale.getPointOfSale().isEarnMessageEnabledForHotels = true
+        PointOfSaleTestConfiguration.configurePointOfSale(context, "MockSharedData/pos_with_hotel_earn_messaging_enabled.json")
         UserLoginTestUtil.setupUserAndMockLogin(UserLoginTestUtil.mockUser())
         val loyaltyInfo = LoyaltyInformation(null, LoyaltyEarnInfo(null, PriceEarnInfo(Money("320", "USD"), Money("0", "USD"), Money("320", "USD"))), true)
         hotelRoomResponse.rateInfo.chargeableRateInfo.loyaltyInfo = loyaltyInfo
@@ -169,7 +169,7 @@ class HotelRoomRateViewModelTest {
 
     @Test
     fun earnMessageIsNotShown() {
-        PointOfSale.getPointOfSale().isEarnMessageEnabledForHotels = false
+        PointOfSaleTestConfiguration.configurePointOfSale(context, "MockSharedData/pos_with_hotel_earn_messaging_disabled.json")
         val loyaltyInfo = LoyaltyInformation(null, LoyaltyEarnInfo(PointsEarnInfo(320, 0, 320), null), true)
         hotelRoomResponse.rateInfo.chargeableRateInfo.loyaltyInfo = loyaltyInfo
 

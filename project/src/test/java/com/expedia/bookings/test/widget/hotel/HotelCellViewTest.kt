@@ -12,14 +12,14 @@ import com.expedia.bookings.data.hotels.HotelRate
 import com.expedia.bookings.data.payment.LoyaltyEarnInfo
 import com.expedia.bookings.data.payment.LoyaltyInformation
 import com.expedia.bookings.data.payment.PointsEarnInfo
-import com.expedia.bookings.data.pos.PointOfSale
+import com.expedia.bookings.test.PointOfSaleTestConfiguration
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.test.robolectric.UserLoginTestUtil
 import com.expedia.bookings.test.robolectric.shadows.ShadowAccountManagerEB
 import com.expedia.bookings.test.robolectric.shadows.ShadowGCM
 import com.expedia.bookings.test.robolectric.shadows.ShadowUserManager
-import com.expedia.vm.hotel.HotelViewModel
 import com.expedia.bookings.widget.hotel.HotelCellViewHolder
+import com.expedia.vm.hotel.HotelViewModel
 import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
@@ -131,7 +131,7 @@ class HotelCellViewTest {
 
     @Test fun testEarnMessaging() {
         val hotel = makeHotel()
-        PointOfSale.getPointOfSale().isEarnMessageEnabledForHotels = true
+        PointOfSaleTestConfiguration.configurePointOfSale(getContext(), "MockSharedData/pos_with_hotel_earn_messaging_enabled.json")
         UserLoginTestUtil.setupUserAndMockLogin(UserLoginTestUtil.mockUser())
         hotelViewHolder.bind(HotelViewModel(hotelViewHolder.itemView.context, hotel))
         Assert.assertEquals(View.GONE, hotelViewHolder.topAmenityTitle.visibility)

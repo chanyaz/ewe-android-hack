@@ -502,7 +502,7 @@ public class TabletCheckoutFormsFragment extends LobableFragment implements IBac
 			add(couponFrame);
 		}
 
-		if (getLob() == LineOfBusiness.FLIGHTS && PointOfSale.getPointOfSale(getContext()).doAirlinesChargeAdditionalFeeBasedOnPaymentMethod()) {
+		if (getLob() == LineOfBusiness.FLIGHTS && PointOfSale.getPointOfSale().doAirlinesChargeAdditionalFeeBasedOnPaymentMethod()) {
 			if (mCardFeeLegalText == null) {
 				mCardFeeLegalText = Ui.inflate(R.layout.include_tablet_card_fee_tv, mCheckoutRowsC, false);
 			}
