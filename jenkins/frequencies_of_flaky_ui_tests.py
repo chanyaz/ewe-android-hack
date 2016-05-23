@@ -5,16 +5,16 @@ import os
 import urllib
 import shutil
 import sys
+import traceback
 
 def getLastProcessedRun():
 	if os.path.exists("last_processed_run"):
 		with open("last_processed_run") as lastProcessedRunFile:
 			return int(lastProcessedRunFile.read())
-	return 8000
+	return 8150
 
 def saveLastProcessedRun(run):
 	lastSavedProcessedRun = getLastProcessedRun()
-
 	if run > lastSavedProcessedRun:
 		with open("last_processed_run", 'w') as lastProcessedRunFile:
 			lastProcessedRunFile.write(str(run))
@@ -36,7 +36,7 @@ def artifactsToBeProcessedSinceLastRun(server, lastProcessedRun):
 		directoryListingUrl = "http://" + server + ":8000"
 		urllib.urlretrieve(directoryListingUrl, localPathToDownloadAt)
 	except:
-		print "Failed in downloading {directoryListingUrl}...".format(directoryListingUrl=directoryListingUrl)
+		print "Failed in downloading {directoryListingUrl}... Stack Trace: \n{stack_trace}".format(directoryListingUrl=directoryListingUrl, stack_trace=traceback.format_exc())
 		return ([], 0)
 
 	soup = BeautifulSoup(open(localPathToDownloadAt), "html.parser")
@@ -46,12 +46,93 @@ def artifactsToBeProcessedSinceLastRun(server, lastProcessedRun):
 
 	return (artifacts, maxSuccessfulRun)
 
-def reportFailureFrequencyDistributionPerSlave(frequenciesOfFlakyUITestsFile, testToServerToFailureCountMap):
+def reportFailureFrequencyDistributionPerSlaveConsole(testToServerToFailureCountMap):
+	lengthOfLongestNameTest = len(max(testToServerToFailureCountMap.keys(), key=len))
 	#Report failed tests
 	for testName, serverToFailureCountMap in sorted(testToServerToFailureCountMap.items(), key=lambda x: sum(x[1].values()), reverse=True):
 		totalTimesFailed = sum(serverToFailureCountMap.values())
 		failureDistributionPerSlave = sorted(serverToFailureCountMap.items(), key=lambda x: x[1], reverse=True)
-		print >> frequenciesOfFlakyUITestsFile, "{testName} -> {totalTimesFailed} {failureDistributionPerSlave}".format(testName=testName, totalTimesFailed=totalTimesFailed, failureDistributionPerSlave=failureDistributionPerSlave)
+		print "{testName} -> {totalTimesFailed} {failureDistributionPerSlave}".format(testName=testName.ljust(lengthOfLongestNameTest), totalTimesFailed=totalTimesFailed, failureDistributionPerSlave=failureDistributionPerSlave)
+
+def reportFailureFrequencyDistributionPerSlaveHTML(testToServerToFailureCountMap):
+	flakinessReport = ""
+	for testName, serverToFailureCountMap in sorted(testToServerToFailureCountMap.items(), key=lambda x: sum(x[1].values()), reverse=True):
+		totalTimesFailed = sum(serverToFailureCountMap.values())
+		failureDistributionPerSlave = sorted(serverToFailureCountMap.items(), key=lambda x: x[1], reverse=True)
+		flakinessReport = flakinessReport + """\n<tr class='{flakinessClass}'>
+					<td>{component}</td>
+					<td>{testName}</td>
+					<td>{totalTimesFailed} {failureDistributionPerSlave}</td>
+				</tr>
+		""".format(flakinessClass=flakinessClass(totalTimesFailed), component=componentFromTest(testName), testName=testName, totalTimesFailed=totalTimesFailed, failureDistributionPerSlave=failureDistributionPerSlave)
+
+	with open('frequencies_of_flaky_ui_tests.html', 'w') as frequenciesOfFlakyUITestsFile:
+		frequenciesOfFlakyUITestsFile.write("""<!DOCTYPE html>
+		<html>
+			<head>
+				<title>HTML Tables</title>
+				<style>
+					table {
+						font-family: verdana;
+						border-collapse: collapse;
+						border-spacing: 0;
+					}
+					td, th { 
+						border: 1px solid #CCC;
+						padding-left: 5px;
+						padding-right: 5px;
+						padding-top: 2px;
+						padding-bottom: 2px;
+					}
+
+					tr.red {
+						background: #FF0000;
+					}
+
+					tr.orange {
+						background: #FF8080;
+					}
+
+					tr.yellow {
+						background: #FFCCCC;
+					}
+				</style>
+			</head>
+			<body>
+				<table>
+					<tr>
+						<th>Component</th>
+						<th>Test Name</th>
+						<th>Frequency and Distribution</th>
+					</tr>
+					{flakinessReport}
+				</table>
+			</body>
+		</html>""".replace("{flakinessReport}", flakinessReport))
+
+def flakinessClass(totalTimesFailed):
+	if totalTimesFailed >= 8:
+		return "red"
+	elif totalTimesFailed >= 4:
+		return "orange"
+	elif totalTimesFailed >= 2:
+		return "yellow"
+
+def componentFromTest(testName):
+	if "hotel" in testName.lower():
+		return "HOTELS"
+	elif "car" in testName.lower():
+		return "CARS"
+	elif "lx" in testName.lower() or "gt" in testName.lower():
+		return "LX"
+	elif "flight" in testName.lower():
+		return "FLIGHTS"
+	elif "rail" in testName.lower():
+		return "RAILS"
+	elif "package" in testName.lower():
+		return "PACKAGES"
+	else:
+		return ""
 
 def main():
 	testToServerToFailureCountMap = {}
@@ -68,18 +149,21 @@ def main():
 		maxSuccessfulRunOnEachServer.append(maxSuccessfulRunOnThisServer)
 
 		for artifactUrl in artifactsToProcessFromThisServer:
+			artifactLocalPath = os.path.join('/tmp', artifactUrl.split('/')[-1])
 			#download artifact
 			print "Downloading {artifactUrl}...".format(artifactUrl=artifactUrl)
 			try:
 				urllib.urlretrieve(artifactUrl, artifactLocalPath)
 			except:
-				print "Failed in downloading {artifactUrl}...".format(artifactUrl=artifactUrl)
+				print "Failed in downloading {artifactUrl}... Stack Trace: \n{stack_trace}".format(artifactUrl=artifactUrl, stack_trace=traceback.format_exc())
 				continue
 
 			singleForkRunTestToFailureCountMap = eval(open(artifactLocalPath, 'r').read())
 
 			#process artifact and record failed tests
 			for failedTest in singleForkRunTestToFailureCountMap:
+				#shorten the name to remove common prefix so it formats and fits nicely
+				failedTest = failedTest.replace("com.expedia.bookings.test", "")
 				if failedTest in testToServerToFailureCountMap and serverName in testToServerToFailureCountMap[failedTest]:
 					testToServerToFailureCountMap[failedTest][serverName] = testToServerToFailureCountMap[failedTest][serverName] + 1
 				elif failedTest in testToServerToFailureCountMap:
@@ -89,14 +173,13 @@ def main():
 					testToServerToFailureCountMap[failedTest][serverName] = 1
 
 	print "\n\n\nFinal List of Failed Tests and their frequency distribution per slave:"
-	reportFailureFrequencyDistributionPerSlave(sys.stdout, testToServerToFailureCountMap)
-
-	frequenciesOfFlakyUITestsFile = open('frequencies_of_flaky_ui_tests.txt', 'w')
-	reportFailureFrequencyDistributionPerSlave(frequenciesOfFlakyUITestsFile, testToServerToFailureCountMap)
-	frequenciesOfFlakyUITestsFile.close()
+	reportFailureFrequencyDistributionPerSlaveConsole(testToServerToFailureCountMap)
+	
+	reportFailureFrequencyDistributionPerSlaveHTML(testToServerToFailureCountMap)
 
 	#Save last processed run for next time!
 	saveLastProcessedRun(max(maxSuccessfulRunOnEachServer))
 
 if __name__ == "__main__":
 	main()
+
