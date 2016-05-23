@@ -11,6 +11,7 @@ import android.view.MotionEvent
 import android.view.View
 import android.view.ViewStub
 import android.view.animation.AccelerateDecelerateInterpolator
+import android.view.animation.AnimationUtils
 import android.view.animation.DecelerateInterpolator
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Db
@@ -60,6 +61,9 @@ class PackageHotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
     val resultsMapView: MapView by bindView(R.id.map_view)
     val detailsMapView: MapView by bindView(R.id.details_map_view)
     val bundleSlidingWidget: SlidingBundleWidget by bindView(R.id.sliding_bundle_widget)
+
+    val slideDownAnimation = AnimationUtils.loadAnimation(context, R.anim.slide_down)
+    val slideUpAnimation = AnimationUtils.loadAnimation(context, R.anim.slide_up)
 
     val resultsPresenter: PackageHotelResultsPresenter by lazy {
         var viewStub = findViewById(R.id.results_stub) as ViewStub
@@ -276,7 +280,13 @@ class PackageHotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
     }
 
     val hideBundlePriceOverviewObserver: Observer<Boolean> = endlessObserver { hide ->
-        bundleSlidingWidget.visibility = if (hide) GONE else VISIBLE
+        bundleSlidingWidget.visibility = if (hide) {
+            bundleSlidingWidget.startAnimation(slideDownAnimation)
+            GONE
+        }  else {
+            bundleSlidingWidget.startAnimation(slideUpAnimation)
+            VISIBLE
+        }
     }
 
     private fun getDetails(piid: String, hotelId: String, checkIn: String, checkOut: String, ratePlanCode: String?, roomTypeCode: String?) {
