@@ -3,7 +3,6 @@ package com.expedia.bookings.test.phone.packages;
 import com.expedia.bookings.R;
 import com.expedia.bookings.test.espresso.EspressoUtils;
 import com.expedia.bookings.test.espresso.PackageTestCase;
-import com.expedia.bookings.test.phone.hotels.HotelScreen;
 import com.expedia.bookings.test.phone.pagemodels.common.BillingAddressScreen;
 import com.expedia.bookings.test.phone.pagemodels.common.CardInfoScreen;
 import com.expedia.bookings.test.phone.pagemodels.common.CheckoutViewModel;
@@ -19,23 +18,8 @@ import static org.hamcrest.CoreMatchers.allOf;
 
 public class PackageCheckoutErrorTest extends PackageTestCase {
 
-	public void testSearchError() throws Throwable {
-		PackageScreen.searchPackageFor(1, 0);
-
-		PackageScreen.clickHotelBundle();
-		HotelScreen.selectHotel("Package Happy Path");
-		PackageScreen.selectRoom();
-
-		PackageScreen.outboundFlight().perform(click());
-
-		PackageScreen.selectFlight(0);
-		PackageScreen.selectThisFlight().perform(click());
-
-		PackageScreen.inboundFLight().perform(click());
-
-		PackageScreen.selectFlight(0);
-		PackageScreen.selectThisFlight().perform(click());
-
+	public void testCheckoutError() throws Throwable {
+		PackageScreen.doPackageSearch();
 		PackageScreen.checkout().perform(click());
 
 		PackageScreen.enterTravelerInfo();

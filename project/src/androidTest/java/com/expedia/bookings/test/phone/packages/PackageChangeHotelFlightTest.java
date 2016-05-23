@@ -27,24 +27,7 @@ import static org.hamcrest.Matchers.not;
 public class PackageChangeHotelFlightTest extends PackageTestCase {
 
 	public void testPackageChangeHotelFlightTest() throws Throwable {
-		PackageScreen.searchPackage();
-
-		PackageScreen.hotelBundle().perform(click());
-		Common.delay(1);
-		HotelScreen.selectHotel("Package Happy Path");
-		Common.delay(1);
-		PackageScreen.selectRoom();
-		Common.delay(1);
-		PackageScreen.outboundFlight().perform(click());
-		Common.delay(1);
-		PackageScreen.selectFlight(0);
-		PackageScreen.selectThisFlight().perform(click());
-		Common.delay(1);
-		PackageScreen.inboundFLight().perform(click());
-		Common.delay(1);
-		PackageScreen.selectFlight(0);
-		PackageScreen.selectThisFlight().perform(click());
-		Common.delay(1);
+		PackageScreen.doPackageSearch();
 
 		//change hotel room
 		openActionBarOverflowOrOptionsMenu(getInstrumentation().getTargetContext());

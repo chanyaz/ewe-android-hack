@@ -370,7 +370,8 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet) : Pre
 
     fun toggleCheckoutButton(isEnabled: Boolean) {
         checkoutButton.translationY = if (isEnabled) 0f else checkoutButtonHeight
-        bottomContainer.translationY = if (isEnabled) sliderHeight - checkoutButtonHeight else sliderHeight
+        val shouldShowSlider = currentState == CheckoutDefault::class.java.name && ckoViewModel.infoCompleted.value ?: false
+        bottomContainer.translationY = if (isEnabled) sliderHeight - checkoutButtonHeight else if (shouldShowSlider) 0f else sliderHeight
         checkoutButton.isEnabled = isEnabled
     }
 

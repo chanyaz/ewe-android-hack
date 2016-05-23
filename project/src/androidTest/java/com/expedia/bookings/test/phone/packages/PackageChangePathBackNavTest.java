@@ -3,7 +3,6 @@ package com.expedia.bookings.test.phone.packages;
 import com.expedia.bookings.R;
 import com.expedia.bookings.test.espresso.Common;
 import com.expedia.bookings.test.espresso.PackageTestCase;
-import com.expedia.bookings.test.phone.hotels.HotelScreen;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.Espresso.openActionBarOverflowOrOptionsMenu;
@@ -19,24 +18,7 @@ import static org.hamcrest.CoreMatchers.allOf;
 public class PackageChangePathBackNavTest extends PackageTestCase {
 
 	public void testPackageChangePathBackNavTest() throws Throwable {
-		PackageScreen.searchPackage();
-
-		PackageScreen.hotelBundle().perform(click());
-		Common.delay(1);
-		HotelScreen.selectHotel("Package Happy Path");
-		Common.delay(1);
-		PackageScreen.selectRoom();
-		Common.delay(1);
-		PackageScreen.outboundFlight().perform(click());
-		Common.delay(1);
-		PackageScreen.selectFlight(0);
-		PackageScreen.selectThisFlight().perform(click());
-		Common.delay(1);
-		PackageScreen.inboundFLight().perform(click());
-		Common.delay(1);
-		PackageScreen.selectFlight(0);
-		PackageScreen.selectThisFlight().perform(click());
-		Common.delay(1);
+		PackageScreen.doPackageSearch();
 
 		//change hotel, cancel
 		openActionBarOverflowOrOptionsMenu(getInstrumentation().getTargetContext());

@@ -9,7 +9,6 @@ import com.expedia.bookings.test.phone.hotels.HotelScreen;
 import com.expedia.bookings.test.phone.pagemodels.common.SearchScreen;
 
 import static android.support.test.espresso.Espresso.onView;
-import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.hasDescendant;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
@@ -20,18 +19,7 @@ import static org.hamcrest.CoreMatchers.allOf;
 public class PackageBackNavigationTest extends PackageTestCase {
 
 	public void testPackageBackNavigation() throws Throwable {
-		PackageScreen.searchPackage();
-
-		PackageScreen.hotelBundle().perform(click());
-		HotelScreen.selectHotel("Package Happy Path");
-		PackageScreen.selectRoom();
-		PackageScreen.outboundFlight().perform(click());
-		PackageScreen.selectFlight(0);
-		PackageScreen.selectThisFlight().perform(click());
-
-		PackageScreen.inboundFLight().perform(click());
-		PackageScreen.selectFlight(0);
-		PackageScreen.selectThisFlight().perform(click());
+		PackageScreen.doPackageSearch();
 
 		//back to inbound flight overview
 		Common.pressBack();

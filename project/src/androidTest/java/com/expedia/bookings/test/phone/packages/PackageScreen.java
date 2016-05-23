@@ -16,6 +16,7 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.test.espresso.Common;
 import com.expedia.bookings.test.espresso.SpoonScreenshotUtils;
 import com.expedia.bookings.test.espresso.ViewActions;
+import com.expedia.bookings.test.phone.hotels.HotelScreen;
 import com.expedia.bookings.test.phone.pagemodels.common.BillingAddressScreen;
 import com.expedia.bookings.test.phone.pagemodels.common.CardInfoScreen;
 import com.expedia.bookings.test.phone.pagemodels.common.CheckoutViewModel;
@@ -313,5 +314,22 @@ public class PackageScreen {
 
 	public static ViewInteraction bundleOverviewHotelRowContainer() {
 		return onView(allOf(withId(R.id.row_container), isDescendantOfA(withId(R.id.package_bundle_hotel_widget))));
+	}
+
+	public static void doPackageSearch() throws Throwable {
+		searchPackage();
+		PackageScreen.clickHotelBundle();
+		HotelScreen.selectHotel("Package Happy Path");
+		PackageScreen.selectRoom();
+
+		PackageScreen.outboundFlight().perform(click());
+
+		PackageScreen.selectFlight(0);
+		PackageScreen.selectThisFlight().perform(click());
+
+		PackageScreen.inboundFLight().perform(click());
+
+		PackageScreen.selectFlight(0);
+		PackageScreen.selectThisFlight().perform(click());
 	}
 }
