@@ -64,9 +64,6 @@
     <attr name="skin_hotelListingFilterPriceModerateString" format="reference|string" />
     <attr name="skin_hotelListingFilterPriceExpensiveString" format="reference|string" />
 
-    <!-- Hotel details tablet popup styles -->
-    <attr name="skin_hotelDetailsUserRatingStyle" format="reference" />
-
     <!-- HangTag assets -->
     <attr name="skin_hangTagProgressDrawable" format="reference" />
     <attr name="skin_hangTagProgressRingFillDrawable" format="reference" />
@@ -184,25 +181,17 @@
 
     <attr name="skin_action_bar_logo_tablet" format="reference"/>
     <attr name="skin_tablet_book_button_text_color" format="reference|color" />
-    <attr name="skin_tablet_hotel_room_rate_select_button" format="reference" />
-    <attr name="skin_tablet_addToTrip_button" format="reference" />
     <attr name="skin_tablet_bucket_item_counter" format="reference" />
-    <attr name="skin_tablet_bucket_text_color" format="reference|color" />
-    <attr name="skin_tablet_search_result_error_button_drawable" format="reference" />
     <attr name="skin_tablet_search_result_error_button_text_color" format="color|reference" />
     <attr name="skin_tablet_dates_popup_done_color" format="color|reference" />
-    <attr name="skin_skin_tablet_dates_popup_done_drawable" format="reference" />
 
     <!-- Flight Map -->
-    <attr name="skin_tablet_flight_map_arrival_pin" format="reference" />
     <attr name="skin_tablet_hotel_details_background_drawable" format="reference" />
 
       <!--Action menu done button text -->
     <attr name="skin_actionMenuDoneButtonText" format="reference|string" />
-    <attr name="skin_tabletHotelDetailsStarRatingStyle" format="reference" />
     <attr name="skin_tabletHotelDetailsCircleRatingStyle" format="reference" />
 
-    <attr name="skin_tablet_hotel_confirmation_placeholder" format="reference" />
     <attr name="skin_tablet_flight_confirmation_placeholder" format="reference" />
 
     <attr name="skin_tablet_pin_detail_image_size" format="reference" />
@@ -234,13 +223,7 @@
 
     <attr name="skin_hotelSearchPopupFilterTextColor" format="reference|color" />
 
-    <attr name="skin_bgSaleTextViewDrawable" format="reference" />
-
-    <attr name="skin_bgFlightSummaryRowTablet" format="reference" />
-    <attr name="skin_bgSelectedFlightCard" format="reference" />
-    <attr name="skin_bgFlightSummaryRowReturnLegTabletDrawable" format="reference" />
     <attr name="skin_launchCirclePlaceholderDrawable" format="reference" />
-    <attr name="skin_icActionBarTripsDrawable" format="reference" />
     <attr name="skin_tablet_confirmation_book_next_arrow_icon" format="reference" />
     <attr name="skin_tablet_confirmation_book_next_arrow_color" format="reference|color" />
     <attr name="skin_tablet_confirmation_done_booking_icon" format="reference" />
@@ -253,18 +236,14 @@
     <attr name="skin_tablet_checkout_price_breakdown_icon" format="reference" />
     <attr name="skin_tabletCalenderResultsSearchBlue" format="reference|color" />
 
-    <attr name="skin_sectionFlightEditTravelerLinkColor" format="reference|color" />
-    <attr name="skin_roomRateRefundableCancellationTextColor" format="reference|color" />
     <attr name="skin_confirmationHeaderHotelDividerLineColor" format="reference|color" />
     <attr name="skin_confirmationHeaderFlightDividerLineColor" format="reference|color" />
     <attr name="skin_checkmarkFlightDrawable" format="reference" />
 
     <attr name="skin_launchTabIndicatorColor" format="reference|color" />
 
-    <attr name="skin_actionbarTabletTitleColor" format="reference|color" />
     <attr name="skin_icTabletConfirmationCheckmarkDrawable" format="reference" />
     <attr name="skin_icRenovationTabletDrawable" format="reference" />
-    <attr name="skin_icFeesTabletDrawable" format="reference" />
     <attr name="skin_tabletFilterPriceTextColor" format="reference|color" />
     <attr name="skin_bookNowButtonDrawable" format="reference" />
 
