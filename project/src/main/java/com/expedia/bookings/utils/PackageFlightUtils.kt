@@ -8,6 +8,7 @@ import android.text.style.ForegroundColorSpan
 import com.expedia.bookings.R
 import com.expedia.bookings.data.flights.Airline
 import com.expedia.bookings.data.flights.FlightLeg
+import com.expedia.bookings.widget.packages.FlightAirlineWidget
 import com.squareup.phrase.Phrase
 
 object PackageFlightUtils {
@@ -107,5 +108,13 @@ object PackageFlightUtils {
             "C", "L", "CN", "PP", "P" -> return false
         }
         return false
+    }
+
+    @JvmStatic fun getAirlinesList(airlines: List<Airline>): String {
+        var airlineList = StringBuilder()
+        for (i in 0..airlines.size - 1) {
+            airlineList.append(airlines[i].airlineName)
+        }
+        return airlineList.toString()
     }
 }
