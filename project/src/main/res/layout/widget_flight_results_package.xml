@@ -15,16 +15,16 @@
             android:padding="15dp" />
 
         <View
-            android:id="@+id/toolbar_dropshadow"
+            android:id="@+id/docked_outbound_flight_widget_dropshadow"
             android:layout_width="match_parent"
             android:layout_height="@dimen/toolbar_dropshadow_height"
+            android:layout_marginBottom="5dp"
             android:background="@drawable/tb_shadow" />
 
         <com.expedia.bookings.widget.FlightListRecyclerView
             android:id="@+id/list_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
             android:overScrollMode="never" />
 
     </LinearLayout>
