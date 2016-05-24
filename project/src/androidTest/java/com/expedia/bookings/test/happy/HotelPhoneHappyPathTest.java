@@ -1,6 +1,7 @@
 package com.expedia.bookings.test.happy;
 
 import android.support.test.espresso.Espresso;
+import android.support.test.espresso.assertion.ViewAssertions;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.test.espresso.Common;
@@ -14,11 +15,13 @@ import com.mobiata.mocke3.ExpediaDispatcher;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
+import static android.support.test.espresso.matcher.ViewMatchers.withHint;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 
 public class HotelPhoneHappyPathTest extends HotelTestCase {
 
 	public void testHotelPhoneHappyPath() throws Throwable {
+		SearchScreen.searchEditText().check(ViewAssertions.matches(withHint("Search Destination")));
 		SearchScreen.doGenericHotelSearch();
 		HotelScreen.selectHotel();
 		reviews();

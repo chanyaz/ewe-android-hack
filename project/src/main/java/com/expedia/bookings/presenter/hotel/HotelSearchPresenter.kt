@@ -93,4 +93,12 @@ class HotelSearchPresenter(context: Context, attrs: AttributeSet) : BaseSearchPr
     override fun getSuggestionAdapter(): RecyclerView.Adapter<RecyclerView.ViewHolder> {
        return hotelSuggestionAdapter
     }
+
+    override fun getOriginSearchBoxPlaceholderText(): String {
+        throw UnsupportedOperationException("No origin for Hotel search")
+    }
+
+    override fun getDestinationSearchBoxPlaceholderText(): String {
+        return context.resources.getString(R.string.search_destination)
+    }
 }

@@ -107,4 +107,12 @@ class FlightSearchPresenter(context: Context, attrs: AttributeSet) : BaseTwoLoca
         return searchViewModel
     }
 
+    override fun getOriginSearchBoxPlaceholderText(): String {
+        return context.resources.getString(R.string.fly_from_hint)
+    }
+
+    override fun getDestinationSearchBoxPlaceholderText(): String {
+        return context.resources.getString(R.string.fly_to_hint)
+    }
+
 }

@@ -122,4 +122,12 @@ class RailSearchPresenter(context: Context, attrs: AttributeSet) : BaseTwoLocati
             }
         }
     }
+
+    override fun getOriginSearchBoxPlaceholderText(): String {
+        return "not set"
+    }
+
+    override fun getDestinationSearchBoxPlaceholderText(): String {
+        return "not set"
+    }
 }
