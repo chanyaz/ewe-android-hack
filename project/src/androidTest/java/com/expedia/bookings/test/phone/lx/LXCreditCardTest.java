@@ -27,7 +27,6 @@ public class LXCreditCardTest extends LxTestCase {
 
 		LXScreen.waitForSearchListDisplayed();
 		LXScreen.searchList().perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
-		LXScreen.waitForLoadingDetailsNotDisplayed();
 
 		LXInfositeScreen.selectOffer("2-Day New York Pass").perform(scrollTo(), click());
 		LXInfositeScreen.ticketAddButton(ticketName, "Adult").perform(scrollTo(), click());

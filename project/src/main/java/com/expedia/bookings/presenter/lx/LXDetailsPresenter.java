@@ -227,7 +227,6 @@ public class LXDetailsPresenter extends Presenter {
 			if (arrowRatio >= 0 && arrowRatio <= 1) {
 				navIcon.setParameter(1 - arrowRatio);
 			}
-			details.doCounterscroll();
 		}
 	};
 

@@ -130,21 +130,6 @@ public class LXScreen {
 		return allOf(isAssignableFrom(RecyclerView.class), withId(viewId));
 	}
 
-	public static ViewInteraction progressDetails() {
-		return onView(withId(R.id.overlay_title_container));
-	}
-
-	public static void waitForLoadingDetailsNotDisplayed() {
-		progressDetails().perform(waitFor(not(isDisplayed()), 10, TimeUnit.SECONDS));
-	}
-
-	public static void waitForDetailsDisplayed() {
-		Common.delay(1);
-		onView(allOf(withId(R.id.offers), isDescendantOfA(withId(R.id.activity_recommended_details_presenter))))
-			.perform(
-				waitFor(isDisplayed(), 10, TimeUnit.SECONDS));
-	}
-
 	public static ViewInteraction detailsWidget() {
 		return onView(
 			allOf(withId(R.id.activity_details), isDescendantOfA(withId(R.id.activity_recommended_details_presenter))));
@@ -171,10 +156,6 @@ public class LXScreen {
 			allOf(withId(R.id.show_more_widget), isDescendantOfA(withId(R.id.activity_recommended_details_presenter))));
 	}
 
-	public static ViewInteraction srpErrorToolbar() {
-		return onView(allOf(isDescendantOfA(withId(R.id.search_list_presenter)), withId(R.id.toolbar)));
-	}
-
 	public static ViewInteraction toolbar() {
 		return onView(withId(R.id.toolbar));
 	}
@@ -184,22 +165,8 @@ public class LXScreen {
 			isAssignableFrom(ImageButton.class)));
 	}
 
-	public static ViewInteraction resultsPresenterToolbarNavigation() {
-		return onView(
-			allOf(isDescendantOfA(withId(R.id.search_list_presenter)), withParent(withId(R.id.toolbar)),
-				isAssignableFrom(ImageButton.class)));
-	}
-
 	public static ViewInteraction searchButton() {
 		return onView(allOf(withId(R.id.search_btn), isDescendantOfA(hasSibling(withId(R.id.search_container)))));
-	}
-
-	public static ViewInteraction searchButtonInSRPToolbar() {
-		return onView(allOf(isDescendantOfA(withId(R.id.search_list_presenter)), withId(R.id.menu_open_search)));
-	}
-
-	public static ViewInteraction searchButtonOnDetailsToolbar() {
-		return onView(allOf(isDescendantOfA(withId(R.id.activity_details_presenter)), withId(R.id.menu_open_search)));
 	}
 
 	public static ViewInteraction searchButtonOnDetailsWithRecommendationsToolbar() {

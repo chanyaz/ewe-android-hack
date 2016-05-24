@@ -28,7 +28,6 @@ public class LXCreateTripErrorTest extends LxTestCase {
 
 		LXScreen.waitForSearchListDisplayed();
 		LXScreen.searchList().perform(RecyclerViewActions.actionOnItemAtPosition(productPosition, click()));
-		LXScreen.waitForLoadingDetailsNotDisplayed();
 
 		LXInfositeScreen.selectOffer(ticketName).perform(scrollTo(), click());
 		LXInfositeScreen.bookNowButton(ticketName).perform(scrollTo(), click());

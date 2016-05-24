@@ -1,6 +1,8 @@
 package com.expedia.bookings.test.phone.pagemodels.common;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.test.espresso.ViewActions;
+
 import android.support.test.espresso.ViewInteraction;
 
 import static android.support.test.espresso.Espresso.onView;
@@ -10,10 +12,6 @@ import static android.support.test.espresso.action.ViewActions.closeSoftKeyboard
 import static android.support.test.espresso.action.ViewActions.typeText;
 import static android.support.test.espresso.matcher.ViewMatchers.withParent;
 
-
-/**
- * Created by dmadan on 4/7/14.
- */
 public class BillingAddressScreen {
 	private static final int sAddressLine1EditTextID = R.id.edit_address_line_one;
 	private static final int sAddressLine2EditTextID = R.id.edit_address_line_two;
@@ -67,6 +65,7 @@ public class BillingAddressScreen {
 	}
 
 	public static void clickNextButton() {
+		nextButton().perform(ViewActions.waitForViewToDisplay());
 		nextButton().perform(click());
 	}
 

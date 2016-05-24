@@ -125,7 +125,6 @@ public class LXCheckoutErrorTest extends LxTestCase {
 
 		LXScreen.waitForSearchListDisplayed();
 		LXScreen.searchList().perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
-		LXScreen.waitForDetailsDisplayed();
 		LXInfositeScreen.selectOffer("2-Day New York Pass").perform(click());
 		LXInfositeScreen.bookNowButton("2-Day New York Pass").perform(scrollTo(), click());
 		CheckoutViewModel.driverInfo().perform(click());
