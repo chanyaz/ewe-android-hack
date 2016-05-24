@@ -8,6 +8,7 @@ import android.util.AttributeSet
 import android.view.MenuItem
 import android.view.View
 import android.widget.EditText
+import android.widget.TextView
 import com.expedia.bookings.R
 import com.expedia.bookings.interfaces.ToolbarListener
 import com.expedia.bookings.utils.ArrowXDrawableUtil
@@ -35,7 +36,11 @@ class CheckoutToolbar(context: Context, attrs: AttributeSet) : Toolbar(context, 
             menuItem.setVisible(it)
         }
         vm.enableMenuItem.subscribe { enable ->
-            getChildAt(0).alpha = if (enable) 1f else 0.15f
+            val view = findViewById(R.id.menu_done)
+            if (view != null) {
+                val textView = view as TextView
+                textView.alpha = if (enable) 1f else 0.15f
+            }
             menuItem.setVisible(true)
             menuItem.setEnabled(enable)
         }
