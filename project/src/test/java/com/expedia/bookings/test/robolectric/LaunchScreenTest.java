@@ -161,5 +161,6 @@ public class LaunchScreenTest {
 		assertEquals("Not Rated", h6.getNoRatingText().getText());
 		assertEquals(View.VISIBLE, h6.getNoRatingText().getVisibility());
 		assertEquals(View.GONE, h6.getRatingInfo().getVisibility());
+
 	}
 }

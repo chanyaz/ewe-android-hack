@@ -1094,7 +1094,7 @@
     <!-- Enter itinerary number -->
     <string name="enter_itinerary_number">Introduce el número de itinerario</string>
     <!-- Enter a Guest itinerary number -->
-    <string name="or_enter_a_guest_itinerary_number">O introducir itinerario de una cuenta de invitado</string>
+    <string name="enter_a_guest_itinerary_number">O introducir itinerario de una cuenta de invitado</string>
     <!-- Fetching your itinerary -->
     <string name="fetching_your_itinerary">Recuperando tus itinerarios…</string>
     <!-- Error fetching itinerary -->

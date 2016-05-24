@@ -39,6 +39,7 @@ import com.expedia.bookings.utils.Images;
 import com.expedia.bookings.utils.LeanPlumFlags;
 import com.expedia.bookings.utils.NavUtils;
 import com.expedia.bookings.widget.itin.FlightItinContentGenerator;
+import com.expedia.ui.NewPhoneLaunchActivity;
 import com.mobiata.android.Log;
 import com.mobiata.android.SocialUtils;
 import com.mobiata.android.util.AndroidUtils;
@@ -261,7 +262,12 @@ public class NotificationReceiver extends BroadcastReceiver {
 				clickIntent = ItineraryActivity.createIntent(mContext, mNotification);
 			}
 			else {
-				clickIntent = PhoneLaunchActivity.createIntent(mContext, mNotification);
+				if (NavUtils.isUserBucketedForLaunchScreenTest()) {
+					clickIntent = NewPhoneLaunchActivity.createIntent(mContext, mNotification);
+				}
+				else {
+					clickIntent = PhoneLaunchActivity.createIntent(mContext, mNotification);
+				}
 			}
 			PendingIntent clickPendingIntent = PendingIntent.getActivity(mContext, 0, clickIntent, 0);
 

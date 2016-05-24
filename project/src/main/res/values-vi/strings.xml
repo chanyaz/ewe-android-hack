@@ -1094,7 +1094,7 @@
     <!-- Enter itinerary number -->
     <string name="enter_itinerary_number">Nhập số lịch trình</string>
     <!-- Enter a Guest itinerary number -->
-    <string name="or_enter_a_guest_itinerary_number">Hoặc nhập lịch trình của khách</string>
+    <string name="enter_a_guest_itinerary_number">Hoặc nhập lịch trình của khách</string>
     <!-- Fetching your itinerary -->
     <string name="fetching_your_itinerary">Đang tải lịch trình của quý vị…</string>
     <!-- Error fetching itinerary -->

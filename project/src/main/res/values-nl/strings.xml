@@ -1094,7 +1094,7 @@
     <!-- Enter itinerary number -->
     <string name="enter_itinerary_number">Voer reisplannr. in</string>
     <!-- Enter a Guest itinerary number -->
-    <string name="or_enter_a_guest_itinerary_number">of voer het reisplan van een gastreiziger in</string>
+    <string name="enter_a_guest_itinerary_number">of voer het reisplan van een gastreiziger in</string>
     <!-- Fetching your itinerary -->
     <string name="fetching_your_itinerary">Reisplannen ophalen…</string>
     <!-- Error fetching itinerary -->

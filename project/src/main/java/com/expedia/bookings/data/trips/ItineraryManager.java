@@ -25,6 +25,7 @@ import org.json.JSONObject;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.AsyncTask;
+import android.support.annotation.VisibleForTesting;
 import android.text.TextUtils;
 import android.text.format.DateUtils;
 
@@ -57,7 +58,6 @@ import com.mobiata.android.json.JSONable;
 import com.mobiata.android.util.IoUtils;
 import com.mobiata.android.util.SettingUtils;
 import com.mobiata.flightlib.data.Flight;
-
 import rx.functions.Action1;
 
 /**
@@ -1990,4 +1990,27 @@ public class ItineraryManager implements JSONable {
 
 		return true;
 	}
+
+	public static boolean haveTimelyItinItem() {
+		List<DateTime> startTimes = sManager.getStartTimes();
+		List<DateTime> endTimes = sManager.getEndTimes();
+		return hasUpcomingOrInProgressTrip(startTimes, endTimes);
+	}
+
+	@VisibleForTesting
+	public static boolean hasUpcomingOrInProgressTrip(List<DateTime> startTimes, List<DateTime> endTimes) {
+		if (startTimes != null && endTimes != null && startTimes.size() == endTimes.size()) {
+			DateTime now = DateTime.now();
+			DateTime oneWeekFromNow = now.plusWeeks(1);
+			for (int i = 0; i < startTimes.size(); i++) {
+				DateTime start = startTimes.get(i);
+				DateTime end = endTimes.get(i);
+				if (now.isBefore(end) && oneWeekFromNow.isAfter(start)) {
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+
 }

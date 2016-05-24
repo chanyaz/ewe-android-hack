@@ -102,6 +102,40 @@
                     android:visibility="gone" />
             </LinearLayout>
 
+            <LinearLayout
+                android:id="@+id/hint_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="50dp"
+                android:layout_marginRight="50dp"
+                android:layout_above="@+id/or_enter_itin_number_tv"
+                android:orientation="horizontal">
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="1dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginRight="9dp"
+                    android:layout_weight="1"
+                    android:background="@color/dividerColor" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:text="@string/or"
+                    android:textColor="@color/defaultTextColor" />
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="1dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="9dp"
+                    android:layout_weight="1"
+                    android:background="@color/dividerColor" />
+
+            </LinearLayout>
+
             <com.expedia.bookings.widget.TextView
                 android:id="@+id/or_enter_itin_number_tv"
                 style="@style/Widget.BorderlessButton"
@@ -114,7 +148,7 @@
                 android:drawablePadding="8dp"
                 android:gravity="center_vertical"
                 android:padding="16dp"
-                android:text="@string/or_enter_a_guest_itinerary_number"
+                android:text="@string/enter_a_guest_itinerary_number"
                 android:textAllCaps="true"
                 android:textColor="@color/itin_offwhite_text"
                 android:textSize="12sp"
