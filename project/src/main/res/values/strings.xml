@@ -73,8 +73,6 @@
     <!-- Text for error toolbar-->
     <string name="cars_dupe_trip_text">Duplicate Trip</string>
     <!-- Text for error toolbar-->
-    <string name="cars_session_timeout_text">Session Timeout</string>
-    <!-- Text for error toolbar-->
     <string name="cars_price_change_text">Price Changed</string>
     <!-- Text for error toolbar-->
     <string name="cars_payment_failed_text">Payment Failed</string>
@@ -653,8 +651,6 @@
     <string name="lx_invalid_input_text">Invalid Info</string>
     <!-- Text for error toolbar-->
     <string name="lx_duplicate_trip_text">Duplicate Trip</string>
-    <!-- Text for error toolbar-->
-    <string name="lx_session_timeout_text">Session Timeout</string>
     <!-- Text for error toolbar-->
     <string name="lx_payment_failed_text">Payment Failed</string>
     <!-- Offers show more string -->
@@ -2470,7 +2466,7 @@
     <!-- Text for hotel error toolbar payment failed-->
     <string name="hotel_payment_failed_text">Payment Failed</string>
     <!-- Text for error toolbar session expired-->
-    <string name="session_timeout">Session Timeout</string>
+    <string name="session_timeout">Session Expired</string>
 
     <!-- Credit card input section -->
     <string name="one">1</string>
