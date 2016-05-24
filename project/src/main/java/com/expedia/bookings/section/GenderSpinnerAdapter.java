@@ -62,6 +62,7 @@ public class GenderSpinnerAdapter extends ArrayAdapter<CharSequence> {
 	private void populateGenders(Context context) {
 		Resources res = context.getResources();
 		mGenders = new ArrayList<GenderSpinnerHelper>();
+		mGenders.add(new GenderSpinnerHelper(Gender.GENDER, res.getString(R.string.gender)));
 		mGenders.add(new GenderSpinnerHelper(Gender.MALE, res.getString(R.string.male)));
 		mGenders.add(new GenderSpinnerHelper(Gender.FEMALE, res.getString(R.string.female)));
 	}

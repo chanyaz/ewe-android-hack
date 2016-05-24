@@ -42,6 +42,13 @@ class TSAEntryView(context: Context, attrs: AttributeSet?) : LinearLayout(contex
         vm.birthErrorTextSubject.subscribe { text ->
             showBirthdateErrorDialog(text)
         }
+
+        vm.genderErrorSubject.subscribe { inValid ->
+            if (inValid) {
+                showGenderErrorDialog()
+            }
+
+        }
     }
 
     init {
@@ -90,6 +97,19 @@ class TSAEntryView(context: Context, attrs: AttributeSet?) : LinearLayout(contex
         val builder = AlertDialog.Builder(context)
         builder.setTitle(R.string.traveler_age_title)
         builder.setMessage(message)
+        builder.setPositiveButton(context.getString(R.string.DONE), object : DialogInterface.OnClickListener {
+            override fun onClick(dialog: DialogInterface, which: Int) {
+                dialog.dismiss()
+            }
+        })
+        val dialog = builder.create()
+        dialog.show()
+    }
+
+    private fun showGenderErrorDialog() {
+        val builder = AlertDialog.Builder(context)
+        builder.setTitle(R.string.traveler_gender_title)
+        builder.setMessage(R.string.traveler_gender_error)
         builder.setPositiveButton(context.getString(R.string.DONE), object : DialogInterface.OnClickListener {
             override fun onClick(dialog: DialogInterface, which: Int) {
                 dialog.dismiss()

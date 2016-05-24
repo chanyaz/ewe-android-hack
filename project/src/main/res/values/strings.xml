@@ -655,6 +655,10 @@
     <string name="traveler_details_text">Traveler details</string>
     <!-- Text for traveler age dialog box when age is invalid-->
     <string name="traveler_age_title">Traveler Age</string>
+    <!-- Text for traveler gender dialog box title that shows on checkout when the user does not select a specific gender option -->
+    <string name="traveler_gender_title">Invalid Gender</string>
+    <!-- Text error message for traveler gender error that shows on the checkout page when user does not select a valid gender -->
+    <string name="traveler_gender_error">Please select a valid gender</string>
     <!-- Text for traveler infant error-->
     <string name="traveler_infant_error">This infant must be less than 2 years old</string>
     <!-- Text for traveler child error-->
@@ -2216,6 +2220,8 @@
     <string name="last_name">Last Name</string>
     <!-- date of birth label -->
     <string name="date_of_birth">Date of Birth</string>
+    <!-- default value for the gender drop down on checkout -->
+    <string name="gender">Gender</string>
     <!-- male -->
     <string name="male">Male</string>
     <!-- female -->
