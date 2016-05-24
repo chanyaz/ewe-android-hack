@@ -94,15 +94,15 @@
     <!-- Label above the slider when user is fully paying with Orbucks. Eg: You are using $1000.12 in Orbucks-->
     <string name="you_are_using_bucks_TEMPLATE">Estás utilizando {amount} en Orbucks</string>
     <!-- Label above the slider when user is paying with Orbucks and Card. Eg: You are using $1000.12 in Orbucks\nYour card will be charged $100.00-->
-    <string name="payment_through_card_and_bucks_TEMPLATE">Estás utilizando {amount} en Orbucks\nSe te cargarán {dueamount} en la tarjeta</string>
+    <string name="payment_through_card_and_bucks_TEMPLATE">Estás utilizando {amount} en Orbucks\nSe te cargarán {dueamount} en tu tarjeta</string>
 
     <!-- Rewards -->
     <!-- Long name for rewards base tier; note that brand name is not parameterized here as other brands will need to completely override this string -->
-    <string name="reward_base_tier_name_long">Orbitz Silver</string>
+    <string name="reward_base_tier_name_long">Orbitz Rewards Silver</string>
     <!-- Long name for rewards middle tier; note that brand name is not parameterized here as other brands will need to completely override this string -->
-    <string name="reward_middle_tier_name_long">Orbitz Gold</string>
+    <string name="reward_middle_tier_name_long">Orbitz Rewards Gold</string>
     <!-- Long name for rewards top tier; note that brand name is not parameterized here as other brands will need to completely override this string -->
-    <string name="reward_top_tier_name_long">Orbitz Platinum</string>
+    <string name="reward_top_tier_name_long">Orbitz Rewards Platinum</string>
     <!-- Short name for rewards base tier -->
     <string name="reward_base_tier_name_short">Silver</string>
     <!-- Short name for rewards middle tier -->

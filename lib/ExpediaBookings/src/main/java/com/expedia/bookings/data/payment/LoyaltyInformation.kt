@@ -1,7 +1,6 @@
 package com.expedia.bookings.data.payment
 
 import com.expedia.bookings.data.Money
-import java.math.BigDecimal
 
 enum class LoyaltyEarnInfoType {
         NONE,
@@ -40,4 +39,4 @@ data class LoyaltyEarnInfo(val points: PointsEarnInfo?, val price: PriceEarnInfo
 data class PointsEarnInfo(val base: Int, val bonus: Int, val total: Int)
 
 // Earn information in Orbitz is in dollars.
-data class PriceEarnInfo(val base: Money, val bonus: Money, val total: Money)
+data class PriceEarnInfo(val base: Money?, val bonus: Money?, val total: Money)

@@ -65,6 +65,7 @@ class BucksViewModel<T : TripResponse>(paymentModel: PaymentModel<T>, val contex
             .map { it.isSwpOpted }
 
     init {
+        bucksOpted.subscribe(paymentModel.pwpOpted)
         bucksOpted.subscribe(paymentModel.togglePaymentByPoints)
 
         bucksOpted.withLatestFrom(paymentModel.tripResponses, programmaticToggle, {

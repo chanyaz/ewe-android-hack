@@ -12,21 +12,21 @@
     <string name="logout_confirmation_orbitz">คุณแน่ใจหรือว่าต้องการออกจากระบบบัญชี Orbitz</string>
 
     <!-- Contact Expedia via email subject -->
-    <string name="contact_orbitz_email_subject">ฝ่ายบริการจองของ Orbitzของ</string>
+    <string name="contact_orbitz_email_subject">ฝ่ายสนับสนุนการจอง Orbitz</string>
 
     <!-- Message displayed when the hotel room is sold out -->
-    <string name="error_room_is_now_sold_out_orbitz">ขออภัย ห้องนี้ไม่สามารถจองได้ที่ Orbitz อีกต่อไป</string>
+    <string name="error_room_is_now_sold_out_orbitz">ขออภัย ห้องนี้ไม่สามารถจองได้จาก Orbitz อีกต่อไป</string>
     <!--A message stating this hotel is Not currently available on Orbitz -->
-    <string name="not_currently_available_orbitz">ขณะนี้ไม่มีให้บริการใน Orbitzใน</string>
+    <string name="not_currently_available_orbitz">ขณะนี้ไม่มีให้บริการบน Orbitz</string>
     <!-- Shown when a hotel is sold out for a generic set of dates.  %s is the set of dates, e.g. "Not available from Orbitz Nov. 3-4" -->
-    <string name="not_currently_available_orbitz_TEMPLATE">ไม่มีให้บริการใน Orbitz %s</string>
+    <string name="not_currently_available_orbitz_TEMPLATE">ไม่มีให้บริการบน Orbitz %s</string>
 
     <!-- Missing strings for Orbitz from Expedia-->
-    <string name="tell_a_friend_body_orbitz">สวัสดี\n\nลองดูโรงแรมของ Orbitz สำหรับ iPhone และโทรศัพท์ Android แอพฟรีนี้ช่วยให้คุณค้นหาและจองโรงแรมกว่า 140,000 แห่งทั่วโลกได้ง่ายๆ เป็นวิธีที่ดีที่สุดในการจองโรงแรมผ่านมือถือของคุณ</string>
+    <string name="tell_a_friend_body_orbitz">สวัสดี\n\nลองดูโรงแรมของ Orbitz สำหรับ iPhone และ Android แอพฟรีนี้ช่วยให้คุณค้นหาและจองโรงแรมกว่า 140,000 แห่งทั่วโลกได้ง่ายๆ ผ่านมือถือของคุณ</string>
     <string name="cd_log_in_email_edit_text_orbitz">ป้อนอีเมลของบัญชี Orbitz</string>
     <string name="tell_a_friend_subject_orbitz">โรงแรมของ Orbitz</string>
-    <string name="cd_log_in_password_edit_text_orbitz">ป้อนรหัสผ่านของบัญชี Orbitz</string>
-    <string name="cd_launch_open_eb_info_screen_orbitz">เปิดหน้าจอข้อมูลการจองของ Orbitz</string>
+    <string name="cd_log_in_password_edit_text_orbitz">ป้อนรหัสผ่านบัญชี Orbitz</string>
+    <string name="cd_launch_open_eb_info_screen_orbitz">เปิดหน้าจอข้อมูลการจอง Orbitz</string>
     <string name="loading_orbitz_account">กำลังโหลดบัญชี Orbitz</string>
     <string name="orbitz_password_hint">รหัสผ่าน Orbitz</string>
     <string name="dialog_message_launch_orbitz_mobile_site">เปิดเว็บไซต์สำหรับมือถือของ Orbitz</string>
@@ -48,11 +48,11 @@
     <string name="acct_Orbitz_account_already_exists">อีเมลนี้ใช้กับบัญชี Orbitz แล้ว</string>
 
     <!-- Orbucks -->
-    <string name="paying_with_rewards">กำลังจ่ายด้วย Orbucks</string>
+    <string name="paying_with_rewards">จ่ายด้วย Orbucks</string>
     <string name="pay_with_rewards">จ่ายด้วย Orbucks</string>
 
-    <string name="checkout_paying_with_points_only_line1">กำลังจ่ายด้วย Orbucks</string>
-    <string name="checkout_paying_with_points_and_card_line1_TEMPLATE">กำลังจ่ายด้วย Orbucks และ {carddescription}</string>
+    <string name="checkout_paying_with_points_only_line1">จ่ายด้วย Orbucks</string>
+    <string name="checkout_paying_with_points_and_card_line1_TEMPLATE">จ่ายด้วย Orbucks และ {carddescription}</string>
     <string name="checkout_payment_options">บัตรเครดิต จ่ายด้วย Orbucks</string>
 
     <!-- Shop with points -->
@@ -98,11 +98,11 @@
 
     <!-- Rewards -->
     <!-- Long name for rewards base tier; note that brand name is not parameterized here as other brands will need to completely override this string -->
-    <string name="reward_base_tier_name_long">Orbitz Silver</string>
+    <string name="reward_base_tier_name_long">Orbitz Rewards Silver</string>
     <!-- Long name for rewards middle tier; note that brand name is not parameterized here as other brands will need to completely override this string -->
-    <string name="reward_middle_tier_name_long">Orbitz Gold</string>
+    <string name="reward_middle_tier_name_long">Orbitz Rewards Gold</string>
     <!-- Long name for rewards top tier; note that brand name is not parameterized here as other brands will need to completely override this string -->
-    <string name="reward_top_tier_name_long">Orbitz Platinum</string>
+    <string name="reward_top_tier_name_long">Orbitz Rewards Platinum</string>
     <!-- Short name for rewards base tier -->
     <string name="reward_base_tier_name_short">Silver</string>
     <!-- Short name for rewards middle tier -->
