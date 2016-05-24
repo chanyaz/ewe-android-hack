@@ -199,7 +199,7 @@ public class PackageScreen {
 		return onView(withId(R.id.selected_hotel_room_image));
 	}
 
- 	public static ViewInteraction hotelBundleContainer() {
+	public static ViewInteraction hotelBundleContainer() {
 		return onView(allOf(isDescendantOfA(withId(R.id.package_bundle_hotel_widget)), withId(R.id.row_container)));
 	}
 
@@ -304,6 +304,7 @@ public class PackageScreen {
 		sb.append(", 1 Guest");
 		return sb.toString();
 	}
+
 	public static void assertErrorScreen(String buttonText, String errorText) {
 		onView(AllOf.allOf(withId(R.id.error_action_button), withText(buttonText))).check(matches(isDisplayed()));
 		onView(AllOf.allOf(withId(R.id.error_text), withText(errorText))).check(matches(isDisplayed()));

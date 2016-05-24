@@ -78,7 +78,6 @@ public class LxSearchResultsTest extends LxTestCase {
 
 	private void selectActivityAndWaitForDetailsDisplayed() {
 		Events.post(new Events.LXActivitySelected(new LXActivity()));
-		LXScreen.waitForDetailsDisplayed();
 	}
 
 	private void searchListDisplayed() throws Throwable {

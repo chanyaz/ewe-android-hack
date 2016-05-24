@@ -111,6 +111,7 @@ public class LxPhoneHappyPathTest extends PhoneTestCase {
 			AbacusUtils.DefaultVariate.CONTROL.ordinal());
 	}
 
+
 	public void testLxPhoneHappyWithRecommendationsFromTheBackFlow() throws Throwable {
 		bucketAndSelectRecommendations();
 		final String ticketName = "2-Day";
@@ -165,7 +166,6 @@ public class LxPhoneHappyPathTest extends PhoneTestCase {
 	private void selectActivity() throws Throwable {
 		LXScreen.waitForSearchListDisplayed();
 		LXScreen.searchList().perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
-		LXScreen.waitForLoadingDetailsNotDisplayed();
 	}
 
 	private void selectOffers() throws Throwable {
@@ -182,11 +182,9 @@ public class LxPhoneHappyPathTest extends PhoneTestCase {
 
 		LXScreen.waitForSearchListDisplayed();
 		LXScreen.searchList().perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
-		LXScreen.waitForLoadingDetailsNotDisplayed();
 
 		LXInfositeScreen.selectRecommendation(activityName).perform(
 			scrollTo(), click());
-		LXScreen.waitForLoadingDetailsNotDisplayed();
 	}
 
 	private void manuallyEnterTravelerInfo() throws Throwable {

@@ -67,6 +67,7 @@ public class CommonCheckoutScreen {
 	}
 
 	public static void clickSelectPaymentButton() {
+		selectPaymentButton().perform(ViewActions.waitForViewToDisplay());
 		selectPaymentButton().perform(scrollTo(), click());
 	}
 
@@ -83,6 +84,7 @@ public class CommonCheckoutScreen {
 	}
 
 	public static void clickTravelerDetails() {
+		onView(withId(R.id.traveler_empty_text_view)).perform(ViewActions.waitForViewToDisplay());
 		onView(withId(R.id.traveler_empty_text_view)).perform(scrollTo());
 		onView(withId(R.id.traveler_empty_text_view)).perform(click());
 	}

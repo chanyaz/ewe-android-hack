@@ -11,6 +11,7 @@ import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.hasDescendant;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
+import static com.expedia.bookings.test.espresso.ViewActions.waitForViewToDisplay;
 import static org.hamcrest.CoreMatchers.allOf;
 
 public class PackageHotelPresenterTest extends PackageTestCase {
@@ -34,6 +35,8 @@ public class PackageHotelPresenterTest extends PackageTestCase {
 		PackageScreen.hotelPriceWidget().perform(click());
 		PackageScreen.hotelInfo().check(matches(hasDescendant(
 			allOf(isDisplayed(), withText("Select hotel in Detroit")))));
+
+		PackageScreen.hotelPriceWidget().perform(waitForViewToDisplay());
 		PackageScreen.hotelPriceWidget().perform(click());
 	}
 }

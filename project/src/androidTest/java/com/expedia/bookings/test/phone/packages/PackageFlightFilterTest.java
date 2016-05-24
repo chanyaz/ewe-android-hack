@@ -277,4 +277,5 @@ public class PackageFlightFilterTest extends PackageTestCase {
 	private static ViewInteraction departureRangeSeekBar() {
 		return onView(withId(R.id.departure_range_bar));
 	}
+
 }

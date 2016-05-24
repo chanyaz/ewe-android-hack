@@ -1,5 +1,8 @@
 package com.expedia.bookings.widget;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.inject.Inject;
 
 import org.joda.time.LocalDate;
@@ -41,8 +44,6 @@ import com.mobiata.android.util.AndroidUtils;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
-import java.util.ArrayList;
-import java.util.List;
 import rx.Observer;
 import rx.Subscription;
 
@@ -151,7 +152,16 @@ public class LXActivityDetailsWidget extends LXDetailsScrollView implements Recy
 	}
 
 	public void defaultScroll() {
-		smoothScrollTo(0, mInitialScrollTop);
+		getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+			@Override
+			public void onGlobalLayout() {
+				int height = getHeight();
+				if (height != 0) {
+					getViewTreeObserver().removeOnGlobalLayoutListener(this);
+					smoothScrollTo(0, getHeight());
+				}
+			}
+		});
 	}
 
 	public void cleanUp() {
@@ -542,4 +552,3 @@ public class LXActivityDetailsWidget extends LXDetailsScrollView implements Recy
 		offers.setIsFromGroundTransport(isGroundTransport);
 	}
 }
-

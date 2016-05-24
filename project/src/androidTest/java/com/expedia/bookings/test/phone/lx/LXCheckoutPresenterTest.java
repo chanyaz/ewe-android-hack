@@ -35,7 +35,6 @@ public class LXCheckoutPresenterTest extends LxTestCase {
 
 		LXScreen.waitForSearchListDisplayed();
 		LXScreen.searchList().perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
-		LXScreen.waitForLoadingDetailsNotDisplayed();
 
 		final String ticketName = "2-Day";
 		LXInfositeScreen.selectOffer("2-Day New York Pass").perform(scrollTo(), click());
@@ -97,7 +96,6 @@ public class LXCheckoutPresenterTest extends LxTestCase {
 	public void testAcceptTermsVisibilityHappyPathGuestUser() throws Throwable {
 		Common.setPOS(PointOfSaleId.FRANCE);
 		goToCheckout();
-		screenshot("Checkout_Payment_Card");
 		CheckoutViewModel.enterTravelerInfo();
 		CheckoutViewModel.enterPaymentInfo();
 		LXScreen.acceptTermsWidget().check(matches(isDisplayed()));
@@ -106,7 +104,6 @@ public class LXCheckoutPresenterTest extends LxTestCase {
 	public void testAcceptTermsVisibilityOnBack() throws Throwable {
 		Common.setPOS(PointOfSaleId.FRANCE);
 		goToCheckout();
-		screenshot("Checkout_Payment_Card");
 		CheckoutViewModel.enterTravelerInfo();
 		CheckoutViewModel.enterPaymentInfo();
 		Common.pressBack();
