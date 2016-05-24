@@ -144,6 +144,13 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
     private val ANIMATION_DURATION_FILTER = 500
     var hotels = emptyList<Hotel>()
 
+    private val carouselContainerReadyListner = object : ViewTreeObserver.OnGlobalLayoutListener {
+        override fun onGlobalLayout() {
+            animateFab(true)
+            mapCarouselContainer.viewTreeObserver.removeOnGlobalLayoutListener(this)
+        }
+    }
+
     var mapViewModel: HotelResultsMapViewModel by notNullAndObservable { vm ->
 
         vm.sortedHotelsObservable.subscribe {
@@ -188,6 +195,7 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
             if (mapCarouselContainer.visibility != View.VISIBLE) {
                 mapCarouselContainer.translationX = screenWidth
                 mapCarouselContainer.visibility = View.VISIBLE
+                mapCarouselContainer.viewTreeObserver.addOnGlobalLayoutListener (carouselContainerReadyListner)
                 animateFab(true, mapCarouselContainer.animate().translationX(0f).setInterpolator(DecelerateInterpolator()).setStartDelay(400))
             } else {
                 animateFab(true)
@@ -511,7 +519,6 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
                 return null
             }
         })
-
         mapView.viewTreeObserver.addOnGlobalLayoutListener(mapViewLayoutReadyListener)
     }
 
@@ -527,7 +534,6 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
             mapView.viewTreeObserver.removeOnGlobalLayoutListener(this);
             mapViewModel.mapInitializedObservable.onNext(Unit)
             mapViewModel.createMarkersObservable.onNext(Unit)
-
         }
     }
 
