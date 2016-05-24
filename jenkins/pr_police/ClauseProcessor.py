@@ -3,21 +3,27 @@ from Clauses.StringShouldNotHavePositionalPlaceholders import *
 from Clauses.StringShouldNotHaveBrandSpecificTerm import *
 from Clauses.TemplatedStringShouldBeSuffixedWithTEMPLATE import *
 from Clauses.PlaceholderStringMustHaveSomeExamples import *
+from Clauses.FeatureConfigurationChangesMayBeRequiredInAllBrands import *
 from PullRequest import PullRequest
+from IClause import *
 
 stringShouldNotHavePositionalPlaceholders = StringShouldNotHavePositionalPlaceholders()
 stringShouldNotHaveBrandSpecificTerm = StringShouldNotHaveBrandSpecificTerm()
 templatedStringShouldBeSuffixedWithTEMPLATE = TemplatedStringShouldBeSuffixedWithTEMPLATE()
 placeholderStringsShouldHaveSomeExamples = PlaceholderStringMustHaveSomeExamples()
+featureConfigurationChangesMayBeRequiredInAllBrands = FeatureConfigurationChangesMayBeRequiredInAllBrands()
 
-ClausesList = [stringShouldNotHavePositionalPlaceholders, stringShouldNotHaveBrandSpecificTerm, templatedStringShouldBeSuffixedWithTEMPLATE, placeholderStringsShouldHaveSomeExamples]
+ClausesList = [stringShouldNotHavePositionalPlaceholders, stringShouldNotHaveBrandSpecificTerm, templatedStringShouldBeSuffixedWithTEMPLATE, placeholderStringsShouldHaveSomeExamples, featureConfigurationChangesMayBeRequiredInAllBrands]
 
 class ClauseProcessor:
         def runClauses(self, pullRequest):
 			issues = []
-			for file in pullRequest.files:
-				for clause in ClausesList:
-					issues.extend(clause.probableIssues(file))
+			for clause in ClausesList:
+				if clause.getType() == ClauseType.prLevel:
+					issues.extend(clause.probableIssues(pullRequest))
+				else:
+					for file in pullRequest.files:
+						issues.extend(clause.probableIssues(file))
 			return issues
 
         def anyFileRelevantForAnyClause(self, filepathList):
