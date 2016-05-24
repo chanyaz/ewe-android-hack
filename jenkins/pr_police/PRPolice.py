@@ -24,7 +24,7 @@ class PRPolice:
 
                 # TODO: cache data from responses so that we don't have to limit PR police to running only on small PRs
                 if not pullRequest.isOkayToProcess(5):
-                        pullRequest.addIssueList([Issue(None, None, 0, None, "Warning: PR is too big for PR Police to process")])
+                        print "Warning: PR is too big for PR Police to process. Skipping..."
                         return 0
                 else:
                         pullRequest.scanPullRequest()
