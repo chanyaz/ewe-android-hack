@@ -2,8 +2,8 @@
 <resources>
     <style name="Theme.Orbitz.Tablet" parent="Theme.Orbitz">
         <item name="skin_action_bar_logo_tablet">@drawable/ic_action_bar_logo_dark</item>
-        
         <item name="skin_tablet_book_button_text_color">@color/tablet_book_button_text_color_orbitz</item>
+
         <item name="skin_hotelPriceStandardColor">#ffffff</item>
         <item name="skin_hotelPriceSaleColor">#ffffff</item>
         <item name="skin_hotelListingUserRatingStyle">@style/RatingBar.UserReview.White</item>
@@ -17,9 +17,12 @@
         <item name="skin_tablet_search_result_error_button_text_color">@color/tablet_search_error_text_color_orbitz</item>
         <item name="skin_tablet_dates_popup_done_color">@color/lob_btn_color</item>
         <item name="android:homeAsUpIndicator" >@drawable/ic_action_bar_back_arrow_white_orb</item>
-        <item name="skin_tabletHotelDetailsCircleRatingStyle">@style/RatingBar.Star.HotelDetails</item>
+        <item name="skin_tablet_hotel_details_background_drawable">@drawable/ic_hotel_details_background_layer_list</item>
+        <item name="skin_tabletHotelDetailsCircleRatingStyle">@style/RatingBar.Star.HotelDetails.Orbitz</item>
+
         <item name="skin_tabletCalenderResultsSearchBlue">@color/tablet_results_search_blue</item>
         <item name="skin_tablet_price_expanded_bucket_text_color">@color/lob_btn_color</item>
+        <item name="skin_icRenovationTabletDrawable">@drawable/ic_renovation_tablet</item>
         <item name="android:actionOverflowButtonStyle">@style/Widget.ActionBar.ActionButton.Overflow.White</item>
         <item name="actionOverflowButtonStyle">@style/Widget.ActionBar.ActionButton.Overflow.White</item>
     </style>

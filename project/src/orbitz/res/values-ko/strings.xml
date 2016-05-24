@@ -48,11 +48,11 @@
     <string name="acct_Orbitz_account_already_exists">이 이메일로 Orbitz 계정이 이미 있습니다.</string>
 
     <!-- Orbucks -->
-    <string name="paying_with_rewards">Orbucks로 결제 중</string>
+    <string name="paying_with_rewards">Orbucks로 결제</string>
     <string name="pay_with_rewards">Orbucks로 결제</string>
 
-    <string name="checkout_paying_with_points_only_line1">Orbucks로 결제 중</string>
-    <string name="checkout_paying_with_points_and_card_line1_TEMPLATE">{carddescription} 및 Orbucks로 결제 중</string>
+    <string name="checkout_paying_with_points_only_line1">Orbucks로 결제</string>
+    <string name="checkout_paying_with_points_and_card_line1_TEMPLATE">{carddescription} 및 Orbucks로 결제</string>
     <string name="checkout_payment_options">신용카드, Orbucks로 결제</string>
 
     <!-- Shop with points -->
@@ -98,11 +98,11 @@
 
     <!-- Rewards -->
     <!-- Long name for rewards base tier; note that brand name is not parameterized here as other brands will need to completely override this string -->
-    <string name="reward_base_tier_name_long">Orbitz Silver</string>
+    <string name="reward_base_tier_name_long">Orbitz Rewards Silver</string>
     <!-- Long name for rewards middle tier; note that brand name is not parameterized here as other brands will need to completely override this string -->
-    <string name="reward_middle_tier_name_long">Orbitz Gold</string>
+    <string name="reward_middle_tier_name_long">Orbitz Rewards Gold</string>
     <!-- Long name for rewards top tier; note that brand name is not parameterized here as other brands will need to completely override this string -->
-    <string name="reward_top_tier_name_long">Orbitz Platinum</string>
+    <string name="reward_top_tier_name_long">Orbitz Rewards Platinum</string>
     <!-- Short name for rewards base tier -->
     <string name="reward_base_tier_name_short">Silver</string>
     <!-- Short name for rewards middle tier -->

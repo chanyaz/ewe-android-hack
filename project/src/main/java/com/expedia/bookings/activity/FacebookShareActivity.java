@@ -10,6 +10,7 @@ import android.text.TextUtils;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.data.trips.ItinCardDataFlight;
 import com.expedia.bookings.data.trips.ItinCardDataHotel;
+import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.widget.itin.ItinContentGenerator;
 import com.facebook.share.model.ShareLinkContent;
 import com.facebook.share.widget.ShareDialog;
@@ -83,7 +84,9 @@ public class FacebookShareActivity extends Activity {
 			linkContentBuilder.setImageUrl(Uri.parse(mShareThumbnailURL));
 		}
 		if (!TextUtils.isEmpty(mShareURL)) {
-			linkContentBuilder.setContentUrl(Uri.parse(mShareURL));
+			linkContentBuilder.setContentUrl(Uri.parse(
+				ProductFlavorFeatureConfiguration.getInstance().shouldDisplayItinTrackAppLink() ? mShareURL
+					: PointOfSale.getPointOfSale().getAppInfoUrl()));
 		}
 
 		dialog.show(linkContentBuilder.build());

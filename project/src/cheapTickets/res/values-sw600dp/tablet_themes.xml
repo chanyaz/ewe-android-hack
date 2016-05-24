@@ -2,8 +2,8 @@
 <resources>
     <style name="Theme.CheapTickets.Tablet" parent="Theme.CheapTickets">
         <item name="skin_action_bar_logo_tablet">@drawable/ic_white_logo_small</item>
-        
         <item name="skin_tablet_book_button_text_color">@color/tablet_book_button_text_color</item>
+
         <item name="skin_hotelPriceStandardColor">#ffffff</item>
         <item name="skin_hotelPriceSaleColor">#ffffff</item>
         <item name="skin_hotelListingUserRatingStyle">@style/RatingBar.UserReview.White</item>
