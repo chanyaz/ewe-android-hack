@@ -9,11 +9,11 @@ import org.robolectric.RuntimeEnvironment;
 
 import android.content.Context;
 
+import junit.framework.Assert;
+
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.data.pos.PointOfSaleLocale;
 import com.expedia.bookings.test.robolectric.RobolectricRunner;
-
-import junit.framework.Assert;
 
 @RunWith(RobolectricRunner.class)
 public class POSLocaleTest {
@@ -31,7 +31,15 @@ public class POSLocaleTest {
 		Assert.assertTrue(comparePointOfSaleLocale(pos.getPosLocale(getDefaultLocale("nl", "BE")), "nl_BE", "nl"));
 		Assert.assertTrue(comparePointOfSaleLocale(pos.getPosLocale(getDefaultLocale("fr", "US")), "fr_BE", "fr"));
 		Assert.assertTrue(comparePointOfSaleLocale(pos.getPosLocale(getDefaultLocale("en", "BE")), "fr_BE", "fr"));
+	}
 
+	@Test
+	public void testPosUrl() {
+		PointOfSaleLocale locale = pos.getPosLocale(getDefaultLocale("fr", "US"));
+		locale.getAirlineFeeBasedOnPaymentMethodTermsAndConditionsURL();
+		Assert.assertEquals(locale.getAirlineFeeBasedOnPaymentMethodTermsAndConditionsURL(), "https://www.expedia.be/fr-BE/p/airline-credit-card-fees.htm");
+		Assert.assertEquals(locale.getTermsAndConditionsUrl(), "http://www.expedia.be/fr-BE/conditions-generales-de-reservation.aspx");
+		Assert.assertEquals(locale.getPrivacyPolicyUrl(), "http://www.expedia.be/fr-BE/charte-de-confidentialite.aspx");
 	}
 
 	private Locale getDefaultLocale(String mockLanguage,String mockRegion) {
