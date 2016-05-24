@@ -4022,6 +4022,9 @@
     <!--rail search screen - user is specifiying what time they want their return train to leave at -->
     <string name="rail_returning_at">Returning at</string>
 
+    <!-- Label for rail trip price on overview screen -->
+    <string name="total">Total</string>
+
     <string name="pwp_points_conversion_unauthenticated_access">We\'re sorry but we experienced a server problem. Please try again.</string>
     <string name="pwp_trip_service_error">We\'re sorry but we experienced a server problem. Please try again.</string>
     <string name="pwp_unknown_error">An unknown error occurred. Please try again.</string>

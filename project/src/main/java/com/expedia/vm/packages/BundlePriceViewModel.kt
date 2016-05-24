@@ -17,6 +17,7 @@ class BundlePriceViewModel(val context: Context) {
     val savingsPriceObservable = BehaviorSubject.create<String>()
     val bundleTextLabelObservable = BehaviorSubject.create<String>()
     val perPersonTextLabelObservable = BehaviorSubject.create<Boolean>()
+    val bundleTotalIncludesObservable = BehaviorSubject.create<String>()
 
     init {
         setTextObservable.subscribe { bundle ->

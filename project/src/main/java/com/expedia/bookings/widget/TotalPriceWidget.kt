@@ -14,6 +14,7 @@ import com.expedia.bookings.R
 import com.expedia.bookings.animation.TransitionElement
 import com.expedia.bookings.tracking.PackagesTracking
 import com.expedia.bookings.utils.AnimUtils
+import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
 import com.expedia.util.notNullAndObservable
 import com.expedia.util.subscribeText
@@ -36,13 +37,14 @@ class TotalPriceWidget(context: Context, attrs: AttributeSet?) : LinearLayout(co
     val eval: ArgbEvaluator = ArgbEvaluator()
     val titleTextFade = TransitionElement(ContextCompat.getColor(context, R.color.packages_bundle_overview_footer_primary_text), Color.WHITE)
     val subtitleTextFade = TransitionElement(ContextCompat.getColor(context, R.color.packages_bundle_overview_footer_secondary_text), Color.WHITE)
-    val bgFade = TransitionElement(Color.WHITE, ContextCompat.getColor(context, R.color.packages_primary_color))
+    val bgFade = TransitionElement(Color.WHITE, ContextCompat.getColor(context, Ui.obtainThemeResID(context, R.attr.primary_color)))
 
     var viewModel: BundlePriceViewModel by notNullAndObservable { vm ->
         vm.totalPriceObservable.subscribeText(bundleTotalPrice)
         vm.savingsPriceObservable.subscribeTextAndVisibility(bundleSavings)
         vm.bundleTextLabelObservable.subscribeText(bundleTotalText)
         vm.perPersonTextLabelObservable.subscribeVisibility(perPersonText)
+        vm.bundleTotalIncludesObservable.subscribeText(bundleTotalIncludes)
     }
 
     val packagebreakdown = PackageBreakDownView(context, null)

@@ -1,6 +1,7 @@
 package com.expedia.bookings.widget
 
 import android.content.Context
+import android.support.annotation.ColorRes
 import android.support.design.widget.AppBarLayout
 import android.support.design.widget.CollapsingToolbarLayout
 import android.support.design.widget.CoordinatorLayout
@@ -30,8 +31,9 @@ class BundleOverviewHeader(context : Context, attrs : AttributeSet) : Coordinato
     val checkoutOverviewFloatingToolbar: CheckoutOverviewHeader by bindView(R.id.checkout_overview_floating_toolbar)
 
     val toolbarHeight = Ui.getStatusBarHeight(context) + Ui.getToolbarSize(context)
-    var isHideToolbarView = false;
-    var isDisabled = false;
+    var isHideToolbarView = false
+    var isDisabled = false
+    @ColorRes val primaryColorId = Ui.obtainThemeResID(context, R.attr.primary_color)
 
     init {
         View.inflate(context, R.layout.bundle_overview_header, this)
@@ -51,8 +53,9 @@ class BundleOverviewHeader(context : Context, attrs : AttributeSet) : Coordinato
     fun setUpCollapsingToolbar() {
         //we need to set this empty space inorder to remove the title string
         collapsingToolbarLayout.title = " ";
-        collapsingToolbarLayout.setContentScrimColor(ContextCompat.getColor(context, R.color.packages_primary_color))
-        collapsingToolbarLayout.setStatusBarScrimColor(ContextCompat.getColor(context, R.color.packages_primary_color))
+        collapsingToolbarLayout.setContentScrimColor(ContextCompat.getColor(context, primaryColorId))
+        collapsingToolbarLayout.setStatusBarScrimColor(ContextCompat.getColor(context, primaryColorId))
+
         checkoutOverviewHeaderToolbar.travelers.visibility = View.GONE
         appBarLayout.addOnOffsetChangedListener(this);
         val floatingToolbarLayoutParams = checkoutOverviewFloatingToolbar.destinationText.layoutParams as LinearLayout.LayoutParams
@@ -68,7 +71,7 @@ class BundleOverviewHeader(context : Context, attrs : AttributeSet) : Coordinato
     }
 
     fun toggleOverviewHeader(show: Boolean) {
-        toolbar.setBackgroundColor(ContextCompat.getColor(context, if (show) android.R.color.transparent else R.color.packages_primary_color))
+        toolbar.setBackgroundColor(ContextCompat.getColor(context, if (show) android.R.color.transparent else primaryColorId))
         appBarLayout.setExpanded(show)
         toggleCollapsingToolBar(show)
         swapViews(show)
