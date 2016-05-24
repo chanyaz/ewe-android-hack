@@ -46,6 +46,7 @@
         "termsAndConditionsLinkText": "Conditions d’utilisation",
         "privacyPolicyLinkText": "Charte de confidentialité",
         "termsAndConditionsURL": "http://www.expedia.be/fr-BE/conditions-generales-de-reservation.aspx",
+        "airlineFeeBasedOnPaymentMethodTermsAndConditionsURL" : "https://www.expedia.be/fr-BE/p/airline-credit-card-fees.htm",
         "privacyPolicyURL": "http://www.expedia.be/fr-BE/charte-de-confidentialite.aspx",
         "loyaltyTermsAndConditionsURL" : "https://www.expedia.be/loyaltyrewards/pages/info-rewards/expediarewards/terms.htm?langid=1043"
       },
