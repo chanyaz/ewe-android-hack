@@ -2525,10 +2525,13 @@ public class OmnitureTracking {
 		s.setCurrencyCode(currencyCode);
 		s.setProducts(addLXProducts(lxActivityId, totalMoney, selectedTicketsCount));
 
-		String activityStartDateString = lxActivityStartDate.toString(PROP_DATE_FORMAT);
-		String activityEndDateString = lxActivityEndDate.toString(PROP_DATE_FORMAT);
+		String activityStartDateString = lxActivityStartDate.toString(LX_CONFIRMATION_PROP_DATE_FORMAT);
 
-		s.setEvar(30, "LX:" + activityStartDateString + "-" + activityEndDateString);
+		// TODO: Change to correct end date once we have response from the API, for now sending start and end date as same.
+		String activityEndDateString = lxActivityStartDate.toString(LX_CONFIRMATION_PROP_DATE_FORMAT);
+
+		// e.g LX:20160622-20160622:N, N/Y if we have used coupon.
+		s.setEvar(30, "LX:" + activityStartDateString + "-" + activityEndDateString + ":N");
 
 		setLXDateValues(lxActivityStartDate, s);
 
@@ -2829,6 +2832,7 @@ public class OmnitureTracking {
 
 
 	private static final String PROP_DATE_FORMAT = "yyyy-MM-dd";
+	private static final String LX_CONFIRMATION_PROP_DATE_FORMAT = "yyyyMMdd";
 
 	public static void trackTabletHotelListOpen(HotelSearchParams searchParams,
 		HotelSearchResponse searchResponse) {
