@@ -26,7 +26,7 @@ import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.animation.ResizeHeightAnimator
 import com.expedia.util.notNullAndObservable
 import com.expedia.util.subscribeOnClick
-import com.expedia.vm.packages.PackageFlightFilterViewModel
+import com.expedia.vm.packages.FlightFilterViewModel
 
 class PackageFlightFilterWidget(context: Context, attrs: AttributeSet) : FrameLayout(context, attrs) {
     val ANIMATION_DURATION = 500L
@@ -72,7 +72,7 @@ class PackageFlightFilterWidget(context: Context, attrs: AttributeSet) : FrameLa
         button
     }
 
-    var viewModel: PackageFlightFilterViewModel by notNullAndObservable { vm ->
+    var viewModel: FlightFilterViewModel by notNullAndObservable { vm ->
         doneButton.subscribeOnClick(vm.doneObservable)
 
         dynamicFeedbackClearButton.setOnClickListener {
