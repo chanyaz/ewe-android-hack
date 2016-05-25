@@ -47,7 +47,7 @@
                 android:layout_weight="1"
                 app:btn_bg="@color/flights_lob_btn"
                 app:btn_icon="@drawable/lob_flight"
-                app:btn_text="@string/nav_flights" />
+                app:btn_text="@string/flights_title" />
 
             <com.expedia.bookings.widget.PhoneLaunchButton
                 android:id="@+id/cars_button"

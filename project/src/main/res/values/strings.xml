@@ -970,8 +970,6 @@
     <string name="restricted_profile_sign_in_message_TEMPLATE">To sign in to {brand}, you must use an unrestricted user profile on your device.</string>
 
     <!-- Nav Dropdown menu -->
-    <!-- Flights -->
-    <string name="nav_flights">Flights</string>
     <!-- Hotels -->
     <string name="nav_hotels">Hotels</string>
     <!-- Cars -->
@@ -1628,6 +1626,8 @@
     <string name="flights_one_way_label">ONE WAY</string>
     <!-- Flights label for selected outbound flight -->
     <string name="flights_outbound_label">Outbound</string>
+    <!-- Flights Line of Business title -->
+    <string name="flights_title">Flights</string>
 
     <!-- Flights -->
     <!-- Label for Flight Search in task manager -->
