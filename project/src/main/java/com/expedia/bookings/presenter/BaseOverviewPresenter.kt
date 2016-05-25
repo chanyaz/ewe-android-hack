@@ -111,6 +111,7 @@ abstract class BaseOverviewPresenter(context: Context, attrs: AttributeSet) : Pr
     val checkoutTransition = object : Transition(BundleDefault::class.java, getCheckoutTransitionClass(), AccelerateDecelerateInterpolator(), ANIMATION_DURATION) {
         var translationDistance = 0f
         var range = 0f
+        var userStoppedScrollingAt = 0
         override fun startTransition(forward: Boolean) {
             bundleOverviewHeader.checkoutOverviewHeaderToolbar.visibility = View.VISIBLE
             bundleOverviewHeader.toggleCollapsingToolBar(true)
@@ -126,6 +127,7 @@ abstract class BaseOverviewPresenter(context: Context, attrs: AttributeSet) : Pr
                     return currentState == BundleDefault::class.java.name
                 }
             });
+            userStoppedScrollingAt = behavior.topAndBottomOffset
         }
 
         override fun updateTransition(f: Float, forward: Boolean) {
@@ -157,7 +159,7 @@ abstract class BaseOverviewPresenter(context: Context, attrs: AttributeSet) : Pr
         private fun translateHeader(f: Float, forward: Boolean) {
             val params = bundleOverviewHeader.appBarLayout.layoutParams as CoordinatorLayout.LayoutParams
             val behavior = params.behavior as AppBarLayout.Behavior
-            val scrollY = if (forward) f * - bundleOverviewHeader.appBarLayout.totalScrollRange else (f - 1) * (bundleOverviewHeader.appBarLayout.totalScrollRange)
+            val scrollY = if (forward) Math.min(userStoppedScrollingAt.toFloat(), (f * -bundleOverviewHeader.appBarLayout.totalScrollRange)) else (f - 1) * (bundleOverviewHeader.appBarLayout.totalScrollRange)
             behavior.topAndBottomOffset = scrollY.toInt()
         }
 
