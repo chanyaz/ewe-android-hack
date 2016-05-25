@@ -15,12 +15,12 @@ def scanAndProcessLintTestRunOutputXmlData(lintTestRunOutputXmlData):
         lintErrorMessage = lintErrorMessage + "**ERROR" + str(linterrorCount+1) + "**\n\n" + "Lint Error: " +  linterrorIssueMessages[linterrorCount] + "\nExplanation: " + linterrorIssueExplanations[linterrorCount]+ "\nLocation: "+ ','.join(lintIssueLocation) + "\n\n"
     return lintErrorMessage
 
-def extractCheckstyleErrorMessage(errorMessageList, errorLineList):
-    return reduce(lambda accumulator, (index, line, message): accumulator + "**ERROR " + str(index+1) + "**\n\n" + "Checkstyle Error on Line: " + line + " is: " + message + "\n\n", zip(range(len(errorLineList)), errorLineList, errorMessageList), "")
+def extractCheckstyleErrorMessage(errorMessageList, errorLineList, errorFileNameList):
+    return reduce(lambda accumulator, (index, fileName, line, message): accumulator + "**ERROR " + str(index+1) + "**\n\n" + "Checkstyle Error in file " + fileName + "on line:" + line + " is: " + message + "\n\n", zip(range(len(errorLineList)), errorFileNameList, errorLineList, errorMessageList), "")
 
 
-def extractUnitTestErrorMessage(failureMessageList, failureClassList):
-    return reduce(lambda accumulator, (index, failureClass, message): accumulator + "**ERROR " + str(index+1) + "**\n\n" + failureClass + ":" + message + "\n\n", zip(range(len(failureMessageList)), failureClassList, failureMessageList), "")
+def extractUnitTestErrorMessage(failureMessageList, failureClassList, failureFunctionList):
+    return reduce(lambda accumulator, (index, failureClass, failureFunction, message): accumulator + "**ERROR " + str(index+1) + "**\n\n" + failureClass + "." + failureFunction + ":" + message + "\n\n", zip(range(len(failureMessageList)), failureClassList, failureFunctionList, failureMessageList), "")
 
 def formatLintErrorMessage(lintTestReportFileList):
     lintTestErrorMsg = ""
@@ -33,6 +33,7 @@ def formatLintErrorMessage(lintTestReportFileList):
     return lintTestErrorMsg
 
 def formatCheckstyleErrorMessage(checkstyleReportFileList):
+    errorFileNameList = []
     errorMessageList = []
     errorLineList = []
     for filePath in checkstyleReportFileList:
@@ -40,12 +41,14 @@ def formatCheckstyleErrorMessage(checkstyleReportFileList):
             continue
         with open(filePath) as checkstyleErrorXmlFile:
             checkstyleRunOutputXmlData = etree.parse(checkstyleErrorXmlFile)
+            errorFileNameList.extend(checkstyleRunOutputXmlData.xpath('//file[descendant::error]/@name'))
             errorMessageList.extend(checkstyleRunOutputXmlData.xpath('//file/error/@message'))
             errorLineList.extend(checkstyleRunOutputXmlData.xpath('//file/error/@line'))
 
-    return extractCheckstyleErrorMessage(errorMessageList, errorLineList)
+    return extractCheckstyleErrorMessage(errorMessageList, errorLineList, errorFileNameList)
 
 def formatUnitTestErrorMessage(unitTestReportFilePatternList):
+    failureFunctionList = []
     failureMessageList = []
     failureClassList = []
     unitTestReportFileList = reduce(lambda x,y: x+y, map(lambda x: glob.glob(x), unitTestReportFilePatternList))
@@ -53,9 +56,10 @@ def formatUnitTestErrorMessage(unitTestReportFilePatternList):
         with open(filePath) as errorXmlFile:
             unitTestRunOutputXmlData = etree.parse(errorXmlFile)
             failureMessageList.extend(unitTestRunOutputXmlData.xpath('//failure/text()'))
+            failureFunctionList.extend(unitTestRunOutputXmlData.xpath('//testcase[descendant::failure]/@name'))
             failureClassList.extend(unitTestRunOutputXmlData.xpath('//testcase[descendant::failure]/@classname'))
 
-    return extractUnitTestErrorMessage(failureMessageList, failureClassList)
+    return extractUnitTestErrorMessage(failureMessageList, failureClassList, failureFunctionList)
 
 
 def pingUnitTestsFailed(githubAccessToken, githubOrganization, githubRepository, prPullId, hipchatAccessToken):
