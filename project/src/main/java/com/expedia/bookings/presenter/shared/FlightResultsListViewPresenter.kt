@@ -20,6 +20,7 @@ import rx.subjects.PublishSubject
 class FlightResultsListViewPresenter(context: Context, attrs: AttributeSet) : Presenter(context, attrs) {
     private val recyclerView: FlightListRecyclerView by bindView(R.id.list_view)
     private val dockedOutboundFlightSelection: DockedOutboundFlightSelectionView by bindView(R.id.docked_outbound_flight_selection)
+    private val dockedOutboundFlightShadow: View by bindView(R.id.docked_outbound_flight_widget_dropshadow)
     lateinit private var flightListAdapter: FlightListAdapter
 
     // input
@@ -48,6 +49,7 @@ class FlightResultsListViewPresenter(context: Context, attrs: AttributeSet) : Pr
     var resultsViewModel: FlightResultsViewModel by notNullAndObservable { vm ->
         vm.flightResultsObservable.subscribe(listResultsObserver)
         vm.isOutboundResults.subscribeInverseVisibility(dockedOutboundFlightSelection)
+        vm.isOutboundResults.subscribeInverseVisibility(dockedOutboundFlightShadow)
     }
 
     val listResultsObserver = endlessObserver<List<FlightLeg>> {
