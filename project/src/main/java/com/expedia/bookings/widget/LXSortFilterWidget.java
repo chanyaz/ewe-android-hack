@@ -15,6 +15,7 @@ import android.view.View;
 import android.view.ViewTreeObserver;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.Space;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
@@ -64,6 +65,9 @@ public class LXSortFilterWidget extends LinearLayout {
 
 	@InjectView(R.id.scroll_filter)
 	android.widget.ScrollView scrollFilter;
+
+	@InjectView(R.id.space_below_filter_categories)
+	Space spaceBelowFilterCategories;
 
 	@InjectView(R.id.category_title)
 	TextView categoryTitle;
@@ -132,7 +136,7 @@ public class LXSortFilterWidget extends LinearLayout {
 
 	public void bind(Map<String, LXCategoryMetadata> filterCategories) {
 		filterCategoriesContainer.removeAllViews();
-		if (filterCategories != null) {
+		if (filterCategories != null && filterCategories.size() > 0) {
 			for (Map.Entry<String, LXCategoryMetadata> filterCategory : filterCategories.entrySet()) {
 
 				LXCategoryMetadata lxCategoryMetadata = filterCategory.getValue();
@@ -268,6 +272,7 @@ public class LXSortFilterWidget extends LinearLayout {
 
 		popularitySortButton.setSelected(true);
 		priceSortButton.setSelected(false);
+		filterCategoriesContainer.requestLayout();
 	}
 
 	public int getSortFilterWidgetHeightForCategoriesABTest() {

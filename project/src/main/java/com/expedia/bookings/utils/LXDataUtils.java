@@ -375,4 +375,10 @@ public class LXDataUtils {
 		return Phrase.from(context.getResources(), R.string.lx_recommend_percent_Template)
 			.put("recommend", recommendationScore).format().toString();
 	}
+
+	public static String getToolbarSearchDateText(Context context, LocalDate startDate, LocalDate endDate) {
+		return String.format(context.getResources().getString(R.string.lx_toolbar_date_range_template),
+			DateUtils.localDateToMMMd(startDate), DateUtils.localDateToMMMd(endDate));
+	}
+
 }

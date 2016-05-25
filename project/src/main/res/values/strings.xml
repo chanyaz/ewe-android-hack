@@ -305,6 +305,8 @@
     <string name="lx_toolbar_date_range_template">%1$s - %2$s</string>
     <!--LX Search widget header text -->
     <string name="lx_search_title">Search Activities</string>
+    <!--LX Search widget header text -->
+    <string name="lx_select_a_category_title">Select a Category</string>
     <!--GT Search widget header text -->
     <string name="gt_search_title">Search Transport</string>
     <!-- Button to show calendar and selected dates -->
@@ -629,6 +631,30 @@
     <string name="per_ticket_type_electric_bike">per electric bike</string>
     <string name="per_ticket_type_segway">per segway</string>
     <string name="per_ticket_type_vehicle">per vehicle</string>
+
+    <!-- LX Themes &  their description-->
+    <string name="top_rated_activities">Top Rated Activities</string>
+    <string name="top_rated_activities_description">Most highly recommended activities by customer like you</string>
+
+    <string name="adventure_around">Adventure Around</string>
+    <string name="adventure_around_description">Explore, take day trips and find great excursions at your destination</string>
+
+    <string name="see_the_sights">See the Sights</string>
+    <string name="see_the_sights_description">From walking and biking to buses, see everything this area has to offer</string>
+
+    <string name="tour_the_area">Tour the Area</string>
+    <string name="tour_the_area_description">Tour the city and learn more about historical and modern events</string>
+
+    <string name="fun_for_the_family">Fun for the Family</string>
+    <string name="fun_for_the_family_description">Family-friendly activities that are fun for all ages</string>
+
+    <string name="pure_entertainment">Pure Entertainmet</string>
+    <string name="pure_entertainment_description">Sports, amusement parks, shows and performances</string>
+
+    <string name="eat_play_enjoy">Eat, Play &amp; Enjoy</string>
+    <string name="eat_play_enjoy_description">Food and drinks, nightlife and a whole lot of relaxation</string>
+
+    <string name="all_things_to_do_description">A list of all of the available activities for your selected dates.</string>
 
     <!-- LX Strings -->
     <!-- Slide to book -->

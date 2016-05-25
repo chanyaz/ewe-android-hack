@@ -5,16 +5,17 @@ import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.cars.ApiError
 import com.expedia.bookings.data.lx.ActivityDetailsResponse
 import com.expedia.bookings.data.lx.LXActivity
-import com.expedia.bookings.data.lx.LXCategoryMetadata
-import com.expedia.bookings.data.lx.LXCategorySortOrder
 import com.expedia.bookings.data.lx.LXCheckoutParams
 import com.expedia.bookings.data.lx.LXCheckoutResponse
+import com.expedia.bookings.data.lx.LXCategoryType
 import com.expedia.bookings.data.lx.LXCreateTripParams
 import com.expedia.bookings.data.lx.LXCreateTripResponse
 import com.expedia.bookings.data.lx.LXSearchParams
 import com.expedia.bookings.data.lx.LXSearchResponse
 import com.expedia.bookings.data.lx.LXSortFilterMetadata
 import com.expedia.bookings.data.lx.LXSortType
+import com.expedia.bookings.data.lx.LXTheme
+import com.expedia.bookings.data.lx.LXThemeType
 import com.expedia.bookings.data.lx.RecommendedActivitiesResponse
 import com.expedia.bookings.utils.CollectionUtils
 import com.expedia.bookings.utils.DateUtils
@@ -33,6 +34,7 @@ import rx.Subscription
 import java.util.Collections
 import java.util.Comparator
 import java.util.LinkedHashSet
+
 
 class LxServices(endpoint: String, okHttpClient: OkHttpClient, interceptor: Interceptor, val observeOn: Scheduler, val subscribeOn: Scheduler) {
 
@@ -56,9 +58,9 @@ class LxServices(endpoint: String, okHttpClient: OkHttpClient, interceptor: Inte
                 .doOnNext(ACTIVITIES_MONEY_TITLE)
                 .doOnNext(PUT_POPULARITY_COUNTER_FOR_SORT)
                 .doOnNext(CACHE_SEARCH_RESPONSE)
-                .doOnNext(PUT_ACTIVITIES_IN_CATEGORY)
                 .doOnNext(PUT_CATEGORY_KEY_IN_CATEGORY_METADATA)
-                .doOnNext(PUT_CATEGORY_SORT_IN_CATEGORY_METADATA)
+                .doOnNext(PUT_CATEGORY_TYPE_IN_CATEGORY_METADATA)
+                .doOnNext(PUT_CATEGORIES_AND_ACTIVITES_IN_THEME)
                 .subscribeOn(subscribeOn)
                 .observeOn(observeOn)
                 .subscribe(observer)
@@ -122,28 +124,65 @@ class LxServices(endpoint: String, okHttpClient: OkHttpClient, interceptor: Inte
         }
     }
 
-    private val PUT_CATEGORY_SORT_IN_CATEGORY_METADATA = { response: LXSearchResponse ->
+    private val PUT_CATEGORY_TYPE_IN_CATEGORY_METADATA = { response: LXSearchResponse ->
         for (filterCategory in response.filterCategories.entries) {
             val categoryKeyEN = filterCategory.key
             val categoryValue = filterCategory.value
-            for (sortOrder in LXCategorySortOrder.values()) {
+            for (sortOrder in LXCategoryType.values()) {
                 if (LXUtils.whitelistAlphanumericFromCategoryKey(categoryKeyEN).equals(sortOrder.toString(), ignoreCase = true)) {
-                    categoryValue.sortOrder = sortOrder
+                    categoryValue.categoryType = sortOrder
                     break
                 }
             }
         }
     }
 
-    private val PUT_ACTIVITIES_IN_CATEGORY = { response: LXSearchResponse ->
-        for (filterCategory in response.filterCategories.entries) {
-            val categoryKeyEN = filterCategory.key
-            val categoryValue = filterCategory.value
-            for (activity in response.activities) {
-                if (CollectionUtils.isNotEmpty(activity.categories) && activity.categories.contains(categoryKeyEN)) {
-                    categoryValue.activities.add(activity)
+    private val PUT_CATEGORIES_AND_ACTIVITES_IN_THEME = { response: LXSearchResponse ->
+        for (themeType in LXThemeType.values()) {
+            val theme = LXTheme(themeType)
+
+            when (themeType) {
+                LXThemeType.AllThingsToDo -> {
+                    theme.filterCategories.putAll(response.filterCategories)
+                    theme.activities.addAll(response.activities)
+                    theme.unfilteredActivities.addAll(response.activities)
+                }
+                LXThemeType.TopRatedActivities -> {
+                    theme.activities.addAll(response.activities.take(10))
+                    theme.unfilteredActivities.addAll(response.activities.take(10))
+                }
+                else -> {
+                    // Traverse the category, match the category in Themes -> Add category
+                    for (filterCategory in response.filterCategories.entries) {
+                        val categoryKeyEN = filterCategory.key
+                        val categoryValue = filterCategory.value
+                        for (themeCategory in theme.themeType.categories) {
+                            if (LXUtils.whitelistAlphanumericFromCategoryKey(categoryKeyEN).equals(themeCategory.toString(), ignoreCase = true)) {
+                                theme.filterCategories.put(categoryKeyEN, categoryValue)
+                                categoryValue.categoryType = themeCategory
+                                break
+                            }
+                        }
+                    }
+
+                    // Traverse the category in themes, match the activity in response -> Add Activity
+                    val filteredSet = LinkedHashSet<LXActivity>()
+                    for (filterCategory in theme.filterCategories.entries) {
+                        val categoryKeyEN = filterCategory.key
+                        for (activity in response.activities) {
+                            if (CollectionUtils.isNotEmpty(activity.categories) && activity.categories.contains(categoryKeyEN)) {
+                                filteredSet.add(activity)
+                            }
+                        }
+                    }
+                    theme.activities.addAll(filteredSet)
+                    theme.unfilteredActivities.addAll(filteredSet)
                 }
             }
+            if (theme.activities.size > 0 ) {
+                response.lxThemes.add(theme)
+            }
+
         }
     }
 
@@ -281,18 +320,43 @@ class LxServices(endpoint: String, okHttpClient: OkHttpClient, interceptor: Inte
         return lxSearchResponse
     }
 
-    private fun SortCategorySearchResponse(lxCategoryMetadata: LXCategoryMetadata, lxSortType: LXSortType): LXCategoryMetadata {
+    private fun SortFilterThemeSearchResponse(theme: LXTheme, sortFilterMetadata: LXSortFilterMetadata): LXTheme {
 
-        if (lxSortType == LXSortType.PRICE) {
-            Collections.sort<LXActivity>(lxCategoryMetadata.activities, object : Comparator<LXActivity> {
+        // Filtering
+        val filteredSet = LinkedHashSet<LXActivity>()
+        val unfilteredActivities = theme.unfilteredActivities
+        for (i in unfilteredActivities.indices) {
+            for (filterCategory in sortFilterMetadata.lxCategoryMetadataMap.entries) {
+                val lxCategoryMetadata = filterCategory.value
+                val lxCategoryMetadataKey = filterCategory.key
+                if (lxCategoryMetadata.checked) {
+                    if (unfilteredActivities.get(i).categories.contains(lxCategoryMetadataKey)) {
+                        filteredSet.add(unfilteredActivities.get(i))
+                    }
+                }
+            }
+        }
+
+        theme.activities.clear()
+
+        // Filtering.
+        if (filteredSet.size != 0) {
+            theme.activities.addAll(filteredSet)
+        } else {
+            theme.activities.addAll(unfilteredActivities)
+        }
+
+        // Sorting
+        if (sortFilterMetadata.sort == LXSortType.PRICE) {
+            Collections.sort<LXActivity>(theme.activities, object : Comparator<LXActivity> {
                 override fun compare(lhs: LXActivity, rhs: LXActivity): Int {
                     val leftMoney = lhs.price
                     val rightMoney = rhs.price
                     return leftMoney.compareTo(rightMoney)
                 }
             })
-        } else if (lxSortType == LXSortType.POPULARITY) {
-            Collections.sort<LXActivity>(lxCategoryMetadata.activities, object : Comparator<LXActivity> {
+        } else if (sortFilterMetadata.sort == LXSortType.POPULARITY) {
+            Collections.sort<LXActivity>(theme.activities, object : Comparator<LXActivity> {
                 override fun compare(lhs: LXActivity, rhs: LXActivity): Int {
                     return if ((lhs.popularityForClientSort < rhs.popularityForClientSort))
                         -1
@@ -301,15 +365,16 @@ class LxServices(endpoint: String, okHttpClient: OkHttpClient, interceptor: Inte
                 }
             })
         }
-        return lxCategoryMetadata
+
+        return theme
     }
 
 
-    fun lxCategorySort(category: LXCategoryMetadata, lxSortType: LXSortType, categorySortObserver: Observer<LXCategoryMetadata>): Subscription {
+    fun lxThemeSortAndFilter(theme: LXTheme, lxSortType: LXSortFilterMetadata, categorySortObserver: Observer<LXTheme>): Subscription {
 
-        return Observable.combineLatest(Observable.just(category), Observable.just(lxSortType),
-                { lxCategoryMetadata, lxSortType ->
-                    SortCategorySearchResponse(lxCategoryMetadata, lxSortType)
+        return Observable.combineLatest(Observable.just(theme), Observable.just(lxSortType),
+                { theme, lxSortType ->
+                    SortFilterThemeSearchResponse(theme, lxSortType)
                 })
                 .subscribeOn(this.subscribeOn)
                 .observeOn(this.observeOn)
@@ -358,11 +423,7 @@ class LxServices(endpoint: String, okHttpClient: OkHttpClient, interceptor: Inte
         lxSearchResponse.activities.clear()
 
         // Filtering.
-        if (filteredSet.size != 0) {
-            lxSearchResponse.activities.addAll(filteredSet)
-        } else {
-            lxSearchResponse.activities.addAll(unfilteredActivities)
-        }
+        lxSearchResponse.activities.addAll(if(filteredSet.size != 0) filteredSet else unfilteredActivities)
 
         // Sorting.
         if (lxSortFilterMetadata.sort == LXSortType.PRICE) {
