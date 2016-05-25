@@ -4,6 +4,7 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.test.espresso.HotelTestCase;
 import com.expedia.bookings.test.phone.hotels.HotelScreen;
 import com.expedia.bookings.test.phone.pagemodels.common.CheckoutViewModel;
+import com.expedia.bookings.test.phone.pagemodels.common.SearchScreen;
 
 import static com.expedia.bookings.test.espresso.EspressoUtils.assertViewIsDisplayed;
 import static com.expedia.bookings.test.phone.hotels.HotelScreen.pickRoom;
@@ -11,7 +12,8 @@ import static com.expedia.bookings.test.phone.hotels.HotelScreen.pickRoom;
 public class HotelPriceChangeTest extends HotelTestCase {
 
 	public void testPriceChangeGuestUser() throws Throwable {
-		HotelScreen.selectPriceChangeHotel();
+		SearchScreen.doGenericHotelSearch();
+		HotelScreen.selectHotel("hotel_price_change");
 		pickRoom("hotel_price_change_checkout");
 		HotelScreen.checkout(true);
 		CheckoutViewModel.performSlideToPurchase(false);
@@ -19,7 +21,7 @@ public class HotelPriceChangeTest extends HotelTestCase {
 		assertViewIsDisplayed(R.id.price_change_text);
 	}
 
-	public void testPriceChangeLoggedInUser() throws Throwable {
+//	public void testPriceChangeLoggedInUser() throws Throwable {
 
 //		HotelScreen.selectPriceChangeHotel();
 //		pickRoom("hotel_price_change_with_user_preferences");
@@ -38,7 +40,7 @@ public class HotelPriceChangeTest extends HotelTestCase {
 //		PaymentOptionsScreen.assertTotalPointsAvailableMatches("38,406,533");
 //		PaymentOptionsScreen.assertPointsAppliedMatches("6,658");
 
-	}
+//	}
 
 
 

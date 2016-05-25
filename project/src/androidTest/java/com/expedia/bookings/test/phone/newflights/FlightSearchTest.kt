@@ -13,7 +13,7 @@ import android.support.test.espresso.matcher.ViewMatchers.withText
 class FlightSearchTest: NewFlightTestCase() {
 
     fun testReturnSearch() {
-        SearchScreen.destination().perform(click())
+        SearchScreen.origin().perform(click())
         SearchScreen.selectOriginAndDestination()
 
         val startDate = LocalDate.now().plusDays(3)
@@ -31,7 +31,7 @@ class FlightSearchTest: NewFlightTestCase() {
 
     fun testOneWaySearch() {
         FlightsScreen.selectOneWay()
-        SearchScreen.destination().perform(click())
+        SearchScreen.origin().perform(click())
         SearchScreen.selectOriginAndDestination()
 
         val startDate = LocalDate.now().plusDays(3)

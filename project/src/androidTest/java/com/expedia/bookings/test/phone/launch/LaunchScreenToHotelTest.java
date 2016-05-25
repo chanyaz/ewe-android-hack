@@ -2,6 +2,9 @@ package com.expedia.bookings.test.phone.launch;
 
 import org.joda.time.LocalDate;
 
+import android.support.test.espresso.assertion.ViewAssertions;
+import android.support.test.espresso.matcher.ViewMatchers;
+
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.HotelSearchParams;
 import com.expedia.bookings.data.collections.CollectionLocation;
@@ -13,6 +16,7 @@ import com.expedia.bookings.test.espresso.PhoneTestCase;
 import com.expedia.bookings.test.espresso.ViewActions;
 import com.expedia.bookings.test.phone.hotels.HotelScreen;
 import com.expedia.bookings.test.phone.pagemodels.common.LaunchScreen;
+import com.expedia.bookings.test.phone.pagemodels.common.SearchScreen;
 import com.expedia.bookings.utils.DateUtils;
 
 import static android.support.test.espresso.Espresso.onView;
@@ -41,7 +45,7 @@ public class LaunchScreenToHotelTest extends PhoneTestCase {
 		HotelScreen.waitForResultsLoaded();
 		Common.pressBack();
 		// Assert that the search screen is displayed with the correct search params
-		EspressoUtils.assertViewWithTextIsDisplayed(R.id.hotel_location, "San Francisco");
+		SearchScreen.selectDestinationTextView().check(ViewAssertions.matches(ViewMatchers.withText("San Francisco")));
 		EspressoUtils.assertViewWithTextIsDisplayed("2 Guests");
 		LocalDate checkIn = LocalDate.now().plusDays(1);
 		LocalDate checkOut = LocalDate.now().plusDays(2);
@@ -67,8 +71,7 @@ public class LaunchScreenToHotelTest extends PhoneTestCase {
 		HotelScreen.waitForResultsLoaded();
 		Common.pressBack();
 		// Test that searching still works
-		onView(withId(R.id.hotel_location)).perform(click());
-		HotelScreen.doGenericSearch();
+		SearchScreen.searchButton().perform(click());
 	}
 
 	public void testPopularHotelSelection() {
@@ -106,7 +109,7 @@ public class LaunchScreenToHotelTest extends PhoneTestCase {
 		Common.pressBack();
 
 		// Assert that the search screen is displayed with the correct search params
-		EspressoUtils.assertViewWithTextIsDisplayed(R.id.hotel_location, "San Francisco");
+		SearchScreen.selectDestinationTextView().check(ViewAssertions.matches(ViewMatchers.withText("San Francisco")));
 		EspressoUtils.assertViewWithTextIsDisplayed("2 Guests");
 		String expectedCheckInDate = DateUtils.localDateToMMMd(checkIn);
 		String expectedCheckoutDate = DateUtils.localDateToMMMd(checkOut);

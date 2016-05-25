@@ -9,6 +9,7 @@ import com.expedia.bookings.test.espresso.AbacusTestUtils;
 import com.expedia.bookings.test.espresso.Common;
 import com.expedia.bookings.test.espresso.HotelTestCase;
 import com.expedia.bookings.test.phone.pagemodels.common.CheckoutViewModel;
+import com.expedia.bookings.test.phone.pagemodels.common.SearchScreen;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
@@ -45,12 +46,11 @@ public class HotelShowExampleNamesTest extends HotelTestCase {
 	private void goToCheckout() throws Throwable {
 		final DateTime startDateTime = DateTime.now().withTimeAtStartOfDay();
 		final DateTime endDateTime = startDateTime.plusDays(3);
-		HotelScreen.location().perform(typeText("SFO"));
-		HotelScreen.selectLocation("San Francisco, CA (SFO-San Francisco Intl.)");
-		HotelScreen.selectDateButton().perform(click());
-		HotelScreen.selectDates(startDateTime.toLocalDate(), endDateTime.toLocalDate());
+		SearchScreen.searchEditText().perform(typeText("SFO"));
+		SearchScreen.selectLocation("San Francisco, CA (SFO-San Francisco Intl.)");
+		SearchScreen.selectDates(startDateTime.toLocalDate(), endDateTime.toLocalDate());
 
-		HotelScreen.searchButton().perform(click());
+		SearchScreen.searchButton().perform(click());
 		Common.delay(1);
 		HotelScreen.selectHotel("happypath");
 		HotelScreen.waitForDetailsLoaded();

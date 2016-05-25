@@ -43,11 +43,9 @@ class ShopWithPointsWidget(context: Context, val attrs: AttributeSet?) : LinearL
 
         View.inflate(context, layoutId, this)
         Ui.getApplication(context).hotelComponent().inject(this)
-        if (Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelsSearchScreenTest)) {
-            loyaltyAppliedHeader.setTextColor(ContextCompat.getColor(context, R.color.hotelsv2_checkout_text_color))
-            loyaltyPointsInfo.setTextColor(ContextCompat.getColor(context, R.color.hotelsv2_checkout_text_color))
-            swpLogo.setImageResource(R.drawable.swp_grey)
-        }
+        loyaltyAppliedHeader.setTextColor(ContextCompat.getColor(context, R.color.hotelsv2_checkout_text_color))
+        loyaltyPointsInfo.setTextColor(ContextCompat.getColor(context, R.color.hotelsv2_checkout_text_color))
+        swpLogo.setImageResource(R.drawable.swp_grey)
 
         subscription = shopWithPointsViewModel.isShopWithPointsAvailableObservable.subscribeVisibility(this)
         shopWithPointsViewModel.pointsDetailStringObservable.subscribeText(loyaltyPointsInfo)

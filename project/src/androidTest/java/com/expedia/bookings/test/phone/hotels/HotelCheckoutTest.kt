@@ -4,19 +4,20 @@ import android.support.test.espresso.Espresso
 import android.support.test.espresso.action.ViewActions.click
 import android.support.test.espresso.action.ViewActions.scrollTo
 import android.support.test.espresso.assertion.ViewAssertions.matches
+import android.support.test.espresso.matcher.ViewMatchers
+import android.support.test.espresso.matcher.ViewMatchers.withEffectiveVisibility
 import android.support.test.espresso.matcher.ViewMatchers.withText
 import com.expedia.bookings.R
 import com.expedia.bookings.test.espresso.Common
 import com.expedia.bookings.test.espresso.EspressoUtils
 import com.expedia.bookings.test.espresso.HotelTestCase
 import com.expedia.bookings.test.phone.pagemodels.common.CheckoutViewModel
-import android.support.test.espresso.matcher.ViewMatchers
-import android.support.test.espresso.matcher.ViewMatchers.*
+import com.expedia.bookings.test.phone.pagemodels.common.SearchScreen
 
 class HotelCheckoutTest: HotelTestCase() {
 
     fun testCardNumberClearedAfterCreateTrip() {
-        HotelScreen.doGenericSearch()
+        SearchScreen.doGenericHotelSearch()
         HotelScreen.selectHotel("happypath")
         Common.delay(1)
         HotelScreen.selectRoom()
@@ -36,7 +37,7 @@ class HotelCheckoutTest: HotelTestCase() {
     }
 
     fun testLoggedInCustomerCanEnterNewTraveler() {
-        HotelScreen.doGenericSearch()
+        SearchScreen.doGenericHotelSearch()
         HotelScreen.selectHotel()
         HotelScreen.selectRoom()
         CheckoutViewModel.clickDone()
@@ -63,7 +64,7 @@ class HotelCheckoutTest: HotelTestCase() {
     }
 
     fun testResortFeeDisclaimerTextVisibility() {
-        HotelScreen.doGenericSearch()
+        SearchScreen.doGenericHotelSearch()
         // Check to make sure non merchant shows up in result list
         HotelScreen.selectHotel("Non Merchant Hotel")
         Common.delay(1)

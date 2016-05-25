@@ -4,7 +4,6 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.data.HotelSearchParams;
 import com.expedia.bookings.data.collections.CollectionLocation;
 import com.expedia.bookings.otto.Events;
-import com.expedia.bookings.test.espresso.Common;
 import com.expedia.bookings.test.espresso.EspressoUtils;
 import com.expedia.bookings.test.espresso.PhoneTestCase;
 import com.expedia.bookings.test.phone.hotels.HotelScreen;
@@ -12,9 +11,7 @@ import com.expedia.bookings.test.phone.pagemodels.common.LaunchScreen;
 import com.expedia.ui.NewPhoneLaunchActivity;
 import com.mobiata.android.Log;
 
-import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
-import static android.support.test.espresso.matcher.ViewMatchers.withId;
 
 public class NewLaunchScreenTest extends PhoneTestCase {
 
@@ -53,10 +50,6 @@ public class NewLaunchScreenTest extends PhoneTestCase {
 		Events.post(new Events.LaunchCollectionItemSelected(collectionLocation, null, ""));
 		// Assert that the results screen is displayed
 		HotelScreen.waitForResultsLoaded();
-		Common.pressBack();
-		// Test that searching still works
-		onView(withId(R.id.hotel_location)).perform(click());
-		HotelScreen.doGenericSearch();
 	}
 
 }

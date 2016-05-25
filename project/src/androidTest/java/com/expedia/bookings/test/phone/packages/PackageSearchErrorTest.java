@@ -23,7 +23,7 @@ public class PackageSearchErrorTest extends PackageTestCase {
 
 	public void testSearchError() throws Throwable {
 		SearchScreen.searchEditText().perform(typeText("GGW"));
-		Common.closeSoftKeyboard(SearchScreen.destination());
+		Common.closeSoftKeyboard(SearchScreen.origin());
 		SearchScreen.selectLocation("Glasgow, MT (GGW-Glasgow Intl.)");
 		Common.delay(1);
 		SearchScreen.searchEditText().perform(ViewActions.waitForViewToDisplay());

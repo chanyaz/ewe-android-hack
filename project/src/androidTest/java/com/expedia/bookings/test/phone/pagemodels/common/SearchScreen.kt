@@ -14,18 +14,22 @@ import android.support.test.espresso.action.ViewActions.click
 import com.expedia.bookings.test.espresso.Common
 import com.expedia.bookings.test.espresso.ViewActions
 import android.support.test.espresso.action.ViewActions.typeText
+import android.support.test.espresso.assertion.ViewAssertions
 import android.support.test.espresso.contrib.RecyclerViewActions
+import android.support.test.espresso.matcher.ViewMatchers
 import android.support.v7.widget.RecyclerView
 import java.util.concurrent.TimeUnit
 import android.support.test.espresso.matcher.ViewMatchers.hasDescendant
+import android.support.test.espresso.matcher.ViewMatchers.withEffectiveVisibility
 import android.support.test.espresso.matcher.ViewMatchers.withText
 import com.expedia.bookings.test.espresso.TabletViewActions
 import android.support.test.espresso.matcher.ViewMatchers.withParent
+import com.expedia.bookings.test.phone.hotels.HotelScreen
 import org.hamcrest.Matchers.allOf
 
 object SearchScreen {
 
-    @JvmStatic fun destination(): ViewInteraction {
+    @JvmStatic fun origin(): ViewInteraction {
         return onView(withId(R.id.origin_card))
     }
 
@@ -43,7 +47,7 @@ object SearchScreen {
     }
 
     @JvmStatic fun searchButton(): ViewInteraction {
-        return onView(withId(R.id.search_button_v2))
+        return onView(allOf(withId(R.id.search_button), withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE)))
     }
 
     @JvmStatic fun calendarCard(): ViewInteraction {
@@ -52,6 +56,14 @@ object SearchScreen {
 
     @JvmStatic fun selectDateButton(): ViewInteraction {
         return onView(allOf<View>(withId(R.id.input_label), withParent(withId(R.id.calendar_card))))
+    }
+
+    @JvmStatic fun selectTravelerText(): ViewInteraction {
+        return onView(allOf(withId(R.id.input_label), withParent(withId(R.id.traveler_card))))
+    }
+
+    @JvmStatic fun selectDestinationTextView(): ViewInteraction {
+        return onView(allOf(withId(R.id.input_label), withParent(withId(R.id.destination_card))))
     }
 
     @JvmStatic fun selectGuestsButton(): ViewInteraction {
@@ -78,19 +90,40 @@ object SearchScreen {
         onView(withId(R.id.adults_plus)).perform(click())
     }
 
-    @JvmStatic fun arrival(): ViewInteraction {
+    @JvmStatic fun destination(): ViewInteraction {
         return onView(withId(R.id.destination_card))
     }
 
     @Throws(Throwable::class)
-    @JvmStatic fun search(adults: Int, children: Int) {
-        selectOriginAndDestination()
+    @JvmStatic fun search(adults: Int, children: Int, clickSwP: Boolean = false, hotelSearch: Boolean = false) {
+        if (hotelSearch) {
+            selectDestination()
+        }
+        else {
+            selectOriginAndDestination()
+        }
         val startDate = LocalDate.now().plusDays(3)
         val endDate = LocalDate.now().plusDays(8)
         selectDates(startDate, endDate)
         selectGuestsButton().perform(click())
         setGuests(adults, children)
+        if (clickSwP) {
+            HotelScreen.clickSwPToggle();
+        }
+
         searchButton().perform(click())
+    }
+
+    @JvmStatic fun doGenericSearch() {
+        search(1, 0, false)
+    }
+
+    @JvmStatic fun doGenericHotelSearchWithSwp() {
+        search(1, 0, true, true)
+    }
+
+    @JvmStatic fun doGenericHotelSearch() {
+        search(1, 0, false, true)
     }
 
     @Throws(Throwable::class)
@@ -105,12 +138,22 @@ object SearchScreen {
     }
 
     @Throws(Throwable::class)
+    @JvmStatic fun selectDestination() {
+        searchEditText().perform(typeText("SFO"))
+        selectLocation("San Francisco, CA (SFO-San Francisco Intl.)")
+    }
+
+    @Throws(Throwable::class)
     @JvmStatic fun selectLocation(hotel: String) {
         suggestionList().perform(ViewActions.waitForViewToDisplay())
         val viewMatcher = hasDescendant(withText(hotel))
 
         suggestionList().perform(ViewActions.waitFor(viewMatcher, 10, TimeUnit.SECONDS))
         suggestionList().perform(RecyclerViewActions.actionOnItem<RecyclerView.ViewHolder>(viewMatcher, click()))
+    }
+
+    @JvmStatic fun selectRecentSearch(location: String) {
+        suggestionList().perform(RecyclerViewActions.actionOnItem<RecyclerView.ViewHolder>(hasDescendant(withText(location)), click()))
     }
 
     @JvmStatic fun suggestionList(): ViewInteraction {

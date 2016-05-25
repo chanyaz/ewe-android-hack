@@ -8,7 +8,7 @@ import android.util.AttributeSet
 import android.view.View
 import com.expedia.bookings.R
 import com.expedia.bookings.location.CurrentLocationObservable
-import com.expedia.bookings.presenter.BaseSearchPresenterV2
+import com.expedia.bookings.presenter.BaseSearchPresenter
 import com.expedia.bookings.utils.AnimUtils
 import com.expedia.bookings.utils.SuggestionV4Utils
 import com.expedia.bookings.utils.Ui
@@ -20,7 +20,7 @@ import com.expedia.vm.HotelSearchViewModel
 import com.expedia.vm.HotelSuggestionAdapterViewModel
 import com.expedia.vm.SuggestionAdapterViewModel
 
-class HotelSearchPresenterV2(context: Context, attrs: AttributeSet) : BaseSearchPresenterV2(context, attrs) {
+class HotelSearchPresenter(context: Context, attrs: AttributeSet) : BaseSearchPresenter(context, attrs) {
 
     var searchViewModel: HotelSearchViewModel by notNullAndObservable { vm ->
         calendarWidgetV2.viewModel = vm
@@ -68,7 +68,7 @@ class HotelSearchPresenterV2(context: Context, attrs: AttributeSet) : BaseSearch
     }
 
     override fun inflate() {
-        View.inflate(context, R.layout.widget_hotel_search_params_v2, this)
+        View.inflate(context, R.layout.widget_hotel_search_params, this)
     }
 
     override fun getSuggestionHistoryFileName(): String {

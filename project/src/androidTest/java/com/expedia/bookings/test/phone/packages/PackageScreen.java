@@ -64,11 +64,11 @@ public class PackageScreen {
 	}
 
 	public static void searchPackage() throws Throwable {
-		SearchScreen.search(1, 0);
+		SearchScreen.doGenericSearch();
 	}
 
 	public static void searchPackageFor(int adults, int children) throws Throwable {
-		SearchScreen.search(adults, children);
+		SearchScreen.search(adults, children, false, false);
 	}
 
 	public static ViewInteraction bundleToolbar() {

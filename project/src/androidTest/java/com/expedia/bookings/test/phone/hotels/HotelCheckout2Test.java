@@ -9,6 +9,7 @@ import com.expedia.bookings.test.espresso.EspressoUtils;
 import com.expedia.bookings.test.espresso.HotelTestCase;
 import com.expedia.bookings.test.espresso.ViewActions;
 import com.expedia.bookings.test.phone.pagemodels.common.CheckoutViewModel;
+import com.expedia.bookings.test.phone.pagemodels.common.SearchScreen;
 
 import junit.framework.Assert;
 
@@ -16,7 +17,7 @@ import static android.support.test.espresso.action.ViewActions.click;
 
 public class HotelCheckout2Test extends HotelTestCase {
 	public void testCouponIsClearedEachCreateTrip() throws Throwable {
-		HotelScreen.doGenericSearch();
+		SearchScreen.doGenericHotelSearch();
 		HotelScreen.selectHotel("happypath");
 		HotelScreen.selectRoom();
 		CheckoutViewModel.waitForCheckout();
@@ -41,7 +42,7 @@ public class HotelCheckout2Test extends HotelTestCase {
 
 
 	public void testTealeafIDClearedAfterSignIn() throws Throwable {
-		HotelScreen.doGenericSearch();
+		SearchScreen.doGenericHotelSearch();
 		HotelScreen.selectHotel("tealeaf_id");
 		Common.delay(1);
 		HotelScreen.selectRoom();

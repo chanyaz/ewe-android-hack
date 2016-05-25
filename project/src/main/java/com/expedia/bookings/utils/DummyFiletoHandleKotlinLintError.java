@@ -24,7 +24,6 @@ DummyFiletoHandleKotlinLintError {
 		R.layout.package_hotel_cell,
 		R.string.unreal_deal_text,
 		R.layout.widget_hotel_results,
-		R.layout.widget_hotel_search_params,
 		R.layout.activity_hotel,
 		R.layout.widget_hotel_detail,
 		R.layout.hotel_room_row,
@@ -273,7 +272,7 @@ DummyFiletoHandleKotlinLintError {
 		R.string.pwp_trip_service_error,
 		R.string.Your_Trips,
 		R.string.pwp_unknown_error,
-		R.layout.widget_hotel_search_params_v2,
+		R.layout.widget_hotel_search_params,
 		R.layout.widget_flight_overview,
 		R.string.select_return_flight,
 		R.string.flight_to_template,
@@ -540,8 +539,6 @@ DummyFiletoHandleKotlinLintError {
 		R.string.hotel_free_cancellation_TEMPLATE,
 		R.string.passport_country_colon,
 		R.array.hoursList,
-		R.dimen.hotel_search_container_v1_height_with_swp,
-		R.dimen.hotel_search_container_v1_height_without_swp,
 		R.drawable.dim_background,
 		R.string.earn_points_TEMPLATE,
 		R.string.earn_amount_TEMPLATE,
@@ -594,6 +591,7 @@ DummyFiletoHandleKotlinLintError {
 		R.string.flights_outbound_label,
 		R.layout.widget_docked_outbound_flight_selection,
 		R.string.total,
-		R.string.flights_title
+		R.string.flights_title,
+		R.color.search_anim_background
 	};
 }

@@ -3,7 +3,6 @@ package com.expedia.bookings.test.phone.hotels;
 import java.util.concurrent.TimeUnit;
 
 import org.hamcrest.Matcher;
-import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 
 import android.support.test.espresso.ViewInteraction;
@@ -15,16 +14,15 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.test.espresso.Common;
 import com.expedia.bookings.test.espresso.EspressoUtils;
 import com.expedia.bookings.test.espresso.RecyclerViewAssertions;
-import com.expedia.bookings.test.espresso.TabletViewActions;
 import com.expedia.bookings.test.espresso.ViewActions;
 import com.expedia.bookings.test.phone.pagemodels.common.CVVEntryScreen;
 import com.expedia.bookings.test.phone.pagemodels.common.CheckoutViewModel;
 import com.expedia.bookings.test.phone.pagemodels.common.LogInScreen;
+import com.expedia.bookings.test.phone.pagemodels.common.SearchScreen;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.action.ViewActions.scrollTo;
-import static android.support.test.espresso.action.ViewActions.typeText;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.hasDescendant;
 import static android.support.test.espresso.matcher.ViewMatchers.hasSibling;
@@ -33,7 +31,6 @@ import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withChild;
 import static android.support.test.espresso.matcher.ViewMatchers.withEffectiveVisibility;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
-import static android.support.test.espresso.matcher.ViewMatchers.withParent;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static com.expedia.bookings.test.espresso.ViewActions.waitForViewToDisplay;
 import static org.hamcrest.Matchers.allOf;
@@ -45,49 +42,8 @@ public class HotelScreen {
 		return onView(withId(R.id.calendar));
 	}
 
-	public static ViewInteraction selectDateButton() {
-		return onView(withId(R.id.select_date));
-	}
-
-	public static ViewInteraction selectTravelerV2() {
-		return onView(withId(R.id.traveler_card));
-	}
-
 	public static ViewInteraction reviews() {
 		return onView(withId(R.id.widget_hotel_reviews));
-	}
-
-	public static ViewInteraction selectTravelerV2Text() {
-		return onView(allOf(withId(R.id.input_label), withParent(withId(R.id.traveler_card))));
-	}
-
-	public static ViewInteraction selectDestinationV2() {
-		return onView(withId(R.id.destination_card));
-	}
-
-	public static ViewInteraction selectDestinationTextViewV2() {
-		return onView(allOf(withId(R.id.input_label), withParent(withId(R.id.destination_card))));
-	}
-
-	public static ViewInteraction selectCalendarV2() {
-		return onView(withId(R.id.calendar_card));
-	}
-
-	public static ViewInteraction selectCalendarV2Text() {
-		return onView(allOf(withId(R.id.input_label), withParent(withId(R.id.calendar_card))));
-	}
-
-	public static ViewInteraction searchAlertDialogDoneV2() {
-		return onView(withId(android.R.id.button1));
-	}
-
-
-	public static ViewInteraction location() {
-		return onView(withId(R.id.hotel_location_autocomplete));
-	}
-
-	public static ViewInteraction locationV2() {
-		return onView(withId(android.support.v7.appcompat.R.id.search_src_text));
 	}
 
 	public static ViewInteraction filterHotelName() {
@@ -180,34 +136,9 @@ public class HotelScreen {
 		hotelSuggestionList().perform(RecyclerViewActions.actionOnItem(viewMatcher, click()));
 	}
 
-	public static void selectLocationV2(String hotel) throws Throwable {
-		hotelSuggestionListV2().perform(ViewActions.waitForViewToDisplay());
-		final Matcher<View> viewMatcher = hasDescendant(withText(hotel));
-
-		hotelSuggestionListV2().perform(ViewActions.waitFor(viewMatcher, 10, TimeUnit.SECONDS));
-		hotelSuggestionListV2().perform(RecyclerViewActions.actionOnItem(viewMatcher, click()));
-	}
-
 	public static ViewInteraction suggestionMatches(Matcher<View> matcher, int position) throws Throwable {
 		return hotelSuggestionList()
 			.check(RecyclerViewAssertions.assertionOnItemAtPosition(position, hasDescendant(matcher)));
-	}
-
-	public static void selectDates(LocalDate start, LocalDate end) {
-		calendar().perform(TabletViewActions.clickDates(start, end));
-	}
-
-	public static ViewInteraction searchButton() {
-		onView(withId(R.id.search_container)).perform(waitForViewToDisplay());
-		return onView(allOf(withId(R.id.search_btn), isDescendantOfA(hasSibling(withId(R.id.search_container)))));
-	}
-
-	public static ViewInteraction searchButtonV2() {
-		return onView(withId(R.id.search_button_v2));
-	}
-
-	public static void clickSearchButton() {
-		searchButton().perform(click());
 	}
 
 	public static ViewInteraction hotelResultsList() {
@@ -216,26 +147,6 @@ public class HotelScreen {
 
 	public static ViewInteraction launchList() {
 		return onView(withId(R.id.launch_list_widget));
-	}
-
-	public static ViewInteraction recentSearchList() {
-		return onView(withId(R.id.recent_searches_adapter));
-	}
-
-	public static void selectRecentSearch(String location) {
-		recentSearchList().perform(RecyclerViewActions.actionOnItem(hasDescendant(withText(location)), click()));
-	}
-
-	public static void doSearch(String location) throws Throwable {
-		final LocalDate start = DateTime.now().toLocalDate();
-		final LocalDate end = start.plusDays(3);
-
-		HotelScreen.location().perform(typeText("SFO"));
-		HotelScreen.selectLocation(location);
-		HotelScreen.selectDateButton().perform(click());
-		HotelScreen.selectDates(start, end);
-		HotelScreen.clickSearchButton();
-		HotelScreen.waitForResultsLoaded();
 	}
 
 	public static ViewInteraction hotelResultsMap() {
@@ -260,10 +171,6 @@ public class HotelScreen {
 
 	public static ViewInteraction hotelSuggestionList() {
 		return onView(withId(R.id.drop_down_list));
-	}
-
-	public static ViewInteraction hotelSuggestionListV2() {
-		return onView(withId(R.id.suggestion_list));
 	}
 
 	public static void clickSortFilter() {
@@ -367,10 +274,6 @@ public class HotelScreen {
 		calendar().check(matches((isDisplayed())));
 	}
 
-	public static ViewInteraction guestPicker() {
-		return onView(withId(R.id.select_traveler));
-	}
-
 	public static ViewInteraction adultPicker() {
 		return onView(withId(R.id.adult));
 	}
@@ -384,28 +287,12 @@ public class HotelScreen {
 	}
 
 	public static void enterGenericSearchParams() throws Throwable {
-		final LocalDate start = DateTime.now().withTimeAtStartOfDay().toLocalDate();
-		final LocalDate end = start.plusDays(3);
+		SearchScreen.origin().perform(click());
+		SearchScreen.selectDestination();
 
-		HotelScreen.location().perform(typeText("SFO"));
-		HotelScreen.selectLocation("San Francisco, CA (SFO-San Francisco Intl.)");
-		HotelScreen.selectDateButton().perform(click());
-		HotelScreen.selectDates(start, end);
-	}
-
-	public static void doGenericSearch() throws Throwable {
-		enterGenericSearchParams();
-		HotelScreen.clickSearchButton();
-		HotelScreen.waitForResultsLoaded();
-	}
-
-	public static void doSearchWithSwPVisible(boolean clickSwP) throws Throwable {
-		enterGenericSearchParams();
-		if (clickSwP) {
-			clickSwPToggle();
-		}
-		HotelScreen.clickSearchButton();
-		HotelScreen.waitForResultsLoaded();
+		LocalDate startDate = LocalDate.now().plusDays(3);
+		LocalDate endDate = LocalDate.now().plusDays(8);
+		SearchScreen.selectDates(startDate, endDate);
 	}
 
 	public static void clickSwPToggle() throws Throwable {
@@ -539,9 +426,9 @@ public class HotelScreen {
 		return onView(withId(R.id.error_toolbar));
 	}
 
-	public static void selectPriceChangeHotel() throws Throwable {
-		doGenericSearch();
-		HotelScreen.selectHotel("hotel_price_change");
-		HotelScreen.clickSelectRoom();
-	}
+//	public static void selectPriceChangeHotel() throws Throwable {
+//		doGenericSearch();
+//		HotelScreen.selectHotel("hotel_price_change");
+//		HotelScreen.clickSelectRoom();
+//	}
 }

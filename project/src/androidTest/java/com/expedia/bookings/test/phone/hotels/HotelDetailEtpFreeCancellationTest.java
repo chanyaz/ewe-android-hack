@@ -6,6 +6,7 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.test.espresso.Common;
 import com.expedia.bookings.test.espresso.EspressoUtils;
 import com.expedia.bookings.test.espresso.HotelTestCase;
+import com.expedia.bookings.test.phone.pagemodels.common.SearchScreen;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.scrollTo;
@@ -19,7 +20,7 @@ import static org.hamcrest.CoreMatchers.not;
 public class HotelDetailEtpFreeCancellationTest extends HotelTestCase {
 
 	public void testETPHotelWithoutFreeCancellationHavingRenovation() throws Throwable {
-		HotelScreen.doGenericSearch();
+		SearchScreen.doGenericHotelSearch();
 		HotelScreen.selectHotel("hotel_etp_renovation_resort");
 		HotelScreen.waitForDetailsLoaded();
 
@@ -29,7 +30,7 @@ public class HotelDetailEtpFreeCancellationTest extends HotelTestCase {
 
 
 	public void testNonETPHotelWithoutFreeCancellation() throws Throwable {
-		HotelScreen.doGenericSearch();
+		SearchScreen.doGenericHotelSearch();
 		HotelScreen.selectHotel("happypath");
 		HotelScreen.waitForDetailsLoaded();
 
@@ -37,7 +38,7 @@ public class HotelDetailEtpFreeCancellationTest extends HotelTestCase {
 	}
 
 	public void testNonETPHotelWithFreeCancellation() throws Throwable {
-		HotelScreen.doGenericSearch();
+		SearchScreen.doGenericHotelSearch();
 		HotelScreen.selectHotel("hotel_non_etp_with_free_cancellation");
 		HotelScreen.waitForDetailsLoaded();
 

@@ -22,7 +22,7 @@ import static org.hamcrest.CoreMatchers.allOf;
 public class NewFlightPhoneHappyPathTest extends NewFlightTestCase {
 
 	public void testNewFlightHappyPath() throws Throwable {
-		SearchScreen.destination().perform(click());
+		SearchScreen.origin().perform(click());
 		SearchScreen.selectOriginAndDestination();
 		LocalDate startDate = LocalDate.now().plusDays(3);
 		LocalDate endDate = LocalDate.now().plusDays(8);

@@ -122,11 +122,7 @@
     <string name="calendar_desc_support_TEMPLATE">{brand} Customer Support: {localphone} and {phone}</string>
 
     <!-- Label for hotel search toolbar -->
-    <string name="hotel_toolbar_title">Search Hotels</string>
-    <!-- Label for hotel search v2 toolbar -->
-    <string name="hotel_search_v2_toolbar_title">Hotels</string>
-    <!-- Label for hotel suggestion -->
-    <string name="search_location">Search Location</string>
+    <string name="hotel_search_toolbar_title">Hotels</string>
     <!-- Label for recent searches -->
     <string name="recent_searches">Recent Searches</string>
     <!-- Label for pickup location selector -->

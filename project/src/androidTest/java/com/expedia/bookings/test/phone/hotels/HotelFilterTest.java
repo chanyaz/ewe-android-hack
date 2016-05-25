@@ -1,9 +1,12 @@
 package com.expedia.bookings.test.phone.hotels;
 
 import android.support.test.espresso.contrib.RecyclerViewActions;
+
 import com.expedia.bookings.R;
 import com.expedia.bookings.test.espresso.Common;
 import com.expedia.bookings.test.espresso.HotelTestCase;
+import com.expedia.bookings.test.phone.pagemodels.common.SearchScreen;
+
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.action.ViewActions.scrollTo;
@@ -14,7 +17,6 @@ import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.isNotChecked;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
-import static com.expedia.bookings.test.phone.hotels.HotelScreen.doGenericSearch;
 import static com.expedia.bookings.test.phone.hotels.HotelScreen.doneButton;
 import static com.expedia.bookings.test.phone.hotels.HotelScreen.filterHotelName;
 import static com.expedia.bookings.test.phone.hotels.HotelScreen.filterResultsSnackBar;
@@ -28,7 +30,7 @@ public class HotelFilterTest extends HotelTestCase {
 
 	//clear filter, all select item deselected
 	public void testClearFilter() throws Throwable {
-		doGenericSearch();
+		SearchScreen.doGenericHotelSearch();
 		sortFilter();
 
 		filterHotelName().perform(typeText("Hilton"));
@@ -45,7 +47,7 @@ public class HotelFilterTest extends HotelTestCase {
 	}
 
 	public void testFilterSnackBar() throws Throwable {
-		doGenericSearch();
+		SearchScreen.doGenericHotelSearch();
 		sortFilter();
 		//initially, results snack bar hides
 		filterResultsSnackBar().check(matches(not(isDisplayed())));
@@ -72,7 +74,7 @@ public class HotelFilterTest extends HotelTestCase {
 
 	public void testFilterReturnToResult() throws Throwable {
 		//zero results, done button is disabled
-		doGenericSearch();
+		SearchScreen.doGenericHotelSearch();
 		sortFilter();
 		filterHotelName().perform(typeText("Hilton"));
 		Common.closeSoftKeyboard(filterHotelName());
@@ -101,7 +103,7 @@ public class HotelFilterTest extends HotelTestCase {
 	}
 
 	public void testNeighborhood() throws Throwable {
-		doGenericSearch();
+		SearchScreen.doGenericHotelSearch();
 		sortFilter();
 		Common.delay(2);
 

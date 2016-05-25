@@ -1076,9 +1076,6 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
     fun animationUpdate(f: Float, forward: Boolean) {
         setupToolbarMeasurements()
         var factor = if (forward) f else Math.abs(1 - f)
-        if (!isUserBucketedSearchScreenTest()) {
-            recyclerView.translationY = factor * yTranslationRecyclerView
-        }
         navIcon.parameter = factor
         toolbarTitle.translationY = factor * toolbarTitleTop
         toolbarSubtitle.translationY = factor * toolbarSubtitleTop
@@ -1201,6 +1198,5 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
     abstract fun trackMapSearchAreaClick()
 
     abstract fun getHotelListAdapter(): BaseHotelListAdapter
-    abstract fun isUserBucketedSearchScreenTest(): Boolean
     abstract fun isBucketedForResultMap(): Boolean
 }

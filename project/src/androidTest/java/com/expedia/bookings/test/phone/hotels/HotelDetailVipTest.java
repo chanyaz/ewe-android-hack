@@ -4,10 +4,11 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.test.espresso.Common;
 import com.expedia.bookings.test.espresso.EspressoUtils;
 import com.expedia.bookings.test.espresso.HotelTestCase;
+import com.expedia.bookings.test.phone.pagemodels.common.SearchScreen;
 
 public class HotelDetailVipTest extends HotelTestCase {
 	public void testVIPHotel() throws Throwable {
-		HotelScreen.doGenericSearch();
+		SearchScreen.doGenericHotelSearch();
 		HotelScreen.selectHotel("vip_hotel");
 		HotelScreen.waitForDetailsLoaded();
 		HotelScreen.clickVIPAccess();
