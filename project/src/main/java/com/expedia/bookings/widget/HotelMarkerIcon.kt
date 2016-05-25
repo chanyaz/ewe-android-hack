@@ -5,14 +5,21 @@ import android.graphics.drawable.Drawable
 import android.support.v4.content.ContextCompat
 import com.expedia.bookings.R
 import com.expedia.bookings.data.hotels.Hotel
+import com.expedia.bookings.extension.isShowAirAttached
 import com.expedia.bookings.utils.Ui
 import com.google.android.gms.maps.model.BitmapDescriptor
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.maps.android.ui.IconGenerator
 
-fun createHotelMarkerIcon(context: Context, factory: IconGenerator, hotel: Hotel, isSelected: Boolean, isAirAttached: Boolean, isSoldOut: Boolean): BitmapDescriptor {
-    var hotelPriceText = priceFormatter(context.resources, hotel.lowRateInfo, false, !hotel.isPackage)
-    return createHotelMarkerIcon(context, factory, hotelPriceText, isSelected, isAirAttached, isSoldOut)
+fun createHotelMarkerIcon(context: Context, factory: IconGenerator, hotel: Hotel, isSelected: Boolean): BitmapDescriptor {
+    val hotelPriceText =
+            if (hotel.isSoldOut) {
+                context.getString(R.string.sold_out)
+            } else {
+                priceFormatter(context.resources, hotel.lowRateInfo, false, !hotel.isPackage)
+            }
+    val isAirAttached = if (hotel.isSoldOut) false else hotel.lowRateInfo.isShowAirAttached()
+    return createHotelMarkerIcon(context, factory, hotelPriceText, isSelected, isAirAttached, hotel.isSoldOut)
 }
 
 fun createHotelMarkerIcon(context: Context, factory: IconGenerator, hotelPriceText: CharSequence, isSelected: Boolean, isAirAttached: Boolean, isSoldOut: Boolean): BitmapDescriptor {

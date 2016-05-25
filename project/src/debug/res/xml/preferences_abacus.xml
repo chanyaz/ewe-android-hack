@@ -101,6 +101,15 @@
             android:summary="%s"
             android:layout="@layout/preference"
             android:title="Hotels Traveler AB Test - 9478" />
+
+        <ListPreference
+            android:defaultValue="@string/preference_abacus_default"
+            android:entries="@array/abacus_default_choices"
+            android:entryValues="@array/abacus_default_choice_values"
+            android:key="10554"
+            android:layout="@layout/preference"
+            android:summary="%s"
+            android:title="Hotel Search Screen Sold Out Test - 10554" />
     </PreferenceCategory>
 
     <PreferenceCategory
@@ -327,6 +336,6 @@
             android:summary="%s"
             android:key="9476"
             android:layout="@layout/preference"
-            android:title="Sign in Messaging AB test - 9476" />
+            android:title="Sign in Messaging AB Test - 9476" />
     </PreferenceCategory>
 </PreferenceScreen>

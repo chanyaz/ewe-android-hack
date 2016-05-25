@@ -21,7 +21,7 @@ import com.squareup.phrase.Phrase
 import rx.Observable
 import rx.subjects.BehaviorSubject
 
-open class HotelViewModel(private val context: Context, protected  val hotel: Hotel) {
+open class HotelViewModel(private val context: Context, protected val hotel: Hotel) {
     val resources = context.resources
 
     val ROOMS_LEFT_CUTOFF_FOR_DECIDING_URGENCY = 5
@@ -31,18 +31,18 @@ open class HotelViewModel(private val context: Context, protected  val hotel: Ho
     val toolBarRatingColor = soldOut.map { if (it) ContextCompat.getColor(context, R.color.hotelsv2_sold_out_hotel_gray) else ContextCompat.getColor(context, R.color.hotelsv2_detail_star_color) }
     val imageColorFilter = soldOut.map { if (it) HotelDetailView.zeroSaturationColorMatrixColorFilter else null }
     val hotelNameObservable = BehaviorSubject.create(hotel.localizedName)
-    val hotelPriceFormatted = BehaviorSubject.create(priceFormatter(resources, hotel.lowRateInfo, false, !hotel.isPackage))
-    val hotelStrikeThroughPriceFormatted = BehaviorSubject.create(priceFormatter(resources, hotel.lowRateInfo, true, !hotel.isPackage))
-    val strikethroughPriceToShowUsers = BehaviorSubject.create(hotel.lowRateInfo.strikethroughPriceToShowUsers)
-    val priceToShowUsers = BehaviorSubject.create(hotel.lowRateInfo.priceToShowUsers)
+    val hotelPriceFormatted by lazy { BehaviorSubject.create(priceFormatter(resources, hotel.lowRateInfo, false, !hotel.isPackage)) }
+    val hotelStrikeThroughPriceFormatted by lazy { BehaviorSubject.create(priceFormatter(resources, hotel.lowRateInfo, true, !hotel.isPackage)) }
+    val strikethroughPriceToShowUsers = BehaviorSubject.create(hotel.lowRateInfo?.strikethroughPriceToShowUsers ?: -1f)
+    val priceToShowUsers = BehaviorSubject.create(hotel.lowRateInfo?.priceToShowUsers ?: -1f)
     val hotelStrikeThroughPriceVisibility = BehaviorSubject.create(false)
     val loyaltyAvailabilityObservable = BehaviorSubject.create<Boolean>(hotel.lowRateInfo?.loyaltyInfo?.isBurnApplied ?: false)
-    val showDiscountObservable = BehaviorSubject.create<Boolean>(hotel.lowRateInfo.isDiscountPercentNotZero && !hotel.lowRateInfo.airAttached && !loyaltyAvailabilityObservable.value)
+    val showDiscountObservable = BehaviorSubject.create<Boolean>((hotel.lowRateInfo?.isDiscountPercentNotZero ?: false) && !(hotel.lowRateInfo?.airAttached ?: false) && !loyaltyAvailabilityObservable.value)
     val hotelGuestRatingObservable = BehaviorSubject.create(hotel.hotelGuestRating)
     val isHotelGuestRatingAvailableObservable = BehaviorSubject.create<Boolean>(hotel.hotelGuestRating > 0)
     val hotelPreviewRating = BehaviorSubject.create<Float>(hotel.hotelStarRating)
     val hotelPreviewRatingVisibility = BehaviorSubject.create<Float>(hotel.hotelStarRating).map { it >= 0.5f }
-    val pricePerNightObservable = BehaviorSubject.create(priceFormatter(resources, hotel.lowRateInfo, false, !hotel.isPackage))
+    val pricePerNightObservable by lazy { BehaviorSubject.create(priceFormatter(resources, hotel.lowRateInfo, false, !hotel.isPackage)) }
     val pricePerNightColorObservable = BehaviorSubject.create(ContextCompat.getColor(context, if (hotel.lowRateInfo?.loyaltyInfo?.isBurnApplied ?: false) R.color.hotels_primary_color else R.color.hotel_cell_gray_text))
 
     val fewRoomsLeftUrgency = BehaviorSubject.create<UrgencyMessage>(null as UrgencyMessage?)
@@ -65,19 +65,20 @@ open class HotelViewModel(private val context: Context, protected  val hotel: Ho
     val vipMessageVisibilityObservable = BehaviorSubject.create<Boolean>()
     val vipLoyaltyMessageVisibilityObservable = BehaviorSubject.create<Boolean>()
     val mapLoyaltyMessageTextObservable = BehaviorSubject.create<Spanned>()
-    val airAttachWithDiscountLabelVisibilityObservable = BehaviorSubject.create<Boolean>(hotel.lowRateInfo.isShowAirAttached() && !loyaltyAvailabilityObservable.value)
-    val airAttachIconWithoutDiscountLabelVisibility = BehaviorSubject.create<Boolean>(hotel.lowRateInfo.isShowAirAttached() && loyaltyAvailabilityObservable.value)
+    val airAttachWithDiscountLabelVisibilityObservable = BehaviorSubject.create<Boolean>((hotel.lowRateInfo?.isShowAirAttached() ?: false) && !loyaltyAvailabilityObservable.value)
+    val airAttachIconWithoutDiscountLabelVisibility = BehaviorSubject.create<Boolean>((hotel.lowRateInfo?.isShowAirAttached() ?: false) && loyaltyAvailabilityObservable.value)
     val earnMessagingObservable = Observable.just(hotel.lowRateInfo?.loyaltyInfo?.earn?.getEarnMessage(context) ?: "")
     val earnMessagingVisibilityObservable = earnMessagingObservable.map { it.isNotBlank() && PointOfSale.getPointOfSale().isEarnMessageEnabledForHotels }
 
     val topAmenityTitleObservable = BehaviorSubject.create(getTopAmenityTitle(hotel, resources))
     val topAmenityVisibilityObservable = earnMessagingVisibilityObservable.zipWith(topAmenityTitleObservable, { earnMessagingEnabled, topAmenityTitle ->
-        !earnMessagingEnabled && topAmenityTitle.isNotBlank()})
+        !earnMessagingEnabled && topAmenityTitle.isNotBlank()
+    })
 
     val hotelStarRatingObservable = BehaviorSubject.create(hotel.hotelStarRating)
     val ratingAmenityContainerVisibilityObservable = BehaviorSubject.create<Boolean>(hotel.hotelStarRating > 0 || hotel.proximityDistanceInMiles > 0 || hotel.proximityDistanceInKiloMeters > 0)
     val hotelLargeThumbnailUrlObservable = BehaviorSubject.create<String>()
-    val hotelDiscountPercentageObservable = BehaviorSubject.create(Phrase.from(resources, R.string.hotel_discount_percent_Template).put("discount", hotel.lowRateInfo.discountPercent.toInt()).format().toString())
+    val hotelDiscountPercentageObservable = BehaviorSubject.create(Phrase.from(resources, R.string.hotel_discount_percent_Template).put("discount", hotel.lowRateInfo?.discountPercent?.toInt() ?: 0).format().toString())
     val distanceFromCurrentLocation = BehaviorSubject.create(if (hotel.proximityDistanceInMiles > 0) HotelUtils.formatDistanceForNearby(resources, hotel, true) else "")
     val adImpressionObservable = BehaviorSubject.create<String>()
 
@@ -136,7 +137,7 @@ open class HotelViewModel(private val context: Context, protected  val hotel: Ho
         hotel.hasShownImpression = tracked
     }
 
-    open fun hasMemberDeal() : Boolean {
+    open fun hasMemberDeal(): Boolean {
         val isUserBucketedForTest = Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelsMemberDealTest)
         return hotel.isMemberDeal && isUserBucketedForTest && User.isLoggedIn(context)
     }

@@ -47,10 +47,13 @@ public class HotelSearchResponse extends BaseApiResponse {
 
 	public void setHasLoyaltyInformation() {
 		for (Hotel hotel : hotelList) {
-			LoyaltyInformation loyaltyInformation = hotel.lowRateInfo.loyaltyInfo;
-			if (loyaltyInformation != null && loyaltyInformation.isBurnApplied()) {
-				hasLoyaltyInformation = true;
-				return;
+			HotelRate lowRateInfo = hotel.lowRateInfo;
+			if (lowRateInfo != null) {
+				LoyaltyInformation loyaltyInformation = lowRateInfo.loyaltyInfo;
+				if (loyaltyInformation != null && loyaltyInformation.isBurnApplied()) {
+					hasLoyaltyInformation = true;
+					return;
+				}
 			}
 		}
 		hasLoyaltyInformation = false;

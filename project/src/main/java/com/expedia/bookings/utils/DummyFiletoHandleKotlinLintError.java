@@ -591,6 +591,7 @@ DummyFiletoHandleKotlinLintError {
 		R.string.flights_outbound_label,
 		R.layout.widget_docked_outbound_flight_selection,
 		R.string.total,
+		R.string.sold_out,
 		R.string.flights_title,
 		R.color.search_anim_background,
 		R.string.traveler_adult_child_error,

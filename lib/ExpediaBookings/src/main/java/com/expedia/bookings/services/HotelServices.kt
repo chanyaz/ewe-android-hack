@@ -58,7 +58,7 @@ class HotelServices(endpoint: String, okHttpClient: OkHttpClient, interceptor: I
 		val regionId = if (params.suggestion.gaiaId?.isNotBlank() ?: false) params.suggestion.gaiaId else null
 
 		return hotelApi.search(regionId, lat, lng,
-				params.checkIn.toString(), params.checkOut.toString(), params.guestString, params.shopWithPoints)
+				params.checkIn.toString(), params.checkOut.toString(), params.guestString, params.shopWithPoints, params.filterUnavailable.toString())
 				.observeOn(observeOn)
 				.subscribeOn(subscribeOn)
 				.doOnNext { response ->
@@ -84,6 +84,8 @@ class HotelServices(endpoint: String, okHttpClient: OkHttpClient, interceptor: I
 					}
 
 					response.hotelList = putSponsoredItemsInCorrectPlaces(response.hotelList)
+
+					response.hotelList.map { it.isSoldOut = !it.isHotelAvailable }
 				}
 				.doOnNext { it.setHasLoyaltyInformation() }
 	}
