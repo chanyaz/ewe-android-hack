@@ -10,6 +10,7 @@ import android.support.test.runner.AndroidJUnit4;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.test.espresso.Common;
+import com.expedia.bookings.test.espresso.CustomMatchers;
 import com.expedia.bookings.test.espresso.EspressoUser;
 import com.expedia.bookings.test.espresso.EspressoUtils;
 import com.expedia.bookings.test.phone.packages.PackageScreen;
@@ -37,7 +38,7 @@ public class SingleTravelerPresenterTest extends BaseTravelerPresenterTestHelper
 	}
 
 	@Test
-	public void testGenderDialogIsShowing() throws Throwable {
+	public void testGenderErrorShowsWhenUserEntersIncorrectGender() throws Throwable {
 		addTravelerToDb(new Traveler());
 
 		mockViewModel = getMockViewModelEmptyTravelers(1);
@@ -50,7 +51,7 @@ public class SingleTravelerPresenterTest extends BaseTravelerPresenterTestHelper
 		PackageScreen.selectGender(testGender);
 		PackageScreen.clickTravelerDone();
 
-		PackageScreen.errorDialog("Please select a valid gender").check(matches(isDisplayed()));
+		onView(CustomMatchers.withCompoundDrawable(R.drawable.ic_error_blue)).check(matches(isDisplayed()));
 	}
 
 	@Test

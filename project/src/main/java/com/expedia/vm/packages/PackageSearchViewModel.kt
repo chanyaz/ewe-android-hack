@@ -149,7 +149,6 @@ class PackageSearchViewModel(context: Context) : BaseSearchViewModel(context) {
             traveler.setPassengerCategory(PassengerCategory.ADULT)
             traveler.gender = Traveler.Gender.GENDER
             travelerList.add(traveler)
-
         }
         for (child in params.children) {
             val traveler = Traveler()

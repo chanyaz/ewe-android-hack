@@ -57,7 +57,6 @@ class TravelerTSAViewModel(val context: Context) {
         val validGender = TravelerValidator.hasValidGender(traveler)
         dateOfBirthErrorSubject.onNext(!validBirthDate)
         genderErrorSubject.onNext(!validGender)
-
         return validBirthDate && validGender
     }
 

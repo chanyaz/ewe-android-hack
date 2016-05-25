@@ -161,6 +161,9 @@ class TravelerPresenter(context: Context, attrs: AttributeSet) : Presenter(conte
             dropShadow.visibility = if (forward) View.VISIBLE else View.GONE
             boardingWarning.visibility = if (forward) View.VISIBLE else View.GONE
             travelerDefaultState.visibility = if (!forward) View.VISIBLE else View.GONE
+            if (forward && travelerDefaultState.status == TravelerCheckoutStatus.DIRTY) {
+                travelerEntryWidget.viewModel.validate()
+            }
 
             if (forward) {
                 toolbarTitleSubject.onNext(getMainTravelerToolbarTitle(resources))

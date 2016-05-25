@@ -11,6 +11,7 @@ import android.widget.AdapterView
 import android.widget.LinearLayout
 import android.widget.Spinner
 import com.expedia.bookings.R
+import com.expedia.bookings.data.Traveler
 import com.expedia.bookings.section.GenderSpinnerAdapter
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
@@ -42,12 +43,8 @@ class TSAEntryView(context: Context, attrs: AttributeSet?) : LinearLayout(contex
         vm.birthErrorTextSubject.subscribe { text ->
             showBirthdateErrorDialog(text)
         }
-
-        vm.genderErrorSubject.subscribe { inValid ->
-            if (inValid) {
-                showGenderErrorDialog()
-            }
-
+        vm.genderErrorSubject.subscribe { hasError ->
+            (genderSpinner.adapter as GenderSpinnerAdapter).showError(hasError)
         }
     }
 
@@ -75,6 +72,10 @@ class TSAEntryView(context: Context, attrs: AttributeSet?) : LinearLayout(contex
         override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
             val adapter = genderSpinner.adapter as GenderSpinnerAdapter
             viewModel.genderObserver.onNext(adapter.getGender(position))
+            val gender = adapter.getGender(position)
+            if (gender != Traveler.Gender.GENDER) {
+                (genderSpinner.adapter as GenderSpinnerAdapter).showError(false)
+            }
         }
     }
 
@@ -106,16 +107,4 @@ class TSAEntryView(context: Context, attrs: AttributeSet?) : LinearLayout(contex
         dialog.show()
     }
 
-    private fun showGenderErrorDialog() {
-        val builder = AlertDialog.Builder(context)
-        builder.setTitle(R.string.traveler_gender_title)
-        builder.setMessage(R.string.traveler_gender_error)
-        builder.setPositiveButton(context.getString(R.string.DONE), object : DialogInterface.OnClickListener {
-            override fun onClick(dialog: DialogInterface, which: Int) {
-                dialog.dismiss()
-            }
-        })
-        val dialog = builder.create()
-        dialog.show()
-    }
 }
