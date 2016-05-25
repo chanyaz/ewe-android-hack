@@ -32,6 +32,7 @@ import com.expedia.bookings.widget.LXTicketSelectionWidget;
 import butterknife.ButterKnife;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 
 @RunWith(RobolectricRunner.class)
@@ -294,6 +295,23 @@ public class LXTicketSelectionWidgetTest {
 		TextView ticketsSummary = (TextView) widget.findViewById(R.id.selected_ticket_summary);
 
 		assertEquals(expectedSummary, ticketsSummary.getText());
+	}
+
+	@Test
+	public void zeroTicketsSelection() {
+		AvailabilityInfo availabilityInfo = multipleTicketAvailability();
+		widget.bind(buildActivityOffer(), false);
+		widget.buildTicketPickers(availabilityInfo);
+		LinearLayout container = (LinearLayout) widget.findViewById(R.id.ticket_selectors_container);
+		LinearLayout ticketSummaryContainer = (LinearLayout) widget.findViewById(R.id.ticket_summary_container);
+		View child = container.getChildAt(0);
+		ImageButton addTicketView = (ImageButton) child.findViewById(R.id.ticket_add);
+		ImageButton removeTicketView = (ImageButton) child.findViewById(R.id.ticket_remove);
+		removeTicketView.performClick();
+		assertFalse(removeTicketView.isEnabled());
+		assertEquals(View.GONE,ticketSummaryContainer.getVisibility());
+		addTicketView.performClick();
+		assertEquals(View.VISIBLE, ticketSummaryContainer.getVisibility());
 	}
 
 	private AvailabilityInfo singleTicketAvailability() {
