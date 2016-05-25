@@ -107,7 +107,7 @@ class PackageOverviewPresenter(context: Context, attrs: AttributeSet) : BaseOver
     }
 
     override fun trackCheckoutPageLoad() {
-        PackagesTracking().trackCheckoutStart(Db.getTripBucket().`package`.mPackageTripResponse.packageDetails)
+        PackagesTracking().trackCheckoutStart(Db.getTripBucket().`package`.mPackageTripResponse.packageDetails, Db.getPackageSelectedRoom().supplierType)
     }
 
     override fun trackPaymentCIDLoad() {

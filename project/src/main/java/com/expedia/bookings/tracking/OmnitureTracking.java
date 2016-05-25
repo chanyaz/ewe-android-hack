@@ -106,12 +106,10 @@ import com.mobiata.android.util.AdvertisingIdUtils;
 import com.mobiata.android.util.SettingUtils;
 
 /**
- *
  * The basic premise behind this class is to encapsulate the tracking logic as much possible such that tracking events
  * can be inserted into the business logic as cleanly as possible. The events rely on Db.java to populate values when
  * needed, and exceptions are made to accommodate the events that require extra parameters to be sent. This is why there
  * exist so many methods, one for each event that is being tracked.
- *
  */
 
 public class OmnitureTracking {
@@ -303,7 +301,7 @@ public class OmnitureTracking {
 	}
 
 	public static void internalTrackHotelsV2Search(com.expedia.bookings.data.hotels.HotelSearchParams searchParams,
-		com.expedia.bookings.data.hotels.HotelSearchResponse searchResponse) {
+												   com.expedia.bookings.data.hotels.HotelSearchResponse searchResponse) {
 		// Start actually tracking the search result change
 		Log.d(TAG, "Tracking \"" + HOTELSV2_RESULT + "\" pageLoad...");
 
@@ -520,7 +518,7 @@ public class OmnitureTracking {
 	}
 
 	public static void trackPageLoadHotelV2Infosite(HotelOffersResponse hotelOffersResponse, boolean isETPEligible,
-		boolean isCurrentLocationSearch, boolean isHotelSoldOut, boolean isRoomSoldOut) {
+													boolean isCurrentLocationSearch, boolean isHotelSoldOut, boolean isRoomSoldOut) {
 
 		Log.d(TAG, "Tracking \"" + HOTELSV2_DETAILS_PAGE + "\" pageload");
 
@@ -919,7 +917,7 @@ public class OmnitureTracking {
 
 		s.setEvar(2, "D=c2");
 
-		int numNights = JodaUtils.daysBetween(checkInDate,checkOutDate);
+		int numNights = JodaUtils.daysBetween(checkInDate, checkOutDate);
 		String totalCost = hotelCheckoutResponse.totalCharges;
 		String supplierType = hotelCheckoutResponse.checkoutResponse.bookingResponse.supplierType;
 		if (Strings.isEmpty(supplierType)) {
@@ -1014,7 +1012,7 @@ public class OmnitureTracking {
 	}
 
 
-	private static void addHotelV2Products(ADMS_Measurement s, HotelOffersResponse.HotelRoomResponse hotelRoomResponse,String hotelId) {
+	private static void addHotelV2Products(ADMS_Measurement s, HotelOffersResponse.HotelRoomResponse hotelRoomResponse, String hotelId) {
 		// The "products" field uses this format:
 		// Hotel;<supplier> Hotel:<hotel id>
 
@@ -1063,7 +1061,7 @@ public class OmnitureTracking {
 	}
 
 	private static void addHotelV2AdvancePurchaseWindow(ADMS_Measurement s,
-		com.expedia.bookings.data.hotels.HotelSearchParams searchParams) {
+														com.expedia.bookings.data.hotels.HotelSearchParams searchParams) {
 		String window = Integer.toString(JodaUtils.daysBetween(LocalDate.now(), searchParams.getCheckIn()));
 		s.setEvar(5, window);
 		s.setProp(5, window);
@@ -1157,7 +1155,7 @@ public class OmnitureTracking {
 	}
 
 	private static void internalTrackOldHotelsSearch(HotelSearchParams searchParams,
-		HotelSearchResponse searchResponse) {
+													 HotelSearchResponse searchResponse) {
 		// Start actually tracking the search result change
 		Log.d(TAG, "Tracking \"App.Hotels.Search\" pageLoad...");
 
@@ -1244,7 +1242,7 @@ public class OmnitureTracking {
 	}
 
 	public static void trackAppHotelsCheckoutConfirmation(Context context, HotelSearchParams searchParams,
-			Property property, String supplierType, Rate rate, HotelBookingResponse response) {
+														  Property property, String supplierType, Rate rate, HotelBookingResponse response) {
 		Log.d(TAG, "Tracking \"App.Hotels.Checkout.Confirmation\" pageLoad");
 
 		ADMS_Measurement s = getFreshTrackingObject();
@@ -1384,7 +1382,7 @@ public class OmnitureTracking {
 	}
 
 	private static void addEventsAndProductsForAirAttach(ADMS_Measurement s, Property property, String eventVar,
-			String evar66Val) {
+														 String evar66Val) {
 		addProducts(s, property);
 		String products = s.getProducts();
 		products += String.format(";;;;eVar66=%s", evar66Val);
@@ -2334,7 +2332,7 @@ public class OmnitureTracking {
 	}
 
 	public static void trackAppLXSearch(LXSearchParams lxSearchParams,
-		LXSearchResponse lxSearchResponse, boolean isGroundTransport) {
+										LXSearchResponse lxSearchResponse, boolean isGroundTransport) {
 		// Start actually tracking the search result change
 		Log.d(TAG, "Tracking \"" + LX_SEARCH + "\" pageLoad...");
 
@@ -2365,7 +2363,7 @@ public class OmnitureTracking {
 	}
 
 	public static void trackAppLXSearchCategories(LXSearchParams lxSearchParams,
-		LXSearchResponse lxSearchResponse) {
+												  LXSearchResponse lxSearchResponse) {
 		// Start actually tracking the search result change
 		Log.d(TAG, "Tracking \"" + LX_SEARCH_CATEGORIES + "\" pageLoad...");
 
@@ -2472,7 +2470,7 @@ public class OmnitureTracking {
 	}
 
 	public static void trackAppLXProductInformation(ActivityDetailsResponse activityDetailsResponse,
-		LXSearchParams lxSearchParams, boolean isGroundTransport) {
+													LXSearchParams lxSearchParams, boolean isGroundTransport) {
 		Log.d(TAG, "Tracking \"" + LX_INFOSITE_INFORMATION + "\" pageLoad...");
 
 		ADMS_Measurement s = internalTrackAppLX(
@@ -2494,7 +2492,7 @@ public class OmnitureTracking {
 	}
 
 	public static void trackAppLXCheckoutPayment(String lxActivityId, LocalDate lxActivityStartDate,
-		int selectedTicketsCount, String totalPriceFormattedTo2DecimalPlaces, boolean isGroundTransport) {
+												 int selectedTicketsCount, String totalPriceFormattedTo2DecimalPlaces, boolean isGroundTransport) {
 		Log.d(TAG, "Tracking \"" + LX_CHECKOUT_INFO + "\" pageLoad...");
 
 		ADMS_Measurement s = internalTrackAppLX(isGroundTransport ? LX_GT_CHECKOUT_INFO : LX_CHECKOUT_INFO);
@@ -2507,7 +2505,7 @@ public class OmnitureTracking {
 	}
 
 	public static void trackAppLXCheckoutConfirmation(LXCheckoutResponse checkoutResponse,
-		String lxActivityId, LocalDate lxActivityStartDate, LocalDate lxActivityEndDate, int selectedTicketsCount, boolean isGroundTransport) {
+													  String lxActivityId, LocalDate lxActivityStartDate, LocalDate lxActivityEndDate, int selectedTicketsCount, boolean isGroundTransport) {
 		Log.d(TAG, "Tracking \"" + LX_CHECKOUT_CONFIRMATION + "\" pageLoad...");
 
 		ADMS_Measurement s = internalTrackAppLX(
@@ -2678,13 +2676,13 @@ public class OmnitureTracking {
 	private static void addOriginAndDestinationVars(ADMS_Measurement s, SuggestionV2 origin, SuggestionV2 destination) {
 		String originRegionId =
 			(origin != null && origin.getRegionId() != 0) ?
-			Integer.toString(origin.getRegionId()) : "No Origin";
+				Integer.toString(origin.getRegionId()) : "No Origin";
 		s.setProp(3, originRegionId);
 		s.setEvar(3, "D=c3");
 
 		String destinationRegionId =
 			(destination != null && destination.getRegionId() != 0) ?
-			Integer.toString(destination.getRegionId()) : "No Destination";
+				Integer.toString(destination.getRegionId()) : "No Destination";
 		s.setProp(4, destinationRegionId);
 		s.setEvar(4, "D=c4");
 	}
@@ -2814,7 +2812,7 @@ public class OmnitureTracking {
 	}
 
 	public static void trackTripBucketPortraitToggle(LineOfBusiness lob,
-		CheckoutTripBucketState newState) {
+													 CheckoutTripBucketState newState) {
 		String suffix = newState == CheckoutTripBucketState.OPEN ? ".Checkout.DetailsExpand" : ".Checkout.DetailsCollapse";
 		internalTrackLink(getBase(lob == LineOfBusiness.FLIGHTS) + suffix);
 	}
@@ -2835,12 +2833,12 @@ public class OmnitureTracking {
 	private static final String LX_CONFIRMATION_PROP_DATE_FORMAT = "yyyyMMdd";
 
 	public static void trackTabletHotelListOpen(HotelSearchParams searchParams,
-		HotelSearchResponse searchResponse) {
+												HotelSearchResponse searchResponse) {
 		internalTrackTabletHotelSearchOpen(searchParams, searchResponse);
 	}
 
 	private static void internalTrackTabletHotelSearchOpen(HotelSearchParams searchParams,
-		HotelSearchResponse searchResponse) {
+														   HotelSearchResponse searchResponse) {
 		ADMS_Measurement s = createTrackPageLoadEventBase(PAGE_NAME_HOTEL_SEARCH);
 		// Events
 		s.setEvents("event30,event51");
@@ -2993,7 +2991,7 @@ public class OmnitureTracking {
 	}
 
 	public static void trackItemSoldOutOnCheckoutLink(LineOfBusiness lob) {
-		String soldOutLink = getBase(lob == LineOfBusiness.FLIGHTS) +  ".Checkout.Error";
+		String soldOutLink = getBase(lob == LineOfBusiness.FLIGHTS) + ".Checkout.Error";
 		internalTrackLink(soldOutLink);
 	}
 
@@ -3085,8 +3083,8 @@ public class OmnitureTracking {
 	}
 
 	private static void internalTrackTabletCheckoutPageLoad(LineOfBusiness lob,
-		String pageNameSuffix,
-		boolean includePaymentInfo, boolean isConfirmation) {
+															String pageNameSuffix,
+															boolean includePaymentInfo, boolean isConfirmation) {
 		boolean isFlights = lob == LineOfBusiness.FLIGHTS;
 		String pageName = getBase(isFlights) + pageNameSuffix;
 		ADMS_Measurement s = createTrackPageLoadEventBase(pageName);
@@ -3212,6 +3210,7 @@ public class OmnitureTracking {
 		s.setEvar(12, CROSS_SELL_LX_FROM_FLIGHT);
 		s.trackLink(null, "o", "Confirmation Cross Sell", null, null);
 	}
+
 	public static void trackDoneBookingClick(LineOfBusiness lob) {
 		String link = getBase(lob == LineOfBusiness.FLIGHTS) + ".Confirm.Done";
 		internalTrackLink(link);
@@ -3286,7 +3285,8 @@ public class OmnitureTracking {
 
 	/**
 	 * Track the itin card sharing click
-	 * @param type which itin card type was being shared
+	 *
+	 * @param type          which itin card type was being shared
 	 * @param isLongMessage true denotes it was a share message long, false denotes share message short
 	 */
 	public static void trackItinShare(Type type, boolean isLongMessage) {
@@ -3416,7 +3416,7 @@ public class OmnitureTracking {
 	/**
 	 * Note: Due to the way that ItineraryManager interacts with our Fragments + Views, this extra bookkeeping is
 	 * required currently to correctly fire the single success event of adding a guest itinerary manually.
-	 *
+	 * <p/>
 	 * I thought about adding this bookkeeping into ItineraryManager, but I decided not to bloat ItinManager with stuff
 	 * that is only needed for tracking purposes.
 	 */
@@ -4063,7 +4063,7 @@ public class OmnitureTracking {
 	}
 
 	private static void addCommonLaunchScreenFields(ADMS_Measurement s, String launchMessage,
-		String tileType) {
+													String tileType) {
 
 		s.setEvar(28, LAUNCH_DEALS_TILE + "." + tileType);
 		s.setProp(16, LAUNCH_DEALS_TILE + "." + tileType);
@@ -4150,8 +4150,9 @@ public class OmnitureTracking {
 	/**
 	 * Most tracking events are pretty simple and can be captured by these few fields.  This method handles
 	 * both onClick and pageLoad events (depending on whether pageName is supplied).
-	 *  @param pageName the page name if this is a pageLoad event; for onClick, this should be null
-	 * @param events The "events" variable, if one needs to be set.  Can be null.
+	 *
+	 * @param pageName   the page name if this is a pageLoad event; for onClick, this should be null
+	 * @param events     The "events" variable, if one needs to be set.  Can be null.
 	 * @param referrerId The "referrer" for an event.  Typically this is the name of the onClick event.
 	 */
 	public static void trackSimpleEvent(String pageName, String events, String referrerId) {
@@ -4178,7 +4179,7 @@ public class OmnitureTracking {
 	}
 
 	private static ADMS_Measurement createSimpleEvent(String pageName, String events,
-		String referrerId) {
+													  String referrerId) {
 		ADMS_Measurement s = OmnitureTracking.getFreshTrackingObject();
 
 
@@ -4311,7 +4312,7 @@ public class OmnitureTracking {
 			s.setProp(13, expediaId);
 		}
 
-		String evar55 =  User.isLoggedIn(sContext) ? "loggedin | hard" : "unknown user";
+		String evar55 = User.isLoggedIn(sContext) ? "loggedin | hard" : "unknown user";
 		s.setEvar(55, evar55);
 
 		s.setEvar(56, rewardsStatus);
@@ -5012,26 +5013,26 @@ public class OmnitureTracking {
 	 *
 	 * @param packageDetails
 	 */
-	public static void trackPackagesCheckoutStart(PackageCreateTripResponse.PackageDetails packageDetails) {
+	public static void trackPackagesCheckoutStart(PackageCreateTripResponse.PackageDetails packageDetails, String hotelSupplierType) {
 		Log.d(TAG, "Tracking \"" + PACKAGES_CHECKOUT_INFO + "\"");
 
 		ADMS_Measurement s = createTrackPageLoadEventBase(PACKAGES_CHECKOUT_INFO);
 		s.setEvents("event36, event72");
 		addPackagesCommonFields(s);
-		setPackageProducts(s, packageDetails.pricing.packageTotal.amount.doubleValue(), true);
+		setPackageProducts(s, packageDetails.pricing.packageTotal.amount.doubleValue(), true, hotelSupplierType);
 
 		s.track();
 	}
 
 	private static void setPackageProducts(ADMS_Measurement s, double productPrice) {
-		setPackageProducts(s, productPrice, false, false);
+		setPackageProducts(s, productPrice, false, false, null);
 	}
 
-	private static void setPackageProducts(ADMS_Measurement s, double productPrice, boolean addEvar63) {
-		setPackageProducts(s, productPrice, addEvar63, false);
+	private static void setPackageProducts(ADMS_Measurement s, double productPrice, boolean addEvar63, String hotelSupplierType) {
+		setPackageProducts(s, productPrice, addEvar63, false, hotelSupplierType);
 	}
 
-	private static void setPackageProducts(ADMS_Measurement s, double productPrice, boolean addEvarInventory, boolean isConfirmation) {
+	private static void setPackageProducts(ADMS_Measurement s, double productPrice, boolean addEvarInventory, boolean isConfirmation, String hotelSupplierType) {
 		StringBuilder productString = new StringBuilder();
 		/*
 			Trip type:
@@ -5045,9 +5046,11 @@ public class OmnitureTracking {
 		productString.append(numTravelers + ";" + productPrice + ";;");
 
 		String eVarNumber = isConfirmation ? "eVar30" : "eVar63";
+		String flightInventoryType = PackageFlightUtils.isFlightMerchant(Db.getPackageSelectedOutboundFlight()) ? "Merchant" : "Agency";
+
 		if (addEvarInventory) {
-			//TODO: check inventoryType flight+hotel = agency/merchant or mixed
-			productString.append(eVarNumber + "=Mixed:PKG");
+			String packageSupplierType = hotelSupplierType.toLowerCase(Locale.ENGLISH).equals(flightInventoryType.toLowerCase(Locale.ENGLISH)) ? flightInventoryType : "Mixed";
+			productString.append(eVarNumber + "=" + packageSupplierType + ":PKG");
 		}
 
 		String eVar30DurationString = null;
@@ -5063,8 +5066,7 @@ public class OmnitureTracking {
 		productString.append(numTravelers + ";0.00;;");
 
 		if (addEvarInventory) {
-			String inventoryType = PackageFlightUtils.isFlightMerchant(Db.getPackageSelectedOutboundFlight()) ? "Merchant" : "Agency";
-			productString.append(eVarNumber + "=" + inventoryType + ":PKG");
+			productString.append(eVarNumber + "=" + flightInventoryType + ":PKG");
 		}
 
 		if (isConfirmation) {
@@ -5083,9 +5085,8 @@ public class OmnitureTracking {
 		productString.append(";0.00;;");
 
 		if (addEvarInventory) {
-			//TODO: check inventoryType hotel = agency/merchant blocked on API - should return in hotelOffers call
 			// https://confluence/display/Omniture/Products+String+and+Events#ProductsStringandEvents-Hotels
-			productString.append(eVarNumber + "=Agency:PKG");
+			productString.append(eVarNumber + "=" + hotelSupplierType + ":PKG");
 		}
 
 		if (isConfirmation) {
@@ -5203,10 +5204,10 @@ public class OmnitureTracking {
 		createAndtrackLinkEvent(PACKAGES_CHECKOUT_PAYMENT_SELECT_STORED_CC, "Package Checkout");
 	}
 
-	public static void trackPackagesConfirmation(PackageCheckoutResponse response) {
+	public static void trackPackagesConfirmation(PackageCheckoutResponse response, String hotelSupplierType) {
 		Log.d(TAG, "Tracking \"" + PACKAGES_CHECKOUT_PAYMENT_CONFIRMATION + "\" pageLoad");
 		ADMS_Measurement s = createTrackPackagePageLoadEventBase(PACKAGES_CHECKOUT_PAYMENT_CONFIRMATION);
-		setPackageProducts(s, response.getTotalChargesPrice().amount.doubleValue(), true, true);
+		setPackageProducts(s, response.getTotalChargesPrice().amount.doubleValue(), true, true, hotelSupplierType);
 		s.setCurrencyCode(response.getTotalChargesPrice().currencyCode);
 		s.setEvents("purchase");
 		s.setPurchaseID("onum" + response.getOrderId());
