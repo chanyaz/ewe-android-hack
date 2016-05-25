@@ -61,6 +61,8 @@ class PackageSearchPresenter(context: Context, attrs: AttributeSet) : BaseTwoLoc
 
         originSuggestionViewModel = PackageSuggestionAdapterViewModel(getContext(), suggestionServices, false, CurrentLocationObservable.create(getContext()))
         destinationSuggestionViewModel = PackageSuggestionAdapterViewModel(getContext(), suggestionServices, true, null)
+        originSuggestionViewModel.setCustomerSelectingOrigin(true)
+        destinationSuggestionViewModel.setCustomerSelectingOrigin(false)
         originSuggestionAdapter = PackageSuggestionAdapter(originSuggestionViewModel)
         destinationSuggestionAdapter = PackageSuggestionAdapter(destinationSuggestionViewModel)
         travelerWidgetV2.traveler.viewmodel.showSeatingPreference = true

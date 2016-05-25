@@ -6,7 +6,7 @@ import com.expedia.bookings.data.SuggestionV4
 import rx.subjects.BehaviorSubject
 import rx.subjects.PublishSubject
 
-class SuggestionViewModel() {
+class SuggestionViewModel(isCustomerSelectingOrigin: Boolean) {
 
     // Outputs
     val titleObservable = BehaviorSubject.create<String>()
@@ -29,8 +29,10 @@ class SuggestionViewModel() {
                         R.drawable.recents
                     } else if (suggestion.iconType == SuggestionV4.IconType.CURRENT_LOCATION_ICON) {
                         R.drawable.ic_suggest_current_location
-                    } else {
+                    } else if (isCustomerSelectingOrigin) {
                         R.drawable.airport_suggest
+                    } else {
+                        R.drawable.search_type_icon
                     }
             )
         }

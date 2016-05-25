@@ -16,7 +16,7 @@ abstract class SuggestionAdapter(val viewmodel: SuggestionAdapterViewModel) : Re
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder? {
         var view = LayoutInflater.from(parent.context).inflate(R.layout.hotel_dropdown_item, parent, false)
-        val vm = SuggestionViewModel()
+        val vm = SuggestionViewModel(viewmodel.getCustomerSelectingOrigin())
         vm.suggestionSelected.subscribe(viewmodel.suggestionSelectedSubject)
         return makeViewHolder(view as ViewGroup, vm)
     }
