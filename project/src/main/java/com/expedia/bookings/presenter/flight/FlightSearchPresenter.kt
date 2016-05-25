@@ -60,7 +60,7 @@ class FlightSearchPresenter(context: Context, attrs: AttributeSet) : BaseTwoLoca
 
     override fun inflate() {
         View.inflate(context, R.layout.widget_package_search, this)
-        toolBarTitle.text = context.resources.getText(R.string.search_flights)
+        toolBarTitle.text = context.resources.getText(R.string.flights_title)
     }
 
     override fun onFinishInflate() {

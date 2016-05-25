@@ -977,7 +977,7 @@
 
     <!-- Nav Dropdown menu -->
     <!-- Flights -->
-    <string name="nav_flights">機票</string>
+    <string name="flights_title">機票</string>
     <!-- Hotels -->
     <string name="nav_hotels">飯店</string>
     <!-- Cars -->

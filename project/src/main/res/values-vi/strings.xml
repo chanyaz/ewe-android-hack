@@ -977,7 +977,7 @@
 
     <!-- Nav Dropdown menu -->
     <!-- Flights -->
-    <string name="nav_flights">Chuyến\nbay</string>
+    <string name="flights_title">Chuyến\nbay</string>
     <!-- Hotels -->
     <string name="nav_hotels">Khách\nsạn</string>
     <!-- Cars -->

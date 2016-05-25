@@ -86,7 +86,7 @@
                 android:layout_weight="1"
                 android:drawableTop="@drawable/btn_tvly_flights"
                 android:gravity="center"
-                android:text="@string/nav_flights"
+                android:text="@string/flights_title"
                 android:textSize="15dp" />
 
             <TextView

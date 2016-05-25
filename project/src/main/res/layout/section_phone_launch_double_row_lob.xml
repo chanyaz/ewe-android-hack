@@ -38,7 +38,7 @@
             android:layout_weight="1"
             app:btn_bg="@color/flights_lob_btn"
             app:btn_icon="@drawable/ic_launch_flights"
-            app:btn_text="@string/nav_flights"
+            app:btn_text="@string/flights_title"
             app:icon_min_scale=".68" />
 
     </LinearLayout>

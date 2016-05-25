@@ -977,7 +977,7 @@
 
     <!-- Nav Dropdown menu -->
     <!-- Flights -->
-    <string name="nav_flights">Voli</string>
+    <string name="flights_title">Voli</string>
     <!-- Hotels -->
     <string name="nav_hotels">Hotel</string>
     <!-- Cars -->
