@@ -656,11 +656,13 @@
     <!-- Text for traveler age dialog box when age is invalid-->
     <string name="traveler_age_title">Traveler Age</string>
     <!-- Text for traveler infant error-->
-    <string name="traveler_infant_error">This infant must be less than 2 years old</string>
+    <string name="traveler_infant_error">This traveler must be under the age of 24 months for the entire trip to travel as an infant</string>
     <!-- Text for traveler child error-->
-    <string name="traveler_child_error">This child must be 2-17 years old</string>
+    <string name="traveler_child_error">This traveler must be under the age of 12 for the entire trip to travel as a child</string>
+    <!-- Text for traveler adult child error-->
+    <string name="traveler_adult_child_error">This traveler must be between 12 and 17 years old at the time of the trip</string>
     <!-- Text for traveler adult error-->
-    <string name="traveler_adult_error">This adult must be older than 18 years old</string>
+    <string name="traveler_adult_error">This traveler must be 18 years or older</string>
     <!-- Text informing guest that main travler is checking into hotel-->
     <string name="traveler_main_message">Main traveler must check into the hotel. Must be 18 or older.</string>
     <!-- Text for enter traveler details-->
@@ -2182,7 +2184,8 @@
         <item quantity="one">+ {travelercount} more traveler</item>
         <item quantity="other">+ {travelercount} more travelers</item>
     </plurals>
-    <string name="checkout_edit_traveler_TEMPLATE">Edit Traveler {travelernumber} ({passengercategory})</string>
+    <string name="checkout_edit_traveler_TEMPLATE">Edit Traveler {travelernumber} ({passengerage})</string>
+    <string name="traveler_child_age_TEMPLATE">{age} year old</string>
     <!-- Save traveler dialog -->
     <!-- save traveler -->
     <string name="save_traveler">Save Traveler</string>

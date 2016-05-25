@@ -52,13 +52,13 @@ public class BaseTravelerPresenterTestHelper {
 	protected final String expectedMainText = "Main Traveler";
 	protected final String expectedAdditionalText = "Additional Travelers";
 	protected final String expectedTravelerOneText = Phrase.from(InstrumentationRegistry.getTargetContext()
-		.getString(R.string.checkout_edit_traveler_TEMPLATE)).put("travelernumber", 1).put("passengercategory", "Adult").format().toString();
+		.getString(R.string.checkout_edit_traveler_TEMPLATE)).put("travelernumber", 1).put("passengerage", "Adult").format().toString();
 	protected final String expectedTravelerTwoText = Phrase.from(InstrumentationRegistry.getTargetContext()
-		.getString(R.string.checkout_edit_traveler_TEMPLATE)).put("travelernumber", 2).put("passengercategory", "Adult").format().toString();
+		.getString(R.string.checkout_edit_traveler_TEMPLATE)).put("travelernumber", 2).put("passengerage", "Adult").format().toString();
 	protected final String expectedTravelerChildText = Phrase.from(InstrumentationRegistry.getTargetContext()
-		.getString(R.string.checkout_edit_traveler_TEMPLATE)).put("travelernumber", 3).put("passengercategory", "Child").format().toString();
+		.getString(R.string.checkout_edit_traveler_TEMPLATE)).put("travelernumber", 3).put("passengerage", "10 year old").format().toString();
 	protected final String expectedTravelerInfantText = Phrase.from(InstrumentationRegistry.getTargetContext()
-		.getString(R.string.checkout_edit_traveler_TEMPLATE)).put("travelernumber", 3).put("passengercategory", "Infant").format().toString();
+		.getString(R.string.checkout_edit_traveler_TEMPLATE)).put("travelernumber", 3).put("passengerage", "1 year old").format().toString();
 
 	@Rule
 	public PlaygroundRule activityTestRule = new PlaygroundRule(R.layout.test_traveler_presenter, R.style.V2_Theme_Packages);
@@ -110,18 +110,29 @@ public class BaseTravelerPresenterTestHelper {
 			Traveler adultTraveler = new Traveler();
 			adultTraveler.setPassengerCategory(PassengerCategory.ADULT);
 			adultTraveler.setGender(Traveler.Gender.MALE);
+			adultTraveler.setSearchedAge(-1);
 			travelers.add(adultTraveler);
 		}
 		if (children != null) {
 			for (int i = 0; i < children.size(); i++) {
 				Traveler childTraveler = new Traveler();
 				childTraveler.setGender(Traveler.Gender.GENDER);
-				if (infantsInLap) {
-					childTraveler.setPassengerCategory(PassengerCategory.INFANT_IN_LAP);
+				int age = children.get(i);
+				if (age < 2) {
+					if (infantsInLap) {
+						childTraveler.setPassengerCategory(PassengerCategory.INFANT_IN_LAP);
+					}
+					else {
+						childTraveler.setPassengerCategory(PassengerCategory.INFANT_IN_SEAT);
+					}
 				}
-				else {
+				else if (age < 12) {
 					childTraveler.setPassengerCategory(PassengerCategory.CHILD);
 				}
+				else if (age < 18) {
+					childTraveler.setPassengerCategory(PassengerCategory.ADULT_CHILD);
+				}
+				childTraveler.setSearchedAge(age);
 				travelers.add(childTraveler);
 			}
 		}

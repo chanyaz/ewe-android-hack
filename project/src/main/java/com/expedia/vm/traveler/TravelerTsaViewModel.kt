@@ -70,6 +70,8 @@ class TravelerTSAViewModel(val context: Context) {
             birthErrorTextSubject.onNext(context.getString(R.string.traveler_infant_error))
         } else if (category == PassengerCategory.CHILD) {
             birthErrorTextSubject.onNext(context.getString(R.string.traveler_child_error))
+        } else if (category == PassengerCategory.ADULT_CHILD) {
+            birthErrorTextSubject.onNext(context.getString(R.string.traveler_adult_child_error))
         } else {
             birthErrorTextSubject.onNext(context.getString(R.string.traveler_adult_error))
         }
