@@ -54,6 +54,8 @@ class NewPhoneLaunchWidget(context: Context, attrs: AttributeSet?) : Coordinator
         findViewById(R.id.fab) as FloatingActionButton
     }
 
+    val lobView: View by bindView(R.id.lobView)
+
     val fabTranslationHeight by lazy {
         (context.resources.getDimensionPixelSize(R.dimen.new_launch_screen_fab_height) +
                 context.resources.getDimensionPixelSize(R.dimen.new_launch_screen_fab_bottom_margin)).toFloat()
@@ -64,10 +66,6 @@ class NewPhoneLaunchWidget(context: Context, attrs: AttributeSet?) : Coordinator
     val darkView: View by bindView(R.id.darkness)
     val appBarLayoutHeight: Int by lazy {
         appBarLayout.height
-    }
-
-    init {
-
     }
 
     override fun onFinishInflate() {
@@ -85,8 +83,10 @@ class NewPhoneLaunchWidget(context: Context, attrs: AttributeSet?) : Coordinator
             }
         }
 
-        darkView.setOnClickListener {
+        darkView.setOnTouchListener { view, motionEvent ->
             hideLobAndDarkView()
+            showFabButton()
+            true
         }
 
         (launchListWidget.adapter as LaunchListAdapter).hotelSelectedSubject.subscribe { selectedHotel ->
@@ -109,12 +109,19 @@ class NewPhoneLaunchWidget(context: Context, attrs: AttributeSet?) : Coordinator
 
     private fun showLobAndDarkView() {
         darkView.visibility = VISIBLE
-        appBarLayout.setExpanded(true, true)
+        val showDarknessAnim = ObjectAnimator.ofFloat(darkView, "alpha", 0f, 0.7f)
+        fabAnimation(showDarknessAnim)
+        val fabAnimIn = ObjectAnimator.ofFloat(lobView, "translationY", 0f)
+        fabAnimation(fabAnimIn)
+        hideFabButton()
     }
 
     private fun hideLobAndDarkView() {
+        val hideDarknessAnim = ObjectAnimator.ofFloat(darkView, "alpha", 0.7f, 0f)
+        fabAnimation(hideDarknessAnim)
         darkView.visibility = INVISIBLE
-        appBarLayout.setExpanded(false, true)
+        val fabAnimOut = ObjectAnimator.ofFloat(lobView, "translationY", - lobView.height.toFloat())
+        fabAnimation(fabAnimOut)
     }
 
     // Added only to handle fling on recycler view have to find a better way

@@ -200,7 +200,6 @@ class NewPhoneLaunchActivity : AbstractAppCompatActivity(), IPhoneLaunchFragment
             when (position) {
                 PAGER_POS_ITIN -> frag = ItinItemListFragment.newInstance(jumpToItinId)
                 PAGER_POS_LAUNCH -> frag = NewPhoneLaunchFragment()
-            //TODO have to refactor account activity to fragment
                 PAGER_POS_ACCOUNT -> frag = AccountSettingsFragment()
                 else -> throw RuntimeException("Position out of bounds position=" + position)
             }
