@@ -4,6 +4,8 @@ import android.content.Context
 import com.expedia.bookings.data.trips.TripComponent
 import com.expedia.bookings.utils.ItinUtils
 import org.joda.time.DateTime
+import org.joda.time.DateTimeUtils
+import org.junit.After
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RuntimeEnvironment
@@ -18,15 +20,28 @@ class FlightItinCheckinTest {
 
     @Test
     fun testShouldShowCheckin() {
-        val dateTime = DateTime.now();
-        assertTrue(ItinUtils.shouldShowCheckInLink(context, TripComponent.Type.FLIGHT, dateTime.plusHours(1), "checkInLink", dateTime))
-        assertFalse(ItinUtils.shouldShowCheckInLink(context, TripComponent.Type.FLIGHT, dateTime.plusMinutes(59), "checkInLink", dateTime))
-        assertFalse(ItinUtils.shouldShowCheckInLink(context, TripComponent.Type.FLIGHT, dateTime.minusHours(1), "checkInLink", dateTime))
-        assertTrue(ItinUtils.shouldShowCheckInLink(context, TripComponent.Type.FLIGHT, dateTime.plusHours(23), "checkInLink", dateTime))
-        assertFalse(ItinUtils.shouldShowCheckInLink(context, TripComponent.Type.FLIGHT, dateTime.plusHours(25), "checkInLink", dateTime))
-        assertFalse(ItinUtils.shouldShowCheckInLink(context, TripComponent.Type.HOTEL, dateTime.plusHours(23), "checkInLink", dateTime))
-        assertFalse(ItinUtils.shouldShowCheckInLink(context, TripComponent.Type.HOTEL, dateTime.plusHours(23), "checkInLink", dateTime))
-        assertFalse(ItinUtils.shouldShowCheckInLink(context, TripComponent.Type.FLIGHT, dateTime.plusHours(23), "", dateTime))
-        assertFalse(ItinUtils.shouldShowCheckInLink(context, TripComponent.Type.FLIGHT, dateTime.plusHours(23), null, dateTime))
+        val now = DateTime.now()
+        DateTimeUtils.setCurrentMillisFixed(now.millis)
+
+        assertTrue(ItinUtils.shouldShowCheckInLink(context, TripComponent.Type.FLIGHT, now.plusHours(1),
+                "checkInLink"))
+        assertFalse(ItinUtils.shouldShowCheckInLink(context, TripComponent.Type.FLIGHT, now.plusMinutes(59),
+                "checkInLink"))
+        assertFalse(ItinUtils.shouldShowCheckInLink(context, TripComponent.Type.FLIGHT, now.minusHours(1),
+                "checkInLink"))
+        assertTrue(ItinUtils.shouldShowCheckInLink(context, TripComponent.Type.FLIGHT, now.plusHours(23),
+                "checkInLink"))
+        assertFalse(ItinUtils.shouldShowCheckInLink(context, TripComponent.Type.FLIGHT, now.plusHours(25),
+                "checkInLink"))
+        assertFalse(ItinUtils.shouldShowCheckInLink(context, TripComponent.Type.HOTEL, now.plusHours(23),
+                "checkInLink"))
+        assertFalse(ItinUtils.shouldShowCheckInLink(context, TripComponent.Type.HOTEL, now.plusHours(23),
+                "checkInLink"))
+        assertFalse(ItinUtils.shouldShowCheckInLink(context, TripComponent.Type.FLIGHT, now.plusHours(23),
+                ""))
+        assertFalse(ItinUtils.shouldShowCheckInLink(context, TripComponent.Type.FLIGHT, now.plusHours(23),
+                null))
+
+        DateTimeUtils.setCurrentMillisSystem()
     }
 }
