@@ -23,6 +23,7 @@ import com.expedia.util.notNullAndObservable
 import com.expedia.util.subscribeOnClick
 import com.expedia.util.subscribeText
 import com.expedia.util.subscribeVisibility
+import com.expedia.util.subscribeTextAndVisibility
 import com.expedia.vm.HotelConfirmationViewModel
 import com.squareup.phrase.Phrase
 
@@ -39,6 +40,7 @@ class HotelConfirmationPresenter(context: Context, attrs: AttributeSet) : Presen
     val callSupportBtn: TextView by bindView(R.id.call_support_action_textView)
     val addCarBtn: TextView by bindView(R.id.add_car_textView)
     val addFlightBtn: TextView by bindView(R.id.add_flight_textView)
+    val addLXBtn: TextView by bindView(R.id.add_lx_textView)
     val sendToEmailTextView: TextView by bindView(R.id.email_text)
     val toolbar: Toolbar by bindView(R.id.toolbar)
 
@@ -65,10 +67,12 @@ class HotelConfirmationPresenter(context: Context, attrs: AttributeSet) : Presen
         hotelConfirmationViewModel.addressLineTwo.subscribeText(addressL2TextView)
         hotelConfirmationViewModel.addFlightBtnText.subscribeText(addFlightBtn)
         hotelConfirmationViewModel.addCarBtnText.subscribeText(addCarBtn)
+        hotelConfirmationViewModel.addLXBtn.subscribeTextAndVisibility(addLXBtn)
         hotelConfirmationViewModel.customerEmail.subscribeText(sendToEmailTextView)
 
         addFlightBtn.subscribeOnClick(hotelConfirmationViewModel.getAddFlightBtnObserver(getContext()))
         addCarBtn.subscribeOnClick(hotelConfirmationViewModel.getAddCarBtnObserver(getContext()))
+        addLXBtn.subscribeOnClick(hotelConfirmationViewModel.getAddLXBtnObserver(getContext()))
         addToCalendarBtn.subscribeOnClick(hotelConfirmationViewModel.getAddToCalendarBtnObserver(getContext()))
         callSupportBtn.subscribeOnClick(hotelConfirmationViewModel.getCallSupportBtnObserver(getContext()))
         directionsToHotelBtn.subscribeOnClick(hotelConfirmationViewModel.getDirectionsToHotelBtnObserver(getContext()))
@@ -81,6 +85,7 @@ class HotelConfirmationPresenter(context: Context, attrs: AttributeSet) : Presen
         dressAction(addToCalendarBtn, R.drawable.add_to_calendar)
         dressAction(addCarBtn, R.drawable.hotel_car)
         dressAction(addFlightBtn, R.drawable.car_flights)
+        dressAction(addLXBtn, R.drawable.ic_activity_attach)
         dressAction(callSupportBtn, R.drawable.hotel_phone)
         callSupportBtn.text = Phrase.from(context, R.string.call_customer_support_TEMPLATE).put("brand", BuildConfig.brand).format()
     }

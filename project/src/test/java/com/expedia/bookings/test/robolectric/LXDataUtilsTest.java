@@ -12,11 +12,15 @@ import org.robolectric.RuntimeEnvironment;
 import android.content.Context;
 import android.net.Uri;
 
+import com.expedia.bookings.R;
+import com.expedia.bookings.data.Location;
 import com.expedia.bookings.data.lx.LXSearchParams;
 import com.expedia.bookings.data.lx.LXTicketType;
+import com.expedia.bookings.data.lx.SearchType;
 import com.expedia.bookings.data.lx.Ticket;
 import com.expedia.bookings.utils.DateUtils;
 import com.expedia.bookings.utils.LXDataUtils;
+import com.expedia.bookings.utils.Strings;
 
 import static org.junit.Assert.assertEquals;
 
@@ -127,6 +131,32 @@ public class LXDataUtilsTest {
 		// Default to today's date, in case of an incorrect URL.
 		assertEquals(searchParamsFromEmptyParamsURL.startDate, LocalDate.now());
 		assertEquals(searchParamsFromMissingDateURL.startDate, LocalDate.now());
+	}
+
+	@Test
+	public void lxSearchParamsFromHotelParams() {
+		LocalDate checkinDate = new LocalDate();
+		Location location = new Location();
+		location.setCity("San francisco");
+		location.setStateCode("SFO");
+		LocalDate checkoutDate = new LocalDate().plusDays(14);
+
+		// Expected params.
+		LXSearchParams expectedSearchParams = new LXSearchParams();
+		expectedSearchParams.startDate = checkinDate;
+		expectedSearchParams.location = getContext().getResources().getString(
+			R.string.lx_destination_TEMPLATE, location.getCity(),
+			Strings.isEmpty(location.getStateCode()) ? location.getCountryCode() : location.getStateCode());
+		expectedSearchParams.endDate = checkoutDate;
+		expectedSearchParams.searchType = SearchType.EXPLICIT_SEARCH;
+
+		LXSearchParams obtainedSearchParams = LXDataUtils.fromHotelParams(getContext(), checkinDate, location);
+
+		assertEquals(expectedSearchParams.location, obtainedSearchParams.location);
+		assertEquals(expectedSearchParams.searchType, obtainedSearchParams.searchType);
+		assertEquals(expectedSearchParams.startDate, obtainedSearchParams.startDate);
+		assertEquals(expectedSearchParams.endDate, obtainedSearchParams.endDate);
+
 	}
 
 	private LXSearchParams getLxSearchParamsFromDeeplink(String expectedURL) {

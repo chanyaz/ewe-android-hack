@@ -934,6 +934,13 @@ public class OmnitureTracking {
 		s.setCurrencyCode(hotelCheckoutResponse.currencyCode);
 
 		s.setEvar(53, getPercentageOfAmountPaidWithPoints(percentagePaidWithPoints));
+
+		// LX Cross sell
+		boolean isLXEnabled = PointOfSale.getPointOfSale().supports(LineOfBusiness.LX);
+		if (isLXEnabled) {
+			trackAbacusTest(s, AbacusUtils.EBAndroidAppLXCrossSellOnHotelConfirmationTest);
+		}
+
 		// Send the tracking data
 		s.track();
 	}
@@ -974,6 +981,9 @@ public class OmnitureTracking {
 
 		ADMS_Measurement s = createTrackLinkEvent(HOTELSV2_CONFIRMATION_CROSS_SELL);
 		s.setEvar(12, "CrossSell.Hotels.Confirm." + typeOfBusiness);
+		String posTpid = Integer.toString(PointOfSale.getPointOfSale().getTpid());
+		s.setProp(7, posTpid);
+
 		s.trackLink(null, "o", "Confirmation Trip Action", null, null);
 	}
 

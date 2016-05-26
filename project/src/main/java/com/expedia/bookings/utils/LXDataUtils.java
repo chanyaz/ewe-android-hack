@@ -25,7 +25,6 @@ import com.expedia.bookings.data.lx.LXSearchParams;
 import com.expedia.bookings.data.lx.LXTicketType;
 import com.expedia.bookings.data.lx.SearchType;
 import com.expedia.bookings.data.lx.Ticket;
-import com.expedia.bookings.data.trips.TripHotel;
 import com.mobiata.android.text.StrikethroughTagHandler;
 import com.mobiata.flightlib.data.Airport;
 import com.squareup.phrase.Phrase;
@@ -258,10 +257,7 @@ public class LXDataUtils {
 		return c.getResources().getString(R.string.lx_destination_TEMPLATE, airport.mCity, Strings.isEmpty(airport.mStateCode) ? airport.mCountryCode : airport.mStateCode);
 	}
 
-	public static LXSearchParams fromHotelParams(Context context, TripHotel tripHotel) {
-		LocalDate checkInDate = new LocalDate(tripHotel.getStartDate());
-		Location location = tripHotel.getProperty().getLocation();
-
+	public static LXSearchParams fromHotelParams(Context context, LocalDate checkInDate, Location location) {
 		LXSearchParams searchParams = new LXSearchParams()
 			.location(formatLocation(context, location))
 			.startDate(checkInDate)

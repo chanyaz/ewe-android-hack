@@ -11,6 +11,7 @@ import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.Location
 import com.expedia.bookings.data.Property
 import com.expedia.bookings.data.User
+import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.cars.CarSearchParamsBuilder
 import com.expedia.bookings.data.hotels.HotelCreateTripResponse
 import com.expedia.bookings.data.payment.PaymentModel
@@ -25,6 +26,7 @@ import com.expedia.bookings.utils.DateFormatUtils
 import com.expedia.bookings.utils.NavUtils
 import com.expedia.bookings.utils.NumberUtils
 import com.expedia.bookings.utils.Strings
+import com.expedia.bookings.utils.LXDataUtils
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.UserAccountRefresher
 import com.mobiata.android.SocialUtils
@@ -52,10 +54,12 @@ class HotelConfirmationViewModel(checkoutResponseObservable: Observable<HotelChe
     val hotelCity = BehaviorSubject.create<String>()
     val addCarBtnText = BehaviorSubject.create<String>()
     val addFlightBtnText = BehaviorSubject.create<String>()
+    val addLXBtn = BehaviorSubject.create<String>()
     val customerEmail = BehaviorSubject.create<String>()
     val hotelLocation = BehaviorSubject.create<Location>()
     val showFlightCrossSell = BehaviorSubject.create<Boolean>()
     val showCarCrossSell = BehaviorSubject.create<Boolean>()
+
     lateinit var paymentModel: PaymentModel<HotelCreateTripResponse>
         @Inject set
 
@@ -118,8 +122,30 @@ class HotelConfirmationViewModel(checkoutResponseObservable: Observable<HotelChe
             hotelLocation.onNext(location)
             AdImpressionTracking.trackAdConversion(context, it.hotelCheckoutResponse.checkoutResponse.bookingResponse.tripId)
             HotelV2Tracking().trackHotelV2PurchaseConfirmation(it.hotelCheckoutResponse, it.percentagePaidWithPoints, it.totalAppliedRewardCurrency)
+
+            // LX Cross sell
+            val isUserBucketedForLXCrossSellTest = Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppLXCrossSellOnHotelConfirmationTest)
+                    && PointOfSale.getPointOfSale().supports(LineOfBusiness.LX)
+            addLXBtn.onNext(if(isUserBucketedForLXCrossSellTest) context.getResources().getString(com.expedia.bookings.R.string.add_lx_TEMPLATE, product.hotelCity) else "")
         }
 
+    }
+
+    fun getAddLXBtnObserver(context: Context): Observer<Unit> {
+        return object : Observer<Unit> {
+            override fun onNext(t: Unit?) {
+                NavUtils.goToActivities(context, null, LXDataUtils.fromHotelParams(context, checkInDate.value, hotelLocation.value),
+                        NavUtils.FLAG_OPEN_SEARCH)
+                HotelV2Tracking().trackHotelV2CrossSellLX()
+            }
+
+            override fun onCompleted() {
+            }
+
+            override fun onError(e: Throwable?) {
+                throw OnErrorNotImplementedException(e)
+            }
+        }
     }
 
     fun getAddFlightBtnObserver(context: Context): Observer<Unit> {
