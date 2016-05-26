@@ -67,22 +67,20 @@ class PackageFlightPresenter(context: Context, attrs: AttributeSet) : BaseFlight
         val flightListAdapter = PackageFlightListAdapter(context, resultsPresenter.flightSelectedSubject, Db.getPackageParams().isChangePackageSearch())
         resultsPresenter.setAdapter(flightListAdapter)
         resultsPresenter.resultsViewModel.flightResultsObservable.onNext(allFlights)
-        if (!isOutboundSearch() && Db.getPackageSelectedOutboundFlight() != null) {
+        if (!isOutboundResultsPresenter() && Db.getPackageSelectedOutboundFlight() != null) {
             resultsPresenter.outboundFlightSelectedSubject.onNext(Db.getPackageSelectedOutboundFlight())
         }
         overviewPresenter.vm.selectedFlightClicked.subscribe(flightOverviewSelected)
-        var cityBound: String = if (isOutboundSearch()) Db.getPackageParams().destination.regionNames.shortName else Db.getPackageParams().origin.regionNames.shortName
+        var cityBound: String = if (isOutboundResultsPresenter()) Db.getPackageParams().destination.regionNames.shortName else Db.getPackageParams().origin.regionNames.shortName
         val numTravelers = Db.getPackageParams().guests
-        toolbarViewModel.isOutboundSearch.onNext(isOutboundSearch())
+        toolbarViewModel.isOutboundSearch.onNext(isOutboundResultsPresenter())
         toolbarViewModel.city.onNext(cityBound)
         toolbarViewModel.travelers.onNext(numTravelers)
-        toolbarViewModel.date.onNext(if (isOutboundSearch()) Db.getPackageParams().checkIn else Db.getPackageParams().checkOut)
+        toolbarViewModel.date.onNext(if (isOutboundResultsPresenter()) Db.getPackageParams().checkIn else Db.getPackageParams().checkOut)
         trackFlightResultsLoad()
     }
 
-    fun isOutboundSearch():Boolean = Db.getPackageParams()?.isOutboundSearch() ?: false
-
-    override fun isOutboundResultsPresenter(): Boolean = isOutboundSearch()
+    override fun isOutboundResultsPresenter(): Boolean = Db.getPackageParams()?.isOutboundSearch() ?: false
 
     override fun trackFlightOverviewLoad() {
         val isOutboundSearch = Db.getPackageParams()?.isOutboundSearch() ?: false
