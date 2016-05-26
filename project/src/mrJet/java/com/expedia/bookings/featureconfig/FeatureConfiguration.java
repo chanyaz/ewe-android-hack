@@ -36,7 +36,7 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 
 	@Override
 	public String getAppNameForMobiataPushNameHeader() {
-		return "ExpediaBookings";
+		return "MrJetBookings";
 	}
 
 	@Override
@@ -56,7 +56,7 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 
 	@Override
 	public String getHostnameForShortUrl() {
-		return "e.xpda.co";
+		return "s.mret.co";
 	}
 
 	@Override
@@ -76,7 +76,7 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 
 	@Override
 	public int getNotificationIconResourceId() {
-		return R.drawable.ic_stat_expedia;
+		return R.drawable.ic_stat;
 	}
 
 	@Override
@@ -149,7 +149,7 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 
 	@Override
 	public String getCopyrightLogoUrl(Context context) {
-		return context.getString(R.string.app_copyright_logo_url);
+		return PointOfSale.getPointOfSale().getWebsiteUrl();
 	}
 
 	@Override
@@ -159,7 +159,7 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 
 	@Override
 	public AboutSectionFragment getAboutSectionFragment(Context context) {
-		return AboutSectionFragment.buildOtherAppsSection(context);
+		return null;
 	}
 
 	@Override
@@ -203,7 +203,7 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 
 	@Override
 	public String getClientShortName() {
-		return "expedia";
+		return "mrjet";
 	}
 
 	public String getAdXKey() {
@@ -293,30 +293,27 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 
 	@Override
 	public boolean isAbacusTestEnabled() {
-		return true;
-	}
-
-	@Override
-	public boolean isNewHotelEnabled() {
 		return false;
 	}
 
 	@Override
+	public boolean isNewHotelEnabled() {
+		return true;
+	}
+
+	@Override
 	public int getRewardsLayoutId() {
-		return R.layout.pay_with_points_widget_stub;
+		return R.layout.bucks_widget_stub;
 	}
 
 	@Override
 	public boolean isRewardProgramPointsType() {
-		return true;
+		return false;
 	}
 
-	private static final String[] rewardTierAPINames = new String[] { "BLUE", "SILVER", "GOLD" };
+	private static final String[] rewardTierAPINames = new String[] { "SILVER", "GOLD", "PLATINUM" };
 	private static final String[] rewardTierSupportPhoneNumberConfigNames = new String[] {
-			null, "supportPhoneNumberSilver", "supportPhoneNumberGold"
-	};
-	private static final String[] rewardTierSupportEmailConfigNames = new String[] {
-			null, "supportEmailSilver", "supportEmailGold"
+			"supportPhoneNumberSilver", "supportPhoneNumberGold", "supportPhoneNumberPlatinum"
 	};
 
 	@Override
@@ -331,12 +328,12 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 
 	@Override
 	public String[] getRewardTierSupportEmailConfigNames() {
-		return rewardTierSupportEmailConfigNames;
+		return null;
 	}
 
 	@Override
 	public boolean isCommunicateSectionEnabled() {
-		return true;
+		return false;
 	}
 
 	@Override
@@ -346,29 +343,29 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 
 	@Override
 	public boolean isEarnMessageOnCheckoutSignInButtonEnabled() {
-		return false;
+		return true;
 	}
 
 	@Override
 	public boolean isGoogleAccountChangeEnabled() {
-		return false;
+		return true;
 	}
 
 	@Override
 	public String getOmnitureEventValue(OmnitureTracking.OmnitureEventName key) {
 		switch (key) {
 		case REWARD_PROGRAM_NAME:
-			return "expedia";
+			return "mrjet";
 		case HOTEL_CHECKOUT_START_REWARDS_REDEEMABLE:
-			return "event114";
+			return "event119";
 		case REWARD_APPLIED_PERCENTAGE_TEMPLATE:
-			return "expedia | %d";
+			return "mrjet | %d";
 		case NO_REWARDS_USED:
-			return "no points used";
+			return "no mrjetcash used";
 		case TOTAL_POINTS_BURNED:
-			return "event117";
+			return "event123";
 		case BRAND_KEY_FOR_OMNITURE:
-			return "Expedia";
+			return "Mrjet";
 		}
 		//It should not be the case
 		throw new IllegalArgumentException("Unknown enum value");
@@ -386,16 +383,16 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 
 	@Override
 	public String getSharableFallbackImageURL() {
-		return "http://media.expedia.com/mobiata/fb/exp-fb-share.png";
+		return null;
 	}
 
 	@Override
 	public boolean shouldDisplayItinTrackAppLink() {
-		return true;
+		return false;
 	}
 
 	@Override
 	public boolean shouldShowItinShare() {
-		return true;
+		return false;
 	}
 }
