@@ -1094,7 +1094,7 @@
     <!-- Enter itinerary number -->
     <string name="enter_itinerary_number">Anna matkasuunnitelman numero</string>
     <!-- Enter a Guest itinerary number -->
-    <string name="or_enter_a_guest_itinerary_number">Tai anna vierailijan matkasuunnitelma</string>
+    <string name="enter_a_guest_itinerary_number">Tai anna vierailijan matkasuunnitelma</string>
     <!-- Fetching your itinerary -->
     <string name="fetching_your_itinerary">Matkasuunnitelmia haetaan…</string>
     <!-- Error fetching itinerary -->

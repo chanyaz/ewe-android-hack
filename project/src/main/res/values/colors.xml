@@ -328,7 +328,9 @@
     <color name="launch_tab_indicator">@color/launchscreen_tab_indicator_color</color>
 
     <!-- New Launch Screen colors -->
-    <color name="new_launch_toolbar_background_color">@color/launchscreen_primary_color_new</color>
+    <color name="new_launch_toolbar_background_color">@color/launch_blue</color>
+    <color name="new_launch_screen_itin_ripple">@color/launch_blue</color>
+    <color name="new_launch_screen_itin_button_color">@color/white_25</color>
 
     <!-- LX colors -->
     <color name="lx_primary_color">@color/lob_lx_primary_color</color>
@@ -395,7 +397,7 @@
 
     <!-- Hotels V2 Confirmation Colors -->
     <color name="hotel_confirmation_cross_sell_text_color">#F3F3F3</color>
-
+    <color name="dividerColor">#979797</color>
     <!-- Hotels V2 Detail star color -->
     <color name="hotelsv2_detail_star_color">#F1B906</color>
 

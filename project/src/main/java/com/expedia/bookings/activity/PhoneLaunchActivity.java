@@ -1,9 +1,5 @@
 package com.expedia.bookings.activity;
 
-import java.util.List;
-
-import org.joda.time.DateTime;
-
 import android.animation.Animator;
 import android.animation.ValueAnimator;
 import android.app.AlertDialog;
@@ -151,7 +147,7 @@ public class PhoneLaunchActivity extends ActionBarActivity implements ItinListVi
 		else if (intent.getBooleanExtra(ARG_FORCE_SHOW_ITIN, false)) {
 			gotoItineraries();
 		}
-		else if (haveTimelyItinItem()) {
+		else if (ItineraryManager.haveTimelyItinItem()) {
 			gotoItineraries();
 		}
 		else if (lineOfBusiness != null) {
@@ -312,27 +308,6 @@ public class PhoneLaunchActivity extends ActionBarActivity implements ItinListVi
 	}
 
 	/**
-	 * Returns true if the user has an in progress or upcoming trip, as of the current time.
-	 */
-	private boolean haveTimelyItinItem() {
-		ItineraryManager manager = ItineraryManager.getInstance();
-		List<DateTime> startTimes = manager.getStartTimes();
-		List<DateTime> endTimes = manager.getEndTimes();
-		if (startTimes != null && endTimes != null && startTimes.size() == endTimes.size()) {
-			DateTime now = DateTime.now();
-			DateTime oneWeekFromNow = now.plusWeeks(1);
-			for (int i = 0; i < startTimes.size(); i++) {
-				DateTime start = startTimes.get(i);
-				DateTime end = endTimes.get(i);
-				if (now.isBefore(end) && oneWeekFromNow.isAfter(start)) {
-					return true;
-				}
-			}
-		}
-		return false;
-	}
-
-	/**
 	 * Parses ARG_JUMP_TO_NOTIFICATION out of the intent into a Notification object,
 	 * sets mJumpToItinId.
 	 * This function expects to be called only when this activity is started via
@@ -428,7 +403,7 @@ public class PhoneLaunchActivity extends ActionBarActivity implements ItinListVi
 			Fragment frag;
 			switch (position) {
 			case PAGER_POS_ITIN:
-				frag = ItinItemListFragment.newInstance(mJumpToItinId);
+				frag = ItinItemListFragment.newInstance(mJumpToItinId, false);
 				break;
 			case PAGER_POS_WATERFALL:
 				frag = new PhoneLaunchFragment();

@@ -1094,7 +1094,7 @@
     <!-- Enter itinerary number -->
     <string name="enter_itinerary_number">請輸入行程編號</string>
     <!-- Enter a Guest itinerary number -->
-    <string name="or_enter_a_guest_itinerary_number">又或輸入旅客行程編號</string>
+    <string name="enter_a_guest_itinerary_number">又或輸入旅客行程編號</string>
     <!-- Fetching your itinerary -->
     <string name="fetching_your_itinerary">正載入您的行程…</string>
     <!-- Error fetching itinerary -->

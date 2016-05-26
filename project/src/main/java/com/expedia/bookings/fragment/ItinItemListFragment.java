@@ -11,7 +11,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -86,6 +86,8 @@ public class ItinItemListFragment extends Fragment implements LoginConfirmLogout
 
 	//Have we tracked this itin list view yet?
 	private boolean mItinListTracked = false;
+	// should be removed when we remove launch screen AB test
+	private static boolean fromNewLaunchScreen = false;
 
 	private FragmentModificationSafeLock mFragmentModLock = new FragmentModificationSafeLock();
 
@@ -95,11 +97,12 @@ public class ItinItemListFragment extends Fragment implements LoginConfirmLogout
 	 * @param uniqueId
 	 * @return
 	 */
-	public static ItinItemListFragment newInstance(String uniqueId) {
+	public static ItinItemListFragment newInstance(String uniqueId, boolean newLaunchScreen) {
 		ItinItemListFragment frag = new ItinItemListFragment();
 		Bundle args = new Bundle();
 		args.putString(ARG_JUMP_TO_UNIQUE_ID, uniqueId);
 		frag.setArguments(args);
+		fromNewLaunchScreen = newLaunchScreen;
 		return frag;
 	}
 
@@ -153,6 +156,11 @@ public class ItinItemListFragment extends Fragment implements LoginConfirmLogout
 				startLoginActivity();
 			}
 		});
+
+		if (fromNewLaunchScreen) {
+			mLoginButton.setBackgroundResource(R.drawable.new_launch_screen_itin_login_ripple);
+			mNoTripsRefreshButton.setBackgroundResource(R.drawable.new_launch_screen_itin_login_ripple);
+		}
 
 		mOrEnterNumberTv.setOnClickListener(new OnClickListener() {
 			@Override
@@ -496,7 +504,7 @@ public class ItinItemListFragment extends Fragment implements LoginConfirmLogout
 			ret = getActivity().getActionBar() == null ? 0 : getActivity().getActionBar().getHeight();
 		}
 		else {
-			ActionBar ab = ((ActionBarActivity) getActivity()).getSupportActionBar();
+			ActionBar ab = ((AppCompatActivity) getActivity()).getSupportActionBar();
 			ret = ab == null ? 0 : ab.getHeight();
 		}
 		return ret;

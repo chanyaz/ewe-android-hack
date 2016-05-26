@@ -1094,7 +1094,7 @@
     <!-- Enter itinerary number -->
     <string name="enter_itinerary_number">Indtast rejseplansnummer</string>
     <!-- Enter a Guest itinerary number -->
-    <string name="or_enter_a_guest_itinerary_number">Eller angiv en gæsterejseplan</string>
+    <string name="enter_a_guest_itinerary_number">Eller angiv en gæsterejseplan</string>
     <!-- Fetching your itinerary -->
     <string name="fetching_your_itinerary">Henter dine rejseplaner…</string>
     <!-- Error fetching itinerary -->

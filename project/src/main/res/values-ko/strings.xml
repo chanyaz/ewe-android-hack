@@ -1094,7 +1094,7 @@
     <!-- Enter itinerary number -->
     <string name="enter_itinerary_number">일정 번호 입력</string>
     <!-- Enter a Guest itinerary number -->
-    <string name="or_enter_a_guest_itinerary_number">또는 비회원 일정 입력</string>
+    <string name="enter_a_guest_itinerary_number">또는 비회원 일정 입력</string>
     <!-- Fetching your itinerary -->
     <string name="fetching_your_itinerary">고객님의 일정을 가져오는 중…</string>
     <!-- Error fetching itinerary -->
