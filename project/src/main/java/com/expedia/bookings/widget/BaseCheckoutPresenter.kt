@@ -216,6 +216,7 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet) : Pre
         override fun startTransition(forward: Boolean) {
             handle.setVisibility(forward)
             loginWidget.setVisibility(forward)
+            hintContainer.visibility = if (forward) View.GONE else if (User.isLoggedIn(getContext())) View.GONE else View.VISIBLE
             paymentWidget.visibility = if (forward) View.GONE else (if (paymentWidget.isCreditCardRequired()) View.VISIBLE else View.GONE)
             legalInformationText.setVisibility(forward)
             depositPolicyText.setVisibility(forward)

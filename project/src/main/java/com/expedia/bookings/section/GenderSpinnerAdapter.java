@@ -13,7 +13,7 @@ import android.widget.TextView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Traveler.Gender;
-import com.mobiata.android.util.Ui;
+import com.expedia.bookings.utils.Ui;
 
 public class GenderSpinnerAdapter extends ArrayAdapter<CharSequence> {
 
@@ -44,6 +44,7 @@ public class GenderSpinnerAdapter extends ArrayAdapter<CharSequence> {
 	private ArrayList<GenderSpinnerHelper> mGenders;
 	private static final String DEFAULT_FORMAT_STRING = "%s";
 	private String mFormatString = DEFAULT_FORMAT_STRING;
+	private boolean hasError = false;
 
 	public GenderSpinnerAdapter(Context context) {
 		this(context, R.layout.simple_spinner_traveler_item);
@@ -62,6 +63,7 @@ public class GenderSpinnerAdapter extends ArrayAdapter<CharSequence> {
 	private void populateGenders(Context context) {
 		Resources res = context.getResources();
 		mGenders = new ArrayList<GenderSpinnerHelper>();
+		mGenders.add(new GenderSpinnerHelper(Gender.GENDER, res.getString(R.string.gender)));
 		mGenders.add(new GenderSpinnerHelper(Gender.MALE, res.getString(R.string.male)));
 		mGenders.add(new GenderSpinnerHelper(Gender.FEMALE, res.getString(R.string.female)));
 	}
@@ -90,6 +92,11 @@ public class GenderSpinnerAdapter extends ArrayAdapter<CharSequence> {
 		TextView tv = Ui.findView(retView, android.R.id.text1);
 		tv.setEllipsize(TruncateAt.START); //If we have a long name, we want to make sure atleast the Gender is displayed
 		tv.setText(Html.fromHtml(String.format(mFormatString, getItem(position))));
+		int errorIcon = 0;
+		if (hasError) {
+			errorIcon = Ui.obtainThemeResID(retView.getContext(), R.attr.skin_errorIndicationExclaimationDrawable);
+		}
+		tv.setCompoundDrawablesWithIntrinsicBounds(0, 0, errorIcon, 0);
 		return retView;
 	}
 
@@ -117,4 +124,8 @@ public class GenderSpinnerAdapter extends ArrayAdapter<CharSequence> {
 		return -1;
 	}
 
+	public void showError(boolean hasError) {
+		this.hasError = hasError;
+		notifyDataSetChanged();
+	}
 }

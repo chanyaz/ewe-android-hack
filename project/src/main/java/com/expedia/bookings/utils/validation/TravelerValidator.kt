@@ -11,7 +11,7 @@ import org.joda.time.LocalDate
 
 object TravelerValidator {
     fun isValidForPackageBooking(traveler: Traveler): Boolean {
-        return hasValidBirthDate(traveler) && hasValidName(traveler.getName()) && isValidPhone(traveler.phoneNumber)
+        return hasValidBirthDate(traveler) && hasValidName(traveler.getName()) && isValidPhone(traveler.phoneNumber) && hasValidGender(traveler)
     }
 
     fun hasValidBirthDate(traveler: Traveler): Boolean {
@@ -29,6 +29,14 @@ object TravelerValidator {
             return false
         }
         return true
+    }
+
+    fun hasValidGender(traveler: Traveler): Boolean {
+        if (traveler.gender == Traveler.Gender.GENDER) {
+            return false
+        } else {
+            return true
+        }
     }
 
     fun isValidPhone(number: String?): Boolean {

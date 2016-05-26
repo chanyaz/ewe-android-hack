@@ -77,7 +77,7 @@ public class Traveler implements JSONable, Comparable<Traveler> {
 	private boolean mChangedPrimaryPassportCountry;
 
 	public enum Gender {
-		MALE, FEMALE, OTHER
+		GENDER, MALE, FEMALE, OTHER
 	}
 
 	//This is silly, we only want to offer WINDOW and AISLE, but when downloading from an expedia account

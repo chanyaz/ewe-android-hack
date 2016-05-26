@@ -47,6 +47,7 @@ public class BaseTravelerPresenterTestHelper {
 	protected final String testPhone = "7732025862";
 	protected final String testBirthDay = "Jan 27, 1991";
 	protected final String testPassport = "Passport: Vietnam";
+	protected final String testGender = "Gender";
 
 	protected final String expectedMainText = "Main Traveler";
 	protected final String expectedAdditionalText = "Additional Travelers";
@@ -108,11 +109,13 @@ public class BaseTravelerPresenterTestHelper {
 		for (int i = 0; i < adults; i++) {
 			Traveler adultTraveler = new Traveler();
 			adultTraveler.setPassengerCategory(PassengerCategory.ADULT);
+			adultTraveler.setGender(Traveler.Gender.MALE);
 			travelers.add(adultTraveler);
 		}
 		if (children != null) {
 			for (int i = 0; i < children.size(); i++) {
 				Traveler childTraveler = new Traveler();
+				childTraveler.setGender(Traveler.Gender.GENDER);
 				if (infantsInLap) {
 					childTraveler.setPassengerCategory(PassengerCategory.INFANT_IN_LAP);
 				}

@@ -105,6 +105,7 @@ public class PackagePhoneHappyPathTest extends PackageTestCase {
 		PackageScreen.enterLastName("Bear");
 		PackageScreen.enterPhoneNumber("7732025862");
 		PackageScreen.selectBirthDate(9, 6, 1989);
+		PackageScreen.selectGender("Male");
 
 		PackageScreen.clickTravelerAdvanced();
 		PackageScreen.enterRedressNumber("1234567");

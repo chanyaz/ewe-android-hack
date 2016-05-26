@@ -24,6 +24,7 @@ class TravelerTSAViewModel(val context: Context) {
 
     val dateOfBirthErrorSubject = PublishSubject.create<Boolean>()
     val birthErrorTextSubject = PublishSubject.create<String>()
+    val genderErrorSubject = PublishSubject.create<Boolean>()
 
     fun updateTraveler(traveler: Traveler) {
         this.traveler = traveler
@@ -53,8 +54,10 @@ class TravelerTSAViewModel(val context: Context) {
 
     fun validate(): Boolean {
         val validBirthDate = TravelerValidator.hasValidBirthDate(traveler)
+        val validGender = TravelerValidator.hasValidGender(traveler)
         dateOfBirthErrorSubject.onNext(!validBirthDate)
-        return validBirthDate
+        genderErrorSubject.onNext(!validGender)
+        return validBirthDate && validGender
     }
 
     fun validatePassengerCategory() {

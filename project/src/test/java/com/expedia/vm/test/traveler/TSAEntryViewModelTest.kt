@@ -14,7 +14,7 @@ import kotlin.test.assertEquals
 class TSAEntryViewModelTest {
     val EXPECTED_DEFAULT_DATE = LocalDate(1970, 1, 1)
     val TEST_BIRTH_DATE = LocalDate(1969, 10, 10)
-    val TEST_GENDER = Traveler.Gender.MALE
+    val TEST_GENDER = Traveler.Gender.GENDER
     lateinit var tsaVM: TravelerTSAViewModel
 
     val context = RuntimeEnvironment.application

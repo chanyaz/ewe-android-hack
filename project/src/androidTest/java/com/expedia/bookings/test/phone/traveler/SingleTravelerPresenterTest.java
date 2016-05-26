@@ -10,11 +10,14 @@ import android.support.test.runner.AndroidJUnit4;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.test.espresso.Common;
+import com.expedia.bookings.test.espresso.CustomMatchers;
 import com.expedia.bookings.test.espresso.EspressoUser;
 import com.expedia.bookings.test.espresso.EspressoUtils;
 import com.expedia.bookings.test.phone.packages.PackageScreen;
 
 import static android.support.test.espresso.Espresso.onView;
+import static android.support.test.espresso.assertion.ViewAssertions.matches;
+import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withSpinnerText;
 import static org.hamcrest.core.AllOf.allOf;
 
@@ -32,6 +35,23 @@ public class SingleTravelerPresenterTest extends BaseTravelerPresenterTestHelper
 
 		EspressoUser.clickOnView(R.id.traveler_default_state);
 		EspressoUtils.assertViewIsDisplayed(R.id.traveler_entry_widget);
+	}
+
+	@Test
+	public void testGenderErrorShowsWhenUserEntersIncorrectGender() throws Throwable {
+		addTravelerToDb(new Traveler());
+
+		mockViewModel = getMockViewModelEmptyTravelers(1);
+		testTravelerPresenter.setViewModel(mockViewModel);
+		EspressoUser.clickOnView(R.id.traveler_default_state);
+		PackageScreen.enterFirstName(testFirstName);
+		PackageScreen.enterLastName(testLastName);
+		PackageScreen.enterPhoneNumber(testPhone);
+		PackageScreen.selectBirthDate(06,20,1990);
+		PackageScreen.selectGender(testGender);
+		PackageScreen.clickTravelerDone();
+
+		onView(CustomMatchers.withCompoundDrawable(R.drawable.ic_error_blue)).check(matches(isDisplayed()));
 	}
 
 	@Test
