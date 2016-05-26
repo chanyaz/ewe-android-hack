@@ -21,11 +21,11 @@ class RailViewModel(val context: Context) {
     init {
         legOptionObservable.subscribe {
             val formattedStopsAndDuration = Phrase.from(context, R.string.rail_time_and_stops_line_TEMPLATE)
-                    .put("formattedduration", DateTimeUtils.formatDuration(context.resources, it.totalDurationInMinutes))
+                    .put("formattedduration", DateTimeUtils.formatDuration(context.resources, it.durationMinutes()))
                     .put("formattedchangecount", formatChangesText(context, it.changesCount())).format().toString()
 
             formattedStopsAndDurationObservable.onNext(formattedStopsAndDuration)
-            priceObservable.onNext(it.bestPrice.formattedDisplayPrice)
+            priceObservable.onNext(it.bestPrice.formattedPrice)
             operatorObservable.onNext(it.allOperators())
         }
     }

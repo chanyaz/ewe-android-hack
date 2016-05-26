@@ -59,6 +59,6 @@ public class RailScreen {
 	}
 
 	public static void clickSelectFareOption() {
-		selectFareOption("£ 54.30").perform(scrollTo(), click());
+		selectFareOption("$149.22").perform(scrollTo(), click());
 	}
 }
