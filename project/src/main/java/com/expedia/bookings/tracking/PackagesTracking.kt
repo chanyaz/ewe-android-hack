@@ -4,7 +4,7 @@ import com.expedia.bookings.data.FlightFilter
 import com.expedia.bookings.data.packages.PackageCheckoutResponse
 import com.expedia.bookings.data.packages.PackageCreateTripResponse
 import com.expedia.bookings.data.packages.PackageSearchResponse
-import com.expedia.vm.packages.PackageFlightFilterViewModel
+import com.expedia.vm.packages.FlightFilterViewModel
 
 class PackagesTracking {
 
@@ -179,11 +179,11 @@ class PackagesTracking {
         OmnitureTracking.trackPackagesFlightSortBy(sortedBy)
     }
 
-    fun trackFlightFilterStops(stops: PackageFlightFilterViewModel.Stops) {
+    fun trackFlightFilterStops(stops: FlightFilterViewModel.Stops) {
         val processedStops = ( when (stops) {
-            PackageFlightFilterViewModel.Stops.NONSTOP -> "No Stops"
-            PackageFlightFilterViewModel.Stops.ONE_STOP -> "1 Stop"
-            PackageFlightFilterViewModel.Stops.TWO_PLUS_STOPS -> "2 Stops"
+            FlightFilterViewModel.Stops.NONSTOP -> "No Stops"
+            FlightFilterViewModel.Stops.ONE_STOP -> "1 Stop"
+            FlightFilterViewModel.Stops.TWO_PLUS_STOPS -> "2 Stops"
         })
         OmnitureTracking.trackPackagesFlightFilterStops(processedStops)
     }

@@ -187,6 +187,7 @@ class FlightSearchViewModel(context: Context, val flightServices: FlightServices
         val urgencyMessage = PackageOfferModel.UrgencyMessage()
         urgencyMessage.ticketsLeft = offer.seatsRemaining
         val price = PackageOfferModel.PackagePrice()
+        price.packageTotalPrice = offer.totalFarePrice
         price.differentialPriceFormatted = offer.totalFarePrice.formattedPrice
         price.packageTotalPriceFormatted = offer.totalFarePrice.formattedPrice
         offerModel.urgencyMessage = urgencyMessage

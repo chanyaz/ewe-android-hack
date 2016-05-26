@@ -30,7 +30,7 @@ import com.expedia.vm.FlightOverviewViewModel
 import com.expedia.vm.FlightResultsViewModel
 import com.expedia.vm.FlightSearchViewModel
 import com.expedia.vm.FlightToolbarViewModel
-import com.expedia.vm.packages.PackageFlightFilterViewModel
+import com.expedia.vm.packages.FlightFilterViewModel
 import rx.Observer
 import rx.exceptions.OnErrorNotImplementedException
 import kotlin.properties.Delegates
@@ -65,7 +65,7 @@ abstract class BaseFlightPresenter(context: Context, attrs: AttributeSet) : Pres
     val filter: PackageFlightFilterWidget by lazy {
         val viewStub = findViewById(R.id.filter_stub) as ViewStub
         val filterView = viewStub.inflate() as PackageFlightFilterWidget
-        filterView.viewModel = PackageFlightFilterViewModel(context)
+        filterView.viewModel = FlightFilterViewModel(context)
         resultsPresenter.resultsViewModel.flightResultsObservable.subscribe {
             filterView.viewModel.flightResultsObservable.onNext(it)
         }

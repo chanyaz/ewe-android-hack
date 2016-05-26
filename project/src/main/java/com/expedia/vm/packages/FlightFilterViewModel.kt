@@ -16,7 +16,7 @@ import java.util.Collections
 import java.util.Comparator
 import java.util.TreeMap
 
-class PackageFlightFilterViewModel(private val context: Context) {
+class FlightFilterViewModel(private val context: Context) {
     val hourMinuteFormatter = DateTimeFormat.forPattern("hh:mma")
     val doneObservable = PublishSubject.create<Unit>()
     val doneButtonEnableObservable = PublishSubject.create<Boolean>()
@@ -79,7 +79,7 @@ class PackageFlightFilterViewModel(private val context: Context) {
         private fun toHour(value: Int): Int = value + minDurationHours
 
         fun formatValue(value: Int): String {
-            return context.resources.getStringArray(R.array.hoursList).get(toHour(value))
+            return context.resources.getStringArray(R.array.hoursList)[toHour(value)]
         }
 
         fun update(minValue: Int, maxValue: Int): Pair<Int, Int> {
@@ -104,33 +104,29 @@ class PackageFlightFilterViewModel(private val context: Context) {
         }
     }
 
-    private val departureComparator: Comparator<FlightLeg> = object : Comparator<FlightLeg> {
-        override fun compare(lhs: FlightLeg?, rhs: FlightLeg?): Int {
-            val leftStart = DateTime.parse(lhs?.flightSegments?.first()?.departureTime, hourMinuteFormatter)
-            val rightStart = DateTime.parse(rhs?.flightSegments?.first()?.departureTime, hourMinuteFormatter)
+    private val departureComparator: Comparator<FlightLeg> = Comparator { lhs, rhs ->
+        val leftStart = DateTime.parse(lhs?.flightSegments?.first()?.departureTime, hourMinuteFormatter)
+        val rightStart = DateTime.parse(rhs?.flightSegments?.first()?.departureTime, hourMinuteFormatter)
 
-            if (leftStart.isBefore(rightStart)) {
-                return -1;
-            } else if (leftStart.isAfter(rightStart)) {
-                return 1;
-            } else {
-                return 0;
-            }
+        if (leftStart.isBefore(rightStart)) {
+            -1;
+        } else if (leftStart.isAfter(rightStart)) {
+            1;
+        } else {
+            0;
         }
     }
 
-    private val arrivalComparator: Comparator<FlightLeg> = object : Comparator<FlightLeg> {
-        override fun compare(lhs: FlightLeg?, rhs: FlightLeg?): Int {
-            val leftStart = DateTime.parse(lhs?.flightSegments?.last()?.arrivalTime, hourMinuteFormatter)
-            val rightStart = DateTime.parse(rhs?.flightSegments?.last()?.arrivalTime, hourMinuteFormatter)
+    private val arrivalComparator: Comparator<FlightLeg> = Comparator { lhs, rhs ->
+        val leftStart = DateTime.parse(lhs?.flightSegments?.last()?.arrivalTime, hourMinuteFormatter)
+        val rightStart = DateTime.parse(rhs?.flightSegments?.last()?.arrivalTime, hourMinuteFormatter)
 
-            if (leftStart.isBefore(rightStart)) {
-                return -1;
-            } else if (leftStart.isAfter(rightStart)) {
-                return 1;
-            } else {
-                return 0;
-            }
+        if (leftStart.isBefore(rightStart)) {
+            -1;
+        } else if (leftStart.isAfter(rightStart)) {
+            1;
+        } else {
+            0;
         }
     }
 
@@ -265,11 +261,11 @@ class PackageFlightFilterViewModel(private val context: Context) {
         val airlines = TreeMap<String, Int>()
 
         originalList?.forEach { leg ->
-            val airlineCount = if (airlines.containsKey(leg.carrierName)) airlines.get(leg.carrierName) else 0
+            val airlineCount = if (airlines.containsKey(leg.carrierName)) airlines[leg.carrierName] else 0
             airlines.put(leg.carrierName, airlineCount!! + 1)
 
             val key = getStops(leg.stopCount)
-            val stopCount = if (stops.containsKey(key)) stops.get(key) else 0
+            val stopCount = if (stops.containsKey(key)) stops[key] else 0
             stops.put(key, stopCount!! + 1)
         }
         stopsObservable.onNext(stops)

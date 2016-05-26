@@ -17,12 +17,14 @@ import org.joda.time.Minutes
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
+import org.joda.time.format.DateTimeFormat
 import rx.Observable
 import rx.Scheduler
 import java.util.ArrayList
 import java.util.regex.Pattern
 
 class FlightServices(endpoint: String, okHttpClient: OkHttpClient, interceptor: Interceptor, val observeOn: Scheduler, val subscribeOn: Scheduler) {
+    val hourMinuteFormatter = DateTimeFormat.forPattern("hh:mma")
     val patternHour = Pattern.compile("(?<=PT)([0-9]+)(?=H)")
     val patternMin = Pattern.compile("(?<=PT)([0-9]+)(?=M)")
     val flightApi: FlightApi by lazy {
@@ -45,6 +47,7 @@ class FlightServices(endpoint: String, okHttpClient: OkHttpClient, interceptor: 
                 .subscribeOn(subscribeOn)
                 .doOnNext { response ->
                     response.legs.forEach { leg ->
+                        leg.carrierName = leg.segments.first().airlineName
                         leg.flightSegments = leg.segments
                         val departure = leg.flightSegments.first()
                         val arrival = leg.flightSegments.last()
@@ -63,9 +66,9 @@ class FlightServices(endpoint: String, okHttpClient: OkHttpClient, interceptor: 
                             segment.departureDateTimeISO = segment.departureTimeRaw
                             segment.arrivalDateTimeISO = segment.arrivalTimeRaw
 
-                            val arrvalTime = DateUtils.yyyyMMddTHHmmssToDateTimeSafe(segment.arrivalTime, DateTime.now())
-                            val depTime = DateUtils.yyyyMMddTHHmmssToDateTimeSafe(segment.departureTime, DateTime.now())
-                            segment.elapsedDays = Days.daysBetween(arrvalTime, depTime).days
+                            val segmentArrivalTime = DateUtils.dateyyyyMMddHHmmSSSZToDateTime(segment.arrivalTimeRaw)
+                            val segmentDepartureTime = DateUtils.dateyyyyMMddHHmmSSSZToDateTime(segment.departureTimeRaw)
+                            segment.elapsedDays = Days.daysBetween(segmentArrivalTime.toLocalDate(), segmentDepartureTime.toLocalDate()).days
 
                             val airline = Airline(segment.airlineName, segment.airlineLogoURL)
                             airlines.add(airline)
@@ -83,6 +86,10 @@ class FlightServices(endpoint: String, okHttpClient: OkHttpClient, interceptor: 
                                 segment.durationMinutes = minutes
                                 leg.durationMinute += minutes
                             }
+
+                            // set departure and arrival time to be compatible with packages format
+                            segment.departureTime = segmentDepartureTime.toString(hourMinuteFormatter)
+                            segment.arrivalTime = segmentArrivalTime.toString(hourMinuteFormatter)
 
                             if (lastSegment != null) {
                                 val nextFlight = DateUtils.yyyyMMddTHHmmssToDateTimeSafe(segment.departureTime, DateTime.now())
