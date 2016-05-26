@@ -116,4 +116,8 @@ class PackageOverviewPresenter(context: Context, attrs: AttributeSet) : BaseOver
     override fun trackPaymentCIDLoad() {
         PackagesTracking().trackCheckoutPaymentCID()
     }
+
+    override fun toggleToolbar(forward: Boolean) {
+        bundleWidget.toggleMenuObservable.onNext(!forward)
+    }
 }
