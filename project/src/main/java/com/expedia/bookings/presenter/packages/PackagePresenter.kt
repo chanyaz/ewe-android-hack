@@ -23,6 +23,7 @@ import com.expedia.bookings.presenter.ScaleTransition
 import com.expedia.bookings.services.PackageServices
 import com.expedia.bookings.tracking.PackagesTracking
 import com.expedia.bookings.utils.CurrencyUtils
+import com.expedia.bookings.utils.Strings
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
 import com.expedia.vm.packages.BundleOverviewViewModel
@@ -77,7 +78,7 @@ class PackagePresenter(context: Context, attrs: AttributeSet) : IntentPresenter(
             show(confirmationPresenter)
             confirmationPresenter.viewModel.showConfirmation.onNext(Pair(response.newTrip?.itineraryNumber, pair.second))
             confirmationPresenter.viewModel.setExpediaRewardsPoints.onNext(expediaRewards)
-            PackagesTracking().trackCheckoutPaymentConfirmation(response, Db.getPackageSelectedRoom().supplierType)
+            PackagesTracking().trackCheckoutPaymentConfirmation(response, Strings.capitalizeFirstLetter(Db.getPackageSelectedRoom().supplierType))
         }
 
         // TODO - can we move this up to a common "base" presenter? (common between Package and Flight presenter)
