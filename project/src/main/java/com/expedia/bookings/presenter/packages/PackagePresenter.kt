@@ -3,6 +3,8 @@ package com.expedia.bookings.presenter.packages
 import android.animation.ArgbEvaluator
 import android.content.Context
 import android.graphics.Color
+import android.support.design.widget.AppBarLayout
+import android.support.design.widget.CoordinatorLayout
 import android.support.v4.content.ContextCompat
 import android.util.AttributeSet
 import android.view.View
@@ -186,6 +188,14 @@ class PackagePresenter(context: Context, attrs: AttributeSet) : IntentPresenter(
             if (!forward) {
                 trackSearchPageLoad()
             }
+
+            val params = bundlePresenter.bundleOverviewHeader.appBarLayout.layoutParams as CoordinatorLayout.LayoutParams
+            val behavior = params.behavior as AppBarLayout.Behavior
+            behavior.setDragCallback(object: AppBarLayout.Behavior.DragCallback() {
+                override fun canDrag(appBarLayout: AppBarLayout): Boolean {
+                    return false
+                }
+            });
         }
     }
 

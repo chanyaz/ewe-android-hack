@@ -4,6 +4,7 @@ import android.content.Context
 import android.graphics.Color
 import android.graphics.PorterDuff
 import android.support.v4.content.ContextCompat
+import android.support.v7.app.AppCompatActivity
 import android.support.v7.view.menu.ActionMenuItemView
 import android.support.v7.widget.Toolbar
 import android.util.AttributeSet
@@ -122,6 +123,11 @@ abstract class BaseFlightPresenter(context: Context, attrs: AttributeSet) : Pres
             trackShowPaymentFees()
             show(paymentFeeInfo)
         }
+
+        toolbar.setNavigationOnClickListener {
+            val activity = context as AppCompatActivity
+            activity.onBackPressed()
+        }
     }
 
     override fun onFinishInflate() {
@@ -135,11 +141,15 @@ abstract class BaseFlightPresenter(context: Context, attrs: AttributeSet) : Pres
             lp.topMargin = lp.topMargin + statusBarHeight
         }
 
-        addTransition(overviewTransition)
         addTransition(listToFiltersTransition)
         addTransition(baggageFeeTransition)
         addTransition(paymentFeeTransition)
+        addResultOverViewTransition()
+    }
+
+    open fun addResultOverViewTransition() {
         addDefaultTransition(defaultTransition)
+        addTransition(overviewTransition)
         show(resultsPresenter)
     }
 

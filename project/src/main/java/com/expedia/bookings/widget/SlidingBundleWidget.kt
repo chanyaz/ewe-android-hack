@@ -54,6 +54,7 @@ class SlidingBundleWidget(context: Context, attrs: AttributeSet?) : FrameLayout(
                             closeBundleOverview()
                         })
                     } else {
+                        bundlePriceFooter.translationY = - statusBarHeight.toFloat()
                         translationY = height.toFloat() - bundlePriceWidget.height
                     }
                 }

@@ -6,9 +6,12 @@ import android.support.v7.app.AppCompatActivity
 import android.support.v7.view.menu.ActionMenuItemView
 import android.util.AttributeSet
 import com.expedia.bookings.R
+import android.view.View
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.presenter.flight.BaseFlightPresenter
+import com.expedia.bookings.presenter.shared.FlightOverviewPresenter
+import com.expedia.bookings.presenter.shared.FlightResultsListViewPresenter
 import com.expedia.bookings.tracking.PackagesTracking
 import com.expedia.bookings.utils.Constants
 import com.expedia.bookings.utils.PackageResponseUtils
@@ -34,17 +37,25 @@ class PackageFlightPresenter(context: Context, attrs: AttributeSet) : BaseFlight
         activity.finish()
     }
 
-    override fun onFinishInflate() {
-        super.onFinishInflate()
+    override fun addResultOverViewTransition() {
         val activity = (context as AppCompatActivity)
         val intent = activity.intent
         if (intent.hasExtra(Constants.PACKAGE_LOAD_OUTBOUND_FLIGHT)) {
-            show(resultsPresenter)
+            addBackFlowTransition()
             selectedFlightResults.onNext(Db.getPackageSelectedOutboundFlight())
         } else if (intent.hasExtra(Constants.PACKAGE_LOAD_INBOUND_FLIGHT)) {
-            show(resultsPresenter)
+            addBackFlowTransition()
             selectedFlightResults.onNext(Db.getPackageSelectedInboundFlight())
+        } else {
+            super.addResultOverViewTransition()
         }
+    }
+
+    private fun addBackFlowTransition() {
+        addDefaultTransition(backFlowDefaultTransition)
+        addTransition(backFlowOverviewTransition)
+        show(resultsPresenter)
+        show(overviewPresenter)
     }
 
     init {
@@ -95,6 +106,28 @@ class PackageFlightPresenter(context: Context, attrs: AttributeSet) : BaseFlight
 
     override fun trackFlightResultsLoad() {
         PackagesTracking().trackFlightRoundTripLoad(Db.getPackageParams()?.isOutboundSearch() ?: false)
+    }
+
+    private val backFlowDefaultTransition = object : DefaultTransition(FlightResultsListViewPresenter::class.java.name) {
+        override fun endTransition(forward: Boolean) {
+            super.endTransition(forward)
+            toolbarViewModel.refreshToolBar.onNext(forward)
+            resultsPresenter.visibility = View.INVISIBLE
+            overviewPresenter.visibility = View.VISIBLE
+        }
+    }
+
+    private val backFlowOverviewTransition = object : Transition(FlightResultsListViewPresenter::class.java, FlightOverviewPresenter::class.java) {
+        override fun endTransition(forward: Boolean) {
+            super.endTransition(forward)
+            toolbarViewModel.refreshToolBar.onNext(!forward)
+            overviewPresenter.visibility = if (forward) View.VISIBLE else View.INVISIBLE
+            resultsPresenter.visibility = if (forward) View.INVISIBLE else View.VISIBLE
+
+            if (!forward) {
+                trackFlightResultsLoad()
+            }
+        }
     }
 
     override fun setupToolbarMenu() {
