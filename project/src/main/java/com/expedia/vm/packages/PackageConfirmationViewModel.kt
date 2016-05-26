@@ -11,6 +11,8 @@ import com.expedia.bookings.utils.DateUtils
 import com.expedia.bookings.utils.StrUtils
 import com.squareup.phrase.Phrase
 import org.joda.time.LocalDate
+import org.joda.time.format.DateTimeFormat
+import org.joda.time.format.DateTimeFormatter
 import org.joda.time.format.ISODateTimeFormat
 import rx.subjects.BehaviorSubject
 import rx.subjects.PublishSubject
@@ -62,10 +64,12 @@ class PackageConfirmationViewModel(val context: Context) {
     }
 
     private fun getHotelSubtitle(): String {
+        val hotel = Db.getTripBucket().`package`.mPackageTripResponse.packageDetails.hotel
         val params = Db.getPackageParams()
+        val formatter: DateTimeFormatter = DateTimeFormat.forPattern("yyyy-MM-dd");
         var subtitle = Phrase.from(context, R.string.calendar_instructions_date_range_with_guests_TEMPLATE)
-                .put("startdate", DateUtils.localDateToMMMd(params.checkIn))
-                .put("enddate", DateUtils.localDateToMMMd(params.checkOut))
+                .put("startdate", DateUtils.localDateToMMMd(formatter.parseLocalDate(hotel.checkInDate)))
+                .put("enddate", DateUtils.localDateToMMMd(formatter.parseLocalDate(hotel.checkOutDate)))
                 .put("guests", StrUtils.formatGuestString(context, params.guests))
                 .format().toString()
 
