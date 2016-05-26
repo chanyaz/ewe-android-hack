@@ -23,7 +23,6 @@ import com.expedia.vm.packages.PackageSuggestionAdapterViewModel
 import kotlin.properties.Delegates
 
 class PackageSearchPresenter(context: Context, attrs: AttributeSet) : BaseTwoLocationSearchPresenter(context, attrs) {
-
     val suggestionServices: SuggestionV4Services by lazy {
         Ui.getApplication(getContext()).packageComponent().suggestionsService()
     }
@@ -87,5 +86,13 @@ class PackageSearchPresenter(context: Context, attrs: AttributeSet) : BaseTwoLoc
 
     override fun getSearchViewModel(): BaseSearchViewModel {
         return searchViewModel
+    }
+
+    override fun getOriginSearchBoxPlaceholderText(): String {
+        return context.resources.getString(R.string.fly_from_hint)
+    }
+
+    override fun getDestinationSearchBoxPlaceholderText(): String {
+        return context.resources.getString(R.string.fly_to_hint)
     }
 }

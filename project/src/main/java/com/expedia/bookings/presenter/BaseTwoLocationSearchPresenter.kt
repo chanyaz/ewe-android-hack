@@ -28,7 +28,7 @@ abstract class BaseTwoLocationSearchPresenter(context: Context, attrs: Attribute
     }
 
     override fun performLocationClick(isCustomerSelectingOrigin: Boolean) {
-        searchLocationEditText?.queryHint = context.resources.getString(if (isCustomerSelectingOrigin) R.string.fly_from_hint else R.string.fly_to_hint)
+        searchLocationEditText?.queryHint = if (isCustomerSelectingOrigin) getOriginSearchBoxPlaceholderText() else getDestinationSearchBoxPlaceholderText()
         super.performLocationClick(isCustomerSelectingOrigin)
     }
 

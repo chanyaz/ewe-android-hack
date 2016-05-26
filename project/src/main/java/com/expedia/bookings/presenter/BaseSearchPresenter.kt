@@ -141,7 +141,7 @@ abstract class BaseSearchPresenter(context: Context, attrs: AttributeSet) : Pres
     }
 
     fun showSuggestionState(selectOrigin: Boolean) {
-        searchLocationEditText?.queryHint = context.resources.getString(if (selectOrigin) R.string.fly_from_hint else R.string.fly_to_hint)
+        searchLocationEditText?.queryHint = if (selectOrigin) getOriginSearchBoxPlaceholderText() else getDestinationSearchBoxPlaceholderText()
         searchLocationEditText?.setQuery("", true)
         this.isCustomerSelectingOrigin = selectOrigin
         navIcon = ArrowXDrawableUtil.getNavigationIconDrawable(context, ArrowXDrawableUtil.ArrowDrawableType.BACK)
@@ -455,4 +455,6 @@ abstract class BaseSearchPresenter(context: Context, attrs: AttributeSet) : Pres
     abstract fun getSuggestionViewModel(): SuggestionAdapterViewModel
     abstract fun getSearchViewModel() : BaseSearchViewModel
     abstract fun getSuggestionAdapter(): RecyclerView.Adapter<RecyclerView.ViewHolder>
+    abstract fun getOriginSearchBoxPlaceholderText(): String
+    abstract fun getDestinationSearchBoxPlaceholderText(): String
 }
