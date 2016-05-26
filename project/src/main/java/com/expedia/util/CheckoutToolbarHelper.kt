@@ -15,7 +15,7 @@ fun getCheckoutToolbarTitle(res: Resources, isSecureToolbarTestBucketed: Boolean
 fun getMainTravelerToolbarTitle(res: Resources): String {
     val title = Phrase.from(res.getString(R.string.checkout_edit_traveler_TEMPLATE))
             .put("travelernumber", 1)
-            .put("passengercategory", res.getString(R.string.ticket_type_adult))
+            .put("passengerage", res.getString(R.string.ticket_type_adult))
             .format().toString()
     return title
 }

@@ -148,6 +148,7 @@ class PackageSearchViewModel(context: Context) : BaseSearchViewModel(context) {
             val traveler = Traveler()
             traveler.setPassengerCategory(PassengerCategory.ADULT)
             traveler.gender = Traveler.Gender.GENDER
+            traveler.searchedAge = -1
             travelerList.add(traveler)
         }
         for (child in params.children) {
@@ -156,8 +157,13 @@ class PackageSearchViewModel(context: Context) : BaseSearchViewModel(context) {
             traveler.gender = Traveler.Gender.GENDER
             if (child < 2) {
                 category = if (params.infantSeatingInLap) PassengerCategory.INFANT_IN_LAP else PassengerCategory.INFANT_IN_SEAT
+            } else if (child < 12) {
+                category = PassengerCategory.CHILD
+            } else if (child < 18) {
+                category = PassengerCategory.ADULT_CHILD
             }
             traveler.setPassengerCategory(category)
+            traveler.searchedAge = child
             travelerList.add(traveler)
         }
         Db.setTravelers(travelerList)

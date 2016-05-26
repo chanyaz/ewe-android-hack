@@ -592,6 +592,8 @@ DummyFiletoHandleKotlinLintError {
 		R.layout.widget_docked_outbound_flight_selection,
 		R.string.total,
 		R.string.flights_title,
-		R.color.search_anim_background
+		R.color.search_anim_background,
+		R.string.traveler_adult_child_error,
+		R.string.traveler_child_age_TEMPLATE
 	};
 }

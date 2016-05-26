@@ -13,11 +13,11 @@ import com.expedia.bookings.widget.ContactDetailsCompletenessStatus
 import com.squareup.phrase.Phrase
 import rx.subjects.BehaviorSubject
 
-open class TravelerSelectViewModel(val context: Context, val index: Int, val category: PassengerCategory) {
+open class TravelerSelectViewModel(val context: Context, val index: Int, val age: Int) {
     val resources = context.resources
     val emptyText = Phrase.from(resources.getString(R.string.checkout_edit_traveler_TEMPLATE))
             .put("travelernumber", index + 1)
-            .put("passengercategory", getPassengerString(category))
+            .put("passengerage", getPassengerString(age))
             .format().toString()
 
     val iconStatusObservable = BehaviorSubject.create<ContactDetailsCompletenessStatus>()
@@ -72,13 +72,13 @@ open class TravelerSelectViewModel(val context: Context, val index: Int, val cat
         return Db.getTravelers()[index]
     }
 
-    private fun getPassengerString(category: PassengerCategory): String {
-        if (category == PassengerCategory.INFANT_IN_LAP || category == PassengerCategory.INFANT_IN_SEAT) {
-            return context.getString(R.string.ticket_type_infant)
-        } else if (category == PassengerCategory.CHILD) {
-            return context.getString(R.string.ticket_type_child)
-        } else {
+    private fun getPassengerString(age: Int): String {
+        if (age == -1) {
             return context.getString(R.string.ticket_type_adult)
         }
+        val ageText = Phrase.from(resources.getString(R.string.traveler_child_age_TEMPLATE))
+                .put("age", age)
+                .format().toString()
+        return ageText
     }
 }

@@ -33,7 +33,7 @@ class TravelerSelectState(context: Context, attrs: AttributeSet?) : LinearLayout
         for (i in 1..travelerList.size) {
             val traveler = travelerList[i - 1]
 
-            val travelerViewModel = TravelerSelectViewModel(context, i - 1, traveler.getPassengerCategory(Db.getPackageParams()))
+            val travelerViewModel = TravelerSelectViewModel(context, i - 1, traveler.searchedAge)
             travelerViewModel.updateStatus(status)
             viewModelList.add(travelerViewModel)
 
