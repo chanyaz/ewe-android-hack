@@ -3,9 +3,11 @@ package com.expedia.bookings.presenter.shared
 import android.content.Context
 import android.util.AttributeSet
 import android.view.View
+import android.view.ViewTreeObserver
 import com.expedia.bookings.R
 import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.presenter.Presenter
+import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.FlightListAdapter
 import com.expedia.bookings.widget.FlightListRecyclerView
@@ -27,6 +29,8 @@ class FlightResultsListViewPresenter(context: Context, attrs: AttributeSet) : Pr
     val flightSelectedSubject = PublishSubject.create<FlightLeg>()
     val outboundFlightSelectedSubject = PublishSubject.create<FlightLeg>()
 
+    var isShowingOutboundResults = false
+
     init {
         View.inflate(getContext(), R.layout.widget_flight_results_package, this)
     }
@@ -35,6 +39,7 @@ class FlightResultsListViewPresenter(context: Context, attrs: AttributeSet) : Pr
         super.onFinishInflate()
         val selectedOutboundFlightViewModel = SelectedOutboundFlightViewModel(outboundFlightSelectedSubject, context)
         dockedOutboundFlightSelection.viewModel = selectedOutboundFlightViewModel
+        outboundFlightSelectedSubject.subscribe { positionChildren() }
     }
 
     fun setAdapter(adapter: FlightListAdapter) {
@@ -44,10 +49,12 @@ class FlightResultsListViewPresenter(context: Context, attrs: AttributeSet) : Pr
 
     fun setLoadingState() {
         flightListAdapter.setLoadingState()
+        positionChildren()
     }
 
     var resultsViewModel: FlightResultsViewModel by notNullAndObservable { vm ->
         vm.flightResultsObservable.subscribe(listResultsObserver)
+        vm.isOutboundResults.subscribe { this.isShowingOutboundResults = it }
         vm.isOutboundResults.subscribeInverseVisibility(dockedOutboundFlightSelection)
         vm.isOutboundResults.subscribeInverseVisibility(dockedOutboundFlightShadow)
     }
@@ -56,4 +63,27 @@ class FlightResultsListViewPresenter(context: Context, attrs: AttributeSet) : Pr
         flightListAdapter.setNewFlights(it)
     }
 
+    private fun positionChildren() {
+        val isShowingDockedOutboundFlightWidget = !isShowingOutboundResults
+        val onLayoutListener = object: ViewTreeObserver.OnGlobalLayoutListener {
+            override fun onGlobalLayout() {
+                val location = IntArray(2)
+                dockedOutboundFlightSelection.getLocationOnScreen(location)
+                val top = location[1]
+                val dockedOutboundFlightSelectionBottom = top + dockedOutboundFlightSelection.height - Ui.getStatusBarHeight(context)
+
+                if (isShowingDockedOutboundFlightWidget) {
+                    val newDropShadowLayoutParams = dockedOutboundFlightShadow.layoutParams as android.widget.FrameLayout.LayoutParams
+                    newDropShadowLayoutParams.topMargin = dockedOutboundFlightSelectionBottom
+                    dockedOutboundFlightShadow.layoutParams = newDropShadowLayoutParams
+                }
+                val newLayoutParams = recyclerView.layoutParams as android.widget.FrameLayout.LayoutParams
+                newLayoutParams.topMargin = if (isShowingDockedOutboundFlightWidget) dockedOutboundFlightSelectionBottom else Ui.getToolbarSize(context)
+                recyclerView.layoutParams = newLayoutParams
+
+                viewTreeObserver.removeOnGlobalLayoutListener(this)
+            }
+        }
+        viewTreeObserver.addOnGlobalLayoutListener(onLayoutListener)
+    }
 }
