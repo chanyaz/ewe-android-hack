@@ -8,8 +8,8 @@ import com.expedia.vm.packages.PackageFlightFilterViewModel
 
 class PackagesTracking {
 
-    fun trackCheckoutStart(packageDetails:PackageCreateTripResponse.PackageDetails) {
-        OmnitureTracking.trackPackagesCheckoutStart(packageDetails)
+    fun trackCheckoutStart(packageDetails:PackageCreateTripResponse.PackageDetails, hotelSupplierType: String) {
+        OmnitureTracking.trackPackagesCheckoutStart(packageDetails, hotelSupplierType)
     }
 
     fun trackDestinationSearchInit() {
@@ -89,8 +89,8 @@ class PackagesTracking {
         OmnitureTracking.trackPackagesPaymentEdit()
     }
 
-    fun trackCheckoutPaymentConfirmation(response: PackageCheckoutResponse) {
-        OmnitureTracking.trackPackagesConfirmation(response)
+    fun trackCheckoutPaymentConfirmation(response: PackageCheckoutResponse, hotelSupplierType: String) {
+        OmnitureTracking.trackPackagesConfirmation(response, hotelSupplierType)
     }
 
     fun trackFlightRoundTripLoad(isOutBound: Boolean) {
