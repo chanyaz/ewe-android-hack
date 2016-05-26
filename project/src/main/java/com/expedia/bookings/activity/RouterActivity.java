@@ -25,7 +25,6 @@ import com.expedia.bookings.utils.Ui;
 import com.facebook.appevents.AppEventsLogger;
 import com.mobiata.android.Log;
 import com.mobiata.android.util.SettingUtils;
-
 import rx.Observer;
 
 /**
@@ -42,6 +41,8 @@ import rx.Observer;
 public class RouterActivity extends Activity {
 
 	private Context mContext;
+	boolean loadSignInViewAbTest = false;
+
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -82,22 +83,19 @@ public class RouterActivity extends Activity {
 		boolean isUsersFirstLaunchOfApp = ExpediaBookingApp.isFirstLaunchEver();
 		boolean isNewVersionOfApp = ExpediaBookingApp.isFirstLaunchOfAppVersion();
 		boolean userNotLoggedIn = !User.isLoggedIn(RouterActivity.this);
-		boolean loadSignInViewAbTest = (isUsersFirstLaunchOfApp || isNewVersionOfApp) && userNotLoggedIn;
+		loadSignInViewAbTest = (isUsersFirstLaunchOfApp || isNewVersionOfApp) && userNotLoggedIn;
+
+		AbacusEvaluateQuery query = new AbacusEvaluateQuery(Db.getAbacusGuid(), PointOfSale.getPointOfSale().getTpid(), 0);
+		query.addExperiment(AbacusUtils.EBAndroidAppLaunchScreenTest);
 
 		if (loadSignInViewAbTest) {
-			AbacusEvaluateQuery query = new AbacusEvaluateQuery(Db.getAbacusGuid(), PointOfSale.getPointOfSale().getTpid(), 0);
 			query.addExperiment(AbacusUtils.EBAndroidAppShowSignInOnLaunch);
-			query.addExperiment(AbacusUtils.EBAndroidAppLaunchScreenTest);
-			Ui.getApplication(this).appComponent().abacus().downloadBucket(query, showSignInViewABTestSubscriber, 3, TimeUnit.SECONDS);
 		}
-		else {
-			NavUtils.goToLaunchScreen(RouterActivity.this, false);
-			// Finish this Activity after routing
-			finish();
-		}
+		Ui.getApplication(this).appComponent().abacus().downloadBucket(query, evaluatePreLaunchABTestsSubscriber, 3, TimeUnit.SECONDS);
+
 	}
 
-	private Observer<AbacusResponse> showSignInViewABTestSubscriber = new Observer<AbacusResponse>() {
+	private Observer<AbacusResponse> evaluatePreLaunchABTestsSubscriber = new Observer<AbacusResponse>() {
 
 		@Override
 		public void onCompleted() {
@@ -116,7 +114,7 @@ public class RouterActivity extends Activity {
 		public void onNext(AbacusResponse abacusResponse) {
 			Log.d("Abacus:showSignInOnLaunchTest - onNext");
 			AbacusHelperUtils.updateAbacus(abacusResponse, RouterActivity.this);
-			if (Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppShowSignInOnLaunch)) {
+			if (Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppShowSignInOnLaunch) && loadSignInViewAbTest) {
 				NavUtils.goToSignIn(RouterActivity.this);
 			}
 			else {
