@@ -377,25 +377,33 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet) : Pre
 
     inner class HandleTouchListner() : View.OnTouchListener {
         internal var originY: Float = 0.toFloat()
+        var isClicked = false
         override fun onTouch(v: View, event: MotionEvent): Boolean {
             when (event.action) {
                 (MotionEvent.ACTION_DOWN) -> {
+                    isClicked = true
                     originY = event.rawY
                     handleShadow.visibility = View.VISIBLE
                 }
                 (MotionEvent.ACTION_UP) -> {
-                    val diff = event.rawY - originY
-                    val distance = Math.max(diff, 0f)
-                    val distanceGoal = height / 3f
-                    if (distance > distanceGoal) {
+                    if (isClicked) {
                         (context as AppCompatActivity).onBackPressed()
+                        isClicked = false
                     } else {
-                        animCheckoutToTop()
+                        val diff = event.rawY - originY
+                        val distance = Math.max(diff, 0f)
+                        val distanceGoal = height / 3f
+                        if (distance > distanceGoal) {
+                            (context as AppCompatActivity).onBackPressed()
+                        } else {
+                            animCheckoutToTop()
+                        }
+                        originY = 0f
+                        handleShadow.visibility = View.GONE
                     }
-                    originY = 0f
-                    handleShadow.visibility = View.GONE
                 }
                 (MotionEvent.ACTION_MOVE) -> {
+                    isClicked = false
                     val diff = event.rawY - originY
                     rotateChevron(Math.max(diff, 0f))
                 }
