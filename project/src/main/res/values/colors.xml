@@ -506,6 +506,10 @@
     <!-- This color should be used on search result list header texts such as "All Flights", "Searching hundreds of hotels" and "Step 1: Select Hotel".  -->
     <color name="search_results_list_header_gray">@color/gray6</color>
 
+    <!-- Flight docked bar title text -->
+    <color name="flight_docked_text">@color/gray7</color>
+    <color name="flight_docked_text_outbound">@color/gray6</color>
+
     <color name="error_widget_text">@color/gray6</color>
 
 </resources>

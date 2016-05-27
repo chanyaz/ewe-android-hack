@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <merge xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -10,15 +11,14 @@
 
         <com.expedia.bookings.widget.TextView
             android:id="@+id/airline_name"
-            style="@style/ResultsDescriptionText"
+            style="@style/FlightDockedAirlineText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@android:color/black"
-            tools:text="Virgin America" />
+            tools:text="Virgin America"/>
 
         <com.expedia.bookings.widget.TextView
             android:id="@+id/arrival_departure_time"
-            style="@style/ResultsDescriptionText"
+            style="@style/MaterialFlightCell.DurationText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             tools:text="7:45am - 11:33 pm +1d (12h 24m)" />
@@ -26,7 +26,7 @@
 
     <com.expedia.bookings.widget.TextView
         android:id="@+id/outbound_label"
-        style="@style/ResultsDescriptionText"
+        style="@style/FlightDockedOutboundText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="right|center_vertical"
