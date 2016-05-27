@@ -5,6 +5,7 @@ import android.os.PersistableBundle
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Codes
 import com.expedia.bookings.data.Db
+import com.expedia.bookings.data.hotels.HotelSearchResponse
 import com.expedia.bookings.data.hotels.convertPackageToSearchParams
 import com.expedia.bookings.data.packages.PackageSearchResponse
 import com.expedia.bookings.presenter.packages.PackageHotelPresenter
@@ -42,6 +43,8 @@ class PackageHotelActivity : AbstractAppCompatActivity() {
             hotelsPresenter.detailPresenter.hotelDetailView.viewmodel.hotelOffersSubject.onNext(hotelOffers)
             hotelsPresenter.detailPresenter.hotelMapView.viewmodel.offersObserver.onNext(hotelOffers)
             hotelsPresenter.defaultTransitionObserver.onNext(Screen.DETAILS)
+            hotelsPresenter.resultsPresenter.viewmodel.paramsSubject.onNext(convertPackageToSearchParams(Db.getPackageParams(), resources.getInteger(R.integer.calendar_max_days_hotel_stay),  resources.getInteger(R.integer.calendar_max_package_selectable_date_range)))
+            hotelsPresenter.resultsPresenter.viewmodel.hotelResultsObservable.onNext(HotelSearchResponse.convertPackageToSearchResponse(Db.getPackageResponse()))
 
         } else if (intent.hasExtra(Codes.TAG_EXTERNAL_SEARCH_PARAMS)) {
             // change hotel room
