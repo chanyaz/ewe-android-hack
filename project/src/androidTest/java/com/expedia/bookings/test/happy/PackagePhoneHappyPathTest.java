@@ -95,7 +95,7 @@ public class PackagePhoneHappyPathTest extends PackageTestCase {
 	private void assertConfirmation() {
 		onView(allOf(withId(R.id.destination), withText("Detroit"))).check(matches(isDisplayed()));
 		onView(allOf(withId(R.id.first_row), isDescendantOfA(withId(R.id.destination_card_row)), withText("Package Happy Path"))).check(matches(isDisplayed()));
-		onView(allOf(withId(R.id.second_row), isDescendantOfA(withId(R.id.destination_card_row)))).check(matches(isDisplayed()));
+		onView(allOf(withId(R.id.second_row), isDescendantOfA(withId(R.id.destination_card_row)), withText("Feb 2 - Feb 4, 1 Guest"))).check(matches(isDisplayed()));
 		onView(allOf(withId(R.id.first_row), isDescendantOfA(withId(R.id.outbound_flight_card)), withText("Flight to (DTW) Detroit"))).check(matches(isDisplayed()));
 		onView(allOf(withId(R.id.second_row), isDescendantOfA(withId(R.id.outbound_flight_card)))).check(matches(isDisplayed()));
 		onView(allOf(withId(R.id.first_row), isDescendantOfA(withId(R.id.inbound_flight_card)), withText("Flight to (SFO) San Francisco"))).check(matches(isDisplayed()));
