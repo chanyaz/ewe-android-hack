@@ -15,8 +15,33 @@ import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withHint;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
+import static com.expedia.bookings.test.espresso.CustomMatchers.withNavigationContentDescription;
 
 public class PackageSearchPresenterTest extends PackageTestCase {
+
+	public void testAccessibility() throws Throwable {
+		Common.delay(1);
+		checkToolbarNavContentDescription(true);
+		PackageScreen.toolbarNavigationUp(R.id.search_toolbar).perform(click());
+		checkToolbarNavContentDescription(false);
+		SearchScreen.origin().perform(click());
+		checkToolbarNavContentDescription(true);
+		PackageScreen.toolbarNavigationUp(R.id.search_toolbar).perform(click());
+		checkToolbarNavContentDescription(false);
+		SearchScreen.destination().perform(click());
+		checkToolbarNavContentDescription(true);
+		PackageScreen.toolbarNavigationUp(R.id.search_toolbar).perform(click());
+		checkToolbarNavContentDescription(false);
+	}
+
+	private void checkToolbarNavContentDescription(boolean isBackButton) {
+		if (isBackButton) {
+			PackageScreen.searchToolbar().check(matches(withNavigationContentDescription("Back to search screen")));
+		}
+		else {
+			PackageScreen.searchToolbar().check(matches(withNavigationContentDescription("Close search screen")));
+		}
+	}
 
 	public void testOriginSameAsDestination() throws Throwable {
 		Common.delay(1);

@@ -58,6 +58,10 @@ public class PackageScreen {
 		return onView(withId(R.id.pricing_structure_header));
 	}
 
+	public static ViewInteraction searchToolbar() {
+		return onView(withId(R.id.search_toolbar));
+	}
+
 	public static ViewInteraction hotelResultsToolbar() {
 		return onView(withId(R.id.hotel_results_toolbar));
 	}

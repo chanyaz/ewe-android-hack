@@ -3838,6 +3838,10 @@
     <!-- Packages -->
 
     <!-- Label for package search toolbar -->
+    <!-- Accessibility - Content Description for toolbar close button -->
+    <string name="package_toolbar_close_content_description">Close search screen</string>
+    <!-- Accessibility - Content Description for toolbar back button when entering destination/arrival -->
+    <string name="package_toolbar_back_to_search_content_description">Back to search screen</string>
     <string name="package_toolbar_title">Hotel + Flight</string>
     <!-- Label for per person -->
     <string name="per_person">per person</string>

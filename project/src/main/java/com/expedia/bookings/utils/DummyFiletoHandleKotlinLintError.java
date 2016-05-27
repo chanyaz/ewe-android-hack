@@ -594,6 +594,8 @@ DummyFiletoHandleKotlinLintError {
 		R.string.flights_title,
 		R.color.search_anim_background,
 		R.string.traveler_adult_child_error,
-		R.string.traveler_child_age_TEMPLATE
+		R.string.traveler_child_age_TEMPLATE,
+		R.string.package_toolbar_back_to_search_content_description,
+		R.string.package_toolbar_close_content_description
 	};
 }
