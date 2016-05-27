@@ -12,5 +12,5 @@ public class LXCategoryMetadata {
 	public transient List<LXActivity> activities = new ArrayList<>();
 	// This is not localized and to be used for all lookups and non-display logic.
 	public transient String categoryKeyEN;
-	public transient LXCategorySortOrder sortOrder = LXCategorySortOrder.Unknown;
+	public transient LXCategoryType categoryType = LXCategoryType.Unknown;
 }

@@ -14,7 +14,7 @@ import android.widget.ImageView
 import com.expedia.bookings.R
 import com.expedia.bookings.bitmaps.PicassoHelper
 import com.expedia.bookings.bitmaps.PicassoTarget
-import com.expedia.bookings.data.lx.LXCategoryMetadata
+import com.expedia.bookings.data.lx.LXTheme
 import com.expedia.bookings.graphics.HeaderBitmapDrawable
 import com.expedia.bookings.utils.ColorBuilder
 import com.expedia.bookings.utils.Images
@@ -24,18 +24,18 @@ import com.squareup.picasso.Picasso
 import rx.subjects.PublishSubject
 
 
-class LXCategoryListAdapter : LoadingRecyclerViewAdapter<LXCategoryMetadata>() {
-    var categoryMetadataSubject: PublishSubject<LXCategoryMetadata> = PublishSubject.create<LXCategoryMetadata>()
+class LXThemeListAdapter : LoadingRecyclerViewAdapter<LXTheme>() {
+    var themeClickSubject = PublishSubject.create<LXTheme>()
     var imageCode: String? = null
 
     override fun loadingLayoutResourceId(): Int {
-        return R.layout.lx_category_loading_animation_widget
+        return R.layout.lx_theme_loading_animation_widget
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         var itemViewHolder: RecyclerView.ViewHolder? = super.onCreateViewHolder(parent, viewType)
         if (itemViewHolder == null) {
-            val itemView = LayoutInflater.from(parent.context).inflate(R.layout.row_lx_category, parent, false)
+            val itemView = LayoutInflater.from(parent.context).inflate(R.layout.row_lx_theme, parent, false)
             itemViewHolder = ViewHolder(itemView)
         }
         return itemViewHolder
@@ -44,45 +44,48 @@ class LXCategoryListAdapter : LoadingRecyclerViewAdapter<LXCategoryMetadata>() {
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         super.onBindViewHolder(holder, position)
         if (holder.itemViewType == LoadingRecyclerViewAdapter.DATA_VIEW) {
-            val categories = getItems().get(position)
-            (holder as ViewHolder).bind(categories, categoryMetadataSubject, imageCode)
+            val theme = getItems().get(position)
+            (holder as ViewHolder).bind(theme, themeClickSubject, imageCode)
         }
     }
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView), View.OnClickListener {
 
-        val categoryImage: ImageView by bindView(R.id.category_image)
-        val categoryCount: TextView by bindView(R.id.category_count)
-        val categoryTitle: TextView by bindView(R.id.category_title)
+        val themeImage: ImageView by bindView(R.id.theme_image)
+        val themeCount: TextView by bindView(R.id.theme_count)
+        val themeTitle: TextView by bindView(R.id.theme_title)
+        val themeDescription: TextView by bindView(R.id.theme_description)
         val cardView: CardView by bindView(R.id.results_card_view)
 
-        private var categoryMetadataSubject: PublishSubject<LXCategoryMetadata>? = null
+        private var themeClickSubject: PublishSubject<LXTheme>? = null
 
         init {
             itemView.setOnClickListener(this)
         }
 
         override fun onClick(v: View) {
-            val category = v.tag as LXCategoryMetadata
-            categoryMetadataSubject!!.onNext(category)
+            val theme = v.tag as LXTheme
+            themeClickSubject!!.onNext(theme)
         }
 
-        fun bind(category: LXCategoryMetadata, subject: PublishSubject<LXCategoryMetadata>, imageCode: String?) {
-            this.categoryMetadataSubject = subject
-            itemView.tag = category
+        fun bind(theme: LXTheme, subject: PublishSubject<LXTheme>, imageCode: String?) {
+            this.themeClickSubject = subject
+            itemView.tag = theme
             cardView.preventCornerOverlap = false
-            categoryTitle.text = category.displayValue
-            categoryCount.text = category.activities.size.toString()
+            themeTitle.text = theme.title
+            val activitySize = theme.activities.size
+            themeCount.text = activitySize.toString()
+            themeDescription.text  = theme.description
 
-            if (category.activities.size >= 1 && category.activities.size <= 9) {
-                categoryCount.background = ContextCompat.getDrawable(itemView.context, R.drawable.lx_category_count_background_single_digit)
+            if (activitySize >= 1 && activitySize <= 9) {
+                themeCount.background = ContextCompat.getDrawable(itemView.context, R.drawable.lx_category_count_background_more_than_one_digit)
             } else  {
-                categoryCount.background = ContextCompat.getDrawable(itemView.context, R.drawable.lx_category_count_background_more_than_one_digit)
+                themeCount.background = ContextCompat.getDrawable(itemView.context, R.drawable.lx_category_count_background_more_than_one_digit)
             }
 
-            var imageURLs = Images.forLxCategory(itemView.context, category.categoryKeyEN, imageCode, itemView.getContext().getResources().getDimension(R.dimen.lx_category_image_width))
+            var imageURLs = Images.forLxCategory(itemView.context, theme.titleEN, imageCode, itemView.getContext().getResources().getDimension(R.dimen.lx_category_image_width))
 
-            var errorDrawable = LXDataUtils.getErrorDrawableForCategory(itemView.context, category.categoryKeyEN);
+            var errorDrawable = LXDataUtils.getErrorDrawableForCategory(itemView.context, theme.titleEN);
 
             PicassoHelper
                     .Builder(itemView.context)
@@ -108,24 +111,24 @@ class LXCategoryListAdapter : LoadingRecyclerViewAdapter<LXCategoryMetadata>() {
                 val drawable = HeaderBitmapDrawable()
                 drawable.setBitmap(bitmap)
                 drawable.setOverlayDrawable(overlayDrawable)
-                categoryImage.setImageDrawable(drawable)
+                themeImage.setImageDrawable(drawable)
             }
 
             override fun onBitmapFailed(errorDrawable: Drawable?) {
                 super.onBitmapFailed(errorDrawable)
-                categoryImage.setImageDrawable(errorDrawable)
+                themeImage.setImageDrawable(errorDrawable)
             }
 
             override fun onPrepareLoad(placeHolderDrawable: Drawable?) {
                 super.onPrepareLoad(placeHolderDrawable)
-                categoryImage.setImageDrawable(placeHolderDrawable)
+                themeImage.setImageDrawable(placeHolderDrawable)
             }
         }
     }
 
-    fun setCategories(categories: List<LXCategoryMetadata>, categoryPublishSubject: PublishSubject<LXCategoryMetadata>) {
-        categoryMetadataSubject = categoryPublishSubject
-        setItems(categories)
+    fun setThemes(themes: List<LXTheme>, themePublishSubject: PublishSubject<LXTheme>) {
+        themeClickSubject = themePublishSubject
+        setItems(themes)
     }
 
     fun setDestinationImageCode(imageCode: String?) {

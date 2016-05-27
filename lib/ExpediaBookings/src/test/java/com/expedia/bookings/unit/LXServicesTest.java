@@ -18,7 +18,6 @@ import com.expedia.bookings.data.lx.ActivityAvailabilities;
 import com.expedia.bookings.data.lx.ActivityDetailsResponse;
 import com.expedia.bookings.data.lx.AvailabilityInfo;
 import com.expedia.bookings.data.lx.LXActivity;
-import com.expedia.bookings.data.lx.LXCategorySortOrder;
 import com.expedia.bookings.data.lx.LXCheckoutParams;
 import com.expedia.bookings.data.lx.LXCheckoutResponse;
 import com.expedia.bookings.data.lx.LXCreateTripParams;
@@ -26,6 +25,8 @@ import com.expedia.bookings.data.lx.LXCreateTripResponse;
 import com.expedia.bookings.data.lx.LXOfferSelected;
 import com.expedia.bookings.data.lx.LXSearchParams;
 import com.expedia.bookings.data.lx.LXSearchResponse;
+import com.expedia.bookings.data.lx.LXTheme;
+import com.expedia.bookings.data.lx.LXThemeType;
 import com.expedia.bookings.data.lx.Offer;
 import com.expedia.bookings.data.lx.RecommendedActivitiesResponse;
 import com.expedia.bookings.data.lx.Ticket;
@@ -368,16 +369,18 @@ public class LXServicesTest {
 		observer.assertCompleted();
 		observer.assertValueCount(1);
 		assertEquals(4, observer.getOnNextEvents().get(0).activities.size());
-		assertNotNull(observer.getOnNextEvents().get(0).filterCategories.get("Attractions").activities);
-		assertEquals(4, observer.getOnNextEvents().get(0).filterCategories.get("Attractions").activities.size());
-		assertEquals("Attractions",
-			observer.getOnNextEvents().get(0).filterCategories.get("Attractions").categoryKeyEN);
-		assertEquals(LXCategorySortOrder.Unknown,
-			observer.getOnNextEvents().get(0).filterCategories.get("Unknown Category").sortOrder);
-		assertEquals(LXCategorySortOrder.Attractions,
-			observer.getOnNextEvents().get(0).filterCategories.get("Attractions").sortOrder);
-		assertEquals(LXCategorySortOrder.PrivateTransfers,
-			observer.getOnNextEvents().get(0).filterCategories.get("Private Transfers").sortOrder);
+		assertNotNull(observer.getOnNextEvents().get(0).lxThemes);
+		assertEquals(7, observer.getOnNextEvents().get(0).lxThemes.size());
+		LXTheme topRatedTheme = observer.getOnNextEvents().get(0).lxThemes.get(0);
+		assertEquals(LXThemeType.TopRatedActivities, topRatedTheme.themeType);
+		assertEquals(0, topRatedTheme.filterCategories.size());
+		assertEquals(4, topRatedTheme.activities.size());
+		LXTheme allThingsToDoTheme = observer.getOnNextEvents().get(0).lxThemes.get(6);
+		assertEquals(LXThemeType.AllThingsToDo, allThingsToDoTheme.themeType);
+		assertEquals(7, allThingsToDoTheme.filterCategories.size());
+		assertEquals(4, allThingsToDoTheme.activities.size());
+		assertEquals(2, observer.getOnNextEvents().get(0).lxThemes.get(1).filterCategories.size());
+		assertEquals(1, observer.getOnNextEvents().get(0).lxThemes.get(2).filterCategories.size());
 	}
 
 	private void givenCreateTripParamsHasOneOffer(String activityId) {

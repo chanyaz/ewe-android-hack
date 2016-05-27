@@ -20,12 +20,10 @@ import android.widget.TextView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.lx.LXActivity;
-import com.expedia.bookings.data.lx.LXCategoryMetadata;
 import com.expedia.bookings.test.espresso.Common;
 import com.expedia.bookings.test.espresso.EspressoUtils;
 import com.expedia.bookings.test.espresso.SpoonScreenshotUtils;
 import com.expedia.bookings.test.espresso.TabletViewActions;
-import com.expedia.bookings.widget.LXCategoryListAdapter;
 import com.expedia.bookings.widget.LXResultsListAdapter;
 
 import static android.support.test.espresso.Espresso.onView;
@@ -83,7 +81,7 @@ public class LXScreen {
 	}
 
 	public static ViewInteraction searchCategoryResultsWidget() {
-		return onView(withId(R.id.lx_category_results_widget));
+		return onView(withId(R.id.lx_theme_results_widget));
 	}
 
 	public static ViewInteraction searchFailed() {
@@ -94,18 +92,8 @@ public class LXScreen {
 		return onView(recyclerView(R.id.lx_search_results_list));
 	}
 
-	public static ViewInteraction categoryList() {
-		return onView(recyclerView(R.id.lx_category_list));
-	}
-
 	public static void waitForSearchListDisplayed() {
 		searchList().perform(waitFor(isDisplayed(), 10, TimeUnit.SECONDS));
-		// Wait an extra bit just to be sure the list items have settled
-		Common.delay(2);
-	}
-
-	public static void waitForCategoryListDisplayed() {
-		categoryList().perform(waitFor(isDisplayed(), 10, TimeUnit.SECONDS));
 		// Wait an extra bit just to be sure the list items have settled
 		Common.delay(2);
 	}
@@ -193,48 +181,6 @@ public class LXScreen {
 				uiController.loopMainThreadUntilIdle();
 				RecyclerView rv = (RecyclerView) view;
 				((LXResultsListAdapter) rv.getAdapter()).setItems(activities);
-			}
-		};
-	}
-
-	public static ViewAction setLXCategories(final List<LXCategoryMetadata> categories) {
-		return new ViewAction() {
-			@Override
-			public Matcher<View> getConstraints() {
-				return withId(R.id.lx_category_list);
-			}
-
-			@Override
-			public String getDescription() {
-				return "Placing the view holder in the recycler view";
-			}
-
-			@Override
-			public void perform(UiController uiController, View view) {
-				uiController.loopMainThreadUntilIdle();
-				RecyclerView rv = (RecyclerView) view;
-				((LXCategoryListAdapter) rv.getAdapter()).setItems(categories);
-			}
-		};
-	}
-
-	public static ViewAction performCategoryViewHolderComparison(final String title) {
-		return new ViewAction() {
-			@Override
-			public Matcher<View> getConstraints() {
-				return null;
-			}
-
-			@Override
-			public String getDescription() {
-				return null;
-			}
-
-			@Override
-			public void perform(UiController uiController, View viewHolder) {
-				TextView categoryTitle = (TextView) viewHolder.findViewById(R.id.category_title);
-
-				Assert.assertEquals(title, categoryTitle.getText());
 			}
 		};
 	}

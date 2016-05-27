@@ -17,6 +17,7 @@ public class LXSearchResponse {
 
 	// Utility Members - Required for Filtering
 	public transient List<LXActivity> unFilteredActivities = new ArrayList<>();
+	public transient List<LXTheme> lxThemes = new ArrayList<>();
 
 	public LXActivity getActivityFromID(String activityId) {
 		for (LXActivity lxActivity : activities) {
