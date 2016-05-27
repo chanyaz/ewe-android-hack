@@ -15,6 +15,7 @@ import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withHint;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
+import static com.expedia.bookings.test.espresso.CustomMatchers.withContentDescription;
 import static com.expedia.bookings.test.espresso.CustomMatchers.withNavigationContentDescription;
 
 public class PackageSearchPresenterTest extends PackageTestCase {
@@ -24,13 +25,35 @@ public class PackageSearchPresenterTest extends PackageTestCase {
 		checkToolbarNavContentDescription(true);
 		PackageScreen.toolbarNavigationUp(R.id.search_toolbar).perform(click());
 		checkToolbarNavContentDescription(false);
+		SearchScreen.origin().check(matches(withContentDescription("Click here to select where you want to fly from")));
 		SearchScreen.origin().perform(click());
+		checkToolbarNavContentDescription(true);
+		SearchScreen.searchEditText().perform(typeText("SFO"));
+		SearchScreen.selectLocation("San Francisco, CA (SFO-San Francisco Intl.)");
+		Common.delay(1);
 		checkToolbarNavContentDescription(true);
 		PackageScreen.toolbarNavigationUp(R.id.search_toolbar).perform(click());
 		checkToolbarNavContentDescription(false);
+		SearchScreen.destination().check(matches(withContentDescription("Click here to select where you want to fly to")));
 		SearchScreen.destination().perform(click());
 		checkToolbarNavContentDescription(true);
-		PackageScreen.toolbarNavigationUp(R.id.search_toolbar).perform(click());
+		SearchScreen.searchEditText().perform(typeText("DTW"));
+		SearchScreen.selectLocation("Detroit, MI (DTW-Detroit Metropolitan Wayne County)");
+		Common.delay(1);
+
+		Common.pressBack();
+		checkToolbarNavContentDescription(false);
+		SearchScreen.calendarCard().check(matches(withContentDescription("Click here to select your travel dates")));
+		SearchScreen.calendarCard().perform(click());
+		LocalDate startDate = LocalDate.now().plusDays(3);
+		LocalDate endDate = LocalDate.now().plusDays(8);
+		SearchScreen.selectDates(startDate, endDate);
+
+		SearchScreen.origin().check(matches(withContentDescription("Flying from San Francisco, CA (SFO-San Francisco Intl.)")));
+		SearchScreen.destination().check(matches(withContentDescription("Flying to Detroit, MI (DTW-Detroit Metropolitan Wayne County)")));
+		String expectedStartDate = DateUtils.localDateToMMMd(startDate);
+		String expectedEndDate = DateUtils.localDateToMMMd(endDate);
+		SearchScreen.calendarCard().check(matches(withContentDescription("Your trip is from " + expectedStartDate + " to " + expectedEndDate + " for (5 nights)")));
 		checkToolbarNavContentDescription(false);
 	}
 

@@ -352,8 +352,7 @@ abstract class BaseHotelDetailViewModel(val context: Context, val roomSelectedOb
                         .put("guests", StrUtils.formatGuestString(context, params.guests))
                         .format()
                         .toString())
-                val dates = context.resources.getString(R.string.calendar_instructions_date_range_TEMPLATE,
-                        DateUtils.localDateToMMMd(params.checkIn), DateUtils.localDateToMMMd(params.checkOut))
+                val dates = Phrase.from(context, R.string.calendar_instructions_date_range_TEMPLATE).put("startdate", DateUtils.localDateToMMMd(params.checkIn)).put("enddate", DateUtils.localDateToMMMd(params.checkOut)).format().toString()
                 searchDatesObservable.onNext(dates)
             } else {
                 searchInfoObservable.onNext(Phrase.from(context, R.string.calendar_instructions_date_range_with_guests_TEMPLATE).put("startdate",

@@ -167,7 +167,9 @@ public class DateFormatUtils {
 		DateTime checkoutDateTime = parser.parseDateTime(checkoutDate);
 
 		DateTimeFormatter formatter = DateTimeFormat.forPattern("MMM dd, yyyy");
-		return context.getString(R.string.calendar_instructions_date_range_TEMPLATE, formatter.print(checkinDateTime), formatter.print(checkoutDateTime));
+		return Phrase.from(context, R.string.calendar_instructions_date_range_TEMPLATE)
+			.put("startdate", formatter.print(checkinDateTime)).put("enddate", formatter.print(checkoutDateTime))
+			.format().toString();
 	}
 
 	public static String formatPackageDateRange(Context context, String checkinDate, String checkoutDate) {
@@ -175,7 +177,8 @@ public class DateFormatUtils {
 		String checkinDateTime = formatDateToShortDayAndDate(context, parser.parseDateTime(checkinDate));
 		String checkoutDateTime = formatDateToShortDayAndDate(context, parser.parseDateTime(checkoutDate));
 
-		return context.getString(R.string.calendar_instructions_date_range_TEMPLATE, checkinDateTime, checkoutDateTime);
+		return Phrase.from(context, R.string.calendar_instructions_date_range_TEMPLATE)
+			.put("startdate", checkinDateTime).put("enddate", checkoutDateTime).format().toString();
 	}
 
 	public static String formatBirthDate(Context context, int year, int month, int day) {

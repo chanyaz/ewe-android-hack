@@ -1,6 +1,7 @@
 package com.expedia.vm
 
 import android.content.Context
+import android.text.Html
 import android.text.style.RelativeSizeSpan
 import com.expedia.bookings.R
 import com.expedia.bookings.data.BaseSearchParams
@@ -8,17 +9,17 @@ import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.TravelerParams
 import com.expedia.bookings.utils.DateUtils
 import com.expedia.bookings.utils.SpannableBuilder
-import com.expedia.bookings.utils.StrUtils
 import com.expedia.util.endlessObserver
 import com.mobiata.android.time.util.JodaUtils
+import com.squareup.phrase.Phrase
 import org.joda.time.LocalDate
 import rx.subjects.BehaviorSubject
 import rx.subjects.PublishSubject
-import kotlin.properties.Delegates
 
 abstract class BaseSearchViewModel(val context: Context) {
 
     // Outputs
+    val dateAccessibilityObservable = BehaviorSubject.create<CharSequence>()
     val dateTextObservable = BehaviorSubject.create<CharSequence>()
     val dateInstructionObservable = PublishSubject.create<CharSequence>()
     val calendarTooltipTextObservable = PublishSubject.create<Pair<String, String>>()
@@ -72,13 +73,13 @@ abstract class BaseSearchViewModel(val context: Context) {
 
     val originLocationObserver = endlessObserver<SuggestionV4> { suggestion ->
         getParamsBuilder().origin(suggestion)
-        formattedOriginObservable.onNext(StrUtils.formatAirport(suggestion))
+        formattedOriginObservable.onNext(Html.fromHtml(suggestion.regionNames.displayName).toString())
         requiredSearchParamsObserver.onNext(Unit)
     }
 
     open val destinationLocationObserver = endlessObserver<SuggestionV4> { suggestion ->
         getParamsBuilder().destination(suggestion)
-        formattedDestinationObservable.onNext(StrUtils.formatAirport(suggestion))
+        formattedDestinationObservable.onNext(Html.fromHtml(suggestion.regionNames.displayName).toString())
         requiredSearchParamsObserver.onNext(Unit)
     }
 
@@ -107,6 +108,7 @@ abstract class BaseSearchViewModel(val context: Context) {
         }
 
         dateTextObservable.onNext(computeDateText(start, end))
+        dateAccessibilityObservable.onNext(computeDateText(start, end, true))
         dateInstructionObservable.onNext(computeDateInstructionText(start, end))
         calendarTooltipTextObservable.onNext(computeTooltipText(start, end))
 
@@ -121,7 +123,7 @@ abstract class BaseSearchViewModel(val context: Context) {
         } else if (end == null) {
             return DateUtils.localDateToMMMd(start)
         } else {
-            return context.resources.getString(R.string.calendar_instructions_date_range_TEMPLATE, DateUtils.localDateToMMMd(start), DateUtils.localDateToMMMd(end))
+            return Phrase.from(context, R.string.calendar_instructions_date_range_TEMPLATE).put("startdate", DateUtils.localDateToMMMd(start)).put("enddate", DateUtils.localDateToMMMd(end)).format().toString()
         }
     }
 
@@ -144,26 +146,46 @@ abstract class BaseSearchViewModel(val context: Context) {
     }
 
     open fun computeDateText(start: LocalDate?, end: LocalDate?): CharSequence {
-        val dateRangeText = computeDateRangeText(start, end)
+        return computeDateText(start, end, false)
+    }
+
+    open fun computeDateText(start: LocalDate?, end: LocalDate?, isContentDescription: Boolean): CharSequence {
+        val dateRangeText = if (isContentDescription) computeDateRangeText(start, end, true) else computeDateRangeText(start, end)
         val sb = SpannableBuilder()
-        sb.append(dateRangeText)
 
         if (start != null && end != null) {
             val nightCount = JodaUtils.daysBetween(start, end)
             val nightsString = context.resources.getQuantityString(R.plurals.length_of_stay, nightCount, nightCount)
-            sb.append(" ");
-            sb.append(context.resources.getString(R.string.nights_count_TEMPLATE, nightsString), RelativeSizeSpan(0.8f))
+
+            if (isContentDescription) {
+                sb.append(Phrase.from(context, R.string.packages_search_dates_content_description_trip)
+                        .put("date_range", dateRangeText)
+                        .put("nights", context.resources.getString(R.string.nights_count_TEMPLATE, nightsString))
+                        .format().toString())
+            } else {
+                sb.append(dateRangeText)
+                sb.append(" ")
+                sb.append(context.resources.getString(R.string.nights_count_TEMPLATE, nightsString), RelativeSizeSpan(0.8f))
+            }
+        } else {
+            sb.append(dateRangeText)
         }
         return sb.build()
     }
 
     open fun computeDateRangeText(start: LocalDate?, end: LocalDate?): String? {
+        return computeDateRangeText(start, end, false)
+    }
+
+    open fun computeDateRangeText(start: LocalDate?, end: LocalDate?, isContentDescription: Boolean): String? {
         if (start == null && end == null) {
-            return context.resources.getString(R.string.select_dates)
+            var stringID = if (isContentDescription) R.string.packages_search_dates_content_description_initial else R.string.select_dates
+            return context.resources.getString(stringID)
         } else if (end == null) {
             return context.resources.getString(R.string.select_checkout_date_TEMPLATE, DateUtils.localDateToMMMd(start))
         } else {
-            return context.resources.getString(R.string.calendar_instructions_date_range_TEMPLATE, DateUtils.localDateToMMMd(start), DateUtils.localDateToMMMd(end))
+            var stringID = if (isContentDescription) R.string.packages_search_accessible_date_range_TEMPLATE else R.string.calendar_instructions_date_range_TEMPLATE
+            return Phrase.from(context, stringID).put("startdate", DateUtils.localDateToMMMd(start)).put("enddate", DateUtils.localDateToMMMd(end)).format().toString()
         }
     }
 
