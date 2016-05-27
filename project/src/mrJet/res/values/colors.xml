@@ -26,6 +26,7 @@
     <color name="flight_free_cancellation_text_color">#0099CC</color>
     <color name="credit_card_form_additional_fees_tablet_bg">@color/hotels_primary_color</color>
     <color name="flight_trip">#D6682D</color>
+    <color name="splash_screen_bg">#26344F</color>
 
     <!-- Calendar text colors -->
     <color name="calendar_cell_selected_date_text">#FFFFFF</color>
