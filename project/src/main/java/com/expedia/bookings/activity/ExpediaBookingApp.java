@@ -16,6 +16,7 @@ import android.text.format.DateUtils;
 import com.activeandroid.ActiveAndroid;
 import com.crashlytics.android.Crashlytics;
 import com.expedia.bookings.BuildConfig;
+import com.expedia.bookings.R;
 import com.expedia.bookings.bitmaps.PicassoHelper;
 import com.expedia.bookings.dagger.AppComponent;
 import com.expedia.bookings.dagger.AppModule;
@@ -38,6 +39,7 @@ import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.PushNotificationRegistrationResponse;
 import com.expedia.bookings.data.User;
 import com.expedia.bookings.data.pos.PointOfSale;
+import com.expedia.bookings.data.pos.PointOfSaleConfigHelper;
 import com.expedia.bookings.data.trips.ItineraryManager;
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.notification.GCMRegistrationKeeper;
@@ -208,7 +210,7 @@ public class ExpediaBookingApp extends MultiDexApplication implements UncaughtEx
 		startupTimer.addSplit("Omniture Init");
 
 		// Initialize some parts of the code that require a Context
-		PointOfSale.init(this, ProductFlavorFeatureConfiguration.getInstance().getPOSConfigurationPath());
+		initializePointOfSale();
 		startupTimer.addSplit("PointOfSale Init");
 
 		if (ProductFlavorFeatureConfiguration.getInstance().wantsCustomHandlingForLocaleConfiguration()) {
@@ -320,6 +322,21 @@ public class ExpediaBookingApp extends MultiDexApplication implements UncaughtEx
 		CurrencyUtils.initMap(this);
 		startupTimer.addSplit("Currency Utils init");
 		startupTimer.dumpToLog();
+	}
+
+	private void initializePointOfSale() {
+		PointOfSaleConfigHelper configHelper = new PointOfSaleConfigHelper(getAssets(),
+				ProductFlavorFeatureConfiguration.getInstance().getPOSConfigurationPath());
+
+		String pointOfSaleKey = SettingUtils.get(this, getString(R.string.PointOfSaleKey), null);
+
+		boolean connectingToProduction = (appComponent().endpointProvider().getEndPoint() == EndPoint.PRODUCTION);
+
+		pointOfSaleKey =
+			PointOfSale.init(configHelper, pointOfSaleKey, connectingToProduction, useTabletInterface(this));
+
+		SettingUtils.save(this, getString(R.string.PointOfSaleKey), pointOfSaleKey);
+
 	}
 
 	public void updateFirstLaunchAndUpdateSettings() {

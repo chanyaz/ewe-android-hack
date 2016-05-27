@@ -24,16 +24,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 
-import butterknife.ButterKnife;
-import butterknife.InjectView;
-import butterknife.OnClick;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.HotelSearchParams;
 import com.expedia.bookings.data.HotelSearchResponse;
 import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.Property;
-import com.expedia.bookings.data.abacus.AbacusUtils;
 import com.expedia.bookings.data.collections.Collection;
 import com.expedia.bookings.data.hotels.Hotel;
 import com.expedia.bookings.data.hotels.NearbyHotelParams;
@@ -49,6 +45,10 @@ import com.expedia.bookings.utils.NavUtils;
 import com.expedia.bookings.utils.Ui;
 import com.mobiata.android.Log;
 import com.squareup.otto.Subscribe;
+
+import butterknife.ButterKnife;
+import butterknife.InjectView;
+import butterknife.OnClick;
 import rx.Observer;
 import rx.Subscription;
 
@@ -449,18 +449,12 @@ public class PhoneLaunchWidget extends FrameLayout {
 
 		boolean isCarsEnabled = currentPointOfSale.supports(LineOfBusiness.CARS);
 		boolean isLXEnabled = currentPointOfSale.supports(LineOfBusiness.LX);
-		boolean isTransportExperimentAvailable = false;
-
-		if (isLXEnabled) {
-			isTransportExperimentAvailable = Db.getAbacusResponse()
-				.isUserBucketedForTest(AbacusUtils.EBAndroidAppSplitGTandActivities);
-			OmnitureTracking.trackGroundTransportTest();
-		}
+		boolean isTransportEnabled = currentPointOfSale.supports(LineOfBusiness.TRANSPORT);
 
 		if (isCarsEnabled && isLXEnabled) {
 			lobHeight = getResources().getDimension(R.dimen.launch_lob_double_row_container_height);
 			lobSelectorWidget.setVisibility(View.GONE);
-			if (isTransportExperimentAvailable) {
+			if (isTransportEnabled) {
 				doubleRowFiveLob = true;
 				doubleRowLob = false;
 				doubleRowLobSelectorWidget.setVisibility(View.GONE);

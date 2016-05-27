@@ -28,7 +28,6 @@ import android.text.style.URLSpan;
 import android.text.style.UnderlineSpan;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.content.SuggestionProvider;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.Distance.DistanceUnit;
@@ -38,9 +37,9 @@ import com.expedia.bookings.data.User;
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.server.CrossContextHelper;
 import com.expedia.bookings.server.EndPoint;
+import com.expedia.bookings.utils.Strings;
 import com.expedia.bookings.utils.Ui;
 import com.mobiata.android.Log;
-import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.IoUtils;
 import com.mobiata.android.util.SettingUtils;
 
@@ -129,6 +128,9 @@ public class PointOfSale {
 	// Whether to show activities on this POS
 	private boolean mSupportsLx;
 
+	// Whether to show gound transport on this POS
+	private boolean mSupportsGT;
+
 	// Whether or not to use downloaded routes (for AirAsia) or not
 	private boolean mDisplayFlightDropDownRoutes;
 
@@ -174,7 +176,7 @@ public class PointOfSale {
 	// 5810 - Do Airlines Charge Additional Fee Based On Payment Method?
 	private boolean doAirlinesChargeAdditionalFeeBasedOnPaymentMethod;
 
-	private static boolean mIsTablet;
+	private static boolean sIsTablet;
 
 	private boolean mRequiresHotelPostalCode;
 
@@ -606,9 +608,11 @@ public class PointOfSale {
 	public boolean supports(LineOfBusiness lob) {
 		switch (lob) {
 		case CARS:
-			return mSupportsCars && !mIsTablet;
+			return mSupportsCars && !sIsTablet;
 		case LX:
-			return mSupportsLx && !mIsTablet;
+			return mSupportsLx && !sIsTablet;
+		case TRANSPORT:
+			return mSupportsGT && !sIsTablet;
 		case FLIGHTS:
 			return mSupportsFlights;
 		case HOTELS:
@@ -747,26 +751,12 @@ public class PointOfSale {
 		return shouldShowCircleForRatings;
 	}
 
-	public void setDoAirlinesChargeAdditionalFeeBasedOnPaymentMethod(boolean doAirlinesChargeAdditionalFeeBasedOnPaymentMethod) {
-		if (!ExpediaBookingApp.isAutomation()) {
-			throw new RuntimeException("PointOfSale.setDoAirlinesChargeAdditionalFeeBasedOnPaymentMethod can only be invoked from Tests.");
-		}
-		this.doAirlinesChargeAdditionalFeeBasedOnPaymentMethod = doAirlinesChargeAdditionalFeeBasedOnPaymentMethod;
-	}
-
 	public boolean doAirlinesChargeAdditionalFeeBasedOnPaymentMethod() {
 		return doAirlinesChargeAdditionalFeeBasedOnPaymentMethod;
 	}
 
 	public boolean isPwPEnabledForHotels() {
 		return isPwPEnabledForHotels;
-	}
-
-	public void setPwPEnabledForHotels(boolean isPwPEnabledForHotels) {
-		if (!ExpediaBookingApp.isAutomation()) {
-			throw new RuntimeException("PointOfSale.setPwPEnabledForHotels can only be invoked from Tests.");
-		}
-		this.isPwPEnabledForHotels = isPwPEnabledForHotels;
 	}
 
 	public boolean isSWPEnabledForHotels() {
@@ -777,22 +767,8 @@ public class PointOfSale {
 		return isEarnMessageEnabledForHotels;
 	}
 
-	public void setEarnMessageEnabledForHotels(boolean earnMessageEnabledForHotels) {
-		if (!ExpediaBookingApp.isAutomation()) {
-			throw new RuntimeException("PointOfSale.setEarnMessageEnabledForHotels can only be invoked from Tests.");
-		}
-		isEarnMessageEnabledForHotels = earnMessageEnabledForHotels;
-	}
-
 	public boolean isEarnMessageEnabledForFlights() {
 		return isEarnMessageEnabledForFlights;
-	}
-
-	public void setEarnMessageEnabledForFlights(boolean earnMessageEnabledForFlights) {
-		if (!ExpediaBookingApp.isAutomation()) {
-			throw new RuntimeException("PointOfSale.setEarnMessageEnabledForFlights can only be invoked from Tests.");
-		}
-		isEarnMessageEnabledForFlights = earnMessageEnabledForFlights;
 	}
 
 	/**
@@ -902,7 +878,7 @@ public class PointOfSale {
 	// POS Access
 
 	// The last accessed POS (so that you can get the POS without a Context)
-	private static PointOfSaleId sCachedPOS;
+	private static PointOfSaleId sCurrentPOSId;
 
 	// All POSes (pre-loaded at the start of the app)
 	private static final Map<PointOfSaleId, PointOfSale> sPointOfSale = new HashMap<>();
@@ -912,104 +888,98 @@ public class PointOfSale {
 
 	/**
 	 * MUST be called before using any other POS methods
+	 *
+	 * @param configHelper a prepared PointOfSaleConfigHelper.
+	 * @param pointOfSaleKey the configured point of sale, or null if an appropriate default should be picked.
+	 * @param connectingToProduction whether the app is connecting to the production endpoint
+	 * @param usingTabletInterface whether the app is using the tablet interface
+	 * @return the configured point of sale key to be saved in settings as desired
 	 */
-	public static void init(Context context, String posConfigJsonPath) {
+	public static String init(PointOfSaleConfigHelper configHelper, String pointOfSaleKey, boolean connectingToProduction,
+			boolean usingTabletInterface) {
+
+		sIsTablet = usingTabletInterface;
+
 		// Load all data; in the future we may want to load only the POS requested, to save startup time
-		loadPointOfSaleInfo(context, posConfigJsonPath);
+		loadPointOfSaleInfo(configHelper, usingTabletInterface);
 
 		// Load supported Expedia suggest locales
-		loadExpediaSuggestSupportedLanguages(context);
+		loadExpediaSuggestSupportedLanguages(configHelper);
 
 		// Load Expedia countries for which Payment Postal code is optional
-		loadExpediaPaymentPostalCodeOptionalCountries(context);
+		loadExpediaPaymentPostalCodeOptionalCountries(configHelper);
 
 		// Init the cache
-		getPointOfSale(context);
-		mIsTablet = AndroidUtils.isTablet(context);
+		return updateCurrentPointOfSaleId(pointOfSaleKey, connectingToProduction);
 	}
 
 	/**
-	 * Gets the current POS, or fills it in if it not cached yet.  WARNING: do not use
-	 * this unless you have reason to think sCachedPOS might be null!  This is not thread
-	 * safe, if you call it from multiple threads you might mess up sCachedPOS for someone
-	 * else!
+	 * Updates the current POS to point to the specified POS, or to the best-guess default
+	 * if none is currently configured.
 	 *
-	 * @return the current PointOfSale (or the default if none has been set yet)
+	 * @return the new point of sale key
 	 */
-	public static PointOfSale getPointOfSale(Context context) {
-		sCachedPOS = null;
+	private static String updateCurrentPointOfSaleId(String pointOfSaleKey, boolean connectingToProduction) {
+		sCurrentPOSId = null;
 
-		boolean savePos = false;
-
-		String posSetting = SettingUtils.get(context, context.getString(R.string.PointOfSaleKey), null);
-		if (posSetting == null) {
+		if (Strings.isEmpty(pointOfSaleKey)) {
 			// Get the default POS.  This is rare, thus we can excuse this excessive code.
 			Locale locale = Locale.getDefault();
 			String country = locale.getCountry().toLowerCase(Locale.ENGLISH);
 			String language = locale.getLanguage().toLowerCase(Locale.ENGLISH);
 
-			EndPoint endPoint = Ui.getApplication(context).appComponent().endpointProvider().getEndPoint();
 			for (PointOfSale posInfo : sPointOfSale.values()) {
 				//Skip Non-Prod POS, if we are in PROD Environment
-				if (endPoint == EndPoint.PRODUCTION && posInfo.isDisabledForProduction()) {
+				if (connectingToProduction && posInfo.isDisabledForProduction()) {
 					continue;
 				}
 
 				for (String defaultLocale : posInfo.mDefaultLocales) {
 					defaultLocale = defaultLocale.toLowerCase(Locale.ENGLISH);
 					if (defaultLocale.endsWith(country) || defaultLocale.equals(language)) {
-						sCachedPOS = posInfo.mPointOfSale;
+						sCurrentPOSId = posInfo.mPointOfSale;
 						break;
 					}
 				}
 
-				if (sCachedPOS != null) {
+				if (sCurrentPOSId != null) {
 					break;
 				}
 			}
 
-			if (sCachedPOS == null) {
-				sCachedPOS = ProductFlavorFeatureConfiguration.getInstance().getDefaultPOS();
+			if (sCurrentPOSId == null) {
+				sCurrentPOSId = ProductFlavorFeatureConfiguration.getInstance().getDefaultPOS();
 			}
 
-			savePos = true;
-
-			Log.i("No POS set yet, chose " + sCachedPOS + " based on current locale: " + locale.toString());
+			Log.i("No POS set yet, chose " + sCurrentPOSId + " based on current locale: " + locale.toString());
 		}
 		else {
 			try {
-				int posId = Integer.parseInt(posSetting);
-				sCachedPOS = PointOfSaleId.getPointOfSaleFromId(posId);
-				Log.v("Cached POS: " + sCachedPOS);
+				int posId = Integer.parseInt(pointOfSaleKey);
+				sCurrentPOSId = PointOfSaleId.getPointOfSaleFromId(posId);
+				Log.v("Cached POS: " + sCurrentPOSId);
 			}
 			catch (NumberFormatException e) {
 				// For backwards compatibility, we need to map from the old (which used the url) to the new
 				// system (and save it so we don't have to do this again).
-				sCachedPOS = sBackCompatPosMap.get(posSetting);
+				sCurrentPOSId = sBackCompatPosMap.get(pointOfSaleKey);
 
-				savePos = true;
-
-				Log.i("Upgrading from previous version of EB, from \"" + posSetting + "\" to " + sCachedPOS);
+				Log.i("Upgrading from previous version of EB, from \"" + pointOfSaleKey + "\" to " + sCurrentPOSId);
 			}
 		}
 
-		if (savePos) {
-			SettingUtils
-				.save(context, context.getString(R.string.PointOfSaleKey), Integer.toString(sCachedPOS.getId()));
-		}
-
-		return sPointOfSale.get(sCachedPOS);
+		return Integer.toString(sCurrentPOSId.getId());
 	}
 
 	/**
 	 * @return the cached PointOfSale.  Will crash the app if it hasn't been cached yet.
 	 */
 	public static PointOfSale getPointOfSale() {
-		if (sCachedPOS == null) {
-			throw new RuntimeException("getPointOfSale() called before POS filled in by system");
+		if (sCurrentPOSId == null) {
+			throw new RuntimeException("getPointOfSale() called before POS determined by system");
 		}
 
-		return sPointOfSale.get(sCachedPOS);
+		return sPointOfSale.get(sCurrentPOSId);
 	}
 
 	/**
@@ -1019,10 +989,14 @@ public class PointOfSale {
 	public static void onPointOfSaleChanged(Context context) {
 		Log.i("Point of sale changed!");
 
-		Log.d("Old POS id: " + sCachedPOS);
+		Log.d("Old POS id: " + sCurrentPOSId);
 
 		// Update the cache
-		PointOfSale pos = getPointOfSale(context);
+		String posKey = SettingUtils.get(context, context.getString(R.string.PointOfSaleKey), null);
+		boolean connectingToProduction =
+				Ui.getApplication(context).appComponent().endpointProvider().getEndPoint() == EndPoint.PRODUCTION;
+		posKey = updateCurrentPointOfSaleId(posKey, connectingToProduction);
+		SettingUtils.save(context, context.getString(R.string.PointOfSaleKey), posKey);
 
 		// clear all data
 		Db.clear();
@@ -1031,14 +1005,14 @@ public class PointOfSale {
 		SuggestionProvider.clearRecents(context);
 
 		// Download new flight route data for new POS (if applicable)
-		if (pos.displayFlightDropDownRoutes()) {
+		if (getPointOfSale().displayFlightDropDownRoutes()) {
 			CrossContextHelper.updateFlightRoutesData(context.getApplicationContext(), true);
 		}
 		else {
 			Db.deleteCachedFlightRoutes(context);
 		}
 
-		Log.d("New POS id: " + sCachedPOS);
+		Log.d("New POS id: " + sCurrentPOSId);
 	}
 
 	// Provide context for sorting purposes
@@ -1082,20 +1056,19 @@ public class PointOfSale {
 	//////////////////////////////////////////////////////////////////////////
 	// Data loading
 
-	@SuppressWarnings("unchecked")
-	private static void loadPointOfSaleInfo(Context context, String posConfigJsonPath) {
+	private static void loadPointOfSaleInfo(PointOfSaleConfigHelper configHelper, boolean usingTabletInterface) {
 		long start = System.nanoTime();
 
 		sPointOfSale.clear();
 
 		try {
-			InputStream is = context.getAssets().open(posConfigJsonPath);
+			InputStream is = configHelper.openPointOfSaleConfiguration();
 			String data = IoUtils.convertStreamToString(is);
 			JSONObject posData = new JSONObject(data);
 			Iterator<String> keys = posData.keys();
 			while (keys.hasNext()) {
 				String posName = keys.next();
-				PointOfSale pos = parsePointOfSale(context, posName, posData.optJSONObject(posName));
+				PointOfSale pos = parsePointOfSale(usingTabletInterface, posName, posData.optJSONObject(posName));
 				if (pos != null) {
 					sPointOfSale.put(pos.mPointOfSale, pos);
 
@@ -1113,7 +1086,8 @@ public class PointOfSale {
 		Log.i("Loaded POS data in " + (System.nanoTime() - start) / 1000000 + " ms");
 	}
 
-	private static PointOfSale parsePointOfSale(Context context, String posName, JSONObject data) throws JSONException {
+	private static PointOfSale parsePointOfSale(boolean usingTabletInterface, String posName, JSONObject data)
+			throws JSONException {
 
 		PointOfSaleId pointOfSaleFromId = PointOfSaleId.getPointOfSaleFromId(data.optInt("pointOfSaleId"));
 		if (pointOfSaleFromId == null) {
@@ -1136,18 +1110,18 @@ public class PointOfSale {
 
 		// Support
 		String[] supportPhoneNumberTierNames = ProductFlavorFeatureConfiguration.getInstance().getRewardTierSupportNumberConfigNames();
-		pos.mSupportPhoneNumber = parseDeviceSpecificPhoneNumber(context, data, "supportPhoneNumber");
+		pos.mSupportPhoneNumber = parseDeviceSpecificPhoneNumber(usingTabletInterface, data, "supportPhoneNumber");
 		if (supportPhoneNumberTierNames != null) {
 			if (supportPhoneNumberTierNames.length > 0 && supportPhoneNumberTierNames[0] != null) {
-				pos.mSupportPhoneNumberBaseTier = parseDeviceSpecificPhoneNumber(context, data,
+				pos.mSupportPhoneNumberBaseTier = parseDeviceSpecificPhoneNumber(usingTabletInterface, data,
 						supportPhoneNumberTierNames[0]);
 			}
 			if (supportPhoneNumberTierNames.length > 1 && supportPhoneNumberTierNames[1] != null) {
-				pos.mSupportPhoneNumberMiddleTier = parseDeviceSpecificPhoneNumber(context, data,
+				pos.mSupportPhoneNumberMiddleTier = parseDeviceSpecificPhoneNumber(usingTabletInterface, data,
 						supportPhoneNumberTierNames[1]);
 			}
 			if (supportPhoneNumberTierNames.length > 2 && supportPhoneNumberTierNames[2] != null) {
-				pos.mSupportPhoneNumberTopTier = parseDeviceSpecificPhoneNumber(context, data,
+				pos.mSupportPhoneNumberTopTier = parseDeviceSpecificPhoneNumber(usingTabletInterface, data,
 						supportPhoneNumberTierNames[2]);
 			}
 		}
@@ -1174,6 +1148,7 @@ public class PointOfSale {
 		pos.mSupportsFlights = data.optBoolean("flightsEnabled");
 		pos.mSupportsCars = data.optBoolean("carsEnabled");
 		pos.mSupportsLx = data.optBoolean("lxEnabled");
+		pos.mSupportsGT = data.optBoolean("gtEnabled");
 		pos.mDisplayFlightDropDownRoutes = data.optBoolean("shouldDisplayFlightDropDownList");
 		pos.mShowHotelCrossSell = !data.optBoolean("hideHotelCrossSell", false);
 		pos.mDoesNotAcceptDebitCardsFlights = data.optBoolean("doesNotAcceptDebitCards:flights", false);
@@ -1217,7 +1192,7 @@ public class PointOfSale {
 	//  "Android": "<Android non-tablet #>",
 	//  "AndroidTablet": "<Android tablet #>"
 	// },
-	private static String parseDeviceSpecificPhoneNumber(Context context, JSONObject data, String name)
+	private static String parseDeviceSpecificPhoneNumber(boolean usingTabletInterface, JSONObject data, String name)
 		throws JSONException {
 		if (!data.has(name)) {
 			return null;
@@ -1225,7 +1200,7 @@ public class PointOfSale {
 		JSONObject numbers = data.getJSONObject(name);
 
 		// Try to find a device specific number
-		String deviceSpecificKey = ExpediaBookingApp.useTabletInterface(context) ? "AndroidTablet" : "Android";
+		String deviceSpecificKey = usingTabletInterface ? "AndroidTablet" : "Android";
 		String result = numbers.optString(deviceSpecificKey, null);
 		if (!TextUtils.isEmpty(result)) {
 			return result;
@@ -1259,11 +1234,11 @@ public class PointOfSale {
 		return arr;
 	}
 
-	private static void loadExpediaSuggestSupportedLanguages(Context context) {
+	private static void loadExpediaSuggestSupportedLanguages(PointOfSaleConfigHelper configHelper) {
 		sExpediaSuggestSupportedLocales.clear();
 
 		try {
-			InputStream is = context.getAssets().open("ExpediaSharedData/ExpediaSuggestSupportedLocales.json");
+			InputStream is = configHelper.openExpediaSuggestSupportedLocalesConfig();
 			String data = IoUtils.convertStreamToString(is);
 			JSONArray localeArr = new JSONArray(data);
 			int len = localeArr.length();
@@ -1282,12 +1257,11 @@ public class PointOfSale {
 
 	private static Set<String> sExpediaPaymentPostalCodeOptionalCountries = new HashSet<>();
 
-	private static void loadExpediaPaymentPostalCodeOptionalCountries(Context context) {
+	private static void loadExpediaPaymentPostalCodeOptionalCountries(PointOfSaleConfigHelper configHelper) {
 		sExpediaPaymentPostalCodeOptionalCountries.clear();
 
 		try {
-			InputStream is = context.getAssets().open(
-				"ExpediaSharedData/ExpediaPaymentPostalCodeOptionalCountries.json");
+			InputStream is = configHelper.openPaymentPostalCodeOptionalCountriesConfiguration();
 			String data = IoUtils.convertStreamToString(is);
 			JSONArray countryArr = new JSONArray(data);
 			int len = countryArr.length();

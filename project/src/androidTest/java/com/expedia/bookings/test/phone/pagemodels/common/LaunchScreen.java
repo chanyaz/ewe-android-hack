@@ -71,6 +71,18 @@ public class LaunchScreen {
 		onView(withId(R.id.air_attach_banner)).perform(click());
 	}
 
+	public static ViewInteraction carLaunchButtonInDoubleRowFive() {
+		return onView(allOf(withId(R.id.cars_button), isDescendantOfA(withId(R.id.double_row_five_lob_selector))));
+	}
+
+	public static ViewInteraction lxLaunchButtonInDoubleRowFive() {
+		return onView(allOf(withId(R.id.activities_button), isDescendantOfA(withId(R.id.double_row_five_lob_selector))));
+	}
+
+	public static ViewInteraction gtLaunchButtonInDoubleRowFive() {
+		return onView(allOf(withId(R.id.transport_button), isDescendantOfA(withId(R.id.double_row_five_lob_selector))));
+	}
+
 	public static ViewInteraction carLaunchButtonInDoubleRow() {
 		return onView(allOf(withId(R.id.cars_button), isDescendantOfA(withId(R.id.double_row_lob_selector))));
 	}

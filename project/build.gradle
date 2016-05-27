@@ -351,7 +351,7 @@ android {
         main.java.srcDirs += 'src/main/kotlin'
 
         debug {
-            assets.srcDirs = ['../lib/mocked/templates']
+            assets.srcDirs += '../lib/mocked/templates'
         }
 
         test {

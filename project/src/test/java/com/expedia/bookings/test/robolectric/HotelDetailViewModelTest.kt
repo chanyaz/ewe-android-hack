@@ -10,7 +10,7 @@ import com.expedia.bookings.data.payment.LoyaltyEarnInfo
 import com.expedia.bookings.data.payment.LoyaltyInformation
 import com.expedia.bookings.data.payment.PointsEarnInfo
 import com.expedia.bookings.data.payment.PriceEarnInfo
-import com.expedia.bookings.data.pos.PointOfSale
+import com.expedia.bookings.test.PointOfSaleTestConfiguration
 import com.expedia.bookings.test.robolectric.shadows.ShadowAccountManagerEB
 import com.expedia.bookings.test.robolectric.shadows.ShadowGCM
 import com.expedia.bookings.test.robolectric.shadows.ShadowUserManager
@@ -150,7 +150,7 @@ class HotelDetailViewModelTest {
     }
 
     @Test fun earnMessagePointsIsShown() {
-        PointOfSale.getPointOfSale().isEarnMessageEnabledForHotels = true
+        PointOfSaleTestConfiguration.configurePointOfSale(RuntimeEnvironment.application, "MockSharedData/pos_with_hotel_earn_messaging_enabled.json")
         val chargeableRateInfo = offer1.hotelRoomResponse[0].rateInfo.chargeableRateInfo
         val loyaltyInfo = LoyaltyInformation(null, LoyaltyEarnInfo(PointsEarnInfo(320, 100, 420), null), true)
         chargeableRateInfo.loyaltyInfo = loyaltyInfo
@@ -161,7 +161,7 @@ class HotelDetailViewModelTest {
     }
 
     @Test fun earnMessagePointsIsNotShown() {
-        PointOfSale.getPointOfSale().isEarnMessageEnabledForHotels = false
+        PointOfSaleTestConfiguration.configurePointOfSale(RuntimeEnvironment.application, "MockSharedData/pos_with_hotel_earn_messaging_disabled.json")
         val chargeableRateInfo = offer1.hotelRoomResponse[0].rateInfo.chargeableRateInfo
         val loyaltyInfo = LoyaltyInformation(null, LoyaltyEarnInfo(PointsEarnInfo(320, 100, 420), null), true)
         chargeableRateInfo.loyaltyInfo = loyaltyInfo
@@ -306,7 +306,7 @@ class HotelDetailViewModelTest {
     }
 
     private fun loyaltyPriceInfo(price: String) {
-        PointOfSale.getPointOfSale().isEarnMessageEnabledForHotels = true
+        PointOfSaleTestConfiguration.configurePointOfSale(RuntimeEnvironment.application, "MockSharedData/pos_with_hotel_earn_messaging_enabled.json")
         UserLoginTestUtil.setupUserAndMockLogin(UserLoginTestUtil.mockUser())
         val chargeableRateInfo = offer1.hotelRoomResponse[0].rateInfo.chargeableRateInfo
         val loyaltyInfo = LoyaltyInformation(null, LoyaltyEarnInfo(null, PriceEarnInfo(Money(price, "USD"), Money("0", "USD"), Money(price, "USD"))), true)

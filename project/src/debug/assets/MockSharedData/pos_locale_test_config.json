@@ -1,0 +1,99 @@
+{
+  "US": {
+    "supportPhoneNumber": {
+      "*": "1-866-649-6924",
+      "iPhone": "1-877-312-2037",
+      "iPad": "1-855-452-0195",
+      "Android": "1-877-222-6503",
+      "AndroidTablet": "1-877-222-6503"
+    },
+    "supportPhoneNumberSilver": {
+      "iPhone": "1-866-538-6228",
+      "iPad": "1-866-539-9230",
+      "Android": "1-877-240-3302",
+      "AndroidTablet": "1-866-573-4664"
+    },
+    "supportPhoneNumberGold": {
+      "iPhone": "1-800-327-4890",
+      "iPad": "1-800-916-4621",
+      "Android": "1-866-925-2524",
+      "AndroidTablet": "1-800-215-0967"
+    },
+    "TPID": 1,
+    "flightsEnabled": true,
+    "gdeFlightsEnabled": true,
+    "carsEnabled": true,
+    "lxEnabled": true,
+    "pwpEnabled:hotels": true,
+    "swpEnabled:hotels": true,
+    "launchScreenStrikethroughEnabled": true,
+    "url": "expedia.com",
+    "countryCode": "USA",
+    "supportedLocales": [
+      {
+        "localeIdentifier": "fr_BE",
+        "languageCode": "fr",
+        "languageIdentifier": 1036,
+        "appInfoURL": "fr appInfoURL",
+        "createAccountMarketingText" : "fr createAccountMarketingText",
+        "forgotPasswordURL": "fr forgotPasswordURL",
+        "appSupportURL": "fr appSupportURL",
+        "websiteURL": "fr websiteURL",
+        "hotelBookingStatement": "fr hotelBookingStatement",
+        "flightBookingStatement": "fr flightBookingStatement",
+        "termsAndConditionsURL": "fr termsAndConditionsURL",
+        "airlineFeeBasedOnPaymentMethodTermsAndConditionsURL" : "fr airlineFeeBasedOnPaymentMethodTermsAndConditionsURL",
+        "privacyPolicyURL": "fr privacyPolicyURL",
+        "loyaltyTermsAndConditionsURL" : "fr loyaltyTermsAndConditionsURL",
+        "localeSpecificSupportPhoneNumber": "fr supportNumber",
+        "insuranceURL": "fr insuranceURL",
+        "bestPriceGuaranteePolicyURL": "fr bestPriceGuaranteePolicyURL",
+        "termsOfBookingURL": "fr termsOfBookingURL"
+      },
+      {
+        "localeIdentifier": "nl_BE",
+        "languageCode": "nl",
+        "languageIdentifier": 1043,
+        "appInfoURL": "nl appInfoURL",
+        "createAccountMarketingText" : "nl createAccountMarketingText",
+        "forgotPasswordURL": "nl forgotPasswordURL",
+        "appSupportURL": "nl appSupportURL",
+        "websiteURL": "nl websiteURL",
+        "hotelBookingStatement": "nl hotelBookingStatement",
+        "flightBookingStatement": "nl flightBookingStatement",
+        "termsAndConditionsURL": "nl termsAndConditionsURL",
+        "airlineFeeBasedOnPaymentMethodTermsAndConditionsURL" : "nl airlineFeeBasedOnPaymentMethodTermsAndConditionsURL",
+        "privacyPolicyURL": "nl privacyPolicyURL",
+        "loyaltyTermsAndConditionsURL" : "nl loyaltyTermsAndConditionsURL",
+        "localeSpecificSupportPhoneNumber": "nl supportNumber",
+        "insuranceURL": "nl insuranceURL",
+        "bestPriceGuaranteePolicyURL": "nl bestPriceGuaranteePolicyURL",
+        "termsOfBookingURL": "nl termsOfBookingURL"
+      }
+    ],
+    "branding": "Expedia",
+    "pointOfSaleId": 29,
+    "automaticallyMappedLocales": [
+      "en_US",
+      "haw_US",
+      "chr_US",
+      "es_US"
+    ],
+    "shouldDisplayAveragePrices": true,
+    "shouldDisplayBestPriceGuarantee": true,
+    "googleWalletEnabled": true,
+    "distanceUnit": "miles",
+    "requiredPaymentFields:hotels": "postalCode",
+    "requiredPaymentFields:cars": "postalCode",
+    "requiredPaymentFields:lx": "postalCode",
+    "mustAcceptLegalTerms:flights": false,
+    "supportsVipAccess": true,
+    "shouldShowRewards": true,
+    "shouldShowFTCResortRegulations": true,
+    "shouldShowFlightsFreeCancellation": true,
+    "marketingOptIn" : "DO_NOT_SHOW_AUTO_ENROLL",
+    "showMultiBrandCreateAccountText" : false,
+    "realTimeReviewLXEnabled" : true
+  }
+
+}

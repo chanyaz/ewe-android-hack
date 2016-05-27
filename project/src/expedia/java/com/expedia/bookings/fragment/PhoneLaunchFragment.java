@@ -1,10 +1,5 @@
 package com.expedia.bookings.fragment;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.concurrent.TimeUnit;
-
 import org.joda.time.LocalDate;
 
 import android.Manifest;
@@ -22,19 +17,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import butterknife.ButterKnife;
-import butterknife.InjectView;
-import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.HotelSearchParams;
 import com.expedia.bookings.data.LineOfBusiness;
-import com.expedia.bookings.data.abacus.AbacusEvaluateQuery;
-import com.expedia.bookings.data.abacus.AbacusResponse;
-import com.expedia.bookings.data.abacus.AbacusUtils;
 import com.expedia.bookings.data.collections.CollectionLocation;
-import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.data.trips.ItineraryManager;
 import com.expedia.bookings.interfaces.IPhoneLaunchActivityLaunchFragment;
 import com.expedia.bookings.location.CurrentLocationObservable;
@@ -42,14 +30,15 @@ import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.Constants;
 import com.expedia.bookings.utils.NavUtils;
-import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.utils.UserAccountRefresher;
 import com.expedia.bookings.widget.PhoneLaunchWidget;
 import com.expedia.util.PermissionsHelperKt;
 import com.mobiata.android.Log;
 import com.mobiata.android.util.NetUtils;
-import com.mobiata.android.util.SettingUtils;
 import com.squareup.otto.Subscribe;
+
+import butterknife.ButterKnife;
+import butterknife.InjectView;
 import rx.Observer;
 import rx.Subscription;
 
@@ -57,8 +46,6 @@ public class PhoneLaunchFragment extends Fragment implements IPhoneLaunchActivit
 	private Subscription locSubscription;
 	private Subscription abacusSubscription;
 	private boolean wasOffline;
-	private List<Integer> abacusTestsAssociatedToPhoneLaunchScreen = Arrays
-		.asList(AbacusUtils.EBAndroidAppSplitGTandActivities);
 
 	@InjectView(R.id.phone_launch_widget)
 	PhoneLaunchWidget phoneLaunchWidget;
@@ -82,7 +69,7 @@ public class PhoneLaunchFragment extends Fragment implements IPhoneLaunchActivit
 		Events.register(this);
 		Events.post(new Events.PhoneLaunchOnResume());
 		if (checkConnection()) {
-			bucketLaunchScreen();
+			onReactToUserActive();
 			userAccountRefresher.ensureAccountIsRefreshed();
 		}
 		else {
@@ -114,10 +101,7 @@ public class PhoneLaunchFragment extends Fragment implements IPhoneLaunchActivit
 				phoneLaunchWidget.bindLobWidget();
 			}
 		});
-		if (!checkConnection()) {
-			return;
-		}
-		else {
+		if (checkConnection()) {
 			int permissionCheck = ContextCompat.checkSelfPermission(getActivity(),
 				Manifest.permission.ACCESS_FINE_LOCATION);
 
@@ -199,86 +183,6 @@ public class PhoneLaunchFragment extends Fragment implements IPhoneLaunchActivit
 	@Override
 	public boolean onBackPressed() {
 		return false;
-	}
-
-	private void bucketLaunchScreen() {
-
-		if (Db.getAbacusResponse() == null || !areAllLaunchScreenExperimentsEvaluated()) {
-			AbacusEvaluateQuery query = new AbacusEvaluateQuery(Db.getAbacusGuid(),
-				PointOfSale.getPointOfSale().getTpid(),
-				0);
-			query.addExperiments(getLaunchScreenTestsToEvaluate());
-			abacusSubscription = Ui.getApplication(getActivity()).appComponent()
-				.abacus()
-				.downloadBucket(query, abacusObserver, 5, TimeUnit.SECONDS);
-		}
-		else {
-			// onResume, could be returning from dev settings so we should update the test
-			updateAbacus(Db.getAbacusResponse());
-			onReactToUserActive();
-		}
-	}
-
-	private boolean areAllLaunchScreenExperimentsEvaluated() {
-		for (Integer key : abacusTestsAssociatedToPhoneLaunchScreen) {
-			if (Db.getAbacusResponse().testForKey(key) == null) {
-				return false;
-			}
-		}
-		return true;
-	}
-
-	private List<Integer> getLaunchScreenTestsToEvaluate() {
-		List<Integer> testsToEvaluate = new ArrayList<>();
-		for (Integer key : abacusTestsAssociatedToPhoneLaunchScreen) {
-			if (Db.getAbacusResponse().testForKey(key) == null) {
-				testsToEvaluate.add(key);
-			}
-		}
-		return testsToEvaluate;
-	}
-
-	private Observer<AbacusResponse> abacusObserver = new Observer<AbacusResponse>() {
-		@Override
-		public void onCompleted() {
-			Log.d("AbacusResponse - onCompleted");
-		}
-
-		@Override
-		public void onError(Throwable e) {
-			updateAbacus(new AbacusResponse());
-			onReactToUserActive();
-			Log.d("AbacusResponse - onError", e);
-		}
-
-		@Override
-		public void onNext(AbacusResponse abacusResponse) {
-			updateAbacus(abacusResponse);
-			onReactToUserActive();
-			Log.d("AbacusResponse - onNext");
-		}
-	};
-
-	private void updateAbacus(AbacusResponse launchAbacusResponse) {
-		if (ExpediaBookingApp.isAutomation()) {
-			return;
-		}
-
-		if (Db.getAbacusResponse() != null) {
-			Db.getAbacusResponse().updateFrom(launchAbacusResponse);
-		}
-		else {
-			Db.setAbacusResponse(launchAbacusResponse);
-		}
-
-		if (BuildConfig.DEBUG) {
-			for (Integer key : abacusTestsAssociatedToPhoneLaunchScreen) {
-				Db.getAbacusResponse().updateABTestForDebug(key,
-					SettingUtils.get(getActivity(),
-						String.valueOf(key),
-						AbacusUtils.ABTEST_IGNORE_DEBUG));
-			}
-		}
 	}
 
 	@Override

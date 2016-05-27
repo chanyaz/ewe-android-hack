@@ -4,8 +4,7 @@ import org.joda.time.LocalDate;
 
 import android.support.test.espresso.contrib.RecyclerViewActions;
 
-import com.expedia.bookings.data.abacus.AbacusUtils;
-import com.expedia.bookings.test.espresso.AbacusTestUtils;
+import com.expedia.bookings.test.espresso.Common;
 import com.expedia.bookings.test.espresso.IdlingResources.LxIdlingResource;
 import com.expedia.bookings.test.espresso.PhoneTestCase;
 import com.expedia.bookings.test.phone.lx.LXInfositeScreen;
@@ -13,7 +12,6 @@ import com.expedia.bookings.test.phone.lx.LXScreen;
 import com.expedia.bookings.test.phone.pagemodels.common.CVVEntryScreen;
 import com.expedia.bookings.test.phone.pagemodels.common.CheckoutViewModel;
 import com.expedia.bookings.test.phone.pagemodels.common.LaunchScreen;
-import com.expedia.bookings.test.espresso.Common;
 
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.action.ViewActions.scrollTo;
@@ -30,8 +28,6 @@ public class GTPhoneHappyPathTest extends PhoneTestCase {
 
 	@Override
 	public void runTest() throws Throwable {
-		AbacusTestUtils.updateABTest(AbacusUtils.EBAndroidAppSplitGTandActivities,
-			AbacusUtils.DefaultVariate.BUCKETED.ordinal());
 		if (Common.isPhone()) {
 			mLxIdlingResource = new LxIdlingResource();
 			mLxIdlingResource.register();

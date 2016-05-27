@@ -4,7 +4,6 @@ import com.expedia.bookings.data.cars.ApiError
 import com.expedia.bookings.data.hotels.HotelCreateTripParams
 import com.expedia.bookings.data.hotels.HotelCreateTripResponse
 import com.expedia.bookings.data.payment.PaymentModel
-import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.services.HotelServices
 import com.expedia.bookings.services.LoyaltyServices
 import com.expedia.bookings.test.robolectric.RobolectricRunner
@@ -14,6 +13,7 @@ import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
+import org.robolectric.RuntimeEnvironment
 import rx.Observer
 import rx.observers.TestSubscriber
 import java.io.IOException
@@ -46,7 +46,7 @@ class HotelCreateTripViewModelTests {
 
     @Test
     fun hotelServicesCreateTripIsCalled() {
-        PointOfSale.getPointOfSale().isPwPEnabledForHotels = true
+        PointOfSaleTestConfiguration.configurePointOfSale(RuntimeEnvironment.application, "MockSharedData/pos_with_pwp_enabled.json")
         givenGoodCreateTripParams()
         sut = TestHotelCreateTripViewModel(testSubscriber, mockHotelServicesTestRule.services!!, paymentModel)
 
@@ -60,7 +60,7 @@ class HotelCreateTripViewModelTests {
 
     @Test
     fun tripRewardsRedeemableIsFalseForPOSWithPwPDisabled() {
-        PointOfSale.getPointOfSale().isPwPEnabledForHotels = false
+        PointOfSaleTestConfiguration.configurePointOfSale(RuntimeEnvironment.application, "MockSharedData/pos_with_pwp_disabled.json")
         givenRedeemableCreateTripParams()
         sut = TestHotelCreateTripViewModel(testSubscriber, mockHotelServicesTestRule.services!!, paymentModel)
 

@@ -391,7 +391,7 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 			return;
 		}
 
-		boolean acceptTermsRequired = PointOfSale.getPointOfSale(getContext()).requiresRulesRestrictionsCheckbox();
+		boolean acceptTermsRequired = PointOfSale.getPointOfSale().requiresRulesRestrictionsCheckbox();
 		boolean acceptedTerms = acceptTermsWidget.getVm().getAcceptedTermsObservable().getValue();
 		if (acceptTermsRequired && !acceptedTerms) {
 			return; // don't show if terms have not ben accepted yet
@@ -424,7 +424,7 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 
 	public void checkoutFormWasUpdated() {
 		if (isCheckoutFormComplete()) {
-			if (PointOfSale.getPointOfSale(getContext()).requiresRulesRestrictionsCheckbox() && !acceptTermsWidget
+			if (PointOfSale.getPointOfSale().requiresRulesRestrictionsCheckbox() && !acceptTermsWidget
 				.getVm().getAcceptedTermsObservable().getValue()) {
 				acceptTermsWidget.getVm().getAcceptedTermsObservable().subscribe(new Observer<Boolean>() {
 					@Override

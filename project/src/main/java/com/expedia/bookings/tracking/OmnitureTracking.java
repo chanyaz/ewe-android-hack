@@ -3918,13 +3918,6 @@ public class OmnitureTracking {
 		s.trackLink(null, "o", link, null, null);
 	}
 
-	public static void trackGroundTransportTest() {
-		ADMS_Measurement s = getFreshTrackingObject();
-
-		trackAbacusTest(s, AbacusUtils.EBAndroidAppSplitGTandActivities);
-		s.track();
-	}
-
 	public static void trackAccountPageLoad() {
 		ADMS_Measurement s = getFreshTrackingObject();
 		// set the pageName
