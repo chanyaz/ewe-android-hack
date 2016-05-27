@@ -984,7 +984,7 @@ public class OmnitureTracking {
 		String posTpid = Integer.toString(PointOfSale.getPointOfSale().getTpid());
 		s.setProp(7, posTpid);
 
-		s.trackLink(null, "o", "Confirmation Trip Action", null, null);
+		s.trackLink(null, "o", "Confirmation Cross Sell", null, null);
 	}
 
 	public static void trackHotelV2ExpandCoupon() {
