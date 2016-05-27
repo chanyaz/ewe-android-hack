@@ -1,5 +1,9 @@
 package com.expedia.bookings.server;
 
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -18,11 +22,8 @@ import com.mobiata.android.Log;
 import com.mobiata.flightlib.data.Flight;
 import com.mobiata.flightlib.data.FlightCode;
 import com.mobiata.flightlib.data.Waypoint;
-import okhttp3.Response;
 
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
+import okhttp3.Response;
 
 /**
  * An E3 flight search response parser.
@@ -262,7 +263,6 @@ public class FlightSearchResponseHandler extends JsonResponseHandler<FlightSearc
 
 		trip.setSeatsRemaining(tripJson.optInt("seatsRemaining"));
 		trip.setMayChargeObFees(tripJson.optBoolean("mayChargeOBFees"));
-		trip.setHasBagFee(tripJson.optBoolean("hasBagFee", false));
 		trip.setFareName(tripJson.optString("fareName"));
 
 		if (tripJson.has("segmentAttributes")) {

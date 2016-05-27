@@ -176,14 +176,11 @@ public class FlightLegSummarySection extends RelativeLayout {
 		if (mAirlineTextView != null) {
 			mAirlineTextView.setText(getAirlinesStr(context, firstFlight, leg, legTwo, isIndividualFlight));
 
-			if (trip != null) {
-				if (trip.hasBagFee()) {
-					mAirlineTextView.setCompoundDrawablesWithIntrinsicBounds(0, 0,
-						getBagWithXDrawableResId(), 0);
-				}
-				else {
-					mAirlineTextView.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
-				}
+			if (leg.hasBagFee()) {
+				mAirlineTextView.setCompoundDrawablesWithIntrinsicBounds(0, 0, getBagWithXDrawableResId(), 0);
+			}
+			else {
+				mAirlineTextView.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
 			}
 		}
 
