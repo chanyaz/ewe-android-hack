@@ -30,7 +30,6 @@ public class PackageFlightsOverviewTest extends PackageTestCase {
 		SearchScreen.searchButton().perform(click());
 		Common.delay(1);
 
-		PackageScreen.hotelBundle().perform(click());
 		Common.delay(1);
 
 		HotelScreen.selectHotel("Package Happy Path");
@@ -39,7 +38,6 @@ public class PackageFlightsOverviewTest extends PackageTestCase {
 		PackageScreen.selectRoom();
 		Common.delay(1);
 
-		PackageScreen.outboundFlight().perform(click());
 		Common.delay(1);
 		PackageScreen.flightsToolbar().check(matches(hasDescendant(CoreMatchers.allOf(isDisplayed(), withText("Select flight to Detroit, MI")))));
 		checkToolBarMenuItemsVisibility(true);

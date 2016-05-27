@@ -21,13 +21,14 @@ public class PackageChangePathBackNavTest extends PackageTestCase {
 		PackageScreen.doPackageSearch();
 
 		//change hotel, cancel
+		Common.pressBack();
 		openActionBarOverflowOrOptionsMenu(getInstrumentation().getTargetContext());
 		onView(withText("Change hotel")).check(matches(isEnabled()));
 		onView(withText("Change hotel")).perform(click());
-		PackageScreen.hotelBundle().perform(click());
 		Common.delay(1);
 		Common.pressBack();
 		Common.delay(1);
+		Common.pressBack();
 		assertAfterChange();
 
 		//change hotel room, cancel
@@ -36,26 +37,25 @@ public class PackageChangePathBackNavTest extends PackageTestCase {
 		Common.delay(1);
 		Common.pressBack();
 		Common.delay(1);
+		Common.pressBack();
 		assertAfterChange();
 
 		//change flight, before change outbound flight, cancel
 		openActionBarOverflowOrOptionsMenu(getInstrumentation().getTargetContext());
 		onView(withText("Change flights")).perform(click());
-		PackageScreen.outboundFlight().perform(click());
 		Common.delay(1);
 		Common.pressBack();
 		Common.delay(1);
+		Common.pressBack();
 		assertAfterChange();
 
 		//change flight, after change outbound flight, cancel
 		openActionBarOverflowOrOptionsMenu(getInstrumentation().getTargetContext());
 		onView(withText("Change flights")).perform(click());
-		PackageScreen.outboundFlight().perform(click());
 		PackageScreen.selectFlight(-2);
 		PackageScreen.selectThisFlight().perform(click());
 		Common.delay(1);
 
-		PackageScreen.inboundFLight().perform(click());
 		Common.pressBack();
 		Common.delay(1);
 		Common.pressBack();
@@ -74,6 +74,5 @@ public class PackageChangePathBackNavTest extends PackageTestCase {
 	private void assertAfterChange() {
 		onView(withId(R.id.checkout_button)).check(matches(isEnabled()));
 	}
-
 }
 

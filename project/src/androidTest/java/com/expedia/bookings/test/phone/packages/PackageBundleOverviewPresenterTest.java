@@ -32,6 +32,8 @@ public class PackageBundleOverviewPresenterTest extends PackageTestCase {
 
 	public void testBundleOverviewCheckoutFlow() throws Throwable {
 		PackageScreen.searchPackage();
+
+		Common.pressBack(); // auto advance so need to back up.
 		PackageScreen.bundleToolbar().check(matches(hasDescendant(
 			allOf(isDisplayed(), withText("Trip to Detroit, MI")))));
 
@@ -44,12 +46,14 @@ public class PackageBundleOverviewPresenterTest extends PackageTestCase {
 			allOf(isDisplayed(), withText("Flight to (SFO) San Francisco")))));
 		PackageScreen.outboundFlightInfo().check(matches(not(isEnabled())));
 		PackageScreen.inboundFlightInfo().check(matches(not(isEnabled())));
-		PackageScreen.clickHotelBundle();
 
+
+		PackageScreen.clickHotelBundle();
 		HotelScreen.selectHotel("Package Happy Path");
 
 		PackageScreen.selectRoom();
 
+		Common.pressBack(); // auto advance so need to back up.
 		checkBundleOverviewHotelContentDescription("Package Happy Path");
 
 		PackageScreen.outboundFlightInfo().check(matches(hasDescendant(
@@ -57,19 +61,21 @@ public class PackageBundleOverviewPresenterTest extends PackageTestCase {
 
 		PackageScreen.outboundFlight().perform(click());
 
+		Common.delay(1);
 		PackageScreen.selectFlight(0);
 		PackageScreen.selectThisFlight().perform(click());
+
+		Common.pressBack(); // auto advance so need to back up.
 
 		PackageScreen.inboundFlightInfo().check(matches(hasDescendant(
 			allOf(isDisplayed(), withText("Select flight to (SFO) San Francisco")))));
 
 		PackageScreen.inboundFLight().perform(click());
 
+		Common.delay(1);
 		PackageScreen.selectFlight(0);
 		PackageScreen.selectThisFlight().perform(click());
 
-		PackageScreen.checkout().perform(waitForViewToDisplay());
-		PackageScreen.checkout().perform(click());
 		Common.pressBack();
 
 		PackageScreen.hotelBundle().check(matches(hasDescendant(
@@ -103,7 +109,6 @@ public class PackageBundleOverviewPresenterTest extends PackageTestCase {
 		String formattedEndString = endDate.toString(dateFormatter);
 
 		PackageScreen.searchPackage();
-		PackageScreen.clickHotelBundle();
 
 		//Test strings and bundle state
 		PackageScreen.hotelPriceWidget().perform(waitForViewToDisplay());
@@ -143,7 +148,6 @@ public class PackageBundleOverviewPresenterTest extends PackageTestCase {
 
 	public void testHotelOverview() throws Throwable {
 		PackageScreen.searchPackage();
-		PackageScreen.hotelBundle().perform(click());
 		HotelScreen.selectHotel("Package Happy Path");
 
 		HotelScreen.clickRoom("happy_outbound_flight");
@@ -151,6 +155,9 @@ public class PackageBundleOverviewPresenterTest extends PackageTestCase {
 
 		//HotelScreen.selectRoom();
 
+		Common.delay(1);
+		Common.pressBack();
+		Common.delay(1);
 		//expand
 		PackageScreen.clickHotelBundle();
 

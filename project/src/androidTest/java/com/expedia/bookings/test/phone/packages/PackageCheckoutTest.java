@@ -17,8 +17,6 @@ public class PackageCheckoutTest extends PackageTestCase {
 
 	public void testSlideToPayWidget() throws Throwable {
 		PackageScreen.doPackageSearch();
-		assertOverviewBottomContainer();
-		PackageScreen.checkout().perform(click());
 		assertCheckoutBottomContainerBeforeComplete();
 
 		PackageScreen.enterTravelerInfo();

@@ -47,7 +47,6 @@ public class PackageSearchErrorTest extends PackageTestCase {
 		LocalDate endDate = LocalDate.now().plusDays(8);
 		SearchScreen.selectDates(startDate, endDate);
 		SearchScreen.searchButton().perform(click());
-		PackageScreen.clickHotelBundle();
 		HotelScreen.hotelResultsList().perform(RecyclerViewActions.actionOnItem(hasDescendant(withText("hotel offers error")), click()));
 
 		PackageScreen.assertErrorScreen("Edit Search", "We were unable to find any results. Please adjust your search.");
@@ -55,9 +54,7 @@ public class PackageSearchErrorTest extends PackageTestCase {
 
 		//Error action button takes back to search screen
 		SearchScreen.searchButton().perform(click());
-		PackageScreen.clickHotelBundle();
 		HotelScreen.selectHotel("Package Happy Path");
 		PackageScreen.selectRoom();
-
 	}
 }

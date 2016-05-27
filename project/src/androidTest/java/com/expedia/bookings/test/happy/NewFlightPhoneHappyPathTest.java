@@ -3,6 +3,7 @@ package com.expedia.bookings.test.happy;
 import org.joda.time.LocalDate;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.test.espresso.Common;
 import com.expedia.bookings.test.espresso.NewFlightTestCase;
 import com.expedia.bookings.test.phone.newflights.FlightsResultsScreen;
 import com.expedia.bookings.test.phone.newflights.FlightsScreen;
@@ -42,6 +43,7 @@ public class NewFlightPhoneHappyPathTest extends NewFlightTestCase {
 		FlightsScreen.selectFlight(FlightsScreen.inboundFlightList(), 0);
 		FlightsScreen.selectInboundFlight().perform(click());
 
+		Common.pressBack();
 		assertCheckoutOverview();
 	}
 

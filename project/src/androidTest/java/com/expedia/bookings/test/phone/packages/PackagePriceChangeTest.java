@@ -27,7 +27,6 @@ public class PackagePriceChangeTest extends PackageTestCase {
 		SearchScreen.searchButton().perform(click());
 		Common.delay(1);
 
-		PackageScreen.hotelBundle().perform(click());
 		Common.delay(1);
 
 		HotelScreen.selectHotel("Price Change");
@@ -36,15 +35,10 @@ public class PackagePriceChangeTest extends PackageTestCase {
 		PackageScreen.selectRoom();
 		Common.delay(1);
 
-		PackageScreen.outboundFlight().perform(click());
-		Common.delay(1);
-
 		PackageScreen.selectFlight(0);
 		PackageScreen.selectThisFlight().perform(click());
 		Common.delay(1);
 
-		PackageScreen.inboundFLight().perform(click());
-		Common.delay(1);
 
 		//price change up
 		PackageScreen.selectFlight(0);
@@ -63,23 +57,14 @@ public class PackagePriceChangeTest extends PackageTestCase {
 		SearchScreen.searchButton().perform(click());
 		Common.delay(1);
 
-		PackageScreen.hotelBundle().perform(click());
-		Common.delay(1);
-
 		HotelScreen.selectHotel("Price Change");
 		Common.delay(1);
 
 		PackageScreen.selectRoom();
 		Common.delay(1);
 
-		PackageScreen.outboundFlight().perform(click());
-		Common.delay(1);
-
 		PackageScreen.selectFlight(0);
 		PackageScreen.selectThisFlight().perform(click());
-		Common.delay(1);
-
-		PackageScreen.inboundFLight().perform(click());
 		Common.delay(1);
 
 		//price change down

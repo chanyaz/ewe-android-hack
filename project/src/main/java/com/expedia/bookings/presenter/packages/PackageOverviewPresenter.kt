@@ -45,8 +45,10 @@ class PackageOverviewPresenter(context: Context, attrs: AttributeSet) : BaseOver
             bundleWidget.toggleMenuObservable.onNext(true)
             bundleWidget.setPadding(0, 0, 0, 0)
             bundleWidget.viewModel.createTripObservable.onNext(trip)
-            (bundleOverviewHeader.checkoutOverviewFloatingToolbar.viewmodel as PackageCheckoutOverviewViewModel).tripResponse.onNext(trip)
-            (bundleOverviewHeader.checkoutOverviewHeaderToolbar.viewmodel as PackageCheckoutOverviewViewModel).tripResponse.onNext(trip)
+            (bundleOverviewHeader.checkoutOverviewFloatingToolbar.viewmodel
+                    as PackageCheckoutOverviewViewModel).tripResponseSubject.onNext(trip)
+            (bundleOverviewHeader.checkoutOverviewHeaderToolbar.viewmodel
+                    as PackageCheckoutOverviewViewModel).tripResponseSubject.onNext(trip)
         }
 
         bundleOverviewHeader.nestedScrollView.addView(bundleWidget)

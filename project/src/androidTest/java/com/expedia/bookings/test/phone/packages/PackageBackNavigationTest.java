@@ -23,6 +23,7 @@ public class PackageBackNavigationTest extends PackageTestCase {
 
 		//back to inbound flight overview
 		Common.pressBack();
+		Common.pressBack();
 		assertInboundFlightBundlePrice("$4,212");
 		PackageScreen.flightsToolbar().check(matches(hasDescendant(allOf(isDisplayed(), withText("Flight to San Francisco, CA")))));
 

@@ -19,13 +19,11 @@ public class PackageHotelResultsTest extends PackageTestCase {
 
 	public void testResultsHeader() throws Throwable {
 		PackageScreen.searchPackage();
-		PackageScreen.seeHotelResults();
 		PackageScreen.hotelResultsHeader().check(matches(withText("48 Results")));
 	}
 
 	public void testToolbarText() throws Throwable {
 		PackageScreen.searchPackageFor(2, 1);
-		PackageScreen.seeHotelResults();
 		PackageScreen.hotelResultsToolbar().check(matches(hasDescendant(CoreMatchers.allOf(
 			isDisplayed(), withText("Hotels in Detroit, MI")))));
 
@@ -37,7 +35,6 @@ public class PackageHotelResultsTest extends PackageTestCase {
 
 	public void testUIElements() throws Throwable {
 		PackageScreen.searchPackage();
-		PackageScreen.seeHotelResults();
 		onView(withId(R.id.list_view))
 			.check(matches(CustomMatchers.atPosition(2, hasDescendant(withText("Price includes hotel + flights")))));
 	}

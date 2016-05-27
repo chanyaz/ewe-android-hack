@@ -220,14 +220,8 @@ public class PackageFlightFilterTest extends PackageTestCase {
 		SearchScreen.selectDates(startDate, endDate);
 		SearchScreen.searchButton().perform(click());
 
-		PackageScreen.hotelBundle().perform(waitForViewToDisplay());
-		PackageScreen.hotelBundle().perform(click());
-
 		HotelScreen.selectHotel("Package Happy Path");
 		PackageScreen.selectRoom();
-
-		PackageScreen.outboundFlight().perform(waitForViewToDisplay());
-		PackageScreen.outboundFlight().perform(click());
 
 		PackageScreen.flightList().perform(waitForViewToDisplay());
 		openFlightFilter();
