@@ -547,6 +547,7 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
             loadingOverlay.visibility = View.GONE
             searchPresenter.animationStart(!forward)
             searchPresenter.animationFinalize(forward)
+            searchPresenter.setBackgroundColor(searchBackgroundColor.start)
         }
 
         override fun updateTransition(f: Float, forward: Boolean) {
