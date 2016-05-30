@@ -5,7 +5,7 @@
     <color name="launch_toolbar_background_color">@color/action_bar_bg_color</color>
     <color name="preferences_text">#495863</color>
 
-    <color name="lob_btn_color">#0099CC</color>
+    <color name="lob_btn_color">#D6682D</color>
     <color name="hotel_lob_btn">@color/lob_btn_color</color>
     <color name="flights_lob_btn">@color/lob_btn_color</color>
     <color name="cars_lob_btn">@color/lob_btn_color</color>
@@ -13,7 +13,7 @@
     <color name="transport_lob_btn">@color/lob_btn_color</color>
 
     <!-- Launch colors -->
-    <color name="launch_tab_indicator">#003366</color>
+    <color name="launch_tab_indicator">#D6682D</color>
     <color name="action_menu_text_color">#FFFFFF</color>
     <color name="action_bar_text">#FFFFFF</color>
 
