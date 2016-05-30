@@ -21,7 +21,7 @@ def scanAndProcessForkTestRunOutputJsonData(githubAccessToken, githubOrganizatio
         failedTestCaseCount += 1
         error_no = "ERROR " + str(failedTestCaseCount)
         uiErrorMsg = uiErrorMsg + "**" + error_no + "**" + "\n\n" + errorMessage + "\n\n"
-    createUpdateOrDeleteAutomatedFeedbackComment(githubAccessToken, githubOrganization, githubRepository, prPullId, prBuilderType, uiErrorMsg)
+    createUpdateOrDeleteAutomatedFeedbackComment(githubAccessToken, githubOrganization, githubRepository, prPullId, prBuilderType, uiErrorMsg, "java")
     return failedTestCaseCount
 
 def main():

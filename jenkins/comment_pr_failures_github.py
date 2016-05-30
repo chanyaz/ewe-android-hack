@@ -2,13 +2,14 @@
 import traceback
 from github3 import login
 
-def createUpdateOrDeleteAutomatedFeedbackComment(githubAccessToken, githubOrganization, githubRepository, prId, prBuilderType, errorMsg):
+def createUpdateOrDeleteAutomatedFeedbackComment(githubAccessToken, githubOrganization, githubRepository, prId, prBuilderType, errorMsg, formatType):
     gh = login(token=githubAccessToken)
     repo = gh.repository(githubOrganization, githubRepository)
     issue = repo.issue(prId)
-    if errorMsg != "":
+    if errorMsg != "" and formatType != "":
         errorMsg = errorMsg + '\n```'
-    automatedFeedbackCommentSignature = '```java\n' + prBuilderType + 'FeedbackBot:\n\n'
+        formatType = "```"+formatType
+    automatedFeedbackCommentSignature = "{formatType}\n{prBuilderType}FeedbackBot:\n\n".format(formatType=formatType, prBuilderType=prBuilderType)
     automatedCommentsFromPRBuilder = [comment for comment in issue.comments() if comment.body[:len(automatedFeedbackCommentSignature)] == automatedFeedbackCommentSignature]
     try:
         if len(automatedCommentsFromPRBuilder) > 0:
