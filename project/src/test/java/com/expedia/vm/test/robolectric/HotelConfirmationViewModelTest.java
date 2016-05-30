@@ -150,7 +150,7 @@ public class HotelConfirmationViewModelTest {
 		Intent intent = shadowApplication.getNextStartedActivity();
 
 		assertEquals(LXBaseActivity.class.getName(), intent.getComponent().getClassName());
-		assertTrue(intent.getBooleanExtra(Codes.EXTRA_OPEN_SEARCH, false));
+		assertTrue(intent.getBooleanExtra(Codes.EXTRA_OPEN_RESULTS, false));
 	}
 
 	@Test

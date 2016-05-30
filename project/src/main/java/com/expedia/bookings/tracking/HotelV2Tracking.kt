@@ -284,7 +284,7 @@ class HotelV2Tracking {
     }
 
     fun trackHotelV2CrossSellLX() {
-        trackHotelV2ConfirmationCrossSell("Local Expert")
+        trackHotelV2ConfirmationCrossSell("LX")
     }
 
     private fun trackHotelV2ConfirmationCrossSell(businessType: String) {
