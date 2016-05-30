@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <color name="action_bar_bg_color">#0099CC</color>
+    <color name="action_bar_bg_color">#26344F</color>
     <color name="launch_toolbar_background_color">@color/action_bar_bg_color</color>
     <color name="preferences_text">#495863</color>
 
@@ -11,7 +11,6 @@
     <color name="cars_lob_btn">@color/lob_btn_color</color>
     <color name="lx_lob_btn">@color/lob_btn_color</color>
     <color name="transport_lob_btn">@color/lob_btn_color</color>
-
 
     <!-- Launch colors -->
     <color name="launch_tab_indicator">#003366</color>
@@ -26,6 +25,8 @@
     <color name="flight_card_airline_fee_warning">#0099CC</color>
     <color name="flight_free_cancellation_text_color">#0099CC</color>
     <color name="credit_card_form_additional_fees_tablet_bg">@color/hotels_primary_color</color>
+    <color name="flight_trip">#D6682D</color>
+    <color name="splash_screen_bg">#26344F</color>
 
     <!-- Calendar text colors -->
     <color name="calendar_cell_selected_date_text">#FFFFFF</color>
