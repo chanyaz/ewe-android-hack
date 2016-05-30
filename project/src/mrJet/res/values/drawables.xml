@@ -6,4 +6,5 @@
     <item name="app_copyright_logo" type="drawable">@drawable/brand_logo_large</item>
     <item name="old_checkout_account_button_background" type="drawable">@android:color/white</item>
     <item name="tablet_checkout_login_logo" type="drawable">@drawable/brand_tablet_checkout_login_logo_drawable</item>
+    <item name="earn_message_icon" type="drawable">@drawable/earn_icon</item>
 </resources>
