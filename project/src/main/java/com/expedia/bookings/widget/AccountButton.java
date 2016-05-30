@@ -189,7 +189,7 @@ public class AccountButton extends LinearLayout {
 				mLoginTextView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.old_checkout_account_logo, 0, 0, 0);
 				mLoginTextView.setBackgroundResource(bgResourceId);
 			}
-			mLoginTextView.setGravity(Gravity.LEFT);
+			mLoginTextView.setGravity(Gravity.CENTER_VERTICAL | Gravity.LEFT);
 			int padding = getResources().getDimensionPixelSize(R.dimen.account_button_text_padding);
 			mLoginTextView.setPadding(padding, padding, padding, padding);
 		}
