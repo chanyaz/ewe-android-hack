@@ -44,7 +44,6 @@ import com.expedia.bookings.data.FlightFilter;
 import com.expedia.bookings.data.FlightLeg;
 import com.expedia.bookings.data.FlightSearchParams;
 import com.expedia.bookings.data.FlightTrip;
-import com.expedia.bookings.data.HotelBookingResponse;
 import com.expedia.bookings.data.HotelFilter;
 import com.expedia.bookings.data.HotelFilter.PriceRange;
 import com.expedia.bookings.data.HotelFilter.SearchRadius;
@@ -548,7 +547,7 @@ public class OmnitureTracking {
 		else if (isETPEligible) {
 			s.setEvents("event3,event5");
 		}
-		else if (!isETPEligible) {
+		else {
 			s.setEvents("event3");
 		}
 
@@ -1102,20 +1101,10 @@ public class OmnitureTracking {
 	//
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-	private static final String HOTELS_RATE_DETAILS = "App.Hotels.RateDetails";
 	private static final String HOTELS_DETAILS_REVIEWS = "App.Hotels.Reviews";
 	private static final String HOTELS_CHECKOUT_INFO = "App.Hotels.Checkout.Info";
 	private static final String HOTELS_CHECKOUT_LOGIN = "App.Hotels.Checkout.Login";
-	private static final String HOTELS_CHECKOUT_TRAVELER_SELECT = "App.Hotels.Checkout.Traveler.Select";
-	private static final String HOTELS_CHECKOUT_TRAVELER_EDIT_INFO = "App.Hotels.Checkout.Traveler.Edit.Info";
-	private static final String HOTELS_CHECKOUT_TRAVELER_ENTER_MANUALLY = "App.Hotels.Checkout.Traveler.EnterManually";
 	private static final String HOTELS_CHECKOUT_WARSAW = "App.Hotels.Checkout.Warsaw";
-	private static final String HOTELS_CHECKOUT_PAYMENT_SELECT = "App.Hotels.Checkout.Payment.Select";
-	private static final String HOTELS_CHECKOUT_PAYMENT_EDIT_CARD = "App.Hotels.Checkout.Payment.Edit.Card";
-	private static final String HOTELS_CHECKOUT_PAYMENT_EDIT_SAVE = "App.Hotels.Checkout.Payment.Edit.Save";
-	private static final String HOTELS_CHECKOUT_PAYMENT_SELECT_EXISTING = "App.Hotels.Checkout.Payment.Select.Existing";
-	private static final String HOTELS_CHECKOUT_PAYMENT_ENTER_MANUALLY = "App.Hotels.Checkout.Payment.EnterManually";
-	private static final String HOTELS_CHECKOUT_SLIDE_TO_PURCHASE = "App.Hotels.Checkout.SlideToPurchase";
 	private static final String HOTELS_CHECKOUT_PAYMENT_CID = "App.Hotels.Checkout.Payment.CID";
 	private static final String HOTELS_SEARCH_REFINE = "App.Hotels.Search.Filter";
 	private static final String HOTELS_SEARCH_REFINE_NAME = "App.Hotels.Search.Filter.Name";
@@ -1140,14 +1129,10 @@ public class OmnitureTracking {
 	public static final String HOTELS_REFINE_REVIEWS_CRIT = "App.Hotels.Review.Crit";
 	public static final String HOTELS_REFINE_REVIEWS_RECENT = "App.Hotels.Review.Recent";
 
-	public static final String HOTELS_ETP_INFO_PAGE = "App.Hotels.ETPInfo";
 	public static final String HOTELS_ETP_TOGGLE_LINK_NAME = "ETP Toggle";
 	public static final String HOTELS_ETP_TOGGLE_PAY_LATER = "App.Hotels.RR.Toggle.PayLater";
 	public static final String HOTELS_ETP_TOGGLE_PAY_NOW = "App.Hotels.RR.Toggle.PayNow";
 	public static final String HOTELS_ETP_PAYMENT = "App.Hotels.RR.ETP";
-
-	private static final String HOTELS_MER_EMAIL_OPT_IN = "App.Mktg.Opt-in";
-	private static final String HOTELS_MER_EMAIL_OPT_OUT = "App.Mktg.Opt-Out";
 
 	//////////////////////////////
 	// Coupon tracking
@@ -1158,137 +1143,6 @@ public class OmnitureTracking {
 	public static final String HOTELS_COUPON_FAIL = "App.CKO.Coupon.Fail";
 
 	public static final String HOTELS = "App.Hotels";
-
-	public static void trackAppHotelsSearch() {
-		HotelSearchParams searchParams = Db.getHotelSearch().getSearchParams();
-		HotelSearchResponse searchResponse = Db.getHotelSearch().getSearchResponse();
-		internalTrackOldHotelsSearch(searchParams, searchResponse);
-	}
-
-	private static void internalTrackOldHotelsSearch(HotelSearchParams searchParams,
-													 HotelSearchResponse searchResponse) {
-		// Start actually tracking the search result change
-		Log.d(TAG, "Tracking \"App.Hotels.Search\" pageLoad...");
-
-		ADMS_Measurement s = getFreshTrackingObject();
-
-
-		s.setAppState("App.Hotels.Search");
-		s.setEvents("event30,event51");
-
-		// LOB Search
-		s.setEvar(2, "hotels");
-		s.setProp(2, "hotels");
-
-		// Region
-		addHotelRegionId(s, searchParams);
-
-		// Check in/check out date
-		addAdvancePurchaseWindow(s, searchParams);
-
-		s.setEvar(47, getEvar47String(searchParams));
-
-		// prop and evar 5, 6
-		setDateValues(s, searchParams.getCheckInDate(), searchParams.getCheckOutDate());
-
-		// Freeform location
-		if (!TextUtils.isEmpty(searchParams.getUserQuery())) {
-			s.setEvar(48, searchParams.getUserQuery());
-		}
-
-		// Number of search results
-		if (searchResponse != null && searchResponse.getFilteredAndSortedProperties(searchParams) != null) {
-			s.setProp(1, searchResponse.getFilteredAndSortedProperties(searchParams).size() + "");
-		}
-
-		if (searchResponse != null) {
-			// Has at least one sponsored Listing
-			if (searchResponse.hasSponsoredListing()) {
-				s.setEvar(28, HOTELS_SEARCH_SPONSORED_PRESENT);
-				s.setProp(16, HOTELS_SEARCH_SPONSORED_PRESENT);
-			}
-			else {
-				s.setEvar(28, HOTELS_SEARCH_SPONSORED_NOT_PRESENT);
-				s.setProp(16, HOTELS_SEARCH_SPONSORED_NOT_PRESENT);
-			}
-		}
-
-		trackAbacusTest(s, AbacusUtils.EBAndroidAppSRPercentRecommend);
-		trackAbacusTest(s, AbacusUtils.EBAndroidAppHotelETPSearchResults);
-		trackAbacusTest(s, AbacusUtils.EBAndroidAppHSRMapIconTest);
-
-		// Send the tracking data
-		s.track();
-	}
-
-	public static void trackAppHotelsRoomsRates(Context context, Property property) {
-		Log.d(TAG, "Tracking \"App.Hotels.RoomsRates\" event");
-
-		ADMS_Measurement s = getFreshTrackingObject();
-
-
-		s.setAppState("App.Hotels.RoomsRates");
-
-		if (ProductFlavorFeatureConfiguration.getInstance().isETPEnabled() && property.hasEtpOffer()) {
-			s.setEvents("event5");
-		}
-
-		// Products
-		addProducts(s, property);
-
-		// Send the tracking data
-		s.track();
-	}
-
-	public static void trackAppHotelsETPInfoPage() {
-		Log.d(TAG, "Tracking \"" + HOTELS_ETP_INFO_PAGE + "\" event");
-
-		ADMS_Measurement s = getFreshTrackingObject();
-
-
-		s.setAppState(HOTELS_ETP_INFO_PAGE);
-
-		// Send the tracking data
-		s.track();
-	}
-
-	public static void trackAppHotelsCheckoutConfirmation(Context context, HotelSearchParams searchParams,
-														  Property property, String supplierType, Rate rate, HotelBookingResponse response) {
-		Log.d(TAG, "Tracking \"App.Hotels.Checkout.Confirmation\" pageLoad");
-
-		ADMS_Measurement s = getFreshTrackingObject();
-
-		String pageName = "App.Hotels.Checkout.Confirmation";
-		s.setAppState(pageName);
-		s.setEvar(18, pageName);
-		s.setEvents("purchase");
-
-		// Product details
-		DateTimeFormatter dtf = ISODateTimeFormat.basicDate();
-		String checkIn = dtf.print(searchParams.getCheckInDate());
-		String checkOut = dtf.print(searchParams.getCheckOutDate());
-		s.setEvar(30, "Hotel:" + checkIn + "-" + checkOut + ":N");
-
-		// Unique confirmation id
-		// 14103: Remove timestamp from the purchaseID variable
-		s.setProp(71, response.getItineraryId());
-		s.setProp(72, response.getOrderNumber());
-		s.setPurchaseID("onum" + response.getOrderNumber());
-
-		// Products
-		int numDays = searchParams.getStayDuration();
-		double totalCost = 0;
-		if (rate != null && rate.getTotalAmountAfterTax() != null) {
-			totalCost = rate.getTotalAmountAfterTax().getAmount().doubleValue();
-		}
-		addProducts(s, property, supplierType, numDays, totalCost);
-
-		// Currency code
-		s.setCurrencyCode(rate.getTotalAmountAfterTax().getCurrency());
-
-		// Send the tracking data
-		s.track();
-	}
 
 	public static void trackPageLoadHotelsInfosite(Context context) {
 		Log.d(TAG, "Tracking \"App.Hotels.Infosite\" pageLoad");
@@ -1320,21 +1174,6 @@ public class OmnitureTracking {
 		s.track();
 	}
 
-	public static void trackPageLoadHotelsInfositeMap() {
-		Log.d(TAG, "Tracking \"App.Hotels.Infosite.Map\" pageLoad");
-
-		ADMS_Measurement s = getFreshTrackingObject();
-
-
-		s.setAppState("App.Hotels.Infosite.Map");
-
-		// Products
-		addProducts(s, Db.getHotelSearch().getSelectedProperty());
-
-		// Send the tracking data
-		s.track();
-	}
-
 	private static void addProducts(ADMS_Measurement s, Property property) {
 		// The "products" field uses this format:
 		// Hotel;<supplier> Hotel:<hotel id>
@@ -1356,23 +1195,6 @@ public class OmnitureTracking {
 
 	private static void addProducts(ADMS_Measurement s, Property property, int numNights, double totalCost) {
 		addProducts(s, property);
-
-		DecimalFormat df = new DecimalFormat("#.##");
-		String products = s.getProducts();
-		products += ";" + numNights + ";" + df.format(totalCost);
-		s.setProducts(products);
-	}
-
-	private static void addProducts(ADMS_Measurement s, Property property, String supplierType, int numNights, double totalCost) {
-		// The "products" field uses this format:
-		// Hotel;Hotel;<supplier> Hotel:<hotel id>
-
-		if (TextUtils.isEmpty(supplierType)) {
-			supplierType = "";
-		}
-		String properCaseSupplierType = Strings.splitAndCapitalizeFirstLetters(supplierType);
-
-		s.setProducts("Hotel;" + properCaseSupplierType + " Hotel:" + property.getPropertyId());
 
 		DecimalFormat df = new DecimalFormat("#.##");
 		String products = s.getProducts();
@@ -1410,36 +1232,12 @@ public class OmnitureTracking {
 		s.setEvents(eventsStr);
 	}
 
-	public static void trackPageLoadHotelsRateDetails() {
-		Log.d(TAG, "Tracking \"" + HOTELS_RATE_DETAILS + "\" pageLoad");
-		ADMS_Measurement s = createTrackPageLoadEventBase(HOTELS_RATE_DETAILS);
-		trackAbacusTest(s, AbacusUtils.EBAndroidAppHotelShowAddressMapInReceipt);
-		s.track();
-	}
-
 	public static void trackPageLoadHotelsDetailsReviews() {
 		internalTrackPageLoadEventStandard(HOTELS_DETAILS_REVIEWS, LineOfBusiness.HOTELS);
 	}
 
 	public static void trackLinkReviewTypeSelected(String linkName) {
 		internalTrackLink(linkName);
-	}
-
-	public static void trackPageLoadHotelsCheckoutInfo() {
-		ADMS_Measurement s = createTrackPageLoadEventBase(HOTELS_CHECKOUT_INFO);
-		s.setEvents("event70");
-
-		trackAbacusTest(s, AbacusUtils.EBAndroidAppHotelHCKOTraveler);
-		trackAbacusTest(s, AbacusUtils.EBAndroidAppHotelPayLaterCouponMessaging);
-		trackAbacusTest(s, AbacusUtils.EBAndroidAppHotel3xMessaging);
-
-		HotelSearchParams params = Db.getTripBucket().getHotel().getHotelSearchParams();
-		s.setEvar(47, getEvar47String(params));
-		addHotelRegionId(s, params);
-		addProducts(s, Db.getTripBucket().getHotel().getProperty(), Db.getTripBucket().getHotel().getCreateTripResponse().getSupplierType());
-		addStandardHotelFields(s, params);
-
-		s.track();
 	}
 
 	public static void trackPageLoadHotelsLogin() {
@@ -1507,60 +1305,9 @@ public class OmnitureTracking {
 		internalTrackLink(pageName);
 	}
 
-	public static void trackPageLoadHotelsTravelerEditInfo() {
-		internalTrackPageLoadEventStandard(HOTELS_CHECKOUT_TRAVELER_EDIT_INFO);
-	}
-
-	public static void trackPageLoadHotelsTravelerSelect() {
-		internalTrackPageLoadEventStandard(HOTELS_CHECKOUT_TRAVELER_SELECT);
-	}
-
-	public static void trackLinkHotelsCheckoutTravelerEnterManually() {
-		internalTrackLink(HOTELS_CHECKOUT_TRAVELER_ENTER_MANUALLY);
-	}
-
-	public static void trackPageLoadHotelsCheckoutPaymentSelect() {
-		internalTrackPageLoadEventStandard(HOTELS_CHECKOUT_PAYMENT_SELECT);
-	}
-
-	public static void trackPageLoadHotelsCheckoutPaymentEditCard() {
-		internalTrackPageLoadEventStandard(HOTELS_CHECKOUT_PAYMENT_EDIT_CARD);
-	}
-
-	public static void trackPageLoadHotelsCheckoutPaymentEditSave() {
-		internalTrackPageLoadEventStandard(HOTELS_CHECKOUT_PAYMENT_EDIT_SAVE);
-	}
-
-	public static void trackLinkHotelsCheckoutPaymentSelectExisting() {
-		internalTrackLink(HOTELS_CHECKOUT_PAYMENT_SELECT_EXISTING);
-	}
-
-	public static void trackLinkHotelsCheckoutPaymentEnterManually() {
-		internalTrackLink(HOTELS_CHECKOUT_PAYMENT_ENTER_MANUALLY);
-	}
-
-	public static void trackPageLoadHotelsCheckoutSlideToPurchase() {
-		Log.d(TAG, "Tracking \"" + HOTELS_CHECKOUT_SLIDE_TO_PURCHASE + "\" pageLoad");
-		ADMS_Measurement s = createTrackPageLoadEventBase(HOTELS_CHECKOUT_SLIDE_TO_PURCHASE);
-		s.setEvar(37, getPaymentType());
-		s.track();
-	}
 
 	public static void trackPageLoadHotelsCheckoutWarsaw() {
 		internalTrackPageLoadEventStandard(HOTELS_CHECKOUT_WARSAW);
-	}
-
-	public static void trackPageLoadHotelsCheckoutPaymentCid() {
-		internalTrackPageLoadEventStandard(HOTELS_CHECKOUT_PAYMENT_CID);
-	}
-
-	public static void trackHotelSearchMapSwitch() {
-		ADMS_Measurement s = OmnitureTracking.getFreshTrackingObject();
-		s.setAppState("App.Hotels.Search.Map");
-
-		trackAbacusTest(s, AbacusUtils.EBAndroidAppHotelHSRSalePinTest);
-
-		s.track();
 	}
 
 	// Coupon tracking: https://mingle/projects/eb_ad_app/cards/1003
@@ -1647,43 +1394,6 @@ public class OmnitureTracking {
 		s.trackLink(null, "o", HOTELS_ETP_TOGGLE_LINK_NAME, null, null);
 	}
 
-	public static void trackHotelsGuestMerEmailOptIn() {
-		Log.d(TAG, "Tracking \"" + HOTELS_MER_EMAIL_OPT_IN + "\"");
-
-		ADMS_Measurement s = getFreshTrackingObject();
-
-		s.setEvents("event42");
-
-		String posTpid = Integer.toString(PointOfSale.getPointOfSale().getTpid());
-		s.setProp(7, posTpid);
-		s.setEvar(28, HOTELS_MER_EMAIL_OPT_IN);
-		s.setProp(16, HOTELS_MER_EMAIL_OPT_IN);
-		s.setEvar(61, posTpid);
-
-		// AB Test: Opt-in/out checkbox for MER email on Guest HCKO
-		trackAbacusTest(s, AbacusUtils.EBAndroidHotelCKOMerEmailGuestOpt);
-
-		s.trackLink(null, "o", "Marketing Choice", null, null);
-	}
-
-	public static void trackHotelsGuestMerEmailOptOut() {
-		Log.d(TAG, "Tracking \"" + HOTELS_MER_EMAIL_OPT_OUT + "\"");
-
-		ADMS_Measurement s = getFreshTrackingObject();
-
-		s.setEvents("event43");
-
-		String posTpid = Integer.toString(PointOfSale.getPointOfSale().getTpid());
-		s.setProp(7, posTpid);
-		s.setEvar(28, HOTELS_MER_EMAIL_OPT_OUT);
-		s.setProp(16, HOTELS_MER_EMAIL_OPT_OUT);
-		s.setEvar(61, posTpid);
-
-		// AB Test: Opt-in/out checkbox for MER email on Guest HCKO
-		trackAbacusTest(s, AbacusUtils.EBAndroidHotelCKOMerEmailGuestOpt);
-
-		s.trackLink(null, "o", "Marketing Choice", null, null);
-	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	// Flights Tracking
@@ -3211,14 +2921,6 @@ public class OmnitureTracking {
 		s.setEvar(28, ADD_ATTACH_CAR);
 		s.setProp(16, ADD_ATTACH_CAR);
 		s.setEvar(12, CROSS_SELL_CAR_FROM_FLIGHT);
-		s.trackLink(null, "o", "Confirmation Cross Sell", null, null);
-	}
-
-	public static void trackAddLxClick() {
-		ADMS_Measurement s = getFreshTrackingObject();
-		s.setEvar(28, ADD_ATTACH_LX);
-		s.setProp(16, ADD_ATTACH_LX);
-		s.setEvar(12, CROSS_SELL_LX_FROM_FLIGHT);
 		s.trackLink(null, "o", "Confirmation Cross Sell", null, null);
 	}
 
