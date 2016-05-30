@@ -187,7 +187,7 @@ class HotelV2Tracking {
     fun trackPageLoadHotelV2CheckoutInfo(hotelCreateTripResponse: HotelCreateTripResponse, searchParams: HotelSearchParams) {
         OmnitureTracking.trackPageLoadHotelV2CheckoutInfo(hotelCreateTripResponse, searchParams)
         val hotelProductResponse = hotelCreateTripResponse.newHotelProductResponse
-        LeanPlumUtils.trackHotelV2CheckoutStarted(hotelProductResponse)
+        LeanPlumUtils.trackHotelV2CheckoutStarted(hotelProductResponse, searchParams.guests)
         TuneUtils.trackHotelV2CheckoutStarted(hotelProductResponse)
         FacebookEvents().trackHotelV2Checkout(hotelProductResponse, searchParams)
     }
@@ -256,9 +256,9 @@ class HotelV2Tracking {
         OmnitureTracking.trackHotelV2CheckoutErrorRetry()
     }
 
-    fun trackHotelV2PurchaseConfirmation(hotelCheckoutResponse: HotelCheckoutResponse, percentagePaidWithPoints: Int, totalAppliedRewardCurrency: String) {
+    fun trackHotelV2PurchaseConfirmation(hotelCheckoutResponse: HotelCheckoutResponse, percentagePaidWithPoints: Int, totalAppliedRewardCurrency: String, guestCount: Int, couponCode: String) {
         OmnitureTracking.trackHotelV2PurchaseConfirmation(hotelCheckoutResponse, percentagePaidWithPoints, totalAppliedRewardCurrency)
-        LeanPlumUtils.trackHotelV2Booked(hotelCheckoutResponse)
+        LeanPlumUtils.trackHotelV2Booked(hotelCheckoutResponse, guestCount, couponCode)
         TuneUtils.trackHotelV2Confirmation(hotelCheckoutResponse)
         FacebookEvents().trackHotelV2Confirmation(hotelCheckoutResponse)
     }

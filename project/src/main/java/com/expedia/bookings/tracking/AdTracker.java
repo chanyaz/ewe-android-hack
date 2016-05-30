@@ -75,7 +75,7 @@ public class AdTracker {
 		LeanPlumUtils.tracking("Expand Itinerary");
 	}
 
-	public static void trackHotelBooked() {
+	public static void trackHotelBooked(String couponcode) {
 		// Values
 		final Rate rate = Db.getTripBucket().getHotel().getRate();
 
@@ -89,7 +89,7 @@ public class AdTracker {
 		String orderNumber = response != null ? response.getOrderNumber() : "";
 		HotelSearchParams params = Db.getTripBucket().getHotel().getHotelSearchParams();
 		Property property = Db.getTripBucket().getHotel().getProperty();
-		LeanPlumUtils.trackHotelBooked(params, property, orderNumber, currency, totalPrice, displayPrice);
+		LeanPlumUtils.trackHotelBooked(params, property, orderNumber, currency, totalPrice, displayPrice, couponcode);
 		TuneUtils.trackHotelConfirmation(totalPrice, pricePerNight, orderNumber, currency, Db.getTripBucket().getHotel());
 		new FacebookEvents().trackHotelConfirmation(Db.getTripBucket().getHotel(), rate);
 	}

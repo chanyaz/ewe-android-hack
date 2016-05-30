@@ -14,6 +14,7 @@ import com.expedia.bookings.data.User
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.cars.CarSearchParamsBuilder
 import com.expedia.bookings.data.hotels.HotelCreateTripResponse
+import com.expedia.bookings.data.hotels.HotelSearchParams
 import com.expedia.bookings.data.payment.PaymentModel
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.data.trips.ItineraryManager
@@ -38,6 +39,7 @@ import rx.exceptions.OnErrorNotImplementedException
 import rx.subjects.BehaviorSubject
 import java.math.BigDecimal
 import javax.inject.Inject
+import kotlin.properties.Delegates
 
 class HotelConfirmationViewModel(checkoutResponseObservable: Observable<HotelCheckoutResponse>, context: Context) {
 
@@ -59,6 +61,7 @@ class HotelConfirmationViewModel(checkoutResponseObservable: Observable<HotelChe
     val hotelLocation = BehaviorSubject.create<Location>()
     val showFlightCrossSell = BehaviorSubject.create<Boolean>()
     val showCarCrossSell = BehaviorSubject.create<Boolean>()
+    var hotelSearchParams: HotelSearchParams by Delegates.notNull()
 
     lateinit var paymentModel: PaymentModel<HotelCreateTripResponse>
         @Inject set
@@ -121,7 +124,9 @@ class HotelConfirmationViewModel(checkoutResponseObservable: Observable<HotelChe
             location.addStreetAddressLine(product.hotelAddress)
             hotelLocation.onNext(location)
             AdImpressionTracking.trackAdConversion(context, it.hotelCheckoutResponse.checkoutResponse.bookingResponse.tripId)
-            HotelV2Tracking().trackHotelV2PurchaseConfirmation(it.hotelCheckoutResponse, it.percentagePaidWithPoints, it.totalAppliedRewardCurrency)
+            val coupon = Db.getTripBucket().hotelV2.mHotelTripResponse.coupon
+            HotelV2Tracking().trackHotelV2PurchaseConfirmation(it.hotelCheckoutResponse, it.percentagePaidWithPoints, it.totalAppliedRewardCurrency,
+                    hotelSearchParams.guests, if(coupon!=null) coupon.code else "")
 
             // LX Cross sell
             val isUserBucketedForLXCrossSellTest = Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppLXCrossSellOnHotelConfirmationTest)
@@ -258,5 +263,10 @@ class HotelConfirmationViewModel(checkoutResponseObservable: Observable<HotelChe
                 throw OnErrorNotImplementedException(e)
             }
         }
+    }
+
+
+    fun setSearchParams(params: HotelSearchParams) {
+        hotelSearchParams = params
     }
 }

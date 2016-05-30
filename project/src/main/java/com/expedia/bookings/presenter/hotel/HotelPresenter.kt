@@ -212,6 +212,7 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
         })
         presenter.setSearchParams(hotelSearchParams)
         presenter.hotelCheckoutWidget.setSearchParams(hotelSearchParams)
+        confirmationPresenter.hotelConfirmationViewModel.setSearchParams(hotelSearchParams)
         presenter.hotelCheckoutWidget.backPressedAfterUserWithEffectiveSwPAvailableSignedOut.subscribe(goToSearchScreen)
         presenter
     }
