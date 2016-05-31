@@ -26,6 +26,7 @@ public class FlightTripDetails {
 		public boolean hasBagFee;
 		public boolean hasNoBagFee;
 		public boolean showFees;
+		public boolean mayChargeOBFees;
 		public String numberOfTickets;
 		public int seatsRemaining;
 	}

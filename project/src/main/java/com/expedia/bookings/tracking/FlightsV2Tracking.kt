@@ -12,4 +12,12 @@ object FlightsV2Tracking {
     fun trackFlightRecentSearchClick() {
         OmnitureTracking.trackFlightRecentSearchClick()
     }
+
+    fun trackFlightBaggageFeeClick() {
+        OmnitureTracking.trackFlightBaggageFeesClick()
+    }
+
+    fun trackPaymentFeesClick() {
+        OmnitureTracking.trackFlightPaymentFeesClick()
+    }
 }

@@ -1656,6 +1656,8 @@
     <string name="flights_outbound_label">Outbound</string>
     <!-- Flights Line of Business title -->
     <string name="flights_title">Flights</string>
+    <!-- Flights payment fees info web view title -->
+    <string name="flights_flight_overview_payment_fees">Payment Fees Info</string>
 
     <!-- Flights -->
     <!-- Label for Flight Search in task manager -->
