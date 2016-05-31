@@ -73,8 +73,6 @@
     <!-- Text for error toolbar-->
     <string name="cars_dupe_trip_text">重複した旅行</string>
     <!-- Text for error toolbar-->
-    <string name="cars_session_timeout_text">セッション タイムアウト</string>
-    <!-- Text for error toolbar-->
     <string name="cars_price_change_text">料金変更</string>
     <!-- Text for error toolbar-->
     <string name="cars_payment_failed_text">支払い手続失敗</string>
@@ -124,11 +122,7 @@
     <string name="calendar_desc_support_TEMPLATE">{brand} カスタマー サポート : {localphone} および {phone}</string>
 
     <!-- Label for hotel search toolbar -->
-    <string name="hotel_toolbar_title">ホテルを検索</string>
-    <!-- Label for hotel search v2 toolbar -->
     <string name="hotel_search_toolbar_title">ホテル</string>
-    <!-- Label for hotel suggestion -->
-    <string name="search_location">ロケーションを検索</string>
     <!-- Label for recent searches -->
     <string name="recent_searches">最近の検索履歴</string>
     <!-- Label for pickup location selector -->
@@ -142,7 +136,7 @@
     <!-- When user has picked both start and return date/time, we show something like: "Jan 21, 2:00PM - Jan 25, 3:00PM" -->
     <string name="date_time_range_TEMPLATE">%1$s – %2$s</string>
     <!-- When user hasn't picked return date/time, we show something like: "Jan. 21, 2:00PM - Select return date" -->
-    <string name="select_return_date_TEMPLATE">%1$s – 返却日時を選択してください</string>
+    <string name="select_return_date_TEMPLATE">{startdate} – 返却日時を選択してください</string>
     <!-- Label for pick-up time picker -->
     <string name="pick_up_time_label">借出</string>
     <!-- Label for drop-up time picker -->
@@ -250,10 +244,8 @@
     <!-- Car error strings -->
     <!-- Message for user that pick-up time is too early.  -->
     <string name="pick_up_time_error">借出時間または返却時間を調整してください。</string>
-    <!-- Message for user  to choose a closer date.  -->
-    <string name="error_date_too_far">指定できる期間を超えています。近い日にちを選択してください。</string>
     <!-- Message for user that date is too far out.  -->
-    <string name="date_out_of_range">指定できる期間を超えています。近い日にちを選択してください。</string>
+    <string name="error_date_too_far">指定できる期間を超えています。近い日にちを選択してください。</string>
     <!-- Message for user that increase your reservation duration. -->
     <string name="reservation_time_too_short">予約期間を入力してください。</string>
     <!-- Shown to user in case the reservation timed out -->
@@ -656,8 +648,6 @@
     <!-- Text for error toolbar-->
     <string name="lx_duplicate_trip_text">重複した旅行</string>
     <!-- Text for error toolbar-->
-    <string name="lx_session_timeout_text">セッション タイムアウト</string>
-    <!-- Text for error toolbar-->
     <string name="lx_payment_failed_text">支払い手続失敗</string>
     <!-- Offers show more string -->
     <string name="lx_show_more_offers">もっと見る</string>
@@ -976,8 +966,6 @@
     <string name="restricted_profile_sign_in_message_TEMPLATE">{brand} にサインインするには、ご使用のデバイスで制限なしのユーザー プロフィールをお使いください。</string>
 
     <!-- Nav Dropdown menu -->
-    <!-- Flights -->
-    <string name="flights_title">航空券</string>
     <!-- Hotels -->
     <string name="nav_hotels">ホテル</string>
     <!-- Cars -->
@@ -1094,7 +1082,7 @@
     <!-- Enter itinerary number -->
     <string name="enter_itinerary_number">旅程番号を入力してください</string>
     <!-- Enter a Guest itinerary number -->
-    <string name="enter_a_guest_itinerary_number">または、旅程番号を入力してください</string>
+    <string name="or_enter_a_guest_itinerary_number">または、旅程番号を入力してください</string>
     <!-- Fetching your itinerary -->
     <string name="fetching_your_itinerary">お客様の旅程を取得しています…</string>
     <!-- Error fetching itinerary -->
@@ -1627,6 +1615,16 @@
     <!-- Template for title/name of the facebook post - Cars -->
     <string name="share_facebook_template_title_car">%1$sでレンタカー</string>
 
+    <!-- Flights v2 -->
+    <!-- Flights Search view button label for round-trip searches -->
+    <string name="flights_round_trip_label">往復</string>
+    <!-- Flights Search view button label for one-way searches -->
+    <string name="flights_one_way_label">片道</string>
+    <!-- Flights label for selected outbound flight -->
+    <string name="flights_outbound_label">往路 (行き)</string>
+    <!-- Flights Line of Business title -->
+    <string name="flights_title">航空券</string>
+
     <!-- Flights -->
     <!-- Label for Flight Search in task manager -->
     <string name="Flights_TEMPLATE">{brand} 件のフライト</string>
@@ -1650,6 +1648,8 @@
     <string name="error_invalid_arrival_airport">到着空港が確認できませんでした。</string>
     <!-- Error message when we find no flights because of invalid departure AND arrival airports -->
     <string name="error_invalid_departure_arrival_airports">出発および到着空港が確認できませんでした。</string>
+    <!-- Error message when we find no flights because of invalid departure date -->
+    <string name="error_invalid_departure_date">出発日が確認できませんでした。</string>
     <!-- "Details" button label, for seeing details of a flight -->
     <string name="details">詳細</string>
     <!-- "Select" button label, for selecting a particular leg of a flight -->
@@ -1746,8 +1746,9 @@
     <string name="calendar_instructions_date_range_TEMPLATE">%1$s ～ %2$s</string>
     <!-- Calendar instructions flight start date selected and label indicating this will be a one way search -->
     <string name="calendar_instructions_date_range_flight_one_way_TEMPLATE">{startdate} (片道)</string>
-    <!-- Calendar instructions flight: Customer has selected start date. Label indicating return date is optional -->
-    <string name="calendar_instructions_date_range_flight_select_return_date_optional">次に、現地出発日を選択 (任意)</string>
+
+    <!-- Calendar instructions flight: Customer has selected start date - Label used in tooltip indicating return date must be selected -->
+    <string name="calendar_instructions_date_range_flight_select_return_date">次に、復路 (帰り) 出発日を選択</string>
     <!-- Calendar instruction text hotels no dates selected - "Select Check-in Date" -->
     <string name="calendar_instructions_hotels_no_dates_selected">チェックイン日を選択</string>
     <!-- Calendar instruction text hotels date range template. %1$s = Formatted start date, %2$s = formatted end date. E.g. May 12 - May 15 -->
@@ -2084,6 +2085,8 @@
     <string name="add_infant_in_seat_variate2">予約席ありの乳幼児</string>
     <!-- Warning shown to users when they enter their name -->
     <string name="name_must_match_warning">旅行者名がパスポートなど写真付きの公的証明書に記載された名前と一致しない場合は搭乗できません。</string>
+    <!-- Warning shown to users when they enter their name (Material design message) -->
+    <string name="name_must_match_warning_new">旅行者の氏名は、パスポートに記載されている氏名と一致している必要があります。</string>
 
     <!-- Special Assistance label template -->
     <string name="special_assistance_label_TEMPLATE">サポート : %1$s</string>
@@ -2622,6 +2625,8 @@
     <string name="sort_description_deals">プロモーション</string>
     <!-- Sort by user rating label -->
     <string name="sort_description_rating">評価</string>
+    <!-- Sort by user rating label -->
+    <string name="sort_description_package_discount">ツアー割引</string>
 
     <!-- Stop descriptions, e.g. Stops filtered by "description" -->
     <!-- Nonstop flights -->
@@ -2704,9 +2709,7 @@
     <!-- Hotel Details Fragment Activity -->
     <!-- Bullet point for list items -->
     <string name="bullet_point">•</string>
-    <!-- Label for button that lets the user complete the booking through the normal flow -->
-    <string name="book_now_ab_test">部屋を選択</string>
-    <string name="book_now">部屋タイプを選択</string>
+
     <!-- Label for button that lets the user complete the booking by calling a phone number -->
     <string name="book_by_phone">電話で予約</string>
     <!-- Hotel Details Fragment -->
@@ -2871,7 +2874,6 @@
     <string name="etp_pay_now_charges_text_TEMPLATE">お客様のお支払い情報の処理は {brand} が行います。</string>
     <string name="etp_pay_now_currency_text_TEMPLATE">お客様の自国通貨 (%s) でのお支払いとなります。</string>
     <string name="etp_pay_now_cancellation_text">ホテルのキャンセル料金適用期間より前であればキャンセル料は無料です。</string>
-    <string name="etp_select_room">部屋を選択</string>
 
     <!-- ETP pay later deposit info message -->
     <string name="etp_pay_later_deposit_text">デポジットが、ご予約の合計金額を超えることはありません。</string>
@@ -3865,6 +3867,12 @@
     <string name="package_overview_flight_travel_info_TEMPLATE">%1$s %2$s、%3$s</string>
     <!-- Template for package bundle total savings amount -->
     <string name="bundle_total_savings_TEMPLATE">{savings}保存済み</string>
+    <!-- Bundle Overview select hotel accessibility content description -->
+    <string name="select_hotel_content_description">ホテルの検索が完了しました。{destination}のホテルを選択するには、このボタンをクリックしてください。チェックイン日は {startdate}、チェックアウト日は {enddate}、宿泊人数は {guests} 人です</string>
+    <!-- Bundle Overview select hotel accessibility content description when still searching -->
+    <string name="select_hotel_content_description_searching">チェックイン日 {startdate}、チェックアウト日 {enddate}、宿泊人数 {guests} 人で{destination}のホテルを検索しています。お待ちください</string>
+    <!-- Bundle Overview selected hotel accessibility content description -->
+    <string name="select_hotel_content_description_selected">ホテル「{hotel}」を選択しました。チェックイン日は {startdate}、チェックアウト日は {enddate}、宿泊人数は {guests} 人です。詳細を見るには、このボタンをクリックしてください。</string>
     <!-- Bundle Overview select hotel -->
     <string name="select_hotel_template">%sのホテルを選択</string>
     <!-- Bundle Overview searching flight -->
@@ -4003,6 +4011,15 @@
 
     <!--Use on the timeline on rail details when a customer has to transfer from one train to another at the same station (likely a different platform within the same station) -->
     <string name="rail_change_at_station_TEMPLATE">{stationname}で乗換</string>
+
+    <!--rail search screen - user is specifiying what time they want their outbound train to leave at -->
+    <string name="rail_departing_at">往路 (行き) 出発時刻</string>
+
+    <!--rail search screen - user is specifiying what time they want their return train to leave at -->
+    <string name="rail_returning_at">復路 (帰り) 出発時刻</string>
+
+    <!-- Label for rail trip price on overview screen -->
+    <string name="total">合計</string>
 
     <string name="pwp_points_conversion_unauthenticated_access">申し訳ありません。サーバーに問題が発生しました。もう一度お試しください。</string>
     <string name="pwp_trip_service_error">申し訳ありません。サーバーに問題が発生しました。もう一度お試しください。</string>

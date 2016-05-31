@@ -73,8 +73,6 @@
     <!-- Text for error toolbar-->
     <string name="cars_dupe_trip_text">Dobbeltbooket rejse</string>
     <!-- Text for error toolbar-->
-    <string name="cars_session_timeout_text">Sessionen er udløbet</string>
-    <!-- Text for error toolbar-->
     <string name="cars_price_change_text">Prisen har ændret sig</string>
     <!-- Text for error toolbar-->
     <string name="cars_payment_failed_text">Betalingen mislykkedes</string>
@@ -124,11 +122,7 @@
     <string name="calendar_desc_support_TEMPLATE">{brand}s kundeservice: {localphone} og {phone}</string>
 
     <!-- Label for hotel search toolbar -->
-    <string name="hotel_toolbar_title">Søg efter hoteller</string>
-    <!-- Label for hotel search v2 toolbar -->
     <string name="hotel_search_toolbar_title">Hoteller</string>
-    <!-- Label for hotel suggestion -->
-    <string name="search_location">Søg efter placering</string>
     <!-- Label for recent searches -->
     <string name="recent_searches">Tidligere søgninger</string>
     <!-- Label for pickup location selector -->
@@ -142,7 +136,7 @@
     <!-- When user has picked both start and return date/time, we show something like: "Jan 21, 2:00PM - Jan 25, 3:00PM" -->
     <string name="date_time_range_TEMPLATE">%1$s – %2$s</string>
     <!-- When user hasn't picked return date/time, we show something like: "Jan. 21, 2:00PM - Select return date" -->
-    <string name="select_return_date_TEMPLATE">%1$s – Vælg afleveringsdato</string>
+    <string name="select_return_date_TEMPLATE">{startdate} – Vælg afleveringsdato</string>
     <!-- Label for pick-up time picker -->
     <string name="pick_up_time_label">Afhentning</string>
     <!-- Label for drop-up time picker -->
@@ -250,10 +244,8 @@
     <!-- Car error strings -->
     <!-- Message for user that pick-up time is too early.  -->
     <string name="pick_up_time_error">Tilpas tidspunkter for aflevering og afhentning.</string>
-    <!-- Message for user  to choose a closer date.  -->
-    <string name="error_date_too_far">Denne dato ligger for langt ude i fremtiden. Vælg en tidligere dato.</string>
     <!-- Message for user that date is too far out.  -->
-    <string name="date_out_of_range">Denne dato ligger for langt ude i fremtiden. Vælg en tidligere dato.</string>
+    <string name="error_date_too_far">Denne dato ligger for langt ude i fremtiden. Vælg en tidligere dato.</string>
     <!-- Message for user that increase your reservation duration. -->
     <string name="reservation_time_too_short">Forlæng reservationsperioden.</string>
     <!-- Shown to user in case the reservation timed out -->
@@ -656,8 +648,6 @@
     <!-- Text for error toolbar-->
     <string name="lx_duplicate_trip_text">Dobbeltbooket rejse</string>
     <!-- Text for error toolbar-->
-    <string name="lx_session_timeout_text">Sessionen er udløbet</string>
-    <!-- Text for error toolbar-->
     <string name="lx_payment_failed_text">Betalingen mislykkedes</string>
     <!-- Offers show more string -->
     <string name="lx_show_more_offers">Vis flere</string>
@@ -976,8 +966,6 @@
     <string name="restricted_profile_sign_in_message_TEMPLATE">For at logge på {brand} skal du anvende en ubegrænset brugerprofil på din enhed.</string>
 
     <!-- Nav Dropdown menu -->
-    <!-- Flights -->
-    <string name="flights_title">Flyrejser</string>
     <!-- Hotels -->
     <string name="nav_hotels">Hoteller</string>
     <!-- Cars -->
@@ -1094,7 +1082,7 @@
     <!-- Enter itinerary number -->
     <string name="enter_itinerary_number">Indtast rejseplansnummer</string>
     <!-- Enter a Guest itinerary number -->
-    <string name="enter_a_guest_itinerary_number">Eller angiv en gæsterejseplan</string>
+    <string name="or_enter_a_guest_itinerary_number">Eller angiv en gæsterejseplan</string>
     <!-- Fetching your itinerary -->
     <string name="fetching_your_itinerary">Henter dine rejseplaner…</string>
     <!-- Error fetching itinerary -->
@@ -1627,6 +1615,16 @@
     <!-- Template for title/name of the facebook post - Cars -->
     <string name="share_facebook_template_title_car">Udlejningsbil fra %1$s</string>
 
+    <!-- Flights v2 -->
+    <!-- Flights Search view button label for round-trip searches -->
+    <string name="flights_round_trip_label">TUR-RETUR</string>
+    <!-- Flights Search view button label for one-way searches -->
+    <string name="flights_one_way_label">ENKELTBILLET</string>
+    <!-- Flights label for selected outbound flight -->
+    <string name="flights_outbound_label">Udrejse</string>
+    <!-- Flights Line of Business title -->
+    <string name="flights_title">Fly</string>
+
     <!-- Flights -->
     <!-- Label for Flight Search in task manager -->
     <string name="Flights_TEMPLATE">{brand}s flyrejser</string>
@@ -1650,6 +1648,8 @@
     <string name="error_invalid_arrival_airport">Ugyldig ankomstlufthavn.</string>
     <!-- Error message when we find no flights because of invalid departure AND arrival airports -->
     <string name="error_invalid_departure_arrival_airports">Ugyldig afgangs- og ankomstlufthavne.</string>
+    <!-- Error message when we find no flights because of invalid departure date -->
+    <string name="error_invalid_departure_date">Ugyldig afrejsedato.</string>
     <!-- "Details" button label, for seeing details of a flight -->
     <string name="details">Detaljer</string>
     <!-- "Select" button label, for selecting a particular leg of a flight -->
@@ -1746,8 +1746,9 @@
     <string name="calendar_instructions_date_range_TEMPLATE">%1$s - %2$s</string>
     <!-- Calendar instructions flight start date selected and label indicating this will be a one way search -->
     <string name="calendar_instructions_date_range_flight_one_way_TEMPLATE">{startdate} (enkeltbillet)</string>
-    <!-- Calendar instructions flight: Customer has selected start date. Label indicating return date is optional -->
-    <string name="calendar_instructions_date_range_flight_select_return_date_optional">Næste trin: Vælg hjemrejsedato (valgfrit)</string>
+
+    <!-- Calendar instructions flight: Customer has selected start date - Label used in tooltip indicating return date must be selected -->
+    <string name="calendar_instructions_date_range_flight_select_return_date">Næste trin: Vælg afleveringsdato</string>
     <!-- Calendar instruction text hotels no dates selected - "Select Check-in Date" -->
     <string name="calendar_instructions_hotels_no_dates_selected">Vælg indtjekningsdato</string>
     <!-- Calendar instruction text hotels date range template. %1$s = Formatted start date, %2$s = formatted end date. E.g. May 12 - May 15 -->
@@ -2084,6 +2085,8 @@
     <string name="add_infant_in_seat_variate2">Spædbarn på eget sæde</string>
     <!-- Warning shown to users when they enter their name -->
     <string name="name_must_match_warning">Boarding kan nægtes, hvis den rejsendes navn ikke stemmer overens med det officielle billed-ID.</string>
+    <!-- Warning shown to users when they enter their name (Material design message) -->
+    <string name="name_must_match_warning_new">Navnene på de rejsende skal stemme nøjagtigt overens med navnene på deres gyldige billed-ID.</string>
 
     <!-- Special Assistance label template -->
     <string name="special_assistance_label_TEMPLATE">Særlig assistance: %1$s</string>
@@ -2622,6 +2625,8 @@
     <string name="sort_description_deals">Tilbud</string>
     <!-- Sort by user rating label -->
     <string name="sort_description_rating">Antal stjerner</string>
+    <!-- Sort by user rating label -->
+    <string name="sort_description_package_discount">Pakkerejserabat</string>
 
     <!-- Stop descriptions, e.g. Stops filtered by "description" -->
     <!-- Nonstop flights -->
@@ -2704,9 +2709,7 @@
     <!-- Hotel Details Fragment Activity -->
     <!-- Bullet point for list items -->
     <string name="bullet_point">•</string>
-    <!-- Label for button that lets the user complete the booking through the normal flow -->
-    <string name="book_now_ab_test">Vælg værelse</string>
-    <string name="book_now">Reserver nu</string>
+
     <!-- Label for button that lets the user complete the booking by calling a phone number -->
     <string name="book_by_phone">Reserver via telefon</string>
     <!-- Hotel Details Fragment -->
@@ -2871,7 +2874,6 @@
     <string name="etp_pay_now_charges_text_TEMPLATE">{brand} behandler dine betalingsoplysninger.</string>
     <string name="etp_pay_now_currency_text_TEMPLATE">Du betaler i din lokale valuta (%s).</string>
     <string name="etp_pay_now_cancellation_text">Det er gratis at afbestille frem til hotellets afbestillingsfrist.</string>
-    <string name="etp_select_room">Vælg værelse</string>
 
     <!-- ETP pay later deposit info message -->
     <string name="etp_pay_later_deposit_text">Dine depositummer vil aldrig overstige det samlede beløb for din reservation.</string>
@@ -3865,6 +3867,12 @@
     <string name="package_overview_flight_travel_info_TEMPLATE">%1$s- kl. %2$s, %3$s</string>
     <!-- Template for package bundle total savings amount -->
     <string name="bundle_total_savings_TEMPLATE">{savings}Gemt</string>
+    <!-- Bundle Overview select hotel accessibility content description -->
+    <string name="select_hotel_content_description">Søgningen blev afsluttet. Tryk på denne knap for at vælge et hotel i {destination} fra {startdate} til {enddate} til {guests}</string>
+    <!-- Bundle Overview select hotel accessibility content description when still searching -->
+    <string name="select_hotel_content_description_searching">Søger efter hoteller i {destination} fra {startdate} til {enddate} til {guests}. Vent venligst</string>
+    <!-- Bundle Overview selected hotel accessibility content description -->
+    <string name="select_hotel_content_description_selected">Du har valgt hotellet {hotel} fra {startdate} til {enddate} til {guests}. Tryk på denne knap for flere oplysninger.</string>
     <!-- Bundle Overview select hotel -->
     <string name="select_hotel_template">Vælg hotel in %s</string>
     <!-- Bundle Overview searching flight -->
@@ -4003,6 +4011,15 @@
 
     <!--Use on the timeline on rail details when a customer has to transfer from one train to another at the same station (likely a different platform within the same station) -->
     <string name="rail_change_at_station_TEMPLATE">Skift på {stationname}</string>
+
+    <!--rail search screen - user is specifiying what time they want their outbound train to leave at -->
+    <string name="rail_departing_at">Udrejse kl.</string>
+
+    <!--rail search screen - user is specifiying what time they want their return train to leave at -->
+    <string name="rail_returning_at">Hjemrejse kl.</string>
+
+    <!-- Label for rail trip price on overview screen -->
+    <string name="total">Total</string>
 
     <string name="pwp_points_conversion_unauthenticated_access">Vi beklager, men vi oplevede et problem med serveren. Prøv venligst igen.</string>
     <string name="pwp_trip_service_error">Vi beklager, men vi oplevede et problem med serveren. Prøv venligst igen.</string>

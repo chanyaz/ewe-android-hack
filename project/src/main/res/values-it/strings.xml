@@ -73,8 +73,6 @@
     <!-- Text for error toolbar-->
     <string name="cars_dupe_trip_text">Viaggio duplicato</string>
     <!-- Text for error toolbar-->
-    <string name="cars_session_timeout_text">Timeout sessione</string>
-    <!-- Text for error toolbar-->
     <string name="cars_price_change_text">Prezzo</string>
     <!-- Text for error toolbar-->
     <string name="cars_payment_failed_text">Pagamento non riuscito</string>
@@ -124,11 +122,7 @@
     <string name="calendar_desc_support_TEMPLATE">Supporto clienti {brand}: {localphone} e {phone}</string>
 
     <!-- Label for hotel search toolbar -->
-    <string name="hotel_toolbar_title">Cerca hotel</string>
-    <!-- Label for hotel search v2 toolbar -->
     <string name="hotel_search_toolbar_title">Hotel</string>
-    <!-- Label for hotel suggestion -->
-    <string name="search_location">Cerca destinazione</string>
     <!-- Label for recent searches -->
     <string name="recent_searches">Ricerche recenti</string>
     <!-- Label for pickup location selector -->
@@ -142,7 +136,7 @@
     <!-- When user has picked both start and return date/time, we show something like: "Jan 21, 2:00PM - Jan 25, 3:00PM" -->
     <string name="date_time_range_TEMPLATE">%1$s – %2$s</string>
     <!-- When user hasn't picked return date/time, we show something like: "Jan. 21, 2:00PM - Select return date" -->
-    <string name="select_return_date_TEMPLATE">%1$s – Seleziona una data di ritorno</string>
+    <string name="select_return_date_TEMPLATE">{startdate} – Seleziona una data di ritorno</string>
     <!-- Label for pick-up time picker -->
     <string name="pick_up_time_label">Ritiro</string>
     <!-- Label for drop-up time picker -->
@@ -250,10 +244,8 @@
     <!-- Car error strings -->
     <!-- Message for user that pick-up time is too early.  -->
     <string name="pick_up_time_error">Modifica l\&apos;orario di ritiro o di riconsegna.</string>
-    <!-- Message for user  to choose a closer date.  -->
-    <string name="error_date_too_far">Questa data è troppo lontana. Seleziona una data più vicina.</string>
     <!-- Message for user that date is too far out.  -->
-    <string name="date_out_of_range">Questa data è troppo lontana. Seleziona una data più vicina.</string>
+    <string name="error_date_too_far">Questa data è troppo lontana. Seleziona una data più vicina.</string>
     <!-- Message for user that increase your reservation duration. -->
     <string name="reservation_time_too_short">Aumenta la durata della prenotazione.</string>
     <!-- Shown to user in case the reservation timed out -->
@@ -656,8 +648,6 @@
     <!-- Text for error toolbar-->
     <string name="lx_duplicate_trip_text">Viaggio duplicato</string>
     <!-- Text for error toolbar-->
-    <string name="lx_session_timeout_text">Timeout sessione</string>
-    <!-- Text for error toolbar-->
     <string name="lx_payment_failed_text">Pagamento non riuscito</string>
     <!-- Offers show more string -->
     <string name="lx_show_more_offers">Mostra altro</string>
@@ -976,8 +966,6 @@
     <string name="restricted_profile_sign_in_message_TEMPLATE">Per accedere a {brand} dal tuo dispositivo mobile devi utilizzare un profilo utente non limitato.</string>
 
     <!-- Nav Dropdown menu -->
-    <!-- Flights -->
-    <string name="flights_title">Voli</string>
     <!-- Hotels -->
     <string name="nav_hotels">Hotel</string>
     <!-- Cars -->
@@ -1094,7 +1082,7 @@
     <!-- Enter itinerary number -->
     <string name="enter_itinerary_number">Inserisci numero itinerario</string>
     <!-- Enter a Guest itinerary number -->
-    <string name="enter_a_guest_itinerary_number">O inserisci un numero di itinerario prenotato come ospite</string>
+    <string name="or_enter_a_guest_itinerary_number">O inserisci un numero di itinerario prenotato come ospite</string>
     <!-- Fetching your itinerary -->
     <string name="fetching_your_itinerary">Stiamo recuperando i tuoi itinerari…</string>
     <!-- Error fetching itinerary -->
@@ -1627,6 +1615,16 @@
     <!-- Template for title/name of the facebook post - Cars -->
     <string name="share_facebook_template_title_car">Autonoleggio con %1$s</string>
 
+    <!-- Flights v2 -->
+    <!-- Flights Search view button label for round-trip searches -->
+    <string name="flights_round_trip_label">ANDATA E RITORNO</string>
+    <!-- Flights Search view button label for one-way searches -->
+    <string name="flights_one_way_label">SOLO ANDATA</string>
+    <!-- Flights label for selected outbound flight -->
+    <string name="flights_outbound_label">Partenza</string>
+    <!-- Flights Line of Business title -->
+    <string name="flights_title">Voli</string>
+
     <!-- Flights -->
     <!-- Label for Flight Search in task manager -->
     <string name="Flights_TEMPLATE">{brand} voli</string>
@@ -1650,6 +1648,8 @@
     <string name="error_invalid_arrival_airport">Aeroporto di arrivo non valido.</string>
     <!-- Error message when we find no flights because of invalid departure AND arrival airports -->
     <string name="error_invalid_departure_arrival_airports">Aeroporti di partenza e di arrivo non validi.</string>
+    <!-- Error message when we find no flights because of invalid departure date -->
+    <string name="error_invalid_departure_date">Data di partenza non valida.</string>
     <!-- "Details" button label, for seeing details of a flight -->
     <string name="details">Dettagli</string>
     <!-- "Select" button label, for selecting a particular leg of a flight -->
@@ -1746,8 +1746,9 @@
     <string name="calendar_instructions_date_range_TEMPLATE">%1$s - %2$s</string>
     <!-- Calendar instructions flight start date selected and label indicating this will be a one way search -->
     <string name="calendar_instructions_date_range_flight_one_way_TEMPLATE">{startdate} (solo andata)</string>
-    <!-- Calendar instructions flight: Customer has selected start date. Label indicating return date is optional -->
-    <string name="calendar_instructions_date_range_flight_select_return_date_optional">Passaggio successivo: seleziona una data di riconsegna (facoltativo)</string>
+
+    <!-- Calendar instructions flight: Customer has selected start date - Label used in tooltip indicating return date must be selected -->
+    <string name="calendar_instructions_date_range_flight_select_return_date">Passaggio successivo: seleziona una data di ritorno</string>
     <!-- Calendar instruction text hotels no dates selected - "Select Check-in Date" -->
     <string name="calendar_instructions_hotels_no_dates_selected">Seleziona la data di check-in</string>
     <!-- Calendar instruction text hotels date range template. %1$s = Formatted start date, %2$s = formatted end date. E.g. May 12 - May 15 -->
@@ -2084,6 +2085,8 @@
     <string name="add_infant_in_seat_variate2">Neonato con posto a sedere</string>
     <!-- Warning shown to users when they enter their name -->
     <string name="name_must_match_warning">L\&apos;imbarco potrebbe essere negato se il nome del passeggero non coincide con quello del documento d\&apos;identità.</string>
+    <!-- Warning shown to users when they enter their name (Material design message) -->
+    <string name="name_must_match_warning_new">Il nome del passeggero deve coincidere con quello del documento d\&apos;identità.</string>
 
     <!-- Special Assistance label template -->
     <string name="special_assistance_label_TEMPLATE">Assistenza speciale: %1$s</string>
@@ -2459,7 +2462,7 @@
     <!-- Text for hotel error toolbar payment failed-->
     <string name="hotel_payment_failed_text">Pagamento non riuscito</string>
     <!-- Text for error toolbar session expired-->
-    <string name="session_timeout">Timeout sessione</string>
+    <string name="session_timeout">Sessione scaduta</string>
 
     <!-- Credit card input section -->
     <string name="one">1</string>
@@ -2622,6 +2625,8 @@
     <string name="sort_description_deals">Offerte</string>
     <!-- Sort by user rating label -->
     <string name="sort_description_rating">Voto</string>
+    <!-- Sort by user rating label -->
+    <string name="sort_description_package_discount">Sconto pacchetto</string>
 
     <!-- Stop descriptions, e.g. Stops filtered by "description" -->
     <!-- Nonstop flights -->
@@ -2704,9 +2709,7 @@
     <!-- Hotel Details Fragment Activity -->
     <!-- Bullet point for list items -->
     <string name="bullet_point">•</string>
-    <!-- Label for button that lets the user complete the booking through the normal flow -->
-    <string name="book_now_ab_test">Scegli la camera</string>
-    <string name="book_now">Prenota ora</string>
+
     <!-- Label for button that lets the user complete the booking by calling a phone number -->
     <string name="book_by_phone">Prenota telefonicamente</string>
     <!-- Hotel Details Fragment -->
@@ -2871,7 +2874,6 @@
     <string name="etp_pay_now_charges_text_TEMPLATE">{brand} elaborerà i tuoi dati di pagamento.</string>
     <string name="etp_pay_now_currency_text_TEMPLATE">Il costo verrà corrisposto nella tua valuta locale (%s).</string>
     <string name="etp_pay_now_cancellation_text">La cancellazione è gratuita, se avviene entro i termini di cancellazione previsti dall\&apos;hotel.</string>
-    <string name="etp_select_room">Scegli la camera</string>
 
     <!-- ETP pay later deposit info message -->
     <string name="etp_pay_later_deposit_text">Le cauzioni non supereranno mai il costo totale della prenotazione.</string>
@@ -3865,6 +3867,12 @@
     <string name="package_overview_flight_travel_info_TEMPLATE">%1$s alle ore %2$s, %3$s</string>
     <!-- Template for package bundle total savings amount -->
     <string name="bundle_total_savings_TEMPLATE">{savings} risparmiati</string>
+    <!-- Bundle Overview select hotel accessibility content description -->
+    <string name="select_hotel_content_description">Ricerca terminata. Premi questo pulsante per selezionare un hotel a {destination} dal giorno {startdate} al giorno {enddate}, per {guests}</string>
+    <!-- Bundle Overview select hotel accessibility content description when still searching -->
+    <string name="select_hotel_content_description_searching">È in corso la ricerca di hotel a {destination} dal giorno {startdate} al giorno {enddate}, per {guests}. Ti preghiamo di attendere</string>
+    <!-- Bundle Overview selected hotel accessibility content description -->
+    <string name="select_hotel_content_description_selected">Hai selezionato {hotel} dal giorno {startdate} al giorno {enddate}, per {guests}. Premi questo pulsante per maggiori informazioni.</string>
     <!-- Bundle Overview select hotel -->
     <string name="select_hotel_template">Seleziona hotel a %s</string>
     <!-- Bundle Overview searching flight -->
@@ -4003,6 +4011,15 @@
 
     <!--Use on the timeline on rail details when a customer has to transfer from one train to another at the same station (likely a different platform within the same station) -->
     <string name="rail_change_at_station_TEMPLATE">Cambio a {stationname}</string>
+
+    <!--rail search screen - user is specifiying what time they want their outbound train to leave at -->
+    <string name="rail_departing_at">Partenza alle ore</string>
+
+    <!--rail search screen - user is specifiying what time they want their return train to leave at -->
+    <string name="rail_returning_at">Ritorno alle ore</string>
+
+    <!-- Label for rail trip price on overview screen -->
+    <string name="total">Totale</string>
 
     <string name="pwp_points_conversion_unauthenticated_access">Siamo spiacenti, si è verificato un problema con il server. Riprova.</string>
     <string name="pwp_trip_service_error">Siamo spiacenti, si è verificato un problema con il server. Riprova.</string>
