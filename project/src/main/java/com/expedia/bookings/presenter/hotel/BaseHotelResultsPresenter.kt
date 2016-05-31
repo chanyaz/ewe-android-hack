@@ -24,12 +24,14 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.ViewPropertyAnimator
 import android.view.ViewTreeObserver
+import android.view.LayoutInflater
 import android.view.animation.AccelerateInterpolator
 import android.view.animation.DecelerateInterpolator
 import android.view.animation.LinearInterpolator
 import android.widget.Button
 import android.widget.FrameLayout
 import android.widget.ImageView
+import android.widget.LinearLayout
 import com.expedia.bookings.R
 import com.expedia.bookings.activity.ExpediaBookingApp
 import com.expedia.bookings.bitmaps.PicassoScrollListener
@@ -57,6 +59,9 @@ import com.expedia.bookings.widget.createHotelMarkerIcon
 import com.expedia.util.endlessObserver
 import com.expedia.util.havePermissionToAccessLocation
 import com.expedia.util.notNullAndObservable
+import com.expedia.util.subscribeText
+import com.expedia.util.subscribeVisibility
+import com.expedia.util.subscribeInverseVisibility
 import com.expedia.vm.HotelFilterViewModel
 import com.expedia.vm.hotel.HotelResultsMapViewModel
 import com.google.android.gms.maps.CameraUpdateFactory
@@ -131,6 +136,7 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
         sortDrawable.setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_IN)
         sortDrawable
     }
+    var filterBtn: LinearLayout? = null
 
     val searchOverlaySubject = PublishSubject.create<Unit>()
 
@@ -484,6 +490,20 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
         filterMenuItem.setVisible(false)
         var fabLp = fab.layoutParams as FrameLayout.LayoutParams
         fabLp.bottomMargin += resources.getDimension(R.dimen.hotel_filter_height).toInt()
+
+        inflateAndSetupToolbarMenu()
+        filterView.viewmodel.filterCountObservable.map { it.toString() }.subscribeText(filterCountText)
+        filterView.viewmodel.filterCountObservable.map { it > 0 }.subscribeVisibility(filterCountText)
+        filterView.viewmodel.filterCountObservable.map { it > 0 }.subscribeInverseVisibility(filterPlaceholderImageView)
+    }
+
+    private fun inflateAndSetupToolbarMenu() {
+        val toolbarFilterItemActionView = LayoutInflater.from(context).inflate(R.layout.toolbar_filter_item, null) as LinearLayout
+        filterCountText = toolbarFilterItemActionView.findViewById(R.id.filter_count_text) as TextView
+        filterPlaceholderImageView = toolbarFilterItemActionView.findViewById(R.id.filter_placeholder_icon) as ImageView
+        filterPlaceholderImageView.setImageDrawable(filterPlaceholderIcon)
+        filterBtn = toolbarFilterItemActionView.findViewById(R.id.filter_btn) as LinearLayout
+        filterMenuItem.actionView = toolbarFilterItemActionView
     }
 
     fun showDefault() {
