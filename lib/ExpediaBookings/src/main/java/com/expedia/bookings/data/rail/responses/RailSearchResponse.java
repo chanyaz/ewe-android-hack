@@ -8,6 +8,7 @@ import org.jetbrains.annotations.Nullable;
 import org.joda.time.DateTime;
 
 import com.expedia.bookings.data.rail.RailPassenger;
+import com.expedia.bookings.utils.DateUtils;
 
 public class RailSearchResponse {
 
@@ -37,33 +38,46 @@ public class RailSearchResponse {
 	}
 
 	public static class RailLeg {
-		public String legId;
+		public String legIndex;
 		public RailStation departureStation;
 		public RailStation arrivalStation;
 		public List<LegOption> legOptionList;
 	}
 
 	public static class RailDateTime {
-		public String formattedDateTime;
+		public String raw;
+		public Long epochSeconds;
+		public String localized;
+		public String localizedShortDate;
 
 		public DateTime toDateTime() {
-			return DateTime.parse(formattedDateTime);
+			return DateTime.parse(raw);
 		}
 	}
 
 	public static class RailMoney {
-		public String formattedDisplayPrice;
+		public String amount;
+		public String currencyCode;
+		public String formattedPrice;
+		public String formattedWholePrice;
 	}
 
 	public static class LegOption {
+		public Integer legOptionIndex;
 		public RailStation departureStation;
 		public RailStation arrivalStation;
 		public RailDateTime departureDateTime;
 		public RailDateTime arrivalDateTime;
-		public int totalDurationInMinutes;
-		public Integer legOptionIndex;
+		public String duration;  //ISO duration format P[yY][mM][dD][T[hH][mM][s[.s]S]]
+		public String aggregatedMarketingCarrier;
+		public String aggregatedOperatingCarrier;
 		public RailMoney bestPrice;
 		public List<RailSegment> travelSegmentList;
+
+
+		public int durationMinutes() {
+			return DateUtils.parseDurationMinutes(duration);
+		}
 
 		public String allOperators() {
 			boolean first = true;
@@ -102,9 +116,9 @@ public class RailSearchResponse {
 		public RailDateTime arrivalDateTime;
 		public String marketingCarrier; //"Virgin"
 		public String operatingCarrier; //"Virgin"
-		public int totalDurationInMinutes;
+		public String duration;
 		public RailTravelMedium travelMedium;
-		public String segmentId;
+		public String travelSegmentIndex;
 
 		public boolean isTransfer() {
 			return !"Train".equals(travelMode);
@@ -115,12 +129,8 @@ public class RailSearchResponse {
 			public String travelMediumName; //"Inter-City"
 		}
 
-		public int durationHours() {
-			return totalDurationInMinutes / 60;
-		}
-
 		public int durationMinutes() {
-			return totalDurationInMinutes % 60;
+			return DateUtils.parseDurationMinutes(duration);
 		}
 
 		@NotNull
@@ -138,6 +148,7 @@ public class RailSearchResponse {
 		public RailMoney totalPrice;
 		public List<RailProduct> railProductList;
 		public String railOfferToken;
+		//TODO Add price breakdown
 
 		@Nullable
 		public LegOption outboundLeg; //set in code on the offer when the leg/offer combo is selected
@@ -156,25 +167,29 @@ public class RailSearchResponse {
 		public static class RailProduct {
 			public RailMoney totalPrice;
 			public List<Integer> legOptionIndexList;
-			public List<FareBreakUp> fareBreakdownList;
+			public List<FareBreakdown> fareBreakdownList;
 			public String serviceClassCode;
 			public String fareClass;
 			public boolean refundable;
 			public boolean exchangeable;
 			public String railProductToken;
 			public String aggregatedCarrierServiceClassDisplayName;
+			public String aggregatedCarrierFareClassDisplayName;
 			public String aggregatedFareDescription;
 
-			public static class FareBreakUp {
+			public static class FareBreakdown {
 				public List<PassengerReference> passengerFareList;
 
 				public static class PassengerReference {
+					public Integer passengerIndex;
+					public String passengerTypeCode;
 					public List<FareCode> passengerSegmentFareList;
 
 					public static class FareCode {
 						public String fareCode;
 						public String serviceClassCategory;
 						public String carrierServiceClassDisplayName;
+						public String fareDescription;
 						public String fareClassCategory;
 						public String carrierFareClassDisplayName;
 						public Integer travelSegmentIndex;

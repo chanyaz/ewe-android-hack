@@ -8,9 +8,13 @@ import java.util.TimeZone;
 
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
+import org.joda.time.Minutes;
+import org.joda.time.Period;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 import org.joda.time.format.ISODateTimeFormat;
+import org.joda.time.format.ISOPeriodFormat;
+import org.joda.time.format.PeriodFormatter;
 
 public class DateUtils {
 
@@ -173,5 +177,16 @@ public class DateUtils {
 		DateTimeFormatter fmt = ISODateTimeFormat.dateTime().withOffsetParsed();
 		DateTime time = DateTime.parse(timeStr, fmt);
 		return localDateTohmma(time);
+	}
+
+	/**
+	 * Parses minutes out of the duration string in ISO format: P[yY][mM][dD][T[hH][mM][s[.s]S]]
+	 */
+	public static int parseDurationMinutes(String durationString) {
+		PeriodFormatter formatter = ISOPeriodFormat
+			.standard();
+		Period p = formatter.parsePeriod(durationString);
+		Minutes m = p.toStandardMinutes();
+		return m.getMinutes();
 	}
 }

@@ -28,15 +28,15 @@ public class RailPhoneHappyPathTest extends RailTestCase {
 		RailScreen.searchButton().perform(click());
 		Common.delay(1);
 
-		onView(withText("12:33 PM – 5:09 PM")).check(matches(isDisplayed())).perform(click());
-		onView(withText("Take the Ferry from Portsmouth Harbour to Ryde Pier Head")).check(matches(isDisplayed()));
+		onView(withText("9:45 AM – 12:59 PM")).check(matches(isDisplayed())).perform(click());
+		onView(withText("Change at Birmingham New Street")).check(matches(isDisplayed()));
 
 		RailScreen.scrollToFareOptions();
-		onView(withText("Specified train only")).check(matches(isDisplayed()));
+		onView(withText("Any off-peak train")).check(matches(isDisplayed()));
 
 		RailScreen.clickSelectFareOption();
 
-		onView(allOf(withText("4h 36m, 3 Changes"), isDescendantOfA(allOf(withId(R.id.rail_leg_container)))))
+		onView(allOf(withText("3h 22m, 1 Change"), isDescendantOfA(allOf(withId(R.id.rail_leg_container)))))
 			.check(matches(isDisplayed()));
 	}
 }

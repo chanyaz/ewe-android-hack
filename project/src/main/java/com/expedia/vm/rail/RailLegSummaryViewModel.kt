@@ -25,7 +25,7 @@ class RailLegSummaryViewModel(context: Context) {
                 val legOption: RailSearchResponse.LegOption = it.outboundLeg!!
 
                 val formattedStopsAndDuration = Phrase.from(context, R.string.rail_time_and_stops_line_TEMPLATE)
-                        .put("formattedduration", DateTimeUtils.formatDuration(context.resources, legOption.totalDurationInMinutes))
+                        .put("formattedduration", DateTimeUtils.formatDuration(context.resources, legOption.durationMinutes()))
                         .put("formattedchangecount", RailViewModel.formatChangesText(context, legOption.changesCount())).format().toString()
                 formattedStopsAndDurationObservable.onNext(formattedStopsAndDuration)
 

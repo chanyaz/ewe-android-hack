@@ -82,7 +82,7 @@ public class RailServicesTest {
 		RailSearchResponse railSearchResponse = searchResponseObserver.getOnNextEvents().get(0);
 		List<RailPassenger> passengers = railSearchResponse.passengerList;
 		assertEquals(1, passengers.size());
-		assertEquals(25, passengers.get(0).age);
+		assertEquals(65, passengers.get(0).age);
 	}
 
 	@Test

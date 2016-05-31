@@ -29,6 +29,6 @@ class RailTimelineSegment(context: Context, segment: RailSearchResponse.RailSegm
         arrivalStation.text = segment.arrivalStation.stationDisplayName
 
         operator.text = segment.operatingCarrier
-        duration.text = DateTimeUtils.formatDuration(context.resources, segment.totalDurationInMinutes)
+        duration.text = DateTimeUtils.formatDuration(context.resources, segment.durationMinutes())
     }
 }
