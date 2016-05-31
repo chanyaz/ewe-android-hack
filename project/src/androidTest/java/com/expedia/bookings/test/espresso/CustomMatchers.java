@@ -32,6 +32,7 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.expedia.bookings.data.Property;
+import com.expedia.bookings.widget.FlightListAdapter;
 
 import static android.support.test.espresso.core.deps.guava.base.Preconditions.checkNotNull;
 import static org.hamcrest.Matchers.equalTo;
@@ -347,6 +348,26 @@ public class CustomMatchers {
 					return true;
 				}
 				return false;
+			}
+		};
+	}
+
+	public static Matcher<View> atFlightListPosition(final int position, final Matcher<View> itemMatcher) {
+		return new BoundedMatcher<View, RecyclerView>(RecyclerView.class) {
+			@Override
+			public void describeTo(Description description) {
+				description.appendText("Flight list View holder at position " + position + ", has content description = " + itemMatcher);
+				itemMatcher.describeTo(description);
+			}
+
+			@Override
+			public boolean matchesSafely(final RecyclerView recyclerView) {
+				FlightListAdapter.FlightViewHolder viewHolder = (FlightListAdapter.FlightViewHolder) recyclerView.findViewHolderForAdapterPosition(position);
+				if (viewHolder == null) {
+					// has no item on such position
+					return false;
+				}
+				return itemMatcher.matches(viewHolder.getCardView());
 			}
 		};
 	}

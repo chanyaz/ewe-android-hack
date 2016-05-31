@@ -2,6 +2,7 @@ package com.expedia.bookings.widget
 
 import android.content.Context
 import android.support.annotation.UiThread
+import android.support.v7.widget.CardView
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
@@ -166,6 +167,7 @@ open class FlightListAdapter(val context: Context, val flightSelectedSubject: Pu
 
     inner open class FlightViewHolder(root: ViewGroup, val width: Int) : RecyclerView.ViewHolder(root), View.OnClickListener {
 
+        val cardView: CardView by root.bindView(R.id.card_view)
         val flightTimeTextView: TextView by root.bindView(R.id.flight_time_detail_text_view)
         val priceTextView: TextView by root.bindView(R.id.price_text_view)
         val flightDurationTextView: TextView by root.bindView(R.id.flight_duration_text_view)
@@ -190,6 +192,7 @@ open class FlightListAdapter(val context: Context, val flightSelectedSubject: Pu
             val flight = viewModel.layover
             flightLayoverWidget.update(flight.flightSegments, flight.durationHour, flight.durationMinute, maxFlightDuration)
             flightAirlineWidget.update(viewModel.airline)
+            cardView.contentDescription = viewModel.contentDescription
         }
     }
 
