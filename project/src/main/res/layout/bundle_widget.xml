@@ -34,7 +34,7 @@
         android:layout_gravity="center"
         android:text="@string/step_two" />
 
-    <com.expedia.bookings.widget.PackageBundleFlightWidget
+    <com.expedia.bookings.widget.packages.PackageOutboundFlightWidget
         android:id="@+id/package_bundle_outbound_flight_widget"
         style="@style/MaterialCardView"
         android:layout_width="match_parent"
@@ -46,7 +46,7 @@
         android:foreground="?android:attr/selectableItemBackground"
         android:minHeight="64dp" />
 
-    <com.expedia.bookings.widget.PackageBundleFlightWidget
+    <com.expedia.bookings.widget.packages.PackageInboundFlightWidget
         android:id="@+id/package_bundle_inbound_flight_widget"
         style="@style/MaterialCardView"
         android:layout_width="match_parent"

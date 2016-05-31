@@ -20,7 +20,6 @@ public class PackageChangeHotelFlightTest extends PackageTestCase {
 	public void testPackageChangeHotelFlightTest() throws Throwable {
 		PackageScreen.doPackageSearch();
 
-		Common.pressBack();
 		//change hotel room
 		openActionBarOverflowOrOptionsMenu(getInstrumentation().getTargetContext());
 		onView(withText("Change hotel room")).perform(click());
@@ -31,8 +30,8 @@ public class PackageChangeHotelFlightTest extends PackageTestCase {
 		HotelScreen.clickRoom("change_hotel_room");
 		PackageScreen.clickAddRoom();
 		Common.delay(2);
+		assertAfterChange();
 
-		Common.pressBack();
 		//change hotel
 		openActionBarOverflowOrOptionsMenu(getInstrumentation().getTargetContext());
 		onView(withText("Change hotel")).check(matches(isEnabled()));
@@ -47,8 +46,8 @@ public class PackageChangeHotelFlightTest extends PackageTestCase {
 		HotelScreen.clickRoom("change_hotel");
 		PackageScreen.clickAddRoom();
 		Common.delay(1);
+		assertAfterChange();
 
-		Common.pressBack();
 		//change flights
 		openActionBarOverflowOrOptionsMenu(getInstrumentation().getTargetContext());
 		onView(withText("Change flights")).perform(click());
@@ -61,12 +60,13 @@ public class PackageChangeHotelFlightTest extends PackageTestCase {
 		PackageScreen.selectThisFlight().perform(click());
 		Common.delay(1);
 
-		Common.pressBack();
-		PackageScreen.inboundFLight().perform(click());
-		Common.delay(1);
 		PackageScreen.selectFlight(-2);
 		PackageScreen.selectThisFlight().perform(click());
 		Common.delay(1);
+		assertAfterChange();
+	}
+
+	private void assertAfterChange() {
+		onView(withId(R.id.checkout_button)).check(matches(isEnabled()));
 	}
 }
-

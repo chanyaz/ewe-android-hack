@@ -1,34 +1,25 @@
 package com.expedia.bookings.presenter.flight
 
 import android.content.Context
-import android.support.v4.content.ContextCompat
 import android.util.AttributeSet
 import android.view.View
 import android.widget.LinearLayout
 import android.widget.TextView
 import com.expedia.bookings.R
-import com.expedia.bookings.data.Db
-import com.expedia.bookings.utils.DateUtils
-import com.expedia.bookings.utils.StrUtils
 import com.expedia.bookings.utils.bindView
-import com.expedia.bookings.widget.PackageBundleFlightWidget
-import com.expedia.util.notNullAndObservable
+import com.expedia.bookings.widget.packages.PackageInboundFlightWidget
+import com.expedia.bookings.widget.packages.PackageOutboundFlightWidget
 import com.expedia.vm.packages.BundleFlightViewModel
-import com.expedia.vm.packages.BundleOverviewViewModel
-import com.expedia.vm.packages.PackageSearchType
-import com.squareup.phrase.Phrase
 
 class FlightSummaryWidget(context: Context, attrs: AttributeSet) : LinearLayout(context, attrs) {
 
     val title: TextView by bindView(R.id.title)
-    val outboundFlightWidget: PackageBundleFlightWidget by bindView(R.id.package_bundle_outbound_flight_widget)
-    val inboundFlightWidget: PackageBundleFlightWidget by bindView(R.id.package_bundle_inbound_flight_widget)
+    val outboundFlightWidget: PackageOutboundFlightWidget by bindView(R.id.package_bundle_outbound_flight_widget)
+    val inboundFlightWidget: PackageInboundFlightWidget by bindView(R.id.package_bundle_inbound_flight_widget)
 
     init {
         View.inflate(context, R.layout.flight_summary, this)
         orientation = VERTICAL
-        outboundFlightWidget.isOutbound = true
-        inboundFlightWidget.isOutbound = false
         outboundFlightWidget.viewModel = BundleFlightViewModel(context)
         inboundFlightWidget.viewModel = BundleFlightViewModel(context)
         outboundFlightWidget.flightIcon.setImageResource(R.drawable.packages_flight1_icon)
