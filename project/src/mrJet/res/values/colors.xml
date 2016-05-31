@@ -78,9 +78,9 @@
     <color name="itin_unable_to_find_error_color">#FFB80000</color>
 
     <!--Account Lib Colors -->
-    <color name="btn_sign_in_normal">#0099CC</color>
-    <color name="btn_sign_in_pressed">#007095</color>
-    <color name="btn_sign_in_focused">#007095</color>
+    <color name="btn_sign_in_normal">#D6682D</color>
+    <color name="btn_sign_in_pressed">#AA3700</color>
+    <color name="btn_sign_in_focused">#AA3700</color>
     <color name="btn_sign_in_disabled">#80000000</color>
     <color name="acct__btn_sign_in_text">#C8C8C8</color>
     <color name="acct__bg_input_text_error">#FFFFFF</color>
