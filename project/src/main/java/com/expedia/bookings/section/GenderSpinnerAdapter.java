@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import android.content.Context;
 import android.content.res.Resources;
+import android.support.v4.content.ContextCompat;
 import android.text.Html;
 import android.text.TextUtils.TruncateAt;
 import android.view.View;
@@ -92,7 +93,13 @@ public class GenderSpinnerAdapter extends ArrayAdapter<CharSequence> {
 		TextView tv = Ui.findView(retView, android.R.id.text1);
 		tv.setEllipsize(TruncateAt.START); //If we have a long name, we want to make sure atleast the Gender is displayed
 		tv.setText(Html.fromHtml(String.format(mFormatString, getItem(position))));
-		int errorIcon = 0;
+		if (position == 0) {
+			tv.setTextColor(ContextCompat.getColor(getContext(), R.color.data_review_gray));
+		}
+		else {
+			tv.setTextColor(ContextCompat.getColor(getContext(), R.color.black));
+		}
+		int errorIcon = R.drawable.material_dropdown;
 		if (hasError) {
 			errorIcon = Ui.obtainThemeResID(retView.getContext(), R.attr.skin_errorIndicationExclaimationDrawable);
 		}
