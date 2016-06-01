@@ -137,6 +137,7 @@ class HotelConfirmationViewModel(checkoutResponseObservable: Observable<HotelChe
                 NavUtils.goToActivities(context, null, LXDataUtils.fromHotelParams(context, checkInDate.value, hotelLocation.value),
                         NavUtils.FLAG_OPEN_RESULTS)
                 HotelV2Tracking().trackHotelV2CrossSellLX()
+                (context as Activity).finish()
             }
 
             override fun onCompleted() {
