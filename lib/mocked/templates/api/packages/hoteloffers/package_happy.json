@@ -118,7 +118,6 @@
               }
             ],
             "nightlyRatesPerRoom": [
-
             ],
             "priceToShowUsers": "172",
             "strikethroughPriceToShowUsers": "172",
@@ -128,7 +127,6 @@
             "formattedTotalPriceWithMandatoryFees": "$ 171.88",
             "userPriceType": "RateForWholeStayWithTaxes",
             "priceAdjustments": [
-
             ],
             "checkoutPriceType": "total",
             "airAttached": false,
@@ -264,7 +262,6 @@
               }
             ],
             "nightlyRatesPerRoom": [
-
             ],
             "priceToShowUsers": "172",
             "strikethroughPriceToShowUsers": "172",
@@ -274,7 +271,6 @@
             "formattedTotalPriceWithMandatoryFees": "$ 171.88",
             "userPriceType": "RateForWholeStayWithTaxes",
             "priceAdjustments": [
-
             ],
             "checkoutPriceType": "total",
             "airAttached": false,
@@ -410,7 +406,6 @@
               }
             ],
             "nightlyRatesPerRoom": [
-
             ],
             "priceToShowUsers": "172",
             "strikethroughPriceToShowUsers": "172",
@@ -420,7 +415,6 @@
             "formattedTotalPriceWithMandatoryFees": "$ 171.88",
             "userPriceType": "RateForWholeStayWithTaxes",
             "priceAdjustments": [
-
             ],
             "checkoutPriceType": "total",
             "airAttached": false,
@@ -556,7 +550,6 @@
               }
             ],
             "nightlyRatesPerRoom": [
-
             ],
             "priceToShowUsers": "172",
             "strikethroughPriceToShowUsers": "172",
@@ -566,7 +559,150 @@
             "formattedTotalPriceWithMandatoryFees": "$ 171.88",
             "userPriceType": "RateForWholeStayWithTaxes",
             "priceAdjustments": [
-
+            ],
+            "checkoutPriceType": "total",
+            "airAttached": false,
+            "roomTypeCode": "118536",
+            "ratePlanCode": "1482400",
+            "showResortFeeMessage": false,
+            "resortFeeInclusion": false
+          }
+        },
+        "quotedOccupancy": "4",
+        "minGuestAge": "0",
+        "roomTypeCode": "118536",
+        "ratePlanCode": "1482400",
+        "isPayLater": false,
+        "isMemberDeal": false
+      }
+    },
+    {
+      "pricePerPerson": {
+        "amount": "1031.73",
+        "formattedPrice": "$1,031.73",
+        "formattedWholePrice": "$1,032",
+        "currencyCode": "USD"
+      },
+      "priceDifferencePerNight": {
+        "amount": "10.00",
+        "formattedPrice": "$10.00",
+        "formattedWholePrice": "$10.00",
+        "currencyCode": "USD"
+      },
+      "packagePricing": {
+        "packageTotal": {
+          "amount": "2063.46",
+          "formattedPrice": "$2,063.46",
+          "formattedWholePrice": "$2,063",
+          "currencyCode": "USD"
+        },
+        "basePrice": {
+          "amount": "2076.28",
+          "formattedPrice": "$2,076.28",
+          "formattedWholePrice": "$2,076",
+          "currencyCode": "USD"
+        },
+        "totalTaxesAndFees": {
+          "amount": "237.20",
+          "formattedPrice": "$237.20",
+          "formattedWholePrice": "$237",
+          "currencyCode": "USD"
+        },
+        "savings": {
+          "amount": "12.82",
+          "formattedPrice": "$12.82",
+          "formattedWholePrice": "$13",
+          "currencyCode": "USD"
+        },
+        "marketingPrice": {
+          "grossBookingValue": "",
+          "netBookingValue": "",
+          "totalTaxes": "",
+          "totalFees": "",
+          "totalTaxesAndFees": ""
+        },
+        "taxesAndFeesIncluded": true
+      },
+      "packageProductId": "packages_flights_show_more_airlines",
+      "hotelOffer": {
+        "cancellationPolicy": "",
+        "rateDescription": "Packages Flights Show More Airlines",
+        "roomTypeDescription": "Packages Flights Show More Airlines",
+        "roomLongDescription": " 2 queen beds   580 sq feet (54 sq meters)   Entertainment  - Free WiFi, 42-inch LCD TV with satellite channels, and MP3 dock  Food & Drink  - Coffee/tea maker and minibar  Bathroom  - Hair dryer  Comfort  - Air conditioning Non-Smoking  ",
+        "hasFreeCancellation": false,
+        "currentAllotment": "14",
+        "supplierType": "MERCHANT",
+        "promoDescription": "",
+        "isDiscountRestrictedToCurrentSourceType": false,
+        "isSameDayDRR": false,
+        "smokingPreferences": "NS",
+        "rateOccupancyPerRoom": "7",
+        "bedTypes": [
+          {
+            "id": "23"
+          }
+        ],
+        "rateInfo": {
+          "priceBreakdown": false,
+          "promo": true,
+          "chargeableRateInfo": {
+            "maxNightlyRate": "149.45",
+            "averageRate": "149.45",
+            "taxStatusType": "NONE",
+            "surchargeTotal": "22.43",
+            "surchargeTotalForEntireStay": "0.00",
+            "averageBaseRate": "149.45",
+            "nightlyRateTotal": "149.45",
+            "discountPercent": 0,
+            "total": "171.88",
+            "currencyCode": "USD",
+            "currencySymbol": "$",
+            "surcharges": [
+              {
+                "amount": "22.43",
+                "type": "TAX_ALL"
+              },
+              {
+                "amount": "22.43",
+                "type": "TAX_OTHER"
+              },
+              {
+                "amount": "0.00",
+                "type": "FEE_ALL"
+              },
+              {
+                "amount": "0.00",
+                "type": "FEE_SERVICE"
+              }
+            ],
+            "surchargesForEntireStay": [
+              {
+                "amount": "0.00",
+                "type": "TAX_ALL"
+              },
+              {
+                "amount": "0.00",
+                "type": "TAX_OTHER"
+              },
+              {
+                "amount": "0.00",
+                "type": "FEE_ALL"
+              },
+              {
+                "amount": "0.00",
+                "type": "FEE_SERVICE"
+              }
+            ],
+            "nightlyRatesPerRoom": [
+            ],
+            "priceToShowUsers": "172",
+            "strikethroughPriceToShowUsers": "172",
+            "strikethroughPriceWithTaxesAndFeesToShowUsers": "172",
+            "totalMandatoryFees": "0.00",
+            "totalPriceWithMandatoryFees": "171.88",
+            "formattedTotalPriceWithMandatoryFees": "$ 171.88",
+            "userPriceType": "RateForWholeStayWithTaxes",
+            "priceAdjustments": [
             ],
             "checkoutPriceType": "total",
             "airAttached": false,

@@ -21,6 +21,7 @@ import static android.support.test.espresso.action.ViewActions.scrollTo;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.hasSibling;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
+import static android.support.test.espresso.matcher.ViewMatchers.withContentDescription;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withSpinnerText;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
@@ -31,6 +32,30 @@ import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.Matchers.is;
 
 public class PackageFlightFilterTest extends PackageTestCase {
+
+	public void testPackageFlightsFiltersAccessibility() throws Throwable {
+		SearchScreen.selectOriginAndDestination();
+		LocalDate startDate = LocalDate.now().plusDays(3);
+		LocalDate endDate = LocalDate.now().plusDays(8);
+		SearchScreen.selectDates(startDate, endDate);
+		SearchScreen.searchButton().perform(click());
+
+		HotelScreen.selectHotel("Package Happy Path");
+		HotelScreen.selectRoomButton().perform(click());
+		HotelScreen.clickRoom("Packages Flights Show More Airlines");
+		PackageScreen.selectRoom();
+
+		PackageScreen.flightList().perform(waitForViewToDisplay());
+		openFlightFilter();
+
+		EspressoUser.scrollToView(R.id.collapsed_container);
+		PackageScreen.showMoreButton().check(matches(isDisplayed()));
+		PackageScreen.showMoreButton().check(matches(withContentDescription("Click here to show more airlines")));
+		PackageScreen.showMoreButton().perform(click());
+		EspressoUser.scrollToView(R.id.collapsed_container);
+		PackageScreen.showMoreButton().check(matches(withContentDescription("Click here to show fewer airlines")));
+		PackageScreen.showMoreButton().perform(click());
+	}
 
 	public void testPackageFlightsFilters() throws Throwable {
 		navigateFromLaunchToFlightFilter();

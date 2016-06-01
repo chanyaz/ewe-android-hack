@@ -213,6 +213,7 @@ class PackageFlightFilterWidget(context: Context, attrs: AttributeSet) : FrameLa
             if (isSectionExpanded) {
                 AnimUtils.rotate(airlinesMoreLessIcon)
                 airlinesMoreLessLabel.text = resources.getString(R.string.show_less)
+                airlinesMoreLessView.contentDescription = resources.getString(R.string.packages_flight_search_filter_show_less_cont_desc)
 
                 for (i in 3..airlinesContainer.childCount - 1) {
                     val v = airlinesContainer.getChildAt(i)
@@ -246,6 +247,7 @@ class PackageFlightFilterWidget(context: Context, attrs: AttributeSet) : FrameLa
     private fun setupAirlinesView() {
         AnimUtils.reverseRotate(airlinesMoreLessIcon)
         airlinesMoreLessLabel.text = resources.getString(R.string.show_more)
+        airlinesMoreLessView.contentDescription = resources.getString(R.string.packages_flight_search_filter_show_more_cont_desc)
 
         val resizeAnimator = ResizeHeightAnimator(ANIMATION_DURATION)
         resizeAnimator.addViewSpec(airlinesContainer, rowHeight * 3)
