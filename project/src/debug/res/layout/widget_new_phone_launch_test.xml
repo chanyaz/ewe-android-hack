@@ -115,8 +115,8 @@
     <!-- TODO: replace with actual FAB exactly how we want it -->
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab"
-        android:layout_width="@dimen/new_launch_screen_fab_height"
-        android:layout_height="@dimen/new_launch_screen_fab_height"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/new_launch_screen_fab_bottom_margin"
         android:layout_marginRight="24dp"
         android:visibility="gone"
@@ -130,5 +130,12 @@
         android:layout_height="match_parent"
         android:layout_marginTop="@dimen/launch_lob_height"
         android:visibility="gone" />
+
+    <View
+        android:id="@+id/toolbar_dropshadow"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/toolbar_dropshadow_height"
+        android:background="@drawable/tb_shadow"
+        android:alpha="0.0" />
 
 </com.expedia.bookings.widget.NewPhoneLaunchWidget>

@@ -64,6 +64,7 @@ public class SlidingTabLayout extends HorizontalScrollView {
 	private ViewPager mViewPager;
 	private SparseArray<String> mContentDescriptions = new SparseArray<String>();
 	private ViewPager.OnPageChangeListener mViewPagerPageChangeListener;
+	private OnTabClickListener tabClicked;
 
 	private final SlidingTabStrip mTabStrip;
 
@@ -121,6 +122,10 @@ public class SlidingTabLayout extends HorizontalScrollView {
 	 */
 	public void setOnPageChangeListener(ViewPager.OnPageChangeListener listener) {
 		mViewPagerPageChangeListener = listener;
+	}
+
+	public void setOnTabClickedListener(OnTabClickListener listener) {
+		tabClicked = listener;
 	}
 
 	/**
@@ -302,9 +307,17 @@ public class SlidingTabLayout extends HorizontalScrollView {
 			for (int i = 0; i < mTabStrip.getChildCount(); i++) {
 				if (v == mTabStrip.getChildAt(i)) {
 					mViewPager.setCurrentItem(i);
+					if (tabClicked != null) {
+						tabClicked.onTabClick(i);
+					}
 					return;
 				}
 			}
 		}
 	}
+
+	public interface OnTabClickListener {
+		void onTabClick(int position);
+	}
+
 }

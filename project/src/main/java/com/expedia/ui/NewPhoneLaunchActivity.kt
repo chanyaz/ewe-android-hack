@@ -45,7 +45,6 @@ import com.expedia.bookings.widget.NewPhoneLaunchToolbar
 import com.mobiata.android.fragment.AboutSectionFragment
 import com.mobiata.android.util.SettingUtils
 import com.squareup.phrase.Phrase
-import org.joda.time.DateTime
 
 class NewPhoneLaunchActivity : AbstractAppCompatActivity(), IPhoneLaunchFragmentListener, ItinListView.OnListModeChangedListener, AccountSettingsFragment.AccountFragmentListener,
         ItinItemListFragment.ItinItemListFragmentListener, LoginConfirmLogoutDialogFragment.DoLogoutListener, AboutSectionFragment.AboutSectionFragmentListener
@@ -57,6 +56,7 @@ class NewPhoneLaunchActivity : AbstractAppCompatActivity(), IPhoneLaunchFragment
     val PAGER_POS_LAUNCH = 0
     val PAGER_POS_ITIN = 1
     val PAGER_POS_ACCOUNT = 2
+    var PAGER_SELECTED_POS = PAGER_POS_LAUNCH
 
     var jumpToItinId: String? = null
     private var pagerPosition = PAGER_POS_LAUNCH
@@ -80,6 +80,13 @@ class NewPhoneLaunchActivity : AbstractAppCompatActivity(), IPhoneLaunchFragment
     val pagerAdapter: PagerAdapter by lazy {
         PagerAdapter(supportFragmentManager)
     }
+    val accountSettingsFragment: AccountSettingsFragment by lazy {
+        AccountSettingsFragment()
+    }
+
+    val newPhoneLaunchFragment: NewPhoneLaunchFragment by lazy {
+        NewPhoneLaunchFragment()
+    }
 
     //TODO create intent method
 
@@ -91,7 +98,21 @@ class NewPhoneLaunchActivity : AbstractAppCompatActivity(), IPhoneLaunchFragment
         viewPager.adapter = pagerAdapter
         toolBar.slidingTabLayout.setViewPager(viewPager)
         toolBar.slidingTabLayout.setOnPageChangeListener(pageChangeListener)
+        toolBar.slidingTabLayout.setOnTabClickedListener { pagerPosition ->
+            if (pagerPosition != PAGER_SELECTED_POS) {
+                PAGER_SELECTED_POS = pagerPosition
+            } else {
+                // if we are in shops or account tab scroll to top
+                if (PAGER_SELECTED_POS == PAGER_POS_ACCOUNT) {
+                    accountSettingsFragment.smoothScrollToTop()
+                } else if (PAGER_SELECTED_POS == PAGER_POS_LAUNCH) {
+                    newPhoneLaunchFragment.smoothScrollToTop()
+                }
+
+            }
+        }
         setSupportActionBar(toolBar)
+        supportActionBar?.elevation = 0f
 
         val lineOfBusiness = intent.getSerializableExtra(Codes.LOB_NOT_SUPPORTED) as LineOfBusiness?
         if (intent.getBooleanExtra(ARG_FORCE_SHOW_WATERFALL, false)) {
@@ -213,12 +234,10 @@ class NewPhoneLaunchActivity : AbstractAppCompatActivity(), IPhoneLaunchFragment
 
         override fun onPageSelected(position: Int) {
             if (position != pagerPosition) {
-                if (position == PAGER_POS_LAUNCH) {
-                    gotoWaterfall()
-                } else if (position == PAGER_POS_ITIN) {
-                    gotoItineraries()
-                } else if (position == PAGER_POS_ACCOUNT) {
-                    //TODO go to account screen
+                when (position) {
+                    PAGER_POS_LAUNCH -> gotoWaterfall()
+                    PAGER_POS_ITIN -> gotoItineraries()
+                    PAGER_POS_ACCOUNT -> viewPager.currentItem = PAGER_POS_ACCOUNT
                 }
             }
         }
@@ -298,8 +317,8 @@ class NewPhoneLaunchActivity : AbstractAppCompatActivity(), IPhoneLaunchFragment
             val frag: Fragment
             when (position) {
                 PAGER_POS_ITIN -> frag = ItinItemListFragment.newInstance(jumpToItinId, true)
-                PAGER_POS_LAUNCH -> frag = NewPhoneLaunchFragment()
-                PAGER_POS_ACCOUNT -> frag = AccountSettingsFragment()
+                PAGER_POS_LAUNCH -> frag = newPhoneLaunchFragment
+                PAGER_POS_ACCOUNT -> frag = accountSettingsFragment
                 else -> throw RuntimeException("Position out of bounds position=" + position)
             }
 
@@ -458,7 +477,7 @@ class NewPhoneLaunchActivity : AbstractAppCompatActivity(), IPhoneLaunchFragment
         /**
          * Create intent to open this activity and jump straight to a particular itin item.
          */
-        @JvmStatic  fun createIntent(context: Context, notification: Notification): Intent {
+        @JvmStatic fun createIntent(context: Context, notification: Notification): Intent {
             val intent = Intent(context, NewPhoneLaunchActivity::class.java)
             intent.putExtra(ARG_JUMP_TO_NOTIFICATION, notification.toJson().toString())
             intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP
@@ -472,5 +491,4 @@ class NewPhoneLaunchActivity : AbstractAppCompatActivity(), IPhoneLaunchFragment
         }
 
     }
-
 }

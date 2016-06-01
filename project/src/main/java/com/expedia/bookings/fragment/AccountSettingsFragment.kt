@@ -15,6 +15,7 @@ import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
+import android.view.ViewTreeObserver
 import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.ImageView
@@ -101,6 +102,11 @@ class AccountSettingsFragment : Fragment(),
     val openSourceCredits: TextView by bindView(R.id.open_source_credits_textview)
     val logo: ImageView by lazy {
         activity.findViewById(com.mobiata.android.R.id.logo) as ImageView
+    }
+
+    val toolbarShadow: View by bindView(R.id.toolbar_dropshadow)
+    val toolBarHeight: Float by lazy {
+        Ui.getToolbarSize(context).toFloat()
     }
     val signInButton: Button by bindView(R.id.sign_in_button)
     val signOutButton: Button by bindView(R.id.sign_out_button)
@@ -306,15 +312,29 @@ class AccountSettingsFragment : Fragment(),
             val args = AccountLibActivity.createArgumentsBundle(LineOfBusiness.PROFILE, Config.InitialState.CreateAccount, null)
             User.signIn(activity, args)
         }
-
+        if (User.isLoggedIn(context)) {
+            toolbarShadow.alpha = 0f
+        }
     }
 
     override fun onResume() {
         super.onResume()
         OmnitureTracking.trackAccountPageLoad()
         adjustLoggedInViews()
+        scrollContainer.viewTreeObserver.addOnScrollChangedListener(scrollListener)
     }
 
+    val scrollListener = ViewTreeObserver.OnScrollChangedListener {
+        if (User.isLoggedIn(context)) {
+            val value = scrollContainer.scrollY / toolBarHeight
+            toolbarShadow.alpha = Math.min(1f, Math.max(0f, value))
+        }
+    }
+
+    override fun onPause() {
+        super.onPause()
+        scrollContainer.viewTreeObserver.removeOnScrollChangedListener(scrollListener)
+    }
 
     private val mOnGestureListener = object : GestureDetector.SimpleOnGestureListener() {
         override fun onSingleTapUp(e: MotionEvent): Boolean {
@@ -377,6 +397,7 @@ class AccountSettingsFragment : Fragment(),
         User.signOut(activity)
         scrollContainer.smoothScrollTo(0, 0)
         adjustLoggedInViews()
+        toolbarShadow.alpha = 1.0f
     }
 
     override fun onUserAccountRefreshed() {
@@ -401,6 +422,7 @@ class AccountSettingsFragment : Fragment(),
 
     private fun adjustLoggedInViews() {
         if (User.isLoggedIn(context)) {
+            toolbarShadow.alpha = 0f
             signInSection.visibility = View.GONE
             signOutButton.visibility = View.VISIBLE
 
@@ -624,5 +646,7 @@ class AccountSettingsFragment : Fragment(),
         }
     }
 
+    fun smoothScrollToTop() {
+        scrollContainer.smoothScrollTo(0, 0)
+    }
 }
-

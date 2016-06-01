@@ -74,10 +74,13 @@ class NewPhoneLaunchWidget(context: Context, attrs: AttributeSet) : CoordinatorL
     val launchError: ViewGroup by bindView(R.id.launch_error)
     val airAttachBanner: ViewGroup by bindView(R.id.air_attach_banner)
     val airAttachBannerCloseButton: ImageView by bindView(R.id.air_attach_banner_close)
+    val toolbarShadow: View by bindView(R.id.toolbar_dropshadow)
+    val toolBarHeight: Float by lazy {
+        Ui.getToolbarSize(context).toFloat()
+    }
 
     val fabTranslationHeight by lazy {
-        (context.resources.getDimensionPixelSize(R.dimen.new_launch_screen_fab_height) +
-                context.resources.getDimensionPixelSize(R.dimen.new_launch_screen_fab_bottom_margin)).toFloat()
+        fab.height + context.resources.getDimensionPixelSize(R.dimen.new_launch_screen_fab_bottom_margin).toFloat()
     }
 
     val launchListWidget: LaunchListWidget by bindView(R.id.launch_list_widget)
@@ -93,7 +96,7 @@ class NewPhoneLaunchWidget(context: Context, attrs: AttributeSet) : CoordinatorL
         super.onFinishInflate()
         Ui.getApplication(context).defaultLaunchComponents()
         Ui.getApplication(context).launchComponent().inject(this)
-
+        toolbarShadow.alpha = 0f
         launchListWidget.addOnScrollListener(scrollListener)
 
         fab.setOnClickListener {
@@ -241,6 +244,9 @@ class NewPhoneLaunchWidget(context: Context, attrs: AttributeSet) : CoordinatorL
 
     // showing fab button based on AppBarLayout offfset
     val onOffsetChangedListener = AppBarLayout.OnOffsetChangedListener { appBarLayout, verticalOffset ->
+        val value = Math.abs(verticalOffset) / toolBarHeight
+        toolbarShadow.alpha = Math.min(1f, Math.max(0f, value))
+
         if (Math.abs(verticalOffset) == appBarLayoutHeight || darkView.visibility == VISIBLE) {
             // The lines of business are now visible, adjust accordingly.
             // When the actual fab animation happens, don't just move it by a randomly chosen number like this 500 here

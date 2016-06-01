@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><!-- TODO This entire layout is gonna change. it just placeholder, all colors, heights are just placeholders. -->
+<?xml version="1.0" encoding="utf-8"?>
 <com.expedia.bookings.widget.NewPhoneLaunchWidget android:id="@+id/new_phone_launch_widget"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -53,14 +53,15 @@
         android:layout_gravity="bottom"
         android:visibility="gone" />
 
-    <!-- TODO: replace with actual FAB exactly how we want it -->
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab"
-        android:layout_width="@dimen/new_launch_screen_fab_width"
-        android:layout_height="@dimen/new_launch_screen_fab_height"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/new_launch_screen_fab_bottom_margin"
-        android:layout_marginRight="24dp"
+        android:layout_marginRight="@dimen/new_launch_screen_fab_bottom_margin"
+        android:src="@drawable/fab_search"
         android:visibility="gone"
+        app:backgroundTint="@color/new_launch_fab_color"
         app:layout_anchor="@id/launch_list_widget"
         app:layout_anchorGravity="bottom|right|end" />
 
@@ -71,5 +72,11 @@
         android:layout_height="match_parent"
         android:layout_marginTop="@dimen/launch_lob_height"
         android:visibility="gone" />
+    <View
+        android:id="@+id/toolbar_dropshadow"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/toolbar_dropshadow_height"
+        android:background="@drawable/tb_shadow"
+        android:alpha="0.0" />
 
 </com.expedia.bookings.widget.NewPhoneLaunchWidget>
