@@ -73,7 +73,7 @@ class LXThemeListAdapter : LoadingRecyclerViewAdapter<LXTheme>() {
             itemView.tag = theme
             cardView.preventCornerOverlap = false
             themeTitle.text = theme.title
-            val activitySize = theme.activities.size
+            val activitySize = theme.unfilteredActivities.size
             themeCount.text = activitySize.toString()
             themeDescription.text  = theme.description
 
