@@ -59,14 +59,18 @@
     <!-- CVV entry colors -->
     <color name="cvv_book_button_text_color">@android:color/white</color>
 
+    <!-- Checkout Colors -->
+    <color name="material_checkout_account_button_background_color">#D6682D</color>
+
     <!-- Cars and LX-->
-    <color name="cars_primary_color">#0099CC</color>
-    <color name="cars_unchecked_toggle_text_color">#6AC4E9</color>
-    <color name="lx_primary_color">#0099CC</color>
-    <color name="lx_ripple_color">#6AC4E9</color>
-    <color name="lx_secondary_color_disabled">#003366</color>
-    <color name="lx_unchecked_toggle_text_color">#6AC4E9</color>
-    <color name="lx_primary_disabled_color">#400099CC</color>
+    <color name="cars_button_color">#D6682D</color>
+    <color name="cars_primary_color">#26344F</color>
+    <color name="cars_unchecked_toggle_text_color">#70ffffff</color>
+    <color name="lx_primary_color">#26344F</color>
+    <color name="lx_ripple_color">#8f3f14</color>
+    <color name="lx_secondary_color_disabled">#D6682D</color>
+    <color name="lx_unchecked_toggle_text_color">#70ffffff</color>
+    <color name="lx_primary_disabled_color">#4026344F</color>
     <color name="lx_offer_date_ripple_color">@color/lx_ripple_color</color>
     <color name="cars_ripple_color">@color/lx_ripple_color</color>
     <color name="cars_color_primary_dark">@color/cars_primary_color</color>
