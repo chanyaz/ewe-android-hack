@@ -63,18 +63,19 @@ class HotelMapClusterRenderer(private val context: Context, private val map: Goo
     fun createClusterMarkerIcon(context: Context, factory: IconGenerator, cluster: Cluster<MapItem>): BitmapDescriptor {
         var minPrice = Int.MAX_VALUE
         var minFormattedPrice: Money? = null
-        var soldOutCluster = cluster.items.filter { !it.hotel.isSoldOut }.isEmpty()
-        cluster.items.forEach {
-            val formattedPrice = it.price.getDisplayMoney(false, !it.hotel.isPackage)
-            val price = formattedPrice.amount.toInt()
+        val clusterExcludingSoldOut = cluster.items.filter { !it.hotel.isSoldOut }
+        var isSoldOutCluster = clusterExcludingSoldOut.isEmpty()
+        clusterExcludingSoldOut.forEach {
+            val formattedPrice = it.price?.getDisplayMoney(false, !it.hotel.isPackage)
+            val price = formattedPrice?.amount?.toInt() ?: 0
             if (minPrice > price) {
                 minPrice = price
                 minFormattedPrice = formattedPrice
             }
         }
         clusterCountText.text = context.getString(R.string.cluster_number_of_hotels_template, cluster.items.size.toString())
-        clusterRangeText.text = context.getString(R.string.cluster_price_from_range_template, minFormattedPrice?.getFormattedMoney(Money.F_NO_DECIMAL))
-        factory.setBackground(ContextCompat.getDrawable(context, if (soldOutCluster) R.drawable.sold_out_pin else R.drawable.hotel_tooltip))
+        clusterRangeText.text = if (isSoldOutCluster) context.getString(R.string.sold_out) else context.getString(R.string.cluster_price_from_range_template, minFormattedPrice?.getFormattedMoney(Money.F_NO_DECIMAL))
+        factory.setBackground(ContextCompat.getDrawable(context, if (isSoldOutCluster) R.drawable.sold_out_pin else R.drawable.hotel_tooltip))
         return BitmapDescriptorFactory.fromBitmap(factory.makeIcon())
     }
 

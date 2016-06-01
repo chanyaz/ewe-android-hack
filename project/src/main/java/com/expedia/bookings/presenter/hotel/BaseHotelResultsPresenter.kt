@@ -374,8 +374,8 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
         //createHotelMarkerIcon should run in a separate thread since its heavy and hangs on the UI thread
         hotels.forEach {
             hotel ->
-            val bitmap = createHotelMarkerIcon(context, iconFactory, hotel, false, hotel.lowRateInfo.isShowAirAttached(), hotel.isSoldOut)
-            val mapItem = MapItem(context, LatLng(hotel.latitude, hotel.longitude), hotel.hotelId, bitmap, iconFactory, hotel.lowRateInfo, hotel)
+            val bitmap = createHotelMarkerIcon(context, iconFactory, hotel, false)
+            val mapItem = MapItem(context, LatLng(hotel.latitude, hotel.longitude), hotel.hotelId, bitmap, iconFactory, hotel)
             mapItems.add(mapItem)
             clusterManager.addItem(mapItem)
         }

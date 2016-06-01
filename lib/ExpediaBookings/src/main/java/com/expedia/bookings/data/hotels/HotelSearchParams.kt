@@ -5,10 +5,10 @@ import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.packages.PackageSearchParams
 import org.joda.time.LocalDate
 
-open class HotelSearchParams(val suggestion: SuggestionV4, val checkIn: LocalDate, val checkOut: LocalDate, adults: Int, children: List<Int>, val shopWithPoints: Boolean) : BaseSearchParams(adults, children) {
+open class HotelSearchParams(val suggestion: SuggestionV4, val checkIn: LocalDate, val checkOut: LocalDate, adults: Int, children: List<Int>, val shopWithPoints: Boolean, val filterUnavailable: Boolean) : BaseSearchParams(adults, children) {
     var forPackage = false
 
-    class Builder(maxStay: Int, maxRange: Int) : BaseSearchParams.Builder(maxStay, maxRange) {
+    class Builder(maxStay: Int, maxRange: Int, val filterUnavailable: Boolean = true) : BaseSearchParams.Builder(maxStay, maxRange) {
         private var isPackage: Boolean = false
         private var shopWithPoints: Boolean = false
 
@@ -27,7 +27,7 @@ open class HotelSearchParams(val suggestion: SuggestionV4, val checkIn: LocalDat
             if (destinationLocation?.gaiaId == null && destinationLocation?.coordinates == null) throw IllegalArgumentException()
             val checkInDate = startDate ?: throw IllegalArgumentException()
             val checkOutDate = endDate ?: throw IllegalArgumentException()
-            var params = HotelSearchParams(location, checkInDate, checkOutDate, adults, children, shopWithPoints)
+            var params = HotelSearchParams(location, checkInDate, checkOutDate, adults, children, shopWithPoints, filterUnavailable)
             params.forPackage = isPackage
             return params
         }

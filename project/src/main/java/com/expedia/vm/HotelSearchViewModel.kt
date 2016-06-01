@@ -20,7 +20,7 @@ import javax.inject.Inject
 
 class HotelSearchViewModel(context: Context) : BaseSearchViewModel(context) {
 
-    val hotelParamsBuilder = HotelSearchParams.Builder(getMaxSearchDurationDays(), getMaxDateRange())
+    val hotelParamsBuilder = HotelSearchParams.Builder(getMaxSearchDurationDays(), getMaxDateRange(), isFilterUnavailableEnabled())
     val userBucketedObservable = BehaviorSubject.create<Boolean>()
     val externalSearchParamsObservable = BehaviorSubject.create<Boolean>()
     val searchParamsObservable = PublishSubject.create<HotelSearchParams>()
@@ -103,6 +103,10 @@ class HotelSearchViewModel(context: Context) : BaseSearchViewModel(context) {
 
         requiredSearchParamsObserver.onNext(Unit)
         datesObservable.onNext(dates)
+    }
+
+    private fun isFilterUnavailableEnabled(): Boolean {
+        return !Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelSearchScreenSoldOutTest)
     }
 
     init {

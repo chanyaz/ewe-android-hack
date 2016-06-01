@@ -87,7 +87,8 @@ public class HotelServicesTest {
 		suggestion.coordinates = new SuggestionV4.LatLng();
 		suggestion.coordinates.lat = 0;
 		suggestion.coordinates.lng = 0;
-		HotelSearchParams hotelSearchParams = (HotelSearchParams) new HotelSearchParams.Builder(0, 0).destination(suggestion)
+		HotelSearchParams hotelSearchParams = (HotelSearchParams) new HotelSearchParams.Builder(0, 0, true)
+			.destination(suggestion)
 			.startDate(LocalDate.now().plusDays(5)).endDate(LocalDate.now().plusDays(15)).adults(2).build();
 
 		TestSubscriber testSubscriber = new TestSubscriber();
@@ -239,7 +240,8 @@ public class HotelServicesTest {
 
 		HotelCheckoutV2Params params = new HotelCheckoutV2Params.Builder().tripDetails(tripDetails)
 			.checkoutInfo(HotelCheckoutParamsMock.checkoutInfo()).paymentInfo(HotelCheckoutParamsMock.paymentInfo())
-			.traveler(HotelCheckoutParamsMock.traveler()).misc(HotelCheckoutParamsMock.miscellaneousParams(tripId)).build();
+			.traveler(HotelCheckoutParamsMock.traveler()).misc(HotelCheckoutParamsMock.miscellaneousParams(tripId))
+			.build();
 
 		service.checkout(params, observer);
 		observer.awaitTerminalEvent(10, TimeUnit.SECONDS);
@@ -262,7 +264,8 @@ public class HotelServicesTest {
 
 		HotelCheckoutV2Params params = new HotelCheckoutV2Params.Builder().tripDetails(tripDetails)
 			.checkoutInfo(HotelCheckoutParamsMock.checkoutInfo()).paymentInfo(HotelCheckoutParamsMock.paymentInfo())
-			.traveler(HotelCheckoutParamsMock.traveler()).misc(HotelCheckoutParamsMock.miscellaneousParams(tripId)).build();
+			.traveler(HotelCheckoutParamsMock.traveler()).misc(HotelCheckoutParamsMock.miscellaneousParams(tripId))
+			.build();
 
 		service.checkout(params, observer);
 		observer.awaitTerminalEvent(10, TimeUnit.SECONDS);
@@ -287,7 +290,8 @@ public class HotelServicesTest {
 
 		HotelCheckoutV2Params params = new HotelCheckoutV2Params.Builder().tripDetails(tripDetails)
 			.checkoutInfo(HotelCheckoutParamsMock.checkoutInfo()).paymentInfo(HotelCheckoutParamsMock.paymentInfo())
-			.traveler(HotelCheckoutParamsMock.traveler()).misc(HotelCheckoutParamsMock.miscellaneousParams(tripId)).build();
+			.traveler(HotelCheckoutParamsMock.traveler()).misc(HotelCheckoutParamsMock.miscellaneousParams(tripId))
+			.build();
 
 		service.checkout(params, observer);
 		observer.awaitTerminalEvent(10, TimeUnit.SECONDS);
@@ -383,7 +387,7 @@ public class HotelServicesTest {
 	private HotelSearchParams givenHappyHotelSearchParams() {
 		SuggestionV4 suggestion = new SuggestionV4();
 		suggestion.coordinates = new SuggestionV4.LatLng();
-		return (HotelSearchParams) new HotelSearchParams.Builder(0, 0)
+		return (HotelSearchParams) new HotelSearchParams.Builder(0, 0, true)
 			.destination(suggestion)
 			.startDate(LocalDate.now().plusDays(5))
 			.endDate(LocalDate.now().plusDays(15))
@@ -399,7 +403,8 @@ public class HotelServicesTest {
 
 	private void givenCouponParams(String mockFileName) {
 		List<UserPreferencePointsDetails> userPreferencePointsDetails = new ArrayList<>();
-		userPreferencePointsDetails.add(new UserPreferencePointsDetails(ProgramName.ExpediaRewards, new PointsAndCurrency(0, PointsType.BURN, new Money(), null)));
+		userPreferencePointsDetails.add(new UserPreferencePointsDetails(ProgramName.ExpediaRewards,
+			new PointsAndCurrency(0, PointsType.BURN, new Money(), null)));
 		couponParams = new HotelApplyCouponParameters.Builder().tripId("58b6be8a-d533-4eb0-aaa6-0228e000056c")
 			.couponCode(mockFileName)
 			.userPreferencePointsDetails(userPreferencePointsDetails)
