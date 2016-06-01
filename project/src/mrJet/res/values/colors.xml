@@ -88,7 +88,7 @@
     <color name="btn_sign_in_pressed">#AA3700</color>
     <color name="btn_sign_in_focused">#AA3700</color>
     <color name="btn_sign_in_disabled">#80000000</color>
-    <color name="acct__btn_sign_in_text">#C8C8C8</color>
+    <color name="acct__btn_sign_in_text">#FFFFFF</color>
     <color name="acct__bg_input_text_error">#FFFFFF</color>
     <color name="acct__bg_input_text_good">#EEEEEE</color>
 
