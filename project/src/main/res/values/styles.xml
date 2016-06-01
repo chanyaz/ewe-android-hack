@@ -997,6 +997,20 @@
         <item name="android:gravity">center_horizontal</item>
     </style>
 
+    <!--Flight Docked bar widget airline text-->
+    <style name="FlightDockedAirlineText">
+        <item name="android:textColor">@color/flight_docked_text</item>
+        <item name="android:textSize">@dimen/temporary_font_size_medium</item>
+        <item name="textStyle">medium</item>
+    </style>
+
+    <!--Flight Docked bar widget outbound text-->
+    <style name="FlightDockedOutboundText">
+        <item name="android:textColor">@color/flight_docked_text_outbound</item>
+        <item name="android:textSize">@dimen/temporary_font_size_medium</item>
+        <item name="textStyle">medium</item>
+    </style>
+
     <!-- Borderless button for "Enter Itinerary Number" in login screen -->
     <style name="Widget.BorderlessButton" parent="Widget.AppCompat.Button.Borderless">
         <item name="android:background">@drawable/bg_btn_borderless_kitkat</item>
