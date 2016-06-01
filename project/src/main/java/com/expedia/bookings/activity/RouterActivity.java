@@ -106,6 +106,7 @@ public class RouterActivity extends Activity {
 		public void onError(Throwable e) {
 			Log.d("Abacus:showSignInOnLaunchTest - onError");
 			// Finish this Activity after routing
+			AbacusHelperUtils.updateAbacus(new AbacusResponse(), RouterActivity.this);
 			NavUtils.goToLaunchScreen(RouterActivity.this, false);
 			finish();
 		}
