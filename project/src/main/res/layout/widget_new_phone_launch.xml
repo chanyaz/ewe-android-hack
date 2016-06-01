@@ -15,8 +15,9 @@
         android:visibility="invisible">
 
         <View
+            android:id="@+id/lob_height_matching_view"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/lob_view_height"
+            android:layout_height="0dp"
             app:layout_scrollFlags="scroll|exitUntilCollapsed" />
 
     </android.support.design.widget.AppBarLayout>
@@ -38,10 +39,10 @@
         android:visibility="invisible" />
 
 
-    <View
-        android:id="@+id/lobView"
+    <com.expedia.bookings.widget.NewLaunchLobWidget
+        android:id="@+id/lob_view"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/lob_view_height"
+        android:layout_height="wrap_content"
         android:background="@color/new_launch_toolbar_background_color"
         app:layout_behavior="com.expedia.bookings.widget.ScrollMatchBehaviour" />
 

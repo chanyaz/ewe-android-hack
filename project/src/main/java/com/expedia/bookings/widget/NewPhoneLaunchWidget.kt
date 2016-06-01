@@ -9,6 +9,7 @@ import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.StaggeredGridLayoutManager
 import android.util.AttributeSet
 import android.view.View
+import android.view.ViewTreeObserver
 import android.view.animation.AccelerateDecelerateInterpolator
 import com.expedia.bookings.R
 import com.expedia.bookings.data.HotelSearchParams
@@ -54,7 +55,7 @@ class NewPhoneLaunchWidget(context: Context, attrs: AttributeSet?) : Coordinator
         findViewById(R.id.fab) as FloatingActionButton
     }
 
-    val lobView: View by bindView(R.id.lobView)
+    val lobView: View by bindView(R.id.lob_view)
 
     val fabTranslationHeight by lazy {
         (context.resources.getDimensionPixelSize(R.dimen.new_launch_screen_fab_height) +
@@ -64,9 +65,8 @@ class NewPhoneLaunchWidget(context: Context, attrs: AttributeSet?) : Coordinator
     val launchListWidget: LaunchListWidget by bindView(R.id.launch_list_widget)
     val appBarLayout: AppBarLayout by bindView(R.id.app_bar)
     val darkView: View by bindView(R.id.darkness)
-    val appBarLayoutHeight: Int by lazy {
-        appBarLayout.height
-    }
+    var appBarLayoutHeight: Int = 0
+    val lobHeightMatchingView: View by bindView(R.id.lob_height_matching_view)
 
     override fun onFinishInflate() {
         super.onFinishInflate()
@@ -105,6 +105,15 @@ class NewPhoneLaunchWidget(context: Context, attrs: AttributeSet?) : Coordinator
         (launchListWidget.adapter as LaunchListAdapter).seeAllClickSubject.subscribe { animOptions ->
             NavUtils.goToHotels(context, searchParams, animOptions, 0)
         }
+
+        lobView.viewTreeObserver.addOnPreDrawListener(object : ViewTreeObserver.OnPreDrawListener {
+            override fun onPreDraw(): Boolean {
+                viewTreeObserver.removeOnPreDrawListener(this)
+                lobHeightMatchingView.layoutParams.height = lobView.height
+                appBarLayoutHeight = lobView.height
+                return false
+            }
+        })
     }
 
     private fun showLobAndDarkView() {

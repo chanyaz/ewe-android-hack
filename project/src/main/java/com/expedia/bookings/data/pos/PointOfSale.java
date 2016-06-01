@@ -617,7 +617,6 @@ public class PointOfSale {
 			return mSupportsFlights;
 		case HOTELS:
 			return true;
-
 		}
 
 		return false;
