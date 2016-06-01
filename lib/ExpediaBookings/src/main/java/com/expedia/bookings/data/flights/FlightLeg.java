@@ -3,6 +3,8 @@ package com.expedia.bookings.data.flights;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.json.JSONObject;
+
 import com.expedia.bookings.data.packages.PackageOfferModel;
 
 public class FlightLeg {
@@ -29,6 +31,7 @@ public class FlightLeg {
 	public List<FlightSegment> flightSegments;
 	public List<FlightSegment> segments;
 //	flightSegments
+	public JSONObject freeCancellationBy;
 	public boolean freeFlightPromotion;
 	public boolean handBaggageOnly;
 	public boolean hasAllTrainSegments;
@@ -52,6 +55,10 @@ public class FlightLeg {
 	public String departureLeg;
 	public List<Airline> airlines = new ArrayList<>();
 	public boolean isBestFlight;
+
+	public boolean isFreeCancellable() {
+		return freeCancellationBy != null;
+	}
 
 	public static class AirlineMessageModel {
 		public String airlineFeeLink;

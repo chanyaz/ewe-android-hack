@@ -86,6 +86,10 @@ public class EndpointProvider {
 		return getE3EndpointUrl(getEndPoint());
 	}
 
+	public String getE3EndpointUrlWithPath(String path) {
+		return getE3EndpointUrl(getEndPoint()) + path;
+	}
+
 	public String getE3EndpointUrl(EndPoint endPoint) {
 		String domain = PointOfSale.getPointOfSale().getUrl();
 

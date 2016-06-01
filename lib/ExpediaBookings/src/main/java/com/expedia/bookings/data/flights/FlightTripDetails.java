@@ -23,6 +23,7 @@ public class FlightTripDetails {
 		public String baggageFeesUrl;
 		public boolean isInternational;
 		public boolean isPassportNeeded;
+		public boolean isSplitTicket;
 		public boolean hasBagFee;
 		public boolean hasNoBagFee;
 		public boolean showFees;
