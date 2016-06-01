@@ -1,61 +1,45 @@
 <merge xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <FrameLayout
+    <com.expedia.bookings.widget.traveler.TravelerSelectState
+        android:id="@+id/traveler_select_state"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent"
+        android:layout_marginLeft="@dimen/card_view_container_margin"
+        android:layout_marginRight="@dimen/card_view_container_margin" />
 
-        <com.expedia.bookings.widget.traveler.TravelerDefaultState
-            android:id="@+id/traveler_default_state"
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <com.expedia.bookings.widget.TextView
+            android:id="@+id/boarding_warning"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/card_background"
+            android:background="@color/packages_secondary_color"
+            android:gravity="center"
+            android:maxLines="2"
+            android:padding="8dp"
+            android:text="@string/name_must_match_warning_new"
+            android:textColor="@android:color/white"
+            android:textSize="12sp"
+            android:visibility="gone"
+            app:textStyle="normal" />
+
+        <com.expedia.bookings.widget.FlightTravelerEntryWidget
+            android:id="@+id/traveler_entry_widget"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/card_view_container_margin"
-            android:layout_marginRight="@dimen/card_view_container_margin"/>
+            android:layout_marginRight="@dimen/card_view_container_margin"
+            android:visibility="gone" />
+    </LinearLayout>
 
-        <com.expedia.bookings.widget.traveler.TravelerSelectState
-            android:id="@+id/traveler_select_state"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginLeft="@dimen/card_view_container_margin"
-            android:layout_marginRight="@dimen/card_view_container_margin"/>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
-
-                <com.expedia.bookings.widget.TextView
-                    android:id="@+id/boarding_warning"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@color/packages_secondary_color"
-                    android:gravity="center"
-                    android:maxLines="2"
-                    android:paddingTop="8dp"
-                    android:paddingBottom="8dp"
-                    android:paddingLeft="8dp"
-                    android:paddingRight="8dp"
-                    android:text="@string/name_must_match_warning_new"
-                    android:textColor="@android:color/white"
-                    android:textSize="12sp"
-                    android:visibility="gone"
-                    app:textStyle="normal" />
-
-            <com.expedia.bookings.widget.FlightTravelerEntryWidget
-                android:id="@+id/traveler_entry_widget"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/card_view_container_margin"
-                android:layout_marginRight="@dimen/card_view_container_margin"
-                android:visibility="gone" />
-        </LinearLayout>
-
-        <View
-            android:id="@+id/drop_shadow"
-            android:layout_width="match_parent"
-            android:layout_height="4dp"
-            android:background="@drawable/tb_shadow"
-            android:visibility="gone"/>
-    </FrameLayout>
+    <View
+        android:id="@+id/drop_shadow"
+        android:layout_width="match_parent"
+        android:layout_height="4dp"
+        android:background="@drawable/tb_shadow"
+        android:visibility="gone" />
 </merge>

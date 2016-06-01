@@ -1,25 +1,18 @@
 package com.expedia.bookings.test.phone.traveler;
 
-import org.junit.Before;
-import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import android.content.Context;
-import android.support.test.InstrumentationRegistry;
-import android.support.test.rule.UiThreadTestRule;
+import android.support.test.espresso.Espresso;
 import android.support.test.runner.AndroidJUnit4;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Traveler;
-import com.expedia.bookings.presenter.Presenter;
 import com.expedia.bookings.test.espresso.Common;
 import com.expedia.bookings.test.espresso.CustomMatchers;
 import com.expedia.bookings.test.espresso.EspressoUser;
 import com.expedia.bookings.test.espresso.EspressoUtils;
 import com.expedia.bookings.test.phone.packages.PackageScreen;
-import com.expedia.bookings.utils.Ui;
-import com.expedia.bookings.utils.validation.TravelerValidator;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
@@ -30,16 +23,6 @@ import static org.hamcrest.core.AllOf.allOf;
 
 @RunWith(AndroidJUnit4.class)
 public class SingleTravelerPresenterTest extends BaseTravelerPresenterTestHelper {
-	@Rule
-	public UiThreadTestRule uiThreadTestRule = new UiThreadTestRule();
-
-	@Before
-	public void setup() {
-		Context context = InstrumentationRegistry.getTargetContext();
-		Ui.getApplication(context).defaultTravelerComponent();
-		TravelerValidator travelerValidator = Ui.getApplication(context).travelerComponent().travelerValidator();
-		travelerValidator.updateForNewSearch(setPackageParams(1));
-	}
 
 	@Test
 	public void testTransitions() {
@@ -62,6 +45,7 @@ public class SingleTravelerPresenterTest extends BaseTravelerPresenterTestHelper
 		PackageScreen.enterFirstName(testFirstName);
 		PackageScreen.enterLastName(testLastName);
 		PackageScreen.enterPhoneNumber(testPhone);
+		Espresso.closeSoftKeyboard();
 		PackageScreen.selectBirthDate(06,20,1990);
 		PackageScreen.selectGender(testGender);
 		PackageScreen.clickTravelerDone();
@@ -90,9 +74,10 @@ public class SingleTravelerPresenterTest extends BaseTravelerPresenterTestHelper
 		mockViewModel = getMockViewModelValidTravelers(1);
 		testTravelerPresenter.setViewModel(mockViewModel);
 		EspressoUser.clickOnView(R.id.traveler_default_state);
+		Espresso.closeSoftKeyboard();
 		EspressoUser.clickOnView(R.id.edit_phone_number);
 		PackageScreen.clickTravelerDone();
-		assertEquals(testTravelerPresenter.getTravelerDefaultState().getContentDescription(),"Traveler Information Complete");
+		assertEquals(testTravelerDefault.getContentDescription(),"Traveler Information Complete");
 		EspressoUtils.assertContainsImageDrawable(R.id.traveler_status_icon, R.drawable.validated);
 	}
 
@@ -105,12 +90,11 @@ public class SingleTravelerPresenterTest extends BaseTravelerPresenterTestHelper
 		uiThreadTestRule.runOnUiThread(new Runnable() {
 			@Override
 			public void run() {
-				testTravelerPresenter
-					.show(testTravelerPresenter.getTravelerDefaultState(), Presenter.FLAG_CLEAR_BACKSTACK);
+				testTravelerPresenter.getViewModel().updateCompletionStatus();
 			}
 		});
 		Common.delay(1);
-		assertEquals(testTravelerPresenter.getTravelerDefaultState().getContentDescription(),"Traveler Information Incomplete");
+		assertEquals(testTravelerDefault.getContentDescription(),"Traveler Information Incomplete");
 		EspressoUtils.assertContainsImageDrawable(R.id.traveler_status_icon, R.drawable.invalid);
 	}
 
@@ -124,7 +108,7 @@ public class SingleTravelerPresenterTest extends BaseTravelerPresenterTestHelper
 		uiThreadTestRule.runOnUiThread(new Runnable() {
 			@Override
 			public void run() {
-				testTravelerPresenter.show(testTravelerPresenter.getTravelerDefaultState(), Presenter.FLAG_CLEAR_BACKSTACK);
+				testTravelerPresenter.getViewModel().updateCompletionStatus();
 			}
 		});
 
@@ -148,6 +132,7 @@ public class SingleTravelerPresenterTest extends BaseTravelerPresenterTestHelper
 			}
 		});
 
+		Espresso.closeSoftKeyboard();
 		EspressoUtils.assertViewWithTextIsDisplayed(R.id.first_name_input, testFirstName);
 		EspressoUtils.assertViewWithTextIsDisplayed(R.id.middle_name_input, testMiddleName);
 		EspressoUtils.assertViewWithTextIsDisplayed(R.id.last_name_input, testLastName);

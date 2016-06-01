@@ -34,11 +34,6 @@ class RailCheckoutPresenter(context: Context, attrs: AttributeSet) : BaseCheckou
 
     override fun updateDbTravelers() {
     }
-    
-    override fun updateTravelerPresenter() {
-        travelerPresenter.viewModel = CheckoutTravelerViewModel(context)
-        travelerPresenter.visibility = View.VISIBLE
-    }
 
     override fun makeCheckoutViewModel(): BaseCheckoutViewModel {
         return RailCheckoutViewModel(context)

@@ -11,7 +11,6 @@ import com.expedia.util.subscribeTextColor
 import com.expedia.vm.traveler.TravelerSummaryViewModel
 
 class TravelerDefaultState(context: Context, attrs: AttributeSet?) : TravelerDetailsCard(context, attrs) {
-    var status = TravelerCheckoutStatus.CLEAN
 
     var viewModel: TravelerSummaryViewModel by notNullAndObservable { vm ->
         vm.titleObservable.subscribeText(detailsText)
@@ -23,9 +22,8 @@ class TravelerDefaultState(context: Context, attrs: AttributeSet?) : TravelerDet
         }
     }
 
-    fun updateStatus(status: TravelerCheckoutStatus) {
-        this.status = status
-        viewModel.travelerStatusObserver.onNext(status)
+    fun getStatus() : TravelerCheckoutStatus {
+        return viewModel.travelerStatusObserver.value
     }
 
     fun setTravelerCardContentDescription(status: ContactDetailsCompletenessStatus) {

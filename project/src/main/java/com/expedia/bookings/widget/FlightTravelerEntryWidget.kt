@@ -41,10 +41,8 @@ class FlightTravelerEntryWidget(context: Context, attrs: AttributeSet?) : FrameL
     val advancedButton: LinearLayout by bindView(R.id.traveler_advanced_options_button)
     val advancedOptionsIcon: ImageView by bindView(R.id.traveler_advanced_options_icon)
 
-    val travelerCompleteSubject = PublishSubject.create<Traveler>()
     val focusedView = PublishSubject.create<EditText>()
     val filledIn = PublishSubject.create<Boolean>()
-    val doneClicked = PublishSubject.create<Unit>()
 
     val resizeOpenAnimator: ResizeHeightAnimator by lazy {
         val resizeAnimator = ResizeHeightAnimator(ANIMATION_DURATION)
@@ -108,12 +106,6 @@ class FlightTravelerEntryWidget(context: Context, attrs: AttributeSet?) : FrameL
         nameEntryView.lastName.onFocusChangeListener = this
         phoneEntryView.phoneNumber.onFocusChangeListener = this
         advancedOptionsWidget.redressNumber.onFocusChangeListener = this
-
-        doneClicked.subscribe {
-            if (isValid()) {
-                travelerCompleteSubject.onNext(viewModel.getTraveler())
-            }
-        }
     }
 
     override fun onVisibilityChanged(changedView: View, visibility: Int) {
@@ -154,7 +146,7 @@ class FlightTravelerEntryWidget(context: Context, attrs: AttributeSet?) : FrameL
         }
     }
 
-    private fun isValid(): Boolean {
+    fun isValid(): Boolean {
         return viewModel.validate()
     }
 

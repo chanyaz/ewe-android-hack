@@ -63,7 +63,7 @@ abstract class BaseOverviewPresenter(context: Context, attrs: AttributeSet) : Pr
             if (checkoutPresenter.currentState == PackagePaymentWidget::class.java.name) {
                 checkoutPresenter.paymentWidget.doneClicked.onNext(Unit)
             } else if (checkoutPresenter.currentState == TravelerPresenter::class.java.name) {
-                checkoutPresenter.travelerPresenter.travelerEntryWidget.doneClicked.onNext(Unit)
+                checkoutPresenter.travelerPresenter.doneClicked.onNext(Unit)
             }
         }
 

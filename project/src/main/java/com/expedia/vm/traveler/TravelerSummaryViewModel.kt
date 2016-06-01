@@ -14,25 +14,24 @@ import rx.subjects.BehaviorSubject
 open class TravelerSummaryViewModel(val context: Context) {
     val resources = context.resources
 
-    val  travelerStatusObserver = endlessObserver<TravelerCheckoutStatus> { status ->
-        if (status == TravelerCheckoutStatus.CLEAN) {
-            val title = resources.getString(R.string.checkout_enter_traveler_details)
-            val subTitle = resources.getString(R.string.checkout_enter_traveler_details_line2)
-            setTravelerSummaryInfo(title, subTitle, ContactDetailsCompletenessStatus.DEFAULT)
-        } else if (status == TravelerCheckoutStatus.DIRTY) {
-            setTravelerSummaryInfo(getTitle(), getSubtitle(), ContactDetailsCompletenessStatus.INCOMPLETE)
-        } else {
-            setTravelerSummaryInfo(getTitle(), getSubtitle(), ContactDetailsCompletenessStatus.COMPLETE)
-        }
-    }
-
     val iconStatusObservable = BehaviorSubject.create<ContactDetailsCompletenessStatus>()
     val titleObservable = BehaviorSubject.create<String>()
     val subtitleObservable = BehaviorSubject.create<String>()
     val subtitleColorObservable = BehaviorSubject.create<Int>()
+    val travelerStatusObserver = BehaviorSubject.create<TravelerCheckoutStatus>(TravelerCheckoutStatus.CLEAN)
 
     init {
-        travelerStatusObserver.onNext(TravelerCheckoutStatus.CLEAN)
+         travelerStatusObserver.subscribe { status ->
+            if (status == TravelerCheckoutStatus.CLEAN) {
+                val title = resources.getString(R.string.checkout_enter_traveler_details)
+                val subTitle = resources.getString(R.string.checkout_enter_traveler_details_line2)
+                setTravelerSummaryInfo(title, subTitle, ContactDetailsCompletenessStatus.DEFAULT)
+            } else if (status == TravelerCheckoutStatus.DIRTY) {
+                setTravelerSummaryInfo(getTitle(), getSubtitle(), ContactDetailsCompletenessStatus.INCOMPLETE)
+            } else {
+                setTravelerSummaryInfo(getTitle(), getSubtitle(), ContactDetailsCompletenessStatus.COMPLETE)
+            }
+        }
     }
 
     private fun setTravelerSummaryInfo(title: String, subTitle: String, completenessStatus: ContactDetailsCompletenessStatus) {

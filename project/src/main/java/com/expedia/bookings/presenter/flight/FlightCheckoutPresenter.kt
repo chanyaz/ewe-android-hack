@@ -77,11 +77,6 @@ class FlightCheckoutPresenter(context: Context, attr: AttributeSet) : BaseChecko
         travelerManager.updateDbTravelers(params)
     }
 
-    override fun updateTravelerPresenter() {
-        travelerPresenter.viewModel = CheckoutTravelerViewModel(context)
-        travelerPresenter.visibility = View.VISIBLE
-    }
-
     override fun trackShowSlideToPurchase() {
     }
 

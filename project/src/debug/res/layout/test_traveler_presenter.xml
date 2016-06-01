@@ -11,8 +11,16 @@
         android:background="?attr/primary_color"
         android:minHeight="?attr/actionBarSize" />
 
-    <com.expedia.bookings.presenter.packages.TravelerPresenter
-        android:id="@+id/traveler_presenter"
+    <com.expedia.bookings.widget.traveler.TravelerDefaultState
+        android:id="@+id/traveler_default_state"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/card_background" />
+
+    <ViewStub
+        android:id="@+id/traveler_presenter_stub"
+        android:inflatedId="@+id/traveler_presenter"
+        android:layout="@layout/test_traveler_presenter_stub"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
