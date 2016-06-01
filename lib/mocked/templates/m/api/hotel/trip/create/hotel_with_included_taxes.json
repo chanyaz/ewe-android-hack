@@ -1,0 +1,182 @@
+{
+  "originalHotelProductResponse": {},
+  "newHotelProductResponse": {
+    "checkInDate": "2016-06-29",
+    "checkOutDate": "2016-06-30",
+    "adultCount": "1",
+    "numberOfNights": "1",
+    "numberOfRooms": "1",
+    "hotelId": "1615126",
+    "hotelName": "Novotel Suites Rouen Normandie",
+    "localizedHotelName": "Novotel Suites Rouen Normandie",
+    "nonLocalizedHotelName": "Novotel Suites Rouen Normandie",
+    "largeThumbnailUrl": "/hotels/2000000/1620000/1615200/1615126/1615126_229_d.jpg",
+    "thumbnailUrl": "/hotels/2000000/1620000/1615200/1615126/1615126_229_n.jpg",
+    "hotelAddress": "10 Quai Boisguilbert",
+    "hotelCity": "Rouen",
+    "hotelStateProvince": "Seine-Maritime",
+    "hotelCountry": "FRA",
+    "hotelStarRating": "4.0",
+    "shortDescription": "",
+    "hotelRoomResponse": {
+      "productKey": "dd42e854-c72a-4248-888d-0148e281f5b3_V3",
+      "cancellationPolicy": "<p>We understand that sometimes plans fall through. We do not charge a cancel or change fee. When the hotel charges such fees in accordance with its own policies, the cost will be passed on to you. Novotel Suites Rouen Normandie charges the following cancellation and change fees.</p><p><span class=\"rr-bold\">The room type and rate selected are non-refundable.</span> Should you change or cancel this reservation for any reason, your payment will not be refunded.</p><p>No refunds will be issued for late check-in or early check-out.</p><p>Stay extensions require a new reservation.</p><p>Your room will be guaranteed for late arrival.</p><p>Hotel supplier loyalty points and/or airline miles may not be awarded when booking Expedia Special Rate hotels.</p>",
+      "rateDescription": "Superior Suite, Multiple Beds",
+      "roomTypeDescription": "Superior Suite, Multiple Beds",
+      "supplierType": "MERCHANT",
+      "rateChange": false,
+      "nonRefundable": true,
+      "hasFreeCancellation": false,
+      "guaranteeRequired": false,
+      "depositRequired": false,
+      "immediateChargeRequired": true,
+      "currentAllotment": "0",
+      "promoDescription": "",
+      "promotionDetails": {
+        "promoId": "1378737",
+        "minStay": 1,
+        "promoExpirationDate": "2079-06-06T23:59:00-00:00",
+        "promoAdjustmentAmount": "0.00",
+        "promoAdjustmentType": "PercentAdjustment",
+        "isPromoPartiallyApplied": false
+      },
+      "isDiscountRestrictedToCurrentSourceType": false,
+      "isSameDayDRR": false,
+      "smokingPreferences": "E",
+      "rateOccupancyPerRoom": "6",
+      "bedTypes": [
+        {
+          "id": "66",
+          "description": "1 double and 2 single beds"
+        }
+      ],
+      "rateInfo": {
+        "priceBreakdown": true,
+        "promo": true,
+        "rateChange": false,
+        "chargeableRateInfo": {
+          "maxNightlyRate": "72.96",
+          "averageRate": "72.96",
+          "taxStatusType": "INCLUDED",
+          "averageBaseRate": "72.96",
+          "nightlyRateTotal": "72.96",
+          "discountPercent": 0,
+          "total": "72.96",
+          "currencyCode": "USD",
+          "currencySymbol": "$",
+          "nightlyRatesPerRoom": [
+            {
+              "promo": "false",
+              "baseRate": "72.96",
+              "rate": "72.96"
+            }
+          ],
+          "priceToShowUsers": "73",
+          "strikethroughPriceToShowUsers": "73",
+          "strikethroughPriceWithTaxesAndFeesToShowUsers": "73",
+          "totalMandatoryFees": "0.73",
+          "mandatoryFees": [
+            {
+              "feeName": "City/local tax",
+              "amount": "0.96"
+            }
+          ],
+          "totalPriceWithMandatoryFees": "72.96",
+          "formattedTotalPriceWithMandatoryFees": "$ 72.96",
+          "userPriceType": "RateForWholeStayWithTaxes",
+          "priceAdjustments": [],
+          "checkoutPriceType": "total",
+          "airAttached": false,
+          "roomTypeCode": "333695",
+          "ratePlanCode": "1034173",
+          "showResortFeeMessage": false,
+          "resortFeeInclusion": false,
+          "dailyMandatoryFee": "0.73"
+        }
+      },
+      "valueAdds": [
+        {
+          "id": "2048",
+          "description": "Free Wireless Internet"
+        }
+      ],
+      "quotedOccupancy": "4",
+      "minGuestAge": "0",
+      "roomTypeCode": "333695",
+      "ratePlanCode": "1034173",
+      "isPayLater": false
+    },
+    "supplierType": "MERCHANT",
+    "accessibilityAmenities": [
+      {
+        "id": "2420",
+        "description": "Accessible bathroom"
+      },
+      {
+        "id": "2423",
+        "description": "In-room accessibility"
+      },
+      {
+        "id": "2421",
+        "description": "Roll-in shower"
+      }
+    ],
+    "isVipAccess": false,
+    "tealeafTransactionId": "512b4b7482654f7788a2f9a7da3b1767",
+    "bigImageUrl": "/hotels/2000000/1620000/1615200/1615126/1615126_229_b.jpg",
+    "regionId": "6050325"
+  },
+  "airAttachedProductResponse": {},
+  "loyaltyPoints": {
+    "totalLoyaltyPoints": 202.00,
+    "loyaltyPointInfoList": [
+      {
+        "pointValue": 200.00,
+        "pointType": "basePoint"
+      },
+      {
+        "pointValue": 2.00,
+        "pointType": "offerPoint"
+      }
+    ]
+  },
+  "expediaRewards": {
+    "totalPointsToEarn": 202,
+    "isActiveRewardsMember": false,
+    "rewardsMembershipTierName": "Invalid Tier"
+  },
+  "rewards": {
+    "programName": "",
+    "totalPointsToEarn": 202.00,
+    "totalAmountToEarn": {
+      "amount": "202.00",
+      "formattedPrice": "$202.00",
+      "formattedWholePrice": "$202",
+      "currencyCode": "USD"
+    },
+    "isActiveRewardsMember": false,
+    "rewardsMembershipTierName": "Invalid Tier"
+  },
+  "tealeafTransactionId": "512b4b7482654f7788a2f9a7da3b1767",
+  "validFormsOfPayment": [
+    {
+      "name": "AmericanExpress"
+    },
+    {
+      "name": "Diner's Club International"
+    },
+    {
+      "name": "Maestro"
+    },
+    {
+      "name": "MasterCard"
+    },
+    {
+      "name": "Visa"
+    },
+    {
+      "name": "Visa Electron"
+    }
+  ],
+  "guestUserPromoEmailOptInStatus": "CONSENT_TO_OPT_OUT"
+}

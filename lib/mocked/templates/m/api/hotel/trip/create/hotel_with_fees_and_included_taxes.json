@@ -1,0 +1,189 @@
+{
+  "originalHotelProductResponse": {},
+  "newHotelProductResponse": {
+    "checkInDate": "2016-07-05",
+    "checkOutDate": "2016-07-08",
+    "adultCount": "1",
+    "numberOfNights": "3",
+    "numberOfRooms": "1",
+    "hotelId": "8362387",
+    "hotelName": "Gorky Gorod Apartments",
+    "localizedHotelName": "Gorky Gorod Apartments",
+    "nonLocalizedHotelName": "Gorky Gorod Apartments",
+    "largeThumbnailUrl": "/hotels/9000000/8370000/8362400/8362387/8362387_27_d.jpg",
+    "thumbnailUrl": "/hotels/9000000/8370000/8362400/8362387/8362387_27_n.jpg",
+    "hotelAddress": "3 Vremena Goda Promenade",
+    "hotelCity": "Krasnaya Polyana",
+    "hotelStateProvince": "Krasnodar Krai",
+    "hotelCountry": "RUS",
+    "hotelStarRating": "3.0",
+    "shortDescription": "This family-friendly Krasnaya Polyana hotel is located in Estosadok, within 2 mi (3 km) of Gorky Gorod Mall and RusSki Gorki Jumping Center. Estosadok Ski Resort and Laura Biathlon and Ski Center are also within 9 mi (15 km). ",
+    "hotelRoomResponse": {
+      "productKey": "1a740c64-e30f-429e-88b3-76e85a741ecc_V3",
+      "cancellationPolicy": "<p>We understand that sometimes plans fall through. We do not charge a cancel or change fee. When the hotel charges such fees in accordance with its own policies, the cost will be passed on to you. Gorky Gorod Apartments charges the following cancellation and change fees.</p><p>Cancellations or changes made after 5:00PM (hotel local time) on Jul 2, 2016 or no-shows are subject to a hotel fee equal to the first night's rate plus taxes and fees.</p><p>Your room will be guaranteed for late arrival.</p><p>Hotel supplier loyalty points and/or airline miles may not be awarded when booking Expedia Special Rate hotels.</p>",
+      "rateDescription": "Apartment, 1 Bedroom, Kitchen",
+      "roomTypeDescription": "Apartment, 1 Bedroom, Kitchen",
+      "supplierType": "MERCHANT",
+      "rateChange": false,
+      "nonRefundable": false,
+      "hasFreeCancellation": true,
+      "freeCancellationWindowDate": "2016-07-02 17:00",
+      "guaranteeRequired": false,
+      "depositRequired": false,
+      "immediateChargeRequired": true,
+      "currentAllotment": "0",
+      "promoDescription": "",
+      "promotionDetails": {
+        "promoId": "206201638",
+        "minStay": 1,
+        "promoExpirationDate": "2079-06-06T23:59:00-00:00",
+        "promoAdjustmentAmount": "0.00",
+        "promoAdjustmentType": "PercentAdjustment",
+        "isPromoPartiallyApplied": false
+      },
+      "isDiscountRestrictedToCurrentSourceType": false,
+      "isSameDayDRR": false,
+      "smokingPreferences": "NS",
+      "rateOccupancyPerRoom": "5",
+      "bedTypes": [
+        {
+          "id": "43",
+          "description": "2 single beds"
+        }
+      ],
+      "rateInfo": {
+        "priceBreakdown": true,
+        "promo": true,
+        "rateChange": false,
+        "chargeableRateInfo": {
+          "maxNightlyRate": "36.81",
+          "averageRate": "36.81",
+          "taxStatusType": "INCLUDED",
+          "surchargeTotal": "6.63",
+          "surchargeTotalForEntireStay": "19.89",
+          "averageBaseRate": "36.81",
+          "nightlyRateTotal": "110.43",
+          "discountPercent": 0,
+          "total": "130.32",
+          "currencyCode": "USD",
+          "currencySymbol": "$",
+          "nightlyRatesPerRoom": [
+            {
+              "promo": "false",
+              "baseRate": "36.81",
+              "rate": "36.81"
+            },
+            {
+              "promo": "false",
+              "baseRate": "36.81",
+              "rate": "36.81"
+            },
+            {
+              "promo": "false",
+              "baseRate": "36.81",
+              "rate": "36.81"
+            }
+          ],
+          "priceToShowUsers": "37",
+          "strikethroughPriceToShowUsers": "37",
+          "strikethroughPriceWithTaxesAndFeesToShowUsers": "130",
+          "totalMandatoryFees": "0.00",
+          "totalPriceWithMandatoryFees": "130.32",
+          "formattedTotalPriceWithMandatoryFees": "$ 130.32",
+          "userPriceType": "PerNightRateNoTaxes",
+          "priceAdjustments": [],
+          "checkoutPriceType": "total",
+          "airAttached": false,
+          "roomTypeCode": "200743954",
+          "ratePlanCode": "203695144",
+          "showResortFeeMessage": false,
+          "resortFeeInclusion": false
+        }
+      },
+      "valueAdds": [
+        {
+          "id": "128",
+          "description": "Free Parking"
+        },
+        {
+          "id": "2048",
+          "description": "Free Wireless Internet"
+        }
+      ],
+      "quotedOccupancy": "3",
+      "minGuestAge": "0",
+      "roomTypeCode": "200743954",
+      "ratePlanCode": "203695144",
+      "isPayLater": false
+    },
+    "supplierType": "MERCHANT",
+    "accessibilityAmenities": [
+      {
+        "id": "2423",
+        "description": "In-room accessibility"
+      }
+    ],
+    "isVipAccess": false,
+    "tealeafTransactionId": "e0f757726c8f4f09867b5121b861325f",
+    "bigImageUrl": "/hotels/9000000/8370000/8362400/8362387/8362387_27_b.jpg",
+    "regionId": "6312286"
+  },
+  "airAttachedProductResponse": {},
+  "loyaltyPoints": {
+    "totalLoyaltyPoints": 783.00,
+    "loyaltyPointInfoList": [
+      {
+        "pointValue": 261.00,
+        "pointType": "basePoint"
+      },
+      {
+        "pointValue": 522.00,
+        "pointType": "offerPoint"
+      }
+    ]
+  },
+  "expediaRewards": {
+    "totalPointsToEarn": 783,
+    "isActiveRewardsMember": false,
+    "rewardsMembershipTierName": "Invalid Tier"
+  },
+  "rewards": {
+    "programName": "ExpediaRewards",
+    "totalPointsToEarn": 783.00,
+    "isActiveRewardsMember": false,
+    "rewardsMembershipTierName": "Invalid Tier"
+  },
+  "tealeafTransactionId": "e0f757726c8f4f09867b5121b861325f",
+  "validFormsOfPayment": [
+    {
+      "name": "AmericanExpress",
+      "verificationTypes": [
+        "APPLE_PAY"
+      ]
+    },
+    {
+      "name": "Diner's Club International"
+    },
+    {
+      "name": "Discover"
+    },
+    {
+      "name": "JCB"
+    },
+    {
+      "name": "MasterCard",
+      "verificationTypes": [
+        "APPLE_PAY",
+        "THREE_DS"
+      ]
+    },
+    {
+      "name": "Visa",
+      "verificationTypes": [
+        "APPLE_PAY",
+        "THREE_DS"
+      ]
+    }
+  ],
+  "guestUserPromoEmailOptInStatus": "ALWAYS"
+}
