@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <!-- Ebookers Rating bar -->
+    <!-- MrJet Rating bar -->
     <style name="RatingBar.UserReview.Blue">
         <item name="android:progressDrawable">@drawable/ratingbar_userreview_blue</item>
     </style>

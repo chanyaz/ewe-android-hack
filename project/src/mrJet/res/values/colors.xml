@@ -22,13 +22,12 @@
 
     <!-- Hotels V2 Coupon applied text color -->
     <color name="hotelsv2_coupon_applied_color">#9E0089</color>
-    <color name="hotelsv2_discount_green">#9E0089</color>
     <color name="hotel_earn_message_text_color">@color/earn_message_text_color</color>
 
     <!--Flight-->
     <color name="action_bar_text_color">@color/white</color>
-    <color name="flight_card_airline_fee_warning">#0099CC</color>
-    <color name="flight_free_cancellation_text_color">#0099CC</color>
+    <color name="flight_card_airline_fee_warning">@color/hotels_primary_color</color>
+    <color name="flight_free_cancellation_text_color">@color/hotels_primary_color</color>
     <color name="credit_card_form_additional_fees_tablet_bg">@color/hotels_primary_color</color>
 
     <color name="flight_trip">#D6682D</color>
@@ -38,21 +37,22 @@
     <!-- Calendar text colors -->
     <color name="calendar_cell_selected_date_text">#FFFFFF</color>
 
-    <color name="hotels_primary_color">#0099CC</color>
-    <color name="review_screen_tab_indicator">#003366</color>
+    <color name="hotels_primary_color">#26344F</color>
+    <color name="review_screen_tab_indicator">#D6682D</color>
     <color name="hotel_checkout_account_button_background_color">@color/hotels_primary_color</color>
     <color name="cost_summary_header_text_color">@color/hotels_primary_color</color>
 
     <!-- Popular Hotels Tonight Discount strips-->
-    <color name="launch_mobile_exclusive">#009784</color>
-    <color name="launch_discount">#9E0089</color>
-    <color name="launch_tonight_only">#D6682D</color>
+    <color name="launch_mobile_exclusive">#9E0089</color>
+    <color name="launch_discount">#009784</color>
+    <color name="launch_tonight_only">#003366</color>
 
     <color name="hotel_urgency_message_color">#D60000</color>
-    <color name="hotel_tonight_only_color">#D6682D</color>
-    <color name="hotel_mobile_exclusive_color">#009784</color>
+    <color name="hotel_tonight_only_color">#6AC4E9</color>
+    <color name="hotel_mobile_exclusive_color">#F60B61</color>
+    <color name="hotelsv2_discount_green">#9E0089</color>
 
-    <color name="hotel_promo_background">#6AC4E9</color>
+    <color name="hotel_promo_background">#2d3e5e</color>
     <color name="hotel_coupon_code_error_message_color">#B80000</color>
     <color name="hotel_points_applied_plus_color">#03AD1D</color>
 
@@ -61,6 +61,7 @@
 
     <!-- Checkout Colors -->
     <color name="material_checkout_account_button_background_color">#D6682D</color>
+    <color name="old_checkout_account_button_text_color">@android:color/white</color>
 
     <!-- Cars and LX-->
     <color name="cars_button_color">#D6682D</color>

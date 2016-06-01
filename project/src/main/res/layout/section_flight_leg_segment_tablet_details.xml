@@ -91,7 +91,7 @@
             android:layout_marginTop="1dp"
             android:layout_toLeftOf="@+id/arrival_time_text_view"
             android:layout_toRightOf="@+id/departure_time_text_view"
-            app:flightLineColor="#287cb9"
+            app:flightLineColor="@color/tablet_flight_trip_line_color"
             app:waypointTextColor="#777777"
             app:waypointTextSize="14dp"
             app:waypointTextTopMargin="4dp"
