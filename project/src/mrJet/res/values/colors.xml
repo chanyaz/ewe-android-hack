@@ -99,4 +99,9 @@
     <color name="reward_middle_tier_text_color">#403f3f</color>
     <color name="reward_top_tier_color">#085BA5</color>
     <color name="reward_top_tier_text_color">@color/white</color>
+
+    <!-- Signed in user tier colors -->
+    <color name="sign_in_user_base_tier">#668193</color>
+    <color name="sign_in_user_middle_tier">#FFC300</color>
+    <color name="sign_in_user_top_tier">#085BA5</color>
 </resources>
