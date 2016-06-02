@@ -253,8 +253,8 @@ public class ResultsFlightDetailsFragment extends Fragment implements FlightUtil
 		}
 
 		// Baggage fees
-		FlightUtils.configureBaggageFeeViews(this, trip, flightLeg, mBaggageFeesLinkPrimaryTv, mBaggageFeesLinkC,
-			mBaggageFeesLinkSecondaryTv, false);
+		FlightUtils.configureBaggageFeeViews(getContext(), trip, flightLeg, mBaggageFeesLinkPrimaryTv, mBaggageFeesLinkC,
+			mBaggageFeesLinkSecondaryTv, false, getChildFragmentManager(), this);
 	}
 
 	public void scrollToTop() {

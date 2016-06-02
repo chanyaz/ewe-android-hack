@@ -30,6 +30,7 @@ import com.mobiata.android.Log;
 import com.mobiata.flightlib.data.Flight;
 import com.mobiata.flightlib.data.FlightCode;
 import com.mobiata.flightlib.data.Waypoint;
+
 import okhttp3.Response;
 
 /**
@@ -191,6 +192,9 @@ public class StreamingFlightSearchResponseHandler implements ResponseHandler<Fli
 				leg.setIsFreeCancellable(true);
 				// 6130. Not parsing other data here. Just setting boolean to see if the leg is free cancellable.
 				reader.skipValue();
+			}
+			else if (name.equals("hasBagFee")) {
+				leg.setHasBagFee(reader.nextBoolean());
 			}
 			else {
 				reader.skipValue();
@@ -366,9 +370,6 @@ public class StreamingFlightSearchResponseHandler implements ResponseHandler<Fli
 			}
 			else if (name.equals("mayChargeOBFees")) {
 				trip.setMayChargeObFees(reader.nextBoolean());
-			}
-			else if (name.equals("hasBagFee")) {
-				trip.setHasBagFee(reader.nextBoolean());
 			}
 			else if (name.equals("fareName")) {
 				trip.setFareName(reader.nextString());

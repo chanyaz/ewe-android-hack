@@ -1,5 +1,10 @@
 package com.expedia.bookings.data;
 
+import java.util.ArrayList;
+import java.util.LinkedHashSet;
+import java.util.List;
+import java.util.Set;
+
 import org.joda.time.DateTime;
 import org.joda.time.Duration;
 import org.json.JSONException;
@@ -19,11 +24,6 @@ import com.mobiata.flightlib.data.Flight;
 import com.mobiata.flightlib.data.FlightCode;
 import com.mobiata.flightlib.data.Waypoint;
 
-import java.util.ArrayList;
-import java.util.LinkedHashSet;
-import java.util.List;
-import java.util.Set;
-
 public class FlightLeg implements JSONable, ItinSharable {
 
 	private String mLegId;
@@ -32,9 +32,11 @@ public class FlightLeg implements JSONable, ItinSharable {
 
 	private ItinShareInfo mShareInfo = new ItinShareInfo();
 
-	private List<Flight> mSegments = new ArrayList<Flight>();
+	private List<Flight> mSegments = new ArrayList<>();
 
 	private String mBaggageFeesUrl;
+
+	private boolean mHasBagFee = false;
 
 	private String mFareType;
 
@@ -89,6 +91,14 @@ public class FlightLeg implements JSONable, ItinSharable {
 
 	public void setBaggageFeesUrl(String baggageFeesUrl) {
 		mBaggageFeesUrl = baggageFeesUrl;
+	}
+
+	public boolean hasBagFee() {
+		return mHasBagFee;
+	}
+
+	public void setHasBagFee(boolean hasBagFee) {
+		mHasBagFee = hasBagFee;
 	}
 
 	@Override
@@ -277,6 +287,7 @@ public class FlightLeg implements JSONable, ItinSharable {
 			JSONUtils.putJSONableList(obj, "segments", mSegments);
 			JSONUtils.putJSONable(obj, "shareInfo", mShareInfo);
 			obj.putOpt("baggageFeesUrl", mBaggageFeesUrl);
+			obj.putOpt("hasBagFee", mHasBagFee);
 			obj.putOpt("fareType", mFareType);
 			obj.putOpt("isFreeCancellable", mIsFreeCancellable);
 			obj.put("userCheckedIn", mUserCheckedIn);
@@ -294,6 +305,7 @@ public class FlightLeg implements JSONable, ItinSharable {
 		mShareInfo = JSONUtils.getJSONable(obj, "shareInfo", ItinShareInfo.class);
 		mShareInfo = mShareInfo == null ? new ItinShareInfo() : mShareInfo;
 		mBaggageFeesUrl = obj.optString("baggageFeesUrl");
+		mHasBagFee = obj.optBoolean("hasBagFee", false);
 		mFareType = obj.optString("fareType", "");
 		mIsFreeCancellable = obj.optBoolean("isFreeCancellable");
 		mUserCheckedIn = obj.optBoolean("userCheckedIn");

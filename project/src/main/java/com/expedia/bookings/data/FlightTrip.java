@@ -42,9 +42,9 @@ public class FlightTrip implements JSONable {
 
 	private String mRewardsPoints;
 
-	private List<FlightLeg> mLegs = new ArrayList<FlightLeg>();
+	private List<FlightLeg> mLegs = new ArrayList<>();
 
-	private List<PassengerCategoryPrice> mPassengers = new ArrayList<PassengerCategoryPrice>();
+	private List<PassengerCategoryPrice> mPassengers = new ArrayList<>();
 
 	private Money mBaseFare;
 	private Money mTotalFare;
@@ -71,22 +71,6 @@ public class FlightTrip implements JSONable {
 	// A boolean that denotes whether or not to show the total fare with or without the card fee. This is dependent
 	// on which screens the user has seen and what billing info they have selected. Transient; do not serialize.
 	private boolean mShowFareWithCardFee;
-
-	/**
-	 * This one is a mouthful. For certain POS/regions, the Expedia API returns essentially duplicate offers that differ
-	 * only on price. This price difference can be attributed to the fare including baggage fees or not including baggage
-	 * fees. In the client we want to denote this difference to make it obvious to our users why there are essentially
-	 * duplicate FlightTrips in the list that have different prices.
-	 * <p/>
-	 * Note: hasBagFee denotes that there is a bag fee that must be paid that is not included in the fare.
-	 * The mutually exclusive counterpart to hasBagFee is hasNoBagFee which denotes that the bag fee is already included
-	 * in the fare total. We don't use hasNoBagFee yet. Apparently Expedia backend is super whack and is set up to support the
-	 * case where there are duplicate trips and we want to (1) explicitly call out the baggage fee is NOT included, the
-	 * norm being that baggage fee is included, and (2) explicitly call out that the baggage fee IS included, norm being
-	 * the baggage fee is NOT included. I guess Expedia backend is all-knowing and barks out orders on which type of
-	 * message we have to display. Hell, it might obscure some silly POS logic or something for all I know.
-	 */
-	private boolean mHasBagFee;
 
 	// Optional name for certain fares, such as low cost or saver fare, etc..
 	private String mFareName;
@@ -315,14 +299,6 @@ public class FlightTrip implements JSONable {
 
 	public Money getOnlineBookingFeesAmount() {
 		return mOnlineBookingFeesAmount;
-	}
-
-	public void setHasBagFee(boolean has) {
-		mHasBagFee = has;
-	}
-
-	public boolean hasBagFee() {
-		return mHasBagFee;
 	}
 
 	public void setFareName(String fareName) {
@@ -694,9 +670,7 @@ public class FlightTrip implements JSONable {
 	private static final String KEY_ONLINE_BOOKING_FEES_AMOUNT = "j";
 	private static final String KEY_REWARDS_POINTS = "k";
 	private static final String KEY_SEATS_REMAINING = "l";
-	private static final String KEY_BAGGAGE_FEES_URL = "m";
 	private static final String KEY_MAY_CHARGE_OB_FEES = "n";
-	private static final String KEY_SHOW_HAS_BAG_FEE = "o";
 	private static final String KEY_FARE_NAME = "p";
 	private static final String KEY_FLIGHT_SEGMENT_ATTRS = "q";
 	private static final String KEY_ITINERARY_NUMBER = "r";
@@ -751,9 +725,6 @@ public class FlightTrip implements JSONable {
 			obj.putOpt(KEY_SEATS_REMAINING, mSeatsRemaining);
 			if (mMayChargeObFees) {
 				obj.putOpt(KEY_MAY_CHARGE_OB_FEES, mMayChargeObFees);
-			}
-			if (mHasBagFee) {
-				obj.putOpt(KEY_SHOW_HAS_BAG_FEE, mHasBagFee);
 			}
 			if (!TextUtils.isEmpty(mFareName)) {
 				obj.putOpt(KEY_FARE_NAME, mFareName);
@@ -901,7 +872,6 @@ public class FlightTrip implements JSONable {
 		mRewardsPoints = obj.optString(KEY_REWARDS_POINTS);
 		mSeatsRemaining = obj.optInt(KEY_SEATS_REMAINING);
 		mMayChargeObFees = obj.optBoolean(KEY_MAY_CHARGE_OB_FEES, false);
-		mHasBagFee = obj.optBoolean(KEY_SHOW_HAS_BAG_FEE, false);
 		mFareName = obj.optString(KEY_FARE_NAME, null);
 
 		JSONArray arr = obj.optJSONArray(KEY_FLIGHT_SEGMENT_ATTRS);
@@ -959,7 +929,6 @@ public class FlightTrip implements JSONable {
 		mRewardsPoints = obj.optString("rewardsPoints");
 		mSeatsRemaining = obj.optInt("seatsRemaining");
 		mMayChargeObFees = obj.optBoolean("mayChargeObFees");
-		mHasBagFee = obj.optBoolean("showBaggageFeesNotIncluded");
 		mFareName = obj.optString("fareName");
 		rewards = GsonUtil.getForJsonable(obj, "rewards", RewardsInfo.class);
 

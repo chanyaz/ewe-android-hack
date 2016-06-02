@@ -149,8 +149,8 @@ public class FlightDetailsFragment extends Fragment implements FlightUtils.OnBag
 		mInfoContainer.addView(arriveAtSection);
 
 		// Footer: https://mingle/projects/eb_ad_app/cards/660
-		FlightUtils.configureBaggageFeeViews(this, trip, leg, mFeesTextView, mFeesContainer,
-			mFeesSecondaryTextView, true);
+		FlightUtils.configureBaggageFeeViews(getContext(), trip, leg, mFeesTextView, mFeesContainer,
+			mFeesSecondaryTextView, true, getChildFragmentManager(), this);
 
 		mFirstLayoutPass = true;
 		v.getViewTreeObserver().addOnPreDrawListener(new OnPreDrawListener() {

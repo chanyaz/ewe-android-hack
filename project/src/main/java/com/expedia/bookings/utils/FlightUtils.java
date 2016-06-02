@@ -4,7 +4,8 @@ import org.joda.time.LocalDate;
 
 import android.content.Context;
 import android.content.res.Resources;
-import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.content.ContextCompat;
 import android.text.Html;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
@@ -24,7 +25,6 @@ import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.TripBucketItemFlight;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.fragment.FlightAdditionalFeesDialogFragment;
-import com.mobiata.android.util.ViewUtils;
 import com.mobiata.flightlib.data.Waypoint;
 import com.mobiata.flightlib.utils.DateTimeUtils;
 import com.mobiata.flightlib.utils.FormatUtils;
@@ -79,9 +79,8 @@ public class FlightUtils {
 	 * prompt displayed before the card is actually charged. We want this message to be consistent
 	 * between phone and tablet.
 	 *
-	 * @param context
-	 * @param trip
-	 * @return
+	 * @param context context
+	 * @param flightItem the flight item to be purchased
 	 */
 	public static String getSlideToPurchaseString(Context context, TripBucketItemFlight flightItem) {
 		Money totalFare = flightItem.getFlightTrip().getTotalFareWithCardFee(Db.getBillingInfo(), flightItem);
@@ -100,7 +99,8 @@ public class FlightUtils {
 		int spanStart = cardFeeSb.getSpanStart(underlineSpan);
 		int spanEnd = cardFeeSb.getSpanEnd(underlineSpan);
 		int color = R.color.tablet_legal_blurb_text_color;
-		cardFeeSb.setSpan(new ForegroundColorSpan(color), spanStart, spanEnd, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+		cardFeeSb.setSpan(new ForegroundColorSpan(ContextCompat.getColor(context, color)), spanStart, spanEnd,
+			Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
 
 		return cardFeeSb;
 	}
@@ -112,8 +112,9 @@ public class FlightUtils {
 		void onBaggageFeeViewClicked(String title, String url);
 	}
 
-	public static void configureBaggageFeeViews(final Fragment fragment, final FlightTrip trip, final FlightLeg leg, TextView feesTv,
-		ViewGroup mFeesContainer, TextView secondaryFeesTv, boolean isPhone) {
+	public static void configureBaggageFeeViews(Context context, final FlightTrip trip, final FlightLeg leg,
+		TextView feesTv, ViewGroup mFeesContainer, TextView secondaryFeesTv, boolean isPhone,
+		final FragmentManager fragmentManager, final OnBaggageFeeViewClicked baggageFeeViewClickedListener) {
 
 		// Configure the first TextView, "Baggage Fee Information"
 		int textViewResId;
@@ -122,7 +123,7 @@ public class FlightUtils {
 			textViewResId = R.string.carry_on_baggage_fees_apply;
 			drawableResId = isPhone ? R.drawable.ic_suitcase_baggage_fee : R.drawable.ic_tablet_baggage_check_fees;
 		}
-		else if (trip.hasBagFee()) {
+		else if (leg.hasBagFee()) {
 			textViewResId = R.string.checked_baggage_not_included;
 			drawableResId = isPhone ? R.drawable.ic_suitcase_baggage_fee : R.drawable.ic_tablet_baggage_check_fees;
 		}
@@ -132,53 +133,52 @@ public class FlightUtils {
 		}
 
 		feesTv.setText(textViewResId);
-		ViewUtils.setAllCaps(feesTv);
+		feesTv.setAllCaps(true);
 		feesTv.setCompoundDrawablesWithIntrinsicBounds(drawableResId, 0, 0, 0);
 
-		if (PointOfSale.getPointOfSale().doAirlinesChargeAdditionalFeeBasedOnPaymentMethod()) {
-			drawableResId = isPhone ? R.drawable.ic_payment_fee : R.drawable.ic_tablet_payment_fees;
+		boolean airlinesChargePaymentFees = PointOfSale.getPointOfSale().doAirlinesChargeAdditionalFeeBasedOnPaymentMethod();
+		if (airlinesChargePaymentFees || trip.getMayChargeObFees()) {
+			final String feeString;
+			final String feeUrl;
+
+			if (airlinesChargePaymentFees) {
+				drawableResId = isPhone ? R.drawable.ic_payment_fee : R.drawable.ic_tablet_payment_fees;
+				textViewResId = R.string.airline_fee_notice_payment;
+				feeString = context.getString(R.string.Airline_fee);
+				feeUrl = PointOfSale.getPointOfSale().getAirlineFeeBasedOnPaymentMethodTermsAndConditionsURL();
+			}
+			else {
+				// trip mayChargeObFees
+				drawableResId = isPhone ? R.drawable.ic_payment_fee : R.drawable.ic_tablet_payment_fees;
+				textViewResId = R.string.payment_and_baggage_fees_may_apply;
+				feeString = context.getString(R.string.payment_processing_fees);
+				feeUrl = Db.getFlightSearch().getSearchResponse().getObFeesDetails();
+			}
+
 			secondaryFeesTv.setCompoundDrawablesWithIntrinsicBounds(drawableResId, 0, 0 ,0);
 			secondaryFeesTv.setVisibility(View.VISIBLE);
-			secondaryFeesTv.setText(fragment.getString(R.string.airline_fee_notice_payment));
-			ViewUtils.setAllCaps(secondaryFeesTv);
-			mFeesContainer.setOnClickListener(new View.OnClickListener() {
-				@Override
-				public void onClick(View v) {
-					FlightAdditionalFeesDialogFragment dialogFragment = FlightAdditionalFeesDialogFragment.newInstance(
-						leg.getBaggageFeesUrl(), PointOfSale.getPointOfSale().getAirlineFeeBasedOnPaymentMethodTermsAndConditionsURL(), fragment.getString(R.string.Airline_fee));
-					dialogFragment.show(fragment.getChildFragmentManager(), "additionalFeesDialog");
-				}
-			});
-		}		// Configure the second TextView, "Payment Fees Apply"
-		else if (trip.getMayChargeObFees()) {
-			drawableResId = isPhone ? R.drawable.ic_payment_fee : R.drawable.ic_tablet_payment_fees;
-			secondaryFeesTv.setCompoundDrawablesWithIntrinsicBounds(drawableResId, 0, 0 ,0);
-			secondaryFeesTv.setVisibility(View.VISIBLE);
-			secondaryFeesTv.setText(fragment.getString(R.string.payment_and_baggage_fees_may_apply));
-			ViewUtils.setAllCaps(secondaryFeesTv);
+			secondaryFeesTv.setText(textViewResId);
+			secondaryFeesTv.setAllCaps(true);
 
 			mFeesContainer.setOnClickListener(new View.OnClickListener() {
 				@Override
 				public void onClick(View v) {
 					FlightAdditionalFeesDialogFragment dialogFragment = FlightAdditionalFeesDialogFragment.newInstance(
-						leg.getBaggageFeesUrl(), Db.getFlightSearch().getSearchResponse().getObFeesDetails(), fragment.getString(R.string.payment_processing_fees));
-					dialogFragment.show(fragment.getChildFragmentManager(), "additionalFeesDialog");
+						leg.getBaggageFeesUrl(), feeUrl, feeString);
+					dialogFragment.show(fragmentManager, "additionalFeesDialog");
 				}
 			});
 		}
 		else {
 			secondaryFeesTv.setVisibility(View.GONE);
+			final String baggageFeesString = context.getString(R.string.baggage_fees);
 			mFeesContainer.setOnClickListener(new View.OnClickListener() {
 				@Override
 				public void onClick(View v) {
-					((OnBaggageFeeViewClicked) fragment).onBaggageFeeViewClicked(
-						fragment.getString(R.string.baggage_fees), leg.getBaggageFeesUrl());
+					baggageFeeViewClickedListener.onBaggageFeeViewClicked(baggageFeesString, leg.getBaggageFeesUrl());
 				}
 			});
 		}
-
-
-
 	}
 
 	 /*
