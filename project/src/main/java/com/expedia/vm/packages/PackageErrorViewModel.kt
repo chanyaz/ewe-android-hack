@@ -72,12 +72,14 @@ class PackageErrorViewModel(private val context: Context) {
                 PackageApiError.Code.pkg_destination_resolution_failed,
                 PackageApiError.Code.pkg_flight_no_longer_available,
                 PackageApiError.Code.pkg_too_many_children_in_lap,
+                PackageApiError.Code.pkg_no_flights_available,
                 PackageApiError.Code.pkg_invalid_checkin_checkout_dates -> {
                     imageObservable.onNext(R.drawable.error_default)
                     errorMessageObservable.onNext(context.getString(R.string.error_package_search_message))
                     buttonTextObservable.onNext(context.getString(R.string.edit_search))
                 }
-                PackageApiError.Code.pkg_piid_expired -> {
+                PackageApiError.Code.pkg_piid_expired,
+                PackageApiError.Code.pkg_pss_downstream_service_timeout -> {
                     imageObservable.onNext(R.drawable.error_timeout)
                     errorMessageObservable.onNext(context.getString(R.string.reservation_time_out))
                     buttonTextObservable.onNext(context.getString(R.string.search_again))
