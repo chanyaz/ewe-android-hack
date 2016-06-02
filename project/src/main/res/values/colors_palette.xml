@@ -19,28 +19,33 @@
     <color name="lob_packages_secondary_color">#0B75A1</color> <!-- Blue (Dark) -->
     <color name="lob_cars_primary_color">#9E4E7F</color> <!-- Maroon -->
     <color name="lob_cars_secondary_color">#915B7C</color> <!-- Maroon (Dark) -->
-    <color name="lob_lx_primary_color">#E88534</color> <!-- Orange -->
+
     <color name="lob_gt_primary_color">#B93F62</color> <!-- Red -->
     <color name="lob_rail_primary_color">#1369B3</color> <!-- Navy -->
 
-    <!-- Gray Values (These are the ONLY gray values we should use in our app going forward) -->
+    <color name="lob_lx_primary_orange">#E88534</color>
+    <color name="lob_lx_secondary_orange">#F7840D</color>
+
     <color name="transparent">#00000000</color>
     <color name="white">#FFFFFFFF</color>
-    <color name="white_70">#B3FFFFFF</color>
-    <color name="white_25">#40FFFFFF</color>
-    <color name="white_30">#30FFFFFF</color> <!-- Disabled white text -->
+
     <color name="gray1">#EEEEEE</color> <!-- Lightest gray, used for backgrounds (behind cardviews etc) -->
     <color name="gray2">#D6D6D6</color>
     <color name="gray3">#B9B9B9</color>
     <color name="gray4">#9C9C9C</color>
     <color name="gray5">#868686</color> <!-- Medium gray -->
     <color name="gray6">#767676</color> <!--This is the lightest gray value we should use for text (accessibility)-->
-    <color name="gray6_65">#A6767676</color>
     <color name="gray7">#656565</color>
     <color name="gray8">#585858</color>
     <color name="gray9">#4A4A4A</color>
     <color name="gray10">#3C3C3C</color> <!-- Darkest gray -->
     <color name="black">#FF000000</color>
+
+    <!-- alpha colors -->
+    <color name="white_70">#B3FFFFFF</color>
+    <color name="white_25">#40FFFFFF</color>
+    <color name="white_30">#30FFFFFF</color> <!-- Disabled white text -->
+    <color name="gray6_65">#A6767676</color>
 
     <!-- Colors -->
     <color name="orange_crush">#FC9F23</color> <!-- This is used mainly for error states -->
@@ -50,5 +55,4 @@
     <color name="cardview_divider_lines_gray">#DFDFDF</color>
 
     <color name="search_dialog_gray">#6A6A6A</color>
-
 </resources>

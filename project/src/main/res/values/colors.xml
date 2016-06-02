@@ -335,46 +335,56 @@
     <color name="launch_screen_itin_divider">@color/white_70</color>
 
     <!-- LX colors -->
-    <color name="lx_primary_color">@color/lob_lx_primary_color</color>
-    <color name="gt_primary_color">@color/lob_gt_primary_color</color>
-    <color name="lx_ripple_color">#F7840D</color>
-    <color name="lx_valid_days_calendar">#3A3A3A</color>
-    <color name="lx_invalid_days_calendar">#A9A9A9</color>
-    <color name="lx_search_result_info_text_color">#888888</color>
-    <color name="lx_dates_text_color">#707070</color>
-    <color name="lx_details_text_color">#525252</color>
-    <color name="lx_details_heading_text_color">#3C3C3C</color>
-    <color name="lx_details_content_text_color">#585858</color>
-    <color name="lx_details_background_color">@color/gray1</color>
-    <color name="lx_ticket_summary_color">@color/gray7</color>
-    <color name="lx_ticket_title_color">#3C3C3C</color>
-    <color name="lx_select_ticket_button_color">#7C7C7C</color>
-    <color name="lx_date_disabled_background_color">@android:color/white</color>
-    <color name="lx_actionbar_text_color">#5C5C5C</color>
-    <color name="lx_date_unselected_color">#5C5C5C</color>
+    <color name="lx_primary_color">@color/lob_lx_primary_orange</color>
+    <color name="lx_ripple_color">@color/lob_lx_secondary_orange</color>
+
+    <color name="lx_actionbar_text_color">@color/gray8</color>
+
+    <color name="lx_dates_text_color">@color/gray6</color>
+    <color name="lx_valid_days_calendar">@color/gray10</color>
+    <color name="lx_invalid_days_calendar">@color/gray4</color>
     <color name="lx_date_selected_color">@color/white</color>
+    <color name="lx_date_unselected_color">@color/gray8</color>
+    <color name="lx_date_disabled_background_color">@color/white</color>
+    <color name="lx_dates_disabled_text_color">@color/gray2</color>
+    <color name="lx_dates_container_border_color">@color/gray2</color>
+
+    <color name="lx_search_result_info_text_color">@color/gray5</color>
+    <color name="lx_sort_filter_pressed">@color/gray2</color>
+    <color name="lx_sort_filter_top_bar_text_color">@color/gray8</color>
+    <color name="lx_sort_filter_pressed_row_color">@color/gray2</color>
+
+    <color name="lx_details_text_color">@color/gray8</color>
+    <color name="lx_details_heading_text_color">@color/gray10</color>
+    <color name="lx_details_content_text_color">@color/gray8</color>
+    <color name="lx_details_background_color">@color/gray1</color>
+    <color name="lx_select_ticket_button_color">@color/gray6</color>
+    <color name="lx_ticket_title_color">@color/gray10</color>
+    <color name="lx_ticket_summary_color">@color/gray7</color>
+
+    <color name="lx_checkout_text_color">@color/gray7</color>
+
+    <color name="lx_confirmation_action_text_color">@color/gray1</color>
+    <color name="lx_confirmation_email_text_color">@color/gray3</color>
+    <color name="search_dropdown_disabled_stroke">@color/gray3</color>
+
+    <!-- these colors crazy -->
     <color name="lx_confirmation_gradient">#80000000</color>
     <color name="lx_confirmation_background">#1A1D20</color>
-    <color name="lx_confirmation_action_text_color">#F3F3F3</color>
-    <color name="lx_confirmation_email_text_color">#C8C8C8</color>
-    <color name="lx_checkout_text_color">@color/gray7</color>
-    <color name="lx_dates_disabled_text_color">#D7D7D7</color>
     <color name="lx_secondary_color_disabled">#F6DAC0</color>
-    <color name="lx_dates_container_border_color">#CCCCCC</color>
     <color name="lx_confirmation_action_background">#3A424C</color>
     <color name="lx_unchecked_toggle_text_color">#FFC48E</color>
-    <color name="gt_unchecked_toggle_text_color">#E98DA7</color>
     <color name="lx_primary_disabled_color">#40E88534</color>
-    <color name="gt_primary_disabled_color">#40B93F62</color>
     <color name="lx_more_like_this">#FAFAFA</color>
     <color name="lx_color_primary_dark">#A8540D</color>
-    <color name="search_dropdown_disabled_stroke">#C3C3C3</color>
-    <color name="lx_sort_filter_pressed">#D9D9D9</color>
-    <color name="lx_sort_filter_top_bar_text_color">#5C5C5C</color>
-    <color name="lx_sort_filter_pressed_row_color">#D8D8D8</color>
     <color name="lx_offer_date_ripple_color">#a25d24</color>
+
     <color name="checkout_login_button_color">#836B11</color>
     <color name="leanplum_dialog_button_color">#fc2176</color>
+
+    <color name="gt_primary_color">@color/lob_gt_primary_color</color>
+    <color name="gt_unchecked_toggle_text_color">#E98DA7</color>
+    <color name="gt_primary_disabled_color">#40B93F62</color>
 
     <!--Account Lib Colors -->
     <color name="btn_sign_in_normal">#f9e06e</color>
