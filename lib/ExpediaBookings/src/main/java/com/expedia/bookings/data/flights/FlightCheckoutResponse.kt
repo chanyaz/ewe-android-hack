@@ -1,10 +1,9 @@
-package com.expedia.bookings.data.packages
+package com.expedia.bookings.data.flights
 
 import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.TripDetails
 
-class PackageCheckoutResponse() : PackageCreateTripResponse() {
-    val newTrip: TripDetails? = null
+class FlightCheckoutResponse() : FlightCreateTripResponse() {
     val orderId: String? = null
     val totalChargesPrice: Money? = null
 }

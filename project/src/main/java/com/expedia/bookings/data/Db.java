@@ -128,6 +128,7 @@ public class Db {
 	private String mAbacusGuid;
 
 	private PackageSearchParams mPackageParams;
+	private com.expedia.bookings.data.flights.FlightSearchParams mFlightSearchParams;
 	private PackageSearchResponse mPackageResponse;
 	private Hotel mPackageSelectedHotel;
 	private HotelOffersResponse.HotelRoomResponse mPackageSelectedRoom;
@@ -139,6 +140,22 @@ public class Db {
 
 	public static PackageSearchParams getPackageParams() {
 		return sDb.mPackageParams;
+	}
+
+	public static com.expedia.bookings.data.flights.FlightSearchParams getFlightSearchParams() {
+		return sDb.mFlightSearchParams;
+	}
+
+	// Search params getter required for TravelerValidator
+	public static AbstractFlightSearchParams getSearchParams() {
+		if (sDb.mPackageParams != null) {
+			return sDb.mPackageParams;
+		}
+		else if (sDb.mFlightSearchParams != null) {
+			return sDb.mFlightSearchParams;
+		}
+
+		return null;
 	}
 
 	public static void setPackageSelectedHotel(Hotel packageSelectedHotel, HotelOffersResponse.HotelRoomResponse packageSelectedRoom) {
@@ -193,7 +210,13 @@ public class Db {
 	}
 
 	public static void setPackageParams(PackageSearchParams params) {
+		sDb.mFlightSearchParams = null;
 		sDb.mPackageParams = params;
+	}
+
+	public static void setFlightSearchParams(com.expedia.bookings.data.flights.FlightSearchParams flightSearchParams) {
+		sDb.mPackageParams = null;
+		sDb.mFlightSearchParams = flightSearchParams;
 	}
 
 	public static PackageSearchResponse getPackageResponse() {

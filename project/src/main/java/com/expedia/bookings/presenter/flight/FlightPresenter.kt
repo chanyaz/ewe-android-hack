@@ -6,6 +6,7 @@ import android.util.AttributeSet
 import android.view.View
 import android.view.ViewStub
 import com.expedia.bookings.R
+import com.expedia.bookings.data.BaseApiResponse
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.flights.FlightCreateTripParams
@@ -54,6 +55,12 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
     val flightOverviewPresenter: FlightOverviewPresenter by lazy {
         val viewStub = findViewById(R.id.overview_presenter) as ViewStub
         val presenter = viewStub.inflate() as FlightOverviewPresenter
+        presenter
+    }
+
+    val confirmationPresenter: FlightConfirmationPresenter by lazy {
+        val viewStub = findViewById(R.id.confirmation_presenter) as ViewStub
+        val presenter = viewStub.inflate() as FlightConfirmationPresenter
         presenter
     }
 
@@ -140,16 +147,21 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
 
     override fun onFinishInflate() {
         super.onFinishInflate()
-        addTransition(flightsToBundle)
         addTransition(if (displayFlightDropDownRoutes()) restrictedSearchToOutbound else searchToOutbound)
+        addTransition(inboundFlightToOverview)
         addTransition(outboundToInbound)
+        addTransition(overviewToConfirmation)
         addDefaultTransition(defaultTransition)
         flightOverviewPresenter.getCheckoutPresenter().toggleCheckoutButton(false)
+
+        flightOverviewPresenter.getCheckoutPresenter().getCheckoutViewModel().checkoutResponse.subscribe { pair: Pair<BaseApiResponse, String> ->
+            show(confirmationPresenter)
+        }
 
         show(searchPresenter)
     }
 
-    private val flightsToBundle = object : LeftToRightTransition(this, FlightInboundPresenter::class.java, FlightOverviewPresenter::class.java) {
+    private val inboundFlightToOverview = object : LeftToRightTransition(this, FlightInboundPresenter::class.java, FlightOverviewPresenter::class.java) {
         override fun startTransition(forward: Boolean) {
             super.startTransition(forward)
             if (forward) {
@@ -159,6 +171,8 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
             }
         }
     }
+
+    private val overviewToConfirmation = object : LeftToRightTransition(this, FlightOverviewPresenter::class.java, FlightConfirmationPresenter::class.java) {}
 
     private val outboundToInbound = ScaleTransition(this, FlightOutboundPresenter::class.java, FlightInboundPresenter::class.java)
 

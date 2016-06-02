@@ -1,6 +1,7 @@
 package com.expedia.bookings.services
 
 import com.expedia.bookings.data.flights.Airline
+import com.expedia.bookings.data.flights.FlightCheckoutResponse
 import com.expedia.bookings.data.flights.FlightCreateTripParams
 import com.expedia.bookings.data.flights.FlightCreateTripResponse
 import com.expedia.bookings.data.flights.FlightLeg
@@ -108,6 +109,11 @@ class FlightServices(endpoint: String, okHttpClient: OkHttpClient, interceptor: 
 
     fun createTrip(params: FlightCreateTripParams): Observable<FlightCreateTripResponse> {
         return flightApi.createTrip(params.toQueryMap()).observeOn(observeOn)
+                .subscribeOn(subscribeOn)
+    }
+
+    fun checkout(params: Map<String, Any>): Observable<FlightCheckoutResponse> {
+        return flightApi.checkout(params).observeOn(observeOn)
                 .subscribeOn(subscribeOn)
     }
 }

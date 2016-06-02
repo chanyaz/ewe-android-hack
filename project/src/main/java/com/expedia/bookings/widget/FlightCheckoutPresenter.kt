@@ -37,7 +37,7 @@ class FlightCheckoutPresenter(context: Context, attr: AttributeSet) : BaseChecko
     }
 
     override fun getLineOfBusiness() : LineOfBusiness {
-        return LineOfBusiness.FLIGHTS
+        return LineOfBusiness.FLIGHTS_V2
     }
 
     override fun updateTravelerPresenter() {

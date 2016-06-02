@@ -40,4 +40,12 @@
         android:inflatedId="@+id/widget_bundle_overview"
         android:layout="@layout/flight_overview_stub"
         android:visibility="gone" />
+
+    <ViewStub
+        android:id="@+id/confirmation_presenter"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout="@layout/flight_confirmation_stub"
+        android:background="@color/gray1"
+        android:visibility="gone" />
 </merge>

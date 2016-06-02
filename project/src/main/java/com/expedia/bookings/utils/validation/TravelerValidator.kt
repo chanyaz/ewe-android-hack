@@ -4,6 +4,8 @@ import android.text.TextUtils
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.Traveler
 import com.expedia.bookings.data.TravelerName
+import com.expedia.bookings.data.flights.FlightSearchParams
+import com.expedia.bookings.data.packages.PackageSearchParams
 import com.expedia.bookings.enums.PassengerCategory
 import com.expedia.bookings.section.CommonSectionValidators
 import com.mobiata.android.validation.ValidationError
@@ -11,18 +13,17 @@ import org.joda.time.LocalDate
 
 object TravelerValidator {
     fun isValidForPackageBooking(traveler: Traveler): Boolean {
-        return hasValidBirthDate(traveler) && hasValidName(traveler.getName()) && isValidPhone(traveler.phoneNumber) && hasValidGender(traveler)
+        return hasValidBirthDate(traveler) && hasValidName(traveler.name) && isValidPhone(traveler.phoneNumber) && hasValidGender(traveler)
     }
 
     fun hasValidBirthDate(traveler: Traveler): Boolean {
-        val searchParams = Db.getPackageParams()
+        val searchParams = Db.getSearchParams()
         val birthDate = traveler.birthDate
-        if (birthDate!= null) {
+        if (birthDate != null) {
             val passengerCategory = traveler.getPassengerCategory(searchParams)
-
             if (birthDate.isAfter(LocalDate.now())) {
                 return false
-            } else if (!PassengerCategory.isDateWithinPassengerCategoryRange(birthDate, searchParams, passengerCategory)) {
+            } else if (!PassengerCategory.isDateWithinPassengerCategoryRange(birthDate, searchParams, passengerCategory!!)) {
                 return false
             }
         } else {

@@ -46,11 +46,10 @@ class PackageCheckoutViewModel(context: Context, val packageServices: PackageSer
         }
 
         checkoutParams.subscribe { params -> params as PackageCheckoutParams
-            val suppressFinalBooking = BookingSuppressionUtils.shouldSuppressFinalBooking(context, R.string.preference_suppress_package_bookings)
             if (User.isLoggedIn(context)) {
                 params.billingInfo.email = Db.getUser().primaryTraveler.email
             }
-            builder.suppressFinalBooking(suppressFinalBooking)
+            builder.suppressFinalBooking(BookingSuppressionUtils.shouldSuppressFinalBooking(context, R.string.preference_suppress_package_bookings))
             packageServices.checkout(params.toQueryMap()).subscribe(makeCheckoutResponseObserver())
             email = params.billingInfo.email
         }
