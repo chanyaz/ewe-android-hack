@@ -55,7 +55,21 @@ class MockHotelServiceTestRule : ServicesRule<HotelServices>(HotelServices::clas
         return getCreateTripResponse("logged_in_user_with_non_redeemable_points")
     }
 
+    fun getHotelWithFeesAndIncludedTaxesResponse(): HotelCreateTripResponse {
+        return getCreateTripResponse("hotel_with_fees_and_included_taxes")
+    }
 
+    fun getHotelWithFeesPaidAtHotelResponse(): HotelCreateTripResponse {
+        return getCreateTripResponse("hotel_with_fees_paid_at_hotel")
+    }
+
+    fun getHotelWithGuestChargeResponse(): HotelCreateTripResponse {
+        return getCreateTripResponse("hotel_with_extra_guest_charge_and_discount")
+    }
+
+    fun getHotelWithTaxesIncludedResponse(): HotelCreateTripResponse {
+        return getCreateTripResponse("hotel_with_included_taxes")
+    }
 
     fun getProductKeyExpiredResponse(): HotelCreateTripResponse {
         return getCreateTripResponse("error_expired_product_key_createtrip")

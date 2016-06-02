@@ -1,0 +1,255 @@
+{
+  "originalHotelProductResponse": {},
+  "newHotelProductResponse": {
+    "checkInDate": "2016-06-30",
+    "checkOutDate": "2016-07-02",
+    "adultCount": "4",
+    "numberOfNights": "2",
+    "numberOfRooms": "1",
+    "hotelId": "15930",
+    "hotelName": "TI - Treasure Island Hotel and Casino",
+    "localizedHotelName": "TI - Treasure Island Hotel and Casino",
+    "nonLocalizedHotelName": "TI - Treasure Island Hotel and Casino",
+    "largeThumbnailUrl": "/hotels/1000000/20000/16000/15930/15930_193_d.jpg",
+    "thumbnailUrl": "/hotels/1000000/20000/16000/15930/15930_193_n.jpg",
+    "hotelAddress": "3300 Las Vegas Blvd S",
+    "hotelCity": "Las Vegas",
+    "hotelStateProvince": "NV",
+    "hotelCountry": "USA",
+    "hotelStarRating": "4.0",
+    "shortDescription": "Treasure Island - TI Hotel & Casino is connected to the Fashion Show shopping mall by bridge as well as The Mirage by tram, and within easy walking distance of Wynn/Encore, the Sands Expo, and Venetian/Palazzo.",
+    "hotelRoomResponse": {
+      "productKey": "a85a0261-7c1f-4c38-a8ed-54a99499aedf_V3",
+      "cancellationPolicy": "<p>We understand that sometimes plans fall through. We do not charge a cancel or change fee. When the hotel charges such fees in accordance with its own policies, the cost will be passed on to you. TI - Treasure Island Hotel and Casino charges the following cancellation and change fees.</p><p>Cancellations or changes made after 11:59AM (hotel local time) on Jun 28, 2016 or no-shows are subject to a hotel fee equal to the first night's rate plus taxes and fees.</p><p>Your room will be guaranteed for late arrival.</p><p>Hotel supplier loyalty points and/or airline miles may not be awarded when booking Expedia Special Rate hotels.</p>",
+      "rateDescription": "Tower Suite",
+      "roomTypeDescription": "Tower Suite",
+      "supplierType": "MERCHANT",
+      "rateChange": true,
+      "nonRefundable": false,
+      "hasFreeCancellation": true,
+      "freeCancellationWindowDate": "2016-06-28 11:59",
+      "guaranteeRequired": false,
+      "depositRequired": false,
+      "immediateChargeRequired": true,
+      "currentAllotment": "0",
+      "promoDescription": "Save 30%",
+      "promotionDetails": {
+        "promoId": "214210966",
+        "minStay": 1,
+        "promoExpirationDate": "2016-06-30T00:00:00-00:00",
+        "promoAdjustmentAmount": "-0.30",
+        "promoAdjustmentType": "PercentAdjustment",
+        "isPromoPartiallyApplied": false
+      },
+      "isDiscountRestrictedToCurrentSourceType": false,
+      "isSameDayDRR": false,
+      "smokingPreferences": "E",
+      "rateOccupancyPerRoom": "7",
+      "bedTypes": [
+        {
+          "id": "14",
+          "description": "1 king bed"
+        }
+      ],
+      "rateInfo": {
+        "priceBreakdown": true,
+        "promo": true,
+        "rateChange": true,
+        "chargeableRateInfo": {
+          "maxNightlyRate": "213.46",
+          "averageRate": "174.71",
+          "taxStatusType": "ESTIMATED",
+          "surchargeTotal": "29.67",
+          "surchargeTotalForEntireStay": "59.34",
+          "averageBaseRate": "267.45",
+          "nightlyRateTotal": "349.42",
+          "discountPercent": -35,
+          "total": "528.74",
+          "currencyCode": "USD",
+          "currencySymbol": "$",
+          "surcharges": [
+            {
+              "amount": "22.70",
+              "type": "TAX_ALL"
+            },
+            {
+              "amount": "22.70",
+              "type": "TAX_OTHER"
+            },
+            {
+              "amount": "6.97",
+              "type": "FEE_ALL"
+            },
+            {
+              "amount": "6.97",
+              "type": "FEE_MISC"
+            },
+            {
+              "amount": "60.00",
+              "type": "EXTRA"
+            }
+          ],
+          "surchargesForEntireStay": [
+            {
+              "amount": "45.40",
+              "type": "TAX_ALL"
+            },
+            {
+              "amount": "45.40",
+              "type": "TAX_OTHER"
+            },
+            {
+              "amount": "13.94",
+              "type": "FEE_ALL"
+            },
+            {
+              "amount": "13.94",
+              "type": "FEE_MISC"
+            },
+            {
+              "amount": "120.00",
+              "type": "EXTRA"
+            }
+          ],
+          "nightlyRatesPerRoom": [
+            {
+              "promo": "true",
+              "baseRate": "229.95",
+              "rate": "135.96"
+            },
+            {
+              "promo": "true",
+              "baseRate": "304.95",
+              "rate": "213.46"
+            }
+          ],
+          "priceToShowUsers": "175",
+          "strikethroughPriceToShowUsers": "267",
+          "strikethroughPriceWithTaxesAndFeesToShowUsers": "714",
+          "totalMandatoryFees": "67.20",
+          "mandatoryFees": [
+            {
+              "feeName": "Resort fee",
+              "amount": "67.20"
+            }
+          ],
+          "totalPriceWithMandatoryFees": "595.94",
+          "formattedTotalPriceWithMandatoryFees": "$ 595.94",
+          "userPriceType": "PerNightRateNoTaxes",
+          "priceAdjustments": [
+            {
+              "type": "COUPON",
+              "amount": "25.00",
+              "formattedAmount": "$ 25.00"
+            }
+          ],
+          "checkoutPriceType": "totalPriceWithMandatoryFees",
+          "airAttached": false,
+          "roomTypeCode": "1617",
+          "ratePlanCode": "1617",
+          "showResortFeeMessage": true,
+          "resortFeeInclusion": true,
+          "dailyMandatoryFee": "33.60"
+        }
+      },
+      "valueAdds": [
+        {
+          "id": "16384",
+          "description": "Free Valet Parking"
+        }
+      ],
+      "quotedOccupancy": "4",
+      "minGuestAge": "0",
+      "roomTypeCode": "1617",
+      "ratePlanCode": "1617",
+      "isPayLater": false
+    },
+    "supplierType": "MERCHANT",
+    "accessibilityAmenities": [
+      {
+        "id": "2420",
+        "description": "Accessible bathroom"
+      },
+      {
+        "id": "2421",
+        "description": "Roll-in shower"
+      },
+      {
+        "id": "2423",
+        "description": "In-room accessibility"
+      }
+    ],
+    "isVipAccess": true,
+    "tealeafTransactionId": "6010f96de2a042ee8dd5b8d9e64fbd11",
+    "bigImageUrl": "/hotels/1000000/20000/16000/15930/15930_193_b.jpg",
+    "regionId": "800045"
+  },
+  "airAttachedProductResponse": {},
+  "loyaltyPoints": {
+    "totalLoyaltyPoints": 3171.00,
+    "loyaltyPointInfoList": [
+      {
+        "pointValue": 1057.00,
+        "pointType": "basePoint"
+      },
+      {
+        "pointValue": 2114.00,
+        "pointType": "offerPoint"
+      }
+    ]
+  },
+  "expediaRewards": {
+    "totalPointsToEarn": 3171,
+    "isActiveRewardsMember": false,
+    "rewardsMembershipTierName": "Invalid Tier"
+  },
+  "rewards": {
+    "programName": "ExpediaRewards",
+    "totalPointsToEarn": 3171.00,
+    "isActiveRewardsMember": false,
+    "rewardsMembershipTierName": "Invalid Tier"
+  },
+  "coupon": {
+    "code": "mobile25e"
+  },
+  "userCoupons": [
+    {
+      "name": "T2D - 2015 EG Backup Mobile Offer",
+      "instanceId": 184286369,
+      "redemptionStatus": "VALID"
+    }
+  ],
+  "tealeafTransactionId": "6010f96de2a042ee8dd5b8d9e64fbd11",
+  "validFormsOfPayment": [
+    {
+      "name": "AmericanExpress",
+      "verificationTypes": [
+        "APPLE_PAY"
+      ]
+    },
+    {
+      "name": "Diner's Club International"
+    },
+    {
+      "name": "Discover"
+    },
+    {
+      "name": "JCB"
+    },
+    {
+      "name": "MasterCard",
+      "verificationTypes": [
+        "APPLE_PAY",
+        "THREE_DS"
+      ]
+    },
+    {
+      "name": "Visa",
+      "verificationTypes": [
+        "APPLE_PAY",
+        "THREE_DS"
+      ]
+    }
+  ],
+  "guestUserPromoEmailOptInStatus": "ALWAYS"
+}

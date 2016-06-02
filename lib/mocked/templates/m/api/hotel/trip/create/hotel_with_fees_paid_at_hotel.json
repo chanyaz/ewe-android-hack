@@ -1,0 +1,211 @@
+{
+  "originalHotelProductResponse": {},
+  "newHotelProductResponse": {
+    "checkInDate": "2016-06-30",
+    "checkOutDate": "2016-07-01",
+    "adultCount": "1",
+    "numberOfNights": "1",
+    "numberOfRooms": "1",
+    "hotelId": "34877",
+    "hotelName": "L'Hotel PortoBay São Paulo",
+    "localizedHotelName": "L'Hotel PortoBay São Paulo",
+    "nonLocalizedHotelName": "L'Hotel PortoBay São Paulo",
+    "largeThumbnailUrl": "/hotels/1000000/40000/34900/34877/34877_191_d.jpg",
+    "thumbnailUrl": "/hotels/1000000/40000/34900/34877/34877_191_n.jpg",
+    "hotelAddress": "Alameda Campinas 266",
+    "hotelCity": "Sao Paulo",
+    "hotelStateProvince": "SP",
+    "hotelCountry": "BRA",
+    "hotelStarRating": "5.0",
+    "shortDescription": "Situated in Sao Paulo, this spa hotel is close to Museu de Arte de Sao Paulo, Teatro Municipal, and Museu Paulista. Area attractions also include Parque Trianon.",
+    "hotelRoomResponse": {
+      "productKey": "33ba799e-19ca-4a48-93ec-84a160d94c5c_V3",
+      "cancellationPolicy": "<p>We understand that sometimes plans fall through. We do not charge a cancel or change fee. When the hotel charges such fees in accordance with its own policies, the cost will be passed on to you. L'Hotel PortoBay São Paulo charges the following cancellation and change fees.</p><p><span class=\"rr-bold\">The room type and rate selected are non-refundable.</span> Should you change or cancel this reservation for any reason, your payment will not be refunded.</p><p>No refunds will be issued for late check-in or early check-out.</p><p>Stay extensions require a new reservation.</p><p>Your room will be guaranteed for late arrival.</p><p>Hotel supplier loyalty points and/or airline miles may not be awarded when booking Expedia Special Rate hotels.</p>",
+      "rateDescription": "Executive Apartment, 1 King Bed - Non Refundable",
+      "roomTypeDescription": "Executive Apartment, 1 King Bed - Non Refundable",
+      "supplierType": "MERCHANT",
+      "rateChange": false,
+      "nonRefundable": true,
+      "hasFreeCancellation": false,
+      "guaranteeRequired": false,
+      "depositRequired": false,
+      "immediateChargeRequired": true,
+      "currentAllotment": "0",
+      "promoDescription": "Save 12%",
+      "promotionDetails": {
+        "promoId": "218253067",
+        "minStay": 1,
+        "promoExpirationDate": "2017-01-16T23:59:00-00:00",
+        "promoAdjustmentAmount": "-0.12",
+        "promoAdjustmentType": "PercentAdjustment",
+        "isPromoPartiallyApplied": false
+      },
+      "isDiscountRestrictedToCurrentSourceType": false,
+      "isSameDayDRR": false,
+      "smokingPreferences": "E",
+      "rateOccupancyPerRoom": "4",
+      "bedTypes": [
+        {
+          "id": "14",
+          "description": "1 king bed"
+        }
+      ],
+      "rateInfo": {
+        "priceBreakdown": true,
+        "promo": true,
+        "rateChange": false,
+        "chargeableRateInfo": {
+          "maxNightlyRate": "179.31",
+          "averageRate": "179.31",
+          "taxStatusType": "ESTIMATED",
+          "surchargeTotal": "8.97",
+          "surchargeTotalForEntireStay": "8.97",
+          "averageBaseRate": "204.58",
+          "nightlyRateTotal": "179.31",
+          "discountPercent": -12,
+          "total": "188.28",
+          "currencyCode": "USD",
+          "currencySymbol": "$",
+          "surcharges": [
+            {
+              "amount": "6.95",
+              "type": "TAX_ALL"
+            },
+            {
+              "amount": "6.95",
+              "type": "TAX_VAT"
+            },
+            {
+              "amount": "2.02",
+              "type": "FEE_ALL"
+            },
+            {
+              "amount": "2.02",
+              "type": "FEE_MISC"
+            }
+          ],
+          "surchargesForEntireStay": [
+            {
+              "amount": "6.95",
+              "type": "TAX_ALL"
+            },
+            {
+              "amount": "6.95",
+              "type": "TAX_VAT"
+            },
+            {
+              "amount": "2.02",
+              "type": "FEE_ALL"
+            },
+            {
+              "amount": "2.02",
+              "type": "FEE_MISC"
+            }
+          ],
+          "nightlyRatesPerRoom": [
+            {
+              "promo": "true",
+              "baseRate": "204.58",
+              "rate": "179.31"
+            }
+          ],
+          "priceToShowUsers": "179",
+          "strikethroughPriceToShowUsers": "205",
+          "strikethroughPriceWithTaxesAndFeesToShowUsers": "214",
+          "totalMandatoryFees": "2.49",
+          "mandatoryFees": [
+            {
+              "feeName": "Tourism fee",
+              "amount": "2.49"
+            }
+          ],
+          "totalPriceWithMandatoryFees": "190.77",
+          "formattedTotalPriceWithMandatoryFees": "$ 190.77",
+          "userPriceType": "PerNightRateNoTaxes",
+          "priceAdjustments": [],
+          "checkoutPriceType": "totalPriceWithMandatoryFees",
+          "airAttached": false,
+          "roomTypeCode": "450215",
+          "ratePlanCode": "200892895",
+          "showResortFeeMessage": false,
+          "resortFeeInclusion": false,
+          "dailyMandatoryFee": "2.49"
+        }
+      },
+      "quotedOccupancy": "3",
+      "minGuestAge": "0",
+      "roomTypeCode": "450215",
+      "ratePlanCode": "200892895",
+      "isPayLater": false
+    },
+    "supplierType": "MERCHANT",
+    "accessibilityAmenities": [
+      {
+        "id": "2420",
+        "description": "Accessible bathroom"
+      }
+    ],
+    "isVipAccess": true,
+    "tealeafTransactionId": "aab406860a704bed868120d45dd89bdc",
+    "bigImageUrl": "/hotels/1000000/40000/34900/34877/34877_191_b.jpg",
+    "regionId": "6004949"
+  },
+  "airAttachedProductResponse": {},
+  "loyaltyPoints": {
+    "totalLoyaltyPoints": 1131.00,
+    "loyaltyPointInfoList": [
+      {
+        "pointValue": 377.00,
+        "pointType": "basePoint"
+      },
+      {
+        "pointValue": 754.00,
+        "pointType": "offerPoint"
+      }
+    ]
+  },
+  "expediaRewards": {
+    "totalPointsToEarn": 1131,
+    "isActiveRewardsMember": false,
+    "rewardsMembershipTierName": "Invalid Tier"
+  },
+  "rewards": {
+    "programName": "ExpediaRewards",
+    "totalPointsToEarn": 1131.00,
+    "isActiveRewardsMember": false,
+    "rewardsMembershipTierName": "Invalid Tier"
+  },
+  "tealeafTransactionId": "aab406860a704bed868120d45dd89bdc",
+  "validFormsOfPayment": [
+    {
+      "name": "AmericanExpress",
+      "verificationTypes": [
+        "APPLE_PAY"
+      ]
+    },
+    {
+      "name": "Diner's Club International"
+    },
+    {
+      "name": "Discover"
+    },
+    {
+      "name": "JCB"
+    },
+    {
+      "name": "MasterCard",
+      "verificationTypes": [
+        "APPLE_PAY",
+        "THREE_DS"
+      ]
+    },
+    {
+      "name": "Visa",
+      "verificationTypes": [
+        "APPLE_PAY",
+        "THREE_DS"
+      ]
+    }
+  ],
+  "guestUserPromoEmailOptInStatus": "ALWAYS"
+}
