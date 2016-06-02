@@ -2,13 +2,11 @@ package com.expedia.bookings.widget
 
 import android.content.Context
 import android.support.v4.content.ContextCompat
+import android.support.v7.widget.SwitchCompat
 import android.util.AttributeSet
 import android.view.View
-import android.widget.ImageView
 import android.widget.LinearLayout
 import com.expedia.bookings.R
-import com.expedia.bookings.data.Db
-import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
 import com.expedia.util.subscribeOnCheckChanged
@@ -22,8 +20,7 @@ class ShopWithPointsWidget(context: Context, val attrs: AttributeSet?) : LinearL
 
     val loyaltyAppliedHeader: TextView by bindView(R.id.loyalty_applied_header)
     val loyaltyPointsInfo: TextView by bindView(R.id.loyalty_points_info)
-    val swpSwitchView: android.widget.Switch by bindView(R.id.swp_switch)
-    val swpLogo: ImageView by bindView(R.id.swp_logo)
+    val swpSwitchView: SwitchCompat by bindView(R.id.swp_switch)
 
     lateinit var shopWithPointsViewModel: ShopWithPointsViewModel
         @Inject set
@@ -45,7 +42,6 @@ class ShopWithPointsWidget(context: Context, val attrs: AttributeSet?) : LinearL
         Ui.getApplication(context).hotelComponent().inject(this)
         loyaltyAppliedHeader.setTextColor(ContextCompat.getColor(context, R.color.hotelsv2_checkout_text_color))
         loyaltyPointsInfo.setTextColor(ContextCompat.getColor(context, R.color.hotelsv2_checkout_text_color))
-        swpLogo.setImageResource(R.drawable.swp_grey)
 
         subscription = shopWithPointsViewModel.isShopWithPointsAvailableObservable.subscribeVisibility(this)
         shopWithPointsViewModel.pointsDetailStringObservable.subscribeText(loyaltyPointsInfo)

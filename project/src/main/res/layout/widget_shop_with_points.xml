@@ -6,13 +6,14 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
-        android:src="@drawable/swp_white" />
+        android:src="@drawable/search_form_icon_points"
+        android:tint="@color/search_screen_icon_color_v2"/>
 
     <LinearLayout
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
-        android:layout_marginLeft="25dp"
+        android:layout_marginLeft="23dp"
         android:layout_weight="1"
         android:orientation="vertical">
 
@@ -33,7 +34,7 @@
             android:textSize="11sp" />
     </LinearLayout>
 
-    <Switch
+    <android.support.v7.widget.SwitchCompat
         android:id="@+id/swp_switch"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

@@ -11,8 +11,8 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
         android:orientation="horizontal"
-        android:paddingLeft="18dp"
-        android:paddingRight="23dp">
+        android:paddingLeft="19dp"
+        android:paddingRight="15dp">
 
         <include
             layout="@layout/widget_shop_with_points"
