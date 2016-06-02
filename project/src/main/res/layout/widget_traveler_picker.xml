@@ -47,7 +47,7 @@
                     <ImageButton
                         android:id="@+id/adults_minus"
                         style="@style/HotelTravelerIcon.Minus"
-                        android:background="?attr/selectableItemBackgroundBorderless" />
+                        android:background="?attr/selectableItemBackgroundBorderless"/>
 
                     <com.expedia.bookings.widget.TextView
                         android:id="@+id/adult"
@@ -55,7 +55,7 @@
                         android:layout_height="@dimen/hotel_traveler_plus_minus_size"
                         android:layout_weight="5"
                         android:gravity="center"
-                        android:textColor="@color/cars_actionbar_text_color"
+                        android:textColor="@color/traveler_picker_main_text"
                         android:textSize="16dp" />
 
                     <ImageButton
@@ -87,7 +87,7 @@
                             android:id="@+id/children"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:textColor="@color/cars_actionbar_text_color"
+                            android:textColor="@color/traveler_picker_main_text"
                             android:textSize="16dp" />
 
                         <com.expedia.bookings.widget.TextView
@@ -95,7 +95,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/children_age_label"
-                            android:textColor="@color/hotel_cell_secondary_text_color"
+                            android:textColor="@color/traveler_picker_secondary_text"
                             android:textSize="12sp" />
                     </LinearLayout>
 
@@ -113,7 +113,7 @@
                     android:layout_marginLeft="4dp"
                     android:layout_marginTop="32dp"
                     android:text="@string/child_age_label"
-                    android:textColor="@color/cars_actionbar_text_color"
+                    android:textColor="@color/traveler_picker_main_text"
                     android:textSize="16sp"
                     app:textStyle="medium" />
 

@@ -27,7 +27,7 @@ class PackageFlightOverviewPresenter(context: Context, attrs: AttributeSet) : Pr
     val urgencyMessagingText: TextView by bindView(R.id.flight_overview_urgency_messaging)
     val totalDurationText: TextView by bindView(R.id.flight_total_duration)
     val flightSegmentWidget: FlightSegmentBreakdownView by bindView(R.id.segment_breakdown)
-    val baggageFeeURLText: TextView by bindView(R.id.show_baggage_fees)
+    val baggageFeeURLText: Button by bindView(R.id.show_baggage_fees)
     val baggageFeeShowSubject = PublishSubject.create<String>()
 
     init {

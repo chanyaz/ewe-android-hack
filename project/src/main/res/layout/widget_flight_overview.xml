@@ -55,17 +55,16 @@
 
                 </android.support.v7.widget.CardView>
 
-                <com.expedia.bookings.widget.TextView
+                <Button
                     android:id="@+id/show_baggage_fees"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:layout_marginBottom="12dp"
                     android:layout_gravity="center_horizontal"
-                    android:layout_marginTop="18dp"
-                    android:layout_marginBottom="18dp"
                     android:text="@string/package_flight_overview_baggage_fees"
-                    android:textAllCaps="true"
-                    android:textColor="@color/packages_primary_color"
-                    app:textStyle="medium" />
+                    android:textColor="@color/lob_packages_primary_color"
+                    style="@style/Widget.BorderlessButton"/>
 
             </LinearLayout>
             
