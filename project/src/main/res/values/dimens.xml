@@ -36,7 +36,7 @@
     <dimen name="launch_lob_btn_corner_radius">3dp</dimen>
     <dimen name="launch_tile_margin_top">8dp</dimen>
     <dimen name="launch_tile_margin_bottom">2dp</dimen>
-    <dimen name="launch_tile_margin_side">10dp</dimen>
+    <dimen name="launch_tile_margin_side">7dp</dimen>
     <dimen name="launch_tile_margin_middle">4dp</dimen>
     <dimen name="launch_list_corner_radius">2dp</dimen>
     <dimen name="launch_lob_margin_left">10dp</dimen>

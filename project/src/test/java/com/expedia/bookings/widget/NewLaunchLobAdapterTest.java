@@ -16,34 +16,28 @@ import static org.junit.Assert.assertEquals;
 @RunWith(RobolectricRunner.class)
 public class NewLaunchLobAdapterTest {
 
-	private NewLaunchLobAdapter.LobInfo hotelsLob = new NewLaunchLobAdapter.LobInfo(R.string.nav_hotels, R.drawable.ic_lob_hotels);
-	private NewLaunchLobAdapter.LobInfo flightsLob = new NewLaunchLobAdapter.LobInfo(R.string.flights_title, R.drawable.ic_lob_flights);
-	private NewLaunchLobAdapter.LobInfo carsLob = new NewLaunchLobAdapter.LobInfo(R.string.nav_cars, R.drawable.ic_lob_cars);
-	private NewLaunchLobAdapter.LobInfo lxLob = new NewLaunchLobAdapter.LobInfo(R.string.nav_lx, R.drawable.ic_lob_lx);
-	private NewLaunchLobAdapter.LobInfo gtLob = new NewLaunchLobAdapter.LobInfo(R.string.nav_transport, R.drawable.ic_lob_gt);
-
 	@Test
 	public void spansAreCorrect() {
 		NewLaunchLobAdapter adapter = new NewLaunchLobAdapter(null);
 
 		ArrayList<NewLaunchLobAdapter.LobInfo> lobs = new ArrayList<>();
-		lobs.add(hotelsLob);
-		lobs.add(flightsLob);
+		lobs.add(NewLaunchLobAdapter.LobInfo.HOTELS);
+		lobs.add(NewLaunchLobAdapter.LobInfo.FLIGHTS);
 		adapter.setLobs(lobs);
 		assertItemCount(2, adapter);
 		assertAllSpansAreOne(adapter);
 
-		lobs.add(carsLob);
+		lobs.add(NewLaunchLobAdapter.LobInfo.CARS);
 		adapter.setLobs(lobs);
 		assertItemCount(3, adapter);
 		assertFinalSpanIsTwoAndRestAreOne(adapter);
 
-		lobs.add(lxLob);
+		lobs.add(NewLaunchLobAdapter.LobInfo.ACTIVITIES);
 		adapter.setLobs(lobs);
 		assertItemCount(4, adapter);
 		assertAllSpansAreOne(adapter);
 
-		lobs.add(gtLob);
+		lobs.add(NewLaunchLobAdapter.LobInfo.TRANSPORT);
 		adapter.setLobs(lobs);
 		assertItemCount(5, adapter);
 		assertFinalSpanIsTwoAndRestAreOne(adapter);
@@ -74,28 +68,28 @@ public class NewLaunchLobAdapterTest {
 
 		NewLaunchLobAdapter adapter = new NewLaunchLobAdapter(null);
 		ArrayList<NewLaunchLobAdapter.LobInfo> lobs = new ArrayList<>();
-		lobs.add(hotelsLob);
-		lobs.add(flightsLob);
-		lobs.add(carsLob);
-		lobs.add(lxLob);
+		lobs.add(NewLaunchLobAdapter.LobInfo.HOTELS);
+		lobs.add(NewLaunchLobAdapter.LobInfo.FLIGHTS);
+		lobs.add(NewLaunchLobAdapter.LobInfo.CARS);
+		lobs.add(NewLaunchLobAdapter.LobInfo.ACTIVITIES);
 		adapter.setLobs(lobs);
 
 		NewLaunchLobAdapter.LobViewHolder vh = new NewLaunchLobAdapter.LobViewHolder(mockItemView, null);
 		adapter.onBindViewHolder(vh, 0);
-		Mockito.verify(mockTextView).setText(hotelsLob.labelRes);
-		Mockito.verify(mockTextView).setCompoundDrawablesWithIntrinsicBounds(hotelsLob.iconRes, 0, 0, 0);
+		Mockito.verify(mockTextView).setText(NewLaunchLobAdapter.LobInfo.HOTELS.labelRes);
+		Mockito.verify(mockTextView).setCompoundDrawablesWithIntrinsicBounds(NewLaunchLobAdapter.LobInfo.HOTELS.iconRes, 0, 0, 0);
 
 		adapter.onBindViewHolder(vh, 1);
-		Mockito.verify(mockTextView).setText(flightsLob.labelRes);
-		Mockito.verify(mockTextView).setCompoundDrawablesWithIntrinsicBounds(flightsLob.iconRes, 0, 0, 0);
+		Mockito.verify(mockTextView).setText(NewLaunchLobAdapter.LobInfo.FLIGHTS.labelRes);
+		Mockito.verify(mockTextView).setCompoundDrawablesWithIntrinsicBounds(NewLaunchLobAdapter.LobInfo.FLIGHTS.iconRes, 0, 0, 0);
 
 		adapter.onBindViewHolder(vh, 2);
-		Mockito.verify(mockTextView).setText(carsLob.labelRes);
-		Mockito.verify(mockTextView).setCompoundDrawablesWithIntrinsicBounds(carsLob.iconRes, 0, 0, 0);
+		Mockito.verify(mockTextView).setText(NewLaunchLobAdapter.LobInfo.CARS.labelRes);
+		Mockito.verify(mockTextView).setCompoundDrawablesWithIntrinsicBounds(NewLaunchLobAdapter.LobInfo.CARS.iconRes, 0, 0, 0);
 
 		adapter.onBindViewHolder(vh, 3);
-		Mockito.verify(mockTextView).setText(lxLob.labelRes);
-		Mockito.verify(mockTextView).setCompoundDrawablesWithIntrinsicBounds(lxLob.iconRes, 0, 0, 0);
+		Mockito.verify(mockTextView).setText(NewLaunchLobAdapter.LobInfo.ACTIVITIES.labelRes);
+		Mockito.verify(mockTextView).setCompoundDrawablesWithIntrinsicBounds(NewLaunchLobAdapter.LobInfo.ACTIVITIES.iconRes, 0, 0, 0);
 	}
 
 	@Test
@@ -108,23 +102,23 @@ public class NewLaunchLobAdapterTest {
 
 		NewLaunchLobAdapter.LobViewHolder vh = new NewLaunchLobAdapter.LobViewHolder(mockItemView, mockListener);
 
-		vh.bind(hotelsLob, false);
+		vh.bind(NewLaunchLobAdapter.LobInfo.HOTELS, false);
 		vh.onClick(mockItemView);
 		Mockito.verify(mockListener).onHotelsLobClick();
 
-		vh.bind(flightsLob, false);
+		vh.bind(NewLaunchLobAdapter.LobInfo.FLIGHTS, false);
 		vh.onClick(mockItemView);
 		Mockito.verify(mockListener).onFlightsLobClick();
 
-		vh.bind(carsLob, false);
+		vh.bind(NewLaunchLobAdapter.LobInfo.CARS, false);
 		vh.onClick(mockItemView);
 		Mockito.verify(mockListener).onCarsLobClick();
 
-		vh.bind(lxLob, false);
+		vh.bind(NewLaunchLobAdapter.LobInfo.ACTIVITIES, false);
 		vh.onClick(mockItemView);
 		Mockito.verify(mockListener).onActivitiesLobClick();
 
-		vh.bind(gtLob, false);
+		vh.bind(NewLaunchLobAdapter.LobInfo.TRANSPORT, false);
 		vh.onClick(mockItemView);
 		Mockito.verify(mockListener).onTransportLobClick();
 	}

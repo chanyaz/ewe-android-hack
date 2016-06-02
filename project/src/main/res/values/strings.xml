@@ -1020,6 +1020,10 @@
     <string name="launch_mobile_exclusive">mobile only!</string>
     <!-- Expedia Deal for a given property, tonight only -->
     <string name="launch_tonight_only">tonight only!</string>
+    <!-- Label for button to navigate to the car rental line of business -->
+    <string name="nav_car_rentals">Car Rentals</string>
+    <!-- Label for button to navigate to the Activities / Things to Do line of business -->
+    <string name="nav_things_to_do">Things to Do</string>
 
     <!-- Error message when we can't connect -->
     <string name="error_launch_connection">Unfortunately, we can\'t connect.</string>
