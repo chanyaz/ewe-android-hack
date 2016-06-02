@@ -83,6 +83,10 @@ public class HotelBookingFragment extends BookingFragment<HotelBookingResponse> 
 		Db.getTripBucket().getHotel().setBookingResponse(null);
 	}
 
+	public String getCouponCode() {
+		return mCouponCode;
+	}
+
 	@Override
 	public Download<HotelBookingResponse> getBookingDownload() {
 		return new Download<HotelBookingResponse>() {

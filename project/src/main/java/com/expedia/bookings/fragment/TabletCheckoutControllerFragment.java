@@ -1104,7 +1104,7 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 				Property property = Db.getTripBucket().getHotel().getProperty();
 
 				Db.getTripBucket().getHotel().setBookingResponse(response);
-				AdTracker.trackHotelBooked();
+				AdTracker.trackHotelBooked(mHotelBookingFrag.getCouponCode());
 
 				if (results == null || response.hasErrors()) {
 					response.setProperty(property);

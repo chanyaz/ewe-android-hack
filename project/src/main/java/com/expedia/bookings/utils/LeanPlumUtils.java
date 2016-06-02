@@ -165,7 +165,7 @@ public class LeanPlumUtils {
 	}
 
 	public static void trackHotelBooked(HotelSearchParams params, Property property, String orderNumber,
-		String currency, double totalPrice, double avgPrice) {
+		String currency, double totalPrice, double avgPrice, String couponCode) {
 		if (initialized) {
 			String eventName = "Sale Hotel";
 			Log.i("LeanPlum hotel booking event currency=" + currency + " total=" + totalPrice);
@@ -187,11 +187,15 @@ public class LeanPlumUtils {
 			eventParams.put("currency", currency);
 			eventParams.put("OrderNumber", orderNumber);
 			eventParams.put("TotalPrice", String.valueOf(totalPrice));
+			eventParams.put("guest_count",params.getNumTravelers());
+			if (couponCode != null) {
+				eventParams.put("coupon_code", couponCode);
+			}
 			tracking(eventName, eventParams);
 		}
 	}
 
-	public static void trackHotelV2Booked(HotelCheckoutResponse hotelCheckoutResponse) {
+	public static void trackHotelV2Booked(HotelCheckoutResponse hotelCheckoutResponse, int guestCount, String couponCode) {
 		if (initialized) {
 			String eventName = "Sale Hotel";
 			Log.i("LeanPlum hotel booking event currency=" + hotelCheckoutResponse.currencyCode + " total=" + hotelCheckoutResponse.totalCharges);
@@ -220,6 +224,10 @@ public class LeanPlumUtils {
 			eventParams.put("currency", hotelCheckoutResponse.currencyCode);
 			eventParams.put("OrderNumber", hotelCheckoutResponse.orderId);
 			eventParams.put("TotalPrice", hotelCheckoutResponse.totalCharges);
+			eventParams.put("guest_count",guestCount);
+			if (Strings.isNotEmpty(couponCode)) {
+				eventParams.put("coupon_code", couponCode);
+			}
 			tracking(eventName, eventParams);
 		}
 	}
@@ -290,11 +298,13 @@ public class LeanPlumUtils {
 			eventParams.put("PropertyId", property.getPropertyId());
 			eventParams.put("currency", currency);
 			eventParams.put("TotalPrice", totalPrice);
+			eventParams.put("hotel_friendly_name", property.getName());
+			eventParams.put("guest_count", params.getNumTravelers());
 			tracking(eventName, eventParams);
 		}
 	}
 
-	public static void trackHotelV2CheckoutStarted(HotelCreateTripResponse.HotelProductResponse hotelProductResponse) {
+	public static void trackHotelV2CheckoutStarted(HotelCreateTripResponse.HotelProductResponse hotelProductResponse, int guestCount) {
 		if (initialized) {
 			String eventName = "Checkout Hotel Started";
 			String price = hotelProductResponse.hotelRoomResponse.rateInfo.chargeableRateInfo.getDisplayTotalPrice()
@@ -319,6 +329,8 @@ public class LeanPlumUtils {
 			eventParams.put("PropertyId", hotelProductResponse.hotelId);
 			eventParams.put("currency", currency);
 			eventParams.put("TotalPrice", price);
+			eventParams.put("hotel_friendly_name", hotelProductResponse.getHotelName());
+			eventParams.put("guest_count", guestCount);
 			tracking(eventName, eventParams);
 		}
 	}
