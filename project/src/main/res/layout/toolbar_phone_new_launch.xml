@@ -5,8 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:foreground="?android:attr/windowContentOverlay"
-    app:contentInsetLeft="12dp"
-    app:contentInsetStart="12dp">
+    app:contentInsetLeft="0dp"
+    app:contentInsetStart="0dp">
 
     <com.expedia.bookings.widget.SlidingTabLayout
         android:id="@+id/tab_layout"

@@ -117,14 +117,14 @@
                     android:layout_gravity="center_vertical"
                     android:layout_marginRight="9dp"
                     android:layout_weight="1"
-                    android:background="@color/dividerColor" />
+                    android:background="@color/launch_screen_itin_divider" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:text="@string/or"
-                    android:textColor="@color/defaultTextColor" />
+                    android:textColor="@color/launch_screen_itin_divider" />
 
                 <View
                     android:layout_width="0dp"
@@ -132,7 +132,7 @@
                     android:layout_gravity="center_vertical"
                     android:layout_marginLeft="9dp"
                     android:layout_weight="1"
-                    android:background="@color/dividerColor" />
+                    android:background="@color/launch_screen_itin_divider" />
 
             </LinearLayout>
 
@@ -149,9 +149,9 @@
                 android:gravity="center_vertical"
                 android:padding="16dp"
                 android:text="@string/enter_a_guest_itinerary_number"
-                android:textAllCaps="true"
-                android:textColor="@color/itin_offwhite_text"
-                android:textSize="12sp"
+                android:textAllCaps="false"
+                android:textColor="@color/launch_screen_itin_divider"
+                android:textSize="14sp"
                 app:textStyle="bold" />
 
             <View
@@ -235,4 +235,4 @@
         android:layout_below="@id/spacer_view"
         android:background="@drawable/ab_shadow" />
 
-</RelativeLayout>
+  </RelativeLayout>

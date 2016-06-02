@@ -154,4 +154,8 @@ class NewPhoneLaunchFragment : Fragment(), IPhoneLaunchActivityLaunchFragment {
         NavUtils.goToHotels(activity, params, event.animOptions, 0)
     }
 
+    fun smoothScrollToTop() {
+        newPhoneLaunchWidget.launchListWidget.smoothScrollToPosition(0)
+    }
+
 }

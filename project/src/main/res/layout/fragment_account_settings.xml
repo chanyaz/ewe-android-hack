@@ -353,4 +353,12 @@
         </LinearLayout>
     </ScrollView>
 
+    <View
+        android:id="@+id/toolbar_dropshadow"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/toolbar_dropshadow_height"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="?android:attr/actionBarSize"
+        android:background="@drawable/tb_shadow" />
+
 </RelativeLayout>
