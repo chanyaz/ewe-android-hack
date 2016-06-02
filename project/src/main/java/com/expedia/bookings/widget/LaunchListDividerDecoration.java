@@ -27,13 +27,17 @@ public class LaunchListDividerDecoration extends RecyclerDividerDecoration {
 	int mLeft;
 	int mRight;
 	int mMiddle;
+	int headerCount = 1;
 
-	public LaunchListDividerDecoration(Context context, boolean drawDivider) {
+	public LaunchListDividerDecoration(Context context, boolean isLobViewAdded) {
 		mTop = 0;
 		mLeft = context.getResources().getDimensionPixelSize(R.dimen.launch_tile_margin_side);
 		mMiddle = context.getResources().getDimensionPixelSize(R.dimen.launch_tile_margin_middle);
 		mBottom = context.getResources().getDimensionPixelSize(R.dimen.launch_tile_margin_bottom);
 		mRight = context.getResources().getDimensionPixelSize(R.dimen.launch_tile_margin_side);
+		if (isLobViewAdded) {
+			headerCount = 2;
+		}
 	}
 
 	@Override
@@ -41,10 +45,14 @@ public class LaunchListDividerDecoration extends RecyclerDividerDecoration {
 		outRect.top = mTop;
 		outRect.bottom = mBottom;
 
-		// Because of a header
-		int pos = parent.getChildPosition(view) - 1;
+		int pos = parent.getChildAdapterPosition(view) - headerCount;
+		// when we have 2 headers one for lob and another one staff picks or near by hotel header
+		if (pos == -2) {
+			outRect.left = 0;
+			outRect.right = 0;
+		}
 		// Big guys (0, 5, 10, etc)
-		if (pos % 5 == 0) {
+		else if (pos % 5 == 0) {
 			outRect.left = mLeft;
 			outRect.right = mRight;
 		}

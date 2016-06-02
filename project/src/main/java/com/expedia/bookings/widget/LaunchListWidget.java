@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.content.Context;
+import android.content.res.TypedArray;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.util.AttributeSet;
@@ -25,9 +26,13 @@ public class LaunchListWidget extends RecyclerView {
 	private LaunchListAdapter adapter;
 
 	private View header;
+	boolean showLobHeader = false;
 
 	public LaunchListWidget(Context context, AttributeSet attrs) {
 		super(context, attrs);
+		TypedArray typedArray = getContext().obtainStyledAttributes(attrs, R.styleable.LaunchListWidget);
+		showLobHeader = typedArray.getBoolean(R.styleable.LaunchListWidget_show_lob_in_header, false);
+		typedArray.recycle();
 	}
 
 
@@ -41,9 +46,9 @@ public class LaunchListWidget extends RecyclerView {
 		setLayoutManager(layoutManager);
 
 		header = LayoutInflater.from(getContext()).inflate(R.layout.snippet_launch_list_header, null);
-		adapter = new LaunchListAdapter(header);
+		adapter = new LaunchListAdapter(header, showLobHeader);
 		setAdapter(adapter);
-		addItemDecoration(new LaunchListDividerDecoration(getContext(), false));
+		addItemDecoration(new LaunchListDividerDecoration(getContext(), showLobHeader));
 		addOnScrollListener(new PicassoScrollListener(getContext(), PICASSO_TAG));
 	}
 

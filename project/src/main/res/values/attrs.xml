@@ -330,6 +330,10 @@
         <attr name="show_in_card_layout" format="boolean" />
     </declare-styleable>
 
+    <declare-styleable name="LaunchListWidget">
+        <attr name="show_lob_in_header" format="boolean" />
+    </declare-styleable>
+
     <declare-styleable name="rsb__RangeSeekBar">
         <attr format="dimension" name="rsb__barHeight"/>
         <attr format="color" name="rsb__defaultColor"/>

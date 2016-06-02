@@ -39,7 +39,7 @@ class NewLaunchScreenTest {
     fun testAirAttachBanner() {
         val airAttachBanner = newPhoneLaunchWidget.findViewById(R.id.air_attach_banner)
         newPhoneLaunchWidget.showAirAttachBanner.onNext(false)
-        Assert.assertEquals(airAttachBanner.visibility, View.GONE)
+        Assert.assertEquals(airAttachBanner.visibility, View.INVISIBLE)
         newPhoneLaunchWidget.showAirAttachBanner.onNext(true)
         Assert.assertEquals(airAttachBanner.visibility, View.VISIBLE)
     }

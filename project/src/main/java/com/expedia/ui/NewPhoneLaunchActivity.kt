@@ -173,6 +173,10 @@ class NewPhoneLaunchActivity : AbstractAppCompatActivity(), IPhoneLaunchFragment
             viewPager.currentItem = PAGER_POS_LAUNCH
             return
         }
+
+        if (viewPager.currentItem == PAGER_POS_LAUNCH) {
+            if (newPhoneLaunchFragment.newPhoneLaunchWidget.onBackPressed()) return
+        }
         super.onBackPressed()
     }
 

@@ -16,6 +16,6 @@ class NewLaunchScreenABTest : PhoneTestCase() {
 
     @Throws(Throwable::class)
     fun testHotelLaunchScreen() {
-        EspressoUtils.assertViewIsDisplayed(R.id.lob_view)
+       EspressoUtils.assertViewIsDisplayed(R.id.launch_list_widget)
     }
 }
