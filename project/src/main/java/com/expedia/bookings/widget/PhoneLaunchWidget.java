@@ -350,7 +350,7 @@ public class PhoneLaunchWidget extends FrameLayout {
 		launchError.setVisibility(View.GONE);
 		launchDataTimeStamp = null;
 		String country = PointOfSale.getPointOfSale().getTwoLetterCountryCode().toLowerCase(Locale.US);
-		String localeCode = getContext().getResources().getConfiguration().locale.toString();
+		String localeCode = PointOfSale.getPointOfSale().getLocaleIdentifier();
 		downloadSubscription = collectionServices.getPhoneCollection(
 			ProductFlavorFeatureConfiguration.getInstance().getPhoneCollectionId(), country, localeCode,
 			collectionDownloadListener);
