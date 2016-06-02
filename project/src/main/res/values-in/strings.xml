@@ -73,8 +73,6 @@
     <!-- Text for error toolbar-->
     <string name="cars_dupe_trip_text">Ulangi Perjalanan</string>
     <!-- Text for error toolbar-->
-    <string name="cars_session_timeout_text">Waktu Habis</string>
-    <!-- Text for error toolbar-->
     <string name="cars_price_change_text">Perubahan Harga</string>
     <!-- Text for error toolbar-->
     <string name="cars_payment_failed_text">Pembayaran Tidak Berhasil</string>
@@ -124,11 +122,7 @@
     <string name="calendar_desc_support_TEMPLATE">Layanan Pelanggan {brand}: {localphone} dan {phone}</string>
 
     <!-- Label for hotel search toolbar -->
-    <string name="hotel_toolbar_title">Cari Hotel</string>
-    <!-- Label for hotel search v2 toolbar -->
     <string name="hotel_search_toolbar_title">Hotel</string>
-    <!-- Label for hotel suggestion -->
-    <string name="search_location">Cari Lokasi</string>
     <!-- Label for recent searches -->
     <string name="recent_searches">Pencarian Terbaru</string>
     <!-- Label for pickup location selector -->
@@ -142,7 +136,7 @@
     <!-- When user has picked both start and return date/time, we show something like: "Jan 21, 2:00PM - Jan 25, 3:00PM" -->
     <string name="date_time_range_TEMPLATE">%1$s – %2$s</string>
     <!-- When user hasn't picked return date/time, we show something like: "Jan. 21, 2:00PM - Select return date" -->
-    <string name="select_return_date_TEMPLATE">%1$s - Pilih tanggal pengembalian</string>
+    <string name="select_return_date_TEMPLATE">{startdate} - Pilih tanggal pengembalian</string>
     <!-- Label for pick-up time picker -->
     <string name="pick_up_time_label">Pengambilan</string>
     <!-- Label for drop-up time picker -->
@@ -250,10 +244,8 @@
     <!-- Car error strings -->
     <!-- Message for user that pick-up time is too early.  -->
     <string name="pick_up_time_error">Harap sesuaikan waktu pengambilan dan pengembalian Anda.</string>
-    <!-- Message for user  to choose a closer date.  -->
-    <string name="error_date_too_far">Harap pilih tanggal yang lebih dekat.</string>
     <!-- Message for user that date is too far out.  -->
-    <string name="date_out_of_range">Harap pilih tanggal yang lebih dekat.</string>
+    <string name="error_date_too_far">Tanggal terlalu jauh, pilih tanggal yang lebih dekat.</string>
     <!-- Message for user that increase your reservation duration. -->
     <string name="reservation_time_too_short">Harap tambahkan durasi penyewaan.</string>
     <!-- Shown to user in case the reservation timed out -->
@@ -656,8 +648,6 @@
     <!-- Text for error toolbar-->
     <string name="lx_duplicate_trip_text">Ulangi Perjalanan</string>
     <!-- Text for error toolbar-->
-    <string name="lx_session_timeout_text">Waktu Habis</string>
-    <!-- Text for error toolbar-->
     <string name="lx_payment_failed_text">Pembayaran Tidak Berhasil</string>
     <!-- Offers show more string -->
     <string name="lx_show_more_offers">Tampilkan Lainnya</string>
@@ -976,8 +966,6 @@
     <string name="restricted_profile_sign_in_message_TEMPLATE">Untuk login ke {brand}, Anda harus menetapkan profil pengguna tanpa batasan di perangkat Anda.</string>
 
     <!-- Nav Dropdown menu -->
-    <!-- Flights -->
-    <string name="flights_title">Penerbangan</string>
     <!-- Hotels -->
     <string name="nav_hotels">Hotel</string>
     <!-- Cars -->
@@ -1094,7 +1082,7 @@
     <!-- Enter itinerary number -->
     <string name="enter_itinerary_number">Masukkan nomor itinerary</string>
     <!-- Enter a Guest itinerary number -->
-    <string name="enter_a_guest_itinerary_number">Atau, masukkan nomor itinerary tanpa login</string>
+    <string name="or_enter_a_guest_itinerary_number">Atau, masukkan nomor itinerary tanpa login</string>
     <!-- Fetching your itinerary -->
     <string name="fetching_your_itinerary">Mengakses itinerary Anda…</string>
     <!-- Error fetching itinerary -->
@@ -1627,6 +1615,16 @@
     <!-- Template for title/name of the facebook post - Cars -->
     <string name="share_facebook_template_title_car">Mobil rental dari %1$s</string>
 
+    <!-- Flights v2 -->
+    <!-- Flights Search view button label for round-trip searches -->
+    <string name="flights_round_trip_label">PULANG-PERGI</string>
+    <!-- Flights Search view button label for one-way searches -->
+    <string name="flights_one_way_label">SEKALI JALAN</string>
+    <!-- Flights label for selected outbound flight -->
+    <string name="flights_outbound_label">Berangkat</string>
+    <!-- Flights Line of Business title -->
+    <string name="flights_title">Penerbangan</string>
+
     <!-- Flights -->
     <!-- Label for Flight Search in task manager -->
     <string name="Flights_TEMPLATE">Penerbangan {brand}</string>
@@ -1650,6 +1648,8 @@
     <string name="error_invalid_arrival_airport">Bandara kedatangan tidak valid.</string>
     <!-- Error message when we find no flights because of invalid departure AND arrival airports -->
     <string name="error_invalid_departure_arrival_airports">Bandara keberangkatan dan kedatangan tidak valid.</string>
+    <!-- Error message when we find no flights because of invalid departure date -->
+    <string name="error_invalid_departure_date">Tanggal keberangkatan tidak valid.</string>
     <!-- "Details" button label, for seeing details of a flight -->
     <string name="details">Rincian</string>
     <!-- "Select" button label, for selecting a particular leg of a flight -->
@@ -1746,8 +1746,9 @@
     <string name="calendar_instructions_date_range_TEMPLATE">%1$s - %2$s</string>
     <!-- Calendar instructions flight start date selected and label indicating this will be a one way search -->
     <string name="calendar_instructions_date_range_flight_one_way_TEMPLATE">{startdate} (Sekali-Jalan)</string>
-    <!-- Calendar instructions flight: Customer has selected start date. Label indicating return date is optional -->
-    <string name="calendar_instructions_date_range_flight_select_return_date_optional">Berikutnya: Pilih tanggal kembali (opsional)</string>
+
+    <!-- Calendar instructions flight: Customer has selected start date - Label used in tooltip indicating return date must be selected -->
+    <string name="calendar_instructions_date_range_flight_select_return_date">Berikutnya: Pilih tanggal pengembalian</string>
     <!-- Calendar instruction text hotels no dates selected - "Select Check-in Date" -->
     <string name="calendar_instructions_hotels_no_dates_selected">Pilih Tanggal Check-in</string>
     <!-- Calendar instruction text hotels date range template. %1$s = Formatted start date, %2$s = formatted end date. E.g. May 12 - May 15 -->
@@ -2084,6 +2085,8 @@
     <string name="add_infant_in_seat_variate2">Bayi di tempat duduk</string>
     <!-- Warning shown to users when they enter their name -->
     <string name="name_must_match_warning">Anda mungkin akan ditolak naik pesawat jika nama traveler tidak sama dengan nama pada kartu identitas resmi berfoto Anda.</string>
+    <!-- Warning shown to users when they enter their name (Material design message) -->
+    <string name="name_must_match_warning_new">Nama traveler harus sesuai benar dengan nama yang tertera di kartu identitas berfotonya.</string>
 
     <!-- Special Assistance label template -->
     <string name="special_assistance_label_TEMPLATE">Bantuan Khusus: %1$s</string>
@@ -2459,7 +2462,7 @@
     <!-- Text for hotel error toolbar payment failed-->
     <string name="hotel_payment_failed_text">Pembayaran Tidak Berhasil</string>
     <!-- Text for error toolbar session expired-->
-    <string name="session_timeout">Waktu Habis</string>
+    <string name="session_timeout">Sesi Berakhir</string>
 
     <!-- Credit card input section -->
     <string name="one">1</string>
@@ -2622,6 +2625,8 @@
     <string name="sort_description_deals">Diskon</string>
     <!-- Sort by user rating label -->
     <string name="sort_description_rating">Skor Tamu</string>
+    <!-- Sort by user rating label -->
+    <string name="sort_description_package_discount">Diskon Paket</string>
 
     <!-- Stop descriptions, e.g. Stops filtered by "description" -->
     <!-- Nonstop flights -->
@@ -2704,9 +2709,7 @@
     <!-- Hotel Details Fragment Activity -->
     <!-- Bullet point for list items -->
     <string name="bullet_point">•</string>
-    <!-- Label for button that lets the user complete the booking through the normal flow -->
-    <string name="book_now_ab_test">Pilih Kamar</string>
-    <string name="book_now">Pesan Sekarang</string>
+
     <!-- Label for button that lets the user complete the booking by calling a phone number -->
     <string name="book_by_phone">Pesan lewat telepon</string>
     <!-- Hotel Details Fragment -->
@@ -2871,7 +2874,6 @@
     <string name="etp_pay_now_charges_text_TEMPLATE">{brand} akan memproses rincian pembayaran Anda.</string>
     <string name="etp_pay_now_currency_text_TEMPLATE">Anda akan membayar dalam mata uang lokal Anda %s.</string>
     <string name="etp_pay_now_cancellation_text">Pembatalan gratis, asal sebelum batas periode pembatalan hotel.</string>
-    <string name="etp_select_room">Pilih Kamar</string>
 
     <!-- ETP pay later deposit info message -->
     <string name="etp_pay_later_deposit_text">Jumlah deposit tidak akan pernah melebihi total harga pemesanan.</string>
@@ -3865,6 +3867,12 @@
     <string name="package_overview_flight_travel_info_TEMPLATE">%1$s pukul %2$s, %3$s</string>
     <!-- Template for package bundle total savings amount -->
     <string name="bundle_total_savings_TEMPLATE">Hemat {savings}</string>
+    <!-- Bundle Overview select hotel accessibility content description -->
+    <string name="select_hotel_content_description">Pencarian selesai, tekan tombol ini untuk memilih hotel di {destination} dari {startdate} hingga {enddate}, untuk {guests}</string>
+    <!-- Bundle Overview select hotel accessibility content description when still searching -->
+    <string name="select_hotel_content_description_searching">Mencari hotel di {destination} dari {startdate} hingga {enddate}, untuk {guests}. Harap tunggu</string>
+    <!-- Bundle Overview selected hotel accessibility content description -->
+    <string name="select_hotel_content_description_selected">Anda telah memilih hotel {hotel} dari {startdate} hingga {enddate}, untuk {guests}. Tekan tombol ini untuk menampilkan informasi rinci.</string>
     <!-- Bundle Overview select hotel -->
     <string name="select_hotel_template">Pilih hotel di %s</string>
     <!-- Bundle Overview searching flight -->
@@ -4003,6 +4011,15 @@
 
     <!--Use on the timeline on rail details when a customer has to transfer from one train to another at the same station (likely a different platform within the same station) -->
     <string name="rail_change_at_station_TEMPLATE">Ganti di {stationname}</string>
+
+    <!--rail search screen - user is specifiying what time they want their outbound train to leave at -->
+    <string name="rail_departing_at">Berangkat dari</string>
+
+    <!--rail search screen - user is specifiying what time they want their return train to leave at -->
+    <string name="rail_returning_at">Kembali ke</string>
+
+    <!-- Label for rail trip price on overview screen -->
+    <string name="total">Total</string>
 
     <string name="pwp_points_conversion_unauthenticated_access">Maaf, kami sedang mengalami masalah server. Silakan coba lagi.</string>
     <string name="pwp_trip_service_error">Maaf, kami sedang mengalami masalah server. Silakan coba lagi.</string>

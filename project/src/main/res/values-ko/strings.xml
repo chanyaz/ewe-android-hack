@@ -26,7 +26,7 @@
     <!-- Hotels rating room cleanliness string -->
     <string name="hotel_rating_room_cleanliness">객실의 청결도</string>
     <!-- Hotels rating room comfort string -->
-    <string name="hotel_rating_room_comfort">객실의 안락함</string>
+    <string name="hotel_rating_room_comfort">객실의 안락함ㄴ</string>
     <!-- Hotels rating service and staff string -->
     <string name="hotel_rating_service_and_staff">서비스 및 직원</string>
     <!-- Hotels rating hotel condition string -->
@@ -72,8 +72,6 @@
     <string name="checkout_text">결제</string>
     <!-- Text for error toolbar-->
     <string name="cars_dupe_trip_text">중복된 여행</string>
-    <!-- Text for error toolbar-->
-    <string name="cars_session_timeout_text">세션 시간 초과</string>
     <!-- Text for error toolbar-->
     <string name="cars_price_change_text">가격 변동됨</string>
     <!-- Text for error toolbar-->
@@ -124,11 +122,7 @@
     <string name="calendar_desc_support_TEMPLATE">{brand} 고객 지원: {localphone} 및 {phone}</string>
 
     <!-- Label for hotel search toolbar -->
-    <string name="hotel_toolbar_title">호텔 검색</string>
-    <!-- Label for hotel search v2 toolbar -->
     <string name="hotel_search_toolbar_title">호텔</string>
-    <!-- Label for hotel suggestion -->
-    <string name="search_location">위치 검색</string>
     <!-- Label for recent searches -->
     <string name="recent_searches">최근 검색</string>
     <!-- Label for pickup location selector -->
@@ -142,7 +136,7 @@
     <!-- When user has picked both start and return date/time, we show something like: "Jan 21, 2:00PM - Jan 25, 3:00PM" -->
     <string name="date_time_range_TEMPLATE">%1$s – %2$s</string>
     <!-- When user hasn't picked return date/time, we show something like: "Jan. 21, 2:00PM - Select return date" -->
-    <string name="select_return_date_TEMPLATE">%1$s – 반납 날짜를 선택하세요.</string>
+    <string name="select_return_date_TEMPLATE">{startdate} – 반납 날짜를 선택하세요.</string>
     <!-- Label for pick-up time picker -->
     <string name="pick_up_time_label">인수</string>
     <!-- Label for drop-up time picker -->
@@ -250,10 +244,8 @@
     <!-- Car error strings -->
     <!-- Message for user that pick-up time is too early.  -->
     <string name="pick_up_time_error">인수 또는 반납 시간을 조정해 주세요.</string>
-    <!-- Message for user  to choose a closer date.  -->
-    <string name="error_date_too_far">이 날짜는 너무 멉니다. 좀 더 가까운 날짜를 선택해 주세요.</string>
     <!-- Message for user that date is too far out.  -->
-    <string name="date_out_of_range">이 날짜는 너무 멉니다. 좀 더 가까운 날짜를 선택해 주세요.</string>
+    <string name="error_date_too_far">이 날짜는 너무 멉니다. 좀 더 가까운 날짜를 선택해 주세요.</string>
     <!-- Message for user that increase your reservation duration. -->
     <string name="reservation_time_too_short">예약 기간을 늘려주세요.</string>
     <!-- Shown to user in case the reservation timed out -->
@@ -656,8 +648,6 @@
     <!-- Text for error toolbar-->
     <string name="lx_duplicate_trip_text">중복된 여행</string>
     <!-- Text for error toolbar-->
-    <string name="lx_session_timeout_text">세션 시간 초과</string>
-    <!-- Text for error toolbar-->
     <string name="lx_payment_failed_text">결제 실패함</string>
     <!-- Offers show more string -->
     <string name="lx_show_more_offers">더 보기</string>
@@ -767,12 +757,12 @@
     </plurals>
     <!-- Pluralization for Number of Return Flights returned from a search TEMPLATE e.g. "25 Flights" -->
     <plurals name="x_Return_Flights_TEMPLATE">
-        <item quantity="zero">%s개 귀국 항공편</item>
-        <item quantity="one">%s개 귀국 항공편</item>
-        <item quantity="two">%s개 귀국 항공편</item>
-        <item quantity="few">%s개 귀국 항공편</item>
-        <item quantity="many">%s개 귀국 항공편</item>
-        <item quantity="other">%s개 귀국 항공편</item>
+        <item quantity="zero">%s개 오는 항공편</item>
+        <item quantity="one">%s개 오는 항공편</item>
+        <item quantity="two">%s개 오는 항공편</item>
+        <item quantity="few">%s개 오는 항공편</item>
+        <item quantity="many">%s개 오는 항공편</item>
+        <item quantity="other">%s개 오는 항공편</item>
     </plurals>
     <!-- Label indicating the price shown is the price per person rather than the total-->
     <string name="prices_roundtrip_label">1인당 왕복 요금</string>
@@ -976,8 +966,6 @@
     <string name="restricted_profile_sign_in_message_TEMPLATE">{brand}에 로그인하려면 기기에서 무제한 사용자 프로필을 사용하셔야 합니다.</string>
 
     <!-- Nav Dropdown menu -->
-    <!-- Flights -->
-    <string name="flights_title">항공</string>
     <!-- Hotels -->
     <string name="nav_hotels">호텔</string>
     <!-- Cars -->
@@ -1094,7 +1082,7 @@
     <!-- Enter itinerary number -->
     <string name="enter_itinerary_number">일정 번호 입력</string>
     <!-- Enter a Guest itinerary number -->
-    <string name="enter_a_guest_itinerary_number">또는 비회원 일정 입력</string>
+    <string name="or_enter_a_guest_itinerary_number">또는 비회원 일정 입력</string>
     <!-- Fetching your itinerary -->
     <string name="fetching_your_itinerary">고객님의 일정을 가져오는 중…</string>
     <!-- Error fetching itinerary -->
@@ -1627,6 +1615,16 @@
     <!-- Template for title/name of the facebook post - Cars -->
     <string name="share_facebook_template_title_car">%1$s에서 렌터카를 이용해요</string>
 
+    <!-- Flights v2 -->
+    <!-- Flights Search view button label for round-trip searches -->
+    <string name="flights_round_trip_label">왕복</string>
+    <!-- Flights Search view button label for one-way searches -->
+    <string name="flights_one_way_label">편도</string>
+    <!-- Flights label for selected outbound flight -->
+    <string name="flights_outbound_label">가는편:</string>
+    <!-- Flights Line of Business title -->
+    <string name="flights_title">항공</string>
+
     <!-- Flights -->
     <!-- Label for Flight Search in task manager -->
     <string name="Flights_TEMPLATE">{brand} 항공편</string>
@@ -1650,14 +1648,16 @@
     <string name="error_invalid_arrival_airport">도착 공항이 올바르지 않습니다.</string>
     <!-- Error message when we find no flights because of invalid departure AND arrival airports -->
     <string name="error_invalid_departure_arrival_airports">출발 및 도착 공항이 올바르지 않습니다.</string>
+    <!-- Error message when we find no flights because of invalid departure date -->
+    <string name="error_invalid_departure_date">출발 날짜가 올바르지 않습니다.</string>
     <!-- "Details" button label, for seeing details of a flight -->
     <string name="details">상세 정보</string>
     <!-- "Select" button label, for selecting a particular leg of a flight -->
     <string name="select">선택</string>
     <!-- Template for outbound flight selection.  %s is the name of a city (e.g., "Outbound to San Francisco") -->
-    <string name="outbound_TEMPLATE">%s행 출국 항공편</string>
+    <string name="outbound_TEMPLATE">%s행 가는 항공편</string>
     <!-- Template for inbound flight selection.  %s is the name of a city (e.g., "Inbound to San Francisco") -->
-    <string name="inbound_TEMPLATE">%s행 귀국 항공편</string>
+    <string name="inbound_TEMPLATE">%s행 오는 항공편</string>
     <!-- Template string for error when we simple can't connect to E3 servers-->
     <string name="error_server_TEMPLATE">죄송합니다. 지금 {brand} 서버에 연결할 수 없습니다.  나중에 다시 시도해 주세요.</string>
     <!-- Sort by departure timelabel -->
@@ -1731,23 +1731,24 @@
 
     <!-- Calendar instructions -->
     <!-- Nothing is selected -->
-    <string name="calendar_instructions_nothing_selected">&lt;b&gt;&lt;font color="#3b5998"&gt;출국 날짜&lt;/font&gt;&lt;/b&gt;를 선택하려면 탭하세요.</string>
+    <string name="calendar_instructions_nothing_selected">&lt;b&gt;&lt;font color="#3b5998"&gt;가는 날짜&lt;/font&gt;&lt;/b&gt;를 선택하려면 탭하세요.</string>
     <!-- Start date is selected -->
-    <string name="calendar_instructions_start_selected">&lt;b&gt;&lt;font color="#3b5998"&gt;귀국 날짜&lt;/font&gt;&lt;/b&gt;를 탭하세요. (선택 사항)</string>
+    <string name="calendar_instructions_start_selected">&lt;b&gt;&lt;font color="#3b5998"&gt;오는 날짜&lt;/font&gt;&lt;/b&gt;를 탭하세요. (선택 사항)</string>
     <!-- Start date and end date selected -->
     <string name="calendar_instructions_range_selected_TEMPLATE">%1$d박 여행 선택</string>
     <!-- Start date and end date sameday -->
     <string name="calendar_instructions_range_selected_same_day">당일치기 여행 선택</string>
     <!-- Calendar tooltip bottom line after a single date is selected e.g. (Optional) Select Return Date -->
-    <string name="calendar_tooltip_bottom_select_return_date">(선택 사항) 귀국 날짜 선택</string>
+    <string name="calendar_tooltip_bottom_select_return_date">(선택 사항) 오는 날짜 선택</string>
     <!-- Calendar tooltip bottom line after two dates are selected E.g. Drag End Dates to Modify -->
     <string name="calendar_tooltip_bottom_drag_to_modify">종료 날짜를 드래그하여 수정</string>
     <!-- Calendar instruction text hotels date range template. %1$s = Formatted start date, %2$s = formatted end date. E.g. May 12 - May 15 -->
     <string name="calendar_instructions_date_range_TEMPLATE">%1$s - %2$s</string>
     <!-- Calendar instructions flight start date selected and label indicating this will be a one way search -->
     <string name="calendar_instructions_date_range_flight_one_way_TEMPLATE">{startdate}(편도)</string>
-    <!-- Calendar instructions flight: Customer has selected start date. Label indicating return date is optional -->
-    <string name="calendar_instructions_date_range_flight_select_return_date_optional">다음 단계: 귀국 날짜 선택(선택 사항)</string>
+
+    <!-- Calendar instructions flight: Customer has selected start date - Label used in tooltip indicating return date must be selected -->
+    <string name="calendar_instructions_date_range_flight_select_return_date">다음 단계: 오는 날짜 선택</string>
     <!-- Calendar instruction text hotels no dates selected - "Select Check-in Date" -->
     <string name="calendar_instructions_hotels_no_dates_selected">체크인 날짜 선택</string>
     <!-- Calendar instruction text hotels date range template. %1$s = Formatted start date, %2$s = formatted end date. E.g. May 12 - May 15 -->
@@ -2083,7 +2084,9 @@
     <!-- Add just one infant in seat, travelers checkout screen -->
     <string name="add_infant_in_seat_variate2">좌석에 앉는 영유아</string>
     <!-- Warning shown to users when they enter their name -->
-    <string name="name_must_match_warning">여행객 이름이 정부가 발급한 사진이 부착된 ID와 맞지 않는 경우 탑승이 거부될 수 있습니다.</string>
+    <string name="name_must_match_warning">여행객 이름이 정부가 발급한 사진이 부착된 신분증과 맞지 않는 경우 탑승이 거부될 수 있습니다.</string>
+    <!-- Warning shown to users when they enter their name (Material design message) -->
+    <string name="name_must_match_warning_new">여행객 이름은 정부가 발급한 사진이 부착된 신분증과 일치해야 합니다.</string>
 
     <!-- Special Assistance label template -->
     <string name="special_assistance_label_TEMPLATE">특별 요청: %1$s</string>
@@ -2401,8 +2404,8 @@
     <string name="split_ticket_rules_cancellation_policy">• 항공편 중 하나를 변경 또는 취소할 경우, 나머지 다른 항공편이 자동으로 변경되지는 않습니다. 다른 항공편에 대한 변경에는 요금이 부과될 수 있습니다.</string>
     <string name="split_ticket_rules_cancellation_policy_tablet">항공편 중 하나를 변경 또는 취소할 경우, 나머지 다른 항공편이 자동으로 변경되지는 않습니다. 다른 항공편에 대한 변경에는 요금이 부과될 수 있습니다.</string>
     <!-- split ticket baggage fees -->
-    <string name="split_ticket_baggage_fees">• &lt;a href=\"%1$s\"&gt;출국&lt;/a&gt; 및 &lt;a href=\"%2$s\"&gt;귀국&lt;/a&gt; 항공편에는 고유한 수하물 요금이 있습니다.</string>
-    <string name="split_ticket_baggage_fees_tablet">&lt;a href=\"%1$s\"&gt;출국&lt;/a&gt; 및 &lt;a href=\"%2$s\"&gt;귀국&lt;/a&gt; 항공편에는 고유한 수하물 요금이 있습니다.</string>
+    <string name="split_ticket_baggage_fees">• &lt;a href=\"%1$s\"&gt;가는&lt;/a&gt; 및 &lt;a href=\"%2$s\"&gt;오는&lt;/a&gt; 항공편에는 고유한 수하물 요금이 있습니다.</string>
+    <string name="split_ticket_baggage_fees_tablet">&lt;a href=\"%1$s\"&gt;가는&lt;/a&gt; 및 &lt;a href=\"%2$s\"&gt;오는&lt;/a&gt; 항공편에는 고유한 수하물 요금이 있습니다.</string>
     <!-- Flight dialog  errors -->
     <!-- Title of screen if user entered an invalid security code -->
     <string name="title_invalid_security_code">CVC 번호가 올바르지 않습니다.</string>
@@ -2459,7 +2462,7 @@
     <!-- Text for hotel error toolbar payment failed-->
     <string name="hotel_payment_failed_text">결제 실패함</string>
     <!-- Text for error toolbar session expired-->
-    <string name="session_timeout">세션 시간 초과</string>
+    <string name="session_timeout">세션 만료됨</string>
 
     <!-- Credit card input section -->
     <string name="one">1</string>
@@ -2524,9 +2527,9 @@
     <!-- Section with a bunch of travelers on the flight (listed below) -->
     <string name="share_travelers_section">여행객 명단:</string>
     <!-- Header for the outbound flight details section of the share flight email -->
-    <string name="share_flight_section_outbound">출국편:</string>
+    <string name="share_flight_section_outbound">가는편:</string>
     <!-- Header for the return flight details section of the share flight email -->
-    <string name="share_flight_section_return">귀국편:</string>
+    <string name="share_flight_section_return">오는편:</string>
 
     <!-- Search Fragment -->
     <!-- Label for picking checkin/checkout dates -->
@@ -2622,6 +2625,8 @@
     <string name="sort_description_deals">특가 상품순</string>
     <!-- Sort by user rating label -->
     <string name="sort_description_rating">평점순</string>
+    <!-- Sort by user rating label -->
+    <string name="sort_description_package_discount">항공+호텔 할인순</string>
 
     <!-- Stop descriptions, e.g. Stops filtered by "description" -->
     <!-- Nonstop flights -->
@@ -2704,9 +2709,7 @@
     <!-- Hotel Details Fragment Activity -->
     <!-- Bullet point for list items -->
     <string name="bullet_point">•</string>
-    <!-- Label for button that lets the user complete the booking through the normal flow -->
-    <string name="book_now_ab_test">객실 선택</string>
-    <string name="book_now">지금 예약</string>
+
     <!-- Label for button that lets the user complete the booking by calling a phone number -->
     <string name="book_by_phone">전화로 예약</string>
     <!-- Hotel Details Fragment -->
@@ -2871,7 +2874,6 @@
     <string name="etp_pay_now_charges_text_TEMPLATE">{brand}에서 고객님의 결제 세부 정보를 처리합니다.</string>
     <string name="etp_pay_now_currency_text_TEMPLATE">고객님은 고객님께서 사용하시는 통화(%s)로 결제하시게 됩니다.</string>
     <string name="etp_pay_now_cancellation_text">호텔의 취소 마감까지 무료 취소가 가능합니다.</string>
-    <string name="etp_select_room">객실 선택</string>
 
     <!-- ETP pay later deposit info message -->
     <string name="etp_pay_later_deposit_text">보증금은 총 예약 금액을 절대 초과하지 않습니다.</string>
@@ -3865,6 +3867,12 @@
     <string name="package_overview_flight_travel_info_TEMPLATE">%1$s %2$s, %3$s</string>
     <!-- Template for package bundle total savings amount -->
     <string name="bundle_total_savings_TEMPLATE">{savings} 할인됨</string>
+    <!-- Bundle Overview select hotel accessibility content description -->
+    <string name="select_hotel_content_description">검색 완료됨, {startdate} ~ {enddate}, {destination} 호텔, {guests}을 선택하려면 이 버튼을 누르세요.</string>
+    <!-- Bundle Overview select hotel accessibility content description when still searching -->
+    <string name="select_hotel_content_description_searching">{startdate} ~ {enddate}, {destination} 호텔, {guests}을 검색 중입니다. 잠시 기다려 주세요.</string>
+    <!-- Bundle Overview selected hotel accessibility content description -->
+    <string name="select_hotel_content_description_selected">{startdate} ~ {enddate}, {hotel} 호텔, {guests}을 선택하셨습니다. 자세한 정보를 보려면 이 버튼을 누르세요.</string>
     <!-- Bundle Overview select hotel -->
     <string name="select_hotel_template">%s 호텔 선택</string>
     <!-- Bundle Overview searching flight -->
@@ -3902,7 +3910,7 @@
     <!-- Flight to template -->
     <string name="flight_to">%1$s행 항공편</string>
     <!-- Select return flight -->
-    <string name="select_return_flight">귀국 항공편 선택</string>
+    <string name="select_return_flight">오는 항공편 선택</string>
     <!-- Flight overview - flight to template -->
     <string name="flight_to_template">%1$s행 항공편</string>
     <!-- Toolbar text flight date template. %1$s = Formatted date, %2$s = num of travelers. E.g. Tue May 12, 2016, 2 Travelers -->
@@ -4003,6 +4011,15 @@
 
     <!--Use on the timeline on rail details when a customer has to transfer from one train to another at the same station (likely a different platform within the same station) -->
     <string name="rail_change_at_station_TEMPLATE">{stationname}에서 환승</string>
+
+    <!--rail search screen - user is specifiying what time they want their outbound train to leave at -->
+    <string name="rail_departing_at">갈 때</string>
+
+    <!--rail search screen - user is specifiying what time they want their return train to leave at -->
+    <string name="rail_returning_at">올 때</string>
+
+    <!-- Label for rail trip price on overview screen -->
+    <string name="total">총 합계</string>
 
     <string name="pwp_points_conversion_unauthenticated_access">죄송합니다. 서버 문제가 발생했습니다. 다시 시도해 주세요.</string>
     <string name="pwp_trip_service_error">죄송합니다. 서버 문제가 발생했습니다. 다시 시도해 주세요.</string>

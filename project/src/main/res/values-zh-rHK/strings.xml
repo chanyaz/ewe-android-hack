@@ -45,7 +45,7 @@
     <!-- Cars -->
     <!-- Cars Calendar Strings -->
     <!-- Tooltip description for selecting the start date -->
-    <string name="cars_calendar_start_date_label">下一步：選擇還車日期</string>
+    <string name="cars_calendar_start_date_label">下一步：選擇回程日期</string>
     <!-- Tooltip description when both start and end dates are selected -->
     <string name="cars_calendar_end_date_label">拖曳以修改</string>
     <!-- SeekBar tooltip description for pick up time-->
@@ -72,8 +72,6 @@
     <string name="checkout_text">付款</string>
     <!-- Text for error toolbar-->
     <string name="cars_dupe_trip_text">重複的旅行</string>
-    <!-- Text for error toolbar-->
-    <string name="cars_session_timeout_text">逾時退出</string>
     <!-- Text for error toolbar-->
     <string name="cars_price_change_text">價格變更</string>
     <!-- Text for error toolbar-->
@@ -124,11 +122,7 @@
     <string name="calendar_desc_support_TEMPLATE">{brand} 客戶支援：{localphone} 及 {phone}</string>
 
     <!-- Label for hotel search toolbar -->
-    <string name="hotel_toolbar_title">搜尋酒店</string>
-    <!-- Label for hotel search v2 toolbar -->
     <string name="hotel_search_toolbar_title">酒店</string>
-    <!-- Label for hotel suggestion -->
-    <string name="search_location">搜尋地點</string>
     <!-- Label for recent searches -->
     <string name="recent_searches">最近的搜尋</string>
     <!-- Label for pickup location selector -->
@@ -142,7 +136,7 @@
     <!-- When user has picked both start and return date/time, we show something like: "Jan 21, 2:00PM - Jan 25, 3:00PM" -->
     <string name="date_time_range_TEMPLATE">%1$s – %2$s</string>
     <!-- When user hasn't picked return date/time, we show something like: "Jan. 21, 2:00PM - Select return date" -->
-    <string name="select_return_date_TEMPLATE">%1$s – 選擇回程日期</string>
+    <string name="select_return_date_TEMPLATE">{startdate} – 選擇回程日期</string>
     <!-- Label for pick-up time picker -->
     <string name="pick_up_time_label">取車</string>
     <!-- Label for drop-up time picker -->
@@ -250,10 +244,8 @@
     <!-- Car error strings -->
     <!-- Message for user that pick-up time is too early.  -->
     <string name="pick_up_time_error">請修改取車或還車時間。</string>
-    <!-- Message for user  to choose a closer date.  -->
-    <string name="error_date_too_far">此日期太久遠，請選擇一個更近的日期。</string>
     <!-- Message for user that date is too far out.  -->
-    <string name="date_out_of_range">此日期太久遠，請選擇一個更近的日期。</string>
+    <string name="error_date_too_far">此日期太後，請選擇較近的日期。</string>
     <!-- Message for user that increase your reservation duration. -->
     <string name="reservation_time_too_short">請增加預訂時限。</string>
     <!-- Shown to user in case the reservation timed out -->
@@ -656,8 +648,6 @@
     <!-- Text for error toolbar-->
     <string name="lx_duplicate_trip_text">重複的行程</string>
     <!-- Text for error toolbar-->
-    <string name="lx_session_timeout_text">逾時退出</string>
-    <!-- Text for error toolbar-->
     <string name="lx_payment_failed_text">付款無效</string>
     <!-- Offers show more string -->
     <string name="lx_show_more_offers">顯示更多</string>
@@ -976,8 +966,6 @@
     <string name="restricted_profile_sign_in_message_TEMPLATE">如需登入 {brand}，您裝置上的使用者設定不可有任何限制。</string>
 
     <!-- Nav Dropdown menu -->
-    <!-- Flights -->
-    <string name="flights_title">機票</string>
     <!-- Hotels -->
     <string name="nav_hotels">酒店</string>
     <!-- Cars -->
@@ -1094,7 +1082,7 @@
     <!-- Enter itinerary number -->
     <string name="enter_itinerary_number">請輸入行程編號</string>
     <!-- Enter a Guest itinerary number -->
-    <string name="enter_a_guest_itinerary_number">又或輸入旅客行程編號</string>
+    <string name="or_enter_a_guest_itinerary_number">又或輸入旅客行程編號</string>
     <!-- Fetching your itinerary -->
     <string name="fetching_your_itinerary">正載入您的行程…</string>
     <!-- Error fetching itinerary -->
@@ -1627,6 +1615,16 @@
     <!-- Template for title/name of the facebook post - Cars -->
     <string name="share_facebook_template_title_car">租車公司：%1$s</string>
 
+    <!-- Flights v2 -->
+    <!-- Flights Search view button label for round-trip searches -->
+    <string name="flights_round_trip_label">來回</string>
+    <!-- Flights Search view button label for one-way searches -->
+    <string name="flights_one_way_label">單程</string>
+    <!-- Flights label for selected outbound flight -->
+    <string name="flights_outbound_label">出發航班</string>
+    <!-- Flights Line of Business title -->
+    <string name="flights_title">機票</string>
+
     <!-- Flights -->
     <!-- Label for Flight Search in task manager -->
     <string name="Flights_TEMPLATE">{brand} 航班</string>
@@ -1650,6 +1648,8 @@
     <string name="error_invalid_arrival_airport">抵達機場無效。</string>
     <!-- Error message when we find no flights because of invalid departure AND arrival airports -->
     <string name="error_invalid_departure_arrival_airports">出發和抵達機場無效。</string>
+    <!-- Error message when we find no flights because of invalid departure date -->
+    <string name="error_invalid_departure_date">出發日期無效。</string>
     <!-- "Details" button label, for seeing details of a flight -->
     <string name="details">詳情</string>
     <!-- "Select" button label, for selecting a particular leg of a flight -->
@@ -1746,8 +1746,9 @@
     <string name="calendar_instructions_date_range_TEMPLATE">%1$s - %2$s</string>
     <!-- Calendar instructions flight start date selected and label indicating this will be a one way search -->
     <string name="calendar_instructions_date_range_flight_one_way_TEMPLATE">{startdate} (單程)</string>
-    <!-- Calendar instructions flight: Customer has selected start date. Label indicating return date is optional -->
-    <string name="calendar_instructions_date_range_flight_select_return_date_optional">下一步：選擇回程日期 (選填)</string>
+
+    <!-- Calendar instructions flight: Customer has selected start date - Label used in tooltip indicating return date must be selected -->
+    <string name="calendar_instructions_date_range_flight_select_return_date">下一步：選擇回程日期</string>
     <!-- Calendar instruction text hotels no dates selected - "Select Check-in Date" -->
     <string name="calendar_instructions_hotels_no_dates_selected">選擇入住日期</string>
     <!-- Calendar instruction text hotels date range template. %1$s = Formatted start date, %2$s = formatted end date. E.g. May 12 - May 15 -->
@@ -2084,6 +2085,8 @@
     <string name="add_infant_in_seat_variate2">佔位嬰幼兒</string>
     <!-- Warning shown to users when they enter their name -->
     <string name="name_must_match_warning">如旅客姓名與政府簽發附有照片的身分證明不符，可能會被拒登機。</string>
+    <!-- Warning shown to users when they enter their name (Material design message) -->
+    <string name="name_must_match_warning_new">旅客姓名必須與政府簽發附有照片的身分證明完全相符。</string>
 
     <!-- Special Assistance label template -->
     <string name="special_assistance_label_TEMPLATE">特別協助：%1$s</string>
@@ -2459,7 +2462,7 @@
     <!-- Text for hotel error toolbar payment failed-->
     <string name="hotel_payment_failed_text">付款無效</string>
     <!-- Text for error toolbar session expired-->
-    <string name="session_timeout">逾時退出</string>
+    <string name="session_timeout">已逾時</string>
 
     <!-- Credit card input section -->
     <string name="one">1</string>
@@ -2622,6 +2625,8 @@
     <string name="sort_description_deals">優惠</string>
     <!-- Sort by user rating label -->
     <string name="sort_description_rating">評分</string>
+    <!-- Sort by user rating label -->
+    <string name="sort_description_package_discount">套票行程折扣</string>
 
     <!-- Stop descriptions, e.g. Stops filtered by "description" -->
     <!-- Nonstop flights -->
@@ -2704,9 +2709,7 @@
     <!-- Hotel Details Fragment Activity -->
     <!-- Bullet point for list items -->
     <string name="bullet_point">•</string>
-    <!-- Label for button that lets the user complete the booking through the normal flow -->
-    <string name="book_now_ab_test">選擇客房</string>
-    <string name="book_now">立即預訂</string>
+
     <!-- Label for button that lets the user complete the booking by calling a phone number -->
     <string name="book_by_phone">電話預訂</string>
     <!-- Hotel Details Fragment -->
@@ -2871,7 +2874,6 @@
     <string name="etp_pay_now_charges_text_TEMPLATE">{brand} 將處理您的付款資料。</string>
     <string name="etp_pay_now_currency_text_TEMPLATE">您將以您當地的貨幣 (%s) 付款。</string>
     <string name="etp_pay_now_cancellation_text">在酒店免費取消期限前，取消預訂都是免費的。</string>
-    <string name="etp_select_room">選擇客房</string>
 
     <!-- ETP pay later deposit info message -->
     <string name="etp_pay_later_deposit_text">您支付的訂金絕不會超過預訂總金額。</string>
@@ -3865,6 +3867,12 @@
     <string name="package_overview_flight_travel_info_TEMPLATE">%1$s %2$s, %3$s</string>
     <!-- Template for package bundle total savings amount -->
     <string name="bundle_total_savings_TEMPLATE">慳 {savings}</string>
+    <!-- Bundle Overview select hotel accessibility content description -->
+    <string name="select_hotel_content_description">搜尋已完成，請按此鍵選擇 {startdate}至 {enddate} {guests}入住的{destination}酒店</string>
+    <!-- Bundle Overview select hotel accessibility content description when still searching -->
+    <string name="select_hotel_content_description_searching">正在搜尋 {startdate}至 {enddate} {guests}入住的{destination}酒店。請稍候</string>
+    <!-- Bundle Overview selected hotel accessibility content description -->
+    <string name="select_hotel_content_description_selected">您已選擇{hotel}，日期為 {startdate}至 {enddate}，{guests}入住。請按此鍵查看詳情。</string>
     <!-- Bundle Overview select hotel -->
     <string name="select_hotel_template">選擇%s的酒店</string>
     <!-- Bundle Overview searching flight -->
@@ -4003,6 +4011,15 @@
 
     <!--Use on the timeline on rail details when a customer has to transfer from one train to another at the same station (likely a different platform within the same station) -->
     <string name="rail_change_at_station_TEMPLATE">於{stationname}轉車</string>
+
+    <!--rail search screen - user is specifiying what time they want their outbound train to leave at -->
+    <string name="rail_departing_at">出發時間</string>
+
+    <!--rail search screen - user is specifiying what time they want their return train to leave at -->
+    <string name="rail_returning_at">回程時間</string>
+
+    <!-- Label for rail trip price on overview screen -->
+    <string name="total">總費用</string>
 
     <string name="pwp_points_conversion_unauthenticated_access">很抱歉，伺服器出現問題。請再試一次。</string>
     <string name="pwp_trip_service_error">很抱歉，伺服器出現問題。請再試一次。</string>
