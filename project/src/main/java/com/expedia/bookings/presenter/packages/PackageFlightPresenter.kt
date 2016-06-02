@@ -3,7 +3,9 @@ package com.expedia.bookings.presenter.packages
 import android.app.Activity
 import android.content.Context
 import android.support.v7.app.AppCompatActivity
+import android.support.v7.view.menu.ActionMenuItemView
 import android.util.AttributeSet
+import com.expedia.bookings.R
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.presenter.flight.BaseFlightPresenter
@@ -93,6 +95,12 @@ class PackageFlightPresenter(context: Context, attrs: AttributeSet) : BaseFlight
 
     override fun trackFlightResultsLoad() {
         PackagesTracking().trackFlightRoundTripLoad(Db.getPackageParams()?.isOutboundSearch() ?: false)
+    }
+
+    override fun setupToolbarMenu() {
+        toolbar.inflateMenu(R.menu.package_flights_menu)
+        menuFilter = toolbar.findViewById(R.id.menu_filter) as ActionMenuItemView
+        menuFilter!!.setOnClickListener { show(filter) }
     }
 
     override fun trackShowBaggageFee() = PackagesTracking().trackFlightBaggageFeeClick()

@@ -9,6 +9,7 @@ import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
+import com.expedia.bookings.widget.FilterButtonWithCountWidget
 import com.expedia.bookings.widget.FlightListAdapter
 import com.expedia.bookings.widget.FlightListRecyclerView
 import com.expedia.bookings.widget.flights.DockedOutboundFlightSelectionView
@@ -23,11 +24,15 @@ class FlightResultsListViewPresenter(context: Context, attrs: AttributeSet) : Pr
     private val recyclerView: FlightListRecyclerView by bindView(R.id.list_view)
     private val dockedOutboundFlightSelection: DockedOutboundFlightSelectionView by bindView(R.id.docked_outbound_flight_selection)
     private val dockedOutboundFlightShadow: View by bindView(R.id.docked_outbound_flight_widget_dropshadow)
+    private val filterButton: FilterButtonWithCountWidget by bindView(R.id.sort_filter_button_container)
     lateinit private var flightListAdapter: FlightListAdapter
 
     // input
     val flightSelectedSubject = PublishSubject.create<FlightLeg>()
     val outboundFlightSelectedSubject = PublishSubject.create<FlightLeg>()
+
+    // outputs
+    val showSortAndFilterViewSubject = PublishSubject.create<Unit>()
 
     var isShowingOutboundResults = false
 
@@ -40,6 +45,7 @@ class FlightResultsListViewPresenter(context: Context, attrs: AttributeSet) : Pr
         val selectedOutboundFlightViewModel = SelectedOutboundFlightViewModel(outboundFlightSelectedSubject, context)
         dockedOutboundFlightSelection.viewModel = selectedOutboundFlightViewModel
         outboundFlightSelectedSubject.subscribe { positionChildren() }
+        setupFilterButton()
     }
 
     fun setAdapter(adapter: FlightListAdapter) {
@@ -48,6 +54,7 @@ class FlightResultsListViewPresenter(context: Context, attrs: AttributeSet) : Pr
     }
 
     fun setLoadingState() {
+        filterButton.visibility = GONE
         flightListAdapter.setLoadingState()
         positionChildren()
     }
@@ -61,6 +68,15 @@ class FlightResultsListViewPresenter(context: Context, attrs: AttributeSet) : Pr
 
     val listResultsObserver = endlessObserver<List<FlightLeg>> {
         flightListAdapter.setNewFlights(it)
+        filterButton.visibility = VISIBLE
+    }
+
+    private fun setupFilterButton() {
+        recyclerView.addOnScrollListener(filterButton.hideShowOnRecyclerViewScrollListener())
+        filterButton.setButtonBackgroundColor(R.color.lob_packages_primary_color)
+        filterButton.setTextAndFilterIconColor(R.color.white)
+        filterButton.setOnClickListener { showSortAndFilterViewSubject.onNext(Unit) }
+        filterButton.visibility = View.GONE
     }
 
     private fun positionChildren() {

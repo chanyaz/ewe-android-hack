@@ -39,7 +39,7 @@ abstract class BaseFlightPresenter(context: Context, attrs: AttributeSet) : Pres
     val ANIMATION_DURATION = 400
     val toolbar: Toolbar by bindView(R.id.flights_toolbar)
     var navIcon = ArrowXDrawableUtil.getNavigationIconDrawable(getContext(), ArrowXDrawableUtil.ArrowDrawableType.BACK)
-    var menuFilter: ActionMenuItemView by Delegates.notNull()
+    var menuFilter: ActionMenuItemView? = null // not used for flights LOB
     var menuSearch: ActionMenuItemView by Delegates.notNull()
     var flightSearchViewModel: FlightSearchViewModel by notNullAndObservable { vm ->
         val flightListAdapter = FlightListAdapter(context, resultsPresenter.flightSelectedSubject, vm)
@@ -48,12 +48,6 @@ abstract class BaseFlightPresenter(context: Context, attrs: AttributeSet) : Pres
         vm.confirmedOutboundFlightSelection.subscribe(resultsPresenter.outboundFlightSelectedSubject)
         vm.flightOfferSelected.subscribe { overviewPresenter.paymentFeesMayApplyTextView.visibility = if (it.mayChargeOBFees) VISIBLE else GONE }
         vm.obFeeDetailsUrlObservable.subscribe(paymentFeeInfo.viewModel.webViewURLObservable)
-    }
-
-    val filterPlaceholderIcon by lazy {
-        val sortDrawable = ContextCompat.getDrawable(context, R.drawable.sort).mutate()
-        sortDrawable.setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_IN)
-        sortDrawable
     }
 
     val baggageFeeInfo: BaggageFeeInfoWidget by lazy {
@@ -90,6 +84,7 @@ abstract class BaseFlightPresenter(context: Context, attrs: AttributeSet) : Pres
         presenter.resultsViewModel = FlightResultsViewModel()
         toolbarViewModel.isOutboundSearch.subscribe(presenter.resultsViewModel.isOutboundResults)
         presenter.flightSelectedSubject.subscribe(selectedFlightResults)
+        presenter.showSortAndFilterViewSubject.subscribe { show(filter) }
         presenter
     }
 
@@ -111,21 +106,13 @@ abstract class BaseFlightPresenter(context: Context, attrs: AttributeSet) : Pres
 
         vm.menuVisibilitySubject.subscribe { showMenu ->
             menuSearch.visibility = if (showMenu) View.VISIBLE else View.GONE
-            menuFilter.visibility = if (showMenu) View.VISIBLE else View.GONE
+            menuFilter?.visibility = if (showMenu) View.VISIBLE else View.GONE
         }
     }
 
     init {
         View.inflate(context, R.layout.package_flight_presenter, this)
-        toolbarViewModel = FlightToolbarViewModel(context)
-        navIcon.setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_IN)
-        toolbar.navigationIcon = navIcon
-        toolbar.setBackgroundColor(ContextCompat.getColor(context, R.color.packages_primary_color))
-        toolbar.inflateMenu(R.menu.package_flights_menu)
-        menuFilter = toolbar.findViewById(R.id.menu_filter) as ActionMenuItemView
-        menuSearch = toolbar.findViewById(R.id.menu_search) as ActionMenuItemView
-        menuFilter.setIcon(filterPlaceholderIcon)
-        menuFilter.setOnClickListener { show(filter) }
+        setupToolbar()
         overviewPresenter.baggageFeeShowSubject.subscribe { url ->
             baggageFeeInfo.viewModel.webViewURLObservable.onNext(url)
             trackShowBaggageFee()
@@ -257,6 +244,16 @@ abstract class BaseFlightPresenter(context: Context, attrs: AttributeSet) : Pres
         return super.back()
     }
 
+    private fun setupToolbar() {
+        toolbarViewModel = FlightToolbarViewModel(context)
+        navIcon.setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_IN)
+        toolbar.navigationIcon = navIcon
+        toolbar.setBackgroundColor(ContextCompat.getColor(context, R.color.packages_primary_color))
+        setupToolbarMenu()
+        menuSearch = toolbar.findViewById(R.id.menu_search) as ActionMenuItemView
+    }
+
+    abstract fun setupToolbarMenu()
     abstract fun isOutboundResultsPresenter(): Boolean
     abstract fun trackFlightResultsLoad()
     abstract fun trackFlightOverviewLoad()
