@@ -4,7 +4,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="135dp"
+    android:layout_height="148dp"
     android:layout_marginLeft="@dimen/card_view_container_margin"
     android:layout_marginRight="@dimen/card_view_container_margin"
     android:foreground="?android:attr/selectableItemBackground">
@@ -13,7 +13,6 @@
         android:id="@+id/theme_image"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@android:color/black"
         android:scaleType="centerCrop" />
 
     <LinearLayout

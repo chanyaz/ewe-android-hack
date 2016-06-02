@@ -5,6 +5,9 @@ import java.util.Map;
 
 import org.jetbrains.annotations.NotNull;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
+import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
@@ -37,6 +40,8 @@ public class LXSortFilterWidget extends LinearLayout {
 	private Map<String, LXCategoryMetadata> selectedFilterCategories = new HashMap<>();
 	private boolean isFilteredToZeroResults = false;
 	private View toolbarBackgroundView;
+	private boolean userBucketedForCategoriesTest;
+	private boolean themeAllThingsToDo;
 
 	public LXSortFilterWidget(Context context, AttributeSet attrs) {
 		super(context, attrs);
@@ -136,7 +141,7 @@ public class LXSortFilterWidget extends LinearLayout {
 
 	public void bind(Map<String, LXCategoryMetadata> filterCategories) {
 		filterCategoriesContainer.removeAllViews();
-		if (filterCategories != null && filterCategories.size() > 0) {
+		if (filterCategories != null) {
 			for (Map.Entry<String, LXCategoryMetadata> filterCategory : filterCategories.entrySet()) {
 
 				LXCategoryMetadata lxCategoryMetadata = filterCategory.getValue();
@@ -184,11 +189,13 @@ public class LXSortFilterWidget extends LinearLayout {
 			isFilteredToZeroResults = false;
 			updateDoneButton();
 			dynamicFeedbackWidget.hideDynamicFeedback();
+			animateDynamicFeedbackHeight(false);
 			bind(event.filterCategories);
 			return;
 		}
 		else {
 			dynamicFeedbackWidget.showDynamicFeedback();
+			animateDynamicFeedbackHeight(true);
 		}
 
 		int filteredActivitiesCount = 0;
@@ -213,11 +220,11 @@ public class LXSortFilterWidget extends LinearLayout {
 	}
 
 	@NotNull
-	private LXSortFilterMetadata defaultFilterMetadata() {
+	public LXSortFilterMetadata defaultFilterMetadata() {
 		popularitySortButton.setSelected(true);
 		priceSortButton.setSelected(false);
 		selectedFilterCategories.clear();
-		return new LXSortFilterMetadata();
+		return new LXSortFilterMetadata(selectedFilterCategories, LXSortType.POPULARITY);
 	}
 
 	public int getNumberOfSelectedFilters() {
@@ -233,6 +240,7 @@ public class LXSortFilterWidget extends LinearLayout {
 			public void onClick(View v) {
 				if (isFilteredToZeroResults) {
 					dynamicFeedbackWidget.showDynamicFeedback();
+					animateDynamicFeedbackHeight(true);
 					dynamicFeedbackWidget.animateDynamicFeedbackWidget();
 				}
 				else {
@@ -275,7 +283,49 @@ public class LXSortFilterWidget extends LinearLayout {
 		filterCategoriesContainer.requestLayout();
 	}
 
-	public int getSortFilterWidgetHeightForCategoriesABTest() {
-		return filterCategoriesContainer.getTop() + Ui.toolbarSizeWithStatusBar(getContext());
+	private void animateDynamicFeedbackHeight(final boolean showDynamicFeedback) {
+		if (!userBucketedForCategoriesTest || themeAllThingsToDo) {
+			toolbarBackgroundView.setVisibility(VISIBLE);
+			spaceBelowFilterCategories.setVisibility(showDynamicFeedback ? VISIBLE : GONE);
+			return;
+		}
+		else {
+			toolbarBackgroundView.setVisibility(GONE);
+		}
+		if ((spaceBelowFilterCategories.getVisibility() == VISIBLE && showDynamicFeedback) || (
+			spaceBelowFilterCategories.getVisibility() == GONE && !showDynamicFeedback)) {
+			return;
+		}
+
+		ObjectAnimator anim = ObjectAnimator
+			.ofFloat(this, "translationY",
+				showDynamicFeedback ? getResources().getDimensionPixelSize(R.dimen.space_below_lx_filter_view_height) : 0f,
+				showDynamicFeedback ? 0f : getResources().getDimensionPixelSize(R.dimen.space_below_lx_filter_view_height));
+		anim.setDuration(300);
+		anim.addListener(new AnimatorListenerAdapter() {
+			@Override
+			public void onAnimationEnd(Animator animation) {
+				if (!showDynamicFeedback) {
+					spaceBelowFilterCategories.setVisibility(GONE);
+					setTranslationY(0);
+				}
+			}
+
+			@Override
+			public void onAnimationStart(Animator animation) {
+				if (showDynamicFeedback) {
+					spaceBelowFilterCategories.setVisibility(VISIBLE);
+				}
+			}
+		});
+		anim.start();
+	}
+
+	public void setUserBucketedForCategoriesTest(boolean userBucketedForCategoriesTest) {
+		this.userBucketedForCategoriesTest = userBucketedForCategoriesTest;
+	}
+
+	public void setThemeAllThingsToDo(boolean themeAllThingsToDo) {
+		this.themeAllThingsToDo = themeAllThingsToDo;
 	}
 }

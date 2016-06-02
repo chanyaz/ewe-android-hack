@@ -213,7 +213,6 @@ public class LXResultsPresenter extends Presenter {
 
 			sortFilterWidget.bind(theme.filterCategories);
 			sortFilterButton.setFilterText(getResources().getString(R.string.sort_and_filter));
-			sortFilterWidget.categoryFilterVisibility(true);
 			themeSelected = theme;
 			show(searchResultsWidget, FLAG_CLEAR_TOP);
 			sortFilterButton.showNumberOfFilters(0);
@@ -223,6 +222,17 @@ public class LXResultsPresenter extends Presenter {
 				themeResultSortObserver);
 			setToolbarTitles(theme.title, getSearchDate());
 			sortFilterWidget.invalidate();
+
+			switch (theme.themeType) {
+			case TopRatedActivities:
+				sortFilterWidget.categoryFilterVisibility(false);
+				break;
+			case AllThingsToDo:
+				sortFilterWidget.setThemeAllThingsToDo(true);
+			default:
+				sortFilterWidget.categoryFilterVisibility(true);
+				break;
+			}
 		}
 	};
 
@@ -434,12 +444,6 @@ public class LXResultsPresenter extends Presenter {
 		}
 	}
 
-	private void animateHeightToShowHideFeedback(LXSortFilterMetadata sortFilterMetadata) {
-		sortFilterWidget.animate()
-			.translationY(sortFilterWidget.getSortFilterWidgetHeightForCategoriesABTest())
-			.setInterpolator(new DecelerateInterpolator()).start();
-	}
-
 	@Subscribe
 	public void onLXFilterDoneClicked(Events.LXFilterDoneClicked event) {
 		if (isUserBucketedForCategoriesTest) {
@@ -566,6 +570,7 @@ public class LXResultsPresenter extends Presenter {
 
 	public void setUserBucketedForCategoriesTest(boolean isUserBucketedForTest) {
 		this.isUserBucketedForCategoriesTest = isUserBucketedForTest && !isGroundTransport;
+		sortFilterWidget.setUserBucketedForCategoriesTest(isUserBucketedForCategoriesTest);
 	}
 
 	@Override

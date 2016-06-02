@@ -19,10 +19,13 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.lx.LXActivity;
 import com.expedia.bookings.data.lx.LXCategoryMetadata;
+import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.widget.LXSortFilterWidget;
 
 import butterknife.ButterKnife;
 
+import static junit.framework.Assert.assertFalse;
+import static junit.framework.Assert.assertTrue;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
@@ -32,15 +35,15 @@ public class LXSortFilterWidgetTest {
 	@Test
 	public void testLXPriceEquality() {
 		LXActivity left = new LXActivity();
-		Money moneyLeft = new Money("10","USD");
+		Money moneyLeft = new Money("10", "USD");
 		left.price = moneyLeft;
 
 		LXActivity right = new LXActivity();
-		Money moneyRight = new Money("10","USD");
+		Money moneyRight = new Money("10", "USD");
 		right.price = moneyRight;
 
-		assertEquals(moneyLeft,moneyRight);
-		assertEquals(moneyLeft,moneyLeft);
+		assertEquals(moneyLeft, moneyRight);
+		assertEquals(moneyLeft, moneyLeft);
 
 	}
 
@@ -63,7 +66,7 @@ public class LXSortFilterWidgetTest {
 		assertNotNull(popularitySortButton);
 
 
-		LinearLayout categoriesView = (LinearLayout)filterContainer.findViewById(R.id.filter_categories_widget);
+		LinearLayout categoriesView = (LinearLayout) filterContainer.findViewById(R.id.filter_categories_widget);
 		assertNotNull(categoriesView);
 
 		TextView category = (TextView) categoriesView.findViewById(R.id.category);
@@ -75,8 +78,38 @@ public class LXSortFilterWidgetTest {
 		String expectedCategory = getLxCategoryMetadata().displayValue;
 		boolean expectedCheckedState = getLxCategoryMetadata().checked;
 
-		assertEquals(expectedCategory,category.getText());
+		assertEquals(expectedCategory, category.getText());
 		assertEquals(expectedCheckedState, categoryCheckBox.isChecked());
+	}
+
+	@Test
+	public void testClearFilter() {
+		Activity activity = Robolectric.buildActivity(Activity.class).create().get();
+		LXSortFilterWidget widget = (LXSortFilterWidget) LayoutInflater.from(activity)
+			.inflate(R.layout.test_lx_sort_filter_widget, null);
+		assertNotNull(widget);
+		ButterKnife.inject(activity);
+
+		Map<String, LXCategoryMetadata> filterCategories = buildCategories();
+		widget.bind(filterCategories);
+
+		View filterContainer = widget.findViewById(R.id.filter_categories);
+		Button priceSortButton = (Button) widget.findViewById(R.id.price_sort_button);
+		Button popularitySortButton = (Button) widget.findViewById(R.id.popularity_sort_button);
+
+		assertNotNull(filterContainer);
+		assertNotNull(priceSortButton);
+		assertNotNull(popularitySortButton);
+
+		LXCategoryMetadata attractions = filterCategories.get("Attractions");
+		attractions.checked = true;
+		widget.onCategoryCheckChanged(new Events.LXFilterCategoryCheckedChanged(attractions, "Attractions"));
+		assertEquals(1, widget.getNumberOfSelectedFilters());
+		widget.onDynamicFeedbackClearButtonClicked(new Events.DynamicFeedbackClearButtonClicked());
+
+		assertEquals(0, widget.getNumberOfSelectedFilters());
+		assertTrue(popularitySortButton.isSelected());
+		assertFalse(priceSortButton.isSelected());
 	}
 
 	private Map<String, LXCategoryMetadata> buildCategories() {
