@@ -20,6 +20,7 @@ import com.expedia.vm.BaseSearchViewModel
 import com.expedia.vm.SuggestionAdapterViewModel
 import com.expedia.vm.packages.PackageSearchViewModel
 import com.expedia.vm.packages.PackageSuggestionAdapterViewModel
+import com.squareup.phrase.Phrase
 import kotlin.properties.Delegates
 
 class PackageSearchPresenter(context: Context, attrs: AttributeSet) : BaseTwoLocationSearchPresenter(context, attrs) {
@@ -34,12 +35,24 @@ class PackageSearchPresenter(context: Context, attrs: AttributeSet) : BaseTwoLoc
         calendarWidgetV2.viewModel = vm
         travelerWidgetV2.travelersSubject.subscribe(vm.travelersObserver)
         travelerWidgetV2.traveler.viewmodel.isInfantInLapObservable.subscribe(vm.isInfantInLapObserver)
-        vm.formattedOriginObservable.subscribe { text -> originCardView.setText(text) }
+        vm.formattedOriginObservable.subscribe {
+            text -> originCardView.setText(text)
+            originCardView.contentDescription = Phrase.from(context, R.string.packages_search_flying_from_content_description)
+                    .put("from_destination", text)
+                    .format().toString()
+        }
         vm.formattedDestinationObservable.subscribe {
             text -> destinationCardView.setText(text)
+            destinationCardView.contentDescription = Phrase.from(context, R.string.packages_search_flying_to_content_description)
+                    .put("to_destination", text)
+                    .format().toString()
             if (this.visibility == VISIBLE && vm.startDate() == null) {
                 calendarWidgetV2.showCalendarDialog()
             }
+        }
+        vm.dateAccessibilityObservable.subscribe{
+            text ->
+            calendarWidgetV2.contentDescription = text
         }
 
         vm.searchButtonObservable.subscribe { enable ->
@@ -71,7 +84,7 @@ class PackageSearchPresenter(context: Context, attrs: AttributeSet) : BaseTwoLoc
     override fun inflate() {
         View.inflate(context, R.layout.widget_package_search, this)
     }
-    
+
     override fun getSuggestionHistoryFileName(): String {
         return SuggestionV4Utils.RECENT_PACKAGE_SUGGESTIONS_FILE
     }

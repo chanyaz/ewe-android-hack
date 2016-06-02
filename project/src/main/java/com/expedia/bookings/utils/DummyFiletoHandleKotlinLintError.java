@@ -623,6 +623,13 @@ DummyFiletoHandleKotlinLintError {
 		R.string.eat_play_enjoy_en,
 		R.string.lx_category_all_things_to_do,
 		R.drawable.lx_category_count_background_more_than_one_digit,
-		R.string.flight_detail_card_content_description
+		R.string.flight_detail_card_content_description,
+		R.string.packages_search_flying_from_content_description,
+		R.string.packages_search_flying_from_content_description_initial,
+		R.string.packages_search_flying_to_content_description,
+		R.string.packages_search_flying_to_content_description_initial,
+		R.string.packages_search_dates_content_description_initial,
+		R.string.packages_search_accessible_date_range_TEMPLATE,
+		R.string.packages_search_dates_content_description_trip,
 	};
 }

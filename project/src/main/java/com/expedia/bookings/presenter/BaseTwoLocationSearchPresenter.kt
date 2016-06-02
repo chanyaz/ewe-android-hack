@@ -15,7 +15,7 @@ abstract class BaseTwoLocationSearchPresenter(context: Context, attrs: Attribute
     open val originCardView by bindView<SearchInputCardView>(R.id.origin_card)
 
     protected var originSuggestionViewModel: SuggestionAdapterViewModel by notNullAndObservable { vm ->
-        val suggestionSelectedObserver = suggestionSelectedObserver(getSearchViewModel().originLocationObserver, suggestionInputView = originCardView)
+        val suggestionSelectedObserver = suggestionSelectedObserver(getSearchViewModel().originLocationObserver)
         val delayBeforeShowingDestinationSuggestions = 325L
         val waitForOtherSuggestionListeners = 350L
         vm.suggestionSelectedSubject

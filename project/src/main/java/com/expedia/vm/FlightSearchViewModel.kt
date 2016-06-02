@@ -114,7 +114,7 @@ class FlightSearchViewModel(context: Context, val flightServices: FlightServices
                     .put("startdate", DateUtils.localDateToMMMd(start))
                     .format().toString()
         } else {
-            return context.resources.getString(R.string.calendar_instructions_date_range_TEMPLATE, DateUtils.localDateToMMMd(start), DateUtils.localDateToMMMd(end))
+            return Phrase.from(context, R.string.calendar_instructions_date_range_TEMPLATE).put("startdate", DateUtils.localDateToMMMd(start)).put("enddate", DateUtils.localDateToMMMd(end)).format().toString()
         }
     }
 

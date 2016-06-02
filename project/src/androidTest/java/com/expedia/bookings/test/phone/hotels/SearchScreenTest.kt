@@ -20,6 +20,7 @@ import com.expedia.bookings.utils.DateUtils
 import com.expedia.bookings.utils.SpannableBuilder
 import com.expedia.bookings.utils.StrUtils
 import com.mobiata.android.time.util.JodaUtils
+import com.squareup.phrase.Phrase
 import org.joda.time.LocalDate
 
 class SearchScreenTest : HotelTestCase() {
@@ -183,7 +184,7 @@ class SearchScreenTest : HotelTestCase() {
         } else if (end == null) {
             return instrumentation.targetContext.resources.getString(R.string.select_checkout_date_TEMPLATE, DateUtils.localDateToMMMd(start))
         } else {
-            return instrumentation.targetContext.resources.getString(R.string.calendar_instructions_date_range_TEMPLATE, DateUtils.localDateToMMMd(start), DateUtils.localDateToMMMd(end))
+            return Phrase.from(instrumentation.targetContext, R.string.calendar_instructions_date_range_TEMPLATE).put("startdate", DateUtils.localDateToMMMd(start)).put("enddate", DateUtils.localDateToMMMd(end)).format().toString()
         }
     }
 }

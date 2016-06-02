@@ -1770,8 +1770,8 @@
     <string name="calendar_tooltip_bottom_select_return_date">(Optional) Select Return Date</string>
     <!-- Calendar tooltip bottom line after two dates are selected E.g. Drag End Dates to Modify -->
     <string name="calendar_tooltip_bottom_drag_to_modify">Drag End Dates to Modify</string>
-    <!-- Calendar instruction text hotels date range template. %1$s = Formatted start date, %2$s = formatted end date. E.g. May 12 - May 15 -->
-    <string name="calendar_instructions_date_range_TEMPLATE">%1$s - %2$s</string>
+    <!-- Calendar instruction text hotels date range template. {startdate} = Formatted start date, {enddate} = formatted end date. E.g. May 12 - May 15 -->
+    <string name="calendar_instructions_date_range_TEMPLATE">{startdate} - {enddate}</string>
     <!-- Calendar instructions flight start date selected and label indicating this will be a one way search -->
     <string name="calendar_instructions_date_range_flight_one_way_TEMPLATE">{startdate} (One Way)</string>
 
@@ -4129,4 +4129,20 @@
     <!-- Flight Detail card view content description for accessibility.
          Example: Flight time is 10am - 12:30pm with price difference of $25. Flying with United and the flight duration is 2 hours 30 minutes. Click to view flight details -->
     <string name="flight_detail_card_content_description">Flight time is {time} with price difference of {pricedifference}. Flying with {airline} and the flight duration is {hours} hours {minutes} minutes. Click to view flight details</string>
+
+    <!--Packages search accessibility -->
+    <!--Flying to card content description Eg. Flying to San Francisco, CA (SFO-San Francisco Intl.)-->
+    <string name="packages_search_flying_to_content_description">Flying to {to_destination}</string>
+    <!--Flying from card content description Eg. Flying from Detroit, MI (DTW-Detroit Metropolitan Wayne County)-->
+    <string name="packages_search_flying_from_content_description">Flying from {from_destination}</string>
+    <!--Flying to card content description before a location is selected-->
+    <string name="packages_search_flying_to_content_description_initial">Click here to select where you want to fly to</string>
+    <!--Flying from card content description before a location is selected-->
+    <string name="packages_search_flying_from_content_description_initial">Click here to select where you want to fly from</string>
+    <!--Travel dates card content description before date range is selected-->
+    <string name="packages_search_dates_content_description_initial">Click here to select your travel dates</string>
+    <!--Packages search date format template for accessible dates (Talkback announces date range with 'to' in between) Eg. Jun 2 to Jun 5-->
+    <string name="packages_search_accessible_date_range_TEMPLATE">{startdate} to {enddate}</string>
+    <!--Packages search dates content description for Talkback to indicate what the date range is and how many nights the trip is for-->
+    <string name="packages_search_dates_content_description_trip">Your trip is from {date_range} for {nights}</string>
 </resources>

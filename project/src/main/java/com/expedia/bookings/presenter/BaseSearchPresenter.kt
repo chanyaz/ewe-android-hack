@@ -15,7 +15,6 @@ import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.SearchView
 import android.support.v7.widget.Toolbar
-import android.text.Html
 import android.util.AttributeSet
 import android.util.TypedValue
 import android.view.View
@@ -100,16 +99,14 @@ abstract class BaseSearchPresenter(context: Context, attrs: AttributeSet) : Pres
     }
 
     protected var destinationSuggestionViewModel: SuggestionAdapterViewModel by notNullAndObservable { vm ->
-        val suggestionSelectedObserver = suggestionSelectedObserver(getSearchViewModel().destinationLocationObserver, suggestionInputView = destinationCardView)
+        val suggestionSelectedObserver = suggestionSelectedObserver(getSearchViewModel().destinationLocationObserver)
         vm.suggestionSelectedSubject.subscribe(suggestionSelectedObserver)
     }
 
-    protected fun suggestionSelectedObserver(observer: Observer<SuggestionV4>, suggestionInputView: SearchInputCardView): (SuggestionV4) -> Unit {
+    protected fun suggestionSelectedObserver(observer: Observer<SuggestionV4>): (SuggestionV4) -> Unit {
         return { suggestion ->
-            observer.onNext(suggestion)
             com.mobiata.android.util.Ui.hideKeyboard(this)
-            val suggestionName = Html.fromHtml(suggestion.regionNames.displayName).toString()
-            suggestionInputView.setText(suggestionName)
+            observer.onNext(suggestion)
             SuggestionV4Utils.saveSuggestionHistory(context, suggestion, getSuggestionHistoryFileName())
             showDefault()
         }
