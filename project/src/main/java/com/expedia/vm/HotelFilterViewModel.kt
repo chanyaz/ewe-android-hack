@@ -188,6 +188,10 @@ class HotelFilterViewModel(val lob: LineOfBusiness = LineOfBusiness.HOTELSV2) {
     }
 
     fun filterPriceRange(hotel: Hotel): Boolean {
+        if (hotel.isSoldOut) {
+            //Check if price filters have not been changed
+            return userFilterChoices.minPrice == 0 && userFilterChoices.maxPrice == 0;
+        }
         val price = hotel.lowRateInfo.priceToShowUsers
         return (userFilterChoices.minPrice == 0 && price < 0) || (userFilterChoices.minPrice <= price &&
                 (userFilterChoices.maxPrice == 0 || price <= userFilterChoices.maxPrice))
@@ -381,17 +385,27 @@ class HotelFilterViewModel(val lob: LineOfBusiness = LineOfBusiness.HOTELSV2) {
         if (lowRate1 == null && lowRate2 == null) {
             return@Comparator name_comparator.compare(hotel1, hotel2)
         } else if (lowRate1 == null) {
-            return@Comparator -1
-        } else if (lowRate2 == null) {
             return@Comparator 1
+        } else if (lowRate2 == null) {
+            return@Comparator -1
         }
 
-        // Compare rates
         lowRate1.compareTo(lowRate2)
     }
 
     private val deals_comparator: Comparator<Hotel> = Comparator { hotel1, hotel2 ->
-        hotel1.lowRateInfo.discountPercent.compareTo(hotel2.lowRateInfo.discountPercent)
+        val discountPercent1 = hotel1.lowRateInfo?.discountPercent
+        val discountPercent2 = hotel2.lowRateInfo?.discountPercent
+
+        if (discountPercent1 == null && discountPercent2 == null) {
+            return@Comparator name_comparator.compare(hotel1, hotel2)
+        } else if (discountPercent1 == null) {
+            return@Comparator 1
+        } else if (discountPercent2 == null) {
+            return@Comparator -1
+        }
+
+        discountPercent1.compareTo(discountPercent2)
     }
 
     private val package_discount_comparator: Comparator<Hotel> = Comparator { hotel1, hotel2 ->
