@@ -738,6 +738,7 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 	private boolean isPostalCodeRequired() {
 		PointOfSale currentPOS = PointOfSale.getPointOfSale();
 		switch (mLineOfBusiness) {
+		case HOTELS:
 		case HOTELSV2:
 			return currentPOS.requiresHotelPostalCode();
 		case CARS:
