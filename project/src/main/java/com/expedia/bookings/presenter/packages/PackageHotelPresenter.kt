@@ -23,6 +23,7 @@ import com.expedia.bookings.data.hotels.HotelSearchResponse
 import com.expedia.bookings.data.hotels.convertPackageToSearchParams
 import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.presenter.ScaleTransition
+import com.expedia.bookings.presenter.hotel.BaseHotelResultsPresenter
 import com.expedia.bookings.presenter.hotel.HotelDetailPresenter
 import com.expedia.bookings.presenter.hotel.HotelReviewsView
 import com.expedia.bookings.services.PackageServices
@@ -354,6 +355,9 @@ class PackageHotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
             detailPresenter.visibility = View.VISIBLE
             detailPresenter.animationStart()
             resultsPresenter.visibility = View.VISIBLE
+            if (resultsPresenter.currentState == BaseHotelResultsPresenter.ResultsMap::class.java.name) {
+                bundleSlidingWidget.visibility =  if (forward) VISIBLE else GONE
+            }
         }
 
         override fun updateTransition(f: Float, forward: Boolean) {
@@ -372,8 +376,6 @@ class PackageHotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
             if (forward) {
                 detailPresenter.hotelDetailView.viewmodel.addViewsAfterTransition()
             } else {
-                resultsPresenter.viewmodel.paramsSubject.onNext(convertPackageToSearchParams(Db.getPackageParams(), resources.getInteger(R.integer.calendar_max_days_hotel_stay),  resources.getInteger(R.integer.calendar_max_package_selectable_date_range)))
-                resultsPresenter.viewmodel.hotelResultsObservable.onNext(HotelSearchResponse.convertPackageToSearchResponse(Db.getPackageResponse()))
                 resultsPresenter.recyclerView.adapter.notifyDataSetChanged()
                 trackSearchResult()
             }
