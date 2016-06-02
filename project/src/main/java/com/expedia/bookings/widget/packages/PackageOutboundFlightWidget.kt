@@ -65,13 +65,9 @@ class PackageOutboundFlightWidget(context: Context, attrs: AttributeSet?) : Pack
     }
 
     fun updateHotelParams(params: PackageSearchParams) {
-        viewModel.suggestion.onNext(Db.getPackageParams().destination)
-        viewModel.date.onNext(Db.getPackageParams().checkIn)
-        viewModel.guests.onNext(Db.getPackageParams().guests)
-        if (!params.isChangePackageSearch()) {
-            viewModel.searchTypeStateObservable.onNext(PackageSearchType.OUTBOUND_FLIGHT)
-        }
-
+        viewModel.suggestion.onNext(params.destination)
+        viewModel.date.onNext(params.checkIn)
+        viewModel.guests.onNext(params.guests)
         toggleFlightWidget(opacity, false)
     }
 
