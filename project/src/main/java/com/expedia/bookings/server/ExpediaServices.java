@@ -941,7 +941,7 @@ public class ExpediaServices implements DownloadListener {
 
 		addCommonParams(query);
 
-		int flags = F_GET;
+		int flags = F_POST;
 
 		// Always use tripNumber for guests, tripId for logged in
 		String tripIdentifier;
@@ -950,8 +950,6 @@ public class ExpediaServices implements DownloadListener {
 			tripIdentifier = trip.getTripNumber();
 
 			query.add(new BasicNameValuePair("email", trip.getGuestEmailAddress()));
-
-			// This param is deprecated; remove it once it's safely removed from prod
 			query.add(new BasicNameValuePair("idtype", "itineraryNumber"));
 		}
 		else {
