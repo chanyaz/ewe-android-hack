@@ -94,20 +94,20 @@ public class NewLaunchLobAdapter extends RecyclerView.Adapter<NewLaunchLobAdapte
 		@Override
 		public void onClick(View v) {
 			if (lobInfo != null && listener != null) {
-				switch (lobInfo.labelRes) {
-				case R.string.nav_hotels:
+				switch (lobInfo) {
+				case HOTELS:
 					listener.onHotelsLobClick();
 					break;
-				case R.string.flights_title:
+				case FLIGHTS:
 					listener.onFlightsLobClick();
 					break;
-				case R.string.nav_cars:
+				case CARS:
 					listener.onCarsLobClick();
 					break;
-				case R.string.nav_lx:
+				case ACTIVITIES:
 					listener.onActivitiesLobClick();
 					break;
-				case R.string.nav_transport:
+				case TRANSPORT:
 					listener.onTransportLobClick();
 					break;
 				}
@@ -115,11 +115,17 @@ public class NewLaunchLobAdapter extends RecyclerView.Adapter<NewLaunchLobAdapte
 		}
 	}
 
-	public static class LobInfo {
+	public enum LobInfo {
+		HOTELS(R.string.nav_hotels, R.drawable.ic_lob_hotels),
+		FLIGHTS(R.string.flights_title, R.drawable.ic_lob_flights),
+		CARS(R.string.nav_car_rentals, R.drawable.ic_lob_cars),
+		ACTIVITIES(R.string.nav_things_to_do, R.drawable.ic_lob_lx),
+		TRANSPORT(R.string.nav_transport, R.drawable.ic_lob_gt);
+
 		public @StringRes int labelRes;
 		public @DrawableRes int iconRes;
 
-		public LobInfo(@StringRes int label, @DrawableRes int icon) {
+		LobInfo(@StringRes int label, @DrawableRes int icon) {
 			labelRes = label;
 			iconRes = icon;
 		}

@@ -17,11 +17,6 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 
 public class NewLaunchLobViewModel implements NewLaunchLobAdapter.OnLobClickListener {
-	private static final NewLaunchLobAdapter.LobInfo HOTELS_LOB = new NewLaunchLobAdapter.LobInfo(R.string.nav_hotels, R.drawable.ic_lob_hotels);
-	private static final NewLaunchLobAdapter.LobInfo FLIGHTS_LOB = new NewLaunchLobAdapter.LobInfo(R.string.flights_title, R.drawable.ic_lob_flights);
-	private static final NewLaunchLobAdapter.LobInfo CARS_LOB = new NewLaunchLobAdapter.LobInfo(R.string.nav_cars, R.drawable.ic_lob_cars);
-	private static final NewLaunchLobAdapter.LobInfo LX_LOB = new NewLaunchLobAdapter.LobInfo(R.string.nav_lx, R.drawable.ic_lob_lx);
-	private static final NewLaunchLobAdapter.LobInfo GT_LOB = new NewLaunchLobAdapter.LobInfo(R.string.nav_transport, R.drawable.ic_lob_gt);
 
 	@InjectView(R.id.lob_grid_recycler)
 	RecyclerView gridRecycler;
@@ -64,23 +59,23 @@ public class NewLaunchLobViewModel implements NewLaunchLobAdapter.OnLobClickList
 		ArrayList<NewLaunchLobAdapter.LobInfo> lobs = new ArrayList<>();
 
 		if (pos.supports(LineOfBusiness.HOTELS)) {
-			lobs.add(HOTELS_LOB);
+			lobs.add(NewLaunchLobAdapter.LobInfo.HOTELS);
 		}
 
 		if (pos.supports(LineOfBusiness.FLIGHTS)) {
-			lobs.add(FLIGHTS_LOB);
+			lobs.add(NewLaunchLobAdapter.LobInfo.FLIGHTS);
 		}
 
 		if (pos.supports(LineOfBusiness.CARS)) {
-			lobs.add(CARS_LOB);
+			lobs.add(NewLaunchLobAdapter.LobInfo.CARS);
 		}
 
 		if (pos.supports(LineOfBusiness.LX)) {
-			lobs.add(LX_LOB);
+			lobs.add(NewLaunchLobAdapter.LobInfo.ACTIVITIES);
 		}
 
 		if (pos.supports(LineOfBusiness.TRANSPORT)) {
-			lobs.add(GT_LOB);
+			lobs.add(NewLaunchLobAdapter.LobInfo.TRANSPORT);
 		}
 
 		adapter.setLobs(lobs);

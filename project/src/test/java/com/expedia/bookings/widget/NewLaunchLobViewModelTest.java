@@ -81,24 +81,26 @@ public class NewLaunchLobViewModelTest {
 		List<NewLaunchLobAdapter.LobInfo> infos = lobArgumentCaptor.getValue();
 		assertEquals(availableLobs.length, infos.size());
 		for (int i = 0; i < availableLobs.length; i++) {
-			int labelRes = infos.get(i).labelRes;
+			NewLaunchLobAdapter.LobInfo actual = infos.get(i);
+			NewLaunchLobAdapter.LobInfo expected = null;
 			switch (availableLobs[i]) {
 			case HOTELS:
-				assertEquals(R.string.nav_hotels, labelRes);
+				expected = NewLaunchLobAdapter.LobInfo.HOTELS;
 				break;
 			case FLIGHTS:
-				assertEquals(R.string.flights_title, labelRes);
+				expected = NewLaunchLobAdapter.LobInfo.FLIGHTS;
 				break;
 			case CARS:
-				assertEquals(R.string.nav_cars, labelRes);
+				expected = NewLaunchLobAdapter.LobInfo.CARS;
 				break;
 			case LX:
-				assertEquals(R.string.nav_lx, labelRes);
+				expected = NewLaunchLobAdapter.LobInfo.ACTIVITIES;
 				break;
 			case TRANSPORT:
-				assertEquals(R.string.nav_transport, labelRes);
+				expected = NewLaunchLobAdapter.LobInfo.TRANSPORT;
 				break;
 			}
+			assertEquals(expected, actual);
 		}
 	}
 
