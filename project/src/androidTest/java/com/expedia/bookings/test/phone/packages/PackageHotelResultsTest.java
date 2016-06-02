@@ -6,20 +6,39 @@ import org.joda.time.LocalDate;
 import com.expedia.bookings.R;
 import com.expedia.bookings.test.espresso.CustomMatchers;
 import com.expedia.bookings.test.espresso.PackageTestCase;
+import com.expedia.bookings.test.phone.hotels.HotelScreen;
 import com.expedia.bookings.utils.DateUtils;
 
 import static android.support.test.espresso.Espresso.onView;
+import static android.support.test.espresso.Espresso.pressBack;
+import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.hasDescendant;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
+import static com.expedia.bookings.test.espresso.EspressoUtils.assertViewWithTextIsDisplayed;
+import static org.hamcrest.Matchers.not;
 
 public class PackageHotelResultsTest extends PackageTestCase {
 
 	public void testResultsHeader() throws Throwable {
 		PackageScreen.searchPackage();
 		PackageScreen.hotelResultsHeader().check(matches(withText("48 Results")));
+	}
+
+	public void testFilterBtn() throws Throwable {
+		PackageScreen.searchPackage();
+		onView(withId(R.id.filter_text)).check(matches(not(isDisplayed())));
+		onView(withId(R.id.filter_count_text)).check(matches(not(isDisplayed())));
+		onView(withId(R.id.filter_btn)).perform(click());
+		onView(withId(R.id.rating_four_background)).perform(click());
+		pressBack();
+		assertViewWithTextIsDisplayed(R.id.filter_count_text, "1");
+		onView(withId(R.id.filter_text)).check(matches(not(isDisplayed())));
+		HotelScreen.mapFab().perform(click());
+		onView(withId(R.id.filter_text)).check(matches(isDisplayed()));
+		assertViewWithTextIsDisplayed(R.id.filter_count_text, "1");
 	}
 
 	public void testToolbarText() throws Throwable {

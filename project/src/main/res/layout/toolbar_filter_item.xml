@@ -8,7 +8,8 @@
     android:fontFamily="sans-serif-medium"
     android:minHeight="?attr/actionBarSize"
     android:orientation="horizontal"
-    android:paddingLeft="5dp">
+    android:paddingLeft="5dp"
+    android:paddingRight="12dp">
 
     <com.expedia.bookings.widget.TextView
         android:id="@+id/filter_count_text"
@@ -20,7 +21,7 @@
         android:paddingBottom="1dp"
         android:paddingLeft="5.5dp"
         android:paddingRight="5.5dp"
-        android:textColor="@color/hotels_primary_color"
+        android:textColor="?attr/primary_color"
         android:textSize="14sp"
         android:textStyle="bold"
         android:visibility="gone"
@@ -33,11 +34,11 @@
         android:padding="5dp" />
 
     <com.expedia.bookings.widget.TextView
+        android:id="@+id/filter_text"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_marginLeft="8dp"
         android:gravity="center_vertical"
-        android:paddingRight="12dp"
         android:text="@string/filter"
         android:textAllCaps="true"
         android:textColor="#FFFFFFFF"

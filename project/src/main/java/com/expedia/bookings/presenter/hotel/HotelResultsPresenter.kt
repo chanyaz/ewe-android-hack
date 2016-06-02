@@ -39,7 +39,6 @@ class HotelResultsPresenter(context: Context, attrs: AttributeSet) : BaseHotelRe
     override val filterBtnWithCountWidget: FilterButtonWithCountWidget by bindView(R.id.sort_filter_button_container)
     override val searchThisArea: Button by bindView(R.id.search_this_area)
     override val loadingOverlay: MapLoadingOverlayWidget by bindView(R.id.map_loading_overlay)
-    var filterBtn: LinearLayout? = null
 
     lateinit var shopWithPointsViewModel: ShopWithPointsViewModel
         @Inject set
@@ -108,11 +107,7 @@ class HotelResultsPresenter(context: Context, attrs: AttributeSet) : BaseHotelRe
             trackMapSearchAreaClick()
         })
 
-        inflateAndSetupToolbarMenu()
         filterView.shopWithPointsViewModel = shopWithPointsViewModel
-        filterView.viewmodel.filterCountObservable.map { it.toString() }.subscribeText(filterCountText)
-        filterView.viewmodel.filterCountObservable.map { it > 0 }.subscribeVisibility(filterCountText)
-        filterView.viewmodel.filterCountObservable.map { it > 0 }.subscribeInverseVisibility(filterPlaceholderImageView)
 
         filterBtn?.setOnClickListener { view ->
             showWithTracking(ResultsFilter())
@@ -125,15 +120,6 @@ class HotelResultsPresenter(context: Context, attrs: AttributeSet) : BaseHotelRe
             filterView.viewmodel.sortContainerObservable.onNext(true)
             filterView.toolbar.title = resources.getString(R.string.sort_and_filter)
         }
-    }
-
-    private fun inflateAndSetupToolbarMenu() {
-        val toolbarFilterItemActionView = LayoutInflater.from(context).inflate(R.layout.toolbar_filter_item, null) as LinearLayout
-        filterCountText = toolbarFilterItemActionView.findViewById(R.id.filter_count_text) as TextView
-        filterPlaceholderImageView = toolbarFilterItemActionView.findViewById(R.id.filter_placeholder_icon) as ImageView
-        filterPlaceholderImageView.setImageDrawable(filterPlaceholderIcon)
-        filterBtn = toolbarFilterItemActionView.findViewById(R.id.filter_btn) as LinearLayout
-        filterMenuItem.actionView = toolbarFilterItemActionView
     }
 
     override fun inflate() {

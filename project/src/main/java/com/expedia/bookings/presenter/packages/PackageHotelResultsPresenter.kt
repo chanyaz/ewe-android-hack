@@ -22,11 +22,9 @@ import com.expedia.vm.hotel.HotelResultsViewModel
 import kotlin.properties.Delegates
 
 class PackageHotelResultsPresenter(context: Context, attrs: AttributeSet) : BaseHotelResultsPresenter(context, attrs) {
-    val filterButton: LinearLayout by bindView(R.id.filter_button)
-    var mapFilterPlaceholderImageView: ImageView by Delegates.notNull()
-    var filterButtonText: TextView by Delegates.notNull()
     override val filterHeight by lazy { resources.getDimension(R.dimen.footer_button_height) }
     override val heightOfButton = 0
+    var filterButtonText: TextView by Delegates.notNull()
 
     var viewmodel: HotelResultsViewModel by notNullAndObservable { vm ->
         vm.hotelResultsObservable.subscribe(listResultsObserver)
@@ -61,25 +59,18 @@ class PackageHotelResultsPresenter(context: Context, attrs: AttributeSet) : Base
 
     override fun onFinishInflate() {
         super.onFinishInflate()
-        inflateAndSetupToolbarMenu()
         recyclerView.viewTreeObserver.addOnGlobalLayoutListener(adapterListener)
+        filterButtonText = filterMenuItem.actionView.findViewById(R.id.filter_text) as TextView
+        filterButtonText.visibility = GONE
         filterMenuItem.isVisible = true
         filterView.lob = LineOfBusiness.PACKAGES
-        filterButton.setOnClickListener { view ->
+        filterBtn?.setOnClickListener { view ->
             showWithTracking(ResultsFilter())
             val isResults = currentState == ResultsList::class.java.name
             filterView.viewmodel.sortContainerObservable.onNext(isResults)
             filterView.toolbar.title = if (isResults) resources.getString(R.string.sort_and_filter) else resources.getString(R.string.filter)
         }
         (mapCarouselRecycler.adapter as HotelMapCarouselAdapter).setLob(LineOfBusiness.PACKAGES)
-    }
-
-    private fun inflateAndSetupToolbarMenu() {
-        val toolbarFilterItemActionView = LayoutInflater.from(context).inflate(R.layout.package_toolbar_filter_item, null) as LinearLayout
-        mapFilterPlaceholderImageView = toolbarFilterItemActionView.findViewById(R.id.map_filter_placeholder_icon) as ImageView
-        mapFilterPlaceholderImageView.setImageDrawable(filterPlaceholderIcon)
-        filterButtonText = toolbarFilterItemActionView.findViewById(R.id.filter_text) as TextView
-        toolbar.menu.findItem(R.id.menu_filter).actionView = toolbarFilterItemActionView
     }
 
     override fun getFilterViewModel(): HotelFilterViewModel {
