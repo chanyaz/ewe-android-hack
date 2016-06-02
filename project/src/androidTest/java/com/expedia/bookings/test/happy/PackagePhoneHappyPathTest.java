@@ -71,6 +71,8 @@ public class PackagePhoneHappyPathTest extends PackageTestCase {
 		assertBundlePriceInFlight("$4,212");
 		PackageScreen.selectThisFlight().perform(click());
 
+		PackageScreen.checkout().perform(click());
+
 		PackageScreen.travelerInfo().perform(scrollTo(), click());
 		onView(allOf(withId(R.id.boarding_warning), withText(mRes.getString(R.string.name_must_match_warning_new)))).check(matches(isDisplayed()));
 		PackageScreen.enterFirstName("FiveStar");

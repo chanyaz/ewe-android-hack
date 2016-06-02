@@ -33,7 +33,7 @@ public class PackageBundleOverviewPresenterTest extends PackageTestCase {
 	public void testBundleOverviewCheckoutFlow() throws Throwable {
 		PackageScreen.searchPackage();
 
-		Common.pressBack(); // auto advance so need to back up.
+		Common.pressBack();
 		PackageScreen.bundleToolbar().check(matches(hasDescendant(
 			allOf(isDisplayed(), withText("Trip to Detroit, MI")))));
 
@@ -47,13 +47,12 @@ public class PackageBundleOverviewPresenterTest extends PackageTestCase {
 		PackageScreen.outboundFlightInfo().check(matches(not(isEnabled())));
 		PackageScreen.inboundFlightInfo().check(matches(not(isEnabled())));
 
-
 		PackageScreen.clickHotelBundle();
 		HotelScreen.selectHotel("Package Happy Path");
 
 		PackageScreen.selectRoom();
 
-		Common.pressBack(); // auto advance so need to back up.
+		Common.pressBack();
 		checkBundleOverviewHotelContentDescription("Package Happy Path");
 
 		PackageScreen.outboundFlightInfo().check(matches(hasDescendant(
@@ -75,8 +74,6 @@ public class PackageBundleOverviewPresenterTest extends PackageTestCase {
 		Common.delay(1);
 		PackageScreen.selectFlight(0);
 		PackageScreen.selectThisFlight().perform(click());
-
-		Common.pressBack();
 
 		PackageScreen.hotelBundle().check(matches(hasDescendant(
 			allOf(isDisplayed(), withText("Package Happy Path")))));

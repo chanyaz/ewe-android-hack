@@ -36,7 +36,7 @@ abstract class BaseOverviewPresenter(context: Context, attrs: AttributeSet) : Pr
 
             if (currentState == BaseOverviewPresenter.BundleDefault::class.java.name) {
                 bundleOverviewHeader.toggleOverviewHeader(true)
-                showCheckout()
+                checkoutPresenter.toggleCheckoutButton(true)
             }
         }
 

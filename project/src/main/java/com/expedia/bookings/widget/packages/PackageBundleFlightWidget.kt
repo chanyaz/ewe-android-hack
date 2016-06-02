@@ -1,9 +1,7 @@
-package com.expedia.bookings.widget
+package com.expedia.bookings.widget.packages
 
 import android.content.Context
-import android.content.Intent
 import android.support.v4.content.ContextCompat
-import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.CardView
 import android.util.AttributeSet
 import android.view.View
@@ -13,10 +11,10 @@ import com.expedia.bookings.R
 import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.tracking.PackagesTracking
 import com.expedia.bookings.utils.AnimUtils
-import com.expedia.bookings.utils.Constants
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
-import com.expedia.ui.PackageFlightActivity
+import com.expedia.bookings.widget.FlightSegmentBreakdownView
+import com.expedia.bookings.widget.TextView
 import com.expedia.util.notNullAndObservable
 import com.expedia.util.subscribeEnabled
 import com.expedia.util.subscribeInverseVisibility
@@ -28,7 +26,15 @@ import com.expedia.vm.packages.BundleFlightViewModel
 import com.expedia.vm.FlightSegmentBreakdown
 import com.expedia.vm.FlightSegmentBreakdownViewModel
 
-class PackageBundleFlightWidget(context: Context, attrs: AttributeSet?) : CardView(context, attrs) {
+abstract class PackageBundleFlightWidget(context: Context, attrs: AttributeSet?) : CardView(context, attrs) {
+    abstract fun showLoading()
+    abstract fun handleResultsLoaded()
+    abstract fun enable()
+    abstract fun disable()
+    abstract fun rowClicked()
+
+    protected val opacity: Float = 0.25f
+
     val flightLoadingBar: ImageView by bindView(R.id.flight_loading_bar)
     val rowContainer: ViewGroup by bindView(R.id.row_container)
     val flightInfoContainer: ViewGroup by bindView(R.id.flight_info_container)
@@ -40,8 +46,6 @@ class PackageBundleFlightWidget(context: Context, attrs: AttributeSet?) : CardVi
     val flightDetailsContainer: ViewGroup by bindView(R.id.flight_details_container)
     val flightSegmentWidget: FlightSegmentBreakdownView by bindView(R.id.segment_breakdown)
     val totalDurationText: TextView by bindView(R.id.flight_total_duration)
-
-    var isOutbound = false
 
     var viewModel: BundleFlightViewModel by notNullAndObservable { vm ->
 
@@ -71,11 +75,7 @@ class PackageBundleFlightWidget(context: Context, attrs: AttributeSet?) : CardVi
                 flightLoadingBar.clearAnimation()
                 flightIcon.setColorFilter(Ui.obtainThemeColor(context, R.attr.primary_color))
                 rowContainer.setOnClickListener {
-                    if (isOutbound) {
-                        openFlightsForDeparture()
-                    } else {
-                        openFlightsForArrival()
-                    }
+                    rowClicked()
                 }
             }
         }
@@ -108,18 +108,6 @@ class PackageBundleFlightWidget(context: Context, attrs: AttributeSet?) : CardVi
         View.inflate(getContext(), R.layout.bundle_flight_widget, this)
         isEnabled = false
         flightSegmentWidget.viewmodel = FlightSegmentBreakdownViewModel(context)
-    }
-
-    fun openFlightsForDeparture() {
-        val intent = Intent(context, PackageFlightActivity::class.java)
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-        (context as AppCompatActivity).startActivityForResult(intent, Constants.PACKAGE_FLIGHT_OUTBOUND_REQUEST_CODE, null)
-    }
-
-    fun openFlightsForArrival() {
-        val intent = Intent(context, PackageFlightActivity::class.java)
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-        (context as AppCompatActivity).startActivityForResult(intent, Constants.PACKAGE_FLIGHT_RETURN_REQUEST_CODE, null)
     }
 
     private fun expandFlightDetails() {
