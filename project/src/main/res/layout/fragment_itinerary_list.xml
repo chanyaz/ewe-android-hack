@@ -152,7 +152,7 @@
                 android:textAllCaps="false"
                 android:textColor="@color/launch_screen_itin_divider"
                 android:textSize="14sp"
-                app:textStyle="bold" />
+                app:textStyle="medium" />
 
             <View
                 android:id="@+id/empty_list_error_mask"
