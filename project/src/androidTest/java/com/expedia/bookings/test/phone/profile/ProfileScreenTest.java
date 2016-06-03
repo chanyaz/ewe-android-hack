@@ -31,9 +31,7 @@ import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.test.espresso.Common;
 import com.expedia.bookings.test.phone.pagemodels.common.ProfileScreen;
-import com.google.android.gms.common.GoogleApiAvailability;
 import com.mobiata.android.util.AndroidUtils;
-import com.mobiata.android.util.HtmlUtils;
 import com.squareup.phrase.Phrase;
 
 import static android.support.test.espresso.action.ViewActions.click;
@@ -48,6 +46,8 @@ import static com.expedia.bookings.test.espresso.EspressoUtils.assertIntentFired
 import static com.expedia.bookings.test.espresso.EspressoUtils.assertIntentFiredToViewUri;
 import static com.expedia.bookings.test.espresso.EspressoUtils.assertViewWithTextIsDisplayed;
 import static org.hamcrest.Matchers.allOf;
+import static org.hamcrest.Matchers.containsString;
+import static org.hamcrest.Matchers.equalTo;
 
 @RunWith(AndroidJUnit4.class)
 public class ProfileScreenTest {
@@ -87,7 +87,7 @@ public class ProfileScreenTest {
 		assertIntentFiredToStartAboutWebViewWithUrl(PointOfSale.getPointOfSale().getPrivacyPolicyUrl());
 
 		ProfileScreen.clickOpenSource();
-		assertIntentFiredToStartWebViewWithRawHtml(buildOpenSourceLicenseHtmlString(context));
+		assertIntentFiredToStartWebViewWithRawHtmlContaining("Licensed under the Apache License, Version 2.0");
 
 		ProfileScreen.clickFlightTrack();
 		assertIntentFiredToViewAppInPlayStore("com.mobiata.flighttrack.five");
@@ -155,8 +155,8 @@ public class ProfileScreenTest {
 
 			if (pos.showAtolInfo()) {
 				ProfileScreen.atolInformation().perform(scrollTo(), click());
-				assertIntentFiredToStartWebViewWithRawHtml(
-						HtmlUtils.wrapInHeadAndBody(context.getString(R.string.lawyer_label_atol_long_message)));
+				assertIntentFiredToStartWebViewWithRawHtmlContaining(
+						context.getString(R.string.lawyer_label_atol_long_message));
 			}
 			else {
 				ProfileScreen.atolInformation().check(matches(withEffectiveVisibility(ViewMatchers.Visibility.GONE)));
@@ -173,22 +173,16 @@ public class ProfileScreenTest {
 		ProfileScreen.clickOK();
 	}
 
-	private static String buildOpenSourceLicenseHtmlString(Context context) {
-		String license = GoogleApiAvailability.getInstance().getOpenSourceSoftwareLicenseInfo(context);
-		String htmlEscapedData = "<pre>" + HtmlUtils.escape(license) + "</pre>";
-		return HtmlUtils.wrapInHeadAndBody(htmlEscapedData);
-	}
-
 	private static void assertIntentFiredToViewAppInPlayStore(String appPackage) {
 		assertIntentFiredToViewUri("market://details?id=" + appPackage);
 	}
 
 	private static void assertIntentFiredToStartAboutWebViewWithUrl(String url) {
-		assertIntentFiredToStartActivityWithExtra(AboutWebViewActivity.class, "ARG_URL", url);
+		assertIntentFiredToStartActivityWithExtra(AboutWebViewActivity.class, equalTo("ARG_URL"), equalTo(url));
 	}
 
-	private static void assertIntentFiredToStartWebViewWithRawHtml(String html) {
-		assertIntentFiredToStartActivityWithExtra(WebViewActivity.class, "ARG_HTML_DATA", html);
+	private static void assertIntentFiredToStartWebViewWithRawHtmlContaining(String html) {
+		assertIntentFiredToStartActivityWithExtra(WebViewActivity.class, equalTo("ARG_HTML_DATA"), containsString(html));
 	}
 
 	private static void assertIntentFiredToStartSignInWithInitialState(Config.InitialState initialState) {
