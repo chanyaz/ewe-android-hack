@@ -25,6 +25,4 @@
     <string name="lean_plum_sdk_prod_appid">app_DlalmgL04G8NWrJZ2aXYXa62RuVAiZgwvXNFOce0T8Q</string>
     <string name="lean_plum_sdk_prod_key">prod_hTYVreB5U6ekA1YqaT8WQda2dwKz2hA5YEpdeBAray8</string>
 
-    <string name="account_creation_legal_TEMPLATE">@string/account_creation_legal_excluding_rewards_TEMPLATE</string>
-
 </resources>

@@ -51,6 +51,8 @@
     <string name="acct_ebookers_account_already_exists">Ya existe una cuenta de ebookers para este correo electrónico</string>
     <!-- Sign in with earn message. Eg: Sign in to earn $123.22 in BONUS+ -->
     <string name="Sign_in_to_earn_TEMPLATE">Inicia sesión para acumular {reward} en BONUS+</string>
+    <!-- Account creation legal template excluding ebookers BONUS+ -->
+    <string name="account_creation_legal_TEMPLATE">@string/account_creation_legal_excluding_rewards_TEMPLATE</string>
 
     <!-- Bonus+ -->
     <string name="paying_with_rewards">Pago con BONUS+</string>
