@@ -51,6 +51,8 @@
     <string name="acct_ebookers_account_already_exists">이 이메일로 ebookers 계정이 이미 있습니다.</string>
     <!-- Sign in with earn message. Eg: Sign in to earn $123.22 in BONUS+ -->
     <string name="Sign_in_to_earn_TEMPLATE">로그인하고 {reward}의 BONUS+를 적립하세요.</string>
+    <!-- Account creation legal template excluding ebookers BONUS+ -->
+    <string name="account_creation_legal_TEMPLATE">@string/account_creation_legal_excluding_rewards_TEMPLATE</string>
 
     <!-- Bonus+ -->
     <string name="paying_with_rewards">BONUS+로 결제</string>
