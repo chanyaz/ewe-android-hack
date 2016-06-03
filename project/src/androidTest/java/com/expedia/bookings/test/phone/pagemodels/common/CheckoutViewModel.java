@@ -31,6 +31,7 @@ import static android.support.test.espresso.matcher.ViewMatchers.withClassName;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withParent;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
+import static com.expedia.bookings.test.espresso.ViewActions.waitFor;
 import static org.hamcrest.CoreMatchers.allOf;
 import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.Matchers.is;
@@ -69,6 +70,10 @@ public class CheckoutViewModel {
 
 	public static void clickPaymentInfo() {
 		paymentInfo().perform(scrollTo(), click());
+	}
+
+	public static void waitForPaymentInfoDisplayed() {
+		paymentInfo().perform(ViewActions.waitForViewToDisplay());
 	}
 
 	public static void clickAddCreditCard() {
@@ -174,9 +179,11 @@ public class CheckoutViewModel {
 	}
 
 	public static void pressDoLogin() {
+		ViewInteraction signInButton = onView(withId(R.id.sign_in_button));
+		signInButton.perform(waitFor(isDisplayed(), 10, TimeUnit.SECONDS));
 		Common.closeSoftKeyboard(CheckoutViewModel.password());
 		Common.delay(1);
-		onView(withId(R.id.sign_in_button)).perform(click());
+		signInButton.perform(click());
 	}
 
 	public static void clickLogin() {
@@ -206,6 +213,13 @@ public class CheckoutViewModel {
 		enterUsername("qa-ehcc@mobiata.com");
 		enterPassword("password");
 	}
+
+	public static void enterSingleCardLoginDetails() {
+		clickLogin();
+		enterUsername("singlecard@mobiata.com");
+		enterPassword("password");
+	}
+
 	public static void enterLoginDetails(String username,String password) {
 		clickLogin();
 		enterUsername(username);

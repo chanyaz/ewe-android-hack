@@ -15,6 +15,7 @@ import com.expedia.bookings.data.LXState;
 import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.TripBucketItemLX;
+import com.expedia.bookings.data.TripBucketItemTransport;
 import com.expedia.bookings.data.User;
 import com.expedia.bookings.data.cars.ApiError;
 import com.expedia.bookings.data.lx.LXBookableItem;
@@ -192,8 +193,15 @@ public class LXCheckoutMainViewPresenter extends CheckoutBasePresenter implement
 
 		@Override
 		public void onNext(LXCreateTripResponse response) {
-			Db.getTripBucket().clearLX();
-			Db.getTripBucket().add(new TripBucketItemLX(response));
+			if (getLineOfBusiness() == LineOfBusiness.TRANSPORT) {
+				Db.getTripBucket().clearTransport();
+				Db.getTripBucket().add(new TripBucketItemTransport(response));
+			}
+			else if (getLineOfBusiness() == LineOfBusiness.LX) {
+				Db.getTripBucket().clearLX();
+				Db.getTripBucket().add(new TripBucketItemLX(response));
+			}
+
 			showProgress(false);
 			OmnitureTracking.trackAppLXCheckoutPayment(lxState.activity.id,
 				DateUtils

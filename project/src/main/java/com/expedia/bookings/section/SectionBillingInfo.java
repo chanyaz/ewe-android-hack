@@ -1210,9 +1210,13 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 			return Db.getTripBucket().getCar() != null
 				&& Db.getTripBucket().getCar().isPaymentTypeSupported(info.getPaymentType());
 		}
-		if (lob == LineOfBusiness.LX || lob == LineOfBusiness.TRANSPORT) {
+		if (lob == LineOfBusiness.LX) {
 			return Db.getTripBucket().getLX() != null
 				&& Db.getTripBucket().getLX().isPaymentTypeSupported(info.getPaymentType());
+		}
+		if (lob == LineOfBusiness.TRANSPORT) {
+			return Db.getTripBucket().getTransport() != null
+				&& Db.getTripBucket().getTransport().isPaymentTypeSupported(info.getPaymentType());
 		}
 
 		throw new RuntimeException("Line of business required");
