@@ -154,6 +154,12 @@ class NewPhoneLaunchFragment : Fragment(), IPhoneLaunchActivityLaunchFragment {
         NavUtils.goToHotels(activity, params, event.animOptions, 0)
     }
 
+    @Subscribe
+    @Suppress("UNUSED_PARAMETER")
+    fun onPOSChanged(event: Events.PhoneLaunchOnPOSChange) {
+        newPhoneLaunchWidget.onPOSChanged()
+    }
+
     fun smoothScrollToTop() {
         newPhoneLaunchWidget.launchListWidget.smoothScrollToPosition(0)
     }
