@@ -2,6 +2,8 @@ package com.expedia.bookings.test.phone.packages;
 
 import org.joda.time.LocalDate;
 
+import android.support.test.espresso.matcher.ViewMatchers;
+
 import com.expedia.bookings.R;
 import com.expedia.bookings.test.espresso.Common;
 import com.expedia.bookings.test.espresso.PackageTestCase;
@@ -55,6 +57,14 @@ public class PackageSearchPresenterTest extends PackageTestCase {
 		String expectedEndDate = DateUtils.localDateToMMMd(endDate);
 		SearchScreen.calendarCard().check(matches(withContentDescription("Your trip is from " + expectedStartDate + " to " + expectedEndDate + " for (5 nights)")));
 		checkToolbarNavContentDescription(false);
+
+		Common.delay(1);
+		SearchScreen.selectGuestsButton().perform(click());
+		SearchScreen.addAdultsButton().check(matches(ViewMatchers.withContentDescription("Add one adult traveler")));
+		SearchScreen.removeAdultsButton().check(matches(ViewMatchers.withContentDescription("Remove one adult traveler")));
+		SearchScreen.addChildButton().check(matches(ViewMatchers.withContentDescription("Add one child traveler")));
+		SearchScreen.removeChildButton().check(matches(ViewMatchers.withContentDescription("Remove one child traveler")));
+		Common.delay(1);
 	}
 
 	private void checkToolbarNavContentDescription(boolean isBackButton) {

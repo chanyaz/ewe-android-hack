@@ -634,5 +634,9 @@ DummyFiletoHandleKotlinLintError {
 		R.string.packages_flight_search_filter_show_less_cont_desc,
 		R.string.flights_flight_overview_payment_fees,
 		R.menu.flights_toolbar_menu,
+		R.string.packages_add_adult_traveler_contdesc,
+		R.string.packages_remove_adult_traveler_contdesc,
+		R.string.packages_add_child_traveler_contdesc,
+		R.string.packages_remove_child_traveler_contdesc
 	};
 }

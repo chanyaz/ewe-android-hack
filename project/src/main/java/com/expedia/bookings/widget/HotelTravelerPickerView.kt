@@ -1,14 +1,12 @@
 package com.expedia.bookings.widget
 
 import android.content.Context
-import android.graphics.Color
 import android.graphics.PorterDuff
 import android.support.v4.content.ContextCompat
 import android.util.AttributeSet
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ImageButton
-import android.widget.LinearLayout
 import android.widget.Spinner
 import com.expedia.bookings.R
 import com.expedia.bookings.utils.bindView
