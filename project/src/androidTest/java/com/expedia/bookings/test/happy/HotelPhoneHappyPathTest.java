@@ -21,7 +21,7 @@ import static android.support.test.espresso.matcher.ViewMatchers.withText;
 public class HotelPhoneHappyPathTest extends HotelTestCase {
 
 	public void testHotelPhoneHappyPath() throws Throwable {
-		SearchScreen.searchEditText().check(ViewAssertions.matches(withHint("Search Destination")));
+		SearchScreen.searchEditText().check(ViewAssertions.matches(withHint("Enter Destination")));
 		SearchScreen.doGenericHotelSearch();
 		HotelScreen.selectHotel();
 		reviews();
