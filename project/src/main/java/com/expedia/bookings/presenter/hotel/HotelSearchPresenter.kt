@@ -99,6 +99,6 @@ class HotelSearchPresenter(context: Context, attrs: AttributeSet) : BaseSearchPr
     }
 
     override fun getDestinationSearchBoxPlaceholderText(): String {
-        return context.resources.getString(R.string.search_destination)
+        return context.resources.getString(R.string.enter_destination_hint)
     }
 }
