@@ -26,16 +26,19 @@ import rx.subjects.PublishSubject;
 
 public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 	private static final String PICASSO_TAG = "LAUNCH_LIST";
-	private static final int HEADER_VIEW = 0;
-	public static final int HOTEL_VIEW = 1;
-	public static final int COLLECTION_VIEW = 2;
-	public static final int LOADING_VIEW = 3;
+	private static final int LOB_VIEW = 0;
+	private static final int HEADER_VIEW = 1;
+	public static final int HOTEL_VIEW = 2;
+	public static final int COLLECTION_VIEW = 3;
+	public static final int LOADING_VIEW = 4;
 	private List<?> listData = new ArrayList<>();
 
 	private ViewGroup parentView;
 	private View headerView;
 	private TextView seeAllButton;
 	private TextView launchListTitle;
+	// 0 means we are in old launch screen and 1 means we are in new search screen we want to add lob
+	public int headerPosition = 0;
 
 	public static boolean loadingState = false;
 	public PublishSubject<Hotel> hotelSelectedSubject = PublishSubject.create();
@@ -51,12 +54,31 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 		FontCache.setTypeface(launchListTitle, FontCache.Font.ROBOTO_MEDIUM);
 	}
 
-	private static boolean isHeader(int position) {
-		return position == 0;
+	public LaunchListAdapter(View header, boolean showLobView) {
+		this(header);
+		if (showLobView) {
+			headerPosition = 1;
+		}
+		else {
+			headerPosition = 0;
+		}
+	}
+
+	private boolean isHeader(int position) {
+		return position == headerPosition;
+	}
+
+	public boolean isLobView(int position) {
+		return headerPosition == 1 && position == 0;
 	}
 
 	@Override
 	public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+		if (viewType == LOB_VIEW) {
+			View view = LayoutInflater.from(parent.getContext())
+				.inflate(R.layout.widget_new_launch_lob, parent, false);
+			return new LaunchHeaderViewHolder(view);
+		}
 		if (viewType == HEADER_VIEW) {
 			View view = LayoutInflater.from(parent.getContext())
 				.inflate(R.layout.launch_header_root, parent, false);
@@ -87,12 +109,14 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 	public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
 		boolean fullWidthTile;
 
-		if (holder.getItemViewType() == HEADER_VIEW) {
-			StaggeredGridLayoutManager.LayoutParams layoutParams = (StaggeredGridLayoutManager.LayoutParams) holder.itemView.getLayoutParams();
+		if (holder.getItemViewType() == HEADER_VIEW || holder.getItemViewType() == LOB_VIEW) {
+			StaggeredGridLayoutManager.LayoutParams layoutParams = (StaggeredGridLayoutManager.LayoutParams) holder.itemView
+				.getLayoutParams();
 			layoutParams.setFullSpan(true);
 			return;
 		}
 
+		// based on list data setting click listener on header
 		if (listData.get(0).getClass() == Hotel.class) {
 			headerView.setOnClickListener(seeAllClickListener);
 		}
@@ -105,8 +129,9 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 			});
 		}
 
-		StaggeredGridLayoutManager.LayoutParams layoutParams = (StaggeredGridLayoutManager.LayoutParams) holder.itemView.getLayoutParams();
-		int actualPosition = position - 1;
+		StaggeredGridLayoutManager.LayoutParams layoutParams = (StaggeredGridLayoutManager.LayoutParams) holder.itemView
+			.getLayoutParams();
+		int actualPosition = position - (headerPosition + 1);
 		if (actualPosition % 5 == 0) {
 			layoutParams.setFullSpan(true);
 			fullWidthTile = true;
@@ -116,7 +141,7 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 			layoutParams.setFullSpan(false);
 		}
 
-		int width = fullWidthTile ? parentView.getWidth() : parentView.getWidth()/2;
+		int width = fullWidthTile ? parentView.getWidth() : parentView.getWidth() / 2;
 
 		if (holder.getItemViewType() == LOADING_VIEW) {
 			((LaunchLoadingViewHolder) holder).bind();
@@ -125,8 +150,9 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 			Hotel hotel = (Hotel) listData.get(actualPosition);
 
 			final String url = Images.getNearbyHotelImage(hotel);
-			HeaderBitmapDrawable drawable = Images.makeHotelBitmapDrawable(parentView.getContext(), (HotelViewHolder) holder, width/2, url,
-				PICASSO_TAG, R.drawable.results_list_placeholder);
+			HeaderBitmapDrawable drawable = Images
+				.makeHotelBitmapDrawable(parentView.getContext(), (HotelViewHolder) holder, width / 2, url,
+					PICASSO_TAG, R.drawable.results_list_placeholder);
 			((HotelViewHolder) holder).getBackgroundImage().setImageDrawable(drawable);
 
 			((HotelViewHolder) holder).bindListData(hotel, fullWidthTile, hotelSelectedSubject);
@@ -134,8 +160,9 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 		else if (holder.getItemViewType() == COLLECTION_VIEW) {
 			CollectionLocation location = (CollectionLocation) listData.get(actualPosition);
 
-			final String url = Images.getCollectionImageUrl(location, width/2);
-			HeaderBitmapDrawable drawable = Images.makeCollectionBitmapDrawable(parentView.getContext(), (CollectionViewHolder) holder, url, PICASSO_TAG);
+			final String url = Images.getCollectionImageUrl(location, width / 2);
+			HeaderBitmapDrawable drawable = Images
+				.makeCollectionBitmapDrawable(parentView.getContext(), (CollectionViewHolder) holder, url, PICASSO_TAG);
 			((CollectionViewHolder) holder).setCollectionUrl(url);
 			((CollectionViewHolder) holder).getBackgroundImage().setImageDrawable(drawable);
 
@@ -153,13 +180,16 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
 	@Override
 	public int getItemViewType(int position) {
-		if (isHeader(position)) {
+		if (isLobView(position)) {
+			return LOB_VIEW;
+		}
+		else if (isHeader(position)) {
 			return HEADER_VIEW;
 		}
 		else if (loadingState) {
 			return LOADING_VIEW;
 		}
-		else if (listData.get(position - 1).getClass() == CollectionLocation.class) {
+		else if (listData.get(position - (headerPosition + 1)).getClass() == CollectionLocation.class) {
 			return COLLECTION_VIEW;
 		}
 		else {
@@ -169,7 +199,7 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
 	@Override
 	public int getItemCount() {
-		return listData.size() + 1;
+		return listData.size() + 1 + headerPosition;
 	}
 
 	public void setListData(List<?> listData, String headerTitle) {
@@ -195,7 +225,7 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 	private final View.OnClickListener seeAllClickListener = new View.OnClickListener() {
 		@Override
 		public void onClick(View v) {
-			Bundle animBundle =  AnimUtils.createActivityScaleBundle(v);
+			Bundle animBundle = AnimUtils.createActivityScaleBundle(v);
 			Events.post(new Events.LaunchSeeAllButtonPressed(animBundle));
 			if (seeAllClickSubject != null) {
 				seeAllClickSubject.onNext(animBundle);

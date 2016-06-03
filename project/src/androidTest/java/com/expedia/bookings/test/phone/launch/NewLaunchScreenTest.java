@@ -27,7 +27,7 @@ public class NewLaunchScreenTest extends PhoneTestCase {
 		Log.v(TAG, "Trips button on Launch screen is displayed and works");
 
 		LaunchScreen.shopButton().perform(click());
-		EspressoUtils.assertViewIsDisplayed(R.id.lob_view);
+		EspressoUtils.assertViewIsDisplayed(R.id.launch_list_widget);
 		Log.v(TAG, "Shop button on Launch screen is displayed ");
 
 		LaunchScreen.accountButton().perform(click());
