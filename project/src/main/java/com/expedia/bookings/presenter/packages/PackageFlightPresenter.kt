@@ -72,7 +72,7 @@ class PackageFlightPresenter(context: Context, attrs: AttributeSet) : BaseFlight
         if (!isOutboundResultsPresenter() && Db.getPackageSelectedOutboundFlight() != null) {
             resultsPresenter.outboundFlightSelectedSubject.onNext(Db.getPackageSelectedOutboundFlight())
         }
-        overviewPresenter.vm.selectedFlightClicked.subscribe(flightOverviewSelected)
+        overviewPresenter.vm.selectedFlightClickedSubject.subscribe(flightOverviewSelected)
         var cityBound: String = if (isOutboundResultsPresenter()) Db.getPackageParams().destination.regionNames.shortName else Db.getPackageParams().origin.regionNames.shortName
         val numTravelers = Db.getPackageParams().guests
         toolbarViewModel.isOutboundSearch.onNext(isOutboundResultsPresenter())
@@ -107,5 +107,9 @@ class PackageFlightPresenter(context: Context, attrs: AttributeSet) : BaseFlight
 
     override fun trackShowPaymentFees() {
         // do nothing. Not applicable to Packages LOB
+    }
+
+    override fun shouldShowBundlePrice(): Boolean {
+        return true
     }
 }

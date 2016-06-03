@@ -54,14 +54,14 @@ class FlightPresenter(context: Context, attrs: AttributeSet) : Presenter(context
         flightOverviewPresenter.flightSummary.inboundFlightWidget.viewModel.selectedFlightObservable.onNext(PackageSearchType.INBOUND_FLIGHT)
 
         // TODO - may wanna change this too
-        outBoundPresenter.overviewPresenter.vm.selectedFlightClicked.subscribe(flightOverviewPresenter.flightSummary.outboundFlightWidget.viewModel.flight)
-        inboundPresenter.overviewPresenter.vm.selectedFlightClicked.subscribe(flightOverviewPresenter.flightSummary.inboundFlightWidget.viewModel.flight)
+        outBoundPresenter.overviewPresenter.vm.selectedFlightClickedSubject.subscribe(flightOverviewPresenter.flightSummary.outboundFlightWidget.viewModel.flight)
+        inboundPresenter.overviewPresenter.vm.selectedFlightClickedSubject.subscribe(flightOverviewPresenter.flightSummary.inboundFlightWidget.viewModel.flight)
 
-        inboundPresenter.overviewPresenter.vm.selectedFlightClicked.subscribe(searchViewModel.confirmedInboundFlightSelection)
-        outBoundPresenter.overviewPresenter.vm.selectedFlightClicked.subscribe(searchViewModel.confirmedOutboundFlightSelection)
+        inboundPresenter.overviewPresenter.vm.selectedFlightClickedSubject.subscribe(searchViewModel.confirmedInboundFlightSelection)
+        outBoundPresenter.overviewPresenter.vm.selectedFlightClickedSubject.subscribe(searchViewModel.confirmedOutboundFlightSelection)
 
-        inboundPresenter.overviewPresenter.vm.selectedFlightLeg.subscribe(searchViewModel.inboundSelected)
-        outBoundPresenter.overviewPresenter.vm.selectedFlightLeg.subscribe(searchViewModel.outboundSelected)
+        inboundPresenter.overviewPresenter.vm.selectedFlightLegSubject.subscribe(searchViewModel.inboundSelected)
+        outBoundPresenter.overviewPresenter.vm.selectedFlightLegSubject.subscribe(searchViewModel.outboundSelected)
 
         vm.outboundResultsObservable.subscribe(outBoundPresenter.resultsPresenter.resultsViewModel.flightResultsObservable)
         vm.inboundResultsObservable.subscribe(inboundPresenter.resultsPresenter.resultsViewModel.flightResultsObservable)

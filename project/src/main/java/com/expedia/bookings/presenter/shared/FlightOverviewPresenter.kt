@@ -15,6 +15,7 @@ import com.expedia.util.notNullAndObservable
 import com.expedia.util.subscribeOnClick
 import com.expedia.util.subscribeText
 import com.expedia.util.subscribeTextAndVisibilityInvisible
+import com.expedia.util.subscribeVisibility
 import com.expedia.vm.FlightOverviewViewModel
 import com.expedia.vm.FlightSegmentBreakdown
 import com.expedia.vm.FlightSegmentBreakdownViewModel
@@ -23,6 +24,7 @@ import rx.subjects.PublishSubject
 class FlightOverviewPresenter(context: Context, attrs: AttributeSet?) : Presenter(context, attrs) {
 
     val bundlePriceTextView: TextView by bindView(R.id.bundle_price)
+    val bundlePriceLabelTextView: TextView by bindView(R.id.bundle_price_label)
     val selectFlightButton: Button by bindView(R.id.select_flight_button)
     val urgencyMessagingText: TextView by bindView(R.id.flight_overview_urgency_messaging)
     val totalDurationText: TextView by bindView(R.id.flight_total_duration)
@@ -39,10 +41,12 @@ class FlightOverviewPresenter(context: Context, attrs: AttributeSet?) : Presente
     }
 
     var vm: FlightOverviewViewModel by notNullAndObservable {
-        vm.bundlePriceObserver.subscribeText(bundlePriceTextView)
-        vm.urgencyMessagingObserver.subscribeTextAndVisibilityInvisible(urgencyMessagingText)
-        vm.totalDurationObserver.subscribeText(totalDurationText)
-        vm.selectedFlightLeg.subscribe { selectedFlight ->
+        vm.bundlePriceSubject.subscribeText(bundlePriceTextView)
+        vm.showBundlePriceSubject.subscribeVisibility(bundlePriceLabelTextView)
+        vm.showBundlePriceSubject.subscribeVisibility(bundlePriceTextView)
+        vm.urgencyMessagingSubject.subscribeTextAndVisibilityInvisible(urgencyMessagingText)
+        vm.totalDurationSubject.subscribeText(totalDurationText)
+        vm.selectedFlightLegSubject.subscribe { selectedFlight ->
             var segmentbreakdowns = arrayListOf<FlightSegmentBreakdown>()
             for (segment in selectedFlight.flightSegments) {
                 segmentbreakdowns.add(FlightSegmentBreakdown(segment, selectedFlight.hasLayover))
