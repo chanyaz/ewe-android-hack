@@ -2,6 +2,7 @@
 <resources>
 
     <!-- Action Bar colors -->
+    <color name="launch_actionbar_bg_color">@color/launchscreen_primary_color_old</color>
     <color name="action_bar_selected_tab_underline_color">#FFED18</color>
     <color name="actionbarTabletTitleColor">#F3F3F3</color>
     <color name="actionbar_suggestion_text_color">@color/actionbar_text</color>
@@ -286,29 +287,30 @@
     <color name="placeholder_background_color">#21394E</color>
 
     <!-- Cars colors -->
-    <color name="cars_primary_color">@color/lob_cars_primary_color</color>
-    <color name="cars_secondary_color">@color/lob_cars_secondary_color</color>
-    <color name="cars_status_bar_color">#7E4569</color>
+    <color name="cars_primary_color">@color/lob_cars_primary_maroon</color>
+    <color name="cars_secondary_color">@color/lob_cars_secondary_maroon</color>
+
+    <color name="cars_actionbar_text_color">@color/gray8</color>
+    <color name="cars_tooltip_disabled_color">@color/gray4</color>
+    <color name="cars_invalid_days_calendar">@color/gray4</color>
+    <color name="cars_valid_days_calendar">@color/gray10</color>
     <color name="cars_details_price">@color/gray6</color>
     <color name="cars_checkout_text_color">@color/gray7</color>
-    <color name="cars_ripple_color">#A4638D</color>
-    <color name="cars_tooltip_color">#915B7C</color>
-    <color name="cars_tooltip_disabled_color">#9D9D9D</color>
-    <color name="cars_actionbar_text_color">#5C5C5C</color>
     <color name="cars_lx_checkout_button_text_color">@color/gray7</color>
-    <color name="cars_invalid_days_calendar">#A9A9A9</color>
-    <color name="cars_valid_days_calendar">#3A3A3A</color>
+    <color name="cars_confirmation_action_text_color">@color/gray1</color>
+    <color name="cars_confirmation_email_text_color">@color/gray3</color>
+
     <color name="cars_checkmark_color">#29a653</color>
     <color name="cars_confirmation_icon_color">#D1D3D6</color>
     <color name="cars_confirmation_gradient">#80000000</color>
-    <color name="cars_confirmation_action_text_color">#F3F3F3</color>
-    <color name="cars_confirmation_email_text_color">#C8C8C8</color>
     <color name="cars_confirmation_action_background">#3A424C</color>
-    <color name="launch_actionbar_bg_color">@color/launchscreen_primary_color_old</color>
     <color name="cars_selected_tab_color">#5F717F</color>
     <color name="cars_unchecked_toggle_text_color">#ECC3DC</color>
     <color name="cars_drop_off_hint_text_color">#26FFFFFF</color>
     <color name="cars_color_primary_dark">#532C45</color>
+    <color name="cars_status_bar_color">#7E4569</color>
+    <color name="cars_ripple_color">#A4638D</color>
+    <color name="cars_tooltip_color">#915B7C</color>
 
     <!-- Checkout Colors -->
     <color name="tablet_checkout_account_button_text_color">#363636</color>
