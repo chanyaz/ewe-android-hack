@@ -630,5 +630,7 @@ DummyFiletoHandleKotlinLintError {
 		R.string.packages_search_dates_content_description_initial,
 		R.string.packages_search_accessible_date_range_TEMPLATE,
 		R.string.packages_search_dates_content_description_trip,
+		R.string.packages_flight_search_filter_show_more_cont_desc,
+		R.string.packages_flight_search_filter_show_less_cont_desc
 	};
 }

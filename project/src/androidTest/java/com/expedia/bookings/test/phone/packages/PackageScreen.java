@@ -50,6 +50,10 @@ public class PackageScreen {
 			.inRoot(withDecorView(not(is(SpoonScreenshotUtils.getCurrentActivity().getWindow().getDecorView()))));
 	}
 
+	public static ViewInteraction showMoreButton() {
+		return onView(withId(R.id.collapsed_container));
+	}
+
 	public static ViewInteraction hotelResultsHeader() {
 		return onView(withId(R.id.pricing_structure_header));
 	}
