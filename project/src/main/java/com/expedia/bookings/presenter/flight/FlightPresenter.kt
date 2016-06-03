@@ -52,10 +52,17 @@ class FlightPresenter(context: Context, attrs: AttributeSet) : Presenter(context
         inboundPresenter.flightSearchViewModel = vm
         flightOverviewPresenter.flightSummary.outboundFlightWidget.viewModel.selectedFlightObservable.onNext(PackageSearchType.OUTBOUND_FLIGHT)
         flightOverviewPresenter.flightSummary.inboundFlightWidget.viewModel.selectedFlightObservable.onNext(PackageSearchType.INBOUND_FLIGHT)
+
+        // TODO - may wanna change this too
         outBoundPresenter.overviewPresenter.vm.selectedFlightClicked.subscribe(flightOverviewPresenter.flightSummary.outboundFlightWidget.viewModel.flight)
         inboundPresenter.overviewPresenter.vm.selectedFlightClicked.subscribe(flightOverviewPresenter.flightSummary.inboundFlightWidget.viewModel.flight)
-        inboundPresenter.overviewPresenter.vm.selectedFlightClicked.subscribe(searchViewModel.inboundFlightSelected)
-        outBoundPresenter.overviewPresenter.vm.selectedFlightClicked.subscribe(searchViewModel.outboundFlightSelected)
+
+        inboundPresenter.overviewPresenter.vm.selectedFlightClicked.subscribe(searchViewModel.confirmedInboundFlightSelection)
+        outBoundPresenter.overviewPresenter.vm.selectedFlightClicked.subscribe(searchViewModel.confirmedOutboundFlightSelection)
+
+        inboundPresenter.overviewPresenter.vm.selectedFlightLeg.subscribe(searchViewModel.inboundSelected)
+        outBoundPresenter.overviewPresenter.vm.selectedFlightLeg.subscribe(searchViewModel.outboundSelected)
+
         vm.outboundResultsObservable.subscribe(outBoundPresenter.resultsPresenter.resultsViewModel.flightResultsObservable)
         vm.inboundResultsObservable.subscribe(inboundPresenter.resultsPresenter.resultsViewModel.flightResultsObservable)
         vm.searchParamsObservable.subscribe((flightOverviewPresenter.bundleOverviewHeader.checkoutOverviewFloatingToolbar.viewmodel as FlightCheckoutOverviewViewModel).params)

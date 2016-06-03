@@ -2,6 +2,7 @@
     "legs": [
         {
             "legId": "leg0",
+            "baggageFeesUrl": "http://www.expedia.com/Flights-BagFees?originapt=${departureAirport}&destinationapt=${arrivalAirport}&cabinclass=3&mktgcarrier=DL&opcarrier=&farebasis=KA03A0NP&bookingclass=K&travelDate=05/01/2014&langid=1033",
             "segments": [
                 {
                     "airlineCode": "DL",
@@ -33,6 +34,7 @@
         },
         {
             "legId": "leg1",
+            "baggageFeesUrl": "http://www.expedia.com/Flights-BagFees?originapt=${departureAirport}&destinationapt=${arrivalAirport}&cabinclass=3&mktgcarrier=DL&opcarrier=&farebasis=KA03A0NP&bookingclass=K&travelDate=05/01/2014&langid=1033",
             "segments": [
                 {
                     "airlineCode": "VX",
@@ -64,6 +66,7 @@
         },
         {
             "legId": "leg2",
+            "baggageFeesUrl": "http://www.expedia.com/Flights-BagFees?originapt=${departureAirport}&destinationapt=${arrivalAirport}&cabinclass=3&mktgcarrier=DL&opcarrier=&farebasis=KA03A0NP&bookingclass=K&travelDate=05/01/2014&langid=1033",
             "segments": [
                 {
                     "airlineCode": "UA",
@@ -93,6 +96,7 @@
         },
         {
             "legId": "leg3",
+            "baggageFeesUrl": "http://www.expedia.com/Flights-BagFees?originapt=${departureAirport}&destinationapt=${arrivalAirport}&cabinclass=3&mktgcarrier=DL&opcarrier=&farebasis=KA03A0NP&bookingclass=K&travelDate=05/01/2014&langid=1033",
             "segments": [
                 {
                     "airlineCode": "US",
@@ -124,6 +128,7 @@
         },
         {
             "legId": "one_stop_flight",
+            "baggageFeesUrl": "http://www.expedia.com/Flights-BagFees?originapt=${departureAirport}&destinationapt=${arrivalAirport}&cabinclass=3&mktgcarrier=DL&opcarrier=&farebasis=KA03A0NP&bookingclass=K&travelDate=05/01/2014&langid=1033",
             "segments": [
                 {
                     "departureTime": "February 20, 2015 6:15:00 PM",
@@ -180,6 +185,7 @@
         },
         {
             "legId": "leg5",
+            "baggageFeesUrl": "http://www.expedia.com/Flights-BagFees?originapt=${departureAirport}&destinationapt=${arrivalAirport}&cabinclass=3&mktgcarrier=DL&opcarrier=&farebasis=KA03A0NP&bookingclass=K&travelDate=05/01/2014&langid=1033",
             "segments": [
                 {
                     "airlineCode": "US",
@@ -211,6 +217,7 @@
         },
         {
             "legId": "leg_error_soldout",
+            "baggageFeesUrl": "http://www.expedia.com/Flights-BagFees?originapt=${departureAirport}&destinationapt=${arrivalAirport}&cabinclass=3&mktgcarrier=DL&opcarrier=&farebasis=KA03A0NP&bookingclass=K&travelDate=05/01/2014&langid=1033",
             "segments": [
                 {
                     "airlineCode": "SOA",
@@ -242,6 +249,7 @@
         },
         {
             "legId": "leg_air_attach_0",
+            "baggageFeesUrl": "http://www.expedia.com/Flights-BagFees?originapt=${departureAirport}&destinationapt=${arrivalAirport}&cabinclass=3&mktgcarrier=DL&opcarrier=&farebasis=KA03A0NP&bookingclass=K&travelDate=05/01/2014&langid=1033",
             "segments": [
                 {
                     "airlineCode": "AAEA",
@@ -273,6 +281,7 @@
         },
         {
             "legId": "leg6",
+            "baggageFeesUrl": "http://www.expedia.com/Flights-BagFees?originapt=${departureAirport}&destinationapt=${arrivalAirport}&cabinclass=3&mktgcarrier=DL&opcarrier=&farebasis=KA03A0NP&bookingclass=K&travelDate=05/01/2014&langid=1033",
             "segments": [
                 {
                     "airlineCode": "ITA",
@@ -304,6 +313,7 @@
         },
         {
             "legId": "leg7",
+            "baggageFeesUrl": "http://www.expedia.com/Flights-BagFees?originapt=${departureAirport}&destinationapt=${arrivalAirport}&cabinclass=3&mktgcarrier=DL&opcarrier=&farebasis=KA03A0NP&bookingclass=K&travelDate=05/01/2014&langid=1033",
             "segments": [
                 {
                     "airlineCode": "CIA",
@@ -335,6 +345,7 @@
         },
         {
             "legId": "leg8",
+            "baggageFeesUrl": "http://www.expedia.com/Flights-BagFees?originapt=${departureAirport}&destinationapt=${arrivalAirport}&cabinclass=3&mktgcarrier=DL&opcarrier=&farebasis=KA03A0NP&bookingclass=K&travelDate=05/01/2014&langid=1033",
             "segments": [
                 {
                     "airlineCode": "ISTA",

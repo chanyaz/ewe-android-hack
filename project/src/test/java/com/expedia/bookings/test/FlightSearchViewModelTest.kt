@@ -85,8 +85,8 @@ class FlightSearchViewModelTest {
         val outboundFlight2 = FlightLeg()
         outboundFlight2.legId = "34fa89938312d0fd8322ee27cb89f8a1"
 
-        vm.outboundFlightSelected.onNext(outboundFlight1)
-        vm.outboundFlightSelected.onNext(outboundFlight2)
+        vm.confirmedOutboundFlightSelection.onNext(outboundFlight1)
+        vm.confirmedOutboundFlightSelection.onNext(outboundFlight2)
 
         testSubscriber.awaitTerminalEvent(10, TimeUnit.SECONDS)
         val inboundFlights1 = testSubscriber.onNextEvents[0]

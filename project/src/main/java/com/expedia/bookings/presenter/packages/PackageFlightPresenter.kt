@@ -94,5 +94,10 @@ class PackageFlightPresenter(context: Context, attrs: AttributeSet) : BaseFlight
     override fun trackFlightResultsLoad() {
         PackagesTracking().trackFlightRoundTripLoad(Db.getPackageParams()?.isOutboundSearch() ?: false)
     }
-}
 
+    override fun trackShowBaggageFee() = PackagesTracking().trackFlightBaggageFeeClick()
+
+    override fun trackShowPaymentFees() {
+        // do nothing. Not applicable to Packages LOB
+    }
+}

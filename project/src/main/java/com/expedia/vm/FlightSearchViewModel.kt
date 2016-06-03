@@ -30,8 +30,12 @@ class FlightSearchViewModel(context: Context, val flightServices: FlightServices
     val outboundResultsObservable = PublishSubject.create<List<FlightLeg>>()
     val inboundResultsObservable = PublishSubject.create<List<FlightLeg>>()
     val flightProductId = PublishSubject.create<String>()
-    val outboundFlightSelected = PublishSubject.create<FlightLeg>()
-    val inboundFlightSelected = PublishSubject.create<FlightLeg>()
+    val confirmedOutboundFlightSelection = PublishSubject.create<FlightLeg>()
+    val confirmedInboundFlightSelection = PublishSubject.create<FlightLeg>()
+    val outboundSelected = PublishSubject.create<FlightLeg>()
+    val inboundSelected = PublishSubject.create<FlightLeg>()
+    val flightOfferSelected = PublishSubject.create<FlightTripDetails.FlightOffer>()
+    val obFeeDetailsUrlObservable = PublishSubject.create<String>()
     val isRoundTripSearchObservable = BehaviorSubject.create<Boolean>(true)
 
     val flightParamsBuilder = FlightSearchParams.Builder(getMaxSearchDurationDays(), getMaxDateRange())
@@ -61,13 +65,22 @@ class FlightSearchViewModel(context: Context, val flightServices: FlightServices
             flightServices.flightSearch(params).subscribe(makeResultsObserver())
         }
 
-        outboundFlightSelected.subscribe { flight ->
+        confirmedOutboundFlightSelection.subscribe { flight ->
             inboundResultsObservable.onNext(findInboundFlights(flight.legId))
         }
 
-        Observable.combineLatest(outboundFlightSelected, inboundFlightSelected, { outbound, inbound ->
-            val offer = flightOfferModels[outbound.legId+inbound.legId]
-            flightProductId.onNext(offer?.productKey)
+        Observable.combineLatest(confirmedOutboundFlightSelection, confirmedInboundFlightSelection, { outbound, inbound ->
+            val offer = flightOfferModels[makeFlightOfferKey(outbound.legId, inbound.legId)]
+            if (offer != null) {
+                flightProductId.onNext(offer.productKey)
+            }
+        }).subscribe()
+
+        Observable.combineLatest(outboundSelected, inboundSelected, { outbound, inbound ->
+            val offer = flightOfferModels[makeFlightOfferKey(outbound.legId, inbound.legId)]
+            if (offer != null) {
+                flightOfferSelected.onNext(offer)
+            }
         }).subscribe()
     }
 
@@ -142,6 +155,7 @@ class FlightSearchViewModel(context: Context, val flightServices: FlightServices
         return object : Observer<FlightSearchResponse> {
             override fun onNext(response: FlightSearchResponse) {
                 createFlightMap(response)
+                obFeeDetailsUrlObservable.onNext(response.obFeesDetails)
             }
 
             override fun onCompleted() {
@@ -154,6 +168,19 @@ class FlightSearchViewModel(context: Context, val flightServices: FlightServices
         }
     }
 
+
+    fun findInboundFlights(outboundFlightId: String) : List<FlightLeg> {
+        val flights = flightMap[outboundFlightId]?.toList() ?: emptyList()
+        flights.forEach { inbound ->
+            val offer = flightOfferModels[makeFlightOfferKey(outboundFlightId, inbound.legId)]
+            if (offer != null) {
+                val offerModel = makeOffer(offer)
+                inbound.packageOfferModel = offerModel
+            }
+        }
+        return flights
+    }
+
     private fun createFlightMap(response: FlightSearchResponse) {
         val outBoundFlights: LinkedHashSet<FlightLeg> = LinkedHashSet()
         val offers = response.offers
@@ -161,7 +188,7 @@ class FlightSearchViewModel(context: Context, val flightServices: FlightServices
         offers.forEach { offer ->
             val outboundId = offer.legIds.first()
             val inboundId = offer.legIds.last()
-            flightOfferModels.put(outboundId + inboundId, offer)
+            flightOfferModels.put(makeFlightOfferKey(outboundId, inboundId), offer)
 
             val outboundLeg = legs.find { it.legId == outboundId }
             outboundLeg?.packageOfferModel = makeOffer(offer)
@@ -195,15 +222,7 @@ class FlightSearchViewModel(context: Context, val flightServices: FlightServices
         return offerModel
     }
 
-    fun findInboundFlights(flightId : String) : List<FlightLeg> {
-        val flights = flightMap[flightId]?.toList() ?: emptyList()
-        flights.forEach { inbound ->
-            val offer = flightOfferModels[flightId+inbound.legId]
-            if (offer != null) {
-                val offerModel = makeOffer(offer)
-                inbound.packageOfferModel = offerModel
-            }
-        }
-        return flights
+    private fun makeFlightOfferKey(outboundId: String, inboundId: String): String {
+        return outboundId + inboundId
     }
 }

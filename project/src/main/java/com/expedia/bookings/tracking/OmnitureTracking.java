@@ -1364,27 +1364,21 @@ public class OmnitureTracking {
 
 	public static void trackHotelSponsoredListingClick() {
 		ADMS_Measurement s = createTrackLinkEvent(HOTELS_SPONSORED_LISTING_CLICK);
-		String posTpid = Integer.toString(PointOfSale.getPointOfSale().getTpid());
-		s.setProp(7, posTpid);
-		s.setEvar(61, posTpid);
+		addPOSTpid(s);
 		internalTrackLink(s);
 	}
 
 	public static void trackHotelETPPayToggle(boolean isPayLater) {
 		String refererId = isPayLater ? HOTELS_ETP_TOGGLE_PAY_LATER : HOTELS_ETP_TOGGLE_PAY_NOW;
 		ADMS_Measurement s = createTrackLinkEvent(refererId);
-		String posTpid = Integer.toString(PointOfSale.getPointOfSale().getTpid());
-		s.setProp(7, posTpid);
-		s.setEvar(61, posTpid);
+		addPOSTpid(s);
 
 		s.trackLink(null, "o", HOTELS_ETP_TOGGLE_LINK_NAME, null, null);
 	}
 
 	public static void trackHotelETPRoomSelected(boolean isPayLater) {
 		ADMS_Measurement s = createTrackLinkEvent(HOTELS_ETP_PAYMENT);
-		String posTpid = Integer.toString(PointOfSale.getPointOfSale().getTpid());
-		s.setProp(7, posTpid);
-		s.setEvar(61, posTpid);
+		addPOSTpid(s);
 		if (isPayLater) {
 			s.setEvar(52, "Pay Later");
 		}
@@ -1407,6 +1401,8 @@ public class OmnitureTracking {
 	private static final String FLIGHT_RECENT_SEARCH_V2 = "App.Flight.DS.RecentSearch";
 	private static final String FLIGHTS_V2_TRAVELER_CHANGE_PREFIX = "App.Flight.DS.";
 	private static final String FLIGHTS_V2_TRAVELER_LINK_NAME = "Search Results Update";
+	private static final String FLIGHTS_V2_FLIGHT_BAGGAGE_FEE_CLICK = "App.Flight.Search.BaggageFee";
+	private static final String FLIGHTS_V2_FLIGHT_PAYMENT_FEE_CLICK = "App.Flight.Search.PaymentFee";
 	private static final String FLIGHT_SEARCH_INTERSTITIAL = "App.Flight.Search.Interstitial";
 	private static final String FLIGHT_SEARCH_ROUNDTRIP_OUT = "App.Flight.Search.Roundtrip.Out";
 	private static final String FLIGHT_SEARCH_ROUNDTRIP_OUT_DETAILS = "App.Flight.Search.Roundtrip.Out.Details";
@@ -1857,6 +1853,32 @@ public class OmnitureTracking {
 		s.setEvar(28, FLIGHT_RECENT_SEARCH_V2);
 		s.setProp(16, FLIGHT_RECENT_SEARCH_V2);
 		s.trackLink(null, "o", "Search Results Update", null, null);
+	}
+
+	public static void trackFlightBaggageFeesClick() {
+		Log.d(TAG, "Tracking \"" + FLIGHTS_V2_FLIGHT_BAGGAGE_FEE_CLICK + "\" click...");
+
+		ADMS_Measurement s = getFreshTrackingObject();
+		s.setEvar(28, FLIGHTS_V2_FLIGHT_BAGGAGE_FEE_CLICK);
+		s.setProp(16, FLIGHTS_V2_FLIGHT_BAGGAGE_FEE_CLICK);
+		addPOSTpid(s);
+		s.trackLink(null, "o", "Flight Baggage Fee", null, null);
+	}
+
+	public static void trackFlightPaymentFeesClick() {
+		Log.d(TAG, "Tracking \"" + FLIGHTS_V2_FLIGHT_PAYMENT_FEE_CLICK + "\" click...");
+
+		ADMS_Measurement s = getFreshTrackingObject();
+		s.setEvar(28, FLIGHTS_V2_FLIGHT_PAYMENT_FEE_CLICK);
+		s.setProp(16, FLIGHTS_V2_FLIGHT_PAYMENT_FEE_CLICK);
+		addPOSTpid(s);
+		s.trackLink(null, "o", "", null, null);
+	}
+
+	private static void addPOSTpid(ADMS_Measurement s) {
+		String posTpid = Integer.toString(PointOfSale.getPointOfSale().getTpid());
+		s.setEvar(61, posTpid);
+		s.setProp(7, posTpid);
 	}
 
 	public static void trackPageLoadFlightSearchV2() {
@@ -3493,8 +3515,7 @@ public class OmnitureTracking {
 	public static void trackLoginSuccess() {
 		ADMS_Measurement s = createTrackLinkEvent(LOGIN_SUCCESS);
 		s.setEvents("event26");
-		s.setProp(7, Integer.toString(PointOfSale.getPointOfSale().getTpid()));
-		s.setEvar(61, Integer.toString(PointOfSale.getPointOfSale().getTpid()));
+		addPOSTpid(s);
 		s.trackLink(null, "o", "Accounts", null, null);
 	}
 

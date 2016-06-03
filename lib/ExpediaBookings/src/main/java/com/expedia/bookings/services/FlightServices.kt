@@ -100,6 +100,7 @@ class FlightServices(endpoint: String, okHttpClient: OkHttpClient, interceptor: 
                             lastSegment = segment
                         }
                         leg.airlines = airlines
+                        leg.baggageFeesUrl = leg.baggageFeesUrl.replace("http://www.expedia.com/", "")
                     }
 
                 }

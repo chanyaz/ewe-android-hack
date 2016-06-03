@@ -66,6 +66,17 @@
                     android:textColor="@color/lob_packages_primary_color"
                     style="@style/Widget.BorderlessButton"/>
 
+                <com.expedia.bookings.widget.TextView
+                    android:id="@+id/show_payment_fees"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:text="@string/payment_and_baggage_fees_may_apply"
+                    android:textAllCaps="true"
+                    android:textColor="@color/packages_primary_color"
+                    android:visibility="gone"
+                    app:textStyle="medium" />
+
             </LinearLayout>
             
         </ScrollView>

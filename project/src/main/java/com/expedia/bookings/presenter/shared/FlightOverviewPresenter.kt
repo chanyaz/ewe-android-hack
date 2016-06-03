@@ -1,4 +1,4 @@
-package com.expedia.bookings.presenter.packages
+package com.expedia.bookings.presenter.shared
 
 import android.content.Context
 import android.util.AttributeSet
@@ -20,15 +20,18 @@ import com.expedia.vm.FlightSegmentBreakdown
 import com.expedia.vm.FlightSegmentBreakdownViewModel
 import rx.subjects.PublishSubject
 
-class PackageFlightOverviewPresenter(context: Context, attrs: AttributeSet) : Presenter(context, attrs) {
+class FlightOverviewPresenter(context: Context, attrs: AttributeSet?) : Presenter(context, attrs) {
 
     val bundlePriceTextView: TextView by bindView(R.id.bundle_price)
     val selectFlightButton: Button by bindView(R.id.select_flight_button)
     val urgencyMessagingText: TextView by bindView(R.id.flight_overview_urgency_messaging)
     val totalDurationText: TextView by bindView(R.id.flight_total_duration)
     val flightSegmentWidget: FlightSegmentBreakdownView by bindView(R.id.segment_breakdown)
-    val baggageFeeURLText: Button by bindView(R.id.show_baggage_fees)
+    val showBaggageFeesButton: Button by bindView(R.id.show_baggage_fees)
+    val paymentFeesMayApplyTextView: TextView by bindView(R.id.show_payment_fees)
     val baggageFeeShowSubject = PublishSubject.create<String>()
+    val showPaymentFeesObservable = PublishSubject.create<Unit>()
+    val e3EndpointUrl = Ui.getApplication(getContext()).appComponent().endpointProvider().e3EndpointUrl
 
     init {
         View.inflate(getContext(), R.layout.widget_flight_overview, this)
@@ -44,10 +47,11 @@ class PackageFlightOverviewPresenter(context: Context, attrs: AttributeSet) : Pr
             for (segment in selectedFlight.flightSegments) {
                 segmentbreakdowns.add(FlightSegmentBreakdown(segment, selectedFlight.hasLayover))
             }
-            baggageFeeURLText.setOnClickListener {
-                val e3EndpointUrl = Ui.getApplication(getContext()).appComponent().endpointProvider().e3EndpointUrl
+            showBaggageFeesButton.setOnClickListener {
                 baggageFeeShowSubject.onNext(e3EndpointUrl + selectedFlight.baggageFeesUrl)
-                PackagesTracking().trackFlightBaggageFeeClick()
+            }
+            paymentFeesMayApplyTextView.setOnClickListener {
+                showPaymentFeesObservable.onNext(Unit)
             }
             flightSegmentWidget.viewmodel.addSegmentRowsObserver.onNext(segmentbreakdowns)
         }
