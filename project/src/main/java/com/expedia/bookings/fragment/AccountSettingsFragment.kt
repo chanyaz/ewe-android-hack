@@ -312,6 +312,15 @@ class AccountSettingsFragment : Fragment(),
             val args = AccountLibActivity.createArgumentsBundle(LineOfBusiness.PROFILE, Config.InitialState.CreateAccount, null)
             User.signIn(activity, args)
         }
+
+        openSourceCredits.viewTreeObserver.addOnPreDrawListener(object : ViewTreeObserver.OnPreDrawListener {
+            override fun onPreDraw(): Boolean {
+                openSourceCredits.viewTreeObserver.removeOnPreDrawListener(this)
+                legalFragment?.setRowVisibility(ROW_ATOL_INFO, if (PointOfSale.getPointOfSale().showAtolInfo()) View.VISIBLE else View.GONE)
+                return true
+            }
+        })
+
         if (User.isLoggedIn(context)) {
             toolbarShadow.alpha = 0f
         }
