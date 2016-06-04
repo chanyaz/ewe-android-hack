@@ -14,7 +14,6 @@ import com.expedia.bookings.test.phone.lx.utils.ExpectedDataSupplierForTicketWid
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.action.ViewActions.scrollTo;
-import static android.support.test.espresso.action.ViewActions.typeText;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.hasSibling;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
@@ -58,12 +57,7 @@ public class LXInfositeTest extends LxTestCase {
 	private ExpectedDataSupplierForTicketWidget mExpectedDataTktWdgt;
 
 	public void testInfoSiteTestSuite() throws Throwable {
-		String expectedLocationDisplayName = "San Francisco, CA";
-		LXScreen.location().perform(typeText("San"));
-		LXScreen.selectLocation(expectedLocationDisplayName);
-		LXScreen.selectDateButton().perform(click());
-		LXScreen.selectDates(LocalDate.now(), null);
-		LXScreen.searchButton().perform(click());
+		LXScreen.goToSearchResults(getLxIdlingResource());
 		LXScreen.waitForSearchListDisplayed();
 		screenshot("LX captured data");
 		LXScreen.clickOnResultAtIndex(1);

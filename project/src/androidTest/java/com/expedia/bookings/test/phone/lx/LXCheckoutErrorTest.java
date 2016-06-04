@@ -2,8 +2,6 @@ package com.expedia.bookings.test.phone.lx;
 
 import java.util.concurrent.TimeUnit;
 
-import org.joda.time.LocalDate;
-
 import android.support.test.espresso.contrib.RecyclerViewActions;
 
 import com.expedia.bookings.BuildConfig;
@@ -117,12 +115,7 @@ public class LXCheckoutErrorTest extends LxTestCase {
 	}
 
 	private void performLXCheckout(String firstName) throws Throwable {
-		LXScreen.location().perform(typeText("San"));
-		LXScreen.selectLocation("San Francisco, CA");
-		LXScreen.selectDateButton().perform(click());
-		LXScreen.selectDates(LocalDate.now(), null);
-		LXScreen.searchButton().perform(click());
-
+		LXScreen.goToSearchResults(getLxIdlingResource());
 		LXScreen.waitForSearchListDisplayed();
 		LXScreen.searchList().perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
 		LXInfositeScreen.selectOffer("2-Day New York Pass").perform(click());

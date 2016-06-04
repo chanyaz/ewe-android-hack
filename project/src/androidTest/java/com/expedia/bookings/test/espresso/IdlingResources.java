@@ -32,6 +32,12 @@ public class IdlingResources {
 			super(LxIdlingResource.class.getSimpleName());
 		}
 
+		private boolean isSearchResultsAvailable = false;
+
+		public boolean isSearchResultsAvailable() {
+			return isSearchResultsAvailable;
+		}
+
 		@Subscribe
 		public void on(Events.LXNewSearchParamsAvailable event) {
 			Log.d("LxIdlingResource - Events.LXNewSearchParamsAvailable");
@@ -42,6 +48,7 @@ public class IdlingResources {
 		public void on(Events.LXSearchResultsAvailable event) {
 			Log.d("LxIdlingResource - Events.LXSearchResultsAvailable");
 			resource.decrement();
+			isSearchResultsAvailable = true;
 		}
 
 		@Subscribe

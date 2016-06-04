@@ -1,7 +1,5 @@
 package com.expedia.bookings.test.phone.lx;
 
-import org.joda.time.LocalDate;
-
 import android.support.test.espresso.contrib.RecyclerViewActions;
 
 import com.expedia.bookings.R;
@@ -10,7 +8,6 @@ import com.expedia.bookings.test.espresso.LxTestCase;
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.action.ViewActions.scrollTo;
-import static android.support.test.espresso.action.ViewActions.typeText;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.isCompletelyDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
@@ -20,12 +17,7 @@ import static org.hamcrest.Matchers.allOf;
 public class LXCreateTripErrorTest extends LxTestCase {
 
 	private void goToCheckout(int productPosition, String ticketName) throws Throwable {
-		LXScreen.location().perform(typeText("San"));
-		LXScreen.selectLocation("San Francisco, CA");
-		LXScreen.selectDateButton().perform(click());
-		LXScreen.selectDates(LocalDate.now(), null);
-		LXScreen.searchButton().perform(click());
-
+		LXScreen.goToSearchResults(getLxIdlingResource());
 		LXScreen.waitForSearchListDisplayed();
 		LXScreen.searchList().perform(RecyclerViewActions.actionOnItemAtPosition(productPosition, click()));
 
