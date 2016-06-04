@@ -10,10 +10,13 @@ import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.Espresso.openActionBarOverflowOrOptionsMenu;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
+import static android.support.test.espresso.matcher.ViewMatchers.hasDescendant;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.isEnabled;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
+import static com.expedia.bookings.test.espresso.ViewActions.waitForViewToDisplay;
+import static org.hamcrest.CoreMatchers.allOf;
 
 public class PackageChangeHotelFlightTest extends PackageTestCase {
 
@@ -24,6 +27,7 @@ public class PackageChangeHotelFlightTest extends PackageTestCase {
 		openActionBarOverflowOrOptionsMenu(getInstrumentation().getTargetContext());
 		onView(withText("Change hotel room")).perform(click());
 		Common.delay(1);
+		assertSlidingBundleWidget();
 
 		HotelScreen.selectRoomButton().perform(click());
 		Common.delay(1);
@@ -64,6 +68,22 @@ public class PackageChangeHotelFlightTest extends PackageTestCase {
 		PackageScreen.selectThisFlight().perform(click());
 		Common.delay(1);
 		assertAfterChange();
+	}
+
+	private void assertSlidingBundleWidget() {
+		PackageScreen.hotelPriceWidget().perform(waitForViewToDisplay());
+		PackageScreen.hotelPriceWidget().perform(click());
+		Common.delay(1);
+		PackageScreen.hotelPriceWidget().check(matches(hasDescendant(
+			allOf(isDisplayed(), withText("Trip to Detroit, MI")))));
+		PackageScreen.hotelInfo().check(matches(hasDescendant(
+			allOf(isDisplayed(), withText("Select hotel in Detroit")))));
+
+		PackageScreen.outboundFlightCardInfo().check(matches(withText("Jul 10 at 9:00 am, 1 Traveler")));
+		PackageScreen.inboundFlightInfo().check(matches(hasDescendant(
+			allOf(isDisplayed(), withText("Flight to (SFO) San Francisco")))));
+		PackageScreen.inboundFlightCardInfo().check(matches(withText("Jul 16 at 1:45 pm, 1 Traveler")));
+		PackageScreen.hotelPriceWidget().perform(click());
 	}
 
 	private void assertAfterChange() {

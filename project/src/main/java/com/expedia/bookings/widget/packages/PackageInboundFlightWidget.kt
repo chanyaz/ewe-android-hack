@@ -67,7 +67,6 @@ class PackageInboundFlightWidget(context: Context, attrs: AttributeSet?) : Packa
         viewModel.suggestion.onNext(params.origin)
         viewModel.date.onNext(params.checkOut)
         viewModel.guests.onNext(params.guests)
-
         toggleFlightWidget(opacity, false)
     }
 }
