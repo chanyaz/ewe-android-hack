@@ -1,7 +1,5 @@
 package com.expedia.bookings.test.phone.lx;
 
-import org.joda.time.LocalDate;
-
 import android.support.test.espresso.contrib.RecyclerViewActions;
 
 import com.expedia.bookings.R;
@@ -12,17 +10,11 @@ import com.expedia.bookings.test.phone.pagemodels.common.CheckoutViewModel;
 
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.action.ViewActions.scrollTo;
-import static android.support.test.espresso.action.ViewActions.typeText;
 
 public class LXCreditCardTest extends LxTestCase {
 
 	public void testPaymentCleared() throws Throwable {
-		LXScreen.location().perform(typeText("San"));
-		LXScreen.selectLocation("San Francisco, CA");
-		LXScreen.selectDateButton().perform(click());
-		LXScreen.selectDates(LocalDate.now(), null);
-		LXScreen.searchButton().perform(click());
-
+		LXScreen.goToSearchResults(getLxIdlingResource());
 		final String ticketName = "2-Day";
 
 		LXScreen.waitForSearchListDisplayed();

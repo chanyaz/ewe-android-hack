@@ -22,12 +22,14 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.data.lx.LXActivity;
 import com.expedia.bookings.test.espresso.Common;
 import com.expedia.bookings.test.espresso.EspressoUtils;
+import com.expedia.bookings.test.espresso.IdlingResources;
 import com.expedia.bookings.test.espresso.SpoonScreenshotUtils;
 import com.expedia.bookings.test.espresso.TabletViewActions;
 import com.expedia.bookings.widget.LXResultsListAdapter;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
+import static android.support.test.espresso.action.ViewActions.typeText;
 import static android.support.test.espresso.matcher.RootMatchers.withDecorView;
 import static android.support.test.espresso.matcher.ViewMatchers.hasSibling;
 import static android.support.test.espresso.matcher.ViewMatchers.isAssignableFrom;
@@ -356,4 +358,13 @@ public class LXScreen {
 		return onView(itemView);
 	}
 
+	public static void goToSearchResults(IdlingResources.LxIdlingResource lxIdlingResource) throws Throwable {
+		if (!lxIdlingResource.isSearchResultsAvailable()) {
+			LXScreen.location().perform(typeText("San"));
+			LXScreen.selectLocation("San Francisco, CA");
+			LXScreen.selectDateButton().perform(click());
+			LXScreen.selectDates(LocalDate.now(), null);
+			LXScreen.searchButton().perform(click());
+		}
+	}
 }

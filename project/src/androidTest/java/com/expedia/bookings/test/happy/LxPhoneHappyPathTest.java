@@ -52,7 +52,7 @@ public class LxPhoneHappyPathTest extends PhoneTestCase {
 
 	public void testLxPhoneHappyPathLoggedInCustomer() throws Throwable {
 		goToLxSearchResults();
-		searchForActivities();
+		LXScreen.goToSearchResults(getLxIdlingResource());
 
 		selectActivity();
 		selectOffers();
@@ -65,7 +65,7 @@ public class LxPhoneHappyPathTest extends PhoneTestCase {
 
 	public void testLxPhoneHappyPathLoggedInCustomerCanSelectNewTraveler() throws Throwable {
 		goToLxSearchResults();
-		searchForActivities();
+		LXScreen.goToSearchResults(getLxIdlingResource());
 
 		selectActivity();
 		selectOffers();
@@ -86,7 +86,7 @@ public class LxPhoneHappyPathTest extends PhoneTestCase {
 
 	public void testLxPhoneHappyPathViaDefaultSearch() throws Throwable {
 		goToLxSearchResults();
-		searchForActivities();
+		LXScreen.goToSearchResults(getLxIdlingResource());
 		selectActivity();
 		validateRestHappyFlow();
 	}
@@ -152,14 +152,6 @@ public class LxPhoneHappyPathTest extends PhoneTestCase {
 		manuallyEnterTravelerInfo();
 		purchaseActivity(false);
 		verifyBooking();
-	}
-
-	private void searchForActivities() throws Throwable {
-		LXScreen.location().perform(typeText("San"));
-		LXScreen.selectLocation("San Francisco, CA");
-		LXScreen.selectDateButton().perform(click());
-		LXScreen.selectDates(LocalDate.now(), null);
-		LXScreen.searchButton().perform(click());
 	}
 
 	private void selectActivity() throws Throwable {
