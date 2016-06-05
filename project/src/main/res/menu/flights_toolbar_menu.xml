@@ -8,10 +8,4 @@
         android:title="@string/search"
         app:showAsAction="always" />
 
-    <item
-        android:id="@+id/menu_filter"
-        android:icon="@drawable/sort"
-        android:title="@string/sort_and_filter"
-        app:showAsAction="always" />
-
 </menu>

@@ -633,5 +633,6 @@ DummyFiletoHandleKotlinLintError {
 		R.string.packages_flight_search_filter_show_more_cont_desc,
 		R.string.packages_flight_search_filter_show_less_cont_desc,
 		R.string.flights_flight_overview_payment_fees,
+		R.menu.flights_toolbar_menu,
 	};
 }
