@@ -9,18 +9,18 @@ import com.squareup.phrase.Phrase
 import rx.Observer
 import rx.subjects.BehaviorSubject
 
-class FlightOverviewViewModel(val context: Context) {
+class FlightOverviewViewModel(val context: Context, val showBundlePrice: Boolean) {
 
-    val selectedFlightLeg = BehaviorSubject.create<FlightLeg>()
-    val bundlePriceObserver = BehaviorSubject.create<String>()
-    val urgencyMessagingObserver = BehaviorSubject.create<String>()
-    val totalDurationObserver = BehaviorSubject.create<CharSequence>()
-    val baggageFeeURLObserver = BehaviorSubject.create<String>()
-
-    val selectedFlightClicked = BehaviorSubject.create<FlightLeg>()
+    val selectedFlightLegSubject = BehaviorSubject.create<FlightLeg>()
+    val bundlePriceSubject = BehaviorSubject.create<String>()
+    val showBundlePriceSubject = BehaviorSubject.create(showBundlePrice)
+    val urgencyMessagingSubject = BehaviorSubject.create<String>()
+    val totalDurationSubject = BehaviorSubject.create<CharSequence>()
+    val baggageFeeURLSubject = BehaviorSubject.create<String>()
+    val selectedFlightClickedSubject = BehaviorSubject.create<FlightLeg>()
 
     init {
-        selectedFlightLeg.subscribe { selectedFlight ->
+        selectedFlightLegSubject.subscribe { selectedFlight ->
             var urgencyMessage = ""
             if (selectedFlight.packageOfferModel.urgencyMessage != null) {
                 urgencyMessage = Phrase.from(context.resources.getString(R.string.package_flight_overview_urgency_message_TEMPLATE))
@@ -36,20 +36,20 @@ class FlightOverviewViewModel(val context: Context) {
             } else {
                 urgencyMessage += selectedFlight.packageOfferModel.price.differentialPriceFormatted
             }
-            urgencyMessagingObserver.onNext(urgencyMessage)
+            urgencyMessagingSubject.onNext(urgencyMessage)
 
-            totalDurationObserver.onNext(PackageFlightUtils.getStylizedFlightDurationString(context, selectedFlight, R.color.packages_total_duration_text))
+            totalDurationSubject.onNext(PackageFlightUtils.getStylizedFlightDurationString(context, selectedFlight, R.color.packages_total_duration_text))
 
             var perPersonPrice = Phrase.from(context.resources.getString(R.string.package_flight_overview_per_person_TEMPLATE))
                     .put("money", selectedFlight.packageOfferModel.price.packageTotalPriceFormatted)
                     .format().toString()
-            bundlePriceObserver.onNext(perPersonPrice)
-            baggageFeeURLObserver.onNext(selectedFlight.baggageFeesUrl)
+            bundlePriceSubject.onNext(perPersonPrice)
+            baggageFeeURLSubject.onNext(selectedFlight.baggageFeesUrl)
         }
     }
 
     val selectFlightClickObserver: Observer<Unit> = endlessObserver {
-        selectedFlightClicked.onNext(selectedFlightLeg.value)
+        selectedFlightClickedSubject.onNext(selectedFlightLegSubject.value)
     }
 }
 

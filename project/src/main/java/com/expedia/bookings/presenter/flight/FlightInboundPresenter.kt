@@ -27,4 +27,8 @@ class FlightInboundPresenter(context: Context, attrs: AttributeSet) : BaseFlight
     override fun setupToolbarMenu() {
         toolbar.inflateMenu(R.menu.flights_toolbar_menu)
     }
+
+    override fun shouldShowBundlePrice(): Boolean {
+        return false
+    }
 }

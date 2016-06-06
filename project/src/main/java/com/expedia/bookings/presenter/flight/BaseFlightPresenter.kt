@@ -91,7 +91,7 @@ abstract class BaseFlightPresenter(context: Context, attrs: AttributeSet) : Pres
     val overviewPresenter: FlightOverviewPresenter by lazy {
         var viewStub = findViewById(R.id.overview_stub) as ViewStub
         var presenter = viewStub.inflate() as FlightOverviewPresenter
-        presenter.vm = FlightOverviewViewModel(context)
+        presenter.vm = FlightOverviewViewModel(context, shouldShowBundlePrice())
         presenter
     }
 
@@ -220,7 +220,7 @@ abstract class BaseFlightPresenter(context: Context, attrs: AttributeSet) : Pres
     val selectedFlightResults = object : Observer<FlightLeg> {
         override fun onNext(flight: FlightLeg) {
             show(overviewPresenter)
-            overviewPresenter.vm.selectedFlightLeg.onNext(flight)
+            overviewPresenter.vm.selectedFlightLegSubject.onNext(flight)
             trackFlightOverviewLoad()
         }
 
@@ -254,6 +254,7 @@ abstract class BaseFlightPresenter(context: Context, attrs: AttributeSet) : Pres
     }
 
     abstract fun setupToolbarMenu()
+    abstract fun shouldShowBundlePrice(): Boolean
     abstract fun isOutboundResultsPresenter(): Boolean
     abstract fun trackFlightResultsLoad()
     abstract fun trackFlightOverviewLoad()

@@ -1,5 +1,6 @@
 package com.expedia.bookings.presenter.shared
 
+import android.view.View
 import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.data.packages.PackageOfferModel
 import com.expedia.bookings.test.robolectric.RobolectricRunner
@@ -9,6 +10,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RuntimeEnvironment
 import rx.observers.TestSubscriber
+import kotlin.test.assertEquals
 
 @RunWith(RobolectricRunner::class)
 class FlightOverviewPresenterTest {
@@ -22,7 +24,7 @@ class FlightOverviewPresenterTest {
     @Before
     fun setup() {
         sut = FlightOverviewPresenter(context, null)
-        sut.vm = FlightOverviewViewModel(context)
+        sut.vm = FlightOverviewViewModel(context, false)
     }
 
     @Test
@@ -53,12 +55,23 @@ class FlightOverviewPresenterTest {
     fun selectFlightButton() {
         createSelectedFlightLeg()
         val testSubscriber = TestSubscriber<FlightLeg>()
-        sut.vm.selectedFlightClicked.subscribe(testSubscriber)
+        sut.vm.selectedFlightClickedSubject.subscribe(testSubscriber)
 
         sut.vm.selectFlightClickObserver.onNext(Unit)
 
         testSubscriber.assertValueCount(1)
         testSubscriber.assertValue(flightLeg)
+    }
+
+    @Test
+    fun showDontShowBundlePrice() {
+        sut.vm.showBundlePriceSubject.onNext(true)
+        assertEquals(View.VISIBLE, sut.bundlePriceTextView.visibility)
+        assertEquals(View.VISIBLE, sut.bundlePriceLabelTextView.visibility)
+
+        sut.vm.showBundlePriceSubject.onNext(false)
+        assertEquals(View.GONE, sut.bundlePriceTextView.visibility)
+        assertEquals(View.GONE, sut.bundlePriceLabelTextView.visibility)
     }
 
     private fun createSelectedFlightLeg() {
@@ -68,6 +81,6 @@ class FlightOverviewPresenterTest {
         flightLeg.packageOfferModel.price = PackageOfferModel.PackagePrice()
         flightLeg.packageOfferModel.price.packageTotalPriceFormatted = "$42"
         flightLeg.baggageFeesUrl = BAGGAGE_FEES_URL_PATH
-        sut.vm.selectedFlightLeg.onNext(flightLeg)
+        sut.vm.selectedFlightLegSubject.onNext(flightLeg)
     }
 }
