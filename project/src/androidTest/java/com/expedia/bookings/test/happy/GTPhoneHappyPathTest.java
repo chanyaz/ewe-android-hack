@@ -1,9 +1,10 @@
 package com.expedia.bookings.test.happy;
 
-import org.joda.time.LocalDate;
+import java.util.concurrent.TimeUnit;
 
 import android.support.test.espresso.contrib.RecyclerViewActions;
 
+import com.expedia.bookings.R;
 import com.expedia.bookings.test.espresso.Common;
 import com.expedia.bookings.test.espresso.IdlingResources.LxIdlingResource;
 import com.expedia.bookings.test.espresso.PhoneTestCase;
@@ -13,18 +14,24 @@ import com.expedia.bookings.test.phone.pagemodels.common.CVVEntryScreen;
 import com.expedia.bookings.test.phone.pagemodels.common.CheckoutViewModel;
 import com.expedia.bookings.test.phone.pagemodels.common.LaunchScreen;
 
+import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.action.ViewActions.scrollTo;
-import static android.support.test.espresso.action.ViewActions.typeText;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
+import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
+import static com.expedia.bookings.test.espresso.ViewActions.waitFor;
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.not;
 
 public class GTPhoneHappyPathTest extends PhoneTestCase {
 
 	private LxIdlingResource mLxIdlingResource;
+
+	public LxIdlingResource getLxIdlingResource() {
+		return mLxIdlingResource;
+	}
 
 	@Override
 	public void runTest() throws Throwable {
@@ -44,23 +51,63 @@ public class GTPhoneHappyPathTest extends PhoneTestCase {
 		super.tearDown();
 	}
 
-	public void goToGTSearchResults() throws Throwable {
+	public void goToGT() throws Throwable {
 		screenshot("Launch");
 		LaunchScreen.launchGroundTransport();
 	}
 
 	public void testGTPhoneHappyPath() throws Throwable {
-		goToGTSearchResults();
-		Common.delay(2);
-		LXScreen.location().perform(typeText("San"));
-		LXScreen.selectLocation("San Francisco, CA");
-		LXScreen.selectDateButton().perform(click());
-		LXScreen.selectDates(LocalDate.now(), null);
-		LXScreen.searchButton().perform(click());
+		goToGT();
+		LXScreen.goToSearchResults(getLxIdlingResource());
 		validateRestHappyFlow();
 	}
 
+	public void testGTPhoneHappyPathLoggedInCustomer() throws Throwable {
+		goToGT();
+		LXScreen.goToSearchResults(getLxIdlingResource());
+
+		selectOffer();
+		doLogin();
+
+		purchaseActivity(false);
+		verifyBooking();
+	}
+
+	private void doLogin() throws Throwable {
+		onView(withId(R.id.login_widget)).perform(waitFor(isDisplayed(), 10, TimeUnit.SECONDS));
+		CheckoutViewModel.enterSingleCardLoginDetails();
+		CheckoutViewModel.pressDoLogin();
+	}
+
+	private void purchaseActivity(boolean isAmex) throws Throwable {
+		CheckoutViewModel.waitForPaymentInfoDisplayed();
+		CheckoutViewModel.performSlideToPurchase();
+		CVVEntryScreen.enterCVV(isAmex ? "6286" : "111");
+		CVVEntryScreen.clickBookButton();
+	}
+
+	private void verifyBooking() {
+		LXScreen.itinNumberOnConfirmationScreen().check(matches(withText(containsString("7672544863"))));
+	}
+
+
 	private void validateRestHappyFlow() throws Throwable {
+		selectOffer();
+		screenshot("GT Checkout Started");
+		CheckoutViewModel.enterTravelerInfo();
+		CheckoutViewModel.enterPaymentInfo();
+		screenshot("GT Checkout Ready");
+		CheckoutViewModel.performSlideToPurchase();
+
+		CVVEntryScreen.enterCVV("111");
+		screenshot("GT CVV");
+		CVVEntryScreen.clickBookButton();
+
+		screenshot("GT Checkout Started");
+		verifyBooking();
+	}
+
+	private void selectOffer() throws Throwable {
 		final String ticketName = "Roundtrip to San Francisco";
 
 		LXScreen.sortAndFilterButton().check(matches(not(isDisplayed())));
@@ -71,15 +118,6 @@ public class GTPhoneHappyPathTest extends PhoneTestCase {
 		LXInfositeScreen.ticketAddButton(ticketName, "Traveler").perform(scrollTo(), click());
 		LXInfositeScreen.bookNowButton(ticketName).perform(scrollTo());
 		LXInfositeScreen.bookNowButton(ticketName).perform(click());
-		Common.delay(1);
-		CheckoutViewModel.enterTravelerInfo();
-		CheckoutViewModel.enterPaymentInfo();
-		CheckoutViewModel.performSlideToPurchase();
-
-		CVVEntryScreen.enterCVV("111");
-		CVVEntryScreen.clickBookButton();
-
-		LXScreen.itinNumberOnConfirmationScreen().check(matches(withText(containsString("7672544863"))));
 	}
 
 }

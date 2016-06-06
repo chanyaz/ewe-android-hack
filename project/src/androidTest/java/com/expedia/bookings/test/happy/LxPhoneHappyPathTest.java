@@ -136,7 +136,6 @@ public class LxPhoneHappyPathTest extends PhoneTestCase {
 	private void doLogin() throws Throwable {
 		EspressoUtils.assertViewIsDisplayed(R.id.login_widget);
 		CheckoutViewModel.enterLoginDetails();
-		Common.delay(1);
 		CheckoutViewModel.pressDoLogin();
 		Common.delay(1);
 	}
