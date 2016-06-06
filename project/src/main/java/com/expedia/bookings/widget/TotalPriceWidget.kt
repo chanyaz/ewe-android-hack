@@ -45,6 +45,9 @@ class TotalPriceWidget(context: Context, attrs: AttributeSet?) : LinearLayout(co
         vm.bundleTextLabelObservable.subscribeText(bundleTotalText)
         vm.perPersonTextLabelObservable.subscribeVisibility(perPersonText)
         vm.bundleTotalIncludesObservable.subscribeText(bundleTotalIncludes)
+        vm.contentDescriptionObservable.subscribe { description ->
+            this.contentDescription = description
+        }
     }
 
     val packagebreakdown = PackageBreakDownView(context, null)

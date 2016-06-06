@@ -89,6 +89,7 @@ class SlidingBundleWidget(context: Context, attrs: AttributeSet?) : FrameLayout(
         bundlePriceWidget.setBackgroundColor(if (forward) ContextCompat.getColor(context, R.color.packages_primary_color) else Color.WHITE)
         translationY = if (forward) statusBarHeight.toFloat() else height.toFloat() - bundlePriceWidget.height
         isMoving = false
+        bundlePriceWidget.contentDescription = bundlePriceWidget.viewModel.getAccessibleContentDescription(true, forward)
     }
 
     fun translateBundleOverview(distance: Float) {
@@ -152,7 +153,7 @@ class SlidingBundleWidget(context: Context, attrs: AttributeSet?) : FrameLayout(
         bundleOverViewWidget.viewModel.toolbarTitleObservable.subscribeText(bundlePriceWidget.bundleTitle)
         bundleOverViewWidget.viewModel.toolbarSubtitleObservable.subscribeText(bundlePriceWidget.bundleSubtitle)
         bundlePriceFooter.viewModel = BundlePriceViewModel(context)
-        bundlePriceWidget.viewModel = BundlePriceViewModel(context)
+        bundlePriceWidget.viewModel = BundlePriceViewModel(context, true)
         bundlePriceWidget.bundleChevron.visibility = View.VISIBLE
         bundleOverViewWidget.setPadding(0, Ui.getToolbarSize(context), 0, 0)
         val icon = ContextCompat.getDrawable(context, R.drawable.read_more).mutate()

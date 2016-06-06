@@ -38,6 +38,7 @@ public class PackageBundleOverviewPresenterTest extends PackageTestCase {
 			allOf(isDisplayed(), withText("Trip to Detroit, MI")))));
 
 		checkBundleOverviewHotelContentDescription(true);
+		checkBundleTotalWidgetContentDescription("$0.00", "$0.00");
 
 		PackageScreen.outboundFlightInfo().check(matches(hasDescendant(
 			allOf(isDisplayed(), withText("Flight to (DTW) Detroit")))));
@@ -48,12 +49,16 @@ public class PackageBundleOverviewPresenterTest extends PackageTestCase {
 		PackageScreen.inboundFlightInfo().check(matches(not(isEnabled())));
 
 		PackageScreen.clickHotelBundle();
+		openCloseSlidingBundleWidget("$0.00", "$0.00");
+
 		HotelScreen.selectHotel("Package Happy Path");
+		openCloseSlidingBundleWidget("$1,027.34", "$21.61");
 
 		PackageScreen.selectRoom();
 
 		Common.pressBack();
 		checkBundleOverviewHotelContentDescription("Package Happy Path");
+		checkBundleTotalWidgetContentDescription("$3,863.38", "$595.24");
 
 		PackageScreen.outboundFlightInfo().check(matches(hasDescendant(
 			allOf(isDisplayed(), withText("Select flight to (DTW) Detroit")))));
@@ -96,6 +101,16 @@ public class PackageBundleOverviewPresenterTest extends PackageTestCase {
 		PackageScreen.outboundFlightDetailsIcon().perform(click());
 		PackageScreen.outboundFlightDetailsContainer().check(matches(withEffectiveVisibility(
 			ViewMatchers.Visibility.VISIBLE)));
+	}
+
+	private void openCloseSlidingBundleWidget(String totalPrice, String totalSaved) {
+		checkBundleSlidingWidgetContentDescription(totalPrice, totalSaved, false);
+		PackageScreen.bundleTotalSlidingWidget().perform(click());
+		Common.delay(1);
+		checkBundleTotalWidgetContentDescription(totalPrice, totalSaved);
+		checkBundleSlidingWidgetContentDescription(totalPrice, totalSaved, true);
+		PackageScreen.bundleTotalSlidingWidget().perform(click());
+		Common.delay(1);
 	}
 
 	public void testHotelBundleOverviewFlow() throws Throwable {
@@ -172,6 +187,21 @@ public class PackageBundleOverviewPresenterTest extends PackageTestCase {
 		//collapse
 		PackageScreen.hotelBundleContainer().perform(click());
 		PackageScreen.hotelRoomImageView().check(matches(CoreMatchers.not(isDisplayed())));
+	}
+
+	private void checkBundleTotalWidgetContentDescription(String totalPrice, String totalSaved) {
+		PackageScreen.bundleTotalFooterWidget().check((matches(withContentDescription("Bundle total is " + totalPrice + ". This price includes taxes, fees for both flights and hotel. " + totalSaved + " Saved"))));
+	}
+
+	private void checkBundleSlidingWidgetContentDescription(String totalPrice, String totalSaved, boolean isOpened) {
+		String str;
+		if (isOpened) {
+			str = "Showing bundle details. Button to close.";
+		}
+		else {
+			str = "Bundle total is " + totalPrice + ". This price includes taxes, fees for both flights and hotel. " + totalSaved + " Saved. Button to view bundle.";
+		}
+		PackageScreen.bundleTotalSlidingWidget().check((matches(withContentDescription(str))));
 	}
 
 	private void checkBundleOverviewHotelContentDescription(boolean searchCompleted) {
