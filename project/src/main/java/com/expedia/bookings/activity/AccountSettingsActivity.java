@@ -49,7 +49,6 @@ import com.expedia.bookings.utils.ClearPrivateDataUtil;
 import com.expedia.bookings.utils.Constants;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.utils.UserAccountRefresher;
-import com.google.android.gms.common.GoogleApiAvailability;
 import com.mobiata.android.SocialUtils;
 import com.mobiata.android.fragment.AboutSectionFragment;
 import com.mobiata.android.fragment.AboutSectionFragment.AboutSectionFragmentListener;
@@ -358,17 +357,7 @@ public class AccountSettingsActivity extends AppCompatActivity implements AboutS
 			return true;
 		}
 		case ROW_OPEN_SOURCE_LICENSES: {
-			OmnitureTracking.trackClickOpenSourceLicenses();
-
-			WebViewActivity.IntentBuilder builder = new WebViewActivity.IntentBuilder(this);
-
-			String license = GoogleApiAvailability.getInstance().getOpenSourceSoftwareLicenseInfo(this);
-			String htmlEscapedData = "<pre>" + HtmlUtils.escape(license) + "</pre>";
-			String html = HtmlUtils.wrapInHeadAndBody(htmlEscapedData);
-			builder.setHtmlData(html);
-
-			startActivity(builder.getIntent());
-
+			aboutUtils.openOpenSourceLicenses();
 			return true;
 		}
 
