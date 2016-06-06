@@ -271,11 +271,7 @@ public class WebViewFragment extends DialogFragment {
 			if (mListener != null) {
 				mListener.setLoading(true);
 			}
-			if (!TextUtils.isEmpty(mHtmlData)) {
-				//Using .loadData() sometimes fails with unescaped html. loadDataWithBaseUrl() doesnt
-				mWebView.loadDataWithBaseURL(null, mHtmlData, "text/html", "UTF-8", null);
-			}
-			else {
+			if (TextUtils.isEmpty(mHtmlData)) {
 				mWebView.loadUrl(mUrl);
 			}
 		}
@@ -283,6 +279,12 @@ public class WebViewFragment extends DialogFragment {
 			if (mListener != null) {
 				mListener.setLoading(false);
 			}
+		}
+
+		if (!TextUtils.isEmpty(mHtmlData)) {
+			//Using .loadData() sometimes fails with unescaped html. loadDataWithBaseUrl() doesnt
+			// .loadDataWithBaseURL() does not seem to save the data across configuration changes, so must alwasy reload
+			mWebView.loadDataWithBaseURL(null, mHtmlData, "text/html", "UTF-8", null);
 		}
 	}
 
