@@ -21,12 +21,12 @@ class PointOfSaleLocale(val data: JSONObject) {
 
     // The url for please to be downloading this app
     val appInfoUrl by lazy {
-        data.optString("websiteURL", null)
+        data.optString("appInfoURL", null)
     }
 
     // The url for just the website
     val websiteUrl by lazy {
-        data.optString("appSupportURL", null)
+        data.optString("websiteURL", null)
     }
 
     // The url for travel insurance. Not present for all POS
