@@ -49,16 +49,15 @@
                 android:background="@drawable/tb_shadow" />
 
         </android.support.design.widget.CollapsingToolbarLayout>
-
-        <android.support.v4.widget.NestedScrollView
-            android:id="@+id/nested_scrollview"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_gravity="fill_vertical"
-            android:fillViewport="true"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior" />
-
     </android.support.design.widget.AppBarLayout>
+
+    <android.support.v4.widget.NestedScrollView
+        android:id="@+id/nested_scrollview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="fill_vertical"
+        android:fillViewport="true"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
     <com.expedia.bookings.widget.packages.CheckoutOverviewHeader
         android:id="@+id/checkout_overview_floating_toolbar"

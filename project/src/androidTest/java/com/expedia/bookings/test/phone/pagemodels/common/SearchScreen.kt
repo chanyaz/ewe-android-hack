@@ -47,7 +47,9 @@ object SearchScreen {
     }
 
     @JvmStatic fun searchButton(): ViewInteraction {
-        return onView(allOf(withId(R.id.search_button), withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE)))
+        val searchButton = onView(allOf(withId(R.id.search_button), withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE)))
+        searchButton.perform(ViewActions.waitForViewToDisplay())
+        return searchButton
     }
 
     @JvmStatic fun calendarCard(): ViewInteraction {
