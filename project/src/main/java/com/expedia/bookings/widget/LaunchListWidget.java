@@ -11,13 +11,14 @@ import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
 
-import butterknife.ButterKnife;
 import com.expedia.bookings.R;
 import com.expedia.bookings.bitmaps.PicassoScrollListener;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.otto.Events;
 import com.squareup.otto.Subscribe;
+
+import butterknife.ButterKnife;
 
 public class LaunchListWidget extends RecyclerView {
 
@@ -108,5 +109,9 @@ public class LaunchListWidget extends RecyclerView {
 			elements.add(0);
 		}
 		return elements;
+	}
+
+	public void onPOSChange() {
+		adapter.onPOSChange();
 	}
 }

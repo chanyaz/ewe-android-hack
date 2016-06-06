@@ -49,7 +49,6 @@ class NewPhoneLaunchWidget(context: Context, attrs: AttributeSet) : FrameLayout(
 
     private val TAG = "NewPhoneLaunchWidget"
     private val HOTEL_SORT = "ExpertPicks"
-    private val ANIMATION_DURATION = 200L
     private val MINIMUM_TIME_AGO = 15 * DateUtils.MINUTE_IN_MILLIS // 15 minutes ago
 
 
@@ -94,12 +93,8 @@ class NewPhoneLaunchWidget(context: Context, attrs: AttributeSet) : FrameLayout(
 
     val launchListWidget: LaunchListWidget by bindView(R.id.launch_list_widget)
     private val lobViewContainer: android.widget.FrameLayout by bindView(R.id.lob_view_container)
-    private val lobView: View by lazy {
-        LayoutInflater.from(context).inflate(R.layout.widget_new_launch_lob, null, false)
-    }
-
-    private val lobViewTopMargin : Int by  lazy {
-        resources.getDimensionPixelSize(R.dimen.new_launch_lob_top_margin)
+    private val lobView: NewLaunchLobWidget by lazy {
+        LayoutInflater.from(context).inflate(R.layout.widget_new_launch_lob, null, false) as NewLaunchLobWidget
     }
 
     var hasInternetConnection = BehaviorSubject.create<Boolean>()
@@ -145,15 +140,8 @@ class NewPhoneLaunchWidget(context: Context, attrs: AttributeSet) : FrameLayout(
             NavUtils.goToHotels(context, searchParams, animOptions, 0)
         }
 
-        lobViewContainer.viewTreeObserver.addOnPreDrawListener(object : ViewTreeObserver.OnPreDrawListener {
-            override fun onPreDraw(): Boolean {
-                viewTreeObserver.removeOnPreDrawListener(this)
-                val lobContainerHeight = lobViewContainer.height.toFloat()
-                lobViewContainer.translationY = -lobContainerHeight
-                hideFabButton()
-                return false
-            }
-        })
+        adjustLobViewHeight()
+
         hasInternetConnection.subscribe { isOnline ->
             if (!isOnline) {
                 launchListWidget.scrollToPosition(0)
@@ -210,6 +198,18 @@ class NewPhoneLaunchWidget(context: Context, attrs: AttributeSet) : FrameLayout(
         }
     }
 
+    private fun adjustLobViewHeight() {
+        lobViewContainer.viewTreeObserver.addOnPreDrawListener(object : ViewTreeObserver.OnPreDrawListener {
+            override fun onPreDraw(): Boolean {
+                viewTreeObserver.removeOnPreDrawListener(this)
+                val lobContainerHeight = lobViewContainer.height.toFloat()
+                lobViewContainer.translationY = -lobContainerHeight
+                hideFabButton()
+                return false
+            }
+        })
+    }
+
     private fun handleBackOrDarkViewClick(): Boolean {
         val hideDarkView = darkView.alpha > 0f
         if (hideDarkView) {
@@ -261,14 +261,13 @@ class NewPhoneLaunchWidget(context: Context, attrs: AttributeSet) : FrameLayout(
     }
 
     val scrollListener: RecyclerView.OnScrollListener = object : RecyclerView.OnScrollListener() {
-        var scrollY = 0
-
         override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
             super.onScrolled(recyclerView, dx, dy)
-            scrollY +=dy
+            val lobHeaderView = launchListWidget.layoutManager.findViewByPosition(0)
+            val scrollY = lobHeaderView?.y ?: toolBarHeight
             val value = Math.abs(scrollY) / toolBarHeight
             toolbarShadow.alpha = Math.min(1f, Math.max(0f, value))
-            if(scrollY + lobViewTopMargin > lobView.height){
+            if (lobHeaderView == null) {
                 showFabButton()
             } else {
                 hideFabButton()
@@ -330,6 +329,7 @@ class NewPhoneLaunchWidget(context: Context, attrs: AttributeSet) : FrameLayout(
         return defaultCollectionListener
     }
 
+    @Suppress("unused")
     @Subscribe
     fun onLaunchResume(event: Events.PhoneLaunchOnResume) {
         // TODO  refresh the hotel list if it expired
@@ -337,6 +337,7 @@ class NewPhoneLaunchWidget(context: Context, attrs: AttributeSet) : FrameLayout(
     }
 
     // Hotel Search
+    @Suppress("unused")
     @Subscribe
     fun onLocationFound(event: Events.LaunchLocationFetchComplete) {
         val loc = event.location
@@ -405,6 +406,7 @@ class NewPhoneLaunchWidget(context: Context, attrs: AttributeSet) : FrameLayout(
         return downloadListener
     }
 
+    @Suppress("unused")
     @Subscribe
     fun onLocationNotAvailable(event: Events.LaunchLocationFetchError) {
         Log.i(TAG, "Start collection download " + event)
@@ -445,4 +447,9 @@ class NewPhoneLaunchWidget(context: Context, attrs: AttributeSet) : FrameLayout(
         return handleBackOrDarkViewClick()
     }
 
+    fun onPOSChanged() {
+        lobView.onPOSChange();
+        launchListWidget.onPOSChange();
+        adjustLobViewHeight();
+    }
 }

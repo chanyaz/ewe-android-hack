@@ -10,7 +10,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import butterknife.ButterKnife;
 import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
@@ -22,6 +21,8 @@ import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.AnimUtils;
 import com.expedia.bookings.utils.FontCache;
 import com.expedia.bookings.utils.Images;
+
+import butterknife.ButterKnife;
 import rx.subjects.PublishSubject;
 
 public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
@@ -37,6 +38,8 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 	private View headerView;
 	private TextView seeAllButton;
 	private TextView launchListTitle;
+	private LaunchLobHeaderViewHolder lobViewHolder;
+
 	// 0 means we are in old launch screen and 1 means we are in new search screen we want to add lob
 	public int headerPosition = 0;
 
@@ -75,9 +78,10 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 	@Override
 	public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 		if (viewType == LOB_VIEW) {
-			View view = LayoutInflater.from(parent.getContext())
+			NewLaunchLobWidget view = (NewLaunchLobWidget) LayoutInflater.from(parent.getContext())
 				.inflate(R.layout.widget_new_launch_lob, parent, false);
-			return new LaunchHeaderViewHolder(view);
+			lobViewHolder = new LaunchLobHeaderViewHolder(view);
+			return lobViewHolder;
 		}
 		if (viewType == HEADER_VIEW) {
 			View view = LayoutInflater.from(parent.getContext())
@@ -233,4 +237,10 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 			OmnitureTracking.trackNewLaunchScreenSeeAllClick();
 		}
 	};
+
+	public void onPOSChange() {
+		if (lobViewHolder != null) {
+			lobViewHolder.onPOSChange();
+		}
+	}
 }

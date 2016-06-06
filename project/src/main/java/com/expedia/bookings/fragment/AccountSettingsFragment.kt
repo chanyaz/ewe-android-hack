@@ -36,6 +36,7 @@ import com.expedia.bookings.data.User
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.dialog.ClearPrivateDataDialog
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration
+import com.expedia.bookings.otto.Events
 import com.expedia.bookings.tracking.AdTracker
 import com.expedia.bookings.tracking.OmnitureTracking
 import com.expedia.bookings.utils.AboutUtils
@@ -394,6 +395,7 @@ class AccountSettingsFragment : Fragment(),
         AdTracker.updatePOS()
 
         activity.setResult(Constants.RESULT_CHANGED_PREFS)
+        Events.post(Events.PhoneLaunchOnPOSChange());
 
         adjustLoggedInViews()
         appSettingsFragment?.notifyOnRowDataChanged(ROW_COUNTRY)
