@@ -1,5 +1,7 @@
 package com.expedia.bookings.test.phone.packages;
 
+import java.util.concurrent.TimeUnit;
+
 import org.joda.time.LocalDate;
 
 import com.expedia.bookings.test.espresso.Common;
@@ -8,12 +10,13 @@ import com.expedia.bookings.test.phone.hotels.HotelScreen;
 import com.expedia.bookings.test.phone.pagemodels.common.SearchScreen;
 
 import static android.support.test.espresso.action.ViewActions.click;
+import static android.support.test.espresso.assertion.ViewAssertions.doesNotExist;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.hasDescendant;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
+import static com.expedia.bookings.test.espresso.ViewActions.waitFor;
 import static org.hamcrest.CoreMatchers.allOf;
-import static org.hamcrest.Matchers.not;
 
 public class PackageFlightsToolbarTest extends PackageTestCase {
 
@@ -23,36 +26,30 @@ public class PackageFlightsToolbarTest extends PackageTestCase {
 		LocalDate endDate = LocalDate.now().plusDays(8);
 		SearchScreen.selectDates(startDate, endDate);
 		SearchScreen.searchButton().perform(click());
-		Common.delay(1);
-
-		Common.delay(1);
-
 		HotelScreen.selectHotel("Package Happy Path");
-		Common.delay(1);
-
 		PackageScreen.selectRoom();
-		Common.delay(1);
 
+		PackageScreen.flightsToolbar().perform(waitFor(isDisplayed(), 5, TimeUnit.SECONDS));
 		PackageScreen.flightsToolbar().check(matches(hasDescendant(allOf(isDisplayed(), withText("Select flight to Detroit, MI")))));
 		checkToolBarMenuItemsVisibility(true);
 
 		PackageScreen.selectFlight(0);
+		PackageScreen.flightsToolbar().perform(waitFor(isDisplayed(), 5, TimeUnit.SECONDS));
 		PackageScreen.flightsToolbar().check(matches(hasDescendant(allOf(isDisplayed(), withText("Flight to Detroit, MI")))));
 		checkToolBarMenuItemsVisibility(false);
 		checkBaggageFeeToolBarText("Flight to Detroit, MI");
 		PackageScreen.selectThisFlight().perform(click());
-		Common.delay(1);
 
+		PackageScreen.flightsToolbar().perform(waitFor(isDisplayed(), 5, TimeUnit.SECONDS));
 		PackageScreen.flightsToolbar().check(matches(hasDescendant(allOf(isDisplayed(), withText("Select return flight")))));
 		checkToolBarMenuItemsVisibility(true);
 
 
 		PackageScreen.selectFlight(0);
+		PackageScreen.flightsToolbar().perform(waitFor(isDisplayed(), 5, TimeUnit.SECONDS));
 		PackageScreen.flightsToolbar().check(matches(hasDescendant(allOf(isDisplayed(), withText("Flight to San Francisco, CA")))));
 		checkToolBarMenuItemsVisibility(false);
 		checkBaggageFeeToolBarText("Flight to San Francisco, CA");
-		PackageScreen.selectThisFlight().perform(click());
-		Common.delay(1);
 	}
 
 	public void checkToolBarMenuItemsVisibility(boolean isVisible) {
@@ -61,17 +58,18 @@ public class PackageFlightsToolbarTest extends PackageTestCase {
 			PackageScreen.flightsToolbarFilterMenu().check(matches(isDisplayed()));
 		}
 		else {
-			PackageScreen.flightsToolbarSearchMenu().check(matches(not(isDisplayed())));
-			PackageScreen.flightsToolbarFilterMenu().check(matches(not(isDisplayed())));
+			PackageScreen.flightsToolbarSearchMenu().check(doesNotExist());
+			PackageScreen.flightsToolbarFilterMenu().check(doesNotExist());
 		}
 	}
 
 	public void checkBaggageFeeToolBarText(String previousToolBarText) {
 		PackageScreen.baggageFeeInfo().check(matches(isDisplayed()));
 		PackageScreen.baggageFeeInfo().perform(click());
+		PackageScreen.flightsToolbar().perform(waitFor(isDisplayed(), 5, TimeUnit.SECONDS));
 		PackageScreen.flightsToolbar().check(matches(hasDescendant(allOf(isDisplayed(), withText("Baggage Fee Info")))));
 		Common.pressBack();
-		Common.delay(1);
+		PackageScreen.flightsToolbar().perform(waitFor(isDisplayed(), 5, TimeUnit.SECONDS));
 		PackageScreen.flightsToolbar().check(matches(hasDescendant(allOf(isDisplayed(), withText(previousToolBarText)))));
 	}
 }

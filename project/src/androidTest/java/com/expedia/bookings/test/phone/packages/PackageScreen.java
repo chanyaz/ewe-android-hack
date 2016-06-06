@@ -124,7 +124,7 @@ public class PackageScreen {
 	}
 
 	public static ViewInteraction flightsToolbarFilterMenu() {
-		return onView(withId(R.id.menu_filter));
+		return onView(withId(R.id.filter_btn));
 	}
 
 	public static ViewInteraction outboundFlight() {
