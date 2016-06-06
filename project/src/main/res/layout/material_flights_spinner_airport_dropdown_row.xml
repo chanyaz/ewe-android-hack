@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center_vertical"
+    android:orientation="vertical"
+    android:background="@color/gray1"
+    android:paddingLeft="20dp"
+    android:paddingRight="20dp">
+
+    <TextView
+        android:id="@+id/airport_location_text_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ellipsize="end"
+        android:paddingTop="4dp"
+        android:singleLine="true"
+        android:textColor="@color/gray10"
+        android:textSize="20sp"
+        android:layout_marginTop="@dimen/airport_dropdown_row_margin_top"
+        android:layout_marginBottom="@dimen/airport_dropdown_row_margin_bottom"/>
+
+    <TextView
+        android:id="@+id/airport_details_text_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ellipsize="end"
+        android:paddingBottom="4dp"
+        android:singleLine="true"
+        android:textColor="@color/gray10"
+        android:textSize="14sp"
+        android:layout_marginTop="@dimen/airport_dropdown_row_margin_top"
+        android:layout_marginBottom="@dimen/airport_dropdown_row_margin_bottom"/>
+
+    <TextView
+        android:id="@+id/header_text_view"
+        android:layout_width="match_parent"
+        android:layout_height="32dp"
+        android:ellipsize="end"
+        android:gravity="center_vertical"
+        android:singleLine="true"
+        android:textColor="@color/black"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        android:visibility="gone"
+        android:layout_marginTop="@dimen/airport_dropdown_row_margin_top"
+        android:layout_marginBottom="@dimen/airport_dropdown_row_margin_bottom"/>
+
+</LinearLayout>

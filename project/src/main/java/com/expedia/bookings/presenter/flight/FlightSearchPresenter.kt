@@ -23,14 +23,11 @@ import com.expedia.vm.BaseSearchViewModel
 import com.expedia.vm.FlightSearchViewModel
 import com.expedia.vm.SuggestionAdapterViewModel
 
-class FlightSearchPresenter(context: Context, attrs: AttributeSet) : BaseTwoLocationSearchPresenter(context, attrs) {
+open class FlightSearchPresenter(context: Context, attrs: AttributeSet) : BaseTwoLocationSearchPresenter(context, attrs) {
 
     val suggestionServices: SuggestionV4Services by lazy {
         Ui.getApplication(getContext()).flightComponent().suggestionsService()
     }
-
-    lateinit private var originSuggestionAdapter: FlightSuggestionAdapter
-    lateinit private var destinationSuggestionAdapter: FlightSuggestionAdapter
 
     var searchViewModel: FlightSearchViewModel by notNullAndObservable { vm ->
         calendarWidgetV2.viewModel = vm
@@ -40,8 +37,8 @@ class FlightSearchPresenter(context: Context, attrs: AttributeSet) : BaseTwoLoca
         searchButton.subscribeOnClick(vm.searchObserver)
         vm.formattedOriginObservable.subscribe { text -> originCardView.setText(text) }
         vm.formattedDestinationObservable.subscribe {
-            text -> destinationCardView.setText(text)
-            if (this.visibility == VISIBLE && vm.startDate() == null) {
+            text -> destinationCardView.setText(if (text.isNotEmpty()) text else context.resources.getString(R.string.fly_to_hint))
+            if (this.visibility == VISIBLE && vm.startDate() == null && text.isNotEmpty()) {
                 calendarWidgetV2.showCalendarDialog()
             }
         }
@@ -51,6 +48,9 @@ class FlightSearchPresenter(context: Context, attrs: AttributeSet) : BaseTwoLoca
         originSuggestionAdapter = FlightSuggestionAdapter(originSuggestionViewModel)
         destinationSuggestionAdapter = FlightSuggestionAdapter(destinationSuggestionViewModel)
     }
+
+    lateinit private var originSuggestionAdapter: FlightSuggestionAdapter
+    lateinit private var destinationSuggestionAdapter: FlightSuggestionAdapter
 
     init {
         travelerWidgetV2.traveler.viewmodel.showSeatingPreference = true
@@ -114,5 +114,4 @@ class FlightSearchPresenter(context: Context, attrs: AttributeSet) : BaseTwoLoca
     override fun getDestinationSearchBoxPlaceholderText(): String {
         return context.resources.getString(R.string.fly_to_hint)
     }
-
 }
