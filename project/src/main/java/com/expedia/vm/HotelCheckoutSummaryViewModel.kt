@@ -7,6 +7,7 @@ import com.expedia.bookings.data.hotels.HotelCreateTripResponse
 import com.expedia.bookings.data.hotels.HotelRate
 import com.expedia.bookings.data.payment.PaymentModel
 import com.expedia.bookings.data.payment.PaymentSplitsType
+import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.tracking.HotelV2Tracking
 import com.expedia.bookings.utils.DateFormatUtils
 import com.expedia.bookings.utils.StrUtils
@@ -118,7 +119,7 @@ class HotelCheckoutSummaryViewModel(val context: Context, val paymentModel: Paym
 
             showFeesPaidAtHotel.onNext(isResortCase.value)
             feesPaidAtHotel.onNext(Money(BigDecimal(rate.totalMandatoryFees.toString()), currencyCode.value).formattedMoney)
-            isBestPriceGuarantee.onNext(room.isMerchant)
+            isBestPriceGuarantee.onNext(PointOfSale.getPointOfSale().displayBestPriceGuarantee() && room.isMerchant)
             if (it.isExpediaRewardsRedeemable && !it.paymentSplitsType.equals(PaymentSplitsType.IS_FULL_PAYABLE_WITH_CARD)) {
                 dueNowAmount.onNext(it.payingWithCard.amount.formattedMoneyFromAmountAndCurrencyCode)
                 burnPointsShownOnHotelCostBreakdown.onNext(Phrase.from(context, R.string.hotel_cost_breakdown_burn_points_TEMPLATE)
