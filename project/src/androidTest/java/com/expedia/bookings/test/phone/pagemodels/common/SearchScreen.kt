@@ -72,6 +72,22 @@ object SearchScreen {
         return onView(withId(R.id.traveler_card))
     }
 
+    @JvmStatic fun addAdultsButton(): ViewInteraction {
+        return onView(withId(R.id.adults_plus))
+    }
+
+    @JvmStatic fun removeAdultsButton(): ViewInteraction {
+        return onView(withId(R.id.adults_minus))
+    }
+
+    @JvmStatic fun addChildButton(): ViewInteraction {
+        return onView(withId(R.id.children_plus))
+    }
+
+    @JvmStatic fun removeChildButton(): ViewInteraction {
+        return onView(withId(R.id.children_minus))
+    }
+
     fun setGuests(adults: Int, children: Int) {
         //Minimum 1 ADT selected
         for (i in 1..adults - 1) {
