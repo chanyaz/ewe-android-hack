@@ -13,6 +13,7 @@ import com.expedia.bookings.data.hotels.HotelOffersResponse;
 import com.expedia.bookings.data.packages.PackageSearchParams;
 import com.expedia.bookings.data.packages.PackageSearchResponse;
 import com.expedia.bookings.data.flights.FlightLeg;
+import com.expedia.bookings.data.trips.TripBucket;
 import com.expedia.bookings.model.WorkingBillingInfoManager;
 import com.expedia.bookings.model.WorkingTravelerManager;
 import com.expedia.bookings.utils.LeanPlumUtils;

@@ -2,7 +2,7 @@ package com.expedia.bookings.test
 
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.Money
-import com.expedia.bookings.data.TripBucketItemHotelV2
+import com.expedia.bookings.data.trips.TripBucketItemHotelV2
 import com.expedia.bookings.data.TripResponse
 import com.expedia.bookings.data.cars.ApiError
 import com.expedia.bookings.data.hotels.HotelCreateTripResponse

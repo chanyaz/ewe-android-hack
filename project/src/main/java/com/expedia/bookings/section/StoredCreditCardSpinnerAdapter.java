@@ -12,7 +12,7 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.data.BillingInfo;
 import com.expedia.bookings.data.PaymentType;
 import com.expedia.bookings.data.StoredCreditCard;
-import com.expedia.bookings.data.TripBucketItem;
+import com.expedia.bookings.data.trips.TripBucketItem;
 import com.expedia.bookings.utils.BookingInfoUtils;
 import com.expedia.bookings.utils.CreditCardUtils;
 import com.expedia.bookings.utils.WalletUtils;

@@ -5,12 +5,12 @@ import android.view.View
 import android.widget.FrameLayout
 import android.widget.TextView
 import com.expedia.bookings.R
-import com.expedia.bookings.data.rail.responses.RailSearchResponse
+import com.expedia.bookings.data.rail.responses.RailSegment
 import com.expedia.bookings.utils.JodaUtils
 import com.expedia.bookings.utils.bindView
 import com.mobiata.flightlib.utils.DateTimeUtils
 
-class RailTimelineSegment(context: Context, segment: RailSearchResponse.RailSegment) : FrameLayout(context) {
+class RailTimelineSegment(context: Context, segment: RailSegment) : FrameLayout(context) {
     val departureTime: TextView by bindView(R.id.rail_timeline_departure_time)
     val arrivalTime: TextView by bindView(R.id.rail_timeline_arrival_time)
     val departureStation: TextView by bindView(R.id.rail_timeline_departure_station)

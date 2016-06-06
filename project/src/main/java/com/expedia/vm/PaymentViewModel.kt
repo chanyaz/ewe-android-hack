@@ -10,7 +10,7 @@ import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.PaymentType
 import com.expedia.bookings.data.StoredCreditCard
-import com.expedia.bookings.data.TripBucketItemCar
+import com.expedia.bookings.data.trips.TripBucketItemCar
 import com.expedia.bookings.data.payment.PaymentSplitsType
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.utils.BookingInfoUtils

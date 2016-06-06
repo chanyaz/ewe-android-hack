@@ -123,7 +123,8 @@ public class RailServicesTest {
 		createTripResponseObserver.assertValueCount(1);
 		RailCreateTripResponse createTripResponse = createTripResponseObserver.getOnNextEvents().get(0);
 
-		assertEquals("548e2559-8011-44b3-ad71-9e7cd554540f", createTripResponse.tripId);
+		assertEquals("b6b3315e-6901-4926-a8db-57c9eede23a2", createTripResponse.tripId);
+		assertEquals(1, createTripResponse.railsProducts.size());
 	}
 
 	@Test

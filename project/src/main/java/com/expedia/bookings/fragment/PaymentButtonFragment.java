@@ -18,7 +18,7 @@ import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.StoredCreditCard;
-import com.expedia.bookings.data.TripBucketItem;
+import com.expedia.bookings.data.trips.TripBucketItem;
 import com.expedia.bookings.data.User;
 import com.expedia.bookings.fragment.base.LobableFragment;
 import com.expedia.bookings.model.FlightPaymentFlowState;

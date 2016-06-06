@@ -28,7 +28,7 @@ import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.Traveler;
-import com.expedia.bookings.data.TripBucketItemFlight;
+import com.expedia.bookings.data.trips.TripBucketItemFlight;
 import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.utils.DateFormatUtils;
 import com.expedia.bookings.utils.JodaUtils;

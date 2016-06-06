@@ -29,7 +29,7 @@ import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.Sp;
-import com.expedia.bookings.data.TripBucketItemHotel;
+import com.expedia.bookings.data.trips.TripBucketItemHotel;
 import com.expedia.bookings.data.hotels.Hotel;
 import com.expedia.bookings.data.hotels.HotelRate;
 import com.expedia.bookings.data.pos.PointOfSale;

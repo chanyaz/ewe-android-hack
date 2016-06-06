@@ -19,7 +19,7 @@ import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.RateBreakdown;
 import com.expedia.bookings.data.Response;
 import com.expedia.bookings.data.ServerError;
-import com.expedia.bookings.data.TripBucketItemHotel;
+import com.expedia.bookings.data.trips.TripBucketItemHotel;
 import com.expedia.bookings.dialog.HotelPriceChangeDialog;
 import com.expedia.bookings.fragment.RetryErrorDialogFragment.RetryErrorDialogFragmentListener;
 import com.expedia.bookings.otto.Events;

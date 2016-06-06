@@ -18,7 +18,7 @@ import com.expedia.bookings.data.BillingInfo;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.Location;
-import com.expedia.bookings.data.TripBucketItemPackages;
+import com.expedia.bookings.data.trips.TripBucketItemPackages;
 import com.expedia.bookings.data.ValidPayment;
 import com.expedia.bookings.data.packages.PackageCreateTripResponse;
 import com.expedia.bookings.widget.packages.PackagePaymentWidget;

@@ -4,7 +4,7 @@ import android.content.Context
 import com.expedia.bookings.data.Traveler
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.LineOfBusiness
-import com.expedia.bookings.data.TripBucketItemPackages
+import com.expedia.bookings.data.trips.TripBucketItemPackages
 import com.expedia.bookings.data.ValidPayment
 import com.expedia.bookings.data.flights.FlightTripDetails
 import com.expedia.bookings.data.packages.PackageCreateTripResponse

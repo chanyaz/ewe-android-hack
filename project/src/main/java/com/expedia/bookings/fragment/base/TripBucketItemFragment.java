@@ -15,7 +15,7 @@ import android.widget.ImageView;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.LineOfBusiness;
-import com.expedia.bookings.data.TripBucketItem;
+import com.expedia.bookings.data.trips.TripBucketItem;
 import com.expedia.bookings.dialog.BreakdownDialogFragment;
 import com.expedia.bookings.enums.TripBucketItemState;
 import com.expedia.bookings.graphics.HeaderBitmapColorAveragedDrawable;

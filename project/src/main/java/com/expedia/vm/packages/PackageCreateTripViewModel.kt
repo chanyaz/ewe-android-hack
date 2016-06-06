@@ -1,10 +1,10 @@
 package com.expedia.vm.packages
 
 import com.expedia.bookings.data.Db
-import com.expedia.bookings.data.TripBucketItemPackages
 import com.expedia.bookings.data.cars.ApiError
 import com.expedia.bookings.data.packages.PackageCreateTripParams
 import com.expedia.bookings.data.packages.PackageCreateTripResponse
+import com.expedia.bookings.data.trips.TripBucketItemPackages
 import com.expedia.bookings.services.PackageServices
 import rx.Observable
 import rx.Observer

@@ -23,7 +23,7 @@ import com.expedia.bookings.data.BillingInfo;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.Money;
-import com.expedia.bookings.data.TripBucketItemFlight;
+import com.expedia.bookings.data.trips.TripBucketItemFlight;
 import com.expedia.bookings.data.User;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.section.ISectionEditable.SectionChangeListener;

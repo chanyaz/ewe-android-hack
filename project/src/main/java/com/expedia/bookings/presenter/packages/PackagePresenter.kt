@@ -17,14 +17,12 @@ import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.cars.ApiError
 import com.expedia.bookings.data.packages.PackageCheckoutResponse
-import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.presenter.BaseOverviewPresenter
 import com.expedia.bookings.presenter.IntentPresenter
 import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.presenter.ScaleTransition
 import com.expedia.bookings.services.PackageServices
 import com.expedia.bookings.tracking.PackagesTracking
-import com.expedia.bookings.utils.CurrencyUtils
 import com.expedia.bookings.utils.Strings
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView

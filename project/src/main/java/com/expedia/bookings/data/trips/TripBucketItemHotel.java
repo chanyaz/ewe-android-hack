@@ -1,8 +1,16 @@
-package com.expedia.bookings.data;
+package com.expedia.bookings.data.trips;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import com.expedia.bookings.data.CreateTripResponse;
+import com.expedia.bookings.data.HotelAvailability;
+import com.expedia.bookings.data.HotelBookingResponse;
+import com.expedia.bookings.data.HotelSearch;
+import com.expedia.bookings.data.HotelSearchParams;
+import com.expedia.bookings.data.LineOfBusiness;
+import com.expedia.bookings.data.Property;
+import com.expedia.bookings.data.Rate;
 import com.mobiata.android.Log;
 import com.mobiata.android.json.JSONUtils;
 

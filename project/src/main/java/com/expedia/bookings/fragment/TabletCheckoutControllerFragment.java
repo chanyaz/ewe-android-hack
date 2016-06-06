@@ -28,7 +28,7 @@ import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Response;
 import com.expedia.bookings.data.ServerError;
-import com.expedia.bookings.data.TripBucketItem;
+import com.expedia.bookings.data.trips.TripBucketItem;
 import com.expedia.bookings.data.User;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.dialog.ThrobberDialog;

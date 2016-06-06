@@ -1,4 +1,4 @@
-package com.expedia.bookings.data;
+package com.expedia.bookings.data.trips;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -6,6 +6,11 @@ import java.util.List;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import com.expedia.bookings.data.BillingInfo;
+import com.expedia.bookings.data.LineOfBusiness;
+import com.expedia.bookings.data.Money;
+import com.expedia.bookings.data.PaymentType;
+import com.expedia.bookings.data.ValidPayment;
 import com.expedia.bookings.enums.TripBucketItemState;
 import com.expedia.bookings.utils.GsonUtil;
 import com.mobiata.android.Log;

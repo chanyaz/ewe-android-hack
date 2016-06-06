@@ -1,12 +1,14 @@
-package com.expedia.bookings.data;
+package com.expedia.bookings.data.trips;
 
+import com.expedia.bookings.data.LineOfBusiness;
+import com.expedia.bookings.data.ValidPayment;
 import com.expedia.bookings.data.lx.LXCreateTripResponse;
 import com.expedia.bookings.utils.CurrencyUtils;
 
-public class TripBucketItemTransport extends TripBucketItem {
+public class TripBucketItemLX extends TripBucketItem {
 	LXCreateTripResponse createTripResponse;
 
-	public TripBucketItemTransport(LXCreateTripResponse createTripResponse) {
+	public TripBucketItemLX(LXCreateTripResponse createTripResponse) {
 		this.createTripResponse = createTripResponse;
 		if (createTripResponse.validFormsOfPayment != null) {
 			for (ValidPayment payment : createTripResponse.validFormsOfPayment) {
@@ -18,7 +20,7 @@ public class TripBucketItemTransport extends TripBucketItem {
 
 	@Override
 	public LineOfBusiness getLineOfBusiness() {
-		return LineOfBusiness.TRANSPORT;
+		return LineOfBusiness.LX;
 	}
 
 	public LXCreateTripResponse getCreateTripResponse() {

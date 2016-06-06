@@ -23,7 +23,7 @@ import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.Location;
 import com.expedia.bookings.data.StoredCreditCard;
-import com.expedia.bookings.data.TripBucketItem;
+import com.expedia.bookings.data.trips.TripBucketItem;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.fragment.base.TabletCheckoutDataFormFragment;
 import com.expedia.bookings.interfaces.ICheckoutDataListener;

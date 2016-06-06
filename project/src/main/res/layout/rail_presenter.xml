@@ -1,9 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<merge xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
-
+<merge xmlns:android="http://schemas.android.com/apk/res/android">
     <com.expedia.bookings.presenter.rail.RailSearchPresenter
         android:id="@+id/widget_rail_search_presenter"
         android:layout_width="match_parent"

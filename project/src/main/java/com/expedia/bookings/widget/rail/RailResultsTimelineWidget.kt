@@ -8,7 +8,7 @@ import android.support.v4.content.ContextCompat
 import android.util.AttributeSet
 import android.view.View
 import com.expedia.bookings.R
-import com.expedia.bookings.data.rail.responses.RailSearchResponse
+import com.expedia.bookings.data.rail.responses.LegOption
 import java.util.HashMap
 import java.util.Random
 import kotlin.properties.Delegates
@@ -27,7 +27,7 @@ class RailResultsTimelineWidget(context: Context, attrs: AttributeSet?) : View(c
     var caretPadding by Delegates.notNull<Int>()
     val iconMap = HashMap<String, Drawable>()
 
-    private var leg by Delegates.notNull<RailSearchResponse.LegOption>()
+    private var leg by Delegates.notNull<LegOption>()
 
     init {
         separatorDrawable = ContextCompat.getDrawable(context, R.drawable.caret)
@@ -39,7 +39,7 @@ class RailResultsTimelineWidget(context: Context, attrs: AttributeSet?) : View(c
         horizontalSpacing = resources.getDimension(R.dimen.rail_timeline_spacing).toInt()
     }
 
-    fun updateLeg(leg: RailSearchResponse.LegOption) {
+    fun updateLeg(leg: LegOption) {
         this.leg = leg
         invalidate()
     }
@@ -54,10 +54,10 @@ class RailResultsTimelineWidget(context: Context, attrs: AttributeSet?) : View(c
         var first = true
 
 
-        leg.travelSegmentList.forEach {
+        leg.travelSegments.forEach {
             if (!first) {
                 // put down a separator first as long as we're not the first icon being drawn
-                iconRect.right = iconRect.left + (( separatorDrawable.intrinsicWidth.toFloat() / separatorDrawable.intrinsicHeight.toFloat()) * (drawableHeight - (2 * caretPadding)).toFloat()).toInt()
+                iconRect.right = iconRect.left + ((separatorDrawable.intrinsicWidth.toFloat() / separatorDrawable.intrinsicHeight.toFloat()) * (drawableHeight - (2 * caretPadding)).toFloat()).toInt()
                 iconRect.top = caretPadding
                 iconRect.bottom = measuredHeight - caretPadding
                 separatorDrawable.bounds = iconRect
@@ -67,7 +67,7 @@ class RailResultsTimelineWidget(context: Context, attrs: AttributeSet?) : View(c
             var relevantDrawable = findMappedDrawable()
             iconRect.top = 0;
             iconRect.bottom = measuredHeight
-            iconRect.right = iconRect.left + (( relevantDrawable.intrinsicWidth.toFloat() / relevantDrawable.intrinsicHeight.toFloat()) * drawableHeight.toFloat()).toInt()
+            iconRect.right = iconRect.left + ((relevantDrawable.intrinsicWidth.toFloat() / relevantDrawable.intrinsicHeight.toFloat()) * drawableHeight.toFloat()).toInt()
             relevantDrawable.bounds = iconRect
             relevantDrawable.draw(canvas)
 

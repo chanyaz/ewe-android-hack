@@ -3,7 +3,6 @@ package com.expedia.bookings.presenter.rail;
 import android.content.Context
 import android.util.AttributeSet
 import android.view.View
-import android.widget.Toast
 import com.expedia.bookings.R
 import com.expedia.bookings.data.rail.requests.RailSearchRequest
 import com.expedia.bookings.data.rail.responses.RailSearchResponse
@@ -41,7 +40,6 @@ class RailPresenter(context: Context, attrs: AttributeSet) : Presenter(context, 
                 val overviewHeader = tripOverviewPresenter.bundleOverviewHeader
                 overviewHeader.checkoutOverviewHeaderToolbar.visibility = View.VISIBLE
                 overviewHeader.toggleOverviewHeader(true)
-                tripOverviewPresenter.getCheckoutPresenter().toggleCheckoutButton(false)
                 tripOverviewPresenter.getCheckoutPresenter().resetAndShowTotalPriceWidget()
                 tripOverviewPresenter.getCheckoutPresenter().totalPriceWidget.viewModel.bundleTextLabelObservable.onNext(context.getString(R.string.total))
                 tripOverviewPresenter.getCheckoutPresenter().totalPriceWidget.viewModel.bundleTotalIncludesObservable.onNext(context.getString(R.string.includes_taxes_and_fees))
@@ -67,10 +65,7 @@ class RailPresenter(context: Context, attrs: AttributeSet) : Presenter(context, 
     init {
         Ui.getApplication(context).railComponent().inject(this)
         View.inflate(context, R.layout.rail_presenter, this)
-        addTransition(searchToResults)
-        addTransition(resultsToDetails)
-        addTransition(detailsToOverview)
-        addTransition(checkoutToSearch)
+        addTransitions()
 
         resultsPresenter.setOnClickListener { transitionToDetails() }
         tripOverviewPresenter.setOnClickListener { transitionToSearch() } //todo - should show confirmation
@@ -89,13 +84,20 @@ class RailPresenter(context: Context, attrs: AttributeSet) : Presenter(context, 
         }
         resultsPresenter.offerSelectedObserver = offerSelectedObserver
         detailsPresenter.viewmodel = RailDetailsViewModel(context)
-        detailsPresenter.viewmodel.offerSelectedObservable.subscribe {
-            Toast.makeText(context, it.railProductList.first().aggregatedFareDescription, Toast.LENGTH_LONG).show()
-            tripOverviewPresenter.railTripSummary.outboundLegSummary.viewModel.railOfferObserver.onNext(it)
+        detailsPresenter.viewmodel.offerSelectedObservable.subscribe { offer ->
             transitionToTripSummary()
+            tripOverviewPresenter.railTripSummary.outboundLegSummary.viewModel.railOfferObserver.onNext(offer)
+            tripOverviewPresenter.getCheckoutPresenter().getCreateTripViewModel().offerCodeSelectedObservable.onNext(offer.railOfferToken)
         }
 
         show(searchPresenter)
+    }
+
+    private fun addTransitions() {
+        addTransition(searchToResults)
+        addTransition(resultsToDetails)
+        addTransition(detailsToOverview)
+        addTransition(checkoutToSearch)
     }
 
     private fun transitionToSearch() {

@@ -416,7 +416,7 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet) : Pre
     private fun View.setVisibility(forward: Boolean) {
         this.visibility = if (forward) View.GONE else View.VISIBLE
     }
-    
+
     fun resetAndShowTotalPriceWidget() {
         var countryCode = PointOfSale.getPointOfSale().threeLetterCountryCode
         var currencyCode = CurrencyUtils.currencyForLocale(countryCode)
@@ -427,7 +427,7 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet) : Pre
                         .format().toString()))
     }
 
-    abstract fun getLineOfBusiness() : LineOfBusiness
+    abstract fun getLineOfBusiness(): LineOfBusiness
     abstract fun updateTravelerPresenter()
     abstract fun trackShowSlideToPurchase()
     abstract fun trackShowBundleOverview()

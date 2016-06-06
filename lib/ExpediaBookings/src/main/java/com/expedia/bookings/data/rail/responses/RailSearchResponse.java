@@ -5,10 +5,9 @@ import java.util.List;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.joda.time.DateTime;
 
+import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.rail.RailPassenger;
-import com.expedia.bookings.utils.DateUtils;
 
 public class RailSearchResponse {
 
@@ -41,112 +40,12 @@ public class RailSearchResponse {
 		public String legIndex;
 		public RailStation departureStation;
 		public RailStation arrivalStation;
-		public List<LegOption> legOptionList;
-	}
-
-	public static class RailDateTime {
-		public String raw;
-		public Long epochSeconds;
-		public String localized;
-		public String localizedShortDate;
-
-		public DateTime toDateTime() {
-			return DateTime.parse(raw);
-		}
-	}
-
-	public static class RailMoney {
-		public String amount;
-		public String currencyCode;
-		public String formattedPrice;
-		public String formattedWholePrice;
-	}
-
-	public static class LegOption {
-		public Integer legOptionIndex;
-		public RailStation departureStation;
-		public RailStation arrivalStation;
-		public RailDateTime departureDateTime;
-		public RailDateTime arrivalDateTime;
-		public String duration;  //ISO duration format P[yY][mM][dD][T[hH][mM][s[.s]S]]
-		public String aggregatedMarketingCarrier;
-		public String aggregatedOperatingCarrier;
-		public RailMoney bestPrice;
-		public List<RailSegment> travelSegmentList;
-
-
-		public int durationMinutes() {
-			return DateUtils.parseDurationMinutes(duration);
-		}
-
-		public String allOperators() {
-			boolean first = true;
-			String result = "";
-			for (RailSegment segment : travelSegmentList) {
-				if (!first) {
-					result += ", ";
-				}
-				result += segment.marketingCarrier;
-				first = false;
-			}
-
-			return result;
-		}
-
-		@NotNull
-		public DateTime getDepartureDateTime() {
-			return departureDateTime.toDateTime();
-		}
-
-		@NotNull
-		public DateTime getArrivalDateTime() {
-			return arrivalDateTime.toDateTime();
-		}
-
-		public int changesCount() {
-			return travelSegmentList.size() - 1;
-		}
-	}
-
-	public static class RailSegment {
-		public String travelMode;
-		public RailStation departureStation;
-		public RailStation arrivalStation;
-		public RailDateTime departureDateTime;
-		public RailDateTime arrivalDateTime;
-		public String marketingCarrier; //"Virgin"
-		public String operatingCarrier; //"Virgin"
-		public String duration;
-		public RailTravelMedium travelMedium;
-		public String travelSegmentIndex;
-
-		public boolean isTransfer() {
-			return !"Train".equals(travelMode);
-		}
-
-		public static class RailTravelMedium {
-			public String travelMediumCode; //"ICY"
-			public String travelMediumName; //"Inter-City"
-		}
-
-		public int durationMinutes() {
-			return DateUtils.parseDurationMinutes(duration);
-		}
-
-		@NotNull
-		public DateTime getDepartureDateTime() {
-			return departureDateTime.toDateTime();
-		}
-
-		@NotNull
-		public DateTime getArrivalDateTime() {
-			return arrivalDateTime.toDateTime();
-		}
+		public List<SearchLegOption> legOptionList;
 	}
 
 	public static class RailOffer {
-		public RailMoney totalPrice;
-		public List<RailProduct> railProductList;
+		public Money totalPrice;
+		public List<RailSearchProduct> railProductList;
 		public String railOfferToken;
 		//TODO Add price breakdown
 
@@ -154,7 +53,7 @@ public class RailSearchResponse {
 		public LegOption outboundLeg; //set in code on the offer when the leg/offer combo is selected
 
 		public boolean containsLegOptionId(Integer legOptionId) {
-			for (RailProduct product : railProductList) {
+			for (RailSearchProduct product : railProductList) {
 				for (Integer legId : product.legOptionIndexList) {
 					if (legOptionId.equals(legId)) {
 						return true;
@@ -164,8 +63,8 @@ public class RailSearchResponse {
 			return false;
 		}
 
-		public static class RailProduct {
-			public RailMoney totalPrice;
+		public static class RailSearchProduct {
+			public Money totalPrice;
 			public List<Integer> legOptionIndexList;
 			public List<FareBreakdown> fareBreakdownList;
 			public String serviceClassCode;

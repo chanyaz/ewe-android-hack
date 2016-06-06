@@ -1,5 +1,7 @@
-package com.expedia.bookings.data;
+package com.expedia.bookings.data.trips;
 
+import com.expedia.bookings.data.LineOfBusiness;
+import com.expedia.bookings.data.ValidPayment;
 import com.expedia.bookings.data.hotels.HotelCreateTripResponse;
 import com.expedia.bookings.data.payment.PointsAndCurrency;
 import com.expedia.bookings.services.HotelCheckoutResponse;
