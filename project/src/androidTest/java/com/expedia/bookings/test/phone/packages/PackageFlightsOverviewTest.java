@@ -17,10 +17,8 @@ import static android.support.test.espresso.matcher.ViewMatchers.hasDescendant;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
-import static com.expedia.bookings.test.espresso.CustomMatchers.withContentDescription;
 import static org.hamcrest.CoreMatchers.allOf;
 import static org.hamcrest.Matchers.not;
-import static com.expedia.bookings.test.espresso.CustomMatchers.atFlightListPosition;
 
 public class PackageFlightsOverviewTest extends PackageTestCase {
 
@@ -43,8 +41,6 @@ public class PackageFlightsOverviewTest extends PackageTestCase {
 		Common.delay(1);
 		PackageScreen.flightsToolbar().check(matches(hasDescendant(CoreMatchers.allOf(isDisplayed(), withText("Select flight to Detroit, MI")))));
 		checkToolBarMenuItemsVisibility(true);
-
-		PackageScreen.flightList().check(matches(atFlightListPosition(1, withContentDescription("Flight time is 9:00 am - 11:12 am with price difference of +$0. Flying with United and the flight duration is 5 hours 12 minutes. Click to view flight details"))));
 		PackageScreen.selectFlight(1);
 		PackageScreen.flightsToolbar().check(matches(hasDescendant(CoreMatchers.allOf(isDisplayed(), withText("Flight to Detroit, MI")))));
 		checkToolBarMenuItemsVisibility(false);
