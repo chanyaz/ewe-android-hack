@@ -104,7 +104,7 @@ public class NewLaunchLobAdapterTest {
 
 		vh.bind(NewLaunchLobAdapter.LobInfo.HOTELS, false);
 		vh.onClick(mockItemView);
-		Mockito.verify(mockListener).onHotelsLobClick();
+		Mockito.verify(mockListener).onHotelsLobClick(mockItemView);
 
 		vh.bind(NewLaunchLobAdapter.LobInfo.FLIGHTS, false);
 		vh.onClick(mockItemView);
