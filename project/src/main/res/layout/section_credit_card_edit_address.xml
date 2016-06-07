@@ -59,6 +59,7 @@
 
             <Spinner
                 android:id="@+id/edit_country_spinner"
+                style="@style/FakeSpinner.Light"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
         </LinearLayout>
