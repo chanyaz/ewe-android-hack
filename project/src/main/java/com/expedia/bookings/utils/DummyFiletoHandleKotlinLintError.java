@@ -637,6 +637,9 @@ DummyFiletoHandleKotlinLintError {
 		R.string.packages_add_adult_traveler_contdesc,
 		R.string.packages_remove_adult_traveler_contdesc,
 		R.string.packages_add_child_traveler_contdesc,
-		R.string.packages_remove_child_traveler_contdesc
+		R.string.packages_remove_child_traveler_contdesc,
+		R.string.bundle_overview_price_widget,
+		R.string.bundle_overview_price_widget_button_open,
+		R.string.bundle_overview_price_widget_button_close
 	};
 }

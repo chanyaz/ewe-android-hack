@@ -9,6 +9,8 @@
         android:layout_marginRight="13dp"
         android:src="@drawable/read_more"
         android:tint="@color/packages_bundle_overview_footer_primary_text"
+        android:contentDescription="@null"
+        android:focusable="false"
         android:visibility="gone" />
 
     <FrameLayout

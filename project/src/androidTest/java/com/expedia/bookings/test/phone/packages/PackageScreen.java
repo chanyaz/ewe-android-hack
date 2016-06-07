@@ -210,6 +210,14 @@ public class PackageScreen {
 		return onView(allOf(isDescendantOfA(withId(R.id.package_bundle_hotel_widget)), withId(R.id.row_container)));
 	}
 
+	public static ViewInteraction bundleTotalFooterWidget() {
+		return onView(withId(R.id.total_price_widget));
+	}
+
+	public static ViewInteraction bundleTotalSlidingWidget() {
+		return onView(withId(R.id.bundle_price_widget));
+	}
+
 	public static ViewInteraction addRoom() {
 		return onView(
 			allOf(
