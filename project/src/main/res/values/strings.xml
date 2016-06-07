@@ -4159,6 +4159,8 @@
     <string name="packages_add_child_traveler_contdesc">Add one child traveler</string>
     <!--Traveler widget child minus button content description-->
     <string name="packages_remove_child_traveler_contdesc">Remove one child traveler</string>
+    <!--Packages search child age drop down content description Eg. "Select age for child 1"-->
+    <string name="packages_search_child_drop_down_TEMPLATE">Select age for child {childnumber}</string>
     <!--Packages accessibility flight search filter-->
     <!--Content description for "SHOW MORE" button in filter used for Talkback-->
     <string name="packages_flight_search_filter_show_more_cont_desc">Click here to show more airlines</string>
