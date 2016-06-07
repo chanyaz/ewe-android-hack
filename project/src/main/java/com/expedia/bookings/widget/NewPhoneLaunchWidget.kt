@@ -63,6 +63,7 @@ class NewPhoneLaunchWidget(context: Context, attrs: AttributeSet) : FrameLayout(
     private var wasHotelsDownloadEmpty = false
     private var isAirAttachDismissed = false
     private var launchDataTimeStamp: DateTime? = null
+    private var isPOSChanged = false
 
     val fab: FloatingActionButton  by bindView(R.id.fab)
 
@@ -99,6 +100,8 @@ class NewPhoneLaunchWidget(context: Context, attrs: AttributeSet) : FrameLayout(
 
     var hasInternetConnection = BehaviorSubject.create<Boolean>()
     var showAirAttachBanner = BehaviorSubject.create<Boolean>()
+    var currentLocationSubject = BehaviorSubject.create<Location>()
+    var locationNotAvailable = BehaviorSubject.create<Unit>()
 
     private val darkView: View by bindView(R.id.darkness)
 
@@ -195,6 +198,29 @@ class NewPhoneLaunchWidget(context: Context, attrs: AttributeSet) : FrameLayout(
                     airAttachBanner.visibility = View.GONE
                 }
             })
+        }
+
+        currentLocationSubject.subscribe { currentLocation ->
+            launchListWidget.visibility = View.VISIBLE
+            launchError.visibility = View.GONE
+            if (isNearByHotelDataExpired() || isPOSChanged) {
+                isPOSChanged = false
+                val params = buildHotelSearchParams(currentLocation)
+                downloadSubscription = hotelServices.nearbyHotels(params, getNearByHotelObserver())
+                launchDataTimeStamp = DateTime.now()
+                launchListWidget.showListLoadingAnimation()
+            }
+        }
+
+        locationNotAvailable.subscribe {
+            launchListWidget.visibility = View.VISIBLE
+            launchListWidget.showListLoadingAnimation()
+            val country = PointOfSale.getPointOfSale().twoLetterCountryCode.toLowerCase(Locale.US)
+            val localeCode = PointOfSale.getPointOfSale().localeIdentifier
+            launchDataTimeStamp = null
+            downloadSubscription = collectionServices.getPhoneCollection(
+                    ProductFlavorFeatureConfiguration.getInstance().phoneCollectionId, country, localeCode,
+                    collectionDownloadListener)
         }
     }
 
@@ -336,24 +362,6 @@ class NewPhoneLaunchWidget(context: Context, attrs: AttributeSet) : FrameLayout(
         Log.i(TAG, "On Launch or Resume event" + event)
     }
 
-    // Hotel Search
-    @Suppress("unused")
-    @Subscribe
-    fun onLocationFound(event: Events.LaunchLocationFetchComplete) {
-        val loc = event.location
-        Log.i(TAG, "Start hotel search")
-        launchListWidget.visibility = View.VISIBLE
-        launchError.visibility = View.GONE
-
-        if (isNearByHotelDataExpired()) {
-            val params = buildHotelSearchParams(loc)
-            downloadSubscription = hotelServices.nearbyHotels(params, getNearByHotelObserver())
-            launchDataTimeStamp = DateTime.now()
-            launchListWidget.showListLoadingAnimation()
-        }
-
-    }
-
     private fun buildHotelSearchParams(loc: Location): NearbyHotelParams {
         val currentDate = LocalDate()
         val dtf = ISODateTimeFormat.date()
@@ -406,20 +414,6 @@ class NewPhoneLaunchWidget(context: Context, attrs: AttributeSet) : FrameLayout(
         return downloadListener
     }
 
-    @Suppress("unused")
-    @Subscribe
-    fun onLocationNotAvailable(event: Events.LaunchLocationFetchError) {
-        Log.i(TAG, "Start collection download " + event)
-        launchListWidget.visibility = View.VISIBLE
-        launchListWidget.showListLoadingAnimation()
-        val country = PointOfSale.getPointOfSale().twoLetterCountryCode.toLowerCase(Locale.US)
-        val localeCode = PointOfSale.getPointOfSale().localeIdentifier
-        launchDataTimeStamp = null
-        downloadSubscription = collectionServices.getPhoneCollection(
-                ProductFlavorFeatureConfiguration.getInstance().phoneCollectionId, country, localeCode,
-                collectionDownloadListener)
-    }
-
     private val collectionDownloadListener = object : Observer<Collection> {
         override fun onCompleted() {
             cleanup()
@@ -439,7 +433,7 @@ class NewPhoneLaunchWidget(context: Context, attrs: AttributeSet) : FrameLayout(
     }
 
     private fun isNearByHotelDataExpired(): Boolean {
-        return launchDataTimeStamp == null || JodaUtils.isExpired(launchDataTimeStamp, MINIMUM_TIME_AGO)
+        return launchDataTimeStamp == null || JodaUtils.isExpired(launchDataTimeStamp, MINIMUM_TIME_AGO)  || isPOSChanged
 
     }
 
@@ -448,6 +442,14 @@ class NewPhoneLaunchWidget(context: Context, attrs: AttributeSet) : FrameLayout(
     }
 
     fun onPOSChanged() {
+        isPOSChanged = true
+        Ui.getApplication(context).defaultLaunchComponents()
+        Ui.getApplication(context).launchComponent().inject(this)
+        if (currentLocationSubject.value != null) {
+            currentLocationSubject.onNext(currentLocationSubject.value)
+        } else {
+            locationNotAvailable.onNext(Unit)
+        }
         lobView.onPOSChange();
         launchListWidget.onPOSChange();
         adjustLobViewHeight();
