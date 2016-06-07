@@ -241,8 +241,12 @@ class NewPhoneLaunchActivity : AbstractAppCompatActivity(), IPhoneLaunchFragment
                 when (position) {
                     PAGER_POS_LAUNCH -> gotoWaterfall()
                     PAGER_POS_ITIN -> gotoItineraries()
-                    PAGER_POS_ACCOUNT -> viewPager.currentItem = PAGER_POS_ACCOUNT
+                    PAGER_POS_ACCOUNT -> {
+                        viewPager.currentItem = PAGER_POS_ACCOUNT
+                        OmnitureTracking.trackAccountPageLoad()
+                    }
                 }
+                OmnitureTracking.trackGlobalNavigation(viewPager.currentItem)
             }
         }
     }

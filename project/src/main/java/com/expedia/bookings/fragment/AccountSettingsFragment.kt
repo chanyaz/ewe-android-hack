@@ -292,10 +292,6 @@ class AccountSettingsFragment : Fragment(),
 
         openSourceCredits.text = getString(R.string.this_app_makes_use_of_the_following) + " " + getString(R.string.open_source_names) + "\n\n" + (
                 getString(R.string.stack_blur_credit))
-        // Tracking
-        if (savedInstanceState == null) {
-            OmnitureTracking.trackAccountPageLoad()
-        }
 
         signInButton.setOnClickListener {
             val args = AccountLibActivity.createArgumentsBundle(LineOfBusiness.PROFILE, Config.InitialState.SignIn, null)
@@ -332,7 +328,6 @@ class AccountSettingsFragment : Fragment(),
 
     override fun onResume() {
         super.onResume()
-        OmnitureTracking.trackAccountPageLoad()
         adjustLoggedInViews()
         scrollContainer.viewTreeObserver.addOnScrollChangedListener(scrollListener)
     }

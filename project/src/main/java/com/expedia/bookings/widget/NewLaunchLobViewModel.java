@@ -15,6 +15,7 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.utils.AnimUtils;
+import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.NavigationHelper;
 
 public class NewLaunchLobViewModel implements NewLaunchLobAdapter.OnLobClickListener {
@@ -86,25 +87,34 @@ public class NewLaunchLobViewModel implements NewLaunchLobAdapter.OnLobClickList
 	public void onHotelsLobClick(View view) {
 		Bundle animOptions = AnimUtils.createActivityScaleBundle(view);
 		nav.goToHotels(animOptions);
+		trackLobNavigation(LineOfBusiness.HOTELS);
 	}
 
 	@Override
 	public void onFlightsLobClick() {
 		nav.goToFlights(null);
+		trackLobNavigation(LineOfBusiness.FLIGHTS);
 	}
 
 	@Override
 	public void onCarsLobClick() {
 		nav.goToCars(null);
+		trackLobNavigation(LineOfBusiness.CARS);
 	}
 
 	@Override
 	public void onActivitiesLobClick() {
 		nav.goToActivities(null);
+		trackLobNavigation(LineOfBusiness.LX);
 	}
 
 	@Override
 	public void onTransportLobClick() {
 		nav.goToTransport(null);
+		trackLobNavigation(LineOfBusiness.TRANSPORT);
+	}
+
+	private void trackLobNavigation(LineOfBusiness lineOfBusiness) {
+		OmnitureTracking.trackNewLaunchScreenLobNavigation(lineOfBusiness);
 	}
 }

@@ -3481,6 +3481,7 @@ public class OmnitureTracking {
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 	private static final String LAUNCH_SCREEN = "App.LaunchScreen";
+	private static final String LAUNCH_SCREEN_GLOBAL_NAVIGATION = "App.Global";
 	private static final String LOGIN_SCREEN = "App.Account.SignIn";
 	private static final String LOGIN_SUCCESS = "App.Account.Login.Success";
 	private static final String LOGIN_CONTACT_ACCESS = "App.Account.Create.AccessInfo";
@@ -3628,6 +3629,7 @@ public class OmnitureTracking {
 		if (isFirstAppLaunch && !User.isLoggedIn(sContext)) {
 			trackAbacusTest(s, AbacusUtils.EBAndroidAppShowSignInOnLaunch);
 		}
+		trackAbacusTest(s, AbacusUtils.EBAndroidAppLaunchScreenTest);
 		s.setProp(2, "storefront");
 		s.setEvar(2, "storefront");
 		s.track();
@@ -3648,6 +3650,24 @@ public class OmnitureTracking {
 		s.setAppState(ACCOUNT_SCREEN);
 		s.setEvar(18, ACCOUNT_SCREEN);
 		s.track();
+	}
+
+	public static void trackGlobalNavigation(int tabPosition) {
+		String link = LAUNCH_SCREEN_GLOBAL_NAVIGATION;
+		switch (tabPosition) {
+		case 0:
+			link += ".Shop";
+			break;
+		case 1:
+			link += ".Trips";
+			break;
+		case 2:
+			link += ".Info";
+			break;
+		}
+		ADMS_Measurement s = createTrackLinkEvent(link);
+
+		s.trackLink(null, "o", "App Landing", null, null);
 	}
 
 	public static void trackClickCountrySetting() {
