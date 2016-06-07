@@ -34,13 +34,6 @@
         </activity>
 
         <activity
-            android:name="com.expedia.ui.NewPhoneLaunchActivity"
-            android:launchMode="singleTop"
-            android:screenOrientation="portrait"
-            android:theme="@style/NewLaunchTheme">
-        </activity>
-
-        <activity
             android:name="com.expedia.ui.PackageHotelActivity"
             android:configChanges="screenSize|orientation|keyboardHidden"
             android:launchMode="singleTop"

@@ -120,6 +120,15 @@
             android:screenOrientation="portrait"
             android:theme="@style/LaunchTheme" />
 
+        <!-- Phone New launch -->
+
+        <activity
+            android:name="com.expedia.ui.NewPhoneLaunchActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            android:theme="@style/NewLaunchTheme">
+        </activity>
+
         <!-- Itineraries -->
 
         <activity
