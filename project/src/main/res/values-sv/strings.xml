@@ -305,6 +305,8 @@
     <string name="lx_toolbar_date_range_template">%1$s - %2$s</string>
     <!--LX Search widget header text -->
     <string name="lx_search_title">Sök aktiviteter</string>
+    <!--LX Search widget header text -->
+    <string name="lx_select_a_category_title">Välj kategori</string>
     <!--GT Search widget header text -->
     <string name="gt_search_title">Sök transport</string>
     <!-- Button to show calendar and selected dates -->
@@ -630,6 +632,30 @@
     <string name="per_ticket_type_segway">per segway</string>
     <string name="per_ticket_type_vehicle">per fordon</string>
 
+    <!-- LX Themes &  their description-->
+    <string name="top_rated_activities">De populäraste aktiviteterna</string>
+    <string name="top_rated_activities_description">De mest rekommenderade aktiviteterna av kunder som du</string>
+
+    <string name="adventure_around">Äventyret väntar</string>
+    <string name="adventure_around_description">Upptäck din destination med dagsturer och fantastiska utflykter</string>
+
+    <string name="see_the_sights">Ta in sevärdheterna</string>
+    <string name="see_the_sights_description">Vandra, cykla eller ta bussen för att se allt som området har att erbjuda</string>
+
+    <string name="tour_the_area">Undersök området</string>
+    <string name="tour_the_area_description">Gör en rundtur för att lära dig mer om stadens historia och nutid</string>
+
+    <string name="fun_for_the_family">Nöjen för hela familjen</string>
+    <string name="fun_for_the_family_description">Familjevänliga aktiviteter som erbjuder något för alla åldrar</string>
+
+    <string name="pure_entertainment">Ren underhållning</string>
+    <string name="pure_entertainment_description">Sport, nöjesparker och föreställningar</string>
+
+    <string name="eat_play_enjoy">Ät gott, roa dig och koppla av</string>
+    <string name="eat_play_enjoy_description">Mat och dryck, uteliv och alla sorters avkoppling</string>
+
+    <string name="all_things_to_do_description">En lista med alla tillgängliga aktiviteter för dina valda datum.</string>
+
     <!-- LX Strings -->
     <!-- Slide to book -->
     <string name="lx_slider_text">Dra för att boka</string>
@@ -656,11 +682,13 @@
     <!-- Text for traveler age dialog box when age is invalid-->
     <string name="traveler_age_title">Resenärs ålder</string>
     <!-- Text for traveler infant error-->
-    <string name="traveler_infant_error">Spädbarnet måste vara yngre än 2 år</string>
+    <string name="traveler_infant_error">Resenären måste vara yngre än 24 månader gammal under hela resan för att resa som spädbarn</string>
     <!-- Text for traveler child error-->
-    <string name="traveler_child_error">Barnet måste vara 2-17 år</string>
+    <string name="traveler_child_error">Resenären måste vara yngre än 12 år under hela resan för att resa som barn</string>
+    <!-- Text for traveler adult child error-->
+    <string name="traveler_adult_child_error">Resenären måste vara mellan 12 och 17 år vid resan</string>
     <!-- Text for traveler adult error-->
-    <string name="traveler_adult_error">Denna vuxen måste vara äldre än 18 år</string>
+    <string name="traveler_adult_error">Resenären måste vara minst 18 år gammal</string>
     <!-- Text informing guest that main travler is checking into hotel-->
     <string name="traveler_main_message">Huvudresenären måste checka in på hotellet. Måste vara minst 18 år.</string>
     <!-- Text for enter traveler details-->
@@ -992,6 +1020,10 @@
     <string name="launch_mobile_exclusive">endast mobil!</string>
     <!-- Expedia Deal for a given property, tonight only -->
     <string name="launch_tonight_only">endast ikväll!</string>
+    <!-- Label for button to navigate to the car rental line of business -->
+    <string name="nav_car_rentals">Hyrbilar</string>
+    <!-- Label for button to navigate to the Activities / Things to Do line of business -->
+    <string name="nav_things_to_do">Saker att göra</string>
 
     <!-- Error message when we can't connect -->
     <string name="error_launch_connection">Tyvärr kan vi inte ansluta.</string>
@@ -1082,7 +1114,7 @@
     <!-- Enter itinerary number -->
     <string name="enter_itinerary_number">Ange resplansnummer</string>
     <!-- Enter a Guest itinerary number -->
-    <string name="or_enter_a_guest_itinerary_number">Eller ange en gästresplan</string>
+    <string name="enter_a_guest_itinerary_number">Ange en gästresplan</string>
     <!-- Fetching your itinerary -->
     <string name="fetching_your_itinerary">Hämtar dina resplaner…</string>
     <!-- Error fetching itinerary -->
@@ -1742,8 +1774,8 @@
     <string name="calendar_tooltip_bottom_select_return_date">(Valfritt) Välj datum för återresa</string>
     <!-- Calendar tooltip bottom line after two dates are selected E.g. Drag End Dates to Modify -->
     <string name="calendar_tooltip_bottom_drag_to_modify">Drag slutdatum för att ändra</string>
-    <!-- Calendar instruction text hotels date range template. %1$s = Formatted start date, %2$s = formatted end date. E.g. May 12 - May 15 -->
-    <string name="calendar_instructions_date_range_TEMPLATE">%1$s - %2$s</string>
+    <!-- Calendar instruction text hotels date range template. {startdate} = Formatted start date, {enddate} = formatted end date. E.g. May 12 - May 15 -->
+    <string name="calendar_instructions_date_range_TEMPLATE">{startdate} - {enddate}</string>
     <!-- Calendar instructions flight start date selected and label indicating this will be a one way search -->
     <string name="calendar_instructions_date_range_flight_one_way_TEMPLATE">{startdate} (Enkel)</string>
 
@@ -2182,7 +2214,8 @@
         <item quantity="one">+ {travelercount} resenär</item>
         <item quantity="other">+ {travelercount} resenärer</item>
     </plurals>
-    <string name="checkout_edit_traveler_TEMPLATE">Ändra resenär {travelernumber} ({passengercategory})</string>
+    <string name="checkout_edit_traveler_TEMPLATE">Ändra resenär {travelernumber} ({passengerage})</string>
+    <string name="traveler_child_age_TEMPLATE">{age} år</string>
     <!-- Save traveler dialog -->
     <!-- save traveler -->
     <string name="save_traveler">Spara resenär</string>
@@ -2216,6 +2249,8 @@
     <string name="last_name">Efternamn</string>
     <!-- date of birth label -->
     <string name="date_of_birth">Födelsedatum</string>
+    <!-- default value for the gender drop down on checkout -->
+    <string name="gender">Kön</string>
     <!-- male -->
     <string name="male">Man</string>
     <!-- female -->
@@ -2690,6 +2725,8 @@
     <string name="From_x_per_night_template">Från %s/natt</string>
     <!-- Button text prompting the user to search this area on the map -->
     <string name="Search_this_area">Sök det här området</string>
+    <!-- Map pin text for sold out hotel(s)-->
+    <string name="sold_out">Slutsålt</string>
     <!-- Map cluster text for number of hotels-->
     <string name="cluster_number_of_hotels_template">%s hotell</string>
     <!-- Map cluster price from range-->
@@ -3833,6 +3870,10 @@
     <!-- Packages -->
 
     <!-- Label for package search toolbar -->
+    <!-- Accessibility - Content Description for toolbar close button -->
+    <string name="package_toolbar_close_content_description">Stäng sökskärm</string>
+    <!-- Accessibility - Content Description for toolbar back button when entering destination/arrival -->
+    <string name="package_toolbar_back_to_search_content_description">Tillbaka till sökskärm</string>
     <string name="package_toolbar_title">Hotell + Flyg</string>
     <!-- Label for per person -->
     <string name="per_person">per person</string>
@@ -4089,4 +4130,28 @@
     <string name="reward_middle_tier_name_short">+silver</string>
     <!-- Short name for rewards top tier -->
     <string name="reward_top_tier_name_short">+gold</string>
+    <!-- Flight Detail card view content description for accessibility.
+         Example: Flight time is 10am - 12:30pm with price difference of $25. Flying with United and the flight duration is 2 hours 30 minutes. Click to view flight details -->
+    <string name="flight_detail_card_content_description">Flygtiden är {time} med en prisskillnad på {pricedifference}. Flyg med {airline} där restiden är {hours} timmar {minutes} minuter. Klicka för att se flyguppgifter</string>
+
+    <!--Packages search accessibility -->
+    <!--Flying to card content description Eg. Flying to San Francisco, CA (SFO-San Francisco Intl.)-->
+    <string name="packages_search_flying_to_content_description">Flyger till {to_destination}</string>
+    <!--Flying from card content description Eg. Flying from Detroit, MI (DTW-Detroit Metropolitan Wayne County)-->
+    <string name="packages_search_flying_from_content_description">Flyger från {from_destination}</string>
+    <!--Flying to card content description before a location is selected-->
+    <string name="packages_search_flying_to_content_description_initial">Klicka här för att välja vart du vill flyga</string>
+    <!--Flying from card content description before a location is selected-->
+    <string name="packages_search_flying_from_content_description_initial">Klicka här för att välja varifrån du vill flyga</string>
+    <!--Travel dates card content description before date range is selected-->
+    <string name="packages_search_dates_content_description_initial">Klicka här för att välja dina resedatum</string>
+    <!--Packages search date format template for accessible dates (Talkback announces date range with 'to' in between) Eg. Jun 2 to Jun 5-->
+    <string name="packages_search_accessible_date_range_TEMPLATE">{startdate} till {enddate}</string>
+    <!--Packages search dates content description for Talkback to indicate what the date range is and how many nights the trip is for-->
+    <string name="packages_search_dates_content_description_trip">Din resa är från {date_range} i {nights}</string>
+    <!--Packages accessibility flight search filter-->
+    <!--Content description for "SHOW MORE" button in filter used for Talkback-->
+    <string name="packages_flight_search_filter_show_more_cont_desc">Klicka här för att se fler flygbolag</string>
+    <!--Content description for "SHOW LESS" button in filter used for Talkback-->
+    <string name="packages_flight_search_filter_show_less_cont_desc">Klicka här för att se färre flygbolag</string>
 </resources>

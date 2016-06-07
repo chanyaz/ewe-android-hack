@@ -45,7 +45,7 @@
     <!-- Cars -->
     <!-- Cars Calendar Strings -->
     <!-- Tooltip description for selecting the start date -->
-    <string name="cars_calendar_start_date_label">下一步：選擇回程日期</string>
+    <string name="cars_calendar_start_date_label">下一步：選擇還車日期</string>
     <!-- Tooltip description when both start and end dates are selected -->
     <string name="cars_calendar_end_date_label">拖曳以修改</string>
     <!-- SeekBar tooltip description for pick up time-->
@@ -305,6 +305,8 @@
     <string name="lx_toolbar_date_range_template">%1$s - %2$s</string>
     <!--LX Search widget header text -->
     <string name="lx_search_title">搜尋活動</string>
+    <!--LX Search widget header text -->
+    <string name="lx_select_a_category_title">選擇類別</string>
     <!--GT Search widget header text -->
     <string name="gt_search_title">搜尋交通</string>
     <!-- Button to show calendar and selected dates -->
@@ -630,6 +632,30 @@
     <string name="per_ticket_type_segway">每部賽格威</string>
     <string name="per_ticket_type_vehicle">每部車</string>
 
+    <!-- LX Themes &  their description-->
+    <string name="top_rated_activities">評分最高</string>
+    <string name="top_rated_activities_description">旅客最強力推薦的活動</string>
+
+    <string name="adventure_around">四處遊歷</string>
+    <string name="adventure_around_description">探索、一日遊或搜尋當地最適合的遊覽行程</string>
+
+    <string name="see_the_sights">欣賞美景</string>
+    <string name="see_the_sights_description">利用步行、單車或巴士，欣賞當地的美景</string>
+
+    <string name="tour_the_area">當地導覽</string>
+    <string name="tour_the_area_description">參加導覽活動，了解城市的歷史故事和最新發展</string>
+
+    <string name="fun_for_the_family">親子同歡</string>
+    <string name="fun_for_the_family_description">所有年齡都適合的親子活動</string>
+
+    <string name="pure_entertainment">純粹娛樂</string>
+    <string name="pure_entertainment_description">運動賽事、主題樂園和各種表演</string>
+
+    <string name="eat_play_enjoy">吃喝玩樂</string>
+    <string name="eat_play_enjoy_description">餐飲、夜生活和各種休閒放鬆的活動</string>
+
+    <string name="all_things_to_do_description">您所選日期所有可參加之當地玩樂的活動清單。</string>
+
     <!-- LX Strings -->
     <!-- Slide to book -->
     <string name="lx_slider_text">滑動以預訂</string>
@@ -656,11 +682,13 @@
     <!-- Text for traveler age dialog box when age is invalid-->
     <string name="traveler_age_title">旅客年齡</string>
     <!-- Text for traveler infant error-->
-    <string name="traveler_infant_error">這位嬰兒必須為 2 歲以下</string>
+    <string name="traveler_infant_error">此旅客在整個行程期間必須未滿 24 個月以適用嬰兒價格</string>
     <!-- Text for traveler child error-->
-    <string name="traveler_child_error">這位兒童必須為 2-17 歲</string>
+    <string name="traveler_child_error">此旅客在整個行程期間必須未滿 12 歲以適用兒童價格</string>
+    <!-- Text for traveler adult child error-->
+    <string name="traveler_adult_child_error">此旅客在行程期間必須介於 12 至 17 歲</string>
     <!-- Text for traveler adult error-->
-    <string name="traveler_adult_error">這位成人必須為 18 歲以上</string>
+    <string name="traveler_adult_error">此旅客必須為 18 歲或以上</string>
     <!-- Text informing guest that main travler is checking into hotel-->
     <string name="traveler_main_message">主要旅客必須入住飯店。必須年滿 18 歲。</string>
     <!-- Text for enter traveler details-->
@@ -992,6 +1020,10 @@
     <string name="launch_mobile_exclusive">只限行動裝置預訂！</string>
     <!-- Expedia Deal for a given property, tonight only -->
     <string name="launch_tonight_only">只限今晚！</string>
+    <!-- Label for button to navigate to the car rental line of business -->
+    <string name="nav_car_rentals">租車</string>
+    <!-- Label for button to navigate to the Activities / Things to Do line of business -->
+    <string name="nav_things_to_do">當地玩樂</string>
 
     <!-- Error message when we can't connect -->
     <string name="error_launch_connection">很抱歉，我們無法建立連線。</string>
@@ -1082,7 +1114,7 @@
     <!-- Enter itinerary number -->
     <string name="enter_itinerary_number">輸入行程編號</string>
     <!-- Enter a Guest itinerary number -->
-    <string name="or_enter_a_guest_itinerary_number">或輸入旅客行程編號</string>
+    <string name="enter_a_guest_itinerary_number">輸入旅客行程編號</string>
     <!-- Fetching your itinerary -->
     <string name="fetching_your_itinerary">正在取得行程…</string>
     <!-- Error fetching itinerary -->
@@ -1621,7 +1653,7 @@
     <!-- Flights Search view button label for one-way searches -->
     <string name="flights_one_way_label">單程</string>
     <!-- Flights label for selected outbound flight -->
-    <string name="flights_outbound_label">去程班機</string>
+    <string name="flights_outbound_label">去程</string>
     <!-- Flights Line of Business title -->
     <string name="flights_title">機票</string>
 
@@ -1742,13 +1774,13 @@
     <string name="calendar_tooltip_bottom_select_return_date">(選填) 選擇回程日期</string>
     <!-- Calendar tooltip bottom line after two dates are selected E.g. Drag End Dates to Modify -->
     <string name="calendar_tooltip_bottom_drag_to_modify">拖曳以修改結束日期</string>
-    <!-- Calendar instruction text hotels date range template. %1$s = Formatted start date, %2$s = formatted end date. E.g. May 12 - May 15 -->
-    <string name="calendar_instructions_date_range_TEMPLATE">%1$s - %2$s</string>
+    <!-- Calendar instruction text hotels date range template. {startdate} = Formatted start date, {enddate} = formatted end date. E.g. May 12 - May 15 -->
+    <string name="calendar_instructions_date_range_TEMPLATE">{startdate} - {enddate}</string>
     <!-- Calendar instructions flight start date selected and label indicating this will be a one way search -->
     <string name="calendar_instructions_date_range_flight_one_way_TEMPLATE">{startdate} (單程)</string>
 
     <!-- Calendar instructions flight: Customer has selected start date - Label used in tooltip indicating return date must be selected -->
-    <string name="calendar_instructions_date_range_flight_select_return_date">下一步：選擇回程日期</string>
+    <string name="calendar_instructions_date_range_flight_select_return_date">下一步：選擇還車日期</string>
     <!-- Calendar instruction text hotels no dates selected - "Select Check-in Date" -->
     <string name="calendar_instructions_hotels_no_dates_selected">選擇入住日期</string>
     <!-- Calendar instruction text hotels date range template. %1$s = Formatted start date, %2$s = formatted end date. E.g. May 12 - May 15 -->
@@ -2086,7 +2118,7 @@
     <!-- Warning shown to users when they enter their name -->
     <string name="name_must_match_warning">如果旅客姓名與政府機關所核發之附相片的身份證明不同，可能會被拒絕登機。</string>
     <!-- Warning shown to users when they enter their name (Material design message) -->
-    <string name="name_must_match_warning_new">旅客姓名必須與政府核發之附有相片的身分證明完全相符。</string>
+    <string name="name_must_match_warning_new">旅客姓名必須與政府機關核發之附相片的身份證明相同。</string>
 
     <!-- Special Assistance label template -->
     <string name="special_assistance_label_TEMPLATE">特殊協助：%1$s</string>
@@ -2182,7 +2214,8 @@
         <item quantity="one">+{travelercount} 位旅客</item>
         <item quantity="other">+{travelercount} 位旅客</item>
     </plurals>
-    <string name="checkout_edit_traveler_TEMPLATE">修改旅客 {travelernumber} ({passengercategory})</string>
+    <string name="checkout_edit_traveler_TEMPLATE">修改旅客 {travelernumber} ({passengerage})</string>
+    <string name="traveler_child_age_TEMPLATE">{age} 歲</string>
     <!-- Save traveler dialog -->
     <!-- save traveler -->
     <string name="save_traveler">儲存旅客</string>
@@ -2216,6 +2249,8 @@
     <string name="last_name">姓氏 (英文)</string>
     <!-- date of birth label -->
     <string name="date_of_birth">出生日期</string>
+    <!-- default value for the gender drop down on checkout -->
+    <string name="gender">性別</string>
     <!-- male -->
     <string name="male">男性</string>
     <!-- female -->
@@ -2626,7 +2661,7 @@
     <!-- Sort by user rating label -->
     <string name="sort_description_rating">評等</string>
     <!-- Sort by user rating label -->
-    <string name="sort_description_package_discount">機 + 酒折扣</string>
+    <string name="sort_description_package_discount">套裝行程折扣</string>
 
     <!-- Stop descriptions, e.g. Stops filtered by "description" -->
     <!-- Nonstop flights -->
@@ -2690,6 +2725,8 @@
     <string name="From_x_per_night_template">最低 %s/晚</string>
     <!-- Button text prompting the user to search this area on the map -->
     <string name="Search_this_area">搜尋此地區</string>
+    <!-- Map pin text for sold out hotel(s)-->
+    <string name="sold_out">已售完</string>
     <!-- Map cluster text for number of hotels-->
     <string name="cluster_number_of_hotels_template">%s 家飯店</string>
     <!-- Map cluster price from range-->
@@ -3833,6 +3870,10 @@
     <!-- Packages -->
 
     <!-- Label for package search toolbar -->
+    <!-- Accessibility - Content Description for toolbar close button -->
+    <string name="package_toolbar_close_content_description">關閉搜尋畫面</string>
+    <!-- Accessibility - Content Description for toolbar back button when entering destination/arrival -->
+    <string name="package_toolbar_back_to_search_content_description">返回搜尋畫面</string>
     <string name="package_toolbar_title">機 + 酒</string>
     <!-- Label for per person -->
     <string name="per_person">每人</string>
@@ -3868,11 +3909,11 @@
     <!-- Template for package bundle total savings amount -->
     <string name="bundle_total_savings_TEMPLATE">省 {savings}</string>
     <!-- Bundle Overview select hotel accessibility content description -->
-    <string name="select_hotel_content_description">搜尋完成，請按下此鍵以選擇 {startdate}至 {enddate} {guests}入住的{destination}飯店</string>
+    <string name="select_hotel_content_description">搜尋完成，請按下此按鈕以選擇一家{destination}飯店，日期為 {startdate}至 {enddate}，{guests} 人入住。</string>
     <!-- Bundle Overview select hotel accessibility content description when still searching -->
-    <string name="select_hotel_content_description_searching">正在搜尋 {startdate}至 {enddate} {guests}入住的{destination}飯店。請稍候</string>
+    <string name="select_hotel_content_description_searching">正在搜尋{destination}飯店，日期為 {startdate}至 {enddate}，{guests} 人入住。請稍候</string>
     <!-- Bundle Overview selected hotel accessibility content description -->
-    <string name="select_hotel_content_description_selected">您已選擇{hotel}，日期為 {startdate}至 {enddate}，{guests}入住。請按下此鍵以查看詳細資料。</string>
+    <string name="select_hotel_content_description_selected">您已經選擇{hotel}，日期為 {startdate}至 {enddate}，{guests} 人入住。請按下此按鈕以顯示更多詳情。</string>
     <!-- Bundle Overview select hotel -->
     <string name="select_hotel_template">選擇%s飯店</string>
     <!-- Bundle Overview searching flight -->
@@ -4013,10 +4054,10 @@
     <string name="rail_change_at_station_TEMPLATE">在{stationname}轉車</string>
 
     <!--rail search screen - user is specifiying what time they want their outbound train to leave at -->
-    <string name="rail_departing_at">出發時間</string>
+    <string name="rail_departing_at">出發時間：</string>
 
     <!--rail search screen - user is specifiying what time they want their return train to leave at -->
-    <string name="rail_returning_at">回程時間</string>
+    <string name="rail_returning_at">回程時間：</string>
 
     <!-- Label for rail trip price on overview screen -->
     <string name="total">總計</string>
@@ -4089,4 +4130,28 @@
     <string name="reward_middle_tier_name_short">+silver</string>
     <!-- Short name for rewards top tier -->
     <string name="reward_top_tier_name_short">+gold</string>
+    <!-- Flight Detail card view content description for accessibility.
+         Example: Flight time is 10am - 12:30pm with price difference of $25. Flying with United and the flight duration is 2 hours 30 minutes. Click to view flight details -->
+    <string name="flight_detail_card_content_description">班機時間為 {time}，價格差異為 {pricedifference}。搭乘{airline}的飛行時間為 {hours} 小時 {minutes} 分。按一下以查看班機詳細資訊</string>
+
+    <!--Packages search accessibility -->
+    <!--Flying to card content description Eg. Flying to San Francisco, CA (SFO-San Francisco Intl.)-->
+    <string name="packages_search_flying_to_content_description">目的地：{to_destination}</string>
+    <!--Flying from card content description Eg. Flying from Detroit, MI (DTW-Detroit Metropolitan Wayne County)-->
+    <string name="packages_search_flying_from_content_description">出發地：{from_destination}</string>
+    <!--Flying to card content description before a location is selected-->
+    <string name="packages_search_flying_to_content_description_initial">按一下這裡以選擇班機目的地</string>
+    <!--Flying from card content description before a location is selected-->
+    <string name="packages_search_flying_from_content_description_initial">按一下這裡以選擇班機出發地</string>
+    <!--Travel dates card content description before date range is selected-->
+    <string name="packages_search_dates_content_description_initial">按一下這裡以選擇行程日期</string>
+    <!--Packages search date format template for accessible dates (Talkback announces date range with 'to' in between) Eg. Jun 2 to Jun 5-->
+    <string name="packages_search_accessible_date_range_TEMPLATE">{startdate}到{enddate}</string>
+    <!--Packages search dates content description for Talkback to indicate what the date range is and how many nights the trip is for-->
+    <string name="packages_search_dates_content_description_trip">您的行程是介於{date_range}，{nights}</string>
+    <!--Packages accessibility flight search filter-->
+    <!--Content description for "SHOW MORE" button in filter used for Talkback-->
+    <string name="packages_flight_search_filter_show_more_cont_desc">按一下這裡以顯示更多航空公司</string>
+    <!--Content description for "SHOW LESS" button in filter used for Talkback-->
+    <string name="packages_flight_search_filter_show_less_cont_desc">按一下這裡以顯示較少航空公司</string>
 </resources>
