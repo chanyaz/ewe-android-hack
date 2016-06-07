@@ -251,6 +251,10 @@ class AccountSettingsFragment : Fragment(),
             val endpointString = context.resources.getString(R.string.connected_server,
                     Ui.getApplication(activity).appComponent().endpointProvider().endPoint.toString())
             builder.addRow(endpointString, 0)
+
+            val buildNumber = context.resources.getString(R.string.build_number, BuildConfig.BUILD_NUMBER)
+            builder.addRow(buildNumber, 0)
+
             val hashString = context.resources.getString(R.string.hash) + " " + BuildConfig.GIT_REVISION
             builder.addRow(hashString, 0)
             builder.addRow(R.string.debug_screens_sub_menu, ROW_TEST_SCREEN)
