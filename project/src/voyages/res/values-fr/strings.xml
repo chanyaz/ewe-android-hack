@@ -45,7 +45,7 @@
 
     <!-- Credit card input section -->
     <string name="book">Payer</string>
-    <string name="cvv_explanation_vsc">Veuillez saisir votre cryptogramme</string>
+    <string name="security_code_TEMPLATE">Veuillez saisir votre cryptogramme</string>
 
     <!-- Message displayed when search comes up with zero results -->
     <string name="no_hotels_availiable">Aucun hôtel disponible selon vos critères de voyage.</string>

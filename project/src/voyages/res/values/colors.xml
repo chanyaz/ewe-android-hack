@@ -29,9 +29,9 @@
     <color name="tablet_price_expanded_bucket_text_color">@color/action_bar_bg_color</color>
 
     <!--Account Lib Colors -->
-    <color name="acct__btn_sign_in_text_vsc">#FFFFFF</color>
-    <color name="acct__bg_input_text_error_vsc">#FFFFFF</color>
-    <color name="acct__bg_input_text_good_vsc">#EEEEEE</color>
+    <color name="acct__btn_sign_in_text">#FFFFFF</color>
+    <color name="acct__bg_input_text_error">#FFFFFF</color>
+    <color name="acct__bg_input_text_good">#EEEEEE</color>
     <color name="launch_actionbar_bg_color">#EDEDED</color>
     <color name="hotel_lob_btn">#70BB00</color>
     <color name="lx_lob_btn">#A1006B</color>
