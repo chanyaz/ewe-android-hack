@@ -24,7 +24,7 @@ public class PackagesSearchScreenTest extends PackageTestCase {
 		checkToolbarNavContentDescription(true);
 		PackageScreen.toolbarNavigationUp(R.id.search_toolbar).perform(click());
 		checkToolbarNavContentDescription(false);
-		SearchScreen.origin().check(matches(withContentDescription("Click here to select where you want to fly from")));
+		SearchScreen.origin().check(matches(withContentDescription("Button to select where you want to fly from")));
 		SearchScreen.origin().perform(click());
 		checkToolbarNavContentDescription(true);
 		SearchScreen.searchEditText().perform(typeText("SFO"));
@@ -33,7 +33,7 @@ public class PackagesSearchScreenTest extends PackageTestCase {
 		checkToolbarNavContentDescription(true);
 		PackageScreen.toolbarNavigationUp(R.id.search_toolbar).perform(click());
 		checkToolbarNavContentDescription(false);
-		SearchScreen.destination().check(matches(withContentDescription("Click here to select where you want to fly to")));
+		SearchScreen.destination().check(matches(withContentDescription("Button to select where you want to fly to")));
 		SearchScreen.destination().perform(click());
 		checkToolbarNavContentDescription(true);
 		SearchScreen.searchEditText().perform(typeText("DTW"));
@@ -42,7 +42,7 @@ public class PackagesSearchScreenTest extends PackageTestCase {
 
 		Common.pressBack();
 		checkToolbarNavContentDescription(false);
-		SearchScreen.calendarCard().check(matches(withContentDescription("Click here to select your travel dates")));
+		SearchScreen.calendarCard().check(matches(withContentDescription("Button to select your travel dates")));
 		SearchScreen.calendarCard().perform(click());
 		LocalDate startDate = LocalDate.now().plusDays(3);
 		LocalDate endDate = LocalDate.now().plusDays(8);

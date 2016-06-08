@@ -4142,11 +4142,11 @@
     <!--Flying from card content description Eg. Flying from Detroit, MI (DTW-Detroit Metropolitan Wayne County)-->
     <string name="packages_search_flying_from_content_description">Flying from {from_destination}</string>
     <!--Flying to card content description before a location is selected-->
-    <string name="packages_search_flying_to_content_description_initial">Click here to select where you want to fly to</string>
+    <string name="packages_search_flying_to_content_description_initial">Button to select where you want to fly to</string>
     <!--Flying from card content description before a location is selected-->
-    <string name="packages_search_flying_from_content_description_initial">Click here to select where you want to fly from</string>
+    <string name="packages_search_flying_from_content_description_initial">Button to select where you want to fly from</string>
     <!--Travel dates card content description before date range is selected-->
-    <string name="packages_search_dates_content_description_initial">Click here to select your travel dates</string>
+    <string name="packages_search_dates_content_description_initial">Button to select your travel dates</string>
     <!--Packages search date format template for accessible dates (Talkback announces date range with 'to' in between) Eg. Jun 2 to Jun 5-->
     <string name="packages_search_accessible_date_range_TEMPLATE">{startdate} to {enddate}</string>
     <!--Packages search dates content description for Talkback to indicate what the date range is and how many nights the trip is for-->
