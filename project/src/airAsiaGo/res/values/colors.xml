@@ -40,11 +40,22 @@
     <color name="launch_discount">#E31F0E</color>
     <color name="launch_tonight_only">#333333</color>
 
-    <!-- LX colors -->
+    <!-- Cars and LX-->
+    <color name="cars_primary_color">@color/aag_primary_color</color>
+    <color name="cars_unchecked_toggle_text_color">@android:color/white</color>
     <color name="lx_primary_color">@color/aag_primary_color</color>
+    <color name="lx_ripple_color">#8b1a10</color>
     <color name="lx_secondary_color_disabled">@color/aag_primary_color</color>
     <color name="lx_unchecked_toggle_text_color">@android:color/white</color>
-    <color name="lx_ripple_color">#8b1a10</color>
+    <color name="lx_primary_disabled_color">#40E31F0E</color>
+    <color name="lx_offer_date_ripple_color">@color/lx_ripple_color</color>
+    <color name="cars_ripple_color">@color/lx_ripple_color</color>
+    <color name="cars_color_primary_dark">@color/cars_primary_color</color>
+    <color name="cars_secondary_color">@color/cars_primary_color</color>
+    <color name="cars_tooltip_color">@color/cars_primary_color</color>
+    <color name="cars_status_bar_color">@color/cars_primary_color</color>
+    <color name="lx_color_primary_dark">@color/lx_primary_color</color>
+    <color name="checkout_login_button_color">@android:color/white</color>
 
     <!--Account Lib Colors -->
     <color name="acct__btn_sign_in_text">#FFFFFF</color>
