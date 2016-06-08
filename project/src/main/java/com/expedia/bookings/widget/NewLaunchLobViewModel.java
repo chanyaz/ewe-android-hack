@@ -3,18 +3,19 @@ package com.expedia.bookings.widget;
 import java.util.ArrayList;
 
 import android.content.Context;
+import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
+import butterknife.ButterKnife;
+import butterknife.InjectView;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.pos.PointOfSale;
+import com.expedia.bookings.utils.AnimUtils;
 import com.expedia.bookings.utils.NavigationHelper;
-
-import butterknife.ButterKnife;
-import butterknife.InjectView;
 
 public class NewLaunchLobViewModel implements NewLaunchLobAdapter.OnLobClickListener {
 
@@ -82,8 +83,9 @@ public class NewLaunchLobViewModel implements NewLaunchLobAdapter.OnLobClickList
 	}
 
 	@Override
-	public void onHotelsLobClick() {
-		nav.goToHotels(null);
+	public void onHotelsLobClick(View view) {
+		Bundle animOptions = AnimUtils.createActivityScaleBundle(view);
+		nav.goToHotels(animOptions);
 	}
 
 	@Override

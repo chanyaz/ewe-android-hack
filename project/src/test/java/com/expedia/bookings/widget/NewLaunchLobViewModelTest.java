@@ -7,7 +7,9 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mockito;
+import org.robolectric.Robolectric;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.res.Resources;
 import android.os.Bundle;
@@ -43,7 +45,6 @@ public class NewLaunchLobViewModelTest {
 		Mockito.when(mockContext.getResources()).thenReturn(mockResources);
 		Mockito.when(mockResources.getColor(Mockito.anyInt())).thenReturn(0);
 		Mockito.when(mockResources.getDimension(Mockito.anyInt())).thenReturn(1f);
-
 		mockView = Mockito.mock(View.class);
 		mockRecycler = Mockito.mock(RecyclerView.class);
 		Mockito.when(mockView.findViewById(R.id.lob_grid_recycler)).thenReturn(mockRecycler);
@@ -106,9 +107,10 @@ public class NewLaunchLobViewModelTest {
 
 	@Test
 	public void clickLobButtonOpensLob() {
+		Activity activity = Robolectric.buildActivity(Activity.class).create().get();
 		NewLaunchLobViewModel vm = new NewLaunchLobViewModel(mockContext, mockNavigationHelper);
-
-		vm.onHotelsLobClick();
+		View view = new View(activity, null);
+		vm.onHotelsLobClick(view);
 		Mockito.verify(mockNavigationHelper).goToHotels(Mockito.any(Bundle.class));
 
 		vm.onFlightsLobClick();

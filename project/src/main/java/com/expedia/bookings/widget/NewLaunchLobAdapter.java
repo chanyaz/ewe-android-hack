@@ -18,7 +18,7 @@ import butterknife.InjectView;
 public class NewLaunchLobAdapter extends RecyclerView.Adapter<NewLaunchLobAdapter.LobViewHolder> {
 
 	public interface OnLobClickListener {
-		void onHotelsLobClick();
+		void onHotelsLobClick(View view);
 		void onFlightsLobClick();
 		void onCarsLobClick();
 		void onActivitiesLobClick();
@@ -92,11 +92,11 @@ public class NewLaunchLobAdapter extends RecyclerView.Adapter<NewLaunchLobAdapte
 		}
 
 		@Override
-		public void onClick(View v) {
+		public void onClick(View view) {
 			if (lobInfo != null && listener != null) {
 				switch (lobInfo) {
 				case HOTELS:
-					listener.onHotelsLobClick();
+					listener.onHotelsLobClick(view);
 					break;
 				case FLIGHTS:
 					listener.onFlightsLobClick();
