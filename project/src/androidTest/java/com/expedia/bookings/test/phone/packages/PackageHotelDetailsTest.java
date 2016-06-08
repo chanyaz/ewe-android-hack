@@ -56,4 +56,17 @@ public class PackageHotelDetailsTest extends PackageTestCase {
 		onView(allOf(withId(R.id.hotel_search_info), withText("1 Room, 3 Guests")))
 			.check(matches(isDisplayed()));
 	}
+
+	public void testVIPHotel() throws Throwable {
+		PackageScreen.searchPackage();
+		Common.delay(1);
+		HotelScreen.selectHotel("Package Happy Path");
+		Common.delay(3);
+		HotelScreen.clickVIPAccess();
+		Common.delay(2);
+		EspressoUtils.assertViewWithTextIsDisplayed(getActivity().getString(R.string.vip_access_message));
+		Common.pressBack();
+		HotelScreen.waitForDetailsLoaded();
+		EspressoUtils.assertViewIsDisplayed(R.id.vip_access_message_container);
+	}
 }
