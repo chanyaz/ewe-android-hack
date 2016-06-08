@@ -67,7 +67,7 @@ class NewPhoneLaunchFragment : Fragment(), IPhoneLaunchActivityLaunchFragment {
 
         if (permissionCheck != PackageManager.PERMISSION_GRANTED) {
             // show collection data to users as user denied location
-            Events.post(Events.LaunchLocationFetchError())
+            newPhoneLaunchWidget.locationNotAvailable.onNext(Unit)
         } else {
             findLocation()
         }
@@ -82,11 +82,11 @@ class NewPhoneLaunchFragment : Fragment(), IPhoneLaunchActivityLaunchFragment {
             }
 
             override fun onError(e: Throwable) {
-                Events.post(Events.LaunchLocationFetchError())
+                newPhoneLaunchWidget.locationNotAvailable.onNext(Unit)
             }
 
             override fun onNext(currentLocation: Location) {
-                Events.post(Events.LaunchLocationFetchComplete(currentLocation))
+                newPhoneLaunchWidget.currentLocationSubject.onNext(currentLocation)
             }
         })
     }
