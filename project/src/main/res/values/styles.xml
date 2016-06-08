@@ -2,6 +2,49 @@
 <resources xmlns:android="http://schemas.android.com/apk/res/android">
 
     <!-- System -->
+    <!--
+        Base app theme for various LOBs - Cars, LX and Hotels etc.
+    -->
+    <style name="AppTheme.Base" parent="@style/Theme.AppCompat.Light">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="android:windowActionBar">false</item>
+        <item name="android:windowNoTitle">true</item>
+
+        <item name="skin_loginButtonColor">@android:color/black</item>
+
+
+        <item name="colorControlNormal">#C3C3C3</item>
+        <item name="android:actionMenuTextColor">@color/white</item>
+        <item name="actionMenuTextColor">@color/white</item>
+        <item name="android:actionBarItemBackground">?android:selectableItemBackground</item>
+
+        <!-- CVV attrs -->
+        <item name="skin_cvvBookButtonTextColor">@color/cvv_book_button_text_color</item>
+        <item name="skin_errorWidgetEditButtonStyle">@style/Core.Widget.Button</item>
+    </style>
+
+    <style name="Core.Widget.Button" parent="android:Widget.Button">
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:paddingLeft">20dp</item>
+        <item name="android:paddingRight">20dp</item>
+        <item name="android:paddingBottom">2dp</item>
+        <item name="android:minHeight">0dp</item>
+        <item name="android:height">38dp</item>>
+    </style>
+
+    <style name="Core.Widget.Spinner" parent="@style/Base.Widget.AppCompat.Spinner.Underlined">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">@dimen/core_spinner_height</item>
+        <item name="android:dropDownVerticalOffset">20dp</item>
+    </style>
+
+    <style name="SelectTravelerAgeSpinner" parent="@style/Core.Widget.Spinner">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:dropDownWidth">160dp</item>
+    </style>
 
     <style name="Widget" />
 

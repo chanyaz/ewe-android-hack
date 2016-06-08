@@ -225,7 +225,7 @@
 
 
     <!-- TODO rename it to launch theme, remove old screen launch theme and all properties are placeholder !-->
-    <style name="NewLaunchTheme" parent="AppTheme.Base.Cars">
+    <style name="NewLaunchTheme" parent="Cars.Base">
         <item name="android:windowIsTranslucent">true</item>
         <item name="android:windowBackground">@android:color/white</item>
         <item name="android:colorPrimaryDark">#04445e</item>

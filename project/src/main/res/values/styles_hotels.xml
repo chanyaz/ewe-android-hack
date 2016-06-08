@@ -51,7 +51,7 @@
     <!--
         Base app theme for Hotels, all the properties of hotels which are common for all whitelabels should be added here
     -->
-    <style name="AppTheme.Base.Hotels" parent="AppTheme.Base.Cars">
+    <style name="AppTheme.Base.Hotels" parent="Cars.Base">
         <!--TODO:
             It should have its own properties and should not be dependent on cars theme.
             If something is common for all LOB's put it in  AppTheme.Base
@@ -170,7 +170,7 @@
         <item name="android:textColor">?attr/primary_color</item>
     </style>
 
-    <style name="HotelButton" parent="CarButton">
+    <style name="HotelButton" parent="Core.Widget.Button">
         <item name="android:background">@drawable/hotels_button_selector</item>
     </style>
 

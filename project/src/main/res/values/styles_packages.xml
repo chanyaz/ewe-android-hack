@@ -42,7 +42,7 @@
     <!--
         Base app theme for Hotels, all the properties of hotels which are common for all whitelabels should be added here
     -->
-    <style name="AppTheme.Base.PackageTheme" parent="AppTheme.Base.Cars">
+    <style name="AppTheme.Base.PackageTheme" parent="Cars.Base">
         <!--TODO:
             It should have its own properties and should not be dependent on cars theme.
             If something is common for all LOB's put it in  AppTheme.Base
@@ -51,11 +51,7 @@
         <item name="traveler_checkout_circle_drawable">@drawable/traveler_checkout_circle</item>
     </style>
 
-    <style name="InfantSeatingPreferenceSpinner" parent="@style/Base.Widget.AppCompat.Spinner.Underlined">
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">@dimen/hotel_spinner_height</item>
-        <item name="android:dropDownVerticalOffset">20dp</item>
-    </style>
+    <style name="InfantSeatingPreferenceSpinner" parent="Core.Widget.Spinner"/>
 
     <style name="TravelerEntrySpinner">
         <item name="android:layout_width">match_parent</item>

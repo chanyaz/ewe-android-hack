@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <style name="Whitelabel.CarsTheme.Base" parent="AppTheme.Base.Cars">
+    <style name="Whitelabel.CarsTheme.Base" parent="Cars.Base">
         <item name="android:colorPrimaryDark">@color/cars_primary_color</item>
         <item name="android:colorButtonNormal">@color/cars_primary_color</item>
         <item name="colorAccent">@color/cars_primary_color</item>
