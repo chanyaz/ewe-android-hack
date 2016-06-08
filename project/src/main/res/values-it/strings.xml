@@ -45,7 +45,7 @@
     <!-- Cars -->
     <!-- Cars Calendar Strings -->
     <!-- Tooltip description for selecting the start date -->
-    <string name="cars_calendar_start_date_label">Passaggio successivo: seleziona una data di riconsegna</string>
+    <string name="cars_calendar_start_date_label">Passaggio successivo: seleziona una data di ritorno</string>
     <!-- Tooltip description when both start and end dates are selected -->
     <string name="cars_calendar_end_date_label">Trascina per modificare</string>
     <!-- SeekBar tooltip description for pick up time-->
@@ -305,6 +305,8 @@
     <string name="lx_toolbar_date_range_template">%1$s - %2$s</string>
     <!--LX Search widget header text -->
     <string name="lx_search_title">Cerca attività</string>
+    <!--LX Search widget header text -->
+    <string name="lx_select_a_category_title">Seleziona una categoria</string>
     <!--GT Search widget header text -->
     <string name="gt_search_title">Cerca trasferimenti</string>
     <!-- Button to show calendar and selected dates -->
@@ -630,6 +632,30 @@
     <string name="per_ticket_type_segway">per segway</string>
     <string name="per_ticket_type_vehicle">per veicolo</string>
 
+    <!-- LX Themes &  their description-->
+    <string name="top_rated_activities">Le attività più gettonate</string>
+    <string name="top_rated_activities_description">Le attività più consigliate da viaggiatori come te</string>
+
+    <string name="adventure_around">Per chi ama l\&apos;avventura</string>
+    <string name="adventure_around_description">Esplorazioni, gite fuori porta ed escursioni all\&apos;insegna dell\&apos;avventura</string>
+
+    <string name="see_the_sights">Luoghi da vedere</string>
+    <string name="see_the_sights_description">A piedi o in bicicletta, parti alla scoperta delle principali attrazioni della zona</string>
+
+    <string name="tour_the_area">Tour della zona</string>
+    <string name="tour_the_area_description">Scopri le meraviglie della città attraverso monumenti storici e altri luoghi di interesse</string>
+
+    <string name="fun_for_the_family">Divertimento per la tutta la famiglia</string>
+    <string name="fun_for_the_family_description">Scegli tra decine di attività, ideali per grandi e piccini</string>
+
+    <string name="pure_entertainment">Svago allo stato puro</string>
+    <string name="pure_entertainment_description">Sport, parchi divertimenti, spettacoli e altri imperdibili eventi</string>
+
+    <string name="eat_play_enjoy">Relax, divertimento e ottima cucina</string>
+    <string name="eat_play_enjoy_description">Ristoranti, locali notturni e luoghi ideali per un po\&apos; di meritato relax</string>
+
+    <string name="all_things_to_do_description">Ecco un elenco di tutte le attività disponibili per le date selezionate.</string>
+
     <!-- LX Strings -->
     <!-- Slide to book -->
     <string name="lx_slider_text">Procedi alla prenotazione</string>
@@ -656,11 +682,13 @@
     <!-- Text for traveler age dialog box when age is invalid-->
     <string name="traveler_age_title">Età viaggiatore</string>
     <!-- Text for traveler infant error-->
-    <string name="traveler_infant_error">L\&apos;età dei neonati deve essere inferiore a 2 anni</string>
+    <string name="traveler_infant_error">Per essere considerato neonato, il viaggiatore non deve avere ancora compiuto 24 mesi per tutta la durata del viaggio</string>
     <!-- Text for traveler child error-->
-    <string name="traveler_child_error">L\&apos;età dei bambini deve essere compresa tra 2 e 17 anni</string>
+    <string name="traveler_child_error">Per essere considerato bambino, il viaggiatore non deve avere ancora compiuto 12 anni per tutta la durata del viaggio</string>
+    <!-- Text for traveler adult child error-->
+    <string name="traveler_adult_child_error">Il viaggiatore deve avere un\&apos;età compresa tra 12 e 17 anni al momento del viaggio</string>
     <!-- Text for traveler adult error-->
-    <string name="traveler_adult_error">L\&apos;età degli adulti deve essere superiore a 18 anni</string>
+    <string name="traveler_adult_error">Il viaggiatore deve avere un\&apos;età pari o superiore a 18 anni</string>
     <!-- Text informing guest that main travler is checking into hotel-->
     <string name="traveler_main_message">Il check-in deve essere effettuato dal viaggiatore principale, che deve avere più di 18 anni.</string>
     <!-- Text for enter traveler details-->
@@ -992,6 +1020,10 @@
     <string name="launch_mobile_exclusive">solo mobile!</string>
     <!-- Expedia Deal for a given property, tonight only -->
     <string name="launch_tonight_only">solo per questa notte!</string>
+    <!-- Label for button to navigate to the car rental line of business -->
+    <string name="nav_car_rentals">Noleggio auto</string>
+    <!-- Label for button to navigate to the Activities / Things to Do line of business -->
+    <string name="nav_things_to_do">Cose da fare</string>
 
     <!-- Error message when we can't connect -->
     <string name="error_launch_connection">Purtroppo non è possibile effettuare la connessione.</string>
@@ -1082,7 +1114,7 @@
     <!-- Enter itinerary number -->
     <string name="enter_itinerary_number">Inserisci numero itinerario</string>
     <!-- Enter a Guest itinerary number -->
-    <string name="or_enter_a_guest_itinerary_number">O inserisci un numero di itinerario prenotato come ospite</string>
+    <string name="enter_a_guest_itinerary_number">Inserisci un numero di itinerario prenotato come ospite</string>
     <!-- Fetching your itinerary -->
     <string name="fetching_your_itinerary">Stiamo recuperando i tuoi itinerari…</string>
     <!-- Error fetching itinerary -->
@@ -1742,8 +1774,8 @@
     <string name="calendar_tooltip_bottom_select_return_date">(Facoltativo) Seleziona una data di ritorno</string>
     <!-- Calendar tooltip bottom line after two dates are selected E.g. Drag End Dates to Modify -->
     <string name="calendar_tooltip_bottom_drag_to_modify">Trascina le date di fine per modificare</string>
-    <!-- Calendar instruction text hotels date range template. %1$s = Formatted start date, %2$s = formatted end date. E.g. May 12 - May 15 -->
-    <string name="calendar_instructions_date_range_TEMPLATE">%1$s - %2$s</string>
+    <!-- Calendar instruction text hotels date range template. {startdate} = Formatted start date, {enddate} = formatted end date. E.g. May 12 - May 15 -->
+    <string name="calendar_instructions_date_range_TEMPLATE">{startdate} - {enddate}</string>
     <!-- Calendar instructions flight start date selected and label indicating this will be a one way search -->
     <string name="calendar_instructions_date_range_flight_one_way_TEMPLATE">{startdate} (solo andata)</string>
 
@@ -2182,7 +2214,8 @@
         <item quantity="one">{travelercount} altro viaggiatore</item>
         <item quantity="other">Altri {travelercount} viaggiatori</item>
     </plurals>
-    <string name="checkout_edit_traveler_TEMPLATE">Modifica viaggiatore {travelernumber} ({passengercategory})</string>
+    <string name="checkout_edit_traveler_TEMPLATE">Modifica viaggiatore {travelernumber} ({passengerage})</string>
+    <string name="traveler_child_age_TEMPLATE">{age} anno di età</string>
     <!-- Save traveler dialog -->
     <!-- save traveler -->
     <string name="save_traveler">Salva viaggiatore</string>
@@ -2216,6 +2249,8 @@
     <string name="last_name">Cognome</string>
     <!-- date of birth label -->
     <string name="date_of_birth">Data di nascita</string>
+    <!-- default value for the gender drop down on checkout -->
+    <string name="gender">Sesso</string>
     <!-- male -->
     <string name="male">Uomo</string>
     <!-- female -->
@@ -2690,6 +2725,8 @@
     <string name="From_x_per_night_template">A partire da %s/notte</string>
     <!-- Button text prompting the user to search this area on the map -->
     <string name="Search_this_area">Effettua una ricerca per questa zona</string>
+    <!-- Map pin text for sold out hotel(s)-->
+    <string name="sold_out">Non più disponibile</string>
     <!-- Map cluster text for number of hotels-->
     <string name="cluster_number_of_hotels_template">%s hotel</string>
     <!-- Map cluster price from range-->
@@ -3833,6 +3870,10 @@
     <!-- Packages -->
 
     <!-- Label for package search toolbar -->
+    <!-- Accessibility - Content Description for toolbar close button -->
+    <string name="package_toolbar_close_content_description">Chiudi la schermata di ricerca</string>
+    <!-- Accessibility - Content Description for toolbar back button when entering destination/arrival -->
+    <string name="package_toolbar_back_to_search_content_description">Torna alla schermata di ricerca</string>
     <string name="package_toolbar_title">Hotel + volo</string>
     <!-- Label for per person -->
     <string name="per_person">a persona</string>
@@ -4089,4 +4130,28 @@
     <string name="reward_middle_tier_name_short">+silver</string>
     <!-- Short name for rewards top tier -->
     <string name="reward_top_tier_name_short">+gold</string>
+    <!-- Flight Detail card view content description for accessibility.
+         Example: Flight time is 10am - 12:30pm with price difference of $25. Flying with United and the flight duration is 2 hours 30 minutes. Click to view flight details -->
+    <string name="flight_detail_card_content_description">L\&apos;orario del volo è {time}, con una differenza di prezzo pari a {pricedifference}. Il volo è operato da {airline} e la durata del volo è di {hours} ore e {minutes} minuti. Clicca per visualizzare i dettagli del volo</string>
+
+    <!--Packages search accessibility -->
+    <!--Flying to card content description Eg. Flying to San Francisco, CA (SFO-San Francisco Intl.)-->
+    <string name="packages_search_flying_to_content_description">Volo per {to_destination}</string>
+    <!--Flying from card content description Eg. Flying from Detroit, MI (DTW-Detroit Metropolitan Wayne County)-->
+    <string name="packages_search_flying_from_content_description">Volo da {from_destination}</string>
+    <!--Flying to card content description before a location is selected-->
+    <string name="packages_search_flying_to_content_description_initial">Clicca qui per selezionare l\&apos;aeroporto di arrivo</string>
+    <!--Flying from card content description before a location is selected-->
+    <string name="packages_search_flying_from_content_description_initial">Clicca qui per selezionare l\&apos;aeroporto di partenza</string>
+    <!--Travel dates card content description before date range is selected-->
+    <string name="packages_search_dates_content_description_initial">Clicca qui per selezionare le date di viaggio</string>
+    <!--Packages search date format template for accessible dates (Talkback announces date range with 'to' in between) Eg. Jun 2 to Jun 5-->
+    <string name="packages_search_accessible_date_range_TEMPLATE">dal giorno {startdate} al giorno {enddate}</string>
+    <!--Packages search dates content description for Talkback to indicate what the date range is and how many nights the trip is for-->
+    <string name="packages_search_dates_content_description_trip">Il tuo viaggio {date_range} ha una durata di {nights}</string>
+    <!--Packages accessibility flight search filter-->
+    <!--Content description for "SHOW MORE" button in filter used for Talkback-->
+    <string name="packages_flight_search_filter_show_more_cont_desc">Clicca qui per visualizzare altre compagnie aeree</string>
+    <!--Content description for "SHOW LESS" button in filter used for Talkback-->
+    <string name="packages_flight_search_filter_show_less_cont_desc">Clicca qui per visualizzare meno compagnie aeree</string>
 </resources>

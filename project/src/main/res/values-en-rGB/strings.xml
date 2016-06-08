@@ -305,6 +305,8 @@
     <string name="lx_toolbar_date_range_template">%1$s - %2$s</string>
     <!--LX Search widget header text -->
     <string name="lx_search_title">Search Activities</string>
+    <!--LX Search widget header text -->
+    <string name="lx_select_a_category_title">Select a Category</string>
     <!--GT Search widget header text -->
     <string name="gt_search_title">Search Transport</string>
     <!-- Button to show calendar and selected dates -->
@@ -630,6 +632,30 @@
     <string name="per_ticket_type_segway">per segway</string>
     <string name="per_ticket_type_vehicle">per vehicle</string>
 
+    <!-- LX Themes &  their description-->
+    <string name="top_rated_activities">Top Rated Activities</string>
+    <string name="top_rated_activities_description">Most highly recommended activities by customer like you</string>
+
+    <string name="adventure_around">Adventure Around</string>
+    <string name="adventure_around_description">Explore, take day trips and find great excursions at your destination</string>
+
+    <string name="see_the_sights">See the Sights</string>
+    <string name="see_the_sights_description">From walking and biking to buses, see everything this area has to offer</string>
+
+    <string name="tour_the_area">Tour the Area</string>
+    <string name="tour_the_area_description">Tour the city and learn more about historical and modern events</string>
+
+    <string name="fun_for_the_family">Fun for the Family</string>
+    <string name="fun_for_the_family_description">Family-friendly activities that are fun for all ages</string>
+
+    <string name="pure_entertainment">Pure Entertainment</string>
+    <string name="pure_entertainment_description">Sports, amusement parks, shows and performances</string>
+
+    <string name="eat_play_enjoy">Eat, Play &amp; Enjoy</string>
+    <string name="eat_play_enjoy_description">Food and drinks, nightlife and a whole lot of relaxation</string>
+
+    <string name="all_things_to_do_description">A list of all of the available activities for your selected dates.</string>
+
     <!-- LX Strings -->
     <!-- Slide to book -->
     <string name="lx_slider_text">Slide to book</string>
@@ -656,11 +682,13 @@
     <!-- Text for traveler age dialog box when age is invalid-->
     <string name="traveler_age_title">Traveller Age</string>
     <!-- Text for traveler infant error-->
-    <string name="traveler_infant_error">This infant must be less than 2 years old</string>
+    <string name="traveler_infant_error">This traveller must be under the age of 24 months for the entire trip to travel as an infant</string>
     <!-- Text for traveler child error-->
-    <string name="traveler_child_error">This child must be 2-17 years old</string>
+    <string name="traveler_child_error">This traveller must be under the age of 12 for the entire trip to travel as a child</string>
+    <!-- Text for traveler adult child error-->
+    <string name="traveler_adult_child_error">This traveller must be between 12 and 17 years old at the time of the trip</string>
     <!-- Text for traveler adult error-->
-    <string name="traveler_adult_error">This adult must be older than 18 years old</string>
+    <string name="traveler_adult_error">This traveller must be 18 years or older</string>
     <!-- Text informing guest that main travler is checking into hotel-->
     <string name="traveler_main_message">Main traveller must check into the hotel. Must be 18 or older.</string>
     <!-- Text for enter traveler details-->
@@ -992,6 +1020,10 @@
     <string name="launch_mobile_exclusive">mobile only!</string>
     <!-- Expedia Deal for a given property, tonight only -->
     <string name="launch_tonight_only">tonight only!</string>
+    <!-- Label for button to navigate to the car rental line of business -->
+    <string name="nav_car_rentals">Car Hire</string>
+    <!-- Label for button to navigate to the Activities / Things to Do line of business -->
+    <string name="nav_things_to_do">Things to Do</string>
 
     <!-- Error message when we can't connect -->
     <string name="error_launch_connection">Unfortunately, we can\&apos;t connect.</string>
@@ -1082,7 +1114,7 @@
     <!-- Enter itinerary number -->
     <string name="enter_itinerary_number">Enter Itinerary Number</string>
     <!-- Enter a Guest itinerary number -->
-    <string name="or_enter_a_guest_itinerary_number">Or, Enter a Guest Itinerary</string>
+    <string name="enter_a_guest_itinerary_number">Enter a Guest Itinerary</string>
     <!-- Fetching your itinerary -->
     <string name="fetching_your_itinerary">Fetching your itineraries…</string>
     <!-- Error fetching itinerary -->
@@ -1742,8 +1774,8 @@
     <string name="calendar_tooltip_bottom_select_return_date">(Optional) Select Return Date</string>
     <!-- Calendar tooltip bottom line after two dates are selected E.g. Drag End Dates to Modify -->
     <string name="calendar_tooltip_bottom_drag_to_modify">Drag End Dates to Modify</string>
-    <!-- Calendar instruction text hotels date range template. %1$s = Formatted start date, %2$s = formatted end date. E.g. May 12 - May 15 -->
-    <string name="calendar_instructions_date_range_TEMPLATE">%1$s - %2$s</string>
+    <!-- Calendar instruction text hotels date range template. {startdate} = Formatted start date, {enddate} = formatted end date. E.g. May 12 - May 15 -->
+    <string name="calendar_instructions_date_range_TEMPLATE">{startdate} - {enddate}</string>
     <!-- Calendar instructions flight start date selected and label indicating this will be a one way search -->
     <string name="calendar_instructions_date_range_flight_one_way_TEMPLATE">{startdate} (One Way)</string>
 
@@ -2182,7 +2214,8 @@
         <item quantity="one">+ {travelercount} more traveller</item>
         <item quantity="other">+ {travelercount} more travellers</item>
     </plurals>
-    <string name="checkout_edit_traveler_TEMPLATE">Edit Traveller {travelernumber} ({passengercategory})</string>
+    <string name="checkout_edit_traveler_TEMPLATE">Edit Traveller {travelernumber} ({passengerage})</string>
+    <string name="traveler_child_age_TEMPLATE">{age} year old</string>
     <!-- Save traveler dialog -->
     <!-- save traveler -->
     <string name="save_traveler">Save Traveller</string>
@@ -2216,6 +2249,8 @@
     <string name="last_name">Surname</string>
     <!-- date of birth label -->
     <string name="date_of_birth">Date of Birth</string>
+    <!-- default value for the gender drop down on checkout -->
+    <string name="gender">Gender</string>
     <!-- male -->
     <string name="male">Male</string>
     <!-- female -->
@@ -2690,6 +2725,8 @@
     <string name="From_x_per_night_template">From %s/night</string>
     <!-- Button text prompting the user to search this area on the map -->
     <string name="Search_this_area">Search this area</string>
+    <!-- Map pin text for sold out hotel(s)-->
+    <string name="sold_out">Sold Out</string>
     <!-- Map cluster text for number of hotels-->
     <string name="cluster_number_of_hotels_template">%s Hotels</string>
     <!-- Map cluster price from range-->
@@ -3833,6 +3870,10 @@
     <!-- Packages -->
 
     <!-- Label for package search toolbar -->
+    <!-- Accessibility - Content Description for toolbar close button -->
+    <string name="package_toolbar_close_content_description">Close search screen</string>
+    <!-- Accessibility - Content Description for toolbar back button when entering destination/arrival -->
+    <string name="package_toolbar_back_to_search_content_description">Back to search screen</string>
     <string name="package_toolbar_title">Hotel + Flight</string>
     <!-- Label for per person -->
     <string name="per_person">per person</string>
@@ -4089,4 +4130,28 @@
     <string name="reward_middle_tier_name_short">+silver</string>
     <!-- Short name for rewards top tier -->
     <string name="reward_top_tier_name_short">+gold</string>
+    <!-- Flight Detail card view content description for accessibility.
+         Example: Flight time is 10am - 12:30pm with price difference of $25. Flying with United and the flight duration is 2 hours 30 minutes. Click to view flight details -->
+    <string name="flight_detail_card_content_description">Flight time is {time} with price difference of {pricedifference}. Flying with {airline} and the flight duration is {hours} hours {minutes} minutes. Click to view flight details</string>
+
+    <!--Packages search accessibility -->
+    <!--Flying to card content description Eg. Flying to San Francisco, CA (SFO-San Francisco Intl.)-->
+    <string name="packages_search_flying_to_content_description">Flying to {to_destination}</string>
+    <!--Flying from card content description Eg. Flying from Detroit, MI (DTW-Detroit Metropolitan Wayne County)-->
+    <string name="packages_search_flying_from_content_description">Flying from{from_destination}</string>
+    <!--Flying to card content description before a location is selected-->
+    <string name="packages_search_flying_to_content_description_initial">Click here to select where you want to fly to</string>
+    <!--Flying from card content description before a location is selected-->
+    <string name="packages_search_flying_from_content_description_initial">Click here to select where you want to fly from</string>
+    <!--Travel dates card content description before date range is selected-->
+    <string name="packages_search_dates_content_description_initial">Click here to select your travel dates</string>
+    <!--Packages search date format template for accessible dates (Talkback announces date range with 'to' in between) Eg. Jun 2 to Jun 5-->
+    <string name="packages_search_accessible_date_range_TEMPLATE">{startdate} to {enddate}</string>
+    <!--Packages search dates content description for Talkback to indicate what the date range is and how many nights the trip is for-->
+    <string name="packages_search_dates_content_description_trip">Your trip is from {date_range} for {nights}</string>
+    <!--Packages accessibility flight search filter-->
+    <!--Content description for "SHOW MORE" button in filter used for Talkback-->
+    <string name="packages_flight_search_filter_show_more_cont_desc">Click here to show more airlines</string>
+    <!--Content description for "SHOW LESS" button in filter used for Talkback-->
+    <string name="packages_flight_search_filter_show_less_cont_desc">Click here to show fewer airlines</string>
 </resources>

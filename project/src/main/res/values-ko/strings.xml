@@ -26,7 +26,7 @@
     <!-- Hotels rating room cleanliness string -->
     <string name="hotel_rating_room_cleanliness">객실의 청결도</string>
     <!-- Hotels rating room comfort string -->
-    <string name="hotel_rating_room_comfort">객실의 안락함ㄴ</string>
+    <string name="hotel_rating_room_comfort">객실의 안락함</string>
     <!-- Hotels rating service and staff string -->
     <string name="hotel_rating_service_and_staff">서비스 및 직원</string>
     <!-- Hotels rating hotel condition string -->
@@ -305,6 +305,8 @@
     <string name="lx_toolbar_date_range_template">%1$s - %2$s</string>
     <!--LX Search widget header text -->
     <string name="lx_search_title">즐길거리 검색</string>
+    <!--LX Search widget header text -->
+    <string name="lx_select_a_category_title">범주 선택</string>
     <!--GT Search widget header text -->
     <string name="gt_search_title">교통편 검색</string>
     <!-- Button to show calendar and selected dates -->
@@ -630,6 +632,30 @@
     <string name="per_ticket_type_segway">세그웨이 1대당</string>
     <string name="per_ticket_type_vehicle">차량 1대당</string>
 
+    <!-- LX Themes &  their description-->
+    <string name="top_rated_activities">최고 평점의 즐길거리</string>
+    <string name="top_rated_activities_description">고객님과 비슷한 다른 분들이 강력 추천하신 즐길거리</string>
+
+    <string name="adventure_around">신나는 어드벤처</string>
+    <string name="adventure_around_description">여행지 주변으로 당일 여행 및 인기 있는 투어를 떠나세요.</string>
+
+    <string name="see_the_sights">유명 관광지 구경하기</string>
+    <string name="see_the_sights_description">걷거나 자전거로 아니면 버스를 타고 유명 관광지를 빠짐 없이 돌아보세요.</string>
+
+    <string name="tour_the_area">구석구석 살피기</string>
+    <string name="tour_the_area_description">시티 투어를 통해 이곳의 과거와 현재에 대해 자세히 알아보세요.</string>
+
+    <string name="fun_for_the_family">행복한 가족 여행</string>
+    <string name="fun_for_the_family_description">모든 가족 구성원을 만족시키는 즐길거리를 함께 하세요.</string>
+
+    <string name="pure_entertainment">진정한 엔터테인먼트</string>
+    <string name="pure_entertainment_description">스포츠, 놀이공원, 쇼, 공연 등을 즐기세요.</string>
+
+    <string name="eat_play_enjoy">먹고 놀고 즐기기</string>
+    <string name="eat_play_enjoy_description">먹고 마시고 나이트라이프를 즐기고 몸과 마음에 휴식을 선물하세요.</string>
+
+    <string name="all_things_to_do_description">선택하신 날짜에 이용 가능한 모든 즐길거리 목록입니다.</string>
+
     <!-- LX Strings -->
     <!-- Slide to book -->
     <string name="lx_slider_text">밀어서 예약하기</string>
@@ -656,11 +682,13 @@
     <!-- Text for traveler age dialog box when age is invalid-->
     <string name="traveler_age_title">여행객 나이</string>
     <!-- Text for traveler infant error-->
-    <string name="traveler_infant_error">이 영유아는 만 2세 미만이어야 합니다.</string>
+    <string name="traveler_infant_error">이 영유아 여행객은 전체 여행 기간 동안 만 24개월 미만이어야 합니다.</string>
     <!-- Text for traveler child error-->
-    <string name="traveler_child_error">이 아동은 만 2~17세여야 합니다.</string>
+    <string name="traveler_child_error">이 아동 여행객은 전체 여행 기간 동안 만 12세 미만이어야 합니다.</string>
+    <!-- Text for traveler adult child error-->
+    <string name="traveler_adult_child_error">이 여행객은 여행 시 만 12~17세여야 합니다.</string>
     <!-- Text for traveler adult error-->
-    <string name="traveler_adult_error">이 어른은 만 18세가 넘어야 합니다.</string>
+    <string name="traveler_adult_error">이 여행객은 만 18세 이상이어야 합니다.</string>
     <!-- Text informing guest that main travler is checking into hotel-->
     <string name="traveler_main_message">주 여행객이 호텔에 체크인해야 합니다. 만 18세 이상이어야 합니다.</string>
     <!-- Text for enter traveler details-->
@@ -992,6 +1020,10 @@
     <string name="launch_mobile_exclusive">모바일 전용!</string>
     <!-- Expedia Deal for a given property, tonight only -->
     <string name="launch_tonight_only">오늘 밤 한정!</string>
+    <!-- Label for button to navigate to the car rental line of business -->
+    <string name="nav_car_rentals">렌터카</string>
+    <!-- Label for button to navigate to the Activities / Things to Do line of business -->
+    <string name="nav_things_to_do">즐길거리</string>
 
     <!-- Error message when we can't connect -->
     <string name="error_launch_connection">죄송합니다. 지금 연결할 수 없습니다.</string>
@@ -1082,7 +1114,7 @@
     <!-- Enter itinerary number -->
     <string name="enter_itinerary_number">일정 번호 입력</string>
     <!-- Enter a Guest itinerary number -->
-    <string name="or_enter_a_guest_itinerary_number">또는 비회원 일정 입력</string>
+    <string name="enter_a_guest_itinerary_number">비회원 일정 입력</string>
     <!-- Fetching your itinerary -->
     <string name="fetching_your_itinerary">고객님의 일정을 가져오는 중…</string>
     <!-- Error fetching itinerary -->
@@ -1742,8 +1774,8 @@
     <string name="calendar_tooltip_bottom_select_return_date">(선택 사항) 오는 날짜 선택</string>
     <!-- Calendar tooltip bottom line after two dates are selected E.g. Drag End Dates to Modify -->
     <string name="calendar_tooltip_bottom_drag_to_modify">종료 날짜를 드래그하여 수정</string>
-    <!-- Calendar instruction text hotels date range template. %1$s = Formatted start date, %2$s = formatted end date. E.g. May 12 - May 15 -->
-    <string name="calendar_instructions_date_range_TEMPLATE">%1$s - %2$s</string>
+    <!-- Calendar instruction text hotels date range template. {startdate} = Formatted start date, {enddate} = formatted end date. E.g. May 12 - May 15 -->
+    <string name="calendar_instructions_date_range_TEMPLATE">{startdate} - {enddate}</string>
     <!-- Calendar instructions flight start date selected and label indicating this will be a one way search -->
     <string name="calendar_instructions_date_range_flight_one_way_TEMPLATE">{startdate}(편도)</string>
 
@@ -2182,7 +2214,8 @@
         <item quantity="one">+ {travelercount}명 추가</item>
         <item quantity="other">+ {travelercount}명 추가</item>
     </plurals>
-    <string name="checkout_edit_traveler_TEMPLATE">여행객 {travelernumber} 수정 ({passengercategory})</string>
+    <string name="checkout_edit_traveler_TEMPLATE">여행객 {travelernumber} 수정 ({passengerage})</string>
+    <string name="traveler_child_age_TEMPLATE">만 {age}세</string>
     <!-- Save traveler dialog -->
     <!-- save traveler -->
     <string name="save_traveler">여행객 저장</string>
@@ -2216,6 +2249,8 @@
     <string name="last_name">성(영문)</string>
     <!-- date of birth label -->
     <string name="date_of_birth">생년월일</string>
+    <!-- default value for the gender drop down on checkout -->
+    <string name="gender">성별</string>
     <!-- male -->
     <string name="male">남성</string>
     <!-- female -->
@@ -2690,6 +2725,8 @@
     <string name="From_x_per_night_template">1박당 %s~</string>
     <!-- Button text prompting the user to search this area on the map -->
     <string name="Search_this_area">이 지역 검색</string>
+    <!-- Map pin text for sold out hotel(s)-->
+    <string name="sold_out">매진</string>
     <!-- Map cluster text for number of hotels-->
     <string name="cluster_number_of_hotels_template">%s개 호텔</string>
     <!-- Map cluster price from range-->
@@ -3833,6 +3870,10 @@
     <!-- Packages -->
 
     <!-- Label for package search toolbar -->
+    <!-- Accessibility - Content Description for toolbar close button -->
+    <string name="package_toolbar_close_content_description">검색 화면 닫기</string>
+    <!-- Accessibility - Content Description for toolbar back button when entering destination/arrival -->
+    <string name="package_toolbar_back_to_search_content_description">검색 화면으로 돌아가기</string>
     <string name="package_toolbar_title">호텔+항공</string>
     <!-- Label for per person -->
     <string name="per_person">1인당</string>
@@ -4089,4 +4130,28 @@
     <string name="reward_middle_tier_name_short">+silver</string>
     <!-- Short name for rewards top tier -->
     <string name="reward_top_tier_name_short">+gold</string>
+    <!-- Flight Detail card view content description for accessibility.
+         Example: Flight time is 10am - 12:30pm with price difference of $25. Flying with United and the flight duration is 2 hours 30 minutes. Click to view flight details -->
+    <string name="flight_detail_card_content_description">항공편 시간은 {time}이며, 요금 차액은 {pricedifference}입니다. {airline} 이용 시 비행 시간은 {hours}시간 {minutes}분입니다. 자세한 항공편 정보를 보려면 클릭하세요.</string>
+
+    <!--Packages search accessibility -->
+    <!--Flying to card content description Eg. Flying to San Francisco, CA (SFO-San Francisco Intl.)-->
+    <string name="packages_search_flying_to_content_description">{to_destination}행 비행기</string>
+    <!--Flying from card content description Eg. Flying from Detroit, MI (DTW-Detroit Metropolitan Wayne County)-->
+    <string name="packages_search_flying_from_content_description">{from_destination}발 비행기</string>
+    <!--Flying to card content description before a location is selected-->
+    <string name="packages_search_flying_to_content_description_initial">여기를 클릭하여 어디로 가고 싶은지 선택하세요.</string>
+    <!--Flying from card content description before a location is selected-->
+    <string name="packages_search_flying_from_content_description_initial">여기를 클릭하여 어디에서 떠나고 싶은지 선택하세요.</string>
+    <!--Travel dates card content description before date range is selected-->
+    <string name="packages_search_dates_content_description_initial">여기를 클릭하여 여행 날짜를 선택하세요.</string>
+    <!--Packages search date format template for accessible dates (Talkback announces date range with 'to' in between) Eg. Jun 2 to Jun 5-->
+    <string name="packages_search_accessible_date_range_TEMPLATE">{startdate}부터 {enddate}까지</string>
+    <!--Packages search dates content description for Talkback to indicate what the date range is and how many nights the trip is for-->
+    <string name="packages_search_dates_content_description_trip">고객님의 여행은 {date_range}이며, {nights}박입니다.</string>
+    <!--Packages accessibility flight search filter-->
+    <!--Content description for "SHOW MORE" button in filter used for Talkback-->
+    <string name="packages_flight_search_filter_show_more_cont_desc">항공사를 더 많이 보려면 여기를 클릭하세요.</string>
+    <!--Content description for "SHOW LESS" button in filter used for Talkback-->
+    <string name="packages_flight_search_filter_show_less_cont_desc">항공사를 줄여 간단하게 보려면 여기를 클릭하세요.</string>
 </resources>

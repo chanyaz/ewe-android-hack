@@ -245,7 +245,7 @@
     <!-- Message for user that pick-up time is too early.  -->
     <string name="pick_up_time_error">Harap sesuaikan waktu pengambilan dan pengembalian Anda.</string>
     <!-- Message for user that date is too far out.  -->
-    <string name="error_date_too_far">Tanggal terlalu jauh, pilih tanggal yang lebih dekat.</string>
+    <string name="error_date_too_far">Harap pilih tanggal yang lebih dekat.</string>
     <!-- Message for user that increase your reservation duration. -->
     <string name="reservation_time_too_short">Harap tambahkan durasi penyewaan.</string>
     <!-- Shown to user in case the reservation timed out -->
@@ -305,6 +305,8 @@
     <string name="lx_toolbar_date_range_template">%1$s - %2$s</string>
     <!--LX Search widget header text -->
     <string name="lx_search_title">Cari Aktivitas</string>
+    <!--LX Search widget header text -->
+    <string name="lx_select_a_category_title">Pilih Kategori</string>
     <!--GT Search widget header text -->
     <string name="gt_search_title">Cari Transportasi</string>
     <!-- Button to show calendar and selected dates -->
@@ -630,6 +632,30 @@
     <string name="per_ticket_type_segway">per segway</string>
     <string name="per_ticket_type_vehicle">per kendaraan</string>
 
+    <!-- LX Themes &  their description-->
+    <string name="top_rated_activities">Aktivitas Paling Direkomendasikan</string>
+    <string name="top_rated_activities_description">Aktivitas yang paling direkomendasikan oleh traveler seperti Anda</string>
+
+    <string name="adventure_around">Jalan-Jalan Berpetualang</string>
+    <string name="adventure_around_description">Jelajahi dan ikuti tur-tur sehari di destinasi Anda</string>
+
+    <string name="see_the_sights">Mengunjungi Objek Wisata</string>
+    <string name="see_the_sights_description">Dengan jalan kaki, bersepeda, ataupun naik bus, kunjungi berbagai objek wisata</string>
+
+    <string name="tour_the_area">Berkeliling Kota</string>
+    <string name="tour_the_area_description">Jelajahi kota destinasi Anda untuk mempelajari kebudayaan dan arsitekturnya</string>
+
+    <string name="fun_for_the_family">Bersenang-senang Sekeluarga</string>
+    <string name="fun_for_the_family_description">Kegiatan yang cocok untuk semua anggota keluarga, untuk usia berapa saja</string>
+
+    <string name="pure_entertainment">Ragam Pilihan Hiburan</string>
+    <string name="pure_entertainment_description">Mulai dari pertandingan olahraga, tiket taman hiburan, pertunjukan, musik, dan lainnya</string>
+
+    <string name="eat_play_enjoy">Makan-Makan dan Berpesta</string>
+    <string name="eat_play_enjoy_description">Wisata kuliner dan beragam hiburan malam, untuk relaksasi yang sesungguhnya</string>
+
+    <string name="all_things_to_do_description">Semua pilihan aktivitas untuk tanggal perjalanan yang Anda pilih</string>
+
     <!-- LX Strings -->
     <!-- Slide to book -->
     <string name="lx_slider_text">Geser untuk memesan</string>
@@ -656,11 +682,13 @@
     <!-- Text for traveler age dialog box when age is invalid-->
     <string name="traveler_age_title">Usia Traveler</string>
     <!-- Text for traveler infant error-->
-    <string name="traveler_infant_error">Bayi didefinisikan berusia di bawah 2 tahun</string>
+    <string name="traveler_infant_error">Bayi didefinisikan sebagai yang berusia di bawah 24 bulan selama periode perjalanan</string>
     <!-- Text for traveler child error-->
-    <string name="traveler_child_error">Anak didefinisikan berusia 2-17 tahun</string>
+    <string name="traveler_child_error">Anak didefinisikan sebagai yang berusia di bawah 12 tahun selama periode perjalanan</string>
+    <!-- Text for traveler adult child error-->
+    <string name="traveler_adult_child_error">Traveler harus berusia antara 12-17 tahun selama periode perjalanan</string>
     <!-- Text for traveler adult error-->
-    <string name="traveler_adult_error">Dewasa didefinisikan berusia 18 tahun ke atas</string>
+    <string name="traveler_adult_error">Traveler harus berusia 18 tahun atau ke atas</string>
     <!-- Text informing guest that main travler is checking into hotel-->
     <string name="traveler_main_message">Traveler utama harus ikut check-in di hotel. Harus berusia 18 tahun atau ke atas.</string>
     <!-- Text for enter traveler details-->
@@ -992,6 +1020,10 @@
     <string name="launch_mobile_exclusive">khusus-mobile!</string>
     <!-- Expedia Deal for a given property, tonight only -->
     <string name="launch_tonight_only">hanya malam ini!</string>
+    <!-- Label for button to navigate to the car rental line of business -->
+    <string name="nav_car_rentals">Penyewaan Mobil</string>
+    <!-- Label for button to navigate to the Activities / Things to Do line of business -->
+    <string name="nav_things_to_do">Untuk Dilakukan</string>
 
     <!-- Error message when we can't connect -->
     <string name="error_launch_connection">Maaf, kami tidak dapat menghubungkan.</string>
@@ -1082,7 +1114,7 @@
     <!-- Enter itinerary number -->
     <string name="enter_itinerary_number">Masukkan nomor itinerary</string>
     <!-- Enter a Guest itinerary number -->
-    <string name="or_enter_a_guest_itinerary_number">Atau, masukkan nomor itinerary tanpa login</string>
+    <string name="enter_a_guest_itinerary_number">Masukkan Nomor Itinerary</string>
     <!-- Fetching your itinerary -->
     <string name="fetching_your_itinerary">Mengakses itinerary Anda…</string>
     <!-- Error fetching itinerary -->
@@ -1742,8 +1774,8 @@
     <string name="calendar_tooltip_bottom_select_return_date">(Opsional) Pilih Tanggal Kembali</string>
     <!-- Calendar tooltip bottom line after two dates are selected E.g. Drag End Dates to Modify -->
     <string name="calendar_tooltip_bottom_drag_to_modify">Tarik Tanggal Ini untuk Mengubah</string>
-    <!-- Calendar instruction text hotels date range template. %1$s = Formatted start date, %2$s = formatted end date. E.g. May 12 - May 15 -->
-    <string name="calendar_instructions_date_range_TEMPLATE">%1$s - %2$s</string>
+    <!-- Calendar instruction text hotels date range template. {startdate} = Formatted start date, {enddate} = formatted end date. E.g. May 12 - May 15 -->
+    <string name="calendar_instructions_date_range_TEMPLATE">{startdate} - {enddate}</string>
     <!-- Calendar instructions flight start date selected and label indicating this will be a one way search -->
     <string name="calendar_instructions_date_range_flight_one_way_TEMPLATE">{startdate} (Sekali-Jalan)</string>
 
@@ -2182,7 +2214,8 @@
         <item quantity="one">+{travelercount} traveler lainnya</item>
         <item quantity="other">+{travelercount} traveler lainnya</item>
     </plurals>
-    <string name="checkout_edit_traveler_TEMPLATE">Ubah Traveler {travelernumber} ({passengercategory})</string>
+    <string name="checkout_edit_traveler_TEMPLATE">Ubah Traveler {travelernumber} ({passengerage})</string>
+    <string name="traveler_child_age_TEMPLATE">{age} tahun</string>
     <!-- Save traveler dialog -->
     <!-- save traveler -->
     <string name="save_traveler">Simpan Traveler</string>
@@ -2216,6 +2249,8 @@
     <string name="last_name">Nama Belakang</string>
     <!-- date of birth label -->
     <string name="date_of_birth">Tanggal Lahir</string>
+    <!-- default value for the gender drop down on checkout -->
+    <string name="gender">Jenis Kelamin</string>
     <!-- male -->
     <string name="male">Laki-laki</string>
     <!-- female -->
@@ -2690,6 +2725,8 @@
     <string name="From_x_per_night_template">Mulai dari %s/malam</string>
     <!-- Button text prompting the user to search this area on the map -->
     <string name="Search_this_area">Cari di kawasan ini</string>
+    <!-- Map pin text for sold out hotel(s)-->
+    <string name="sold_out">Habis Terjual</string>
     <!-- Map cluster text for number of hotels-->
     <string name="cluster_number_of_hotels_template">Hotel di %s</string>
     <!-- Map cluster price from range-->
@@ -3833,6 +3870,10 @@
     <!-- Packages -->
 
     <!-- Label for package search toolbar -->
+    <!-- Accessibility - Content Description for toolbar close button -->
+    <string name="package_toolbar_close_content_description">Tutup layar pencarian</string>
+    <!-- Accessibility - Content Description for toolbar back button when entering destination/arrival -->
+    <string name="package_toolbar_back_to_search_content_description">Kembali ke layar pencarian</string>
     <string name="package_toolbar_title">Hotel + Penerbangan</string>
     <!-- Label for per person -->
     <string name="per_person">per orang</string>
@@ -3872,7 +3913,7 @@
     <!-- Bundle Overview select hotel accessibility content description when still searching -->
     <string name="select_hotel_content_description_searching">Mencari hotel di {destination} dari {startdate} hingga {enddate}, untuk {guests}. Harap tunggu</string>
     <!-- Bundle Overview selected hotel accessibility content description -->
-    <string name="select_hotel_content_description_selected">Anda telah memilih hotel {hotel} dari {startdate} hingga {enddate}, untuk {guests}. Tekan tombol ini untuk menampilkan informasi rinci.</string>
+    <string name="select_hotel_content_description_selected">Anda telah memilih hotel {hotel} dari {startdate} hingga {enddate}, untuk {guests}. Tekan tombol ini untuk menampilkan rincian.</string>
     <!-- Bundle Overview select hotel -->
     <string name="select_hotel_template">Pilih hotel di %s</string>
     <!-- Bundle Overview searching flight -->
@@ -4089,4 +4130,28 @@
     <string name="reward_middle_tier_name_short">+silver</string>
     <!-- Short name for rewards top tier -->
     <string name="reward_top_tier_name_short">+gold</string>
+    <!-- Flight Detail card view content description for accessibility.
+         Example: Flight time is 10am - 12:30pm with price difference of $25. Flying with United and the flight duration is 2 hours 30 minutes. Click to view flight details -->
+    <string name="flight_detail_card_content_description">Waktu penerbangan adalah {time} dengan selisih harga {pricedifference}. Terbang bersama {airline} dengan durasi penerbangan {hours} jam {minutes} menit. Klik untuk melihat rincian penerbangan</string>
+
+    <!--Packages search accessibility -->
+    <!--Flying to card content description Eg. Flying to San Francisco, CA (SFO-San Francisco Intl.)-->
+    <string name="packages_search_flying_to_content_description">Terbang ke {to_destination}</string>
+    <!--Flying from card content description Eg. Flying from Detroit, MI (DTW-Detroit Metropolitan Wayne County)-->
+    <string name="packages_search_flying_from_content_description">Terbang dari {from_destination}</string>
+    <!--Flying to card content description before a location is selected-->
+    <string name="packages_search_flying_to_content_description_initial">Klik di sini untuk memilih ke mana tujuan penerbangan Anda</string>
+    <!--Flying from card content description before a location is selected-->
+    <string name="packages_search_flying_from_content_description_initial">Klik di sini untuk memilih dari mana asal penerbangan Anda</string>
+    <!--Travel dates card content description before date range is selected-->
+    <string name="packages_search_dates_content_description_initial">Klik di sini untuk memilih tanggal perjalanan Anda</string>
+    <!--Packages search date format template for accessible dates (Talkback announces date range with 'to' in between) Eg. Jun 2 to Jun 5-->
+    <string name="packages_search_accessible_date_range_TEMPLATE">{startdate} ke {enddate}</string>
+    <!--Packages search dates content description for Talkback to indicate what the date range is and how many nights the trip is for-->
+    <string name="packages_search_dates_content_description_trip">Perjalanan Anda adalah dari tanggal {date_range} untuk {nights} malam</string>
+    <!--Packages accessibility flight search filter-->
+    <!--Content description for "SHOW MORE" button in filter used for Talkback-->
+    <string name="packages_flight_search_filter_show_more_cont_desc">Klik di sini untuk melihat pilihan maskapai lainnya</string>
+    <!--Content description for "SHOW LESS" button in filter used for Talkback-->
+    <string name="packages_flight_search_filter_show_less_cont_desc">Klik di sini untuk menutup pilihan maskapai lainnya</string>
 </resources>
