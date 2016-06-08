@@ -108,6 +108,20 @@ object SearchScreen {
         onView(withId(R.id.adults_plus)).perform(click())
     }
 
+    @JvmStatic fun childAgeDropDown(childNumber: Int): ViewInteraction? {
+        if (childNumber == 1) {
+            return onView(withId(R.id.child_spinner_1))
+        } else if (childNumber == 2) {
+            return onView(withId(R.id.child_spinner_2))
+        } else if (childNumber == 3) {
+            return onView(withId(R.id.child_spinner_3))
+        } else if (childNumber == 4) {
+            return onView(withId(R.id.child_spinner_4))
+        } else {
+            return null
+        }
+    }
+
     @JvmStatic fun destination(): ViewInteraction {
         return onView(withId(R.id.destination_card))
     }
