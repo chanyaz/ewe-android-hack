@@ -9,6 +9,7 @@ import android.widget.TextView
 import com.expedia.bookings.R
 import com.expedia.bookings.utils.bindView
 import com.expedia.util.endlessObserver
+import com.squareup.phrase.Phrase
 import rx.Observer
 
 class LabeledCheckableFilter<T>(context: Context, attrs: AttributeSet) : RelativeLayout(context, attrs) {
@@ -22,6 +23,7 @@ class LabeledCheckableFilter<T>(context: Context, attrs: AttributeSet) : Relativ
         checkBox.isChecked = !checkBox.isChecked
         observer?.onNext(value)
         if (checkBox.isChecked) onChecked()
+        refreshContentDescription()
     }
 
     fun bind(filterName: String, filterValue: T, filterResults: Int?, observer: Observer<T>) {
@@ -30,6 +32,21 @@ class LabeledCheckableFilter<T>(context: Context, attrs: AttributeSet) : Relativ
         value = filterValue
         resultsLabel.text = filterResults.toString()
         checkBox.isChecked = false
+        refreshContentDescription()
+    }
+
+    fun refreshContentDescription() {
+        var contentDesc = StringBuilder(Phrase.from(context, R.string.packages_flight_filter_checkbox_cont_desc_TEMPLATE)
+                .put("filter_name", stopsLabel.text)
+                .put("filter_results", resultsLabel.text)
+                .format().toString())
+        if (checkBox.isChecked) {
+            contentDesc.append(context.getString(R.string.accessibility_cont_desc_role_checkbox_checked))
+        }
+        else {
+            contentDesc.append(context.getString(R.string.accessibility_cont_desc_role_checkbox_unchecked))
+        }
+        this.contentDescription = contentDesc
     }
 
     /*

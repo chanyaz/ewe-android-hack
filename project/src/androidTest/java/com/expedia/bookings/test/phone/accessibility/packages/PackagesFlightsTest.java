@@ -6,6 +6,7 @@ import android.support.test.espresso.matcher.ViewMatchers;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.test.espresso.Common;
+import com.expedia.bookings.test.espresso.CustomMatchers;
 import com.expedia.bookings.test.espresso.EspressoUser;
 import com.expedia.bookings.test.espresso.PackageTestCase;
 import com.expedia.bookings.test.phone.hotels.HotelScreen;
@@ -55,6 +56,15 @@ public class PackagesFlightsTest extends PackageTestCase {
 		PackageScreen.flightsToolbarFilterMenu().perform(click());
 		PackageScreen.flightFilterView().perform(waitForViewToDisplay());
 
+		//Filter by stops content description test
+		PackageScreen.checkBoxContainerWithTitle("Nonstop").check(matches(CustomMatchers.withContentDescription("3 available Nonstop flights.Checkbox. Unchecked.")));
+		PackageScreen.tickCheckboxWithText("Nonstop");
+		PackageScreen.checkBoxContainerWithTitle("Nonstop").check(matches(CustomMatchers.withContentDescription("3 available Nonstop flights.Checkbox. Checked.")));
+		PackageScreen.checkBoxContainerWithTitle("2+ Stops").check(matches(CustomMatchers.withContentDescription("1 available 2+ Stops flights.Checkbox. Unchecked.")));
+		PackageScreen.tickCheckboxWithText("2+ Stops");
+		PackageScreen.checkBoxContainerWithTitle("2+ Stops").check(matches(CustomMatchers.withContentDescription("1 available 2+ Stops flights.Checkbox. Checked.")));
+		PackageScreen.resetFlightsFliter();
+
 		EspressoUser.scrollToView(R.id.collapsed_container);
 		PackageScreen.showMoreButton().check(matches(isDisplayed()));
 		PackageScreen.showMoreButton().check(
@@ -64,5 +74,13 @@ public class PackagesFlightsTest extends PackageTestCase {
 		PackageScreen.showMoreButton().check(
 			matches(ViewMatchers.withContentDescription(R.string.packages_flight_search_filter_show_less_cont_desc)));
 		PackageScreen.showMoreButton().perform(click());
+
+		//Filter by airlines content description test
+		PackageScreen.checkBoxContainerWithTitle("Hawaiian Airlines").check(matches(CustomMatchers.withContentDescription("1 available Hawaiian Airlines flights.Checkbox. Unchecked.")));
+		PackageScreen.tickCheckboxWithText("Hawaiian Airlines");
+		PackageScreen.checkBoxContainerWithTitle("Hawaiian Airlines").check(matches(CustomMatchers.withContentDescription("1 available Hawaiian Airlines flights.Checkbox. Checked.")));
+		PackageScreen.checkBoxContainerWithTitle("Delta").check(matches(CustomMatchers.withContentDescription("1 available Delta flights.Checkbox. Unchecked.")));
+		PackageScreen.tickCheckboxWithText("Delta");
+		PackageScreen.checkBoxContainerWithTitle("Delta").check(matches(CustomMatchers.withContentDescription("1 available Delta flights.Checkbox. Checked.")));
 	}
 }

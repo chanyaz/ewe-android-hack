@@ -1,5 +1,6 @@
 package com.expedia.bookings.test.phone.packages;
 
+import org.hamcrest.CoreMatchers;
 import org.hamcrest.Matcher;
 import org.hamcrest.core.AllOf;
 import org.joda.time.LocalDate;
@@ -14,6 +15,7 @@ import android.widget.ImageButton;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.test.espresso.Common;
+import com.expedia.bookings.test.espresso.EspressoUtils;
 import com.expedia.bookings.test.espresso.SpoonScreenshotUtils;
 import com.expedia.bookings.test.espresso.ViewActions;
 import com.expedia.bookings.test.phone.hotels.HotelScreen;
@@ -31,6 +33,8 @@ import static android.support.test.espresso.action.ViewActions.typeText;
 import static android.support.test.espresso.assertion.ViewAssertions.doesNotExist;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.RootMatchers.withDecorView;
+import static android.support.test.espresso.matcher.ViewMatchers.hasDescendant;
+import static android.support.test.espresso.matcher.ViewMatchers.hasSibling;
 import static android.support.test.espresso.matcher.ViewMatchers.isDescendantOfA;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withClassName;
@@ -235,6 +239,19 @@ public class PackageScreen {
 		return onView(withId(R.id.bundle_price_widget));
 	}
 
+	public static void tickCheckboxWithText(String title) {
+		checkBoxWithTitle(title).perform(scrollTo());
+		checkBoxWithTitle(title).perform(click());
+	}
+
+	public static ViewInteraction checkBoxWithTitle(String title) {
+		return onView(CoreMatchers.allOf(withId(R.id.check_box), hasSibling(CoreMatchers.allOf(withId(R.id.label), withText(title)))));
+	}
+
+	public static ViewInteraction checkBoxContainerWithTitle(String title) {
+		return onView(CoreMatchers.allOf(withId(R.id.filter_categories_widget), hasDescendant(CoreMatchers.allOf(withId(R.id.label), withText(title)))));
+	}
+
 	public static ViewInteraction addRoom() {
 		return onView(
 			allOf(
@@ -242,6 +259,11 @@ public class PackageScreen {
 				isDescendantOfA(allOf(withId(R.id.collapsed_container))),
 				withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE))
 		);
+	}
+
+	public static void resetFlightsFliter() {
+		onView(withId(R.id.dynamic_feedback_clear_button)).perform(click());
+		EspressoUtils.assertViewIsNotDisplayed(R.id.dynamic_feedback_container);
 	}
 
 	public static void clickAddRoom() {
