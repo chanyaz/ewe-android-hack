@@ -248,10 +248,6 @@ public class AccountSettingsActivity extends AppCompatActivity implements AboutS
 			getString(R.string.this_app_makes_use_of_the_following) + " " + getString(R.string.open_source_names)
 				+ "\n\n" + getString(R.string.stack_blur_credit));
 
-		// Tracking
-		if (savedInstanceState == null) {
-			OmnitureTracking.trackAccountPageLoad();
-		}
 	}
 
 	@Override
