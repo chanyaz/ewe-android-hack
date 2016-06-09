@@ -34,15 +34,26 @@
     <color name="hotel_lob_btn">@color/aag_primary_color</color>
     <color name="lx_lob_btn">@color/aag_primary_color</color>
     <color name="flights_lob_btn">@color/aag_primary_color</color>
+    <color name="hotels_primary_color">@color/aag_primary_color</color>
+    <color name="hotelsv2_discount_green">@color/aag_primary_color</color>
+    <color name="hotel_promo_background">#1c375d</color>
+
+    <!-- Checkout Colors -->
+    <color name="material_checkout_account_button_background_color">@color/aag_primary_color</color>
 
     <!-- Popular Hotels Tonight Discount strips-->
-    <color name="launch_mobile_exclusive">#F8A424</color>
+    <color name="launch_mobile_exclusive">#f18700</color>
     <color name="launch_discount">#E31F0E</color>
     <color name="launch_tonight_only">#333333</color>
+    <color name="hotel_urgency_message_color">#555555</color>
+    <color name="hotel_tonight_only_color">#C4204B</color>
+    <color name="hotel_mobile_exclusive_color">#00253C</color>
 
     <!-- Cars and LX-->
     <color name="cars_primary_color">@color/aag_primary_color</color>
     <color name="cars_unchecked_toggle_text_color">@android:color/white</color>
+
+    <!-- LX colors -->
     <color name="lx_primary_color">@color/aag_primary_color</color>
     <color name="lx_ripple_color">#8b1a10</color>
     <color name="lx_secondary_color_disabled">@color/aag_primary_color</color>
