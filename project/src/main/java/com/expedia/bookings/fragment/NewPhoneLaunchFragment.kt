@@ -21,7 +21,6 @@ import com.expedia.bookings.data.HotelSearchParams
 import com.expedia.bookings.interfaces.IPhoneLaunchActivityLaunchFragment
 import com.expedia.bookings.location.CurrentLocationObservable
 import com.expedia.bookings.otto.Events
-import com.expedia.bookings.tracking.OmnitureTracking
 import com.expedia.bookings.utils.Constants
 import com.expedia.bookings.utils.NavUtils
 import com.expedia.bookings.utils.bindView
@@ -59,7 +58,6 @@ class NewPhoneLaunchFragment : Fragment(), IPhoneLaunchActivityLaunchFragment {
         Events.post(Events.PhoneLaunchOnResume())
         val filter = IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION)
         activity.registerReceiver(broadcastReceiver, filter)
-        OmnitureTracking.trackPageLoadLaunchScreen()
     }
 
     private fun onReactToUserActive() {

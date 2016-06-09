@@ -239,7 +239,10 @@ class NewPhoneLaunchActivity : AbstractAppCompatActivity(), IPhoneLaunchFragment
         override fun onPageSelected(position: Int) {
             if (position != pagerPosition) {
                 when (position) {
-                    PAGER_POS_LAUNCH -> gotoWaterfall()
+                    PAGER_POS_LAUNCH -> {
+                        gotoWaterfall()
+                        OmnitureTracking.trackPageLoadLaunchScreen()
+                    }
                     PAGER_POS_ITIN -> gotoItineraries()
                     PAGER_POS_ACCOUNT -> {
                         viewPager.currentItem = PAGER_POS_ACCOUNT
@@ -318,6 +321,14 @@ class NewPhoneLaunchActivity : AbstractAppCompatActivity(), IPhoneLaunchFragment
         return super.onOptionsItemSelected(item)
     }
 
+    override fun onResume() {
+        super.onResume()
+        when(viewPager.currentItem) {
+            PAGER_POS_LAUNCH -> OmnitureTracking.trackPageLoadLaunchScreen()
+            PAGER_POS_ACCOUNT -> OmnitureTracking.trackAccountPageLoad()
+        }
+
+    }
 
     inner class PagerAdapter(fm: FragmentManager) : FragmentPagerAdapter(fm) {
 
