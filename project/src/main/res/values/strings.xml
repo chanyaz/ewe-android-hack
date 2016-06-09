@@ -4165,9 +4165,9 @@
     <string name="packages_search_child_drop_down_TEMPLATE">Select age for child {childnumber}</string>
     <!--Packages accessibility flight search filter-->
     <!--Content description for "SHOW MORE" button in filter used for Talkback-->
-    <string name="packages_flight_search_filter_show_more_cont_desc">Click here to show more airlines</string>
+    <string name="packages_flight_search_filter_show_more_cont_desc">Show more airlines. Button</string>
     <!--Content description for "SHOW LESS" button in filter used for Talkback-->
-    <string name="packages_flight_search_filter_show_less_cont_desc">Click here to show fewer airlines</string>
+    <string name="packages_flight_search_filter_show_less_cont_desc">Show fewer airlines. Button</string>
     <!--Content description for Bundle total widget. Example: Bundle total is $1,234.00. This price includes taxes, fees for both flights and hotel. $100.00 Saved-->
     <string name="bundle_overview_price_widget">Bundle total is {totalprice}. This price includes taxes, fees for both flights and hotel. {savings}</string>
     <!--Content description for Bundle sliding widget, with instruction to expand to show more details. Example: Bundle total is $1,234.00. This price includes taxes, fees for both flights and hotel. $100.00 Saved. Button to view bundle.-->
