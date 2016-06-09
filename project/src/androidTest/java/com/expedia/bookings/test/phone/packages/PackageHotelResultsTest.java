@@ -12,6 +12,7 @@ import com.expedia.bookings.utils.DateUtils;
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.Espresso.pressBack;
 import static android.support.test.espresso.action.ViewActions.click;
+import static android.support.test.espresso.assertion.ViewAssertions.doesNotExist;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.hasDescendant;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
@@ -30,6 +31,7 @@ public class PackageHotelResultsTest extends PackageTestCase {
 	public void testFilterBtn() throws Throwable {
 		PackageScreen.searchPackage();
 		onView(withId(R.id.filter_text)).check(matches(not(isDisplayed())));
+		onView(withId(R.id.menu_open_search)).check(doesNotExist());
 		onView(withId(R.id.filter_count_text)).check(matches(not(isDisplayed())));
 		onView(withId(R.id.filter_btn)).perform(click());
 		onView(withId(R.id.rating_four_background)).perform(click());
