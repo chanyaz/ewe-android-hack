@@ -31,7 +31,8 @@
         android:id="@+id/filter_placeholder_icon"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:padding="5dp" />
+        android:padding="5dp"
+        android:src="@drawable/sort"/>
 
     <com.expedia.bookings.widget.TextView
         android:id="@+id/filter_text"

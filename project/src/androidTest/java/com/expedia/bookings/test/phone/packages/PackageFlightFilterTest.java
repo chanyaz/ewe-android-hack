@@ -24,9 +24,11 @@ import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withSpinnerText;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
+import static com.expedia.bookings.test.espresso.EspressoUtils.assertViewWithTextIsDisplayed;
 import static com.expedia.bookings.test.espresso.ViewActions.waitForViewToDisplay;
 import static org.hamcrest.CoreMatchers.allOf;
 import static org.hamcrest.CoreMatchers.containsString;
+import static org.hamcrest.CoreMatchers.not;
 import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.Matchers.is;
 
@@ -153,6 +155,7 @@ public class PackageFlightFilterTest extends PackageTestCase {
 	}
 
 	private void assertFlightResultsFiltered() {
+		onView(withId(R.id.filter_count_text)).check(matches(not(isDisplayed())));
 		openFlightFilter();
 		selectSorting("Duration");
 		tickCheckboxWithText("Virgin America");
@@ -160,6 +163,7 @@ public class PackageFlightFilterTest extends PackageTestCase {
 		checkFilteredFlights("2 Results");
 		clickDone();
 		PackageScreen.flightList().perform(waitForViewToDisplay());
+		assertViewWithTextIsDisplayed(R.id.filter_count_text, "2");
 
 		EspressoUtils
 			.assertViewWithTextIsDisplayedAtPosition(PackageScreen.flightList(), 1, R.id.flight_time_detail_text_view,

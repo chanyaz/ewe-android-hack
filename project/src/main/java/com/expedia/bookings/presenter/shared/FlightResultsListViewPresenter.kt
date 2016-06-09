@@ -35,6 +35,7 @@ class FlightResultsListViewPresenter(context: Context, attrs: AttributeSet) : Pr
     val showSortAndFilterViewSubject = PublishSubject.create<Unit>()
 
     var isShowingOutboundResults = false
+    var showFilterButton = true
 
     init {
         View.inflate(getContext(), R.layout.widget_flight_results_package, this)
@@ -68,7 +69,7 @@ class FlightResultsListViewPresenter(context: Context, attrs: AttributeSet) : Pr
 
     val listResultsObserver = endlessObserver<List<FlightLeg>> {
         flightListAdapter.setNewFlights(it)
-        filterButton.visibility = VISIBLE
+        filterButton.visibility = if (showFilterButton) View.VISIBLE else View.GONE
     }
 
     private fun setupFilterButton() {

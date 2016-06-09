@@ -12,13 +12,13 @@ import com.expedia.bookings.test.phone.pagemodels.common.SearchScreen;
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.action.ViewActions.scrollTo;
+import static android.support.test.espresso.assertion.ViewAssertions.doesNotExist;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.hasDescendant;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.CoreMatchers.allOf;
-import static org.hamcrest.Matchers.not;
 
 public class PackageFlightsOverviewTest extends PackageTestCase {
 
@@ -58,8 +58,8 @@ public class PackageFlightsOverviewTest extends PackageTestCase {
 			PackageScreen.flightsToolbarFilterMenu().check(matches(isDisplayed()));
 		}
 		else {
-			PackageScreen.flightsToolbarSearchMenu().check(matches(not(isDisplayed())));
-			PackageScreen.flightsToolbarFilterMenu().check(matches(not(isDisplayed())));
+			PackageScreen.flightsToolbarSearchMenu().check(doesNotExist());
+			PackageScreen.flightsToolbarFilterMenu().check(doesNotExist());
 		}
 	}
 

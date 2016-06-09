@@ -3,8 +3,11 @@ package com.expedia.bookings.presenter.packages
 import android.app.Activity
 import android.content.Context
 import android.support.v7.app.AppCompatActivity
-import android.support.v7.view.menu.ActionMenuItemView
 import android.util.AttributeSet
+import android.view.LayoutInflater
+import android.view.MenuItem
+import android.widget.ImageView
+import android.widget.LinearLayout
 import com.expedia.bookings.R
 import android.view.View
 import com.expedia.bookings.data.Db
@@ -16,10 +19,14 @@ import com.expedia.bookings.tracking.PackagesTracking
 import com.expedia.bookings.utils.Constants
 import com.expedia.bookings.utils.PackageResponseUtils
 import com.expedia.bookings.widget.PackageFlightListAdapter
+import com.expedia.bookings.widget.TextView
 import com.expedia.util.endlessObserver
+import com.expedia.util.subscribeInverseVisibility
+import com.expedia.util.subscribeText
+import com.expedia.util.subscribeVisibility
+import kotlin.properties.Delegates
 
 class PackageFlightPresenter(context: Context, attrs: AttributeSet) : BaseFlightPresenter(context, attrs) {
-
     private val flightOverviewSelected = endlessObserver<FlightLeg> { flight ->
         val params = Db.getPackageParams()
         if (flight.outbound) {
@@ -35,6 +42,27 @@ class PackageFlightPresenter(context: Context, attrs: AttributeSet) : BaseFlight
         val activity = (context as AppCompatActivity)
         activity.setResult(Activity.RESULT_OK)
         activity.finish()
+    }
+
+    override fun onFinishInflate() {
+        super.onFinishInflate()
+        setupMenuFilter()
+    }
+
+    private fun setupMenuFilter() {
+        val toolbarFilterItemActionView = LayoutInflater.from(context).inflate(R.layout.toolbar_filter_item, null) as LinearLayout
+        val filterCountText = toolbarFilterItemActionView.findViewById(R.id.filter_count_text) as TextView
+        val filterPlaceholderImageView = toolbarFilterItemActionView.findViewById(R.id.filter_placeholder_icon) as ImageView
+        val filterButtonText = toolbarFilterItemActionView.findViewById(R.id.filter_text) as TextView
+        val filterBtn = toolbarFilterItemActionView.findViewById(R.id.filter_btn) as LinearLayout
+
+        filterButtonText.visibility = GONE
+        filterBtn.setOnClickListener { show(filter) }
+
+        menuFilter?.actionView = toolbarFilterItemActionView
+        filter.viewModel.filterCountObservable.map { it.toString() }.subscribeText(filterCountText)
+        filter.viewModel.filterCountObservable.map { it > 0 }.subscribeVisibility(filterCountText)
+        filter.viewModel.filterCountObservable.map { it > 0 }.subscribeInverseVisibility(filterPlaceholderImageView)
     }
 
     override fun addResultOverViewTransition() {
@@ -59,6 +87,8 @@ class PackageFlightPresenter(context: Context, attrs: AttributeSet) : BaseFlight
     }
 
     init {
+        resultsPresenter.showFilterButton = false
+
         val activity = (context as AppCompatActivity)
         val intent = activity.intent
         if (intent.hasExtra(Constants.PACKAGE_LOAD_OUTBOUND_FLIGHT)) {
@@ -112,6 +142,7 @@ class PackageFlightPresenter(context: Context, attrs: AttributeSet) : BaseFlight
         override fun endTransition(forward: Boolean) {
             super.endTransition(forward)
             toolbarViewModel.refreshToolBar.onNext(forward)
+            filter.visibility = View.GONE
             resultsPresenter.visibility = View.INVISIBLE
             overviewPresenter.visibility = View.VISIBLE
         }
@@ -132,8 +163,7 @@ class PackageFlightPresenter(context: Context, attrs: AttributeSet) : BaseFlight
 
     override fun setupToolbarMenu() {
         toolbar.inflateMenu(R.menu.package_flights_menu)
-        menuFilter = toolbar.findViewById(R.id.menu_filter) as ActionMenuItemView
-        menuFilter!!.setOnClickListener { show(filter) }
+        menuFilter = toolbar.menu.findItem(R.id.menu_filter) as MenuItem
     }
 
     override fun trackShowBaggageFee() = PackagesTracking().trackFlightBaggageFeeClick()

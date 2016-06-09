@@ -131,11 +131,6 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
 
     var filterCountText: TextView by Delegates.notNull()
     var filterPlaceholderImageView: ImageView by Delegates.notNull()
-    val filterPlaceholderIcon by lazy {
-        val sortDrawable = ContextCompat.getDrawable(context, R.drawable.sort).mutate()
-        sortDrawable.setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_IN)
-        sortDrawable
-    }
     var filterBtn: LinearLayout? = null
 
     val searchOverlaySubject = PublishSubject.create<Unit>()
@@ -501,7 +496,6 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
         val toolbarFilterItemActionView = LayoutInflater.from(context).inflate(R.layout.toolbar_filter_item, null) as LinearLayout
         filterCountText = toolbarFilterItemActionView.findViewById(R.id.filter_count_text) as TextView
         filterPlaceholderImageView = toolbarFilterItemActionView.findViewById(R.id.filter_placeholder_icon) as ImageView
-        filterPlaceholderImageView.setImageDrawable(filterPlaceholderIcon)
         filterBtn = toolbarFilterItemActionView.findViewById(R.id.filter_btn) as LinearLayout
         filterMenuItem.actionView = toolbarFilterItemActionView
     }
