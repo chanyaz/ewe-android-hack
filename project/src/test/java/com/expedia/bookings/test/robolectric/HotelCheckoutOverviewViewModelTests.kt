@@ -3,7 +3,7 @@ package com.expedia.bookings.test.robolectric
 import android.app.Activity
 import android.content.Context
 import com.expedia.bookings.R
-import com.expedia.bookings.data.TripBucketItemHotelV2
+import com.expedia.bookings.data.trips.TripBucketItemHotelV2
 import com.expedia.bookings.data.hotels.HotelCreateTripResponse
 import com.expedia.bookings.test.MockHotelServiceTestRule
 import com.expedia.vm.HotelCheckoutOverviewViewModel

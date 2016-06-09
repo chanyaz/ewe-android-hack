@@ -22,7 +22,7 @@ import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.Response;
 import com.expedia.bookings.data.ServerError;
 import com.expedia.bookings.data.Traveler;
-import com.expedia.bookings.data.TripBucketItemFlight;
+import com.expedia.bookings.data.trips.TripBucketItemFlight;
 import com.expedia.bookings.fragment.RetryErrorDialogFragment.RetryErrorDialogFragmentListener;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.server.ExpediaServices;

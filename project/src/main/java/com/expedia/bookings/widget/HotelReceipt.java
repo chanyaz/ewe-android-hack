@@ -29,7 +29,7 @@ import com.expedia.bookings.data.HotelMedia;
 import com.expedia.bookings.data.HotelSearchParams;
 import com.expedia.bookings.data.Location;
 import com.expedia.bookings.data.Rate;
-import com.expedia.bookings.data.TripBucketItemHotel;
+import com.expedia.bookings.data.trips.TripBucketItemHotel;
 import com.expedia.bookings.data.abacus.AbacusUtils;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;

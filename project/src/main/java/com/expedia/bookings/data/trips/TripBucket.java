@@ -1,4 +1,4 @@
-package com.expedia.bookings.data;
+package com.expedia.bookings.data.trips;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -11,6 +11,16 @@ import org.json.JSONObject;
 
 import android.text.TextUtils;
 
+import com.expedia.bookings.data.AirAttach;
+import com.expedia.bookings.data.FlightLeg;
+import com.expedia.bookings.data.FlightSearch;
+import com.expedia.bookings.data.FlightSearchParams;
+import com.expedia.bookings.data.HotelAvailability;
+import com.expedia.bookings.data.HotelSearch;
+import com.expedia.bookings.data.HotelSearchParams;
+import com.expedia.bookings.data.LineOfBusiness;
+import com.expedia.bookings.data.Location;
+import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.otto.Events;
@@ -87,6 +97,10 @@ public class TripBucket implements JSONable {
 		clear(LineOfBusiness.PACKAGES);
 	}
 
+	public void clearRails() {
+		clear(LineOfBusiness.RAIL);
+	}
+
 	/**
 	 * Convenience method to determine when we really need to refresh this TripBucket.
 	 *
@@ -157,6 +171,10 @@ public class TripBucket implements JSONable {
 
 	public void add(TripBucketItemPackages packages) {
 		addBucket(packages);
+	}
+
+	public void add(TripBucketItemRails rails) {
+		addBucket(rails);
 	}
 
 	private void addBucket(TripBucketItem tripBucketItem) {

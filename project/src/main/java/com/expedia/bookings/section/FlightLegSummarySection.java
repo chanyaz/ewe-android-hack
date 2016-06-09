@@ -24,7 +24,7 @@ import com.expedia.bookings.data.FlightSearch.FlightTripQuery;
 import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.FlightTripLeg;
 import com.expedia.bookings.data.Money;
-import com.expedia.bookings.data.TripBucketItemFlight;
+import com.expedia.bookings.data.trips.TripBucketItemFlight;
 import com.expedia.bookings.data.abacus.AbacusUtils;
 import com.expedia.bookings.utils.FontCache;
 import com.expedia.bookings.utils.JodaUtils;

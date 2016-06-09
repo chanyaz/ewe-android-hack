@@ -61,4 +61,8 @@ public class RailScreen {
 	public static void clickSelectFareOption() {
 		selectFareOption("$149.22").perform(scrollTo(), click());
 	}
+
+	public static ViewInteraction checkout() {
+		return onView(withId(R.id.checkout_button));
+	}
 }

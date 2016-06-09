@@ -21,6 +21,7 @@ import android.text.TextUtils;
 import com.expedia.bookings.data.payment.LoyaltyEarnInfo;
 import com.expedia.bookings.data.payment.PointsEarnInfo;
 import com.expedia.bookings.data.payment.PriceEarnInfo;
+import com.expedia.bookings.data.trips.TripBucketItem;
 import com.expedia.bookings.model.FlightPaymentFlowState;
 import com.expedia.bookings.utils.GsonUtil;
 import com.mobiata.android.Log;

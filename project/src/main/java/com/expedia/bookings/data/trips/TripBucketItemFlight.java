@@ -1,8 +1,15 @@
-package com.expedia.bookings.data;
+package com.expedia.bookings.data.trips;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import com.expedia.bookings.data.CreateItineraryResponse;
+import com.expedia.bookings.data.FlightCheckoutResponse;
+import com.expedia.bookings.data.FlightSearch;
+import com.expedia.bookings.data.FlightSearchParams;
+import com.expedia.bookings.data.FlightTrip;
+import com.expedia.bookings.data.Itinerary;
+import com.expedia.bookings.data.LineOfBusiness;
 import com.mobiata.android.Log;
 import com.mobiata.android.json.JSONUtils;
 

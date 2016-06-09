@@ -33,10 +33,12 @@ public class RailPhoneHappyPathTest extends RailTestCase {
 
 		RailScreen.scrollToFareOptions();
 		onView(withText("Any off-peak train")).check(matches(isDisplayed()));
-
+		Common.delay(1);
 		RailScreen.clickSelectFareOption();
 
 		onView(allOf(withText("3h 22m, 1 Change"), isDescendantOfA(allOf(withId(R.id.rail_leg_container)))))
 			.check(matches(isDisplayed()));
+
+		RailScreen.checkout().perform(click());
 	}
 }

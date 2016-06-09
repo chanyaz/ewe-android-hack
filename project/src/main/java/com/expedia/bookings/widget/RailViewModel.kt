@@ -2,6 +2,7 @@ package com.expedia.bookings.widget
 
 import android.content.Context
 import com.expedia.bookings.R
+import com.expedia.bookings.data.rail.responses.LegOption
 import com.expedia.bookings.data.rail.responses.RailSearchResponse
 import com.mobiata.flightlib.utils.DateTimeUtils
 import com.squareup.phrase.Phrase
@@ -11,7 +12,7 @@ import rx.subjects.PublishSubject
 class RailViewModel(val context: Context) {
 
     //Inputs
-    val legOptionObservable = PublishSubject.create<RailSearchResponse.LegOption>()
+    val legOptionObservable = PublishSubject.create<LegOption>()
 
     //Outputs
     val priceObservable = BehaviorSubject.create<String>()

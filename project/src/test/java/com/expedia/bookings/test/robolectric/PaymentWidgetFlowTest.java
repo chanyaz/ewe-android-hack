@@ -20,7 +20,7 @@ import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.Location;
 import com.expedia.bookings.data.PaymentType;
 import com.expedia.bookings.data.StoredCreditCard;
-import com.expedia.bookings.data.TripBucketItemHotelV2;
+import com.expedia.bookings.data.trips.TripBucketItemHotelV2;
 import com.expedia.bookings.data.ValidPayment;
 import com.expedia.bookings.data.hotels.HotelCreateTripResponse;
 import com.expedia.bookings.data.hotels.HotelOffersResponse;

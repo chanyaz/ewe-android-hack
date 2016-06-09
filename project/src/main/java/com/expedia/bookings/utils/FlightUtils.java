@@ -22,7 +22,7 @@ import com.expedia.bookings.data.FlightLeg;
 import com.expedia.bookings.data.FlightSearchParams;
 import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.Money;
-import com.expedia.bookings.data.TripBucketItemFlight;
+import com.expedia.bookings.data.trips.TripBucketItemFlight;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.fragment.FlightAdditionalFeesDialogFragment;
 import com.mobiata.flightlib.data.Waypoint;

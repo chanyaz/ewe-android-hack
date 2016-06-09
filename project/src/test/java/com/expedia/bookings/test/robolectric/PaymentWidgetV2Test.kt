@@ -11,7 +11,7 @@ import com.expedia.bookings.data.BillingInfo
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.PaymentType
 import com.expedia.bookings.data.StoredCreditCard
-import com.expedia.bookings.data.TripBucketItemHotelV2
+import com.expedia.bookings.data.trips.TripBucketItemHotelV2
 import com.expedia.bookings.data.User
 import com.expedia.bookings.data.abacus.AbacusResponse
 import com.expedia.bookings.data.abacus.AbacusUtils

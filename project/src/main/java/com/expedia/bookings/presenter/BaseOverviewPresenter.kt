@@ -21,7 +21,7 @@ abstract class BaseOverviewPresenter(context: Context, attrs: AttributeSet) : Pr
     val ANIMATION_DURATION = 400
 
     val bundleOverviewHeader: BundleOverviewHeader by bindView(R.id.coordinator_layout)
-    protected val checkoutPresenter: BaseCheckoutPresenter by lazy { findViewById(R.id.checkout_presenter) as BaseCheckoutPresenter }
+    protected val checkoutPresenter: BaseCheckoutPresenter by lazy  { findViewById(R.id.checkout_presenter) as BaseCheckoutPresenter }
     val cvv: CVVEntryWidget by bindView(R.id.cvv)
 
     val toolbarHeight = Ui.getStatusBarHeight(context) + Ui.getToolbarSize(context)
@@ -146,7 +146,6 @@ abstract class BaseOverviewPresenter(context: Context, attrs: AttributeSet) : Pr
             super.endTransition(forward)
             bundleOverviewHeader.checkoutOverviewHeaderToolbar.visibility = if (forward) View.GONE else View.VISIBLE
             bundleOverviewHeader.toggleCollapsingToolBar(!forward)
-
             checkoutPresenter.toggleCheckoutButton(!forward)
 
             checkoutPresenter.mainContent.visibility = if (forward) View.VISIBLE else View.GONE

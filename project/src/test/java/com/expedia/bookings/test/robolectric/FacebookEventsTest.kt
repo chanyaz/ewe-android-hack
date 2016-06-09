@@ -2,7 +2,7 @@ package com.expedia.bookings.test.robolectric
 
 import com.expedia.bookings.data.HotelSearch
 import com.expedia.bookings.data.Rate
-import com.expedia.bookings.data.TripBucketItemHotel
+import com.expedia.bookings.data.trips.TripBucketItemHotel
 import com.expedia.bookings.tracking.FacebookEvents
 import org.junit.Test
 import org.junit.runner.RunWith

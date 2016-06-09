@@ -25,7 +25,7 @@ import com.expedia.bookings.data.HotelSearchParams;
 import com.expedia.bookings.data.Location;
 import com.expedia.bookings.data.HotelMedia;
 import com.expedia.bookings.data.Property;
-import com.expedia.bookings.data.TripBucketItemHotel;
+import com.expedia.bookings.data.trips.TripBucketItemHotel;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.graphics.HeaderBitmapDrawable;
 import com.expedia.bookings.graphics.HeaderBitmapDrawable.CornerMode;

@@ -1,7 +1,7 @@
 package com.expedia.bookings.test
 
 import com.expedia.bookings.data.Db
-import com.expedia.bookings.data.TripBucketItemHotelV2
+import com.expedia.bookings.data.trips.TripBucketItemHotelV2
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import org.junit.Before
 import org.junit.Rule

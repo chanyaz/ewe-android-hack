@@ -11,7 +11,7 @@ import android.view.ViewGroup;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.LineOfBusiness;
-import com.expedia.bookings.data.TripBucket;
+import com.expedia.bookings.data.trips.TripBucket;
 import com.expedia.bookings.utils.FragmentAvailabilityUtils;
 import com.expedia.bookings.widget.CenteredCaptionedIcon;
 import com.expedia.bookings.widget.TouchableFrameLayout;
