@@ -1129,30 +1129,30 @@
     <string name="yesterday">Yesterday</string>
     <!-- "XX Minutes" - an event happening XX minutes in the future -->
     <plurals name="minutes_from_now">
-        <item quantity="zero">%s minutes</item>
-        <item quantity="one">%s minute</item>
-        <item quantity="two">%s minutes</item>
-        <item quantity="few">%s minutes</item>
-        <item quantity="many">%s minutes</item>
-        <item quantity="other">%s minutes</item>
+        <item quantity="zero">{minutes} minutes</item>
+        <item quantity="one">{minutes} minute</item>
+        <item quantity="two">{minutes} minutes</item>
+        <item quantity="few">{minutes} minutes</item>
+        <item quantity="many">{minutes} minutes</item>
+        <item quantity="other">{minutes} minutes</item>
     </plurals>
     <!-- "XX Hours" - an event happening XX hours in the future -->
     <plurals name="hours_from_now">
-        <item quantity="zero">%s hours</item>
-        <item quantity="one">%s hour</item>
-        <item quantity="two">%s hours</item>
-        <item quantity="few">%s hours</item>
-        <item quantity="many">%s hours</item>
-        <item quantity="other">%s hours</item>
+        <item quantity="zero">{hours} hours</item>
+        <item quantity="one">{hours} hour</item>
+        <item quantity="two">{hours} hours</item>
+        <item quantity="few">{hours} hours</item>
+        <item quantity="many">{hours} hours</item>
+        <item quantity="other">{hours} hours</item>
     </plurals>
     <!-- "XX Days" an event happening XX days in the future -->
     <plurals name="days_from_now">
-        <item quantity="zero">%s days</item>
-        <item quantity="one">%s day</item>
-        <item quantity="two">%s days</item>
-        <item quantity="few">%s days</item>
-        <item quantity="many">%s days</item>
-        <item quantity="other">%s days</item>
+        <item quantity="zero">{days} days</item>
+        <item quantity="one">{days} day</item>
+        <item quantity="two">{days} days</item>
+        <item quantity="few">{days} days</item>
+        <item quantity="many">{days} days</item>
+        <item quantity="other">{days} days</item>
     </plurals>
     <!-- Shared Itin - Fallback name for itin card -->
     <string name="sharedItin_card_fallback_name">Shared Itinerary</string>
@@ -4146,8 +4146,12 @@
 
     <!--Packages search accessibility -->
     <!-- Flight Detail card view content description for accessibility.
-         Example: Flight time is 10am - 12:30pm with price difference of $25. Flying with United and the flight duration is 2 hours 30 minutes. Click to view flight details -->
-    <string name="flight_detail_card_content_description">Flight time is {time} with price difference of {pricedifference}. Flying with {airline} and the flight duration is {hours} hours {minutes} minutes. Click to view flight details</string>
+    Eg. Flight time is 9:00 am - 11:12 am with price difference of +$0. Flying with United. The flight duration is 5 hours 12 minutes with 0 stops. -->
+    <string name="flight_detail_card_cont_desc_TEMPLATE">Flight time is {time} with price difference of {pricedifference}. Flying with {airline}. The flight duration is {hours} {minutes} with {stops} stops.</string>
+    <!--Flight Detail card view - flight duration content description for accessibility Eg. SFO to DTM. 3 hours 15 minutes.-->
+    <string name="flight_detail_flight_duration_card_cont_desc_TEMPLATE">{departureairport} to {arrivalairport}. {durationhours} {durationmins}.</string>
+    <!--Flight Detail card view - layover duration content description for accessibility Eg. Layover. 2 hours 4 minutes.-->
+    <string name="flight_detail_layover_duration_card_cont_desc_TEMPLATE">Layover. {layoverhours} {layovermins}.</string>
     <!--Flying to card content description Eg. Flying to San Francisco, CA (SFO-San Francisco Intl.)-->
     <string name="packages_search_flying_to_content_description">Flying to {to_destination}</string>
     <!--Flying from card content description Eg. Flying from Detroit, MI (DTW-Detroit Metropolitan Wayne County)-->
@@ -4170,8 +4174,8 @@
     <string name="packages_add_child_traveler_contdesc">Add one child traveler</string>
     <!--Traveler widget child minus button content description-->
     <string name="packages_remove_child_traveler_contdesc">Remove one child traveler</string>
-    <!--Packages search child age drop down content description Eg. "Select age for child 1"-->
-    <string name="packages_search_child_drop_down_TEMPLATE">Select age for child {childnumber}</string>
+    <!--Packages search child age drop down content description Eg. "Select age for child 1."-->
+    <string name="packages_search_child_drop_down_TEMPLATE">Select age for child {childnumber}.</string>
     <!--Packages accessibility flight search filter-->
     <!--Content description for "SHOW MORE" button in filter used for Talkback-->
     <string name="packages_flight_search_filter_show_more_cont_desc">Show more airlines. Button</string>
@@ -4197,4 +4201,6 @@
     <!-- Content description for toolbar 'X' i.e. close/back button -->
     <string name="toolbar_search_nav_icon">Back</string>
 
+    <!--Packages accessibility content description for role Button-->
+    <string name="accessibility_cont_desc_role_button">Button</string>
 </resources>

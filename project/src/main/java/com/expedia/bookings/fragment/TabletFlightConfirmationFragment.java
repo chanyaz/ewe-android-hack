@@ -37,6 +37,7 @@ import com.expedia.bookings.utils.JodaUtils;
 import com.expedia.bookings.utils.ShareUtils;
 import com.expedia.bookings.utils.Ui;
 import com.mobiata.android.SocialUtils;
+import com.squareup.phrase.Phrase;
 
 public class TabletFlightConfirmationFragment extends TabletConfirmationFragment {
 
@@ -168,7 +169,9 @@ public class TabletFlightConfirmationFragment extends TabletConfirmationFragment
 		DateTime currentDate = new DateTime();
 		int numDays = JodaUtils.daysBetween(currentDate, Db.getTripBucket().getAirAttach().getExpirationDate());
 		mAirAttachExpiresTextView.setText(R.string.air_attach_expires);
-		mAirAttachExpirationDateTextView.setText(getResources().getQuantityString(R.plurals.days_from_now, numDays, numDays));
+		mAirAttachExpirationDateTextView.setText(
+			Phrase.from(getResources().getQuantityString(R.plurals.days_from_now, numDays))
+				.put("days", numDays).format().toString());
 
 	}
 
