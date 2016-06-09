@@ -123,8 +123,8 @@ class PackageServices(endpoint: String, okHttpClient: OkHttpClient, interceptor:
                 }
     }
 
-    fun hotelOffer(piid: String, checkInDate: String, checkOutDate: String, ratePlanCode: String?, roomTypeCode: String?): Observable<PackageOffersResponse> {
-        return packageApi.packageHotelOffers(piid, checkInDate, checkOutDate, ratePlanCode, roomTypeCode)
+    fun hotelOffer(piid: String, checkInDate: String, checkOutDate: String, ratePlanCode: String?, roomTypeCode: String?, numberOfAdultTravelers: Int, childTravelerAge: Int?): Observable<PackageOffersResponse> {
+        return packageApi.packageHotelOffers(piid, checkInDate, checkOutDate, ratePlanCode, roomTypeCode, numberOfAdultTravelers, childTravelerAge)
                 .observeOn(observeOn)
                 .subscribeOn(subscribeOn)
     }
