@@ -3941,18 +3941,24 @@
         <item quantity="other">2+ Stops</item>
     </plurals>
 
+    <!-- Flight Nonstop description -->
+    <string name="flight_nonstop_description">Nonstop</string>
     <!-- Flight duration template e.g. 1d 12h 42m (Nonstop) -->
     <string name="flight_duration_description_template">%1$s (%2$s)</string>
     <!-- Flight hour duration template e.g. 12h 42m -->
     <string name="flight_hour_min_duration_template">%1$dh %2$dm</string>
     <!-- Flight min duration template e.g. 1d 12h 42m (2hr layover) -->
     <string name="flight_min_duration_template">%1$dm</string>
-    <!-- Flight Nonstop description -->
-    <string name="flight_nonstop_description">Nonstop</string>
+
     <!-- Flight departure arrival time in multi days e.g. 5:15 pm - 7:48 am +1d -->
     <string name="flight_departure_arrival_time_multi_day_template">%1$s - %2$s +%3$dd</string>
+    <!-- Accessible text for Flight departure arrival time same day e.g. 5:15 pm to 7:48 pm plus 1d -->
+    <string name="flight_departure_arrival_time_multi_day_cont_desc_TEMPLATE">{departuretime} to {arrivaltime} plus {elapseddays}d</string>
     <!-- Flight departure arrival time same day e.g. 5:15 pm - 7:48 pm -->
     <string name="flight_departure_arrival_time_template">%1$s - %2$s</string>
+    <!-- Accessible text for Flight departure arrival time same day e.g. 5:15 pm to 7:48 pm -->
+    <string name="flight_departure_arrival_time_cont_desc_TEMPLATE">{departuretime} to {arrivaltime}</string>
+
     <!-- Select flight to template -->
     <string name="select_flight_to">Select flight to %1$s</string>
     <!-- Flight to template -->

@@ -73,6 +73,21 @@ object PackageFlightUtils {
         return getFlightDepartureArrivalTime(context, DateUtils.formatTimeShort(departureTime), DateUtils.formatTimeShort(arrivalTime))
     }
 
+    @JvmStatic fun getAccessibleDepartArrivalTime(context: Context, flight: FlightLeg): String {
+        val departureTime = DateUtils.formatTimeShort(flight.departureDateTimeISO)
+        val arrivalTime = DateUtils.formatTimeShort(flight.arrivalDateTimeISO)
+        val elapsedDays = flight.elapsedDays
+        if (elapsedDays > 0) {
+            return Phrase.from(context, R.string.flight_departure_arrival_time_multi_day_cont_desc_TEMPLATE)
+                    .put("departuretime", departureTime)
+                    .put("arrivaltime", arrivalTime)
+                    .put("elapseddays", elapsedDays).format().toString()
+        }
+        return Phrase.from(context, R.string.flight_departure_arrival_time_cont_desc_TEMPLATE)
+                .put("departuretime", departureTime)
+                .put("arrivaltime", arrivalTime).format().toString()
+    }
+
     @JvmStatic fun getFlightDepartureArrivalTime(context: Context, departureTime: String, arrivalTime: String): String {
         return context.resources.getString(R.string.flight_departure_arrival_time_template, departureTime, arrivalTime)
     }

@@ -171,7 +171,7 @@ public class DateUtils {
 	}
 
 	/**
-	 * Converts from format "12:30PM" to "12:30 pm"
+	 * Converts from format 2014-07-05T12:30:00.000-05:00 to "12:30 pm"
 	 */
 	public static String formatTimeShort(String timeStr) {
 		DateTimeFormatter fmt = ISODateTimeFormat.dateTime().withOffsetParsed();
