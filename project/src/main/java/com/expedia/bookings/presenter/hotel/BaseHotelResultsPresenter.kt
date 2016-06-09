@@ -903,6 +903,7 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
                     mapCarouselContainer.visibility = View.INVISIBLE
                 } else {
                     mapCarouselContainer.visibility = View.VISIBLE
+                    animateFab(true)
                 }
                 if (forward) {
                     mapCarouselContainer.translationX = 0f
