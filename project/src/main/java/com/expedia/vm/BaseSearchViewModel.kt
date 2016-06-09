@@ -163,7 +163,7 @@ abstract class BaseSearchViewModel(val context: Context) {
             val nightsString = context.resources.getQuantityString(R.plurals.length_of_stay, nightCount, nightCount)
 
             if (isContentDescription) {
-                sb.append(Phrase.from(context, R.string.packages_search_dates_content_description_trip)
+                sb.append(Phrase.from(context, R.string.packages_search_dates_trip_cont_desc_TEMPLATE)
                         .put("date_range", dateRangeText)
                         .put("nights", context.resources.getString(R.string.nights_count_TEMPLATE, nightsString))
                         .format().toString())
@@ -184,7 +184,7 @@ abstract class BaseSearchViewModel(val context: Context) {
 
     open fun computeDateRangeText(start: LocalDate?, end: LocalDate?, isContentDescription: Boolean): String? {
         if (start == null && end == null) {
-            var stringID = if (isContentDescription) R.string.packages_search_dates_content_description_initial else R.string.select_dates
+            var stringID = if (isContentDescription) R.string.packages_search_dates_initial_cont_desc else R.string.select_dates
             return context.resources.getString(stringID)
         } else if (end == null) {
             return context.resources.getString(R.string.select_checkout_date_TEMPLATE, DateUtils.localDateToMMMd(start))

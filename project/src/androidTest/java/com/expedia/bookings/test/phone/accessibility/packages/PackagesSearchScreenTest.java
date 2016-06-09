@@ -25,7 +25,7 @@ public class PackagesSearchScreenTest extends PackageTestCase {
 		checkToolbarNavContentDescription(true);
 		PackageScreen.toolbarNavigationUp(R.id.search_toolbar).perform(click());
 		checkToolbarNavContentDescription(false);
-		SearchScreen.origin().check(matches(withContentDescription("Button to select where you want to fly from")));
+		SearchScreen.origin().check(matches(withContentDescription("Flying from. Button")));
 		SearchScreen.origin().perform(click());
 		checkToolbarNavContentDescription(true);
 		SearchScreen.searchEditText().perform(typeText(TestValues.TYPE_TEXT_SFO));
@@ -34,7 +34,7 @@ public class PackagesSearchScreenTest extends PackageTestCase {
 		checkToolbarNavContentDescription(true);
 		PackageScreen.toolbarNavigationUp(R.id.search_toolbar).perform(click());
 		checkToolbarNavContentDescription(false);
-		SearchScreen.destination().check(matches(withContentDescription("Button to select where you want to fly to")));
+		SearchScreen.destination().check(matches(withContentDescription("Flying to. Button")));
 		SearchScreen.destination().perform(click());
 		checkToolbarNavContentDescription(true);
 		SearchScreen.searchEditText().perform(typeText(TestValues.TYPE_TEXT_DTW));
@@ -43,17 +43,35 @@ public class PackagesSearchScreenTest extends PackageTestCase {
 
 		Common.pressBack();
 		checkToolbarNavContentDescription(false);
-		SearchScreen.calendarCard().check(matches(withContentDescription("Button to select your travel dates")));
+		SearchScreen.calendarCard().check(matches(withContentDescription("Select travel dates. Button. Opens dialog")));
 		SearchScreen.calendarCard().perform(click());
 		LocalDate startDate = LocalDate.now().plusDays(3);
 		LocalDate endDate = LocalDate.now().plusDays(8);
 		SearchScreen.selectDates(startDate, endDate);
 
-		SearchScreen.origin().check(matches(withContentDescription("Flying from San Francisco, CA (SFO-San Francisco Intl.)")));
-		SearchScreen.destination().check(matches(withContentDescription("Flying to Detroit, MI (DTW-Detroit Metropolitan Wayne County)")));
+		SearchScreen.selectGuestsButton().check(matches(withContentDescription("Number of travelers. Button. Opens dialog. 1 traveler")));
+		SearchScreen.selectGuestsButton().perform(click());
+		SearchScreen.incrementAdultsButton();
+		SearchScreen.searchAlertDialogDone().perform(click());
+		SearchScreen.selectGuestsButton().check(matches(withContentDescription("Number of travelers. Button. Opens dialog. 2 travelers")));
+		SearchScreen.selectGuestsButton().perform(click());
+		SearchScreen.incrementChildrenButton();
+		SearchScreen.searchAlertDialogDone().perform(click());
+		SearchScreen.selectGuestsButton().check(matches(withContentDescription("Number of travelers. Button. Opens dialog. 3 travelers")));
+		SearchScreen.selectGuestsButton().perform(click());
+		SearchScreen.removeChildButton().perform(click());
+		SearchScreen.searchAlertDialogDone().perform(click());
+		SearchScreen.selectGuestsButton().check(matches(withContentDescription("Number of travelers. Button. Opens dialog. 2 travelers")));
+		SearchScreen.selectGuestsButton().perform(click());
+		SearchScreen.removeAdultsButton().perform(click());
+		SearchScreen.searchAlertDialogDone().perform(click());
+		SearchScreen.selectGuestsButton().check(matches(withContentDescription("Number of travelers. Button. Opens dialog. 1 traveler")));
+
+		SearchScreen.origin().check(matches(withContentDescription("Flying from. Button. San Francisco, CA (SFO-San Francisco Intl.)")));
+		SearchScreen.destination().check(matches(withContentDescription("Flying to. Button. Detroit, MI (DTW-Detroit Metropolitan Wayne County)")));
 		String expectedStartDate = DateUtils.localDateToMMMd(startDate);
 		String expectedEndDate = DateUtils.localDateToMMMd(endDate);
-		SearchScreen.calendarCard().check(matches(withContentDescription("Your trip is from " + expectedStartDate + " to " + expectedEndDate + " for (5 nights)")));
+		SearchScreen.calendarCard().check(matches(withContentDescription("Trip dates. Button. Opens dialog. " + expectedStartDate + " to " + expectedEndDate + ". (5 nights)")));
 		checkToolbarNavContentDescription(false);
 
 		Common.delay(1);

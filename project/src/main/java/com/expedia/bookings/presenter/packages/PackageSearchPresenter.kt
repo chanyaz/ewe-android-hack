@@ -37,13 +37,13 @@ class PackageSearchPresenter(context: Context, attrs: AttributeSet) : BaseTwoLoc
         travelerWidgetV2.traveler.viewmodel.isInfantInLapObservable.subscribe(vm.isInfantInLapObserver)
         vm.formattedOriginObservable.subscribe {
             text -> originCardView.setText(text)
-            originCardView.contentDescription = Phrase.from(context, R.string.packages_search_flying_from_content_description)
+            originCardView.contentDescription = Phrase.from(context, R.string.packages_search_flying_from_cont_desc_TEMPLATE)
                     .put("from_destination", text)
                     .format().toString()
         }
         vm.formattedDestinationObservable.subscribe {
             text -> destinationCardView.setText(text)
-            destinationCardView.contentDescription = Phrase.from(context, R.string.packages_search_flying_to_content_description)
+            destinationCardView.contentDescription = Phrase.from(context, R.string.packages_search_flying_to_cont_desc_TEMPLATE)
                     .put("to_destination", text)
                     .format().toString()
             if (this.visibility == VISIBLE && vm.startDate() == null) {
@@ -53,6 +53,11 @@ class PackageSearchPresenter(context: Context, attrs: AttributeSet) : BaseTwoLoc
         vm.dateAccessibilityObservable.subscribe{
             text ->
             calendarWidgetV2.contentDescription = text
+        }
+        travelerWidgetV2.traveler.viewmodel.travelerParamsObservable.subscribe { travelers ->
+            val noOfTravelers = travelers.numberOfAdults + travelers.childrenAges.size
+            travelerWidgetV2.contentDescription = Phrase.from(context.resources.getQuantityString(R.plurals.packages_search_travelers_cont_desc_TEMPLATE, noOfTravelers)).
+                    put("travelers", noOfTravelers).format().toString()
         }
 
         vm.searchButtonObservable.subscribe { enable ->

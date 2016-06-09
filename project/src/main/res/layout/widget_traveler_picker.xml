@@ -48,7 +48,7 @@
                         android:id="@+id/adults_minus"
                         style="@style/HotelTravelerIcon.Minus"
                         android:background="?attr/selectableItemBackgroundBorderless"
-                        android:contentDescription="@string/packages_remove_adult_traveler_contdesc"/>
+                        android:contentDescription="@string/packages_remove_adult_traveler_cont_desc"/>
 
                     <com.expedia.bookings.widget.TextView
                         android:id="@+id/adult"
@@ -63,7 +63,7 @@
                         android:id="@+id/adults_plus"
                         style="@style/HotelTravelerIcon.Plus"
                         android:background="?attr/selectableItemBackgroundBorderless"
-                        android:contentDescription="@string/packages_add_adult_traveler_contdesc"/>
+                        android:contentDescription="@string/packages_add_adult_traveler_cont_desc"/>
                 </LinearLayout>
 
                 <LinearLayout
@@ -76,7 +76,7 @@
                         android:id="@+id/children_minus"
                         style="@style/HotelTravelerIcon.Minus"
                         android:background="?attr/selectableItemBackgroundBorderless"
-                        android:contentDescription="@string/packages_remove_child_traveler_contdesc"/>
+                        android:contentDescription="@string/packages_remove_child_traveler_cont_desc"/>
 
                     <LinearLayout
                         android:id="@+id/children_container"
@@ -106,7 +106,7 @@
                         android:id="@+id/children_plus"
                         style="@style/HotelTravelerIcon.Plus"
                         android:background="?attr/selectableItemBackgroundBorderless"
-                        android:contentDescription="@string/packages_add_child_traveler_contdesc"/>
+                        android:contentDescription="@string/packages_add_child_traveler_cont_desc"/>
                 </LinearLayout>
 
                 <com.expedia.bookings.widget.TextView
