@@ -37,8 +37,6 @@
     <color name="lx_lob_btn">#A1006B</color>
     <color name="flights_lob_btn">#0088CE</color>
     <color name="action_bar_selected_tab_underline_color">#585858</color>
-    <color name="actionbar_tab_text_selected">#585858</color>
-    <color name="actionbar_tab_text_unselected">#8C585858</color>
     <color name="launch_lob_bg">#E0DFDC</color>
 
     <!-- LX colors -->
