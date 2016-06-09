@@ -54,10 +54,10 @@ public class PackagesFlightsTest extends PackageTestCase {
 
 		EspressoUser.scrollToView(R.id.collapsed_container);
 		PackageScreen.showMoreButton().check(matches(isDisplayed()));
-		PackageScreen.showMoreButton().check(matches(ViewMatchers.withContentDescription("Click here to show more airlines")));
+		PackageScreen.showMoreButton().check(matches(ViewMatchers.withContentDescription(R.string.packages_flight_search_filter_show_more_cont_desc)));
 		PackageScreen.showMoreButton().perform(click());
 		EspressoUser.scrollToView(R.id.collapsed_container);
-		PackageScreen.showMoreButton().check(matches(ViewMatchers.withContentDescription("Click here to show fewer airlines")));
+		PackageScreen.showMoreButton().check(matches(ViewMatchers.withContentDescription(R.string.packages_flight_search_filter_show_less_cont_desc)));
 		PackageScreen.showMoreButton().perform(click());
 	}
 }
