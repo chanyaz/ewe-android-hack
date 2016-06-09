@@ -21,12 +21,12 @@ class PointOfSaleLocale(val data: JSONObject) {
 
     // The url for please to be downloading this app
     val appInfoUrl by lazy {
-        data.optString("websiteURL", null)
+        data.optString("appInfoURL", null)
     }
 
     // The url for just the website
     val websiteUrl by lazy {
-        data.optString("appSupportURL", null)
+        data.optString("websiteURL", null)
     }
 
     // The url for travel insurance. Not present for all POS
@@ -50,13 +50,13 @@ class PointOfSaleLocale(val data: JSONObject) {
     val loyaltyTermsAndConditionsUrl by lazy { data.optString("loyaltyTermsAndConditionsURL", null) }
 
     // The URL for Help Url for Airlines Additional Fee Based On Payment Method for this POS
-    val airlineFeeBasedOnPaymentMethodTermsAndConditionsURL by lazy { data.optString("termsOfBookingURL", null) }
+    val termsOfBookingUrl by lazy { data.optString("termsOfBookingURL", null) }
 
     // The URL for Terms of Booking for this POS (see GB)
-    val termsOfBookingUrl by lazy { data.optString("privacyPolicyURL", null) }
+    val privacyPolicyUrl by lazy { data.optString("privacyPolicyURL", null) }
 
     // The URL for Privacy Policy for this POS
-    val privacyPolicyUrl by lazy { data.optString("airlineFeeBasedOnPaymentMethodTermsAndConditionsURL", null) }
+    val airlineFeeBasedOnPaymentMethodTermsAndConditionsURL by lazy { data.optString("airlineFeeBasedOnPaymentMethodTermsAndConditionsURL", null) }
 
     // The language code that this locale associates with
     val languageCode by lazy {
