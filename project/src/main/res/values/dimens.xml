@@ -416,10 +416,9 @@
     <dimen name="new_launch_fab_dimension">56dp</dimen>
     <dimen name="default_search_card_height">58dp</dimen>
 
-    <dimen name="new_launch_screen_fab_bottom_margin">32dp</dimen>
+    <dimen name="new_launch_screen_fab_bottom_margin">16dp</dimen>
     <dimen name="new_launch_lob_divider_stroke_width">1px</dimen>
-    <dimen name="new_launch_lob_top_margin">24dp</dimen>
-
+  
     <!-- Flights v2 dimensions -->
     <dimen name="loading_tile_height">115dp</dimen>
     <dimen name="airport_dropdown_row_margin_top">5dp</dimen>

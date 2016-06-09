@@ -113,5 +113,6 @@ public class LaunchListWidget extends RecyclerView {
 
 	public void onPOSChange() {
 		adapter.onPOSChange();
+		smoothScrollToPosition(0);
 	}
 }

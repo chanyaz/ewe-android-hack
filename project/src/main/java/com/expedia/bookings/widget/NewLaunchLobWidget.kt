@@ -37,8 +37,8 @@ class NewLaunchLobWidget(context: Context, attrs: AttributeSet) : FrameLayout(co
             override fun onPreDraw(): Boolean {
                 viewTreeObserver.removeOnPreDrawListener(this)
                 val layoutParams = backGroundView.layoutParams
-                val topMargin = resources.getDimensionPixelSize(R.dimen.new_launch_lob_top_margin)
-                layoutParams.height = (cardView.height / 2) + topMargin
+                val topMargin = (cardView.layoutParams as MarginLayoutParams).topMargin
+                layoutParams.height = (cardView.height + topMargin) / 2
                 backGroundView.requestLayout()
                 return false
             }

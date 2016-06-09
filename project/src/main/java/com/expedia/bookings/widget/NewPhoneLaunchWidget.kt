@@ -9,7 +9,9 @@ import android.support.design.widget.FloatingActionButton
 import android.support.v7.widget.RecyclerView
 import android.text.format.DateUtils
 import android.util.AttributeSet
+import android.view.GestureDetector
 import android.view.LayoutInflater
+import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.view.ViewTreeObserver
@@ -50,7 +52,7 @@ class NewPhoneLaunchWidget(context: Context, attrs: AttributeSet) : FrameLayout(
     private val TAG = "NewPhoneLaunchWidget"
     private val HOTEL_SORT = "ExpertPicks"
     private val MINIMUM_TIME_AGO = 15 * DateUtils.MINUTE_IN_MILLIS // 15 minutes ago
-
+    private val DARK_VIEW_VISIBLE_ALPHA = 0.7f
 
     lateinit var collectionServices: CollectionServices
         @Inject set
@@ -121,9 +123,10 @@ class NewPhoneLaunchWidget(context: Context, attrs: AttributeSet) : FrameLayout(
                 hideLobAndDarkView()
             }
         }
+        val gestureDetector: GestureDetector = GestureDetector(context, gestureListener)
 
         darkView.setOnTouchListener { view, motionEvent ->
-            handleBackOrDarkViewClick()
+            gestureDetector.onTouchEvent(motionEvent)
         }
 
         (launchListWidget.adapter as LaunchListAdapter).hotelSelectedSubject.subscribe { selectedHotel ->
@@ -237,7 +240,7 @@ class NewPhoneLaunchWidget(context: Context, attrs: AttributeSet) : FrameLayout(
     }
 
     private fun handleBackOrDarkViewClick(): Boolean {
-        val hideDarkView = darkView.alpha > 0f
+        val hideDarkView = darkView.alpha == DARK_VIEW_VISIBLE_ALPHA
         if (hideDarkView) {
             hideLobAndDarkView()
             showFabButton()
@@ -267,7 +270,7 @@ class NewPhoneLaunchWidget(context: Context, attrs: AttributeSet) : FrameLayout(
 
 
     private fun showLobAndDarkView() {
-        val showDarknessAnim = ObjectAnimator.ofFloat(darkView, "alpha", 0f, 0.7f)
+        val showDarknessAnim = ObjectAnimator.ofFloat(darkView, "alpha", 0f, DARK_VIEW_VISIBLE_ALPHA)
         startAnimation(showDarknessAnim)
         val lobViewAnimIn = ObjectAnimator.ofFloat(lobViewContainer, "translationY", 0f)
         startAnimation(lobViewAnimIn)
@@ -276,9 +279,9 @@ class NewPhoneLaunchWidget(context: Context, attrs: AttributeSet) : FrameLayout(
     }
 
     private fun hideLobAndDarkView() {
-        val hideDarknessAnim = ObjectAnimator.ofFloat(darkView, "alpha", 0.7f, 0f)
+        val hideDarknessAnim = ObjectAnimator.ofFloat(darkView, "alpha", DARK_VIEW_VISIBLE_ALPHA, 0f)
         startAnimation(hideDarknessAnim)
-        val lobViewAnimOut = ObjectAnimator.ofFloat(lobViewContainer, "translationY", - lobView.height.toFloat())
+        val lobViewAnimOut = ObjectAnimator.ofFloat(lobViewContainer, "translationY", -lobViewContainer.height.toFloat())
         startAnimation(lobViewAnimOut)
     }
 
@@ -454,5 +457,24 @@ class NewPhoneLaunchWidget(context: Context, attrs: AttributeSet) : FrameLayout(
         lobView.onPOSChange();
         launchListWidget.onPOSChange();
         adjustLobViewHeight();
+    }
+
+    private val gestureListener = object : GestureDetector.SimpleOnGestureListener() {
+
+        override fun onFling(e1: MotionEvent, e2: MotionEvent, velocityX: Float, velocityY: Float): Boolean {
+            if (e2.y - e1.y < 0) {
+                return handleBackOrDarkViewClick()
+            } else {
+                return super.onFling(e1, e2, velocityX, velocityY)
+            }
+        }
+
+        override fun onDown(e: MotionEvent?): Boolean {
+            return if (darkView.alpha == 0f) false else true
+        }
+
+        override fun onSingleTapUp(e: MotionEvent?): Boolean {
+            return handleBackOrDarkViewClick()
+        }
     }
 }

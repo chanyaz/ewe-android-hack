@@ -3,6 +3,5 @@
 <!-- Borderless button for "Enter Itinerary Number" in login screen -->
 <resources>
     <style name="Widget.BorderlessButton" parent="android:Widget.Material.Button.Borderless">
-        <item name="android:background">@drawable/button_borderless_material</item>
     </style>
 </resources>
