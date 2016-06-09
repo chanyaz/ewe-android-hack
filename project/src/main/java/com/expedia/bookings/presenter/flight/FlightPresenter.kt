@@ -1,6 +1,7 @@
 package com.expedia.bookings.presenter.flight
 
 import android.content.Context
+import android.graphics.Color
 import android.util.AttributeSet
 import android.view.View
 import android.view.ViewStub
@@ -13,15 +14,16 @@ import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.presenter.ScaleTransition
 import com.expedia.bookings.services.FlightServices
 import com.expedia.bookings.tracking.FlightsV2Tracking
+import com.expedia.bookings.utils.StrUtils
 import com.expedia.bookings.utils.Ui
-import com.expedia.bookings.utils.bindView
 import com.expedia.util.notNullAndObservable
 import com.expedia.vm.FlightCheckoutOverviewViewModel
 import com.expedia.vm.FlightSearchViewModel
 import com.expedia.vm.packages.PackageSearchType
+import rx.Observable
 import javax.inject.Inject
 
-class FlightPresenter(context: Context, attrs: AttributeSet) : Presenter(context, attrs) {
+class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(context, attrs) {
     lateinit var flightServices: FlightServices
         @Inject set
 
@@ -32,18 +34,24 @@ class FlightPresenter(context: Context, attrs: AttributeSet) : Presenter(context
     }
 
     val outBoundPresenter: FlightOutboundPresenter by lazy {
-        var viewStub = findViewById(R.id.outbound_presenter) as ViewStub
-        var presenter = viewStub.inflate() as FlightOutboundPresenter
+        val viewStub = findViewById(R.id.outbound_presenter) as ViewStub
+        val presenter = viewStub.inflate() as FlightOutboundPresenter
         presenter
     }
 
     val inboundPresenter: FlightInboundPresenter by lazy {
-        var viewStub = findViewById(R.id.inbound_presenter) as ViewStub
-        var presenter = viewStub.inflate() as FlightInboundPresenter
+        val viewStub = findViewById(R.id.inbound_presenter) as ViewStub
+        val presenter = viewStub.inflate() as FlightInboundPresenter
         presenter
     }
 
-    val flightOverviewPresenter: FlightOverviewPresenter by bindView(R.id.widget_bundle_overview)
+    val flightOverviewPresenter: FlightOverviewPresenter by lazy {
+        val viewStub = findViewById(R.id.overview_presenter) as ViewStub
+        val presenter = viewStub.inflate() as FlightOverviewPresenter
+        presenter
+    }
+
+    val e3EndpointProvider = Ui.getApplication(getContext()).appComponent().endpointProvider()
 
     var searchViewModel: FlightSearchViewModel by notNullAndObservable { vm ->
         searchPresenter.searchViewModel = vm
@@ -106,6 +114,16 @@ class FlightPresenter(context: Context, attrs: AttributeSet) : Presenter(context
         vm.outboundResultsObservable.subscribe {
             show(outBoundPresenter)
         }
+
+        vm.confirmedOutboundFlightSelection.subscribe { flightOverviewPresenter.viewModel.showFreeCancellationObservable.onNext(it.isFreeCancellable) }
+        vm.flightOfferSelected.subscribe { flightOverviewPresenter.viewModel.showSplitTicketMessagingObservable.onNext(it.isSplitTicket) }
+        Observable.combineLatest(vm.confirmedOutboundFlightSelection, vm.confirmedInboundFlightSelection, { outbound, inbound ->
+            val outboundBaggageFeeUrl = e3EndpointProvider.getE3EndpointUrlWithPath(outbound.baggageFeesUrl)
+            val inboundBaggageFeeUrl = e3EndpointProvider.getE3EndpointUrlWithPath(inbound.baggageFeesUrl)
+            val baggageFeesTextWithLinks = resources.getString(R.string.split_ticket_baggage_fees, outboundBaggageFeeUrl, inboundBaggageFeeUrl)
+            val spannableStringBuilder = StrUtils.getSpannableTextByColor(baggageFeesTextWithLinks, Color.BLACK, true)
+            flightOverviewPresenter.viewModel.splitTicketBaggageFeesLinksObservable.onNext(spannableStringBuilder)
+        }).subscribe()
     }
 
     init {

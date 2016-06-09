@@ -1658,6 +1658,8 @@
     <string name="flights_title">Flights</string>
     <!-- Flights payment fees info web view title -->
     <string name="flights_flight_overview_payment_fees">Payment Fees Info</string>
+    <!-- Flights Free Cancellation messaging -->
+    <string name="flights_free_cancellation">Free cancellation within 24 hours</string>
 
     <!-- Flights -->
     <!-- Label for Flight Search in task manager -->

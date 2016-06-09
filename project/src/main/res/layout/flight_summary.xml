@@ -38,4 +38,21 @@
         android:foreground="?android:attr/selectableItemBackground"
         android:minHeight="64dp" />
 
+    <com.expedia.bookings.widget.TextView
+        android:id="@+id/free_cancellation_text"
+        style="@style/HeaderTextAboveCardviews"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="left"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="20dp"
+        android:drawableLeft="@drawable/check"
+        android:drawablePadding="10dp"
+        android:text="@string/flights_free_cancellation" />
+
+    <include
+        android:id="@+id/split_ticket_info_container"
+        android:visibility="gone"
+        layout="@layout/split_ticket_info_phone_dialog_content" />
+
 </merge>
