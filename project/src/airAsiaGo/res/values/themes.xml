@@ -31,11 +31,11 @@
         <item name="skin_travellerInfoPageLogoDisabled">@drawable/ic_aag_traveler_logo_disabled</item>
         <item name="skin_hotelListMapMarkerDrawable">@drawable/map_pin_normal_aag</item>
         <item name="skin_hotelListMapMarkerSaleDrawable">@drawable/map_pin_sale_aag</item>
-        <item name="skin_cvvDivDrawable">@drawable/div_cvv_aag</item>
+        <item name="skin_cvvDivDrawable">@drawable/div_cvv</item>
         <item name="skin_cvvDivErrorDrawable">@drawable/div_cvv_error_aag</item>
         <item name="android:logo">@drawable/ic_logo_hotels_aag</item>
         <item name="skin_hotelWebViewActionBarLogo">@drawable/ic_logo_hotels_aag</item>
-        <item name="skin_cvvBookButtonKeypadDrawable">@drawable/btn_cvv_keypad_book_aag</item>
+        <item name="skin_cvvBookButtonKeypadDrawable">@drawable/btn_cvv_keypad_book</item>
         <item name="skin_cvvBookButtonTextColor">@android:color/white</item>
         <item name="skin_userRatingBarDrawable">@drawable/ratingbar_userreview_aag_yellow_flat</item>
         <item name="skin_clearEditTextImage">@drawable/ic_clear_edittext_aag</item>
