@@ -20,6 +20,8 @@ import com.mobiata.android.BackgroundDownloader;
 import com.mobiata.android.Log;
 
 import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 public class UserAccountRefresher {
 	public interface IUserAccountRefreshListener {
@@ -125,45 +127,47 @@ public class UserAccountRefresher {
 	protected void fetchFacebookUserInfo() {
 		Log.d("FB: fetchFacebookUserInfo");
 
-		ServicesUtil.generateAccountService(context)
-			.facebookReauth(context).subscribe(new Subscriber<FacebookLinkResponse>() {
-			@Override
-			public void onCompleted() {
-				// unused
-			}
-
-			@Override
-			public void onError(Throwable e) {
-				failure();
-			}
-
-			@Override
-			public void onNext(FacebookLinkResponse facebookLinkResponse) {
-				if (facebookLinkResponse.isSuccess()) {
-					success();
+		ServicesUtil.generateAccountService(context).facebookReauth(context)
+			.subscribeOn(Schedulers.io())
+			.observeOn(AndroidSchedulers.mainThread())
+			.subscribe(new Subscriber<FacebookLinkResponse>() {
+				@Override
+				public void onCompleted() {
+					// unused
 				}
-				else {
+
+				@Override
+				public void onError(Throwable e) {
 					failure();
 				}
-			}
 
-			private void success() {
-				Log.d("FB: Autologin success");
-				BackgroundDownloader bd = BackgroundDownloader.getInstance();
-				if (!bd.isDownloading(keyRefreshUser)) {
-					bd.startDownload(keyRefreshUser, mRefreshUserDownload, mRefreshUserCallback);
+				@Override
+				public void onNext(FacebookLinkResponse facebookLinkResponse) {
+					if (facebookLinkResponse.isSuccess()) {
+						success();
+					}
+					else {
+						failure();
+					}
 				}
-			}
 
-			private void failure() {
-				Log.d("FB: Autologin failed");
-				if (User.isLoggedIn(context)) {
-					doLogout();
+				private void success() {
+					Log.d("FB: Autologin success");
+					BackgroundDownloader bd = BackgroundDownloader.getInstance();
+					if (!bd.isDownloading(keyRefreshUser)) {
+						bd.startDownload(keyRefreshUser, mRefreshUserDownload, mRefreshUserCallback);
+					}
 				}
-				if (userAccountRefreshListener != null) {
-					userAccountRefreshListener.onUserAccountRefreshed();
+
+				private void failure() {
+					Log.d("FB: Autologin failed");
+					if (User.isLoggedIn(context)) {
+						doLogout();
+					}
+					if (userAccountRefreshListener != null) {
+						userAccountRefreshListener.onUserAccountRefreshed();
+					}
 				}
-			}
 		});
 	}
 }
