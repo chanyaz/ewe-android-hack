@@ -115,4 +115,8 @@ public class LaunchListWidget extends RecyclerView {
 		adapter.onPOSChange();
 		smoothScrollToPosition(0);
 	}
+
+	public void onHasInternetConnectionChange(boolean enabled) {
+		adapter.onHasInternetConnectionChange(enabled);
+	}
 }

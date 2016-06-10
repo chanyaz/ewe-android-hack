@@ -516,6 +516,8 @@
     <color name="material_tab_text_selected">@color/white</color>
     <color name="account_screen_back_nav_color">@color/white</color>
 
+
+
     <!-- Search result cells gray text on cardviews.  -->
     <color name="result_cells_gray_text">@color/gray6</color>
 
@@ -527,5 +529,14 @@
     <color name="flight_docked_text_outbound">@color/gray6</color>
 
     <color name="error_widget_text">@color/gray6</color>
+
+    <!-- New Hotels Launch Screen LOB button colors -->
+    <color name="new_launch_hotels_lob_color">@color/new_lob_hotels_color</color>
+    <color name="new_launch_flights_lob_color">@color/new_lob_flights_color</color>
+    <color name="new_launch_cars_lob_color">@color/new_lob_cars_color</color>
+    <color name="new_launch_gt_lob_color">@color/new_lob_gt_color</color>
+    <color name="new_launch_lx_lob_color">@color/new_lob_lx_color</color>
+    <color name="new_launch_lob_disabled_color">@color/black</color>
+
 
 </resources>

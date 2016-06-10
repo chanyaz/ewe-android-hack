@@ -44,4 +44,8 @@ class NewLaunchLobWidget(context: Context, attrs: AttributeSet) : FrameLayout(co
             }
         })
     }
+
+    fun onHasInternetConnectionChange(enabled: Boolean) {
+        viewModel.onHasInternetConnectionChange(enabled);
+    }
 }
