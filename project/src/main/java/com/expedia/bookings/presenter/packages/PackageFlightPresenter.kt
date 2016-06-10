@@ -47,6 +47,7 @@ class PackageFlightPresenter(context: Context, attrs: AttributeSet) : BaseFlight
     override fun onFinishInflate() {
         super.onFinishInflate()
         setupMenuFilter()
+        menuSearch.isVisible = false
     }
 
     private fun setupMenuFilter() {

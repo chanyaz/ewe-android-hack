@@ -53,12 +53,11 @@ public class PackageFlightsOverviewTest extends PackageTestCase {
 	}
 
 	public void checkToolBarMenuItemsVisibility(boolean isVisible) {
+		PackageScreen.flightsToolbarSearchMenu().check(doesNotExist());
 		if (isVisible) {
-			PackageScreen.flightsToolbarSearchMenu().check(matches(isDisplayed()));
 			PackageScreen.flightsToolbarFilterMenu().check(matches(isDisplayed()));
 		}
 		else {
-			PackageScreen.flightsToolbarSearchMenu().check(doesNotExist());
 			PackageScreen.flightsToolbarFilterMenu().check(doesNotExist());
 		}
 	}
