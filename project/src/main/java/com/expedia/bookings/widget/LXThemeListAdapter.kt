@@ -102,7 +102,7 @@ class LXThemeListAdapter : LoadingRecyclerViewAdapter<LXTheme>() {
             override fun onBitmapLoaded(bitmap: Bitmap, from: Picasso.LoadedFrom) {
                 super.onBitmapLoaded(bitmap, from)
                 val palette = Palette.Builder(bitmap).generate()
-                val color = palette.getLightVibrantColor(R.color.transparent_dark)
+                val color = palette.getDarkVibrantColor(R.color.transparent_dark)
                 val overlayColorBuilder = ColorBuilder(color).darkenBy(.5f);
                 val overlayColor = overlayColorBuilder.setAlpha(154).build()
 

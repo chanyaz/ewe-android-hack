@@ -240,6 +240,7 @@ public class LXResultsPresenter extends Presenter {
 
 		@Override
 		public void onNext(LXSearchResponse lxSearchResponse) {
+			OmnitureTracking.trackAppLXSearchCategories(lxState.searchParams, lxSearchResponse);
 			searchResponse = lxSearchResponse;
 			themeResultsWidget.bind(lxSearchResponse.lxThemes, "SFO");
 			setToolbarTitles(getResources().getString(R.string.lx_select_a_category_title), lxState.searchParams.location);
