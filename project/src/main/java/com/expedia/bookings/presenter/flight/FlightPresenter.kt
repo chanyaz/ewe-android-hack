@@ -9,6 +9,7 @@ import com.expedia.bookings.R
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.flights.FlightCreateTripParams
+import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.presenter.LeftToRightTransition
 import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.presenter.ScaleTransition
@@ -28,9 +29,14 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
         @Inject set
 
     val searchPresenter: FlightSearchPresenter by lazy {
-        val viewStub = findViewById(R.id.search_presenter) as ViewStub
-        val presenter = viewStub.inflate() as FlightSearchPresenter
-        presenter
+        if (displayFlightDropDownRoutes()) {
+            val viewStub = findViewById(R.id.search_restricted_airport_dropdown_presenter) as ViewStub
+            viewStub.inflate() as FlightSearchAirportDropdownPresenter
+        }
+        else {
+            val viewStub = findViewById(R.id.search_presenter) as ViewStub
+            viewStub.inflate() as FlightSearchPresenter
+        }
     }
 
     val outBoundPresenter: FlightOutboundPresenter by lazy {
@@ -135,7 +141,7 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
     override fun onFinishInflate() {
         super.onFinishInflate()
         addTransition(flightsToBundle)
-        addTransition(searchToOutbound)
+        addTransition(if (displayFlightDropDownRoutes()) restrictedSearchToOutbound else searchToOutbound)
         addTransition(outboundToInbound)
         addDefaultTransition(defaultTransition)
         flightOverviewPresenter.getCheckoutPresenter().toggleCheckoutButton(false)
@@ -156,16 +162,10 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
 
     private val outboundToInbound = ScaleTransition(this, FlightOutboundPresenter::class.java, FlightInboundPresenter::class.java)
 
-    private val searchToOutbound = object : ScaleTransition(this, FlightSearchPresenter::class.java, FlightOutboundPresenter::class.java) {
-        override fun endTransition(forward: Boolean) {
-            super.endTransition(forward)
-            if (!forward) {
-                FlightsV2Tracking.trackSearchPageLoad()
-            }
-        }
-    }
+    private val searchToOutbound = object : SearchToOutboundTransition(this, FlightSearchPresenter::class.java, FlightOutboundPresenter::class.java) {}
+    private val restrictedSearchToOutbound = object : SearchToOutboundTransition(this, FlightSearchAirportDropdownPresenter::class.java, FlightOutboundPresenter::class.java) {}
 
-    private val defaultTransition = object : Presenter.DefaultTransition(FlightSearchPresenter::class.java.name) {
+    private val defaultTransition = object : Presenter.DefaultTransition(getDefaultPresenterClassName()) {
         override fun endTransition(forward: Boolean) {
             searchPresenter.visibility = View.VISIBLE
             outBoundPresenter.visibility = View.GONE
@@ -175,4 +175,25 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
         }
     }
 
+    private open class SearchToOutboundTransition(presenter: Presenter, left: Class<*>, right: Class<*>) : ScaleTransition(presenter, left, right) {
+        override fun endTransition(forward: Boolean) {
+            super.endTransition(forward)
+            if (!forward) {
+                FlightsV2Tracking.trackSearchPageLoad()
+            }
+        }
+    }
+
+    private fun displayFlightDropDownRoutes(): Boolean {
+        return PointOfSale.getPointOfSale().displayFlightDropDownRoutes()
+    }
+
+    private fun getDefaultPresenterClassName(): String {
+        return if (displayFlightDropDownRoutes()) {
+            FlightSearchAirportDropdownPresenter::class.java.name
+        }
+        else {
+            FlightSearchPresenter::class.java.name
+        }
+    }
 }

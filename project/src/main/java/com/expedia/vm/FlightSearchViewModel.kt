@@ -84,6 +84,12 @@ class FlightSearchViewModel(context: Context, val flightServices: FlightServices
         }).subscribe()
     }
 
+    fun clearDestinationLocation() {
+        getParamsBuilder().destination(null)
+        formattedDestinationObservable.onNext("")
+        requiredSearchParamsObserver.onNext(Unit)
+    }
+
     override fun getParamsBuilder(): FlightSearchParams.Builder {
         return flightParamsBuilder
     }

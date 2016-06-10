@@ -1,6 +1,7 @@
 package com.expedia.bookings.widget
 
 import android.content.Context
+import android.graphics.drawable.Drawable
 import android.support.v7.widget.CardView
 import android.util.AttributeSet
 import android.view.View
@@ -27,6 +28,13 @@ open class SearchInputCardView(context: Context, attrs: AttributeSet?) : CardVie
             ta.recycle()
         }
 
+    }
+
+    fun setEndDrawable(endDrawable: Drawable) {
+        val startDrawable = text.compoundDrawables[0]
+        val topDrawable = text.compoundDrawables[1]
+        val bottomDrawable = text.compoundDrawables[3]
+        text.setCompoundDrawablesRelativeWithIntrinsicBounds(startDrawable, topDrawable, endDrawable, bottomDrawable)
     }
 
     fun setText(inputText: String) {

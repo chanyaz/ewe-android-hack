@@ -422,4 +422,6 @@
 
     <!-- Flights v2 dimensions -->
     <dimen name="loading_tile_height">115dp</dimen>
+    <dimen name="airport_dropdown_row_margin_top">5dp</dimen>
+    <dimen name="airport_dropdown_row_margin_bottom">5dp</dimen>
 </resources>

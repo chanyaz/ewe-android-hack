@@ -641,6 +641,8 @@ DummyFiletoHandleKotlinLintError {
 		R.string.bundle_overview_price_widget,
 		R.string.bundle_overview_price_widget_button_open,
 		R.string.bundle_overview_price_widget_button_close,
-		R.string.packages_search_child_drop_down_TEMPLATE
+		R.string.packages_search_child_drop_down_TEMPLATE,
+		R.layout.material_flights_spinner_airport_dropdown_row,
+		R.drawable.search_dropdown
 	};
 }

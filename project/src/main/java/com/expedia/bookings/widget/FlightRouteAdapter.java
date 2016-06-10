@@ -6,6 +6,7 @@ import java.util.Comparator;
 import java.util.List;
 
 import android.content.Context;
+import android.support.annotation.LayoutRes;
 import android.text.Html;
 import android.text.TextUtils;
 import android.view.View;
@@ -24,6 +25,7 @@ import com.mobiata.flightlib.data.sources.FlightStatsDbUtils;
 
 public class FlightRouteAdapter extends BaseAdapter {
 
+
 	private Context mContext;
 
 	private RecentList<Location> mRecentSearches;
@@ -40,14 +42,28 @@ public class FlightRouteAdapter extends BaseAdapter {
 
 	private int mDropDownRowPaddingLeft;
 
+	private boolean dropDownMode;
+
+	private boolean rowDividersEnabled;
+
+	@LayoutRes private int dropdownLayoutResourceId;
+
 	public FlightRouteAdapter(Context context, FlightRoutes routes, RecentList<Location> recentSearches,
 		boolean isOrigin) {
-		mContext = context;
-		mRecentSearches = recentSearches;
-		mRoutes = routes;
-		mIsOrigin = isOrigin;
-		mDropDownRowPaddingLeft = context.getResources().getDimensionPixelSize(
+		this(context, routes, recentSearches, isOrigin, false, true, R.layout.spinner_airport_dropdown_row);
+	}
+
+	public FlightRouteAdapter(Context context, FlightRoutes routes, RecentList<Location> recentSearches,
+		boolean isOrigin, boolean dropDownMode, boolean rowDividersEnabled, @LayoutRes int dropdownLayoutResourceId) {
+		this.dropDownMode = dropDownMode;
+		this.mContext = context;
+		this.mRecentSearches = recentSearches;
+		this.mRoutes = routes;
+		this.mIsOrigin = isOrigin;
+		this.mDropDownRowPaddingLeft = context.getResources().getDimensionPixelSize(
 			R.dimen.flight_search_airport_padding_left);
+		this.rowDividersEnabled = rowDividersEnabled;
+		this.dropdownLayoutResourceId = dropdownLayoutResourceId;
 		generateRows();
 	}
 
@@ -57,6 +73,7 @@ public class FlightRouteAdapter extends BaseAdapter {
 
 	public void setOrigin(String origin) {
 		mOrigin = origin;
+		onDataSetChanged();
 	}
 
 	public void onDataSetChanged() {
@@ -123,7 +140,13 @@ public class FlightRouteAdapter extends BaseAdapter {
 
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
-		return mRows.get(position).getView(convertView, parent);
+		Row row = mRows.get(position);
+		if (this.dropDownMode) {
+			return row.getDropDownView(position, convertView, parent);
+		}
+		else {
+			return row.getView(convertView, parent);
+		}
 	}
 
 	@Override
@@ -368,7 +391,7 @@ public class FlightRouteAdapter extends BaseAdapter {
 
 	private View useDropDownConvertView(View convertView, ViewGroup parent) {
 		if (convertView == null) {
-			convertView = Ui.inflate(R.layout.spinner_airport_dropdown_row, parent, false);
+			convertView = Ui.inflate(dropdownLayoutResourceId, parent, false);
 
 			DropDownViewHolder holder = new DropDownViewHolder();
 			holder.mContainer = convertView;
@@ -385,6 +408,9 @@ public class FlightRouteAdapter extends BaseAdapter {
 	}
 
 	private void setDropDownRowBackground(DropDownViewHolder holder, int bgResId) {
+		if (!rowDividersEnabled) {
+			return;
+		}
 		holder.mContainer.setBackgroundResource(bgResId);
 		holder.mContainer.setPadding(mDropDownRowPaddingLeft, 0, 0, 0);
 	}

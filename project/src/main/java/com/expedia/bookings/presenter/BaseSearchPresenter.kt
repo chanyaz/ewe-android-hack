@@ -146,7 +146,7 @@ abstract class BaseSearchPresenter(context: Context, attrs: AttributeSet) : Pres
         }
     }
 
-    fun showSuggestionState(selectOrigin: Boolean) {
+    open fun showSuggestionState(selectOrigin: Boolean) {
         searchLocationEditText?.queryHint = if (selectOrigin) getOriginSearchBoxPlaceholderText() else getDestinationSearchBoxPlaceholderText()
         searchLocationEditText?.setQuery("", true)
         this.isCustomerSelectingOrigin = selectOrigin
