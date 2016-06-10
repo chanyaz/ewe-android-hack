@@ -297,7 +297,7 @@ class NewPhoneLaunchWidget(context: Context, attrs: AttributeSet) : FrameLayout(
             val scrollY = lobHeaderView?.y ?: toolBarHeight
             val value = Math.abs(scrollY) / toolBarHeight
             toolbarShadow.alpha = Math.min(1f, Math.max(0f, value))
-            if (lobHeaderView == null) {
+            if (lobHeaderView == null && lobViewContainer.translationY < 0) {
                 showFabButton()
             } else {
                 hideFabButton()
