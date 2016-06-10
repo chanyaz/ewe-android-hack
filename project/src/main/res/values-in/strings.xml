@@ -3871,9 +3871,9 @@
 
     <!-- Label for package search toolbar -->
     <!-- Accessibility - Content Description for toolbar close button -->
-    <string name="package_toolbar_close_content_description">Tutup layar pencarian</string>
+    <string name="package_toolbar_close_cont_desc">Tutup layar pencarian</string>
     <!-- Accessibility - Content Description for toolbar back button when entering destination/arrival -->
-    <string name="package_toolbar_back_to_search_content_description">Kembali ke layar pencarian</string>
+    <string name="package_toolbar_back_to_search_cont_desc">Kembali ke layar pencarian</string>
     <string name="package_toolbar_title">Hotel + Penerbangan</string>
     <!-- Label for per person -->
     <string name="per_person">per orang</string>
@@ -3909,11 +3909,11 @@
     <!-- Template for package bundle total savings amount -->
     <string name="bundle_total_savings_TEMPLATE">Hemat {savings}</string>
     <!-- Bundle Overview select hotel accessibility content description -->
-    <string name="select_hotel_content_description">Pencarian selesai, tekan tombol ini untuk memilih hotel di {destination} dari {startdate} hingga {enddate}, untuk {guests}</string>
+    <string name="select_hotel_cont_desc_TEMPLATE">Pencarian selesai, tekan tombol ini untuk memilih hotel di {destination} dari {startdate} hingga {enddate}, untuk {guests}</string>
     <!-- Bundle Overview select hotel accessibility content description when still searching -->
-    <string name="select_hotel_content_description_searching">Mencari hotel di {destination} dari {startdate} hingga {enddate}, untuk {guests}. Harap tunggu</string>
+    <string name="select_hotel_searching_cont_desc_TEMPLATE">Mencari hotel di {destination} dari {startdate} hingga {enddate}, untuk {guests}. Harap tunggu</string>
     <!-- Bundle Overview selected hotel accessibility content description -->
-    <string name="select_hotel_content_description_selected">Anda telah memilih hotel {hotel} dari {startdate} hingga {enddate}, untuk {guests}. Tekan tombol ini untuk menampilkan rincian.</string>
+    <string name="select_hotel_selected_cont_desc_TEMPLATE">Anda telah memilih hotel {hotel} dari {startdate} hingga {enddate}, untuk {guests}. Tekan tombol ini untuk menampilkan rincian.</string>
     <!-- Bundle Overview select hotel -->
     <string name="select_hotel_template">Pilih hotel di %s</string>
     <!-- Bundle Overview searching flight -->
@@ -4132,23 +4132,23 @@
     <string name="reward_top_tier_name_short">+gold</string>
     <!-- Flight Detail card view content description for accessibility.
          Example: Flight time is 10am - 12:30pm with price difference of $25. Flying with United and the flight duration is 2 hours 30 minutes. Click to view flight details -->
-    <string name="flight_detail_card_content_description">Waktu penerbangan adalah {time} dengan selisih harga {pricedifference}. Terbang bersama {airline} dengan durasi penerbangan {hours} jam {minutes} menit. Klik untuk melihat rincian penerbangan</string>
+    <string name="flight_detail_card_cont_desc_TEMPLATE">Waktu penerbangan adalah {time} dengan selisih harga {pricedifference}. Terbang bersama {airline} dengan durasi penerbangan {hours} jam {minutes} menit. Klik untuk melihat rincian penerbangan</string>
 
     <!--Packages search accessibility -->
     <!--Flying to card content description Eg. Flying to San Francisco, CA (SFO-San Francisco Intl.)-->
-    <string name="packages_search_flying_to_content_description">Terbang ke {to_destination}</string>
+    <string name="search_flying_to_destination_cont_desc_TEMPLATE">Terbang ke {to_destination}</string>
     <!--Flying from card content description Eg. Flying from Detroit, MI (DTW-Detroit Metropolitan Wayne County)-->
-    <string name="packages_search_flying_from_content_description">Terbang dari {from_destination}</string>
+    <string name="search_flying_from_destination_cont_desc_TEMPLATE">Terbang dari {from_destination}</string>
     <!--Flying to card content description before a location is selected-->
-    <string name="packages_search_flying_to_content_description_initial">Klik di sini untuk memilih ke mana tujuan penerbangan Anda</string>
+    <string name="packages_search_flying_to_cont_desc">Klik di sini untuk memilih ke mana tujuan penerbangan Anda</string>
     <!--Flying from card content description before a location is selected-->
-    <string name="packages_search_flying_from_content_description_initial">Klik di sini untuk memilih dari mana asal penerbangan Anda</string>
+    <string name="packages_search_flying_from_cont_desc">Klik di sini untuk memilih dari mana asal penerbangan Anda</string>
     <!--Travel dates card content description before date range is selected-->
-    <string name="packages_search_dates_content_description_initial">Klik di sini untuk memilih tanggal perjalanan Anda</string>
+    <string name="packages_search_dates_cont_desc">Klik di sini untuk memilih tanggal perjalanan Anda</string>
     <!--Packages search date format template for accessible dates (Talkback announces date range with 'to' in between) Eg. Jun 2 to Jun 5-->
-    <string name="packages_search_accessible_date_range_TEMPLATE">{startdate} ke {enddate}</string>
+    <string name="packages_search_date_range_cont_desc_TEMPLATE">{startdate} ke {enddate}</string>
     <!--Packages search dates content description for Talkback to indicate what the date range is and how many nights the trip is for-->
-    <string name="packages_search_dates_content_description_trip">Perjalanan Anda adalah dari tanggal {date_range} untuk {nights} malam</string>
+    <string name="trip_search_date_range_cont_desc_TEMPLATE">Perjalanan Anda adalah dari tanggal {date_range} untuk {nights} malam</string>
     <!--Packages accessibility flight search filter-->
     <!--Content description for "SHOW MORE" button in filter used for Talkback-->
     <string name="packages_flight_search_filter_show_more_cont_desc">Klik di sini untuk melihat pilihan maskapai lainnya</string>

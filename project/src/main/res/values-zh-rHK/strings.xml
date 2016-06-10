@@ -3871,9 +3871,9 @@
 
     <!-- Label for package search toolbar -->
     <!-- Accessibility - Content Description for toolbar close button -->
-    <string name="package_toolbar_close_content_description">關閉搜尋畫面</string>
+    <string name="package_toolbar_close_cont_desc">關閉搜尋畫面</string>
     <!-- Accessibility - Content Description for toolbar back button when entering destination/arrival -->
-    <string name="package_toolbar_back_to_search_content_description">返回搜尋畫面</string>
+    <string name="package_toolbar_back_to_search_cont_desc">返回搜尋畫面</string>
     <string name="package_toolbar_title">酒店 + 機票</string>
     <!-- Label for per person -->
     <string name="per_person">一位</string>
@@ -3909,11 +3909,11 @@
     <!-- Template for package bundle total savings amount -->
     <string name="bundle_total_savings_TEMPLATE">慳 {savings}</string>
     <!-- Bundle Overview select hotel accessibility content description -->
-    <string name="select_hotel_content_description">搜尋已完成，請按此鍵選擇 {startdate}至 {enddate} {guests}入住的{destination}酒店</string>
+    <string name="select_hotel_cont_desc_TEMPLATE">搜尋已完成，請按此鍵選擇 {startdate}至 {enddate} {guests}入住的{destination}酒店</string>
     <!-- Bundle Overview select hotel accessibility content description when still searching -->
-    <string name="select_hotel_content_description_searching">正在搜尋 {startdate}至 {enddate} {guests}入住的{destination}酒店。請稍候</string>
+    <string name="select_hotel_searching_cont_desc_TEMPLATE">正在搜尋 {startdate}至 {enddate} {guests}入住的{destination}酒店。請稍候</string>
     <!-- Bundle Overview selected hotel accessibility content description -->
-    <string name="select_hotel_content_description_selected">您已選擇{hotel}，日期為 {startdate}至 {enddate}，{guests}入住。請按此鍵查看詳情。</string>
+    <string name="select_hotel_selected_cont_desc_TEMPLATE">您已選擇{hotel}，日期為 {startdate}至 {enddate}，{guests}入住。請按此鍵查看詳情。</string>
     <!-- Bundle Overview select hotel -->
     <string name="select_hotel_template">選擇%s的酒店</string>
     <!-- Bundle Overview searching flight -->
@@ -4132,23 +4132,23 @@
     <string name="reward_top_tier_name_short">+gold</string>
     <!-- Flight Detail card view content description for accessibility.
          Example: Flight time is 10am - 12:30pm with price difference of $25. Flying with United and the flight duration is 2 hours 30 minutes. Click to view flight details -->
-    <string name="flight_detail_card_content_description">航班時間為 {time}，價格差異為 {pricedifference}。乘坐{airline}的飛行時間為 {hours} 小時 {minutes} 分鐘。按一下以查看航班詳情</string>
+    <string name="flight_detail_card_cont_desc_TEMPLATE">航班時間為 {time}，價格差異為 {pricedifference}。乘坐{airline}的飛行時間為 {hours} 小時 {minutes} 分鐘。按一下以查看航班詳情</string>
 
     <!--Packages search accessibility -->
     <!--Flying to card content description Eg. Flying to San Francisco, CA (SFO-San Francisco Intl.)-->
-    <string name="packages_search_flying_to_content_description">目的地：{to_destination}</string>
+    <string name="search_flying_to_destination_cont_desc_TEMPLATE">目的地：{to_destination}</string>
     <!--Flying from card content description Eg. Flying from Detroit, MI (DTW-Detroit Metropolitan Wayne County)-->
-    <string name="packages_search_flying_from_content_description">出發地：{from_destination}</string>
+    <string name="search_flying_from_destination_cont_desc_TEMPLATE">出發地：{from_destination}</string>
     <!--Flying to card content description before a location is selected-->
-    <string name="packages_search_flying_to_content_description_initial">按此選擇航班目的地</string>
+    <string name="packages_search_flying_to_cont_desc">按此選擇航班目的地</string>
     <!--Flying from card content description before a location is selected-->
-    <string name="packages_search_flying_from_content_description_initial">按此選擇航班出發地</string>
+    <string name="packages_search_flying_from_cont_desc">按此選擇航班出發地</string>
     <!--Travel dates card content description before date range is selected-->
-    <string name="packages_search_dates_content_description_initial">按此選擇行程日期</string>
+    <string name="packages_search_dates_cont_desc">按此選擇行程日期</string>
     <!--Packages search date format template for accessible dates (Talkback announces date range with 'to' in between) Eg. Jun 2 to Jun 5-->
-    <string name="packages_search_accessible_date_range_TEMPLATE">{startdate}至 {enddate}</string>
+    <string name="packages_search_date_range_cont_desc_TEMPLATE">{startdate}至 {enddate}</string>
     <!--Packages search dates content description for Talkback to indicate what the date range is and how many nights the trip is for-->
-    <string name="packages_search_dates_content_description_trip">您的行程日期是{date_range}共{nights}</string>
+    <string name="trip_search_date_range_cont_desc_TEMPLATE">您的行程日期是{date_range}共{nights}</string>
     <!--Packages accessibility flight search filter-->
     <!--Content description for "SHOW MORE" button in filter used for Talkback-->
     <string name="packages_flight_search_filter_show_more_cont_desc">按此顯示更多航空公司</string>

@@ -3871,9 +3871,9 @@
 
     <!-- Label for package search toolbar -->
     <!-- Accessibility - Content Description for toolbar close button -->
-    <string name="package_toolbar_close_content_description">검색 화면 닫기</string>
+    <string name="package_toolbar_close_cont_desc">검색 화면 닫기</string>
     <!-- Accessibility - Content Description for toolbar back button when entering destination/arrival -->
-    <string name="package_toolbar_back_to_search_content_description">검색 화면으로 돌아가기</string>
+    <string name="package_toolbar_back_to_search_cont_desc">검색 화면으로 돌아가기</string>
     <string name="package_toolbar_title">호텔+항공</string>
     <!-- Label for per person -->
     <string name="per_person">1인당</string>
@@ -3909,11 +3909,11 @@
     <!-- Template for package bundle total savings amount -->
     <string name="bundle_total_savings_TEMPLATE">{savings} 할인됨</string>
     <!-- Bundle Overview select hotel accessibility content description -->
-    <string name="select_hotel_content_description">검색 완료됨, {startdate} ~ {enddate}, {destination} 호텔, {guests}을 선택하려면 이 버튼을 누르세요.</string>
+    <string name="select_hotel_cont_desc_TEMPLATE">검색 완료됨, {startdate} ~ {enddate}, {destination} 호텔, {guests}을 선택하려면 이 버튼을 누르세요.</string>
     <!-- Bundle Overview select hotel accessibility content description when still searching -->
-    <string name="select_hotel_content_description_searching">{startdate} ~ {enddate}, {destination} 호텔, {guests}을 검색 중입니다. 잠시 기다려 주세요.</string>
+    <string name="select_hotel_searching_cont_desc_TEMPLATE">{startdate} ~ {enddate}, {destination} 호텔, {guests}을 검색 중입니다. 잠시 기다려 주세요.</string>
     <!-- Bundle Overview selected hotel accessibility content description -->
-    <string name="select_hotel_content_description_selected">{startdate} ~ {enddate}, {hotel} 호텔, {guests}을 선택하셨습니다. 자세한 정보를 보려면 이 버튼을 누르세요.</string>
+    <string name="select_hotel_selected_cont_desc_TEMPLATE">{startdate} ~ {enddate}, {hotel} 호텔, {guests}을 선택하셨습니다. 자세한 정보를 보려면 이 버튼을 누르세요.</string>
     <!-- Bundle Overview select hotel -->
     <string name="select_hotel_template">%s 호텔 선택</string>
     <!-- Bundle Overview searching flight -->
@@ -4132,23 +4132,23 @@
     <string name="reward_top_tier_name_short">+gold</string>
     <!-- Flight Detail card view content description for accessibility.
          Example: Flight time is 10am - 12:30pm with price difference of $25. Flying with United and the flight duration is 2 hours 30 minutes. Click to view flight details -->
-    <string name="flight_detail_card_content_description">항공편 시간은 {time}이며, 요금 차액은 {pricedifference}입니다. {airline} 이용 시 비행 시간은 {hours}시간 {minutes}분입니다. 자세한 항공편 정보를 보려면 클릭하세요.</string>
+    <string name="flight_detail_card_cont_desc_TEMPLATE">항공편 시간은 {time}이며, 요금 차액은 {pricedifference}입니다. {airline} 이용 시 비행 시간은 {hours}시간 {minutes}분입니다. 자세한 항공편 정보를 보려면 클릭하세요.</string>
 
     <!--Packages search accessibility -->
     <!--Flying to card content description Eg. Flying to San Francisco, CA (SFO-San Francisco Intl.)-->
-    <string name="packages_search_flying_to_content_description">{to_destination}행 비행기</string>
+    <string name="search_flying_to_destination_cont_desc_TEMPLATE">{to_destination}행 비행기</string>
     <!--Flying from card content description Eg. Flying from Detroit, MI (DTW-Detroit Metropolitan Wayne County)-->
-    <string name="packages_search_flying_from_content_description">{from_destination}발 비행기</string>
+    <string name="search_flying_from_destination_cont_desc_TEMPLATE">{from_destination}발 비행기</string>
     <!--Flying to card content description before a location is selected-->
-    <string name="packages_search_flying_to_content_description_initial">여기를 클릭하여 어디로 가고 싶은지 선택하세요.</string>
+    <string name="packages_search_flying_to_cont_desc">여기를 클릭하여 어디로 가고 싶은지 선택하세요.</string>
     <!--Flying from card content description before a location is selected-->
-    <string name="packages_search_flying_from_content_description_initial">여기를 클릭하여 어디에서 떠나고 싶은지 선택하세요.</string>
+    <string name="packages_search_flying_from_cont_desc">여기를 클릭하여 어디에서 떠나고 싶은지 선택하세요.</string>
     <!--Travel dates card content description before date range is selected-->
-    <string name="packages_search_dates_content_description_initial">여기를 클릭하여 여행 날짜를 선택하세요.</string>
+    <string name="packages_search_dates_cont_desc">여기를 클릭하여 여행 날짜를 선택하세요.</string>
     <!--Packages search date format template for accessible dates (Talkback announces date range with 'to' in between) Eg. Jun 2 to Jun 5-->
-    <string name="packages_search_accessible_date_range_TEMPLATE">{startdate}부터 {enddate}까지</string>
+    <string name="packages_search_date_range_cont_desc_TEMPLATE">{startdate}부터 {enddate}까지</string>
     <!--Packages search dates content description for Talkback to indicate what the date range is and how many nights the trip is for-->
-    <string name="packages_search_dates_content_description_trip">고객님의 여행은 {date_range}이며, {nights}박입니다.</string>
+    <string name="trip_search_date_range_cont_desc_TEMPLATE">고객님의 여행은 {date_range}이며, {nights}박입니다.</string>
     <!--Packages accessibility flight search filter-->
     <!--Content description for "SHOW MORE" button in filter used for Talkback-->
     <string name="packages_flight_search_filter_show_more_cont_desc">항공사를 더 많이 보려면 여기를 클릭하세요.</string>

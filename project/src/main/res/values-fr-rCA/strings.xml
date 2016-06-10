@@ -3871,9 +3871,9 @@
 
     <!-- Label for package search toolbar -->
     <!-- Accessibility - Content Description for toolbar close button -->
-    <string name="package_toolbar_close_content_description">Fermer l\&apos;écran de recherche</string>
+    <string name="package_toolbar_close_cont_desc">Fermer l\&apos;écran de recherche</string>
     <!-- Accessibility - Content Description for toolbar back button when entering destination/arrival -->
-    <string name="package_toolbar_back_to_search_content_description">Revenir à l\&apos;écran de recherche</string>
+    <string name="package_toolbar_back_to_search_cont_desc">Revenir à l\&apos;écran de recherche</string>
     <string name="package_toolbar_title">Hôtel + Vol</string>
     <!-- Label for per person -->
     <string name="per_person">par personne</string>
@@ -3909,11 +3909,11 @@
     <!-- Template for package bundle total savings amount -->
     <string name="bundle_total_savings_TEMPLATE">{savings} Enregistré</string>
     <!-- Bundle Overview select hotel accessibility content description -->
-    <string name="select_hotel_content_description">Le recherche est terminée; veuillez appuyer sur ce bouton pour sélectionner un hôtel à {destination} du {startdate} au {enddate}, pour {guests}.</string>
+    <string name="select_hotel_cont_desc_TEMPLATE">Le recherche est terminée; veuillez appuyer sur ce bouton pour sélectionner un hôtel à {destination} du {startdate} au {enddate}, pour {guests}.</string>
     <!-- Bundle Overview select hotel accessibility content description when still searching -->
-    <string name="select_hotel_content_description_searching">Recherche d\&apos;hôtels à {destination} du {startdate} au {enddate}, pour {guests}. Veuillez patienter.</string>
+    <string name="select_hotel_searching_cont_desc_TEMPLATE">Recherche d\&apos;hôtels à {destination} du {startdate} au {enddate}, pour {guests}. Veuillez patienter.</string>
     <!-- Bundle Overview selected hotel accessibility content description -->
-    <string name="select_hotel_content_description_selected">Vous avez sélectionné l\&apos;hôtel {hotel} du {startdate} au {enddate}, pour {guests}. Veuillez appuyer sur ce bouton pour afficher plus de détails.</string>
+    <string name="select_hotel_selected_cont_desc_TEMPLATE">Vous avez sélectionné l\&apos;hôtel {hotel} du {startdate} au {enddate}, pour {guests}. Veuillez appuyer sur ce bouton pour afficher plus de détails.</string>
     <!-- Bundle Overview select hotel -->
     <string name="select_hotel_template">Sélectionner un hôtel à %s</string>
     <!-- Bundle Overview searching flight -->
@@ -4132,23 +4132,23 @@
     <string name="reward_top_tier_name_short">+or</string>
     <!-- Flight Detail card view content description for accessibility.
          Example: Flight time is 10am - 12:30pm with price difference of $25. Flying with United and the flight duration is 2 hours 30 minutes. Click to view flight details -->
-    <string name="flight_detail_card_content_description">Le vol est à {time} et la différence de prix est de {pricedifference}. Vol exploité par {airline} d\&apos;une durée de {hours} heures {minutes} minutes. Cliquez pour afficher les détails du vol</string>
+    <string name="flight_detail_card_cont_desc_TEMPLATE">Le vol est à {time} et la différence de prix est de {pricedifference}. Vol exploité par {airline} d\&apos;une durée de {hours} heures {minutes} minutes. Cliquez pour afficher les détails du vol</string>
 
     <!--Packages search accessibility -->
     <!--Flying to card content description Eg. Flying to San Francisco, CA (SFO-San Francisco Intl.)-->
-    <string name="packages_search_flying_to_content_description">Vol pour {to_destination}</string>
+    <string name="search_flying_to_destination_cont_desc_TEMPLATE">Vol pour {to_destination}</string>
     <!--Flying from card content description Eg. Flying from Detroit, MI (DTW-Detroit Metropolitan Wayne County)-->
-    <string name="packages_search_flying_from_content_description">Vol de {from_destination}</string>
+    <string name="search_flying_from_destination_cont_desc_TEMPLATE">Vol de {from_destination}</string>
     <!--Flying to card content description before a location is selected-->
-    <string name="packages_search_flying_to_content_description_initial">Cliquez ici pour sélectionner la destination de votre vol</string>
+    <string name="packages_search_flying_to_cont_desc">Cliquez ici pour sélectionner la destination de votre vol</string>
     <!--Flying from card content description before a location is selected-->
-    <string name="packages_search_flying_from_content_description_initial">Cliquez ici pour sélectionner l\&apos;origine de votre vol</string>
+    <string name="packages_search_flying_from_cont_desc">Cliquez ici pour sélectionner l\&apos;origine de votre vol</string>
     <!--Travel dates card content description before date range is selected-->
-    <string name="packages_search_dates_content_description_initial">Cliquez ici pour sélectionner vos dates de voyage</string>
+    <string name="packages_search_dates_cont_desc">Cliquez ici pour sélectionner vos dates de voyage</string>
     <!--Packages search date format template for accessible dates (Talkback announces date range with 'to' in between) Eg. Jun 2 to Jun 5-->
-    <string name="packages_search_accessible_date_range_TEMPLATE">du {startdate} au {enddate}</string>
+    <string name="packages_search_date_range_cont_desc_TEMPLATE">du {startdate} au {enddate}</string>
     <!--Packages search dates content description for Talkback to indicate what the date range is and how many nights the trip is for-->
-    <string name="packages_search_dates_content_description_trip">Votre voyage de {nights} débute le {date_range}</string>
+    <string name="trip_search_date_range_cont_desc_TEMPLATE">Votre voyage de {nights} débute le {date_range}</string>
     <!--Packages accessibility flight search filter-->
     <!--Content description for "SHOW MORE" button in filter used for Talkback-->
     <string name="packages_flight_search_filter_show_more_cont_desc">Cliquez ici pour afficher plus de compagnies aériennes</string>

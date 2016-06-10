@@ -3871,9 +3871,9 @@
 
     <!-- Label for package search toolbar -->
     <!-- Accessibility - Content Description for toolbar close button -->
-    <string name="package_toolbar_close_content_description">Sulje haku</string>
+    <string name="package_toolbar_close_cont_desc">Sulje haku</string>
     <!-- Accessibility - Content Description for toolbar back button when entering destination/arrival -->
-    <string name="package_toolbar_back_to_search_content_description">Takaisin hakuun</string>
+    <string name="package_toolbar_back_to_search_cont_desc">Takaisin hakuun</string>
     <string name="package_toolbar_title">Hotelli + lento</string>
     <!-- Label for per person -->
     <string name="per_person">per henkilö</string>
@@ -3909,11 +3909,11 @@
     <!-- Template for package bundle total savings amount -->
     <string name="bundle_total_savings_TEMPLATE">{savings} säästetty</string>
     <!-- Bundle Overview select hotel accessibility content description -->
-    <string name="select_hotel_content_description">Haku tehty, ole hyvä ja napsauta tätä painiketta valitaksesi hotellin kohteessa {destination}, {startdate}–{enddate}, {guests}</string>
+    <string name="select_hotel_cont_desc_TEMPLATE">Haku tehty, ole hyvä ja napsauta tätä painiketta valitaksesi hotellin kohteessa {destination}, {startdate}–{enddate}, {guests}</string>
     <!-- Bundle Overview select hotel accessibility content description when still searching -->
-    <string name="select_hotel_content_description_searching">Etsitään hotelleja kohteessa {destination}, {startdate}–{enddate}, {guests}. Odota</string>
+    <string name="select_hotel_searching_cont_desc_TEMPLATE">Etsitään hotelleja kohteessa {destination}, {startdate}–{enddate}, {guests}. Odota</string>
     <!-- Bundle Overview selected hotel accessibility content description -->
-    <string name="select_hotel_content_description_selected">Olet valinnut hotellin {hotel}, {startdate}–{enddate}, {guests}. Napsauta tätä painiketta avataksesi lisätiedot.</string>
+    <string name="select_hotel_selected_cont_desc_TEMPLATE">Olet valinnut hotellin {hotel}, {startdate}–{enddate}, {guests}. Napsauta tätä painiketta avataksesi lisätiedot.</string>
     <!-- Bundle Overview select hotel -->
     <string name="select_hotel_template">Valitse hotelli kohteessa %s</string>
     <!-- Bundle Overview searching flight -->
@@ -4132,23 +4132,23 @@
     <string name="reward_top_tier_name_short">+gold</string>
     <!-- Flight Detail card view content description for accessibility.
          Example: Flight time is 10am - 12:30pm with price difference of $25. Flying with United and the flight duration is 2 hours 30 minutes. Click to view flight details -->
-    <string name="flight_detail_card_content_description">Lentoaika on {time} ja hintaero {pricedifference}. Lentoyhtiö on {airline} ja lennon kesto {hours} tuntia {minutes} minuuttia. Katso lennon tiedot</string>
+    <string name="flight_detail_card_cont_desc_TEMPLATE">Lentoaika on {time} ja hintaero {pricedifference}. Lentoyhtiö on {airline} ja lennon kesto {hours} tuntia {minutes} minuuttia. Katso lennon tiedot</string>
 
     <!--Packages search accessibility -->
     <!--Flying to card content description Eg. Flying to San Francisco, CA (SFO-San Francisco Intl.)-->
-    <string name="packages_search_flying_to_content_description">Lento kohteeseen {to_destination}</string>
+    <string name="search_flying_to_destination_cont_desc_TEMPLATE">Lento kohteeseen {to_destination}</string>
     <!--Flying from card content description Eg. Flying from Detroit, MI (DTW-Detroit Metropolitan Wayne County)-->
-    <string name="packages_search_flying_from_content_description">Lento kohteesta {from_destination}</string>
+    <string name="search_flying_from_destination_cont_desc_TEMPLATE">Lento kohteesta {from_destination}</string>
     <!--Flying to card content description before a location is selected-->
-    <string name="packages_search_flying_to_content_description_initial">Valitse tästä kohde. johon haluat lentää</string>
+    <string name="packages_search_flying_to_cont_desc">Valitse tästä kohde. johon haluat lentää</string>
     <!--Flying from card content description before a location is selected-->
-    <string name="packages_search_flying_from_content_description_initial">Valitse tästä kohde. josta lennät</string>
+    <string name="packages_search_flying_from_cont_desc">Valitse tästä kohde. josta lennät</string>
     <!--Travel dates card content description before date range is selected-->
-    <string name="packages_search_dates_content_description_initial">Valitse tästä haluamasi matkustuspäivät</string>
+    <string name="packages_search_dates_cont_desc">Valitse tästä haluamasi matkustuspäivät</string>
     <!--Packages search date format template for accessible dates (Talkback announces date range with 'to' in between) Eg. Jun 2 to Jun 5-->
-    <string name="packages_search_accessible_date_range_TEMPLATE">{startdate}–{enddate}</string>
+    <string name="packages_search_date_range_cont_desc_TEMPLATE">{startdate}–{enddate}</string>
     <!--Packages search dates content description for Talkback to indicate what the date range is and how many nights the trip is for-->
-    <string name="packages_search_dates_content_description_trip">Matkustat ajalla {date_range} ja yövyt {nights} yötä</string>
+    <string name="trip_search_date_range_cont_desc_TEMPLATE">Matkustat ajalla {date_range} ja yövyt {nights} yötä</string>
     <!--Packages accessibility flight search filter-->
     <!--Content description for "SHOW MORE" button in filter used for Talkback-->
     <string name="packages_flight_search_filter_show_more_cont_desc">Näytä enemmän lentoyhtiöitä</string>

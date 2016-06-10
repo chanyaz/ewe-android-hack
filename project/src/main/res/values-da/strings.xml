@@ -3871,9 +3871,9 @@
 
     <!-- Label for package search toolbar -->
     <!-- Accessibility - Content Description for toolbar close button -->
-    <string name="package_toolbar_close_content_description">Luk søgevindue</string>
+    <string name="package_toolbar_close_cont_desc">Luk søgevindue</string>
     <!-- Accessibility - Content Description for toolbar back button when entering destination/arrival -->
-    <string name="package_toolbar_back_to_search_content_description">Tilbage til søgevindue</string>
+    <string name="package_toolbar_back_to_search_cont_desc">Tilbage til søgevindue</string>
     <string name="package_toolbar_title">Hotel + fly</string>
     <!-- Label for per person -->
     <string name="per_person">pr. person</string>
@@ -3909,11 +3909,11 @@
     <!-- Template for package bundle total savings amount -->
     <string name="bundle_total_savings_TEMPLATE">{savings}Gemt</string>
     <!-- Bundle Overview select hotel accessibility content description -->
-    <string name="select_hotel_content_description">Søgningen blev afsluttet. Tryk på denne knap for at vælge et hotel i {destination} fra {startdate} til {enddate} til {guests}</string>
+    <string name="select_hotel_cont_desc_TEMPLATE">Søgningen blev afsluttet. Tryk på denne knap for at vælge et hotel i {destination} fra {startdate} til {enddate} til {guests}</string>
     <!-- Bundle Overview select hotel accessibility content description when still searching -->
-    <string name="select_hotel_content_description_searching">Søger efter hoteller i {destination} fra {startdate} til {enddate} til {guests}. Vent venligst</string>
+    <string name="select_hotel_searching_cont_desc_TEMPLATE">Søger efter hoteller i {destination} fra {startdate} til {enddate} til {guests}. Vent venligst</string>
     <!-- Bundle Overview selected hotel accessibility content description -->
-    <string name="select_hotel_content_description_selected">Du har valgt hotellet {hotel} fra {startdate} til {enddate} til {guests}. Tryk på denne knap for flere oplysninger.</string>
+    <string name="select_hotel_selected_cont_desc_TEMPLATE">Du har valgt hotellet {hotel} fra {startdate} til {enddate} til {guests}. Tryk på denne knap for flere oplysninger.</string>
     <!-- Bundle Overview select hotel -->
     <string name="select_hotel_template">Vælg hotel in %s</string>
     <!-- Bundle Overview searching flight -->
@@ -4132,23 +4132,23 @@
     <string name="reward_top_tier_name_short">+gold</string>
     <!-- Flight Detail card view content description for accessibility.
          Example: Flight time is 10am - 12:30pm with price difference of $25. Flying with United and the flight duration is 2 hours 30 minutes. Click to view flight details -->
-    <string name="flight_detail_card_content_description">Flyvetiden er {time} med en prisforskel på {pricedifference}. Flyselskabet er {airline} og flyvetiden er {hours} timer og {minutes} minutter. Klik her for at se oplysninger om flyrejse</string>
+    <string name="flight_detail_card_cont_desc_TEMPLATE">Flyvetiden er {time} med en prisforskel på {pricedifference}. Flyselskabet er {airline} og flyvetiden er {hours} timer og {minutes} minutter. Klik her for at se oplysninger om flyrejse</string>
 
     <!--Packages search accessibility -->
     <!--Flying to card content description Eg. Flying to San Francisco, CA (SFO-San Francisco Intl.)-->
-    <string name="packages_search_flying_to_content_description">Flyver til {to_destination}</string>
+    <string name="search_flying_to_destination_cont_desc_TEMPLATE">Flyver til {to_destination}</string>
     <!--Flying from card content description Eg. Flying from Detroit, MI (DTW-Detroit Metropolitan Wayne County)-->
-    <string name="packages_search_flying_from_content_description">Flyver fra {from_destination}</string>
+    <string name="search_flying_from_destination_cont_desc_TEMPLATE">Flyver fra {from_destination}</string>
     <!--Flying to card content description before a location is selected-->
-    <string name="packages_search_flying_to_content_description_initial">Klik her for at vælge, hvor du gerne vil flyve til</string>
+    <string name="packages_search_flying_to_cont_desc">Klik her for at vælge, hvor du gerne vil flyve til</string>
     <!--Flying from card content description before a location is selected-->
-    <string name="packages_search_flying_from_content_description_initial">Klik her for at vælge, hvor du gerne vil flyve fra</string>
+    <string name="packages_search_flying_from_cont_desc">Klik her for at vælge, hvor du gerne vil flyve fra</string>
     <!--Travel dates card content description before date range is selected-->
-    <string name="packages_search_dates_content_description_initial">Klik her for at vælge dine rejsedatoer</string>
+    <string name="packages_search_dates_cont_desc">Klik her for at vælge dine rejsedatoer</string>
     <!--Packages search date format template for accessible dates (Talkback announces date range with 'to' in between) Eg. Jun 2 to Jun 5-->
-    <string name="packages_search_accessible_date_range_TEMPLATE">{startdate} til {enddate}</string>
+    <string name="packages_search_date_range_cont_desc_TEMPLATE">{startdate} til {enddate}</string>
     <!--Packages search dates content description for Talkback to indicate what the date range is and how many nights the trip is for-->
-    <string name="packages_search_dates_content_description_trip">Din rejse er fra {date_range} i {nights}</string>
+    <string name="trip_search_date_range_cont_desc_TEMPLATE">Din rejse er fra {date_range} i {nights}</string>
     <!--Packages accessibility flight search filter-->
     <!--Content description for "SHOW MORE" button in filter used for Talkback-->
     <string name="packages_flight_search_filter_show_more_cont_desc">Klik her for at se flere flyselskaber</string>

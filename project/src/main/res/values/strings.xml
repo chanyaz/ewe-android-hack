@@ -3878,9 +3878,9 @@
 
     <!-- Label for package search toolbar -->
     <!-- Accessibility - Content Description for toolbar close button -->
-    <string name="package_toolbar_close_content_description">Close search screen</string>
+    <string name="package_toolbar_close_cont_desc">Close search screen</string>
     <!-- Accessibility - Content Description for toolbar back button when entering destination/arrival -->
-    <string name="package_toolbar_back_to_search_content_description">Back to search screen</string>
+    <string name="package_toolbar_back_to_search_cont_desc">Back to search screen</string>
     <string name="package_toolbar_title">Hotel + Flight</string>
     <!-- Label for per person -->
     <string name="per_person">per person</string>
@@ -4155,19 +4155,19 @@
     <!--Flight Detail card view - layover duration content description for accessibility Eg. Layover. 2 hours 4 minutes.-->
     <string name="flight_detail_layover_duration_card_cont_desc_TEMPLATE">Layover. {layoverhours} {layovermins}.</string>
     <!--Flying to card content description Eg. Flying to. Button. San Francisco, CA (SFO-San Francisco Intl.)-->
-    <string name="packages_search_flying_to_cont_desc_TEMPLATE">Flying to. Button. {to_destination}</string>
+    <string name="search_flying_to_destination_cont_desc_TEMPLATE">Flying to. Button. {to_destination}</string>
     <!--Flying from card content description Eg. Flying from. Button. Detroit, MI (DTW-Detroit Metropolitan Wayne County)-->
-    <string name="packages_search_flying_from_cont_desc_TEMPLATE">Flying from. Button. {from_destination}</string>
+    <string name="search_flying_from_destination_cont_desc_TEMPLATE">Flying from. Button. {from_destination}</string>
     <!--Flying to card content description before a location is selected-->
-    <string name="packages_search_flying_to_initial_cont_desc">Flying to. Button</string>
+    <string name="packages_search_flying_to_cont_desc">Flying to. Button</string>
     <!--Flying from card content description before a location is selected-->
-    <string name="packages_search_flying_from_initial_cont_desc">Flying from. Button</string>
+    <string name="packages_search_flying_from_cont_desc">Flying from. Button</string>
     <!--Travel dates card content description before date range is selected-->
-    <string name="packages_search_dates_initial_cont_desc">Select travel dates. Button. Opens dialog</string>
+    <string name="packages_search_dates_cont_desc">Select travel dates. Button. Opens dialog</string>
     <!--Packages search date format template for accessible dates (Talkback announces date range with 'to' in between) Eg. Jun 2 to Jun 5-->
-    <string name="packages_search_accessible_date_range_TEMPLATE">{startdate} to {enddate}</string>
+    <string name="packages_search_date_range_cont_desc_TEMPLATE">{startdate} to {enddate}</string>
     <!--Packages search dates content description for Talkback to indicate what the date range is and how many nights the trip is for Eg. Trip dates. Button. Opens dialog. Jun 22 to Jun 25. (3 nights)-->
-    <string name="packages_search_dates_trip_cont_desc_TEMPLATE">Trip dates. Button. Opens dialog. {date_range}. {nights}</string>
+    <string name="trip_search_date_range_cont_desc_TEMPLATE">Trip dates. Button. Opens dialog. {date_range}. {nights}</string>
     <!--Packages search travelers card content description template. Eg. Number of travelers. Button. Opens dialog. 1 traveler-->
     <plurals name="packages_search_travelers_cont_desc_TEMPLATE">
         <item quantity="one">Number of travelers. Button. Opens dialog. {travelers} traveler</item>
@@ -4182,7 +4182,7 @@
     <!--Traveler widget child minus button content description-->
     <string name="packages_remove_child_traveler_cont_desc">Remove one child traveler</string>
     <!--Packages search child age drop down content description Eg. "Select age for child 1."-->
-    <string name="packages_search_child_drop_down_TEMPLATE">Select age for child {childnumber}.</string>
+    <string name="search_child_drop_down_cont_desc_TEMPLATE">Select age for child {childnumber}.</string>
     <!--Packages accessibility flight search filter-->
     <!--Content description for "SHOW MORE" button in filter used for Talkback-->
     <string name="packages_flight_search_filter_show_more_cont_desc">Show more airlines. Button</string>

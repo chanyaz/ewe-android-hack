@@ -3872,9 +3872,9 @@
 
     <!-- Label for package search toolbar -->
     <!-- Accessibility - Content Description for toolbar close button -->
-    <string name="package_toolbar_close_content_description">Suchfenster schließen</string>
+    <string name="package_toolbar_close_cont_desc">Suchfenster schließen</string>
     <!-- Accessibility - Content Description for toolbar back button when entering destination/arrival -->
-    <string name="package_toolbar_back_to_search_content_description">Zurück zum Suchfenster</string>
+    <string name="package_toolbar_back_to_search_cont_desc">Zurück zum Suchfenster</string>
     <string name="package_toolbar_title">Hotel + Flug</string>
     <!-- Label for per person -->
     <string name="per_person">pro Person</string>
@@ -3910,11 +3910,11 @@
     <!-- Template for package bundle total savings amount -->
     <string name="bundle_total_savings_TEMPLATE">{savings} gespart</string>
     <!-- Bundle Overview select hotel accessibility content description -->
-    <string name="select_hotel_content_description">Suche abgeschlossen. Bitte tippen Sie auf diese Schaltfläche, um ein Hotel in {destination} vom {startdate} bis {enddate} für {guests} auszuwählen</string>
+    <string name="select_hotel_cont_desc_TEMPLATE">Suche abgeschlossen. Bitte tippen Sie auf diese Schaltfläche, um ein Hotel in {destination} vom {startdate} bis {enddate} für {guests} auszuwählen</string>
     <!-- Bundle Overview select hotel accessibility content description when still searching -->
-    <string name="select_hotel_content_description_searching">Suche nach Hotels in {destination} vom {startdate} bis {enddate} für {guests}. Bitte warten</string>
+    <string name="select_hotel_searching_cont_desc_TEMPLATE">Suche nach Hotels in {destination} vom {startdate} bis {enddate} für {guests}. Bitte warten</string>
     <!-- Bundle Overview selected hotel accessibility content description -->
-    <string name="select_hotel_content_description_selected">Sie haben das Hotel {hotel} vom {startdate} bis {enddate} für {guests} ausgewählt. Tippen Sie auf diese Schaltfläche, um weitere Details anzuzeigen.</string>
+    <string name="select_hotel_selected_cont_desc_TEMPLATE">Sie haben das Hotel {hotel} vom {startdate} bis {enddate} für {guests} ausgewählt. Tippen Sie auf diese Schaltfläche, um weitere Details anzuzeigen.</string>
     <!-- Bundle Overview select hotel -->
     <string name="select_hotel_template">Hotel in %s auswählen</string>
     <!-- Bundle Overview searching flight -->
@@ -4133,23 +4133,23 @@
     <string name="reward_top_tier_name_short">+gold</string>
     <!-- Flight Detail card view content description for accessibility.
          Example: Flight time is 10am - 12:30pm with price difference of $25. Flying with United and the flight duration is 2 hours 30 minutes. Click to view flight details -->
-    <string name="flight_detail_card_content_description">Die Flugzeit beträgt {time}, mit einer Preisdifferenz von {pricedifference}. Flug mit {airline} und einer Flugdauer von {hours} Stunden {minutes} Minuten. Klicken, um die Flugdaten zu sehen</string>
+    <string name="flight_detail_card_cont_desc_TEMPLATE">Die Flugzeit beträgt {time}, mit einer Preisdifferenz von {pricedifference}. Flug mit {airline} und einer Flugdauer von {hours} Stunden {minutes} Minuten. Klicken, um die Flugdaten zu sehen</string>
 
     <!--Packages search accessibility -->
     <!--Flying to card content description Eg. Flying to San Francisco, CA (SFO-San Francisco Intl.)-->
-    <string name="packages_search_flying_to_content_description">Flug nach {to_destination}</string>
+    <string name="search_flying_to_destination_cont_desc_TEMPLATE">Flug nach {to_destination}</string>
     <!--Flying from card content description Eg. Flying from Detroit, MI (DTW-Detroit Metropolitan Wayne County)-->
-    <string name="packages_search_flying_from_content_description">Flug ab {from_destination}</string>
+    <string name="search_flying_from_destination_cont_desc_TEMPLATE">Flug ab {from_destination}</string>
     <!--Flying to card content description before a location is selected-->
-    <string name="packages_search_flying_to_content_description_initial">Klicken Sie hier, um Ihren Ankunftsort auszuwählen</string>
+    <string name="packages_search_flying_to_cont_desc">Klicken Sie hier, um Ihren Ankunftsort auszuwählen</string>
     <!--Flying from card content description before a location is selected-->
-    <string name="packages_search_flying_from_content_description_initial">Klicken Sie hier, um Ihren Abflugort auszuwählen</string>
+    <string name="packages_search_flying_from_cont_desc">Klicken Sie hier, um Ihren Abflugort auszuwählen</string>
     <!--Travel dates card content description before date range is selected-->
-    <string name="packages_search_dates_content_description_initial">Klicken Sie hier, um Ihre Reisedaten auszuwählen</string>
+    <string name="packages_search_dates_cont_desc">Klicken Sie hier, um Ihre Reisedaten auszuwählen</string>
     <!--Packages search date format template for accessible dates (Talkback announces date range with 'to' in between) Eg. Jun 2 to Jun 5-->
-    <string name="packages_search_accessible_date_range_TEMPLATE">{startdate} bis {enddate}</string>
+    <string name="packages_search_date_range_cont_desc_TEMPLATE">{startdate} bis {enddate}</string>
     <!--Packages search dates content description for Talkback to indicate what the date range is and how many nights the trip is for-->
-    <string name="packages_search_dates_content_description_trip">Ihre Reise dauert von {date_range} und umfasst {nights}</string>
+    <string name="trip_search_date_range_cont_desc_TEMPLATE">Ihre Reise dauert von {date_range} und umfasst {nights}</string>
     <!--Packages accessibility flight search filter-->
     <!--Content description for "SHOW MORE" button in filter used for Talkback-->
     <string name="packages_flight_search_filter_show_more_cont_desc">Klicken Sie hier, um mehr Fluglinien zu sehen</string>

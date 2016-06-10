@@ -3871,9 +3871,9 @@
 
     <!-- Label for package search toolbar -->
     <!-- Accessibility - Content Description for toolbar close button -->
-    <string name="package_toolbar_close_content_description">ปิดหน้าจอค้นหา</string>
+    <string name="package_toolbar_close_cont_desc">ปิดหน้าจอค้นหา</string>
     <!-- Accessibility - Content Description for toolbar back button when entering destination/arrival -->
-    <string name="package_toolbar_back_to_search_content_description">กลับไปที่หน้าจอค้นหา</string>
+    <string name="package_toolbar_back_to_search_cont_desc">กลับไปที่หน้าจอค้นหา</string>
     <string name="package_toolbar_title">โรงแรม + เที่ยวบิน</string>
     <!-- Label for per person -->
     <string name="per_person">ต่อคน</string>
@@ -3909,11 +3909,11 @@
     <!-- Template for package bundle total savings amount -->
     <string name="bundle_total_savings_TEMPLATE">ประหยัด {savings}</string>
     <!-- Bundle Overview select hotel accessibility content description -->
-    <string name="select_hotel_content_description">ค้นหาเสร็จสิ้น โปรดกดปุ่มนี้เพื่อเลือกโรงแรมใน{destination} ตั้งแต่วันที่ {startdate} ถึง {enddate} สำหรับ {guests}</string>
+    <string name="select_hotel_cont_desc_TEMPLATE">ค้นหาเสร็จสิ้น โปรดกดปุ่มนี้เพื่อเลือกโรงแรมใน{destination} ตั้งแต่วันที่ {startdate} ถึง {enddate} สำหรับ {guests}</string>
     <!-- Bundle Overview select hotel accessibility content description when still searching -->
-    <string name="select_hotel_content_description_searching">กำลังค้นหาโรงแรมใน{destination} ตั้งแต่วันที่ {startdate} ถึง {enddate} สำหรับ {guests} โปรดรอสักครู่</string>
+    <string name="select_hotel_searching_cont_desc_TEMPLATE">กำลังค้นหาโรงแรมใน{destination} ตั้งแต่วันที่ {startdate} ถึง {enddate} สำหรับ {guests} โปรดรอสักครู่</string>
     <!-- Bundle Overview selected hotel accessibility content description -->
-    <string name="select_hotel_content_description_selected">คุณได้เลือกโรงแรม {hotel} ตั้งแต่วันที่ {startdate} ถึง {enddate} สำหรับ {guests} โปรดกดปุ่มนี้เพื่อแสดงรายละเอียดเพิ่มเติม</string>
+    <string name="select_hotel_selected_cont_desc_TEMPLATE">คุณได้เลือกโรงแรม {hotel} ตั้งแต่วันที่ {startdate} ถึง {enddate} สำหรับ {guests} โปรดกดปุ่มนี้เพื่อแสดงรายละเอียดเพิ่มเติม</string>
     <!-- Bundle Overview select hotel -->
     <string name="select_hotel_template">เลือกโรงแรมใน%s</string>
     <!-- Bundle Overview searching flight -->
@@ -4132,23 +4132,23 @@
     <string name="reward_top_tier_name_short">+gold</string>
     <!-- Flight Detail card view content description for accessibility.
          Example: Flight time is 10am - 12:30pm with price difference of $25. Flying with United and the flight duration is 2 hours 30 minutes. Click to view flight details -->
-    <string name="flight_detail_card_content_description">เวลาเที่ยวบินคือ {time} ในส่วนต่างราคา {pricedifference} บินกับ {airline} ระยะเวลาเที่ยวบิน {hours} ชั่วโมง {minutes} นาที คลิกเพื่อดูรายละเอียดเที่ยวบิน</string>
+    <string name="flight_detail_card_cont_desc_TEMPLATE">เวลาเที่ยวบินคือ {time} ในส่วนต่างราคา {pricedifference} บินกับ {airline} ระยะเวลาเที่ยวบิน {hours} ชั่วโมง {minutes} นาที คลิกเพื่อดูรายละเอียดเที่ยวบิน</string>
 
     <!--Packages search accessibility -->
     <!--Flying to card content description Eg. Flying to San Francisco, CA (SFO-San Francisco Intl.)-->
-    <string name="packages_search_flying_to_content_description">บินไปยัง{to_destination}</string>
+    <string name="search_flying_to_destination_cont_desc_TEMPLATE">บินไปยัง{to_destination}</string>
     <!--Flying from card content description Eg. Flying from Detroit, MI (DTW-Detroit Metropolitan Wayne County)-->
-    <string name="packages_search_flying_from_content_description">บินจาก{from_destination}</string>
+    <string name="search_flying_from_destination_cont_desc_TEMPLATE">บินจาก{from_destination}</string>
     <!--Flying to card content description before a location is selected-->
-    <string name="packages_search_flying_to_content_description_initial">คลิกที่นี่เพื่อเลือกจุดหมายปลายทาง</string>
+    <string name="packages_search_flying_to_cont_desc">คลิกที่นี่เพื่อเลือกจุดหมายปลายทาง</string>
     <!--Flying from card content description before a location is selected-->
-    <string name="packages_search_flying_from_content_description_initial">คลิกที่นี่เพื่อเลือกต้นทาง</string>
+    <string name="packages_search_flying_from_cont_desc">คลิกที่นี่เพื่อเลือกต้นทาง</string>
     <!--Travel dates card content description before date range is selected-->
-    <string name="packages_search_dates_content_description_initial">คลิกที่นี่เพื่อเลือกวันเดินทาง</string>
+    <string name="packages_search_dates_cont_desc">คลิกที่นี่เพื่อเลือกวันเดินทาง</string>
     <!--Packages search date format template for accessible dates (Talkback announces date range with 'to' in between) Eg. Jun 2 to Jun 5-->
-    <string name="packages_search_accessible_date_range_TEMPLATE">{startdate} ถึง {enddate}</string>
+    <string name="packages_search_date_range_cont_desc_TEMPLATE">{startdate} ถึง {enddate}</string>
     <!--Packages search dates content description for Talkback to indicate what the date range is and how many nights the trip is for-->
-    <string name="packages_search_dates_content_description_trip">ทริปของคุณอยู่ระหว่างวันที่ {date_range} เป็นเวลา {nights}</string>
+    <string name="trip_search_date_range_cont_desc_TEMPLATE">ทริปของคุณอยู่ระหว่างวันที่ {date_range} เป็นเวลา {nights}</string>
     <!--Packages accessibility flight search filter-->
     <!--Content description for "SHOW MORE" button in filter used for Talkback-->
     <string name="packages_flight_search_filter_show_more_cont_desc">คลิกที่นี่เพื่อแสดงสายการบินเพิ่มเติม</string>
