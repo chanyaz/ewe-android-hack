@@ -577,8 +577,8 @@ DummyFiletoHandleKotlinLintError {
 		R.layout.flight_results_loading_header_cell,
 		R.bool.acct__isGoogleAccountChangeEnabled,
 		R.layout.flight_results_loading_header_cell,
-		R.string.select_hotel_content_description,
-		R.string.select_hotel_content_description_searching,
+		R.string.select_hotel_cont_desc_TEMPLATE,
+		R.string.select_hotel_searching_cont_desc_TEMPLATE,
 		R.integer.calendar_max_package_selectable_date_range,
 		R.string.calendar_instructions_date_range_flight_select_return_date,
 		R.string.flights_round_trip_label,
@@ -588,7 +588,7 @@ DummyFiletoHandleKotlinLintError {
 		R.layout.rail_overview,
 		R.layout.rail_summary,
 		R.color.dividerColor,
-		R.string.select_hotel_content_description_selected,
+		R.string.select_hotel_selected_cont_desc_TEMPLATE,
 		R.string.flights_outbound_label,
 		R.layout.widget_docked_outbound_flight_selection,
 		R.string.total,
@@ -650,6 +650,8 @@ DummyFiletoHandleKotlinLintError {
 		R.string.packages_flight_search_filter_clear_button_cont_desc,
 		R.string.flight_detail_flight_duration_card_cont_desc_TEMPLATE,
 		R.string.flight_detail_layover_duration_card_cont_desc_TEMPLATE,
-		R.string.accessibility_cont_desc_role_button
+		R.string.accessibility_cont_desc_role_button,
+		R.string.select_hotel_selected_expand_cont_desc,
+		R.string.select_hotel_selected_collapse_cont_desc
 	};
 }
