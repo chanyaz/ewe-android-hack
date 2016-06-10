@@ -5,7 +5,6 @@ import android.graphics.Color
 import android.graphics.PorterDuff
 import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
-import android.support.v7.view.menu.ActionMenuItemView
 import android.support.v7.widget.Toolbar
 import android.util.AttributeSet
 import android.view.MenuItem
@@ -34,15 +33,20 @@ import com.expedia.vm.WebViewViewModel
 import com.expedia.vm.packages.FlightFilterViewModel
 import rx.Observer
 import rx.exceptions.OnErrorNotImplementedException
-import kotlin.properties.Delegates
 
 abstract class BaseFlightPresenter(context: Context, attrs: AttributeSet) : Presenter(context, attrs) {
 
     val ANIMATION_DURATION = 400
     val toolbar: Toolbar by bindView(R.id.flights_toolbar)
     var navIcon = ArrowXDrawableUtil.getNavigationIconDrawable(getContext(), ArrowXDrawableUtil.ArrowDrawableType.BACK)
-    var menuFilter: MenuItem? = null // not used for flights LOB
-    var menuSearch: MenuItem by Delegates.notNull()
+    val menuFilter: MenuItem by lazy {
+        val menuFilter = toolbar.menu.findItem(R.id.menu_filter)
+        menuFilter
+    } // not used for flights LOB
+    val menuSearch: MenuItem by lazy {
+        val menuSearch = toolbar.menu.findItem(R.id.menu_search)
+        menuSearch
+    } // not used for package LOB
     var flightSearchViewModel: FlightSearchViewModel by notNullAndObservable { vm ->
         val flightListAdapter = FlightListAdapter(context, resultsPresenter.flightSelectedSubject, vm)
         resultsPresenter.setAdapter(flightListAdapter)
@@ -104,11 +108,6 @@ abstract class BaseFlightPresenter(context: Context, attrs: AttributeSet) : Pres
 
         vm.subtitleSubject.subscribe {
             toolbar.subtitle = it
-        }
-
-        vm.menuVisibilitySubject.subscribe { showMenu ->
-            menuSearch.isVisible = if (showMenu) true else false
-            menuFilter?.isVisible = if (showMenu) true else false
         }
     }
 
@@ -267,7 +266,6 @@ abstract class BaseFlightPresenter(context: Context, attrs: AttributeSet) : Pres
         toolbar.navigationIcon = navIcon
         toolbar.setBackgroundColor(ContextCompat.getColor(context, R.color.packages_primary_color))
         setupToolbarMenu()
-        menuSearch = toolbar.menu.findItem(R.id.menu_search)
     }
 
     abstract fun setupToolbarMenu()

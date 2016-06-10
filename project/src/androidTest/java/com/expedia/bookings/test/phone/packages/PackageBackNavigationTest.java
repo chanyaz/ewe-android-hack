@@ -9,6 +9,7 @@ import com.expedia.bookings.test.phone.hotels.HotelScreen;
 import com.expedia.bookings.test.phone.pagemodels.common.SearchScreen;
 
 import static android.support.test.espresso.Espresso.onView;
+import static android.support.test.espresso.assertion.ViewAssertions.doesNotExist;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.hasDescendant;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
@@ -24,30 +25,41 @@ public class PackageBackNavigationTest extends PackageTestCase {
 		//back to inbound flight overview
 		Common.pressBack();
 		assertInboundFlightBundlePrice("$4,212");
-		PackageScreen.flightsToolbar().check(matches(hasDescendant(allOf(isDisplayed(), withText("Flight to San Francisco, CA")))));
+		PackageScreen.flightsToolbar()
+			.check(matches(hasDescendant(allOf(isDisplayed(), withText("Flight to San Francisco, CA")))));
+		PackageScreen.checkFlightToolBarMenuItemsVisibility(false);
 
 		//back to inbound flight results
 		Common.pressBack();
 		onView(withId(R.id.all_flights_header)).check(matches(isDisplayed()));
-		PackageScreen.flightsToolbar().check(matches(hasDescendant(allOf(isDisplayed(), withText("Select return flight")))));
+		PackageScreen.flightsToolbar()
+			.check(matches(hasDescendant(allOf(isDisplayed(), withText("Select return flight")))));
+		PackageScreen.flightsToolbarSearchMenu().check(doesNotExist());
+		PackageScreen.checkFlightToolBarMenuItemsVisibility(true);
 
 		Common.pressBack();
 
 		//back to outbound flight overview
 		Common.pressBack();
 		assertOutboundFlightBundlePrice("$3,864");
-		PackageScreen.flightsToolbar().check(matches(hasDescendant(allOf(isDisplayed(), withText("Flight to Detroit, MI")))));
+		PackageScreen.flightsToolbar()
+			.check(matches(hasDescendant(allOf(isDisplayed(), withText("Flight to Detroit, MI")))));
+		PackageScreen.checkFlightToolBarMenuItemsVisibility(false);
+
 
 		//back to outbound flight results
 		Common.pressBack();
 		onView(withId(R.id.all_flights_header)).check(matches(isDisplayed()));
-		PackageScreen.flightsToolbar().check(matches(hasDescendant(allOf(isDisplayed(), withText("Select flight to Detroit, MI")))));
+		PackageScreen.flightsToolbar()
+			.check(matches(hasDescendant(allOf(isDisplayed(), withText("Select flight to Detroit, MI")))));
+		PackageScreen.checkFlightToolBarMenuItemsVisibility(true);
 
 		Common.pressBack();
 
 		//back to hotel infosite
 		Common.pressBack();
-		PackageScreen.hotelDetailsToolbar().check(matches(hasDescendant(allOf(isDisplayed(), withText("Package Happy Path")))));
+		PackageScreen.hotelDetailsToolbar()
+			.check(matches(hasDescendant(allOf(isDisplayed(), withText("Package Happy Path")))));
 
 		//back to hotel results
 		Common.pressBack();
@@ -73,10 +85,17 @@ public class PackageBackNavigationTest extends PackageTestCase {
 	private void assertHotelSRP() {
 		HotelScreen.hotelResultsToolbar().check(matches(hasDescendant(
 			CoreMatchers.allOf(isDisplayed(), withText("Hotels in Detroit, MI")))));
-		EspressoUtils.assertViewWithTextIsDisplayedAtPosition(HotelScreen.hotelResultsList(), 2, R.id.hotel_name_text_view,
-			"Package Happy Path");
-		EspressoUtils.assertViewWithTextIsDisplayedAtPosition(HotelScreen.hotelResultsList(), 2, R.id.strike_through_price, "$538");
-		EspressoUtils.assertViewWithTextIsDisplayedAtPosition(HotelScreen.hotelResultsList(), 2, R.id.price_per_night, "$526");
-		EspressoUtils.assertViewWithTextIsDisplayedAtPosition(HotelScreen.hotelResultsList(), 2, R.id.unreal_deal_message, "Book this and save $110 (22%)");
+		EspressoUtils
+			.assertViewWithTextIsDisplayedAtPosition(HotelScreen.hotelResultsList(), 2, R.id.hotel_name_text_view,
+				"Package Happy Path");
+		EspressoUtils
+			.assertViewWithTextIsDisplayedAtPosition(HotelScreen.hotelResultsList(), 2, R.id.strike_through_price,
+				"$538");
+		EspressoUtils
+			.assertViewWithTextIsDisplayedAtPosition(HotelScreen.hotelResultsList(), 2, R.id.price_per_night, "$526");
+		EspressoUtils
+			.assertViewWithTextIsDisplayedAtPosition(HotelScreen.hotelResultsList(), 2, R.id.unreal_deal_message,
+				"Book this and save $110 (22%)");
 	}
+
 }

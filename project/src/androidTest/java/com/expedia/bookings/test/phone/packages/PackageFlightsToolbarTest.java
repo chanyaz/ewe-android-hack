@@ -10,7 +10,6 @@ import com.expedia.bookings.test.phone.hotels.HotelScreen;
 import com.expedia.bookings.test.phone.pagemodels.common.SearchScreen;
 
 import static android.support.test.espresso.action.ViewActions.click;
-import static android.support.test.espresso.assertion.ViewAssertions.doesNotExist;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.hasDescendant;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
@@ -31,37 +30,27 @@ public class PackageFlightsToolbarTest extends PackageTestCase {
 
 		PackageScreen.flightsToolbar().perform(waitFor(isDisplayed(), 5, TimeUnit.SECONDS));
 		PackageScreen.flightsToolbar().check(matches(hasDescendant(allOf(isDisplayed(), withText("Select flight to Detroit, MI")))));
-		checkToolBarMenuItemsVisibility(true);
+		PackageScreen.checkFlightToolBarMenuItemsVisibility(true);
 
 		PackageScreen.selectFlight(0);
 		PackageScreen.flightsToolbar().perform(waitFor(isDisplayed(), 5, TimeUnit.SECONDS));
 		PackageScreen.flightsToolbar().check(matches(hasDescendant(allOf(isDisplayed(), withText("Flight to Detroit, MI")))));
-		checkToolBarMenuItemsVisibility(false);
+		PackageScreen.checkFlightToolBarMenuItemsVisibility(false);
 		checkBaggageFeeToolBarText("Flight to Detroit, MI");
 		PackageScreen.selectThisFlight().perform(click());
 
 		PackageScreen.flightsToolbar().perform(waitFor(isDisplayed(), 5, TimeUnit.SECONDS));
 		PackageScreen.flightsToolbar().check(matches(hasDescendant(allOf(isDisplayed(), withText("Select return flight")))));
-		checkToolBarMenuItemsVisibility(true);
+		PackageScreen.checkFlightToolBarMenuItemsVisibility(true);
 
 
 		PackageScreen.selectFlight(0);
 		PackageScreen.flightsToolbar().perform(waitFor(isDisplayed(), 5, TimeUnit.SECONDS));
 		PackageScreen.flightsToolbar().check(matches(hasDescendant(allOf(isDisplayed(), withText("Flight to San Francisco, CA")))));
-		checkToolBarMenuItemsVisibility(false);
+		PackageScreen.checkFlightToolBarMenuItemsVisibility(false);
 		checkBaggageFeeToolBarText("Flight to San Francisco, CA");
 	}
 
-	public void checkToolBarMenuItemsVisibility(boolean isVisible) {
-		PackageScreen.flightsToolbarSearchMenu().check(doesNotExist());
-
-		if (isVisible) {
-			PackageScreen.flightsToolbarFilterMenu().check(matches(isDisplayed()));
-		}
-		else {
-			PackageScreen.flightsToolbarFilterMenu().check(doesNotExist());
-		}
-	}
 
 	public void checkBaggageFeeToolBarText(String previousToolBarText) {
 		PackageScreen.baggageFeeInfo().check(matches(isDisplayed()));
