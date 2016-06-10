@@ -3781,6 +3781,9 @@
     <!-- Content description for action: Press to filter for hotels within a mid-distance radius from your search location -->
     <string name="cd_pay_later">Press the button to pay later</string>
 
+    <!-- Content description for Cars toolbar 'X' i.e. close/back button -->
+    <string name="cd_cars_search_nav_icon">Back</string>
+
     <!-- Tablet Confirmation Screen -->
     <!-- Header text to indicating booking confirmed for hotel -->
     <string name="tablet_confirmation_hotel_booked">Your hotel is booked!</string>
