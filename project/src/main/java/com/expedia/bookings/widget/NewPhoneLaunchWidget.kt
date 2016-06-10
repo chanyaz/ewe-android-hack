@@ -105,7 +105,7 @@ class NewPhoneLaunchWidget(context: Context, attrs: AttributeSet) : FrameLayout(
     var currentLocationSubject = BehaviorSubject.create<Location>()
     var locationNotAvailable = BehaviorSubject.create<Unit>()
 
-    private val darkView: View by bindView(R.id.darkness)
+    val darkView: View by bindView(R.id.darkness)
 
     override fun onFinishInflate() {
         super.onFinishInflate()

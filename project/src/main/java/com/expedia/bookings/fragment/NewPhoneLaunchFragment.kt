@@ -160,7 +160,9 @@ class NewPhoneLaunchFragment : Fragment(), IPhoneLaunchActivityLaunchFragment {
     }
 
     fun smoothScrollToTop() {
-        newPhoneLaunchWidget.launchListWidget.smoothScrollToPosition(0)
+        if (newPhoneLaunchWidget.darkView.alpha == 0f) {
+            newPhoneLaunchWidget.launchListWidget.smoothScrollToPosition(0)
+        }
     }
 
 }
