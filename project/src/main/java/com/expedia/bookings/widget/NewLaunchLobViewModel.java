@@ -59,14 +59,8 @@ public class NewLaunchLobViewModel implements NewLaunchLobAdapter.OnLobClickList
 
 	private void setupLinesOfBusiness(PointOfSale pos) {
 		ArrayList<NewLaunchLobAdapter.LobInfo> lobs = new ArrayList<>();
-
-		if (pos.supports(LineOfBusiness.HOTELS)) {
-			lobs.add(NewLaunchLobAdapter.LobInfo.HOTELS);
-		}
-
-		if (pos.supports(LineOfBusiness.FLIGHTS)) {
-			lobs.add(NewLaunchLobAdapter.LobInfo.FLIGHTS);
-		}
+		lobs.add(NewLaunchLobAdapter.LobInfo.HOTELS);
+		lobs.add(NewLaunchLobAdapter.LobInfo.FLIGHTS);
 
 		if (pos.supports(LineOfBusiness.CARS)) {
 			lobs.add(NewLaunchLobAdapter.LobInfo.CARS);
