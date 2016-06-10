@@ -272,6 +272,7 @@ class NewPhoneLaunchWidget(context: Context, attrs: AttributeSet) : FrameLayout(
         val lobViewAnimIn = ObjectAnimator.ofFloat(lobViewContainer, "translationY", 0f)
         startAnimation(lobViewAnimIn)
         hideFabButton()
+        OmnitureTracking.trackExpandedLobView()
     }
 
     private fun hideLobAndDarkView() {

@@ -3482,6 +3482,7 @@ public class OmnitureTracking {
 
 	private static final String LAUNCH_SCREEN = "App.LaunchScreen";
 	private static final String LAUNCH_SCREEN_GLOBAL_NAVIGATION = "App.Global";
+	private static final String LAUNCH_SCREEN_EXPANDED_LOB = "App.LS.Srch.ExpandSrch";
 	private static final String LOGIN_SCREEN = "App.Account.SignIn";
 	private static final String LOGIN_SUCCESS = "App.Account.Login.Success";
 	private static final String LOGIN_CONTACT_ACCESS = "App.Account.Create.AccessInfo";
@@ -3667,6 +3668,11 @@ public class OmnitureTracking {
 		}
 		ADMS_Measurement s = createTrackLinkEvent(link);
 
+		s.trackLink(null, "o", "App Landing", null, null);
+	}
+
+	public static void trackExpandedLobView() {
+		ADMS_Measurement s = createTrackLinkEvent(LAUNCH_SCREEN_EXPANDED_LOB);
 		s.trackLink(null, "o", "App Landing", null, null);
 	}
 
