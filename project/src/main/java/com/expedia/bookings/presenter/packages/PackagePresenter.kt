@@ -185,6 +185,8 @@ class PackagePresenter(context: Context, attrs: AttributeSet) : IntentPresenter(
             bundlePresenter.visibility = if (forward) View.VISIBLE else View.GONE
             if (!forward) {
                 trackSearchPageLoad()
+            } else {
+                trackViewBundlePageLoad()
             }
 
             val params = bundlePresenter.bundleOverviewHeader.appBarLayout.layoutParams as CoordinatorLayout.LayoutParams
@@ -216,6 +218,9 @@ class PackagePresenter(context: Context, attrs: AttributeSet) : IntentPresenter(
             bundlePresenter.visibility = if (forward) View.GONE else View.VISIBLE
             errorPresenter.visibility = if (forward) View.VISIBLE else View.GONE
             errorPresenter.animationFinalize()
+            if (!forward) {
+                trackViewBundlePageLoad()
+            }
         }
     }
 
@@ -250,5 +255,9 @@ class PackagePresenter(context: Context, attrs: AttributeSet) : IntentPresenter(
 
     fun trackSearchPageLoad() {
         PackagesTracking().trackDestinationSearchInit()
+    }
+
+    fun trackViewBundlePageLoad() {
+        PackagesTracking().trackViewBundlePageLoad()
     }
 }
