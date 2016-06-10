@@ -277,7 +277,8 @@ class PackageHotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
 
     val hotelSelectedObserver: Observer<Hotel> = endlessObserver { hotel ->
         selectedPackageHotel = hotel
-        getDetails(hotel.packageOfferModel.piid, hotel.hotelId, Db.getPackageParams().checkIn.toString(), Db.getPackageParams().checkOut.toString(), Db.getPackageSelectedRoom()?.ratePlanCode, Db.getPackageSelectedRoom()?.roomTypeCode)
+        val params = Db.getPackageParams()
+        getDetails(hotel.packageOfferModel.piid, hotel.hotelId, params.checkIn.toString(), params.checkOut.toString(), Db.getPackageSelectedRoom()?.ratePlanCode, Db.getPackageSelectedRoom()?.roomTypeCode, params.adults, params.children.firstOrNull())
         PackagesTracking().trackHotelMapCarouselPropertyClick()
     }
 
@@ -285,17 +286,17 @@ class PackageHotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
         bundleSlidingWidget.visibility = if (hide) {
             bundleSlidingWidget.startAnimation(slideDownAnimation)
             GONE
-        }  else {
+        } else {
             bundleSlidingWidget.startAnimation(slideUpAnimation)
             VISIBLE
         }
     }
 
-    private fun getDetails(piid: String, hotelId: String, checkIn: String, checkOut: String, ratePlanCode: String?, roomTypeCode: String?) {
+    private fun getDetails(piid: String, hotelId: String, checkIn: String, checkOut: String, ratePlanCode: String?, roomTypeCode: String?, numberOfAdultTravelers: Int, childTravelerAge: Int?) {
         loadingOverlay.visibility = View.VISIBLE
         loadingOverlay.animate(true)
         detailPresenter.hotelDetailView.viewmodel.paramsSubject.onNext(convertPackageToSearchParams(Db.getPackageParams(), resources.getInteger(R.integer.calendar_max_days_hotel_stay), resources.getInteger(R.integer.calendar_max_selectable_date_range)))
-        val packageHotelOffers = packageServices.hotelOffer(piid, checkIn, checkOut, ratePlanCode, roomTypeCode)
+        val packageHotelOffers = packageServices.hotelOffer(piid, checkIn, checkOut, ratePlanCode, roomTypeCode, numberOfAdultTravelers, childTravelerAge)
         val info = packageServices.hotelInfo(hotelId)
         packageHotelOffers.subscribe()
         Observable.zip(packageHotelOffers, info, { packageHotelOffers, info ->
@@ -357,7 +358,7 @@ class PackageHotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
             detailPresenter.animationStart()
             resultsPresenter.visibility = View.VISIBLE
             if (resultsPresenter.currentState == BaseHotelResultsPresenter.ResultsMap::class.java.name) {
-                bundleSlidingWidget.visibility =  if (forward) VISIBLE else GONE
+                bundleSlidingWidget.visibility = if (forward) VISIBLE else GONE
             }
         }
 
@@ -446,7 +447,7 @@ class PackageHotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
                 addDefaultTransition(defaultResultsTransition)
                 show(resultsPresenter)
                 resultsPresenter.showDefault()
-                resultsPresenter.viewmodel.paramsSubject.onNext(convertPackageToSearchParams(Db.getPackageParams(), resources.getInteger(R.integer.calendar_max_days_hotel_stay),  resources.getInteger(R.integer.calendar_max_package_selectable_date_range)))
+                resultsPresenter.viewmodel.paramsSubject.onNext(convertPackageToSearchParams(Db.getPackageParams(), resources.getInteger(R.integer.calendar_max_days_hotel_stay), resources.getInteger(R.integer.calendar_max_package_selectable_date_range)))
                 trackSearchResult()
             }
             PackageHotelActivity.Screen.DETAILS_ONLY -> {

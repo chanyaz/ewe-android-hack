@@ -30,7 +30,9 @@ public interface PackageApi {
 		@Query("checkInDate") String checkInDate,
 		@Query("checkOutDate") String checkOutDate,
 		@Query("ratePlanCode") String ratePlanCode,
-		@Query("roomTypeCode") String roomTypeCode);
+		@Query("roomTypeCode") String roomTypeCode,
+		@Query("numberOfAdultTravelers") Integer numberOfAdultTravelers,
+		@Query("childTravelerAge") Integer childTravelerAge);
 
 
 	@GET("/m/api/hotel/info")
