@@ -150,10 +150,10 @@
                         android:layout_height="wrap_content"
                         android:layout_alignBaseline="@id/available_points"
                         android:layout_marginLeft="20dp"
-                        android:layout_marginRight="20dp"
                         android:layout_toRightOf="@+id/center"
                         android:drawablePadding="8dp"
-                        android:gravity="center_vertical" />
+                        android:gravity="center_vertical"
+                        android:ellipsize="end" />
 
                     <include
                         android:id="@+id/first_row_country"

@@ -12,7 +12,7 @@ public class UserLoyaltyMembershipInformation implements JSONable {
 	private double loyaltyPointsPending; // and here
 	private String bookingCurrency;
 	private boolean isAllowedToShopWithPoints = false;
-	private LoyaltyMonetaryValueObject loyaltyMonetaryValue;
+	private LoyaltyMonetaryValue loyaltyMonetaryValue;
 	private boolean isLoyaltyMembershipActive;
 	private LoyaltyMembershipTier loyaltyMembershipTier = LoyaltyMembershipTier.NONE;
 
@@ -44,7 +44,7 @@ public class UserLoyaltyMembershipInformation implements JSONable {
 		isAllowedToShopWithPoints = allowedToShopWithPoints;
 	}
 
-	public Money getLoyaltyMonetaryValue() {
+	public LoyaltyMonetaryValue getLoyaltyMonetaryValue() {
 		return loyaltyMonetaryValue;
 	}
 
@@ -102,22 +102,29 @@ public class UserLoyaltyMembershipInformation implements JSONable {
 		loyaltyMembershipTier = LoyaltyMembershipTier.fromApiValue(membershipTierName);
 		if (obj.has("loyaltyMonetaryValue")) { // the old api response doesn't return loyaltyMonetaryValue
 			// TODO - we can remove this check after 1st May 2016 (API will have been released to production)
-			loyaltyMonetaryValue = new LoyaltyMonetaryValueObject(obj.optJSONObject("loyaltyMonetaryValue"));
+			loyaltyMonetaryValue = new LoyaltyMonetaryValue(obj.optJSONObject("loyaltyMonetaryValue"));
 		}
 		else {
-			loyaltyMonetaryValue = new LoyaltyMonetaryValueObject(new Money("0.0", bookingCurrency));
+			loyaltyMonetaryValue = new LoyaltyMonetaryValue(new Money("0.0", bookingCurrency));
 		}
 		return true;
 	}
 
-	class LoyaltyMonetaryValueObject extends Money implements JSONable {
+	public class LoyaltyMonetaryValue extends Money implements JSONable {
 
-		public LoyaltyMonetaryValueObject(JSONObject obj) {
+		private String apiFormattedPrice;
+
+		public LoyaltyMonetaryValue(JSONObject obj) {
 			fromJson(obj);
 		}
 
-		public LoyaltyMonetaryValueObject(Money money) {
+		public LoyaltyMonetaryValue(Money money) {
 			super(money.amount, money.currencyCode);
+		}
+
+		@Override
+		public String getFormattedMoney() {
+			return apiFormattedPrice;
 		}
 
 		@Override
@@ -126,6 +133,7 @@ public class UserLoyaltyMembershipInformation implements JSONable {
 				JSONObject obj = new JSONObject();
 				obj.put("amount", this.getAmount());
 				obj.put("currencyCode", this.getCurrency());
+				obj.put("formattedPrice", this.apiFormattedPrice);
 				return obj;
 			}
 			catch (JSONException e) {
@@ -140,6 +148,7 @@ public class UserLoyaltyMembershipInformation implements JSONable {
 			}
 			this.setAmount(obj.optString("amount", ""));
 			this.setCurrency(obj.optString("currencyCode", ""));
+			this.apiFormattedPrice = obj.optString("formattedPrice", "");
 			return true;
 		}
 	}
