@@ -116,7 +116,7 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:paddingLeft="55dp"
-                android:paddingRight="50dp"
+                android:paddingRight="20dp"
                 android:paddingTop="10dp"
                 android:paddingBottom="10dp"
                 android:background="@color/account_toolbar_background_color"
@@ -152,6 +152,7 @@
                         android:layout_below="@id/available_points_label"
                         android:layout_marginTop="4dp"
                         android:layout_toLeftOf="@id/center"
+                        android:ellipsize="end"
                         tools:text="51,203" />
 
                     <com.expedia.bookings.widget.TextView
@@ -184,7 +185,6 @@
                         android:layout_height="wrap_content"
                         android:layout_alignBaseline="@id/available_points"
                         android:layout_marginLeft="20dp"
-                        android:layout_marginRight="20dp"
                         android:layout_toRightOf="@+id/center"
                         android:drawablePadding="8dp"
                         android:gravity="center_vertical" />
