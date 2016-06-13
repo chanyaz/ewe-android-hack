@@ -3783,6 +3783,8 @@
 
     <!-- Content description for Cars toolbar 'X' i.e. close/back button -->
     <string name="cd_cars_search_nav_icon">Back</string>
+    <!-- Content description for Cars filter button -->
+    <string name="cd_cars_filter_button">Filter button</string>
 
     <!-- Tablet Confirmation Screen -->
     <!-- Header text to indicating booking confirmed for hotel -->
