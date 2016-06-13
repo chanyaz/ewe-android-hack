@@ -45,14 +45,27 @@
     <color name="launch_actionbar_bg_color">#EDEDED</color>
     <color name="hotel_lob_btn">#70BB00</color>
     <color name="lx_lob_btn">#A1006B</color>
+    <color name="cars_lob_btn">@color/cars_primary_color</color>
     <color name="flights_lob_btn">#0088CE</color>
     <color name="action_bar_selected_tab_underline_color">#585858</color>
     <color name="launch_lob_bg">#E0DFDC</color>
 
-    <!-- LX colors -->
+    <!-- Cars and LX-->
+    <color name="cars_primary_color">#663399</color>
+    <color name="cars_unchecked_toggle_text_color">@android:color/white</color>
     <color name="lx_primary_color">@color/lx_lob_btn</color>
     <color name="lx_secondary_color_disabled">@color/lx_lob_btn</color>
     <color name="lx_unchecked_toggle_text_color">@android:color/white</color>
     <color name="lx_ripple_color">#AC7299</color>
+    <color name="lx_primary_disabled_color">#40A1006B</color>
+    <color name="lx_offer_date_ripple_color">@color/lx_ripple_color</color>
+    <color name="cars_ripple_color">#572887</color>
+    <color name="cars_color_primary_dark">@color/cars_primary_color</color>
+    <color name="cars_secondary_color">@color/cars_primary_color</color>
+    <color name="cars_tooltip_color">@color/cars_primary_color</color>
+    <color name="cars_status_bar_color">@color/cars_primary_color</color>
+    <color name="lx_color_primary_dark">@color/lx_primary_color</color>
+    <color name="checkout_login_button_color">@android:color/white</color>
+
 
 </resources>
