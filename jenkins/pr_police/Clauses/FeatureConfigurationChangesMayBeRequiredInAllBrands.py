@@ -19,7 +19,8 @@ class FeatureConfigurationChangesMayBeRequiredInAllBrands(IClause):
 
     def probableIssues(self, pullRequest):
         issueList = []
-        missingBrands=[ brand for brand in self.getBrands() if not any([True for filePath in self.getTheConfigFilesThatGotAffected(pullRequest) if re.search(brand,filePath,re.I)])]
-        if len(missingBrands)>0:
-            issueList.append(Issue(None, None, None, -1, None, "Should the changes you did in FeatureConfiguration.java be replicated in {missing_brands} as well?".format(missing_brands=",".join(missingBrands)), IssueType.warning))
+        if len(self.getTheConfigFilesThatGotAffected(pullRequest))>0:
+            missingBrands=[ brand for brand in self.getBrands() if not any([True for filePath in self.getTheConfigFilesThatGotAffected(pullRequest) if re.search(brand,filePath,re.I)])]
+            if len(missingBrands)>0:
+                issueList.append(Issue(None, None, None, -1, None, "Should the changes you did in FeatureConfiguration.java be replicated in {missing_brands} as well?".format(missing_brands=",".join(missingBrands)), IssueType.warning))
         return issueList
