@@ -321,6 +321,7 @@ public class LXSearchParamsPresenter extends Presenter
 			.getNavigationIconDrawable(getContext(), ArrowXDrawableUtil.ArrowDrawableType.CLOSE);
 		navIcon.setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_IN);
 		toolbar.setNavigationIcon(navIcon);
+		toolbar.setNavigationContentDescription(getResources().getString(R.string.toolbar_search_nav_icon));
 		toolbar.inflateMenu(R.menu.lx_search_menu);
 		MenuItem item = toolbar.getMenu().findItem(R.id.menu_search);
 		setupToolBarCheckmark(item);
