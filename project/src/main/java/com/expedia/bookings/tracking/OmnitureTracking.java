@@ -4388,6 +4388,7 @@ public class OmnitureTracking {
 	private static final String CAR_NO_RESULT = "App.Cars.NoResults";
 	private static final String CAR_SEARCH = "App.Cars.Search";
 	private static final String CAR_FILTERS = "App.Cars.Search.Filter";
+	private static final String CAR_CHECKOUT_ERROR = "App.Cars.Checkout.Error";
 	private static final String CAR_RATE_DETAIL = "App.Cars.RateDetails";
 	private static final String CAR_VIEW_DETAILS = "App.Cars.RD.ViewDetails";
 	private static final String CAR_VIEW_MAP = "App.Cars.RD.ViewMap";
@@ -4446,6 +4447,13 @@ public class OmnitureTracking {
 	public static void trackAppCarFilter() {
 		Log.d(TAG, "Tracking \"" + CAR_FILTERS + "\" pageLoad...");
 		ADMS_Measurement s = internalTrackAppCar(CAR_FILTERS);
+		s.track();
+	}
+
+	public static void trackCarCheckoutError() {
+		Log.d(TAG, "Tracking \"" + CAR_CHECKOUT_ERROR + "\" pageLoad...");
+		ADMS_Measurement s = internalTrackAppCar(CAR_CHECKOUT_ERROR);
+		s.setProp(36, "Product key is null");
 		s.track();
 	}
 
