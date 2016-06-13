@@ -155,6 +155,7 @@ public class CarResultsPresenter extends Presenter {
 		toolbarBackground.getLayoutParams().height += statusBarHeight;
 		toolbar.setPadding(0, statusBarHeight, 0, 0);
 		filterToolbar.setFilterText(getResources().getString(R.string.filter));
+		filterToolbar.setContentDescription(getResources().getString(R.string.cd_cars_filter_button));
 		details.getSearchCarOfferPublishSubject().subscribe(carOfferObserver);
 		filterDonePublishSubject.subscribe(filterDoneObserver);
 	}
