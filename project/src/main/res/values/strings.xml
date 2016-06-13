@@ -3781,8 +3781,6 @@
     <!-- Content description for action: Press to filter for hotels within a mid-distance radius from your search location -->
     <string name="cd_pay_later">Press the button to pay later</string>
 
-    <!-- Content description for Cars toolbar 'X' i.e. close/back button -->
-    <string name="cd_cars_search_nav_icon">Back</string>
     <!-- Content description for Cars filter button -->
     <string name="cd_cars_filter_button">Filter button</string>
 
@@ -4179,4 +4177,10 @@
     <string name="bundle_overview_price_widget_button_open">Bundle total is {totalprice}. This price includes taxes, fees for both flights and hotel. {savings}. Button to view bundle.</string>
     <!--Content description for Bundle sliding widget, when it's opened.-->
     <string name="bundle_overview_price_widget_button_close">Showing bundle details. Button to close.</string>
+
+    <!-- Generic content description -->
+
+    <!-- Content description for toolbar 'X' i.e. close/back button -->
+    <string name="toolbar_search_nav_icon">Back</string>
+
 </resources>
