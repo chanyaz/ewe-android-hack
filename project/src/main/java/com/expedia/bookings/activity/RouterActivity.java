@@ -7,6 +7,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 
+import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.User;
@@ -66,13 +67,13 @@ public class RouterActivity extends Activity {
 
 		if (NavUtils.skipLaunchScreenAndStartEHTablet(this)) {
 			// Note: 2.0 will not support launch screen nor Flights on tablet ergo send user to EH tablet
-			finish();
+			finishActivity();
 		}
 		// Show app introduction if available and not already shown.
 		else if (ProductFlavorFeatureConfiguration.getInstance().isAppIntroEnabled() && !SettingUtils
 			.get(this, R.string.preference_app_intro_shown_once, false)) {
 			ProductFlavorFeatureConfiguration.getInstance().launchAppIntroScreen(this);
-			finish();
+			finishActivity();
 		}
 		else {
 			launchOpeningView();
@@ -105,10 +106,11 @@ public class RouterActivity extends Activity {
 		@Override
 		public void onError(Throwable e) {
 			Log.d("Abacus:showSignInOnLaunchTest - onError");
-			// Finish this Activity after routing
-			AbacusHelperUtils.updateAbacus(new AbacusResponse(), RouterActivity.this);
+			if (BuildConfig.DEBUG) {
+				AbacusHelperUtils.updateAbacus(new AbacusResponse(), RouterActivity.this);
+			}
 			NavUtils.goToLaunchScreen(RouterActivity.this, false);
-			finish();
+			finishActivity();
 		}
 
 		@Override
@@ -121,9 +123,14 @@ public class RouterActivity extends Activity {
 			else {
 				NavUtils.goToLaunchScreen(RouterActivity.this, false);
 			}
-			finish();
+			finishActivity();
 		}
 	};
+
+	private void finishActivity() {
+		finish();
+		overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+	}
 
 	/**
 	 * Tell facebook we installed the app every time we launch!
