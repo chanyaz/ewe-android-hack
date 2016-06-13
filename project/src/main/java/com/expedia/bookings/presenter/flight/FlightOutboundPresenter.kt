@@ -23,6 +23,10 @@ class FlightOutboundPresenter(context: Context, attrs: AttributeSet) : BaseFligh
     override fun shouldShowBundlePrice(): Boolean {
         return false
     }
+
+    override fun viewBundleSetVisibility(forward: Boolean) {
+    }
+
     override fun trackShowBaggageFee() = FlightsV2Tracking.trackFlightBaggageFeeClick()
 
     override fun trackShowPaymentFees() {

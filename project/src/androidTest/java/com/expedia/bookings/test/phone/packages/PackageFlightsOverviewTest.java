@@ -1,6 +1,7 @@
 package com.expedia.bookings.test.phone.packages;
 
 import org.hamcrest.CoreMatchers;
+import org.hamcrest.Matchers;
 import org.joda.time.LocalDate;
 
 import com.expedia.bookings.R;
@@ -15,6 +16,7 @@ import static android.support.test.espresso.action.ViewActions.scrollTo;
 import static android.support.test.espresso.assertion.ViewAssertions.doesNotExist;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.hasDescendant;
+import static android.support.test.espresso.matcher.ViewMatchers.isDescendantOfA;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
@@ -100,8 +102,11 @@ public class PackageFlightsOverviewTest extends PackageTestCase {
 		onView(allOf(withId(R.id.departure_arrival_airport), withText("(OGG) Kahului - (HNL) Honolulu"))).check(matches(isDisplayed()));
 		onView(allOf(withId(R.id.flight_duration), withText("40m"))).check(matches(isDisplayed()));
 
-		onView(withId(R.id.flight_total_duration)).perform(scrollTo());
-		onView(allOf(withId(R.id.flight_total_duration), withText("Total Duration: 16h 50m"))).check(matches(isDisplayed()));
+
+		onView(Matchers.allOf(isDescendantOfA(withId(R.id.widget_flight_overview)),
+			withId(R.id.flight_total_duration))).perform(scrollTo());
+		onView(allOf(isDescendantOfA(withId(R.id.widget_flight_overview)),
+			withId(R.id.flight_total_duration), withText("Total Duration: 16h 50m"))).check(matches(isDisplayed()));
 	}
 
 	private void assertBundlePriceInFlight(String price) {

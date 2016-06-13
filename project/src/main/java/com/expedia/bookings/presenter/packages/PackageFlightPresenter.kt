@@ -8,25 +8,28 @@ import android.view.LayoutInflater
 import android.view.MenuItem
 import android.widget.ImageView
 import android.widget.LinearLayout
-import com.expedia.bookings.R
 import android.view.View
+import com.expedia.bookings.R
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.presenter.flight.BaseFlightPresenter
 import com.expedia.bookings.presenter.shared.FlightOverviewPresenter
 import com.expedia.bookings.presenter.shared.FlightResultsListViewPresenter
 import com.expedia.bookings.tracking.PackagesTracking
-import com.expedia.bookings.utils.Constants
-import com.expedia.bookings.utils.PackageResponseUtils
+import com.expedia.bookings.utils.*
 import com.expedia.bookings.widget.PackageFlightListAdapter
 import com.expedia.bookings.widget.TextView
+import com.expedia.bookings.widget.SlidingBundleWidget
+import com.expedia.bookings.widget.SlidingBundleWidgetListener
 import com.expedia.util.endlessObserver
 import com.expedia.util.subscribeInverseVisibility
 import com.expedia.util.subscribeText
 import com.expedia.util.subscribeVisibility
-import kotlin.properties.Delegates
 
 class PackageFlightPresenter(context: Context, attrs: AttributeSet) : BaseFlightPresenter(context, attrs) {
+
+    val bundleSlidingWidget: SlidingBundleWidget by bindView(R.id.sliding_bundle_widget)
+
     private val flightOverviewSelected = endlessObserver<FlightLeg> { flight ->
         val params = Db.getPackageParams()
         if (flight.outbound) {
@@ -38,16 +41,11 @@ class PackageFlightPresenter(context: Context, attrs: AttributeSet) : BaseFlight
         }
         params.selectedLegId = flight.departureLeg
         params.packagePIID = flight.packageOfferModel.piid
+        bundleSlidingWidget.updateBundleViews(Constants.PRODUCT_FLIGHT)
 
         val activity = (context as AppCompatActivity)
         activity.setResult(Activity.RESULT_OK)
         activity.finish()
-    }
-
-    override fun onFinishInflate() {
-        super.onFinishInflate()
-        setupMenuFilter()
-        menuSearch.isVisible = false
     }
 
     private fun setupMenuFilter() {
@@ -88,8 +86,8 @@ class PackageFlightPresenter(context: Context, attrs: AttributeSet) : BaseFlight
     }
 
     init {
+        View.inflate(getContext(), R.layout.package_flight_presenter, this)
         resultsPresenter.showFilterButton = false
-
         val activity = (context as AppCompatActivity)
         val intent = activity.intent
         if (intent.hasExtra(Constants.PACKAGE_LOAD_OUTBOUND_FLIGHT)) {
@@ -100,12 +98,13 @@ class PackageFlightPresenter(context: Context, attrs: AttributeSet) : BaseFlight
             Db.setPackageResponse(PackageResponseUtils.loadPackageResponse(context, PackageResponseUtils.RECENT_PACKAGE_INBOUND_FLIGHT_FILE))
         }
 
+        bundleSlidingWidget.setupBundleViews(Constants.PRODUCT_FLIGHT)
         val isOutboundSearch = Db.getPackageParams()?.isOutboundSearch() ?: false
         val bestPlusAllFlights = Db.getPackageResponse().packageResult.flightsPackage.flights.filter { it.outbound == isOutboundSearch && it.packageOfferModel != null }
 
         // move bestFlight to the first place of the list
         val bestFlight = bestPlusAllFlights.find { it.isBestFlight }
-        var allFlights = bestPlusAllFlights.filterNot { it.isBestFlight }.sortedBy { it.packageOfferModel.price.packageTotalPrice.amount }.toMutableList()
+        val allFlights = bestPlusAllFlights.filterNot { it.isBestFlight }.sortedBy { it.packageOfferModel.price.packageTotalPrice.amount }.toMutableList()
 
         allFlights.add(0, bestFlight)
         val flightListAdapter = PackageFlightListAdapter(context, resultsPresenter.flightSelectedSubject, Db.getPackageParams().isChangePackageSearch())
@@ -155,12 +154,47 @@ class PackageFlightPresenter(context: Context, attrs: AttributeSet) : BaseFlight
             toolbarViewModel.refreshToolBar.onNext(!forward)
             overviewPresenter.visibility = if (forward) View.VISIBLE else View.INVISIBLE
             resultsPresenter.visibility = if (forward) View.INVISIBLE else View.VISIBLE
-
+            viewBundleSetVisibility(!forward)
             if (!forward) {
                 trackFlightResultsLoad()
             }
         }
     }
+
+    override fun onFinishInflate() {
+        super.onFinishInflate()
+        setupMenuFilter()
+        menuSearch.isVisible = false
+
+        addTransition(resultsToOverview)
+        bundleSlidingWidget.bundleOverViewWidget.outboundFlightWidget.rowContainer.setOnClickListener {
+            back()
+        }
+        bundleSlidingWidget.bundleOverViewWidget.inboundFlightWidget.rowContainer.setOnClickListener {
+            back()
+        }
+        bundleSlidingWidget.bundlePriceWidget.setOnClickListener {
+            show(bundleSlidingWidget)
+        }
+
+        val slidingBundleWidgetListener = SlidingBundleWidgetListener(bundleSlidingWidget, this)
+        bundleSlidingWidget.bundlePriceWidget.setOnTouchListener(slidingBundleWidgetListener.onTouchListener)
+    }
+
+    fun updateOverviewAnimationDuration(duration: Int) {
+        resultsToOverview.animationDuration = duration
+    }
+
+    fun isShowingBundle(): Boolean {
+        val isShowingBundle = Strings.equals(currentState, SlidingBundleWidget::class.java.name)
+        return isShowingBundle
+    }
+
+    override fun viewBundleSetVisibility(forward: Boolean) {
+        bundleSlidingWidget.visibility = if (forward) View.VISIBLE else View.GONE
+    }
+
+    private val resultsToOverview = bundleSlidingWidget.addBundleTransitionFrom(FlightResultsListViewPresenter::class.java.name)
 
     override fun setupToolbarMenu() {
         toolbar.inflateMenu(R.menu.package_flights_menu)

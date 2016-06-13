@@ -22,5 +22,4 @@ class FlightActivity : AbstractAppCompatActivity() {
             super.onBackPressed()
         }
     }
-
 }

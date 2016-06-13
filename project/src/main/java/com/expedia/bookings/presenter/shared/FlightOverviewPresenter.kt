@@ -6,7 +6,6 @@ import android.view.View
 import android.widget.Button
 import com.expedia.bookings.R
 import com.expedia.bookings.presenter.Presenter
-import com.expedia.bookings.tracking.PackagesTracking
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.FlightSegmentBreakdownView

@@ -27,7 +27,7 @@ public class PackageChangeHotelFlightTest extends PackageTestCase {
 		openActionBarOverflowOrOptionsMenu(getInstrumentation().getTargetContext());
 		onView(withText("Change hotel room")).perform(click());
 		Common.delay(1);
-		assertSlidingBundleWidget();
+		assertSlidingBundleChangeHotelWidget();
 
 		HotelScreen.selectRoomButton().perform(click());
 		Common.delay(1);
@@ -70,11 +70,11 @@ public class PackageChangeHotelFlightTest extends PackageTestCase {
 		assertAfterChange();
 	}
 
-	private void assertSlidingBundleWidget() {
-		PackageScreen.hotelPriceWidget().perform(waitForViewToDisplay());
-		PackageScreen.hotelPriceWidget().perform(click());
+	private void assertSlidingBundleChangeHotelWidget() {
+		PackageScreen.bundlePriceWidget().perform(waitForViewToDisplay());
+		PackageScreen.bundlePriceWidget().perform(click());
 		Common.delay(1);
-		PackageScreen.hotelPriceWidget().check(matches(hasDescendant(
+		PackageScreen.slidingBundleWidget().check(matches(hasDescendant(
 			allOf(isDisplayed(), withText("Trip to Detroit, MI")))));
 		PackageScreen.hotelInfo().check(matches(hasDescendant(
 			allOf(isDisplayed(), withText("Select hotel in Detroit")))));
@@ -83,7 +83,7 @@ public class PackageChangeHotelFlightTest extends PackageTestCase {
 		PackageScreen.inboundFlightInfo().check(matches(hasDescendant(
 			allOf(isDisplayed(), withText("Flight to (SFO) San Francisco")))));
 		PackageScreen.inboundFlightCardInfo().check(matches(withText("Jul 16 at 1:45 pm, 1 Traveler")));
-		PackageScreen.hotelPriceWidget().perform(click());
+		PackageScreen.bundlePriceWidget().perform(click());
 	}
 
 	private void assertAfterChange() {

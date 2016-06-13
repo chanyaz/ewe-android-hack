@@ -31,4 +31,7 @@ class FlightInboundPresenter(context: Context, attrs: AttributeSet) : BaseFlight
     override fun shouldShowBundlePrice(): Boolean {
         return false
     }
+
+    override fun viewBundleSetVisibility(forward: Boolean) {
+    }
 }

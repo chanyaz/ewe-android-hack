@@ -49,7 +49,6 @@ class PackageHotelResultsPresenter(context: Context, attrs: AttributeSet) : Base
         mapViewModel.mapInitializedObservable.subscribe {
             setMapToInitialState(viewmodel.paramsSubject.value?.suggestion)
         }
-
     }
 
     override fun inflate() {

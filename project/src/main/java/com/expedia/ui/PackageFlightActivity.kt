@@ -21,5 +21,4 @@ class PackageFlightActivity : AbstractAppCompatActivity() {
             super.onBackPressed()
         }
     }
-
 }
