@@ -19,5 +19,6 @@ public class PackageOffersResponse extends BaseApiResponse {
 
 	public static class PackagePricing {
 		public Money savings;
+		public Money packageTotal;
 	}
 }

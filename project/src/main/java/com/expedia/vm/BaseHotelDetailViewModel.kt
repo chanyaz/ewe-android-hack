@@ -155,7 +155,8 @@ abstract class BaseHotelDetailViewModel(val context: Context, val roomSelectedOb
     val strikeThroughPriceGreaterThanPriceToShowUsersObservable = PublishSubject.create<Boolean>()
     val galleryItemChangeObservable = BehaviorSubject.create<Pair<Int, String>>()
     val depositInfoContainerClickObservable = BehaviorSubject.create<Pair<String, HotelOffersResponse.HotelRoomResponse>>()
-    val hotelDetailsBundleTotalObservable = BehaviorSubject.create<Pair<String, String>>()
+    val bundlePricePerPersonObservable = BehaviorSubject.create<Pair<String, String>>()
+    val bundleTotalPriceObservable = BehaviorSubject.create<Pair<String, String>>()
     val isPackageHotelObservable = BehaviorSubject.create<Boolean>(false)
 
     var isCurrentLocationSearch = false
@@ -207,7 +208,8 @@ abstract class BaseHotelDetailViewModel(val context: Context, val roomSelectedOb
             var packageSavings = Phrase.from(context, R.string.bundle_total_savings_TEMPLATE)
                     .put("savings", rate.packageSavings)
                     .format().toString()
-            hotelDetailsBundleTotalObservable.onNext(Pair(rate.packagePricePerPerson, packageSavings))
+            bundlePricePerPersonObservable.onNext(Pair(rate.packagePricePerPerson, packageSavings))
+            bundleTotalPriceObservable.onNext(Pair(rate.packageTotalPrice, packageSavings))
             totalPriceObservable.onNext(Money(BigDecimal(rate.totalPriceWithMandatoryFees.toDouble()), rate.currencyCode).getFormattedMoney(Money.F_NO_DECIMAL))
             discountPercentageBackgroundObservable.onNext(if (rate.isShowAirAttached()) R.drawable.air_attach_background else R.drawable.guest_rating_background)
             showAirAttachSWPImageObservable.onNext(rate.loyaltyInfo?.isBurnApplied ?: false && rate.isShowAirAttached())
