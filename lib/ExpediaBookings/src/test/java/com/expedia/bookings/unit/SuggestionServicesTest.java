@@ -24,7 +24,7 @@ import static junit.framework.Assert.assertEquals;
 
 public class SuggestionServicesTest {
 
-	private static final int NUM_SUGGESTIONS_IN_V4_MOCK_TEMPLATES = 5;
+	private static final int NUM_SUGGESTIONS_IN_V4_MOCK_TEMPLATES = 6;
 	private static final int MAX_NUM_SUGGESTIONS_V4_NEARBY_MOCK_TEMPLATES = 3;
 
 	@Rule
@@ -69,13 +69,13 @@ public class SuggestionServicesTest {
 		TestSubscriber<List<SuggestionV4>> observerV3 = new TestSubscriber<>();
 		service.getLxSuggestions("seattle", "en_US", "expedia.app.android.phone:6.7.0", observerV3);
 		observerV3.awaitTerminalEvent();
-		assertEquals(observerV3.getOnNextEvents().get(0).size(), NUM_SUGGESTIONS_IN_V4_MOCK_TEMPLATES);
+		assertEquals(NUM_SUGGESTIONS_IN_V4_MOCK_TEMPLATES, observerV3.getOnNextEvents().get(0).size());
 
 		TestSubscriber<List<SuggestionV4>> observerV1 = new TestSubscriber<>();
 		String latLong = "28.489515|77.092398";
 		service.getNearbyLxSuggestions("en_US", latLong, 1, "expedia.app.android.phone:6.7.0", observerV1);
 		observerV1.awaitTerminalEvent();
-		assertEquals(observerV1.getOnNextEvents().get(0).size(), MAX_NUM_SUGGESTIONS_V4_NEARBY_MOCK_TEMPLATES);
+		assertEquals(MAX_NUM_SUGGESTIONS_V4_NEARBY_MOCK_TEMPLATES, observerV1.getOnNextEvents().get(0).size());
 	}
 
 	@Test
@@ -88,7 +88,7 @@ public class SuggestionServicesTest {
 		String latLong = "37.615940|-122.387996";
 		service.getNearbyCarSuggestions("en_US", latLong, 1, "expedia.app.android.phone:6.7.0", observer);
 		observer.awaitTerminalEvent();
-		assertEquals(observer.getOnNextEvents().get(0).get(0).hierarchyInfo.airport.airportCode, "QSF");
+		assertEquals("QSF", observer.getOnNextEvents().get(0).get(0).hierarchyInfo.airport.airportCode);
 	}
 
 	@Test
@@ -101,6 +101,6 @@ public class SuggestionServicesTest {
 		String latLong = "28.489515|77.092398";
 		service.getNearbyLxSuggestions("en_US", latLong, 1, "expedia.app.android.phone:6.7.0", observer);
 		observer.awaitTerminalEvent();
-		assertEquals(observer.getOnNextEvents().get(0).get(0).regionNames.fullName, "San Francisco (and vicinity), California, United States of America");
+		assertEquals("San Francisco (and vicinity), California, United States of America", observer.getOnNextEvents().get(0).get(0).regionNames.fullName);
 	}
 }
