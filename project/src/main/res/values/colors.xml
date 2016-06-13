@@ -444,7 +444,7 @@
     <color name="package_bundle_icon_color">@color/gray6</color>
     <color name="packages_primary_color">@color/lob_packages_primary_color</color>
     <color name="packages_secondary_color">@color/lob_packages_secondary_color</color>
-    <color name="packages_ripple_mask_color">@color/packages_secondary_color</color>
+    <color name="packages_ripple_mask_color">@color/lob_packages_ripple_color</color>
     <color name="packages_breakdown_text_color">@color/gray5</color>
     <color name="packages_breakdown_total_cost_color">@color/gray3</color>
     <color name="packages_breakdown_savings_cost_color">@color/temporary_savings</color>
