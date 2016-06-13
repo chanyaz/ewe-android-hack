@@ -56,6 +56,7 @@ import rx.Observer
 
 abstract class BaseSearchPresenter(context: Context, attrs: AttributeSet) : Presenter(context, attrs) {
 
+    private val SUGGESTION_TRANSITION_DURATION = 300
     val ANIMATION_DURATION = 200L
     val toolbar: Toolbar by bindView(R.id.search_toolbar)
     val scrollView: ScrollView by bindView(R.id.scrollView)
@@ -85,6 +86,7 @@ abstract class BaseSearchPresenter(context: Context, attrs: AttributeSet) : Pres
     open val viewpager: ViewPager by bindView(R.id.viewpager)
 
     var firstLaunch = true
+    var transitioningFromOriginToDestination = true
     var showFlightOneWayRoundTripOptions = false
     protected var isCustomerSelectingOrigin = false
 
@@ -269,11 +271,13 @@ abstract class BaseSearchPresenter(context: Context, attrs: AttributeSet) : Pres
      * for us, and we run calculatestep on it.
      */
 
-    private val selectionToSuggestionTransition = object : Transition(InputSelectionState::class.java, SuggestionSelectionState::class.java, AccelerateDecelerateInterpolator(), 300) {
+    private val selectionToSuggestionTransition = object : Transition(InputSelectionState::class.java, SuggestionSelectionState::class.java, AccelerateDecelerateInterpolator(), SUGGESTION_TRANSITION_DURATION) {
 
         val bgFade = TransitionElement(0f, 1f)
         // Start with a large dummy value, and adjust it once we have an actual height
         var recyclerY = TransitionElement(-2000f, 0f)
+        val xScale = 0.25f
+        val yScale = 0.25f
 
         val recyclerStartTime = .33f
         // This is probably not even
@@ -283,6 +287,7 @@ abstract class BaseSearchPresenter(context: Context, attrs: AttributeSet) : Pres
         val toolbarBgColor = TransitionElement(primaryColor, Color.WHITE)
 
         override fun startTransition(forward: Boolean) {
+
             recyclerY = TransitionElement(-(suggestionContainer.height.toFloat()), 0f)
 
             searchLocationEditText?.visibility = VISIBLE
@@ -297,12 +302,23 @@ abstract class BaseSearchPresenter(context: Context, attrs: AttributeSet) : Pres
 
             // Suggestion Fade In
             suggestionContainer.alpha = TransitionElement.calculateStep(bgFade.start, bgFade.end, 0f, forward)
+            if (transitioningFromOriginToDestination && !firstLaunch) {
+                // scale for origin to destination transition
+                suggestionContainer.scaleX = (if (forward) xScale else 1f)
+                suggestionContainer.scaleY = (if (forward) yScale else 1f)
+            }
 
             // Edit text fade in
             searchLocationEditText?.alpha = TransitionElement.calculateStep(bgFade.start, bgFade.end, 0f, forward)
 
             // RecyclerView vertical transition
-            suggestionRecyclerView.translationY = recyclerY.start;
+            if (!firstLaunch && !transitioningFromOriginToDestination) {
+                recyclerY = TransitionElement(-(suggestionContainer.height.toFloat()), 0f)
+                suggestionRecyclerView.translationY = recyclerY.start;
+            }
+            else {
+                suggestionRecyclerView.translationY = recyclerY.end
+            }
 
             if (forward) {
                 applyAdapter()
@@ -310,7 +326,7 @@ abstract class BaseSearchPresenter(context: Context, attrs: AttributeSet) : Pres
 
             searchButton.visibility = if (forward) GONE else VISIBLE
             if (!firstLaunch) {
-                searchContainer.visibility = if (forward) VISIBLE else GONE
+                searchContainer.visibility = if (forward || transitioningFromOriginToDestination) VISIBLE else GONE
             }
 
             if (!firstLaunch && forward) {
@@ -321,11 +337,11 @@ abstract class BaseSearchPresenter(context: Context, attrs: AttributeSet) : Pres
                 navIcon = ArrowXDrawableUtil.getNavigationIconDrawable(context, ArrowXDrawableUtil.ArrowDrawableType.BACK)
                 navIcon.setColorFilter(toolbarTextColor.end, PorterDuff.Mode.SRC_IN)
                 if (firstLaunch) {
-                    setNavIconContentDescription(true)
-                }
-                else {
-                    setNavIconContentDescription(false)
-                }
+                     setNavIconContentDescription(true)
+                 }
+                 else {
+                     setNavIconContentDescription(false)
+                 }
             }
             toolbar.navigationIcon = navIcon
 
@@ -342,6 +358,7 @@ abstract class BaseSearchPresenter(context: Context, attrs: AttributeSet) : Pres
         override fun updateTransition(f: Float, forward: Boolean) {
             if (!firstLaunch) {
                 super.updateTransition(f, forward)
+
                 val progress = if (forward) f else 1f - f
                 val currentToolbarTextColor = eval.evaluate(progress, toolbarTextColor.start, toolbarTextColor.end) as Int
 
@@ -352,17 +369,22 @@ abstract class BaseSearchPresenter(context: Context, attrs: AttributeSet) : Pres
                 navIcon.setColorFilter(currentToolbarTextColor, PorterDuff.Mode.SRC_IN)
                 navIcon.parameter = 1f - progress
 
-                //recycler bg
-                suggestionContainer.alpha = TransitionElement.calculateStep(bgFade.start, bgFade.end, progress)
                 searchLocationEditText?.alpha = TransitionElement.calculateStep(bgFade.start, bgFade.end, progress)
-
                 toolBarTitle.alpha = TransitionElement.calculateStep(bgFade.end, bgFade.start, progress)
 
+                suggestionContainer.alpha = TransitionElement.calculateStep(bgFade.start, bgFade.end, progress)
                 // recycler movement - only moves during its portion of the animation
-                if (forward && f > recyclerStartTime) {
-                    suggestionRecyclerView.translationY = TransitionElement.calculateStep(recyclerY.start, recyclerY.end, decelInterp.getInterpolation(com.expedia.util.scaleValueToRange(recyclerStartTime, 1f, 0f, 1f, f)))
-                } else if (!forward && progress > recyclerStartTime) {
-                    suggestionRecyclerView.translationY = TransitionElement.calculateStep(recyclerY.start, recyclerY.end, com.expedia.util.scaleValueToRange(recyclerStartTime, 1f, 0f, 1f, progress))
+                if (!transitioningFromOriginToDestination) {
+                    if (forward && f > recyclerStartTime) {
+                        suggestionRecyclerView.translationY = TransitionElement.calculateStep(recyclerY.start, recyclerY.end, decelInterp.getInterpolation(com.expedia.util.scaleValueToRange(recyclerStartTime, 1f, 0f, 1f, f)))
+                    } else if (!forward && progress > recyclerStartTime) {
+                        suggestionRecyclerView.translationY = TransitionElement.calculateStep(recyclerY.start, recyclerY.end, com.expedia.util.scaleValueToRange(recyclerStartTime, 1f, 0f, 1f, progress))
+                    }
+                }
+                else {
+                    // scale suggestion container between origin and destination suggestion views
+                    suggestionContainer.scaleX = (if (forward) (1 - (1-xScale) * -(f-1)) else (xScale + (1-xScale) * -(f-1)))
+                    suggestionContainer.scaleY = (if (forward) (1 - (1-yScale) * -(f-1)) else (yScale + (1-yScale) * -(f-1)))
                 }
 
                 if (showFlightOneWayRoundTripOptions) {
@@ -376,7 +398,13 @@ abstract class BaseSearchPresenter(context: Context, attrs: AttributeSet) : Pres
             toolbar.setBackgroundColor(if (forward) toolbarBgColor.end else toolbarBgColor.start)
             navIcon.setColorFilter(if (forward) toolbarTextColor.end else toolbarTextColor.start, PorterDuff.Mode.SRC_IN)
             suggestionContainer.alpha = if (forward) bgFade.end else bgFade.start
+            if (transitioningFromOriginToDestination && !firstLaunch) { // end scale transition
+                suggestionContainer.scaleX = 1f
+                suggestionContainer.scaleY = 1f
+            }
+
             searchLocationEditText?.alpha = if (forward) bgFade.end else bgFade.start
+
             suggestionRecyclerView.translationY = if (forward) recyclerY.end else recyclerY.start
             suggestionRecyclerView.visibility = if (forward) VISIBLE else GONE
 
