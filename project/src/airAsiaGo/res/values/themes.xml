@@ -60,7 +60,7 @@
 
     <style name="FlightTheme" parent="@style/Theme.AirAsiaGo">
         <item name="android:dropDownListViewStyle">@style/DropDownListView</item>
-        <item name="android:logo">@drawable/ic_logo_flights_aag</item>
+        <item name="android:logo">@drawable/ic_logo_flights</item>
         <item name="android:actionBarStyle" tools:targetApi="11">@style/FlightActionBarAirAsiaGo</item>
         <item name="android:actionMenuTextColor" tools:targetApi="11">@color/action_bar_flight_text_color</item>
         <item name="android:actionModeCloseDrawable" tools:targetApi="11">@drawable/btn_navigation_cancel</item>
