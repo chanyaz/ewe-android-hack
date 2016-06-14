@@ -32,7 +32,7 @@ public class PackagesFlightsTest extends PackageTestCase {
 		Common.delay(1);
 		PackageScreen.selectRoom();
 		Common.delay(1);
-		PackageScreen.flightList().check(matches(atFlightListPosition(1, withContentDescription("Flight time is 9:00 am - 11:12 am with price difference of +$0. Flying with United and the flight duration is 5 hours 12 minutes. Click to view flight details"))));
+		PackageScreen.flightList().check(matches(atFlightListPosition(1, withContentDescription("Flight time is 9:00 am to 11:12 am with price difference of +$0. Flying with United and the flight duration is 5 hours 12 minutes. Click to view flight details"))));
 	}
 
 	public void testPackageFlightsFilters() throws Throwable {
