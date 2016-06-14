@@ -25,6 +25,8 @@ class BundleFlightViewModel(val context: Context) {
     val suggestion = BehaviorSubject.create<SuggestionV4>()
     val flight = BehaviorSubject.create<FlightLeg>()
 
+    val flightsRowExpanded = PublishSubject.create<Unit>()
+
     //output
     val flightTextObservable = BehaviorSubject.create<String>()
     val travelInfoTextObservable = BehaviorSubject.create<String>()

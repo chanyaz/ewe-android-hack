@@ -36,6 +36,9 @@ class PackageActivity : AbstractAppCompatActivity() {
 
         if (resultCode == Activity.RESULT_CANCELED) {
             val obj = packagePresenter.backStack.peek()
+            packagePresenter.bundlePresenter.bundleWidget.bundleHotelWidget.collapseSelectedHotel()
+            packagePresenter.bundlePresenter.bundleWidget.outboundFlightWidget.collapseFlightDetails()
+            packagePresenter.bundlePresenter.bundleWidget.inboundFlightWidget.collapseFlightDetails()
 
             if (Db.getPackageParams().isChangePackageSearch() && obj !is Intent) {
                 onBackPressed()
@@ -49,11 +52,11 @@ class PackageActivity : AbstractAppCompatActivity() {
                     //revert bundle view to be the state loaded inbound flights
                     packagePresenter.bundlePresenter.bundleWidget.revertBundleViewToSelectInbound()
                     packagePresenter.bundlePresenter.bundleWidget.inboundFlightWidget.viewModel.showLoadingStateObservable.onNext(false)
-                } else if (obj is Intent && obj.hasExtra(Constants.PACKAGE_LOAD_HOTEL_ROOM) ) {
+                } else if (obj is Intent && obj.hasExtra(Constants.PACKAGE_LOAD_HOTEL_ROOM)) {
                     //revert bundle view to be the state loaded inbound flights
                     packagePresenter.bundlePresenter.bundleWidget.revertBundleViewToSelectOutbound()
                     packagePresenter.bundlePresenter.bundleWidget.outboundFlightWidget.viewModel.showLoadingStateObservable.onNext(false)
-                } else if (packagePresenter.backStack.size == 2){
+                } else if (packagePresenter.backStack.size == 2) {
                     //revert bundle view to be the state loaded hotels
                     packagePresenter.bundlePresenter.bundleWidget.revertBundleViewToSelectHotel()
                     packagePresenter.bundlePresenter.bundleWidget.bundleHotelWidget.viewModel.showLoadingStateObservable.onNext(false)

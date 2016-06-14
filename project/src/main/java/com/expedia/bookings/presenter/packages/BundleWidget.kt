@@ -103,9 +103,24 @@ class BundleWidget(context: Context, attrs: AttributeSet) : LinearLayout(context
     init {
         View.inflate(context, R.layout.bundle_widget, this)
         orientation = VERTICAL
+
         bundleHotelWidget.viewModel = BundleHotelViewModel(context)
         outboundFlightWidget.viewModel = BundleFlightViewModel(context)
         inboundFlightWidget.viewModel = BundleFlightViewModel(context)
+
+        outboundFlightWidget.viewModel.flightsRowExpanded.subscribe {
+            inboundFlightWidget.collapseFlightDetails()
+            bundleHotelWidget.collapseSelectedHotel()
+        }
+        inboundFlightWidget.viewModel.flightsRowExpanded.subscribe() {
+            outboundFlightWidget.collapseFlightDetails()
+            bundleHotelWidget.collapseSelectedHotel()
+        }
+        bundleHotelWidget.viewModel.hotelRowExpanded.subscribe() {
+            outboundFlightWidget.collapseFlightDetails()
+            inboundFlightWidget.collapseFlightDetails()
+        }
+
         outboundFlightWidget.flightIcon.setImageResource(R.drawable.packages_flight1_icon)
         inboundFlightWidget.flightIcon.setImageResource(R.drawable.packages_flight2_icon)
     }

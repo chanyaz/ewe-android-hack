@@ -37,8 +37,8 @@ class PackageOverviewPresenter(context: Context, attrs: AttributeSet) : BaseOver
     override fun onFinishInflate() {
         super.onFinishInflate()
         removeView(bundleWidget)
-
-        getCheckoutPresenter().getCreateTripViewModel().tripResponseObservable.subscribe { trip -> trip as PackageCreateTripResponse
+        getCheckoutPresenter().getCreateTripViewModel().tripResponseObservable.subscribe { trip ->
+            trip as PackageCreateTripResponse
             bundleOverviewHeader.toolbar.viewModel.showChangePackageMenuObservable.onNext(true)
             bundleWidget.outboundFlightWidget.toggleFlightWidget(1f, true)
             bundleWidget.inboundFlightWidget.toggleFlightWidget(1f, true)
@@ -50,6 +50,9 @@ class PackageOverviewPresenter(context: Context, attrs: AttributeSet) : BaseOver
                     as PackageCheckoutOverviewViewModel).tripResponseSubject.onNext(trip)
             (bundleOverviewHeader.checkoutOverviewHeaderToolbar.viewmodel
                     as PackageCheckoutOverviewViewModel).tripResponseSubject.onNext(trip)
+            bundleWidget.bundleHotelWidget.collapseSelectedHotel()
+            bundleWidget.outboundFlightWidget.collapseFlightDetails()
+            bundleWidget.inboundFlightWidget.collapseFlightDetails()
         }
 
         bundleOverviewHeader.nestedScrollView.addView(bundleWidget)
@@ -105,7 +108,7 @@ class PackageOverviewPresenter(context: Context, attrs: AttributeSet) : BaseOver
         return checkoutPresenter as PackageCheckoutPresenter
     }
 
-    override fun getCheckoutTransitionClass() : Class<out Any> {
+    override fun getCheckoutTransitionClass(): Class<out Any> {
         return PackageCheckoutPresenter::class.java
     }
 

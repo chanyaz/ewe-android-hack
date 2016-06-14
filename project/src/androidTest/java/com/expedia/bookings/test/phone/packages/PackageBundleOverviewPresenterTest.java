@@ -92,6 +92,11 @@ public class PackageBundleOverviewPresenterTest extends PackageTestCase {
 		PackageScreen.outboundFlightDetailsIcon().perform(click());
 		PackageScreen.outboundFlightDetailsContainer().check(matches(withEffectiveVisibility(
 			ViewMatchers.Visibility.VISIBLE)));
+
+		PackageScreen.clickHotelBundle();
+		PackageScreen.hotelRoomImageView().check(matches(isDisplayed()));
+		PackageScreen.outboundFlightDetailsContainer().check(matches(withEffectiveVisibility(
+			ViewMatchers.Visibility.GONE)));
 	}
 
 	public void testHotelBundleOverviewFlow() throws Throwable {

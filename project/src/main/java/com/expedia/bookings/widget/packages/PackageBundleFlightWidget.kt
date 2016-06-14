@@ -110,13 +110,14 @@ abstract class PackageBundleFlightWidget(context: Context, attrs: AttributeSet?)
         flightSegmentWidget.viewmodel = FlightSegmentBreakdownViewModel(context)
     }
 
-    private fun expandFlightDetails() {
+    fun expandFlightDetails() {
+        viewModel.flightsRowExpanded.onNext(Unit)
         flightDetailsContainer.visibility = Presenter.VISIBLE
         AnimUtils.rotate(flightDetailsIcon)
         PackagesTracking().trackBundleOverviewFlightExpandClick()
     }
 
-    private fun collapseFlightDetails() {
+    fun collapseFlightDetails() {
         flightDetailsContainer.visibility = Presenter.GONE
         AnimUtils.reverseRotate(flightDetailsIcon)
         flightDetailsIcon.clearAnimation()
