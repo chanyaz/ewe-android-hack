@@ -646,6 +646,7 @@ DummyFiletoHandleKotlinLintError {
 		R.string.packages_search_child_drop_down_TEMPLATE,
 		R.layout.material_flights_spinner_airport_dropdown_row,
 		R.drawable.search_dropdown,
-		R.layout.package_flight_presenter
+		R.layout.package_flight_presenter,
+		R.string.packages_flight_search_filter_clear_button_cont_desc
 	};
 }
