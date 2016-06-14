@@ -31,6 +31,8 @@
                     android:layout_height="50dp"
                     android:scaleType="center"
                     android:src="@drawable/location"
+                    android:labelFor="@+id/search_location"
+                    android:contentDescription="@string/lx_location_edit_box_cont_desc"
                     android:tint="#FFFFFF" />
 
                 <com.expedia.bookings.widget.AlwaysFilterAutoCompleteTextView

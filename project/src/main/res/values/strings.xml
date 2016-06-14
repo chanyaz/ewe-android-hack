@@ -4178,6 +4178,12 @@
     <!--Content description for Bundle sliding widget, when it's opened.-->
     <string name="bundle_overview_price_widget_button_close">Showing bundle details. Button to close.</string>
 
+
+    <!--LX accessibility -->
+    <!--LX search accessibility -->
+    <string name="lx_location_edit_box_cont_desc">Activity Location</string>
+
+
     <!-- Generic content description -->
 
     <!-- Content description for toolbar 'X' i.e. close/back button -->
