@@ -342,8 +342,10 @@ class HotelFilterViewModel(val lob: LineOfBusiness = LineOfBusiness.HOTELSV2) {
         if (response != null && response.priceOptions.isNotEmpty()) {
             val min = response.priceOptions.first().minPrice
             val max = response.priceOptions.last().minPrice
-            val currency = response.hotelList.orEmpty().first().rateCurrencyCode
-            newPriceRangeObservable.onNext(PriceRange(currency, min, max))
+            val currency = response.hotelList.firstOrNull()?.rateCurrencyCode
+            if (currency != null) {
+                newPriceRangeObservable.onNext(PriceRange(currency, min, max))
+            }
         }
     }
 

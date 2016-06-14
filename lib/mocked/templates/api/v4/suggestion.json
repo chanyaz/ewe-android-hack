@@ -183,6 +183,45 @@
       },
       "isMinorAirport": "false",
       "packageable": "false"
+    },
+    {
+      "@type": "gaiaRegionResult",
+      "index": "5",
+      "gaiaId": "completely_sold_out",
+      "type": "AIRPORT",
+      "regionNames": {
+        "fullName": "Auckland Airport, NZ",
+        "shortName": "Auckland Airport, NZ",
+        "displayName": "<B>Auckland Airport</B>, <B>NZ</B>",
+        "lastSearchName": "Auckland Airport, NZ"
+      },
+      "essId": {
+        "sourceName": "GAI",
+        "sourceId": "6028000"
+      },
+      "coordinates": {
+        "lat": "-37.008038",
+        "long": "174.785255"
+      },
+      "hierarchyInfo": {
+        "airport": {
+          "airportCode": "AKL",
+          "multicity": "178233"
+        },
+        "country": {
+          "name": "New Zealand",
+          "isoCode2": "NZ",
+          "isoCode3": "NZL"
+        }
+      },
+      "regionMetadata": {
+        "hotelCount": "87"
+      },
+      "regionGrades": {
+        "globalGrade": "97"
+      },
+      "isMinorAirport": "false",
+      "packageable": "false"
     }
   ]
 }
