@@ -395,6 +395,7 @@ class NewPhoneLaunchWidget(context: Context, attrs: AttributeSet) : FrameLayout(
 
             override fun onError(e: Throwable) {
                 Log.d(TAG, e.message)
+                locationNotAvailable.onNext(Unit)
             }
 
             override fun onNext(nearbyHotelResponse: MutableList<Hotel>) {
@@ -411,7 +412,7 @@ class NewPhoneLaunchWidget(context: Context, attrs: AttributeSet) : FrameLayout(
                     Events.post(Events.LaunchHotelSearchResponse(nearbyHotelResponse))
                 } else {
                     wasHotelsDownloadEmpty = true
-                    Events.post(Events.LaunchLocationFetchError())
+                    locationNotAvailable.onNext(Unit)
                 }
             }
         }
