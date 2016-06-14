@@ -8,4 +8,9 @@ class LaunchLobHeaderViewHolder(private val lobWidget: NewLaunchLobWidget) : Rec
         lobWidget.onPOSChange()
     }
 
+    fun onHasInternetConnectionChange(enabled: Boolean) {
+        lobWidget.onHasInternetConnectionChange(enabled)
+    }
+
+
 }

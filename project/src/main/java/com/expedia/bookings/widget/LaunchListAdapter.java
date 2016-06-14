@@ -46,6 +46,7 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 	public static boolean loadingState = false;
 	public PublishSubject<Hotel> hotelSelectedSubject = PublishSubject.create();
 	public PublishSubject<Bundle> seeAllClickSubject = PublishSubject.create();
+	private boolean showOnlyLOBView = false;
 
 	public LaunchListAdapter(View header) {
 		headerView = header;
@@ -203,6 +204,9 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
 	@Override
 	public int getItemCount() {
+		if (showOnlyLOBView && headerPosition == 1) {
+			return 1;
+		}
 		return listData.size() + 1 + headerPosition;
 	}
 
@@ -242,5 +246,14 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 		if (lobViewHolder != null) {
 			lobViewHolder.onPOSChange();
 		}
+	}
+
+
+	public void onHasInternetConnectionChange(boolean enabled) {
+		showOnlyLOBView = !enabled;
+		if (lobViewHolder != null) {
+			lobViewHolder.onHasInternetConnectionChange(enabled);
+		}
+		notifyDataSetChanged();
 	}
 }

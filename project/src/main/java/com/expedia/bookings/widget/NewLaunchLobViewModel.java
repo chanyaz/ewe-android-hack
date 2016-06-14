@@ -9,14 +9,15 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
-import butterknife.ButterKnife;
-import butterknife.InjectView;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.pos.PointOfSale;
-import com.expedia.bookings.utils.AnimUtils;
 import com.expedia.bookings.tracking.OmnitureTracking;
+import com.expedia.bookings.utils.AnimUtils;
 import com.expedia.bookings.utils.NavigationHelper;
+
+import butterknife.ButterKnife;
+import butterknife.InjectView;
 
 public class NewLaunchLobViewModel implements NewLaunchLobAdapter.OnLobClickListener {
 
@@ -43,9 +44,10 @@ public class NewLaunchLobViewModel implements NewLaunchLobAdapter.OnLobClickList
 		});
 
 		itemDecoration = new GridLinesItemDecoration(
-				ContextCompat.getColor(context, R.color.new_launch_lob_divider_color),
-				context.getResources().getDimension(R.dimen.new_launch_lob_divider_stroke_width));
+			ContextCompat.getColor(context, R.color.new_launch_lob_divider_color),
+			context.getResources().getDimension(R.dimen.new_launch_lob_divider_stroke_width));
 	}
+
 
 	public void bind(View view, PointOfSale pos) {
 		ButterKnife.inject(this, view);
@@ -110,5 +112,9 @@ public class NewLaunchLobViewModel implements NewLaunchLobAdapter.OnLobClickList
 
 	private void trackLobNavigation(LineOfBusiness lineOfBusiness) {
 		OmnitureTracking.trackNewLaunchScreenLobNavigation(lineOfBusiness);
+	}
+
+	public void onHasInternetConnectionChange(boolean enabled) {
+		adapter.enableLobs(enabled);
 	}
 }

@@ -97,7 +97,8 @@ class NewPhoneLaunchWidget(context: Context, attrs: AttributeSet) : FrameLayout(
     val launchListWidget: LaunchListWidget by bindView(R.id.launch_list_widget)
     private val lobViewContainer: android.widget.FrameLayout by bindView(R.id.lob_view_container)
     private val lobView: NewLaunchLobWidget by lazy {
-        LayoutInflater.from(context).inflate(R.layout.widget_new_launch_lob, null, false) as NewLaunchLobWidget
+        val newLaunchLobWidget = LayoutInflater.from(context).inflate(R.layout.widget_new_launch_lob, null, false) as NewLaunchLobWidget
+        newLaunchLobWidget
     }
 
     var hasInternetConnection = BehaviorSubject.create<Boolean>()
@@ -149,9 +150,10 @@ class NewPhoneLaunchWidget(context: Context, attrs: AttributeSet) : FrameLayout(
         adjustLobViewHeight()
 
         hasInternetConnection.subscribe { isOnline ->
+            lobView.onHasInternetConnectionChange(isOnline)
+            launchListWidget.onHasInternetConnectionChange(isOnline)
             if (!isOnline) {
                 launchListWidget.scrollToPosition(0)
-                launchListWidget.visibility = View.GONE
                 launchError.visibility = View.VISIBLE
             } else {
                 launchError.visibility = View.GONE
@@ -225,6 +227,7 @@ class NewPhoneLaunchWidget(context: Context, attrs: AttributeSet) : FrameLayout(
                     ProductFlavorFeatureConfiguration.getInstance().phoneCollectionId, country, localeCode,
                     collectionDownloadListener)
         }
+
     }
 
     private fun adjustLobViewHeight() {
