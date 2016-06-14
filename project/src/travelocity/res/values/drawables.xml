@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <item name="brand_logo_white" type="drawable">@drawable/ic_tvly_logo_white</item>
     <item name="brand_phone_checkout_login_logo_drawable" type="drawable">@drawable/ic_tvly_logo_white</item>
     <item name="brand_phone_checkout_logo_drawable" type="drawable">@drawable/tvly</item>
     <item name="brand_tablet_checkout_login_logo_drawable" type="drawable">@drawable/ic_tablet_checkout_logo</item>
