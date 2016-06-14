@@ -105,7 +105,7 @@
     </style>
 
     <style name="OverflowMenuButton" parent="@android:style/Widget.Holo.ActionButton.Overflow">
-        <item name="android:src">@drawable/ic_overflow_white</item>
+        <item name="android:src">@drawable/ic_menu_overflow_image</item>
     </style>
 
     <style name="LaunchTheme" parent="Theme.AppCompat">
@@ -116,6 +116,7 @@
         <item name="android:actionBarTabStyle">@style/LaunchActionBarTabAirAsiaGoStyle</item>
         <item name="skin_flightLineColor">@color/flight_trip_color_aag</item>
         <item name="android:actionOverflowButtonStyle">@style/OverflowMenuButton</item>
+        <item name="actionOverflowButtonStyle">@style/OverflowMenuButton</item>
 
         <!-- PopupMenu -->
         <item name="android:dropDownListViewStyle">@android:style/Widget.Holo.Light.ListView.DropDown</item>
