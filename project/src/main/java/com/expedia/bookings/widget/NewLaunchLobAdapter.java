@@ -94,6 +94,7 @@ public class NewLaunchLobAdapter extends RecyclerView.Adapter<NewLaunchLobAdapte
 		public void bind(LobInfo info, boolean spansMultipleColumns, Context context, boolean lobEnabled) {
 			lobInfo = info;
 			isLobEnabled = lobEnabled;
+			lobText.setEnabled(lobEnabled);
 			lobText.setText(info.labelRes);
 			Drawable lobDrawable = ContextCompat.getDrawable(context, lobInfo.iconRes).mutate();
 			if (isLobEnabled) {

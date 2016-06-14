@@ -538,5 +538,5 @@
     <color name="new_launch_lx_lob_color">@color/new_lob_lx_color</color>
     <color name="new_launch_lob_disabled_color">@color/black</color>
 
-
+    <color name="new_launch_lob_text_color">@color/new_lob_text_color</color>
 </resources>
