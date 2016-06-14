@@ -125,8 +125,8 @@
         <item name="skin_itinHotelAttachButtonDrawable">@drawable/btn_hotel_attach</item>
         <item name="skin_itinDismissListSelectorDrawable">?android:attr/selectableItemBackground</item>
         <item name="skin_candycaneProgressDrawable">@drawable/progressbar_candycane_horizontal_vsc</item>
-        <item name="skin_icTypeCircleFlight">@drawable/ic_type_circle_flight_vsc</item>
-        <item name="skin_icTypeCircleHotel">@drawable/ic_type_circle_hotel_vsc</item>
+        <item name="skin_icTypeCircleFlight">@drawable/ic_type_circle_flight</item>
+        <item name="skin_icTypeCircleHotel">@drawable/ic_type_circle_hotel</item>
         <item name="skin_itinCardOverflowDrawable">@drawable/ic_overflow_white</item>
         <item name="skin_itinCardActionBarCheckmark">@drawable/ic_action_bar_checkmark_white</item>
         <item name="skin_itinCardTitleTextColor">@color/itin_white_text</item>
@@ -162,8 +162,8 @@
         <item name="android:logo" tools:targetApi="11">@drawable/ic_action_bar_brand_logo</item>
         <item name="skin_itinHotelPlaceholderDrawable">@drawable/placeholder_lg_confirmation_vsc</item>
         <item name="skin_itinFlightPlaceholderDrawable">@drawable/bg_itin_placeholder_flight</item>
-        <item name="skin_icTypeCircleFlight">@drawable/ic_type_circle_flight_vsc</item>
-        <item name="skin_icTypeCircleHotel">@drawable/ic_type_circle_hotel_vsc</item>
+        <item name="skin_icTypeCircleFlight">@drawable/ic_type_circle_flight</item>
+        <item name="skin_icTypeCircleHotel">@drawable/ic_type_circle_hotel</item>
         <item name="skin_itinCardOverflowDrawable">@drawable/ic_overflow_white</item>
         <item name="skin_itinCardActionBarCheckmark">@drawable/ic_action_bar_checkmark_white</item>
         <item name="skin_itinCardTitleTextColor">@color/itin_white_text</item>
