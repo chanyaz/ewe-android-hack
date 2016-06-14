@@ -37,6 +37,7 @@
     <color name="hotels_primary_color">@color/aag_primary_color</color>
     <color name="hotelsv2_discount_green">@color/aag_primary_color</color>
     <color name="hotel_promo_background">#1c375d</color>
+    <color name="review_screen_tab_indicator">#ffffff</color>
 
     <!-- Checkout Colors -->
     <color name="material_checkout_account_button_background_color">@color/aag_primary_color</color>
