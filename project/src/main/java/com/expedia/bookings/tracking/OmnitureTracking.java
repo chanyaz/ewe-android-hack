@@ -4737,6 +4737,7 @@ public class OmnitureTracking {
 	private static final String PACKAGES_HOTELS_FILTER_BY_NAME = "App.Package.Hotels.Search.PackageName";
 	private static final String PACKAGES_HOTELS_FILTER_CLEAR = "App.Package.Hotels.Search.ClearFilter";
 
+	private static final String PACKAGES_BUNDLE_VIEW_OVERVIEW_LOAD = "App.Package.BundleView";
 	private static final String PACKAGES_BUNDLE_OVERVIEW_LOAD = "App.Package.RateDetails";
 	private static final String PACKAGES_BUNDLE_OVERVIEW_PRODUCT_EXPAND_TEMPLATE = "App.Package.RD.ViewDetails.";
 	private static final String PACKAGES_BUNDLE_OVERVIEW_COST_BREAKDOWN = "App.Package.RD.TotalCost";
@@ -5041,6 +5042,10 @@ public class OmnitureTracking {
 
 	public static void trackPackagesHotelRenovationInfo() {
 		trackPackagePageLoadEventStandard(PACKAGES_HOTEL_DETAILS_RENOVATION_INFO);
+	}
+
+	public static void trackPackagesViewBundleLoad() {
+		trackPackagePageLoadEventStandard(PACKAGES_BUNDLE_VIEW_OVERVIEW_LOAD);
 	}
 
 	public static void trackPackagesBundlePageLoad(PackageCreateTripResponse.PackageDetails packageDetails) {

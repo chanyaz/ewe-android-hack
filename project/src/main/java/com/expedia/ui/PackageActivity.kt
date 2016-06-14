@@ -11,6 +11,7 @@ import com.expedia.bookings.presenter.BaseOverviewPresenter
 import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.presenter.packages.PackageOverviewPresenter
 import com.expedia.bookings.presenter.packages.PackagePresenter
+import com.expedia.bookings.tracking.PackagesTracking
 import com.expedia.bookings.utils.Constants
 import com.expedia.bookings.utils.Ui
 import com.expedia.vm.packages.PackageSearchType
@@ -39,6 +40,7 @@ class PackageActivity : AbstractAppCompatActivity() {
             if (Db.getPackageParams().isChangePackageSearch() && obj !is Intent) {
                 onBackPressed()
             } else {
+                PackagesTracking().trackViewBundlePageLoad()
                 if (obj is Intent && obj.hasExtra(Constants.PACKAGE_LOAD_OUTBOUND_FLIGHT)) {
                     packagePresenter.bundlePresenter.bundleOverviewHeader.toggleOverviewHeader(false)
                     packagePresenter.bundlePresenter.getCheckoutPresenter().toggleCheckoutButton(false)
@@ -152,6 +154,7 @@ class PackageActivity : AbstractAppCompatActivity() {
     }
 
     private fun packageFlightSearch() {
+        PackagesTracking().trackViewBundlePageLoad()
         packagePresenter.bundlePresenter.bundleWidget.viewModel.flightParamsObservable.onNext(Db.getPackageParams())
     }
 

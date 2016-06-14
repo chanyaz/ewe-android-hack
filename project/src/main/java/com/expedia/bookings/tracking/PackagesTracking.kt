@@ -141,6 +141,10 @@ class PackagesTracking {
         OmnitureTracking.trackPackagesHotelRenovationInfo()
     }
 
+    fun trackViewBundlePageLoad() {
+        OmnitureTracking.trackPackagesViewBundleLoad()
+    }
+
     fun trackBundleOverviewPageLoad(packageDetails: PackageCreateTripResponse.PackageDetails) {
         OmnitureTracking.trackPackagesBundlePageLoad(packageDetails)
     }

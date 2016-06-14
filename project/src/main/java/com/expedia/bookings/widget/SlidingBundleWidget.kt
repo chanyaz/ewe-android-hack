@@ -20,6 +20,7 @@ import com.expedia.bookings.data.packages.PackageOfferModel
 import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.presenter.packages.BundleWidget
 import com.expedia.bookings.utils.Constants
+import com.expedia.bookings.tracking.PackagesTracking
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
 import com.expedia.util.subscribeText
@@ -54,8 +55,8 @@ class SlidingBundleWidget(context: Context, attrs: AttributeSet?) : FrameLayout(
                     val activity = context as Activity
                     if (!activity.intent.hasExtra(Constants.PACKAGE_LOAD_HOTEL_ROOM)) {
                         bundlePriceWidget.animateBundleWidget(1f, true)
-                        finalizeBundleTransition(true)
-                        bundlePriceFooter.translationY = -statusBarHeight.toFloat()
+                        finalizeBundleTransition(true, false)
+                        bundlePriceFooter.translationY = - statusBarHeight.toFloat()
                         post({
                             closeBundleOverview()
                         })
@@ -85,7 +86,7 @@ class SlidingBundleWidget(context: Context, attrs: AttributeSet?) : FrameLayout(
         translateBundleOverview(pos)
     }
 
-    fun finalizeBundleTransition(forward: Boolean) {
+    fun finalizeBundleTransition(forward: Boolean, trackLoad: Boolean = true) {
         bundlePriceWidget.bundleTitle.visibility = if (forward) View.VISIBLE else View.GONE
         bundlePriceWidget.bundleSubtitle.visibility = if (forward) View.VISIBLE else View.GONE
         bundlePriceWidget.bundleTotalText.visibility = if (forward) View.GONE else View.VISIBLE
@@ -96,6 +97,9 @@ class SlidingBundleWidget(context: Context, attrs: AttributeSet?) : FrameLayout(
         translationY = if (forward) statusBarHeight.toFloat() else height.toFloat() - bundlePriceWidget.height
         isMoving = false
         bundlePriceWidget.contentDescription = bundlePriceWidget.viewModel.getAccessibleContentDescription(true, forward)
+        if (forward && trackLoad) {
+            PackagesTracking().trackViewBundlePageLoad()
+        }
     }
 
     fun translateBundleOverview(distance: Float) {
