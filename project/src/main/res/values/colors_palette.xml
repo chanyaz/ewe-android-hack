@@ -55,6 +55,8 @@
     <color name="new_lob_cars_color">#CC6595</color>
     <color name="new_lob_gt_color">#E07172</color>
     <color name="new_lob_lx_color">#EE9449</color>
+    <color name="new_lob_text_color">#3E6A85</color>
+
 
     <color name="orange_crush">#FC9F23</color> <!-- This is used mainly for error states -->
     <color name="greener_pastures">#19BF00</color> <!-- This is used for "savings" -->
