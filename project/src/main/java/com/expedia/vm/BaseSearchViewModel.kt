@@ -3,10 +3,12 @@ package com.expedia.vm
 import android.content.Context
 import android.text.Html
 import android.text.style.RelativeSizeSpan
+import android.view.accessibility.AccessibilityManager
 import com.expedia.bookings.R
 import com.expedia.bookings.data.BaseSearchParams
 import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.TravelerParams
+import com.expedia.bookings.utils.AccessibilityUtil
 import com.expedia.bookings.utils.DateUtils
 import com.expedia.bookings.utils.SpannableBuilder
 import com.expedia.util.endlessObserver
@@ -19,7 +21,7 @@ import rx.subjects.PublishSubject
 abstract class BaseSearchViewModel(val context: Context) {
     // Outputs
     val dateAccessibilityObservable = BehaviorSubject.create<CharSequence>()
-    val dateTextObservable = BehaviorSubject.create<CharSequence>()
+    var dateTextObservable = BehaviorSubject.create<CharSequence>()
     val dateInstructionObservable = PublishSubject.create<CharSequence>()
     val calendarTooltipTextObservable = PublishSubject.create<Pair<String, String>>()
     val datesObservable = BehaviorSubject.create<Pair<LocalDate?, LocalDate?>>()
@@ -40,6 +42,8 @@ abstract class BaseSearchViewModel(val context: Context) {
     val destinationValidObservable = BehaviorSubject.create<Boolean>(false)
     val originValidObservable = BehaviorSubject.create<Boolean>(false)
 
+    var accessibleStartDateSetObservable = BehaviorSubject.create<Boolean>(false)
+
     init {
         travelersObservable.subscribe { update ->
             getParamsBuilder().adults(update.numberOfAdults)
@@ -50,7 +54,11 @@ abstract class BaseSearchViewModel(val context: Context) {
     abstract fun getParamsBuilder(): BaseSearchParams.Builder
     abstract fun getMaxSearchDurationDays(): Int
     abstract fun getMaxDateRange(): Int
-    abstract fun sameStartAndEndDateAllowed():Boolean
+    abstract fun sameStartAndEndDateAllowed(): Boolean
+
+    open fun isTalkbackActive(): Boolean {
+        return AccessibilityUtil.isTalkBackEnabled(context)
+    }
 
     val datesObserver = endlessObserver<Pair<LocalDate?, LocalDate?>> { data ->
         onDatesChanged(data)
