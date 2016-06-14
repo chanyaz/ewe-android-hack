@@ -35,7 +35,7 @@ open class BaseCheckoutOverviewViewModel(context: Context) {
                     if (checkIn != null && checkOut != null) {
                         DateFormatUtils.formatPackageDateRange(context, checkIn, checkOut)
                     } else {
-                        DateFormatUtils.formatLocalDateToShortDayAndDate(context, checkIn)
+                        DateFormatUtils.formatLocalDateToShortDayAndDate(checkIn)
                     }
             datesTitle.onNext(text)
         }).subscribe()

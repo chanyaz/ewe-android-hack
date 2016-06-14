@@ -36,7 +36,7 @@ class FlightToolbarViewModel(private val context: Context) {
             var resultsOutInboundTitle: String = context.resources.getString(R.string.select_return_flight)
             titleSubject.onNext(if (isResults && !isOutboundSearch) resultsOutInboundTitle else if (isResults) resultsTitle else overviewTitle)
             val travelers = context.resources.getQuantityString(R.plurals.number_of_travelers_TEMPLATE, numTravelers, numTravelers)
-            val subtitle: CharSequence = DateFormatUtils.formatLocalDateToShortDayAndDate(context, date) + ", " + travelers
+            val subtitle: CharSequence = DateFormatUtils.formatLocalDateToShortDayAndDate(date) + ", " + travelers
             subtitleSubject.onNext(subtitle)
             menuVisibilitySubject.onNext(isResults)
         }).subscribe()
