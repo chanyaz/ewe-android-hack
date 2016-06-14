@@ -469,6 +469,7 @@ class NewPhoneLaunchActivity : AbstractAppCompatActivity(), IPhoneLaunchFragment
 
     override fun onPrivateDataCleared() {
         accountFragment?.onPrivateDataCleared()
+        itinListFragment?.doLogout()
     }
 
     override fun showDialogFragment(dialog: DialogFragment) {
@@ -477,6 +478,7 @@ class NewPhoneLaunchActivity : AbstractAppCompatActivity(), IPhoneLaunchFragment
 
     override fun onNewCountrySelected(pointOfSaleId: Int) {
         accountFragment?.onNewCountrySelected(pointOfSaleId)
+        itinListFragment?.doLogout()
     }
 
     override fun onAccountFragmentAttached(frag: AccountSettingsFragment) {
