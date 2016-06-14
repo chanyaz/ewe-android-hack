@@ -33,6 +33,8 @@
                     android:id="@+id/location_image_view"
                     android:layout_width="55dp"
                     android:layout_height="50dp"
+                    android:contentDescription="@string/pick_up_location"
+                    android:labelFor="@+id/pickup_location"
                     android:scaleType="center"
                     android:src="@drawable/location"
                     android:tint="#FFFFFF" />
