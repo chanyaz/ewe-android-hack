@@ -171,10 +171,10 @@ public class EspressoUtils {
 		));
 	}
 
-	public static <T> void assertIntentFiredToStartActivityWithExtra(Class<?> activityClass, String key, T value) {
+	public static <T> void assertIntentFiredToStartActivityWithExtra(Class<?> activityClass, Matcher<String> keyMatcher, Matcher<T> valueMatcher) {
 		intended(allOf(
 				hasComponent(activityClass.getName()),
-				hasExtra(key, value)
+				hasExtra(keyMatcher, valueMatcher)
 		));
 	}
 
