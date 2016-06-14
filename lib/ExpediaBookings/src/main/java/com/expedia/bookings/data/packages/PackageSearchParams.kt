@@ -71,14 +71,14 @@ open class PackageSearchParams(val origin: SuggestionV4, val destination: Sugges
         params.put("toDate", checkOut.toString())
         params.put("numberOfRooms", numberOfRooms)
         params.put("adultsPerRoom[1]", adults)
-        params.put("infantSeatingInLap", infantSeatingInLap)
+        params.put("infantsInSeats", if (infantSeatingInLap) 0 else 1)
         if (children.size > 0) {
             params.put("childrenPerRoom[1]", children.size)
             makeChildrenAgesParams(params, "childAges[1]", children, 1)
         }
         if (searchProduct != null) params.put("searchProduct", searchProduct)
         if (packagePIID != null) params.put("packagePIID", packagePIID)
-        if (selectedLegId != null)  params.put("selectedLegId", selectedLegId)
+        if (selectedLegId != null) params.put("selectedLegId", selectedLegId)
         params.put("packageTripType", Constants.PACKAGE_TRIP_TYPE)
         if (isOutboundSearch() || isChangePackageSearch()) {
             params.put("currentFlights", currentFlights.joinToString(","))
