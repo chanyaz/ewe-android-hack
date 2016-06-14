@@ -19,7 +19,6 @@
     <color name="actionbar_menu_text_color">@color/vsc_primary_color</color>
     <color name="hotel_sale_text_color">@color/vsc_primary_color</color>
     <color name="hotels_primary_color">@color/vsc_primary_color</color>
-    <color name="hotelsv2_discount_green">@color/hotel_price_sale_text_color_vsc</color>
     <color name="review_screen_tab_indicator">#ffffff</color>
     <color name="splash_screen_bg">@color/white</color>
     <color name="launch_tab_indicator">#7abb00</color>
@@ -29,9 +28,12 @@
     <color name="launch_discount">#E05206</color>
     <color name="launch_tonight_only">#72098A</color>
 
+    <!-- Hotel SRP Discount & Promo strips-->
+    <color name="hotel_mobile_exclusive_color">#DE0058</color>
+    <color name="hotel_tonight_only_color">#72098A</color>
     <color name="hotel_urgency_message_color">#555555</color>
-    <color name="hotel_tonight_only_color">#C4204B</color>
-    <color name="hotel_mobile_exclusive_color">#00253C</color>
+    <color name="hotelsv2_discount_green">@color/hotel_price_sale_text_color_vsc</color>
+    <color name="hotel_promo_background">#5b8b01</color>
 
     <!-- Checkout Colors -->
     <color name="material_checkout_account_button_background_color">@color/vsc_primary_color</color>
@@ -41,6 +43,10 @@
     <color name="tablet_price_expanded_bucket_text_color">@color/action_bar_bg_color</color>
 
     <!--Account Lib Colors -->
+    <color name="btn_sign_in_normal">@color/vsc_primary_color</color>
+    <color name="btn_sign_in_pressed">#639800</color>
+    <color name="btn_sign_in_focused">#BBDF84</color>
+    <color name="btn_sign_in_disabled">#807abb00</color>
     <color name="acct__btn_sign_in_text">#FFFFFF</color>
     <color name="acct__bg_input_text_error">#FFFFFF</color>
     <color name="acct__bg_input_text_good">#EEEEEE</color>
