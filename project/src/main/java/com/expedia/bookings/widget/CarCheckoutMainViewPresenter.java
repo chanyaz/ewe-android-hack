@@ -289,7 +289,15 @@ public class CarCheckoutMainViewPresenter extends CheckoutBasePresenter implemen
 	@Override
 	public void doCreateTrip() {
 		cleanup();
-		createTripSubscription = carServices.createTrip(createTripParams.productKey, createTripParams.fare, createTripParams.isInsuranceIncluded, createTripObserver);
+		if (createTripParams != null && createTripParams.productKey != null) {
+			createTripSubscription = carServices
+				.createTrip(createTripParams.productKey, createTripParams.fare, createTripParams.isInsuranceIncluded,
+					createTripObserver);
+		}
+		else {
+			handleCreateTripError(new ApiError(ApiError.Code.INVALID_CAR_PRODUCT_KEY));
+			OmnitureTracking.trackCarCheckoutError();
+		}
 	}
 
 	@Override
