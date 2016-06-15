@@ -47,7 +47,7 @@
             If something is common for all LOB's put it in  AppTheme.Base
          -->
         <item name="traveler_toolbar_text">@string/traveler_information</item>
-        <item name="traveler_checkout_circle_drawable">@drawable/traveler_checkout_circle</item>
+        <item name="traveler_checkout_circle_drawable">@drawable/packages_traveler_checkout_circle</item>
     </style>
 
     <style name="InfantSeatingPreferenceSpinner" parent="Core.Widget.Spinner"/>
