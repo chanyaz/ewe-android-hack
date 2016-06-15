@@ -69,13 +69,13 @@ public class PackagesBundleOverviewTest extends PackageTestCase {
 		String startDate = DateUtils.localDateToMMMd(LocalDate.now().plusDays(3));
 		String endDate = DateUtils.localDateToMMMd(LocalDate.now().plusDays(8));
 		PackageScreen.bundleOverviewHotelRowContainer().check(matches(withContentDescription("" +
-			"You have selected hotel " + selectedHotelName + " from " + startDate + " to " + endDate + ", for 1 Guest. Button to expand hotel details")));
+			"You have selected hotel " + selectedHotelName + " from " + startDate + " to " + endDate + ", for 1 Guest. Button to expand hotel details.")));
 		PackageScreen.hotelDetailsIcon().perform(click());
 		PackageScreen.bundleOverviewHotelRowContainer().check(matches(withContentDescription("" +
-			"You have selected hotel " + selectedHotelName + " from " + startDate + " to " + endDate + ", for 1 Guest. Button to collapse hotel details")));
+			"You have selected hotel " + selectedHotelName + " from " + startDate + " to " + endDate + ", for 1 Guest. Button to collapse hotel details.")));
 		PackageScreen.hotelDetailsIcon().perform(click());
 		PackageScreen.bundleOverviewHotelRowContainer().check(matches(withContentDescription("" +
-			"You have selected hotel " + selectedHotelName + " from " + startDate + " to " + endDate + ", for 1 Guest. Button to expand hotel details")));
+			"You have selected hotel " + selectedHotelName + " from " + startDate + " to " + endDate + ", for 1 Guest. Button to expand hotel details.")));
 	}
 
 	private void checkBundleTotalWidgetContentDescription(String totalPrice, String totalSaved) {

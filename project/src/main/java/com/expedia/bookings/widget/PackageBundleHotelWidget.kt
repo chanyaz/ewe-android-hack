@@ -112,6 +112,7 @@ class PackageBundleHotelWidget(context: Context, attrs: AttributeSet?) : Accessi
                 } else {
                     collapseSelectedHotel()
                 }
+                this.selectedHotelObservable.onNext(Unit)
             }
         }
     }
@@ -133,14 +134,12 @@ class PackageBundleHotelWidget(context: Context, attrs: AttributeSet?) : Accessi
         mainContainer.visibility = Presenter.VISIBLE
         AnimUtils.rotate(hotelDetailsIcon)
         PackagesTracking().trackBundleOverviewHotelExpandClick()
-        rowContainer.contentDescription = selectedHotelContentDescription(false)
     }
 
     fun collapseSelectedHotel() {
         mainContainer.visibility = Presenter.GONE
         AnimUtils.reverseRotate(hotelDetailsIcon)
         hotelDetailsIcon.clearAnimation()
-        rowContainer.contentDescription = selectedHotelContentDescription(true)
     }
 
     fun backButtonPressed() {
@@ -193,17 +192,17 @@ class PackageBundleHotelWidget(context: Context, attrs: AttributeSet?) : Accessi
                 .toString()
     }
 
-    override fun selectedHotelContentDescription(isCollapsed: Boolean): String {
+    override fun selectedHotelContentDescription(): String {
         val startDate = DateUtils.localDateToMMMd(Db.getPackageParams().checkIn)
         val endDate = DateUtils.localDateToMMMd(Db.getPackageParams().checkOut)
         val guests = StrUtils.formatGuestString(context, Db.getPackageParams().guests)
-        val expandcollapse = if (isCollapsed) Phrase.from(context, R.string.select_hotel_selected_expand_cont_desc).format().toString() else Phrase.from(context, R.string.select_hotel_selected_collapse_cont_desc).format().toString()
+        val expandState = if (mainContainer.visibility == Presenter.VISIBLE) context.getString(R.string.accessibility_cont_desc_role_button_collapse) else context.getString(R.string.accessibility_cont_desc_role_button_expand)
         return Phrase.from(context, R.string.select_hotel_selected_cont_desc_TEMPLATE)
                 .put("hotel", Db.getPackageSelectedHotel()?.localizedName ?: "")
                 .put("startdate", startDate)
                 .put("enddate", endDate)
                 .put("guests", guests)
-                .put("expandcollapse", expandcollapse)
+                .put("expandstate", expandState)
                 .format()
                 .toString()
     }

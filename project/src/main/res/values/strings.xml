@@ -3921,8 +3921,8 @@
     <string name="select_hotel_cont_desc_TEMPLATE">Search completed. Select a hotel in {destination} from {startdate} to {enddate}, for {guests}. Button</string>
     <!-- Bundle Overview select hotel accessibility content description when still searching Eg. Searching for hotels in Detroit from Jun 23 to Jun 24, for 1 guest. Please wait -->
     <string name="select_hotel_searching_cont_desc_TEMPLATE">Searching for hotels in {destination} from {startdate} to {enddate}, for {guests}. Please wait</string>
-    <!-- Bundle Overview selected hotel accessibility content description Eg. You have selected hotel Package Happy Path from Jun 23 to June 24, for 1 guest. Button to expand hotel details -->
-    <string name="select_hotel_selected_cont_desc_TEMPLATE">You have selected hotel {hotel} from {startdate} to {enddate}, for {guests}. Button to {expandcollapse} hotel details</string>
+    <!-- Bundle Overview selected hotel accessibility content description Eg. You have selected hotel Orion from Jun 23 to June 24, for 1 guest. Button to expand hotel details. -->
+    <string name="select_hotel_selected_cont_desc_TEMPLATE">You have selected hotel {hotel} from {startdate} to {enddate}, for {guests}. {expandstate} hotel details.</string>
     <!-- Bundle Overview select hotel -->
     <string name="select_hotel_template">Select hotel in %s</string>
     <!-- Bundle Overview searching flight -->
@@ -4230,4 +4230,8 @@
 
     <!--Packages accessibility content description for role Button-->
     <string name="accessibility_cont_desc_role_button">Button</string>
+    <!--Packages accessibility content description for role - Button to expand -->
+    <string name="accessibility_cont_desc_role_button_expand">Button to expand</string>
+    <!--Packages accessibility content description for role - Button to collapse -->
+    <string name="accessibility_cont_desc_role_button_collapse">Button to collapse</string>
 </resources>
