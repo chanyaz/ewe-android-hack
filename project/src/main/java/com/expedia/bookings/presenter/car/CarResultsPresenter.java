@@ -631,6 +631,7 @@ public class CarResultsPresenter extends Presenter {
 		toolBarSubtitleText.setTranslationY(0);
 		navIcon.setParameter(ArrowXDrawableUtil.ArrowDrawableType.BACK.getType());
 		errorScreen.animationUpdate(ArrowXDrawableUtil.ArrowDrawableType.BACK.getType());
+		toolbarTwo.requestFocus();
 	}
 
 	RecyclerView.OnScrollListener recyclerScrollListener = new RecyclerView.OnScrollListener() {
