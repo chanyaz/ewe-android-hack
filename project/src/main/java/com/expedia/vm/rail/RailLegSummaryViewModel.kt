@@ -31,7 +31,7 @@ class RailLegSummaryViewModel(context: Context) {
 
             val formattedTimes = DateTimeUtils.formatInterval(context, legOption.getDepartureDateTime(), legOption.getArrivalDateTime())
             formattedTimesObservable.onNext(formattedTimes.toString())
-            val formattedDate = DateFormatUtils.formatDateToShortDayAndDate(context, legOption.departureDateTime.toDateTime())
+            val formattedDate = DateFormatUtils.formatDateToShortDayAndDate(legOption.departureDateTime.toDateTime())
             formattedDatesObservable.onNext(formattedDate)
             operatorObservable.onNext(legOption.allOperators())
             legOptionObservable.onNext(legOption)

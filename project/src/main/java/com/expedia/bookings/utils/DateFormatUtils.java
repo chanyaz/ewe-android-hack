@@ -1,9 +1,8 @@
 package com.expedia.bookings.utils;
 
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Locale;
 import java.util.Calendar;
+import java.util.Locale;
 
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
@@ -174,8 +173,8 @@ public class DateFormatUtils {
 
 	public static String formatPackageDateRange(Context context, String checkinDate, String checkoutDate) {
 		DateTimeFormatter parser = DateTimeFormat.forPattern("yyyy-MM-dd");
-		String checkinDateTime = formatDateToShortDayAndDate(context, parser.parseDateTime(checkinDate));
-		String checkoutDateTime = formatDateToShortDayAndDate(context, parser.parseDateTime(checkoutDate));
+		String checkinDateTime = formatDateToShortDayAndDate(parser.parseDateTime(checkinDate));
+		String checkoutDateTime = formatDateToShortDayAndDate(parser.parseDateTime(checkoutDate));
 
 		return Phrase.from(context, R.string.calendar_instructions_date_range_TEMPLATE)
 			.put("startdate", checkinDateTime).put("enddate", checkoutDateTime).format().toString();
@@ -190,20 +189,18 @@ public class DateFormatUtils {
 	}
 
 
-	public static String formatLocalDateToShortDayAndDate(Context context, String date) {
+	public static String formatLocalDateToShortDayAndDate(String date) {
 		DateTimeFormatter parser = DateTimeFormat.forPattern("yyyy-MM-dd");
-		return formatDateToShortDayAndDate(context, parser.parseDateTime(date));
+		return formatDateToShortDayAndDate(parser.parseDateTime(date));
 	}
 
 
-	public static String formatLocalDateToShortDayAndDate(Context context, LocalDate localDate) {
-		return formatDateToShortDayAndDate(context, localDate.toDateTimeAtStartOfDay());
+	public static String formatLocalDateToShortDayAndDate(LocalDate localDate) {
+		return formatDateToShortDayAndDate(localDate.toDateTimeAtStartOfDay());
 	}
 
-	public static String formatDateToShortDayAndDate(Context context, DateTime date) {
+	public static String formatDateToShortDayAndDate(DateTime date) {
 		SimpleDateFormat ft = new SimpleDateFormat("EEE MMM dd, yyyy", Locale.getDefault());
-		return ft.format(new Date(JodaUtils.formatDateTime(context, date, DateUtils.FORMAT_SHOW_DATE
-			| DateUtils.FORMAT_SHOW_WEEKDAY | DateUtils.FORMAT_ABBREV_WEEKDAY | DateUtils.FORMAT_SHOW_YEAR
-			| DateUtils.FORMAT_ABBREV_MONTH)));
+		return ft.format(date.toDate());
 	}
 }
