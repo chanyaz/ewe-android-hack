@@ -23,6 +23,7 @@ import com.expedia.bookings.data.trips.ItinCardDataAirAttach;
 import com.expedia.bookings.model.DismissedItinButton;
 import com.expedia.bookings.utils.JodaUtils;
 import com.expedia.bookings.utils.Ui;
+import com.squareup.phrase.Phrase;
 
 public class ItinAirAttachCard<T extends ItinCardDataAirAttach> extends LinearLayout implements
 	PopupMenu.OnMenuItemClickListener, PopupMenu.OnDismissListener {
@@ -114,7 +115,9 @@ public class ItinAirAttachCard<T extends ItinCardDataAirAttach> extends LinearLa
 			mExpirationCountdown.setVisibility(View.VISIBLE);
 			mExpirationTodayTv.setVisibility(View.GONE);
 			TextView expirationDateTv = Ui.findView(this, R.id.itin_air_attach_expiration_date_text_view);
-			expirationDateTv.setText(getResources().getQuantityString(R.plurals.days_from_now, daysRemaining, daysRemaining));
+			expirationDateTv.setText(Phrase
+				.from(getResources().getQuantityString(R.plurals.days_from_now, daysRemaining))
+				.put("days", daysRemaining).format().toString());
 		}
 		else {
 			mExpirationCountdown.setVisibility(View.GONE);

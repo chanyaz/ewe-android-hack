@@ -407,7 +407,7 @@ public abstract class ItinContentGenerator<T extends ItinCardData> {
 		final String supportPhoneNumber;
 		final String supportEmail;
 		View view = null;
-		switch(User.getLoggedInLoyaltyMembershipTier(mContext)) {
+		switch (User.getLoggedInLoyaltyMembershipTier(mContext)) {
 		case BASE:
 			labelResId = R.string.rewards_base_tier_customer_support;
 			supportPhoneNumber = PointOfSale.getPointOfSale().getSupportPhoneNumberBaseTier();
@@ -509,7 +509,8 @@ public abstract class ItinContentGenerator<T extends ItinCardData> {
 		return getItinDetailItem(getResources().getString(headerResId), text, isConfNumber, onClickListener);
 	}
 
-	protected View getItinDetailItem(String label, final String text, final boolean isConfNumber, OnClickListener onClickListener) {
+	protected View getItinDetailItem(String label, final String text, final boolean isConfNumber,
+		OnClickListener onClickListener) {
 		View item = getLayoutInflater().inflate(R.layout.snippet_itin_detail_item_generic, null);
 		TextView headingTv = Ui.findView(item, R.id.item_label);
 		TextView textTv = Ui.findView(item, R.id.item_text);
@@ -727,13 +728,15 @@ public abstract class ItinContentGenerator<T extends ItinCardData> {
 				minutes = 1;
 			}
 
-			ret = getResources().getQuantityString(R.plurals.minutes_from_now, minutes, minutes);
+			ret = Phrase.from(getResources().getQuantityString(R.plurals.minutes_from_now, minutes))
+				.put("minutes", minutes).format().toString();
 		}
 
 		// For flight cards coming up in greater than one hour but less than one day, we want "XX Hours"
 		else if (time > now && getType().equals(Type.FLIGHT) && duration <= DateUtils.DAY_IN_MILLIS) {
 			int hours = (int) (duration / DateUtils.HOUR_IN_MILLIS);
-			ret = getResources().getQuantityString(R.plurals.hours_from_now, hours, hours);
+			ret = Phrase.from(getResources().getQuantityString(R.plurals.hours_from_now, hours))
+				.put("hours", hours).format().toString();
 		}
 
 		// For cards that happen today, we want "Today"
@@ -748,7 +751,9 @@ public abstract class ItinContentGenerator<T extends ItinCardData> {
 
 		// For cards coming up greater than 24 hours but in 3 days or less want "XX Days"
 		else if (time > now && daysBetween <= 3) {
-			ret = getResources().getQuantityString(R.plurals.days_from_now, daysBetween, daysBetween);
+			ret = Phrase
+				.from(getResources().getQuantityString(R.plurals.days_from_now, daysBetween))
+				.put("days", daysBetween).format().toString();
 		}
 
 		// Fall back to the date, we want "MMM d" ("Mar 15")
@@ -790,8 +795,10 @@ public abstract class ItinContentGenerator<T extends ItinCardData> {
 			int templateResId = past ? R.string.hours_minutes_past_TEMPLATE
 				: R.string.hours_minutes_future_TEMPLATE;
 			Resources res = context.getResources();
-			String hourStr = res.getQuantityString(R.plurals.hours_from_now, hours, hours);
-			String minStr = res.getQuantityString(R.plurals.minutes_from_now, minutes, minutes);
+			String hourStr = Phrase.from(res.getQuantityString(R.plurals.hours_from_now, hours))
+				.put("hours", hours).format().toString();
+			String minStr = Phrase.from(res.getQuantityString(R.plurals.minutes_from_now, minutes))
+				.put("minutes", minutes).format().toString();
 			return res.getString(templateResId, hourStr, minStr);
 		}
 

@@ -624,7 +624,7 @@ DummyFiletoHandleKotlinLintError {
 		R.string.eat_play_enjoy_en,
 		R.string.lx_category_all_things_to_do,
 		R.drawable.lx_category_count_background_more_than_one_digit,
-		R.string.flight_detail_card_content_description,
+		R.string.flight_detail_card_cont_desc_TEMPLATE,
 		R.string.packages_search_flying_from_content_description,
 		R.string.packages_search_flying_from_content_description_initial,
 		R.string.packages_search_flying_to_content_description,
@@ -647,6 +647,9 @@ DummyFiletoHandleKotlinLintError {
 		R.layout.material_flights_spinner_airport_dropdown_row,
 		R.drawable.search_dropdown,
 		R.layout.package_flight_presenter,
-		R.string.packages_flight_search_filter_clear_button_cont_desc
+		R.string.packages_flight_search_filter_clear_button_cont_desc,
+		R.string.flight_detail_flight_duration_card_cont_desc_TEMPLATE,
+		R.string.flight_detail_layover_duration_card_cont_desc_TEMPLATE,
+		R.string.accessibility_cont_desc_role_button
 	};
 }
