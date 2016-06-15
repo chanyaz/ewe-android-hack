@@ -16,9 +16,7 @@
         android:paddingTop="4dp"
         android:singleLine="true"
         android:textColor="@color/gray10"
-        android:textSize="20sp"
-        android:layout_marginTop="@dimen/airport_dropdown_row_margin_top"
-        android:layout_marginBottom="@dimen/airport_dropdown_row_margin_bottom"/>
+        android:textSize="16sp"/>
 
     <TextView
         android:id="@+id/airport_details_text_view"
@@ -28,8 +26,8 @@
         android:paddingBottom="4dp"
         android:singleLine="true"
         android:textColor="@color/gray10"
-        android:textSize="14sp"
-        android:layout_marginTop="@dimen/airport_dropdown_row_margin_top"
+        android:textSize="12sp"
+        android:layout_marginTop="2dp"
         android:layout_marginBottom="@dimen/airport_dropdown_row_margin_bottom"/>
 
     <TextView
@@ -39,11 +37,11 @@
         android:ellipsize="end"
         android:gravity="center_vertical"
         android:singleLine="true"
-        android:textColor="@color/black"
+        android:textColor="@color/gray10"
         android:textSize="14sp"
         android:textStyle="bold"
         android:visibility="gone"
         android:layout_marginTop="@dimen/airport_dropdown_row_margin_top"
-        android:layout_marginBottom="@dimen/airport_dropdown_row_margin_bottom"/>
+        android:layout_marginBottom="3dp"/>
 
 </LinearLayout>
