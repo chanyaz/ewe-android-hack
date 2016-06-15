@@ -157,6 +157,7 @@ public class HotelOffersResponse extends BaseApiResponse {
 			}
 			packageHotelOffer.hotelOffer.rateInfo.chargeableRateInfo.packagePricePerPerson = packageHotelOffer.pricePerPerson.formattedPrice;
 			packageHotelOffer.hotelOffer.rateInfo.chargeableRateInfo.packageSavings = packageHotelOffer.packagePricing.savings.formattedPrice;
+			packageHotelOffer.hotelOffer.rateInfo.chargeableRateInfo.packageTotalPrice = packageHotelOffer.packagePricing.packageTotal.formattedPrice;
 
 			hotelOffer.hotelRoomResponse.add(packageHotelOffer.hotelOffer);
 		}

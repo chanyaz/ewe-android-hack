@@ -58,6 +58,7 @@ public class PackagePhoneHappyPathTest extends PackageTestCase {
 
 		PackageScreen.selectRoom();
 
+		assertBundlePrice("$1,931.69", "View your bundle");
 		PackageScreen.selectFlight(0);
 		assertBundlePriceInFlight("$3,864");
 		PackageScreen.selectThisFlight().perform(click());
@@ -66,6 +67,7 @@ public class PackagePhoneHappyPathTest extends PackageTestCase {
 		FlightsResultsScreen.dockedOutboundFlightSelectionWidgetContainsText("Outbound");
 		FlightsResultsScreen.dockedOutboundFlightSelectionWidgetContainsText("United");
 		FlightsResultsScreen.dockedOutboundFlightSelectionWidgetContainsText("9:00 am - 11:12 am (5h 12m)");
+		assertBundlePrice("$2,105.95", "View your bundle");
 
 		PackageScreen.selectFlight(0);
 		assertBundlePriceInFlight("$4,212");
@@ -144,7 +146,8 @@ public class PackagePhoneHappyPathTest extends PackageTestCase {
 
 	private void assertBundlePrice(String price, String totalText) {
 		onView(allOf(withId(R.id.bundle_total_text), withText(totalText))).check(matches(isDisplayed()));
-		onView(allOf(withId(R.id.bundle_total_includes_text), withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE),
+		onView(allOf(withId(R.id.bundle_total_includes_text), isDescendantOfA(withId(R.id.bundle_price_widget)),
+			withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE),
 			withText(
 				"Includes taxes, fees, flights + hotel"))).check(matches(isDisplayed()));
 		onView(allOf(withId(R.id.bundle_total_price), withText(price))).check(matches(isDisplayed()));

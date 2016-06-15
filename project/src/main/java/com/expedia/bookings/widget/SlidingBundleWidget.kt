@@ -222,8 +222,8 @@ class SlidingBundleWidget(context: Context, attrs: AttributeSet?) : FrameLayout(
         val packageSavings = Phrase.from(context, R.string.bundle_total_savings_TEMPLATE)
                 .put("savings", Money(BigDecimal(packagePrice.tripSavings.amount.toDouble()),
                         packagePrice.tripSavings.currencyCode).formattedMoney).format().toString()
-        bundlePriceWidget.viewModel.setTextObservable.onNext(Pair(Money(BigDecimal(packagePrice.packageTotalPrice.amount.toDouble()),
-                packagePrice.packageTotalPrice.currencyCode).formattedMoney, packageSavings))
+        bundlePriceWidget.viewModel.setTextObservable.onNext(Pair(Money(BigDecimal(packagePrice.pricePerPerson.amount.toDouble()),
+                packagePrice.packageTotalPrice.currencyCode).formattedMoney, context.getString(R.string.per_person)))
         bundlePriceFooter.viewModel.setTextObservable.onNext(Pair(Money(BigDecimal(packagePrice.packageTotalPrice.amount.toDouble()),
                 packagePrice.packageTotalPrice.currencyCode).formattedMoney, packageSavings))
     }

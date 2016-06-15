@@ -39,10 +39,10 @@ public class PackagesBundleOverviewTest extends PackageTestCase {
 		PackageScreen.inboundFlightInfo().check(matches(not(isEnabled())));
 
 		PackageScreen.clickHotelBundle();
-		openCloseSlidingBundleWidget("$0.00", "$0.00");
+		openCloseSlidingBundleWidget("$0.00", "$0.00", "$0.00");
 
 		HotelScreen.selectHotel("Package Happy Path");
-		openCloseSlidingBundleWidget("$1,027.34", "$21.61");
+		openCloseSlidingBundleWidget("$1,027.34", "$21.61", "$2,054.67");
 
 		PackageScreen.selectRoom();
 
@@ -86,11 +86,11 @@ public class PackagesBundleOverviewTest extends PackageTestCase {
 		PackageScreen.bundleTotalSlidingWidget().check((matches(withContentDescription(str))));
 	}
 
-	private void openCloseSlidingBundleWidget(String totalPrice, String totalSaved) {
+	private void openCloseSlidingBundleWidget(String totalPrice, String totalSaved, String packageTotalPrice) {
 		checkBundleSlidingWidgetContentDescription(totalPrice, totalSaved, false);
 		PackageScreen.bundleTotalSlidingWidget().perform(click());
 		Common.delay(1);
-		checkBundleTotalWidgetContentDescription(totalPrice, totalSaved);
+		checkBundleTotalWidgetContentDescription(packageTotalPrice, totalSaved);
 		checkBundleSlidingWidgetContentDescription(totalPrice, totalSaved, true);
 		PackageScreen.bundleTotalSlidingWidget().perform(click());
 		Common.delay(1);

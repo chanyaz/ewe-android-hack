@@ -92,8 +92,10 @@ class PackageHotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
         presenter.hotelDetailView.viewmodel.reviewsClickedWithHotelData.subscribe(reviewsObserver)
         presenter.hotelDetailView.viewmodel.vipAccessInfoObservable.subscribe(presenter.hotelVIPAccessInfoObserver)
         presenter.hotelDetailView.viewmodel.mapClickedSubject.subscribe(presenter.hotelDetailsEmbeddedMapClickObserver)
-        presenter.hotelDetailView.viewmodel.hotelDetailsBundleTotalObservable.subscribe { bundle ->
+        presenter.hotelDetailView.viewmodel.bundlePricePerPersonObservable.subscribe { bundle ->
             bundleSlidingWidget.bundlePriceWidget.viewModel.setTextObservable.onNext(bundle)
+        }
+        presenter.hotelDetailView.viewmodel.bundleTotalPriceObservable.subscribe { bundle ->
             bundleSlidingWidget.bundlePriceFooter.viewModel.setTextObservable.onNext(bundle)
         }
         presenter.hotelMapView.viewmodel = HotelMapViewModel(context, presenter.hotelDetailView.viewmodel.scrollToRoom, presenter.hotelDetailView.viewmodel.hotelSoldOut, presenter.hotelDetailView.viewmodel.getLOB())
