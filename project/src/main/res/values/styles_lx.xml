@@ -61,7 +61,7 @@
         <item name="skin_lxOfferDateSelectorDrawable">@drawable/lx_offer_date_selector_gt</item>
         <item name="skin_lxSelectTicketButtonSelectorDrawable">@drawable/lx_select_ticket_button_selector_gt</item>
         <item name="skin_lxShowMoreBackgroundDrawable">@drawable/lx_show_more_background_gt</item>
-        <item name="traveler_checkout_circle_drawable">@drawable/lx_traveler_checkout_circle_gt</item>
+        <item name="traveler_checkout_circle_drawable">@drawable/lx_gt_traveler_checkout_circle</item>
         <item name="skin_ticketSelectorDisabledColor">@color/gt_primary_disabled_color</item>
         <item name="skin_lxTextSelectorDrawable">@drawable/lx_text_selector_gt</item>
         <item name="skin_lxResultsBottomPadding">@dimen/gt_results_bottom_padding</item>
