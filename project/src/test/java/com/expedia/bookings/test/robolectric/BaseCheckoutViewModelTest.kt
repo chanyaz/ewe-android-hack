@@ -29,6 +29,9 @@ class BaseCheckoutViewModelTest {
         testViewModel = object : BaseCheckoutViewModel(activity) {
             // blah
         }
+        testViewModel.builder.tripId("4321")
+        testViewModel.builder.expectedTotalFare("42")
+        testViewModel.builder.expectedFareCurrencyCode("USD")
     }
 
     @Test

@@ -2,6 +2,7 @@ package com.expedia.vm
 
 import android.content.Context
 import com.expedia.bookings.R
+import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.data.flights.FlightSearchParams
 import com.expedia.bookings.data.flights.FlightSearchResponse
@@ -20,7 +21,7 @@ import rx.subjects.PublishSubject
 import java.util.HashMap
 import java.util.LinkedHashSet
 
-class FlightSearchViewModel(context: Context, val flightServices: FlightServices) : BaseSearchViewModel(context) {
+class FlightSearchViewModel(context: Context, val flightServices: FlightServices) : AbstractFlightSearchViewModel(context) {
 
     var flightMap: HashMap<String, LinkedHashSet<FlightLeg>> = HashMap()
     var flightOfferModels: HashMap<String, FlightTripDetails.FlightOffer> = HashMap()
@@ -49,6 +50,9 @@ class FlightSearchViewModel(context: Context, val flightServices: FlightServices
                 errorMaxDurationObservable.onNext(context.getString(R.string.hotel_search_range_error_TEMPLATE, getMaxSearchDurationDays()))
             } else {
                 val flightSearchParams = getParamsBuilder().build()
+                updateDbTravelers(flightSearchParams)
+                Db.setFlightSearchParams(flightSearchParams)
+                flightServices.flightSearch(flightSearchParams).subscribe(makeResultsObserver())
                 searchParamsObservable.onNext(flightSearchParams)
             }
         } else {

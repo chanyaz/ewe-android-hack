@@ -2,6 +2,7 @@ package com.expedia.bookings.services;
 
 import java.util.Map;
 
+import com.expedia.bookings.data.flights.FlightCheckoutResponse;
 import com.expedia.bookings.data.flights.FlightCreateTripResponse;
 import com.expedia.bookings.data.flights.FlightSearchResponse;
 
@@ -22,4 +23,8 @@ public interface FlightApi {
 	Observable<FlightCreateTripResponse> createTrip(
 		@FieldMap Map<String, Object> queryParams);
 
+	@FormUrlEncoded
+	@POST("/api/flight/checkout")
+	Observable<FlightCheckoutResponse> checkout(
+		@FieldMap Map<String, Object> queryParams);
 }

@@ -4,13 +4,17 @@ import org.joda.time.LocalDate;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.test.espresso.NewFlightTestCase;
+import com.expedia.bookings.test.espresso.ViewActions;
+import com.expedia.bookings.test.phone.newflights.FlightTestHelpers;
 import com.expedia.bookings.test.phone.newflights.FlightsResultsScreen;
 import com.expedia.bookings.test.phone.newflights.FlightsScreen;
-import com.expedia.bookings.test.phone.newflights.FlightTestHelpers;
+import com.expedia.bookings.test.phone.packages.PackageScreen;
+import com.expedia.bookings.test.phone.pagemodels.common.CheckoutViewModel;
 import com.expedia.bookings.test.phone.pagemodels.common.SearchScreen;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
+import static android.support.test.espresso.action.ViewActions.scrollTo;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.isDescendantOfA;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
@@ -43,6 +47,32 @@ public class NewFlightPhoneHappyPathTest extends NewFlightTestCase {
 		FlightsScreen.selectInboundFlight().perform(click());
 
 		assertCheckoutOverview();
+
+		// move to Flight/common screen
+		PackageScreen.checkout().perform(click());
+
+		PackageScreen.travelerInfo().perform(scrollTo(), click());
+		PackageScreen.enterFirstName("Eidur");
+		PackageScreen.enterLastName("Gudjohnsen");
+		PackageScreen.enterPhoneNumber("4155554321");
+		PackageScreen.selectBirthDate(1989, 6, 9);
+		PackageScreen.selectGender("Male");
+
+		PackageScreen.clickTravelerAdvanced();
+		PackageScreen.enterRedressNumber("1234567");
+
+		PackageScreen.clickTravelerDone();
+		PackageScreen.enterPaymentInfo();
+
+		// TODO - assert checkout overview information
+
+		CheckoutViewModel.performSlideToPurchase();
+
+		assertConfirmationView();
+	}
+
+	private void assertConfirmationView() {
+		onView(withId(R.id.confirmation_container)).perform(ViewActions.waitForViewToDisplay()).check(matches(isDisplayed()));
 	}
 
 	private void assertCheckoutOverview() {

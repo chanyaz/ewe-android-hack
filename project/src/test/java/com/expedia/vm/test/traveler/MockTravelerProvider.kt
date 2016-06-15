@@ -1,5 +1,6 @@
 package com.expedia.vm.test.traveler
 
+import com.expedia.bookings.data.AbstractFlightSearchParams
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.Phone
 import com.expedia.bookings.data.Traveler
@@ -31,7 +32,7 @@ class MockTravelerProvider {
         Mockito.`when`(mockTraveler.phoneNumber).thenReturn(testNumber)
 
         Mockito.`when`(mockTraveler.birthDate).thenReturn(adultBirthDate)
-        Mockito.`when`(mockTraveler.getPassengerCategory(Matchers.any<PackageSearchParams>())).thenReturn(PassengerCategory.ADULT)
+        Mockito.`when`(mockTraveler.getPassengerCategory(Matchers.any<AbstractFlightSearchParams>())).thenReturn(PassengerCategory.ADULT)
 
         return mockTraveler
     }

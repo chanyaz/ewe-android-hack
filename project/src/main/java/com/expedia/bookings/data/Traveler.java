@@ -15,7 +15,6 @@ import android.text.TextUtils;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.UserPreference.Category;
-import com.expedia.bookings.data.packages.PackageSearchParams;
 import com.expedia.bookings.enums.PassengerCategory;
 import com.expedia.bookings.utils.JodaUtils;
 import com.expedia.bookings.utils.Strings;
@@ -314,11 +313,14 @@ public class Traveler implements JSONable, Comparable<Traveler> {
 		return mPassengerCategory;
 	}
 
-	public PassengerCategory getPassengerCategory(PackageSearchParams searchParams) {
+	public PassengerCategory getPassengerCategory(AbstractFlightSearchParams searchParams) {
 		// If we haven't assigned a passengerCategory yet (e.g. passenger is from account)
 		// Passenger category is determine by their max age during the duration of their trip
 		if (mPassengerCategory == null) {
-			mPassengerCategory = determinePassengerCategory(searchParams.getCheckOut(), false);
+			LocalDate endOfTrip = searchParams.getEndDate() != null ?
+				searchParams.getEndDate() :
+				searchParams.getStartDate();
+			mPassengerCategory = determinePassengerCategory(endOfTrip, searchParams.getInfantSeatingInLap());
 		}
 		return mPassengerCategory;
 	}

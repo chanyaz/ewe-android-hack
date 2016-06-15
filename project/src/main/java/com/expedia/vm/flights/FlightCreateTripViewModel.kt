@@ -1,5 +1,7 @@
 package com.expedia.vm.flights
 
+import com.expedia.bookings.data.Db
+import com.expedia.bookings.data.TripBucketItemFlightV2
 import com.expedia.bookings.data.flights.FlightCreateTripParams
 import com.expedia.bookings.data.flights.FlightCreateTripResponse
 import com.expedia.bookings.services.FlightServices
@@ -14,10 +16,6 @@ class FlightCreateTripViewModel(val flightServices: FlightServices) : BaseCreate
     val tripParams = PublishSubject.create<FlightCreateTripParams>()
 
     init {
-        tripParams.subscribe {
-            performCreateTrip.onNext(Unit)
-        }
-
         Observable.combineLatest(tripParams, performCreateTrip, { params, createTrip ->
             flightServices.createTrip(params).subscribe(makeCreateTripResponseObserver())
         }).subscribe()
@@ -29,6 +27,8 @@ class FlightCreateTripViewModel(val flightServices: FlightServices) : BaseCreate
                 if (response.hasErrors() && !response.hasPriceChange()) {
                     //TODO handle errors (unhappy path story)
                 } else {
+                    Db.getTripBucket().clearFlight()
+                    Db.getTripBucket().add(TripBucketItemFlightV2(response))
                     tripResponseObservable.onNext(response)
                 }
             }

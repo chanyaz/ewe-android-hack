@@ -1,5 +1,6 @@
 package com.expedia.bookings.data.packages
 
+import com.expedia.bookings.data.AbstractFlightSearchParams
 import com.expedia.bookings.data.BaseSearchParams
 import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.utils.Constants
@@ -8,7 +9,7 @@ import org.joda.time.LocalDate
 import java.util.HashMap
 import kotlin.properties.Delegates
 
-open class PackageSearchParams(val origin: SuggestionV4, val destination: SuggestionV4, val checkIn: LocalDate, val checkOut: LocalDate, adults: Int, children: List<Int>, val infantSeatingInLap: Boolean) : BaseSearchParams(adults, children) {
+open class PackageSearchParams(val origin: SuggestionV4, val destination: SuggestionV4, val checkIn: LocalDate, val checkOut: LocalDate, adults: Int, children: List<Int>, infantSeatingInLap: Boolean) : AbstractFlightSearchParams(adults, children, checkIn, checkOut, infantSeatingInLap) {
 
     var pageType: String? = null
     var searchProduct: String? = null
@@ -26,7 +27,7 @@ open class PackageSearchParams(val origin: SuggestionV4, val destination: Sugges
     var defaultFlights: Array<String?> by Delegates.notNull()
     var numberOfRooms: String = Constants.NUMBER_OF_ROOMS
 
-    class Builder(maxStay: Int, maxRange: Int) : BaseSearchParams.Builder(maxStay, maxRange) {
+    class Builder(maxStay: Int, maxRange: Int) : AbstractFlightSearchParams.Builder(maxStay, maxRange) {
 
         override fun build(): PackageSearchParams {
             val flightOrigin = originLocation ?: throw IllegalArgumentException()

@@ -19,6 +19,7 @@ public class FlightTripDetails {
 		public Money averageTotalPricePerTicket;
 		public Money taxesPrice;
 		public Money feesPrice;
+		public String currency;
 
 		public String baggageFeesUrl;
 		public boolean isInternational;

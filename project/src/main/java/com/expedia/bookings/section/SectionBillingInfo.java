@@ -290,7 +290,7 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 			if (!TextUtils.isEmpty(data.getBrandName())) {
 				PaymentType cardType = PaymentType.valueOf(data.getBrandName());
 				if (cardType != null && !TextUtils.isEmpty(getData().getNumber())) {
-					if (mLineOfBusiness == LineOfBusiness.FLIGHTS) {
+					if (mLineOfBusiness == LineOfBusiness.FLIGHTS || mLineOfBusiness == LineOfBusiness.FLIGHTS_V2) {
 						if (!hasValidPaymentType(mLineOfBusiness, getData())) {
 							field.setImageResource(R.drawable.ic_lcc_no_card_payment_entry);
 						}
@@ -1205,6 +1205,10 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 		if (lob == LineOfBusiness.FLIGHTS) {
 			return Db.getTripBucket().getFlight() != null
 				&& Db.getTripBucket().getFlight().isPaymentTypeSupported(info.getPaymentType());
+		}
+		if (lob == LineOfBusiness.FLIGHTS_V2) {
+			return Db.getTripBucket().getFlightV2() != null
+				&& Db.getTripBucket().getFlightV2().isPaymentTypeSupported(info.getPaymentType());
 		}
 		if (lob == LineOfBusiness.CARS) {
 			return Db.getTripBucket().getCar() != null

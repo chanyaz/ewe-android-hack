@@ -1,5 +1,6 @@
 package com.expedia.bookings.test.utils.validation
 
+import com.expedia.bookings.data.AbstractFlightSearchParams
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.Traveler
@@ -251,7 +252,7 @@ class TravelerValidatorTest {
     private fun getMockAdultTravelerWithBirthDate(birthDate : LocalDate?) : Traveler {
         val mockTraveler = Mockito.mock(Traveler::class.java)
         Mockito.`when`(mockTraveler.birthDate).thenReturn(birthDate)
-        Mockito.`when`(mockTraveler.getPassengerCategory(any<PackageSearchParams>())).thenReturn(PassengerCategory.ADULT)
+        Mockito.`when`(mockTraveler.getPassengerCategory(any<AbstractFlightSearchParams>())).thenReturn(PassengerCategory.ADULT)
 
         return mockTraveler
     }
