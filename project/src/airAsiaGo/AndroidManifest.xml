@@ -61,6 +61,26 @@
                 <data android:host="wwwairasiagocoid.trunk.sb.karmalab.net" />
             </intent-filter>
         </activity>
+
+        <!--Push Notifications for lean plum sdk -->
+        <receiver
+            android:name="com.leanplum.GcmBroadcastReceiver"
+            android:permission="com.google.android.c2dm.permission.SEND" >
+            <intent-filter>
+                <action android:name="com.google.android.c2dm.intent.RECEIVE" />
+                <action android:name="com.google.android.c2dm.intent.REGISTRATION" />
+                <category android:name="${applicationId}.gcm" />
+            </intent-filter>
+        </receiver>
+        <service android:name="com.leanplum.LeanplumPushService" />
+
+        <!-- Add Tune library receiver -->
+        <receiver android:name="com.mobileapptracker.Tracker">
+            <intent-filter>
+                <action android:name="com.android.vending.INSTALL_REFERRER" />
+            </intent-filter>
+        </receiver>
+
     </application>
 
 </manifest>
