@@ -4211,6 +4211,11 @@
 
     <!-- Content description for toolbar 'X' i.e. close/back button -->
     <string name="toolbar_search_nav_icon">Back</string>
+    <string name="search_button_cont_desc">Search Button</string>
+    <!-- Content description for LX Duration e.g. Duration 2d -->
+    <string name="search_result_duration_cont_desc_TEMPLATE">Duration {duration}</string>
+    <!-- Content description for LX Multiple Duration e.g. Duration 2d + -->
+    <string name="search_result_multiple_duration_cont_desc_TEMPLATE">Duration {duration} plus</string>
 
     <!--Packages accessibility content description for role Button-->
     <string name="accessibility_cont_desc_role_button">Button</string>
