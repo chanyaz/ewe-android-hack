@@ -53,6 +53,7 @@ import com.mobiata.android.time.widget.DaysOfWeekView
 import com.mobiata.android.time.widget.MonthView
 import org.joda.time.LocalDate
 import rx.Observer
+import java.util.concurrent.TimeUnit
 
 abstract class BaseSearchPresenter(context: Context, attrs: AttributeSet) : Presenter(context, attrs) {
 
@@ -103,6 +104,9 @@ abstract class BaseSearchPresenter(context: Context, attrs: AttributeSet) : Pres
     protected var destinationSuggestionViewModel: SuggestionAdapterViewModel by notNullAndObservable { vm ->
         val suggestionSelectedObserver = suggestionSelectedObserver(getSearchViewModel().destinationLocationObserver)
         vm.suggestionSelectedSubject.subscribe(suggestionSelectedObserver)
+        getSearchViewModel().formattedDestinationObservable
+                .debounce(SUGGESTION_TRANSITION_DURATION.toLong() + 100L, TimeUnit.MILLISECONDS)
+                .subscribe({ transitioningFromOriginToDestination = false })
     }
 
     protected fun suggestionSelectedObserver(observer: Observer<SuggestionV4>): (SuggestionV4) -> Unit {
@@ -110,6 +114,10 @@ abstract class BaseSearchPresenter(context: Context, attrs: AttributeSet) : Pres
             com.mobiata.android.util.Ui.hideKeyboard(this)
             observer.onNext(suggestion)
             SuggestionV4Utils.saveSuggestionHistory(context, suggestion, getSuggestionHistoryFileName())
+            val isOriginSelected = (observer == getSearchViewModel().originLocationObserver)
+            if (isOriginSelected) {
+                firstLaunch = false
+            }
             showDefault()
         }
     }
