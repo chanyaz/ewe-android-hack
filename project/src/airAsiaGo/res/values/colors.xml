@@ -35,20 +35,22 @@
     <color name="lx_lob_btn">@color/aag_primary_color</color>
     <color name="flights_lob_btn">@color/aag_primary_color</color>
     <color name="hotels_primary_color">@color/aag_primary_color</color>
-    <color name="hotelsv2_discount_green">@color/aag_primary_color</color>
-    <color name="hotel_promo_background">#1c375d</color>
     <color name="review_screen_tab_indicator">#ffffff</color>
 
     <!-- Checkout Colors -->
     <color name="material_checkout_account_button_background_color">@color/aag_primary_color</color>
 
     <!-- Popular Hotels Tonight Discount strips-->
-    <color name="launch_mobile_exclusive">#f18700</color>
-    <color name="launch_discount">#E31F0E</color>
+    <color name="launch_mobile_exclusive">#F8A424</color>
+    <color name="launch_discount">@color/aag_primary_color</color>
     <color name="launch_tonight_only">#333333</color>
+
+    <!-- Hotel SRP Discount & Promo strips-->
+    <color name="hotel_mobile_exclusive_color">#F8A424</color>
+    <color name="hotel_tonight_only_color">#333333</color>
     <color name="hotel_urgency_message_color">#555555</color>
-    <color name="hotel_tonight_only_color">#C4204B</color>
-    <color name="hotel_mobile_exclusive_color">#00253C</color>
+    <color name="hotelsv2_discount_green">@color/aag_primary_color</color>
+    <color name="hotel_promo_background">#de7b00</color>
 
     <!-- Cars and LX-->
     <color name="cars_primary_color">@color/aag_primary_color</color>
@@ -70,6 +72,10 @@
     <color name="checkout_login_button_color">@android:color/white</color>
 
     <!--Account Lib Colors -->
+    <color name="btn_sign_in_normal">@color/aag_primary_color</color>
+    <color name="btn_sign_in_pressed">#840003</color>
+    <color name="btn_sign_in_focused">#C30A0E</color>
+    <color name="btn_sign_in_disabled">#80E31F0E</color>
     <color name="acct__btn_sign_in_text">#FFFFFF</color>
     <color name="acct__bg_input_text_error">#FFFFFF</color>
     <color name="acct__bg_input_text_good">#EEEEEE</color>
