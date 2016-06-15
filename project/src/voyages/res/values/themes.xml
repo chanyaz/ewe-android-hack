@@ -130,7 +130,7 @@
         <item name="skin_itinCardOverflowDrawable">@drawable/ic_overflow_white</item>
         <item name="skin_itinCardActionBarCheckmark">@drawable/ic_action_bar_checkmark_white</item>
         <item name="skin_itinCardTitleTextColor">@color/itin_white_text</item>
-        <item name="skin_launchTabIndicatorColor">@color/action_bar_selected_tab_underline_color</item>
+        <item name="skin_launchTabIndicatorColor">@color/launch_tab_indicator</item>
         <item name="skin_itinAirAttachButtonDrawable">@drawable/btn_hotel_attach_normal</item>
         <item name="skin_tripsTabText">@string/Your_Trips</item>
     </style>
