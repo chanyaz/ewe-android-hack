@@ -68,7 +68,7 @@ class PackageBundleHotelWidget(context: Context, attrs: AttributeSet?) : Accessi
                 PicassoHelper.Builder(hotelRoomImage)
                         .setPlaceholder(R.drawable.room_fallback)
                         .build()
-                        .load(hotelMedia.getBestUrls(hotelRoomImage.width))
+                        .load(hotelMedia.getBestUrls(width / 2))
             }
         }
 
@@ -77,7 +77,7 @@ class PackageBundleHotelWidget(context: Context, attrs: AttributeSet?) : Accessi
         viewModel.showLoadingStateObservable.subscribe { showLoading ->
             this.loadingStateObservable.onNext(showLoading)
             if (showLoading) {
-                rowContainer.setClickable(false)
+                rowContainer.isClickable = false
                 hotelInfoContainer.isEnabled = false
                 AnimUtils.progressForward(hotelLoadingBar)
                 selectArrowIcon.visibility = View.GONE
