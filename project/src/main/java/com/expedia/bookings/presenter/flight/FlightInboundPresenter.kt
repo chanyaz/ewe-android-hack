@@ -7,6 +7,13 @@ import com.expedia.bookings.tracking.FlightsV2Tracking
 
 class FlightInboundPresenter(context: Context, attrs: AttributeSet) : BaseFlightPresenter(context, attrs) {
 
+
+    init {
+        toolbarViewModel.menuVisibilitySubject.subscribe { showMenu ->
+            menuSearch.isVisible = if (showMenu) true else false
+        }
+    }
+
     override fun isOutboundResultsPresenter(): Boolean {
         return false
     }

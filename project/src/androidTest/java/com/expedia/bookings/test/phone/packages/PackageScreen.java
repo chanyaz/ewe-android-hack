@@ -28,6 +28,7 @@ import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.action.ViewActions.scrollTo;
 import static android.support.test.espresso.action.ViewActions.typeText;
+import static android.support.test.espresso.assertion.ViewAssertions.doesNotExist;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.RootMatchers.withDecorView;
 import static android.support.test.espresso.matcher.ViewMatchers.isDescendantOfA;
@@ -350,5 +351,16 @@ public class PackageScreen {
 
 		PackageScreen.selectFlight(0);
 		PackageScreen.selectThisFlight().perform(click());
+	}
+
+	public static void checkFlightToolBarMenuItemsVisibility(boolean isVisible) {
+		PackageScreen.flightsToolbarSearchMenu().check(doesNotExist());
+
+		if (isVisible) {
+			PackageScreen.flightsToolbarFilterMenu().check(matches(isDisplayed()));
+		}
+		else {
+			PackageScreen.flightsToolbarFilterMenu().check(doesNotExist());
+		}
 	}
 }

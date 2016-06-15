@@ -30,6 +30,12 @@ class PackageFlightPresenter(context: Context, attrs: AttributeSet) : BaseFlight
 
     val bundleSlidingWidget: SlidingBundleWidget by bindView(R.id.sliding_bundle_widget)
 
+    init {
+        toolbarViewModel.menuVisibilitySubject.subscribe { showMenu ->
+            menuFilter.isVisible = if (showMenu) true else false
+        }
+    }
+
     private val flightOverviewSelected = endlessObserver<FlightLeg> { flight ->
         val params = Db.getPackageParams()
         if (flight.outbound) {
@@ -48,6 +54,7 @@ class PackageFlightPresenter(context: Context, attrs: AttributeSet) : BaseFlight
         activity.finish()
     }
 
+
     private fun setupMenuFilter() {
         val toolbarFilterItemActionView = LayoutInflater.from(context).inflate(R.layout.toolbar_filter_item, null) as LinearLayout
         val filterCountText = toolbarFilterItemActionView.findViewById(R.id.filter_count_text) as TextView
@@ -58,7 +65,7 @@ class PackageFlightPresenter(context: Context, attrs: AttributeSet) : BaseFlight
         filterButtonText.visibility = GONE
         filterBtn.setOnClickListener { show(filter) }
 
-        menuFilter?.actionView = toolbarFilterItemActionView
+        menuFilter.actionView = toolbarFilterItemActionView
         filter.viewModel.filterCountObservable.map { it.toString() }.subscribeText(filterCountText)
         filter.viewModel.filterCountObservable.map { it > 0 }.subscribeVisibility(filterCountText)
         filter.viewModel.filterCountObservable.map { it > 0 }.subscribeInverseVisibility(filterPlaceholderImageView)
@@ -164,7 +171,6 @@ class PackageFlightPresenter(context: Context, attrs: AttributeSet) : BaseFlight
     override fun onFinishInflate() {
         super.onFinishInflate()
         setupMenuFilter()
-        menuSearch.isVisible = false
 
         addTransition(resultsToOverview)
         bundleSlidingWidget.bundleOverViewWidget.outboundFlightWidget.rowContainer.setOnClickListener {
@@ -198,7 +204,6 @@ class PackageFlightPresenter(context: Context, attrs: AttributeSet) : BaseFlight
 
     override fun setupToolbarMenu() {
         toolbar.inflateMenu(R.menu.package_flights_menu)
-        menuFilter = toolbar.menu.findItem(R.id.menu_filter) as MenuItem
     }
 
     override fun trackShowBaggageFee() = PackagesTracking().trackFlightBaggageFeeClick()
