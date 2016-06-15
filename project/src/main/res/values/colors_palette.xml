@@ -18,6 +18,7 @@
     <color name="lob_hotels_secondary_color">#00877B</color> <!-- Green (Dark) -->
     <color name="lob_packages_primary_color">#0888BD</color> <!-- Blue -->
     <color name="lob_packages_secondary_color">#0B75A1</color> <!-- Blue (Dark) -->
+    <color name="lob_packages_ripple_color">#09688F</color> <!-- Blue (Ripple) -->
 
     <color name="lob_cars_primary_maroon">#9E4E7F</color> <!-- Maroon -->
     <color name="lob_cars_secondary_maroon">#915B7C</color> <!-- Maroon (Dark) -->

@@ -103,28 +103,29 @@
                         android:paddingTop="10dp"
                         android:layout_centerVertical="true" />
 
-                        <LinearLayout
+                    <LinearLayout
                         android:id="@+id/discount_loyalty_messaging_container"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentLeft="true"
-                        android:paddingBottom="10dp"
+                        android:layout_centerVertical="true"
+                        android:gravity="center"
                         android:paddingLeft="18dp"
-                        android:paddingRight="18dp"
-                        android:paddingTop="10dp">
+                        android:paddingRight="18dp">
 
                         <com.expedia.bookings.widget.TextView
                             android:id="@+id/discount_percentage"
                             style="@style/HotelPromoMessaging"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginRight="10dp"
                             android:background="@drawable/guest_rating_background"
                             android:gravity="center"
+                            android:layout_marginRight="10dp"
                             android:paddingBottom="3dp"
                             android:paddingLeft="5dp"
                             android:paddingRight="5dp"
-                            android:paddingTop="3dp" />
+                            android:paddingTop="3dp"
+                            android:layout_gravity="center" />
 
                         <ImageView
                             android:id="@+id/air_attach_swp_image_details"
@@ -140,15 +141,16 @@
                         <LinearLayout
                             android:id="@+id/vip_access_message_container"
                             android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
+                            android:layout_height="wrap_content"
                             android:background="?attr/vip_info_select_ripple_drawable"
-                            android:gravity="center">
+                            android:gravity="center"
+                            android:padding="10dp">
 
                             <com.expedia.bookings.widget.TextView
                                 android:id="@+id/vip_access_message"
                                 style="@style/HotelPromoMessaging"
                                 android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
+                                android:layout_height="match_parent"
                                 android:text="@string/vip" />
 
                             <com.expedia.bookings.widget.TextView
