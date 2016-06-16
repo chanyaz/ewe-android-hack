@@ -132,12 +132,14 @@ class PackageBundleHotelWidget(context: Context, attrs: AttributeSet?) : Accessi
         mainContainer.visibility = Presenter.VISIBLE
         AnimUtils.rotate(hotelDetailsIcon)
         PackagesTracking().trackBundleOverviewHotelExpandClick()
+        rowContainer.contentDescription = selectedHotelContentDescription(false)
     }
 
     fun collapseSelectedHotel() {
         mainContainer.visibility = Presenter.GONE
         AnimUtils.reverseRotate(hotelDetailsIcon)
         hotelDetailsIcon.clearAnimation()
+        rowContainer.contentDescription = selectedHotelContentDescription(true)
     }
 
     fun backButtonPressed() {
@@ -168,7 +170,7 @@ class PackageBundleHotelWidget(context: Context, attrs: AttributeSet?) : Accessi
         val startDate = DateUtils.localDateToMMMd(Db.getPackageParams().checkIn)
         val endDate = DateUtils.localDateToMMMd(Db.getPackageParams().checkOut)
         val guests = StrUtils.formatGuestString(context, Db.getPackageParams().guests)
-        return Phrase.from(context, R.string.select_hotel_content_description_searching)
+        return Phrase.from(context, R.string.select_hotel_searching_cont_desc_TEMPLATE)
                 .put("destination", StrUtils.formatCityName(Db.getPackageParams().destination))
                 .put("startdate", startDate)
                 .put("enddate", endDate)
@@ -181,7 +183,7 @@ class PackageBundleHotelWidget(context: Context, attrs: AttributeSet?) : Accessi
         val startDate = DateUtils.localDateToMMMd(Db.getPackageParams().checkIn)
         val endDate = DateUtils.localDateToMMMd(Db.getPackageParams().checkOut)
         val guests = StrUtils.formatGuestString(context, Db.getPackageParams().guests)
-        return Phrase.from(context, R.string.select_hotel_content_description)
+        return Phrase.from(context, R.string.select_hotel_cont_desc_TEMPLATE)
                 .put("destination", StrUtils.formatCityName(Db.getPackageParams().destination))
                 .put("startdate", startDate)
                 .put("enddate", endDate)
@@ -190,15 +192,17 @@ class PackageBundleHotelWidget(context: Context, attrs: AttributeSet?) : Accessi
                 .toString()
     }
 
-    override fun selectedHotelContentDescription(): String {
+    override fun selectedHotelContentDescription(isCollapsed: Boolean): String {
         val startDate = DateUtils.localDateToMMMd(Db.getPackageParams().checkIn)
         val endDate = DateUtils.localDateToMMMd(Db.getPackageParams().checkOut)
         val guests = StrUtils.formatGuestString(context, Db.getPackageParams().guests)
-        return Phrase.from(context, R.string.select_hotel_content_description_selected)
+        val expandcollapse = if (isCollapsed) Phrase.from(context, R.string.select_hotel_selected_expand_cont_desc).format().toString() else Phrase.from(context, R.string.select_hotel_selected_collapse_cont_desc).format().toString()
+        return Phrase.from(context, R.string.select_hotel_selected_cont_desc_TEMPLATE)
                 .put("hotel", Db.getPackageSelectedHotel().localizedName)
                 .put("startdate", startDate)
                 .put("enddate", endDate)
                 .put("guests", guests)
+                .put("expandcollapse", expandcollapse)
                 .format()
                 .toString()
     }

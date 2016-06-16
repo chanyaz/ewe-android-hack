@@ -3915,12 +3915,12 @@
     <string name="package_overview_flight_travel_info_TEMPLATE">%1$s at %2$s, %3$s</string>
     <!-- Template for package bundle total savings amount -->
     <string name="bundle_total_savings_TEMPLATE">{savings} Saved</string>
-    <!-- Bundle Overview select hotel accessibility content description -->
-    <string name="select_hotel_content_description">Search completed, please press this button to select a hotel in {destination} from {startdate} to {enddate}, for {guests}</string>
-    <!-- Bundle Overview select hotel accessibility content description when still searching -->
-    <string name="select_hotel_content_description_searching">Searching for hotels in {destination} from {startdate} to {enddate}, for {guests}. Please wait</string>
-    <!-- Bundle Overview selected hotel accessibility content description -->
-    <string name="select_hotel_content_description_selected">You have selected hotel {hotel} from {startdate} to {enddate}, for {guests}. Button to toggle hotel details.</string>
+    <!-- Bundle Overview select hotel accessibility content description Eg. Search completed. Select a hotel in Detroit from Jun 23 to Jun 24, for 1 guest. Button -->
+    <string name="select_hotel_cont_desc_TEMPLATE">Search completed. Select a hotel in {destination} from {startdate} to {enddate}, for {guests}. Button</string>
+    <!-- Bundle Overview select hotel accessibility content description when still searching Eg. Searching for hotels in Detroit from Jun 23 to Jun 24, for 1 guest. Please wait -->
+    <string name="select_hotel_searching_cont_desc_TEMPLATE">Searching for hotels in {destination} from {startdate} to {enddate}, for {guests}. Please wait</string>
+    <!-- Bundle Overview selected hotel accessibility content description Eg. You have selected hotel Package Happy Path from Jun 23 to June 24, for 1 guest. Button to expand hotel details -->
+    <string name="select_hotel_selected_cont_desc_TEMPLATE">You have selected hotel {hotel} from {startdate} to {enddate}, for {guests}. Button to {expandcollapse} hotel details</string>
     <!-- Bundle Overview select hotel -->
     <string name="select_hotel_template">Select hotel in %s</string>
     <!-- Bundle Overview searching flight -->
@@ -4189,6 +4189,10 @@
     <string name="bundle_overview_price_widget_button_open">Bundle total is {totalprice}. This price includes taxes, fees for both flights and hotel. {savings}. Button to view bundle.</string>
     <!--Content description for Bundle sliding widget, when it's opened.-->
     <string name="bundle_overview_price_widget_button_close">Showing bundle details. Button to close.</string>
+    <!--Packages bundle overview hotel drop down (expand) content description for accessibility-->
+    <string name="select_hotel_selected_expand_cont_desc">expand</string>
+    <!--Packages bundle overview hotel drop down (collapse) content description for accessibility-->
+    <string name="select_hotel_selected_collapse_cont_desc">collapse</string>
 
 
     <!--LX accessibility -->
