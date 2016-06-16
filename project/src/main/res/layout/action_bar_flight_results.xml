@@ -41,7 +41,7 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:contentDescription="@string/cd_flight_leg_cancel"
+            android:contentDescription="@string/flight_leg_cancel_cont_desc"
             android:focusable="true"
             android:gravity="center" >
 
@@ -73,7 +73,7 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:contentDescription="@string/cd_flight_leg_select_flight"
+            android:contentDescription="@string/flight_leg_select_flight_cont_desc"
             android:focusable="true"
             android:gravity="center" >
 

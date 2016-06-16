@@ -16,7 +16,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="?android:attr/selectableItemBackground"
-        android:contentDescription="@string/cd_flight_selection_cost_summary"
+        android:contentDescription="@string/flight_selection_cost_summary_cont_desc"
         android:orientation="vertical">
 
         <LinearLayout

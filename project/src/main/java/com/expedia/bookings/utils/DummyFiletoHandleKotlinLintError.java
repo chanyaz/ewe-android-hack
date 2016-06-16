@@ -655,9 +655,6 @@ DummyFiletoHandleKotlinLintError {
 		R.string.select_hotel_selected_expand_cont_desc,
 		R.string.select_hotel_selected_collapse_cont_desc,
 		R.plurals.packages_search_travelers_cont_desc_TEMPLATE,
-		R.string.packages_search_dates_content_description_trip,
 		R.layout.process_dialog_layout,
-		R.string.select_hotel_content_description_selected
-
 	};
 }

@@ -99,25 +99,25 @@
                 <RadioButton
                     android:id="@+id/price_cheap_button"
                     style="@style/V2.Widget.RadioButton.Filter"
-                    android:contentDescription="@string/cd_filter_for_low_range_hotel_prices"
+                    android:contentDescription="@string/filter_for_low_range_hotel_prices_cont_desc"
                     android:text="@string/filter_price_cheap" />
 
                 <RadioButton
                     android:id="@+id/price_moderate_button"
                     style="@style/V2.Widget.RadioButton.Filter"
-                    android:contentDescription="@string/cd_filter_for_mid_range_hotel_prices"
+                    android:contentDescription="@string/filter_for_mid_range_hotel_prices_cont_desc"
                     android:text="@string/filter_price_moderate" />
 
                 <RadioButton
                     android:id="@+id/price_expensive_button"
                     style="@style/V2.Widget.RadioButton.Filter"
-                    android:contentDescription="@string/cd_filter_for_high_range_hotel_prices"
+                    android:contentDescription="@string/filter_for_high_range_hotel_prices_cont_desc"
                     android:text="@string/filter_price_expensive" />
 
                 <RadioButton
                     android:id="@+id/price_all_button"
                     style="@style/V2.Widget.RadioButton.Filter"
-                    android:contentDescription="@string/cd_filter_remove_hotel_price_filters"
+                    android:contentDescription="@string/filter_remove_hotel_price_filters_cont_desc"
                     android:text="@string/all" />
 
             </com.expedia.bookings.widget.SlidingRadioGroup>
@@ -132,22 +132,22 @@
                 <RadioButton
                     android:id="@+id/radius_small_button"
                     style="@style/V2.Widget.RadioButton.Filter"
-                    android:contentDescription="@string/cd_filter_for_nearest_hotels" />
+                    android:contentDescription="@string/filter_for_nearest_hotels_cont_desc" />
 
                 <RadioButton
                     android:id="@+id/radius_medium_button"
                     style="@style/V2.Widget.RadioButton.Filter"
-                    android:contentDescription="@string/cd_filter_for_further_distanced_hotels" />
+                    android:contentDescription="@string/filter_for_further_distanced_hotels_cont_desc" />
 
                 <RadioButton
                     android:id="@+id/radius_large_button"
                     style="@style/V2.Widget.RadioButton.Filter"
-                    android:contentDescription="@string/cd_filter_for_furthest_distanced_hotels" />
+                    android:contentDescription="@string/filter_for_furthest_distanced_hotels_cont_desc" />
 
                 <RadioButton
                     android:id="@+id/radius_all_button"
                     style="@style/V2.Widget.RadioButton.Filter"
-                    android:contentDescription="@string/cd_filter_remove_distance_filter"
+                    android:contentDescription="@string/filter_remove_distance_filter_cont_desc"
                     android:text="@string/all" />
 
             </com.expedia.bookings.widget.SlidingRadioGroup>
@@ -162,23 +162,23 @@
                 <com.expedia.bookings.widget.ImageRadioButton
                     android:id="@+id/rating_low_button"
                     style="@style/V2.Widget.RadioButton.Filter"
-                    android:contentDescription="@string/cd_filter_hotels_for_three_or_more_stars" />
+                    android:contentDescription="@string/filter_hotels_for_three_or_more_stars_cont_desc" />
 
                 <com.expedia.bookings.widget.ImageRadioButton
                     android:id="@+id/rating_medium_button"
                     style="@style/V2.Widget.RadioButton.Filter"
-                    android:contentDescription="@string/cd_filter_hotels_for_four_or_more_stars" />
+                    android:contentDescription="@string/filter_hotels_for_four_or_more_stars_cont_desc" />
 
                 <com.expedia.bookings.widget.ImageRadioButton
                     android:id="@+id/rating_high_button"
                     style="@style/V2.Widget.RadioButton.Filter"
-                    android:contentDescription="@string/cd_filter_hotels_for_five_stars" />
+                    android:contentDescription="@string/filter_hotels_for_five_stars_cont_desc" />
 
                 <RadioButton
                     android:id="@+id/rating_all_button"
                     style="@style/V2.Widget.RadioButton.Filter"
                     android:checked="true"
-                    android:contentDescription="@string/cd_filter_remove_hotel_star_filters"
+                    android:contentDescription="@string/filter_remove_hotel_star_filters_cont_desc"
                     android:text="@string/all" />
 
             </com.expedia.bookings.widget.SlidingRadioGroup>

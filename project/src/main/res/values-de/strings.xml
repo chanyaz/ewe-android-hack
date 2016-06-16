@@ -3685,98 +3685,98 @@
     <!-- Content Description Labels -->
     <!-- Trips Screen -->
     <!-- Content description for action: Press to refresh trips list -->
-    <string name="cd_trips_refresh_trips_list">Reiseübersicht aktualisieren</string>
+    <string name="trips_refresh_trips_list_cont_desc">Reiseübersicht aktualisieren</string>
     <!-- Hotel star filters -->
     <!-- Content description for action: Press to filter for hotels hotels with three or more stars -->
-    <string name="cd_filter_hotels_for_three_or_more_stars">Nur Hotels mit 3 oder mehr Sternen anzeigen</string>
+    <string name="filter_hotels_for_three_or_more_stars_cont_desc">Nur Hotels mit 3 oder mehr Sternen anzeigen</string>
     <!-- Content description for action: Press to filter for hotels hotels with four or more stars -->
-    <string name="cd_filter_hotels_for_four_or_more_stars">Nur Hotels mit 4 oder mehr Sternen anzeigen</string>
+    <string name="filter_hotels_for_four_or_more_stars_cont_desc">Nur Hotels mit 4 oder mehr Sternen anzeigen</string>
     <!-- Content description for action: Press to filter for hotels with five stars -->
-    <string name="cd_filter_hotels_for_five_stars">Nur 5-Sterne-Hotels anzeigen</string>
+    <string name="filter_hotels_for_five_stars_cont_desc">Nur 5-Sterne-Hotels anzeigen</string>
     <!-- Content description for action: Press to remove hotel star filters -->
-    <string name="cd_filter_remove_hotel_star_filters">Sternefilter entfernen</string>
+    <string name="filter_remove_hotel_star_filters_cont_desc">Sternefilter entfernen</string>
     <!-- Hotel distance filters -->
     <!-- Content description for action: Press to filter for the nearest hotels within a small radius from your search location -->
-    <string name="cd_filter_for_nearest_hotels">Nur Hotels in unmittelbarer Nähe des Standorts anzeigen</string>
+    <string name="filter_for_nearest_hotels_cont_desc">Nur Hotels in unmittelbarer Nähe des Standorts anzeigen</string>
     <!-- Content description for action: Press to filter for hotels within a mid-distance radius from your search location -->
-    <string name="cd_filter_for_further_distanced_hotels">Nur mittelweit vom Standort entfernte Hotels anzeigen</string>
+    <string name="filter_for_further_distanced_hotels_cont_desc">Nur mittelweit vom Standort entfernte Hotels anzeigen</string>
     <!-- Content description for action: Press to filter for hotels within largest radius from your search location -->
-    <string name="cd_filter_for_furthest_distanced_hotels">Nur Hotels im weiteren Umfeld des Standorts anzeigen</string>
+    <string name="filter_for_furthest_distanced_hotels_cont_desc">Nur Hotels im weiteren Umfeld des Standorts anzeigen</string>
     <!-- Content description for action: Press to clear all distance filters for hotel search -->
-    <string name="cd_filter_remove_distance_filter">Entfernungsfilter löschen</string>
+    <string name="filter_remove_distance_filter_cont_desc">Entfernungsfilter löschen</string>
     <!-- Hotel price filters -->
     <!-- Content description for action: Press to filter for low-range hotel prices -->
-    <string name="cd_filter_for_low_range_hotel_prices">Nur besonders günstige Hotels anzeigen</string>
+    <string name="filter_for_low_range_hotel_prices_cont_desc">Nur besonders günstige Hotels anzeigen</string>
     <!-- Content description for action: Press to filter for mid-range hotel prices -->
-    <string name="cd_filter_for_mid_range_hotel_prices">Nur mittelpreisige Hotels anzeigen</string>
+    <string name="filter_for_mid_range_hotel_prices_cont_desc">Nur mittelpreisige Hotels anzeigen</string>
     <!-- Content description for action: Press to filter for high-range hotel prices -->
-    <string name="cd_filter_for_high_range_hotel_prices">Nur gehobenere Hotels anzeigen</string>
+    <string name="filter_for_high_range_hotel_prices_cont_desc">Nur gehobenere Hotels anzeigen</string>
     <!-- Content description for action: Press to remove hotel price filters -->
-    <string name="cd_filter_remove_hotel_price_filters">Preisfilter entfernen</string>
+    <string name="filter_remove_hotel_price_filters_cont_desc">Preisfilter entfernen</string>
     <!-- Hotel info screen -->
     <!-- Content description for action: Press to select this hotel -->
-    <string name="cd_hotel_info_select_button">Dieses Hotel auswählen</string>
+    <string name="hotel_info_select_button_cont_desc">Dieses Hotel auswählen</string>
     <!-- Hotel review screen -->
     <!-- Content description for action: Press to display recent reviews -->
-    <string name="cd_display_recent_reviews">Kürzliche Bewertungen anzeigen</string>
+    <string name="display_recent_reviews_cont_desc">Kürzliche Bewertungen anzeigen</string>
     <!-- Content description for action: Press to display favorable reviews -->
-    <string name="cd_display_favorable_reviews">Nur positive Bewertungen anzeigen</string>
+    <string name="display_favorable_reviews_cont_desc">Nur positive Bewertungen anzeigen</string>
     <!-- Content description for action: Press to display critical reviews -->
-    <string name="cd_display_critical_reviews">Nur negative Bewertungen anzeigen</string>
+    <string name="display_critical_reviews_cont_desc">Nur negative Bewertungen anzeigen</string>
     <!-- Flight Search -->
     <!-- Content description for action: Press to clear selected dates -->
-    <string name="cd_flights_clear_selected_dates">Ausgewählte Reisedaten entfernen</string>
+    <string name="flights_clear_selected_dates_cont_desc">Ausgewählte Reisedaten entfernen</string>
     <!-- Content description for action: Press to edit number of travelers -->
-    <string name="cd_flights_search_number_of_travelers_edit">Anzahl der Reisenden ändern</string>
+    <string name="flights_search_number_of_travelers_edit_cont_desc">Anzahl der Reisenden ändern</string>
     <!-- Flight Search Results - Flight Leg Selection -->
     <!-- Content description for action: Press to cancel your flight selection and go back to flight search results -->
-    <string name="cd_flight_leg_cancel">Flugauswahl löschen und zu den Suchergebnissen zurückkehren</string>
+    <string name="flight_leg_cancel_cont_desc">Flugauswahl löschen und zu den Suchergebnissen zurückkehren</string>
     <!-- Content description for action: Press to select this flight -->
-    <string name="cd_flight_leg_select_flight">Diesen Flug auswählen</string>
+    <string name="flight_leg_select_flight_cont_desc">Diesen Flug auswählen</string>
     <!-- Content description for action: Press to go to baggage fee information -->
-    <string name="cd_flight_leg_baggage_fee_info">Gepäckgebühren anzeigen</string>
+    <string name="flight_leg_baggage_fee_info_cont_desc">Gepäckgebühren anzeigen</string>
     <!-- Flight Search Results - Selection Overview -->
     <!-- Content description for action: Press to go to cost summary for your flight selections -->
-    <string name="cd_flight_selection_cost_summary">Kosten für die Flugauswahl anzeigen</string>
+    <string name="flight_selection_cost_summary_cont_desc">Kosten für die Flugauswahl anzeigen</string>
     <!-- Checkout screen -->
     <!-- Content description for action: Press to begin checkout -->
-    <string name="cd_checkout">Buchen</string>
+    <string name="checkout_cont_desc">Buchen</string>
     <!-- Content description for action: Press to enter a coupon or promotional code -->
-    <string name="cd_checkout_enter_coupon">Gutschein- oder Angebotscode eingeben</string>
+    <string name="checkout_enter_coupon_cont_desc">Gutschein- oder Angebotscode eingeben</string>
     <!-- Traveler Information screen -->
     <!-- Content description for action: Press to enter a new traveler -->
-    <string name="cd_traveler_enter_new_traveler">Neuen Reisenden hinzufügen</string>
+    <string name="traveler_enter_new_traveler_cont_desc">Neuen Reisenden hinzufügen</string>
     <!-- Content description for action: Press to edit traveler information -->
-    <string name="cd_traveler_edit_traveler_information">Informationen zum Reisenden bearbeiten</string>
+    <string name="traveler_edit_traveler_information_cont_desc">Informationen zum Reisenden bearbeiten</string>
     <!-- Content description for action: Press to edit traveler's passport country -->
-    <string name="cd_traveler_edit_passport_country">Ausstellungsland des Ausweisdokuments</string>
+    <string name="traveler_edit_passport_country_cont_desc">Ausstellungsland des Ausweisdokuments</string>
     <!-- Traveler Information edit/entry screen -->
     <!-- Content description for action: Press to finish entering traveler information -->
-    <string name="cd_traveler_information_done">Fertig?</string>
+    <string name="traveler_information_done_cont_desc">Fertig?</string>
     <!-- Extra traveler information - flights -->
     <!-- Content description for action: Press to select traveler's gender -->
-    <string name="cd_traveler_gender_edit">Geschlecht</string>
+    <string name="traveler_gender_edit_cont_desc">Geschlecht</string>
     <!-- Content description for action: Press to select type of special assistance traveler requires -->
-    <string name="cd_traveler_special_assistance_edit">Besondere Betreuung angeben</string>
+    <string name="traveler_special_assistance_edit_cont_desc">Besondere Betreuung angeben</string>
     <!-- Content description for action: Press to select window type that the traveler prefers -->
-    <string name="cd_traveler_seat_preference_edit">Wählen Sie den Sitz aus, den der Reisende möchte</string>
+    <string name="traveler_seat_preference_edit_cont_desc">Wählen Sie den Sitz aus, den der Reisende möchte</string>
     <!-- Credit Card Information -->
     <!-- Content description for action: Select billing address country -->
-    <string name="cd_card_info_billing_address_country">Rechnungsadresse (Land)</string>
+    <string name="card_info_billing_address_country_cont_desc">Rechnungsadresse (Land)</string>
     <!-- Itinerary card elements -->
     <!-- Content description for action: Press to view share options -->
-    <string name="cd_share_menu_btn">Tippen, um Optionen zum Teilen des Reiseplans zu sehen</string>
+    <string name="share_menu_btn_cont_desc">Tippen, um Optionen zum Teilen des Reiseplans zu sehen</string>
 
     <!-- Tablet Search Results Content Descriptions -->
     <!-- Content description for Hotel Search Results -->
-    <string name="cd_tablet_results_hotel_list">Hotel-Suchergebnisse</string>
+    <string name="tablet_results_hotel_list_cont_desc">Hotel-Suchergebnisse</string>
     <!-- Content description for Flight Search Results -->
-    <string name="cd_tablet_results_flight_list">Flug-Suchergebnisse</string>
+    <string name="tablet_results_flight_list_cont_desc">Flug-Suchergebnisse</string>
 
     <!-- Content description for action: Press to filter for the nearest hotels within a small radius from your search location -->
-    <string name="cd_pay_now">Tippen Sie auf die Schaltfläche, um jetzt zu bezahlen</string>
+    <string name="pay_now_cont_desc">Tippen Sie auf die Schaltfläche, um jetzt zu bezahlen</string>
     <!-- Content description for action: Press to filter for hotels within a mid-distance radius from your search location -->
-    <string name="cd_pay_later">Tippen Sie auf die Schaltfläche, um später zu bezahlen</string>
+    <string name="pay_later_cont_desc">Tippen Sie auf die Schaltfläche, um später zu bezahlen</string>
 
     <!-- Tablet Confirmation Screen -->
     <!-- Header text to indicating booking confirmed for hotel -->

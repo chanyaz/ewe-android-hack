@@ -4,7 +4,7 @@
     android:layout_width="wrap_content"
     android:layout_height="fill_parent"
     android:background="?android:attr/selectableItemBackground"
-    android:contentDescription="@string/cd_hotel_info_select_button"
+    android:contentDescription="@string/hotel_info_select_button_cont_desc"
     android:drawableLeft="@drawable/ic_action_bar_checkmark"
     android:paddingRight="8dp"
     android:text="@string/select"

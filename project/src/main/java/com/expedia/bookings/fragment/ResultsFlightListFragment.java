@@ -77,7 +77,7 @@ public class ResultsFlightListFragment extends ResultsListFragment<ResultsFlight
 		if (savedInstanceState != null) {
 			mLegNumber = savedInstanceState.getInt(STATE_LEG_NUMBER, -1);
 		}
-		setListViewContentDescription(R.string.cd_tablet_results_flight_list);
+		setListViewContentDescription(R.string.tablet_results_flight_list_cont_desc);
 		View v = super.onCreateView(inflater, container, savedInstanceState);
 		mStickySubtitleTv = Ui.findView(v, R.id.sticky_subtitle);
 		setSubtitleText();

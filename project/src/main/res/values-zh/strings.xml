@@ -3684,98 +3684,98 @@
     <!-- Content Description Labels -->
     <!-- Trips Screen -->
     <!-- Content description for action: Press to refresh trips list -->
-    <string name="cd_trips_refresh_trips_list">按这里可以刷新行程列表</string>
+    <string name="trips_refresh_trips_list_cont_desc">按这里可以刷新行程列表</string>
     <!-- Hotel star filters -->
     <!-- Content description for action: Press to filter for hotels hotels with three or more stars -->
-    <string name="cd_filter_hotels_for_three_or_more_stars">按这里可以筛选 3 星或 3 星以上的酒店</string>
+    <string name="filter_hotels_for_three_or_more_stars_cont_desc">按这里可以筛选 3 星或 3 星以上的酒店</string>
     <!-- Content description for action: Press to filter for hotels hotels with four or more stars -->
-    <string name="cd_filter_hotels_for_four_or_more_stars">按这里可以筛选 4 星或 4 星以上的酒店</string>
+    <string name="filter_hotels_for_four_or_more_stars_cont_desc">按这里可以筛选 4 星或 4 星以上的酒店</string>
     <!-- Content description for action: Press to filter for hotels with five stars -->
-    <string name="cd_filter_hotels_for_five_stars">按这里可以筛选 5 星酒店</string>
+    <string name="filter_hotels_for_five_stars_cont_desc">按这里可以筛选 5 星酒店</string>
     <!-- Content description for action: Press to remove hotel star filters -->
-    <string name="cd_filter_remove_hotel_star_filters">按这里可删除酒店星级筛选条件</string>
+    <string name="filter_remove_hotel_star_filters_cont_desc">按这里可删除酒店星级筛选条件</string>
     <!-- Hotel distance filters -->
     <!-- Content description for action: Press to filter for the nearest hotels within a small radius from your search location -->
-    <string name="cd_filter_for_nearest_hotels">按这里可筛选您搜索位置周边距离最近的酒店</string>
+    <string name="filter_for_nearest_hotels_cont_desc">按这里可筛选您搜索位置周边距离最近的酒店</string>
     <!-- Content description for action: Press to filter for hotels within a mid-distance radius from your search location -->
-    <string name="cd_filter_for_further_distanced_hotels">按这里可筛选您搜索位置周边距离比较近的酒店</string>
+    <string name="filter_for_further_distanced_hotels_cont_desc">按这里可筛选您搜索位置周边距离比较近的酒店</string>
     <!-- Content description for action: Press to filter for hotels within largest radius from your search location -->
-    <string name="cd_filter_for_furthest_distanced_hotels">按这里可筛选您搜索位置周边距离不太远的酒店</string>
+    <string name="filter_for_furthest_distanced_hotels_cont_desc">按这里可筛选您搜索位置周边距离不太远的酒店</string>
     <!-- Content description for action: Press to clear all distance filters for hotel search -->
-    <string name="cd_filter_remove_distance_filter">按这里可清楚酒店搜索使用的所有距离筛选条件</string>
+    <string name="filter_remove_distance_filter_cont_desc">按这里可清楚酒店搜索使用的所有距离筛选条件</string>
     <!-- Hotel price filters -->
     <!-- Content description for action: Press to filter for low-range hotel prices -->
-    <string name="cd_filter_for_low_range_hotel_prices">按这里可筛选实惠的酒店</string>
+    <string name="filter_for_low_range_hotel_prices_cont_desc">按这里可筛选实惠的酒店</string>
     <!-- Content description for action: Press to filter for mid-range hotel prices -->
-    <string name="cd_filter_for_mid_range_hotel_prices">按这里可筛选中档酒店</string>
+    <string name="filter_for_mid_range_hotel_prices_cont_desc">按这里可筛选中档酒店</string>
     <!-- Content description for action: Press to filter for high-range hotel prices -->
-    <string name="cd_filter_for_high_range_hotel_prices">按这里可筛选高档酒店</string>
+    <string name="filter_for_high_range_hotel_prices_cont_desc">按这里可筛选高档酒店</string>
     <!-- Content description for action: Press to remove hotel price filters -->
-    <string name="cd_filter_remove_hotel_price_filters">删除酒店价格筛选条件</string>
+    <string name="filter_remove_hotel_price_filters_cont_desc">删除酒店价格筛选条件</string>
     <!-- Hotel info screen -->
     <!-- Content description for action: Press to select this hotel -->
-    <string name="cd_hotel_info_select_button">按这里可选择该酒店</string>
+    <string name="hotel_info_select_button_cont_desc">按这里可选择该酒店</string>
     <!-- Hotel review screen -->
     <!-- Content description for action: Press to display recent reviews -->
-    <string name="cd_display_recent_reviews">按这里可显示最近的点评</string>
+    <string name="display_recent_reviews_cont_desc">按这里可显示最近的点评</string>
     <!-- Content description for action: Press to display favorable reviews -->
-    <string name="cd_display_favorable_reviews">按这里可显示正面的评价</string>
+    <string name="display_favorable_reviews_cont_desc">按这里可显示正面的评价</string>
     <!-- Content description for action: Press to display critical reviews -->
-    <string name="cd_display_critical_reviews">按这里可显示负面的评价</string>
+    <string name="display_critical_reviews_cont_desc">按这里可显示负面的评价</string>
     <!-- Flight Search -->
     <!-- Content description for action: Press to clear selected dates -->
-    <string name="cd_flights_clear_selected_dates">按这里可清除选中的日期</string>
+    <string name="flights_clear_selected_dates_cont_desc">按这里可清除选中的日期</string>
     <!-- Content description for action: Press to edit number of travelers -->
-    <string name="cd_flights_search_number_of_travelers_edit">按这里可编辑旅客数量</string>
+    <string name="flights_search_number_of_travelers_edit_cont_desc">按这里可编辑旅客数量</string>
     <!-- Flight Search Results - Flight Leg Selection -->
     <!-- Content description for action: Press to cancel your flight selection and go back to flight search results -->
-    <string name="cd_flight_leg_cancel">取消选定的航班，返回航班搜索结果</string>
+    <string name="flight_leg_cancel_cont_desc">取消选定的航班，返回航班搜索结果</string>
     <!-- Content description for action: Press to select this flight -->
-    <string name="cd_flight_leg_select_flight">按这里可选择该航班</string>
+    <string name="flight_leg_select_flight_cont_desc">按这里可选择该航班</string>
     <!-- Content description for action: Press to go to baggage fee information -->
-    <string name="cd_flight_leg_baggage_fee_info">按这里查看行李收费信息</string>
+    <string name="flight_leg_baggage_fee_info_cont_desc">按这里查看行李收费信息</string>
     <!-- Flight Search Results - Selection Overview -->
     <!-- Content description for action: Press to go to cost summary for your flight selections -->
-    <string name="cd_flight_selection_cost_summary">按这里查看选定航班的费用摘要</string>
+    <string name="flight_selection_cost_summary_cont_desc">按这里查看选定航班的费用摘要</string>
     <!-- Checkout screen -->
     <!-- Content description for action: Press to begin checkout -->
-    <string name="cd_checkout">按这里，开始付款</string>
+    <string name="checkout_cont_desc">按这里，开始付款</string>
     <!-- Content description for action: Press to enter a coupon or promotional code -->
-    <string name="cd_checkout_enter_coupon">按这里可输入折扣券或促销代码</string>
+    <string name="checkout_enter_coupon_cont_desc">按这里可输入折扣券或促销代码</string>
     <!-- Traveler Information screen -->
     <!-- Content description for action: Press to enter a new traveler -->
-    <string name="cd_traveler_enter_new_traveler">按这里可输入新旅客的信息</string>
+    <string name="traveler_enter_new_traveler_cont_desc">按这里可输入新旅客的信息</string>
     <!-- Content description for action: Press to edit traveler information -->
-    <string name="cd_traveler_edit_traveler_information">按这里可编辑旅客信息</string>
+    <string name="traveler_edit_traveler_information_cont_desc">按这里可编辑旅客信息</string>
     <!-- Content description for action: Press to edit traveler's passport country -->
-    <string name="cd_traveler_edit_passport_country">编辑旅客护照上显示的国家</string>
+    <string name="traveler_edit_passport_country_cont_desc">编辑旅客护照上显示的国家</string>
     <!-- Traveler Information edit/entry screen -->
     <!-- Content description for action: Press to finish entering traveler information -->
-    <string name="cd_traveler_information_done">按这里，完成输入旅客信息的操作</string>
+    <string name="traveler_information_done_cont_desc">按这里，完成输入旅客信息的操作</string>
     <!-- Extra traveler information - flights -->
     <!-- Content description for action: Press to select traveler's gender -->
-    <string name="cd_traveler_gender_edit">按这里可选择旅客性别</string>
+    <string name="traveler_gender_edit_cont_desc">按这里可选择旅客性别</string>
     <!-- Content description for action: Press to select type of special assistance traveler requires -->
-    <string name="cd_traveler_special_assistance_edit">选择旅客所需特殊照顾的种类</string>
+    <string name="traveler_special_assistance_edit_cont_desc">选择旅客所需特殊照顾的种类</string>
     <!-- Content description for action: Press to select window type that the traveler prefers -->
-    <string name="cd_traveler_seat_preference_edit">选择旅客喜欢的座位类型</string>
+    <string name="traveler_seat_preference_edit_cont_desc">选择旅客喜欢的座位类型</string>
     <!-- Credit Card Information -->
     <!-- Content description for action: Select billing address country -->
-    <string name="cd_card_info_billing_address_country">选择帐单地址所在国家/地区</string>
+    <string name="card_info_billing_address_country_cont_desc">选择帐单地址所在国家/地区</string>
     <!-- Itinerary card elements -->
     <!-- Content description for action: Press to view share options -->
-    <string name="cd_share_menu_btn">按住屏幕，查看行程分享选项。</string>
+    <string name="share_menu_btn_cont_desc">按住屏幕，查看行程分享选项。</string>
 
     <!-- Tablet Search Results Content Descriptions -->
     <!-- Content description for Hotel Search Results -->
-    <string name="cd_tablet_results_hotel_list">酒店搜索结果</string>
+    <string name="tablet_results_hotel_list_cont_desc">酒店搜索结果</string>
     <!-- Content description for Flight Search Results -->
-    <string name="cd_tablet_results_flight_list">航班搜索结果</string>
+    <string name="tablet_results_flight_list_cont_desc">航班搜索结果</string>
 
     <!-- Content description for action: Press to filter for the nearest hotels within a small radius from your search location -->
-    <string name="cd_pay_now">按此按钮选择立即付款</string>
+    <string name="pay_now_cont_desc">按此按钮选择立即付款</string>
     <!-- Content description for action: Press to filter for hotels within a mid-distance radius from your search location -->
-    <string name="cd_pay_later">按此按钮选择到店付款</string>
+    <string name="pay_later_cont_desc">按此按钮选择到店付款</string>
 
     <!-- Tablet Confirmation Screen -->
     <!-- Header text to indicating booking confirmed for hotel -->

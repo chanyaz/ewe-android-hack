@@ -11,7 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="4dp"
-        android:contentDescription="@string/cd_traveler_gender_edit" />
+        android:contentDescription="@string/traveler_gender_edit_cont_desc" />
 
     <EditText
         android:id="@+id/edit_redress_number"
@@ -29,14 +29,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="4dp"
-        android:contentDescription="@string/cd_traveler_special_assistance_edit" />
+        android:contentDescription="@string/traveler_special_assistance_edit_cont_desc" />
 
     <Spinner
         android:id="@+id/edit_seat_preference_spinner"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="4dp"
-        android:contentDescription="@string/cd_traveler_seat_preference_edit"
+        android:contentDescription="@string/traveler_seat_preference_edit_cont_desc"
         android:minHeight="43dp" />
 
     <!-- This empty view fixes a scrolling bug on older versions of android -->

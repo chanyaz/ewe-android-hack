@@ -3684,98 +3684,98 @@
     <!-- Content Description Labels -->
     <!-- Trips Screen -->
     <!-- Content description for action: Press to refresh trips list -->
-    <string name="cd_trips_refresh_trips_list">누르면 여행 목록이 새로고침됩니다.</string>
+    <string name="trips_refresh_trips_list_cont_desc">누르면 여행 목록이 새로고침됩니다.</string>
     <!-- Hotel star filters -->
     <!-- Content description for action: Press to filter for hotels hotels with three or more stars -->
-    <string name="cd_filter_hotels_for_three_or_more_stars">3성급 이상 호텔을 필터링합니다.</string>
+    <string name="filter_hotels_for_three_or_more_stars_cont_desc">3성급 이상 호텔을 필터링합니다.</string>
     <!-- Content description for action: Press to filter for hotels hotels with four or more stars -->
-    <string name="cd_filter_hotels_for_four_or_more_stars">4성급 이상 호텔을 필터링합니다.</string>
+    <string name="filter_hotels_for_four_or_more_stars_cont_desc">4성급 이상 호텔을 필터링합니다.</string>
     <!-- Content description for action: Press to filter for hotels with five stars -->
-    <string name="cd_filter_hotels_for_five_stars">5성급 호텔을 필터링합니다.</string>
+    <string name="filter_hotels_for_five_stars_cont_desc">5성급 호텔을 필터링합니다.</string>
     <!-- Content description for action: Press to remove hotel star filters -->
-    <string name="cd_filter_remove_hotel_star_filters">호텔 등급 필터링을 제거합니다.</string>
+    <string name="filter_remove_hotel_star_filters_cont_desc">호텔 등급 필터링을 제거합니다.</string>
     <!-- Hotel distance filters -->
     <!-- Content description for action: Press to filter for the nearest hotels within a small radius from your search location -->
-    <string name="cd_filter_for_nearest_hotels">고객님 검색 위치에서 작은 반경 이내의 가장 가까운 호텔을 필터링합니다.</string>
+    <string name="filter_for_nearest_hotels_cont_desc">고객님 검색 위치에서 작은 반경 이내의 가장 가까운 호텔을 필터링합니다.</string>
     <!-- Content description for action: Press to filter for hotels within a mid-distance radius from your search location -->
-    <string name="cd_filter_for_further_distanced_hotels">고객님 검색 위치에서 중간 거리 반경 이내의 호텔을 필터링합니다.</string>
+    <string name="filter_for_further_distanced_hotels_cont_desc">고객님 검색 위치에서 중간 거리 반경 이내의 호텔을 필터링합니다.</string>
     <!-- Content description for action: Press to filter for hotels within largest radius from your search location -->
-    <string name="cd_filter_for_furthest_distanced_hotels">고객님 검색 위치에서 가장 넓은 반경 이내의 호텔을 필터링합니다.</string>
+    <string name="filter_for_furthest_distanced_hotels_cont_desc">고객님 검색 위치에서 가장 넓은 반경 이내의 호텔을 필터링합니다.</string>
     <!-- Content description for action: Press to clear all distance filters for hotel search -->
-    <string name="cd_filter_remove_distance_filter">누르면 호텔 검색을 위한 모든 거리 필터링이 지워집니다.</string>
+    <string name="filter_remove_distance_filter_cont_desc">누르면 호텔 검색을 위한 모든 거리 필터링이 지워집니다.</string>
     <!-- Hotel price filters -->
     <!-- Content description for action: Press to filter for low-range hotel prices -->
-    <string name="cd_filter_for_low_range_hotel_prices">누르면 가격대가 낮은 호텔이 필터링됩니다.</string>
+    <string name="filter_for_low_range_hotel_prices_cont_desc">누르면 가격대가 낮은 호텔이 필터링됩니다.</string>
     <!-- Content description for action: Press to filter for mid-range hotel prices -->
-    <string name="cd_filter_for_mid_range_hotel_prices">누르면 가격대가 중간인 호텔이 필터링됩니다.</string>
+    <string name="filter_for_mid_range_hotel_prices_cont_desc">누르면 가격대가 중간인 호텔이 필터링됩니다.</string>
     <!-- Content description for action: Press to filter for high-range hotel prices -->
-    <string name="cd_filter_for_high_range_hotel_prices">누르면 가격대가 높은 호텔이 필터링됩니다.</string>
+    <string name="filter_for_high_range_hotel_prices_cont_desc">누르면 가격대가 높은 호텔이 필터링됩니다.</string>
     <!-- Content description for action: Press to remove hotel price filters -->
-    <string name="cd_filter_remove_hotel_price_filters">호텔 가격 필터링을 제거합니다.</string>
+    <string name="filter_remove_hotel_price_filters_cont_desc">호텔 가격 필터링을 제거합니다.</string>
     <!-- Hotel info screen -->
     <!-- Content description for action: Press to select this hotel -->
-    <string name="cd_hotel_info_select_button">누르면 이 호텔이 선택됩니다.</string>
+    <string name="hotel_info_select_button_cont_desc">누르면 이 호텔이 선택됩니다.</string>
     <!-- Hotel review screen -->
     <!-- Content description for action: Press to display recent reviews -->
-    <string name="cd_display_recent_reviews">누르면 최근 이용후기가 표시됩니다.</string>
+    <string name="display_recent_reviews_cont_desc">누르면 최근 이용후기가 표시됩니다.</string>
     <!-- Content description for action: Press to display favorable reviews -->
-    <string name="cd_display_favorable_reviews">누르면 긍정적인 이용후기가 표시됩니다.</string>
+    <string name="display_favorable_reviews_cont_desc">누르면 긍정적인 이용후기가 표시됩니다.</string>
     <!-- Content description for action: Press to display critical reviews -->
-    <string name="cd_display_critical_reviews">누르면 부정적인 이용후기가 표시됩니다.</string>
+    <string name="display_critical_reviews_cont_desc">누르면 부정적인 이용후기가 표시됩니다.</string>
     <!-- Flight Search -->
     <!-- Content description for action: Press to clear selected dates -->
-    <string name="cd_flights_clear_selected_dates">누르면 선택한 날짜가 지워집니다.</string>
+    <string name="flights_clear_selected_dates_cont_desc">누르면 선택한 날짜가 지워집니다.</string>
     <!-- Content description for action: Press to edit number of travelers -->
-    <string name="cd_flights_search_number_of_travelers_edit">누르면 여행객 인원을 수정하실 수 있습니다.</string>
+    <string name="flights_search_number_of_travelers_edit_cont_desc">누르면 여행객 인원을 수정하실 수 있습니다.</string>
     <!-- Flight Search Results - Flight Leg Selection -->
     <!-- Content description for action: Press to cancel your flight selection and go back to flight search results -->
-    <string name="cd_flight_leg_cancel">항공편 선택을 취소하고 항공편 검색 결과로 돌아갑니다.</string>
+    <string name="flight_leg_cancel_cont_desc">항공편 선택을 취소하고 항공편 검색 결과로 돌아갑니다.</string>
     <!-- Content description for action: Press to select this flight -->
-    <string name="cd_flight_leg_select_flight">누르면 이 항공편이 선택됩니다.</string>
+    <string name="flight_leg_select_flight_cont_desc">누르면 이 항공편이 선택됩니다.</string>
     <!-- Content description for action: Press to go to baggage fee information -->
-    <string name="cd_flight_leg_baggage_fee_info">누르면 수하물 요금 정보로 이동합니다.</string>
+    <string name="flight_leg_baggage_fee_info_cont_desc">누르면 수하물 요금 정보로 이동합니다.</string>
     <!-- Flight Search Results - Selection Overview -->
     <!-- Content description for action: Press to go to cost summary for your flight selections -->
-    <string name="cd_flight_selection_cost_summary">고객님이 선택하신 항공편의 요금 요약으로 이동합니다.</string>
+    <string name="flight_selection_cost_summary_cont_desc">고객님이 선택하신 항공편의 요금 요약으로 이동합니다.</string>
     <!-- Checkout screen -->
     <!-- Content description for action: Press to begin checkout -->
-    <string name="cd_checkout">누르면 예약 진행이 시작됩니다.</string>
+    <string name="checkout_cont_desc">누르면 예약 진행이 시작됩니다.</string>
     <!-- Content description for action: Press to enter a coupon or promotional code -->
-    <string name="cd_checkout_enter_coupon">누르면 쿠폰 또는 프로모션 코드를 입력하실 수 있습니다.</string>
+    <string name="checkout_enter_coupon_cont_desc">누르면 쿠폰 또는 프로모션 코드를 입력하실 수 있습니다.</string>
     <!-- Traveler Information screen -->
     <!-- Content description for action: Press to enter a new traveler -->
-    <string name="cd_traveler_enter_new_traveler">누르면 새로운 여행객을 입력하실 수 있습니다.</string>
+    <string name="traveler_enter_new_traveler_cont_desc">누르면 새로운 여행객을 입력하실 수 있습니다.</string>
     <!-- Content description for action: Press to edit traveler information -->
-    <string name="cd_traveler_edit_traveler_information">누르면 여행객 정보를 수정하실 수 있습니다.</string>
+    <string name="traveler_edit_traveler_information_cont_desc">누르면 여행객 정보를 수정하실 수 있습니다.</string>
     <!-- Content description for action: Press to edit traveler's passport country -->
-    <string name="cd_traveler_edit_passport_country">여행객의 여권 국가를 수정합니다.</string>
+    <string name="traveler_edit_passport_country_cont_desc">여행객의 여권 국가를 수정합니다.</string>
     <!-- Traveler Information edit/entry screen -->
     <!-- Content description for action: Press to finish entering traveler information -->
-    <string name="cd_traveler_information_done">누르면 여행객 정보 입력을 완료하실 수 있습니다.</string>
+    <string name="traveler_information_done_cont_desc">누르면 여행객 정보 입력을 완료하실 수 있습니다.</string>
     <!-- Extra traveler information - flights -->
     <!-- Content description for action: Press to select traveler's gender -->
-    <string name="cd_traveler_gender_edit">누르면 여행객의 성별을 선택하실 수 있습니다.</string>
+    <string name="traveler_gender_edit_cont_desc">누르면 여행객의 성별을 선택하실 수 있습니다.</string>
     <!-- Content description for action: Press to select type of special assistance traveler requires -->
-    <string name="cd_traveler_special_assistance_edit">여행객의 특별 요청 사항 유형을 선택합니다.</string>
+    <string name="traveler_special_assistance_edit_cont_desc">여행객의 특별 요청 사항 유형을 선택합니다.</string>
     <!-- Content description for action: Press to select window type that the traveler prefers -->
-    <string name="cd_traveler_seat_preference_edit">여행객이 선호하는 좌석 유형을 선택합니다.</string>
+    <string name="traveler_seat_preference_edit_cont_desc">여행객이 선호하는 좌석 유형을 선택합니다.</string>
     <!-- Credit Card Information -->
     <!-- Content description for action: Select billing address country -->
-    <string name="cd_card_info_billing_address_country">청구 주소의 국가를 선택합니다.</string>
+    <string name="card_info_billing_address_country_cont_desc">청구 주소의 국가를 선택합니다.</string>
     <!-- Itinerary card elements -->
     <!-- Content description for action: Press to view share options -->
-    <string name="cd_share_menu_btn">일정 공유 옵션을 보려면 누르세요.</string>
+    <string name="share_menu_btn_cont_desc">일정 공유 옵션을 보려면 누르세요.</string>
 
     <!-- Tablet Search Results Content Descriptions -->
     <!-- Content description for Hotel Search Results -->
-    <string name="cd_tablet_results_hotel_list">호텔 검색 결과</string>
+    <string name="tablet_results_hotel_list_cont_desc">호텔 검색 결과</string>
     <!-- Content description for Flight Search Results -->
-    <string name="cd_tablet_results_flight_list">항공편 검색 결과</string>
+    <string name="tablet_results_flight_list_cont_desc">항공편 검색 결과</string>
 
     <!-- Content description for action: Press to filter for the nearest hotels within a small radius from your search location -->
-    <string name="cd_pay_now">버튼을 눌러 지금 결제</string>
+    <string name="pay_now_cont_desc">버튼을 눌러 지금 결제</string>
     <!-- Content description for action: Press to filter for hotels within a mid-distance radius from your search location -->
-    <string name="cd_pay_later">버튼을 눌러 나중에 결제</string>
+    <string name="pay_later_cont_desc">버튼을 눌러 나중에 결제</string>
 
     <!-- Tablet Confirmation Screen -->
     <!-- Header text to indicating booking confirmed for hotel -->

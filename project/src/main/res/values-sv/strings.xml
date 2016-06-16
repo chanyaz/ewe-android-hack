@@ -3684,98 +3684,98 @@
     <!-- Content Description Labels -->
     <!-- Trips Screen -->
     <!-- Content description for action: Press to refresh trips list -->
-    <string name="cd_trips_refresh_trips_list">Tryck för att uppdatera reslista</string>
+    <string name="trips_refresh_trips_list_cont_desc">Tryck för att uppdatera reslista</string>
     <!-- Hotel star filters -->
     <!-- Content description for action: Press to filter for hotels hotels with three or more stars -->
-    <string name="cd_filter_hotels_for_three_or_more_stars">Tryck för att filtrera hotell med tre eller fler stjärnor</string>
+    <string name="filter_hotels_for_three_or_more_stars_cont_desc">Tryck för att filtrera hotell med tre eller fler stjärnor</string>
     <!-- Content description for action: Press to filter for hotels hotels with four or more stars -->
-    <string name="cd_filter_hotels_for_four_or_more_stars">Tryck för att filtrera hotell med fyra eller fler stjärnor</string>
+    <string name="filter_hotels_for_four_or_more_stars_cont_desc">Tryck för att filtrera hotell med fyra eller fler stjärnor</string>
     <!-- Content description for action: Press to filter for hotels with five stars -->
-    <string name="cd_filter_hotels_for_five_stars">Tryck för att filtrera hotell med fem stjärnor</string>
+    <string name="filter_hotels_for_five_stars_cont_desc">Tryck för att filtrera hotell med fem stjärnor</string>
     <!-- Content description for action: Press to remove hotel star filters -->
-    <string name="cd_filter_remove_hotel_star_filters">Tryck för att ta bort stjärnfilter</string>
+    <string name="filter_remove_hotel_star_filters_cont_desc">Tryck för att ta bort stjärnfilter</string>
     <!-- Hotel distance filters -->
     <!-- Content description for action: Press to filter for the nearest hotels within a small radius from your search location -->
-    <string name="cd_filter_for_nearest_hotels">Tryck för att filtrera hotell närmast dig inom en begränsad sökradie</string>
+    <string name="filter_for_nearest_hotels_cont_desc">Tryck för att filtrera hotell närmast dig inom en begränsad sökradie</string>
     <!-- Content description for action: Press to filter for hotels within a mid-distance radius from your search location -->
-    <string name="cd_filter_for_further_distanced_hotels">Tryck för att filtrera hotell närmast dig inom en medelstor sökradie</string>
+    <string name="filter_for_further_distanced_hotels_cont_desc">Tryck för att filtrera hotell närmast dig inom en medelstor sökradie</string>
     <!-- Content description for action: Press to filter for hotels within largest radius from your search location -->
-    <string name="cd_filter_for_furthest_distanced_hotels">Tryck för att filtrera hotell närmast dig inom största möjliga sökradie</string>
+    <string name="filter_for_furthest_distanced_hotels_cont_desc">Tryck för att filtrera hotell närmast dig inom största möjliga sökradie</string>
     <!-- Content description for action: Press to clear all distance filters for hotel search -->
-    <string name="cd_filter_remove_distance_filter">Tryck för att rensa alla avståndsfilter i hotellsökningen</string>
+    <string name="filter_remove_distance_filter_cont_desc">Tryck för att rensa alla avståndsfilter i hotellsökningen</string>
     <!-- Hotel price filters -->
     <!-- Content description for action: Press to filter for low-range hotel prices -->
-    <string name="cd_filter_for_low_range_hotel_prices">Tryck för att filtrera låga hotellpriser</string>
+    <string name="filter_for_low_range_hotel_prices_cont_desc">Tryck för att filtrera låga hotellpriser</string>
     <!-- Content description for action: Press to filter for mid-range hotel prices -->
-    <string name="cd_filter_for_mid_range_hotel_prices">Tryck för att filtrera medelhöga hotellpriser</string>
+    <string name="filter_for_mid_range_hotel_prices_cont_desc">Tryck för att filtrera medelhöga hotellpriser</string>
     <!-- Content description for action: Press to filter for high-range hotel prices -->
-    <string name="cd_filter_for_high_range_hotel_prices">Tryck för att filtrera höga hotellpriser</string>
+    <string name="filter_for_high_range_hotel_prices_cont_desc">Tryck för att filtrera höga hotellpriser</string>
     <!-- Content description for action: Press to remove hotel price filters -->
-    <string name="cd_filter_remove_hotel_price_filters">Ta bort hotellprisfilter</string>
+    <string name="filter_remove_hotel_price_filters_cont_desc">Ta bort hotellprisfilter</string>
     <!-- Hotel info screen -->
     <!-- Content description for action: Press to select this hotel -->
-    <string name="cd_hotel_info_select_button">Tryck för att välja det här hotellet</string>
+    <string name="hotel_info_select_button_cont_desc">Tryck för att välja det här hotellet</string>
     <!-- Hotel review screen -->
     <!-- Content description for action: Press to display recent reviews -->
-    <string name="cd_display_recent_reviews">Tryck för att visa de senaste recensionerna</string>
+    <string name="display_recent_reviews_cont_desc">Tryck för att visa de senaste recensionerna</string>
     <!-- Content description for action: Press to display favorable reviews -->
-    <string name="cd_display_favorable_reviews">Tryck för att visa positiva recensioner</string>
+    <string name="display_favorable_reviews_cont_desc">Tryck för att visa positiva recensioner</string>
     <!-- Content description for action: Press to display critical reviews -->
-    <string name="cd_display_critical_reviews">Tryck för att visa negativa recensioner</string>
+    <string name="display_critical_reviews_cont_desc">Tryck för att visa negativa recensioner</string>
     <!-- Flight Search -->
     <!-- Content description for action: Press to clear selected dates -->
-    <string name="cd_flights_clear_selected_dates">Tryck för att rensa valda datum</string>
+    <string name="flights_clear_selected_dates_cont_desc">Tryck för att rensa valda datum</string>
     <!-- Content description for action: Press to edit number of travelers -->
-    <string name="cd_flights_search_number_of_travelers_edit">Tryck för att ändra antalet resenärer</string>
+    <string name="flights_search_number_of_travelers_edit_cont_desc">Tryck för att ändra antalet resenärer</string>
     <!-- Flight Search Results - Flight Leg Selection -->
     <!-- Content description for action: Press to cancel your flight selection and go back to flight search results -->
-    <string name="cd_flight_leg_cancel">Radera flygval och gå tillbaka till flygresultaten</string>
+    <string name="flight_leg_cancel_cont_desc">Radera flygval och gå tillbaka till flygresultaten</string>
     <!-- Content description for action: Press to select this flight -->
-    <string name="cd_flight_leg_select_flight">Tryck för att välja det här flyget</string>
+    <string name="flight_leg_select_flight_cont_desc">Tryck för att välja det här flyget</string>
     <!-- Content description for action: Press to go to baggage fee information -->
-    <string name="cd_flight_leg_baggage_fee_info">Tryck för att gå till information om bagageavgifter</string>
+    <string name="flight_leg_baggage_fee_info_cont_desc">Tryck för att gå till information om bagageavgifter</string>
     <!-- Flight Search Results - Selection Overview -->
     <!-- Content description for action: Press to go to cost summary for your flight selections -->
-    <string name="cd_flight_selection_cost_summary">Gå till kostnadsöversikten för dina flygval</string>
+    <string name="flight_selection_cost_summary_cont_desc">Gå till kostnadsöversikten för dina flygval</string>
     <!-- Checkout screen -->
     <!-- Content description for action: Press to begin checkout -->
-    <string name="cd_checkout">Tryck för att påbörja betalning</string>
+    <string name="checkout_cont_desc">Tryck för att påbörja betalning</string>
     <!-- Content description for action: Press to enter a coupon or promotional code -->
-    <string name="cd_checkout_enter_coupon">Tryck för att ange en kupong- eller kampanjkod</string>
+    <string name="checkout_enter_coupon_cont_desc">Tryck för att ange en kupong- eller kampanjkod</string>
     <!-- Traveler Information screen -->
     <!-- Content description for action: Press to enter a new traveler -->
-    <string name="cd_traveler_enter_new_traveler">Tryck för att ange en ny resenär</string>
+    <string name="traveler_enter_new_traveler_cont_desc">Tryck för att ange en ny resenär</string>
     <!-- Content description for action: Press to edit traveler information -->
-    <string name="cd_traveler_edit_traveler_information">Tryck för att ändra resenärsinfo</string>
+    <string name="traveler_edit_traveler_information_cont_desc">Tryck för att ändra resenärsinfo</string>
     <!-- Content description for action: Press to edit traveler's passport country -->
-    <string name="cd_traveler_edit_passport_country">Ändra utfärdandeland för resenärens pass</string>
+    <string name="traveler_edit_passport_country_cont_desc">Ändra utfärdandeland för resenärens pass</string>
     <!-- Traveler Information edit/entry screen -->
     <!-- Content description for action: Press to finish entering traveler information -->
-    <string name="cd_traveler_information_done">Tryck om du är klar med att ange resenärsinfo</string>
+    <string name="traveler_information_done_cont_desc">Tryck om du är klar med att ange resenärsinfo</string>
     <!-- Extra traveler information - flights -->
     <!-- Content description for action: Press to select traveler's gender -->
-    <string name="cd_traveler_gender_edit">Tryck för att välja resenärens kön</string>
+    <string name="traveler_gender_edit_cont_desc">Tryck för att välja resenärens kön</string>
     <!-- Content description for action: Press to select type of special assistance traveler requires -->
-    <string name="cd_traveler_special_assistance_edit">Välj typ av specialassistans som resenären behöver</string>
+    <string name="traveler_special_assistance_edit_cont_desc">Välj typ av specialassistans som resenären behöver</string>
     <!-- Content description for action: Press to select window type that the traveler prefers -->
-    <string name="cd_traveler_seat_preference_edit">Välj platstyp som resenären föredrar</string>
+    <string name="traveler_seat_preference_edit_cont_desc">Välj platstyp som resenären föredrar</string>
     <!-- Credit Card Information -->
     <!-- Content description for action: Select billing address country -->
-    <string name="cd_card_info_billing_address_country">Ange land för faktureringsadressen</string>
+    <string name="card_info_billing_address_country_cont_desc">Ange land för faktureringsadressen</string>
     <!-- Itinerary card elements -->
     <!-- Content description for action: Press to view share options -->
-    <string name="cd_share_menu_btn">Tryck för att se alternativ för resplansdelning</string>
+    <string name="share_menu_btn_cont_desc">Tryck för att se alternativ för resplansdelning</string>
 
     <!-- Tablet Search Results Content Descriptions -->
     <!-- Content description for Hotel Search Results -->
-    <string name="cd_tablet_results_hotel_list">Resultat för din hotellsökning</string>
+    <string name="tablet_results_hotel_list_cont_desc">Resultat för din hotellsökning</string>
     <!-- Content description for Flight Search Results -->
-    <string name="cd_tablet_results_flight_list">Resultat för din flygsökning</string>
+    <string name="tablet_results_flight_list_cont_desc">Resultat för din flygsökning</string>
 
     <!-- Content description for action: Press to filter for the nearest hotels within a small radius from your search location -->
-    <string name="cd_pay_now">Tryck för att betala nu</string>
+    <string name="pay_now_cont_desc">Tryck för att betala nu</string>
     <!-- Content description for action: Press to filter for hotels within a mid-distance radius from your search location -->
-    <string name="cd_pay_later">Tryck för att betala senare</string>
+    <string name="pay_later_cont_desc">Tryck för att betala senare</string>
 
     <!-- Tablet Confirmation Screen -->
     <!-- Header text to indicating booking confirmed for hotel -->

@@ -96,7 +96,7 @@
                     style="@style/ItinLoginRefreshButton"
                     android:layout_marginTop="0dp"
                     android:bufferType="spannable"
-                    android:contentDescription="@string/cd_trips_refresh_trips_list"
+                    android:contentDescription="@string/trips_refresh_trips_list_cont_desc"
                     android:gravity="center"
                     android:text="@string/refresh"
                     android:visibility="gone" />

@@ -3684,98 +3684,98 @@
     <!-- Content Description Labels -->
     <!-- Trips Screen -->
     <!-- Content description for action: Press to refresh trips list -->
-    <string name="cd_trips_refresh_trips_list">Tekan untuk memperbarui daftar perjalanan</string>
+    <string name="trips_refresh_trips_list_cont_desc">Tekan untuk memperbarui daftar perjalanan</string>
     <!-- Hotel star filters -->
     <!-- Content description for action: Press to filter for hotels hotels with three or more stars -->
-    <string name="cd_filter_hotels_for_three_or_more_stars">Tekan untuk memfilter hotel dengan bintang tiga atau lebih</string>
+    <string name="filter_hotels_for_three_or_more_stars_cont_desc">Tekan untuk memfilter hotel dengan bintang tiga atau lebih</string>
     <!-- Content description for action: Press to filter for hotels hotels with four or more stars -->
-    <string name="cd_filter_hotels_for_four_or_more_stars">Tekan untuk memfilter hotel dengan bintang empat atau lebih</string>
+    <string name="filter_hotels_for_four_or_more_stars_cont_desc">Tekan untuk memfilter hotel dengan bintang empat atau lebih</string>
     <!-- Content description for action: Press to filter for hotels with five stars -->
-    <string name="cd_filter_hotels_for_five_stars">Tekan untuk memfilter hotel bintang lima</string>
+    <string name="filter_hotels_for_five_stars_cont_desc">Tekan untuk memfilter hotel bintang lima</string>
     <!-- Content description for action: Press to remove hotel star filters -->
-    <string name="cd_filter_remove_hotel_star_filters">Tekan untuk menghapus filter bintang hotel</string>
+    <string name="filter_remove_hotel_star_filters_cont_desc">Tekan untuk menghapus filter bintang hotel</string>
     <!-- Hotel distance filters -->
     <!-- Content description for action: Press to filter for the nearest hotels within a small radius from your search location -->
-    <string name="cd_filter_for_nearest_hotels">Tekan untuk memfilter hotel dengan jarak terdekat dari lokasi pencarian Anda</string>
+    <string name="filter_for_nearest_hotels_cont_desc">Tekan untuk memfilter hotel dengan jarak terdekat dari lokasi pencarian Anda</string>
     <!-- Content description for action: Press to filter for hotels within a mid-distance radius from your search location -->
-    <string name="cd_filter_for_further_distanced_hotels">Tekan untuk memfilter hotel dengan jarak sedang dari lokasi pencarian Anda</string>
+    <string name="filter_for_further_distanced_hotels_cont_desc">Tekan untuk memfilter hotel dengan jarak sedang dari lokasi pencarian Anda</string>
     <!-- Content description for action: Press to filter for hotels within largest radius from your search location -->
-    <string name="cd_filter_for_furthest_distanced_hotels">Tekan untuk memfilter hotel dengan jarak terjauh dari lokasi pencarian Anda</string>
+    <string name="filter_for_furthest_distanced_hotels_cont_desc">Tekan untuk memfilter hotel dengan jarak terjauh dari lokasi pencarian Anda</string>
     <!-- Content description for action: Press to clear all distance filters for hotel search -->
-    <string name="cd_filter_remove_distance_filter">Tekan untuk menghapus semua filter jarak pada pencarian hotel</string>
+    <string name="filter_remove_distance_filter_cont_desc">Tekan untuk menghapus semua filter jarak pada pencarian hotel</string>
     <!-- Hotel price filters -->
     <!-- Content description for action: Press to filter for low-range hotel prices -->
-    <string name="cd_filter_for_low_range_hotel_prices">Tekan untuk memfilter hotel dengan harga rendah</string>
+    <string name="filter_for_low_range_hotel_prices_cont_desc">Tekan untuk memfilter hotel dengan harga rendah</string>
     <!-- Content description for action: Press to filter for mid-range hotel prices -->
-    <string name="cd_filter_for_mid_range_hotel_prices">Tekan untuk memfilter hotel dengan harga menengah</string>
+    <string name="filter_for_mid_range_hotel_prices_cont_desc">Tekan untuk memfilter hotel dengan harga menengah</string>
     <!-- Content description for action: Press to filter for high-range hotel prices -->
-    <string name="cd_filter_for_high_range_hotel_prices">Tekan untuk memfilter hotel dengan harga yang tinggi</string>
+    <string name="filter_for_high_range_hotel_prices_cont_desc">Tekan untuk memfilter hotel dengan harga yang tinggi</string>
     <!-- Content description for action: Press to remove hotel price filters -->
-    <string name="cd_filter_remove_hotel_price_filters">Hapus filter harga hotel</string>
+    <string name="filter_remove_hotel_price_filters_cont_desc">Hapus filter harga hotel</string>
     <!-- Hotel info screen -->
     <!-- Content description for action: Press to select this hotel -->
-    <string name="cd_hotel_info_select_button">Tekan untuk memilih hotel ini</string>
+    <string name="hotel_info_select_button_cont_desc">Tekan untuk memilih hotel ini</string>
     <!-- Hotel review screen -->
     <!-- Content description for action: Press to display recent reviews -->
-    <string name="cd_display_recent_reviews">Tekan untuk menampilkan ulasan terbaru</string>
+    <string name="display_recent_reviews_cont_desc">Tekan untuk menampilkan ulasan terbaru</string>
     <!-- Content description for action: Press to display favorable reviews -->
-    <string name="cd_display_favorable_reviews">Tekan untuk menampilkan ulasan positif</string>
+    <string name="display_favorable_reviews_cont_desc">Tekan untuk menampilkan ulasan positif</string>
     <!-- Content description for action: Press to display critical reviews -->
-    <string name="cd_display_critical_reviews">Tekan untuk menampilkan ulasan negatif</string>
+    <string name="display_critical_reviews_cont_desc">Tekan untuk menampilkan ulasan negatif</string>
     <!-- Flight Search -->
     <!-- Content description for action: Press to clear selected dates -->
-    <string name="cd_flights_clear_selected_dates">Tekan untuk menghapus tanggal yang dipilih</string>
+    <string name="flights_clear_selected_dates_cont_desc">Tekan untuk menghapus tanggal yang dipilih</string>
     <!-- Content description for action: Press to edit number of travelers -->
-    <string name="cd_flights_search_number_of_travelers_edit">Tekan untuk mengubah jumlah traveler</string>
+    <string name="flights_search_number_of_travelers_edit_cont_desc">Tekan untuk mengubah jumlah traveler</string>
     <!-- Flight Search Results - Flight Leg Selection -->
     <!-- Content description for action: Press to cancel your flight selection and go back to flight search results -->
-    <string name="cd_flight_leg_cancel">Batalkan pilihan penerbangan dan kembali ke hasil pencarian</string>
+    <string name="flight_leg_cancel_cont_desc">Batalkan pilihan penerbangan dan kembali ke hasil pencarian</string>
     <!-- Content description for action: Press to select this flight -->
-    <string name="cd_flight_leg_select_flight">Tekan untuk memilih penerbangan ini</string>
+    <string name="flight_leg_select_flight_cont_desc">Tekan untuk memilih penerbangan ini</string>
     <!-- Content description for action: Press to go to baggage fee information -->
-    <string name="cd_flight_leg_baggage_fee_info">Tekan untuk melihat informasi biaya bagasi</string>
+    <string name="flight_leg_baggage_fee_info_cont_desc">Tekan untuk melihat informasi biaya bagasi</string>
     <!-- Flight Search Results - Selection Overview -->
     <!-- Content description for action: Press to go to cost summary for your flight selections -->
-    <string name="cd_flight_selection_cost_summary">Masuk ke ringkasan biaya pilihan penerbangan Anda</string>
+    <string name="flight_selection_cost_summary_cont_desc">Masuk ke ringkasan biaya pilihan penerbangan Anda</string>
     <!-- Checkout screen -->
     <!-- Content description for action: Press to begin checkout -->
-    <string name="cd_checkout">Tekan untuk memulai proses pembayaran</string>
+    <string name="checkout_cont_desc">Tekan untuk memulai proses pembayaran</string>
     <!-- Content description for action: Press to enter a coupon or promotional code -->
-    <string name="cd_checkout_enter_coupon">Tekan untuk memasukkan kode kupon atau promo</string>
+    <string name="checkout_enter_coupon_cont_desc">Tekan untuk memasukkan kode kupon atau promo</string>
     <!-- Traveler Information screen -->
     <!-- Content description for action: Press to enter a new traveler -->
-    <string name="cd_traveler_enter_new_traveler">Tekan untuk memasukkan traveler baru</string>
+    <string name="traveler_enter_new_traveler_cont_desc">Tekan untuk memasukkan traveler baru</string>
     <!-- Content description for action: Press to edit traveler information -->
-    <string name="cd_traveler_edit_traveler_information">Tekan untuk mengubah informasi traveler</string>
+    <string name="traveler_edit_traveler_information_cont_desc">Tekan untuk mengubah informasi traveler</string>
     <!-- Content description for action: Press to edit traveler's passport country -->
-    <string name="cd_traveler_edit_passport_country">Ubah negara paspor</string>
+    <string name="traveler_edit_passport_country_cont_desc">Ubah negara paspor</string>
     <!-- Traveler Information edit/entry screen -->
     <!-- Content description for action: Press to finish entering traveler information -->
-    <string name="cd_traveler_information_done">Tekan untuk menyelesaikan pengisian informasi traveler</string>
+    <string name="traveler_information_done_cont_desc">Tekan untuk menyelesaikan pengisian informasi traveler</string>
     <!-- Extra traveler information - flights -->
     <!-- Content description for action: Press to select traveler's gender -->
-    <string name="cd_traveler_gender_edit">Tekan untuk memilih jenis kelamin traveler</string>
+    <string name="traveler_gender_edit_cont_desc">Tekan untuk memilih jenis kelamin traveler</string>
     <!-- Content description for action: Press to select type of special assistance traveler requires -->
-    <string name="cd_traveler_special_assistance_edit">Pilih jenis bantuan khusus yang diperlukan traveler</string>
+    <string name="traveler_special_assistance_edit_cont_desc">Pilih jenis bantuan khusus yang diperlukan traveler</string>
     <!-- Content description for action: Press to select window type that the traveler prefers -->
-    <string name="cd_traveler_seat_preference_edit">Pilih tempat duduk yang dikehendaki</string>
+    <string name="traveler_seat_preference_edit_cont_desc">Pilih tempat duduk yang dikehendaki</string>
     <!-- Credit Card Information -->
     <!-- Content description for action: Select billing address country -->
-    <string name="cd_card_info_billing_address_country">Masukkan negara alamat penagihan</string>
+    <string name="card_info_billing_address_country_cont_desc">Masukkan negara alamat penagihan</string>
     <!-- Itinerary card elements -->
     <!-- Content description for action: Press to view share options -->
-    <string name="cd_share_menu_btn">Tekan untuk pilihan mengirim itinerary</string>
+    <string name="share_menu_btn_cont_desc">Tekan untuk pilihan mengirim itinerary</string>
 
     <!-- Tablet Search Results Content Descriptions -->
     <!-- Content description for Hotel Search Results -->
-    <string name="cd_tablet_results_hotel_list">Hasil Pencarian Hotel</string>
+    <string name="tablet_results_hotel_list_cont_desc">Hasil Pencarian Hotel</string>
     <!-- Content description for Flight Search Results -->
-    <string name="cd_tablet_results_flight_list">Hasil Pencarian Penerbangan</string>
+    <string name="tablet_results_flight_list_cont_desc">Hasil Pencarian Penerbangan</string>
 
     <!-- Content description for action: Press to filter for the nearest hotels within a small radius from your search location -->
-    <string name="cd_pay_now">Tekan tombol ini untuk membayar sekarang</string>
+    <string name="pay_now_cont_desc">Tekan tombol ini untuk membayar sekarang</string>
     <!-- Content description for action: Press to filter for hotels within a mid-distance radius from your search location -->
-    <string name="cd_pay_later">Tekan tombol ini untuk membayar belakangan</string>
+    <string name="pay_later_cont_desc">Tekan tombol ini untuk membayar belakangan</string>
 
     <!-- Tablet Confirmation Screen -->
     <!-- Header text to indicating booking confirmed for hotel -->
