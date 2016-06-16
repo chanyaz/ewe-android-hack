@@ -3,9 +3,14 @@ package com.expedia.bookings.test.robolectric
 import android.app.Activity
 import android.content.Context
 import com.expedia.bookings.R
-import com.expedia.bookings.data.trips.TripBucketItemHotelV2
+import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.hotels.HotelCreateTripResponse
+import com.expedia.bookings.data.payment.PaymentModel
+import com.expedia.bookings.data.payment.PaymentSplits
+import com.expedia.bookings.data.trips.TripBucketItemHotelV2
+import com.expedia.bookings.services.LoyaltyServices
 import com.expedia.bookings.test.MockHotelServiceTestRule
+import com.expedia.bookings.testrule.ServicesRule
 import com.expedia.vm.HotelCheckoutOverviewViewModel
 import org.junit.Before
 import org.junit.Rule
@@ -13,16 +18,11 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.Robolectric
 import rx.observers.TestSubscriber
-import java.text.DecimalFormat
-import kotlin.test.assertEquals
-import com.expedia.bookings.data.Db
-import com.expedia.bookings.data.payment.PaymentModel
-import com.expedia.bookings.data.payment.PaymentSplits
-import com.expedia.bookings.services.LoyaltyServices
-import com.expedia.bookings.testrule.ServicesRule
 import java.math.BigDecimal
+import java.text.DecimalFormat
 import java.util.concurrent.CountDownLatch
 import java.util.concurrent.TimeUnit
+import kotlin.test.assertEquals
 
 @RunWith(RobolectricRunner::class)
 class HotelCheckoutOverviewViewModelTest {
@@ -109,6 +109,7 @@ class HotelCheckoutOverviewViewModelTest {
         paymentModel.createTripSubject.onNext(hotelcreateTripResponse)
 
         assertEquals("Slide to reserve", sut.slideToText.value)
+        assertEquals("You will be charged deposits by the property based on the following schedule. Any remaining amount will be due upon arrival: First night (after booking) ", sut.depositPolicyText.value.toString())
         assertEquals("The total for your trip will be $135.81. You'll pay the hotel the total cost of your booking (in the hotel's local currency) during your stay.", sut.disclaimerText.value.toString())
     }
 
