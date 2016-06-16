@@ -4152,28 +4152,33 @@
     <string name="flight_detail_flight_duration_card_cont_desc_TEMPLATE">{departureairport} to {arrivalairport}. {durationhours} {durationmins}.</string>
     <!--Flight Detail card view - layover duration content description for accessibility Eg. Layover. 2 hours 4 minutes.-->
     <string name="flight_detail_layover_duration_card_cont_desc_TEMPLATE">Layover. {layoverhours} {layovermins}.</string>
-    <!--Flying to card content description Eg. Flying to San Francisco, CA (SFO-San Francisco Intl.)-->
-    <string name="packages_search_flying_to_content_description">Flying to {to_destination}</string>
-    <!--Flying from card content description Eg. Flying from Detroit, MI (DTW-Detroit Metropolitan Wayne County)-->
-    <string name="packages_search_flying_from_content_description">Flying from {from_destination}</string>
+    <!--Flying to card content description Eg. Flying to. Button. San Francisco, CA (SFO-San Francisco Intl.)-->
+    <string name="packages_search_flying_to_cont_desc_TEMPLATE">Flying to. Button. {to_destination}</string>
+    <!--Flying from card content description Eg. Flying from. Button. Detroit, MI (DTW-Detroit Metropolitan Wayne County)-->
+    <string name="packages_search_flying_from_cont_desc_TEMPLATE">Flying from. Button. {from_destination}</string>
     <!--Flying to card content description before a location is selected-->
-    <string name="packages_search_flying_to_content_description_initial">Button to select where you want to fly to</string>
+    <string name="packages_search_flying_to_initial_cont_desc">Flying to. Button</string>
     <!--Flying from card content description before a location is selected-->
-    <string name="packages_search_flying_from_content_description_initial">Button to select where you want to fly from</string>
+    <string name="packages_search_flying_from_initial_cont_desc">Flying from. Button</string>
     <!--Travel dates card content description before date range is selected-->
-    <string name="packages_search_dates_content_description_initial">Button to select your travel dates</string>
+    <string name="packages_search_dates_initial_cont_desc">Select travel dates. Button. Opens dialog</string>
     <!--Packages search date format template for accessible dates (Talkback announces date range with 'to' in between) Eg. Jun 2 to Jun 5-->
     <string name="packages_search_accessible_date_range_TEMPLATE">{startdate} to {enddate}</string>
-    <!--Packages search dates content description for Talkback to indicate what the date range is and how many nights the trip is for-->
-    <string name="packages_search_dates_content_description_trip">Your trip is from {date_range} for {nights}</string>
+    <!--Packages search dates content description for Talkback to indicate what the date range is and how many nights the trip is for Eg. Trip dates. Button. Opens dialog. Jun 22 to Jun 25. (3 nights)-->
+    <string name="packages_search_dates_trip_cont_desc_TEMPLATE">Trip dates. Button. Opens dialog. {date_range}. {nights}</string>
+    <!--Packages search travelers card content description template. Eg. Number of travelers. Button. Opens dialog. 1 traveler-->
+    <plurals name="packages_search_travelers_cont_desc_TEMPLATE">
+        <item quantity="one">Number of travelers. Button. Opens dialog. {travelers} traveler</item>
+        <item quantity="other">Number of travelers. Button. Opens dialog. {travelers} travelers</item>
+    </plurals>
     <!--Traveler widget adults plus button content description-->
-    <string name="packages_add_adult_traveler_contdesc">Add one adult traveler</string>
+    <string name="packages_add_adult_traveler_cont_desc">Add one adult traveler</string>
     <!--Traveler widget adults minus button content description-->
-    <string name="packages_remove_adult_traveler_contdesc">Remove one adult traveler</string>
+    <string name="packages_remove_adult_traveler_cont_desc">Remove one adult traveler</string>
     <!--Traveler widget child plus button content description-->
-    <string name="packages_add_child_traveler_contdesc">Add one child traveler</string>
+    <string name="packages_add_child_traveler_cont_desc">Add one child traveler</string>
     <!--Traveler widget child minus button content description-->
-    <string name="packages_remove_child_traveler_contdesc">Remove one child traveler</string>
+    <string name="packages_remove_child_traveler_cont_desc">Remove one child traveler</string>
     <!--Packages search child age drop down content description Eg. "Select age for child 1."-->
     <string name="packages_search_child_drop_down_TEMPLATE">Select age for child {childnumber}.</string>
     <!--Packages accessibility flight search filter-->
