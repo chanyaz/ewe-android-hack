@@ -129,6 +129,13 @@ public class StrUtilsTest {
 	}
 
 	@Test
+	public void testAirportNameForPackage() {
+		String displayNameResponse = "New York, NY, United States (NYC-All Airports)";
+		String formattedString = StrUtils.formatAirportNameForPackage(displayNameResponse);
+		assertEquals(formattedString, "NYC - All Airports");
+	}
+
+	@Test
 	public void testAirportCodeCityNameFormatting() {
 		String formattedString = StrUtils.formatAirportCodeCityName(getDummySuggestion());
 		assertEquals("(CHI) Chicago", formattedString);

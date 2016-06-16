@@ -19,7 +19,7 @@ import static org.hamcrest.CoreMatchers.allOf;
 public class PackagePriceChangeTest extends PackageTestCase {
 
 	public void testPackagePriceChangeUp() throws Throwable {
-		SearchScreen.selectOriginAndDestination();
+		SearchScreen.selectPackageOriginAndDestination();
 		LocalDate startDate = LocalDate.now().plusDays(3);
 		LocalDate endDate = LocalDate.now().plusDays(8);
 		SearchScreen.selectDates(startDate, endDate);
@@ -49,7 +49,7 @@ public class PackagePriceChangeTest extends PackageTestCase {
 	}
 
 	public void testPackagePriceChangeDown() throws Throwable {
-		SearchScreen.selectOriginAndDestination();
+		SearchScreen.selectPackageOriginAndDestination();
 		LocalDate startDate = LocalDate.now().plusDays(3);
 		LocalDate endDate = LocalDate.now().plusDays(8);
 		SearchScreen.selectDates(startDate, endDate);

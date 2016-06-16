@@ -3,6 +3,7 @@ package com.expedia.vm.packages
 import android.text.Html
 import com.expedia.bookings.R
 import com.expedia.bookings.data.SuggestionV4
+import com.expedia.bookings.utils.StrUtils
 import rx.subjects.BehaviorSubject
 import rx.subjects.PublishSubject
 
@@ -10,6 +11,7 @@ class SuggestionViewModel(isCustomerSelectingOrigin: Boolean) {
 
     // Outputs
     val titleObservable = BehaviorSubject.create<String>()
+    val subtitleObservable = BehaviorSubject.create<String>()
     val isChildObservable = BehaviorSubject.create<Boolean>()
     val iconObservable = BehaviorSubject.create<Int>()
     val suggestionSelected = PublishSubject.create<SuggestionV4>()
@@ -20,7 +22,16 @@ class SuggestionViewModel(isCustomerSelectingOrigin: Boolean) {
     init {
         suggestionObserver.subscribe { suggestion ->
 
-            titleObservable.onNext(Html.fromHtml(suggestion.regionNames.displayName).toString())
+            if (isCustomerSelectingOrigin) {
+                titleObservable.onNext(
+                        Html.fromHtml(StrUtils.formatAirportNameForPackage(suggestion.regionNames.displayName)).toString())
+                subtitleObservable.onNext(
+                        Html.fromHtml(StrUtils.formatCityStateCountryName(suggestion.regionNames.displayName)).toString())
+            } else {
+                titleObservable.onNext(Html.fromHtml(suggestion.regionNames.displayName).toString())
+                subtitleObservable.onNext("")
+
+            }
 
             isChildObservable.onNext(suggestion.hierarchyInfo?.isChild ?: false)
 

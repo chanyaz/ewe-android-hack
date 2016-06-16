@@ -14,7 +14,7 @@ class FlightSearchTest: NewFlightTestCase() {
 
     fun testReturnSearch() {
         SearchScreen.origin().perform(click())
-        SearchScreen.selectOriginAndDestination()
+        SearchScreen.selectFlightOriginAndDestination()
 
         val startDate = LocalDate.now().plusDays(3)
         val endDate = LocalDate.now().plusDays(8)
@@ -32,7 +32,7 @@ class FlightSearchTest: NewFlightTestCase() {
     fun testOneWaySearch() {
         FlightsScreen.selectOneWay()
         SearchScreen.origin().perform(click())
-        SearchScreen.selectOriginAndDestination()
+        SearchScreen.selectFlightOriginAndDestination()
 
         val startDate = LocalDate.now().plusDays(3)
         FlightsScreen.selectDate(startDate)

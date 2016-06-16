@@ -423,6 +423,14 @@ public class StrUtils {
 		return city;
 	}
 
+	public static String formatAirportNameForPackage(String suggestion) {
+		String city = formatAirportName(suggestion);
+		if (city != null && city.contains("-")) {
+			city = city.replace("-", " - ");
+		}
+		return city;
+	}
+
 	public static String formatCityName(SuggestionV4 suggestion) {
 		String city = Html.fromHtml(suggestion.regionNames.displayName).toString();
 		Matcher cityMatcher = CITY_PATTERN.matcher(city);

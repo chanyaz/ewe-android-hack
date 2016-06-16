@@ -9,10 +9,12 @@ import com.expedia.bookings.R
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.TextView
 import com.expedia.util.subscribeText
+import com.expedia.util.subscribeTextAndVisibility
 import com.expedia.vm.packages.SuggestionViewModel
 
 abstract class AbstractSuggestionViewHolder(val root: ViewGroup, val vm: SuggestionViewModel) : RecyclerView.ViewHolder(root), View.OnClickListener {
     val title: TextView by root.bindView(R.id.title_textview)
+    val subtitle: TextView by root.bindView(R.id.suggestion_subtittle)
     val icon: ImageView by root.bindView(R.id.icon_imageview)
     val hierarchyIcon: ImageView by root.bindView(R.id.hierarchy_imageview)
 
@@ -22,6 +24,7 @@ abstract class AbstractSuggestionViewHolder(val root: ViewGroup, val vm: Suggest
         hierarchyIcon.setColorFilter(ContextCompat.getColor(root.context, R.color.packages_primary_color))
 
         vm.titleObservable.subscribeText(title)
+        vm.subtitleObservable.subscribeTextAndVisibility(subtitle)
 
         vm.isChildObservable.subscribe { isChild ->
             if (isChild) {

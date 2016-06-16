@@ -7,6 +7,7 @@ import android.support.test.espresso.contrib.RecyclerViewActions;
 import com.expedia.bookings.R;
 import com.expedia.bookings.test.espresso.Common;
 import com.expedia.bookings.test.espresso.PackageTestCase;
+import com.expedia.bookings.test.espresso.TestValues;
 import com.expedia.bookings.test.espresso.ViewActions;
 import com.expedia.bookings.test.phone.pagemodels.common.SearchScreen;
 import com.expedia.bookings.test.phone.hotels.HotelScreen;
@@ -22,13 +23,13 @@ import static android.support.test.espresso.matcher.ViewMatchers.withText;
 public class PackageSearchErrorTest extends PackageTestCase {
 
 	public void testSearchError() throws Throwable {
-		SearchScreen.searchEditText().perform(typeText("GGW"));
+		SearchScreen.searchEditText().perform(typeText(TestValues.TYPE_TEXT_GGW));
 		Common.closeSoftKeyboard(SearchScreen.origin());
-		SearchScreen.selectLocation("Glasgow, MT (GGW-Glasgow Intl.)");
+		SearchScreen.selectLocation(TestValues.ORIGIN_LOCATION_GGW);
 		Common.delay(1);
 		SearchScreen.searchEditText().perform(ViewActions.waitForViewToDisplay());
-		SearchScreen.searchEditText().perform(typeText("DTW"));
-		SearchScreen.selectLocation("Detroit, MI (DTW-Detroit Metropolitan Wayne County)");
+		SearchScreen.searchEditText().perform(typeText(TestValues.DESTINATION_LOCATION_DTW));
+		SearchScreen.selectLocation(TestValues.DESTINATION_LOCATION_DTW);
 
 		LocalDate startDate = LocalDate.now().plusDays(3);
 		LocalDate endDate = LocalDate.now().plusDays(8);
@@ -41,7 +42,7 @@ public class PackageSearchErrorTest extends PackageTestCase {
 	}
 
 	public void testHotelOffersSearchError() throws Throwable {
-		SearchScreen.selectOriginAndDestination();
+		SearchScreen.selectPackageOriginAndDestination();
 
 		LocalDate startDate = LocalDate.now().plusDays(3);
 		LocalDate endDate = LocalDate.now().plusDays(8);

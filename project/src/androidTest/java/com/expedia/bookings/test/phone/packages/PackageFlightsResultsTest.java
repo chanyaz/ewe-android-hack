@@ -18,7 +18,7 @@ import static android.support.test.espresso.matcher.ViewMatchers.withId;
 public class PackageFlightsResultsTest extends PackageTestCase {
 
 	public void testPackageFlightsResultsTest() throws Throwable {
-		SearchScreen.selectOriginAndDestination();
+		SearchScreen.selectPackageOriginAndDestination();
 		LocalDate startDate = LocalDate.now().plusDays(3);
 		LocalDate endDate = LocalDate.now().plusDays(8);
 		SearchScreen.selectDates(startDate, endDate);
