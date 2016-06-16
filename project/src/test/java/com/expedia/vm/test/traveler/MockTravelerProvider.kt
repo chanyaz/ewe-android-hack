@@ -1,14 +1,11 @@
 package com.expedia.vm.test.traveler
 
-import com.expedia.bookings.data.AbstractFlightSearchParams
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.Phone
 import com.expedia.bookings.data.Traveler
 import com.expedia.bookings.data.TravelerName
-import com.expedia.bookings.data.packages.PackageSearchParams
 import com.expedia.bookings.enums.PassengerCategory
 import org.joda.time.LocalDate
-import org.mockito.Matchers
 import org.mockito.Mockito
 import java.util.ArrayList
 
@@ -30,9 +27,9 @@ class MockTravelerProvider {
         Mockito.`when`(mockTraveler.fullName).thenReturn(testFullName)
         Mockito.`when`(mockTraveler.primaryPhoneNumber).thenReturn(mockPhone)
         Mockito.`when`(mockTraveler.phoneNumber).thenReturn(testNumber)
+        Mockito.`when`(mockTraveler.passengerCategory).thenReturn(PassengerCategory.ADULT)
 
         Mockito.`when`(mockTraveler.birthDate).thenReturn(adultBirthDate)
-        Mockito.`when`(mockTraveler.getPassengerCategory(Matchers.any<AbstractFlightSearchParams>())).thenReturn(PassengerCategory.ADULT)
 
         return mockTraveler
     }

@@ -3,12 +3,15 @@ package com.expedia.bookings.test.phone.traveler;
 import java.util.Arrays;
 import java.util.List;
 
+import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import android.content.Context;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.IdRes;
+import android.support.test.InstrumentationRegistry;
 import android.support.test.rule.UiThreadTestRule;
 import android.support.test.runner.AndroidJUnit4;
 
@@ -19,6 +22,8 @@ import com.expedia.bookings.test.espresso.Common;
 import com.expedia.bookings.test.espresso.EspressoUser;
 import com.expedia.bookings.test.espresso.EspressoUtils;
 import com.expedia.bookings.test.phone.packages.PackageScreen;
+import com.expedia.bookings.utils.Ui;
+import com.expedia.bookings.utils.validation.TravelerValidator;
 
 import rx.observers.TestSubscriber;
 
@@ -41,6 +46,14 @@ import static org.hamcrest.Matchers.allOf;
 public class MultipleTravelerPresenterTest extends BaseTravelerPresenterTestHelper {
 	@Rule
 	public UiThreadTestRule uiThreadTestRule = new UiThreadTestRule();
+
+	@Before
+	public void setup() {
+		Context context = InstrumentationRegistry.getTargetContext();
+		Ui.getApplication(context).defaultTravelerComponent();
+		TravelerValidator travelerValidator = Ui.getApplication(context).travelerComponent().travelerValidator();
+		travelerValidator.updateForNewSearch(setPackageParams(1));
+	}
 
 	@Test
 	public void testMultipleTravelerFlow() {

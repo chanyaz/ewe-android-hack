@@ -13,6 +13,7 @@ class FlightActivity : AbstractAppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         Ui.getApplication(this).defaultFlightComponents()
+        Ui.getApplication(this).defaultTravelerComponent()
         setContentView(R.layout.flight_activity)
         Ui.showTransparentStatusBar(this)
     }

@@ -1,14 +1,20 @@
 package com.expedia.vm.traveler
 
+import android.content.Context
 import com.expedia.bookings.data.Phone
+import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.validation.TravelerValidator
 import com.expedia.util.endlessObserver
 import com.jakewharton.rxbinding.widget.TextViewAfterTextChangeEvent
 import rx.subjects.BehaviorSubject
 import rx.subjects.PublishSubject
+import javax.inject.Inject
 import kotlin.properties.Delegates
 
-class TravelerPhoneViewModel() {
+class TravelerPhoneViewModel(context: Context) {
+    lateinit var travelerValidator: TravelerValidator
+        @Inject set
+
     private var phone: Phone by Delegates.notNull()
 
     val phoneNumberSubject = BehaviorSubject.create<String>()
@@ -27,6 +33,10 @@ class TravelerPhoneViewModel() {
         phone.number = phoneNumber.editable().toString()
     }
 
+    init {
+        Ui.getApplication(context).travelerComponent().inject(this)
+    }
+
     fun updatePhone(phone: Phone) {
         this.phone = phone
         phoneCountyCodeSubject.onNext(phone.countryCode)
@@ -34,7 +44,7 @@ class TravelerPhoneViewModel() {
     }
 
     fun validate(): Boolean {
-        val validPhone = TravelerValidator.isValidPhone(phone.number)
+        val validPhone = travelerValidator.isValidPhone(phone.number)
         phoneErrorSubject.onNext(!validPhone)
         return validPhone
     }

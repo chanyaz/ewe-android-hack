@@ -11,6 +11,8 @@ import com.expedia.bookings.data.packages.PackageOfferModel
 import com.expedia.bookings.services.FlightServices
 import com.expedia.bookings.utils.DateUtils
 import com.expedia.bookings.utils.SpannableBuilder
+import com.expedia.bookings.utils.Ui
+import com.expedia.bookings.utils.validation.TravelerValidator
 import com.expedia.util.endlessObserver
 import com.squareup.phrase.Phrase
 import org.joda.time.LocalDate
@@ -21,8 +23,11 @@ import rx.subjects.BehaviorSubject
 import rx.subjects.PublishSubject
 import java.util.HashMap
 import java.util.LinkedHashSet
+import javax.inject.Inject
 
 class FlightSearchViewModel(context: Context, val flightServices: FlightServices) : BaseSearchViewModel(context) {
+    lateinit var travelerValidator: TravelerValidator
+        @Inject set
 
     var flightMap: HashMap<String, LinkedHashSet<FlightLeg>> = HashMap()
     var flightOfferModels: HashMap<String, FlightTripDetails.FlightOffer> = HashMap()
@@ -52,6 +57,7 @@ class FlightSearchViewModel(context: Context, val flightServices: FlightServices
                 errorMaxDurationObservable.onNext(context.getString(R.string.hotel_search_range_error_TEMPLATE, getMaxSearchDurationDays()))
             } else {
                 val flightSearchParams = getParamsBuilder().build()
+                travelerValidator.updateForNewSearch(flightSearchParams)
                 Db.setFlightSearchParams(flightSearchParams)
                 searchParamsObservable.onNext(flightSearchParams)
             }
@@ -69,6 +75,8 @@ class FlightSearchViewModel(context: Context, val flightServices: FlightServices
     private val resetFlightSelectionsSubject = PublishSubject.create<Unit>()
 
     init {
+        Ui.getApplication(context).travelerComponent().inject(this)
+
         searchParamsObservable.subscribe { params ->
             flightServices.flightSearch(params).subscribe(makeResultsObserver())
         }

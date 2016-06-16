@@ -29,12 +29,14 @@ import com.expedia.bookings.dagger.DaggerLXComponent;
 import com.expedia.bookings.dagger.DaggerLaunchComponent;
 import com.expedia.bookings.dagger.DaggerPackageComponent;
 import com.expedia.bookings.dagger.DaggerRailComponent;
+import com.expedia.bookings.dagger.DaggerTravelerComponent;
 import com.expedia.bookings.dagger.FlightComponent;
 import com.expedia.bookings.dagger.HotelComponent;
 import com.expedia.bookings.dagger.LXComponent;
 import com.expedia.bookings.dagger.LaunchComponent;
 import com.expedia.bookings.dagger.PackageComponent;
 import com.expedia.bookings.dagger.RailComponent;
+import com.expedia.bookings.dagger.TravelerComponent;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.PushNotificationRegistrationResponse;
 import com.expedia.bookings.data.User;
@@ -385,6 +387,7 @@ public class ExpediaBookingApp extends MultiDexApplication implements UncaughtEx
 	private RailComponent mRailComponent;
 	private PackageComponent mPackageComponent;
 	private FlightComponent mFlightComponent;
+	private TravelerComponent mTravelerComponent;
 	private LaunchComponent mLaunchComponent;
 
 	private LXComponent mLXComponent;
@@ -442,6 +445,14 @@ public class ExpediaBookingApp extends MultiDexApplication implements UncaughtEx
 			.build());
 	}
 
+	public TravelerComponent travelerComponent() {
+		return mTravelerComponent;
+	}
+
+	public void setTravelerComponent(TravelerComponent travelerComponent) {
+		mTravelerComponent = travelerComponent;
+	}
+
 	public void setPackageComponent(PackageComponent packageComponent) {
 		mPackageComponent = packageComponent;
 	}
@@ -456,6 +467,10 @@ public class ExpediaBookingApp extends MultiDexApplication implements UncaughtEx
 
 	public FlightComponent flightComponent() {
 		return mFlightComponent;
+	}
+
+	public void defaultTravelerComponent() {
+		setTravelerComponent(DaggerTravelerComponent.create());
 	}
 
 	public void defaultFlightComponents() {

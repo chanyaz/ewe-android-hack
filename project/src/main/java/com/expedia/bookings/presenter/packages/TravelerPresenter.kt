@@ -24,6 +24,7 @@ import com.expedia.vm.traveler.TravelerSummaryViewModel
 import com.expedia.vm.traveler.TravelerViewModel
 import rx.subjects.BehaviorSubject
 import rx.subjects.PublishSubject
+import kotlin.properties.Delegates
 
 class TravelerPresenter(context: Context, attrs: AttributeSet) : Presenter(context, attrs) {
     val travelerDefaultState: TravelerDefaultState by bindView(R.id.traveler_default_state)
@@ -40,7 +41,7 @@ class TravelerPresenter(context: Context, attrs: AttributeSet) : Presenter(conte
 
     val menuVisibility = PublishSubject.create<Boolean>()
     val toolbarNavIcon = PublishSubject.create<ArrowXDrawableUtil.ArrowDrawableType>()
-    var viewModel = CheckoutTravelerViewModel()
+    var viewModel: CheckoutTravelerViewModel by Delegates.notNull()
 
     init {
         View.inflate(context, R.layout.traveler_presenter, this)
@@ -118,7 +119,9 @@ class TravelerPresenter(context: Context, attrs: AttributeSet) : Presenter(conte
             dropShadow.visibility = View.GONE
             toolbarTitleSubject.onNext(getCheckoutToolbarTitle(resources, false))
             toolbarNavIcon.onNext(ArrowXDrawableUtil.ArrowDrawableType.BACK)
-            refreshAndShow()
+            if (travelerDefaultState.status == TravelerCheckoutStatus.DIRTY) {
+                updateCompletionStatus()
+            }
         }
     }
 

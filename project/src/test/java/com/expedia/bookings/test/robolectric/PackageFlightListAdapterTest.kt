@@ -6,6 +6,7 @@ import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.data.packages.PackageOfferModel
 import com.expedia.bookings.interceptors.MockInterceptor
 import com.expedia.bookings.services.FlightServices
+import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.widget.packages.PackageFlightListAdapter
 import com.expedia.bookings.widget.shared.AbstractFlightListAdapter
 import com.expedia.vm.FlightSearchViewModel
@@ -31,6 +32,8 @@ class PackageFlightListAdapterTest {
 
     @Before
     fun setup() {
+        Ui.getApplication(context).defaultTravelerComponent()
+
         flightSelectedSubject = PublishSubject.create<FlightLeg>()
 
         val server = MockWebServer()

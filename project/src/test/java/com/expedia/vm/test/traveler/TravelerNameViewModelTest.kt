@@ -1,5 +1,6 @@
 package com.expedia.vm.test.traveler
 
+import android.app.Activity
 import android.text.Editable
 import com.expedia.bookings.data.TravelerName
 import com.expedia.vm.traveler.TravelerNameViewModel
@@ -9,10 +10,14 @@ import kotlin.test.assertFalse
 import kotlin.test.assertEquals
 
 import com.expedia.bookings.test.robolectric.RobolectricRunner;
+import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.widget.TextView
 import com.jakewharton.rxbinding.widget.TextViewAfterTextChangeEvent
+import org.junit.Before
+import org.robolectric.Robolectric
 import org.robolectric.RuntimeEnvironment
 import rx.observers.TestSubscriber
+import kotlin.properties.Delegates
 
 @RunWith(RobolectricRunner::class)
 class TravelerNameViewModelTest {
@@ -26,10 +31,17 @@ class TravelerNameViewModelTest {
     val TEST_LAST_EDITABLE = Editable.Factory().newEditable(TEST_LAST)
 
     val TEST_TEXT_VIEW = TextView(RuntimeEnvironment.application)
+    var activity: Activity by Delegates.notNull()
+
+    @Before
+    fun setup() {
+        activity = Robolectric.buildActivity(Activity::class.java).create().get()
+        Ui.getApplication(activity).defaultTravelerComponent()
+    }
 
     @Test
     fun emptyTraveler() {
-        nameVM = TravelerNameViewModel()
+        nameVM = TravelerNameViewModel(activity)
         nameVM.updateTravelerName(TravelerName())
 
         val testSubscriber = TestSubscriber<String>(1)
@@ -50,7 +62,7 @@ class TravelerNameViewModelTest {
         name.middleName = TEST_MIDDLE
         name.lastName = TEST_LAST
 
-        nameVM = TravelerNameViewModel()
+        nameVM = TravelerNameViewModel(activity)
         nameVM.updateTravelerName(name)
 
         val testSubscriber = TestSubscriber<String>(1)
@@ -67,7 +79,7 @@ class TravelerNameViewModelTest {
     @Test
     fun travelerNameChange() {
         val travelerName = TravelerName()
-        nameVM = TravelerNameViewModel()
+        nameVM = TravelerNameViewModel(activity)
         nameVM.updateTravelerName(travelerName)
 
         nameVM.firstNameObserver.onNext(TextViewAfterTextChangeEvent.create(TEST_TEXT_VIEW, TEST_FIRST_EDITABLE))
@@ -85,7 +97,7 @@ class TravelerNameViewModelTest {
         val expectedErrorCount = 3
         var name = TravelerName()
         name.middleName = "@!$%"
-        nameVM = TravelerNameViewModel()
+        nameVM = TravelerNameViewModel(activity)
         nameVM.updateTravelerName(name)
 
         val testSubscriber = TestSubscriber<Boolean>(1)

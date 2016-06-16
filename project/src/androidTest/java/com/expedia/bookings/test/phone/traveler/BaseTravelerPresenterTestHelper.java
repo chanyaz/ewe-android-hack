@@ -7,6 +7,7 @@ import org.joda.time.LocalDate;
 import org.junit.Before;
 import org.junit.Rule;
 
+import android.content.Context;
 import android.support.test.InstrumentationRegistry;
 
 import com.expedia.bookings.R;
@@ -63,6 +64,8 @@ public class BaseTravelerPresenterTestHelper {
 		.getString(R.string.checkout_edit_traveler_TEMPLATE)).put("travelernumber", 3).put("passengerage", "10 year old").format().toString();
 	protected final String expectedTravelerInfantText = Phrase.from(InstrumentationRegistry.getTargetContext()
 		.getString(R.string.checkout_edit_traveler_TEMPLATE)).put("travelernumber", 3).put("passengerage", "1 year old").format().toString();
+
+	private Context context = InstrumentationRegistry.getTargetContext();
 
 	@Rule
 	public PlaygroundRule activityTestRule = new PlaygroundRule(R.layout.test_traveler_presenter, R.style.V2_Theme_Packages);
@@ -172,21 +175,21 @@ public class BaseTravelerPresenterTestHelper {
 	}
 
 	protected CheckoutTravelerViewModel getMockViewModelEmptyTravelersWithInfant(int adultCount, List<Integer> children, boolean infantsInLap) {
-		CheckoutTravelerViewModel mockViewModel = new CheckoutTravelerViewModel();
+		CheckoutTravelerViewModel mockViewModel = new CheckoutTravelerViewModel(context);
 		setPackageParams(adultCount, children, infantsInLap);
 		setDbTravelers(adultCount, children, infantsInLap);
 		return mockViewModel;
 	}
 
 	protected CheckoutTravelerViewModel getMockViewModelEmptyTravelers(int travelerCount) {
-		CheckoutTravelerViewModel mockViewModel = new CheckoutTravelerViewModel();
+		CheckoutTravelerViewModel mockViewModel = new CheckoutTravelerViewModel(context);
 		setPackageParams(travelerCount);
 		setDbTravelers(travelerCount, null, false);
 		return mockViewModel;
 	}
 
 	protected CheckoutTravelerViewModel getMockViewModelIncompleteTravelers(int travelerCount) {
-		CheckoutTravelerViewModel mockViewModel = new CheckoutTravelerViewModel();
+		CheckoutTravelerViewModel mockViewModel = new CheckoutTravelerViewModel(context);
 		setPackageParams(travelerCount);
 		setDbTravelers(travelerCount, null, false);
 		for (int i = 0; i < travelerCount; i++) {
@@ -197,7 +200,7 @@ public class BaseTravelerPresenterTestHelper {
 	}
 
 	protected CheckoutTravelerViewModel getMockViewModelValidTravelers(int travelerCount) {
-		CheckoutTravelerViewModel mockViewModel = new CheckoutTravelerViewModel();
+		CheckoutTravelerViewModel mockViewModel = new CheckoutTravelerViewModel(context);
 		setPackageParams(travelerCount);
 		setDbTravelers(travelerCount, null, false);
 		for (int i = 0; i < travelerCount; i++) {

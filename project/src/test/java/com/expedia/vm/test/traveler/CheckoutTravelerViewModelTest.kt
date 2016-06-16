@@ -4,27 +4,30 @@ import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.Traveler
 import com.expedia.bookings.data.packages.PackageSearchParams
-import com.expedia.bookings.enums.PassengerCategory
 import com.expedia.bookings.test.robolectric.RobolectricRunner
+import com.expedia.bookings.utils.Ui
 import com.expedia.vm.traveler.CheckoutTravelerViewModel
 import org.joda.time.LocalDate
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
-import org.junit.Assert.fail
 
-import kotlin.test.assertEquals
+import org.robolectric.RuntimeEnvironment
 import kotlin.test.assertFalse
 import kotlin.test.assertTrue
 
 @RunWith(RobolectricRunner::class)
 class CheckoutTravelerViewModelTest {
     val mockTravelerProvider = MockTravelerProvider()
-    val testViewModel = CheckoutTravelerViewModel()
+    lateinit var testViewModel: CheckoutTravelerViewModel
+    lateinit var searchParams: PackageSearchParams
 
     @Before
     fun setUp() {
-        setUpParams()
+        searchParams = setUpParams()
+        var context = RuntimeEnvironment.application
+        Ui.getApplication(context).defaultTravelerComponent()
+        testViewModel = CheckoutTravelerViewModel(context)
     }
 
     @Test
@@ -48,11 +51,13 @@ class CheckoutTravelerViewModelTest {
     @Test
     fun testValidTraveler() {
         mockTravelerProvider.updateDBWithMockTravelers(1, mockTravelerProvider.getCompleteMockTraveler())
+        testViewModel.travelerValidator.updateForNewSearch(searchParams)
         assertTrue(testViewModel.validateTravelersComplete())
     }
 
     @Test
     fun testMultipleValidTravelers() {
+        testViewModel.travelerValidator.updateForNewSearch(searchParams)
         mockTravelerProvider.updateDBWithMockTravelers(2, mockTravelerProvider.getCompleteMockTraveler())
         assertTrue(testViewModel.validateTravelersComplete())
     }
@@ -82,31 +87,7 @@ class CheckoutTravelerViewModelTest {
         assertTrue(testViewModel.areTravelersEmpty())
     }
 
-    @Test
-    fun testGetChildPassengerCategory() {
-        var params = Db.getSearchParams()
-        val infantInSeat = testViewModel.getChildPassengerCategory(1, params)
-        assertEquals(PassengerCategory.INFANT_IN_SEAT, infantInSeat)
-
-        val child = testViewModel.getChildPassengerCategory(10, params)
-        assertEquals(PassengerCategory.CHILD, child)
-
-        val adultChild = testViewModel.getChildPassengerCategory(17, params)
-        assertEquals(PassengerCategory.ADULT_CHILD, adultChild)
-
-        params.infantSeatingInLap = true
-        val infantInLap = testViewModel.getChildPassengerCategory(1, params)
-        assertEquals(PassengerCategory.INFANT_IN_LAP, infantInLap)
-
-        try {
-            testViewModel.getChildPassengerCategory(18, params)
-            fail("This has to throw exception")
-        } catch (e: IllegalArgumentException) {
-            //if childAge must be less than 18
-        }
-    }
-
-    private fun setUpParams() {
+    private fun setUpParams() : PackageSearchParams {
         // Can't mock PackageSearchParams because it's a 'data' class. So we have to build one.... #KotlinOP
         val packageParams = PackageSearchParams.Builder(26, 329)
                 .startDate(LocalDate.now().plusDays(1))
@@ -115,5 +96,6 @@ class CheckoutTravelerViewModelTest {
                 .destination(SuggestionV4())
                 .build() as PackageSearchParams
         Db.setPackageParams(packageParams)
+        return packageParams
     }
 }

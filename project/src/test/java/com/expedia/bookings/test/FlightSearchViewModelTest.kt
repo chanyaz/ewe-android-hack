@@ -7,6 +7,7 @@ import com.expedia.bookings.interceptors.MockInterceptor
 import com.expedia.bookings.services.FlightServices
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.utils.DateUtils
+import com.expedia.bookings.utils.Ui
 import com.expedia.vm.FlightSearchViewModel
 import com.mobiata.mocke3.ExpediaDispatcher
 import com.mobiata.mocke3.FileSystemOpener
@@ -47,6 +48,7 @@ class FlightSearchViewModelTest {
         val opener = FileSystemOpener(root)
         server.setDispatcher(ExpediaDispatcher(opener))
         val context = RuntimeEnvironment.application
+        Ui.getApplication(context).defaultTravelerComponent()
         vm = FlightSearchViewModel(context, service)
     }
 
