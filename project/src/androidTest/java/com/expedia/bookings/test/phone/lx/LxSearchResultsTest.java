@@ -29,7 +29,7 @@ public class LxSearchResultsTest extends LxTestCase {
 	SearchResultsHandler searchResultsHandler = new SearchResultsHandler();
 
 	public void testSearchResultPageTestCases() throws Throwable {
-		searchListDisplayed();
+		searchListDisplayed(true);
 		//by this time we must have all the activities loaded.
 		//assert on the total number of items to show.
 		LXScreen.resultList().check(matches(LXScreen.withResults(mActivities.size())));
@@ -63,29 +63,34 @@ public class LxSearchResultsTest extends LxTestCase {
 	}
 
 	public void testSearchResultsFromOverlayOnDetails() throws Throwable {
-		searchListDisplayed();
+		searchListDisplayed(true);
 		selectActivityAndWaitForDetailsDisplayed();
 		LXScreen.searchButtonOnDetailsWithRecommendationsToolbar().perform(click());
-		searchListDisplayed();
+		searchListDisplayed(false);
 	}
 
 	public void testSearchResultsFromOverlayOnDetailsWithRecommendations()  throws Throwable {
-		searchListDisplayed();
+		searchListDisplayed(true);
 		selectActivityAndWaitForDetailsDisplayed();
 		LXScreen.searchButtonOnDetailsWithRecommendationsToolbar().perform(click());
-		searchListDisplayed();
+		searchListDisplayed(false);
 	}
 
 	private void selectActivityAndWaitForDetailsDisplayed() {
 		Events.post(new Events.LXActivitySelected(new LXActivity()));
 	}
 
-	private void searchListDisplayed() throws Throwable {
+	private void searchListDisplayed(boolean firstLaunch) throws Throwable {
 		Events.register(searchResultsHandler);
 		String expectedLocationDisplayName = "San Francisco, CA";
+		if (!firstLaunch) {
+			LXScreen.locationCardView().perform(click());
+		}
 		LXScreen.location().perform(typeText("San"));
 		LXScreen.selectLocation(expectedLocationDisplayName);
-		LXScreen.selectDateButton().perform(click());
+		if (!firstLaunch) {
+			LXScreen.selectDateButton().perform(click());
+		}
 		LXScreen.selectDates(LocalDate.now(), null);
 		LXScreen.searchButton().perform(click());
 		LXScreen.waitForSearchListDisplayed();

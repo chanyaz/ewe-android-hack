@@ -11,7 +11,7 @@ import android.support.test.runner.AndroidJUnit4;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.lx.LXActivity;
-import com.expedia.bookings.data.lx.LXSearchParams;
+import com.expedia.bookings.data.lx.LxSearchParams;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.test.rules.ExpediaMockWebServerRule;
 import com.expedia.bookings.test.rules.PlaygroundRule;
@@ -38,10 +38,8 @@ public class LXDetailsPresenterTest {
 	@Before
 	public void before() {
 		// To setup LXState
-		LXSearchParams searchParams = new LXSearchParams();
-		searchParams.location = "New York";
-		searchParams.startDate = LocalDate.now();
-		searchParams.endDate = LocalDate.now().plusDays(13);
+		LxSearchParams searchParams = (LxSearchParams) new LxSearchParams.Builder().location("New York")
+			.startDate(LocalDate.now()).endDate(LocalDate.now().plusDays(13)).build();
 		Events.post(new Events.LXNewSearchParamsAvailable(searchParams));
 	}
 

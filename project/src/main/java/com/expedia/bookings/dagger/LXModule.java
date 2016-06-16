@@ -5,6 +5,7 @@ import com.expedia.bookings.data.LXState;
 import com.expedia.bookings.server.EndpointProvider;
 import com.expedia.bookings.services.LxServices;
 import com.expedia.bookings.services.SuggestionServices;
+import com.expedia.bookings.services.SuggestionV4Services;
 
 import dagger.Module;
 import dagger.Provides;
@@ -20,6 +21,13 @@ public class LXModule {
 	LxServices provideLxServices(EndpointProvider endpointProvider, OkHttpClient client, Interceptor interceptor) {
 		final String endpoint = endpointProvider.getE3EndpointUrl();
 		return new LxServices(endpoint, client, interceptor, AndroidSchedulers.mainThread(), Schedulers.io());
+	}
+
+	@Provides
+	@LXScope
+	SuggestionV4Services provideLXSuggestionV4Services(EndpointProvider endpointProvider, OkHttpClient client, Interceptor interceptor) {
+		final String endpoint = endpointProvider.getEssEndpointUrl();
+		return new SuggestionV4Services(endpoint, client, interceptor, AndroidSchedulers.mainThread(), Schedulers.io());
 	}
 
 	@Provides

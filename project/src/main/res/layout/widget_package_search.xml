@@ -80,14 +80,11 @@
                     app:input_text="@string/select_dates"
                     android:contentDescription="@string/packages_search_dates_cont_desc"/>
 
-                <com.expedia.bookings.widget.TravelerWidgetV2
-                    android:id="@+id/traveler_card"
-                    style="@style/MaterialCardView.PackageSearch"
+                <ViewStub
+                    android:id="@+id/traveller_stub"
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/default_search_card_height"
-                    android:layout_marginTop="@dimen/search_form_margin"
-                    app:input_icon="@drawable/search_form_icon_person"
-                    app:input_icon_tint_color="@color/search_screen_icon_color_v2"
+                    android:layout_height="wrap_content"
+                    android:layout="@layout/traveller_search_widget"
                     app:input_text="@string/package_search_traveler_default_text" />
 
             </LinearLayout>

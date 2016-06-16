@@ -7,7 +7,7 @@ import android.support.annotation.StringRes;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.SuggestionV4;
-import com.expedia.bookings.data.lx.LXSearchParams;
+import com.expedia.bookings.data.lx.LxSearchParams;
 import com.expedia.bookings.data.lx.SearchType;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.utils.LXNavUtils;
@@ -18,10 +18,10 @@ import rx.Observer;
 public class LXCurrentLocationSuggestionObserver implements Observer<SuggestionV4> {
 
 	private Context context;
-	private LXSearchParams currentLocationSearchParams = null;
+	private LxSearchParams currentLocationSearchParams = null;
 	private boolean isGroundTransport;
 
-	public LXCurrentLocationSuggestionObserver(Context context, LXSearchParams currentLocationSearchParams,
+	public LXCurrentLocationSuggestionObserver(Context context, LxSearchParams currentLocationSearchParams,
 		boolean isGroundTransport) {
 		this.context = context;
 		this.currentLocationSearchParams = currentLocationSearchParams;
@@ -47,9 +47,9 @@ public class LXCurrentLocationSuggestionObserver implements Observer<SuggestionV
 	public void onNext(SuggestionV4 suggestion) {
 		if (currentLocationSearchParams != null) {
 			Events.post(new Events.LXNewSearchParamsAvailable(suggestion.regionNames.fullName, suggestion.hierarchyInfo.airport.airportCode,
-				currentLocationSearchParams.startDate,
-				currentLocationSearchParams.endDate,
-				currentLocationSearchParams.searchType));
+				currentLocationSearchParams.getActivityStartDate(),
+				currentLocationSearchParams.getActivityEndDate(),
+				currentLocationSearchParams.getSearchType()));
 			currentLocationSearchParams = null;
 		}
 	}

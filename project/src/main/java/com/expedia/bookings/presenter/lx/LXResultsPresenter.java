@@ -264,7 +264,7 @@ public class LXResultsPresenter extends Presenter {
 			OmnitureTracking.trackAppLXSearchCategories(lxState.searchParams, lxSearchResponse);
 			searchResponse = lxSearchResponse;
 			themeResultsWidget.bind(lxSearchResponse.lxThemes, "SFO");
-			setToolbarTitles(getResources().getString(R.string.lx_select_a_category_title), lxState.searchParams.location);
+			setToolbarTitles(getResources().getString(R.string.lx_select_a_category_title), lxState.searchParams.getLocation());
 			searchResultsWidget.setVisibility(GONE);
 			themeResultsWidget.setVisibility(VISIBLE);
 			show(themeResultsWidget, FLAG_CLEAR_BACKSTACK);
@@ -319,8 +319,8 @@ public class LXResultsPresenter extends Presenter {
 	}
 
 	private void handleActivityDetailsDeeplink(LXSearchResponse lxSearchResponse) {
-		if (Strings.isNotEmpty(lxState.searchParams.activityId)) {
-			LXActivity activity = lxSearchResponse.getActivityFromID(lxState.searchParams.activityId);
+		if (Strings.isNotEmpty(lxState.searchParams.getActivityId())) {
+			LXActivity activity = lxSearchResponse.getActivityFromID(lxState.searchParams.getActivityId());
 			if (activity != null) {
 				Events.post(new Events.LXActivitySelected(activity));
 			}
@@ -391,7 +391,7 @@ public class LXResultsPresenter extends Presenter {
 		OmnitureTracking.trackAppLXCategoryABTest();
 
 		// Dispatch loading animation event if explicit search. Default search dispatches event separately.
-		if (event.lxSearchParams.searchType.equals(SearchType.EXPLICIT_SEARCH)) {
+		if (event.lxSearchParams.getSearchType().equals(SearchType.EXPLICIT_SEARCH)) {
 			Events.post(new Events.LXShowLoadingAnimation());
 		}
 
@@ -401,7 +401,7 @@ public class LXResultsPresenter extends Presenter {
 		cleanup();
 		sortFilterWidget.bind(null);
 		sortFilterButton.setVisibility(View.GONE);
-		searchResultFilterObserver.searchType = event.lxSearchParams.searchType;
+		searchResultFilterObserver.searchType = event.lxSearchParams.getSearchType();
 
 		String filters = null;
 		boolean areExternalFiltersSupplied = false;
@@ -409,27 +409,27 @@ public class LXResultsPresenter extends Presenter {
 			filters = GT_FILTERS;
 			areExternalFiltersSupplied = true;
 		}
-		else if (Strings.isNotEmpty(event.lxSearchParams.filters)) {
-			filters = event.lxSearchParams.filters;
+		else if (Strings.isNotEmpty(event.lxSearchParams.getFilters())) {
+			filters = event.lxSearchParams.getFilters();
 			areExternalFiltersSupplied = true;
 		}
-		if (isUserBucketedForCategoriesTest && Strings.isEmpty(event.lxSearchParams.filters)) {
+		if (isUserBucketedForCategoriesTest && Strings.isEmpty(event.lxSearchParams.getFilters())) {
 			show(themeResultsWidget, FLAG_CLEAR_BACKSTACK);
 			themeResultsWidget.setVisibility(VISIBLE);
 			searchResultsWidget.setVisibility(GONE);
-			themeResultObserver.searchType = event.lxSearchParams.searchType;
+			themeResultObserver.searchType = event.lxSearchParams.getSearchType();
 			themeResultObserver.widget = themeResultsWidget;
 			searchSubscription = lxServices.lxCategorySearch(event.lxSearchParams, themeResultObserver);
 			themeResultsWidget.getThemePublishSubject().subscribe(lxThemeSearchObserver);
 			sortFilterButton.setFilterText(getResources().getString(R.string.sort));
 			sortFilterWidget.setToolbarTitle(getResources().getString(R.string.sort));
-			setToolbarTitles(getResources().getString(R.string.lx_select_a_category_title), event.lxSearchParams.location);
+			setToolbarTitles(getResources().getString(R.string.lx_select_a_category_title), event.lxSearchParams.getLocation());
 		}
 		else {
 			show(searchResultsWidget, FLAG_CLEAR_BACKSTACK);
 			themeResultsWidget.setVisibility(GONE);
 			searchResultsWidget.setVisibility(VISIBLE);
-			searchResultObserver.searchType = event.lxSearchParams.searchType;
+			searchResultObserver.searchType = event.lxSearchParams.getSearchType();
 			searchResultObserver.widget = searchResultsWidget;
 			searchResultFilterObserver.widget = searchResultsWidget;
 			searchSubscription = lxServices.lxSearchSortFilter(event.lxSearchParams,
@@ -437,7 +437,7 @@ public class LXResultsPresenter extends Presenter {
 				areExternalFiltersSupplied ? searchResultFilterObserver : searchResultObserver);
 			sortFilterButton.setFilterText(getResources().getString(R.string.sort_and_filter));
 			sortFilterWidget.setToolbarTitle(getResources().getString(R.string.sort_and_filter));
-			setToolbarTitles(event.lxSearchParams.location,
+			setToolbarTitles(event.lxSearchParams.getLocation(),
 				LXDataUtils.getToolbarSearchDateText(getContext(), lxState.searchParams, false),
 				LXDataUtils.getToolbarSearchDateText(getContext(), lxState.searchParams, true));
 		}
@@ -603,7 +603,7 @@ public class LXResultsPresenter extends Presenter {
 		if (LXSearchResultsWidget.class.getName().equals(getCurrentState()) && searchResponse != null
 			&& searchResponse.regionId != null && isUserBucketedForCategoriesTest) {
 			OmnitureTracking.trackAppLXSearchCategories(lxState.searchParams, searchResponse);
-			setToolbarTitles(getResources().getString(R.string.lx_select_a_category_title), lxState.searchParams.location);
+			setToolbarTitles(getResources().getString(R.string.lx_select_a_category_title), lxState.searchParams.getLocation());
 		}
 		return super.back();
 	}

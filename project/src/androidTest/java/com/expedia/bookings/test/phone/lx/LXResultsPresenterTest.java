@@ -17,11 +17,11 @@ import android.view.View;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.lx.LXActivity;
-import com.expedia.bookings.data.lx.LXSearchParams;
 import com.expedia.bookings.data.lx.LXTicketType;
+import com.expedia.bookings.data.lx.LxSearchParams;
 import com.expedia.bookings.data.lx.SearchType;
 import com.expedia.bookings.otto.Events;
-import com.expedia.bookings.test.espresso.Common;
+import com.expedia.bookings.test.espresso.ViewActions;
 import com.expedia.bookings.test.rules.ExpediaMockWebServerRule;
 import com.expedia.bookings.test.rules.PlaygroundRule;
 
@@ -31,8 +31,8 @@ import static android.support.test.espresso.matcher.ViewMatchers.hasDescendant;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
-import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.startsWith;
+import static org.hamcrest.Matchers.allOf;
 
 @RunWith(AndroidJUnit4.class)
 public class LXResultsPresenterTest {
@@ -67,10 +67,8 @@ public class LXResultsPresenterTest {
 		String location = "New York";
 		LocalDate startDate = LocalDate.now();
 		LocalDate endDate = LocalDate.now().plusDays(14);
-		LXSearchParams searchParams = new LXSearchParams();
-		searchParams.startDate = startDate;
-		searchParams.endDate = endDate;
-		searchParams.location = location;
+		LxSearchParams searchParams = (LxSearchParams) new LxSearchParams.Builder().location(location)
+			.startDate(startDate).endDate(endDate).build();
 		Events.post(new Events.LXNewSearchParamsAvailable(searchParams));
 
 		LXScreen.waitForSearchResultsWidgetDisplayed();
@@ -115,23 +113,19 @@ public class LXResultsPresenterTest {
 
 	@Test
 	public void testNoSearchResults() {
-		LXSearchParams searchParams = new LXSearchParams();
-		searchParams.location = "search_failure";
-		searchParams.startDate = LocalDate.now();
-		searchParams.endDate = LocalDate.now().plusDays(14);
-		searchParams.searchType = SearchType.EXPLICIT_SEARCH;
+		LxSearchParams searchParams = (LxSearchParams) new LxSearchParams.Builder().location("search_failure")
+			.searchType(SearchType.EXPLICIT_SEARCH)
+			.startDate(LocalDate.now()).endDate(LocalDate.now().plusDays(14)).build();
+
 		Events.post(new Events.LXNewSearchParamsAvailable(searchParams));
-		Common.delay(2);
-		LXScreen.searchFailed().check(matches(isDisplayed()));
+		LXScreen.searchFailed().perform(ViewActions.waitForViewToDisplay()).check(matches(isDisplayed()));
 
 		LXScreen.searchFailed().check(matches(hasDescendant(withText(R.string.error_car_search_message))));
 	}
 
 	public void buildSearchParams() {
-		LXSearchParams searchParams = new LXSearchParams();
-		searchParams.location = "New York";
-		searchParams.startDate = LocalDate.now();
-		searchParams.endDate = LocalDate.now().plusDays(14);
+		LxSearchParams searchParams = (LxSearchParams) new LxSearchParams.Builder().location("New York")
+			.startDate(LocalDate.now()).endDate(LocalDate.now().plusDays(14)).build();
 		Events.post(new Events.LXNewSearchParamsAvailable(searchParams));
 	}
 }

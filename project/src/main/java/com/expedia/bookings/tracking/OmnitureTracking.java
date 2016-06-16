@@ -59,7 +59,7 @@ import com.expedia.bookings.data.hotels.HotelCreateTripResponse;
 import com.expedia.bookings.data.hotels.HotelOffersResponse;
 import com.expedia.bookings.data.lx.ActivityDetailsResponse;
 import com.expedia.bookings.data.lx.LXCheckoutResponse;
-import com.expedia.bookings.data.lx.LXSearchParams;
+import com.expedia.bookings.data.lx.LxSearchParams;
 import com.expedia.bookings.data.lx.LXSearchResponse;
 import com.expedia.bookings.data.lx.LXSortType;
 import com.expedia.bookings.data.packages.PackageCheckoutResponse;
@@ -2086,7 +2086,7 @@ public class OmnitureTracking {
 		s.trackLink(null, "o", "ape:Log Experiment", null, null);
 	}
 
-	public static void trackAppLXSearch(LXSearchParams lxSearchParams,
+	public static void trackAppLXSearch(LxSearchParams lxSearchParams,
 										LXSearchResponse lxSearchResponse, boolean isGroundTransport) {
 		// Start actually tracking the search result change
 		Log.d(TAG, "Tracking \"" + LX_SEARCH + "\" pageLoad...");
@@ -2101,11 +2101,11 @@ public class OmnitureTracking {
 		s.setEvents(isGroundTransport ? "event30,event47" : "event30,event56");
 
 		// prop and evar 5, 6
-		setDateValues(s, lxSearchParams.startDate, lxSearchParams.endDate);
+		setDateValues(s, lxSearchParams.getActivityStartDate(), lxSearchParams.getActivityEndDate());
 
 		// Freeform location
-		if (!TextUtils.isEmpty(lxSearchParams.location)) {
-			s.setEvar(48, lxSearchParams.location);
+		if (!TextUtils.isEmpty(lxSearchParams.getLocation())) {
+			s.setEvar(48, lxSearchParams.getLocation());
 		}
 
 		// Number of search results
@@ -2117,7 +2117,7 @@ public class OmnitureTracking {
 		s.track();
 	}
 
-	public static void trackAppLXSearchCategories(LXSearchParams lxSearchParams,
+	public static void trackAppLXSearchCategories(LxSearchParams lxSearchParams,
 												  LXSearchResponse lxSearchResponse) {
 		// Start actually tracking the search result change
 		Log.d(TAG, "Tracking \"" + LX_SEARCH_CATEGORIES + "\" pageLoad...");
@@ -2129,11 +2129,11 @@ public class OmnitureTracking {
 		s.setEvar(4, "D=c4");
 
 		// prop and evar 5, 6
-		setDateValues(s, lxSearchParams.startDate, lxSearchParams.endDate);
+		setDateValues(s, lxSearchParams.getActivityStartDate(), lxSearchParams.getActivityEndDate());
 
 		// Freeform location
-		if (!TextUtils.isEmpty(lxSearchParams.location)) {
-			s.setEvar(48, lxSearchParams.location);
+		if (!TextUtils.isEmpty(lxSearchParams.getLocation())) {
+			s.setEvar(48, lxSearchParams.getLocation());
 		}
 
 		// Number of search results
@@ -2225,7 +2225,7 @@ public class OmnitureTracking {
 	}
 
 	public static void trackAppLXProductInformation(ActivityDetailsResponse activityDetailsResponse,
-													LXSearchParams lxSearchParams, boolean isGroundTransport) {
+													LxSearchParams lxSearchParams, boolean isGroundTransport) {
 		Log.d(TAG, "Tracking \"" + LX_INFOSITE_INFORMATION + "\" pageLoad...");
 
 		ADMS_Measurement s = internalTrackAppLX(
@@ -2240,7 +2240,7 @@ public class OmnitureTracking {
 		s.setEvar(4, "D=c4");
 
 		// prop and evar 5, 6
-		setDateValues(s, lxSearchParams.startDate, lxSearchParams.endDate);
+		setDateValues(s, lxSearchParams.getActivityStartDate(), lxSearchParams.getActivityEndDate());
 
 		// Send the tracking data
 		s.track();

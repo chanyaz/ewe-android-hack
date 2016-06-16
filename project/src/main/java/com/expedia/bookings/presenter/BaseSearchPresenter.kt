@@ -19,16 +19,17 @@ import android.util.AttributeSet
 import android.util.TypedValue
 import android.view.View
 import android.view.ViewGroup
+import android.view.ViewStub
 import android.view.ViewTreeObserver
 import android.view.accessibility.AccessibilityEvent
 import android.view.animation.AccelerateDecelerateInterpolator
 import android.view.animation.DecelerateInterpolator
 import android.view.inputmethod.InputMethodManager
+import android.widget.ImageView
 import android.widget.Button
 import android.widget.EditText
-import android.widget.FrameLayout
-import android.widget.ImageView
 import android.widget.ScrollView
+import android.widget.FrameLayout
 import com.expedia.account.graphics.ArrowXDrawable
 import com.expedia.bookings.R
 import com.expedia.bookings.animation.TransitionElement
@@ -40,12 +41,12 @@ import com.expedia.bookings.utils.FontCache
 import com.expedia.bookings.utils.SuggestionV4Utils
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
+import com.expedia.bookings.widget.TravelerWidgetV2
 import com.expedia.bookings.widget.CalendarWidgetV2
 import com.expedia.bookings.widget.RecyclerDividerDecoration
 import com.expedia.bookings.widget.SearchInputCardView
 import com.expedia.bookings.widget.ShopWithPointsWidget
 import com.expedia.bookings.widget.TextView
-import com.expedia.bookings.widget.TravelerWidgetV2
 import com.expedia.util.notNullAndObservable
 import com.expedia.vm.BaseSearchViewModel
 import com.expedia.vm.SuggestionAdapterViewModel
@@ -59,6 +60,9 @@ import java.util.concurrent.TimeUnit
 abstract class BaseSearchPresenter(context: Context, attrs: AttributeSet) : Presenter(context, attrs) {
 
     private val SUGGESTION_TRANSITION_DURATION = 300
+
+    val travellerCardViewStub: ViewStub by bindView(R.id.traveller_stub)
+    val swpWidgetStub: ViewStub by bindView(R.id.swp_stub)
     val ANIMATION_DURATION = 200L
     val toolbar: Toolbar by bindView(R.id.search_toolbar)
     val scrollView: ScrollView by bindView(R.id.scrollView)
@@ -70,11 +74,14 @@ abstract class BaseSearchPresenter(context: Context, attrs: AttributeSet) : Pres
     val suggestionRecyclerView: RecyclerView by bindView(R.id.suggestion_list)
     var navIcon: ArrowXDrawable
     open val destinationCardView: SearchInputCardView by bindView(R.id.destination_card)
-    open val travelerWidgetV2: TravelerWidgetV2 by bindView(R.id.traveler_card)
+    open val travelerWidgetV2 by lazy {
+        travellerCardViewStub.inflate().findViewById(R.id.traveler_card) as TravelerWidgetV2
+    }
     val searchButton: Button by bindView(R.id.search_button)
     open var searchLocationEditText: SearchView? = null
     val toolBarTitle: TextView by bindView(R.id.title)
-    val shopWithPointsWidget: ShopWithPointsWidget by bindView(R.id.widget_points_details)
+    lateinit var shopWithPointsWidget : ShopWithPointsWidget
+
     val statusBarHeight by lazy { Ui.getStatusBarHeight(context) }
     val mRootWindow by lazy { (context as Activity).window }
     val mRootView by lazy { mRootWindow.decorView.findViewById(android.R.id.content) }

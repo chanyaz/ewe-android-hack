@@ -14,18 +14,21 @@ import com.expedia.bookings.data.Codes;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.SuggestionV4;
 import com.expedia.bookings.data.abacus.AbacusUtils;
-import com.expedia.bookings.data.lx.LXSearchParams;
+import com.expedia.bookings.data.lx.LxSearchParams;
 import com.expedia.bookings.data.lx.SearchType;
 import com.expedia.bookings.location.LXCurrentLocationSuggestionObserver;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.presenter.lx.LXPresenter;
 import com.expedia.bookings.utils.AlertDialogUtils;
 import com.expedia.bookings.utils.DateUtils;
+import com.expedia.bookings.utils.Strings;
 import com.expedia.bookings.utils.Ui;
 import com.squareup.otto.Subscribe;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
+import kotlin.Pair;
+import kotlin.Unit;
 import rx.Observable;
 import rx.Subscription;
 
@@ -81,10 +84,9 @@ public class LXBaseActivity extends AbstractAppCompatActivity {
 		}
 
 		Events.post(new Events.LXShowLoadingAnimation());
-		LXSearchParams currentLocationSearchParams = new LXSearchParams()
-			.startDate(LocalDate.now())
-			.endDate(LocalDate.now().plusDays(getResources().getInteger(R.integer.lx_default_search_range)))
-			.searchType(SearchType.DEFAULT_SEARCH);
+		LxSearchParams currentLocationSearchParams = new LxSearchParams("",LocalDate.now(),
+			LocalDate.now().plusDays(getResources().getInteger(R.integer.lx_default_search_range)),
+			SearchType.DEFAULT_SEARCH,"","","");
 
 		Observable<SuggestionV4> currentLocationSuggestionObservable =
 			Ui.getApplication(this).lxComponent().currentLocationSuggestionObservable();
@@ -121,7 +123,9 @@ public class LXBaseActivity extends AbstractAppCompatActivity {
 					return true;
 				}
 				if (navigateToSearch) {
-					Events.post(new Events.LXNewSearch(location, startDate, endDate));
+					Events.LXNewSearch event = new Events.LXNewSearch(location, startDate, null);
+					updateSearchViewModel(event);
+					Events.post(event);
 					return true;
 				}
 				else if (navigateToResults) {
@@ -140,6 +144,28 @@ public class LXBaseActivity extends AbstractAppCompatActivity {
 				return true;
 			}
 		});
+	}
+
+	public void updateSearchViewModel(Events.LXNewSearch event) {
+		lxPresenter.searchParamsWidget.getSearchViewModel().getEnableDateObserver().onNext(Unit.INSTANCE);
+		if (Strings.isNotEmpty(event.locationName)) {
+			lxPresenter.searchParamsWidget.getSearchViewModel().getDestinationLocationObserver()
+				.onNext(getSuggestionFromLocation(event.locationName));
+		}
+		Pair<LocalDate, LocalDate> dates = new Pair(event.startDate, null);
+		lxPresenter.searchParamsWidget.getSearchViewModel().getDatesObserver().onNext(dates);
+		lxPresenter.searchParamsWidget.selectDates(event.startDate, null);
+		lxPresenter.searchParamsWidget.getSearchViewModel().getSearchButtonObservable().onNext(true);
+	}
+
+	public SuggestionV4 getSuggestionFromLocation(String locationName) {
+		SuggestionV4 suggestionV4 = new SuggestionV4();
+		SuggestionV4.RegionNames regionNames = new SuggestionV4.RegionNames();
+		regionNames.fullName = locationName;
+		regionNames.displayName = locationName;
+		regionNames.shortName = locationName;
+		suggestionV4.regionNames = regionNames;
+		return suggestionV4;
 	}
 
 	@Override

@@ -37,7 +37,7 @@ import com.expedia.bookings.data.hotels.HotelCreateTripResponse;
 import com.expedia.bookings.data.hotels.HotelOffersResponse;
 import com.expedia.bookings.data.hotels.HotelSearchResponse;
 import com.expedia.bookings.data.lx.LXActivity;
-import com.expedia.bookings.data.lx.LXSearchParams;
+import com.expedia.bookings.data.lx.LxSearchParams;
 import com.expedia.bookings.data.lx.LXSearchResponse;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.services.HotelCheckoutResponse;
@@ -674,12 +674,12 @@ public class TuneUtils {
 		}
 	}
 
-	public static void trackLXSearch(LXSearchParams searchParams, LXSearchResponse searchResponse) {
+	public static void trackLXSearch(LxSearchParams searchParams, LXSearchResponse searchResponse) {
 		if (initialized) {
 			MATEvent event = new MATEvent("lx_search");
 			MATEventItem eventItem = new MATEventItem("lx_search_item");
 
-			eventItem.withAttribute2(searchParams.location);
+			eventItem.withAttribute2(searchParams.getLocation());
 			if (searchResponse != null) {
 				int activitiesCount = searchResponse.activities.size();
 				StringBuilder sb = new StringBuilder();
@@ -705,7 +705,7 @@ public class TuneUtils {
 			withTuidAndMembership(event)
 				.withAttribute2(isUserLoggedIn())
 				.withEventItems(Arrays.asList(eventItem))
-				.withDate1(searchParams.startDate.toDate())
+				.withDate1(searchParams.getActivityStartDate().toDate())
 				.withSearchString("lx");
 
 			trackEvent(event);

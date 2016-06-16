@@ -214,7 +214,7 @@ public class LXCheckoutMainViewPresenter extends CheckoutBasePresenter implement
 			AdTracker.trackLXCheckoutStarted(lxState.activity.destination, tripTotalPrice,
 				lxState.offer.availabilityInfoOfSelectedDate.availabilities.valueDate, lxState.activity.categories,
 				lxState.selectedTicketsCount(), lxState.activity.title, lxState.activity.regionId, lxState.activity.id,
-				lxState.searchParams.startDate, lxState.selectedChildTicketsCount());
+				lxState.searchParams.getActivityStartDate(), lxState.selectedChildTicketsCount());
 			show(new Ready(), FLAG_CLEAR_BACKSTACK);
 			Events.post(new Events.LXCreateTripSucceeded(response, lxState.activity));
 		}

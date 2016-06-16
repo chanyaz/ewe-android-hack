@@ -33,7 +33,7 @@ import com.expedia.bookings.data.Sp;
 import com.expedia.bookings.data.SuggestionResponse;
 import com.expedia.bookings.data.SuggestionV2;
 import com.expedia.bookings.data.cars.CarSearchParams;
-import com.expedia.bookings.data.lx.LXSearchParams;
+import com.expedia.bookings.data.lx.LxSearchParams;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.data.trips.ItineraryManager;
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
@@ -256,7 +256,7 @@ public class DeepLinkRouterActivity extends Activity {
 	private boolean handleActivitySearch(Uri data, Set<String> queryData) {
 
 		if (PointOfSale.getPointOfSale().supports(LineOfBusiness.LX)) {
-			LXSearchParams searchParams = LXDataUtils.buildLXSearchParamsFromDeeplink(data, queryData);
+			LxSearchParams searchParams = LXDataUtils.buildLXSearchParamsFromDeeplink(data, queryData);
 			NavUtils.goToActivities(this, null, searchParams, NavUtils.FLAG_DEEPLINK);
 		}
 		else {

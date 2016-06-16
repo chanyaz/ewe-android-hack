@@ -194,13 +194,13 @@ public class LXActivityDetailsWidget extends LXDetailsScrollView implements Recy
 		if (isUserBucketedForRecommendationTest) {
 			recommendedSubscription = lxServices
 				.lxRecommendedSearch(activityDetails.id, activityDetails.location,
-					lxState.searchParams.startDate, lxState.searchParams.endDate, recommendedObserver);
+					lxState.searchParams.getActivityStartDate(), lxState.searchParams.getActivityEndDate(), recommendedObserver);
 		}
 
 		buildRecommendationPecentage(activityDetails.recommendationScore);
 		buildGallery(activityDetails);
 		buildSections(activityDetails);
-		buildOfferDatesSelector(activityDetails.offersDetail, lxState.searchParams.startDate);
+		buildOfferDatesSelector(activityDetails.offersDetail, lxState.searchParams.getActivityStartDate());
 	}
 
 	private void buildRecommendationPecentage(int recommendationScore) {

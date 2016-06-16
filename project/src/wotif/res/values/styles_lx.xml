@@ -18,7 +18,6 @@
         <item name="skin_checkoutLoginButtonColor">@android:color/white</item>
         <item name="skin_lxPrimaryColor">@color/lx_primary_color</item>
         <item name="skin_lxResultsBottomPadding">@dimen/lx_results_bottom_padding</item>
-        <item name="skin_lxSearchToolbarText">@string/lx_search_title</item>
         <item name="skin_lxBookNowButtonSelectorDrawable">@drawable/lx_book_now_button_selector_wotif</item>
         <item name="skin_lxOfferDateSelectorDrawable">@drawable/lx_offer_date_selector</item>
         <item name="skin_lxSelectTicketButtonSelectorDrawable">@drawable/lx_select_ticket_button_selector_wotif</item>
