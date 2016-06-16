@@ -66,6 +66,7 @@
         <item name="skin_flightLineColor">@color/flight_trip</item>
         <item name="skin_candycaneProgressDrawable">@drawable/progressbar_candycane_horizontal_vsc</item>
         <item name="skin_flightLoadingMessageTextColor">@color/flight_loading_message_text_color_vsc</item>
+        <item name="android:homeAsUpIndicator" tools:targetApi="11">@drawable/ic_action_bar_back_arrow</item>
     </style>
 
     <!-- Inherit EB or VSC theme based on desired project -->
