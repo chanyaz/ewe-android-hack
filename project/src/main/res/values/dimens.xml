@@ -142,6 +142,10 @@
     <dimen name="hotel_checkout_overview_image_height">120dp</dimen>
     <dimen name="checkout_login_padding_top">10dp</dimen>
 
+    <!-- Amount due today text size-->
+    <dimen name="amount_due_today_label_text_size">16sp</dimen>
+    <dimen name="amount_due_today_text_size">16sp</dimen>
+
     <!-- Dimensions For hotel traveler edit page -->
     <dimen name="hotel_traveler_edit_email_disclaimer_text_size">12sp</dimen>
 
