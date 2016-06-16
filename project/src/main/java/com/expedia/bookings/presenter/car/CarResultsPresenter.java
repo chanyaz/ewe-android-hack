@@ -31,6 +31,7 @@ import com.expedia.bookings.presenter.Presenter;
 import com.expedia.bookings.services.CarServices;
 import com.expedia.bookings.tracking.AdTracker;
 import com.expedia.bookings.tracking.OmnitureTracking;
+import com.expedia.bookings.utils.AccessibilityUtil;
 import com.expedia.bookings.utils.ArrowXDrawableUtil;
 import com.expedia.bookings.utils.CollectionUtils;
 import com.expedia.bookings.utils.DateFormatUtils;
@@ -446,6 +447,7 @@ public class CarResultsPresenter extends Presenter {
 			else {
 				setToolBarResultsText();
 			}
+			setUpNavigationFocusForAccessibility();
 		}
 	};
 
@@ -633,7 +635,7 @@ public class CarResultsPresenter extends Presenter {
 		toolBarSubtitleText.setTranslationY(0);
 		navIcon.setParameter(ArrowXDrawableUtil.ArrowDrawableType.BACK.getType());
 		errorScreen.animationUpdate(ArrowXDrawableUtil.ArrowDrawableType.BACK.getType());
-		toolbarTwo.requestFocus();
+		setUpNavigationFocusForAccessibility();
 	}
 
 	RecyclerView.OnScrollListener recyclerScrollListener = new RecyclerView.OnScrollListener() {
@@ -697,4 +699,11 @@ public class CarResultsPresenter extends Presenter {
 			AdTracker.trackCarDetails(searchedParams, searchCarOffer);
 		}
 	};
+
+	private void setUpNavigationFocusForAccessibility() {
+		// Set focus to back button for accessibility.
+		if (AccessibilityUtil.isTalkBackEnabled(getContext())) {
+			AccessibilityUtil.setFocusToToolbarNavigationIcon(toolbar);
+		}
+	}
 }
