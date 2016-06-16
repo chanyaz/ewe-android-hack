@@ -88,21 +88,21 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
         vm.searchParamsObservable.subscribe((flightOverviewPresenter.bundleOverviewHeader.checkoutOverviewFloatingToolbar.viewmodel as FlightCheckoutOverviewViewModel).params)
         vm.searchParamsObservable.subscribe((flightOverviewPresenter.bundleOverviewHeader.checkoutOverviewHeaderToolbar.viewmodel as FlightCheckoutOverviewViewModel).params)
         vm.searchParamsObservable.subscribe { params ->
-            outBoundPresenter.toolbarViewModel.city.onNext(params.departureAirport.regionNames.shortName)
+            outBoundPresenter.toolbarViewModel.city.onNext(params.arrivalAirport?.regionNames?.shortName)
             outBoundPresenter.toolbarViewModel.travelers.onNext(params.guests)
             outBoundPresenter.toolbarViewModel.date.onNext(params.departureDate)
 
-            inboundPresenter.toolbarViewModel.city.onNext(params.arrivalAirport?.regionNames?.shortName)
+            inboundPresenter.toolbarViewModel.city.onNext(params.departureAirport.regionNames.shortName)
             inboundPresenter.toolbarViewModel.travelers.onNext(params.guests)
             if (params.returnDate != null) {
                 inboundPresenter.toolbarViewModel.date.onNext(params.returnDate)
                 flightOverviewPresenter.flightSummary.inboundFlightWidget.viewModel.searchTypeStateObservable.onNext(PackageSearchType.INBOUND_FLIGHT)
             }
-            flightOverviewPresenter.flightSummary.outboundFlightWidget.viewModel.suggestion.onNext(params.departureAirport)
+            flightOverviewPresenter.flightSummary.outboundFlightWidget.viewModel.suggestion.onNext(params.arrivalAirport)
             flightOverviewPresenter.flightSummary.outboundFlightWidget.viewModel.date.onNext(params.departureDate)
             flightOverviewPresenter.flightSummary.outboundFlightWidget.viewModel.guests.onNext(params.guests)
 
-            flightOverviewPresenter.flightSummary.inboundFlightWidget.viewModel.suggestion.onNext(params.arrivalAirport)
+            flightOverviewPresenter.flightSummary.inboundFlightWidget.viewModel.suggestion.onNext(params.departureAirport)
             flightOverviewPresenter.flightSummary.inboundFlightWidget.viewModel.date.onNext(params.returnDate)
             flightOverviewPresenter.flightSummary.inboundFlightWidget.viewModel.guests.onNext(params.guests)
 
