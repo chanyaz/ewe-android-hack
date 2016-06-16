@@ -285,7 +285,9 @@ public class LXSortFilterWidget extends LinearLayout {
 
 	private void animateDynamicFeedbackHeight(final boolean showDynamicFeedback) {
 		if (!userBucketedForCategoriesTest || themeAllThingsToDo) {
-			toolbarBackgroundView.setVisibility(VISIBLE);
+			if (toolbarBackgroundView != null) {
+				toolbarBackgroundView.setVisibility(VISIBLE);
+			}
 			spaceBelowFilterCategories.setVisibility(showDynamicFeedback ? VISIBLE : GONE);
 			return;
 		}
@@ -299,8 +301,10 @@ public class LXSortFilterWidget extends LinearLayout {
 
 		ObjectAnimator anim = ObjectAnimator
 			.ofFloat(this, "translationY",
-				showDynamicFeedback ? getResources().getDimensionPixelSize(R.dimen.space_below_lx_filter_view_height) : 0f,
-				showDynamicFeedback ? 0f : getResources().getDimensionPixelSize(R.dimen.space_below_lx_filter_view_height));
+				showDynamicFeedback ? getResources().getDimensionPixelSize(R.dimen.space_below_lx_filter_view_height)
+					: 0f,
+				showDynamicFeedback ? 0f
+					: getResources().getDimensionPixelSize(R.dimen.space_below_lx_filter_view_height));
 		anim.setDuration(300);
 		anim.addListener(new AnimatorListenerAdapter() {
 			@Override
