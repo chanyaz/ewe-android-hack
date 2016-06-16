@@ -409,4 +409,9 @@ public class CarFilterWidget extends LinearLayout {
 	public DynamicFeedbackWidget getDynamicFeedbackWidget() {
 		return dynamicFeedbackWidget;
 	}
+
+	public void setFocusToToolbarForAccessibility() {
+		toolbar.clearFocus();
+		toolbar.requestFocus();
+	}
 }

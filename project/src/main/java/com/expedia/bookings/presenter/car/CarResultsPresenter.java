@@ -503,6 +503,7 @@ public class CarResultsPresenter extends Presenter {
 			}
 			else {
 				OmnitureTracking.trackAppCarFilter();
+				filter.setFocusToToolbarForAccessibility();
 			}
 		}
 	};
@@ -528,6 +529,7 @@ public class CarResultsPresenter extends Presenter {
 			filter.setTranslationY(forward ? 0 : filter.getHeight());
 			if (forward) {
 				OmnitureTracking.trackAppCarFilter();
+				filter.setFocusToToolbarForAccessibility();
 			}
 		}
 	};
