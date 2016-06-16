@@ -38,6 +38,7 @@ import com.expedia.bookings.data.lx.LXSearchParams;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.services.CarServices;
 import com.expedia.ui.CarActivity;
+import com.expedia.ui.FlightActivity;
 import com.expedia.ui.HotelActivity;
 import com.expedia.ui.LXBaseActivity;
 import com.expedia.ui.NewPhoneLaunchActivity;
@@ -259,7 +260,7 @@ public class NavUtils {
 		}
 		else {
 			sendKillActivityBroadcast(context);
-			Intent intent = new Intent(context, FlightSearchActivity.class);
+			Intent intent = getFlightIntent(context);
 			intent.addFlags(flags);
 			if (usePresetSearchParams) {
 				intent.putExtra(FlightSearchActivity.ARG_USE_PRESET_SEARCH_PARAMS, true);
@@ -422,7 +423,7 @@ public class NavUtils {
 		Db.clear();
 
 		// Go back to the start
-		Intent intent = new Intent(activity, FlightSearchActivity.class);
+		Intent intent = getFlightIntent(activity);
 		intent.putExtra(FlightSearchActivity.EXTRA_DATA_EXPIRED, true);
 		intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 		activity.startActivity(intent);
@@ -492,14 +493,27 @@ public class NavUtils {
 		return Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppLaunchScreenTest);
 	}
 
+	public static boolean isUserBucketedForFlightTest() {
+		return Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppFlightTest);
+	}
+
+
 	public static Intent getLaunchIntent(Context context) {
-		Intent intent;
 		if (isUserBucketedForLaunchScreenTest()) {
-			intent = new Intent(context, NewPhoneLaunchActivity.class);
+			return new Intent(context, NewPhoneLaunchActivity.class);
 		}
 		else {
-			intent = new Intent(context, PhoneLaunchActivity.class);
+			return new Intent(context, PhoneLaunchActivity.class);
 		}
-		return intent;
 	}
+
+	public static Intent getFlightIntent(Context context) {
+		if (isUserBucketedForFlightTest()) {
+			return new Intent(context, FlightActivity.class);
+		}
+		else {
+			return new Intent(context, FlightSearchActivity.class);
+		}
+	}
+
 }

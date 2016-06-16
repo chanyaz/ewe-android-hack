@@ -1364,21 +1364,18 @@ public class OmnitureTracking {
 
 	public static void trackHotelSponsoredListingClick() {
 		ADMS_Measurement s = createTrackLinkEvent(HOTELS_SPONSORED_LISTING_CLICK);
-		addPOSTpid(s);
 		internalTrackLink(s);
 	}
 
 	public static void trackHotelETPPayToggle(boolean isPayLater) {
 		String refererId = isPayLater ? HOTELS_ETP_TOGGLE_PAY_LATER : HOTELS_ETP_TOGGLE_PAY_NOW;
 		ADMS_Measurement s = createTrackLinkEvent(refererId);
-		addPOSTpid(s);
 
 		s.trackLink(null, "o", HOTELS_ETP_TOGGLE_LINK_NAME, null, null);
 	}
 
 	public static void trackHotelETPRoomSelected(boolean isPayLater) {
 		ADMS_Measurement s = createTrackLinkEvent(HOTELS_ETP_PAYMENT);
-		addPOSTpid(s);
 		if (isPayLater) {
 			s.setEvar(52, "Pay Later");
 		}
@@ -1834,12 +1831,15 @@ public class OmnitureTracking {
 	}
 
 	public static void trackPageLoadFlightSearch() {
-		internalTrackPageLoadEventStandard(FLIGHT_SEARCH);
+		ADMS_Measurement s = getFreshTrackingObject();
+
+		s.setAppState(FLIGHT_SEARCH);
+		s.setEvar(18, FLIGHT_SEARCH);
+		trackAbacusTest(s, AbacusUtils.EBAndroidAppFlightTest);
+		s.track();
 	}
 
 	public static void trackFlightTravelerPickerClick(String actionLabel) {
-		Log.d(TAG, "Tracking \"" + FLIGHT_SEARCH_V2 + "\" pageLoad...");
-
 		ADMS_Measurement s = getFreshTrackingObject();
 		s.setEvar(28, FLIGHTS_V2_TRAVELER_CHANGE_PREFIX + actionLabel);
 		s.setProp(16, FLIGHTS_V2_TRAVELER_CHANGE_PREFIX + actionLabel);
@@ -1861,7 +1861,6 @@ public class OmnitureTracking {
 		ADMS_Measurement s = getFreshTrackingObject();
 		s.setEvar(28, FLIGHTS_V2_FLIGHT_BAGGAGE_FEE_CLICK);
 		s.setProp(16, FLIGHTS_V2_FLIGHT_BAGGAGE_FEE_CLICK);
-		addPOSTpid(s);
 		s.trackLink(null, "o", "Flight Baggage Fee", null, null);
 	}
 
@@ -1871,18 +1870,16 @@ public class OmnitureTracking {
 		ADMS_Measurement s = getFreshTrackingObject();
 		s.setEvar(28, FLIGHTS_V2_FLIGHT_PAYMENT_FEE_CLICK);
 		s.setProp(16, FLIGHTS_V2_FLIGHT_PAYMENT_FEE_CLICK);
-		addPOSTpid(s);
 		s.trackLink(null, "o", "", null, null);
 	}
 
-	private static void addPOSTpid(ADMS_Measurement s) {
-		String posTpid = Integer.toString(PointOfSale.getPointOfSale().getTpid());
-		s.setEvar(61, posTpid);
-		s.setProp(7, posTpid);
-	}
-
 	public static void trackPageLoadFlightSearchV2() {
-		internalTrackPageLoadEventStandard(FLIGHT_SEARCH_V2);
+		ADMS_Measurement s = getFreshTrackingObject();
+
+		s.setAppState(FLIGHT_SEARCH_V2);
+		s.setEvar(18, FLIGHT_SEARCH_V2);
+		trackAbacusTest(s, AbacusUtils.EBAndroidAppFlightTest);
+		s.track();
 	}
 
 	public static void trackLinkFlightSearchSelect(int selectPos, int legPos) {
@@ -3517,7 +3514,6 @@ public class OmnitureTracking {
 	public static void trackLoginSuccess() {
 		ADMS_Measurement s = createTrackLinkEvent(LOGIN_SUCCESS);
 		s.setEvents("event26");
-		addPOSTpid(s);
 		s.trackLink(null, "o", "Accounts", null, null);
 	}
 

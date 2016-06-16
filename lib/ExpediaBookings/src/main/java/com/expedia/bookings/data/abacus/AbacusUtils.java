@@ -43,6 +43,7 @@ public class AbacusUtils {
 	public static final int EBAndroidAppShowSignInOnLaunch = 8687;
 	public static final int EBAndroidAppLXRTROnSearchAndDetails = 10000;
 	public static final int EBAndroidAppFeedsOnLaunch = 10065;
+	public static final int EBAndroidAppFlightTest = 10136;
 	public static final int EBAndroidAppLaunchScreenTest = 10639;
 	public static final int EBAndroidAppHotelSearchScreenSoldOutTest = 10554;
 	public static final int INS_AddInsuranceOnMobileAppFlights = 10001; // TODO: change to properly named, Android-specific test
@@ -121,6 +122,7 @@ public class AbacusUtils {
 		testIDs.add(EBAndroidAppShowSignInOnLaunch);
 		testIDs.add(EBAndroidAppLXRTROnSearchAndDetails);
 		testIDs.add(EBAndroidAppFeedsOnLaunch);
+		testIDs.add(EBAndroidAppFlightTest);
 		testIDs.add(EBAndroidAppLaunchScreenTest);
 		testIDs.add(INS_AddInsuranceOnMobileAppFlights);
 		testIDs.add(EBAndroidAppHotelSearchScreenSoldOutTest);
