@@ -651,6 +651,7 @@ DummyFiletoHandleKotlinLintError {
 		R.string.flight_detail_flight_duration_card_cont_desc_TEMPLATE,
 		R.string.flight_detail_layover_duration_card_cont_desc_TEMPLATE,
 		R.string.accessibility_cont_desc_role_button,
+		R.string.cars_cross_sell_origin_TEMPLATE,
 		R.string.select_hotel_selected_expand_cont_desc,
 		R.string.select_hotel_selected_collapse_cont_desc,
 		R.plurals.packages_search_travelers_cont_desc_TEMPLATE,

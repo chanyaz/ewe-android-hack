@@ -18,6 +18,7 @@ import android.text.style.UnderlineSpan;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.SuggestionV4;
+import com.expedia.bookings.data.flights.FlightLeg;
 import com.expedia.bookings.utils.LegalClickableSpan;
 import com.expedia.bookings.utils.StrUtils;
 
@@ -139,6 +140,15 @@ public class StrUtilsTest {
 	public void testAirportCodeCityNameFormatting() {
 		String formattedString = StrUtils.formatAirportCodeCityName(getDummySuggestion());
 		assertEquals("(CHI) Chicago", formattedString);
+	}
+
+	@Test
+	public void testCarOriginDescriptionFormatting() {
+		FlightLeg flight = new FlightLeg();
+		flight.destinationAirportCode = "EWR";
+		flight.destinationAirportLocalName = "Liberty Intl.";
+		String formattedString = StrUtils.formatCarOriginDescription(getContext(),flight);
+		assertEquals("EWR-Liberty Intl.", formattedString);
 	}
 
 	@Test

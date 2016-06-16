@@ -28,7 +28,7 @@ class PackageCheckoutParams(billingInfo: BillingInfo, travelers: ArrayList<Trave
             val expectedTotalFare = expectedTotalFare ?: throw IllegalArgumentException()
             val expectedFareCurrencyCode = expectedFareCurrencyCode ?: throw IllegalArgumentException()
             val cvv = cvv ?: throw IllegalArgumentException()
-            return PackageCheckoutParams(billingInfo, travelers, tripId, expectedTotalFare, expectedFareCurrencyCode, bedType, cvv, suppressFinalBooking)
+            return PackageCheckoutParams(billingInfo, travelers, tripId, bedType, cvv, expectedTotalFare, expectedFareCurrencyCode, suppressFinalBooking)
         }
     }
 

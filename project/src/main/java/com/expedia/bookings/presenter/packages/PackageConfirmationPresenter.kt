@@ -14,6 +14,7 @@ import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.TextView
 import com.expedia.bookings.widget.packages.ConfirmationRowCardView
 import com.expedia.util.notNullAndObservable
+import com.expedia.util.subscribeOnClick
 import com.expedia.util.subscribeText
 import com.expedia.vm.packages.PackageConfirmationViewModel
 
@@ -26,6 +27,7 @@ class PackageConfirmationPresenter(context: Context, attributeSet: AttributeSet)
     val inboundFlightCard: ConfirmationRowCardView by bindView(R.id.inbound_flight_card)
     val viewItinButton: Button by bindView(R.id.view_itin_button)
     val confirmationContainer: LinearLayout by bindView(R.id.confirmation_container)
+    val addCarContainer:LinearLayout by bindView(R.id.add_car_container)
 
     var viewModel: PackageConfirmationViewModel by notNullAndObservable { vm ->
         vm.itinNumberMessageObservable.subscribeText(itinNumber)
@@ -38,6 +40,7 @@ class PackageConfirmationPresenter(context: Context, attributeSet: AttributeSet)
         vm.inboundFlightCardTitleObservable.subscribeText(inboundFlightCard.title)
         vm.inboundFlightCardSubTitleObservable.subscribeText(inboundFlightCard.subTitle)
         vm.itinNumberMessageObservable.subscribeText(itinNumber)
+        addCarContainer.subscribeOnClick(viewModel.searchForCarRentalsForTripObserver(context))
     }
 
     init {
