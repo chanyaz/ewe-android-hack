@@ -122,7 +122,7 @@ class PackageActivity : AbstractAppCompatActivity() {
     }
 
     override fun onBackPressed() {
-        if (Db.getPackageParams().isChangePackageSearch() && packagePresenter.backStack.peek() is PackageOverviewPresenter) {
+        if (packagePresenter.backStack.peek() is PackageOverviewPresenter && Db.getPackageParams()?.isChangePackageSearch() ?: false) {
             Db.getPackageParams().pageType = null
             if (changedOutboundFlight) {
                 //when cancel changed outbound flight, packagePresenter's backStack is:
