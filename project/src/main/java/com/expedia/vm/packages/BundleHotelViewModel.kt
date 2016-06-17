@@ -30,6 +30,7 @@ class BundleHotelViewModel(val context: Context) {
     val hotelDetailsIconObservable = BehaviorSubject.create<Boolean>()
     val hotelSelectIconObservable = BehaviorSubject.create<Boolean>()
     val hotelIconImageObservable = BehaviorSubject.create<Int>()
+    val hotelRowExpanded = PublishSubject.create<Unit>()
 
     init {
         showLoadingStateObservable.subscribe { isShowing ->

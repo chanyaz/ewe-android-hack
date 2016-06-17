@@ -129,6 +129,7 @@ class PackageBundleHotelWidget(context: Context, attrs: AttributeSet?) : Accessi
     }
 
     private fun expandSelectedHotel() {
+        viewModel.hotelRowExpanded.onNext(Unit)
         mainContainer.visibility = Presenter.VISIBLE
         AnimUtils.rotate(hotelDetailsIcon)
         PackagesTracking().trackBundleOverviewHotelExpandClick()
@@ -198,7 +199,7 @@ class PackageBundleHotelWidget(context: Context, attrs: AttributeSet?) : Accessi
         val guests = StrUtils.formatGuestString(context, Db.getPackageParams().guests)
         val expandcollapse = if (isCollapsed) Phrase.from(context, R.string.select_hotel_selected_expand_cont_desc).format().toString() else Phrase.from(context, R.string.select_hotel_selected_collapse_cont_desc).format().toString()
         return Phrase.from(context, R.string.select_hotel_selected_cont_desc_TEMPLATE)
-                .put("hotel", Db.getPackageSelectedHotel().localizedName)
+                .put("hotel", Db.getPackageSelectedHotel()?.localizedName ?: "")
                 .put("startdate", startDate)
                 .put("enddate", endDate)
                 .put("guests", guests)
