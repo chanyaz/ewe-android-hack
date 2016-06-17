@@ -9,15 +9,15 @@ import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.hotels.HotelCreateTripResponse
 import com.expedia.bookings.data.payment.PaymentModel
 import com.expedia.bookings.data.payment.PaymentSplitsType
+import com.expedia.bookings.data.payment.PointsAndCurrency
 import com.expedia.bookings.data.pos.PointOfSale
+import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration
 import com.expedia.bookings.utils.StrUtils
 import com.squareup.phrase.Phrase
 import rx.Observable
 import rx.subjects.BehaviorSubject
 import java.math.BigDecimal
 import java.text.NumberFormat
-import com.expedia.bookings.data.payment.PointsAndCurrency
-import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration
 
 class HotelCheckoutOverviewViewModel(val context: Context, val paymentModel: PaymentModel<HotelCreateTripResponse>) {
     // input
@@ -67,12 +67,13 @@ class HotelCheckoutOverviewViewModel(val context: Context, val paymentModel: Pay
                 val text = Html.fromHtml(context.getString(R.string.resort_fee_disclaimer_TEMPLATE, resortFees, tripTotal));
                 disclaimerText.onNext(text)
             } else if (it.roomResponse.isPayLater) {
-                if (it.roomResponse.rateInfo.chargeableRateInfo.depositAmount != null) {
-                    val depositText = Html.fromHtml(it.roomResponse.depositPolicyAtIndex(0) + " " + it.roomResponse.depositPolicyAtIndex(1))
-                    depositPolicyText.onNext(depositText)
-                }
                 val text = Html.fromHtml(context.getString(R.string.pay_later_disclaimer_TEMPLATE, tripTotal))
                 disclaimerText.onNext(text)
+            }
+
+            if (it.roomResponse.isPayLater && it.roomResponse.rateInfo.chargeableRateInfo.depositAmount != null) {
+                val depositText = Html.fromHtml(it.roomResponse.depositPolicyAtIndex(0) + " " + it.roomResponse.depositPolicyAtIndex(1))
+                depositPolicyText.onNext(depositText)
             }
 
             legalTextInformation.onNext(StrUtils.generateHotelsBookingStatement(context, PointOfSale.getPointOfSale().hotelBookingStatement.toString(), false))
