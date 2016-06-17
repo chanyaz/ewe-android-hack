@@ -56,6 +56,7 @@ public class NewFlightPhoneHappyPathTest extends NewFlightTestCase {
 		PackageScreen.enterLastName("Gudjohnsen");
 		PackageScreen.enterPhoneNumber("4155554321");
 		PackageScreen.selectBirthDate(1989, 6, 9);
+
 		PackageScreen.selectGender("Male");
 
 		PackageScreen.clickTravelerAdvanced();
@@ -77,16 +78,16 @@ public class NewFlightPhoneHappyPathTest extends NewFlightTestCase {
 
 	private void assertCheckoutOverview() {
 		onView(allOf(withId(R.id.destination), withParent(withId(R.id.checkout_overview_floating_toolbar)),
-			withText("San Francisco, CA (SFO-San Francisco Intl.)"))).check(matches(isDisplayed()));
+			withText("Detroit, MI (DTW-Detroit Metropolitan Wayne County)"))).check(matches(isDisplayed()));
 		onView(allOf(withId(R.id.travelers), withParent(withId(R.id.checkout_overview_floating_toolbar)),
 			withText("1 Traveler"))).check(matches(isDisplayed()));
 
 		onView(allOf(withId(R.id.flight_card_view_text),
 			isDescendantOfA(withId(R.id.package_bundle_outbound_flight_widget)))).check(
-			matches(withText("Flight to (SFO) San Francisco")));
+			matches(withText("Flight to (DTW) Detroit")));
 
 		onView(allOf(withId(R.id.flight_card_view_text),
 			isDescendantOfA(withId(R.id.package_bundle_inbound_flight_widget)))).check(
-			matches(withText("Flight to (DTW) Detroit")));
+			matches(withText("Flight to (SFO) San Francisco")));
 	}
 }
