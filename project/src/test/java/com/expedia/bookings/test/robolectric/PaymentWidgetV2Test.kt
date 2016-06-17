@@ -6,6 +6,7 @@ import android.graphics.drawable.Drawable
 import android.support.v4.content.ContextCompat
 import android.view.View
 import android.widget.ImageView
+import android.widget.ListView
 import com.expedia.bookings.R
 import com.expedia.bookings.data.BillingInfo
 import com.expedia.bookings.data.Db
@@ -19,31 +20,39 @@ import com.expedia.bookings.data.hotels.HotelCreateTripResponse
 import com.expedia.bookings.data.payment.PaymentModel
 import com.expedia.bookings.services.LoyaltyServices
 import com.expedia.bookings.test.MockHotelServiceTestRule
+import com.expedia.bookings.test.robolectric.shadows.ShadowAccountManagerEB
+import com.expedia.bookings.test.robolectric.shadows.ShadowGCM
+import com.expedia.bookings.test.robolectric.shadows.ShadowUserManager
 import com.expedia.bookings.testrule.ServicesRule
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.widget.PaymentWidgetV2
 import com.expedia.bookings.widget.RoundImageView
+import com.expedia.bookings.widget.StoredCreditCardList
 import com.expedia.bookings.widget.TextView
+import com.expedia.model.UserLoginStateChangedModel
 import com.expedia.vm.PayWithPointsViewModel
 import com.expedia.vm.PaymentViewModel
 import com.expedia.vm.PaymentWidgetViewModel
+import com.expedia.vm.ShopWithPointsViewModel
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.Robolectric
+import org.robolectric.RuntimeEnvironment
+import org.robolectric.Shadows
+import org.robolectric.annotation.Config
 import java.math.BigDecimal
 import java.util.concurrent.CountDownLatch
 import java.util.concurrent.TimeUnit
 import kotlin.properties.Delegates
 import kotlin.test.assertEquals
-import com.expedia.vm.ShopWithPointsViewModel
 import kotlin.test.assertFalse
+import kotlin.test.assertNull
 import kotlin.test.assertTrue
-import com.expedia.model.UserLoginStateChangedModel
-import org.robolectric.RuntimeEnvironment
 
 @RunWith(RobolectricRunner::class)
+@Config(shadows = arrayOf(ShadowGCM::class, ShadowUserManager::class, ShadowAccountManagerEB::class))
 class PaymentWidgetV2Test {
     var mockHotelServiceTestRule: MockHotelServiceTestRule = MockHotelServiceTestRule()
         @Rule get
@@ -60,6 +69,7 @@ class PaymentWidgetV2Test {
     lateinit var paymentTileOption: TextView
     lateinit var paymentTileIcon: RoundImageView
     lateinit var pwpSmallIcon: ImageView
+    lateinit var storedCardList: StoredCreditCardList
 
     private fun getContext(): Context {
         return RuntimeEnvironment.application
@@ -82,6 +92,7 @@ class PaymentWidgetV2Test {
         paymentTileOption = sut.findViewById(R.id.card_info_expiration) as TextView
         paymentTileIcon = sut.findViewById(R.id.card_info_icon) as RoundImageView
         pwpSmallIcon = sut.findViewById(R.id.pwp_small_icon) as ImageView
+        storedCardList = sut.findViewById(R.id.stored_creditcard_list) as StoredCreditCardList
     }
 
     @Test
@@ -103,6 +114,23 @@ class PaymentWidgetV2Test {
         paymentModel.createTripSubject.onNext(getCreateTripResponse(false))
         setUserWithStoredCard()
         testPaymentTileInfo("Visa 4111", "Tap to edit", ContextCompat.getDrawable(getContext(), R.drawable.ic_tablet_checkout_visa), View.GONE)
+    }
+
+    @Test
+    fun testUnsupportedCardIsNotSelected() {
+        UserLoginTestUtil.Companion.setupUserAndMockLogin(UserLoginTestUtil.Companion.mockUser())
+        assertTrue(User.isLoggedIn(getContext()))
+        sut.validateAndBind()
+        paymentModel.createTripSubject.onNext(getCreateTripResponse(false))
+        setUserWithStoredCard()
+        sut.storedCreditCardList.bind()
+
+        val listView = sut.storedCreditCardList.findViewById(R.id.stored_card_list) as ListView
+        assertNull(Db.getBillingInfo().storedCard)
+        testPaymentTileInfo("Payment Method", "Enter credit card", ContextCompat.getDrawable(getContext(), R.drawable.cars_checkout_cc_default_icon), View.GONE)
+        assertEquals(1, listView.adapter.count)
+        val tv = listView.adapter.getView(0, null, sut).findViewById(R.id.text1) as TextView
+        assertCardImageEquals(R.drawable.unsupported_card, tv)
     }
 
     @Test
@@ -154,25 +182,35 @@ class PaymentWidgetV2Test {
             createTripResponse = mockHotelServiceTestRule.getLoggedInUserWithNonRedeemablePointsCreateTripResponse()
 
         createTripResponse.tripId = "happy"
+        Db.clear()
         Db.getTripBucket().add(TripBucketItemHotelV2(createTripResponse))
 
         return createTripResponse
 
     }
 
+    private fun assertCardImageEquals(cardDrawableResId: Int, tv: TextView) {
+        val shadow = Shadows.shadowOf(tv)
+        assertEquals(cardDrawableResId, shadow.getCompoundDrawablesWithIntrinsicBoundsLeft())
+    }
+
     private fun setUserWithStoredCard() {
         val user = User()
-        val card = StoredCreditCard()
-        card.cardNumber = "4111111111111111"
-        card.type = PaymentType.CARD_AMERICAN_EXPRESS
-        card.description = "Visa 4111"
-
-        user.addStoredCreditCard(card)
+        user.addStoredCreditCard(getNewCard())
         Db.setUser(user)
 
         sut.viewmodel.isCreditCardRequired.onNext(true)
         sut.sectionBillingInfo.bind(BillingInfo())
         sut.selectFirstAvailableCard()
-        Db.setUser(null)
+    }
+
+    private fun getNewCard(): StoredCreditCard {
+        val card = StoredCreditCard()
+
+        card.cardNumber = "4111111111111111"
+        card.type = PaymentType.CARD_AMERICAN_EXPRESS
+        card.description = "Visa 4111"
+        card.setIsGoogleWallet(false)
+        return card
     }
 }

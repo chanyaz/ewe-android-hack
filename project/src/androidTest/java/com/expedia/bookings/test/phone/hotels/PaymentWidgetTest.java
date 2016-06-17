@@ -27,11 +27,6 @@ public class PaymentWidgetTest extends PhoneTestCase {
 		assertTempCardRemoved();
 	}
 
-	public void testCheckoutWithUnsupportedCard() throws Throwable {
-		goToCheckout("visa_not_supported");
-		assertSavedCardNotSelected();
-	}
-
 	private void assertSavedCardNotSelected() {
 		onView(withId(R.id.card_info_container)).perform(scrollTo());
 		EspressoUtils.assertViewWithTextIsDisplayed(R.id.card_info_expiration, R.string.checkout_hotelsv2_enter_payment_details_line2);
