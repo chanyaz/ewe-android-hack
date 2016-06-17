@@ -85,7 +85,9 @@ public class TimeSlider extends SeekBar {
 		setPadding(thumbPadding, 0, thumbPadding, 0);
 		setOnSeekBarChangeListener(onSeekBarChangeListener);
 
-		getProgressDrawable().setTint(trackColor);
+		Drawable progressDrawable = getProgressDrawable().mutate();
+		progressDrawable.setColorFilter(trackColor, PorterDuff.Mode.SRC_IN);
+		setProgressDrawable(progressDrawable);
 	}
 
 	@Override
