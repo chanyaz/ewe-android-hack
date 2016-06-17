@@ -219,13 +219,13 @@ class SlidingBundleWidget(context: Context, attrs: AttributeSet?) : FrameLayout(
         val currentOffer: PackageOfferModel = Db.getPackageResponse().packageResult.currentSelectedOffer
         val packagePrice: PackageOfferModel.PackagePrice = currentOffer.price
         bundlePriceWidget.viewModel.bundleTextLabelObservable.onNext(context.getString(R.string.search_bundle_total_text))
-        val packageSavings = Phrase.from(context, R.string.bundle_total_savings_TEMPLATE)
-                .put("savings", Money(BigDecimal(packagePrice.tripSavings.amount.toDouble()),
-                        packagePrice.tripSavings.currencyCode).formattedMoney).format().toString()
-        bundlePriceWidget.viewModel.setTextObservable.onNext(Pair(Money(BigDecimal(packagePrice.pricePerPerson.amount.toDouble()),
-                packagePrice.packageTotalPrice.currencyCode).formattedMoney, context.getString(R.string.per_person)))
-        bundlePriceFooter.viewModel.setTextObservable.onNext(Pair(Money(BigDecimal(packagePrice.packageTotalPrice.amount.toDouble()),
-                packagePrice.packageTotalPrice.currencyCode).formattedMoney, packageSavings))
+        val packageSavings = Money(BigDecimal(packagePrice.tripSavings.amount.toDouble()),
+                packagePrice.tripSavings.currencyCode)
+        bundlePriceWidget.viewModel.pricePerPerson.onNext(Money(BigDecimal(packagePrice.pricePerPerson.amount.toDouble()),
+                packagePrice.packageTotalPrice.currencyCode))
+        bundlePriceFooter.viewModel.total.onNext(Money(BigDecimal(packagePrice.packageTotalPrice.amount.toDouble()),
+                packagePrice.packageTotalPrice.currencyCode))
+        bundlePriceFooter.viewModel.savings.onNext(packageSavings)
     }
 
     override fun onTouchEvent(event: MotionEvent?): Boolean {

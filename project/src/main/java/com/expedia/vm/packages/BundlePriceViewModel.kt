@@ -9,10 +9,11 @@ import rx.subjects.BehaviorSubject
 import rx.subjects.PublishSubject
 
 class BundlePriceViewModel(val context: Context, val isSlidable: Boolean = false) {
-    val setTextObservable = PublishSubject.create<Pair<String, String>>()
     val total = PublishSubject.create<Money>()
     val savings = PublishSubject.create<Money>()
+    val pricePerPerson = PublishSubject.create<Money>()
 
+    val pricePerPersonObservable = BehaviorSubject.create<String>()
     val totalPriceObservable = BehaviorSubject.create<String>()
     val savingsPriceObservable = BehaviorSubject.create<String>()
     val bundleTextLabelObservable = BehaviorSubject.create<String>()
@@ -21,35 +22,38 @@ class BundlePriceViewModel(val context: Context, val isSlidable: Boolean = false
     val contentDescriptionObservable = BehaviorSubject.create<String>()
 
     init {
-        setTextObservable.subscribe { bundle ->
-            totalPriceObservable.onNext(bundle.first)
-            savingsPriceObservable.onNext(bundle.second)
-            contentDescriptionObservable.onNext(getAccessibleContentDescription(isSlidable))
+        pricePerPerson.subscribe {
+            perPersonTextLabelObservable.onNext(true)
+            pricePerPersonObservable.onNext(it.getFormattedMoney(Money.F_ALWAYS_TWO_PLACES_AFTER_DECIMAL))
+            val description = Phrase.from(context, R.string.bundle_overview_price_widget_button_open_TEMPLATE)
+                    .put("price_per_person", pricePerPersonObservable.value)
+                    .format().toString()
+            contentDescriptionObservable.onNext(description)
         }
 
         Observable.combineLatest(total, savings, { total, savings ->
             var packageSavings = Phrase.from(context, R.string.bundle_total_savings_TEMPLATE)
-                    .put("savings", savings.formattedMoney)
+                    .put("savings", savings.getFormattedMoney(Money.F_ALWAYS_TWO_PLACES_AFTER_DECIMAL))
                     .format().toString()
-            setTextObservable.onNext(Pair(total.formattedMoney, packageSavings))
+            totalPriceObservable.onNext(total.getFormattedMoney(Money.F_ALWAYS_TWO_PLACES_AFTER_DECIMAL))
+            savingsPriceObservable.onNext(packageSavings)
             contentDescriptionObservable.onNext(getAccessibleContentDescription())
         }).subscribe()
     }
 
     fun getAccessibleContentDescription(isSlidable: Boolean = false, isExpanded: Boolean = false): String {
-        var stringID: Int
-        if (isSlidable) {
-            if (isExpanded)
-                return context.getString(R.string.bundle_overview_price_widget_button_close)
-            else
-                stringID = R.string.bundle_overview_price_widget_button_open
+        val description = if (!isSlidable) {
+            Phrase.from(context, R.string.bundle_overview_price_widget)
+                    .put("totalprice", totalPriceObservable.value)
+                    .put("savings", savingsPriceObservable.value)
+                    .format().toString()
+        } else if (isExpanded) {
+            context.getString(R.string.bundle_overview_price_widget_button_close)
+        } else {
+            Phrase.from(context, R.string.bundle_overview_price_widget_button_open_TEMPLATE)
+                    .put("price_per_person", pricePerPersonObservable.value)
+                    .format().toString()
         }
-        else {
-            stringID = R.string.bundle_overview_price_widget
-        }
-        return Phrase.from(context, stringID)
-                .put("totalprice", totalPriceObservable.value)
-                .put("savings", savingsPriceObservable.value)
-                .format().toString()
+        return description
     }
 }

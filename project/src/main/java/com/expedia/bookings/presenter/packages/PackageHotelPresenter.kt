@@ -92,11 +92,14 @@ class PackageHotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
         presenter.hotelDetailView.viewmodel.reviewsClickedWithHotelData.subscribe(reviewsObserver)
         presenter.hotelDetailView.viewmodel.vipAccessInfoObservable.subscribe(presenter.hotelVIPAccessInfoObserver)
         presenter.hotelDetailView.viewmodel.mapClickedSubject.subscribe(presenter.hotelDetailsEmbeddedMapClickObserver)
-        presenter.hotelDetailView.viewmodel.bundlePricePerPersonObservable.subscribe { bundle ->
-            bundleSlidingWidget.bundlePriceWidget.viewModel.setTextObservable.onNext(bundle)
+        presenter.hotelDetailView.viewmodel.bundlePricePerPersonObservable.subscribe { pricePerPerson ->
+            bundleSlidingWidget.bundlePriceWidget.viewModel.pricePerPerson.onNext(pricePerPerson)
         }
-        presenter.hotelDetailView.viewmodel.bundleTotalPriceObservable.subscribe { bundle ->
-            bundleSlidingWidget.bundlePriceFooter.viewModel.setTextObservable.onNext(bundle)
+        presenter.hotelDetailView.viewmodel.bundleTotalPriceObservable.subscribe { totalPrice ->
+            bundleSlidingWidget.bundlePriceFooter.viewModel.total.onNext(totalPrice)
+        }
+        presenter.hotelDetailView.viewmodel.bundleSavingsObservable.subscribe { savings ->
+            bundleSlidingWidget.bundlePriceFooter.viewModel.savings.onNext(savings)
         }
         presenter.hotelMapView.viewmodel = HotelMapViewModel(context, presenter.hotelDetailView.viewmodel.scrollToRoom, presenter.hotelDetailView.viewmodel.hotelSoldOut, presenter.hotelDetailView.viewmodel.getLOB())
         presenter
@@ -151,13 +154,11 @@ class PackageHotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
             resultsPresenter.viewmodel.hotelResultsObservable.onNext(HotelSearchResponse.convertPackageToSearchResponse(Db.getPackageResponse()))
         }
         val currencyCode = Db.getPackageResponse().packageResult.packageOfferModels[0].price.packageTotalPrice.currencyCode
-        val total = Money(BigDecimal(0), currencyCode)
         bundleSlidingWidget.bundlePriceWidget.viewModel.bundleTextLabelObservable.onNext(context.getString(R.string.search_bundle_total_text))
-        val packageSavings = Phrase.from(context, R.string.bundle_total_savings_TEMPLATE)
-                .put("savings", total.getFormattedMoney(Money.F_ALWAYS_TWO_PLACES_AFTER_DECIMAL))
-                .format().toString()
-        bundleSlidingWidget.bundlePriceWidget.viewModel.setTextObservable.onNext(Pair(total.getFormattedMoney(Money.F_ALWAYS_TWO_PLACES_AFTER_DECIMAL), packageSavings))
-        bundleSlidingWidget.bundlePriceFooter.viewModel.setTextObservable.onNext(Pair(total.getFormattedMoney(Money.F_ALWAYS_TWO_PLACES_AFTER_DECIMAL), packageSavings))
+        val zero = Money(BigDecimal(0), currencyCode)
+        bundleSlidingWidget.bundlePriceWidget.viewModel.pricePerPerson.onNext(zero)
+        bundleSlidingWidget.bundlePriceFooter.viewModel.total.onNext(zero)
+        bundleSlidingWidget.bundlePriceFooter.viewModel.savings.onNext(zero)
     }
 
     fun updateOverviewAnimationDuration(duration: Int) {
