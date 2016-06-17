@@ -329,13 +329,18 @@ public class LXDataUtils {
 	public static void bindDuration(Context context, String activityDuration, boolean isMultiDuration,
 		TextView duration) {
 		if (Strings.isNotEmpty(activityDuration)) {
+			int contDescResId;
 			if (isMultiDuration) {
+				contDescResId = R.string.search_result_multiple_duration_cont_desc_TEMPLATE;
 				duration.setText(context.getResources()
 					.getString(R.string.search_result_multiple_duration_TEMPLATE, activityDuration));
 			}
 			else {
+				contDescResId = R.string.search_result_duration_cont_desc_TEMPLATE;
 				duration.setText(activityDuration);
 			}
+			duration.setContentDescription(
+				Phrase.from(context, contDescResId).put("duration", activityDuration).format().toString());
 			duration.setVisibility(View.VISIBLE);
 		}
 		else {
