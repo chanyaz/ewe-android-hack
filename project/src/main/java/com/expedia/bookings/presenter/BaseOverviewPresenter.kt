@@ -118,6 +118,7 @@ abstract class BaseOverviewPresenter(context: Context, attrs: AttributeSet) : Pr
         var range = 0f
         var userStoppedScrollingAt = 0
         override fun startTransition(forward: Boolean) {
+            toggleToolbar(forward)
             bundleOverviewHeader.checkoutOverviewHeaderToolbar.visibility = View.VISIBLE
             bundleOverviewHeader.toggleCollapsingToolBar(true)
             translationDistance = checkoutPresenter.mainContent.translationY
@@ -217,8 +218,8 @@ abstract class BaseOverviewPresenter(context: Context, attrs: AttributeSet) : Pr
 
     class BundleDefault
 
+    open fun toggleToolbar(forward: Boolean) { }
     abstract fun getCheckoutTransitionClass() : Class<out Any>
-
     abstract fun trackCheckoutPageLoad()
     abstract fun trackPaymentCIDLoad()
 }
