@@ -94,6 +94,10 @@ class FlightSearchViewModel(context: Context, val flightServices: FlightServices
         requiredSearchParamsObserver.onNext(Unit)
     }
 
+    val isInfantInLapObserver = endlessObserver<Boolean> { isInfantInLap ->
+        getParamsBuilder().infantSeatingInLap(isInfantInLap)
+    }
+
     override fun getParamsBuilder(): FlightSearchParams.Builder {
         return flightParamsBuilder
     }

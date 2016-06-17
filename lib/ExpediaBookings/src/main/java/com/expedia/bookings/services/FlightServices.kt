@@ -44,7 +44,7 @@ class FlightServices(endpoint: String, okHttpClient: OkHttpClient, interceptor: 
     }
 
     fun flightSearch(params: FlightSearchParams): Observable<FlightSearchResponse> {
-        return flightApi.flightSearch(params.toQueryMap()).observeOn(observeOn)
+        return flightApi.flightSearch(params.toQueryMap(), params.children).observeOn(observeOn)
                 .subscribeOn(subscribeOn)
                 .doOnNext { response ->
                     response.legs.forEach { leg ->

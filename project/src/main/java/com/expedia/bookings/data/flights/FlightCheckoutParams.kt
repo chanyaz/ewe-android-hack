@@ -39,6 +39,7 @@ class FlightCheckoutParams(billingInfo: BillingInfo, travelers: ArrayList<Travel
 
         params.put("tlPaymentsSubmitEvent", "1")
         params.put("tealeafTransactionId", this.tealeafTransactionId)
+        params.put("validateWithChildren", true)
 
         //TRAVELERS
         travelers.forEachIndexed { i, traveler ->
