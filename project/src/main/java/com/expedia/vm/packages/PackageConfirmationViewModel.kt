@@ -1,19 +1,24 @@
 package com.expedia.vm.packages
 
 import android.content.Context
+import android.support.v7.app.AppCompatActivity
 import com.expedia.bookings.BuildConfig
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.User
+import com.expedia.bookings.data.cars.CarSearchParamsBuilder
 import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.data.trips.ItineraryManager
 import com.expedia.bookings.utils.DateUtils
+import com.expedia.bookings.utils.NavUtils
 import com.expedia.bookings.utils.StrUtils
 import com.squareup.phrase.Phrase
 import org.joda.time.LocalDate
 import org.joda.time.format.DateTimeFormat
 import org.joda.time.format.DateTimeFormatter
 import org.joda.time.format.ISODateTimeFormat
+import rx.Observer
+import rx.exceptions.OnErrorNotImplementedException
 import rx.subjects.BehaviorSubject
 import rx.subjects.PublishSubject
 
@@ -82,5 +87,30 @@ class PackageConfirmationViewModel(val context: Context) {
 
         return context.getString(R.string.package_overview_flight_travel_info_TEMPLATE, DateUtils.localDateToMMMd(localDate),
                 DateUtils.formatTimeShort(selectedFlight.departureDateTimeISO), StrUtils.formatTravelerString(context, Db.getPackageParams().guests))
+    }
+
+    fun searchForCarRentalsForTripObserver(context: Context): Observer<Unit> {
+        return object : Observer<Unit> {
+            override fun onNext(t: Unit?) {
+                val builder = CarSearchParamsBuilder()
+                val dateTimeBuilder = CarSearchParamsBuilder.DateTimeBuilder()
+                        .startDate(Db.getPackageParams().checkIn)
+                        .endDate(Db.getPackageParams().checkOut)
+                builder.origin(Db.getPackageSelectedOutboundFlight().destinationAirportCode)
+                builder.originDescription(StrUtils.formatCarOriginDescription(context, Db.getPackageSelectedOutboundFlight()))
+                builder.dateTimeBuilder(dateTimeBuilder)
+                val carSearchParams = builder.build()
+                NavUtils.goToCars(context, null, carSearchParams, NavUtils.FLAG_OPEN_SEARCH)
+                val activity = context as AppCompatActivity
+                activity.finish()
+            }
+
+            override fun onCompleted() {
+            }
+
+            override fun onError(e: Throwable?) {
+                throw OnErrorNotImplementedException(e)
+            }
+        }
     }
 }

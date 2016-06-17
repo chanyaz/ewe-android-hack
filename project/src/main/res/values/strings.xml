@@ -4105,6 +4105,8 @@
     <string name="yay_going_somewhere">You\'re going to</string>
     <!-- Cars cross-sell message on package confirmation -->
     <string name="rental_car_message">Need a rental car?</string>
+    <!-- Cars cross-sell origin description template-->
+    <string name="cars_cross_sell_origin_TEMPLATE">{airport_code}-{airport_localname}</string>
     <!-- Cars cross-sell message description on package confirmation -->
     <string name="rental_car_message_desc">Shop cars and save money</string>
     <!-- Fly from hint -->

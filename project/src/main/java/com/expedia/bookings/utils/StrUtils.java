@@ -40,6 +40,7 @@ import com.expedia.bookings.data.SuggestionResponse;
 import com.expedia.bookings.data.SuggestionV2;
 import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.data.SuggestionV4;
+import com.expedia.bookings.data.flights.FlightLeg;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.mobiata.android.LocationServices;
 import com.mobiata.flightlib.data.Airport;
@@ -445,6 +446,13 @@ public class StrUtils {
 		sb.append("(").append(suggestion.hierarchyInfo.airport.airportCode).append(") ");
 		sb.append(formatCityName(suggestion));
 		return sb.toString();
+	}
+
+	public static String formatCarOriginDescription(Context context, FlightLeg flightLeg) {
+		return Phrase.from(context, R.string.cars_cross_sell_origin_TEMPLATE)
+			.put("airport_code", flightLeg.destinationAirportCode)
+			.put("airport_localname", flightLeg.destinationAirportLocalName)
+			.format().toString();
 	}
 
 	public static String formatDisplayName(SuggestionResponse suggestionResponse) {
