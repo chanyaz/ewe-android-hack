@@ -4,14 +4,16 @@ import com.expedia.bookings.data.hotels.HotelReviewsParams
 import com.expedia.bookings.data.hotels.HotelReviewsResponse
 import com.expedia.bookings.data.hotels.HotelReviewsResponse.Review
 import com.expedia.bookings.data.hotels.HotelReviewsResponse.ReviewSummary
+import com.expedia.bookings.data.hotels.ReviewSort
 import com.expedia.bookings.services.ReviewsServices
+import com.expedia.bookings.tracking.OmnitureTracking
 import com.expedia.util.endlessObserver
 import rx.Observable
+import rx.Observer
 import rx.subjects.PublishSubject
-import com.expedia.bookings.data.hotels.ReviewSort
 
 class HotelReviewsAdapterViewModel(val hotelId: String, val reviewsServices: ReviewsServices, val locale: String) {
-    
+
     private val reviewsPageNumber = IntArray(3)
 
     val MIN_FAVORABLE_RATING = 3
@@ -37,10 +39,22 @@ class HotelReviewsAdapterViewModel(val hotelId: String, val reviewsServices: Rev
         reviewsDownloadsObservable.onNext(reviewsServices.reviews(params).map { Pair(reviewSort, it) })
     }
 
-    init {
-        orderedReviewsObservable.subscribe {
-            reviewsObservable.onNext(it)
+    private val orderedReviewsObserver = object : Observer<Pair<ReviewSort, HotelReviewsResponse>> {
+        override fun onError(e: Throwable?) {
+            OmnitureTracking.trackReviewLoadingError(e?.message?.toString() ?: "")
         }
+
+        override fun onNext(t: Pair<ReviewSort, HotelReviewsResponse>?) {
+            reviewsObservable.onNext(t)
+        }
+
+        override fun onCompleted() {
+
+        }
+    }
+
+    init {
+        orderedReviewsObservable.subscribe(orderedReviewsObserver)
 
         reviewsObservable
                 .map { it.second.reviewDetails.reviewSummaryCollection.reviewSummary[0] }
