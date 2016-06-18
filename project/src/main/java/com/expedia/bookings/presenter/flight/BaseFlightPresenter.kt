@@ -21,20 +21,18 @@ import com.expedia.bookings.utils.ArrowXDrawableUtil
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.BaggageFeeInfoWidget
-import com.expedia.bookings.widget.FlightListAdapter
 import com.expedia.bookings.widget.PackageFlightFilterWidget
 import com.expedia.bookings.widget.flights.PaymentFeeInfoWidget
 import com.expedia.util.notNullAndObservable
 import com.expedia.vm.FlightOverviewViewModel
 import com.expedia.vm.FlightResultsViewModel
-import com.expedia.vm.FlightSearchViewModel
 import com.expedia.vm.FlightToolbarViewModel
 import com.expedia.vm.WebViewViewModel
 import com.expedia.vm.packages.FlightFilterViewModel
 import rx.Observer
 import rx.exceptions.OnErrorNotImplementedException
 
-abstract class BaseFlightPresenter(context: Context, attrs: AttributeSet) : Presenter(context, attrs) {
+abstract class BaseFlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(context, attrs) {
 
     val ANIMATION_DURATION = 400
     val toolbar: Toolbar by bindView(R.id.flights_toolbar)
@@ -46,14 +44,6 @@ abstract class BaseFlightPresenter(context: Context, attrs: AttributeSet) : Pres
     val menuSearch: MenuItem by lazy {
         val menuSearch = toolbar.menu.findItem(R.id.menu_search)
         menuSearch
-    } // not used for package LOB
-    var flightSearchViewModel: FlightSearchViewModel by notNullAndObservable { vm ->
-        val flightListAdapter = FlightListAdapter(context, resultsPresenter.flightSelectedSubject, vm)
-        resultsPresenter.setAdapter(flightListAdapter)
-        toolbarViewModel.isOutboundSearch.onNext(isOutboundResultsPresenter())
-        vm.confirmedOutboundFlightSelection.subscribe(resultsPresenter.outboundFlightSelectedSubject)
-        vm.flightOfferSelected.subscribe { overviewPresenter.paymentFeesMayApplyTextView.visibility = if (it.mayChargeOBFees) VISIBLE else GONE }
-        vm.obFeeDetailsUrlObservable.subscribe(paymentFeeInfo.viewModel.webViewURLObservable)
     }
 
     val baggageFeeInfo: BaggageFeeInfoWidget by lazy {
@@ -85,8 +75,8 @@ abstract class BaseFlightPresenter(context: Context, attrs: AttributeSet) : Pres
     }
 
     val resultsPresenter: FlightResultsListViewPresenter by lazy {
-        var viewStub = findViewById(R.id.results_stub) as ViewStub
-        var presenter = viewStub.inflate() as FlightResultsListViewPresenter
+        val viewStub = findViewById(R.id.results_stub) as ViewStub
+        val presenter = viewStub.inflate() as FlightResultsListViewPresenter
         presenter.resultsViewModel = FlightResultsViewModel()
         toolbarViewModel.isOutboundSearch.subscribe(presenter.resultsViewModel.isOutboundResults)
         presenter.flightSelectedSubject.subscribe(selectedFlightResults)
@@ -95,8 +85,8 @@ abstract class BaseFlightPresenter(context: Context, attrs: AttributeSet) : Pres
     }
 
     val overviewPresenter: FlightOverviewPresenter by lazy {
-        var viewStub = findViewById(R.id.overview_stub) as ViewStub
-        var presenter = viewStub.inflate() as FlightOverviewPresenter
+        val viewStub = findViewById(R.id.overview_stub) as ViewStub
+        val presenter = viewStub.inflate() as FlightOverviewPresenter
         presenter.vm = FlightOverviewViewModel(context, shouldShowBundlePrice())
         presenter
     }

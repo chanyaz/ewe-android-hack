@@ -174,7 +174,14 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
 
     private val overviewToConfirmation = object : LeftToRightTransition(this, FlightOverviewPresenter::class.java, FlightConfirmationPresenter::class.java) {}
 
-    private val outboundToInbound = ScaleTransition(this, FlightOutboundPresenter::class.java, FlightInboundPresenter::class.java)
+    private val outboundToInbound = object: ScaleTransition(this, FlightOutboundPresenter::class.java, FlightInboundPresenter::class.java) {
+        override fun endTransition(forward: Boolean) {
+            super.endTransition(forward)
+            if (!forward) {
+                searchViewModel.resetFlightSelections()
+            }
+        }
+    }
 
     private val searchToOutbound = object : SearchToOutboundTransition(this, FlightSearchPresenter::class.java, FlightOutboundPresenter::class.java) {}
     private val restrictedSearchToOutbound = object : SearchToOutboundTransition(this, FlightSearchAirportDropdownPresenter::class.java, FlightOutboundPresenter::class.java) {}

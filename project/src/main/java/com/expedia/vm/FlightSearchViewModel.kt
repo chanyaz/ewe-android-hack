@@ -16,6 +16,7 @@ import com.squareup.phrase.Phrase
 import org.joda.time.LocalDate
 import rx.Observable
 import rx.Observer
+import rx.Subscription
 import rx.subjects.BehaviorSubject
 import rx.subjects.PublishSubject
 import java.util.HashMap
@@ -38,7 +39,6 @@ class FlightSearchViewModel(context: Context, val flightServices: FlightServices
     val flightOfferSelected = PublishSubject.create<FlightTripDetails.FlightOffer>()
     val obFeeDetailsUrlObservable = PublishSubject.create<String>()
     val isRoundTripSearchObservable = BehaviorSubject.create<Boolean>(true)
-
     val flightParamsBuilder = FlightSearchParams.Builder(getMaxSearchDurationDays(), getMaxDateRange())
 
     val searchObserver = endlessObserver<Unit> {
@@ -52,7 +52,6 @@ class FlightSearchViewModel(context: Context, val flightServices: FlightServices
                 val flightSearchParams = getParamsBuilder().build()
                 updateDbTravelers(flightSearchParams)
                 Db.setFlightSearchParams(flightSearchParams)
-                flightServices.flightSearch(flightSearchParams).subscribe(makeResultsObserver())
                 searchParamsObservable.onNext(flightSearchParams)
             }
         } else {
@@ -64,23 +63,37 @@ class FlightSearchViewModel(context: Context, val flightServices: FlightServices
         }
     }
 
+    private var confirmedOutInSubscription: Subscription? = null
+    private var inboundOutboundSelectSubscription: Subscription? = null
+    private val resetFlightSelectionsSubject = PublishSubject.create<Unit>()
+
     init {
         searchParamsObservable.subscribe { params ->
             flightServices.flightSearch(params).subscribe(makeResultsObserver())
         }
+        searchParamsObservable.map { Unit }.subscribe(resetFlightSelectionsSubject)
 
         confirmedOutboundFlightSelection.subscribe { flight ->
             inboundResultsObservable.onNext(findInboundFlights(flight.legId))
         }
 
-        Observable.combineLatest(confirmedOutboundFlightSelection, confirmedInboundFlightSelection, { outbound, inbound ->
+        resetFlightSelectionsSubject.subscribe {
+            setupFlightSelectionObservables()
+        }
+    }
+
+    fun setupFlightSelectionObservables() {
+        confirmedOutInSubscription?.unsubscribe()
+        inboundOutboundSelectSubscription?.unsubscribe()
+
+        confirmedOutInSubscription = Observable.combineLatest(confirmedOutboundFlightSelection, confirmedInboundFlightSelection, { outbound, inbound ->
             val offer = flightOfferModels[makeFlightOfferKey(outbound.legId, inbound.legId)]
             if (offer != null) {
                 flightProductId.onNext(offer.productKey)
             }
         }).subscribe()
 
-        Observable.combineLatest(outboundSelected, inboundSelected, { outbound, inbound ->
+        inboundOutboundSelectSubscription = Observable.combineLatest(outboundSelected, inboundSelected, { outbound, inbound ->
             val offer = flightOfferModels[makeFlightOfferKey(outbound.legId, inbound.legId)]
             if (offer != null) {
                 flightOfferSelected.onNext(offer)
@@ -238,5 +251,9 @@ class FlightSearchViewModel(context: Context, val flightServices: FlightServices
 
     private fun makeFlightOfferKey(outboundId: String, inboundId: String): String {
         return outboundId + inboundId
+    }
+
+    fun resetFlightSelections() {
+        resetFlightSelectionsSubject.onNext(Unit)
     }
 }
