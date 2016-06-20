@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
+import java.util.Collections;
 import java.util.concurrent.TimeUnit;
 
 import javax.inject.Singleton;
@@ -27,16 +28,19 @@ import com.expedia.bookings.utils.ServicesUtil;
 import com.expedia.bookings.utils.StethoShim;
 import com.expedia.bookings.utils.Strings;
 import com.expedia.model.UserLoginStateChangedModel;
+import com.google.android.gms.security.ProviderInstaller;
 import com.mobiata.android.DebugUtils;
 
 import dagger.Module;
 import dagger.Provides;
 import okhttp3.Cache;
+import okhttp3.ConnectionSpec;
 import okhttp3.HttpUrl;
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
+import okhttp3.TlsVersion;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import rx.android.schedulers.AndroidSchedulers;
@@ -126,7 +130,15 @@ public class AppModule {
 
 	@Provides
 	@Singleton
-	OkHttpClient provideOkHttpClient(PersistentCookieManager cookieManager, SSLContext sslContext, Cache cache, HttpLoggingInterceptor.Level logLevel) {
+	OkHttpClient provideOkHttpClient(Context context, PersistentCookieManager cookieManager, SSLContext sslContext, Cache cache, HttpLoggingInterceptor.Level logLevel) {
+		try {
+			ProviderInstaller.installIfNeeded(context);
+		}
+		catch (Exception e) {
+			// rely on the PlayServices checking code that runs when first activity starts
+			// to guide the user through the recovery process
+		}
+
 		OkHttpClient.Builder client = new OkHttpClient().newBuilder();
 		client.cache(cache);
 		HttpLoggingInterceptor logger = new HttpLoggingInterceptor();
@@ -137,6 +149,14 @@ public class AppModule {
 
 		client.connectTimeout(10, TimeUnit.SECONDS);
 		client.readTimeout(60L, TimeUnit.SECONDS);
+
+		if (!ExpediaBookingApp.isAutomation()) {
+			// MockWebServer does not play nicely with TLS 1.2
+			ConnectionSpec spec = new ConnectionSpec.Builder(ConnectionSpec.MODERN_TLS)
+					.tlsVersions(TlsVersion.TLS_1_2)
+					.build();
+			client.connectionSpecs(Collections.singletonList(spec));
+		}
 
 		if (BuildConfig.DEBUG) {
 			// We don't care about cert validity for debug builds
