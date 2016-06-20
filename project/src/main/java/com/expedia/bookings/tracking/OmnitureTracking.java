@@ -1,17 +1,5 @@
 package com.expedia.bookings.tracking;
 
-import java.io.PrintWriter;
-import java.io.StringWriter;
-import java.io.Writer;
-import java.math.BigDecimal;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-import java.text.DecimalFormat;
-import java.text.SimpleDateFormat;
-import java.util.HashSet;
-import java.util.Locale;
-import java.util.Set;
-
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.joda.time.format.DateTimeFormat;
@@ -19,6 +7,7 @@ import org.joda.time.format.DateTimeFormatter;
 import org.joda.time.format.ISODateTimeFormat;
 
 import android.Manifest;
+
 import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
@@ -30,9 +19,7 @@ import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.text.Html;
 import android.text.TextUtils;
-
 import com.adobe.adms.measurement.ADMS_Measurement;
-import com.adobe.adms.measurement.ADMS_ReferrerHandler;
 import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.ExpediaBookingApp;
@@ -58,8 +45,6 @@ import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.SearchParams;
 import com.expedia.bookings.data.StoredCreditCard;
 import com.expedia.bookings.data.SuggestionV2;
-import com.expedia.bookings.data.trips.TripBucketItemFlight;
-import com.expedia.bookings.data.trips.TripBucketItemHotel;
 import com.expedia.bookings.data.User;
 import com.expedia.bookings.data.abacus.AbacusLogQuery;
 import com.expedia.bookings.data.abacus.AbacusTest;
@@ -83,6 +68,8 @@ import com.expedia.bookings.data.packages.PackageSearchResponse;
 import com.expedia.bookings.data.payment.PaymentSplitsType;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.data.trips.Trip;
+import com.expedia.bookings.data.trips.TripBucketItemFlight;
+import com.expedia.bookings.data.trips.TripBucketItemHotel;
 import com.expedia.bookings.data.trips.TripComponent.Type;
 import com.expedia.bookings.enums.CheckoutTripBucketState;
 import com.expedia.bookings.enums.TripBucketItemState;
@@ -103,6 +90,17 @@ import com.mobiata.android.LocationServices;
 import com.mobiata.android.Log;
 import com.mobiata.android.util.AdvertisingIdUtils;
 import com.mobiata.android.util.SettingUtils;
+import java.io.PrintWriter;
+import java.io.StringWriter;
+import java.io.Writer;
+import java.math.BigDecimal;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
+import java.util.HashSet;
+import java.util.Locale;
+import java.util.Set;
 
 /**
  * The basic premise behind this class is to encapsulate the tracking logic as much possible such that tracking events
@@ -3879,25 +3877,6 @@ public class OmnitureTracking {
 
 		// Send the tracking data
 		s.track();
-	}
-
-	public static void trackAppInstallCustom(Context context) {
-		Log.d(TAG, "Tracking \"App Install\" pageLoad");
-
-		ADMS_Measurement s = getFreshTrackingObject();
-
-		sMarketingDate = ISODateTimeFormat.date().print(DateTime.now());
-		SettingUtils.save(context, context.getString(R.string.preference_marketing_date), sMarketingDate);
-
-		s.setEvar(10, sMarketingDate);
-		s.setEvar(28, "App Install");
-
-		s.track();
-	}
-
-	public static void trackGooglePlayReferralLink(Context context, Intent intent) {
-		ADMS_ReferrerHandler handler = new ADMS_ReferrerHandler();
-		handler.processIntent(context, intent);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
