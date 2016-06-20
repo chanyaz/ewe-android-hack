@@ -4206,6 +4206,11 @@
     <!--LX search accessibility -->
     <string name="lx_location_edit_box_cont_desc">Activity Location</string>
 
+    <!--LX infosite accessibility -->
+    <!-- LX infosite section Highlights, description etc have a caret icon to read more content -->
+    <string name="lx_read_more_cont_desc">Read more Button</string>
+    <!-- LX infosite section Highlights, description etc have a caret icon to read less content -->
+    <string name="lx_read_less_cont_desc">Read less Button</string>
 
     <!-- Generic content description -->
 
