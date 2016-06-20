@@ -332,4 +332,9 @@ public class LXSortFilterWidget extends LinearLayout {
 	public void setThemeAllThingsToDo(boolean themeAllThingsToDo) {
 		this.themeAllThingsToDo = themeAllThingsToDo;
 	}
+
+	public void setFocusToToolbarForAccessibility() {
+		toolbar.clearFocus();
+		toolbar.requestFocus();
+	}
 }

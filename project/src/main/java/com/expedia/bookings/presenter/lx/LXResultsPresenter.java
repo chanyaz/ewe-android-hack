@@ -172,6 +172,9 @@ public class LXResultsPresenter extends Presenter {
 				sortFilterWidget.setTranslationY(forward ? 0 : sortFilterWidget.getHeight());
 			}
 			sortFilterWidget.setVisibility(forward ? VISIBLE : GONE);
+			if (forward) {
+				sortFilterWidget.setFocusToToolbarForAccessibility();
+			}
 		}
 	};
 
