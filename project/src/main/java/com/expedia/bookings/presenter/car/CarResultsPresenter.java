@@ -125,7 +125,7 @@ public class CarResultsPresenter extends Presenter {
 			.getNavigationIconDrawable(getContext(), ArrowXDrawableUtil.ArrowDrawableType.BACK);
 		navIcon.setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_IN);
 		toolbar.setNavigationIcon(navIcon);
-		toolbar.setNavigationContentDescription(getResources().getString(R.string.toolbar_search_nav_icon));
+		toolbar.setNavigationContentDescription(getResources().getString(R.string.toolbar_search_nav_icon_cont_desc));
 		toolbar.setTitleTextColor(Color.WHITE);
 		toolbar.setSubtitleTextColor(Color.WHITE);
 		toolbar.inflateMenu(R.menu.cars_results_menu);

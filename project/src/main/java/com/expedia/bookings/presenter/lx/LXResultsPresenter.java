@@ -494,7 +494,7 @@ public class LXResultsPresenter extends Presenter {
 		navIcon = ArrowXDrawableUtil
 			.getNavigationIconDrawable(getContext(), ArrowXDrawableUtil.ArrowDrawableType.BACK);
 		toolbar.setNavigationIcon(navIcon);
-		toolbar.setNavigationContentDescription(R.string.toolbar_search_nav_icon);
+		toolbar.setNavigationContentDescription(R.string.toolbar_search_nav_icon_cont_desc);
 		toolbar.inflateMenu(R.menu.lx_results_details_menu);
 
 		toolbar.setNavigationOnClickListener(new OnClickListener() {
