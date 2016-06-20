@@ -41,6 +41,7 @@ public class LXFilterCategoryWidget extends LinearLayout implements View.OnClick
 		this.categoryKey = categoryKey;
 		categoryTitle.setText(category.displayValue);
 		categoryCheckBox.setChecked(category.checked);
+		categoryCheckBox.setContentDescription(category.displayValue);
 	}
 
 	@Override

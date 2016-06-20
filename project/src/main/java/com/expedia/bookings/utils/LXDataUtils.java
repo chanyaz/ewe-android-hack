@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.EnumMap;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 
@@ -340,7 +341,8 @@ public class LXDataUtils {
 				duration.setText(activityDuration);
 			}
 			duration.setContentDescription(
-				Phrase.from(context, contDescResId).put("duration", activityDuration).format().toString());
+				Phrase.from(context, contDescResId).put("duration", activityDuration.toUpperCase(Locale.getDefault()))
+					.format().toString());
 			duration.setVisibility(View.VISIBLE);
 		}
 		else {
