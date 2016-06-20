@@ -656,5 +656,6 @@ DummyFiletoHandleKotlinLintError {
 		R.string.select_hotel_selected_collapse_cont_desc,
 		R.plurals.packages_search_travelers_cont_desc_TEMPLATE,
 		R.layout.process_dialog_layout,
+		R.menu.menu_search_item
 	};
 }

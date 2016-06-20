@@ -62,7 +62,6 @@ class PackageHotelResultsPresenter(context: Context, attrs: AttributeSet) : Base
         filterButtonText = filterMenuItem.actionView.findViewById(R.id.filter_text) as TextView
         filterButtonText.visibility = GONE
         filterMenuItem.isVisible = true
-        searchMenuItem.isVisible = false
         filterView.lob = LineOfBusiness.PACKAGES
         filterBtn?.setOnClickListener { view ->
             showWithTracking(ResultsFilter())

@@ -19,12 +19,13 @@ import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.Toolbar
 import android.text.format.DateUtils
 import android.util.AttributeSet
-import android.view.MotionEvent
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
-import android.view.ViewPropertyAnimator
 import android.view.ViewTreeObserver
+import android.view.MotionEvent
 import android.view.LayoutInflater
+import android.view.ViewPropertyAnimator
 import android.view.animation.AccelerateInterpolator
 import android.view.animation.DecelerateInterpolator
 import android.view.animation.LinearInterpolator
@@ -122,12 +123,12 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
 
     val hotelSelectedSubject = PublishSubject.create<Hotel>()
     val headerClickedSubject = PublishSubject.create<Unit>()
+    val showSearchMenu = PublishSubject.create<Boolean>()
     val hideBundlePriceOverviewSubject = PublishSubject.create<Boolean>()
 
     var googleMap: GoogleMap? = null
 
     open val filterMenuItem by lazy { toolbar.menu.findItem(R.id.menu_filter) }
-    val searchMenuItem by lazy { toolbar.menu.findItem(R.id.menu_open_search) }
 
     var filterCountText: TextView by Delegates.notNull()
     var filterPlaceholderImageView: ImageView by Delegates.notNull()
@@ -477,11 +478,6 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
             }
         }
 
-        searchMenuItem.setOnMenuItemClickListener({
-            searchOverlaySubject.onNext(Unit)
-            true
-        })
-
         filterMenuItem.setVisible(false)
         var fabLp = fab.layoutParams as FrameLayout.LayoutParams
         fabLp.bottomMargin += resources.getDimension(R.dimen.hotel_filter_height).toInt()
@@ -825,8 +821,8 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
                 toolbarTitle.translationY = 0f
                 toolbarSubtitle.translationY = 0f
                 updateFilterButtonText(forward)
-                searchMenuItem.setVisible(forward)
-                filterMenuItem.setVisible(!forward)
+                showSearchMenu.onNext(forward)
+                filterMenuItem.isVisible = !forward
                 showMenuItem(forward)
             }
 
@@ -1211,7 +1207,6 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
     abstract fun trackMapPinTap()
     abstract fun trackFilterShown()
     abstract fun trackMapSearchAreaClick()
-
     abstract fun getHotelListAdapter(): BaseHotelListAdapter
     abstract fun isBucketedForResultMap(): Boolean
 }
