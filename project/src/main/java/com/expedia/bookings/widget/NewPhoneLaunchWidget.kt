@@ -98,6 +98,7 @@ class NewPhoneLaunchWidget(context: Context, attrs: AttributeSet) : FrameLayout(
     private val lobViewContainer: android.widget.FrameLayout by bindView(R.id.lob_view_container)
     private val lobView: NewLaunchLobWidget by lazy {
         val newLaunchLobWidget = LayoutInflater.from(context).inflate(R.layout.widget_new_launch_lob, null, false) as NewLaunchLobWidget
+        newLaunchLobWidget.viewModel = NewLaunchLobViewModel(context, hasInternetConnection, posChangeSubject);
         newLaunchLobWidget
     }
 
@@ -105,6 +106,7 @@ class NewPhoneLaunchWidget(context: Context, attrs: AttributeSet) : FrameLayout(
     var showAirAttachBanner = BehaviorSubject.create<Boolean>()
     var currentLocationSubject = BehaviorSubject.create<Location>()
     var locationNotAvailable = BehaviorSubject.create<Unit>()
+    val posChangeSubject = BehaviorSubject.create<Unit>()
 
     val darkView: View by bindView(R.id.darkness)
 
@@ -150,14 +152,13 @@ class NewPhoneLaunchWidget(context: Context, attrs: AttributeSet) : FrameLayout(
         adjustLobViewHeight()
 
         hasInternetConnection.subscribe { isOnline ->
-            lobView.onHasInternetConnectionChange(isOnline)
             launchListWidget.onHasInternetConnectionChange(isOnline)
             if (!isOnline) {
                 launchListWidget.scrollToPosition(0)
                 launchError.visibility = View.VISIBLE
             } else {
                 launchError.visibility = View.GONE
-              }
+            }
 
         }
 
@@ -226,6 +227,19 @@ class NewPhoneLaunchWidget(context: Context, attrs: AttributeSet) : FrameLayout(
             downloadSubscription = collectionServices.getPhoneCollection(
                     ProductFlavorFeatureConfiguration.getInstance().phoneCollectionId, country, localeCode,
                     collectionDownloadListener)
+        }
+
+        posChangeSubject.subscribe {
+            isPOSChanged = true
+            Ui.getApplication(context).defaultLaunchComponents()
+            Ui.getApplication(context).launchComponent().inject(this)
+            if (currentLocationSubject.value != null) {
+                currentLocationSubject.onNext(currentLocationSubject.value)
+            } else {
+                locationNotAvailable.onNext(Unit)
+            }
+            launchListWidget.onPOSChange();
+            adjustLobViewHeight();
         }
 
     }
@@ -441,7 +455,7 @@ class NewPhoneLaunchWidget(context: Context, attrs: AttributeSet) : FrameLayout(
     }
 
     private fun isNearByHotelDataExpired(): Boolean {
-        return launchDataTimeStamp == null || JodaUtils.isExpired(launchDataTimeStamp, MINIMUM_TIME_AGO)  || isPOSChanged
+        return launchDataTimeStamp == null || JodaUtils.isExpired(launchDataTimeStamp, MINIMUM_TIME_AGO) || isPOSChanged
 
     }
 
@@ -449,19 +463,6 @@ class NewPhoneLaunchWidget(context: Context, attrs: AttributeSet) : FrameLayout(
         return handleBackOrDarkViewClick()
     }
 
-    fun onPOSChanged() {
-        isPOSChanged = true
-        Ui.getApplication(context).defaultLaunchComponents()
-        Ui.getApplication(context).launchComponent().inject(this)
-        if (currentLocationSubject.value != null) {
-            currentLocationSubject.onNext(currentLocationSubject.value)
-        } else {
-            locationNotAvailable.onNext(Unit)
-        }
-        lobView.onPOSChange();
-        launchListWidget.onPOSChange();
-        adjustLobViewHeight();
-    }
 
     private val gestureListener = object : GestureDetector.SimpleOnGestureListener() {
 

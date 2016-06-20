@@ -1,7 +1,5 @@
 package com.expedia.bookings.widget;
 
-import java.util.ArrayList;
-
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
@@ -10,15 +8,20 @@ import org.robolectric.RuntimeEnvironment;
 import android.content.Context;
 import android.support.v4.content.ContextCompat;
 import android.view.View;
-
 import com.expedia.bookings.R;
+import com.expedia.bookings.data.LineOfBusiness;
+import com.expedia.bookings.data.LobInfo;
 import com.expedia.bookings.test.robolectric.RobolectricRunner;
+import java.util.ArrayList;
+import kotlin.Pair;
+import kotlin.Unit;
+import rx.observers.TestSubscriber;
+import rx.subjects.BehaviorSubject;
 
 import static org.junit.Assert.assertEquals;
 
 @RunWith(RobolectricRunner.class)
 public class NewLaunchLobAdapterTest {
-
 
 	private Context getContext() {
 		return RuntimeEnvironment.application;
@@ -26,26 +29,27 @@ public class NewLaunchLobAdapterTest {
 
 	@Test
 	public void spansAreCorrect() {
-		NewLaunchLobAdapter adapter = new NewLaunchLobAdapter(null);
+		NewLaunchLobAdapter adapter = new NewLaunchLobAdapter(
+			new NewLaunchLobViewModel(getContext(), BehaviorSubject.<Boolean>create(), BehaviorSubject.<Unit>create()));
 
-		ArrayList<NewLaunchLobAdapter.LobInfo> lobs = new ArrayList<>();
-		lobs.add(NewLaunchLobAdapter.LobInfo.HOTELS);
-		lobs.add(NewLaunchLobAdapter.LobInfo.FLIGHTS);
+		ArrayList<LobInfo> lobs = new ArrayList<>();
+		lobs.add(LobInfo.HOTELS);
+		lobs.add(LobInfo.FLIGHTS);
 		adapter.setLobs(lobs);
 		assertItemCount(2, adapter);
 		assertAllSpansAreOne(adapter);
 
-		lobs.add(NewLaunchLobAdapter.LobInfo.CARS);
+		lobs.add(LobInfo.CARS);
 		adapter.setLobs(lobs);
 		assertItemCount(3, adapter);
 		assertFinalSpanIsTwoAndRestAreOne(adapter);
 
-		lobs.add(NewLaunchLobAdapter.LobInfo.ACTIVITIES);
+		lobs.add(LobInfo.ACTIVITIES);
 		adapter.setLobs(lobs);
 		assertItemCount(4, adapter);
 		assertAllSpansAreOne(adapter);
 
-		lobs.add(NewLaunchLobAdapter.LobInfo.TRANSPORT);
+		lobs.add(LobInfo.TRANSPORT);
 		adapter.setLobs(lobs);
 		assertItemCount(5, adapter);
 		assertFinalSpanIsTwoAndRestAreOne(adapter);
@@ -75,91 +79,73 @@ public class NewLaunchLobAdapterTest {
 		Mockito.when(mockItemView.findViewById(R.id.lob_cell_text)).thenReturn(mockTextView);
 		Mockito.when(mockTextView.getContext()).thenReturn(getContext());
 
-		NewLaunchLobAdapter adapter = new NewLaunchLobAdapter(null);
-		ArrayList<NewLaunchLobAdapter.LobInfo> lobs = new ArrayList<>();
-		lobs.add(NewLaunchLobAdapter.LobInfo.HOTELS);
-		lobs.add(NewLaunchLobAdapter.LobInfo.FLIGHTS);
-		lobs.add(NewLaunchLobAdapter.LobInfo.CARS);
-		lobs.add(NewLaunchLobAdapter.LobInfo.ACTIVITIES);
+		NewLaunchLobViewModel newLaunchLobViewModel = new NewLaunchLobViewModel(getContext(),
+			BehaviorSubject.<Boolean>create(),
+			BehaviorSubject.<Unit>create());
+		NewLaunchLobAdapter adapter = new NewLaunchLobAdapter(
+			newLaunchLobViewModel);
+		ArrayList<LobInfo> lobs = new ArrayList<>();
+		lobs.add(LobInfo.HOTELS);
+		lobs.add(LobInfo.FLIGHTS);
+		lobs.add(LobInfo.CARS);
+		lobs.add(LobInfo.ACTIVITIES);
 		adapter.setLobs(lobs);
 
-		NewLaunchLobAdapter.LobViewHolder vh = new NewLaunchLobAdapter.LobViewHolder(mockItemView, null);
+		NewLaunchLobAdapter.LobViewHolder vh = new NewLaunchLobAdapter.LobViewHolder(mockItemView,
+			newLaunchLobViewModel);
 		adapter.onBindViewHolder(vh, 0);
-		Mockito.verify(mockTextView).setText(NewLaunchLobAdapter.LobInfo.HOTELS.labelRes);
+		Mockito.verify(mockTextView).setText(LobInfo.HOTELS.getLabelRes());
 		Mockito.verify(mockTextView)
 			.setCompoundDrawablesWithIntrinsicBounds(
-				ContextCompat.getDrawable(getContext(), NewLaunchLobAdapter.LobInfo.HOTELS.iconRes), null, null, null);
+				ContextCompat.getDrawable(getContext(), LobInfo.HOTELS.getIconRes()), null, null, null);
 
 		adapter.onBindViewHolder(vh, 1);
-		Mockito.verify(mockTextView).setText(NewLaunchLobAdapter.LobInfo.FLIGHTS.labelRes);
+		Mockito.verify(mockTextView).setText(LobInfo.FLIGHTS.getLabelRes());
 		adapter.onBindViewHolder(vh, 2);
-		Mockito.verify(mockTextView).setText(NewLaunchLobAdapter.LobInfo.CARS.labelRes);
+		Mockito.verify(mockTextView).setText(LobInfo.CARS.getLabelRes());
 
 		adapter.onBindViewHolder(vh, 3);
-		Mockito.verify(mockTextView).setText(NewLaunchLobAdapter.LobInfo.ACTIVITIES.labelRes);
+		Mockito.verify(mockTextView).setText(LobInfo.ACTIVITIES.getLabelRes());
 	}
 
 	@Test
-	public void listenerCalledOnClick() {
+	public void lobNavigationCalledOnClick() {
 		View mockItemView = Mockito.mock(View.class);
 		TextView mockTextView = Mockito.mock(TextView.class);
 		Mockito.when(mockItemView.findViewById(R.id.lob_cell_text)).thenReturn(mockTextView);
+		NewLaunchLobViewModel newLaunchLobViewModel = new NewLaunchLobViewModel(getContext(),
+			BehaviorSubject.<Boolean>create(),
+			BehaviorSubject.<Unit>create());
 
-		NewLaunchLobAdapter.OnLobClickListener mockListener = Mockito
-			.mock(NewLaunchLobAdapter.OnLobClickListener.class);
+		NewLaunchLobAdapter.LobViewHolder vh = new NewLaunchLobAdapter.LobViewHolder(mockItemView,
+			newLaunchLobViewModel);
 
-		NewLaunchLobAdapter.LobViewHolder vh = new NewLaunchLobAdapter.LobViewHolder(mockItemView, mockListener);
-
-		vh.bind(NewLaunchLobAdapter.LobInfo.HOTELS, false, getContext(), true);
-		vh.onClick(mockItemView);
-		Mockito.verify(mockListener).onHotelsLobClick(mockItemView);
-
-		vh.bind(NewLaunchLobAdapter.LobInfo.FLIGHTS, false, getContext(), true);
-		vh.onClick(mockItemView);
-		Mockito.verify(mockListener).onFlightsLobClick();
-
-		vh.bind(NewLaunchLobAdapter.LobInfo.CARS, false, getContext(), true);
-		vh.onClick(mockItemView);
-		Mockito.verify(mockListener).onCarsLobClick();
-
-		vh.bind(NewLaunchLobAdapter.LobInfo.ACTIVITIES, false, getContext(), true);
-		vh.onClick(mockItemView);
-		Mockito.verify(mockListener).onActivitiesLobClick();
-
-		vh.bind(NewLaunchLobAdapter.LobInfo.TRANSPORT, false, getContext(), true);
-		vh.onClick(mockItemView);
-		Mockito.verify(mockListener).onTransportLobClick();
+		for (LobInfo lobInfo : LobInfo.values()) {
+			TestSubscriber<Pair<LineOfBusiness, View>> testSubscriber = new TestSubscriber<>();
+			vh.getViewModel().getNavigationSubject().take(1).subscribe(testSubscriber);
+			vh.bind(lobInfo, false, getContext(), true);
+			vh.onClick(mockItemView);
+			testSubscriber.awaitTerminalEvent();
+			assertEquals(lobInfo.getLineOfBusiness(), testSubscriber.getOnNextEvents().get(0).getFirst());
+		}
 	}
 
 	@Test
-	public void listenerNotCalledOnDisabledLOBs() {
+	public void lobNavigationNotCalledOnDisabledLOBs() {
 		View mockItemView = Mockito.mock(View.class);
 		TextView mockTextView = Mockito.mock(TextView.class);
 		Mockito.when(mockItemView.findViewById(R.id.lob_cell_text)).thenReturn(mockTextView);
-
-		NewLaunchLobAdapter.OnLobClickListener mockListener = Mockito
-			.mock(NewLaunchLobAdapter.OnLobClickListener.class);
-
-		NewLaunchLobAdapter.LobViewHolder vh = new NewLaunchLobAdapter.LobViewHolder(mockItemView, mockListener);
-
-		vh.bind(NewLaunchLobAdapter.LobInfo.HOTELS, false, getContext(), false);
-		vh.onClick(mockItemView);
-		Mockito.verifyNoMoreInteractions(mockListener);
-
-		vh.bind(NewLaunchLobAdapter.LobInfo.FLIGHTS, false, getContext(), false);
-		vh.onClick(mockItemView);
-		Mockito.verifyNoMoreInteractions(mockListener);
-
-		vh.bind(NewLaunchLobAdapter.LobInfo.CARS, false, getContext(), false);
-		vh.onClick(mockItemView);
-		Mockito.verifyNoMoreInteractions(mockListener);
-
-		vh.bind(NewLaunchLobAdapter.LobInfo.ACTIVITIES, false, getContext(), false);
-		vh.onClick(mockItemView);
-		Mockito.verifyNoMoreInteractions(mockListener);
-
-		vh.bind(NewLaunchLobAdapter.LobInfo.TRANSPORT, false, getContext(), false);
-		vh.onClick(mockItemView);
-		Mockito.verifyNoMoreInteractions(mockListener);
+		NewLaunchLobViewModel newLaunchLobViewModel = new NewLaunchLobViewModel(getContext(),
+			BehaviorSubject.<Boolean>create(),
+			BehaviorSubject.<Unit>create());
+		NewLaunchLobAdapter.LobViewHolder vh = new NewLaunchLobAdapter.LobViewHolder(mockItemView,
+			newLaunchLobViewModel);
+		for (LobInfo lobInfo : LobInfo.values()) {
+			TestSubscriber<Pair<LineOfBusiness, View>> testSubscriber = new TestSubscriber<>();
+			vh.getViewModel().getNavigationSubject().take(1).subscribe(testSubscriber);
+			vh.bind(lobInfo, false, getContext(), false);
+			vh.onClick(mockItemView);
+			assertEquals(0, testSubscriber.getOnNextEvents().size());
+		}
 	}
 }
