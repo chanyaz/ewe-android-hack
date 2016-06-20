@@ -3684,98 +3684,98 @@
     <!-- Content Description Labels -->
     <!-- Trips Screen -->
     <!-- Content description for action: Press to refresh trips list -->
-    <string name="cd_trips_refresh_trips_list">タップして旅程リストを更新</string>
+    <string name="trips_refresh_trips_list_cont_desc">タップして旅程リストを更新</string>
     <!-- Hotel star filters -->
     <!-- Content description for action: Press to filter for hotels hotels with three or more stars -->
-    <string name="cd_filter_hotels_for_three_or_more_stars">タップして 3 つ星以上のホテルを絞り込む</string>
+    <string name="filter_hotels_for_three_or_more_stars_cont_desc">タップして 3 つ星以上のホテルを絞り込む</string>
     <!-- Content description for action: Press to filter for hotels hotels with four or more stars -->
-    <string name="cd_filter_hotels_for_four_or_more_stars">タップして 4 つ星以上のホテルを絞り込む</string>
+    <string name="filter_hotels_for_four_or_more_stars_cont_desc">タップして 4 つ星以上のホテルを絞り込む</string>
     <!-- Content description for action: Press to filter for hotels with five stars -->
-    <string name="cd_filter_hotels_for_five_stars">タップして 5 つ星以上のホテルを絞り込む</string>
+    <string name="filter_hotels_for_five_stars_cont_desc">タップして 5 つ星以上のホテルを絞り込む</string>
     <!-- Content description for action: Press to remove hotel star filters -->
-    <string name="cd_filter_remove_hotel_star_filters">タップしてホテルの星評価絞り込みを外す</string>
+    <string name="filter_remove_hotel_star_filters_cont_desc">タップしてホテルの星評価絞り込みを外す</string>
     <!-- Hotel distance filters -->
     <!-- Content description for action: Press to filter for the nearest hotels within a small radius from your search location -->
-    <string name="cd_filter_for_nearest_hotels">タップして検索地から最も半径距離の短いホテルを絞り込む</string>
+    <string name="filter_for_nearest_hotels_cont_desc">タップして検索地から最も半径距離の短いホテルを絞り込む</string>
     <!-- Content description for action: Press to filter for hotels within a mid-distance radius from your search location -->
-    <string name="cd_filter_for_further_distanced_hotels">タップして検索地から中間距離のホテルを絞り込む</string>
+    <string name="filter_for_further_distanced_hotels_cont_desc">タップして検索地から中間距離のホテルを絞り込む</string>
     <!-- Content description for action: Press to filter for hotels within largest radius from your search location -->
-    <string name="cd_filter_for_furthest_distanced_hotels">タップして検索地から最も半径距離の長いホテルを絞り込む</string>
+    <string name="filter_for_furthest_distanced_hotels_cont_desc">タップして検索地から最も半径距離の長いホテルを絞り込む</string>
     <!-- Content description for action: Press to clear all distance filters for hotel search -->
-    <string name="cd_filter_remove_distance_filter">タップしてホテル検索条件から距離絞り込みをクリア</string>
+    <string name="filter_remove_distance_filter_cont_desc">タップしてホテル検索条件から距離絞り込みをクリア</string>
     <!-- Hotel price filters -->
     <!-- Content description for action: Press to filter for low-range hotel prices -->
-    <string name="cd_filter_for_low_range_hotel_prices">タップして低価格のホテルを絞り込む</string>
+    <string name="filter_for_low_range_hotel_prices_cont_desc">タップして低価格のホテルを絞り込む</string>
     <!-- Content description for action: Press to filter for mid-range hotel prices -->
-    <string name="cd_filter_for_mid_range_hotel_prices">タップして中価格のホテルを絞り込む</string>
+    <string name="filter_for_mid_range_hotel_prices_cont_desc">タップして中価格のホテルを絞り込む</string>
     <!-- Content description for action: Press to filter for high-range hotel prices -->
-    <string name="cd_filter_for_high_range_hotel_prices">タップして高価格のホテルを絞り込む</string>
+    <string name="filter_for_high_range_hotel_prices_cont_desc">タップして高価格のホテルを絞り込む</string>
     <!-- Content description for action: Press to remove hotel price filters -->
-    <string name="cd_filter_remove_hotel_price_filters">ホテルの価格絞り込みを外す</string>
+    <string name="filter_remove_hotel_price_filters_cont_desc">ホテルの価格絞り込みを外す</string>
     <!-- Hotel info screen -->
     <!-- Content description for action: Press to select this hotel -->
-    <string name="cd_hotel_info_select_button">タップしてこのホテルを選択</string>
+    <string name="hotel_info_select_button_cont_desc">タップしてこのホテルを選択</string>
     <!-- Hotel review screen -->
     <!-- Content description for action: Press to display recent reviews -->
-    <string name="cd_display_recent_reviews">タップして最近のレビューを表示</string>
+    <string name="display_recent_reviews_cont_desc">タップして最近のレビューを表示</string>
     <!-- Content description for action: Press to display favorable reviews -->
-    <string name="cd_display_favorable_reviews">タップしてポジティブなレビューを表示</string>
+    <string name="display_favorable_reviews_cont_desc">タップしてポジティブなレビューを表示</string>
     <!-- Content description for action: Press to display critical reviews -->
-    <string name="cd_display_critical_reviews">タップしてネガティブなレビューを表示</string>
+    <string name="display_critical_reviews_cont_desc">タップしてネガティブなレビューを表示</string>
     <!-- Flight Search -->
     <!-- Content description for action: Press to clear selected dates -->
-    <string name="cd_flights_clear_selected_dates">タップして選択した日付をクリア</string>
+    <string name="flights_clear_selected_dates_cont_desc">タップして選択した日付をクリア</string>
     <!-- Content description for action: Press to edit number of travelers -->
-    <string name="cd_flights_search_number_of_travelers_edit">タップして旅行者の数を編集</string>
+    <string name="flights_search_number_of_travelers_edit_cont_desc">タップして旅行者の数を編集</string>
     <!-- Flight Search Results - Flight Leg Selection -->
     <!-- Content description for action: Press to cancel your flight selection and go back to flight search results -->
-    <string name="cd_flight_leg_cancel">フライト選択をキャンセルして、フライト検索結果に戻る</string>
+    <string name="flight_leg_cancel_cont_desc">フライト選択をキャンセルして、フライト検索結果に戻る</string>
     <!-- Content description for action: Press to select this flight -->
-    <string name="cd_flight_leg_select_flight">タップしてこのフライトを選択</string>
+    <string name="flight_leg_select_flight_cont_desc">タップしてこのフライトを選択</string>
     <!-- Content description for action: Press to go to baggage fee information -->
-    <string name="cd_flight_leg_baggage_fee_info">タップして手荷物料金情報を表示</string>
+    <string name="flight_leg_baggage_fee_info_cont_desc">タップして手荷物料金情報を表示</string>
     <!-- Flight Search Results - Selection Overview -->
     <!-- Content description for action: Press to go to cost summary for your flight selections -->
-    <string name="cd_flight_selection_cost_summary">料金の概要にアクセスしてフライト選択を表示</string>
+    <string name="flight_selection_cost_summary_cont_desc">料金の概要にアクセスしてフライト選択を表示</string>
     <!-- Checkout screen -->
     <!-- Content description for action: Press to begin checkout -->
-    <string name="cd_checkout">タップして購入手続き</string>
+    <string name="checkout_cont_desc">タップして購入手続き</string>
     <!-- Content description for action: Press to enter a coupon or promotional code -->
-    <string name="cd_checkout_enter_coupon">タップしてクーポンあるいはプロモーション コードを入力</string>
+    <string name="checkout_enter_coupon_cont_desc">タップしてクーポンあるいはプロモーション コードを入力</string>
     <!-- Traveler Information screen -->
     <!-- Content description for action: Press to enter a new traveler -->
-    <string name="cd_traveler_enter_new_traveler">タップして新しい旅行者を入力</string>
+    <string name="traveler_enter_new_traveler_cont_desc">タップして新しい旅行者を入力</string>
     <!-- Content description for action: Press to edit traveler information -->
-    <string name="cd_traveler_edit_traveler_information">タップして旅行者情報を編集</string>
+    <string name="traveler_edit_traveler_information_cont_desc">タップして旅行者情報を編集</string>
     <!-- Content description for action: Press to edit traveler's passport country -->
-    <string name="cd_traveler_edit_passport_country">旅行者のパスポートの発行国を編集</string>
+    <string name="traveler_edit_passport_country_cont_desc">旅行者のパスポートの発行国を編集</string>
     <!-- Traveler Information edit/entry screen -->
     <!-- Content description for action: Press to finish entering traveler information -->
-    <string name="cd_traveler_information_done">タップして旅行者情報の入力を終了</string>
+    <string name="traveler_information_done_cont_desc">タップして旅行者情報の入力を終了</string>
     <!-- Extra traveler information - flights -->
     <!-- Content description for action: Press to select traveler's gender -->
-    <string name="cd_traveler_gender_edit">タップして旅行者の性別を選択</string>
+    <string name="traveler_gender_edit_cont_desc">タップして旅行者の性別を選択</string>
     <!-- Content description for action: Press to select type of special assistance traveler requires -->
-    <string name="cd_traveler_special_assistance_edit">スペシャル サポートを必要とする場合はサポートタイプを選択</string>
+    <string name="traveler_special_assistance_edit_cont_desc">スペシャル サポートを必要とする場合はサポートタイプを選択</string>
     <!-- Content description for action: Press to select window type that the traveler prefers -->
-    <string name="cd_traveler_seat_preference_edit">希望する座席を選択</string>
+    <string name="traveler_seat_preference_edit_cont_desc">希望する座席を選択</string>
     <!-- Credit Card Information -->
     <!-- Content description for action: Select billing address country -->
-    <string name="cd_card_info_billing_address_country">クレジットカード登録住所の国名を入力</string>
+    <string name="card_info_billing_address_country_cont_desc">クレジットカード登録住所の国名を入力</string>
     <!-- Itinerary card elements -->
     <!-- Content description for action: Press to view share options -->
-    <string name="cd_share_menu_btn">タップして旅程のシェアのオプションを表示</string>
+    <string name="share_menu_btn_cont_desc">タップして旅程のシェアのオプションを表示</string>
 
     <!-- Tablet Search Results Content Descriptions -->
     <!-- Content description for Hotel Search Results -->
-    <string name="cd_tablet_results_hotel_list">ホテルの検索結果</string>
+    <string name="tablet_results_hotel_list_cont_desc">ホテルの検索結果</string>
     <!-- Content description for Flight Search Results -->
-    <string name="cd_tablet_results_flight_list">フライトの検索結果</string>
+    <string name="tablet_results_flight_list_cont_desc">フライトの検索結果</string>
 
     <!-- Content description for action: Press to filter for the nearest hotels within a small radius from your search location -->
-    <string name="cd_pay_now">ボタンをタップして今すぐお支払い</string>
+    <string name="pay_now_cont_desc">ボタンをタップして今すぐお支払い</string>
     <!-- Content description for action: Press to filter for hotels within a mid-distance radius from your search location -->
-    <string name="cd_pay_later">ボタンをタップして後からお支払い</string>
+    <string name="pay_later_cont_desc">ボタンをタップして後からお支払い</string>
 
     <!-- Tablet Confirmation Screen -->
     <!-- Header text to indicating booking confirmed for hotel -->
@@ -3871,9 +3871,9 @@
 
     <!-- Label for package search toolbar -->
     <!-- Accessibility - Content Description for toolbar close button -->
-    <string name="package_toolbar_close_content_description">検索画面を閉じる</string>
+    <string name="package_toolbar_close_cont_desc">検索画面を閉じる</string>
     <!-- Accessibility - Content Description for toolbar back button when entering destination/arrival -->
-    <string name="package_toolbar_back_to_search_content_description">検索画面に戻る</string>
+    <string name="package_toolbar_back_to_search_cont_desc">検索画面に戻る</string>
     <string name="package_toolbar_title">ホテル + 航空券</string>
     <!-- Label for per person -->
     <string name="per_person">1 名あたり</string>
@@ -3909,11 +3909,11 @@
     <!-- Template for package bundle total savings amount -->
     <string name="bundle_total_savings_TEMPLATE">{savings}保存済み</string>
     <!-- Bundle Overview select hotel accessibility content description -->
-    <string name="select_hotel_content_description">ホテルの検索が完了しました。{destination}のホテルを選択するには、このボタンをクリックしてください。チェックイン日は {startdate}、チェックアウト日は {enddate}、宿泊人数は {guests} 人です</string>
+    <string name="select_hotel_cont_desc_TEMPLATE">ホテルの検索が完了しました。{destination}のホテルを選択するには、このボタンをクリックしてください。チェックイン日は {startdate}、チェックアウト日は {enddate}、宿泊人数は {guests} 人です</string>
     <!-- Bundle Overview select hotel accessibility content description when still searching -->
-    <string name="select_hotel_content_description_searching">チェックイン日 {startdate}、チェックアウト日 {enddate}、宿泊人数 {guests} 人で{destination}のホテルを検索しています。お待ちください</string>
+    <string name="select_hotel_searching_cont_desc_TEMPLATE">チェックイン日 {startdate}、チェックアウト日 {enddate}、宿泊人数 {guests} 人で{destination}のホテルを検索しています。お待ちください</string>
     <!-- Bundle Overview selected hotel accessibility content description -->
-    <string name="select_hotel_content_description_selected">ホテル「{hotel}」を選択しました。チェックイン日は {startdate}、チェックアウト日は {enddate}、宿泊人数は {guests} 人です。詳細を見るには、このボタンをクリックしてください。</string>
+    <string name="select_hotel_selected_cont_desc_TEMPLATE">ホテル「{hotel}」を選択しました。チェックイン日は {startdate}、チェックアウト日は {enddate}、宿泊人数は {guests} 人です。詳細を見るには、このボタンをクリックしてください。</string>
     <!-- Bundle Overview select hotel -->
     <string name="select_hotel_template">%sのホテルを選択</string>
     <!-- Bundle Overview searching flight -->
@@ -4132,23 +4132,23 @@
     <string name="reward_top_tier_name_short">+ゴールド</string>
     <!-- Flight Detail card view content description for accessibility.
          Example: Flight time is 10am - 12:30pm with price difference of $25. Flying with United and the flight duration is 2 hours 30 minutes. Click to view flight details -->
-    <string name="flight_detail_card_content_description">フライト時間は {time} で差額は {pricedifference} です。航空会社は{airline}で、所要時間は {hours} 時間 {minutes} 分です。クリックしてフライトの詳細を表示してください</string>
+    <string name="flight_detail_card_cont_desc_TEMPLATE">フライト時間は {time} で差額は {pricedifference} です。航空会社は{airline}で、所要時間は {hours} 時間 {minutes} 分です。クリックしてフライトの詳細を表示してください</string>
 
     <!--Packages search accessibility -->
     <!--Flying to card content description Eg. Flying to San Francisco, CA (SFO-San Francisco Intl.)-->
-    <string name="packages_search_flying_to_content_description">目的地{to_destination}</string>
+    <string name="search_flying_to_destination_cont_desc_TEMPLATE">目的地{to_destination}</string>
     <!--Flying from card content description Eg. Flying from Detroit, MI (DTW-Detroit Metropolitan Wayne County)-->
-    <string name="packages_search_flying_from_content_description">出発地{from_destination}</string>
+    <string name="search_flying_from_destination_cont_desc_TEMPLATE">出発地{from_destination}</string>
     <!--Flying to card content description before a location is selected-->
-    <string name="packages_search_flying_to_content_description_initial">目的地を選択するには、こちらをクリックしてください</string>
+    <string name="packages_search_flying_to_cont_desc">目的地を選択するには、こちらをクリックしてください</string>
     <!--Flying from card content description before a location is selected-->
-    <string name="packages_search_flying_from_content_description_initial">出発地を選択するには、こちらをクリックしてください</string>
+    <string name="packages_search_flying_from_cont_desc">出発地を選択するには、こちらをクリックしてください</string>
     <!--Travel dates card content description before date range is selected-->
-    <string name="packages_search_dates_content_description_initial">旅行期間を選択するには、こちらをクリックしてください</string>
+    <string name="packages_search_dates_cont_desc">旅行期間を選択するには、こちらをクリックしてください</string>
     <!--Packages search date format template for accessible dates (Talkback announces date range with 'to' in between) Eg. Jun 2 to Jun 5-->
-    <string name="packages_search_accessible_date_range_TEMPLATE">{startdate} から {enddate} まで</string>
+    <string name="packages_search_date_range_cont_desc_TEMPLATE">{startdate} から {enddate} まで</string>
     <!--Packages search dates content description for Talkback to indicate what the date range is and how many nights the trip is for-->
-    <string name="packages_search_dates_content_description_trip">旅行期間は {date_range} で {nights} 泊です</string>
+    <string name="trip_search_date_range_cont_desc_TEMPLATE">旅行期間は {date_range} で {nights} 泊です</string>
     <!--Packages accessibility flight search filter-->
     <!--Content description for "SHOW MORE" button in filter used for Talkback-->
     <string name="packages_flight_search_filter_show_more_cont_desc">航空会社をさらに表示するには、こちらをクリックしてください</string>

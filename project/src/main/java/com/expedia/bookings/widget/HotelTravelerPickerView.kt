@@ -124,7 +124,7 @@ class HotelTravelerPickerView(context: Context, attrs: AttributeSet) : FrameLayo
                     spinner.onItemSelectedListener = selectedListener
                 } else {
                     spinner.visibility = View.VISIBLE
-                    spinner.contentDescription = Phrase.from(context, R.string.packages_search_child_drop_down_TEMPLATE).put("childnumber", i + 1).format().toString()
+                    spinner.contentDescription = Phrase.from(context, R.string.search_child_drop_down_cont_desc_TEMPLATE).put("childnumber", i + 1).format().toString()
                 }
             }
         }

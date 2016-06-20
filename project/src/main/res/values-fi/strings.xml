@@ -3684,98 +3684,98 @@
     <!-- Content Description Labels -->
     <!-- Trips Screen -->
     <!-- Content description for action: Press to refresh trips list -->
-    <string name="cd_trips_refresh_trips_list">Napauta virkistääksesi matkalistan</string>
+    <string name="trips_refresh_trips_list_cont_desc">Napauta virkistääksesi matkalistan</string>
     <!-- Hotel star filters -->
     <!-- Content description for action: Press to filter for hotels hotels with three or more stars -->
-    <string name="cd_filter_hotels_for_three_or_more_stars">Napauta suodattaaksesi hotellit, joilla on kolme tähteä tai enemmän</string>
+    <string name="filter_hotels_for_three_or_more_stars_cont_desc">Napauta suodattaaksesi hotellit, joilla on kolme tähteä tai enemmän</string>
     <!-- Content description for action: Press to filter for hotels hotels with four or more stars -->
-    <string name="cd_filter_hotels_for_four_or_more_stars">Napauta suodattaaksesi hotellit, joilla on neljä tähteä tai enemmän</string>
+    <string name="filter_hotels_for_four_or_more_stars_cont_desc">Napauta suodattaaksesi hotellit, joilla on neljä tähteä tai enemmän</string>
     <!-- Content description for action: Press to filter for hotels with five stars -->
-    <string name="cd_filter_hotels_for_five_stars">Napauta suodattaaksesi viiden tähden hotellit</string>
+    <string name="filter_hotels_for_five_stars_cont_desc">Napauta suodattaaksesi viiden tähden hotellit</string>
     <!-- Content description for action: Press to remove hotel star filters -->
-    <string name="cd_filter_remove_hotel_star_filters">Napauta poistaaksesi hotellin tähtisuodattimet</string>
+    <string name="filter_remove_hotel_star_filters_cont_desc">Napauta poistaaksesi hotellin tähtisuodattimet</string>
     <!-- Hotel distance filters -->
     <!-- Content description for action: Press to filter for the nearest hotels within a small radius from your search location -->
-    <string name="cd_filter_for_nearest_hotels">Napauta suodattaaksesi lähimmät hotellit lyhyellä etäisyydellä hakusijainnista</string>
+    <string name="filter_for_nearest_hotels_cont_desc">Napauta suodattaaksesi lähimmät hotellit lyhyellä etäisyydellä hakusijainnista</string>
     <!-- Content description for action: Press to filter for hotels within a mid-distance radius from your search location -->
-    <string name="cd_filter_for_further_distanced_hotels">Napauta suodattaaksesi hotellit keskipitkällä etäisyydellä säteellä hakusijainnista</string>
+    <string name="filter_for_further_distanced_hotels_cont_desc">Napauta suodattaaksesi hotellit keskipitkällä etäisyydellä säteellä hakusijainnista</string>
     <!-- Content description for action: Press to filter for hotels within largest radius from your search location -->
-    <string name="cd_filter_for_furthest_distanced_hotels">Napauta suodattaaksesi hotellit pitkällä etäisyydellä hakusijainnista</string>
+    <string name="filter_for_furthest_distanced_hotels_cont_desc">Napauta suodattaaksesi hotellit pitkällä etäisyydellä hakusijainnista</string>
     <!-- Content description for action: Press to clear all distance filters for hotel search -->
-    <string name="cd_filter_remove_distance_filter">Napauta poistaaksesi kaikki etäisyyssuodattimet hotellihausta</string>
+    <string name="filter_remove_distance_filter_cont_desc">Napauta poistaaksesi kaikki etäisyyssuodattimet hotellihausta</string>
     <!-- Hotel price filters -->
     <!-- Content description for action: Press to filter for low-range hotel prices -->
-    <string name="cd_filter_for_low_range_hotel_prices">Napauta suodattaaksesi halvat hotellihinnat</string>
+    <string name="filter_for_low_range_hotel_prices_cont_desc">Napauta suodattaaksesi halvat hotellihinnat</string>
     <!-- Content description for action: Press to filter for mid-range hotel prices -->
-    <string name="cd_filter_for_mid_range_hotel_prices">Napauta suodattaaksesi keskihintaiset hotellihinnat</string>
+    <string name="filter_for_mid_range_hotel_prices_cont_desc">Napauta suodattaaksesi keskihintaiset hotellihinnat</string>
     <!-- Content description for action: Press to filter for high-range hotel prices -->
-    <string name="cd_filter_for_high_range_hotel_prices">Napauta suodattaaksesi kalliimmat hotellihinnat</string>
+    <string name="filter_for_high_range_hotel_prices_cont_desc">Napauta suodattaaksesi kalliimmat hotellihinnat</string>
     <!-- Content description for action: Press to remove hotel price filters -->
-    <string name="cd_filter_remove_hotel_price_filters">Poista hotellin hintasuodattimet</string>
+    <string name="filter_remove_hotel_price_filters_cont_desc">Poista hotellin hintasuodattimet</string>
     <!-- Hotel info screen -->
     <!-- Content description for action: Press to select this hotel -->
-    <string name="cd_hotel_info_select_button">Napauta valitaksesi tämä hotelli</string>
+    <string name="hotel_info_select_button_cont_desc">Napauta valitaksesi tämä hotelli</string>
     <!-- Hotel review screen -->
     <!-- Content description for action: Press to display recent reviews -->
-    <string name="cd_display_recent_reviews">Napauta näyttääksesi tuoreimmat arvostelut</string>
+    <string name="display_recent_reviews_cont_desc">Napauta näyttääksesi tuoreimmat arvostelut</string>
     <!-- Content description for action: Press to display favorable reviews -->
-    <string name="cd_display_favorable_reviews">Napauta näyttääksesi positiiviset arvostelut</string>
+    <string name="display_favorable_reviews_cont_desc">Napauta näyttääksesi positiiviset arvostelut</string>
     <!-- Content description for action: Press to display critical reviews -->
-    <string name="cd_display_critical_reviews">Napauta näyttääksesi kriittiset arvostelut</string>
+    <string name="display_critical_reviews_cont_desc">Napauta näyttääksesi kriittiset arvostelut</string>
     <!-- Flight Search -->
     <!-- Content description for action: Press to clear selected dates -->
-    <string name="cd_flights_clear_selected_dates">Napauta poistaaksesi valitut päivämäärät</string>
+    <string name="flights_clear_selected_dates_cont_desc">Napauta poistaaksesi valitut päivämäärät</string>
     <!-- Content description for action: Press to edit number of travelers -->
-    <string name="cd_flights_search_number_of_travelers_edit">Napauta muokataksesi matkustajien määrää</string>
+    <string name="flights_search_number_of_travelers_edit_cont_desc">Napauta muokataksesi matkustajien määrää</string>
     <!-- Flight Search Results - Flight Leg Selection -->
     <!-- Content description for action: Press to cancel your flight selection and go back to flight search results -->
-    <string name="cd_flight_leg_cancel">Peruuta lentovalintasi ja palaa lennon hakutuloksiin</string>
+    <string name="flight_leg_cancel_cont_desc">Peruuta lentovalintasi ja palaa lennon hakutuloksiin</string>
     <!-- Content description for action: Press to select this flight -->
-    <string name="cd_flight_leg_select_flight">Napauta valitaksesi tämä lento</string>
+    <string name="flight_leg_select_flight_cont_desc">Napauta valitaksesi tämä lento</string>
     <!-- Content description for action: Press to go to baggage fee information -->
-    <string name="cd_flight_leg_baggage_fee_info">Napauta siirtyäksesi matkatavaramaksutietoihin</string>
+    <string name="flight_leg_baggage_fee_info_cont_desc">Napauta siirtyäksesi matkatavaramaksutietoihin</string>
     <!-- Flight Search Results - Selection Overview -->
     <!-- Content description for action: Press to go to cost summary for your flight selections -->
-    <string name="cd_flight_selection_cost_summary">Siirry valitsemasi lennon hinnan yhteenvetoon</string>
+    <string name="flight_selection_cost_summary_cont_desc">Siirry valitsemasi lennon hinnan yhteenvetoon</string>
     <!-- Checkout screen -->
     <!-- Content description for action: Press to begin checkout -->
-    <string name="cd_checkout">Napauta aloittaaksesi maksaminen</string>
+    <string name="checkout_cont_desc">Napauta aloittaaksesi maksaminen</string>
     <!-- Content description for action: Press to enter a coupon or promotional code -->
-    <string name="cd_checkout_enter_coupon">Napauta antaaksesi kuponki- tai mainoskoodin</string>
+    <string name="checkout_enter_coupon_cont_desc">Napauta antaaksesi kuponki- tai mainoskoodin</string>
     <!-- Traveler Information screen -->
     <!-- Content description for action: Press to enter a new traveler -->
-    <string name="cd_traveler_enter_new_traveler">Napauta antaaksesi uuden matkustajan tiedot</string>
+    <string name="traveler_enter_new_traveler_cont_desc">Napauta antaaksesi uuden matkustajan tiedot</string>
     <!-- Content description for action: Press to edit traveler information -->
-    <string name="cd_traveler_edit_traveler_information">Napauta muokataksesi matkustajatietoja</string>
+    <string name="traveler_edit_traveler_information_cont_desc">Napauta muokataksesi matkustajatietoja</string>
     <!-- Content description for action: Press to edit traveler's passport country -->
-    <string name="cd_traveler_edit_passport_country">Muokkaa matkustajan passin myöntömaata</string>
+    <string name="traveler_edit_passport_country_cont_desc">Muokkaa matkustajan passin myöntömaata</string>
     <!-- Traveler Information edit/entry screen -->
     <!-- Content description for action: Press to finish entering traveler information -->
-    <string name="cd_traveler_information_done">Napauta antaaksesi matkustajan tiedot loppuun</string>
+    <string name="traveler_information_done_cont_desc">Napauta antaaksesi matkustajan tiedot loppuun</string>
     <!-- Extra traveler information - flights -->
     <!-- Content description for action: Press to select traveler's gender -->
-    <string name="cd_traveler_gender_edit">Napauta valitaksesi matkustajan sukupuolen</string>
+    <string name="traveler_gender_edit_cont_desc">Napauta valitaksesi matkustajan sukupuolen</string>
     <!-- Content description for action: Press to select type of special assistance traveler requires -->
-    <string name="cd_traveler_special_assistance_edit">Valitse matkustajan tarvitseman erityisavun tyyppi</string>
+    <string name="traveler_special_assistance_edit_cont_desc">Valitse matkustajan tarvitseman erityisavun tyyppi</string>
     <!-- Content description for action: Press to select window type that the traveler prefers -->
-    <string name="cd_traveler_seat_preference_edit">Valitse matkustajan haluama istuinpaikkatyyppi</string>
+    <string name="traveler_seat_preference_edit_cont_desc">Valitse matkustajan haluama istuinpaikkatyyppi</string>
     <!-- Credit Card Information -->
     <!-- Content description for action: Select billing address country -->
-    <string name="cd_card_info_billing_address_country">Valitse laskutusosoitteen maa</string>
+    <string name="card_info_billing_address_country_cont_desc">Valitse laskutusosoitteen maa</string>
     <!-- Itinerary card elements -->
     <!-- Content description for action: Press to view share options -->
-    <string name="cd_share_menu_btn">Paina tarkastellaksesi matkasuunnitelman jakovaihtoehtoja</string>
+    <string name="share_menu_btn_cont_desc">Paina tarkastellaksesi matkasuunnitelman jakovaihtoehtoja</string>
 
     <!-- Tablet Search Results Content Descriptions -->
     <!-- Content description for Hotel Search Results -->
-    <string name="cd_tablet_results_hotel_list">Hotellihaun tulokset</string>
+    <string name="tablet_results_hotel_list_cont_desc">Hotellihaun tulokset</string>
     <!-- Content description for Flight Search Results -->
-    <string name="cd_tablet_results_flight_list">Lentohaun tulokset</string>
+    <string name="tablet_results_flight_list_cont_desc">Lentohaun tulokset</string>
 
     <!-- Content description for action: Press to filter for the nearest hotels within a small radius from your search location -->
-    <string name="cd_pay_now">Paina painiketta maksaaksesi nyt</string>
+    <string name="pay_now_cont_desc">Paina painiketta maksaaksesi nyt</string>
     <!-- Content description for action: Press to filter for hotels within a mid-distance radius from your search location -->
-    <string name="cd_pay_later">Paina painiketta maksaaksesi myöhemmin</string>
+    <string name="pay_later_cont_desc">Paina painiketta maksaaksesi myöhemmin</string>
 
     <!-- Tablet Confirmation Screen -->
     <!-- Header text to indicating booking confirmed for hotel -->
@@ -3871,9 +3871,9 @@
 
     <!-- Label for package search toolbar -->
     <!-- Accessibility - Content Description for toolbar close button -->
-    <string name="package_toolbar_close_content_description">Sulje haku</string>
+    <string name="package_toolbar_close_cont_desc">Sulje haku</string>
     <!-- Accessibility - Content Description for toolbar back button when entering destination/arrival -->
-    <string name="package_toolbar_back_to_search_content_description">Takaisin hakuun</string>
+    <string name="package_toolbar_back_to_search_cont_desc">Takaisin hakuun</string>
     <string name="package_toolbar_title">Hotelli + lento</string>
     <!-- Label for per person -->
     <string name="per_person">per henkilö</string>
@@ -3909,11 +3909,11 @@
     <!-- Template for package bundle total savings amount -->
     <string name="bundle_total_savings_TEMPLATE">{savings} säästetty</string>
     <!-- Bundle Overview select hotel accessibility content description -->
-    <string name="select_hotel_content_description">Haku tehty, ole hyvä ja napsauta tätä painiketta valitaksesi hotellin kohteessa {destination}, {startdate}–{enddate}, {guests}</string>
+    <string name="select_hotel_cont_desc_TEMPLATE">Haku tehty, ole hyvä ja napsauta tätä painiketta valitaksesi hotellin kohteessa {destination}, {startdate}–{enddate}, {guests}</string>
     <!-- Bundle Overview select hotel accessibility content description when still searching -->
-    <string name="select_hotel_content_description_searching">Etsitään hotelleja kohteessa {destination}, {startdate}–{enddate}, {guests}. Odota</string>
+    <string name="select_hotel_searching_cont_desc_TEMPLATE">Etsitään hotelleja kohteessa {destination}, {startdate}–{enddate}, {guests}. Odota</string>
     <!-- Bundle Overview selected hotel accessibility content description -->
-    <string name="select_hotel_content_description_selected">Olet valinnut hotellin {hotel}, {startdate}–{enddate}, {guests}. Napsauta tätä painiketta avataksesi lisätiedot.</string>
+    <string name="select_hotel_selected_cont_desc_TEMPLATE">Olet valinnut hotellin {hotel}, {startdate}–{enddate}, {guests}. Napsauta tätä painiketta avataksesi lisätiedot.</string>
     <!-- Bundle Overview select hotel -->
     <string name="select_hotel_template">Valitse hotelli kohteessa %s</string>
     <!-- Bundle Overview searching flight -->
@@ -4132,23 +4132,23 @@
     <string name="reward_top_tier_name_short">+gold</string>
     <!-- Flight Detail card view content description for accessibility.
          Example: Flight time is 10am - 12:30pm with price difference of $25. Flying with United and the flight duration is 2 hours 30 minutes. Click to view flight details -->
-    <string name="flight_detail_card_content_description">Lentoaika on {time} ja hintaero {pricedifference}. Lentoyhtiö on {airline} ja lennon kesto {hours} tuntia {minutes} minuuttia. Katso lennon tiedot</string>
+    <string name="flight_detail_card_cont_desc_TEMPLATE">Lentoaika on {time} ja hintaero {pricedifference}. Lentoyhtiö on {airline} ja lennon kesto {hours} tuntia {minutes} minuuttia. Katso lennon tiedot</string>
 
     <!--Packages search accessibility -->
     <!--Flying to card content description Eg. Flying to San Francisco, CA (SFO-San Francisco Intl.)-->
-    <string name="packages_search_flying_to_content_description">Lento kohteeseen {to_destination}</string>
+    <string name="search_flying_to_destination_cont_desc_TEMPLATE">Lento kohteeseen {to_destination}</string>
     <!--Flying from card content description Eg. Flying from Detroit, MI (DTW-Detroit Metropolitan Wayne County)-->
-    <string name="packages_search_flying_from_content_description">Lento kohteesta {from_destination}</string>
+    <string name="search_flying_from_destination_cont_desc_TEMPLATE">Lento kohteesta {from_destination}</string>
     <!--Flying to card content description before a location is selected-->
-    <string name="packages_search_flying_to_content_description_initial">Valitse tästä kohde. johon haluat lentää</string>
+    <string name="packages_search_flying_to_cont_desc">Valitse tästä kohde. johon haluat lentää</string>
     <!--Flying from card content description before a location is selected-->
-    <string name="packages_search_flying_from_content_description_initial">Valitse tästä kohde. josta lennät</string>
+    <string name="packages_search_flying_from_cont_desc">Valitse tästä kohde. josta lennät</string>
     <!--Travel dates card content description before date range is selected-->
-    <string name="packages_search_dates_content_description_initial">Valitse tästä haluamasi matkustuspäivät</string>
+    <string name="packages_search_dates_cont_desc">Valitse tästä haluamasi matkustuspäivät</string>
     <!--Packages search date format template for accessible dates (Talkback announces date range with 'to' in between) Eg. Jun 2 to Jun 5-->
-    <string name="packages_search_accessible_date_range_TEMPLATE">{startdate}–{enddate}</string>
+    <string name="packages_search_date_range_cont_desc_TEMPLATE">{startdate}–{enddate}</string>
     <!--Packages search dates content description for Talkback to indicate what the date range is and how many nights the trip is for-->
-    <string name="packages_search_dates_content_description_trip">Matkustat ajalla {date_range} ja yövyt {nights} yötä</string>
+    <string name="trip_search_date_range_cont_desc_TEMPLATE">Matkustat ajalla {date_range} ja yövyt {nights} yötä</string>
     <!--Packages accessibility flight search filter-->
     <!--Content description for "SHOW MORE" button in filter used for Talkback-->
     <string name="packages_flight_search_filter_show_more_cont_desc">Näytä enemmän lentoyhtiöitä</string>

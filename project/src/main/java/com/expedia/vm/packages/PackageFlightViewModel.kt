@@ -23,7 +23,7 @@ class PackageFlightViewModel(private val context: Context, private val flightLeg
         var result = SpannableBuilder()
 
         result.append(Phrase.from(context, R.string.flight_detail_card_cont_desc_TEMPLATE)
-                .put("time", flightTime)
+                .put("time", asscesibleFlightTime)
                 .put("pricedifference", price)
                 .put("airline", PackageFlightUtils.getAirlinesList(airline))
                 .put("hours", getHourTimeContDesc(flightLeg.durationHour))

@@ -46,7 +46,7 @@
                             app:input_icon="@drawable/packages_search_departure"
                             app:input_icon_tint_color="@color/search_screen_icon_color_v2"
                             app:input_text="@string/fly_from_hint"
-                            android:contentDescription="@string/packages_search_flying_from_initial_cont_desc"/>
+                            android:contentDescription="@string/packages_search_flying_from_cont_desc"/>
 
                         <com.expedia.bookings.widget.SearchInputCardView
                             android:id="@+id/destination_card"
@@ -56,7 +56,7 @@
                             app:input_icon="@drawable/packages_search_arrival"
                             app:input_icon_tint_color="@color/search_screen_icon_color_v2"
                             app:input_text="@string/fly_to_hint"
-                            android:contentDescription="@string/packages_search_flying_to_initial_cont_desc"/>
+                            android:contentDescription="@string/packages_search_flying_to_cont_desc"/>
                     </LinearLayout>
 
                     <View
@@ -78,7 +78,7 @@
                     app:input_icon="@drawable/search_form_icon_calendar"
                     app:input_icon_tint_color="@color/search_screen_icon_color_v2"
                     app:input_text="@string/select_dates"
-                    android:contentDescription="@string/packages_search_dates_initial_cont_desc"/>
+                    android:contentDescription="@string/packages_search_dates_cont_desc"/>
 
                 <com.expedia.bookings.widget.TravelerWidgetV2
                     android:id="@+id/traveler_card"

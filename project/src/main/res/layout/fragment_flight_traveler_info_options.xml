@@ -37,7 +37,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="20dp"
             android:layout_marginTop="15dp"
-            android:contentDescription="@string/cd_traveler_edit_traveler_information"
+            android:contentDescription="@string/traveler_edit_traveler_information_cont_desc"
             android:orientation="vertical" >
 
             <include
@@ -138,7 +138,7 @@
                 android:id="@+id/enter_info_manually_button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:contentDescription="@string/cd_traveler_enter_new_traveler"
+                android:contentDescription="@string/traveler_enter_new_traveler_cont_desc"
                 android:gravity="center_vertical"
                 android:orientation="horizontal" >
 

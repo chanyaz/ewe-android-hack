@@ -3684,98 +3684,98 @@
     <!-- Content Description Labels -->
     <!-- Trips Screen -->
     <!-- Content description for action: Press to refresh trips list -->
-    <string name="cd_trips_refresh_trips_list">Bấm để tải lại danh sách chuyến đi</string>
+    <string name="trips_refresh_trips_list_cont_desc">Bấm để tải lại danh sách chuyến đi</string>
     <!-- Hotel star filters -->
     <!-- Content description for action: Press to filter for hotels hotels with three or more stars -->
-    <string name="cd_filter_hotels_for_three_or_more_stars">Bấm để lọc khách sạn từ 3 sao trở lên</string>
+    <string name="filter_hotels_for_three_or_more_stars_cont_desc">Bấm để lọc khách sạn từ 3 sao trở lên</string>
     <!-- Content description for action: Press to filter for hotels hotels with four or more stars -->
-    <string name="cd_filter_hotels_for_four_or_more_stars">Bấm để lọc khách sạn từ 4 sao trở lên</string>
+    <string name="filter_hotels_for_four_or_more_stars_cont_desc">Bấm để lọc khách sạn từ 4 sao trở lên</string>
     <!-- Content description for action: Press to filter for hotels with five stars -->
-    <string name="cd_filter_hotels_for_five_stars">Bấm để lọc khách sạn 5 sao</string>
+    <string name="filter_hotels_for_five_stars_cont_desc">Bấm để lọc khách sạn 5 sao</string>
     <!-- Content description for action: Press to remove hotel star filters -->
-    <string name="cd_filter_remove_hotel_star_filters">Bấm để xóa bộ lọc theo xếp hạng sao</string>
+    <string name="filter_remove_hotel_star_filters_cont_desc">Bấm để xóa bộ lọc theo xếp hạng sao</string>
     <!-- Hotel distance filters -->
     <!-- Content description for action: Press to filter for the nearest hotels within a small radius from your search location -->
-    <string name="cd_filter_for_nearest_hotels">Bấm để lọc các khách sạn gần nhất từ địa điểm quý vị tìm</string>
+    <string name="filter_for_nearest_hotels_cont_desc">Bấm để lọc các khách sạn gần nhất từ địa điểm quý vị tìm</string>
     <!-- Content description for action: Press to filter for hotels within a mid-distance radius from your search location -->
-    <string name="cd_filter_for_further_distanced_hotels">Bấm để lọc các khách sạn cách địa điểm quý vị tìm phạm vi trung bình</string>
+    <string name="filter_for_further_distanced_hotels_cont_desc">Bấm để lọc các khách sạn cách địa điểm quý vị tìm phạm vi trung bình</string>
     <!-- Content description for action: Press to filter for hotels within largest radius from your search location -->
-    <string name="cd_filter_for_furthest_distanced_hotels">Bấm để lọc các khách sạn cách địa điểm quý vị tìm phạm vi trung bình lớn nhất</string>
+    <string name="filter_for_furthest_distanced_hotels_cont_desc">Bấm để lọc các khách sạn cách địa điểm quý vị tìm phạm vi trung bình lớn nhất</string>
     <!-- Content description for action: Press to clear all distance filters for hotel search -->
-    <string name="cd_filter_remove_distance_filter">Bấm để xóa bộ lọc khách sạn theo khoảng cách</string>
+    <string name="filter_remove_distance_filter_cont_desc">Bấm để xóa bộ lọc khách sạn theo khoảng cách</string>
     <!-- Hotel price filters -->
     <!-- Content description for action: Press to filter for low-range hotel prices -->
-    <string name="cd_filter_for_low_range_hotel_prices">Bấm để lọc khách sạn giá thấp</string>
+    <string name="filter_for_low_range_hotel_prices_cont_desc">Bấm để lọc khách sạn giá thấp</string>
     <!-- Content description for action: Press to filter for mid-range hotel prices -->
-    <string name="cd_filter_for_mid_range_hotel_prices">Bấm để lọc khách sạn giá trung bình</string>
+    <string name="filter_for_mid_range_hotel_prices_cont_desc">Bấm để lọc khách sạn giá trung bình</string>
     <!-- Content description for action: Press to filter for high-range hotel prices -->
-    <string name="cd_filter_for_high_range_hotel_prices">Bấm để lọc khách sạn cao cấp</string>
+    <string name="filter_for_high_range_hotel_prices_cont_desc">Bấm để lọc khách sạn cao cấp</string>
     <!-- Content description for action: Press to remove hotel price filters -->
-    <string name="cd_filter_remove_hotel_price_filters">Xóa bộ lọc theo giá khách sạn</string>
+    <string name="filter_remove_hotel_price_filters_cont_desc">Xóa bộ lọc theo giá khách sạn</string>
     <!-- Hotel info screen -->
     <!-- Content description for action: Press to select this hotel -->
-    <string name="cd_hotel_info_select_button">Bấm để chọn khách sạn này</string>
+    <string name="hotel_info_select_button_cont_desc">Bấm để chọn khách sạn này</string>
     <!-- Hotel review screen -->
     <!-- Content description for action: Press to display recent reviews -->
-    <string name="cd_display_recent_reviews">Bấm để hiển thị các nhận xét mới nhất</string>
+    <string name="display_recent_reviews_cont_desc">Bấm để hiển thị các nhận xét mới nhất</string>
     <!-- Content description for action: Press to display favorable reviews -->
-    <string name="cd_display_favorable_reviews">Bấm để hiển thị các nhận xét tích cực</string>
+    <string name="display_favorable_reviews_cont_desc">Bấm để hiển thị các nhận xét tích cực</string>
     <!-- Content description for action: Press to display critical reviews -->
-    <string name="cd_display_critical_reviews">Bấm để hiển thị các nhận xét tiêu cực</string>
+    <string name="display_critical_reviews_cont_desc">Bấm để hiển thị các nhận xét tiêu cực</string>
     <!-- Flight Search -->
     <!-- Content description for action: Press to clear selected dates -->
-    <string name="cd_flights_clear_selected_dates">Bấm để xóa ngày đã chọn</string>
+    <string name="flights_clear_selected_dates_cont_desc">Bấm để xóa ngày đã chọn</string>
     <!-- Content description for action: Press to edit number of travelers -->
-    <string name="cd_flights_search_number_of_travelers_edit">Bấm để chỉnh sửa số khách</string>
+    <string name="flights_search_number_of_travelers_edit_cont_desc">Bấm để chỉnh sửa số khách</string>
     <!-- Flight Search Results - Flight Leg Selection -->
     <!-- Content description for action: Press to cancel your flight selection and go back to flight search results -->
-    <string name="cd_flight_leg_cancel">Xóa chuyến bay đã chọn và trở lại trang kết quả tìm kiếm chuyến bay</string>
+    <string name="flight_leg_cancel_cont_desc">Xóa chuyến bay đã chọn và trở lại trang kết quả tìm kiếm chuyến bay</string>
     <!-- Content description for action: Press to select this flight -->
-    <string name="cd_flight_leg_select_flight">Bấm để chọn chuyến bay này</string>
+    <string name="flight_leg_select_flight_cont_desc">Bấm để chọn chuyến bay này</string>
     <!-- Content description for action: Press to go to baggage fee information -->
-    <string name="cd_flight_leg_baggage_fee_info">Bấm để đến trang thông tin phí hành lý</string>
+    <string name="flight_leg_baggage_fee_info_cont_desc">Bấm để đến trang thông tin phí hành lý</string>
     <!-- Flight Search Results - Selection Overview -->
     <!-- Content description for action: Press to go to cost summary for your flight selections -->
-    <string name="cd_flight_selection_cost_summary">Đến mục tóm tắt chi phí của chuyến bay đã chọn</string>
+    <string name="flight_selection_cost_summary_cont_desc">Đến mục tóm tắt chi phí của chuyến bay đã chọn</string>
     <!-- Checkout screen -->
     <!-- Content description for action: Press to begin checkout -->
-    <string name="cd_checkout">Bấm để bắt đầu thanh toán</string>
+    <string name="checkout_cont_desc">Bấm để bắt đầu thanh toán</string>
     <!-- Content description for action: Press to enter a coupon or promotional code -->
-    <string name="cd_checkout_enter_coupon">Bấm để nhập mã coupon hoặc khuyến mãi</string>
+    <string name="checkout_enter_coupon_cont_desc">Bấm để nhập mã coupon hoặc khuyến mãi</string>
     <!-- Traveler Information screen -->
     <!-- Content description for action: Press to enter a new traveler -->
-    <string name="cd_traveler_enter_new_traveler">Bấm để thêm khách</string>
+    <string name="traveler_enter_new_traveler_cont_desc">Bấm để thêm khách</string>
     <!-- Content description for action: Press to edit traveler information -->
-    <string name="cd_traveler_edit_traveler_information">Bấm để chỉnh sửa thông tin khách</string>
+    <string name="traveler_edit_traveler_information_cont_desc">Bấm để chỉnh sửa thông tin khách</string>
     <!-- Content description for action: Press to edit traveler's passport country -->
-    <string name="cd_traveler_edit_passport_country">Chỉnh sửa quốc gia cấp hộ chiếu của khách</string>
+    <string name="traveler_edit_passport_country_cont_desc">Chỉnh sửa quốc gia cấp hộ chiếu của khách</string>
     <!-- Traveler Information edit/entry screen -->
     <!-- Content description for action: Press to finish entering traveler information -->
-    <string name="cd_traveler_information_done">Bấm để hoàn tất việc nhập thông tin khách</string>
+    <string name="traveler_information_done_cont_desc">Bấm để hoàn tất việc nhập thông tin khách</string>
     <!-- Extra traveler information - flights -->
     <!-- Content description for action: Press to select traveler's gender -->
-    <string name="cd_traveler_gender_edit">Bấm để chọn giới tính của khách</string>
+    <string name="traveler_gender_edit_cont_desc">Bấm để chọn giới tính của khách</string>
     <!-- Content description for action: Press to select type of special assistance traveler requires -->
-    <string name="cd_traveler_special_assistance_edit">Chọn loại hỗ trợ đặc biệt theo nhu cầu của khách</string>
+    <string name="traveler_special_assistance_edit_cont_desc">Chọn loại hỗ trợ đặc biệt theo nhu cầu của khách</string>
     <!-- Content description for action: Press to select window type that the traveler prefers -->
-    <string name="cd_traveler_seat_preference_edit">Vui lòng chọn loại chỗ ngồi mong muốn</string>
+    <string name="traveler_seat_preference_edit_cont_desc">Vui lòng chọn loại chỗ ngồi mong muốn</string>
     <!-- Credit Card Information -->
     <!-- Content description for action: Select billing address country -->
-    <string name="cd_card_info_billing_address_country">Chọn quốc gia của địa chỉ thanh toán</string>
+    <string name="card_info_billing_address_country_cont_desc">Chọn quốc gia của địa chỉ thanh toán</string>
     <!-- Itinerary card elements -->
     <!-- Content description for action: Press to view share options -->
-    <string name="cd_share_menu_btn">Bấm để xem các tùy chọn chia sẻ lịch trình</string>
+    <string name="share_menu_btn_cont_desc">Bấm để xem các tùy chọn chia sẻ lịch trình</string>
 
     <!-- Tablet Search Results Content Descriptions -->
     <!-- Content description for Hotel Search Results -->
-    <string name="cd_tablet_results_hotel_list">Kết quả tìm khách sạn</string>
+    <string name="tablet_results_hotel_list_cont_desc">Kết quả tìm khách sạn</string>
     <!-- Content description for Flight Search Results -->
-    <string name="cd_tablet_results_flight_list">Kết quả tìm chuyến bay</string>
+    <string name="tablet_results_flight_list_cont_desc">Kết quả tìm chuyến bay</string>
 
     <!-- Content description for action: Press to filter for the nearest hotels within a small radius from your search location -->
-    <string name="cd_pay_now">Bấm nút để thanh toán ngay</string>
+    <string name="pay_now_cont_desc">Bấm nút để thanh toán ngay</string>
     <!-- Content description for action: Press to filter for hotels within a mid-distance radius from your search location -->
-    <string name="cd_pay_later">Bấm nút để thanh toán sau</string>
+    <string name="pay_later_cont_desc">Bấm nút để thanh toán sau</string>
 
     <!-- Tablet Confirmation Screen -->
     <!-- Header text to indicating booking confirmed for hotel -->
@@ -3871,9 +3871,9 @@
 
     <!-- Label for package search toolbar -->
     <!-- Accessibility - Content Description for toolbar close button -->
-    <string name="package_toolbar_close_content_description">Đóng màn hình tìm kiếm</string>
+    <string name="package_toolbar_close_cont_desc">Đóng màn hình tìm kiếm</string>
     <!-- Accessibility - Content Description for toolbar back button when entering destination/arrival -->
-    <string name="package_toolbar_back_to_search_content_description">Trở lại màn hình tìm kiếm</string>
+    <string name="package_toolbar_back_to_search_cont_desc">Trở lại màn hình tìm kiếm</string>
     <string name="package_toolbar_title">Khách sạn + Chuyến bay</string>
     <!-- Label for per person -->
     <string name="per_person">/1 người</string>
@@ -3909,11 +3909,11 @@
     <!-- Template for package bundle total savings amount -->
     <string name="bundle_total_savings_TEMPLATE">Tiết kiệm được {savings}</string>
     <!-- Bundle Overview select hotel accessibility content description -->
-    <string name="select_hotel_content_description">Hoàn tất tìm kiếm, vui lòng bấm vào nút này để chọn khách sạn ở {destination} từ {startdate} đến {enddate}, cho {guests}</string>
+    <string name="select_hotel_cont_desc_TEMPLATE">Hoàn tất tìm kiếm, vui lòng bấm vào nút này để chọn khách sạn ở {destination} từ {startdate} đến {enddate}, cho {guests}</string>
     <!-- Bundle Overview select hotel accessibility content description when still searching -->
-    <string name="select_hotel_content_description_searching">Đang tìm khách sạn tại {destination} từ {startdate} đến {enddate}, cho {guests}. Vui lòng đợi</string>
+    <string name="select_hotel_searching_cont_desc_TEMPLATE">Đang tìm khách sạn tại {destination} từ {startdate} đến {enddate}, cho {guests}. Vui lòng đợi</string>
     <!-- Bundle Overview selected hotel accessibility content description -->
-    <string name="select_hotel_content_description_selected">Quý vị đạ chọn khách sạn {hotel} từ {startdate} đến {enddate}, cho {guests}. Vui lòng bấm nút này để biết thêm chi tiết.</string>
+    <string name="select_hotel_selected_cont_desc_TEMPLATE">Quý vị đạ chọn khách sạn {hotel} từ {startdate} đến {enddate}, cho {guests}. Vui lòng bấm nút này để biết thêm chi tiết.</string>
     <!-- Bundle Overview select hotel -->
     <string name="select_hotel_template">Chọn khách sạn tại %s</string>
     <!-- Bundle Overview searching flight -->
@@ -4132,23 +4132,23 @@
     <string name="reward_top_tier_name_short">+gold</string>
     <!-- Flight Detail card view content description for accessibility.
          Example: Flight time is 10am - 12:30pm with price difference of $25. Flying with United and the flight duration is 2 hours 30 minutes. Click to view flight details -->
-    <string name="flight_detail_card_content_description">Giờ của chuyến bay: {time}, với chênh lệch giá {pricedifference}. Bay với {airline} và thời gian chuyến bay là {hours} giờ {minutes} phút. Bấm để xem chi tiết chuyến bay</string>
+    <string name="flight_detail_card_cont_desc_TEMPLATE">Giờ của chuyến bay: {time}, với chênh lệch giá {pricedifference}. Bay với {airline} và thời gian chuyến bay là {hours} giờ {minutes} phút. Bấm để xem chi tiết chuyến bay</string>
 
     <!--Packages search accessibility -->
     <!--Flying to card content description Eg. Flying to San Francisco, CA (SFO-San Francisco Intl.)-->
-    <string name="packages_search_flying_to_content_description">Bay đến {to_destination}</string>
+    <string name="search_flying_to_destination_cont_desc_TEMPLATE">Bay đến {to_destination}</string>
     <!--Flying from card content description Eg. Flying from Detroit, MI (DTW-Detroit Metropolitan Wayne County)-->
-    <string name="packages_search_flying_from_content_description">Bay từ {from_destination}</string>
+    <string name="search_flying_from_destination_cont_desc_TEMPLATE">Bay từ {from_destination}</string>
     <!--Flying to card content description before a location is selected-->
-    <string name="packages_search_flying_to_content_description_initial">Bấm vào đây để chọn điểm đến</string>
+    <string name="packages_search_flying_to_cont_desc">Bấm vào đây để chọn điểm đến</string>
     <!--Flying from card content description before a location is selected-->
-    <string name="packages_search_flying_from_content_description_initial">Bấm vào đây để chọn điểm khởi hành</string>
+    <string name="packages_search_flying_from_cont_desc">Bấm vào đây để chọn điểm khởi hành</string>
     <!--Travel dates card content description before date range is selected-->
-    <string name="packages_search_dates_content_description_initial">Bấm vào đây để chọn ngày bay</string>
+    <string name="packages_search_dates_cont_desc">Bấm vào đây để chọn ngày bay</string>
     <!--Packages search date format template for accessible dates (Talkback announces date range with 'to' in between) Eg. Jun 2 to Jun 5-->
-    <string name="packages_search_accessible_date_range_TEMPLATE">{startdate} đến {enddate}</string>
+    <string name="packages_search_date_range_cont_desc_TEMPLATE">{startdate} đến {enddate}</string>
     <!--Packages search dates content description for Talkback to indicate what the date range is and how many nights the trip is for-->
-    <string name="packages_search_dates_content_description_trip">Chuyến đi của quý vị từ {date_range} cho {nights}</string>
+    <string name="trip_search_date_range_cont_desc_TEMPLATE">Chuyến đi của quý vị từ {date_range} cho {nights}</string>
     <!--Packages accessibility flight search filter-->
     <!--Content description for "SHOW MORE" button in filter used for Talkback-->
     <string name="packages_flight_search_filter_show_more_cont_desc">Bấm vào đây để hiển thị thêm hãng hàng không</string>

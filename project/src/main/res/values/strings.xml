@@ -3688,101 +3688,101 @@
     <!-- Content Description Labels -->
     <!-- Trips Screen -->
     <!-- Content description for action: Press to refresh trips list -->
-    <string name="cd_trips_refresh_trips_list">Press to refresh trips list</string>
+    <string name="trips_refresh_trips_list_cont_desc">Press to refresh trips list</string>
     <!-- Hotel star filters -->
     <!-- Content description for action: Press to filter for hotels hotels with three or more stars -->
-    <string name="cd_filter_hotels_for_three_or_more_stars">Press to filter for hotels with three or more stars</string>
+    <string name="filter_hotels_for_three_or_more_stars_cont_desc">Press to filter for hotels with three or more stars</string>
     <!-- Content description for action: Press to filter for hotels hotels with four or more stars -->
-    <string name="cd_filter_hotels_for_four_or_more_stars">Press to filter for hotels with four or more stars</string>
+    <string name="filter_hotels_for_four_or_more_stars_cont_desc">Press to filter for hotels with four or more stars</string>
     <!-- Content description for action: Press to filter for hotels with five stars -->
-    <string name="cd_filter_hotels_for_five_stars">Press to filter for hotels with five stars</string>
+    <string name="filter_hotels_for_five_stars_cont_desc">Press to filter for hotels with five stars</string>
     <!-- Content description for action: Press to remove hotel star filters -->
-    <string name="cd_filter_remove_hotel_star_filters">Press to remove hotel star filters</string>
+    <string name="filter_remove_hotel_star_filters_cont_desc">Press to remove hotel star filters</string>
     <!-- Hotel distance filters -->
     <!-- Content description for action: Press to filter for the nearest hotels within a small radius from your search location -->
-    <string name="cd_filter_for_nearest_hotels">Press to filter for the nearest hotels within a small radius from your search location</string>
+    <string name="filter_for_nearest_hotels_cont_desc">Press to filter for the nearest hotels within a small radius from your search location</string>
     <!-- Content description for action: Press to filter for hotels within a mid-distance radius from your search location -->
-    <string name="cd_filter_for_further_distanced_hotels">Press to filter for hotels within a mid-distance radius from your search location</string>
+    <string name="filter_for_further_distanced_hotels_cont_desc">Press to filter for hotels within a mid-distance radius from your search location</string>
     <!-- Content description for action: Press to filter for hotels within largest radius from your search location -->
-    <string name="cd_filter_for_furthest_distanced_hotels">Press to filter for hotels within largest radius from your search location</string>
+    <string name="filter_for_furthest_distanced_hotels_cont_desc">Press to filter for hotels within largest radius from your search location</string>
     <!-- Content description for action: Press to clear all distance filters for hotel search -->
-    <string name="cd_filter_remove_distance_filter">Press to clear all distance filters for hotel search</string>
+    <string name="filter_remove_distance_filter_cont_desc">Press to clear all distance filters for hotel search</string>
     <!-- Hotel price filters -->
     <!-- Content description for action: Press to filter for low-range hotel prices -->
-    <string name="cd_filter_for_low_range_hotel_prices">Press to filter for low-range hotel prices</string>
+    <string name="filter_for_low_range_hotel_prices_cont_desc">Press to filter for low-range hotel prices</string>
     <!-- Content description for action: Press to filter for mid-range hotel prices -->
-    <string name="cd_filter_for_mid_range_hotel_prices">Press to filter for mid-range hotel prices</string>
+    <string name="filter_for_mid_range_hotel_prices_cont_desc">Press to filter for mid-range hotel prices</string>
     <!-- Content description for action: Press to filter for high-range hotel prices -->
-    <string name="cd_filter_for_high_range_hotel_prices">Press to filter for high-range hotel prices</string>
+    <string name="filter_for_high_range_hotel_prices_cont_desc">Press to filter for high-range hotel prices</string>
     <!-- Content description for action: Press to remove hotel price filters -->
-    <string name="cd_filter_remove_hotel_price_filters">Remove hotel price filters</string>
+    <string name="filter_remove_hotel_price_filters_cont_desc">Remove hotel price filters</string>
     <!-- Hotel info screen -->
     <!-- Content description for action: Press to select this hotel -->
-    <string name="cd_hotel_info_select_button">Press to select this hotel</string>
+    <string name="hotel_info_select_button_cont_desc">Press to select this hotel</string>
     <!-- Hotel review screen -->
     <!-- Content description for action: Press to display recent reviews -->
-    <string name="cd_display_recent_reviews">Press to display recent reviews</string>
+    <string name="display_recent_reviews_cont_desc">Press to display recent reviews</string>
     <!-- Content description for action: Press to display favorable reviews -->
-    <string name="cd_display_favorable_reviews">Press to display favorable reviews</string>
+    <string name="display_favorable_reviews_cont_desc">Press to display favorable reviews</string>
     <!-- Content description for action: Press to display critical reviews -->
-    <string name="cd_display_critical_reviews">Press to display critical reviews</string>
+    <string name="display_critical_reviews_cont_desc">Press to display critical reviews</string>
     <!-- Flight Search -->
     <!-- Content description for action: Press to clear selected dates -->
-    <string name="cd_flights_clear_selected_dates">Press to clear selected dates</string>
+    <string name="flights_clear_selected_dates_cont_desc">Press to clear selected dates</string>
     <!-- Content description for action: Press to edit number of travelers -->
-    <string name="cd_flights_search_number_of_travelers_edit">Press to edit number of travelers</string>
+    <string name="flights_search_number_of_travelers_edit_cont_desc">Press to edit number of travelers</string>
     <!-- Flight Search Results - Flight Leg Selection -->
     <!-- Content description for action: Press to cancel your flight selection and go back to flight search results -->
-    <string name="cd_flight_leg_cancel">Cancel your flight selection and go back to flight search results</string>
+    <string name="flight_leg_cancel_cont_desc">Cancel your flight selection and go back to flight search results</string>
     <!-- Content description for action: Press to select this flight -->
-    <string name="cd_flight_leg_select_flight">Press to select this flight</string>
+    <string name="flight_leg_select_flight_cont_desc">Press to select this flight</string>
     <!-- Content description for action: Press to go to baggage fee information -->
-    <string name="cd_flight_leg_baggage_fee_info">Press to go to baggage fee information</string>
+    <string name="flight_leg_baggage_fee_info_cont_desc">Press to go to baggage fee information</string>
     <!-- Flight Search Results - Selection Overview -->
     <!-- Content description for action: Press to go to cost summary for your flight selections -->
-    <string name="cd_flight_selection_cost_summary">Go to cost summary for your flight selections</string>
+    <string name="flight_selection_cost_summary_cont_desc">Go to cost summary for your flight selections</string>
     <!-- Checkout screen -->
     <!-- Content description for action: Press to begin checkout -->
-    <string name="cd_checkout">Press to begin checkout</string>
+    <string name="checkout_cont_desc">Press to begin checkout</string>
     <!-- Content description for action: Press to enter a coupon or promotional code -->
-    <string name="cd_checkout_enter_coupon">Press to enter a coupon or promotional code</string>
+    <string name="checkout_enter_coupon_cont_desc">Press to enter a coupon or promotional code</string>
     <!-- Traveler Information screen -->
     <!-- Content description for action: Press to enter a new traveler -->
-    <string name="cd_traveler_enter_new_traveler">Press to enter a new traveler</string>
+    <string name="traveler_enter_new_traveler_cont_desc">Press to enter a new traveler</string>
     <!-- Content description for action: Press to edit traveler information -->
-    <string name="cd_traveler_edit_traveler_information">Press to edit traveler information</string>
+    <string name="traveler_edit_traveler_information_cont_desc">Press to edit traveler information</string>
     <!-- Content description for action: Press to edit traveler's passport country -->
-    <string name="cd_traveler_edit_passport_country">Edit traveler\'s passport country</string>
+    <string name="traveler_edit_passport_country_cont_desc">Edit traveler\'s passport country</string>
     <!-- Traveler Information edit/entry screen -->
     <!-- Content description for action: Press to finish entering traveler information -->
-    <string name="cd_traveler_information_done">Press to finish entering traveler information</string>
+    <string name="traveler_information_done_cont_desc">Press to finish entering traveler information</string>
     <!-- Extra traveler information - flights -->
     <!-- Content description for action: Press to select traveler's gender -->
-    <string name="cd_traveler_gender_edit">Press to select traveler\'s gender</string>
+    <string name="traveler_gender_edit_cont_desc">Press to select traveler\'s gender</string>
     <!-- Content description for action: Press to select type of special assistance traveler requires -->
-    <string name="cd_traveler_special_assistance_edit">Select type of special assistance traveler requires</string>
+    <string name="traveler_special_assistance_edit_cont_desc">Select type of special assistance traveler requires</string>
     <!-- Content description for action: Press to select window type that the traveler prefers -->
-    <string name="cd_traveler_seat_preference_edit">Select seat type that the traveler prefers</string>
+    <string name="traveler_seat_preference_edit_cont_desc">Select seat type that the traveler prefers</string>
     <!-- Credit Card Information -->
     <!-- Content description for action: Select billing address country -->
-    <string name="cd_card_info_billing_address_country">Select billing address country</string>
+    <string name="card_info_billing_address_country_cont_desc">Select billing address country</string>
     <!-- Itinerary card elements -->
     <!-- Content description for action: Press to view share options -->
-    <string name="cd_share_menu_btn">Press to view itinerary sharing options</string>
+    <string name="share_menu_btn_cont_desc">Press to view itinerary sharing options</string>
 
     <!-- Tablet Search Results Content Descriptions -->
     <!-- Content description for Hotel Search Results -->
-    <string name="cd_tablet_results_hotel_list">Hotel Search Results</string>
+    <string name="tablet_results_hotel_list_cont_desc">Hotel Search Results</string>
     <!-- Content description for Flight Search Results -->
-    <string name="cd_tablet_results_flight_list">Flight Search Results</string>
+    <string name="tablet_results_flight_list_cont_desc">Flight Search Results</string>
 
     <!-- Content description for action: Press to filter for the nearest hotels within a small radius from your search location -->
-    <string name="cd_pay_now">Press the button to pay now</string>
+    <string name="pay_now_cont_desc">Press the button to pay now</string>
     <!-- Content description for action: Press to filter for hotels within a mid-distance radius from your search location -->
-    <string name="cd_pay_later">Press the button to pay later</string>
+    <string name="pay_later_cont_desc">Press the button to pay later</string>
 
     <!-- Content description for Cars filter button -->
-    <string name="cd_cars_filter_button">Filter button</string>
+    <string name="cars_filter_button_cont_desc">Filter button</string>
 
     <!-- Tablet Confirmation Screen -->
     <!-- Header text to indicating booking confirmed for hotel -->
@@ -3878,9 +3878,9 @@
 
     <!-- Label for package search toolbar -->
     <!-- Accessibility - Content Description for toolbar close button -->
-    <string name="package_toolbar_close_content_description">Close search screen</string>
+    <string name="package_toolbar_close_cont_desc">Close search screen</string>
     <!-- Accessibility - Content Description for toolbar back button when entering destination/arrival -->
-    <string name="package_toolbar_back_to_search_content_description">Back to search screen</string>
+    <string name="package_toolbar_back_to_search_cont_desc">Back to search screen</string>
     <string name="package_toolbar_title">Hotel + Flight</string>
     <!-- Label for per person -->
     <string name="per_person">per person</string>
@@ -4155,19 +4155,19 @@
     <!--Flight Detail card view - layover duration content description for accessibility Eg. Layover. 2 hours 4 minutes.-->
     <string name="flight_detail_layover_duration_card_cont_desc_TEMPLATE">Layover. {layoverhours} {layovermins}.</string>
     <!--Flying to card content description Eg. Flying to. Button. San Francisco, CA (SFO-San Francisco Intl.)-->
-    <string name="packages_search_flying_to_cont_desc_TEMPLATE">Flying to. Button. {to_destination}</string>
+    <string name="search_flying_to_destination_cont_desc_TEMPLATE">Flying to. Button. {to_destination}</string>
     <!--Flying from card content description Eg. Flying from. Button. Detroit, MI (DTW-Detroit Metropolitan Wayne County)-->
-    <string name="packages_search_flying_from_cont_desc_TEMPLATE">Flying from. Button. {from_destination}</string>
+    <string name="search_flying_from_destination_cont_desc_TEMPLATE">Flying from. Button. {from_destination}</string>
     <!--Flying to card content description before a location is selected-->
-    <string name="packages_search_flying_to_initial_cont_desc">Flying to. Button</string>
+    <string name="packages_search_flying_to_cont_desc">Flying to. Button</string>
     <!--Flying from card content description before a location is selected-->
-    <string name="packages_search_flying_from_initial_cont_desc">Flying from. Button</string>
+    <string name="packages_search_flying_from_cont_desc">Flying from. Button</string>
     <!--Travel dates card content description before date range is selected-->
-    <string name="packages_search_dates_initial_cont_desc">Select travel dates. Button. Opens dialog</string>
+    <string name="packages_search_dates_cont_desc">Select travel dates. Button. Opens dialog</string>
     <!--Packages search date format template for accessible dates (Talkback announces date range with 'to' in between) Eg. Jun 2 to Jun 5-->
-    <string name="packages_search_accessible_date_range_TEMPLATE">{startdate} to {enddate}</string>
+    <string name="packages_search_date_range_cont_desc_TEMPLATE">{startdate} to {enddate}</string>
     <!--Packages search dates content description for Talkback to indicate what the date range is and how many nights the trip is for Eg. Trip dates. Button. Opens dialog. Jun 22 to Jun 25. (3 nights)-->
-    <string name="packages_search_dates_trip_cont_desc_TEMPLATE">Trip dates. Button. Opens dialog. {date_range}. {nights}</string>
+    <string name="trip_search_date_range_cont_desc_TEMPLATE">Trip dates. Button. Opens dialog. {date_range}. {nights}</string>
     <!--Packages search travelers card content description template. Eg. Number of travelers. Button. Opens dialog. 1 traveler-->
     <plurals name="packages_search_travelers_cont_desc_TEMPLATE">
         <item quantity="one">Number of travelers. Button. Opens dialog. {travelers} traveler</item>
@@ -4182,7 +4182,7 @@
     <!--Traveler widget child minus button content description-->
     <string name="packages_remove_child_traveler_cont_desc">Remove one child traveler</string>
     <!--Packages search child age drop down content description Eg. "Select age for child 1."-->
-    <string name="packages_search_child_drop_down_TEMPLATE">Select age for child {childnumber}.</string>
+    <string name="search_child_drop_down_cont_desc_TEMPLATE">Select age for child {childnumber}.</string>
     <!--Packages accessibility flight search filter-->
     <!--Content description for "SHOW MORE" button in filter used for Talkback-->
     <string name="packages_flight_search_filter_show_more_cont_desc">Show more airlines. Button</string>

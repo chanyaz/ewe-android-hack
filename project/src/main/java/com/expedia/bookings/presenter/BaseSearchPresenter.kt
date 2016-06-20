@@ -149,10 +149,10 @@ abstract class BaseSearchPresenter(context: Context, attrs: AttributeSet) : Pres
 
     fun setNavIconContentDescription(isBack: Boolean) {
         if (isBack) {
-            toolbar.setNavigationContentDescription(R.string.package_toolbar_back_to_search_content_description)
+            toolbar.setNavigationContentDescription(R.string.package_toolbar_back_to_search_cont_desc)
         }
         else {
-            toolbar.setNavigationContentDescription(R.string.package_toolbar_close_content_description)
+            toolbar.setNavigationContentDescription(R.string.package_toolbar_close_cont_desc)
         }
     }
 

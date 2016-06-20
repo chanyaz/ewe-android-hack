@@ -19,13 +19,13 @@
             android:id="@+id/radius_pay_now"
             style="@style/Widget.SlidingRadioButton.Filter"
             android:text="@string/room_rate_pay_now"
-            android:contentDescription="@string/cd_pay_now" />
+            android:contentDescription="@string/pay_now_cont_desc" />
 
         <RadioButton
             android:id="@+id/radius_pay_later"
             style="@style/Widget.SlidingRadioButton.Filter"
             android:text="@string/room_rate_pay_later"
-            android:contentDescription="@string/cd_pay_later" />
+            android:contentDescription="@string/pay_later_cont_desc" />
 
     </com.expedia.bookings.widget.SlidingRadioGroup>
 
