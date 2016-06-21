@@ -175,5 +175,29 @@ public class PackageBundleOverviewPresenterTest extends PackageTestCase {
 		PackageScreen.hotelRoomImageView().check(matches(CoreMatchers.not(isDisplayed())));
 	}
 
+	public void testFlightOverview() throws Throwable {
+		PackageScreen.doPackageSearch();
+
+		//test outbound flight details visible when expanded
+		PackageScreen.outboundFlight().perform(click());
+		PackageScreen.outboundFlightDetailsContainer().check(matches(isDisplayed()));
+		PackageScreen.outboundFlightDetailsContainer().check(matches(hasDescendant(
+			allOf(isDisplayed(), withText("(SFO) San Francisco - (HNL) Honolulu")))));
+
+		//test outbound flight details collapsed and no longer visible
+		PackageScreen.outboundFlightBundleContainer().perform(click());
+		PackageScreen.outboundFlightDetailsContainer().check(matches(CoreMatchers.not(isCompletelyDisplayed())));
+
+		//test inbound flight details visible when expanded
+		PackageScreen.inboundFLight().perform(click());
+		PackageScreen.inboundFlightDetailsContainer().check(matches(isDisplayed()));
+		PackageScreen.inboundFlightDetailsContainer().check(matches(hasDescendant(
+			allOf(isDisplayed(), withText("(HNL) Honolulu - (SFO) San Francisco")))));
+
+		//test inbound flight details collapsed and no longer visible
+		PackageScreen.inboundFlightBundleContainer().perform(click());
+		PackageScreen.inboundFlightDetailsContainer().check(matches(CoreMatchers.not(isCompletelyDisplayed())));
+	}
+
 
 }
