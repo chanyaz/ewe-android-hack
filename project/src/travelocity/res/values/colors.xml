@@ -33,6 +33,9 @@
     <color name="accept_terms_ripple_color">#7dad06</color>
     <color name="review_screen_tab_indicator">@color/launch_tab_indicator_tvly</color>
     <color name="material_checkout_account_button_background_color">@color/hotels_primary_color</color>
+    <color name="preferences_text">#495863</color>
+    <!-- Calendar text colors -->
+    <color name="calendar_cell_selected_date_text">#FFFFFF</color>
 
     <color name="hotel_urgency_message_color">#c20202</color>
     <color name="hotel_tonight_only_color">#7AC231</color>
