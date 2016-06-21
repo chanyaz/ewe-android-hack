@@ -1,5 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<merge xmlns:android="http://schemas.android.com/apk/res/android">
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <com.expedia.bookings.widget.TextView
+        android:id="@+id/outbound_dates_view"
+        style="@style/HeaderTextAboveCardviews"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginBottom="11dp"
+        android:layout_marginLeft="@dimen/card_view_container_margin"
+        android:layout_marginRight="@dimen/card_view_container_margin"
+        android:layout_marginTop="11dp"
+        tools:text="Mon, Feb 22" />
 
     <com.expedia.bookings.widget.rail.RailLegSummaryWidget
         android:id="@+id/rail_outbound_leg_widget"
@@ -7,11 +20,13 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="12dp"
-        android:layout_marginTop="12dp"
-        android:layout_marginLeft="@dimen/card_view_container_margin"
-        android:layout_marginRight="@dimen/card_view_container_margin"
         android:animateLayoutChanges="true"
         android:foreground="?android:attr/selectableItemBackground" />
+
+    <Space
+        android:id="@+id/space_view"
+        android:layout_width="match_parent"
+        android:layout_height="200dp" />
 
     <!--TODO handle inbound for roundtrips -->
 

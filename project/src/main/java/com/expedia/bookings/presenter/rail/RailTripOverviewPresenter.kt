@@ -8,6 +8,7 @@ import com.expedia.bookings.presenter.BaseOverviewPresenter
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.rail.RailSummaryWidget
 import com.expedia.vm.rail.RailCheckoutOverviewViewModel
+import com.expedia.vm.rail.RailSummaryViewModel
 
 class RailTripOverviewPresenter(context: Context, attrs: AttributeSet) : BaseOverviewPresenter(context, attrs) {
     val railTripSummary: RailSummaryWidget by bindView(R.id.rail_summary)
@@ -20,6 +21,7 @@ class RailTripOverviewPresenter(context: Context, attrs: AttributeSet) : BaseOve
         val overviewVM = RailCheckoutOverviewViewModel(context)
         bundleOverviewHeader.checkoutOverviewHeaderToolbar.viewmodel = overviewVM
         bundleOverviewHeader.checkoutOverviewFloatingToolbar.viewmodel = overviewVM
+        railTripSummary.viewModel = RailSummaryViewModel(context)
     }
 
     override fun onFinishInflate() {

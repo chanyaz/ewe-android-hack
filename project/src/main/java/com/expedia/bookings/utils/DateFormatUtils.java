@@ -194,13 +194,17 @@ public class DateFormatUtils {
 		return formatDateToShortDayAndDate(parser.parseDateTime(date));
 	}
 
-
 	public static String formatLocalDateToShortDayAndDate(LocalDate localDate) {
 		return formatDateToShortDayAndDate(localDate.toDateTimeAtStartOfDay());
 	}
 
 	public static String formatDateToShortDayAndDate(DateTime date) {
 		SimpleDateFormat ft = new SimpleDateFormat("EEE MMM dd, yyyy", Locale.getDefault());
+		return ft.format(date.toDate());
+	}
+
+	public static String formatLocalDateToShortDayAndMonth(DateTime date) {
+		SimpleDateFormat ft = new SimpleDateFormat("EEE MMM dd", Locale.getDefault());
 		return ft.format(date.toDate());
 	}
 }

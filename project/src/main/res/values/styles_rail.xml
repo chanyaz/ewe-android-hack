@@ -32,4 +32,6 @@
         <item name="toolbar_title_style">@style/ToolbarTitleTextAppearance</item>
     </style>
 
+    <style name="RailCell.CarrierText" parent="MaterialFlightCell.CarrierText" />
+
 </resources>
