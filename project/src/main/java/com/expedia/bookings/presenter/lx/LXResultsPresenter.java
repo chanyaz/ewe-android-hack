@@ -35,7 +35,7 @@ import com.expedia.bookings.services.LxServices;
 import com.expedia.bookings.tracking.AdTracker;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.ArrowXDrawableUtil;
-import com.expedia.bookings.utils.DateUtils;
+import com.expedia.bookings.utils.LXDataUtils;
 import com.expedia.bookings.utils.LXNavUtils;
 import com.expedia.bookings.utils.RetrofitUtils;
 import com.expedia.bookings.utils.Strings;
@@ -239,7 +239,9 @@ public class LXResultsPresenter extends Presenter {
 			searchSubscription = lxServices.lxThemeSortAndFilter(
 				themeSelected, new LXSortFilterMetadata(theme.filterCategories, LXSortType.POPULARITY),
 				themeResultSortObserver);
-			setToolbarTitles(theme.title, getSearchDate());
+			setToolbarTitles(theme.title,
+				LXDataUtils.getToolbarSearchDateText(getContext(), lxState.searchParams, false),
+				LXDataUtils.getToolbarSearchDateText(getContext(), lxState.searchParams, true));
 			sortFilterWidget.invalidate();
 
 			switch (theme.themeType) {
@@ -435,7 +437,9 @@ public class LXResultsPresenter extends Presenter {
 				areExternalFiltersSupplied ? searchResultFilterObserver : searchResultObserver);
 			sortFilterButton.setFilterText(getResources().getString(R.string.sort_and_filter));
 			sortFilterWidget.setToolbarTitle(getResources().getString(R.string.sort_and_filter));
-			setToolbarTitles(event.lxSearchParams.location, getSearchDate());
+			setToolbarTitles(event.lxSearchParams.location,
+				LXDataUtils.getToolbarSearchDateText(getContext(), lxState.searchParams, false),
+				LXDataUtils.getToolbarSearchDateText(getContext(), lxState.searchParams, true));
 		}
 
 		if (areExternalFiltersSupplied) {
@@ -488,11 +492,6 @@ public class LXResultsPresenter extends Presenter {
 		}
 	}
 
-	private String getSearchDate() {
-		return String.format(getResources().getString(R.string.lx_toolbar_date_range_template),
-			DateUtils.localDateToMMMd(lxState.searchParams.startDate), DateUtils.localDateToMMMd(lxState.searchParams.endDate));
-	}
-
 	private void setupToolbar() {
 		navIcon = ArrowXDrawableUtil
 			.getNavigationIconDrawable(getContext(), ArrowXDrawableUtil.ArrowDrawableType.BACK);
@@ -524,10 +523,15 @@ public class LXResultsPresenter extends Presenter {
 		toolBarDetailText.setText(getResources().getString(R.string.lx_getting_current_location));
 	}
 
-	private void setToolbarTitles(String detailsText, String subtitleText) {
+	private void setToolbarTitles(String detailsText, String subtitleText, String searchDateContDesc) {
 		toolBarDetailText.setText(detailsText);
 		toolBarSubtitleText.setText(subtitleText);
+		toolBarSubtitleText.setContentDescription(searchDateContDesc);
 		toolBarSubtitleText.setVisibility(View.VISIBLE);
+	}
+
+	private void setToolbarTitles(String detailsText, String subtitleText) {
+		setToolbarTitles(detailsText, subtitleText, null);
 	}
 
 	public void animationStart(boolean forward) {

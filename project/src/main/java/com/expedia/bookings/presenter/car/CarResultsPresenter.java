@@ -447,7 +447,7 @@ public class CarResultsPresenter extends Presenter {
 			else {
 				setToolBarResultsText();
 			}
-			setUpNavigationFocusForAccessibility();
+			AccessibilityUtil.setFocusToToolbarNavigationIcon(toolbar);
 		}
 	};
 
@@ -635,7 +635,7 @@ public class CarResultsPresenter extends Presenter {
 		toolBarSubtitleText.setTranslationY(0);
 		navIcon.setParameter(ArrowXDrawableUtil.ArrowDrawableType.BACK.getType());
 		errorScreen.animationUpdate(ArrowXDrawableUtil.ArrowDrawableType.BACK.getType());
-		setUpNavigationFocusForAccessibility();
+		AccessibilityUtil.setFocusToToolbarNavigationIcon(toolbar);
 	}
 
 	RecyclerView.OnScrollListener recyclerScrollListener = new RecyclerView.OnScrollListener() {
@@ -699,11 +699,4 @@ public class CarResultsPresenter extends Presenter {
 			AdTracker.trackCarDetails(searchedParams, searchCarOffer);
 		}
 	};
-
-	private void setUpNavigationFocusForAccessibility() {
-		// Set focus to back button for accessibility.
-		if (AccessibilityUtil.isTalkBackEnabled(getContext())) {
-			AccessibilityUtil.setFocusToToolbarNavigationIcon(toolbar);
-		}
-	}
 }

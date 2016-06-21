@@ -23,13 +23,12 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.data.LXState;
 import com.expedia.bookings.data.lx.ActivityDetailsResponse;
 import com.expedia.bookings.data.lx.LXActivity;
-import com.expedia.bookings.data.lx.LXSearchParams;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.presenter.Presenter;
 import com.expedia.bookings.services.LxServices;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.ArrowXDrawableUtil;
-import com.expedia.bookings.utils.DateUtils;
+import com.expedia.bookings.utils.LXDataUtils;
 import com.expedia.bookings.utils.RetrofitUtils;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.LXActivityDetailsWidget;
@@ -206,12 +205,11 @@ public class LXDetailsPresenter extends Presenter {
 		toolbar.setPadding(0, statusBarHeight, 0, 0);
 	}
 
-	private void setToolbarTitles(String title) {
-		LXSearchParams searchParams = lxState.searchParams;
+	void setToolbarTitles(String title) {
 		toolBarDetailText.setText(title);
-		String dateRange = String.format(getResources().getString(R.string.lx_toolbar_date_range_template),
-			DateUtils.localDateToMMMd(searchParams.startDate), DateUtils.localDateToMMMd(searchParams.endDate));
-		toolBarSubtitleText.setText(dateRange);
+		toolBarSubtitleText.setText(LXDataUtils.getToolbarSearchDateText(getContext(), lxState.searchParams, false));
+		toolBarSubtitleText
+			.setContentDescription(LXDataUtils.getToolbarSearchDateText(getContext(), lxState.searchParams, true));
 		toolbarBackground.setAlpha(0);
 		toolbarDropshadow.setAlpha(0);
 	}

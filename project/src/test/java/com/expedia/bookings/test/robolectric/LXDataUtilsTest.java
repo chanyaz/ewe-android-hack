@@ -88,7 +88,8 @@ public class LXDataUtilsTest {
 	public void testBuildLXSearchParamsFromDeeplinkSearch() {
 		final String expectedURL = "expda://activitySearch?startDate=2015-08-08&location=San+Francisco";
 		final String location = "San Francisco";
-		final String startDate = DateUtils.localDateToyyyyMMdd(DateUtils.ensureDateIsTodayOrInFuture(DateUtils.yyyyMMddToLocalDate("2015-08-08")));
+		final String startDate = DateUtils
+			.localDateToyyyyMMdd(DateUtils.ensureDateIsTodayOrInFuture(DateUtils.yyyyMMddToLocalDate("2015-08-08")));
 
 		LXSearchParams obtainedLxSearchParams = getLxSearchParamsFromDeeplink(expectedURL);
 
@@ -103,7 +104,8 @@ public class LXDataUtilsTest {
 	public void testBuildLXSearchParamsFromDeeplinkSearchWithFilters() {
 		final String expectedURL = "expda://activitySearch?startDate=2015-08-08&location=San+Francisco&filters=Private+Transfers|Shared+Transfers";
 		final String location = "San Francisco";
-		final String startDate = DateUtils.localDateToyyyyMMdd(DateUtils.ensureDateIsTodayOrInFuture(DateUtils.yyyyMMddToLocalDate("2015-08-08")));
+		final String startDate = DateUtils
+			.localDateToyyyyMMdd(DateUtils.ensureDateIsTodayOrInFuture(DateUtils.yyyyMMddToLocalDate("2015-08-08")));
 		final String filters = "Private Transfers|Shared Transfers";
 
 		LXSearchParams obtainedLxSearchParams = getLxSearchParamsFromDeeplink(expectedURL);
@@ -157,6 +159,19 @@ public class LXDataUtilsTest {
 		assertEquals(expectedSearchParams.startDate, obtainedSearchParams.startDate);
 		assertEquals(expectedSearchParams.endDate, obtainedSearchParams.endDate);
 
+	}
+
+	@Test
+	public void getToolbarSearchDateTextTest() {
+		LXSearchParams searchParams = new LXSearchParams();
+		searchParams.startDate = new LocalDate(2016, 4, 23);
+		searchParams.endDate = new LocalDate(2016, 4, 23).plusDays(2);
+
+		String toolbarSearchDateText = LXDataUtils.getToolbarSearchDateText(getContext(), searchParams, false);
+		assertEquals(toolbarSearchDateText, "Apr 23 - Apr 25");
+
+		String toolbarSearchDateTextContDesc = LXDataUtils.getToolbarSearchDateText(getContext(), searchParams, true);
+		assertEquals(toolbarSearchDateTextContDesc, "Apr 23 to Apr 25");
 	}
 
 	private LXSearchParams getLxSearchParamsFromDeeplink(String expectedURL) {
