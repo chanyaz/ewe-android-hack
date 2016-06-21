@@ -659,6 +659,9 @@ DummyFiletoHandleKotlinLintError {
 		R.menu.menu_search_item,
 		R.string.accessibility_cont_desc_role_button_expand,
 		R.string.accessibility_cont_desc_role_button_collapse,
-		R.string.flights_card_fee_warning_TEMPLATE
+		R.string.flights_card_fee_warning_TEMPLATE,
+		R.dimen.package_suggestion_margin_top,
+		R.dimen.package_suggestion_margin_bottom,
+		R.layout.package_dropdown_item
 	};
 }

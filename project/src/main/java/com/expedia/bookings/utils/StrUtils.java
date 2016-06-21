@@ -60,6 +60,7 @@ public class StrUtils {
 	// e.g. San Francisco, CA, United States (SFO-San Francisco Int'l Airport) -> San Francisco, CA, United States
 	private static final Pattern DISPLAY_NAME_PATTERN = Pattern.compile("^((.+)(?= \\(.*\\)))");
 	public static final String HTML_TAGS_REGEX = "<[^>]*>";
+	private static final Pattern CITY_STATE_PATTERN_PACKAGE = Pattern.compile("^[^\\(]+");
 	/**
 	 * Formats the display of how many adults and children are picked currently.
 	 * This will display 0 adults or children.
@@ -403,6 +404,19 @@ public class StrUtils {
 		}
 		return displayName;
 	}
+
+	public static String formatCityStateName(String suggestion) {
+		if (suggestion == null) {
+			return "";
+		}
+		String displayName = suggestion;
+		Matcher displayNameMatcher = CITY_STATE_PATTERN_PACKAGE.matcher(displayName);
+		if (displayNameMatcher.find()) {
+			displayName = displayNameMatcher.group(0);
+		}
+		return displayName;
+	}
+
 
 	public static String formatAirport(SuggestionV4 suggestion) {
 		String airportName = formatAirportName(suggestion.regionNames.fullName);
