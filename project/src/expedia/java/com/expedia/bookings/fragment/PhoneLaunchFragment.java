@@ -44,7 +44,6 @@ import rx.Subscription;
 
 public class PhoneLaunchFragment extends Fragment implements IPhoneLaunchActivityLaunchFragment {
 	private Subscription locSubscription;
-	private Subscription abacusSubscription;
 	private boolean wasOffline;
 
 	@InjectView(R.id.phone_launch_widget)
@@ -86,9 +85,6 @@ public class PhoneLaunchFragment extends Fragment implements IPhoneLaunchActivit
 		super.onPause();
 		if (locSubscription != null) {
 			locSubscription.unsubscribe();
-		}
-		if (abacusSubscription != null) {
-			abacusSubscription.unsubscribe();
 		}
 		getActivity().unregisterReceiver(broadcastReceiver);
 		Events.unregister(this);
