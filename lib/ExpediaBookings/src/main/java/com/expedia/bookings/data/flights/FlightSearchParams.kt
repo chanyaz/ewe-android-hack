@@ -43,9 +43,6 @@ class FlightSearchParams(val departureAirport: SuggestionV4, val arrivalAirport:
         }
         params.put("numberOfAdultTravelers", adults)
         params.put("infantSeatingInLap", infantSeatingInLap)
-        if (children.isNotEmpty()) {
-            params.put("childTravelerAge", childrenString)
-        }
 
         return params
     }
