@@ -27,6 +27,7 @@ import android.text.style.StyleSpan;
 import android.text.style.URLSpan;
 import android.text.style.UnderlineSpan;
 
+import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.content.SuggestionProvider;
@@ -37,8 +38,6 @@ import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.data.User;
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.server.CrossContextHelper;
-import com.expedia.bookings.server.EndPoint;
-import com.expedia.bookings.utils.Ui;
 import com.mobiata.android.Log;
 import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.IoUtils;
@@ -154,7 +153,7 @@ public class PointOfSale {
 	private boolean mShouldShowFTCResortRegulations;
 
 	// Used to determine if this POS is disabled in Production App
-	private boolean mDisableForProduction;
+	private boolean mDisableForRelease;
 
 	// EAPID value and is used
 	private int mEAPID;
@@ -726,8 +725,8 @@ public class PointOfSale {
 		return mShouldShowRewards;
 	}
 
-	public boolean isDisabledForProduction() {
-		return mDisableForProduction;
+	public boolean isDisabledForRelease() {
+		return mDisableForRelease;
 	}
 
 	public boolean shouldShowMarketingOptIn() {
@@ -940,12 +939,7 @@ public class PointOfSale {
 			String country = locale.getCountry().toLowerCase(Locale.ENGLISH);
 			String language = locale.getLanguage().toLowerCase(Locale.ENGLISH);
 
-			EndPoint endPoint = Ui.getApplication(context).appComponent().endpointProvider().getEndPoint();
 			for (PointOfSale posInfo : sPointOfSale.values()) {
-				//Skip Non-Prod POS, if we are in PROD Environment
-				if (endPoint == EndPoint.PRODUCTION && posInfo.isDisabledForProduction()) {
-					continue;
-				}
 
 				for (String defaultLocale : posInfo.mDefaultLocales) {
 					defaultLocale = defaultLocale.toLowerCase(Locale.ENGLISH);
@@ -1089,6 +1083,9 @@ public class PointOfSale {
 				String posName = keys.next();
 				PointOfSale pos = parsePointOfSale(context, posName, posData.optJSONObject(posName));
 				if (pos != null) {
+					if (BuildConfig.RELEASE && pos.isDisabledForRelease()) {
+						continue;
+					}
 					sPointOfSale.put(pos.mPointOfSale, pos);
 
 					// For backwards compatibility
@@ -1172,7 +1169,7 @@ public class PointOfSale {
 		pos.mSupportsVipAccess = data.optBoolean("supportsVipAccess", false);
 		pos.mShouldShowRewards = data.optBoolean("shouldShowRewards", false);
 		pos.mShouldShowFTCResortRegulations = data.optBoolean("shouldShowFTCResortRegulations", false);
-		pos.mDisableForProduction = data.optBoolean("disableForProduction", false);
+		pos.mDisableForRelease = data.optBoolean("disableForRelease", false);
 		pos.mShowHalfTileStrikethroughPrice = data.optBoolean("launchScreenStrikethroughEnabled", false);
 		pos.mShowFlightsFreeCancellation = data.optBoolean("shouldShowFlightsFreeCancellation", false);
 		pos.mMarketingOptIn = MarketingOptIn
