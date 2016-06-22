@@ -11,12 +11,15 @@ import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.PaymentType
 import com.expedia.bookings.data.StoredCreditCard
 import com.expedia.bookings.data.trips.TripBucketItemCar
+import com.expedia.bookings.data.Location
 import com.expedia.bookings.data.payment.PaymentSplitsType
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.utils.BookingInfoUtils
 import com.expedia.bookings.utils.CreditCardUtils
 import com.expedia.bookings.widget.ContactDetailsCompletenessStatus
 import com.squareup.phrase.Phrase
+import io.card.payment.CreditCard
+import org.joda.time.LocalDate
 import rx.Observable
 import rx.subjects.BehaviorSubject
 import rx.subjects.PublishSubject
@@ -36,7 +39,7 @@ class PaymentViewModel(val context: Context) {
     val isCreditCardRequired = BehaviorSubject.create<Boolean>(false)
     val isZipValidationRequired = BehaviorSubject.create<Boolean>(false)
     val lineOfBusiness = BehaviorSubject.create<LineOfBusiness>(LineOfBusiness.HOTELSV2)
-
+    val cardIoScanResult = PublishSubject.create<CreditCard>()
     var expandObserver = PublishSubject.create<Boolean>()
 
     //ouputs
@@ -45,8 +48,10 @@ class PaymentViewModel(val context: Context) {
     val cardTitle = PublishSubject.create<String>()
     val cardSubtitle = PublishSubject.create<String>()
     val pwpSmallIcon = PublishSubject.create<Boolean>()
+    val cardIO = BehaviorSubject.create<String>()
     val tempCard = PublishSubject.create<Pair<String, Drawable>>()
     val invalidPayment = PublishSubject.create<String?>()
+    val cardIOBillingInfo = PublishSubject.create<BillingInfo>()
     val userHasAtleastOneStoredCard = PublishSubject.create<Boolean>()
     val onStoredCardChosen = PublishSubject.create<Unit>()
 
@@ -136,6 +141,19 @@ class PaymentViewModel(val context: Context) {
                 else -> true
             }
             isZipValidationRequired.onNext(isPostalCodeRequired)
+        }
+
+        cardIoScanResult.subscribe { card ->
+            val billingInfo = BillingInfo()
+            billingInfo.number = card.cardNumber
+            val localDateForExp = LocalDate.now().withYear(card.expiryYear).withMonthOfYear(card.expiryMonth)
+            billingInfo.expirationDate = localDateForExp
+            billingInfo.securityCode = card.cvv
+            billingInfo.isCardIO = true;
+            val location = Location()
+            location.postalCode = card.postalCode
+            billingInfo.location = location
+            cardIOBillingInfo.onNext(billingInfo)
         }
     }
 

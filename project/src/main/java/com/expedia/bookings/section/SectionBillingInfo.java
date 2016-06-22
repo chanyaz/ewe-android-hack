@@ -501,7 +501,10 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 				@Override
 				public void afterTextChanged(Editable s) {
 					if (hasBoundData()) {
-						if (getData().getNumber() == null || !s.toString().equalsIgnoreCase(getData().getNumber())) {
+						if (getData().getNumber() == null || !s.toString().equalsIgnoreCase(getData().getNumber()) || getData().getIsCardIO()) {
+							if (!getData().getIsCardIO()) {
+								getData().setIsCardIO(false);
+							}
 							getData().setNumber(s.toString());
 
 							//A strange special case, as when we load billingInfo from disk, we don't have number, but we retain brandcode

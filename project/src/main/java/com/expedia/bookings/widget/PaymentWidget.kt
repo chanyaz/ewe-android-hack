@@ -12,6 +12,7 @@ import android.support.v7.app.AppCompatActivity
 import android.util.AttributeSet
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.LinearLayout
@@ -53,6 +54,7 @@ import com.expedia.vm.PaymentViewModel
 import com.jakewharton.rxbinding.widget.RxTextView
 import com.jakewharton.rxbinding.widget.TextViewAfterTextChangeEvent
 import com.squareup.phrase.Phrase
+import io.card.payment.CardIOActivity
 import rx.subjects.PublishSubject
 import rx.subscriptions.CompositeSubscription
 
@@ -133,7 +135,10 @@ open class PaymentWidget(context: Context, attr: AttributeSet) : Presenter(conte
                 creditCardNumber.setHint(getCreditCardNumberHintResId())
             }
         }
-
+        vm.cardIOBillingInfo.subscribe { info ->
+            sectionBillingInfo.bind(info)
+            sectionLocation.bind(info.location)
+        }
         doneClicked.subscribe {
             if (currentState == PaymentDetails::class.java.name) {
                 val hasStoredCard = hasStoredCard()
@@ -188,6 +193,7 @@ open class PaymentWidget(context: Context, attr: AttributeSet) : Presenter(conte
             compositeSubscription?.add(RxTextView.afterTextChangeEvents(creditCardNumber).distinctUntilChanged().subscribe(formFilledSubscriber))
             compositeSubscription?.add(RxTextView.afterTextChangeEvents(creditCardName).distinctUntilChanged().subscribe(formFilledSubscriber))
             compositeSubscription?.add(RxTextView.afterTextChangeEvents(creditCardPostalCode).distinctUntilChanged().subscribe(formFilledSubscriber))
+            creditCardNumber.setHint(getCreditCardNumberHintResId())
         } else {
             compositeSubscription?.unsubscribe();
         }

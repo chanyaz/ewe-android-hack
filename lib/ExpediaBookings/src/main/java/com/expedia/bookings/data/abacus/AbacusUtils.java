@@ -48,6 +48,7 @@ public class AbacusUtils {
 	public static final int EBAndroidAppHotelSearchScreenSoldOutTest = 10554;
 	public static final int INS_AddInsuranceOnMobileAppFlights = 10001; // TODO: change to properly named, Android-specific test
 	public static final int EBAndroidAppLXCrossSellOnHotelConfirmationTest = 10556;
+	public static final int EBAndroidAppHotelHCKOCardIOTest = 10799;
 
 	public static final int ABTEST_IGNORE_DEBUG = -1;
 
@@ -127,6 +128,7 @@ public class AbacusUtils {
 		testIDs.add(INS_AddInsuranceOnMobileAppFlights);
 		testIDs.add(EBAndroidAppHotelSearchScreenSoldOutTest);
 		testIDs.add(EBAndroidAppLXCrossSellOnHotelConfirmationTest);
+		testIDs.add(EBAndroidAppHotelHCKOCardIOTest);
 		return testIDs;
 	}
 

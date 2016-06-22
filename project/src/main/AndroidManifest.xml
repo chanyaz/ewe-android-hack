@@ -1,5 +1,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.expedia.bookings" >
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.expedia.bookings">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
@@ -18,6 +19,10 @@
     <uses-permission android:name="android.permission.WRITE_SYNC_SETTINGS" />
     <uses-permission android:name="android.permission.READ_SYNC_SETTINGS" />
     <uses-permission android:name="android.permission.READ_SYNC_STATS" />
+
+    <!-- We want to be more strict with how we add the camera permission -->
+    <uses-permission android:name="android.permission.CAMERA" tools:node="remove"/>
+    <uses-permission-sdk-23 android:name="android.permission.CAMERA"/>
 
     <!-- For Google Wallet and GCM -->
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
