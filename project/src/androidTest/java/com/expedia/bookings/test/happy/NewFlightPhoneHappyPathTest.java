@@ -3,6 +3,7 @@ package com.expedia.bookings.test.happy;
 import org.joda.time.LocalDate;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.test.espresso.Common;
 import com.expedia.bookings.test.espresso.NewFlightTestCase;
 import com.expedia.bookings.test.espresso.ViewActions;
 import com.expedia.bookings.test.phone.newflights.FlightTestHelpers;
@@ -65,11 +66,22 @@ public class NewFlightPhoneHappyPathTest extends NewFlightTestCase {
 		PackageScreen.clickTravelerDone();
 		PackageScreen.enterPaymentInfo();
 
+		PackageScreen.clickLegalInformation();
+		assertLegalInformation();
+		Common.pressBack();
+
 		// TODO - assert checkout overview information
 
 		CheckoutViewModel.performSlideToPurchase();
 
 		assertConfirmationView();
+	}
+
+	private void assertLegalInformation() {
+		onView(withId(R.id.rules_and_restrictions)).perform(ViewActions.waitForViewToDisplay()).check(matches(isDisplayed()));
+		onView(withId(R.id.terms_and_conditions)).check(matches(isDisplayed()));
+		onView(withId(R.id.privacy_policy)).check(matches(isDisplayed()));
+		onView(withId(R.id.liabilities_link_text_view)).check(matches(isDisplayed()));
 	}
 
 	private void assertConfirmationView() {

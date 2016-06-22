@@ -13,18 +13,14 @@ import android.widget.TextView;
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.activity.WebViewActivity;
-import com.expedia.bookings.data.Db;
-import com.expedia.bookings.data.FlightTrip;
-import com.expedia.bookings.data.Rule;
 import com.expedia.bookings.data.pos.PointOfSale;
+import com.expedia.bookings.utils.Strings;
 import com.mobiata.android.util.HtmlUtils;
 import com.mobiata.android.util.Ui;
 
-public class FlightRulesFragment extends Fragment {
+public abstract class BaseFlightRulesFragment extends Fragment {
 
-	public static final String TAG = FlightRulesFragment.class.toString();
-
-	private enum RulesKeys {
+	protected enum RulesKeys {
 		COMPLETE_PENALTY_RULES("CompletePenaltyRules"),
 		REFUNDABILITY_TEXT("RefundabilityText"),
 		CANCEL_CHANGE_INTRODUCTION_TEXT("CancelChangeIntroductionText"),
@@ -47,19 +43,16 @@ public class FlightRulesFragment extends Fragment {
 		}
 	}
 
-	private FlightTrip mFlightTrip;
 
-	private TextView mCompletePenaltyRulesTextView;
-	private TextView mLiabilitiesLinkTextView;
-	private TextView mAdditionalFeesTextView;
+	protected TextView mCompletePenaltyRulesTextView;
+	protected TextView mLiabilitiesLinkTextView;
+	protected TextView mAdditionalFeesTextView;
 
-	private TextView mLccTextView;
+	protected TextView mLccTextView;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		mFlightTrip = Db.getTripBucket().getFlight().getFlightTrip();
-
 	}
 
 	@Override
@@ -70,39 +63,17 @@ public class FlightRulesFragment extends Fragment {
 		mLiabilitiesLinkTextView = Ui.findView(v, R.id.liabilities_link_text_view);
 		mAdditionalFeesTextView = Ui.findView(v, R.id.additional_fee_text_view);
 		mLccTextView = Ui.findView(v, R.id.lcc_text_view);
-
-		if (mFlightTrip != null) {
-			populateHeaderRows(v);
-
-			populateBody(v);
-
-			populateTextViewThatLooksLikeAUrlThatOpensAWebViewActivity(
-					mFlightTrip.getRule(RulesKeys.COMPLETE_PENALTY_RULES.getKey()), mCompletePenaltyRulesTextView);
-
-			populateTextViewThatLooksLikeAUrlThatOpensAWebViewActivity(
-					mFlightTrip.getRule(RulesKeys.AIRLINE_LIABILITY_LIMITATIONS.getKey()), mLiabilitiesLinkTextView);
-
-			populateTextViewThatLooksLikeAUrlThatOpensAWebViewActivity(
-					mFlightTrip.getRule(RulesKeys.ADDITIONAL_AIRLINE_FEES.getKey()), mAdditionalFeesTextView);
-
-			populateLccInfo();
-		}
-
 		return v;
 	}
 
-	private void populateHeaderRows(View v) {
-
-		final PointOfSale pos = PointOfSale.getPointOfSale();
-
+	public void setRulesAndRestrictionHeader(View v, final String url) {
 		// Rules and Restrictions
 		TextView rules = Ui.findView(v, R.id.rules_and_restrictions);
 		rules.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				Rule completeRule = mFlightTrip.getRule(RulesKeys.COMPLETE_PENALTY_RULES.getKey());
 				WebViewActivity.IntentBuilder builder = new WebViewActivity.IntentBuilder(getActivity());
-				builder.setUrl(completeRule.getUrl());
+				builder.setUrl(url);
 				builder.setTheme(R.style.FlightTheme);
 				builder.setTitle(R.string.rules_and_restrictions);
 				builder.setInjectExpediaCookies(true);
@@ -111,6 +82,13 @@ public class FlightRulesFragment extends Fragment {
 			}
 
 		});
+
+
+	}
+
+	protected void populateHeaderRows(View v) {
+
+		final PointOfSale pos = PointOfSale.getPointOfSale();
 
 		// Terms and Conditions
 		TextView terms = Ui.findView(v, R.id.terms_and_conditions);
@@ -187,7 +165,7 @@ public class FlightRulesFragment extends Fragment {
 		}
 	}
 
-	private void populateBody(View v) {
+	protected void populateBody(View v) {
 		TextView tv = Ui.findView(v, R.id.flight_rules_text_view);
 		String body = constructHtmlBodySectionOne();
 
@@ -195,67 +173,41 @@ public class FlightRulesFragment extends Fragment {
 		tv.setMovementMethod(LinkMovementMethod.getInstance());
 	}
 
-	private String constructHtmlBodySectionOne() {
-		StringBuilder rulesBodyBuilder = new StringBuilder();
+	abstract String constructHtmlBodySectionOne();
+	abstract void populateLccInfo();
 
-		// intro rule
-		Rule introRule = mFlightTrip.getRule(RulesKeys.CANCEL_CHANGE_INTRODUCTION_TEXT.getKey());
-		appendBodyWithRule(introRule, rulesBodyBuilder);
-
-		// refundability
-		Rule refundRule = mFlightTrip.getRule(RulesKeys.REFUNDABILITY_TEXT.getKey());
-		appendBodyWithBoldedRule(refundRule, rulesBodyBuilder);
-
-		// change penalty
-		Rule penaltyRule = mFlightTrip.getRule(RulesKeys.CHANGE_PENALTY_TEXT.getKey());
-		appendBodyWithRuleWithoutBreaks(penaltyRule, rulesBodyBuilder);
-
-		return rulesBodyBuilder.toString();
-	}
-
-	private void populateLccInfo() {
-		StringBuilder builder = new StringBuilder();
-		if (mFlightTrip.getRule(RulesKeys.LCC_IMPORTANT_TEXT.getKey()) != null) {
-			appendBodyWithRule(mFlightTrip.getRule(RulesKeys.LCC_IMPORTANT_TEXT.getKey()), builder);
-			appendBodyWithRule(mFlightTrip.getRule(RulesKeys.LCC_CHECKIN_TEXT.getKey()), builder);
-			appendBodyWithRule(mFlightTrip.getRule(RulesKeys.LCC_LITE_TEXT.getKey()), builder);
-
-			mLccTextView.setText(Html.fromHtml(builder.toString()));
-			mLccTextView.setVisibility(View.VISIBLE);
-		}
-	}
-
-	private void appendBodyWithRule(Rule rule, StringBuilder builder) {
-		if (rule != null) {
-			builder.append(rule.getText());
+	protected void appendStringWithBreak(StringBuilder builder, String text) {
+		if (Strings.isNotEmpty(text)) {
+			builder.append(text);
 			builder.append("<br><br>");
 		}
 	}
 
-	private void appendBodyWithRuleWithoutBreaks(Rule rule, StringBuilder builder) {
-		if (rule != null) {
-			builder.append(rule.getText());
+	protected void appendBodyWithRuleWithoutBreaks(StringBuilder builder, String text) {
+		if (Strings.isNotEmpty(text)) {
+			builder.append(text);
 		}
 	}
 
-	private void appendBodyWithBoldedRule(Rule rule, StringBuilder builder) {
-		if (rule != null) {
+	protected void appendBodyWithBoldedRule(StringBuilder builder, String text) {
+		if (Strings.isNotEmpty(text)) {
 			builder.append("<b>");
-			builder.append(rule.getText());
+			builder.append(text);
 			builder.append("</b>");
 			builder.append("&nbsp;&nbsp;");
 		}
 	}
 
-	private void populateTextViewThatLooksLikeAUrlThatOpensAWebViewActivity(final Rule rule, TextView textView) {
-		if (rule != null) {
+	protected void populateTextViewThatLooksLikeAUrlThatOpensAWebViewActivity(String text, final String url,
+		TextView textView) {
+		if (text != null) {
 			textView.setVisibility(View.VISIBLE);
-			textView.setText(getDummyHtmlLink(rule));
+			textView.setText(getDummyHtmlLink(text));
 			textView.setOnClickListener(new View.OnClickListener() {
 				@Override
 				public void onClick(View v) {
 					WebViewActivity.IntentBuilder builder = new WebViewActivity.IntentBuilder(getActivity());
-					builder.setUrl(rule.getUrl());
+					builder.setUrl(url);
 					builder.setTheme(R.style.FlightTheme);
 					builder.setTitle(R.string.legal_information);
 					startActivity(builder.getIntent());
@@ -265,11 +217,11 @@ public class FlightRulesFragment extends Fragment {
 	}
 
 	// This method just makes the TextView look like a link, doesn't contain actual link
-	private Spanned getDummyHtmlLink(Rule rule) {
+	protected Spanned getDummyHtmlLink(String text) {
 		StringBuilder builder = new StringBuilder();
 
 		builder.append("<a href=\"\">");
-		builder.append(rule.getText());
+		builder.append(text);
 		builder.append("</a>");
 
 		return Html.fromHtml(builder.toString());

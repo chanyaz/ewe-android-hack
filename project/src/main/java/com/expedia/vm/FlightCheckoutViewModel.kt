@@ -9,16 +9,19 @@ import com.expedia.bookings.data.User
 import com.expedia.bookings.data.flights.FlightCheckoutParams
 import com.expedia.bookings.data.flights.FlightCheckoutResponse
 import com.expedia.bookings.data.flights.FlightCreateTripResponse
+import com.expedia.bookings.data.flights.FlightTripDetails
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.services.FlightServices
 import com.expedia.bookings.utils.BookingSuppressionUtils
 import com.squareup.phrase.Phrase
 import rx.Observer
 import rx.exceptions.OnErrorNotImplementedException
+import kotlin.properties.Delegates
 
 class FlightCheckoutViewModel(context: Context, val flightServices: FlightServices) : BaseCheckoutViewModel(context) {
 
     override val builder = FlightCheckoutParams.Builder()
+    var flightTripDetails: FlightTripDetails by Delegates.notNull()
 
     init {
         tripResponseObservable.subscribe { it as FlightCreateTripResponse
@@ -26,6 +29,7 @@ class FlightCheckoutViewModel(context: Context, val flightServices: FlightServic
             builder.expectedTotalFare(it.totalPrice.amount.toString())
             builder.expectedFareCurrencyCode(it.details.offer.currency)
             builder.tealeafTransactionId(it.tealeafTransactionId)
+            flightTripDetails = it.details
 
             var depositText = Html.fromHtml("")
             depositPolicyText.onNext(depositText)

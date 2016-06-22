@@ -313,6 +313,11 @@ public class PackageScreen {
 
 	public static void clickTravelerAdvanced() {
 		onView(withId(R.id.traveler_advanced_options_button)).perform(click());
+
+	}
+
+	public static void clickLegalInformation() {
+		onView(withId(R.id.legal_information_text_view)).perform(click());
 	}
 
 	public static void enterPaymentInfo() {
