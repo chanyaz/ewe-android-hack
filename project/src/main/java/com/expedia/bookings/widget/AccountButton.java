@@ -198,7 +198,7 @@ public class AccountButton extends LinearLayout {
 		}
 		else {
 			mLoginTextView.setText(Phrase.from(this, R.string.Sign_in_with_TEMPLATE)
-				.put("brand", BuildConfig.brand)
+				.putOptional("brand", BuildConfig.brand)
 				.format());
 		}
 	}
@@ -399,7 +399,7 @@ public class AccountButton extends LinearLayout {
 		}
 		else {
 			return Phrase.from(this, R.string.Sign_in_with_TEMPLATE)
-				.put("brand", BuildConfig.brand)
+				.putOptional("brand", BuildConfig.brand)
 				.format();
 		}
 
