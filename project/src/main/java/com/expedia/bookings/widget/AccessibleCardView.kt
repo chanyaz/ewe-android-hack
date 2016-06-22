@@ -9,7 +9,7 @@ import rx.subjects.BehaviorSubject
 abstract class AccessibleCardView(context: Context, attrs: AttributeSet?) : CardView(context, attrs) {
 
     abstract fun contentDescription(): String
-    abstract fun selectedHotelContentDescription(isCollapsed: Boolean): String
+    abstract fun selectedHotelContentDescription(): String
     abstract fun loadingContentDescription(): String
     abstract fun disabledContentDescription(): String
     abstract fun getRowInfoContainer(): ViewGroup
@@ -26,7 +26,7 @@ abstract class AccessibleCardView(context: Context, attrs: AttributeSet?) : Card
             }
         }
         selectedHotelObservable.subscribe {
-            getRowInfoContainer().contentDescription = selectedHotelContentDescription(true)
+            getRowInfoContainer().contentDescription = selectedHotelContentDescription()
         }
     }
 }
