@@ -15,6 +15,7 @@ import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.LXDataUtils;
 import com.expedia.bookings.utils.Strings;
 import com.expedia.bookings.utils.Ui;
+import com.squareup.phrase.Phrase;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -98,6 +99,13 @@ public class LXTicketPicker extends LinearLayout {
 		}
 		ticketDetails.setText(ticketDetailsText);
 		ticket.count = defaultCount;
+
+		ticketAdd.setContentDescription(Phrase.from(this, R.string.lx_add_ticket_button_cont_desc_TEMPLATE)
+			.put("traveler", LXDataUtils.ticketDisplayName(getContext(), ticket.code))
+			.format());
+		ticketRemove.setContentDescription(Phrase.from(this, R.string.lx_remove_ticket_button_cont_desc_TEMPLATE)
+			.put("traveler", LXDataUtils.ticketDisplayName(getContext(), ticket.code))
+			.format());
 
 		setTicketCount();
 	}
