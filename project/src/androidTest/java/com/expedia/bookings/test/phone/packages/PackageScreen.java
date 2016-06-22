@@ -164,6 +164,10 @@ public class PackageScreen {
 		return outboundFlightDescendant(withId(R.id.flight_details_container));
 	}
 
+	public static ViewInteraction inboundFlightDetailsContainer() {
+		return inboundFlightDescendant(withId(R.id.flight_details_container));
+	}
+
 	public static ViewInteraction flightList() {
 		return onView(withId(R.id.list_view));
 	}
@@ -213,6 +217,14 @@ public class PackageScreen {
 
 	public static ViewInteraction hotelBundleContainer() {
 		return onView(allOf(isDescendantOfA(withId(R.id.package_bundle_hotel_widget)), withId(R.id.row_container)));
+	}
+
+	public static ViewInteraction outboundFlightBundleContainer() {
+		return onView(allOf(isDescendantOfA(withId(R.id.package_bundle_outbound_flight_widget)), withId(R.id.row_container)));
+	}
+
+	public static ViewInteraction inboundFlightBundleContainer() {
+		return onView(allOf(isDescendantOfA(withId(R.id.package_bundle_inbound_flight_widget)), withId(R.id.row_container)));
 	}
 
 	public static ViewInteraction bundleTotalFooterWidget() {
