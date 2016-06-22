@@ -90,7 +90,7 @@ class LXRecommendedActivitiesListAdapter : BaseAdapter() {
             activityTitle.text = activity.title
 
             LXDataUtils.bindPriceAndTicketType(itemView.context, activity.fromPriceTicketCode, activity.price,
-                    activityPrice, fromPriceTicketType)
+                    activity.originalPrice, activityPrice, fromPriceTicketType)
             LXDataUtils.bindOriginalPrice(itemView.context, activity.originalPrice, activityOriginalPrice)
             LXDataUtils.bindDuration(itemView.context, activity.duration, activity.isMultiDuration, duration)
 

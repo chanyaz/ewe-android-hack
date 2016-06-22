@@ -11,9 +11,11 @@ import org.robolectric.RuntimeEnvironment;
 
 import android.content.Context;
 import android.net.Uri;
+import android.widget.TextView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Location;
+import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.lx.LXSearchParams;
 import com.expedia.bookings.data.lx.LXTicketType;
 import com.expedia.bookings.data.lx.SearchType;
@@ -178,5 +180,24 @@ public class LXDataUtilsTest {
 		Uri data = Uri.parse(expectedURL);
 		Set<String> queryData = data.getQueryParameterNames();
 		return LXDataUtils.buildLXSearchParamsFromDeeplink(data, queryData);
+	}
+
+	@Test
+	public void bindPriceAndTicketTypeTest() {
+		TextView activityPrice = new TextView(getContext());
+		TextView fromPriceTicketType = new TextView(getContext());
+		LXDataUtils.bindPriceAndTicketType(getContext(), LXTicketType.Traveler, new Money("180", "USD"),
+			new Money("0", "USD"), activityPrice, fromPriceTicketType);
+
+		assertEquals(activityPrice.getText(), "$180");
+		assertEquals(activityPrice.getContentDescription(), "Price is $180");
+		assertEquals(fromPriceTicketType.getText(), "per traveler");
+
+		LXDataUtils.bindPriceAndTicketType(getContext(), LXTicketType.Traveler, new Money("180", "USD"),
+			new Money("220", "USD"), activityPrice, fromPriceTicketType);
+
+		assertEquals(activityPrice.getText(), "$180");
+		assertEquals(activityPrice.getContentDescription(), "Price is $180. Price before discount was $220");
+		assertEquals(fromPriceTicketType.getText(), "per traveler");
 	}
 }

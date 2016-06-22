@@ -366,15 +366,30 @@ public class LXDataUtils {
 	}
 
 	public static void bindPriceAndTicketType(Context context, LXTicketType fromPriceTicketCode, Money price,
-		TextView activityPrice, TextView fromPriceTicketType) {
+		Money originalPrice, TextView activityPrice, TextView fromPriceTicketType) {
 		if (fromPriceTicketCode != null) {
 			fromPriceTicketType.setText(
 				LXDataUtils.perTicketTypeDisplayLabel(context, fromPriceTicketCode));
 			activityPrice.setText(price.getFormattedMoney(Money.F_NO_DECIMAL | Money.F_ROUND_HALF_UP));
+			final CharSequence activityPriceContDesc;
+			if (originalPrice.getAmount().equals(BigDecimal.ZERO)) {
+				activityPriceContDesc = Phrase
+					.from(context, R.string.activity_price_without_discount_cont_desc_TEMPLATE)
+					.put("activity_price", price.getFormattedMoney(Money.F_NO_DECIMAL | Money.F_ROUND_HALF_UP))
+					.format();
+			}
+			else {
+				activityPriceContDesc = Phrase.from(context, R.string.activity_price_with_discount_cont_desc_TEMPLATE)
+					.put("activity_price", price.getFormattedMoney(Money.F_NO_DECIMAL | Money.F_ROUND_HALF_UP))
+					.put("activity_original_price", originalPrice.getFormattedMoney(Money.F_NO_DECIMAL | Money.F_ROUND_HALF_UP))
+					.format();
+			}
+			activityPrice.setContentDescription(activityPriceContDesc);
 		}
 		else {
 			fromPriceTicketType.setText("");
 			activityPrice.setText("");
+			activityPrice.setContentDescription(null);
 		}
 	}
 
