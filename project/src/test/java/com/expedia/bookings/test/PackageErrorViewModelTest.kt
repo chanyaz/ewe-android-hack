@@ -27,6 +27,7 @@ class PackageErrorViewModelTest {
         observableEmissionsOnSearchError(PackageApiError.Code.pkg_flight_no_longer_available)
         observableEmissionsOnSearchError(PackageApiError.Code.pkg_too_many_children_in_lap)
         observableEmissionsOnSearchError(PackageApiError.Code.pkg_invalid_checkin_checkout_dates)
+        observableEmissionsOnSearchError(PackageApiError.Code.pkg_hotel_no_longer_available)
     }
 
     fun observableEmissionsOnSearchError(apiError: PackageApiError.Code) {
