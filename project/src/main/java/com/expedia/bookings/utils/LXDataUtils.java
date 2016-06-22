@@ -383,9 +383,11 @@ public class LXDataUtils {
 			.put("recommend", recommendationScore).format().toString();
 	}
 
-	public static String getToolbarSearchDateText(Context context, LocalDate startDate, LocalDate endDate) {
-		return String.format(context.getResources().getString(R.string.lx_toolbar_date_range_template),
-			DateUtils.localDateToMMMd(startDate), DateUtils.localDateToMMMd(endDate));
+	public static String getToolbarSearchDateText(Context context, LXSearchParams searchParams, boolean isContDesc) {
+		return Phrase.from(context,
+			isContDesc ? R.string.lx_toolbar_date_range_cont_desc_TEMPLATE : R.string.lx_toolbar_date_range_TEMPLATE)
+			.put("from_date", DateUtils.localDateToMMMd(searchParams.startDate))
+			.put("to_date", DateUtils.localDateToMMMd(searchParams.endDate))
+			.format().toString();
 	}
-
 }

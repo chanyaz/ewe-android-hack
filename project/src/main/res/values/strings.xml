@@ -301,8 +301,10 @@
     <string name="missing_flight_info_button_prompt">Select Airport</string>
 
     <!-- LX -->
-    <!-- LX toolbar Date Range e.g. May 05 - May 10 -->
-    <string name="lx_toolbar_date_range_template">%1$s - %2$s</string>
+    <!-- LX Toolbar Date Range e.g. May 05 - May 10 -->
+    <string name="lx_toolbar_date_range_TEMPLATE">{from_date} - {to_date}</string>
+    <!-- LX Toolbar Date Range Cont Desc e.g. May 05 to May 10 -->
+    <string name="lx_toolbar_date_range_cont_desc_TEMPLATE">{from_date} to {to_date}</string>
     <!--LX Search widget header text -->
     <string name="lx_search_title">Search Activities</string>
     <!--LX Search widget header text -->

@@ -12,14 +12,16 @@ object AccessibilityUtil {
     }
 
     @JvmStatic fun setFocusToToolbarNavigationIcon(toolbar: Toolbar) {
-        for (i in 0..toolbar.childCount - 1) {
-            val v = toolbar.getChildAt(i)
-            if (v is ImageButton) {
-                v.setFocusableInTouchMode(true)
-                v.setFocusable(true)
-                v.clearFocus()
-                v.requestFocus()
-                break
+        if (AccessibilityUtil.isTalkBackEnabled(toolbar.context)) {
+            for (i in 0..toolbar.childCount - 1) {
+                val v = toolbar.getChildAt(i)
+                if (v is ImageButton) {
+                    v.setFocusableInTouchMode(true)
+                    v.setFocusable(true)
+                    v.clearFocus()
+                    v.requestFocus()
+                    break
+                }
             }
         }
     }
