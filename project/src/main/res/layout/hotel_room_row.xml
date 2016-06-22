@@ -70,6 +70,8 @@
                     android:layout_marginLeft="15dp"
                     android:textColor="@color/hotel_earn_message_text_color"
                     android:textSize="12sp"
+                    android:drawableLeft="@drawable/earn_message_icon"
+                    android:drawablePadding="@dimen/earn_message_icon_dimen"
                     app:textStyle="normal" />
 
                 <com.expedia.bookings.widget.TextView

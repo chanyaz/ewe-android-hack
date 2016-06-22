@@ -68,7 +68,7 @@ open class PaymentWidget(context: Context, attr: AttributeSet) : Presenter(conte
     val creditCardNumber: NumberMaskEditText by bindView(R.id.edit_creditcard_number)
     val creditCardName: EditText by bindView(R.id.edit_name_on_card)
     val creditCardPostalCode: EditText by bindView(R.id.edit_address_postal_code)
-    val cardInfoIcon: RoundImageView by bindView(R.id.card_info_icon)
+    val cardInfoIcon: ImageView by bindView(R.id.card_info_icon)
     val cardInfoName: TextView by bindView(R.id.card_info_name)
     val cardInfoExpiration: TextView by bindView(R.id.card_info_expiration)
     val paymentStatusIcon: ContactDetailsCompletenessStatusImageView by bindView(R.id.card_info_status_icon)

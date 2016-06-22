@@ -179,4 +179,6 @@ public interface IProductFlavorFeatureConfiguration {
 	String getSharableFallbackImageURL();
 
 	boolean shouldDisplayItinTrackAppLink();
+
+	boolean shouldShowItinShare();
 }

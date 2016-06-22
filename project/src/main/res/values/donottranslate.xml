@@ -90,6 +90,7 @@
     <string name="preference_abacus_setting_control">Control Group</string>
     <string name="preference_abacus_setting_bucketed">Bucketed</string>
     <string name="preference_enable_leakcanary">preference_enable_leakcanary</string>
+    <string name="preference_enable_tune">preference_enable_tune</string>
 
     <!-- Default values for preference keys -->
     <string name="preference_fake_price_change_default">0</string>
@@ -384,5 +385,6 @@
 
     <!-- Brand reward name -->
     <string name="brand_reward_name">Expedia+</string>
-
+    <string name="acct__google_account_change_string">@string/google_account_change_string</string>
+    <string name="acct__google_account_change_message_TEMPLATE">@string/google_account_change_message_TEMPLATE</string>
 </resources>
