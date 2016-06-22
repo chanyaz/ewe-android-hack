@@ -2,13 +2,16 @@ package com.expedia.bookings.presenter.packages
 
 import android.app.Activity
 import android.content.Context
+import android.graphics.Point
 import android.support.v7.app.AppCompatActivity
 import android.util.AttributeSet
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.MenuItem
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.view.View
+import android.widget.Toast
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.flights.FlightLeg
@@ -61,6 +64,15 @@ class PackageFlightPresenter(context: Context, attrs: AttributeSet) : BaseFlight
         val filterPlaceholderImageView = toolbarFilterItemActionView.findViewById(R.id.filter_placeholder_icon) as ImageView
         val filterButtonText = toolbarFilterItemActionView.findViewById(R.id.filter_text) as TextView
         val filterBtn = toolbarFilterItemActionView.findViewById(R.id.filter_btn) as LinearLayout
+        toolbarFilterItemActionView.setOnLongClickListener {
+            val size = Point()
+            display.getSize(size)
+            val width = size.x
+            val toast = Toast.makeText(context, context.getString(R.string.sort_and_filter), Toast.LENGTH_SHORT)
+            toast.setGravity(Gravity.TOP, width - filterBtn.width, filterBtn.height)
+            toast.show()
+            true
+        }
 
         filterButtonText.visibility = GONE
         filterBtn.setOnClickListener { show(filter) }
