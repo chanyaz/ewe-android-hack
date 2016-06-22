@@ -10,12 +10,15 @@ import com.expedia.bookings.test.phone.hotels.HotelScreen;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
+import static android.support.test.espresso.action.ViewActions.scrollTo;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.hasDescendant;
 import static android.support.test.espresso.matcher.ViewMatchers.hasSibling;
+import static android.support.test.espresso.matcher.ViewMatchers.isDescendantOfA;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
+import static com.expedia.bookings.test.espresso.ViewActions.waitForViewToDisplay;
 import static org.hamcrest.CoreMatchers.allOf;
 
 public class PackageHotelDetailsTest extends PackageTestCase {
@@ -68,5 +71,19 @@ public class PackageHotelDetailsTest extends PackageTestCase {
 		Common.pressBack();
 		HotelScreen.waitForDetailsLoaded();
 		EspressoUtils.assertViewIsDisplayed(R.id.vip_access_message_container);
+	}
+
+	public void testRenoHotel() throws Throwable {
+		PackageScreen.searchPackage();
+		HotelScreen.selectHotel("Package Happy Path");
+		HotelScreen.clickRenoInfo();
+		Common.delay(2);
+		onView(allOf(withText(getActivity().getString(R.string.renovation_notice)), isDescendantOfA(withId(R.id.toolbar)))).perform(waitForViewToDisplay());
+		onView(allOf(withText(getActivity().getString(R.string.renovation_notice)), isDescendantOfA(withId(R.id.toolbar)))).check(matches(isDisplayed()));
+		onView(allOf(withId(R.id.content_description), withText("The property is undergoing renovations. The following areas are affected:")));
+		Common.pressBack();
+		HotelScreen.waitForDetailsLoaded();
+		onView(withId(R.id.renovation_container)).perform(scrollTo());
+		EspressoUtils.assertViewIsDisplayed(R.id.renovation_container);
 	}
 }

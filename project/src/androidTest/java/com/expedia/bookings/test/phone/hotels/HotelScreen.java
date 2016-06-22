@@ -125,8 +125,8 @@ public class HotelScreen {
 					hasSibling(allOf(withId(R.id.view_room_button), allOf(withText("Book"))))));
 	}
 
-	public static ViewInteraction renovationContainer() {
-		return onView(withId(R.id.renovation_container));
+	public static void clickRenoInfo() {
+		onView(withId(R.id.renovation_container)).perform(scrollTo(), click());
 	}
 
 	public static void selectLocation(String hotel) throws Throwable {
