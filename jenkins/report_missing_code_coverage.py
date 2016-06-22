@@ -22,8 +22,8 @@ def main():
     pullRequest = PullRequest(repo, pullRequestId)
     pullRequest.scanPullRequest()
     missingCoverageReports = reportMissingCoverageInPRFiles(pullRequest, coverageFileLocations, buildURL)
+    issue = repo.issue(pullRequestId)
     if missingCoverageReports:
-        issue = repo.issue(pullRequestId)
         comment = "New code added in this PR is not being fully covered by tests. Code coverage reports showcasing the misses: \n"
         for report in missingCoverageReports:
             comment += report + "\n"
@@ -33,6 +33,9 @@ def main():
         return 1
     else:
         print "No missing code coverage found."
+        comment = "Hurray!!! All the changes seem to be covered with Unit tests."
+        createUpdateOrDeleteAutomatedFeedbackComment(githubAccessToken, githubOrganization, githubRepository, pullRequestId, 'coverage', comment, "")
+        issue.remove_label('needs-tests')
         return 0
 
 
