@@ -80,7 +80,8 @@
             android:id="@+id/bundle_total_savings"
             style="@style/BundleOverviewFooter.SecondaryText.Savings"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:visibility="gone"/>
 
         <com.expedia.bookings.widget.TextView
             android:id="@+id/per_person_text"

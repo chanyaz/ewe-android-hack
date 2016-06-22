@@ -424,10 +424,8 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet) : Pre
         var countryCode = PointOfSale.getPointOfSale().threeLetterCountryCode
         var currencyCode = CurrencyUtils.currencyForLocale(countryCode)
         totalPriceWidget.visibility = View.VISIBLE
-        totalPriceWidget.viewModel.setTextObservable.onNext(Pair(Money(BigDecimal("0.00"), currencyCode).formattedMoney,
-                Phrase.from(context, R.string.bundle_total_savings_TEMPLATE)
-                        .put("savings", Money(BigDecimal("0.00"), currencyCode).formattedMoney)
-                        .format().toString()))
+        totalPriceWidget.viewModel.total.onNext(Money(BigDecimal("0.00"), currencyCode))
+        totalPriceWidget.viewModel.savings.onNext(Money(BigDecimal("0.00"), currencyCode))
     }
 
     abstract fun getLineOfBusiness(): LineOfBusiness

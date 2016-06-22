@@ -62,13 +62,12 @@ class PackagePresenter(context: Context, attrs: AttributeSet) : IntentPresenter(
         bundlePresenter.bundleWidget.viewModel.showBundleTotalObservable.subscribe { visible ->
             val packagePrice = Db.getPackageResponse().packageResult.currentSelectedOffer.price
 
-            val packageSavings = Phrase.from(context, R.string.bundle_total_savings_TEMPLATE)
-                    .put("savings", Money(BigDecimal(packagePrice.tripSavings.amount.toDouble()),
-                            packagePrice.tripSavings.currencyCode).formattedMoney)
-                    .format().toString()
+            val packageSavings = Money(BigDecimal(packagePrice.tripSavings.amount.toDouble()),
+                    packagePrice.tripSavings.currencyCode)
             checkoutPresenter.totalPriceWidget.visibility = if (visible) View.VISIBLE else View.GONE
-            checkoutPresenter.totalPriceWidget.viewModel.setTextObservable.onNext(Pair(Money(BigDecimal(packagePrice.packageTotalPrice.amount.toDouble()),
-                    packagePrice.packageTotalPrice.currencyCode).formattedMoney, packageSavings))
+            checkoutPresenter.totalPriceWidget.viewModel.total.onNext(Money(BigDecimal(packagePrice.packageTotalPrice.amount.toDouble()),
+                    packagePrice.packageTotalPrice.currencyCode))
+            checkoutPresenter.totalPriceWidget.viewModel.savings.onNext(packageSavings)
         }
         checkoutPresenter.getCreateTripViewModel().tripResponseObservable.subscribe { trip ->
             expediaRewards = trip.rewards?.totalPointsToEarn?.toString()

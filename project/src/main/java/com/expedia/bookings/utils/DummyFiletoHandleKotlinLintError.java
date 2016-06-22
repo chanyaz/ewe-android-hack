@@ -641,7 +641,7 @@ DummyFiletoHandleKotlinLintError {
 		R.string.packages_add_child_traveler_cont_desc,
 		R.string.packages_remove_child_traveler_cont_desc,
 		R.string.bundle_overview_price_widget,
-		R.string.bundle_overview_price_widget_button_open,
+		R.string.bundle_overview_price_widget_button_open_TEMPLATE,
 		R.string.bundle_overview_price_widget_button_close,
 		R.string.search_child_drop_down_cont_desc_TEMPLATE,
 		R.layout.material_flights_spinner_airport_dropdown_row,

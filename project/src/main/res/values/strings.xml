@@ -4192,8 +4192,8 @@
     <string name="packages_flight_search_filter_clear_button_cont_desc">Clear Filters. Button</string>
     <!--Content description for Bundle total widget. Example: Bundle total is $1,234.00. This price includes taxes, fees for both flights and hotel. $100.00 Saved-->
     <string name="bundle_overview_price_widget">Bundle total is {totalprice}. This price includes taxes, fees for both flights and hotel. {savings}</string>
-    <!--Content description for Bundle sliding widget, with instruction to expand to show more details. Example: Bundle total is $1,234.00. This price includes taxes, fees for both flights and hotel. $100.00 Saved. Button to view bundle.-->
-    <string name="bundle_overview_price_widget_button_open">Bundle total is {totalprice}. This price includes taxes, fees for both flights and hotel. {savings}. Button to view bundle.</string>
+    <!--Content description for Bundle sliding widget, with instruction to expand to show more details. Example: Bundle total is $1,234.00 per person. This price includes taxes, fees for both flights and hotel. $100.00 Saved. Button to view bundle.-->
+    <string name="bundle_overview_price_widget_button_open_TEMPLATE">Bundle price is {price_per_person} per person. This price includes taxes, fees for both flights and hotel. Button to view bundle.</string>
     <!--Content description for Bundle sliding widget, when it's opened.-->
     <string name="bundle_overview_price_widget_button_close">Showing bundle details. Button to close.</string>
     <!--Packages bundle overview hotel drop down (expand) content description for accessibility-->

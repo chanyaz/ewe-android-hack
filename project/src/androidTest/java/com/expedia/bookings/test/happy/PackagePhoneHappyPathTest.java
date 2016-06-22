@@ -45,6 +45,7 @@ public class PackagePhoneHappyPathTest extends PackageTestCase {
 		assertHotelSRP();
 
 		Common.pressBack();
+		onView(allOf(withId(R.id.widget_bundle_overview))).perform(ViewActions.waitForViewToDisplay());
 		onView(allOf(withId(R.id.widget_bundle_overview))).check(matches(isDisplayed()));
 		PackageScreen.clickHotelBundle();
 
@@ -54,7 +55,7 @@ public class PackagePhoneHappyPathTest extends PackageTestCase {
 
 		assertHotelInfoSite();
 		reviews();
-		assertHotelBundlePrice("$1,027.34", "View your bundle", "$21.61 Saved");
+		assertHotelBundlePrice("$1,027.34", "View your bundle", "per person");
 
 		PackageScreen.selectRoom();
 
@@ -71,6 +72,7 @@ public class PackagePhoneHappyPathTest extends PackageTestCase {
 
 		PackageScreen.selectFlight(0);
 		assertBundlePriceInFlight("$4,212");
+		PackageScreen.selectThisFlight().perform(ViewActions.waitForViewToDisplay());
 		PackageScreen.selectThisFlight().perform(click());
 
 		PackageScreen.checkout().perform(click());
@@ -164,7 +166,7 @@ public class PackagePhoneHappyPathTest extends PackageTestCase {
 			allOf(withId(R.id.bundle_total_price), isDescendantOfA(withId(R.id.bundle_price_widget)), withText(price)))
 			.check(matches(isDisplayed()));
 		onView(
-			allOf(withId(R.id.bundle_total_savings), isDescendantOfA(withId(R.id.bundle_price_widget)), withText(savings)))
+			allOf(withId(R.id.per_person_text), isDescendantOfA(withId(R.id.bundle_price_widget)), withText(savings)))
 			.check(matches(isDisplayed()));
 	}
 

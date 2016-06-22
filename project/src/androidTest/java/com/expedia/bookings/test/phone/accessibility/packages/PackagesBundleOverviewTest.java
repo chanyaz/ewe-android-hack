@@ -82,23 +82,23 @@ public class PackagesBundleOverviewTest extends PackageTestCase {
 		PackageScreen.bundleTotalFooterWidget().check((matches(withContentDescription("Bundle total is " + totalPrice + ". This price includes taxes, fees for both flights and hotel. " + totalSaved + " Saved"))));
 	}
 
-	private void checkBundleSlidingWidgetContentDescription(String totalPrice, String totalSaved, boolean isOpened) {
+	private void checkBundleSlidingWidgetContentDescription(String pricePerPerson, boolean isOpened) {
 		String str;
 		if (isOpened) {
 			str = "Showing bundle details. Button to close.";
 		}
 		else {
-			str = "Bundle total is " + totalPrice + ". This price includes taxes, fees for both flights and hotel. " + totalSaved + " Saved. Button to view bundle.";
+			str = "Bundle price is " + pricePerPerson + " per person. This price includes taxes, fees for both flights and hotel. Button to view bundle.";
 		}
 		PackageScreen.bundleTotalSlidingWidget().check((matches(withContentDescription(str))));
 	}
 
-	private void openCloseSlidingBundleWidget(String totalPrice, String totalSaved, String packageTotalPrice) {
-		checkBundleSlidingWidgetContentDescription(totalPrice, totalSaved, false);
+	private void openCloseSlidingBundleWidget(String pricePerPerson, String totalSaved, String packageTotalPrice) {
+		checkBundleSlidingWidgetContentDescription(pricePerPerson, false);
 		PackageScreen.bundleTotalSlidingWidget().perform(click());
 		Common.delay(1);
 		checkBundleTotalWidgetContentDescription(packageTotalPrice, totalSaved);
-		checkBundleSlidingWidgetContentDescription(totalPrice, totalSaved, true);
+		checkBundleSlidingWidgetContentDescription(pricePerPerson, true);
 		PackageScreen.bundleTotalSlidingWidget().perform(click());
 		Common.delay(1);
 	}
