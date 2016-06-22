@@ -48,8 +48,10 @@ public class CarsCategoryFilterWidget extends LinearLayout {
 
 	public void bind(CarCategory category) {
 		this.category = category;
-		categoryTitle.setText(CarDataUtils.getCategoryStringForResults(getContext(), category));
+		String categoryStringForResults = CarDataUtils.getCategoryStringForResults(getContext(), category);
+		categoryTitle.setText(categoryStringForResults);
 		categoryCheckBox.setChecked(false);
+		categoryCheckBox.setContentDescription(categoryStringForResults);
 	}
 
 	public void setChecked(boolean checked) {
