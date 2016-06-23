@@ -3532,6 +3532,18 @@ public class OmnitureTracking {
 		s.trackLink(null, "o", "Accounts", null, null);
 	}
 
+	public static void trackSmartLockPasswordAutoSignIn() {
+		ADMS_Measurement s = createTrackLinkEvent(LOGIN_SUCCESS);
+		s.setEvents("event26,event216");
+		s.trackLink(null, "o", "Accounts", null, null);
+	}
+
+	public static void trackSmartLockPasswordAccountCreation() {
+		ADMS_Measurement s = createTrackLinkEvent(LOGIN_ACCOUNT_CREATE_SUCCESS);
+		s.setEvents("event25,event26,event216");
+		s.trackLink(null, "o", "Accounts", null, null);
+	}
+
 	public static void trackLoginScreen() {
 		ADMS_Measurement s = getFreshTrackingObject();
 		// set the pageName
