@@ -11,6 +11,7 @@ import org.joda.time.format.DateTimeFormatter;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 
 import com.adobe.adms.measurement.ADMS_Measurement;
@@ -41,6 +42,7 @@ import com.expedia.bookings.data.lx.LXActivity;
 import com.expedia.bookings.data.lx.LXSearchParams;
 import com.expedia.bookings.data.lx.LXSearchResponse;
 import com.expedia.bookings.data.pos.PointOfSale;
+import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.services.HotelCheckoutResponse;
 import com.mobiata.android.Log;
 import com.mobiata.android.util.SettingUtils;
@@ -63,6 +65,10 @@ public class TuneUtils {
 		String conversionKey = app.getString(R.string.tune_sdk_app_conversion_key);
 
 		mobileAppTracker = MobileAppTracker.init(app, advertiserID, conversionKey);
+		if (ProductFlavorFeatureConfiguration.getInstance().shouldSetExistingUserForTune()
+			&& olderOrbitzVersionWasInstalled(context)) {
+			mobileAppTracker.setExistingUser(true);
+		}
 		mobileAppTracker.setUserId(ADMS_Measurement.sharedInstance(app.getApplicationContext()).getVisitorID());
 		mobileAppTracker.setDebugMode(BuildConfig.DEBUG && SettingUtils
 			.get(context, context.getString(R.string.preference_enable_tune), false));
@@ -89,6 +95,13 @@ public class TuneUtils {
 			.withAttribute3(getMembershipTier())
 			.withAttribute2(isUserLoggedIn());
 		trackEvent(launchEvent);
+	}
+
+	// To check whether user is migrated form old app to new version of app
+	// Old Orbitz app set `anonId` in `loginPreferences`
+	private static boolean olderOrbitzVersionWasInstalled(Context context) {
+		SharedPreferences olderOrbitzPreferences = context.getSharedPreferences("loginPreferences", Context.MODE_PRIVATE);
+		return olderOrbitzPreferences.contains("anonId");
 	}
 
 	public static void updatePOS() {

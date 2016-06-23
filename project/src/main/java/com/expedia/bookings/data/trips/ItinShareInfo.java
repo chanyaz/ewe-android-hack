@@ -4,6 +4,7 @@ import org.json.JSONObject;
 
 import android.text.TextUtils;
 
+import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.mobiata.android.Log;
 import com.mobiata.android.json.JSONable;
 
@@ -28,7 +29,7 @@ public class ItinShareInfo implements JSONable {
 	 * @return
 	 */
 	public String getSharableUrl() {
-		return TextUtils.isEmpty(mShortSharableDetailsUrl) ? mSharableDetailsUrl : mShortSharableDetailsUrl;
+		return TextUtils.isEmpty(getShortSharableDetailsUrl()) ? getSharableDetailsUrl() : getShortSharableDetailsUrl();
 	}
 
 	public boolean hasSharableUrl() {
@@ -41,7 +42,8 @@ public class ItinShareInfo implements JSONable {
 	 * @return
 	 */
 	public String getSharableDetailsUrl() {
-		return mSharableDetailsUrl;
+		return ProductFlavorFeatureConfiguration.getInstance().shouldDisplayItinTrackAppLink() ? mSharableDetailsUrl
+			: "";
 	}
 
 	/**
@@ -59,7 +61,7 @@ public class ItinShareInfo implements JSONable {
 	}
 
 	public boolean hasSharableDetailsUrl() {
-		return !TextUtils.isEmpty(mSharableDetailsUrl);
+		return !TextUtils.isEmpty(getSharableDetailsUrl());
 	}
 
 	/**
@@ -68,7 +70,8 @@ public class ItinShareInfo implements JSONable {
 	 * @return
 	 */
 	public String getShortSharableDetailsUrl() {
-		return mShortSharableDetailsUrl;
+		return ProductFlavorFeatureConfiguration.getInstance().shouldDisplayItinTrackAppLink()
+			? mShortSharableDetailsUrl : "";
 	}
 
 	public void setShortSharableDetailsUrl(String shortSharableDetailsUrl) {
@@ -76,7 +79,7 @@ public class ItinShareInfo implements JSONable {
 	}
 
 	public boolean hasShortSharableDetailsUrl() {
-		return !TextUtils.isEmpty(mShortSharableDetailsUrl);
+		return !TextUtils.isEmpty(getShortSharableDetailsUrl());
 	}
 
 	//////////////////////////////////////////////////////////////

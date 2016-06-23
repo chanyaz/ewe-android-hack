@@ -392,7 +392,12 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 	}
 
 	@Override
-	public boolean shouldShowItinShare() {
+	public boolean shouldSetExistingUserForTune() {
 		return true;
+	}
+
+	@Override
+	public boolean shouldShowItinShare() {
+		return false;
 	}
 }
