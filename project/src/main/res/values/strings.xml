@@ -1004,6 +1004,11 @@
     <string name="nav_lx">Activities</string>
     <!-- Ground Transport -->
     <string name="nav_transport">Transport</string>
+    <!-- Packages -->
+    <string name="nav_packages">Bundle Deals</string>
+    <!-- Rail -->
+    <string name="nav_rail">Rail</string>
+
 
     <!-- New launch screen -->
     <!-- Top deals tonight -->

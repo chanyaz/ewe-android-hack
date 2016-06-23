@@ -37,6 +37,10 @@ public class NewLaunchLobAdapter extends RecyclerView.Adapter<NewLaunchLobAdapte
 		void onActivitiesLobClick();
 
 		void onTransportLobClick();
+
+		void onPackagesLobClick();
+
+		void onRailLobClick();
 	}
 
 	private Boolean enableLobs = true;
@@ -139,6 +143,12 @@ public class NewLaunchLobAdapter extends RecyclerView.Adapter<NewLaunchLobAdapte
 				case TRANSPORT:
 					listener.onTransportLobClick();
 					break;
+				case PACKAGES:
+					listener.onPackagesLobClick();
+					break;
+				case RAIL:
+					listener.onRailLobClick();
+					break;
 				}
 			}
 		}
@@ -149,7 +159,9 @@ public class NewLaunchLobAdapter extends RecyclerView.Adapter<NewLaunchLobAdapte
 		FLIGHTS(R.string.flights_title, R.drawable.ic_lob_flights, R.color.new_launch_flights_lob_color),
 		CARS(R.string.nav_car_rentals, R.drawable.ic_lob_cars, R.color.new_launch_cars_lob_color),
 		ACTIVITIES(R.string.nav_things_to_do, R.drawable.ic_lob_lx, R.color.new_launch_lx_lob_color),
-		TRANSPORT(R.string.nav_transport, R.drawable.ic_lob_gt, R.color.new_launch_gt_lob_color);
+		TRANSPORT(R.string.nav_transport, R.drawable.ic_lob_gt, R.color.new_launch_gt_lob_color),
+		PACKAGES(R.string.nav_packages, R.drawable.ic_lob_packages, R.color.new_launch_packages_lob_color),
+		RAIL(R.string.nav_rail, R.drawable.ic_lob_rail, R.color.new_launch_rail_lob_color);
 
 
 		public
