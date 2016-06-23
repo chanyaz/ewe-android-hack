@@ -57,7 +57,6 @@ class FlightResultsListViewPresenter(context: Context, attrs: AttributeSet) : Pr
     fun setLoadingState() {
         filterButton.visibility = GONE
         flightListAdapter.setLoadingState()
-        positionChildren()
     }
 
     var resultsViewModel: FlightResultsViewModel by notNullAndObservable { vm ->
@@ -82,25 +81,17 @@ class FlightResultsListViewPresenter(context: Context, attrs: AttributeSet) : Pr
 
     private fun positionChildren() {
         val isShowingDockedOutboundFlightWidget = !isShowingOutboundResults
-        val onLayoutListener = object: ViewTreeObserver.OnGlobalLayoutListener {
+        val onLayoutListener = object : ViewTreeObserver.OnGlobalLayoutListener {
             override fun onGlobalLayout() {
-                val location = IntArray(2)
-                dockedOutboundFlightSelection.getLocationOnScreen(location)
-                val top = location[1]
-                val dockedOutboundFlightSelectionBottom = top + dockedOutboundFlightSelection.height - Ui.getStatusBarHeight(context)
-
-                if (isShowingDockedOutboundFlightWidget) {
-                    val newDropShadowLayoutParams = dockedOutboundFlightShadow.layoutParams as android.widget.FrameLayout.LayoutParams
-                    newDropShadowLayoutParams.topMargin = dockedOutboundFlightSelectionBottom
-                    dockedOutboundFlightShadow.layoutParams = newDropShadowLayoutParams
+                if (dockedOutboundFlightSelection.height != 0) {
+                    dockedOutboundFlightSelection.viewTreeObserver.removeOnGlobalLayoutListener(this)
+                    dockedOutboundFlightShadow.translationY = dockedOutboundFlightSelection.height.toFloat() + Ui.getToolbarSize(context)
+                    recyclerView.translationY = dockedOutboundFlightSelection.height.toFloat()
                 }
-                val newLayoutParams = recyclerView.layoutParams as android.widget.FrameLayout.LayoutParams
-                newLayoutParams.topMargin = if (isShowingDockedOutboundFlightWidget) dockedOutboundFlightSelectionBottom else Ui.getToolbarSize(context)
-                recyclerView.layoutParams = newLayoutParams
-
-                viewTreeObserver.removeOnGlobalLayoutListener(this)
             }
         }
-        viewTreeObserver.addOnGlobalLayoutListener(onLayoutListener)
+        if (isShowingDockedOutboundFlightWidget) {
+            dockedOutboundFlightSelection.viewTreeObserver.addOnGlobalLayoutListener(onLayoutListener)
+        }
     }
 }
