@@ -41,6 +41,7 @@ import com.expedia.bookings.data.trips.ItinCardData;
 import com.expedia.bookings.data.trips.ItinCardDataFlight;
 import com.expedia.bookings.data.trips.TripComponent.Type;
 import com.expedia.bookings.data.trips.TripFlight;
+import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.graphics.HeaderBitmapDrawable;
 import com.expedia.bookings.graphics.HeaderBitmapDrawable.CornerMode;
 import com.expedia.bookings.tracking.OmnitureTracking;
@@ -190,12 +191,19 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout
 		mSelectedView = Ui.findView(this, R.id.selected_view);
 		mHeaderShadeView = Ui.findView(this, R.id.header_mask);
 		mSummaryDividerView = Ui.findView(this, R.id.summary_divider_view);
+		mShareView = Ui.findView(this, R.id.itin_share_view);
 
 		mSummarySectionLayout.setOnClickListener(mOnClickListener);
 		Ui.setOnClickListener(this, R.id.close_image_button, mOnClickListener);
-		Ui.setOnClickListener(this, R.id.itin_overflow_image_button, mOnClickListener);
 
-		mShareView = Ui.findView(this, R.id.itin_share_view);
+		// Show itin Share overflow image only if sharing is supported.
+		if (ProductFlavorFeatureConfiguration.getInstance().shouldShowItinShare()) {
+			Ui.setOnClickListener(this, R.id.itin_overflow_image_button, mOnClickListener);
+		}
+		else {
+			Ui.findView(this, R.id.itin_overflow_image_button).setVisibility(View.GONE);
+			mShareView.setVisibility(View.GONE);
+		}
 
 		updateHeaderImageHeight();
 		updateClickable();

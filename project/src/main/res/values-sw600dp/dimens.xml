@@ -48,8 +48,8 @@
     <dimen name="login_button_text_size">17sp</dimen>
     <dimen name="account_button_rewards_text_size">19sp</dimen>
     <dimen name="account_button_points_text_size">15sp</dimen>
-    <dimen name="account_rewards_container_height">23dp</dimen>
     <dimen name="card_icon_padding">6dp</dimen>
+    <dimen name="account_reward_textview_padding">3dp</dimen>
 
     <!-- Search Results -->
     <dimen name="results_list_header_text_size">16sp</dimen>

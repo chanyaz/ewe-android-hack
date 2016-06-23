@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resources>
+
+    <string name="ebookers_best_price_guarantee">Garantie du meilleur prix d\&apos;ebookers</string>
+
+    <string name="customer_support_text">Appelez le service client d\&apos;ebookers</string>
+
+    <!-- Content description for action: Press to log in with your ebookers account -->
+    <string name="cd_checkout_log_in_with_ebookers">Appuyez pour vous connecter à votre compte ebookers</string>
+
+    <string name="contact_ebookers">Contactez ebookers</string>
+    <string name="ebookers_info_url">http://www.ebookers.com/</string>
+
+    <!-- Label for logout confirmation -->
+    <string name="logout_confirmation_ebookers">Êtes-vous sûr de vouloir vous déconnecter de votre compte ebookers ?</string>
+
+    <!-- Contact Expedia via email subject -->
+    <string name="contact_ebookers_email_subject">Assistance réservations ebookers</string>
+
+    <!-- Message displayed when the hotel room is sold out -->
+    <string name="error_room_is_now_sold_out_ebookers">Désolés, cette chambre n\&apos;est plus disponible sur ebookers.</string>
+    <!--A message stating this hotel is Not currently available on ebookers -->
+    <string name="not_currently_available_ebookers">Actuellement non disponible sur ebookers</string>
+    <!-- Shown when a hotel is sold out for a generic set of dates.  %s is the set of dates, e.g. "Not available from ebookers Nov. 3-4" -->
+    <string name="not_currently_available_ebookers_TEMPLATE">Non disponible sur ebookers les %s</string>
+
+    <!-- Missing strings for ebookers from Expedia-->
+    <string name="tell_a_friend_body_ebookers">Bonjour,\n\nVenez découvrir ebookers Hotels pour iPhone et appareils Android. Cette application est GRATUITE et vous permettra de rechercher et de réserver des chambres dans plus de 140 000 hôtels dans le monde entier. C\&apos;est le moyen le plus simple de réserver un hôtel avec votre téléphone.</string>
+    <string name="cd_log_in_email_edit_text_ebookers">Saisissez l\&apos;adresse e-mail associée à votre compte ebookers</string>
+    <string name="tell_a_friend_subject_ebookers">ebookers Hotels</string>
+    <string name="cd_log_in_password_edit_text_ebookers">Saisissez le mot de passe de votre compte ebookers</string>
+    <string name="cd_launch_open_eb_info_screen_ebookers">Ouvrez la page de vos réservations ebookers</string>
+    <string name="loading_ebookers_account">Chargement du compte ebookers</string>
+    <string name="ebookers_password_hint">Mot de passe ebookers</string>
+    <string name="dialog_message_launch_ebookers_mobile_site">Ouvrir le site mobile d\&apos;ebookers ?</string>
+    <!-- ebookers App download link -->
+    <!-- Row header for when the grand total of the user's hotel stay is more than what they owe Expedia at the time of reservation-->
+    <string name="total_due_to_our_brand_today">Total à payer à ebookers aujourd\&apos;hui :</string>
+    <!-- User needs to reset password -->
+    <string name="login_reset_password">Vous devez créer un nouvel identifiant de connexion international pour tous les sites ebookers.&lt;br&gt;Veuillez réinitialiser votre mot de passe en utilisant le lien « Mot de passe oublié ? » situé ci-dessous.</string>
+
+    <!-- Label to show user in cost breakdown for the total being charged to them right now -->
+    <string name="total_due_today">À payer à ebookers aujourd\&apos;hui</string>
+
+    <!-- Account Creation Strings -->
+    <!-- Button text for account creation button -->
+    <string name="acct_Create_a_ebookers_account">Créer un compte ebookers</string>
+    <!-- Message displayed after a successful create account -->
+    <string name="acct_Welcome_to_ebookers">Bienvenue sur ebookers</string>
+    <!-- Title of "Account Already Exists" error dialog box -->
+    <string name="acct_ebookers_account_already_exists">Il existe déjà un compte ebookers associé à cette adresse e-mail.</string>
+    <!-- Sign in with earn message. Eg: Sign in to earn $123.22 in BONUS+ -->
+    <string name="Sign_in_to_earn_TEMPLATE">Connectez-vous pour gagner {reward} en BONUS+</string>
+    <!-- Account creation legal template excluding ebookers BONUS+ -->
+    <string name="account_creation_legal_TEMPLATE">@string/account_creation_legal_excluding_rewards_TEMPLATE</string>
+
+    <!-- Bonus+ -->
+    <string name="paying_with_rewards">Payer avec des BONUS+</string>
+    <string name="pay_with_rewards">Payer avec des BONUS+</string>
+
+    <string name="checkout_paying_with_points_only_line1">Payer avec des BONUS+</string>
+    <string name="checkout_paying_with_points_and_card_line1_TEMPLATE">Payer avec des BONUS+ et {carddescription}</string>
+    <string name="checkout_payment_options">Carte de paiement, payer avec des BONUS+</string>
+
+    <!-- Shop with points -->
+    <string name="regular_loyalty_applied_message">BONUS+ appliqués !</string>
+    <!-- String to be displayed on switching SWP off -->
+    <string name="swp_off_widget_header">Appliquer des BONUS+</string>
+    <!-- String to be displayed on switching SWP on -->
+    <string name="swp_on_widget_header">BONUS+ appliqués</string>
+    <!-- Available loyalty points -->
+    <string name="available_loyalty_points">BONUS+ disponibles</string>
+    <!-- SwP Widget you have points template. points_or_amount = it may have money (in case of Expedia) or point value (in case of BONUS+). E.g. You have $30 in BONUS+ -->
+    <string name="swp_widget_points_value_TEMPLATE">Vous avez {points_or_amount} en BONUS+</string>
+    <!-- Label indicating BONUS+ used by the user -->
+    <string name="hotel_cost_breakdown_burn_points_TEMPLATE">BONUS+ utilisés</string>
+
+    <string name="loyalty_applied_excluding_taxes_and_fees_message">BONUS+ appliqués ! (taxes et frais non compris)</string>
+    <string name="youll_earn_points_TEMPLATE">Vous gagnerez {reward_currency} en BONUS+ avec cette réservation !</string>
+    <string name="x_rewards_currency_for_this_trip_TEMPLATE">Vous gagnerez {reward_currency} en BONUS+ avec ce voyage !</string>
+
+    <!-- Label indicating BONUS+ Available. Eg: $1000.12 in BONUS+ available-->
+    <string name="bucks_available_TEMPLATE">{money} en BONUS+ disponibles</string>
+    <!-- Label indicating BONUS+ Applied By User. Eg: $1000.12 in BONUS+ applied-->
+    <string name="bucks_applied_TEMPLATE">{money} en BONUS+ appliqués</string>
+    <!-- Label above the slider when user is fully paying with BONUS+. Eg: You are using $1000.12 in BONUS+-->
+    <string name="you_are_using_bucks_TEMPLATE">Vous allez utiliser {amount} en BONUS+</string>
+    <!-- Label above the slider when user is paying with BONUS+ and Card. Eg: You are using $1000.12 in BONUS+\nYour card will be charged $100.00-->
+    <string name="payment_through_card_and_bucks_TEMPLATE">Vous allez utiliser {amount} en BONUS+\nUn montant de {dueamount} sera facturé sur votre carte.</string>
+
+    <!-- Rewards -->
+    <!-- Long name for rewards base tier; note that brand name is not parameterized here as other brands will need to completely override this string -->
+    <string name="reward_base_tier_name_long">Membre silver</string>
+    <!-- Long name for rewards middle tier; note that brand name is not parameterized here as other brands will need to completely override this string -->
+    <string name="reward_middle_tier_name_long">Membre gold</string>
+    <!-- Long name for rewards top tier; note that brand name is not parameterized here as other brands will need to completely override this string -->
+    <string name="reward_top_tier_name_long">Membre platinum</string>
+    <!-- Short name for rewards base tier -->
+    <string name="reward_base_tier_name_short">silver</string>
+    <!-- Short name for rewards middle tier -->
+    <string name="reward_middle_tier_name_short">gold</string>
+    <!-- Short name for rewards top tier -->
+    <string name="reward_top_tier_name_short">platinum</string>
+
+    <!-- Customer Support -->
+    <string name="customer_support">Service client</string>
+    <!-- Label for exclusive phone number for base tier rewards customers -->
+    <string name="rewards_base_tier_customer_support">@string/customer_support</string>
+    <!-- Label for exclusive phone number for middle tier rewards customers -->
+    <string name="rewards_middle_tier_customer_support">@string/customer_support</string>
+    <!-- Label for exclusive phone number for top tier rewards customers -->
+    <string name="rewards_top_tier_customer_support">@string/customer_support</string>
+
+</resources>

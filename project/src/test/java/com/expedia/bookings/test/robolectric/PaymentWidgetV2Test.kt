@@ -58,7 +58,7 @@ class PaymentWidgetV2Test {
     private var viewModel: PaymentViewModel by Delegates.notNull()
     lateinit var paymentTileInfo: TextView
     lateinit var paymentTileOption: TextView
-    lateinit var paymentTileIcon: RoundImageView
+    lateinit var paymentTileIcon: ImageView
     lateinit var pwpSmallIcon: ImageView
 
     private fun getContext(): Context {
@@ -80,7 +80,7 @@ class PaymentWidgetV2Test {
 
         paymentTileInfo = sut.findViewById(R.id.card_info_name) as TextView
         paymentTileOption = sut.findViewById(R.id.card_info_expiration) as TextView
-        paymentTileIcon = sut.findViewById(R.id.card_info_icon) as RoundImageView
+        paymentTileIcon = sut.findViewById(R.id.card_info_icon) as ImageView
         pwpSmallIcon = sut.findViewById(R.id.pwp_small_icon) as ImageView
     }
 

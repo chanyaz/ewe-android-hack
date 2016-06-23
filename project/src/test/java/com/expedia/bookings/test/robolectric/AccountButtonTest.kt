@@ -19,7 +19,7 @@ import com.expedia.bookings.data.cars.CarCreateTripResponse
 import com.expedia.bookings.data.lx.LXCreateTripResponse
 import com.expedia.bookings.data.packages.PackageCreateTripResponse
 import com.expedia.bookings.test.MockHotelServiceTestRule
-import com.expedia.bookings.test.robolectric.shadows.ShadowResourcesTemp
+import org.robolectric.shadows.ShadowResourcesEB
 import com.expedia.bookings.widget.AccountButton
 import org.junit.Before
 import org.junit.Rule
@@ -33,7 +33,7 @@ import kotlin.test.assertNotNull
 import kotlin.test.assertNull
 
 @RunWith(RobolectricRunner::class)
-@Config(shadows = arrayOf(ShadowResourcesTemp::class))
+@Config(shadows = arrayOf(ShadowResourcesEB::class))
 class AccountButtonTest {
     var accountButton by Delegates.notNull<AccountButton>()
     var mockHotelServiceTestRule: MockHotelServiceTestRule = MockHotelServiceTestRule()

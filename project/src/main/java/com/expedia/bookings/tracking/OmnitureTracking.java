@@ -4972,7 +4972,9 @@ public class OmnitureTracking {
 		s.setCurrencyCode(response.getTotalChargesPrice().currencyCode);
 		s.setEvents("purchase");
 		s.setPurchaseID("onum" + response.getOrderId());
-		s.setProp(71, response.getNewTrip().getTravelRecordLocator());
+		if (response.getNewTrip().getTravelRecordLocator() != null) {
+			s.setProp(71, response.getNewTrip().getTravelRecordLocator());
+		}
 		s.setProp(72, response.getOrderId());
 		s.track();
 	}

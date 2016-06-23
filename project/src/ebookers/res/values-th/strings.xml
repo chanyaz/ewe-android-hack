@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resources>
+
+    <string name="ebookers_best_price_guarantee">การรับประกันราคาจาก ebookers</string>
+
+    <string name="customer_support_text">โทรติดต่อฝ่ายบริการลูกค้า ebookers</string>
+
+    <!-- Content description for action: Press to log in with your ebookers account -->
+    <string name="cd_checkout_log_in_with_ebookers">กดเพื่อเข้าสู่ระบบบัญชี ebookers ของคุณ</string>
+
+    <string name="contact_ebookers">ติดต่อ ebookers</string>
+    <string name="ebookers_info_url">http://www.ebookers.com/</string>
+
+    <!-- Label for logout confirmation -->
+    <string name="logout_confirmation_ebookers">คุณต้องการออกจากระบบบัญชี ebookers หรือไม่</string>
+
+    <!-- Contact Expedia via email subject -->
+    <string name="contact_ebookers_email_subject">ฝ่ายสนับสนุนการจอง ebookers</string>
+
+    <!-- Message displayed when the hotel room is sold out -->
+    <string name="error_room_is_now_sold_out_ebookers">ขออภัย ห้องนี้ไม่สามารถจองได้จาก ebookers อีกต่อไป</string>
+    <!--A message stating this hotel is Not currently available on ebookers -->
+    <string name="not_currently_available_ebookers">ขณะนี้ไม่มีให้บริการบน ebookers</string>
+    <!-- Shown when a hotel is sold out for a generic set of dates.  %s is the set of dates, e.g. "Not available from ebookers Nov. 3-4" -->
+    <string name="not_currently_available_ebookers_TEMPLATE">ไม่มีให้บริการบน ebookers ในวันที่ %s</string>
+
+    <!-- Missing strings for ebookers from Expedia-->
+    <string name="tell_a_friend_body_ebookers">สวัสดี\n\nคุณลองดาวน์โหลดแอพ ebookers Hotels สำหรับ iPhone และ Android แล้วหรือยัง แอพฟรีนี้ช่วยให้คุณค้นหาและจองโรงแรมกว่า 140,000 แห่งทั่วโลกได้ง่ายๆ ผ่านมือถือของคุณ</string>
+    <string name="cd_log_in_email_edit_text_ebookers">ป้อนอีเมลของบัญชี ebookers</string>
+    <string name="tell_a_friend_subject_ebookers">โรงแรม ebookers</string>
+    <string name="cd_log_in_password_edit_text_ebookers">ป้อนรหัสผ่านบัญชี ebookers</string>
+    <string name="cd_launch_open_eb_info_screen_ebookers">เปิดหน้าจอข้อมูลการจอง ebookers</string>
+    <string name="loading_ebookers_account">กำลังโหลดบัญชี ebookers</string>
+    <string name="ebookers_password_hint">รหัสผ่าน ebookers</string>
+    <string name="dialog_message_launch_ebookers_mobile_site">เปิดใช้เว็บไซต์สำหรับมือถือของ ebookers หรือไม่</string>
+    <!-- ebookers App download link -->
+    <!-- Row header for when the grand total of the user's hotel stay is more than what they owe Expedia at the time of reservation-->
+    <string name="total_due_to_our_brand_today">ยอดที่ต้องจ่าย ebookers วันนี้:</string>
+    <!-- User needs to reset password -->
+    <string name="login_reset_password">เราต้องการให้คุณสร้างบัญชีใหม่เพื่อใช้เข้าสู่ระบบเว็บไซต์ ebookers ทั่วโลก&lt;br&gt;โปรดตั้งรหัสผ่านของคุณใหม่ โดยคลิกที่ลิงก์ ‘ลืมรหัสผ่าน?\&apos; ด้านล่าง</string>
+
+    <!-- Label to show user in cost breakdown for the total being charged to them right now -->
+    <string name="total_due_today">ยอดที่ต้องจ่าย ebookers วันนี้</string>
+
+    <!-- Account Creation Strings -->
+    <!-- Button text for account creation button -->
+    <string name="acct_Create_a_ebookers_account">สร้างบัญชี ebookers</string>
+    <!-- Message displayed after a successful create account -->
+    <string name="acct_Welcome_to_ebookers">ยินดีต้อนรับสู่ ebookers</string>
+    <!-- Title of "Account Already Exists" error dialog box -->
+    <string name="acct_ebookers_account_already_exists">อีเมลนี้มีบัญชี ebookers แล้ว</string>
+    <!-- Sign in with earn message. Eg: Sign in to earn $123.22 in BONUS+ -->
+    <string name="Sign_in_to_earn_TEMPLATE">เข้าสู่ระบบเพื่อรับ BONUS+ มูลค่า {reward}</string>
+    <!-- Account creation legal template excluding ebookers BONUS+ -->
+    <string name="account_creation_legal_TEMPLATE">@string/account_creation_legal_excluding_rewards_TEMPLATE</string>
+
+    <!-- Bonus+ -->
+    <string name="paying_with_rewards">จ่ายด้วย BONUS+</string>
+    <string name="pay_with_rewards">จ่ายด้วย BONUS+</string>
+
+    <string name="checkout_paying_with_points_only_line1">จ่ายด้วย BONUS+</string>
+    <string name="checkout_paying_with_points_and_card_line1_TEMPLATE">จ่ายด้วย BONUS+ และ {carddescription}</string>
+    <string name="checkout_payment_options">บัตรเครดิต, จ่ายด้วย BONUS+</string>
+
+    <!-- Shop with points -->
+    <string name="regular_loyalty_applied_message">ใช้ BONUS+ แล้ว!</string>
+    <!-- String to be displayed on switching SWP off -->
+    <string name="swp_off_widget_header">ใช้ BONUS+</string>
+    <!-- String to be displayed on switching SWP on -->
+    <string name="swp_on_widget_header">ใช้ BONUS+ แล้ว</string>
+    <!-- Available loyalty points -->
+    <string name="available_loyalty_points">BONUS+ ที่ใช้ได้</string>
+    <!-- SwP Widget you have points template. points_or_amount = it may have money (in case of Expedia) or point value (in case of BONUS+). E.g. You have $30 in BONUS+ -->
+    <string name="swp_widget_points_value_TEMPLATE">คุณมี BONUS+ มูลค่า {points_or_amount}</string>
+    <!-- Label indicating BONUS+ used by the user -->
+    <string name="hotel_cost_breakdown_burn_points_TEMPLATE">ใช้ BONUS+ ไป</string>
+
+    <string name="loyalty_applied_excluding_taxes_and_fees_message">ใช้ BONUS+ แล้ว! (ไม่รวมภาษีและค่าธรรมเนียม)</string>
+    <string name="youll_earn_points_TEMPLATE">คุณจะได้รับ BONUS+ มูลค่า {reward_currency} จากการจองนี้!</string>
+    <string name="x_rewards_currency_for_this_trip_TEMPLATE">คุณจะได้รับ BONUS+ มูลค่า {reward_currency} จากทริปนี้!</string>
+
+    <!-- Label indicating BONUS+ Available. Eg: $1000.12 in BONUS+ available-->
+    <string name="bucks_available_TEMPLATE">มี BONUS+ ที่ใช้ได้ มูลค่า {money}</string>
+    <!-- Label indicating BONUS+ Applied By User. Eg: $1000.12 in BONUS+ applied-->
+    <string name="bucks_applied_TEMPLATE">ใช้ BONUS+ มูลค่า {money} แล้ว</string>
+    <!-- Label above the slider when user is fully paying with BONUS+. Eg: You are using $1000.12 in BONUS+-->
+    <string name="you_are_using_bucks_TEMPLATE">คุณกำลังใช้ BONUS+ มูลค่า {amount}</string>
+    <!-- Label above the slider when user is paying with BONUS+ and Card. Eg: You are using $1000.12 in BONUS+\nYour card will be charged $100.00-->
+    <string name="payment_through_card_and_bucks_TEMPLATE">คุณกำลังใช้ CheapCash มูลค่า {amount}\nบัตรเครดิตของคุณจะถูกเรียกเก็บเงิน {dueamount}</string>
+
+    <!-- Rewards -->
+    <!-- Long name for rewards base tier; note that brand name is not parameterized here as other brands will need to completely override this string -->
+    <string name="reward_base_tier_name_long">สมาชิก silver</string>
+    <!-- Long name for rewards middle tier; note that brand name is not parameterized here as other brands will need to completely override this string -->
+    <string name="reward_middle_tier_name_long">สมาชิก gold</string>
+    <!-- Long name for rewards top tier; note that brand name is not parameterized here as other brands will need to completely override this string -->
+    <string name="reward_top_tier_name_long">สมาชิก platinum</string>
+    <!-- Short name for rewards base tier -->
+    <string name="reward_base_tier_name_short">Silver</string>
+    <!-- Short name for rewards middle tier -->
+    <string name="reward_middle_tier_name_short">Gold</string>
+    <!-- Short name for rewards top tier -->
+    <string name="reward_top_tier_name_short">Platinum</string>
+
+    <!-- Customer Support -->
+    <string name="customer_support">ฝ่ายบริการลูกค้า</string>
+    <!-- Label for exclusive phone number for base tier rewards customers -->
+    <string name="rewards_base_tier_customer_support">@string/customer_support</string>
+    <!-- Label for exclusive phone number for middle tier rewards customers -->
+    <string name="rewards_middle_tier_customer_support">@string/customer_support</string>
+    <!-- Label for exclusive phone number for top tier rewards customers -->
+    <string name="rewards_top_tier_customer_support">@string/customer_support</string>
+
+</resources>
