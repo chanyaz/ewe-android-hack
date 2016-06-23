@@ -10,9 +10,9 @@ import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.FilterButtonWithCountWidget
-import com.expedia.bookings.widget.FlightListAdapter
 import com.expedia.bookings.widget.FlightListRecyclerView
 import com.expedia.bookings.widget.flights.DockedOutboundFlightSelectionView
+import com.expedia.bookings.widget.shared.AbstractFlightListAdapter
 import com.expedia.util.endlessObserver
 import com.expedia.util.notNullAndObservable
 import com.expedia.util.subscribeInverseVisibility
@@ -25,7 +25,7 @@ class FlightResultsListViewPresenter(context: Context, attrs: AttributeSet) : Pr
     private val dockedOutboundFlightSelection: DockedOutboundFlightSelectionView by bindView(R.id.docked_outbound_flight_selection)
     private val dockedOutboundFlightShadow: View by bindView(R.id.docked_outbound_flight_widget_dropshadow)
     private val filterButton: FilterButtonWithCountWidget by bindView(R.id.sort_filter_button_container)
-    lateinit private var flightListAdapter: FlightListAdapter
+    lateinit private var flightListAdapter: AbstractFlightListAdapter
 
     // input
     val flightSelectedSubject = PublishSubject.create<FlightLeg>()
@@ -49,7 +49,7 @@ class FlightResultsListViewPresenter(context: Context, attrs: AttributeSet) : Pr
         setupFilterButton()
     }
 
-    fun setAdapter(adapter: FlightListAdapter) {
+    fun setAdapter(adapter: AbstractFlightListAdapter) {
         flightListAdapter = adapter
         recyclerView.adapter = adapter
     }

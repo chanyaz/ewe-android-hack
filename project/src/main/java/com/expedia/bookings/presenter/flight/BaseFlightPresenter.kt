@@ -22,6 +22,7 @@ import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.BaggageFeeInfoWidget
 import com.expedia.bookings.widget.PackageFlightFilterWidget
+import com.expedia.bookings.widget.flights.FlightListAdapter
 import com.expedia.bookings.widget.flights.PaymentFeeInfoWidget
 import com.expedia.util.notNullAndObservable
 import com.expedia.vm.FlightOverviewViewModel
