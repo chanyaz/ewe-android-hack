@@ -27,4 +27,11 @@
         android:background="@color/rail_background_color"
         android:visibility="gone" />
 
+    <ViewStub
+        android:id="@+id/amenities_stub"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:inflatedId="@+id/rail_amenities_rules_widget"
+        android:layout="@layout/rail_amenities_rules_stub" />
+
 </merge>

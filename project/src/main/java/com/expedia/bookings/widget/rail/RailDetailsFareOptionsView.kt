@@ -22,9 +22,10 @@ class RailDetailsFareOptionsView(context: Context, attrs: AttributeSet) : Linear
 
     private fun addFareOptionViews(offer: RailSearchResponse.RailOffer) {
         if (offer.outboundLeg != null) {
-            val offers = viewmodel.railResultsObservable.value.findOffersForLegOption(offer.outboundLeg?.legOptionIndex)
-            offers.forEach {
-                val offerView = RailOfferView(context, it, viewmodel.offerSelectedObservable)
+            val outboundLegOption = offer.outboundLeg
+            val offers = viewmodel.railResultsObservable.value.findOffersForLegOption(outboundLegOption)
+            offers.forEach { offerForLeg ->
+                val offerView = RailOfferView(context, offerForLeg, viewmodel.offerSelectedObservable, viewmodel.showAmenitiesObservable)
                 addView(offerView)
             }
         }

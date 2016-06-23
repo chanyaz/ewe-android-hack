@@ -3,14 +3,17 @@ package com.expedia.bookings.presenter.rail;
 import android.content.Context
 import android.util.AttributeSet
 import android.view.View
+import android.view.ViewStub
 import com.expedia.bookings.R
 import com.expedia.bookings.data.rail.requests.RailSearchRequest
 import com.expedia.bookings.data.rail.responses.RailSearchResponse
 import com.expedia.bookings.presenter.LeftToRightTransition
 import com.expedia.bookings.presenter.Presenter
+import com.expedia.bookings.presenter.ScaleTransition
 import com.expedia.bookings.services.RailServices
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
+import com.expedia.bookings.widget.rail.RailAmenitiesFareRulesWidget
 import com.expedia.util.endlessObserver
 import com.expedia.vm.rail.RailCheckoutOverviewViewModel
 import com.expedia.vm.rail.RailDetailsViewModel
@@ -30,6 +33,11 @@ class RailPresenter(context: Context, attrs: AttributeSet) : Presenter(context, 
     val detailsPresenter: RailDetailsPresenter by bindView(R.id.widget_rail_details_presenter)
     val tripOverviewPresenter: RailTripOverviewPresenter by bindView(R.id.widget_rail_trip_overview_presenter)
 
+    val amenitiesFareRulesWidget: RailAmenitiesFareRulesWidget by lazy {
+        var viewStub = findViewById(R.id.amenities_stub) as ViewStub
+        var widget = viewStub.inflate() as RailAmenitiesFareRulesWidget
+        widget
+    }
     private val searchToResults = LeftToRightTransition(this, RailSearchPresenter::class.java, RailResultsPresenter::class.java)
     private val resultsToDetails = LeftToRightTransition(this, RailResultsPresenter::class.java, RailDetailsPresenter::class.java)
     private val checkoutToSearch = LeftToRightTransition(this, RailTripOverviewPresenter::class.java, RailSearchPresenter::class.java)
@@ -46,6 +54,8 @@ class RailPresenter(context: Context, attrs: AttributeSet) : Presenter(context, 
             }
         }
     }
+
+    private val detailsToAmenities = ScaleTransition(this, RailDetailsPresenter::class.java, RailAmenitiesFareRulesWidget::class.java)
 
     var railSearchParams: RailSearchRequest by Delegates.notNull()
 
@@ -68,7 +78,6 @@ class RailPresenter(context: Context, attrs: AttributeSet) : Presenter(context, 
         addTransitions()
 
         resultsPresenter.setOnClickListener { transitionToDetails() }
-        tripOverviewPresenter.setOnClickListener { transitionToSearch() } //todo - should show confirmation
         searchPresenter.searchViewModel = RailSearchViewModel(context)
         searchPresenter.searchViewModel.searchParamsObservable.subscribe(searchObserver)
 
@@ -90,6 +99,11 @@ class RailPresenter(context: Context, attrs: AttributeSet) : Presenter(context, 
             tripOverviewPresenter.getCheckoutPresenter().getCreateTripViewModel().offerCodeSelectedObservable.onNext(offer.railOfferToken)
         }
 
+        detailsPresenter.viewmodel.showAmenitiesObservable.subscribe { offer ->
+            show(amenitiesFareRulesWidget)
+            amenitiesFareRulesWidget.adapter.amenitiesWidget.viewModel.offerObservable.onNext(offer)
+        }
+
         show(searchPresenter)
     }
 
@@ -97,6 +111,7 @@ class RailPresenter(context: Context, attrs: AttributeSet) : Presenter(context, 
         addTransition(searchToResults)
         addTransition(resultsToDetails)
         addTransition(detailsToOverview)
+        addTransition(detailsToAmenities)
         addTransition(checkoutToSearch)
     }
 

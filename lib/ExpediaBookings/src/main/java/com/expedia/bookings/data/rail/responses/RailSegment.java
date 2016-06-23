@@ -12,7 +12,7 @@ public abstract class RailSegment {
 	public String marketingCarrier; //"Virgin"
 	public String operatingCarrier; //"Virgin"
 	public RailTravelMedium travelMedium;
-	public String travelSegmentIndex;
+	public Integer travelSegmentIndex;
 
 	public abstract int durationMinutes();
 

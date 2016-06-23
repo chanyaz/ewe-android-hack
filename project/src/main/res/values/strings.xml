@@ -4167,6 +4167,18 @@
     <!-- Label for rail trip price on overview screen -->
     <string name="total">Total</string>
 
+    <!-- Label for the tab on fare rules/amenities screen -->
+    <string name="fare_rules">Fare Rules</string>
+
+    <!-- Label for no segment amenities amenities screen -->
+    <string name="no_amenities">No amenities</string>
+
+    <!-- rail amenities station info e.g. "Manchester Piccadilly to London Euston" -->
+    <string name="rail_station_info_TEMPLATE">{departure} to {arrival}</string>
+
+    <!-- rail amenities segment fare info e.g. "Standard advanced day single" -->
+    <string name="rail_fare_info_TEMPLATE">{serviceclass} {fareclass}</string>
+
     <string name="pwp_points_conversion_unauthenticated_access">We\'re sorry but we experienced a server problem. Please try again.</string>
     <string name="pwp_trip_service_error">We\'re sorry but we experienced a server problem. Please try again.</string>
     <string name="pwp_unknown_error">An unknown error occurred. Please try again.</string>

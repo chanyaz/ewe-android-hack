@@ -1,7 +1,6 @@
 package com.expedia.bookings.presenter.hotel
 
 import android.content.Context
-import android.support.v4.content.ContextCompat
 import android.support.v4.view.ViewPager
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
@@ -10,12 +9,12 @@ import android.view.View
 import android.view.accessibility.AccessibilityEvent
 import android.widget.FrameLayout
 import android.widget.LinearLayout
-import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.R
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.services.ReviewsServices
 import com.expedia.bookings.utils.AccessibilityUtil
 import com.expedia.bookings.utils.Ui
+import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.HotelReviewsAdapter
 import com.expedia.util.notNullAndObservable
 import com.expedia.vm.HotelReviewsAdapterViewModel
