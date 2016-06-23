@@ -4234,4 +4234,10 @@
     <string name="accessibility_cont_desc_role_button_expand">Button to expand</string>
     <!--Packages accessibility content description for role - Button to collapse -->
     <string name="accessibility_cont_desc_role_button_collapse">Button to collapse</string>
+
+    <!-- LX SRP activity price content description when no discount e.g. Price is $30 -->
+    <string name="activity_price_without_discount_cont_desc_TEMPLATE">Price is {activity_price}</string>
+
+    <!-- LX SRP activity price content description when price is discounted e.g. Price is $180. Price before discount was $230 -->
+    <string name="activity_price_with_discount_cont_desc_TEMPLATE">Price is {activity_price}. Price before discount was {activity_original_price}</string>
 </resources>
