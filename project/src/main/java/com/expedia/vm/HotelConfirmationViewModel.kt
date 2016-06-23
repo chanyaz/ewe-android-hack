@@ -64,6 +64,7 @@ class HotelConfirmationViewModel(checkoutResponseObservable: Observable<HotelChe
     val showCarCrossSell = BehaviorSubject.create<Boolean>()
     var hotelSearchParams: HotelSearchParams by Delegates.notNull()
 
+    val showAddToCalendar = BehaviorSubject.create<Boolean>()
     lateinit var paymentModel: PaymentModel<HotelCreateTripResponse>
         @Inject set
 
@@ -118,6 +119,9 @@ class HotelConfirmationViewModel(checkoutResponseObservable: Observable<HotelChe
 //            showCarCrossSell.onNext(showHotelCrossSell && pointOfSale.supports(LineOfBusiness.CARS))
             showFlightCrossSell.onNext(false)
             showCarCrossSell.onNext(false)
+
+            // Show Add to Calendar only if sharing is supported.
+            showAddToCalendar.onNext(ProductFlavorFeatureConfiguration.getInstance().shouldShowItinShare())
 
             location.setCity(product.hotelCity)
             location.setCountryCode(product.hotelCountry)
