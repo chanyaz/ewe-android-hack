@@ -42,7 +42,6 @@ import com.expedia.vm.HotelReviewsViewModel
 import com.expedia.vm.hotel.HotelResultsViewModel
 import com.expedia.vm.packages.PackageHotelDetailViewModel
 import com.google.android.gms.maps.MapView
-import com.squareup.phrase.Phrase
 import rx.Observable
 import rx.Observer
 import java.math.BigDecimal
@@ -234,19 +233,6 @@ class PackageHotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
     }
 
     private val defaultResultsTransition = object : Presenter.DefaultTransition(PackageHotelResultsPresenter::class.java.name) {
-
-        override fun startTransition(forward: Boolean) {
-            super.startTransition(forward)
-            loadingOverlay.visibility = View.GONE
-            resultsPresenter.visibility = View.VISIBLE
-            resultsPresenter.animationStart()
-        }
-
-        override fun updateTransition(f: Float, forward: Boolean) {
-            super.updateTransition(f, forward)
-            resultsPresenter.animationUpdate(f, !forward)
-        }
-
         override fun endTransition(forward: Boolean) {
             super.endTransition(forward)
             resultsPresenter.visibility = if (forward) View.VISIBLE else View.GONE
@@ -337,9 +323,10 @@ class PackageHotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
 
     private val defaultDetailsTransition = object : Presenter.DefaultTransition(HotelDetailPresenter::class.java.name) {
         override fun endTransition(forward: Boolean) {
-            super.endTransition(forward)
             loadingOverlay.visibility = View.GONE
             detailPresenter.visibility = View.VISIBLE
+            detailPresenter.translationY = 0f
+            bundleSlidingWidget.visibility = View.VISIBLE
             if (forward) {
                 detailPresenter.hotelDetailView.refresh()
                 detailPresenter.hotelDetailView.viewmodel.addViewsAfterTransition()

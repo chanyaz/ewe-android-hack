@@ -14,6 +14,7 @@ import android.view.View
 import android.view.ViewTreeObserver
 import android.view.animation.AccelerateDecelerateInterpolator
 import com.expedia.bookings.R
+import com.expedia.bookings.data.Codes
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.packages.PackageOfferModel
@@ -27,7 +28,6 @@ import com.expedia.util.subscribeText
 import com.expedia.vm.packages.BundleOverviewViewModel
 import com.expedia.vm.packages.BundlePriceViewModel
 import com.expedia.vm.packages.PackageSearchType
-import com.squareup.phrase.Phrase
 import rx.subjects.PublishSubject
 import java.math.BigDecimal
 
@@ -53,7 +53,7 @@ class SlidingBundleWidget(context: Context, attrs: AttributeSet?) : FrameLayout(
                 if (bundlePriceWidget.height != 0) {
                     bundlePriceWidget.viewTreeObserver.removeOnGlobalLayoutListener(this)
                     val activity = context as Activity
-                    if (!activity.intent.hasExtra(Constants.PACKAGE_LOAD_HOTEL_ROOM)) {
+                    if (activity.intent.extras == null) {
                         bundlePriceWidget.animateBundleWidget(1f, true)
                         finalizeBundleTransition(true, false)
                         bundlePriceFooter.translationY = - statusBarHeight.toFloat()
@@ -63,6 +63,10 @@ class SlidingBundleWidget(context: Context, attrs: AttributeSet?) : FrameLayout(
                     } else {
                         bundlePriceFooter.translationY = - statusBarHeight.toFloat()
                         translationY = height.toFloat() - bundlePriceWidget.height
+
+                        if (activity.intent.hasExtra(Codes.TAG_EXTERNAL_SEARCH_PARAMS)) {
+                            visibility = View.GONE
+                        }
                     }
                 }
             }
