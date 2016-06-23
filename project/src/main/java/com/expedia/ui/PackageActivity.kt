@@ -34,12 +34,12 @@ class PackageActivity : AbstractAppCompatActivity() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
+        packagePresenter.bundlePresenter.bundleWidget.bundleHotelWidget.collapseSelectedHotel()
+        packagePresenter.bundlePresenter.bundleWidget.outboundFlightWidget.collapseFlightDetails()
+        packagePresenter.bundlePresenter.bundleWidget.inboundFlightWidget.collapseFlightDetails()
+
         if (resultCode == Activity.RESULT_CANCELED) {
             val obj = packagePresenter.backStack.peek()
-            packagePresenter.bundlePresenter.bundleWidget.bundleHotelWidget.collapseSelectedHotel()
-            packagePresenter.bundlePresenter.bundleWidget.outboundFlightWidget.collapseFlightDetails()
-            packagePresenter.bundlePresenter.bundleWidget.inboundFlightWidget.collapseFlightDetails()
-
             if (Db.getPackageParams().isChangePackageSearch() && obj !is Intent) {
                 onBackPressed()
             } else {
