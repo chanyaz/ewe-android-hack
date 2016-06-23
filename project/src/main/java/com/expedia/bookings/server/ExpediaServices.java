@@ -1,26 +1,6 @@
 package com.expedia.bookings.server;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.CookieManager;
-import java.net.CookiePolicy;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.net.URLConnection;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Locale;
-import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.TimeUnit;
-import java.util.zip.GZIPInputStream;
-
-import javax.inject.Inject;
-import javax.net.ssl.SSLContext;
-
 import org.apache.http.client.utils.URLEncodedUtils;
-import org.apache.http.conn.ssl.AllowAllHostnameVerifier;
 import org.apache.http.message.BasicNameValuePair;
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
@@ -33,7 +13,6 @@ import android.annotation.SuppressLint;
 import android.app.ActivityManager;
 import android.content.Context;
 import android.text.TextUtils;
-
 import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.ExpediaBookingApp;
@@ -74,11 +53,11 @@ import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.data.Traveler.AssistanceType;
 import com.expedia.bookings.data.Traveler.Gender;
 import com.expedia.bookings.data.TravelerCommitResponse;
-import com.expedia.bookings.data.trips.TripBucketItemFlight;
-import com.expedia.bookings.data.trips.TripBucketItemHotel;
 import com.expedia.bookings.data.User;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.data.trips.Trip;
+import com.expedia.bookings.data.trips.TripBucketItemFlight;
+import com.expedia.bookings.data.trips.TripBucketItemHotel;
 import com.expedia.bookings.data.trips.TripDetailsResponse;
 import com.expedia.bookings.data.trips.TripResponse;
 import com.expedia.bookings.data.trips.TripShareUrlShortenerResponse;
@@ -90,6 +69,7 @@ import com.expedia.bookings.utils.JodaUtils;
 import com.expedia.bookings.utils.ServicesUtil;
 import com.expedia.bookings.utils.StethoShim;
 import com.expedia.bookings.utils.Strings;
+import com.expedia.bookings.utils.TLSSocketFactory;
 import com.expedia.bookings.utils.Ui;
 import com.larvalabs.svgandroid.SVG;
 import com.larvalabs.svgandroid.SVGParser;
@@ -99,14 +79,34 @@ import com.mobiata.android.util.NetUtils;
 import com.mobiata.android.util.SettingUtils;
 import com.mobiata.flightlib.data.Flight;
 import com.mobiata.flightlib.data.FlightCode;
-
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.CookieManager;
+import java.net.CookiePolicy;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLConnection;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.TimeUnit;
+import java.util.zip.GZIPInputStream;
+import javax.inject.Inject;
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.X509TrustManager;
 import okhttp3.Call;
+import okhttp3.ConnectionSpec;
 import okhttp3.Cookie;
 import okhttp3.JavaNetCookieJar;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
+import okhttp3.TlsVersion;
 
 @SuppressLint("SimpleDateFormat")
 public class ExpediaServices implements DownloadListener {
@@ -168,6 +168,9 @@ public class ExpediaServices implements DownloadListener {
 	@Inject
 	public SSLContext mSSLContext;
 
+	@Inject
+	public X509TrustManager x509TrustManager;
+
 	private OkHttpClient mClient;
 	private Call call;
 	private Request mRequest;
@@ -187,21 +190,21 @@ public class ExpediaServices implements DownloadListener {
 
 	private OkHttpClient makeOkHttpClient() {
 		OkHttpClient.Builder client = new OkHttpClient().newBuilder();
-
 		client.readTimeout(100L, TimeUnit.SECONDS);
-
 		// 1902 - Allow redirecting from API calls
 		client.followRedirects(true);
 
-		// When not a release build, allow SSL from all connections
-		// Our test servers use self signed certs
-		if (BuildConfig.DEBUG) {
-			client.sslSocketFactory(mSSLContext.getSocketFactory());
-			client.hostnameVerifier(new AllowAllHostnameVerifier());
-		}
+		TLSSocketFactory socketFactory = new TLSSocketFactory(mSSLContext);
+		client.sslSocketFactory(socketFactory, x509TrustManager);
+		ConnectionSpec spec = new ConnectionSpec.Builder(ConnectionSpec.MODERN_TLS)
+			.tlsVersions(TlsVersion.TLS_1_2)
+			.build();
+		client.connectionSpecs(Collections.singletonList(spec));
 
 		// Add Stetho debugging network interceptor
-		StethoShim.install(client);
+		if (BuildConfig.DEBUG) {
+			StethoShim.install(client);
+		}
 
 		return client.build();
 	}
@@ -274,7 +277,8 @@ public class ExpediaServices implements DownloadListener {
 		else {
 			// 255 is regions(95 Default) + hotels(128) + addresses(32)
 			int regionType = SuggestionResultType.HOTEL | SuggestionResultType.AIRPORT | SuggestionResultType.CITY |
-			SuggestionResultType.NEIGHBORHOOD | SuggestionResultType.POINT_OF_INTEREST | SuggestionResultType.REGION;
+				SuggestionResultType.NEIGHBORHOOD | SuggestionResultType.POINT_OF_INTEREST
+				| SuggestionResultType.REGION;
 			params.add(new BasicNameValuePair("regiontype", "" + regionType));
 			params.add(new BasicNameValuePair("lob", "hotels"));
 			responseHandler.setType(SuggestResponseHandler.Type.HOTELS);
@@ -301,7 +305,9 @@ public class ExpediaServices implements DownloadListener {
 		String url = NetUtils.formatUrl(getSuggestUrl(4, SuggestType.AUTOCOMPLETE) + query);
 
 		List<BasicNameValuePair> params = new ArrayList<BasicNameValuePair>();
-		int regionType = SuggestionResultType.HOTEL | SuggestionResultType.AIRPORT | SuggestionResultType.POINT_OF_INTEREST | SuggestionResultType.FLIGHT;
+		int regionType =
+			SuggestionResultType.HOTEL | SuggestionResultType.AIRPORT | SuggestionResultType.POINT_OF_INTEREST
+				| SuggestionResultType.FLIGHT;
 		params.add(new BasicNameValuePair("regiontype", "" + regionType));
 		params.add(new BasicNameValuePair("features", "ta_hierarchy"));
 		params.add(new BasicNameValuePair("locale", PointOfSale.getSuggestLocaleIdentifier()));
@@ -320,7 +326,8 @@ public class ExpediaServices implements DownloadListener {
 		return suggestionsNearby(latitude, longitude, SuggestionSort.DISTANCE, SuggestionResultType.CITY);
 	}
 
-	private SuggestionResponse suggestionsNearby(double latitude, double longitude, SuggestionSort sort, int suggestionResultType) {
+	private SuggestionResponse suggestionsNearby(double latitude, double longitude, SuggestionSort sort,
+		int suggestionResultType) {
 		String url = NetUtils.formatUrl(getSuggestUrl(4, SuggestType.NEARBY));
 
 		List<BasicNameValuePair> params = new ArrayList<BasicNameValuePair>();
@@ -572,7 +579,8 @@ public class ExpediaServices implements DownloadListener {
 
 	// Suppress final bookings if we're not in release mode and the preference is set to suppress
 	private static boolean suppressFinalFlightBooking(Context context) {
-		return BookingSuppressionUtils.shouldSuppressFinalBooking(context, R.string.preference_suppress_flight_bookings);
+		return BookingSuppressionUtils
+			.shouldSuppressFinalBooking(context, R.string.preference_suppress_flight_bookings);
 	}
 
 	private static boolean suppressFinalHotelBooking(Context context) {
@@ -1199,7 +1207,8 @@ public class ExpediaServices implements DownloadListener {
 		query.add(new BasicNameValuePair(prefix + "birthDate", dtf.print(traveler.getBirthDate())));
 		query.add(new BasicNameValuePair(prefix + "gender", (traveler.getGender() == Gender.MALE) ? "MALE" : "FEMALE"));
 		FlightSearchParams searchParams = Db.getTripBucket().getFlight().getFlightSearchParams();
-		query.add(new BasicNameValuePair(prefix + "passengerCategory", traveler.getPassengerCategory(searchParams).toString()));
+		query.add(new BasicNameValuePair(prefix + "passengerCategory",
+			traveler.getPassengerCategory(searchParams).toString()));
 		String assistanceOption;
 		if (traveler.getAssistance() != null) {
 			assistanceOption = traveler.getAssistance().name();
@@ -1254,7 +1263,8 @@ public class ExpediaServices implements DownloadListener {
 		// Adding the body sets the Content-type header for us
 		post.post(body);
 
-		String appNameForMobiataPushNameHeader = ProductFlavorFeatureConfiguration.getInstance().getAppNameForMobiataPushNameHeader();
+		String appNameForMobiataPushNameHeader = ProductFlavorFeatureConfiguration.getInstance()
+			.getAppNameForMobiataPushNameHeader();
 		if (PushNotificationUtils.REGISTRATION_URL_PRODUCTION.equals(serverUrl)) {
 			post.addHeader("MobiataPushName", appNameForMobiataPushNameHeader);
 		}
@@ -1309,7 +1319,8 @@ public class ExpediaServices implements DownloadListener {
 		params.add(new BasicNameValuePair("sortBy", sort.getSortByApiParam()));
 		params.add(new BasicNameValuePair("start", Integer.toString(pageNumber * numReviewsPerPage)));
 		params.add(new BasicNameValuePair("items", Integer.toString(numReviewsPerPage)));
-		List<BasicNameValuePair> additionalParamsForReviewsRequest = ProductFlavorFeatureConfiguration.getInstance().getAdditionalParamsForReviewsRequest();
+		List<BasicNameValuePair> additionalParamsForReviewsRequest = ProductFlavorFeatureConfiguration.getInstance()
+			.getAdditionalParamsForReviewsRequest();
 		if (additionalParamsForReviewsRequest != null) {
 			for (BasicNameValuePair param : additionalParamsForReviewsRequest) {
 				params.add(param);
@@ -1394,16 +1405,6 @@ public class ExpediaServices implements DownloadListener {
 		Log.d(TAG_REQUEST, "Request: " + serverUrl + "?" + NetUtils.getParamsForLogging(params));
 
 		return doRequest(base, responseHandler, flags);
-	}
-
-	private <T extends Response> T doBasicGetRequest(String url, List<BasicNameValuePair> params,
-		ResponseHandler<T> responseHandler) {
-
-		Request.Builder base = createHttpGet(url, params);
-
-		Log.d(TAG_REQUEST, "" + url + "?" + NetUtils.getParamsForLogging(params));
-
-		return doRequest(base, responseHandler, F_IGNORE_COOKIES);
 	}
 
 	private <T extends Response> T doFlightStatsRequest(String baseUrl, List<BasicNameValuePair> params,
