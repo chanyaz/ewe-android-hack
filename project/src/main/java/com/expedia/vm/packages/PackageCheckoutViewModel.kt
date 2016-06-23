@@ -31,6 +31,7 @@ class PackageCheckoutViewModel(context: Context, val packageServices: PackageSer
             builder.tripId(it.packageDetails.tripId)
             builder.expectedTotalFare(it.packageDetails.pricing.packageTotal.amount.toString())
             builder.expectedFareCurrencyCode(it.packageDetails.pricing.packageTotal.currencyCode)
+            builder.suppressFinalBooking(BookingSuppressionUtils.shouldSuppressFinalBooking(context, R.string.preference_suppress_package_bookings))
             builder.bedType(it.packageDetails.hotel.hotelRoomResponse.bedTypes?.firstOrNull()?.id)
 
             val hotelRate = it.packageDetails.hotel.hotelRoomResponse.rateInfo.chargeableRateInfo
@@ -49,7 +50,6 @@ class PackageCheckoutViewModel(context: Context, val packageServices: PackageSer
             if (User.isLoggedIn(context)) {
                 params.billingInfo.email = Db.getUser().primaryTraveler.email
             }
-            builder.suppressFinalBooking(BookingSuppressionUtils.shouldSuppressFinalBooking(context, R.string.preference_suppress_package_bookings))
             packageServices.checkout(params.toQueryMap()).subscribe(makeCheckoutResponseObserver())
             email = params.billingInfo.email
         }
