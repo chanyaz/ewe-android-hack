@@ -39,12 +39,22 @@
     <color name="actionbar_menu_text_color">#7AC231</color>
     <color name="menu_bar_text_color">#DDDFE1</color>
     <color name="actionbar_suggestion_text_color">#DDDFE1</color>
-    <color name="review_screen_tab_indicator">@color/action_bar_selected_tab_underline_color</color>
+    <color name="review_screen_tab_indicator">@color/white</color>
     <color name="material_checkout_account_button_background_color">@color/hotels_primary_color</color>
 
-    <color name="hotel_urgency_message_color">#7AC231</color>
+    <color name="hotel_urgency_message_color">#c20202</color>
     <color name="hotel_tonight_only_color">#FFBA12</color>
     <color name="hotel_mobile_exclusive_color">#1F8EDE</color>
+
+    <!-- Popular Hotels Tonight Discount strips-->
+    <color name="launch_mobile_exclusive">#FFBA12</color>
+    <color name="launch_discount">#1F8EDE</color>
+    <color name="launch_tonight_only">#7AC231</color>
+
+    <color name="hotelsv2_discount_green">#4d9900</color>
+
+    <color name="hotel_review_actionbar_tab_text_selected">#FFFFFF</color>
+    <color name="hotel_review_actionbar_tab_text_unselected">#8CFFFFFF</color>
 
     <color name="flight_trip">#1972B2</color>
     <color name="flight_trip_price">#1972B2</color>
@@ -105,4 +115,5 @@
 
     <!-- Checkout Colors -->
     <color name="old_checkout_account_button_text_color">@android:color/white</color>
+    <color name="cvv_book_button_text_color">@android:color/white</color>
 </resources>
