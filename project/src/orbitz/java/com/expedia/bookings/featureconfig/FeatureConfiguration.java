@@ -391,8 +391,12 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 		return false;
 	}
 
+	public boolean shouldSetExistingUserForTune() {
+		return true;
+	}
+
 	@Override
 	public boolean shouldShowItinShare() {
-		return true;
+		return false;
 	}
 }

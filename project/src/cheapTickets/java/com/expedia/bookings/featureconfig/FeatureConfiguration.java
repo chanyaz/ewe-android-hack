@@ -395,4 +395,9 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 	public boolean shouldShowItinShare() {
 		return true;
 	}
+
+	@Override
+	public boolean shouldShowItinShare() {
+		return false;
+	}
 }
