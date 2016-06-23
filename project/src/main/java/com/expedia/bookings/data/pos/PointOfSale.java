@@ -897,7 +897,6 @@ public class PointOfSale {
 	 * @param usingTabletInterface whether the app is using the tablet interface
 	 * @return the configured point of sale key to be saved in settings as desired
 	 */
-<<<<<<< HEAD
 	public static String init(PointOfSaleConfigHelper configHelper, String pointOfSaleKey, boolean connectingToProduction,
 			boolean usingTabletInterface) {
 
@@ -905,11 +904,6 @@ public class PointOfSale {
 
 		// Load all data; in the future we may want to load only the POS requested, to save startup time
 		loadPointOfSaleInfo(configHelper, usingTabletInterface);
-=======
-	public static void init(Context context, String posConfigJsonPath) {
-		// Load all data; in the future we may want to load only the POS requested, to save startup time
-		loadPointOfSaleInfo(context, posConfigJsonPath);
->>>>>>> r/orbitz-7.0.1
 
 		// Load supported Expedia suggest locales
 		loadExpediaSuggestSupportedLanguages(configHelper);
