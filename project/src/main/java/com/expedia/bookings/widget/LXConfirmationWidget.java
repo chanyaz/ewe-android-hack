@@ -23,6 +23,7 @@ import com.expedia.bookings.data.lx.LXCheckoutParams;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.tracking.AdTracker;
 import com.expedia.bookings.tracking.OmnitureTracking;
+import com.expedia.bookings.utils.AccessibilityUtil;
 import com.expedia.bookings.utils.DateUtils;
 import com.expedia.bookings.utils.FontCache;
 import com.expedia.bookings.utils.Images;
@@ -95,6 +96,7 @@ public class LXConfirmationWidget extends android.widget.LinearLayout {
 				Events.post(new Events.FinishActivity());
 			}
 		});
+		toolbar.setNavigationContentDescription(R.string.toolbar_search_nav_icon_close_cont_desc);
 	}
 
 	@Override
@@ -150,6 +152,7 @@ public class LXConfirmationWidget extends android.widget.LinearLayout {
 
 		FontCache.setTypeface(confirmationText, FontCache.Font.ROBOTO_LIGHT);
 		FontCache.setTypeface(emailText, FontCache.Font.ROBOTO_LIGHT);
+		AccessibilityUtil.setFocusToToolbarNavigationIcon(toolbar);
 	}
 
 	public void setIsFromGroundTransport(boolean isGroundTransport) {
