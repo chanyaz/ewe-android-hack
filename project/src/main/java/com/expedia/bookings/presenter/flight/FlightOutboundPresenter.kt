@@ -2,16 +2,8 @@ package com.expedia.bookings.presenter.flight
 
 import android.content.Context
 import android.util.AttributeSet
-import com.expedia.bookings.R
-import com.expedia.bookings.tracking.FlightsV2Tracking
 
-class FlightOutboundPresenter(context: Context, attrs: AttributeSet) : BaseFlightPresenter(context, attrs) {
-
-    init {
-        toolbarViewModel.menuVisibilitySubject.subscribe { showMenu ->
-            menuSearch.isVisible = if (showMenu) true else false
-        }
-    }
+class FlightOutboundPresenter(context: Context, attrs: AttributeSet) : AbstractMaterialFlightResultsPresenter(context, attrs) {
 
     override fun isOutboundResultsPresenter(): Boolean {
         return true
@@ -24,22 +16,5 @@ class FlightOutboundPresenter(context: Context, attrs: AttributeSet) : BaseFligh
     }
 
     override fun trackFlightResultsLoad() {
-    }
-
-    override fun shouldShowBundlePrice(): Boolean {
-        return false
-    }
-
-    override fun viewBundleSetVisibility(forward: Boolean) {
-    }
-
-    override fun trackShowBaggageFee() = FlightsV2Tracking.trackFlightBaggageFeeClick()
-
-    override fun trackShowPaymentFees() {
-        // not applicable to outbound flight presenter
-    }
-
-    override fun setupToolbarMenu() {
-        toolbar.inflateMenu(R.menu.flights_toolbar_menu)
     }
 }

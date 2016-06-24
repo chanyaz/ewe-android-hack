@@ -24,7 +24,7 @@ import rx.Scheduler
 import java.util.ArrayList
 import java.util.regex.Pattern
 
-class FlightServices(endpoint: String, okHttpClient: OkHttpClient, interceptor: Interceptor, val observeOn: Scheduler, val subscribeOn: Scheduler) {
+open class FlightServices(endpoint: String, okHttpClient: OkHttpClient, interceptor: Interceptor, val observeOn: Scheduler, val subscribeOn: Scheduler) {
     val hourMinuteFormatter = DateTimeFormat.forPattern("hh:mma")
     val patternHour = Pattern.compile("(?<=PT)([0-9]+)(?=H)")
     val patternMin = Pattern.compile("(?<=PT)([0-9]+)(?=M)")
