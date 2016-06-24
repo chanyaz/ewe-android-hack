@@ -7,10 +7,11 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.os.Parcelable
 import android.support.v4.app.DialogFragment
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
-import android.support.v4.app.FragmentPagerAdapter
+import android.support.v4.app.FragmentStatePagerAdapter
 import android.support.v4.view.ViewPager
 import android.view.Menu
 import android.view.MenuItem
@@ -330,7 +331,7 @@ class NewPhoneLaunchActivity : AbstractAppCompatActivity(), IPhoneLaunchFragment
 
     }
 
-    inner class PagerAdapter(fm: FragmentManager) : FragmentPagerAdapter(fm) {
+    inner class PagerAdapter(fm: FragmentManager) : FragmentStatePagerAdapter(fm) {
 
         override fun getItem(position: Int): Fragment {
             val frag: Fragment
@@ -357,6 +358,10 @@ class NewPhoneLaunchActivity : AbstractAppCompatActivity(), IPhoneLaunchFragment
                 else -> throw RuntimeException("Position out of bounds position = " + i)
             }
             return title
+        }
+
+        override fun saveState(): Parcelable? {
+            return null
         }
     }
 
