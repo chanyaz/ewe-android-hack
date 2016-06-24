@@ -65,7 +65,17 @@
     <color name="acct__btn_sign_in_text_tvly">@color/white</color>
     <color name="acct__bg_input_text_error">@color/white</color>
     <color name="acct__bg_input_text_good">#EEEEEE</color>
+
     <!-- Checkout Colors -->
     <color name="old_checkout_account_button_text_color">@android:color/white</color>
     <color name="cvv_book_button_text_color">@android:color/white</color>
+
+    <!--Account Screen-->
+    <color name="account_toolbar_text_color">@android:color/white</color>
+    <color name="account_toolbar_background_color">@color/hotels_primary_color</color>
+    <color name="account_sign_out_button_background_color">#7baed4</color>
+    <color name="account_screen_back_nav_color">@android:color/white</color>
+    <color name="account_sign_in_button_background_color">@color/hotels_primary_color</color>
+    <color name="account_create_button_text_color">@color/hotels_primary_color</color>
+
 </resources>
