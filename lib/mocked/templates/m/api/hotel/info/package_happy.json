@@ -267,6 +267,10 @@
     "name": "Policies",
     "content": "<ul><li>Extra-person charges may apply and vary depending on hotel policy.</li><li>Government-issued photo identification and a credit card or cash deposit are required at check-in for incidental charges.</li><li>Special requests are subject to availability upon check-in and may incur additional charges. Special requests cannot be guaranteed.</li><li>Minimum check-in age is 21</li><li>Check-out time is noon</li><li>Check-in time starts at 3 PM</li><li>Pets not allowed</li><li>American Express</li><li>Carte Blanche</li><li>Diners Club</li><li>Discover</li><li>JCB International</li><li>MasterCard</li><li>Visa</li></ul>"
   },
+  "hotelRenovationText": {
+    "name": "Renovations and Closures",
+    "content": "<p>The property is undergoing renovations. The following areas are affected: <ul><li>Elevator</li><li>Front desk</li><li>Lobby</li></ul></p><p>Renovation work will only be conducted during business hours. Every effort will be made to minimize noise and disturbance.</p>"
+  },
   "hotelFeesText": {
     "name": "Fees",
     "content": "<ul><li>The following fees and deposits are charged by the property at time of service, check-in, or check-out.<ul> <li>Breakfast fee: between USD 7 and USD 13 per person (approximately)</li>        <li>Valet parking fee: USD 25.00 per day (in/out privileges)</li>          </ul></li><li>The above list may not be comprehensive. Fees and deposits may not include tax and are subject to change.</li></ul>"

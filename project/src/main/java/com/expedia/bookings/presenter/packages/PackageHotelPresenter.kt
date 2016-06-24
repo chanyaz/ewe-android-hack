@@ -90,6 +90,7 @@ class PackageHotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
         presenter.hotelDetailView.viewmodel = PackageHotelDetailViewModel(context, selectedRoomObserver)
         presenter.hotelDetailView.viewmodel.reviewsClickedWithHotelData.subscribe(reviewsObserver)
         presenter.hotelDetailView.viewmodel.vipAccessInfoObservable.subscribe(presenter.hotelVIPAccessInfoObserver)
+        presenter.hotelDetailView.viewmodel.hotelRenovationObservable.subscribe(presenter.hotelRenovationObserver)
         presenter.hotelDetailView.viewmodel.mapClickedSubject.subscribe(presenter.hotelDetailsEmbeddedMapClickObserver)
         presenter.hotelDetailView.viewmodel.bundlePricePerPersonObservable.subscribe { pricePerPerson ->
             bundleSlidingWidget.bundlePriceWidget.viewModel.pricePerPerson.onNext(pricePerPerson)
