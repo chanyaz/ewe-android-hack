@@ -11,6 +11,11 @@
     <color name="flights_lob_btn">@color/lob_btn_color</color>
     <color name="cars_lob_btn">@color/lob_btn_color</color>
     <color name="lx_lob_btn">@color/lob_btn_color</color>
+    <color name="preferences_text">#495863</color>
+
+    <!-- Calendar text colors -->
+    <color name="calendar_cell_selected_date_text">#FFFFFF</color>
+
     <!-- Lob box shadow gradient -->
     <color name="lob_box_shadow_start_color">#FF000000</color>
     <color name="lob_box_shadow_center_color">#99000000</color>
