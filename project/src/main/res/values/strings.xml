@@ -3797,6 +3797,14 @@
     <!-- Content description for car result bags count e.g. Bags 2-4 -->
     <string name="cars_bags_count_cont_desc_TEMPLATE">Bags {bagscount}</string>
 
+    <!-- Content descriptions for Cars filter transmission buttons -->
+    <string name="cars_filter_transmission_manual_button_selected_cont_desc">Manual transmission</string>
+    <string name="cars_filter_transmission_automatic_button_selected_cont_desc">Automatic transmission</string>
+    <string name="cars_filter_transmission_all_button_selected_cont_desc">All transmissions</string>
+    <string name="cars_filter_transmission_manual_button_unselected_cont_desc">Manual transmission. Unselected</string>
+    <string name="cars_filter_transmission_automatic_button_unselected_cont_desc">Automatic transmission. Unselected</string>
+    <string name="cars_filter_transmission_all_button_unselected_cont_desc">All transmissions. Unselected</string>
+
     <!-- Tablet Confirmation Screen -->
     <!-- Header text to indicating booking confirmed for hotel -->
     <string name="tablet_confirmation_hotel_booked">Your hotel is booked!</string>
