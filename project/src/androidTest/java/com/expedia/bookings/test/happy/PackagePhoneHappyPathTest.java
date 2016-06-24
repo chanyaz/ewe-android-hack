@@ -61,7 +61,7 @@ public class PackagePhoneHappyPathTest extends PackageTestCase {
 
 		assertBundlePrice("$1,931.69", "View your bundle");
 		PackageScreen.selectFlight(0);
-		assertBundlePriceInFlight("$3,864");
+		assertBundlePriceInFlight("$1,932");
 		PackageScreen.selectThisFlight().perform(click());
 
 		FlightTestHelpers.assertDockedOutboundFlightSelectionWidget();
@@ -71,7 +71,7 @@ public class PackagePhoneHappyPathTest extends PackageTestCase {
 		assertBundlePrice("$2,105.95", "View your bundle");
 
 		PackageScreen.selectFlight(0);
-		assertBundlePriceInFlight("$4,212");
+		assertBundlePriceInFlight("$2,106");
 		PackageScreen.selectThisFlight().perform(ViewActions.waitForViewToDisplay());
 		PackageScreen.selectThisFlight().perform(click());
 

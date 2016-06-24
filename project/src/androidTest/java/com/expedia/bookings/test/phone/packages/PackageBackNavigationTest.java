@@ -24,7 +24,7 @@ public class PackageBackNavigationTest extends PackageTestCase {
 
 		//back to inbound flight overview
 		Common.pressBack();
-		assertInboundFlightBundlePrice("$4,212");
+		assertInboundFlightBundlePrice("$2,106");
 		PackageScreen.flightsToolbar()
 			.check(matches(hasDescendant(allOf(isDisplayed(), withText("Flight to San Francisco, CA")))));
 		PackageScreen.checkFlightToolBarMenuItemsVisibility(false);
@@ -41,7 +41,7 @@ public class PackageBackNavigationTest extends PackageTestCase {
 
 		//back to outbound flight overview
 		Common.pressBack();
-		assertOutboundFlightBundlePrice("$3,864");
+		assertOutboundFlightBundlePrice("$1,932");
 		PackageScreen.flightsToolbar()
 			.check(matches(hasDescendant(allOf(isDisplayed(), withText("Flight to Detroit, MI")))));
 		PackageScreen.checkFlightToolBarMenuItemsVisibility(false);
