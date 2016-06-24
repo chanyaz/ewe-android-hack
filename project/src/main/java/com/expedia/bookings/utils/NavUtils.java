@@ -42,6 +42,8 @@ import com.expedia.ui.FlightActivity;
 import com.expedia.ui.HotelActivity;
 import com.expedia.ui.LXBaseActivity;
 import com.expedia.ui.NewPhoneLaunchActivity;
+import com.expedia.ui.PackageActivity;
+import com.expedia.ui.RailActivity;
 import com.google.gson.Gson;
 import com.mobiata.android.Log;
 
@@ -231,6 +233,18 @@ public class NavUtils {
 		sendKillActivityBroadcast(context);
 		Intent intent = new Intent(context, LXBaseActivity.class);
 		intent.putExtra(LXBaseActivity.EXTRA_IS_GROUND_TRANSPORT, true);
+		startActivity(context, intent, animOptions);
+	}
+
+	public static void goToPackages(Context context, Bundle animOptions) {
+		sendKillActivityBroadcast(context);
+		Intent intent = new Intent(context, PackageActivity.class);
+		startActivity(context, intent, animOptions);
+	}
+
+	public static void goToRail(Context context, Bundle animOptions) {
+		sendKillActivityBroadcast(context);
+		Intent intent = new Intent(context, RailActivity.class);
 		startActivity(context, intent, animOptions);
 	}
 

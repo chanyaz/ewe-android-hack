@@ -9,15 +9,17 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
+import butterknife.ButterKnife;
+import butterknife.InjectView;
+import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
+import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.AnimUtils;
 import com.expedia.bookings.utils.NavigationHelper;
-
-import butterknife.ButterKnife;
-import butterknife.InjectView;
+import com.mobiata.android.util.SettingUtils;
 
 public class NewLaunchLobViewModel implements NewLaunchLobAdapter.OnLobClickListener {
 
@@ -64,6 +66,7 @@ public class NewLaunchLobViewModel implements NewLaunchLobAdapter.OnLobClickList
 		lobs.add(NewLaunchLobAdapter.LobInfo.HOTELS);
 		lobs.add(NewLaunchLobAdapter.LobInfo.FLIGHTS);
 
+
 		if (pos.supports(LineOfBusiness.CARS)) {
 			lobs.add(NewLaunchLobAdapter.LobInfo.CARS);
 		}
@@ -74,6 +77,20 @@ public class NewLaunchLobViewModel implements NewLaunchLobAdapter.OnLobClickList
 
 		if (pos.supports(LineOfBusiness.TRANSPORT)) {
 			lobs.add(NewLaunchLobAdapter.LobInfo.TRANSPORT);
+		}
+
+		// TODO remove this check when you want to enable these LOB's
+		if (!ExpediaBookingApp.isAutomation() && BuildConfig.DEBUG && SettingUtils
+			.get(gridRecycler.getContext(),
+				gridRecycler.getContext().getString(R.string.preference_launch_screen_all_lob), false)) {
+			lobs.add(NewLaunchLobAdapter.LobInfo.RAIL);
+			// if we have odd lob then we should add Packages in the end other 3 index
+			if (lobs.size() % 2 == 0) {
+				lobs.add(NewLaunchLobAdapter.LobInfo.PACKAGES);
+			}
+			else {
+				lobs.add(2, NewLaunchLobAdapter.LobInfo.PACKAGES);
+			}
 		}
 
 		adapter.setLobs(lobs);
@@ -108,6 +125,18 @@ public class NewLaunchLobViewModel implements NewLaunchLobAdapter.OnLobClickList
 	public void onTransportLobClick() {
 		nav.goToTransport(null);
 		trackLobNavigation(LineOfBusiness.TRANSPORT);
+	}
+
+	@Override
+	public void onPackagesLobClick() {
+		nav.goToPackages(null);
+		//TODO add tracking
+	}
+
+	@Override
+	public void onRailLobClick() {
+		nav.goToRail(null);
+		//TODO add tracking
 	}
 
 	private void trackLobNavigation(LineOfBusiness lineOfBusiness) {

@@ -536,6 +536,8 @@
     <color name="new_launch_cars_lob_color">@color/new_lob_cars_color</color>
     <color name="new_launch_gt_lob_color">@color/new_lob_gt_color</color>
     <color name="new_launch_lx_lob_color">@color/new_lob_lx_color</color>
+    <color name="new_launch_packages_lob_color">@color/new_lob_packages_color</color>
+    <color name="new_launch_rail_lob_color">@color/new_lob_rail_color</color>
     <color name="new_launch_lob_disabled_color">@color/black</color>
 
     <color name="new_launch_lob_text_color">@color/new_lob_text_color</color>
