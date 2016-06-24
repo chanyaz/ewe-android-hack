@@ -220,9 +220,11 @@ public class LXActivityDetailsWidget extends LXDetailsScrollView implements Recy
 		for (int i = 0; i < offerDatesContainer.getChildCount(); i++) {
 			LXOfferDatesButton button = (LXOfferDatesButton) offerDatesContainer.getChildAt(i);
 			button.setChecked(false);
+			button.setSelected(false);
 		}
 
 		buttonSelected.setChecked(true);
+		buttonSelected.setSelected(true);
 		//  Track Link to track Change of dates.
 		OmnitureTracking.trackLinkLXChangeDate(isGroundTransport);
 		buildOffersSection(dateSelected);
