@@ -3790,6 +3790,12 @@
 
     <!-- Content description for Cars filter button -->
     <string name="cars_filter_button_cont_desc">Filter button</string>
+    <!-- Content description for car result door count e.g. Doors 2-4 -->
+    <string name="cars_door_count_cont_desc_TEMPLATE">Doors {doorcount}</string>
+    <!-- Content description for car result passenger count e.g. Passengers 2-4 -->
+    <string name="cars_passenger_count_cont_desc_TEMPLATE">Passengers {passengercount}</string>
+    <!-- Content description for car result bags count e.g. Bags 2-4 -->
+    <string name="cars_bags_count_cont_desc_TEMPLATE">Bags {bagscount}</string>
 
     <!-- Tablet Confirmation Screen -->
     <!-- Header text to indicating booking confirmed for hotel -->
