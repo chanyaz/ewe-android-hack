@@ -41,7 +41,7 @@ class FlightOverviewViewModel(val context: Context, val showBundlePrice: Boolean
             totalDurationSubject.onNext(PackageFlightUtils.getStylizedFlightDurationString(context, selectedFlight, R.color.packages_total_duration_text))
 
             var perPersonPrice = Phrase.from(context.resources.getString(R.string.package_flight_overview_per_person_TEMPLATE))
-                    .put("money", selectedFlight.packageOfferModel.price.packageTotalPriceFormatted)
+                    .put("money", selectedFlight.packageOfferModel.price.pricePerPersonFormatted)
                     .format().toString()
             bundlePriceSubject.onNext(perPersonPrice)
             baggageFeeURLSubject.onNext(selectedFlight.baggageFeesUrl)
