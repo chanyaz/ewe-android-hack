@@ -1,12 +1,15 @@
 package com.expedia.bookings.presenter.packages
 
 import android.content.Context
+import android.graphics.Point
 import android.support.v4.content.ContextCompat
 import android.util.AttributeSet
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.ImageView
 import android.widget.LinearLayout
+import android.widget.Toast
 import com.expedia.bookings.R
 import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.presenter.hotel.BaseHotelResultsPresenter
@@ -71,7 +74,7 @@ class PackageHotelResultsPresenter(context: Context, attrs: AttributeSet) : Base
         }
         (mapCarouselRecycler.adapter as HotelMapCarouselAdapter).setLob(LineOfBusiness.PACKAGES)
     }
-
+    
     override fun getFilterViewModel(): HotelFilterViewModel {
         return HotelFilterViewModel(LineOfBusiness.PACKAGES)
     }

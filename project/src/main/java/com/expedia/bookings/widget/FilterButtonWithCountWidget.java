@@ -7,6 +7,7 @@ import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.animation.DecelerateInterpolator;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import com.expedia.bookings.R;
@@ -60,6 +61,7 @@ public class FilterButtonWithCountWidget extends LinearLayout {
 		int textAndFilterIconColor = ContextCompat.getColor(getContext(), color);
 		filterText.setTextColor(textAndFilterIconColor);
 		filterNumber.setTextColor(textAndFilterIconColor);
+		((ImageView) filterIcon).setColorFilter(textAndFilterIconColor);
 	}
 
 	private int recyclerViewScrolledDistance = 0;
