@@ -55,7 +55,13 @@ public class CarPresenter extends Presenter {
 		carResultsPresenter.setVisibility(INVISIBLE);
 	}
 
-	private Transition checkoutToConfirmation = new LeftToRightTransition(this, CarCheckoutPresenter.class, CarConfirmationWidget.class);
+	private Transition checkoutToConfirmation = new LeftToRightTransition(this, CarCheckoutPresenter.class, CarConfirmationWidget.class) {
+		@Override
+		public void endTransition(boolean forward) {
+			super.endTransition(forward);
+			confirmation.setFocusOnToolbarForAccessibility();
+		}
+	};
 
 	private Transition resultsToCheckout = new LeftToRightTransition(this, CarResultsPresenter.class, CarCheckoutPresenter.class);
 
