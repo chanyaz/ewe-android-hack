@@ -34,9 +34,11 @@
     <color name="review_screen_tab_indicator">@color/launch_tab_indicator_tvly</color>
     <color name="material_checkout_account_button_background_color">@color/hotels_primary_color</color>
 
-    <color name="hotel_urgency_message_color">#57A3CC</color>
+    <color name="hotel_urgency_message_color">#c20202</color>
     <color name="hotel_tonight_only_color">#7AC231</color>
     <color name="hotel_mobile_exclusive_color">#F58025</color>
+
+    <color name="hotelsv2_discount_green">#7AC231</color>
 
     <!-- Cars -->
     <color name="cars_primary_color">#003E74</color>
@@ -62,4 +64,5 @@
     <color name="acct__bg_input_text_good">#EEEEEE</color>
     <!-- Checkout Colors -->
     <color name="old_checkout_account_button_text_color">@android:color/white</color>
+    <color name="cvv_book_button_text_color">@android:color/white</color>
 </resources>
