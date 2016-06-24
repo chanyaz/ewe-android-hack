@@ -9,9 +9,7 @@ import com.expedia.bookings.data.flights.FlightCreateTripResponse
 import com.expedia.bookings.otto.Events
 import com.expedia.bookings.services.FlightServices
 import com.expedia.bookings.utils.Ui
-import com.expedia.util.subscribeText
 import com.expedia.util.subscribeTextAndVisibility
-import com.expedia.util.subscribeVisibility
 import com.expedia.vm.FlightCheckoutViewModel
 import com.expedia.vm.FlightCostSummaryBreakdownViewModel
 import com.expedia.vm.flights.FlightCreateTripViewModel
@@ -21,10 +19,8 @@ import com.squareup.otto.Subscribe
 class FlightCheckoutPresenter(context: Context, attr: AttributeSet) : BaseCheckoutPresenter(context, attr) {
 
     init {
-        getCheckoutViewModel().showCardFees.subscribeVisibility(cardProcessingFeeTextView)
-        getCheckoutViewModel().showCardFees.subscribeVisibility(cardFeeWarningTextView)
         getCheckoutViewModel().cardFeeTextSubject.subscribeTextAndVisibility(cardProcessingFeeTextView)
-        getCheckoutViewModel().cardFeeWarningTextSubject.subscribeText(cardFeeWarningTextView)
+        getCheckoutViewModel().cardFeeWarningTextSubject.subscribeTextAndVisibility(cardFeeWarningTextView)
     }
 
     override fun setupCreateTripViewModel(vm : BaseCreateTripViewModel) {

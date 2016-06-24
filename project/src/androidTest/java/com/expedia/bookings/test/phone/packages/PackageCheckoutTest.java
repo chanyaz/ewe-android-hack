@@ -2,6 +2,7 @@ package com.expedia.bookings.test.phone.packages;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.test.espresso.PackageTestCase;
+import com.expedia.bookings.test.espresso.ViewActions;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.Espresso.pressBack;
@@ -43,7 +44,9 @@ public class PackageCheckoutTest extends PackageTestCase {
 	}
 
 	private void assertCheckoutBottomContainerAfterComplete() {
-		onView(withId(R.id.total_price_widget)).check(matches(isDisplayed()));
+		onView(withId(R.id.total_price_widget))
+			.perform(ViewActions.waitForViewToDisplay())
+			.check(matches(isDisplayed()));
 		onView(withId(R.id.slide_to_purchase_widget)).check(matches(isCompletelyDisplayed()));
 	}
 

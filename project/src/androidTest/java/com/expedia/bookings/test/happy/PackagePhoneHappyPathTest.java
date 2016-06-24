@@ -105,7 +105,7 @@ public class PackagePhoneHappyPathTest extends PackageTestCase {
 		PackageScreen.clickTravelerDone();
 		PackageScreen.enterPaymentInfo();
 
-		assetCheckout();
+		assertCheckout();
 		CheckoutViewModel.performSlideToPurchase();
 		Common.delay(1);
 
@@ -155,9 +155,10 @@ public class PackagePhoneHappyPathTest extends PackageTestCase {
 			.check(matches(isDisplayed()));
 	}
 
-	private void assetCheckout() {
+	private void assertCheckout() {
 		onView(allOf(withId(R.id.legal_information_text_view), withText(
 			"By completing this booking I agree that I have read and accept the Rules and Restrictions, the Terms and Conditions, and the Privacy Policy.")))
+			.perform(ViewActions.waitForViewToDisplay())
 			.check(matches(isDisplayed()));
 		onView(allOf(withId(R.id.purchase_total_text_view), withText("Your card will be charged $2,538.62")))
 			.check(matches(isDisplayed()));

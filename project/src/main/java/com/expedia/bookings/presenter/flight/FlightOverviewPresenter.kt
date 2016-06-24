@@ -1,26 +1,52 @@
 package com.expedia.bookings.presenter.flight
 
 import android.content.Context
-import android.text.method.LinkMovementMethod
+import android.support.v4.content.ContextCompat
 import android.util.AttributeSet
 import android.view.View
+import android.view.ViewStub
+import android.view.animation.DecelerateInterpolator
 import com.expedia.bookings.R
 import com.expedia.bookings.presenter.BaseOverviewPresenter
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.FlightCheckoutPresenter
-import com.expedia.util.notNullAndObservable
+import com.expedia.bookings.widget.flights.PaymentFeeInfoWebView
 import com.expedia.util.subscribeText
 import com.expedia.util.subscribeVisibility
 import com.expedia.vm.FlightCheckoutOverviewViewModel
+import com.expedia.vm.WebViewViewModel
 import com.expedia.vm.flights.FlightOverviewViewModel
 
 class FlightOverviewPresenter(context: Context, attrs: AttributeSet) : BaseOverviewPresenter(context, attrs) {
     val flightSummary: FlightSummaryWidget by bindView(R.id.flight_summary)
     val viewModel = FlightOverviewViewModel()
 
+    val AIRLINEFEE_VIEW_TRANSITION_DURATION = 400
+
+    val paymentFeeInfoWebView: PaymentFeeInfoWebView by lazy {
+        val viewStub = findViewById(R.id.payment_fee_info_webview_stub) as ViewStub
+        val airlineFeeWebview = viewStub.inflate() as PaymentFeeInfoWebView
+        airlineFeeWebview.setExitButtonOnClickListener(View.OnClickListener { this.back() })
+        airlineFeeWebview.toolbar.title = resources.getString(R.string.flights_flight_overview_payment_fees)
+        airlineFeeWebview.toolbar.setBackgroundColor(ContextCompat.getColor(context, R.color.packages_primary_color))
+        airlineFeeWebview.viewModel = WebViewViewModel()
+        airlineFeeWebview
+    }
+
+    private val overviewToAirlineFeeWebView = object : Transition(getCheckoutTransitionClass(), PaymentFeeInfoWebView::class.java, DecelerateInterpolator(), AIRLINEFEE_VIEW_TRANSITION_DURATION) {
+        override fun endTransition(forward: Boolean) {
+            super.endTransition(forward)
+            checkoutPresenter.visibility = if (forward) View.GONE else View.VISIBLE
+            bundleOverviewHeader.visibility = if (forward) View.GONE else View.VISIBLE
+            paymentFeeInfoWebView.visibility = if (!forward) View.GONE else View.VISIBLE
+        }
+    }
+
     init {
         bundleOverviewHeader.checkoutOverviewHeaderToolbar.viewmodel = FlightCheckoutOverviewViewModel(context)
         bundleOverviewHeader.checkoutOverviewFloatingToolbar.viewmodel = FlightCheckoutOverviewViewModel(context)
+
+        addTransition(overviewToAirlineFeeWebView)
     }
 
     override fun inflate() {
@@ -35,6 +61,11 @@ class FlightOverviewPresenter(context: Context, attrs: AttributeSet) : BaseOverv
         viewModel.showFreeCancellationObservable.subscribeVisibility(flightSummary.freeCancellationLabelTextView)
         viewModel.showSplitTicketMessagingObservable.subscribeVisibility(flightSummary.splitTicketInfoContainer)
         viewModel.splitTicketBaggageFeesLinksObservable.subscribeText(flightSummary.splitTicketBaggageFeesTextView)
+
+        getCheckoutPresenter().cardFeeWarningTextView.setOnClickListener {
+            show(paymentFeeInfoWebView)
+        }
+        getCheckoutPresenter().getCheckoutViewModel().obFeeDetailsUrlSubject.subscribe(paymentFeeInfoWebView.viewModel.webViewURLObservable)
     }
 
     fun getCheckoutPresenter() : FlightCheckoutPresenter {

@@ -46,6 +46,9 @@ open class FlightServices(endpoint: String, okHttpClient: OkHttpClient, intercep
                 .subscribeOn(subscribeOn)
                 .doOnNext { response ->
                     response.legs.forEach { leg ->
+                        leg.mayChargeObFees = response.offers.filter { it.legIds.contains(leg.legId) }
+                                                             .filter { it.mayChargeOBFees == true }
+                                                             .isNotEmpty()
                         leg.carrierName = leg.segments.first().airlineName
                         leg.flightSegments = leg.segments
                         val departure = leg.flightSegments.first()

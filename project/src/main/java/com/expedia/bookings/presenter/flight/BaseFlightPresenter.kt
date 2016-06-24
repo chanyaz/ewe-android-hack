@@ -22,8 +22,7 @@ import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.BaggageFeeInfoWidget
 import com.expedia.bookings.widget.PackageFlightFilterWidget
-import com.expedia.bookings.widget.flights.FlightListAdapter
-import com.expedia.bookings.widget.flights.PaymentFeeInfoWidget
+import com.expedia.bookings.widget.flights.PaymentFeeInfoWebView
 import com.expedia.util.notNullAndObservable
 import com.expedia.vm.FlightOverviewViewModel
 import com.expedia.vm.FlightResultsViewModel
@@ -47,16 +46,16 @@ abstract class BaseFlightPresenter(context: Context, attrs: AttributeSet?) : Pre
         menuSearch
     }
 
-    val baggageFeeInfo: BaggageFeeInfoWidget by lazy {
+    val baggageFeeInfoWebView: BaggageFeeInfoWidget by lazy {
         val viewStub = findViewById(R.id.baggage_fee_stub) as ViewStub
         val baggageFeeView = viewStub.inflate() as BaggageFeeInfoWidget
         baggageFeeView.viewModel = WebViewViewModel()
         baggageFeeView
     }
 
-    val paymentFeeInfo: PaymentFeeInfoWidget by lazy {
+    val paymentFeeInfoWebView: PaymentFeeInfoWebView by lazy {
         val viewStub = findViewById(R.id.payment_fee_info_stub) as ViewStub
-        val paymentFeeInfoWidget = viewStub.inflate() as PaymentFeeInfoWidget
+        val paymentFeeInfoWidget = viewStub.inflate() as PaymentFeeInfoWebView
         paymentFeeInfoWidget.viewModel = WebViewViewModel()
         paymentFeeInfoWidget
     }
@@ -107,13 +106,13 @@ abstract class BaseFlightPresenter(context: Context, attrs: AttributeSet?) : Pre
         setupToolbar()
 
         overviewPresenter.baggageFeeShowSubject.subscribe { url ->
-            baggageFeeInfo.viewModel.webViewURLObservable.onNext(url)
+            baggageFeeInfoWebView.viewModel.webViewURLObservable.onNext(url)
             trackShowBaggageFee()
-            show(baggageFeeInfo)
+            show(baggageFeeInfoWebView)
         }
         overviewPresenter.showPaymentFeesObservable.subscribe {
             trackShowPaymentFees()
-            show(paymentFeeInfo)
+            show(paymentFeeInfoWebView)
         }
 
         toolbar.setNavigationOnClickListener {
@@ -152,8 +151,8 @@ abstract class BaseFlightPresenter(context: Context, attrs: AttributeSet?) : Pre
             viewBundleSetVisibility(forward)
             resultsPresenter.visibility = if (forward) View.VISIBLE else View.GONE
             overviewPresenter.visibility = if (forward) View.GONE else View.VISIBLE
-            baggageFeeInfo.visibility = View.GONE
-            paymentFeeInfo.visibility = View.GONE
+            baggageFeeInfoWebView.visibility = View.GONE
+            paymentFeeInfoWebView.visibility = View.GONE
             filter.visibility = View.GONE
         }
     }
@@ -180,12 +179,12 @@ abstract class BaseFlightPresenter(context: Context, attrs: AttributeSet?) : Pre
             }
             viewBundleSetVisibility(false)
             overviewPresenter.visibility = if (!forward) View.VISIBLE else View.GONE
-            paymentFeeInfo.visibility = View.GONE
-            baggageFeeInfo.visibility = if (!forward) View.GONE else View.VISIBLE
+            paymentFeeInfoWebView.visibility = View.GONE
+            baggageFeeInfoWebView.visibility = if (!forward) View.GONE else View.VISIBLE
         }
     }
 
-    private val paymentFeeTransition = object : Transition(FlightOverviewPresenter::class.java, PaymentFeeInfoWidget::class.java, DecelerateInterpolator(), ANIMATION_DURATION) {
+    private val paymentFeeTransition = object : Transition(FlightOverviewPresenter::class.java, PaymentFeeInfoWebView::class.java, DecelerateInterpolator(), ANIMATION_DURATION) {
         override fun endTransition(forward: Boolean) {
             super.endTransition(forward)
             if (forward) {
@@ -195,8 +194,8 @@ abstract class BaseFlightPresenter(context: Context, attrs: AttributeSet?) : Pre
                 toolbarViewModel.refreshToolBar.onNext(false)
             }
             overviewPresenter.visibility = if (!forward) View.VISIBLE else View.GONE
-            baggageFeeInfo.visibility = View.GONE
-            paymentFeeInfo.visibility = if (!forward) View.GONE else View.VISIBLE
+            baggageFeeInfoWebView.visibility = View.GONE
+            paymentFeeInfoWebView.visibility = if (!forward) View.GONE else View.VISIBLE
         }
     }
 

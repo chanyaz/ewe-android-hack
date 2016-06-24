@@ -140,6 +140,10 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
             val spannableStringBuilder = StrUtils.getSpannableTextByColor(baggageFeesTextWithLinks, Color.BLACK, true)
             flightOverviewPresenter.viewModel.splitTicketBaggageFeesLinksObservable.onNext(spannableStringBuilder)
         }).subscribe()
+
+        val checkoutViewModel = flightOverviewPresenter.getCheckoutPresenter().getCheckoutViewModel()
+        vm.offerSelectedChargesObFeesSubject.subscribe(checkoutViewModel.selectedFlightChargesFees)
+        vm.obFeeDetailsUrlObservable.subscribe(checkoutViewModel.obFeeDetailsUrlSubject)
     }
 
     init {

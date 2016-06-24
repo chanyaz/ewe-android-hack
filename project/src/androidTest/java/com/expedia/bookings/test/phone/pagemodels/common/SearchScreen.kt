@@ -1,32 +1,31 @@
 package com.expedia.bookings.test.phone.pagemodels.common
 
+import android.support.test.espresso.Espresso.onView
 import android.support.test.espresso.ViewInteraction
+import android.support.test.espresso.action.ViewActions.click
+import android.support.test.espresso.action.ViewActions.typeText
+import android.support.test.espresso.contrib.RecyclerViewActions
+import android.support.test.espresso.matcher.RootMatchers.withDecorView
+import android.support.test.espresso.matcher.ViewMatchers
+import android.support.test.espresso.matcher.ViewMatchers.hasDescendant
+import android.support.test.espresso.matcher.ViewMatchers.withEffectiveVisibility
+import android.support.test.espresso.matcher.ViewMatchers.withId
+import android.support.test.espresso.matcher.ViewMatchers.withParent
+import android.support.test.espresso.matcher.ViewMatchers.withText
+import android.support.v7.widget.RecyclerView
 import android.view.View
 import com.expedia.bookings.R
+import com.expedia.bookings.test.espresso.Common
 import com.expedia.bookings.test.espresso.SpoonScreenshotUtils
-import android.support.test.espresso.Espresso.onView
-import android.support.test.espresso.matcher.ViewMatchers.withId
-import android.support.test.espresso.matcher.RootMatchers.withDecorView
+import com.expedia.bookings.test.espresso.TabletViewActions
+import com.expedia.bookings.test.espresso.TestValues
+import com.expedia.bookings.test.espresso.ViewActions
+import com.expedia.bookings.test.phone.hotels.HotelScreen
+import org.hamcrest.Matchers.allOf
 import org.hamcrest.Matchers.not
 import org.hamcrest.core.Is.`is`
 import org.joda.time.LocalDate
-import android.support.test.espresso.action.ViewActions.click
-import com.expedia.bookings.test.espresso.Common
-import com.expedia.bookings.test.espresso.ViewActions
-import android.support.test.espresso.action.ViewActions.typeText
-import android.support.test.espresso.assertion.ViewAssertions
-import android.support.test.espresso.contrib.RecyclerViewActions
-import android.support.test.espresso.matcher.ViewMatchers
-import android.support.v7.widget.RecyclerView
 import java.util.concurrent.TimeUnit
-import android.support.test.espresso.matcher.ViewMatchers.hasDescendant
-import android.support.test.espresso.matcher.ViewMatchers.withEffectiveVisibility
-import android.support.test.espresso.matcher.ViewMatchers.withText
-import com.expedia.bookings.test.espresso.TestValues
-import com.expedia.bookings.test.espresso.TabletViewActions
-import android.support.test.espresso.matcher.ViewMatchers.withParent
-import com.expedia.bookings.test.phone.hotels.HotelScreen
-import org.hamcrest.Matchers.allOf
 
 object SearchScreen {
 

@@ -76,7 +76,7 @@ class AbstractMaterialFlightResultsPresenterTest {
 
         val testSubscriber = TestSubscriber<String>()
         val expectedUrl = "http://url"
-        sut.paymentFeeInfo.viewModel.webViewURLObservable.subscribe(testSubscriber)
+        sut.paymentFeeInfoWebView.viewModel.webViewURLObservable.subscribe(testSubscriber)
 
         sut.flightSearchViewModel.obFeeDetailsUrlObservable.onNext(expectedUrl)
 

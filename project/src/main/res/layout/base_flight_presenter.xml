@@ -35,7 +35,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:inflatedId="@+id/payment_fee_info"
-        android:layout="@layout/payment_fee_info_stub" />
+        android:layout="@layout/payment_fee_info_webview_stub" />
 
     <LinearLayout
         android:layout_width="match_parent"

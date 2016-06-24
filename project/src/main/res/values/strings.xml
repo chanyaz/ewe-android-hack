@@ -1674,6 +1674,9 @@
     <!-- Card fee warning text on checkout overview.
         Example: The airline charges a processing fee of $3.00 for using this card (cost included in the trip total). -->
     <string name="flights_card_fee_warning_TEMPLATE">The airline charges a processing fee of {card_fee} for using this card (cost included in the trip total).</string>
+    <!-- An airline fee is added upon payment message
+        Example: An airline fee, based on card type, is added upon payment. Such fee is added to the total upon payment -->
+    <string name="flights_fee_added_based_on_payment_TEMPLATE">An &lt;a href=\"{airline_fee_url}\"&gt;airline fee&lt;/a&gt;, based on card type, is added upon payment. Such fee is added to the total upon payment.</string>
 
     <!-- Flights -->
     <!-- Label for Flight Search in task manager -->
