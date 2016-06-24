@@ -117,6 +117,13 @@ class PackageBundleHotelWidget(context: Context, attrs: AttributeSet?) : Accessi
         }
     }
 
+    fun cancel() {
+        hotelLoadingBar.clearAnimation()
+        hotelLoadingBar.visibility = View.GONE
+        hotelsDatesGuestInfoText.visibility = View.VISIBLE
+        hotelsDatesGuestInfoText.setTextColor(ContextCompat.getColor(context, R.color.package_bundle_icon_color))
+    }
+
     init {
         View.inflate(getContext(), R.layout.bundle_hotel_widget, this)
     }

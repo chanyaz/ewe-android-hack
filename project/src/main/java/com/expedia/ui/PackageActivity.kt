@@ -125,6 +125,9 @@ class PackageActivity : AbstractAppCompatActivity() {
     }
 
     override fun onBackPressed() {
+        packagePresenter.bundlePresenter.bundleWidget.viewModel.cancelSearchObservable.onNext(Unit)
+
+        //for change package path
         if (packagePresenter.backStack.peek() is PackageOverviewPresenter && Db.getPackageParams()?.isChangePackageSearch() ?: false) {
             Db.getPackageParams().pageType = null
             if (changedOutboundFlight) {

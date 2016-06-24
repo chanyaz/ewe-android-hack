@@ -85,6 +85,14 @@ class PackageInboundFlightWidgetTest {
         assertEquals(View.VISIBLE, testWidget.travelInfoText.visibility)
     }
 
+    @Test
+    fun testCancel() {
+        testWidget.cancel()
+
+        assertEquals(View.GONE, testWidget.flightLoadingBar.visibility)
+        assertEquals(View.VISIBLE, testWidget.travelInfoText.visibility)
+    }
+
     private fun setUpParams() {
         // Can't mock PackageSearchParams because it's a 'data' class. So we have to build one.... #KotlinOP
         val packageParams = PackageSearchParams.Builder(26, 329)

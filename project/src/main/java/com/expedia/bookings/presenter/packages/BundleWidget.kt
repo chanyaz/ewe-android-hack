@@ -75,6 +75,12 @@ class BundleWidget(context: Context, attrs: AttributeSet) : LinearLayout(context
         }
         vm.stepOneTextObservable.subscribeText(stepOneText)
         vm.stepTwoTextObservable.subscribeText(stepTwoText)
+
+        vm.cancelSearchSubject.subscribe {
+            bundleHotelWidget.cancel()
+            outboundFlightWidget.cancel()
+            inboundFlightWidget.cancel()
+        }
     }
 
     fun revertBundleViewToSelectHotel() {
