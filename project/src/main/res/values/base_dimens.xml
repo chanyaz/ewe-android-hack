@@ -17,6 +17,8 @@
 
     <!--Universal Cardview Dimensions-->
     <dimen name="card_view_container_margin">9dp</dimen>
+
+    <dimen name="card_view_bottom_margin">2dp</dimen>
     <dimen name="cardview_border_radius">3dp</dimen>
 
     <!--Universal Sort and filter dimensions should live here going forward-->
