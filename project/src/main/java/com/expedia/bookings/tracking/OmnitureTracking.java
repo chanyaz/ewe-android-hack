@@ -1128,6 +1128,7 @@ public class OmnitureTracking {
 	public static final String HOTELS_REFINE_REVIEWS_FAV = "App.Hotels.Review.Fav";
 	public static final String HOTELS_REFINE_REVIEWS_CRIT = "App.Hotels.Review.Crit";
 	public static final String HOTELS_REFINE_REVIEWS_RECENT = "App.Hotels.Review.Recent";
+	public static final String HOTELS_REVIEWS_ERROR = "App.Hotels.Reviews.Error";
 
 	public static final String HOTELS_ETP_TOGGLE_LINK_NAME = "ETP Toggle";
 	public static final String HOTELS_ETP_TOGGLE_PAY_LATER = "App.Hotels.RR.Toggle.PayLater";
@@ -1238,6 +1239,14 @@ public class OmnitureTracking {
 
 	public static void trackLinkReviewTypeSelected(String linkName) {
 		internalTrackLink(linkName);
+	}
+
+	public static void trackReviewLoadingError(String errorMsg) {
+		ADMS_Measurement s = createTrackPageLoadEventBase(HOTELS_REVIEWS_ERROR);
+		s.setEvar(2, "D=c2");
+		s.setProp(2, HOTELV2_LOB);
+		s.setProp(36, errorMsg);
+		s.track();
 	}
 
 	public static void trackPageLoadHotelsLogin() {

@@ -6,6 +6,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.os.Build;
 import android.support.annotation.StringRes;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -96,6 +97,9 @@ public class LXResultsPresenter extends Presenter {
 	@InjectView(R.id.transparent_view)
 	View transparentView;
 
+	@InjectView(R.id.sort_filter_widget_animate_view)
+	View sortFilterWidgetAnimateView;
+
 	@OnClick(R.id.transparent_view)
 	public void onTransparentViewClick() {
 		show(searchResultsWidget, FLAG_CLEAR_TOP);
@@ -134,6 +138,18 @@ public class LXResultsPresenter extends Presenter {
 		public void startTransition(boolean forward) {
 			sortFilterButton.showNumberOfFilters(sortFilterWidget.getNumberOfSelectedFilters());
 			sortFilterWidget.setVisibility(View.VISIBLE);
+
+			// Kitkat & below view is not adjusting height and weights.
+
+			if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.KITKAT) {
+				LinearLayout.LayoutParams layoutParams = (LinearLayout.LayoutParams) sortFilterWidgetAnimateView
+					.getLayoutParams();
+				layoutParams.height = 1;
+				layoutParams.weight = 1;
+				sortFilterWidgetAnimateView.setLayoutParams(layoutParams);
+				sortFilterWidgetAnimateView.requestLayout();
+			}
+
 			if (isUserBucketedForCategoriesTest) {
 				transparentView.setAlpha(forward ? 0 : 0.5f);
 				transparentView.setVisibility(VISIBLE);
