@@ -74,7 +74,6 @@
     <color name="tablet_search_result_error_button_wotif">#1F8EDE</color>
     <color name="tablet_results_search_blue_wotif">#608405</color>
     <color name="tablet_map_pin_text_color">#DDDFE1</color>
-    <color name="bg_sale_text_view_color_wotif">#E57AC231</color>
     <color name="flight_results_row_bg_wotif">#1972B2</color>
     <color name="flight_results_row_return_leg_bg_wotif">#00335D</color>
     <color name="tablet_legal_blurb_text_color_wotif">#7AC231</color>
@@ -120,4 +119,13 @@
     <!-- Checkout Colors -->
     <color name="old_checkout_account_button_text_color">@android:color/white</color>
     <color name="cvv_book_button_text_color">@android:color/white</color>
+
+    <!--Account Screen-->
+    <color name="account_toolbar_text_color">@android:color/white</color>
+    <color name="account_toolbar_background_color">@color/hotels_primary_color</color>
+    <color name="account_sign_out_button_background_color">@color/lob_btn_color</color>
+    <color name="account_screen_back_nav_color">@android:color/white</color>
+    <color name="account_sign_in_button_background_color">@color/hotels_primary_color</color>
+    <color name="account_create_button_text_color">@color/hotels_primary_color</color>
+
 </resources>

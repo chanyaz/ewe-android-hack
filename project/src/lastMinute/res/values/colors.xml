@@ -61,7 +61,6 @@
     <color name="action_bar_flight_cancel_text_color">@color/actionbar_text_lm</color>
     <color name="action_bar_flight_result_separator_color">@color/white</color>
 
-    <color name="bg_sale_text_view_color_lm">#E5E40088</color>
     <color name="confirmation_header_divider_color">#4D555D</color>
 
     <color name="tablet_book_button_text_color_lm">@color/action_bar_bg_color</color>
@@ -110,4 +109,13 @@
 
     <!-- Checkout Colors -->
     <color name="old_checkout_account_button_text_color">@android:color/white</color>
+
+    <!--Account Screen-->
+    <color name="account_toolbar_text_color">@android:color/white</color>
+    <color name="account_toolbar_background_color">@color/last_minute_primary_color</color>
+    <color name="account_sign_out_button_background_color">@color/lob_btn_color</color>
+    <color name="account_screen_back_nav_color">@android:color/white</color>
+    <color name="account_sign_in_button_background_color">@color/last_minute_primary_color</color>
+    <color name="account_create_button_text_color">@color/last_minute_primary_color</color>
+
 </resources>

@@ -34,7 +34,7 @@
         <item name="android:logo" tools:targetApi="11">@drawable/ic_logo_hotels</item>
         <item name="skin_hotelConfirmationPlaceholderDrawable">@drawable/placeholder_lg_lm</item>
         <item name="skin_couponSuccessMessageColor">@color/coupon_success_message_color_lm</item>
-        <item name="android:homeAsUpIndicator" tools:targetApi="11">@drawable/ic_action_bar_back_arrow_lm</item>
+        <item name="android:homeAsUpIndicator" tools:targetApi="11">@drawable/ic_action_bar_back_arrow</item>
         <item name="skin_travellerInfoPageLogo">@drawable/ic_lm_traveller_logo</item>
         <item name="skin_travellerInfoPageLogoDisabled">@drawable/ic_lm_white_logo_small</item>
         <item name="skin_userRatingBarDrawable">@drawable/ratingbar_userreview_flat_blue_lm</item>
@@ -148,7 +148,7 @@
         <item name="android:logo" tools:targetApi="11">@drawable/ic_logo_hotels</item>
         <item name="android:titleTextStyle" tools:targetApi="11">@style/TitleBarTextColor</item>
         <item name="titleTextStyle" tools:targetApi="11">@style/TitleBarTextColor</item>
-        <item name="android:homeAsUpIndicator" tools:targetApi="11">@drawable/ic_action_bar_back_arrow_lm</item>
+        <item name="android:homeAsUpIndicator" tools:targetApi="11">@drawable/ic_action_bar_back_arrow</item>
     </style>
 
     <style name="FlightActionBar" parent="@android:style/Widget.Holo.ActionBar">
@@ -156,7 +156,7 @@
         <item name="android:backgroundSplit" tools:targetApi="11">@drawable/bg_action_bar_flight_bottom</item>
         <item name="android:titleTextStyle" tools:targetApi="11">@style/TitleBarTextColor</item>
         <item name="titleTextStyle" tools:targetApi="11">@style/TitleBarTextColor</item>
-        <item name="android:homeAsUpIndicator" tools:targetApi="11">@drawable/ic_action_bar_back_arrow_lm</item>
+        <item name="android:homeAsUpIndicator" tools:targetApi="11">@drawable/ic_action_bar_back_arrow</item>
     </style>
 
     <style name="FlightTheme.OverlayMode">
@@ -165,10 +165,11 @@
     </style>
 
     <style name="TerminalMapTheme" parent="@android:style/Theme.Holo">
-        <item name="android:logo">@drawable/ic_stat_lm</item>
+        <item name="android:logo">@drawable/ic_ab_lm_logo</item>
         <item name="android:actionBarStyle">@style/TerminalMapActionBar</item>
         <item name="android:actionOverflowButtonStyle">@style/Widget.ActionBar.ActionButton.Overflow</item>
         <item name="android:windowBackground">@android:color/white</item>
+        <item name="android:homeAsUpIndicator" tools:targetApi="11">@drawable/ic_action_bar_back_arrow</item>
 
         <!-- PopupMenu -->
         <item name="android:dropDownListViewStyle">@style/TerminalMapThemeDropDownListView</item>
@@ -185,10 +186,6 @@
     <style name="TerminalMapThemeSpinnerDropDownItemStyle" parent="@style/Widget.AppCompat.DropDownItem.Spinner">
         <item name="android:background">@color/action_bar_bg_color</item>
         <item name="background">@color/action_bar_bg_color</item>
-    </style>
-
-    <style name="TerminalMapThemeDropDownListView" parent="@android:style/Widget.Holo.Light.ListView.DropDown">
-        <item name="android:background">@color/action_bar_bg_color</item>
     </style>
 
     <style name="Theme.AccountLib" parent="Theme.Base.AccountLib">
