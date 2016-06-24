@@ -72,7 +72,6 @@ class PackageOverviewPresenter(context: Context, attrs: AttributeSet) : BaseOver
         })
 
         changeHotelRoom.setOnMenuItemClickListener({
-            bundleOverviewHeader.toggleOverviewHeader(false)
             checkoutPresenter.toggleCheckoutButton(false)
             bundleWidget.collapseBundleWidgets()
             val params = Db.getPackageParams()
