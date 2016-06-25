@@ -18,6 +18,7 @@ import android.widget.Button
 import android.widget.LinearLayout
 import com.expedia.bookings.R
 import com.expedia.bookings.activity.AccountLibActivity
+import com.expedia.bookings.activity.FlightRulesActivity
 import com.expedia.bookings.activity.HotelRulesActivity
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.LineOfBusiness
@@ -40,7 +41,6 @@ import com.expedia.vm.packages.BaseCreateTripViewModel
 import com.expedia.vm.packages.BundlePriceViewModel
 import com.expedia.vm.traveler.CheckoutTravelerViewModel
 import com.mobiata.android.Log
-import com.squareup.phrase.Phrase
 import rx.subjects.PublishSubject
 import java.math.BigDecimal
 import kotlin.properties.Delegates
@@ -167,7 +167,11 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet) : Pre
         }
 
         legalInformationText.setOnClickListener {
-            context.startActivity(HotelRulesActivity.createIntent(context, LineOfBusiness.PACKAGES))
+            if (getLineOfBusiness() == LineOfBusiness.PACKAGES) {
+                context.startActivity(HotelRulesActivity.createIntent(context, getLineOfBusiness()))
+            } else {
+                context.startActivity(FlightRulesActivity.createIntent(context, getLineOfBusiness()))
+            }
         }
 
         handle.setOnTouchListener(HandleTouchListner())

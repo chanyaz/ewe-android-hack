@@ -6,7 +6,7 @@ import com.expedia.bookings.utils.CurrencyUtils;
 
 public class TripBucketItemFlightV2 extends TripBucketItem {
 
-	FlightCreateTripResponse flightCreateTripResponse;
+	public FlightCreateTripResponse flightCreateTripResponse;
 
 	public TripBucketItemFlightV2(FlightCreateTripResponse flightCreateTripResponse) {
 		this.flightCreateTripResponse = flightCreateTripResponse;
