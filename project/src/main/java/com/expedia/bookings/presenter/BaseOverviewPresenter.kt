@@ -151,7 +151,7 @@ abstract class BaseOverviewPresenter(context: Context, attrs: AttributeSet) : Pr
 
             checkoutPresenter.mainContent.visibility = if (forward) View.VISIBLE else View.GONE
             checkoutPresenter.mainContent.translationY = 0f
-            checkoutPresenter.handleShadow.visibility = View.GONE
+            checkoutPresenter.toolbarDropShadow.visibility = View.GONE
             bundleOverviewHeader.isDisabled = forward
             bundleOverviewHeader.nestedScrollView.foreground.alpha = if (forward) 255 else 0
             checkoutPresenter.chevron.rotation = if (forward) 0f else 180f

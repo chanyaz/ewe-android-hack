@@ -28,7 +28,7 @@ abstract  class BaseCheckoutViewModel(val context: Context) {
     // Outputs
     val infoCompleted = BehaviorSubject.create<Boolean>()
     val depositPolicyText = PublishSubject.create<Spanned>()
-    val legalText = PublishSubject.create<SpannableStringBuilder>()
+    val legalText = BehaviorSubject.create<SpannableStringBuilder>()
     val sliderPurchaseTotalText = PublishSubject.create<CharSequence>()
     val checkoutErrorObservable = PublishSubject.create<ApiError>()
     var email: String by Delegates.notNull()

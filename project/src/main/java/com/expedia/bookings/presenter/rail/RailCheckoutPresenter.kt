@@ -14,7 +14,7 @@ import com.expedia.vm.rail.RailCreateTripViewModel
 
 class RailCheckoutPresenter(context: Context, attrs: AttributeSet) : BaseCheckoutPresenter(context, attrs) {
 
-    override fun setUpCreateTripViewModel(vm: BaseCreateTripViewModel) {
+    override fun setupCreateTripViewModel(vm: BaseCreateTripViewModel) {
         vm as RailCreateTripViewModel
         vm.offerCodeSelectedObservable.subscribe {
             createTripDialog.show()
@@ -35,11 +35,11 @@ class RailCheckoutPresenter(context: Context, attrs: AttributeSet) : BaseCheckou
         travelerPresenter.visibility = View.VISIBLE
     }
 
-    override fun setCheckoutViewModel(): BaseCheckoutViewModel {
+    override fun makeCheckoutViewModel(): BaseCheckoutViewModel {
         return RailCheckoutViewModel(context)
     }
 
-    override fun setCreateTripViewModel(): RailCreateTripViewModel {
+    override fun makeCreateTripViewModel(): RailCreateTripViewModel {
         return RailCreateTripViewModel(Ui.getApplication(context).railComponent().railService())
     }
 

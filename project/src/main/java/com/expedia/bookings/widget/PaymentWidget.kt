@@ -379,7 +379,7 @@ open class PaymentWidget(context: Context, attr: AttributeSet) : Presenter(conte
 
     private val mValidFormsOfPaymentListener: ISectionEditable.SectionChangeListener = ISectionEditable.SectionChangeListener {
         val cardType = sectionBillingInfo.billingInfo?.paymentType
-        viewmodel.cardType.onNext(cardType)
+        viewmodel.cardTypeSubject.onNext(cardType)
     }
 
     /** Google Wallet **/

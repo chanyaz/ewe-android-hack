@@ -11,6 +11,8 @@ import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.PaymentType;
 import com.expedia.bookings.data.ValidPayment;
+import com.expedia.bookings.data.flights.ValidFormOfPayment;
+import com.expedia.bookings.data.utils.ValidFormOfPaymentUtils;
 import com.expedia.bookings.enums.TripBucketItemState;
 import com.expedia.bookings.utils.GsonUtil;
 import com.mobiata.android.Log;
@@ -90,6 +92,19 @@ public abstract class TripBucketItem implements JSONable {
 
 	public void setIsMerEmailOptInShownOnce(boolean shown) {
 		this.mIsMerEmailOptInShownOnce = shown;
+	}
+
+	public void addValidPaymentsV2(List<ValidFormOfPayment> payments) {
+		if (mValidPayments == null) {
+			mValidPayments = new ArrayList<>();
+		}
+
+		if (payments != null) {
+			for (ValidFormOfPayment payment : payments) {
+				ValidPayment oldPayment = ValidFormOfPaymentUtils.createFromValidFormOfPayment(payment);
+				ValidPayment.addValidPayment(mValidPayments, oldPayment);
+			}
+		}
 	}
 
 	public void addValidPayments(List<ValidPayment> payments) {

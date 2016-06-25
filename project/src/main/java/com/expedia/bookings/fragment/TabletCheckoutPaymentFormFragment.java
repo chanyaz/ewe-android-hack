@@ -33,6 +33,7 @@ import com.expedia.bookings.section.SectionLocation;
 import com.expedia.bookings.utils.BookingInfoUtils;
 import com.expedia.bookings.utils.CreditCardUtils;
 import com.mobiata.android.util.Ui;
+import com.squareup.phrase.Phrase;
 
 public class TabletCheckoutPaymentFormFragment extends TabletCheckoutDataFormFragment {
 
@@ -190,8 +191,9 @@ public class TabletCheckoutPaymentFormFragment extends TabletCheckoutDataFormFra
 							toggleCardMessage(true, true);
 						}
 						else if (item.getPaymentFee(mBillingInfo) != null) {
-							String message = getString(R.string.airline_processing_fee_TEMPLATE,
-								item.getPaymentFee(mBillingInfo).getFormattedMoney());
+							String message = Phrase.from(getContext(), R.string.airline_processing_fee_TEMPLATE)
+								.put("card_fee", item.getPaymentFee(mBillingInfo).getFormattedMoney())
+								.format().toString();
 							updateCardMessageText(message);
 							toggleCardMessage(true, true);
 						}

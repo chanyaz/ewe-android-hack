@@ -1667,6 +1667,9 @@
     <string name="flights_flight_overview_payment_fees">Payment Fees Info</string>
     <!-- Flights Free Cancellation messaging -->
     <string name="flights_free_cancellation">Free cancellation within 24 hours</string>
+    <!-- Card fee warning text on checkout overview.
+        Example: The airline charges a processing fee of $3.00 for using this card (cost included in the trip total). -->
+    <string name="flights_card_fee_warning_TEMPLATE">The airline charges a processing fee of {card_fee} for using this card (cost included in the trip total).</string>
 
     <!-- Flights -->
     <!-- Label for Flight Search in task manager -->
@@ -1903,8 +1906,8 @@
     <string name="card_info">Card Info</string>
 
     <!-- Edit CreditCard Fragment -->
-    <!-- Airline processing fee for this card: <Dollar Amount> (e.g. Airling processing fee for this card: $5) -->
-    <string name="airline_processing_fee_TEMPLATE">Airline processing fee for this card: &lt;b&gt;%1$s&lt;/b&gt;</string>
+    <!-- Airline processing fee for this card. Example: Airline processing fee for this card: $5 -->
+    <string name="airline_processing_fee_TEMPLATE">Airline processing fee for this card: &lt;b&gt;{card_fee}&lt;/b&gt;</string>
     <!-- Airline does not accept <Credit Card Brand> (e.g. "Airline does not accept Visa") -->
     <string name="airline_does_not_accept_cardtype_TEMPLATE">Airline does not accept %1$s</string>
     <!-- Hotel does not accept <Credit Card Brand> (e.g. "Hotel does not accept Visa") -->

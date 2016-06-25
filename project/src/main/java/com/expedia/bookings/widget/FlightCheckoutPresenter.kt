@@ -6,14 +6,26 @@ import android.view.View
 import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.flights.FlightCreateTripResponse
 import com.expedia.bookings.otto.Events
+import com.expedia.bookings.services.FlightServices
 import com.expedia.bookings.utils.Ui
+import com.expedia.util.subscribeText
+import com.expedia.util.subscribeTextAndVisibility
+import com.expedia.util.subscribeVisibility
 import com.expedia.vm.FlightCheckoutViewModel
 import com.expedia.vm.flights.FlightCreateTripViewModel
 import com.expedia.vm.packages.BaseCreateTripViewModel
 import com.squareup.otto.Subscribe
 
 class FlightCheckoutPresenter(context: Context, attr: AttributeSet) : BaseCheckoutPresenter(context, attr) {
-    override fun setUpCreateTripViewModel(vm : BaseCreateTripViewModel) {
+
+    init {
+        getCheckoutViewModel().showCardFees.subscribeVisibility(cardProcessingFeeTextView)
+        getCheckoutViewModel().showCardFees.subscribeVisibility(cardFeeWarningTextView)
+        getCheckoutViewModel().cardFeeTextSubject.subscribeTextAndVisibility(cardProcessingFeeTextView)
+        getCheckoutViewModel().cardFeeWarningTextSubject.subscribeText(cardFeeWarningTextView)
+    }
+
+    override fun setupCreateTripViewModel(vm : BaseCreateTripViewModel) {
         vm as FlightCreateTripViewModel
         vm.tripParams.subscribe {
             createTripDialog.show()
@@ -21,15 +33,17 @@ class FlightCheckoutPresenter(context: Context, attr: AttributeSet) : BaseChecko
         }
 
         vm.tripResponseObservable.subscribe { response -> response as FlightCreateTripResponse
+            // TODO - cache trip response and update total fare details when card is input
+
             loginWidget.updateRewardsText(getLineOfBusiness())
             createTripDialog.hide()
-            priceChangeWidget.viewmodel.originalPackagePrice.onNext(response.totalPrice)
-            priceChangeWidget.viewmodel.packagePrice.onNext(response.totalPrice)
-            totalPriceWidget.viewModel.total.onNext(response.totalPrice)
-            totalPriceWidget.viewModel.savings.onNext(response.totalPrice)
+            priceChangeWidget.viewmodel.originalPrice.onNext(response.tripTotalPayableIncludingFeeIfZeroPayableByPoints())
+            priceChangeWidget.viewmodel.newPrice.onNext(response.tripTotalPayableIncludingFeeIfZeroPayableByPoints())
+            totalPriceWidget.viewModel.total.onNext(response.tripTotalPayableIncludingFeeIfZeroPayableByPoints())
             //TODO: Add Breakdown
         }
-
+        vm.tripResponseObservable.map { it.validFormsOfPayment }
+                                 .subscribe(getCheckoutViewModel().validFormsOfPaymentSubject)
     }
 
     @Subscribe fun onUserLoggedIn( @Suppress("UNUSED_PARAMETER") event: Events.LoggedInSuccessful) {
@@ -50,12 +64,12 @@ class FlightCheckoutPresenter(context: Context, attr: AttributeSet) : BaseChecko
     override fun trackShowBundleOverview() {
     }
 
-    override fun setCheckoutViewModel(): FlightCheckoutViewModel {
-        return FlightCheckoutViewModel(context, Ui.getApplication(context).flightComponent().flightServices())
+    override fun makeCheckoutViewModel(): FlightCheckoutViewModel {
+        return FlightCheckoutViewModel(context, getFlightServices(), paymentWidgetViewModel.cardTypeSubject)
     }
 
-    override fun setCreateTripViewModel(): FlightCreateTripViewModel {
-        return FlightCreateTripViewModel(Ui.getApplication(context).flightComponent().flightServices())
+    override fun makeCreateTripViewModel(): FlightCreateTripViewModel {
+        return FlightCreateTripViewModel(getFlightServices(), getCheckoutViewModel().cardFeeForSelectedCard)
     }
 
     override fun getCheckoutViewModel(): FlightCheckoutViewModel {
@@ -64,5 +78,9 @@ class FlightCheckoutPresenter(context: Context, attr: AttributeSet) : BaseChecko
 
     override fun getCreateTripViewModel(): FlightCreateTripViewModel {
         return tripViewModel as FlightCreateTripViewModel
+    }
+
+    private fun getFlightServices(): FlightServices {
+        return Ui.getApplication(context).flightComponent().flightServices()
     }
 }

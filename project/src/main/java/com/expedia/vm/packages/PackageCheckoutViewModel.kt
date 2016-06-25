@@ -43,7 +43,7 @@ class PackageCheckoutViewModel(context: Context, val packageServices: PackageSer
             depositPolicyText.onNext(depositText)
 
             legalText.onNext(StrUtils.generateHotelsBookingStatement(context, PointOfSale.getPointOfSale().hotelBookingStatement.toString(), false))
-            sliderPurchaseTotalText.onNext(Phrase.from(context, R.string.your_card_will_be_charged_template).put("dueamount", it.getTripTotalExcludingFee().formattedPrice).format())
+            sliderPurchaseTotalText.onNext(Phrase.from(context, R.string.your_card_will_be_charged_template).put("dueamount", it.getTripTotalExcludingFee().formattedMoneyFromAmountAndCurrencyCode).format())
         }
 
         checkoutParams.subscribe { params -> params as PackageCheckoutParams
