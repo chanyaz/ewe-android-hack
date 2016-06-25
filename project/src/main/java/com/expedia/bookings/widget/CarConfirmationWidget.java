@@ -31,6 +31,7 @@ import com.expedia.bookings.data.trips.ItineraryManager;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.tracking.AdTracker;
 import com.expedia.bookings.tracking.OmnitureTracking;
+import com.expedia.bookings.utils.AccessibilityUtil;
 import com.expedia.bookings.utils.AddToCalendarUtils;
 import com.expedia.bookings.utils.CollectionUtils;
 import com.expedia.bookings.utils.DateFormatUtils;
@@ -111,6 +112,7 @@ public class CarConfirmationWidget extends FrameLayout {
 		Drawable navIcon = getResources().getDrawable(R.drawable.ic_close_white_24dp).mutate();
 		navIcon.setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_IN);
 		toolbar.setNavigationIcon(navIcon);
+		toolbar.setNavigationContentDescription(getResources().getString(R.string.toolbar_search_nav_icon_cont_desc));
 		toolbar.setNavigationOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -275,6 +277,10 @@ public class CarConfirmationWidget extends FrameLayout {
 
 		// Go to flights
 		NavUtils.goToFlightsUsingSearchParams(getContext());
+	}
+
+	public void setFocusOnToolbarForAccessibility() {
+		AccessibilityUtil.setFocusToToolbarNavigationIcon(toolbar);
 	}
 
 }
