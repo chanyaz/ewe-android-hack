@@ -31,28 +31,34 @@ class BundlePriceViewModel(val context: Context, val isSlidable: Boolean = false
             contentDescriptionObservable.onNext(description)
         }
 
-        Observable.combineLatest(total, savings, { total, savings ->
-            var packageSavings = Phrase.from(context, R.string.bundle_total_savings_TEMPLATE)
+        savings.subscribe { savings ->
+            val packageSavings = Phrase.from(context, R.string.bundle_total_savings_TEMPLATE)
                     .put("savings", savings.getFormattedMoney(Money.F_ALWAYS_TWO_PLACES_AFTER_DECIMAL))
                     .format().toString()
-            totalPriceObservable.onNext(total.getFormattedMoney(Money.F_ALWAYS_TWO_PLACES_AFTER_DECIMAL))
             savingsPriceObservable.onNext(packageSavings)
-            contentDescriptionObservable.onNext(getAccessibleContentDescription())
-        }).subscribe()
+            contentDescriptionObservable.onNext(getAccessibleContentDescription(isSlidable))
+        }
+
+        total.subscribe { total ->
+            totalPriceObservable.onNext(total.getFormattedMoney(Money.F_ALWAYS_TWO_PLACES_AFTER_DECIMAL))
+            contentDescriptionObservable.onNext(getAccessibleContentDescription(isSlidable))
+        }
     }
 
     fun getAccessibleContentDescription(isSlidable: Boolean = false, isExpanded: Boolean = false): String {
-        val description = if (!isSlidable) {
+        val description = if (!isSlidable && savingsPriceObservable.value != null && totalPriceObservable.value != null) {
             Phrase.from(context, R.string.bundle_overview_price_widget)
                     .put("totalprice", totalPriceObservable.value)
                     .put("savings", savingsPriceObservable.value)
                     .format().toString()
         } else if (isExpanded) {
             context.getString(R.string.bundle_overview_price_widget_button_close)
-        } else {
+        } else if (pricePerPersonObservable.value != null){
             Phrase.from(context, R.string.bundle_overview_price_widget_button_open_TEMPLATE)
                     .put("price_per_person", pricePerPersonObservable.value)
                     .format().toString()
+        } else {
+            ""
         }
         return description
     }

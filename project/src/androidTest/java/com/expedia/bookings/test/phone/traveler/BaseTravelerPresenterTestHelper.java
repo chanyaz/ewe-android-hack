@@ -14,12 +14,12 @@ import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.SuggestionV4;
 import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.data.TravelerName;
-import com.expedia.bookings.data.trips.TripBucket;
-import com.expedia.bookings.data.trips.TripBucketItemPackages;
-import com.expedia.bookings.data.ValidPayment;
 import com.expedia.bookings.data.flights.FlightTripDetails;
+import com.expedia.bookings.data.flights.ValidFormOfPayment;
 import com.expedia.bookings.data.packages.PackageCreateTripResponse;
 import com.expedia.bookings.data.packages.PackageSearchParams;
+import com.expedia.bookings.data.trips.TripBucket;
+import com.expedia.bookings.data.trips.TripBucketItemPackages;
 import com.expedia.bookings.enums.PassengerCategory;
 import com.expedia.bookings.presenter.packages.TravelerPresenter;
 import com.expedia.bookings.test.espresso.Common;
@@ -220,7 +220,7 @@ public class BaseTravelerPresenterTestHelper {
 
 	protected void generateMockTripWithPassport() {
 		PackageCreateTripResponse mockCreateTrip = mock(PackageCreateTripResponse.class);
-		mockCreateTrip.setValidFormsOfPayment(new ArrayList<ValidPayment>());
+		mockCreateTrip.setValidFormsOfPayment(new ArrayList<ValidFormOfPayment>());
 
 		TripBucketItemPackages mockPackagesItem = new TripBucketItemPackages(mockCreateTrip);
 

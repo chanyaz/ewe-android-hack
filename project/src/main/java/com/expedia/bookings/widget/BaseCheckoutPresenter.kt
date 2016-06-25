@@ -49,11 +49,14 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet) : Pre
         UserAccountRefresher.IUserAccountRefreshListener, AccountButton.AccountButtonClickListener {
 
     val handle: FrameLayout by bindView(R.id.handle)
-    val handleShadow: View by bindView(R.id.drop_shadow)
+    val toolbarDropShadow: View by bindView(R.id.drop_shadow)
     val chevron: View by bindView(R.id.chevron)
     val mainContent: LinearLayout by bindView(R.id.main_content)
     val scrollView: ScrollView by bindView(R.id.scrollView)
     val loginWidget: AccountButton by bindView(R.id.login_widget)
+
+    val cardProcessingFeeTextView: TextView by bindView(R.id.card_processing_fee)
+    val cardFeeWarningTextView: TextView by bindView(R.id.card_fee_warning_text)
     var paymentWidget: PaymentWidget by Delegates.notNull()
     val paymentViewStub: ViewStub by bindView(R.id.payment_info_card_view_stub)
 
@@ -61,7 +64,6 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet) : Pre
 
     val legalInformationText: TextView by bindView(R.id.legal_information_text_view)
     val hintContainer: LinearLayout by bindView(R.id.hint_container)
-    val dropShadowView: View by bindView(R.id.drop_shadow)
     val depositPolicyText: TextView by bindView(R.id.disclaimer_text)
 
     val bottomContainer: LinearLayout by bindView(R.id.bottom_container)
@@ -86,6 +88,8 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet) : Pre
 
     var sliderHeight = 0f
     var checkoutButtonHeight = 0f
+
+    val paymentWidgetViewModel = PaymentViewModel(context)
 
     protected var ckoViewModel: BaseCheckoutViewModel by notNullAndObservable { vm ->
         vm.creditCardRequired.subscribe { required ->
@@ -113,18 +117,18 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet) : Pre
                 createTripDialog.hide()
             }
         }
-        setUpCreateTripViewModel(vm)
+        setupCreateTripViewModel(vm)
     }
 
     init {
         View.inflate(context, R.layout.widget_base_checkout, this)
         paymentWidget = paymentViewStub.inflate() as PaymentWidget
-        paymentWidget.viewmodel = PaymentViewModel(context)
+        paymentWidget.viewmodel = paymentWidgetViewModel
         travelerPresenter.viewModel = CheckoutTravelerViewModel()
         priceChangeWidget.viewmodel = PriceChangeViewModel(context, getLineOfBusiness())
         totalPriceWidget.viewModel = BundlePriceViewModel(context)
-        ckoViewModel = setCheckoutViewModel()
-        tripViewModel = setCreateTripViewModel()
+        ckoViewModel = makeCheckoutViewModel()
+        tripViewModel = makeCreateTripViewModel()
         globalLayoutListener = (ViewTreeObserver.OnGlobalLayoutListener {
             val decorView = paymentWidgetRootWindow.decorView
             val windowVisibleDisplayFrameRect = Rect()
@@ -159,10 +163,10 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet) : Pre
 
         travelerPresenter.expandedSubject.subscribe { expanded ->
             if (expanded) {
-                dropShadowView.visibility = View.GONE
+                toolbarDropShadow.visibility = View.GONE
                 show(travelerPresenter)
             } else {
-                dropShadowView.visibility = View.VISIBLE
+                toolbarDropShadow.visibility = View.VISIBLE
             }
         }
 
@@ -221,19 +225,19 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet) : Pre
 
     private val defaultToTraveler = object : Presenter.Transition(CheckoutDefault::class.java, TravelerPresenter::class.java) {
         override fun startTransition(forward: Boolean) {
-            handle.setVisibility(forward)
-            loginWidget.setVisibility(forward)
+            handle.setInverseVisibility(forward)
+            loginWidget.setInverseVisibility(forward)
             hintContainer.visibility = if (forward) View.GONE else if (User.isLoggedIn(getContext())) View.GONE else View.VISIBLE
             paymentWidget.visibility = if (forward) View.GONE else (if (paymentWidget.isCreditCardRequired()) View.VISIBLE else View.GONE)
-            legalInformationText.setVisibility(forward)
-            depositPolicyText.setVisibility(forward)
-            bottomContainer.setVisibility(forward)
+            legalInformationText.setInverseVisibility(forward)
+            depositPolicyText.setInverseVisibility(forward)
+            bottomContainer.setInverseVisibility(forward)
         }
 
         override fun endTransition(forward: Boolean) {
             if (!forward) {
                 Ui.hideKeyboard(travelerPresenter)
-                handleShadow.visibility = View.GONE
+                toolbarDropShadow.visibility = View.GONE
                 animateInSlideToPurchase(true)
             }
         }
@@ -242,18 +246,20 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet) : Pre
     private val defaultToPayment = object : Presenter.Transition(CheckoutDefault::class.java, PackagePaymentWidget::class.java) {
 
         override fun startTransition(forward: Boolean) {
-            handle.setVisibility(forward)
-            loginWidget.setVisibility(forward)
+            handle.setInverseVisibility(forward)
+            loginWidget.setInverseVisibility(forward)
             hintContainer.visibility = if (forward) View.GONE else if (User.isLoggedIn(getContext())) View.GONE else View.VISIBLE
             travelerPresenter.visibility = if (!forward) View.VISIBLE else View.GONE
-            legalInformationText.setVisibility(forward)
-            depositPolicyText.setVisibility(forward)
-            bottomContainer.setVisibility(forward)
+            legalInformationText.setInverseVisibility(forward)
+            depositPolicyText.setInverseVisibility(forward)
+            bottomContainer.setInverseVisibility(forward)
+            cardFeeWarningTextView.setInverseVisibility(forward)
+            cardProcessingFeeTextView.visibility = if (forward && cardProcessingFeeTextView.text.isNotEmpty()) VISIBLE else GONE
             if (!forward) {
                 paymentWidget.show(PaymentWidget.PaymentDefault(), Presenter.FLAG_CLEAR_BACKSTACK)
                 paymentWidgetRootView.viewTreeObserver.removeOnGlobalLayoutListener(globalLayoutListener)
                 scrollView.layoutParams.height = height
-                handleShadow.visibility = View.GONE
+                toolbarDropShadow.visibility = View.GONE
             } else {
                 paymentWidgetRootView.viewTreeObserver.addOnGlobalLayoutListener(globalLayoutListener)
             }
@@ -391,7 +397,7 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet) : Pre
                 (MotionEvent.ACTION_DOWN) -> {
                     isClicked = true
                     originY = event.rawY
-                    handleShadow.visibility = View.VISIBLE
+                    toolbarDropShadow.visibility = View.VISIBLE
                 }
                 (MotionEvent.ACTION_UP) -> {
                     if (isClicked) {
@@ -407,7 +413,7 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet) : Pre
                             animCheckoutToTop()
                         }
                         originY = 0f
-                        handleShadow.visibility = View.GONE
+                        toolbarDropShadow.visibility = View.GONE
                     }
                 }
                 (MotionEvent.ACTION_MOVE) -> {
@@ -420,8 +426,12 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet) : Pre
         }
     }
 
-    private fun View.setVisibility(forward: Boolean) {
+    private fun View.setInverseVisibility(forward: Boolean) {
         this.visibility = if (forward) View.GONE else View.VISIBLE
+    }
+
+    private fun TextView.setInverseVisibility(forward: Boolean) {
+        this.visibility = if (!forward && this.text.isNotEmpty()) View.VISIBLE else View.GONE
     }
 
     fun resetAndShowTotalPriceWidget() {
@@ -436,9 +446,9 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet) : Pre
     abstract fun updateTravelerPresenter()
     abstract fun trackShowSlideToPurchase()
     abstract fun trackShowBundleOverview()
-    abstract fun setCheckoutViewModel(): BaseCheckoutViewModel
-    abstract fun setCreateTripViewModel(): BaseCreateTripViewModel
+    abstract fun makeCheckoutViewModel(): BaseCheckoutViewModel
+    abstract fun makeCreateTripViewModel(): BaseCreateTripViewModel
     abstract fun getCheckoutViewModel(): BaseCheckoutViewModel
     abstract fun getCreateTripViewModel(): BaseCreateTripViewModel
-    abstract fun setUpCreateTripViewModel(vm: BaseCreateTripViewModel)
+    abstract fun setupCreateTripViewModel(vm: BaseCreateTripViewModel)
 }

@@ -7,6 +7,7 @@ import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.trips.TripBucketItemPackages
 import com.expedia.bookings.data.ValidPayment
 import com.expedia.bookings.data.flights.FlightTripDetails
+import com.expedia.bookings.data.flights.ValidFormOfPayment
 import com.expedia.bookings.data.packages.PackageCreateTripResponse
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.vm.traveler.TravelerViewModel
@@ -71,7 +72,7 @@ class TravelerViewModelTest {
         val response = PackageCreateTripResponse()
         response.packageDetails = packageDetails
 
-        val validFormsOfPayment = ArrayList<ValidPayment>()
+        val validFormsOfPayment = ArrayList<ValidFormOfPayment>()
         response.validFormsOfPayment = validFormsOfPayment
 
         val trip = TripBucketItemPackages(response)

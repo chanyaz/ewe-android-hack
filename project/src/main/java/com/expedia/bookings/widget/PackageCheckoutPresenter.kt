@@ -17,7 +17,7 @@ import java.math.BigDecimal
 
 class PackageCheckoutPresenter(context: Context, attr: AttributeSet) : BaseCheckoutPresenter(context, attr) {
 
-    override fun setUpCreateTripViewModel(vm : BaseCreateTripViewModel) {
+    override fun setupCreateTripViewModel(vm : BaseCreateTripViewModel) {
         vm as PackageCreateTripViewModel
         vm.tripParams.subscribe {
             userAccountRefresher.ensureAccountIsRefreshed()
@@ -25,8 +25,8 @@ class PackageCheckoutPresenter(context: Context, attr: AttributeSet) : BaseCheck
         vm.tripResponseObservable.subscribe { response -> response as PackageCreateTripResponse
             clearCCNumber()
             loginWidget.updateRewardsText(getLineOfBusiness())
-            priceChangeWidget.viewmodel.originalPackagePrice.onNext(response.oldPackageDetails?.pricing?.packageTotal)
-            priceChangeWidget.viewmodel.packagePrice.onNext(response.packageDetails.pricing.packageTotal)
+            priceChangeWidget.viewmodel.originalPrice.onNext(response.oldPackageDetails?.pricing?.packageTotal)
+            priceChangeWidget.viewmodel.newPrice.onNext(response.packageDetails.pricing.packageTotal)
             totalPriceWidget.packagebreakdown.viewmodel.newDataObservable.onNext(response.packageDetails)
             var packageTotalPrice = response.packageDetails.pricing
             totalPriceWidget.viewModel.total.onNext(Money(BigDecimal(packageTotalPrice.packageTotal.amount.toDouble()),
@@ -58,11 +58,11 @@ class PackageCheckoutPresenter(context: Context, attr: AttributeSet) : BaseCheck
         PackagesTracking().trackBundleOverviewPageLoad(Db.getTripBucket().`package`.mPackageTripResponse.packageDetails)
     }
 
-    override fun setCheckoutViewModel() : PackageCheckoutViewModel {
+    override fun makeCheckoutViewModel() : PackageCheckoutViewModel {
         return PackageCheckoutViewModel(context, Ui.getApplication(context).packageComponent().packageServices())
     }
 
-    override fun setCreateTripViewModel() : PackageCreateTripViewModel {
+    override fun makeCreateTripViewModel() : PackageCreateTripViewModel {
         return PackageCreateTripViewModel(Ui.getApplication(context).packageComponent().packageServices())
     }
 

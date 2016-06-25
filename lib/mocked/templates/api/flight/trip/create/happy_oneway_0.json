@@ -64,6 +64,7 @@
                     },
                     "totalPrice": {
                         "amount": "689.00",
+                        "currencyCode": "USD",
                         "formattedPrice": "$689.00",
                         "formattedWholePrice": "$689"
                     }
@@ -95,6 +96,7 @@
             "totalFare": "696.00",
             "totalFarePrice": {
                 "amount": "696.00",
+                "currencyCode": "USD",
                 "formattedPrice": "$696.00",
                 "formattedWholePrice": "$696"
             }
@@ -132,6 +134,7 @@
     "tealeafTransactionId": "tealeafFlight:${productKey}",
     "totalPrice": {
         "amount": "696.00",
+        "currencyCode": "USD",
         "formattedPrice": "$696.00",
         "formattedWholePrice": "$696"
     },

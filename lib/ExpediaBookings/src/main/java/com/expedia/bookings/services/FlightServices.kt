@@ -24,6 +24,7 @@ import rx.Scheduler
 import java.util.ArrayList
 import java.util.regex.Pattern
 
+// "open" so we can mock for unit tests
 open class FlightServices(endpoint: String, okHttpClient: OkHttpClient, interceptor: Interceptor, val observeOn: Scheduler, val subscribeOn: Scheduler) {
     val hourMinuteFormatter = DateTimeFormat.forPattern("hh:mma")
     val patternHour = Pattern.compile("(?<=PT)([0-9]+)(?=H)")
@@ -107,12 +108,14 @@ open class FlightServices(endpoint: String, okHttpClient: OkHttpClient, intercep
                 }
     }
 
-    fun createTrip(params: FlightCreateTripParams): Observable<FlightCreateTripResponse> {
+    // open so we can use Mockito to mock FlightServices
+    open fun createTrip(params: FlightCreateTripParams): Observable<FlightCreateTripResponse> {
         return flightApi.createTrip(params.toQueryMap()).observeOn(observeOn)
                 .subscribeOn(subscribeOn)
     }
 
-    fun checkout(params: Map<String, Any>): Observable<FlightCheckoutResponse> {
+    // open so we can use Mockito to mock FlightServices
+    open fun checkout(params: Map<String, Any>): Observable<FlightCheckoutResponse> {
         return flightApi.checkout(params).observeOn(observeOn)
                 .subscribeOn(subscribeOn)
     }

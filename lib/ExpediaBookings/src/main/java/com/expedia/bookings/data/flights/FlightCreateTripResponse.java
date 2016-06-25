@@ -15,6 +15,7 @@ public class FlightCreateTripResponse extends TripResponse {
 	public List<InsuranceProduct> availableInsuranceProducts;
 	public FlightTripDetails details;
 	public Money totalPrice;
+	public Money selectedCardFees;
 	public TripDetails newTrip;
 	public String tealeafTransactionId;
 
@@ -24,12 +25,15 @@ public class FlightCreateTripResponse extends TripResponse {
 	@NotNull
 	@Override
 	public Money getTripTotalExcludingFee() {
-		return totalPrice;
+		throw new UnsupportedOperationException("TripTotalExcludingFee is not implemented for flights. totalPrice field is untouched/fee-less");
 	}
 
+	@NotNull
 	@Override
 	public Money tripTotalPayableIncludingFeeIfZeroPayableByPoints() {
-		throw new UnsupportedOperationException("TripTotalIncludingFee is not implemented for flights");
+		Money totalPriceWithFee = totalPrice.copy();
+		totalPriceWithFee.add(selectedCardFees);
+		return totalPriceWithFee;
 	}
 
 	@NotNull

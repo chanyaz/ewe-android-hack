@@ -658,6 +658,7 @@ DummyFiletoHandleKotlinLintError {
 		R.layout.process_dialog_layout,
 		R.menu.menu_search_item,
 		R.string.accessibility_cont_desc_role_button_expand,
-		R.string.accessibility_cont_desc_role_button_collapse
+		R.string.accessibility_cont_desc_role_button_collapse,
+		R.string.flights_card_fee_warning_TEMPLATE
 	};
 }

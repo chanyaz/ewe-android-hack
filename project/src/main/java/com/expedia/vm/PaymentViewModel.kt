@@ -31,7 +31,7 @@ class PaymentViewModel(val context: Context) {
     val emptyBillingInfo = PublishSubject.create<Unit>()
     val storedCardRemoved = PublishSubject.create<StoredCreditCard?>()
 
-    val cardType = PublishSubject.create<PaymentType?>()
+    val cardTypeSubject = PublishSubject.create<PaymentType?>()
     val userLogin = PublishSubject.create<Boolean>()
     val isCreditCardRequired = BehaviorSubject.create<Boolean>(false)
     val isZipValidationRequired = BehaviorSubject.create<Boolean>(false)
@@ -47,7 +47,6 @@ class PaymentViewModel(val context: Context) {
     val pwpSmallIcon = PublishSubject.create<Boolean>()
     val tempCard = PublishSubject.create<Pair<String, Drawable>>()
     val invalidPayment = PublishSubject.create<String?>()
-
     val userHasAtleastOneStoredCard = PublishSubject.create<Boolean>()
     val onStoredCardChosen = PublishSubject.create<Unit>()
 
@@ -72,22 +71,23 @@ class PaymentViewModel(val context: Context) {
                 tempCard.onNext(Pair("", getCardIcon(null)))
                 setPaymentTileInfo(null, title, subTitle, it.splitsType, it.status)
             } else if (it.info.isTempCard && it.info.saveCardToExpediaAccount) {
-                var title = manuallyEnteredCard(it.info.paymentType, it.info.number)
+                val title = getCardTypeAndLast4Digits(it.info.paymentType, it.info.number)
                 tempCard.onNext(Pair("", getCardIcon(it.info.paymentType)))
                 setPaymentTileInfo(it.info.paymentType, title, resources.getString(R.string.checkout_tap_to_edit), it.splitsType, it.status)
                 Db.getWorkingBillingInfoManager().setWorkingBillingInfoAndBase(it.info)
             } else if (it.info.hasStoredCard()) {
                 val card = it.info.storedCard
-                var title = card.description
+                val title = card.description
                 tempCard.onNext(Pair("", getCardIcon(card.type)))
                 setPaymentTileInfo(card.type, title, resources.getString(R.string.checkout_tap_to_edit), it.splitsType, it.status)
             } else {
-                val cardNumber = it.info.number
-                var title = manuallyEnteredCard(it.info.paymentType, cardNumber)
-                if (it.info.isTempCard && !it.info.saveCardToExpediaAccount) {
-                    tempCard.onNext(Pair(title, getCardIcon(it.info.paymentType)))
+                val card = it.info
+                val cardNumber = card.number
+                val title = getCardTypeAndLast4Digits(card.paymentType, cardNumber)
+                if (card.isTempCard && !card.saveCardToExpediaAccount) {
+                    tempCard.onNext(Pair(title, getCardIcon(card.paymentType)))
                 }
-                setPaymentTileInfo(it.info.paymentType, title, resources.getString(R.string.checkout_tap_to_edit), it.splitsType, it.status)
+                setPaymentTileInfo(card.paymentType, title, resources.getString(R.string.checkout_tap_to_edit), it.splitsType, it.status)
                 Db.getWorkingBillingInfoManager().setWorkingBillingInfoAndBase(it.info)
             }
             Db.getWorkingBillingInfoManager().commitWorkingBillingInfoToDB();
@@ -109,7 +109,7 @@ class PaymentViewModel(val context: Context) {
             }
         }
 
-        cardType.subscribe { cardType ->
+        cardTypeSubject.subscribe { cardType ->
             val tripItem = Db.getTripBucket().getItem(lineOfBusiness.value)
             var message: String? = null
             if (tripItem != null && cardType != null && !tripItem.isPaymentTypeSupported(cardType)) {
@@ -165,7 +165,7 @@ class PaymentViewModel(val context: Context) {
         }
     }
 
-    private fun manuallyEnteredCard(paymentType: PaymentType?, cardNumber: String): String {
+    private fun getCardTypeAndLast4Digits(paymentType: PaymentType?, cardNumber: String): String {
         return Phrase.from(context, R.string.checkout_selected_card)
                 .put("cardtype", CreditCardUtils.getHumanReadableCardTypeName(context, paymentType))
                 .put("cardno", cardNumber.drop(cardNumber.length - 4))

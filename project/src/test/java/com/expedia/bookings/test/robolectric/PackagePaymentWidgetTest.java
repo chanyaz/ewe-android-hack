@@ -18,9 +18,10 @@ import com.expedia.bookings.data.BillingInfo;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.Location;
-import com.expedia.bookings.data.trips.TripBucketItemPackages;
-import com.expedia.bookings.data.ValidPayment;
+import com.expedia.bookings.data.flights.ValidFormOfPayment;
 import com.expedia.bookings.data.packages.PackageCreateTripResponse;
+import com.expedia.bookings.data.trips.TripBucketItemPackages;
+import com.expedia.bookings.data.utils.ValidFormOfPaymentUtils;
 import com.expedia.bookings.widget.packages.PackagePaymentWidget;
 import com.expedia.vm.PaymentViewModel;
 
@@ -187,10 +188,10 @@ public class PackagePaymentWidgetTest {
 
 	private void givenTripResponse(String paymentName) {
 		PackageCreateTripResponse response = new PackageCreateTripResponse();
-		ValidPayment amexPayment = new ValidPayment();
+		ValidFormOfPayment amexPayment = new ValidFormOfPayment();
 		amexPayment.name = paymentName;
-		List<ValidPayment> validFormsOfPayment = new ArrayList<>();
-		ValidPayment.addValidPayment(validFormsOfPayment, amexPayment);
+		List<ValidFormOfPayment> validFormsOfPayment = new ArrayList<>();
+		ValidFormOfPaymentUtils.addValidPayment(validFormsOfPayment, amexPayment);
 		response.setValidFormsOfPayment(validFormsOfPayment);
 		TripBucketItemPackages trip = new TripBucketItemPackages(response);
 		Db.getTripBucket().clear(LineOfBusiness.PACKAGES);

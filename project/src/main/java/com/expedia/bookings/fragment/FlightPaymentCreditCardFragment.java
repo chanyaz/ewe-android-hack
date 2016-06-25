@@ -35,6 +35,7 @@ import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.CreditCardUtils;
 import com.expedia.bookings.utils.FocusViewRunnable;
 import com.expedia.bookings.utils.Ui;
+import com.squareup.phrase.Phrase;
 
 public class FlightPaymentCreditCardFragment extends Fragment implements Validatable {
 
@@ -99,8 +100,9 @@ public class FlightPaymentCreditCardFragment extends Fragment implements Validat
 						toggleCardMessage(true, true);
 					}
 					else if (paymentFee != null && !paymentFee.isZero()) {
-						String message = getString(R.string.airline_processing_fee_TEMPLATE,
-							paymentFee.getFormattedMoney());
+						String message = Phrase.from(getContext(), R.string.airline_processing_fee_TEMPLATE)
+							.put("card_fee", paymentFee.getFormattedMoney())
+							.format().toString();
 						updateCardMessage(message,
 							ContextCompat.getColor(getContext(), R.color.flight_card_airline_fee_warning));
 						toggleCardMessage(true, true);
