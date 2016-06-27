@@ -73,9 +73,10 @@ public class PackageBundleOverviewPresenterTest extends PackageTestCase {
 
 		PackageScreen.hotelBundle().check(matches(hasDescendant(
 			allOf(isDisplayed(), withText("Package Happy Path")))));
+
+		final DateTimeFormatter dtf = DateTimeFormat.forPattern("yyyy-MM-dd");
 		PackageScreen.hotelBundle().check(matches(hasDescendant(
-			allOf(isDisplayed(), withText(
-				PackageScreen.getDatesGuestInfoText(LocalDate.now().plusDays(3), LocalDate.now().plusDays(8)))))));
+			allOf(isDisplayed(), withText(PackageScreen.getDatesGuestInfoText(dtf.parseLocalDate("2016-02-02"), dtf.parseLocalDate("2016-02-04")))))));
 		PackageScreen.hotelDetailsIcon().check(matches(isEnabled()));
 
 		PackageScreen.outboundFlightInfo().check(matches(isEnabled()));

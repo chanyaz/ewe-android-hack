@@ -63,7 +63,7 @@ class PackageCheckoutPresenter(context: Context, attr: AttributeSet) : BaseCheck
     }
 
     override fun makeCreateTripViewModel() : PackageCreateTripViewModel {
-        return PackageCreateTripViewModel(Ui.getApplication(context).packageComponent().packageServices())
+        return PackageCreateTripViewModel(Ui.getApplication(context).packageComponent().packageServices(), context)
     }
 
     override fun getCheckoutViewModel(): PackageCheckoutViewModel {
