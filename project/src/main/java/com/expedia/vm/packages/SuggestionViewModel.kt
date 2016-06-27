@@ -26,11 +26,10 @@ class SuggestionViewModel(isCustomerSelectingOrigin: Boolean) {
                 titleObservable.onNext(
                         Html.fromHtml(StrUtils.formatAirportNameForPackage(suggestion.regionNames.displayName)).toString())
                 subtitleObservable.onNext(
-                        Html.fromHtml(StrUtils.formatCityStateCountryName(suggestion.regionNames.displayName)).toString())
+                        StrUtils.formatCityStateName(Html.fromHtml(suggestion.regionNames.displayName).toString()))
             } else {
                 titleObservable.onNext(Html.fromHtml(suggestion.regionNames.displayName).toString())
                 subtitleObservable.onNext("")
-
             }
 
             isChildObservable.onNext(suggestion.hierarchyInfo?.isChild ?: false)
