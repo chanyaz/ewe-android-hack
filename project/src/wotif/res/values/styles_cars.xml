@@ -30,5 +30,6 @@
         <item name="traveler_checkout_circle_drawable">@drawable/car_driver_checkout_circle</item>
         <item name="checkout_icon_right_margin_attr">@dimen/checkout_icon_right_margin_car_lx</item>
         <item name="paymentWidgetLayout">@layout/payment_widget</item>
+        <item name="skin_errorWidgetEditButtonStyle">@style/ErrorActionButton</item>
     </style>
 </resources>

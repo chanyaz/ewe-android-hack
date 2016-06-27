@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- Travelocity Rating bar -->
+    <!-- Wotif Rating bar -->
     <style name="RatingBar.UserReview.Blue">
         <item name="android:progressDrawable">@drawable/ratingbar_userreview_blue</item>
     </style>
@@ -41,4 +41,5 @@
         <item name="android:textColor">@color/tablet_map_pin_text_color</item>
         <item name="android:textSize">14sp</item>
     </style>
+
 </resources>
