@@ -100,7 +100,7 @@ class SlidingBundleWidget(context: Context, attrs: AttributeSet?) : FrameLayout(
         bundlePriceWidget.setBackgroundColor(if (forward) ContextCompat.getColor(context, R.color.packages_primary_color) else Color.WHITE)
         translationY = if (forward) statusBarHeight.toFloat() else height.toFloat() - bundlePriceWidget.height
         isMoving = false
-        bundlePriceWidget.contentDescription = bundlePriceWidget.viewModel.getAccessibleContentDescription(true, forward)
+        bundlePriceWidget.contentDescription = bundlePriceWidget.viewModel.getAccessibleContentDescription(false, true, forward)
         if (forward && trackLoad) {
             PackagesTracking().trackViewBundlePageLoad()
         }

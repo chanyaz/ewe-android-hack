@@ -4,6 +4,7 @@ import org.joda.time.LocalDate;
 
 import com.expedia.bookings.test.espresso.Common;
 import com.expedia.bookings.test.espresso.PackageTestCase;
+import com.expedia.bookings.test.espresso.ViewActions;
 import com.expedia.bookings.test.phone.hotels.HotelScreen;
 import com.expedia.bookings.test.phone.packages.PackageScreen;
 import com.expedia.bookings.utils.DateUtils;
@@ -28,7 +29,7 @@ public class PackagesBundleOverviewTest extends PackageTestCase {
 			allOf(isDisplayed(), withText("Trip to Detroit, MI")))));
 
 		checkBundleOverviewHotelContentDescription(true);
-		checkBundleTotalWidgetContentDescription("$0.00", "$0.00");
+		checkBundleTotalWidgetContentDescription("$0.00", "$0.00", false);
 
 		PackageScreen.outboundFlightInfo().check(matches(hasDescendant(
 			allOf(isDisplayed(), withText("Flight to (DTW) Detroit")))));
@@ -48,7 +49,19 @@ public class PackagesBundleOverviewTest extends PackageTestCase {
 
 		Common.pressBack();
 		checkBundleOverviewHotelContentDescription("Package Happy Path");
-		checkBundleTotalWidgetContentDescription("$3,863.38", "$595.24");
+		checkBundleTotalWidgetContentDescription("$3,863.38", "$595.24", false);
+
+		PackageScreen.outboundFlight().perform(click());
+		PackageScreen.selectFlight(0);
+		PackageScreen.selectThisFlight().perform(click());
+		Common.pressBack();
+		checkBundleTotalWidgetContentDescription("$4,211.90", "$540.62", false);
+
+		PackageScreen.inboundFLight().perform(click());
+		PackageScreen.selectFlight(0);
+		PackageScreen.selectThisFlight().perform(ViewActions.waitForViewToDisplay());
+		PackageScreen.selectThisFlight().perform(click());
+		checkBundleTotalWidgetContentDescription("$2,538.62", "$56.50", true);
 	}
 
 	private void checkBundleOverviewHotelContentDescription(boolean searchCompleted) {
@@ -78,8 +91,13 @@ public class PackagesBundleOverviewTest extends PackageTestCase {
 			"You have selected hotel " + selectedHotelName + " from " + startDate + " to " + endDate + ", for 1 Guest. Button to expand hotel details.")));
 	}
 
-	private void checkBundleTotalWidgetContentDescription(String totalPrice, String totalSaved) {
-		PackageScreen.bundleTotalFooterWidget().check((matches(withContentDescription("Bundle total is " + totalPrice + ". This price includes taxes, fees for both flights and hotel. " + totalSaved + " Saved"))));
+	private void checkBundleTotalWidgetContentDescription(String totalPrice, String totalSaved, boolean isCostBreakdownEnabled) {
+		if (isCostBreakdownEnabled) {
+			PackageScreen.bundleTotalFooterWidget().check((matches(withContentDescription("Bundle total is " + totalPrice + ". This price includes taxes, fees for both flights and hotel. " + totalSaved + " Saved. Cost Breakdown dialog. Button."))));
+		}
+		else {
+			PackageScreen.bundleTotalFooterWidget().check((matches(withContentDescription("Bundle total is " + totalPrice + ". This price includes taxes, fees for both flights and hotel. " + totalSaved + " Saved"))));
+		}
 	}
 
 	private void checkBundleSlidingWidgetContentDescription(String pricePerPerson, boolean isOpened) {
@@ -97,7 +115,7 @@ public class PackagesBundleOverviewTest extends PackageTestCase {
 		checkBundleSlidingWidgetContentDescription(pricePerPerson, false);
 		PackageScreen.bundleTotalSlidingWidget().perform(click());
 		Common.delay(1);
-		checkBundleTotalWidgetContentDescription(packageTotalPrice, totalSaved);
+		checkBundleTotalWidgetContentDescription(packageTotalPrice, totalSaved, false);
 		checkBundleSlidingWidgetContentDescription(pricePerPerson, true);
 		PackageScreen.bundleTotalSlidingWidget().perform(click());
 		Common.delay(1);
