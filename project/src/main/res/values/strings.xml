@@ -3808,6 +3808,11 @@
     <string name="cars_filter_transmission_automatic_button_unselected_cont_desc">Automatic transmission. Unselected</string>
     <string name="cars_filter_transmission_all_button_unselected_cont_desc">All transmissions. Unselected</string>
 
+    <!-- Content description for car offer reserve button e.g. Dollar, Chevrolet Spark or Similar, Reserve button-->
+    <string name="cars_offer_reserve_button_cont_desc_TEMPLATE">{vendor}, {make}, Reserve button</string>
+    <!-- Content description for car offer view details button e.g. Dollar, Chevrolet Spark or Similar, View details button-->
+    <string name="cars_offer_view_details_button_cont_desc_TEMPLATE">{vendor}, {make}, View details button</string>
+
     <!-- Tablet Confirmation Screen -->
     <!-- Header text to indicating booking confirmed for hotel -->
     <string name="tablet_confirmation_hotel_booked">Your hotel is booked!</string>
