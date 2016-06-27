@@ -65,7 +65,10 @@ public class ApiError extends RuntimeException {
 		INVALID_CARD_NUMBER,
 		CID_DID_NOT_MATCHED,
 		INVALID_CARD_EXPIRATION_DATE,
-		CARD_LIMIT_EXCEEDED
+		CARD_LIMIT_EXCEEDED,
+
+		//Rail errors
+		RAIL_PRODUCT_LOOKUP_ERROR
 	}
 
 	public enum DetailCode {

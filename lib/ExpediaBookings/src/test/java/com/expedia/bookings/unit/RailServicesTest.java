@@ -2,6 +2,7 @@ package com.expedia.bookings.unit;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
 
 import org.joda.time.LocalDate;
@@ -12,16 +13,13 @@ import org.junit.Test;
 import com.expedia.bookings.data.SuggestionV4;
 import com.expedia.bookings.data.rail.RailPassenger;
 import com.expedia.bookings.data.rail.requests.RailCheckoutRequest;
-import com.expedia.bookings.data.rail.requests.RailDetailsRequest;
-import com.expedia.bookings.data.rail.requests.RailValidateRequest;
 import com.expedia.bookings.data.rail.requests.api.RailApiSearchModel;
 import com.expedia.bookings.data.rail.responses.RailCheckoutResponse;
 import com.expedia.bookings.data.rail.responses.RailCreateTripResponse;
-import com.expedia.bookings.data.rail.responses.RailDetailsResponse;
 import com.expedia.bookings.data.rail.responses.RailSearchResponse;
-import com.expedia.bookings.data.rail.responses.RailValidateResponse;
 import com.expedia.bookings.interceptors.MockInterceptor;
 import com.expedia.bookings.services.RailServices;
+import com.expedia.bookings.utils.Constants;
 import com.mobiata.mocke3.ExpediaDispatcher;
 import com.mobiata.mocke3.FileSystemOpener;
 
@@ -33,7 +31,6 @@ import rx.observers.TestSubscriber;
 import rx.schedulers.Schedulers;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
 
 public class RailServicesTest {
 
@@ -42,21 +39,17 @@ public class RailServicesTest {
 	private RailServices service;
 	private RailApiSearchModel railSearchRequest;
 	private TestSubscriber<RailSearchResponse> searchResponseObserver;
-	private TestSubscriber<RailDetailsResponse> detailsResponseObserver;
-	private TestSubscriber<RailValidateResponse> validateResponseObserver;
 	private TestSubscriber<RailCreateTripResponse> createTripResponseObserver;
 	private TestSubscriber<RailCheckoutResponse> checkoutTripResponseObserver;
-	private RailDetailsRequest railDetailsRequest;
-	private RailValidateRequest railValidateRequest;
-
 
 	@Before
 	public void before() throws IOException {
 		HttpLoggingInterceptor logger = new HttpLoggingInterceptor();
 		logger.setLevel(HttpLoggingInterceptor.Level.BODY);
 		Interceptor interceptor = new MockInterceptor();
-		service = new RailServices("http://localhost:" + server.getPort(),
-			new OkHttpClient.Builder().addInterceptor(logger).build(),
+		HashMap<String, String> urlMap = new HashMap<>();
+		urlMap.put(Constants.MOCK_MODE, "http://localhost:" + server.getPort());
+		service = new RailServices(urlMap, new OkHttpClient.Builder().addInterceptor(logger).build(),
 			interceptor, Schedulers.immediate(), Schedulers.immediate());
 
 		String root = new File("../mocked/templates").getCanonicalPath();
@@ -64,8 +57,6 @@ public class RailServicesTest {
 		server.setDispatcher(new ExpediaDispatcher(opener));
 
 		searchResponseObserver = new TestSubscriber();
-		detailsResponseObserver = new TestSubscriber();
-		validateResponseObserver = new TestSubscriber();
 		createTripResponseObserver = new TestSubscriber();
 		checkoutTripResponseObserver = new TestSubscriber();
 	}
@@ -83,33 +74,7 @@ public class RailServicesTest {
 		List<RailPassenger> passengers = railSearchResponse.passengerList;
 		assertEquals(1, passengers.size());
 		assertEquals(65, passengers.get(0).age);
-	}
-
-	@Test
-	public void happyMockDetails() {
-		givenHappyDetailsRequest();
-
-		service.railDetails(railDetailsRequest, detailsResponseObserver);
-		detailsResponseObserver.awaitTerminalEvent();
-
-		detailsResponseObserver.assertCompleted();
-		detailsResponseObserver.assertValueCount(1);
-		RailDetailsResponse railDetailsResponse = detailsResponseObserver.getOnNextEvents().get(0);
-		assertNotNull(railDetailsResponse.railGetDetailsResult);
-	}
-
-	@Test
-	public void happyMockValidate() {
-		givenHappyValidateRequest();
-
-		service.railValidate(railValidateRequest, validateResponseObserver);
-		validateResponseObserver.awaitTerminalEvent();
-
-		validateResponseObserver.assertCompleted();
-		validateResponseObserver.assertValueCount(1);
-		RailValidateResponse railValidateResponse = validateResponseObserver.getOnNextEvents().get(0);
-		// TODO validate the response
-		assertNotNull(railValidateResponse.railGetDetailsResult);
+		assertEquals(true, passengers.get(0).primaryTraveler);
 	}
 
 	@Test
@@ -123,7 +88,7 @@ public class RailServicesTest {
 		createTripResponseObserver.assertValueCount(1);
 		RailCreateTripResponse createTripResponse = createTripResponseObserver.getOnNextEvents().get(0);
 
-		assertEquals("b6b3315e-6901-4926-a8db-57c9eede23a2", createTripResponse.tripId);
+		assertEquals("e6f8caad-9115-4c8c-9e45-db0002c4e3cd", createTripResponse.tripId);
 		assertEquals(1, createTripResponse.railsProducts.size());
 	}
 
@@ -139,14 +104,6 @@ public class RailServicesTest {
 		RailCheckoutResponse checkoutResponse = checkoutTripResponseObserver.getOnNextEvents().get(0);
 
 		assertEquals("8009690310416", checkoutResponse.orderId);
-	}
-
-	private void givenHappyValidateRequest() {
-		railValidateRequest = new RailValidateRequest();
-	}
-
-	private void givenHappyDetailsRequest() {
-		railDetailsRequest = new RailDetailsRequest();
 	}
 
 	private void givenHappySearchRequest() {
