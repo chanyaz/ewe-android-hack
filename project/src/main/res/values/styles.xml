@@ -1252,4 +1252,9 @@
         <item name="android:textSize">16sp</item>
         <item name="android:textStyle">bold</item>
     </style>
+
+    <style name="ErrorActionButton" parent="Core.Widget.Button">
+        <item name="android:background">@drawable/error_button_selector</item>
+    </style>
+
 </resources>
