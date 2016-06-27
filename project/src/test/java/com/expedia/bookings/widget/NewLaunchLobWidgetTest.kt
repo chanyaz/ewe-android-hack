@@ -1,0 +1,82 @@
+package com.expedia.bookings.widget
+
+import android.content.Context
+import android.support.v7.widget.RecyclerView
+import android.view.LayoutInflater
+import com.expedia.bookings.R
+import com.expedia.bookings.data.LineOfBusiness
+import com.expedia.bookings.data.LobInfo
+import com.expedia.bookings.data.pos.PointOfSale
+import com.expedia.bookings.test.robolectric.RobolectricRunner
+import com.mobiata.android.util.SettingUtils
+import org.junit.Before
+import org.junit.Test
+import org.junit.runner.RunWith
+import org.robolectric.RuntimeEnvironment
+import rx.subjects.BehaviorSubject
+import java.util.HashMap
+import kotlin.properties.Delegates
+import kotlin.test.assertNotNull
+
+
+@RunWith(RobolectricRunner::class)
+class NewLaunchLobWidgetTest {
+
+    var newLaunchLobWidget: NewLaunchLobWidget by Delegates.notNull()
+
+    fun getContext(): Context {
+        return RuntimeEnvironment.application
+    }
+
+    @Before fun setUp() {
+        newLaunchLobWidget = LayoutInflater.from(getContext()).inflate(R.layout.widget_new_launch_lob, null, false) as NewLaunchLobWidget
+        newLaunchLobWidget.viewModel = NewLaunchLobViewModel(getContext(), BehaviorSubject.create<Boolean>(), BehaviorSubject.create<Unit>())
+    }
+
+    @Test
+    fun pointOfSaleDeterminesLobsAvailable() {
+        checkLOBsAvailable()
+        for (pos in PointOfSale.getAllPointsOfSale(getContext())) {
+            SettingUtils.save(getContext(), R.string.PointOfSaleKey, pos.pointOfSaleId.id.toString())
+            newLaunchLobWidget.viewModel.posChangeSubject.onNext(Unit)
+            checkLOBsAvailable()
+        }
+    }
+
+    private fun checkLOBsAvailable() {
+        var isHotelsLOBDisplayed = false
+        var isFlightsLOBDisplayed = false
+        val recyclerView = newLaunchLobWidget.findViewById(R.id.lob_grid_recycler) as RecyclerView
+        recyclerView.measure(0, 0)
+        recyclerView.layout(0, 0, 100, 10000)
+        val itemCount = recyclerView.layoutManager.itemCount
+        val lobInfoLabelMap = getLOBInfoLabelMap()
+        for (position in 0..itemCount - 1) {
+            val childAt = recyclerView.layoutManager.findViewByPosition(position)
+            val textView = childAt.findViewById(R.id.lob_cell_text) as TextView
+            val lobText = textView.text
+            val lobInfo = lobInfoLabelMap[lobText]
+            assertNotNull(lobInfo)
+            val lineOfBusiness = lobInfo?.lineOfBusiness
+            if (lineOfBusiness == LineOfBusiness.HOTELS) {
+                assert(!isHotelsLOBDisplayed)
+                isHotelsLOBDisplayed = true
+            } else if (lineOfBusiness == LineOfBusiness.FLIGHTS) {
+                assert(!isFlightsLOBDisplayed)
+                isFlightsLOBDisplayed = true
+            } else {
+                assert(PointOfSale.getPointOfSale().supports(lineOfBusiness))
+            }
+        }
+        assert(isHotelsLOBDisplayed && isFlightsLOBDisplayed)
+    }
+
+    private fun getLOBInfoLabelMap(): HashMap<String, LobInfo> {
+        val lobLabelInfoMap = HashMap<String, LobInfo>()
+        for (lobInfo in LobInfo.values()) {
+            lobLabelInfoMap.put(getContext().getString(lobInfo.labelRes), lobInfo)
+        }
+        return lobLabelInfoMap
+    }
+}
+
