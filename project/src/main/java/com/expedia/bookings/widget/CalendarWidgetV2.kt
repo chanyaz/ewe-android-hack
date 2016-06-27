@@ -3,6 +3,7 @@ package com.expedia.bookings.widget
 import android.content.Context
 import android.support.v4.app.FragmentActivity
 import android.util.AttributeSet
+import android.view.accessibility.AccessibilityEvent
 import com.expedia.bookings.fragment.CalendarDialogFragment
 import com.expedia.bookings.utils.Constants
 import com.expedia.util.notNullAndObservable
@@ -32,5 +33,6 @@ class CalendarWidgetV2(context: Context, attrs: AttributeSet) : SearchInputCardV
 
     fun hideCalendarDialog() {
         calendarDialog?.dismiss()
+        this.sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_HOVER_ENTER)
     }
 }

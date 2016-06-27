@@ -6,6 +6,7 @@ import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.View
 import android.view.WindowManager
+import android.view.accessibility.AccessibilityEvent
 import com.expedia.bookings.R
 import com.expedia.bookings.data.TravelerParams
 import com.expedia.util.subscribeText
@@ -45,6 +46,7 @@ class TravelerWidgetV2(context: Context, attrs: AttributeSet?) : SearchInputCard
         builder.setPositiveButton(context.getString(R.string.DONE), { dialog, which ->
             oldTravelerData = null
             dialog.dismiss()
+            this.sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_HOVER_ENTER)
         })
         val dialog: AlertDialog = builder.create()
         dialog.setOnShowListener {
@@ -57,6 +59,7 @@ class TravelerWidgetV2(context: Context, attrs: AttributeSet?) : SearchInputCard
                 traveler.viewmodel.travelerParamsObservable.onNext(oldTravelerData)
                 oldTravelerData = null
             }
+            this.sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_HOVER_ENTER)
         }
         dialog
     }

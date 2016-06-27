@@ -20,6 +20,7 @@ import android.util.TypedValue
 import android.view.View
 import android.view.ViewGroup
 import android.view.ViewTreeObserver
+import android.view.accessibility.AccessibilityEvent
 import android.view.animation.AccelerateDecelerateInterpolator
 import android.view.animation.DecelerateInterpolator
 import android.view.inputmethod.InputMethodManager
@@ -430,6 +431,9 @@ abstract class BaseSearchPresenter(context: Context, attrs: AttributeSet) : Pres
                 tabs.visibility = if (forward) GONE else VISIBLE
                 setSearchContainerTopMargin(forward)
             }
+            if (!forward) {
+                requestA11yFocus(isCustomerSelectingOrigin)
+            }
         }
     }
 
@@ -478,6 +482,10 @@ abstract class BaseSearchPresenter(context: Context, attrs: AttributeSet) : Pres
             getSearchViewModel().enableDateObservable.onNext(true)
         }
         navIcon.parameter = ArrowXDrawableUtil.ArrowDrawableType.CLOSE.type.toFloat()
+    }
+
+    open fun requestA11yFocus(isOrigin: Boolean) {
+        destinationCardView.sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_ACCESSIBILITY_FOCUSED)
     }
 
     override fun back(): Boolean {
