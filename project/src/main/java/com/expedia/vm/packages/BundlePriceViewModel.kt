@@ -20,6 +20,7 @@ class BundlePriceViewModel(val context: Context, val isSlidable: Boolean = false
     val perPersonTextLabelObservable = BehaviorSubject.create<Boolean>()
     val bundleTotalIncludesObservable = BehaviorSubject.create<String>()
     val contentDescriptionObservable = BehaviorSubject.create<String>()
+    val costBreakdownEnabledObservable = BehaviorSubject.create<Boolean>()
 
     init {
         pricePerPerson.subscribe {
@@ -39,21 +40,30 @@ class BundlePriceViewModel(val context: Context, val isSlidable: Boolean = false
             contentDescriptionObservable.onNext(getAccessibleContentDescription(isSlidable))
         }
 
+        costBreakdownEnabledObservable.subscribe { isCostBreakdownEnabled ->
+            contentDescriptionObservable.onNext(getAccessibleContentDescription(isCostBreakdownEnabled))
+        }
+
         total.subscribe { total ->
             totalPriceObservable.onNext(total.getFormattedMoney(Money.F_ALWAYS_TWO_PLACES_AFTER_DECIMAL))
-            contentDescriptionObservable.onNext(getAccessibleContentDescription(isSlidable))
+            contentDescriptionObservable.onNext(getAccessibleContentDescription(false, isSlidable))
         }
     }
 
-    fun getAccessibleContentDescription(isSlidable: Boolean = false, isExpanded: Boolean = false): String {
-        val description = if (!isSlidable && savingsPriceObservable.value != null && totalPriceObservable.value != null) {
+    fun getAccessibleContentDescription(isCostBreakdownShown: Boolean = false, isSlidable: Boolean = false, isExpanded: Boolean = false): String {
+        val description = if (isCostBreakdownShown || (costBreakdownEnabledObservable.value != null && costBreakdownEnabledObservable.value) ) {
+            Phrase.from(context, R.string.bundle_total_price_widget_cost_breakdown_cont_desc_TEMPLATE)
+                    .put("totalprice", totalPriceObservable.value)
+                    .put("savings", savingsPriceObservable.value)
+                    .format().toString()
+        } else if (!isSlidable && savingsPriceObservable.value != null && totalPriceObservable.value != null) {
             Phrase.from(context, R.string.bundle_overview_price_widget)
                     .put("totalprice", totalPriceObservable.value)
                     .put("savings", savingsPriceObservable.value)
                     .format().toString()
         } else if (isExpanded) {
             context.getString(R.string.bundle_overview_price_widget_button_close)
-        } else if (pricePerPersonObservable.value != null){
+        } else if (pricePerPersonObservable.value != null) {
             Phrase.from(context, R.string.bundle_overview_price_widget_button_open_TEMPLATE)
                     .put("price_per_person", pricePerPersonObservable.value)
                     .format().toString()

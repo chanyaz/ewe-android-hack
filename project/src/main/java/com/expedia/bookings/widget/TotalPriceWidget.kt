@@ -68,6 +68,7 @@ class TotalPriceWidget(context: Context, attrs: AttributeSet?) : LinearLayout(co
         packagebreakdown.viewmodel = PackageBreakdownViewModel(context)
         packagebreakdown.viewmodel.iconVisibilityObservable.subscribe { show ->
             toggleBundleTotalCompoundDrawable(show)
+            viewModel.costBreakdownEnabledObservable.onNext(show)
         }
         this.setOnClickListener {
             // We want to show cost breakdown ONLY in checkout screen. We set the rightDrawable only when createTrip returns. So let's check
