@@ -685,6 +685,9 @@ DummyFiletoHandleKotlinLintError {
 		R.dimen.package_suggestion_margin_top,
 		R.dimen.package_suggestion_margin_bottom,
 		R.layout.package_dropdown_item,
-		R.string.rail_checkout_outbound_TEMPLATE
+		R.string.rail_checkout_outbound_TEMPLATE,
+		R.string.packages_flight_filter_checkbox_cont_desc_TEMPLATE,
+		R.string.accessibility_cont_desc_role_checkbox_checked,
+		R.string.accessibility_cont_desc_role_checkbox_unchecked
 	};
 }

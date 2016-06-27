@@ -4232,7 +4232,10 @@
     <string name="select_hotel_selected_expand_cont_desc">expand</string>
     <!--Packages bundle overview hotel drop down (collapse) content description for accessibility-->
     <string name="select_hotel_selected_collapse_cont_desc">collapse</string>
-
+    <!-- Package filter checkbox.
+        Example #1: 3 available NonStop flights.
+        Example #2: 2 available Hawaiian Airlines flights. -->
+    <string name="packages_flight_filter_checkbox_cont_desc_TEMPLATE">{filter_results} available {filter_name} flights.</string>
 
     <!--LX accessibility -->
     <!--LX search accessibility -->
@@ -4249,7 +4252,6 @@
     <string name="lx_remove_ticket_button_cont_desc_TEMPLATE">Remove {traveler}</string>
 
     <!-- Generic content description -->
-
     <!-- Content description for toolbar 'X' i.e. close/back button -->
     <string name="toolbar_search_nav_icon_cont_desc">Back</string>
     <string name="toolbar_search_nav_icon_close_cont_desc">Close</string>
@@ -4271,4 +4273,8 @@
 
     <!-- LX SRP activity price content description when price is discounted e.g. Price is $180. Price before discount was $230 -->
     <string name="activity_price_with_discount_cont_desc_TEMPLATE">Price is {activity_price}. Price before discount was {activity_original_price}</string>
+    <!-- Content description for Checkbox types, state Checked -->
+    <string name="accessibility_cont_desc_role_checkbox_checked">Checkbox. Checked.</string>
+    <!-- Content description for Checkbox types, state Unchecked -->
+    <string name="accessibility_cont_desc_role_checkbox_unchecked">Checkbox. Unchecked.</string>
 </resources>
