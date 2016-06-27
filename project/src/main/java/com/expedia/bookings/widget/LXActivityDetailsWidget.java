@@ -24,6 +24,7 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.data.LXMedia;
 import com.expedia.bookings.data.LXState;
 import com.expedia.bookings.data.lx.ActivityDetailsResponse;
+import com.expedia.bookings.data.lx.ActivityImages;
 import com.expedia.bookings.data.lx.LXTicketType;
 import com.expedia.bookings.data.lx.Offer;
 import com.expedia.bookings.data.lx.OffersDetail;
@@ -237,11 +238,10 @@ public class LXActivityDetailsWidget extends LXDetailsScrollView implements Recy
 
 	private void buildGallery(ActivityDetailsResponse activityDetails) {
 		final List<LXMedia> mediaList = new ArrayList<LXMedia>();
-		for (int i = 0; i < activityDetails.images.size(); i++) {
+		for (ActivityImages activityImages : activityDetails.images) {
 			List<String> imageURLs = Images
-				.getLXImageURLBasedOnWidth(activityDetails.images.get(i).getImages(),
-					AndroidUtils.getDisplaySize(getContext()).x);
-			LXMedia media = new LXMedia(imageURLs);
+				.getLXImageURLBasedOnWidth(activityImages.getImages(), AndroidUtils.getDisplaySize(getContext()).x);
+			LXMedia media = new LXMedia(imageURLs, activityImages.getImageCaption());
 			mediaList.add(media);
 		}
 
