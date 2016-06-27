@@ -218,10 +218,14 @@ class FlightSearchViewModel(context: Context, val flightServices: FlightServices
             flightOfferModels.put(makeFlightOfferKey(outboundId, inboundId), offer)
 
             val outboundLeg = legs.find { it.legId == outboundId }
-            outboundLeg?.packageOfferModel = makeOffer(offer)
 
             val inboundLeg = legs.find { it.legId == inboundId }
             if (outboundLeg != null) {
+                // assuming all offers are sorted by price by API
+                val hasCheapestOffer = !outBoundFlights.contains(outboundLeg)
+                if (hasCheapestOffer) {
+                    outboundLeg?.packageOfferModel = makeOffer(offer)
+                }
                 outBoundFlights.add(outboundLeg)
             }
             var flights = flightMap[outboundId]
