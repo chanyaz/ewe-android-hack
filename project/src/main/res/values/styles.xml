@@ -1252,4 +1252,41 @@
         <item name="android:textSize">16sp</item>
         <item name="android:textStyle">bold</item>
     </style>
+
+    <!--Bundle Overview Hotel+Flight and Rail Widgets-->
+    <style name="BundleOverviewWidgets" />
+
+    <style name="BundleOverviewWidgets.PrimaryText">
+        <item name="android:textColor">@color/packages_bundle_overview_widgets_primary_text</item>
+        <item name="android:textSize">@dimen/packages_bundle_overview_footer_primary_text</item>
+        <item name="textStyle">medium</item>
+    </style>
+
+    <style name="BundleOverviewWidgets.SecondaryText">
+        <item name="android:textColor">@color/packages_bundle_overview_widgets_secondary_text</item>
+        <item name="android:textSize">@dimen/packages_bundle_overview_footer_secondary_text</item>
+        <item name="textStyle">normal</item>
+    </style>
+
+    <!--Bundle Overview Footer Hotel+Flight and Rail-->
+    <style name="BundleOverviewFooter">
+        <item name="android:contentDescription">@null</item>
+    </style>
+
+    <style name="BundleOverviewFooter.PrimaryText">
+        <item name="android:textColor">@color/packages_bundle_overview_footer_primary_text</item>
+        <item name="android:textSize">@dimen/packages_bundle_overview_footer_primary_text</item>
+        <item name="textStyle">medium</item>
+    </style>
+
+    <style name="BundleOverviewFooter.SecondaryText">
+        <item name="android:textColor">@color/packages_bundle_overview_footer_secondary_text</item>
+        <item name="android:textSize">@dimen/packages_bundle_overview_footer_secondary_text</item>
+        <item name="textStyle">normal</item>
+    </style>
+
+    <style name="BundleOverviewFooter.SecondaryText.Savings">
+        <item name="android:textColor">@color/packages_bundle_overview_footer_secondary_text_savings</item>
+    </style>
+
 </resources>

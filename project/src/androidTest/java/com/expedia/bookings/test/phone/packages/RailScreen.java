@@ -65,4 +65,17 @@ public class RailScreen {
 	public static ViewInteraction checkout() {
 		return onView(withId(R.id.checkout_button));
 	}
+
+	public static ViewInteraction legInfo() {
+		return onView(withId(R.id.rail_leg_container));
+	}
+
+	public static ViewInteraction detailsIcon() {
+		return onView(Matchers.allOf(isDescendantOfA(withId(R.id.rail_leg_container)),
+			withId(R.id.rail_leg_details_icon)));
+	}
+
+	public static ViewInteraction fareDesciptionInfo() {
+		return onView(withId(R.id.fare_description_container));
+	}
 }

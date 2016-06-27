@@ -662,6 +662,7 @@ DummyFiletoHandleKotlinLintError {
 		R.string.flights_card_fee_warning_TEMPLATE,
 		R.dimen.package_suggestion_margin_top,
 		R.dimen.package_suggestion_margin_bottom,
-		R.layout.package_dropdown_item
+		R.layout.package_dropdown_item,
+		R.string.rail_checkout_outbound_TEMPLATE
 	};
 }

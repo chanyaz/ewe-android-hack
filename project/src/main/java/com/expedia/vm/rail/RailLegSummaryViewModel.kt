@@ -2,6 +2,7 @@ package com.expedia.vm.rail
 
 import android.content.Context
 import com.expedia.bookings.R
+import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.rail.responses.LegOption
 import com.expedia.bookings.data.rail.responses.RailSearchResponse
 import com.expedia.bookings.utils.DateFormatUtils
@@ -17,8 +18,9 @@ class RailLegSummaryViewModel(context: Context) {
     val operatorObservable = BehaviorSubject.create<String>()
     val formattedStopsAndDurationObservable = BehaviorSubject.create<String>()
     val formattedTimesObservable = BehaviorSubject.create<String>()
-    val formattedDatesObservable = BehaviorSubject.create<String>()
     val legOptionObservable = BehaviorSubject.create<LegOption>()
+    val selectedRailOfferObservable = BehaviorSubject.create<RailSearchResponse.RailOffer>()
+    val fareDescriptionLabelObservable = BehaviorSubject.create<String>()
 
     init {
         railOfferObserver.subscribe {
@@ -31,10 +33,10 @@ class RailLegSummaryViewModel(context: Context) {
 
             val formattedTimes = DateTimeUtils.formatInterval(context, legOption.getDepartureDateTime(), legOption.getArrivalDateTime())
             formattedTimesObservable.onNext(formattedTimes.toString())
-            val formattedDate = DateFormatUtils.formatDateToShortDayAndDate(legOption.departureDateTime.toDateTime())
-            formattedDatesObservable.onNext(formattedDate)
             operatorObservable.onNext(legOption.allOperators())
             legOptionObservable.onNext(legOption)
+            selectedRailOfferObservable.onNext(it)
+            fareDescriptionLabelObservable.onNext(it.railProductList.first().aggregatedFareDescription)
         }
     }
 }

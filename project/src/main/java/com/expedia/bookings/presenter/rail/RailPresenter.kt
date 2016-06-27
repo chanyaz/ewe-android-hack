@@ -86,7 +86,7 @@ class RailPresenter(context: Context, attrs: AttributeSet) : Presenter(context, 
         detailsPresenter.viewmodel = RailDetailsViewModel(context)
         detailsPresenter.viewmodel.offerSelectedObservable.subscribe { offer ->
             transitionToTripSummary()
-            tripOverviewPresenter.railTripSummary.outboundLegSummary.viewModel.railOfferObserver.onNext(offer)
+            tripOverviewPresenter.railTripSummary.viewModel.railOfferObserver.onNext(offer)
             tripOverviewPresenter.getCheckoutPresenter().getCreateTripViewModel().offerCodeSelectedObservable.onNext(offer.railOfferToken)
         }
 

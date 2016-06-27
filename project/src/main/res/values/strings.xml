@@ -4101,6 +4101,9 @@
     <!--rail search screen - user is specifiying what time they want their return train to leave at -->
     <string name="rail_returning_at">Returning at</string>
 
+    <!-- rail checkout overview label for outbound  e.g. "Outbound - Thu Jun 23"-->
+    <string name="rail_checkout_outbound_TEMPLATE">Outbound - {date}</string>
+
     <!-- Label for rail trip price on overview screen -->
     <string name="total">Total</string>
 
