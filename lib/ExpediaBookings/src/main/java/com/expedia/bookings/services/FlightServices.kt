@@ -13,8 +13,7 @@ import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import org.joda.time.DateTime
 import org.joda.time.Days
-import org.joda.time.Hours
-import org.joda.time.Minutes
+import org.joda.time.Period
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
@@ -27,8 +26,6 @@ import java.util.regex.Pattern
 // "open" so we can mock for unit tests
 open class FlightServices(endpoint: String, okHttpClient: OkHttpClient, interceptor: Interceptor, val observeOn: Scheduler, val subscribeOn: Scheduler) {
     val hourMinuteFormatter = DateTimeFormat.forPattern("hh:mma")
-    val patternHour = Pattern.compile("(?<=PT)([0-9]+)(?=H)")
-    val patternMin = Pattern.compile("(?<=PT)([0-9]+)(?=M)")
     val flightApi: FlightApi by lazy {
         val gson = GsonBuilder()
                 .registerTypeAdapter(DateTime::class.java, DateTimeTypeAdapter())
@@ -60,6 +57,11 @@ open class FlightServices(endpoint: String, okHttpClient: OkHttpClient, intercep
                         leg.arrivalDateTimeISO = arrival.arrivalTimeRaw
                         val airlines = ArrayList<Airline>()
                         var lastSegment: FlightLeg.FlightSegment? = null
+                        var lastArrival: DateTime? = null
+                        leg.stopCount = leg.flightSegments.size - 1;
+                        if(leg.stopCount > 0) {
+                            leg.hasLayover = true
+                        }
                         for (segment in leg.flightSegments) {
                             segment.carrier = segment.airlineName
                             segment.airplaneType = segment.equipmentDescription ?: "" // not always returned by API
@@ -75,34 +77,33 @@ open class FlightServices(endpoint: String, okHttpClient: OkHttpClient, intercep
                             val airline = Airline(segment.airlineName, segment.airlineLogoURL)
                             airlines.add(airline)
 
-                            val matcherHour = patternHour.matcher(segment.duration);
-                            if (matcherHour.find()) {
-                                val hours =  matcherHour.group(1).toInt()
-                                segment.durationHours = hours
-                                leg.durationHour += hours
-                            }
-
-                            val matcherMin = patternMin.matcher(segment.duration);
-                            if (matcherMin.find()) {
-                                val minutes = matcherMin.group(1).toInt()
-                                segment.durationMinutes = minutes
-                                leg.durationMinute += minutes
-                            }
+                            val travelPeriod = Period(segmentDepartureTime, segmentArrivalTime)
+                            segment.durationHours = travelPeriod.hours
+                            segment.durationMinutes = travelPeriod.minutes
+                            leg.durationHour += travelPeriod.hours
+                            leg.durationMinute += travelPeriod.minutes
 
                             // set departure and arrival time to be compatible with packages format
                             segment.departureTime = segmentDepartureTime.toString(hourMinuteFormatter)
                             segment.arrivalTime = segmentArrivalTime.toString(hourMinuteFormatter)
 
                             if (lastSegment != null) {
-                                val nextFlight = DateUtils.yyyyMMddTHHmmssToDateTimeSafe(segment.departureTime, DateTime.now())
-                                val lastFlight = DateUtils.yyyyMMddTHHmmssToDateTimeSafe(lastSegment.arrivalTime, DateTime.now())
-                                segment.layoverDurationHours = Hours.hoursBetween(nextFlight, lastFlight).hours
-                                segment.layoverDurationMinutes = Minutes.minutesBetween(nextFlight, lastFlight).minutes
+                                val layOverPeriod = Period(lastArrival, segmentDepartureTime);
+                                leg.durationHour += layOverPeriod.hours
+                                leg.durationMinute += layOverPeriod.minutes
+                                lastSegment.layoverDurationHours = layOverPeriod.hours
+                                lastSegment.layoverDurationMinutes = layOverPeriod.minutes
                             }
+                            lastArrival = segmentArrivalTime;
                             lastSegment = segment
                         }
                         leg.airlines = airlines
                         leg.baggageFeesUrl = leg.baggageFeesUrl.replace("http://www.expedia.com/", "")
+                        if (leg.durationMinute > 59) {
+                            val extraHours: Int = leg.durationMinute / 60
+                            leg.durationHour += extraHours
+                            leg.durationMinute -= (extraHours * 60)
+                        }
                     }
 
                 }
