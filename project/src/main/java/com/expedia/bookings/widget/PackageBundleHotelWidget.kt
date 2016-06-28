@@ -48,6 +48,7 @@ class PackageBundleHotelWidget(context: Context, attrs: AttributeSet?) : Accessi
     val hotelPromoText: TextView by bindView(R.id.hotel_promo_text)
     val mainContainer: LinearLayout by bindView(R.id.main_container)
     val rowContainer: LinearLayout by bindView(R.id.row_container)
+    val viewWidth = Ui.getScreenSize(context).x / 2
 
     var viewModel: BundleHotelViewModel by notNullAndObservable { vm ->
         viewModel.hotelDatesGuestObservable.subscribeTextAndVisibility(hotelsDatesGuestInfoText)
@@ -68,7 +69,7 @@ class PackageBundleHotelWidget(context: Context, attrs: AttributeSet?) : Accessi
                 PicassoHelper.Builder(hotelRoomImage)
                         .setPlaceholder(R.drawable.room_fallback)
                         .build()
-                        .load(hotelMedia.getBestUrls(width / 2))
+                        .load(hotelMedia.getBestUrls(viewWidth))
             }
         }
 
