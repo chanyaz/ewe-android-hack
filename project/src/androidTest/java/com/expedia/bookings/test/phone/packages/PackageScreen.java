@@ -421,4 +421,20 @@ public class PackageScreen {
 			PackageScreen.flightsToolbarFilterMenu().check(doesNotExist());
 		}
 	}
+
+	public static ViewInteraction showInsuranceBenefits() {
+		return onView(withId(R.id.insurance_description)).perform(click());
+	}
+
+	public static ViewInteraction showInsuranceTerms() {
+		return onView(withId(R.id.insurance_terms)).perform(click());
+	}
+
+	public static ViewInteraction showPriceBreakdown() {
+		return onView(withId(R.id.bundle_total_text)).perform(click());
+	}
+
+	public static ViewInteraction toggleInsurance() {
+		return onView(withId(R.id.insurance_switch)).perform(click());
+	}
 }

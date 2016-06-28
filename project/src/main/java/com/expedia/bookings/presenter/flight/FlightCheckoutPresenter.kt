@@ -14,8 +14,9 @@ import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.BaseCheckoutPresenter
 import com.expedia.bookings.widget.TextView
 import com.expedia.util.subscribeTextAndVisibility
+import com.expedia.util.subscribeVisibility
 import com.expedia.vm.FlightCheckoutViewModel
-import com.expedia.vm.FlightCostSummaryBreakdownViewModel
+import com.expedia.vm.flights.FlightCostSummaryBreakdownViewModel
 import com.expedia.vm.flights.FlightCreateTripViewModel
 import com.expedia.vm.packages.BaseCreateTripViewModel
 import com.expedia.vm.traveler.CheckoutTravelerViewModel
@@ -35,6 +36,11 @@ class FlightCheckoutPresenter(context: Context, attr: AttributeSet) : BaseChecko
 
     override fun setupCreateTripViewModel(vm : BaseCreateTripViewModel) {
         vm as FlightCreateTripViewModel
+
+        insuranceWidget.viewModel.updatedTripObservable.subscribe(vm.tripResponseObservable)
+
+        vm.insuranceAvailabilityObservable.subscribeVisibility(insuranceWidget)
+
         vm.tripParams.subscribe {
             createTripDialog.show()
             userAccountRefresher.ensureAccountIsRefreshed()
@@ -45,11 +51,13 @@ class FlightCheckoutPresenter(context: Context, attr: AttributeSet) : BaseChecko
 
             loginWidget.updateRewardsText(getLineOfBusiness())
             createTripDialog.hide()
+            insuranceWidget.viewModel.newTripObservable.onNext(response.newTrip)
+            insuranceWidget.viewModel.productObservable.onNext(response.availableInsuranceProducts)
             priceChangeWidget.viewmodel.originalPrice.onNext(response.tripTotalPayableIncludingFeeIfZeroPayableByPoints())
             priceChangeWidget.viewmodel.newPrice.onNext(response.tripTotalPayableIncludingFeeIfZeroPayableByPoints())
             totalPriceWidget.viewModel.total.onNext(response.tripTotalPayableIncludingFeeIfZeroPayableByPoints())
             totalPriceWidget.viewModel.costBreakdownEnabledObservable.onNext(true)
-            (totalPriceWidget.packagebreakdown.viewmodel as FlightCostSummaryBreakdownViewModel).flightCostSummaryObservable.onNext(response.details)
+            (totalPriceWidget.breakdown.viewmodel as FlightCostSummaryBreakdownViewModel).flightCostSummaryObservable.onNext(response)
 
         }
         vm.tripResponseObservable.map { it.validFormsOfPayment }

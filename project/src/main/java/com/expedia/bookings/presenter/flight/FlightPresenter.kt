@@ -120,7 +120,7 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
             show(outBoundPresenter)
         }
         vm.flightProductId.subscribe { productKey ->
-            val requestInsurance = Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.INS_AddInsuranceOnMobileAppFlights)
+            val requestInsurance = Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppFlightInsurance)
             val createTripParams = FlightCreateTripParams(productKey, requestInsurance)
             flightOverviewPresenter.getCheckoutPresenter().getCreateTripViewModel().tripParams.onNext(createTripParams)
             show(flightOverviewPresenter)
@@ -166,6 +166,7 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
 
         flightOverviewPresenter.getCheckoutPresenter().getCheckoutViewModel().checkoutResponse.subscribe { pair: Pair<BaseApiResponse, String> ->
             show(confirmationPresenter)
+            FlightsV2Tracking.trackCheckoutConfirmationPageLoad()
         }
 
         show(searchPresenter)

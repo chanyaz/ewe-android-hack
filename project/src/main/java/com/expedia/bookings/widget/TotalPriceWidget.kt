@@ -50,10 +50,10 @@ class TotalPriceWidget(context: Context, attrs: AttributeSet?) : LinearLayout(co
         }
     }
 
-    val packagebreakdown = CostSummaryBreakDownView(context, null)
+    val breakdown = CostSummaryBreakDownView(context, null)
     val dialog: AlertDialog by lazy {
         val builder = AlertDialog.Builder(context)
-        builder.setView(packagebreakdown)
+        builder.setView(breakdown)
         builder.setTitle(R.string.cost_summary)
         builder.setPositiveButton(context.getString(R.string.DONE), { dialog, which -> dialog.dismiss()})
         builder.create()

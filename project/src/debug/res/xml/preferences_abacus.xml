@@ -201,19 +201,19 @@
             android:entries="@array/abacus_default_choices"
             android:entryValues="@array/abacus_default_choice_values"
             android:defaultValue="@string/preference_abacus_default"
-            android:key="10001"
+            android:key="10136"
             android:layout="@layout/preference"
             android:summary="%s"
-            android:title="Insurance - 10001" /> <!-- TODO: update test ID -->
+            android:title="Flight AB test - 10136" />
 
         <ListPreference
             android:entries="@array/abacus_default_choices"
             android:entryValues="@array/abacus_default_choice_values"
             android:defaultValue="@string/preference_abacus_default"
-            android:key="10136"
+            android:key="10212"
             android:layout="@layout/preference"
             android:summary="%s"
-            android:title="Flight AB test - 10136" />
+            android:title="Insurance - 10212" />
 
     </PreferenceCategory>
 

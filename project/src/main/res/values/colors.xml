@@ -447,10 +447,6 @@
     <color name="packages_primary_color">@color/lob_packages_primary_color</color>
     <color name="packages_secondary_color">@color/lob_packages_secondary_color</color>
     <color name="packages_ripple_mask_color">@color/lob_packages_ripple_color</color>
-    <color name="packages_breakdown_text_color">@color/gray5</color>
-    <color name="packages_breakdown_total_cost_color">@color/gray3</color>
-    <color name="packages_breakdown_savings_cost_color">@color/temporary_savings</color>
-    <color name="packages_breakdown_line_seperator_color">@color/gray4</color>
     <color name="packages_flight_filter_text">@color/gray8</color>
     <color name="packages_flight_filter_background_color">@color/gray1</color>
     <color name="packages_flight_filter_show_more_less">@color/gray5</color>
@@ -478,6 +474,11 @@
     <color name="rail_background_color">@color/gray1</color>
     <color name="rail_bundle_icon_color">@color/gray6</color>
 
+    <!-- Cost summary breakdown -->
+    <color name="cost_summary_breakdown_line_separator_color">@color/gray4</color>
+    <color name="cost_summary_breakdown_savings_cost_color">@color/temporary_savings</color>
+    <color name="cost_summary_breakdown_text_color">@color/gray5</color>
+    <color name="cost_summary_breakdown_total_cost_color">@color/gray3</color>
 
     <!-- Preferences Activity -->
     <color name="preferences_activity_bg">#eceff1</color>

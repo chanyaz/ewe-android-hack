@@ -8,10 +8,12 @@ open class BaseCostSummaryBreakdownViewModel(val context: Context) {
     val iconVisibilityObservable = PublishSubject.create<Boolean>()
     val addRows = BehaviorSubject.create<List<CostSummaryBreakdown>>()
 
-    class CostSummaryBreakdown(val title: String, val cost: String, val isDiscount: Boolean, val isTotalDue: Boolean, val isTotalCost: Boolean, val isLine: Boolean) {
+    class CostSummaryBreakdown(val title: String, val color: Int?, val cost: String, val isDiscount: Boolean,
+                               val isTotalDue: Boolean, val isTotalCost: Boolean, val isLine: Boolean) {
 
         class CostSummaryBuilder() {
             var title: String = ""
+            var color: Int? = null
             var cost: String = ""
             var isDiscount = false
             var isTotalDue = false
@@ -20,6 +22,11 @@ open class BaseCostSummaryBreakdownViewModel(val context: Context) {
 
             fun title(title: String): CostSummaryBuilder {
                 this.title = title
+                return this
+            }
+
+            fun color(color: Int): CostSummaryBuilder {
+                this.color = color
                 return this
             }
 
@@ -44,7 +51,7 @@ open class BaseCostSummaryBreakdownViewModel(val context: Context) {
             }
 
             fun build(): CostSummaryBreakdown {
-                var params = CostSummaryBreakdown(title, cost, isDiscount, isTotalDue, isTotalCost, isLine)
+                var params = CostSummaryBreakdown(title, color, cost, isDiscount, isTotalDue, isTotalCost, isLine)
                 return params
             }
         }

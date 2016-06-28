@@ -8,6 +8,7 @@ import android.view.ViewStub
 import android.view.animation.DecelerateInterpolator
 import com.expedia.bookings.R
 import com.expedia.bookings.presenter.BaseOverviewPresenter
+import com.expedia.bookings.tracking.FlightsV2Tracking
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.flights.PaymentFeeInfoWebView
 import com.expedia.util.subscribeText
@@ -77,6 +78,7 @@ class FlightOverviewPresenter(context: Context, attrs: AttributeSet) : BaseOverv
     }
 
     override fun trackCheckoutPageLoad() {
+        FlightsV2Tracking.trackCheckoutInfoPageLoad()
     }
 
     override fun trackPaymentCIDLoad() {

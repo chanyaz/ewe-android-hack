@@ -13,7 +13,7 @@
         android:paddingLeft="12dp"
         android:paddingRight="12dp"
         android:paddingTop="2dp"
-        android:textColor="@color/packages_breakdown_text_color"
+        android:textColor="@color/cost_summary_breakdown_text_color"
         android:textSize="14sp" />
 
     <com.expedia.bookings.widget.TextView
@@ -26,6 +26,6 @@
         android:paddingRight="12dp"
         android:paddingTop="2dp"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:textColor="@color/packages_breakdown_text_color"
+        android:textColor="@color/cost_summary_breakdown_text_color"
         android:textSize="14sp" />
 </LinearLayout>

@@ -1,9 +1,11 @@
 package com.expedia.bookings.data.flights;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.TripDetails;
@@ -12,7 +14,6 @@ import com.expedia.bookings.data.insurance.InsuranceProduct;
 import com.google.gson.annotations.SerializedName;
 
 public class FlightCreateTripResponse extends TripResponse {
-	public List<InsuranceProduct> availableInsuranceProducts;
 	public FlightTripDetails details;
 	public Money totalPrice;
 	public Money selectedCardFees;
@@ -21,6 +22,22 @@ public class FlightCreateTripResponse extends TripResponse {
 
 	@SerializedName("rules")
 	public FlightRules flightRules;
+
+	private boolean detailsOfferExists() {
+		return ((details != null) && (details.offer != null));
+	}
+
+	@NotNull
+	public List<InsuranceProduct> getAvailableInsuranceProducts() {
+		return (detailsOfferExists() && (details.offer.availableInsuranceProducts != null))
+			? details.offer.availableInsuranceProducts
+			: Collections.<InsuranceProduct>emptyList();
+	}
+
+	@Nullable
+	public InsuranceProduct getSelectedInsuranceProduct() {
+		return (detailsOfferExists()) ? details.offer.selectedInsuranceProduct : null;
+	}
 
 	@NotNull
 	@Override
@@ -36,7 +53,6 @@ public class FlightCreateTripResponse extends TripResponse {
 		return totalPriceWithFee;
 	}
 
-	@NotNull
 	@Override
 	public boolean isCardDetailsRequiredForBooking() {
 		return true;
