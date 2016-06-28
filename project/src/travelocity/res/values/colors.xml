@@ -12,7 +12,7 @@
     <color name="bg_btn_pressed_color_travelocity">#295600</color>
     <color name="itin_flight_line_color_tvly">#7da426</color>
     <color name="login_text_flight">@color/white</color>
-    <color name="coupon_success_message_color_tvly">#7baed4</color>
+    <color name="coupon_success_message_color">#7baed4</color>
     <color name="collection_overlay_color">#56a1d5</color>
     <color name="tablet_book_button_text_color_travelocity">#57B3FF</color>
     <color name="hotel_room_rate_select_room_button_tvly">#53A0D3</color>
@@ -42,6 +42,7 @@
     <color name="hotel_mobile_exclusive_color">#F58025</color>
 
     <color name="hotelsv2_discount_green">#7AC231</color>
+    <color name="hotelsv2_coupon_applied_color">#7baed4</color>
 
     <!-- Cars -->
     <color name="cars_primary_color">#003E74</color>
