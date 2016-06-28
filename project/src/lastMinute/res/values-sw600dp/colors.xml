@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="tablet_hotel_sale_bg_color">#E5E40088</color>
+    <color name="tablet_hotel_coupon_text_color">#E40088</color>
 
 </resources>
