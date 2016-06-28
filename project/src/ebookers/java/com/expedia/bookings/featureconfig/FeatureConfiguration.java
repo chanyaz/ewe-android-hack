@@ -393,7 +393,7 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 
 	@Override
 	public boolean shouldSetExistingUserForTune() {
-		return true;
+		return false;
 	}
 
 	@Override
