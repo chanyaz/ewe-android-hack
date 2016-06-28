@@ -118,4 +118,6 @@
     <color name="account_sign_in_button_background_color">@color/last_minute_primary_color</color>
     <color name="account_create_button_text_color">@color/last_minute_primary_color</color>
 
+    <color name="error_widget_edit_button_selected_color">#A1266C</color>
+    <color name="error_button_color">@color/last_minute_primary_color</color>
 </resources>
