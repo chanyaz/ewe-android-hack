@@ -2,6 +2,8 @@ package com.expedia.bookings.presenter
 
 import android.content.Context
 import android.util.AttributeSet
+import android.view.View
+import android.view.accessibility.AccessibilityEvent
 import com.expedia.bookings.R
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.SearchInputCardView
@@ -35,5 +37,10 @@ abstract class BaseTwoLocationSearchPresenter(context: Context, attrs: Attribute
     override fun onFinishInflate() {
         super.onFinishInflate()
         originCardView.setOnClickListener({ showSuggestionState(selectOrigin = true) })
+    }
+
+    override fun requestA11yFocus(isOrigin: Boolean) {
+        var a11yFocusView: View = if(isOrigin) originCardView else destinationCardView
+        a11yFocusView.sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_HOVER_ENTER)
     }
 }
