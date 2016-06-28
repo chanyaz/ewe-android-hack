@@ -407,10 +407,8 @@ abstract class BaseSearchPresenter(context: Context, attrs: AttributeSet) : Pres
             toolbar.setBackgroundColor(if (forward) toolbarBgColor.end else toolbarBgColor.start)
             navIcon.setColorFilter(if (forward) toolbarTextColor.end else toolbarTextColor.start, PorterDuff.Mode.SRC_IN)
             suggestionContainer.alpha = if (forward) bgFade.end else bgFade.start
-            if (transitioningFromOriginToDestination && !firstLaunch) { // end scale transition
-                suggestionContainer.scaleX = 1f
-                suggestionContainer.scaleY = 1f
-            }
+            suggestionContainer.scaleX = 1f
+            suggestionContainer.scaleY = 1f
 
             searchLocationEditText?.alpha = if (forward) bgFade.end else bgFade.start
 
