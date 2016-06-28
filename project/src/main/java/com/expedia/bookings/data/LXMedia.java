@@ -11,15 +11,17 @@ import com.expedia.bookings.bitmaps.PicassoTarget;
 
 
 public class LXMedia implements IMedia {
+	private final List<String> imageURLs;
+	private final String imageCaption;
 
-	List<String> imageURLs;
-
-	public LXMedia(List<String> imageURLs) {
+	public LXMedia(List<String> imageURLs, String imageCaption) {
 		this.imageURLs = imageURLs;
+		this.imageCaption = imageCaption;
 	}
 
 	@Override
 	public void loadImage(ImageView imageView, PicassoTarget target, int defaultResId) {
+		imageView.setContentDescription(imageCaption);
 		new PicassoHelper.Builder(imageView).setPlaceholder(defaultResId).setTarget(target).build().load(imageURLs);
 	}
 
@@ -30,7 +32,7 @@ public class LXMedia implements IMedia {
 
 	@Override
 	public void loadErrorImage(ImageView imageView, PicassoTarget target, int fallbackId) {
-
+		imageView.setContentDescription(imageCaption);
 	}
 
 	@Override

@@ -11,6 +11,8 @@ public class ActivityImages {
 	public String mediumImageURL;
 	@SerializedName("large")
 	public String largeImageURL;
+	@SerializedName("caption")
+	public String imageCaption;
 
 	public List<LXImage> getImages() {
 		List<LXImage> images = new ArrayList<>();
@@ -21,5 +23,9 @@ public class ActivityImages {
 			images.add(new LXImage(largeImageURL, LXImage.ImageSize.LARGE));
 		}
 		return images;
+	}
+
+	public String getImageCaption() {
+		return imageCaption;
 	}
 }
