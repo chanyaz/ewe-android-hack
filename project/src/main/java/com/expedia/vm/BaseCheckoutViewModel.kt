@@ -19,6 +19,7 @@ abstract  class BaseCheckoutViewModel(val context: Context) {
     // Inputs
     val creditCardRequired = PublishSubject.create<Boolean>()
     val travelerCompleted = BehaviorSubject.create<List<Traveler>>()
+    val clearTravelers = BehaviorSubject.create<Unit>()
     val paymentCompleted = BehaviorSubject.create<BillingInfo?>()
     val cvvCompleted = BehaviorSubject.create<String>()
     val tripResponseObservable = BehaviorSubject.create<TripResponse>()
@@ -26,7 +27,7 @@ abstract  class BaseCheckoutViewModel(val context: Context) {
     val checkoutResponse = PublishSubject.create<Pair<BaseApiResponse, String>>()
 
     // Outputs
-    val infoCompleted = BehaviorSubject.create<Boolean>()
+    val infoCompleted = PublishSubject.create<Boolean>()
     val depositPolicyText = PublishSubject.create<Spanned>()
     val legalText = BehaviorSubject.create<SpannableStringBuilder>()
     val sliderPurchaseTotalText = PublishSubject.create<CharSequence>()
@@ -34,6 +35,11 @@ abstract  class BaseCheckoutViewModel(val context: Context) {
     var email: String by Delegates.notNull()
 
     init {
+        clearTravelers.subscribe {
+            builder.clearTravelers()
+            infoCompleted.onNext(builder.hasValidTravelerAndBillingInfo())
+        }
+
         travelerCompleted.subscribe {
             builder.travelers(it)
             infoCompleted.onNext(builder.hasValidTravelerAndBillingInfo())
@@ -51,5 +57,9 @@ abstract  class BaseCheckoutViewModel(val context: Context) {
                 checkoutParams.onNext(builder.build())
             }
         }
+    }
+
+    fun isValid() : Boolean {
+        return builder.hasValidTravelerAndBillingInfo();
     }
 }

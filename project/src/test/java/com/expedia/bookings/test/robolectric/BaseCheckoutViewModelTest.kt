@@ -37,7 +37,10 @@ class BaseCheckoutViewModelTest {
     @Test
     fun testTravelersCleared() {
         val testSubscriber = TestSubscriber<BaseCheckoutParams>()
+        val testInfoCompletedSubscriber = TestSubscriber<Boolean>()
+        val expectedResults = arrayListOf(false, true, true, true, false, true)
         testViewModel.checkoutParams.subscribe(testSubscriber)
+        testViewModel.infoCompleted.subscribe(testInfoCompletedSubscriber)
 
         var travelers = arrayListOf(getTraveler(), getTraveler(), getTraveler())
         testViewModel.travelerCompleted.onNext(travelers)
@@ -54,6 +57,15 @@ class BaseCheckoutViewModelTest {
 
         testSubscriber.requestMore(LOTS_MORE)
         assertEquals(4, testSubscriber.onNextEvents[0].travelers.size)
+
+        testViewModel.clearTravelers.onNext(Unit)
+        testInfoCompletedSubscriber.requestMore(LOTS_MORE)
+
+        travelers = arrayListOf(getTraveler())
+        testViewModel.travelerCompleted.onNext(travelers)
+        testInfoCompletedSubscriber.requestMore(LOTS_MORE)
+
+        testInfoCompletedSubscriber.assertReceivedOnNext(expectedResults)
     }
 
     @Test

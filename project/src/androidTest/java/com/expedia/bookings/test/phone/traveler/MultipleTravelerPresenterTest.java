@@ -23,10 +23,13 @@ import com.expedia.bookings.test.phone.packages.PackageScreen;
 import rx.observers.TestSubscriber;
 
 import static android.support.test.espresso.Espresso.onView;
+import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.assertion.ViewAssertions.doesNotExist;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.hasSibling;
 import static android.support.test.espresso.matcher.ViewMatchers.isChecked;
+import static android.support.test.espresso.matcher.ViewMatchers.isDescendantOfA;
+import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withChild;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
@@ -62,8 +65,8 @@ public class MultipleTravelerPresenterTest extends BaseTravelerPresenterTestHelp
 		EspressoUser.clickOnText(expectedTravelerOneText);
 		EspressoUser.clickOnView(R.id.edit_phone_number);
 		enterValidTraveler();
-		EspressoUtils.assertViewWithTextIsDisplayed(testName.getFullName());
-		EspressoUser.clickOnText(testName.getFullName());
+		onView(allOf(withText(testName.getFullName()), isDescendantOfA(withId(R.id.traveler_select_state)))).check(matches(isDisplayed()));
+		onView(allOf(withText(testName.getFullName()), isDescendantOfA(withId(R.id.traveler_select_state)))).perform(click());
 
 		assertValidTravelerFields();
 	}
@@ -144,7 +147,7 @@ public class MultipleTravelerPresenterTest extends BaseTravelerPresenterTestHelp
 		assertEquals("Traveler details", testSubscriber.getOnNextEvents().get(2));
 
 		EspressoUtils.assertViewIsDisplayed(R.id.traveler_select_state);
-		EspressoUtils.assertViewWithTextIsDisplayed(testFirstName + " " + testLastName);
+		onView(allOf(withText(testFirstName + " " + testLastName), isDescendantOfA(withId(R.id.traveler_select_state)))).check(matches(isDisplayed()));
 		EspressoUtils.assertViewWithTextIsDisplayed(expectedTravelerTwoText);
 	}
 

@@ -21,6 +21,7 @@ import com.expedia.bookings.data.packages.PackageSearchParams;
 import com.expedia.bookings.data.trips.TripBucket;
 import com.expedia.bookings.data.trips.TripBucketItemPackages;
 import com.expedia.bookings.enums.PassengerCategory;
+import com.expedia.bookings.presenter.Presenter;
 import com.expedia.bookings.presenter.packages.TravelerPresenter;
 import com.expedia.bookings.test.espresso.Common;
 import com.expedia.bookings.test.espresso.EspressoUtils;
@@ -30,6 +31,9 @@ import com.expedia.bookings.widget.CheckoutToolbar;
 import com.expedia.vm.CheckoutToolbarViewModel;
 import com.expedia.vm.traveler.CheckoutTravelerViewModel;
 import com.squareup.phrase.Phrase;
+
+import kotlin.Unit;
+import rx.Observer;
 
 import static org.mockito.Mockito.mock;
 
@@ -75,6 +79,23 @@ public class BaseTravelerPresenterTestHelper {
 		testToolbar.getViewModel().getDoneClicked().subscribe(testTravelerPresenter.getTravelerEntryWidget().getDoneClicked());
 		testName.setFirstName(testFirstName);
 		testName.setLastName(testLastName);
+
+		testTravelerPresenter.getCloseSubject().subscribe(new Observer<Unit>() {
+			@Override
+			public void onCompleted() {
+
+			}
+
+			@Override
+			public void onError(Throwable e) {
+
+			}
+
+			@Override
+			public void onNext(Unit unit) {
+				testTravelerPresenter.show(testTravelerPresenter.getTravelerDefaultState(), Presenter.FLAG_CLEAR_BACKSTACK);
+			}
+		});
 	}
 
 	protected void enterValidTraveler() {

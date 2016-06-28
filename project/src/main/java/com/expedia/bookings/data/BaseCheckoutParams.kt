@@ -45,6 +45,11 @@ open class BaseCheckoutParams(val billingInfo: BillingInfo, val travelers: Array
             return this
         }
 
+        fun clearTravelers(): Builder {
+            this.travelers.clear()
+            return this
+        }
+
         fun cvv(cvv: String?): Builder {
             this.cvv = cvv
             return this
