@@ -104,6 +104,12 @@ abstract class PackageBundleFlightWidget(context: Context, attrs: AttributeSet?)
         }
     }
 
+    fun cancel() {
+        flightLoadingBar.clearAnimation()
+        flightLoadingBar.visibility = View.GONE
+        travelInfoText.visibility = View.VISIBLE
+    }
+
     init {
         View.inflate(getContext(), R.layout.bundle_flight_widget, this)
         isEnabled = false
