@@ -79,7 +79,6 @@
 
     <color name="section_flight_edit_traveler_link_color_lm">@color/action_bar_bg_color</color>
     <color name="room_rate_refundable_cancellation_text_color_lm">#599027</color>
-    <color name="tablet_hotel_coupon_text_color_lm">@color/action_bar_bg_color</color>
 
     <!-- Cars and LX -->
     <color name="cars_primary_color">@color/last_minute_primary_color</color>

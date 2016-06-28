@@ -85,7 +85,6 @@
     <color name="hotel_promo_background">#599027</color>
     <color name="section_flight_edit_traveler_link_color_wotif">#1F8EDE</color>
     <color name="room_rate_refundable_cancellation_text_color_wotif">#599027</color>
-    <color name="tablet_hotel_coupon_text_color_wotif">#1F8EDE</color>
 
     <!--Splash-->
     <color name="splash_screen_bg">#7AC231</color>
