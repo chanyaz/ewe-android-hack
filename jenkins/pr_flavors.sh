@@ -40,7 +40,8 @@ build() {
         "assembleSamsungDebug" \
         "assembleOrbitzDebug" \
         "assembleCheapTicketsDebug" \
-        "assembleEbookersDebug" 2> >(tee /tmp/flavorsFeedbackBotErrors.txt >&2)
+        "assembleEbookersDebug" \
+        "assembleMrJetDebug" 2> >(tee /tmp/flavorsFeedbackBotErrors.txt >&2)
 }
 
 # Retry once because of current kotlin compilation issue. The 2nd time should work
