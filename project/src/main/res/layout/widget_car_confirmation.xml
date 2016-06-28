@@ -124,6 +124,7 @@
                     android:layout_marginTop="1dp"
                     android:drawableLeft="@drawable/add_to_calendar"
                     android:text="@string/add_to_calendar"
+                    android:contentDescription="@string/car_confirmation_add_to_calendar_cont_desc"
                     android:textColor="@color/cars_confirmation_action_text_color" />
 
                 <View
