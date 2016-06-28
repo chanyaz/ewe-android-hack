@@ -29,7 +29,7 @@
     <color name="bg_btn_pressed_color_wotif">#295600</color>
     <color name="itin_flight_line_color_wotif">#7da426</color>
     <color name="login_text_flight">@color/white</color>
-    <color name="coupon_success_message_color_wotif">#7baed4</color>
+    <color name="coupon_success_message_color">#7baed4</color>
     <color name="collection_overlay_color">#56a1d5</color>
     <color name="hotel_room_rate_select_room_button_wotif">#53A0D3</color>
     <color name="hotel_room_rate_select_room_button_pressed_wotif">#004E93</color>
@@ -56,6 +56,7 @@
     <color name="launch_tonight_only">#7AC231</color>
 
     <color name="hotelsv2_discount_green">#4d9900</color>
+    <color name="hotelsv2_coupon_applied_color">#7baed4</color>
 
     <color name="hotel_review_actionbar_tab_text_selected">#FFFFFF</color>
     <color name="hotel_review_actionbar_tab_text_unselected">#8CFFFFFF</color>
