@@ -65,7 +65,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="12dp"
-                    android:textColor="#3f86c2"
+                    android:textColor="@color/tablet_flight_details_price_text_color"
                     android:textSize="@dimen/tablet_flight_details_price_textsize" />
 
                 <com.expedia.bookings.widget.TextView
