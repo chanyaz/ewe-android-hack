@@ -35,6 +35,8 @@ import com.expedia.bookings.widget.packages.PackagePaymentWidget
 import com.expedia.util.notNullAndObservable
 import com.expedia.util.subscribeTextAndVisibility
 import com.expedia.vm.BaseCheckoutViewModel
+import com.expedia.vm.FlightCostSummaryBreakdownViewModel
+import com.expedia.vm.PackageCostSummaryBreakdownViewModel
 import com.expedia.vm.PaymentViewModel
 import com.expedia.vm.PriceChangeViewModel
 import com.expedia.vm.packages.BaseCreateTripViewModel
@@ -127,6 +129,15 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet) : Pre
         paymentWidget.viewmodel = paymentWidgetViewModel
         travelerPresenter.viewModel = CheckoutTravelerViewModel()
         priceChangeWidget.viewmodel = PriceChangeViewModel(context, getLineOfBusiness())
+        if (getLineOfBusiness() == LineOfBusiness.FLIGHTS_V2) {
+            totalPriceWidget.packagebreakdown.viewmodel = FlightCostSummaryBreakdownViewModel(context)
+        } else {
+            totalPriceWidget.packagebreakdown.viewmodel = PackageCostSummaryBreakdownViewModel(context)
+        }
+        totalPriceWidget.packagebreakdown.viewmodel.iconVisibilityObservable.subscribe { show ->
+            totalPriceWidget.toggleBundleTotalCompoundDrawable(show)
+            totalPriceWidget.viewModel.costBreakdownEnabledObservable.onNext(show)
+        }
         totalPriceWidget.viewModel = BundlePriceViewModel(context)
         ckoViewModel = makeCheckoutViewModel()
         tripViewModel = makeCreateTripViewModel()

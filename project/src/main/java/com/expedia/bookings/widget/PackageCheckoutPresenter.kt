@@ -9,6 +9,7 @@ import com.expedia.bookings.data.packages.PackageCreateTripResponse
 import com.expedia.bookings.otto.Events
 import com.expedia.bookings.tracking.PackagesTracking
 import com.expedia.bookings.utils.Ui
+import com.expedia.vm.PackageCostSummaryBreakdownViewModel
 import com.expedia.vm.packages.BaseCreateTripViewModel
 import com.expedia.vm.packages.PackageCheckoutViewModel
 import com.expedia.vm.packages.PackageCreateTripViewModel
@@ -27,7 +28,7 @@ class PackageCheckoutPresenter(context: Context, attr: AttributeSet) : BaseCheck
             loginWidget.updateRewardsText(getLineOfBusiness())
             priceChangeWidget.viewmodel.originalPrice.onNext(response.oldPackageDetails?.pricing?.packageTotal)
             priceChangeWidget.viewmodel.newPrice.onNext(response.packageDetails.pricing.packageTotal)
-            totalPriceWidget.packagebreakdown.viewmodel.newDataObservable.onNext(response.packageDetails)
+            (totalPriceWidget.packagebreakdown.viewmodel as PackageCostSummaryBreakdownViewModel).packageCostSummaryObservable.onNext(response.packageDetails)
             var packageTotalPrice = response.packageDetails.pricing
             totalPriceWidget.viewModel.total.onNext(Money(BigDecimal(packageTotalPrice.packageTotal.amount.toDouble()),
                     packageTotalPrice.packageTotal.currencyCode))

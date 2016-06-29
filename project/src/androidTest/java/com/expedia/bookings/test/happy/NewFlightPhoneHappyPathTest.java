@@ -48,6 +48,7 @@ public class NewFlightPhoneHappyPathTest extends NewFlightTestCase {
 		FlightsScreen.selectInboundFlight().perform(click());
 
 		assertCheckoutOverview();
+		assertCostSummaryView();
 
 		// move to Flight/common screen
 		PackageScreen.checkout().perform(click());
@@ -75,6 +76,15 @@ public class NewFlightPhoneHappyPathTest extends NewFlightTestCase {
 		CheckoutViewModel.performSlideToPurchase();
 
 		assertConfirmationView();
+	}
+
+	private void assertCostSummaryView() {
+		onView(withId(R.id.bundle_total_text)).perform(click());
+		onView(withText("Adult 1 details")).perform(ViewActions.waitForViewToDisplay()).check(matches(isDisplayed()));
+		onView(withText("$689.00")).check(matches(isDisplayed()));
+		onView(withText("Total Due Today")).check(matches(isDisplayed()));
+		onView(withText("$696.00")).check(matches(isDisplayed()));
+		onView(withId(android.R.id.button1)).perform(click());
 	}
 
 	private void assertLegalInformation() {

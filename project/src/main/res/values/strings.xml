@@ -4133,6 +4133,16 @@
     <string name="package_breakdown_total_savings">Total Savings</string>
     <string name="package_breakdown_total_due_today">Total Due Today</string>
 
+    <!-- Material FLight breakdown dialog -->
+    <!-- Add adult traveler number template for example: Adult 2 details -->
+    <string name="flight_add_adult_number_TEMPLATE">Adult {number} details</string>
+    <!-- Add child traveler number template for example: Child 4 details -->
+    <string name="flight_add_child_number_TEMPLATE">Child {number} details</string>
+    <!-- Add infant in lap traveler number template for example: Infant in lap 1 details -->
+    <string name="flight_add_infant_in_lap_number_TEMPLATE">Infant in lap {number} details</string>
+    <!-- Add infant in seat traveler number template for example: Infant in seat 6 details -->
+    <string name="flight_add_infant_in_seat_number_TEMPLATE">Infant in seat {number} details</string>
+
     <!-- Shop with points -->
     <string name="loyalty_applied_excluding_taxes_and_fees_message">Expedia+ Points applied! (excludes taxes and fees)</string>
     <string name="regular_loyalty_applied_message">Expedia+ Points applied!</string>
