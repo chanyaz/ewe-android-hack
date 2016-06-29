@@ -196,8 +196,12 @@ public class AccountSettingsActivity extends AppCompatActivity implements AboutS
 			if (ProductFlavorFeatureConfiguration.getInstance().isCommunicateSectionEnabled()) {
 				builder = new AboutSectionFragment.Builder(this);
 				builder.setTitle(R.string.about_section_communicate);
-				builder.addRow(R.string.rate_our_app, ROW_RATE_APP);
-				builder.addRow(R.string.WereHiring, ROW_WERE_HIRING);
+				if (ProductFlavorFeatureConfiguration.getInstance().isRateOurAppEnabled()) {
+					builder.addRow(R.string.rate_our_app, ROW_RATE_APP);
+				}
+				if (ProductFlavorFeatureConfiguration.getInstance().isWeReHiringEnabled()) {
+					builder.addRow(R.string.WereHiring, ROW_WERE_HIRING);
+				}
 				communicateFragment = builder.build();
 				ft.add(R.id.section_communicate, communicateFragment, TAG_COMMUNICATE);
 			}

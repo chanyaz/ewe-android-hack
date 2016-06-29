@@ -183,4 +183,8 @@ public interface IProductFlavorFeatureConfiguration {
 	boolean shouldSetExistingUserForTune();
 
 	boolean shouldShowItinShare();
+
+	boolean isWeReHiringEnabled();
+
+	boolean isRateOurAppEnabled();
 }
