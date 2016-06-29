@@ -4,6 +4,7 @@ import org.hamcrest.CoreMatchers;
 import org.joda.time.LocalDate;
 
 import android.support.test.espresso.Espresso;
+import android.support.test.espresso.matcher.RootMatchers;
 import android.support.test.espresso.matcher.ViewMatchers;
 
 import com.expedia.bookings.R;
@@ -20,6 +21,7 @@ import com.expedia.bookings.test.phone.pagemodels.common.SearchScreen;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
+import static android.support.test.espresso.action.ViewActions.longClick;
 import static android.support.test.espresso.action.ViewActions.scrollTo;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.hasDescendant;
@@ -29,6 +31,7 @@ import static android.support.test.espresso.matcher.ViewMatchers.withEffectiveVi
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.CoreMatchers.allOf;
+import static org.hamcrest.CoreMatchers.not;
 
 public class PackagePhoneHappyPathTest extends PackageTestCase {
 
@@ -111,6 +114,9 @@ public class PackagePhoneHappyPathTest extends PackageTestCase {
 	}
 
 	private void assertFilter() {
+		onView(withId(R.id.filter_btn)).perform(longClick());
+		onView(withText(R.string.sort_and_filter)).
+			inRoot(RootMatchers.withDecorView(not(getActivity().getWindow().getDecorView()))).check(matches(isDisplayed()));
 		onView(withId(R.id.filter_btn)).perform(click());
 		onView(withId(R.id.sort_by_selection_spinner)).check(matches(isDisplayed()));
 		onView(withText(R.string.sort_and_filter)).check(matches(isDisplayed()));
