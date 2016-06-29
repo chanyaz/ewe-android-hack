@@ -421,4 +421,15 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 	public boolean shouldShowItinShare() {
 		return true;
 	}
+
+	@Override
+	public boolean isWeReHiringEnabled() {
+		return false;
+	}
+
+	@Override
+	public boolean isRateOurAppEnabled() {
+		return false;
+	}
+
 }
