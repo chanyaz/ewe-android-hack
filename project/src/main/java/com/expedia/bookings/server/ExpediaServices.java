@@ -171,6 +171,9 @@ public class ExpediaServices implements DownloadListener {
 	@Inject
 	public X509TrustManager x509TrustManager;
 
+	@Inject
+	public boolean isModernTLSEnabled;
+
 	private OkHttpClient mClient;
 	private Call call;
 	private Request mRequest;
@@ -194,12 +197,17 @@ public class ExpediaServices implements DownloadListener {
 		// 1902 - Allow redirecting from API calls
 		client.followRedirects(true);
 
-		TLSSocketFactory socketFactory = new TLSSocketFactory(mSSLContext);
-		client.sslSocketFactory(socketFactory, x509TrustManager);
-		ConnectionSpec spec = new ConnectionSpec.Builder(ConnectionSpec.MODERN_TLS)
-			.tlsVersions(TlsVersion.TLS_1_2)
-			.build();
-		client.connectionSpecs(Collections.singletonList(spec));
+		if (isModernTLSEnabled) {
+			TLSSocketFactory socketFactory = new TLSSocketFactory(mSSLContext);
+			client.sslSocketFactory(socketFactory, x509TrustManager);
+			ConnectionSpec spec = new ConnectionSpec.Builder(ConnectionSpec.MODERN_TLS)
+				.tlsVersions(TlsVersion.TLS_1_2)
+				.build();
+			client.connectionSpecs(Collections.singletonList(spec));
+		}
+		else {
+			client.sslSocketFactory(mSSLContext.getSocketFactory(), x509TrustManager);
+		}
 
 		// Add Stetho debugging network interceptor
 		if (BuildConfig.DEBUG) {
