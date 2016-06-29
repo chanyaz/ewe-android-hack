@@ -49,6 +49,10 @@ class HotelSearchPresenter(context: Context, attrs: AttributeSet) : BaseSearchPr
             showErrorDialog(message)
         }
 
+        vm.errorMaxRangeObservable.subscribe { message ->
+            showErrorDialog(message)
+        }
+
         searchButton.subscribeOnClick(vm.searchObserver)
     }
 
