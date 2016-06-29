@@ -3960,6 +3960,8 @@
     <string name="select_hotel_searching_cont_desc_TEMPLATE">Searching for hotels in {destination} from {startdate} to {enddate}, for {guests}. Please wait</string>
     <!-- Bundle Overview selected hotel accessibility content description Eg. You have selected hotel Orion from Jun 23 to June 24, for 1 guest. Button to expand hotel details. -->
     <string name="select_hotel_selected_cont_desc_TEMPLATE">You have selected hotel {hotel} from {startdate} to {enddate}, for {guests}. {expandstate} hotel details.</string>
+    <!-- Bundle Overview selected flight accessibility content description Eg. Flight to (DTW) Detroit. Jul 10 at 9:00 am, 1 Traveler. Button to expand flight details. -->
+    <string name="select_flight_selected_cont_desc_TEMPLATE">{flighttext}. {travelerinfotext}. {expandstate} flight details.</string>
     <!-- Bundle Overview select hotel -->
     <string name="select_hotel_template">Select hotel in %s</string>
     <!-- Bundle Overview searching flight -->
