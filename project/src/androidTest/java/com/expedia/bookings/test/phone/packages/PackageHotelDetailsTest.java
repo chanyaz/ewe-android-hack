@@ -14,11 +14,9 @@ import static android.support.test.espresso.action.ViewActions.scrollTo;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.hasDescendant;
 import static android.support.test.espresso.matcher.ViewMatchers.hasSibling;
-import static android.support.test.espresso.matcher.ViewMatchers.isDescendantOfA;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
-import static com.expedia.bookings.test.espresso.ViewActions.waitForViewToDisplay;
 import static org.hamcrest.CoreMatchers.allOf;
 
 public class PackageHotelDetailsTest extends PackageTestCase {
@@ -77,12 +75,8 @@ public class PackageHotelDetailsTest extends PackageTestCase {
 		PackageScreen.searchPackage();
 		HotelScreen.selectHotel("Package Happy Path");
 		HotelScreen.clickRenoInfo();
-		Common.delay(2);
-		onView(allOf(withText(getActivity().getString(R.string.renovation_notice)), isDescendantOfA(withId(R.id.toolbar)))).perform(waitForViewToDisplay());
-		onView(allOf(withText(getActivity().getString(R.string.renovation_notice)), isDescendantOfA(withId(R.id.toolbar)))).check(matches(isDisplayed()));
-		onView(allOf(withId(R.id.content_description), withText("The property is undergoing renovations. The following areas are affected:")));
+		onView(allOf(withId(R.id.content_description), withText("<ul><li>Elevator</li><li>Front desk</li><li>Lobby</li></ul>")));
 		Common.pressBack();
-		HotelScreen.waitForDetailsLoaded();
 		onView(withId(R.id.renovation_container)).perform(scrollTo());
 		EspressoUtils.assertViewIsDisplayed(R.id.renovation_container);
 	}
