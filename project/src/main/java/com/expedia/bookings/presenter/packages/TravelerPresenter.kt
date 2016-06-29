@@ -33,7 +33,9 @@ class TravelerPresenter(context: Context, attrs: AttributeSet) : Presenter(conte
     val dropShadow: View by bindView(R.id.drop_shadow)
 
     val expandedSubject = BehaviorSubject.create<Boolean>()
+    val closeSubject = BehaviorSubject.create<Unit>()
     val allTravelersCompleteSubject = BehaviorSubject.create<List<Traveler>>()
+    val travelersIncompleteSubject  = BehaviorSubject.create<Unit>()
     val toolbarTitleSubject = PublishSubject.create<String>()
 
     val menuVisibility = PublishSubject.create<Boolean>()
@@ -46,23 +48,23 @@ class TravelerPresenter(context: Context, attrs: AttributeSet) : Presenter(conte
         travelerDefaultState.viewModel = TravelerSummaryViewModel(context)
 
         travelerEntryWidget.travelerCompleteSubject.subscribe(endlessObserver<Traveler> { traveler ->
+            updateCompletionStatus()
             if (viewModel.validateTravelersComplete()) {
-                allTravelersCompleteSubject.onNext(viewModel.getTravelers())
                 expandedSubject.onNext(false)
-                travelerDefaultState.updateStatus(TravelerCheckoutStatus.COMPLETE)
                 show(travelerDefaultState, Presenter.FLAG_CLEAR_BACKSTACK)
+                closeSubject.onNext(Unit)
             } else {
-                show(travelerSelectState, Presenter.FLAG_CLEAR_TOP)
+                show(travelerSelectState, Presenter.FLAG_CLEAR_BACKSTACK)
             }
         })
 
         travelerDefaultState.setOnClickListener {
             if (viewModel.getTravelers().size > 1) {
                 travelerSelectState.refresh(travelerDefaultState.status, viewModel.getTravelers())
-                show(travelerSelectState)
+                show(travelerSelectState, FLAG_CLEAR_BACKSTACK)
             } else {
                 val travelerViewModel = TravelerViewModel(context, 0)
-                showTravelerEntryWidget(travelerViewModel)
+                showTravelerEntryWidget(travelerViewModel, FLAG_CLEAR_BACKSTACK)
             }
         }
 
@@ -84,37 +86,26 @@ class TravelerPresenter(context: Context, attrs: AttributeSet) : Presenter(conte
 
     fun refreshAndShow() {
         if (viewModel.areTravelersEmpty()) {
+            travelersIncompleteSubject.onNext(Unit)
             travelerDefaultState.updateStatus(TravelerCheckoutStatus.CLEAN)
-        } else if (viewModel.validateTravelersComplete()){
-            travelerDefaultState.updateStatus(TravelerCheckoutStatus.COMPLETE)
         } else {
-            travelerDefaultState.updateStatus(TravelerCheckoutStatus.DIRTY)
+            updateCompletionStatus()
         }
-        visibility = View.VISIBLE
     }
 
-    override fun back(): Boolean {
-        val backHandled = super.back()
-        val stateIsDefault = backStack.peek() is TravelerDefaultState
-        if (backHandled and stateIsDefault) {
-            // Lie to our parent presenter and pretend we didn't handle the back
-            // TODO, be honest, move default state to be checkout responsibility
-            return false
-        }
-        return backHandled
-    }
-
-    private fun validateAndBindTravelerSummary() {
+    private fun updateCompletionStatus() {
         if (viewModel.validateTravelersComplete()) {
+            allTravelersCompleteSubject.onNext(viewModel.getTravelers())
             travelerDefaultState.updateStatus(TravelerCheckoutStatus.COMPLETE)
         } else {
+            travelersIncompleteSubject.onNext(Unit)
             travelerDefaultState.updateStatus(TravelerCheckoutStatus.DIRTY)
         }
     }
 
-    private fun showTravelerEntryWidget(travelerViewModel: TravelerViewModel) {
+    private fun showTravelerEntryWidget(travelerViewModel: TravelerViewModel, flag: Int = 0) {
         travelerEntryWidget.viewModel = travelerViewModel
-        show(travelerEntryWidget)
+        show(travelerEntryWidget, flag)
     }
 
     private val defaultTransition = object : Presenter.DefaultTransition(TravelerDefaultState::class.java.name) {
@@ -127,6 +118,7 @@ class TravelerPresenter(context: Context, attrs: AttributeSet) : Presenter(conte
             dropShadow.visibility = View.GONE
             toolbarTitleSubject.onNext(getCheckoutToolbarTitle(resources, false))
             toolbarNavIcon.onNext(ArrowXDrawableUtil.ArrowDrawableType.BACK)
+            refreshAndShow()
         }
     }
 
@@ -145,7 +137,7 @@ class TravelerPresenter(context: Context, attrs: AttributeSet) : Presenter(conte
 
         override fun endTransition(forward: Boolean) {
             toolbarNavIcon.onNext(ArrowXDrawableUtil.ArrowDrawableType.BACK)
-            if (!forward) validateAndBindTravelerSummary()
+            if (!forward) updateCompletionStatus()
             travelerDefaultState.visibility = if (!forward) View.VISIBLE else View.GONE
             if (forward) travelerSelectState.show() else travelerSelectState.visibility = View.GONE
         }
@@ -175,7 +167,7 @@ class TravelerPresenter(context: Context, attrs: AttributeSet) : Presenter(conte
 
         override fun endTransition(forward: Boolean) {
             setToolbarNavIcon(forward)
-            if (!forward) validateAndBindTravelerSummary()
+            if (!forward) updateCompletionStatus()
             if (forward) {
                 travelerEntryWidget.resetStoredTravelerSelection()
                 travelerEntryWidget.nameEntryView.firstName.requestFocus()

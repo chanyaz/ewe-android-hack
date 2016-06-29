@@ -96,6 +96,7 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet) : Pre
             paymentWidget.viewmodel.isCreditCardRequired.onNext(required)
         }
         travelerPresenter.allTravelersCompleteSubject.subscribe(vm.travelerCompleted)
+        travelerPresenter.travelersIncompleteSubject.subscribe(vm.clearTravelers)
         paymentWidget.viewmodel.billingInfoAndStatusUpdate.map { it.first }.subscribe(vm.paymentCompleted)
         vm.legalText.subscribeTextAndVisibility(legalInformationText)
         vm.depositPolicyText.subscribeTextAndVisibility(depositPolicyText)
@@ -192,7 +193,7 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet) : Pre
         addDefaultTransition(defaultTransition)
         addTransition(defaultToTraveler)
         addTransition(defaultToPayment)
-        travelerPresenter.allTravelersCompleteSubject.subscribe {
+        travelerPresenter.closeSubject.subscribe {
             show(CheckoutDefault(), FLAG_CLEAR_BACKSTACK)
         }
         slideToPurchaseLayout.viewTreeObserver.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
@@ -218,6 +219,7 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet) : Pre
     private val defaultTransition = object : Presenter.DefaultTransition(CheckoutDefault::class.java.name) {
         override fun endTransition(forward: Boolean) {
             loginWidget.bind(false, User.isLoggedIn(context), Db.getUser(), LineOfBusiness.PACKAGES)
+            travelerPresenter.show(travelerPresenter.travelerDefaultState, Presenter.FLAG_CLEAR_BACKSTACK)
             paymentWidget.show(PaymentWidget.PaymentDefault(), Presenter.FLAG_CLEAR_BACKSTACK)
             updateTravelerPresenter()
         }
@@ -236,6 +238,7 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet) : Pre
 
         override fun endTransition(forward: Boolean) {
             if (!forward) {
+                travelerPresenter.show(travelerPresenter.travelerDefaultState, Presenter.FLAG_CLEAR_BACKSTACK)
                 Ui.hideKeyboard(travelerPresenter)
                 toolbarDropShadow.visibility = View.GONE
                 animateInSlideToPurchase(true)
@@ -369,7 +372,7 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet) : Pre
     }
 
     fun animateInSlideToPurchase(visible: Boolean) {
-        var isSlideToPurchaseLayoutVisible = visible && ckoViewModel.infoCompleted.value
+        var isSlideToPurchaseLayoutVisible = visible && ckoViewModel.isValid()
         if (isSlideToPurchaseLayoutVisible) {
             trackShowSlideToPurchase()
         }
@@ -384,7 +387,7 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet) : Pre
 
     fun toggleCheckoutButton(isEnabled: Boolean) {
         checkoutButton.translationY = if (isEnabled) 0f else checkoutButtonHeight
-        val shouldShowSlider = currentState == CheckoutDefault::class.java.name && ckoViewModel.infoCompleted.value ?: false
+        val shouldShowSlider = currentState == CheckoutDefault::class.java.name && ckoViewModel.isValid()
         bottomContainer.translationY = if (isEnabled) sliderHeight - checkoutButtonHeight else if (shouldShowSlider) 0f else sliderHeight
         checkoutButton.isEnabled = isEnabled
     }

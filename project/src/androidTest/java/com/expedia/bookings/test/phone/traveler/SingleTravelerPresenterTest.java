@@ -9,6 +9,7 @@ import android.support.test.runner.AndroidJUnit4;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Traveler;
+import com.expedia.bookings.presenter.Presenter;
 import com.expedia.bookings.test.espresso.Common;
 import com.expedia.bookings.test.espresso.CustomMatchers;
 import com.expedia.bookings.test.espresso.EspressoUser;
@@ -89,7 +90,8 @@ public class SingleTravelerPresenterTest extends BaseTravelerPresenterTestHelper
 		uiThreadTestRule.runOnUiThread(new Runnable() {
 			@Override
 			public void run() {
-				testTravelerPresenter.back();
+				testTravelerPresenter
+					.show(testTravelerPresenter.getTravelerDefaultState(), Presenter.FLAG_CLEAR_BACKSTACK);
 			}
 		});
 
@@ -102,11 +104,12 @@ public class SingleTravelerPresenterTest extends BaseTravelerPresenterTestHelper
 		mockViewModel = getMockViewModelEmptyTravelers(1);
 		testTravelerPresenter.setViewModel(mockViewModel);
 		EspressoUser.clickOnView(R.id.traveler_default_state);
+		PackageScreen.enterLastName(testLastName);
 
 		uiThreadTestRule.runOnUiThread(new Runnable() {
 			@Override
 			public void run() {
-				testTravelerPresenter.back();
+				testTravelerPresenter.show(testTravelerPresenter.getTravelerDefaultState(), Presenter.FLAG_CLEAR_BACKSTACK);
 			}
 		});
 
