@@ -43,7 +43,7 @@ public class NewFlightPhoneHappyPathTest extends NewFlightTestCase {
 		FlightTestHelpers.assertDockedOutboundFlightSelectionWidget();
 		FlightsResultsScreen.dockedOutboundFlightSelectionWidgetContainsText("Outbound");
 		FlightsResultsScreen.dockedOutboundFlightSelectionWidgetContainsText("Delta");
-		FlightsResultsScreen.dockedOutboundFlightSelectionWidgetContainsText("9:00 pm - 8:15 pm (2h 0m)");
+		FlightsResultsScreen.dockedOutboundFlightSelectionWidgetContainsText("9:00 pm - 11:00 pm (2h 0m)");
 		FlightsScreen.selectFlight(FlightsScreen.inboundFlightList(), 0);
 		FlightsScreen.selectInboundFlight().perform(click());
 
