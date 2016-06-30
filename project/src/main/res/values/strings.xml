@@ -240,6 +240,10 @@
     <string name="stored_card_TEMPLATE">Saved {cardtype}</string>
     <!-- Select card from checkout saved cards list -->
     <string name="saved_cards">Saved cards</string>
+    <!-- text that goes underneath the camera button for card_io -->
+    <string name="card_io_btn_text">Scan</string>
+    <!-- Card.io scan text -->
+    <string name="scan_card_text">Scan Card</string>
 
     <!-- Car error strings -->
     <!-- Message for user that pick-up time is too early.  -->

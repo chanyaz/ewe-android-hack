@@ -215,6 +215,7 @@ public class OmnitureTracking {
 	private static final String HOTELSV2_CHECKOUT_SELECT_STORED_CARD = "App.Hotels.CKO.Payment.StoredCard";
 	private static final String HOTELSV2_CHECKOUT_EDIT_PAYMENT = "App.Hotels.Checkout.Payment.Edit.Card";
 	private static final String HOTELSV2_CHECKOUT_SLIDE_TO_PURCHASE = "App.Hotels.Checkout.SlideToPurchase";
+	private static final String HOTELSV2_CHECKOUT_CARDIO_BUTTON_CLICKED = "App.Hotels.CKO.Payment.ScanCard";
 	private static final String HOTELSV2_CHECKOUT_ERROR = "App.Hotels.Checkout.Error";
 	private static final String HOTELSV2_PURCHASE_CONFIRMATION = "App.Hotels.Checkout.Confirmation";
 	private static final String HOTELSV2_CONFIRMATION_ADD_CALENDAR = "App.Hotels.CKO.Confirm.CalenderAdd";
@@ -847,7 +848,14 @@ public class OmnitureTracking {
 		s.setEvar(18, HOTELSV2_CHECKOUT_SLIDE_TO_PURCHASE);
 		s.setEvar(37, getPaymentTypeOmnitureCode(paymentType, paymentSplitsType));
 		s.track();
+	}
 
+	public static void trackHotelV2CardIOButtonClicked() {
+		ADMS_Measurement s = getFreshTrackingObject();
+		s.setAppState(HOTELSV2_CHECKOUT_CARDIO_BUTTON_CLICKED);
+		s.setEvar(28, HOTELSV2_CHECKOUT_CARDIO_BUTTON_CLICKED);
+		s.setProp(16, HOTELSV2_CHECKOUT_CARDIO_BUTTON_CLICKED);
+		s.track();
 	}
 
 	private static String getPaymentTypeOmnitureCode(PaymentType paymentType, PaymentSplitsType paymentSplitsType) {

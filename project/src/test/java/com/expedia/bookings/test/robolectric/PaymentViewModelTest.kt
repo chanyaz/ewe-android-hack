@@ -23,7 +23,11 @@ import rx.observers.TestSubscriber
 import kotlin.properties.Delegates
 import android.content.res.Resources
 import android.support.v4.content.ContextCompat
+import com.expedia.bookings.data.Location
 import com.expedia.bookings.data.payment.ProgramName
+import io.card.payment.CreditCard
+import org.joda.time.LocalDate
+import kotlin.test.assertEquals
 
 
 @RunWith(RobolectricRunner::class)
@@ -46,7 +50,6 @@ class PaymentViewModelTest {
     private fun getContext(): Context {
         return RuntimeEnvironment.application
     }
-
 
     @Before
     fun setup() {
@@ -110,6 +113,38 @@ class PaymentViewModelTest {
         cardTitleTestSubscriber.assertValues("Payment Method", "Paying with Points", "Payment Method")
         cardSubtitleTestSubscriber.assertValues("Credit card, pay with points", "Tap to edit", "Enter credit card")
         pwpSmallIconTestSubscriber.assertValues(false, false, false)
+
+    }
+
+    @Test
+    fun testCreditCardSentToBillingInfo() {
+        val cardIOTestSubscriber = TestSubscriber.create<String>()
+        viewModel.cardIO.subscribe(cardIOTestSubscriber)
+        val info = getBillingInfoFromCard()
+        viewModel.cardIO.onNext(info.number)
+        viewModel.cardIO.onNext(info.securityCode)
+        viewModel.cardIO.onNext(info.nameOnCard)
+        viewModel.cardIO.onNext(info.location.postalCode)
+        viewModel.cardIO.onNext(info.expirationDate.monthOfYear.toString())
+        viewModel.cardIO.onNext(info.expirationDate.year.toString())
+        viewModel.cardIO.onNext(info.isCardIO.toString())
+
+        cardIOTestSubscriber.assertValues("4111111111111111", "111", "Joe Smith", "99999", 12.toString(), 2017.toString(), "true")
+    }
+
+    fun getBillingInfoFromCard() : BillingInfo {
+        val info = BillingInfo()
+        info.number = "4111111111111111"
+        info.securityCode = "111"
+        info.nameOnCard = "Joe Smith"
+        val localDateForExp = LocalDate.now().withYear(2017).withMonthOfYear(12)
+        info.expirationDate = localDateForExp
+        info.isCardIO = true;
+        val location = Location()
+        location.postalCode = "99999"
+        info.location = location
+        viewModel.cardIOBillingInfo.onNext(info)
+        return info
     }
 
     fun getBillingInfo(hasStoredCard: Boolean): BillingInfo {

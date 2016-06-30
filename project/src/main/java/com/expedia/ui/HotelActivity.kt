@@ -15,10 +15,13 @@ import com.expedia.bookings.utils.AddToCalendarUtils
 import com.expedia.bookings.utils.HotelsV2DataUtil
 import com.expedia.bookings.utils.ServicesUtil
 import com.expedia.bookings.utils.Ui
+import com.expedia.bookings.widget.PaymentWidgetV2
 import com.expedia.util.endlessObserver
 import com.expedia.vm.HotelDeepLinkHandler
 import com.expedia.vm.HotelSearchViewModel
 import com.google.android.gms.maps.MapView
+import io.card.payment.CardIOActivity
+import io.card.payment.CreditCard
 import rx.Observer
 
 class HotelActivity : AbstractAppCompatActivity() {
@@ -106,6 +109,12 @@ class HotelActivity : AbstractAppCompatActivity() {
             AddToCalendarUtils.requestCodeAddCheckInToCalendarActivity -> {
                 // show add to calendar for checkOut date
                 hotelPresenter.confirmationPresenter.hotelConfirmationViewModel.showAddToCalendarIntent(false, this)
+            }
+            PaymentWidgetV2.CARD_IO_REQUEST_CODE -> {
+                if (data != null && data.hasExtra(CardIOActivity.EXTRA_SCAN_RESULT)) {
+                    val scanResult: CreditCard = data.getParcelableExtra(CardIOActivity.EXTRA_SCAN_RESULT)
+                    hotelPresenter.checkoutPresenter.hotelCheckoutWidget.paymentInfoCardView.viewmodel.cardIoScanResult.onNext(scanResult)
+                }
             }
         }
     }
