@@ -7,7 +7,8 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.test.espresso.Common;
 import com.expedia.bookings.test.espresso.EspressoUtils;
 import com.expedia.bookings.test.espresso.RailTestCase;
-import com.expedia.bookings.test.phone.packages.RailScreen;
+import com.expedia.bookings.test.phone.pagemodels.common.SearchScreen;
+import com.expedia.bookings.test.phone.rail.RailScreen;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
@@ -25,7 +26,7 @@ public class RailPhoneHappyPathTest extends RailTestCase {
 		RailScreen.selectDates(firstStartDate, firstStartDate.plusDays(2));
 		RailScreen.dialogDoneButton().perform(click());
 
-		RailScreen.searchButton().perform(click());
+		SearchScreen.searchButton().perform(click());
 		Common.delay(1);
 
 		onView(withText("11:55 AM – 3:22 PM")).check(matches(isDisplayed())).perform(click());

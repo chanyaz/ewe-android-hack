@@ -38,9 +38,9 @@ class RailCalendarWidget(context: Context, attrs: AttributeSet?) : CardView(cont
 
     var viewModel: RailSearchViewModel by notNullAndObservable {
         it.dateTextObservable.subscribeText(this.dateText)
-        it.errorNoDatesObservable.subscribe {
-            AnimUtils.doTheHarlemShake(this)
-        }
+        it.errorNoDestinationObservable.subscribe { AnimUtils.doTheHarlemShake(this) }
+        it.errorNoOriginObservable.subscribe { AnimUtils.doTheHarlemShake(this) }
+        it.errorNoDatesObservable.subscribe { AnimUtils.doTheHarlemShake(this) }
     }
 
     var calendarDialog: CalendarDialogFragment? = null

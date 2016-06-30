@@ -796,6 +796,12 @@ DummyFiletoHandleKotlinLintError {
 		R.string.rewards_visa_card_TEMPLATE,
 		R.string.account_creation_legal_rewards_TEMPLATE,
 		R.string.fare_rule_text_TEMPLATE,
-		R.drawable.brand_tablet_checkout_login_logo_drawable
+		R.drawable.brand_tablet_checkout_login_logo_drawable,
+		R.string.rail_search_range_error_TEMPLATE,
+		R.integer.calendar_min_search_time_rail,
+		R.integer.calendar_max_days_rail_return,
+		R.dimen.temporary_large_padding,
+		R.dimen.temporary_default_padding,
+		R.dimen.temporary_tiny_padding
 	};
 }

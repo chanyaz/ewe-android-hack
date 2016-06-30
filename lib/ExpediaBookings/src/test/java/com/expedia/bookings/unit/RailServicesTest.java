@@ -109,6 +109,7 @@ public class RailServicesTest {
 	private void givenHappySearchRequest() {
 		SuggestionV4 origin = new SuggestionV4();
 		SuggestionV4 destination = new SuggestionV4();
-		railSearchRequest = new RailApiSearchModel(origin, destination, LocalDate.now(), LocalDate.now().plusDays(1));
+		Long timeInMillis = System.currentTimeMillis();
+		railSearchRequest = new RailApiSearchModel(origin, destination, LocalDate.now(), LocalDate.now().plusDays(1), timeInMillis, timeInMillis);
 	}
 }
