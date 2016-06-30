@@ -40,6 +40,7 @@ import com.expedia.bookings.utils.Images;
 import com.expedia.bookings.utils.NavUtils;
 import com.expedia.bookings.utils.Ui;
 import com.squareup.otto.Subscribe;
+import com.squareup.phrase.Phrase;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -186,6 +187,8 @@ public class CarConfirmationWidget extends FrameLayout {
 		vendorText.setText(offer.vendor.name);
 		pickupLocationText.setText(offer.pickUpLocation.locationDescription);
 		directionsTextView.setText(res.getString(R.string.car_confirmation_directions, offer.vendor.name));
+		directionsTextView.setContentDescription(Phrase.from(getContext(), R.string.car_confirmation_directions_cont_desc_TEMPLATE)
+			.put("vendor", offer.vendor.name).format().toString());
 		pickupDateText.setText(res.getString(R.string.car_confirmation_pickup_time_TEMPLATE,
 			DateUtils.formatDateTime(getContext(), offer.getPickupTime().getMillis(),
 				DateFormatUtils.FLAGS_DATE_ABBREV_MONTH | DateFormatUtils.FLAGS_TIME_FORMAT)));
@@ -193,8 +196,12 @@ public class CarConfirmationWidget extends FrameLayout {
 			DateFormatUtils.FLAGS_DATE_ABBREV_MONTH | DateFormatUtils.FLAGS_TIME_FORMAT));
 		addHotelTextView.setText(res.getString(R.string.successful_checkout_cross_sell_hotel,
 			offer.pickUpLocation.locationDescription));
+		addHotelTextView.setContentDescription(Phrase.from(getContext(), R.string.successful_checkout_cross_sell_hotel_cont_desc_TEMPLATE)
+			.put("location", offer.pickUpLocation.locationDescription).format().toString());
 		addFlightTextView.setText(res.getString(R.string.successful_checkout_cross_sell_flight,
 			offer.pickUpLocation.locationDescription));
+		addFlightTextView.setContentDescription(Phrase.from(getContext(), R.string.successful_checkout_cross_sell_flight_cont_desc_TEMPLATE)
+			.put("location", offer.pickUpLocation.locationDescription).format().toString());
 
 		int statusBarHeight = Ui.getStatusBarHeight(getContext());
 		toolbar.setPadding(0, statusBarHeight, 0, 0);

@@ -3817,6 +3817,15 @@
     <!-- Content description for car offer view details button e.g. Dollar, Chevrolet Spark or Similar, View details button-->
     <string name="cars_offer_view_details_button_cont_desc_TEMPLATE">{vendor}, {make}, View details button</string>
 
+    <!-- Car confirmation directions content description e.g. Directions to Fox button-->
+    <string name="car_confirmation_directions_cont_desc_TEMPLATE">Directions to {vendor} button</string>
+    <!-- Car confirmation add to calendar content description-->
+    <string name="car_confirmation_add_to_calendar_cont_desc">Add to calendar button</string>
+    <!-- Successful checkout hotel cross sell content description e.g. Hotels in Seattle button-->
+    <string name="successful_checkout_cross_sell_hotel_cont_desc_TEMPLATE">Hotels in {location} button</string>
+    <!-- Successful checkout flight cross sell content description e.g. Flights to Seattle button-->
+    <string name="successful_checkout_cross_sell_flight_cont_desc_TEMPLATE">Flights to {location} button</string>
+
     <!-- Tablet Confirmation Screen -->
     <!-- Header text to indicating booking confirmed for hotel -->
     <string name="tablet_confirmation_hotel_booked">Your hotel is booked!</string>

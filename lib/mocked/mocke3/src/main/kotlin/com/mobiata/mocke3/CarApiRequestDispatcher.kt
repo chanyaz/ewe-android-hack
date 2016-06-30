@@ -42,6 +42,7 @@ class CarApiRequestDispatcher(fileOpener: FileOpener) : AbstractDispatcher(fileO
                     "UnknownError" -> getMockResponse("m/api/cars/trip/checkout/unknown_error.json")
                     "SessionTimeout" -> getMockResponse("m/api/cars/trip/checkout/session_timeout.json")
                     "InvalidInput" -> getMockResponse("m/api/cars/trip/checkout/invalid_input.json")
+                    "happy_0" -> getMockResponse("m/api/cars/trip/checkout/happy_0.json")
                     else -> getMockResponse("m/api/cars/trip/checkout/happy.json")
                 }
             }
