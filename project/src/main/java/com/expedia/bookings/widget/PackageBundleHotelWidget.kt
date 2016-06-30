@@ -106,7 +106,7 @@ class PackageBundleHotelWidget(context: Context, attrs: AttributeSet?) : Accessi
         }
 
         viewModel.selectedHotelObservable.subscribe {
-            this.selectedHotelObservable.onNext(Unit)
+            this.selectedCardObservable.onNext(Unit)
             hotelsText.setTextColor(ContextCompat.getColor(context, R.color.packages_bundle_overview_widgets_primary_text))
             hotelLuggageIcon.setColorFilter(0)
             hotelsDatesGuestInfoText.setTextColor(ContextCompat.getColor(context, R.color.packages_bundle_overview_widgets_secondary_text))
@@ -133,7 +133,7 @@ class PackageBundleHotelWidget(context: Context, attrs: AttributeSet?) : Accessi
                 } else {
                     collapseSelectedHotel()
                 }
-                this.selectedHotelObservable.onNext(Unit)
+                this.selectedCardObservable.onNext(Unit)
             } else {
                 openHotels()
             }
@@ -155,7 +155,7 @@ class PackageBundleHotelWidget(context: Context, attrs: AttributeSet?) : Accessi
         AnimUtils.rotate(hotelDetailsIcon)
         PackagesTracking().trackBundleOverviewHotelExpandClick()
         if (hotelDetailsIcon.visibility == View.VISIBLE) {
-            this.selectedHotelObservable.onNext(Unit)
+            this.selectedCardObservable.onNext(Unit)
         }
     }
 
@@ -164,7 +164,7 @@ class PackageBundleHotelWidget(context: Context, attrs: AttributeSet?) : Accessi
         AnimUtils.reverseRotate(hotelDetailsIcon)
         hotelDetailsIcon.clearAnimation()
         if (hotelDetailsIcon.visibility == View.VISIBLE) {
-            this.selectedHotelObservable.onNext(Unit)
+            this.selectedCardObservable.onNext(Unit)
         }
     }
 
@@ -218,7 +218,7 @@ class PackageBundleHotelWidget(context: Context, attrs: AttributeSet?) : Accessi
                 .toString()
     }
 
-    override fun selectedHotelContentDescription(): String {
+    override fun selectedCardContentDescription(): String {
         val startDate = DateUtils.localDateToMMMd(Db.getPackageParams().checkIn)
         val endDate = DateUtils.localDateToMMMd(Db.getPackageParams().checkOut)
         val guests = StrUtils.formatGuestString(context, Db.getPackageParams().guests)

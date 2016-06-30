@@ -3,6 +3,7 @@ package com.expedia.bookings.test.phone.accessibility.packages;
 import org.joda.time.LocalDate;
 
 import com.expedia.bookings.R;
+import android.support.test.espresso.ViewInteraction;
 import com.expedia.bookings.test.espresso.Common;
 import com.expedia.bookings.test.espresso.PackageTestCase;
 import com.expedia.bookings.test.espresso.ViewActions;
@@ -42,7 +43,9 @@ public class PackagesBundleOverviewTest extends PackageTestCase {
 		PackageScreen.inboundFlightInfo().check(matches(hasDescendant(
 			allOf(isDisplayed(), withText("Flight to (SFO) San Francisco")))));
 		PackageScreen.outboundFlightInfo().check(matches(not(isEnabled())));
+		checkBundleOverviewFlightContentDescription(PackageScreen.outboundFlightInfoRowContainer(), "(DTW) Detroit", false, true);
 		PackageScreen.inboundFlightInfo().check(matches(not(isEnabled())));
+		checkBundleOverviewFlightContentDescription(PackageScreen.inboundFlightInfoRowContainer(), "(SFO) San Francisco", true, true);
 
 		PackageScreen.clickHotelBundle();
 		openCloseSlidingBundleWidget("$0.00", "$0.00", "$0.00");
@@ -65,6 +68,7 @@ public class PackagesBundleOverviewTest extends PackageTestCase {
 		PackageScreen.selectThisFlight().perform(click());
 		Common.pressBack();
 		checkBundleTotalWidgetContentDescription("$4,211.90", "$540.62", false);
+		checkBundleOverviewFlightContentDescription(PackageScreen.outboundFlightInfoRowContainer(), "(DTW) Detroit", false, false);
 
 		PackageScreen.inboundFLight().perform(click());
 		PackageScreen.selectFlight(0);
@@ -81,6 +85,7 @@ public class PackagesBundleOverviewTest extends PackageTestCase {
 		onView(withId(R.id.account_logout_logout_button)).check(matches(hasContentDescription()));
 		onView(withId(R.id.account_logout_logout_button)).perform(click());
 
+		checkBundleOverviewFlightContentDescription(PackageScreen.inboundFlightInfoRowContainer(), "(SFO) San Francisco", true, false);
 	}
 
 	private void checkBundleOverviewHotelContentDescription(boolean searchCompleted) {
@@ -94,6 +99,19 @@ public class PackagesBundleOverviewTest extends PackageTestCase {
 		else {
 			PackageScreen.bundleOverviewHotelRowContainer().check(matches(withContentDescription("" +
 				"Searching for hotels in Detroit from " + startDate + " to " + endDate + ", for 1 Guest. Please wait")));
+		}
+	}
+
+	private void checkBundleOverviewFlightContentDescription(ViewInteraction view, String flightTo, boolean isInboundFlight, boolean isDisabled) {
+		String date = isInboundFlight ? DateUtils.localDateToMMMd(LocalDate.now().plusDays(8)) : DateUtils.localDateToMMMd(LocalDate.now().plusDays(3));
+		String previous = isInboundFlight ? "Outbound Flight" : "Hotel";
+		if (isDisabled) {
+			view.check(matches(withContentDescription(
+				"Flight to " + flightTo + " on " + date + " for 1 Traveler. Please select " + previous + " first. Button disabled.")));
+		}
+		else {
+			view.check(matches(withContentDescription(
+				"You have selected flight to " + flightTo + " on " + date + ", 1 Traveler. Button to expand flight details.")));
 		}
 	}
 

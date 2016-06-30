@@ -16,6 +16,9 @@ import com.expedia.vm.packages.PackageSearchType
 import com.squareup.phrase.Phrase
 
 class PackageOutboundFlightWidget(context: Context, attrs: AttributeSet?) : PackageBundleFlightWidget(context, attrs) {
+    override fun isInboundFlight(): Boolean {
+        return false
+    }
 
     override fun showLoading() {
         toggleFlightWidget(1f, true)

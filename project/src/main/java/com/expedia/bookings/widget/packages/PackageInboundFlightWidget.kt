@@ -15,6 +15,9 @@ import com.expedia.ui.PackageFlightActivity
 import com.squareup.phrase.Phrase
 
 class PackageInboundFlightWidget(context: Context, attrs: AttributeSet?) : PackageBundleFlightWidget(context, attrs) {
+    override fun isInboundFlight(): Boolean {
+        return true
+    }
 
     override fun showLoading() {
         viewModel.showLoadingStateObservable.onNext(true)

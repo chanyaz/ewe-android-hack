@@ -9,12 +9,13 @@ import rx.subjects.BehaviorSubject
 abstract class AccessibleCardView(context: Context, attrs: AttributeSet?) : CardView(context, attrs) {
 
     abstract fun contentDescription(): String
-    abstract fun selectedHotelContentDescription(): String
+    abstract fun selectedCardContentDescription(): String
     abstract fun loadingContentDescription(): String
     abstract fun disabledContentDescription(): String
     abstract fun getRowInfoContainer(): ViewGroup
     var loadingStateObservable = BehaviorSubject.create<Boolean>()
-    val selectedHotelObservable = BehaviorSubject.create<Unit>()
+    var disabledStateObservable = BehaviorSubject.create<Unit>()
+    val selectedCardObservable = BehaviorSubject.create<Unit>()
 
     init {
         loadingStateObservable.subscribe { isLoading ->
@@ -25,8 +26,11 @@ abstract class AccessibleCardView(context: Context, attrs: AttributeSet?) : Card
                 getRowInfoContainer().contentDescription = contentDescription()
             }
         }
-        selectedHotelObservable.subscribe {
-            getRowInfoContainer().contentDescription = selectedHotelContentDescription()
+        selectedCardObservable.subscribe {
+            getRowInfoContainer().contentDescription = selectedCardContentDescription()
+        }
+        disabledStateObservable.subscribe {
+            getRowInfoContainer().contentDescription = disabledContentDescription()
         }
     }
 }
