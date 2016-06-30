@@ -5,6 +5,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.Arrays;
 import java.util.EnumMap;
+import java.util.HashMap;
 
 import android.content.Context;
 
@@ -12,6 +13,7 @@ import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
+import com.expedia.bookings.utils.Constants;
 import com.expedia.bookings.utils.Strings;
 import com.google.gson.Gson;
 import com.mobiata.android.util.SettingUtils;
@@ -114,17 +116,17 @@ public class EndpointProvider {
 		}
 	}
 
-	public String getRailEndpointUrl() {
-		return getRailEndpointUrl(getEndPoint());
-	}
-
-	private String getRailEndpointUrl(EndPoint endPoint) {
-		switch (endPoint) {
-		case MOCK_MODE:
-			return getCustomServerAddress();
-		default:
-			return "http://rails-ecom-service.us-west-2.test.expedia.com:80";
+	public HashMap<String, String> getRailEndpointUrls() {
+		HashMap<String, String> urlMap = new HashMap<>();
+		EndPoint endPoint = getEndPoint();
+		if (endPoint == EndPoint.MOCK_MODE) {
+			urlMap.put(Constants.MOCK_MODE, getCustomServerAddress());
 		}
+		else {
+			urlMap.put(Constants.DOMAIN, "http://rails-web.us-west-2.test.expedia.com");
+			urlMap.put(Constants.MOBILE, "https://wwwexpediacouk.integration.sb.karmalab.net");
+		}
+		return urlMap;
 	}
 
 	/**

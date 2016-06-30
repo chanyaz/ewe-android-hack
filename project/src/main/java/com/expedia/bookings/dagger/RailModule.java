@@ -18,8 +18,7 @@ public final class RailModule {
 	@Provides
 	@RailScope
 	RailServices provideRailServices(EndpointProvider endpointProvider, OkHttpClient client, Interceptor interceptor) {
-		final String endpoint = endpointProvider.getRailEndpointUrl();
-		return new RailServices(endpoint, client, interceptor, AndroidSchedulers.mainThread(), Schedulers.io());
+		return new RailServices(endpointProvider.getRailEndpointUrls(), client, interceptor, AndroidSchedulers.mainThread(), Schedulers.io());
 	}
 
 	@Provides

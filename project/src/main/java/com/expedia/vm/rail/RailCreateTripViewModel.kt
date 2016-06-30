@@ -24,8 +24,14 @@ class RailCreateTripViewModel(val railServices: RailServices) : BaseCreateTripVi
         return object : Observer<RailCreateTripResponse> {
             override fun onNext(response: RailCreateTripResponse) {
                 if (response.hasErrors() && !response.hasPriceChange()) {
-                    if (response.firstError.errorCode == ApiError.Code.UNKNOWN_ERROR) {
-                        createTripErrorObservable.onNext(ApiError(ApiError.Code.UNKNOWN_ERROR))
+                    when (response.firstError.errorCode) {
+                        ApiError.Code.UNKNOWN_ERROR -> {
+                            createTripErrorObservable.onNext(ApiError(ApiError.Code.UNKNOWN_ERROR))
+                        }
+                        ApiError.Code.RAIL_PRODUCT_LOOKUP_ERROR -> {
+                            createTripErrorObservable.onNext(ApiError(ApiError.Code.RAIL_PRODUCT_LOOKUP_ERROR))
+                        }
+                        else -> createTripErrorObservable.onNext(ApiError(response.firstError.errorCode))
                     }
                 } else {
                     if (response.hasPriceChange()) {

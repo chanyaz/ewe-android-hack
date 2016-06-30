@@ -28,15 +28,16 @@ public class RailPhoneHappyPathTest extends RailTestCase {
 		RailScreen.searchButton().perform(click());
 		Common.delay(1);
 
-		onView(withText("9:45 AM – 12:59 PM")).check(matches(isDisplayed())).perform(click());
-		onView(withText("Change at Birmingham New Street")).check(matches(isDisplayed()));
+		onView(withText("11:55 AM – 3:22 PM")).check(matches(isDisplayed())).perform(click());
+		onView(withText("Walk from London Euston to London Paddington")).check(matches(isDisplayed()));
 
 		RailScreen.scrollToFareOptions();
 		onView(withText("Any off-peak train")).check(matches(isDisplayed()));
 		Common.delay(1);
 		RailScreen.clickSelectFareOption();
 
-		onView(withText("Outbound - Thu Jun 09")).check(matches(isDisplayed()));
+		Common.delay(5);
+		onView(withText("Outbound - Wed Jul 06")).check(matches(isDisplayed()));
 		assertLegInfo();
 		assertDetailsCollapsed();
 		assertDetailsExpanded();
@@ -50,11 +51,11 @@ public class RailPhoneHappyPathTest extends RailTestCase {
 
 	private void assertLegInfo() {
 		RailScreen.legInfo().check(matches(hasDescendant(
-			CoreMatchers.allOf(isDisplayed(), withText("9:45 AM – 12:59 PM")))));
+			CoreMatchers.allOf(isDisplayed(), withText("11:55 AM – 3:22 PM")))));
 		RailScreen.legInfo().check(matches(hasDescendant(
-			CoreMatchers.allOf(isDisplayed(), withText("3h 22m, 1 Change")))));
+			CoreMatchers.allOf(isDisplayed(), withText("3h 27m, 2 Changes")))));
 		RailScreen.legInfo().check(matches(hasDescendant(
-			CoreMatchers.allOf(isDisplayed(), withText("CrossCountry, CrossCountry")))));
+			CoreMatchers.allOf(isDisplayed(), withText("Virgin Trains, London Underground, First Great Western")))));
 
 	}
 
