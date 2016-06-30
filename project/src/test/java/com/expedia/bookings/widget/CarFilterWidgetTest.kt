@@ -36,26 +36,21 @@ class CarFilterWidgetTest {
         carFilterWidget.bind(CarSearch(), null)
 
         assertTrue(carFilterWidget.all.isSelected)
-        assertEquals("All transmissions", carFilterWidget.all.contentDescription)
         assertFalse(carFilterWidget.manual.isSelected)
-        assertEquals("Manual transmission. Unselected", carFilterWidget.manual.contentDescription)
         assertFalse(carFilterWidget.auto.isSelected)
-        assertEquals("Automatic transmission. Unselected", carFilterWidget.auto.contentDescription)
 
         carFilterWidget.manual.performClick()
         assertTrue(carFilterWidget.manual.isSelected)
-        assertEquals("Manual transmission", carFilterWidget.manual.contentDescription)
         assertFalse(carFilterWidget.all.isSelected)
-        assertEquals("All transmissions. Unselected", carFilterWidget.all.contentDescription)
         assertFalse(carFilterWidget.auto.isSelected)
-        assertEquals("Automatic transmission. Unselected", carFilterWidget.auto.contentDescription)
 
         carFilterWidget.auto.performClick()
         assertTrue(carFilterWidget.auto.isSelected)
-        assertEquals("Automatic transmission", carFilterWidget.auto.contentDescription)
         assertFalse(carFilterWidget.all.isSelected)
-        assertEquals("All transmissions. Unselected", carFilterWidget.all.contentDescription)
         assertFalse(carFilterWidget.manual.isSelected)
-        assertEquals("Manual transmission. Unselected", carFilterWidget.manual.contentDescription)
+
+        assertEquals("All transmissions", carFilterWidget.all.contentDescription)
+        assertEquals("Manual transmission", carFilterWidget.manual.contentDescription)
+        assertEquals("Automatic transmission", carFilterWidget.auto.contentDescription)
     }
 }
