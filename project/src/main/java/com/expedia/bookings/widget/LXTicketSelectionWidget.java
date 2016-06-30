@@ -19,6 +19,7 @@ import com.expedia.bookings.data.lx.LXRedemptionType;
 import com.expedia.bookings.data.lx.Offer;
 import com.expedia.bookings.data.lx.Ticket;
 import com.expedia.bookings.otto.Events;
+import com.expedia.bookings.utils.AccessibilityUtil;
 import com.expedia.bookings.utils.LXDataUtils;
 import com.expedia.bookings.utils.LXUtils;
 import com.expedia.bookings.utils.StrUtils;
@@ -190,5 +191,14 @@ public class LXTicketSelectionWidget extends LinearLayout {
 				ticket.count = updatedTicket.count;
 			}
 		}
+	}
+
+	@Override
+	protected void onVisibilityChanged(View changedView, int visibility) {
+		if (visibility == VISIBLE) {
+			// Once the animateLayoutChanges are done, then only we can give focus to the view.
+			AccessibilityUtil.delayedFocusToView(title, 500);
+		}
+		super.onVisibilityChanged(changedView, visibility);
 	}
 }
