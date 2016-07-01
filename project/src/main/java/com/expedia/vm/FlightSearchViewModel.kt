@@ -125,7 +125,7 @@ class FlightSearchViewModel(context: Context, val flightServices: FlightServices
     }
 
     override fun getMaxDateRange(): Int {
-        return context.resources.getInteger(R.integer.calendar_max_selectable_date_range)
+        return context.resources.getInteger(R.integer.calendar_max_days_flight_search)
     }
 
     override fun computeDateInstructionText(start: LocalDate?, end: LocalDate?): CharSequence {
