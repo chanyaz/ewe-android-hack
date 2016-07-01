@@ -10,7 +10,6 @@ import com.expedia.bookings.test.phone.hotels.HotelScreen;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
-import static android.support.test.espresso.action.ViewActions.scrollTo;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.hasDescendant;
 import static android.support.test.espresso.matcher.ViewMatchers.hasSibling;
@@ -75,9 +74,7 @@ public class PackageHotelDetailsTest extends PackageTestCase {
 		PackageScreen.searchPackage();
 		HotelScreen.selectHotel("Package Happy Path");
 		HotelScreen.clickRenoInfo();
-		onView(allOf(withId(R.id.content_description), withText("<ul><li>Elevator</li><li>Front desk</li><li>Lobby</li></ul>")));
-		Common.pressBack();
-		onView(withId(R.id.renovation_container)).perform(scrollTo());
-		EspressoUtils.assertViewIsDisplayed(R.id.renovation_container);
+		onView(allOf(withId(R.id.content_description),
+			withText("<ul><li>Elevator</li><li>Front desk</li><li>Lobby</li></ul>")));
 	}
 }
