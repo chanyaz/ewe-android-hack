@@ -1,9 +1,8 @@
 package com.expedia.vm.rail
 
 import android.content.Context
-import com.expedia.bookings.R
 import android.support.v4.content.ContextCompat
-import org.joda.time.DateTime
+import com.expedia.bookings.R
 import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.rail.requests.RailSearchRequest
 import com.expedia.bookings.utils.DateUtils
@@ -12,6 +11,7 @@ import com.expedia.util.endlessObserver
 import com.expedia.vm.BaseSearchViewModel
 import com.mobiata.android.time.util.JodaUtils
 import com.squareup.phrase.Phrase
+import org.joda.time.DateTime
 import org.joda.time.LocalDate
 import rx.subjects.BehaviorSubject
 import rx.subjects.PublishSubject
@@ -166,5 +166,9 @@ class RailSearchViewModel(context: Context) : BaseSearchViewModel(context) {
         suggestion.hierarchyInfo!!.airport = SuggestionV4.Airport()
         suggestion.hierarchyInfo!!.airport!!.airportCode = ""
         return suggestion
+    }
+
+    override fun sameStartAndEndDateAllowed(): Boolean {
+        return false
     }
 }

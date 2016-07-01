@@ -82,6 +82,10 @@ class FlightSearchViewModel(context: Context, val flightServices: FlightServices
         }
     }
 
+    override fun sameStartAndEndDateAllowed(): Boolean {
+        return true
+    }
+
     fun setupFlightSelectionObservables() {
         confirmedOutInSubscription?.unsubscribe()
         inboundOutboundSelectSubscription?.unsubscribe()

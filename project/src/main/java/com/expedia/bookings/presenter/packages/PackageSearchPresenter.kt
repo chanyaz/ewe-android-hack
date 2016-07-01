@@ -113,4 +113,5 @@ class PackageSearchPresenter(context: Context, attrs: AttributeSet) : BaseTwoLoc
     override fun getDestinationSearchBoxPlaceholderText(): String {
         return context.resources.getString(R.string.fly_to_hint)
     }
+
 }

@@ -52,13 +52,14 @@ open class CalendarDialogFragment(val baseSearchViewModel: BaseSearchViewModel) 
 
         calendarPickerView.setDateChangedListener { start, end ->
             if (calendar.visibility == CardView.VISIBLE) {
-                if (start != null && JodaUtils.isEqual(start, end)) {
+                if (start != null && JodaUtils.isEqual(start, end) && !baseSearchViewModel.sameStartAndEndDateAllowed()) {
                     if (!JodaUtils.isEqual(end, maxDate)) {
                         calendarPickerView.setSelectedDates(start, end.plusDays(1))
                     } else {
                         // Do not select an end date beyond the allowed range
                         calendarPickerView.setSelectedDates(start, null)
                     }
+
                 } else {
                     baseSearchViewModel.datesObserver.onNext(Pair(start, end))
                 }

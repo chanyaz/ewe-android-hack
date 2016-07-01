@@ -4,7 +4,6 @@ import android.content.Context
 import android.text.Html
 import android.text.style.RelativeSizeSpan
 import com.expedia.bookings.R
-import com.expedia.bookings.data.AbstractFlightSearchParams
 import com.expedia.bookings.data.BaseSearchParams
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.SuggestionV4
@@ -19,7 +18,6 @@ import com.squareup.phrase.Phrase
 import org.joda.time.LocalDate
 import rx.subjects.BehaviorSubject
 import rx.subjects.PublishSubject
-import java.util.ArrayList
 
 abstract class BaseSearchViewModel(val context: Context) {
 
@@ -53,10 +51,10 @@ abstract class BaseSearchViewModel(val context: Context) {
     }
 
     abstract fun getParamsBuilder(): BaseSearchParams.Builder
+    abstract fun getMaxSearchDurationDays(): Int
+    abstract fun getMaxDateRange(): Int
+    abstract fun sameStartAndEndDateAllowed():Boolean
 
-    abstract fun getMaxSearchDurationDays(): Int;
-
-    abstract fun getMaxDateRange(): Int;
 
     val datesObserver = endlessObserver<Pair<LocalDate?, LocalDate?>> { data ->
         onDatesChanged(data)
