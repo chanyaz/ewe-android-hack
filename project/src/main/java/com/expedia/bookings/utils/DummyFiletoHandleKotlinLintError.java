@@ -689,6 +689,7 @@ DummyFiletoHandleKotlinLintError {
 		R.string.rail_checkout_outbound_TEMPLATE,
 		R.string.packages_flight_filter_checkbox_cont_desc_TEMPLATE,
 		R.string.accessibility_cont_desc_role_checkbox_checked,
-		R.string.accessibility_cont_desc_role_checkbox_unchecked
+		R.string.accessibility_cont_desc_role_checkbox_unchecked,
+		R.string.select_flight_selected_cont_desc_TEMPLATE
 	};
 }

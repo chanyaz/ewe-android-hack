@@ -25,6 +25,7 @@ import com.expedia.util.subscribeVisibility
 import com.expedia.vm.packages.BundleFlightViewModel
 import com.expedia.vm.FlightSegmentBreakdown
 import com.expedia.vm.FlightSegmentBreakdownViewModel
+import com.squareup.phrase.Phrase
 
 abstract class PackageBundleFlightWidget(context: Context, attrs: AttributeSet?) : CardView(context, attrs) {
     abstract fun showLoading()
@@ -121,12 +122,18 @@ abstract class PackageBundleFlightWidget(context: Context, attrs: AttributeSet?)
         flightDetailsContainer.visibility = Presenter.VISIBLE
         AnimUtils.rotate(flightDetailsIcon)
         PackagesTracking().trackBundleOverviewFlightExpandClick()
+        if(flightDetailsIcon.visibility == View.VISIBLE){
+            rowContainer.contentDescription = selectedFlightContentDescription()
+        }
     }
 
     fun collapseFlightDetails() {
         flightDetailsContainer.visibility = Presenter.GONE
         AnimUtils.reverseRotate(flightDetailsIcon)
         flightDetailsIcon.clearAnimation()
+        if(flightDetailsIcon.visibility == View.VISIBLE) {
+            rowContainer.contentDescription = selectedFlightContentDescription()
+        }
     }
 
     private fun isFlightSegmentDetailsExpanded(): Boolean {
@@ -147,5 +154,21 @@ abstract class PackageBundleFlightWidget(context: Context, attrs: AttributeSet?)
         this.isEnabled = isEnabled
         flightDetailsIcon.isEnabled = isEnabled
         rowContainer.isEnabled = isEnabled
+    }
+
+    fun selectedFlightContentDescription(): String {
+        return Phrase.from(context, R.string.select_flight_selected_cont_desc_TEMPLATE).
+                put("flighttext", viewModel.flightTextObservable.value).
+                put("travelerinfotext", viewModel.travelInfoTextObservable.value).
+                put("expandstate", getFlightWidgetExpandedState()).format().toString()
+    }
+
+    fun getFlightWidgetExpandedState(): String {
+        if (isFlightSegmentDetailsExpanded()) {
+            return context.getString(R.string.accessibility_cont_desc_role_button_collapse)
+        }
+        else {
+            return context.getString(R.string.accessibility_cont_desc_role_button_expand)
+        }
     }
 }

@@ -113,7 +113,6 @@ class PackageBundleHotelWidget(context: Context, attrs: AttributeSet?) : Accessi
                 } else {
                     collapseSelectedHotel()
                 }
-                this.selectedHotelObservable.onNext(Unit)
             }
         }
     }
@@ -142,12 +141,18 @@ class PackageBundleHotelWidget(context: Context, attrs: AttributeSet?) : Accessi
         mainContainer.visibility = Presenter.VISIBLE
         AnimUtils.rotate(hotelDetailsIcon)
         PackagesTracking().trackBundleOverviewHotelExpandClick()
+        if (hotelDetailsIcon.visibility == View.VISIBLE) {
+            this.selectedHotelObservable.onNext(Unit)
+        }
     }
 
     fun collapseSelectedHotel() {
         mainContainer.visibility = Presenter.GONE
         AnimUtils.reverseRotate(hotelDetailsIcon)
         hotelDetailsIcon.clearAnimation()
+        if (hotelDetailsIcon.visibility == View.VISIBLE) {
+            this.selectedHotelObservable.onNext(Unit)
+        }
     }
 
     fun backButtonPressed() {

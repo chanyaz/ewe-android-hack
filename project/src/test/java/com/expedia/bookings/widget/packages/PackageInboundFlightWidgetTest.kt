@@ -10,6 +10,7 @@ import com.expedia.bookings.data.packages.PackageSearchParams
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.utils.StrUtils
 import com.expedia.vm.packages.BundleFlightViewModel
+import com.squareup.phrase.Phrase
 import org.joda.time.LocalDate
 import org.junit.Before
 import org.junit.Test
@@ -27,6 +28,8 @@ class PackageInboundFlightWidgetTest {
     var testOrigin: SuggestionV4 by Delegates.notNull()
     val testRegionName = "Chicago"
     val testAirportCode = "ORD"
+    val testFlightText = "(DTM) Detroit"
+    val testTravelerInfoText = "Jun 29 at 9:00 am, 1 Traveler"
     var testWidget: PackageInboundFlightWidget by Delegates.notNull()
     var widgetVM: BundleFlightViewModel by Delegates.notNull()
 
@@ -119,5 +122,46 @@ class PackageInboundFlightWidgetTest {
         val airport = Mockito.mock(SuggestionV4.Airport::class.java)
         airport.airportCode = testAirportCode
         return airport
+    }
+
+    @Test
+    fun testContentDescriptionExpanded() {
+        widgetVM.flightTextObservable.onNext(testFlightText)
+        widgetVM.travelInfoTextObservable.onNext(testTravelerInfoText)
+        testWidget.flightDetailsContainer.visibility = View.VISIBLE
+
+        val expandedState = "Button to collapse"
+        val expectedText = Phrase.from(activity, R.string.select_flight_selected_cont_desc_TEMPLATE).
+                put("flighttext", testFlightText).
+                put("travelerinfotext", testTravelerInfoText).
+                put("expandstate", expandedState).
+                format().toString()
+
+        assertEquals(expectedText, testWidget.selectedFlightContentDescription())
+    }
+
+    @Test
+    fun testContentDescriptionCollapsed() {
+        widgetVM.flightTextObservable.onNext(testFlightText)
+        widgetVM.travelInfoTextObservable.onNext(testTravelerInfoText)
+        testWidget.flightDetailsContainer.visibility = View.GONE
+
+        val collapsedState = "Button to expand"
+        val expectedText = Phrase.from(activity, R.string.select_flight_selected_cont_desc_TEMPLATE).
+                put("flighttext", testFlightText).
+                put("travelerinfotext", testTravelerInfoText).
+                put("expandstate", collapsedState).
+                format().toString()
+
+        assertEquals(expectedText, testWidget.selectedFlightContentDescription())
+    }
+
+    @Test
+    fun testFlightNotSelected() {
+        widgetVM.flightTextObservable.onNext(testFlightText)
+        widgetVM.travelInfoTextObservable.onNext(testTravelerInfoText)
+
+        assertEquals(testFlightText, testWidget.flightCardText.text)
+        assertEquals(testTravelerInfoText, testWidget.travelInfoText.text)
     }
 }
