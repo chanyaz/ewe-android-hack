@@ -16,12 +16,10 @@
     <attr name="skin_actionBarSpinnerBackground" format="reference" />
 
     <attr name="skin_actionBarBackgroundDrawable" format="reference" />
-    <!-- ActionBar checkmark drawable -->
-    <attr name="skin_actionBarCheckMarkDrawable" format="reference" />
+
     <!-- ActionBar Done/Search button color -->
     <attr name="skin_actionBarButtonTextColor" format="reference|color" />
-    <!-- ActionBar checkout arrow drawable -->
-    <attr name="skin_actionBarCheckoutDrawable" format="reference" />
+
     <attr name="skin_costSummaryHeaderTextColor" format="reference|color" />
 
     <!-- Ratingbar style in UserReviewsListActivity -->

@@ -142,4 +142,17 @@
         <item name="background">@android:color/white</item>
     </style>
 
+    <style name="TerminalMapTheme" parent="@android:style/Theme.Holo">
+        <item name="android:logo">@drawable/ic_ab_logo</item>
+        <item name="android:actionBarStyle">@style/TerminalMapActionBar</item>
+        <item name="android:actionOverflowButtonStyle">@style/Widget.ActionBar.ActionButton.Overflow</item>
+        <item name="android:windowBackground">@android:color/white</item>
+        <item name="android:homeAsUpIndicator" tools:targetApi="11">@drawable/ic_action_bar_back_arrow</item>
+
+        <!-- PopupMenu -->
+        <item name="android:dropDownListViewStyle">@style/TerminalMapThemeDropDownListView</item>
+        <item name="android:spinnerDropDownItemStyle">@style/TerminalMapThemeSpinnerDropDownItemStyle</item>
+        <item name="skin_terminalChooserTextColor">@color/actionbar_terminal_text_ctx</item>
+    </style>
+
 </resources>
