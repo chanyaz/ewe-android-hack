@@ -56,12 +56,12 @@ class SlidingBundleWidget(context: Context, attrs: AttributeSet?) : FrameLayout(
                     if (activity.intent.extras == null) {
                         bundlePriceWidget.animateBundleWidget(1f, true)
                         finalizeBundleTransition(true, false)
-                        bundlePriceFooter.translationY = - statusBarHeight.toFloat()
+                        bundlePriceFooter.translationY = -statusBarHeight.toFloat()
                         post({
                             closeBundleOverview()
                         })
                     } else {
-                        bundlePriceFooter.translationY = - statusBarHeight.toFloat()
+                        bundlePriceFooter.translationY = -statusBarHeight.toFloat()
                         translationY = height.toFloat() - bundlePriceWidget.height
 
                         if (activity.intent.hasExtra(Codes.TAG_EXTERNAL_SEARCH_PARAMS)) {

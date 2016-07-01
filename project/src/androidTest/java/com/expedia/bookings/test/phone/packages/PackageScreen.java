@@ -211,6 +211,10 @@ public class PackageScreen {
 		return onView(withId(R.id.bundle_price_widget));
 	}
 
+	public static ViewInteraction resultsHeader() {
+		return onView(withId(R.id.pricing_structure_header));
+	}
+
 	public static ViewInteraction slidingBundleWidget() {
 		return onView(withId(R.id.sliding_bundle_widget));
 	}

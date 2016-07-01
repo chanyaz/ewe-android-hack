@@ -1,5 +1,6 @@
 package com.expedia.bookings.widget
 
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.support.v4.content.ContextCompat
@@ -49,6 +50,8 @@ class PackageBundleHotelWidget(context: Context, attrs: AttributeSet?) : Accessi
     val mainContainer: LinearLayout by bindView(R.id.main_container)
     val rowContainer: LinearLayout by bindView(R.id.row_container)
     val viewWidth = Ui.getScreenSize(context).x / 2
+    var canExpand = false
+    var isRowClickable = true
 
     var viewModel: BundleHotelViewModel by notNullAndObservable { vm ->
         viewModel.hotelDatesGuestObservable.subscribeTextAndVisibility(hotelsDatesGuestInfoText)
@@ -78,18 +81,17 @@ class PackageBundleHotelWidget(context: Context, attrs: AttributeSet?) : Accessi
         viewModel.showLoadingStateObservable.subscribe { showLoading ->
             this.loadingStateObservable.onNext(showLoading)
             if (showLoading) {
-                rowContainer.isClickable = false
+                isRowClickable = false
                 hotelInfoContainer.isEnabled = false
                 AnimUtils.progressForward(hotelLoadingBar)
                 selectArrowIcon.visibility = View.GONE
                 hotelsText.setTextColor(ContextCompat.getColor(context, R.color.package_bundle_icon_color))
                 hotelLuggageIcon.setColorFilter(ContextCompat.getColor(context, R.color.package_bundle_icon_color))
             } else {
+                isRowClickable = true
+                canExpand = false
                 hotelInfoContainer.isEnabled = true
                 selectArrowIcon.visibility = View.VISIBLE
-                rowContainer.setOnClickListener {
-                    openHotels()
-                }
                 hotelLoadingBar.clearAnimation()
                 hotelsText.setTextColor(Ui.obtainThemeColor(context, R.attr.primary_color))
                 hotelLuggageIcon.setColorFilter(Ui.obtainThemeColor(context, R.attr.primary_color))
@@ -102,18 +104,13 @@ class PackageBundleHotelWidget(context: Context, attrs: AttributeSet?) : Accessi
                 selectArrowIcon.visibility = View.GONE
             }
         }
+
         viewModel.selectedHotelObservable.subscribe {
             this.selectedHotelObservable.onNext(Unit)
             hotelsText.setTextColor(ContextCompat.getColor(context, R.color.packages_bundle_overview_widgets_primary_text))
             hotelLuggageIcon.setColorFilter(0)
             hotelsDatesGuestInfoText.setTextColor(ContextCompat.getColor(context, R.color.packages_bundle_overview_widgets_secondary_text))
-            rowContainer.setOnClickListener {
-                if (mainContainer.visibility == Presenter.GONE) {
-                    expandSelectedHotel()
-                } else {
-                    collapseSelectedHotel()
-                }
-            }
+            canExpand = true
         }
     }
 
@@ -126,14 +123,30 @@ class PackageBundleHotelWidget(context: Context, attrs: AttributeSet?) : Accessi
 
     init {
         View.inflate(getContext(), R.layout.bundle_hotel_widget, this)
+        rowContainer.setOnClickListener {
+            if (!isRowClickable) {
+                return@setOnClickListener
+            }
+            if (canExpand) {
+                if (mainContainer.visibility == Presenter.GONE) {
+                    expandSelectedHotel()
+                } else {
+                    collapseSelectedHotel()
+                }
+                this.selectedHotelObservable.onNext(Unit)
+            } else {
+                openHotels()
+            }
+        }
     }
 
     fun openHotels() {
         Db.clearPackageHotelRoomSelection()
         val intent = Intent(context, PackageHotelActivity::class.java)
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-        (context as AppCompatActivity).startActivityForResult(intent, Constants.HOTEL_REQUEST_CODE, null)
-        (context as AppCompatActivity).overridePendingTransition(0, 0);
+
+        (context as Activity).startActivityForResult(intent, Constants.HOTEL_REQUEST_CODE, null)
+        (context as Activity).overridePendingTransition(0, 0);
     }
 
     private fun expandSelectedHotel() {
