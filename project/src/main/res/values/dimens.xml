@@ -191,6 +191,8 @@
     <dimen name="checkout_info_container_padding">8dp</dimen>
     <dimen name="checkout_info_cc_padding">5dp</dimen>
     <dimen name="flight_payment_container_padding">10dp</dimen>
+    <dimen name="flight_sort_filter_container_height">58dp</dimen>
+
     <!-- We need to increase the margins because of the animation -->
     <dimen name="flight_card_initial_offset">64dp</dimen>
     <dimen name="flight_card_overlap_offset">16dp</dimen>

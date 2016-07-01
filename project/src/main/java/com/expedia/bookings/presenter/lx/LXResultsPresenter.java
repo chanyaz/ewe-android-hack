@@ -131,7 +131,8 @@ public class LXResultsPresenter extends Presenter {
 	}
 
 	// Transitions
-	private Presenter.Transition searchResultsToSortFilter = new Presenter.Transition(LXSearchResultsWidget.class, LXSortFilterWidget.class,
+	private Presenter.Transition searchResultsToSortFilter = new Presenter.Transition(LXSearchResultsWidget.class,
+		LXSortFilterWidget.class,
 		new DecelerateInterpolator(), ANIMATION_DURATION) {
 
 		@Override
@@ -178,7 +179,8 @@ public class LXResultsPresenter extends Presenter {
 		}
 	};
 
-	Transition themeResultsToActivityResults = new LeftToRightTransition(this, LXThemeResultsWidget.class, LXSearchResultsWidget.class) {
+	Transition themeResultsToActivityResults = new LeftToRightTransition(this, LXThemeResultsWidget.class,
+		LXSearchResultsWidget.class) {
 	};
 
 	@Override
@@ -264,7 +266,8 @@ public class LXResultsPresenter extends Presenter {
 			OmnitureTracking.trackAppLXSearchCategories(lxState.searchParams, lxSearchResponse);
 			searchResponse = lxSearchResponse;
 			themeResultsWidget.bind(lxSearchResponse.lxThemes, "SFO");
-			setToolbarTitles(getResources().getString(R.string.lx_select_a_category_title), lxState.searchParams.getLocation());
+			setToolbarTitles(getResources().getString(R.string.lx_select_a_category_title),
+				lxState.searchParams.getLocation());
 			searchResultsWidget.setVisibility(GONE);
 			themeResultsWidget.setVisibility(VISIBLE);
 			show(themeResultsWidget, FLAG_CLEAR_BACKSTACK);
@@ -333,7 +336,8 @@ public class LXResultsPresenter extends Presenter {
 		public void onNext(LXSearchResponse lxSearchResponse) {
 			searchResponse = lxSearchResponse;
 			trackLXSearch();
-			Events.post(new Events.LXSearchFilterResultsReady(lxSearchResponse.activities, lxSearchResponse.filterCategories));
+			Events.post(
+				new Events.LXSearchFilterResultsReady(lxSearchResponse.activities, lxSearchResponse.filterCategories));
 			if (!lxSearchResponse.isFromCachedResponse) {
 				Events.post(new Events.LXSearchResultsAvailable(lxSearchResponse));
 			}
@@ -343,7 +347,7 @@ public class LXResultsPresenter extends Presenter {
 			}
 			sortFilterButton.showNumberOfFilters(sortFilterWidget.getNumberOfSelectedFilters());
 		}
-	};
+	}
 
 	private class ThemeResultSortObserver implements Observer<LXTheme> {
 
@@ -425,7 +429,8 @@ public class LXResultsPresenter extends Presenter {
 			}
 			sortFilterButton.setFilterText(getResources().getString(R.string.sort));
 			sortFilterWidget.setToolbarTitle(getResources().getString(R.string.sort));
-			setToolbarTitles(getResources().getString(R.string.lx_select_a_category_title), event.lxSearchParams.getLocation());
+			setToolbarTitles(getResources().getString(R.string.lx_select_a_category_title),
+				event.lxSearchParams.getLocation());
 		}
 		else {
 			show(searchResultsWidget, FLAG_CLEAR_BACKSTACK);
@@ -568,7 +573,8 @@ public class LXResultsPresenter extends Presenter {
 			super.onScrollStateChanged(recyclerView, newState);
 			if (newState == RecyclerView.SCROLL_STATE_IDLE) {
 				if (scrolledDistance > heightOfButton / 2) {
-					sortFilterButton.animate().translationY(heightOfButton).setInterpolator(new DecelerateInterpolator()).start();
+					sortFilterButton.animate().translationY(heightOfButton)
+						.setInterpolator(new DecelerateInterpolator()).start();
 				}
 				else {
 					sortFilterButton.animate().translationY(0).setInterpolator(new DecelerateInterpolator()).start();
@@ -605,7 +611,8 @@ public class LXResultsPresenter extends Presenter {
 		if (LXSearchResultsWidget.class.getName().equals(getCurrentState()) && searchResponse != null
 			&& searchResponse.regionId != null && isUserBucketedForCategoriesTest) {
 			OmnitureTracking.trackAppLXSearchCategories(lxState.searchParams, searchResponse);
-			setToolbarTitles(getResources().getString(R.string.lx_select_a_category_title), lxState.searchParams.getLocation());
+			setToolbarTitles(getResources().getString(R.string.lx_select_a_category_title),
+				lxState.searchParams.getLocation());
 		}
 		return super.back();
 	}
@@ -615,5 +622,4 @@ public class LXResultsPresenter extends Presenter {
 			OmnitureTracking.trackAppLXSearch(lxState.searchParams, searchResponse, isGroundTransport);
 		}
 	}
-
 }

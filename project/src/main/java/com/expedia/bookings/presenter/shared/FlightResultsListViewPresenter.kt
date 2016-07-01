@@ -2,6 +2,7 @@ package com.expedia.bookings.presenter.shared
 
 import android.content.Context
 import android.util.AttributeSet
+import android.util.TypedValue
 import android.view.View
 import android.view.ViewTreeObserver
 import com.expedia.bookings.R
@@ -9,7 +10,7 @@ import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
-import com.expedia.bookings.widget.FilterButtonWithCountWidget
+import com.expedia.bookings.widget.FlightFilterButtonWithCountWidget
 import com.expedia.bookings.widget.FlightListRecyclerView
 import com.expedia.bookings.widget.TextView
 import com.expedia.bookings.widget.flights.DockedOutboundFlightSelectionView
@@ -26,8 +27,8 @@ class FlightResultsListViewPresenter(context: Context, attrs: AttributeSet) : Pr
     val recyclerView: FlightListRecyclerView by bindView(R.id.list_view)
     private val dockedOutboundFlightSelection: DockedOutboundFlightSelectionView by bindView(R.id.docked_outbound_flight_selection)
     private val dockedOutboundFlightShadow: View by bindView(R.id.docked_outbound_flight_widget_dropshadow)
-    private val filterButton: FilterButtonWithCountWidget by bindView(R.id.sort_filter_button_container)
     private val airlineChargesFeesTextView: TextView by bindView(R.id.airline_charges_fees_header)
+    val filterButton: FlightFilterButtonWithCountWidget by bindView(R.id.sort_filter_button_container)
     lateinit private var flightListAdapter: AbstractFlightListAdapter
 
     // input
@@ -78,9 +79,13 @@ class FlightResultsListViewPresenter(context: Context, attrs: AttributeSet) : Pr
 
     private fun setupFilterButton() {
         recyclerView.addOnScrollListener(filterButton.hideShowOnRecyclerViewScrollListener())
-        filterButton.setButtonBackgroundColor(R.color.lob_packages_primary_color)
+        val outValue = TypedValue()
+        context.theme.resolveAttribute(R.attr.hotel_select_room_ripple_drawable, outValue, true)
+        filterButton.setBackground(outValue.resourceId)
         filterButton.setTextAndFilterIconColor(R.color.white)
-        filterButton.setOnClickListener { showSortAndFilterViewSubject.onNext(Unit) }
+        filterButton.setOnClickListener {
+            showSortAndFilterViewSubject.onNext(Unit)
+        }
         filterButton.visibility = View.GONE
     }
 
