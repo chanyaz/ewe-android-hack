@@ -117,8 +117,9 @@ public class PackageBundleOverviewPresenterTest extends PackageTestCase {
 			allOf(isDisplayed(), withText("Trip to Detroit, MI")))));
 		PackageScreen.hotelInfo().check(matches(hasDescendant(
 			allOf(isDisplayed(), withText("Select hotel in Detroit")))));
-
-		PackageScreen.hotelDatesRoomInfo().check(matches(withText(PackageScreen.getDatesGuestInfoText(startDate, endDate))));
+		DateTimeFormatter dtf = DateTimeFormat.forPattern("yyyy-MM-dd");
+		PackageScreen.hotelDatesRoomInfo().
+			check(matches(withText(PackageScreen.getDatesGuestInfoText(dtf.parseLocalDate("2016-02-03"), dtf.parseLocalDate("2016-02-04")))));
 		PackageScreen.outboundFlightInfo().check(matches(hasDescendant(
 			allOf(isDisplayed(), withText("Flight to (DTW) Detroit")))));
 
