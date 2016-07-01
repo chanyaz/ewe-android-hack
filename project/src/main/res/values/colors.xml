@@ -324,8 +324,6 @@
     <color name="cars_confirmation_gradient">#80000000</color>
     <color name="cars_confirmation_action_background">#3A424C</color>
     <color name="cars_selected_tab_color">#5F717F</color>
-    <color name="cars_unchecked_toggle_text_color">#ECC3DC</color>
-    <color name="cars_drop_off_hint_text_color">#26FFFFFF</color>
     <color name="cars_color_primary_dark">#532C45</color>
 
     <!-- Checkout Colors -->

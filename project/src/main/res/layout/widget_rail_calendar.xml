@@ -15,6 +15,7 @@
     android:paddingRight="19dp"
     android:textColor="@color/defaultTextColor"
     android:textSize="15sp"
+    android:text="?attr/search_calendar_card_view_text"
     app:drawableTintColor="@color/defaultTextColor"
     tools:background="@color/white"
     tools:text="Sept 25 9:00am - Sept 27 10:00am" />

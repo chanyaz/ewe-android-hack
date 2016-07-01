@@ -10,6 +10,7 @@ import com.expedia.bookings.data.trips.TripResponse
 import com.expedia.bookings.tracking.PackagesTracking
 import com.expedia.bookings.utils.DateUtils
 import com.expedia.bookings.utils.StrUtils
+import com.expedia.bookings.utils.SuggestionStrUtils
 import com.expedia.util.endlessObserver
 import com.expedia.vm.AbstractErrorViewModel
 import com.squareup.phrase.Phrase
@@ -104,7 +105,7 @@ class PackageErrorViewModel(context: Context): AbstractErrorViewModel(context) {
         }
 
         paramsSubject.subscribe { params ->
-            titleObservable.onNext(String.format(context.getString(R.string.your_trip_to_TEMPLATE), StrUtils.formatCityName(params.destination?.regionNames?.fullName)))
+            titleObservable.onNext(String.format(context.getString(R.string.your_trip_to_TEMPLATE), SuggestionStrUtils.formatCityName(params.destination?.regionNames?.fullName)))
             subTitleObservable.onNext(getToolbarSubtitle(params))
         }
     }

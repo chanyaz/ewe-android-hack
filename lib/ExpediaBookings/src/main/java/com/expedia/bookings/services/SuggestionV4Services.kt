@@ -14,6 +14,8 @@ import rx.Observable
 import rx.Observer
 import rx.Scheduler
 import rx.Subscription
+import java.util.Comparator
+import java.util.Collections
 
 class SuggestionV4Services(endpoint: String, okHttpClient: OkHttpClient, interceptor: Interceptor, val observeOn: Scheduler, val subscribeOn: Scheduler) {
 
@@ -57,6 +59,27 @@ class SuggestionV4Services(endpoint: String, okHttpClient: OkHttpClient, interce
                 .observeOn(observeOn)
                 .subscribeOn(subscribeOn)
                 .map { response -> response.suggestions.take(2).toMutableList() }
+    }
+
+    fun getCarSuggestionsV4(query: String, client: String, observer: Observer<List<SuggestionV4>>, locale: String): Subscription {
+        val type = SuggestionResultType.AIRPORT or SuggestionResultType.CITY or SuggestionResultType.MULTI_CITY or
+                SuggestionResultType.NEIGHBORHOOD or SuggestionResultType.POINT_OF_INTEREST or SuggestionResultType.AIRPORT_METRO_CODE
+        return suggestApi.suggestV4(query, locale, type, false, "cars_rental", client, "CARS")
+                .observeOn(observeOn)
+                .subscribeOn(subscribeOn)
+                .map { response -> response.suggestions }
+                .doOnNext { list -> sortCarSuggestions(list) }
+                .subscribe(observer)
+    }
+
+    private fun sortCarSuggestions(suggestions: MutableList<SuggestionV4>) {
+        Collections.sort(suggestions, object : Comparator<SuggestionV4> {
+            override fun compare(lhs: SuggestionV4, rhs: SuggestionV4): Int {
+                val leftSuggestionPrecedenceOrder = if (lhs.isMajorAirport()) 1 else 2
+                val rightSuggestionPrecedenceOrder = if (rhs.isMajorAirport()) 1 else 2
+                return leftSuggestionPrecedenceOrder.compareTo(rightSuggestionPrecedenceOrder)
+            }
+        })
     }
 
     fun suggestPackagesV4(query: String, clientId: String, isDest: Boolean, observer: Observer<List<SuggestionV4>>, locale: String): Subscription {

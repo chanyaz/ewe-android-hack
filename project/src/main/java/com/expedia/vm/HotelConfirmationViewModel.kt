@@ -12,7 +12,7 @@ import com.expedia.bookings.data.Location
 import com.expedia.bookings.data.Property
 import com.expedia.bookings.data.User
 import com.expedia.bookings.data.abacus.AbacusUtils
-import com.expedia.bookings.data.cars.CarSearchParamsBuilder
+import com.expedia.bookings.data.cars.CarSearchParam
 import com.expedia.bookings.data.hotels.HotelCreateTripResponse
 import com.expedia.bookings.data.hotels.HotelSearchParams
 import com.expedia.bookings.data.payment.PaymentModel
@@ -23,11 +23,12 @@ import com.expedia.bookings.services.HotelCheckoutResponse
 import com.expedia.bookings.tracking.AdImpressionTracking
 import com.expedia.bookings.tracking.HotelV2Tracking
 import com.expedia.bookings.utils.AddToCalendarUtils
+import com.expedia.bookings.utils.CarDataUtils
 import com.expedia.bookings.utils.DateFormatUtils
+import com.expedia.bookings.utils.LXDataUtils
 import com.expedia.bookings.utils.NavUtils
 import com.expedia.bookings.utils.NumberUtils
 import com.expedia.bookings.utils.Strings
-import com.expedia.bookings.utils.LXDataUtils
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.UserAccountRefresher
 import com.mobiata.android.SocialUtils
@@ -37,7 +38,6 @@ import rx.Observable
 import rx.Observer
 import rx.exceptions.OnErrorNotImplementedException
 import rx.subjects.BehaviorSubject
-import rx.subjects.PublishSubject
 import java.math.BigDecimal
 import javax.inject.Inject
 import kotlin.properties.Delegates
@@ -186,13 +186,10 @@ class HotelConfirmationViewModel(checkoutResponseObservable: Observable<HotelChe
     fun getAddCarBtnObserver(context: Context): Observer<Unit> {
         return object : Observer<Unit> {
             override fun onNext(t: Unit?) {
-                val builder = CarSearchParamsBuilder()
-                val dateTimeBuilder = CarSearchParamsBuilder.DateTimeBuilder().startDate(checkInDate.getValue()).endDate(checkOutDate.getValue())
-                builder.origin(hotelLocation.getValue().toShortFormattedString())
-                builder.originDescription(hotelLocation.getValue().toShortFormattedString())
-                builder.dateTimeBuilder(dateTimeBuilder)
-                val carSearchParams = builder.build()
-
+                val originSuggestion = CarDataUtils.getSuggestionFromLocation(hotelLocation.getValue().toShortFormattedString(),
+                        null, hotelLocation.getValue().toShortFormattedString());
+                val carSearchParams = CarSearchParam.Builder().origin(originSuggestion)
+                        .startDate(checkInDate.getValue()).endDate(checkOutDate.getValue()).build() as CarSearchParam
                 NavUtils.goToCars(context, null, carSearchParams, NavUtils.FLAG_OPEN_SEARCH)
                 HotelV2Tracking().trackHotelV2CrossSellCar()
             }

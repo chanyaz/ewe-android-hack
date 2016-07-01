@@ -10,7 +10,7 @@ import com.expedia.bookings.data.TravelerParams
 import com.expedia.bookings.utils.AccessibilityUtil
 import com.expedia.bookings.utils.DateUtils
 import com.expedia.bookings.utils.SpannableBuilder
-import com.expedia.bookings.utils.StrUtils
+import com.expedia.bookings.utils.SuggestionStrUtils
 import com.expedia.util.endlessObserver
 import com.mobiata.android.time.util.JodaUtils
 import com.squareup.phrase.Phrase
@@ -78,16 +78,16 @@ abstract class BaseSearchViewModel(val context: Context) {
         originValidObservable.onNext(getParamsBuilder().hasOriginAndDestination())
     }
 
-    val originLocationObserver = endlessObserver<SuggestionV4> { suggestion ->
+    open val originLocationObserver = endlessObserver<SuggestionV4> { suggestion ->
         getParamsBuilder().origin(suggestion)
-        val origin = StrUtils.formatAirportName(Html.fromHtml(suggestion.regionNames.displayName).toString())
+        val origin = SuggestionStrUtils.formatAirportName(Html.fromHtml(suggestion.regionNames.displayName).toString())
         formattedOriginObservable.onNext(origin)
         requiredSearchParamsObserver.onNext(Unit)
     }
 
     open val destinationLocationObserver = endlessObserver<SuggestionV4> { suggestion ->
         getParamsBuilder().destination(suggestion)
-        val destination = StrUtils.formatAirportName(Html.fromHtml(suggestion.regionNames.displayName).toString())
+        val destination = SuggestionStrUtils.formatAirportName(Html.fromHtml(suggestion.regionNames.displayName).toString())
         formattedDestinationObservable.onNext(destination)
         requiredSearchParamsObserver.onNext(Unit)
     }

@@ -14,9 +14,9 @@ import com.expedia.bookings.utils.Constants
 import com.expedia.bookings.utils.bindView
 import com.expedia.util.notNullAndObservable
 import com.expedia.util.subscribeText
-import com.expedia.vm.rail.RailSearchViewModel
+import com.expedia.vm.SearchViewModelWithTimeSliderCalendar
 
-class RailCalendarWidget(context: Context, attrs: AttributeSet?) : CardView(context, attrs) {
+class CalendarWidgetWithTimeSlider(context: Context, attrs: AttributeSet?) : CardView(context, attrs) {
 
     val dateText: TextView by bindView(R.id.dateLabel)
     var fullHeight = 0
@@ -36,7 +36,7 @@ class RailCalendarWidget(context: Context, attrs: AttributeSet?) : CardView(cont
         }
     }
 
-    var viewModel: RailSearchViewModel by notNullAndObservable {
+    var viewModel: SearchViewModelWithTimeSliderCalendar by notNullAndObservable {
         it.dateTextObservable.subscribeText(this.dateText)
         it.errorNoDestinationObservable.subscribe { AnimUtils.doTheHarlemShake(this) }
         it.errorNoOriginObservable.subscribe { AnimUtils.doTheHarlemShake(this) }
@@ -50,5 +50,9 @@ class RailCalendarWidget(context: Context, attrs: AttributeSet?) : CardView(cont
 
         val fragmentManager = (context as FragmentActivity).supportFragmentManager
         calendarDialog?.show(fragmentManager, Constants.TAG_CALENDAR_DIALOG)
+    }
+
+    fun dismissDialog() {
+        calendarDialog?.dismiss();
     }
 }

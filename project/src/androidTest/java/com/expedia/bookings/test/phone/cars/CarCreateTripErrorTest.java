@@ -6,10 +6,10 @@ import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
 import com.expedia.bookings.test.espresso.CarTestCase;
 import com.expedia.bookings.test.espresso.EspressoUtils;
+import com.expedia.bookings.test.phone.pagemodels.common.SearchScreen;
 import com.squareup.phrase.Phrase;
 
 import static android.support.test.espresso.action.ViewActions.click;
-import static android.support.test.espresso.action.ViewActions.typeText;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
@@ -20,11 +20,7 @@ public class CarCreateTripErrorTest extends CarTestCase {
 
 	public void testCarCreateTripWithPriceChange() throws Throwable {
 		final DateTime startDateTime = DateTime.now().withTimeAtStartOfDay();
-		CarScreen.pickupLocation().perform(typeText("SFO"));
-		CarScreen.selectPickupLocation("San Francisco, CA");
-		CarScreen.selectDateButton().perform(click());
-		CarScreen.selectDates(startDateTime.toLocalDate(), startDateTime.toLocalDate());
-		CarScreen.searchButton().perform(click());
+		SearchScreen.doGenericCarSearch();
 
 		CarScreen.selectCarCategory(CATEGORY);
 		screenshot("Car Offers");
@@ -36,11 +32,7 @@ public class CarCreateTripErrorTest extends CarTestCase {
 
 	public void testCarCreateTripFailure() throws Throwable {
 		final DateTime startDateTime = DateTime.now().withTimeAtStartOfDay();
-		CarScreen.pickupLocation().perform(typeText("SFO"));
-		CarScreen.selectPickupLocation("San Francisco, CA");
-		CarScreen.selectDateButton().perform(click());
-		CarScreen.selectDates(startDateTime.toLocalDate(), startDateTime.toLocalDate());
-		CarScreen.searchButton().perform(click());
+		SearchScreen.doGenericCarSearch();
 
 		CarScreen.selectCarCategory(CATEGORY);
 		screenshot("Car Offers");
@@ -59,11 +51,7 @@ public class CarCreateTripErrorTest extends CarTestCase {
 
 	public void testCarCreateTripExpiredProduct() throws Throwable {
 		final DateTime startDateTime = DateTime.now().withTimeAtStartOfDay();
-		CarScreen.pickupLocation().perform(typeText("SFO"));
-		CarScreen.selectPickupLocation("San Francisco, CA");
-		CarScreen.selectDateButton().perform(click());
-		CarScreen.selectDates(startDateTime.toLocalDate(), startDateTime.toLocalDate());
-		CarScreen.searchButton().perform(click());
+		SearchScreen.doGenericCarSearch();
 
 		CarScreen.selectCarCategory(CATEGORY);
 		screenshot("Car Offers");

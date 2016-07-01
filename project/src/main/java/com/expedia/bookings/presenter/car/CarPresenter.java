@@ -1,21 +1,27 @@
 package com.expedia.bookings.presenter.car;
 
+import android.animation.ArgbEvaluator;
 import android.content.Context;
-import android.os.Handler;
+import android.graphics.Color;
+import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
 import android.view.animation.DecelerateInterpolator;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.animation.TransitionElement;
 import com.expedia.bookings.data.Db;
+import com.expedia.bookings.data.cars.CarSearchParam;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.presenter.LeftToRightTransition;
 import com.expedia.bookings.presenter.Presenter;
 import com.expedia.bookings.presenter.VisibilityTransition;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.widget.CarConfirmationWidget;
+import com.expedia.vm.cars.CarSearchViewModel;
 import com.squareup.otto.Subscribe;
 
 import butterknife.InjectView;
+import rx.Observer;
 
 public class CarPresenter extends Presenter {
 
@@ -26,7 +32,7 @@ public class CarPresenter extends Presenter {
 	}
 
 	@InjectView(R.id.widget_car_params)
-	CarSearchPresenter carSearchPresenter;
+	public CarSearchPresenter carSearchPresenter;
 
 	@InjectView(R.id.car_results_presenter)
 	CarResultsPresenter carResultsPresenter;
@@ -50,10 +56,38 @@ public class CarPresenter extends Presenter {
 		addTransition(checkoutToSearch);
 		addTransition(showParamsOverlay);
 		addTransition(checkoutToConfirmation);
+		addDefaultTransition(defaultSearchTransition);
+		carSearchPresenter.setSearchViewModel(new CarSearchViewModel(getContext()));
 		show(carSearchPresenter);
-		carSearchPresenter.setVisibility(VISIBLE);
 		carResultsPresenter.setVisibility(INVISIBLE);
+		carSearchPresenter.getSearchViewModel().getSearchParamsObservable().subscribe(carSearchParamsObserver);
 	}
+
+	private Observer<CarSearchParam> carSearchParamsObserver = new Observer<CarSearchParam>() {
+		@Override
+		public void onCompleted() {
+		}
+
+		@Override
+		public void onError(Throwable e) {
+		}
+
+		@Override
+		public void onNext(CarSearchParam params) {
+			Events.post(new Events.CarsNewSearchParams(params));
+		}
+	};
+
+	TransitionElement searchBackgroundColor = new TransitionElement(ContextCompat.getColor(getContext(), R.color.search_anim_background), Color.TRANSPARENT);
+	ArgbEvaluator searchArgbEvaluator = new ArgbEvaluator();
+
+	private DefaultTransition defaultSearchTransition = new Presenter.DefaultTransition(CarSearchPresenter.class.getName()) {
+		@Override
+		public void endTransition(boolean forward) {
+			carSearchPresenter.setVisibility(VISIBLE);
+			carSearchPresenter.showSuggestionState(true);
+		}
+	};
 
 	private Transition checkoutToConfirmation = new LeftToRightTransition(this, CarCheckoutPresenter.class, CarConfirmationWidget.class) {
 		@Override
@@ -75,7 +109,6 @@ public class CarPresenter extends Presenter {
 		public void endTransition(boolean forward) {
 			super.endTransition(forward);
 			carSearchPresenter.animationFinalize(forward);
-			carSearchPresenter.reset();
 		}
 	};
 
@@ -85,19 +118,15 @@ public class CarPresenter extends Presenter {
 		public void startTransition(boolean forward) {
 			carResultsPresenter.setVisibility(VISIBLE);
 			carSearchPresenter.setVisibility(VISIBLE);
-			if (forward) {
-				searchStartingAlpha = carResultsPresenter.animationStart();
-			}
-			else {
-				carResultsPresenter.animationStart();
-			}
-			carSearchPresenter.animationStart(forward, searchStartingAlpha);
+			carResultsPresenter.animationStart();
+			carSearchPresenter.animationStart(forward);
 		}
 
 		@Override
 		public void updateTransition(float f, boolean forward) {
 			carResultsPresenter.animationUpdate(f, forward);
-			carSearchPresenter.animationUpdate(f, forward, searchStartingAlpha);
+			setBackgroundColorForSearchWidget(f, forward);
+			carSearchPresenter.animationUpdate(f, forward);
 		}
 
 		@Override
@@ -116,30 +145,20 @@ public class CarPresenter extends Presenter {
 			carResultsPresenter.setVisibility(VISIBLE);
 			carSearchPresenter.setVisibility(VISIBLE);
 			carResultsPresenter.animationStart();
-			carSearchPresenter.animationStart(!forward, 1f);
+			carSearchPresenter.animationStart(!forward);
 		}
 
 		@Override
 		public void updateTransition(float f, boolean forward) {
 			carResultsPresenter.animationUpdate(f, !forward);
-			carSearchPresenter.animationUpdate(f, !forward, 1f);
+			setBackgroundColorForSearchWidget(f, forward);
+			carSearchPresenter.animationUpdate(f, !forward);
 		}
 
 		@Override
 		public void endTransition(boolean forward) {
 			carResultsPresenter.setVisibility(forward ? VISIBLE : GONE);
 			carSearchPresenter.setVisibility(forward ? GONE : VISIBLE);
-			if (forward) {
-				// making sure tool tip is hidden in case of deep link
-				// the reason we are adding delay is we are showing tool tip with 50 ms delay
-				// TODO Update CalendarPicker.hideToolTip() in such way it cancels 50 ms "show" animation if we are trying to hide it
-				new Handler().postDelayed(new Runnable() {
-					public void run() {
-						carSearchPresenter.calendarContainer.hideToolTip();
-					}
-				}, 300);
-
-			}
 			carResultsPresenter.animationFinalize();
 			carSearchPresenter.animationFinalize(!forward);
 		}
@@ -169,7 +188,17 @@ public class CarPresenter extends Presenter {
 
 	@Subscribe
 	public void onShowSearchWidget(Events.CarsGoToSearch event) {
-		carSearchPresenter.calendarContainer.hideToolTip();
-		show(carSearchPresenter, FLAG_CLEAR_BACKSTACK | FLAG_CLEAR_TOP);
+		show(carSearchPresenter, FLAG_CLEAR_TOP);
+	}
+
+	public void setBackgroundColorForSearchWidget(float f, boolean forward) {
+		if (!forward) {
+			carSearchPresenter.setBackgroundColor((Integer) (searchArgbEvaluator
+				.evaluate(f, searchBackgroundColor.getStart(), searchBackgroundColor.getEnd())));
+		}
+		else {
+			carSearchPresenter.setBackgroundColor(((Integer) searchArgbEvaluator
+				.evaluate(f, searchBackgroundColor.getEnd(), searchBackgroundColor.getStart())));
+		}
 	}
 }

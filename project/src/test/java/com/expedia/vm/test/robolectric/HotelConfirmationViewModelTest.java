@@ -20,13 +20,14 @@ import com.expedia.bookings.data.Codes;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.Location;
 import com.expedia.bookings.data.abacus.AbacusUtils;
-import com.expedia.bookings.data.cars.CarSearchParamsBuilder;
+import com.expedia.bookings.data.cars.CarSearchParam;
+import com.expedia.bookings.lob.lx.ui.activity.LXBaseActivity;
 import com.expedia.bookings.services.CarServices;
 import com.expedia.bookings.services.HotelCheckoutResponse;
 import com.expedia.bookings.test.robolectric.AddToCalendarUtilsTests;
 import com.expedia.bookings.test.robolectric.RobolectricRunner;
+import com.expedia.bookings.utils.CarDataUtils;
 import com.expedia.bookings.utils.Ui;
-import com.expedia.bookings.lob.lx.ui.activity.LXBaseActivity;
 import com.expedia.vm.HotelConfirmationViewModel;
 import com.google.gson.Gson;
 
@@ -114,16 +115,13 @@ public class HotelConfirmationViewModelTest {
 
 		vm.getHotelLocation().onNext(hotelLocation);
 		Gson gson = CarServices.generateGson();
-		CarSearchParamsBuilder.DateTimeBuilder dateTimeBuilder =
-			new CarSearchParamsBuilder.DateTimeBuilder().startDate(checkInDate).endDate(checkOutDate);
-		CarSearchParamsBuilder expectedSearchParams =
-			new CarSearchParamsBuilder().origin(hotelAddress).originDescription(hotelAddress).dateTimeBuilder(
-				dateTimeBuilder);
-
+		CarSearchParam expectedSearchParams = (CarSearchParam) new CarSearchParam.Builder()
+			.origin(CarDataUtils.getSuggestionFromLocation(hotelAddress, null, hotelAddress))
+			.startDate(checkInDate).endDate(checkOutDate).build();
 		vm.getAddCarBtnObserver(getContext()).onNext(null);
 		Intent intent = shadowApplication.getNextStartedActivity();
 
-		assertEquals(gson.toJson(expectedSearchParams.build()), intent.getStringExtra(Codes.TAG_EXTERNAL_SEARCH_PARAMS));
+		assertEquals(gson.toJson(expectedSearchParams), intent.getStringExtra(Codes.TAG_EXTERNAL_SEARCH_PARAMS));
 		assertTrue(intent.getBooleanExtra(Codes.EXTRA_OPEN_SEARCH, false));
 	}
 
