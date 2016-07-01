@@ -3805,12 +3805,9 @@
     <string name="cars_bags_count_cont_desc_TEMPLATE">Bags {bagscount}</string>
 
     <!-- Content descriptions for Cars filter transmission buttons -->
-    <string name="cars_filter_transmission_manual_button_selected_cont_desc">Manual transmission</string>
-    <string name="cars_filter_transmission_automatic_button_selected_cont_desc">Automatic transmission</string>
-    <string name="cars_filter_transmission_all_button_selected_cont_desc">All transmissions</string>
-    <string name="cars_filter_transmission_manual_button_unselected_cont_desc">Manual transmission. Unselected</string>
-    <string name="cars_filter_transmission_automatic_button_unselected_cont_desc">Automatic transmission. Unselected</string>
-    <string name="cars_filter_transmission_all_button_unselected_cont_desc">All transmissions. Unselected</string>
+    <string name="cars_filter_transmission_manual_button_cont_desc">Manual transmission</string>
+    <string name="cars_filter_transmission_automatic_button_cont_desc">Automatic transmission</string>
+    <string name="cars_filter_transmission_all_button_cont_desc">All transmissions</string>
 
     <!-- Content description for car offer reserve button e.g. Dollar, Chevrolet Spark or Similar, Reserve button-->
     <string name="cars_offer_reserve_button_cont_desc_TEMPLATE">{vendor}, {make}, Reserve button</string>

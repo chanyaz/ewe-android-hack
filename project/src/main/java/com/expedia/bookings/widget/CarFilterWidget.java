@@ -98,11 +98,8 @@ public class CarFilterWidget extends LinearLayout {
 	@OnClick(R.id.transmission_filter_all)
 	public void allClicked() {
 		auto.setSelected(false);
-		auto.setContentDescription(getResources().getString(R.string.cars_filter_transmission_automatic_button_unselected_cont_desc));
 		manual.setSelected(false);
-		manual.setContentDescription(getResources().getString(R.string.cars_filter_transmission_manual_button_unselected_cont_desc));
 		all.setSelected(true);
-		all.setContentDescription(getResources().getString(R.string.cars_filter_transmission_all_button_selected_cont_desc));
 		filter.carTransmissionType = null;
 		postCarFilterEvent();
 
@@ -112,11 +109,8 @@ public class CarFilterWidget extends LinearLayout {
 	@OnClick(R.id.transmission_filter_manual)
 	public void manualClicked() {
 		auto.setSelected(false);
-		auto.setContentDescription(getResources().getString(R.string.cars_filter_transmission_automatic_button_unselected_cont_desc));
 		manual.setSelected(true);
-		manual.setContentDescription(getResources().getString(R.string.cars_filter_transmission_manual_button_selected_cont_desc));
 		all.setSelected(false);
-		all.setContentDescription(getResources().getString(R.string.cars_filter_transmission_all_button_unselected_cont_desc));
 		filter.carTransmissionType = Transmission.MANUAL_TRANSMISSION;
 		postCarFilterEvent();
 
@@ -127,11 +121,8 @@ public class CarFilterWidget extends LinearLayout {
 	@OnClick(R.id.transmission_filter_automatic)
 	public void autoClicked() {
 		auto.setSelected(true);
-		auto.setContentDescription(getResources().getString(R.string.cars_filter_transmission_automatic_button_selected_cont_desc));
 		manual.setSelected(false);
-		manual.setContentDescription(getResources().getString(R.string.cars_filter_transmission_manual_button_unselected_cont_desc));
 		all.setSelected(false);
-		all.setContentDescription(getResources().getString(R.string.cars_filter_transmission_all_button_unselected_cont_desc));
 		filter.carTransmissionType = Transmission.AUTOMATIC_TRANSMISSION;
 		postCarFilterEvent();
 

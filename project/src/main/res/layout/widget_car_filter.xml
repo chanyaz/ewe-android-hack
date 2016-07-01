@@ -71,6 +71,7 @@
                             android:layout_height="40dp"
                             android:layout_weight="1"
                             android:background="@drawable/cars_sort_button_selector"
+                            android:contentDescription="@string/cars_filter_transmission_automatic_button_cont_desc"
                             android:text="@string/car_filter_automatic"
                             android:textAllCaps="false"
                             android:textColor="@drawable/cars_sort_button_text_selector" />
@@ -86,6 +87,7 @@
                             android:layout_height="40dp"
                             android:layout_weight="1"
                             android:background="@drawable/cars_sort_button_selector"
+                            android:contentDescription="@string/cars_filter_transmission_manual_button_cont_desc"
                             android:text="@string/car_filter_manual"
                             android:textAllCaps="false"
                             android:textColor="@drawable/cars_sort_button_text_selector" />
@@ -101,6 +103,7 @@
                             android:layout_height="40dp"
                             android:layout_weight="1"
                             android:background="@drawable/cars_sort_button_selector"
+                            android:contentDescription="@string/cars_filter_transmission_all_button_cont_desc"
                             android:text="@string/car_filter_all"
                             android:textAllCaps="false"
                             android:textColor="@drawable/cars_sort_button_text_selector" />
