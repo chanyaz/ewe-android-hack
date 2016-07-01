@@ -4,7 +4,7 @@ import android.content.Context
 import android.util.AttributeSet
 import com.expedia.bookings.R
 import com.expedia.bookings.tracking.FlightsV2Tracking
-import com.expedia.bookings.widget.FlightListAdapter
+import com.expedia.bookings.widget.flights.FlightListAdapter
 import com.expedia.util.notNullAndObservable
 import com.expedia.util.subscribeVisibility
 import com.expedia.vm.FlightSearchViewModel

@@ -1,4 +1,4 @@
-package com.expedia.bookings.widget
+package com.expedia.bookings.widget.packages
 
 import android.content.Context
 import android.support.annotation.UiThread
@@ -8,11 +8,12 @@ import android.view.View
 import android.view.ViewGroup
 import com.expedia.bookings.R
 import com.expedia.bookings.data.flights.FlightLeg
+import com.expedia.bookings.widget.shared.AbstractFlightListAdapter
 import com.expedia.vm.packages.PackageFlightViewModel
 import rx.subjects.PublishSubject
 import java.util.ArrayList
 
-class PackageFlightListAdapter(context: Context, flightSelectedSubject: PublishSubject<FlightLeg>, val isChangePackageSearch: Boolean)  : FlightListAdapter(context, flightSelectedSubject) {
+class PackageFlightListAdapter(context: Context, flightSelectedSubject: PublishSubject<FlightLeg>, val isChangePackageSearch: Boolean)  : AbstractFlightListAdapter(context, flightSelectedSubject, isRoundTripSearch = true) {
 
     var shouldShowBestFlight = false
 
@@ -32,13 +33,9 @@ class PackageFlightListAdapter(context: Context, flightSelectedSubject: PublishS
         super.setNewFlights(newFlights)
     }
 
-    override fun getItemCount(): Int {
-        return getFlights().size + adjustPosition()
-    }
-
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder?, position: Int) {
         if (holder is PackageFlightListAdapter.BestFlightViewHolder) {
-            holder.bind(PackageFlightViewModel(holder.itemView.context, getFlights()[0]))
+            holder.bind(PackageFlightViewModel(holder.itemView.context, flights[0]))
         } else {
            super.onBindViewHolder(holder, position)
         }
@@ -76,11 +73,19 @@ class PackageFlightListAdapter(context: Context, flightSelectedSubject: PublishS
         }
 
         override fun onClick(view: View) {
-            flightSelectedSubject.onNext(getFlights()[0])
+            flightSelectedSubject.onNext(flights[0])
         }
     }
 
     override fun adjustPosition(): Int {
         return if (shouldShowBestFlight) 2 else (if (isChangePackageSearch) 0 else 1)
+    }
+
+    override fun isAirlinesChargePaymentMethodFee(): Boolean {
+        return false
+    }
+
+    override fun showAllFlightsHeader(): Boolean {
+        return true
     }
 }

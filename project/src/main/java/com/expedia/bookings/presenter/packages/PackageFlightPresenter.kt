@@ -7,7 +7,6 @@ import android.support.v7.app.AppCompatActivity
 import android.util.AttributeSet
 import android.view.Gravity
 import android.view.LayoutInflater
-import android.view.MenuItem
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.view.View
@@ -19,8 +18,11 @@ import com.expedia.bookings.presenter.flight.BaseFlightPresenter
 import com.expedia.bookings.presenter.shared.FlightOverviewPresenter
 import com.expedia.bookings.presenter.shared.FlightResultsListViewPresenter
 import com.expedia.bookings.tracking.PackagesTracking
-import com.expedia.bookings.utils.*
-import com.expedia.bookings.widget.PackageFlightListAdapter
+import com.expedia.bookings.utils.Constants
+import com.expedia.bookings.utils.PackageResponseUtils
+import com.expedia.bookings.utils.Strings
+import com.expedia.bookings.utils.bindView
+import com.expedia.bookings.widget.packages.PackageFlightListAdapter
 import com.expedia.bookings.widget.TextView
 import com.expedia.bookings.widget.SlidingBundleWidget
 import com.expedia.bookings.widget.SlidingBundleWidgetListener

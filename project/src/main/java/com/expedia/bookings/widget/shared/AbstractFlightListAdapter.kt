@@ -1,4 +1,4 @@
-package com.expedia.bookings.widget
+package com.expedia.bookings.widget.shared
 
 import android.content.Context
 import android.support.annotation.UiThread
@@ -12,6 +12,8 @@ import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.utils.AnimUtils
 import com.expedia.bookings.utils.bindView
+import com.expedia.bookings.widget.LoadingViewHolder
+import com.expedia.bookings.widget.TextView
 import com.expedia.bookings.widget.packages.FlightAirlineWidget
 import com.expedia.bookings.widget.packages.FlightLayoverWidget
 import com.expedia.vm.FlightSearchViewModel
@@ -20,11 +22,12 @@ import rx.subjects.PublishSubject
 import java.util.ArrayList
 import java.util.Locale
 
-open class FlightListAdapter(val context: Context, val flightSelectedSubject: PublishSubject<FlightLeg>, var isRoundTripSearch: Boolean = true, val isFlightsLOB: Boolean = false) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+abstract class AbstractFlightListAdapter(val context: Context, val flightSelectedSubject: PublishSubject<FlightLeg>, var isRoundTripSearch: Boolean) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+
     private val NUMBER_LOADING_TILES = 5
     private var loadingState = true
-    private var flights: List<FlightLeg> = emptyList()
-    protected var maxFlightDuration = 0
+    private var maxFlightDuration = 0
+    protected var flights: List<FlightLeg> = emptyList()
 
     enum class ViewTypes {
         PRICING_STRUCTURE_HEADER_VIEW,
@@ -35,9 +38,13 @@ open class FlightListAdapter(val context: Context, val flightSelectedSubject: Pu
         FLIGHT_CELL_VIEW
     }
 
-    constructor(context: Context, flightSelectedSubject: PublishSubject<FlightLeg>, flightSearchViewModel: FlightSearchViewModel): this(context, flightSelectedSubject, true, true) {
+    constructor(context: Context, flightSelectedSubject: PublishSubject<FlightLeg>, flightSearchViewModel: FlightSearchViewModel): this(context, flightSelectedSubject, true) {
         flightSearchViewModel.isRoundTripSearchObservable.subscribe({ isRoundTripSearch = it })
     }
+
+    abstract protected fun isAirlinesChargePaymentMethodFee(): Boolean
+    abstract protected fun showAllFlightsHeader(): Boolean
+    abstract protected fun adjustPosition(): Int
 
     @UiThread
     open fun setNewFlights(flights: List<FlightLeg>) {
@@ -64,10 +71,6 @@ open class FlightListAdapter(val context: Context, val flightSelectedSubject: Pu
         }
         this.flights = mockFlights
         notifyDataSetChanged()
-    }
-
-    protected fun getFlights(): List<FlightLeg> {
-        return flights
     }
 
     override fun getItemCount(): Int {
@@ -128,22 +131,18 @@ open class FlightListAdapter(val context: Context, val flightSelectedSubject: Pu
             return if (position == 0) ViewTypes.LOADING_FLIGHTS_HEADER_VIEW.ordinal else ViewTypes.LOADING_FLIGHTS_VIEW.ordinal
         }
 
-        var viewType =
-                when (position) {
-                    0 -> ViewTypes.PRICING_STRUCTURE_HEADER_VIEW.ordinal
-                    1 -> ViewTypes.ALL_FLIGHTS_HEADER_VIEW.ordinal
-                    else -> ViewTypes.FLIGHT_CELL_VIEW.ordinal
-                }
-        return viewType
+        return when (position) {
+            0 -> ViewTypes.PRICING_STRUCTURE_HEADER_VIEW.ordinal
+            else -> ViewTypes.FLIGHT_CELL_VIEW.ordinal
+        }
     }
 
     inner class HeaderViewHolder(val root: ViewGroup) : RecyclerView.ViewHolder(root) {
         val title: TextView by bindView(R.id.flight_results_price_header)
 
         fun bind(isRoundTripSearch: Boolean) {
-            val airlinesChargePaymentMethodFee = isFlightsLOB && PointOfSale.getPointOfSale().doAirlinesChargeAdditionalFeeBasedOnPaymentMethod()
-            val roundTripStringResId = if (airlinesChargePaymentMethodFee) R.string.prices_roundtrip_minimum_label else R.string.prices_roundtrip_label
-            val oneWayStringResId = if (airlinesChargePaymentMethodFee) R.string.prices_oneway_minimum_label else R.string.prices_oneway_label
+            val roundTripStringResId = if (isAirlinesChargePaymentMethodFee()) R.string.prices_roundtrip_minimum_label else R.string.prices_roundtrip_label
+            val oneWayStringResId = if (isAirlinesChargePaymentMethodFee()) R.string.prices_oneway_minimum_label else R.string.prices_oneway_label
             title.text = context.resources.getText(if (isRoundTripSearch) roundTripStringResId else oneWayStringResId)
         }
     }
@@ -198,9 +197,5 @@ open class FlightListAdapter(val context: Context, val flightSelectedSubject: Pu
 
     private fun getFlight(rawAdapterPosition: Int): FlightLeg {
         return flights[rawAdapterPosition - adjustPosition()]
-    }
-
-    open fun adjustPosition(): Int {
-        return 2
     }
 }
