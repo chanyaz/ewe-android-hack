@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Google Smart Lock -->
+    <string name="asset_statements" translatable="false">[{\"include\": \"https://www.expedia.com/.well-known/assetlinks.json\"}]</string>
+
     <!-- User name label for support email sent to user happiness team -->
     <string name="email_user_name_template">{brand} user name: {email}</string>
     <!-- App Support URL -->

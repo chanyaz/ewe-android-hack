@@ -8,8 +8,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.LinearLayout;
 
-import butterknife.ButterKnife;
-import butterknife.InjectView;
 import com.expedia.account.AccountView;
 import com.expedia.account.AnalyticsListener;
 import com.expedia.account.Config;
@@ -31,6 +29,9 @@ import com.expedia.bookings.utils.StrUtils;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.utils.UserAccountRefresher;
 import com.expedia.bookings.widget.TextView;
+
+import butterknife.ButterKnife;
+import butterknife.InjectView;
 
 public class AccountLibActivity extends AppCompatActivity
 	implements UserAccountRefresher.IUserAccountRefreshListener, LoginExtenderListener {
@@ -58,6 +59,9 @@ public class AccountLibActivity extends AppCompatActivity
 	private Listener listener = new Listener();
 	private boolean isUserBucketedForSignInMessagingTest = Db.getAbacusResponse()
 		.isUserBucketedForTest(AbacusUtils.EBAndroidAppSignInMessagingTest);
+
+	private boolean isUserBucketedForSmartLockTest = Db.getAbacusResponse()
+		.isUserBucketedForTest(AbacusUtils.EBAndroidAppSmartLockTest);
 	private int signInMessagingTestVariate = Db.getAbacusResponse()
 		.variateForTest(AbacusUtils.EBAndroidAppSignInMessagingTest);
 
@@ -144,28 +148,34 @@ public class AccountLibActivity extends AppCompatActivity
 		else if (signInMessagingTestVariate == AbacusUtils.HotelSignInMessagingVariate.TRIP_ALERT_MESSAGE.ordinal()) {
 			signInMessage = getString(R.string.trip_alert_messaging);
 		}
+		Config config = Config.build()
+			.setService(ServicesUtil.generateAccountService(this))
+			.setBackgroundImageView(background)
+			.setPOSEnableSpamByDefault(PointOfSale.getPointOfSale().shouldEnableMarketingOptIn())
+			.setPOSShowSpamOptIn(PointOfSale.getPointOfSale().shouldShowMarketingOptIn())
+			.setEnableSignInMessaging(isUserBucketedForSignInMessagingTest)
+			.setSignInMessagingText(signInMessage)
+			.setEnableFacebookButton(
+				ProductFlavorFeatureConfiguration.getInstance().isFacebookLoginIntegrationEnabled())
+			.setListener(listener)
+			.setTOSText(StrUtils.generateAccountCreationLegalLink(this))
+			.setMarketingText(PointOfSale.getPointOfSale().getMarketingText())
+			.setAnalyticsListener(analyticsListener)
+			.setFacebookAppId(getString(R.string.facebook_app_id))
+			.setInitialState(startState);
 
-		accountView.configure(Config.build()
-				.setService(ServicesUtil.generateAccountService(this))
-				.setBackgroundImageView(background)
-				.setPOSEnableSpamByDefault(PointOfSale.getPointOfSale().shouldEnableMarketingOptIn())
-				.setPOSShowSpamOptIn(PointOfSale.getPointOfSale().shouldShowMarketingOptIn())
-				.setEnableSignInMessaging(isUserBucketedForSignInMessagingTest)
-				.setSignInMessagingText(signInMessage)
-				.setEnableFacebookButton(
-					ProductFlavorFeatureConfiguration.getInstance().isFacebookLoginIntegrationEnabled())
-				.setListener(listener)
-				.setTOSText(StrUtils.generateAccountCreationLegalLink(this))
-				.setMarketingText(PointOfSale.getPointOfSale().getMarketingText())
-				.setAnalyticsListener(analyticsListener)
-				.setFacebookAppId(getString(R.string.facebook_app_id))
-				.setInitialState(startState)
-		);
+		if (isUserBucketedForSmartLockTest) {
+			config.setParentActivity(this);
+		}
+
+
+		accountView.configure(config);
 
 		userAccountRefresher = new UserAccountRefresher(this, lob, this);
 
 		OmnitureTracking.trackLoginScreen();
 	}
+
 
 	@Override
 	public void onBackPressed() {
@@ -268,6 +278,16 @@ public class AccountLibActivity extends AppCompatActivity
 		@Override
 		public void userReceivedErrorOnSignInAttempt(String s) {
 			OmnitureTracking.trackAccountCreateError(s);
+		}
+
+		@Override
+		public void userAutoLoggedInBySmartPassword() {
+			OmnitureTracking.trackSmartLockPasswordAutoSignIn();
+		}
+
+		@Override
+		public void userSignedInUsingSmartPassword() {
+			OmnitureTracking.trackSmartLockPasswordAccountCreation();
 		}
 	};
 
