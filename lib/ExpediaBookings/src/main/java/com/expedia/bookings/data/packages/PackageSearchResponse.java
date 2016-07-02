@@ -8,8 +8,23 @@ import com.expedia.bookings.data.hotels.Hotel;
 import com.google.gson.annotations.SerializedName;
 
 public class PackageSearchResponse extends PackageBaseApiResponse {
+	@SerializedName("packagePageInput")
+	public PackageInfo packageInfo;
 	public PackageResult packageResult;
 	public UniversalDataObject universalDataObject;
+
+	public static class PackageInfo {
+		public HotelCheckinDate hotelCheckinDate;
+		public HotelCheckoutDate hotelCheckoutDate;
+	}
+
+	public static class HotelCheckinDate {
+		public String isoDate;
+	}
+
+	public static class HotelCheckoutDate {
+		public String isoDate;
+	}
 
 	public static class PackageResult {
 		@SerializedName("hotels")
