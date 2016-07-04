@@ -51,11 +51,10 @@ import com.expedia.util.notNullAndObservable
 import com.expedia.util.subscribeImageDrawable
 import com.expedia.util.subscribeText
 import com.expedia.util.subscribeTextAndVisibility
+import com.expedia.util.subscribeTextChange
 import com.expedia.util.subscribeTextNotBlankVisibility
 import com.expedia.util.subscribeVisibility
 import com.expedia.vm.PaymentViewModel
-import com.jakewharton.rxbinding.widget.RxTextView
-import com.jakewharton.rxbinding.widget.TextViewAfterTextChangeEvent
 import com.squareup.phrase.Phrase
 import rx.subjects.PublishSubject
 import rx.subscriptions.CompositeSubscription
@@ -97,7 +96,7 @@ open class PaymentWidget(context: Context, attr: AttributeSet) : Presenter(conte
     val enableToolbarMenuButton = PublishSubject.create<Boolean>()
 
     var compositeSubscription: CompositeSubscription? = null
-    val formFilledSubscriber = endlessObserver<TextViewAfterTextChangeEvent>() {
+    val formFilledSubscriber = endlessObserver<String>() {
         filledIn.onNext(isCompletelyFilled())
     }
 
@@ -194,9 +193,9 @@ open class PaymentWidget(context: Context, attr: AttributeSet) : Presenter(conte
         super.onVisibilityChanged(changedView, visibility)
         if (visibility == View.VISIBLE) {
             compositeSubscription = CompositeSubscription()
-            compositeSubscription?.add(RxTextView.afterTextChangeEvents(creditCardNumber).distinctUntilChanged().subscribe(formFilledSubscriber))
-            compositeSubscription?.add(RxTextView.afterTextChangeEvents(creditCardName).distinctUntilChanged().subscribe(formFilledSubscriber))
-            compositeSubscription?.add(RxTextView.afterTextChangeEvents(creditCardPostalCode).distinctUntilChanged().subscribe(formFilledSubscriber))
+            compositeSubscription?.add(creditCardNumber.subscribeTextChange(formFilledSubscriber))
+            compositeSubscription?.add(creditCardName.subscribeTextChange(formFilledSubscriber))
+            compositeSubscription?.add(creditCardPostalCode.subscribeTextChange(formFilledSubscriber))
             creditCardNumber.setHint(getCreditCardNumberHintResId())
         } else {
             compositeSubscription?.unsubscribe();

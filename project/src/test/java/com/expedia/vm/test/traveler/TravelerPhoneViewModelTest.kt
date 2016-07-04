@@ -7,7 +7,6 @@ import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.widget.TextView
 import com.expedia.vm.traveler.TravelerPhoneViewModel
-import com.jakewharton.rxbinding.widget.TextViewAfterTextChangeEvent
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -63,9 +62,7 @@ class TravelerPhoneViewModelTest {
         phoneVm = TravelerPhoneViewModel(activity)
         phoneVm.updatePhone(phone)
 
-        val TEST_TEXT_VIEW = TextView(activity)
-
-        phoneVm.phoneNumberObserver.onNext(TextViewAfterTextChangeEvent.create(TEST_TEXT_VIEW, TEST_NUMBER_EDITABLE))
+        phoneVm.phoneNumberObserver.onNext(TEST_NUMBER)
         assertEquals(TEST_NUMBER, phone.number)
     }
 

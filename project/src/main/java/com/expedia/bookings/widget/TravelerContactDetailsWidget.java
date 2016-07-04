@@ -29,7 +29,7 @@ import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.FontCache;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.accessibility.AccessibleEditText;
-import com.jakewharton.rxbinding.widget.RxTextView;
+import com.expedia.util.RxKt;
 import com.squareup.phrase.Phrase;
 import rx.Observer;
 import rx.subjects.PublishSubject;
@@ -133,16 +133,16 @@ public class TravelerContactDetailsWidget extends ExpandableCardView implements 
 		super.onVisibilityChanged(changedView, visibility);
 		if (visibility == View.VISIBLE) {
 			compositeSubscription = new CompositeSubscription();
-			compositeSubscription.add(RxTextView.afterTextChangeEvents(firstName).distinctUntilChanged().subscribe(formFilledSubscriber));
-			compositeSubscription.add(RxTextView.afterTextChangeEvents(lastName).distinctUntilChanged().subscribe(formFilledSubscriber));
-			compositeSubscription.add(RxTextView.afterTextChangeEvents(phoneNumber).distinctUntilChanged().subscribe(formFilledSubscriber));
+			compositeSubscription.add(RxKt.subscribeTextChange(firstName, formFilledSubscriber));
+			compositeSubscription.add(RxKt.subscribeTextChange(lastName, formFilledSubscriber));
+			compositeSubscription.add(RxKt.subscribeTextChange(phoneNumber, formFilledSubscriber));
 		}
 		else {
 			compositeSubscription.unsubscribe();
 		}
 	}
 
-	private Observer formFilledSubscriber = new Observer() {
+	private Observer formFilledSubscriber = new Observer<String>() {
 		@Override
 		public void onCompleted() {
 		}
@@ -152,7 +152,7 @@ public class TravelerContactDetailsWidget extends ExpandableCardView implements 
 		}
 
 		@Override
-		public void onNext(Object o) {
+		public void onNext(String o) {
 			filledIn.onNext(isCompletelyFilled());
 		}
 	};
@@ -403,4 +403,5 @@ public class TravelerContactDetailsWidget extends ExpandableCardView implements 
 	public void setLineOfBusiness(LineOfBusiness lob) {
 		lineOfBusiness = lob;
 	}
+
 }
