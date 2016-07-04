@@ -271,7 +271,7 @@ public class LXResultsPresenter extends Presenter {
 		}
 	}
 
-	private class SearchResultObserver implements Observer<LXSearchResponse> {
+	class SearchResultObserver implements Observer<LXSearchResponse> {
 		public SearchType searchType;
 		public View widget;
 

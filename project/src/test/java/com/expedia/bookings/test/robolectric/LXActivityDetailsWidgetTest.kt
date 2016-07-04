@@ -58,7 +58,7 @@ import kotlin.properties.Delegates
         assertEquals(2, moreLikeThis.childCount)
         assertNotNull(firstRecommendedActivityView)
         assertEquals("New York Pass: Visit up to 80 Attractions, Museums & Tours", activityTitle.text)
-        assertEquals("2d +", activityDuration.text)
+        assertEquals("2d+", activityDuration.text.toString())
     }
 
     private fun buildRecommendedActivityResponse(): RecommendedActivitiesResponse {

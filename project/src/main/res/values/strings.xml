@@ -336,7 +336,7 @@
     <!-- Template for ticket selection summary -->
     <string name="offer_book_now_TEMPLATE">Book Now %1$s</string>
     <!-- Template for multiple duration text on Search results Eg: 2d+ -->
-    <string name="search_result_multiple_duration_TEMPLATE">%1$s +</string>
+    <string name="search_result_multiple_duration_TEMPLATE">{duration}+</string>
     <!-- Cancellation policy template -->
     <string name="lx_cancellation_policy_TEMPLATE">You can cancel free of charge until {hours} hours before your reservation starts. After that time, no cancellations, changes or refunds will be made.</string>
     <!-- Cancellation policy text for non-cancellable activities -->
