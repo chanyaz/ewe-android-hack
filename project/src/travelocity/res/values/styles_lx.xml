@@ -33,7 +33,6 @@
         <item name="skin_errorIndicationExclaimationDrawable">@drawable/invalid</item>
         <item name="skin_ticketSelectorDisabledColor">@color/lx_ticket_selector_disabled_color_tvly</item>
         <item name="skin_lxResultsBottomPadding">@dimen/lx_results_bottom_padding</item>
-        <item name="skin_lxSearchToolbarText">@string/lx_search_title</item>
         <item name="skin_lxErrorNoResultsText">@string/lx_error_current_location_no_results</item>
         <item name="skin_lxErrorCurrentLocationText">@string/error_lx_current_location_search_message</item>
         <item name="skin_lxErrorWidgetDrawable">@drawable/error_lx</item>

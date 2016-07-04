@@ -43,7 +43,6 @@
 
         <item name="skin_ticketSelectorDisabledColor">@color/lx_primary_disabled_color</item>
         <item name="skin_lxResultsBottomPadding">@dimen/lx_results_bottom_padding</item>
-        <item name="skin_lxSearchToolbarText">@string/lx_search_title</item>
         <item name="skin_lxErrorNoResultsText">@string/lx_error_current_location_no_results</item>
         <item name="skin_lxErrorCurrentLocationText">@string/error_lx_current_location_search_message</item>
         <item name="skin_lxErrorWidgetDrawable">@drawable/error_lx</item>
@@ -66,7 +65,8 @@
         <item name="skin_lxTextSelectorDrawable">@drawable/lx_text_selector_gt</item>
         <item name="skin_lxResultsBottomPadding">@dimen/gt_results_bottom_padding</item>
         <item name="skin_lxUncheckedToggleTextColor">@color/gt_unchecked_toggle_text_color</item>
-        <item name="skin_lxSearchToolbarText">@string/gt_search_title</item>
+        <item name="skin_searchToolbarText">@string/gt_search_title</item>
+        <item name="skin_searchButtonSelectorDrawable">@drawable/lx_button_selector_gt</item>
         <item name="skin_lxErrorNoResultsText">@string/gt_error_current_location_no_results</item>
         <item name="skin_lxErrorCurrentLocationText">@string/error_gt_current_location_search_message</item>
         <item name="skin_lxErrorWidgetDrawable">@drawable/error_gt</item>
@@ -83,7 +83,11 @@
         <item name="sliderText">@string/cars_slider_text</item>
         <item name="toolbar_title_style">@style/LXToolbarTitleTextAppearance</item>
         <item name="android:textColorSecondary">@color/lx_actionbar_text_color</item>
-        
+
+        <item name="skin_searchToolbarText">@string/lx_search_title</item>
+        <item name="skin_searchLocationText">@string/location_activity_details</item>
+        <item name="skin_searchButtonSelectorDrawable">@drawable/lx_book_now_button_selector</item>
+        <item name="skin_searchButtonStyle">@style/LXSearchButtonStyle</item>
 
         <!-- CVV attrs -->
         <item name="traveler_toolbar_text">@string/traveler_details_text</item>
@@ -218,6 +222,11 @@
         <item name="android:paddingTop">14dp</item>
         <item name="android:paddingLeft">22dp</item>
         <item name="android:paddingRight">22dp</item>
+    </style>
+
+    <style name="LXSearchButtonStyle">
+        <item name="android:textAllCaps">false</item>
+        <item name="android:textColor">@color/white</item>
     </style>
 
 </resources>

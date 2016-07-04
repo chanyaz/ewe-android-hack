@@ -11,7 +11,6 @@ import com.expedia.bookings.test.espresso.LxTestCase;
 
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
-import static org.hamcrest.Matchers.not;
 
 public class LXCurrentLocationErrorTest extends LxTestCase {
 
@@ -56,20 +55,17 @@ public class LXCurrentLocationErrorTest extends LxTestCase {
 	public void testNoCurrentLocationError() throws Throwable {
 		Common.delay(1);
 		LXScreen.didNotGoToResults();
-		LXScreen.calendar().check(matches(not(isDisplayed())));
 		LXScreen.location().check(matches(isDisplayed()));
 
 	}
 
 	public void testCurrentLocationNoSuggestionsError() throws Throwable {
 		Common.delay(1);
-		LXScreen.calendar().check(matches(not(isDisplayed())));
 		LXScreen.location().check(matches(isDisplayed()));
 	}
 
 	public void testCurrentLocationSuggestionWithNoActivitiesError() throws Throwable {
 		Common.delay(1);
-		LXScreen.calendar().check(matches(not(isDisplayed())));
-		LXScreen.location().check(matches(isDisplayed()));
+		LXScreen.searchFailed().check(matches(isDisplayed()));
 	}
 }

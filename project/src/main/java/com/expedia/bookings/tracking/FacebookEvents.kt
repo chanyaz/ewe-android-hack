@@ -28,7 +28,7 @@ import com.expedia.bookings.data.hotels.Hotel
 import com.expedia.bookings.data.hotels.HotelCreateTripResponse
 import com.expedia.bookings.data.hotels.HotelOffersResponse
 import com.expedia.bookings.data.hotels.HotelRate
-import com.expedia.bookings.data.lx.LXSearchParams
+import com.expedia.bookings.data.lx.LxSearchParams
 import com.expedia.bookings.data.lx.LXSearchResponse
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration
@@ -377,12 +377,12 @@ class FacebookEvents() {
         track(AppEventsConstants.EVENT_NAME_PURCHASED, parameters)
     }
 
-    fun trackLXSearch(searchParams: LXSearchParams, lxSearchResponse: LXSearchResponse) {
+    fun trackLXSearch(searchParams: LxSearchParams, lxSearchResponse: LXSearchResponse) {
         var parameters = Bundle()
         val startDate = searchParams.startDate
 
         addCommonLXParams(parameters, startDate, lxSearchResponse.regionId, lxSearchResponse.destination)
-        parameters.putString(AppEventsConstants.EVENT_PARAM_SEARCH_STRING, searchParams.location ?: "")
+        parameters.putString(AppEventsConstants.EVENT_PARAM_SEARCH_STRING, searchParams.location)
 
         if (CollectionUtils.isNotEmpty(lxSearchResponse.activities)) {
             parameters.putString("LowestSearch_Value", lxSearchResponse.lowestPriceActivity

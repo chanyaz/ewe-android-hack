@@ -31,7 +31,6 @@
         <item name="skin_errorIndicationExclaimationDrawable">@drawable/ic_error_blue</item>
         <item name="skin_ticketSelectorDisabledColor">@color/lx_ticket_selector_disabled_color</item>
         <item name="skin_lxResultsBottomPadding">@dimen/lx_results_bottom_padding</item>
-        <item name="skin_lxSearchToolbarText">@string/lx_search_title</item>
         <item name="skin_rippleDrawable">@drawable/lx_button_ripple</item>
         <item name="skin_lxErrorNoResultsText">@string/lx_error_current_location_no_results</item>
         <item name="skin_lxErrorCurrentLocationText">@string/error_lx_current_location_search_message</item>

@@ -16,7 +16,6 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.data.FlightSearchParams;
 import com.expedia.bookings.data.HotelSearchParams;
 import com.expedia.bookings.data.SearchParams;
-import com.expedia.bookings.data.lx.LXSearchParams;
 import com.squareup.phrase.Phrase;
 
 /**
@@ -142,10 +141,6 @@ public class DateFormatUtils {
 		return Phrase.from(context.getResources(), R.string.select_return_date_TEMPLATE)
 			.put("startdate", formattedStartDateTime)
 			.format().toString();
-	}
-
-	public static String formatLXDateRange(Context context, LXSearchParams params, int flags) {
-		return formatDateRange(context, params.startDate, params.endDate, flags);
 	}
 
 	/**

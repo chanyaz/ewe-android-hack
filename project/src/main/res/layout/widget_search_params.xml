@@ -30,7 +30,7 @@
                 app:cardUseCompatPadding="true"
                 app:input_icon="@drawable/search_form_icon_search"
                 app:input_icon_tint_color="@color/search_screen_icon_color_v2"
-                app:input_text="@string/enter_destination_hint" />
+                app:input_text="?attr/skin_searchLocationText" />
 
             <com.expedia.bookings.widget.CalendarWidgetV2
                 android:id="@+id/calendar_card"
@@ -43,23 +43,15 @@
                 app:input_icon_tint_color="@color/search_screen_icon_color_v2"
                 app:input_text="@string/select_dates" />
 
-            <com.expedia.bookings.widget.TravelerWidgetV2
-                android:id="@+id/traveler_card"
-                style="@style/MaterialCardView"
+            <ViewStub android:id="@+id/traveller_stub"
+                android:layout="@layout/traveller_search_widget"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/default_search_card_height"
-                android:layout_marginBottom="@dimen/material_search_field_bottom_margin"
-                app:cardUseCompatPadding="true"
-                app:input_icon="@drawable/search_form_icon_person"
-                app:input_icon_tint_color="@color/search_screen_icon_color_v2"
-                app:input_text="@string/hotel_search_guest_default_text" />
+                android:layout_height="wrap_content" />
 
-            <com.expedia.bookings.widget.ShopWithPointsWidget
-                android:id="@+id/widget_points_details"
+            <ViewStub android:id="@+id/swp_stub"
+                android:layout="@layout/swp_search_widget"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                app:show_in_card_layout="true" />
+                android:layout_height="wrap_content" />
 
         </LinearLayout>
 
@@ -95,12 +87,12 @@
 
         <Button
             android:id="@+id/search_button"
-            style="@style/HotelButtonStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="?attr/hotel_select_room_ripple_drawable"
+            style="?attr/skin_searchButtonStyle"
             android:enabled="true"
             android:minHeight="@dimen/recent_search_item_height"
+            android:background="?attr/skin_searchButtonSelectorDrawable"
             android:text="@string/search"
             android:textSize="17sp" />
     </LinearLayout>
@@ -115,7 +107,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="top"
-            android:background="@color/hotels_primary_color"
+            android:background="?attr/primary_color"
             android:minHeight="?attr/actionBarSize"
             app:navigationIcon="@drawable/ic_close_white_24dp">
 
@@ -133,7 +125,7 @@
                     android:gravity="center_vertical"
                     android:maxLines="1"
                     android:paddingLeft="3dp"
-                    android:text="@string/hotel_search_toolbar_title"
+                    android:text="?attr/skin_searchToolbarText"
                     android:textColor="#FFFFFF"
                     android:textSize="18sp"
                     app:textStyle="medium" />

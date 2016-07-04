@@ -34,7 +34,7 @@ import com.expedia.bookings.data.Sp;
 import com.expedia.bookings.data.User;
 import com.expedia.bookings.data.abacus.AbacusUtils;
 import com.expedia.bookings.data.cars.CarSearchParams;
-import com.expedia.bookings.data.lx.LXSearchParams;
+import com.expedia.bookings.data.lx.LxSearchParams;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.services.CarServices;
 import com.expedia.ui.CarActivity;
@@ -326,12 +326,12 @@ public class NavUtils {
 		startActivity(context, intent, animOptions);
 	}
 
-	public static void goToActivities(Context context, Bundle animOptions, LXSearchParams searchParams, int flags) {
+	public static void goToActivities(Context context, Bundle animOptions, LxSearchParams searchParams, int flags) {
 		sendKillActivityBroadcast(context);
 		Intent intent = new Intent(context, LXBaseActivity.class);
 		if (searchParams != null) {
-			intent.putExtra("startDateStr", DateUtils.localDateToyyyyMMdd(searchParams.startDate));
-			intent.putExtra("location", searchParams.location);
+			intent.putExtra("startDateStr", DateUtils.localDateToyyyyMMdd(searchParams.getActivityStartDate()));
+			intent.putExtra("location", searchParams.getLocation());
 		}
 
 		if (flags == FLAG_OPEN_SEARCH) {
@@ -345,15 +345,15 @@ public class NavUtils {
 		if (flags == FLAG_DEEPLINK) {
 			intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 			// If we don't have filters, open search box.
-			if (Strings.isNotEmpty(searchParams.activityId)) {
-				intent.putExtra("activityId", searchParams.activityId);
+			if (Strings.isNotEmpty(searchParams.getActivityId())) {
+				intent.putExtra("activityId", searchParams.getActivityId());
 				intent.putExtra(Codes.FROM_DEEPLINK_TO_DETAILS, true);
 			}
-			else if (searchParams.filters == null) {
+			else if (searchParams.getFilters().isEmpty()) {
 				intent.putExtra(Codes.EXTRA_OPEN_SEARCH, true);
 			}
 			else {
-				intent.putExtra("filters", searchParams.filters);
+				intent.putExtra("filters", searchParams.getFilters());
 				intent.putExtra(Codes.FROM_DEEPLINK, true);
 			}
 		}

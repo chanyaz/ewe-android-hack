@@ -23,14 +23,11 @@ import com.expedia.bookings.data.lx.LXActivity;
 import com.expedia.bookings.test.espresso.Common;
 import com.expedia.bookings.test.espresso.EspressoUtils;
 import com.expedia.bookings.test.espresso.IdlingResources;
-import com.expedia.bookings.test.espresso.SpoonScreenshotUtils;
-import com.expedia.bookings.test.espresso.TabletViewActions;
+import com.expedia.bookings.test.phone.pagemodels.common.SearchScreen;
 import com.expedia.bookings.widget.LXResultsListAdapter;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
-import static android.support.test.espresso.action.ViewActions.typeText;
-import static android.support.test.espresso.matcher.RootMatchers.withDecorView;
 import static android.support.test.espresso.matcher.ViewMatchers.hasSibling;
 import static android.support.test.espresso.matcher.ViewMatchers.isAssignableFrom;
 import static android.support.test.espresso.matcher.ViewMatchers.isDescendantOfA;
@@ -41,37 +38,35 @@ import static android.support.test.espresso.matcher.ViewMatchers.withParent;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static com.expedia.bookings.test.espresso.ViewActions.waitFor;
 import static org.hamcrest.Matchers.allOf;
-import static org.hamcrest.Matchers.is;
-import static org.hamcrest.Matchers.not;
 import static org.hamcrest.Matchers.startsWith;
 
 public class LXScreen {
 	public static ViewInteraction calendar() {
-		return onView(withId(R.id.search_calendar));
+		return onView(withId(R.id.calendar));
 	}
 
+	public static ViewInteraction locationCardView() {
+		return onView(withId(R.id.destination_card));
+	}
 	public static ViewInteraction location() {
-		return onView(withId(R.id.search_location));
+		return onView(withId(R.id.search_src_text));
 	}
 
 	public static void didNotGoToResults() {
-		EspressoUtils.assertViewIsDisplayed(R.id.search_params_container);
+		EspressoUtils.assertViewIsDisplayed(R.id.scrollView);
 	}
 
 	public static void selectLocation(String location) throws Throwable {
 		Common.delay(1);
-		onView(withText(location))
-			.inRoot(withDecorView(
-				not(is(SpoonScreenshotUtils.getCurrentActivity().getWindow().getDecorView()))))
-			.perform(click());
+		SearchScreen.selectLocation(location);
 	}
 
 	public static ViewInteraction selectDateButton() {
-		return onView(withId(R.id.select_dates));
+		return SearchScreen.selectDateButton();
 	}
 
 	public static void selectDates(LocalDate start, LocalDate end) {
-		calendar().perform(TabletViewActions.clickDates(start, end));
+		SearchScreen.selectDates(start, end);
 	}
 
 	public static ViewInteraction itinNumberOnConfirmationScreen() {
@@ -156,7 +151,7 @@ public class LXScreen {
 	}
 
 	public static ViewInteraction searchButton() {
-		return onView(allOf(withId(R.id.search_btn), isDescendantOfA(hasSibling(withId(R.id.search_container)))));
+		return SearchScreen.searchButton();
 	}
 
 	public static ViewInteraction searchButtonOnDetailsWithRecommendationsToolbar() {
@@ -360,11 +355,7 @@ public class LXScreen {
 
 	public static void goToSearchResults(IdlingResources.LxIdlingResource lxIdlingResource) throws Throwable {
 		if (!lxIdlingResource.isSearchResultsAvailable()) {
-			LXScreen.location().perform(typeText("San"));
-			LXScreen.selectLocation("San Francisco, CA");
-			LXScreen.selectDateButton().perform(click());
-			LXScreen.selectDates(LocalDate.now(), null);
-			LXScreen.searchButton().perform(click());
+			SearchScreen.doGenericLXSearch();
 		}
 	}
 }

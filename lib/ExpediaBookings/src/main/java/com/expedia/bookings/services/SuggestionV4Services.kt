@@ -30,6 +30,17 @@ class SuggestionV4Services(endpoint: String, okHttpClient: OkHttpClient, interce
         adapter.create<SuggestApi>(SuggestApi::class.java)
     }
 
+    fun getLxSuggestionsV4(query: String, client: String, observer: Observer<List<SuggestionV4>>, locale: String): Subscription {
+        val type = SuggestionResultType.CITY or SuggestionResultType.MULTI_CITY or SuggestionResultType.NEIGHBORHOOD or
+                SuggestionResultType.POINT_OF_INTEREST
+
+        return suggestApi.suggestV4(query, locale, type, false, "ta_hierarchy", client, "ACTIVITIES")
+                .observeOn(observeOn)
+                .subscribeOn(subscribeOn)
+                .map { response -> response.suggestions}
+                .subscribe(observer)
+    }
+
     fun getHotelSuggestionsV4(query: String, clientId: String, observer: Observer<List<SuggestionV4>>, locale: String): Subscription {
         val type = SuggestionResultType.HOTEL or SuggestionResultType.AIRPORT or SuggestionResultType.CITY or
                 SuggestionResultType.NEIGHBORHOOD or SuggestionResultType.POINT_OF_INTEREST or SuggestionResultType.REGION

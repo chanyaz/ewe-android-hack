@@ -152,14 +152,14 @@ public class LXDetailsPresenter extends Presenter {
 
 	public void onActivitySelected(LXActivity lxActivity) {
 		this.lxActivity = lxActivity;
-		showActivityDetails(lxActivity.id, lxActivity.title, lxState.searchParams.location,
-			lxState.searchParams.startDate, lxState.searchParams.endDate);
+		showActivityDetails(lxActivity.id, lxActivity.title, lxState.searchParams.getLocation(),
+			lxState.searchParams.getActivityStartDate(), lxState.searchParams.getActivityEndDate());
 	}
 
 	@Subscribe
 	public void onActivitySelectedRetry(Events.LXActivitySelectedRetry event) {
-		showActivityDetails(lxState.activity.id, lxState.activity.title, lxState.searchParams.location,
-			lxState.searchParams.startDate, lxState.searchParams.endDate);
+		showActivityDetails(lxState.activity.id, lxState.activity.title, lxState.searchParams.getLocation(),
+			lxState.searchParams.getActivityStartDate(), lxState.searchParams.getActivityEndDate());
 	}
 
 	private void showActivityDetails(String activityId, String title, String location, LocalDate startDate,

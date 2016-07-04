@@ -283,7 +283,6 @@
     <attr name="skin_flightLoadingMessageTextColor" format="reference|color" />
     <attr name="skin_ticketSelectorDisabledColor" format="reference" />
     <attr name="skin_lxResultsBottomPadding" format="reference" />
-    <attr name="skin_lxSearchToolbarText" format="reference" />
     <attr name="skin_lxErrorNoResultsText" format="reference" />
     <attr name="skin_lxErrorCurrentLocationText" format="reference" />
     <attr name="skin_lxErrorWidgetDrawable" format="reference" />

@@ -2,15 +2,20 @@ package com.expedia.bookings.presenter.lx;
 
 import javax.inject.Inject;
 
+import android.animation.ArgbEvaluator;
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.graphics.Color;
+import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.animation.DecelerateInterpolator;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.animation.TransitionElement;
 import com.expedia.bookings.data.LXState;
 import com.expedia.bookings.data.LineOfBusiness;
+import com.expedia.bookings.data.lx.LxSearchParams;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.presenter.Presenter;
 import com.expedia.bookings.presenter.VisibilityTransition;
@@ -18,9 +23,10 @@ import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.LXConfirmationWidget;
 import com.expedia.bookings.widget.LoadingOverlayWidget;
+import com.expedia.vm.LXSearchViewModel;
 import com.squareup.otto.Subscribe;
-
 import butterknife.InjectView;
+import rx.Observer;
 
 public class LXPresenter extends Presenter {
 
@@ -32,7 +38,7 @@ public class LXPresenter extends Presenter {
 	}
 
 	@InjectView(R.id.search_params_widget)
-	LXSearchParamsPresenter searchParamsWidget;
+	public LXSearchPresenter searchParamsWidget;
 
 	@InjectView(R.id.search_list_presenter)
 	LXResultsPresenter resultsPresenter;
@@ -68,6 +74,9 @@ public class LXPresenter extends Presenter {
 	public void onFinishInflate() {
 		super.onFinishInflate();
 		Ui.getApplication(getContext()).lxComponent().inject(this);
+
+		searchParamsWidget.setSearchViewModel(new LXSearchViewModel(getContext()));
+
 		addTransition(searchParamsToResults);
 		addTransition(resultsToRecommendations);
 		addTransition(searchOverlayOnResults);
@@ -91,9 +100,29 @@ public class LXPresenter extends Presenter {
 		int[] attrs = {R.attr.skin_lxPrimaryColor};
 		TypedArray ta = getContext().getTheme().obtainStyledAttributes(attrs);
 		loadingOverlay.setBackgroundAttr(ta.getDrawable(0));
-	}
 
-	private Transition searchParamsToResults = new Transition(LXSearchParamsPresenter.class,
+		searchParamsWidget.getSearchViewModel().getSearchParamsObservable().subscribe(lxSearchParamsObserver);
+
+	}
+	private Observer<LxSearchParams> lxSearchParamsObserver = new Observer<LxSearchParams>() {
+		@Override
+		public void onCompleted() {
+		}
+
+		@Override
+		public void onError(Throwable e) {
+		}
+
+		@Override
+		public void onNext(LxSearchParams params) {
+			Events.post(new Events.LXNewSearchParamsAvailable(params));
+		}
+	};
+
+	TransitionElement searchBackgroundColor = new TransitionElement(ContextCompat.getColor(getContext(), R.color.search_anim_background), Color.TRANSPARENT);
+	ArgbEvaluator searchArgbEvaluator = new ArgbEvaluator();
+
+	private Transition searchParamsToResults = new Transition(LXSearchPresenter.class,
 		LXResultsPresenter.class, new DecelerateInterpolator(), ANIMATION_DURATION) {
 		@Override
 		public void startTransition(boolean forward) {
@@ -106,7 +135,8 @@ public class LXPresenter extends Presenter {
 		@Override
 		public void updateTransition(float f, boolean forward) {
 			resultsPresenter.animationUpdate(f, !forward);
-			searchParamsWidget.animationUpdate(f, !forward, 1f);
+			setBackgroundColorForSearchWidget(f, forward);
+			searchParamsWidget.animationUpdate(f, !forward);
 		}
 
 		@Override
@@ -115,6 +145,9 @@ public class LXPresenter extends Presenter {
 			searchParamsWidget.setVisibility(forward ? GONE : VISIBLE);
 			resultsPresenter.animationFinalize(!forward);
 			searchParamsWidget.animationFinalize(!forward);
+			if (searchParamsWidget.getFirstLaunch()) {
+				searchParamsWidget.showSuggestionState(false);
+			}
 		}
 	};
 
@@ -212,7 +245,8 @@ public class LXPresenter extends Presenter {
 		@Override
 		public void updateTransition(float f, boolean forward) {
 			resultsPresenter.animationUpdate(f, forward);
-			searchParamsWidget.animationUpdate(f, forward, 1f);
+			setBackgroundColorForSearchWidget(f, forward);
+			searchParamsWidget.animationUpdate(f, forward);
 		}
 
 		@Override
@@ -240,7 +274,8 @@ public class LXPresenter extends Presenter {
 		@Override
 		public void updateTransition(float f, boolean forward) {
 			detailsPresenter.animationUpdate(f, forward);
-			searchParamsWidget.animationUpdate(f, forward, searchStartingAlpha);
+			setBackgroundColorForSearchWidget(f, forward);
+			searchParamsWidget.animationUpdate(f, forward);
 		}
 
 		@Override
@@ -269,7 +304,8 @@ public class LXPresenter extends Presenter {
 		@Override
 		public void updateTransition(float f, boolean forward) {
 			recommendationPresenter.animationUpdate(f, forward);
-			searchParamsWidget.animationUpdate(f, forward, searchStartingAlpha);
+			setBackgroundColorForSearchWidget(f, forward);
+			searchParamsWidget.animationUpdate(f, forward);
 		}
 
 		@Override
@@ -281,8 +317,8 @@ public class LXPresenter extends Presenter {
 		}
 	};
 
-	private Transition detailsToSearch = new VisibilityTransition(this, LXDetailsPresenter.class, LXSearchParamsPresenter.class);
-	private Transition recommendationsToSearch = new VisibilityTransition(this, LXDetailsWithRecommendationsPresenter.class, LXSearchParamsPresenter.class);
+	private Transition detailsToSearch = new VisibilityTransition(this, LXDetailsPresenter.class, LXSearchPresenter.class);
+	private Transition recommendationsToSearch = new VisibilityTransition(this, LXDetailsWithRecommendationsPresenter.class, LXSearchPresenter.class);
 
 	private Transition checkoutToConfirmation = new VisibilityTransition(this, LXCheckoutPresenter.class, LXConfirmationWidget.class);
 
@@ -391,5 +427,16 @@ public class LXPresenter extends Presenter {
 
 	public boolean isCurrentStateDetailsWithRecommedation() {
 		return LXDetailsWithRecommendationsPresenter.class.getName().equals(getCurrentState());
+	}
+
+	public void setBackgroundColorForSearchWidget(float f, boolean forward) {
+		if (!forward) {
+			searchParamsWidget.setBackgroundColor((Integer) (searchArgbEvaluator
+				.evaluate(f, searchBackgroundColor.getStart(), searchBackgroundColor.getEnd())));
+		}
+		else {
+			searchParamsWidget.setBackgroundColor(((Integer) searchArgbEvaluator
+				.evaluate(f, searchBackgroundColor.getEnd(), searchBackgroundColor.getStart())));
+		}
 	}
 }

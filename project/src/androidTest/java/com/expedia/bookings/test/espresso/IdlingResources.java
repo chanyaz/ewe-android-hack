@@ -58,6 +58,14 @@ public class IdlingResources {
 				resource.decrement();
 			}
 		}
+
+		@Subscribe
+		public void on(Events.LXShowSearchError event) {
+			Log.d("LxIdlingResource - Events.LXShowSearchWidget");
+			if (!resource.isIdleNow()) {
+				resource.decrement();
+			}
+		}
 	}
 
 	public static class SuggestionResource extends Resource {

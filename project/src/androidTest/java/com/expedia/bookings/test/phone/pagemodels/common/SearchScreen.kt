@@ -147,6 +147,14 @@ object SearchScreen {
         searchButton().perform(click())
     }
 
+    @JvmStatic fun doGenericLXSearch() {
+        selectDestinationForLX()
+        val startDate = LocalDate.now()
+        selectDates(startDate, null)
+
+        searchButton().perform(click())
+    }
+
     @JvmStatic fun doGenericSearch() {
         search(1, 0, false)
     }
@@ -185,6 +193,12 @@ object SearchScreen {
     @JvmStatic fun selectDestination() {
         searchEditText().perform(typeText(TestValues.TYPE_TEXT_SFO))
         selectLocation(TestValues.DESTINATION_LOCATION_SFO)
+    }
+
+    @Throws(Throwable::class)
+    @JvmStatic fun selectDestinationForLX() {
+        searchEditText().perform(typeText(TestValues.TYPE_TEXT_SFO))
+        selectLocation(TestValues.ACTIVITY_DESTINATION_LOCATION_SFO)
     }
 
     @Throws(Throwable::class)
