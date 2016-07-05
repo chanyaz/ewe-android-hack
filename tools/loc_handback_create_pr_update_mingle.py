@@ -1,0 +1,61 @@
+import os
+parentdir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+os.sys.path.insert(0,os.path.join(parentdir, "jenkins"))
+import sys
+from github3 import login
+import logging
+from mingle_utils import murmurInProject, uploadAttachment
+from pr_utils import prUrl
+import subprocess
+import traceback
+
+brandName = sys.argv[1]
+locHandbackChangesBranchName = sys.argv[2]
+locHandbackCommitMessage = sys.argv[3]
+gitBaseBranchName = sys.argv[4]
+mingleCardNumber = sys.argv[5]
+zipFileLocation = sys.argv[6]
+mingleProjectId = 'eb_ad_app'
+mingleAccessId = "rkochhar"
+mingleAccessSecret = "5ISptP8ZqZDO7YNh0ZbwADo2NYRNLRIDSIFDxT0qS+Q="
+githubToken = '7d400f5e78f24dbd24ee60814358aa0ab0cd8a76'
+github = login(token=githubToken)
+repo = github.repository('ExpediaInc', 'ewe-android-eb')
+
+
+print "brandName = " + brandName
+print "locHandbackChangesBranchName = " + locHandbackChangesBranchName
+print "gitCommitMessage = " + locHandbackCommitMessage
+print "gitBaseBranchName = " + gitBaseBranchName
+print "mingleCardNumber = " + mingleCardNumber
+
+try:
+    subprocess.check_call('git status')
+    subprocess.check_call('git checkout -b {gitBranchName}'.format(gitBranchName=locHandbackChangesBranchName))
+    subprocess.check_call('git add project/src/{brandName}/res'.format(brandName=brandName))
+    subprocess.check_call('git commit -m "{gitCommitMessage}"'.format(gitCommitMessage=locHandbackCommitMessage))
+except:
+    subprocess.check_call('git checkout -- .')
+    print "Unable to create commit locally. Stack Trace: \n{stack_trace}".format(stack_trace=traceback.format_exc())
+    sys.exit(1)
+
+print "Commit created. Pushing changes"
+
+os.system('git push origin {gitBranchName}'.format(gitBranchName=locHandbackChangesBranchName))
+
+print "Creating pull request"
+pr = repo.create_pull(locHandbackCommitMessage, gitBaseBranchName.replace("origin/", ""), locHandbackChangesBranchName)
+murmurMessageInMingle = '{pr_url} for card #{mingleCardNumber}'.format(pr_url=prUrl(pr), mingleCardNumber=mingleCardNumber)
+
+murmurInProject(mingleProjectId, mingleAccessId, mingleAccessSecret, murmurMessageInMingle)
+
+uploadAttachment(mingleProjectId, mingleAccessId, mingleAccessSecret, mingleCardNumber, zipFileLocation)
+
+print "Deleting local branch."
+try:
+    subprocess.check_call('git checkout {gitBaseBranchName}'.format(gitBaseBranchName=gitBaseBranchName))
+    subprocess.check_call('git branch -D {gitBranchName}'.format(gitBranchName=locHandbackChangesBranchName))
+except:
+    # Not exiting with failure from here as the only thing it impacts is cleanup of the just created branch.
+    # Since branch names guaranteed to be unique (they are created with Jenkins Build Number in them), we are not getting noisy about this error.
+    print "Unable to delete local branch. Stack Trace: \n{stack_trace}".format(stack_trace=traceback.format_exc())

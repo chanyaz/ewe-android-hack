@@ -6,7 +6,8 @@ if [ "$1" = "" ] ; then
 fi
 
 path=$1
-options="--color=always -n -H"
+brand=$2
+options="-n -H"
 
 # Mal escaped characters
 searchRegex[0]="[^\]&apos;"
@@ -35,6 +36,8 @@ searchRegex[11]=">.*[^.!]  "
 #searchRegex[13]="<a>"
 #searchRegex[14]="</a>"
 
+# We choose to not exit at the first error so that we can see all the issues in the console log.
+exitStatus=0
 for i in $path/values*/strings.xml ; do
     # Xml file validity
     xmllint --format --noout $i
@@ -43,7 +46,7 @@ for i in $path/values*/strings.xml ; do
         if grep $options "$j" $i
             then
               echo "Error found:" $j
-              exit 1
+              exitStatus=1
         fi
     done
 
@@ -53,19 +56,19 @@ for i in $path/values*/strings.xml ; do
     if [ $wordCount -gt 0 ]
         then
             echo $i " Found " $wordCount " duplicate(s):" $duplicates
-            exit 1
+            exitStatus=1
     fi
 
     # check for unicode non-breaking space
-    if pcregrep --color=always -n '\xC2\xA0' $i
+    if pcregrep -n '\xC2\xA0' $i
         then
             echo "unicode non-breaking space found"
-            exit 1
+            exitStatus=1
     fi
 
 done
 
-root="./project/src/main/res"
+root="./project/src/$brand/res"
 for i in $path/values*/strings.xml ; do
     other=${i/$path/$root}
 
@@ -73,7 +76,7 @@ for i in $path/values*/strings.xml ; do
     diff_lines=`diff $i $other | wc -l`
     if [ "$diff_lines" -gt "200" ] ; then
         echo $i "too many lines changes" $diff_lines
-        exit 1
     fi
 done
+exit $exitStatus
 
