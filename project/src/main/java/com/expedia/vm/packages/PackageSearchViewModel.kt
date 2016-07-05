@@ -133,4 +133,8 @@ class PackageSearchViewModel(context: Context) : AbstractFlightSearchViewModel(c
         val instructions = context.resources.getString(resource)
         return Pair(computeTopTextForToolTip(start, end), instructions)
     }
+
+    override fun sameStartAndEndDateAllowed(): Boolean {
+        return false
+    }
 }

@@ -46,6 +46,10 @@ class HotelSearchViewModel(context: Context) : BaseSearchViewModel(context) {
         requiredSearchParamsObserver.onNext(Unit)
     }
 
+    override fun sameStartAndEndDateAllowed(): Boolean {
+        return false
+    }
+
     val suggestionTextChangedObserver = endlessObserver<Unit> {
         getParamsBuilder().destination(null)
         requiredSearchParamsObserver.onNext(Unit)

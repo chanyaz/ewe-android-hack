@@ -86,4 +86,9 @@ class LXSearchViewModel(context: Context) : BaseSearchViewModel(context) {
             return DateUtils.localDateToMMMMd(start)
         }
     }
+
+    override fun sameStartAndEndDateAllowed(): Boolean {
+        return false
+    }
+
 }
