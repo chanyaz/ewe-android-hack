@@ -80,6 +80,8 @@
     <string name="vip_access">VIP Access</string>
     <!-- Message that explains the meaning of VIP Access -->
     <string name="vip_access_message">At VIP Access hotels, gold and platinum members receive free room upgrades and other perks on availability at check-in.</string>
+    <!-- Filter for showing only VIP access hotels -->
+    <string name="VIP_Access_Only">VIP Access Only</string>
 
     <!-- Sign in with earn message. Eg: Sign in to earn $123.22 in Orbucks -->
     <string name="Sign_in_to_earn_TEMPLATE">Sign in to earn {reward} in Orbucks</string>
