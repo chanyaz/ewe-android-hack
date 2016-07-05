@@ -269,7 +269,7 @@ class FlightSearchViewModel(context: Context, val flightServices: FlightServices
         price.packageTotalPrice = offer.totalFarePrice
         price.differentialPriceFormatted = offer.totalFarePrice.formattedPrice
         price.packageTotalPriceFormatted = offer.totalFarePrice.formattedPrice
-        price.pricePerPersonFormatted = offer.totalFarePrice.formattedPrice
+        price.pricePerPersonFormatted = offer.averageTotalPricePerTicket.formattedPrice
         offerModel.urgencyMessage = urgencyMessage
         offerModel.price = price
         return offerModel

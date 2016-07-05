@@ -88,4 +88,8 @@ class PackageFlightListAdapter(context: Context, flightSelectedSubject: PublishS
     override fun showAllFlightsHeader(): Boolean {
         return true
     }
+
+    override fun makeFlightViewModel(context: Context, flightLeg: FlightLeg): PackageFlightViewModel {
+        return PackageFlightViewModel(context, flightLeg)
+    }
 }
