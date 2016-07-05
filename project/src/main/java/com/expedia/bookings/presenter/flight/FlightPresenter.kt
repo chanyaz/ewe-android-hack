@@ -11,6 +11,7 @@ import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.flights.FlightCreateTripParams
 import com.expedia.bookings.data.pos.PointOfSale
+import com.expedia.bookings.presenter.BaseOverviewPresenter
 import com.expedia.bookings.presenter.LeftToRightTransition
 import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.presenter.ScaleTransition
@@ -70,6 +71,7 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
         searchPresenter.searchViewModel = vm
         outBoundPresenter.flightSearchViewModel = vm
         inboundPresenter.flightSearchViewModel = vm
+
         flightOverviewPresenter.flightSummary.outboundFlightWidget.viewModel.selectedFlightObservable.onNext(PackageSearchType.OUTBOUND_FLIGHT)
         flightOverviewPresenter.flightSummary.inboundFlightWidget.viewModel.selectedFlightObservable.onNext(PackageSearchType.INBOUND_FLIGHT)
 
@@ -120,6 +122,8 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
             val createTripParams = FlightCreateTripParams(productKey, requestInsurance)
             flightOverviewPresenter.getCheckoutPresenter().getCreateTripViewModel().tripParams.onNext(createTripParams)
             show(flightOverviewPresenter)
+            flightOverviewPresenter.show(BaseOverviewPresenter.BundleDefault(), FLAG_CLEAR_BACKSTACK)
+
         }
         vm.inboundResultsObservable.subscribe {
             show(inboundPresenter)
@@ -127,7 +131,6 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
         vm.outboundResultsObservable.subscribe {
             show(outBoundPresenter)
         }
-
         vm.confirmedOutboundFlightSelection.subscribe { flightOverviewPresenter.viewModel.showFreeCancellationObservable.onNext(it.isFreeCancellable) }
         vm.flightOfferSelected.subscribe { flightOverviewPresenter.viewModel.showSplitTicketMessagingObservable.onNext(it.isSplitTicket) }
         Observable.combineLatest(vm.confirmedOutboundFlightSelection, vm.confirmedInboundFlightSelection, { outbound, inbound ->
