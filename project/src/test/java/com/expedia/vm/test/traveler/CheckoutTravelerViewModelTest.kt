@@ -4,12 +4,16 @@ import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.Traveler
 import com.expedia.bookings.data.packages.PackageSearchParams
+import com.expedia.bookings.enums.PassengerCategory
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.vm.traveler.CheckoutTravelerViewModel
 import org.joda.time.LocalDate
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
+import org.junit.Assert.fail
+
+import kotlin.test.assertEquals
 import kotlin.test.assertFalse
 import kotlin.test.assertTrue
 
@@ -76,6 +80,30 @@ class CheckoutTravelerViewModelTest {
     fun testEmptyTravelers() {
         mockTravelerProvider.updateDBWithMockTravelers(2, Traveler())
         assertTrue(testViewModel.areTravelersEmpty())
+    }
+
+    @Test
+    fun testGetChildPassengerCategory() {
+        var params = Db.getSearchParams()
+        val infantInSeat = testViewModel.getChildPassengerCategory(1, params)
+        assertEquals(PassengerCategory.INFANT_IN_SEAT, infantInSeat)
+
+        val child = testViewModel.getChildPassengerCategory(10, params)
+        assertEquals(PassengerCategory.CHILD, child)
+
+        val adultChild = testViewModel.getChildPassengerCategory(17, params)
+        assertEquals(PassengerCategory.ADULT_CHILD, adultChild)
+
+        params.infantSeatingInLap = true
+        val infantInLap = testViewModel.getChildPassengerCategory(1, params)
+        assertEquals(PassengerCategory.INFANT_IN_LAP, infantInLap)
+
+        try {
+            testViewModel.getChildPassengerCategory(18, params)
+            fail("This has to throw exception")
+        } catch (e: IllegalArgumentException) {
+            //if childAge must be less than 18
+        }
     }
 
     private fun setUpParams() {

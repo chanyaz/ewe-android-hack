@@ -343,6 +343,8 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet) : Pre
 
     override fun accountLogoutClicked() {
         User.signOut(context)
+        animateInSlideToPurchase(false)
+        updateDbTravelers()
         updateTravelerPresenter()
         loginWidget.bind(false, false, null, getLineOfBusiness())
         paymentWidget.viewmodel.userLogin.onNext(false)
@@ -458,6 +460,7 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet) : Pre
 
     abstract fun getLineOfBusiness(): LineOfBusiness
     abstract fun updateTravelerPresenter()
+    abstract fun updateDbTravelers()
     abstract fun trackShowSlideToPurchase()
     abstract fun trackShowBundleOverview()
     abstract fun makeCheckoutViewModel(): BaseCheckoutViewModel

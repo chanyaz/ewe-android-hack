@@ -37,10 +37,8 @@ class BaseCheckoutViewModelTest {
     @Test
     fun testTravelersCleared() {
         val testSubscriber = TestSubscriber<BaseCheckoutParams>()
-        val testInfoCompletedSubscriber = TestSubscriber<Boolean>()
         val expectedResults = arrayListOf(false, true, true, true, false, true)
         testViewModel.checkoutParams.subscribe(testSubscriber)
-        testViewModel.infoCompleted.subscribe(testInfoCompletedSubscriber)
 
         var travelers = arrayListOf(getTraveler(), getTraveler(), getTraveler())
         testViewModel.travelerCompleted.onNext(travelers)
@@ -59,34 +57,9 @@ class BaseCheckoutViewModelTest {
         assertEquals(4, testSubscriber.onNextEvents[0].travelers.size)
 
         testViewModel.clearTravelers.onNext(Unit)
-        testInfoCompletedSubscriber.requestMore(LOTS_MORE)
 
         travelers = arrayListOf(getTraveler())
         testViewModel.travelerCompleted.onNext(travelers)
-        testInfoCompletedSubscriber.requestMore(LOTS_MORE)
-
-        testInfoCompletedSubscriber.assertReceivedOnNext(expectedResults)
-    }
-
-    @Test
-    fun testRequiredInfoCompleted() {
-        val testSubscriber = TestSubscriber<BaseCheckoutParams>()
-        testViewModel.checkoutParams.subscribe(testSubscriber)
-
-        val testInfoCompletedSubscriber = TestSubscriber<Boolean>()
-        testViewModel.infoCompleted.subscribe(testInfoCompletedSubscriber)
-
-        var travelers = arrayListOf(getTraveler())
-        testViewModel.travelerCompleted.onNext(travelers)
-        testViewModel.paymentCompleted.onNext(getBillingInfo())
-        testViewModel.cvvCompleted.onNext("123")
-
-        testSubscriber.requestMore(LOTS_MORE)
-        testInfoCompletedSubscriber.requestMore(LOTS_MORE)
-
-        assertEquals(false, testInfoCompletedSubscriber.onNextEvents[0])
-        assertEquals(true, testInfoCompletedSubscriber.onNextEvents[1])
-        assertEquals(1, testSubscriber.onNextEvents.size)
     }
 
     fun getBillingInfo(): BillingInfo {

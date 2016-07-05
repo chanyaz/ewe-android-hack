@@ -1,7 +1,6 @@
 package com.expedia.bookings.data.flights
 
 import com.expedia.bookings.data.AbstractFlightSearchParams
-import com.expedia.bookings.data.BaseSearchParams
 import com.expedia.bookings.data.SuggestionV4
 import org.joda.time.Days
 import org.joda.time.LocalDate
