@@ -3,7 +3,7 @@ import org.gradle.api.logging.LoggingOutput
 import org.gradle.api.logging.StandardOutputListener
 
 buildscript {
-    ext.kotlin_version = '1.0.2'
+    ext.kotlin_version = '1.0.3'
     ext.okhttp_version = '3.3.1'
 
     repositories {
