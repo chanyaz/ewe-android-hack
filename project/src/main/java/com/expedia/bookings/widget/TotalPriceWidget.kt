@@ -21,7 +21,6 @@ import com.expedia.util.subscribeText
 import com.expedia.util.subscribeTextAndVisibility
 import com.expedia.util.subscribeVisibility
 import com.expedia.vm.packages.BundlePriceViewModel
-import com.expedia.vm.packages.PackageBreakdownViewModel
 
 class TotalPriceWidget(context: Context, attrs: AttributeSet?) : LinearLayout(context, attrs) {
 
@@ -51,7 +50,7 @@ class TotalPriceWidget(context: Context, attrs: AttributeSet?) : LinearLayout(co
         }
     }
 
-    val packagebreakdown = PackageBreakDownView(context, null)
+    val packagebreakdown = CostSummaryBreakDownView(context, null)
     val dialog: AlertDialog by lazy {
         val builder = AlertDialog.Builder(context)
         builder.setView(packagebreakdown)
@@ -65,11 +64,6 @@ class TotalPriceWidget(context: Context, attrs: AttributeSet?) : LinearLayout(co
         orientation = HORIZONTAL
         rotateChevron(true)
 
-        packagebreakdown.viewmodel = PackageBreakdownViewModel(context)
-        packagebreakdown.viewmodel.iconVisibilityObservable.subscribe { show ->
-            toggleBundleTotalCompoundDrawable(show)
-            viewModel.costBreakdownEnabledObservable.onNext(show)
-        }
         this.setOnClickListener {
             // We want to show cost breakdown ONLY in checkout screen. We set the rightDrawable only when createTrip returns. So let's check
             if (bundleTotalText.compoundDrawables[2] != null) {

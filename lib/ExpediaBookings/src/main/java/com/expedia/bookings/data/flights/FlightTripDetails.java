@@ -13,6 +13,7 @@ public class FlightTripDetails {
 	public static class FlightOffer {
 		public String productKey;
 		public List<String> legIds;
+		public List<PricePerPassengerCategory>  pricePerPassengerCategory;
 
 		public Money baseFarePrice;
 		public Money totalFarePrice;
@@ -20,6 +21,7 @@ public class FlightTripDetails {
 		public Money taxesPrice;
 		public Money feesPrice;
 		public String currency;
+		public String fees;
 
 		public String baggageFeesUrl;
 		public boolean isInternational;
@@ -31,5 +33,30 @@ public class FlightTripDetails {
 		public boolean mayChargeOBFees;
 		public String numberOfTickets;
 		public int seatsRemaining;
+
+		public Money getBookingFee() {
+			return new Money(fees, currency);
+		}
+	}
+
+	public class PricePerPassengerCategory implements Comparable<PricePerPassengerCategory> {
+		public PassengerCategory passengerCategory;
+		public Money basePrice;
+		public Money totalPrice;
+		public Money taxesPrice;
+
+		@Override
+		public int compareTo(PricePerPassengerCategory pricePerPassengerCategory) {
+			return passengerCategory.compareTo(pricePerPassengerCategory.passengerCategory);
+		}
+	}
+
+	public enum PassengerCategory {
+		ADULT,
+		SENIOR,
+		ADULT_CHILD,
+		CHILD,
+		INFANT_IN_SEAT,
+		INFANT_IN_LAP
 	}
 }

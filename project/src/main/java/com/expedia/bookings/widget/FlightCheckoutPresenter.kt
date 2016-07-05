@@ -12,6 +12,7 @@ import com.expedia.util.subscribeText
 import com.expedia.util.subscribeTextAndVisibility
 import com.expedia.util.subscribeVisibility
 import com.expedia.vm.FlightCheckoutViewModel
+import com.expedia.vm.FlightCostSummaryBreakdownViewModel
 import com.expedia.vm.flights.FlightCreateTripViewModel
 import com.expedia.vm.packages.BaseCreateTripViewModel
 import com.squareup.otto.Subscribe
@@ -40,7 +41,9 @@ class FlightCheckoutPresenter(context: Context, attr: AttributeSet) : BaseChecko
             priceChangeWidget.viewmodel.originalPrice.onNext(response.tripTotalPayableIncludingFeeIfZeroPayableByPoints())
             priceChangeWidget.viewmodel.newPrice.onNext(response.tripTotalPayableIncludingFeeIfZeroPayableByPoints())
             totalPriceWidget.viewModel.total.onNext(response.tripTotalPayableIncludingFeeIfZeroPayableByPoints())
-            //TODO: Add Breakdown
+            totalPriceWidget.viewModel.costBreakdownEnabledObservable.onNext(true)
+            (totalPriceWidget.packagebreakdown.viewmodel as FlightCostSummaryBreakdownViewModel).flightCostSummaryObservable.onNext(response.details)
+
         }
         vm.tripResponseObservable.map { it.validFormsOfPayment }
                                  .subscribe(getCheckoutViewModel().validFormsOfPaymentSubject)

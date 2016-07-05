@@ -12,12 +12,12 @@ import com.expedia.bookings.R
 import com.expedia.bookings.utils.FontCache
 import com.expedia.bookings.utils.bindView
 import com.expedia.util.notNullAndObservable
-import com.expedia.vm.packages.PackageBreakdownViewModel
+import com.expedia.vm.BaseCostSummaryBreakdownViewModel
 
-class PackageBreakDownView(context: Context, attrs: AttributeSet?) : ScrollView(context, attrs) {
+class CostSummaryBreakDownView(context: Context,  attrs: AttributeSet?) : ScrollView(context, attrs) {
     val linearLayout: LinearLayout by bindView(R.id.breakdown_container)
 
-    var viewmodel: PackageBreakdownViewModel by notNullAndObservable { vm ->
+    var viewmodel: BaseCostSummaryBreakdownViewModel by notNullAndObservable { vm ->
         vm.addRows.subscribe {
             linearLayout.removeAllViews()
             for (breakdown in it) {
@@ -37,11 +37,11 @@ class PackageBreakDownView(context: Context, attrs: AttributeSet?) : ScrollView(
     }
 
     init {
-        View.inflate(getContext(), R.layout.package_breakdown, this)
-    }
+        View.inflate(context, R.layout.package_breakdown, this)
+      }
 
-    private fun createRow(breakdown: PackageBreakdownViewModel.PackageBreakdown): View {
-        val row = LayoutInflater.from(getContext()).inflate(R.layout.package_cost_summary_row, null)
+    private fun createRow(breakdown: BaseCostSummaryBreakdownViewModel.CostSummaryBreakdown): View {
+        val row = LayoutInflater.from(context).inflate(R.layout.material_cost_summary_row, null)
         val priceDescription = row.findViewById(R.id.price_type_text_view) as TextView
         val priceValue = row.findViewById(R.id.price_text_view) as TextView
         priceDescription.text = breakdown.title
@@ -49,7 +49,7 @@ class PackageBreakDownView(context: Context, attrs: AttributeSet?) : ScrollView(
         return row
     }
 
-    private fun createDiscountRow(breakdown: PackageBreakdownViewModel.PackageBreakdown): View {
+    private fun createDiscountRow(breakdown: BaseCostSummaryBreakdownViewModel.CostSummaryBreakdown): View {
         val row = createRow(breakdown)
         val priceDescription = row.findViewById(R.id.price_type_text_view) as TextView
         val priceValue = row.findViewById(R.id.price_text_view) as TextView
@@ -59,7 +59,7 @@ class PackageBreakDownView(context: Context, attrs: AttributeSet?) : ScrollView(
         return row
     }
 
-    private fun createTotalDueRow(breakdown: PackageBreakdownViewModel.PackageBreakdown): View {
+    private fun createTotalDueRow(breakdown: BaseCostSummaryBreakdownViewModel.CostSummaryBreakdown): View {
         val row = createRow(breakdown)
         val priceDescription = row.findViewById(R.id.price_type_text_view) as TextView
         val priceValue = row.findViewById(R.id.price_text_view) as TextView
@@ -68,7 +68,7 @@ class PackageBreakDownView(context: Context, attrs: AttributeSet?) : ScrollView(
         return row
     }
 
-    private fun createTotalCostRow(breakdown: PackageBreakdownViewModel.PackageBreakdown): View {
+    private fun createTotalCostRow(breakdown: BaseCostSummaryBreakdownViewModel.CostSummaryBreakdown): View {
         val row = createRow(breakdown)
         val priceDescription = row.findViewById(R.id.price_type_text_view) as TextView
         val priceValue = row.findViewById(R.id.price_text_view) as TextView
