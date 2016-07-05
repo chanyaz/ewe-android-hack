@@ -346,6 +346,14 @@ public class PackageScreen {
 		onView(withId(R.id.legal_information_text_view)).perform(click());
 	}
 
+	public static void clickSpecialAssistance() {
+		onView(withId(R.id.edit_assistance_preference_spinner)).perform(click());
+	}
+
+	public static void clickSeatPreference() {
+		onView(withId(R.id.edit_seat_preference_spinner)).perform(click());
+	}
+
 	public static void enterPaymentInfo() {
 		Common.delay(2);
 		CheckoutViewModel.clickPaymentInfo();

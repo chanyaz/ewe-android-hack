@@ -93,6 +93,14 @@ public class PackagePhoneHappyPathTest extends PackageTestCase {
 
 		PackageScreen.clickTravelerAdvanced();
 		PackageScreen.enterRedressNumber("1234567");
+		Common.closeSoftKeyboard(onView(withId(R.id.first_name_input)));
+		PackageScreen.clickSpecialAssistance();
+		Common.delay(1);
+		onView(withText("Deaf with hearing dog")).perform(click());
+		Common.closeSoftKeyboard(onView(withId(R.id.first_name_input)));
+		PackageScreen.clickSeatPreference();
+		Common.delay(1);
+		onView(withText("Window")).perform(click());
 
 		PackageScreen.clickTravelerDone();
 		PackageScreen.enterPaymentInfo();
