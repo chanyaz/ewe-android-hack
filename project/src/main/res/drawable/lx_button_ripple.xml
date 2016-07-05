@@ -2,17 +2,17 @@
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
     <item android:state_pressed="true">
         <shape android:shape="rectangle">
-            <solid android:color="#F6DAC0" />
+            <solid android:color="@color/lx_button_ripple" />
         </shape>
     </item>
     <item android:state_focused="true">
         <shape android:shape="rectangle">
-            <solid android:color="#F6DAC0" />
+            <solid android:color="@color/lx_button_ripple" />
         </shape>
     </item>
     <item>
         <shape android:shape="rectangle">
-            <solid android:color="@color/lx_primary_color" />
+            <solid android:color="@color/lx_button_color" />
         </shape>
     </item>
 </selector>
