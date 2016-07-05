@@ -20,6 +20,7 @@
     <color name="bg_air_attach_banner_default">@color/lob_btn_color</color>
     <color name="bg_air_attach_phone_launch">@color/lob_btn_color</color>
     <color name="bg_air_attach_banner_divider">@color/white</color>
+    <color name="tablet_pin_detail_button_text_color">@android:color/white</color>
 
     <!-- ebookers promotional offers color -->
     <color name="ebk_promo_color">#9E0089</color>

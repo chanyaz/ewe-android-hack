@@ -22,8 +22,7 @@
         <item name="skin_HotelRowThumbPlaceHolderDrawable">@drawable/ic_row_thumb_placeholder_wotif</item>
         <item name="skin_hotelListingUserRatingStyle">@style/RatingBar.UserReview.Blue</item>
         <item name="skin_ratingBarUserReviewStyle">@style/RatingBar.UserReview.Blue</item>
-        <item name="skin_costSummaryDialogStripeDrawable">@drawable/dialog_breakdown_stripe_wotif</item>
-        <item name="skin_flightsCostSummaryDialogStripeDrawable">@drawable/dialog_breakdown_stripe_wotif</item>
+        <item name="skin_costSummaryDialogStripeDrawable">@drawable/dialog_breakdown_stripe</item>
         <item name="skin_actionBarSpinnerBackground">@drawable/ab_spinner_wotif</item>
         <item name="skin_actionBarButtonTextColor">@color/action_bar_text_blue_wotif</item>
         <item name="skin_cvvBookButtonTextColor">@android:color/white</item>
@@ -35,14 +34,11 @@
         <item name="skin_travellerInfoPageLogo">@drawable/ic_wotif_traveller_logo</item>
         <item name="skin_travellerInfoPageLogoDisabled">@drawable/ic_wotif_white_logo_small</item>
         <item name="skin_userRatingBarDrawable">@drawable/ratingbar_userreview_flat_blue_wotif</item>
-        <item name="skin_clearEditTextImage">@drawable/ic_clear_edittext</item>
         <item name="skin_hotelRulesActionBarLogo">@drawable/ic_action_bar_wotif_logo_small</item>
         <item name="skin_flightRulesActionBarLogo">@drawable/ic_action_bar_wotif_logo_small</item>
-        <item name="skin_hotelLoginActionBarIcon">@drawable/ic_action_bar_wotif_logo_small</item>
         <item name="android:actionOverflowButtonStyle">@style/OverflowMenuButton</item>
         <item name="actionOverflowButtonStyle">@style/OverflowMenuButton</item>
         <item name="skin_itinActionOverflowDrawable">@drawable/ic_menu_overflow_image</item>
-        <item name="skin_tablet_pin_detail_button_text_color">@color/launch_pin_detail_button_text_wotif</item>
     </style>
 
     <style name="FlightTheme" parent="@style/Theme.Wotif">

@@ -93,7 +93,6 @@
         <item name="skin_hotelListingFilterToggleButtonStyle">@style/Widget.Button.DarkFilterControls</item>
         <item name="skin_HotelRowThumbPlaceHolderDrawable">@drawable/ic_row_thumb_placeholder</item>
         <item name="skin_costSummaryDialogStripeDrawable">@drawable/dialog_breakdown_stripe</item>
-        <item name="skin_flightsCostSummaryDialogStripeDrawable">@drawable/border_horizontal_expedia_striped</item>
         <item name="skin_hotelPrimaryTravelerInfoLogoDrawable">@drawable/ic_expedia_white_logo_small</item>
         <item name="skin_hotelImagePlaceHolderDrawable">@drawable/ic_image_placeholder</item>
         <item name="skin_travelerLabelOnCheckout">@string/guest_details</item>
@@ -105,13 +104,10 @@
         <item name="skin_travellerInfoPageLogo">@drawable/ic_expedia_traveler_logo</item>
         <item name="skin_travellerInfoPageLogoDisabled">@drawable/ic_expedia_traveler_logo_disabled</item>
         <item name="skin_userRatingBarDrawable">@drawable/ratingbar_userreview_flat_yellow</item>
-        <item name="skin_clearEditTextImage">@drawable/ic_clear_edittext_dark</item>
         <item name="skin_icSuitCaseBaggage">@drawable/ic_suitcase_baggage_fee_blue</item>
         <item name="skin_tablet_ab_launch_text1_base">@string/Explore</item>
-        <item name="skin_tablet_pin_detail_button_text_color">@color/launch_pin_detail_button_text</item>
         <item name="skin_hotelRulesActionBarLogo">@drawable/ic_action_bar_logo_dark</item>
         <item name="skin_flightRulesActionBarLogo">@drawable/ic_action_bar_logo_dark</item>
-        <item name="skin_hotelLoginActionBarIcon">@drawable/ic_action_bar_logo_dark</item>
         <item name="skin_itinActionOverflowDrawable">@drawable/ic_itin_action_overflow_white</item>
         <item name="skin_tablet_confirmation_book_next_arrow_color">@color/tablet_confirmation_color</item>
         <item name="skin_tablet_confirmation_done_booking_color">@color/tablet_confirmation_color</item>

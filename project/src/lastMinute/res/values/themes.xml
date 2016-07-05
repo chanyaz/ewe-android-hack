@@ -22,13 +22,11 @@
         <item name="skin_HotelRowThumbPlaceHolderDrawable">@drawable/ic_row_thumb_placeholder_lm</item>
         <item name="skin_hotelListingUserRatingStyle">@style/RatingBar.UserReview.HotelListing</item>
         <item name="skin_ratingBarUserReviewStyle">@style/RatingBar.UserReview.Pink</item>
-        <item name="skin_costSummaryDialogStripeDrawable">@drawable/dialog_breakdown_stripe_lm</item>
-        <item name="skin_flightsCostSummaryDialogStripeDrawable">@drawable/dialog_breakdown_stripe_lm</item>
+        <item name="skin_costSummaryDialogStripeDrawable">@drawable/dialog_breakdown_stripe</item>
         <item name="skin_actionBarSpinnerBackground">@drawable/ab_spinner_lm</item>
         <item name="skin_actionBarButtonTextColor">@color/action_bar_text_white_lm</item>
         <item name="skin_cvvBookButtonTextColor">@android:color/white</item>
         <item name="skin_hotelPrimaryTravelerInfoLogoDrawable">@drawable/ic_lm_white_logo_small</item>
-        <item name="skin_tablet_pin_detail_button_text_color">@color/launch_pin_detail_button_text_lm</item>
         <item name="android:logo" tools:targetApi="11">@drawable/ic_logo_hotels</item>
         <item name="skin_hotelConfirmationPlaceholderDrawable">@drawable/placeholder_lg_lm</item>
         <item name="skin_couponSuccessMessageColor">@color/coupon_success_message_color</item>
@@ -36,10 +34,8 @@
         <item name="skin_travellerInfoPageLogo">@drawable/ic_lm_traveller_logo</item>
         <item name="skin_travellerInfoPageLogoDisabled">@drawable/ic_lm_white_logo_small</item>
         <item name="skin_userRatingBarDrawable">@drawable/ratingbar_userreview_flat_blue_lm</item>
-        <item name="skin_clearEditTextImage">@drawable/ic_clear_edittext</item>
         <item name="skin_hotelRulesActionBarLogo">@drawable/ic_action_bar_brand_logo</item>
         <item name="skin_flightRulesActionBarLogo">@drawable/ic_action_bar_brand_logo</item>
-        <item name="skin_hotelLoginActionBarIcon">@drawable/ic_action_bar_brand_logo</item>
         <item name="android:actionOverflowButtonStyle">@style/OverflowMenuButton</item>
         <item name="actionOverflowButtonStyle">@style/OverflowMenuButton</item>
         <item name="skin_confirmationHeaderHotelDividerLineColor">@color/confirmation_header_divider_color</item>

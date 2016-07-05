@@ -14,6 +14,7 @@
     <!-- Launch colors -->
     <color name="launch_toolbar_background_color">@color/lob_btn_color</color>
     <color name="launch_tab_indicator">@color/action_bar_text_blue_orbitz</color>
+    <color name="tablet_pin_detail_button_text_color">@color/launch_pin_detail_button_text_orbitz</color>
 
     <color name="launch_actionbar_color_orbitz">@color/action_bar_bg_color</color>
     <color name="action_bar_text_blue_orbitz">#7baed4</color>

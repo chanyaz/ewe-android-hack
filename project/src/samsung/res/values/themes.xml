@@ -9,8 +9,7 @@
         <item name="skin_ratingBarUserReviewStyle">@style/RatingBar.UserReview.Blue</item>
         
         <item name="skin_bestPriceGuaranteeString">@string/best_price_guarantee</item>
-        <item name="skin_costSummaryDialogStripeDrawable">@drawable/dialog_breakdown_stripe_samsung</item>
-        <item name="skin_flightsCostSummaryDialogStripeDrawable">@drawable/dialog_breakdown_stripe_samsung</item>
+        <item name="skin_costSummaryDialogStripeDrawable">@drawable/dialog_breakdown_stripe</item>
         <item name="skin_actionBarSpinnerBackground">@drawable/ab_spinner_samsung</item>
         
         
@@ -31,19 +30,14 @@
         
         
         <item name="skin_userRatingBarDrawable">@drawable/ratingbar_userreview_flat_blue_samsung</item>
-        <item name="skin_clearEditTextImage">@drawable/ic_clear_edittext_dark</item>
-        
+
         <item name="skin_tablet_ab_launch_text1_base">@string/merchant_name</item>
 
         
         
         <item name="skin_hotelRulesActionBarLogo">@drawable/ic_logo_hotels</item>
         <item name="skin_flightRulesActionBarLogo">@drawable/ic_logo_flights_samsung</item>
-        <item name="skin_hotelLoginActionBarIcon">@drawable/ic_action_bar_expedia_logo_small</item>
         <item name="skin_couponSuccessMessageColor">@color/hotel_price_text_color_samsung</item>
-        
-        
-        
         <item name="skin_errorIndicationExclaimationDrawable">@drawable/invalid</item>
     </style>
 

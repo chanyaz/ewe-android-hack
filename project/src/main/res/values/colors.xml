@@ -18,6 +18,7 @@
     <color name="tablet_legal_blurb_text_color">#A7DAFF</color>
     <color name="tablet_confirmation_color">#374F6E</color>
     <color name="tablet_confirmation_action_color">#2970CC</color>
+    <color name="tablet_pin_detail_button_text_color">@color/launch_pin_detail_button_text</color>
 
     <!-- Launch screen colors -->
     <color name="launch_primary">#f3f3f3</color>

@@ -19,4 +19,5 @@
     <item name="material_checkout_account_logo" type="drawable">@drawable/brand_logo_white</item>
     <item name="ic_widget_filter_sort" type="drawable">@drawable/sort</item>
     <item name="ic_toolbar_filter_sort" type="drawable">@drawable/sort</item>
+    <item name="flights_cost_summary_dialog_stripe" type="drawable">@drawable/divider_blue_yellow_stripe</item>
 </resources>

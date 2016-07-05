@@ -19,6 +19,7 @@
     <color name="action_bar_text">#FFFFFF</color>
     <color name="bg_air_attach_banner_default">@color/action_bar_bg_color</color>
     <color name="bg_air_attach_phone_launch">@color/action_bar_bg_color</color>
+    <color name="tablet_pin_detail_button_text_color">@android:color/white</color>
 
     <!-- Hotels V2 Coupon applied text color -->
     <color name="hotelsv2_coupon_applied_color">#9E0089</color>
