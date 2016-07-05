@@ -59,7 +59,12 @@ public class CarPresenter extends Presenter {
 		@Override
 		public void endTransition(boolean forward) {
 			super.endTransition(forward);
-			confirmation.setFocusOnToolbarForAccessibility();
+			confirmation.postDelayed(new Runnable() {
+				@Override
+				public void run() {
+					confirmation.setFocusOnToolbarForAccessibility();
+				}
+			}, 200);
 		}
 	};
 
