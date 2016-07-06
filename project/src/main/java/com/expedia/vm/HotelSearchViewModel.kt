@@ -1,34 +1,27 @@
 package com.expedia.vm
 
-import android.app.Activity
 import android.content.Context
 import android.text.Html
 import com.expedia.bookings.R
-import com.expedia.bookings.data.Codes
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.hotels.HotelSearchParams
-import com.expedia.bookings.utils.HotelSearchParamsUtil
 import com.expedia.bookings.utils.Ui
 import com.expedia.util.endlessObserver
 import com.expedia.util.notNullAndObservable
 import org.joda.time.LocalDate
-import rx.subjects.BehaviorSubject
 import rx.subjects.PublishSubject
 import javax.inject.Inject
 
 class HotelSearchViewModel(context: Context) : BaseSearchViewModel(context) {
 
     val hotelParamsBuilder = HotelSearchParams.Builder(getMaxSearchDurationDays(), getMaxDateRange(), isFilterUnavailableEnabled())
-    val userBucketedObservable = BehaviorSubject.create<Boolean>()
-    val externalSearchParamsObservable = BehaviorSubject.create<Boolean>()
     val searchParamsObservable = PublishSubject.create<HotelSearchParams>()
 
     // Outputs
-
     var shopWithPointsViewModel: ShopWithPointsViewModel by notNullAndObservable {
-        it.swpEffectiveAvailability.subscribe{
+        it.swpEffectiveAvailability.subscribe {
             getParamsBuilder().shopWithPoints(it)
         }
     }
@@ -63,8 +56,6 @@ class HotelSearchViewModel(context: Context) : BaseSearchViewModel(context) {
                 errorMaxRangeObservable.onNext(context.getString(R.string.error_date_too_far, getMaxSearchDurationDays()))
             } else {
                 val hotelSearchParams = getParamsBuilder().build()
-                HotelSearchParamsUtil.saveSearchHistory(context, hotelSearchParams)
-
                 searchParamsObservable.onNext(hotelSearchParams)
             }
         } else {
@@ -118,11 +109,6 @@ class HotelSearchViewModel(context: Context) : BaseSearchViewModel(context) {
     }
 
     init {
-        val intent = (context as Activity).intent
-        val isUserBucketedForTest = Db.getAbacusResponse().isUserBucketedForTest(
-                AbacusUtils.EBAndroidAppHotelRecentSearchTest)
-        userBucketedObservable.onNext(isUserBucketedForTest)
-        externalSearchParamsObservable.onNext(!intent.hasExtra(Codes.TAG_EXTERNAL_SEARCH_PARAMS) && !isUserBucketedForTest)
         Ui.getApplication(context).hotelComponent().inject(this)
     }
 }
