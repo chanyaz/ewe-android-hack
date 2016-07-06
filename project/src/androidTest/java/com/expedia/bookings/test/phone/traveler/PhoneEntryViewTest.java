@@ -89,6 +89,10 @@ public class PhoneEntryViewTest {
 			}
 		});
 
+		//test for accessibility content description
+		assertEquals(phoneEntryView.getPhoneNumber().getErrorContDesc(),
+			"Error");
+
 		onView(CustomMatchers.withCompoundDrawable(R.drawable.ic_error_blue)).check(matches(isDisplayed()));
 
 		onView(withId(R.id.edit_phone_number)).perform(typeText(testNumber));
