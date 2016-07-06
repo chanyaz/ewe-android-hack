@@ -389,6 +389,7 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet) : Pre
         if (isSlideToPurchaseLayoutVisible) {
             trackShowSlideToPurchase()
         }
+        slideToPurchaseLayout.isFocusable = isSlideToPurchaseLayoutVisible
         var distance = if (!isSlideToPurchaseLayoutVisible) slideToPurchaseLayout.height.toFloat() else 0f
         if (bottomContainer.translationY == distance) {
             return
