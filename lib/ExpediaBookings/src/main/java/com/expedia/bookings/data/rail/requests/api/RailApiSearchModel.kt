@@ -10,7 +10,7 @@ import java.util.UUID
 /* note: the variable names in this model have to match 1:1 to the format the api expects. this whole
             model is getting serialized to json and sent to the search endpoint
  */
-class RailApiSearchModel(val origin: SuggestionV4, val destination: SuggestionV4, val departDate: LocalDate, val returnDate: LocalDate?) {
+class RailApiSearchModel(val origin: SuggestionV4, val destination: SuggestionV4?, val departDate: LocalDate, val returnDate: LocalDate?) {
 
     var pos = PointOfSaleKey()
     var clientCode = "1001" //TODO - what is this?

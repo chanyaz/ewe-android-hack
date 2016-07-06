@@ -6,6 +6,7 @@ import android.view.View
 import android.widget.LinearLayout
 import android.widget.TextView
 import com.expedia.bookings.R
+import com.expedia.bookings.data.Db
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.PackageBundleHotelWidget
 import com.expedia.bookings.widget.packages.PackageInboundFlightWidget

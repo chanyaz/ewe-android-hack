@@ -193,8 +193,8 @@ class PackageBundleHotelWidget(context: Context, attrs: AttributeSet?) : Accessi
     }
 
     override fun loadingContentDescription(): String {
-        val startDate = DateUtils.localDateToMMMd(Db.getPackageParams().checkIn)
-        val endDate = DateUtils.localDateToMMMd(Db.getPackageParams().checkOut)
+        val startDate = DateUtils.localDateToMMMd(Db.getPackageParams().startDate)
+        val endDate = DateUtils.localDateToMMMd(Db.getPackageParams().endDate)
         val guests = StrUtils.formatGuestString(context, Db.getPackageParams().guests)
         return Phrase.from(context, R.string.select_hotel_searching_cont_desc_TEMPLATE)
                 .put("destination", StrUtils.formatCityName(Db.getPackageParams().destination))
@@ -206,8 +206,8 @@ class PackageBundleHotelWidget(context: Context, attrs: AttributeSet?) : Accessi
     }
 
     override fun contentDescription(): String {
-        val startDate = DateUtils.localDateToMMMd(Db.getPackageParams().checkIn)
-        val endDate = DateUtils.localDateToMMMd(Db.getPackageParams().checkOut)
+        val startDate = DateUtils.localDateToMMMd(Db.getPackageParams().startDate)
+        val endDate = DateUtils.localDateToMMMd(Db.getPackageParams().endDate)
         val guests = StrUtils.formatGuestString(context, Db.getPackageParams().guests)
         return Phrase.from(context, R.string.select_hotel_cont_desc_TEMPLATE)
                 .put("destination", StrUtils.formatCityName(Db.getPackageParams().destination))
@@ -219,8 +219,8 @@ class PackageBundleHotelWidget(context: Context, attrs: AttributeSet?) : Accessi
     }
 
     override fun selectedCardContentDescription(): String {
-        val startDate = DateUtils.localDateToMMMd(Db.getPackageParams().checkIn)
-        val endDate = DateUtils.localDateToMMMd(Db.getPackageParams().checkOut)
+        val startDate = DateUtils.localDateToMMMd(Db.getPackageParams().startDate)
+        val endDate = DateUtils.localDateToMMMd(Db.getPackageParams().endDate)
         val guests = StrUtils.formatGuestString(context, Db.getPackageParams().guests)
         val expandState = if (mainContainer.visibility == Presenter.VISIBLE) context.getString(R.string.accessibility_cont_desc_role_button_collapse) else context.getString(R.string.accessibility_cont_desc_role_button_expand)
         return Phrase.from(context, R.string.select_hotel_selected_cont_desc_TEMPLATE)

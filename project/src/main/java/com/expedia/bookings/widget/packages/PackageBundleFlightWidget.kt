@@ -168,19 +168,21 @@ abstract class PackageBundleFlightWidget(context: Context, attrs: AttributeSet?)
     }
 
     override fun contentDescription(): String {
+        val searchParams = viewModel.searchParams.value
         return Phrase.from(context, R.string.select_flight_cont_desc_TEMPLATE)
-                .put("flight", StrUtils.formatAirportCodeCityName(if (isInboundFlight()) Db.getPackageParams().origin else Db.getPackageParams().destination))
-                .put("date", DateUtils.localDateToMMMd(if (isInboundFlight()) Db.getPackageParams().checkOut else Db.getPackageParams().checkIn))
-                .put("travelers", StrUtils.formatTravelerString(context, Db.getPackageParams().guests))
+                .put("flight", StrUtils.formatAirportCodeCityName(if (isInboundFlight()) searchParams.origin else searchParams.destination))
+                .put("date", DateUtils.localDateToMMMd(if (isInboundFlight()) searchParams.endDate else searchParams.startDate))
+                .put("travelers", StrUtils.formatTravelerString(context, searchParams.guests))
                 .format()
                 .toString()
     }
 
     override fun disabledContentDescription(): String {
+        val searchParams = viewModel.searchParams.value
         return Phrase.from(context, R.string.select_flight_disabled_cont_desc_TEMPLATE)
-                .put("flight", StrUtils.formatAirportCodeCityName(if (isInboundFlight()) Db.getPackageParams().origin else Db.getPackageParams().destination))
-                .put("date", DateUtils.localDateToMMMd(if (isInboundFlight()) Db.getPackageParams().checkOut else Db.getPackageParams().checkIn))
-                .put("travelers", StrUtils.formatTravelerString(context, Db.getPackageParams().guests))
+                .put("flight", StrUtils.formatAirportCodeCityName(if (isInboundFlight()) searchParams.origin else searchParams.destination))
+                .put("date", DateUtils.localDateToMMMd(if (isInboundFlight()) searchParams.endDate else searchParams.startDate))
+                .put("travelers", StrUtils.formatTravelerString(context, searchParams.guests))
                 .put("previous", if (isInboundFlight()) context.getString(R.string.select_flight_disabled_choose_outbound) else context.getString(R.string.select_flight_disabled_choose_hotel))
                 .format()
                 .toString()
@@ -191,20 +193,22 @@ abstract class PackageBundleFlightWidget(context: Context, attrs: AttributeSet?)
     }
 
     override fun loadingContentDescription(): String {
+        val searchParams = viewModel.searchParams.value
         return Phrase.from(context, R.string.select_flight_searching_cont_desc_TEMPLATE)
-                .put("flight", StrUtils.formatAirportCodeCityName(if (isInboundFlight()) Db.getPackageParams().origin else Db.getPackageParams().destination))
-                .put("date", DateUtils.localDateToMMMd(if (isInboundFlight()) Db.getPackageParams().checkOut else Db.getPackageParams().checkIn))
-                .put("travelers", StrUtils.formatTravelerString(context, Db.getPackageParams().guests))
+                .put("flight", StrUtils.formatAirportCodeCityName(if (isInboundFlight()) searchParams.origin else searchParams.destination))
+                .put("date", DateUtils.localDateToMMMd(if (isInboundFlight()) searchParams.endDate else searchParams.startDate))
+                .put("travelers", StrUtils.formatTravelerString(context, searchParams.guests))
                 .format()
                 .toString()
     }
 
     override fun selectedCardContentDescription(): String {
+        val searchParams = viewModel.searchParams.value
         val expandState = if (flightDetailsContainer.visibility == Presenter.VISIBLE) context.getString(R.string.accessibility_cont_desc_role_button_collapse) else context.getString(R.string.accessibility_cont_desc_role_button_expand)
         return Phrase.from(context, R.string.select_flight_selected_cont_desc_TEMPLATE)
-                .put("flight", StrUtils.formatAirportCodeCityName(if (isInboundFlight()) Db.getPackageParams().origin else Db.getPackageParams().destination))
-                .put("date", DateUtils.localDateToMMMd(if (isInboundFlight()) Db.getPackageParams().checkOut else Db.getPackageParams().checkIn))
-                .put("travelers", StrUtils.formatTravelerString(context, Db.getPackageParams().guests))
+                .put("flight", StrUtils.formatAirportCodeCityName(if (isInboundFlight()) searchParams.origin else searchParams.destination))
+                .put("date", DateUtils.localDateToMMMd(if (isInboundFlight()) searchParams.endDate else searchParams.startDate))
+                .put("travelers", StrUtils.formatTravelerString(context, searchParams.guests))
                 .put("expandstate", expandState)
                 .format()
                 .toString()

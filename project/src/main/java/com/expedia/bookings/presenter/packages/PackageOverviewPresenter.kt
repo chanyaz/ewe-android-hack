@@ -108,11 +108,11 @@ class PackageOverviewPresenter(context: Context, attrs: AttributeSet) : BaseOver
         val formatter = DateTimeFormat.forPattern("yyyy-MM-dd")
 
         //set the package start and end date
-        bundleOverviewHeader.checkoutOverviewHeaderToolbar.viewmodel.checkIn.onNext(params.checkIn.toString(formatter))
-        bundleOverviewHeader.checkoutOverviewHeaderToolbar.viewmodel.checkOut.onNext(params.checkOut.toString(formatter))
+        bundleOverviewHeader.checkoutOverviewHeaderToolbar.viewmodel.checkIn.onNext(params.startDate.toString(formatter))
+        bundleOverviewHeader.checkoutOverviewHeaderToolbar.viewmodel.checkOut.onNext(params.endDate?.toString(formatter))
 
-        bundleOverviewHeader.checkoutOverviewFloatingToolbar.viewmodel.checkIn.onNext(params.checkIn.toString(formatter))
-        bundleOverviewHeader.checkoutOverviewFloatingToolbar.viewmodel.checkOut.onNext(params.checkOut.toString(formatter))
+        bundleOverviewHeader.checkoutOverviewFloatingToolbar.viewmodel.checkIn.onNext(params.startDate.toString(formatter))
+        bundleOverviewHeader.checkoutOverviewFloatingToolbar.viewmodel.checkOut.onNext(params.endDate?.toString(formatter))
     }
 
     override fun back(): Boolean {

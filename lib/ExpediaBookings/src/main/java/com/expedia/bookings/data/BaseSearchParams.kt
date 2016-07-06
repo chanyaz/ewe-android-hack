@@ -3,7 +3,7 @@ package com.expedia.bookings.data
 import org.joda.time.Days
 import org.joda.time.LocalDate
 
-open class BaseSearchParams(val adults: Int, val children: List<Int>, val startDate: LocalDate, val endDate: LocalDate?) {
+open class BaseSearchParams(val origin: SuggestionV4, val destination: SuggestionV4?, val adults: Int, val children: List<Int>, val startDate: LocalDate, val endDate: LocalDate?) {
 
     val guests = children.size + adults
     val guestString = listOf(adults).plus(children).joinToString(",")

@@ -140,8 +140,8 @@ public class HotelOffersResponse extends BaseApiResponse {
 	}
 
 	public static HotelOffersResponse convertToHotelOffersResponse(HotelOffersResponse hotelOffer, PackageOffersResponse packageOffer, PackageSearchParams searchParams) {
-		hotelOffer.checkInDate = searchParams.getCheckIn().toString();
-		hotelOffer.checkOutDate = searchParams.getCheckOut().toString();
+		hotelOffer.checkInDate = searchParams.getStartDate().toString();
+		hotelOffer.checkOutDate = searchParams.getEndDate().toString();
 		hotelOffer.hotelRoomResponse = new ArrayList<>();
 		for (PackageOffersResponse.PackageHotelOffer packageHotelOffer : packageOffer.packageHotelOffers) {
 			packageHotelOffer.hotelOffer.productKey = packageHotelOffer.packageProductId;

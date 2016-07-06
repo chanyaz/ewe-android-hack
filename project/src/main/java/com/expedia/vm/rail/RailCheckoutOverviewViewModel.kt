@@ -12,7 +12,7 @@ class RailCheckoutOverviewViewModel(context: Context) : BaseCheckoutOverviewView
     init {
         params.subscribe { searchParams ->
             val formatter = DateTimeFormat.forPattern("yyyy-MM-dd")
-            val city = searchParams.destination.regionNames.shortName
+            val city = searchParams.destination?.regionNames?.shortName
             val link = "https://media.expedia.com/hotels/1000000/10000/900/897/897_36_z.jpg"  //TODO fixme
             val links = listOf<String>(link)
 

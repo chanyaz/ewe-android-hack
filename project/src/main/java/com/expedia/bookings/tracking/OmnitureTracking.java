@@ -4721,7 +4721,7 @@ public class OmnitureTracking {
 		s.setEvar(3, "D=c3");
 		s.setProp(4, "pkg:" + Db.getPackageParams().getDestination().hierarchyInfo.airport.airportCode + ":" + Db.getPackageParams().getDestination().gaiaId);
 		s.setEvar(4, "D=c4");
-		setDateValues(s, Db.getPackageParams().getCheckIn(), Db.getPackageParams().getCheckOut());
+		setDateValues(s, Db.getPackageParams().getStartDate(), Db.getPackageParams().getEndDate());
 	}
 
 	/**
@@ -4771,7 +4771,7 @@ public class OmnitureTracking {
 
 		String eVar30DurationString = null;
 		if (isConfirmation) {
-			eVar30DurationString = ":" + Db.getPackageParams().getCheckIn().toString(EVAR30_DATE_FORMAT) + "-" + Db.getPackageParams().getCheckOut().toString(EVAR30_DATE_FORMAT);
+			eVar30DurationString = ":" + Db.getPackageParams().getStartDate().toString(EVAR30_DATE_FORMAT) + "-" + Db.getPackageParams().getEndDate().toString(EVAR30_DATE_FORMAT);
 			productString.append(eVar30DurationString);
 		}
 
@@ -4794,8 +4794,8 @@ public class OmnitureTracking {
 
 		productString.append("Hotel:" + Db.getPackageSelectedHotel().hotelId + ";");
 		String duration = "0";
-		if (Db.getPackageParams().getCheckOut() != null) {
-			duration = Integer.toString(JodaUtils.daysBetween(Db.getPackageParams().getCheckIn(), Db.getPackageParams().getCheckOut()));
+		if (Db.getPackageParams().getEndDate() != null) {
+			duration = Integer.toString(JodaUtils.daysBetween(Db.getPackageParams().getStartDate(), Db.getPackageParams().getEndDate()));
 		}
 		productString.append(duration);
 		productString.append(";0.00;;");

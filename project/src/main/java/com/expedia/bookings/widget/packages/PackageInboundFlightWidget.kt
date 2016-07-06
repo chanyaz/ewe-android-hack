@@ -29,7 +29,7 @@ class PackageInboundFlightWidget(context: Context, attrs: AttributeSet?) : Packa
         viewModel.showLoadingStateObservable.onNext(false)
         viewModel.flightTextObservable.onNext(context.getString(R.string.select_flight_to, StrUtils.formatAirportCodeCityName(Db.getPackageParams().origin)))
         viewModel.travelInfoTextObservable.onNext(Phrase.from(context, R.string.flight_toolbar_date_range_with_guests_TEMPLATE)
-                .put("date", DateUtils.localDateToMMMd(Db.getPackageParams().checkOut))
+                .put("date", DateUtils.localDateToMMMd(Db.getPackageParams().endDate))
                 .put("travelers", StrUtils.formatTravelerString(context, Db.getPackageParams().guests)).format().toString())
     }
 
@@ -40,7 +40,7 @@ class PackageInboundFlightWidget(context: Context, attrs: AttributeSet?) : Packa
         viewModel.flightIconImageObservable.onNext(Pair(R.drawable.packages_flight2_icon, ContextCompat.getColor(context, R.color.package_bundle_icon_color)))
         viewModel.flightTextObservable.onNext(context.getString(R.string.select_flight_to, StrUtils.formatAirportCodeCityName(Db.getPackageParams().origin)))
         viewModel.travelInfoTextObservable.onNext(Phrase.from(context, R.string.flight_toolbar_date_range_with_guests_TEMPLATE)
-                .put("date", DateUtils.localDateToMMMd(Db.getPackageParams().checkOut))
+                .put("date", DateUtils.localDateToMMMd(Db.getPackageParams().endDate))
                 .put("travelers", StrUtils.formatTravelerString(context, Db.getPackageParams().guests))
                 .format()
                 .toString())
@@ -68,8 +68,9 @@ class PackageInboundFlightWidget(context: Context, attrs: AttributeSet?) : Packa
 
     fun updateHotelParams(params: PackageSearchParams) {
         viewModel.suggestion.onNext(params.origin)
-        viewModel.date.onNext(params.checkOut)
+        viewModel.date.onNext(params.endDate)
         viewModel.guests.onNext(params.guests)
+        viewModel.searchParams.onNext(params)
         toggleFlightWidget(opacity, false)
     }
 }
