@@ -37,9 +37,12 @@ class FlightCheckoutViewModel(context: Context, val flightServices: FlightServic
     val cardFeeTextSubject = PublishSubject.create<Spanned>()
     val cardFeeWarningTextSubject = PublishSubject.create<Spanned>()
     val cardFeeForSelectedCard = PublishSubject.create<ValidFormOfPayment>()
+    val showDebitCardsNotAcceptedSubject = BehaviorSubject.create<Boolean>()
 
     init {
-        legalText.onNext(SpannableStringBuilder(PointOfSale.getPointOfSale().stylizedFlightBookingStatement))
+        val pointOfSale = PointOfSale.getPointOfSale()
+
+        legalText.onNext(SpannableStringBuilder(pointOfSale.stylizedFlightBookingStatement))
 
         tripResponseObservable.subscribe { it as FlightCreateTripResponse
             builder.tripId(it.newTrip.tripId)
@@ -64,6 +67,8 @@ class FlightCheckoutViewModel(context: Context, val flightServices: FlightServic
         }
 
         setupCardFeeSubjects()
+
+        showDebitCardsNotAcceptedSubject.onNext(pointOfSale.doesNotAcceptDebitCardsForFlights())
     }
 
     private fun setupCardFeeSubjects() {

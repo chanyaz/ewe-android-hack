@@ -94,6 +94,8 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet) : Pre
 
     val paymentWidgetViewModel = PaymentViewModel(context)
 
+    val showingPaymentWidgetSubject = PublishSubject.create<Boolean>()
+
     protected var ckoViewModel: BaseCheckoutViewModel by notNullAndObservable { vm ->
         vm.creditCardRequired.subscribe { required ->
             paymentWidget.viewmodel.isCreditCardRequired.onNext(required)
@@ -288,6 +290,7 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet) : Pre
                 animateInSlideToPurchase(true)
                 paymentWidget.setFocusForView()
             }
+            showingPaymentWidgetSubject.onNext(forward)
         }
     }
 

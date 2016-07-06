@@ -16,17 +16,9 @@
 
     <com.expedia.bookings.widget.TextView
         android:id="@+id/airline_charges_fees_header"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:singleLine="true"
-        android:textSize="12sp"
-        android:padding="8dp"
-        android:gravity="center"
+        style="@style/FlightWarningBar"
         android:text="@string/airline_charge_notice"
-        android:textColor="@color/white"
-        android:background="@color/lob_packages_secondary_color"
-        android:visibility="gone"
-        app:textStyle="medium" />
+        android:visibility="gone" />
 
     <com.expedia.bookings.widget.FlightListRecyclerView
         android:id="@+id/list_view"

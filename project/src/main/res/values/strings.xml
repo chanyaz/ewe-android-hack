@@ -1677,6 +1677,8 @@
     <!-- An airline fee is added upon payment message
         Example: An airline fee, based on card type, is added upon payment. Such fee is added to the total upon payment -->
     <string name="flights_fee_added_based_on_payment_TEMPLATE">An &lt;a href=\"{airline_fee_url}\"&gt;airline fee&lt;/a&gt;, based on card type, is added upon payment. Such fee is added to the total upon payment.</string>
+    <!-- Flights debit cards not accepted messaging -->
+    <string name="flights_debit_cards_not_accepted">Debit cards are not accepted.</string>
 
     <!-- Flights -->
     <!-- Label for Flight Search in task manager -->
