@@ -3,6 +3,7 @@ package com.expedia.bookings.utils
 import android.content.Context
 import android.support.v7.widget.Toolbar
 import android.view.View
+import android.view.accessibility.AccessibilityEvent
 import android.view.accessibility.AccessibilityManager
 import android.widget.ImageButton
 
@@ -37,4 +38,9 @@ object AccessibilityUtil {
             }, delayMillis)
         }
     }
+}
+
+fun View.setFocusForView() {
+    this.isFocusable = true
+    this.sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_FOCUSED)
 }
