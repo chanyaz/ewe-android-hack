@@ -7,13 +7,13 @@ import com.expedia.bookings.data.packages.PackageSearchParams
 import com.expedia.bookings.utils.DateUtils
 import com.expedia.bookings.utils.SpannableBuilder
 import com.expedia.util.endlessObserver
-import com.expedia.vm.AbstractFlightSearchViewModel
+import com.expedia.vm.BaseSearchViewModel
 import com.mobiata.android.time.util.JodaUtils
 import com.squareup.phrase.Phrase
 import org.joda.time.LocalDate
 import rx.subjects.PublishSubject
 
-class PackageSearchViewModel(context: Context) : AbstractFlightSearchViewModel(context) {
+class PackageSearchViewModel(context: Context) : BaseSearchViewModel(context) {
 
     val packageParamsBuilder = PackageSearchParams.Builder(getMaxSearchDurationDays(), getMaxDateRange())
 
@@ -50,7 +50,6 @@ class PackageSearchViewModel(context: Context) : AbstractFlightSearchViewModel(c
                errorMaxRangeObservable.onNext(context.getString(R.string.error_date_too_far, getMaxSearchDurationDays()))
             } else {
                 val packageSearchParams = getParamsBuilder().build()
-                updateDbTravelers(packageSearchParams) // This is required for the checkout screen to correctly populate traveler entry screen.
                 searchParamsObservable.onNext(packageSearchParams)
             }
         } else {

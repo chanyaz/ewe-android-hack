@@ -22,7 +22,7 @@ import rx.subjects.PublishSubject
 import java.util.HashMap
 import java.util.LinkedHashSet
 
-class FlightSearchViewModel(context: Context, val flightServices: FlightServices) : AbstractFlightSearchViewModel(context) {
+class FlightSearchViewModel(context: Context, val flightServices: FlightServices) : BaseSearchViewModel(context) {
 
     var flightMap: HashMap<String, LinkedHashSet<FlightLeg>> = HashMap()
     var flightOfferModels: HashMap<String, FlightTripDetails.FlightOffer> = HashMap()
@@ -50,7 +50,6 @@ class FlightSearchViewModel(context: Context, val flightServices: FlightServices
                 errorMaxDurationObservable.onNext(context.getString(R.string.hotel_search_range_error_TEMPLATE, getMaxSearchDurationDays()))
             } else {
                 val flightSearchParams = getParamsBuilder().build()
-                updateDbTravelers(flightSearchParams)
                 Db.setFlightSearchParams(flightSearchParams)
                 searchParamsObservable.onNext(flightSearchParams)
             }

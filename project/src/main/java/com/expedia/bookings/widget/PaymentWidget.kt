@@ -491,6 +491,7 @@ open class PaymentWidget(context: Context, attr: AttributeSet) : Presenter(conte
             cardInfoContainer.visibility = if (forward) View.GONE else View.VISIBLE
             paymentOptionsContainer.visibility = View.GONE
             billingInfoContainer.visibility =if (forward) View.VISIBLE else View.GONE
+            storedCreditCardList.bind()
             trackAnalytics()
             if (!forward) validateAndBind()
             if (forward) filledIn.onNext(isCompletelyFilled())

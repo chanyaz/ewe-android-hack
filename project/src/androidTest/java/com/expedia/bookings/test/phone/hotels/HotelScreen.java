@@ -405,6 +405,7 @@ public class HotelScreen {
 	}
 
 	public static void clickSignOut() {
+		onView(withId(R.id.account_logout_logout_button)).perform(waitForViewToDisplay());
 		onView(withId(R.id.account_logout_logout_button)).perform(click());
 	}
 

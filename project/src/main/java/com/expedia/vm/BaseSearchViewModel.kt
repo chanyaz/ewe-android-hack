@@ -5,11 +5,8 @@ import android.text.Html
 import android.text.style.RelativeSizeSpan
 import com.expedia.bookings.R
 import com.expedia.bookings.data.BaseSearchParams
-import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.SuggestionV4
-import com.expedia.bookings.data.Traveler
 import com.expedia.bookings.data.TravelerParams
-import com.expedia.bookings.enums.PassengerCategory
 import com.expedia.bookings.utils.DateUtils
 import com.expedia.bookings.utils.SpannableBuilder
 import com.expedia.util.endlessObserver
@@ -198,38 +195,5 @@ abstract class BaseSearchViewModel(val context: Context) {
                 else R.string.calendar_drag_to_modify
         val instructions = context.resources.getString(resource)
         return Pair(computeTopTextForToolTip(start, end), instructions)
-    }
-
-    protected fun updateDbTravelers(params: BaseSearchParams) {
-        // This is required for the checkout screen to correctly populate traveler entry screen.
-        val travelerList = Db.getTravelers()
-        if (travelerList.isNotEmpty()) {
-            travelerList.clear()
-        }
-        for (i in 1..params.adults) {
-            val traveler = Traveler()
-            traveler.setPassengerCategory(PassengerCategory.ADULT)
-            traveler.gender = Traveler.Gender.GENDER
-            traveler.searchedAge = -1
-            travelerList.add(traveler)
-        }
-        for (child in params.children) {
-            val traveler = Traveler()
-            traveler.gender = Traveler.Gender.GENDER
-            traveler.setPassengerCategory(getPassengerCategory(child, params))
-            traveler.searchedAge = child
-            travelerList.add(traveler)
-        }
-        Db.setTravelers(travelerList)
-    }
-
-    protected open fun getPassengerCategory(childAge: Int, params: BaseSearchParams): PassengerCategory {
-        if (childAge < 12) {
-            return PassengerCategory.CHILD
-        } else if (childAge < 18) {
-            return PassengerCategory.ADULT_CHILD
-        }
-
-        throw IllegalArgumentException("$childAge is not a valid child age")
     }
 }

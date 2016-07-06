@@ -27,7 +27,6 @@ abstract  class BaseCheckoutViewModel(val context: Context) {
     val checkoutResponse = PublishSubject.create<Pair<BaseApiResponse, String>>()
 
     // Outputs
-    val infoCompleted = PublishSubject.create<Boolean>()
     val depositPolicyText = PublishSubject.create<Spanned>()
     val legalText = BehaviorSubject.create<SpannableStringBuilder>()
     val sliderPurchaseTotalText = PublishSubject.create<CharSequence>()
@@ -37,18 +36,15 @@ abstract  class BaseCheckoutViewModel(val context: Context) {
     init {
         clearTravelers.subscribe {
             builder.clearTravelers()
-            infoCompleted.onNext(builder.hasValidTravelerAndBillingInfo())
         }
 
         travelerCompleted.subscribe {
             builder.travelers(it)
-            infoCompleted.onNext(builder.hasValidTravelerAndBillingInfo())
         }
 
         paymentCompleted.subscribe { billingInfo ->
             builder.billingInfo(billingInfo)
             builder.cvv(billingInfo?.securityCode)
-            infoCompleted.onNext(builder.hasValidTravelerAndBillingInfo())
         }
 
         cvvCompleted.subscribe {

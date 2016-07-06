@@ -51,6 +51,11 @@ class PackageCheckoutPresenter(context: Context, attr: AttributeSet) : BaseCheck
         travelerPresenter.refreshAndShow()
     }
 
+    override fun updateDbTravelers() {
+        val params = Db.getPackageParams()
+        travelerPresenter.viewModel.updateDbTravelers(params)
+    }
+
     override fun trackShowSlideToPurchase() {
         PackagesTracking().trackCheckoutSlideToPurchase()
     }

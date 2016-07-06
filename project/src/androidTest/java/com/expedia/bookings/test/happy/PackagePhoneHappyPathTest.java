@@ -80,6 +80,9 @@ public class PackagePhoneHappyPathTest extends PackageTestCase {
 
 		PackageScreen.checkout().perform(click());
 
+		HotelScreen.doLogin();
+		HotelScreen.clickSignOut();
+
 		PackageScreen.travelerInfo().perform(scrollTo(), click());
 		onView(allOf(withId(R.id.boarding_warning), withText(mRes.getString(R.string.name_must_match_warning_new)))).check(matches(isDisplayed()));
 		PackageScreen.enterFirstName("FiveStar");

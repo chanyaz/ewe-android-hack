@@ -31,6 +31,9 @@ class RailCheckoutPresenter(context: Context, attrs: AttributeSet) : BaseCheckou
         return LineOfBusiness.RAIL
     }
 
+    override fun updateDbTravelers() {
+    }
+    
     override fun updateTravelerPresenter() {
         travelerPresenter.visibility = View.VISIBLE
     }

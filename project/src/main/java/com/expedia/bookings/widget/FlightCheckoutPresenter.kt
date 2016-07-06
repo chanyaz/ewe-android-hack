@@ -3,6 +3,7 @@ package com.expedia.bookings.widget
 import android.content.Context
 import android.util.AttributeSet
 import android.view.View
+import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.flights.FlightCreateTripResponse
 import com.expedia.bookings.otto.Events
@@ -55,6 +56,11 @@ class FlightCheckoutPresenter(context: Context, attr: AttributeSet) : BaseChecko
 
     override fun getLineOfBusiness() : LineOfBusiness {
         return LineOfBusiness.FLIGHTS_V2
+    }
+
+    override fun updateDbTravelers() {
+        val params = Db.getFlightSearchParams()
+        travelerPresenter.viewModel.updateDbTravelers(params)
     }
 
     override fun updateTravelerPresenter() {

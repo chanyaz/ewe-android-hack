@@ -81,10 +81,11 @@ class PackagePresenter(context: Context, attrs: AttributeSet) : IntentPresenter(
         }
 
         // TODO - can we move this up to a common "base" presenter? (common between Package and Flight presenter)
-        searchPresenter.searchViewModel.searchParamsObservable.subscribe {
+        searchPresenter.searchViewModel.searchParamsObservable.subscribe { params ->
             // Starting a new search clear previous selection
             Db.clearPackageSelection()
-            errorPresenter.viewmodel.paramsSubject.onNext(it)
+            bundlePresenter.getCheckoutPresenter().travelerPresenter.viewModel.updateDbTravelers(params)
+            errorPresenter.viewmodel.paramsSubject.onNext(params)
             show(bundlePresenter)
             bundlePresenter.show(BaseOverviewPresenter.BundleDefault(), FLAG_CLEAR_BACKSTACK)
         }
