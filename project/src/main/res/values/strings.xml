@@ -4094,7 +4094,11 @@
     <string name="pwp_total_due_today_TEMPLATE">Total due today:</string>
 
     <!-- Package Flight Overview -->
-    <string name="package_flight_overview_urgency_message_TEMPLATE">{seats} seats left</string>
+    <!-- Seats left message if 1 - 5 tickets left. e.g. "1 seat left" -->
+    <plurals name="package_flight_overview_urgency_message_TEMPLATE">
+        <item quantity="one">{seats} seat left</item>
+        <item quantity="other">{seats} seats left</item>
+    </plurals>
     <string name="package_flight_overview_baggage_fees">Baggage Fee Info</string>
     <string name="package_flight_overview_select_flight">Select this Flight</string>
     <string name="package_flight_overview_bundle_total_label">Bundle Total</string>
