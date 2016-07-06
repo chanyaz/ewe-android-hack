@@ -140,8 +140,8 @@ class PackageSearchParamsTest {
         vm.searchObserver.onNext(Unit)
 
         searchParamsSubscriber.requestMore(LOTS_MORE)
-        assertEquals(expectedSearchParams[0].checkOut, searchParamsSubscriber.onNextEvents[0].checkOut)
-        assertEquals(expectedSearchParams[1].checkOut, searchParamsSubscriber.onNextEvents[1].checkOut)
+        assertEquals(expectedSearchParams[0].endDate, searchParamsSubscriber.onNextEvents[0].endDate)
+        assertEquals(expectedSearchParams[1].endDate, searchParamsSubscriber.onNextEvents[1].endDate)
         noDatesSubscriber.requestMore(LOTS_MORE)
         noDatesSubscriber.assertReceivedOnNext(expectedDates)
         maxRangeSubscriber.requestMore(LOTS_MORE)

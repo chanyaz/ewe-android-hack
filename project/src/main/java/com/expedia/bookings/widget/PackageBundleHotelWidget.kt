@@ -154,18 +154,12 @@ class PackageBundleHotelWidget(context: Context, attrs: AttributeSet?) : Accessi
         mainContainer.visibility = Presenter.VISIBLE
         AnimUtils.rotate(hotelDetailsIcon)
         PackagesTracking().trackBundleOverviewHotelExpandClick()
-        if (hotelDetailsIcon.visibility == View.VISIBLE) {
-            this.selectedCardObservable.onNext(Unit)
-        }
     }
 
     fun collapseSelectedHotel() {
         mainContainer.visibility = Presenter.GONE
         AnimUtils.reverseRotate(hotelDetailsIcon)
         hotelDetailsIcon.clearAnimation()
-        if (hotelDetailsIcon.visibility == View.VISIBLE) {
-            this.selectedCardObservable.onNext(Unit)
-        }
     }
 
     fun backButtonPressed() {

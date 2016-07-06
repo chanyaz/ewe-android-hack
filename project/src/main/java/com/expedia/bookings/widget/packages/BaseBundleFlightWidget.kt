@@ -31,7 +31,7 @@ import com.expedia.vm.FlightSegmentBreakdown
 import com.expedia.vm.FlightSegmentBreakdownViewModel
 import com.squareup.phrase.Phrase
 
-abstract class PackageBundleFlightWidget(context: Context, attrs: AttributeSet?) : AccessibleCardView(context, attrs) {
+abstract class BaseBundleFlightWidget(context: Context, attrs: AttributeSet?) : AccessibleCardView(context, attrs) {
     abstract fun showLoading()
     abstract fun handleResultsLoaded()
     abstract fun enable()
@@ -130,18 +130,12 @@ abstract class PackageBundleFlightWidget(context: Context, attrs: AttributeSet?)
         flightDetailsContainer.visibility = Presenter.VISIBLE
         AnimUtils.rotate(flightDetailsIcon)
         PackagesTracking().trackBundleOverviewFlightExpandClick()
-        if(flightDetailsIcon.visibility == View.VISIBLE){
-            rowContainer.contentDescription = selectedFlightContentDescription()
-        }
     }
 
     fun collapseFlightDetails() {
         flightDetailsContainer.visibility = Presenter.GONE
         AnimUtils.reverseRotate(flightDetailsIcon)
         flightDetailsIcon.clearAnimation()
-        if(flightDetailsIcon.visibility == View.VISIBLE) {
-            rowContainer.contentDescription = selectedFlightContentDescription()
-        }
     }
 
     private fun isFlightSegmentDetailsExpanded(): Boolean {
@@ -164,6 +158,15 @@ abstract class PackageBundleFlightWidget(context: Context, attrs: AttributeSet?)
         rowContainer.isEnabled = isEnabled
         if (!isEnabled) {
             this.disabledStateObservable.onNext(Unit)
+        }
+    }
+
+    fun getFlightWidgetExpandedState(): String {
+        if (isFlightSegmentDetailsExpanded()) {
+            return context.getString(R.string.accessibility_cont_desc_role_button_collapse)
+        }
+        else {
+            return context.getString(R.string.accessibility_cont_desc_role_button_expand)
         }
     }
 
@@ -207,26 +210,9 @@ abstract class PackageBundleFlightWidget(context: Context, attrs: AttributeSet?)
         val expandState = if (flightDetailsContainer.visibility == Presenter.VISIBLE) context.getString(R.string.accessibility_cont_desc_role_button_collapse) else context.getString(R.string.accessibility_cont_desc_role_button_expand)
         return Phrase.from(context, R.string.select_flight_selected_cont_desc_TEMPLATE)
                 .put("flight", StrUtils.formatAirportCodeCityName(if (isInboundFlight()) searchParams.origin else searchParams.destination))
-                .put("date", DateUtils.localDateToMMMd(if (isInboundFlight()) searchParams.endDate else searchParams.startDate))
-                .put("travelers", StrUtils.formatTravelerString(context, searchParams.guests))
+                .put("datetraveler", viewModel.travelInfoTextObservable.value)
                 .put("expandstate", expandState)
                 .format()
                 .toString()
-    }
-
-    fun selectedFlightContentDescription(): String {
-        return Phrase.from(context, R.string.select_flight_selected_cont_desc_TEMPLATE).
-                put("flighttext", viewModel.flightTextObservable.value).
-                put("travelerinfotext", viewModel.travelInfoTextObservable.value).
-                put("expandstate", getFlightWidgetExpandedState()).format().toString()
-    }
-
-    fun getFlightWidgetExpandedState(): String {
-        if (isFlightSegmentDetailsExpanded()) {
-            return context.getString(R.string.accessibility_cont_desc_role_button_collapse)
-        }
-        else {
-            return context.getString(R.string.accessibility_cont_desc_role_button_expand)
-        }
     }
 }

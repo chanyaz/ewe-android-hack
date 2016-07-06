@@ -7,7 +7,7 @@ import com.expedia.bookings.utils.DateUtils
 import com.expedia.bookings.utils.Strings
 import org.joda.time.LocalDate
 
-open class LxSearchParams(val location: String, val activityStartDate: LocalDate, val activityEndDate: LocalDate, val searchType:SearchType, val filters: String, val activityId: String?, val imageCode: String?) : BaseSearchParams(0, emptyList(), activityStartDate, activityEndDate) {
+open class LxSearchParams(val location: String, val activityStartDate: LocalDate, val activityEndDate: LocalDate, val searchType:SearchType, val filters: String, val activityId: String?, val imageCode: String?) : BaseSearchParams(null, null, 0, emptyList(), activityStartDate, activityEndDate) {
 
     companion object {
         val lxMaxStay: Int = 0;

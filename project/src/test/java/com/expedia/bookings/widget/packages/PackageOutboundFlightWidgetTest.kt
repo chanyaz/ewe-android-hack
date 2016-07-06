@@ -27,7 +27,7 @@ class PackageOutboundFlightWidgetTest {
     var testDestination: SuggestionV4 by Delegates.notNull()
     val testRegionName = "Chicago"
     val testAirportCode = "ORD"
-    var testWidget: PackageOutboundFlightWidget by Delegates.notNull()
+    var testWidget: OutboundFlightWidget by Delegates.notNull()
     var widgetVM: BundleFlightViewModel by Delegates.notNull()
 
     var expectedDisabledColor: Int by Delegates.notNull()
@@ -38,7 +38,7 @@ class PackageOutboundFlightWidgetTest {
         activity.setTheme(R.style.V2_Theme_Packages)
         testDestination = buildMockDestination()
         setUpParams()
-        testWidget = PackageOutboundFlightWidget(activity, null)
+        testWidget = OutboundFlightWidget(activity, null)
         widgetVM = BundleFlightViewModel(activity)
         testWidget.viewModel = widgetVM
         expectedDisabledColor = ContextCompat.getColor(activity, R.color.package_bundle_icon_color)

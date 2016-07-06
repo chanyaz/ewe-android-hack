@@ -69,7 +69,7 @@ class BundleOverviewViewModel(val context: Context, val packageServices: Package
             stepOneTextObservable.onNext(stepOne)
 
             val stepTwo = Phrase.from(context, R.string.flight_checkout_overview_TEMPLATE)
-                    .put("origin", Db.getPackageParams().origin.hierarchyInfo?.airport?.airportCode)
+                    .put("origin", Db.getPackageParams().origin?.hierarchyInfo?.airport?.airportCode)
                     .put("destination", Db.getPackageParams().destination?.hierarchyInfo?.airport?.airportCode)
                     .format().toString()
             stepTwoTextObservable.onNext(stepTwo)

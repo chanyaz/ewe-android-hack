@@ -135,7 +135,7 @@ class PackageFlightPresenter(context: Context, attrs: AttributeSet) : BaseFlight
             resultsPresenter.outboundFlightSelectedSubject.onNext(Db.getPackageSelectedOutboundFlight())
         }
         overviewPresenter.vm.selectedFlightClickedSubject.subscribe(flightOverviewSelected)
-        var cityBound: String = if (isOutboundResultsPresenter()) Db.getPackageParams().destination?.regionNames?.shortName as String else Db.getPackageParams().origin.regionNames.shortName
+        var cityBound: String = if (isOutboundResultsPresenter()) Db.getPackageParams().destination?.regionNames?.shortName as String else Db.getPackageParams().origin?.regionNames?.shortName as String
         val numTravelers = Db.getPackageParams().guests
         toolbarViewModel.isOutboundSearch.onNext(isOutboundResultsPresenter())
         toolbarViewModel.city.onNext(cityBound)

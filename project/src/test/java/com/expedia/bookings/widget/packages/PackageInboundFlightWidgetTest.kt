@@ -30,7 +30,7 @@ class PackageInboundFlightWidgetTest {
     val testAirportCode = "ORD"
     val testFlightText = "(DTM) Detroit"
     val testTravelerInfoText = "Jun 29 at 9:00 am, 1 Traveler"
-    var testWidget: PackageInboundFlightWidget by Delegates.notNull()
+    var testWidget: InboundFlightWidget by Delegates.notNull()
     var widgetVM: BundleFlightViewModel by Delegates.notNull()
 
     var expectedDisabledColor: Int by Delegates.notNull()
@@ -41,7 +41,7 @@ class PackageInboundFlightWidgetTest {
         activity.setTheme(R.style.V2_Theme_Packages)
         testOrigin = buildMockOriginSuggestion()
         setUpParams()
-        testWidget = PackageInboundFlightWidget(activity, null)
+        testWidget = InboundFlightWidget(activity, null)
         widgetVM = BundleFlightViewModel(activity)
         testWidget.viewModel = widgetVM
         expectedDisabledColor = ContextCompat.getColor(activity, R.color.package_bundle_icon_color)
@@ -132,12 +132,12 @@ class PackageInboundFlightWidgetTest {
 
         val expandedState = "Button to collapse"
         val expectedText = Phrase.from(activity, R.string.select_flight_selected_cont_desc_TEMPLATE).
-                put("flighttext", testFlightText).
-                put("travelerinfotext", testTravelerInfoText).
+                put("flight", testFlightText).
+                put("datetraveler", testTravelerInfoText).
                 put("expandstate", expandedState).
                 format().toString()
 
-        assertEquals(expectedText, testWidget.selectedFlightContentDescription())
+        assertEquals(expectedText, testWidget.selectedCardContentDescription())
     }
 
     @Test
@@ -148,12 +148,12 @@ class PackageInboundFlightWidgetTest {
 
         val collapsedState = "Button to expand"
         val expectedText = Phrase.from(activity, R.string.select_flight_selected_cont_desc_TEMPLATE).
-                put("flighttext", testFlightText).
-                put("travelerinfotext", testTravelerInfoText).
+                put("flight", testFlightText).
+                put("datetraveler", testTravelerInfoText).
                 put("expandstate", collapsedState).
                 format().toString()
 
-        assertEquals(expectedText, testWidget.selectedFlightContentDescription())
+        assertEquals(expectedText, testWidget.selectedCardContentDescription())
     }
 
     @Test
