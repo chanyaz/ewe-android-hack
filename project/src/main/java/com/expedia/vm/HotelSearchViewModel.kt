@@ -59,6 +59,8 @@ class HotelSearchViewModel(context: Context) : BaseSearchViewModel(context) {
         if (getParamsBuilder().areRequiredParamsFilled()) {
             if (!getParamsBuilder().hasValidDateDuration()) {
                 errorMaxDurationObservable.onNext(context.getString(R.string.hotel_search_range_error_TEMPLATE, getMaxSearchDurationDays()))
+            } else if (!getParamsBuilder().isWithinDateRange()) {
+                errorMaxRangeObservable.onNext(context.getString(R.string.error_date_too_far, getMaxSearchDurationDays()))
             } else {
                 val hotelSearchParams = getParamsBuilder().build()
                 HotelSearchParamsUtil.saveSearchHistory(context, hotelSearchParams)
@@ -91,15 +93,17 @@ class HotelSearchViewModel(context: Context) : BaseSearchViewModel(context) {
     }
 
     override fun onDatesChanged(dates: Pair<LocalDate?, LocalDate?>) {
-        val (start, end) = dates
-
+        val start = dates.first
+        var end = dates.second
         getParamsBuilder().startDate(start)
         if (start != null && end == null) {
             getParamsBuilder().endDate(start.plusDays(1))
+        } else if (start != null && start.equals(end)) {
+            getParamsBuilder().endDate(start.plusDays(1))
+            end = start.plusDays(1)
         } else {
             getParamsBuilder().endDate(end)
         }
-
         dateTextObservable.onNext(computeDateText(start, end))
         dateInstructionObservable.onNext(computeDateInstructionText(start, end))
 
