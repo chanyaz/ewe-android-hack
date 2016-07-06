@@ -5,6 +5,7 @@ import android.support.test.espresso.assertion.ViewAssertions
 import android.support.test.espresso.assertion.ViewAssertions.matches
 import android.support.test.espresso.matcher.ViewMatchers
 import android.support.test.espresso.matcher.ViewMatchers.withText
+import android.support.test.espresso.matcher.ViewMatchers.isDisplayed
 import com.expedia.bookings.test.espresso.NewFlightTestCase
 import com.expedia.bookings.test.phone.pagemodels.common.SearchScreen
 import com.expedia.bookings.utils.DateUtils
@@ -27,6 +28,21 @@ class FlightSearchTest: NewFlightTestCase() {
 
         FlightsScreen.outboundFlightList().check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
         assertHeaderHasText("Prices roundtrip per person")
+    }
+
+    fun testOriginSameAsDestination() {
+        SearchScreen.origin().perform(click())
+        SearchScreen.selectSameFlightOriginAndDestination()
+
+        val startDate = LocalDate.now().plusDays(3)
+        val endDate = LocalDate.now().plusDays(8)
+        SearchScreen.selectDates(startDate, endDate)
+        val expectedStartDate = DateUtils.localDateToMMMd(startDate)
+        val expectedEndDate = DateUtils.localDateToMMMd(endDate)
+        SearchScreen.selectDateButton().check(matches(withText("$expectedStartDate - $expectedEndDate")))
+
+        SearchScreen.searchButton().perform(click())
+        SearchScreen.errorDialog("Departure and arrival airports must be different.").check(matches(isDisplayed()));
     }
 
     fun testSameDayReturnSearch() {

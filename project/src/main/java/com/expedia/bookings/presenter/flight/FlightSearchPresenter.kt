@@ -46,6 +46,10 @@ open class FlightSearchPresenter(context: Context, attrs: AttributeSet) : BaseTw
             }
         }
 
+        vm.errorOriginSameAsDestinationObservable.subscribe { message ->
+            showErrorDialog(message)
+        }
+
         originSuggestionViewModel = AirportSuggestionViewModel(getContext(), suggestionServices, false, CurrentLocationObservable.create(getContext()))
         destinationSuggestionViewModel = AirportSuggestionViewModel(getContext(), suggestionServices, true, null)
         originSuggestionAdapter = FlightSuggestionAdapter(originSuggestionViewModel)

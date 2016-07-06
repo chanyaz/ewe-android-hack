@@ -178,6 +178,22 @@ object SearchScreen {
     }
 
     @Throws(Throwable::class)
+    @JvmStatic fun selectSameFlightOriginAndDestination() {
+        searchEditText().perform(typeText(TestValues.TYPE_TEXT_SFO))
+        selectLocation(TestValues.FLIGHT_ORIGIN_LOCATION_SFO)
+        //Delay from the auto advance anim
+        Common.delay(1)
+        searchEditText().perform(ViewActions.waitForViewToDisplay())
+        searchEditText().perform(typeText(TestValues.TYPE_TEXT_SFO))
+        selectLocation(TestValues.DESTINATION_LOCATION_SFO)
+    }
+
+    @Throws(Throwable::class)
+    @JvmStatic fun errorDialog(text: String): ViewInteraction {
+        return onView(withText(text)).inRoot(withDecorView(not(`is`(SpoonScreenshotUtils.getCurrentActivity().window.decorView))));
+    }
+
+    @Throws(Throwable::class)
     @JvmStatic fun selectPackageOriginAndDestination() {
         searchEditText().perform(typeText(TestValues.TYPE_TEXT_SFO))
         selectLocation(TestValues.PACKAGE_ORIGIN_LOCATION_SFO)
