@@ -30,16 +30,13 @@ class FlightAirlineFeeTest: NewFlightTestCase() {
         SearchScreen.origin().perform(click())
         SearchScreen.searchEditText().perform(android.support.test.espresso.action.ViewActions.typeText("AUK"))
         SearchScreen.suggestionList().perform(ViewActions.waitForViewToDisplay())
-
-        val viewMatcher = ViewMatchers.hasDescendant(withText("Auckland Airport, NZ"))
-        SearchScreen.suggestionList().perform(ViewActions.waitFor(viewMatcher, 10, TimeUnit.SECONDS))
         SearchScreen.suggestionList().perform(RecyclerViewActions.actionOnItemAtPosition<RecyclerView.ViewHolder>(5, click()))
 
         //Delay for the auto advance to destination picker
         Common.delay(1)
         SearchScreen.searchEditText().perform(ViewActions.waitForViewToDisplay())
         SearchScreen.searchEditText().perform(android.support.test.espresso.action.ViewActions.typeText("SFO"))
-        SearchScreen.suggestionList().perform(ViewActions.waitFor(viewMatcher, 10, TimeUnit.SECONDS))
+        SearchScreen.suggestionList().perform(ViewActions.waitForViewToDisplay())
         SearchScreen.suggestionList().perform(RecyclerViewActions.actionOnItemAtPosition<RecyclerView.ViewHolder>(0, click()))
 
         val startDate = LocalDate.now().plusDays(3)
