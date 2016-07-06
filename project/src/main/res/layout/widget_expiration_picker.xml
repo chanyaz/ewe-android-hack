@@ -2,7 +2,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="center"
-    android:orientation="horizontal" >
+    android:orientation="horizontal">
 
     <LinearLayout
         android:id="@+id/month_container"
@@ -11,12 +11,13 @@
         android:layout_margin="10dp"
         android:layout_weight="1"
         android:gravity="center"
-        android:orientation="vertical" >
+        android:orientation="vertical">
 
         <ImageView
             android:id="@+id/month_up"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:contentDescription="@string/increase_month_cont_desc"
             android:padding="@dimen/arrow_up_down_click_padding"
             android:src="@drawable/ic_picker_up" />
 
@@ -32,8 +33,10 @@
             android:id="@+id/month_down"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:contentDescription="@string/decrease_month_cont_desc"
             android:padding="@dimen/arrow_up_down_click_padding"
             android:src="@drawable/ic_picker_down" />
+
     </LinearLayout>
 
     <TextView
@@ -53,12 +56,13 @@
         android:layout_margin="10dp"
         android:layout_weight="1"
         android:gravity="center"
-        android:orientation="vertical" >
+        android:orientation="vertical">
 
         <ImageView
             android:id="@+id/year_up"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:contentDescription="@string/increase_year_cont_desc"
             android:padding="@dimen/arrow_up_down_click_padding"
             android:src="@drawable/ic_picker_up" />
 
@@ -74,6 +78,7 @@
             android:id="@+id/year_down"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:contentDescription="@string/decrease_year_cont_desc"
             android:padding="@dimen/arrow_up_down_click_padding"
             android:src="@drawable/ic_picker_down" />
     </LinearLayout>
