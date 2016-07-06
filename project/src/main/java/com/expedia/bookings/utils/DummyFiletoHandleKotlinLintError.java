@@ -117,6 +117,7 @@ DummyFiletoHandleKotlinLintError {
 		R.drawable.mobile_exclusive,
 		R.drawable.tonight_only,
 		R.drawable.urgency,
+		R.color.hotelsv2_amenity_icon_color,
 		R.color.hotel_urgency_message_color,
 		R.color.hotel_tonight_only_color,
 		R.color.hotel_mobile_exclusive_color,
