@@ -343,7 +343,7 @@ public class PackageScreen {
 	}
 
 	public static void clickLegalInformation() {
-		onView(withId(R.id.legal_information_text_view)).perform(click());
+		onView(withId(R.id.legal_information_text_view)).perform(waitForViewToDisplay(), click());
 	}
 
 	public static void clickSpecialAssistance() {
@@ -354,11 +354,11 @@ public class PackageScreen {
 		onView(withId(R.id.edit_seat_preference_spinner)).perform(click());
 	}
 
-	public static void enterPaymentInfo() {
-		Common.delay(2);
-		CheckoutViewModel.clickPaymentInfo();
-		Common.delay(1);
+	public static void enterCreditCard() {
 		CardInfoScreen.typeTextCreditCardEditText("4111111111111111");
+	}
+
+	public static void completePaymentForm() {
 		CardInfoScreen.clickOnExpirationDateButton();
 		CardInfoScreen.clickMonthUpButton();
 		CardInfoScreen.clickYearUpButton();
@@ -371,8 +371,15 @@ public class PackageScreen {
 		BillingAddressScreen.typeTextCity("San Francisco");
 		BillingAddressScreen.typeTextState("CA");
 		BillingAddressScreen.typeTextPostalCode("94105");
+	}
+
+	public static void enterPaymentInfo() {
+		CheckoutViewModel.waitForPaymentInfoDisplayed();
+		CheckoutViewModel.clickPaymentInfo();
+		CardInfoScreen.creditCardNumberEditText().perform(waitForViewToDisplay());
+		enterCreditCard();
+		completePaymentForm();
 		CheckoutViewModel.clickDone();
-		Common.delay(2);
 	}
 
 	public static String getDatesGuestInfoText(LocalDate startDate, LocalDate endDate) {

@@ -6,6 +6,7 @@ import android.util.AttributeSet
 import android.view.View
 import android.webkit.WebView
 import android.webkit.WebViewClient
+import android.widget.ImageButton
 import android.widget.LinearLayout
 import com.expedia.bookings.R
 import com.expedia.bookings.utils.Ui
@@ -39,5 +40,9 @@ abstract class AbstractWebViewWidget(context: Context, attrs: AttributeSet) : Li
             view?.loadUrl(url)
             return true
         }
+    }
+
+    fun setExitButtonOnClickListener(listener: OnClickListener) {
+        toolbar.setNavigationOnClickListener(listener)
     }
 }

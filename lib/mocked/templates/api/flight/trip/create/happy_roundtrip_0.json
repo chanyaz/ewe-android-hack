@@ -157,7 +157,11 @@
             "name": "MasterCard"
         },
         {
-            "name": "Visa"
+            "name": "Visa",
+            "fee": "2.94",
+            "feeCurrencyCode": "USD",
+            "formattedFee": "$2.94",
+            "totalFarePriceWithFee": "$696.00"
         }
     ]
 }

@@ -30,11 +30,12 @@ class FlightCheckoutViewModel(context: Context, val flightServices: FlightServic
 
     // inputs
     val validFormsOfPaymentSubject = BehaviorSubject.create<List<ValidFormOfPayment>>()
+    val selectedFlightChargesFees = PublishSubject.create<Boolean>()
+    val obFeeDetailsUrlSubject = PublishSubject.create<String>()
 
     // outputs
-    val showCardFees = PublishSubject.create<Boolean>()
     val cardFeeTextSubject = PublishSubject.create<Spanned>()
-    val cardFeeWarningTextSubject = PublishSubject.create<String>()
+    val cardFeeWarningTextSubject = PublishSubject.create<Spanned>()
     val cardFeeForSelectedCard = PublishSubject.create<ValidFormOfPayment>()
 
     init {
@@ -66,11 +67,23 @@ class FlightCheckoutViewModel(context: Context, val flightServices: FlightServic
     }
 
     private fun setupCardFeeSubjects() {
+        Observable.combineLatest(obFeeDetailsUrlSubject, selectedFlightChargesFees, {obFeeDetailsUrl, selectedFlightChargesFees ->
+            if (selectedFlightChargesFees) {
+                val airlineFeeWithLink =
+                        Phrase.from(context, R.string.flights_fee_added_based_on_payment_TEMPLATE)
+                                .put("airline_fee_url", obFeeDetailsUrl)
+                                .format().toString()
+                cardFeeWarningTextSubject.onNext(Html.fromHtml(airlineFeeWithLink))
+            }
+            else {
+                cardFeeWarningTextSubject.onNext(null)
+            }
+        }).subscribe()
+
         Observable.combineLatest(
                 validFormsOfPaymentSubject,
                 selectedCardTypeSubject,
                 { validPaymentForms, selectedCardType ->
-                    showCardFees.onNext(false)
                     val selectedCardFee = validPaymentForms.filter { it.getPaymentType() == selectedCardType }
                             .filter { !it.fee.isNullOrEmpty() }
                             .firstOrNull()
@@ -86,9 +99,8 @@ class FlightCheckoutViewModel(context: Context, val flightServices: FlightServic
                                     .format().toString()
 
                             cardFeeTextSubject.onNext(Html.fromHtml(cardFeeText))
-                            cardFeeWarningTextSubject.onNext(cardFeeWarningText)
+                            cardFeeWarningTextSubject.onNext(Html.fromHtml(cardFeeWarningText))
                             cardFeeForSelectedCard.onNext(selectedCardFee)
-                            showCardFees.onNext(true)
                         }
                     }
                 }).subscribe()

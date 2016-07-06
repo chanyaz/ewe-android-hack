@@ -11,11 +11,13 @@ import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.FilterButtonWithCountWidget
 import com.expedia.bookings.widget.FlightListRecyclerView
+import com.expedia.bookings.widget.TextView
 import com.expedia.bookings.widget.flights.DockedOutboundFlightSelectionView
 import com.expedia.bookings.widget.shared.AbstractFlightListAdapter
 import com.expedia.util.endlessObserver
 import com.expedia.util.notNullAndObservable
 import com.expedia.util.subscribeInverseVisibility
+import com.expedia.util.subscribeVisibility
 import com.expedia.vm.FlightResultsViewModel
 import com.expedia.vm.flights.SelectedOutboundFlightViewModel
 import rx.subjects.PublishSubject
@@ -25,6 +27,7 @@ class FlightResultsListViewPresenter(context: Context, attrs: AttributeSet) : Pr
     private val dockedOutboundFlightSelection: DockedOutboundFlightSelectionView by bindView(R.id.docked_outbound_flight_selection)
     private val dockedOutboundFlightShadow: View by bindView(R.id.docked_outbound_flight_widget_dropshadow)
     private val filterButton: FilterButtonWithCountWidget by bindView(R.id.sort_filter_button_container)
+    private val airlineChargesFeesTextView: TextView by bindView(R.id.airline_charges_fees_header)
     lateinit private var flightListAdapter: AbstractFlightListAdapter
 
     // input
@@ -64,9 +67,11 @@ class FlightResultsListViewPresenter(context: Context, attrs: AttributeSet) : Pr
         vm.isOutboundResults.subscribe { this.isShowingOutboundResults = it }
         vm.isOutboundResults.subscribeInverseVisibility(dockedOutboundFlightSelection)
         vm.isOutboundResults.subscribeInverseVisibility(dockedOutboundFlightShadow)
+        vm.airlineChargesFeesSubject.subscribeVisibility(airlineChargesFeesTextView)
     }
 
     val listResultsObserver = endlessObserver<List<FlightLeg>> {
+        positionChildren()
         flightListAdapter.setNewFlights(it)
         filterButton.visibility = if (showFilterButton) View.VISIBLE else View.GONE
     }
@@ -81,17 +86,39 @@ class FlightResultsListViewPresenter(context: Context, attrs: AttributeSet) : Pr
 
     private fun positionChildren() {
         val isShowingDockedOutboundFlightWidget = !isShowingOutboundResults
-        val onLayoutListener = object : ViewTreeObserver.OnGlobalLayoutListener {
-            override fun onGlobalLayout() {
-                if (dockedOutboundFlightSelection.height != 0) {
-                    dockedOutboundFlightSelection.viewTreeObserver.removeOnGlobalLayoutListener(this)
-                    dockedOutboundFlightShadow.translationY = dockedOutboundFlightSelection.height.toFloat() + Ui.getToolbarSize(context)
-                    recyclerView.translationY = dockedOutboundFlightSelection.height.toFloat()
-                }
-            }
+
+        fun resetChildrenTops() {
+            val toolbarSize = getToolbarSize()
+            airlineChargesFeesTextView.top = 0
+            dockedOutboundFlightShadow.top = 0
+            recyclerView.top = toolbarSize.toInt()
         }
+
         if (isShowingDockedOutboundFlightWidget) {
-            dockedOutboundFlightSelection.viewTreeObserver.addOnGlobalLayoutListener(onLayoutListener)
+            dockedOutboundFlightSelection.viewTreeObserver.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
+                override fun onGlobalLayout() {
+                    resetChildrenTops()
+                    if (dockedOutboundFlightSelection.height != 0) {
+                        dockedOutboundFlightSelection.viewTreeObserver.removeOnGlobalLayoutListener(this)
+                        dockedOutboundFlightShadow.translationY = dockedOutboundFlightSelection.height.toFloat() + getToolbarSize()
+                        recyclerView.translationY = dockedOutboundFlightSelection.height.toFloat()
+                    }
+                }
+            })
+        }
+        else {
+            airlineChargesFeesTextView.viewTreeObserver.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
+                override fun onGlobalLayout() {
+                    resetChildrenTops()
+                    if (airlineChargesFeesTextView.height != 0) {
+                        airlineChargesFeesTextView.viewTreeObserver.removeOnGlobalLayoutListener(this)
+                        airlineChargesFeesTextView.translationY = getToolbarSize()
+                        recyclerView.translationY = airlineChargesFeesTextView.height.toFloat()
+                    }
+                }
+            })
         }
     }
+
+    private fun getToolbarSize(): Float = Ui.getToolbarSize(context).toFloat()
 }

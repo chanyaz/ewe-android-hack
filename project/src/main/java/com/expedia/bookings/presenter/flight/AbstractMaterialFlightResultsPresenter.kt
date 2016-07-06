@@ -24,9 +24,8 @@ abstract class AbstractMaterialFlightResultsPresenter(context: Context, attrs: A
         resultsPresenter.setAdapter(flightListAdapter)
         toolbarViewModel.isOutboundSearch.onNext(isOutboundResultsPresenter())
         vm.confirmedOutboundFlightSelection.subscribe(resultsPresenter.outboundFlightSelectedSubject)
-        vm.flightOfferSelected.map { it.mayChargeOBFees }
-                .subscribeVisibility(overviewPresenter.paymentFeesMayApplyTextView)
-        vm.obFeeDetailsUrlObservable.subscribe(paymentFeeInfo.viewModel.webViewURLObservable)
+        vm.offerSelectedChargesObFeesSubject.subscribeVisibility(overviewPresenter.paymentFeesMayApplyTextView)
+        vm.obFeeDetailsUrlObservable.subscribe(paymentFeeInfoWebView.viewModel.webViewURLObservable)
     }
 
     override fun setupToolbarMenu() {

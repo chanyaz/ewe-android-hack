@@ -7,6 +7,13 @@ import java.util.Date
 
 class FlightApiRequestDispatcher(fileOpener: FileOpener) : AbstractDispatcher(fileOpener) {
 
+    enum class SearchResponseType {
+        HAPPY_ROUND_TRIP,
+        HAPPY_ONE_WAY,
+        PASSPORT_NEEDED_ONE_WAY,
+        MAY_CHARGE_OB_FEES_ROUND_TRIP
+    }
+
     override fun dispatch(request: RecordedRequest): MockResponse {
         val urlPath = request.path
         val params = parseHttpRequest(request)
@@ -34,19 +41,34 @@ class FlightApiRequestDispatcher(fileOpener: FileOpener) : AbstractDispatcher(fi
 class FlightApiMockResponseGenerator() {
     companion object {
         fun getSearchResponseFilePath(params: MutableMap<String, String>): String {
+            val mayChargeObFeesFlight = params["departureAirport"] == "AKL"
             val isEarnResponse = params["departureAirport"] == "EARN"
             val isPassportNeeded = params["departureAirport"] == "PEN" && params["arrivalAirport"] == "KUL"
             val isReturnFlightSearch = params.containsKey("returnDate")
             val departureDate = params["departureDate"]
 
-            var filename = getFileName(isPassportNeeded, isReturnFlightSearch, isEarnResponse)
+            val searchResponseType =
+                    if (isPassportNeeded) {
+                        FlightApiRequestDispatcher.SearchResponseType.PASSPORT_NEEDED_ONE_WAY
+                    }
+                    else if (mayChargeObFeesFlight) {
+                        FlightApiRequestDispatcher.SearchResponseType.MAY_CHARGE_OB_FEES_ROUND_TRIP
+                    }
+                    else if (isReturnFlightSearch) {
+                        FlightApiRequestDispatcher.SearchResponseType.HAPPY_ROUND_TRIP
+                    }
+                    else {
+                        FlightApiRequestDispatcher.SearchResponseType.HAPPY_ONE_WAY
+                    }
+
+            val filename = getSearchResponseFileName(searchResponseType, isEarnResponse)
 
             val departCalTakeoff = parseYearMonthDay(departureDate, 10, 0)
             val departCalLanding = parseYearMonthDay(departureDate, 12 + 4, 0)
             params.put("departingFlightTakeoffTimeEpochSeconds", "" + (departCalTakeoff.timeInMillis / 1000))
             params.put("departingFlightLandingTimeEpochSeconds", "" + (departCalLanding.timeInMillis / 1000))
 
-            if (isReturnFlightSearch) {
+            if (isReturnFlightSearch || mayChargeObFeesFlight) {
                 val returnDate = params["returnDate"]
                 val returnCalTakeoff = parseYearMonthDay(returnDate, 10, 0)
                 val returnCalLanding = parseYearMonthDay(returnDate, 12 + 4, 0)
@@ -58,21 +80,22 @@ class FlightApiMockResponseGenerator() {
             return "api/flight/search/$filename.json"
         }
 
-        private fun getFileName(isPassportNeeded: Boolean, isReturnFlightSearch: Boolean, isEarnResponse: Boolean): String {
-            return if (isPassportNeeded) {
-                "passport_needed_oneway"
-            } else {
-                var happyFileName =
-                        if (isReturnFlightSearch) {
-                            "happy_roundtrip"
-                        } else {
-                            "happy_oneway"
-                        }
-                if (isEarnResponse) {
-                    happyFileName += "_earn";
-                }
-                happyFileName
+        private fun getSearchResponseFileName(searchType: FlightApiRequestDispatcher.SearchResponseType, isEarnResponse: Boolean): String {
+            var fileName = when (searchType) {
+                FlightApiRequestDispatcher.SearchResponseType.PASSPORT_NEEDED_ONE_WAY -> "passport_needed_oneway"
+
+                FlightApiRequestDispatcher.SearchResponseType.HAPPY_ROUND_TRIP -> "happy_roundtrip"
+
+                FlightApiRequestDispatcher.SearchResponseType.HAPPY_ONE_WAY -> "happy_oneway"
+
+                FlightApiRequestDispatcher.SearchResponseType.MAY_CHARGE_OB_FEES_ROUND_TRIP -> "roundtrip_maychargeobfees"
             }
+
+            if (isEarnResponse) {
+                fileName += "_earn"
+            }
+
+            return fileName
         }
 
         fun getCheckoutResponseFilePath(params: MutableMap<String, String>): String {

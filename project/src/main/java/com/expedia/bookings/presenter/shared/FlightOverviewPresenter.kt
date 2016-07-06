@@ -46,7 +46,7 @@ class FlightOverviewPresenter(context: Context, attrs: AttributeSet?) : Presente
         vm.urgencyMessagingSubject.subscribeTextAndVisibilityInvisible(urgencyMessagingText)
         vm.totalDurationSubject.subscribeText(totalDurationText)
         vm.selectedFlightLegSubject.subscribe { selectedFlight ->
-            var segmentbreakdowns = arrayListOf<FlightSegmentBreakdown>()
+            val segmentbreakdowns = arrayListOf<FlightSegmentBreakdown>()
             for (segment in selectedFlight.flightSegments) {
                 segmentbreakdowns.add(FlightSegmentBreakdown(segment, selectedFlight.hasLayover))
             }

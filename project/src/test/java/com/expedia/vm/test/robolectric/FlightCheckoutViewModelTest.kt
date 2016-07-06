@@ -98,17 +98,46 @@ class FlightCheckoutViewModelTest {
     }
 
     @Test
+    fun selectedFlightHasFeesShowCardFeeWarnings() {
+        createMockFlightServices()
+        setupSystemUnderTest()
+
+        val cardFeeWarningTestSubscriber = TestSubscriber<Spanned>()
+        sut.cardFeeWarningTextSubject.subscribe(cardFeeWarningTestSubscriber)
+
+        sut.obFeeDetailsUrlSubject.onNext("http://url")
+        sut.selectedFlightChargesFees.onNext(true)
+
+        cardFeeWarningTestSubscriber.assertValueCount(1)
+        assertEquals("An airline fee, based on card type, is added upon payment. Such fee is added to the total upon payment.",
+                cardFeeWarningTestSubscriber.onNextEvents[0].toString())
+    }
+
+    @Test
+    fun selectedFlightHasNoFeesDontShowCardFeeWarnings() {
+        createMockFlightServices()
+        setupSystemUnderTest()
+
+        val cardFeeWarningTestSubscriber = TestSubscriber<Spanned>()
+        sut.cardFeeWarningTextSubject.subscribe(cardFeeWarningTestSubscriber)
+
+        sut.obFeeDetailsUrlSubject.onNext("")
+        sut.selectedFlightChargesFees.onNext(false)
+
+        cardFeeWarningTestSubscriber.assertValueCount(1)
+        cardFeeWarningTestSubscriber.assertValue(null)
+    }
+
+    @Test
     fun zeroCardFees() {
         givenGoodCheckoutParams()
         createMockFlightServices()
         setupSystemUnderTest()
 
-        val showCardFeesTestSubscriber = TestSubscriber<Boolean>()
         val cardFeeTextSubscriber = TestSubscriber<Spanned>()
-        val cardFeeWarningTextSubscriber = TestSubscriber<String>()
+        val cardFeeWarningTextSubscriber = TestSubscriber<Spanned>()
         val cardFeeForSelectedSubscriber = TestSubscriber<ValidFormOfPayment>()
 
-        sut.showCardFees.subscribe(showCardFeesTestSubscriber)
         sut.cardFeeTextSubject.subscribe(cardFeeTextSubscriber)
         sut.cardFeeWarningTextSubject.subscribe(cardFeeWarningTextSubscriber)
         sut.cardFeeForSelectedCard.subscribe(cardFeeForSelectedSubscriber)
@@ -116,7 +145,6 @@ class FlightCheckoutViewModelTest {
         selectedCardTypeSubject.onNext(PaymentType.CARD_AMERICAN_EXPRESS)
         sut.validFormsOfPaymentSubject.onNext(listOf(createPaymentWithZeroFees()))
 
-        showCardFeesTestSubscriber.assertValue(false)
         cardFeeTextSubscriber.assertNoValues()
         cardFeeWarningTextSubscriber.assertNoValues()
         cardFeeForSelectedSubscriber.assertNoValues()
@@ -130,12 +158,10 @@ class FlightCheckoutViewModelTest {
 
         val formOfPaymentWithFee = createPaymentWithCardFee()
 
-        val showCardFeesTestSubscriber = TestSubscriber<Boolean>()
         val cardFeeTextSubscriber = TestSubscriber<Spanned>()
-        val cardFeeWarningTextSubscriber = TestSubscriber<String>()
+        val cardFeeWarningTextSubscriber = TestSubscriber<Spanned>()
         val cardFeeForSelectedSubscriber = TestSubscriber<ValidFormOfPayment>()
 
-        sut.showCardFees.subscribe(showCardFeesTestSubscriber)
         sut.cardFeeTextSubject.subscribe(cardFeeTextSubscriber)
         sut.cardFeeWarningTextSubject.subscribe(cardFeeWarningTextSubscriber)
         sut.cardFeeForSelectedCard.subscribe(cardFeeForSelectedSubscriber)
@@ -143,13 +169,13 @@ class FlightCheckoutViewModelTest {
         selectedCardTypeSubject.onNext(PaymentType.CARD_AMERICAN_EXPRESS)
         sut.validFormsOfPaymentSubject.onNext(listOf(formOfPaymentWithFee))
 
-        showCardFeesTestSubscriber.assertValues(false, true)
-
         cardFeeTextSubscriber.assertValueCount(1)
         assertEquals("Airline processing fee for this card: $2.50", cardFeeTextSubscriber.onNextEvents[0].toString())
 
         cardFeeWarningTextSubscriber.assertValueCount(1)
-        cardFeeWarningTextSubscriber.assertValue("The airline charges a processing fee of $2.50 for using this card (cost included in the trip total).")
+        assertEquals("The airline charges a processing fee of $2.50 for using this card (cost included in the trip total).",
+                cardFeeWarningTextSubscriber.onNextEvents[0].toString())
+
 
         cardFeeForSelectedSubscriber.assertValueCount(1)
         cardFeeForSelectedSubscriber.assertValue(formOfPaymentWithFee)

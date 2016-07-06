@@ -36,6 +36,7 @@ class FlightSearchViewModel(context: Context, val flightServices: FlightServices
     val confirmedInboundFlightSelection = PublishSubject.create<FlightLeg>()
     val outboundSelected = PublishSubject.create<FlightLeg>()
     val inboundSelected = PublishSubject.create<FlightLeg>()
+    val offerSelectedChargesObFeesSubject = PublishSubject.create<Boolean>()
     val flightOfferSelected = PublishSubject.create<FlightTripDetails.FlightOffer>()
     val obFeeDetailsUrlObservable = PublishSubject.create<String>()
     val isRoundTripSearchObservable = BehaviorSubject.create<Boolean>(true)
@@ -79,6 +80,8 @@ class FlightSearchViewModel(context: Context, val flightServices: FlightServices
         resetFlightSelectionsSubject.subscribe {
             setupFlightSelectionObservables()
         }
+
+        flightOfferSelected.map { it.mayChargeOBFees }.subscribe(offerSelectedChargesObFeesSubject)
     }
 
     override fun sameStartAndEndDateAllowed(): Boolean {
