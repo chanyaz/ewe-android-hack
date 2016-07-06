@@ -77,6 +77,7 @@ abstract class BaseOverviewPresenter(context: Context, attrs: AttributeSet) : Pr
             val params = bundleOverviewHeader.appBarLayout.layoutParams as CoordinatorLayout.LayoutParams
             val behavior = params.behavior as AppBarLayout.Behavior
             val enable = y != 0f
+            bundleOverviewHeader.nestedScrollView.visibility = if (enable) VISIBLE else GONE
             bundleOverviewHeader.toggleCollapsingToolBar(enable)
             behavior.topAndBottomOffset = distance
             val range = Math.abs(distance)/bundleOverviewHeader.appBarLayout.totalScrollRange.toFloat()
@@ -118,6 +119,7 @@ abstract class BaseOverviewPresenter(context: Context, attrs: AttributeSet) : Pr
         var range = 0f
         var userStoppedScrollingAt = 0
         override fun startTransition(forward: Boolean) {
+            bundleOverviewHeader.nestedScrollView.visibility = VISIBLE
             toggleToolbar(forward)
             bundleOverviewHeader.checkoutOverviewHeaderToolbar.visibility = View.VISIBLE
             bundleOverviewHeader.toggleCollapsingToolBar(true)
@@ -155,7 +157,7 @@ abstract class BaseOverviewPresenter(context: Context, attrs: AttributeSet) : Pr
             bundleOverviewHeader.isDisabled = forward
             bundleOverviewHeader.nestedScrollView.foreground.alpha = if (forward) 255 else 0
             checkoutPresenter.chevron.rotation = if (forward) 0f else 180f
-
+            bundleOverviewHeader.nestedScrollView.visibility =  if (forward) GONE else VISIBLE
             if (!forward) {
                 checkoutPresenter.trackShowBundleOverview()
             }
