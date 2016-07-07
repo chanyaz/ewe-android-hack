@@ -79,8 +79,6 @@
     <!-- This drawable is used in hotel detail for Book Now button as well -->
     <attr name="skin_loginBookNowButtonDrawable" format="reference" />
     <attr name="skin_hotelDetailPlaceHolderDrawable" format="reference" />
-    <attr name="skin_loginButtonColor" format="reference" />
-    <attr name="skin_hotelBookButtonColor" format="reference" />
 
     <!-- Hotel Confirmation, Customer support option drawable -->
     <attr name="skin_hotelConfirmationCallActionDrawable" format="reference" />
@@ -212,7 +210,6 @@
 
     <!-- Login Activity action bar Icon -->
     <attr name="skin_hotelLoginActionBarIcon" format="reference" />
-    <attr name="skin_flightLoginActionBarIcon" format="reference" />
 
     <attr name="skin_tablet_hotel_coupon_text_color" format="reference|color" />
 
@@ -237,8 +234,6 @@
     <attr name="skin_confirmationHeaderHotelDividerLineColor" format="reference|color" />
     <attr name="skin_confirmationHeaderFlightDividerLineColor" format="reference|color" />
     <attr name="skin_checkmarkFlightDrawable" format="reference" />
-
-    <attr name="skin_launchTabIndicatorColor" format="reference|color" />
 
     <attr name="skin_icTabletConfirmationCheckmarkDrawable" format="reference" />
     <attr name="skin_icRenovationTabletDrawable" format="reference" />

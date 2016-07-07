@@ -3,21 +3,15 @@
 
     <style name="Theme.AirAsiaGo" parent="@style/Theme.Expedia">
         <item name="skin_HotelRowThumbPlaceHolderDrawable">@drawable/ic_row_thumb_placeholder_aag</item>
-        
-        
-        <item name="skin_hotelBookButtonColor">@android:color/white</item>
-        
+
         
         <item name="skin_hotelImagePlaceHolderDrawable">@drawable/ic_image_placeholder_aag</item>
         
         <item name="skin_flightsCostSummaryDialogStripeDrawable">@drawable/dialog_breakdown_stripe</item>
         <item name="skin_hotelListingUserRatingStyle">@style/RatingBar.UserReview.AAG.Yellow</item>
         <item name="skin_ratingBarUserReviewStyle">@style/RatingBar.UserReview.AAG.Yellow</item>
-        <item name="skin_loginButtonColor">@android:color/white</item>
         
-        
-        
-        
+
         <item name="skin_hotelPriceStandardColor">@color/hotel_price_text_color_airasiago</item>
         <item name="skin_hotelPriceSaleColor">@color/hotel_price_sale_text_color_airasiago</item>
         <item name="skin_actionBarSpinnerBackground">@drawable/ab_spinner_airasiago</item>
@@ -48,7 +42,6 @@
         <item name="skin_hotelRulesActionBarLogo">@drawable/ic_ab_airasiago_logo</item>
         <item name="skin_flightRulesActionBarLogo">@drawable/ic_ab_airasiago_logo</item>
         <item name="skin_hotelLoginActionBarIcon">@drawable/ic_ab_airasiago_logo</item>
-        <item name="skin_flightLoginActionBarIcon">@drawable/ic_ab_airasiago_logo</item>
         <item name="skin_errorIndicationExclaimationDrawable">@drawable/invalid</item>
 
         <item name="android:actionOverflowButtonStyle">@style/OverflowMenuButton</item>
@@ -136,7 +129,6 @@
         <item name="skin_itinCardOverflowDrawable">@drawable/ic_overflow_white</item>
         <item name="skin_itinCardActionBarCheckmark">@drawable/ic_action_bar_checkmark_white</item>
         <item name="skin_itinCardTitleTextColor">@color/itin_white_text</item>
-        <item name="skin_launchTabIndicatorColor">@color/action_bar_selected_tab_underline_color</item>
         
         <item name="skin_tripsTabText">@string/Your_Trips</item>
     </style>

@@ -26,8 +26,6 @@
         <item name="skin_flightsCostSummaryDialogStripeDrawable">@drawable/dialog_breakdown_stripe_lm</item>
         <item name="skin_actionBarSpinnerBackground">@drawable/ab_spinner_lm</item>
         <item name="skin_actionBarButtonTextColor">@color/action_bar_text_white_lm</item>
-        <item name="skin_loginButtonColor">@android:color/white</item>
-        <item name="skin_hotelBookButtonColor">@android:color/white</item>
         <item name="skin_cvvBookButtonTextColor">@android:color/white</item>
         <item name="skin_hotelPrimaryTravelerInfoLogoDrawable">@drawable/ic_lm_white_logo_small</item>
         <item name="skin_tablet_pin_detail_button_text_color">@color/launch_pin_detail_button_text_lm</item>
@@ -42,7 +40,6 @@
         <item name="skin_hotelRulesActionBarLogo">@drawable/ic_action_bar_brand_logo</item>
         <item name="skin_flightRulesActionBarLogo">@drawable/ic_action_bar_brand_logo</item>
         <item name="skin_hotelLoginActionBarIcon">@drawable/ic_action_bar_brand_logo</item>
-        <item name="skin_flightLoginActionBarIcon">@drawable/ic_logo_flights_lm</item>
         <item name="android:actionOverflowButtonStyle">@style/OverflowMenuButton</item>
         <item name="actionOverflowButtonStyle">@style/OverflowMenuButton</item>
         <item name="skin_confirmationHeaderHotelDividerLineColor">@color/confirmation_header_divider_color</item>
@@ -101,7 +98,6 @@
         <item name="skin_itinCardOverflowDrawable">@drawable/ic_overflow_white</item>
         <item name="skin_itinCardActionBarCheckmark">@drawable/ic_action_bar_checkmark</item>
         <item name="skin_itinCardTitleTextColor">@color/actionbar_text_lm</item>
-        <item name="skin_launchTabIndicatorColor">@color/action_bar_selected_tab_underline_color</item>
         <item name="skin_tripsTabText">@string/Your_Trips</item>
     </style>
 
