@@ -94,8 +94,6 @@
         <item name="skin_HotelRowThumbPlaceHolderDrawable">@drawable/ic_row_thumb_placeholder</item>
         <item name="skin_costSummaryDialogStripeDrawable">@drawable/dialog_breakdown_stripe</item>
         <item name="skin_flightsCostSummaryDialogStripeDrawable">@drawable/border_horizontal_expedia_striped</item>
-        <item name="skin_loginButtonColor">@android:color/black</item>
-        <item name="skin_hotelBookButtonColor">@android:color/black</item>
         <item name="skin_hotelPrimaryTravelerInfoLogoDrawable">@drawable/ic_expedia_white_logo_small</item>
         <item name="skin_hotelImagePlaceHolderDrawable">@drawable/ic_image_placeholder</item>
         <item name="skin_travelerLabelOnCheckout">@string/guest_details</item>
@@ -114,7 +112,6 @@
         <item name="skin_hotelRulesActionBarLogo">@drawable/ic_action_bar_logo_dark</item>
         <item name="skin_flightRulesActionBarLogo">@drawable/ic_action_bar_logo_dark</item>
         <item name="skin_hotelLoginActionBarIcon">@drawable/ic_action_bar_logo_dark</item>
-        <item name="skin_flightLoginActionBarIcon">@drawable/ic_action_bar_logo_dark</item>
         <item name="skin_itinActionOverflowDrawable">@drawable/ic_itin_action_overflow_white</item>
         <item name="skin_tablet_confirmation_book_next_arrow_color">@color/tablet_confirmation_color</item>
         <item name="skin_tablet_confirmation_done_booking_color">@color/tablet_confirmation_color</item>
@@ -219,7 +216,6 @@
         <item name="skin_itinCardOverflowDrawable">@drawable/ic_overflow_white</item>
         <item name="skin_itinCardActionBarCheckmark">@drawable/ic_action_bar_checkmark_white</item>
         <item name="skin_itinCardTitleTextColor">@color/itin_white_text</item>
-        <item name="skin_launchTabIndicatorColor">@color/launch_tab_indicator</item>
         <item name="skin_tripsTabText">@string/trips</item>
     </style>
 
@@ -247,8 +243,7 @@
         <item name="skin_itinCardOverflowDrawable">@drawable/ic_overflow_white</item>
         <item name="skin_itinCardActionBarCheckmark">@drawable/ic_action_bar_checkmark_white</item>
         <item name="skin_itinCardTitleTextColor">@color/itin_white_text</item>
-        
-        <item name="skin_launchTabIndicatorColor">@color/launch_tab_indicator</item>
+
         <item name="skin_tripsTabText">@string/trips</item>
     </style>
 

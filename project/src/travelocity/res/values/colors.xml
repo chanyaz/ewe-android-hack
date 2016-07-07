@@ -5,7 +5,6 @@
     <color name="actionbar_button_background_pressed">#004888</color>
     <color name="hotels_primary_color">#003E74</color>
     <color name="hotel_promo_background">#57A3CC</color>
-    <color name="launch_tab_indicator_tvly">@color/action_bar_text_blue_travelocity</color>
     <color name="launch_toolbar_background_color">@color/bg_blue_color_travelocity</color>
     <color name="action_bar_text_blue_travelocity">#7baed4</color>
     <color name="bg_btn_color_travelocity">#7bae00</color>
@@ -31,7 +30,7 @@
     <color name="destination_list_detail_container_background">#ff070f24</color>
     <color name="accept_terms_color">#608405</color>
     <color name="accept_terms_ripple_color">#7dad06</color>
-    <color name="review_screen_tab_indicator">@color/launch_tab_indicator_tvly</color>
+    <color name="review_screen_tab_indicator">@color/launch_tab_indicator</color>
     <color name="material_checkout_account_button_background_color">@color/hotels_primary_color</color>
     <color name="preferences_text">#495863</color>
     <!-- Calendar text colors -->
@@ -80,4 +79,5 @@
 
     <color name="error_widget_edit_button_selected_color">#033057</color>
     <color name="error_button_color">#003E74</color>
+    <color name="launch_tab_indicator">@color/action_bar_text_blue_travelocity</color>
 </resources>
