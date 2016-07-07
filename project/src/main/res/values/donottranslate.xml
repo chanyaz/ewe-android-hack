@@ -374,14 +374,6 @@
     <string name="pure_entertainment_en">Pure Entertainment</string>
     <string name="eat_play_enjoy_en">Eat, Play &amp; Enjoy</string>
 
-    <!-- First name label hint for KR POS -->
-    <string name="first_name_kr">Gildong</string>
-    <!-- First name label hint for HK POS -->
-    <string name="first_name_hk">Dai Man</string>
-    <!-- First name label hint for KR POS -->
-    <string name="last_name_kr">Hong</string>
-    <!-- First name label hint for HK POS -->
-    <string name="last_name_hk">Chan</string>
     <string name="omniture_tracking_server_url">om.expedia.com</string>
 
     <!-- Plus sign for Expedia+ Reward Points on Hotel Infosite -->
