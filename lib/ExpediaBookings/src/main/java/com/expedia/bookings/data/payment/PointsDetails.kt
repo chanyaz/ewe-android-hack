@@ -3,7 +3,7 @@ package com.expedia.bookings.data.payment
 import com.expedia.bookings.data.Money
 
 data class PointsDetails(
-        val programName: ProgramName,
+        val programName: ProgramName?,
         val isAllowedToRedeem: Boolean,
         val minimumPointsRequiredToRedeem: Int,
         val totalAvailable: PointsAndCurrency,

@@ -147,9 +147,6 @@ public class CurrencyUtils {
 		else if (ProgramName.Companion.valueOf(type) != null) {
 			return PaymentType.POINTS_REWARDS;
 		}
-		else if (PaymentType.valueOf(type) != null) {
-			return PaymentType.valueOf(type);
-		}
 		else {
 			Log.w("Tried to parse an unknown credit card type, name=" + type);
 			return PaymentType.UNKNOWN;
