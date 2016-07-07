@@ -6,6 +6,7 @@ import com.expedia.bookings.data.flights.FlightSearchParams
 import com.expedia.bookings.interceptors.MockInterceptor
 import com.expedia.bookings.services.FlightServices
 import com.expedia.bookings.test.robolectric.RobolectricRunner
+import com.expedia.bookings.utils.DateUtils
 import com.expedia.vm.FlightSearchViewModel
 import com.mobiata.mocke3.ExpediaDispatcher
 import com.mobiata.mocke3.FileSystemOpener
@@ -47,6 +48,30 @@ class FlightSearchViewModelTest {
         server.setDispatcher(ExpediaDispatcher(opener))
         val context = RuntimeEnvironment.application
         vm = FlightSearchViewModel(context, service)
+    }
+
+    @Test
+    fun testFlightSearchDatesOnTabChanges(){
+        val startDate = LocalDate.now().plusDays(3)
+        val endDate = LocalDate.now().plusDays(8)
+        val expectedStartDate = DateUtils.localDateToMMMd(startDate)
+        val expectedEndDate = DateUtils.localDateToMMMd(endDate)
+
+        vm.datesObserver.onNext(Pair(startDate, endDate))
+        assertEquals(null, vm.cachedEndDateObservable.value)
+        assertEquals("$expectedStartDate - $expectedEndDate", vm.dateTextObservable.value)
+
+        vm.isRoundTripSearchObservable.onNext(false)
+        assertEquals(endDate, vm.cachedEndDateObservable.value)
+        assertEquals("$expectedStartDate (One Way)", vm.dateTextObservable.value)
+
+        val newStartDate = LocalDate.now().plusDays(20)
+        val expectedNewStartDate = DateUtils.localDateToMMMd(newStartDate)
+
+        vm.datesObserver.onNext(Pair(newStartDate, null))
+        vm.isRoundTripSearchObservable.onNext(true)
+        assertEquals(null, vm.cachedEndDateObservable.value)
+        assertEquals("$expectedNewStartDate – Select return date", vm.dateTextObservable.value)
     }
 
     @Test

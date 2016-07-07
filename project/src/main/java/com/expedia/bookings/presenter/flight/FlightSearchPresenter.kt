@@ -39,7 +39,8 @@ open class FlightSearchPresenter(context: Context, attrs: AttributeSet) : BaseTw
         searchButton.subscribeOnClick(vm.searchObserver)
         vm.formattedOriginObservable.subscribe { text -> originCardView.setText(text) }
         vm.formattedDestinationObservable.subscribe {
-            text -> destinationCardView.setText(if (text.isNotEmpty()) text else context.resources.getString(R.string.fly_to_hint))
+            text ->
+            destinationCardView.setText(if (text.isNotEmpty()) text else context.resources.getString(R.string.fly_to_hint))
             if (this.visibility == VISIBLE && vm.startDate() == null && text.isNotEmpty()) {
                 calendarWidgetV2.showCalendarDialog()
             }
@@ -76,7 +77,7 @@ open class FlightSearchPresenter(context: Context, attrs: AttributeSet) : BaseTw
 
         tabs.setupWithViewPager(viewpager)
 
-        tabs.setOnTabSelectedListener(object: TabLayout.OnTabSelectedListener {
+        tabs.setOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
             override fun onTabReselected(tab: TabLayout.Tab?) {
                 // do nothing
             }
@@ -86,7 +87,6 @@ open class FlightSearchPresenter(context: Context, attrs: AttributeSet) : BaseTw
             }
 
             override fun onTabSelected(tab: TabLayout.Tab) {
-                searchViewModel.resetDates()
                 val isRoundTripSearch = tab.position == 0
                 searchViewModel.isRoundTripSearchObservable.onNext(isRoundTripSearch)
             }

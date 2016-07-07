@@ -29,6 +29,7 @@ class FlightSearchViewModel(context: Context, val flightServices: FlightServices
 
     // Outputs
     val searchParamsObservable = PublishSubject.create<FlightSearchParams>()
+    val cachedEndDateObservable = BehaviorSubject.create<LocalDate?>()
     val outboundResultsObservable = PublishSubject.create<List<FlightLeg>>()
     val inboundResultsObservable = PublishSubject.create<List<FlightLeg>>()
     val flightProductId = PublishSubject.create<String>()
@@ -82,6 +83,20 @@ class FlightSearchViewModel(context: Context, val flightServices: FlightServices
         }
 
         flightOfferSelected.map { it.mayChargeOBFees }.subscribe(offerSelectedChargesObFeesSubject)
+
+        isRoundTripSearchObservable.subscribe { isRoundTripSearch ->
+            if (datesObservable.value != null) {
+                val cachedEndDate = cachedEndDateObservable.value
+                if (isRoundTripSearch && cachedEndDate != null && startDate()?.isBefore(cachedEndDate) ?: false) {
+                    datesObserver.onNext(Pair(startDate(), cachedEndDate))
+                } else {
+                    cachedEndDateObservable.onNext(endDate())
+                    datesObserver.onNext(Pair(startDate(), null))
+                }
+            } else {
+                dateTextObservable.onNext(context.resources.getString(if (isRoundTripSearch) R.string.select_dates else R.string.select_departure_date))
+            }
+        }
     }
 
     override fun sameStartAndEndDateAllowed(): Boolean {
