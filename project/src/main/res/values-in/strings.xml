@@ -301,8 +301,10 @@
     <string name="missing_flight_info_button_prompt">Pilih Bandara</string>
 
     <!-- LX -->
-    <!-- LX toolbar Date Range e.g. May 05 - May 10 -->
-    <string name="lx_toolbar_date_range_template">%1$s - %2$s</string>
+    <!-- LX Toolbar Date Range e.g. May 05 - May 10 -->
+    <string name="lx_toolbar_date_range_TEMPLATE">{from_date} - {to_date}</string>
+    <!-- LX Toolbar Date Range Cont Desc e.g. May 05 to May 10 -->
+    <string name="lx_toolbar_date_range_cont_desc_TEMPLATE">{from_date} ke {to_date}</string>
     <!--LX Search widget header text -->
     <string name="lx_search_title">Cari Aktivitas</string>
     <!--LX Search widget header text -->
@@ -1002,6 +1004,11 @@
     <string name="nav_lx">Aktivitas</string>
     <!-- Ground Transport -->
     <string name="nav_transport">Transportasi</string>
+    <!-- Packages -->
+    <string name="nav_packages">Promo Package</string>
+    <!-- Rail -->
+    <string name="nav_rail">Kereta</string>
+
 
     <!-- New launch screen -->
     <!-- Top deals tonight -->
@@ -1129,30 +1136,30 @@
     <string name="yesterday">Kemarin</string>
     <!-- "XX Minutes" - an event happening XX minutes in the future -->
     <plurals name="minutes_from_now">
-        <item quantity="zero">%s menit</item>
-        <item quantity="one">%s menit</item>
-        <item quantity="two">%s menit</item>
-        <item quantity="few">%s menit</item>
-        <item quantity="many">%s menit</item>
-        <item quantity="other">%s menit</item>
+        <item quantity="zero">{minutes} menit</item>
+        <item quantity="one">{minutes} menit</item>
+        <item quantity="two">{minutes} menit</item>
+        <item quantity="few">{minutes} menit</item>
+        <item quantity="many">{minutes} menit</item>
+        <item quantity="other">{minutes} menit</item>
     </plurals>
     <!-- "XX Hours" - an event happening XX hours in the future -->
     <plurals name="hours_from_now">
-        <item quantity="zero">%s jam</item>
-        <item quantity="one">%s jam</item>
-        <item quantity="two">%s jam</item>
-        <item quantity="few">%s jam</item>
-        <item quantity="many">%s jam</item>
-        <item quantity="other">%s jam</item>
+        <item quantity="zero">{hours} jam</item>
+        <item quantity="one">{hours} jam</item>
+        <item quantity="two">{hours} jam</item>
+        <item quantity="few">{hours} jam</item>
+        <item quantity="many">{hours} jam</item>
+        <item quantity="other">{hours} jam</item>
     </plurals>
     <!-- "XX Days" an event happening XX days in the future -->
     <plurals name="days_from_now">
-        <item quantity="zero">%s hari</item>
-        <item quantity="one">%s hari</item>
-        <item quantity="two">%s hari</item>
-        <item quantity="few">%s hari</item>
-        <item quantity="many">%s hari</item>
-        <item quantity="other">%s hari</item>
+        <item quantity="zero">{days} hari</item>
+        <item quantity="one">{days} hari</item>
+        <item quantity="two">{days} hari</item>
+        <item quantity="few">{days} hari</item>
+        <item quantity="many">{days} hari</item>
+        <item quantity="other">{days} hari</item>
     </plurals>
     <!-- Shared Itin - Fallback name for itin card -->
     <string name="sharedItin_card_fallback_name">Itinerary yang dibagikan</string>
@@ -1656,6 +1663,13 @@
     <string name="flights_outbound_label">Berangkat</string>
     <!-- Flights Line of Business title -->
     <string name="flights_title">Penerbangan</string>
+    <!-- Flights payment fees info web view title -->
+    <string name="flights_flight_overview_payment_fees">Info Biaya Pembayaran</string>
+    <!-- Flights Free Cancellation messaging -->
+    <string name="flights_free_cancellation">Pembatalan gratis dalam 24 jam</string>
+    <!-- Card fee warning text on checkout overview.
+        Example: The airline charges a processing fee of $3.00 for using this card (cost included in the trip total). -->
+    <string name="flights_card_fee_warning_TEMPLATE">Maskapai mengenakan biaya pemrosesan sebesar {card_fee} untuk menggunakan kartu ini (biaya sudah dimasukkan dalam total harga).</string>
 
     <!-- Flights -->
     <!-- Label for Flight Search in task manager -->
@@ -1892,8 +1906,8 @@
     <string name="card_info">Informasi Kartu</string>
 
     <!-- Edit CreditCard Fragment -->
-    <!-- Airline processing fee for this card: <Dollar Amount> (e.g. Airling processing fee for this card: $5) -->
-    <string name="airline_processing_fee_TEMPLATE">Biaya pemrosesan maskapai untuk kartu ini: &lt;b&gt;%1$s&lt;/b&gt;</string>
+    <!-- Airline processing fee for this card. Example: Airline processing fee for this card: $5 -->
+    <string name="airline_processing_fee_TEMPLATE">Biaya pemrosesan maskapai untuk kartu ini: &lt;b&gt;{card_fee}&lt;/b&gt;</string>
     <!-- Airline does not accept <Credit Card Brand> (e.g. "Airline does not accept Visa") -->
     <string name="airline_does_not_accept_cardtype_TEMPLATE">Maskapai penerbangan ini tidak menerima %1$s</string>
     <!-- Hotel does not accept <Credit Card Brand> (e.g. "Hotel does not accept Visa") -->
@@ -3777,6 +3791,28 @@
     <!-- Content description for action: Press to filter for hotels within a mid-distance radius from your search location -->
     <string name="pay_later_cont_desc">Tekan tombol ini untuk membayar belakangan</string>
 
+    <!-- Content description for Cars filter button -->
+    <string name="cars_filter_button_cont_desc">Tombol filter</string>
+    <!-- Content description for car result door count e.g. Doors 2-4 -->
+    <string name="cars_door_count_cont_desc_TEMPLATE">Pintu {doorcount}</string>
+    <!-- Content description for car result passenger count e.g. Passengers 2-4 -->
+    <string name="cars_passenger_count_cont_desc_TEMPLATE">Penumpang {passengercount}</string>
+    <!-- Content description for car result bags count e.g. Bags 2-4 -->
+    <string name="cars_bags_count_cont_desc_TEMPLATE">Bagasi {bagscount}</string>
+
+    <!-- Content descriptions for Cars filter transmission buttons -->
+    <string name="cars_filter_transmission_manual_button_selected_cont_desc">Transmisi manual</string>
+    <string name="cars_filter_transmission_automatic_button_selected_cont_desc">Transmisi matic</string>
+    <string name="cars_filter_transmission_all_button_selected_cont_desc">Semua transmisi</string>
+    <string name="cars_filter_transmission_manual_button_unselected_cont_desc">Transmisi manual. Tidak dipilih</string>
+    <string name="cars_filter_transmission_automatic_button_unselected_cont_desc">Transmisi matic. Tidak dipilih</string>
+    <string name="cars_filter_transmission_all_button_unselected_cont_desc">Semua transmisi. Tidak dipilih</string>
+
+    <!-- Content description for car offer reserve button e.g. Dollar, Chevrolet Spark or Similar, Reserve button-->
+    <string name="cars_offer_reserve_button_cont_desc_TEMPLATE">{vendor}, {make}, tombol pesan</string>
+    <!-- Content description for car offer view details button e.g. Dollar, Chevrolet Spark or Similar, View details button-->
+    <string name="cars_offer_view_details_button_cont_desc_TEMPLATE">{vendor}, {make}, tombol lihat rincian</string>
+
     <!-- Tablet Confirmation Screen -->
     <!-- Header text to indicating booking confirmed for hotel -->
     <string name="tablet_confirmation_hotel_booked">Hotel Anda telah dipesan!</string>
@@ -3908,12 +3944,12 @@
     <string name="package_overview_flight_travel_info_TEMPLATE">%1$s pukul %2$s, %3$s</string>
     <!-- Template for package bundle total savings amount -->
     <string name="bundle_total_savings_TEMPLATE">Hemat {savings}</string>
-    <!-- Bundle Overview select hotel accessibility content description -->
-    <string name="select_hotel_cont_desc_TEMPLATE">Pencarian selesai, tekan tombol ini untuk memilih hotel di {destination} dari {startdate} hingga {enddate}, untuk {guests}</string>
-    <!-- Bundle Overview select hotel accessibility content description when still searching -->
+    <!-- Bundle Overview select hotel accessibility content description Eg. Search completed. Select a hotel in Detroit from Jun 23 to Jun 24, for 1 guest. Button -->
+    <string name="select_hotel_cont_desc_TEMPLATE">Pencarian selesai. Pilih hotel di {destination} dari {startdate} hingga {enddate}, untuk {guests} orang. Tombol</string>
+    <!-- Bundle Overview select hotel accessibility content description when still searching Eg. Searching for hotels in Detroit from Jun 23 to Jun 24, for 1 guest. Please wait -->
     <string name="select_hotel_searching_cont_desc_TEMPLATE">Mencari hotel di {destination} dari {startdate} hingga {enddate}, untuk {guests}. Harap tunggu</string>
-    <!-- Bundle Overview selected hotel accessibility content description -->
-    <string name="select_hotel_selected_cont_desc_TEMPLATE">Anda telah memilih hotel {hotel} dari {startdate} hingga {enddate}, untuk {guests}. Tekan tombol ini untuk menampilkan rincian.</string>
+    <!-- Bundle Overview selected hotel accessibility content description Eg. You have selected hotel Orion from Jun 23 to June 24, for 1 guest. Button to expand hotel details. -->
+    <string name="select_hotel_selected_cont_desc_TEMPLATE">Anda telah memilih hotel {hotel} dari {startdate} hingga {enddate}, untuk {guests}. Rincian hotel {expandstate}</string>
     <!-- Bundle Overview select hotel -->
     <string name="select_hotel_template">Pilih hotel di %s</string>
     <!-- Bundle Overview searching flight -->
@@ -3934,18 +3970,24 @@
         <item quantity="other">2+ transit</item>
     </plurals>
 
+    <!-- Flight Nonstop description -->
+    <string name="flight_nonstop_description">Langsung</string>
     <!-- Flight duration template e.g. 1d 12h 42m (Nonstop) -->
     <string name="flight_duration_description_template">%1$s (%2$s)</string>
     <!-- Flight hour duration template e.g. 12h 42m -->
     <string name="flight_hour_min_duration_template">%1$dj %2$dm</string>
     <!-- Flight min duration template e.g. 1d 12h 42m (2hr layover) -->
     <string name="flight_min_duration_template">%1$dm</string>
-    <!-- Flight Nonstop description -->
-    <string name="flight_nonstop_description">Langsung</string>
+
     <!-- Flight departure arrival time in multi days e.g. 5:15 pm - 7:48 am +1d -->
     <string name="flight_departure_arrival_time_multi_day_template">%1$s - %2$s +%3$dhr</string>
+    <!-- Accessible text for Flight departure arrival time same day e.g. 5:15 pm to 7:48 pm plus 1d -->
+    <string name="flight_departure_arrival_time_multi_day_cont_desc_TEMPLATE">{departuretime} sampai {arrivaltime} plus {elapseddays}h</string>
     <!-- Flight departure arrival time same day e.g. 5:15 pm - 7:48 pm -->
     <string name="flight_departure_arrival_time_template">%1$s - %2$s</string>
+    <!-- Accessible text for Flight departure arrival time same day e.g. 5:15 pm to 7:48 pm -->
+    <string name="flight_departure_arrival_time_cont_desc_TEMPLATE">{departuretime} ke {arrivaltime}</string>
+
     <!-- Select flight to template -->
     <string name="select_flight_to">Pilih penerbangan ke %1$s</string>
     <!-- Flight to template -->
@@ -4059,6 +4101,9 @@
     <!--rail search screen - user is specifiying what time they want their return train to leave at -->
     <string name="rail_returning_at">Kembali ke</string>
 
+    <!-- rail checkout overview label for outbound  e.g. "Outbound - Thu Jun 23"-->
+    <string name="rail_checkout_outbound_TEMPLATE">Berangkat - {date}</string>
+
     <!-- Label for rail trip price on overview screen -->
     <string name="total">Total</string>
 
@@ -4092,6 +4137,8 @@
     <string name="yay_going_somewhere">Anda akan pergi ke</string>
     <!-- Cars cross-sell message on package confirmation -->
     <string name="rental_car_message">Butuh mobil sewa?</string>
+    <!-- Cars cross-sell origin description template-->
+    <string name="cars_cross_sell_origin_TEMPLATE">{airport_code}-{airport_localname}</string>
     <!-- Cars cross-sell message description on package confirmation -->
     <string name="rental_car_message_desc">Pesan mobil dan hemat biaya</string>
     <!-- Fly from hint -->
@@ -4130,28 +4177,106 @@
     <string name="reward_middle_tier_name_short">+silver</string>
     <!-- Short name for rewards top tier -->
     <string name="reward_top_tier_name_short">+gold</string>
-    <!-- Flight Detail card view content description for accessibility.
-         Example: Flight time is 10am - 12:30pm with price difference of $25. Flying with United and the flight duration is 2 hours 30 minutes. Click to view flight details -->
-    <string name="flight_detail_card_cont_desc_TEMPLATE">Waktu penerbangan adalah {time} dengan selisih harga {pricedifference}. Terbang bersama {airline} dengan durasi penerbangan {hours} jam {minutes} menit. Klik untuk melihat rincian penerbangan</string>
 
     <!--Packages search accessibility -->
-    <!--Flying to card content description Eg. Flying to San Francisco, CA (SFO-San Francisco Intl.)-->
-    <string name="search_flying_to_destination_cont_desc_TEMPLATE">Terbang ke {to_destination}</string>
-    <!--Flying from card content description Eg. Flying from Detroit, MI (DTW-Detroit Metropolitan Wayne County)-->
-    <string name="search_flying_from_destination_cont_desc_TEMPLATE">Terbang dari {from_destination}</string>
+    <!-- Flight Detail card view content description for accessibility.
+    Eg. Flight time is 9:00 am - 11:12 am with price difference of +$0. Flying with United. The flight duration is 5 hours 12 minutes with 0 stops. -->
+    <string name="flight_detail_card_cont_desc_TEMPLATE">Waktu penerbangan adalah {time} dengan selisih harga {pricedifference}. Terbang dengan {airline}. Lama penerbangan adalah {hours} {minutes} dengan {stops} transit.</string>
+    <!--Flight Detail card view - flight duration content description for accessibility Eg. SFO to DTM. 3 hours 15 minutes.-->
+    <string name="flight_detail_flight_duration_card_cont_desc_TEMPLATE">{departureairport} ke {arrivalairport}. {durationhours} {durationmins}.</string>
+    <!--Flight Detail card view - layover duration content description for accessibility Eg. Layover. 2 hours 4 minutes.-->
+    <string name="flight_detail_layover_duration_card_cont_desc_TEMPLATE">Transit. {layoverhours} {layovermins}.</string>
+    <!--Flying to card content description Eg. Flying to. Button. San Francisco, CA (SFO-San Francisco Intl.)-->
+    <string name="search_flying_to_destination_cont_desc_TEMPLATE">Terbang ke. Tombol. {to_destination}</string>
+    <!--Flying from card content description Eg. Flying from. Button. Detroit, MI (DTW-Detroit Metropolitan Wayne County)-->
+    <string name="search_flying_from_destination_cont_desc_TEMPLATE">Terbang dari. Tombol. {from_destination}</string>
     <!--Flying to card content description before a location is selected-->
-    <string name="packages_search_flying_to_cont_desc">Klik di sini untuk memilih ke mana tujuan penerbangan Anda</string>
+    <string name="packages_search_flying_to_cont_desc">Terbang ke. Tombol</string>
     <!--Flying from card content description before a location is selected-->
-    <string name="packages_search_flying_from_cont_desc">Klik di sini untuk memilih dari mana asal penerbangan Anda</string>
+    <string name="packages_search_flying_from_cont_desc">Terbang dari. Tombol</string>
     <!--Travel dates card content description before date range is selected-->
-    <string name="packages_search_dates_cont_desc">Klik di sini untuk memilih tanggal perjalanan Anda</string>
+    <string name="packages_search_dates_cont_desc">Pilih tanggal perjalanan. Tombol. Buka kotak</string>
     <!--Packages search date format template for accessible dates (Talkback announces date range with 'to' in between) Eg. Jun 2 to Jun 5-->
     <string name="packages_search_date_range_cont_desc_TEMPLATE">{startdate} ke {enddate}</string>
-    <!--Packages search dates content description for Talkback to indicate what the date range is and how many nights the trip is for-->
-    <string name="trip_search_date_range_cont_desc_TEMPLATE">Perjalanan Anda adalah dari tanggal {date_range} untuk {nights} malam</string>
+    <!--Packages search dates content description for Talkback to indicate what the date range is and how many nights the trip is for Eg. Trip dates. Button. Opens dialog. Jun 22 to Jun 25. (3 nights)-->
+    <string name="trip_search_date_range_cont_desc_TEMPLATE">Tanggal perjalanan. Tombol. Buka kotak. {date_range}. {nights}</string>
+    <!--Packages search travelers card content description template. Eg. Number of travelers. Button. Opens dialog. 1 traveler-->
+    <plurals name="packages_search_travelers_cont_desc_TEMPLATE">
+        <item quantity="one">Jumlah traveler. Tombol. Buka kotak. {travelers} traveler</item>
+        <item quantity="other">Jumlah traveler. Tombol. Buka kotak. {travelers} traveler</item>
+    </plurals>
+    <!--Traveler widget adults plus button content description-->
+    <string name="packages_add_adult_traveler_cont_desc">Tambah satu traveler dewasa</string>
+    <!--Traveler widget adults minus button content description-->
+    <string name="packages_remove_adult_traveler_cont_desc">Hapus satu traveler dewasa</string>
+    <!--Traveler widget child plus button content description-->
+    <string name="packages_add_child_traveler_cont_desc">Tambah satu traveler anak</string>
+    <!--Traveler widget child minus button content description-->
+    <string name="packages_remove_child_traveler_cont_desc">Hapus satu traveler anak</string>
+    <!--Packages search child age drop down content description Eg. "Select age for child 1."-->
+    <string name="search_child_drop_down_cont_desc_TEMPLATE">Pilih usia anak {childnumber}.</string>
     <!--Packages accessibility flight search filter-->
     <!--Content description for "SHOW MORE" button in filter used for Talkback-->
-    <string name="packages_flight_search_filter_show_more_cont_desc">Klik di sini untuk melihat pilihan maskapai lainnya</string>
+    <string name="packages_flight_search_filter_show_more_cont_desc">Tampilkan maskapai lainnya. Tombol</string>
     <!--Content description for "SHOW LESS" button in filter used for Talkback-->
-    <string name="packages_flight_search_filter_show_less_cont_desc">Klik di sini untuk menutup pilihan maskapai lainnya</string>
+    <string name="packages_flight_search_filter_show_less_cont_desc">Sembunyikan maskapai lainnya. Tombol</string>
+    <!--Content description for clear button in filter used for Talkback-->
+    <string name="packages_flight_search_filter_clear_button_cont_desc">Hapus Filter. Tombol</string>
+    <!--Content description for Bundle total widget. Example: Bundle total is $1,234.00. This price includes taxes, fees for both flights and hotel. $100.00 Saved-->
+    <string name="bundle_overview_price_widget">Total package adalah {totalprice}. Harga ini mencakup pajak dan biaya untuk tiket pesawat dan hotel. {savings}</string>
+    <!--Content description for Bundle total widget. Example: Bundle total is $1,234.00. This price includes taxes, fees for both flights and hotel. $100.00 Saved. Cost Breakdown dialog. Button.-->
+    <string name="bundle_total_price_widget_cost_breakdown_cont_desc_TEMPLATE">Total package adalah {totalprice}. Harga ini mencakup pajak dan biaya untuk tiket pesawat dan hotel. {savings}. Kotak Rincian Biaya. Tombol.</string>
+    <!--Content description for Bundle sliding widget, with instruction to expand to show more details. Example: Bundle total is $1,234.00 per person. This price includes taxes, fees for both flights and hotel. $100.00 Saved. Button to view bundle.-->
+    <string name="bundle_overview_price_widget_button_open_TEMPLATE">Harga package adalah {price_per_person} per orang. Harga ini mencakup pajak dan biaya untuk tiket pesawat dan hotel. Tombol untuk melihat package.</string>
+    <!--Content description for Bundle sliding widget, when it's opened.-->
+    <string name="bundle_overview_price_widget_button_close">Menampilkan rincian package. Tombol untuk menutup.</string>
+    <!--Packages bundle overview hotel drop down (expand) content description for accessibility-->
+    <string name="select_hotel_selected_expand_cont_desc">buka</string>
+    <!--Packages bundle overview hotel drop down (collapse) content description for accessibility-->
+    <string name="select_hotel_selected_collapse_cont_desc">tutup</string>
+    <!-- Package filter checkbox.
+        Example #1: 3 available NonStop flights.
+        Example #2: 2 available Hawaiian Airlines flights. -->
+    <string name="packages_flight_filter_checkbox_cont_desc_TEMPLATE">Tersedia {filter_results} penerbangan {filter_name}.</string>
+
+    <!--LX accessibility -->
+    <!--LX search accessibility -->
+    <string name="lx_location_edit_box_cont_desc">Lokasi Atraksi</string>
+
+    <!--LX infosite accessibility -->
+    <!-- LX infosite section Highlights, description etc have a caret icon to read more content -->
+    <string name="lx_read_more_cont_desc">Tombol buka info lengkap.</string>
+    <!-- LX infosite section Highlights, description etc have a caret icon to read less content -->
+    <string name="lx_read_less_cont_desc">Tombol tutup info lengkap.</string>
+    <!-- Content description for LX add ticket button e.g. Add adult Button -->
+    <string name="lx_add_ticket_button_cont_desc_TEMPLATE">Tambah {traveler}</string>
+    <!-- Content description for LX remove ticket button e.g. Remove child Button -->
+    <string name="lx_remove_ticket_button_cont_desc_TEMPLATE">Hapus {traveler}</string>
+
+    <!-- Generic content description -->
+    <!-- Content description for toolbar 'X' i.e. close/back button -->
+    <string name="toolbar_search_nav_icon_cont_desc">Kembali</string>
+    <string name="toolbar_search_nav_icon_close_cont_desc">Tutup</string>
+    <string name="search_button_cont_desc">Tombol Cari</string>
+    <!-- Content description for LX Duration e.g. Duration 2d -->
+    <string name="search_result_duration_cont_desc_TEMPLATE">Durasi {duration}</string>
+    <!-- Content description for LX Multiple Duration e.g. Duration 2d + -->
+    <string name="search_result_multiple_duration_cont_desc_TEMPLATE">Durasi {duration} lebih</string>
+
+    <!--Packages accessibility content description for role Button-->
+    <string name="accessibility_cont_desc_role_button">Tombol</string>
+    <!--Packages accessibility content description for role - Button to expand -->
+    <string name="accessibility_cont_desc_role_button_expand">Tombol untuk membuka</string>
+    <!--Packages accessibility content description for role - Button to collapse -->
+    <string name="accessibility_cont_desc_role_button_collapse">Tombol untuk menutup</string>
+
+    <!-- LX SRP activity price content description when no discount e.g. Price is $30 -->
+    <string name="activity_price_without_discount_cont_desc_TEMPLATE">Harga adalah {activity_price}</string>
+
+    <!-- LX SRP activity price content description when price is discounted e.g. Price is $180. Price before discount was $230 -->
+    <string name="activity_price_with_discount_cont_desc_TEMPLATE">Harga adalah {activity_price}. Harga sebelum diskon adalah {activity_original_price}</string>
+    <!-- Content description for Checkbox types, state Checked -->
+    <string name="accessibility_cont_desc_role_checkbox_checked">Kotak centang. Dicentang.</string>
+    <!-- Content description for Checkbox types, state Unchecked -->
+    <string name="accessibility_cont_desc_role_checkbox_unchecked">Kotak centang. Tidak dicentang.</string>
 </resources>

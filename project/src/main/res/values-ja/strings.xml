@@ -301,8 +301,10 @@
     <string name="missing_flight_info_button_prompt">空港を選択</string>
 
     <!-- LX -->
-    <!-- LX toolbar Date Range e.g. May 05 - May 10 -->
-    <string name="lx_toolbar_date_range_template">%1$s - %2$s</string>
+    <!-- LX Toolbar Date Range e.g. May 05 - May 10 -->
+    <string name="lx_toolbar_date_range_TEMPLATE">{from_date} - {to_date}</string>
+    <!-- LX Toolbar Date Range Cont Desc e.g. May 05 to May 10 -->
+    <string name="lx_toolbar_date_range_cont_desc_TEMPLATE">{from_date} ～ {to_date}</string>
     <!--LX Search widget header text -->
     <string name="lx_search_title">現地オプショナルツアーを検索</string>
     <!--LX Search widget header text -->
@@ -1002,6 +1004,11 @@
     <string name="nav_lx">現地ツアー</string>
     <!-- Ground Transport -->
     <string name="nav_transport">交通手段</string>
+    <!-- Packages -->
+    <string name="nav_packages">お得なツアー (航空券 + ホテル)</string>
+    <!-- Rail -->
+    <string name="nav_rail">鉄道</string>
+
 
     <!-- New launch screen -->
     <!-- Top deals tonight -->
@@ -1129,30 +1136,30 @@
     <string name="yesterday">昨日</string>
     <!-- "XX Minutes" - an event happening XX minutes in the future -->
     <plurals name="minutes_from_now">
-        <item quantity="zero">%s 分</item>
-        <item quantity="one">%s 分</item>
-        <item quantity="two">%s 分</item>
-        <item quantity="few">%s 分</item>
-        <item quantity="many">%s 分</item>
-        <item quantity="other">%s 分</item>
+        <item quantity="zero">{minutes} 分</item>
+        <item quantity="one">{minutes} 分</item>
+        <item quantity="two">{minutes} 分</item>
+        <item quantity="few">{minutes} 分</item>
+        <item quantity="many">{minutes} 分</item>
+        <item quantity="other">{minutes} 分</item>
     </plurals>
     <!-- "XX Hours" - an event happening XX hours in the future -->
     <plurals name="hours_from_now">
-        <item quantity="zero">%s 時間</item>
-        <item quantity="one">%s 時間</item>
-        <item quantity="two">%s 時間</item>
-        <item quantity="few">%s 時間</item>
-        <item quantity="many">%s 時間</item>
-        <item quantity="other">%s 時間</item>
+        <item quantity="zero">{hours} 時間</item>
+        <item quantity="one">{hours} 時間</item>
+        <item quantity="two">{hours} 時間</item>
+        <item quantity="few">{hours} 時間</item>
+        <item quantity="many">{hours} 時間</item>
+        <item quantity="other">{hours} 時間</item>
     </plurals>
     <!-- "XX Days" an event happening XX days in the future -->
     <plurals name="days_from_now">
-        <item quantity="zero">%s 日</item>
-        <item quantity="one">%s 日</item>
-        <item quantity="two">%s 日</item>
-        <item quantity="few">%s 日</item>
-        <item quantity="many">%s 日</item>
-        <item quantity="other">%s 日</item>
+        <item quantity="zero">{days} 日</item>
+        <item quantity="one">{days} 日</item>
+        <item quantity="two">{days} 日</item>
+        <item quantity="few">{days} 日</item>
+        <item quantity="many">{days} 日</item>
+        <item quantity="other">{days} 日</item>
     </plurals>
     <!-- Shared Itin - Fallback name for itin card -->
     <string name="sharedItin_card_fallback_name">シェアされた旅程</string>
@@ -1656,6 +1663,13 @@
     <string name="flights_outbound_label">往路 (行き)</string>
     <!-- Flights Line of Business title -->
     <string name="flights_title">航空券</string>
+    <!-- Flights payment fees info web view title -->
+    <string name="flights_flight_overview_payment_fees">お支払い料金情報</string>
+    <!-- Flights Free Cancellation messaging -->
+    <string name="flights_free_cancellation">予約後 24 時間以内ならキャンセル手数料無料 !</string>
+    <!-- Card fee warning text on checkout overview.
+        Example: The airline charges a processing fee of $3.00 for using this card (cost included in the trip total). -->
+    <string name="flights_card_fee_warning_TEMPLATE">航空会社によりこのカードのご利用には、{card_fee} の手数料が課金されます (料金は合計旅行金額に含まれています)。</string>
 
     <!-- Flights -->
     <!-- Label for Flight Search in task manager -->
@@ -1892,8 +1906,8 @@
     <string name="card_info">カード情報</string>
 
     <!-- Edit CreditCard Fragment -->
-    <!-- Airline processing fee for this card: <Dollar Amount> (e.g. Airling processing fee for this card: $5) -->
-    <string name="airline_processing_fee_TEMPLATE">航空会社によるこのカードの手数料 : &lt;b&gt;%1$s&lt;/b&gt;</string>
+    <!-- Airline processing fee for this card. Example: Airline processing fee for this card: $5 -->
+    <string name="airline_processing_fee_TEMPLATE">航空会社によるこのカードの手数料 : &lt;b&gt;{card_fee}&lt;/b&gt;</string>
     <!-- Airline does not accept <Credit Card Brand> (e.g. "Airline does not accept Visa") -->
     <string name="airline_does_not_accept_cardtype_TEMPLATE">この航空会社では、%1$s のカードはご利用いただけません</string>
     <!-- Hotel does not accept <Credit Card Brand> (e.g. "Hotel does not accept Visa") -->
@@ -3777,6 +3791,28 @@
     <!-- Content description for action: Press to filter for hotels within a mid-distance radius from your search location -->
     <string name="pay_later_cont_desc">ボタンをタップして後からお支払い</string>
 
+    <!-- Content description for Cars filter button -->
+    <string name="cars_filter_button_cont_desc">ボタンの絞り込み</string>
+    <!-- Content description for car result door count e.g. Doors 2-4 -->
+    <string name="cars_door_count_cont_desc_TEMPLATE">{doorcount}ドア</string>
+    <!-- Content description for car result passenger count e.g. Passengers 2-4 -->
+    <string name="cars_passenger_count_cont_desc_TEMPLATE">{passengercount} 人乗り</string>
+    <!-- Content description for car result bags count e.g. Bags 2-4 -->
+    <string name="cars_bags_count_cont_desc_TEMPLATE">手荷物 {bagscount} 個</string>
+
+    <!-- Content descriptions for Cars filter transmission buttons -->
+    <string name="cars_filter_transmission_manual_button_selected_cont_desc">マニュアル トランスミッション</string>
+    <string name="cars_filter_transmission_automatic_button_selected_cont_desc">オートマチック トランスミッション</string>
+    <string name="cars_filter_transmission_all_button_selected_cont_desc">すべてのトランスミッション</string>
+    <string name="cars_filter_transmission_manual_button_unselected_cont_desc">マニュアル トランスミッション。未選択</string>
+    <string name="cars_filter_transmission_automatic_button_unselected_cont_desc">オートマチック トランスミッション。未選択</string>
+    <string name="cars_filter_transmission_all_button_unselected_cont_desc">すべてのトランスミッション。未選択</string>
+
+    <!-- Content description for car offer reserve button e.g. Dollar, Chevrolet Spark or Similar, Reserve button-->
+    <string name="cars_offer_reserve_button_cont_desc_TEMPLATE">レンタカー会社 {vendor}、車種 {make}、予約ボタン</string>
+    <!-- Content description for car offer view details button e.g. Dollar, Chevrolet Spark or Similar, View details button-->
+    <string name="cars_offer_view_details_button_cont_desc_TEMPLATE">レンタカー会社{vendor}、車種 {make}、詳細の表示ボタン</string>
+
     <!-- Tablet Confirmation Screen -->
     <!-- Header text to indicating booking confirmed for hotel -->
     <string name="tablet_confirmation_hotel_booked">ホテルのご予約が完了しました !</string>
@@ -3908,12 +3944,12 @@
     <string name="package_overview_flight_travel_info_TEMPLATE">%1$s %2$s、%3$s</string>
     <!-- Template for package bundle total savings amount -->
     <string name="bundle_total_savings_TEMPLATE">{savings}保存済み</string>
-    <!-- Bundle Overview select hotel accessibility content description -->
-    <string name="select_hotel_cont_desc_TEMPLATE">ホテルの検索が完了しました。{destination}のホテルを選択するには、このボタンをクリックしてください。チェックイン日は {startdate}、チェックアウト日は {enddate}、宿泊人数は {guests} 人です</string>
-    <!-- Bundle Overview select hotel accessibility content description when still searching -->
+    <!-- Bundle Overview select hotel accessibility content description Eg. Search completed. Select a hotel in Detroit from Jun 23 to Jun 24, for 1 guest. Button -->
+    <string name="select_hotel_cont_desc_TEMPLATE">検索が完了しました。チェックイン日 {startdate}、チェックアウト日 {enddate}、宿泊人数 {guests} 人で{destination}のホテルを選択します。ボタン</string>
+    <!-- Bundle Overview select hotel accessibility content description when still searching Eg. Searching for hotels in Detroit from Jun 23 to Jun 24, for 1 guest. Please wait -->
     <string name="select_hotel_searching_cont_desc_TEMPLATE">チェックイン日 {startdate}、チェックアウト日 {enddate}、宿泊人数 {guests} 人で{destination}のホテルを検索しています。お待ちください</string>
-    <!-- Bundle Overview selected hotel accessibility content description -->
-    <string name="select_hotel_selected_cont_desc_TEMPLATE">ホテル「{hotel}」を選択しました。チェックイン日は {startdate}、チェックアウト日は {enddate}、宿泊人数は {guests} 人です。詳細を見るには、このボタンをクリックしてください。</string>
+    <!-- Bundle Overview selected hotel accessibility content description Eg. You have selected hotel Orion from Jun 23 to June 24, for 1 guest. Button to expand hotel details. -->
+    <string name="select_hotel_selected_cont_desc_TEMPLATE">ホテル「{hotel}」を選択しました。チェックイン日は {startdate}、チェックアウト日は {enddate}、宿泊人数は {guests} 人です。ホテルの詳細の {expandstate}。</string>
     <!-- Bundle Overview select hotel -->
     <string name="select_hotel_template">%sのホテルを選択</string>
     <!-- Bundle Overview searching flight -->
@@ -3934,18 +3970,24 @@
         <item quantity="other">乗継 2 回以上</item>
     </plurals>
 
+    <!-- Flight Nonstop description -->
+    <string name="flight_nonstop_description">直行便</string>
     <!-- Flight duration template e.g. 1d 12h 42m (Nonstop) -->
     <string name="flight_duration_description_template">%1$s (%2$s)</string>
     <!-- Flight hour duration template e.g. 12h 42m -->
     <string name="flight_hour_min_duration_template">%1$d 時間 %2$d 分</string>
     <!-- Flight min duration template e.g. 1d 12h 42m (2hr layover) -->
     <string name="flight_min_duration_template">%1$d 分</string>
-    <!-- Flight Nonstop description -->
-    <string name="flight_nonstop_description">直行便</string>
+
     <!-- Flight departure arrival time in multi days e.g. 5:15 pm - 7:48 am +1d -->
     <string name="flight_departure_arrival_time_multi_day_template">%1$s - %2$s +%3$d 日</string>
+    <!-- Accessible text for Flight departure arrival time same day e.g. 5:15 pm to 7:48 pm plus 1d -->
+    <string name="flight_departure_arrival_time_multi_day_cont_desc_TEMPLATE">{departuretime} から {arrivaltime} まで {elapseddays} 日プラス</string>
     <!-- Flight departure arrival time same day e.g. 5:15 pm - 7:48 pm -->
     <string name="flight_departure_arrival_time_template">%1$s - %2$s</string>
+    <!-- Accessible text for Flight departure arrival time same day e.g. 5:15 pm to 7:48 pm -->
+    <string name="flight_departure_arrival_time_cont_desc_TEMPLATE">{departuretime} から {arrivaltime} まで</string>
+
     <!-- Select flight to template -->
     <string name="select_flight_to">%1$sへのフライトを選択</string>
     <!-- Flight to template -->
@@ -4059,6 +4101,9 @@
     <!--rail search screen - user is specifiying what time they want their return train to leave at -->
     <string name="rail_returning_at">復路 (帰り) 出発時刻</string>
 
+    <!-- rail checkout overview label for outbound  e.g. "Outbound - Thu Jun 23"-->
+    <string name="rail_checkout_outbound_TEMPLATE">往路 (行き) - {date}</string>
+
     <!-- Label for rail trip price on overview screen -->
     <string name="total">合計</string>
 
@@ -4092,12 +4137,14 @@
     <string name="yay_going_somewhere">目的地 :</string>
     <!-- Cars cross-sell message on package confirmation -->
     <string name="rental_car_message">レンタカーを予約しますか ?</string>
+    <!-- Cars cross-sell origin description template-->
+    <string name="cars_cross_sell_origin_TEMPLATE">{airport_localname}、空港コード {airport_code}</string>
     <!-- Cars cross-sell message description on package confirmation -->
     <string name="rental_car_message_desc">レンタカーを割引予約</string>
     <!-- Fly from hint -->
     <string name="fly_from_hint">出発地</string>
     <!-- Fly to hint -->
-    <string name="fly_to_hint">到着地</string>
+    <string name="fly_to_hint">目的地</string>
 
     <!-- Strings used in Orbitz where amount type is rewards  -->
     <!-- Label indicating Orbucks Available. Eg: $1000.12 in Orbucks available-->
@@ -4130,28 +4177,106 @@
     <string name="reward_middle_tier_name_short">+シルバー</string>
     <!-- Short name for rewards top tier -->
     <string name="reward_top_tier_name_short">+ゴールド</string>
-    <!-- Flight Detail card view content description for accessibility.
-         Example: Flight time is 10am - 12:30pm with price difference of $25. Flying with United and the flight duration is 2 hours 30 minutes. Click to view flight details -->
-    <string name="flight_detail_card_cont_desc_TEMPLATE">フライト時間は {time} で差額は {pricedifference} です。航空会社は{airline}で、所要時間は {hours} 時間 {minutes} 分です。クリックしてフライトの詳細を表示してください</string>
 
     <!--Packages search accessibility -->
-    <!--Flying to card content description Eg. Flying to San Francisco, CA (SFO-San Francisco Intl.)-->
-    <string name="search_flying_to_destination_cont_desc_TEMPLATE">目的地{to_destination}</string>
-    <!--Flying from card content description Eg. Flying from Detroit, MI (DTW-Detroit Metropolitan Wayne County)-->
-    <string name="search_flying_from_destination_cont_desc_TEMPLATE">出発地{from_destination}</string>
+    <!-- Flight Detail card view content description for accessibility.
+    Eg. Flight time is 9:00 am - 11:12 am with price difference of +$0. Flying with United. The flight duration is 5 hours 12 minutes with 0 stops. -->
+    <string name="flight_detail_card_cont_desc_TEMPLATE">フライト時間は {time} で差額は {pricedifference} です。ご利用の航空会社は{airline}です。所要時間は {stops} 回乗継で {hours} 時間 {minutes} 分です。</string>
+    <!--Flight Detail card view - flight duration content description for accessibility Eg. SFO to DTM. 3 hours 15 minutes.-->
+    <string name="flight_detail_flight_duration_card_cont_desc_TEMPLATE">出発地 {departureairport}、到着地 {arrivalairport}。所要時間 {durationhours} 時間 {durationmins} 分。</string>
+    <!--Flight Detail card view - layover duration content description for accessibility Eg. Layover. 2 hours 4 minutes.-->
+    <string name="flight_detail_layover_duration_card_cont_desc_TEMPLATE">乗継時間。{layoverhours} 時間 {layovermins} 分。</string>
+    <!--Flying to card content description Eg. Flying to. Button. San Francisco, CA (SFO-San Francisco Intl.)-->
+    <string name="search_flying_to_destination_cont_desc_TEMPLATE">目的地。ボタン。{to_destination}</string>
+    <!--Flying from card content description Eg. Flying from. Button. Detroit, MI (DTW-Detroit Metropolitan Wayne County)-->
+    <string name="search_flying_from_destination_cont_desc_TEMPLATE">出発地。ボタン。{from_destination}</string>
     <!--Flying to card content description before a location is selected-->
-    <string name="packages_search_flying_to_cont_desc">目的地を選択するには、こちらをクリックしてください</string>
+    <string name="packages_search_flying_to_cont_desc">目的地。ボタン</string>
     <!--Flying from card content description before a location is selected-->
-    <string name="packages_search_flying_from_cont_desc">出発地を選択するには、こちらをクリックしてください</string>
+    <string name="packages_search_flying_from_cont_desc">出発地。ボタン</string>
     <!--Travel dates card content description before date range is selected-->
-    <string name="packages_search_dates_cont_desc">旅行期間を選択するには、こちらをクリックしてください</string>
+    <string name="packages_search_dates_cont_desc">旅行日を選択してください。ボタン。ダイアログを開きます</string>
     <!--Packages search date format template for accessible dates (Talkback announces date range with 'to' in between) Eg. Jun 2 to Jun 5-->
     <string name="packages_search_date_range_cont_desc_TEMPLATE">{startdate} から {enddate} まで</string>
-    <!--Packages search dates content description for Talkback to indicate what the date range is and how many nights the trip is for-->
-    <string name="trip_search_date_range_cont_desc_TEMPLATE">旅行期間は {date_range} で {nights} 泊です</string>
+    <!--Packages search dates content description for Talkback to indicate what the date range is and how many nights the trip is for Eg. Trip dates. Button. Opens dialog. Jun 22 to Jun 25. (3 nights)-->
+    <string name="trip_search_date_range_cont_desc_TEMPLATE">旅行日。ボタン。ダイアログを開きます。旅行日 {date_range}。 {nights} 泊</string>
+    <!--Packages search travelers card content description template. Eg. Number of travelers. Button. Opens dialog. 1 traveler-->
+    <plurals name="packages_search_travelers_cont_desc_TEMPLATE">
+        <item quantity="one">旅行者数。ボタン。ダイアログを開きます。旅行者 {travelers} 名</item>
+        <item quantity="other">旅行者数。ボタン。ダイアログを開きます。旅行者 {travelers} 名</item>
+    </plurals>
+    <!--Traveler widget adults plus button content description-->
+    <string name="packages_add_adult_traveler_cont_desc">大人 1 名の旅行者を追加します</string>
+    <!--Traveler widget adults minus button content description-->
+    <string name="packages_remove_adult_traveler_cont_desc">大人 1 名の旅行者を削除します</string>
+    <!--Traveler widget child plus button content description-->
+    <string name="packages_add_child_traveler_cont_desc">お子様 1 名の旅行者を追加します</string>
+    <!--Traveler widget child minus button content description-->
+    <string name="packages_remove_child_traveler_cont_desc">お子様 1 名の旅行者を削除します</string>
+    <!--Packages search child age drop down content description Eg. "Select age for child 1."-->
+    <string name="search_child_drop_down_cont_desc_TEMPLATE">お子様 {childnumber} の年齢を選択してください。</string>
     <!--Packages accessibility flight search filter-->
     <!--Content description for "SHOW MORE" button in filter used for Talkback-->
-    <string name="packages_flight_search_filter_show_more_cont_desc">航空会社をさらに表示するには、こちらをクリックしてください</string>
+    <string name="packages_flight_search_filter_show_more_cont_desc">その他の航空会社を表示します。ボタン</string>
     <!--Content description for "SHOW LESS" button in filter used for Talkback-->
-    <string name="packages_flight_search_filter_show_less_cont_desc">航空会社を一部非表示にするには、こちらをクリックしてください</string>
+    <string name="packages_flight_search_filter_show_less_cont_desc">その他の航空会社を非表示にします。ボタン</string>
+    <!--Content description for clear button in filter used for Talkback-->
+    <string name="packages_flight_search_filter_clear_button_cont_desc">絞り込みを削除します。ボタン</string>
+    <!--Content description for Bundle total widget. Example: Bundle total is $1,234.00. This price includes taxes, fees for both flights and hotel. $100.00 Saved-->
+    <string name="bundle_overview_price_widget">ツアー (航空券 + ホテル) 合計料金は {totalprice} です。料金には、航空券とホテル両方の税およびサービス料が含まれています。{savings} 割引</string>
+    <!--Content description for Bundle total widget. Example: Bundle total is $1,234.00. This price includes taxes, fees for both flights and hotel. $100.00 Saved. Cost Breakdown dialog. Button.-->
+    <string name="bundle_total_price_widget_cost_breakdown_cont_desc_TEMPLATE">ツアー (航空券 + ホテル) 合計料金は {totalprice} です。料金には、航空券とホテル両方の税およびサービス料が含まれています。{savings} 割引。料金明細のダイアログ。ボタン。</string>
+    <!--Content description for Bundle sliding widget, with instruction to expand to show more details. Example: Bundle total is $1,234.00 per person. This price includes taxes, fees for both flights and hotel. $100.00 Saved. Button to view bundle.-->
+    <string name="bundle_overview_price_widget_button_open_TEMPLATE">ツアー (航空券 + ホテル) 料金は 1 名 {price_per_person} です。料金には、航空券とホテル両方の税およびサービス料が含まれています。ツアー (航空券 + ホテル) を表示するボタン。</string>
+    <!--Content description for Bundle sliding widget, when it's opened.-->
+    <string name="bundle_overview_price_widget_button_close">ツアー (航空券 + ホテル) 詳細を表示しています。閉じるボタン。</string>
+    <!--Packages bundle overview hotel drop down (expand) content description for accessibility-->
+    <string name="select_hotel_selected_expand_cont_desc">展開</string>
+    <!--Packages bundle overview hotel drop down (collapse) content description for accessibility-->
+    <string name="select_hotel_selected_collapse_cont_desc">折りたたみ</string>
+    <!-- Package filter checkbox.
+        Example #1: 3 available NonStop flights.
+        Example #2: 2 available Hawaiian Airlines flights. -->
+    <string name="packages_flight_filter_checkbox_cont_desc_TEMPLATE">利用できる {filter_name} のフライトが {filter_results} 便あります。</string>
+
+    <!--LX accessibility -->
+    <!--LX search accessibility -->
+    <string name="lx_location_edit_box_cont_desc">現地オプショナルツアーの場所</string>
+
+    <!--LX infosite accessibility -->
+    <!-- LX infosite section Highlights, description etc have a caret icon to read more content -->
+    <string name="lx_read_more_cont_desc">全文を表示するボタン</string>
+    <!-- LX infosite section Highlights, description etc have a caret icon to read less content -->
+    <string name="lx_read_less_cont_desc">一部のみ表示するボタン</string>
+    <!-- Content description for LX add ticket button e.g. Add adult Button -->
+    <string name="lx_add_ticket_button_cont_desc_TEMPLATE">{traveler}を追加する</string>
+    <!-- Content description for LX remove ticket button e.g. Remove child Button -->
+    <string name="lx_remove_ticket_button_cont_desc_TEMPLATE">{traveler}を削除する</string>
+
+    <!-- Generic content description -->
+    <!-- Content description for toolbar 'X' i.e. close/back button -->
+    <string name="toolbar_search_nav_icon_cont_desc">戻る</string>
+    <string name="toolbar_search_nav_icon_close_cont_desc">閉じる</string>
+    <string name="search_button_cont_desc">検索ボタン</string>
+    <!-- Content description for LX Duration e.g. Duration 2d -->
+    <string name="search_result_duration_cont_desc_TEMPLATE">所要時間 {duration}</string>
+    <!-- Content description for LX Multiple Duration e.g. Duration 2d + -->
+    <string name="search_result_multiple_duration_cont_desc_TEMPLATE">所要時間 {duration} プラス</string>
+
+    <!--Packages accessibility content description for role Button-->
+    <string name="accessibility_cont_desc_role_button">ボタン</string>
+    <!--Packages accessibility content description for role - Button to expand -->
+    <string name="accessibility_cont_desc_role_button_expand">展開ボタン</string>
+    <!--Packages accessibility content description for role - Button to collapse -->
+    <string name="accessibility_cont_desc_role_button_collapse">折りたたみボタン</string>
+
+    <!-- LX SRP activity price content description when no discount e.g. Price is $30 -->
+    <string name="activity_price_without_discount_cont_desc_TEMPLATE">料金は {activity_price} です</string>
+
+    <!-- LX SRP activity price content description when price is discounted e.g. Price is $180. Price before discount was $230 -->
+    <string name="activity_price_with_discount_cont_desc_TEMPLATE">料金は {activity_price} です。割引前の料金は {activity_original_price} でした</string>
+    <!-- Content description for Checkbox types, state Checked -->
+    <string name="accessibility_cont_desc_role_checkbox_checked">チェックボックス。チェック済みです。</string>
+    <!-- Content description for Checkbox types, state Unchecked -->
+    <string name="accessibility_cont_desc_role_checkbox_unchecked">チェックボックス。チェックされていません。</string>
 </resources>

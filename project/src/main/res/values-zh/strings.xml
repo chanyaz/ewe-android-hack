@@ -301,8 +301,10 @@
     <string name="missing_flight_info_button_prompt">选择机场</string>
 
     <!-- LX -->
-    <!-- LX toolbar Date Range e.g. May 05 - May 10 -->
-    <string name="lx_toolbar_date_range_template">%1$s - %2$s</string>
+    <!-- LX Toolbar Date Range e.g. May 05 - May 10 -->
+    <string name="lx_toolbar_date_range_TEMPLATE">{from_date} - {to_date}</string>
+    <!-- LX Toolbar Date Range Cont Desc e.g. May 05 to May 10 -->
+    <string name="lx_toolbar_date_range_cont_desc_TEMPLATE">{from_date} - {to_date}</string>
     <!--LX Search widget header text -->
     <string name="lx_search_title">搜索活动</string>
     <!--LX Search widget header text -->
@@ -1002,6 +1004,11 @@
     <string name="nav_lx">活动</string>
     <!-- Ground Transport -->
     <string name="nav_transport">交通服务</string>
+    <!-- Packages -->
+    <string name="nav_packages">组合优惠</string>
+    <!-- Rail -->
+    <string name="nav_rail">火车</string>
+
 
     <!-- New launch screen -->
     <!-- Top deals tonight -->
@@ -1129,30 +1136,30 @@
     <string name="yesterday">昨天</string>
     <!-- "XX Minutes" - an event happening XX minutes in the future -->
     <plurals name="minutes_from_now">
-        <item quantity="zero">%s 分钟</item>
-        <item quantity="one">%s 分钟</item>
-        <item quantity="two">%s 分钟</item>
-        <item quantity="few">%s 分钟</item>
-        <item quantity="many">%s 分钟</item>
-        <item quantity="other">%s 分钟</item>
+        <item quantity="zero">{minutes} 分钟</item>
+        <item quantity="one">{minutes} 分钟</item>
+        <item quantity="two">{minutes} 分钟</item>
+        <item quantity="few">{minutes} 分钟</item>
+        <item quantity="many">{minutes} 分钟</item>
+        <item quantity="other">{minutes} 分钟</item>
     </plurals>
     <!-- "XX Hours" - an event happening XX hours in the future -->
     <plurals name="hours_from_now">
-        <item quantity="zero">%s 小时</item>
-        <item quantity="one">%s 小时</item>
-        <item quantity="two">%s 小时</item>
-        <item quantity="few">%s 小时</item>
-        <item quantity="many">%s 小时</item>
-        <item quantity="other">%s 小时</item>
+        <item quantity="zero">{hours} 小时</item>
+        <item quantity="one">{hours} 小时</item>
+        <item quantity="two">{hours} 小时</item>
+        <item quantity="few">{hours} 小时</item>
+        <item quantity="many">{hours} 小时</item>
+        <item quantity="other">{hours} 小时</item>
     </plurals>
     <!-- "XX Days" an event happening XX days in the future -->
     <plurals name="days_from_now">
-        <item quantity="zero">%s 天</item>
-        <item quantity="one">%s 天</item>
-        <item quantity="two">%s 天</item>
-        <item quantity="few">%s 天</item>
-        <item quantity="many">%s 天</item>
-        <item quantity="other">%s 天</item>
+        <item quantity="zero">{days} 天</item>
+        <item quantity="one">{days} 天</item>
+        <item quantity="two">{days} 天</item>
+        <item quantity="few">{days} 天</item>
+        <item quantity="many">{days} 天</item>
+        <item quantity="other">{days} 天</item>
     </plurals>
     <!-- Shared Itin - Fallback name for itin card -->
     <string name="sharedItin_card_fallback_name">分享的行程</string>
@@ -1161,7 +1168,7 @@
     <!-- Shared Itin - Fallback name for Hotel itin card -->
     <string name="sharedItin_card_fallback_name_hotel">分享的酒店</string>
     <!-- Shared Itin - Template for flightcard header text (will be filled in with "FirstName to Destination") -->
-    <string name="SharedItin_Title_Flight_TEMPLATE">%1$s飞往%2$s</string>
+    <string name="SharedItin_Title_Flight_TEMPLATE">%1$s - %2$s</string>
     <!-- Shared Itin - Template for hotelcard header text (will be filled in with "FirstName at HotelName") -->
     <string name="SharedItin_Title_Hotel_TEMPLATE">%1$s入住%2$s</string>
     <!-- Default (fallback) itin card title for FLIGHT -->
@@ -1656,6 +1663,13 @@
     <string name="flights_outbound_label">出发</string>
     <!-- Flights Line of Business title -->
     <string name="flights_title">航班</string>
+    <!-- Flights payment fees info web view title -->
+    <string name="flights_flight_overview_payment_fees">付款费用信息</string>
+    <!-- Flights Free Cancellation messaging -->
+    <string name="flights_free_cancellation">24 小时内免费取消</string>
+    <!-- Card fee warning text on checkout overview.
+        Example: The airline charges a processing fee of $3.00 for using this card (cost included in the trip total). -->
+    <string name="flights_card_fee_warning_TEMPLATE">如使用此卡，航空公司会收取 {card_fee} 的处理费（此项费用已包含在行程总价中）。</string>
 
     <!-- Flights -->
     <!-- Label for Flight Search in task manager -->
@@ -1730,7 +1744,7 @@
     <!-- Explanation of trip dates for one-way trip.  %1$s is the trip date -->
     <string name="one_way_TEMPLATE">%1$s（单程）</string>
     <!-- Explanation of trip dates for one-way trip.  %1$s is the outbound date, %2$s is the inbound date -->
-    <string name="round_trip_TEMPLATE">%1$s 至 %2$s</string>
+    <string name="round_trip_TEMPLATE">%1$s - %2$s</string>
     <!-- Label for "sort" button -->
     <string name="sort_flights">航班排序</string>
     <!-- Edit search title -->
@@ -1892,8 +1906,8 @@
     <string name="card_info">卡信息</string>
 
     <!-- Edit CreditCard Fragment -->
-    <!-- Airline processing fee for this card: <Dollar Amount> (e.g. Airling processing fee for this card: $5) -->
-    <string name="airline_processing_fee_TEMPLATE">航空公司对此卡收取手续费：&lt;b&gt;%1$s&lt;/b&gt;</string>
+    <!-- Airline processing fee for this card. Example: Airline processing fee for this card: $5 -->
+    <string name="airline_processing_fee_TEMPLATE">航空公司对此卡收取手续费：&lt;b&gt;{card_fee}&lt;/b&gt;</string>
     <!-- Airline does not accept <Credit Card Brand> (e.g. "Airline does not accept Visa") -->
     <string name="airline_does_not_accept_cardtype_TEMPLATE">该航空公司不接受 %1$s</string>
     <!-- Hotel does not accept <Credit Card Brand> (e.g. "Hotel does not accept Visa") -->
@@ -3777,6 +3791,28 @@
     <!-- Content description for action: Press to filter for hotels within a mid-distance radius from your search location -->
     <string name="pay_later_cont_desc">按此按钮选择到店付款</string>
 
+    <!-- Content description for Cars filter button -->
+    <string name="cars_filter_button_cont_desc">筛选按钮</string>
+    <!-- Content description for car result door count e.g. Doors 2-4 -->
+    <string name="cars_door_count_cont_desc_TEMPLATE">{doorcount} 门</string>
+    <!-- Content description for car result passenger count e.g. Passengers 2-4 -->
+    <string name="cars_passenger_count_cont_desc_TEMPLATE">{passengercount} 座</string>
+    <!-- Content description for car result bags count e.g. Bags 2-4 -->
+    <string name="cars_bags_count_cont_desc_TEMPLATE">{bagscount} 个旅行袋</string>
+
+    <!-- Content descriptions for Cars filter transmission buttons -->
+    <string name="cars_filter_transmission_manual_button_selected_cont_desc">手动挡</string>
+    <string name="cars_filter_transmission_automatic_button_selected_cont_desc">自动挡</string>
+    <string name="cars_filter_transmission_all_button_selected_cont_desc">全部换挡方式</string>
+    <string name="cars_filter_transmission_manual_button_unselected_cont_desc">手动挡。已取消选中</string>
+    <string name="cars_filter_transmission_automatic_button_unselected_cont_desc">自动挡。已取消选中</string>
+    <string name="cars_filter_transmission_all_button_unselected_cont_desc">全部换挡方式。已取消选中</string>
+
+    <!-- Content description for car offer reserve button e.g. Dollar, Chevrolet Spark or Similar, Reserve button-->
+    <string name="cars_offer_reserve_button_cont_desc_TEMPLATE">{vendor}，{make}，预订按钮</string>
+    <!-- Content description for car offer view details button e.g. Dollar, Chevrolet Spark or Similar, View details button-->
+    <string name="cars_offer_view_details_button_cont_desc_TEMPLATE">{vendor}，{make}，详细信息按钮</string>
+
     <!-- Tablet Confirmation Screen -->
     <!-- Header text to indicating booking confirmed for hotel -->
     <string name="tablet_confirmation_hotel_booked">酒店预订完成</string>
@@ -3908,12 +3944,12 @@
     <string name="package_overview_flight_travel_info_TEMPLATE">%1$s到达：%2$s%3$s</string>
     <!-- Template for package bundle total savings amount -->
     <string name="bundle_total_savings_TEMPLATE">{savings}已保存</string>
-    <!-- Bundle Overview select hotel accessibility content description -->
-    <string name="select_hotel_cont_desc_TEMPLATE">搜索已完成，按此按钮可选择{destination}的酒店，入住日期 {startdate} 到 {enddate}，入住人数为 {guests}。</string>
-    <!-- Bundle Overview select hotel accessibility content description when still searching -->
+    <!-- Bundle Overview select hotel accessibility content description Eg. Search completed. Select a hotel in Detroit from Jun 23 to Jun 24, for 1 guest. Button -->
+    <string name="select_hotel_cont_desc_TEMPLATE">搜索已完成。选择{destination}的酒店，入住日期 {startdate} 到 {enddate}，入住人数为 {guests}。按钮</string>
+    <!-- Bundle Overview select hotel accessibility content description when still searching Eg. Searching for hotels in Detroit from Jun 23 to Jun 24, for 1 guest. Please wait -->
     <string name="select_hotel_searching_cont_desc_TEMPLATE">正在搜索{destination}的酒店，入住日期 {startdate} 到 {enddate}，入住人数为 {guests}。请稍候</string>
-    <!-- Bundle Overview selected hotel accessibility content description -->
-    <string name="select_hotel_selected_cont_desc_TEMPLATE">您选择的酒店是{hotel}，入住日期 {startdate} 到 {enddate}，入住人数为 {guests}。按此按钮，可显示更多详细信息。</string>
+    <!-- Bundle Overview selected hotel accessibility content description Eg. You have selected hotel Orion from Jun 23 to June 24, for 1 guest. Button to expand hotel details. -->
+    <string name="select_hotel_selected_cont_desc_TEMPLATE">您选择的酒店是{hotel}，入住日期 {startdate} 到 {enddate}，入住人数为 {guests}。{expandstate}酒店详细信息。</string>
     <!-- Bundle Overview select hotel -->
     <string name="select_hotel_template">选择%s的酒店</string>
     <!-- Bundle Overview searching flight -->
@@ -3934,18 +3970,24 @@
         <item quantity="other">2 次以上经停</item>
     </plurals>
 
+    <!-- Flight Nonstop description -->
+    <string name="flight_nonstop_description">直飞</string>
     <!-- Flight duration template e.g. 1d 12h 42m (Nonstop) -->
     <string name="flight_duration_description_template">%1$s (%2$s)</string>
     <!-- Flight hour duration template e.g. 12h 42m -->
     <string name="flight_hour_min_duration_template">%1$d 小时 %2$d 分</string>
     <!-- Flight min duration template e.g. 1d 12h 42m (2hr layover) -->
     <string name="flight_min_duration_template">%1$d 分</string>
-    <!-- Flight Nonstop description -->
-    <string name="flight_nonstop_description">直飞</string>
+
     <!-- Flight departure arrival time in multi days e.g. 5:15 pm - 7:48 am +1d -->
     <string name="flight_departure_arrival_time_multi_day_template">%1$s%2$s + %3$d 天</string>
+    <!-- Accessible text for Flight departure arrival time same day e.g. 5:15 pm to 7:48 pm plus 1d -->
+    <string name="flight_departure_arrival_time_multi_day_cont_desc_TEMPLATE">{departuretime} 至 {arrivaltime}（加 {elapseddays} 天）</string>
     <!-- Flight departure arrival time same day e.g. 5:15 pm - 7:48 pm -->
     <string name="flight_departure_arrival_time_template">%1$s - %2$s</string>
+    <!-- Accessible text for Flight departure arrival time same day e.g. 5:15 pm to 7:48 pm -->
+    <string name="flight_departure_arrival_time_cont_desc_TEMPLATE">{departuretime} - {arrivaltime}</string>
+
     <!-- Select flight to template -->
     <string name="select_flight_to">选择飞往%1$s的航班</string>
     <!-- Flight to template -->
@@ -4059,6 +4101,9 @@
     <!--rail search screen - user is specifiying what time they want their return train to leave at -->
     <string name="rail_returning_at">返回时间：</string>
 
+    <!-- rail checkout overview label for outbound  e.g. "Outbound - Thu Jun 23"-->
+    <string name="rail_checkout_outbound_TEMPLATE">出发：{date}</string>
+
     <!-- Label for rail trip price on overview screen -->
     <string name="total">总额</string>
 
@@ -4092,6 +4137,8 @@
     <string name="yay_going_somewhere">您准备出发去</string>
     <!-- Cars cross-sell message on package confirmation -->
     <string name="rental_car_message">需要租车？</string>
+    <!-- Cars cross-sell origin description template-->
+    <string name="cars_cross_sell_origin_TEMPLATE">{airport_code}-{airport_localname}</string>
     <!-- Cars cross-sell message description on package confirmation -->
     <string name="rental_car_message_desc">搜索租车，享受更大优惠</string>
     <!-- Fly from hint -->
@@ -4130,28 +4177,106 @@
     <string name="reward_middle_tier_name_short">+silver</string>
     <!-- Short name for rewards top tier -->
     <string name="reward_top_tier_name_short">+gold</string>
-    <!-- Flight Detail card view content description for accessibility.
-         Example: Flight time is 10am - 12:30pm with price difference of $25. Flying with United and the flight duration is 2 hours 30 minutes. Click to view flight details -->
-    <string name="flight_detail_card_cont_desc_TEMPLATE">航班时间是 {time}，价格差别为 {pricedifference}。搭乘{airline}航班，飞行时间为 {hours} 小时 {minutes} 分钟。点击查看航班详细信息。</string>
 
     <!--Packages search accessibility -->
-    <!--Flying to card content description Eg. Flying to San Francisco, CA (SFO-San Francisco Intl.)-->
-    <string name="search_flying_to_destination_cont_desc_TEMPLATE">飞往{to_destination}</string>
-    <!--Flying from card content description Eg. Flying from Detroit, MI (DTW-Detroit Metropolitan Wayne County)-->
-    <string name="search_flying_from_destination_cont_desc_TEMPLATE">从{from_destination}出发</string>
+    <!-- Flight Detail card view content description for accessibility.
+    Eg. Flight time is 9:00 am - 11:12 am with price difference of +$0. Flying with United. The flight duration is 5 hours 12 minutes with 0 stops. -->
+    <string name="flight_detail_card_cont_desc_TEMPLATE">航班时间是 {time}，价格差别为 {pricedifference}。搭乘 {airline} 航班。飞行时间为 {hours} {minutes}，经停 {stops} 次。</string>
+    <!--Flight Detail card view - flight duration content description for accessibility Eg. SFO to DTM. 3 hours 15 minutes.-->
+    <string name="flight_detail_flight_duration_card_cont_desc_TEMPLATE">{departureairport} 到 {arrivalairport}。{durationhours} {durationmins}。</string>
+    <!--Flight Detail card view - layover duration content description for accessibility Eg. Layover. 2 hours 4 minutes.-->
+    <string name="flight_detail_layover_duration_card_cont_desc_TEMPLATE">中途停留{layoverhours} {layovermins}。</string>
+    <!--Flying to card content description Eg. Flying to. Button. San Francisco, CA (SFO-San Francisco Intl.)-->
+    <string name="search_flying_to_destination_cont_desc_TEMPLATE">飞往。按钮。{to_destination}</string>
+    <!--Flying from card content description Eg. Flying from. Button. Detroit, MI (DTW-Detroit Metropolitan Wayne County)-->
+    <string name="search_flying_from_destination_cont_desc_TEMPLATE">出发地。按钮。{from_destination}</string>
     <!--Flying to card content description before a location is selected-->
-    <string name="packages_search_flying_to_cont_desc">点击此处选择您想要飞往何处</string>
+    <string name="packages_search_flying_to_cont_desc">飞往。按钮</string>
     <!--Flying from card content description before a location is selected-->
-    <string name="packages_search_flying_from_cont_desc">点击此处选择您想要从何处出发</string>
+    <string name="packages_search_flying_from_cont_desc">出发地。按钮</string>
     <!--Travel dates card content description before date range is selected-->
-    <string name="packages_search_dates_cont_desc">点击此处选择您的旅行日期</string>
+    <string name="packages_search_dates_cont_desc">选择旅行日期。按钮。打开对话框</string>
     <!--Packages search date format template for accessible dates (Talkback announces date range with 'to' in between) Eg. Jun 2 to Jun 5-->
-    <string name="packages_search_date_range_cont_desc_TEMPLATE">{startdate} 至 {enddate}</string>
-    <!--Packages search dates content description for Talkback to indicate what the date range is and how many nights the trip is for-->
-    <string name="trip_search_date_range_cont_desc_TEMPLATE">您的行程是从 {date_range}，{nights}</string>
+    <string name="packages_search_date_range_cont_desc_TEMPLATE">{startdate} - {enddate}</string>
+    <!--Packages search dates content description for Talkback to indicate what the date range is and how many nights the trip is for Eg. Trip dates. Button. Opens dialog. Jun 22 to Jun 25. (3 nights)-->
+    <string name="trip_search_date_range_cont_desc_TEMPLATE">行程日期。按钮。打开对话框。{date_range}。{nights}</string>
+    <!--Packages search travelers card content description template. Eg. Number of travelers. Button. Opens dialog. 1 traveler-->
+    <plurals name="packages_search_travelers_cont_desc_TEMPLATE">
+        <item quantity="one">旅客人数。按钮。打开对话框。{travelers} 位旅客</item>
+        <item quantity="other">旅客人数。按钮。打开对话框。{travelers} 位旅客</item>
+    </plurals>
+    <!--Traveler widget adults plus button content description-->
+    <string name="packages_add_adult_traveler_cont_desc">添加一位成人旅客</string>
+    <!--Traveler widget adults minus button content description-->
+    <string name="packages_remove_adult_traveler_cont_desc">删除一位成人旅客</string>
+    <!--Traveler widget child plus button content description-->
+    <string name="packages_add_child_traveler_cont_desc">添加一位儿童旅客</string>
+    <!--Traveler widget child minus button content description-->
+    <string name="packages_remove_child_traveler_cont_desc">删除一位儿童旅客</string>
+    <!--Packages search child age drop down content description Eg. "Select age for child 1."-->
+    <string name="search_child_drop_down_cont_desc_TEMPLATE">选择第 {childnumber} 名儿童的年龄。</string>
     <!--Packages accessibility flight search filter-->
     <!--Content description for "SHOW MORE" button in filter used for Talkback-->
-    <string name="packages_flight_search_filter_show_more_cont_desc">点击此处显示更多航空公司</string>
+    <string name="packages_flight_search_filter_show_more_cont_desc">显示其他航空公司。按钮</string>
     <!--Content description for "SHOW LESS" button in filter used for Talkback-->
-    <string name="packages_flight_search_filter_show_less_cont_desc">点击此处显示较少航空公司</string>
+    <string name="packages_flight_search_filter_show_less_cont_desc">隐藏其他航空公司。按钮</string>
+    <!--Content description for clear button in filter used for Talkback-->
+    <string name="packages_flight_search_filter_clear_button_cont_desc">清除筛选条件。按钮</string>
+    <!--Content description for Bundle total widget. Example: Bundle total is $1,234.00. This price includes taxes, fees for both flights and hotel. $100.00 Saved-->
+    <string name="bundle_overview_price_widget">套餐总价为 {totalprice}。此价格不含机票和酒店的税费。{savings}</string>
+    <!--Content description for Bundle total widget. Example: Bundle total is $1,234.00. This price includes taxes, fees for both flights and hotel. $100.00 Saved. Cost Breakdown dialog. Button.-->
+    <string name="bundle_total_price_widget_cost_breakdown_cont_desc_TEMPLATE">套餐总价为 {totalprice}。此价格不含机票和酒店的税费。{savings}。费用明细对话框。按钮。</string>
+    <!--Content description for Bundle sliding widget, with instruction to expand to show more details. Example: Bundle total is $1,234.00 per person. This price includes taxes, fees for both flights and hotel. $100.00 Saved. Button to view bundle.-->
+    <string name="bundle_overview_price_widget_button_open_TEMPLATE">套餐价格为每人 {price_per_person}。此价格不含机票和酒店的税费。查看套餐的按钮。</string>
+    <!--Content description for Bundle sliding widget, when it's opened.-->
+    <string name="bundle_overview_price_widget_button_close">正在显示套餐详细信息。关闭按钮。</string>
+    <!--Packages bundle overview hotel drop down (expand) content description for accessibility-->
+    <string name="select_hotel_selected_expand_cont_desc">展开</string>
+    <!--Packages bundle overview hotel drop down (collapse) content description for accessibility-->
+    <string name="select_hotel_selected_collapse_cont_desc">隐藏</string>
+    <!-- Package filter checkbox.
+        Example #1: 3 available NonStop flights.
+        Example #2: 2 available Hawaiian Airlines flights. -->
+    <string name="packages_flight_filter_checkbox_cont_desc_TEMPLATE">{filter_results} 个可选的 {filter_name} 航班。</string>
+
+    <!--LX accessibility -->
+    <!--LX search accessibility -->
+    <string name="lx_location_edit_box_cont_desc">活动地点</string>
+
+    <!--LX infosite accessibility -->
+    <!-- LX infosite section Highlights, description etc have a caret icon to read more content -->
+    <string name="lx_read_more_cont_desc">查阅详细信息按钮</string>
+    <!-- LX infosite section Highlights, description etc have a caret icon to read less content -->
+    <string name="lx_read_less_cont_desc">隐藏详细信息按钮</string>
+    <!-- Content description for LX add ticket button e.g. Add adult Button -->
+    <string name="lx_add_ticket_button_cont_desc_TEMPLATE">添加{traveler}</string>
+    <!-- Content description for LX remove ticket button e.g. Remove child Button -->
+    <string name="lx_remove_ticket_button_cont_desc_TEMPLATE">删除{traveler}</string>
+
+    <!-- Generic content description -->
+    <!-- Content description for toolbar 'X' i.e. close/back button -->
+    <string name="toolbar_search_nav_icon_cont_desc">返回</string>
+    <string name="toolbar_search_nav_icon_close_cont_desc">关闭</string>
+    <string name="search_button_cont_desc">搜索按钮</string>
+    <!-- Content description for LX Duration e.g. Duration 2d -->
+    <string name="search_result_duration_cont_desc_TEMPLATE">持续时间：{duration}</string>
+    <!-- Content description for LX Multiple Duration e.g. Duration 2d + -->
+    <string name="search_result_multiple_duration_cont_desc_TEMPLATE">持续时间：{duration} 以上</string>
+
+    <!--Packages accessibility content description for role Button-->
+    <string name="accessibility_cont_desc_role_button">按钮</string>
+    <!--Packages accessibility content description for role - Button to expand -->
+    <string name="accessibility_cont_desc_role_button_expand">展开按钮</string>
+    <!--Packages accessibility content description for role - Button to collapse -->
+    <string name="accessibility_cont_desc_role_button_collapse">隐藏按钮</string>
+
+    <!-- LX SRP activity price content description when no discount e.g. Price is $30 -->
+    <string name="activity_price_without_discount_cont_desc_TEMPLATE">价格为 {activity_price}</string>
+
+    <!-- LX SRP activity price content description when price is discounted e.g. Price is $180. Price before discount was $230 -->
+    <string name="activity_price_with_discount_cont_desc_TEMPLATE">价格为 {activity_price}。折扣前的价格为 {activity_original_price}</string>
+    <!-- Content description for Checkbox types, state Checked -->
+    <string name="accessibility_cont_desc_role_checkbox_checked">复选框。已选中。</string>
+    <!-- Content description for Checkbox types, state Unchecked -->
+    <string name="accessibility_cont_desc_role_checkbox_unchecked">复选框。取消选中。</string>
 </resources>
