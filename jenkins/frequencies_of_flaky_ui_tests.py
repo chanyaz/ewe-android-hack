@@ -46,25 +46,36 @@ def artifactsToBeProcessedSinceLastRun(server, lastProcessedRun):
 
 	return (artifacts, maxSuccessfulRun)
 
-def reportFailureFrequencyDistributionPerSlaveConsole(testToServerToFailureCountMap):
+def reportFailureFrequencyDistributionPerSlaveConsole(testToServerToFailureCountMap, failedTestToServerNameToJenkinsJobMap, serverNameToServerIPMap):
 	lengthOfLongestNameTest = len(max(testToServerToFailureCountMap.keys(), key=len))
 	#Report failed tests
 	for testName, serverToFailureCountMap in sorted(testToServerToFailureCountMap.items(), key=lambda x: sum(x[1].values()), reverse=True):
 		totalTimesFailed = sum(serverToFailureCountMap.values())
 		failureDistributionPerSlave = sorted(serverToFailureCountMap.items(), key=lambda x: x[1], reverse=True)
-		print "{testName} -> {totalTimesFailed} {failureDistributionPerSlave}".format(testName=testName.ljust(lengthOfLongestNameTest), totalTimesFailed=totalTimesFailed, failureDistributionPerSlave=failureDistributionPerSlave)
+		jenkinsJobArtifactURLHTML = getJenkinsJobArtifactURLHTMLFormatted(failedTestToServerNameToJenkinsJobMap[testName], serverNameToServerIPMap)
+		print "{testName} -> {totalTimesFailed} {failureDistributionPerSlave} {jenkinsJobArtifactURLHTML}".format(testName=testName.ljust(lengthOfLongestNameTest), totalTimesFailed=totalTimesFailed, failureDistributionPerSlave=failureDistributionPerSlave, jenkinsJobArtifactURLHTML=jenkinsJobArtifactURLHTML)
 
-def reportFailureFrequencyDistributionPerSlaveHTML(testToServerToFailureCountMap):
+def getJenkinsJobArtifactURLHTMLFormatted(latestFailureJobForTestCase, serverNameToServerIPMap):
+	jenkinsJobArtifactURLHTML = ""
+	for serverName in serverNameToServerIPMap:
+		if serverName in latestFailureJobForTestCase:
+			serverIP = serverNameToServerIPMap[serverName]
+			jenkinsJobArtifactURLHTML = "{jenkinsJobArtifactURLHTML}<a href='http://{serverIP}:8000/uitests-{latestFailureJobForTestCase}-failure.tar.gz'>{serverName}({latestFailureJobForTestCase})</a> ".format(jenkinsJobArtifactURLHTML=jenkinsJobArtifactURLHTML, serverIP=serverIP, serverName=serverName, latestFailureJobForTestCase=latestFailureJobForTestCase[serverName])
+	return jenkinsJobArtifactURLHTML
+
+def reportFailureFrequencyDistributionPerSlaveHTML(testToServerToFailureCountMap, failedTestToServerNameToJenkinsJobMap, serverNameToServerIPMap):
 	flakinessReport = ""
 	for testName, serverToFailureCountMap in sorted(testToServerToFailureCountMap.items(), key=lambda x: sum(x[1].values()), reverse=True):
 		totalTimesFailed = sum(serverToFailureCountMap.values())
 		failureDistributionPerSlave = sorted(serverToFailureCountMap.items(), key=lambda x: x[1], reverse=True)
+		jenkinsJobArtifactURLHTML = getJenkinsJobArtifactURLHTMLFormatted(failedTestToServerNameToJenkinsJobMap[testName], serverNameToServerIPMap)
 		flakinessReport = flakinessReport + """\n<tr class='{flakinessClass}'>
 					<td>{component}</td>
 					<td>{testName}</td>
 					<td>{totalTimesFailed} {failureDistributionPerSlave}</td>
+					<td>{jenkinsJobArtifactURLHTML}</td>
 				</tr>
-		""".format(flakinessClass=flakinessClass(totalTimesFailed), component=componentFromTest(testName), testName=testName, totalTimesFailed=totalTimesFailed, failureDistributionPerSlave=failureDistributionPerSlave)
+		""".format(flakinessClass=flakinessClass(totalTimesFailed), component=componentFromTest(testName), testName=testName, totalTimesFailed=totalTimesFailed, failureDistributionPerSlave=failureDistributionPerSlave, jenkinsJobArtifactURLHTML=jenkinsJobArtifactURLHTML)
 
 	with open('frequencies_of_flaky_ui_tests.html', 'w') as frequenciesOfFlakyUITestsFile:
 		frequenciesOfFlakyUITestsFile.write("""<!DOCTYPE html>
@@ -104,6 +115,7 @@ def reportFailureFrequencyDistributionPerSlaveHTML(testToServerToFailureCountMap
 						<th>Component</th>
 						<th>Test Name</th>
 						<th>Frequency and Distribution</th>
+						<th>Artifacts</th>
 					</tr>
 					{flakinessReport}
 				</table>
@@ -139,17 +151,19 @@ def main():
 	maxSuccessfulRunOnEachServer = []
 
 	lastProcessedRun = getLastProcessedRun()
+	serverNameToServerIPMap = {}
+	failedTestToServerNameToJenkinsJobMap = {}
 	print sys.argv[1:]
 	for serverIPAndName in sys.argv[1:]:
 		serverIP = serverIPAndName.split(':')[0]
 		serverName = serverIPAndName.split(':')[1]
-
+		serverNameToServerIPMap[serverName] = serverIP
 		print "Processing artifacts from {serverName}".format(serverName=serverName)
 		artifactsToProcessFromThisServer, maxSuccessfulRunOnThisServer = artifactsToBeProcessedSinceLastRun(serverIP, lastProcessedRun)
 		maxSuccessfulRunOnEachServer.append(maxSuccessfulRunOnThisServer)
-
 		for artifactUrl in artifactsToProcessFromThisServer:
 			artifactLocalPath = os.path.join('/tmp', artifactUrl.split('/')[-1])
+			jenkinsJobName = artifactUrl.split("-")[1] + "-" + artifactUrl.split("-")[2]
 			#download artifact
 			print "Downloading {artifactUrl}...".format(artifactUrl=artifactUrl)
 			try:
@@ -171,11 +185,14 @@ def main():
 				else:
 					testToServerToFailureCountMap[failedTest] = {}
 					testToServerToFailureCountMap[failedTest][serverName] = 1
+				if failedTest not in failedTestToServerNameToJenkinsJobMap:
+					failedTestToServerNameToJenkinsJobMap[failedTest] = {}
+				failedTestToServerNameToJenkinsJobMap[failedTest][serverName] = jenkinsJobName
 
 	print "\n\n\nFinal List of Failed Tests and their frequency distribution per slave:"
-	reportFailureFrequencyDistributionPerSlaveConsole(testToServerToFailureCountMap)
+	reportFailureFrequencyDistributionPerSlaveConsole(testToServerToFailureCountMap, failedTestToServerNameToJenkinsJobMap, serverNameToServerIPMap)
 	
-	reportFailureFrequencyDistributionPerSlaveHTML(testToServerToFailureCountMap)
+	reportFailureFrequencyDistributionPerSlaveHTML(testToServerToFailureCountMap, failedTestToServerNameToJenkinsJobMap, serverNameToServerIPMap)
 
 	#Save last processed run for next time!
 	saveLastProcessedRun(max(maxSuccessfulRunOnEachServer))
