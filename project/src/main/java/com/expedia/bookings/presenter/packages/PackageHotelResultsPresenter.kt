@@ -128,10 +128,6 @@ class PackageHotelResultsPresenter(context: Context, attrs: AttributeSet) : Base
         PackagesTracking().trackHotelMapSearchThisAreaClick()
     }
 
-    override fun isBucketedForResultMap(): Boolean {
-        return false
-    }
-
     override fun getHotelListAdapter(): BaseHotelListAdapter {
         return PackageHotelListAdapter(hotelSelectedSubject, headerClickedSubject)
     }
