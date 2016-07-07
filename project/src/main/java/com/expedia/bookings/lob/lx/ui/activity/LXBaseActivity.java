@@ -1,4 +1,4 @@
-package com.expedia.ui;
+package com.expedia.bookings.lob.lx.ui.activity;
 
 import org.joda.time.LocalDate;
 
@@ -23,6 +23,7 @@ import com.expedia.bookings.utils.AlertDialogUtils;
 import com.expedia.bookings.utils.DateUtils;
 import com.expedia.bookings.utils.Strings;
 import com.expedia.bookings.utils.Ui;
+import com.expedia.ui.AbstractAppCompatActivity;
 import com.squareup.otto.Subscribe;
 
 import butterknife.ButterKnife;

@@ -8,7 +8,7 @@ import com.expedia.bookings.data.Codes;
 import com.expedia.bookings.test.espresso.PhoneTestCase;
 import com.expedia.bookings.test.phone.pagemodels.common.SearchScreen;
 import com.expedia.bookings.utils.DateUtils;
-import com.expedia.ui.LXBaseActivity;
+import com.expedia.bookings.lob.lx.ui.activity.LXBaseActivity;
 
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;

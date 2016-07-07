@@ -235,7 +235,7 @@
         <!-- LX activity -->
 
         <activity
-            android:name="com.expedia.ui.LXBaseActivity"
+            android:name=".lob.lx.ui.activity.LXBaseActivity"
             android:launchMode="singleTop"
             android:taskAffinity="com.expedia.bookings.activity.LXBaseActivity"
             android:screenOrientation="portrait"
