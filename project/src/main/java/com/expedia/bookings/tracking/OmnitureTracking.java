@@ -253,8 +253,6 @@ public class OmnitureTracking {
 		s.setEvar(2, "D=c2");
 		s.setProp(2, HOTELV2_LOB);
 
-		trackAbacusTest(s, AbacusUtils.EBAndroidAppHotelRecentSearchTest);
-
 		//SWP is visible and toggle is ON, when user lands on Search Screen
 		if (swpIsVisibleAndToggleIsOn) {
 			s.setEvents("event118");
