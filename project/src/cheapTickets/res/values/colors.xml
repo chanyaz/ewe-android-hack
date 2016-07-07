@@ -91,9 +91,17 @@
     <color name="lx_ripple_color">#054A75</color>
     <color name="lx_secondary_color_disabled">#0E7DC4</color>
     <color name="lx_unchecked_toggle_text_color">#dfe9f0</color>
-    <color name="lx_ticket_selector_disabled_color">#dfe9f0</color>
     <color name="lx_offer_date_ripple_color">@color/lx_ripple_color</color>
     <color name="cars_ripple_color">@color/lx_ripple_color</color>
+
+
+    <color name="lx_primary_disabled_color">#dfe9f0</color>
+    <color name="cars_color_primary_dark">@color/cars_primary_color</color>
+    <color name="cars_secondary_color">@color/cars_primary_color</color>
+    <color name="cars_tooltip_color">@color/cars_primary_color</color>
+    <color name="cars_status_bar_color">@color/cars_primary_color</color>
+    <color name="lx_color_primary_dark">@color/lx_primary_color</color>
+    <color name="checkout_login_button_color">@android:color/white</color>
 
     <!-- Itin Colors -->
     <color name="itin_unable_to_find_error_color">#FFB80000</color>
