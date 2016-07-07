@@ -1,4 +1,4 @@
-package com.expedia.bookings.widget;
+package com.expedia.bookings.lob.lx.ui.presenter;
 
 import javax.inject.Inject;
 
@@ -33,6 +33,10 @@ import com.expedia.bookings.utils.LXDataUtils;
 import com.expedia.bookings.utils.RetrofitUtils;
 import com.expedia.bookings.utils.StrUtils;
 import com.expedia.bookings.utils.Ui;
+import com.expedia.bookings.widget.CVVEntryWidget;
+import com.expedia.bookings.widget.CheckoutBasePresenter;
+import com.expedia.bookings.widget.LXCheckoutSummaryWidget;
+import com.expedia.bookings.widget.PaymentWidget;
 import com.mobiata.android.Log;
 import com.squareup.otto.Subscribe;
 import com.squareup.phrase.Phrase;
@@ -41,7 +45,8 @@ import butterknife.ButterKnife;
 import rx.Observer;
 import rx.Subscription;
 
-public class LXCheckoutMainViewPresenter extends CheckoutBasePresenter implements CVVEntryWidget.CVVEntryFragmentListener {
+public class LXCheckoutMainViewPresenter extends CheckoutBasePresenter
+	implements CVVEntryWidget.CVVEntryFragmentListener {
 
 	private boolean isGroundTransport;
 
