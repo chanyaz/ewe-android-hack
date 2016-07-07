@@ -16,7 +16,7 @@ import com.expedia.bookings.widget.LXSuggestionAdapter
 import com.expedia.util.notNullAndObservable
 import com.expedia.util.subscribeOnClick
 import com.expedia.vm.BaseSearchViewModel
-import com.expedia.vm.LXSearchViewModel
+import com.expedia.bookings.lob.lx.ui.viewmodel.LXSearchViewModel
 import com.expedia.vm.LXSuggestionAdapterViewModel
 import com.expedia.vm.SuggestionAdapterViewModel
 

@@ -1,4 +1,4 @@
-package com.expedia.vm
+package com.expedia.bookings.lob.lx.ui.viewmodel
 
 import android.content.Context
 import android.text.Html
@@ -9,6 +9,7 @@ import com.expedia.bookings.utils.DateUtils
 import com.expedia.bookings.utils.SpannableBuilder
 import com.expedia.util.endlessObserver
 import com.mobiata.android.time.util.JodaUtils
+import com.expedia.vm.BaseSearchViewModel
 import org.joda.time.LocalDate
 import rx.subjects.PublishSubject
 

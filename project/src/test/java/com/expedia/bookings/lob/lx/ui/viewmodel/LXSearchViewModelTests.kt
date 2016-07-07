@@ -1,4 +1,4 @@
-package com.expedia.bookings.test.robolectric
+package com.expedia.bookings.lob.lx.ui.viewmodel
 
 import android.app.Activity
 import com.expedia.bookings.R
@@ -9,7 +9,8 @@ import com.expedia.bookings.test.robolectric.shadows.ShadowGCM
 import com.expedia.bookings.test.robolectric.shadows.ShadowUserManager
 import com.expedia.bookings.utils.DateUtils
 import com.expedia.bookings.utils.Ui
-import com.expedia.vm.LXSearchViewModel
+import com.expedia.bookings.lob.lx.ui.viewmodel.LXSearchViewModel
+import com.expedia.bookings.test.robolectric.RobolectricRunner
 import org.joda.time.LocalDate
 import org.junit.Before
 import org.junit.Test

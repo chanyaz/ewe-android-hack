@@ -9,7 +9,7 @@ import com.expedia.bookings.R
 import com.expedia.bookings.presenter.lx.LXSearchPresenter
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.widget.TextView
-import com.expedia.vm.LXSearchViewModel
+import com.expedia.bookings.lob.lx.ui.viewmodel.LXSearchViewModel
 import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
