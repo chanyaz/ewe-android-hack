@@ -1,5 +1,6 @@
 package com.expedia.bookings.test.happy;
 
+import java.lang.reflect.Method;
 import org.joda.time.LocalDate;
 
 import android.app.Activity;
@@ -43,15 +44,31 @@ public class NewFlightPhoneHappyPathTest extends NewFlightTestCase {
 
 	@Override
 	public void runTest() throws Throwable {
-		Intents.init();
-		intending(hasComponent(WebViewActivity.class.getName()))
-			.respondWith(new Instrumentation.ActivityResult(Activity.RESULT_OK, null));
+		Method method = getClass().getMethod(getName(), (Class[]) null);
+		if (method.getName().equals("testNewFlightHappyPath")) {
+			Intents.init();
+			intending(hasComponent(WebViewActivity.class.getName()))
+				.respondWith(new Instrumentation.ActivityResult(Activity.RESULT_OK, null));
+			bucketInsuranceTest(true);
+		}
+		else {
+			bucketInsuranceTest(false);
+		}
 		super.runTest();
 	}
 
-	public void testNewFlightHappyPath() throws Throwable {
-		bucketInsuranceTest();
+	@Override
+	protected void tearDown() throws Exception {
+		Method method = getClass().getMethod(getName(), (Class[]) null);
 
+		if (method.getName().equals("testNewFlightHappyPath")) {
+
+			Intents.release();
+		}
+		super.tearDown();
+	}
+
+	public void testNewFlightHappyPath() throws Throwable {
 		SearchScreen.origin().perform(click());
 		SearchScreen.selectFlightOriginAndDestination();
 		LocalDate startDate = LocalDate.now().plusDays(3);
@@ -113,6 +130,47 @@ public class NewFlightPhoneHappyPathTest extends NewFlightTestCase {
 		assertConfirmationView();
 	}
 
+	public void testNewFlightHappyPathForOneway() throws Throwable {
+		onView(withText("ONE WAY")).perform(click());
+		SearchScreen.origin().perform(click());
+		SearchScreen.selectFlightOriginAndDestination();
+		LocalDate startDate = LocalDate.now().plusDays(3);
+		SearchScreen.selectDates(startDate, null);
+
+		SearchScreen.searchButton().perform(click());
+
+		FlightTestHelpers.assertFlightOutboundForOneWay();
+		FlightsScreen.selectFlight(FlightsScreen.outboundFlightList(), 0);
+		FlightsScreen.selectOutboundFlight().perform(click());
+
+		assertCheckoutOverviewForOneway();
+		assertCostSummaryView();
+
+		PackageScreen.checkout().perform(click());
+
+		PackageScreen.travelerInfo().perform(scrollTo(), click());
+		PackageScreen.enterFirstName("Eidur");
+		PackageScreen.enterLastName("Gudjohnsen");
+		PackageScreen.enterPhoneNumber("4155554321");
+		PackageScreen.selectBirthDate(1989, 6, 9);
+
+		PackageScreen.selectGender("Male");
+
+		PackageScreen.clickTravelerAdvanced();
+		PackageScreen.enterRedressNumber("1234567");
+
+		PackageScreen.clickTravelerDone();
+		PackageScreen.enterPaymentInfo();
+
+		PackageScreen.clickLegalInformation();
+		assertLegalInformation();
+		Common.pressBack();
+		CheckoutViewModel.performSlideToPurchase();
+
+		assertConfirmationView();
+	}
+
+
 	private void assertCostSummaryView() {
 		onView(withId(R.id.bundle_total_text)).perform(click());
 		onView(withText("Adult 1 details")).perform(ViewActions.waitForViewToDisplay()).check(matches(isDisplayed()));
@@ -123,14 +181,16 @@ public class NewFlightPhoneHappyPathTest extends NewFlightTestCase {
 	}
 
 	private void assertLegalInformation() {
-		onView(withId(R.id.rules_and_restrictions)).perform(ViewActions.waitForViewToDisplay()).check(matches(isDisplayed()));
+		onView(withId(R.id.rules_and_restrictions)).perform(ViewActions.waitForViewToDisplay())
+			.check(matches(isDisplayed()));
 		onView(withId(R.id.terms_and_conditions)).check(matches(isDisplayed()));
 		onView(withId(R.id.privacy_policy)).check(matches(isDisplayed()));
 		onView(withId(R.id.liabilities_link_text_view)).check(matches(isDisplayed()));
 	}
 
 	private void assertConfirmationView() {
-		onView(withId(R.id.confirmation_container)).perform(ViewActions.waitForViewToDisplay()).check(matches(isDisplayed()));
+		onView(withId(R.id.confirmation_container)).perform(ViewActions.waitForViewToDisplay())
+			.check(matches(isDisplayed()));
 	}
 
 	private void assertCheckoutOverview() {
@@ -165,10 +225,10 @@ public class NewFlightPhoneHappyPathTest extends NewFlightTestCase {
 	}
 
 	private void assertInsuranceIsAdded() {
-		onView(withId(R.id.insurance_title)).check(matches(withText("Your trip is protected for $19/person")));
 		PackageScreen.showPriceBreakdown();
 		onView(withText(R.string.cost_summary_breakdown_flight_insurance)).check(matches(isDisplayed()));
 		Espresso.pressBack();
+		onView(withId(R.id.insurance_title)).check(matches(withText("Your trip is protected for $19/person")));
 	}
 
 	private void assertInsuranceIsAvailable() {
@@ -176,17 +236,35 @@ public class NewFlightPhoneHappyPathTest extends NewFlightTestCase {
 	}
 
 	private void assertInsuranceIsRemoved() {
-		onView(withId(R.id.insurance_title)).check(matches(withText("Add protection for $19/person")));
 		PackageScreen.showPriceBreakdown();
 		onView(withText(R.string.cost_summary_breakdown_flight_insurance)).check(doesNotExist());
 		Espresso.pressBack();
+		onView(withId(R.id.insurance_title)).check(matches(withText("Add protection for $19/person")));
 	}
 
 	private void assertInsuranceTerms() {
 		intended(hasComponent(WebViewActivity.class.getName()));
 	}
 
-	private void bucketInsuranceTest() {
-		AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppFlightInsurance);
+	private void bucketInsuranceTest(boolean bucket) {
+		if (bucket) {
+			AbacusTestUtils.updateABTest(AbacusUtils.EBAndroidAppFlightInsurance,
+				AbacusUtils.DefaultVariate.BUCKETED.ordinal());
+		}
+		else {
+			AbacusTestUtils.updateABTest(AbacusUtils.EBAndroidAppFlightInsurance,
+				AbacusUtils.DefaultVariate.CONTROL.ordinal());
+		}
+	}
+
+	private void assertCheckoutOverviewForOneway() {
+		onView(allOf(withId(R.id.destination), withParent(withId(R.id.checkout_overview_floating_toolbar)),
+			withText("Detroit, MI (DTW-Detroit Metropolitan Wayne County)"))).check(matches(isDisplayed()));
+		onView(allOf(withId(R.id.travelers), withParent(withId(R.id.checkout_overview_floating_toolbar)),
+			withText("1 Traveler"))).check(matches(isDisplayed()));
+
+		onView(allOf(withId(R.id.flight_card_view_text),
+			isDescendantOfA(withId(R.id.package_bundle_outbound_flight_widget)))).check(
+			matches(withText("Flight to (DTW) Detroit")));
 	}
 }

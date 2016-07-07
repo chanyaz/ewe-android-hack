@@ -83,7 +83,16 @@ class FlightSearchViewModel(context: Context, val flightServices: FlightServices
         searchParamsObservable.map { Unit }.subscribe(resetFlightSelectionsSubject)
 
         confirmedOutboundFlightSelection.subscribe { flight ->
-            inboundResultsObservable.onNext(findInboundFlights(flight.legId))
+            if (isRoundTripSearchObservable.value) {
+                inboundResultsObservable.onNext(findInboundFlights(flight.legId))
+            }
+            else {
+                val offer = flightOfferModels[makeFlightOfferKey(flight.legId,flight.legId)]
+                if (offer != null) {
+                    flightProductId.onNext(offer.productKey)
+                    flightOfferSelected.onNext(offer)
+                }
+            }
         }
 
         resetFlightSelectionsSubject.subscribe {

@@ -15,6 +15,16 @@ object FlightTestHelpers {
         EspressoUtils.assertViewWithIdIsDisplayedAtPosition(FlightsScreen.outboundFlightList(), resultPosition, R.id.custom_flight_layover_widget)
     }
 
+    @JvmStatic fun assertFlightOutboundForOneWay() {
+        val resultPosition = 1
+        FlightsScreen.outboundFlightList().perform(waitForViewToDisplay())
+        EspressoUtils.assertViewWithTextIsDisplayedAtPosition(FlightsScreen.outboundFlightList(), resultPosition, R.id.flight_time_detail_text_view,
+                "6:40 am - 7:49 am")
+        EspressoUtils.assertViewWithTextIsDisplayedAtPosition(FlightsScreen.outboundFlightList(), resultPosition, R.id.flight_duration_text_view, "1h 9m (Nonstop)")
+        EspressoUtils.assertViewWithTextIsDisplayedAtPosition(FlightsScreen.outboundFlightList(), resultPosition, R.id.price_text_view, "$696.00")
+        EspressoUtils.assertViewWithIdIsDisplayedAtPosition(FlightsScreen.outboundFlightList(), resultPosition, R.id.custom_flight_layover_widget)
+    }
+
     @JvmStatic fun assertFlightInbound() {
         val resultPosition = 1
         FlightsScreen.inboundFlightList().perform(waitForViewToDisplay())
