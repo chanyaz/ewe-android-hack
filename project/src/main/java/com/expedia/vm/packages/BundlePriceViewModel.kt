@@ -4,7 +4,6 @@ import android.content.Context
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Money
 import com.squareup.phrase.Phrase
-import rx.Observable
 import rx.subjects.BehaviorSubject
 import rx.subjects.PublishSubject
 
@@ -15,7 +14,7 @@ class BundlePriceViewModel(val context: Context, val isSlidable: Boolean = false
 
     val pricePerPersonObservable = BehaviorSubject.create<String>()
     val totalPriceObservable = BehaviorSubject.create<String>()
-    val savingsPriceObservable = BehaviorSubject.create<String>()
+    val savingsPriceObservable = BehaviorSubject.create<String>("")
     val bundleTextLabelObservable = BehaviorSubject.create<String>()
     val perPersonTextLabelObservable = BehaviorSubject.create<Boolean>()
     val bundleTotalIncludesObservable = BehaviorSubject.create<String>()
@@ -32,7 +31,7 @@ class BundlePriceViewModel(val context: Context, val isSlidable: Boolean = false
             contentDescriptionObservable.onNext(description)
         }
 
-        savings.subscribe { savings ->
+        savings.filter { !it.isZero }.subscribe { savings ->
             val packageSavings = Phrase.from(context, R.string.bundle_total_savings_TEMPLATE)
                     .put("savings", savings.getFormattedMoney(Money.F_ALWAYS_TWO_PLACES_AFTER_DECIMAL))
                     .format().toString()
@@ -51,7 +50,7 @@ class BundlePriceViewModel(val context: Context, val isSlidable: Boolean = false
     }
 
     fun getAccessibleContentDescription(isCostBreakdownShown: Boolean = false, isSlidable: Boolean = false, isExpanded: Boolean = false): String {
-        val description = if (isCostBreakdownShown || (costBreakdownEnabledObservable.value != null && costBreakdownEnabledObservable.value) ) {
+        val description = if (isCostBreakdownShown || (costBreakdownEnabledObservable.value != null && costBreakdownEnabledObservable.value)) {
             Phrase.from(context, R.string.bundle_total_price_widget_cost_breakdown_cont_desc_TEMPLATE)
                     .put("totalprice", totalPriceObservable.value)
                     .put("savings", savingsPriceObservable.value)

@@ -99,12 +99,21 @@ public class PackagesBundleOverviewTest extends PackageTestCase {
 			"You have selected hotel " + selectedHotelName + " from " + startDate + " to " + endDate + ", for 1 Guest. Button to expand hotel details.")));
 	}
 
-	private void checkBundleTotalWidgetContentDescription(String totalPrice, String totalSaved, boolean isCostBreakdownEnabled) {
+	private void checkBundleTotalWidgetContentDescription(String totalPrice, String totalSaved,
+		boolean isCostBreakdownEnabled) {
 		if (isCostBreakdownEnabled) {
-			PackageScreen.bundleTotalFooterWidget().check((matches(withContentDescription("Bundle total is " + totalPrice + ". This price includes taxes, fees for both flights and hotel. " + totalSaved + " Saved. Cost Breakdown dialog. Button."))));
+			PackageScreen.bundleTotalFooterWidget().check((matches(withContentDescription(
+				"Bundle total is " + totalPrice + ". This price includes taxes, fees for both flights and hotel. "
+					+ totalSaved + " Saved. Cost Breakdown dialog. Button."))));
+		}
+		else if (!totalSaved.equalsIgnoreCase("$0.00")) {
+			PackageScreen.bundleTotalFooterWidget().check((matches(withContentDescription(
+				"Bundle total is " + totalPrice + ". This price includes taxes, fees for both flights and hotel. "
+					+ totalSaved + " Saved"))));
 		}
 		else {
-			PackageScreen.bundleTotalFooterWidget().check((matches(withContentDescription("Bundle total is " + totalPrice + ". This price includes taxes, fees for both flights and hotel. " + totalSaved + " Saved"))));
+			PackageScreen.bundleTotalFooterWidget().check((matches(withContentDescription(
+				"Bundle total is " + totalPrice + ". This price includes taxes, fees for both flights and hotel. "))));
 		}
 	}
 
