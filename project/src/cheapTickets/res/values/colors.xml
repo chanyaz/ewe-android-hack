@@ -48,6 +48,7 @@
     <color name="preferences_text">#495863</color>
     <color name="hotel_points_applied_plus_color">#03AD1D</color>
     <color name="cvv_book_button_text_color">@android:color/white</color>
+    <color name="tablet_pin_detail_button_text_color">@android:color/white</color>
 
     <!--Air attach banner color-->
     <color name="bg_air_attach_banner_default">#116FAA</color>

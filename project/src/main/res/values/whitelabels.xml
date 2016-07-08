@@ -152,22 +152,14 @@
     <!--CVV and CVV Error-->
     <attr name="skin_cvvDivDrawable" format="reference" />
     <attr name="skin_cvvDivErrorDrawable" format="reference" />
-
-
-
     <attr name="skin_candycaneProgressDrawable" format="reference" />
     <attr name="skin_userRatingBarDrawable" format="reference" />
-
-    <attr name="skin_clearEditTextImage" format="reference"/>
 
     <attr name="skin_icTypeCircleFlight" format="reference" />
     <attr name="skin_icTypeCircleHotel" format="reference" />
 
     <attr name="skin_icCheckoutCheckmarkDrawable" format="reference" />
     <attr name="skin_actionbarTextColor" format="reference|color" />
-
-
-
 
     <!--Change the color of flight circles and lines -->
     <attr name="skin_flightLineColor" format="reference" />
@@ -192,7 +184,6 @@
 
     <attr name="skin_tablet_pin_detail_image_size" format="reference" />
     <attr name="skin_tablet_pin_detail_button_background" format="reference" />
-    <attr name="skin_tablet_pin_detail_button_text_color" format="reference|color" />
     <attr name="skin_tablet_ab_launch_text1_base" format="reference" />
     <attr name="skin_tablet_ab_launch_text2_pin_detail" format="reference" />
 
@@ -207,9 +198,6 @@
     <!-- Rules Activity action bar logo -->
     <attr name="skin_hotelRulesActionBarLogo" format="reference" />
     <attr name="skin_flightRulesActionBarLogo" format="reference" />
-
-    <!-- Login Activity action bar Icon -->
-    <attr name="skin_hotelLoginActionBarIcon" format="reference" />
 
     <attr name="skin_tablet_hotel_coupon_text_color" format="reference|color" />
 

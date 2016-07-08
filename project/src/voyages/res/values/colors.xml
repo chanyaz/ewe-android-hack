@@ -18,6 +18,7 @@
     <color name="flight_trip">@color/flight_trip_price</color>
     <color name="actionbar_menu_text_color">@color/vsc_primary_color</color>
     <color name="hotel_sale_text_color">@color/vsc_primary_color</color>
+    <color name="tablet_pin_detail_button_text_color">@color/launch_pin_detail_button_text</color>
 
     <!-- Popular Hotels Tonight Discount strips-->
     <color name="launch_mobile_exclusive">#DE0058</color>

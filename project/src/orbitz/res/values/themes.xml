@@ -8,7 +8,6 @@
         <item name="skin_ratingBarUserReviewStyle">@style/RatingBar.UserReview.Blue</item>
         <item name="skin_bestPriceGuaranteeString">@string/orbitz_best_price_guarantee</item>
         <item name="skin_costSummaryDialogStripeDrawable">@drawable/dialog_breakdown_stripe</item>
-        <item name="skin_flightsCostSummaryDialogStripeDrawable">@drawable/dialog_breakdown_stripe</item>
         <item name="skin_actionBarSpinnerBackground">@drawable/ab_spinner_orbitz</item>
         <item name="skin_actionBarButtonTextColor">@color/action_bar_text_color</item>
         <item name="skin_cvvBookButtonTextColor">@android:color/white</item>
@@ -22,12 +21,9 @@
         <item name="skin_travellerInfoPageLogo">@drawable/ic_traveller_info_page_logo</item>
         <item name="skin_travellerInfoPageLogoDisabled">@drawable/ic_orb_white_logo_small</item>
         <item name="skin_userRatingBarDrawable">@drawable/ratingbar_userreview_flat_blue_orbitz</item>
-        <item name="skin_clearEditTextImage">@drawable/ic_clear_edittext_dark</item>
         <item name="skin_tablet_ab_launch_text1_base">@string/app_name</item>
-        <item name="skin_tablet_pin_detail_button_text_color">@color/launch_pin_detail_button_text_orbitz</item>
         <item name="skin_hotelRulesActionBarLogo">@drawable/ic_action_bar_logo_dark</item>
         <item name="skin_flightRulesActionBarLogo">@drawable/ic_action_bar_logo_dark</item>
-        <item name="skin_hotelLoginActionBarIcon">@drawable/ic_action_bar_logo_dark</item>
         <item name="skin_errorIndicationExclaimationDrawable">@drawable/ic_error_blue</item>
     </style>
 

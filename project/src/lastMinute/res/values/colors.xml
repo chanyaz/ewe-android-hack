@@ -94,6 +94,7 @@
     <!-- Launch screen colors -->
     <color name="launch_toolbar_background_color">@color/action_bar_bg_color</color>
     <color name="launch_tab_indicator">@color/action_bar_selected_tab_underline_color</color>
+    <color name="tablet_pin_detail_button_text_color">@color/launch_pin_detail_button_text_lm</color>
 
     <!--Account Lib Colors -->
     <color name="btn_sign_in_normal">#E40088</color>

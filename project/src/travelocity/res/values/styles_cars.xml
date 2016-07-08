@@ -11,7 +11,7 @@
         <item name="skin_carsTooltipColor">@color/cars_primary_color</item>
         <item name="primary_color">@color/cars_primary_color</item>
         <item name="skin_carsStatusBarColor">@color/cars_primary_color</item>
-        <item name="skin_costSummaryAlertDrawable">@drawable/dialog_breakdown_stripe_travelocity</item>
+        <item name="skin_costSummaryAlertDrawable">@drawable/dialog_breakdown_stripe</item>
         <item name="skin_checkoutLoginBookNowButtonDrawable">@drawable/btn_signin</item>
         <item name="skin_checkoutLoginButtonColor">@android:color/white</item>
 

@@ -12,7 +12,7 @@
 
 
         <!-- Skins added for whitelabel -->
-        <item name="skin_costSummaryAlertDrawable">@drawable/dialog_breakdown_stripe_lm</item>
+        <item name="skin_costSummaryAlertDrawable">@drawable/dialog_breakdown_stripe</item>
         
         
         <item name="skin_checkoutLoginBookNowButtonDrawable">@drawable/btn_signin</item>

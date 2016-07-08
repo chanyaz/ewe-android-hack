@@ -11,7 +11,6 @@
         <item name="skin_bestPriceGuaranteeString">@string/best_price_guarantee</item>
         <item name="skin_costSummaryHeaderTextColor">@color/cost_summary_header_text_color</item>
         <item name="skin_costSummaryDialogStripeDrawable">@drawable/dialog_breakdown_stripe</item>
-        <item name="skin_flightsCostSummaryDialogStripeDrawable">@drawable/dialog_breakdown_stripe</item>
         <item name="skin_actionBarSpinnerBackground">@drawable/ic_ab_arrow</item>
         <item name="skin_actionBarButtonTextColor">@color/action_bar_text_color</item>
         <item name="skin_loginBookNowButtonDrawable">@drawable/btn_signin</item>
@@ -36,17 +35,14 @@
         <item name="skin_cvvDivDrawable">@drawable/div_cvv</item>
         <item name="skin_cvvDivErrorDrawable">@drawable/div_cvv_error</item>
         <item name="skin_userRatingBarDrawable">@drawable/ratingbar_userreview_flat_blue</item>
-        <item name="skin_clearEditTextImage">@drawable/ic_clear_edittext_dark</item>
         <item name="skin_candycaneProgressDrawable">@drawable/progressbar_candycane_horizontal</item>
         <item name="skin_tablet_pin_detail_image_size">@dimen/launch_pin_detail_size</item>
         <item name="skin_tablet_ab_launch_text1_base">@string/app_name</item>
         <item name="skin_tablet_ab_launch_text2_pin_detail">@string/Destination</item>
         <item name="skin_tablet_pin_detail_button_background">@drawable/btn_tablet_launch_screen</item>
-        <item name="skin_tablet_pin_detail_button_text_color">@android:color/white</item>
         <item name="skin_menuAboutWebViewActivity">@menu/menu_webview</item>
         <item name="skin_hotelRulesActionBarLogo">@drawable/ic_action_bar_logo_dark</item>
         <item name="skin_flightRulesActionBarLogo">@drawable/ic_action_bar_logo_dark</item>
-        <item name="skin_hotelLoginActionBarIcon">@drawable/ic_action_bar_logo_dark</item>
         <item name="skin_tablet_hotel_coupon_text_color">@color/tablet_hotel_coupon_text_color</item>
         <item name="skin_errorIndicationExclaimationDrawable">@drawable/ic_error_blue</item>
     </style>
