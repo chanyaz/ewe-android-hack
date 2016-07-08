@@ -12,7 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
-    <com.expedia.bookings.widget.FlightCheckoutPresenter
+    <com.expedia.bookings.presenter.flight.FlightCheckoutPresenter
         android:id="@+id/checkout_presenter"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

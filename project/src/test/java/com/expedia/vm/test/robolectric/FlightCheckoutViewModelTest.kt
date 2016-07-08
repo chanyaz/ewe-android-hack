@@ -12,8 +12,10 @@ import com.expedia.bookings.data.flights.FlightCheckoutParams
 import com.expedia.bookings.data.flights.FlightCheckoutResponse
 import com.expedia.bookings.data.flights.FlightCreateTripResponse
 import com.expedia.bookings.data.flights.ValidFormOfPayment
+import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.enums.PassengerCategory
 import com.expedia.bookings.services.FlightServices
+import com.expedia.bookings.test.PointOfSaleTestConfiguration
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.vm.FlightCheckoutViewModel
 import org.joda.time.LocalDate
@@ -39,6 +41,30 @@ class FlightCheckoutViewModelTest {
 
     private fun setupSystemUnderTest() {
         sut = FlightCheckoutViewModel(context, mockFlightServices, selectedCardTypeSubject)
+    }
+
+    @Test
+    fun debitCardNotAccepted() {
+        PointOfSaleTestConfiguration.configurePointOfSale(RuntimeEnvironment.application, "MockSharedData/pos_with_no_debit_cards_permitted.json")
+        createMockFlightServices()
+        setupSystemUnderTest()
+
+        val debitCardNotAcceptedSubscriber = TestSubscriber<Boolean>()
+        sut.showDebitCardsNotAcceptedSubject.subscribe(debitCardNotAcceptedSubscriber)
+
+        debitCardNotAcceptedSubscriber.assertValue(true)
+    }
+
+    @Test
+    fun debitCardAccepted() {
+        PointOfSaleTestConfiguration.configurePointOfSale(RuntimeEnvironment.application, "MockSharedData/pos_test_config.json")
+        createMockFlightServices()
+        setupSystemUnderTest()
+
+        val debitCardNotAcceptedSubscriber = TestSubscriber<Boolean>()
+        sut.showDebitCardsNotAcceptedSubject.subscribe(debitCardNotAcceptedSubscriber)
+
+        debitCardNotAcceptedSubscriber.assertValue(false)
     }
 
     @Test

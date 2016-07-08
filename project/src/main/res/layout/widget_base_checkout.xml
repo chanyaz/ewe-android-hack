@@ -16,16 +16,14 @@
 
         <com.expedia.bookings.widget.TextView
             android:id="@+id/card_processing_fee"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:singleLine="true"
-            android:textSize="12sp"
-            android:padding="8dp"
-            android:gravity="center"
-            android:textColor="@color/white"
-            android:background="@color/lob_packages_secondary_color"
-            android:visibility="gone"
-            app:textStyle="medium" />
+            style="@style/FlightWarningBar"
+            android:visibility="gone" />
+
+        <com.expedia.bookings.widget.TextView
+            android:id="@+id/flights_debit_cards_not_accepted"
+            style="@style/FlightWarningBar"
+            android:text="@string/flights_debit_cards_not_accepted"
+            android:visibility="gone" />
 
         <com.expedia.bookings.widget.FrameLayout
             android:id="@+id/handle"

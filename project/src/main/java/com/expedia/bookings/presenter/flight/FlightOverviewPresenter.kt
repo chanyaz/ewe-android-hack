@@ -9,7 +9,6 @@ import android.view.animation.DecelerateInterpolator
 import com.expedia.bookings.R
 import com.expedia.bookings.presenter.BaseOverviewPresenter
 import com.expedia.bookings.utils.bindView
-import com.expedia.bookings.widget.FlightCheckoutPresenter
 import com.expedia.bookings.widget.flights.PaymentFeeInfoWebView
 import com.expedia.util.subscribeText
 import com.expedia.util.subscribeVisibility
