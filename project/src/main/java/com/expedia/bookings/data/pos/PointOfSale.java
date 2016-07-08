@@ -113,9 +113,6 @@ public class PointOfSale {
 	//Whether we should show last name first
 	private boolean mShowLastNameFirst;
 
-	//Whether we should provide example names
-	private boolean mShowExampleNames;
-
 	//Whether we should hide middle name
 	private boolean mHideMiddleName;
 
@@ -579,10 +576,6 @@ public class PointOfSale {
 
 	public boolean showLastNameFirst() {
 		return mShowLastNameFirst;
-	}
-
-	public boolean showExampleNames() {
-		return mShowExampleNames;
 	}
 
 	public boolean hideMiddleName() {
@@ -1142,7 +1135,6 @@ public class PointOfSale {
 		pos.mRequiresRulesRestrictionsCheckbox = data.optBoolean("explicitConsentRequired");
 		pos.mDisplayBestPriceGuarantee = data.optBoolean("shouldDisplayBestPriceGuarantee");
 		pos.mShowLastNameFirst = data.optBoolean("shouldShowLastNameFirst");
-		pos.mShowExampleNames = data.optBoolean("shouldShowExampleNames");
 		pos.mHideMiddleName = data.optBoolean("shouldHideMiddleName");
 		pos.mSupportsFlights = data.optBoolean("flightsEnabled");
 		pos.mSupportsCars = data.optBoolean("carsEnabled");
