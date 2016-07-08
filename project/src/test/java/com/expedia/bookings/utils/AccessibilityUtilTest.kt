@@ -1,21 +1,16 @@
 package com.expedia.bookings.utils
 
 import android.content.Context
-import android.content.res.Resources
 import android.support.v7.widget.Toolbar
-import android.view.View
 import android.view.accessibility.AccessibilityManager
 import android.widget.ImageButton
+import android.widget.LinearLayout
 import android.widget.TextView
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.Mockito
-import org.mockito.Spy
-import org.robolectric.Robolectric
 import org.robolectric.RuntimeEnvironment
-import org.robolectric.shadows.ShadowAccessibilityManager
-import kotlin.test.assertEquals
 import kotlin.test.assertFalse
 import kotlin.test.assertNull
 import kotlin.test.assertTrue
@@ -82,4 +77,19 @@ class AccessibilityUtilTest {
         assertTrue(textView.findFocus().javaClass.equals(TextView::class.java))
     }
 
+    @Test
+    fun testSetFocusForView() {
+        val spyContext = Mockito.spy(RuntimeEnvironment.application)
+        val parent = LinearLayout(spyContext)
+        parent.orientation = LinearLayout.VERTICAL
+
+        val textView1 = TextView(spyContext)
+        val textView2 = TextView(spyContext)
+        parent.addView(textView1)
+        parent.addView(textView2)
+
+        assertNull(textView1.findFocus())
+        textView1.setFocusForView()
+        assertNull(textView1.findFocus())
+    }
 }

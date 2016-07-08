@@ -12,7 +12,6 @@ import android.support.v7.app.AppCompatActivity
 import android.util.AttributeSet
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.LinearLayout
@@ -28,7 +27,6 @@ import com.expedia.bookings.data.PaymentType
 import com.expedia.bookings.data.StoredCreditCard
 import com.expedia.bookings.data.User
 import com.expedia.bookings.data.abacus.AbacusUtils
-import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.section.ISectionEditable
 import com.expedia.bookings.section.InvalidCharacterHelper
@@ -43,6 +41,7 @@ import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.WalletUtils
 import com.expedia.bookings.utils.bindOptionalView
 import com.expedia.bookings.utils.bindView
+import com.expedia.bookings.utils.setFocusForView
 import com.expedia.util.endlessObserver
 import com.expedia.util.getCheckoutToolbarTitle
 import com.expedia.util.notNullAndObservable
@@ -54,7 +53,6 @@ import com.expedia.vm.PaymentViewModel
 import com.jakewharton.rxbinding.widget.RxTextView
 import com.jakewharton.rxbinding.widget.TextViewAfterTextChangeEvent
 import com.squareup.phrase.Phrase
-import io.card.payment.CardIOActivity
 import rx.subjects.PublishSubject
 import rx.subscriptions.CompositeSubscription
 
@@ -442,6 +440,7 @@ open class PaymentWidget(context: Context, attr: AttributeSet) : Presenter(conte
             paymentOptionsContainer.visibility = View.GONE
             billingInfoContainer.visibility = View.GONE
             validateAndBind()
+            cardInfoContainer.setFocusForView()
         }
     }
 

@@ -31,6 +31,7 @@ import com.expedia.bookings.utils.CurrencyUtils
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.UserAccountRefresher
 import com.expedia.bookings.utils.bindView
+import com.expedia.bookings.utils.setFocusForView
 import com.expedia.bookings.widget.packages.PackagePaymentWidget
 import com.expedia.util.notNullAndObservable
 import com.expedia.util.subscribeTextAndVisibility
@@ -253,6 +254,8 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet) : Pre
                 Ui.hideKeyboard(travelerPresenter)
                 toolbarDropShadow.visibility = View.GONE
                 animateInSlideToPurchase(true)
+                travelerPresenter.setFocusForView()
+                travelerPresenter.travelerDefaultState.setFocusForView()
             }
         }
     }
@@ -283,6 +286,7 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet) : Pre
             if (!forward) {
                 Ui.hideKeyboard(paymentWidget)
                 animateInSlideToPurchase(true)
+                paymentWidget.setFocusForView()
             }
         }
     }
