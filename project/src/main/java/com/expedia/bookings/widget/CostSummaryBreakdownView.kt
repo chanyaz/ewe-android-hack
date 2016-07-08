@@ -37,7 +37,7 @@ class CostSummaryBreakDownView(context: Context,  attrs: AttributeSet?) : Scroll
     }
 
     init {
-        View.inflate(context, R.layout.package_breakdown, this)
+        View.inflate(context, R.layout.cost_summary_breakdown, this)
       }
 
     private fun createRow(breakdown: BaseCostSummaryBreakdownViewModel.CostSummaryBreakdown): View {
@@ -46,6 +46,10 @@ class CostSummaryBreakDownView(context: Context,  attrs: AttributeSet?) : Scroll
         val priceValue = row.findViewById(R.id.price_text_view) as TextView
         priceDescription.text = breakdown.title
         priceValue.text = breakdown.cost
+        if (breakdown.color != null) {
+            priceDescription.setTextColor(breakdown.color)
+            priceValue.setTextColor(breakdown.color)
+        }
         return row
     }
 
@@ -53,7 +57,7 @@ class CostSummaryBreakDownView(context: Context,  attrs: AttributeSet?) : Scroll
         val row = createRow(breakdown)
         val priceDescription = row.findViewById(R.id.price_type_text_view) as TextView
         val priceValue = row.findViewById(R.id.price_text_view) as TextView
-        val textColor = ContextCompat.getColor(context, R.color.packages_breakdown_savings_cost_color)
+        val textColor = ContextCompat.getColor(context, R.color.cost_summary_breakdown_savings_cost_color)
         priceDescription.setTextColor(textColor)
         priceValue.setTextColor(textColor)
         return row
@@ -72,7 +76,7 @@ class CostSummaryBreakDownView(context: Context,  attrs: AttributeSet?) : Scroll
         val row = createRow(breakdown)
         val priceDescription = row.findViewById(R.id.price_type_text_view) as TextView
         val priceValue = row.findViewById(R.id.price_text_view) as TextView
-        val textColor = ContextCompat.getColor(context, R.color.packages_breakdown_total_cost_color)
+        val textColor = ContextCompat.getColor(context, R.color.cost_summary_breakdown_total_cost_color)
         priceDescription.setTextColor(textColor)
         priceValue.setTextColor(textColor)
         return row
@@ -86,7 +90,7 @@ class CostSummaryBreakDownView(context: Context,  attrs: AttributeSet?) : Scroll
         var paddingSide = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 12f, getResources().getDisplayMetrics()).toInt()
         lp.setMargins(paddingSide, paddingTop, paddingSide, paddingTop)
         view.setLayoutParams(lp)
-        view.setBackgroundColor(ContextCompat.getColor(context, R.color.packages_breakdown_line_seperator_color))
+        view.setBackgroundColor(ContextCompat.getColor(context, R.color.cost_summary_breakdown_line_separator_color))
         return view
     }
 }

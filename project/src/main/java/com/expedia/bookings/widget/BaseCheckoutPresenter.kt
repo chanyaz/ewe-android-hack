@@ -27,8 +27,9 @@ import com.expedia.bookings.data.User
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.presenter.packages.TravelerPresenter
-import com.expedia.bookings.utils.TravelerManager
+import com.expedia.bookings.services.InsuranceServices
 import com.expedia.bookings.utils.CurrencyUtils
+import com.expedia.bookings.utils.TravelerManager
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.UserAccountRefresher
 import com.expedia.bookings.utils.bindView
@@ -37,20 +38,21 @@ import com.expedia.bookings.widget.packages.PackagePaymentWidget
 import com.expedia.util.notNullAndObservable
 import com.expedia.util.subscribeTextAndVisibility
 import com.expedia.vm.BaseCheckoutViewModel
-import com.expedia.vm.FlightCostSummaryBreakdownViewModel
-import com.expedia.vm.PackageCostSummaryBreakdownViewModel
+import com.expedia.vm.InsuranceViewModel
 import com.expedia.vm.PaymentViewModel
 import com.expedia.vm.PriceChangeViewModel
+import com.expedia.vm.flights.FlightCostSummaryBreakdownViewModel
 import com.expedia.vm.packages.BaseCreateTripViewModel
 import com.expedia.vm.packages.BundlePriceViewModel
+import com.expedia.vm.packages.PackageCostSummaryBreakdownViewModel
 import com.mobiata.android.Log
 import rx.subjects.PublishSubject
 import java.math.BigDecimal
-import javax.inject.Inject
 import kotlin.properties.Delegates
 
 abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet) : Presenter(context, attr), SlideToWidgetLL.ISlideToListener,
         UserAccountRefresher.IUserAccountRefreshListener, AccountButton.AccountButtonClickListener {
+    lateinit var insuranceServices: InsuranceServices
     lateinit var travelerManager: TravelerManager
 
     val handle: FrameLayout by bindView(R.id.handle)
@@ -66,6 +68,8 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet) : Pre
     val paymentViewStub: ViewStub by bindView(R.id.payment_info_card_view_stub)
 
     val travelerPresenter: TravelerPresenter by bindView(R.id.traveler_presenter)
+
+    val insuranceWidget: InsuranceWidget by bindView(R.id.insurance_widget)
 
     val legalInformationText: TextView by bindView(R.id.legal_information_text_view)
     val hintContainer: LinearLayout by bindView(R.id.hint_container)
@@ -130,18 +134,22 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet) : Pre
 
     init {
         View.inflate(context, R.layout.widget_base_checkout, this)
-        travelerManager = Ui.getApplication(getContext()).travelerComponent().travelerManager()
+
+        insuranceServices = Ui.getApplication(context).appComponent().insurance()
+        travelerManager = Ui.getApplication(context).travelerComponent().travelerManager()
 
         paymentWidget = paymentViewStub.inflate() as PaymentWidget
         paymentWidget.viewmodel = paymentWidgetViewModel
 
+        insuranceWidget.viewModel = InsuranceViewModel(context, insuranceServices)
+
         priceChangeWidget.viewmodel = PriceChangeViewModel(context, getLineOfBusiness())
         if (getLineOfBusiness() == LineOfBusiness.FLIGHTS_V2) {
-            totalPriceWidget.packagebreakdown.viewmodel = FlightCostSummaryBreakdownViewModel(context)
+            totalPriceWidget.breakdown.viewmodel = FlightCostSummaryBreakdownViewModel(context)
         } else {
-            totalPriceWidget.packagebreakdown.viewmodel = PackageCostSummaryBreakdownViewModel(context)
+            totalPriceWidget.breakdown.viewmodel = PackageCostSummaryBreakdownViewModel(context)
         }
-        totalPriceWidget.packagebreakdown.viewmodel.iconVisibilityObservable.subscribe { show ->
+        totalPriceWidget.breakdown.viewmodel.iconVisibilityObservable.subscribe { show ->
             totalPriceWidget.toggleBundleTotalCompoundDrawable(show)
             totalPriceWidget.viewModel.costBreakdownEnabledObservable.onNext(show)
         }

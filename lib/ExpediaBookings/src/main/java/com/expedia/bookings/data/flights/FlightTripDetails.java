@@ -3,10 +3,12 @@ package com.expedia.bookings.data.flights;
 import java.util.List;
 
 import com.expedia.bookings.data.Money;
+import com.expedia.bookings.data.insurance.InsuranceProduct;
 
 public class FlightTripDetails {
 
 	//TODO might need to add more fields once we know what's needed for the checkout screen
+	public List<FlightLeg> legs;
 	public FlightOffer offer;
 	public Money obFeePrice;
 
@@ -24,6 +26,7 @@ public class FlightTripDetails {
 		public String fees;
 
 		public String baggageFeesUrl;
+		public String fareType;
 		public boolean isInternational;
 		public boolean isPassportNeeded;
 		public boolean isSplitTicket;
@@ -33,6 +36,9 @@ public class FlightTripDetails {
 		public boolean mayChargeOBFees;
 		public String numberOfTickets;
 		public int seatsRemaining;
+
+		public List<InsuranceProduct> availableInsuranceProducts;
+		public InsuranceProduct selectedInsuranceProduct;
 
 		public Money getBookingFee() {
 			return new Money(fees, currency);

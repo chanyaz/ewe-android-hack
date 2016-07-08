@@ -117,7 +117,8 @@ class FlightCheckoutViewModel(context: Context, val flightServices: FlightServic
                 if (response.hasErrors()) {
                     // see packagesCheckoutViewModel for error handling
                 } else {
-                    checkoutResponse.onNext(Pair(response, email));
+                    Db.getTripBucket().flightV2.flightCheckoutResponse = response
+                    checkoutResponse.onNext(Pair(response, email))
                 }
             }
 

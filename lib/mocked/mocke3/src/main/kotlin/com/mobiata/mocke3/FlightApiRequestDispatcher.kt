@@ -122,7 +122,8 @@ class FlightApiMockResponseGenerator() {
         }
 
         fun getCreateTripResponseFilePath(params: MutableMap<String, String>): String {
-            return "api/flight/trip/create/" + params["productKey"] + ".json"
+            val withInsurance = if (params["withInsurance"] == "true") "_with_insurance_available" else ""
+            return "api/flight/trip/create/${params["productKey"]}$withInsurance.json"
         }
     }
 }

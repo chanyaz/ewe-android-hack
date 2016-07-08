@@ -19,6 +19,8 @@ import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.text.Html;
 import android.text.TextUtils;
+import android.util.Pair;
+
 import com.adobe.adms.measurement.ADMS_Measurement;
 import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
@@ -45,6 +47,9 @@ import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.SearchParams;
 import com.expedia.bookings.data.StoredCreditCard;
 import com.expedia.bookings.data.SuggestionV2;
+import com.expedia.bookings.data.flights.FlightCreateTripResponse;
+import com.expedia.bookings.data.flights.FlightItineraryType;
+import com.expedia.bookings.data.insurance.InsuranceProduct;
 import com.expedia.bookings.data.User;
 import com.expedia.bookings.data.abacus.AbacusLogQuery;
 import com.expedia.bookings.data.abacus.AbacusTest;
@@ -55,6 +60,7 @@ import com.expedia.bookings.data.cars.CarSearchParams;
 import com.expedia.bookings.data.cars.CarTrackingData;
 import com.expedia.bookings.data.cars.CreateTripCarOffer;
 import com.expedia.bookings.data.cars.SearchCarOffer;
+import com.expedia.bookings.data.flights.FlightLeg.FlightSegment;
 import com.expedia.bookings.data.hotels.HotelCreateTripResponse;
 import com.expedia.bookings.data.hotels.HotelOffersResponse;
 import com.expedia.bookings.data.lx.ActivityDetailsResponse;
@@ -98,7 +104,9 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Locale;
 import java.util.Set;
 
@@ -1400,12 +1408,6 @@ public class OmnitureTracking {
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 	private static final String FLIGHT_SEARCH = "App.Flight.Search";
-	private static final String FLIGHT_SEARCH_V2 = "App.Flight.Dest-Search";
-	private static final String FLIGHT_RECENT_SEARCH_V2 = "App.Flight.DS.RecentSearch";
-	private static final String FLIGHTS_V2_TRAVELER_CHANGE_PREFIX = "App.Flight.DS.";
-	private static final String FLIGHTS_V2_TRAVELER_LINK_NAME = "Search Results Update";
-	private static final String FLIGHTS_V2_FLIGHT_BAGGAGE_FEE_CLICK = "App.Flight.Search.BaggageFee";
-	private static final String FLIGHTS_V2_FLIGHT_PAYMENT_FEE_CLICK = "App.Flight.Search.PaymentFee";
 	private static final String FLIGHT_SEARCH_INTERSTITIAL = "App.Flight.Search.Interstitial";
 	private static final String FLIGHT_SEARCH_ROUNDTRIP_OUT = "App.Flight.Search.Roundtrip.Out";
 	private static final String FLIGHT_SEARCH_ROUNDTRIP_OUT_DETAILS = "App.Flight.Search.Roundtrip.Out.Details";
@@ -1841,49 +1843,6 @@ public class OmnitureTracking {
 
 		s.setAppState(FLIGHT_SEARCH);
 		s.setEvar(18, FLIGHT_SEARCH);
-		trackAbacusTest(s, AbacusUtils.EBAndroidAppFlightTest);
-		s.track();
-	}
-
-	public static void trackFlightTravelerPickerClick(String actionLabel) {
-		ADMS_Measurement s = getFreshTrackingObject();
-		s.setEvar(28, FLIGHTS_V2_TRAVELER_CHANGE_PREFIX + actionLabel);
-		s.setProp(16, FLIGHTS_V2_TRAVELER_CHANGE_PREFIX + actionLabel);
-		s.trackLink(null, "o", FLIGHTS_V2_TRAVELER_LINK_NAME, null, null);
-	}
-
-	public static void trackFlightRecentSearchClick() {
-		Log.d(TAG, "Tracking \"" + FLIGHT_RECENT_SEARCH_V2 + "\" click...");
-
-		ADMS_Measurement s = getFreshTrackingObject();
-		s.setEvar(28, FLIGHT_RECENT_SEARCH_V2);
-		s.setProp(16, FLIGHT_RECENT_SEARCH_V2);
-		s.trackLink(null, "o", "Search Results Update", null, null);
-	}
-
-	public static void trackFlightBaggageFeesClick() {
-		Log.d(TAG, "Tracking \"" + FLIGHTS_V2_FLIGHT_BAGGAGE_FEE_CLICK + "\" click...");
-
-		ADMS_Measurement s = getFreshTrackingObject();
-		s.setEvar(28, FLIGHTS_V2_FLIGHT_BAGGAGE_FEE_CLICK);
-		s.setProp(16, FLIGHTS_V2_FLIGHT_BAGGAGE_FEE_CLICK);
-		s.trackLink(null, "o", "Flight Baggage Fee", null, null);
-	}
-
-	public static void trackFlightPaymentFeesClick() {
-		Log.d(TAG, "Tracking \"" + FLIGHTS_V2_FLIGHT_PAYMENT_FEE_CLICK + "\" click...");
-
-		ADMS_Measurement s = getFreshTrackingObject();
-		s.setEvar(28, FLIGHTS_V2_FLIGHT_PAYMENT_FEE_CLICK);
-		s.setProp(16, FLIGHTS_V2_FLIGHT_PAYMENT_FEE_CLICK);
-		s.trackLink(null, "o", "", null, null);
-	}
-
-	public static void trackPageLoadFlightSearchV2() {
-		ADMS_Measurement s = getFreshTrackingObject();
-
-		s.setAppState(FLIGHT_SEARCH_V2);
-		s.setEvar(18, FLIGHT_SEARCH_V2);
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppFlightTest);
 		s.track();
 	}
@@ -5192,5 +5151,267 @@ public class OmnitureTracking {
 
 	public static void trackPackagesBundleEditItemClick(String itemType) {
 		createAndtrackLinkEvent(PACKAGES_BUNDLE_EDIT + "." + itemType, "Rate Details");
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	// Flights V2
+	//
+	// https://confluence/display/Omniture/Mobile+App%3A+Flights+Material+Redesign
+	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+	private static final String FLIGHT_INSURANCE_ADD = "App.Flight.CKO.INS.Add";
+	private static final String FLIGHT_INSURANCE_BENEFITS_VIEW = "App.Flight.CKO.INS.Reasons";
+	private static final String FLIGHT_INSURANCE_ERROR = "App.Flight.CKO.INS.Error";
+	private static final String FLIGHT_INSURANCE_REMOVE = "App.Flight.CKO.INS.Decline";
+	private static final String FLIGHT_INSURANCE_TERMS_VIEW = "App.Flight.CKO.INS.Terms";
+	private static final String FLIGHT_RECENT_SEARCH_V2 = "App.Flight.DS.RecentSearch";
+	private static final String FLIGHT_SEARCH_V2 = "App.Flight.Dest-Search";
+	private static final String FLIGHTS_V2_FLIGHT_BAGGAGE_FEE_CLICK = "App.Flight.Search.BaggageFee";
+	private static final String FLIGHTS_V2_FLIGHT_PAYMENT_FEE_CLICK = "App.Flight.Search.PaymentFee";
+	private static final String FLIGHTS_V2_TRAVELER_CHANGE_PREFIX = "App.Flight.DS.";
+	private static final String FLIGHTS_V2_TRAVELER_LINK_NAME = "Search Results Update";
+
+	public static Pair<com.expedia.bookings.data.flights.FlightLeg,
+		com.expedia.bookings.data.flights.FlightLeg> getFirstAndLastFlightLegs() {
+
+		FlightCreateTripResponse trip = Db.getTripBucket().getFlightV2().flightCreateTripResponse;
+		return new Pair<>(trip.details.legs.get(0),
+			(trip.details.legs.size() > 1) ? trip.details.legs.get(trip.details.legs.size() - 1) : null);
+	}
+
+	public static Pair<FlightSegment, FlightSegment> getFirstAndLastFlightSegments() {
+		Pair<com.expedia.bookings.data.flights.FlightLeg, com.expedia.bookings.data.flights.FlightLeg> legs =
+			getFirstAndLastFlightLegs();
+
+		return new Pair<>(legs.first.segments.get(0),
+			(legs.second != null) ? legs.second.segments.get(legs.second.segments.size() - 1) : null);
+	}
+
+	public static String getFlightInsuranceProductString() {
+		FlightCreateTripResponse trip = Db.getTripBucket().getFlightV2().flightCreateTripResponse;
+		List<InsuranceProduct> insuranceProducts = trip.getAvailableInsuranceProducts();
+
+		if (!insuranceProducts.isEmpty()) {
+			InsuranceProduct insuranceProduct = insuranceProducts.get(0);
+			boolean isCheckoutConfirmation = (Db.getTripBucket().getFlightV2().flightCheckoutResponse != null);
+			return String.format(Locale.ENGLISH, ";Insurance:%s;%s;%.2f%s",
+				insuranceProduct.typeId, trip.details.offer.numberOfTickets, insuranceProduct.totalPrice.amount,
+				!isCheckoutConfirmation ? ";;eVar63=Merchant:SA" : "");
+		}
+		return "";
+	}
+
+	public static String getFlightInventoryTypeString() {
+		FlightCreateTripResponse trip = Db.getTripBucket().getFlightV2().flightCreateTripResponse;
+		return Arrays.asList("CHARTER", "CHARTER_NET", "LOW_COST_CARRIER", "PSEUDO_PUBLISHED", "PUBLISHED")
+			.contains(trip.details.offer.fareType) ? "Agency" : "Merchant";
+	}
+
+	public static FlightItineraryType getFlightItineraryType() {
+		FlightCreateTripResponse trip = Db.getTripBucket().getFlightV2().flightCreateTripResponse;
+		List<com.expedia.bookings.data.flights.FlightLeg> legs = trip.details.legs;
+		Pair<FlightSegment, FlightSegment> segments = getFirstAndLastFlightSegments();
+
+		if (trip.details.offer.isSplitTicket) {
+			return FlightItineraryType.SPLIT_TICKET;
+		}
+		else if (legs.size() == 1) {
+			return FlightItineraryType.ONE_WAY;
+		}
+		else if (legs.size() == 2 && segments.first.departureAirportCode.equals(segments.second.arrivalAirportCode)) {
+			return FlightItineraryType.ROUND_TRIP;
+		}
+		else {
+			return FlightItineraryType.MULTI_DESTINATION;
+		}
+	}
+
+	public static String getFlightProductString() {
+		Pair<FlightSegment, FlightSegment> segments = getFirstAndLastFlightSegments();
+		FlightCreateTripResponse trip = Db.getTripBucket().getFlightV2().flightCreateTripResponse;
+
+		String itineraryType;
+		switch (getFlightItineraryType()) {
+			case SPLIT_TICKET: itineraryType = "ST"; break;
+			case ONE_WAY:      itineraryType = "OW"; break;
+			case ROUND_TRIP:   itineraryType = "RT"; break;
+			default:           itineraryType = "MD"; break;
+		}
+
+		return String.format(Locale.ENGLISH, ";Flight:%s:%s;%s;%.2f;;", segments.first.airlineCode,
+			itineraryType, trip.details.offer.numberOfTickets, trip.totalPrice.amount);
+	}
+
+	public static Pair<String, String> getFlightSearchDepartureAndArrivalAirportCodes() {
+		com.expedia.bookings.data.flights.FlightSearchParams search = Db.getFlightSearchParams();
+
+		String departureAirportCode = "nil";
+		if ((search.getDepartureAirport().hierarchyInfo != null) &&
+			(search.getDepartureAirport().hierarchyInfo.airport != null)) {
+			departureAirportCode = search.getDepartureAirport().hierarchyInfo.airport.airportCode;
+		}
+		String arrivalAirportCode = "nil";
+		if ((search.getArrivalAirport() != null) && (search.getArrivalAirport().hierarchyInfo != null) &&
+			(search.getArrivalAirport().hierarchyInfo.airport != null)) {
+			arrivalAirportCode = search.getArrivalAirport().hierarchyInfo.airport.airportCode;
+		}
+
+		return new Pair<>(departureAirportCode, arrivalAirportCode);
+	}
+
+	public static Pair<LocalDate, LocalDate> getFlightSearchDepartureAndReturnDates() {
+		com.expedia.bookings.data.flights.FlightSearchParams search = Db.getFlightSearchParams();
+		return new Pair<>(search.getDepartureDate(), search.getReturnDate());
+	}
+
+	public static Pair<String, String> getFlightSearchDepartureAndReturnDateStrings() {
+		DateTimeFormatter formatter = ISODateTimeFormat.basicDate();
+		Pair<LocalDate, LocalDate> takeoffDates = getFlightSearchDepartureAndReturnDates();
+
+		return new Pair<>(takeoffDates.first.toString(formatter), (takeoffDates.second != null) ?
+			takeoffDates.second.toString(formatter) : "nil");
+	}
+
+	public static void trackFlightBaggageFeesClick() {
+		Log.d(TAG, "Tracking \"" + FLIGHTS_V2_FLIGHT_BAGGAGE_FEE_CLICK + "\" click...");
+
+		ADMS_Measurement s = getFreshTrackingObject();
+		s.setEvar(28, FLIGHTS_V2_FLIGHT_BAGGAGE_FEE_CLICK);
+		s.setProp(16, FLIGHTS_V2_FLIGHT_BAGGAGE_FEE_CLICK);
+		s.trackLink(null, "o", "Flight Baggage Fee", null, null);
+	}
+
+	public static void trackFlightCheckoutConfirmationPageLoad() {
+		String pageName = FLIGHT_CHECKOUT_CONFIRMATION;
+		Log.d(TAG, "Tracking \"" + pageName + "\" page load...");
+
+		ADMS_Measurement s = createTrackPageLoadEventBase(pageName);
+
+		// events
+		s.setEvents("purchase");
+
+		// products
+		Pair<String, String> airportCodes = getFlightSearchDepartureAndArrivalAirportCodes();
+		Pair<String, String> takeoffDateStrings = getFlightSearchDepartureAndReturnDateStrings();
+		s.setProducts(String.format(Locale.ENGLISH, "%seVar30=%s:FLT:%s-%s:%s-%s,%s", getFlightProductString(),
+			getFlightInventoryTypeString(), airportCodes.first, airportCodes.second, takeoffDateStrings.first,
+			takeoffDateStrings.second, getFlightInsuranceProductString()));
+
+		// miscellaneous variables
+		s.setEvar(2, "D=c2");
+		s.setProp(2, "Flight");
+		s.setEvar(3, "D=c3");
+		s.setProp(3, airportCodes.first);
+		s.setEvar(4, "D=c4");
+		s.setProp(4, airportCodes.second);
+		s.setEvar(18, pageName);
+
+		// date variables 5, 6
+		Pair<LocalDate, LocalDate> takeoffDates = getFlightSearchDepartureAndReturnDates();
+		setDateValues(s, takeoffDates.first, takeoffDates.second);
+
+		// checkout variables
+		com.expedia.bookings.data.flights.FlightCheckoutResponse checkoutResponse = Db.getTripBucket().getFlightV2()
+			.flightCheckoutResponse;
+		s.setCurrencyCode(checkoutResponse.getCurrencyCode());
+		s.setProp(71, checkoutResponse.newTrip.getTravelRecordLocator());
+		s.setProp(72, checkoutResponse.getOrderId());
+		s.setPurchaseID("onum" + checkoutResponse.getOrderId());
+
+		// tests
+		trackAbacusTest(s, AbacusUtils.EBAndroidAppFlightInsurance);
+
+		s.track();
+	}
+
+	public static void trackFlightCheckoutInfoPageLoad() {
+		String pageName = FLIGHT_CHECKOUT_INFO;
+		Log.d(TAG, "Tracking \"" + pageName + "\" page load...");
+
+		ADMS_Measurement s = createTrackPageLoadEventBase(pageName);
+
+		// events
+		FlightCreateTripResponse trip = Db.getTripBucket().getFlightV2().flightCreateTripResponse;
+		s.setEvents("event36, event71" /* checkout start, flight checkout start */ +
+			(trip.getAvailableInsuranceProducts().isEmpty() ? "" : ", event122" /* insurance present */));
+
+		// products
+		s.setProducts(String.format(Locale.ENGLISH, "%seVar63=%s:SA%s", getFlightProductString(),
+			getFlightInventoryTypeString(), getFlightInsuranceProductString()));
+
+		// miscellaneous variables
+		Pair<String, String> airportCodes = getFlightSearchDepartureAndArrivalAirportCodes();
+		s.setEvar(2, "D=c2");
+		s.setProp(2, "Flight");
+		s.setEvar(3, "D=c3");
+		s.setProp(3, airportCodes.first);
+		s.setEvar(4, "D=c4");
+		s.setProp(4, airportCodes.second);
+		s.setEvar(18, pageName);
+
+		// date variables 5, 6
+		Pair<LocalDate, LocalDate> takeoffDates = getFlightSearchDepartureAndReturnDates();
+		setDateValues(s, takeoffDates.first, takeoffDates.second);
+
+		// tests
+		trackAbacusTest(s, AbacusUtils.EBAndroidAppFlightInsurance);
+
+		s.track();
+	}
+
+	public static void trackFlightInsuranceAdd() {
+		createAndtrackLinkEvent(FLIGHT_INSURANCE_ADD, "Flight Checkout");
+	}
+
+	public static void trackFlightInsuranceBenefitsClick() {
+		createAndtrackLinkEvent(FLIGHT_INSURANCE_BENEFITS_VIEW, "Flight Checkout");
+	}
+
+	public static void trackFlightInsuranceError(String message) {
+		ADMS_Measurement s = createTrackLinkEvent(FLIGHT_INSURANCE_ERROR);
+		s.setProp(36, "ins:" + message);
+		s.trackLink(null, "o", "Flight Checkout", null, null);
+	}
+
+	public static void trackFlightInsuranceRemove() {
+		createAndtrackLinkEvent(FLIGHT_INSURANCE_REMOVE, "Flight Checkout");
+	}
+
+	public static void trackFlightInsuranceTermsClick() {
+		createAndtrackLinkEvent(FLIGHT_INSURANCE_TERMS_VIEW, "Flight Checkout");
+	}
+
+	public static void trackFlightPaymentFeesClick() {
+		Log.d(TAG, "Tracking \"" + FLIGHTS_V2_FLIGHT_PAYMENT_FEE_CLICK + "\" click...");
+
+		ADMS_Measurement s = getFreshTrackingObject();
+		s.setEvar(28, FLIGHTS_V2_FLIGHT_PAYMENT_FEE_CLICK);
+		s.setProp(16, FLIGHTS_V2_FLIGHT_PAYMENT_FEE_CLICK);
+		s.trackLink(null, "o", "", null, null);
+	}
+
+	public static void trackFlightRecentSearchClick() {
+		Log.d(TAG, "Tracking \"" + FLIGHT_RECENT_SEARCH_V2 + "\" click...");
+
+		ADMS_Measurement s = getFreshTrackingObject();
+		s.setEvar(28, FLIGHT_RECENT_SEARCH_V2);
+		s.setProp(16, FLIGHT_RECENT_SEARCH_V2);
+		s.trackLink(null, "o", "Search Results Update", null, null);
+	}
+
+	public static void trackFlightTravelerPickerClick(String actionLabel) {
+		ADMS_Measurement s = getFreshTrackingObject();
+		s.setEvar(28, FLIGHTS_V2_TRAVELER_CHANGE_PREFIX + actionLabel);
+		s.setProp(16, FLIGHTS_V2_TRAVELER_CHANGE_PREFIX + actionLabel);
+		s.trackLink(null, "o", FLIGHTS_V2_TRAVELER_LINK_NAME, null, null);
+	}
+
+	public static void trackPageLoadFlightSearchV2() {
+		ADMS_Measurement s = getFreshTrackingObject();
+
+		s.setAppState(FLIGHT_SEARCH_V2);
+		s.setEvar(18, FLIGHT_SEARCH_V2);
+		trackAbacusTest(s, AbacusUtils.EBAndroidAppFlightTest);
+		s.track();
 	}
 }

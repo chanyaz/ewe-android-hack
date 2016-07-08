@@ -2,9 +2,16 @@ package com.expedia.bookings.test.happy;
 
 import org.joda.time.LocalDate;
 
+import android.app.Activity;
+import android.app.Instrumentation;
+import android.support.test.espresso.Espresso;
+import android.support.test.espresso.intent.Intents;
 import android.support.test.espresso.matcher.ViewMatchers;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.activity.WebViewActivity;
+import com.expedia.bookings.data.abacus.AbacusUtils;
+import com.expedia.bookings.test.espresso.AbacusTestUtils;
 import com.expedia.bookings.test.espresso.Common;
 import com.expedia.bookings.test.espresso.NewFlightTestCase;
 import com.expedia.bookings.test.espresso.ViewActions;
@@ -17,8 +24,13 @@ import com.expedia.bookings.test.phone.pagemodels.common.SearchScreen;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
+import static android.support.test.espresso.action.ViewActions.pressBack;
 import static android.support.test.espresso.action.ViewActions.scrollTo;
+import static android.support.test.espresso.assertion.ViewAssertions.doesNotExist;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
+import static android.support.test.espresso.intent.Intents.intended;
+import static android.support.test.espresso.intent.Intents.intending;
+import static android.support.test.espresso.intent.matcher.IntentMatchers.hasComponent;
 import static android.support.test.espresso.matcher.ViewMatchers.isDescendantOfA;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withEffectiveVisibility;
@@ -29,7 +41,17 @@ import static org.hamcrest.CoreMatchers.allOf;
 
 public class NewFlightPhoneHappyPathTest extends NewFlightTestCase {
 
+	@Override
+	public void runTest() throws Throwable {
+		Intents.init();
+		intending(hasComponent(WebViewActivity.class.getName()))
+			.respondWith(new Instrumentation.ActivityResult(Activity.RESULT_OK, null));
+		super.runTest();
+	}
+
 	public void testNewFlightHappyPath() throws Throwable {
+		bucketInsuranceTest();
+
 		SearchScreen.origin().perform(click());
 		SearchScreen.selectFlightOriginAndDestination();
 		LocalDate startDate = LocalDate.now().plusDays(3);
@@ -55,6 +77,16 @@ public class NewFlightPhoneHappyPathTest extends NewFlightTestCase {
 
 		// move to Flight/common screen
 		PackageScreen.checkout().perform(click());
+
+		assertInsuranceIsAvailable();
+		PackageScreen.showInsuranceBenefits();
+		assertInsuranceBenefits();
+		PackageScreen.showInsuranceTerms();
+		assertInsuranceTerms();
+		PackageScreen.toggleInsurance();
+		assertInsuranceIsAdded();
+		PackageScreen.toggleInsurance();
+		assertInsuranceIsRemoved();
 
 		PackageScreen.travelerInfo().perform(scrollTo(), click());
 		PackageScreen.enterFirstName("Eidur");
@@ -125,5 +157,36 @@ public class NewFlightPhoneHappyPathTest extends NewFlightTestCase {
 			withText(
 				"Trip Total"))).check(matches(isDisplayed()));
 
+	}
+
+	private void assertInsuranceBenefits() {
+		onView(withId(R.id.insurance_benefits_dialog_body)).check(matches(isDisplayed()))
+			.perform(pressBack()).check(doesNotExist());
+	}
+
+	private void assertInsuranceIsAdded() {
+		onView(withId(R.id.insurance_title)).check(matches(withText("Your trip is protected for $19/person")));
+		PackageScreen.showPriceBreakdown();
+		onView(withText(R.string.cost_summary_breakdown_flight_insurance)).check(matches(isDisplayed()));
+		Espresso.pressBack();
+	}
+
+	private void assertInsuranceIsAvailable() {
+		onView(withId(R.id.insurance_widget)).check(matches(isDisplayed()));
+	}
+
+	private void assertInsuranceIsRemoved() {
+		onView(withId(R.id.insurance_title)).check(matches(withText("Add protection for $19/person")));
+		PackageScreen.showPriceBreakdown();
+		onView(withText(R.string.cost_summary_breakdown_flight_insurance)).check(doesNotExist());
+		Espresso.pressBack();
+	}
+
+	private void assertInsuranceTerms() {
+		intended(hasComponent(WebViewActivity.class.getName()));
+	}
+
+	private void bucketInsuranceTest() {
+		AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppFlightInsurance);
 	}
 }

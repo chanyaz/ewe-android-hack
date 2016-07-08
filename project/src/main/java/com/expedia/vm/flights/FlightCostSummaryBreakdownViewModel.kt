@@ -1,20 +1,21 @@
-package com.expedia.vm
+package com.expedia.vm.flights
 
 import android.content.Context
 import com.expedia.bookings.R
-import com.expedia.bookings.data.flights.FlightTripDetails
+import com.expedia.bookings.data.flights.FlightCreateTripResponse
 import com.expedia.bookings.data.flights.FlightTripDetails.PassengerCategory
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration
+import com.expedia.bookings.utils.Ui
+import com.expedia.vm.BaseCostSummaryBreakdownViewModel
 import com.squareup.phrase.Phrase
-import rx.subjects.BehaviorSubject
 import rx.subjects.PublishSubject
 import java.util.Collections
 
 class FlightCostSummaryBreakdownViewModel(context: Context) : BaseCostSummaryBreakdownViewModel(context) {
-    val flightCostSummaryObservable = PublishSubject.create<FlightTripDetails>()
+    val flightCostSummaryObservable = PublishSubject.create<FlightCreateTripResponse>()
 
     init {
-        flightCostSummaryObservable.subscribe { flightDetails ->
+        flightCostSummaryObservable.subscribe { tripResponse ->
             val breakdowns = arrayListOf<CostSummaryBreakdown>()
             var title: String
             var travelerInfo: String = ""
@@ -22,6 +23,8 @@ class FlightCostSummaryBreakdownViewModel(context: Context) : BaseCostSummaryBre
             var numChildrenAdded = 0
             var numInfantsInSeat = 0
             var numInfantsInLap = 0
+
+            val flightDetails = tripResponse.details
 
             val passengerList = flightDetails.offer.pricePerPassengerCategory
             Collections.sort(passengerList)
@@ -49,8 +52,17 @@ class FlightCostSummaryBreakdownViewModel(context: Context) : BaseCostSummaryBre
 
                 breakdowns.add(CostSummaryBreakdown.CostSummaryBuilder().title(context.getString(R.string.Flight)).cost(passenger.basePrice.formattedPrice).build())
 
-                title = context.getString(R.string.package_breakdown_taxes_fees)
+                title = context.getString(R.string.cost_summary_breakdown_taxes_fees)
                 breakdowns.add(CostSummaryBreakdown.CostSummaryBuilder().title(title).cost(passenger.taxesPrice.formattedPrice).build())
+
+                // insurance
+                if (flightDetails.offer.selectedInsuranceProduct != null) {
+                    val insurance = flightDetails.offer.selectedInsuranceProduct
+                    title = context.getString(R.string.cost_summary_breakdown_flight_insurance)
+                    breakdowns.add(CostSummaryBreakdown.CostSummaryBuilder().title(title)
+                            .cost(insurance.totalPrice.formattedPrice)
+                            .color(Ui.obtainThemeColor(context, R.attr.primary_color)).build())
+                }
 
                 // Adding divider line
                 breakdowns.add(CostSummaryBreakdown.CostSummaryBuilder().isLine(true).build())
@@ -65,8 +77,8 @@ class FlightCostSummaryBreakdownViewModel(context: Context) : BaseCostSummaryBre
                 breakdowns.add(CostSummaryBreakdown.CostSummaryBuilder().isLine(true).build())
             }
 
-            title = context.getString(R.string.package_breakdown_total_due_today)
-            breakdowns.add(CostSummaryBreakdown.CostSummaryBuilder().title(title).cost(flightDetails.offer.totalFarePrice.formattedPrice).build())
+            title = context.getString(R.string.cost_summary_breakdown_total_due_today)
+            breakdowns.add(CostSummaryBreakdown.CostSummaryBuilder().title(title).cost(tripResponse.totalPrice.formattedPrice).build())
 
             addRows.onNext(breakdowns)
             iconVisibilityObservable.onNext(true)
