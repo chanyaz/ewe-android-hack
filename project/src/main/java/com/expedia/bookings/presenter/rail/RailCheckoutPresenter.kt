@@ -11,6 +11,7 @@ import com.expedia.vm.BaseCheckoutViewModel
 import com.expedia.vm.packages.BaseCreateTripViewModel
 import com.expedia.vm.rail.RailCheckoutViewModel
 import com.expedia.vm.rail.RailCreateTripViewModel
+import com.expedia.vm.traveler.CheckoutTravelerViewModel
 
 class RailCheckoutPresenter(context: Context, attrs: AttributeSet) : BaseCheckoutPresenter(context, attrs) {
 
@@ -35,6 +36,7 @@ class RailCheckoutPresenter(context: Context, attrs: AttributeSet) : BaseCheckou
     }
     
     override fun updateTravelerPresenter() {
+        travelerPresenter.viewModel = CheckoutTravelerViewModel(context)
         travelerPresenter.visibility = View.VISIBLE
     }
 

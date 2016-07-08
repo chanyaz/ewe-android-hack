@@ -11,6 +11,7 @@ import org.json.JSONObject;
 
 import android.content.Context;
 import android.content.res.Resources;
+import android.support.annotation.Nullable;
 import android.text.TextUtils;
 
 import com.expedia.bookings.R;
@@ -202,6 +203,7 @@ public class Traveler implements JSONable, Comparable<Traveler> {
 		return mGender;
 	}
 
+	@Nullable
 	public LocalDate getBirthDate() {
 		return mBirthDate;
 	}
@@ -301,6 +303,18 @@ public class Traveler implements JSONable, Comparable<Traveler> {
 		mPassengerCategory = passengerCategory;
 	}
 
+	@Nullable
+	public PassengerCategory getPassengerCategory() {
+		return mPassengerCategory;
+	}
+
+	public PassengerCategory getPassengerCategory(LocalDate endOfTrip, Boolean infantsInLap) {
+		if (mPassengerCategory == null) {
+			mPassengerCategory = determinePassengerCategory(endOfTrip, infantsInLap);
+		}
+		return mPassengerCategory;
+	}
+
 	public PassengerCategory getPassengerCategory(FlightSearchParams searchParams) {
 		// If we haven't assigned a passengerCategory yet (e.g. passenger is from account)
 		// Passenger category is determine by their max age during the duration of their trip
@@ -308,18 +322,6 @@ public class Traveler implements JSONable, Comparable<Traveler> {
 			LocalDate endOfTrip = searchParams.getReturnDate() != null ?
 				searchParams.getReturnDate() :
 				searchParams.getDepartureDate();
-			mPassengerCategory = determinePassengerCategory(endOfTrip, searchParams.getInfantSeatingInLap());
-		}
-		return mPassengerCategory;
-	}
-
-	public PassengerCategory getPassengerCategory(AbstractFlightSearchParams searchParams) {
-		// If we haven't assigned a passengerCategory yet (e.g. passenger is from account)
-		// Passenger category is determine by their max age during the duration of their trip
-		if (mPassengerCategory == null) {
-			LocalDate endOfTrip = searchParams.getEndDate() != null ?
-				searchParams.getEndDate() :
-				searchParams.getStartDate();
 			mPassengerCategory = determinePassengerCategory(endOfTrip, searchParams.getInfantSeatingInLap());
 		}
 		return mPassengerCategory;

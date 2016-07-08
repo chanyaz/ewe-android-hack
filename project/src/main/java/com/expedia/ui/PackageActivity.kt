@@ -27,6 +27,7 @@ class PackageActivity : AbstractAppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         Ui.getApplication(this).defaultPackageComponents()
+        Ui.getApplication(this).defaultTravelerComponent()
         setContentView(R.layout.package_activity)
         Ui.showTransparentStatusBar(this)
     }

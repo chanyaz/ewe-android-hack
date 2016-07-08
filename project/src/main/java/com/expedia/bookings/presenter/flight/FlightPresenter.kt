@@ -15,6 +15,7 @@ import com.expedia.bookings.presenter.BaseOverviewPresenter
 import com.expedia.bookings.presenter.LeftToRightTransition
 import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.presenter.ScaleTransition
+import com.expedia.bookings.utils.TravelerManager
 import com.expedia.bookings.services.FlightServices
 import com.expedia.bookings.tracking.FlightsV2Tracking
 import com.expedia.bookings.utils.StrUtils
@@ -29,6 +30,7 @@ import javax.inject.Inject
 class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(context, attrs) {
     lateinit var flightServices: FlightServices
         @Inject set
+    lateinit var travelerManager: TravelerManager
 
     val searchPresenter: FlightSearchPresenter by lazy {
         if (displayFlightDropDownRoutes()) {
@@ -111,7 +113,7 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
             flightOverviewPresenter.flightSummary.outboundFlightWidget.viewModel.searchTypeStateObservable.onNext(PackageSearchType.OUTBOUND_FLIGHT)
 
             flightOverviewPresenter.flightSummary.setPadding(0, 0, 0, 0)
-            flightOverviewPresenter.getCheckoutPresenter().travelerPresenter.viewModel.updateDbTravelers(params)
+            travelerManager.updateDbTravelers(params)
             // Starting a new search clear previous selection
             Db.clearPackageFlightSelection()
             outBoundPresenter.resultsPresenter.setLoadingState()
@@ -147,6 +149,7 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
     }
 
     init {
+        travelerManager = Ui.getApplication(getContext()).travelerComponent().travelerManager()
         Ui.getApplication(getContext()).flightComponent().inject(this)
         View.inflate(context, R.layout.flight_presenter, this)
         searchViewModel = FlightSearchViewModel(context, flightServices)

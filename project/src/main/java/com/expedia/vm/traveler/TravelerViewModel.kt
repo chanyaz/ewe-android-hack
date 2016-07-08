@@ -7,8 +7,8 @@ import com.expedia.util.endlessObserver
 import rx.subjects.BehaviorSubject
 
 open class TravelerViewModel(private val context: Context, val travelerIndex: Int) {
-    var nameViewModel = TravelerNameViewModel()
-    var phoneViewModel = TravelerPhoneViewModel()
+    var nameViewModel = TravelerNameViewModel(context)
+    var phoneViewModel = TravelerPhoneViewModel(context)
     var tsaViewModel = TravelerTSAViewModel(context)
     var advancedOptionsViewModel = TravelerAdvancedOptionsViewModel()
 

@@ -21,6 +21,7 @@ import com.expedia.bookings.presenter.BaseOverviewPresenter
 import com.expedia.bookings.presenter.IntentPresenter
 import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.presenter.ScaleTransition
+import com.expedia.bookings.utils.TravelerManager
 import com.expedia.bookings.services.PackageServices
 import com.expedia.bookings.tracking.PackagesTracking
 import com.expedia.bookings.utils.Strings
@@ -39,6 +40,8 @@ class PackagePresenter(context: Context, attrs: AttributeSet) : IntentPresenter(
     lateinit var packageServices: PackageServices
         @Inject set
 
+    lateinit var travelerManager: TravelerManager
+
     val searchPresenter: PackageSearchPresenter by bindView(R.id.widget_package_search_presenter)
     val bundlePresenter: PackageOverviewPresenter by bindView(R.id.widget_bundle_overview)
     val confirmationPresenter: PackageConfirmationPresenter by bindView(R.id.widget_package_confirmation)
@@ -51,6 +54,7 @@ class PackagePresenter(context: Context, attrs: AttributeSet) : IntentPresenter(
 
     init {
         Ui.getApplication(getContext()).packageComponent().inject(this)
+        travelerManager = Ui.getApplication(getContext()).travelerComponent().travelerManager()
         View.inflate(context, R.layout.package_presenter, this)
         val checkoutPresenter = bundlePresenter.getCheckoutPresenter()
 
@@ -84,7 +88,7 @@ class PackagePresenter(context: Context, attrs: AttributeSet) : IntentPresenter(
         searchPresenter.searchViewModel.searchParamsObservable.subscribe { params ->
             // Starting a new search clear previous selection
             Db.clearPackageSelection()
-            bundlePresenter.getCheckoutPresenter().travelerPresenter.viewModel.updateDbTravelers(params)
+            travelerManager.updateDbTravelers(params)
             errorPresenter.viewmodel.paramsSubject.onNext(params)
             show(bundlePresenter)
             bundlePresenter.show(BaseOverviewPresenter.BundleDefault(), FLAG_CLEAR_BACKSTACK)

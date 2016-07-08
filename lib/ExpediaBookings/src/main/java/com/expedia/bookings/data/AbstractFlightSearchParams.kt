@@ -12,4 +12,8 @@ abstract class AbstractFlightSearchParams(adults: Int, children: List<Int>, star
             return this
         }
     }
+
+    fun getEndOfTripDate() : LocalDate {
+        return endDate ?: startDate
+    }
 }

@@ -6,15 +6,14 @@ import android.content.res.Resources
 import android.support.v4.content.ContextCompat
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Db
-import com.expedia.bookings.data.Phone
 import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.Traveler
-import com.expedia.bookings.data.TravelerName
 import com.expedia.bookings.data.packages.PackageSearchParams
-import com.expedia.bookings.enums.PassengerCategory
 import com.expedia.bookings.enums.TravelerCheckoutStatus
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.utils.FontCache
+import com.expedia.bookings.utils.Ui
+import com.expedia.bookings.utils.validation.TravelerValidator
 import com.expedia.bookings.widget.ContactDetailsCompletenessStatus
 import com.expedia.vm.traveler.TravelerSelectViewModel
 import com.squareup.phrase.Phrase
@@ -22,13 +21,15 @@ import org.joda.time.LocalDate
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
-import org.mockito.Mockito
 import org.robolectric.Robolectric
+import javax.inject.Inject
 import kotlin.properties.Delegates
 import kotlin.test.assertEquals
 
 @RunWith(RobolectricRunner::class)
 class TravelerSelectViewModelTest {
+    lateinit var travelerValidator: TravelerValidator
+        @Inject set
     lateinit var selectVM: TestTravelerSelectViewModel
     private var activity: Activity by Delegates.notNull()
     private var resources: Resources by Delegates.notNull()
@@ -45,6 +46,7 @@ class TravelerSelectViewModelTest {
     val testIndex = 0
 
     val mockTravelerProvider = MockTravelerProvider()
+    lateinit var testParams: PackageSearchParams
 
     @Before
     fun setUp() {
@@ -64,7 +66,9 @@ class TravelerSelectViewModelTest {
                 .format().toString()
         expectedDefaultColor = ContextCompat.getColor(activity, R.color.traveler_default_card_text_color)
         expectedErrorColor = ContextCompat.getColor(activity, R.color.traveler_incomplete_text_color)
-        setPackageParams()
+
+        Ui.getApplication(activity).defaultTravelerComponent()
+        testParams = setPackageParams()
     }
 
     @Test
@@ -176,6 +180,7 @@ class TravelerSelectViewModelTest {
     fun testUpdateStatusDirtyValidTraveler() {
         selectVM = TestTravelerSelectViewModel(activity, testIndex, -1)
         selectVM.testTraveler = mockTravelerProvider.getCompleteMockTraveler()
+        selectVM.travelerValidator.updateForNewSearch(testParams)
         selectVM.updateStatus(TravelerCheckoutStatus.DIRTY)
 
         assertEquals(ContactDetailsCompletenessStatus.COMPLETE, selectVM.iconStatusObservable.value)
@@ -185,7 +190,7 @@ class TravelerSelectViewModelTest {
         assertEquals(expectedDefaultFont, selectVM.titleFontObservable.value)
     }
 
-    private fun setPackageParams() {
+    private fun setPackageParams(): PackageSearchParams {
         val packageParams = PackageSearchParams.Builder(26, 329)
                 .startDate(LocalDate.now().plusDays(1))
                 .endDate(LocalDate.now().plusDays(2))
@@ -193,6 +198,7 @@ class TravelerSelectViewModelTest {
                 .destination(SuggestionV4())
                 .build() as PackageSearchParams
         Db.setPackageParams(packageParams)
+        return packageParams
     }
 
     class TestTravelerSelectViewModel(context: Context, index: Int, age: Int) : TravelerSelectViewModel(context, index, age) {

@@ -9,6 +9,7 @@ import com.expedia.bookings.data.packages.PackageOfferModel
 import com.expedia.bookings.interceptors.MockInterceptor
 import com.expedia.bookings.services.FlightServices
 import com.expedia.bookings.test.PointOfSaleTestConfiguration
+import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.widget.flights.FlightListAdapter
 import com.expedia.bookings.widget.shared.AbstractFlightListAdapter
 import com.expedia.vm.FlightSearchViewModel
@@ -40,6 +41,7 @@ class FlightListAdapterTest {
         val service = FlightServices("http://localhost:" + server.port,
                 OkHttpClient.Builder().build(), MockInterceptor(),
                 Schedulers.immediate(), Schedulers.immediate())
+        Ui.getApplication(context).defaultTravelerComponent()
         flightSearchViewModel = FlightSearchViewModel(context, service)
     }
 

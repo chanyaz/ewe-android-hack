@@ -18,8 +18,10 @@ import com.expedia.vm.FlightCheckoutViewModel
 import com.expedia.vm.FlightCostSummaryBreakdownViewModel
 import com.expedia.vm.flights.FlightCreateTripViewModel
 import com.expedia.vm.packages.BaseCreateTripViewModel
+import com.expedia.vm.traveler.CheckoutTravelerViewModel
 import com.squareup.otto.Subscribe
 import rx.Observable
+import org.joda.time.LocalDate
 
 class FlightCheckoutPresenter(context: Context, attr: AttributeSet) : BaseCheckoutPresenter(context, attr) {
 
@@ -64,10 +66,11 @@ class FlightCheckoutPresenter(context: Context, attr: AttributeSet) : BaseChecko
 
     override fun updateDbTravelers() {
         val params = Db.getFlightSearchParams()
-        travelerPresenter.viewModel.updateDbTravelers(params)
+        travelerManager.updateDbTravelers(params)
     }
 
     override fun updateTravelerPresenter() {
+        travelerPresenter.viewModel = CheckoutTravelerViewModel(context)
         travelerPresenter.visibility = View.VISIBLE
     }
 

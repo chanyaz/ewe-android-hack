@@ -17,6 +17,7 @@ import com.expedia.bookings.enums.PassengerCategory
 import com.expedia.bookings.services.FlightServices
 import com.expedia.bookings.test.PointOfSaleTestConfiguration
 import com.expedia.bookings.test.robolectric.RobolectricRunner
+import com.expedia.bookings.utils.Ui
 import com.expedia.vm.FlightCheckoutViewModel
 import org.joda.time.LocalDate
 import org.junit.Test
@@ -40,6 +41,7 @@ class FlightCheckoutViewModelTest {
 
 
     private fun setupSystemUnderTest() {
+        Ui.getApplication(context).defaultTravelerComponent()
         sut = FlightCheckoutViewModel(context, mockFlightServices, selectedCardTypeSubject)
     }
 

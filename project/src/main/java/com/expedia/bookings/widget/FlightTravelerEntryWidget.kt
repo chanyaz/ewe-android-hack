@@ -10,7 +10,6 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.Spinner
 import com.expedia.bookings.R
-import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.Traveler
 import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.section.CountrySpinnerAdapter
@@ -130,13 +129,15 @@ class FlightTravelerEntryWidget(context: Context, attrs: AttributeSet?) : FrameL
     }
 
     override fun onTravelerChosen(traveler: Traveler) {
+        val passengerCategory = viewModel.getTraveler().getPassengerCategory()
+        traveler.setPassengerCategory(passengerCategory)
         viewModel.updateTraveler(traveler)
         selectPassport(traveler.primaryPassportCountry)
     }
 
     override fun onAddNewTravelerSelected() {
         val newTraveler = Traveler()
-        val passengerCategory = viewModel.getTraveler().getPassengerCategory(Db.getPackageParams())
+        val passengerCategory = viewModel.getTraveler().getPassengerCategory()
         newTraveler.setPassengerCategory(passengerCategory)
         viewModel.updateTraveler(newTraveler)
     }

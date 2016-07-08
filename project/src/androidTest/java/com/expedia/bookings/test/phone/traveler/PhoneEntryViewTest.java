@@ -1,9 +1,12 @@
 package com.expedia.bookings.test.phone.traveler;
 
+import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import android.content.Context;
+import android.support.test.InstrumentationRegistry;
 import android.support.test.rule.UiThreadTestRule;
 import android.support.test.runner.AndroidJUnit4;
 
@@ -12,6 +15,7 @@ import com.expedia.bookings.data.Phone;
 import com.expedia.bookings.test.espresso.CustomMatchers;
 import com.expedia.bookings.test.espresso.EspressoUtils;
 import com.expedia.bookings.test.rules.PlaygroundRule;
+import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.traveler.PhoneEntryView;
 import com.expedia.vm.traveler.TravelerPhoneViewModel;
 
@@ -34,12 +38,19 @@ public class PhoneEntryViewTest {
 	public UiThreadTestRule uiThreadTestRule = new UiThreadTestRule();
 
 	@Rule
-	public PlaygroundRule activityTestRule = new PlaygroundRule(R.layout.test_phone_entry_view, R.style.V2_Theme_Packages);
+	public PlaygroundRule activityTestRule = new PlaygroundRule(R.layout.test_phone_entry_view,
+		R.style.V2_Theme_Packages);
+
+	@Before
+	public void setup() {
+		Context context = InstrumentationRegistry.getTargetContext();
+		Ui.getApplication(context).defaultTravelerComponent();
+	}
 
 	@Test
 	public void updatePhone() throws Throwable {
 		phoneEntryView = (PhoneEntryView) activityTestRule.getRoot();
-		final TravelerPhoneViewModel phoneVM = new TravelerPhoneViewModel();
+		final TravelerPhoneViewModel phoneVM = new TravelerPhoneViewModel(InstrumentationRegistry.getTargetContext());
 		Phone phone = new Phone();
 		phoneVM.updatePhone(phone);
 
@@ -57,7 +68,7 @@ public class PhoneEntryViewTest {
 	@Test
 	public void phonePrePopulated() throws Throwable {
 		phoneEntryView = (PhoneEntryView) activityTestRule.getRoot();
-		final TravelerPhoneViewModel phoneVM = new TravelerPhoneViewModel();
+		final TravelerPhoneViewModel phoneVM = new TravelerPhoneViewModel(InstrumentationRegistry.getTargetContext());
 		Phone phone = new Phone();
 		phone.setNumber(testNumber);
 		phone.setCountryCode(testCodeString);
@@ -78,7 +89,7 @@ public class PhoneEntryViewTest {
 	@Test
 	public void phoneErrorState() throws Throwable {
 		phoneEntryView = (PhoneEntryView) activityTestRule.getRoot();
-		final TravelerPhoneViewModel phoneVM = new TravelerPhoneViewModel();
+		final TravelerPhoneViewModel phoneVM = new TravelerPhoneViewModel(InstrumentationRegistry.getTargetContext());
 		phoneVM.updatePhone(new Phone());
 
 		uiThreadTestRule.runOnUiThread(new Runnable() {

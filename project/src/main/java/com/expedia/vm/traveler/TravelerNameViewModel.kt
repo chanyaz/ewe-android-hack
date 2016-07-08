@@ -1,15 +1,21 @@
 package com.expedia.vm.traveler
 
+import android.content.Context
 import com.expedia.bookings.data.TravelerName
 import com.expedia.bookings.section.InvalidCharacterHelper
+import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.validation.TravelerValidator
 import com.expedia.util.endlessObserver
 import com.jakewharton.rxbinding.widget.TextViewAfterTextChangeEvent
 import rx.subjects.BehaviorSubject
 import rx.subjects.PublishSubject
+import javax.inject.Inject
 import kotlin.properties.Delegates
 
-class TravelerNameViewModel(): InvalidCharacterHelper.InvalidCharacterListener {
+class TravelerNameViewModel(context: Context): InvalidCharacterHelper.InvalidCharacterListener {
+    lateinit var travelerValidator: TravelerValidator
+        @Inject set
+
     private var travelerName: TravelerName by Delegates.notNull()
 
     val firstNameSubject = BehaviorSubject.create<String>()
@@ -37,6 +43,10 @@ class TravelerNameViewModel(): InvalidCharacterHelper.InvalidCharacterListener {
     val middleNameErrorSubject = PublishSubject.create<Boolean>()
     val lastNameErrorSubject = PublishSubject.create<Boolean>()
 
+    init {
+        Ui.getApplication(context).travelerComponent().inject(this)
+    }
+
     fun updateTravelerName(travelerName: TravelerName) {
         this.travelerName = travelerName
         firstNameSubject.onNext(if (travelerName.firstName.isNullOrEmpty()) "" else travelerName.firstName)
@@ -50,14 +60,14 @@ class TravelerNameViewModel(): InvalidCharacterHelper.InvalidCharacterListener {
     }
 
     fun validate(): Boolean {
-        TravelerValidator.isRequiredNameValid(travelerName.firstName)
-        val firstNameValid = TravelerValidator.isRequiredNameValid(travelerName.firstName)
+        travelerValidator.isRequiredNameValid(travelerName.firstName)
+        val firstNameValid = travelerValidator.isRequiredNameValid(travelerName.firstName)
         firstNameErrorSubject.onNext(!firstNameValid)
 
-        val middleNameValid = TravelerValidator.isMiddleNameValid(travelerName.middleName)
+        val middleNameValid = travelerValidator.isMiddleNameValid(travelerName.middleName)
         middleNameErrorSubject.onNext(!middleNameValid)
 
-        val lastNameValid = TravelerValidator.isLastNameValid(travelerName.lastName)
+        val lastNameValid = travelerValidator.isLastNameValid(travelerName.lastName)
         lastNameErrorSubject.onNext(!lastNameValid)
 
         return firstNameValid && middleNameValid && lastNameValid

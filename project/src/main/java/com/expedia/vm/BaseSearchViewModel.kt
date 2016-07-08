@@ -9,15 +9,17 @@ import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.TravelerParams
 import com.expedia.bookings.utils.DateUtils
 import com.expedia.bookings.utils.SpannableBuilder
+import com.expedia.bookings.utils.Ui
+import com.expedia.bookings.utils.validation.TravelerValidator
 import com.expedia.util.endlessObserver
 import com.mobiata.android.time.util.JodaUtils
 import com.squareup.phrase.Phrase
 import org.joda.time.LocalDate
 import rx.subjects.BehaviorSubject
 import rx.subjects.PublishSubject
+import javax.inject.Inject
 
 abstract class BaseSearchViewModel(val context: Context) {
-
     // Outputs
     val dateAccessibilityObservable = BehaviorSubject.create<CharSequence>()
     val dateTextObservable = BehaviorSubject.create<CharSequence>()

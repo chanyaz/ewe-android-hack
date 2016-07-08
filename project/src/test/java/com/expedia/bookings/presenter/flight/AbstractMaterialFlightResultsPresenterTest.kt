@@ -7,7 +7,9 @@ import com.expedia.bookings.data.flights.FlightTripDetails
 import com.expedia.bookings.presenter.shared.FlightResultsListViewPresenter
 import com.expedia.bookings.services.FlightServices
 import com.expedia.bookings.test.robolectric.RobolectricRunner
+import com.expedia.bookings.utils.Ui
 import com.expedia.vm.FlightSearchViewModel
+import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.Mockito
@@ -23,6 +25,11 @@ class AbstractMaterialFlightResultsPresenterTest {
     val context = RuntimeEnvironment.application
 
     private lateinit var sut: AbstractMaterialFlightResultsPresenter
+
+    @Before
+    fun setup() {
+        Ui.getApplication(context).defaultTravelerComponent()
+    }
 
     @Test
     fun searchMenuVisibility() {

@@ -15,6 +15,7 @@ import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.test.espresso.EspressoUtils;
 import com.expedia.bookings.test.phone.packages.PackageScreen;
 import com.expedia.bookings.test.rules.PlaygroundRule;
+import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.FlightTravelerEntryWidget;
 import com.expedia.vm.traveler.TravelerViewModel;
 
@@ -33,6 +34,7 @@ public class FlightTravelerEntryWidgetTest {
 	@Before
 	public void setUp() {
 		entryWidget = (FlightTravelerEntryWidget) activityTestRule.getRoot();
+		Ui.getApplication(InstrumentationRegistry.getTargetContext()).defaultTravelerComponent();
 	}
 
 	@Test

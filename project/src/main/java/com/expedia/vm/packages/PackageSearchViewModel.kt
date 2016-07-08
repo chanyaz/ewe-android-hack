@@ -6,20 +6,28 @@ import com.expedia.bookings.R
 import com.expedia.bookings.data.packages.PackageSearchParams
 import com.expedia.bookings.utils.DateUtils
 import com.expedia.bookings.utils.SpannableBuilder
+import com.expedia.bookings.utils.Ui
+import com.expedia.bookings.utils.validation.TravelerValidator
 import com.expedia.util.endlessObserver
 import com.expedia.vm.BaseSearchViewModel
 import com.mobiata.android.time.util.JodaUtils
 import com.squareup.phrase.Phrase
 import org.joda.time.LocalDate
 import rx.subjects.PublishSubject
+import javax.inject.Inject
 
 class PackageSearchViewModel(context: Context) : BaseSearchViewModel(context) {
+    lateinit var travelerValidator: TravelerValidator
+        @Inject set
 
     val packageParamsBuilder = PackageSearchParams.Builder(getMaxSearchDurationDays(), getMaxDateRange())
 
     // Outputs
     val searchParamsObservable = PublishSubject.create<PackageSearchParams>()
 
+    init {
+        Ui.getApplication(context).travelerComponent().inject(this)
+    }
 
     override fun getMaxSearchDurationDays(): Int {
         return context.resources.getInteger(R.integer.calendar_max_days_package_stay);
@@ -50,6 +58,7 @@ class PackageSearchViewModel(context: Context) : BaseSearchViewModel(context) {
                errorMaxRangeObservable.onNext(context.getString(R.string.error_date_too_far, getMaxSearchDurationDays()))
             } else {
                 val packageSearchParams = getParamsBuilder().build()
+                travelerValidator.updateForNewSearch(packageSearchParams)
                 searchParamsObservable.onNext(packageSearchParams)
             }
         } else {

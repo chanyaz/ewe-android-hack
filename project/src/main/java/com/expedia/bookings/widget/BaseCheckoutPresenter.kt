@@ -27,6 +27,7 @@ import com.expedia.bookings.data.User
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.presenter.packages.TravelerPresenter
+import com.expedia.bookings.utils.TravelerManager
 import com.expedia.bookings.utils.CurrencyUtils
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.UserAccountRefresher
@@ -42,14 +43,15 @@ import com.expedia.vm.PaymentViewModel
 import com.expedia.vm.PriceChangeViewModel
 import com.expedia.vm.packages.BaseCreateTripViewModel
 import com.expedia.vm.packages.BundlePriceViewModel
-import com.expedia.vm.traveler.CheckoutTravelerViewModel
 import com.mobiata.android.Log
 import rx.subjects.PublishSubject
 import java.math.BigDecimal
+import javax.inject.Inject
 import kotlin.properties.Delegates
 
 abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet) : Presenter(context, attr), SlideToWidgetLL.ISlideToListener,
         UserAccountRefresher.IUserAccountRefreshListener, AccountButton.AccountButtonClickListener {
+    lateinit var travelerManager: TravelerManager
 
     val handle: FrameLayout by bindView(R.id.handle)
     val toolbarDropShadow: View by bindView(R.id.drop_shadow)
@@ -128,9 +130,11 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet) : Pre
 
     init {
         View.inflate(context, R.layout.widget_base_checkout, this)
+        travelerManager = Ui.getApplication(getContext()).travelerComponent().travelerManager()
+
         paymentWidget = paymentViewStub.inflate() as PaymentWidget
         paymentWidget.viewmodel = paymentWidgetViewModel
-        travelerPresenter.viewModel = CheckoutTravelerViewModel()
+
         priceChangeWidget.viewmodel = PriceChangeViewModel(context, getLineOfBusiness())
         if (getLineOfBusiness() == LineOfBusiness.FLIGHTS_V2) {
             totalPriceWidget.packagebreakdown.viewmodel = FlightCostSummaryBreakdownViewModel(context)

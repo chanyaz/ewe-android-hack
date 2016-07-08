@@ -13,6 +13,7 @@ import com.expedia.vm.PackageCostSummaryBreakdownViewModel
 import com.expedia.vm.packages.BaseCreateTripViewModel
 import com.expedia.vm.packages.PackageCheckoutViewModel
 import com.expedia.vm.packages.PackageCreateTripViewModel
+import com.expedia.vm.traveler.CheckoutTravelerViewModel
 import com.squareup.otto.Subscribe
 import java.math.BigDecimal
 
@@ -48,12 +49,13 @@ class PackageCheckoutPresenter(context: Context, attr: AttributeSet) : BaseCheck
     }
 
     override fun updateTravelerPresenter() {
+        travelerPresenter.viewModel = CheckoutTravelerViewModel(context)
         travelerPresenter.refreshAndShow()
     }
 
     override fun updateDbTravelers() {
         val params = Db.getPackageParams()
-        travelerPresenter.viewModel.updateDbTravelers(params)
+        travelerManager.updateDbTravelers(params)
     }
 
     override fun trackShowSlideToPurchase() {

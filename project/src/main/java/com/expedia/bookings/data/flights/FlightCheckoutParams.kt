@@ -58,8 +58,8 @@ class FlightCheckoutParams(billingInfo: BillingInfo, travelers: ArrayList<Travel
             }
             params.put(prefix + "birthDate", dtf.print(travelers[i].birthDate))
             params.put(prefix + "gender", travelers[i].gender)
-            val searchParams = Db.getFlightSearchParams()
-            params.put(prefix + "passengerCategory", travelers[i].getPassengerCategory(searchParams))
+
+            params.put(prefix + "passengerCategory", travelers[i].getPassengerCategory())
             if (travelers[i].primaryPassportCountry != null) {
                 params.put(prefix + "passportCountryCode", travelers[i].primaryPassportCountry)
             }
