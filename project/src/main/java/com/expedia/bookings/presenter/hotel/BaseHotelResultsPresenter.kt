@@ -264,11 +264,11 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
         adapter.resultsSubject.onNext(it)
 
         // show fab button always in case of AB test or shitty device
-        if (ExpediaBookingApp.isDeviceShitty() || isBucketedForResultMap()) {
+        if (ExpediaBookingApp.isDeviceShitty()) {
             fab.visibility = View.VISIBLE
             getFabAnimIn().start()
         }
-        if ((ExpediaBookingApp.isDeviceShitty() || isBucketedForResultMap()) && it.hotelList.size <= 3) {
+        if (ExpediaBookingApp.isDeviceShitty() && it.hotelList.size <= 3) {
             recyclerView.setBackgroundColor(ContextCompat.getColor(context, R.color.hotel_result_background))
         } else {
             recyclerView.setBackgroundColor(ContextCompat.getColor(context, android.R.color.transparent))
@@ -303,7 +303,7 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
         (mapCarouselRecycler.adapter as HotelMapCarouselAdapter).setItems(response.hotelList)
         adapter.resultsSubject.onNext(response)
         mapViewModel.hotelResultsSubject.onNext(response)
-        if ((ExpediaBookingApp.isDeviceShitty() || isBucketedForResultMap()) && response.hotelList.size <= 3 && previousWasList) {
+        if (ExpediaBookingApp.isDeviceShitty() && response.hotelList.size <= 3 && previousWasList) {
             recyclerView.setBackgroundColor(ContextCompat.getColor(context, R.color.hotel_result_background))
         } else {
             recyclerView.setBackgroundColor(ContextCompat.getColor(context, android.R.color.transparent))
@@ -884,7 +884,7 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
                     mapView.translationY = -halfway.toFloat()
                     adjustGoogleMapLogo()
                     filterBtnWithCountWidget?.translationY = 0f
-                    if (isBucketedForResultMap() || ExpediaBookingApp.isDeviceShitty()) {
+                    if (ExpediaBookingApp.isDeviceShitty()) {
                         lazyLoadMapAndMarkers()
                     }
                 } else {
@@ -892,7 +892,7 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
                     recyclerView.translationY = screenHeight.toFloat()
                     googleMap?.setPadding(0, toolbar.height, 0, mapCarouselContainer.height)
                     filterBtnWithCountWidget?.translationY = resources.getDimension(R.dimen.hotel_filter_height)
-                    if (isBucketedForResultMap() || ExpediaBookingApp.isDeviceShitty()) {
+                    if (ExpediaBookingApp.isDeviceShitty()) {
                         googleMap?.mapType = GoogleMap.MAP_TYPE_NORMAL
                         createMarkers()
                     }
@@ -1218,5 +1218,4 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
     abstract fun trackFilterShown()
     abstract fun trackMapSearchAreaClick()
     abstract fun getHotelListAdapter(): BaseHotelListAdapter
-    abstract fun isBucketedForResultMap(): Boolean
 }

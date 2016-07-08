@@ -4,8 +4,6 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import com.expedia.bookings.R
-import com.expedia.bookings.data.Db
-import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.hotels.Hotel
 import com.expedia.bookings.widget.BaseHotelListAdapter
 import com.expedia.vm.hotel.HotelViewModel
@@ -23,7 +21,4 @@ class HotelListAdapter(hotelSelectedSubject: PublishSubject<Hotel>, headerSubjec
         return HotelCellViewHolder(view as ViewGroup, parent.width)
     }
 
-    override fun isBucketedForResultMap(): Boolean {
-        return Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelResultMapTest)
-    }
 }

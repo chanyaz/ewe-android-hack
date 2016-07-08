@@ -28,7 +28,6 @@ import java.util.ArrayList
 abstract class BaseHotelListAdapter(val hotelSelectedSubject: PublishSubject<Hotel>,
                                 val headerSubject: PublishSubject<Unit>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-    abstract fun isBucketedForResultMap(): Boolean
     abstract fun getHotelCellHolder(parent: ViewGroup): HotelCellViewHolder
     abstract fun getHotelCellViewModel(context: Context, hotel: Hotel) : HotelViewModel
 
@@ -74,7 +73,7 @@ abstract class BaseHotelListAdapter(val hotelSelectedSubject: PublishSubject<Hot
     fun showLoading() {
         loadingSubject.onNext(Unit)
         // show 3 tiles during loading if map is hidden to user
-        if (isBucketedForResultMap())
+        if (ExpediaBookingApp.isDeviceShitty())
             hotels = listOf(Hotel(), Hotel(), Hotel())
         else
             hotels = listOf(Hotel(), Hotel())
@@ -126,7 +125,7 @@ abstract class BaseHotelListAdapter(val hotelSelectedSubject: PublishSubject<Hot
         if (viewType == MAP_SWITCH_CLICK_INTERCEPTOR_TRANSPARENT_HEADER_VIEW) {
             val header = View(parent.context)
             var lp = LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
-            lp.height = if (isBucketedForResultMap() || (ExpediaBookingApp.isAutomation() || ExpediaBookingApp.isDeviceShitty())) 0 else AndroidUtils.getScreenSize(parent.context).y
+            lp.height = if (ExpediaBookingApp.isAutomation() || ExpediaBookingApp.isDeviceShitty()) 0 else AndroidUtils.getScreenSize(parent.context).y
             header.layoutParams = lp
 
             return MapSwitchClickInterceptorTransparentHeaderViewHolder(header)
@@ -169,7 +168,7 @@ abstract class BaseHotelListAdapter(val hotelSelectedSubject: PublishSubject<Hot
         val shadow: View by root.bindView(R.id.drop_shadow)
 
         init {
-            if (isBucketedForResultMap() || ExpediaBookingApp.isDeviceShitty()) {
+            if (ExpediaBookingApp.isDeviceShitty()) {
                 shadow.visibility = View.GONE
             }
             vm.pricingStructureHeaderObservable.subscribeText(pricingStructureHeader)
