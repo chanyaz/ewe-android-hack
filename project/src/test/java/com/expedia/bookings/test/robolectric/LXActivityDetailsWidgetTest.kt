@@ -3,31 +3,41 @@ package com.expedia.bookings.test.robolectric
 import android.app.Activity
 import android.view.LayoutInflater
 import android.view.View
+import android.widget.Button
+import android.widget.LinearLayout
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.abacus.AbacusResponse
 import com.expedia.bookings.data.abacus.AbacusUtils
+import com.expedia.bookings.data.lx.ActivityDetailsResponse
 import com.expedia.bookings.data.lx.LXActivity
 import com.expedia.bookings.data.lx.RecommendedActivitiesResponse
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.widget.LXActivityDetailsWidget
+import com.expedia.bookings.widget.LXOfferDatesButton
 import com.expedia.bookings.widget.TextView
 import com.google.gson.GsonBuilder
+import org.joda.time.LocalDate
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotNull
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.Robolectric
+import java.io.InputStreamReader
 import java.util.ArrayList
 import kotlin.properties.Delegates
+import kotlin.test.assertFalse
+import kotlin.test.assertTrue
 
-@RunWith(RobolectricRunner::class) class LXActivityDetailsWidgetTest {
+@RunWith(RobolectricRunner::class)
+class LXActivityDetailsWidgetTest {
     private var details: LXActivityDetailsWidget by Delegates.notNull()
     private var activity: Activity by Delegates.notNull()
 
-    @Before fun before() {
+    @Before
+    fun before() {
         activity = Robolectric.buildActivity(Activity::class.java).create().get()
         Ui.getApplication(activity).defaultLXComponents()
         activity.setTheme(R.style.V2_Theme_LX)
@@ -42,7 +52,8 @@ import kotlin.properties.Delegates
         Db.setAbacusResponse(abacusResponse)
     }
 
-    @Test fun testRecommendations() {
+    @Test
+    fun testRecommendations() {
         recommendationABTest(AbacusUtils.DefaultVariate.BUCKETED)
         val recommendationSubscriber = details.recommendedObserver
         recommendationSubscriber.onNext(buildRecommendedActivityResponse());
@@ -81,5 +92,174 @@ import kotlin.properties.Delegates
         val recommendedActivitiesResponse = RecommendedActivitiesResponse(activities, "USD")
 
         return recommendedActivitiesResponse
+    }
+
+    @Test
+    fun testActivityDetailsViews() {
+        val activityGallery = details.findViewById(R.id.activity_gallery)
+        val description = details.findViewById(R.id.description)
+        val location = details.findViewById(R.id.location)
+        val highlights = details.findViewById(R.id.highlights)
+        val offers = details.findViewById(R.id.offers)
+        val offerDatesContainer = details.findViewById(R.id.offer_dates_container)
+        val inclusions = details.findViewById(R.id.inclusions)
+        val exclusions = details.findViewById(R.id.exclusions)
+        val knowBeforeYouBook = details.findViewById(R.id.know_before_you_book)
+        val cancellation = details.findViewById(R.id.cancellation)
+
+        assertNotNull(activityGallery)
+        assertNotNull(description)
+        assertNotNull(location)
+        assertNotNull(highlights)
+        assertNotNull(offers)
+        assertNotNull(offerDatesContainer)
+        assertNotNull(inclusions)
+        assertNotNull(exclusions)
+        assertNotNull(knowBeforeYouBook)
+        assertNotNull(cancellation)
+    }
+
+    @Test
+    fun testDatesContainer() {
+        details.activityDetails = getOfferDetails()
+        var now = LocalDate(2016, 7, 17);
+
+        details.buildOfferDatesSelector(getOfferDetails().offersDetail, now)
+        val container = details.findViewById(R.id.offer_dates_container) as LinearLayout
+
+        val count = container.childCount
+        val range = activity.baseContext.getResources().getInteger(R.integer.lx_default_search_range) + 1;
+        val dateOne = container.getChildAt(0) as LXOfferDatesButton
+        val dateTwo = container.getChildAt(1) as LXOfferDatesButton
+
+        assertNotNull(container)
+        assertEquals(range, count);
+        assertTrue(dateOne.isChecked)
+        assertFalse(dateTwo.isChecked)
+    }
+
+    @Test
+    fun testDatesChanges() {
+        details.activityDetails = getOfferDetails()
+        var now = LocalDate(2016, 7, 17);
+
+        details.buildOfferDatesSelector(getOfferDetails().offersDetail, now)
+        val container = details.findViewById(R.id.offer_dates_container) as LinearLayout
+
+        val count = container.childCount
+        val range = activity.baseContext.getResources().getInteger(R.integer.lx_default_search_range) + 1;
+        val dateOne = container.getChildAt(0) as LXOfferDatesButton
+        val dateTwo = container.getChildAt(1) as LXOfferDatesButton
+        val dateThree = container.getChildAt(3) as LXOfferDatesButton
+
+        assertNotNull(container)
+        assertEquals(range, count);
+        assertTrue(dateOne.isChecked)
+        assertFalse(dateTwo.isChecked)
+
+        assertEquals("Sun\n17\nJul", dateOne.text.toString())
+
+        var selectedDate = LocalDate(2016, 7, 20);
+
+        details.onDetailsDateChanged(selectedDate, dateThree)
+        assertEquals("Wed\n20\nJul", dateThree.text.toString())
+
+        assertTrue(dateThree.isChecked)
+    }
+
+    @Test
+    fun testActivityOffer() {
+        var now = LocalDate(2016, 7, 17);
+        details.activityDetails = getOfferDetails()
+        details.buildOffersSection(now)
+
+        val container = details.findViewById(R.id.offers_container) as LinearLayout
+
+        val offerOne = container.getChildAt(0)
+        val offerTwo = container.getChildAt(1)
+
+        val count = container.childCount
+
+        val offerTitleOne = offerOne.findViewById(R.id.offer_title) as TextView
+        val offerPriceSummaryOne = offerOne.findViewById(R.id.price_summary) as TextView
+
+        val offerTitleTwo = offerTwo.findViewById(R.id.offer_title) as TextView
+        val offerPriceSummaryTwo = offerTwo.findViewById(R.id.price_summary) as TextView
+        val offerSelectTicketTwo = offerTwo.findViewById(R.id.select_tickets) as Button
+        val offerRowTwo = offerTwo.findViewById(R.id.offer_row) as LinearLayout
+
+        assertNotNull(container)
+        assertEquals(3, count);
+
+        // First Offer
+        assertEquals("1-Day Ticket", offerTitleOne.text.toString());
+        assertEquals("$45 Adult, $25 Child", offerPriceSummaryOne.text.toString());
+
+        // Second Offer
+        assertEquals("2-Day Ticket", offerTitleTwo.text.toString());
+        assertEquals("$55 Adult, $35 Child", offerPriceSummaryTwo.text.toString());
+        assertEquals(offerRowTwo.visibility, View.VISIBLE)
+        offerSelectTicketTwo.performClick()
+
+        assertEquals(offerRowTwo.visibility, View.GONE)
+    }
+
+    @Test
+    fun testOffersExpandCollapse() {
+        var now = LocalDate(2016, 7, 17);
+        details.activityDetails = getOfferDetails()
+        details.buildOffersSection(now)
+
+        val container = details.findViewById(R.id.offers_container) as LinearLayout
+
+        val offerOne = container.getChildAt(0)
+        val offerTwo = container.getChildAt(1)
+
+
+        val offerOneSelectTicket= offerOne.findViewById(R.id.select_tickets) as Button
+        val offerOneRow = offerOne.findViewById(R.id.offer_row) as LinearLayout
+        val offerOneTicketsPicker= offerOne.findViewById(R.id.offer_tickets_picker) as LinearLayout
+
+        val offerSelectTicketTwo = offerTwo.findViewById(R.id.select_tickets) as Button
+        val offerRowTwo = offerTwo.findViewById(R.id.offer_row) as LinearLayout
+        val offerTwoTicketsPicker= offerTwo.findViewById(R.id.offer_tickets_picker) as LinearLayout
+
+
+        assertEquals(offerOneRow.visibility, View.VISIBLE)
+        assertEquals(offerRowTwo.visibility, View.VISIBLE)
+        assertEquals(offerOneTicketsPicker.visibility, View.GONE)
+        assertEquals(offerTwoTicketsPicker.visibility, View.GONE)
+
+        // Expand Offer Two
+        offerSelectTicketTwo.performClick()
+
+        assertEquals(offerOneTicketsPicker.visibility, View.GONE)
+        assertEquals(offerTwoTicketsPicker.visibility, View.VISIBLE)
+        assertEquals(offerRowTwo.visibility, View.GONE)
+        assertEquals(offerOneRow.visibility, View.VISIBLE)
+
+        // Expand Offer One
+        offerOneSelectTicket.performClick()
+        assertEquals(offerOneTicketsPicker.visibility, View.VISIBLE)
+        assertEquals(offerTwoTicketsPicker.visibility, View.GONE)
+        assertEquals(offerRowTwo.visibility, View.VISIBLE)
+        assertEquals(offerOneRow.visibility, View.GONE)
+    }
+
+    private fun getOfferDetails(): ActivityDetailsResponse {
+
+        val gson = GsonBuilder().create()
+        val activityDetailsResponse = gson.fromJson(InputStreamReader(details.context.assets.open("MockData/lx_details_response.json")), ActivityDetailsResponse::class.java)
+
+
+        for (offer in activityDetailsResponse.offersDetail.offers) {
+            for (availabilityInfo in offer.availabilityInfo) {
+                for (ticket in availabilityInfo.tickets) {
+                    ticket.money = Money(ticket.amount, "USD")
+                }
+            }
+        }
+
+        return activityDetailsResponse
     }
 }

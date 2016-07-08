@@ -231,7 +231,7 @@ public class LXActivityDetailsWidget extends LXDetailsScrollView implements Recy
 		buildOffersSection(dateSelected);
 	}
 
-	private void buildOffersSection(LocalDate startDate) {
+	public void buildOffersSection(LocalDate startDate) {
 		offers.setOffers(activityDetails.offersDetail.offers, startDate);
 		offers.setVisibility(View.VISIBLE);
 	}
@@ -316,7 +316,7 @@ public class LXActivityDetailsWidget extends LXDetailsScrollView implements Recy
 		cancellation.setVisibility(View.GONE);
 	}
 
-	private void buildOfferDatesSelector(OffersDetail offersDetail, LocalDate startDate) {
+	public void buildOfferDatesSelector(OffersDetail offersDetail, LocalDate startDate) {
 		offerDatesContainer.removeAllViews();
 
 		offerDatesContainer.setVisibility(View.VISIBLE);
@@ -527,6 +527,10 @@ public class LXActivityDetailsWidget extends LXDetailsScrollView implements Recy
 
 	public ActivityDetailsResponse getActivityDetails() {
 		return activityDetails;
+	}
+
+	public void setActivityDetails(ActivityDetailsResponse activityDetailsResponse) {
+		 activityDetails = activityDetailsResponse;
 	}
 
 	public LinearLayout getMoreLikeThis() {
