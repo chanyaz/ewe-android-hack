@@ -2,6 +2,8 @@ package com.expedia.bookings.test.happy;
 
 import org.joda.time.LocalDate;
 
+import android.support.test.espresso.matcher.ViewMatchers;
+
 import com.expedia.bookings.R;
 import com.expedia.bookings.test.espresso.Common;
 import com.expedia.bookings.test.espresso.NewFlightTestCase;
@@ -19,6 +21,7 @@ import static android.support.test.espresso.action.ViewActions.scrollTo;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.isDescendantOfA;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
+import static android.support.test.espresso.matcher.ViewMatchers.withEffectiveVisibility;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withParent;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
@@ -111,5 +114,16 @@ public class NewFlightPhoneHappyPathTest extends NewFlightTestCase {
 		onView(allOf(withId(R.id.flight_card_view_text),
 			isDescendantOfA(withId(R.id.package_bundle_inbound_flight_widget)))).check(
 			matches(withText("Flight to (SFO) San Francisco")));
+
+		onView(allOf(withId(R.id.bundle_total_includes_text), isDescendantOfA(withId(R.id.total_price_widget)),
+			withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE),
+			withText(
+				"Includes taxes and fees"))).check(matches(isDisplayed()));
+
+		onView(allOf(withId(R.id.bundle_total_text), isDescendantOfA(withId(R.id.total_price_widget)),
+			withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE),
+			withText(
+				"Trip Total"))).check(matches(isDisplayed()));
+
 	}
 }
