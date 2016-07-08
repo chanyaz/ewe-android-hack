@@ -301,8 +301,10 @@
     <string name="missing_flight_info_button_prompt">Valitse lentokenttä</string>
 
     <!-- LX -->
-    <!-- LX toolbar Date Range e.g. May 05 - May 10 -->
-    <string name="lx_toolbar_date_range_template">%1$s – %2$s</string>
+    <!-- LX Toolbar Date Range e.g. May 05 - May 10 -->
+    <string name="lx_toolbar_date_range_TEMPLATE">{from_date} – {to_date}</string>
+    <!-- LX Toolbar Date Range Cont Desc e.g. May 05 to May 10 -->
+    <string name="lx_toolbar_date_range_cont_desc_TEMPLATE">{from_date} – {to_date}</string>
     <!--LX Search widget header text -->
     <string name="lx_search_title">Hae aktiviteetteja</string>
     <!--LX Search widget header text -->
@@ -646,7 +648,7 @@
     <string name="tour_the_area_description">Tee kiertomatka kaupungissa ja opi lisää sen historiasta ja nykyajasta</string>
 
     <string name="fun_for_the_family">Hauskaa koko perheelle</string>
-    <string name="fun_for_the_family_description">Perheelle sopivia aktiviteetteja, joista nauttivat kaiken ikäiset</string>
+    <string name="fun_for_the_family_description">Perheelle sopivia aktiviteetteja, joista nauttivat kaikenikäiset</string>
 
     <string name="pure_entertainment">Puhdasta viihdettä</string>
     <string name="pure_entertainment_description">Urheilua, huvipuistoja ja esityksiä</string>
@@ -1002,6 +1004,11 @@
     <string name="nav_lx">Aktiviteetit</string>
     <!-- Ground Transport -->
     <string name="nav_transport">Kuljetusvaihtoehdot</string>
+    <!-- Packages -->
+    <string name="nav_packages">Pakettitarjoukset</string>
+    <!-- Rail -->
+    <string name="nav_rail">Junat</string>
+
 
     <!-- New launch screen -->
     <!-- Top deals tonight -->
@@ -1129,30 +1136,30 @@
     <string name="yesterday">Eilen</string>
     <!-- "XX Minutes" - an event happening XX minutes in the future -->
     <plurals name="minutes_from_now">
-        <item quantity="zero">%s minuuttia</item>
-        <item quantity="one">%s minuutti</item>
-        <item quantity="two">%s minuuttia</item>
-        <item quantity="few">%s minuuttia</item>
-        <item quantity="many">%s minuuttia</item>
-        <item quantity="other">%s minuuttia</item>
+        <item quantity="zero">{minutes} minuuttia</item>
+        <item quantity="one">{minutes} minuutti</item>
+        <item quantity="two">{minutes} minuuttia</item>
+        <item quantity="few">{minutes} minuuttia</item>
+        <item quantity="many">{minutes} minuuttia</item>
+        <item quantity="other">{minutes} minuuttia</item>
     </plurals>
     <!-- "XX Hours" - an event happening XX hours in the future -->
     <plurals name="hours_from_now">
-        <item quantity="zero">%s tuntia</item>
-        <item quantity="one">%s tunti</item>
-        <item quantity="two">%s tuntia</item>
-        <item quantity="few">%s tuntia</item>
-        <item quantity="many">%s tuntia</item>
-        <item quantity="other">%s tuntia</item>
+        <item quantity="zero">{hours} tuntia</item>
+        <item quantity="one">{hours} tunti</item>
+        <item quantity="two">{hours} tuntia</item>
+        <item quantity="few">{hours} tuntia</item>
+        <item quantity="many">{hours} tuntia</item>
+        <item quantity="other">{hours} tuntia</item>
     </plurals>
     <!-- "XX Days" an event happening XX days in the future -->
     <plurals name="days_from_now">
-        <item quantity="zero">%s päivää</item>
-        <item quantity="one">%s päivä</item>
-        <item quantity="two">%s päivää</item>
-        <item quantity="few">%s päivää</item>
-        <item quantity="many">%s päivää</item>
-        <item quantity="other">%s päivää</item>
+        <item quantity="zero">{days} päivää</item>
+        <item quantity="one">{days} päivä</item>
+        <item quantity="two">{days} päivää</item>
+        <item quantity="few">{days} päivää</item>
+        <item quantity="many">{days} päivää</item>
+        <item quantity="other">{days} päivää</item>
     </plurals>
     <!-- Shared Itin - Fallback name for itin card -->
     <string name="sharedItin_card_fallback_name">Jaettu matkasuunnitelma</string>
@@ -1656,6 +1663,13 @@
     <string name="flights_outbound_label">Meno</string>
     <!-- Flights Line of Business title -->
     <string name="flights_title">Lennot</string>
+    <!-- Flights payment fees info web view title -->
+    <string name="flights_flight_overview_payment_fees">Maksutiedot</string>
+    <!-- Flights Free Cancellation messaging -->
+    <string name="flights_free_cancellation">Ilmainen peruutusoikeus 24 tunnin sisällä</string>
+    <!-- Card fee warning text on checkout overview.
+        Example: The airline charges a processing fee of $3.00 for using this card (cost included in the trip total). -->
+    <string name="flights_card_fee_warning_TEMPLATE">Lentoyhtiö veloittaa {card_fee} käsittelymaksun tällä kortilla maksamisesta (maksu sisältyy matkan kokonaishintaan).</string>
 
     <!-- Flights -->
     <!-- Label for Flight Search in task manager -->
@@ -1892,8 +1906,8 @@
     <string name="card_info">Kortin tiedot</string>
 
     <!-- Edit CreditCard Fragment -->
-    <!-- Airline processing fee for this card: <Dollar Amount> (e.g. Airling processing fee for this card: $5) -->
-    <string name="airline_processing_fee_TEMPLATE">Lentoyhtiön veloittama käsittelymaksu tälle kortille: &lt;b&gt;%1$s&lt;/b&gt;</string>
+    <!-- Airline processing fee for this card. Example: Airline processing fee for this card: $5 -->
+    <string name="airline_processing_fee_TEMPLATE">Lentoyhtiön veloittama käsittelymaksu tälle kortille: &lt;b&gt;{card_fee}&lt;/b&gt;</string>
     <!-- Airline does not accept <Credit Card Brand> (e.g. "Airline does not accept Visa") -->
     <string name="airline_does_not_accept_cardtype_TEMPLATE">Lentoyhtiö ei hyväksy %1$s-kortteja</string>
     <!-- Hotel does not accept <Credit Card Brand> (e.g. "Hotel does not accept Visa") -->
@@ -3698,7 +3712,7 @@
     <!-- Content description for action: Press to filter for the nearest hotels within a small radius from your search location -->
     <string name="filter_for_nearest_hotels_cont_desc">Napauta suodattaaksesi lähimmät hotellit lyhyellä etäisyydellä hakusijainnista</string>
     <!-- Content description for action: Press to filter for hotels within a mid-distance radius from your search location -->
-    <string name="filter_for_further_distanced_hotels_cont_desc">Napauta suodattaaksesi hotellit keskipitkällä etäisyydellä säteellä hakusijainnista</string>
+    <string name="filter_for_further_distanced_hotels_cont_desc">Napauta suodattaaksesi hotellit keskipitkällä etäisyydellä hakusijainnista</string>
     <!-- Content description for action: Press to filter for hotels within largest radius from your search location -->
     <string name="filter_for_furthest_distanced_hotels_cont_desc">Napauta suodattaaksesi hotellit pitkällä etäisyydellä hakusijainnista</string>
     <!-- Content description for action: Press to clear all distance filters for hotel search -->
@@ -3741,7 +3755,7 @@
     <!-- Content description for action: Press to begin checkout -->
     <string name="checkout_cont_desc">Napauta aloittaaksesi maksaminen</string>
     <!-- Content description for action: Press to enter a coupon or promotional code -->
-    <string name="checkout_enter_coupon_cont_desc">Napauta antaaksesi kuponki- tai mainoskoodin</string>
+    <string name="checkout_enter_coupon_cont_desc">Napauta antaaksesi kuponki- tai mainoskoodi</string>
     <!-- Traveler Information screen -->
     <!-- Content description for action: Press to enter a new traveler -->
     <string name="traveler_enter_new_traveler_cont_desc">Napauta antaaksesi uuden matkustajan tiedot</string>
@@ -3754,7 +3768,7 @@
     <string name="traveler_information_done_cont_desc">Napauta antaaksesi matkustajan tiedot loppuun</string>
     <!-- Extra traveler information - flights -->
     <!-- Content description for action: Press to select traveler's gender -->
-    <string name="traveler_gender_edit_cont_desc">Napauta valitaksesi matkustajan sukupuolen</string>
+    <string name="traveler_gender_edit_cont_desc">Napauta valitaksesi matkustajan sukupuoli</string>
     <!-- Content description for action: Press to select type of special assistance traveler requires -->
     <string name="traveler_special_assistance_edit_cont_desc">Valitse matkustajan tarvitseman erityisavun tyyppi</string>
     <!-- Content description for action: Press to select window type that the traveler prefers -->
@@ -3776,6 +3790,28 @@
     <string name="pay_now_cont_desc">Paina painiketta maksaaksesi nyt</string>
     <!-- Content description for action: Press to filter for hotels within a mid-distance radius from your search location -->
     <string name="pay_later_cont_desc">Paina painiketta maksaaksesi myöhemmin</string>
+
+    <!-- Content description for Cars filter button -->
+    <string name="cars_filter_button_cont_desc">Suodatinpainike</string>
+    <!-- Content description for car result door count e.g. Doors 2-4 -->
+    <string name="cars_door_count_cont_desc_TEMPLATE">Ovia {doorcount}</string>
+    <!-- Content description for car result passenger count e.g. Passengers 2-4 -->
+    <string name="cars_passenger_count_cont_desc_TEMPLATE">Matkustajia {passengercount}</string>
+    <!-- Content description for car result bags count e.g. Bags 2-4 -->
+    <string name="cars_bags_count_cont_desc_TEMPLATE">Matkatavaroita {bagscount}</string>
+
+    <!-- Content descriptions for Cars filter transmission buttons -->
+    <string name="cars_filter_transmission_manual_button_selected_cont_desc">Manuaalivaihteisto</string>
+    <string name="cars_filter_transmission_automatic_button_selected_cont_desc">Automaattivaihteisto</string>
+    <string name="cars_filter_transmission_all_button_selected_cont_desc">Kaikki vaihteistotyypit</string>
+    <string name="cars_filter_transmission_manual_button_unselected_cont_desc">Manuaalivaihteisto. Valitsematta</string>
+    <string name="cars_filter_transmission_automatic_button_unselected_cont_desc">Automaattivaihteisto. Valitsematta</string>
+    <string name="cars_filter_transmission_all_button_unselected_cont_desc">Kaikki vaihteistotyypit. Valitsematta</string>
+
+    <!-- Content description for car offer reserve button e.g. Dollar, Chevrolet Spark or Similar, Reserve button-->
+    <string name="cars_offer_reserve_button_cont_desc_TEMPLATE">{vendor}, {make}, varauspainike</string>
+    <!-- Content description for car offer view details button e.g. Dollar, Chevrolet Spark or Similar, View details button-->
+    <string name="cars_offer_view_details_button_cont_desc_TEMPLATE">{vendor}, {make}, katso tiedot -painike</string>
 
     <!-- Tablet Confirmation Screen -->
     <!-- Header text to indicating booking confirmed for hotel -->
@@ -3908,12 +3944,12 @@
     <string name="package_overview_flight_travel_info_TEMPLATE">%1$s kello %2$s, %3$s</string>
     <!-- Template for package bundle total savings amount -->
     <string name="bundle_total_savings_TEMPLATE">{savings} säästetty</string>
-    <!-- Bundle Overview select hotel accessibility content description -->
-    <string name="select_hotel_cont_desc_TEMPLATE">Haku tehty, ole hyvä ja napsauta tätä painiketta valitaksesi hotellin kohteessa {destination}, {startdate}–{enddate}, {guests}</string>
-    <!-- Bundle Overview select hotel accessibility content description when still searching -->
+    <!-- Bundle Overview select hotel accessibility content description Eg. Search completed. Select a hotel in Detroit from Jun 23 to Jun 24, for 1 guest. Button -->
+    <string name="select_hotel_cont_desc_TEMPLATE">Haku tehty. Valitse hotelli kohteessa {destination}, {startdate}–{enddate}, {guests}. Painike</string>
+    <!-- Bundle Overview select hotel accessibility content description when still searching Eg. Searching for hotels in Detroit from Jun 23 to Jun 24, for 1 guest. Please wait -->
     <string name="select_hotel_searching_cont_desc_TEMPLATE">Etsitään hotelleja kohteessa {destination}, {startdate}–{enddate}, {guests}. Odota</string>
-    <!-- Bundle Overview selected hotel accessibility content description -->
-    <string name="select_hotel_selected_cont_desc_TEMPLATE">Olet valinnut hotellin {hotel}, {startdate}–{enddate}, {guests}. Napsauta tätä painiketta avataksesi lisätiedot.</string>
+    <!-- Bundle Overview selected hotel accessibility content description Eg. You have selected hotel Orion from Jun 23 to June 24, for 1 guest. Button to expand hotel details. -->
+    <string name="select_hotel_selected_cont_desc_TEMPLATE">Olet valinnut hotellin {hotel}, {startdate}–{enddate}, {guests}. {expandstate} hotellin tiedot.</string>
     <!-- Bundle Overview select hotel -->
     <string name="select_hotel_template">Valitse hotelli kohteessa %s</string>
     <!-- Bundle Overview searching flight -->
@@ -3934,18 +3970,24 @@
         <item quantity="other">Yli 2 välilaskua</item>
     </plurals>
 
+    <!-- Flight Nonstop description -->
+    <string name="flight_nonstop_description">Suora lento</string>
     <!-- Flight duration template e.g. 1d 12h 42m (Nonstop) -->
     <string name="flight_duration_description_template">%1$s (%2$s)</string>
     <!-- Flight hour duration template e.g. 12h 42m -->
     <string name="flight_hour_min_duration_template">%1$d h %2$d min</string>
     <!-- Flight min duration template e.g. 1d 12h 42m (2hr layover) -->
     <string name="flight_min_duration_template">%1$d min</string>
-    <!-- Flight Nonstop description -->
-    <string name="flight_nonstop_description">Suora lento</string>
+
     <!-- Flight departure arrival time in multi days e.g. 5:15 pm - 7:48 am +1d -->
     <string name="flight_departure_arrival_time_multi_day_template">%1$s–%2$s +%3$d pv</string>
+    <!-- Accessible text for Flight departure arrival time same day e.g. 5:15 pm to 7:48 pm plus 1d -->
+    <string name="flight_departure_arrival_time_multi_day_cont_desc_TEMPLATE">{departuretime} –&gt; {arrivaltime} plus {elapseddays} pv</string>
     <!-- Flight departure arrival time same day e.g. 5:15 pm - 7:48 pm -->
     <string name="flight_departure_arrival_time_template">%1$s – %2$s</string>
+    <!-- Accessible text for Flight departure arrival time same day e.g. 5:15 pm to 7:48 pm -->
+    <string name="flight_departure_arrival_time_cont_desc_TEMPLATE">{departuretime} –&gt; {arrivaltime}</string>
+
     <!-- Select flight to template -->
     <string name="select_flight_to">Valitse lento kohteeseen %1$s</string>
     <!-- Flight to template -->
@@ -4059,6 +4101,9 @@
     <!--rail search screen - user is specifiying what time they want their return train to leave at -->
     <string name="rail_returning_at">Paluuaika</string>
 
+    <!-- rail checkout overview label for outbound  e.g. "Outbound - Thu Jun 23"-->
+    <string name="rail_checkout_outbound_TEMPLATE">Meno – {date}</string>
+
     <!-- Label for rail trip price on overview screen -->
     <string name="total">Yhteensä</string>
 
@@ -4092,6 +4137,8 @@
     <string name="yay_going_somewhere">Olet matkalla kohteeseen</string>
     <!-- Cars cross-sell message on package confirmation -->
     <string name="rental_car_message">Tarvitsetko vuokra-auton?</string>
+    <!-- Cars cross-sell origin description template-->
+    <string name="cars_cross_sell_origin_TEMPLATE">{airport_code}-{airport_localname}</string>
     <!-- Cars cross-sell message description on package confirmation -->
     <string name="rental_car_message_desc">Varaa auto ja säästä</string>
     <!-- Fly from hint -->
@@ -4130,28 +4177,106 @@
     <string name="reward_middle_tier_name_short">+silver</string>
     <!-- Short name for rewards top tier -->
     <string name="reward_top_tier_name_short">+gold</string>
-    <!-- Flight Detail card view content description for accessibility.
-         Example: Flight time is 10am - 12:30pm with price difference of $25. Flying with United and the flight duration is 2 hours 30 minutes. Click to view flight details -->
-    <string name="flight_detail_card_cont_desc_TEMPLATE">Lentoaika on {time} ja hintaero {pricedifference}. Lentoyhtiö on {airline} ja lennon kesto {hours} tuntia {minutes} minuuttia. Katso lennon tiedot</string>
 
     <!--Packages search accessibility -->
-    <!--Flying to card content description Eg. Flying to San Francisco, CA (SFO-San Francisco Intl.)-->
-    <string name="search_flying_to_destination_cont_desc_TEMPLATE">Lento kohteeseen {to_destination}</string>
-    <!--Flying from card content description Eg. Flying from Detroit, MI (DTW-Detroit Metropolitan Wayne County)-->
-    <string name="search_flying_from_destination_cont_desc_TEMPLATE">Lento kohteesta {from_destination}</string>
+    <!-- Flight Detail card view content description for accessibility.
+    Eg. Flight time is 9:00 am - 11:12 am with price difference of +$0. Flying with United. The flight duration is 5 hours 12 minutes with 0 stops. -->
+    <string name="flight_detail_card_cont_desc_TEMPLATE">Lentoaika on {time} ja hintaero {pricedifference}. Lentävä yhtiö {airline}. Lennon kesto on {hours} {minutes}, {stops} välilaskua.</string>
+    <!--Flight Detail card view - flight duration content description for accessibility Eg. SFO to DTM. 3 hours 15 minutes.-->
+    <string name="flight_detail_flight_duration_card_cont_desc_TEMPLATE">{departureairport} –&gt; {arrivalairport}. {durationhours} {durationmins}.</string>
+    <!--Flight Detail card view - layover duration content description for accessibility Eg. Layover. 2 hours 4 minutes.-->
+    <string name="flight_detail_layover_duration_card_cont_desc_TEMPLATE">Välilasku. {layoverhours} {layovermins}.</string>
+    <!--Flying to card content description Eg. Flying to. Button. San Francisco, CA (SFO-San Francisco Intl.)-->
+    <string name="search_flying_to_destination_cont_desc_TEMPLATE">Lento kohteeseen. Painike. {to_destination}</string>
+    <!--Flying from card content description Eg. Flying from. Button. Detroit, MI (DTW-Detroit Metropolitan Wayne County)-->
+    <string name="search_flying_from_destination_cont_desc_TEMPLATE">Lento kohteesta. Painike. {from_destination}</string>
     <!--Flying to card content description before a location is selected-->
-    <string name="packages_search_flying_to_cont_desc">Valitse tästä kohde. johon haluat lentää</string>
+    <string name="packages_search_flying_to_cont_desc">Lento kohteeseen. Painike</string>
     <!--Flying from card content description before a location is selected-->
-    <string name="packages_search_flying_from_cont_desc">Valitse tästä kohde. josta lennät</string>
+    <string name="packages_search_flying_from_cont_desc">Lento kohteesta. Painike</string>
     <!--Travel dates card content description before date range is selected-->
-    <string name="packages_search_dates_cont_desc">Valitse tästä haluamasi matkustuspäivät</string>
+    <string name="packages_search_dates_cont_desc">Valitse matkustuspäivät. Painike. Avaa dialogin</string>
     <!--Packages search date format template for accessible dates (Talkback announces date range with 'to' in between) Eg. Jun 2 to Jun 5-->
-    <string name="packages_search_date_range_cont_desc_TEMPLATE">{startdate}–{enddate}</string>
-    <!--Packages search dates content description for Talkback to indicate what the date range is and how many nights the trip is for-->
-    <string name="trip_search_date_range_cont_desc_TEMPLATE">Matkustat ajalla {date_range} ja yövyt {nights} yötä</string>
+    <string name="packages_search_date_range_cont_desc_TEMPLATE">{startdate} –&gt; {enddate}</string>
+    <!--Packages search dates content description for Talkback to indicate what the date range is and how many nights the trip is for Eg. Trip dates. Button. Opens dialog. Jun 22 to Jun 25. (3 nights)-->
+    <string name="trip_search_date_range_cont_desc_TEMPLATE">Matkustuspäivät. Painike. Avaa dialogin. {date_range}. {nights}</string>
+    <!--Packages search travelers card content description template. Eg. Number of travelers. Button. Opens dialog. 1 traveler-->
+    <plurals name="packages_search_travelers_cont_desc_TEMPLATE">
+        <item quantity="one">Matkustajien lukumäärä. Painike. Avaa dialogin. {travelers} matkustaja</item>
+        <item quantity="other">Matkustajien lukumäärä. Painike. Avaa dialogin. {travelers} matkustajaa</item>
+    </plurals>
+    <!--Traveler widget adults plus button content description-->
+    <string name="packages_add_adult_traveler_cont_desc">Lisää yksi aikuinen matkustaja</string>
+    <!--Traveler widget adults minus button content description-->
+    <string name="packages_remove_adult_traveler_cont_desc">Poista yksi aikuinen matkustaja</string>
+    <!--Traveler widget child plus button content description-->
+    <string name="packages_add_child_traveler_cont_desc">Lisää yksi lapsimatkustaja</string>
+    <!--Traveler widget child minus button content description-->
+    <string name="packages_remove_child_traveler_cont_desc">Poista yksi lapsimatkustaja</string>
+    <!--Packages search child age drop down content description Eg. "Select age for child 1."-->
+    <string name="search_child_drop_down_cont_desc_TEMPLATE">Valitse lapsen {childnumber} ikä.</string>
     <!--Packages accessibility flight search filter-->
     <!--Content description for "SHOW MORE" button in filter used for Talkback-->
-    <string name="packages_flight_search_filter_show_more_cont_desc">Näytä enemmän lentoyhtiöitä</string>
+    <string name="packages_flight_search_filter_show_more_cont_desc">Näytä lisää lentoyhtiöitä. Painike</string>
     <!--Content description for "SHOW LESS" button in filter used for Talkback-->
-    <string name="packages_flight_search_filter_show_less_cont_desc">Näytä vähemmän lentoyhtiöitä</string>
+    <string name="packages_flight_search_filter_show_less_cont_desc">Näytä vähemmän lentoyhtiöitä. Painike</string>
+    <!--Content description for clear button in filter used for Talkback-->
+    <string name="packages_flight_search_filter_clear_button_cont_desc">Poista suodattimet. Painike</string>
+    <!--Content description for Bundle total widget. Example: Bundle total is $1,234.00. This price includes taxes, fees for both flights and hotel. $100.00 Saved-->
+    <string name="bundle_overview_price_widget">Pakettimatka yhteensä {totalprice}. Hintaan sisältyy sekä lentojen että hotellin verot ja maksut. {savings}</string>
+    <!--Content description for Bundle total widget. Example: Bundle total is $1,234.00. This price includes taxes, fees for both flights and hotel. $100.00 Saved. Cost Breakdown dialog. Button.-->
+    <string name="bundle_total_price_widget_cost_breakdown_cont_desc_TEMPLATE">Pakettimatka yhteensä {totalprice}. Hintaan sisältyy sekä lentojen että hotellin verot ja maksut. {savings}. Hintaerittelyn dialogi. Painike.</string>
+    <!--Content description for Bundle sliding widget, with instruction to expand to show more details. Example: Bundle total is $1,234.00 per person. This price includes taxes, fees for both flights and hotel. $100.00 Saved. Button to view bundle.-->
+    <string name="bundle_overview_price_widget_button_open_TEMPLATE">Pakettimatkahinta on {price_per_person} per henkilö. Hintaan sisältyy sekä lentojen että hotellin verot ja maksut. Painike pakettimatkan tarkasteluun.</string>
+    <!--Content description for Bundle sliding widget, when it's opened.-->
+    <string name="bundle_overview_price_widget_button_close">Näytetään pakettimatkan tiedot. Painike sulkemiseen.</string>
+    <!--Packages bundle overview hotel drop down (expand) content description for accessibility-->
+    <string name="select_hotel_selected_expand_cont_desc">laajenna</string>
+    <!--Packages bundle overview hotel drop down (collapse) content description for accessibility-->
+    <string name="select_hotel_selected_collapse_cont_desc">pienennä</string>
+    <!-- Package filter checkbox.
+        Example #1: 3 available NonStop flights.
+        Example #2: 2 available Hawaiian Airlines flights. -->
+    <string name="packages_flight_filter_checkbox_cont_desc_TEMPLATE">{filter_results} saatavilla olevaa lentoyhtiön {filter_name} lentoa.</string>
+
+    <!--LX accessibility -->
+    <!--LX search accessibility -->
+    <string name="lx_location_edit_box_cont_desc">Aktiviteetin sijainti</string>
+
+    <!--LX infosite accessibility -->
+    <!-- LX infosite section Highlights, description etc have a caret icon to read more content -->
+    <string name="lx_read_more_cont_desc">Lue lisää -painike</string>
+    <!-- LX infosite section Highlights, description etc have a caret icon to read less content -->
+    <string name="lx_read_less_cont_desc">Pienennä-painike</string>
+    <!-- Content description for LX add ticket button e.g. Add adult Button -->
+    <string name="lx_add_ticket_button_cont_desc_TEMPLATE">Lisää {traveler}</string>
+    <!-- Content description for LX remove ticket button e.g. Remove child Button -->
+    <string name="lx_remove_ticket_button_cont_desc_TEMPLATE">Poista {traveler}</string>
+
+    <!-- Generic content description -->
+    <!-- Content description for toolbar 'X' i.e. close/back button -->
+    <string name="toolbar_search_nav_icon_cont_desc">Takaisin</string>
+    <string name="toolbar_search_nav_icon_close_cont_desc">Sulje</string>
+    <string name="search_button_cont_desc">Hakupainike</string>
+    <!-- Content description for LX Duration e.g. Duration 2d -->
+    <string name="search_result_duration_cont_desc_TEMPLATE">Kesto {duration}</string>
+    <!-- Content description for LX Multiple Duration e.g. Duration 2d + -->
+    <string name="search_result_multiple_duration_cont_desc_TEMPLATE">Kesto {duration} plus</string>
+
+    <!--Packages accessibility content description for role Button-->
+    <string name="accessibility_cont_desc_role_button">Painike</string>
+    <!--Packages accessibility content description for role - Button to expand -->
+    <string name="accessibility_cont_desc_role_button_expand">Painike laajentamiseen</string>
+    <!--Packages accessibility content description for role - Button to collapse -->
+    <string name="accessibility_cont_desc_role_button_collapse">Painike pienentämiseen</string>
+
+    <!-- LX SRP activity price content description when no discount e.g. Price is $30 -->
+    <string name="activity_price_without_discount_cont_desc_TEMPLATE">Hinta on {activity_price}</string>
+
+    <!-- LX SRP activity price content description when price is discounted e.g. Price is $180. Price before discount was $230 -->
+    <string name="activity_price_with_discount_cont_desc_TEMPLATE">Hinta on {activity_price}. Hinta ennen alennusta oli {activity_original_price}</string>
+    <!-- Content description for Checkbox types, state Checked -->
+    <string name="accessibility_cont_desc_role_checkbox_checked">Valintaruutu. Valittu.</string>
+    <!-- Content description for Checkbox types, state Unchecked -->
+    <string name="accessibility_cont_desc_role_checkbox_unchecked">Valintaruutu. Ei valittu.</string>
 </resources>

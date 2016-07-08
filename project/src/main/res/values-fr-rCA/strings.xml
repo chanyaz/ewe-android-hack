@@ -301,8 +301,10 @@
     <string name="missing_flight_info_button_prompt">Sélectionner l\&apos;aéroport</string>
 
     <!-- LX -->
-    <!-- LX toolbar Date Range e.g. May 05 - May 10 -->
-    <string name="lx_toolbar_date_range_template">%1$s - %2$s</string>
+    <!-- LX Toolbar Date Range e.g. May 05 - May 10 -->
+    <string name="lx_toolbar_date_range_TEMPLATE">{from_date} - {to_date}</string>
+    <!-- LX Toolbar Date Range Cont Desc e.g. May 05 to May 10 -->
+    <string name="lx_toolbar_date_range_cont_desc_TEMPLATE">{from_date} au {to_date}</string>
     <!--LX Search widget header text -->
     <string name="lx_search_title">Rechercher des activités</string>
     <!--LX Search widget header text -->
@@ -1002,6 +1004,11 @@
     <string name="nav_lx">Activités</string>
     <!-- Ground Transport -->
     <string name="nav_transport">Transport</string>
+    <!-- Packages -->
+    <string name="nav_packages">Offres groupées</string>
+    <!-- Rail -->
+    <string name="nav_rail">Train</string>
+
 
     <!-- New launch screen -->
     <!-- Top deals tonight -->
@@ -1129,30 +1136,30 @@
     <string name="yesterday">Hier</string>
     <!-- "XX Minutes" - an event happening XX minutes in the future -->
     <plurals name="minutes_from_now">
-        <item quantity="zero">%s minutes</item>
-        <item quantity="one">%s minute</item>
-        <item quantity="two">%s minutes</item>
-        <item quantity="few">%s minutes</item>
-        <item quantity="many">%s minutes</item>
-        <item quantity="other">%s minutes</item>
+        <item quantity="zero">{minutes} minutes</item>
+        <item quantity="one">{minutes} minute</item>
+        <item quantity="two">{minutes} minutes</item>
+        <item quantity="few">{minutes} minutes</item>
+        <item quantity="many">{minutes} minutes</item>
+        <item quantity="other">{minutes} minutes</item>
     </plurals>
     <!-- "XX Hours" - an event happening XX hours in the future -->
     <plurals name="hours_from_now">
-        <item quantity="zero">%s heures</item>
-        <item quantity="one">%s heure</item>
-        <item quantity="two">%s heures</item>
-        <item quantity="few">%s heures</item>
-        <item quantity="many">%s heures</item>
-        <item quantity="other">%s heures</item>
+        <item quantity="zero">{hours} heures</item>
+        <item quantity="one">{hours} heure</item>
+        <item quantity="two">{hours} heures</item>
+        <item quantity="few">{hours} heures</item>
+        <item quantity="many">{hours} heures</item>
+        <item quantity="other">{hours} heures</item>
     </plurals>
     <!-- "XX Days" an event happening XX days in the future -->
     <plurals name="days_from_now">
-        <item quantity="zero">%s jours</item>
-        <item quantity="one">%s jour</item>
-        <item quantity="two">%s jours</item>
-        <item quantity="few">%s jours</item>
-        <item quantity="many">%s jours</item>
-        <item quantity="other">%s jours</item>
+        <item quantity="zero">{days} jours</item>
+        <item quantity="one">{days} jour</item>
+        <item quantity="two">{days} jours</item>
+        <item quantity="few">{days} jours</item>
+        <item quantity="many">{days} jours</item>
+        <item quantity="other">{days} jours</item>
     </plurals>
     <!-- Shared Itin - Fallback name for itin card -->
     <string name="sharedItin_card_fallback_name">Itinéraire partagé</string>
@@ -1656,6 +1663,13 @@
     <string name="flights_outbound_label">Sortant</string>
     <!-- Flights Line of Business title -->
     <string name="flights_title">Vols</string>
+    <!-- Flights payment fees info web view title -->
+    <string name="flights_flight_overview_payment_fees">Renseignements sur les frais de paiement</string>
+    <!-- Flights Free Cancellation messaging -->
+    <string name="flights_free_cancellation">Annulation sans frais dans les 24 heures</string>
+    <!-- Card fee warning text on checkout overview.
+        Example: The airline charges a processing fee of $3.00 for using this card (cost included in the trip total). -->
+    <string name="flights_card_fee_warning_TEMPLATE">La compagnie aérienne exige des frais de traitement de {card_fee} pour l\&apos;utilisation de cette carte (coût compris dans le total du voyage).</string>
 
     <!-- Flights -->
     <!-- Label for Flight Search in task manager -->
@@ -1892,8 +1906,8 @@
     <string name="card_info">Information sur la carte</string>
 
     <!-- Edit CreditCard Fragment -->
-    <!-- Airline processing fee for this card: <Dollar Amount> (e.g. Airling processing fee for this card: $5) -->
-    <string name="airline_processing_fee_TEMPLATE">Frais de traitement de la compagnie aérienne pour cette carte : &lt;b&gt;%1$s&lt;/b&gt;</string>
+    <!-- Airline processing fee for this card. Example: Airline processing fee for this card: $5 -->
+    <string name="airline_processing_fee_TEMPLATE">Frais de traitement de la compagnie aérienne pour cette carte : &lt;b&gt;{card_fee}&lt;/b&gt;</string>
     <!-- Airline does not accept <Credit Card Brand> (e.g. "Airline does not accept Visa") -->
     <string name="airline_does_not_accept_cardtype_TEMPLATE">La compagnie aérienne n\&apos;accepte pas les paiements avec %1$s</string>
     <!-- Hotel does not accept <Credit Card Brand> (e.g. "Hotel does not accept Visa") -->
@@ -3739,7 +3753,7 @@
     <string name="flight_selection_cost_summary_cont_desc">Allez au sommaire du coût pour vos sélections de vol</string>
     <!-- Checkout screen -->
     <!-- Content description for action: Press to begin checkout -->
-    <string name="checkout_cont_desc">Appuyez pour passer à la sortie</string>
+    <string name="checkout_cont_desc">Appuyez pour passer au paiement</string>
     <!-- Content description for action: Press to enter a coupon or promotional code -->
     <string name="checkout_enter_coupon_cont_desc">Appuyez pour entrer un code de bon de réduction ou un code promotionnel</string>
     <!-- Traveler Information screen -->
@@ -3776,6 +3790,28 @@
     <string name="pay_now_cont_desc">Appuyez sur le bouton pour payer maintenant</string>
     <!-- Content description for action: Press to filter for hotels within a mid-distance radius from your search location -->
     <string name="pay_later_cont_desc">Appuyez sur le bouton pour payer plus tard</string>
+
+    <!-- Content description for Cars filter button -->
+    <string name="cars_filter_button_cont_desc">Bouton de filtre</string>
+    <!-- Content description for car result door count e.g. Doors 2-4 -->
+    <string name="cars_door_count_cont_desc_TEMPLATE">Portes {doorcount}</string>
+    <!-- Content description for car result passenger count e.g. Passengers 2-4 -->
+    <string name="cars_passenger_count_cont_desc_TEMPLATE">passagers{passengercount}</string>
+    <!-- Content description for car result bags count e.g. Bags 2-4 -->
+    <string name="cars_bags_count_cont_desc_TEMPLATE">bagages{bagscount}</string>
+
+    <!-- Content descriptions for Cars filter transmission buttons -->
+    <string name="cars_filter_transmission_manual_button_selected_cont_desc">Transmission manuelle</string>
+    <string name="cars_filter_transmission_automatic_button_selected_cont_desc">Transmission automatique</string>
+    <string name="cars_filter_transmission_all_button_selected_cont_desc">Tous les types de transmission</string>
+    <string name="cars_filter_transmission_manual_button_unselected_cont_desc">Transmission manuelle. Non sélectionné</string>
+    <string name="cars_filter_transmission_automatic_button_unselected_cont_desc">Transmission automatique. Non sélectionné</string>
+    <string name="cars_filter_transmission_all_button_unselected_cont_desc">Tous les types de transmission. Non sélectionné</string>
+
+    <!-- Content description for car offer reserve button e.g. Dollar, Chevrolet Spark or Similar, Reserve button-->
+    <string name="cars_offer_reserve_button_cont_desc_TEMPLATE">{vendor}, {make}, bouton Réserver</string>
+    <!-- Content description for car offer view details button e.g. Dollar, Chevrolet Spark or Similar, View details button-->
+    <string name="cars_offer_view_details_button_cont_desc_TEMPLATE">{vendor}, {make}, bouton Voir les détails</string>
 
     <!-- Tablet Confirmation Screen -->
     <!-- Header text to indicating booking confirmed for hotel -->
@@ -3907,13 +3943,13 @@
     <!-- Title for travel info in flight card. e.g. "Sep 24 at 6:30am, 2 Travelers" -->
     <string name="package_overview_flight_travel_info_TEMPLATE">%1$s à %2$s, %3$s</string>
     <!-- Template for package bundle total savings amount -->
-    <string name="bundle_total_savings_TEMPLATE">{savings} Enregistré</string>
-    <!-- Bundle Overview select hotel accessibility content description -->
-    <string name="select_hotel_cont_desc_TEMPLATE">Le recherche est terminée; veuillez appuyer sur ce bouton pour sélectionner un hôtel à {destination} du {startdate} au {enddate}, pour {guests}.</string>
-    <!-- Bundle Overview select hotel accessibility content description when still searching -->
+    <string name="bundle_total_savings_TEMPLATE">{savings} économisés</string>
+    <!-- Bundle Overview select hotel accessibility content description Eg. Search completed. Select a hotel in Detroit from Jun 23 to Jun 24, for 1 guest. Button -->
+    <string name="select_hotel_cont_desc_TEMPLATE">La recherche est terminée. Sélectionnez un hôtel à {destination} du {startdate} au {enddate}, pour {guests}. Bouton</string>
+    <!-- Bundle Overview select hotel accessibility content description when still searching Eg. Searching for hotels in Detroit from Jun 23 to Jun 24, for 1 guest. Please wait -->
     <string name="select_hotel_searching_cont_desc_TEMPLATE">Recherche d\&apos;hôtels à {destination} du {startdate} au {enddate}, pour {guests}. Veuillez patienter.</string>
-    <!-- Bundle Overview selected hotel accessibility content description -->
-    <string name="select_hotel_selected_cont_desc_TEMPLATE">Vous avez sélectionné l\&apos;hôtel {hotel} du {startdate} au {enddate}, pour {guests}. Veuillez appuyer sur ce bouton pour afficher plus de détails.</string>
+    <!-- Bundle Overview selected hotel accessibility content description Eg. You have selected hotel Orion from Jun 23 to June 24, for 1 guest. Button to expand hotel details. -->
+    <string name="select_hotel_selected_cont_desc_TEMPLATE">Vous avez sélectionné l\&apos;hôtel {hotel} du {startdate} au {enddate}, pour {guests}. {expandstate} les détails de l\&apos;hôtel.</string>
     <!-- Bundle Overview select hotel -->
     <string name="select_hotel_template">Sélectionner un hôtel à %s</string>
     <!-- Bundle Overview searching flight -->
@@ -3934,18 +3970,24 @@
         <item quantity="other">2 escales ou plus</item>
     </plurals>
 
+    <!-- Flight Nonstop description -->
+    <string name="flight_nonstop_description">Sans escale</string>
     <!-- Flight duration template e.g. 1d 12h 42m (Nonstop) -->
     <string name="flight_duration_description_template">%1$s (%2$s)</string>
     <!-- Flight hour duration template e.g. 12h 42m -->
     <string name="flight_hour_min_duration_template">%1$d h %2$d min</string>
     <!-- Flight min duration template e.g. 1d 12h 42m (2hr layover) -->
     <string name="flight_min_duration_template">%1$d min</string>
-    <!-- Flight Nonstop description -->
-    <string name="flight_nonstop_description">Sans escale</string>
+
     <!-- Flight departure arrival time in multi days e.g. 5:15 pm - 7:48 am +1d -->
     <string name="flight_departure_arrival_time_multi_day_template">%1$s à %2$s + %3$d j</string>
+    <!-- Accessible text for Flight departure arrival time same day e.g. 5:15 pm to 7:48 pm plus 1d -->
+    <string name="flight_departure_arrival_time_multi_day_cont_desc_TEMPLATE">{departuretime} à {arrivaltime} plus {elapseddays} j</string>
     <!-- Flight departure arrival time same day e.g. 5:15 pm - 7:48 pm -->
     <string name="flight_departure_arrival_time_template">%1$s à %2$s</string>
+    <!-- Accessible text for Flight departure arrival time same day e.g. 5:15 pm to 7:48 pm -->
+    <string name="flight_departure_arrival_time_cont_desc_TEMPLATE">de {departuretime} à {arrivaltime}</string>
+
     <!-- Select flight to template -->
     <string name="select_flight_to">Sélectionnez un vol vers %1$s</string>
     <!-- Flight to template -->
@@ -4059,6 +4101,9 @@
     <!--rail search screen - user is specifiying what time they want their return train to leave at -->
     <string name="rail_returning_at">Retour à</string>
 
+    <!-- rail checkout overview label for outbound  e.g. "Outbound - Thu Jun 23"-->
+    <string name="rail_checkout_outbound_TEMPLATE">Départ : {date}</string>
+
     <!-- Label for rail trip price on overview screen -->
     <string name="total">Total</string>
 
@@ -4092,6 +4137,8 @@
     <string name="yay_going_somewhere">Vous allez à</string>
     <!-- Cars cross-sell message on package confirmation -->
     <string name="rental_car_message">Besoin d\&apos;une voiture de location?</string>
+    <!-- Cars cross-sell origin description template-->
+    <string name="cars_cross_sell_origin_TEMPLATE">{airport_code}-{airport_localname}</string>
     <!-- Cars cross-sell message description on package confirmation -->
     <string name="rental_car_message_desc">Recherchez des voitures et économisez</string>
     <!-- Fly from hint -->
@@ -4130,28 +4177,106 @@
     <string name="reward_middle_tier_name_short">+argent</string>
     <!-- Short name for rewards top tier -->
     <string name="reward_top_tier_name_short">+or</string>
-    <!-- Flight Detail card view content description for accessibility.
-         Example: Flight time is 10am - 12:30pm with price difference of $25. Flying with United and the flight duration is 2 hours 30 minutes. Click to view flight details -->
-    <string name="flight_detail_card_cont_desc_TEMPLATE">Le vol est à {time} et la différence de prix est de {pricedifference}. Vol exploité par {airline} d\&apos;une durée de {hours} heures {minutes} minutes. Cliquez pour afficher les détails du vol</string>
 
     <!--Packages search accessibility -->
-    <!--Flying to card content description Eg. Flying to San Francisco, CA (SFO-San Francisco Intl.)-->
-    <string name="search_flying_to_destination_cont_desc_TEMPLATE">Vol pour {to_destination}</string>
-    <!--Flying from card content description Eg. Flying from Detroit, MI (DTW-Detroit Metropolitan Wayne County)-->
-    <string name="search_flying_from_destination_cont_desc_TEMPLATE">Vol de {from_destination}</string>
+    <!-- Flight Detail card view content description for accessibility.
+    Eg. Flight time is 9:00 am - 11:12 am with price difference of +$0. Flying with United. The flight duration is 5 hours 12 minutes with 0 stops. -->
+    <string name="flight_detail_card_cont_desc_TEMPLATE">Le vol est à {time} et la différence de prix est de {pricedifference}. Vol exploité par {airline}. La durée du vol est de {hours} {minutes} avec {stops} escales.</string>
+    <!--Flight Detail card view - flight duration content description for accessibility Eg. SFO to DTM. 3 hours 15 minutes.-->
+    <string name="flight_detail_flight_duration_card_cont_desc_TEMPLATE">{departureairport} vers {arrivalairport}. {durationhours} {durationmins}.</string>
+    <!--Flight Detail card view - layover duration content description for accessibility Eg. Layover. 2 hours 4 minutes.-->
+    <string name="flight_detail_layover_duration_card_cont_desc_TEMPLATE">Temps d\&apos;attente. {layoverhours} {layovermins}.</string>
+    <!--Flying to card content description Eg. Flying to. Button. San Francisco, CA (SFO-San Francisco Intl.)-->
+    <string name="search_flying_to_destination_cont_desc_TEMPLATE">Vol vers. Bouton. {to_destination}</string>
+    <!--Flying from card content description Eg. Flying from. Button. Detroit, MI (DTW-Detroit Metropolitan Wayne County)-->
+    <string name="search_flying_from_destination_cont_desc_TEMPLATE">Vol de. Bouton. {from_destination}</string>
     <!--Flying to card content description before a location is selected-->
-    <string name="packages_search_flying_to_cont_desc">Cliquez ici pour sélectionner la destination de votre vol</string>
+    <string name="packages_search_flying_to_cont_desc">Vol vers. Bouton</string>
     <!--Flying from card content description before a location is selected-->
-    <string name="packages_search_flying_from_cont_desc">Cliquez ici pour sélectionner l\&apos;origine de votre vol</string>
+    <string name="packages_search_flying_from_cont_desc">Vol de. Bouton</string>
     <!--Travel dates card content description before date range is selected-->
-    <string name="packages_search_dates_cont_desc">Cliquez ici pour sélectionner vos dates de voyage</string>
+    <string name="packages_search_dates_cont_desc">Sélectionner les dates de voyage. Bouton. Ouvre une fenêtre contextuelle</string>
     <!--Packages search date format template for accessible dates (Talkback announces date range with 'to' in between) Eg. Jun 2 to Jun 5-->
     <string name="packages_search_date_range_cont_desc_TEMPLATE">du {startdate} au {enddate}</string>
-    <!--Packages search dates content description for Talkback to indicate what the date range is and how many nights the trip is for-->
-    <string name="trip_search_date_range_cont_desc_TEMPLATE">Votre voyage de {nights} débute le {date_range}</string>
+    <!--Packages search dates content description for Talkback to indicate what the date range is and how many nights the trip is for Eg. Trip dates. Button. Opens dialog. Jun 22 to Jun 25. (3 nights)-->
+    <string name="trip_search_date_range_cont_desc_TEMPLATE">Dates de voyage. Bouton. Ouvre une fenêtre contextuelle. {date_range}. {nights}</string>
+    <!--Packages search travelers card content description template. Eg. Number of travelers. Button. Opens dialog. 1 traveler-->
+    <plurals name="packages_search_travelers_cont_desc_TEMPLATE">
+        <item quantity="one">Nombre de voyageurs. Bouton. Ouvre une fenêtre contextuelle. {travelers} voyageur</item>
+        <item quantity="other">Nombre de voyageurs. Bouton. Ouvre une fenêtre contextuelle. {travelers} voyageurs</item>
+    </plurals>
+    <!--Traveler widget adults plus button content description-->
+    <string name="packages_add_adult_traveler_cont_desc">Ajouter un voyageur adulte</string>
+    <!--Traveler widget adults minus button content description-->
+    <string name="packages_remove_adult_traveler_cont_desc">Supprimer un voyageur adulte</string>
+    <!--Traveler widget child plus button content description-->
+    <string name="packages_add_child_traveler_cont_desc">Ajouter un voyageur enfant</string>
+    <!--Traveler widget child minus button content description-->
+    <string name="packages_remove_child_traveler_cont_desc">Supprimer un voyageur enfant</string>
+    <!--Packages search child age drop down content description Eg. "Select age for child 1."-->
+    <string name="search_child_drop_down_cont_desc_TEMPLATE">Sélectionner l\&apos;âge de l\&apos;enfant {childnumber}.</string>
     <!--Packages accessibility flight search filter-->
     <!--Content description for "SHOW MORE" button in filter used for Talkback-->
-    <string name="packages_flight_search_filter_show_more_cont_desc">Cliquez ici pour afficher plus de compagnies aériennes</string>
+    <string name="packages_flight_search_filter_show_more_cont_desc">Afficher plus de compagnies aériennes. Bouton</string>
     <!--Content description for "SHOW LESS" button in filter used for Talkback-->
-    <string name="packages_flight_search_filter_show_less_cont_desc">Cliquez ici pour afficher moins de compagnies aériennes</string>
+    <string name="packages_flight_search_filter_show_less_cont_desc">Afficher moins de compagnies aériennes. Bouton</string>
+    <!--Content description for clear button in filter used for Talkback-->
+    <string name="packages_flight_search_filter_clear_button_cont_desc">Supprimer les filtres. Bouton</string>
+    <!--Content description for Bundle total widget. Example: Bundle total is $1,234.00. This price includes taxes, fees for both flights and hotel. $100.00 Saved-->
+    <string name="bundle_overview_price_widget">Le total pour l\&apos;offre groupée est {totalprice}. Ce prix comprend les taxes et les frais pour les vols et l\&apos;hôtel. {savings}</string>
+    <!--Content description for Bundle total widget. Example: Bundle total is $1,234.00. This price includes taxes, fees for both flights and hotel. $100.00 Saved. Cost Breakdown dialog. Button.-->
+    <string name="bundle_total_price_widget_cost_breakdown_cont_desc_TEMPLATE">Le total pour l\&apos;offre groupée est {totalprice}. Ce prix comprend les taxes et les frais pour les vols et l\&apos;hôtel. {savings}. Fenêtre contextuelle des détails du prix. Bouton.</string>
+    <!--Content description for Bundle sliding widget, with instruction to expand to show more details. Example: Bundle total is $1,234.00 per person. This price includes taxes, fees for both flights and hotel. $100.00 Saved. Button to view bundle.-->
+    <string name="bundle_overview_price_widget_button_open_TEMPLATE">Le prix de l\&apos;offre groupée est de {price_per_person} par personne. Ce prix comprend les taxes et les frais pour les vols et l\&apos;hôtel. Bouton d\&apos;affichage de l\&apos;offre groupée.</string>
+    <!--Content description for Bundle sliding widget, when it's opened.-->
+    <string name="bundle_overview_price_widget_button_close">Affichage des détails de l\&apos;offre groupée. Bouton de fermeture.</string>
+    <!--Packages bundle overview hotel drop down (expand) content description for accessibility-->
+    <string name="select_hotel_selected_expand_cont_desc">agrandir</string>
+    <!--Packages bundle overview hotel drop down (collapse) content description for accessibility-->
+    <string name="select_hotel_selected_collapse_cont_desc">réduire</string>
+    <!-- Package filter checkbox.
+        Example #1: 3 available NonStop flights.
+        Example #2: 2 available Hawaiian Airlines flights. -->
+    <string name="packages_flight_filter_checkbox_cont_desc_TEMPLATE">{filter_results} vols {filter_name} disponibles.</string>
+
+    <!--LX accessibility -->
+    <!--LX search accessibility -->
+    <string name="lx_location_edit_box_cont_desc">Emplacement de l\&apos;activité</string>
+
+    <!--LX infosite accessibility -->
+    <!-- LX infosite section Highlights, description etc have a caret icon to read more content -->
+    <string name="lx_read_more_cont_desc">Bouton Lire plus</string>
+    <!-- LX infosite section Highlights, description etc have a caret icon to read less content -->
+    <string name="lx_read_less_cont_desc">Bouton Lire moins</string>
+    <!-- Content description for LX add ticket button e.g. Add adult Button -->
+    <string name="lx_add_ticket_button_cont_desc_TEMPLATE">Ajouter un {traveler}</string>
+    <!-- Content description for LX remove ticket button e.g. Remove child Button -->
+    <string name="lx_remove_ticket_button_cont_desc_TEMPLATE">Supprimer un {traveler}</string>
+
+    <!-- Generic content description -->
+    <!-- Content description for toolbar 'X' i.e. close/back button -->
+    <string name="toolbar_search_nav_icon_cont_desc">Retour</string>
+    <string name="toolbar_search_nav_icon_close_cont_desc">Fermer</string>
+    <string name="search_button_cont_desc">Bouton Rechercher</string>
+    <!-- Content description for LX Duration e.g. Duration 2d -->
+    <string name="search_result_duration_cont_desc_TEMPLATE">Durée de {duration}</string>
+    <!-- Content description for LX Multiple Duration e.g. Duration 2d + -->
+    <string name="search_result_multiple_duration_cont_desc_TEMPLATE">Durée de {duration} et plus</string>
+
+    <!--Packages accessibility content description for role Button-->
+    <string name="accessibility_cont_desc_role_button">Bouton</string>
+    <!--Packages accessibility content description for role - Button to expand -->
+    <string name="accessibility_cont_desc_role_button_expand">Bouton d\&apos;agrandissement</string>
+    <!--Packages accessibility content description for role - Button to collapse -->
+    <string name="accessibility_cont_desc_role_button_collapse">Bouton de réduction</string>
+
+    <!-- LX SRP activity price content description when no discount e.g. Price is $30 -->
+    <string name="activity_price_without_discount_cont_desc_TEMPLATE">Le prix est de {activity_price}</string>
+
+    <!-- LX SRP activity price content description when price is discounted e.g. Price is $180. Price before discount was $230 -->
+    <string name="activity_price_with_discount_cont_desc_TEMPLATE">Le prix est de {activity_price}. Le prix avant la réduction était de {activity_original_price}</string>
+    <!-- Content description for Checkbox types, state Checked -->
+    <string name="accessibility_cont_desc_role_checkbox_checked">Case à cocher. Cochée.</string>
+    <!-- Content description for Checkbox types, state Unchecked -->
+    <string name="accessibility_cont_desc_role_checkbox_unchecked">Case à cocher. Décochée.</string>
 </resources>
