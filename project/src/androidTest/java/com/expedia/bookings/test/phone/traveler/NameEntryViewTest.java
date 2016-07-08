@@ -83,6 +83,15 @@ public class NameEntryViewTest {
 				testViewModel.getLastNameErrorSubject().onNext(true);
 			}
 		});
+
+		//test for accessibility content description
+		assertEquals(nameView.getFirstName().getErrorContDesc(),
+			"Error");
+		assertEquals(nameView.getMiddleName().getErrorContDesc(),
+			"Error");
+		assertEquals(nameView.getLastName().getErrorContDesc(),
+			"Error");
+
 		assertEquals(nameView.getFirstName().getCompoundDrawables()[2],
 			nameView.getFirstName().getErrorIcon());
 		assertEquals(nameView.getFirstName().getCompoundDrawables()[2],
