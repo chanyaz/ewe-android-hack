@@ -6,13 +6,11 @@ import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
 import android.util.AttributeSet
 import com.expedia.bookings.R
-import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.packages.PackageSearchParams
 import com.expedia.bookings.utils.Constants
 import com.expedia.bookings.utils.DateUtils
 import com.expedia.bookings.utils.StrUtils
 import com.expedia.ui.PackageFlightActivity
-import com.expedia.vm.packages.PackageSearchType
 import com.squareup.phrase.Phrase
 
 class OutboundFlightWidget(context: Context, attrs: AttributeSet?) : BaseBundleFlightWidget(context, attrs) {
@@ -25,25 +23,25 @@ class OutboundFlightWidget(context: Context, attrs: AttributeSet?) : BaseBundleF
 
         viewModel.showLoadingStateObservable.onNext(true)
         viewModel.flightTextObservable.onNext(context.getString(R.string.searching_flight_to,
-                StrUtils.formatAirportCodeCityName(Db.getPackageParams().destination)))
+                StrUtils.formatAirportCodeCityName(viewModel.searchParams.value.destination)))
     }
 
     override fun handleResultsLoaded() {
         viewModel.showLoadingStateObservable.onNext(false)
-        viewModel.flightTextObservable.onNext(context.getString(R.string.select_flight_to, StrUtils.formatAirportCodeCityName(Db.getPackageParams().destination)))
+        viewModel.flightTextObservable.onNext(context.getString(R.string.select_flight_to, StrUtils.formatAirportCodeCityName(viewModel.searchParams.value.destination)))
         viewModel.travelInfoTextObservable.onNext(Phrase.from(context, R.string.flight_toolbar_date_range_with_guests_TEMPLATE)
-                .put("date", DateUtils.localDateToMMMd(Db.getPackageParams().startDate))
-                .put("travelers", StrUtils.formatTravelerString(context, Db.getPackageParams().guests)).format().toString())
+                .put("date", DateUtils.localDateToMMMd(viewModel.searchParams.value.startDate))
+                .put("travelers", StrUtils.formatTravelerString(context, viewModel.searchParams.value.guests)).format().toString())
     }
 
     override fun enable() {
         toggleFlightWidget(1f, true)
         viewModel.flightDetailsIconObservable.onNext(false)
         viewModel.flightIconImageObservable.onNext(Pair(R.drawable.packages_flight1_icon, ContextCompat.getColor(context, R.color.package_bundle_icon_color)))
-        viewModel.flightTextObservable.onNext(context.getString(R.string.select_flight_to, StrUtils.formatAirportCodeCityName(Db.getPackageParams().destination)))
+        viewModel.flightTextObservable.onNext(context.getString(R.string.select_flight_to, StrUtils.formatAirportCodeCityName(viewModel.searchParams.value.destination)))
         viewModel.travelInfoTextObservable.onNext(Phrase.from(context, R.string.flight_toolbar_date_range_with_guests_TEMPLATE)
-                .put("date", DateUtils.localDateToMMMd(Db.getPackageParams().startDate))
-                .put("travelers", StrUtils.formatTravelerString(context, Db.getPackageParams().guests))
+                .put("date", DateUtils.localDateToMMMd(viewModel.searchParams.value.startDate))
+                .put("travelers", StrUtils.formatTravelerString(context, viewModel.searchParams.value.guests))
                 .format()
                 .toString())
     }
@@ -51,7 +49,7 @@ class OutboundFlightWidget(context: Context, attrs: AttributeSet?) : BaseBundleF
     override fun disable() {
         toggleFlightWidget(opacity, false)
         viewModel.flightIconImageObservable.onNext(Pair(R.drawable.packages_flight1_icon, ContextCompat.getColor(context, R.color.package_bundle_icon_color)))
-        viewModel.flightTextObservable.onNext(context.getString(R.string.flight_to, StrUtils.formatAirportCodeCityName(Db.getPackageParams().destination)))
+        viewModel.flightTextObservable.onNext(context.getString(R.string.flight_to, StrUtils.formatAirportCodeCityName(viewModel.searchParams.value.destination)))
         viewModel.flightTextColorObservable.onNext(ContextCompat.getColor(context, R.color.package_bundle_icon_color))
         viewModel.flightTravelInfoColorObservable.onNext(ContextCompat.getColor(context, R.color.package_bundle_icon_color))
         viewModel.flightSelectIconObservable.onNext(false)
