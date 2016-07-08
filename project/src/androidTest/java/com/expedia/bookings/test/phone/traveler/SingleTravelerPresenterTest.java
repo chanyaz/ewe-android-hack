@@ -20,6 +20,7 @@ import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withSpinnerText;
+import static junit.framework.Assert.assertEquals;
 import static org.hamcrest.core.AllOf.allOf;
 
 @RunWith(AndroidJUnit4.class)
@@ -78,6 +79,7 @@ public class SingleTravelerPresenterTest extends BaseTravelerPresenterTestHelper
 		EspressoUser.clickOnView(R.id.traveler_default_state);
 		EspressoUser.clickOnView(R.id.edit_phone_number);
 		PackageScreen.clickTravelerDone();
+		assertEquals(testTravelerPresenter.getTravelerDefaultState().getContentDescription(),"Traveler Information Complete");
 		EspressoUtils.assertContainsImageDrawable(R.id.traveler_status_icon, R.drawable.validated);
 	}
 
@@ -94,8 +96,8 @@ public class SingleTravelerPresenterTest extends BaseTravelerPresenterTestHelper
 					.show(testTravelerPresenter.getTravelerDefaultState(), Presenter.FLAG_CLEAR_BACKSTACK);
 			}
 		});
-
 		Common.delay(1);
+		assertEquals(testTravelerPresenter.getTravelerDefaultState().getContentDescription(),"Traveler Information Incomplete");
 		EspressoUtils.assertContainsImageDrawable(R.id.traveler_status_icon, R.drawable.invalid);
 	}
 
