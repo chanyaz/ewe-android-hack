@@ -26,7 +26,7 @@
     <color name="bg_btn_pressed_color_lm">@color/white</color>
     <color name="itin_flight_line_color_lm">#7da426</color>
     <color name="login_text_flight">@color/white</color>
-    <color name="coupon_success_message_color_lm">#E40088</color>
+    <color name="coupon_success_message_color">#E40088</color>
     <color name="collection_overlay_color">#56a1d5</color>
     <color name="hotel_room_rate_select_room_button_lm">#0079A1</color>
     <color name="hotel_room_rate_select_room_button_pressed_lm">#005B79</color>
@@ -44,6 +44,7 @@
     <color name="launch_tonight_only">#006E8C</color>
 
     <color name="hotelsv2_discount_green">#0079a1</color>
+    <color name="hotelsv2_coupon_applied_color">#E40088</color>
 
     <color name="hotel_price_text_color">#4F4F4F</color>
     <color name="hotel_price_sale_text_color">#0079a1</color>
@@ -78,7 +79,6 @@
 
     <color name="section_flight_edit_traveler_link_color_lm">@color/action_bar_bg_color</color>
     <color name="room_rate_refundable_cancellation_text_color_lm">#599027</color>
-    <color name="tablet_hotel_coupon_text_color_lm">@color/action_bar_bg_color</color>
 
     <!-- Cars and LX -->
     <color name="cars_primary_color">@color/last_minute_primary_color</color>
