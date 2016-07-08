@@ -2,6 +2,7 @@ package com.expedia.bookings.test.phone.accessibility.packages;
 
 import org.joda.time.LocalDate;
 
+import com.expedia.bookings.R;
 import com.expedia.bookings.test.espresso.Common;
 import com.expedia.bookings.test.espresso.PackageTestCase;
 import com.expedia.bookings.test.espresso.ViewActions;
@@ -9,13 +10,16 @@ import com.expedia.bookings.test.phone.hotels.HotelScreen;
 import com.expedia.bookings.test.phone.packages.PackageScreen;
 import com.expedia.bookings.utils.DateUtils;
 
+import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.hasDescendant;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.isEnabled;
+import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static com.expedia.bookings.test.espresso.CustomMatchers.withContentDescription;
+import static com.expedia.bookings.test.espresso.CustomMatchers.withNavigationContentDescription;
 import static org.hamcrest.CoreMatchers.allOf;
 import static org.hamcrest.Matchers.not;
 
@@ -62,6 +66,8 @@ public class PackagesBundleOverviewTest extends PackageTestCase {
 		PackageScreen.selectThisFlight().perform(ViewActions.waitForViewToDisplay());
 		PackageScreen.selectThisFlight().perform(click());
 		checkBundleTotalWidgetContentDescription("$2,538.62", "$56.50", true);
+
+		onView(withId(R.id.checkout_toolbar)).check(matches(withNavigationContentDescription("Back")));
 	}
 
 	private void checkBundleOverviewHotelContentDescription(boolean searchCompleted) {
