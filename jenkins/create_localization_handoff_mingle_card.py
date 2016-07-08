@@ -20,8 +20,7 @@ hipchatAccessToken = sys.argv[4]
 assignTo = sys.argv[5]
 
 cardProperties = {'Team':'PF_US', 'Releases - Release':'(Current Release)', 'Theme':'Localizations', 'Schedule - Iteration':'(Current PF Iteration)', 'Status':'Analysis', 'Assigned':assignTo}
-#TODO - update this room name to Android team
-hipchatRoomName = 'TestLoc1'
+hipchatRoomName = 'Team: Android'
 
 cardName = 'LOC DROP - {handoff_date}'.format(handoff_date=handoffDate)
 cardDescription = 'Loc handoff<br><br>Brand : {brand_name}<br>Branch : {branch_name}<br>Date : {date}' \
