@@ -54,7 +54,6 @@ abstract class BaseSearchViewModel(val context: Context) {
     abstract fun getMaxDateRange(): Int
     abstract fun sameStartAndEndDateAllowed():Boolean
 
-
     val datesObserver = endlessObserver<Pair<LocalDate?, LocalDate?>> { data ->
         onDatesChanged(data)
     }
