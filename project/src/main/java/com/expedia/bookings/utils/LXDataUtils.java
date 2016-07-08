@@ -332,8 +332,9 @@ public class LXDataUtils {
 			int contDescResId;
 			if (isMultiDuration) {
 				contDescResId = R.string.search_result_multiple_duration_cont_desc_TEMPLATE;
-				duration.setText(context.getResources()
-					.getString(R.string.search_result_multiple_duration_TEMPLATE, activityDuration));
+				duration.setText(Phrase.from(context,R.string.search_result_multiple_duration_TEMPLATE)
+					.put("duration", activityDuration)
+					.format());
 			}
 			else {
 				contDescResId = R.string.search_result_duration_cont_desc_TEMPLATE;
