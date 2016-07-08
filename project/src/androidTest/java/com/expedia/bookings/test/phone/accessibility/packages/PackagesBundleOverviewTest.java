@@ -13,6 +13,7 @@ import com.expedia.bookings.utils.DateUtils;
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
+import static android.support.test.espresso.matcher.ViewMatchers.hasContentDescription;
 import static android.support.test.espresso.matcher.ViewMatchers.hasDescendant;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.isEnabled;
@@ -66,8 +67,9 @@ public class PackagesBundleOverviewTest extends PackageTestCase {
 		PackageScreen.selectThisFlight().perform(ViewActions.waitForViewToDisplay());
 		PackageScreen.selectThisFlight().perform(click());
 		checkBundleTotalWidgetContentDescription("$2,538.62", "$56.50", true);
-
 		onView(withId(R.id.checkout_toolbar)).check(matches(withNavigationContentDescription("Back")));
+		PackageScreen.checkout().perform(click());
+		onView(withId(R.id.view_trip_details)).check(matches(hasContentDescription()));
 	}
 
 	private void checkBundleOverviewHotelContentDescription(boolean searchCompleted) {

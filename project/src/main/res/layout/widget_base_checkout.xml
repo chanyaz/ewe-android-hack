@@ -40,12 +40,14 @@
                 android:orientation="horizontal">
 
                 <com.expedia.bookings.widget.TextView
+                    android:id="@+id/view_trip_details"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:singleLine="true"
                     android:text="@string/trip_overview"
                     android:textSize="16sp"
-                    app:textStyle="medium" />
+                    app:textStyle="medium"
+                    android:contentDescription="@string/trip_overview_cont_desc"/>
 
                 <ImageView
                     android:id="@+id/chevron"
