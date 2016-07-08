@@ -16,8 +16,8 @@ import com.expedia.bookings.widget.LoadingViewHolder
 import com.expedia.bookings.widget.TextView
 import com.expedia.bookings.widget.packages.FlightAirlineWidget
 import com.expedia.bookings.widget.packages.FlightLayoverWidget
+import com.expedia.vm.AbstractFlightViewModel
 import com.expedia.vm.FlightSearchViewModel
-import com.expedia.vm.packages.PackageFlightViewModel
 import rx.subjects.PublishSubject
 import java.util.ArrayList
 import java.util.Locale
@@ -44,7 +44,7 @@ abstract class AbstractFlightListAdapter(val context: Context, val flightSelecte
 
     abstract protected fun isAirlinesChargePaymentMethodFee(): Boolean
     abstract protected fun showAllFlightsHeader(): Boolean
-    abstract protected fun adjustPosition(): Int
+    abstract fun adjustPosition(): Int
 
     @UiThread
     open fun setNewFlights(flights: List<FlightLeg>) {
@@ -77,10 +77,12 @@ abstract class AbstractFlightListAdapter(val context: Context, val flightSelecte
         return flights.size + adjustPosition()
     }
 
+    abstract fun makeFlightViewModel(context: Context, flightLeg: FlightLeg): AbstractFlightViewModel
+
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder?, position: Int) {
         when (holder) {
             is FlightViewHolder -> {
-                holder.bind(PackageFlightViewModel(holder.itemView.context, flights[position - adjustPosition()]))
+                holder.bind(makeFlightViewModel(holder.itemView.context, flights[position - adjustPosition()]))
             }
 
             is LoadingViewHolder -> {
@@ -184,9 +186,9 @@ abstract class AbstractFlightListAdapter(val context: Context, val flightSelecte
             flightSelectedSubject.onNext(flight)
         }
 
-        fun bind(viewModel: PackageFlightViewModel) {
+        fun bind(viewModel: AbstractFlightViewModel) {
             flightTimeTextView.text = viewModel.flightTime
-            priceTextView.text = viewModel.price
+            priceTextView.text = viewModel.price()
             flightDurationTextView.text = viewModel.duration
             val flight = viewModel.layover
             flightLayoverWidget.update(flight.flightSegments, flight.durationHour, flight.durationMinute, maxFlightDuration)

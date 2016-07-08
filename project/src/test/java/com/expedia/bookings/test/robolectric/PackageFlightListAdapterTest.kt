@@ -1,15 +1,12 @@
 package com.expedia.bookings.test.robolectric
 
-
-import android.widget.FrameLayout
 import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.flights.Airline
 import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.data.packages.PackageOfferModel
 import com.expedia.bookings.interceptors.MockInterceptor
 import com.expedia.bookings.services.FlightServices
-import com.expedia.bookings.test.PointOfSaleTestConfiguration
-import com.expedia.bookings.widget.flights.FlightListAdapter
+import com.expedia.bookings.widget.packages.PackageFlightListAdapter
 import com.expedia.bookings.widget.shared.AbstractFlightListAdapter
 import com.expedia.vm.FlightSearchViewModel
 import okhttp3.OkHttpClient
@@ -24,10 +21,10 @@ import java.util.ArrayList
 import kotlin.test.assertEquals
 
 @RunWith(RobolectricRunner::class)
-class FlightListAdapterTest {
+class PackageFlightListAdapterTest {
 
     val context = RuntimeEnvironment.application
-    lateinit var sut: FlightListAdapter
+    lateinit var sut: PackageFlightListAdapter
     lateinit var flightSelectedSubject: PublishSubject<FlightLeg>
     lateinit var flightSearchViewModel: FlightSearchViewModel
     lateinit var flightLeg: FlightLeg
@@ -44,74 +41,23 @@ class FlightListAdapterTest {
     }
 
     fun createSystemUnderTest() {
-        sut = FlightListAdapter(context, flightSelectedSubject, flightSearchViewModel)
+        sut = PackageFlightListAdapter(context, flightSelectedSubject, true)
     }
 
     @Test
-    fun allFlightsHeaderNotShownForFlightsLOB() {
-        sut = FlightListAdapter(context, flightSelectedSubject, flightSearchViewModel)
-        sut.setNewFlights(emptyList())
-
-        val itemViewType = sut.getItemViewType(1)
-        assertEquals(AbstractFlightListAdapter.ViewTypes.FLIGHT_CELL_VIEW.ordinal, itemViewType)
-    }
-
-    @Test
-    fun flightResultsHeaderRoundTrip() {
+    fun allFlightsHeaderShownForPackagesLOB() {
         createSystemUnderTest()
-        val headerViewHolder = createHeaderViewHolder()
-        sut.onBindViewHolder(headerViewHolder, 0)
-        assertEquals("Prices roundtrip per person", headerViewHolder.title.text)
+        sut.shouldShowBestFlight = true
+        val itemViewType = sut.getItemViewType(2)
+        assertEquals(AbstractFlightListAdapter.ViewTypes.ALL_FLIGHTS_HEADER_VIEW.ordinal, itemViewType)
     }
 
     @Test
-    fun flightResultsHeaderOneWay() {
-        createSystemUnderTest()
-        flightSearchViewModel.isRoundTripSearchObservable.onNext(false)
-        val headerViewHolder = createHeaderViewHolder()
-        sut.onBindViewHolder(headerViewHolder, 0)
-        assertEquals("Prices one-way per person", headerViewHolder.title.text)
-    }
-
-    @Test
-    fun flightResultsHeaderOneWayMinPrice() {
-        configurePointOfSale()
-        createSystemUnderTest()
-        flightSearchViewModel.isRoundTripSearchObservable.onNext(false)
-        val headerViewHolder = createHeaderViewHolder()
-        sut.onBindViewHolder(headerViewHolder, 0)
-        assertEquals("Prices one-way, per person, from", headerViewHolder.title.text)
-    }
-
-    @Test
-    fun flightResultsHeaderReturnMinPrice() {
-        configurePointOfSale()
-        createSystemUnderTest()
-        val headerViewHolder = createHeaderViewHolder()
-        sut.onBindViewHolder(headerViewHolder, 0)
-        assertEquals("Prices roundtrip, per person, from", headerViewHolder.title.text)
-    }
-
-    @Test
-    fun getFlightViewModel() {
+    fun getPackageFlightViewModel() {
         createSystemUnderTest()
         createExpectedFlightLeg()
-        val flightViewModel = sut.makeFlightViewModel(context, flightLeg)
-        assertEquals(flightLeg, flightViewModel.layover)
-    }
-
-    @Test
-    fun adjustPosition() {
-        createSystemUnderTest()
-        assertEquals(1, sut.adjustPosition())
-    }
-
-    private fun configurePointOfSale() {
-        PointOfSaleTestConfiguration.configurePointOfSale(context, "MockSharedData/pos_with_airline_payment_fees.json")
-    }
-
-    private fun createHeaderViewHolder(): AbstractFlightListAdapter.HeaderViewHolder {
-        return sut.onCreateViewHolder(FrameLayout(context), AbstractFlightListAdapter.ViewTypes.PRICING_STRUCTURE_HEADER_VIEW.ordinal) as AbstractFlightListAdapter.HeaderViewHolder
+        val packageFlightViewModel = sut.makeFlightViewModel(context, flightLeg)
+        assertEquals(flightLeg, packageFlightViewModel.layover)
     }
 
     private fun createExpectedFlightLeg() {
