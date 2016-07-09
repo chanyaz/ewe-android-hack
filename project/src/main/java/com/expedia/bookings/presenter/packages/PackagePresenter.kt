@@ -76,7 +76,7 @@ class PackagePresenter(context: Context, attrs: AttributeSet) : IntentPresenter(
         checkoutPresenter.getCreateTripViewModel().tripResponseObservable.subscribe { trip ->
             expediaRewards = trip.rewards?.totalPointsToEarn?.toString()
         }
-        checkoutPresenter.getCheckoutViewModel().checkoutResponse.subscribe { pair: Pair<BaseApiResponse, String> ->
+        checkoutPresenter.getCheckoutViewModel().bookingSuccessResponse.subscribe { pair: Pair<BaseApiResponse, String> ->
             val response = pair.first as PackageCheckoutResponse
             show(confirmationPresenter)
             confirmationPresenter.viewModel.showConfirmation.onNext(Pair(response.newTrip?.itineraryNumber, pair.second))
@@ -106,10 +106,6 @@ class PackagePresenter(context: Context, attrs: AttributeSet) : IntentPresenter(
         checkoutPresenter.getCheckoutViewModel().checkoutErrorObservable.subscribe(errorPresenter.viewmodel.checkoutApiErrorObserver)
         checkoutPresenter.getCreateTripViewModel().createTripErrorObservable.subscribe { show(errorPresenter) }
         checkoutPresenter.getCheckoutViewModel().checkoutErrorObservable.subscribe { show(errorPresenter) }
-        checkoutPresenter.getCheckoutViewModel().priceChangeObservable.subscribe {
-            checkoutPresenter.slideToPurchase.resetSlider()
-            checkoutPresenter.getCreateTripViewModel().tripResponseObservable.onNext(it)
-        }
 
         hotelOffersErrorObservable.subscribe(errorPresenter.viewmodel.hotelOffersApiErrorObserver)
         hotelOffersErrorObservable.subscribe { show(errorPresenter) }

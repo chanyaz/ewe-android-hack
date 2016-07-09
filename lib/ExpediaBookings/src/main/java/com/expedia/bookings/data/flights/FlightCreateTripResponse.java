@@ -14,7 +14,7 @@ import com.expedia.bookings.data.insurance.InsuranceProduct;
 import com.google.gson.annotations.SerializedName;
 
 public class FlightCreateTripResponse extends TripResponse {
-	public FlightTripDetails details;
+	private FlightTripDetails details;
 	public Money totalPrice;
 	public Money selectedCardFees;
 	public TripDetails newTrip;
@@ -25,6 +25,18 @@ public class FlightCreateTripResponse extends TripResponse {
 
 	private boolean detailsOfferExists() {
 		return ((details != null) && (details.offer != null));
+	}
+
+	/**
+	 * Helper function for details as the API uses 2 different keys for flight details
+	 *
+	 * 	FlightCreateTripResponse: details
+	 * 	FlightCheckoutResponse: flightDetailResponse
+	 *
+	 * @return flight details
+	 */
+	public FlightTripDetails getDetails() {
+		return details;
 	}
 
 	@NotNull

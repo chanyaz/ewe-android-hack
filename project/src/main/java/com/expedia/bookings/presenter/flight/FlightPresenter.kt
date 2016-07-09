@@ -177,7 +177,7 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
         addDefaultTransition(defaultTransition)
         flightOverviewPresenter.getCheckoutPresenter().toggleCheckoutButton(false)
 
-        flightOverviewPresenter.getCheckoutPresenter().getCheckoutViewModel().checkoutResponse.subscribe { pair: Pair<BaseApiResponse, String> ->
+        flightOverviewPresenter.getCheckoutPresenter().getCheckoutViewModel().bookingSuccessResponse.subscribe { pair: Pair<BaseApiResponse, String> ->
             show(confirmationPresenter)
             FlightsV2Tracking.trackCheckoutConfirmationPageLoad()
         }

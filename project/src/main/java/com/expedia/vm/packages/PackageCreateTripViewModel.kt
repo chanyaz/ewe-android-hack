@@ -10,6 +10,7 @@ import com.expedia.bookings.data.trips.TripBucketItemPackages
 import com.expedia.bookings.services.PackageServices
 import com.expedia.bookings.utils.DateUtils
 import com.expedia.bookings.utils.StrUtils
+import com.expedia.vm.BaseCreateTripViewModel
 import com.squareup.phrase.Phrase
 import org.joda.time.format.DateTimeFormat
 import rx.Observable

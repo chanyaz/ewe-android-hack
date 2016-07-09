@@ -7,7 +7,7 @@ import com.expedia.bookings.data.flights.FlightCreateTripResponse
 import com.expedia.bookings.data.flights.ValidFormOfPayment
 import com.expedia.bookings.data.utils.getFee
 import com.expedia.bookings.services.FlightServices
-import com.expedia.vm.packages.BaseCreateTripViewModel
+import com.expedia.vm.BaseCreateTripViewModel
 import rx.Observable
 import rx.Observer
 import rx.exceptions.OnErrorNotImplementedException
@@ -47,7 +47,12 @@ class FlightCreateTripViewModel(val flightServices: FlightServices, val selected
             override fun onNext(response: FlightCreateTripResponse) {
                 if (response.hasErrors() && !response.hasPriceChange()) {
                     //TODO handle errors (unhappy path story)
-                } else {
+                }
+                else {
+                    val hasPriceChange = response.details.oldOffer != null
+                    if (hasPriceChange) {
+                        priceChangeObservable.onNext(response)
+                    }
                     Db.getTripBucket().clearFlight()
                     Db.getTripBucket().add(TripBucketItemFlightV2(response))
                     insuranceAvailabilityObservable.onNext(response.availableInsuranceProducts.isNotEmpty())

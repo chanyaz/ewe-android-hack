@@ -14,14 +14,13 @@ import okhttp3.OkHttpClient
 import org.joda.time.DateTime
 import org.joda.time.Days
 import org.joda.time.Period
+import org.joda.time.format.DateTimeFormat
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
-import org.joda.time.format.DateTimeFormat
 import rx.Observable
 import rx.Scheduler
 import java.util.ArrayList
-import java.util.regex.Pattern
 
 // "open" so we can mock for unit tests
 open class FlightServices(endpoint: String, okHttpClient: OkHttpClient, interceptor: Interceptor, val observeOn: Scheduler, val subscribeOn: Scheduler) {

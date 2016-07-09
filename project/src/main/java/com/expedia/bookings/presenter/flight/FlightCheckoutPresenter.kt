@@ -6,7 +6,10 @@ import android.view.View
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.LineOfBusiness
+import com.expedia.bookings.data.TripResponse
+import com.expedia.bookings.data.flights.FlightCheckoutResponse
 import com.expedia.bookings.data.flights.FlightCreateTripResponse
+import com.expedia.bookings.data.flights.FlightTripDetails
 import com.expedia.bookings.otto.Events
 import com.expedia.bookings.services.FlightServices
 import com.expedia.bookings.utils.Ui
@@ -18,11 +21,10 @@ import com.expedia.util.subscribeVisibility
 import com.expedia.vm.FlightCheckoutViewModel
 import com.expedia.vm.flights.FlightCostSummaryBreakdownViewModel
 import com.expedia.vm.flights.FlightCreateTripViewModel
-import com.expedia.vm.packages.BaseCreateTripViewModel
 import com.expedia.vm.traveler.CheckoutTravelerViewModel
+import com.expedia.vm.BaseCreateTripViewModel
 import com.squareup.otto.Subscribe
 import rx.Observable
-import org.joda.time.LocalDate
 
 class FlightCheckoutPresenter(context: Context, attr: AttributeSet) : BaseCheckoutPresenter(context, attr) {
 
@@ -32,6 +34,13 @@ class FlightCheckoutPresenter(context: Context, attr: AttributeSet) : BaseChecko
         getCheckoutViewModel().cardFeeTextSubject.subscribeTextAndVisibility(cardProcessingFeeTextView)
         getCheckoutViewModel().cardFeeWarningTextSubject.subscribeTextAndVisibility(cardFeeWarningTextView)
         setupDontShowDebitCardVisibility()
+
+        getCheckoutViewModel().priceChangeObservable.subscribe { it as FlightCheckoutResponse
+            handlePriceChange(it)
+        }
+        getCreateTripViewModel().priceChangeObservable.subscribe { it as FlightCreateTripResponse
+            handlePriceChange(it)
+        }
     }
 
     override fun setupCreateTripViewModel(vm : BaseCreateTripViewModel) {
@@ -47,21 +56,32 @@ class FlightCheckoutPresenter(context: Context, attr: AttributeSet) : BaseChecko
         }
 
         vm.tripResponseObservable.subscribe { response -> response as FlightCreateTripResponse
-            // TODO - cache trip response and update total fare details when card is input
-
             loginWidget.updateRewardsText(getLineOfBusiness())
             createTripDialog.hide()
             insuranceWidget.viewModel.newTripObservable.onNext(response.newTrip)
             insuranceWidget.viewModel.productObservable.onNext(response.availableInsuranceProducts)
-            priceChangeWidget.viewmodel.originalPrice.onNext(response.tripTotalPayableIncludingFeeIfZeroPayableByPoints())
-            priceChangeWidget.viewmodel.newPrice.onNext(response.tripTotalPayableIncludingFeeIfZeroPayableByPoints())
             totalPriceWidget.viewModel.total.onNext(response.tripTotalPayableIncludingFeeIfZeroPayableByPoints())
             totalPriceWidget.viewModel.costBreakdownEnabledObservable.onNext(true)
             (totalPriceWidget.breakdown.viewmodel as FlightCostSummaryBreakdownViewModel).flightCostSummaryObservable.onNext(response)
-
         }
+
         vm.tripResponseObservable.map { it.validFormsOfPayment }
                                  .subscribe(getCheckoutViewModel().validFormsOfPaymentSubject)
+    }
+
+    private fun handlePriceChange(tripResponse: FlightCreateTripResponse) {
+        val flightTripDetails = tripResponse.details
+
+        // TODO - we may have to change from totalFarePrice -> totalPrice in order to support SubPub fares
+        val originalPrice = flightTripDetails.oldOffer.totalFarePrice
+        val newPrice = flightTripDetails.offer.totalFarePrice
+        priceChangeWidget.viewmodel.originalPrice.onNext(originalPrice)
+        priceChangeWidget.viewmodel.newPrice.onNext(newPrice)
+
+        // TODO - update to totalPrice when checkout response starts returning totalPrice (required for SubPub fare support)
+        totalPriceWidget.viewModel.total.onNext(flightTripDetails.offer.totalFarePrice)
+        totalPriceWidget.viewModel.costBreakdownEnabledObservable.onNext(true)
+        (totalPriceWidget.breakdown.viewmodel as FlightCostSummaryBreakdownViewModel).flightCostSummaryObservable.onNext(tripResponse)
     }
 
     @Subscribe fun onUserLoggedIn( @Suppress("UNUSED_PARAMETER") event: Events.LoggedInSuccessful) {

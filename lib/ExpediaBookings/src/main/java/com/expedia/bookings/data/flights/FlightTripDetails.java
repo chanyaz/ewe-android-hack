@@ -10,6 +10,7 @@ public class FlightTripDetails {
 	//TODO might need to add more fields once we know what's needed for the checkout screen
 	public List<FlightLeg> legs;
 	public FlightOffer offer;
+	public FlightOffer oldOffer;
 	public Money obFeePrice;
 
 	public static class FlightOffer {

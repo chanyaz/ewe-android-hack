@@ -5177,8 +5177,8 @@ public class OmnitureTracking {
 		com.expedia.bookings.data.flights.FlightLeg> getFirstAndLastFlightLegs() {
 
 		FlightCreateTripResponse trip = Db.getTripBucket().getFlightV2().flightCreateTripResponse;
-		return new Pair<>(trip.details.legs.get(0),
-			(trip.details.legs.size() > 1) ? trip.details.legs.get(trip.details.legs.size() - 1) : null);
+		return new Pair<>(trip.getDetails().legs.get(0),
+			(trip.getDetails().legs.size() > 1) ? trip.getDetails().legs.get(trip.getDetails().legs.size() - 1) : null);
 	}
 
 	public static Pair<FlightSegment, FlightSegment> getFirstAndLastFlightSegments() {
@@ -5197,7 +5197,7 @@ public class OmnitureTracking {
 			InsuranceProduct insuranceProduct = insuranceProducts.get(0);
 			boolean isCheckoutConfirmation = (Db.getTripBucket().getFlightV2().flightCheckoutResponse != null);
 			return String.format(Locale.ENGLISH, ";Insurance:%s;%s;%.2f%s",
-				insuranceProduct.typeId, trip.details.offer.numberOfTickets, insuranceProduct.totalPrice.amount,
+				insuranceProduct.typeId, trip.getDetails().offer.numberOfTickets, insuranceProduct.totalPrice.amount,
 				!isCheckoutConfirmation ? ";;eVar63=Merchant:SA" : "");
 		}
 		return "";
@@ -5206,15 +5206,15 @@ public class OmnitureTracking {
 	public static String getFlightInventoryTypeString() {
 		FlightCreateTripResponse trip = Db.getTripBucket().getFlightV2().flightCreateTripResponse;
 		return Arrays.asList("CHARTER", "CHARTER_NET", "LOW_COST_CARRIER", "PSEUDO_PUBLISHED", "PUBLISHED")
-			.contains(trip.details.offer.fareType) ? "Agency" : "Merchant";
+			.contains(trip.getDetails().offer.fareType) ? "Agency" : "Merchant";
 	}
 
 	public static FlightItineraryType getFlightItineraryType() {
 		FlightCreateTripResponse trip = Db.getTripBucket().getFlightV2().flightCreateTripResponse;
-		List<com.expedia.bookings.data.flights.FlightLeg> legs = trip.details.legs;
+		List<com.expedia.bookings.data.flights.FlightLeg> legs = trip.getDetails().legs;
 		Pair<FlightSegment, FlightSegment> segments = getFirstAndLastFlightSegments();
 
-		if (trip.details.offer.isSplitTicket) {
+		if (trip.getDetails().offer.isSplitTicket) {
 			return FlightItineraryType.SPLIT_TICKET;
 		}
 		else if (legs.size() == 1) {
@@ -5241,7 +5241,7 @@ public class OmnitureTracking {
 		}
 
 		return String.format(Locale.ENGLISH, ";Flight:%s:%s;%s;%.2f;;", segments.first.airlineCode,
-			itineraryType, trip.details.offer.numberOfTickets, trip.totalPrice.amount);
+			itineraryType, trip.getDetails().offer.numberOfTickets, trip.totalPrice.amount);
 	}
 
 	public static Pair<String, String> getFlightSearchDepartureAndArrivalAirportCodes() {

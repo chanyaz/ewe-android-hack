@@ -33,11 +33,11 @@ abstract class BaseOverviewPresenter(context: Context, attrs: AttributeSet) : Pr
         checkoutPresenter.paymentWidget.viewmodel.billingInfoAndStatusUpdate.map{it.first}.subscribe(checkoutPresenter.getCheckoutViewModel().paymentCompleted)
         checkoutPresenter.getCreateTripViewModel().tripResponseObservable.subscribe { trip ->
             checkoutPresenter.getCheckoutViewModel().tripResponseObservable.onNext(trip)
+            resetCheckoutState()
+        }
 
-            if (currentState == BaseOverviewPresenter.BundleDefault::class.java.name) {
-                bundleOverviewHeader.toggleOverviewHeader(true)
-                checkoutPresenter.toggleCheckoutButton(true)
-            }
+        checkoutPresenter.getCheckoutViewModel().priceChangeObservable.subscribe {
+            resetCheckoutState()
         }
 
         bundleOverviewHeader.toolbar.overflowIcon = ContextCompat.getDrawable(context, R.drawable.ic_create_white_24dp)
@@ -181,18 +181,25 @@ abstract class BaseOverviewPresenter(context: Context, attrs: AttributeSet) : Pr
     private fun translateBottomContainer(f: Float, forward: Boolean) {
         val hasCompleteInfo = checkoutPresenter.getCheckoutViewModel().isValid()
         val bottomDistance = checkoutPresenter.sliderHeight - checkoutPresenter.checkoutButtonHeight
-        var slideIn = if (hasCompleteInfo) {
+        val slideIn = if (hasCompleteInfo) {
             bottomDistance - (f * (bottomDistance))
         } else {
             checkoutPresenter.sliderHeight - ((1 - f) * checkoutPresenter.checkoutButtonHeight)
         }
-        var slideOut = if (hasCompleteInfo) {
+        val slideOut = if (hasCompleteInfo) {
             f * (bottomDistance)
         } else {
             checkoutPresenter.sliderHeight - (f * checkoutPresenter.checkoutButtonHeight)
         }
         checkoutPresenter.bottomContainer.translationY = if (forward) slideIn else slideOut
         checkoutPresenter.checkoutButton.translationY = if (forward) f * checkoutPresenter.checkoutButtonHeight else (1 - f) * checkoutPresenter.checkoutButtonHeight
+    }
+
+    private fun resetCheckoutState() {
+        if (currentState == BundleDefault::class.java.name) {
+            bundleOverviewHeader.toggleOverviewHeader(true)
+            checkoutPresenter.toggleCheckoutButton(true)
+        }
     }
 
     private val checkoutToCvv = object : VisibilityTransition(this, getCheckoutTransitionClass(), CVVEntryWidget::class.java) {

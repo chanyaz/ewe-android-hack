@@ -11,7 +11,9 @@ class FlightApiRequestDispatcher(fileOpener: FileOpener) : AbstractDispatcher(fi
         HAPPY_ROUND_TRIP,
         HAPPY_ONE_WAY,
         PASSPORT_NEEDED_ONE_WAY,
-        MAY_CHARGE_OB_FEES_ROUND_TRIP
+        MAY_CHARGE_OB_FEES_ROUND_TRIP,
+        CHECKOUT_PRICE_CHANGE,
+        CREATETRIP_PRICE_CHANGE
     }
 
     override fun dispatch(request: RecordedRequest): MockResponse {
@@ -42,6 +44,8 @@ class FlightApiMockResponseGenerator() {
     companion object {
         fun getSearchResponseFilePath(params: MutableMap<String, String>): String {
             val mayChargeObFeesFlight = params["departureAirport"] == "AKL"
+            val priceChangeCheckout = params["departureAirport"] == "PCC"
+            val priceChangeCreateTrip = params["departureAirport"] == "PCT"
             val isEarnResponse = params["departureAirport"] == "EARN"
             val isPassportNeeded = params["departureAirport"] == "PEN" && params["arrivalAirport"] == "KUL"
             val isReturnFlightSearch = params.containsKey("returnDate")
@@ -53,6 +57,12 @@ class FlightApiMockResponseGenerator() {
                     }
                     else if (mayChargeObFeesFlight) {
                         FlightApiRequestDispatcher.SearchResponseType.MAY_CHARGE_OB_FEES_ROUND_TRIP
+                    }
+                    else if (priceChangeCheckout) {
+                        FlightApiRequestDispatcher.SearchResponseType.CHECKOUT_PRICE_CHANGE
+                    }
+                    else if(priceChangeCreateTrip) {
+                        FlightApiRequestDispatcher.SearchResponseType.CREATETRIP_PRICE_CHANGE
                     }
                     else if (isReturnFlightSearch) {
                         FlightApiRequestDispatcher.SearchResponseType.HAPPY_ROUND_TRIP
@@ -89,6 +99,10 @@ class FlightApiMockResponseGenerator() {
                 FlightApiRequestDispatcher.SearchResponseType.HAPPY_ONE_WAY -> "happy_oneway"
 
                 FlightApiRequestDispatcher.SearchResponseType.MAY_CHARGE_OB_FEES_ROUND_TRIP -> "roundtrip_maychargeobfees"
+
+                FlightApiRequestDispatcher.SearchResponseType.CHECKOUT_PRICE_CHANGE -> "checkout_price_change"
+
+                FlightApiRequestDispatcher.SearchResponseType.CREATETRIP_PRICE_CHANGE -> "create_trip_price_change"
             }
 
             if (isEarnResponse) {

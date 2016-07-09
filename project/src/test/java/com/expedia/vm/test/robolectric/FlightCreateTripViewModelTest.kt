@@ -3,6 +3,7 @@ package com.expedia.vm.test.robolectric
 import com.expedia.bookings.data.TripResponse
 import com.expedia.bookings.data.flights.FlightCreateTripParams
 import com.expedia.bookings.data.flights.FlightCreateTripResponse
+import com.expedia.bookings.data.flights.FlightTripDetails
 import com.expedia.bookings.data.flights.ValidFormOfPayment
 import com.expedia.bookings.data.utils.getFee
 import com.expedia.bookings.services.FlightServices
@@ -43,7 +44,7 @@ class FlightCreateTripViewModelTest {
 
         sut.tripParams.onNext(params)
         sut.performCreateTrip.onNext(Unit)
-        val expectedFlightCreateTripResponse = FlightCreateTripResponse()
+        val expectedFlightCreateTripResponse = goodCreateTripResponse()
         createTripResponseObservable.onNext(expectedFlightCreateTripResponse)
 
         testSubscriber.assertValueCount(1)
@@ -113,6 +114,9 @@ class FlightCreateTripViewModelTest {
 
     private fun goodCreateTripResponse(): FlightCreateTripResponse {
         val flightCreateTripResponse = FlightCreateTripResponse()
+        val field = flightCreateTripResponse.javaClass.getDeclaredField("details") // using reflection as field private
+        field.isAccessible = true
+        field.set(flightCreateTripResponse, FlightTripDetails())
         return flightCreateTripResponse
     }
 
