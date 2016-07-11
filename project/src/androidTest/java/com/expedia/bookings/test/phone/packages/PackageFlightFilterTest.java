@@ -4,6 +4,7 @@ import org.joda.time.LocalDate;
 
 import android.support.annotation.IdRes;
 import android.support.test.espresso.ViewInteraction;
+import android.support.test.espresso.matcher.ViewMatchers;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.test.espresso.Common;
@@ -24,6 +25,7 @@ import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withSpinnerText;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
+import static android.support.test.espresso.matcher.ViewMatchers.withEffectiveVisibility;
 import static com.expedia.bookings.test.espresso.EspressoUtils.assertViewWithTextIsDisplayed;
 import static com.expedia.bookings.test.espresso.ViewActions.waitForViewToDisplay;
 import static org.hamcrest.CoreMatchers.allOf;
@@ -77,6 +79,7 @@ public class PackageFlightFilterTest extends PackageTestCase {
 
 		// No show more displayed since only 3 airlines
 		EspressoUtils.assertViewIsNotDisplayed(R.id.show_more_less_text);
+		PackageScreen.flightList().check(matches(withEffectiveVisibility(ViewMatchers.Visibility.GONE)));
 	}
 
 	private void filterByStops() {

@@ -23,7 +23,7 @@ import com.expedia.vm.flights.SelectedOutboundFlightViewModel
 import rx.subjects.PublishSubject
 
 class FlightResultsListViewPresenter(context: Context, attrs: AttributeSet) : Presenter(context, attrs) {
-    private val recyclerView: FlightListRecyclerView by bindView(R.id.list_view)
+    val recyclerView: FlightListRecyclerView by bindView(R.id.list_view)
     private val dockedOutboundFlightSelection: DockedOutboundFlightSelectionView by bindView(R.id.docked_outbound_flight_selection)
     private val dockedOutboundFlightShadow: View by bindView(R.id.docked_outbound_flight_widget_dropshadow)
     private val filterButton: FilterButtonWithCountWidget by bindView(R.id.sort_filter_button_container)

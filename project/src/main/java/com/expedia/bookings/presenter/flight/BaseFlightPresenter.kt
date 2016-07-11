@@ -201,6 +201,8 @@ abstract class BaseFlightPresenter(context: Context, attrs: AttributeSet?) : Pre
 
     val listToFiltersTransition: Transition = object : Transition(FlightResultsListViewPresenter::class.java, PackageFlightFilterWidget::class.java, DecelerateInterpolator(2f), 500) {
         override fun startTransition(forward: Boolean) {
+            resultsPresenter.recyclerView.visibility = View.VISIBLE
+            toolbar.visibility = View.VISIBLE
         }
 
         override fun updateTransition(f: Float, forward: Boolean) {
@@ -220,6 +222,7 @@ abstract class BaseFlightPresenter(context: Context, attrs: AttributeSet?) : Pre
                 filter.visibility = View.GONE
                 filter.translationY = (filter.height).toFloat()
             }
+            resultsPresenter.recyclerView.visibility = if(forward) View.GONE else View.VISIBLE
         }
     }
 
