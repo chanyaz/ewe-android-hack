@@ -17,7 +17,6 @@
         <item name="skin_travellerInfoPageLogoDisabled">@drawable/ic_aag_traveler_logo_disabled</item>
         <item name="android:logo">@drawable/ic_logo_hotels</item>
         <item name="skin_cvvBookButtonTextColor">@android:color/white</item>
-        <item name="skin_userRatingBarDrawable">@drawable/ratingbar_userreview_aag_yellow_flat</item>
         <item name="skin_hotelConfirmationPlaceholderDrawable">@drawable/placeholder_lg_confirmation_aag</item>
         <item name="skin_icSuitCaseBaggage">@drawable/ic_suitcase_baggage_fee_aag</item>
         <item name="skin_hotelRulesActionBarLogo">@drawable/ic_ab_airasiago_logo</item>

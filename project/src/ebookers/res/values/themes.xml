@@ -21,7 +21,6 @@
         <item name="android:homeAsUpIndicator" tools:targetApi="11">@drawable/ic_action_bar_back_arrow</item>
         <item name="skin_travellerInfoPageLogo">@drawable/ic_traveller_logo</item>
         <item name="skin_travellerInfoPageLogoDisabled">@drawable/ic_traveller_logo_disabled</item>
-        <item name="skin_userRatingBarDrawable">@drawable/ratingbar_userreview_flat_blue</item>
         <item name="skin_tablet_ab_launch_text1_base">@string/app_name</item>
         <item name="skin_hotelRulesActionBarLogo">@drawable/ic_action_bar_logo_dark</item>
         <item name="skin_flightRulesActionBarLogo">@drawable/ic_action_bar_logo_dark</item>

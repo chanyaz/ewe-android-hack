@@ -15,7 +15,6 @@
         <item name="skin_hotelPrimaryTravelerInfoLogoDrawable">@drawable/ic_vsc_traveler_logo_disabled</item>
         <item name="skin_hotelImagePlaceHolderDrawable">@drawable/ic_image_placeholder_vsc</item>
 		<item name="skin_cvvEntryTitleText">@string/cvv_explanation_vsc</item>
-        <item name="skin_userRatingBarDrawable">@drawable/ratingbar_userreview_vsc_purple_flat</item>
         <item name="skin_travellerInfoPageLogo">@drawable/ic_vsc_traveler_logo</item>
         <item name="skin_travellerInfoPageLogoDisabled">@drawable/ic_vsc_traveler_logo_disabled</item>
         <item name="skin_hotelConfirmationPlaceholderDrawable">@drawable/placeholder_lg_confirmation_vsc</item>
