@@ -264,7 +264,7 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet) : Pre
 
         override fun endTransition(forward: Boolean) {
             if (!forward) {
-                travelerPresenter.show(travelerPresenter.travelerDefaultState, Presenter.FLAG_CLEAR_BACKSTACK)
+                travelerPresenter.returnToDefault()
                 Ui.hideKeyboard(travelerPresenter)
                 toolbarDropShadow.visibility = View.GONE
                 animateInSlideToPurchase(true)
