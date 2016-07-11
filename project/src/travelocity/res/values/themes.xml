@@ -7,28 +7,21 @@
         <item name="skin_hotelListingUserRatingStyle">@style/RatingBar.UserReview.Blue</item>
         <item name="skin_ratingBarUserReviewStyle">@style/RatingBar.UserReview.Blue</item>
         <item name="skin_bestPriceGuaranteeString">@string/travelocity_best_price_guarantee</item>
-        <item name="skin_costSummaryDialogStripeDrawable">@drawable/dialog_breakdown_stripe_travelocity</item>
-        <item name="skin_flightsCostSummaryDialogStripeDrawable">@drawable/dialog_breakdown_stripe_travelocity</item>
+        <item name="skin_costSummaryDialogStripeDrawable">@drawable/dialog_breakdown_stripe</item>
         <item name="skin_actionBarSpinnerBackground">@drawable/ab_spinner_travelocity</item>
         <item name="skin_actionBarButtonTextColor">@color/action_bar_text_blue_travelocity</item>
-        <item name="skin_loginButtonColor">@android:color/white</item>
-        <item name="skin_hotelBookButtonColor">@android:color/white</item>
         <item name="skin_cvvBookButtonTextColor">@android:color/white</item>
         <item name="skin_hotelPrimaryTravelerInfoLogoDrawable">@drawable/ic_tvly_white_logo_small</item>
         <item name="android:logo" tools:targetApi="11">@drawable/ic_logo_hotels</item>
         <item name="skin_hotelConfirmationPlaceholderDrawable">@drawable/placeholder_lg_travelocity</item>
-        <item name="skin_couponSuccessMessageColor">@color/coupon_success_message_color_tvly</item>
+        <item name="skin_couponSuccessMessageColor">@color/coupon_success_message_color</item>
         <item name="android:homeAsUpIndicator" tools:targetApi="11">@drawable/ic_action_bar_back_arrow_travelocity</item>
         <item name="skin_travellerInfoPageLogo">@drawable/ic_tvly_traveller_logo</item>
         <item name="skin_travellerInfoPageLogoDisabled">@drawable/ic_tvly_white_logo_small</item>
         <item name="skin_userRatingBarDrawable">@drawable/ratingbar_userreview_flat_blue_tvly</item>
-        <item name="skin_clearEditTextImage">@drawable/ic_clear_edittext_dark</item>
         <item name="skin_tablet_ab_launch_text1_base">@string/app_name</item>
-        <item name="skin_tablet_pin_detail_button_text_color">@color/launch_pin_detail_button_text_travelocity</item>
         <item name="skin_hotelRulesActionBarLogo">@drawable/ic_action_bar_brand_logo</item>
         <item name="skin_flightRulesActionBarLogo">@drawable/ic_action_bar_brand_logo</item>
-        <item name="skin_hotelLoginActionBarIcon">@drawable/ic_action_bar_brand_logo</item>
-        <item name="skin_flightLoginActionBarIcon">@drawable/ic_action_bar_brand_logo</item>
         <item name="skin_errorIndicationExclaimationDrawable">@drawable/invalid</item>
     </style>
 
@@ -85,7 +78,6 @@
         <item name="skin_itinCardOverflowDrawable">@drawable/ic_overflow_white</item>
         <item name="skin_itinCardActionBarCheckmark">@drawable/ic_action_bar_checkmark_white</item>
         <item name="skin_itinCardTitleTextColor">@color/itin_white_text</item>
-        <item name="skin_launchTabIndicatorColor">@color/launch_tab_indicator_tvly</item>
         <item name="skin_tripsTabText">@string/Your_Trips</item>
     </style>
 

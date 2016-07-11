@@ -49,6 +49,7 @@ class HotelConfirmationPresenter(context: Context, attrs: AttributeSet) : Presen
         hotelConfirmationViewModel.showFlightCrossSell.subscribeVisibility(addFlightBtn)
         hotelConfirmationViewModel.itineraryNumberLabel.subscribeText(itinNumberTextView)
         hotelConfirmationViewModel.formattedCheckInOutDate.subscribeText(checkInOutDateTextView)
+        hotelConfirmationViewModel.showAddToCalendar.subscribeVisibility(addToCalendarBtn)
         hotelConfirmationViewModel.bigImageUrl.subscribe { value ->
             if (!Strings.isEmpty(value)) {
                 PicassoHelper.Builder(backgroundImageView)

@@ -27,7 +27,7 @@
     <style name="V2.Theme.Activity.TabletWeb">
         <item name="android:windowActionBarOverlay">false</item>
         <item name="android:actionBarStyle">@style/V2.Widget.ActionBar.TabletWeb</item>
-        <item name="android:homeAsUpIndicator" >@drawable/ic_action_bar_back_arrow_lm</item>
+        <item name="android:homeAsUpIndicator" >@drawable/ic_action_bar_back_arrow</item>
         <item name="skin_action_bar_logo_tablet">@drawable/ic_log_in_lm</item>
         <item name="android:actionMenuTextColor">@color/actionbarTabletTitleColor</item>
         

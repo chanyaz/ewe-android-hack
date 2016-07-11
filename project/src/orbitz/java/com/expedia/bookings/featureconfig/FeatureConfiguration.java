@@ -390,4 +390,25 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 	public boolean shouldDisplayItinTrackAppLink() {
 		return false;
 	}
+
+	@Override
+	public boolean shouldSetExistingUserForTune() {
+		return true;
+	}
+
+	@Override
+	public boolean shouldShowItinShare() {
+		return false;
+	}
+
+	@Override
+	public boolean isWeReHiringEnabled() {
+		return false;
+	}
+
+	@Override
+	public boolean isRateOurAppEnabled() {
+		return false;
+	}
+
 }

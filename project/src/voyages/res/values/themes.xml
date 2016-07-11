@@ -6,66 +6,27 @@
         <item name="skin_hotelPriceStandardColor">@color/hotel_price_text_color_vsc</item>
         <item name="skin_hotelPriceSaleColor">@color/hotel_price_sale_text_color_vsc</item>
         <item name="skin_hotelSearchActionBarPadding">5dp</item>
-        
         <item name="skin_actionBarButtonTextColor">@color/action_bar_text_green</item>
-        
-        
-        
         <item name="skin_ratingBarUserReviewStyle">@style/RatingBar.UserReview.VSC.Purple</item>
-        
-        
-        
-        
-        
-        
-        
         <item name="skin_hotelListingUserRatingStyle">@style/RatingBar.UserReview.VSC.Purple</item>
         <item name="skin_hotelListingSortPriceDrawable">@drawable/ic_sort_euro</item>
-        
-        
-        
-        
-        
-        
-        
         <item name="skin_HotelRowThumbPlaceHolderDrawable">@drawable/ic_row_thumb_placeholder_vsc</item>
         <item name="skin_costSummaryDialogStripeDrawable">@drawable/rainbow_bar</item>
-        
-        
-        
-        
-        
         <item name="skin_hotelPrimaryTravelerInfoLogoDrawable">@drawable/ic_vsc_traveler_logo_disabled</item>
-        
         <item name="skin_hotelImagePlaceHolderDrawable">@drawable/ic_image_placeholder_vsc</item>
-        
 		<item name="skin_cvvEntryTitleText">@string/cvv_explanation_vsc</item>
         <item name="skin_userRatingBarDrawable">@drawable/ratingbar_userreview_vsc_purple_flat</item>
-        
-        
-        <item name="skin_flightsCostSummaryDialogStripeDrawable">@drawable/rainbow_bar</item>
         <item name="skin_travellerInfoPageLogo">@drawable/ic_vsc_traveler_logo</item>
         <item name="skin_travellerInfoPageLogoDisabled">@drawable/ic_vsc_traveler_logo_disabled</item>
         <item name="skin_hotelConfirmationPlaceholderDrawable">@drawable/placeholder_lg_confirmation_vsc</item>
         <item name="skin_couponSuccessMessageColor">@color/coupon_success_message_color</item>
-        
-        
-        
-        
         <item name="skin_hotelRulesActionBarLogo">@drawable/ic_ab_vsc_logo</item>
         <item name="skin_flightRulesActionBarLogo">@drawable/ic_ab_vsc_logo</item>
-        <item name="skin_hotelLoginActionBarIcon">@drawable/ic_ab_vsc_logo</item>
-        <item name="skin_flightLoginActionBarIcon">@drawable/ic_ab_vsc_logo</item>
         <item name="android:actionOverflowButtonStyle">@style/OverflowMenuButton</item>
         <item name="actionOverflowButtonStyle">@style/OverflowMenuButton</item>
-        
-        <item name="skin_tablet_pin_detail_button_text_color">@color/launch_pin_detail_button_text</item>
-        
         <item name="skin_errorIndicationExclaimationDrawable">@drawable/invalid</item>
         <item name="skin_cvvBookButtonTextColor">@android:color/white</item>
-        
-        
-        
+
     </style>
 
     <!-- Inherit EB or VSC theme based on desired project -->
@@ -120,18 +81,12 @@
         <item name="skin_itinFlightPlaceholderDrawable">@drawable/bg_itin_placeholder_flight</item>
         <item name="skin_itinDefaultPlaceholderDrawable">@drawable/bg_itin_fallback_activity</item>
         
-        
         <item name="skin_itinFlightsTripLineColor">@color/itin_flight_line_color</item>
-        
         <item name="skin_itinDismissListSelectorDrawable">?android:attr/selectableItemBackground</item>
-        
-        
-        
+
         <item name="skin_itinCardOverflowDrawable">@drawable/ic_overflow_white</item>
         <item name="skin_itinCardActionBarCheckmark">@drawable/ic_action_bar_checkmark_white</item>
         <item name="skin_itinCardTitleTextColor">@color/itin_white_text</item>
-        <item name="skin_launchTabIndicatorColor">@color/action_bar_selected_tab_underline_color</item>
-        
         <item name="skin_tripsTabText">@string/Your_Trips</item>
     </style>
 

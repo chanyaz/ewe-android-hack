@@ -329,7 +329,7 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 
 	@Override
 	public boolean isCommunicateSectionEnabled() {
-		return false;
+		return true;
 	}
 
 	@Override
@@ -372,4 +372,26 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 	public boolean shouldDisplayItinTrackAppLink() {
 		return true;
 	}
+
+	@Override
+	public boolean shouldSetExistingUserForTune() {
+		return false;
+	}
+
+	@Override
+	public boolean shouldShowItinShare() {
+		return true;
+	}
+
+	@Override
+	public boolean isWeReHiringEnabled() {
+		return false;
+	}
+
+	@Override
+	public boolean isRateOurAppEnabled() {
+		return true;
+	}
+
+
 }
