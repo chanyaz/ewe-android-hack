@@ -21,6 +21,7 @@ import com.expedia.bookings.tracking.FlightsV2Tracking
 import com.expedia.bookings.utils.StrUtils
 import com.expedia.bookings.utils.Ui
 import com.expedia.util.notNullAndObservable
+import com.expedia.util.subscribeVisibility
 import com.expedia.vm.FlightCheckoutOverviewViewModel
 import com.expedia.vm.FlightSearchViewModel
 import com.expedia.vm.packages.PackageSearchType
@@ -91,6 +92,24 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
         vm.inboundResultsObservable.subscribe(inboundPresenter.resultsPresenter.resultsViewModel.flightResultsObservable)
         vm.searchParamsObservable.subscribe((flightOverviewPresenter.bundleOverviewHeader.checkoutOverviewFloatingToolbar.viewmodel as FlightCheckoutOverviewViewModel).params)
         vm.searchParamsObservable.subscribe((flightOverviewPresenter.bundleOverviewHeader.checkoutOverviewHeaderToolbar.viewmodel as FlightCheckoutOverviewViewModel).params)
+        vm.isRoundTripSearchObservable.subscribeVisibility(flightOverviewPresenter.flightSummary.inboundFlightWidget)
+
+        vm.searchParamsObservable.map { it.arrivalAirport }
+                .subscribe(flightOverviewPresenter.flightSummary.outboundFlightWidget.viewModel.suggestion)
+        vm.searchParamsObservable.map { it.departureDate }
+                .subscribe(flightOverviewPresenter.flightSummary.outboundFlightWidget.viewModel.date)
+        vm.searchParamsObservable.map { it.guests }
+                .subscribe(flightOverviewPresenter.flightSummary.outboundFlightWidget.viewModel.guests)
+        vm.searchParamsObservable.filter { vm.isRoundTripSearchObservable.value }
+                .map { it.departureAirport }
+                .subscribe(flightOverviewPresenter.flightSummary.inboundFlightWidget.viewModel.suggestion)
+        vm.searchParamsObservable.filter { vm.isRoundTripSearchObservable.value }
+                .map { it.returnDate }
+                .subscribe(flightOverviewPresenter.flightSummary.inboundFlightWidget.viewModel.date)
+        vm.searchParamsObservable.filter { vm.isRoundTripSearchObservable.value }
+                .map { it.guests }
+                .subscribe(flightOverviewPresenter.flightSummary.inboundFlightWidget.viewModel.guests)
+
         vm.searchParamsObservable.subscribe { params ->
             outBoundPresenter.toolbarViewModel.city.onNext(params.arrivalAirport?.regionNames?.shortName)
             outBoundPresenter.toolbarViewModel.travelers.onNext(params.guests)
@@ -102,13 +121,6 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
                 inboundPresenter.toolbarViewModel.date.onNext(params.returnDate)
                 flightOverviewPresenter.flightSummary.inboundFlightWidget.viewModel.searchTypeStateObservable.onNext(PackageSearchType.INBOUND_FLIGHT)
             }
-            flightOverviewPresenter.flightSummary.outboundFlightWidget.viewModel.suggestion.onNext(params.arrivalAirport)
-            flightOverviewPresenter.flightSummary.outboundFlightWidget.viewModel.date.onNext(params.departureDate)
-            flightOverviewPresenter.flightSummary.outboundFlightWidget.viewModel.guests.onNext(params.guests)
-
-            flightOverviewPresenter.flightSummary.inboundFlightWidget.viewModel.suggestion.onNext(params.departureAirport)
-            flightOverviewPresenter.flightSummary.inboundFlightWidget.viewModel.date.onNext(params.returnDate)
-            flightOverviewPresenter.flightSummary.inboundFlightWidget.viewModel.guests.onNext(params.guests)
 
             flightOverviewPresenter.flightSummary.outboundFlightWidget.viewModel.searchTypeStateObservable.onNext(PackageSearchType.OUTBOUND_FLIGHT)
 
@@ -161,6 +173,7 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
         addTransition(inboundFlightToOverview)
         addTransition(outboundToInbound)
         addTransition(overviewToConfirmation)
+        addTransition(outboundFlightToOverview)
         addDefaultTransition(defaultTransition)
         flightOverviewPresenter.getCheckoutPresenter().toggleCheckoutButton(false)
 
@@ -173,6 +186,17 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
     }
 
     private val inboundFlightToOverview = object : LeftToRightTransition(this, FlightInboundPresenter::class.java, FlightOverviewPresenter::class.java) {
+        override fun startTransition(forward: Boolean) {
+            super.startTransition(forward)
+            if (forward) {
+                flightOverviewPresenter.bundleOverviewHeader.checkoutOverviewHeaderToolbar.visibility = View.VISIBLE
+                flightOverviewPresenter.bundleOverviewHeader.toggleOverviewHeader(true)
+                flightOverviewPresenter.getCheckoutPresenter().resetAndShowTotalPriceWidget()
+            }
+        }
+    }
+
+    private val outboundFlightToOverview = object : LeftToRightTransition(this, FlightOutboundPresenter::class.java, FlightOverviewPresenter::class.java) {
         override fun startTransition(forward: Boolean) {
             super.startTransition(forward)
             if (forward) {
