@@ -7,6 +7,7 @@ import com.expedia.bookings.data.lx.LxSearchParams
 import com.expedia.bookings.test.robolectric.shadows.ShadowAccountManagerEB
 import com.expedia.bookings.test.robolectric.shadows.ShadowGCM
 import com.expedia.bookings.test.robolectric.shadows.ShadowUserManager
+import com.expedia.bookings.utils.DateUtils
 import com.expedia.bookings.utils.Ui
 import com.expedia.vm.LXSearchViewModel
 import org.joda.time.LocalDate
@@ -87,6 +88,17 @@ class LXSearchViewModelTests {
         destinationErrorTestSubscriber.assertValueCount(1)
         dateErrorTestSubscriber.assertValueCount(1)
         searchParamsTestSubscriber.assertValueCount(0)
+    }
+
+
+    @Test
+    fun testComputeDateInstructionText(){
+        //When user has not selected the start date
+        assertEquals("Select date",vm.computeDateInstructionText(null, null))
+
+        //When user has selected the start date
+        val startDate = LocalDate.now();
+        assertEquals(DateUtils.localDateToMMMd(startDate),vm.computeDateInstructionText(startDate, null))
     }
 
     private fun getDummySuggestion(): SuggestionV4 {
