@@ -23,7 +23,7 @@ import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.LXConfirmationWidget;
 import com.expedia.bookings.widget.LoadingOverlayWidget;
-import com.expedia.vm.LXSearchViewModel;
+import com.expedia.bookings.lob.lx.ui.viewmodel.LXSearchViewModel;
 import com.squareup.otto.Subscribe;
 import butterknife.InjectView;
 import rx.Observer;

@@ -9,7 +9,7 @@ import com.expedia.bookings.presenter.lx.LXResultsPresenter;
 import com.expedia.bookings.services.SuggestionV4Services;
 import com.expedia.bookings.widget.LXActivityDetailsWidget;
 import com.expedia.bookings.widget.LXCheckoutSummaryWidget;
-import com.expedia.bookings.widget.LXCheckoutMainViewPresenter;
+import com.expedia.bookings.lob.lx.ui.presenter.LXCheckoutMainViewPresenter;
 import com.expedia.bookings.widget.LXConfirmationWidget;
 import com.expedia.bookings.widget.LXSuggestionAdapter;
 

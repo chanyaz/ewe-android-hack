@@ -59,19 +59,19 @@ public class TravelerContactDetailsWidget extends ExpandableCardView implements 
 	TextView travelerPhoneText;
 
 	@InjectView(R.id.edit_first_name)
-	EditText firstName;
+	public EditText firstName;
 
 	@InjectView(R.id.edit_last_name)
-	EditText lastName;
+	public EditText lastName;
 
 	@InjectView(R.id.edit_email_address)
-	EditText emailAddress;
+	public EditText emailAddress;
 
 	@InjectView(R.id.edit_phone_number_country_code_spinner)
-	TelephoneSpinner phoneSpinner;
+	public TelephoneSpinner phoneSpinner;
 
 	@InjectView(R.id.edit_phone_number)
-	EditText phoneNumber;
+	public EditText phoneNumber;
 
 	@InjectView(R.id.traveler_contact_info_container)
 	ViewGroup travelerContactInfoContainer;

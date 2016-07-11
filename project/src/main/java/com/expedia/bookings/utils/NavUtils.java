@@ -40,7 +40,7 @@ import com.expedia.bookings.services.CarServices;
 import com.expedia.ui.CarActivity;
 import com.expedia.ui.FlightActivity;
 import com.expedia.ui.HotelActivity;
-import com.expedia.ui.LXBaseActivity;
+import com.expedia.bookings.lob.lx.ui.activity.LXBaseActivity;
 import com.expedia.ui.NewPhoneLaunchActivity;
 import com.expedia.ui.PackageActivity;
 import com.expedia.ui.RailActivity;

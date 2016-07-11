@@ -26,7 +26,7 @@ import com.expedia.bookings.services.HotelCheckoutResponse;
 import com.expedia.bookings.test.robolectric.AddToCalendarUtilsTests;
 import com.expedia.bookings.test.robolectric.RobolectricRunner;
 import com.expedia.bookings.utils.Ui;
-import com.expedia.ui.LXBaseActivity;
+import com.expedia.bookings.lob.lx.ui.activity.LXBaseActivity;
 import com.expedia.vm.HotelConfirmationViewModel;
 import com.google.gson.Gson;
 

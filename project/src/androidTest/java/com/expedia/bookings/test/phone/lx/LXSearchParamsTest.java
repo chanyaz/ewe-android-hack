@@ -9,13 +9,14 @@ import org.junit.runner.RunWith;
 import android.support.test.runner.AndroidJUnit4;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.lob.lx.ui.viewmodel.LXSearchViewModel;
 import com.expedia.bookings.presenter.lx.LXSearchPresenter;
 import com.expedia.bookings.test.espresso.ViewActions;
 import com.expedia.bookings.test.phone.pagemodels.common.SearchScreen;
 import com.expedia.bookings.test.rules.ExpediaMockWebServerRule;
 import com.expedia.bookings.test.rules.PlaygroundRule;
 import com.expedia.bookings.utils.JodaUtils;
-import com.expedia.vm.LXSearchViewModel;
+
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.action.ViewActions.typeText;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;

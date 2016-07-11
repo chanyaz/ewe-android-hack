@@ -7,7 +7,7 @@ import android.support.test.espresso.contrib.RecyclerViewActions;
 import com.expedia.bookings.R;
 import com.expedia.bookings.test.espresso.PhoneTestCase;
 import com.expedia.bookings.test.espresso.ViewActions;
-import com.expedia.ui.LXBaseActivity;
+import com.expedia.bookings.lob.lx.ui.activity.LXBaseActivity;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;

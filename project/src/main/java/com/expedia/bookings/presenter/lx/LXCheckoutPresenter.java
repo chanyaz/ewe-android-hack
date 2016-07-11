@@ -26,7 +26,7 @@ import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.RetrofitUtils;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.CVVEntryWidget;
-import com.expedia.bookings.widget.LXCheckoutMainViewPresenter;
+import com.expedia.bookings.lob.lx.ui.presenter.LXCheckoutMainViewPresenter;
 import com.expedia.bookings.widget.LXErrorWidget;
 import com.expedia.bookings.widget.LxRulesWidget;
 import com.mobiata.android.Log;
