@@ -7,11 +7,7 @@ import android.support.test.espresso.action.ViewActions.typeText
 import android.support.test.espresso.contrib.RecyclerViewActions
 import android.support.test.espresso.matcher.RootMatchers.withDecorView
 import android.support.test.espresso.matcher.ViewMatchers
-import android.support.test.espresso.matcher.ViewMatchers.hasDescendant
-import android.support.test.espresso.matcher.ViewMatchers.withEffectiveVisibility
-import android.support.test.espresso.matcher.ViewMatchers.withId
-import android.support.test.espresso.matcher.ViewMatchers.withParent
-import android.support.test.espresso.matcher.ViewMatchers.withText
+import android.support.test.espresso.matcher.ViewMatchers.*
 import android.support.v7.widget.RecyclerView
 import android.view.View
 import com.expedia.bookings.R
@@ -164,6 +160,12 @@ object SearchScreen {
 
     @JvmStatic fun doGenericHotelSearch() {
         search(1, 0, false, true)
+    }
+
+    @Throws(Throwable::class)
+    @JvmStatic fun selectFlightOrigin() {
+        searchEditText().perform(typeText(TestValues.TYPE_TEXT_SFO))
+        selectLocation(TestValues.FLIGHT_ORIGIN_LOCATION_SFO)
     }
 
     @Throws(Throwable::class)
