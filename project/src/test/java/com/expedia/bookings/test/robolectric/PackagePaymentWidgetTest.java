@@ -52,6 +52,8 @@ public class PackagePaymentWidgetTest {
 		assertNotNull(packagePaymentWidget);
 		ButterKnife.inject(activity);
 		securityCodeInput = (EditText) packagePaymentWidget.findViewById(R.id.edit_creditcard_cvv);
+		//test for accessibility content description
+		assertEquals(securityCodeInput.getContentDescription(),"CVV");
 		assertNotNull(securityCodeInput);
 	}
 
