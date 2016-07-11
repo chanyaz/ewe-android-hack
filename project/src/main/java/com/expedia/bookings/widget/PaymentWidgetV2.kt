@@ -6,7 +6,6 @@ import android.support.v7.app.AppCompatActivity
 import android.util.AttributeSet
 import android.view.View
 import android.view.ViewStub
-import android.widget.Button
 import android.widget.LinearLayout
 import com.expedia.bookings.R
 import com.expedia.bookings.activity.ExpediaBookingApp
@@ -15,7 +14,6 @@ import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.payment.PaymentSplitsType
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration
 import com.expedia.bookings.tracking.HotelV2Tracking
-import com.expedia.bookings.tracking.OmnitureTracking
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
 import com.expedia.util.notNullAndObservable
@@ -60,7 +58,7 @@ class PaymentWidgetV2(context: Context, attr: AttributeSet) : PaymentWidget(cont
             HotelV2Tracking().trackHotelV2CardIOButtonClicked()
             val scanIntent = Intent(context, CardIOActivity::class.java)
             scanIntent.putExtra(CardIOActivity.EXTRA_USE_CARDIO_LOGO, true)  // No pesky PayPal logo!
-            scanIntent.putExtra(CardIOActivity.EXTRA_REQUIRE_CVV, true)
+            scanIntent.putExtra(CardIOActivity.EXTRA_REQUIRE_CVV, false)
             scanIntent.putExtra(CardIOActivity.EXTRA_REQUIRE_EXPIRY, true)
             val activity = context as AppCompatActivity
             activity.startActivityForResult(scanIntent, CARD_IO_REQUEST_CODE)

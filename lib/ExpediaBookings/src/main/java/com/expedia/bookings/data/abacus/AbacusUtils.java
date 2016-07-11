@@ -47,7 +47,6 @@ public class AbacusUtils {
 	public static final int EBAndroidAppLXCrossSellOnHotelConfirmationTest = 10556;
 	public static final int EBAndroidAppHotelHCKOCardIOTest = 10799;
 	public static final int EBAndroidAppSmartLockTest = 1234; //TODO: Need to get a valid abacus ID
-
 	public static final int ABTEST_IGNORE_DEBUG = -1;
 
 	public enum DefaultVariate {
