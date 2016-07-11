@@ -222,7 +222,7 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
     val reviewsView: HotelReviewsView by lazy {
         var viewStub = findViewById(R.id.reviews_stub) as ViewStub
         var presenter = viewStub.inflate() as HotelReviewsView
-        presenter.hotelReviewsToolbar.slidingTabLayout.setOnPageChangeListener(object : ViewPager.OnPageChangeListener {
+        presenter.hotelReviewsTabbar.slidingTabLayout.setOnPageChangeListener(object : ViewPager.OnPageChangeListener {
             override fun onPageSelected(position: Int) {
                 HotelV2Tracking().trackHotelV2ReviewsCategories(position)
             }

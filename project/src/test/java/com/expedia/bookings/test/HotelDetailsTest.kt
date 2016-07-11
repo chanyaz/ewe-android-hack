@@ -584,7 +584,6 @@ class HotelDetailsTest {
         Assert.assertEquals(View.VISIBLE, hotelDetailView.hotelMessagingContainer.visibility)
         Assert.assertEquals(View.VISIBLE, hotelDetailView.etpContainer.visibility)
         Assert.assertEquals(View.VISIBLE, hotelDetailView.etpAndFreeCancellationMessagingContainer.visibility)
-
     }
 
     private fun givenHotelSearchParams() {

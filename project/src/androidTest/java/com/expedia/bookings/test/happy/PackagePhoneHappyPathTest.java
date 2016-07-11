@@ -30,6 +30,7 @@ import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withEffectiveVisibility;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
+import static com.expedia.bookings.test.espresso.CustomMatchers.withNavigationContentDescription;
 import static org.hamcrest.CoreMatchers.allOf;
 import static org.hamcrest.CoreMatchers.not;
 
@@ -196,6 +197,7 @@ public class PackagePhoneHappyPathTest extends PackageTestCase {
 	private void reviews() throws Throwable {
 		HotelScreen.clickRatingContainer();
 		HotelScreen.reviews().perform(ViewActions.waitForViewToDisplay());
+		onView(withId(R.id.hotel_reviews_toolbar)).check(matches(withNavigationContentDescription("Back")));
 		onView(withText(R.string.user_review_sort_button_critical)).perform(click());
 		onView(withText(R.string.user_review_sort_button_favorable)).perform(click());
 		onView(withText(R.string.user_review_sort_button_recent)).perform(click());

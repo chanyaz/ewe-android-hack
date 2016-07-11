@@ -432,9 +432,4 @@ public class HotelScreen {
 		return onView(withId(R.id.error_toolbar));
 	}
 
-//	public static void selectPriceChangeHotel() throws Throwable {
-//		doGenericSearch();
-//		HotelScreen.selectHotel("hotel_price_change");
-//		HotelScreen.clickSelectRoom();
-//	}
 }
