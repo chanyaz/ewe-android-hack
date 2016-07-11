@@ -6,7 +6,9 @@ import com.expedia.bookings.R
 import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.lx.LxSearchParams
 import com.expedia.bookings.utils.DateUtils
+import com.expedia.bookings.utils.SpannableBuilder
 import com.expedia.util.endlessObserver
+import com.mobiata.android.time.util.JodaUtils
 import org.joda.time.LocalDate
 import rx.subjects.PublishSubject
 
@@ -76,6 +78,13 @@ class LXSearchViewModel(context: Context) : BaseSearchViewModel(context) {
 
         requiredSearchParamsObserver.onNext(Unit)
         datesObservable.onNext(dates)
+    }
+
+    override fun computeDateInstructionText(start: LocalDate?, end: LocalDate?): CharSequence {
+        if (start == null && end == null) {
+            return context.getString(R.string.select_lx_search_dates);
+        }
+        return DateUtils.localDateToMMMd(start)
     }
 
     override fun computeDateRangeText(start: LocalDate?, end: LocalDate?, isContentDescription: Boolean): String? {
