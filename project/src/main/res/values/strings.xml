@@ -2452,6 +2452,8 @@
     <string name="fare_information">FARE INFORMATION</string>
     <!-- Airline Fee -->
     <string name="Airline_fee">Airline Fee</string>
+    <!-- Accessibility announcement when filter are cleared-->
+    <string name="filters_cleared">Filters cleared</string>
     <!-- split ticket rules header -->
     <string name="split_ticket_important_flight_information_header">Important Flight Information</string>
     <!-- split ticket rules and restrictions -->
