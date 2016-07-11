@@ -74,6 +74,7 @@ DummyFiletoHandleKotlinLintError {
 		R.layout.hotel_checkout_summary_widget,
 		R.layout.new_amenity_row,
 		R.layout.widget_hotel_checkout,
+		R.string.filters_cleared,
 		R.layout.widget_hotel_confirmation,
 		R.string.hotel_calendar_tooltip_bottom,
 		R.string.trip_overview_cont_desc,

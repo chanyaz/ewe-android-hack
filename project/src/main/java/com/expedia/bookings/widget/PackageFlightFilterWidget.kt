@@ -76,6 +76,7 @@ class PackageFlightFilterWidget(context: Context, attrs: AttributeSet) : FrameLa
         doneButton.subscribeOnClick(vm.doneObservable)
 
         dynamicFeedbackClearButton.setOnClickListener {
+            dynamicFeedbackClearButton.announceForAccessibility(context.getString(R.string.filters_cleared))
             vm.clearObservable.onNext(Unit)
         }
 
@@ -83,7 +84,6 @@ class PackageFlightFilterWidget(context: Context, attrs: AttributeSet) : FrameLa
             stopsContainer.clearChecks()
             airlinesContainer.clearChecks()
         }
-
 
         vm.newDurationRangeObservable.subscribe { durationRange ->
             durationSeekBar.upperLimit = durationRange.notches
