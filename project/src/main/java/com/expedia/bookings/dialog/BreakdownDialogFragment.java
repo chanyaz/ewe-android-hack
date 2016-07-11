@@ -316,7 +316,7 @@ public class BreakdownDialogFragment extends DialogFragment {
 
 		// Title
 		builder.setTitle(context.getString(R.string.cost_summary));
-		builder.setTitleDivider(Ui.obtainThemeResID(context, R.attr.skin_flightsCostSummaryDialogStripeDrawable));
+		builder.setTitleDivider(R.drawable.dialog_breakdown_stripe);
 
 		Money totalFarePerTraveler;
 		Money totalBaseFarePerTraveler;

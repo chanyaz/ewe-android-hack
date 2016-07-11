@@ -11,6 +11,11 @@
     <color name="flights_lob_btn">@color/lob_btn_color</color>
     <color name="cars_lob_btn">@color/lob_btn_color</color>
     <color name="lx_lob_btn">@color/lob_btn_color</color>
+    <color name="preferences_text">#495863</color>
+
+    <!-- Calendar text colors -->
+    <color name="calendar_cell_selected_date_text">#FFFFFF</color>
+
     <!-- Lob box shadow gradient -->
     <color name="lob_box_shadow_start_color">#FF000000</color>
     <color name="lob_box_shadow_center_color">#99000000</color>
@@ -21,7 +26,7 @@
     <color name="bg_btn_pressed_color_lm">@color/white</color>
     <color name="itin_flight_line_color_lm">#7da426</color>
     <color name="login_text_flight">@color/white</color>
-    <color name="coupon_success_message_color_lm">#E40088</color>
+    <color name="coupon_success_message_color">#E40088</color>
     <color name="collection_overlay_color">#56a1d5</color>
     <color name="hotel_room_rate_select_room_button_lm">#0079A1</color>
     <color name="hotel_room_rate_select_room_button_pressed_lm">#005B79</color>
@@ -29,9 +34,17 @@
     <color name="hotel_room_rate_add_room_button_pressed_lm">#A1266C</color>
     <color name="launch_pin_detail_button_text_lm">@color/action_bar_bg_color</color>
 
-    <color name="hotel_urgency_message_color">#E40088</color>
+    <color name="hotel_urgency_message_color">#c20202</color>
     <color name="hotel_tonight_only_color">#EA8D00</color>
     <color name="hotel_mobile_exclusive_color">#1F8EDE</color>
+
+    <!-- Popular Hotels Tonight Discount strips-->
+    <color name="launch_mobile_exclusive">#EA8D00</color>
+    <color name="launch_discount">#1F8EDE</color>
+    <color name="launch_tonight_only">#006E8C</color>
+
+    <color name="hotelsv2_discount_green">#0079a1</color>
+    <color name="hotelsv2_coupon_applied_color">#E40088</color>
 
     <color name="hotel_price_text_color">#4F4F4F</color>
     <color name="hotel_price_sale_text_color">#0079a1</color>
@@ -49,7 +62,6 @@
     <color name="action_bar_flight_cancel_text_color">@color/actionbar_text_lm</color>
     <color name="action_bar_flight_result_separator_color">@color/white</color>
 
-    <color name="bg_sale_text_view_color_lm">#E5E40088</color>
     <color name="confirmation_header_divider_color">#4D555D</color>
 
     <color name="tablet_book_button_text_color_lm">@color/action_bar_bg_color</color>
@@ -67,7 +79,6 @@
 
     <color name="section_flight_edit_traveler_link_color_lm">@color/action_bar_bg_color</color>
     <color name="room_rate_refundable_cancellation_text_color_lm">#599027</color>
-    <color name="tablet_hotel_coupon_text_color_lm">@color/action_bar_bg_color</color>
 
     <!-- Cars and LX -->
     <color name="cars_primary_color">@color/last_minute_primary_color</color>
@@ -82,6 +93,8 @@
 
     <!-- Launch screen colors -->
     <color name="launch_toolbar_background_color">@color/action_bar_bg_color</color>
+    <color name="launch_tab_indicator">@color/action_bar_selected_tab_underline_color</color>
+    <color name="tablet_pin_detail_button_text_color">@color/launch_pin_detail_button_text_lm</color>
 
     <!--Account Lib Colors -->
     <color name="btn_sign_in_normal">#E40088</color>
@@ -91,12 +104,22 @@
     <color name="acct__btn_sign_in_text_lm">@color/white</color>
     <color name="acct__bg_input_text_error">@color/white</color>
     <color name="acct__bg_input_text_good">#EEEEEE</color>
+    <color name="cvv_book_button_text_color">@android:color/white</color>
 
-    <color name="launch_discount">#006E8C</color>
     <color name="hotels_primary_color">@color/last_minute_primary_color</color>
     <color name="material_checkout_account_button_background_color">@color/hotels_primary_color</color>
 
-
     <!-- Checkout Colors -->
     <color name="old_checkout_account_button_text_color">@android:color/white</color>
+
+    <!--Account Screen-->
+    <color name="account_toolbar_text_color">@android:color/white</color>
+    <color name="account_toolbar_background_color">@color/last_minute_primary_color</color>
+    <color name="account_sign_out_button_background_color">@color/lob_btn_color</color>
+    <color name="account_screen_back_nav_color">@android:color/white</color>
+    <color name="account_sign_in_button_background_color">@color/last_minute_primary_color</color>
+    <color name="account_create_button_text_color">@color/last_minute_primary_color</color>
+
+    <color name="error_widget_edit_button_selected_color">#A1266C</color>
+    <color name="error_button_color">@color/last_minute_primary_color</color>
 </resources>

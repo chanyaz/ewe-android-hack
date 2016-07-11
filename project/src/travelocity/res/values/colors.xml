@@ -5,14 +5,13 @@
     <color name="actionbar_button_background_pressed">#004888</color>
     <color name="hotels_primary_color">#003E74</color>
     <color name="hotel_promo_background">#57A3CC</color>
-    <color name="launch_tab_indicator_tvly">@color/action_bar_text_blue_travelocity</color>
     <color name="launch_toolbar_background_color">@color/bg_blue_color_travelocity</color>
     <color name="action_bar_text_blue_travelocity">#7baed4</color>
     <color name="bg_btn_color_travelocity">#7bae00</color>
     <color name="bg_btn_pressed_color_travelocity">#295600</color>
     <color name="itin_flight_line_color_tvly">#7da426</color>
     <color name="login_text_flight">@color/white</color>
-    <color name="coupon_success_message_color_tvly">#7baed4</color>
+    <color name="coupon_success_message_color">#7baed4</color>
     <color name="collection_overlay_color">#56a1d5</color>
     <color name="tablet_book_button_text_color_travelocity">#57B3FF</color>
     <color name="hotel_room_rate_select_room_button_tvly">#53A0D3</color>
@@ -31,22 +30,34 @@
     <color name="destination_list_detail_container_background">#ff070f24</color>
     <color name="accept_terms_color">#608405</color>
     <color name="accept_terms_ripple_color">#7dad06</color>
-    <color name="review_screen_tab_indicator">@color/launch_tab_indicator_tvly</color>
+    <color name="review_screen_tab_indicator">@color/launch_tab_indicator</color>
     <color name="material_checkout_account_button_background_color">@color/hotels_primary_color</color>
+    <color name="preferences_text">#495863</color>
+    <color name="tablet_pin_detail_button_text_color">@color/launch_pin_detail_button_text_travelocity</color>
 
-    <color name="hotel_urgency_message_color">#57A3CC</color>
+    <!-- Calendar text colors -->
+    <color name="calendar_cell_selected_date_text">#FFFFFF</color>
+
+    <color name="hotel_urgency_message_color">#c20202</color>
     <color name="hotel_tonight_only_color">#7AC231</color>
     <color name="hotel_mobile_exclusive_color">#F58025</color>
+
+    <color name="hotelsv2_discount_green">#7AC231</color>
+    <color name="hotelsv2_coupon_applied_color">#7baed4</color>
 
     <!-- Cars -->
     <color name="cars_primary_color">#003E74</color>
     <color name="cars_unchecked_toggle_text_color_tvly">#B3FFFFFF</color>
     <color name="cars_drop_off_hint_text_color">#4b7fad</color>
     <color name="cars_ripple_color">@color/lx_ripple_color</color>
+    <color name="cars_button_ripple">@color/accept_terms_ripple_color</color>
+    <color name="cars_button_color">@color/accept_terms_color</color>
 
     <!-- Lx -->
     <color name="lx_primary_color">#003E74</color>
     <color name="lx_ripple_color">#53a0d3</color>
+    <color name="lx_button_ripple">@color/accept_terms_ripple_color</color>
+    <color name="lx_button_color">@color/accept_terms_color</color>
     <color name="lx_secondary_color_disabled">#032E4D</color>
     <color name="lx_unchecked_toggle_text_color_tvly">@android:color/white</color>
     <color name="lx_ticket_selector_disabled_color_tvly">#40003E74</color>
@@ -60,6 +71,20 @@
     <color name="acct__btn_sign_in_text_tvly">@color/white</color>
     <color name="acct__bg_input_text_error">@color/white</color>
     <color name="acct__bg_input_text_good">#EEEEEE</color>
+
     <!-- Checkout Colors -->
     <color name="old_checkout_account_button_text_color">@android:color/white</color>
+    <color name="cvv_book_button_text_color">@android:color/white</color>
+
+    <!--Account Screen-->
+    <color name="account_toolbar_text_color">@android:color/white</color>
+    <color name="account_toolbar_background_color">@color/hotels_primary_color</color>
+    <color name="account_sign_out_button_background_color">#7baed4</color>
+    <color name="account_screen_back_nav_color">@android:color/white</color>
+    <color name="account_sign_in_button_background_color">@color/hotels_primary_color</color>
+    <color name="account_create_button_text_color">@color/hotels_primary_color</color>
+
+    <color name="error_widget_edit_button_selected_color">#033057</color>
+    <color name="error_button_color">#003E74</color>
+    <color name="launch_tab_indicator">@color/action_bar_text_blue_travelocity</color>
 </resources>

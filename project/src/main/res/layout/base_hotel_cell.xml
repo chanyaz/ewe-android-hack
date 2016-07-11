@@ -289,6 +289,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@color/hotel_earn_message_text_color"
+                android:drawableLeft="@drawable/earn_message_icon"
+                android:drawablePadding="@dimen/earn_message_icon_dimen"
                 android:textSize="10sp" />
         </LinearLayout>
 

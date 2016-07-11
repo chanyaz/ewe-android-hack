@@ -2,8 +2,8 @@
 <resources xmlns:android="http://schemas.android.com/apk/res/android" xmlns:tools="http://schemas.android.com/tools">
 
     <style name="TitleBarTextColor" parent="@android:style/TextAppearance.Medium">
-        <item name="android:textColor">@color/actionbar_text_wotif</item>
-        <item name="textColor">@color/actionbar_text_wotif</item>
+        <item name="android:textColor">@color/actionbar_text</item>
+        <item name="textColor">@color/actionbar_text</item>
     </style>
 
     <style name="OverflowMenuButton" parent="@android:style/Widget.Holo.ActionButton.Overflow">
@@ -22,37 +22,30 @@
         <item name="skin_HotelRowThumbPlaceHolderDrawable">@drawable/ic_row_thumb_placeholder_wotif</item>
         <item name="skin_hotelListingUserRatingStyle">@style/RatingBar.UserReview.Blue</item>
         <item name="skin_ratingBarUserReviewStyle">@style/RatingBar.UserReview.Blue</item>
-        <item name="skin_costSummaryDialogStripeDrawable">@drawable/dialog_breakdown_stripe_wotif</item>
-        <item name="skin_flightsCostSummaryDialogStripeDrawable">@drawable/dialog_breakdown_stripe_wotif</item>
+        <item name="skin_costSummaryDialogStripeDrawable">@drawable/dialog_breakdown_stripe</item>
         <item name="skin_actionBarSpinnerBackground">@drawable/ab_spinner_wotif</item>
         <item name="skin_actionBarButtonTextColor">@color/action_bar_text_blue_wotif</item>
-        <item name="skin_loginButtonColor">@android:color/white</item>
-        <item name="skin_hotelBookButtonColor">@android:color/white</item>
         <item name="skin_cvvBookButtonTextColor">@android:color/white</item>
         <item name="skin_hotelPrimaryTravelerInfoLogoDrawable">@drawable/ic_wotif_white_logo_small</item>
         <item name="android:logo" tools:targetApi="11">@drawable/ic_logo_hotels</item>
         <item name="skin_hotelConfirmationPlaceholderDrawable">@drawable/placeholder_lg_wotif</item>
-        <item name="skin_couponSuccessMessageColor">@color/coupon_success_message_color_wotif</item>
+        <item name="skin_couponSuccessMessageColor">@color/coupon_success_message_color</item>
         <item name="android:homeAsUpIndicator" tools:targetApi="11">@drawable/ic_action_bar_back_arrow_wotif</item>
         <item name="skin_travellerInfoPageLogo">@drawable/ic_wotif_traveller_logo</item>
         <item name="skin_travellerInfoPageLogoDisabled">@drawable/ic_wotif_white_logo_small</item>
         <item name="skin_userRatingBarDrawable">@drawable/ratingbar_userreview_flat_blue_wotif</item>
-        <item name="skin_clearEditTextImage">@drawable/ic_clear_edittext</item>
         <item name="skin_hotelRulesActionBarLogo">@drawable/ic_action_bar_wotif_logo_small</item>
         <item name="skin_flightRulesActionBarLogo">@drawable/ic_action_bar_wotif_logo_small</item>
-        <item name="skin_hotelLoginActionBarIcon">@drawable/ic_action_bar_wotif_logo_small</item>
-        <item name="skin_flightLoginActionBarIcon">@drawable/ic_logo_flights_wotif</item>
         <item name="android:actionOverflowButtonStyle">@style/OverflowMenuButton</item>
         <item name="actionOverflowButtonStyle">@style/OverflowMenuButton</item>
         <item name="skin_itinActionOverflowDrawable">@drawable/ic_menu_overflow_image</item>
-        <item name="skin_tablet_pin_detail_button_text_color">@color/launch_pin_detail_button_text_wotif</item>
     </style>
 
     <style name="FlightTheme" parent="@style/Theme.Wotif">
         <item name="android:dropDownListViewStyle">@style/DropDownListView</item>
         <item name="android:logo" tools:targetApi="11">@drawable/ic_logo_flights_wotif</item>
         <item name="android:actionBarStyle" tools:targetApi="11">@style/FlightActionBarWotif</item>
-        <item name="android:actionMenuTextColor">@color/actionbar_text_wotif</item>
+        <item name="android:actionMenuTextColor">@color/actionbar_text</item>
         <item name="android:actionModeCloseDrawable">@drawable/btn_navigation_cancel</item>
         <item name="android:editTextStyle">@style/Widget.EditText.Phone</item>
         <item name="android:spinnerStyle">@style/Widget.Spinner.Phone.Flights</item>
@@ -99,8 +92,7 @@
         <item name="skin_itinDismissListSelectorDrawable">@drawable/list_selector_wotif</item>
         <item name="skin_itinCardOverflowDrawable">@drawable/ic_menu_overflow_image</item>
         <item name="skin_itinCardActionBarCheckmark">@drawable/ic_action_bar_checkmark</item>
-        <item name="skin_itinCardTitleTextColor">@color/actionbar_text_wotif</item>
-        <item name="skin_launchTabIndicatorColor">@color/action_bar_selected_tab_underline_color</item>
+        <item name="skin_itinCardTitleTextColor">@color/actionbar_text</item>
         <item name="skin_tripsTabText">@string/Your_Trips</item>
 
     </style>
@@ -128,7 +120,7 @@
         <item name="skin_itinTabletCardPopupHeaderDrawable">@drawable/bg_itin_card_title</item>
         <item name="skin_itinCardOverflowDrawable">@drawable/ic_menu_overflow_image</item>
         <item name="skin_itinCardActionBarCheckmark">@drawable/ic_action_bar_checkmark</item>
-        <item name="skin_itinCardTitleTextColor">@color/actionbar_text_wotif</item>
+        <item name="skin_itinCardTitleTextColor">@color/actionbar_text</item>
     </style>
 
     <style name="LoginTheme" parent="Theme.Phone.Dark">
@@ -163,11 +155,12 @@
         <item name="android:actionBarStyle">@style/TerminalMapActionBar</item>
         <item name="android:actionOverflowButtonStyle">@style/Widget.ActionBar.ActionButton.Overflow</item>
         <item name="android:windowBackground">@android:color/white</item>
+        <item name="android:homeAsUpIndicator" tools:targetApi="11">@drawable/ic_action_bar_back_arrow_wotif</item>
 
         <!-- PopupMenu -->
         <item name="android:dropDownListViewStyle">@style/TerminalMapThemeDropDownListView</item>
         <item name="spinnerDropDownItemStyle">@style/TerminalMapThemeSpinnerDropDownItemStyle</item>
-        <item name="skin_terminalChooserTextColor">@color/actionbar_text_wotif</item>
+        <item name="skin_terminalChooserTextColor">@color/actionbar_text</item>
     </style>
 
     <style name="TerminalMapActionBar" parent="@android:style/Widget.Holo.Light.ActionBar.Solid">

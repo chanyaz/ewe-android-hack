@@ -48,6 +48,8 @@
         android:gravity="right"
         android:textColor="@color/flight_earn_message_text_color"
         android:textSize="12dp"
+        android:drawableLeft="@drawable/earn_message_icon"
+        android:drawablePadding="@dimen/earn_message_icon_dimen"
         android:visibility="invisible"/>
 
 

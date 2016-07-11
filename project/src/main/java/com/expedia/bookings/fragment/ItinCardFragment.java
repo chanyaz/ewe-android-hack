@@ -1,7 +1,5 @@
 package com.expedia.bookings.fragment;
 
-import java.util.List;
-
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -18,12 +16,15 @@ import android.widget.ScrollView;
 import com.dgmltn.shareeverywhere.ShareView;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.trips.ItinCardData;
+import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.ShareUtils;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.ItinActionsSection;
 import com.expedia.bookings.widget.itin.ItinContentGenerator;
 import com.mobiata.android.util.CalendarAPIUtils;
+
+import java.util.List;
 
 /**
  * Standalone ItinCard fragment that can be placed anywhere
@@ -51,12 +52,19 @@ public class ItinCardFragment extends Fragment implements PopupMenu.OnMenuItemCl
 		mActionButtons = Ui.findView(view, R.id.action_button_layout);
 		mShareView = Ui.findView(view, R.id.itin_share_view);
 
-		Ui.setOnClickListener(view, R.id.itin_overflow_image_button, new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				onOverflowButtonClicked(v);
-			}
-		});
+		// Show itin Share overflow image only if sharing is supported.
+		if (ProductFlavorFeatureConfiguration.getInstance().shouldShowItinShare()) {
+			Ui.setOnClickListener(view, R.id.itin_overflow_image_button, new OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					onOverflowButtonClicked(v);
+				}
+			});
+		}
+		else {
+			Ui.findView(view, R.id.itin_overflow_image_button).setVisibility(View.GONE);
+			mShareView.setVisibility(View.GONE);
+		}
 
 		return view;
 	}

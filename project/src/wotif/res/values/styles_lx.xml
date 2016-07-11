@@ -11,7 +11,7 @@
         <item name="checkout_icon_right_margin_attr">@dimen/checkout_icon_right_margin_car_lx</item>
 
         <!-- Skins added for whitelabel -->
-        <item name="skin_costSummaryAlertDrawable">@drawable/dialog_breakdown_stripe_wotif</item>
+        <item name="skin_costSummaryAlertDrawable">@drawable/dialog_breakdown_stripe</item>
         
         
         <item name="skin_checkoutLoginBookNowButtonDrawable">@drawable/btn_signin</item>

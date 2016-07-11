@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <item name="brand_logo_white" type="drawable">@drawable/ic_tvly_logo_white</item>
     <item name="brand_phone_checkout_login_logo_drawable" type="drawable">@drawable/ic_tvly_logo_white</item>
     <item name="brand_phone_checkout_logo_drawable" type="drawable">@drawable/tvly</item>
     <item name="brand_tablet_checkout_login_logo_drawable" type="drawable">@drawable/ic_tablet_checkout_logo</item>
@@ -12,4 +11,6 @@
     <item name="checkout_logout_logo" type="drawable">@drawable/tvly</item>
     <item name="old_checkout_account_button_background" type="drawable">@drawable/card_background_tvly</item>
     <item name="tablet_checkout_login_logo" type="drawable">@drawable/ic_tablet_checkout_logo</item>
+    <item name="ic_toolbar_filter_sort" type="drawable">@drawable/ic_sort</item>
+    <item name="flights_cost_summary_dialog_stripe" type="drawable">@drawable/bg_breakdown_candycane</item>
 </resources>

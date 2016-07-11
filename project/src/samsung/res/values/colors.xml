@@ -17,7 +17,8 @@
     <color name="collection_screen_gradient_start_color">#BE2B2E33</color>
     <color name="collection_screen_gradient_end_color">#00808B9F</color>
 
-    <color name="launch_tab_indicator_samsung">#86878A</color>
+    <color name="launch_tab_indicator">#86878A</color>
+
     <color name="action_bar_text_blue_samsung">#7baed4</color>
 
     <!-- Hotel price color -->

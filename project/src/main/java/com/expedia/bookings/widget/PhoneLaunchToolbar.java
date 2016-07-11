@@ -2,13 +2,13 @@ package com.expedia.bookings.widget;
 
 import android.content.Context;
 import android.os.Build;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.Toolbar;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
-import com.expedia.bookings.utils.Ui;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -40,7 +40,7 @@ public class PhoneLaunchToolbar extends Toolbar {
 
 		slidingTabLayout.setCustomTabView(R.layout.phone_actionbar_tab_bg, R.id.tab_text);
 		slidingTabLayout.setSelectedIndicatorColors(
-			getResources().getColor(Ui.obtainThemeResID(getContext(), R.attr.skin_launchTabIndicatorColor)));
+			ContextCompat.getColor(getContext(), R.color.launch_tab_indicator));
 		slidingTabLayout.setDistributeEvenly(true);
 
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {

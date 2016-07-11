@@ -101,6 +101,8 @@
                         android:paddingLeft="18dp"
                         android:paddingRight="18dp"
                         android:paddingTop="10dp"
+                        android:drawableLeft="@drawable/earn_message_icon"
+                        android:drawablePadding="@dimen/earn_message_icon_dimen"
                         android:layout_centerVertical="true" />
 
                     <LinearLayout

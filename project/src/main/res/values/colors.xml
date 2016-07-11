@@ -18,6 +18,7 @@
     <color name="tablet_legal_blurb_text_color">#A7DAFF</color>
     <color name="tablet_confirmation_color">#374F6E</color>
     <color name="tablet_confirmation_action_color">#2970CC</color>
+    <color name="tablet_pin_detail_button_text_color">@color/launch_pin_detail_button_text</color>
 
     <!-- Launch screen colors -->
     <color name="launch_primary">#f3f3f3</color>
@@ -292,6 +293,8 @@
     <!-- Cars colors -->
     <color name="cars_primary_color">@color/lob_cars_primary_maroon</color>
     <color name="cars_secondary_color">@color/lob_cars_secondary_maroon</color>
+    <color name="cars_button_ripple">#ECC3DC</color>
+    <color name="cars_button_color">@color/cars_primary_color</color>
 
     <color name="cars_actionbar_text_color">@color/gray8</color>
     <color name="cars_tooltip_disabled_color">@color/gray4</color>
@@ -303,6 +306,9 @@
     <color name="cars_confirmation_action_text_color">@color/gray1</color>
     <color name="cars_confirmation_email_text_color">@color/gray3</color>
 
+    <color name="cars_status_bar_color">#7E4569</color>
+    <color name="cars_ripple_color">#A4638D</color>
+    <color name="cars_tooltip_color">#915B7C</color>
     <color name="cars_checkmark_color">#29a653</color>
     <color name="cars_confirmation_icon_color">#D1D3D6</color>
     <color name="cars_confirmation_gradient">#80000000</color>
@@ -311,9 +317,6 @@
     <color name="cars_unchecked_toggle_text_color">#ECC3DC</color>
     <color name="cars_drop_off_hint_text_color">#26FFFFFF</color>
     <color name="cars_color_primary_dark">#532C45</color>
-    <color name="cars_status_bar_color">#7E4569</color>
-    <color name="cars_ripple_color">#A4638D</color>
-    <color name="cars_tooltip_color">#915B7C</color>
 
     <!-- Checkout Colors -->
     <color name="tablet_checkout_account_button_text_color">#363636</color>
@@ -343,6 +346,8 @@
     <!-- LX colors -->
     <color name="lx_primary_color">@color/lob_lx_primary_orange</color>
     <color name="lx_ripple_color">@color/lob_lx_secondary_orange</color>
+    <color name="lx_button_ripple">#F6DAC0</color>
+    <color name="lx_button_color">@color/lx_primary_color</color>
 
     <color name="lx_actionbar_text_color">@color/gray8</color>
 
@@ -431,6 +436,7 @@
     <color name="flight_loading_message_text_color">#575757</color>
     <!-- Error widget button colors -->
     <color name="error_widget_edit_button_selected_color">#7C7C7C</color>
+    <color name="error_button_color">@color/hotels_primary_color</color>
 
     <color name="rating_yellow_disabled">#DBDBDB</color>
     <color name="rating_yellow">#F6AE24</color>
@@ -487,6 +493,7 @@
     <color name="preferences_highlight">#40000000</color>
 
     <color name="bg_air_attach_banner_default">#F5495863</color>
+    <color name="bg_air_attach_banner_divider">#4D555D</color>
     <color name="preferences_text">@color/launch_toolbar_background_color</color>
     <color name="bundle_price_background_color">@color/white</color>
 

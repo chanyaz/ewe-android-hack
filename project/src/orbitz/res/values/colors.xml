@@ -14,6 +14,7 @@
     <!-- Launch colors -->
     <color name="launch_toolbar_background_color">@color/lob_btn_color</color>
     <color name="launch_tab_indicator">@color/action_bar_text_blue_orbitz</color>
+    <color name="tablet_pin_detail_button_text_color">@color/launch_pin_detail_button_text_orbitz</color>
 
     <color name="launch_actionbar_color_orbitz">@color/action_bar_bg_color</color>
     <color name="action_bar_text_blue_orbitz">#7baed4</color>
@@ -65,9 +66,16 @@
     <color name="lx_ripple_color">#0065B8</color>
     <color name="lx_secondary_color_disabled">#00B1FF</color>
     <color name="lx_unchecked_toggle_text_color">#dfe9f0</color>
-    <color name="lx_ticket_selector_disabled_color">#dde5ec</color>
     <color name="lx_offer_date_ripple_color">@color/lx_ripple_color</color>
     <color name="cars_ripple_color">@color/lx_ripple_color</color>
+
+    <color name="lx_primary_disabled_color">#dde5ec</color>
+    <color name="cars_color_primary_dark">@color/cars_primary_color</color>
+    <color name="cars_secondary_color">@color/cars_primary_color</color>
+    <color name="cars_tooltip_color">@color/cars_primary_color</color>
+    <color name="cars_status_bar_color">@color/cars_primary_color</color>
+    <color name="lx_color_primary_dark">@color/lx_primary_color</color>
+    <color name="checkout_login_button_color">@android:color/white</color>
 
     <!-- Itin Colors -->
     <color name="itin_unable_to_find_error_color">#FFB80000</color>
@@ -89,6 +97,7 @@
     <!-- Checkout Colors -->
     <color name="material_checkout_account_button_background_color">#C4204B</color>
     <color name="old_checkout_account_button_text_color">@android:color/white</color>
+    <color name="cvv_book_button_text_color">@android:color/white</color>
 
     <!-- Rewards -->
     <color name="reward_base_tier_color">#668193</color>

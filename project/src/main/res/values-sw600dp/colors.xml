@@ -51,6 +51,8 @@
     <color name="tablet_flight_filter_text_color">#4c5156</color>
     <color name="tablet_flight_trip_view_airport_text_color">#aaffffff</color>
     <color name="tablet_flight_details_primary_text_color">#4c4c4c</color>
+    <color name="tablet_flight_trip_line_color">#287cb9</color>
+    <color name="tablet_flight_details_price_text_color">#3f86c2</color>
 
     <!-- Tablet Checkout -->
     <color name="bg_clickable_trip_bucket_expand_pressed">#E5000000</color>

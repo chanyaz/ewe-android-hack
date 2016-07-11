@@ -83,11 +83,9 @@ public class FacebookShareActivity extends Activity {
 		if (!TextUtils.isEmpty(mShareThumbnailURL)) {
 			linkContentBuilder.setImageUrl(Uri.parse(mShareThumbnailURL));
 		}
-		if (!TextUtils.isEmpty(mShareURL)) {
-			linkContentBuilder.setContentUrl(Uri.parse(
-				ProductFlavorFeatureConfiguration.getInstance().shouldDisplayItinTrackAppLink() ? mShareURL
-					: PointOfSale.getPointOfSale().getAppInfoUrl()));
-		}
+		linkContentBuilder.setContentUrl(Uri.parse(
+			ProductFlavorFeatureConfiguration.getInstance().shouldDisplayItinTrackAppLink() && !TextUtils
+				.isEmpty(mShareURL) ? mShareURL : PointOfSale.getPointOfSale().getAppInfoUrl()));
 
 		dialog.show(linkContentBuilder.build());
 		finish();
