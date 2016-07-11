@@ -50,6 +50,8 @@ public class PackagesBundleOverviewTest extends PackageTestCase {
 		HotelScreen.selectHotel("Package Happy Path");
 		openCloseSlidingBundleWidget("$1,027.34", "$21.61", "$2,054.67");
 
+		onView(withId(R.id.hotel_star_rating_bar)).check(matches(hasContentDescription()));
+
 		PackageScreen.selectRoom();
 
 		Common.pressBack();
@@ -100,7 +102,7 @@ public class PackagesBundleOverviewTest extends PackageTestCase {
 	}
 
 	private void checkBundleTotalWidgetContentDescription(String totalPrice, String totalSaved,
-		boolean isCostBreakdownEnabled) {
+														  boolean isCostBreakdownEnabled) {
 		if (isCostBreakdownEnabled) {
 			PackageScreen.bundleTotalFooterWidget().check((matches(withContentDescription(
 				"Bundle total is " + totalPrice + ". This price includes taxes, fees for both flights and hotel. "
