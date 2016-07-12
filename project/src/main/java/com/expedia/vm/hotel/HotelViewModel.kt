@@ -68,11 +68,11 @@ open class HotelViewModel(private val context: Context, protected val hotel: Hot
     val airAttachWithDiscountLabelVisibilityObservable = BehaviorSubject.create<Boolean>((hotel.lowRateInfo?.isShowAirAttached() ?: false) && !loyaltyAvailabilityObservable.value)
     val airAttachIconWithoutDiscountLabelVisibility = BehaviorSubject.create<Boolean>((hotel.lowRateInfo?.isShowAirAttached() ?: false) && loyaltyAvailabilityObservable.value)
     val earnMessagingObservable = Observable.just(hotel.lowRateInfo?.loyaltyInfo?.earn?.getEarnMessage(context) ?: "")
-    val earnMessagingVisibilityObservable = earnMessagingObservable.map { it.isNotBlank() && PointOfSale.getPointOfSale().isEarnMessageEnabledForHotels }
+    val earnMessagingVisibilityObservable = earnMessagingObservable.map { !hotel.isSponsoredListing && it.isNotBlank() && PointOfSale.getPointOfSale().isEarnMessageEnabledForHotels }
 
     val topAmenityTitleObservable = BehaviorSubject.create(getTopAmenityTitle(hotel, resources))
     val topAmenityVisibilityObservable = earnMessagingVisibilityObservable.zipWith(topAmenityTitleObservable, { earnMessagingEnabled, topAmenityTitle ->
-        !earnMessagingEnabled && topAmenityTitle.isNotBlank()
+        hotel.isSponsoredListing || !earnMessagingEnabled && topAmenityTitle.isNotBlank()
     })
 
     val hotelStarRatingObservable = BehaviorSubject.create(hotel.hotelStarRating)
