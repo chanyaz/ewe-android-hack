@@ -378,7 +378,7 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 
 	@Override
 	public boolean shouldShowAirAttach() {
-		return false;
+		return true;
 	}
 
 	@Override
