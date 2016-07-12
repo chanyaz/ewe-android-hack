@@ -35,6 +35,8 @@ DummyFiletoHandleKotlinLintError {
 		R.string.view_room_button_text,
 		R.drawable.hotel_tooltip,
 		R.string.sort_description_package_discount,
+		R.drawable.error_search,
+		R.string.flight_calendar_instructions_date_with_guests_TEMPLATE,
 		R.drawable.detail_phone,
 		R.drawable.hotel_tooltip_blue,
 		R.drawable.hotel_tooltip_airattach,

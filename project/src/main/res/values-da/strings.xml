@@ -144,7 +144,7 @@
     <!-- Label for showing users that drop-off location has to be same as pick-up location -->
     <string name="drop_off_same_as_pick_up">Kommer snart! Vi arbejder hårdt på at tilføje envejsudlejning i en kommende version.</string>
     <!-- Car search error -->
-    <string name="error_car_search_message">Din søgning gav ingen resultater. Prøv at søge igen med andre søgekriterier.</string>
+    <string name="error_no_result_message">Din søgning gav ingen resultater. Prøv at søge igen med andre søgekriterier.</string>
     <!-- Car no filtered search results -->
     <string name="filter_no_car_search_results_message">Din søgning gav ingen resultater. Prøv at reducere antallet af filtre.</string>
     <!-- Transmission options filter label for a car rental -->

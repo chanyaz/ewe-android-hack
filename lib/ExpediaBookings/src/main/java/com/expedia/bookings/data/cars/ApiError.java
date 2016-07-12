@@ -67,6 +67,10 @@ public class ApiError extends RuntimeException {
 		INVALID_CARD_EXPIRATION_DATE,
 		CARD_LIMIT_EXCEEDED,
 
+		//Flight Search Errors
+		FLIGHT_SEARCH_ERROR,
+		FLIGHT_SEARCH_NO_RESULTS,
+
 		//Rail errors
 		RAIL_PRODUCT_LOOKUP_ERROR
 	}

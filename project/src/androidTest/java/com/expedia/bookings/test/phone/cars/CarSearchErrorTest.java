@@ -24,7 +24,7 @@ public class CarSearchErrorTest extends CarTestCase {
 		CarScreen.searchButton().perform(click());
 
 		screenshot("Car Search No Product");
-		EspressoUtils.assertViewWithTextIsDisplayed(mRes.getString(R.string.error_car_search_message));
+		EspressoUtils.assertViewWithTextIsDisplayed(mRes.getString(R.string.error_no_result_message));
 
 		// Make sure the button works
 		CarScreen.searchErrorWidgetButton().perform(click());

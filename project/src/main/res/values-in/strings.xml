@@ -144,7 +144,7 @@
     <!-- Label for showing users that drop-off location has to be same as pick-up location -->
     <string name="drop_off_same_as_pick_up">Segera hadir! Di versi berikutnya, kami akan mencoba mengusahakan Anda bisa mengembalikan mobil di lokasi yang berbeda.</string>
     <!-- Car search error -->
-    <string name="error_car_search_message">Tidak ditemukan hasil pencarian. Harap coba kembali mencari dengan kriteria yang berbeda.</string>
+    <string name="error_no_result_message">Tidak ditemukan hasil pencarian. Harap coba kembali mencari dengan kriteria yang berbeda.</string>
     <!-- Car no filtered search results -->
     <string name="filter_no_car_search_results_message">Tidak ditemukan hasil pencarian. Cobalah kurangi jumlah filter.</string>
     <!-- Transmission options filter label for a car rental -->

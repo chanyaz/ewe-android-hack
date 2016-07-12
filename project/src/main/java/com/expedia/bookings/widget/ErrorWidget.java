@@ -208,7 +208,7 @@ public class ErrorWidget extends FrameLayout {
 
 	public void showNoProductSearchError() {
 		bindText(R.drawable.car,
-			getResources().getString(R.string.error_car_search_message),
+			getResources().getString(R.string.error_no_result_message),
 			R.string.cars_no_results_text,
 			R.string.edit_search);
 		errorButton.setOnClickListener(new OnClickListener() {

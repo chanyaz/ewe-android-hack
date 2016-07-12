@@ -144,7 +144,7 @@
     <!-- Label for showing users that drop-off location has to be same as pick-up location -->
     <string name="drop_off_same_as_pick_up">即將推出，敬請期待…我們正在致力於在未來版本中加入不需回原地點還車的租車預訂服務。</string>
     <!-- Car search error -->
-    <string name="error_car_search_message">沒有搜尋結果。請使用其他條件再次搜尋。</string>
+    <string name="error_no_result_message">沒有搜尋結果。請使用其他條件再次搜尋。</string>
     <!-- Car no filtered search results -->
     <string name="filter_no_car_search_results_message">沒有搜尋結果。請嘗試減少篩選條件。</string>
     <!-- Transmission options filter label for a car rental -->

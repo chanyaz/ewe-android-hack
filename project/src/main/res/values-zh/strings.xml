@@ -144,7 +144,7 @@
     <!-- Label for showing users that drop-off location has to be same as pick-up location -->
     <string name="drop_off_same_as_pick_up">即将推出！我们正在努力，争取尽快添加单程预订功能。</string>
     <!-- Car search error -->
-    <string name="error_car_search_message">您所做的搜索未返回任何结果。请选择其他标准，再搜索一次。</string>
+    <string name="error_no_result_message">您所做的搜索未返回任何结果。请选择其他标准，再搜索一次。</string>
     <!-- Car no filtered search results -->
     <string name="filter_no_car_search_results_message">您所做的搜索未返回任何结果。请尝试减少筛选条件。</string>
     <!-- Transmission options filter label for a car rental -->
