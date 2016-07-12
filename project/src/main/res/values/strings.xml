@@ -1766,7 +1766,7 @@
     <string name="invalid_flights_pos">Sorry, but mobile flight booking is not yet available in your location.</string>
     <!-- (Tablet) Text for screen when in a POS which only supports dropdown flight suggestions -->
     <string name="tablet_drop_down_flight_pos_unavailable_TEMPLATE">We\&apos;re sorry, but we don\&apos;t support flights for your region yet. However, they are available on &lt;a href=\"%1$s\"&gt;our website&lt;/a&gt;.</string>
-    <!-- Error message when we the user picks the same airport for both the departure and arrival airports -->
+    <!-- Error message when the user picks the same airport for both the departure and arrival airports -->
     <string name="error_same_flight_departure_arrival">Departure and arrival airports must be different.</string>
 
     <!-- Flight search params fragment -->
