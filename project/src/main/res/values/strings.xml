@@ -4310,7 +4310,8 @@
     <!-- Insurance price type qualifiers -->
     <string name="insurance_price_per_day">/day</string>
     <string name="insurance_price_per_person">/person</string>
-
+    <!-- Content description for rating bar e.g. Rated 3 out of 5-->
+    <string name="hotel_rating_bar_cont_desc_TEMPLATE">Rated {rating} out of 5</string>
     <!--LX accessibility -->
     <!--LX search accessibility -->
     <string name="lx_location_edit_box_cont_desc">Activity Location</string>
