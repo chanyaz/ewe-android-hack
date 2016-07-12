@@ -13,6 +13,22 @@ import org.joda.time.LocalDate
 
 class FlightSearchTest: NewFlightTestCase() {
 
+    fun testAirportDoesNotAutoAdvanceSecondTime() {
+        SearchScreen.origin().perform(click())
+        SearchScreen.selectFlightOriginAndDestination()
+
+        val startDate = LocalDate.now().plusDays(3)
+        val endDate = LocalDate.now().plusDays(8)
+        SearchScreen.selectDates(startDate, endDate)
+        val expectedStartDate = DateUtils.localDateToMMMd(startDate)
+        val expectedEndDate = DateUtils.localDateToMMMd(endDate)
+        SearchScreen.selectDateButton().check(matches(withText("$expectedStartDate - $expectedEndDate")))
+
+        SearchScreen.origin().perform(click())
+        SearchScreen.selectFlightOrigin()
+        SearchScreen.origin().check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
+    }
+
     fun testReturnSearch() {
         SearchScreen.origin().perform(click())
         SearchScreen.selectFlightOriginAndDestination()

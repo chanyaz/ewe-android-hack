@@ -20,10 +20,12 @@ abstract class BaseTwoLocationSearchPresenter(context: Context, attrs: Attribute
         val suggestionSelectedObserver = suggestionSelectedObserver(getSearchViewModel().originLocationObserver)
         val delayBeforeShowingDestinationSuggestions = 325L
         val waitForOtherSuggestionListeners = 350L
+
         vm.suggestionSelectedSubject
                 .doOnNext(suggestionSelectedObserver)
                 .debounce(waitForOtherSuggestionListeners + delayBeforeShowingDestinationSuggestions, TimeUnit.MILLISECONDS)
                 .observeOn(AndroidSchedulers.mainThread())
+                .filter { destinationCardView.text.text.equals(getDestinationSearchBoxPlaceholderText()) }
                 .subscribe {
                     showSuggestionState(selectOrigin = false)
                 }
