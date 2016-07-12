@@ -725,6 +725,8 @@ DummyFiletoHandleKotlinLintError {
 		R.string.insurance_terms,
 		R.string.insurance_title_protected_TEMPLATE,
 		R.string.insurance_title_unprotected_TEMPLATE,
-		R.drawable.brand_tablet_checkout_login_logo_drawable
+		R.drawable.brand_tablet_checkout_login_logo_drawable,
+		R.string.flight_operated_by_carrier_name_and_code_TEMPLATE,
+		R.string.flight_operated_by_carrier_name_only_TEMPLATE
 	};
 }

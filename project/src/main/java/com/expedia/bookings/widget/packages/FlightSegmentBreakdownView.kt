@@ -7,6 +7,7 @@ import android.view.View
 import android.widget.LinearLayout
 import com.expedia.bookings.R
 import com.expedia.bookings.utils.PackageFlightUtils
+import com.expedia.bookings.utils.Strings
 import com.expedia.bookings.utils.bindView
 import com.expedia.util.notNullAndObservable
 import com.expedia.vm.FlightSegmentBreakdown
@@ -37,11 +38,14 @@ class FlightSegmentBreakdownView(context: Context, attrs: AttributeSet?) : Scrol
         val departureArrivalTime = row.findViewById(R.id.departure_arrival_time) as TextView
         val airlineAirplaneType = row.findViewById(R.id.airline_airplane_type) as TextView
         val departureArrivalAirports = row.findViewById(R.id.departure_arrival_airport) as TextView
+        val operatedBy = row.findViewById(R.id.operating_airline_name) as TextView
         val segmentDuration = row.findViewById(R.id.flight_duration) as TextView
         departureArrivalTime.text = PackageFlightUtils.getFlightDepartureArrivalTimeAndDays(context,
                 breakdown.segment.departureDateTimeISO, breakdown.segment.arrivalDateTimeISO, breakdown.segment.elapsedDays)
         airlineAirplaneType.text = PackageFlightUtils.getFlightAirlineAndAirplaneType(context, breakdown.segment)
         departureArrivalAirports.text = PackageFlightUtils.getFlightDepartureArrivalCityAirport(context, breakdown.segment)
+        val operatedByString = PackageFlightUtils.getOperatingAirlineNameString(context, breakdown.segment)
+        if (Strings.isEmpty(operatedByString)) operatedBy.visibility = View.GONE else operatedBy.text = operatedByString
         segmentDuration.text = PackageFlightUtils.getFlightSegmentDurationString(context, breakdown.segment)
         return row
     }
