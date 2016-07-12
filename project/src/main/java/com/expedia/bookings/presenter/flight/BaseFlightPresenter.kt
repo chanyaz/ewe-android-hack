@@ -21,14 +21,14 @@ import com.expedia.bookings.utils.ArrowXDrawableUtil
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.BaggageFeeInfoWidget
-import com.expedia.bookings.widget.PackageFlightFilterWidget
+import com.expedia.bookings.widget.BaseFlightFilterWidget
 import com.expedia.bookings.widget.flights.PaymentFeeInfoWebView
 import com.expedia.util.notNullAndObservable
 import com.expedia.vm.FlightOverviewViewModel
 import com.expedia.vm.FlightResultsViewModel
 import com.expedia.vm.FlightToolbarViewModel
 import com.expedia.vm.WebViewViewModel
-import com.expedia.vm.packages.FlightFilterViewModel
+import com.expedia.vm.BaseFlightFilterViewModel
 import rx.Observer
 import rx.exceptions.OnErrorNotImplementedException
 
@@ -60,14 +60,14 @@ abstract class BaseFlightPresenter(context: Context, attrs: AttributeSet?) : Pre
         paymentFeeInfoWidget
     }
 
-    val filter: PackageFlightFilterWidget by lazy {
+    val filter: BaseFlightFilterWidget by lazy {
         val viewStub = findViewById(R.id.filter_stub) as ViewStub
-        val filterView = viewStub.inflate() as PackageFlightFilterWidget
-        filterView.viewModel = FlightFilterViewModel(context)
+        val filterView = viewStub.inflate() as BaseFlightFilterWidget
+        filterView.viewModelBase = BaseFlightFilterViewModel(context)
         resultsPresenter.resultsViewModel.flightResultsObservable.subscribe {
-            filterView.viewModel.flightResultsObservable.onNext(it)
+            filterView.viewModelBase.flightResultsObservable.onNext(it)
         }
-        filterView.viewModel.filterObservable.subscribe {
+        filterView.viewModelBase.filterObservable.subscribe {
             resultsPresenter.listResultsObserver.onNext(it)
             super.back()
         }
@@ -199,7 +199,7 @@ abstract class BaseFlightPresenter(context: Context, attrs: AttributeSet?) : Pre
         }
     }
 
-    val listToFiltersTransition: Transition = object : Transition(FlightResultsListViewPresenter::class.java, PackageFlightFilterWidget::class.java, DecelerateInterpolator(2f), 500) {
+    val listToFiltersTransition: Transition = object : Transition(FlightResultsListViewPresenter::class.java, BaseFlightFilterWidget::class.java, DecelerateInterpolator(2f), 500) {
         override fun startTransition(forward: Boolean) {
             resultsPresenter.recyclerView.visibility = View.VISIBLE
             toolbar.visibility = View.VISIBLE
@@ -242,12 +242,12 @@ abstract class BaseFlightPresenter(context: Context, attrs: AttributeSet?) : Pre
     }
 
     override fun back(): Boolean {
-        if (PackageFlightFilterWidget::class.java.name == currentState) {
-            if (filter.viewModel.isFilteredToZeroResults()) {
+        if (BaseFlightFilterWidget::class.java.name == currentState) {
+            if (filter.viewModelBase.isFilteredToZeroResults()) {
                 filter.dynamicFeedbackWidget.animateDynamicFeedbackWidget()
                 return true
             } else {
-                filter.viewModel.doneObservable.onNext(Unit)
+                filter.viewModelBase.doneObservable.onNext(Unit)
             }
         }
         return super.back()

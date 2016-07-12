@@ -80,9 +80,9 @@ class PackageFlightPresenter(context: Context, attrs: AttributeSet) : BaseFlight
         filterBtn.setOnClickListener { show(filter) }
 
         menuFilter.actionView = toolbarFilterItemActionView
-        filter.viewModel.filterCountObservable.map { it.toString() }.subscribeText(filterCountText)
-        filter.viewModel.filterCountObservable.map { it > 0 }.subscribeVisibility(filterCountText)
-        filter.viewModel.filterCountObservable.map { it > 0 }.subscribeInverseVisibility(filterPlaceholderImageView)
+        filter.viewModelBase.filterCountObservable.map { it.toString() }.subscribeText(filterCountText)
+        filter.viewModelBase.filterCountObservable.map { it > 0 }.subscribeVisibility(filterCountText)
+        filter.viewModelBase.filterCountObservable.map { it > 0 }.subscribeInverseVisibility(filterPlaceholderImageView)
     }
 
     override fun addResultOverViewTransition() {
