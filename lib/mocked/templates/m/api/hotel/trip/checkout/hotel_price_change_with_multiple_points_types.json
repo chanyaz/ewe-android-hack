@@ -1,0 +1,432 @@
+{
+  "errors": [
+    {
+      "errorCode": "PRICE_CHANGE",
+      "errorInfo": {
+        "summary": "Detected price change, no fa/coupon applied."
+      },
+      "diagnosticId": 0
+    }
+  ],
+  "activityId": "bf81574c-f79b-4ada-ad55-3a05acaf9227",
+  "checkoutResponse": {
+    "jsonPriceChangeResponse": {
+      "oldProduct": {
+        "checkInDate": "2016-07-12",
+        "checkOutDate": "2016-07-13",
+        "adultCount": "1",
+        "numberOfNights": "1",
+        "numberOfRooms": "1",
+        "hotelId": "899896",
+        "hotelName": "Lamp Post Inn",
+        "localizedHotelName": "Lamp Post Inn",
+        "nonLocalizedHotelName": "Lamp Post Inn",
+        "largeThumbnailUrl": "/hotels/1000000/900000/899900/899896/899896_33_d.jpg",
+        "thumbnailUrl": "/hotels/1000000/900000/899900/899896/899896_33_n.jpg",
+        "hotelAddress": "2424 E Stadium Blvd",
+        "hotelCity": "Ann Arbor",
+        "hotelStateProvince": "MI",
+        "hotelCountry": "USA",
+        "hotelStarRating": "2.0",
+        "shortDescription": "Situated in the business district, this hotel is 1.1 mi (1.8 km) from Buhr Park and within 3 mi (5 km) of Cobblestone Farm and Michigan Stadium. University of Michigan Museum of Art and University of Michigan are also within 3 mi (5 km). ",
+        "hotelRoomResponse": {
+          "productKey": "c77fe967-9877-41fe-90d7-b1a05caaa8de_V3",
+          "cancellationPolicy": "<p>We understand that sometimes plans fall through. We do not charge a cancel or change fee. When the hotel charges such fees in accordance with its own policies, the cost will be passed on to you. Lamp Post Inn charges the following cancellation and change fees.</p><p>Your room will be guaranteed for late arrival.</p><p>Hotel supplier loyalty points and/or airline miles may not be awarded when booking Expedia Special Rate hotels.</p>",
+          "rateDescription": "Kitchenette with Two Queen Beds",
+          "roomTypeDescription": "Kitchenette with Two Queen Beds",
+          "supplierType": "MERCHANT",
+          "rateChange": false,
+          "nonRefundable": false,
+          "hasFreeCancellation": true,
+          "freeCancellationWindowDate": "2016-07-11 20:00",
+          "guaranteeRequired": false,
+          "depositRequired": false,
+          "immediateChargeRequired": true,
+          "currentAllotment": "0",
+          "promoDescription": "",
+          "promotionDetails": {
+            "promoId": "211276159",
+            "minStay": 1,
+            "promoExpirationDate": "2079-06-06T23:59:00-00:00",
+            "promoAdjustmentAmount": "0.00",
+            "promoAdjustmentType": "PercentAdjustment",
+            "isPromoPartiallyApplied": false
+          },
+          "isDiscountRestrictedToCurrentSourceType": false,
+          "isSameDayDRR": false,
+          "smokingPreferences": "NS",
+          "rateOccupancyPerRoom": "4",
+          "bedTypes": [
+            {
+              "id": "23",
+              "description": "2 queen beds"
+            }
+          ],
+          "rateInfo": {
+            "priceBreakdown": true,
+            "promo": true,
+            "rateChange": false,
+            "chargeableRateInfo": {
+              "maxNightlyRate": "84.46",
+              "averageRate": "84.46",
+              "taxStatusType": "ESTIMATED",
+              "surchargeTotal": "9.29",
+              "surchargeTotalForEntireStay": "9.29",
+              "averageBaseRate": "84.46",
+              "nightlyRateTotal": "84.46",
+              "discountPercent": 0,
+              "total": "93.75",
+              "currencyCode": "USD",
+              "currencySymbol": "$",
+              "surcharges": [
+                {
+                  "amount": "7.39",
+                  "type": "TAX_ALL"
+                },
+                {
+                  "amount": "7.39",
+                  "type": "TAX_OTHER"
+                },
+                {
+                  "amount": "1.90",
+                  "type": "FEE_ALL"
+                },
+                {
+                  "amount": "1.90",
+                  "type": "FEE_MISC"
+                }
+              ],
+              "surchargesForEntireStay": [
+                {
+                  "amount": "7.39",
+                  "type": "TAX_ALL"
+                },
+                {
+                  "amount": "7.39",
+                  "type": "TAX_OTHER"
+                },
+                {
+                  "amount": "1.90",
+                  "type": "FEE_ALL"
+                },
+                {
+                  "amount": "1.90",
+                  "type": "FEE_MISC"
+                }
+              ],
+              "nightlyRatesPerRoom": [
+                {
+                  "promo": "false",
+                  "baseRate": "84.46",
+                  "rate": "84.46"
+                }
+              ],
+              "priceToShowUsers": "84",
+              "strikethroughPriceToShowUsers": "84",
+              "strikethroughPriceWithTaxesAndFeesToShowUsers": "94",
+              "totalMandatoryFees": "0.00",
+              "totalPriceWithMandatoryFees": "93.75",
+              "formattedTotalPriceWithMandatoryFees": "$ 93.75",
+              "userPriceType": "PerNightRateNoTaxes",
+              "priceAdjustments": [],
+              "checkoutPriceType": "total",
+              "airAttached": false,
+              "roomTypeCode": "201205358",
+              "ratePlanCode": "205713356",
+              "showResortFeeMessage": false,
+              "resortFeeInclusion": false
+            }
+          },
+          "valueAdds": [
+            {
+              "id": "2",
+              "description": "Continental Breakfast"
+            },
+            {
+              "id": "2048",
+              "description": "Free Wireless Internet"
+            }
+          ],
+          "quotedOccupancy": "4",
+          "minGuestAge": "0",
+          "roomTypeCode": "201205358",
+          "ratePlanCode": "205713356",
+          "isPayLater": false
+        },
+        "supplierType": "MERCHANT",
+        "accessibilityAmenities": [],
+        "isVipAccess": false,
+        "tealeafTransactionId": "aa724d17af1c4a959befe19882c5c007",
+        "bigImageUrl": "/hotels/1000000/900000/899900/899896/899896_33_b.jpg",
+        "regionId": "6059242"
+      },
+      "newProduct": {
+        "checkInDate": "2016-07-12",
+        "checkOutDate": "2016-07-13",
+        "checkInTime": "3:00PM",
+        "checkOutTime": "11:00AM",
+        "adultCount": "1",
+        "numberOfNights": "1",
+        "numberOfRooms": "1",
+        "hotelId": "899896",
+        "hotelName": "Lamp Post Inn",
+        "localizedHotelName": "Lamp Post Inn",
+        "nonLocalizedHotelName": "Lamp Post Inn",
+        "largeThumbnailUrl": "/hotels/1000000/900000/899900/899896/899896_33_d.jpg",
+        "thumbnailUrl": "/hotels/1000000/900000/899900/899896/899896_33_n.jpg",
+        "hotelAddress": "2424 E Stadium Blvd",
+        "hotelCity": "Ann Arbor",
+        "hotelStateProvince": "MI",
+        "hotelCountry": "USA",
+        "hotelStarRating": "2.0",
+        "shortDescription": "Situated in the business district, this hotel is 1.1 mi (1.8 km) from Buhr Park and within 3 mi (5 km) of Cobblestone Farm and Michigan Stadium. University of Michigan Museum of Art and University of Michigan are also within 3 mi (5 km). ",
+        "hotelRoomResponse": {
+          "productKey": "c77fe967-9877-41fe-90d7-b1a05caaa8de_V3",
+          "cancellationPolicy": "<p>We understand that sometimes plans fall through. We do not charge a cancel or change fee. When the hotel charges such fees in accordance with its own policies, the cost will be passed on to you. Lamp Post Inn charges the following cancellation and change fees.</p><p>Your room will be guaranteed for late arrival.</p><p>Hotel supplier loyalty points and/or airline miles may not be awarded when booking Expedia Special Rate hotels.</p>",
+          "rateDescription": "Kitchenette with Two Queen Beds",
+          "roomTypeDescription": "Kitchenette with Two Queen Beds",
+          "supplierType": "MERCHANT",
+          "rateChange": false,
+          "nonRefundable": false,
+          "hasFreeCancellation": true,
+          "freeCancellationWindowDate": "2016-07-11 20:00",
+          "guaranteeRequired": false,
+          "depositRequired": false,
+          "immediateChargeRequired": true,
+          "currentAllotment": "0",
+          "promoDescription": "",
+          "promotionDetails": {
+            "promoId": "211276159",
+            "minStay": 1,
+            "promoExpirationDate": "2079-06-06T23:59:00-00:00",
+            "promoAdjustmentAmount": "0.00",
+            "promoAdjustmentType": "PercentAdjustment",
+            "isPromoPartiallyApplied": false
+          },
+          "isDiscountRestrictedToCurrentSourceType": false,
+          "isSameDayDRR": false,
+          "smokingPreferences": "NS",
+          "rateOccupancyPerRoom": "4",
+          "bedTypes": [
+            {
+              "id": "23",
+              "description": "2 queen beds"
+            }
+          ],
+          "rateInfo": {
+            "priceBreakdown": true,
+            "promo": true,
+            "rateChange": false,
+            "chargeableRateInfo": {
+              "maxNightlyRate": "88.46",
+              "averageRate": "88.46",
+              "taxStatusType": "ESTIMATED",
+              "surchargeTotal": "9.73",
+              "surchargeTotalForEntireStay": "9.73",
+              "averageBaseRate": "88.46",
+              "nightlyRateTotal": "88.46",
+              "discountPercent": 0,
+              "total": "98.19",
+              "currencyCode": "USD",
+              "currencySymbol": "$",
+              "surcharges": [
+                {
+                  "amount": "7.70",
+                  "type": "TAX_ALL"
+                },
+                {
+                  "amount": "7.70",
+                  "type": "TAX_OTHER"
+                },
+                {
+                  "amount": "2.03",
+                  "type": "FEE_ALL"
+                },
+                {
+                  "amount": "2.03",
+                  "type": "FEE_MISC"
+                }
+              ],
+              "surchargesForEntireStay": [
+                {
+                  "amount": "7.70",
+                  "type": "TAX_ALL"
+                },
+                {
+                  "amount": "7.70",
+                  "type": "TAX_OTHER"
+                },
+                {
+                  "amount": "2.03",
+                  "type": "FEE_ALL"
+                },
+                {
+                  "amount": "2.03",
+                  "type": "FEE_MISC"
+                }
+              ],
+              "nightlyRatesPerRoom": [
+                {
+                  "promo": "false",
+                  "baseRate": "88.46",
+                  "rate": "88.46"
+                }
+              ],
+              "priceToShowUsers": "88",
+              "strikethroughPriceToShowUsers": "88",
+              "strikethroughPriceWithTaxesAndFeesToShowUsers": "98",
+              "totalMandatoryFees": "0.00",
+              "totalPriceWithMandatoryFees": "98.19",
+              "formattedTotalPriceWithMandatoryFees": "$ 98.19",
+              "userPriceType": "PerNightRateNoTaxes",
+              "priceAdjustments": [],
+              "checkoutPriceType": "total",
+              "airAttached": false,
+              "roomTypeCode": "201205358",
+              "ratePlanCode": "205713356",
+              "showResortFeeMessage": false,
+              "resortFeeInclusion": false
+            }
+          },
+          "valueAdds": [
+            {
+              "id": "2",
+              "description": "Continental Breakfast"
+            },
+            {
+              "id": "2048",
+              "description": "Free Wireless Internet"
+            }
+          ],
+          "quotedOccupancy": "4",
+          "minGuestAge": "0",
+          "roomTypeCode": "201205358",
+          "ratePlanCode": "205713356",
+          "isPayLater": false
+        },
+        "supplierType": "MERCHANT",
+        "accessibilityAmenities": [],
+        "isVipAccess": false,
+        "tealeafTransactionId": "e8915e229b5c4be09b809f5e3b5e1593",
+        "bigImageUrl": "/hotels/1000000/900000/899900/899896/899896_33_b.jpg",
+        "regionId": "6059242"
+      }
+    }
+  },
+  "debugTealeafInfo": "<!--tlTransactionSessionID:f2a35688fb42474fac792af391959033--><!--tlCheckoutTransactionSuccess:false-->",
+  "pointsDetails": [
+    {
+      "programName": "ExpediaRewards",
+      "rateID": "9c4c1eea-4597-4f12-85c8-f32b263dab31",
+      "totalAvailable": {
+        "points": 33338,
+        "pointsType": "AVAILABLE",
+        "amount": {
+          "amount": "238.13",
+          "formattedPrice": "$238.13",
+          "formattedWholePrice": "$238",
+          "currencyCode": "USD"
+        }
+      },
+      "maxPayableWithPoints": {
+        "points": 13746,
+        "pointsType": "BURN",
+        "amount": {
+          "amount": "98.19",
+          "formattedPrice": "$98.19",
+          "formattedWholePrice": "$98",
+          "currencyCode": "USD"
+        }
+      },
+      "remainingPayableByCard": {
+        "pointsType": "EARN",
+        "amount": {
+          "amount": "0.00",
+          "formattedPrice": "$0.00",
+          "formattedWholePrice": "$0",
+          "currencyCode": "USD"
+        }
+      },
+      "tripTotalPayable": {
+        "amount": "0.00",
+        "formattedPrice": "$0.00",
+        "formattedWholePrice": "$0",
+        "currencyCode": "USD"
+      },
+      "isAllowedToRedeem": true
+    },
+    {
+      "programName": "CitiThankYouPoints",
+      "rateID": "b6b8a50c-e9b9-4500-8bf1-d7797633821d",
+      "totalAvailable": {
+        "points": 1037914,
+        "pointsType": "AVAILABLE",
+        "amount": {
+          "amount": "8303.32",
+          "formattedPrice": "$8,303.32",
+          "formattedWholePrice": "$8,303",
+          "currencyCode": "USD"
+        }
+      },
+      "maxPayableWithPoints": {
+        "points": 12273.0,
+        "pointsType": "BURN",
+        "amount": {
+          "amount": "98.19",
+          "formattedPrice": "$98.19",
+          "formattedWholePrice": "$98",
+          "currencyCode": "USD"
+        }
+      },
+      "remainingPayableByCard": {
+        "pointsType": "EARN",
+        "amount": {
+          "amount": "0.00",
+          "formattedPrice": "$0.00",
+          "formattedWholePrice": "$0",
+          "currencyCode": "USD"
+        }
+      },
+      "tripTotalPayable": {
+        "amount": "0.00",
+        "formattedPrice": "$0.00",
+        "formattedWholePrice": "$0",
+        "currencyCode": "USD"
+      },
+      "isAllowedToRedeem": true
+    }
+  ],
+  "userPreferencePoints": {
+    "amountOnPointsCard": [
+      {
+        "programName": "ExpediaRewards",
+        "payableByPoints": {
+          "points": 6999.0,
+          "pointsType": "BURN",
+          "amount": {
+            "amount": "50.00",
+            "formattedPrice": "$50.00",
+            "formattedWholePrice": "$50",
+            "currencyCode": "USD"
+          }
+        }
+      }
+    ],
+    "remainingPayableByCard": {
+      "points": 317.00,
+      "pointsType": "EARN",
+      "amount": {
+        "amount": "48.19",
+        "formattedPrice": "$48.19",
+        "formattedWholePrice": "$48",
+        "currencyCode": "USD"
+      }
+    },
+    "tripTotalPayable": {
+      "amount": "48.19",
+      "formattedPrice": "$48.19",
+      "formattedWholePrice": "$48",
+      "currencyCode": "USD"
+    }
+  }
+}

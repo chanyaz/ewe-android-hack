@@ -133,8 +133,11 @@ class HotelServices(endpoint: String, okHttpClient: OkHttpClient, interceptor: I
 		return hotelApi.createTrip(body.toQueryMap())
 				.observeOn(observeOn)
 				.subscribeOn(subscribeOn)
-				.doOnNext { it.isRewardsEnabledForCurrentPOS = isRewardsEnabledForCurrentPOS }
-				.doOnNext { updatePayLaterRateInfo(it) }
+				.doOnNext {
+					it.isRewardsEnabledForCurrentPOS = isRewardsEnabledForCurrentPOS
+					updatePayLaterRateInfo(it)
+					removeUnknownRewardsTypes(it)
+				}
 				.subscribe(observer)
 	}
 
@@ -142,22 +145,29 @@ class HotelServices(endpoint: String, okHttpClient: OkHttpClient, interceptor: I
 		return hotelApi.applyCoupon(body.toQueryMap())
 				.observeOn(observeOn)
 				.subscribeOn(subscribeOn)
-				.doOnNext { it.isRewardsEnabledForCurrentPOS = isRewardsEnabledForCurrentPOS }
-				.doOnNext { updatePayLaterRateInfo(it) }
+				.doOnNext {
+					it.isRewardsEnabledForCurrentPOS = isRewardsEnabledForCurrentPOS
+					updatePayLaterRateInfo(it)
+					removeUnknownRewardsTypes(it)
+				}
 	}
 
 	fun removeCoupon(tripId: String, isRewardsEnabledForCurrentPOS: Boolean): Observable<HotelCreateTripResponse> {
 		return hotelApi.removeCoupon(tripId)
 				.observeOn(observeOn)
 				.subscribeOn(subscribeOn)
-				.doOnNext { it.isRewardsEnabledForCurrentPOS = isRewardsEnabledForCurrentPOS }
-				.doOnNext { updatePayLaterRateInfo(it) }
+				.doOnNext {
+					it.isRewardsEnabledForCurrentPOS = isRewardsEnabledForCurrentPOS
+					updatePayLaterRateInfo(it)
+					removeUnknownRewardsTypes(it)
+				}
 	}
 
 	fun checkout(params: HotelCheckoutV2Params, observer: Observer<HotelCheckoutResponse>): Subscription {
 		return hotelApi.checkout(params)
 				.observeOn(observeOn)
 				.subscribeOn(subscribeOn)
+				.doOnNext { removeUnknownRewardsTypes(it) }
 				.subscribe(observer)
 	}
 
@@ -189,6 +199,16 @@ class HotelServices(endpoint: String, okHttpClient: OkHttpClient, interceptor: I
 				payLater.rateInfo.chargeableRateInfo.depositAmount = "0";
 				payLater.rateInfo.chargeableRateInfo.depositAmountToShowUsers = "0";
 			}
+		}
+
+		private fun removeUnknownRewardsTypes(hotelCreateTripResponse: HotelCreateTripResponse) {
+			// any unknown rewards program type will have a null programName; filter those out
+			hotelCreateTripResponse.pointsDetails = hotelCreateTripResponse.pointsDetails?.filter { it.programName != null }
+		}
+
+		private fun removeUnknownRewardsTypes(hotelCheckoutResponse: HotelCheckoutResponse) {
+			// any unknown rewards program type will have a null programName; filter those out
+			hotelCheckoutResponse.pointsDetails = hotelCheckoutResponse.pointsDetails?.filter { it.programName != null }
 		}
 	}
 }
