@@ -1120,14 +1120,14 @@
     <style name="ETPInfoTextLeft" parent="HotelDetailsInfo">
         <item name="android:gravity">left</item>
         <item name="android:paddingRight">15dp</item>
-        <item name="android:background">@drawable/hotel_detail_ripple</item>
+        <item name="android:background">@drawable/gray_background_ripple</item>
         <item name="android:drawableRight">@drawable/details_info</item>
     </style>
 
     <style name="ETPInfoTextSmallCenter" parent="HotelDetailsInfoSmallCenter">
         <item name="android:paddingLeft">15dp</item>
         <item name="android:paddingRight">15dp</item>
-        <item name="android:background">@drawable/hotel_detail_ripple</item>
+        <item name="android:background">@drawable/gray_background_ripple</item>
         <item name="android:drawableRight">@drawable/smaller_details_info</item>
     </style>
 

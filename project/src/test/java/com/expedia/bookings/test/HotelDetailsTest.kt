@@ -72,7 +72,7 @@ class HotelDetailsTest {
     @Test
     fun testReviewContainerDrawable() {
         vm.hotelOffersSubject.onNext(offers)
-        Assert.assertEquals(ContextCompat.getDrawable(activity, R.drawable.hotel_detail_ripple), hotelDetailView.ratingContainer.background)
+        Assert.assertEquals(ContextCompat.getDrawable(activity, R.drawable.gray_background_ripple), hotelDetailView.ratingContainer.background)
         offers.hotelGuestRating = 0.0
         vm.hotelOffersSubject.onNext(offers)
         Assert.assertEquals(ContextCompat.getDrawable(activity, R.color.gray1), hotelDetailView.ratingContainer.background)

@@ -205,7 +205,7 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet) : Pre
             }
         }
 
-        handle.setOnTouchListener(HandleTouchListner())
+        handle.setOnTouchListener(HandleTouchListener())
 
         createTripDialog.setCancelable(false)
         createTripDialog.isIndeterminate = true
@@ -425,7 +425,7 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet) : Pre
         checkoutButton.isEnabled = isEnabled
     }
 
-    inner class HandleTouchListner() : View.OnTouchListener {
+    inner class HandleTouchListener() : View.OnTouchListener {
         internal var originY: Float = 0.toFloat()
         var isClicked = false
         override fun onTouch(v: View, event: MotionEvent): Boolean {

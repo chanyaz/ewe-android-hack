@@ -461,7 +461,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/etp_and_free_cancellation_divider"
-                    android:background="@drawable/hotel_detail_ripple"
+                    android:background="@drawable/gray_background_ripple"
                     android:paddingBottom="8dp"
                     android:paddingLeft="18dp"
                     android:paddingRight="18dp"
