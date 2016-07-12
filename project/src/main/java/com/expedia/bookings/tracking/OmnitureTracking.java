@@ -64,7 +64,7 @@ import com.expedia.bookings.data.User;
 import com.expedia.bookings.data.abacus.AbacusLogQuery;
 import com.expedia.bookings.data.abacus.AbacusTest;
 import com.expedia.bookings.data.abacus.AbacusUtils;
-import com.expedia.bookings.data.cars.ApiError;
+import com.expedia.bookings.data.ApiError;
 import com.expedia.bookings.data.cars.CarCheckoutResponse;
 import com.expedia.bookings.data.cars.CarSearchParams;
 import com.expedia.bookings.data.cars.CarTrackingData;

@@ -9,7 +9,7 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 
-import com.expedia.bookings.data.cars.ApiError;
+import com.expedia.bookings.data.ApiError;
 import com.expedia.bookings.data.payment.CalculatePointsParams;
 import com.expedia.bookings.data.payment.CalculatePointsResponse;
 import com.expedia.bookings.data.payment.ProgramName;

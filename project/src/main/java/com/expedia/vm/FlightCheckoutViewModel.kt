@@ -8,7 +8,7 @@ import com.expedia.bookings.R
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.PaymentType
 import com.expedia.bookings.data.User
-import com.expedia.bookings.data.cars.ApiError
+import com.expedia.bookings.data.ApiError
 import com.expedia.bookings.data.flights.FlightCheckoutParams
 import com.expedia.bookings.data.flights.FlightCheckoutResponse
 import com.expedia.bookings.data.flights.FlightCreateTripResponse

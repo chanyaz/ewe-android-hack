@@ -17,7 +17,7 @@ import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.trips.TripBucketItemLX;
 import com.expedia.bookings.data.trips.TripBucketItemTransport;
 import com.expedia.bookings.data.User;
-import com.expedia.bookings.data.cars.ApiError;
+import com.expedia.bookings.data.ApiError;
 import com.expedia.bookings.data.lx.LXBookableItem;
 import com.expedia.bookings.data.lx.LXCheckoutParams;
 import com.expedia.bookings.data.lx.LXCreateTripResponse;

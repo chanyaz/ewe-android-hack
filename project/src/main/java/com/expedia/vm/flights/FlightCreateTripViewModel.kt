@@ -20,6 +20,7 @@ class FlightCreateTripViewModel(val flightServices: FlightServices, val selected
 
     init {
         Observable.combineLatest(tripParams, performCreateTrip, { params, createTrip ->
+            showCreateTripDialogObservable.onNext(true)
             flightServices.createTrip(params).subscribe(makeCreateTripResponseObserver())
         }).subscribe()
 
@@ -45,8 +46,10 @@ class FlightCreateTripViewModel(val flightServices: FlightServices, val selected
     private fun makeCreateTripResponseObserver(): Observer<FlightCreateTripResponse> {
         return object : Observer<FlightCreateTripResponse> {
             override fun onNext(response: FlightCreateTripResponse) {
+                showCreateTripDialogObservable.onNext(false)
                 if (response.hasErrors() && !response.hasPriceChange()) {
-                    //TODO handle errors (unhappy path story)
+                    val error = response.firstError
+                    createTripErrorObservable.onNext(error)
                 }
                 else {
                     val hasPriceChange = response.details.oldOffer != null

@@ -725,6 +725,19 @@ DummyFiletoHandleKotlinLintError {
 		R.string.accessibility_cont_desc_role_checkbox_unchecked,
 		R.string.select_flight_selected_cont_desc_TEMPLATE,
 		R.string.flights_fee_added_based_on_payment_TEMPLATE,
+		R.string.flight_operated_by_carrier_name_and_code_TEMPLATE,
+		R.string.flight_operated_by_carrier_name_only_TEMPLATE,
+		R.string.flights_select_new_flight,
+		R.string.flight_sold_out_warning,
+		R.string.flight_sold_out_toolbar_title,
+		R.string.flight_unavailable_toolbar_title,
+		R.string.flight_unavailable_warning,
+		R.string.flight_session_expired_warning,
+		R.string.flight_session_expired_toolbar_title,
+		R.string.flight_new_search,
+		R.string.flight_generic_error_title,
+		R.string.flight_error_try_again_warning,
+		R.string.flight_error_retry,
 		R.layout.insurance_benefits_dialog_body,
 		R.layout.insurance_widget,
 		R.string.insurance_adding,
@@ -750,6 +763,7 @@ DummyFiletoHandleKotlinLintError {
 		R.string.fare_rules,
 		R.string.no_amenities,
 		R.string.rail_station_info_TEMPLATE,
-		R.string.rail_fare_info_TEMPLATE
+		R.string.rail_fare_info_TEMPLATE,
+		R.drawable.brand_tablet_checkout_login_logo_drawable
 	};
 }

@@ -2,41 +2,41 @@ package com.expedia.bookings.test
 
 import android.content.Context
 import com.expedia.bookings.R
+import com.expedia.bookings.data.ApiError
 import com.expedia.bookings.data.SuggestionV4
-import com.expedia.bookings.data.cars.ApiError
 import com.expedia.bookings.data.flights.FlightSearchParams
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.utils.DateFormatUtils
-import com.expedia.vm.packages.FlightErrorViewModel
+import com.expedia.vm.flights.FlightErrorViewModel
 import org.joda.time.LocalDate
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RuntimeEnvironment
 import rx.observers.TestSubscriber
+import java.util.concurrent.TimeUnit
 import kotlin.test.assertEquals
 
 @RunWith(RobolectricRunner::class)
 class FlightErrorViewModelTest {
+
     private fun getContext(): Context {
         return RuntimeEnvironment.application
     }
 
     @Test fun observableEmissionsOnSearchApiError() {
-        observableEmissionsOnSearchError(ApiError.Code.FLIGHT_SEARCH_NO_RESULTS)
+        observableEmissionsOnSearchError(ApiError(ApiError.Code.FLIGHT_SEARCH_NO_RESULTS))
     }
 
-    fun observableEmissionsOnSearchError(apiError: ApiError.Code) {
+    fun observableEmissionsOnSearchError(apiError: ApiError) {
         val subjectUnderTest = FlightErrorViewModel(RuntimeEnvironment.application)
-
-        val searchApiObservableTestSubscriber = TestSubscriber.create<ApiError.Code>()
-        subjectUnderTest.searchApiErrorObserver.subscribe(searchApiObservableTestSubscriber)
 
         val errorMessageObservableTestSubscriber = TestSubscriber.create<String>()
         subjectUnderTest.errorMessageObservable.subscribe(errorMessageObservableTestSubscriber)
 
         subjectUnderTest.searchApiErrorObserver.onNext(apiError)
+        errorMessageObservableTestSubscriber.awaitTerminalEvent(100, TimeUnit.MILLISECONDS)
 
-        errorMessageObservableTestSubscriber.assertValues(getContext().getString(R.string.error_no_result_message))
+        errorMessageObservableTestSubscriber.assertValue(getContext().getString(R.string.error_no_result_message))
     }
 
     @Test fun toolBarTitleAndSubTitle() {

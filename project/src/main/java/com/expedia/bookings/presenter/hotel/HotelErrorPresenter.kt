@@ -8,7 +8,9 @@ import com.expedia.bookings.presenter.BaseErrorPresenter
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.HotelDetailsToolbar
 import com.expedia.util.notNullAndObservable
+import com.expedia.util.subscribeOnClick
 import com.expedia.util.subscribeText
+import com.expedia.vm.AbstractErrorViewModel
 import com.expedia.vm.hotel.HotelDetailViewModel
 import com.expedia.vm.HotelErrorViewModel
 
@@ -19,14 +21,17 @@ class HotelErrorPresenter(context: Context, attr: AttributeSet?) : BaseErrorPres
     var hotelDetailViewModel: HotelDetailViewModel by notNullAndObservable { vm ->
         hotelDetailsToolbar.setHotelDetailViewModel(vm)
     }
-    var viewmodel: HotelErrorViewModel by notNullAndObservable { vm ->
-        vm.imageObservable.subscribe { errorImage.setImageResource(it) }
-        vm.buttonTextObservable.subscribeText(errorButton)
-        vm.errorMessageObservable.subscribeText(errorText)
-        vm.titleObservable.subscribe { standardToolbar.title = it }
-        vm.subTitleObservable.subscribe { standardToolbar.subtitle = it }
-        errorButton.setOnClickListener { vm.actionObservable.onNext(Unit) }
 
+    init {
+        hotelDetailsToolbar.toolbar.setNavigationOnClickListener {
+            viewmodel.defaultErrorObservable.onNext(Unit)
+        }
+        hotelDetailsToolbar.hideGradient()
+    }
+
+    override fun setupViewModel(vm: AbstractErrorViewModel) {
+        super.setupViewModel(vm)
+        vm as HotelErrorViewModel
         vm.hotelSoldOutErrorObservable.subscribe { isSoldOut ->
             // show appropriate toolbar
             standardToolbarContainer.visibility = if (isSoldOut) View.GONE else View.VISIBLE
@@ -34,19 +39,7 @@ class HotelErrorPresenter(context: Context, attr: AttributeSet?) : BaseErrorPres
         }
     }
 
-    init {
-        standardToolbar.setNavigationOnClickListener {
-            viewmodel.actionObservable.onNext(Unit)
-        }
-        hotelDetailsToolbar.toolbar.setNavigationOnClickListener {
-            viewmodel.actionObservable.onNext(Unit)
-        }
-        hotelDetailsToolbar.hideGradient()
+    override fun getViewModel(): HotelErrorViewModel {
+        return viewmodel as HotelErrorViewModel
     }
-
-    override fun back(): Boolean {
-        viewmodel.actionObservable.onNext(Unit)
-        return true
-    }
-
 }

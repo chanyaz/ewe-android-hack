@@ -1,60 +1,24 @@
-package com.expedia.vm.packages
+package com.expedia.vm.flights
 
 import android.content.Context
-import com.expedia.bookings.BuildConfig
 import com.expedia.bookings.R
-import com.expedia.bookings.data.cars.ApiError
+import com.expedia.bookings.data.ApiError
 import com.expedia.bookings.data.flights.FlightSearchParams
 import com.expedia.bookings.utils.DateFormatUtils
 import com.expedia.bookings.utils.StrUtils
+import com.expedia.util.endlessObserver
+import com.expedia.vm.AbstractErrorViewModel
 import com.squareup.phrase.Phrase
-import rx.subjects.BehaviorSubject
+import rx.Observer
 import rx.subjects.PublishSubject
-import kotlin.properties.Delegates
 
-class FlightErrorViewModel(private val context: Context) {
-    var error: ApiError by Delegates.notNull()
+class FlightErrorViewModel(context: Context): AbstractErrorViewModel(context) {
 
-    // Inputs
-    val searchApiErrorObserver = PublishSubject.create<ApiError.Code>()
-    val paramsSubject = PublishSubject.create<FlightSearchParams>()
-    val errorDismissedObservable = BehaviorSubject.create<Unit>()
-
-
-    // Outputs
-    val imageObservable = BehaviorSubject.create<Int>()
-    val buttonTextObservable = BehaviorSubject.create<String>()
-    val errorMessageObservable = BehaviorSubject.create<String>()
-    val titleObservable = BehaviorSubject.create<String>()
-    val subTitleObservable = BehaviorSubject.create<String>()
-
-    //handle different errors
-    val defaultErrorObservable = BehaviorSubject.create<Unit>()
+    val retryCreateTrip = PublishSubject.create<Unit>()
+    val showOutboundResults = PublishSubject.create<Unit>()
+    val paramsSubject = PublishSubject.create<com.expedia.bookings.data.flights.FlightSearchParams>()
 
     init {
-        errorDismissedObservable.subscribe {
-            when (error.errorCode) {
-            // TODO checkout error will come here and we open the
-                else -> {
-                    defaultErrorObservable.onNext(Unit)
-                }
-            }
-        }
-
-        searchApiErrorObserver.subscribe {
-            error = ApiError(ApiError.Code.FLIGHT_SEARCH_ERROR)
-            when (it) {
-                ApiError.Code.FLIGHT_SEARCH_NO_RESULTS -> {
-                    imageObservable.onNext(R.drawable.error_search)
-                    errorMessageObservable.onNext(context.getString(R.string.error_no_result_message))
-                    buttonTextObservable.onNext(context.getString(R.string.edit_search))
-                }
-                else -> {
-                    makeDefaultError()
-                }
-            }
-        }
-
         paramsSubject.subscribe { params ->
             val errorTitle: String = StrUtils.formatCityName(context.resources.getString(R.string.select_flight_to, params.arrivalAirport?.regionNames?.shortName))
             titleObservable.onNext(errorTitle)
@@ -62,14 +26,77 @@ class FlightErrorViewModel(private val context: Context) {
         }
     }
 
-    private fun makeDefaultError() {
-        imageObservable.onNext(R.drawable.error_default)
-        val message = Phrase.from(context, R.string.error_server_TEMPLATE)
-                .put("brand", BuildConfig.brand)
-                .format()
-                .toString()
-        errorMessageObservable.onNext(message)
-        buttonTextObservable.onNext(context.getString(R.string.retry))
+    override fun searchErrorHandler(): Observer<ApiError> {
+        return endlessObserver {
+            when (it.errorCode) {
+                ApiError.Code.FLIGHT_SEARCH_NO_RESULTS -> {
+                    imageObservable.onNext(R.drawable.error_search)
+                    errorMessageObservable.onNext(context.getString(R.string.error_no_result_message))
+                    buttonOneTextObservable.onNext(context.getString(R.string.edit_search))
+                }
+                else -> {
+                    makeDefaultError()
+                }
+            }
+        }
+    }
+
+    override fun createTripErrorHandler(): Observer<ApiError> {
+        val selectNewFlightButtonLabel = context.resources.getString(R.string.flights_select_new_flight)
+
+        fun retryCreateTripErrorHandler() {
+            imageObservable.onNext(R.drawable.error_default)
+            errorMessageObservable.onNext(context.resources.getString(R.string.flight_error_try_again_warning))
+            buttonOneTextObservable.onNext(context.resources.getString(R.string.flight_error_retry))
+            titleObservable.onNext(context.resources.getString(R.string.flight_generic_error_title))
+            subTitleObservable.onNext("")
+            buttonOneClickedObservable.subscribe {
+                retryCreateTrip.onNext(Unit)
+            }
+        }
+
+        return endlessObserver {
+            when (it.errorCode) {
+                ApiError.Code.UNKNOWN_ERROR -> {
+                    retryCreateTripErrorHandler()
+                }
+
+                ApiError.Code.SESSION_TIMEOUT -> {
+                    imageObservable.onNext(R.drawable.error_timeout)
+                    errorMessageObservable.onNext(context.resources.getString(R.string.flight_session_expired_warning))
+                    buttonOneTextObservable.onNext(context.getString(R.string.flight_new_search))
+                    titleObservable.onNext(context.resources.getString(R.string.flight_session_expired_toolbar_title))
+                    subTitleObservable.onNext("")
+                    buttonOneClickedObservable.subscribe(defaultErrorObservable)
+                }
+
+                ApiError.Code.FLIGHT_PRODUCT_NOT_FOUND -> {
+                    imageObservable.onNext(R.drawable.error_default)
+                    errorMessageObservable.onNext(context.resources.getString(R.string.flight_unavailable_warning))
+                    buttonOneTextObservable.onNext(selectNewFlightButtonLabel)
+                    titleObservable.onNext(context.resources.getString(R.string.flight_unavailable_toolbar_title))
+                    subTitleObservable.onNext("")
+                    buttonOneClickedObservable.subscribe(showOutboundResults)
+                }
+
+                ApiError.Code.FLIGHT_SOLD_OUT -> {
+                    imageObservable.onNext(R.drawable.error_default)
+                    errorMessageObservable.onNext(context.resources.getString(R.string.flight_sold_out_warning))
+                    buttonOneTextObservable.onNext(selectNewFlightButtonLabel)
+                    titleObservable.onNext(context.resources.getString(R.string.flight_sold_out_toolbar_title))
+                    subTitleObservable.onNext("")
+                    buttonOneClickedObservable.subscribe(showOutboundResults)
+                }
+
+                else -> {
+                    retryCreateTripErrorHandler()
+                }
+            }
+        }
+    }
+
+    override fun checkoutApiErrorHandler(): Observer<ApiError> {
+        return createTripErrorHandler()
     }
 
     private fun getToolbarSubtitle(params: FlightSearchParams): String {

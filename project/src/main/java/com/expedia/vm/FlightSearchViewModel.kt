@@ -2,9 +2,9 @@ package com.expedia.vm
 
 import android.content.Context
 import com.expedia.bookings.R
+import com.expedia.bookings.data.ApiError
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.TravelerParams
-import com.expedia.bookings.data.cars.ApiError
 import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.data.flights.FlightSearchParams
 import com.expedia.bookings.data.flights.FlightSearchResponse
@@ -36,7 +36,7 @@ class FlightSearchViewModel(context: Context, val flightServices: FlightServices
 
     var flightMap: HashMap<String, LinkedHashSet<FlightLeg>> = HashMap()
     var flightOfferModels: HashMap<String, FlightTripDetails.FlightOffer> = HashMap()
-    val errorObservable = PublishSubject.create<ApiError.Code>()
+    val errorObservable = PublishSubject.create<ApiError>()
 
 
     // Outputs
@@ -243,9 +243,9 @@ class FlightSearchViewModel(context: Context, val flightServices: FlightServices
         return object : Observer<FlightSearchResponse> {
             override fun onNext(response: FlightSearchResponse) {
                 if (response.hasErrors()) {
-                    errorObservable.onNext(response.firstError.errorCode)
+                    errorObservable.onNext(response.firstError)
                 } else if (response.offers.isEmpty() || response.legs.isEmpty()) {
-                    errorObservable.onNext(ApiError.Code.FLIGHT_SEARCH_NO_RESULTS)
+                    errorObservable.onNext(ApiError(ApiError.Code.FLIGHT_SEARCH_NO_RESULTS))
                 } else {
                     createFlightMap(response)
                     obFeeDetailsUrlObservable.onNext(if (airlinesChargePaymentFees) PointOfSale.getPointOfSale().airlineFeeBasedOnPaymentMethodTermsAndConditionsURL else response.obFeesDetails)

@@ -3,7 +3,7 @@ package com.expedia.vm.packages
 import android.content.Context
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Db
-import com.expedia.bookings.data.cars.ApiError
+import com.expedia.bookings.data.ApiError
 import com.expedia.bookings.data.packages.PackageCreateTripParams
 import com.expedia.bookings.data.packages.PackageCreateTripResponse
 import com.expedia.bookings.data.trips.TripBucketItemPackages

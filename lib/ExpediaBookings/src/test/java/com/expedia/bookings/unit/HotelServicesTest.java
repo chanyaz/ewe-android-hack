@@ -15,7 +15,7 @@ import org.junit.Test;
 
 import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.SuggestionV4;
-import com.expedia.bookings.data.cars.ApiError;
+import com.expedia.bookings.data.ApiError;
 import com.expedia.bookings.data.hotels.Hotel;
 import com.expedia.bookings.data.hotels.HotelApplyCouponParameters;
 import com.expedia.bookings.data.hotels.HotelCheckoutParamsMock;

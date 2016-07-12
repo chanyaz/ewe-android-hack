@@ -162,6 +162,20 @@ object SearchScreen {
         search(1, 0, false, true)
     }
 
+    @JvmStatic fun selectFlightOriginAndDestination(originPosition: Int, destinationPosition: Int) {
+        origin().perform(click())
+        searchEditText().perform(android.support.test.espresso.action.ViewActions.typeText("origin"))
+        suggestionList().perform(ViewActions.waitForViewToDisplay())
+        suggestionList().perform(RecyclerViewActions.actionOnItemAtPosition<RecyclerView.ViewHolder>(originPosition, click()))
+
+        //Delay for the auto advance to destination picker
+        Common.delay(1)
+        searchEditText().perform(ViewActions.waitForViewToDisplay())
+        searchEditText().perform(android.support.test.espresso.action.ViewActions.typeText("destination"))
+        suggestionList().perform(ViewActions.waitForViewToDisplay())
+        suggestionList().perform(RecyclerViewActions.actionOnItemAtPosition<RecyclerView.ViewHolder>(destinationPosition, click()))
+    }
+
     @Throws(Throwable::class)
     @JvmStatic fun selectFlightOrigin() {
         searchEditText().perform(typeText(TestValues.TYPE_TEXT_SFO))

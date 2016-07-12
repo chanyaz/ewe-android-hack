@@ -5,7 +5,7 @@ import android.content.Intent
 import android.os.Bundle
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Db
-import com.expedia.bookings.data.cars.ApiError
+import com.expedia.bookings.data.ApiError
 import com.expedia.bookings.data.packages.PackageCreateTripParams
 import com.expedia.bookings.presenter.BaseOverviewPresenter
 import com.expedia.bookings.presenter.Presenter

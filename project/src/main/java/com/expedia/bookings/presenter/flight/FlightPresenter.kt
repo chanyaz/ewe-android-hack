@@ -20,7 +20,6 @@ import com.expedia.bookings.presenter.BaseOverviewPresenter
 import com.expedia.bookings.presenter.LeftToRightTransition
 import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.presenter.ScaleTransition
-import com.expedia.bookings.presenter.packages.FlightErrorPresenter
 import com.expedia.bookings.services.FlightServices
 import com.expedia.bookings.tracking.FlightsV2Tracking
 import com.expedia.bookings.utils.StrUtils
@@ -31,9 +30,9 @@ import com.expedia.util.notNullAndObservable
 import com.expedia.util.subscribeVisibility
 import com.expedia.vm.FlightCheckoutOverviewViewModel
 import com.expedia.vm.FlightSearchViewModel
-import com.expedia.vm.packages.FlightErrorViewModel
-import com.expedia.vm.flights.FlightConfirmationViewModel
 import com.expedia.vm.flights.FlightConfirmationCardViewModel
+import com.expedia.vm.flights.FlightConfirmationViewModel
+import com.expedia.vm.flights.FlightErrorViewModel
 import com.expedia.vm.packages.PackageSearchType
 import rx.Observable
 import javax.inject.Inject
@@ -44,8 +43,9 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
     lateinit var travelerManager: TravelerManager
 
     val errorPresenter: FlightErrorPresenter by lazy {
-        val viewStub = findViewById(R.id.error_presenter) as ViewStub
+        val viewStub = findViewById(R.id.error_presenter_stub) as ViewStub
         val presenter = viewStub.inflate() as FlightErrorPresenter
+        presenter.viewmodel = FlightErrorViewModel(context)
         presenter
     }
 
@@ -131,7 +131,7 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
             outBoundPresenter.toolbarViewModel.city.onNext(params.arrivalAirport?.regionNames?.shortName)
             outBoundPresenter.toolbarViewModel.travelers.onNext(params.guests)
             outBoundPresenter.toolbarViewModel.date.onNext(params.departureDate)
-            errorPresenter.viewmodel.paramsSubject.onNext(params)
+            errorPresenter.getViewModel().paramsSubject.onNext(params)
 
             inboundPresenter.toolbarViewModel.city.onNext(params.departureAirport.regionNames.shortName)
             inboundPresenter.toolbarViewModel.travelers.onNext(params.guests)
@@ -169,12 +169,8 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
             outBoundPresenter.resultsPresenter.setLoadingState()
             show(outBoundPresenter)
         }
-        outBoundPresenter.flightSearchViewModel.errorObservable.subscribe(errorPresenter.viewmodel.searchApiErrorObserver)
+        outBoundPresenter.flightSearchViewModel.errorObservable.subscribe(errorPresenter.getViewModel().searchApiErrorObserver)
         outBoundPresenter.flightSearchViewModel.errorObservable.subscribe { show(errorPresenter) }
-
-        errorPresenter.viewmodel.defaultErrorObservable.subscribe {
-            show(searchPresenter, FLAG_CLEAR_TOP)
-        }
 
         vm.flightProductId.subscribe { productKey ->
             val requestInsurance = Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppFlightInsurance)
@@ -202,8 +198,6 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
         travelerManager = Ui.getApplication(getContext()).travelerComponent().travelerManager()
         Ui.getApplication(getContext()).flightComponent().inject(this)
         View.inflate(context, R.layout.flight_presenter, this)
-
-        errorPresenter.viewmodel = FlightErrorViewModel(context)
         searchViewModel = FlightSearchViewModel(context, flightServices)
         searchViewModel.deeplinkDefaultTransitionObservable.subscribe { screen ->
             setDefaultTransition(screen)
@@ -218,6 +212,7 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
         addTransition(overviewToConfirmation)
         addTransition(outboundFlightToOverview)
         addTransition(outboundToError)
+        addTransition(flightOverviewToError)
         addTransition(errorToSearch)
         flightOverviewPresenter.getCheckoutPresenter().toggleCheckoutButton(false)
 
@@ -234,26 +229,17 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
             show(confirmationPresenter)
             FlightsV2Tracking.trackCheckoutConfirmationPageLoad()
         }
+        flightOverviewPresenter.getCheckoutPresenter().getCreateTripViewModel().createTripErrorObservable.subscribe(errorPresenter.viewmodel.createTripErrorObserverable)
+        flightOverviewPresenter.getCheckoutPresenter().getCheckoutViewModel().checkoutErrorObservable.subscribe(errorPresenter.viewmodel.checkoutApiErrorObserver)
+        flightOverviewPresenter.getCheckoutPresenter().getCreateTripViewModel().createTripErrorObservable.subscribe { show(errorPresenter) }
 
-    }
-
-    private val outboundToError = object : Presenter.Transition(FlightOutboundPresenter::class.java, FlightErrorPresenter::class.java, DecelerateInterpolator(), 200) {
-        override fun startTransition(forward: Boolean) {
-            super.startTransition(forward)
-            errorPresenter.visibility = View.VISIBLE
-            outBoundPresenter.visibility = View.GONE
+        errorPresenter.getViewModel().retryCreateTrip.subscribe {
+            flightOverviewPresenter.getCheckoutPresenter().getCreateTripViewModel().performCreateTrip.onNext(Unit)
+            show(flightOverviewPresenter)
+            flightOverviewPresenter.show(BaseOverviewPresenter.BundleDefault(), FLAG_CLEAR_BACKSTACK)
         }
-
-        override fun updateTransition(f: Float, forward: Boolean) {
-            super.updateTransition(f, forward)
-            errorPresenter.animationUpdate(f, !forward)
-        }
-
-        override fun endTransition(forward: Boolean) {
-            super.endTransition(forward)
-            errorPresenter.visibility = if (forward) View.VISIBLE else View.GONE
-            errorPresenter.animationFinalize()
-        }
+        errorPresenter.getViewModel().defaultErrorObservable.subscribe { show(searchPresenter, Presenter.FLAG_CLEAR_TOP) }
+        errorPresenter.getViewModel().showOutboundResults.subscribe { show(outBoundPresenter) }
     }
 
     val searchArgbEvaluator = ArgbEvaluator()
@@ -286,6 +272,51 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
                 FlightsV2Tracking.trackSearchPageLoad()
             }
 
+        }
+    }
+
+    private val ANIMATION_DURATION = 400
+    private val flightOverviewToError = object : Presenter.Transition(FlightOverviewPresenter::class.java, FlightErrorPresenter::class.java, DecelerateInterpolator(), ANIMATION_DURATION) {
+        override fun startTransition(forward: Boolean) {
+            super.startTransition(forward)
+            flightOverviewPresenter.getCheckoutPresenter().checkoutDialog.hide()
+            flightOverviewPresenter.getCheckoutPresenter().createTripDialog.hide()
+            errorPresenter.visibility = View.VISIBLE
+        }
+
+        override fun updateTransition(f: Float, forward: Boolean) {
+            super.updateTransition(f, forward)
+            errorPresenter.animationUpdate(f, !forward)
+        }
+
+        override fun endTransition(forward: Boolean) {
+            super.endTransition(forward)
+            flightOverviewPresenter.visibility = if (forward) View.GONE else View.VISIBLE
+            errorPresenter.visibility = if (forward) View.VISIBLE else View.GONE
+            errorPresenter.animationFinalize()
+        }
+    }
+
+    private val outboundToError = object : Presenter.Transition(FlightOutboundPresenter::class.java, FlightErrorPresenter::class.java, DecelerateInterpolator(), 200) {
+        override fun startTransition(forward: Boolean) {
+            super.startTransition(forward)
+            errorPresenter.visibility = View.VISIBLE
+            outBoundPresenter.visibility = View.GONE
+        }
+
+        override fun updateTransition(f: Float, forward: Boolean) {
+            super.updateTransition(f, forward)
+            errorPresenter.animationUpdate(f, !forward)
+        }
+
+        override fun endTransition(forward: Boolean) {
+            super.endTransition(forward)
+            errorPresenter.visibility = if (forward) View.VISIBLE else View.GONE
+            outBoundPresenter.visibility = if (!forward) View.VISIBLE else View.GONE
+            errorPresenter.animationFinalize()
+            if (!forward) {
+                outBoundPresenter.showResults()
+            }
         }
     }
 

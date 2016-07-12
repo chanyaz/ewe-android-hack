@@ -20,7 +20,7 @@ import com.expedia.bookings.data.Codes
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.abacus.AbacusUtils
-import com.expedia.bookings.data.cars.ApiError
+import com.expedia.bookings.data.ApiError
 import com.expedia.bookings.data.clientlog.ClientLog
 import com.expedia.bookings.data.hotels.Hotel
 import com.expedia.bookings.data.hotels.HotelCreateTripResponse
@@ -114,7 +114,7 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
             clientLogServices.log(clientLogBuilder.build())
         }
         presenter.hotelSelectedSubject.subscribe(hotelSelectedObserver)
-        presenter.viewmodel.errorObservable.subscribe(errorPresenter.viewmodel.apiErrorObserver)
+        presenter.viewmodel.errorObservable.subscribe(errorPresenter.getViewModel().apiErrorObserver)
         presenter.viewmodel.errorObservable.subscribe { show(errorPresenter) }
         presenter.viewmodel.showHotelSearchViewObservable.subscribe { show(searchPresenter, Presenter.FLAG_CLEAR_TOP) }
         presenter.viewmodel.hotelResultsObservable.subscribe({ hotelSearchResponse ->
@@ -169,7 +169,7 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
             WalletUtils.unbindFullWalletDataFromBillingInfo(Db.getWorkingBillingInfoManager().workingBillingInfo)
         })
 
-        presenter.hotelCheckoutViewModel.errorObservable.subscribe(errorPresenter.viewmodel.apiErrorObserver)
+        presenter.hotelCheckoutViewModel.errorObservable.subscribe(errorPresenter.getViewModel().apiErrorObserver)
         presenter.hotelCheckoutViewModel.errorObservable.subscribe {
             checkoutDialog.dismiss()
             show(errorPresenter)
@@ -192,7 +192,7 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
             checkoutDialog.hide()
         }
 
-        presenter.hotelCheckoutWidget.createTripViewmodel.errorObservable.subscribe(errorPresenter.viewmodel.apiErrorObserver)
+        presenter.hotelCheckoutWidget.createTripViewmodel.errorObservable.subscribe(errorPresenter.getViewModel().apiErrorObserver)
         presenter.hotelCheckoutWidget.createTripViewmodel.errorObservable.subscribe { show(errorPresenter) }
         presenter.hotelCheckoutWidget.createTripViewmodel.noResponseObservable.subscribe {
             val retryFun = fun() {
@@ -320,7 +320,7 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
 
         errorPresenter.hotelDetailViewModel = hotelDetailViewModel
         errorPresenter.viewmodel = HotelErrorViewModel(context)
-        errorPresenter.viewmodel.searchErrorObservable.subscribe {
+        errorPresenter.getViewModel().searchErrorObservable.subscribe {
             show(searchPresenter, Presenter.FLAG_CLEAR_TOP)
         }
         errorPresenter.viewmodel.defaultErrorObservable.subscribe {
@@ -348,7 +348,7 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
             show(searchPresenter, Presenter.FLAG_CLEAR_TOP)
         }
 
-        errorPresenter.viewmodel.checkoutTravellerErrorObservable.subscribe {
+        errorPresenter.viewmodel.checkoutTravelerErrorObservable.subscribe {
             show(checkoutPresenter, Presenter.FLAG_CLEAR_TOP)
             checkoutPresenter.hotelCheckoutWidget.slideWidget.resetSlider()
             checkoutPresenter.hotelCheckoutWidget.mainContactInfoCardView.setExpanded(true, true)
@@ -365,7 +365,7 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
             show(searchPresenter, Presenter.FLAG_CLEAR_TOP)
         }
 
-        geoCodeSearchModel.errorObservable.subscribe(errorPresenter.viewmodel.apiErrorObserver)
+        geoCodeSearchModel.errorObservable.subscribe(errorPresenter.getViewModel().apiErrorObserver)
         geoCodeSearchModel.errorObservable.subscribe { show(errorPresenter) }
 
         loadingOverlay.setBackground(R.color.hotels_primary_color)
@@ -643,7 +643,7 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
 
     val searchObserver: Observer<HotelSearchParams> = endlessObserver { params ->
         hotelSearchParams = params
-        errorPresenter.viewmodel.paramsSubject.onNext(params)
+        errorPresenter.getViewModel().paramsSubject.onNext(params)
         if (params.suggestion.hotelId != null) {
             // Hotel name search - go straight to details
             showDetails(params.suggestion.hotelId, true)

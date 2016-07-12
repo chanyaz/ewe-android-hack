@@ -300,6 +300,162 @@
       },
       "isMinorAirport": "false",
       "packageable": "false"
+    },
+    {
+      "@type": "gaiaRegionResult",
+      "index": "8",
+      "gaiaId": "unknown_error_create_trip",
+      "type": "AIRPORT",
+      "regionNames": {
+        "fullName": "UnknownErrorCreateTrip Airport, PC",
+        "shortName": "UnknownErrorCreateTrip Airport, PC",
+        "displayName": "UnknownErrorCreateTrip Airport, PC",
+        "lastSearchName": "UnknownErrorCreateTrip Airport, PC"
+      },
+      "essId": {
+        "sourceName": "GAI",
+        "sourceId": "6028000"
+      },
+      "coordinates": {
+        "lat": "-37.008038",
+        "long": "174.785255"
+      },
+      "hierarchyInfo": {
+        "airport": {
+          "airportCode": "UnknownErrorCT",
+          "multicity": "111111"
+        },
+        "country": {
+          "name": "Unknown Error Create Trip Kingdom",
+          "isoCode2": "NZ",
+          "isoCode3": "NZL"
+        }
+      },
+      "regionMetadata": {
+        "hotelCount": "87"
+      },
+      "regionGrades": {
+        "globalGrade": "97"
+      },
+      "isMinorAirport": "false",
+      "packageable": "false"
+    },
+    {
+      "@type": "gaiaRegionResult",
+      "index": "9",
+      "gaiaId": "flight_sold_out_create_trip",
+      "type": "AIRPORT",
+      "regionNames": {
+        "fullName": "FlightSoldOutCreateTrip Airport, PC",
+        "shortName": "FlightSoldOutCreateTrip Airport, PC",
+        "displayName": "FlightSoldOutCreateTrip Airport, PC",
+        "lastSearchName": "FlightSoldOutCreateTrip Airport, PC"
+      },
+      "essId": {
+        "sourceName": "GAI",
+        "sourceId": "6028000"
+      },
+      "coordinates": {
+        "lat": "-37.008038",
+        "long": "174.785255"
+      },
+      "hierarchyInfo": {
+        "airport": {
+          "airportCode": "FlightSoldOutCT",
+          "multicity": "111111"
+        },
+        "country": {
+          "name": "Flight Sold Out Create Trip Kingdom",
+          "isoCode2": "NZ",
+          "isoCode3": "NZL"
+        }
+      },
+      "regionMetadata": {
+        "hotelCount": "87"
+      },
+      "regionGrades": {
+        "globalGrade": "97"
+      },
+      "isMinorAirport": "false",
+      "packageable": "false"
+    },
+    {
+      "@type": "gaiaRegionResult",
+      "index": "10",
+      "gaiaId": "flight_product_not_found_create_trip",
+      "type": "AIRPORT",
+      "regionNames": {
+        "fullName": "FlightProductNotFoundCreateTrip Airport, PC",
+        "shortName": "FlightProductNotFoundCreateTrip Airport, PC",
+        "displayName": "FlightProductNotFoundCreateTrip Airport, PC",
+        "lastSearchName": "FlightProductNotFoundCreateTrip Airport, PC"
+      },
+      "essId": {
+        "sourceName": "GAI",
+        "sourceId": "6028000"
+      },
+      "coordinates": {
+        "lat": "-37.008038",
+        "long": "174.785255"
+      },
+      "hierarchyInfo": {
+        "airport": {
+          "airportCode": "FlightProductNotFoundCT",
+          "multicity": "111111"
+        },
+        "country": {
+          "name": "Flight product not found Create Trip Kingdom",
+          "isoCode2": "NZ",
+          "isoCode3": "NZL"
+        }
+      },
+      "regionMetadata": {
+        "hotelCount": "87"
+      },
+      "regionGrades": {
+        "globalGrade": "97"
+      },
+      "isMinorAirport": "false",
+      "packageable": "false"
+    },
+    {
+      "@type": "gaiaRegionResult",
+      "index": "11",
+      "gaiaId": "session_timeout_create_trip",
+      "type": "AIRPORT",
+      "regionNames": {
+        "fullName": "SessionTimeoutCreateTrip Airport, PC",
+        "shortName": "SessionTimeoutCreateTrip Airport, PC",
+        "displayName": "SessionTimeoutCreateTrip Airport, PC",
+        "lastSearchName": "SessionTimeoutCreateTrip Airport, PC"
+      },
+      "essId": {
+        "sourceName": "GAI",
+        "sourceId": "6028000"
+      },
+      "coordinates": {
+        "lat": "-37.008038",
+        "long": "174.785255"
+      },
+      "hierarchyInfo": {
+        "airport": {
+          "airportCode": "SessionTimeoutCT",
+          "multicity": "111111"
+        },
+        "country": {
+          "name": "Session timeout Create Trip Kingdom",
+          "isoCode2": "NZ",
+          "isoCode3": "NZL"
+        }
+      },
+      "regionMetadata": {
+        "hotelCount": "87"
+      },
+      "regionGrades": {
+        "globalGrade": "97"
+      },
+      "isMinorAirport": "false",
+      "packageable": "false"
     }
   ]
 }

@@ -7,7 +7,7 @@ import android.widget.TextView
 import com.expedia.bookings.R
 import com.expedia.bookings.data.LXState
 import com.expedia.bookings.data.Money
-import com.expedia.bookings.data.cars.ApiError
+import com.expedia.bookings.data.ApiError
 import com.expedia.bookings.data.lx.LXActivity
 import com.expedia.bookings.data.lx.LxSearchParams
 import com.expedia.bookings.data.lx.SearchType

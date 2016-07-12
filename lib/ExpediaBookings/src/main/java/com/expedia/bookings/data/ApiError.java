@@ -1,4 +1,4 @@
-package com.expedia.bookings.data.cars;
+package com.expedia.bookings.data;
 
 import com.expedia.bookings.utils.Strings;
 
@@ -22,6 +22,10 @@ public class ApiError extends RuntimeException {
 		CAR_FILTER_NO_RESULTS,
 
 		// Create trip errors
+		// flights
+		FLIGHT_PRODUCT_NOT_FOUND,
+		FLIGHT_SOLD_OUT,
+		// cars
 		INVALID_CAR_PRODUCT_KEY, // Most likely invalid dates
 		TRIP_SERVICE_ERROR, // retry candidate
 

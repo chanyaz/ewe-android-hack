@@ -1,6 +1,6 @@
 package com.expedia.bookings.test.robolectric
 
-import com.expedia.bookings.data.cars.ApiError
+import com.expedia.bookings.data.ApiError
 import com.expedia.bookings.data.hotels.HotelCheckoutParamsMock
 import com.expedia.bookings.data.hotels.HotelCheckoutV2Params
 import com.expedia.bookings.data.hotels.HotelCreateTripResponse

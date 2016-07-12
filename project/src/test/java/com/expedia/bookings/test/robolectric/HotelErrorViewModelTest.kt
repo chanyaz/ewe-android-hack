@@ -2,7 +2,7 @@ package com.expedia.bookings.test.robolectric
 
 import android.support.annotation.StringRes
 import com.expedia.bookings.R
-import com.expedia.bookings.data.cars.ApiError
+import com.expedia.bookings.data.ApiError
 import com.expedia.vm.HotelErrorViewModel
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -25,10 +25,10 @@ class HotelErrorViewModelTest {
         subjectUnderTest.errorMessageObservable.subscribe(errorMessageObservableTestSubscriber)
 
         val errorButtonObservableTestSubscriber = TestSubscriber.create<String>()
-        subjectUnderTest.buttonTextObservable.subscribe(errorButtonObservableTestSubscriber)
+        subjectUnderTest.buttonOneTextObservable.subscribe(errorButtonObservableTestSubscriber)
 
         subjectUnderTest.apiErrorObserver.onNext(ApiError(ApiError.Code.HOTEL_ROOM_UNAVAILABLE))
-        subjectUnderTest.actionObservable.onNext(Unit)
+        subjectUnderTest.buttonOneClickedObservable.onNext(Unit)
 
         soldOutObservableTestSubscriber.assertValues(Unit)
         errorImageObservableTestSubscriber.assertValues(R.drawable.error_default)
@@ -60,7 +60,7 @@ class HotelErrorViewModelTest {
         subjectUnderTest.errorMessageObservable.subscribe(errorMessageObservableTestSubscriber)
 
         val errorButtonObservableTestSubscriber = TestSubscriber.create<String>()
-        subjectUnderTest.buttonTextObservable.subscribe(errorButtonObservableTestSubscriber)
+        subjectUnderTest.buttonOneTextObservable.subscribe(errorButtonObservableTestSubscriber)
 
         val titleObservableTestSubscriber = TestSubscriber.create<String>()
         subjectUnderTest.titleObservable.subscribe(titleObservableTestSubscriber)
@@ -73,7 +73,7 @@ class HotelErrorViewModelTest {
         apiError.errorInfo.field = field
 
         subjectUnderTest.apiErrorObserver.onNext(apiError)
-        subjectUnderTest.actionObservable.onNext(Unit)
+        subjectUnderTest.buttonOneClickedObservable.onNext(Unit)
 
         checkoutCardErrorObservableTestSubscriber.assertValues(Unit)
         errorImageObservableTestSubscriber.assertValues(R.drawable.error_payment)
