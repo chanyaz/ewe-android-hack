@@ -88,7 +88,7 @@ class PackagePresenter(context: Context, attrs: AttributeSet) : IntentPresenter(
         searchPresenter.searchViewModel.searchParamsObservable.subscribe { params ->
             // Starting a new search clear previous selection
             Db.clearPackageSelection()
-            travelerManager.updateDbTravelers(params)
+            travelerManager.updateDbTravelers(params, context)
             errorPresenter.viewmodel.paramsSubject.onNext(params)
             show(bundlePresenter)
             bundlePresenter.show(BaseOverviewPresenter.BundleDefault(), FLAG_CLEAR_BACKSTACK)

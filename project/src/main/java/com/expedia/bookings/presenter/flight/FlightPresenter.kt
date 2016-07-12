@@ -139,7 +139,7 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
             flightOverviewPresenter.flightSummary.outboundFlightWidget.viewModel.searchTypeStateObservable.onNext(PackageSearchType.OUTBOUND_FLIGHT)
 
             flightOverviewPresenter.flightSummary.setPadding(0, 0, 0, 0)
-            travelerManager.updateDbTravelers(params)
+            travelerManager.updateDbTravelers(params, context)
             // Starting a new search clear previous selection
             Db.clearPackageFlightSelection()
             outBoundPresenter.resultsPresenter.setLoadingState()

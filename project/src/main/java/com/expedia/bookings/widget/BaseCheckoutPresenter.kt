@@ -406,6 +406,8 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet) : Pre
         hintContainer.visibility = View.GONE
         val lp = loginWidget.layoutParams as LinearLayout.LayoutParams
         lp.bottomMargin = resources.getDimension(R.dimen.card_view_container_margin).toInt()
+        travelerManager.onSignIn(context)
+        updateTravelerPresenter()
         doCreateTrip()
     }
 
