@@ -13,6 +13,7 @@ import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.location.CurrentLocationObservable
 import com.expedia.bookings.presenter.BaseTwoLocationSearchPresenter
 import com.expedia.bookings.services.SuggestionV4Services
+import com.expedia.bookings.utils.AnimUtils
 import com.expedia.bookings.utils.SuggestionV4Utils
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.widget.suggestions.SuggestionAdapter
@@ -37,6 +38,9 @@ open class FlightSearchPresenter(context: Context, attrs: AttributeSet) : BaseTw
             searchButton.setTextColor(if (enable) ContextCompat.getColor(context, R.color.hotel_filter_spinner_dropdown_color) else ContextCompat.getColor(context, R.color.white_disabled))
         }
         searchButton.subscribeOnClick(vm.searchObserver)
+        vm.errorNoDestinationObservable.subscribe { AnimUtils.doTheHarlemShake(destinationCardView) }
+        vm.errorNoOriginObservable.subscribe { AnimUtils.doTheHarlemShake(originCardView) }
+        vm.errorNoDatesObservable.subscribe { AnimUtils.doTheHarlemShake(calendarWidgetV2) }
         vm.formattedOriginObservable.subscribe { text -> originCardView.setText(text) }
         vm.formattedDestinationObservable.subscribe {
             text ->

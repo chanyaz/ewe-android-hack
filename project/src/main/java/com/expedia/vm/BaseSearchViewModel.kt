@@ -9,15 +9,12 @@ import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.TravelerParams
 import com.expedia.bookings.utils.DateUtils
 import com.expedia.bookings.utils.SpannableBuilder
-import com.expedia.bookings.utils.Ui
-import com.expedia.bookings.utils.validation.TravelerValidator
 import com.expedia.util.endlessObserver
 import com.mobiata.android.time.util.JodaUtils
 import com.squareup.phrase.Phrase
 import org.joda.time.LocalDate
 import rx.subjects.BehaviorSubject
 import rx.subjects.PublishSubject
-import javax.inject.Inject
 
 abstract class BaseSearchViewModel(val context: Context) {
     // Outputs
@@ -29,6 +26,7 @@ abstract class BaseSearchViewModel(val context: Context) {
     val locationTextObservable = PublishSubject.create<String>()
     val searchButtonObservable = PublishSubject.create<Boolean>()
     val errorNoDestinationObservable = PublishSubject.create<Unit>()
+    val errorNoOriginObservable = PublishSubject.create<Unit>()
     val errorNoDatesObservable = PublishSubject.create<Unit>()
     val errorMaxDurationObservable = PublishSubject.create<String>()
     val errorMaxRangeObservable = PublishSubject.create<String>()
