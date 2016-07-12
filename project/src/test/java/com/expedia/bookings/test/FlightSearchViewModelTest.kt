@@ -74,6 +74,13 @@ class FlightSearchViewModelTest {
         vm.isRoundTripSearchObservable.onNext(true)
         assertEquals(null, vm.cachedEndDateObservable.value)
         assertEquals("$expectedNewStartDate – Select return date", vm.dateTextObservable.value)
+
+        vm.datesObserver.onNext(Pair(null, null))
+        assertEquals("Select Dates", vm.dateTextObservable.value)
+
+        vm.isRoundTripSearchObservable.onNext(false)
+        assertEquals("Select departure date", vm.dateTextObservable.value)
+
     }
 
     @Test

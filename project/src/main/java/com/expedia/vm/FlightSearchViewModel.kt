@@ -102,7 +102,7 @@ class FlightSearchViewModel(context: Context, val flightServices: FlightServices
         flightOfferSelected.map { it.mayChargeOBFees }.subscribe(offerSelectedChargesObFeesSubject)
 
         isRoundTripSearchObservable.subscribe { isRoundTripSearch ->
-            if (datesObservable.value != null) {
+            if (datesObservable.value != null && datesObservable.value.first != null) {
                 val cachedEndDate = cachedEndDateObservable.value
                 if (isRoundTripSearch && cachedEndDate != null && startDate()?.isBefore(cachedEndDate) ?: false) {
                     datesObserver.onNext(Pair(startDate(), cachedEndDate))
