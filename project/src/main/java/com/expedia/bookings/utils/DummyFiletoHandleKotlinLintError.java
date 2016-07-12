@@ -65,6 +65,7 @@ DummyFiletoHandleKotlinLintError {
 		R.drawable.ic_amenity_accessible_shower,
 		R.drawable.ic_amenity_handicap_parking,
 		R.drawable.ic_amenity_accessible_room,
+		R.plurals.hotel_star_rating_cont_desc_TEMPLATE,
 		R.drawable.ic_amenity_deaf_access,
 		R.drawable.ic_amenity_braille_signs,
 		R.layout.hotel_marker_preview_cell,

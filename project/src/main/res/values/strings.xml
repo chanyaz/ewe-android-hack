@@ -3809,7 +3809,11 @@
     <string name="cars_passenger_count_cont_desc_TEMPLATE">Passengers {passengercount}</string>
     <!-- Content description for car result bags count e.g. Bags 2-4 -->
     <string name="cars_bags_count_cont_desc_TEMPLATE">Bags {bagscount}</string>
-
+    <!-- Content description for hotel star rating e.g. 3 stars -->
+    <plurals name="hotel_star_rating_cont_desc_TEMPLATE">
+        <item quantity="one">{rating} star</item>
+        <item quantity="other">{rating} stars</item>
+    </plurals>
     <!-- Content descriptions for Cars filter transmission buttons -->
     <string name="cars_filter_transmission_manual_button_cont_desc">Manual transmission</string>
     <string name="cars_filter_transmission_automatic_button_cont_desc">Automatic transmission</string>
