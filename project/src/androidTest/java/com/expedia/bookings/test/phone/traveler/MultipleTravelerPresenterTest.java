@@ -3,16 +3,12 @@ package com.expedia.bookings.test.phone.traveler;
 import java.util.Arrays;
 import java.util.List;
 
-import org.junit.Before;
-import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import android.content.Context;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.IdRes;
-import android.support.test.InstrumentationRegistry;
-import android.support.test.rule.UiThreadTestRule;
+import android.support.test.espresso.Espresso;
 import android.support.test.runner.AndroidJUnit4;
 
 import com.expedia.bookings.R;
@@ -22,8 +18,6 @@ import com.expedia.bookings.test.espresso.Common;
 import com.expedia.bookings.test.espresso.EspressoUser;
 import com.expedia.bookings.test.espresso.EspressoUtils;
 import com.expedia.bookings.test.phone.packages.PackageScreen;
-import com.expedia.bookings.utils.Ui;
-import com.expedia.bookings.utils.validation.TravelerValidator;
 
 import rx.observers.TestSubscriber;
 
@@ -44,16 +38,6 @@ import static org.hamcrest.Matchers.allOf;
 
 @RunWith(AndroidJUnit4.class)
 public class MultipleTravelerPresenterTest extends BaseTravelerPresenterTestHelper {
-	@Rule
-	public UiThreadTestRule uiThreadTestRule = new UiThreadTestRule();
-
-	@Before
-	public void setup() {
-		Context context = InstrumentationRegistry.getTargetContext();
-		Ui.getApplication(context).defaultTravelerComponent();
-		TravelerValidator travelerValidator = Ui.getApplication(context).travelerComponent().travelerValidator();
-		travelerValidator.updateForNewSearch(setPackageParams(1));
-	}
 
 	@Test
 	public void testMultipleTravelerFlow() {
@@ -76,6 +60,7 @@ public class MultipleTravelerPresenterTest extends BaseTravelerPresenterTestHelp
 		EspressoUser.clickOnView(R.id.traveler_default_state);
 		EspressoUtils.assertViewIsDisplayed(R.id.traveler_select_state);
 		EspressoUser.clickOnText(expectedTravelerOneText);
+		Espresso.closeSoftKeyboard();
 		EspressoUser.clickOnView(R.id.edit_phone_number);
 		enterValidTraveler();
 		onView(allOf(withText(testName.getFullName()), isDescendantOfA(withId(R.id.traveler_select_state)))).check(matches(isDisplayed()));
@@ -90,8 +75,10 @@ public class MultipleTravelerPresenterTest extends BaseTravelerPresenterTestHelp
 		testTravelerPresenter.setViewModel(mockViewModel);
 
 		EspressoUser.clickOnView(R.id.traveler_default_state);
+
 		EspressoUtils.assertViewIsDisplayed(R.id.traveler_select_state);
 		EspressoUser.clickOnText(expectedTravelerOneText);
+		Espresso.closeSoftKeyboard();
 		EspressoUser.clickOnView(R.id.edit_phone_number);
 		PackageScreen.clickTravelerDone();
 
@@ -144,6 +131,7 @@ public class MultipleTravelerPresenterTest extends BaseTravelerPresenterTestHelp
 
 		assertEquals(true, testTravelerPresenter.getTravelerEntryWidget().getPhoneEntryView().getPhoneNumber().hasFocus());
 		//skip phone number, assert that focus went back to first name
+		Espresso.closeSoftKeyboard();
 		PackageScreen.selectBirthDate(1989,6,9);
 		PackageScreen.clickTravelerDone();
 

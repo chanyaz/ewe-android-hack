@@ -117,10 +117,13 @@
 
                 </LinearLayout>
 
-                <com.expedia.bookings.presenter.packages.TravelerPresenter
-                    android:id="@+id/traveler_presenter"
+                <com.expedia.bookings.widget.traveler.TravelerDefaultState
+                    android:id="@+id/traveler_default_state"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent" />
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/card_view_container_margin"
+                    android:layout_marginRight="@dimen/card_view_container_margin"
+                    android:background="@drawable/card_background" />
 
                 <ViewStub
                     android:id="@+id/payment_info_card_view_stub"
@@ -140,7 +143,8 @@
                     android:layout_marginLeft="@dimen/card_view_container_margin"
                     android:layout_marginRight="@dimen/card_view_container_margin"
                     android:layout_marginTop="12dp"
-                    android:layout_width="match_parent" />
+                    android:layout_width="match_parent"
+                    android:visibility="gone"/>
 
                 <com.expedia.bookings.widget.TextView
                     android:id="@+id/legal_information_text_view"
@@ -257,5 +261,12 @@
         android:background="?attr/hotel_select_room_ripple_drawable"
         android:layout_gravity="bottom"
         android:text="@string/Checkout" />
+
+    <com.expedia.bookings.presenter.packages.TravelerPresenter
+        android:id="@+id/traveler_presenter"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/gray1"
+        android:visibility="gone" />
 
 </merge>

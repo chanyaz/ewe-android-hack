@@ -13,7 +13,6 @@ import com.expedia.vm.packages.BaseCreateTripViewModel
 import com.expedia.vm.packages.PackageCheckoutViewModel
 import com.expedia.vm.packages.PackageCostSummaryBreakdownViewModel
 import com.expedia.vm.packages.PackageCreateTripViewModel
-import com.expedia.vm.traveler.CheckoutTravelerViewModel
 import com.squareup.otto.Subscribe
 import java.math.BigDecimal
 
@@ -37,7 +36,6 @@ class PackageCheckoutPresenter(context: Context, attr: AttributeSet) : BaseCheck
                     packageTotalPrice.savings.currencyCode))
             trackShowBundleOverview()
         }
-
     }
 
     @Subscribe fun onUserLoggedIn(@Suppress("UNUSED_PARAMETER") event: Events.LoggedInSuccessful) {
@@ -46,11 +44,6 @@ class PackageCheckoutPresenter(context: Context, attr: AttributeSet) : BaseCheck
 
     override fun getLineOfBusiness(): LineOfBusiness {
         return LineOfBusiness.PACKAGES
-    }
-
-    override fun updateTravelerPresenter() {
-        travelerPresenter.viewModel = CheckoutTravelerViewModel(context)
-        travelerPresenter.refreshState()
     }
 
     override fun updateDbTravelers() {

@@ -4,6 +4,7 @@ import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.Traveler
 import com.expedia.bookings.data.packages.PackageSearchParams
+import com.expedia.bookings.enums.TravelerCheckoutStatus
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.utils.Ui
 import com.expedia.vm.traveler.CheckoutTravelerViewModel
@@ -13,6 +14,8 @@ import org.junit.Test
 import org.junit.runner.RunWith
 
 import org.robolectric.RuntimeEnvironment
+import rx.observers.TestSubscriber
+import rx.subjects.BehaviorSubject
 import kotlin.test.assertFalse
 import kotlin.test.assertTrue
 
@@ -21,6 +24,7 @@ class CheckoutTravelerViewModelTest {
     val mockTravelerProvider = MockTravelerProvider()
     lateinit var testViewModel: CheckoutTravelerViewModel
     lateinit var searchParams: PackageSearchParams
+    private var LOTS_MORE: Long = 100
 
     @Before
     fun setUp() {
@@ -28,6 +32,7 @@ class CheckoutTravelerViewModelTest {
         var context = RuntimeEnvironment.application
         Ui.getApplication(context).defaultTravelerComponent()
         testViewModel = CheckoutTravelerViewModel(context)
+        testViewModel.travelerValidator.updateForNewSearch(searchParams)
     }
 
     @Test
@@ -85,6 +90,43 @@ class CheckoutTravelerViewModelTest {
     fun testEmptyTravelers() {
         mockTravelerProvider.updateDBWithMockTravelers(2, Traveler())
         assertTrue(testViewModel.areTravelersEmpty())
+    }
+
+    @Test
+    fun testValidation() {
+        val testCompleteTraveler = mockTravelerProvider.getCompleteMockTraveler()
+        val testAllTravelersComplete = TestSubscriber.create<List<Traveler>>()
+        val testInvalidTravelers = TestSubscriber.create<Unit>()
+        val testEmptyTravelers = TestSubscriber.create<Unit>()
+        val testTravelerCompleteness = TestSubscriber.create<TravelerCheckoutStatus>()
+
+        val expectedAllTravelersComplete = listOf(arrayListOf(testCompleteTraveler))
+        val expectedEmptyTravelers = arrayListOf(Unit)
+        val expectedInvalidTravelers = arrayListOf(Unit)
+        val expectedTravelerCompleteness = arrayListOf(TravelerCheckoutStatus.CLEAN, TravelerCheckoutStatus.CLEAN, TravelerCheckoutStatus.DIRTY, TravelerCheckoutStatus.COMPLETE)
+
+        testViewModel.allTravelersCompleteSubject.subscribe(testAllTravelersComplete)
+        testViewModel.invalidTravelersSubject.subscribe(testInvalidTravelers)
+        testViewModel.emptyTravelersSubject.subscribe(testEmptyTravelers)
+        testViewModel.travelerCompletenessStatus.subscribe(testTravelerCompleteness)
+        mockTravelerProvider.updateDBWithMockTravelers(1, Traveler())
+        testViewModel.refresh()
+
+        mockTravelerProvider.updateDBWithMockTravelers(1, mockTravelerProvider.getInCompleteMockTraveler())
+        testViewModel.refresh()
+
+        mockTravelerProvider.updateDBWithMockTravelers(1, testCompleteTraveler)
+        testViewModel.updateCompletionStatus()
+
+        testAllTravelersComplete.requestMore(LOTS_MORE)
+        testInvalidTravelers.requestMore(LOTS_MORE)
+        testEmptyTravelers.requestMore(LOTS_MORE)
+        testTravelerCompleteness.requestMore(LOTS_MORE)
+
+        testAllTravelersComplete.assertReceivedOnNext(expectedAllTravelersComplete)
+        testEmptyTravelers.assertReceivedOnNext(expectedEmptyTravelers)
+        testInvalidTravelers.assertReceivedOnNext(expectedInvalidTravelers)
+        testTravelerCompleteness.assertReceivedOnNext(expectedTravelerCompleteness)
     }
 
     private fun setUpParams() : PackageSearchParams {

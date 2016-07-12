@@ -114,7 +114,6 @@ class PackagePresenter(context: Context, attrs: AttributeSet) : IntentPresenter(
         hotelOffersErrorObservable.subscribe(errorPresenter.viewmodel.hotelOffersApiErrorObserver)
         hotelOffersErrorObservable.subscribe { show(errorPresenter) }
 
-
         errorPresenter.viewmodel.checkoutUnknownErrorObservable.subscribe {
             show(bundlePresenter, Presenter.FLAG_CLEAR_TOP)
             checkoutPresenter.slideToPurchase.resetSlider()
@@ -123,7 +122,7 @@ class PackagePresenter(context: Context, attrs: AttributeSet) : IntentPresenter(
         errorPresenter.viewmodel.checkoutTravelerErrorObservable.subscribe {
             show(bundlePresenter, Presenter.FLAG_CLEAR_TOP)
             checkoutPresenter.slideToPurchase.resetSlider()
-            checkoutPresenter.travelerPresenter.expandedSubject.onNext(true)
+            checkoutPresenter.openTravelerPresenter()
             checkoutPresenter.show(checkoutPresenter, Presenter.FLAG_CLEAR_TOP)
         }
 
