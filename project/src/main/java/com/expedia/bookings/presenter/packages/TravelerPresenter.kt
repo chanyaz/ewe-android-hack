@@ -85,13 +85,18 @@ class TravelerPresenter(context: Context, attrs: AttributeSet) : Presenter(conte
         show(travelerDefaultState, Presenter.FLAG_CLEAR_BACKSTACK)
     }
 
-    fun refreshAndShow() {
+    fun refreshState() {
         if (viewModel.areTravelersEmpty()) {
             travelersIncompleteSubject.onNext(Unit)
             travelerDefaultState.updateStatus(TravelerCheckoutStatus.CLEAN)
         } else {
             updateCompletionStatus()
         }
+    }
+
+    fun returnToDefault() {
+        show(travelerDefaultState, Presenter.FLAG_CLEAR_BACKSTACK)
+        updateCompletionStatus()
     }
 
     private fun updateCompletionStatus() {

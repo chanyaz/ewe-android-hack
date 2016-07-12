@@ -50,7 +50,7 @@ class PackageCheckoutPresenter(context: Context, attr: AttributeSet) : BaseCheck
 
     override fun updateTravelerPresenter() {
         travelerPresenter.viewModel = CheckoutTravelerViewModel(context)
-        travelerPresenter.refreshAndShow()
+        travelerPresenter.refreshState()
     }
 
     override fun updateDbTravelers() {
