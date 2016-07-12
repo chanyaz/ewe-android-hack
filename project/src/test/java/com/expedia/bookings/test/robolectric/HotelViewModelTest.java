@@ -18,6 +18,8 @@ import com.expedia.bookings.data.hotels.HotelRate;
 import com.expedia.bookings.data.payment.LoyaltyEarnInfo;
 import com.expedia.bookings.data.payment.LoyaltyInformation;
 import com.expedia.bookings.data.payment.PointsEarnInfo;
+import com.expedia.bookings.data.pos.PointOfSale;
+import com.expedia.bookings.test.PointOfSaleTestConfiguration;
 import com.expedia.bookings.test.robolectric.shadows.ShadowAccountManagerEB;
 import com.expedia.bookings.test.robolectric.shadows.ShadowGCM;
 import com.expedia.bookings.test.robolectric.shadows.ShadowUserManager;
@@ -270,6 +272,33 @@ public class HotelViewModelTest {
 		assertEquals(Images.getMediaHost() + "some_awesome_hotel_pix", vm.getHotelLargeThumbnailUrlObservable().getValue());
 	}
 
+	@Test
+	public void hotelIsSponsored() {
+		givenIsSponsoredListing(true);
+		setupSystemUnderTest();
+		assertEquals(RuntimeEnvironment.application.getResources().getString(R.string.sponsored), vm.getTopAmenityTitleObservable().getValue());
+	}
+
+	@Test
+	public void sponsoredPriorityOverEarnMessaging() {
+		givenIsSponsoredListing(true);
+		setupSystemUnderTest();
+
+		PointOfSaleTestConfiguration
+			.configurePointOfSale(RuntimeEnvironment.application, "MockSharedData/pos_test_config.json", false);
+		PointOfSale pos = PointOfSale.getPointOfSale();
+		assertTrue(pos.isEarnMessageEnabledForHotels());
+
+		TestSubscriber earnMessageTestSubscriber = TestSubscriber.create();
+		vm.getEarnMessagingVisibilityObservable().subscribe(earnMessageTestSubscriber);
+		assertFalse((Boolean) earnMessageTestSubscriber.getOnNextEvents().get(0));
+
+		TestSubscriber topAmenityTestSubscriber = TestSubscriber.create();
+		vm.getTopAmenityVisibilityObservable().subscribe(topAmenityTestSubscriber);
+		assertTrue((Boolean) topAmenityTestSubscriber.getOnNextEvents().get(0));
+
+	}
+
 	private void givenSoldOutHotel() {
 		hotel.isSoldOut = true;
 	}
@@ -303,6 +332,10 @@ public class HotelViewModelTest {
 		hotel.isPackage = isPackage;
 		hotel.thumbnailUrl = "some_awesome_hotel_pix";
 		hotel.largeThumbnailUrl = "some_awesome_hotel_pix";
+	}
+
+	private void givenIsSponsoredListing(boolean isSponsored) {
+		hotel.isSponsoredListing = isSponsored;
 	}
 
 	private void setupSystemUnderTest() {
