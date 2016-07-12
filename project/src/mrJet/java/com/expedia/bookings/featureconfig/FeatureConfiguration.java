@@ -333,7 +333,7 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 
 	@Override
 	public boolean isCommunicateSectionEnabled() {
-		return false;
+		return true;
 	}
 
 	@Override
@@ -408,6 +408,6 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 
 	@Override
 	public boolean isRateOurAppEnabled() {
-		return false;
+		return true;
 	}
 }
