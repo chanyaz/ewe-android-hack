@@ -62,6 +62,7 @@ DummyFiletoHandleKotlinLintError {
 		R.drawable.ic_amenity_children_activities,
 		R.drawable.ic_amenity_baby_sitting,
 		R.drawable.ic_amenity_accessible_ramp,
+		R.string.hotel_rating_bar_cont_desc_TEMPLATE,
 		R.drawable.ic_amenity_accessible_shower,
 		R.drawable.ic_amenity_handicap_parking,
 		R.drawable.ic_amenity_accessible_room,
