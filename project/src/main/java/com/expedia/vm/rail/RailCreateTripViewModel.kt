@@ -5,7 +5,7 @@ import com.expedia.bookings.data.cars.ApiError
 import com.expedia.bookings.data.rail.responses.RailCreateTripResponse
 import com.expedia.bookings.data.trips.TripBucketItemRails
 import com.expedia.bookings.services.RailServices
-import com.expedia.vm.packages.BaseCreateTripViewModel
+import com.expedia.vm.BaseCreateTripViewModel
 import rx.Observer
 import rx.subjects.PublishSubject
 

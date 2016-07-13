@@ -4,6 +4,7 @@ import android.app.Activity
 import com.expedia.bookings.data.BillingInfo
 import com.expedia.bookings.data.Location
 import com.expedia.bookings.data.Traveler
+import com.expedia.bookings.data.TripResponse
 import com.expedia.bookings.data.packages.PackageCheckoutParams
 import com.expedia.bookings.data.packages.PackageCheckoutResponse
 import com.expedia.bookings.services.PackageServices
@@ -38,7 +39,7 @@ class PackageCheckoutViewModelTest {
 
     @Test
     fun testCheckoutPriceChange() {
-        val testSubscriber = TestSubscriber.create<PackageCheckoutResponse>()
+        val testSubscriber = TestSubscriber.create<TripResponse>()
         testViewModel.priceChangeObservable.subscribe(testSubscriber)
 
         testViewModel.builder.tripId("12312")
@@ -54,8 +55,9 @@ class PackageCheckoutViewModelTest {
         testSubscriber.awaitTerminalEvent(5, TimeUnit.SECONDS)
 
         testSubscriber.assertValueCount(1)
-        assertEquals("$464.64", testSubscriber.onNextEvents[0].oldPackageDetails.pricing.packageTotal.formattedPrice)
-        assertEquals("$787.00", testSubscriber.onNextEvents[0].packageDetails.pricing.packageTotal.formattedPrice)
+        val packageCheckoutResponse = testSubscriber.onNextEvents[0] as PackageCheckoutResponse
+        assertEquals("$464.64", packageCheckoutResponse.oldPackageDetails.pricing.packageTotal.formattedPrice)
+        assertEquals("$787.00", packageCheckoutResponse.packageDetails.pricing.packageTotal.formattedPrice)
     }
 
     fun getBillingInfo(file: String): BillingInfo {

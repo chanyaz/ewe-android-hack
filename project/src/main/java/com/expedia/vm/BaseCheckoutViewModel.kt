@@ -9,6 +9,7 @@ import com.expedia.bookings.data.BillingInfo
 import com.expedia.bookings.data.Traveler
 import com.expedia.bookings.data.TripResponse
 import com.expedia.bookings.data.cars.ApiError
+import com.expedia.bookings.data.packages.PackageCheckoutResponse
 import rx.subjects.BehaviorSubject
 import rx.subjects.PublishSubject
 import kotlin.properties.Delegates
@@ -24,9 +25,10 @@ abstract  class BaseCheckoutViewModel(val context: Context) {
     val cvvCompleted = BehaviorSubject.create<String>()
     val tripResponseObservable = BehaviorSubject.create<TripResponse>()
     val checkoutParams = PublishSubject.create<BaseCheckoutParams>()
-    val checkoutResponse = PublishSubject.create<Pair<BaseApiResponse, String>>()
+    val bookingSuccessResponse = PublishSubject.create<Pair<BaseApiResponse, String>>()
 
     // Outputs
+    val priceChangeObservable = PublishSubject.create<TripResponse>()
     val depositPolicyText = PublishSubject.create<Spanned>()
     val legalText = BehaviorSubject.create<SpannableStringBuilder>()
     val sliderPurchaseTotalText = PublishSubject.create<CharSequence>()

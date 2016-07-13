@@ -1,7 +1,11 @@
 package com.expedia.bookings.test.phone.newflights
 
+import android.support.test.espresso.Espresso
+import android.support.test.espresso.assertion.ViewAssertions
+import android.support.test.espresso.matcher.ViewMatchers
 import com.expedia.bookings.R
 import com.expedia.bookings.test.espresso.EspressoUtils
+import com.expedia.bookings.test.espresso.ViewActions
 import com.expedia.bookings.test.espresso.ViewActions.waitForViewToDisplay
 
 object FlightTestHelpers {
@@ -36,5 +40,11 @@ object FlightTestHelpers {
 
     @JvmStatic fun assertDockedOutboundFlightSelectionWidget() {
         FlightsResultsScreen.dockedOutboundFlightSelection().perform(waitForViewToDisplay())
+    }
+
+    fun assertConfirmationViewIsDisplayed() {
+        Espresso.onView(ViewMatchers.withId(R.id.confirmation_container))
+                .perform(ViewActions.waitForViewToDisplay())
+                .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
     }
 }

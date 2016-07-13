@@ -222,6 +222,84 @@
       },
       "isMinorAirport": "false",
       "packageable": "false"
+    },
+    {
+      "@type": "gaiaRegionResult",
+      "index": "6",
+      "gaiaId": "price_change_airport",
+      "type": "AIRPORT",
+      "regionNames": {
+        "fullName": "PriceChangeCheckout Airport, PC",
+        "shortName": "PriceChangeCheckout Airport, PC",
+        "displayName": "PriceChangeCheckout Airport, PC",
+        "lastSearchName": "PriceChangeCheckout Airport, PC"
+      },
+      "essId": {
+        "sourceName": "GAI",
+        "sourceId": "6028000"
+      },
+      "coordinates": {
+        "lat": "-37.008038",
+        "long": "174.785255"
+      },
+      "hierarchyInfo": {
+        "airport": {
+          "airportCode": "PCC",
+          "multicity": "111111"
+        },
+        "country": {
+          "name": "Price Change Kingdom",
+          "isoCode2": "NZ",
+          "isoCode3": "NZL"
+        }
+      },
+      "regionMetadata": {
+        "hotelCount": "87"
+      },
+      "regionGrades": {
+        "globalGrade": "97"
+      },
+      "isMinorAirport": "false",
+      "packageable": "false"
+    },
+    {
+      "@type": "gaiaRegionResult",
+      "index": "7",
+      "gaiaId": "price_change_airport",
+      "type": "AIRPORT",
+      "regionNames": {
+        "fullName": "PriceChangeCreateTrip Airport, PC",
+        "shortName": "PriceChangeCreateTrip Airport, PC",
+        "displayName": "PriceChangeCreateTrip Airport, PC",
+        "lastSearchName": "PriceChangeCreateTrip Airport, PC"
+      },
+      "essId": {
+        "sourceName": "GAI",
+        "sourceId": "6028000"
+      },
+      "coordinates": {
+        "lat": "-37.008038",
+        "long": "174.785255"
+      },
+      "hierarchyInfo": {
+        "airport": {
+          "airportCode": "PCT",
+          "multicity": "111111"
+        },
+        "country": {
+          "name": "Price Change Kingdom",
+          "isoCode2": "NZ",
+          "isoCode3": "NZL"
+        }
+      },
+      "regionMetadata": {
+        "hotelCount": "87"
+      },
+      "regionGrades": {
+        "globalGrade": "97"
+      },
+      "isMinorAirport": "false",
+      "packageable": "false"
     }
   ]
 }

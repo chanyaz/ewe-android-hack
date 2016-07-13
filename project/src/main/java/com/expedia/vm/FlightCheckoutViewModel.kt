@@ -8,6 +8,7 @@ import com.expedia.bookings.R
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.PaymentType
 import com.expedia.bookings.data.User
+import com.expedia.bookings.data.cars.ApiError
 import com.expedia.bookings.data.flights.FlightCheckoutParams
 import com.expedia.bookings.data.flights.FlightCheckoutResponse
 import com.expedia.bookings.data.flights.FlightCreateTripResponse
@@ -56,6 +57,14 @@ class FlightCheckoutViewModel(context: Context, val flightServices: FlightServic
             sliderPurchaseTotalText.onNext(totalPrice)
         }
 
+        priceChangeObservable.subscribe { it as FlightCheckoutResponse
+            // TODO - update to totalPrice for subPub support
+            val flightTripDetails = it.details
+            if (flightTripDetails != null) {
+                builder.expectedTotalFare(flightTripDetails.offer.totalFarePrice.amount.toString())
+            }
+        }
+
         checkoutParams.subscribe { params ->
             params as FlightCheckoutParams
             if (User.isLoggedIn(context)) {
@@ -67,7 +76,6 @@ class FlightCheckoutViewModel(context: Context, val flightServices: FlightServic
         }
 
         setupCardFeeSubjects()
-
         showDebitCardsNotAcceptedSubject.onNext(pointOfSale.doesNotAcceptDebitCardsForFlights())
     }
 
@@ -115,10 +123,20 @@ class FlightCheckoutViewModel(context: Context, val flightServices: FlightServic
         return object : Observer<FlightCheckoutResponse> {
             override fun onNext(response: FlightCheckoutResponse) {
                 if (response.hasErrors()) {
-                    // see packagesCheckoutViewModel for error handling
+                    when (response.firstError.errorCode) {
+                        ApiError.Code.INVALID_INPUT -> {
+                            // TODO
+                        }
+                        ApiError.Code.PRICE_CHANGE -> {
+                            priceChangeObservable.onNext(response)
+                        }
+                        else -> {
+                            checkoutErrorObservable.onNext(ApiError(ApiError.Code.UNKNOWN_ERROR))
+                        }
+                    }
                 } else {
                     Db.getTripBucket().flightV2.flightCheckoutResponse = response
-                    checkoutResponse.onNext(Pair(response, email))
+                    bookingSuccessResponse.onNext(Pair(response, email))
                 }
             }
 

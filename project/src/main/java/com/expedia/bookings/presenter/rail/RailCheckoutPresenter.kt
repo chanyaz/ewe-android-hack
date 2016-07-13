@@ -8,7 +8,7 @@ import com.expedia.bookings.data.rail.responses.RailCreateTripResponse
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.widget.BaseCheckoutPresenter
 import com.expedia.vm.BaseCheckoutViewModel
-import com.expedia.vm.packages.BaseCreateTripViewModel
+import com.expedia.vm.BaseCreateTripViewModel
 import com.expedia.vm.rail.RailCheckoutViewModel
 import com.expedia.vm.rail.RailCreateTripViewModel
 import com.expedia.vm.traveler.CheckoutTravelerViewModel

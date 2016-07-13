@@ -2,15 +2,15 @@ package com.expedia.bookings.tracking
 
 object FlightsV2Tracking {
     fun trackCheckoutConfirmationPageLoad() {
-        OmnitureTracking.trackFlightCheckoutConfirmationPageLoad();
+        OmnitureTracking.trackFlightCheckoutConfirmationPageLoad()
     }
 
     fun trackCheckoutInfoPageLoad() {
-        OmnitureTracking.trackFlightCheckoutInfoPageLoad();
+        OmnitureTracking.trackFlightCheckoutInfoPageLoad()
     }
 
     fun trackInsuranceAdd() {
-        OmnitureTracking.trackFlightInsuranceAdd();
+        OmnitureTracking.trackFlightInsuranceAdd()
     }
 
     fun trackInsuranceBenefitsClick() {
@@ -22,11 +22,11 @@ object FlightsV2Tracking {
     }
 
     fun trackInsuranceRemove() {
-        OmnitureTracking.trackFlightInsuranceRemove();
+        OmnitureTracking.trackFlightInsuranceRemove()
     }
 
     fun trackInsuranceTermsClick() {
-        OmnitureTracking.trackFlightInsuranceTermsClick();
+        OmnitureTracking.trackFlightInsuranceTermsClick()
     }
 
     fun trackSearchPageLoad() {

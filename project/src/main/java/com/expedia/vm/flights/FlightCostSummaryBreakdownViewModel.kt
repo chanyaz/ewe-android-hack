@@ -17,6 +17,8 @@ class FlightCostSummaryBreakdownViewModel(context: Context) : BaseCostSummaryBre
     init {
         flightCostSummaryObservable.subscribe { tripResponse ->
             val breakdowns = arrayListOf<CostSummaryBreakdown>()
+            val flightDetails = tripResponse.details
+            val pricePerPassengerList = flightDetails.offer.pricePerPassengerCategory
             var title: String
             var travelerInfo: String = ""
             var numAdultsAdded = 0
@@ -24,11 +26,8 @@ class FlightCostSummaryBreakdownViewModel(context: Context) : BaseCostSummaryBre
             var numInfantsInSeat = 0
             var numInfantsInLap = 0
 
-            val flightDetails = tripResponse.details
-
-            val passengerList = flightDetails.offer.pricePerPassengerCategory
-            Collections.sort(passengerList)
-            passengerList.forEachIndexed { index, passenger ->
+            Collections.sort(pricePerPassengerList)
+            pricePerPassengerList.forEachIndexed { index, passenger ->
                 when (passenger.passengerCategory) {
                     PassengerCategory.ADULT,
                     PassengerCategory.SENIOR -> {
@@ -78,7 +77,8 @@ class FlightCostSummaryBreakdownViewModel(context: Context) : BaseCostSummaryBre
             }
 
             title = context.getString(R.string.cost_summary_breakdown_total_due_today)
-            breakdowns.add(CostSummaryBreakdown.CostSummaryBuilder().title(title).cost(tripResponse.totalPrice.formattedPrice).build())
+            val totalPrice = tripResponse.totalPrice ?: tripResponse.details.offer.totalFarePrice // TODO - priceChange checkout response does not return totalPrice field!!
+            breakdowns.add(CostSummaryBreakdown.CostSummaryBuilder().title(title).cost(totalPrice.formattedPrice).build())
 
             addRows.onNext(breakdowns)
             iconVisibilityObservable.onNext(true)

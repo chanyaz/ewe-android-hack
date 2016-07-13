@@ -24,8 +24,6 @@ import java.math.BigDecimal
 class PackageCheckoutViewModel(context: Context, val packageServices: PackageServices) : BaseCheckoutViewModel(context) {
     override val builder = PackageCheckoutParams.Builder()
 
-    val priceChangeObservable = PublishSubject.create<PackageCheckoutResponse>()
-
     init {
         tripResponseObservable.subscribe { it as PackageCreateTripResponse
             builder.tripId(it.packageDetails.tripId)
@@ -97,7 +95,7 @@ class PackageCheckoutViewModel(context: Context, val packageServices: PackageSer
                         }
                     }
                 } else {
-                    checkoutResponse.onNext(Pair(response, email));
+                    bookingSuccessResponse.onNext(Pair(response, email))
                 }
             }
 

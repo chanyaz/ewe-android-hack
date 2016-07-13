@@ -1,18 +1,28 @@
 package com.expedia.bookings.test.phone.newflights
 
-import android.support.test.espresso.Espresso
-import android.support.test.espresso.assertion.ViewAssertions
-import android.support.test.espresso.matcher.ViewMatchers
+import android.support.test.espresso.Espresso.onView
+import android.support.test.espresso.assertion.ViewAssertions.matches
+import android.support.test.espresso.matcher.ViewMatchers.withId
+import android.support.test.espresso.matcher.ViewMatchers.withText
+import android.support.test.espresso.matcher.ViewMatchers.isDisplayed
 import com.expedia.bookings.R
 
 object FlightsOverviewScreen {
 
     fun assertCardFeeWarningShown() {
         cardFeeWarningTextView()
-                .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
-                .check(ViewAssertions.matches(ViewMatchers.withText("An airline fee, based on card type, is added upon payment. Such fee is added to the total upon payment.")))
+                .check(matches(isDisplayed()))
+                .check(matches(withText("An airline fee, based on card type, is added upon payment. Such fee is added to the total upon payment.")))
     }
 
-    fun cardFeeWarningTextView() = Espresso.onView(ViewMatchers.withId(R.id.card_fee_warning_text))
+    fun assertPriceChangeShown(priceChangeText: String) {
+        priceChangeTextView()
+            .check(matches(isDisplayed()))
+            .check(matches(withText(priceChangeText)))
+    }
+
+    fun cardFeeWarningTextView() = onView(withId(R.id.card_fee_warning_text))
+
+    fun priceChangeTextView() = onView(withId(R.id.price_change_text))
 
 }

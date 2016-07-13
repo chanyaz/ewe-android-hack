@@ -46,7 +46,7 @@ import com.expedia.vm.InsuranceViewModel
 import com.expedia.vm.PaymentViewModel
 import com.expedia.vm.PriceChangeViewModel
 import com.expedia.vm.flights.FlightCostSummaryBreakdownViewModel
-import com.expedia.vm.packages.BaseCreateTripViewModel
+import com.expedia.vm.BaseCreateTripViewModel
 import com.expedia.vm.packages.BundlePriceViewModel
 import com.expedia.vm.packages.PackageCostSummaryBreakdownViewModel
 import com.expedia.vm.traveler.TravelerSummaryViewModel
@@ -135,7 +135,10 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet) : Pre
         vm.checkoutParams.subscribe {
             checkoutDialog.show()
         }
-        vm.checkoutResponse.subscribe {
+        vm.bookingSuccessResponse.subscribe {
+            checkoutDialog.hide()
+        }
+        vm.priceChangeObservable.subscribe {
             checkoutDialog.hide()
         }
     }
@@ -222,6 +225,10 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet) : Pre
         checkoutDialog.setMessage(resources.getString(R.string.booking_loading))
         checkoutDialog.setCancelable(false)
         checkoutDialog.isIndeterminate = true
+
+        getCheckoutViewModel().priceChangeObservable.subscribe {
+            slideToPurchase.resetSlider()
+        }
     }
 
     override fun onFinishInflate() {
