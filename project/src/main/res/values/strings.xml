@@ -1905,7 +1905,10 @@
     <string name="select_payment_callout">Enter Details</string>
     <!-- Add new card -->
     <string name="add_new_card">Add New Card</string>
+    <!-- New Debit/Credit card toolbar title shown on payment form -->
     <string name="new_credit_debit_card">New Debit/Credit Card</string>
+    <!-- New Credit card toolbar title shown on payment form -->
+    <string name="new_credit_card">New Credit Card</string>
     <!-- Overview button -->
     <string name="overview_btn">Overview</string>
     <!-- Stored Payment label -->

@@ -1,5 +1,4 @@
-<merge xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+<merge xmlns:android="http://schemas.android.com/apk/res/android">
 
     <com.expedia.bookings.widget.traveler.TravelerSelectState
         android:id="@+id/traveler_select_state"
@@ -15,17 +14,10 @@
 
         <com.expedia.bookings.widget.TextView
             android:id="@+id/boarding_warning"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/packages_secondary_color"
-            android:gravity="center"
+            style="@style/FlightWarningBar"
             android:maxLines="2"
-            android:padding="8dp"
             android:text="@string/name_must_match_warning_new"
-            android:textColor="@android:color/white"
-            android:textSize="12sp"
-            android:visibility="gone"
-            app:textStyle="normal" />
+            android:visibility="gone"/>
 
         <com.expedia.bookings.widget.FlightTravelerEntryWidget
             android:id="@+id/traveler_entry_widget"

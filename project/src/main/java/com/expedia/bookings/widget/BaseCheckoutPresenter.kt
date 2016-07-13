@@ -300,7 +300,9 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet) : Pre
             depositPolicyText.setInverseVisibility(forward)
             bottomContainer.setInverseVisibility(forward)
             cardFeeWarningTextView.setInverseVisibility(forward)
-            cardProcessingFeeTextView.visibility = if (forward && cardProcessingFeeTextView.text.isNotEmpty()) VISIBLE else GONE
+            val showPaymentProcessingFee = if (forward && cardProcessingFeeTextView.text.isNotEmpty()) VISIBLE else GONE
+            cardProcessingFeeTextView.visibility = showPaymentProcessingFee
+            toolbarDropShadow.visibility = showPaymentProcessingFee
             if (!forward) {
                 paymentWidget.show(PaymentWidget.PaymentDefault(), Presenter.FLAG_CLEAR_BACKSTACK)
                 paymentWidgetRootView.viewTreeObserver.removeOnGlobalLayoutListener(globalLayoutListener)

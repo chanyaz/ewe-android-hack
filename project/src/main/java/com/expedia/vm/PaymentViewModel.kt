@@ -40,7 +40,8 @@ class PaymentViewModel(val context: Context) {
     val isZipValidationRequired = BehaviorSubject.create<Boolean>(false)
     val lineOfBusiness = BehaviorSubject.create<LineOfBusiness>(LineOfBusiness.HOTELSV2)
     val cardIoScanResult = PublishSubject.create<CreditCard>()
-    var expandObserver = PublishSubject.create<Boolean>()
+    val expandObserver = PublishSubject.create<Boolean>()
+    val showDebitCardsNotAcceptedSubject = BehaviorSubject.create<Boolean>(false)
 
     //ouputs
     val iconStatus = PublishSubject.create<ContactDetailsCompletenessStatus>()
