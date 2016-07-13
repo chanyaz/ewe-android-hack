@@ -144,7 +144,7 @@
     <!-- Label for showing users that drop-off location has to be same as pick-up location -->
     <string name="drop_off_same_as_pick_up">Coming soon! We\'re working hard to add one way bookings in an upcoming version.</string>
     <!-- Car search error -->
-    <string name="error_car_search_message">Your search returned no results. Please retry your search with different criteria.</string>
+    <string name="error_no_result_message">Your search returned no results. Please retry your search with different criteria.</string>
     <!-- Car no filtered search results -->
     <string name="filter_no_car_search_results_message">Your search returned no results. Please try reducing the amount of filters.</string>
     <!-- Transmission options filter label for a car rental -->
@@ -1808,6 +1808,9 @@
     <string name="calendar_instructions_hotels_no_dates_selected">Select Check-in Date</string>
     <!-- Calendar instruction text hotels date range template. %1$s = Formatted start date, %2$s = formatted end date. E.g. May 12 - May 15 -->
     <string name="calendar_instructions_date_range_with_guests_TEMPLATE">{startdate} - {enddate}, {guests}</string>
+    <!-- Calendar instruction text flight date template. E.g. May 12, 2 guests -->
+    <string name="flight_calendar_instructions_date_with_guests_TEMPLATE">{startdate}, {guests}</string>
+
     <string name="room_with_guests_TEMPLATE">1 Room, {guests}</string>
     <string name="hotel_free_cancellation_TEMPLATE">Free Cancellation by {date}</string>
 

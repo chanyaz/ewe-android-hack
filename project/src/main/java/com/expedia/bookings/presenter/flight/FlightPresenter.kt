@@ -1,11 +1,15 @@
 package com.expedia.bookings.presenter.flight
 
+import android.animation.ArgbEvaluator
 import android.content.Context
 import android.graphics.Color
+import android.support.v4.content.ContextCompat
 import android.util.AttributeSet
 import android.view.View
 import android.view.ViewStub
+import android.view.animation.DecelerateInterpolator
 import com.expedia.bookings.R
+import com.expedia.bookings.animation.TransitionElement
 import com.expedia.bookings.data.BaseApiResponse
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.abacus.AbacusUtils
@@ -15,15 +19,17 @@ import com.expedia.bookings.presenter.BaseOverviewPresenter
 import com.expedia.bookings.presenter.LeftToRightTransition
 import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.presenter.ScaleTransition
-import com.expedia.bookings.utils.TravelerManager
+import com.expedia.bookings.presenter.packages.FlightErrorPresenter
 import com.expedia.bookings.services.FlightServices
 import com.expedia.bookings.tracking.FlightsV2Tracking
 import com.expedia.bookings.utils.StrUtils
+import com.expedia.bookings.utils.TravelerManager
 import com.expedia.bookings.utils.Ui
 import com.expedia.util.notNullAndObservable
 import com.expedia.util.subscribeVisibility
 import com.expedia.vm.FlightCheckoutOverviewViewModel
 import com.expedia.vm.FlightSearchViewModel
+import com.expedia.vm.packages.FlightErrorViewModel
 import com.expedia.vm.packages.PackageSearchType
 import rx.Observable
 import javax.inject.Inject
@@ -32,6 +38,12 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
     lateinit var flightServices: FlightServices
         @Inject set
     lateinit var travelerManager: TravelerManager
+
+    val errorPresenter: FlightErrorPresenter by lazy {
+        val viewStub = findViewById(R.id.error_presenter) as ViewStub
+        val presenter = viewStub.inflate() as FlightErrorPresenter
+        presenter
+    }
 
     val searchPresenter: FlightSearchPresenter by lazy {
         if (displayFlightDropDownRoutes()) {
@@ -114,6 +126,7 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
             outBoundPresenter.toolbarViewModel.city.onNext(params.arrivalAirport?.regionNames?.shortName)
             outBoundPresenter.toolbarViewModel.travelers.onNext(params.guests)
             outBoundPresenter.toolbarViewModel.date.onNext(params.departureDate)
+            errorPresenter.viewmodel.paramsSubject.onNext(params)
 
             inboundPresenter.toolbarViewModel.city.onNext(params.departureAirport.regionNames.shortName)
             inboundPresenter.toolbarViewModel.travelers.onNext(params.guests)
@@ -131,6 +144,13 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
             outBoundPresenter.resultsPresenter.setLoadingState()
             show(outBoundPresenter)
         }
+        outBoundPresenter.flightSearchViewModel.errorObservable.subscribe(errorPresenter.viewmodel.searchApiErrorObserver)
+        outBoundPresenter.flightSearchViewModel.errorObservable.subscribe { show(errorPresenter) }
+
+        errorPresenter.viewmodel.defaultErrorObservable.subscribe {
+            show(searchPresenter, FLAG_CLEAR_TOP)
+        }
+
         vm.flightProductId.subscribe { productKey ->
             val requestInsurance = Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppFlightInsurance)
             val createTripParams = FlightCreateTripParams(productKey, requestInsurance)
@@ -164,6 +184,8 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
         travelerManager = Ui.getApplication(getContext()).travelerComponent().travelerManager()
         Ui.getApplication(getContext()).flightComponent().inject(this)
         View.inflate(context, R.layout.flight_presenter, this)
+
+        errorPresenter.viewmodel = FlightErrorViewModel(context)
         searchViewModel = FlightSearchViewModel(context, flightServices)
     }
 
@@ -174,6 +196,8 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
         addTransition(outboundToInbound)
         addTransition(overviewToConfirmation)
         addTransition(outboundFlightToOverview)
+        addTransition(outboundToError)
+        addTransition(errorToSearch)
         addDefaultTransition(defaultTransition)
         flightOverviewPresenter.getCheckoutPresenter().toggleCheckoutButton(false)
 
@@ -183,6 +207,55 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
         }
 
         show(searchPresenter)
+    }
+
+    private val outboundToError = object : Presenter.Transition(FlightOutboundPresenter::class.java, FlightErrorPresenter::class.java, DecelerateInterpolator(), 200) {
+        override fun startTransition(forward: Boolean) {
+            super.startTransition(forward)
+            errorPresenter.visibility = View.VISIBLE
+            outBoundPresenter.visibility = View.GONE
+        }
+
+        override fun updateTransition(f: Float, forward: Boolean) {
+            super.updateTransition(f, forward)
+            errorPresenter.animationUpdate(f, !forward)
+        }
+
+        override fun endTransition(forward: Boolean) {
+            super.endTransition(forward)
+            errorPresenter.visibility = if (forward) View.VISIBLE else View.GONE
+            errorPresenter.animationFinalize()
+        }
+    }
+
+    val searchArgbEvaluator = ArgbEvaluator()
+    val searchBackgroundColor = TransitionElement(ContextCompat.getColor(context, R.color.search_anim_background), Color.TRANSPARENT)
+
+    private val errorToSearch = object : Presenter.Transition(FlightErrorPresenter::class.java, FlightSearchPresenter::class.java, DecelerateInterpolator(), 200) {
+        override fun startTransition(forward: Boolean) {
+            super.startTransition(forward)
+            searchPresenter.visibility = View.VISIBLE
+            searchPresenter.animationStart(forward)
+        }
+
+        override fun updateTransition(f: Float, forward: Boolean) {
+            super.updateTransition(f, forward)
+            searchPresenter.animationUpdate(f, forward)
+            if (forward) {
+                searchPresenter.setBackgroundColor(searchArgbEvaluator.evaluate(f, searchBackgroundColor.start, searchBackgroundColor.end) as Int)
+            } else {
+                searchPresenter.setBackgroundColor(searchArgbEvaluator.evaluate(f, searchBackgroundColor.end, searchBackgroundColor.start) as Int)
+            }
+        }
+
+        override fun endTransition(forward: Boolean) {
+            super.endTransition(forward)
+            searchPresenter.setBackgroundColor(if (!forward) searchBackgroundColor.end else searchBackgroundColor.start)
+            searchPresenter.animationFinalize(!forward)
+            errorPresenter.visibility = if (forward) View.GONE else View.VISIBLE
+            searchPresenter.visibility = if (forward) View.VISIBLE else View.GONE
+
+        }
     }
 
     private val inboundFlightToOverview = object : LeftToRightTransition(this, FlightInboundPresenter::class.java, FlightOverviewPresenter::class.java) {
@@ -223,10 +296,6 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
 
     private val defaultTransition = object : Presenter.DefaultTransition(getDefaultPresenterClassName()) {
         override fun endTransition(forward: Boolean) {
-            searchPresenter.visibility = View.VISIBLE
-            outBoundPresenter.visibility = View.GONE
-            inboundPresenter.visibility = View.GONE
-            flightOverviewPresenter.visibility = View.GONE
             FlightsV2Tracking.trackSearchPageLoad()
         }
     }

@@ -144,7 +144,7 @@
     <!-- Label for showing users that drop-off location has to be same as pick-up location -->
     <string name="drop_off_same_as_pick_up">Sắp ra mắt! Chúng tôi đang nỗ lực hết sức để thêm tính năng đặt thuê xe một chiều trong phiên bản sắp ra mắt.</string>
     <!-- Car search error -->
-    <string name="error_car_search_message">Không tìm được kết quả. Vui lòng thử tìm lại với dữ liệu khác.</string>
+    <string name="error_no_result_message">Không tìm được kết quả. Vui lòng thử tìm lại với dữ liệu khác.</string>
     <!-- Car no filtered search results -->
     <string name="filter_no_car_search_results_message">Không tìm được kết quả. Vui lòng giảm số bộ lọc.</string>
     <!-- Transmission options filter label for a car rental -->

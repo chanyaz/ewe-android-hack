@@ -144,7 +144,7 @@
     <!-- Label for showing users that drop-off location has to be same as pick-up location -->
     <string name="drop_off_same_as_pick_up">Bientôt disponible! Nous déployons des efforts pour ajouter des réservations en aller simple dans une version prochaine.</string>
     <!-- Car search error -->
-    <string name="error_car_search_message">Votre recherche n\&apos;a produit aucun résultat. Veuillez recommencer votre recherche avec d\&apos;autres critères.</string>
+    <string name="error_no_result_message">Votre recherche n\&apos;a produit aucun résultat. Veuillez recommencer votre recherche avec d\&apos;autres critères.</string>
     <!-- Car no filtered search results -->
     <string name="filter_no_car_search_results_message">Votre recherche n\&apos;a produit aucun résultat. Veuillez essayer d\&apos;utiliser moins de filtres.</string>
     <!-- Transmission options filter label for a car rental -->

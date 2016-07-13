@@ -44,6 +44,7 @@ open class FlightServices(endpoint: String, okHttpClient: OkHttpClient, intercep
         return flightApi.flightSearch(params.toQueryMap(), params.children).observeOn(observeOn)
                 .subscribeOn(subscribeOn)
                 .doOnNext { response ->
+                    if (response.hasErrors() || response.legs.isEmpty() || response.offers.isEmpty()) return@doOnNext
                     response.legs.forEach { leg ->
                         leg.mayChargeObFees = response.offers.filter { it.legIds.contains(leg.legId) }
                                                              .filter { it.mayChargeOBFees == true }

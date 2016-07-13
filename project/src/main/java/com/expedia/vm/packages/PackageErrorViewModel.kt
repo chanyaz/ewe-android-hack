@@ -99,7 +99,7 @@ class PackageErrorViewModel(private val context: Context) {
             PackagesTracking().trackSearchError(it.toString())
             when (it) {
                 ApiError.Code.PACKAGE_SEARCH_ERROR -> {
-                    imageObservable.onNext(R.drawable.error_default)
+                    imageObservable.onNext(R.drawable.error_search)
                     errorMessageObservable.onNext(context.getString(R.string.error_package_search_message))
                     buttonTextObservable.onNext(context.getString(R.string.edit_search))
                 }

@@ -142,7 +142,7 @@ class PackageErrorViewModelTest {
         subjectUnderTest.actionObservable.onNext(Unit)
 
         hotelOfferErrorObservableTestSubscriber.assertValues(Unit)
-        errorImageObservableTestSubscriber.assertValues(R.drawable.error_default)
+        errorImageObservableTestSubscriber.assertValues(R.drawable.error_search)
         errorMessageObservableTestSubscriber.assertValues(getContext().getString(R.string.error_package_search_message))
         errorButtonObservableTestSubscriber.assertValues(getContext().getString(R.string.edit_search))
     }

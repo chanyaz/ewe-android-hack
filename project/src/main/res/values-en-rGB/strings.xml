@@ -144,7 +144,7 @@
     <!-- Label for showing users that drop-off location has to be same as pick-up location -->
     <string name="drop_off_same_as_pick_up">Coming soon! We\'re working hard to add one way bookings in an upcoming version.</string>
     <!-- Car search error -->
-    <string name="error_car_search_message">Your search returned no results. Please retry your search with different criteria.</string>
+    <string name="error_no_result_message">Your search returned no results. Please retry your search with different criteria.</string>
     <!-- Car no filtered search results -->
     <string name="filter_no_car_search_results_message">Your search returned no results. Please try reducing the amount of filters.</string>
     <!-- Transmission options filter label for a car rental -->

@@ -144,7 +144,7 @@
     <!-- Label for showing users that drop-off location has to be same as pick-up location -->
     <string name="drop_off_same_as_pick_up">Em breve! Estamos trabalhando para adicionar viagens só de ida em uma versão futura.</string>
     <!-- Car search error -->
-    <string name="error_car_search_message">Sua busca não obteve resultados. Tente novamente usando outros critérios de busca.</string>
+    <string name="error_no_result_message">Sua busca não obteve resultados. Tente novamente usando outros critérios de busca.</string>
     <!-- Car no filtered search results -->
     <string name="filter_no_car_search_results_message">Sua busca não obteve resultados. Tente reduzir o número de filtros.</string>
     <!-- Transmission options filter label for a car rental -->

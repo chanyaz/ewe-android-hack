@@ -3,6 +3,7 @@ package com.expedia.vm
 import android.content.Context
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Db
+import com.expedia.bookings.data.cars.ApiError
 import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.data.flights.FlightSearchParams
 import com.expedia.bookings.data.flights.FlightSearchResponse
@@ -31,6 +32,8 @@ class FlightSearchViewModel(context: Context, val flightServices: FlightServices
 
     var flightMap: HashMap<String, LinkedHashSet<FlightLeg>> = HashMap()
     var flightOfferModels: HashMap<String, FlightTripDetails.FlightOffer> = HashMap()
+    val errorObservable = PublishSubject.create<ApiError.Code>()
+
 
     // Outputs
     val searchParamsObservable = PublishSubject.create<FlightSearchParams>()
@@ -219,8 +222,14 @@ class FlightSearchViewModel(context: Context, val flightServices: FlightServices
     fun makeResultsObserver(): Observer<FlightSearchResponse> {
         return object : Observer<FlightSearchResponse> {
             override fun onNext(response: FlightSearchResponse) {
-                createFlightMap(response)
-                obFeeDetailsUrlObservable.onNext(response.obFeesDetails)
+                if (response.hasErrors()) {
+                    errorObservable.onNext(response.firstError.errorCode)
+                } else if (response.offers.isEmpty() || response.legs.isEmpty()) {
+                    errorObservable.onNext(ApiError.Code.FLIGHT_SEARCH_NO_RESULTS)
+                } else {
+                    createFlightMap(response)
+                    obFeeDetailsUrlObservable.onNext(response.obFeesDetails)
+                }
             }
 
             override fun onCompleted() {

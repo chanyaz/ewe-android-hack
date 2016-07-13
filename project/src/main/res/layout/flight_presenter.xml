@@ -6,46 +6,46 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:inflatedId="@+id/widget_flight_search"
-        android:layout="@layout/flight_search_stub"
-        android:visibility="gone" />
+        android:layout="@layout/flight_search_stub" />
 
     <ViewStub
         android:id="@+id/search_restricted_airport_dropdown_presenter"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:inflatedId="@+id/widget_flight_search"
-        android:layout="@layout/flight_search_restricted_airport_dropdown_stub"
-        android:visibility="gone" />
+        android:layout="@layout/flight_search_restricted_airport_dropdown_stub" />
 
     <ViewStub
         android:id="@+id/outbound_presenter"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:inflatedId="@+id/widget_flight_outbound"
-        android:layout="@layout/flight_outbound_stub"
-        android:visibility="gone" />
+        android:layout="@layout/flight_outbound_stub" />
 
     <ViewStub
         android:id="@+id/inbound_presenter"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:inflatedId="@+id/widget_flight_inbound"
-        android:layout="@layout/flight_inbound_stub"
-        android:visibility="gone" />
+        android:layout="@layout/flight_inbound_stub" />
 
     <ViewStub
         android:id="@+id/overview_presenter"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:inflatedId="@+id/widget_bundle_overview"
-        android:layout="@layout/flight_overview_stub"
-        android:visibility="gone" />
+        android:layout="@layout/flight_overview_stub" />
 
     <ViewStub
         android:id="@+id/confirmation_presenter"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout="@layout/flight_confirmation_stub"
-        android:background="@color/gray1"
-        android:visibility="gone" />
+        android:layout="@layout/flight_confirmation_stub" />
+
+    <ViewStub
+        android:id="@+id/error_presenter"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout="@layout/flight_error_stub" />
+
 </merge>

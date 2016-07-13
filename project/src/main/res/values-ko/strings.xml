@@ -144,7 +144,7 @@
     <!-- Label for showing users that drop-off location has to be same as pick-up location -->
     <string name="drop_off_same_as_pick_up">제공 예정! 다음 버전에서는 타지점 반납의 편도 예약을 추가하도록 지금 열심히 준비 중입니다.</string>
     <!-- Car search error -->
-    <string name="error_car_search_message">검색 결과가 없습니다. 다른 기준으로 다시 검색해 주세요.</string>
+    <string name="error_no_result_message">검색 결과가 없습니다. 다른 기준으로 다시 검색해 주세요.</string>
     <!-- Car no filtered search results -->
     <string name="filter_no_car_search_results_message">검색 결과가 없습니다. 필터 개수를 줄여보세요.</string>
     <!-- Transmission options filter label for a car rental -->

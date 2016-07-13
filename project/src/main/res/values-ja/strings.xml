@@ -144,7 +144,7 @@
     <!-- Label for showing users that drop-off location has to be same as pick-up location -->
     <string name="drop_off_same_as_pick_up">準備中。新バージョンでは、レンタカーのワンウェイ (乗り捨て) 予約を導入予定です。</string>
     <!-- Car search error -->
-    <string name="error_car_search_message">検索結果はありません。条件を変更して再検索してください。</string>
+    <string name="error_no_result_message">検索結果はありません。条件を変更して再検索してください。</string>
     <!-- Car no filtered search results -->
     <string name="filter_no_car_search_results_message">検索結果はありません。検索条件の数を減らしてください。</string>
     <!-- Transmission options filter label for a car rental -->

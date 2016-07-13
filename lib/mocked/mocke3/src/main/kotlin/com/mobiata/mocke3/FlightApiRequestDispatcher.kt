@@ -13,7 +13,8 @@ class FlightApiRequestDispatcher(fileOpener: FileOpener) : AbstractDispatcher(fi
         PASSPORT_NEEDED_ONE_WAY,
         MAY_CHARGE_OB_FEES_ROUND_TRIP,
         CHECKOUT_PRICE_CHANGE,
-        CREATETRIP_PRICE_CHANGE
+        CREATETRIP_PRICE_CHANGE,
+        SEARCH_ERROR
     }
 
     override fun dispatch(request: RecordedRequest): MockResponse {
@@ -43,6 +44,7 @@ class FlightApiRequestDispatcher(fileOpener: FileOpener) : AbstractDispatcher(fi
 class FlightApiMockResponseGenerator() {
     companion object {
         fun getSearchResponseFilePath(params: MutableMap<String, String>): String {
+            val searchError = params["departureAirport"] == "SearchError"
             val mayChargeObFeesFlight = params["departureAirport"] == "AKL"
             val priceChangeCheckout = params["departureAirport"] == "PCC"
             val priceChangeCreateTrip = params["departureAirport"] == "PCT"
@@ -63,6 +65,9 @@ class FlightApiMockResponseGenerator() {
                     }
                     else if(priceChangeCreateTrip) {
                         FlightApiRequestDispatcher.SearchResponseType.CREATETRIP_PRICE_CHANGE
+                    }
+                    else if (searchError) {
+                        FlightApiRequestDispatcher.SearchResponseType.SEARCH_ERROR
                     }
                     else if (isReturnFlightSearch) {
                         FlightApiRequestDispatcher.SearchResponseType.HAPPY_ROUND_TRIP
@@ -103,6 +108,8 @@ class FlightApiMockResponseGenerator() {
                 FlightApiRequestDispatcher.SearchResponseType.CHECKOUT_PRICE_CHANGE -> "checkout_price_change"
 
                 FlightApiRequestDispatcher.SearchResponseType.CREATETRIP_PRICE_CHANGE -> "create_trip_price_change"
+
+                FlightApiRequestDispatcher.SearchResponseType.SEARCH_ERROR -> "search_error"
             }
 
             if (isEarnResponse) {
