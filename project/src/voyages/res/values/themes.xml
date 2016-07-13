@@ -6,7 +6,7 @@
         <item name="skin_hotelPriceStandardColor">@color/hotel_price_text_color_vsc</item>
         <item name="skin_hotelPriceSaleColor">@color/hotel_price_sale_text_color_vsc</item>
         <item name="skin_hotelSearchActionBarPadding">5dp</item>
-        <item name="skin_actionBarButtonTextColor">@color/action_bar_text_green</item>
+
         <item name="skin_ratingBarUserReviewStyle">@style/RatingBar.UserReview.VSC.Purple</item>
         <item name="skin_hotelListingUserRatingStyle">@style/RatingBar.UserReview.VSC.Purple</item>
         <item name="skin_hotelListingSortPriceDrawable">@drawable/ic_sort_euro</item>

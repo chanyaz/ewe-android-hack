@@ -85,7 +85,6 @@
         <item name="skin_hotelPriceStandardColor">@color/hotel_price_text_color</item>
         <item name="skin_hotelPriceSaleColor">@color/hotel_price_sale_text_color</item>
         <item name="skin_hotelSearchActionBarPadding">0dp</item>
-        <item name="skin_actionBarButtonTextColor">@color/review_screen_tab_indicator</item>
         <item name="skin_ratingBarUserReviewStyle">@style/RatingBar.UserReview.White</item>
         <item name="skin_hotelListingUserRatingStyle">@style/RatingBar.UserReview.Yellow</item>
         <item name="skin_hotelListingSortPriceDrawable">@drawable/ic_sort_price</item>

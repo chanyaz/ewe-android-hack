@@ -9,7 +9,6 @@
         <item name="skin_bestPriceGuaranteeString">@string/travelocity_best_price_guarantee</item>
         <item name="skin_costSummaryDialogStripeDrawable">@drawable/dialog_breakdown_stripe</item>
         <item name="skin_actionBarSpinnerBackground">@drawable/ab_spinner_travelocity</item>
-        <item name="skin_actionBarButtonTextColor">@color/action_bar_text_blue_travelocity</item>
         <item name="skin_cvvBookButtonTextColor">@android:color/white</item>
         <item name="skin_hotelPrimaryTravelerInfoLogoDrawable">@drawable/ic_tvly_white_logo_small</item>
         <item name="android:logo" tools:targetApi="11">@drawable/ic_logo_hotels</item>

@@ -8,4 +8,4 @@
     android:drawableLeft="@drawable/ic_action_bar_checkmark"
     android:paddingRight="8dp"
     android:text="@string/select"
-    android:textColor="?attr/skin_actionBarButtonTextColor" />
+    android:textColor="@color/actionbar_button_text_color" />
