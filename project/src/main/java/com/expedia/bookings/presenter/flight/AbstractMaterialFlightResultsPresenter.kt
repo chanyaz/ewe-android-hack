@@ -6,7 +6,7 @@ import com.expedia.bookings.R
 import com.expedia.bookings.tracking.FlightsV2Tracking
 import com.expedia.bookings.widget.flights.FlightListAdapter
 import com.expedia.util.notNullAndObservable
-import com.expedia.util.subscribeVisibility
+import com.expedia.util.subscribeTextAndVisibility
 import com.expedia.vm.FlightSearchViewModel
 
 abstract class AbstractMaterialFlightResultsPresenter(context: Context, attrs: AttributeSet?) : BaseFlightPresenter(context, attrs) {
@@ -24,7 +24,7 @@ abstract class AbstractMaterialFlightResultsPresenter(context: Context, attrs: A
         resultsPresenter.setAdapter(flightListAdapter)
         toolbarViewModel.isOutboundSearch.onNext(isOutboundResultsPresenter())
         vm.confirmedOutboundFlightSelection.subscribe(resultsPresenter.outboundFlightSelectedSubject)
-        vm.offerSelectedChargesObFeesSubject.subscribeVisibility(overviewPresenter.paymentFeesMayApplyTextView)
+        vm.offerSelectedChargesObFeesSubject.subscribeTextAndVisibility(overviewPresenter.paymentFeesMayApplyTextView)
         vm.obFeeDetailsUrlObservable.subscribe(paymentFeeInfoWebView.viewModel.webViewURLObservable)
     }
 

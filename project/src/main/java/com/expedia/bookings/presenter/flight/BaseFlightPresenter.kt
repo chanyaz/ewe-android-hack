@@ -13,6 +13,7 @@ import android.view.ViewStub
 import android.view.animation.DecelerateInterpolator
 import com.expedia.bookings.R
 import com.expedia.bookings.data.flights.FlightLeg
+import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.presenter.ScaleTransition
 import com.expedia.bookings.presenter.shared.FlightOverviewPresenter
@@ -24,11 +25,11 @@ import com.expedia.bookings.widget.BaggageFeeInfoWidget
 import com.expedia.bookings.widget.BaseFlightFilterWidget
 import com.expedia.bookings.widget.flights.PaymentFeeInfoWebView
 import com.expedia.util.notNullAndObservable
+import com.expedia.vm.BaseFlightFilterViewModel
 import com.expedia.vm.FlightOverviewViewModel
 import com.expedia.vm.FlightResultsViewModel
 import com.expedia.vm.FlightToolbarViewModel
 import com.expedia.vm.WebViewViewModel
-import com.expedia.vm.BaseFlightFilterViewModel
 import rx.Observer
 import rx.exceptions.OnErrorNotImplementedException
 
@@ -37,6 +38,8 @@ abstract class BaseFlightPresenter(context: Context, attrs: AttributeSet?) : Pre
     val ANIMATION_DURATION = 400
     val toolbar: Toolbar by bindView(R.id.flights_toolbar)
     var navIcon = ArrowXDrawableUtil.getNavigationIconDrawable(getContext(), ArrowXDrawableUtil.ArrowDrawableType.BACK)
+    val airlinesChargePaymentFees = PointOfSale.getPointOfSale().doAirlinesChargeAdditionalFeeBasedOnPaymentMethod()
+
     val menuFilter: MenuItem by lazy {
         val menuFilter = toolbar.menu.findItem(R.id.menu_filter)
         menuFilter
@@ -188,7 +191,7 @@ abstract class BaseFlightPresenter(context: Context, attrs: AttributeSet?) : Pre
         override fun endTransition(forward: Boolean) {
             super.endTransition(forward)
             if (forward) {
-                toolbarViewModel.setTitleOnly.onNext(context.getString(R.string.flights_flight_overview_payment_fees))
+                toolbarViewModel.setTitleOnly.onNext(context.getString(if (airlinesChargePaymentFees) R.string.Airline_fee else R.string.flights_flight_overview_payment_fees))
             }
             else {
                 toolbarViewModel.refreshToolBar.onNext(false)
@@ -230,6 +233,7 @@ abstract class BaseFlightPresenter(context: Context, attrs: AttributeSet?) : Pre
         override fun onNext(flight: FlightLeg) {
             show(overviewPresenter)
             overviewPresenter.vm.selectedFlightLegSubject.onNext(flight)
+
             trackFlightOverviewLoad()
         }
 

@@ -3,7 +3,7 @@ package com.expedia.bookings.presenter.flight
 import android.content.Context
 import android.util.AttributeSet
 import android.view.View
-import com.expedia.bookings.data.flights.FlightTripDetails
+import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.presenter.shared.FlightResultsListViewPresenter
 import com.expedia.bookings.services.FlightServices
 import com.expedia.bookings.test.robolectric.RobolectricRunner
@@ -57,9 +57,9 @@ class AbstractMaterialFlightResultsPresenterTest {
         createSystemUnderTest(false)
         givenFlightSearchViewModel()
 
-        val flightOfferNoObFees = FlightTripDetails.FlightOffer()
-        flightOfferNoObFees.mayChargeOBFees = true
-        sut.flightSearchViewModel.flightOfferSelected.onNext(flightOfferNoObFees)
+        val flightLegYesObFees = FlightLeg()
+        flightLegYesObFees.mayChargeObFees = true
+        sut.flightSearchViewModel.outboundSelected.onNext(flightLegYesObFees)
 
         assertEquals(View.VISIBLE, sut.overviewPresenter.paymentFeesMayApplyTextView.visibility)
     }
@@ -69,9 +69,9 @@ class AbstractMaterialFlightResultsPresenterTest {
         createSystemUnderTest(false)
         givenFlightSearchViewModel()
 
-        val flightOfferNoObFees = FlightTripDetails.FlightOffer()
-        flightOfferNoObFees.mayChargeOBFees = false
-        sut.flightSearchViewModel.flightOfferSelected.onNext(flightOfferNoObFees)
+        val flightLegNoObFees = FlightLeg()
+        flightLegNoObFees.mayChargeObFees = false
+        sut.flightSearchViewModel.outboundSelected.onNext(flightLegNoObFees)
 
         assertEquals(View.GONE, sut.overviewPresenter.paymentFeesMayApplyTextView.visibility)
     }
