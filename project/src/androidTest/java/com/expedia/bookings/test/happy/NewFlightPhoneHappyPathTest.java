@@ -274,7 +274,7 @@ public class NewFlightPhoneHappyPathTest extends NewFlightTestCase {
 
 	private void assertCheckoutOverview() {
 		onView(allOf(withId(R.id.destination), withParent(withId(R.id.checkout_overview_floating_toolbar)),
-			withText("Detroit, MI (DTW-Detroit Metropolitan Wayne County)"))).check(matches(isDisplayed()));
+			withText("Detroit, MI"))).check(matches(isDisplayed()));
 		onView(allOf(withId(R.id.travelers), withParent(withId(R.id.checkout_overview_floating_toolbar)),
 			withText("1 Traveler"))).check(matches(isDisplayed()));
 

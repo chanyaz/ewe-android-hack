@@ -59,7 +59,7 @@ public class StrUtils {
 	private static final Pattern AIRPORT_CODE_PATTERN = Pattern.compile("\\((.*?)\\)");
 	// e.g. San Francisco, CA, United States (SFO-San Francisco Int'l Airport) -> San Francisco, CA, United States
 	private static final Pattern DISPLAY_NAME_PATTERN = Pattern.compile("^((.+)(?= \\(.*\\)))");
-	public static final String HTML_TAGS_REGEX = "<[^>]*>";
+	private static final String HTML_TAGS_REGEX = "<[^>]*>";
 	private static final Pattern CITY_STATE_PATTERN_PACKAGE = Pattern.compile("^[^\\(]+");
 	/**
 	 * Formats the display of how many adults and children are picked currently.
