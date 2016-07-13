@@ -1,4 +1,4 @@
-package com.expedia.vm.packages
+package com.expedia.vm
 
 import android.content.Context
 import com.expedia.bookings.R
@@ -16,7 +16,7 @@ import java.util.Collections
 import java.util.Comparator
 import java.util.TreeMap
 
-class FlightFilterViewModel(private val context: Context) {
+class BaseFlightFilterViewModel(private val context: Context) {
     val hourMinuteFormatter = DateTimeFormat.forPattern("hh:mma")
     val doneObservable = PublishSubject.create<Unit>()
     val doneButtonEnableObservable = PublishSubject.create<Boolean>()
