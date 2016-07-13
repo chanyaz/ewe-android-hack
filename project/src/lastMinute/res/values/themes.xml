@@ -33,7 +33,6 @@
         <item name="android:homeAsUpIndicator" tools:targetApi="11">@drawable/ic_action_bar_back_arrow</item>
         <item name="skin_travellerInfoPageLogo">@drawable/ic_lm_traveller_logo</item>
         <item name="skin_travellerInfoPageLogoDisabled">@drawable/ic_lm_white_logo_small</item>
-        <item name="skin_userRatingBarDrawable">@drawable/ratingbar_userreview_flat_blue_lm</item>
         <item name="skin_hotelRulesActionBarLogo">@drawable/ic_action_bar_brand_logo</item>
         <item name="skin_flightRulesActionBarLogo">@drawable/ic_action_bar_brand_logo</item>
         <item name="android:actionOverflowButtonStyle">@style/OverflowMenuButton</item>

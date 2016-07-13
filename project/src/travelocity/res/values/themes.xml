@@ -18,7 +18,6 @@
         <item name="android:homeAsUpIndicator" tools:targetApi="11">@drawable/ic_action_bar_back_arrow_travelocity</item>
         <item name="skin_travellerInfoPageLogo">@drawable/ic_tvly_traveller_logo</item>
         <item name="skin_travellerInfoPageLogoDisabled">@drawable/ic_tvly_white_logo_small</item>
-        <item name="skin_userRatingBarDrawable">@drawable/ratingbar_userreview_flat_blue_tvly</item>
         <item name="skin_tablet_ab_launch_text1_base">@string/app_name</item>
         <item name="skin_hotelRulesActionBarLogo">@drawable/ic_action_bar_brand_logo</item>
         <item name="skin_flightRulesActionBarLogo">@drawable/ic_action_bar_brand_logo</item>
