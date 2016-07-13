@@ -235,7 +235,8 @@
             android:defaultValue="@string/preference_abacus_default"
             android:summary="%s"
             android:key="10799"
-            android:title="Hotel Checkout Scan for Card.io - 10799" />
+            android:title="Hotel Checkout Scan for Card.io - 10799"
+            android:layout="@layout/preference"  />
 
         <ListPreference
             android:entries="@array/abacus_default_choices"
