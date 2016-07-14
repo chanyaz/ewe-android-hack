@@ -49,6 +49,8 @@ DummyFiletoHandleKotlinLintError {
 		R.drawable.ic_amenity_restaurant,
 		R.drawable.ic_amenity_fitness_center,
 		R.drawable.ic_amenity_room_service,
+		R.string.brand_account_cont_desc_TEMPLATE,
+		R.string.signed_in_account_cont_desc_TEMPLATE,
 		R.drawable.ic_amenity_spa,
 		R.layout.confirmation_row,
 		R.string.package_confirmation_reward_points,

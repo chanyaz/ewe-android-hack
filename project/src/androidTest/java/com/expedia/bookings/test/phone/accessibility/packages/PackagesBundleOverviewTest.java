@@ -74,6 +74,13 @@ public class PackagesBundleOverviewTest extends PackageTestCase {
 		onView(withId(R.id.checkout_toolbar)).check(matches(withNavigationContentDescription("Back")));
 		PackageScreen.checkout().perform(click());
 		onView(withId(R.id.view_trip_details)).check(matches(hasContentDescription()));
+
+		HotelScreen.doLogin();
+		onView(withId(R.id.card_icon)).check(matches(hasContentDescription()));
+		onView(withId(R.id.account_top_textview)).check(matches(hasContentDescription()));
+		onView(withId(R.id.account_logout_logout_button)).check(matches(hasContentDescription()));
+		onView(withId(R.id.account_logout_logout_button)).perform(click());
+
 	}
 
 	private void checkBundleOverviewHotelContentDescription(boolean searchCompleted) {
