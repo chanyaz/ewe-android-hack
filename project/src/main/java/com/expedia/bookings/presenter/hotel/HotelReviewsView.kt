@@ -7,12 +7,14 @@ import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
 import android.util.AttributeSet
 import android.view.View
+import android.view.accessibility.AccessibilityEvent
 import android.widget.FrameLayout
 import android.widget.LinearLayout
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.R
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.services.ReviewsServices
+import com.expedia.bookings.utils.AccessibilityUtil
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.widget.HotelReviewsAdapter
 import com.expedia.util.notNullAndObservable
@@ -23,9 +25,9 @@ import kotlin.properties.Delegates
 class HotelReviewsView(context: Context, attrs: AttributeSet) : FrameLayout(context, attrs) {
 
     var reviewServices: ReviewsServices by Delegates.notNull()
-    val hotelReviewsToolbar: HotelReviewsToolbar by bindView(R.id.hotel_reviews_toolbar)
+    val hotelReviewsTabbar: HotelReviewsTabbar by bindView(R.id.hotel_reviews_tabbar)
     val viewPager: ViewPager by bindView(R.id.viewpager)
-    val toolbar: Toolbar by bindView(R.id.toolbar)
+    val toolbar: Toolbar by bindView(R.id.hotel_reviews_toolbar)
     val reviewsContainer: LinearLayout by bindView(R.id.reviews_container)
 
     var viewModel: HotelReviewsViewModel by notNullAndObservable { vm ->
@@ -42,7 +44,7 @@ class HotelReviewsView(context: Context, attrs: AttributeSet) : FrameLayout(cont
 
     var hotelReviewsAdapterViewModel: HotelReviewsAdapterViewModel by notNullAndObservable { vm ->
         adapter = HotelReviewsAdapter(context, viewPager, vm)
-        hotelReviewsToolbar.slidingTabLayout.setViewPager(viewPager)
+        hotelReviewsTabbar.slidingTabLayout.setViewPager(viewPager)
     }
 
     var adapter: HotelReviewsAdapter by Delegates.notNull()
@@ -57,6 +59,8 @@ class HotelReviewsView(context: Context, attrs: AttributeSet) : FrameLayout(cont
             val statusBar = Ui.setUpStatusBar(context, toolbar, reviewsContainer, color)
             addView(statusBar)
         }
+        toolbar.navigationContentDescription = context.getString(R.string.toolbar_search_nav_icon_cont_desc)
+
         toolbar.setNavigationOnClickListener {
             val activity = getContext() as AppCompatActivity
             activity.onBackPressed()

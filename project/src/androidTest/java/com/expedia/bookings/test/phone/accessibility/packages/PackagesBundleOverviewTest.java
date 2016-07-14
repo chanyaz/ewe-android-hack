@@ -47,6 +47,7 @@ public class PackagesBundleOverviewTest extends PackageTestCase {
 		PackageScreen.clickHotelBundle();
 		openCloseSlidingBundleWidget("$0.00", "$0.00", "$0.00");
 
+		onView(withId(R.id.hotel_results_toolbar)).check(matches(withNavigationContentDescription("Back")));
 		HotelScreen.selectHotel("Package Happy Path");
 		openCloseSlidingBundleWidget("$1,027.34", "$21.61", "$2,054.67");
 
@@ -57,6 +58,7 @@ public class PackagesBundleOverviewTest extends PackageTestCase {
 		Common.pressBack();
 		checkBundleOverviewHotelContentDescription("Package Happy Path");
 		checkBundleTotalWidgetContentDescription("$3,863.38", "$595.24", false);
+		onView(withId(R.id.toolbar)).check(matches(withNavigationContentDescription("Back")));
 
 		PackageScreen.outboundFlight().perform(click());
 		PackageScreen.selectFlight(0);

@@ -28,8 +28,8 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
-                <com.expedia.bookings.presenter.hotel.HotelReviewsToolbar
-                    android:id="@+id/hotel_reviews_toolbar"
+                <com.expedia.bookings.presenter.hotel.HotelReviewsTabbar
+                    android:id="@+id/hotel_reviews_tabbar"
                     style="@style/LaunchActionBar"
                     android:layout_width="match_parent"
                     android:layout_height="?attr/actionBarSize"
@@ -47,7 +47,7 @@
 
 
     <android.support.v7.widget.Toolbar
-        android:id="@+id/toolbar"
+        android:id="@+id/hotel_reviews_toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="top"

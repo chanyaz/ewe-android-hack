@@ -29,6 +29,7 @@ import com.expedia.bookings.tracking.PackagesTracking
 import com.expedia.bookings.utils.Constants
 import com.expedia.bookings.utils.PackageResponseUtils
 import com.expedia.bookings.utils.Strings
+import com.expedia.bookings.utils.AccessibilityUtil
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.FrameLayout
@@ -109,7 +110,7 @@ class PackageHotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
         val viewStub = findViewById(R.id.reviews_stub) as ViewStub
         val presenter = viewStub.inflate() as HotelReviewsView
         presenter.reviewServices = reviewServices
-        presenter.hotelReviewsToolbar.slidingTabLayout.setOnPageChangeListener(object : ViewPager.OnPageChangeListener {
+        presenter.hotelReviewsTabbar.slidingTabLayout.setOnPageChangeListener(object : ViewPager.OnPageChangeListener {
             override fun onPageSelected(position: Int) {
                 PackagesTracking().trackHotelReviewCategoryChange(position)
             }
@@ -130,6 +131,9 @@ class PackageHotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
                 super.endTransition(forward)
                 if (forward) {
                     reviewsView.transitionFinished()
+                    AccessibilityUtil.setFocusToToolbarNavigationIcon(reviewsView.toolbar)
+                } else {
+                    AccessibilityUtil.setFocusToToolbarNavigationIcon(detailPresenter.hotelDetailView.hotelDetailsToolbar.toolbar)
                 }
                 bundleSlidingWidget.setVisibility(!forward)
             }
@@ -238,6 +242,7 @@ class PackageHotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
             super.endTransition(forward)
             resultsPresenter.visibility = if (forward) View.VISIBLE else View.GONE
             resultsPresenter.animationFinalize(forward)
+            AccessibilityUtil.setFocusToToolbarNavigationIcon(resultsPresenter.toolbar)
         }
     }
 
@@ -277,6 +282,7 @@ class PackageHotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
             loadingOverlay.visibility = View.GONE
             if (forward) {
                 detailPresenter.hotelDetailView.viewmodel.addViewsAfterTransition()
+                AccessibilityUtil.setFocusToToolbarNavigationIcon(detailPresenter.hotelDetailView.hotelDetailsToolbar.toolbar)
             } else {
                 trackSearchResult()
             }

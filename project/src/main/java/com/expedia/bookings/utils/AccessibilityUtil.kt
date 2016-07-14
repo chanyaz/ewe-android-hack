@@ -22,6 +22,7 @@ object AccessibilityUtil {
                     v.setFocusable(true)
                     v.clearFocus()
                     v.requestFocus()
+                    v.sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_HOVER_ENTER)
                     break
                 }
             }
