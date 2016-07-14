@@ -3,6 +3,7 @@ package com.expedia.vm
 import android.content.Context
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Db
+import com.expedia.bookings.data.TravelerParams
 import com.expedia.bookings.data.cars.ApiError
 import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.data.flights.FlightSearchParams
@@ -11,9 +12,11 @@ import com.expedia.bookings.data.flights.FlightTripDetails
 import com.expedia.bookings.data.packages.PackageOfferModel
 import com.expedia.bookings.services.FlightServices
 import com.expedia.bookings.utils.DateUtils
+import com.expedia.bookings.utils.FlightsV2DataUtil
 import com.expedia.bookings.utils.SpannableBuilder
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.validation.TravelerValidator
+import com.expedia.ui.FlightActivity
 import com.expedia.util.endlessObserver
 import com.squareup.phrase.Phrase
 import org.joda.time.LocalDate
@@ -50,6 +53,7 @@ class FlightSearchViewModel(context: Context, val flightServices: FlightServices
     val obFeeDetailsUrlObservable = PublishSubject.create<String>()
     val isRoundTripSearchObservable = BehaviorSubject.create<Boolean>(true)
     val flightParamsBuilder = FlightSearchParams.Builder(getMaxSearchDurationDays(), getMaxDateRange())
+    val deeplinkDefaultTransitionObservable = PublishSubject.create<FlightActivity.Screen>()
 
     val searchObserver = endlessObserver<Unit> {
         getParamsBuilder().maxStay = getMaxSearchDurationDays()
@@ -308,4 +312,28 @@ class FlightSearchViewModel(context: Context, val flightServices: FlightServices
     fun resetFlightSelections() {
         resetFlightSelectionsSubject.onNext(Unit)
     }
+
+    val deeplinkFlightSearchParamsObserver = endlessObserver<com.expedia.bookings.data.FlightSearchParams> { searchParams ->
+        //Setup the viewmodel according to the provided params
+        datesObserver.onNext(Pair(searchParams.departureDate, searchParams.returnDate))
+        val departureSuggestion = FlightsV2DataUtil.getSuggestionFromDeeplinkLocation(searchParams.departureLocation?.destinationId)
+        if (departureSuggestion != null) {
+            originLocationObserver.onNext(departureSuggestion)
+        }
+        val arrivalSuggestion = FlightsV2DataUtil.getSuggestionFromDeeplinkLocation(searchParams.arrivalLocation?.destinationId)
+        if (arrivalSuggestion != null) {
+            destinationLocationObserver.onNext(arrivalSuggestion)
+        }
+        if (searchParams.numAdults != null) {
+            travelersObservable.onNext(TravelerParams(searchParams.numAdults, emptyList()))
+        }
+
+        if (flightParamsBuilder.areRequiredParamsFilled()) {
+            deeplinkDefaultTransitionObservable.onNext(FlightActivity.Screen.RESULTS)
+        } else {
+            deeplinkDefaultTransitionObservable.onNext(FlightActivity.Screen.SEARCH)
+        }
+        searchObserver.onNext(Unit)
+    }
+
 }

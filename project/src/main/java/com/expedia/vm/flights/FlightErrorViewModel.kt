@@ -4,6 +4,7 @@ import android.content.Context
 import com.expedia.bookings.BuildConfig
 import com.expedia.bookings.R
 import com.expedia.bookings.data.cars.ApiError
+import com.expedia.bookings.data.flights.FlightSearchParams
 import com.expedia.bookings.utils.DateFormatUtils
 import com.expedia.bookings.utils.StrUtils
 import com.squareup.phrase.Phrase
@@ -16,7 +17,7 @@ class FlightErrorViewModel(private val context: Context) {
 
     // Inputs
     val searchApiErrorObserver = PublishSubject.create<ApiError.Code>()
-    val paramsSubject = PublishSubject.create<com.expedia.bookings.data.flights.FlightSearchParams>()
+    val paramsSubject = PublishSubject.create<FlightSearchParams>()
     val errorDismissedObservable = BehaviorSubject.create<Unit>()
 
 
@@ -71,7 +72,7 @@ class FlightErrorViewModel(private val context: Context) {
         buttonTextObservable.onNext(context.getString(R.string.retry))
     }
 
-    private fun getToolbarSubtitle(params: com.expedia.bookings.data.flights.FlightSearchParams): String {
+    private fun getToolbarSubtitle(params: FlightSearchParams): String {
         return Phrase.from(context, R.string.flight_calendar_instructions_date_with_guests_TEMPLATE)
                 .put("startdate", DateFormatUtils.formatLocalDateToShortDayAndDate(params.departureDate))
                 .put("guests", StrUtils.formatTravelerString(context, params.guests))

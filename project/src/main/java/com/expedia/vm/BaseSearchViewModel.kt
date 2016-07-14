@@ -34,7 +34,7 @@ abstract class BaseSearchViewModel(val context: Context) {
     val errorMaxRangeObservable = PublishSubject.create<String>()
     val enableDateObservable = PublishSubject.create<Boolean>()
     val enableTravelerObservable = PublishSubject.create<Boolean>()
-    val travelersObserver = BehaviorSubject.create<TravelerParams>()
+    val travelersObservable = BehaviorSubject.create<TravelerParams>()
     val errorOriginSameAsDestinationObservable = PublishSubject.create<String>()
 
     val formattedOriginObservable = BehaviorSubject.create<String>()
@@ -43,7 +43,7 @@ abstract class BaseSearchViewModel(val context: Context) {
     val originValidObservable = BehaviorSubject.create<Boolean>(false)
 
     init {
-        travelersObserver.subscribe { update ->
+        travelersObservable.subscribe { update ->
             getParamsBuilder().adults(update.numberOfAdults)
             getParamsBuilder().children(update.childrenAges)
         }

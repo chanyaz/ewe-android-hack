@@ -1,7 +1,5 @@
 package com.expedia.bookings.utils;
 
-import java.util.List;
-
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -12,7 +10,6 @@ import android.support.v4.app.TaskStackBuilder;
 import android.support.v4.content.LocalBroadcastManager;
 import android.text.TextUtils;
 import android.widget.Toast;
-
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.ActivityKillReceiver;
 import com.expedia.bookings.activity.ExpediaBookingApp;
@@ -26,6 +23,7 @@ import com.expedia.bookings.activity.TabletLaunchActivity;
 import com.expedia.bookings.activity.TabletResultsActivity;
 import com.expedia.bookings.data.Codes;
 import com.expedia.bookings.data.Db;
+import com.expedia.bookings.data.FlightSearchParams;
 import com.expedia.bookings.data.HotelFilter;
 import com.expedia.bookings.data.HotelSearchParams;
 import com.expedia.bookings.data.LineOfBusiness;
@@ -36,16 +34,17 @@ import com.expedia.bookings.data.abacus.AbacusUtils;
 import com.expedia.bookings.data.cars.CarSearchParams;
 import com.expedia.bookings.data.lx.LxSearchParams;
 import com.expedia.bookings.data.pos.PointOfSale;
+import com.expedia.bookings.lob.lx.ui.activity.LXBaseActivity;
 import com.expedia.bookings.services.CarServices;
 import com.expedia.ui.CarActivity;
 import com.expedia.ui.FlightActivity;
 import com.expedia.ui.HotelActivity;
-import com.expedia.bookings.lob.lx.ui.activity.LXBaseActivity;
 import com.expedia.ui.NewPhoneLaunchActivity;
 import com.expedia.ui.PackageActivity;
 import com.expedia.ui.RailActivity;
 import com.google.gson.Gson;
 import com.mobiata.android.Log;
+import java.util.List;
 
 /**
  * Utilities for navigating the app (between Activities)
@@ -265,6 +264,15 @@ public class NavUtils {
 	}
 
 	public static void goToFlights(Context context, boolean usePresetSearchParams, Bundle animOptions, int flags) {
+		goToFlights(context, usePresetSearchParams, animOptions, 0, null);
+	}
+
+	public static void goToFlights(Context context, FlightSearchParams params) {
+		goToFlights(context, true, null, 0, params);
+	}
+
+	private static void goToFlights(Context context, boolean usePresetSearchParams, Bundle animOptions, int flags,
+		FlightSearchParams flightSearchParams) {
 		if (!PointOfSale.getPointOfSale().supports(LineOfBusiness.FLIGHTS)) {
 			// Because the user can't actually navigate forward from here, perhaps it makes sense to preserve the
 			// backstack so as not to add insult to injury (can't access Flights, lost activity backstack)
@@ -274,11 +282,22 @@ public class NavUtils {
 		}
 		else {
 			sendKillActivityBroadcast(context);
-			Intent intent = getFlightIntent(context);
-			intent.addFlags(flags);
-			if (usePresetSearchParams) {
-				intent.putExtra(FlightSearchActivity.ARG_USE_PRESET_SEARCH_PARAMS, true);
+			Intent intent;
+			if (isUserBucketedForFlightTest()) {
+				intent = new Intent(context, FlightActivity.class);
+				if (flightSearchParams != null) {
+					Gson gson = FlightsV2DataUtil.generateGson();
+					intent.putExtra(Codes.SEARCH_PARAMS, gson.toJson(flightSearchParams));
+				}
 			}
+			else {
+				intent = new Intent(context, FlightSearchActivity.class);
+				if (usePresetSearchParams) {
+					intent.putExtra(FlightSearchActivity.ARG_USE_PRESET_SEARCH_PARAMS, true);
+
+				}
+			}
+			intent.addFlags(flags);
 			startActivity(context, intent, animOptions);
 		}
 	}
@@ -437,7 +456,7 @@ public class NavUtils {
 		Db.clear();
 
 		// Go back to the start
-		Intent intent = getFlightIntent(activity);
+		Intent intent = new Intent(activity, FlightSearchActivity.class);
 		intent.putExtra(FlightSearchActivity.EXTRA_DATA_EXPIRED, true);
 		intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 		activity.startActivity(intent);
@@ -520,14 +539,4 @@ public class NavUtils {
 			return new Intent(context, PhoneLaunchActivity.class);
 		}
 	}
-
-	public static Intent getFlightIntent(Context context) {
-		if (isUserBucketedForFlightTest()) {
-			return new Intent(context, FlightActivity.class);
-		}
-		else {
-			return new Intent(context, FlightSearchActivity.class);
-		}
-	}
-
 }

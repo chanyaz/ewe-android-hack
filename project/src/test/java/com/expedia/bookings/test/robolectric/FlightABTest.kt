@@ -9,6 +9,7 @@ import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.Robolectric
+import org.robolectric.Shadows
 import kotlin.properties.Delegates
 import kotlin.test.assertEquals
 
@@ -24,15 +25,17 @@ class FlightABTest {
     @Test
     fun oldFlightPath() {
         RoboTestHelper.controlTests(AbacusUtils.EBAndroidAppFlightTest)
-        val intent = NavUtils.getFlightIntent(activity)
-        assertEquals(intent.component.className, FlightSearchActivity::class.java.name);
+        NavUtils.goToFlights(activity, true)
+        val intent = Shadows.shadowOf(activity).peekNextStartedActivity()
+        assertEquals(FlightSearchActivity::class.java.name, intent.component.className);
     }
 
     @Test
     fun newFlightPath() {
         RoboTestHelper.bucketTests(AbacusUtils.EBAndroidAppFlightTest)
-        val intent = NavUtils.getFlightIntent(activity)
-        assertEquals(intent.component.className, FlightActivity::class.java.name);
+        NavUtils.goToFlights(activity, true)
+        val intent = Shadows.shadowOf(activity).peekNextStartedActivity()
+        assertEquals(FlightActivity::class.java.name, intent.component.className)
     }
 
 }
