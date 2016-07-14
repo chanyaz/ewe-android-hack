@@ -410,6 +410,7 @@
 
     <!-- Hotels V2 Checkout Colors -->
     <color name="hotelsv2_checkout_text_color">@color/gray7</color>
+    <color name="hotelsv2_amenity_icon_color">@color/gray6</color>
     <color name="hotelsv2_checkout_divider_color">#DFDFDF</color>
     <color name="hotel_guest_selector_enabled_color">#5C5C5C</color>
     <color name="hotel_guest_selector_disabled_color">#405C5C5C</color>
