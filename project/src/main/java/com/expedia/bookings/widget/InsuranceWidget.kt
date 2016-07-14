@@ -3,12 +3,12 @@ package com.expedia.bookings.widget
 import android.app.AlertDialog
 import android.content.Context
 import android.support.v4.content.ContextCompat
+import android.support.v7.widget.SwitchCompat
 import android.text.Html
 import android.text.method.LinkMovementMethod
 import android.util.AttributeSet
 import android.view.View
 import android.widget.LinearLayout
-import android.widget.Switch
 import android.widget.TextView
 import com.expedia.bookings.R
 import com.expedia.bookings.tracking.FlightsV2Tracking
@@ -24,7 +24,7 @@ class InsuranceWidget(context: Context, attrs: AttributeSet) : LinearLayout(cont
     val descriptionTextView: TextView by bindView(R.id.insurance_description)
     val termsTextView: TextView by bindView(R.id.insurance_terms)
     val titleTextView: TextView by bindView(R.id.insurance_title)
-    val toggleSwitch: Switch by bindView(R.id.insurance_switch)
+    val toggleSwitch: SwitchCompat by bindView(R.id.insurance_switch)
 
     val benefitsDialog: AlertDialog by lazy {
         val benefitsTextView = View.inflate(context, R.layout.insurance_benefits_dialog_body, null) as TextView
@@ -47,8 +47,8 @@ class InsuranceWidget(context: Context, attrs: AttributeSet) : LinearLayout(cont
     init {
         View.inflate(context, R.layout.insurance_widget, this)
 
-        background = ContextCompat.getDrawable(context, R.drawable.card_background);
-        orientation = VERTICAL;
+        background = ContextCompat.getDrawable(context, R.drawable.card_background)
+        orientation = VERTICAL
 
         val icon = ContextCompat.getDrawable(context, R.drawable.ic_checkout_info).mutate()
         descriptionTextView.compoundDrawablePadding = (5 * resources.displayMetrics.density + 0.5f).toInt()
