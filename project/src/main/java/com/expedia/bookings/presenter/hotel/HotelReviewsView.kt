@@ -59,7 +59,7 @@ class HotelReviewsView(context: Context, attrs: AttributeSet) : FrameLayout(cont
             val statusBar = Ui.setUpStatusBar(context, toolbar, reviewsContainer, color)
             addView(statusBar)
         }
-        toolbar.navigationContentDescription = context.getString(R.string.toolbar_search_nav_icon_cont_desc)
+        toolbar.navigationContentDescription = context.getString(R.string.toolbar_search_nav_icon_close_cont_desc)
 
         toolbar.setNavigationOnClickListener {
             val activity = getContext() as AppCompatActivity
