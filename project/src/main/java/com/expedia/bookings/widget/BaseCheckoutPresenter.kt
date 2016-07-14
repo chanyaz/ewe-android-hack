@@ -144,10 +144,11 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet) : Pre
     }
 
     protected var tripViewModel: BaseCreateTripViewModel by notNullAndObservable { vm ->
+        vm.performCreateTrip.map { false }.subscribe(priceChangeWidget.viewmodel.priceChangeVisibility)
         vm.showCreateTripDialogObservable.subscribe { show ->
             if (show) {
-                createTripDialog.show();
-                createTripDialog.setContentView(R.layout.process_dialog_layout);
+                createTripDialog.show()
+                createTripDialog.setContentView(R.layout.process_dialog_layout)
             } else {
                 createTripDialog.hide()
             }
@@ -165,6 +166,7 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet) : Pre
         paymentWidget.viewmodel = paymentWidgetViewModel
         insuranceWidget.viewModel = InsuranceViewModel(context, insuranceServices)
         priceChangeWidget.viewmodel = PriceChangeViewModel(context, getLineOfBusiness())
+
         if (getLineOfBusiness() == LineOfBusiness.FLIGHTS_V2) {
             totalPriceWidget.breakdown.viewmodel = FlightCostSummaryBreakdownViewModel(context)
         } else {
