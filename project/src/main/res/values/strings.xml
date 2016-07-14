@@ -4302,7 +4302,7 @@
     <!-- Status displayed in a modal dialog while insurance is being added -->
     <string name="insurance_adding">Adding trip protection…</string>
     <!-- Error message displayed when insurance fails to be added to a trip -->
-    <string name="insurance_add_error">Sorry, we weren\'t able to add trip protection. Please try again or continue booking without insurance.</string>
+    <string name="insurance_add_error">Sorry, we weren\'t able to add trip protection. Please try again or continue booking without trip protection.</string>
     <!-- Benefits of purchasing insurance -->
     <string name="insurance_benefits">1. Your ticket is non-refundable and you\'re too sick to travel.&lt;br/&gt;&lt;br/&gt;2. You get injured and can\'t make your flight home.&lt;br/&gt;&lt;br/&gt;3. Your traveling companion has a covered medical emergency and can\'t travel.</string>
     <!-- Insurance call to action; links to list of benefits -->
@@ -4320,6 +4320,7 @@
     <!-- Insurance price type qualifiers -->
     <string name="insurance_price_per_day">/day</string>
     <string name="insurance_price_per_person">/person</string>
+
     <!-- Content description for rating bar e.g. Rated 3 out of 5-->
     <string name="hotel_rating_bar_cont_desc_TEMPLATE">Rated {rating} out of 5</string>
     <!--LX accessibility -->
