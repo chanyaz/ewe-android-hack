@@ -24,7 +24,7 @@
 
     <color name="bg_blue_color_wotif">#003e74</color>
     <color name="actionbar_button_background_pressed">#004888</color>
-    <color name="action_bar_text_blue_wotif">#1F8EDE</color>
+    <color name="actionbar_button_text_color">#1F8EDE</color>
     <color name="bg_btn_color_wotif">#7bae00</color>
     <color name="bg_btn_pressed_color_wotif">#295600</color>
     <color name="itin_flight_line_color_wotif">#7da426</color>

@@ -11,6 +11,8 @@
     <color name="actionbar_terminal_text_ctx">#F3F3F3</color>
     <color name="actionbar_text_color">#dddfe1</color>
     <color name="actionbar_text_color_disabled">#90FFFFFF</color>
+    <color name="actionbar_button_text_color">@color/review_screen_tab_indicator</color>
+
 
     <!-- Tablet colors -->
     <color name="results_cal_trav_bg">#eaeaea</color>

@@ -12,10 +12,6 @@
         <item name="skin_costSummaryDialogStripeDrawable">@drawable/dialog_breakdown_stripe</item>
         <item name="skin_actionBarSpinnerBackground">@drawable/ab_spinner_samsung</item>
         
-        
-        <item name="skin_actionBarButtonTextColor">@color/action_bar_text_blue_samsung</item>
-        
-
         <item name="skin_hotelPrimaryTravelerInfoLogoDrawable">@drawable/ic_samsung_white_logo_small</item>
         
         <item name="skin_hotelPriceStandardColor">@color/hotel_cell_primary_color</item>

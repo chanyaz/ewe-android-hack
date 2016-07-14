@@ -89,7 +89,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/select_flight"
                 android:textAppearance="?android:attr/actionMenuTextAppearance"
-                android:textColor="?attr/skin_actionBarButtonTextColor" />
+                android:textColor="@color/actionbar_button_text_color" />
         </LinearLayout>
     </LinearLayout>
 
