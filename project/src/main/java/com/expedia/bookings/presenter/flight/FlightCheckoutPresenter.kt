@@ -15,7 +15,6 @@ import com.expedia.bookings.widget.BaseCheckoutPresenter
 import com.expedia.bookings.widget.TextView
 import com.expedia.util.subscribeTextAndVisibility
 import com.expedia.util.subscribeTextNotBlankVisibility
-import com.expedia.util.subscribeVisibility
 import com.expedia.vm.BaseCreateTripViewModel
 import com.expedia.vm.FlightCheckoutViewModel
 import com.expedia.vm.flights.FlightCostSummaryBreakdownViewModel
@@ -46,16 +45,13 @@ class FlightCheckoutPresenter(context: Context, attr: AttributeSet) : BaseChecko
 
         insuranceWidget.viewModel.updatedTripObservable.subscribe(vm.tripResponseObservable)
 
-        vm.insuranceAvailabilityObservable.subscribeVisibility(insuranceWidget)
-
         vm.tripParams.subscribe {
             userAccountRefresher.ensureAccountIsRefreshed()
         }
 
         vm.tripResponseObservable.subscribe { response -> response as FlightCreateTripResponse
             loginWidget.updateRewardsText(getLineOfBusiness())
-            insuranceWidget.viewModel.newTripObservable.onNext(response.newTrip)
-            insuranceWidget.viewModel.productObservable.onNext(response.availableInsuranceProducts)
+            insuranceWidget.viewModel.tripObservable.onNext(response)
             totalPriceWidget.viewModel.total.onNext(response.tripTotalPayableIncludingFeeIfZeroPayableByPoints())
             totalPriceWidget.viewModel.costBreakdownEnabledObservable.onNext(true)
             (totalPriceWidget.breakdown.viewmodel as FlightCostSummaryBreakdownViewModel).flightCostSummaryObservable.onNext(response)

@@ -11,11 +11,9 @@ import com.expedia.vm.BaseCreateTripViewModel
 import rx.Observable
 import rx.Observer
 import rx.exceptions.OnErrorNotImplementedException
-import rx.subjects.BehaviorSubject
 import rx.subjects.PublishSubject
 
 class FlightCreateTripViewModel(val flightServices: FlightServices, val selectedCardFeeSubject: PublishSubject<ValidFormOfPayment>) : BaseCreateTripViewModel() {
-    val insuranceAvailabilityObservable = BehaviorSubject.create<Boolean>()
     val tripParams = PublishSubject.create<FlightCreateTripParams>()
 
     init {
@@ -58,7 +56,6 @@ class FlightCreateTripViewModel(val flightServices: FlightServices, val selected
                     }
                     Db.getTripBucket().clearFlight()
                     Db.getTripBucket().add(TripBucketItemFlightV2(response))
-                    insuranceAvailabilityObservable.onNext(response.availableInsuranceProducts.isNotEmpty())
                     tripResponseObservable.onNext(response)
                 }
             }
