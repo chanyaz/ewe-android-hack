@@ -420,7 +420,9 @@ public class LXResultsPresenter extends Presenter {
 			themeResultObserver.searchType = event.lxSearchParams.getSearchType();
 			themeResultObserver.widget = themeResultsWidget;
 			searchSubscription = lxServices.lxCategorySearch(event.lxSearchParams, themeResultObserver);
-			themeResultsWidget.getThemePublishSubject().subscribe(lxThemeSearchObserver);
+			if (!themeResultsWidget.getThemePublishSubject().hasObservers()) {
+				themeResultsWidget.getThemePublishSubject().subscribe(lxThemeSearchObserver);
+			}
 			sortFilterButton.setFilterText(getResources().getString(R.string.sort));
 			sortFilterWidget.setToolbarTitle(getResources().getString(R.string.sort));
 			setToolbarTitles(getResources().getString(R.string.lx_select_a_category_title), event.lxSearchParams.getLocation());
