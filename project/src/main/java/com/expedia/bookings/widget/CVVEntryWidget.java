@@ -27,7 +27,9 @@ import com.expedia.bookings.section.CreditCardInputSection;
 import com.expedia.bookings.section.CreditCardInputSection.CreditCardInputListener;
 import com.expedia.bookings.section.CreditCardSection;
 import com.expedia.bookings.utils.CurrencyUtils;
+import com.expedia.bookings.utils.LayoutUtils;
 import com.expedia.bookings.utils.Ui;
+import com.larvalabs.svgandroid.widget.SVGView;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -36,13 +38,15 @@ public class CVVEntryWidget extends FrameLayout implements CreditCardInputListen
 
 	public static final String TAG = CVVEntryWidget.class.getName();
 
-	private CreditCardSection mCreditCardSection;
+	public CreditCardSection mCreditCardSection;
 
 	private CVVTextView mCVVTextView;
 	private TextView mCVVPromptTextView;
 	private TextView mCVVSubpromptTextView;
 	private View mBookButton;
 	private MaskView mCVVMaskView;
+	private SVGView svgAmexLogo;
+	private SVGView svgAmexHead;
 
 	private CreditCardInputSection mCreditCardInputSection;
 
@@ -63,7 +67,7 @@ public class CVVEntryWidget extends FrameLayout implements CreditCardInputListen
 	}
 
 	@InjectView(R.id.cvv_toolbar)
-	Toolbar toolbar;
+	public Toolbar toolbar;
 
 	@InjectView(R.id.main_container)
 	RelativeLayout mainContainer;
@@ -88,6 +92,7 @@ public class CVVEntryWidget extends FrameLayout implements CreditCardInputListen
 			}
 		});
 		toolbar.setTitle(getContext().getString(R.string.Finish_Booking));
+		toolbar.setNavigationContentDescription((getContext().getString(R.string.toolbar_search_nav_icon_cont_desc)));
 		toolbar.setTitleTextAppearance(getContext(), R.style.ToolbarTitleTextAppearance);
 		toolbar.setSubtitleTextAppearance(getContext(), R.style.ToolbarSubtitleTextAppearance);
 		toolbar.setBackgroundColor(Ui.obtainThemeColor(getContext(), R.attr.primary_color));
@@ -100,6 +105,11 @@ public class CVVEntryWidget extends FrameLayout implements CreditCardInputListen
 		mCVVSubpromptTextView = Ui.findView(v, R.id.cvv_subprompt_text_view);
 		mBookButton = Ui.findView(v, R.id.finish_booking_button);
 		mCVVMaskView = Ui.findView(v, R.id.mask_cvv_widget);
+		svgAmexLogo = Ui.findView(v, R.id.svg_amex_logo);
+		svgAmexHead = Ui.findView(v, R.id.svg_amex_head);
+
+		LayoutUtils.setSVG(svgAmexLogo, R.raw.american_express_logo );
+		LayoutUtils.setSVG(svgAmexHead, R.raw.ic_amex_head );
 
 		// Set this up to listen to the credit card IME
 		mCreditCardInputSection.setListener(this);
