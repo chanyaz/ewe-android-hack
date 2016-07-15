@@ -25,6 +25,7 @@ import com.expedia.bookings.tracking.FlightsV2Tracking
 import com.expedia.bookings.utils.StrUtils
 import com.expedia.bookings.utils.TravelerManager
 import com.expedia.bookings.utils.Ui
+import com.expedia.ui.FlightActivity
 import com.expedia.util.notNullAndObservable
 import com.expedia.util.subscribeVisibility
 import com.expedia.vm.FlightCheckoutOverviewViewModel
@@ -187,6 +188,9 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
 
         errorPresenter.viewmodel = FlightErrorViewModel(context)
         searchViewModel = FlightSearchViewModel(context, flightServices)
+        searchViewModel.deeplinkDefaultTransitionObservable.subscribe { screen ->
+            setDefaultTransition(screen)
+        }
     }
 
     override fun onFinishInflate() {
@@ -198,7 +202,6 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
         addTransition(outboundFlightToOverview)
         addTransition(outboundToError)
         addTransition(errorToSearch)
-        addDefaultTransition(defaultTransition)
         flightOverviewPresenter.getCheckoutPresenter().toggleCheckoutButton(false)
 
         flightOverviewPresenter.getCheckoutPresenter().getCheckoutViewModel().bookingSuccessResponse.subscribe { pair: Pair<BaseApiResponse, String> ->
@@ -206,7 +209,6 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
             FlightsV2Tracking.trackCheckoutConfirmationPageLoad()
         }
 
-        show(searchPresenter)
     }
 
     private val outboundToError = object : Presenter.Transition(FlightOutboundPresenter::class.java, FlightErrorPresenter::class.java, DecelerateInterpolator(), 200) {
@@ -291,11 +293,24 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
         }
     }
 
+    private val defaultOutboundTransition = object : Presenter.DefaultTransition(FlightOutboundPresenter::class.java.name){
+        override fun endTransition(forward: Boolean) {
+            searchPresenter.visibility = View.GONE
+            outBoundPresenter.visibility = View.VISIBLE
+            inboundPresenter.visibility = View.GONE
+            flightOverviewPresenter.visibility = View.GONE
+        }
+    }
+
     private val searchToOutbound = object : SearchToOutboundTransition(this, FlightSearchPresenter::class.java, FlightOutboundPresenter::class.java) {}
     private val restrictedSearchToOutbound = object : SearchToOutboundTransition(this, FlightSearchAirportDropdownPresenter::class.java, FlightOutboundPresenter::class.java) {}
 
-    private val defaultTransition = object : Presenter.DefaultTransition(getDefaultPresenterClassName()) {
+    private val defaultSearchTransition = object : Presenter.DefaultTransition(getDefaultSearchPresenterClassName()) {
         override fun endTransition(forward: Boolean) {
+            searchPresenter.visibility = View.VISIBLE
+            outBoundPresenter.visibility = View.GONE
+            inboundPresenter.visibility = View.GONE
+            flightOverviewPresenter.visibility = View.GONE
             FlightsV2Tracking.trackSearchPageLoad()
         }
     }
@@ -313,12 +328,25 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
         return PointOfSale.getPointOfSale().displayFlightDropDownRoutes()
     }
 
-    private fun getDefaultPresenterClassName(): String {
+    private fun getDefaultSearchPresenterClassName(): String {
         return if (displayFlightDropDownRoutes()) {
             FlightSearchAirportDropdownPresenter::class.java.name
         }
         else {
             FlightSearchPresenter::class.java.name
+        }
+    }
+
+    fun setDefaultTransition(screen: FlightActivity.Screen) {
+        val defaultTransition = when (screen) {
+            FlightActivity.Screen.RESULTS -> defaultOutboundTransition
+            else -> defaultSearchTransition
+        }
+        if (!hasDefaultTransition()) {
+            addDefaultTransition(defaultTransition)
+        }
+        if (screen == FlightActivity.Screen.SEARCH) {
+            show(searchPresenter)
         }
     }
 }

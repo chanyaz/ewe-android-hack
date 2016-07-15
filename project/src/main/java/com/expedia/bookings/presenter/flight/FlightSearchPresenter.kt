@@ -31,7 +31,7 @@ open class FlightSearchPresenter(context: Context, attrs: AttributeSet) : BaseTw
 
     var searchViewModel: FlightSearchViewModel by notNullAndObservable { vm ->
         calendarWidgetV2.viewModel = vm
-        travelerWidgetV2.travelersSubject.subscribe(vm.travelersObserver)
+        travelerWidgetV2.travelersSubject.subscribe(vm.travelersObservable)
         travelerWidgetV2.traveler.viewmodel.isInfantInLapObservable.subscribe(vm.isInfantInLapObserver)
         vm.searchButtonObservable.subscribe { enable ->
             searchButton.setTextColor(if (enable) ContextCompat.getColor(context, R.color.hotel_filter_spinner_dropdown_color) else ContextCompat.getColor(context, R.color.white_disabled))
