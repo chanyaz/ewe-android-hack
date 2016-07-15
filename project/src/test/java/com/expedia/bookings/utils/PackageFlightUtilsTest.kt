@@ -47,10 +47,40 @@ class PackageFlightUtilsTest {
         assertEquals(expectedWithElapsedDaysAccesibleString, testString)
     }
 
+    @Test
+    fun testNoOperatingAirlineName() {
+        buildTestFlightSegment()
+        val testOperatingAirlinesNameString = PackageFlightUtils.getOperatingAirlineNameString(activity, testFlightLeg.flightSegments[0])
+        assertEquals(null, testOperatingAirlinesNameString)
+    }
+
+    @Test
+    fun testGetOperatingAirlineNameWithCode() {
+        buildTestFlightSegment()
+        testFlightLeg.flightSegments[0].operatingAirlineName = "Alaska Airlines"
+        testFlightLeg.flightSegments[0].operatingAirlineCode = "AS"
+        val testOperatingAirlinesNameString = PackageFlightUtils.getOperatingAirlineNameString(activity, testFlightLeg.flightSegments[0])
+        assertEquals("Operated by Alaska Airlines (AS)", testOperatingAirlinesNameString)
+    }
+
+    @Test
+    fun testGetOperatingAirlineNameWithoutCode() {
+        buildTestFlightSegment()
+        testFlightLeg.flightSegments[0].operatingAirlineName = "Alaska Airlines"
+        val testOperatingAirlinesNameString = PackageFlightUtils.getOperatingAirlineNameString(activity, testFlightLeg.flightSegments[0])
+        assertEquals("Operated by Alaska Airlines", testOperatingAirlinesNameString)
+    }
+
     fun buildTestFlightLeg() : FlightLeg {
         val mockLeg = FlightLeg()
         mockLeg.departureDateTimeISO = testDepartTime
         mockLeg.arrivalDateTimeISO = testArrivalTime
         return mockLeg
+    }
+
+    fun buildTestFlightSegment() {
+        val mockFlightSegment = FlightLeg.FlightSegment()
+        testFlightLeg.flightSegments = arrayListOf<FlightLeg.FlightSegment>()
+        testFlightLeg.flightSegments.add(0, mockFlightSegment)
     }
 }
