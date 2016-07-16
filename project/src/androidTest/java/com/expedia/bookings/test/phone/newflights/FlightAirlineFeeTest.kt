@@ -5,7 +5,6 @@ import android.support.test.espresso.Espresso.onView
 import android.support.test.espresso.action.ViewActions.click
 import android.support.test.espresso.assertion.ViewAssertions
 import android.support.test.espresso.contrib.RecyclerViewActions
-import android.support.test.espresso.matcher.ViewMatchers
 import android.support.test.espresso.matcher.ViewMatchers.isDescendantOfA
 import android.support.test.espresso.matcher.ViewMatchers.isDisplayed
 import android.support.test.espresso.matcher.ViewMatchers.withId
@@ -14,7 +13,6 @@ import android.support.v7.widget.RecyclerView
 import com.expedia.bookings.R
 import com.expedia.bookings.test.espresso.Common
 import com.expedia.bookings.test.espresso.NewFlightTestCase
-import com.expedia.bookings.test.espresso.TestValues
 import com.expedia.bookings.test.espresso.ViewActions
 import com.expedia.bookings.test.phone.packages.PackageScreen
 import com.expedia.bookings.test.phone.pagemodels.common.CardInfoScreen
@@ -22,7 +20,6 @@ import com.expedia.bookings.test.phone.pagemodels.common.CheckoutViewModel
 import com.expedia.bookings.test.phone.pagemodels.common.SearchScreen
 import org.hamcrest.Matchers.allOf
 import org.joda.time.LocalDate
-import java.util.concurrent.TimeUnit
 
 class FlightAirlineFeeTest: NewFlightTestCase() {
 
@@ -48,6 +45,12 @@ class FlightAirlineFeeTest: NewFlightTestCase() {
         FlightsResultsScreen.assertAirlineChargesFeesHeadingShown(withId(R.id.widget_flight_outbound))
 
         FlightsScreen.selectFlight(FlightsScreen.outboundFlightList(), 0)
+        FlightsResultsScreen.assertPaymentFeesMayApplyLinkShowing(withId(R.id.widget_flight_outbound))
+        FlightsResultsScreen.paymentFeesLinkTextView(withId(R.id.widget_flight_outbound)).perform(click())
+        val paymentFeeWebViewOutboundResults = onView(allOf(withId(R.id.web_view), isDescendantOfA(withId(R.id.widget_flight_outbound)), isDescendantOfA(withId(R.id.payment_fee_info))))
+        paymentFeeWebViewOutboundResults.check(ViewAssertions.matches(isDisplayed()))
+        Espresso.pressBack()
+
         FlightsScreen.selectOutboundFlight().perform(click())
         FlightTestHelpers.assertFlightInbound()
         FlightsScreen.selectFlight(FlightsScreen.inboundFlightList(), 0)

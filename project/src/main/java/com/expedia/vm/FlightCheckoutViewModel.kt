@@ -18,6 +18,7 @@ import com.expedia.bookings.data.utils.getFee
 import com.expedia.bookings.data.utils.getPaymentType
 import com.expedia.bookings.services.FlightServices
 import com.expedia.bookings.utils.BookingSuppressionUtils
+import com.expedia.bookings.utils.Strings
 import com.squareup.phrase.Phrase
 import rx.Observable
 import rx.Observer
@@ -31,7 +32,7 @@ class FlightCheckoutViewModel(context: Context, val flightServices: FlightServic
 
     // inputs
     val validFormsOfPaymentSubject = BehaviorSubject.create<List<ValidFormOfPayment>>()
-    val selectedFlightChargesFees = PublishSubject.create<Boolean>()
+    val selectedFlightChargesFees = PublishSubject.create<String>()
     val obFeeDetailsUrlSubject = PublishSubject.create<String>()
 
     // outputs
@@ -81,7 +82,7 @@ class FlightCheckoutViewModel(context: Context, val flightServices: FlightServic
 
     private fun setupCardFeeSubjects() {
         Observable.combineLatest(obFeeDetailsUrlSubject, selectedFlightChargesFees, {obFeeDetailsUrl, selectedFlightChargesFees ->
-            if (selectedFlightChargesFees) {
+            if (Strings.isNotEmpty(selectedFlightChargesFees)) {
                 val airlineFeeWithLink =
                         Phrase.from(context, R.string.flights_fee_added_based_on_payment_TEMPLATE)
                                 .put("airline_fee_url", obFeeDetailsUrl)

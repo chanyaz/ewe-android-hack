@@ -12,7 +12,6 @@ import com.expedia.bookings.data.flights.FlightCheckoutParams
 import com.expedia.bookings.data.flights.FlightCheckoutResponse
 import com.expedia.bookings.data.flights.FlightCreateTripResponse
 import com.expedia.bookings.data.flights.ValidFormOfPayment
-import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.enums.PassengerCategory
 import com.expedia.bookings.services.FlightServices
 import com.expedia.bookings.test.PointOfSaleTestConfiguration
@@ -134,7 +133,7 @@ class FlightCheckoutViewModelTest {
         sut.cardFeeWarningTextSubject.subscribe(cardFeeWarningTestSubscriber)
 
         sut.obFeeDetailsUrlSubject.onNext("http://url")
-        sut.selectedFlightChargesFees.onNext(true)
+        sut.selectedFlightChargesFees.onNext("Airline Fee")
 
         cardFeeWarningTestSubscriber.assertValueCount(1)
         assertEquals("An airline fee, based on card type, is added upon payment. Such fee is added to the total upon payment.",
@@ -150,7 +149,7 @@ class FlightCheckoutViewModelTest {
         sut.cardFeeWarningTextSubject.subscribe(cardFeeWarningTestSubscriber)
 
         sut.obFeeDetailsUrlSubject.onNext("")
-        sut.selectedFlightChargesFees.onNext(false)
+        sut.selectedFlightChargesFees.onNext("")
 
         cardFeeWarningTestSubscriber.assertValueCount(1)
         cardFeeWarningTestSubscriber.assertValue(null)

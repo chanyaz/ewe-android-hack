@@ -72,7 +72,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
-                    android:text="@string/payment_and_baggage_fees_may_apply"
                     android:textAllCaps="true"
                     android:textColor="@color/packages_primary_color"
                     android:visibility="gone"
