@@ -328,7 +328,7 @@ DummyFiletoHandleKotlinLintError {
 		R.color.white_disabled,
 		R.color.search_suggestion_v2,
 		R.color.search_suggestion_hint_v2,
-		R.string.package_flight_overview_urgency_message_TEMPLATE,
+		R.plurals.package_flight_overview_urgency_message_TEMPLATE,
 		R.string.package_flight_overview_departure_arrival_TEMPLATE,
 		R.string.package_flight_overview_layover_in_TEMPLATE,
 		R.string.package_flight_overview_airline_airplane_TEMPLATE,
