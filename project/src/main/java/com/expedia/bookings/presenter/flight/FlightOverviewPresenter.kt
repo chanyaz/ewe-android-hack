@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewStub
 import android.view.animation.DecelerateInterpolator
 import com.expedia.bookings.R
+import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.presenter.BaseOverviewPresenter
 import com.expedia.bookings.tracking.FlightsV2Tracking
 import com.expedia.bookings.utils.bindView
@@ -20,6 +21,7 @@ import com.expedia.vm.flights.FlightOverviewViewModel
 class FlightOverviewPresenter(context: Context, attrs: AttributeSet) : BaseOverviewPresenter(context, attrs) {
     val flightSummary: FlightSummaryWidget by bindView(R.id.flight_summary)
     val viewModel = FlightOverviewViewModel()
+    val airlinesChargePaymentFees = PointOfSale.getPointOfSale().doAirlinesChargeAdditionalFeeBasedOnPaymentMethod()
 
     val AIRLINEFEE_VIEW_TRANSITION_DURATION = 400
 
@@ -27,7 +29,7 @@ class FlightOverviewPresenter(context: Context, attrs: AttributeSet) : BaseOverv
         val viewStub = findViewById(R.id.payment_fee_info_webview_stub) as ViewStub
         val airlineFeeWebview = viewStub.inflate() as PaymentFeeInfoWebView
         airlineFeeWebview.setExitButtonOnClickListener(View.OnClickListener { this.back() })
-        airlineFeeWebview.toolbar.title = resources.getString(R.string.flights_flight_overview_payment_fees)
+        airlineFeeWebview.toolbar.title = resources.getString(if (airlinesChargePaymentFees) R.string.Airline_fee else R.string.flights_flight_overview_payment_fees)
         airlineFeeWebview.toolbar.setBackgroundColor(ContextCompat.getColor(context, R.color.packages_primary_color))
         airlineFeeWebview.viewModel = WebViewViewModel()
         airlineFeeWebview

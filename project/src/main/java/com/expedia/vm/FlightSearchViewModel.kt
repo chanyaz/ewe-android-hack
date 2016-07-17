@@ -10,6 +10,7 @@ import com.expedia.bookings.data.flights.FlightSearchParams
 import com.expedia.bookings.data.flights.FlightSearchResponse
 import com.expedia.bookings.data.flights.FlightTripDetails
 import com.expedia.bookings.data.packages.PackageOfferModel
+import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.services.FlightServices
 import com.expedia.bookings.utils.DateUtils
 import com.expedia.bookings.utils.FlightsV2DataUtil
@@ -48,12 +49,15 @@ class FlightSearchViewModel(context: Context, val flightServices: FlightServices
     val confirmedInboundFlightSelection = PublishSubject.create<FlightLeg>()
     val outboundSelected = PublishSubject.create<FlightLeg>()
     val inboundSelected = PublishSubject.create<FlightLeg>()
-    val offerSelectedChargesObFeesSubject = PublishSubject.create<Boolean>()
+    val showChargesObFeesSubject = PublishSubject.create<Boolean>()
+    val offerSelectedChargesObFeesSubject = PublishSubject.create<String>()
     val flightOfferSelected = PublishSubject.create<FlightTripDetails.FlightOffer>()
     val obFeeDetailsUrlObservable = PublishSubject.create<String>()
     val isRoundTripSearchObservable = BehaviorSubject.create<Boolean>(true)
     val flightParamsBuilder = FlightSearchParams.Builder(getMaxSearchDurationDays(), getMaxDateRange())
     val deeplinkDefaultTransitionObservable = PublishSubject.create<FlightActivity.Screen>()
+    val airlinesChargePaymentFees = PointOfSale.getPointOfSale().doAirlinesChargeAdditionalFeeBasedOnPaymentMethod()
+
 
     val searchObserver = endlessObserver<Unit> {
         getParamsBuilder().maxStay = getMaxSearchDurationDays()
@@ -97,7 +101,6 @@ class FlightSearchViewModel(context: Context, val flightServices: FlightServices
                 val offer = flightOfferModels[makeFlightOfferKey(flight.legId,flight.legId)]
                 if (offer != null) {
                     flightProductId.onNext(offer.productKey)
-                    flightOfferSelected.onNext(offer)
                 }
             }
         }
@@ -106,7 +109,20 @@ class FlightSearchViewModel(context: Context, val flightServices: FlightServices
             setupFlightSelectionObservables()
         }
 
-        flightOfferSelected.map { it.mayChargeOBFees }.subscribe(offerSelectedChargesObFeesSubject)
+        outboundSelected.subscribe { flightLeg ->
+            showChargesObFeesSubject.onNext(flightLeg.mayChargeObFees)
+        }
+
+        inboundSelected.subscribe { flightLeg ->
+            showChargesObFeesSubject.onNext(flightLeg.mayChargeObFees)
+        }
+
+        showChargesObFeesSubject.subscribe { hasObFee ->
+            if (hasObFee || airlinesChargePaymentFees) {
+                val paymentFeeText = context.resources.getString(if (airlinesChargePaymentFees) R.string.airline_fee_notice_payment else R.string.payment_and_baggage_fees_may_apply)
+                offerSelectedChargesObFeesSubject.onNext(paymentFeeText)
+            }
+        }
 
         isRoundTripSearchObservable.subscribe { isRoundTripSearch ->
             if (datesObservable.value != null && datesObservable.value.first != null) {
@@ -232,7 +248,8 @@ class FlightSearchViewModel(context: Context, val flightServices: FlightServices
                     errorObservable.onNext(ApiError.Code.FLIGHT_SEARCH_NO_RESULTS)
                 } else {
                     createFlightMap(response)
-                    obFeeDetailsUrlObservable.onNext(response.obFeesDetails)
+                    obFeeDetailsUrlObservable.onNext(if (airlinesChargePaymentFees) PointOfSale.getPointOfSale().airlineFeeBasedOnPaymentMethodTermsAndConditionsURL else response.obFeesDetails)
+
                 }
             }
 
