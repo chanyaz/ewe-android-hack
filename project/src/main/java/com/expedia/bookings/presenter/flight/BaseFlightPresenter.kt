@@ -70,6 +70,7 @@ abstract class BaseFlightPresenter(context: Context, attrs: AttributeSet?) : Pre
         filterView.viewModelBase = BaseFlightFilterViewModel(context)
         resultsPresenter.resultsViewModel.flightResultsObservable.subscribe {
             filterView.viewModelBase.flightResultsObservable.onNext(it)
+            filterView.viewModelBase.clearObservable.onNext(Unit)
         }
         filterView.viewModelBase.filterObservable.subscribe {
             resultsPresenter.listResultsObserver.onNext(it)
