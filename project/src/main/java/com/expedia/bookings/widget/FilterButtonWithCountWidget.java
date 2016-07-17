@@ -57,6 +57,10 @@ public class FilterButtonWithCountWidget extends LinearLayout {
 		buttonContainer.setBackgroundColor(ContextCompat.getColor(getContext(), backgroundColorId));
 	}
 
+	public void setBackground(int resource) {
+		buttonContainer.setBackgroundResource(resource);
+	}
+
 	public void setTextAndFilterIconColor(@ColorRes int color) {
 		int textAndFilterIconColor = ContextCompat.getColor(getContext(), color);
 		filterText.setTextColor(textAndFilterIconColor);
@@ -64,24 +68,24 @@ public class FilterButtonWithCountWidget extends LinearLayout {
 		((ImageView) filterIcon).setColorFilter(textAndFilterIconColor);
 	}
 
-	private int recyclerViewScrolledDistance = 0;
-
 	public RecyclerView.OnScrollListener hideShowOnRecyclerViewScrollListener() {
 		final LinearLayout self = this;
 
 		return new RecyclerView.OnScrollListener() {
+			private int scrolledDistance = 0;
+			private int heightOfButton = (int) getResources().getDimension(R.dimen.flight_sort_filter_container_height);
+
 			@Override
 			public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
 				super.onScrollStateChanged(recyclerView, newState);
-
 				if (newState == RecyclerView.SCROLL_STATE_IDLE) {
-					final int heightOfButton = self.getHeight();
-					float yTranslation = 0f;
-					if (recyclerViewScrolledDistance > heightOfButton / 2) {
-						// hide button
-						yTranslation = heightOfButton;
+					if (scrolledDistance > heightOfButton / 2) {
+						self.animate().translationY(heightOfButton)
+							.setInterpolator(new DecelerateInterpolator()).start();
 					}
-					self.animate().translationY(yTranslation).setInterpolator(new DecelerateInterpolator()).start();
+					else {
+						self.animate().translationY(0).setInterpolator(new DecelerateInterpolator()).start();
+					}
 				}
 			}
 
@@ -89,11 +93,13 @@ public class FilterButtonWithCountWidget extends LinearLayout {
 			public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
 				super.onScrolled(recyclerView, dx, dy);
 
-				if (dy > 0) {
-					recyclerViewScrolledDistance = Math.min(self.getHeight(), recyclerViewScrolledDistance + dy);
+				if (scrolledDistance > 0) {
+					scrolledDistance = Math.min(heightOfButton, scrolledDistance + dy);
+					self.setTranslationY(Math.min(heightOfButton, scrolledDistance));
 				}
 				else {
-					recyclerViewScrolledDistance = Math.max(0, recyclerViewScrolledDistance + dy);
+					scrolledDistance = Math.max(0, scrolledDistance + dy);
+					self.setTranslationY(Math.min(scrolledDistance, 0));
 				}
 			}
 		};

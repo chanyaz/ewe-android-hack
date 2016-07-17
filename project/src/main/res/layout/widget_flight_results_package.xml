@@ -34,7 +34,7 @@
         android:background="@drawable/tb_shadow"
         android:visibility="gone" />
 
-    <com.expedia.bookings.widget.FilterButtonWithCountWidget
+    <com.expedia.bookings.widget.FlightFilterButtonWithCountWidget
         android:id="@+id/sort_filter_button_container"
         android:layout_width="match_parent"
         android:layout_height="@dimen/hotel_filter_height"

@@ -24,6 +24,7 @@ import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.BaggageFeeInfoWidget
 import com.expedia.bookings.widget.BaseFlightFilterWidget
 import com.expedia.bookings.widget.flights.PaymentFeeInfoWebView
+import com.expedia.util.endlessObserver
 import com.expedia.util.notNullAndObservable
 import com.expedia.vm.BaseFlightFilterViewModel
 import com.expedia.vm.FlightOverviewViewModel
@@ -74,6 +75,7 @@ abstract class BaseFlightPresenter(context: Context, attrs: AttributeSet?) : Pre
             resultsPresenter.listResultsObserver.onNext(it)
             super.back()
         }
+        filterView.viewModelBase.filterCountObservable.subscribe(filterCountObserver)
         filterView
     }
 
@@ -242,6 +244,12 @@ abstract class BaseFlightPresenter(context: Context, attrs: AttributeSet?) : Pre
 
         override fun onError(e: Throwable) {
             throw OnErrorNotImplementedException(e)
+        }
+    }
+
+    val filterCountObserver: Observer<Int> = endlessObserver {
+        if (resultsPresenter.filterButton != null) {
+            resultsPresenter.filterButton.showNumberOfFilters(it)
         }
     }
 
