@@ -73,10 +73,18 @@ class TravelerEditText(context: Context, attrs: AttributeSet?) : EditText(contex
         }
     }
 
-    override fun onInitializeAccessibilityNodeInfo(nodeInfo: AccessibilityNodeInfo){
+    override fun onInitializeAccessibilityNodeInfo(nodeInfo: AccessibilityNodeInfo) {
         super.onInitializeAccessibilityNodeInfo(nodeInfo)
-        if(!valid && Strings.isNotEmpty(errorContDesc)) {
+        if (!valid && Strings.isNotEmpty(errorContDesc)) {
             nodeInfo.text = nodeInfo.text.toString() + " " + errorContDesc
+        } else {
+            val text = this.text.toString()
+            val hint = this.hint.toString()
+            if (text.isEmpty()) {
+                nodeInfo.text = " $hint"
+            } else {
+                nodeInfo.text = " $hint, $text"
+            }
         }
     }
 
