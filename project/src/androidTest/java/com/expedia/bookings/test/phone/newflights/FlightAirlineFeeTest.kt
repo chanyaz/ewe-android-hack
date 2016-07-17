@@ -14,16 +14,73 @@ import com.expedia.bookings.R
 import com.expedia.bookings.test.espresso.Common
 import com.expedia.bookings.test.espresso.NewFlightTestCase
 import com.expedia.bookings.test.espresso.ViewActions
+import com.expedia.bookings.test.phone.hotels.HotelScreen
 import com.expedia.bookings.test.phone.packages.PackageScreen
 import com.expedia.bookings.test.phone.pagemodels.common.CardInfoScreen
 import com.expedia.bookings.test.phone.pagemodels.common.CheckoutViewModel
 import com.expedia.bookings.test.phone.pagemodels.common.SearchScreen
 import org.hamcrest.Matchers.allOf
 import org.joda.time.LocalDate
+import org.junit.Test
 
 class FlightAirlineFeeTest: NewFlightTestCase() {
 
-    fun testWhenAirlineHasFeeShowMessaging() {
+    @Test
+    fun testAirlineFeeStoredCard() {
+        selectFlightsProceedToCheckout()
+        assertCardFeeWarningShown()
+
+        signIn()
+        CheckoutViewModel.selectStoredCardWithName("Saved Visa 1111")
+        assertCheckoutOverviewCardFeeWarningShown()
+    }
+
+    @Test
+    fun testAirlineFeeGuestCheckout() {
+        selectFlightsProceedToCheckout()
+        assertCardFeeWarningShown()
+
+        manuallyEnterCardInfo()
+        assertPaymentFormCardFeeWarningShown()
+
+        PackageScreen.completePaymentForm()
+        CheckoutViewModel.clickDone()
+
+        assertCheckoutOverviewCardFeeWarningShown()
+    }
+
+    private fun assertCheckoutOverviewCardFeeWarningShown() {
+        onView(withId(R.id.card_fee_warning_text)).perform(ViewActions.waitForViewToDisplay())
+                .check(ViewAssertions.matches(isDisplayed()))
+                .check(ViewAssertions.matches(withText("The airline charges a processing fee of $2.94 for using this card (cost included in the trip total).")))
+    }
+
+    private fun assertPaymentFormCardFeeWarningShown() {
+        onView(withId(R.id.card_processing_fee)).perform(ViewActions.waitForViewToDisplay())
+                .check(ViewAssertions.matches(isDisplayed()))
+                .check(ViewAssertions.matches(withText("Airline processing fee for this card: $2.94")))
+    }
+
+    private fun signIn() {
+        HotelScreen.doLogin()
+    }
+
+    private fun manuallyEnterCardInfo() {
+        CheckoutViewModel.clickPaymentInfo()
+        Common.delay(1)
+        CardInfoScreen.typeTextCreditCardEditText("4111111111111111")
+    }
+
+    private fun assertCardFeeWarningShown() {
+        FlightsOverviewScreen.assertCardFeeWarningShown()
+        FlightsOverviewScreen.cardFeeWarningTextView().perform(click())
+        val paymentFeeWebViewBundleOverview = onView(allOf(withId(R.id.web_view), isDescendantOfA(withId(R.id.widget_bundle_overview))))
+        paymentFeeWebViewBundleOverview.check(ViewAssertions.matches(isDisplayed()))
+
+        Espresso.pressBack()
+    }
+
+    private fun selectFlightsProceedToCheckout() {
         SearchScreen.origin().perform(click())
         SearchScreen.searchEditText().perform(android.support.test.espresso.action.ViewActions.typeText("AUK"))
         SearchScreen.suggestionList().perform(ViewActions.waitForViewToDisplay())
@@ -63,28 +120,5 @@ class FlightAirlineFeeTest: NewFlightTestCase() {
 
         FlightsScreen.selectInboundFlight().perform(click())
         PackageScreen.checkout().perform(click())
-
-        FlightsOverviewScreen.assertCardFeeWarningShown()
-        FlightsOverviewScreen.cardFeeWarningTextView().perform(click())
-        val paymentFeeWebViewBundleOverview = onView(allOf(withId(R.id.web_view), isDescendantOfA(withId(R.id.widget_bundle_overview))))
-        paymentFeeWebViewBundleOverview.check(ViewAssertions.matches(isDisplayed()))
-
-        Espresso.pressBack()
-
-        CheckoutViewModel.clickPaymentInfo()
-        Common.delay(1)
-        CardInfoScreen.typeTextCreditCardEditText("4111111111111111")
-
-        onView(withId(R.id.card_processing_fee)).perform(ViewActions.waitForViewToDisplay())
-                .check(ViewAssertions.matches(isDisplayed()))
-                .check(ViewAssertions.matches(withText("Airline processing fee for this card: $2.94")))
-
-        PackageScreen.completePaymentForm()
-        CheckoutViewModel.clickDone()
-
-        onView(withId(R.id.card_fee_warning_text)).perform(ViewActions.waitForViewToDisplay())
-                .check(ViewAssertions.matches(isDisplayed()))
-                .check(ViewAssertions.matches(withText("The airline charges a processing fee of $2.94 for using this card (cost included in the trip total).")))
-
     }
 }

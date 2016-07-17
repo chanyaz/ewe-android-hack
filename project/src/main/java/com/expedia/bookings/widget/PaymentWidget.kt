@@ -203,6 +203,7 @@ open class PaymentWidget(context: Context, attr: AttributeSet) : Presenter(conte
             temporarilySavedCardIsSelected(false, Db.getTemporarilySavedCard())
             viewmodel.billingInfoAndStatusUpdate.onNext(Pair(sectionBillingInfo.billingInfo, ContactDetailsCompletenessStatus.COMPLETE))
             viewmodel.onStoredCardChosen.onNext(Unit)
+            viewmodel.cardTypeSubject.onNext(card.type)
             closePopup()
             trackPaymentStoredCCSelect()
         }
@@ -231,7 +232,7 @@ open class PaymentWidget(context: Context, attr: AttributeSet) : Presenter(conte
             val activity = context as AppCompatActivity
             InvalidCharacterHelper.showInvalidCharacterPopup(activity.supportFragmentManager, mode)
         }
-        sectionBillingInfo.addChangeListener(mValidFormsOfPaymentListener)
+        sectionBillingInfo.addChangeListener(billingInfoChangedListener)
         filledInCardDetailsMiniView.setCompoundDrawablesWithIntrinsicBounds(getCreditCardIcon(R.drawable.ic_hotel_credit_card), null, null, null)
         storedCreditCardList.setStoredCreditCardListener(storedCreditCardListener)
 
@@ -381,7 +382,7 @@ open class PaymentWidget(context: Context, attr: AttributeSet) : Presenter(conte
         return sectionBillingInfo.billingInfo != null && sectionBillingInfo.billingInfo.hasStoredCard()
     }
 
-    private val mValidFormsOfPaymentListener: ISectionEditable.SectionChangeListener = ISectionEditable.SectionChangeListener {
+    private val billingInfoChangedListener: ISectionEditable.SectionChangeListener = ISectionEditable.SectionChangeListener {
         val cardType = sectionBillingInfo.billingInfo?.paymentType
         viewmodel.cardTypeSubject.onNext(cardType)
     }
