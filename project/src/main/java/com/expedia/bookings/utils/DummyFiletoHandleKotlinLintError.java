@@ -786,6 +786,7 @@ DummyFiletoHandleKotlinLintError {
 		R.drawable.rails_tram_icon,
 		R.drawable.rails_tube_icon,
 		R.drawable.rails_walk_icon,
-		R.drawable.rails_transfer_icon
+		R.drawable.rails_transfer_icon,
+		R.string.location_edit_box_cont_desc_TEMPLATE
 	};
 }
