@@ -12,7 +12,7 @@ import com.expedia.util.subscribeText
 import com.expedia.util.subscribeTextAndVisibility
 import com.expedia.vm.packages.SuggestionViewModel
 
-abstract class AbstractSuggestionViewHolder(val root: ViewGroup, val vm: SuggestionViewModel) : RecyclerView.ViewHolder(root), View.OnClickListener {
+class SuggestionViewHolder(val root: ViewGroup, val vm: SuggestionViewModel) : RecyclerView.ViewHolder(root), View.OnClickListener {
     val title: TextView by root.bindView(R.id.title_textview)
     val subtitle: TextView by root.bindView(R.id.suggestion_subtittle)
     val icon: ImageView by root.bindView(R.id.icon_imageview)
@@ -45,8 +45,6 @@ abstract class AbstractSuggestionViewHolder(val root: ViewGroup, val vm: Suggest
     override fun onClick(view: View) {
         val suggestion = vm.suggestionObserver.value
         vm.suggestionSelected.onNext(suggestion)
-        trackRecentSearchClick()
     }
 
-    abstract fun trackRecentSearchClick()
 }

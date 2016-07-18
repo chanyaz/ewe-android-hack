@@ -13,7 +13,7 @@ import com.expedia.bookings.services.SuggestionV4Services
 import com.expedia.bookings.utils.AnimUtils
 import com.expedia.bookings.utils.SuggestionV4Utils
 import com.expedia.bookings.utils.Ui
-import com.expedia.bookings.widget.suggestions.PackageSuggestionAdapter
+import com.expedia.bookings.widget.suggestions.SuggestionAdapter
 import com.expedia.util.notNullAndObservable
 import com.expedia.util.subscribeOnClick
 import com.expedia.vm.BaseSearchViewModel
@@ -28,8 +28,8 @@ class PackageSearchPresenter(context: Context, attrs: AttributeSet) : BaseTwoLoc
         Ui.getApplication(getContext()).packageComponent().suggestionsService()
     }
 
-    private var originSuggestionAdapter: PackageSuggestionAdapter by Delegates.notNull()
-    private var destinationSuggestionAdapter: PackageSuggestionAdapter by Delegates.notNull()
+    private var originSuggestionAdapter: SuggestionAdapter by Delegates.notNull()
+    private var destinationSuggestionAdapter: SuggestionAdapter by Delegates.notNull()
 
     var searchViewModel: PackageSearchViewModel by notNullAndObservable { vm ->
         calendarWidgetV2.viewModel = vm
@@ -80,8 +80,8 @@ class PackageSearchPresenter(context: Context, attrs: AttributeSet) : BaseTwoLoc
         destinationSuggestionViewModel = PackageSuggestionAdapterViewModel(getContext(), suggestionServices, true, null)
         originSuggestionViewModel.setCustomerSelectingOrigin(true)
         destinationSuggestionViewModel.setCustomerSelectingOrigin(false)
-        originSuggestionAdapter = PackageSuggestionAdapter(originSuggestionViewModel)
-        destinationSuggestionAdapter = PackageSuggestionAdapter(destinationSuggestionViewModel)
+        originSuggestionAdapter = SuggestionAdapter(originSuggestionViewModel)
+        destinationSuggestionAdapter = SuggestionAdapter(destinationSuggestionViewModel)
         travelerWidgetV2.traveler.viewmodel.showSeatingPreference = true
         travelerWidgetV2.traveler.viewmodel.lob = LineOfBusiness.PACKAGES
     }

@@ -17,7 +17,7 @@ import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.SearchInputCardView
 import com.expedia.bookings.widget.TravelerWidgetV2
 import com.expedia.bookings.widget.rail.PositionObservableTabLayout
-import com.expedia.bookings.widget.suggestions.RailSuggestionAdapter
+import com.expedia.bookings.widget.suggestions.SuggestionAdapter
 import com.expedia.util.notNullAndObservable
 import com.expedia.vm.BaseSearchViewModel
 import com.expedia.vm.SuggestionAdapterViewModel
@@ -28,8 +28,8 @@ import kotlin.properties.Delegates
 
 class RailSearchPresenter(context: Context, attrs: AttributeSet) : BaseTwoLocationSearchPresenter(context, attrs) {
 
-    lateinit private var originSuggestionAdapter: RailSuggestionAdapter
-    lateinit private var destinationSuggestionAdapter: RailSuggestionAdapter
+    lateinit private var originSuggestionAdapter: SuggestionAdapter
+    lateinit private var destinationSuggestionAdapter: SuggestionAdapter
 
     val suggestionServices: SuggestionV4Services by lazy {
         Ui.getApplication(context).railComponent().suggestionsService()
@@ -74,8 +74,8 @@ class RailSearchPresenter(context: Context, attrs: AttributeSet) : BaseTwoLocati
 
         originSuggestionViewModel = RailSuggestionAdapterViewModel(context, suggestionServices, false, CurrentLocationObservable.create(context))
         destinationSuggestionViewModel = RailSuggestionAdapterViewModel(context, suggestionServices, true, null)
-        originSuggestionAdapter = RailSuggestionAdapter(originSuggestionViewModel)
-        destinationSuggestionAdapter = RailSuggestionAdapter(destinationSuggestionViewModel)
+        originSuggestionAdapter = SuggestionAdapter(originSuggestionViewModel)
+        destinationSuggestionAdapter = SuggestionAdapter(destinationSuggestionViewModel)
     }
 
     override fun selectDates(startDate: LocalDate?, endDate: LocalDate?) {

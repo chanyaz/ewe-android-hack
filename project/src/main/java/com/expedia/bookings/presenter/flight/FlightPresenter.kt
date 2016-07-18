@@ -282,6 +282,9 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
             searchPresenter.animationFinalize(!forward)
             errorPresenter.visibility = if (forward) View.GONE else View.VISIBLE
             searchPresenter.visibility = if (forward) View.VISIBLE else View.GONE
+            if (forward) {
+                FlightsV2Tracking.trackSearchPageLoad()
+            }
 
         }
     }
