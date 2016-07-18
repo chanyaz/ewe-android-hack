@@ -413,6 +413,8 @@
     <color name="hotelsv2_checkout_divider_color">#DFDFDF</color>
     <color name="hotel_guest_selector_enabled_color">#5C5C5C</color>
     <color name="hotel_guest_selector_disabled_color">#405C5C5C</color>
+    <color name="pay_with_reward_text_color">@color/hotels_primary_color</color>
+    <color name="points_available_text_color">@color/gray7</color>
 
     <color name="defaultTextColor">@color/gray7</color>
 
