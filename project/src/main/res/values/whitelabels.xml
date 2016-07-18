@@ -79,7 +79,6 @@
     <attr name="skin_hotelConfirmationCallActionDrawable" format="reference" />
 
     <!-- HotelCheckout CVV, Book button -->
-    <attr name="skin_cvvBookButtonKeypadDrawable" format="reference" />
     <attr name="skin_cvvBookButtonTextColor" format="reference"/>
 
     <!-- HotelCheckout Traveler Info screen after logged in, Logo to the left of the primary traveler -->
