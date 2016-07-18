@@ -8,7 +8,7 @@ import org.joda.time.LocalDate
 import java.util.HashMap
 import kotlin.properties.Delegates
 
-open class PackageSearchParams(val origin: SuggestionV4, val destination: SuggestionV4, val checkIn: LocalDate, val checkOut: LocalDate, adults: Int, children: List<Int>, infantSeatingInLap: Boolean) : AbstractFlightSearchParams(adults, children, checkIn, checkOut, infantSeatingInLap) {
+open class PackageSearchParams(origin: SuggestionV4, destination: SuggestionV4, startDate: LocalDate, endDate: LocalDate, adults: Int, children: List<Int>, infantSeatingInLap: Boolean) : AbstractFlightSearchParams(origin, destination, adults, children, startDate, endDate, infantSeatingInLap) {
 
     var pageType: String? = null
     var searchProduct: String? = null
@@ -63,12 +63,12 @@ open class PackageSearchParams(val origin: SuggestionV4, val destination: Sugges
     fun toQueryMap(): Map<String, Any?> {
         val params = HashMap<String, Any?>()
         if (pageType != null) params.put("pageType", pageType)
-        params.put("originId", origin.hierarchyInfo?.airport?.multicity)
-        params.put("destinationId", destination.hierarchyInfo?.airport?.multicity)
-        params.put("ftla", origin.hierarchyInfo?.airport?.airportCode)
-        params.put("ttla", destination.hierarchyInfo?.airport?.airportCode)
-        params.put("fromDate", checkIn.toString())
-        params.put("toDate", checkOut.toString())
+        params.put("originId", origin?.hierarchyInfo?.airport?.multicity)
+        params.put("destinationId", destination?.hierarchyInfo?.airport?.multicity)
+        params.put("ftla", origin?.hierarchyInfo?.airport?.airportCode)
+        params.put("ttla", destination?.hierarchyInfo?.airport?.airportCode)
+        params.put("fromDate", startDate.toString())
+        params.put("toDate", endDate.toString())
         params.put("numberOfRooms", numberOfRooms)
         params.put("adultsPerRoom[1]", adults)
         params.put("infantsInSeats", if (infantSeatingInLap) 0 else 1)

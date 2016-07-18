@@ -147,7 +147,7 @@ class PackageErrorViewModel(private val context: Context) {
         }
 
         paramsSubject.subscribe { params ->
-            titleObservable.onNext(String.format(context.getString(R.string.your_trip_to_TEMPLATE), StrUtils.formatCityName(params.destination.regionNames.fullName)))
+            titleObservable.onNext(String.format(context.getString(R.string.your_trip_to_TEMPLATE), StrUtils.formatCityName(params.destination?.regionNames?.fullName)))
             subTitleObservable.onNext(getToolbarSubtitle(params))
         }
     }
@@ -164,8 +164,8 @@ class PackageErrorViewModel(private val context: Context) {
 
     private fun getToolbarSubtitle(params: PackageSearchParams): String {
         return Phrase.from(context, R.string.calendar_instructions_date_range_with_guests_TEMPLATE)
-                .put("startdate", DateUtils.localDateToMMMd(params.checkIn))
-                .put("enddate", DateUtils.localDateToMMMd(params.checkOut))
+                .put("startdate", DateUtils.localDateToMMMd(params.startDate))
+                .put("enddate", DateUtils.localDateToMMMd(params.endDate))
                 .put("guests", StrUtils.formatTravelerString(context, params.guests))
                 .format()
                 .toString()

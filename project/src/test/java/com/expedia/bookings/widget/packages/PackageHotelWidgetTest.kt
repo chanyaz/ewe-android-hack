@@ -19,6 +19,7 @@ import org.mockito.Mockito
 import org.robolectric.Robolectric
 import org.robolectric.Shadows
 import java.util.ArrayList
+import kotlin.properties.Delegates
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
 
@@ -26,6 +27,10 @@ import kotlin.test.assertTrue
 class PackageHotelWidgetTest {
     lateinit var testHotelWidget: PackageBundleHotelWidget
     val activity = Robolectric.buildActivity(Activity::class.java).create().get()
+
+    var testOrigin: SuggestionV4 by Delegates.notNull()
+    val testRegionName = "Chicago"
+    val testAirportCode = "ORD"
 
     @Before
     fun setup() {
@@ -39,6 +44,35 @@ class PackageHotelWidgetTest {
 
         testHotelWidget = PackageBundleHotelWidget(activity, null)
         testHotelWidget.viewModel = BundleHotelViewModel(activity)
+        testOrigin = buildMockOriginSuggestion()
+        setupParams()
+    }
+
+    private fun buildMockOriginSuggestion() : SuggestionV4 {
+        val origin = Mockito.mock(SuggestionV4::class.java)
+        val hierarchyInfo = SuggestionV4.HierarchyInfo()
+        val regionNames = SuggestionV4.RegionNames()
+        regionNames.displayName = testRegionName
+        hierarchyInfo.airport = buildMockAirport()
+        origin.hierarchyInfo = hierarchyInfo
+        origin.regionNames = regionNames
+        return origin
+    }
+
+    private fun buildMockAirport() : SuggestionV4.Airport {
+        val airport = Mockito.mock(SuggestionV4.Airport::class.java)
+        airport.airportCode = testAirportCode
+        return airport
+    }
+
+    private fun setupParams() {
+        val packageParams = PackageSearchParams.Builder(26, 329)
+                .startDate(LocalDate.now().plusDays(1))
+                .endDate(LocalDate.now().plusDays(2))
+                .origin(testOrigin)
+                .destination(SuggestionV4())
+                .build() as PackageSearchParams
+        Db.setPackageParams(packageParams)
     }
 
     @Test

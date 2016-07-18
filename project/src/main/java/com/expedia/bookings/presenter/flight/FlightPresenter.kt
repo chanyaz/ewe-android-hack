@@ -157,6 +157,8 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
                     confirmationPresenter.viewModel.inboundCardVisibility.onNext(false)
                 }
             }
+            flightOverviewPresenter.flightSummary.outboundFlightWidget.viewModel.searchParams.onNext(params)
+            flightOverviewPresenter.flightSummary.inboundFlightWidget.viewModel.searchParams.onNext(params)
 
             flightOverviewPresenter.flightSummary.outboundFlightWidget.viewModel.searchTypeStateObservable.onNext(PackageSearchType.OUTBOUND_FLIGHT)
 

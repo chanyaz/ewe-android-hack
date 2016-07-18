@@ -106,7 +106,7 @@ class PackageBundleHotelWidget(context: Context, attrs: AttributeSet?) : Accessi
         }
 
         viewModel.selectedHotelObservable.subscribe {
-            this.selectedHotelObservable.onNext(Unit)
+            this.selectedCardObservable.onNext(Unit)
             hotelsText.setTextColor(ContextCompat.getColor(context, R.color.packages_bundle_overview_widgets_primary_text))
             hotelLuggageIcon.setColorFilter(0)
             hotelsDatesGuestInfoText.setTextColor(ContextCompat.getColor(context, R.color.packages_bundle_overview_widgets_secondary_text))
@@ -133,7 +133,7 @@ class PackageBundleHotelWidget(context: Context, attrs: AttributeSet?) : Accessi
                 } else {
                     collapseSelectedHotel()
                 }
-                this.selectedHotelObservable.onNext(Unit)
+                this.selectedCardObservable.onNext(Unit)
             } else {
                 openHotels()
             }
@@ -154,18 +154,12 @@ class PackageBundleHotelWidget(context: Context, attrs: AttributeSet?) : Accessi
         mainContainer.visibility = Presenter.VISIBLE
         AnimUtils.rotate(hotelDetailsIcon)
         PackagesTracking().trackBundleOverviewHotelExpandClick()
-        if (hotelDetailsIcon.visibility == View.VISIBLE) {
-            this.selectedHotelObservable.onNext(Unit)
-        }
     }
 
     fun collapseSelectedHotel() {
         mainContainer.visibility = Presenter.GONE
         AnimUtils.reverseRotate(hotelDetailsIcon)
         hotelDetailsIcon.clearAnimation()
-        if (hotelDetailsIcon.visibility == View.VISIBLE) {
-            this.selectedHotelObservable.onNext(Unit)
-        }
     }
 
     fun backButtonPressed() {
@@ -193,8 +187,8 @@ class PackageBundleHotelWidget(context: Context, attrs: AttributeSet?) : Accessi
     }
 
     override fun loadingContentDescription(): String {
-        val startDate = DateUtils.localDateToMMMd(Db.getPackageParams().checkIn)
-        val endDate = DateUtils.localDateToMMMd(Db.getPackageParams().checkOut)
+        val startDate = DateUtils.localDateToMMMd(Db.getPackageParams().startDate)
+        val endDate = DateUtils.localDateToMMMd(Db.getPackageParams().endDate)
         val guests = StrUtils.formatGuestString(context, Db.getPackageParams().guests)
         return Phrase.from(context, R.string.select_hotel_searching_cont_desc_TEMPLATE)
                 .put("destination", StrUtils.formatCityName(Db.getPackageParams().destination))
@@ -206,8 +200,8 @@ class PackageBundleHotelWidget(context: Context, attrs: AttributeSet?) : Accessi
     }
 
     override fun contentDescription(): String {
-        val startDate = DateUtils.localDateToMMMd(Db.getPackageParams().checkIn)
-        val endDate = DateUtils.localDateToMMMd(Db.getPackageParams().checkOut)
+        val startDate = DateUtils.localDateToMMMd(Db.getPackageParams().startDate)
+        val endDate = DateUtils.localDateToMMMd(Db.getPackageParams().endDate)
         val guests = StrUtils.formatGuestString(context, Db.getPackageParams().guests)
         return Phrase.from(context, R.string.select_hotel_cont_desc_TEMPLATE)
                 .put("destination", StrUtils.formatCityName(Db.getPackageParams().destination))
@@ -218,9 +212,9 @@ class PackageBundleHotelWidget(context: Context, attrs: AttributeSet?) : Accessi
                 .toString()
     }
 
-    override fun selectedHotelContentDescription(): String {
-        val startDate = DateUtils.localDateToMMMd(Db.getPackageParams().checkIn)
-        val endDate = DateUtils.localDateToMMMd(Db.getPackageParams().checkOut)
+    override fun selectedCardContentDescription(): String {
+        val startDate = DateUtils.localDateToMMMd(Db.getPackageParams().startDate)
+        val endDate = DateUtils.localDateToMMMd(Db.getPackageParams().endDate)
         val guests = StrUtils.formatGuestString(context, Db.getPackageParams().guests)
         val expandState = if (mainContainer.visibility == Presenter.VISIBLE) context.getString(R.string.accessibility_cont_desc_role_button_collapse) else context.getString(R.string.accessibility_cont_desc_role_button_expand)
         return Phrase.from(context, R.string.select_hotel_selected_cont_desc_TEMPLATE)

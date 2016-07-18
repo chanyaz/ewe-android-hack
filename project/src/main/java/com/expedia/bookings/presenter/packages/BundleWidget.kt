@@ -6,10 +6,11 @@ import android.view.View
 import android.widget.LinearLayout
 import android.widget.TextView
 import com.expedia.bookings.R
+import com.expedia.bookings.data.Db
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.PackageBundleHotelWidget
-import com.expedia.bookings.widget.packages.PackageInboundFlightWidget
-import com.expedia.bookings.widget.packages.PackageOutboundFlightWidget
+import com.expedia.bookings.widget.packages.InboundFlightWidget
+import com.expedia.bookings.widget.packages.OutboundFlightWidget
 import com.expedia.util.notNullAndObservable
 import com.expedia.util.subscribeText
 import com.expedia.vm.packages.BundleFlightViewModel
@@ -23,8 +24,8 @@ class BundleWidget(context: Context, attrs: AttributeSet) : LinearLayout(context
     val stepOneText: TextView by bindView(R.id.step_one_text)
     val stepTwoText: TextView by bindView(R.id.step_two_text)
     val bundleHotelWidget: PackageBundleHotelWidget by bindView(R.id.package_bundle_hotel_widget)
-    val outboundFlightWidget: PackageOutboundFlightWidget by bindView(R.id.package_bundle_outbound_flight_widget)
-    val inboundFlightWidget: PackageInboundFlightWidget by bindView(R.id.package_bundle_inbound_flight_widget)
+    val outboundFlightWidget: OutboundFlightWidget by bindView(R.id.package_bundle_outbound_flight_widget)
+    val inboundFlightWidget: InboundFlightWidget by bindView(R.id.package_bundle_inbound_flight_widget)
     val opacity: Float = 0.25f
 
     val toggleMenuObservable = BehaviorSubject.create<Boolean>()

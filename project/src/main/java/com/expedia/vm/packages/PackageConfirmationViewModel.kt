@@ -94,8 +94,8 @@ class PackageConfirmationViewModel(val context: Context) {
             override fun onNext(t: Unit?) {
                 val builder = CarSearchParamsBuilder()
                 val dateTimeBuilder = CarSearchParamsBuilder.DateTimeBuilder()
-                        .startDate(Db.getPackageParams().checkIn)
-                        .endDate(Db.getPackageParams().checkOut)
+                        .startDate(Db.getPackageParams().startDate)
+                        .endDate(Db.getPackageParams().endDate)
                 builder.origin(Db.getPackageSelectedOutboundFlight().destinationAirportCode)
                 builder.originDescription(StrUtils.formatCarOriginDescription(context, Db.getPackageSelectedOutboundFlight()))
                 builder.dateTimeBuilder(dateTimeBuilder)

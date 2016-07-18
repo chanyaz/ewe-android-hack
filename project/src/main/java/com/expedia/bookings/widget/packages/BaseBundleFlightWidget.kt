@@ -8,11 +8,15 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import com.expedia.bookings.R
+import com.expedia.bookings.data.Db
 import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.tracking.PackagesTracking
 import com.expedia.bookings.utils.AnimUtils
+import com.expedia.bookings.utils.DateUtils
+import com.expedia.bookings.utils.StrUtils
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
+import com.expedia.bookings.widget.AccessibleCardView
 import com.expedia.bookings.widget.FlightSegmentBreakdownView
 import com.expedia.bookings.widget.TextView
 import com.expedia.util.notNullAndObservable
@@ -27,12 +31,13 @@ import com.expedia.vm.FlightSegmentBreakdown
 import com.expedia.vm.FlightSegmentBreakdownViewModel
 import com.squareup.phrase.Phrase
 
-abstract class PackageBundleFlightWidget(context: Context, attrs: AttributeSet?) : CardView(context, attrs) {
+abstract class BaseBundleFlightWidget(context: Context, attrs: AttributeSet?) : AccessibleCardView(context, attrs) {
     abstract fun showLoading()
     abstract fun handleResultsLoaded()
     abstract fun enable()
     abstract fun disable()
     abstract fun rowClicked()
+    abstract fun isInboundFlight(): Boolean
 
     protected val opacity: Float = 0.25f
 
@@ -65,6 +70,7 @@ abstract class PackageBundleFlightWidget(context: Context, attrs: AttributeSet?)
         }
 
         vm.showLoadingStateObservable.subscribe { showLoading ->
+            this.loadingStateObservable.onNext(showLoading)
             if (showLoading) {
                 rowContainer.isEnabled = false
                 flightInfoContainer.isEnabled = false
@@ -89,6 +95,7 @@ abstract class PackageBundleFlightWidget(context: Context, attrs: AttributeSet?)
         }
 
         vm.selectedFlightLegObservable.subscribe { selectedFlight ->
+            this.selectedCardObservable.onNext(Unit)
             var segmentBreakdowns = arrayListOf<FlightSegmentBreakdown>()
             for (segment in selectedFlight.flightSegments) {
                 segmentBreakdowns.add(FlightSegmentBreakdown(segment, selectedFlight.hasLayover))
@@ -101,6 +108,7 @@ abstract class PackageBundleFlightWidget(context: Context, attrs: AttributeSet?)
                 } else {
                     collapseFlightDetails()
                 }
+                this.selectedCardObservable.onNext(Unit)
             }
         }
     }
@@ -122,18 +130,12 @@ abstract class PackageBundleFlightWidget(context: Context, attrs: AttributeSet?)
         flightDetailsContainer.visibility = Presenter.VISIBLE
         AnimUtils.rotate(flightDetailsIcon)
         PackagesTracking().trackBundleOverviewFlightExpandClick()
-        if(flightDetailsIcon.visibility == View.VISIBLE){
-            rowContainer.contentDescription = selectedFlightContentDescription()
-        }
     }
 
     fun collapseFlightDetails() {
         flightDetailsContainer.visibility = Presenter.GONE
         AnimUtils.reverseRotate(flightDetailsIcon)
         flightDetailsIcon.clearAnimation()
-        if(flightDetailsIcon.visibility == View.VISIBLE) {
-            rowContainer.contentDescription = selectedFlightContentDescription()
-        }
     }
 
     private fun isFlightSegmentDetailsExpanded(): Boolean {
@@ -154,13 +156,9 @@ abstract class PackageBundleFlightWidget(context: Context, attrs: AttributeSet?)
         this.isEnabled = isEnabled
         flightDetailsIcon.isEnabled = isEnabled
         rowContainer.isEnabled = isEnabled
-    }
-
-    fun selectedFlightContentDescription(): String {
-        return Phrase.from(context, R.string.select_flight_selected_cont_desc_TEMPLATE).
-                put("flighttext", viewModel.flightTextObservable.value).
-                put("travelerinfotext", viewModel.travelInfoTextObservable.value).
-                put("expandstate", getFlightWidgetExpandedState()).format().toString()
+        if (!isEnabled) {
+            this.disabledStateObservable.onNext(Unit)
+        }
     }
 
     fun getFlightWidgetExpandedState(): String {
@@ -170,5 +168,51 @@ abstract class PackageBundleFlightWidget(context: Context, attrs: AttributeSet?)
         else {
             return context.getString(R.string.accessibility_cont_desc_role_button_expand)
         }
+    }
+
+    override fun contentDescription(): String {
+        val searchParams = viewModel.searchParams.value
+        return Phrase.from(context, R.string.select_flight_cont_desc_TEMPLATE)
+                .put("flight", StrUtils.formatAirportCodeCityName(if (isInboundFlight()) searchParams.origin else searchParams.destination))
+                .put("date", DateUtils.localDateToMMMd(if (isInboundFlight()) searchParams.endDate else searchParams.startDate))
+                .put("travelers", StrUtils.formatTravelerString(context, searchParams.guests))
+                .format()
+                .toString()
+    }
+
+    override fun disabledContentDescription(): String {
+        val searchParams = viewModel.searchParams.value
+        return Phrase.from(context, R.string.select_flight_disabled_cont_desc_TEMPLATE)
+                .put("flight", StrUtils.formatAirportCodeCityName(if (isInboundFlight()) searchParams.origin else searchParams.destination))
+                .put("date", DateUtils.localDateToMMMd(if (isInboundFlight()) searchParams.endDate else searchParams.startDate))
+                .put("travelers", StrUtils.formatTravelerString(context, searchParams.guests))
+                .put("previous", if (isInboundFlight()) context.getString(R.string.select_flight_disabled_choose_outbound) else context.getString(R.string.select_flight_disabled_choose_hotel))
+                .format()
+                .toString()
+    }
+
+    override fun getRowInfoContainer(): ViewGroup {
+        return rowContainer
+    }
+
+    override fun loadingContentDescription(): String {
+        val searchParams = viewModel.searchParams.value
+        return Phrase.from(context, R.string.select_flight_searching_cont_desc_TEMPLATE)
+                .put("flight", StrUtils.formatAirportCodeCityName(if (isInboundFlight()) searchParams.origin else searchParams.destination))
+                .put("date", DateUtils.localDateToMMMd(if (isInboundFlight()) searchParams.endDate else searchParams.startDate))
+                .put("travelers", StrUtils.formatTravelerString(context, searchParams.guests))
+                .format()
+                .toString()
+    }
+
+    override fun selectedCardContentDescription(): String {
+        val searchParams = viewModel.searchParams.value
+        val expandState = if (flightDetailsContainer.visibility == Presenter.VISIBLE) context.getString(R.string.accessibility_cont_desc_role_button_collapse) else context.getString(R.string.accessibility_cont_desc_role_button_expand)
+        return Phrase.from(context, R.string.select_flight_selected_cont_desc_TEMPLATE)
+                .put("flight", StrUtils.formatAirportCodeCityName(if (isInboundFlight()) searchParams.origin else searchParams.destination))
+                .put("datetraveler", viewModel.travelInfoTextObservable.value)
+                .put("expandstate", expandState)
+                .format()
+                .toString()
     }
 }

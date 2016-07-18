@@ -151,9 +151,19 @@ public class PackageScreen {
 			withId(R.id.flight_info_container)));
 	}
 
+	public static ViewInteraction outboundFlightInfoRowContainer() {
+		return onView(allOf(isDescendantOfA(withId(R.id.package_bundle_outbound_flight_widget)),
+			withId(R.id.row_container)));
+	}
+
 	public static ViewInteraction inboundFlightInfo() {
 		return onView(allOf(isDescendantOfA(withId(R.id.package_bundle_inbound_flight_widget)),
 			withId(R.id.flight_info_container)));
+	}
+
+	public static ViewInteraction inboundFlightInfoRowContainer() {
+		return onView(allOf(isDescendantOfA(withId(R.id.package_bundle_inbound_flight_widget)),
+			withId(R.id.row_container)));
 	}
 
 	public static ViewInteraction inboundFLight() {
