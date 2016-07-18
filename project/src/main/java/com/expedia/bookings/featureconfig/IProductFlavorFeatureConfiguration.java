@@ -187,4 +187,8 @@ public interface IProductFlavorFeatureConfiguration {
 	boolean isWeReHiringEnabled();
 
 	boolean isRateOurAppEnabled();
+
+	boolean isRewardsCardEnabled();
+
+	String getRewardsCardUrl(Context context);
 }

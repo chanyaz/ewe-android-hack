@@ -411,5 +411,13 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 		return true;
 	}
 
+	@Override
+	public boolean isRewardsCardEnabled() {
+		return false;
+	}
 
+	@Override
+	public String getRewardsCardUrl(Context context) {
+		return null;
+	}
 }
