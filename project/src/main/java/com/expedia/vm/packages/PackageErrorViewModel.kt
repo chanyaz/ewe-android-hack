@@ -130,7 +130,7 @@ class PackageErrorViewModel(context: Context): AbstractErrorViewModel(context) {
                         errorMessageObservable.onNext(context.getString(R.string.e3_error_checkout_payment_failed))
                     }
                     buttonOneTextObservable.onNext(context.getString(R.string.edit_payment))
-                    titleObservable.onNext(context.getString(R.string.hotel_payment_failed_text))
+                    titleObservable.onNext(context.getString(R.string.payment_failed_label))
                     subTitleObservable.onNext("")
                 }
                 ApiError.Code.PACKAGE_CHECKOUT_TRAVELLER_DETAILS -> {
@@ -146,7 +146,7 @@ class PackageErrorViewModel(context: Context): AbstractErrorViewModel(context) {
                         errorMessageObservable.onNext(context.getString(R.string.e3_error_checkout_invalid_input))
                     }
                     buttonOneTextObservable.onNext(context.getString(R.string.edit_guest_details))
-                    titleObservable.onNext(context.getString(R.string.hotel_payment_failed_text))
+                    titleObservable.onNext(context.getString(R.string.payment_failed_label))
                     subTitleObservable.onNext("")
                 }
                 else -> {

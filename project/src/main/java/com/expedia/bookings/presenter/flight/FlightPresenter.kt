@@ -10,6 +10,7 @@ import android.view.ViewStub
 import android.view.animation.DecelerateInterpolator
 import com.expedia.bookings.R
 import com.expedia.bookings.animation.TransitionElement
+import com.expedia.bookings.data.ApiError
 import com.expedia.bookings.data.BaseApiResponse
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.abacus.AbacusUtils
@@ -47,7 +48,33 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
         val viewStub = findViewById(R.id.error_presenter_stub) as ViewStub
         val presenter = viewStub.inflate() as FlightErrorPresenter
         presenter.viewmodel = FlightErrorViewModel(context)
-        presenter.getViewModel().defaultErrorObservable.subscribe { show(searchPresenter, Presenter.FLAG_CLEAR_TOP) }
+        presenter.getViewModel().defaultErrorObservable.subscribe {
+            show(searchPresenter, Presenter.FLAG_CLEAR_TOP)
+        }
+        presenter.getViewModel().showOutboundResults.subscribe {
+            show(outBoundPresenter)
+        }
+        presenter.getViewModel().fireRetryCreateTrip.subscribe {
+            flightOverviewPresenter.getCheckoutPresenter().getCreateTripViewModel().performCreateTrip.onNext(Unit)
+            show(presenter)
+            presenter.show(BaseOverviewPresenter.BundleDefault(), FLAG_CLEAR_BACKSTACK)
+        }
+        presenter.getViewModel().checkoutUnknownErrorObservable.subscribe {
+            flightOverviewPresenter.showCheckout()
+        }
+        presenter.getViewModel().retryCheckout.subscribe {
+            show(presenter)
+            flightOverviewPresenter.showCheckout()
+            flightOverviewPresenter.getCheckoutPresenter().getCheckoutViewModel().performCheckout.onNext(Unit)
+        }
+        presenter.getViewModel().showPaymentForm.subscribe {
+            show(flightOverviewPresenter, Presenter.FLAG_CLEAR_TOP)
+            flightOverviewPresenter.showCheckout()
+            flightOverviewPresenter.getCheckoutPresenter().paymentWidget.showPaymentForm()
+        }
+        presenter.getViewModel().showConfirmation.subscribe {
+            show(confirmationPresenter, Presenter.FLAG_CLEAR_BACKSTACK)
+        }
         presenter
     }
 
@@ -126,18 +153,9 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
                     confirmationPresenter.viewModel.inboundCardVisibility.onNext(false)
                 }
             }
-
-            errorPresenter.getViewModel().fireRetryCreateTrip.subscribe {
-                presenter.getCheckoutPresenter().getCreateTripViewModel().performCreateTrip.onNext(Unit)
-                show(presenter)
-                presenter.show(BaseOverviewPresenter.BundleDefault(), FLAG_CLEAR_BACKSTACK)
-            }
-
             presenter.flightSummary.outboundFlightWidget.viewModel.searchParams.onNext(params)
             presenter.flightSummary.inboundFlightWidget.viewModel.searchParams.onNext(params)
-
             presenter.flightSummary.outboundFlightWidget.viewModel.searchTypeStateObservable.onNext(PackageSearchType.OUTBOUND_FLIGHT)
-
             presenter.flightSummary.setPadding(0, 0, 0, 0)
         }
 
@@ -191,6 +209,9 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
         presenter.getCheckoutPresenter().getCreateTripViewModel().createTripErrorObservable.subscribe(errorPresenter.viewmodel.createTripErrorObserverable)
         presenter.getCheckoutPresenter().getCheckoutViewModel().checkoutErrorObservable.subscribe(errorPresenter.viewmodel.checkoutApiErrorObserver)
         presenter.getCheckoutPresenter().getCreateTripViewModel().createTripErrorObservable.subscribe { show(errorPresenter) }
+        presenter.getCheckoutPresenter().getCheckoutViewModel().checkoutErrorObservable
+                .filter { it.errorCode != ApiError.Code.TRIP_ALREADY_BOOKED }
+                .subscribe { show(errorPresenter) }
         presenter
     }
 
@@ -357,7 +378,7 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
         }
     }
 
-    private val overviewToConfirmation = object : LeftToRightTransition(this, FlightOverviewPresenter::class.java, FlightConfirmationPresenter::class.java) {}
+    private val overviewToConfirmation = LeftToRightTransition(this, FlightOverviewPresenter::class.java, FlightConfirmationPresenter::class.java)
 
     private val outboundToInbound = object: ScaleTransition(this, FlightOutboundPresenter::class.java, FlightInboundPresenter::class.java) {
         override fun endTransition(forward: Boolean) {

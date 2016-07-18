@@ -87,6 +87,7 @@ abstract class BaseOverviewPresenter(context: Context, attrs: AttributeSet) : Pr
     }
 
     fun showCheckout() {
+        resetCheckoutState()
         show(checkoutPresenter)
         checkoutPresenter.show(BaseCheckoutPresenter.CheckoutDefault(), FLAG_CLEAR_BACKSTACK)
         trackCheckoutPageLoad()
@@ -196,6 +197,7 @@ abstract class BaseOverviewPresenter(context: Context, attrs: AttributeSet) : Pr
     }
 
     private fun resetCheckoutState() {
+        checkoutPresenter.slideToPurchase.resetSlider()
         if (currentState == BundleDefault::class.java.name) {
             bundleOverviewHeader.toggleOverviewHeader(true)
             checkoutPresenter.toggleCheckoutButton(true)
