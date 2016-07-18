@@ -17,7 +17,7 @@
             android:drawablePadding="8dp"
             android:paddingBottom="8dp"
             android:paddingTop="6dp"
-            android:textColor="@color/cars_checkout_text_color"
+            android:textColor="@color/price_change_text_color"
             android:textSize="13sp"
             app:textStyle="light" />
 

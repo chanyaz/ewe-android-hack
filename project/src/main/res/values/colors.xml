@@ -302,6 +302,7 @@
     <color name="cars_valid_days_calendar">@color/gray10</color>
     <color name="cars_details_price">@color/gray6</color>
     <color name="cars_checkout_text_color">@color/gray7</color>
+    <color name="price_change_text_color">@color/gray9</color>
     <color name="cars_lx_checkout_button_text_color">@color/gray7</color>
     <color name="cars_confirmation_action_text_color">@color/gray1</color>
     <color name="cars_confirmation_email_text_color">@color/gray3</color>
