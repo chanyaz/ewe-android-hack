@@ -230,6 +230,7 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet) : Pre
 
         getCheckoutViewModel().priceChangeObservable.subscribe {
             slideToPurchase.resetSlider()
+            animateInSlideToPurchase(true)
         }
     }
 
