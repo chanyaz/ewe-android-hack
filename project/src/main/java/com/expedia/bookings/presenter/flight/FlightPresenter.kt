@@ -13,6 +13,7 @@ import com.expedia.bookings.animation.TransitionElement
 import com.expedia.bookings.data.BaseApiResponse
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.abacus.AbacusUtils
+import com.expedia.bookings.data.flights.FlightCheckoutResponse
 import com.expedia.bookings.data.flights.FlightCreateTripParams
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.presenter.BaseOverviewPresenter
@@ -31,6 +32,8 @@ import com.expedia.util.subscribeVisibility
 import com.expedia.vm.FlightCheckoutOverviewViewModel
 import com.expedia.vm.FlightSearchViewModel
 import com.expedia.vm.packages.FlightErrorViewModel
+import com.expedia.vm.flights.FlightConfirmationViewModel
+import com.expedia.vm.flights.FlightConfirmationCardViewModel
 import com.expedia.vm.packages.PackageSearchType
 import rx.Observable
 import javax.inject.Inject
@@ -78,6 +81,7 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
     val confirmationPresenter: FlightConfirmationPresenter by lazy {
         val viewStub = findViewById(R.id.confirmation_presenter) as ViewStub
         val presenter = viewStub.inflate() as FlightConfirmationPresenter
+        presenter.viewModel = FlightConfirmationViewModel(context)
         presenter
     }
 
@@ -134,6 +138,24 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
             if (params.returnDate != null) {
                 inboundPresenter.toolbarViewModel.date.onNext(params.returnDate)
                 flightOverviewPresenter.flightSummary.inboundFlightWidget.viewModel.searchTypeStateObservable.onNext(PackageSearchType.INBOUND_FLIGHT)
+                Observable.combineLatest(vm.confirmedOutboundFlightSelection, vm.confirmedInboundFlightSelection, { outbound, inbound ->
+                    val outboundBaggageFeeUrl = e3EndpointProvider.getE3EndpointUrlWithPath(outbound.baggageFeesUrl)
+                    val inboundBaggageFeeUrl = e3EndpointProvider.getE3EndpointUrlWithPath(inbound.baggageFeesUrl)
+                    val baggageFeesTextWithLinks = resources.getString(R.string.split_ticket_baggage_fees, outboundBaggageFeeUrl, inboundBaggageFeeUrl)
+                    val spannableStringBuilder = StrUtils.getSpannableTextByColor(baggageFeesTextWithLinks, Color.BLACK, true)
+                    val destinationCity = outbound.segments?.last()?.arrivalAirportAddress?.city
+                    confirmationPresenter.viewModel.destinationObservable.onNext(destinationCity)
+                    flightOverviewPresenter.viewModel.splitTicketBaggageFeesLinksObservable.onNext(spannableStringBuilder)
+                    confirmationPresenter.outboundFlightCard.viewModel = FlightConfirmationCardViewModel(context, outbound, params.guests)
+                    confirmationPresenter.inboundFlightCard.viewModel = FlightConfirmationCardViewModel(context, inbound, params.guests)
+                }).subscribe()
+            } else {
+                vm.confirmedOutboundFlightSelection.subscribe { outbound ->
+                    val destinationCity = outbound.segments?.last()?.arrivalAirportAddress?.city
+                    confirmationPresenter.outboundFlightCard.viewModel = FlightConfirmationCardViewModel(context, outbound, params.guests)
+                    confirmationPresenter.viewModel.destinationObservable.onNext(destinationCity)
+                    confirmationPresenter.viewModel.inboundCardVisibility.onNext(false)
+                }
             }
 
             flightOverviewPresenter.flightSummary.outboundFlightWidget.viewModel.searchTypeStateObservable.onNext(PackageSearchType.OUTBOUND_FLIGHT)
@@ -168,13 +190,6 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
         }
         vm.confirmedOutboundFlightSelection.subscribe { flightOverviewPresenter.viewModel.showFreeCancellationObservable.onNext(it.isFreeCancellable) }
         vm.flightOfferSelected.subscribe { flightOverviewPresenter.viewModel.showSplitTicketMessagingObservable.onNext(it.isSplitTicket) }
-        Observable.combineLatest(vm.confirmedOutboundFlightSelection, vm.confirmedInboundFlightSelection, { outbound, inbound ->
-            val outboundBaggageFeeUrl = e3EndpointProvider.getE3EndpointUrlWithPath(outbound.baggageFeesUrl)
-            val inboundBaggageFeeUrl = e3EndpointProvider.getE3EndpointUrlWithPath(inbound.baggageFeesUrl)
-            val baggageFeesTextWithLinks = resources.getString(R.string.split_ticket_baggage_fees, outboundBaggageFeeUrl, inboundBaggageFeeUrl)
-            val spannableStringBuilder = StrUtils.getSpannableTextByColor(baggageFeesTextWithLinks, Color.BLACK, true)
-            flightOverviewPresenter.viewModel.splitTicketBaggageFeesLinksObservable.onNext(spannableStringBuilder)
-        }).subscribe()
 
         val checkoutViewModel = flightOverviewPresenter.getCheckoutPresenter().getCheckoutViewModel()
         vm.offerSelectedChargesObFeesSubject.subscribe(checkoutViewModel.selectedFlightChargesFees)
@@ -204,7 +219,16 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
         addTransition(errorToSearch)
         flightOverviewPresenter.getCheckoutPresenter().toggleCheckoutButton(false)
 
+
+        flightOverviewPresenter.getCheckoutPresenter().getCheckoutViewModel().tripResponseObservable.subscribe { trip ->
+            val expediaRewards = trip.rewards?.totalPointsToEarn?.toString()
+            confirmationPresenter.viewModel.rewardPointsObservable.onNext(expediaRewards)
+        }
         flightOverviewPresenter.getCheckoutPresenter().getCheckoutViewModel().bookingSuccessResponse.subscribe { pair: Pair<BaseApiResponse, String> ->
+            val flightCheckoutResponse = pair.first as FlightCheckoutResponse
+            val userEmail = pair.second
+            confirmationPresenter.showConfirmationInfo(flightCheckoutResponse, userEmail)
+
             show(confirmationPresenter)
             FlightsV2Tracking.trackCheckoutConfirmationPageLoad()
         }
@@ -311,6 +335,7 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
             outBoundPresenter.visibility = View.GONE
             inboundPresenter.visibility = View.GONE
             flightOverviewPresenter.visibility = View.GONE
+            confirmationPresenter.visibility = View.GONE
             FlightsV2Tracking.trackSearchPageLoad()
         }
     }

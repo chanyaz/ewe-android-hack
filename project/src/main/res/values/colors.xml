@@ -103,6 +103,7 @@
     
     <!-- Flights V2 colors -->
     <color name="flight_warning_bar_color">@color/lob_packages_secondary_color</color>
+    <color name="flight_primary_color">@color/lob_packages_primary_color</color>
 
     <!-- Hotels colors -->
     <color name="hotels_primary_color">@color/lob_hotels_primary_color</color>

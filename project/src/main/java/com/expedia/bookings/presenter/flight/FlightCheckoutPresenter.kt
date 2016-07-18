@@ -2,14 +2,11 @@ package com.expedia.bookings.presenter.flight
 
 import android.content.Context
 import android.util.AttributeSet
-import android.view.View
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.LineOfBusiness
-import com.expedia.bookings.data.TripResponse
 import com.expedia.bookings.data.flights.FlightCheckoutResponse
 import com.expedia.bookings.data.flights.FlightCreateTripResponse
-import com.expedia.bookings.data.flights.FlightTripDetails
 import com.expedia.bookings.otto.Events
 import com.expedia.bookings.services.FlightServices
 import com.expedia.bookings.utils.Ui
@@ -18,11 +15,10 @@ import com.expedia.bookings.widget.BaseCheckoutPresenter
 import com.expedia.bookings.widget.TextView
 import com.expedia.util.subscribeTextAndVisibility
 import com.expedia.util.subscribeVisibility
+import com.expedia.vm.BaseCreateTripViewModel
 import com.expedia.vm.FlightCheckoutViewModel
 import com.expedia.vm.flights.FlightCostSummaryBreakdownViewModel
 import com.expedia.vm.flights.FlightCreateTripViewModel
-import com.expedia.vm.traveler.CheckoutTravelerViewModel
-import com.expedia.vm.BaseCreateTripViewModel
 import com.squareup.otto.Subscribe
 import rx.Observable
 
@@ -71,7 +67,6 @@ class FlightCheckoutPresenter(context: Context, attr: AttributeSet) : BaseChecko
 
     private fun handlePriceChange(tripResponse: FlightCreateTripResponse) {
         val flightTripDetails = tripResponse.details
-
         // TODO - we may have to change from totalFarePrice -> totalPrice in order to support SubPub fares
         val originalPrice = flightTripDetails.oldOffer.totalFarePrice
         val newPrice = flightTripDetails.offer.totalFarePrice

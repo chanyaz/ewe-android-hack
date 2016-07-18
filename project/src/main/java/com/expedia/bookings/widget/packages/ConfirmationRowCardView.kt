@@ -13,12 +13,22 @@ import com.expedia.bookings.R
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.FrameLayout
 import com.expedia.bookings.widget.TextView
+import com.expedia.util.notNullAndObservable
+import com.expedia.util.subscribeText
+import com.expedia.vm.FlightSegmentBreakdown
+import com.expedia.vm.flights.FlightConfirmationCardViewModel
+import com.expedia.vm.flights.FlightConfirmationViewModel
 
 open class ConfirmationRowCardView(context: Context, attrs: AttributeSet?) : LinearLayout(context, attrs) {
 
     val title: TextView by bindView(R.id.first_row)
     val subTitle: TextView by bindView(R.id.second_row)
     val icon: ImageView by bindView(R.id.icon)
+
+    var viewModel: FlightConfirmationCardViewModel by notNullAndObservable { vm ->
+        vm.titleSubject.subscribeText(title)
+        vm.subtitleSubject.subscribeText(subTitle)
+    }
 
     override fun onFinishInflate() {
         super.onFinishInflate()

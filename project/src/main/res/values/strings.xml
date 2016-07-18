@@ -4032,6 +4032,8 @@
     <string name="select_flight_to">Select flight to %1$s</string>
     <!-- Flight to template -->
     <string name="flight_to">Flight to %1$s</string>
+    <!-- Flight Confirmation Cards - flight to template E.g. Flight to (SFO) San Francisco-->
+    <string name="flight_to_card_TEMPLATE">Flight to ({airportcode}) {airportcity}</string>
     <!-- Select return flight -->
     <string name="select_return_flight">Select return flight</string>
     <!-- Flight overview - flight to template -->
