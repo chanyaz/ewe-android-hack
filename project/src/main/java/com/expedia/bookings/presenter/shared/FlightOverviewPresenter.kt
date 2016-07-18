@@ -57,7 +57,7 @@ class FlightOverviewPresenter(context: Context, attrs: AttributeSet?) : Presente
                 showPaymentFeesObservable.onNext(Unit)
             }
             flightSegmentWidget.viewmodel.addSegmentRowsObserver.onNext(segmentbreakdowns)
+            selectFlightButton.subscribeOnClick(vm.selectFlightClickObserver)
         }
-        selectFlightButton.subscribeOnClick(vm.selectFlightClickObserver)
     }
 }

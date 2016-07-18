@@ -328,7 +328,6 @@ public class PackageScreen {
 		Espresso.closeSoftKeyboard();
 		onView(withId(R.id.datePicker)).perform(ViewActions.waitForViewToDisplay());
 		onView(withId(R.id.datePicker)).perform(PickerActions.setDate(year, month, day));
-		onView(withId(R.id.datePickerDoneButton)).perform(ViewActions.waitForViewToDisplay());
 		onView(withId(R.id.datePickerDoneButton)).perform(click());
 	}
 
@@ -376,6 +375,7 @@ public class PackageScreen {
 	public static void enterPaymentInfo() {
 		CheckoutViewModel.waitForPaymentInfoDisplayed();
 		CheckoutViewModel.clickPaymentInfo();
+		CardInfoScreen.creditCardNumberEditText().perform(waitForViewToDisplay());
 		CardInfoScreen.creditCardNumberEditText().perform(waitForViewToDisplay());
 		enterCreditCard();
 		completePaymentForm();

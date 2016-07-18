@@ -9,12 +9,22 @@
                     "airlineName": "American Airlines",
                     "arrivalAirportCode": "${departureAirport}",
                     "arrivalAirportLocation": "${departureAirport}",
+                    "arrivalAirportAddress": {
+                        "city": "San Francisco",
+                        "country": "USA",
+                        "state": "California"
+                    },
                     "arrivalTimeEpochSeconds": "${returnFlightLandingTimeEpochSeconds}",
                     "arrivalTimeZoneOffsetSeconds": "${tzOffsetSeconds}",
                     "arrivalTimeRaw": "2016-03-22T20:15:00.000-07:00",
                     "arrivalTime": "March 22, 2016 8:15:00 PM",
                     "departureAirportCode": "${arrivalAirport}",
                     "departureAirportLocation": "${arrivalAirport}",
+                    "departureAirportAddress": {
+                        "city": "Detroit",
+                        "country": "USA",
+                        "state": "MI"
+                    },
                     "departureTime": "March 22, 2016 5:40:00 PM",
                     "departureTimeEpochSeconds": "${returnFlightTakeoffTimeEpochSeconds}",
                     "departureTimeZoneOffsetSeconds": "${tzOffsetSeconds}",
@@ -41,12 +51,22 @@
                     "airlineName": "Delta",
                     "arrivalAirportCode": "${arrivalAirport}",
                     "arrivalAirportLocation": "${arrivalAirport}",
+                    "arrivalAirportAddress": {
+                        "city": "Detroit",
+                        "country": "USA",
+                        "state": "MI"
+                    },
                     "arrivalTimeEpochSeconds": "${departingFlightLandingTimeEpochSeconds}",
                     "arrivalTimeZoneOffsetSeconds": "${tzOffsetSeconds}",
                     "arrivalTimeRaw": "2016-03-22T23:00:00.000-07:00",
                     "arrivalTime": "March 22, 2016 23:00:00 PM",
                     "departureAirportCode": "${departureAirport}",
                     "departureAirportLocation": "${departureAirport}",
+                    "departureAirportAddress": {
+                        "city": "San Francisco",
+                        "country": "USA",
+                        "state": "California"
+                    },
                     "departureTime": "March 22, 2016 5:40:00 PM",
                     "departureTimeEpochSeconds": "${departingFlightTakeoffTimeEpochSeconds}",
                     "departureTimeZoneOffsetSeconds": "${tzOffsetSeconds}",
