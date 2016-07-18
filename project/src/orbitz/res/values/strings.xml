@@ -117,4 +117,7 @@
     <string name="rewards_middle_tier_customer_support">Orbitz Rewards Gold Customer Support</string>
     <!-- Label for exclusive phone number for top tier rewards customers; brand name not parameterized as other brands will have to completely customize -->
     <string name="rewards_top_tier_customer_support">Orbitz Rewards Platinum Customer Support</string>
+
+    <!-- ETP pay later info message -->
+    <string name="etp_pay_now_earn_text">Earn Orbucks to redeem instantly on your next hotel</string>
 </resources>

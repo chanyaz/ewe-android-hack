@@ -25,11 +25,12 @@ class PayLaterInfoWidget(context: Context, attrs: AttributeSet) : FrameLayout(co
     val noChargeText: TextView by bindView(R.id.no_charges_text)
     val depositTermsFirstText: TextView by bindView(R.id.deposit_terms_first_text)
     val depositTermsSecondText: TextView by bindView(R.id.deposit_terms_second_text)
-
+    val earnText: TextView by bindView(R.id.etp_earn_text)
     val depositExceedInfoView: LinearLayout by bindView(R.id.deposit_exceed_info_view)
     val payLaterPaymentInfo: LinearLayout by bindView(R.id.pay_later_payment_info_view)
     val depositPolicyFirstView: LinearLayout by bindView(R.id.deposit_terms_first_view)
     val depositPolicySecondView: LinearLayout by bindView(R.id.deposit_terms_second_view)
+    val earnTextLayout: LinearLayout by bindView(R.id.earn_text_layout)
 
     val statusBarHeight by lazy { Ui.getStatusBarHeight(context) }
     val toolBarHeight by lazy { Ui.getToolbarSize(context) }
@@ -45,6 +46,8 @@ class PayLaterInfoWidget(context: Context, attrs: AttributeSet) : FrameLayout(co
             activity.onBackPressed()
         }
         container.setPadding(0, toolBarHeight + statusBarHeight, 0, 0)
+        earnText.text = getResources().getString(R.string.etp_pay_now_earn_text)
+        earnTextLayout.visibility = if (earnText.text.equals("")) View.GONE else View.VISIBLE
     }
 
     fun setText(values: Pair<String, List<HotelOffersResponse.HotelRoomResponse>>) {
@@ -53,7 +56,7 @@ class PayLaterInfoWidget(context: Context, attrs: AttributeSet) : FrameLayout(co
         val hotelCountryCode = values.first
         val hotelCountryCurrency = CurrencyUtils.currencyForLocale(hotelCountryCode)
         var isDepositRequired = false
-        var payLaterOffer : HotelOffersResponse.HotelRoomResponse? = null
+        var payLaterOffer: HotelOffersResponse.HotelRoomResponse? = null
 
         for (room in values.second) {
             if (room.payLaterOffer != null) {
