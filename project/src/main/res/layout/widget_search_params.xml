@@ -30,6 +30,7 @@
                 app:cardUseCompatPadding="true"
                 app:input_icon="@drawable/search_form_icon_search"
                 app:input_icon_tint_color="@color/search_screen_icon_color_v2"
+                android:contentDescription="@string/location_edit_box_cont_desc"
                 app:input_text="?attr/skin_searchLocationText" />
 
             <com.expedia.bookings.widget.CalendarWidgetV2
