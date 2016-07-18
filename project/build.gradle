@@ -480,7 +480,7 @@ public class GradleUtil {
     static def versionName(major, minor, patch, build) {
         def name = "${major}.${minor}.${patch}"
         if (build > 0) {
-            name = "${name} - ${build}"
+            name = "${name}.${build}"
         }
         return name
     }
