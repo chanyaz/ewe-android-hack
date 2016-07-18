@@ -100,7 +100,7 @@ class HotelErrorViewModel(context: Context): AbstractErrorViewModel(context) {
                         errorMessageObservable.onNext(context.getString(R.string.e3_error_checkout_payment_failed))
                     }
                     buttonOneTextObservable.onNext(context.getString(R.string.edit_payment))
-                    titleObservable.onNext(context.getString(R.string.hotel_payment_failed_text))
+                    titleObservable.onNext(context.getString(R.string.payment_failed_label))
                     subTitleObservable.onNext("")
                     HotelV2Tracking().trackHotelsV2CardError()
                 }
@@ -117,7 +117,7 @@ class HotelErrorViewModel(context: Context): AbstractErrorViewModel(context) {
                         errorMessageObservable.onNext(context.getString(R.string.e3_error_checkout_invalid_input))
                     }
                     buttonOneTextObservable.onNext(context.getString(R.string.edit_guest_details))
-                    titleObservable.onNext(context.getString(R.string.hotel_payment_failed_text))
+                    titleObservable.onNext(context.getString(R.string.payment_failed_label))
                     subTitleObservable.onNext("")
                     HotelV2Tracking().trackHotelsV2TravelerError()
                 }
@@ -138,7 +138,7 @@ class HotelErrorViewModel(context: Context): AbstractErrorViewModel(context) {
                     imageObservable.onNext(R.drawable.error_payment)
                     errorMessageObservable.onNext(context.getString(R.string.e3_error_checkout_payment_failed))
                     buttonOneTextObservable.onNext(context.getString(R.string.edit_payment))
-                    titleObservable.onNext(context.getString(R.string.hotel_payment_failed_text))
+                    titleObservable.onNext(context.getString(R.string.payment_failed_label))
                     subTitleObservable.onNext("")
                     HotelV2Tracking().trackHotelsV2PaymentFailedError()
                 }
@@ -154,7 +154,7 @@ class HotelErrorViewModel(context: Context): AbstractErrorViewModel(context) {
                     imageObservable.onNext(R.drawable.no_hotel_error)
                     errorMessageObservable.onNext(context.getString(R.string.error_hotel_unhandled))
                     buttonOneTextObservable.onNext(context.getString(R.string.retry))
-                    titleObservable.onNext(context.getString(R.string.hotel_payment_failed_text))
+                    titleObservable.onNext(context.getString(R.string.payment_failed_label))
                     subTitleObservable.onNext("")
                     HotelV2Tracking().trackHotelsV2UnknownError()
                 }

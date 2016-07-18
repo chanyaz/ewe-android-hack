@@ -48,6 +48,10 @@ class FlightCheckoutPresenter(context: Context, attr: AttributeSet) : BaseChecko
         getCreateTripViewModel().priceChangeObservable.subscribe { it as FlightCreateTripResponse
             handlePriceChange(it)
         }
+
+        getCheckoutViewModel().receivedCheckoutResponse.subscribe {
+            checkoutDialog.hide()
+        }
     }
 
     override fun setupCreateTripViewModel(vm : BaseCreateTripViewModel) {

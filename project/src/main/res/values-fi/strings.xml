@@ -2519,7 +2519,7 @@
     <!-- Text for hotel error unknown -->
     <string name="error_hotel_unhandled">Valitettavasti emme pysty käsittelemään tilaustasi juuri nyt. Ole hyvä ja yritä uudelleen.</string>
     <!-- Text for hotel error toolbar payment failed-->
-    <string name="hotel_payment_failed_text">Maksu hylätty</string>
+    <string name="payment_failed_label">Maksu hylätty</string>
     <!-- Text for error toolbar session expired-->
     <string name="session_timeout">Istunto päättyi</string>
 

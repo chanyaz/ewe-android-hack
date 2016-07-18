@@ -1,0 +1,11 @@
+{
+  "errors":[
+    {
+      "errorCode":"${tripId}",
+      "errorInfo":{
+        "summary":"Custom error response for checkout. tripId is populated from corresponding createTrip"
+      },
+      "diagnosticId":0
+    }
+  ]
+}

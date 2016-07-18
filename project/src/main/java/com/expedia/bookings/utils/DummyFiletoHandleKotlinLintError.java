@@ -161,7 +161,7 @@ DummyFiletoHandleKotlinLintError {
 		R.string.last_name_field_text,
 		R.string.edit_guest_details,
 		R.string.error_hotel_unhandled,
-		R.string.hotel_payment_failed_text,
+		R.string.payment_failed_label,
 		R.string.session_timeout,
 		R.string.e3_error_checkout_invalid_traveler_info_TEMPLATE,
 		R.drawable.price_change_decrease,

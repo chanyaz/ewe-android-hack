@@ -17,6 +17,10 @@ class FlightErrorViewModel(context: Context): AbstractErrorViewModel(context) {
     private val MAX_RETRY_CREATE_TRIP_ATTEMPTS = 2
 
     val fireRetryCreateTrip = PublishSubject.create<Unit>()
+    val retryCheckout = PublishSubject.create<Unit>()
+    val showOutboundResults = PublishSubject.create<Unit>()
+    val showPaymentForm = PublishSubject.create<Unit>()
+    val showConfirmation = PublishSubject.create<Unit>()
     val paramsSubject = PublishSubject.create<com.expedia.bookings.data.flights.FlightSearchParams>()
 
     private val retryCreateTripBtnClicked = PublishSubject.create<Unit>()
@@ -65,12 +69,7 @@ class FlightErrorViewModel(context: Context): AbstractErrorViewModel(context) {
                 }
 
                 ApiError.Code.SESSION_TIMEOUT -> {
-                    imageObservable.onNext(R.drawable.error_timeout)
-                    errorMessageObservable.onNext(context.resources.getString(R.string.flight_session_expired_warning))
-                    buttonOneTextObservable.onNext(newSearchLabel)
-                    titleObservable.onNext(context.resources.getString(R.string.flight_session_expired_toolbar_title))
-                    subTitleObservable.onNext("")
-                    subscribeActionToButtonPress(defaultErrorObservable)
+                    handleSessionTimeout()
                 }
 
                 ApiError.Code.FLIGHT_PRODUCT_NOT_FOUND -> {
@@ -99,7 +98,58 @@ class FlightErrorViewModel(context: Context): AbstractErrorViewModel(context) {
     }
 
     override fun checkoutApiErrorHandler(): Observer<ApiError> {
-        return createTripErrorHandler()
+        return endlessObserver {
+            when (it.errorCode) {
+                ApiError.Code.UNKNOWN_ERROR -> {
+                    handleCheckoutUnknownError()
+                }
+
+                ApiError.Code.PAYMENT_FAILED -> {
+                    checkoutUnknownErrorObservable.onNext(Unit)
+                    imageObservable.onNext(R.drawable.error_default)
+                    errorMessageObservable.onNext(context.resources.getString(R.string.e3_error_checkout_payment_failed))
+                    buttonOneTextObservable.onNext(context.resources.getString(R.string.edit_payment))
+                    titleObservable.onNext(context.resources.getString(R.string.payment_failed_label))
+                    subTitleObservable.onNext("")
+                    buttonOneClickedObservable.subscribe {
+                        showPaymentForm.onNext(Unit)
+                    }
+                }
+
+                ApiError.Code.SESSION_TIMEOUT -> {
+                    handleSessionTimeout()
+                }
+
+                ApiError.Code.TRIP_ALREADY_BOOKED -> {
+                    showConfirmation.onNext(Unit)
+                }
+
+                else -> {
+                    handleCheckoutUnknownError()
+                }
+            }
+        }
+    }
+
+    private fun handleCheckoutUnknownError() {
+        checkoutUnknownErrorObservable.onNext(Unit)
+        imageObservable.onNext(R.drawable.error_default)
+        errorMessageObservable.onNext(context.resources.getString(R.string.flight_error_try_again_warning))
+        buttonOneTextObservable.onNext(context.resources.getString(R.string.flight_error_retry))
+        titleObservable.onNext(context.resources.getString(R.string.flight_generic_error_title))
+        subTitleObservable.onNext("")
+        buttonOneClickedObservable.subscribe {
+            retryCheckout.onNext(Unit)
+        }
+    }
+
+    private fun handleSessionTimeout() {
+        imageObservable.onNext(R.drawable.error_timeout)
+        errorMessageObservable.onNext(context.resources.getString(R.string.flight_session_expired_warning))
+        buttonOneTextObservable.onNext(context.getString(R.string.flight_new_search))
+        titleObservable.onNext(context.resources.getString(R.string.flight_session_expired_toolbar_title))
+        subTitleObservable.onNext("")
+        buttonOneClickedObservable.subscribe(defaultErrorObservable)
     }
 
     private fun getToolbarSubtitle(params: FlightSearchParams): String {

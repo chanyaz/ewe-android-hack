@@ -2519,7 +2519,7 @@
     <!-- Text for hotel error unknown -->
     <string name="error_hotel_unhandled">Sorry, we don\'t seem to be able to process your order right now. Please try again.</string>
     <!-- Text for hotel error toolbar payment failed-->
-    <string name="hotel_payment_failed_text">Payment Failed</string>
+    <string name="payment_failed_label">Payment Failed</string>
     <!-- Text for error toolbar session expired-->
     <string name="session_timeout">Session Expired</string>
 
