@@ -42,8 +42,12 @@ class PackageErrorViewModel(context: Context): AbstractErrorViewModel(context) {
                     checkoutTravelerErrorObservable.onNext(Unit)
                     PackagesTracking().trackCheckoutErrorRetry()
                 }
-                ApiError.Code.UNKNOWN_ERROR -> {
+                ApiError.Code.PACKAGE_CHECKOUT_UNKNOWN -> {
                     checkoutUnknownErrorObservable.onNext(Unit)
+                    PackagesTracking().trackCheckoutErrorRetry()
+                }
+                ApiError.Code.UNKNOWN_ERROR -> {
+                    createTripUnknownErrorObservable.onNext(Unit)
                     PackagesTracking().trackCheckoutErrorRetry()
                 }
                 else -> {
