@@ -40,6 +40,7 @@ abstract class AbstractErrorViewModel(protected val context: Context) {
     val checkoutPaymentFailedObservable = BehaviorSubject.create<Unit>()
     val sessionTimeOutObservable = BehaviorSubject.create<Unit>()
     val soldOutObservable = BehaviorSubject.create<Unit>()
+    val createTripUnknownErrorObservable = BehaviorSubject.create<Unit>()
 
     private var buttonActionSubscription: Subscription? = null
 

@@ -114,7 +114,11 @@ class PackagePresenter(context: Context, attrs: AttributeSet) : IntentPresenter(
             checkoutPresenter.slideToPurchase.resetSlider()
         }
 
-        errorPresenter.getViewModel().checkoutTravelerErrorObservable.subscribe {
+        errorPresenter.viewmodel.createTripUnknownErrorObservable.subscribe {
+            show(searchPresenter, FLAG_CLEAR_TOP)
+        }
+
+        errorPresenter.viewmodel.checkoutTravelerErrorObservable.subscribe {
             show(bundlePresenter, Presenter.FLAG_CLEAR_TOP)
             checkoutPresenter.slideToPurchase.resetSlider()
             checkoutPresenter.openTravelerPresenter()
