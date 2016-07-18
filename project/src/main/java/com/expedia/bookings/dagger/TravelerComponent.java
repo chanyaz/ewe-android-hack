@@ -10,6 +10,7 @@ import com.expedia.vm.traveler.CheckoutTravelerViewModel;
 import com.expedia.vm.traveler.TravelerNameViewModel;
 import com.expedia.vm.traveler.TravelerPhoneViewModel;
 import com.expedia.vm.traveler.TravelerSelectViewModel;
+import com.expedia.vm.traveler.TravelerSummaryViewModel;
 import com.expedia.vm.traveler.TravelerTSAViewModel;
 
 import dagger.Component;
@@ -27,6 +28,7 @@ public interface TravelerComponent {
 	void inject(TravelerPhoneViewModel viewModel);
 	void inject(TravelerSelectViewModel viewModel);
 	void inject(TravelerTSAViewModel viewModel);
+	void inject(TravelerSummaryViewModel viewModel);
 
 	TravelerManager travelerManager();
 	TravelerValidator travelerValidator();

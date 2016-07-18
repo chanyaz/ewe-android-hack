@@ -1,12 +1,14 @@
 package com.expedia.bookings.utils
 
+import android.content.Context
 import com.expedia.bookings.data.AbstractFlightSearchParams
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.Traveler
+import com.expedia.bookings.data.User
 import com.expedia.bookings.enums.PassengerCategory
 
 class TravelerManager {
-    fun updateDbTravelers(params: AbstractFlightSearchParams) {
+    fun updateDbTravelers(params: AbstractFlightSearchParams, context: Context) {
         val travelers = Db.getTravelers()
         travelers.clear()
         for (i in 0..params.adults - 1) {
@@ -24,6 +26,9 @@ class TravelerManager {
             travelers.add(traveler)
         }
         Db.setTravelers(travelers)
+        if (User.isLoggedIn(context)) {
+            onSignIn(context)
+        }
     }
 
     fun getChildPassengerCategory(childAge: Int, params: AbstractFlightSearchParams): PassengerCategory {
@@ -39,5 +44,13 @@ class TravelerManager {
             return PassengerCategory.ADULT_CHILD
         }
         throw IllegalArgumentException("\$childAge is not a valid child age")
+    }
+
+    fun onSignIn(context: Context) {
+        if(User.isLoggedIn(context) && Db.getTravelers().isNotEmpty()) {
+            var primaryTraveler = Db.getUser().getPrimaryTraveler()
+            primaryTraveler.passengerCategory = Db.getTravelers()[0].passengerCategory
+            Db.getTravelers()[0] = primaryTraveler
+        }
     }
 }

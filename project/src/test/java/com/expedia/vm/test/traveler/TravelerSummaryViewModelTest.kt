@@ -8,6 +8,7 @@ import com.expedia.bookings.data.Phone
 import com.expedia.bookings.data.Traveler
 import com.expedia.bookings.enums.TravelerCheckoutStatus
 import com.expedia.bookings.test.robolectric.RobolectricRunner
+import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.widget.ContactDetailsCompletenessStatus
 import com.expedia.vm.traveler.TravelerSummaryViewModel
 import com.squareup.phrase.Phrase
@@ -41,7 +42,10 @@ class TravelerSummaryViewModelTest {
         expectedEmptyTitle = resources.getString(R.string.checkout_enter_traveler_details)
         expectedEmptySubTitle = resources.getString(R.string.checkout_enter_traveler_details_line2)
 
-        summaryVM = TravelerSummaryViewModel(RuntimeEnvironment.application)
+        mockTravelerProvider.updateDBWithMockTravelers(1, Traveler())
+        Ui.getApplication(activity).defaultTravelerComponent()
+        summaryVM = TravelerSummaryViewModel(activity)
+
     }
 
     @Test
@@ -94,7 +98,7 @@ class TravelerSummaryViewModelTest {
 
     @Test
     fun emptyStateDefaultMultipleTravelers() {
-        mockTravelerProvider.updateDBWithMockTravelers(2, mockTravelerProvider.getCompleteMockTraveler())
+        mockTravelerProvider.updateDBWithMockTravelers(2, Traveler())
         summaryVM.travelerStatusObserver.onNext(TravelerCheckoutStatus.CLEAN)
 
         assertEquals(expectedEmptyTitle, summaryVM.titleObservable.value)
@@ -130,6 +134,15 @@ class TravelerSummaryViewModelTest {
         assertEquals(mockTravelerProvider.testFullName, summaryVM.titleObservable.value)
         assertEquals(getIncompleteSubTitle(2), summaryVM.subtitleObservable.value)
         assertEquals(expectedCompleteStatus, summaryVM.iconStatusObservable.value)
+    }
+
+    @Test
+    fun testPrepopulateSingleTraveler() {
+        mockTravelerProvider.updateDBWithMockTravelers(1, mockTravelerProvider.getCompleteMockTraveler())
+        summaryVM.travelerStatusObserver.onNext(TravelerCheckoutStatus.CLEAN)
+
+        assertEquals(mockTravelerProvider.testFullName, summaryVM.titleObservable.value)
+        assertEquals(expectedIncompleteStatus, summaryVM.iconStatusObservable.value)
     }
 
     private fun getIncompleteSubTitle(travelerCount: Int) : String {
