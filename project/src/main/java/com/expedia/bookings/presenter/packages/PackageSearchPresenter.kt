@@ -11,6 +11,7 @@ import com.expedia.bookings.location.CurrentLocationObservable
 import com.expedia.bookings.presenter.BaseTwoLocationSearchPresenter
 import com.expedia.bookings.services.SuggestionV4Services
 import com.expedia.bookings.utils.AnimUtils
+import com.expedia.bookings.utils.StrUtils
 import com.expedia.bookings.utils.SuggestionV4Utils
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.widget.suggestions.SuggestionAdapter
@@ -36,13 +37,15 @@ class PackageSearchPresenter(context: Context, attrs: AttributeSet) : BaseTwoLoc
         travelerWidgetV2.travelersSubject.subscribe(vm.travelersObservable)
         travelerWidgetV2.traveler.viewmodel.isInfantInLapObservable.subscribe(vm.isInfantInLapObserver)
         vm.formattedOriginObservable.subscribe {
-            text -> originCardView.setText(text)
+            text ->
+            originCardView.setText(text)
             originCardView.contentDescription = Phrase.from(context, R.string.search_flying_from_destination_cont_desc_TEMPLATE)
                     .put("from_destination", text)
                     .format().toString()
         }
         vm.formattedDestinationObservable.subscribe {
-            text -> destinationCardView.setText(text)
+            text ->
+            destinationCardView.setText(text)
             destinationCardView.contentDescription = Phrase.from(context, R.string.search_flying_to_destination_cont_desc_TEMPLATE)
                     .put("to_destination", text)
                     .format().toString()

@@ -435,11 +435,6 @@ public class StrUtils {
 		if (cityCountryMatcher.find()) {
 			city = cityCountryMatcher.group(1);
 		}
-		return city;
-	}
-
-	public static String formatAirportNameForPackage(String suggestion) {
-		String city = formatAirportName(suggestion);
 		if (city != null && city.contains("-")) {
 			city = city.replace("-", " - ");
 		}
