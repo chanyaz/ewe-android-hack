@@ -59,9 +59,10 @@ class SuggestionV4Services(endpoint: String, okHttpClient: OkHttpClient, interce
     }
 
     fun suggestPackagesV4(query: String, clientId: String, isDest: Boolean, observer: Observer<List<SuggestionV4>>, locale: String): Subscription {
-        var suggestType = SuggestionResultType.NEIGHBORHOOD or SuggestionResultType.POINT_OF_INTEREST or SuggestionResultType.MULTI_CITY or SuggestionResultType.CITY
+        var suggestType = SuggestionResultType.NEIGHBORHOOD or SuggestionResultType.POINT_OF_INTEREST or SuggestionResultType.MULTI_CITY or
+                SuggestionResultType.CITY or SuggestionResultType.AIRPORT or SuggestionResultType.AIRPORT_METRO_CODE
         if (isDest) {
-            suggestType = suggestType or SuggestionResultType.AIRPORT or SuggestionResultType.AIRPORT_METRO_CODE
+            suggestType = suggestType or SuggestionResultType.AIRPORT
         }
         return suggestApi.suggestV4(query, locale, suggestType, isDest, "ta_hierarchy", clientId, "PACKAGES")
                 .observeOn(observeOn)
