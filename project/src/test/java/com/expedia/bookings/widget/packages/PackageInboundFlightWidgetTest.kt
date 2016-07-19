@@ -4,6 +4,7 @@ import android.app.Activity
 import android.support.v4.content.ContextCompat
 import android.view.View
 import com.expedia.bookings.R
+import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.packages.PackageSearchParams
 import com.expedia.bookings.test.robolectric.RobolectricRunner
@@ -40,7 +41,7 @@ class PackageInboundFlightWidgetTest {
         activity.setTheme(R.style.V2_Theme_Packages)
         testOrigin = buildMockOriginSuggestion()
         testWidget = InboundFlightWidget(activity, null)
-        widgetVM = BundleFlightViewModel(activity)
+        widgetVM = BundleFlightViewModel(activity, LineOfBusiness.PACKAGES)
         testWidget.viewModel = widgetVM
         expectedDisabledColor = ContextCompat.getColor(activity, R.color.package_bundle_icon_color)
         setUpParams()
