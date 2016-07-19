@@ -144,7 +144,7 @@
     <!-- Label for showing users that drop-off location has to be same as pick-up location -->
     <string name="drop_off_same_as_pick_up">Tulossa pian! Teemme parhaamme lisätäksemme yhdensuuntaiset varaukset tulevaan versioon.</string>
     <!-- Car search error -->
-    <string name="error_no_result_message">Ei hakutuloksia. Hae uudelleen eri hakuehdoilla.</string>
+    <string name="error_car_search_message">Ei hakutuloksia. Hae uudelleen eri hakuehdoilla.</string>
     <!-- Car no filtered search results -->
     <string name="filter_no_car_search_results_message">Ei hakutuloksia. Koita vähentää suodattimien määrää</string>
     <!-- Transmission options filter label for a car rental -->
@@ -240,6 +240,10 @@
     <string name="stored_card_TEMPLATE">Tallennettu {cardtype}</string>
     <!-- Select card from checkout saved cards list -->
     <string name="saved_cards">Tallennetut kortit</string>
+    <!-- text that goes underneath the camera button for card_io -->
+    <string name="card_io_btn_text">Skannaa</string>
+    <!-- Card.io scan text -->
+    <string name="scan_card_text">Skannaa kortti</string>
 
     <!-- Car error strings -->
     <!-- Message for user that pick-up time is too early.  -->
@@ -332,7 +336,7 @@
     <!-- Template for ticket selection summary -->
     <string name="offer_book_now_TEMPLATE">Varaa nyt %1$s</string>
     <!-- Template for multiple duration text on Search results Eg: 2d+ -->
-    <string name="search_result_multiple_duration_TEMPLATE">%1$s +</string>
+    <string name="search_result_multiple_duration_TEMPLATE">{duration}+</string>
     <!-- Cancellation policy template -->
     <string name="lx_cancellation_policy_TEMPLATE">Voit peruuttaa ilmaiseksi viimeistään {hours} tuntia ennen varauksesi alkamista. Tämän jälkeen varausta ei voi peruuttaa, muuttaa eikä hyvittää.</string>
     <!-- Cancellation policy text for non-cancellable activities -->
@@ -1670,6 +1674,11 @@
     <!-- Card fee warning text on checkout overview.
         Example: The airline charges a processing fee of $3.00 for using this card (cost included in the trip total). -->
     <string name="flights_card_fee_warning_TEMPLATE">Lentoyhtiö veloittaa {card_fee} käsittelymaksun tällä kortilla maksamisesta (maksu sisältyy matkan kokonaishintaan).</string>
+    <!-- An airline fee is added upon payment message
+        Example: An airline fee, based on card type, is added upon payment. Such fee is added to the total upon payment -->
+    <string name="flights_fee_added_based_on_payment_TEMPLATE">Lentoyhtiön käytettyyn korttityyppiin perustuva &lt;a href=\"{airline_fee_url}\"&gt;maksu&lt;/a&gt; lisätään maksettaessa. Tämä maksu lisätään hintaan maksettaessa.</string>
+    <!-- Flights debit cards not accepted messaging -->
+    <string name="flights_debit_cards_not_accepted">Pankkikortteja ei hyväksytä.</string>
 
     <!-- Flights -->
     <!-- Label for Flight Search in task manager -->
@@ -2301,6 +2310,8 @@
     <string name="edit_guest_details">Muokkaa vierailijan tietoja</string>
     <!-- Edit current traveler details -->
     <string name="edit_current_traveler">Muokkaa matkustajan tietoja</string>
+    <!-- Generic error when user is editing traveler details, eg: a user leaves a required field empty -->
+    <string name="accessibility_cont_desc_role_error">Virhe</string>
     <!-- prefers seat template -->
     <string name="prefers_seat_TEMPLATE">Haluaa istuinpaikan: %1$s</string>
     <!-- prefers seat template -->
@@ -2441,6 +2452,8 @@
     <string name="fare_information">HINTATIEDOT</string>
     <!-- Airline Fee -->
     <string name="Airline_fee">Lentoyhtiön maksu</string>
+    <!-- Accessibility announcement when filter are cleared-->
+    <string name="filters_cleared">Suodattimet poistettu</string>
     <!-- split ticket rules header -->
     <string name="split_ticket_important_flight_information_header">Tärkeät lentotiedot</string>
     <!-- split ticket rules and restrictions -->
@@ -3796,19 +3809,29 @@
     <string name="cars_passenger_count_cont_desc_TEMPLATE">Matkustajia {passengercount}</string>
     <!-- Content description for car result bags count e.g. Bags 2-4 -->
     <string name="cars_bags_count_cont_desc_TEMPLATE">Matkatavaroita {bagscount}</string>
-
+    <!-- Content description for hotel star rating e.g. 3 stars -->
+    <plurals name="hotel_star_rating_cont_desc_TEMPLATE">
+        <item quantity="one">{rating} tähti</item>
+        <item quantity="other">{rating} tähteä</item>
+    </plurals>
     <!-- Content descriptions for Cars filter transmission buttons -->
-    <string name="cars_filter_transmission_manual_button_selected_cont_desc">Manuaalivaihteisto</string>
-    <string name="cars_filter_transmission_automatic_button_selected_cont_desc">Automaattivaihteisto</string>
-    <string name="cars_filter_transmission_all_button_selected_cont_desc">Kaikki vaihteistotyypit</string>
-    <string name="cars_filter_transmission_manual_button_unselected_cont_desc">Manuaalivaihteisto. Valitsematta</string>
-    <string name="cars_filter_transmission_automatic_button_unselected_cont_desc">Automaattivaihteisto. Valitsematta</string>
-    <string name="cars_filter_transmission_all_button_unselected_cont_desc">Kaikki vaihteistotyypit. Valitsematta</string>
+    <string name="cars_filter_transmission_manual_button_cont_desc">Manuaalivaihteisto</string>
+    <string name="cars_filter_transmission_automatic_button_cont_desc">Automaattivaihteisto</string>
+    <string name="cars_filter_transmission_all_button_cont_desc">Kaikki vaihteistotyypit</string>
 
     <!-- Content description for car offer reserve button e.g. Dollar, Chevrolet Spark or Similar, Reserve button-->
     <string name="cars_offer_reserve_button_cont_desc_TEMPLATE">{vendor}, {make}, varauspainike</string>
     <!-- Content description for car offer view details button e.g. Dollar, Chevrolet Spark or Similar, View details button-->
     <string name="cars_offer_view_details_button_cont_desc_TEMPLATE">{vendor}, {make}, katso tiedot -painike</string>
+
+    <!-- Car confirmation directions content description e.g. Directions to Fox button-->
+    <string name="car_confirmation_directions_cont_desc_TEMPLATE">Ohjeet {vendor}-autovuokraamolle -painike</string>
+    <!-- Car confirmation add to calendar content description-->
+    <string name="car_confirmation_add_to_calendar_cont_desc">Lisää kalenteriin -painike</string>
+    <!-- Successful checkout hotel cross sell content description e.g. Hotels in Seattle button-->
+    <string name="successful_checkout_cross_sell_hotel_cont_desc_TEMPLATE">Hotellit kohteessa {location} -painike</string>
+    <!-- Successful checkout flight cross sell content description e.g. Flights to Seattle button-->
+    <string name="successful_checkout_cross_sell_flight_cont_desc_TEMPLATE">Lennot kohteeseen {location} -painike</string>
 
     <!-- Tablet Confirmation Screen -->
     <!-- Header text to indicating booking confirmed for hotel -->
@@ -3908,6 +3931,14 @@
     <!-- Accessibility - Content Description for toolbar back button when entering destination/arrival -->
     <string name="package_toolbar_back_to_search_cont_desc">Takaisin hakuun</string>
     <string name="package_toolbar_title">Hotelli + lento</string>
+    <!-- Accessibility - Content Description for Expiration date: increase month -->
+    <string name="increase_month_cont_desc">Siirry kuukaudella eteenpäin</string>
+    <!-- Accessibility - Content Description for Expiration date: decrease month -->
+    <string name="decrease_month_cont_desc">Siirry kuukaudella taaksepäin</string>
+    <!-- Accessibility - Content Description for Expiration date: increase year -->
+    <string name="increase_year_cont_desc">Siirry vuodella eteenpäin</string>
+    <!-- Accessibility - Content Description for Expiration date: decrease year -->
+    <string name="decrease_year_cont_desc">Siirry vuodella taaksepäin</string>
     <!-- Label for per person -->
     <string name="per_person">per henkilö</string>
     <!-- Label for package bundle price on overview-->
@@ -3947,6 +3978,8 @@
     <string name="select_hotel_searching_cont_desc_TEMPLATE">Etsitään hotelleja kohteessa {destination}, {startdate}–{enddate}, {guests}. Odota</string>
     <!-- Bundle Overview selected hotel accessibility content description Eg. You have selected hotel Orion from Jun 23 to June 24, for 1 guest. Button to expand hotel details. -->
     <string name="select_hotel_selected_cont_desc_TEMPLATE">Olet valinnut hotellin {hotel}, {startdate}–{enddate}, {guests}. {expandstate} hotellin tiedot.</string>
+    <!-- Bundle Overview selected flight accessibility content description Eg. Flight to (DTW) Detroit. Jul 10 at 9:00 am, 1 Traveler. Button to expand flight details. -->
+    <string name="select_flight_selected_cont_desc_TEMPLATE">{flighttext}. {travelerinfotext}. {expandstate} lentotiedot.</string>
     <!-- Bundle Overview select hotel -->
     <string name="select_hotel_template">Valitse hotelli kohteessa %s</string>
     <!-- Bundle Overview searching flight -->
@@ -4011,6 +4044,9 @@
 
     <!-- Text indicating that the user can drag this button to view their trip -->
     <string name="trip_overview">Katso matkan tiedot</string>
+    <!-- Content description to View Trip Details view -->
+    <string name="trip_overview_cont_desc">Katso matkan tiedot -painike</string>
+
     <!-- Slide to book -->
     <string name="package_slider_text">Liu\&apos;uta varataksesi</string>
     <string name="hotel_city_country_TEMPLATE">{city}, {country}</string>
@@ -4111,12 +4147,30 @@
     <!-- New Hotel Search screen -->
     <string name="enter_destination_hint">Anna kohde</string>
 
-    <!-- Package breakdown dialog -->
-    <string name="package_breakdown_hotel_flight_summary">Hotelli + lennot</string>
-    <string name="package_breakdown_taxes_fees">Verot ja maksut</string>
-    <string name="package_breakdown_taxes_fees_included_TEMPLATE">Verot ja maksut sisältyvät hintaan ({taxes})</string>
-    <string name="package_breakdown_total_savings">Säästöt yhteensä</string>
-    <string name="package_breakdown_total_due_today">Nyt maksettava summa</string>
+    <!-- Cost summary breakdown line item for flight insurance -->
+    <string name="cost_summary_breakdown_flight_insurance">Lentovakuutus</string>
+    <!-- Cost summary breakdown line item for flights -->
+    <string name="cost_summary_breakdown_flight_summary">Lennot</string>
+    <!-- Cost summary breakdown line item for a hotel + flight package -->
+    <string name="cost_summary_breakdown_hotel_flight_summary">Hotelli + lennot</string>
+    <!-- Cost summary breakdown line item for taxes and fees that are charged separately -->
+    <string name="cost_summary_breakdown_taxes_fees">Verot ja maksut</string>
+    <!-- Cost summary breakdown line item for taxes and fees that are included in the base price, e.g. Taxes &amp; Fees Included ($34.21) -->
+    <string name="cost_summary_breakdown_taxes_fees_included_TEMPLATE">Verot ja maksut sisältyvät hintaan ({taxes})</string>
+    <!-- Cost summary breakdown line item for savings -->
+    <string name="cost_summary_breakdown_total_savings">Säästöt yhteensä</string>
+    <!-- Cost summary breakdown line item for total -->
+    <string name="cost_summary_breakdown_total_due_today">Nyt maksettava summa</string>
+
+    <!-- Material FLight breakdown dialog -->
+    <!-- Add adult traveler number template for example: Adult 2 details -->
+    <string name="flight_add_adult_number_TEMPLATE">Aikuisen {number} tiedot</string>
+    <!-- Add child traveler number template for example: Child 4 details -->
+    <string name="flight_add_child_number_TEMPLATE">Lapsen {number} tiedot</string>
+    <!-- Add infant in lap traveler number template for example: Infant in lap 1 details -->
+    <string name="flight_add_infant_in_lap_number_TEMPLATE">Sylissä matkustavan vauvan {number} tiedot</string>
+    <!-- Add infant in seat traveler number template for example: Infant in seat 6 details -->
+    <string name="flight_add_infant_in_seat_number_TEMPLATE">Istuinpaikalla matkustavan vauvan {number} tiedot</string>
 
     <!-- Shop with points -->
     <string name="loyalty_applied_excluding_taxes_and_fees_message">Expedia+-pisteet käytetty! (ei sisällä veroja ja maksuja)</string>
@@ -4176,13 +4230,12 @@
     <string name="reward_top_tier_name_short">+gold</string>
 
     <!--Packages search accessibility -->
-    <!-- Flight Detail card view content description for accessibility.
-    Eg. Flight time is 9:00 am - 11:12 am with price difference of +$0. Flying with United. The flight duration is 5 hours 12 minutes with 0 stops. -->
-    <string name="flight_detail_card_cont_desc_TEMPLATE">Lentoaika on {time} ja hintaero {pricedifference}. Lentävä yhtiö {airline}. Lennon kesto on {hours} {minutes}, {stops} välilaskua.</string>
-    <!--Flight Detail card view - flight duration content description for accessibility Eg. SFO to DTM. 3 hours 15 minutes.-->
-    <string name="flight_detail_flight_duration_card_cont_desc_TEMPLATE">{departureairport} –&gt; {arrivalairport}. {durationhours} {durationmins}.</string>
-    <!--Flight Detail card view - layover duration content description for accessibility Eg. Layover. 2 hours 4 minutes.-->
-    <string name="flight_detail_layover_duration_card_cont_desc_TEMPLATE">Välilasku. {layoverhours} {layovermins}.</string>
+    <!-- Flight Detail card view content description for accessibility. Eg. Flight time is 9:00 am - 11:12 am with price difference of +$0. Flying with United. The flight duration is 5 hours 12 minutes with 0 stops. -->
+    <string name="flight_detail_card_cont_desc_TEMPLATE">Lentoaika on {time} ja hintaero {pricedifference}. Lentävä yhtiö {airline}. Lennon kesto on {hours} {minutes}, {stops} välilaskua\u0020</string>
+    <!--Flight Detail card view - flight duration content description for accessibility Eg. SFO to DTM. 3 hours 15 minutes. -->
+    <string name="flight_detail_flight_duration_card_cont_desc_TEMPLATE">{departureairport} –&gt; {arrivalairport}. {durationhours} {durationmins} \u0020</string>
+    <!--Flight Detail card view - layover duration content description for accessibility Eg. Layover. 2 hours 4 minutes. -->
+    <string name="flight_detail_layover_duration_card_cont_desc_TEMPLATE">Välilasku {layoverhours} {layovermins} \u0020</string>
     <!--Flying to card content description Eg. Flying to. Button. San Francisco, CA (SFO-San Francisco Intl.)-->
     <string name="search_flying_to_destination_cont_desc_TEMPLATE">Lento kohteeseen. Painike. {to_destination}</string>
     <!--Flying from card content description Eg. Flying from. Button. Detroit, MI (DTW-Detroit Metropolitan Wayne County)-->
@@ -4236,6 +4289,29 @@
         Example #2: 2 available Hawaiian Airlines flights. -->
     <string name="packages_flight_filter_checkbox_cont_desc_TEMPLATE">{filter_results} saatavilla olevaa lentoyhtiön {filter_name} lentoa.</string>
 
+    <!-- Status displayed in a modal dialog while insurance is being added -->
+    <string name="insurance_adding">Matkavakuutusta lisätään…</string>
+    <!-- Error message displayed when insurance fails to be added to a trip -->
+    <string name="insurance_add_error">Valitettavasti emme pystyneet lisäämään tätä matkavakuutusta. Yritä uudelleen tai jatka varauksen tekemistä ilman matkavakuutusta.</string>
+    <!-- Benefits of purchasing insurance -->
+    <string name="insurance_benefits">1. Lippusi on ei-hyvitettävä ja olet liian sairas matkustaaksesi.&lt;br/&gt;&lt;br/&gt;2. Olet loukkaantunut etkä voi lentää kotiin.&lt;br/&gt;&lt;br/&gt;3. Matkakumppanillasi on katettu lääketieteellinen hätätapaus etkä voi matkustaa.</string>
+    <!-- Insurance call to action; links to list of benefits -->
+    <string name="insurance_description">Kolme syytä miksi saatat tarvita matkavakuutuksen</string>
+    <!-- Error message displayed when insurance fails to be removed from a trip -->
+    <string name="insurance_remove_error">Valitettavasti emme pystyneet poistamaan tätä matkavakuutusta. Ole hyvä ja yritä uudelleen.</string>
+    <!-- Status displayed in a modal dialog while insurance is being removed -->
+    <string name="insurance_removing">Matkavakuutusta poistetaan…</string>
+    <!-- Label of link to insurance terms and conditions -->
+    <string name="insurance_terms">Ehdot ja rajoitukset sekä vakuutuksen myöntäjät</string>
+    <!-- Title of insurance widget when trip is protected, e.g. Your trip is protected for $19/person -->
+    <string name="insurance_title_protected_TEMPLATE">&lt;b&gt;Matkasi on turvattu ${price} &lt;/b&gt;{price_type}</string>
+    <!-- Title of insurance widget when trip is not protected, e.g. Add protection for $19/person -->
+    <string name="insurance_title_unprotected_TEMPLATE">&lt;b&gt;Lisää vakuutus ${price} &lt;/b&gt;{price_type}</string>
+    <!-- Insurance price type qualifiers -->
+    <string name="insurance_price_per_day">per päivä</string>
+    <string name="insurance_price_per_person">per henkilö</string>
+    <!-- Content description for rating bar e.g. Rated 3 out of 5-->
+    <string name="hotel_rating_bar_cont_desc_TEMPLATE">Arvosteltu {rating}/5</string>
     <!--LX accessibility -->
     <!--LX search accessibility -->
     <string name="lx_location_edit_box_cont_desc">Aktiviteetin sijainti</string>
@@ -4260,10 +4336,14 @@
     <!-- Content description for LX Multiple Duration e.g. Duration 2d + -->
     <string name="search_result_multiple_duration_cont_desc_TEMPLATE">Kesto {duration} plus</string>
 
+    <!--Packages accessibility content description for  traveler details complete-->
+    <string name="traveler_details_incomplete_cont_desc">Matkustajan tietoja ei ole täytetty</string>
+    <!--Packages accessibility content description for  traveler details complete-->
+    <string name="traveler_details_complete_cont_desc">Matkustajan tiedot on täytetty</string>
     <!--Packages accessibility content description for role Button-->
     <string name="accessibility_cont_desc_role_button">Painike</string>
     <!--Packages accessibility content description for role - Button to expand -->
-    <string name="accessibility_cont_desc_role_button_expand">Painike laajentamiseen</string>
+    <string name="accessibility_cont_desc_role_button_expand">Painike laajentaaksesi</string>
     <!--Packages accessibility content description for role - Button to collapse -->
     <string name="accessibility_cont_desc_role_button_collapse">Painike pienentämiseen</string>
 

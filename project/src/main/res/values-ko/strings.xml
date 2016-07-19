@@ -113,7 +113,7 @@
 
     <!-- Cars Confirmation Screen -->
     <!-- Title for calendar event .  %1$s is the pick up location code, e.g. "SFO" -->
-    <string name="calendar_car_title_TEMPLATE">인수 위치 %1$s</string>
+    <string name="calendar_car_title_TEMPLATE">인수 위치: %1$s</string>
     <!-- Location for calendar event.  %1$s is the name of the pick up location -->
     <string name="calendar_car_location_TEMPLATE">%1$s</string>
     <!-- Part of the description, showing the itinerary #.  %s is the itinerary number, e.g. "Expedia Itinerary #: 3532532" -->
@@ -144,7 +144,7 @@
     <!-- Label for showing users that drop-off location has to be same as pick-up location -->
     <string name="drop_off_same_as_pick_up">제공 예정! 다음 버전에서는 타지점 반납의 편도 예약을 추가하도록 지금 열심히 준비 중입니다.</string>
     <!-- Car search error -->
-    <string name="error_no_result_message">검색 결과가 없습니다. 다른 기준으로 다시 검색해 주세요.</string>
+    <string name="error_car_search_message">검색 결과가 없습니다. 다른 기준으로 다시 검색해 주세요.</string>
     <!-- Car no filtered search results -->
     <string name="filter_no_car_search_results_message">검색 결과가 없습니다. 필터 개수를 줄여보세요.</string>
     <!-- Transmission options filter label for a car rental -->
@@ -240,6 +240,10 @@
     <string name="stored_card_TEMPLATE">{cardtype} 저장됨</string>
     <!-- Select card from checkout saved cards list -->
     <string name="saved_cards">저장된 카드</string>
+    <!-- text that goes underneath the camera button for card_io -->
+    <string name="card_io_btn_text">스캔</string>
+    <!-- Card.io scan text -->
+    <string name="scan_card_text">카드 스캔</string>
 
     <!-- Car error strings -->
     <!-- Message for user that pick-up time is too early.  -->
@@ -302,9 +306,9 @@
 
     <!-- LX -->
     <!-- LX Toolbar Date Range e.g. May 05 - May 10 -->
-    <string name="lx_toolbar_date_range_TEMPLATE">{from_date} - {to_date}</string>
+    <string name="lx_toolbar_date_range_TEMPLATE">{from_date} ~ {to_date}</string>
     <!-- LX Toolbar Date Range Cont Desc e.g. May 05 to May 10 -->
-    <string name="lx_toolbar_date_range_cont_desc_TEMPLATE">{from_date} - {to_date}</string>
+    <string name="lx_toolbar_date_range_cont_desc_TEMPLATE">{from_date}부터 {to_date}까지</string>
     <!--LX Search widget header text -->
     <string name="lx_search_title">즐길거리 검색</string>
     <!--LX Search widget header text -->
@@ -332,7 +336,7 @@
     <!-- Template for ticket selection summary -->
     <string name="offer_book_now_TEMPLATE">지금 예약: %1$s</string>
     <!-- Template for multiple duration text on Search results Eg: 2d+ -->
-    <string name="search_result_multiple_duration_TEMPLATE">%1$s +</string>
+    <string name="search_result_multiple_duration_TEMPLATE">{duration}+</string>
     <!-- Cancellation policy template -->
     <string name="lx_cancellation_policy_TEMPLATE">예약이 시작되기 {hours}시간 전까지 무료로 취소하실 수 있습니다. 이 시간 이후로는 취소나 변경 또는 환불이 불가능합니다.</string>
     <!-- Cancellation policy text for non-cancellable activities -->
@@ -1669,7 +1673,12 @@
     <string name="flights_free_cancellation">예약 후 24시간 이내 무료 취소</string>
     <!-- Card fee warning text on checkout overview.
         Example: The airline charges a processing fee of $3.00 for using this card (cost included in the trip total). -->
-    <string name="flights_card_fee_warning_TEMPLATE">이 카드로 결제시 항공사는 {card_fee}의 수수료를 부과합니다(총 여행 요금에 포함).</string>
+    <string name="flights_card_fee_warning_TEMPLATE">이 카드로 결제 시 항공사에서 {card_fee}의 처리 수수료를 부과합니다(총 여행 요금에 포함).</string>
+    <!-- An airline fee is added upon payment message
+        Example: An airline fee, based on card type, is added upon payment. Such fee is added to the total upon payment -->
+    <string name="flights_fee_added_based_on_payment_TEMPLATE">카드 종류에 따라 &lt;a href=\"{airline_fee_url}\"&gt;항공사 수수료&lt;/a&gt;가 결제 시 추가됩니다. 이러한 요금은 결제 시 총 요금에 추가됩니다.</string>
+    <!-- Flights debit cards not accepted messaging -->
+    <string name="flights_debit_cards_not_accepted">직불카드로는 결제하실 수 없습니다.</string>
 
     <!-- Flights -->
     <!-- Label for Flight Search in task manager -->
@@ -2301,6 +2310,8 @@
     <string name="edit_guest_details">숙박객 정보 수정</string>
     <!-- Edit current traveler details -->
     <string name="edit_current_traveler">여행객 정보 수정</string>
+    <!-- Generic error when user is editing traveler details, eg: a user leaves a required field empty -->
+    <string name="accessibility_cont_desc_role_error">오류</string>
     <!-- prefers seat template -->
     <string name="prefers_seat_TEMPLATE">%1$s 좌석 선호</string>
     <!-- prefers seat template -->
@@ -2441,6 +2452,8 @@
     <string name="fare_information">요금 정보</string>
     <!-- Airline Fee -->
     <string name="Airline_fee">항공사 수수료</string>
+    <!-- Accessibility announcement when filter are cleared-->
+    <string name="filters_cleared">필터 지워짐</string>
     <!-- split ticket rules header -->
     <string name="split_ticket_important_flight_information_header">중요한 항공편 정보</string>
     <!-- split ticket rules and restrictions -->
@@ -3268,7 +3281,7 @@
     <!-- Display for distances.  1$ is a distance, 2$ is a unit, e.g. "5 miles away" -->
     <string name="distance_template">%1$s%2$s 거리</string>
     <!-- Display for distances - but abbreviated, for space.  1$ is a distance, 2$ is a unit, e.g. "5 mi" -->
-    <string name="distance_template_short">%1$s %2$s</string>
+    <string name="distance_template_short">%1$s%2$s</string>
 
     <!-- Menu strings -->
     <!-- Label for "settings" menu item. -->
@@ -3695,23 +3708,23 @@
     <!-- Content Description Labels -->
     <!-- Trips Screen -->
     <!-- Content description for action: Press to refresh trips list -->
-    <string name="trips_refresh_trips_list_cont_desc">여행 목록을 새로고침하려면 누르세요.</string>
+    <string name="trips_refresh_trips_list_cont_desc">누르면 여행 목록이 새로고침됩니다.</string>
     <!-- Hotel star filters -->
     <!-- Content description for action: Press to filter for hotels hotels with three or more stars -->
-    <string name="filter_hotels_for_three_or_more_stars_cont_desc">3성급 이상 호텔을 필터링하려면 누르세요.</string>
+    <string name="filter_hotels_for_three_or_more_stars_cont_desc">누르면 3성급 이상 호텔로 필터링됩니다.</string>
     <!-- Content description for action: Press to filter for hotels hotels with four or more stars -->
-    <string name="filter_hotels_for_four_or_more_stars_cont_desc">4성급 이상 호텔을 필터링합니다.</string>
+    <string name="filter_hotels_for_four_or_more_stars_cont_desc">누르면 4성급 이상 호텔로 필터링됩니다.</string>
     <!-- Content description for action: Press to filter for hotels with five stars -->
-    <string name="filter_hotels_for_five_stars_cont_desc">5성급 호텔을 필터링합니다.</string>
+    <string name="filter_hotels_for_five_stars_cont_desc">누르면 5성급 호텔로 필터링됩니다.</string>
     <!-- Content description for action: Press to remove hotel star filters -->
-    <string name="filter_remove_hotel_star_filters_cont_desc">호텔 등급 필터링을 제거합니다.</string>
+    <string name="filter_remove_hotel_star_filters_cont_desc">누르면 호텔 등급 필터링이 제거됩니다.</string>
     <!-- Hotel distance filters -->
     <!-- Content description for action: Press to filter for the nearest hotels within a small radius from your search location -->
-    <string name="filter_for_nearest_hotels_cont_desc">고객님 검색 위치에서 작은 반경 이내의 가장 가까운 호텔을 필터링합니다.</string>
+    <string name="filter_for_nearest_hotels_cont_desc">누르면 고객님 검색 위치에서 작은 반경 이내의 가장 가까운 호텔로 필터링됩니다.</string>
     <!-- Content description for action: Press to filter for hotels within a mid-distance radius from your search location -->
-    <string name="filter_for_further_distanced_hotels_cont_desc">고객님 검색 위치에서 중간 거리 반경 이내의 호텔을 필터링합니다.</string>
+    <string name="filter_for_further_distanced_hotels_cont_desc">누르면 고객님 검색 위치에서 중간 거리 반경 이내의 호텔로 필터링됩니다.</string>
     <!-- Content description for action: Press to filter for hotels within largest radius from your search location -->
-    <string name="filter_for_furthest_distanced_hotels_cont_desc">고객님 검색 위치에서 가장 넓은 반경 이내의 호텔을 필터링합니다.</string>
+    <string name="filter_for_furthest_distanced_hotels_cont_desc">누르면 고객님 검색 위치에서 가장 넓은 반경 이내의 호텔로 필터링됩니다.</string>
     <!-- Content description for action: Press to clear all distance filters for hotel search -->
     <string name="filter_remove_distance_filter_cont_desc">누르면 호텔 검색을 위한 모든 거리 필터링이 지워집니다.</string>
     <!-- Hotel price filters -->
@@ -3725,19 +3738,19 @@
     <string name="filter_remove_hotel_price_filters_cont_desc">호텔 가격 필터링을 제거합니다.</string>
     <!-- Hotel info screen -->
     <!-- Content description for action: Press to select this hotel -->
-    <string name="hotel_info_select_button_cont_desc">이 호텔을 선택하려면 누르세요.</string>
+    <string name="hotel_info_select_button_cont_desc">누르면 이 호텔이 선택됩니다.</string>
     <!-- Hotel review screen -->
     <!-- Content description for action: Press to display recent reviews -->
-    <string name="display_recent_reviews_cont_desc">최근 이용후기를 표시하려면 누르세요.</string>
+    <string name="display_recent_reviews_cont_desc">누르면 최근 이용 후기가 표시됩니다.</string>
     <!-- Content description for action: Press to display favorable reviews -->
-    <string name="display_favorable_reviews_cont_desc">누르면 긍정적인 이용후기가 표시됩니다.</string>
+    <string name="display_favorable_reviews_cont_desc">누르면 긍정적인 이용 후기가 표시됩니다.</string>
     <!-- Content description for action: Press to display critical reviews -->
-    <string name="display_critical_reviews_cont_desc">부정적인 이용후기를 표시하려면 누르세요.</string>
+    <string name="display_critical_reviews_cont_desc">누르면 부정적인 이용 후기가 표시됩니다.</string>
     <!-- Flight Search -->
     <!-- Content description for action: Press to clear selected dates -->
-    <string name="flights_clear_selected_dates_cont_desc">선택한 날짜를 지우르면 누르세요.</string>
+    <string name="flights_clear_selected_dates_cont_desc">누르면 선택한 날짜가 지워집니다.</string>
     <!-- Content description for action: Press to edit number of travelers -->
-    <string name="flights_search_number_of_travelers_edit_cont_desc">여행객 수를 수정하려면 누르세요.</string>
+    <string name="flights_search_number_of_travelers_edit_cont_desc">누르면 여행객 수를 수정하실 수 있습니다.</string>
     <!-- Flight Search Results - Flight Leg Selection -->
     <!-- Content description for action: Press to cancel your flight selection and go back to flight search results -->
     <string name="flight_leg_cancel_cont_desc">항공편 선택을 취소하고 항공편 검색 결과로 돌아갑니다.</string>
@@ -3747,25 +3760,25 @@
     <string name="flight_leg_baggage_fee_info_cont_desc">누르면 수하물 요금 정보로 이동합니다.</string>
     <!-- Flight Search Results - Selection Overview -->
     <!-- Content description for action: Press to go to cost summary for your flight selections -->
-    <string name="flight_selection_cost_summary_cont_desc">고객님이 선택하신 항공편의 요금 요약으로 이동합니다.</string>
+    <string name="flight_selection_cost_summary_cont_desc">선택하신 항공편의 요금 요약으로 이동합니다.</string>
     <!-- Checkout screen -->
     <!-- Content description for action: Press to begin checkout -->
-    <string name="checkout_cont_desc">예약 진행을 시작하려면 누르세요.</string>
+    <string name="checkout_cont_desc">누르면 결제가 시작됩니다.</string>
     <!-- Content description for action: Press to enter a coupon or promotional code -->
-    <string name="checkout_enter_coupon_cont_desc">쿠폰 또는 프로모션 코드를 입력려면 누르세요.</string>
+    <string name="checkout_enter_coupon_cont_desc">누르면 쿠폰 또는 프로모션 코드를 입력하실 수 있습니다.</string>
     <!-- Traveler Information screen -->
     <!-- Content description for action: Press to enter a new traveler -->
-    <string name="traveler_enter_new_traveler_cont_desc">새로운 여행객을 입력하려면 누르세요.</string>
+    <string name="traveler_enter_new_traveler_cont_desc">누르면 새 여행객을 입력하실 수 있습니다.</string>
     <!-- Content description for action: Press to edit traveler information -->
     <string name="traveler_edit_traveler_information_cont_desc">누르면 여행객 정보를 수정하실 수 있습니다.</string>
     <!-- Content description for action: Press to edit traveler's passport country -->
     <string name="traveler_edit_passport_country_cont_desc">여행객의 여권 국가를 수정합니다.</string>
     <!-- Traveler Information edit/entry screen -->
     <!-- Content description for action: Press to finish entering traveler information -->
-    <string name="traveler_information_done_cont_desc">여행객 정보 입력을 완료하려면 누르세요.</string>
+    <string name="traveler_information_done_cont_desc">누르면 여행객 정보 입력을 완료하실 수 있습니다.</string>
     <!-- Extra traveler information - flights -->
     <!-- Content description for action: Press to select traveler's gender -->
-    <string name="traveler_gender_edit_cont_desc">여행객의 성별을 선택하려면 누르세요.</string>
+    <string name="traveler_gender_edit_cont_desc">누르면 여행객의 성별을 선택하실 수 있습니다.</string>
     <!-- Content description for action: Press to select type of special assistance traveler requires -->
     <string name="traveler_special_assistance_edit_cont_desc">여행객의 특별 요청 사항 유형을 선택합니다.</string>
     <!-- Content description for action: Press to select window type that the traveler prefers -->
@@ -3775,7 +3788,7 @@
     <string name="card_info_billing_address_country_cont_desc">청구 주소의 국가를 선택합니다.</string>
     <!-- Itinerary card elements -->
     <!-- Content description for action: Press to view share options -->
-    <string name="share_menu_btn_cont_desc">일정 공유 옵션을 보려면 누르세요.</string>
+    <string name="share_menu_btn_cont_desc">누르면 일정 공유 옵션이 표시됩니다.</string>
 
     <!-- Tablet Search Results Content Descriptions -->
     <!-- Content description for Hotel Search Results -->
@@ -3784,9 +3797,9 @@
     <string name="tablet_results_flight_list_cont_desc">항공편 검색 결과</string>
 
     <!-- Content description for action: Press to filter for the nearest hotels within a small radius from your search location -->
-    <string name="pay_now_cont_desc">버튼을 눌러 지금 결제</string>
+    <string name="pay_now_cont_desc">버튼을 눌러 지금 결제합니다.</string>
     <!-- Content description for action: Press to filter for hotels within a mid-distance radius from your search location -->
-    <string name="pay_later_cont_desc">버튼을 눌러 나중에 결제</string>
+    <string name="pay_later_cont_desc">버튼을 눌러 나중에 결제합니다.</string>
 
     <!-- Content description for Cars filter button -->
     <string name="cars_filter_button_cont_desc">필터 버튼</string>
@@ -3795,20 +3808,30 @@
     <!-- Content description for car result passenger count e.g. Passengers 2-4 -->
     <string name="cars_passenger_count_cont_desc_TEMPLATE">승객 {passengercount}명</string>
     <!-- Content description for car result bags count e.g. Bags 2-4 -->
-    <string name="cars_bags_count_cont_desc_TEMPLATE">수하물 {bagscount}개</string>
-
+    <string name="cars_bags_count_cont_desc_TEMPLATE">짐 {bagscount}개</string>
+    <!-- Content description for hotel star rating e.g. 3 stars -->
+    <plurals name="hotel_star_rating_cont_desc_TEMPLATE">
+        <item quantity="one">{rating}성급</item>
+        <item quantity="other">{rating}성급</item>
+    </plurals>
     <!-- Content descriptions for Cars filter transmission buttons -->
-    <string name="cars_filter_transmission_manual_button_selected_cont_desc">수동 변속기</string>
-    <string name="cars_filter_transmission_automatic_button_selected_cont_desc">자동 변속기</string>
-    <string name="cars_filter_transmission_all_button_selected_cont_desc">모든 변속기</string>
-    <string name="cars_filter_transmission_manual_button_unselected_cont_desc">수동 변속기. 선택 안 됨</string>
-    <string name="cars_filter_transmission_automatic_button_unselected_cont_desc">자동 변속기. 선택 안 됨</string>
-    <string name="cars_filter_transmission_all_button_unselected_cont_desc">모든 변속기. 선택 안 됨</string>
+    <string name="cars_filter_transmission_manual_button_cont_desc">수동 변속기</string>
+    <string name="cars_filter_transmission_automatic_button_cont_desc">자동 변속기</string>
+    <string name="cars_filter_transmission_all_button_cont_desc">모든 변속기</string>
 
     <!-- Content description for car offer reserve button e.g. Dollar, Chevrolet Spark or Similar, Reserve button-->
     <string name="cars_offer_reserve_button_cont_desc_TEMPLATE">{vendor}, {make}, 예약 버튼</string>
     <!-- Content description for car offer view details button e.g. Dollar, Chevrolet Spark or Similar, View details button-->
-    <string name="cars_offer_view_details_button_cont_desc_TEMPLATE">{vendor}, {make}, 상세 정보 보기 버튼</string>
+    <string name="cars_offer_view_details_button_cont_desc_TEMPLATE">{vendor}, {make}, 세부 정보 보기 버튼</string>
+
+    <!-- Car confirmation directions content description e.g. Directions to Fox button-->
+    <string name="car_confirmation_directions_cont_desc_TEMPLATE">{vendor}까지 가는 길 버튼</string>
+    <!-- Car confirmation add to calendar content description-->
+    <string name="car_confirmation_add_to_calendar_cont_desc">달력에 추가 버튼</string>
+    <!-- Successful checkout hotel cross sell content description e.g. Hotels in Seattle button-->
+    <string name="successful_checkout_cross_sell_hotel_cont_desc_TEMPLATE">{location} 호텔 버튼</string>
+    <!-- Successful checkout flight cross sell content description e.g. Flights to Seattle button-->
+    <string name="successful_checkout_cross_sell_flight_cont_desc_TEMPLATE">{location}행 항공편 버튼</string>
 
     <!-- Tablet Confirmation Screen -->
     <!-- Header text to indicating booking confirmed for hotel -->
@@ -3908,6 +3931,14 @@
     <!-- Accessibility - Content Description for toolbar back button when entering destination/arrival -->
     <string name="package_toolbar_back_to_search_cont_desc">검색 화면으로 돌아가기</string>
     <string name="package_toolbar_title">호텔+항공</string>
+    <!-- Accessibility - Content Description for Expiration date: increase month -->
+    <string name="increase_month_cont_desc">월 올리기</string>
+    <!-- Accessibility - Content Description for Expiration date: decrease month -->
+    <string name="decrease_month_cont_desc">월 내리기</string>
+    <!-- Accessibility - Content Description for Expiration date: increase year -->
+    <string name="increase_year_cont_desc">연도 올리기</string>
+    <!-- Accessibility - Content Description for Expiration date: decrease year -->
+    <string name="decrease_year_cont_desc">연도 내리기</string>
     <!-- Label for per person -->
     <string name="per_person">1인당</string>
     <!-- Label for package bundle price on overview-->
@@ -3942,11 +3973,13 @@
     <!-- Template for package bundle total savings amount -->
     <string name="bundle_total_savings_TEMPLATE">{savings} 할인됨</string>
     <!-- Bundle Overview select hotel accessibility content description Eg. Search completed. Select a hotel in Detroit from Jun 23 to Jun 24, for 1 guest. Button -->
-    <string name="select_hotel_cont_desc_TEMPLATE">검색 완료됨. {guests}의 예약을 위해 {startdate} ~ {enddate}, {destination} 호텔을 선택합니다. 버튼</string>
+    <string name="select_hotel_cont_desc_TEMPLATE">검색 완료됨. {guests}명에 대해 {startdate}부터 {enddate}까지 {destination} 호텔을 선택합니다. 버튼</string>
     <!-- Bundle Overview select hotel accessibility content description when still searching Eg. Searching for hotels in Detroit from Jun 23 to Jun 24, for 1 guest. Please wait -->
-    <string name="select_hotel_searching_cont_desc_TEMPLATE">{guests}의 예약을 위해 {startdate} ~ {enddate}, {destination} 호텔을 검색 중입니다. 잠시 기다려 주세요.</string>
+    <string name="select_hotel_searching_cont_desc_TEMPLATE">{guests}명에 대해 {startdate}부터 {enddate}까지 {destination} 호텔을 검색 중입니다. 잠시 기다려 주세요.</string>
     <!-- Bundle Overview selected hotel accessibility content description Eg. You have selected hotel Orion from Jun 23 to June 24, for 1 guest. Button to expand hotel details. -->
-    <string name="select_hotel_selected_cont_desc_TEMPLATE">{guests}의 예약을 위해 {startdate} ~ {enddate}, {hotel} 호텔을 선택하셨습니다. {expandstate} 호텔 세부 정보.</string>
+    <string name="select_hotel_selected_cont_desc_TEMPLATE">{guests}명에 대해 {startdate}부터 {enddate}까지 {hotel} 호텔을 선택하셨습니다. 호텔 세부 정보를 {expandstate}.</string>
+    <!-- Bundle Overview selected flight accessibility content description Eg. Flight to (DTW) Detroit. Jul 10 at 9:00 am, 1 Traveler. Button to expand flight details. -->
+    <string name="select_flight_selected_cont_desc_TEMPLATE">{flighttext}. {travelerinfotext}. 항공편 세부 정보를 {expandstate}.</string>
     <!-- Bundle Overview select hotel -->
     <string name="select_hotel_template">%s 호텔 선택</string>
     <!-- Bundle Overview searching flight -->
@@ -3979,7 +4012,7 @@
     <!-- Flight departure arrival time in multi days e.g. 5:15 pm - 7:48 am +1d -->
     <string name="flight_departure_arrival_time_multi_day_template">%1$s - %2$s (+%3$d일)</string>
     <!-- Accessible text for Flight departure arrival time same day e.g. 5:15 pm to 7:48 pm plus 1d -->
-    <string name="flight_departure_arrival_time_multi_day_cont_desc_TEMPLATE">{departuretime} ~ {arrivaltime} +{elapseddays}일</string>
+    <string name="flight_departure_arrival_time_multi_day_cont_desc_TEMPLATE">{departuretime}에서 {arrivaltime}, 플러스 {elapseddays}일</string>
     <!-- Flight departure arrival time same day e.g. 5:15 pm - 7:48 pm -->
     <string name="flight_departure_arrival_time_template">%1$s - %2$s</string>
     <!-- Accessible text for Flight departure arrival time same day e.g. 5:15 pm to 7:48 pm -->
@@ -4010,7 +4043,10 @@
     </plurals>
 
     <!-- Text indicating that the user can drag this button to view their trip -->
-    <string name="trip_overview">여행 상세 정보 보기</string>
+    <string name="trip_overview">여행 세부 정보 보기</string>
+    <!-- Content description to View Trip Details view -->
+    <string name="trip_overview_cont_desc">여행 세부 정보 보기 버튼</string>
+
     <!-- Slide to book -->
     <string name="package_slider_text">밀어서 예약하기</string>
     <string name="hotel_city_country_TEMPLATE">{city}, {country}</string>
@@ -4111,12 +4147,30 @@
     <!-- New Hotel Search screen -->
     <string name="enter_destination_hint">목적지 입력</string>
 
-    <!-- Package breakdown dialog -->
-    <string name="package_breakdown_hotel_flight_summary">호텔+항공</string>
-    <string name="package_breakdown_taxes_fees">세금 및 수수료</string>
-    <string name="package_breakdown_taxes_fees_included_TEMPLATE">세금 및 수수료 포함({taxes})</string>
-    <string name="package_breakdown_total_savings">총 할인</string>
-    <string name="package_breakdown_total_due_today">오늘 결제할 총액</string>
+    <!-- Cost summary breakdown line item for flight insurance -->
+    <string name="cost_summary_breakdown_flight_insurance">항공 여행자 보험</string>
+    <!-- Cost summary breakdown line item for flights -->
+    <string name="cost_summary_breakdown_flight_summary">항공</string>
+    <!-- Cost summary breakdown line item for a hotel + flight package -->
+    <string name="cost_summary_breakdown_hotel_flight_summary">호텔+항공</string>
+    <!-- Cost summary breakdown line item for taxes and fees that are charged separately -->
+    <string name="cost_summary_breakdown_taxes_fees">세금 및 수수료</string>
+    <!-- Cost summary breakdown line item for taxes and fees that are included in the base price, e.g. Taxes &amp; Fees Included ($34.21) -->
+    <string name="cost_summary_breakdown_taxes_fees_included_TEMPLATE">세금 및 수수료 포함({taxes})</string>
+    <!-- Cost summary breakdown line item for savings -->
+    <string name="cost_summary_breakdown_total_savings">총 할인</string>
+    <!-- Cost summary breakdown line item for total -->
+    <string name="cost_summary_breakdown_total_due_today">오늘 결제할 총 금액</string>
+
+    <!-- Material FLight breakdown dialog -->
+    <!-- Add adult traveler number template for example: Adult 2 details -->
+    <string name="flight_add_adult_number_TEMPLATE">어른 {number} 정보</string>
+    <!-- Add child traveler number template for example: Child 4 details -->
+    <string name="flight_add_child_number_TEMPLATE">아동 {number} 정보</string>
+    <!-- Add infant in lap traveler number template for example: Infant in lap 1 details -->
+    <string name="flight_add_infant_in_lap_number_TEMPLATE">무릎에 앉히는 영유아 {number} 정보</string>
+    <!-- Add infant in seat traveler number template for example: Infant in seat 6 details -->
+    <string name="flight_add_infant_in_seat_number_TEMPLATE">좌석에 앉는 영유아 {number} 정보</string>
 
     <!-- Shop with points -->
     <string name="loyalty_applied_excluding_taxes_and_fees_message">Expedia+ 포인트 적용됨! (세금 및 수수료 제외)</string>
@@ -4176,21 +4230,20 @@
     <string name="reward_top_tier_name_short">+gold</string>
 
     <!--Packages search accessibility -->
-    <!-- Flight Detail card view content description for accessibility.
-    Eg. Flight time is 9:00 am - 11:12 am with price difference of +$0. Flying with United. The flight duration is 5 hours 12 minutes with 0 stops. -->
-    <string name="flight_detail_card_cont_desc_TEMPLATE">항공편 시간은 {time}이며, 요금 차액은 {pricedifference}입니다. {airline} 항공사로 운항. 비행시간은 {stops}번 경유 {hours} {minutes}입니다.</string>
-    <!--Flight Detail card view - flight duration content description for accessibility Eg. SFO to DTM. 3 hours 15 minutes.-->
-    <string name="flight_detail_flight_duration_card_cont_desc_TEMPLATE">{departureairport}발 {arrivalairport}행. {durationhours} {durationmins}.</string>
-    <!--Flight Detail card view - layover duration content description for accessibility Eg. Layover. 2 hours 4 minutes.-->
-    <string name="flight_detail_layover_duration_card_cont_desc_TEMPLATE">경유. {layoverhours} {layovermins}.</string>
+    <!-- Flight Detail card view content description for accessibility. Eg. Flight time is 9:00 am - 11:12 am with price difference of +$0. Flying with United. The flight duration is 5 hours 12 minutes with 0 stops. -->
+    <string name="flight_detail_card_cont_desc_TEMPLATE">항공편 시간은 {time}이며, 요금 차액은 {pricedifference}입니다. 운항사는 {airline}입니다. 비행 시간은 {hours} {minutes}이며, {stops}번 경유 포함입니다.\u0020</string>
+    <!--Flight Detail card view - flight duration content description for accessibility Eg. SFO to DTM. 3 hours 15 minutes. -->
+    <string name="flight_detail_flight_duration_card_cont_desc_TEMPLATE">{departureairport}발 {arrivalairport}행. {durationhours} {durationmins} \u0020</string>
+    <!--Flight Detail card view - layover duration content description for accessibility Eg. Layover. 2 hours 4 minutes. -->
+    <string name="flight_detail_layover_duration_card_cont_desc_TEMPLATE">경유 시간 {layoverhours} {layovermins} \u0020</string>
     <!--Flying to card content description Eg. Flying to. Button. San Francisco, CA (SFO-San Francisco Intl.)-->
-    <string name="search_flying_to_destination_cont_desc_TEMPLATE">다음행 비행기. 버튼. {to_destination}</string>
+    <string name="search_flying_to_destination_cont_desc_TEMPLATE">다음으로 가는 비행기. 버튼. {to_destination}</string>
     <!--Flying from card content description Eg. Flying from. Button. Detroit, MI (DTW-Detroit Metropolitan Wayne County)-->
-    <string name="search_flying_from_destination_cont_desc_TEMPLATE">다음발 비행기. 버튼. {from_destination}</string>
+    <string name="search_flying_from_destination_cont_desc_TEMPLATE">다음에서 오는 비행기. 버튼. {from_destination}</string>
     <!--Flying to card content description before a location is selected-->
-    <string name="packages_search_flying_to_cont_desc">다음행 비행기. 버튼</string>
+    <string name="packages_search_flying_to_cont_desc">다음으로 가는 비행기. 버튼</string>
     <!--Flying from card content description before a location is selected-->
-    <string name="packages_search_flying_from_cont_desc">다음발 비행기. 버튼</string>
+    <string name="packages_search_flying_from_cont_desc">다음에서 오는 비행기. 버튼</string>
     <!--Travel dates card content description before date range is selected-->
     <string name="packages_search_dates_cont_desc">여행 날짜 선택. 버튼. 대화상자 열림</string>
     <!--Packages search date format template for accessible dates (Talkback announces date range with 'to' in between) Eg. Jun 2 to Jun 5-->
@@ -4203,39 +4256,62 @@
         <item quantity="other">여행객 수. 버튼. 대화상자 열림. 여행객 {travelers}명</item>
     </plurals>
     <!--Traveler widget adults plus button content description-->
-    <string name="packages_add_adult_traveler_cont_desc">성인 1명 여행객 추가</string>
+    <string name="packages_add_adult_traveler_cont_desc">성인 1명 추가</string>
     <!--Traveler widget adults minus button content description-->
-    <string name="packages_remove_adult_traveler_cont_desc">성인 1명 여행객 삭제</string>
+    <string name="packages_remove_adult_traveler_cont_desc">성인 1명 삭제</string>
     <!--Traveler widget child plus button content description-->
-    <string name="packages_add_child_traveler_cont_desc">아동 1명 여행객 추가</string>
+    <string name="packages_add_child_traveler_cont_desc">아동 1명 추가</string>
     <!--Traveler widget child minus button content description-->
-    <string name="packages_remove_child_traveler_cont_desc">아동 1명 여행객 삭제</string>
+    <string name="packages_remove_child_traveler_cont_desc">아동 1명 삭제</string>
     <!--Packages search child age drop down content description Eg. "Select age for child 1."-->
     <string name="search_child_drop_down_cont_desc_TEMPLATE">아동 {childnumber}의 나이를 선택하세요.</string>
     <!--Packages accessibility flight search filter-->
     <!--Content description for "SHOW MORE" button in filter used for Talkback-->
-    <string name="packages_flight_search_filter_show_more_cont_desc">더 많은 항공사 보기. 버튼</string>
+    <string name="packages_flight_search_filter_show_more_cont_desc">항공사 더 보기. 버튼</string>
     <!--Content description for "SHOW LESS" button in filter used for Talkback-->
-    <string name="packages_flight_search_filter_show_less_cont_desc">더 적은 항공사 보기. 버튼</string>
+    <string name="packages_flight_search_filter_show_less_cont_desc">항공사 간단히 보기. 버튼</string>
     <!--Content description for clear button in filter used for Talkback-->
     <string name="packages_flight_search_filter_clear_button_cont_desc">필터 지우기. 버튼</string>
     <!--Content description for Bundle total widget. Example: Bundle total is $1,234.00. This price includes taxes, fees for both flights and hotel. $100.00 Saved-->
-    <string name="bundle_overview_price_widget">패키지 총액은 {totalprice}입니다. 이 요금에는 항공과 호텔 모두의 세금 및 수수료가 포함됩니다. {savings}</string>
+    <string name="bundle_overview_price_widget">패키지 총 금액은 {totalprice}입니다. 이 요금에는 항공과 호텔 모두에 대한 세금 및 수수료가 포함됩니다. {savings}</string>
     <!--Content description for Bundle total widget. Example: Bundle total is $1,234.00. This price includes taxes, fees for both flights and hotel. $100.00 Saved. Cost Breakdown dialog. Button.-->
-    <string name="bundle_total_price_widget_cost_breakdown_cont_desc_TEMPLATE">총 금액은 {totalprice}입니다. 이 요금에는 항공과 호텔 모두의 세금 및 수수료가 포함됩니다. {savings}. 요금 내역 대화상자. 버튼.</string>
+    <string name="bundle_total_price_widget_cost_breakdown_cont_desc_TEMPLATE">패키지 총 금액은 {totalprice}입니다. 이 요금에는 항공과 호텔 모두에 대한 세금 및 수수료가 포함됩니다. {savings}. 요금 내역 대화상자. 버튼.</string>
     <!--Content description for Bundle sliding widget, with instruction to expand to show more details. Example: Bundle total is $1,234.00 per person. This price includes taxes, fees for both flights and hotel. $100.00 Saved. Button to view bundle.-->
-    <string name="bundle_overview_price_widget_button_open_TEMPLATE">패키지 총액은 1인당 {price_per_person}입니다. 이 요금에는 항공과 호텔 모두의 세금 및 수수료가 포함됩니다. 패키지 상품 보기 버튼.</string>
+    <string name="bundle_overview_price_widget_button_open_TEMPLATE">패키지 총 금액은 1인당 {price_per_person}입니다. 이 요금에는 항공과 호텔 모두에 대한 세금 및 수수료가 포함됩니다. 패키지 상품을 보려면 버튼을 탭하세요.</string>
     <!--Content description for Bundle sliding widget, when it's opened.-->
-    <string name="bundle_overview_price_widget_button_close">패키지 상품 상세 정보 보기. 닫기 버튼.</string>
+    <string name="bundle_overview_price_widget_button_close">패키지 상품 세부 정보 표시 중. 닫으려면 버튼을 탭하세요.</string>
     <!--Packages bundle overview hotel drop down (expand) content description for accessibility-->
     <string name="select_hotel_selected_expand_cont_desc">확장하기</string>
     <!--Packages bundle overview hotel drop down (collapse) content description for accessibility-->
-    <string name="select_hotel_selected_collapse_cont_desc">줄이기</string>
+    <string name="select_hotel_selected_collapse_cont_desc">축소하기</string>
     <!-- Package filter checkbox.
         Example #1: 3 available NonStop flights.
         Example #2: 2 available Hawaiian Airlines flights. -->
     <string name="packages_flight_filter_checkbox_cont_desc_TEMPLATE">{filter_name} 항공편 {filter_results}개 이용 가능.</string>
 
+    <!-- Status displayed in a modal dialog while insurance is being added -->
+    <string name="insurance_adding">여행자 보험 추가 중…</string>
+    <!-- Error message displayed when insurance fails to be added to a trip -->
+    <string name="insurance_add_error">죄송합니다. 여행자 보험을 추가하지 못했습니다. 다시 시도하시거나 여행자 보험 없이 예약을 계속해 주세요.</string>
+    <!-- Benefits of purchasing insurance -->
+    <string name="insurance_benefits">1. 예약한 티켓이 환불 불가 티켓이지만 너무 아파서 여행을 할 수 없는 경우&lt;br/&gt;&lt;br/&gt;2. 다쳐서 돌아가는 비행기를 탈 수 없는 경우&lt;br/&gt;&lt;br/&gt;3. 여행을 함께 한 사람에게 응급 의료 상황이 발생해 여행을 할 수 없는 경우</string>
+    <!-- Insurance call to action; links to list of benefits -->
+    <string name="insurance_description">여행자 보험이 필요한 세 가지 이유</string>
+    <!-- Error message displayed when insurance fails to be removed from a trip -->
+    <string name="insurance_remove_error">죄송합니다. 여행자 보험을 삭제하지 못했습니다. 다시 시도해 주세요.</string>
+    <!-- Status displayed in a modal dialog while insurance is being removed -->
+    <string name="insurance_removing">여행자 보험 삭제 중…</string>
+    <!-- Label of link to insurance terms and conditions -->
+    <string name="insurance_terms">이용약관 및 보험 스폰서</string>
+    <!-- Title of insurance widget when trip is protected, e.g. Your trip is protected for $19/person -->
+    <string name="insurance_title_protected_TEMPLATE">&lt;b&gt;여행자 보험({price_type} ${price})이 적용됩니다.&lt;/b&gt;</string>
+    <!-- Title of insurance widget when trip is not protected, e.g. Add protection for $19/person -->
+    <string name="insurance_title_unprotected_TEMPLATE">&lt;b&gt;보험({price_type} ${price}) 추가&lt;/b&gt;</string>
+    <!-- Insurance price type qualifiers -->
+    <string name="insurance_price_per_day">1일 기준</string>
+    <string name="insurance_price_per_person">1인당</string>
+    <!-- Content description for rating bar e.g. Rated 3 out of 5-->
+    <string name="hotel_rating_bar_cont_desc_TEMPLATE">평점: {rating} (5점 만점)</string>
     <!--LX accessibility -->
     <!--LX search accessibility -->
     <string name="lx_location_edit_box_cont_desc">즐길거리 위치</string>
@@ -4256,24 +4332,28 @@
     <string name="toolbar_search_nav_icon_close_cont_desc">닫기</string>
     <string name="search_button_cont_desc">검색 버튼</string>
     <!-- Content description for LX Duration e.g. Duration 2d -->
-    <string name="search_result_duration_cont_desc_TEMPLATE">{duration}의 비행시간</string>
+    <string name="search_result_duration_cont_desc_TEMPLATE">소요 시간 {duration}</string>
     <!-- Content description for LX Multiple Duration e.g. Duration 2d + -->
-    <string name="search_result_multiple_duration_cont_desc_TEMPLATE">{duration} 이상의 비행시간</string>
+    <string name="search_result_multiple_duration_cont_desc_TEMPLATE">소요 시간 {duration} 이상</string>
 
+    <!--Packages accessibility content description for  traveler details complete-->
+    <string name="traveler_details_incomplete_cont_desc">여행객 정보 미완성</string>
+    <!--Packages accessibility content description for  traveler details complete-->
+    <string name="traveler_details_complete_cont_desc">여행객 정보 완성</string>
     <!--Packages accessibility content description for role Button-->
     <string name="accessibility_cont_desc_role_button">버튼</string>
     <!--Packages accessibility content description for role - Button to expand -->
-    <string name="accessibility_cont_desc_role_button_expand">확장 버튼</string>
+    <string name="accessibility_cont_desc_role_button_expand">확장하려면 버튼을 탭하세요</string>
     <!--Packages accessibility content description for role - Button to collapse -->
-    <string name="accessibility_cont_desc_role_button_collapse">줄임 버튼</string>
+    <string name="accessibility_cont_desc_role_button_collapse">축소하려면 버튼을 탭하세요</string>
 
     <!-- LX SRP activity price content description when no discount e.g. Price is $30 -->
-    <string name="activity_price_without_discount_cont_desc_TEMPLATE">요금은 {activity_price}입니다</string>
+    <string name="activity_price_without_discount_cont_desc_TEMPLATE">요금은 {activity_price}입니다.</string>
 
     <!-- LX SRP activity price content description when price is discounted e.g. Price is $180. Price before discount was $230 -->
     <string name="activity_price_with_discount_cont_desc_TEMPLATE">요금은 {activity_price}입니다. 할인 전 요금은 {activity_original_price}입니다.</string>
     <!-- Content description for Checkbox types, state Checked -->
     <string name="accessibility_cont_desc_role_checkbox_checked">확인란. 체크됨.</string>
     <!-- Content description for Checkbox types, state Unchecked -->
-    <string name="accessibility_cont_desc_role_checkbox_unchecked">확인란. 체크안 됨.</string>
+    <string name="accessibility_cont_desc_role_checkbox_unchecked">확인란. 체크 안 됨.</string>
 </resources>

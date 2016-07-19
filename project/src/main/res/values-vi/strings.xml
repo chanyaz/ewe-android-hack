@@ -144,7 +144,7 @@
     <!-- Label for showing users that drop-off location has to be same as pick-up location -->
     <string name="drop_off_same_as_pick_up">Sắp ra mắt! Chúng tôi đang nỗ lực hết sức để thêm tính năng đặt thuê xe một chiều trong phiên bản sắp ra mắt.</string>
     <!-- Car search error -->
-    <string name="error_no_result_message">Không tìm được kết quả. Vui lòng thử tìm lại với dữ liệu khác.</string>
+    <string name="error_car_search_message">Không tìm được kết quả. Vui lòng thử tìm lại với dữ liệu khác.</string>
     <!-- Car no filtered search results -->
     <string name="filter_no_car_search_results_message">Không tìm được kết quả. Vui lòng giảm số bộ lọc.</string>
     <!-- Transmission options filter label for a car rental -->
@@ -240,6 +240,10 @@
     <string name="stored_card_TEMPLATE">{cardtype} đã lưu</string>
     <!-- Select card from checkout saved cards list -->
     <string name="saved_cards">Thẻ đã lưu</string>
+    <!-- text that goes underneath the camera button for card_io -->
+    <string name="card_io_btn_text">Quét</string>
+    <!-- Card.io scan text -->
+    <string name="scan_card_text">Quét thẻ</string>
 
     <!-- Car error strings -->
     <!-- Message for user that pick-up time is too early.  -->
@@ -332,7 +336,7 @@
     <!-- Template for ticket selection summary -->
     <string name="offer_book_now_TEMPLATE">Đặt ngay %1$s</string>
     <!-- Template for multiple duration text on Search results Eg: 2d+ -->
-    <string name="search_result_multiple_duration_TEMPLATE">%1$s trở lên</string>
+    <string name="search_result_multiple_duration_TEMPLATE">{duration}+</string>
     <!-- Cancellation policy template -->
     <string name="lx_cancellation_policy_TEMPLATE">Có thể hủy miễn phí đến {hours} giờ trước giờ bắt đầu hoạt động đã đặt. Sau thời điểm đó, không được hủy, thay đổi hay hoàn tiền.</string>
     <!-- Cancellation policy text for non-cancellable activities -->
@@ -1670,6 +1674,11 @@
     <!-- Card fee warning text on checkout overview.
         Example: The airline charges a processing fee of $3.00 for using this card (cost included in the trip total). -->
     <string name="flights_card_fee_warning_TEMPLATE">Hãng hàng không thu phí xử lý {card_fee} khi sử dụng thẻ này (bao gồm trong tổng giá chuyến đi).</string>
+    <!-- An airline fee is added upon payment message
+        Example: An airline fee, based on card type, is added upon payment. Such fee is added to the total upon payment -->
+    <string name="flights_fee_added_based_on_payment_TEMPLATE">Sẽ thu bổ sung &lt;a href=\"{airline_fee_url}\"&gt;phí hãng hàng không&lt;/a&gt;, tùy loại thẻ, khi thanh toán. Loại phí này sẽ được tính vào tổng giá khi thanh toán.</string>
+    <!-- Flights debit cards not accepted messaging -->
+    <string name="flights_debit_cards_not_accepted">Không nhận thanh toán bằng thẻ ghi nợ.</string>
 
     <!-- Flights -->
     <!-- Label for Flight Search in task manager -->
@@ -2301,6 +2310,8 @@
     <string name="edit_guest_details">Chỉnh sửa thông tin khách</string>
     <!-- Edit current traveler details -->
     <string name="edit_current_traveler">Nhập thông tin khách</string>
+    <!-- Generic error when user is editing traveler details, eg: a user leaves a required field empty -->
+    <string name="accessibility_cont_desc_role_error">Lỗi</string>
     <!-- prefers seat template -->
     <string name="prefers_seat_TEMPLATE">Chỗ ngồi ưa thích %1$s</string>
     <!-- prefers seat template -->
@@ -2441,6 +2452,8 @@
     <string name="fare_information">THÔNG TIN GIÁ VÉ</string>
     <!-- Airline Fee -->
     <string name="Airline_fee">Phí hãng hàng không</string>
+    <!-- Accessibility announcement when filter are cleared-->
+    <string name="filters_cleared">Đã xóa bộ lọc</string>
     <!-- split ticket rules header -->
     <string name="split_ticket_important_flight_information_header">Thông tin quan trọng về chuyến bay</string>
     <!-- split ticket rules and restrictions -->
@@ -3796,19 +3809,29 @@
     <string name="cars_passenger_count_cont_desc_TEMPLATE">{passengercount} khách</string>
     <!-- Content description for car result bags count e.g. Bags 2-4 -->
     <string name="cars_bags_count_cont_desc_TEMPLATE">{bagscount} hành lý</string>
-
+    <!-- Content description for hotel star rating e.g. 3 stars -->
+    <plurals name="hotel_star_rating_cont_desc_TEMPLATE">
+        <item quantity="one">{rating} sao</item>
+        <item quantity="other">{rating} sao</item>
+    </plurals>
     <!-- Content descriptions for Cars filter transmission buttons -->
-    <string name="cars_filter_transmission_manual_button_selected_cont_desc">Số tay (số sàn)</string>
-    <string name="cars_filter_transmission_automatic_button_selected_cont_desc">Số tự động</string>
-    <string name="cars_filter_transmission_all_button_selected_cont_desc">Tất cả loại số</string>
-    <string name="cars_filter_transmission_manual_button_unselected_cont_desc">Số tay (số sàn). Không chọn</string>
-    <string name="cars_filter_transmission_automatic_button_unselected_cont_desc">Số tự động. Không chọn</string>
-    <string name="cars_filter_transmission_all_button_unselected_cont_desc">Tất cả loại số. Không chọn</string>
+    <string name="cars_filter_transmission_manual_button_cont_desc">Số tay (số sàn)</string>
+    <string name="cars_filter_transmission_automatic_button_cont_desc">Số tự động</string>
+    <string name="cars_filter_transmission_all_button_cont_desc">Tất cả loại số</string>
 
     <!-- Content description for car offer reserve button e.g. Dollar, Chevrolet Spark or Similar, Reserve button-->
     <string name="cars_offer_reserve_button_cont_desc_TEMPLATE">{vendor}, {make}, nút đặt</string>
     <!-- Content description for car offer view details button e.g. Dollar, Chevrolet Spark or Similar, View details button-->
     <string name="cars_offer_view_details_button_cont_desc_TEMPLATE">{vendor}, {make}, nút xem chi tiết</string>
+
+    <!-- Car confirmation directions content description e.g. Directions to Fox button-->
+    <string name="car_confirmation_directions_cont_desc_TEMPLATE">Nút tải hướng dẫn đường đến {vendor}</string>
+    <!-- Car confirmation add to calendar content description-->
+    <string name="car_confirmation_add_to_calendar_cont_desc">Nút thêm vào lịch</string>
+    <!-- Successful checkout hotel cross sell content description e.g. Hotels in Seattle button-->
+    <string name="successful_checkout_cross_sell_hotel_cont_desc_TEMPLATE">Nút khách sạn tại {location}</string>
+    <!-- Successful checkout flight cross sell content description e.g. Flights to Seattle button-->
+    <string name="successful_checkout_cross_sell_flight_cont_desc_TEMPLATE">Nút chuyến bay tại {location}</string>
 
     <!-- Tablet Confirmation Screen -->
     <!-- Header text to indicating booking confirmed for hotel -->
@@ -3908,6 +3931,14 @@
     <!-- Accessibility - Content Description for toolbar back button when entering destination/arrival -->
     <string name="package_toolbar_back_to_search_cont_desc">Trở lại màn hình tìm kiếm</string>
     <string name="package_toolbar_title">Khách sạn + Chuyến bay</string>
+    <!-- Accessibility - Content Description for Expiration date: increase month -->
+    <string name="increase_month_cont_desc">Tăng tháng</string>
+    <!-- Accessibility - Content Description for Expiration date: decrease month -->
+    <string name="decrease_month_cont_desc">Giảm tháng</string>
+    <!-- Accessibility - Content Description for Expiration date: increase year -->
+    <string name="increase_year_cont_desc">Tăng năm</string>
+    <!-- Accessibility - Content Description for Expiration date: decrease year -->
+    <string name="decrease_year_cont_desc">Giảm năm</string>
     <!-- Label for per person -->
     <string name="per_person">/1 người</string>
     <!-- Label for package bundle price on overview-->
@@ -3947,6 +3978,8 @@
     <string name="select_hotel_searching_cont_desc_TEMPLATE">Đang tìm khách sạn tại {destination} từ {startdate} đến {enddate}, cho {guests}. Vui lòng đợi</string>
     <!-- Bundle Overview selected hotel accessibility content description Eg. You have selected hotel Orion from Jun 23 to June 24, for 1 guest. Button to expand hotel details. -->
     <string name="select_hotel_selected_cont_desc_TEMPLATE">Quý vị đã chọn khách sạn {hotel} từ {startdate} đến {enddate}, cho {guests}. {expandstate} chi tiết khách sạn.</string>
+    <!-- Bundle Overview selected flight accessibility content description Eg. Flight to (DTW) Detroit. Jul 10 at 9:00 am, 1 Traveler. Button to expand flight details. -->
+    <string name="select_flight_selected_cont_desc_TEMPLATE">{flighttext}. {travelerinfotext}. {expandstate} chi tiết chuyến bay.</string>
     <!-- Bundle Overview select hotel -->
     <string name="select_hotel_template">Chọn khách sạn tại %s</string>
     <!-- Bundle Overview searching flight -->
@@ -4011,6 +4044,9 @@
 
     <!-- Text indicating that the user can drag this button to view their trip -->
     <string name="trip_overview">Xem thông tin chuyến đi</string>
+    <!-- Content description to View Trip Details view -->
+    <string name="trip_overview_cont_desc">Nút hiển thị chi tiết chuyến đi</string>
+
     <!-- Slide to book -->
     <string name="package_slider_text">Trượt để đặt</string>
     <string name="hotel_city_country_TEMPLATE">{city}, {country}</string>
@@ -4111,12 +4147,30 @@
     <!-- New Hotel Search screen -->
     <string name="enter_destination_hint">Nhập điểm đến</string>
 
-    <!-- Package breakdown dialog -->
-    <string name="package_breakdown_hotel_flight_summary">Khách sạn + Chuyến bay</string>
-    <string name="package_breakdown_taxes_fees">Thuế &amp; Phí</string>
-    <string name="package_breakdown_taxes_fees_included_TEMPLATE">Gồm thuế &amp; phí ({taxes})</string>
-    <string name="package_breakdown_total_savings">Tổng tiết kiệm</string>
-    <string name="package_breakdown_total_due_today">Tổng số tiền phải thanh toán hôm nay</string>
+    <!-- Cost summary breakdown line item for flight insurance -->
+    <string name="cost_summary_breakdown_flight_insurance">Bảo hiểm chuyến bay</string>
+    <!-- Cost summary breakdown line item for flights -->
+    <string name="cost_summary_breakdown_flight_summary">Chuyến bay</string>
+    <!-- Cost summary breakdown line item for a hotel + flight package -->
+    <string name="cost_summary_breakdown_hotel_flight_summary">Khách sạn + Chuyến bay</string>
+    <!-- Cost summary breakdown line item for taxes and fees that are charged separately -->
+    <string name="cost_summary_breakdown_taxes_fees">Thuế &amp; Phí</string>
+    <!-- Cost summary breakdown line item for taxes and fees that are included in the base price, e.g. Taxes &amp; Fees Included ($34.21) -->
+    <string name="cost_summary_breakdown_taxes_fees_included_TEMPLATE">Gồm thuế &amp; phí ({taxes})</string>
+    <!-- Cost summary breakdown line item for savings -->
+    <string name="cost_summary_breakdown_total_savings">Tổng tiết kiệm</string>
+    <!-- Cost summary breakdown line item for total -->
+    <string name="cost_summary_breakdown_total_due_today">Tổng số tiền phải thanh toán hôm nay</string>
+
+    <!-- Material FLight breakdown dialog -->
+    <!-- Add adult traveler number template for example: Adult 2 details -->
+    <string name="flight_add_adult_number_TEMPLATE">Chi tiết người lớn {number}</string>
+    <!-- Add child traveler number template for example: Child 4 details -->
+    <string name="flight_add_child_number_TEMPLATE">Chi tiết trẻ {number}</string>
+    <!-- Add infant in lap traveler number template for example: Infant in lap 1 details -->
+    <string name="flight_add_infant_in_lap_number_TEMPLATE">Chi tiết trẻ sơ sinh ngồi trong lòng {number}</string>
+    <!-- Add infant in seat traveler number template for example: Infant in seat 6 details -->
+    <string name="flight_add_infant_in_seat_number_TEMPLATE">Chi tiết trẻ sơ sinh có chỗ ngồi riêng {number}</string>
 
     <!-- Shop with points -->
     <string name="loyalty_applied_excluding_taxes_and_fees_message">Đã áp dụng Điểm Expedia+! (không gồm thuế và phí)</string>
@@ -4176,13 +4230,12 @@
     <string name="reward_top_tier_name_short">+gold</string>
 
     <!--Packages search accessibility -->
-    <!-- Flight Detail card view content description for accessibility.
-    Eg. Flight time is 9:00 am - 11:12 am with price difference of +$0. Flying with United. The flight duration is 5 hours 12 minutes with 0 stops. -->
-    <string name="flight_detail_card_cont_desc_TEMPLATE">Giờ chuyến bay: {time}, với chênh lệch giá {pricedifference}. Bay với {airline}. Thời lượng chuyến bay là {hours} {minutes} với {stops} điểm dừng.</string>
-    <!--Flight Detail card view - flight duration content description for accessibility Eg. SFO to DTM. 3 hours 15 minutes.-->
-    <string name="flight_detail_flight_duration_card_cont_desc_TEMPLATE">{departureairport} đến {arrivalairport}. {durationhours} {durationmins}.</string>
-    <!--Flight Detail card view - layover duration content description for accessibility Eg. Layover. 2 hours 4 minutes.-->
-    <string name="flight_detail_layover_duration_card_cont_desc_TEMPLATE">Tạm dừng. {layoverhours} {layovermins}.</string>
+    <!-- Flight Detail card view content description for accessibility. Eg. Flight time is 9:00 am - 11:12 am with price difference of +$0. Flying with United. The flight duration is 5 hours 12 minutes with 0 stops. -->
+    <string name="flight_detail_card_cont_desc_TEMPLATE">Giờ chuyến bay: {time}, với chênh lệch giá {pricedifference}. Bay với {airline}. Thời gian chuyến bay là {hours} {minutes} với {stops} điểm dừng\u0020</string>
+    <!--Flight Detail card view - flight duration content description for accessibility Eg. SFO to DTM. 3 hours 15 minutes. -->
+    <string name="flight_detail_flight_duration_card_cont_desc_TEMPLATE">{departureairport} đến {arrivalairport}. {durationhours} {durationmins} \u0020</string>
+    <!--Flight Detail card view - layover duration content description for accessibility Eg. Layover. 2 hours 4 minutes. -->
+    <string name="flight_detail_layover_duration_card_cont_desc_TEMPLATE">Tạm dừng {layoverhours} {layovermins} \u0020</string>
     <!--Flying to card content description Eg. Flying to. Button. San Francisco, CA (SFO-San Francisco Intl.)-->
     <string name="search_flying_to_destination_cont_desc_TEMPLATE">Bay đến. Nút. {to_destination}</string>
     <!--Flying from card content description Eg. Flying from. Button. Detroit, MI (DTW-Detroit Metropolitan Wayne County)-->
@@ -4236,6 +4289,29 @@
         Example #2: 2 available Hawaiian Airlines flights. -->
     <string name="packages_flight_filter_checkbox_cont_desc_TEMPLATE">Có {filter_results} chuyến bay {filter_name}.</string>
 
+    <!-- Status displayed in a modal dialog while insurance is being added -->
+    <string name="insurance_adding">Thêm bảo hiểm chuyến đi…</string>
+    <!-- Error message displayed when insurance fails to be added to a trip -->
+    <string name="insurance_add_error">Rất tiếc, không thêm được bảo hiểm chuyến đi. Vui lòng thử lại hoặc bỏ qua bảo hiểm.</string>
+    <!-- Benefits of purchasing insurance -->
+    <string name="insurance_benefits">1. Vé không hoàn tiền nhưng quý vị lại bệnh nặng và không thể thực hiện chuyến đi.&lt;br/&gt;&lt;br/&gt;2. Quý vị bị thương tật và không thể thực hiện chuyến bay về.&lt;br/&gt;&lt;br/&gt;3. Người đồng hành gặp vấn đề y khoa khẩn cấp và không thể thực hiện chuyến đi.</string>
+    <!-- Insurance call to action; links to list of benefits -->
+    <string name="insurance_description">3 lý do quý vị có thể cần bảo hiểm chuyến đi</string>
+    <!-- Error message displayed when insurance fails to be removed from a trip -->
+    <string name="insurance_remove_error">Rất tiếc, không xóa được bảo hiểm chuyến đi. Vui lòng thử lại.</string>
+    <!-- Status displayed in a modal dialog while insurance is being removed -->
+    <string name="insurance_removing">Đang xóa bảo hiểm chuyến đi…</string>
+    <!-- Label of link to insurance terms and conditions -->
+    <string name="insurance_terms">Điều khoản, điều kiện và phạm vi bảo hiểm</string>
+    <!-- Title of insurance widget when trip is protected, e.g. Your trip is protected for $19/person -->
+    <string name="insurance_title_protected_TEMPLATE">&lt;b&gt;Bảo hiểm chuyến đi với ${price}&lt;/b&gt;{price_type}</string>
+    <!-- Title of insurance widget when trip is not protected, e.g. Add protection for $19/person -->
+    <string name="insurance_title_unprotected_TEMPLATE">&lt;b&gt;Thêm bảo hiểm với ${price}&lt;/b&gt;{price_type}</string>
+    <!-- Insurance price type qualifiers -->
+    <string name="insurance_price_per_day">/ngày</string>
+    <string name="insurance_price_per_person">/người</string>
+    <!-- Content description for rating bar e.g. Rated 3 out of 5-->
+    <string name="hotel_rating_bar_cont_desc_TEMPLATE">Điểm đánh giá {rating}/5</string>
     <!--LX accessibility -->
     <!--LX search accessibility -->
     <string name="lx_location_edit_box_cont_desc">Địa điểm hoạt động</string>
@@ -4260,6 +4336,10 @@
     <!-- Content description for LX Multiple Duration e.g. Duration 2d + -->
     <string name="search_result_multiple_duration_cont_desc_TEMPLATE">Thời gian {duration} cộng</string>
 
+    <!--Packages accessibility content description for  traveler details complete-->
+    <string name="traveler_details_incomplete_cont_desc">Thông tin khách chưa hoàn tất</string>
+    <!--Packages accessibility content description for  traveler details complete-->
+    <string name="traveler_details_complete_cont_desc">Thông tin khách hoàn tất</string>
     <!--Packages accessibility content description for role Button-->
     <string name="accessibility_cont_desc_role_button">Nút</string>
     <!--Packages accessibility content description for role - Button to expand -->
