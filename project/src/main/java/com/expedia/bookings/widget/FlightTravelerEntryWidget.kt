@@ -14,6 +14,7 @@ import com.expedia.bookings.data.Traveler
 import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.section.CountrySpinnerAdapter
 import com.expedia.bookings.utils.AnimUtils
+import com.expedia.bookings.utils.TravelerUtils
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.animation.ResizeHeightAnimator
 import com.expedia.bookings.widget.traveler.NameEntryView
@@ -83,6 +84,10 @@ class FlightTravelerEntryWidget(context: Context, attrs: AttributeSet?) : FrameL
             selectPassport(countryCode)
         }
         vm.showPassportCountryObservable.subscribeVisibility(passportCountrySpinner)
+        vm.showPhoneNumberObservable.subscribeVisibility(phoneEntryView)
+        vm.showPhoneNumberObservable.subscribe { show ->
+            nameEntryView.lastName.nextFocusForwardId = if (show) R.id.edit_phone_number else R.id.first_name_input
+        }
     }
 
     var compositeSubscription: CompositeSubscription? = null
@@ -181,7 +186,7 @@ class FlightTravelerEntryWidget(context: Context, attrs: AttributeSet?) : FrameL
     fun isCompletelyFilled(): Boolean {
         return nameEntryView.firstName.text.isNotEmpty() &&
                 nameEntryView.lastName.text.isNotEmpty() &&
-                phoneEntryView.phoneNumber.text.isNotEmpty()
+                (!TravelerUtils.isMainTraveler(viewModel.travelerIndex) || phoneEntryView.phoneNumber.text.isNotEmpty())
     }
 
     fun resetStoredTravelerSelection() {

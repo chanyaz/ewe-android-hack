@@ -162,6 +162,10 @@ public class TravelerUtils {
 			}
 		}
 	}
+
+	public static Boolean isMainTraveler(int index) {
+		return index == 0;
+	}
 }
 
 

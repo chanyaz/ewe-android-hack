@@ -16,6 +16,8 @@ import kotlin.test.assertTrue
 
 @RunWith(RobolectricRunner::class)
 class TravelerValidatorTest {
+    val mainTravelerIndex = 0
+    val addTravelerIndex = 1
     val validFirstName = "Oscar"
     val validMiddleName = "T"
     val validLastName = "Grouch"
@@ -167,7 +169,7 @@ class TravelerValidatorTest {
         Mockito.`when`(mockTraveler.name).thenReturn(TravelerName())
 
         travelerValidator.updateForNewSearch(packageSearchParams)
-        assertFalse(travelerValidator.isValidForPackageBooking(mockTraveler))
+        assertFalse(travelerValidator.isValidForPackageBooking(mockTraveler, mainTravelerIndex))
     }
 
     @Test
@@ -179,7 +181,7 @@ class TravelerValidatorTest {
         Mockito.`when`(mockTraveler.name).thenReturn(getValidName())
 
         travelerValidator.updateForNewSearch(packageSearchParams)
-        assertFalse(travelerValidator.isValidForPackageBooking(mockTraveler))
+        assertFalse(travelerValidator.isValidForPackageBooking(mockTraveler, mainTravelerIndex))
     }
 
     @Test
@@ -191,20 +193,33 @@ class TravelerValidatorTest {
         val mockTraveler = getMockAdultTravelerWithBirthDate(adultBirthDate)
         Mockito.`when`(mockTraveler.name).thenReturn(getValidName())
 
-        assertFalse(travelerValidator.isValidForPackageBooking(mockTraveler))
+        assertFalse(travelerValidator.isValidForPackageBooking(mockTraveler, mainTravelerIndex))
     }
 
     @Test
-    fun testValidForPackageBooking() {
+    fun testValidMainForPackageBooking() {
         val packageSearchParams = getInstanceOfPackageSearchParams(LocalDate.now(), TOMORROW)
         travelerValidator.updateForNewSearch(packageSearchParams)
 
         val adultBirthDate = TOMORROW.minusYears(24)
         val mockTraveler = getMockAdultTravelerWithBirthDate(adultBirthDate)
         Mockito.`when`(mockTraveler.name).thenReturn(getValidName())
-        Mockito.`when`(mockTraveler.phoneNumber).thenReturn(TEST_NUMBER)
+        assertFalse(travelerValidator.isValidForPackageBooking(mockTraveler, mainTravelerIndex))
 
-        assertTrue(travelerValidator.isValidForPackageBooking(mockTraveler))
+        Mockito.`when`(mockTraveler.phoneNumber).thenReturn(TEST_NUMBER)
+        assertTrue(travelerValidator.isValidForPackageBooking(mockTraveler, mainTravelerIndex))
+    }
+
+    @Test
+    fun testValidAddForPackageBooking() {
+        val packageSearchParams = getInstanceOfPackageSearchParams(LocalDate.now(), TOMORROW)
+        travelerValidator.updateForNewSearch(packageSearchParams)
+
+        val adultBirthDate = TOMORROW.minusYears(24)
+        val mockTraveler = getMockAdultTravelerWithBirthDate(adultBirthDate)
+        Mockito.`when`(mockTraveler.name).thenReturn(getValidName())
+
+        assertTrue(travelerValidator.isValidForPackageBooking(mockTraveler, addTravelerIndex))
     }
 
     @Test

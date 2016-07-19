@@ -61,8 +61,7 @@ public class MultipleTravelerPresenterTest extends BaseTravelerPresenterTestHelp
 		EspressoUtils.assertViewIsDisplayed(R.id.traveler_select_state);
 		EspressoUser.clickOnText(expectedTravelerOneText);
 		Espresso.closeSoftKeyboard();
-		EspressoUser.clickOnView(R.id.edit_phone_number);
-		enterValidTraveler();
+		enterValidTraveler(true);
 		onView(allOf(withText(testName.getFullName()), isDescendantOfA(withId(R.id.traveler_select_state)))).check(matches(isDisplayed()));
 		onView(allOf(withText(testName.getFullName()), isDescendantOfA(withId(R.id.traveler_select_state)))).perform(click());
 
@@ -71,16 +70,16 @@ public class MultipleTravelerPresenterTest extends BaseTravelerPresenterTestHelp
 
 	@Test
 	public void testAllTravelersValidEntryToDefault() {
-		mockViewModel = getMockViewModelValidTravelers(2);
+		mockViewModel = getMockViewModelEmptyTravelers(2);
 		testTravelerPresenter.setViewModel(mockViewModel);
 
 		EspressoUser.clickOnView(R.id.traveler_default_state);
 
 		EspressoUtils.assertViewIsDisplayed(R.id.traveler_select_state);
 		EspressoUser.clickOnText(expectedTravelerOneText);
-		Espresso.closeSoftKeyboard();
-		EspressoUser.clickOnView(R.id.edit_phone_number);
-		PackageScreen.clickTravelerDone();
+		enterValidTraveler(true);
+		EspressoUser.clickOnText(expectedTravelerTwoText);
+		enterValidTraveler(false);
 
 		EspressoUtils.assertViewIsDisplayed(R.id.traveler_default_state);
 		EspressoUtils.assertContainsImageDrawable(R.id.traveler_status_icon, R.drawable.validated);

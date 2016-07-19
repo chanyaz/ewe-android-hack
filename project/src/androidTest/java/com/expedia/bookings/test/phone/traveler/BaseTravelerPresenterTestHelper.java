@@ -136,14 +136,17 @@ public class BaseTravelerPresenterTestHelper {
 		});
 	}
 
-	protected void enterValidTraveler() {
+	protected void enterValidTraveler(boolean withPhoneNumber) {
 		PackageScreen.enterFirstName(testFirstName);
 		PackageScreen.enterLastName(testLastName);
-		PackageScreen.enterPhoneNumber(testPhone);
+		if (withPhoneNumber) {
+			PackageScreen.enterPhoneNumber(testPhone);
+		}
 		Espresso.closeSoftKeyboard();
 		Common.delay(1);
 		PackageScreen.selectBirthDate(1991, 1, 27);
 		PackageScreen.clickTravelerDone();
+		Espresso.closeSoftKeyboard();
 	}
 
 	protected PackageSearchParams setPackageParams(int adults) {

@@ -46,8 +46,8 @@ open class CheckoutTravelerViewModel(context: Context) {
 
         if (travelerList.isEmpty()) return false
 
-        for (traveler in travelerList) {
-            if (!travelerValidator.isValidForPackageBooking(traveler)) {
+        travelerList.forEachIndexed { index, traveler ->
+            if (!travelerValidator.isValidForPackageBooking(traveler, index)) {
                 return false
             }
         }
