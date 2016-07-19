@@ -1,6 +1,7 @@
 package com.expedia.bookings.utils
 
 import android.content.Context
+import android.graphics.drawable.Drawable
 import android.support.v4.content.ContextCompat
 import android.util.Log
 import android.view.LayoutInflater
@@ -75,8 +76,15 @@ class HotelMapClusterRenderer(private val context: Context, private val map: Goo
         }
         clusterCountText.text = context.getString(R.string.cluster_number_of_hotels_template, cluster.items.size.toString())
         clusterRangeText.text = if (isSoldOutCluster) context.getString(R.string.sold_out) else context.getString(R.string.cluster_price_from_range_template, minFormattedPrice?.getFormattedMoney(Money.F_NO_DECIMAL))
-        factory.setBackground(ContextCompat.getDrawable(context, if (isSoldOutCluster) R.drawable.sold_out_pin else R.drawable.hotel_tooltip))
+        factory.setBackground(getClusterBackground(isSoldOutCluster))
         return BitmapDescriptorFactory.fromBitmap(factory.makeIcon())
     }
 
+    private fun getClusterBackground(isSoldOutCluster: Boolean) : Drawable {
+        if (isSoldOutCluster) {
+            return ContextCompat.getDrawable(context, R.drawable.sold_out_pin)
+        } else {
+            return ContextCompat.getDrawable(context, Ui.obtainThemeResID(context, R.attr.hotel_map_tooltip_drawable))
+        }
+    }
 }
