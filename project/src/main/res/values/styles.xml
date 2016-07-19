@@ -1232,11 +1232,6 @@
         <item name="cardElevation">1dp</item>
         <item name="cardBackgroundColor">@color/white</item>
     </style>
-
-    <style name="MaterialCardView.PackageSearch">
-        <item name="android:layout_marginLeft">@dimen/search_form_margin</item>
-        <item name="android:layout_marginRight">@dimen/search_form_margin</item>
-    </style>
     
     <style name="HotelPromoMessaging">
         <item name="android:textColor">@android:color/white</item>

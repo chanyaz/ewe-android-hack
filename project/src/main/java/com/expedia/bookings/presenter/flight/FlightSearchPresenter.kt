@@ -66,7 +66,7 @@ open class FlightSearchPresenter(context: Context, attrs: AttributeSet) : BaseTw
     }
 
     override fun inflate() {
-        View.inflate(context, R.layout.widget_package_search, this)
+        View.inflate(context, R.layout.widget_base_flight_search, this)
         toolBarTitle.text = context.resources.getText(R.string.flights_title)
     }
 

@@ -44,7 +44,7 @@
                 app:input_text="@string/select_dates" />
 
             <ViewStub android:id="@+id/traveller_stub"
-                android:layout="@layout/traveller_search_widget"
+                android:layout="@layout/traveler_search_widget"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 

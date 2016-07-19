@@ -506,6 +506,7 @@
     <color name="search_screen_icon_color_v2">@color/gray6</color>
     <color name="white_disabled">@color/white_30</color>
     <color name="search_dialog_background_v2">@color/white</color>
+    <color name="search_origin_dest_divider">@color/gray3</color>
     <color name="search_suggestion_background_v2">#FAFAFA</color>
     <color name="search_suggestion_v2">@color/gray6</color>
     <color name="search_suggestion_hint_v2">@color/gray6_65</color>
