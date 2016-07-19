@@ -43,7 +43,8 @@
         android:layout="@layout/flight_confirmation_stub" />
 
     <ViewStub
-        android:id="@+id/error_presenter"
+        android:id="@+id/error_presenter_stub"
+        android:inflatedId="@+id/error_presenter"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout="@layout/flight_error_stub" />

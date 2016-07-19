@@ -1,5 +1,6 @@
 package com.mobiata.mocke3
 
+import com.expedia.bookings.data.ApiError
 import okhttp3.mockwebserver.MockResponse
 import okhttp3.mockwebserver.RecordedRequest
 import java.util.Calendar
@@ -14,7 +15,11 @@ class FlightApiRequestDispatcher(fileOpener: FileOpener) : AbstractDispatcher(fi
         MAY_CHARGE_OB_FEES_ROUND_TRIP,
         CHECKOUT_PRICE_CHANGE,
         CREATETRIP_PRICE_CHANGE,
-        SEARCH_ERROR
+        SEARCH_ERROR,
+        CREATETRIP_UNKNOWN_ERROR,
+        CREATETRIP_FLIGHT_SOLD_OUT,
+        CREATETRIP_PRODUCT_NOT_FOUND,
+        CREATETRIP_SESSION_TIMEOUT
     }
 
     override fun dispatch(request: RecordedRequest): MockResponse {
@@ -48,6 +53,10 @@ class FlightApiMockResponseGenerator() {
             val mayChargeObFeesFlight = params["departureAirport"] == "AKL"
             val priceChangeCheckout = params["departureAirport"] == "PCC"
             val priceChangeCreateTrip = params["departureAirport"] == "PCT"
+            val unknownErrorCreateTrip = params["departureAirport"] == "UnknownErrorCT"
+            val flightSoldOutCreateTrip = params["departureAirport"] == "FlightSoldOutCT"
+            val flightProductNotFoundCreateTrip = params["departureAirport"] == "FlightProductNotFoundCT"
+            val flightSessionTimeoutCreateTrip = params["departureAirport"] == "SessionTimeoutCT"
             val isEarnResponse = params["departureAirport"] == "EARN"
             val isPassportNeeded = params["departureAirport"] == "PEN" && params["arrivalAirport"] == "KUL"
             val isReturnFlightSearch = params.containsKey("returnDate")
@@ -63,11 +72,23 @@ class FlightApiMockResponseGenerator() {
                     else if (priceChangeCheckout) {
                         FlightApiRequestDispatcher.SearchResponseType.CHECKOUT_PRICE_CHANGE
                     }
-                    else if(priceChangeCreateTrip) {
+                    else if (priceChangeCreateTrip) {
                         FlightApiRequestDispatcher.SearchResponseType.CREATETRIP_PRICE_CHANGE
                     }
                     else if (searchError) {
                         FlightApiRequestDispatcher.SearchResponseType.SEARCH_ERROR
+                    }
+                    else if (flightProductNotFoundCreateTrip) {
+                        FlightApiRequestDispatcher.SearchResponseType.CREATETRIP_PRODUCT_NOT_FOUND
+                    }
+                    else if (flightSoldOutCreateTrip) {
+                        FlightApiRequestDispatcher.SearchResponseType.CREATETRIP_FLIGHT_SOLD_OUT
+                    }
+                    else if (unknownErrorCreateTrip) {
+                        FlightApiRequestDispatcher.SearchResponseType.CREATETRIP_UNKNOWN_ERROR
+                    }
+                    else if (flightSessionTimeoutCreateTrip) {
+                        FlightApiRequestDispatcher.SearchResponseType.CREATETRIP_SESSION_TIMEOUT
                     }
                     else if (isReturnFlightSearch) {
                         FlightApiRequestDispatcher.SearchResponseType.HAPPY_ROUND_TRIP
@@ -110,6 +131,14 @@ class FlightApiMockResponseGenerator() {
                 FlightApiRequestDispatcher.SearchResponseType.CREATETRIP_PRICE_CHANGE -> "create_trip_price_change"
 
                 FlightApiRequestDispatcher.SearchResponseType.SEARCH_ERROR -> "search_error"
+
+                FlightApiRequestDispatcher.SearchResponseType.CREATETRIP_UNKNOWN_ERROR -> "create_trip_unknown_error"
+
+                FlightApiRequestDispatcher.SearchResponseType.CREATETRIP_FLIGHT_SOLD_OUT -> "create_trip_flight_sold_out"
+
+                FlightApiRequestDispatcher.SearchResponseType.CREATETRIP_PRODUCT_NOT_FOUND -> "create_trip_product_not_found"
+
+                FlightApiRequestDispatcher.SearchResponseType.CREATETRIP_SESSION_TIMEOUT -> "create_trip_session_timeout_error"
             }
 
             if (isEarnResponse) {
@@ -143,8 +172,25 @@ class FlightApiMockResponseGenerator() {
         }
 
         fun getCreateTripResponseFilePath(params: MutableMap<String, String>): String {
+            val productKey = params["productKey"]!!
+            val isErrorCode = isErrorCodeResponse(productKey)
             val withInsurance = if (params["withInsurance"] == "true") "_with_insurance_available" else ""
-            return "api/flight/trip/create/${params["productKey"]}$withInsurance.json"
+
+            if (isErrorCode) {
+                return "api/flight/trip/create/custom_error_create_trip.json"
+            }
+            else {
+                return "api/flight/trip/create/$productKey$withInsurance.json"
+            }
+        }
+
+        private fun isErrorCodeResponse(productKey: String): Boolean {
+            try {
+                ApiError.Code.valueOf(productKey)
+                return true
+            } catch (e: IllegalArgumentException) {
+                return false
+            }
         }
     }
 }

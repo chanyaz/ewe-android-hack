@@ -13,7 +13,7 @@ import org.junit.Rule;
 import org.junit.Test;
 
 import com.expedia.bookings.data.Money;
-import com.expedia.bookings.data.cars.ApiError;
+import com.expedia.bookings.data.ApiError;
 import com.expedia.bookings.data.lx.ActivityAvailabilities;
 import com.expedia.bookings.data.lx.ActivityDetailsResponse;
 import com.expedia.bookings.data.lx.AvailabilityInfo;

@@ -12,26 +12,25 @@ import android.view.animation.AccelerateDecelerateInterpolator
 import android.view.animation.DecelerateInterpolator
 import com.expedia.bookings.R
 import com.expedia.bookings.animation.TransitionElement
+import com.expedia.bookings.data.ApiError
 import com.expedia.bookings.data.BaseApiResponse
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.Money
-import com.expedia.bookings.data.cars.ApiError
 import com.expedia.bookings.data.packages.PackageCheckoutResponse
 import com.expedia.bookings.presenter.BaseOverviewPresenter
 import com.expedia.bookings.presenter.IntentPresenter
 import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.presenter.ScaleTransition
-import com.expedia.bookings.utils.TravelerManager
 import com.expedia.bookings.services.PackageServices
 import com.expedia.bookings.tracking.PackagesTracking
 import com.expedia.bookings.utils.Strings
+import com.expedia.bookings.utils.TravelerManager
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
 import com.expedia.vm.packages.BundleOverviewViewModel
 import com.expedia.vm.packages.PackageConfirmationViewModel
 import com.expedia.vm.packages.PackageErrorViewModel
 import com.expedia.vm.packages.PackageSearchViewModel
-import com.squareup.phrase.Phrase
 import rx.subjects.PublishSubject
 import java.math.BigDecimal
 import javax.inject.Inject
@@ -89,40 +88,40 @@ class PackagePresenter(context: Context, attrs: AttributeSet) : IntentPresenter(
             // Starting a new search clear previous selection
             Db.clearPackageSelection()
             travelerManager.updateDbTravelers(params, context)
-            errorPresenter.viewmodel.paramsSubject.onNext(params)
+            errorPresenter.getViewModel().paramsSubject.onNext(params)
             show(bundlePresenter)
             bundlePresenter.show(BaseOverviewPresenter.BundleDefault(), FLAG_CLEAR_BACKSTACK)
         }
         searchPresenter.searchViewModel.searchParamsObservable.subscribe(bundlePresenter.bundleWidget.viewModel.hotelParamsObservable)
         bundlePresenter.bundleWidget.viewModel.toolbarTitleObservable.subscribe(bundlePresenter.bundleOverviewHeader.toolbar.viewModel.toolbarTitle)
         bundlePresenter.bundleWidget.viewModel.toolbarSubtitleObservable.subscribe(bundlePresenter.bundleOverviewHeader.toolbar.viewModel.toolbarSubtitle)
-        bundlePresenter.bundleWidget.viewModel.errorObservable.subscribe(errorPresenter.viewmodel.searchApiErrorObserver)
+        bundlePresenter.bundleWidget.viewModel.errorObservable.subscribe(errorPresenter.getViewModel().packageSearchApiErrorObserver)
         bundlePresenter.bundleWidget.viewModel.errorObservable.subscribe { show(errorPresenter) }
-        errorPresenter.viewmodel.defaultErrorObservable.subscribe {
+        errorPresenter.getViewModel().defaultErrorObservable.subscribe {
             show(searchPresenter, FLAG_CLEAR_TOP)
         }
 
-        checkoutPresenter.getCreateTripViewModel().createTripErrorObservable.subscribe(errorPresenter.viewmodel.checkoutApiErrorObserver)
-        checkoutPresenter.getCheckoutViewModel().checkoutErrorObservable.subscribe(errorPresenter.viewmodel.checkoutApiErrorObserver)
+        checkoutPresenter.getCreateTripViewModel().createTripErrorObservable.subscribe(errorPresenter.getViewModel().checkoutApiErrorObserver)
+        checkoutPresenter.getCheckoutViewModel().checkoutErrorObservable.subscribe(errorPresenter.getViewModel().checkoutApiErrorObserver)
         checkoutPresenter.getCreateTripViewModel().createTripErrorObservable.subscribe { show(errorPresenter) }
         checkoutPresenter.getCheckoutViewModel().checkoutErrorObservable.subscribe { show(errorPresenter) }
 
-        hotelOffersErrorObservable.subscribe(errorPresenter.viewmodel.hotelOffersApiErrorObserver)
+        hotelOffersErrorObservable.subscribe(errorPresenter.getViewModel().hotelOffersApiErrorObserver)
         hotelOffersErrorObservable.subscribe { show(errorPresenter) }
 
-        errorPresenter.viewmodel.checkoutUnknownErrorObservable.subscribe {
+        errorPresenter.getViewModel().checkoutUnknownErrorObservable.subscribe {
             show(bundlePresenter, Presenter.FLAG_CLEAR_TOP)
             checkoutPresenter.slideToPurchase.resetSlider()
         }
 
-        errorPresenter.viewmodel.checkoutTravelerErrorObservable.subscribe {
+        errorPresenter.getViewModel().checkoutTravelerErrorObservable.subscribe {
             show(bundlePresenter, Presenter.FLAG_CLEAR_TOP)
             checkoutPresenter.slideToPurchase.resetSlider()
             checkoutPresenter.openTravelerPresenter()
             checkoutPresenter.show(checkoutPresenter, Presenter.FLAG_CLEAR_TOP)
         }
 
-        errorPresenter.viewmodel.checkoutCardErrorObservable.subscribe {
+        errorPresenter.getViewModel().checkoutCardErrorObservable.subscribe {
             show(bundlePresenter, Presenter.FLAG_CLEAR_TOP)
             checkoutPresenter.slideToPurchase.resetSlider()
             checkoutPresenter.clearCCNumber()

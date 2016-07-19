@@ -1,7 +1,7 @@
 package com.expedia.vm
 
 import com.expedia.bookings.data.TripResponse
-import com.expedia.bookings.data.cars.ApiError
+import com.expedia.bookings.data.ApiError
 import com.expedia.bookings.data.flights.FlightTripDetails
 import rx.subjects.BehaviorSubject
 import rx.subjects.PublishSubject

@@ -254,6 +254,10 @@ abstract class BaseFlightPresenter(context: Context, attrs: AttributeSet?) : Pre
         }
     }
 
+    fun showResults() {
+        defaultTransition.endTransition(true)
+    }
+
     override fun back(): Boolean {
         if (BaseFlightFilterWidget::class.java.name == currentState) {
             if (filter.viewModelBase.isFilteredToZeroResults()) {

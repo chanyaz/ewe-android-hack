@@ -1,7 +1,7 @@
 package com.expedia.bookings.test
 
 import com.expedia.bookings.data.Money
-import com.expedia.bookings.data.cars.ApiError
+import com.expedia.bookings.data.ApiError
 import com.expedia.bookings.data.hotels.HotelApplyCouponParameters
 import com.expedia.bookings.data.hotels.HotelCreateTripResponse
 import com.expedia.bookings.data.payment.PaymentModel
@@ -133,7 +133,7 @@ class HotelCouponTest {
 
     @Test
     fun removeCouponFailsWithRemoveError() {
-        checkCouponFailure("hotel_coupon_removal_remove_coupon_error",ApiError.Code.REMOVE_COUPON_ERROR)
+        checkCouponFailure("hotel_coupon_removal_remove_coupon_error", ApiError.Code.REMOVE_COUPON_ERROR)
     }
 
     @Test

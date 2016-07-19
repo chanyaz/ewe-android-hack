@@ -8,7 +8,7 @@ import com.expedia.bookings.data.BaseCheckoutParams
 import com.expedia.bookings.data.BillingInfo
 import com.expedia.bookings.data.Traveler
 import com.expedia.bookings.data.TripResponse
-import com.expedia.bookings.data.cars.ApiError
+import com.expedia.bookings.data.ApiError
 import com.expedia.bookings.data.packages.PackageCheckoutResponse
 import rx.subjects.BehaviorSubject
 import rx.subjects.PublishSubject

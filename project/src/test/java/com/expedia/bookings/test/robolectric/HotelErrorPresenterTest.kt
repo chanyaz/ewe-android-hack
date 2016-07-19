@@ -3,7 +3,7 @@ package com.expedia.bookings.test.robolectric
 import android.app.Activity
 import android.view.View
 import com.expedia.bookings.R
-import com.expedia.bookings.data.cars.ApiError
+import com.expedia.bookings.data.ApiError
 import com.expedia.bookings.presenter.hotel.HotelErrorPresenter
 import com.expedia.vm.HotelErrorViewModel
 import org.junit.Assert
@@ -20,8 +20,8 @@ class HotelErrorPresenterTest {
 
         val hotelErrorPresenter = HotelErrorPresenter(RuntimeEnvironment.application, null)
         hotelErrorPresenter.viewmodel = HotelErrorViewModel(RuntimeEnvironment.application)
-        hotelErrorPresenter.viewmodel.apiErrorObserver.onNext(ApiError(ApiError.Code.HOTEL_ROOM_UNAVAILABLE))
-        hotelErrorPresenter.viewmodel.actionObservable.onNext(Unit)
+        hotelErrorPresenter.getViewModel().apiErrorObserver.onNext(ApiError(ApiError.Code.HOTEL_ROOM_UNAVAILABLE))
+        hotelErrorPresenter.errorButton.performClick()
 
         Assert.assertEquals(View.VISIBLE, hotelErrorPresenter.errorButton.visibility)
         Assert.assertEquals(View.VISIBLE, hotelErrorPresenter.errorImage.visibility)

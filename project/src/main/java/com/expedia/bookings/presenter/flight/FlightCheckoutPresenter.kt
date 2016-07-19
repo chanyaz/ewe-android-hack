@@ -49,13 +49,11 @@ class FlightCheckoutPresenter(context: Context, attr: AttributeSet) : BaseChecko
         vm.insuranceAvailabilityObservable.subscribeVisibility(insuranceWidget)
 
         vm.tripParams.subscribe {
-            createTripDialog.show()
             userAccountRefresher.ensureAccountIsRefreshed()
         }
 
         vm.tripResponseObservable.subscribe { response -> response as FlightCreateTripResponse
             loginWidget.updateRewardsText(getLineOfBusiness())
-            createTripDialog.hide()
             insuranceWidget.viewModel.newTripObservable.onNext(response.newTrip)
             insuranceWidget.viewModel.productObservable.onNext(response.availableInsuranceProducts)
             totalPriceWidget.viewModel.total.onNext(response.tripTotalPayableIncludingFeeIfZeroPayableByPoints())

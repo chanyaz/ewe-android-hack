@@ -2,7 +2,7 @@ package com.expedia.vm
 
 import android.content.Context
 import android.location.Address
-import com.expedia.bookings.data.cars.ApiError
+import com.expedia.bookings.data.ApiError
 import com.expedia.bookings.data.hotels.HotelSearchParams
 import com.mobiata.android.BackgroundDownloader
 import com.mobiata.android.LocationServices

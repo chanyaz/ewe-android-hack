@@ -1679,6 +1679,28 @@
     <string name="flights_fee_added_based_on_payment_TEMPLATE">An &lt;a href=\"{airline_fee_url}\"&gt;airline fee&lt;/a&gt;, based on card type, is added upon payment. Such fee is added to the total upon payment.</string>
     <!-- Flights debit cards not accepted messaging -->
     <string name="flights_debit_cards_not_accepted">Debit cards are not accepted.</string>
+    <!-- Flights Sold out error screen: Select New Flight button label -->
+    <string name="flights_select_new_flight">Select new flight</string>
+    <!-- Flights Sold out error screen:- warning message -->
+    <string name="flight_sold_out_warning">We\'re sorry. This flight has sold out.</string>
+    <!-- Flights Sold out error screen:- toolbar title -->
+    <string name="flight_sold_out_toolbar_title">Sold Out</string>
+    <!-- Flight Unavailable error screen:- toolbar title -->
+    <string name="flight_unavailable_toolbar_title">Flight Unavailable</string>
+    <!-- Flight Unavailable error screen:- warning -->
+    <string name="flight_unavailable_warning">We\'re sorry. This flight is no longer available</string>
+    <!-- Flight Session expired error screen:- warning -->
+    <string name="flight_session_expired_warning">Still there? Your session has expired. Please try your search again.</string>
+    <!-- Flight Session expired error screen:- toolbar title -->
+    <string name="flight_session_expired_toolbar_title">Session Expired</string>
+    <!-- Flight Session expired error screen:- new search button label -->
+    <string name="flight_new_search">New Search</string>
+    <!-- Flights unknown error screen:- title -->
+    <string name="flight_generic_error_title">Error</string>
+    <!-- Flights unknown error screen:- warning -->
+    <string name="flight_error_try_again_warning">Whoops. Let\'s try that again.</string>
+    <!-- Flights unknown error screen:- retry button label -->
+    <string name="flight_error_retry">Retry</string>
 
     <!-- Flights -->
     <!-- Label for Flight Search in task manager -->
