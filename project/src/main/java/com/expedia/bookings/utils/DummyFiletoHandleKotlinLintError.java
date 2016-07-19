@@ -98,6 +98,7 @@ DummyFiletoHandleKotlinLintError {
 		R.layout.coupon_widget,
 		R.string.coupon_promo_title,
 		R.plurals.hotel_number_of_reviews,
+		R.string.new_credit_card,
 		R.layout.resort_fee_widget,
 		R.layout.hotel_loading_cell,
 		R.layout.hotel_review_row,

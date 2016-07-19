@@ -1060,7 +1060,7 @@
         <item name="android:gravity">center</item>
         <item name="android:textColor">@color/white</item>
         <item name="android:background">@color/flight_warning_bar_color</item>
-        <item name="textStyle">medium</item>
+        <item name="textStyle">normal</item>
     </style>
 
     <!-- Borderless button for "Enter Itinerary Number" in login screen -->

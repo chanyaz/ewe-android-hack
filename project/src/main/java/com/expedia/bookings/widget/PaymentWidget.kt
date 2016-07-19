@@ -478,16 +478,17 @@ open class PaymentWidget(context: Context, attr: AttributeSet) : Presenter(conte
         }
     }
 
+    private fun setToolbarTitleForPaymentDetailsView(showingPaymentForm: Boolean, otherTitle: String) {
+        val debitCardNotAccepted = viewmodel.showDebitCardsNotAcceptedSubject.value
+        val paymentFormTitle = resources.getString(if (debitCardNotAccepted) R.string.new_credit_card else R.string.new_credit_debit_card)
+        toolbarTitle.onNext(if (showingPaymentForm) paymentFormTitle else otherTitle)
+    }
+
     private val defaultToDetails = object : Presenter.Transition(PaymentDefault::class.java,
             PaymentDetails::class.java) {
         override fun endTransition(forward: Boolean) {
             menuVisibility.onNext(forward)
-            toolbarTitle.onNext(
-                    if (forward) {
-                        resources.getString(R.string.new_credit_debit_card)
-                    } else {
-                        getCheckoutToolbarTitle(resources, isSecureToolbarBucketed())
-                    })
+            setToolbarTitleForPaymentDetailsView(forward, getCheckoutToolbarTitle(resources, isSecureToolbarBucketed()))
             cardInfoContainer.visibility = if (forward) View.GONE else View.VISIBLE
             paymentOptionsContainer.visibility = View.GONE
             billingInfoContainer.visibility =if (forward) View.VISIBLE else View.GONE
@@ -502,7 +503,7 @@ open class PaymentWidget(context: Context, attr: AttributeSet) : Presenter(conte
             PaymentDetails::class.java) {
         override fun endTransition(forward: Boolean) {
             menuVisibility.onNext(forward)
-            toolbarTitle.onNext(resources.getString(if (forward) R.string.new_credit_debit_card else R.string.checkout_enter_payment_details))
+            setToolbarTitleForPaymentDetailsView(forward, resources.getString(R.string.checkout_enter_payment_details))
             cardInfoContainer.visibility = View.GONE
             paymentOptionsContainer.visibility = if (forward) View.GONE else View.VISIBLE
             billingInfoContainer.visibility = if (forward) View.VISIBLE else View.GONE

@@ -14,6 +14,7 @@ import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.BaseCheckoutPresenter
 import com.expedia.bookings.widget.TextView
 import com.expedia.util.subscribeTextAndVisibility
+import com.expedia.util.subscribeTextNotBlankVisibility
 import com.expedia.util.subscribeVisibility
 import com.expedia.vm.BaseCreateTripViewModel
 import com.expedia.vm.FlightCheckoutViewModel
@@ -28,6 +29,7 @@ class FlightCheckoutPresenter(context: Context, attr: AttributeSet) : BaseChecko
 
     init {
         getCheckoutViewModel().cardFeeTextSubject.subscribeTextAndVisibility(cardProcessingFeeTextView)
+        getCheckoutViewModel().cardFeeTextSubject.subscribeTextNotBlankVisibility(toolbarDropShadow)
         getCheckoutViewModel().cardFeeWarningTextSubject.subscribeTextAndVisibility(cardFeeWarningTextView)
         setupDontShowDebitCardVisibility()
 
@@ -122,7 +124,11 @@ class FlightCheckoutPresenter(context: Context, attr: AttributeSet) : BaseChecko
         Observable.combineLatest(getCheckoutViewModel().showDebitCardsNotAcceptedSubject,
                 showingPaymentWidgetSubject,
                 { showDebitCards, showingPaymentWidget ->
-                    debitCardsNotAcceptedTextView.visibility = if (showDebitCards && showingPaymentWidget) VISIBLE else GONE
+                    val visibility = if (showDebitCards && showingPaymentWidget) VISIBLE else GONE
+                    debitCardsNotAcceptedTextView.visibility = visibility
+                    if (visibility == VISIBLE) { // only show. hide handled in BaseCheckoutPresenter
+                        toolbarDropShadow.visibility = visibility
+                    }
                 }).subscribe()
     }
 }
