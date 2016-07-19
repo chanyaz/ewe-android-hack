@@ -3,7 +3,9 @@ package com.expedia.vm
 import android.content.Context
 import com.expedia.bookings.R
 import com.expedia.bookings.data.FlightFilter
+import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.flights.FlightLeg
+import com.expedia.bookings.tracking.FlightsV2Tracking
 import com.expedia.bookings.tracking.PackagesTracking
 import com.expedia.util.endlessObserver
 import org.joda.time.DateTime
@@ -16,7 +18,8 @@ import java.util.Collections
 import java.util.Comparator
 import java.util.TreeMap
 
-class BaseFlightFilterViewModel(private val context: Context) {
+class BaseFlightFilterViewModel(val context: Context, val lob: LineOfBusiness) {
+    val hourMinuteFormatter = DateTimeFormat.forPattern("hh:mma")
     val doneObservable = PublishSubject.create<Unit>()
     val doneButtonEnableObservable = PublishSubject.create<Boolean>()
     val clearObservable = PublishSubject.create<Unit>()
@@ -308,7 +311,7 @@ class BaseFlightFilterViewModel(private val context: Context) {
         if (userFilterChoices.stops.isEmpty() || !userFilterChoices.stops.contains(getStops(s))) {
             var stops: Stops = getStops(s)
             userFilterChoices.stops.add(stops)
-            PackagesTracking().trackFlightFilterStops(stops)
+            trackFlightFilterStops(stops)
         } else {
             userFilterChoices.stops.remove(getStops(s))
         }
@@ -322,7 +325,7 @@ class BaseFlightFilterViewModel(private val context: Context) {
             userFilterChoices.airlines.remove(s)
         }
         handleFiltering()
-        PackagesTracking().trackFlightFilterAirlines()
+        trackFlightFilterAirlines()
     }
 
     val airlinesMoreLessObservable: Observer<Unit> = endlessObserver {
@@ -332,5 +335,21 @@ class BaseFlightFilterViewModel(private val context: Context) {
 
     fun isFilteredToZeroResults(): Boolean {
         return userFilterChoices.filterCount() > 0 && filteredList.isEmpty()
+    }
+
+    fun trackFlightFilterStops(stops: Stops) {
+        if (lob == LineOfBusiness.PACKAGES) {
+            PackagesTracking().trackFlightFilterStops(stops)
+        } else if (lob == LineOfBusiness.FLIGHTS_V2) {
+            FlightsV2Tracking.trackFlightFilterStops(stops)
+        }
+    }
+
+    fun trackFlightFilterAirlines() {
+        if (lob == LineOfBusiness.PACKAGES) {
+            PackagesTracking().trackFlightFilterAirlines()
+        } else if (lob == LineOfBusiness.FLIGHTS_V2) {
+            FlightsV2Tracking.trackFlightFilterAirlines()
+        }
     }
 }

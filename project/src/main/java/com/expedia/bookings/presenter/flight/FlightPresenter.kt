@@ -226,9 +226,11 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
 
         }
         vm.inboundResultsObservable.subscribe {
+            inboundPresenter.trackFlightResultsLoad()
             show(inboundPresenter)
         }
         vm.outboundResultsObservable.subscribe {
+            outBoundPresenter.trackFlightResultsLoad()
             show(outBoundPresenter)
         }
     }

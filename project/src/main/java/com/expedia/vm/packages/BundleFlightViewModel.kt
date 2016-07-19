@@ -4,7 +4,7 @@ import android.content.Context
 import android.support.v4.content.ContextCompat
 import com.expedia.bookings.R
 import com.expedia.bookings.data.BaseSearchParams
-import com.expedia.bookings.data.SearchParams
+import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.utils.DateUtils
@@ -18,7 +18,7 @@ import rx.Observable
 import rx.subjects.BehaviorSubject
 import rx.subjects.PublishSubject
 
-class BundleFlightViewModel(val context: Context) {
+class BundleFlightViewModel(val context: Context, val lob: LineOfBusiness) {
     val showLoadingStateObservable = PublishSubject.create<Boolean>()
     val selectedFlightObservable = PublishSubject.create<PackageSearchType>()
     val searchTypeStateObservable = BehaviorSubject.create<PackageSearchType>()
