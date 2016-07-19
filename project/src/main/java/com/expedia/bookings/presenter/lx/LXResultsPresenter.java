@@ -34,6 +34,7 @@ import com.expedia.bookings.presenter.Presenter;
 import com.expedia.bookings.services.LxServices;
 import com.expedia.bookings.tracking.AdTracker;
 import com.expedia.bookings.tracking.OmnitureTracking;
+import com.expedia.bookings.utils.AccessibilityUtil;
 import com.expedia.bookings.utils.ArrowXDrawableUtil;
 import com.expedia.bookings.utils.LXDataUtils;
 import com.expedia.bookings.utils.LXNavUtils;
@@ -181,6 +182,11 @@ public class LXResultsPresenter extends Presenter {
 
 	Transition themeResultsToActivityResults = new LeftToRightTransition(this, LXThemeResultsWidget.class,
 		LXSearchResultsWidget.class) {
+		@Override
+		public void endTransition(boolean forward) {
+			super.endTransition(forward);
+			AccessibilityUtil.setFocusToToolbarNavigationIcon(toolbar);
+		}
 	};
 
 	@Override
