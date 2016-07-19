@@ -552,7 +552,7 @@ DummyFiletoHandleKotlinLintError {
 		R.layout.feeds_popular_hotels_tonight_card,
 		R.drawable.plus_pattern,
 		R.drawable.scratchpad_intro_placeholder,
-		R.layout.widget_package_search,
+		R.layout.widget_base_flight_search,
 		R.string.hotel_free_cancellation_TEMPLATE,
 		R.string.passport_country_colon,
 		R.array.hoursList,

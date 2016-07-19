@@ -87,7 +87,7 @@ class PackageSearchPresenter(context: Context, attrs: AttributeSet) : BaseTwoLoc
     }
 
     override fun inflate() {
-        View.inflate(context, R.layout.widget_package_search, this)
+        View.inflate(context, R.layout.widget_base_flight_search, this)
     }
 
     override fun getSuggestionHistoryFileName(): String {
