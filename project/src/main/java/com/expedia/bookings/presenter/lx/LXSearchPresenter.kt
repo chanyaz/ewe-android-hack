@@ -27,6 +27,13 @@ class LXSearchPresenter(context: Context, attrs: AttributeSet) : BaseSearchPrese
         calendarWidgetV2.viewModel = vm
         vm.searchButtonObservable.subscribe { enable ->
             searchButton.setTextColor(if (enable) ContextCompat.getColor(context, R.color.hotel_filter_spinner_dropdown_color) else ContextCompat.getColor(context, R.color.white_disabled))
+            if (enable) {
+                searchButton.contentDescription = Phrase.from(context, R.string.search)
+                        .format().toString()
+            } else {
+                searchButton.contentDescription = Phrase.from(context, R.string.search_button_disable_content_desc)
+                        .format().toString()
+            }
         }
 
         vm.locationTextObservable.subscribe { locationText ->
