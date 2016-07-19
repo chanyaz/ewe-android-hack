@@ -53,8 +53,10 @@ open class FlightServices(endpoint: String, okHttpClient: OkHttpClient, intercep
                         leg.flightSegments = leg.segments
                         val departure = leg.flightSegments.first()
                         val arrival = leg.flightSegments.last()
-                        val arrivalTime = DateUtils.dateyyyyMMddHHmmSSSZToDateTime(arrival.arrivalTimeRaw)
-                        val departureTime = DateUtils.dateyyyyMMddHHmmSSSZToDateTime(departure.departureTimeRaw)
+
+                        val arrivalTime = DateUtils.dateyyyyMMddHHmmSSSZToDateTimeWithTimeZone(arrival.arrivalTimeRaw)
+                        val departureTime = DateUtils.dateyyyyMMddHHmmSSSZToDateTimeWithTimeZone(departure.departureTimeRaw)
+
                         leg.elapsedDays = Days.daysBetween(departureTime.toLocalDate(), arrivalTime.toLocalDate()).days
                         leg.departureDateTimeISO = departure.departureTimeRaw
                         leg.arrivalDateTimeISO = arrival.arrivalTimeRaw
