@@ -46,6 +46,8 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
         val viewStub = findViewById(R.id.error_presenter_stub) as ViewStub
         val presenter = viewStub.inflate() as FlightErrorPresenter
         presenter.viewmodel = FlightErrorViewModel(context)
+        presenter.getViewModel().defaultErrorObservable.subscribe { show(searchPresenter, Presenter.FLAG_CLEAR_TOP) }
+        presenter.getViewModel().showOutboundResults.subscribe { show(outBoundPresenter) }
         presenter
     }
 
@@ -63,18 +65,130 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
     val outBoundPresenter: FlightOutboundPresenter by lazy {
         val viewStub = findViewById(R.id.outbound_presenter) as ViewStub
         val presenter = viewStub.inflate() as FlightOutboundPresenter
+        presenter.flightSearchViewModel = searchViewModel
+        searchViewModel.outboundResultsObservable.subscribe(presenter.resultsPresenter.resultsViewModel.flightResultsObservable)
+        presenter.flightSearchViewModel.errorObservable.subscribe {
+            errorPresenter.viewmodel.searchApiErrorObserver.onNext(it)
+            show(errorPresenter)
+        }
+        presenter.overviewPresenter.vm.selectedFlightClickedSubject.subscribe(searchViewModel.confirmedOutboundFlightSelection)
+        presenter.overviewPresenter.vm.selectedFlightLegSubject.subscribe(searchViewModel.outboundSelected)
         presenter
     }
 
     val inboundPresenter: FlightInboundPresenter by lazy {
         val viewStub = findViewById(R.id.inbound_presenter) as ViewStub
         val presenter = viewStub.inflate() as FlightInboundPresenter
+        presenter.flightSearchViewModel = searchViewModel
+        presenter.overviewPresenter.vm.selectedFlightClickedSubject.subscribe(searchViewModel.confirmedInboundFlightSelection)
+        presenter.overviewPresenter.vm.selectedFlightLegSubject.subscribe(searchViewModel.inboundSelected)
+        searchViewModel.inboundResultsObservable.subscribe(presenter.resultsPresenter.resultsViewModel.flightResultsObservable)
+        searchViewModel.searchParamsObservable.subscribe { params ->
+            presenter.toolbarViewModel.city.onNext(params.departureAirport.regionNames.shortName)
+            presenter.toolbarViewModel.travelers.onNext(params.guests)
+            if (params.returnDate != null) {
+                presenter.toolbarViewModel.date.onNext(params.returnDate)
+            }
+        }
         presenter
     }
 
     val flightOverviewPresenter: FlightOverviewPresenter by lazy {
         val viewStub = findViewById(R.id.overview_presenter) as ViewStub
         val presenter = viewStub.inflate() as FlightOverviewPresenter
+        presenter.flightSummary.outboundFlightWidget.viewModel.selectedFlightObservable.onNext(PackageSearchType.OUTBOUND_FLIGHT)
+        presenter.flightSummary.inboundFlightWidget.viewModel.selectedFlightObservable.onNext(PackageSearchType.INBOUND_FLIGHT)
+        searchViewModel.searchParamsObservable.subscribe((presenter.bundleOverviewHeader.checkoutOverviewFloatingToolbar.viewmodel as FlightCheckoutOverviewViewModel).params)
+        searchViewModel.searchParamsObservable.subscribe((presenter.bundleOverviewHeader.checkoutOverviewHeaderToolbar.viewmodel as FlightCheckoutOverviewViewModel).params)
+        searchViewModel.isRoundTripSearchObservable.subscribeVisibility(presenter.flightSummary.inboundFlightWidget)
+
+        searchViewModel.searchParamsObservable.subscribe { params ->
+            if (params.returnDate != null) {
+                presenter.flightSummary.inboundFlightWidget.viewModel.searchTypeStateObservable.onNext(PackageSearchType.INBOUND_FLIGHT)
+                Observable.combineLatest(searchViewModel.confirmedOutboundFlightSelection, searchViewModel.confirmedInboundFlightSelection, { outbound, inbound ->
+                    val outboundBaggageFeeUrl = e3EndpointProvider.getE3EndpointUrlWithPath(outbound.baggageFeesUrl)
+                    val inboundBaggageFeeUrl = e3EndpointProvider.getE3EndpointUrlWithPath(inbound.baggageFeesUrl)
+                    val baggageFeesTextWithLinks = resources.getString(R.string.split_ticket_baggage_fees, outboundBaggageFeeUrl, inboundBaggageFeeUrl)
+                    val spannableStringBuilder = StrUtils.getSpannableTextByColor(baggageFeesTextWithLinks, Color.BLACK, true)
+                    val destinationCity = outbound.segments?.last()?.arrivalAirportAddress?.city
+                    confirmationPresenter.viewModel.destinationObservable.onNext(destinationCity)
+                    presenter.viewModel.splitTicketBaggageFeesLinksObservable.onNext(spannableStringBuilder)
+                    confirmationPresenter.outboundFlightCard.viewModel = FlightConfirmationCardViewModel(context, outbound, params.guests)
+                    confirmationPresenter.inboundFlightCard.viewModel = FlightConfirmationCardViewModel(context, inbound, params.guests)
+                }).subscribe()
+            } else {
+                searchViewModel.confirmedOutboundFlightSelection.subscribe { outbound ->
+                    val destinationCity = outbound.segments?.last()?.arrivalAirportAddress?.city
+                    confirmationPresenter.outboundFlightCard.viewModel = FlightConfirmationCardViewModel(context, outbound, params.guests)
+                    confirmationPresenter.viewModel.destinationObservable.onNext(destinationCity)
+                    confirmationPresenter.viewModel.inboundCardVisibility.onNext(false)
+                }
+            }
+
+            errorPresenter.getViewModel().retryCreateTrip.subscribe {
+                presenter.getCheckoutPresenter().getCreateTripViewModel().performCreateTrip.onNext(Unit)
+                show(presenter)
+                presenter.show(BaseOverviewPresenter.BundleDefault(), FLAG_CLEAR_BACKSTACK)
+            }
+
+            presenter.flightSummary.outboundFlightWidget.viewModel.searchParams.onNext(params)
+            presenter.flightSummary.inboundFlightWidget.viewModel.searchParams.onNext(params)
+
+            presenter.flightSummary.outboundFlightWidget.viewModel.searchTypeStateObservable.onNext(PackageSearchType.OUTBOUND_FLIGHT)
+
+            presenter.flightSummary.setPadding(0, 0, 0, 0)
+        }
+
+        inboundPresenter.overviewPresenter.vm.selectedFlightClickedSubject.subscribe(presenter.flightSummary.inboundFlightWidget.viewModel.flight)
+        outBoundPresenter.overviewPresenter.vm.selectedFlightClickedSubject.subscribe(presenter.flightSummary.outboundFlightWidget.viewModel.flight)
+
+        searchViewModel.searchParamsObservable.map { it.arrivalAirport }
+                .subscribe(presenter.flightSummary.outboundFlightWidget.viewModel.suggestion)
+        searchViewModel.searchParamsObservable.map { it.departureDate }
+                .subscribe(presenter.flightSummary.outboundFlightWidget.viewModel.date)
+        searchViewModel.searchParamsObservable.map { it.guests }
+                .subscribe(presenter.flightSummary.outboundFlightWidget.viewModel.guests)
+        searchViewModel.searchParamsObservable.filter { searchViewModel.isRoundTripSearchObservable.value }
+                .map { it.departureAirport }
+                .subscribe(presenter.flightSummary.inboundFlightWidget.viewModel.suggestion)
+        searchViewModel.searchParamsObservable.filter { searchViewModel.isRoundTripSearchObservable.value }
+                .map { it.returnDate }
+                .subscribe(presenter.flightSummary.inboundFlightWidget.viewModel.date)
+        searchViewModel.searchParamsObservable.filter { searchViewModel.isRoundTripSearchObservable.value }
+                .map { it.guests }
+                .subscribe(presenter.flightSummary.inboundFlightWidget.viewModel.guests)
+        val checkoutViewModel = presenter.getCheckoutPresenter().getCheckoutViewModel()
+        searchViewModel.offerSelectedChargesObFeesSubject.subscribe(checkoutViewModel.selectedFlightChargesFees)
+        searchViewModel.obFeeDetailsUrlObservable.subscribe(checkoutViewModel.obFeeDetailsUrlSubject)
+
+        presenter.getCheckoutPresenter().toggleCheckoutButton(false)
+
+        presenter.getCheckoutPresenter().getCheckoutViewModel().bookingSuccessResponse.subscribe { pair: Pair<BaseApiResponse, String> ->
+            show(confirmationPresenter)
+            FlightsV2Tracking.trackCheckoutConfirmationPageLoad()
+        }
+
+        searchViewModel.confirmedOutboundFlightSelection.subscribe { presenter.viewModel.showFreeCancellationObservable.onNext(it.isFreeCancellable) }
+        searchViewModel.flightOfferSelected.subscribe { presenter.viewModel.showSplitTicketMessagingObservable.onNext(it.isSplitTicket) }
+
+        presenter.getCheckoutPresenter().toggleCheckoutButton(false)
+
+
+        presenter.getCheckoutPresenter().getCheckoutViewModel().tripResponseObservable.subscribe { trip ->
+            val expediaRewards = trip.rewards?.totalPointsToEarn?.toString()
+            confirmationPresenter.viewModel.rewardPointsObservable.onNext(expediaRewards)
+        }
+        presenter.getCheckoutPresenter().getCheckoutViewModel().bookingSuccessResponse.subscribe { pair: Pair<BaseApiResponse, String> ->
+            val flightCheckoutResponse = pair.first as FlightCheckoutResponse
+            val userEmail = pair.second
+            confirmationPresenter.showConfirmationInfo(flightCheckoutResponse, userEmail)
+
+            show(confirmationPresenter)
+            FlightsV2Tracking.trackCheckoutConfirmationPageLoad()
+        }
+        presenter.getCheckoutPresenter().getCreateTripViewModel().createTripErrorObservable.subscribe(errorPresenter.viewmodel.createTripErrorObserverable)
+        presenter.getCheckoutPresenter().getCheckoutViewModel().checkoutErrorObservable.subscribe(errorPresenter.viewmodel.checkoutApiErrorObserver)
+        presenter.getCheckoutPresenter().getCreateTripViewModel().createTripErrorObservable.subscribe { show(errorPresenter) }
         presenter
     }
 
@@ -89,88 +203,17 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
 
     var searchViewModel: FlightSearchViewModel by notNullAndObservable { vm ->
         searchPresenter.searchViewModel = vm
-        outBoundPresenter.flightSearchViewModel = vm
-        inboundPresenter.flightSearchViewModel = vm
-
-        flightOverviewPresenter.flightSummary.outboundFlightWidget.viewModel.selectedFlightObservable.onNext(PackageSearchType.OUTBOUND_FLIGHT)
-        flightOverviewPresenter.flightSummary.inboundFlightWidget.viewModel.selectedFlightObservable.onNext(PackageSearchType.INBOUND_FLIGHT)
-
-        // TODO - may wanna change this too
-        outBoundPresenter.overviewPresenter.vm.selectedFlightClickedSubject.subscribe(flightOverviewPresenter.flightSummary.outboundFlightWidget.viewModel.flight)
-        inboundPresenter.overviewPresenter.vm.selectedFlightClickedSubject.subscribe(flightOverviewPresenter.flightSummary.inboundFlightWidget.viewModel.flight)
-
-        inboundPresenter.overviewPresenter.vm.selectedFlightClickedSubject.subscribe(searchViewModel.confirmedInboundFlightSelection)
-        outBoundPresenter.overviewPresenter.vm.selectedFlightClickedSubject.subscribe(searchViewModel.confirmedOutboundFlightSelection)
-
-        inboundPresenter.overviewPresenter.vm.selectedFlightLegSubject.subscribe(searchViewModel.inboundSelected)
-        outBoundPresenter.overviewPresenter.vm.selectedFlightLegSubject.subscribe(searchViewModel.outboundSelected)
-
-        vm.outboundResultsObservable.subscribe(outBoundPresenter.resultsPresenter.resultsViewModel.flightResultsObservable)
-        vm.inboundResultsObservable.subscribe(inboundPresenter.resultsPresenter.resultsViewModel.flightResultsObservable)
-        vm.searchParamsObservable.subscribe((flightOverviewPresenter.bundleOverviewHeader.checkoutOverviewFloatingToolbar.viewmodel as FlightCheckoutOverviewViewModel).params)
-        vm.searchParamsObservable.subscribe((flightOverviewPresenter.bundleOverviewHeader.checkoutOverviewHeaderToolbar.viewmodel as FlightCheckoutOverviewViewModel).params)
-        vm.isRoundTripSearchObservable.subscribeVisibility(flightOverviewPresenter.flightSummary.inboundFlightWidget)
-
-        vm.searchParamsObservable.map { it.arrivalAirport }
-                .subscribe(flightOverviewPresenter.flightSummary.outboundFlightWidget.viewModel.suggestion)
-        vm.searchParamsObservable.map { it.departureDate }
-                .subscribe(flightOverviewPresenter.flightSummary.outboundFlightWidget.viewModel.date)
-        vm.searchParamsObservable.map { it.guests }
-                .subscribe(flightOverviewPresenter.flightSummary.outboundFlightWidget.viewModel.guests)
-        vm.searchParamsObservable.filter { vm.isRoundTripSearchObservable.value }
-                .map { it.departureAirport }
-                .subscribe(flightOverviewPresenter.flightSummary.inboundFlightWidget.viewModel.suggestion)
-        vm.searchParamsObservable.filter { vm.isRoundTripSearchObservable.value }
-                .map { it.returnDate }
-                .subscribe(flightOverviewPresenter.flightSummary.inboundFlightWidget.viewModel.date)
-        vm.searchParamsObservable.filter { vm.isRoundTripSearchObservable.value }
-                .map { it.guests }
-                .subscribe(flightOverviewPresenter.flightSummary.inboundFlightWidget.viewModel.guests)
-
         vm.searchParamsObservable.subscribe { params ->
             outBoundPresenter.toolbarViewModel.city.onNext(params.arrivalAirport?.regionNames?.shortName)
             outBoundPresenter.toolbarViewModel.travelers.onNext(params.guests)
             outBoundPresenter.toolbarViewModel.date.onNext(params.departureDate)
             errorPresenter.getViewModel().paramsSubject.onNext(params)
-
-            inboundPresenter.toolbarViewModel.city.onNext(params.departureAirport.regionNames.shortName)
-            inboundPresenter.toolbarViewModel.travelers.onNext(params.guests)
-            if (params.returnDate != null) {
-                inboundPresenter.toolbarViewModel.date.onNext(params.returnDate)
-                flightOverviewPresenter.flightSummary.inboundFlightWidget.viewModel.searchTypeStateObservable.onNext(PackageSearchType.INBOUND_FLIGHT)
-                Observable.combineLatest(vm.confirmedOutboundFlightSelection, vm.confirmedInboundFlightSelection, { outbound, inbound ->
-                    val outboundBaggageFeeUrl = e3EndpointProvider.getE3EndpointUrlWithPath(outbound.baggageFeesUrl)
-                    val inboundBaggageFeeUrl = e3EndpointProvider.getE3EndpointUrlWithPath(inbound.baggageFeesUrl)
-                    val baggageFeesTextWithLinks = resources.getString(R.string.split_ticket_baggage_fees, outboundBaggageFeeUrl, inboundBaggageFeeUrl)
-                    val spannableStringBuilder = StrUtils.getSpannableTextByColor(baggageFeesTextWithLinks, Color.BLACK, true)
-                    val destinationCity = outbound.segments?.last()?.arrivalAirportAddress?.city
-                    confirmationPresenter.viewModel.destinationObservable.onNext(destinationCity)
-                    flightOverviewPresenter.viewModel.splitTicketBaggageFeesLinksObservable.onNext(spannableStringBuilder)
-                    confirmationPresenter.outboundFlightCard.viewModel = FlightConfirmationCardViewModel(context, outbound, params.guests)
-                    confirmationPresenter.inboundFlightCard.viewModel = FlightConfirmationCardViewModel(context, inbound, params.guests)
-                }).subscribe()
-            } else {
-                vm.confirmedOutboundFlightSelection.subscribe { outbound ->
-                    val destinationCity = outbound.segments?.last()?.arrivalAirportAddress?.city
-                    confirmationPresenter.outboundFlightCard.viewModel = FlightConfirmationCardViewModel(context, outbound, params.guests)
-                    confirmationPresenter.viewModel.destinationObservable.onNext(destinationCity)
-                    confirmationPresenter.viewModel.inboundCardVisibility.onNext(false)
-                }
-            }
-            flightOverviewPresenter.flightSummary.outboundFlightWidget.viewModel.searchParams.onNext(params)
-            flightOverviewPresenter.flightSummary.inboundFlightWidget.viewModel.searchParams.onNext(params)
-
-            flightOverviewPresenter.flightSummary.outboundFlightWidget.viewModel.searchTypeStateObservable.onNext(PackageSearchType.OUTBOUND_FLIGHT)
-
-            flightOverviewPresenter.flightSummary.setPadding(0, 0, 0, 0)
             travelerManager.updateDbTravelers(params, context)
             // Starting a new search clear previous selection
             Db.clearPackageFlightSelection()
             outBoundPresenter.resultsPresenter.setLoadingState()
             show(outBoundPresenter)
         }
-        outBoundPresenter.flightSearchViewModel.errorObservable.subscribe(errorPresenter.getViewModel().searchApiErrorObserver)
-        outBoundPresenter.flightSearchViewModel.errorObservable.subscribe { show(errorPresenter) }
 
         vm.flightProductId.subscribe { productKey ->
             val requestInsurance = Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppFlightInsurance)
@@ -186,12 +229,6 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
         vm.outboundResultsObservable.subscribe {
             show(outBoundPresenter)
         }
-        vm.confirmedOutboundFlightSelection.subscribe { flightOverviewPresenter.viewModel.showFreeCancellationObservable.onNext(it.isFreeCancellable) }
-        vm.flightOfferSelected.subscribe { flightOverviewPresenter.viewModel.showSplitTicketMessagingObservable.onNext(it.isSplitTicket) }
-
-        val checkoutViewModel = flightOverviewPresenter.getCheckoutPresenter().getCheckoutViewModel()
-        vm.offerSelectedChargesObFeesSubject.subscribe(checkoutViewModel.selectedFlightChargesFees)
-        vm.obFeeDetailsUrlObservable.subscribe(checkoutViewModel.obFeeDetailsUrlSubject)
     }
 
     init {
@@ -214,32 +251,6 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
         addTransition(outboundToError)
         addTransition(flightOverviewToError)
         addTransition(errorToSearch)
-        flightOverviewPresenter.getCheckoutPresenter().toggleCheckoutButton(false)
-
-
-        flightOverviewPresenter.getCheckoutPresenter().getCheckoutViewModel().tripResponseObservable.subscribe { trip ->
-            val expediaRewards = trip.rewards?.totalPointsToEarn?.toString()
-            confirmationPresenter.viewModel.rewardPointsObservable.onNext(expediaRewards)
-        }
-        flightOverviewPresenter.getCheckoutPresenter().getCheckoutViewModel().bookingSuccessResponse.subscribe { pair: Pair<BaseApiResponse, String> ->
-            val flightCheckoutResponse = pair.first as FlightCheckoutResponse
-            val userEmail = pair.second
-            confirmationPresenter.showConfirmationInfo(flightCheckoutResponse, userEmail)
-
-            show(confirmationPresenter)
-            FlightsV2Tracking.trackCheckoutConfirmationPageLoad()
-        }
-        flightOverviewPresenter.getCheckoutPresenter().getCreateTripViewModel().createTripErrorObservable.subscribe(errorPresenter.viewmodel.createTripErrorObserverable)
-        flightOverviewPresenter.getCheckoutPresenter().getCheckoutViewModel().checkoutErrorObservable.subscribe(errorPresenter.viewmodel.checkoutApiErrorObserver)
-        flightOverviewPresenter.getCheckoutPresenter().getCreateTripViewModel().createTripErrorObservable.subscribe { show(errorPresenter) }
-
-        errorPresenter.getViewModel().retryCreateTrip.subscribe {
-            flightOverviewPresenter.getCheckoutPresenter().getCreateTripViewModel().performCreateTrip.onNext(Unit)
-            show(flightOverviewPresenter)
-            flightOverviewPresenter.show(BaseOverviewPresenter.BundleDefault(), FLAG_CLEAR_BACKSTACK)
-        }
-        errorPresenter.getViewModel().defaultErrorObservable.subscribe { show(searchPresenter, Presenter.FLAG_CLEAR_TOP) }
-        errorPresenter.getViewModel().showOutboundResults.subscribe { show(outBoundPresenter) }
     }
 
     val searchArgbEvaluator = ArgbEvaluator()
@@ -357,8 +368,6 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
         override fun endTransition(forward: Boolean) {
             searchPresenter.visibility = View.GONE
             outBoundPresenter.visibility = View.VISIBLE
-            inboundPresenter.visibility = View.GONE
-            flightOverviewPresenter.visibility = View.GONE
         }
     }
 
@@ -368,10 +377,6 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
     private val defaultSearchTransition = object : Presenter.DefaultTransition(getDefaultSearchPresenterClassName()) {
         override fun endTransition(forward: Boolean) {
             searchPresenter.visibility = View.VISIBLE
-            outBoundPresenter.visibility = View.GONE
-            inboundPresenter.visibility = View.GONE
-            flightOverviewPresenter.visibility = View.GONE
-            confirmationPresenter.visibility = View.GONE
             FlightsV2Tracking.trackSearchPageLoad()
         }
     }
