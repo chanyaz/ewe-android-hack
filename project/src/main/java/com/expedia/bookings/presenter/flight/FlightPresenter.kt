@@ -34,6 +34,7 @@ import com.expedia.vm.flights.FlightConfirmationCardViewModel
 import com.expedia.vm.flights.FlightConfirmationViewModel
 import com.expedia.vm.flights.FlightErrorViewModel
 import com.expedia.vm.packages.PackageSearchType
+import com.squareup.phrase.Phrase
 import rx.Observable
 import javax.inject.Inject
 
@@ -107,8 +108,10 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
                 Observable.combineLatest(searchViewModel.confirmedOutboundFlightSelection, searchViewModel.confirmedInboundFlightSelection, { outbound, inbound ->
                     val outboundBaggageFeeUrl = e3EndpointProvider.getE3EndpointUrlWithPath(outbound.baggageFeesUrl)
                     val inboundBaggageFeeUrl = e3EndpointProvider.getE3EndpointUrlWithPath(inbound.baggageFeesUrl)
-                    val baggageFeesTextWithLinks = resources.getString(R.string.split_ticket_baggage_fees, outboundBaggageFeeUrl, inboundBaggageFeeUrl)
-                    val spannableStringBuilder = StrUtils.getSpannableTextByColor(baggageFeesTextWithLinks, Color.BLACK, true)
+                    val baggageFeesTextWithLinks = Phrase.from(context, R.string.split_ticket_baggage_fees_TEMPLATE)
+                                                    .put("departurelink", outboundBaggageFeeUrl)
+                                                    .put("returnlink", inboundBaggageFeeUrl).toString()
+                    val spannableStringBuilder = StrUtils.getSpannableTextByColor(baggageFeesTextWithLinks, ContextCompat.getColor(context, R.color.flight_primary_color), true)
                     val destinationCity = outbound.segments?.last()?.arrivalAirportAddress?.city
                     confirmationPresenter.viewModel.destinationObservable.onNext(destinationCity)
                     presenter.viewModel.splitTicketBaggageFeesLinksObservable.onNext(spannableStringBuilder)
