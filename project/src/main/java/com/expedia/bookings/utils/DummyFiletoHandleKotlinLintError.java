@@ -380,7 +380,7 @@ DummyFiletoHandleKotlinLintError {
 		R.string.checkout_edit_traveler_TEMPLATE,
 		R.dimen.traveler_select_item_padding,
 		R.layout.traveler_details_card,
-		R.layout.traveler_divider_bar,
+		R.layout.grey_divider_bar,
 		R.layout.flight_traveler_entry_widget,
 		R.layout.material_spinner_item,
 		R.layout.material_text_input,
@@ -740,6 +740,15 @@ DummyFiletoHandleKotlinLintError {
 		R.drawable.brand_tablet_checkout_login_logo_drawable,
 		R.string.flight_operated_by_carrier_name_and_code_TEMPLATE,
 		R.string.flight_operated_by_carrier_name_only_TEMPLATE,
-		R.dimen.flight_sort_filter_container_height
+		R.dimen.flight_sort_filter_container_height,
+		R.color.rail_title_color,
+		R.color.rail_regular_text_color,
+		R.layout.rail_amenities_rules_widget,
+		R.layout.rail_amenity_view,
+		R.layout.rail_amenities_widget,
+		R.string.fare_rules,
+		R.string.no_amenities,
+		R.string.rail_station_info_TEMPLATE,
+		R.string.rail_fare_info_TEMPLATE
 	};
 }

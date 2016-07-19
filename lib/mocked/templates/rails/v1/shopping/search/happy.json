@@ -659,7 +659,6 @@
               "passengerFareList": [
                 {
                   "passengerIndex": 1,
-                  "passengerTypeCode": "A",
                   "passengerSegmentFareList": [
                     {
                       "fareCode": "IWC-SOS-00200-STD-1",
@@ -755,12 +754,12 @@
           "legOptionIndexList": [
             1
           ],
+
           "fareBreakdownList": [
             {
               "passengerFareList": [
                 {
                   "passengerIndex": 1,
-                  "passengerTypeCode": "A",
                   "passengerSegmentFareList": [
                     {
                       "fareCode": "IWC-FOS-00200-STD-1",
@@ -862,7 +861,6 @@
               "passengerFareList": [
                 {
                   "passengerIndex": 1,
-                  "passengerTypeCode": "A",
                   "passengerSegmentFareList": [
                     {
                       "fareCode": "IWC-SVS-00200-STD-1",
@@ -894,12 +892,8 @@
                       "carrierServiceClassDisplayName": "Standard",
                       "carrierFareClassDisplayName": "off-peak single",
                       "carrierFareClassCategoryName": "Offpeak",
-                      "fareDescription": "Any off-peak train",
-                      "amenityList": [
-                        {
-                          "displayName": "Snack Trolley Service"
-                        }
-                      ]
+                      "fareDescription": "Any off-peak train"
+
                     }
                   ]
                 }
@@ -963,7 +957,6 @@
               "passengerFareList": [
                 {
                   "passengerIndex": 1,
-                  "passengerTypeCode": "A",
                   "passengerSegmentFareList": [
                     {
                       "fareCode": "IWC-SOS-00200-STD-1",
@@ -1064,7 +1057,6 @@
               "passengerFareList": [
                 {
                   "passengerIndex": 1,
-                  "passengerTypeCode": "A",
                   "passengerSegmentFareList": [
                     {
                       "fareCode": "IWC-FOS-00200-STD-1",
@@ -1166,7 +1158,6 @@
               "passengerFareList": [
                 {
                   "passengerIndex": 1,
-                  "passengerTypeCode": "A",
                   "passengerSegmentFareList": [
                     {
                       "fareCode": "IWC-SVS-00200-STD-1",
@@ -1267,7 +1258,6 @@
               "passengerFareList": [
                 {
                   "passengerIndex": 1,
-                  "passengerTypeCode": "A",
                   "passengerSegmentFareList": [
                     {
                       "fareCode": "IXC-SOS-00700-STD-1",
@@ -1344,7 +1334,6 @@
               "passengerFareList": [
                 {
                   "passengerIndex": 1,
-                  "passengerTypeCode": "A",
                   "passengerSegmentFareList": [
                     {
                       "fareCode": "IXC-FOS-00700-STD-1",
@@ -1422,7 +1411,6 @@
               "passengerFareList": [
                 {
                   "passengerIndex": 1,
-                  "passengerTypeCode": "A",
                   "passengerSegmentFareList": [
                     {
                       "fareCode": "IXC-SVS-00700-STD-1",
@@ -1498,7 +1486,6 @@
               "passengerFareList": [
                 {
                   "passengerIndex": 1,
-                  "passengerTypeCode": "A",
                   "passengerSegmentFareList": [
                     {
                       "fareCode": "IXC-MAF-00024-STD-1",
@@ -1574,7 +1561,6 @@
               "passengerFareList": [
                 {
                   "passengerIndex": 1,
-                  "passengerTypeCode": "A",
                   "passengerSegmentFareList": [
                     {
                       "fareCode": "IXC-MAS-00024-STD-1",
@@ -1651,7 +1637,6 @@
               "passengerFareList": [
                 {
                   "passengerIndex": 1,
-                  "passengerTypeCode": "A",
                   "passengerSegmentFareList": [
                     {
                       "fareCode": "IWC-SOS-00200-STD-1",
@@ -1752,7 +1737,6 @@
               "passengerFareList": [
                 {
                   "passengerIndex": 1,
-                  "passengerTypeCode": "A",
                   "passengerSegmentFareList": [
                     {
                       "fareCode": "IWC-FOS-00200-STD-1",
@@ -1854,7 +1838,6 @@
               "passengerFareList": [
                 {
                   "passengerIndex": 1,
-                  "passengerTypeCode": "A",
                   "passengerSegmentFareList": [
                     {
                       "fareCode": "IWC-SVS-00200-STD-1",
@@ -1955,7 +1938,6 @@
               "passengerFareList": [
                 {
                   "passengerIndex": 1,
-                  "passengerTypeCode": "A",
                   "passengerSegmentFareList": [
                     {
                       "fareCode": "IWC-SOS-00200-STD-1",
@@ -2056,7 +2038,6 @@
               "passengerFareList": [
                 {
                   "passengerIndex": 1,
-                  "passengerTypeCode": "A",
                   "passengerSegmentFareList": [
                     {
                       "fareCode": "IWC-FOS-00200-STD-1",
@@ -2158,7 +2139,6 @@
               "passengerFareList": [
                 {
                   "passengerIndex": 1,
-                  "passengerTypeCode": "A",
                   "passengerSegmentFareList": [
                     {
                       "fareCode": "IWC-SVS-00200-STD-1",

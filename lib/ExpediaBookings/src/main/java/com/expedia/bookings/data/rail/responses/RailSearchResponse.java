@@ -1,7 +1,10 @@
 package com.expedia.bookings.data.rail.responses;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -24,11 +27,12 @@ public class RailSearchResponse {
 		return null;
 	}
 
-	public List<RailOffer> findOffersForLegOption(Integer optionId) {
+	public List<RailOffer> findOffersForLegOption(LegOption legOption) {
 		List<RailOffer> offers = new ArrayList<>();
 
 		for (RailOffer offer : offerList) {
-			if (offer.containsLegOptionId(optionId)) {
+			if (offer.containsLegOptionId(legOption.legOptionIndex)) {
+				offer.outboundLeg = legOption;
 				offers.add(offer);
 			}
 		}
@@ -37,7 +41,7 @@ public class RailSearchResponse {
 	}
 
 	public static class RailLeg {
-		public String legIndex;
+		public Integer legIndex;
 		public RailStation departureStation;
 		public RailStation arrivalStation;
 		public List<SearchLegOption> legOptionList;
@@ -77,22 +81,21 @@ public class RailSearchResponse {
 			public String aggregatedFareDescription;
 
 			public static class FareBreakdown {
-				public List<PassengerReference> passengerFareList;
+				public List<PassengerFare> passengerFareList;
 
-				public static class PassengerReference {
-					public Integer passengerIndex;
-					public String passengerTypeCode;
-					public List<FareCode> passengerSegmentFareList;
+			}
 
-					public static class FareCode {
-						public String fareCode;
-						public String serviceClassCategory;
-						public String carrierServiceClassDisplayName;
-						public String fareDescription;
-						public String fareClassCategory;
-						public String carrierFareClassDisplayName;
-						public Integer travelSegmentIndex;
+			public static class PassengerFare {
+				public Integer passengerIndex;
+				public List<PassengerSegmentFare> passengerSegmentFareList;
+
+				@NotNull
+				public Map<Integer, PassengerSegmentFare> getSegmentToFareMapping() {
+					Map<Integer, PassengerSegmentFare> mapping = new HashMap<>();
+					for (PassengerSegmentFare segmentFare : passengerSegmentFareList) {
+						mapping.put(segmentFare.travelSegmentIndex, segmentFare);
 					}
+					return Collections.unmodifiableMap(mapping);
 				}
 			}
 		}

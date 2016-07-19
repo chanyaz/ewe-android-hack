@@ -62,6 +62,20 @@ public class RailScreen {
 		selectFareOption("£203.0").perform(scrollTo(), click());
 	}
 
+	public static void clickAmenitiesLink(String fareClass) {
+		selectAmenitiesLink(fareClass).perform(scrollTo(), click());
+	}
+
+	public static ViewInteraction selectAmenitiesLink(String fareClass) {
+		return onView(
+			Matchers.allOf(
+				withId(R.id.amenities_link), Matchers.allOf(withText(R.string.amenities)),
+				isDescendantOfA(Matchers.allOf(withId(R.id.details_fare_options))),
+				hasSibling(Matchers.allOf(withId(R.id.fare_description), withText(fareClass))),
+				withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE))
+		);
+	}
+
 	public static ViewInteraction checkout() {
 		return onView(withId(R.id.checkout_button));
 	}
