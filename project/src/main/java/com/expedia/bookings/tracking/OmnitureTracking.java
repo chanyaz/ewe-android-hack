@@ -1,5 +1,19 @@
 package com.expedia.bookings.tracking;
 
+import java.io.PrintWriter;
+import java.io.StringWriter;
+import java.io.Writer;
+import java.math.BigDecimal;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Locale;
+import java.util.Set;
+
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.joda.time.format.DateTimeFormat;
@@ -7,7 +21,6 @@ import org.joda.time.format.DateTimeFormatter;
 import org.joda.time.format.ISODateTimeFormat;
 
 import android.Manifest;
-
 import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
@@ -47,9 +60,6 @@ import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.SearchParams;
 import com.expedia.bookings.data.StoredCreditCard;
 import com.expedia.bookings.data.SuggestionV2;
-import com.expedia.bookings.data.flights.FlightCreateTripResponse;
-import com.expedia.bookings.data.flights.FlightItineraryType;
-import com.expedia.bookings.data.insurance.InsuranceProduct;
 import com.expedia.bookings.data.User;
 import com.expedia.bookings.data.abacus.AbacusLogQuery;
 import com.expedia.bookings.data.abacus.AbacusTest;
@@ -60,14 +70,17 @@ import com.expedia.bookings.data.cars.CarSearchParams;
 import com.expedia.bookings.data.cars.CarTrackingData;
 import com.expedia.bookings.data.cars.CreateTripCarOffer;
 import com.expedia.bookings.data.cars.SearchCarOffer;
+import com.expedia.bookings.data.flights.FlightCreateTripResponse;
+import com.expedia.bookings.data.flights.FlightItineraryType;
 import com.expedia.bookings.data.flights.FlightLeg.FlightSegment;
 import com.expedia.bookings.data.hotels.HotelCreateTripResponse;
 import com.expedia.bookings.data.hotels.HotelOffersResponse;
+import com.expedia.bookings.data.insurance.InsuranceProduct;
 import com.expedia.bookings.data.lx.ActivityDetailsResponse;
 import com.expedia.bookings.data.lx.LXCheckoutResponse;
-import com.expedia.bookings.data.lx.LxSearchParams;
 import com.expedia.bookings.data.lx.LXSearchResponse;
 import com.expedia.bookings.data.lx.LXSortType;
+import com.expedia.bookings.data.lx.LxSearchParams;
 import com.expedia.bookings.data.packages.PackageCheckoutResponse;
 import com.expedia.bookings.data.packages.PackageCreateTripResponse;
 import com.expedia.bookings.data.packages.PackageSearchResponse;
@@ -96,19 +109,6 @@ import com.mobiata.android.LocationServices;
 import com.mobiata.android.Log;
 import com.mobiata.android.util.AdvertisingIdUtils;
 import com.mobiata.android.util.SettingUtils;
-import java.io.PrintWriter;
-import java.io.StringWriter;
-import java.io.Writer;
-import java.math.BigDecimal;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-import java.text.DecimalFormat;
-import java.text.SimpleDateFormat;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Locale;
-import java.util.Set;
 
 /**
  * The basic premise behind this class is to encapsulate the tracking logic as much possible such that tracking events
@@ -5392,15 +5392,6 @@ public class OmnitureTracking {
 		s.trackLink(null, "o", "", null, null);
 	}
 
-	public static void trackFlightRecentSearchClick() {
-		Log.d(TAG, "Tracking \"" + FLIGHT_RECENT_SEARCH_V2 + "\" click...");
-
-		ADMS_Measurement s = getFreshTrackingObject();
-		s.setEvar(28, FLIGHT_RECENT_SEARCH_V2);
-		s.setProp(16, FLIGHT_RECENT_SEARCH_V2);
-		s.trackLink(null, "o", "Search Results Update", null, null);
-	}
-
 	public static void trackFlightTravelerPickerClick(String actionLabel) {
 		ADMS_Measurement s = getFreshTrackingObject();
 		s.setEvar(28, FLIGHTS_V2_TRAVELER_CHANGE_PREFIX + actionLabel);
@@ -5413,6 +5404,7 @@ public class OmnitureTracking {
 
 		s.setAppState(FLIGHT_SEARCH_V2);
 		s.setEvar(18, FLIGHT_SEARCH_V2);
+		s.setEvar(2, "D=c2");
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppFlightTest);
 		s.track();
 	}

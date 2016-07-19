@@ -9,7 +9,7 @@ import com.expedia.bookings.R
 import com.expedia.vm.SuggestionAdapterViewModel
 import com.expedia.vm.packages.SuggestionViewModel
 
-abstract class SuggestionAdapter(val viewmodel: SuggestionAdapterViewModel) : RecyclerView.Adapter<RecyclerView.ViewHolder>(), Filterable {
+class SuggestionAdapter(val viewmodel: SuggestionAdapterViewModel) : RecyclerView.Adapter<RecyclerView.ViewHolder>(), Filterable {
     val marginTop = viewmodel.context.resources.getDimensionPixelSize(R.dimen.package_suggestion_margin_top)
     val marginBottom = viewmodel.context.resources.getDimensionPixelSize(R.dimen.package_suggestion_margin_bottom)
 
@@ -31,7 +31,7 @@ abstract class SuggestionAdapter(val viewmodel: SuggestionAdapterViewModel) : Re
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder?, position: Int) {
         when (holder) {
-            is AbstractSuggestionViewHolder -> holder.vm.suggestionObserver.onNext(viewmodel.suggestions[position])
+            is SuggestionViewHolder -> holder.vm.suggestionObserver.onNext(viewmodel.suggestions[position])
         }
     }
 
@@ -50,5 +50,7 @@ abstract class SuggestionAdapter(val viewmodel: SuggestionAdapterViewModel) : Re
         return position.toLong()
     }
 
-    abstract fun makeViewHolder(root: ViewGroup, vm: SuggestionViewModel): RecyclerView.ViewHolder;
+    fun makeViewHolder(root: ViewGroup, vm: SuggestionViewModel): RecyclerView.ViewHolder {
+        return SuggestionViewHolder(root, vm)
+    }
 }

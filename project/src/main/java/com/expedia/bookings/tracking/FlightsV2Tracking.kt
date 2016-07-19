@@ -37,10 +37,6 @@ object FlightsV2Tracking {
         OmnitureTracking.trackFlightTravelerPickerClick(actionLabel)
     }
 
-    fun trackFlightRecentSearchClick() {
-        OmnitureTracking.trackFlightRecentSearchClick()
-    }
-
     fun trackFlightBaggageFeeClick() {
         OmnitureTracking.trackFlightBaggageFeesClick()
     }

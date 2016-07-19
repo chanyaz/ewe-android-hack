@@ -15,7 +15,7 @@ import com.expedia.bookings.presenter.BaseTwoLocationSearchPresenter
 import com.expedia.bookings.services.SuggestionV4Services
 import com.expedia.bookings.utils.SuggestionV4Utils
 import com.expedia.bookings.utils.Ui
-import com.expedia.bookings.widget.suggestions.FlightSuggestionAdapter
+import com.expedia.bookings.widget.suggestions.SuggestionAdapter
 import com.expedia.util.notNullAndObservable
 import com.expedia.util.subscribeOnClick
 import com.expedia.vm.AirportSuggestionViewModel
@@ -52,12 +52,12 @@ open class FlightSearchPresenter(context: Context, attrs: AttributeSet) : BaseTw
 
         originSuggestionViewModel = AirportSuggestionViewModel(getContext(), suggestionServices, false, CurrentLocationObservable.create(getContext()))
         destinationSuggestionViewModel = AirportSuggestionViewModel(getContext(), suggestionServices, true, null)
-        originSuggestionAdapter = FlightSuggestionAdapter(originSuggestionViewModel)
-        destinationSuggestionAdapter = FlightSuggestionAdapter(destinationSuggestionViewModel)
+        originSuggestionAdapter = SuggestionAdapter(originSuggestionViewModel)
+        destinationSuggestionAdapter = SuggestionAdapter(destinationSuggestionViewModel)
     }
 
-    lateinit private var originSuggestionAdapter: FlightSuggestionAdapter
-    lateinit private var destinationSuggestionAdapter: FlightSuggestionAdapter
+    lateinit private var originSuggestionAdapter: SuggestionAdapter
+    lateinit private var destinationSuggestionAdapter: SuggestionAdapter
 
     init {
         travelerWidgetV2.traveler.viewmodel.showSeatingPreference = true
