@@ -1068,6 +1068,31 @@
         <item name="android:background">@drawable/bg_btn_borderless_kitkat</item>
     </style>
 
+    <style name="Widget.InfoIconButton" parent="Widget.AppCompat.Button.Borderless">
+        <item name="android:background">@drawable/bg_btn_borderless_kitkat</item>
+        <item name="android:textColor">@color/gray7</item>
+        <item name="android:textAllCaps">false</item>>
+        <item name="android:textSize">13sp</item>
+        <item name="android:drawablePadding">10dp</item>
+        <item name="android:drawableLeft">@drawable/info_icon_white</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">12dp</item>
+        <item name="android:layout_marginBottom">12dp</item>
+        <item name="android:layout_gravity">center_horizontal</item>
+    </style>
+
+    <style name="Widget.InfoIconTextView">
+        <item name="android:textColor">@color/gray7</item>
+        <item name="android:textAllCaps">false</item>>
+        <item name="android:textSize">13sp</item>
+        <item name="android:drawablePadding">10dp</item>
+        <item name="android:drawableLeft">@drawable/info_icon_white</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_gravity">center_horizontal</item>
+    </style>
+
     <!--Material Flights Results Cell-->
     <style name="MaterialFlightCell">
         <item name="android:textColor">@color/packages_flight_cell_primary_text</item>
