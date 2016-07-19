@@ -76,9 +76,18 @@ class FlightCostSummaryBreakdownViewModel(context: Context) : BaseCostSummaryBre
                 breakdowns.add(CostSummaryBreakdown.CostSummaryBuilder().isLine(true).build())
             }
 
+            if (tripResponse.selectedCardFees != null) {
+                title = context.getString(R.string.airline_card_fee)
+                val airlineCardFee = tripResponse.selectedCardFees.getFormattedMoneyFromAmountAndCurrencyCode()
+                 breakdowns.add(CostSummaryBreakdown.CostSummaryBuilder().title(title).cost(airlineCardFee).build())
+
+                 // Adding divider line
+                 breakdowns.add(CostSummaryBreakdown.CostSummaryBuilder().isLine(true).build())
+            }
+
             title = context.getString(R.string.cost_summary_breakdown_total_due_today)
-            val totalPrice = tripResponse.totalPrice ?: tripResponse.details.offer.totalFarePrice // TODO - priceChange checkout response does not return totalPrice field!!
-            breakdowns.add(CostSummaryBreakdown.CostSummaryBuilder().title(title).cost(totalPrice.formattedPrice).build())
+            val totalPrice = if (tripResponse.totalPrice != null) tripResponse.tripTotalPayableIncludingFeeIfZeroPayableByPoints() else tripResponse.details.offer.totalFarePrice // TODO - priceChange checkout response does not return totalPrice field!!
+            breakdowns.add(CostSummaryBreakdown.CostSummaryBuilder().title(title).cost(totalPrice.formattedMoneyFromAmountAndCurrencyCode).build())
 
             addRows.onNext(breakdowns)
             iconVisibilityObservable.onNext(true)

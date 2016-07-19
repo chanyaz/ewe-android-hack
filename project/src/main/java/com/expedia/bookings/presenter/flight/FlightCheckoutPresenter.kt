@@ -84,11 +84,14 @@ class FlightCheckoutPresenter(context: Context, attr: AttributeSet) : BaseChecko
 
     private fun handlePriceChange(tripResponse: FlightCreateTripResponse) {
         val flightTripDetails = tripResponse.details
+
         // TODO - we may have to change from totalFarePrice -> totalPrice in order to support SubPub fares
-        val originalPrice = flightTripDetails.oldOffer.totalFarePrice
-        val newPrice = flightTripDetails.offer.totalFarePrice
-        priceChangeWidget.viewmodel.originalPrice.onNext(originalPrice)
-        priceChangeWidget.viewmodel.newPrice.onNext(newPrice)
+        if (flightTripDetails.oldOffer != null) {
+            val originalPrice = flightTripDetails.oldOffer.totalFarePrice
+            val newPrice = flightTripDetails.offer.totalFarePrice
+            priceChangeWidget.viewmodel.originalPrice.onNext(originalPrice)
+            priceChangeWidget.viewmodel.newPrice.onNext(newPrice)
+        }
 
         // TODO - update to totalPrice when checkout response starts returning totalPrice (required for SubPub fare support)
         totalPriceWidget.viewModel.total.onNext(flightTripDetails.offer.totalFarePrice)
