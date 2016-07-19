@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import com.expedia.bookings.R
 import com.expedia.bookings.widget.rail.RailAmenitiesWidget
+import com.expedia.bookings.widget.rail.RailFareRulesWidget
 
 class RailAmenitiesAndRulesAdapter(val context: Context) : PagerAdapter() {
 
@@ -15,6 +16,7 @@ class RailAmenitiesAndRulesAdapter(val context: Context) : PagerAdapter() {
     }
 
     val amenitiesWidget = RailAmenitiesWidget(context)
+    val fareRulesWidget = RailFareRulesWidget(context)
 
     override fun getCount(): Int {
         return Tab.values().size
@@ -32,16 +34,13 @@ class RailAmenitiesAndRulesAdapter(val context: Context) : PagerAdapter() {
         if (position == 0) {
             container.addView(amenitiesWidget)
             return amenitiesWidget
-        } else  {
-            //TODO returns fare rules...
-            val view = View(context);
-            container.addView(view)
-
-            return view
+        } else {
+            container.addView(fareRulesWidget)
+            return fareRulesWidget
         }
     }
 
-    override fun destroyItem(container: ViewGroup?, position: Int, `object`: Any?) {
-        super.destroyItem(container, position, `object`)
+    override fun destroyItem(container: ViewGroup, position: Int, view: Any?) {
+        container.removeView(view as View)
     }
 }
