@@ -71,18 +71,15 @@ public class RailSearchResponse {
 			public Money totalPrice;
 			public List<Integer> legOptionIndexList;
 			public List<FareBreakdown> fareBreakdownList;
-			public String serviceClassCode;
-			public String fareClass;
 			public boolean refundable;
-			public boolean exchangeable;
-			public String railProductToken;
+			public List<String> refundableRules;
+			public List<String> fareNotes;
 			public String aggregatedCarrierServiceClassDisplayName;
 			public String aggregatedCarrierFareClassDisplayName;
 			public String aggregatedFareDescription;
 
 			public static class FareBreakdown {
 				public List<PassengerFare> passengerFareList;
-
 			}
 
 			public static class PassengerFare {

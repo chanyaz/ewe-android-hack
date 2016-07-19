@@ -76,6 +76,10 @@ public class RailScreen {
 		);
 	}
 
+	public static void clickFareRules(String fareType) {
+		onView(withText(fareType)).perform(scrollTo(), click());
+	}
+
 	public static ViewInteraction checkout() {
 		return onView(withId(R.id.checkout_button));
 	}

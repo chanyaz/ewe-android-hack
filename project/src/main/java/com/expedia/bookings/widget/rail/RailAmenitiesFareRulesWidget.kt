@@ -11,9 +11,11 @@ import android.widget.FrameLayout
 import android.widget.RelativeLayout
 import com.expedia.bookings.R
 import com.expedia.bookings.adapter.RailAmenitiesAndRulesAdapter
+import com.expedia.bookings.data.rail.responses.RailSearchResponse
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
 import com.expedia.vm.rail.RailAmenitiesViewModel
+import com.expedia.vm.rail.RailFareRulesViewModel
 
 class RailAmenitiesFareRulesWidget(context: Context, attrs: AttributeSet) : FrameLayout(context, attrs) {
 
@@ -28,6 +30,7 @@ class RailAmenitiesFareRulesWidget(context: Context, attrs: AttributeSet) : Fram
         View.inflate(context, R.layout.rail_amenities_rules_widget, this)
         setupTabs()
         adapter.amenitiesWidget.viewModel = RailAmenitiesViewModel()
+        adapter.fareRulesWidget.viewModel = RailFareRulesViewModel(context)
     }
 
     override fun onFinishInflate() {
@@ -35,10 +38,33 @@ class RailAmenitiesFareRulesWidget(context: Context, attrs: AttributeSet) : Fram
         setupStatusBar(context)
     }
 
+    fun showAmenitiesForOffer(offer: RailSearchResponse.RailOffer) {
+        updateOffer(offer)
+        viewPager.currentItem = RailAmenitiesAndRulesAdapter.Tab.AMENITIES.ordinal
+        updateToolbar(RailAmenitiesAndRulesAdapter.Tab.AMENITIES.ordinal)
+    }
+
+    fun showFareRulesForOffer(offer: RailSearchResponse.RailOffer) {
+        updateOffer(offer)
+        viewPager.currentItem = RailAmenitiesAndRulesAdapter.Tab.FARE_RULES.ordinal
+        updateToolbar(RailAmenitiesAndRulesAdapter.Tab.FARE_RULES.ordinal)
+    }
+
     private fun setupTabs() {
         adapter = RailAmenitiesAndRulesAdapter(context)
         viewPager.adapter = adapter
         tabs.setupWithViewPager(viewPager)
+        viewPager.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
+            override fun onPageSelected(position: Int) {
+                updateToolbar(position)
+            }
+
+            override fun onPageScrollStateChanged(state: Int) {
+            }
+
+            override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {
+            }
+        })
     }
 
     private fun setupStatusBar(context: Context) {
@@ -50,4 +76,18 @@ class RailAmenitiesFareRulesWidget(context: Context, attrs: AttributeSet) : Fram
             addView(statusBar)
         }
     }
+
+    private fun updateOffer(offer: RailSearchResponse.RailOffer) {
+        adapter.amenitiesWidget.viewModel.offerObservable.onNext(offer)
+        adapter.fareRulesWidget.viewModel.offerObservable.onNext(offer)
+    }
+
+    private fun updateToolbar(tab: Int) {
+        if (tab == RailAmenitiesAndRulesAdapter.Tab.AMENITIES.ordinal) {
+            toolbar.title = context.getString(R.string.amenities)
+        } else {
+            toolbar.title = context.getString(R.string.fare_rules)
+        }
+    }
+
 }

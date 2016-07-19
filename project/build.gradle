@@ -1,5 +1,3 @@
-import retrofit2.http.HEAD
-
 def shouldRunProguard = GradleUtil.shouldEnableProguard(project)
 def gitRev = GradleUtil.getGitRevision()
 
