@@ -45,6 +45,7 @@ class TravelerSelectViewModelTest {
     var expectedErrorColor: Int by Delegates.notNull()
 
     val testIndex = 0
+    val testAddTravelerIndex = 1
 
     val mockTravelerProvider = MockTravelerProvider()
     lateinit var testParams: PackageSearchParams
@@ -226,6 +227,19 @@ class TravelerSelectViewModelTest {
         assertEquals(mockTravelerProvider.testFullName, selectVM.titleObservable.value)
         assertEquals(expectedSubTitleErrorMessage, selectVM.subtitleObservable.value)
         assertEquals(expectedErrorColor, selectVM.subtitleTextColorObservable.value)
+        assertEquals(expectedDefaultFont, selectVM.titleFontObservable.value)
+    }
+
+    @Test
+    fun testUpdateStatusNoPhoneAddTravelers() {
+        selectVM = TestTravelerSelectViewModel(activity, testAddTravelerIndex, -1)
+        selectVM.testTraveler = mockTravelerProvider.getCompleteMockTravelerWithoutPhone()
+        selectVM.travelerValidator.updateForNewSearch(testParams)
+        selectVM.updateStatus(TravelerCheckoutStatus.DIRTY)
+
+        assertEquals(ContactDetailsCompletenessStatus.COMPLETE, selectVM.iconStatusObservable.value)
+        assertEquals(mockTravelerProvider.testFullName, selectVM.titleObservable.value)
+        assertEquals(mockTravelerProvider.adultBirthDate.toString("MM/dd/yyyy"), selectVM.subtitleObservable.value)
         assertEquals(expectedDefaultFont, selectVM.titleFontObservable.value)
     }
 

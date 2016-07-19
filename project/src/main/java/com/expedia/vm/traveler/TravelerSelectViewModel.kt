@@ -7,6 +7,7 @@ import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.Traveler
 import com.expedia.bookings.enums.TravelerCheckoutStatus
 import com.expedia.bookings.utils.FontCache
+import com.expedia.bookings.utils.TravelerUtils
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.validation.TravelerValidator
 import com.expedia.bookings.widget.ContactDetailsCompletenessStatus
@@ -41,7 +42,7 @@ open class TravelerSelectViewModel(val context: Context, val index: Int, val age
     fun updateStatus(status: TravelerCheckoutStatus) {
         this.status = status
         val traveler = getTraveler()
-        val validForPackageBooking = travelerValidator.isValidForPackageBooking(traveler);
+        val validForPackageBooking = travelerValidator.isValidForPackageBooking(traveler, index)
         if (status != TravelerCheckoutStatus.CLEAN) {
             if (!validForPackageBooking) {
                 setTravelerSummaryInfo(getTitle(traveler), getErrorSubtitle(),

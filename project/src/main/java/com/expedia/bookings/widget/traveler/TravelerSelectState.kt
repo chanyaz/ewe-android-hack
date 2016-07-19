@@ -28,22 +28,20 @@ class TravelerSelectState(context: Context, attrs: AttributeSet?) : LinearLayout
         mainTravelerContainer.removeAllViews()
         addTravelersContainer.removeAllViews()
         viewModelList.clear()
-        for (i in 1..travelerList.size) {
-            val traveler = travelerList[i - 1]
-
-            val travelerViewModel = TravelerSelectViewModel(context, i - 1, traveler.searchedAge)
+        travelerList.forEachIndexed { i, traveler ->
+            val travelerViewModel = TravelerSelectViewModel(context, i, traveler.searchedAge)
             travelerViewModel.updateStatus(status)
             viewModelList.add(travelerViewModel)
 
             val travelerSelectItem = TravelerSelectItem(context, travelerViewModel)
             travelerSelectItem.setOnClickListener {
-                travelerIndexSelectedSubject.onNext(Pair(i - 1, travelerViewModel.emptyText))
+                travelerIndexSelectedSubject.onNext(Pair(i, travelerViewModel.emptyText))
                 travelerViewModel.status = TravelerCheckoutStatus.DIRTY
             }
-            val parent = if (i==1) mainTravelerContainer else addTravelersContainer
+            val parent = if (i==0) mainTravelerContainer else addTravelersContainer
             parent.addView(travelerSelectItem)
 
-            if (i != travelerList.size && i != 1) {
+            if (i != travelerList.size - 1 && i != 0) {
                 View.inflate(context, R.layout.grey_divider_bar, parent)
             }
         }

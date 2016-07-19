@@ -61,7 +61,7 @@ public class SingleTravelerPresenterTest extends BaseTravelerPresenterTestHelper
 		EspressoUser.clickOnView(R.id.traveler_default_state);
 		EspressoUtils.assertViewIsDisplayed(R.id.traveler_entry_widget);
 
-		enterValidTraveler();
+		enterValidTraveler(true);
 		EspressoUtils.assertViewIsDisplayed(R.id.traveler_default_state);
 
 		EspressoUser.clickOnView(R.id.traveler_default_state);

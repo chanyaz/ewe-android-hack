@@ -3,6 +3,7 @@ package com.expedia.vm.traveler
 import android.content.Context
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.Traveler
+import com.expedia.bookings.utils.TravelerUtils
 import com.expedia.util.endlessObserver
 import rx.subjects.BehaviorSubject
 
@@ -12,6 +13,7 @@ open class TravelerViewModel(private val context: Context, val travelerIndex: In
     var tsaViewModel = TravelerTSAViewModel(context)
     var advancedOptionsViewModel = TravelerAdvancedOptionsViewModel()
 
+    val showPhoneNumberObservable = BehaviorSubject.create<Boolean>()
     val passportCountrySubject = BehaviorSubject.create<String>()
     val showPassportCountryObservable = BehaviorSubject.create<Boolean>()
 
@@ -22,6 +24,7 @@ open class TravelerViewModel(private val context: Context, val travelerIndex: In
     init {
         updateTraveler(getTraveler())
         showPassportCountryObservable.onNext(shouldShowPassportDropdown())
+        showPhoneNumberObservable.onNext(TravelerUtils.isMainTraveler(travelerIndex))
     }
 
     open fun updateTraveler(traveler: Traveler) {
@@ -35,7 +38,7 @@ open class TravelerViewModel(private val context: Context, val travelerIndex: In
 
     fun validate(): Boolean {
         val nameValid = nameViewModel.validate()
-        val phoneValid = phoneViewModel.validate()
+        val phoneValid = !TravelerUtils.isMainTraveler(travelerIndex) || phoneViewModel.validate()
         val tsaValid = tsaViewModel.validate()
 
         val valid = nameValid && phoneValid && tsaValid
