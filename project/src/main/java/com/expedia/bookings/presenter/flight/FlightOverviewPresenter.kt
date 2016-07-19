@@ -5,6 +5,7 @@ import android.support.v4.content.ContextCompat
 import android.util.AttributeSet
 import android.view.View
 import android.view.ViewStub
+import android.view.ViewTreeObserver
 import android.view.animation.DecelerateInterpolator
 import com.expedia.bookings.R
 import com.expedia.bookings.data.pos.PointOfSale
@@ -71,13 +72,23 @@ class FlightOverviewPresenter(context: Context, attrs: AttributeSet) : BaseOverv
             show(paymentFeeInfoWebView)
         }
         getCheckoutPresenter().getCheckoutViewModel().obFeeDetailsUrlSubject.subscribe(paymentFeeInfoWebView.viewModel.webViewURLObservable)
+        getCheckoutPresenter().getCheckoutViewModel().tripResponseObservable.subscribe {
+            flightSummary.viewTreeObserver.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
+                override fun onGlobalLayout() {
+                    val splitTicketLp = flightSummary.splitTicketInfoContainer.layoutParams
+                    splitTicketLp.height = flightSummary.splitTicketInfoContainer.height + getCheckoutPresenter().bottomContainer.height
+                    flightSummary.splitTicketInfoContainer.setLayoutParams(splitTicketLp)
+                    flightSummary.viewTreeObserver.removeOnGlobalLayoutListener(this)
+                }
+            })
+        }
     }
 
-    fun getCheckoutPresenter() : FlightCheckoutPresenter {
+    fun getCheckoutPresenter(): FlightCheckoutPresenter {
         return checkoutPresenter as FlightCheckoutPresenter
     }
 
-    override fun getCheckoutTransitionClass() : Class<out Any> {
+    override fun getCheckoutTransitionClass(): Class<out Any> {
         return FlightCheckoutPresenter::class.java
     }
 
