@@ -62,6 +62,7 @@
 
 
     <color name="orange_crush">#FC9F23</color> <!-- This is used mainly for error states -->
+    <color name="reddish_orange">#F25F31</color> <!-- This is used mostly for error states -->
     <color name="greener_pastures">#19BF00</color> <!-- This is used for "savings" -->
 
     <!-- This color is for divider lines within cardviews.  -->

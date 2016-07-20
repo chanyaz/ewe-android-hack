@@ -38,6 +38,7 @@ class TravelerSelectViewModelTest {
     var expectedEmptyTitleChild: String by Delegates.notNull()
     var expectedEmptyTitleInfant: String by Delegates.notNull()
     var expectedEmptySubTitle = ""
+    var expectedSubTitleErrorMessage: String by Delegates.notNull()
     var expectedEmptyFont = FontCache.Font.ROBOTO_REGULAR
     var expectedDefaultColor: Int by Delegates.notNull()
     var expectedDefaultFont = FontCache.Font.ROBOTO_MEDIUM
@@ -66,6 +67,7 @@ class TravelerSelectViewModelTest {
                 .format().toString()
         expectedDefaultColor = ContextCompat.getColor(activity, R.color.traveler_default_card_text_color)
         expectedErrorColor = ContextCompat.getColor(activity, R.color.traveler_incomplete_text_color)
+        expectedSubTitleErrorMessage = "Enter missing traveler details"
 
         Ui.getApplication(activity).defaultTravelerComponent()
         testParams = setPackageParams()
@@ -79,7 +81,7 @@ class TravelerSelectViewModelTest {
         assertEquals(ContactDetailsCompletenessStatus.DEFAULT, selectVM.iconStatusObservable.value)
         assertEquals(expectedEmptyTitle, selectVM.titleObservable.value)
         assertEquals(expectedEmptySubTitle, selectVM.subtitleObservable.value)
-        assertEquals(expectedDefaultColor, selectVM.textColorObservable.value)
+        assertEquals(expectedDefaultColor, selectVM.subtitleTextColorObservable.value)
         assertEquals(expectedEmptyFont, selectVM.titleFontObservable.value)
     }
 
@@ -91,7 +93,7 @@ class TravelerSelectViewModelTest {
         assertEquals(ContactDetailsCompletenessStatus.DEFAULT, selectVM.iconStatusObservable.value)
         assertEquals(expectedEmptyTitleChild, selectVM.titleObservable.value)
         assertEquals(expectedEmptySubTitle, selectVM.subtitleObservable.value)
-        assertEquals(expectedDefaultColor, selectVM.textColorObservable.value)
+        assertEquals(expectedDefaultColor, selectVM.subtitleTextColorObservable.value)
         assertEquals(expectedEmptyFont, selectVM.titleFontObservable.value)
 
         selectVM = TestTravelerSelectViewModel(activity, testIndex, 1)
@@ -100,7 +102,7 @@ class TravelerSelectViewModelTest {
         assertEquals(ContactDetailsCompletenessStatus.DEFAULT, selectVM.iconStatusObservable.value)
         assertEquals(expectedEmptyTitleInfant, selectVM.titleObservable.value)
         assertEquals(expectedEmptySubTitle, selectVM.subtitleObservable.value)
-        assertEquals(expectedDefaultColor, selectVM.textColorObservable.value)
+        assertEquals(expectedDefaultColor, selectVM.subtitleTextColorObservable.value)
         assertEquals(expectedEmptyFont, selectVM.titleFontObservable.value)
 
         selectVM = TestTravelerSelectViewModel(activity, testIndex, 1)
@@ -109,7 +111,7 @@ class TravelerSelectViewModelTest {
         assertEquals(ContactDetailsCompletenessStatus.DEFAULT, selectVM.iconStatusObservable.value)
         assertEquals(expectedEmptyTitleInfant, selectVM.titleObservable.value)
         assertEquals(expectedEmptySubTitle, selectVM.subtitleObservable.value)
-        assertEquals(expectedDefaultColor, selectVM.textColorObservable.value)
+        assertEquals(expectedDefaultColor, selectVM.subtitleTextColorObservable.value)
         assertEquals(expectedEmptyFont, selectVM.titleFontObservable.value)
     }
 
@@ -120,8 +122,8 @@ class TravelerSelectViewModelTest {
 
         assertEquals(ContactDetailsCompletenessStatus.INCOMPLETE, selectVM.iconStatusObservable.value)
         assertEquals(expectedEmptyTitle, selectVM.titleObservable.value)
-        assertEquals(expectedEmptySubTitle, selectVM.subtitleObservable.value)
-        assertEquals(expectedErrorColor, selectVM.textColorObservable.value)
+        assertEquals(expectedSubTitleErrorMessage, selectVM.subtitleObservable.value)
+        assertEquals(expectedErrorColor, selectVM.subtitleTextColorObservable.value)
         assertEquals(expectedEmptyFont, selectVM.titleFontObservable.value)
     }
 
@@ -136,8 +138,8 @@ class TravelerSelectViewModelTest {
 
         assertEquals(ContactDetailsCompletenessStatus.INCOMPLETE, selectVM.iconStatusObservable.value)
         assertEquals(mockTravelerProvider.testFullName, selectVM.titleObservable.value)
-        assertEquals(expectedEmptySubTitle, selectVM.subtitleObservable.value)
-        assertEquals(expectedDefaultColor, selectVM.textColorObservable.value,
+        assertEquals(expectedSubTitleErrorMessage, selectVM.subtitleObservable.value)
+        assertEquals(expectedErrorColor, selectVM.subtitleTextColorObservable.value,
                 "Color should be the default if name field is populated")
         assertEquals(expectedDefaultFont, selectVM.titleFontObservable.value)
     }
@@ -153,9 +155,9 @@ class TravelerSelectViewModelTest {
 
         assertEquals(ContactDetailsCompletenessStatus.INCOMPLETE, selectVM.iconStatusObservable.value)
         assertEquals(expectedEmptyTitle, selectVM.titleObservable.value)
-        assertEquals(expectedEmptySubTitle, selectVM.subtitleObservable.value,
+        assertEquals(expectedSubTitleErrorMessage, selectVM.subtitleObservable.value,
                 "Expected that no phone shows unless there is also a name")
-        assertEquals(expectedErrorColor, selectVM.textColorObservable.value)
+        assertEquals(expectedErrorColor, selectVM.subtitleTextColorObservable.value)
         assertEquals(expectedEmptyFont, selectVM.titleFontObservable.value)
     }
 
@@ -171,8 +173,8 @@ class TravelerSelectViewModelTest {
 
         assertEquals(ContactDetailsCompletenessStatus.INCOMPLETE, selectVM.iconStatusObservable.value)
         assertEquals(mockTravelerProvider.testFullName, selectVM.titleObservable.value)
-        assertEquals(mockTravelerProvider.testNumber, selectVM.subtitleObservable.value)
-        assertEquals(expectedDefaultColor, selectVM.textColorObservable.value)
+        assertEquals(expectedSubTitleErrorMessage, selectVM.subtitleObservable.value)
+        assertEquals(expectedErrorColor, selectVM.subtitleTextColorObservable.value)
         assertEquals(expectedDefaultFont, selectVM.titleFontObservable.value)
     }
 
@@ -185,8 +187,45 @@ class TravelerSelectViewModelTest {
 
         assertEquals(ContactDetailsCompletenessStatus.COMPLETE, selectVM.iconStatusObservable.value)
         assertEquals(mockTravelerProvider.testFullName, selectVM.titleObservable.value)
-        assertEquals(mockTravelerProvider.testNumber, selectVM.subtitleObservable.value)
-        assertEquals(expectedDefaultColor, selectVM.textColorObservable.value)
+        assertEquals(mockTravelerProvider.adultBirthDate.toString("MM/dd/yyyy"), selectVM.subtitleObservable.value)
+        assertEquals(expectedDefaultColor, selectVM.subtitleTextColorObservable.value)
+        assertEquals(expectedDefaultFont, selectVM.titleFontObservable.value)
+    }
+
+    @Test
+    fun testUpdateStatusDirtyBirthday() {
+        val traveler = Traveler()
+        traveler.fullName = mockTravelerProvider.testFullName
+        traveler.phoneNumber = mockTravelerProvider.testNumber
+        traveler.gender = mockTravelerProvider.testGender
+
+        selectVM = TestTravelerSelectViewModel(activity, testIndex, -1)
+        selectVM.testTraveler = traveler
+        selectVM.updateStatus(TravelerCheckoutStatus.DIRTY)
+
+        assertEquals(ContactDetailsCompletenessStatus.INCOMPLETE, selectVM.iconStatusObservable.value)
+        assertEquals(mockTravelerProvider.testFullName, selectVM.titleObservable.value)
+        assertEquals(expectedSubTitleErrorMessage, selectVM.subtitleObservable.value)
+        assertEquals(expectedErrorColor, selectVM.subtitleTextColorObservable.value)
+        assertEquals(expectedDefaultFont, selectVM.titleFontObservable.value)
+    }
+
+    @Test
+    fun testUpdateStatusCleanBirthdayDirtyBooking() {
+        val traveler = Traveler()
+        traveler.fullName = mockTravelerProvider.testFullName
+        traveler.phoneNumber = mockTravelerProvider.testNumber
+        traveler.gender = mockTravelerProvider.testGender
+
+        selectVM = TestTravelerSelectViewModel(activity, testIndex, -1)
+        selectVM.testTraveler = traveler
+        selectVM.travelerValidator.updateForNewSearch(testParams)
+        selectVM.updateStatus(TravelerCheckoutStatus.DIRTY)
+
+        assertEquals(ContactDetailsCompletenessStatus.INCOMPLETE, selectVM.iconStatusObservable.value)
+        assertEquals(mockTravelerProvider.testFullName, selectVM.titleObservable.value)
+        assertEquals(expectedSubTitleErrorMessage, selectVM.subtitleObservable.value)
+        assertEquals(expectedErrorColor, selectVM.subtitleTextColorObservable.value)
         assertEquals(expectedDefaultFont, selectVM.titleFontObservable.value)
     }
 
