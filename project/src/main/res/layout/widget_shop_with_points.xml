@@ -7,7 +7,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
         android:src="@drawable/search_form_icon_points"
-        android:tint="@color/search_screen_icon_color_v2"/>
+        android:tint="@color/search_screen_swp_icon_color_v2"/>
 
     <LinearLayout
         android:layout_width="0dp"

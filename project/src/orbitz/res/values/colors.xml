@@ -112,4 +112,8 @@
     <color name="sign_in_user_middle_tier">#e7b40d</color>
     <color name="sign_in_user_top_tier">#787878</color>
 
+    <!-- hotels swp colors-->
+    <color name="hotelsv2_loyalty_applied_text_color">#8e2198</color>
+    <color name="search_screen_swp_icon_color_v2">@color/hotelsv2_loyalty_applied_text_color</color>
+
 </resources>
