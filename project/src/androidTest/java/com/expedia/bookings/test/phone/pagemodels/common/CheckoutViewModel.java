@@ -40,7 +40,7 @@ import static org.hamcrest.Matchers.not;
 public class CheckoutViewModel {
 	// Checkout
 
-	public static ViewInteraction driverInfo() {
+	public static ViewInteraction travelerInfo() {
 		return onView(withId(R.id.main_contact_info_card_view));
 	}
 
@@ -64,8 +64,8 @@ public class CheckoutViewModel {
 		return onView(withId(R.id.card_info_name));
 	}
 
-	public static void clickDriverInfo() {
-		driverInfo().perform(scrollTo(), click());
+	public static void clickTravelerInfo() {
+		travelerInfo().perform(scrollTo(), click());
 	}
 
 	public static void clickPaymentInfo() {
@@ -228,7 +228,7 @@ public class CheckoutViewModel {
 
 	public static void enterTravelerInfo() {
 		Common.delay(2);
-		clickDriverInfo();
+		clickTravelerInfo();
 		Common.delay(1);
 		enterFirstName("FiveStar");
 		enterLastName("Bear");
@@ -243,7 +243,7 @@ public class CheckoutViewModel {
 	}
 
 	public static void selectStoredTraveler() throws Throwable {
-		CheckoutViewModel.clickDriverInfo();
+		CheckoutViewModel.clickTravelerInfo();
 		CheckoutViewModel.clickStoredTravelerButton();
 		CheckoutViewModel.selectStoredTraveler("Expedia Automation First");
 		CheckoutViewModel.pressClose();

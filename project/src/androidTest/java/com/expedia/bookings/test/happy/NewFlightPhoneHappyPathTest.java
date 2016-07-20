@@ -1,6 +1,7 @@
 package com.expedia.bookings.test.happy;
 
 import java.lang.reflect.Method;
+
 import org.joda.time.LocalDate;
 
 import android.app.Activity;
@@ -63,7 +64,6 @@ public class NewFlightPhoneHappyPathTest extends NewFlightTestCase {
 		Method method = getClass().getMethod(getName(), (Class[]) null);
 
 		if (method.getName().equals("testNewFlightHappyPath")) {
-
 			Intents.release();
 		}
 		super.tearDown();
@@ -130,46 +130,65 @@ public class NewFlightPhoneHappyPathTest extends NewFlightTestCase {
 		assertConfirmationView();
 	}
 
-	public void testNewFlightHappyPathForOneway() throws Throwable {
-		onView(withText("ONE WAY")).perform(click());
-		SearchScreen.origin().perform(click());
-		SearchScreen.selectFlightOriginAndDestination();
-		LocalDate startDate = LocalDate.now().plusDays(3);
-		SearchScreen.selectDates(startDate, null);
+	public void testNewFlightHappyPathSignedIn() throws Throwable {
+		selectOriginDestinationAndDates();
 
 		SearchScreen.searchButton().perform(click());
+		selectFirstOutboundFlight();
+		selectFirstInboundFlight();
 
-		FlightTestHelpers.assertFlightOutboundForOneWay();
-		FlightsScreen.selectFlight(FlightsScreen.outboundFlightList(), 0);
-		FlightsScreen.selectOutboundFlight().perform(click());
-
-		assertCheckoutOverviewForOneway();
+		assertCheckoutOverview();
 		assertCostSummaryView();
 
 		PackageScreen.checkout().perform(click());
 
+		CheckoutViewModel.signInOnCheckout();
+		Common.delay(1);
+
+		CheckoutViewModel.clickPaymentInfo();
+		CheckoutViewModel.selectStoredCard("Saved AmexTesting");
+
+		CheckoutViewModel.performSlideToPurchase(true);
+		assertConfirmationView();
+	}
+
+	private void assertDockedOutboundWidgetShown() {
+		FlightTestHelpers.assertDockedOutboundFlightSelectionWidget();
+		FlightsResultsScreen.dockedOutboundFlightSelectionWidgetContainsText("Outbound");
+		FlightsResultsScreen.dockedOutboundFlightSelectionWidgetContainsText("Delta");
+		FlightsResultsScreen.dockedOutboundFlightSelectionWidgetContainsText("9:00 pm - 11:00 pm (2h 0m)");
+	}
+
+	private void enterGuestTravelerDetails() {
 		PackageScreen.travelerInfo().perform(scrollTo(), click());
 		PackageScreen.enterFirstName("Eidur");
 		PackageScreen.enterLastName("Gudjohnsen");
 		PackageScreen.enterPhoneNumber("4155554321");
 		PackageScreen.selectBirthDate(1989, 6, 9);
-
 		PackageScreen.selectGender("Male");
-
 		PackageScreen.clickTravelerAdvanced();
 		PackageScreen.enterRedressNumber("1234567");
-
-		PackageScreen.clickTravelerDone();
-		PackageScreen.enterPaymentInfo();
-
-		PackageScreen.clickLegalInformation();
-		assertLegalInformation();
-		Common.pressBack();
-		CheckoutViewModel.performSlideToPurchase();
-
-		assertConfirmationViewForOneWay();
 	}
 
+	private void selectFirstInboundFlight() {
+		FlightTestHelpers.assertFlightInbound();
+		FlightsScreen.selectFlight(FlightsScreen.inboundFlightList(), 0);
+		FlightsScreen.selectInboundFlight().perform(click());
+	}
+
+	private void selectFirstOutboundFlight() {
+		FlightTestHelpers.assertFlightOutbound();
+		FlightsScreen.selectFlight(FlightsScreen.outboundFlightList(), 0);
+		FlightsScreen.selectOutboundFlight().perform(click());
+	}
+
+	private void selectOriginDestinationAndDates() throws Throwable {
+		SearchScreen.origin().perform(click());
+		SearchScreen.selectFlightOriginAndDestination();
+		LocalDate startDate = LocalDate.now().plusDays(3);
+		LocalDate endDate = LocalDate.now().plusDays(8);
+		SearchScreen.selectDates(startDate, endDate);
+	}
 
 	private void assertCostSummaryView() {
 		onView(withId(R.id.bundle_total_text)).perform(click());

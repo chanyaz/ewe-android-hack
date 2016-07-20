@@ -73,7 +73,7 @@ public class LxPhoneHappyPathTest extends PhoneTestCase {
 		doLogin();
 		Common.delay(2);
 
-		CheckoutViewModel.clickDriverInfo();
+		CheckoutViewModel.clickTravelerInfo();
 		CheckoutViewModel.clickStoredTravelerButton();
 		CheckoutViewModel.selectStoredTraveler("Expedia Automation First");
 

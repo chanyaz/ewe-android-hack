@@ -100,7 +100,7 @@ public class LXCheckoutPresenterTest extends LxTestCase {
 		CheckoutViewModel.enterPaymentInfo();
 		Common.pressBack();
 		LXInfositeScreen.bookNowButton("2-Day").perform(scrollTo(), click());
-		CheckoutViewModel.driverInfo().perform(waitForViewToDisplay());
+		CheckoutViewModel.travelerInfo().perform(waitForViewToDisplay());
 		LXScreen.acceptTermsWidget().check(matches(not(isDisplayed())));
 
 	}
