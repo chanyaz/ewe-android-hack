@@ -28,7 +28,17 @@
           "meal": "Food and beverage for purchase",
           "onTimePercentage": "70",
           "providerCode": "Amadeus",
-          "stops": 0
+          "stops": 0,
+          "arrivalAirportAddress": {
+            "city": "San Francisco",
+            "country": "USA",
+            "state": "California"
+          },
+          "departureAirportAddress": {
+            "city": "Detroit",
+            "country": "USA",
+            "state": "MI"
+          }
         }
       ]
     },
@@ -60,7 +70,17 @@
           "meal": "Food For Purchase",
           "onTimePercentage": "100",
           "providerCode": "Amadeus",
-          "stops": 0
+          "stops": 0,
+          "arrivalAirportAddress": {
+            "city": "San Francisco",
+            "country": "USA",
+            "state": "California"
+          },
+          "departureAirportAddress": {
+            "city": "Detroit",
+            "country": "USA",
+            "state": "MI"
+          }
         }
       ]
     },
@@ -90,7 +110,17 @@
         "distance": 956,
         "distanceUnits": "miles",
         "stops": 0,
-        "providerCode": "Amadeus"
+        "providerCode": "Amadeus",
+        "arrivalAirportAddress": {
+          "city": "San Francisco",
+          "country": "USA",
+          "state": "California"
+        },
+        "departureAirportAddress": {
+          "city": "Detroit",
+          "country": "USA",
+          "state": "MI"
+        }
       }, {
         "departureTime": "March 22, 2016 9:00:00 PM",
         "departureTimeEpochSeconds": 1458705600,
@@ -113,7 +143,17 @@
         "distance": 339,
         "distanceUnits": "miles",
         "stops": 0,
-        "providerCode": "Amadeus"
+        "providerCode": "Amadeus",
+        "arrivalAirportAddress": {
+          "city": "San Francisco",
+          "country": "USA",
+          "state": "California"
+        },
+        "departureAirportAddress": {
+          "city": "Detroit",
+          "country": "USA",
+          "state": "MI"
+        }
       }],
       "freeCancellationBy": {
         "raw": "2015-12-10T23:59:00Z",
@@ -148,7 +188,17 @@
         "distance": 679,
         "distanceUnits": "miles",
         "stops": 0,
-        "providerCode": "Amadeus"
+        "providerCode": "Amadeus",
+        "arrivalAirportAddress": {
+          "city": "San Francisco",
+          "country": "USA",
+          "state": "California"
+        },
+        "departureAirportAddress": {
+          "city": "Detroit",
+          "country": "USA",
+          "state": "MI"
+        }
       }],
       "freeCancellationBy": {
         "raw": "2015-12-10T23:59:00Z",

@@ -6,6 +6,7 @@ import android.view.View
 import com.expedia.bookings.R
 import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.SuggestionV4
+import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.data.packages.PackageSearchParams
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.utils.StrUtils
@@ -26,6 +27,7 @@ import kotlin.test.assertTrue
 @RunWith(RobolectricRunner::class)
 class PackageInboundFlightWidgetTest {
     var testOrigin: SuggestionV4 by Delegates.notNull()
+    var testFlight: FlightLeg by Delegates.notNull()
     val testRegionName = "Chicago"
     val testAirportCode = "ORD"
     val testFlightText = "(ORD) Chicago"
@@ -42,7 +44,9 @@ class PackageInboundFlightWidgetTest {
         testOrigin = buildMockOriginSuggestion()
         testWidget = InboundFlightWidget(activity, null)
         widgetVM = BundleFlightViewModel(activity, LineOfBusiness.PACKAGES)
+        testFlight = buildMockFlight()
         testWidget.viewModel = widgetVM
+        testWidget.viewModel.flight.onNext(testFlight)
         expectedDisabledColor = ContextCompat.getColor(activity, R.color.package_bundle_icon_color)
         setUpParams()
     }
@@ -57,7 +61,7 @@ class PackageInboundFlightWidgetTest {
         val shadowDrawable = Shadows.shadowOf(testWidget.flightIcon.drawable)
         assertEquals(R.drawable.packages_flight2_icon, shadowDrawable.createdFromResId)
 
-        val expectedFlightText = activity.getString(R.string.select_flight_to, StrUtils.formatAirportCodeCityName(testOrigin))
+        val expectedFlightText = activity.getString(R.string.select_flight_to, StrUtils.formatCityName(testOrigin))
         assertEquals(expectedFlightText, testWidget.flightCardText.text)
         assertEquals(View.VISIBLE, testWidget.travelInfoText.visibility)
     }
@@ -83,7 +87,7 @@ class PackageInboundFlightWidgetTest {
 
         assertEquals(View.GONE, testWidget.flightLoadingBar.visibility)
 
-        val expectedFlightText = activity.getString(R.string.select_flight_to, StrUtils.formatAirportCodeCityName(testOrigin))
+        val expectedFlightText = activity.getString(R.string.select_flight_to, StrUtils.formatCityName(testOrigin))
         assertEquals(expectedFlightText, testWidget.flightCardText.text)
         assertEquals(View.VISIBLE, testWidget.travelInfoText.visibility)
     }
@@ -163,5 +167,12 @@ class PackageInboundFlightWidgetTest {
 
         assertEquals(testFlightText, testWidget.flightCardText.text)
         assertEquals(testTravelerInfoText, testWidget.travelInfoText.text)
+    }
+
+    fun buildMockFlight() : FlightLeg {
+        val flight = Mockito.mock(FlightLeg::class.java)
+        flight.destinationAirportCode = testAirportCode
+        flight.destinationCity = testRegionName
+        return flight
     }
 }
