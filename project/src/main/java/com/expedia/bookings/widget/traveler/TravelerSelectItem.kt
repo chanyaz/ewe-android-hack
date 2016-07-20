@@ -17,6 +17,6 @@ class TravelerSelectItem(context: Context, val travelerViewModel: TravelerSelect
             travelerStatusIcon.status = it
         }
 
-        travelerViewModel.textColorObservable.subscribeTextColor(detailsText)
+        travelerViewModel.subtitleTextColorObservable.subscribeTextColor(secondaryText)
     }
 }

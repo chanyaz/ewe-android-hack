@@ -26,7 +26,7 @@ open class TravelerSelectViewModel(val context: Context, val index: Int, val age
     val iconStatusObservable = BehaviorSubject.create<ContactDetailsCompletenessStatus>()
     val titleObservable = BehaviorSubject.create<String>()
     val subtitleObservable = BehaviorSubject.create<String>()
-    val textColorObservable = BehaviorSubject.create<Int>()
+    val subtitleTextColorObservable = BehaviorSubject.create<Int>()
     val titleFontObservable = BehaviorSubject.create<FontCache.Font>()
 
     var status: TravelerCheckoutStatus
@@ -35,26 +35,40 @@ open class TravelerSelectViewModel(val context: Context, val index: Int, val age
         Ui.getApplication(context).travelerComponent().inject(this)
         setTravelerSummaryInfo(emptyText, "", ContactDetailsCompletenessStatus.DEFAULT, FontCache.Font.ROBOTO_REGULAR)
         status = TravelerCheckoutStatus.CLEAN
+        subtitleTextColorObservable.onNext(ContextCompat.getColor(context, R.color.traveler_default_card_text_color))
     }
 
     fun updateStatus(status: TravelerCheckoutStatus) {
         this.status = status
         val traveler = getTraveler()
-        textColorObservable.onNext(ContextCompat.getColor(context, R.color.traveler_default_card_text_color))
+        val validForPackageBooking = travelerValidator.isValidForPackageBooking(traveler);
         if (status != TravelerCheckoutStatus.CLEAN) {
-            if (isNameEmpty(traveler)) {
-                setTravelerSummaryInfo(emptyText, "", ContactDetailsCompletenessStatus.INCOMPLETE, FontCache.Font.ROBOTO_REGULAR)
-                textColorObservable.onNext(ContextCompat.getColor(context, R.color.traveler_incomplete_text_color))
-            } else if (isPhoneEmpty(traveler)) {
-                setTravelerSummaryInfo(traveler.fullName, "", ContactDetailsCompletenessStatus.INCOMPLETE, FontCache.Font.ROBOTO_MEDIUM)
-            } else if (!travelerValidator.isValidForPackageBooking(traveler)) {
-                setTravelerSummaryInfo(traveler.fullName, traveler.primaryPhoneNumber.number,
-                        ContactDetailsCompletenessStatus.INCOMPLETE, FontCache.Font.ROBOTO_MEDIUM)
+            if (!validForPackageBooking) {
+                setTravelerSummaryInfo(getTitle(traveler), getErrorSubtitle(),
+                        ContactDetailsCompletenessStatus.INCOMPLETE, getFont(traveler))
             } else {
-                setTravelerSummaryInfo(traveler.fullName, traveler.primaryPhoneNumber.number,
-                        ContactDetailsCompletenessStatus.COMPLETE, FontCache.Font.ROBOTO_MEDIUM)
+                setTravelerSummaryInfo(getTitle(traveler), getCompletedFormSubtitle(traveler),
+                        ContactDetailsCompletenessStatus.COMPLETE, getFont(traveler))
             }
         }
+    }
+
+    private fun getTitle(traveler : Traveler) : String {
+        return if (isNameEmpty(traveler)) emptyText else traveler.fullName
+    }
+
+    private fun getErrorSubtitle() : String? {
+        subtitleTextColorObservable.onNext(ContextCompat.getColor(context, R.color.traveler_incomplete_text_color))
+        return resources.getString(R.string.enter_missing_traveler_details)
+    }
+
+    private fun getCompletedFormSubtitle(traveler : Traveler): String? {
+        subtitleTextColorObservable.onNext(ContextCompat.getColor(context, R.color.traveler_default_card_text_color))
+        return traveler.birthDate?.toString("MM/dd/yyyy")
+    }
+
+    private fun getFont(traveler : Traveler): FontCache.Font {
+        return if (isNameEmpty(traveler)) FontCache.Font.ROBOTO_REGULAR else FontCache.Font.ROBOTO_MEDIUM
     }
 
     private fun isNameEmpty(traveler: Traveler): Boolean{
@@ -65,7 +79,7 @@ open class TravelerSelectViewModel(val context: Context, val index: Int, val age
         return traveler.primaryPhoneNumber?.number.isNullOrEmpty()
     }
 
-    private fun setTravelerSummaryInfo(title: String, subTitle: String, completenessStatus: ContactDetailsCompletenessStatus, font: FontCache.Font) {
+    private fun setTravelerSummaryInfo(title: String, subTitle: String?, completenessStatus: ContactDetailsCompletenessStatus, font: FontCache.Font) {
         titleObservable.onNext(title)
         subtitleObservable.onNext(subTitle)
         iconStatusObservable.onNext(completenessStatus)

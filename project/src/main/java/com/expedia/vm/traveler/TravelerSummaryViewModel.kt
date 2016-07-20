@@ -30,7 +30,7 @@ open class TravelerSummaryViewModel(val context: Context) {
             if (status == TravelerCheckoutStatus.CLEAN) {
                 if (isFirstTravelerEmpty()) {
                     val title = resources.getString(R.string.checkout_enter_traveler_details)
-                    val subTitle = resources.getString(R.string.checkout_enter_traveler_details_line2)
+                    val subTitle = resources.getString(R.string.enter_missing_traveler_details)
                     setTravelerSummaryInfo(title, subTitle, ContactDetailsCompletenessStatus.DEFAULT)
                 } else {
                     setTravelerSummaryInfo(getTitle(), getSubtitle(), ContactDetailsCompletenessStatus.INCOMPLETE)
@@ -71,10 +71,10 @@ open class TravelerSummaryViewModel(val context: Context) {
         }
 
         var traveler = getFirstTraveler()
-        if (traveler?.primaryPhoneNumber?.number.isNullOrEmpty()) {
-            return resources.getString(R.string.checkout_enter_traveler_details_line2)
+        if (traveler == null || travelerStatusObserver.value != TravelerCheckoutStatus.COMPLETE) {
+            return resources.getString(R.string.enter_missing_traveler_details)
         } else {
-            return traveler!!.primaryPhoneNumber.number
+            return traveler!!.birthDate!!.toString("MM/dd/yyyy")
         }
     }
 

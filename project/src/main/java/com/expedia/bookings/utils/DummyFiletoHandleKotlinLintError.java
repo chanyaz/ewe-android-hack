@@ -315,6 +315,7 @@ DummyFiletoHandleKotlinLintError {
 		R.string.search_bundle_total_text,
 		R.string.flight_checkout_overview_TEMPLATE,
 		R.plurals.hotel_checkout_overview_TEMPLATE,
+		R.string.enter_missing_traveler_details,
 		R.string.checkout_selected_card,
 		R.drawable.add_new_credit_card,
 		R.layout.rail_cell,

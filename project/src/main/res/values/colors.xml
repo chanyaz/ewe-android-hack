@@ -480,7 +480,7 @@
     <color name="traveler_drop_down_unchecked_color">@color/gray7</color>
     <color name="packages_filter_color">@color/gray6</color>
     <color name="traveler_default_card_text_color">@color/gray7</color>
-    <color name="traveler_incomplete_text_color">@color/orange_crush</color>
+    <color name="traveler_incomplete_text_color">@color/reddish_orange</color>
     <color name="packages_total_duration_text">@color/white_70</color>
     <color name="flights_error_message_infants">@color/orange_crush</color>
 
