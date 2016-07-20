@@ -111,7 +111,7 @@ public class PackagesBundleOverviewTest extends PackageTestCase {
 		String previous = isInboundFlight ? "Outbound Flight" : "Hotel";
 		if (isDisabled) {
 			view.check(matches(withContentDescription(
-				"Flight to " + flightTo + " on " + date + " for 1 Traveler. Please select " + previous + " first. Button disabled.")));
+				"Flight to " + flightTo + " on " + date + " for 1 Traveler. Please select " + previous + " first. Button.")));
 		}
 		else {
 			view.check(matches(withContentDescription(
