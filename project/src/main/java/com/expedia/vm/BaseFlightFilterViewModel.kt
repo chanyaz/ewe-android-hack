@@ -17,7 +17,6 @@ import java.util.Comparator
 import java.util.TreeMap
 
 class BaseFlightFilterViewModel(private val context: Context) {
-    val hourMinuteFormatter = DateTimeFormat.forPattern("hh:mma")
     val doneObservable = PublishSubject.create<Unit>()
     val doneButtonEnableObservable = PublishSubject.create<Boolean>()
     val clearObservable = PublishSubject.create<Unit>()
@@ -105,8 +104,8 @@ class BaseFlightFilterViewModel(private val context: Context) {
     }
 
     private val departureComparator: Comparator<FlightLeg> = Comparator { lhs, rhs ->
-        val leftStart = DateTime.parse(lhs?.flightSegments?.first()?.departureTime, hourMinuteFormatter)
-        val rightStart = DateTime.parse(rhs?.flightSegments?.first()?.departureTime, hourMinuteFormatter)
+        val leftStart = DateTime.parse(lhs?.departureDateTimeISO)
+        val rightStart = DateTime.parse(rhs?.departureDateTimeISO)
 
         if (leftStart.isBefore(rightStart)) {
             -1;
@@ -118,8 +117,8 @@ class BaseFlightFilterViewModel(private val context: Context) {
     }
 
     private val arrivalComparator: Comparator<FlightLeg> = Comparator { lhs, rhs ->
-        val leftStart = DateTime.parse(lhs?.flightSegments?.last()?.arrivalTime, hourMinuteFormatter)
-        val rightStart = DateTime.parse(rhs?.flightSegments?.last()?.arrivalTime, hourMinuteFormatter)
+        val leftStart = DateTime.parse(lhs?.arrivalDateTimeISO)
+        val rightStart = DateTime.parse(rhs?.arrivalDateTimeISO)
 
         if (leftStart.isBefore(rightStart)) {
             -1;
