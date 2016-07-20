@@ -76,6 +76,10 @@ public class AboutUtils {
 			true);
 	}
 
+	public void openRewardsCard() {
+		openWebsite(mActivity, ProductFlavorFeatureConfiguration.getInstance().getRewardsCardUrl(mActivity), true);
+	}
+
 	public void openCareers() {
 		openWebsite(mActivity, "http://www.mobiata.com/careers", false);
 		OmnitureTracking.trackClickWereHiring();
