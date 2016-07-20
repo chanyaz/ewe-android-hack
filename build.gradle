@@ -1,7 +1,4 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
-import org.gradle.api.logging.LoggingOutput
-import org.gradle.api.logging.StandardOutputListener
-
 buildscript {
     ext.kotlin_version = '1.0.3'
     ext.okhttp_version = '3.3.1'
@@ -44,8 +41,8 @@ apply plugin: 'com.github.ben-manes.versions'
 ext.supportLibVersion = "23.3.0"
 ext.googlePlayServicesVersion = "8.4.0"
 
-ext.compileSdkVersion = 23
-ext.buildToolsVersion = "23.0.3"
+ext.compileSdkVersion = 24
+ext.buildToolsVersion = "24.0.0"
 
 ext.preDexLibs = !project.hasProperty('disablePreDex')
 
