@@ -88,10 +88,6 @@ open class FlightServices(endpoint: String, okHttpClient: OkHttpClient, intercep
                             leg.durationHour += travelPeriod.hours
                             leg.durationMinute += travelPeriod.minutes
 
-                            // set departure and arrival time to be compatible with packages format
-                            segment.departureTime = segmentDepartureTime.toString(hourMinuteFormatter)
-                            segment.arrivalTime = segmentArrivalTime.toString(hourMinuteFormatter)
-
                             if (lastSegment != null) {
                                 val layOverPeriod = Period(lastArrival, segmentDepartureTime);
                                 leg.durationHour += layOverPeriod.hours
