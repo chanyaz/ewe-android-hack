@@ -4199,8 +4199,8 @@
     <!-- Label for the tab on fare rules/amenities screen -->
     <string name="fare_rules">Fare Rules</string>
 
-    <!-- Label for no segment amenities amenities screen -->
-    <string name="no_amenities">No amenities</string>
+    <!-- Label to indicate no amenities are available for a rail segment on the rail amenities screen -->
+    <string name="rail_segment_no_amenities">No amenities</string>
 
     <!-- rail amenities station info e.g. "Manchester Piccadilly to London Euston" -->
     <string name="rail_station_info_TEMPLATE">{departure} to {arrival}</string>

@@ -767,7 +767,7 @@ DummyFiletoHandleKotlinLintError {
 		R.layout.rail_amenity_view,
 		R.layout.rail_amenities_widget,
 		R.string.fare_rules,
-		R.string.no_amenities,
+		R.string.rail_segment_no_amenities,
 		R.string.rail_station_info_TEMPLATE,
 		R.string.rail_fare_info_TEMPLATE,
 		R.drawable.brand_tablet_checkout_login_logo_drawable
