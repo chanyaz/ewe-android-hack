@@ -760,6 +760,7 @@ DummyFiletoHandleKotlinLintError {
 		R.layout.rail_amenities_rules_widget,
 		R.layout.rail_amenity_view,
 		R.layout.rail_amenities_widget,
+		R.string.delimiter_multiple_bed,
 		R.string.fare_rules,
 		R.string.rail_segment_no_amenities,
 		R.string.rail_station_info_TEMPLATE,
