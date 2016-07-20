@@ -205,30 +205,29 @@ abstract class BaseFlightPresenter(context: Context, attrs: AttributeSet?) : Pre
         }
     }
 
-    val listToFiltersTransition: Transition = object : Transition(FlightResultsListViewPresenter::class.java, BaseFlightFilterWidget::class.java, DecelerateInterpolator(2f), 500) {
+    private val listToFiltersTransition = object : Presenter.Transition(FlightResultsListViewPresenter::class.java, BaseFlightFilterWidget::class.java, DecelerateInterpolator(2f), 500) {
         override fun startTransition(forward: Boolean) {
-            resultsPresenter.recyclerView.visibility = View.VISIBLE
-            toolbar.visibility = View.VISIBLE
+            super.startTransition(forward)
+            filter.visibility = View.VISIBLE
         }
 
         override fun updateTransition(f: Float, forward: Boolean) {
+            super.updateTransition(f, forward)
             val translatePercentage = if (forward) 1f - f else f
             filter.translationY = filter.height * translatePercentage
         }
 
         override fun endTransition(forward: Boolean) {
+            super.endTransition(forward)
             viewBundleSetVisibility(!forward)
             if (forward) {
-                toolbar.visibility = View.GONE
                 filter.visibility = View.VISIBLE
                 filter.translationY = 0f
                 trackFlightSortFilterLoad()
             } else {
-                toolbar.visibility = View.VISIBLE
                 filter.visibility = View.GONE
                 filter.translationY = (filter.height).toFloat()
             }
-            resultsPresenter.recyclerView.visibility = if(forward) View.GONE else View.VISIBLE
         }
     }
 
