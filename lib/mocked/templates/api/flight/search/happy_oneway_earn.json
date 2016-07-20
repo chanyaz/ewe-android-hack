@@ -28,7 +28,17 @@
           "meal": "Food For Purchase",
           "onTimePercentage": "100",
           "providerCode": "Amadeus",
-          "stops": 0
+          "stops": 0,
+          "arrivalAirportAddress": {
+            "city": "San Francisco",
+            "country": "USA",
+            "state": "California"
+          },
+          "departureAirportAddress": {
+            "city": "Detroit",
+            "country": "USA",
+            "state": "MI"
+          }
         }
       ]
     },
@@ -60,7 +70,17 @@
           "meal": "Food For Purchase",
           "onTimePercentage": "90",
           "providerCode": "Amadeus",
-          "stops": 0
+          "stops": 0,
+          "arrivalAirportAddress": {
+            "city": "San Francisco",
+            "country": "USA",
+            "state": "California"
+          },
+          "departureAirportAddress": {
+            "city": "Detroit",
+            "country": "USA",
+            "state": "MI"
+          }
         }
       ]
     },
@@ -90,7 +110,17 @@
           "equipmentDescription": "Boeing 757-200",
           "flightNumber": "301",
           "providerCode": "Amadeus",
-          "stops": 0
+          "stops": 0,
+          "arrivalAirportAddress": {
+            "city": "San Francisco",
+            "country": "USA",
+            "state": "California"
+          },
+          "departureAirportAddress": {
+            "city": "Detroit",
+            "country": "USA",
+            "state": "MI"
+          }
         }
       ]
     },
@@ -122,7 +152,17 @@
           "meal": "Food For Purchase",
           "onTimePercentage": "100",
           "providerCode": "Amadeus",
-          "stops": 0
+          "stops": 0,
+          "arrivalAirportAddress": {
+            "city": "San Francisco",
+            "country": "USA",
+            "state": "California"
+          },
+          "departureAirportAddress": {
+            "city": "Detroit",
+            "country": "USA",
+            "state": "MI"
+          }
         }
       ]
     },
@@ -153,7 +193,17 @@
           "distanceUnits": "miles",
           "stops": 0,
           "meal": "Food For Purchase",
-          "providerCode": "Sabre"
+          "providerCode": "Sabre",
+          "arrivalAirportAddress": {
+            "city": "San Francisco",
+            "country": "USA",
+            "state": "California"
+          },
+          "departureAirportAddress": {
+            "city": "Detroit",
+            "country": "USA",
+            "state": "MI"
+          }
         },
         {
           "departureTime": "February 20, 2015 9:00:00 PM",
@@ -179,7 +229,17 @@
           "distanceUnits": "miles",
           "stops": 0,
           "meal": "Food For Purchase",
-          "providerCode": "Sabre"
+          "providerCode": "Sabre",
+          "arrivalAirportAddress": {
+            "city": "San Francisco",
+            "country": "USA",
+            "state": "California"
+          },
+          "departureAirportAddress": {
+            "city": "Detroit",
+            "country": "USA",
+            "state": "MI"
+          }
         }
       ]
     },
@@ -211,7 +271,17 @@
           "meal": "Food For Purchase",
           "onTimePercentage": "100",
           "providerCode": "Amadeus",
-          "stops": 0
+          "stops": 0,
+          "arrivalAirportAddress": {
+            "city": "San Francisco",
+            "country": "USA",
+            "state": "California"
+          },
+          "departureAirportAddress": {
+            "city": "Detroit",
+            "country": "USA",
+            "state": "MI"
+          }
         }
       ]
     },
@@ -243,7 +313,17 @@
           "meal": "Food For Purchase",
           "onTimePercentage": "100",
           "providerCode": "Amadeus",
-          "stops": 0
+          "stops": 0,
+          "arrivalAirportAddress": {
+            "city": "San Francisco",
+            "country": "USA",
+            "state": "California"
+          },
+          "departureAirportAddress": {
+            "city": "Detroit",
+            "country": "USA",
+            "state": "MI"
+          }
         }
       ]
     },
@@ -275,7 +355,17 @@
           "meal": "Food For Purchase",
           "onTimePercentage": "100",
           "providerCode": "Amadeus",
-          "stops": 0
+          "stops": 0,
+          "arrivalAirportAddress": {
+            "city": "San Francisco",
+            "country": "USA",
+            "state": "California"
+          },
+          "departureAirportAddress": {
+            "city": "Detroit",
+            "country": "USA",
+            "state": "MI"
+          }
         }
       ]
     },
@@ -307,7 +397,17 @@
           "meal": "Food For Purchase",
           "onTimePercentage": "90",
           "providerCode": "Amadeus",
-          "stops": 0
+          "stops": 0,
+          "arrivalAirportAddress": {
+            "city": "San Francisco",
+            "country": "USA",
+            "state": "California"
+          },
+          "departureAirportAddress": {
+            "city": "Detroit",
+            "country": "USA",
+            "state": "MI"
+          }
         }
       ]
     },
@@ -339,7 +439,17 @@
           "meal": "Food For Purchase",
           "onTimePercentage": "90",
           "providerCode": "Amadeus",
-          "stops": 0
+          "stops": 0,
+          "arrivalAirportAddress": {
+            "city": "San Francisco",
+            "country": "USA",
+            "state": "California"
+          },
+          "departureAirportAddress": {
+            "city": "Detroit",
+            "country": "USA",
+            "state": "MI"
+          }
         }
       ]
     },
@@ -371,7 +481,17 @@
           "meal": "Food For Purchase",
           "onTimePercentage": "90",
           "providerCode": "Amadeus",
-          "stops": 0
+          "stops": 0,
+          "arrivalAirportAddress": {
+            "city": "San Francisco",
+            "country": "USA",
+            "state": "California"
+          },
+          "departureAirportAddress": {
+            "city": "Detroit",
+            "country": "USA",
+            "state": "MI"
+          }
         }
       ]
     }

@@ -37,7 +37,7 @@ public class PackageHotelPresenterTest extends PackageTestCase {
 		PackageScreen.hotelInfo().check(matches(hasDescendant(
 			CoreMatchers.allOf(isDisplayed(), withText("Select hotel in Detroit")))));
 		PackageScreen.inboundFlightInfo().check(matches(hasDescendant(
-			CoreMatchers.allOf(isDisplayed(), withText("Flight to (SFO) San Francisco")))));
+			CoreMatchers.allOf(isDisplayed(), withText("Flight to San Francisco")))));
 		PackageScreen.bundlePriceWidget().perform(click());
 
 		if (isFromResults) {

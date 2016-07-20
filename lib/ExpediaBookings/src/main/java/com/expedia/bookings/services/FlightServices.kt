@@ -60,6 +60,11 @@ open class FlightServices(endpoint: String, okHttpClient: OkHttpClient, intercep
                         leg.elapsedDays = Days.daysBetween(departureTime.toLocalDate(), arrivalTime.toLocalDate()).days
                         leg.departureDateTimeISO = departure.departureTimeRaw
                         leg.arrivalDateTimeISO = arrival.arrivalTimeRaw
+                        leg.destinationAirportCode = arrival.arrivalAirportCode
+                        leg.originAirportCode = departure.departureAirportCode
+                        leg.destinationCity = arrival.arrivalAirportAddress.city
+                        leg.originCity = departure.departureAirportAddress.city
+
                         val airlines = ArrayList<Airline>()
                         var lastSegment: FlightLeg.FlightSegment? = null
                         var lastArrival: DateTime? = null
