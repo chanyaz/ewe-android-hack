@@ -65,7 +65,7 @@ class FlightCheckoutParams(billingInfo: BillingInfo, travelers: ArrayList<Travel
             }
             params.put(prefix + "specialAssistanceOption", travelers[i].assistance ?: Traveler.AssistanceType.NONE.name)
             params.put(prefix + "seatPreference", travelers[i].seatPreference.name)
-            if (traveler.redressNumber.isNotEmpty()) {
+            if (traveler.redressNumber?.isNotEmpty() ?: false) {
                 params.put(prefix + "TSARedressNumber", traveler.redressNumber)
             }
             if (traveler.hasTuid()) {

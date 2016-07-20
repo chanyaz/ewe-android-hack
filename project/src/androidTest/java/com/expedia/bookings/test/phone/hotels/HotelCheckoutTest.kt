@@ -45,7 +45,7 @@ class HotelCheckoutTest: HotelTestCase() {
         HotelScreen.doLogin()
         Common.delay(1)
 
-        CheckoutViewModel.clickDriverInfo()
+        CheckoutViewModel.clickTravelerInfo()
         CheckoutViewModel.clickStoredTravelerButton()
         CheckoutViewModel.selectStoredTraveler("Expedia Automation First")
 

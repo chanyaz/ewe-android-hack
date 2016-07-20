@@ -18,7 +18,7 @@ public class HotelEmailOptInOutTest extends HotelTestCase {
 		pickRoom(room);
 		CheckoutViewModel.waitForCheckout();
 		CheckoutViewModel.clickDone();
-		CheckoutViewModel.clickDriverInfo();
+		CheckoutViewModel.clickTravelerInfo();
 	}
 
 	//test ALWAYS
@@ -29,7 +29,7 @@ public class HotelEmailOptInOutTest extends HotelTestCase {
 		HotelScreen.selectRoom();
 		CheckoutViewModel.waitForCheckout();
 		CheckoutViewModel.clickDone();
-		CheckoutViewModel.clickDriverInfo();
+		CheckoutViewModel.clickTravelerInfo();
 		Common.delay(1);
 		EspressoUtils.assertViewIsNotDisplayed(R.id.merchandise_guest_opt_checkbox);
 	}
