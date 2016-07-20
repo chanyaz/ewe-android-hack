@@ -22,6 +22,7 @@ import com.expedia.bookings.activity.FlightRulesActivity
 import com.expedia.bookings.activity.HotelRulesActivity
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.LineOfBusiness
+import com.expedia.bookings.data.TripResponse
 import com.expedia.bookings.data.User
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.presenter.Presenter
@@ -527,7 +528,7 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet) : Pre
     abstract fun getCheckoutViewModel(): BaseCheckoutViewModel
     abstract fun getCreateTripViewModel(): BaseCreateTripViewModel
     abstract fun setupCreateTripViewModel(vm: BaseCreateTripViewModel)
-
+    abstract fun isPassportRequired(response: TripResponse)
 
     fun makeKeyboardListener(scrollView: ScrollView, offset: Int = toolbarHeight) : ViewTreeObserver.OnGlobalLayoutListener {
         val rootWindow = (context as Activity).window

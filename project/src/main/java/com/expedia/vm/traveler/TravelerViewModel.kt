@@ -7,7 +7,7 @@ import com.expedia.bookings.utils.TravelerUtils
 import com.expedia.util.endlessObserver
 import rx.subjects.BehaviorSubject
 
-open class TravelerViewModel(private val context: Context, val travelerIndex: Int) {
+open class TravelerViewModel(val context: Context, val travelerIndex: Int) {
     var nameViewModel = TravelerNameViewModel(context)
     var phoneViewModel = TravelerPhoneViewModel(context)
     var tsaViewModel = TravelerTSAViewModel(context)
@@ -23,7 +23,6 @@ open class TravelerViewModel(private val context: Context, val travelerIndex: In
 
     init {
         updateTraveler(getTraveler())
-        showPassportCountryObservable.onNext(shouldShowPassportDropdown())
         showPhoneNumberObservable.onNext(TravelerUtils.isMainTraveler(travelerIndex))
     }
 
@@ -47,10 +46,5 @@ open class TravelerViewModel(private val context: Context, val travelerIndex: In
 
     open fun getTraveler(): Traveler {
         return Db.getTravelers()[travelerIndex];
-    }
-
-    fun shouldShowPassportDropdown(): Boolean {
-        val flightOffer = Db.getTripBucket().`package`?.mPackageTripResponse?.packageDetails?.flight?.details?.offer   //holy shit
-        return flightOffer != null && (flightOffer.isInternational || flightOffer.isPassportNeeded)
     }
 }

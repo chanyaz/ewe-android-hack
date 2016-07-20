@@ -49,6 +49,7 @@ class TravelerPresenter(context: Context, attrs: AttributeSet) : Presenter(conte
         travelerSelectState.travelerIndexSelectedSubject.subscribe { selectedTraveler ->
             toolbarTitleSubject.onNext(selectedTraveler.second)
             travelerEntryWidget.viewModel = TravelerViewModel(context, selectedTraveler.first)
+            travelerEntryWidget.viewModel.showPassportCountryObservable.onNext(viewModel.passportRequired.value)
             show(travelerEntryWidget)
         }
         doneClicked.subscribe {
@@ -133,6 +134,7 @@ class TravelerPresenter(context: Context, attrs: AttributeSet) : Presenter(conte
             val travelerViewModel = TravelerViewModel(context, 0)
             currentState ?: show(travelerSelectState, FLAG_CLEAR_BACKSTACK)
             travelerEntryWidget.viewModel = travelerViewModel
+            travelerEntryWidget.viewModel.showPassportCountryObservable.onNext(viewModel.passportRequired.value)
             toolbarTitleSubject.onNext(getMainTravelerToolbarTitle(resources))
             if (viewModel.travelerCompletenessStatus.value == TravelerCheckoutStatus.DIRTY) {
                 travelerEntryWidget.viewModel.validate()
