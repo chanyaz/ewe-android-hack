@@ -32,7 +32,7 @@
         android:layout_height="wrap_content"
         android:paddingTop="8dp"
         android:paddingBottom="8dp"
-        android:text="@string/no_amenities"
+        android:text="@string/rail_segment_no_amenities"
         android:textColor="@color/rail_regular_text_color"
         android:textSize="11sp"
         android:visibility="gone" />
