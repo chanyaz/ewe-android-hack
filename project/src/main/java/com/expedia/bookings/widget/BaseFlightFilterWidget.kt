@@ -279,7 +279,7 @@ class BaseFlightFilterWidget(context: Context, attrs: AttributeSet) : FrameLayou
         toolbar.setTitleTextAppearance(context, R.style.ToolbarTitleTextAppearance)
         toolbar.setTitleTextColor(ContextCompat.getColor(context, R.color.cars_actionbar_text_color))
         toolbar.menu.findItem(R.id.menu_done).setActionView(doneButton).setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS)
-
+        toolbar.setBackgroundColor(ContextCompat.getColor(this.context,R.color.packages_flight_filter_background_color))
         val adapter = ArrayAdapter(getContext(), R.layout.spinner_sort_item, resources.getStringArray(R.array.sort_options_flights).toMutableList())
         adapter.setDropDownViewResource(R.layout.spinner_dropdown_item)
 
