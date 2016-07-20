@@ -256,7 +256,7 @@ public class NewFlightPhoneHappyPathTest extends NewFlightTestCase {
 			matches(withText("Flight to (DTW) Detroit")));
 
 		onView(allOf(withId(R.id.first_row),
-			isDescendantOfA(withId(R.id.inbound_flight_card_container)))).check(
+			isDescendantOfA(withId(R.id.inbound_flight_card)))).check(
 			matches(not(isDisplayed())));
 
 		onView(allOf(withId(R.id.hotel_cross_sell_widget),

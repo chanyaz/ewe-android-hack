@@ -179,7 +179,7 @@
             android:id="@+id/itin_number"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/transparent_light"
+            android:background="@color/itin_bg_dark_transparent"
             android:focusable="false"
             android:gravity="center"
             android:paddingBottom="6dp"

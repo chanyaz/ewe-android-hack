@@ -60,45 +60,41 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/card_view_container_margin"
-                android:layout_marginRight="@dimen/card_view_container_margin"
-                android:layout_marginBottom="10dp">
-
-                <com.expedia.bookings.widget.packages.ConfirmationRowCardView
-                    android:id="@+id/outbound_flight_card"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:paddingBottom="12dp"
-                    android:paddingLeft="18dp"
-                    android:paddingRight="12dp"
-                    android:paddingTop="12dp"
-                    app:row_icon="@drawable/packages_flight1_icon"
-                    app:row_icon_tint_color="@color/flight_primary_color" />
-
-
-            </android.support.v7.widget.CardView>
-
-            <android.support.v7.widget.CardView
-                style="@style/MaterialCardView"
-                android:id="@+id/inbound_flight_card_container"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/card_view_container_margin"
                 android:layout_marginRight="@dimen/card_view_container_margin">
 
-
-                <com.expedia.bookings.widget.packages.ConfirmationRowCardView
-                    android:id="@+id/inbound_flight_card"
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:paddingBottom="12dp"
-                    android:paddingLeft="18dp"
-                    android:paddingRight="12dp"
-                    android:paddingTop="12dp"
-                    app:row_icon="@drawable/packages_flight2_icon"
-                    app:row_icon_tint_color="@color/flight_primary_color" />
+                    android:orientation="vertical">
 
-                </android.support.v7.widget.CardView>
+                    <com.expedia.bookings.widget.packages.ConfirmationRowCardView
+                        android:id="@+id/outbound_flight_card"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingBottom="12dp"
+                        android:paddingLeft="18dp"
+                        android:paddingRight="12dp"
+                        android:paddingTop="12dp"
+                        app:row_icon="@drawable/packages_flight1_icon"
+                        app:row_icon_tint_color="@color/flight_docked_text" />
 
+                    <include layout="@layout/grey_divider_bar" />
+
+                    <com.expedia.bookings.widget.packages.ConfirmationRowCardView
+                        android:id="@+id/inbound_flight_card"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingBottom="12dp"
+                        android:paddingLeft="18dp"
+                        android:paddingRight="12dp"
+                        android:paddingTop="12dp"
+                        app:row_icon="@drawable/packages_flight2_icon"
+                        app:row_icon_tint_color="@color/flight_docked_text" />
+
+                </LinearLayout>
+
+            </android.support.v7.widget.CardView>
+            
             <com.expedia.bookings.widget.HotelCrossSellWidget
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -119,7 +115,7 @@
             android:id="@+id/itin_number"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/transparent_light"
+            android:background="@color/itin_bg_dark_transparent"
             android:focusable="false"
             android:gravity="center"
             android:paddingBottom="6dp"
