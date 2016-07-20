@@ -72,6 +72,9 @@ public class PackagesBundleOverviewTest extends PackageTestCase {
 		checkBundleOverviewFlightContentDescription(PackageScreen.outboundFlightInfoRowContainer(), "Jul 10 at 9:00 am", "(DTW) Detroit", false, false);
 
 		PackageScreen.inboundFLight().perform(click());
+		onView(withId(R.id.bundle_price_widget)).perform(click());
+		checkBundleOverviewFlightContentDescription(PackageScreen.outboundFlightInfoRowContainer(), "Jul 10 at 9:00 am", "(DTW) Detroit", false, false);
+		PackageScreen.inboundFLight().perform(click());
 		PackageScreen.selectFlight(0);
 		PackageScreen.selectThisFlight().perform(ViewActions.waitForViewToDisplay());
 		PackageScreen.selectThisFlight().perform(click());
