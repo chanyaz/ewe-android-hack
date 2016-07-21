@@ -2,6 +2,7 @@ package com.expedia.bookings.presenter.flight
 
 import android.content.Context
 import android.util.AttributeSet
+import android.view.View
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.LineOfBusiness
@@ -13,6 +14,7 @@ import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.BaseCheckoutPresenter
 import com.expedia.bookings.widget.TextView
+import com.expedia.util.subscribeText
 import com.expedia.util.subscribeTextAndVisibility
 import com.expedia.util.subscribeTextNotBlankVisibility
 import com.expedia.vm.BaseCreateTripViewModel
@@ -27,8 +29,15 @@ class FlightCheckoutPresenter(context: Context, attr: AttributeSet) : BaseChecko
     val debitCardsNotAcceptedTextView: TextView by bindView(R.id.flights_debit_cards_not_accepted)
 
     init {
-        getCheckoutViewModel().cardFeeTextSubject.subscribeTextAndVisibility(cardProcessingFeeTextView)
-        getCheckoutViewModel().cardFeeTextSubject.subscribeTextNotBlankVisibility(toolbarDropShadow)
+        getCheckoutViewModel().cardFeeTextSubject.subscribeText(cardProcessingFeeTextView)
+        Observable.combineLatest( getCheckoutViewModel().paymentTypeSelectedHasCardFee,
+                                    paymentWidget.viewmodel.showingPaymentForm,
+                                    { haveCardFee, showingGuestPaymentForm ->
+                                        val cardFeeVisibility = if (haveCardFee && showingGuestPaymentForm) View.VISIBLE else View.GONE
+                                        cardProcessingFeeTextView.visibility = cardFeeVisibility
+                                        toolbarDropShadow.visibility = cardFeeVisibility
+                                    }).subscribe()
+
         getCheckoutViewModel().cardFeeWarningTextSubject.subscribeTextAndVisibility(cardFeeWarningTextView)
         setupDontShowDebitCardVisibility()
 
