@@ -62,21 +62,21 @@ class FlightSearchViewModel(context: Context, val flightServices: FlightServices
     val searchObserver = endlessObserver<Unit> {
         getParamsBuilder().maxStay = getMaxSearchDurationDays()
         if (getParamsBuilder().areRequiredParamsFilled()) {
-            if (getParamsBuilder().isOriginSameAsDestination()) {
+            val flightSearchParams = getParamsBuilder().build()
+            travelerValidator.updateForNewSearch(flightSearchParams)
+            Db.setFlightSearchParams(flightSearchParams)
+            searchParamsObservable.onNext(flightSearchParams)
+        } else {
+            if (!getParamsBuilder().hasOriginLocation()) {
+                errorNoOriginObservable.onNext(Unit)
+            } else if (!getParamsBuilder().hasDestinationLocation()) {
+                errorNoDestinationObservable.onNext(Unit)
+            } else if (!getParamsBuilder().hasValidDates()) {
+                errorNoDatesObservable.onNext(Unit)
+            } else if (getParamsBuilder().isOriginSameAsDestination()) {
                 errorOriginSameAsDestinationObservable.onNext(context.getString(R.string.error_same_flight_departure_arrival))
             } else if (!getParamsBuilder().hasValidDateDuration()) {
                 errorMaxDurationObservable.onNext(context.getString(R.string.hotel_search_range_error_TEMPLATE, getMaxSearchDurationDays()))
-            } else {
-                val flightSearchParams = getParamsBuilder().build()
-                travelerValidator.updateForNewSearch(flightSearchParams)
-                Db.setFlightSearchParams(flightSearchParams)
-                searchParamsObservable.onNext(flightSearchParams)
-            }
-        } else {
-            if (!getParamsBuilder().hasOriginAndDestination()) {
-                errorNoDestinationObservable.onNext(Unit)
-            } else if (!getParamsBuilder().hasStartAndEndDates()) {
-                errorNoDatesObservable.onNext(Unit)
             }
         }
     }
@@ -125,6 +125,7 @@ class FlightSearchViewModel(context: Context, val flightServices: FlightServices
         }
 
         isRoundTripSearchObservable.subscribe { isRoundTripSearch ->
+            getParamsBuilder().isRoundTrip = isRoundTripSearch
             if (datesObservable.value != null && datesObservable.value.first != null) {
                 val cachedEndDate = cachedEndDateObservable.value
                 if (isRoundTripSearch && cachedEndDate != null && startDate()?.isBefore(cachedEndDate) ?: false) {
