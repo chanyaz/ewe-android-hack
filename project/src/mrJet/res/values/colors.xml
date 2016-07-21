@@ -63,6 +63,7 @@
 
     <!-- Checkout Colors -->
     <color name="material_checkout_account_button_background_color">#D6682D</color>
+    <color name="material_checkout_account_button_background_grape_color">@color/material_checkout_account_button_background_color</color>
     <color name="old_checkout_account_button_text_color">#26344F</color>
 
     <!-- Cars and LX-->

@@ -104,6 +104,7 @@
 
     <!-- Checkout Colors -->
     <color name="material_checkout_account_button_background_color">#C4204B</color>
+    <color name="material_checkout_account_button_background_grape_color">#8E0099</color>
     <color name="old_checkout_account_button_text_color">@android:color/white</color>
     <color name="cvv_book_button_text_color">@android:color/white</color>
 
