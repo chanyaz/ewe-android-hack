@@ -1679,8 +1679,6 @@
     <string name="flights_fee_added_based_on_payment_TEMPLATE">An &lt;a href=\"{airline_fee_url}\"&gt;airline fee&lt;/a&gt;, based on card type, is added upon payment. Such fee is added to the total upon payment.</string>
     <!-- Flights debit cards not accepted messaging -->
     <string name="flights_debit_cards_not_accepted">Debit cards are not accepted.</string>
-    <!-- Flights Sold out error screen: Select New Flight button label -->
-    <string name="flights_select_new_flight">Select new flight</string>
     <!-- Flights Sold out error screen:- warning message -->
     <string name="flight_sold_out_warning">We\'re sorry. This flight has sold out.</string>
     <!-- Flights Sold out error screen:- toolbar title -->

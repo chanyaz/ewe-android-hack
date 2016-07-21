@@ -34,7 +34,7 @@
             android:layout_marginLeft="72dp"
             android:layout_marginRight="72dp"
             android:gravity="center_horizontal"
-            android:maxWidth="180dp"
+            android:maxWidth="220dp"
             android:textColor="@color/error_widget_text"
             android:textSize="13sp" />
 
