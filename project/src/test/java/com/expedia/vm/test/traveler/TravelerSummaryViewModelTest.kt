@@ -2,7 +2,9 @@ package com.expedia.vm.test.traveler
 
 import android.app.Activity
 import android.content.res.Resources
+import android.support.v4.content.ContextCompat
 import com.expedia.bookings.R
+import com.expedia.bookings.data.AbstractFlightSearchParams
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.Phone
 import com.expedia.bookings.data.Traveler
@@ -20,6 +22,7 @@ import org.robolectric.Robolectric
 import org.robolectric.RuntimeEnvironment
 import kotlin.properties.Delegates
 import kotlin.test.assertEquals
+import kotlin.test.assertNotEquals
 
 @RunWith(RobolectricRunner::class)
 class TravelerSummaryViewModelTest {
@@ -33,6 +36,8 @@ class TravelerSummaryViewModelTest {
     val expectedIncompleteStatus = ContactDetailsCompletenessStatus.INCOMPLETE
     val expectedCompleteStatus = ContactDetailsCompletenessStatus.COMPLETE
 
+    var expectedSubTitleErrorMessage: String by Delegates.notNull()
+
     val mockTravelerProvider = MockTravelerProvider()
 
     @Before
@@ -40,7 +45,9 @@ class TravelerSummaryViewModelTest {
         activity = Robolectric.buildActivity(Activity::class.java).create().get()
         resources = activity.resources
         expectedEmptyTitle = resources.getString(R.string.checkout_enter_traveler_details)
-        expectedEmptySubTitle = resources.getString(R.string.checkout_enter_traveler_details_line2)
+        expectedEmptySubTitle = resources.getString(R.string.enter_missing_traveler_details)
+
+        expectedSubTitleErrorMessage = "Enter missing traveler details"
 
         mockTravelerProvider.updateDBWithMockTravelers(1, Traveler())
         Ui.getApplication(activity).defaultTravelerComponent()
@@ -92,7 +99,7 @@ class TravelerSummaryViewModelTest {
         summaryVM.travelerStatusObserver.onNext(TravelerCheckoutStatus.COMPLETE)
 
         assertEquals(mockTravelerProvider.testFullName, summaryVM.titleObservable.value)
-        assertEquals(mockTravelerProvider.testNumber, summaryVM.subtitleObservable.value)
+        assertEquals(mockTravelerProvider.adultBirthDate.toString("MM/dd/yyyy"), summaryVM.subtitleObservable.value)
         assertEquals(expectedCompleteStatus, summaryVM.iconStatusObservable.value)
     }
 
@@ -143,6 +150,16 @@ class TravelerSummaryViewModelTest {
 
         assertEquals(mockTravelerProvider.testFullName, summaryVM.titleObservable.value)
         assertEquals(expectedIncompleteStatus, summaryVM.iconStatusObservable.value)
+    }
+
+    @Test
+    fun testBirthdayNotDisplayedWhenDirty() {
+        mockTravelerProvider.updateDBWithMockTravelers(1, mockTravelerProvider.getCompleteMockTravelerExecptBirthday())
+        summaryVM.travelerStatusObserver.onNext(TravelerCheckoutStatus.DIRTY)
+
+        assertEquals(mockTravelerProvider.testFullName, summaryVM.titleObservable.value)
+        assertEquals(expectedIncompleteStatus, summaryVM.iconStatusObservable.value)
+        assertEquals(expectedSubTitleErrorMessage, summaryVM.subtitleObservable.value)
     }
 
     private fun getIncompleteSubTitle(travelerCount: Int) : String {

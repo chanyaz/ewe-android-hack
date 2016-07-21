@@ -44,6 +44,21 @@ class MockTravelerProvider {
         return mockTraveler
     }
 
+    fun getCompleteMockTravelerExecptBirthday(): Traveler {
+        val mockPhone = Mockito.mock(Phone::class.java)
+        Mockito.`when`(mockPhone.number).thenReturn(testNumber)
+
+        val mockTraveler = Mockito.mock(Traveler::class.java)
+        Mockito.`when`(mockTraveler.name).thenReturn(getValidTravelerName())
+        Mockito.`when`(mockTraveler.fullName).thenReturn(testFullName)
+        Mockito.`when`(mockTraveler.primaryPhoneNumber).thenReturn(mockPhone)
+        Mockito.`when`(mockTraveler.phoneNumber).thenReturn(testNumber)
+        Mockito.`when`(mockTraveler.passengerCategory).thenReturn(PassengerCategory.ADULT)
+        Mockito.`when`(mockTraveler.gender).thenReturn(testGender)
+
+        return mockTraveler
+    }
+
     @Suppress("UNCHECKED_CAST")
     fun updateDBWithMockTravelers(travelerCount: Int, mockTraveler: Traveler) {
         val travelerList = ArrayList<Traveler>()
