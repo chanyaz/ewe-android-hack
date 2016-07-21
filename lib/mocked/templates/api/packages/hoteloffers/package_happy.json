@@ -66,6 +66,11 @@
         "rateOccupancyPerRoom": "3",
         "bedTypes": [
           {
+            "description": "1 king bed",
+            "id": "14"
+          },
+          {
+            "description": "2 king bed",
             "id": "14"
           }
         ],

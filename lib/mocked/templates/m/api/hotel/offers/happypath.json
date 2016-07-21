@@ -23,6 +23,10 @@
                 {
                     "description": "One King Bed",
                     "id": "14"
+                },
+                {
+                   "description": "Two King Bed",
+                    "id": "14"
                 }
             ],
             "currentAllotment": "40",

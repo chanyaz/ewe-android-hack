@@ -181,7 +181,7 @@ class HotelRoomRateViewModel(val context: Context, var hotelId: String, var hote
             depositTerms.onNext(null)
         }
 
-        val bedTypes = (hotelRoomResponse.bedTypes ?: emptyList()).map { it.description }.joinToString("")
+        val bedTypes = (hotelRoomResponse.bedTypes ?: emptyList()).map { it.description }.joinToString(context.resources.getString(R.string.delimiter_multiple_bed))
         collapsedBedTypeObservable.onNext(bedTypes)
         expandedBedTypeObservable.onNext(bedTypes)
         var expandedPair: Pair<String, Int>
