@@ -47,7 +47,6 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
         val presenter = viewStub.inflate() as FlightErrorPresenter
         presenter.viewmodel = FlightErrorViewModel(context)
         presenter.getViewModel().defaultErrorObservable.subscribe { show(searchPresenter, Presenter.FLAG_CLEAR_TOP) }
-        presenter.getViewModel().showOutboundResults.subscribe { show(outBoundPresenter) }
         presenter
     }
 
@@ -125,7 +124,7 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
                 }
             }
 
-            errorPresenter.getViewModel().retryCreateTrip.subscribe {
+            errorPresenter.getViewModel().fireRetryCreateTrip.subscribe {
                 presenter.getCheckoutPresenter().getCreateTripViewModel().performCreateTrip.onNext(Unit)
                 show(presenter)
                 presenter.show(BaseOverviewPresenter.BundleDefault(), FLAG_CLEAR_BACKSTACK)
