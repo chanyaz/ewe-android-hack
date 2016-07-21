@@ -164,14 +164,17 @@ class FlightCheckoutViewModelTest {
         val cardFeeTextSubscriber = TestSubscriber<Spanned>()
         val cardFeeWarningTextSubscriber = TestSubscriber<Spanned>()
         val cardFeeForSelectedSubscriber = TestSubscriber<ValidFormOfPayment>()
+        val hasCardFeeTestSubscriber = TestSubscriber<Boolean>()
 
         sut.cardFeeTextSubject.subscribe(cardFeeTextSubscriber)
         sut.cardFeeWarningTextSubject.subscribe(cardFeeWarningTextSubscriber)
         sut.cardFeeForSelectedCard.subscribe(cardFeeForSelectedSubscriber)
+        sut.paymentTypeSelectedHasCardFee.subscribe(hasCardFeeTestSubscriber)
 
         selectedCardTypeSubject.onNext(PaymentType.CARD_AMERICAN_EXPRESS)
         sut.validFormsOfPaymentSubject.onNext(listOf(createPaymentWithZeroFees()))
 
+        hasCardFeeTestSubscriber.assertValue(false)
         cardFeeTextSubscriber.assertNoValues()
         cardFeeWarningTextSubscriber.assertNoValues()
         cardFeeForSelectedSubscriber.assertNoValues()
@@ -188,10 +191,12 @@ class FlightCheckoutViewModelTest {
         val cardFeeTextSubscriber = TestSubscriber<Spanned>()
         val cardFeeWarningTextSubscriber = TestSubscriber<Spanned>()
         val cardFeeForSelectedSubscriber = TestSubscriber<ValidFormOfPayment>()
+        val hasCardFeeTestSubscriber = TestSubscriber<Boolean>()
 
         sut.cardFeeTextSubject.subscribe(cardFeeTextSubscriber)
         sut.cardFeeWarningTextSubject.subscribe(cardFeeWarningTextSubscriber)
         sut.cardFeeForSelectedCard.subscribe(cardFeeForSelectedSubscriber)
+        sut.paymentTypeSelectedHasCardFee.subscribe(hasCardFeeTestSubscriber)
 
         selectedCardTypeSubject.onNext(PaymentType.CARD_AMERICAN_EXPRESS)
         sut.validFormsOfPaymentSubject.onNext(listOf(formOfPaymentWithFee))
@@ -203,7 +208,7 @@ class FlightCheckoutViewModelTest {
         assertEquals("The airline charges a processing fee of $2.50 for using this card (cost included in the trip total).",
                 cardFeeWarningTextSubscriber.onNextEvents[0].toString())
 
-
+        hasCardFeeTestSubscriber.assertValues(false, true)
         cardFeeForSelectedSubscriber.assertValueCount(1)
         cardFeeForSelectedSubscriber.assertValue(formOfPaymentWithFee)
     }
@@ -217,6 +222,20 @@ class FlightCheckoutViewModelTest {
         sut.checkoutParams.onNext(params)
 
         Mockito.verify(mockFlightServices).checkout(params.toQueryMap())
+    }
+
+    @Test
+    fun showPaymentFeesHiddenOnCreateTripResponse() {
+        createMockFlightServices()
+        givenGoodTripResponse()
+        setupSystemUnderTest()
+
+        val hasCardFeeTestSubscriber = TestSubscriber<Boolean>()
+        sut.paymentTypeSelectedHasCardFee.subscribe(hasCardFeeTestSubscriber)
+
+        sut.tripResponseObservable.onNext(newTripResponse)
+
+        hasCardFeeTestSubscriber.assertValue(false)
     }
 
     private fun givenGoodTripResponse() {

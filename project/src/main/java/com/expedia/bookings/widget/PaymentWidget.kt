@@ -495,7 +495,10 @@ open class PaymentWidget(context: Context, attr: AttributeSet) : Presenter(conte
             storedCreditCardList.bind()
             trackAnalytics()
             if (!forward) validateAndBind()
-            if (forward) filledIn.onNext(isCompletelyFilled())
+            if (forward) {
+                filledIn.onNext(isCompletelyFilled())
+            }
+            viewmodel.showingPaymentForm.onNext(forward)
         }
     }
 
@@ -521,6 +524,7 @@ open class PaymentWidget(context: Context, attr: AttributeSet) : Presenter(conte
                 validateAndBind()
                 viewmodel.userHasAtleastOneStoredCard.onNext(User.isLoggedIn(context) && (Db.getUser().storedCreditCards.isNotEmpty() || Db.getTemporarilySavedCard() != null))
             }
+            viewmodel.showingPaymentForm.onNext(forward)
             updateToolbarMenu(!forward)
             toolbarNavIcon.onNext(if(!forward) ArrowXDrawableUtil.ArrowDrawableType.BACK
             else  ArrowXDrawableUtil.ArrowDrawableType.CLOSE)
