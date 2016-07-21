@@ -1,0 +1,270 @@
+{
+  "q": "latlong=28.4895006|77.0925364&tla=&siteid=1&type=4&knnsearch=true&maxradius=200",
+  "rid": "7d8e3973-a183-408f-8e5c-7b47f6def90e",
+  "rc": "OK",
+  "sr": [
+    {
+      "@type": "gaiaRegionResult",
+      "index": "0",
+      "gaiaId": "6084796",
+      "type": "MULTICITY",
+      "regionNames": {
+        "fullName": "Gurgaon (and vicinity), India",
+        "shortName": "Gurgaon (and vicinity)",
+        "displayName": "Gurgaon, India",
+        "lastSearchName": "Gurgaon (and vicinity), India"
+      },
+      "coordinates": {
+        "lat": "28.478198",
+        "long": "77.069607"
+      },
+      "hierarchyInfo": {
+        "airport": {
+          "airportCode": "DEL",
+          "multicity": "180000"
+        },
+        "country": {
+          "name": "India",
+          "isoCode2": "IN",
+          "isoCode3": "IND"
+        },
+        "nearby": {
+          "distInKM": "2.571",
+          "distInMI": "1.598"
+        }
+      },
+      "regionMetadata": {
+        "hotelCount": "269"
+      },
+      "regionGrades": {
+        "globalGrade": "0"
+      },
+      "packageable": "true",
+      "score": "0.034971492532092766",
+      "popularity": "105.0",
+      "packageAirport": [
+        {
+          "@type": "gaiaPackageTLA",
+          "gaiaId": "6000184",
+          "airportCode": "DEL",
+          "regionNames": {
+            "fullName": "Delhi, India (DEL-Indira Gandhi Intl.)",
+            "shortName": "Delhi (DEL-Indira Gandhi Intl.)"
+          },
+          "isPrimaryTla": "true",
+          "isMetroCode": "false",
+          "coordinates": {
+            "lat": "28.555741",
+            "long": "77.086145"
+          },
+          "index": "0",
+          "isMinorAirport": "false",
+          "stationType": "AIRPORT",
+          "popularity": "11.0"
+        }
+      ]
+    },
+    {
+      "@type": "gaiaRegionResult",
+      "index": "1",
+      "gaiaId": "180000",
+      "type": "MULTICITY",
+      "regionNames": {
+        "fullName": "Delhi (and vicinity), India",
+        "shortName": "Delhi (and vicinity)",
+        "displayName": "Delhi, India",
+        "lastSearchName": "Delhi (and vicinity), India"
+      },
+      "coordinates": {
+        "lat": "28.635308",
+        "long": "77.224960"
+      },
+      "hierarchyInfo": {
+        "airport": {
+          "airportCode": "DEL",
+          "multicity": "180000"
+        },
+        "country": {
+          "name": "India",
+          "isoCode2": "IN",
+          "isoCode3": "IND"
+        },
+        "nearby": {
+          "distInKM": "20.757",
+          "distInMI": "12.9"
+        }
+      },
+      "regionMetadata": {
+        "hotelCount": "1059"
+      },
+      "regionGrades": {
+        "globalGrade": "0"
+      },
+      "packageable": "true",
+      "score": "1.0",
+      "popularity": "2530.0",
+      "packageAirport": [
+        {
+          "@type": "gaiaPackageTLA",
+          "gaiaId": "6000184",
+          "airportCode": "DEL",
+          "regionNames": {
+            "fullName": "Delhi, India (DEL-Indira Gandhi Intl.)",
+            "shortName": "Delhi (DEL-Indira Gandhi Intl.)"
+          },
+          "isPrimaryTla": "true",
+          "isMetroCode": "false",
+          "coordinates": {
+            "lat": "28.555741",
+            "long": "77.086145"
+          },
+          "index": "0",
+          "isMinorAirport": "false",
+          "stationType": "AIRPORT",
+          "popularity": "11.0"
+        }
+      ]
+    },
+    {
+      "@type": "gaiaRegionResult",
+      "index": "2",
+      "gaiaId": "6139752",
+      "type": "MULTICITY",
+      "regionNames": {
+        "fullName": "Bulandshahr (and vicinity), India",
+        "shortName": "Bulandshahr (and vicinity)",
+        "displayName": "Bulandshahr, India",
+        "lastSearchName": "Bulandshahr (and vicinity), India"
+      },
+      "coordinates": {
+        "lat": "28.400155",
+        "long": "77.855130"
+      },
+      "hierarchyInfo": {
+        "airport": {
+          "airportCode": "DEL",
+          "multicity": "180000"
+        },
+        "country": {
+          "name": "India",
+          "isoCode2": "IN",
+          "isoCode3": "IND"
+        },
+        "nearby": {
+          "distInKM": "75.282",
+          "distInMI": "46.788"
+        }
+      },
+      "regionMetadata": {
+        "hotelCount": "16"
+      },
+      "regionGrades": {
+        "globalGrade": "0"
+      },
+      "packageable": "true",
+      "score": "0.0",
+      "popularity": "0.0",
+      "packageAirport": [
+        {
+          "@type": "gaiaPackageTLA",
+          "gaiaId": "6000184",
+          "airportCode": "DEL",
+          "regionNames": {
+            "fullName": "Delhi, India (DEL-Indira Gandhi Intl.)",
+            "shortName": "Delhi (DEL-Indira Gandhi Intl.)"
+          },
+          "isPrimaryTla": "true",
+          "isMetroCode": "false",
+          "coordinates": {
+            "lat": "28.555741",
+            "long": "77.086145"
+          },
+          "index": "0",
+          "isMinorAirport": "false",
+          "stationType": "AIRPORT",
+          "popularity": "11.0"
+        }
+      ]
+    },
+    {
+      "@type": "gaiaRegionResult",
+      "index": "3",
+      "gaiaId": "6126223",
+      "type": "MULTICITY",
+      "regionNames": {
+        "fullName": "Alwar (and vicinity), India",
+        "shortName": "Alwar (and vicinity)",
+        "displayName": "Alwar, India",
+        "lastSearchName": "Alwar (and vicinity), India"
+      },
+      "coordinates": {
+        "lat": "27.530000",
+        "long": "76.607000"
+      },
+      "hierarchyInfo": {
+        "airport": {
+          "airportCode": "DEL",
+          "multicity": "180000"
+        },
+        "country": {
+          "name": "India",
+          "isoCode2": "IN",
+          "isoCode3": "IND"
+        },
+        "nearby": {
+          "distInKM": "116.954",
+          "distInMI": "72.687"
+        }
+      },
+      "regionMetadata": {
+        "hotelCount": "22"
+      },
+      "regionGrades": {
+        "globalGrade": "0"
+      },
+      "packageable": "true",
+      "score": "0.003983350239602645",
+      "popularity": "7.0",
+      "packageAirport": [
+        {
+          "@type": "gaiaPackageTLA",
+          "gaiaId": "6000184",
+          "airportCode": "DEL",
+          "regionNames": {
+            "fullName": "Delhi, India (DEL-Indira Gandhi Intl.)",
+            "shortName": "Delhi (DEL-Indira Gandhi Intl.)"
+          },
+          "isPrimaryTla": "true",
+          "isMetroCode": "false",
+          "coordinates": {
+            "lat": "28.555741",
+            "long": "77.086145"
+          },
+          "index": "0",
+          "isMinorAirport": "false",
+          "stationType": "AIRPORT",
+          "popularity": "11.0"
+        },
+        {
+          "@type": "gaiaPackageTLA",
+          "gaiaId": "6028762",
+          "airportCode": "JAI",
+          "regionNames": {
+            "fullName": "Jaipur, India (JAI-Sanganer)",
+            "shortName": "Jaipur (JAI-Sanganer)"
+          },
+          "isPrimaryTla": "true",
+          "isMetroCode": "false",
+          "coordinates": {
+            "lat": "26.828451",
+            "long": "75.805900"
+          },
+          "index": "1",
+          "isMinorAirport": "false",
+          "stationType": "AIRPORT",
+          "popularity": "1.0"
+        }
+      ]
+    }
+  ]
+}

@@ -51,8 +51,9 @@ class SuggestionV4Services(endpoint: String, okHttpClient: OkHttpClient, interce
                 .subscribe(observer)
     }
 
-    fun suggestNearbyV4(locale: String, latlng: String, siteId: Int, clientId: String): Observable<MutableList<SuggestionV4>> {
-        return suggestApi.suggestNearbyV4(locale, latlng, siteId, SuggestionResultType.MULTI_CITY, "distance", clientId, "HOTELS")
+    fun suggestNearbyV4(locale: String, latlng: String, siteId: Int, clientId: String, showOnlyAirports: Boolean): Observable<MutableList<SuggestionV4>> {
+        var suggestType = if (showOnlyAirports) SuggestionResultType.AIRPORT or SuggestionResultType.AIRPORT_METRO_CODE else SuggestionResultType.MULTI_CITY
+        return suggestApi.suggestNearbyV4(locale, latlng, siteId, suggestType, "distance", clientId, "HOTELS")
                 .observeOn(observeOn)
                 .subscribeOn(subscribeOn)
                 .map { response -> response.suggestions.take(2).toMutableList() }
