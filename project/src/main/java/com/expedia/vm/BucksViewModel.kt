@@ -45,8 +45,8 @@ class BucksViewModel<T : TripResponse>(paymentModel: PaymentModel<T>, val contex
 
     override val pointsAppliedMessageColor = paymentModel.paymentSplits.map {
         when (it.payingWithPoints.points != 0f) {
-            true -> ContextCompat.getColor(context, R.color.hotels_primary_color);
-            false -> ContextCompat.getColor(context, R.color.hotelsv2_checkout_text_color);
+            true -> ContextCompat.getColor(context, R.color.pay_with_reward_text_color);
+            false -> ContextCompat.getColor(context, R.color.points_available_text_color);
         }
     }
 
