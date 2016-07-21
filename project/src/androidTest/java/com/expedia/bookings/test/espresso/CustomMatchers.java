@@ -23,6 +23,7 @@ import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.accessibility.AccessibilityNodeInfo;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
@@ -345,6 +346,24 @@ public class CustomMatchers {
 			@Override
 			public boolean matchesSafely(Toolbar toolbar) {
 				if (toolbar.getNavigationContentDescription().toString().equals(contentDescription)) {
+					return true;
+				}
+				return false;
+			}
+		};
+	}
+
+	public static Matcher<View> withInfoText(final String infoText) {
+		return new BoundedMatcher<View, View>(View.class) {
+			@Override
+			public void describeTo(Description description) {
+				description.appendText("View has this info text -> " + infoText);
+			}
+
+			@Override
+			protected boolean matchesSafely(View item) {
+				AccessibilityNodeInfo accessibilityNodeInfo = item.createAccessibilityNodeInfo();
+				if (accessibilityNodeInfo.getText().equals(infoText)) {
 					return true;
 				}
 				return false;
