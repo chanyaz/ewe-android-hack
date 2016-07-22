@@ -91,7 +91,7 @@ class PackageCheckoutViewModel(context: Context, val packageServices: PackageSer
                             priceChangeObservable.onNext(response)
                         }
                         else -> {
-                            checkoutErrorObservable.onNext(ApiError(ApiError.Code.UNKNOWN_ERROR))
+                            checkoutErrorObservable.onNext(ApiError(ApiError.Code.PACKAGE_CHECKOUT_UNKNOWN))
                         }
                     }
                 } else {
