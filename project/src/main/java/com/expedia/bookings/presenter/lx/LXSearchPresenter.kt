@@ -88,7 +88,7 @@ class LXSearchPresenter(context: Context, attrs: AttributeSet) : BaseSearchPrese
     override fun onFinishInflate() {
         super.onFinishInflate()
         val service = Ui.getApplication(context).lxComponent().suggestionsService()
-        suggestionViewModel = LXSuggestionAdapterViewModel(context, service, CurrentLocationObservable.create(context), true, true)
+        suggestionViewModel = LXSuggestionAdapterViewModel(context, service, CurrentLocationObservable.create(context), true, false)
         searchLocationEditText?.queryHint = context.resources.getString(R.string.location_activity_details)
     }
 
