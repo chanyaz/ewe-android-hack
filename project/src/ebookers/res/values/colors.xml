@@ -61,6 +61,7 @@
 
     <!-- Checkout Colors -->
     <color name="material_checkout_account_button_background_color">@color/hotels_primary_color</color>
+    <color name="material_checkout_account_button_background_grape_color">@color/material_checkout_account_button_background_color</color>
     <color name="old_checkout_account_button_text_color">#0099CC</color>
 
     <!-- CVV entry colors -->

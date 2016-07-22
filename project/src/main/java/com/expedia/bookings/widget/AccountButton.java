@@ -196,6 +196,7 @@ public class AccountButton extends LinearLayout {
 		}
 		if (isSignInEarnMessagingEnabled(lob)) {
 			mLoginTextView.setText(getSignInWithRewardsAmountText(lob));
+			mLoginContainer.setBackgroundResource(R.drawable.material_account_sign_in_button_ripple_grape);
 		}
 		else {
 			mLoginTextView.setText(Phrase.from(this, R.string.Sign_in_with_TEMPLATE)

@@ -33,6 +33,7 @@
     <color name="accept_terms_ripple_color">#7dad06</color>
     <color name="review_screen_tab_indicator">@color/launch_tab_indicator</color>
     <color name="material_checkout_account_button_background_color">@color/hotels_primary_color</color>
+    <color name="material_checkout_account_button_background_grape_color">@color/material_checkout_account_button_background_color</color>
     <color name="preferences_text">#495863</color>
     <color name="tablet_pin_detail_button_text_color">@color/launch_pin_detail_button_text_travelocity</color>
 
