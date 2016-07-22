@@ -17,4 +17,6 @@ class PackageSuggestionAdapterViewModel(context: Context, suggestionsService: Su
     override fun getSuggestionHistoryFile(): String {
         return SuggestionV4Utils.RECENT_PACKAGE_SUGGESTIONS_FILE
     }
+
+    override fun shouldShowOnlyAirportNearbySuggestions(): Boolean = true
 }
