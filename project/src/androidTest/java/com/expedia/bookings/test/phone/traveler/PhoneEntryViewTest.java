@@ -104,9 +104,9 @@ public class PhoneEntryViewTest {
 		assertEquals(phoneEntryView.getPhoneNumber().getErrorContDesc(),
 			"Error");
 
-		onView(CustomMatchers.withCompoundDrawable(R.drawable.ic_error_blue)).check(matches(isDisplayed()));
+		onView(CustomMatchers.withCompoundDrawable(R.drawable.invalid)).check(matches(isDisplayed()));
 
 		onView(withId(R.id.edit_phone_number)).perform(typeText(testNumber));
-		onView(CustomMatchers.withCompoundDrawable(R.drawable.ic_error_blue)).check(doesNotExist());
+		onView(CustomMatchers.withCompoundDrawable(R.drawable.invalid)).check(doesNotExist());
 	}
 }
