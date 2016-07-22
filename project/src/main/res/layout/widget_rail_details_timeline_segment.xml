@@ -21,9 +21,9 @@
             tools:text="09:10" />
 
         <ImageView
+            android:id="@+id/rail_timeline_icon"
             android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:src="@drawable/national_rail_icon" />
+            android:layout_height="20dp" />
 
         <TextView
             android:id="@+id/rail_timeline_arrival_time"
