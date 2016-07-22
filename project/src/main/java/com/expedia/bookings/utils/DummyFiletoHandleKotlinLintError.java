@@ -533,7 +533,7 @@ public class DummyFiletoHandleKotlinLintError {
 		R.layout.widget_rail_details_timeline_segment,
 		R.dimen.rail_timeline_spacing,
 		R.string.rail_results_toolbar_subtitle_TEMPLATE,
-		R.string.rail_walk_from_a_to_b_TEMPLATE,
+		R.string.rail_transfer_from_a_to_b_TEMPLATE,
 		R.string.rail_travel_from_a_to_b_TEMPLATE,
 		R.string.rail_change_at_station_TEMPLATE,
 		R.string.swp_widget_points_value_TEMPLATE,

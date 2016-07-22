@@ -4169,9 +4169,6 @@
     <!--Heading on the rail details screen (which shows a journey summary and a list of ticket classes for that set of legs) -->
     <string name="rail_journey_details_and_fare_options">Reseuppgifter + prisalternativ</string>
 
-    <!--Use on the timeline on rail details when a customer has to walk from one station to another during a trip -->
-    <string name="rail_walk_from_a_to_b_TEMPLATE">Gå från {origin} till {destination}</string>
-
     <!--Use on the timeline on rail details when a customer has to travel via a non-rail segment, like a shuttle bus or a ferry -->
     <string name="rail_travel_from_a_to_b_TEMPLATE">Ta {travelmode} från {origin} till {destination}</string>
 
