@@ -27,14 +27,11 @@ class RailDetailsTimeline(context: Context, attrs: AttributeSet) : LinearLayout(
             val legOption: LegOption = offer.outboundLeg!!
             var previousSegment: RailSegment? = null
             legOption.travelSegments?.forEach {
-
                 if (!(previousSegment?.isTransfer ?: false) && !it.isTransfer
                         && it.departureStation.stationCode.equals(previousSegment?.arrivalStation?.stationCode)) {
-
                     val segmentView = RailTimelineTransfer(context, it.departureStation.stationDisplayName)
                     addView(segmentView)
                 }
-
                 if (it.isTransfer) {
                     val transferView = RailTimelineTransfer(context, it)
                     addView(transferView)

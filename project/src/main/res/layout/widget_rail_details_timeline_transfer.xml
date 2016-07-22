@@ -8,11 +8,33 @@
     android:orientation="horizontal"
     tools:background="@color/white">
 
-    <!--spacer view so that the transfer lines up with the rest of the timeline-->
-    <View
+    <LinearLayout
         android:layout_width="75dp"
         android:layout_height="match_parent"
-        android:orientation="vertical" />
+        android:gravity="center_horizontal"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/rail_timeline_departure_time"
+            style="@style/RailPrimaryText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="09:10" />
+
+        <ImageView
+            android:id="@+id/rail_timeline_icon2"
+            android:layout_width="20dp"
+            android:layout_height="20dp" />
+
+        <TextView
+            android:id="@+id/rail_timeline_arrival_time"
+            style="@style/RailPrimaryText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="bottom"
+            tools:text="10:47" />
+    </LinearLayout>
 
     <View
         android:layout_width="10dp"
@@ -20,6 +42,7 @@
         android:layout_marginLeft="15dp"
         android:layout_marginRight="15dp"
         android:background="@drawable/flight_layover_pattern_bg" />
+
 
     <TextView
         android:id="@+id/rail_timeline_transfer_text"
