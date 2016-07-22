@@ -7,9 +7,11 @@ import com.expedia.bookings.data.packages.PackageApiError
 import com.expedia.bookings.data.packages.PackageCreateTripResponse
 import com.expedia.bookings.data.packages.PackageSearchParams
 import com.expedia.bookings.data.packages.PackageSearchResponse
+import com.expedia.bookings.dialog.DialogFactory
 import com.expedia.bookings.services.PackageServices
 import com.expedia.bookings.utils.DateUtils
 import com.expedia.bookings.utils.PackageResponseUtils
+import com.expedia.bookings.utils.RetrofitUtils
 import com.expedia.bookings.utils.StrUtils
 import com.squareup.phrase.Phrase
 import rx.Observer
@@ -23,6 +25,7 @@ class BundleOverviewViewModel(val context: Context, val packageServices: Package
     val createTripObservable = PublishSubject.create<PackageCreateTripResponse>()
     val errorObservable = PublishSubject.create<PackageApiError.Code>()
     val cancelSearchObservable = PublishSubject.create<Unit>()
+    val showSearchObservable = PublishSubject.create<Unit>()
 
     // Outputs
     val hotelResultsObservable = BehaviorSubject.create<Unit>()
@@ -88,8 +91,7 @@ class BundleOverviewViewModel(val context: Context, val packageServices: Package
             override fun onNext(response: PackageSearchResponse) {
                 if (response.hasErrors()) {
                     errorObservable.onNext(response.firstError)
-                }
-                else if (response.packageResult.hotelsPackage.hotels.isEmpty()) {
+                } else if (response.packageResult.hotelsPackage.hotels.isEmpty()) {
                     errorObservable.onNext(PackageApiError.Code.search_response_null)
                 } else {
                     Db.setPackageResponse(response)
@@ -119,7 +121,20 @@ class BundleOverviewViewModel(val context: Context, val packageServices: Package
             }
 
             override fun onError(e: Throwable?) {
-                println("package error: " + e?.message)
+                if (RetrofitUtils.isNetworkError(e)) {
+                    val retryFun = fun() {
+                        if (type.equals(PackageSearchType.HOTEL)) {
+                            hotelParamsObservable.onNext(Db.getPackageParams())
+                        }
+                        else {
+                            flightParamsObservable.onNext(Db.getPackageParams())
+                        }
+                    }
+                    val cancelFun = fun() {
+                        showSearchObservable.onNext(Unit)
+                    }
+                    DialogFactory.showNoInternetRetryDialog(context, retryFun, cancelFun)
+                }
             }
         }
     }
