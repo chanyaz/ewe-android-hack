@@ -18,16 +18,17 @@ open class SearchInputCardView(context: Context, attrs: AttributeSet?) : CardVie
 
     init {
         View.inflate(context, R.layout.cardview_search_input, this)
-        val ta = context.obtainStyledAttributes(attrs, R.styleable.SearchInput, 0, 0)
-        try {
-            text.text = ta.getString(R.styleable.SearchInput_input_text)
-            val drawableLeft = ta.getDrawable(R.styleable.SearchInput_input_icon)
-            val color = ta.getColor(R.styleable.SearchInput_input_icon_tint_color, 0)
-            text.setTintedDrawable(drawableLeft, color)
-        } finally {
-            ta.recycle()
+        if (attrs != null) {
+            val ta = context.obtainStyledAttributes(attrs, R.styleable.SearchInput, 0, 0)
+            try {
+                text.text = ta.getString(R.styleable.SearchInput_input_text)
+                val drawableLeft = ta.getDrawable(R.styleable.SearchInput_input_icon)
+                val color = ta.getColor(R.styleable.SearchInput_input_icon_tint_color, 0)
+                text.setTintedDrawable(drawableLeft, color)
+            } finally {
+                ta.recycle()
+            }
         }
-
     }
 
     fun setEndDrawable(endDrawable: Drawable) {

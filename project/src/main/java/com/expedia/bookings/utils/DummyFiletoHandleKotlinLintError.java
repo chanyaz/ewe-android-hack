@@ -783,6 +783,8 @@ DummyFiletoHandleKotlinLintError {
 		R.drawable.rails_transfer_icon,
 		R.string.location_edit_box_cont_desc_TEMPLATE,
 		R.string.search_button_disable_content_desc,
-		R.string.lx_search_date_range_cont_desc_TEMPLATE
+		R.string.lx_search_date_range_cont_desc_TEMPLATE,
+		R.string.packages_search_datepicker_announce_accessibility_start_date,
+		R.string.packages_search_datepicker_announce_accessibility_end_date
 	};
 }
