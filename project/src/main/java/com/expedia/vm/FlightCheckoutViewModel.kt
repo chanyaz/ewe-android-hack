@@ -36,6 +36,7 @@ class FlightCheckoutViewModel(context: Context, val flightServices: FlightServic
     val obFeeDetailsUrlSubject = PublishSubject.create<String>()
 
     // outputs
+    val paymentTypeSelectedHasCardFee = PublishSubject.create<Boolean>()
     val cardFeeTextSubject = PublishSubject.create<Spanned>()
     val cardFeeWarningTextSubject = PublishSubject.create<Spanned>()
     val cardFeeForSelectedCard = PublishSubject.create<ValidFormOfPayment>()
@@ -56,6 +57,7 @@ class FlightCheckoutViewModel(context: Context, val flightServices: FlightServic
                     .put("dueamount", it.tripTotalPayableIncludingFeeIfZeroPayableByPoints().formattedMoneyFromAmountAndCurrencyCode)
                     .format()
             sliderPurchaseTotalText.onNext(totalPrice)
+            paymentTypeSelectedHasCardFee.onNext(false)
         }
 
         priceChangeObservable.subscribe { it as FlightCheckoutResponse
@@ -102,6 +104,7 @@ class FlightCheckoutViewModel(context: Context, val flightServices: FlightServic
                             .filter { !it.fee.isNullOrEmpty() }
                             .firstOrNull()
 
+                    paymentTypeSelectedHasCardFee.onNext(false)
                     if (selectedCardFee != null) {
                         val feeNotZero = !selectedCardFee.getFee().isZero
                         if (feeNotZero) {
@@ -112,6 +115,7 @@ class FlightCheckoutViewModel(context: Context, val flightServices: FlightServic
                                     .put("card_fee", selectedCardFee.formattedFee)
                                     .format().toString()
 
+                            paymentTypeSelectedHasCardFee.onNext(true)
                             cardFeeTextSubject.onNext(Html.fromHtml(cardFeeText))
                             cardFeeWarningTextSubject.onNext(Html.fromHtml(cardFeeWarningText))
                             cardFeeForSelectedCard.onNext(selectedCardFee)

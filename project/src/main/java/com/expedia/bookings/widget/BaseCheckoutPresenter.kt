@@ -300,14 +300,12 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet) : Pre
             depositPolicyText.setInverseVisibility(forward)
             bottomContainer.setInverseVisibility(forward)
             cardFeeWarningTextView.setInverseVisibility(forward)
-            val showPaymentProcessingFee = if (forward && cardProcessingFeeTextView.text.isNotEmpty()) VISIBLE else GONE
-            cardProcessingFeeTextView.visibility = showPaymentProcessingFee
-            toolbarDropShadow.visibility = showPaymentProcessingFee
             if (!forward) {
                 paymentWidget.show(PaymentWidget.PaymentDefault(), Presenter.FLAG_CLEAR_BACKSTACK)
                 paymentWidgetRootView.viewTreeObserver.removeOnGlobalLayoutListener(globalLayoutListener)
                 scrollView.layoutParams.height = height
                 toolbarDropShadow.visibility = View.GONE
+                paymentWidget.viewmodel.showingPaymentForm.onNext(false)
             } else {
                 paymentWidgetRootView.viewTreeObserver.addOnGlobalLayoutListener(globalLayoutListener)
             }
@@ -414,12 +412,12 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet) : Pre
     }
 
     fun animateInSlideToPurchase(visible: Boolean) {
-        var isSlideToPurchaseLayoutVisible = visible && ckoViewModel.isValid()
+        val isSlideToPurchaseLayoutVisible = visible && ckoViewModel.isValid()
         if (isSlideToPurchaseLayoutVisible) {
             trackShowSlideToPurchase()
         }
         slideToPurchaseLayout.isFocusable = isSlideToPurchaseLayoutVisible
-        var distance = if (!isSlideToPurchaseLayoutVisible) slideToPurchaseLayout.height.toFloat() else 0f
+        val distance = if (!isSlideToPurchaseLayoutVisible) slideToPurchaseLayout.height.toFloat() else 0f
         if (bottomContainer.translationY == distance) {
             return
         }
