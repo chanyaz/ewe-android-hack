@@ -55,6 +55,10 @@ class LXSearchPresenter(context: Context, attrs: AttributeSet) : BaseSearchPrese
         }
 
         searchButton.subscribeOnClick(vm.searchObserver)
+        vm.dateAccessibilityObservable.subscribe{
+            text ->
+            calendarWidgetV2.contentDescription = text
+        }
     }
 
     private val lxSuggestionAdapter by lazy {
