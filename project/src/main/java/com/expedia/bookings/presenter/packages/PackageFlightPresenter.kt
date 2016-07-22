@@ -189,10 +189,14 @@ class PackageFlightPresenter(context: Context, attrs: AttributeSet) : BaseFlight
 
         addTransition(resultsToOverview)
         bundleSlidingWidget.bundleOverViewWidget.outboundFlightWidget.rowContainer.setOnClickListener {
-            back()
+            if (isShowingBundle()) {
+                back()
+            }
         }
         bundleSlidingWidget.bundleOverViewWidget.inboundFlightWidget.rowContainer.setOnClickListener {
-            back()
+            if (isShowingBundle()) {
+                back()
+            }
         }
         bundleSlidingWidget.bundlePriceWidget.setOnClickListener {
             show(bundleSlidingWidget)
