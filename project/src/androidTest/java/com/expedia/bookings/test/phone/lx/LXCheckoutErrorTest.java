@@ -38,7 +38,7 @@ public class LXCheckoutErrorTest extends LxTestCase {
 		LXScreen.checkoutErrorScreen().check(matches(isDisplayed()));
 		LXScreen.checkoutErrorText().check(matches(withText(R.string.reservation_invalid_name)));
 		LXScreen.checkoutErrorButton().perform(click());
-		CheckoutViewModel.driverInfo().check(matches(isDisplayed()));
+		CheckoutViewModel.travelerInfo().check(matches(isDisplayed()));
 		CheckoutViewModel.pressClose();
 		EspressoUtils.assertViewWithTextIsDisplayed("Slide to reserve");
 	}
@@ -120,7 +120,7 @@ public class LXCheckoutErrorTest extends LxTestCase {
 		LXScreen.searchList().perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
 		LXInfositeScreen.selectOffer("2-Day New York Pass").perform(click());
 		LXInfositeScreen.bookNowButton("2-Day New York Pass").perform(scrollTo(), click());
-		CheckoutViewModel.driverInfo().perform(click());
+		CheckoutViewModel.travelerInfo().perform(click());
 		CheckoutViewModel.firstName().perform(typeText(firstName));
 		CheckoutViewModel.lastName().perform(typeText("Test"));
 		CheckoutViewModel.email().perform(typeText("test@expedia.com"));
