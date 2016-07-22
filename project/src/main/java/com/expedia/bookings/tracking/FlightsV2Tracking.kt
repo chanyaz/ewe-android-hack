@@ -1,6 +1,7 @@
 package com.expedia.bookings.tracking
 
 import com.expedia.bookings.data.FlightFilter
+import com.expedia.bookings.data.PaymentType
 import com.expedia.bookings.data.flights.FlightSearchParams
 import com.expedia.vm.BaseFlightFilterViewModel
 import com.expedia.vm.InsuranceViewModel
@@ -94,9 +95,37 @@ object FlightsV2Tracking {
         OmnitureTracking.trackFlightInsuranceTermsClick()
     }
 
+    fun trackFlightPriceChange(pricePercentageChange: Int) {
+        OmnitureTracking.trackFlightPriceChange(pricePercentageChange)
+    }
+
+    @JvmStatic fun trackCheckoutSelectTraveler() {
+        OmnitureTracking.trackFlightCheckoutSelectTraveler()
+    }
+
+    fun trackCheckoutEditTraveler() {
+        OmnitureTracking.trackFlightCheckoutEditTraveler()
+    }
+
+    fun trackPaymentStoredCCSelect() {
+        OmnitureTracking.trackPaymentStoredCCSelect()
+    }
+
+    fun trackShowPaymentEdit() {
+        OmnitureTracking.trackShowPaymentEdit()
+    }
+
+    fun trackSlideToPurchase(cardType: PaymentType) {
+        val cardName = cardType.omnitureTrackingCode
+        OmnitureTracking.trackSlideToPurchase(cardName)
+    }
+
+    fun trackCheckoutPaymentCID() {
+        OmnitureTracking.trackFlightCheckoutPaymentCID()
+    }
+
     fun trackCheckoutConfirmationPageLoad() {
         OmnitureTracking.trackFlightCheckoutConfirmationPageLoad()
     }
-
 
 }

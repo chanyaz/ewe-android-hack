@@ -32,6 +32,7 @@ import com.expedia.bookings.section.ISectionEditable
 import com.expedia.bookings.section.InvalidCharacterHelper
 import com.expedia.bookings.section.SectionBillingInfo
 import com.expedia.bookings.section.SectionLocation
+import com.expedia.bookings.tracking.FlightsV2Tracking
 import com.expedia.bookings.tracking.HotelV2Tracking
 import com.expedia.bookings.tracking.OmnitureTracking
 import com.expedia.bookings.utils.ArrowXDrawableUtil
@@ -623,9 +624,15 @@ open class PaymentWidget(context: Context, attr: AttributeSet) : Presenter(conte
 
     open fun trackShowPaymentEdit() {
         // Let inheriting class call their respective tracking.
+        if(viewmodel.lineOfBusiness.value == LineOfBusiness.FLIGHTS_V2) {
+            FlightsV2Tracking.trackShowPaymentEdit()
+        }
     }
 
     open fun trackPaymentStoredCCSelect() {
         // Let inheriting class call their respective tracking.
+        if(viewmodel.lineOfBusiness.value == LineOfBusiness.FLIGHTS_V2) {
+            FlightsV2Tracking.trackPaymentStoredCCSelect()
+        }
     }
 }

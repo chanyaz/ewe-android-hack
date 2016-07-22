@@ -5176,6 +5176,13 @@ public class OmnitureTracking {
 	private static final String FLIGHTS_V2_FLIGHT_AIRLINES = "App.Flight.Search.Filter.Airline";
 	private static final String FLIGHTS_V2_RATE_DETAILS = "App.Flight.RateDetails";
 	private static final String FLIGHTS_V2_DETAILS_EXPAND = "App.Flight.RD.ViewDetails";
+	private static final String FLIGHTS_V2_PRICE_CHANGE = "App.Flight.CKO.PriceChange";
+	private static final String FLIGHTS_V2_SELECT_TRAVELER = "App.Flight.CKO.Traveler.Select.Existing";
+	private static final String FLIGHTS_V2_ENTER_TRAVELER = "App.Flight.CKO.Traveler.EnterManually";
+	private static final String FLIGHTS_V2_SELECT_CARD = "App.Flight.CKO.Payment.Select.Existing";
+	private static final String FLIGHTS_V2_ENTER_CARD = "App.Flight.CKO.Payment.EnterManually";
+	private static final String FLIGHTS_V2_SLIDE_TO_PURCHASE = "App.Flight.Checkout.Payment.SlideToPurchase";
+	private static final String FLIGHTS_V2_PAYMENT_CID = "App.Flight.Checkout.Payment.CID";
 
 	public static Pair<com.expedia.bookings.data.flights.FlightLeg,
 		com.expedia.bookings.data.flights.FlightLeg> getFirstAndLastFlightLegs() {
@@ -5510,6 +5517,43 @@ public class OmnitureTracking {
 	public static void trackOverviewFlightExpandClick() {
 		createAndtrackLinkEvent(FLIGHTS_V2_DETAILS_EXPAND, "Rate Details");
 	}
+
+	public static void trackFlightPriceChange(int priceChangePercentage) {
+		Log.d(TAG, "Tracking \"" + FLIGHTS_V2_PRICE_CHANGE + "\" click...");
+		ADMS_Measurement s = getFreshTrackingObject();
+		s.setEvents("event62");
+		s.setProp(9, "FLT|" + priceChangePercentage);
+		s.setEvar(28, FLIGHTS_V2_PRICE_CHANGE);
+		s.setProp(16, FLIGHTS_V2_PRICE_CHANGE);
+		s.trackLink(null, "o", "Flight Checkout", null, null);
+	}
+
+	public static void trackFlightCheckoutSelectTraveler() {
+		createAndtrackLinkEvent(FLIGHTS_V2_SELECT_TRAVELER, "Flight Checkout");
+	}
+
+	public static void trackFlightCheckoutEditTraveler() {
+		createAndtrackLinkEvent(FLIGHTS_V2_ENTER_TRAVELER, "Flight Checkout");
+	}
+
+	public static void trackPaymentStoredCCSelect() {
+		createAndtrackLinkEvent(FLIGHTS_V2_SELECT_CARD, "Flight Checkout");
+	}
+
+	public static void trackShowPaymentEdit() {
+		createAndtrackLinkEvent(FLIGHTS_V2_ENTER_CARD, "Flight Checkout");
+	}
+
+	public static void trackSlideToPurchase(String cardType) {
+		ADMS_Measurement s = createTrackPageLoadEventBase(FLIGHTS_V2_SLIDE_TO_PURCHASE);
+		s.setEvar(37, cardType);
+		s.track();
+	}
+
+	public static void trackFlightCheckoutPaymentCID() {
+		createTrackPageLoadEventBase(FLIGHTS_V2_PAYMENT_CID).track();
+	}
+
 
 	private static String getFlightV2Evar47String(com.expedia.bookings.data.flights.FlightSearchParams flightSearchParams) {
 		// Pipe delimited list of LOB, flight search type (OW, RT, MD), # of Adults, and # of Children)

@@ -2,6 +2,7 @@ package com.expedia.vm.traveler
 
 import android.content.Context
 import com.expedia.bookings.data.Db
+import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.Traveler
 import com.expedia.bookings.enums.TravelerCheckoutStatus
 import com.expedia.bookings.utils.Ui
@@ -9,7 +10,7 @@ import com.expedia.bookings.utils.validation.TravelerValidator
 import rx.subjects.BehaviorSubject
 import javax.inject.Inject
 
-open class CheckoutTravelerViewModel(context: Context) {
+open class CheckoutTravelerViewModel(context: Context, val lob: LineOfBusiness) {
     lateinit var travelerValidator: TravelerValidator
         @Inject set
 

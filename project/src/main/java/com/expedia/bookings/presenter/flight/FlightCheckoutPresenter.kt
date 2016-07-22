@@ -6,6 +6,7 @@ import android.view.View
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.LineOfBusiness
+import com.expedia.bookings.data.PaymentType
 import com.expedia.bookings.data.flights.FlightCheckoutResponse
 import com.expedia.bookings.data.flights.FlightCreateTripResponse
 import com.expedia.bookings.otto.Events
@@ -17,7 +18,6 @@ import com.expedia.bookings.widget.BaseCheckoutPresenter
 import com.expedia.bookings.widget.TextView
 import com.expedia.util.subscribeText
 import com.expedia.util.subscribeTextAndVisibility
-import com.expedia.util.subscribeTextNotBlankVisibility
 import com.expedia.vm.BaseCreateTripViewModel
 import com.expedia.vm.FlightCheckoutViewModel
 import com.expedia.vm.flights.FlightCostSummaryBreakdownViewModel
@@ -28,6 +28,7 @@ import rx.Observable
 class FlightCheckoutPresenter(context: Context, attr: AttributeSet) : BaseCheckoutPresenter(context, attr) {
 
     val debitCardsNotAcceptedTextView: TextView by bindView(R.id.flights_debit_cards_not_accepted)
+    var cardType: PaymentType? = null
 
     init {
         getCheckoutViewModel().cardFeeTextSubject.subscribeText(cardProcessingFeeTextView)
@@ -52,6 +53,11 @@ class FlightCheckoutPresenter(context: Context, attr: AttributeSet) : BaseChecko
         getCheckoutViewModel().receivedCheckoutResponse.subscribe {
             checkoutDialog.hide()
         }
+
+        paymentWidgetViewModel.cardTypeSubject.subscribe { paymentType ->
+            cardType = paymentType
+        }
+
     }
 
     override fun setupCreateTripViewModel(vm : BaseCreateTripViewModel) {
@@ -104,6 +110,7 @@ class FlightCheckoutPresenter(context: Context, attr: AttributeSet) : BaseChecko
     }
 
     override fun trackShowSlideToPurchase() {
+        FlightsV2Tracking.trackSlideToPurchase(cardType ?: PaymentType.UNKNOWN)
     }
 
     override fun trackShowBundleOverview() {

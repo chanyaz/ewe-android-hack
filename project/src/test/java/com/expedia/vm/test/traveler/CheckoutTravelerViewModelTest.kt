@@ -1,6 +1,7 @@
 package com.expedia.vm.test.traveler
 
 import com.expedia.bookings.data.Db
+import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.Traveler
 import com.expedia.bookings.data.packages.PackageSearchParams
@@ -12,10 +13,8 @@ import org.joda.time.LocalDate
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
-
 import org.robolectric.RuntimeEnvironment
 import rx.observers.TestSubscriber
-import rx.subjects.BehaviorSubject
 import kotlin.test.assertFalse
 import kotlin.test.assertTrue
 
@@ -31,7 +30,7 @@ class CheckoutTravelerViewModelTest {
         searchParams = setUpParams()
         var context = RuntimeEnvironment.application
         Ui.getApplication(context).defaultTravelerComponent()
-        testViewModel = CheckoutTravelerViewModel(context)
+        testViewModel = CheckoutTravelerViewModel(context, LineOfBusiness.PACKAGES)
         testViewModel.travelerValidator.updateForNewSearch(searchParams)
     }
 
