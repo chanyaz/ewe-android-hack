@@ -380,14 +380,7 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
 
     private val overviewToConfirmation = LeftToRightTransition(this, FlightOverviewPresenter::class.java, FlightConfirmationPresenter::class.java)
 
-    private val outboundToInbound = object: ScaleTransition(this, FlightOutboundPresenter::class.java, FlightInboundPresenter::class.java) {
-        override fun endTransition(forward: Boolean) {
-            super.endTransition(forward)
-            if (!forward) {
-                searchViewModel.resetFlightSelections()
-            }
-        }
-    }
+    private val outboundToInbound = ScaleTransition(this, FlightOutboundPresenter::class.java, FlightInboundPresenter::class.java)
 
     private val defaultOutboundTransition = object : Presenter.DefaultTransition(FlightOutboundPresenter::class.java.name){
         override fun endTransition(forward: Boolean) {
@@ -396,8 +389,8 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
         }
     }
 
-    private val searchToOutbound = object : SearchToOutboundTransition(this, FlightSearchPresenter::class.java, FlightOutboundPresenter::class.java) {}
-    private val restrictedSearchToOutbound = object : SearchToOutboundTransition(this, FlightSearchAirportDropdownPresenter::class.java, FlightOutboundPresenter::class.java) {}
+    private val searchToOutbound = SearchToOutboundTransition(this, FlightSearchPresenter::class.java, FlightOutboundPresenter::class.java)
+    private val restrictedSearchToOutbound = SearchToOutboundTransition(this, FlightSearchAirportDropdownPresenter::class.java, FlightOutboundPresenter::class.java)
 
     private val defaultSearchTransition = object : Presenter.DefaultTransition(getDefaultSearchPresenterClassName()) {
         override fun endTransition(forward: Boolean) {
