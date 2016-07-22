@@ -12,6 +12,7 @@ import android.view.View
 import android.view.ViewStub
 import android.view.animation.DecelerateInterpolator
 import com.expedia.bookings.R
+import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.presenter.Presenter
@@ -67,7 +68,7 @@ abstract class BaseFlightPresenter(context: Context, attrs: AttributeSet?) : Pre
     val filter: BaseFlightFilterWidget by lazy {
         val viewStub = findViewById(R.id.filter_stub) as ViewStub
         val filterView = viewStub.inflate() as BaseFlightFilterWidget
-        filterView.viewModelBase = BaseFlightFilterViewModel(context)
+        filterView.viewModelBase = BaseFlightFilterViewModel(context, getLineOfBusiness())
         resultsPresenter.resultsViewModel.flightResultsObservable.subscribe {
             filterView.viewModelBase.flightResultsObservable.onNext(it)
             filterView.viewModelBase.clearObservable.onNext(Unit)
@@ -278,6 +279,7 @@ abstract class BaseFlightPresenter(context: Context, attrs: AttributeSet?) : Pre
     }
 
     abstract fun setupToolbarMenu()
+    abstract fun getLineOfBusiness(): LineOfBusiness
     abstract fun shouldShowBundlePrice(): Boolean
     abstract fun isOutboundResultsPresenter(): Boolean
     abstract fun trackFlightResultsLoad()

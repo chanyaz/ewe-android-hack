@@ -3,6 +3,7 @@ package com.expedia.bookings.presenter.flight
 import android.content.Context
 import android.util.AttributeSet
 import com.expedia.bookings.R
+import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.tracking.FlightsV2Tracking
 import com.expedia.bookings.widget.flights.FlightListAdapter
 import com.expedia.util.notNullAndObservable
@@ -41,5 +42,9 @@ abstract class AbstractMaterialFlightResultsPresenter(context: Context, attrs: A
     }
 
     override fun viewBundleSetVisibility(forward: Boolean) {
+    }
+
+    override fun getLineOfBusiness(): LineOfBusiness {
+        return LineOfBusiness.FLIGHTS_V2
     }
 }

@@ -72,19 +72,18 @@ class InsuranceViewModel(val context: Context, val insuranceServices: InsuranceS
         userInitiatedToggleObservable.subscribe { isSelected ->
             if (isSelected) {
                 lastAction = InsuranceAction.ADD
-                FlightsV2Tracking.trackInsuranceAdd()
                 updatingTripDialog.setMessage(context.resources.getString(R.string.insurance_adding))
                 updatingTripDialog.show()
                 insuranceServices.addInsuranceToTrip(InsuranceTripParams(trip.tripId, product.productId))
                         .subscribe(updatedTripObserver)
             } else {
                 lastAction = InsuranceAction.REMOVE
-                FlightsV2Tracking.trackInsuranceRemove()
                 updatingTripDialog.setMessage(context.resources.getString(R.string.insurance_removing))
                 updatingTripDialog.show()
                 insuranceServices.removeInsuranceFromTrip(InsuranceTripParams(trip.tripId))
                         .subscribe(updatedTripObserver)
             }
+            FlightsV2Tracking.trackInsuranceUpdated(if (isSelected) InsuranceAction.ADD else InsuranceAction.REMOVE)
         }
     }
 

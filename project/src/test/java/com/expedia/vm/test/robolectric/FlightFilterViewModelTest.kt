@@ -2,6 +2,7 @@ package com.expedia.vm.test.robolectric
 
 import android.content.Context
 import com.expedia.bookings.data.FlightFilter
+import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.data.packages.PackageOfferModel
@@ -22,7 +23,7 @@ class FlightFilterViewModelTest {
 
     @Before
     fun before() {
-        vm = BaseFlightFilterViewModel(getContext())
+        vm = BaseFlightFilterViewModel(getContext(), LineOfBusiness.FLIGHTS_V2)
     }
 
     private fun getContext(): Context {

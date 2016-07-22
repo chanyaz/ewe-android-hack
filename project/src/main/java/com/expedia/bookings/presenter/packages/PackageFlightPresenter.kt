@@ -7,12 +7,13 @@ import android.support.v7.app.AppCompatActivity
 import android.util.AttributeSet
 import android.view.Gravity
 import android.view.LayoutInflater
+import android.view.View
 import android.widget.ImageView
 import android.widget.LinearLayout
-import android.view.View
 import android.widget.Toast
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Db
+import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.presenter.flight.BaseFlightPresenter
 import com.expedia.bookings.presenter.shared.FlightOverviewPresenter
@@ -22,10 +23,10 @@ import com.expedia.bookings.utils.Constants
 import com.expedia.bookings.utils.PackageResponseUtils
 import com.expedia.bookings.utils.Strings
 import com.expedia.bookings.utils.bindView
-import com.expedia.bookings.widget.packages.PackageFlightListAdapter
-import com.expedia.bookings.widget.TextView
 import com.expedia.bookings.widget.SlidingBundleWidget
 import com.expedia.bookings.widget.SlidingBundleWidgetListener
+import com.expedia.bookings.widget.TextView
+import com.expedia.bookings.widget.packages.PackageFlightListAdapter
 import com.expedia.util.endlessObserver
 import com.expedia.util.subscribeInverseVisibility
 import com.expedia.util.subscribeText
@@ -228,5 +229,9 @@ class PackageFlightPresenter(context: Context, attrs: AttributeSet) : BaseFlight
 
     override fun shouldShowBundlePrice(): Boolean {
         return true
+    }
+
+    override fun getLineOfBusiness(): LineOfBusiness {
+        return LineOfBusiness.PACKAGES
     }
 }

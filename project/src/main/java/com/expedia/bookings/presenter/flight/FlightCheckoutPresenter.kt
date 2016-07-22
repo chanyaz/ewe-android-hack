@@ -10,6 +10,7 @@ import com.expedia.bookings.data.flights.FlightCheckoutResponse
 import com.expedia.bookings.data.flights.FlightCreateTripResponse
 import com.expedia.bookings.otto.Events
 import com.expedia.bookings.services.FlightServices
+import com.expedia.bookings.tracking.FlightsV2Tracking
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.BaseCheckoutPresenter
@@ -64,6 +65,7 @@ class FlightCheckoutPresenter(context: Context, attr: AttributeSet) : BaseChecko
             totalPriceWidget.viewModel.total.onNext(response.tripTotalPayableIncludingFeeIfZeroPayableByPoints())
             totalPriceWidget.viewModel.costBreakdownEnabledObservable.onNext(true)
             (totalPriceWidget.breakdown.viewmodel as FlightCostSummaryBreakdownViewModel).flightCostSummaryObservable.onNext(response)
+            trackShowBundleOverview()
         }
 
         vm.tripResponseObservable.map { it.validFormsOfPayment }
@@ -101,6 +103,8 @@ class FlightCheckoutPresenter(context: Context, attr: AttributeSet) : BaseChecko
     }
 
     override fun trackShowBundleOverview() {
+        val flightSearchParams = Db.getFlightSearchParams()
+        FlightsV2Tracking.trackShowFlightOverView(flightSearchParams)
     }
 
     override fun makeCheckoutViewModel(): FlightCheckoutViewModel {

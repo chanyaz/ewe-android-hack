@@ -19,6 +19,8 @@ import android.widget.Spinner
 import android.widget.TextView
 import com.expedia.bookings.R
 import com.expedia.bookings.data.FlightFilter
+import com.expedia.bookings.data.LineOfBusiness
+import com.expedia.bookings.tracking.FlightsV2Tracking
 import com.expedia.bookings.tracking.PackagesTracking
 import com.expedia.bookings.utils.AnimUtils
 import com.expedia.bookings.utils.Ui
@@ -163,7 +165,7 @@ class BaseFlightFilterWidget(context: Context, attrs: AttributeSet) : FrameLayou
                 val sort = FlightFilter.Sort.values()[position]
                 vm.userFilterChoices.userSort = sort
                 if (!isFirstLoad) {
-                    PackagesTracking().trackFlightSortBy(sort)
+                    trackFlightSortBy(sort)
                 }
                 isFirstLoad = false
             }
@@ -300,4 +302,13 @@ class BaseFlightFilterWidget(context: Context, attrs: AttributeSet) : FrameLayou
             }
         }
     }
+
+    fun trackFlightSortBy(sort: FlightFilter.Sort) {
+        if (viewModelBase.lob == LineOfBusiness.PACKAGES) {
+            PackagesTracking().trackFlightSortBy(sort)
+        } else if (viewModelBase.lob == LineOfBusiness.FLIGHTS_V2) {
+            FlightsV2Tracking.trackFlightSortBy(sort)
+        }
+    }
+
 }

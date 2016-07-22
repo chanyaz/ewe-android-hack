@@ -2,14 +2,14 @@ package com.expedia.bookings.widget.packages
 
 import android.content.Context
 import android.support.v4.content.ContextCompat
-import android.support.v7.widget.CardView
 import android.util.AttributeSet
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import com.expedia.bookings.R
-import com.expedia.bookings.data.Db
+import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.presenter.Presenter
+import com.expedia.bookings.tracking.FlightsV2Tracking
 import com.expedia.bookings.tracking.PackagesTracking
 import com.expedia.bookings.utils.AnimUtils
 import com.expedia.bookings.utils.DateUtils
@@ -26,9 +26,9 @@ import com.expedia.util.subscribeText
 import com.expedia.util.subscribeTextAndVisibility
 import com.expedia.util.subscribeTextColor
 import com.expedia.util.subscribeVisibility
-import com.expedia.vm.packages.BundleFlightViewModel
 import com.expedia.vm.FlightSegmentBreakdown
 import com.expedia.vm.FlightSegmentBreakdownViewModel
+import com.expedia.vm.packages.BundleFlightViewModel
 import com.squareup.phrase.Phrase
 
 abstract class BaseBundleFlightWidget(context: Context, attrs: AttributeSet?) : AccessibleCardView(context, attrs) {
@@ -129,7 +129,7 @@ abstract class BaseBundleFlightWidget(context: Context, attrs: AttributeSet?) : 
         viewModel.flightsRowExpanded.onNext(Unit)
         flightDetailsContainer.visibility = Presenter.VISIBLE
         AnimUtils.rotate(flightDetailsIcon)
-        PackagesTracking().trackBundleOverviewFlightExpandClick()
+        trackBundleOverviewFlightExpandClick()
     }
 
     fun collapseFlightDetails() {
@@ -215,4 +215,13 @@ abstract class BaseBundleFlightWidget(context: Context, attrs: AttributeSet?) : 
                 .format()
                 .toString()
     }
+
+    fun trackBundleOverviewFlightExpandClick() {
+        if (viewModel.lob == LineOfBusiness.PACKAGES) {
+            PackagesTracking().trackBundleOverviewFlightExpandClick()
+        } else if (viewModel.lob == LineOfBusiness.FLIGHTS_V2) {
+            FlightsV2Tracking.trackOverviewFlightExpandClick()
+        }
+    }
+
 }
