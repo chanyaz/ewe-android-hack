@@ -95,6 +95,7 @@
             android:minHeight="@dimen/recent_search_item_height"
             android:background="?attr/skin_searchButtonSelectorDrawable"
             android:text="@string/search"
+            android:contentDescription="@string/search_button_disable_content_desc"
             android:textSize="17sp" />
     </LinearLayout>
 

@@ -2654,6 +2654,8 @@
     <!-- Search Activity -->
     <!-- Label for "start search" button -->
     <string name="search">Search</string>
+    <!-- Accessibility text disabled search button-->
+    <string name="search_button_disable_content_desc">Disabled search</string>
     <!-- Date range for current search: %1$s is the "From Date" and %2$s is the "To Date" (i.e. "Oct 14 to Oct 16") -->
     <string name="date_range_TEMPLATE">%1$s to %2$s</string>
     <!-- Hint for filtering results by hotel name -->
