@@ -18,7 +18,7 @@
         <item name="skin_filterNumberBgDrawable">@drawable/filter_number_bg_hotels</item>
         <item name="skin_errorWidgetEditButtonStyle">@style/HotelButton</item>
         <item name="skin_rippleDrawable">@drawable/hotel_select_room_ripple</item>
-        <item name="skin_errorIndicationExclaimationDrawable">@drawable/ic_error_blue</item>
+        <item name="skin_errorIndicationExclaimationDrawable">@drawable/invalid</item>
         <item name="paymentWidgetLayout">@layout/package_payment_widget</item>
         <item name="sliderText">@string/package_slider_text</item>
         <item name="hotel_promo_background_colors">@color/packages_secondary_color</item>
