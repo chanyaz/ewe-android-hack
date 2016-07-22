@@ -1,6 +1,5 @@
 package com.expedia.bookings.server;
 
-import java.math.BigDecimal;
 import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
@@ -522,7 +521,7 @@ public class HotelOffersResponseHandler extends JsonResponseHandler<HotelOffersR
 						String amount = totalAmountToEarn.optString("amount");
 						String currencyCode = totalAmountToEarn.optString("currencyCode");
 						Money totalAmountToEarnMoney = ParserUtils.createMoney(amount, currencyCode);
-						if (totalAmountToEarnMoney.getAmount().equals(BigDecimal.ZERO)) {
+						if (totalAmountToEarnMoney.isZero()) {
 							points = "0";
 						}
 						else {
