@@ -39,7 +39,7 @@
         <item name="skin_lxUncheckedToggleTextColor">@color/lx_unchecked_toggle_text_color</item>
         
         <item name="skin_filterNumberBgDrawable">@drawable/filter_number_bg_lx</item>
-        <item name="skin_errorIndicationExclaimationDrawable">@drawable/ic_error_blue</item>
+        <item name="skin_errorIndicationExclaimationDrawable">@drawable/invalid</item>
 
         <item name="skin_ticketSelectorDisabledColor">@color/lx_primary_disabled_color</item>
         <item name="skin_lxResultsBottomPadding">@dimen/lx_results_bottom_padding</item>

@@ -50,7 +50,7 @@ public class SingleTravelerPresenterTest extends BaseTravelerPresenterTestHelper
 		PackageScreen.selectGender(testGender);
 		PackageScreen.clickTravelerDone();
 
-		onView(CustomMatchers.withCompoundDrawable(R.drawable.ic_error_blue)).check(matches(isDisplayed()));
+		onView(CustomMatchers.withCompoundDrawable(R.drawable.invalid)).check(matches(isDisplayed()));
 	}
 
 	@Test
@@ -114,7 +114,7 @@ public class SingleTravelerPresenterTest extends BaseTravelerPresenterTestHelper
 
 		Common.delay(1);
 		EspressoUser.clickOnView(R.id.traveler_default_state);
-		EspressoUtils.assertViewHasCompoundDrawable(R.id.first_name_input, R.drawable.ic_error_blue);
+		EspressoUtils.assertViewHasCompoundDrawable(R.id.first_name_input, R.drawable.invalid);
 	}
 
 	@Test
