@@ -13,6 +13,7 @@ import com.expedia.bookings.utils.DateUtils
 import com.expedia.bookings.utils.PackageResponseUtils
 import com.expedia.bookings.utils.RetrofitUtils
 import com.expedia.bookings.utils.StrUtils
+import com.mobiata.android.Log
 import com.squareup.phrase.Phrase
 import rx.Observer
 import rx.Subscription
@@ -28,6 +29,7 @@ class BundleOverviewViewModel(val context: Context, val packageServices: Package
     val showSearchObservable = PublishSubject.create<Unit>()
 
     // Outputs
+    val autoAdvanceObservable = BehaviorSubject.create<PackageSearchType>()
     val hotelResultsObservable = BehaviorSubject.create<Unit>()
     val flightResultsObservable = BehaviorSubject.create<PackageSearchType>()
     val showBundleTotalObservable = BehaviorSubject.create<Boolean>()
@@ -109,18 +111,19 @@ class BundleOverviewViewModel(val context: Context, val packageServices: Package
                         }
                         flightResultsObservable.onNext(type)
                     }
+                    autoAdvanceObservable.onNext(type)
                     if (response.packageResult.currentSelectedOffer != null) {
                         showBundleTotalObservable.onNext(true)
-                        println("package success, Hotels:" + response.packageResult.hotelsPackage.hotels.size + "  Flights:" + response.packageResult.flightsPackage.flights.size)
                     }
                 }
             }
 
             override fun onCompleted() {
-                println("package completed")
+                Log.i("package completed")
             }
 
             override fun onError(e: Throwable?) {
+                Log.i("package error: " + e?.message)
                 if (RetrofitUtils.isNetworkError(e)) {
                     val retryFun = fun() {
                         if (type.equals(PackageSearchType.HOTEL)) {

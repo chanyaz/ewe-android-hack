@@ -46,8 +46,16 @@ class BundleWidget(context: Context, attrs: AttributeSet) : LinearLayout(context
         }
         vm.hotelResultsObservable.subscribe {
             bundleHotelWidget.viewModel.showLoadingStateObservable.onNext(false)
-            bundleHotelWidget.openHotels()
         }
+
+        vm.autoAdvanceObservable.subscribe { searchType ->
+            when (searchType) {
+                PackageSearchType.HOTEL -> bundleHotelWidget.openHotels()
+                PackageSearchType.OUTBOUND_FLIGHT -> outboundFlightWidget.openFlightsForDeparture()
+                PackageSearchType.INBOUND_FLIGHT -> inboundFlightWidget.openFlightsForArrival()
+            }
+        }
+
         vm.flightParamsObservable.subscribe { param ->
             if (param.isChangePackageSearch()) {
                 bundleHotelWidget.toggleHotelWidget(opacity, false)
@@ -67,10 +75,8 @@ class BundleWidget(context: Context, attrs: AttributeSet) : LinearLayout(context
         }
         vm.flightResultsObservable.subscribe { searchType ->
             if (searchType == PackageSearchType.OUTBOUND_FLIGHT) {
-                outboundFlightWidget.openFlightsForDeparture()
                 outboundFlightWidget.handleResultsLoaded()
             } else {
-                inboundFlightWidget.openFlightsForArrival()
                 inboundFlightWidget.handleResultsLoaded()
             }
         }
