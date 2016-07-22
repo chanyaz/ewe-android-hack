@@ -8,8 +8,8 @@ import com.expedia.bookings.data.lx.LxSearchParams
 import com.expedia.bookings.utils.DateUtils
 import com.expedia.bookings.utils.SpannableBuilder
 import com.expedia.util.endlessObserver
-import com.mobiata.android.time.util.JodaUtils
 import com.expedia.vm.BaseSearchViewModel
+import com.squareup.phrase.Phrase
 import org.joda.time.LocalDate
 import rx.subjects.PublishSubject
 
@@ -75,10 +75,26 @@ class LXSearchViewModel(context: Context) : BaseSearchViewModel(context) {
         }
 
         dateTextObservable.onNext(computeDateText(start, end))
+        dateAccessibilityObservable.onNext(computeDateText(start, end, true))
         dateInstructionObservable.onNext(computeDateInstructionText(start, end))
 
         requiredSearchParamsObserver.onNext(Unit)
         datesObservable.onNext(dates)
+    }
+
+    override fun computeDateText(start: LocalDate?, end: LocalDate?, isContentDescription: Boolean): CharSequence {
+        val dateRangeText = if (isContentDescription) computeDateRangeText(start, end, true) else computeDateRangeText(start, end)
+        val sb = SpannableBuilder()
+
+        if (start != null && isContentDescription) {
+            sb.append(Phrase.from(context, R.string.lx_search_date_range_cont_desc_TEMPLATE)
+                    .put("date_range", dateRangeText)
+                    .format().toString())
+
+        } else {
+            sb.append(dateRangeText)
+        }
+        return sb.build()
     }
 
     override fun computeDateInstructionText(start: LocalDate?, end: LocalDate?): CharSequence {
