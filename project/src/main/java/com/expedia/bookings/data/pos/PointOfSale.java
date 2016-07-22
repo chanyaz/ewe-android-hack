@@ -186,6 +186,9 @@ public class PointOfSale {
 	private boolean isEarnMessageEnabledForHotels;
 	private boolean isEarnMessageEnabledForFlights;
 
+	// 7407 - Should show package deal variation otherwise different messaging
+	private boolean showPackageFreeUnrealDeal;
+
 	private boolean mRequiresLXPostalCode;
 	private boolean mRequiresCarsPostalCode;
 
@@ -725,6 +728,10 @@ public class PointOfSale {
 		return mSupportsVipAccess;
 	}
 
+	public boolean shouldShowFreeUnrealDeal() {
+		return showPackageFreeUnrealDeal;
+	}
+
 	public boolean shouldShowRewards() {
 		return mShouldShowRewards;
 	}
@@ -1180,6 +1187,7 @@ public class PointOfSale {
 		pos.isSWPEnabledForHotels = data.optBoolean("swpEnabled:hotels", false);
 		pos.isEarnMessageEnabledForFlights = data.optBoolean("earnMessageEnabled:flights", false);
 		pos.isEarnMessageEnabledForHotels = data.optBoolean("earnMessageEnabled:hotels", false);
+		pos.showPackageFreeUnrealDeal = data.optBoolean("showPackageFreeUnrealDeal", true);
 
 		// Parse POS locales
 		JSONArray supportedLocales = data.optJSONArray("supportedLocales");
