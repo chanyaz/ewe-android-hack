@@ -53,7 +53,7 @@ class HotelSearchViewModel(context: Context) : BaseSearchViewModel(context) {
             if (!getParamsBuilder().hasValidDateDuration()) {
                 errorMaxDurationObservable.onNext(context.getString(R.string.hotel_search_range_error_TEMPLATE, getMaxSearchDurationDays()))
             } else if (!getParamsBuilder().isWithinDateRange()) {
-                errorMaxRangeObservable.onNext(context.getString(R.string.error_date_too_far, getMaxSearchDurationDays()))
+                errorMaxRangeObservable.onNext(context.getString(R.string.error_date_too_far))
             } else {
                 val hotelSearchParams = getParamsBuilder().build()
                 searchParamsObservable.onNext(hotelSearchParams)
