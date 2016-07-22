@@ -4379,8 +4379,10 @@
     <string name="insurance_adding">Adding trip protection…</string>
     <!-- Error message displayed when insurance fails to be added to a trip -->
     <string name="insurance_add_error">Sorry, we weren\'t able to add trip protection. Please try again or continue booking without trip protection.</string>
-    <!-- Benefits of purchasing insurance -->
-    <string name="insurance_benefits">1. Your ticket is non-refundable and you\'re too sick to travel.&lt;br/&gt;&lt;br/&gt;2. You get injured and can\'t make your flight home.&lt;br/&gt;&lt;br/&gt;3. Your traveling companion has a covered medical emergency and can\'t travel.</string>
+    <!-- Benefits of purchasing insurance for domestic flights -->
+    <string name="insurance_benefits_domestic">1. Your ticket is non-refundable and you\'re too sick to travel.&lt;br/&gt;&lt;br/&gt;2. You get injured and can\'t make your flight home.&lt;br/&gt;&lt;br/&gt;3. Your traveling companion has a covered medical emergency and can\'t travel.</string>
+    <!-- Benefits of purchasing insurance for international flights -->
+    <string name="insurance_benefits_international">1. Your ticket is non-refundable and you\'re too sick to travel.&lt;br/&gt;&lt;br/&gt;2. You need to replace lost baggage, including laptop, phone, or camera.&lt;br/&gt;&lt;br/&gt;3. Your insurance may not cover medical expenses while traveling.</string>
     <!-- Insurance call to action; links to list of benefits -->
     <string name="insurance_description">3 reasons why you might need trip protection</string>
     <!-- Error message displayed when insurance fails to be removed from a trip -->
