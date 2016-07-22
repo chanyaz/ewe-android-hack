@@ -728,7 +728,6 @@ DummyFiletoHandleKotlinLintError {
 		R.string.flights_fee_added_based_on_payment_TEMPLATE,
 		R.string.flight_operated_by_carrier_name_and_code_TEMPLATE,
 		R.string.flight_operated_by_carrier_name_only_TEMPLATE,
-		R.string.flights_select_new_flight,
 		R.string.flight_sold_out_warning,
 		R.string.flight_sold_out_toolbar_title,
 		R.string.flight_unavailable_toolbar_title,

@@ -26,9 +26,17 @@ class FlightErrorTest: NewFlightTestCase() {
         searchForFlights(ApiError.Code.UNKNOWN_ERROR)
         selectFirstOutboundFlight()
         selectFirstInboundFlight()
+        assertGenericErrorShown()
 
+        // assert createTrip retry called twice
+        // fallback to search form on third attempt
+        clickActionButton()
         assertGenericErrorShown()
         clickActionButton()
+        assertGenericErrorShown()
+
+        clickActionButton()
+        assertSearchFormDisplayed()
     }
 
     @Test
@@ -38,12 +46,12 @@ class FlightErrorTest: NewFlightTestCase() {
         selectFirstInboundFlight()
 
         assertFlightErrorPresenterDisplayed()
-        assertButtonDisplayedWithText("Select new flight")
+        assertButtonDisplayedWithText("New Search")
         assertErrorTextDisplayed("We're sorry. This flight has sold out.")
         assertToolbarTitle("Flight Sold Out")
 
         clickActionButton()
-        assertOutboundFlightResultsDisplayed()
+        assertSearchFormDisplayed()
     }
 
     @Test
@@ -53,12 +61,12 @@ class FlightErrorTest: NewFlightTestCase() {
         selectFirstInboundFlight()
 
         assertFlightErrorPresenterDisplayed()
-        assertButtonDisplayedWithText("Select new flight")
+        assertButtonDisplayedWithText("New Search")
         assertErrorTextDisplayed("We're sorry. This flight is no longer available")
         assertToolbarTitle("Flight Unavailable")
 
         clickActionButton()
-        assertOutboundFlightResultsDisplayed()
+        assertSearchFormDisplayed()
     }
 
     @Test
@@ -78,12 +86,6 @@ class FlightErrorTest: NewFlightTestCase() {
 
     private fun assertSearchFormDisplayed() {
         SearchScreen.origin()
-                .perform(waitForViewToDisplay())
-                .check(matches(isDisplayed()))
-    }
-
-    private fun assertOutboundFlightResultsDisplayed() {
-        FlightsScreen.outboundFlightList()
                 .perform(waitForViewToDisplay())
                 .check(matches(isDisplayed()))
     }
