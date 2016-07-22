@@ -191,4 +191,12 @@ public interface IProductFlavorFeatureConfiguration {
 	boolean isRewardsCardEnabled();
 
 	String getRewardsCardUrl(Context context);
+
+	/**
+	 * Provide loyalty enrollment based on user's preference.
+	 *
+	 * @return
+	 */
+	boolean showUserRewardsEnrollmentCheck();
+
 }

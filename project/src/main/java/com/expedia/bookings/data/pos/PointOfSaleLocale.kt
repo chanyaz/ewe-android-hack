@@ -71,4 +71,7 @@ class PointOfSaleLocale(private val data: JSONObject) {
 
     /** Account creation marketing text */
     val marketingText by lazy { data.optString("createAccountMarketingText") }
+
+    /** Loyalty Rewards Info URL */
+    val RewardsInfoURL by lazy { data.optString("rewardsInfoURL") }
 }

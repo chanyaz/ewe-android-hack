@@ -532,20 +532,48 @@ public class StrUtils {
 			.format().toString()));
 		URLSpan[] spans = legalTextSpan.getSpans(0, legalTextSpan.length(), URLSpan.class);
 
+		return formatLegalTextSpan(legalTextSpan, spans);
+	}
+
+	private static SpannableStringBuilder formatLegalTextSpan(SpannableStringBuilder legalTextSpan, URLSpan[] spans) {
 		for (final URLSpan span : spans) {
 			int start = legalTextSpan.getSpanStart(span);
 			int end = legalTextSpan.getSpanEnd(span);
 			// Replace URL span with ClickableSpan to redirect to our own webview
 			legalTextSpan.removeSpan(span);
 			legalTextSpan.setSpan(new LegalClickableSpan(span.getURL(), legalTextSpan.subSequence(start, end).toString(), false), start,
-				end, 0);
+					end, 0);
 			legalTextSpan.setSpan(new StyleSpan(Typeface.BOLD), start, end, 0);
 			legalTextSpan.setSpan(new ForegroundColorSpan(Color.WHITE), start,
-				end,
-				Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+					end,
+					Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 		}
 
 		return legalTextSpan;
+	}
+
+	public static SpannableStringBuilder generateLoyaltyRewardsLegalLink(Context context) {
+		SpannableStringBuilder legalTextSpan = new SpannableStringBuilder();
+
+		String spannedTermsAndConditions = context.getResources().getString(R.string.textview_spannable_hyperlink_TEMPLATE,
+				PointOfSale.getPointOfSale().getLoyaltyTermsAndConditionsUrl(),
+				context.getResources().getString(R.string.info_label_terms_conditions));
+		String spannedBrandRewards = context.getResources().getString(R.string.textview_spannable_hyperlink_TEMPLATE,
+				PointOfSale.getPointOfSale().getRewardsInfoURL(),
+				context.getResources().getString(R.string.brand_reward_name));
+		String spannedBrandRewardsCurrency = context.getResources().getString(R.string.textview_spannable_hyperlink_TEMPLATE,
+				PointOfSale.getPointOfSale().getRewardsInfoURL(),
+				context.getResources().getString(R.string.brand_reward_currency));
+
+		legalTextSpan.append(Html.fromHtml(Phrase.from(context.getResources(), R.string.account_creation_legal_rewards_TEMPLATE)
+				.putOptional("brand_reward_name_link", spannedBrandRewards)
+				.putOptional("brand_reward_currency", spannedBrandRewardsCurrency)
+				.putOptional("brand_reward_name", context.getString(R.string.brand_reward_name))
+				.put("terms_and_conditions", spannedTermsAndConditions)
+				.format().toString()));
+		URLSpan[] spans = legalTextSpan.getSpans(0, legalTextSpan.length(), URLSpan.class);
+
+		return formatLegalTextSpan(legalTextSpan, spans);
 	}
 
 	public static SpannableStringBuilder generateBulletedList(List<String> contentList) {

@@ -170,6 +170,9 @@ public class PointOfSale {
 	// Should we show the marketing opt in checkbox
 	private MarketingOptIn mMarketingOptIn;
 
+	// Should we auto enroll the user for Loyalty Rewards program
+	private boolean mShouldAutoEnrollUserInRewards;
+
 	// Should we show cirlces for rating
 	private boolean shouldShowCircleForRatings;
 
@@ -683,8 +686,8 @@ public class PointOfSale {
 	}
 
 	public String getAccountCreationTermsAndConditionsURL() {
-		return getPosLocale().getLoyaltyTermsAndConditionsUrl() == null ? getPosLocale().getTermsAndConditionsUrl()
-			: getPosLocale().getLoyaltyTermsAndConditionsUrl();
+		return getLoyaltyTermsAndConditionsUrl() == null ? getPosLocale().getTermsAndConditionsUrl()
+			: getLoyaltyTermsAndConditionsUrl();
 	}
 
 	public String getAirlineFeeBasedOnPaymentMethodTermsAndConditionsURL() {
@@ -745,8 +748,20 @@ public class PointOfSale {
 		return mMarketingOptIn == MarketingOptIn.SHOW_CHECKED || mMarketingOptIn == MarketingOptIn.DO_NOT_SHOW_AUTO_ENROLL;
 	}
 
+	public boolean shouldAutoEnrollUserInRewards() {
+		return mShouldAutoEnrollUserInRewards;
+	}
+
 	public String getMarketingText() {
 		return getPosLocale().getMarketingText();
+	}
+
+	public String getLoyaltyTermsAndConditionsUrl() {
+		return getPosLocale().getLoyaltyTermsAndConditionsUrl();
+	}
+
+	public String getRewardsInfoURL() {
+		return getPosLocale().getRewardsInfoURL();
 	}
 
 	public boolean shouldShowCircleForRatings() {
@@ -1162,6 +1177,7 @@ public class PointOfSale {
 		pos.mShowFlightsFreeCancellation = data.optBoolean("shouldShowFlightsFreeCancellation", false);
 		pos.mMarketingOptIn = MarketingOptIn
 				.valueOf(data.optString("marketingOptIn", MarketingOptIn.DO_NOT_SHOW.name()));
+		pos.mShouldAutoEnrollUserInRewards = data.optBoolean("autoEnrollUserInRewards", false);
 		pos.shouldShowCircleForRatings = data.optBoolean("shouldDisplayCirclesForRatings", false);
 		pos.doAirlinesChargeAdditionalFeeBasedOnPaymentMethod = data.optBoolean("doAirlinesChargeAdditionalFeeBasedOnPaymentMethod", false);
 		pos.mRequiresHotelPostalCode = data.optString("requiredPaymentFields:hotels").equals("postalCode");

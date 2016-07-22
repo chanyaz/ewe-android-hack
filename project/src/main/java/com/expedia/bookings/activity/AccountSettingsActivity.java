@@ -188,8 +188,8 @@ public class AccountSettingsActivity extends AppCompatActivity implements AboutS
 			builder.addRow(R.string.app_support, ROW_APP_SUPPORT);
 
 			if (ProductFlavorFeatureConfiguration.getInstance().isRewardsCardEnabled()) {
-				builder.addRow(Phrase.from(this, R.string.rewards_visa_card_TEMPLATE).put("brand",
-					ProductFlavorFeatureConfiguration.getInstance().getPOSSpecificBrandName(this)).format()
+				builder.addRow(Phrase.from(this, R.string.rewards_visa_card_TEMPLATE).put("brand_reward_name",
+					 getString(R.string.brand_reward_name)).format()
 					.toString(), ROW_REWARDS_VISA_CARD);
 			}
 

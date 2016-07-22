@@ -160,6 +160,9 @@ public class AccountLibActivity extends AppCompatActivity
 				.setAnalyticsListener(analyticsListener)
 				.setFacebookAppId(getString(R.string.facebook_app_id))
 				.setInitialState(startState)
+				.setAutoEnrollUserInRewards(PointOfSale.getPointOfSale().shouldAutoEnrollUserInRewards())
+				.setUserRewardsEnrollmentCheck(ProductFlavorFeatureConfiguration.getInstance().showUserRewardsEnrollmentCheck())
+				.setRewardsText(StrUtils.generateLoyaltyRewardsLegalLink(this))
 		);
 
 		userAccountRefresher = new UserAccountRefresher(this, lob, this);
@@ -268,6 +271,16 @@ public class AccountLibActivity extends AppCompatActivity
 		@Override
 		public void userReceivedErrorOnSignInAttempt(String s) {
 			OmnitureTracking.trackAccountCreateError(s);
+		}
+
+		@Override
+		public void userAutoLoggedInBySmartPassword() {
+
+		}
+
+		@Override
+		public void userSignedInUsingSmartPassword() {
+
 		}
 	};
 
