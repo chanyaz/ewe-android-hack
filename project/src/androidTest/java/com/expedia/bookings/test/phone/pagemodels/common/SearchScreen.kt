@@ -1,8 +1,12 @@
 package com.expedia.bookings.test.phone.pagemodels.common
 
+import android.support.test.espresso.Espresso
 import android.support.test.espresso.Espresso.onView
 import android.support.test.espresso.ViewInteraction
 import android.support.test.espresso.action.ViewActions.click
+import android.support.test.espresso.action.ViewActions.scrollTo
+import android.support.test.espresso.action.ViewActions.swipeDown
+import android.support.test.espresso.action.ViewActions.swipeUp
 import android.support.test.espresso.action.ViewActions.typeText
 import android.support.test.espresso.contrib.RecyclerViewActions
 import android.support.test.espresso.matcher.RootMatchers.withDecorView
@@ -12,6 +16,8 @@ import android.support.v7.widget.RecyclerView
 import android.view.View
 import com.expedia.bookings.R
 import com.expedia.bookings.test.espresso.Common
+import com.expedia.bookings.test.espresso.EspressoUtils
+import com.expedia.bookings.test.espresso.RecyclerViewAssertions
 import com.expedia.bookings.test.espresso.SpoonScreenshotUtils
 import com.expedia.bookings.test.espresso.TabletViewActions
 import com.expedia.bookings.test.espresso.TestValues
@@ -43,7 +49,7 @@ object SearchScreen {
     }
 
     @JvmStatic fun searchButton(): ViewInteraction {
-        val searchButton = onView(allOf(withId(R.id.search_button), withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE)))
+        val searchButton = onView(allOf(withId(R.id.search_btn), withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE)))
         searchButton.perform(ViewActions.waitForViewToDisplay())
         return searchButton
     }
@@ -164,15 +170,22 @@ object SearchScreen {
 
     @JvmStatic fun selectFlightOriginAndDestination(originPosition: Int, destinationPosition: Int) {
         origin().perform(click())
+        searchEditText().perform(ViewActions.waitForViewToDisplay())
         searchEditText().perform(android.support.test.espresso.action.ViewActions.typeText("origin"))
+        Espresso.closeSoftKeyboard()
+        Common.delay(1)
         suggestionList().perform(ViewActions.waitForViewToDisplay())
+        suggestionList().perform(RecyclerViewActions.scrollToPosition<RecyclerView.ViewHolder>(originPosition))
         suggestionList().perform(RecyclerViewActions.actionOnItemAtPosition<RecyclerView.ViewHolder>(originPosition, click()))
 
         //Delay for the auto advance to destination picker
         Common.delay(1)
         searchEditText().perform(ViewActions.waitForViewToDisplay())
         searchEditText().perform(android.support.test.espresso.action.ViewActions.typeText("destination"))
+        Espresso.closeSoftKeyboard()
+        Common.delay(1)
         suggestionList().perform(ViewActions.waitForViewToDisplay())
+        suggestionList().perform(RecyclerViewActions.scrollToPosition<RecyclerView.ViewHolder>(destinationPosition))
         suggestionList().perform(RecyclerViewActions.actionOnItemAtPosition<RecyclerView.ViewHolder>(destinationPosition, click()))
     }
 

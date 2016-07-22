@@ -1,7 +1,9 @@
 package com.expedia.bookings.presenter.rail
 
 import android.content.Context
+import android.util.AttributeSet
 import android.view.LayoutInflater
+import android.view.View
 import com.expedia.bookings.R
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.FrameLayout
@@ -11,7 +13,7 @@ import com.expedia.bookings.widget.TravelerWidgetV2
 import com.expedia.util.notNullAndObservable
 import com.expedia.vm.rail.RailSearchViewModel
 
-class RailSearchWidget : FrameLayout {
+class RailSearchWidget(context: Context, attr: AttributeSet?) : FrameLayout(context, attr) {
 
     val locationWidget: RailSearchLocationWidget by bindView(R.id.locationCard)
     val calendarWidget: RailCalendarWidget by bindView(R.id.calendar_card)
@@ -22,9 +24,8 @@ class RailSearchWidget : FrameLayout {
         locationWidget.viewModel = it
     }
 
-    //creating programmatically, don't need the other ctors
-    constructor(context: Context?) : super(context) {
-        LayoutInflater.from(context).inflate(R.layout.widget_rail_search_content, this)
+    init {
+        View.inflate(context, R.layout.widget_rail_search_content, this)
         calendarWidget.setOnClickListener {
             calendarWidget.showCalendarDialog()
         }

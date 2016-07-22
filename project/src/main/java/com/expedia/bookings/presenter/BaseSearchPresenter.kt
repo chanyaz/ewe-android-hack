@@ -25,11 +25,10 @@ import android.view.accessibility.AccessibilityEvent
 import android.view.animation.AccelerateDecelerateInterpolator
 import android.view.animation.DecelerateInterpolator
 import android.view.inputmethod.InputMethodManager
-import android.widget.ImageView
 import android.widget.Button
 import android.widget.EditText
+import android.widget.ImageView
 import android.widget.ScrollView
-import android.widget.FrameLayout
 import com.expedia.account.graphics.ArrowXDrawable
 import com.expedia.bookings.R
 import com.expedia.bookings.animation.TransitionElement
@@ -41,12 +40,12 @@ import com.expedia.bookings.utils.FontCache
 import com.expedia.bookings.utils.SuggestionV4Utils
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
-import com.expedia.bookings.widget.TravelerWidgetV2
 import com.expedia.bookings.widget.CalendarWidgetV2
 import com.expedia.bookings.widget.RecyclerDividerDecoration
 import com.expedia.bookings.widget.SearchInputCardView
 import com.expedia.bookings.widget.ShopWithPointsWidget
 import com.expedia.bookings.widget.TextView
+import com.expedia.bookings.widget.TravelerWidgetV2
 import com.expedia.util.notNullAndObservable
 import com.expedia.vm.BaseSearchViewModel
 import com.expedia.vm.SuggestionAdapterViewModel
@@ -60,6 +59,7 @@ import java.util.concurrent.TimeUnit
 abstract class BaseSearchPresenter(context: Context, attrs: AttributeSet) : Presenter(context, attrs) {
 
     private val SUGGESTION_TRANSITION_DURATION = 300
+    private val STARTING_TRANSLATIONY = -2000f
 
     val travellerCardViewStub: ViewStub by bindView(R.id.traveller_stub)
     val swpWidgetStub: ViewStub by bindView(R.id.swp_stub)
@@ -69,15 +69,15 @@ abstract class BaseSearchPresenter(context: Context, attrs: AttributeSet) : Pres
     val searchContainer: ViewGroup by bindView(R.id.search_container)
 
     val calendarWidgetV2: CalendarWidgetV2 by bindView(R.id.calendar_card)
-
-    val suggestionContainer: View by bindView(R.id.suggestions_container)
+    
     val suggestionRecyclerView: RecyclerView by bindView(R.id.suggestion_list)
     var navIcon: ArrowXDrawable
     open val destinationCardView: SearchInputCardView by bindView(R.id.destination_card)
     open val travelerWidgetV2 by lazy {
         travellerCardViewStub.inflate().findViewById(R.id.traveler_card) as TravelerWidgetV2
     }
-    val searchButton: Button by bindView(R.id.search_button)
+    val searchButton: Button by bindView(R.id.search_btn)
+
     open var searchLocationEditText: SearchView? = null
     val toolBarTitle: TextView by bindView(R.id.title)
     lateinit var shopWithPointsWidget : ShopWithPointsWidget
@@ -178,18 +178,17 @@ abstract class BaseSearchPresenter(context: Context, attrs: AttributeSet) : Pres
         show(SuggestionSelectionState())
     }
 
-    val globalLayoutListener = (ViewTreeObserver.OnGlobalLayoutListener {
+    val globalLayoutListener = (ViewTreeObserver.OnPreDrawListener {
         val decorView = mRootWindow.decorView
         val windowVisibleDisplayFrameRect = Rect()
         decorView.getWindowVisibleDisplayFrame(windowVisibleDisplayFrameRect)
-        var location = IntArray(2)
-        searchLocationEditText?.getLocationOnScreen(location)
         val lp = suggestionRecyclerView.layoutParams
-        val newHeight = windowVisibleDisplayFrameRect.bottom - windowVisibleDisplayFrameRect.top + statusBarHeight
+        val newHeight = windowVisibleDisplayFrameRect.bottom - Ui.toolbarSizeWithStatusBar(context)
         if (lp.height != newHeight) {
             lp.height = newHeight
             suggestionRecyclerView.layoutParams = lp
         }
+        true
     })
 
     open fun selectDates(startDate: LocalDate?, endDate: LocalDate?) {
@@ -216,11 +215,9 @@ abstract class BaseSearchPresenter(context: Context, attrs: AttributeSet) : Pres
         inflate()
         val statusBarHeight = Ui.getStatusBarHeight(getContext())
         if (statusBarHeight > 0) {
-            val statusBar = Ui.setUpStatusBar(getContext(), toolbar, searchContainer, primaryColor)
+            val statusBar = Ui.setUpStatusBar(getContext(), toolbar, null, primaryColor)
             addView(statusBar)
         }
-        val totalTopPadding = suggestionRecyclerView.paddingTop + statusBarHeight
-        suggestionRecyclerView.setPadding(0, totalTopPadding, 0, 0)
 
         navIcon = ArrowXDrawableUtil.getNavigationIconDrawable(getContext(), ArrowXDrawableUtil.ArrowDrawableType.CLOSE)
         navIcon.setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_IN)
@@ -294,7 +291,7 @@ abstract class BaseSearchPresenter(context: Context, attrs: AttributeSet) : Pres
 
         val bgFade = TransitionElement(0f, 1f)
         // Start with a large dummy value, and adjust it once we have an actual height
-        var recyclerY = TransitionElement(-2000f, 0f)
+        var recyclerY = TransitionElement(STARTING_TRANSLATIONY, Ui.toolbarSizeWithStatusBar(context).toFloat())
         val xScale = 0.25f
         val yScale = 0.25f
 
@@ -307,24 +304,23 @@ abstract class BaseSearchPresenter(context: Context, attrs: AttributeSet) : Pres
 
         override fun startTransition(forward: Boolean) {
 
-            recyclerY = TransitionElement(-(suggestionContainer.height.toFloat()), 0f)
+            recyclerY = TransitionElement(-(suggestionRecyclerView.height.toFloat()), Ui.toolbarSizeWithStatusBar(context).toFloat())
 
             searchLocationEditText?.visibility = VISIBLE
             toolBarTitle.visibility = VISIBLE
 
             suggestionRecyclerView.visibility = VISIBLE
-            suggestionContainer.visibility = VISIBLE
 
             // Toolbar color
             toolbar.setBackgroundColor(if (forward) toolbarBgColor.start else toolbarBgColor.end)
             toolBarTitle.alpha = TransitionElement.calculateStep(bgFade.end, bgFade.start, 0f)
 
             // Suggestion Fade In
-            suggestionContainer.alpha = TransitionElement.calculateStep(bgFade.start, bgFade.end, 0f, forward)
+            suggestionRecyclerView.alpha = TransitionElement.calculateStep(bgFade.start, bgFade.end, 0f, forward)
             if (transitioningFromOriginToDestination && !firstLaunch) {
                 // scale for origin to destination transition
-                suggestionContainer.scaleX = (if (forward) xScale else 1f)
-                suggestionContainer.scaleY = (if (forward) yScale else 1f)
+                suggestionRecyclerView.scaleX = (if (forward) xScale else 1f)
+                suggestionRecyclerView.scaleY = (if (forward) yScale else 1f)
             }
 
             // Edit text fade in
@@ -332,8 +328,8 @@ abstract class BaseSearchPresenter(context: Context, attrs: AttributeSet) : Pres
 
             // RecyclerView vertical transition
             if (!firstLaunch && !transitioningFromOriginToDestination) {
-                recyclerY = TransitionElement(-(suggestionContainer.height.toFloat()), 0f)
-                suggestionRecyclerView.translationY = recyclerY.start;
+                recyclerY = TransitionElement(-(suggestionRecyclerView.height.toFloat()), Ui.toolbarSizeWithStatusBar(context).toFloat())
+                suggestionRecyclerView.translationY = recyclerY.start
             }
             else {
                 suggestionRecyclerView.translationY = recyclerY.end
@@ -391,7 +387,7 @@ abstract class BaseSearchPresenter(context: Context, attrs: AttributeSet) : Pres
                 searchLocationEditText?.alpha = TransitionElement.calculateStep(bgFade.start, bgFade.end, progress)
                 toolBarTitle.alpha = TransitionElement.calculateStep(bgFade.end, bgFade.start, progress)
 
-                suggestionContainer.alpha = TransitionElement.calculateStep(bgFade.start, bgFade.end, progress)
+                suggestionRecyclerView.alpha = TransitionElement.calculateStep(bgFade.start, bgFade.end, progress)
                 // recycler movement - only moves during its portion of the animation
                 if (!transitioningFromOriginToDestination) {
                     if (forward && f > recyclerStartTime) {
@@ -402,8 +398,8 @@ abstract class BaseSearchPresenter(context: Context, attrs: AttributeSet) : Pres
                 }
                 else {
                     // scale suggestion container between origin and destination suggestion views
-                    suggestionContainer.scaleX = (if (forward) (1 - (1-xScale) * -(f-1)) else (xScale + (1-xScale) * -(f-1)))
-                    suggestionContainer.scaleY = (if (forward) (1 - (1-yScale) * -(f-1)) else (yScale + (1-yScale) * -(f-1)))
+                    suggestionRecyclerView.scaleX = (if (forward) (1 - (1-xScale) * -(f-1)) else (xScale + (1-xScale) * -(f-1)))
+                    suggestionRecyclerView.scaleY = (if (forward) (1 - (1-yScale) * -(f-1)) else (yScale + (1-yScale) * -(f-1)))
                 }
 
                 if (showFlightOneWayRoundTripOptions) {
@@ -416,9 +412,9 @@ abstract class BaseSearchPresenter(context: Context, attrs: AttributeSet) : Pres
             // Toolbar bg color
             toolbar.setBackgroundColor(if (forward) toolbarBgColor.end else toolbarBgColor.start)
             navIcon.setColorFilter(if (forward) toolbarTextColor.end else toolbarTextColor.start, PorterDuff.Mode.SRC_IN)
-            suggestionContainer.alpha = if (forward) bgFade.end else bgFade.start
-            suggestionContainer.scaleX = 1f
-            suggestionContainer.scaleY = 1f
+            suggestionRecyclerView.alpha = if (forward) bgFade.end else bgFade.start
+            suggestionRecyclerView.scaleX = 1f
+            suggestionRecyclerView.scaleY = 1f
 
             searchLocationEditText?.alpha = if (forward) bgFade.end else bgFade.start
 
@@ -428,34 +424,21 @@ abstract class BaseSearchPresenter(context: Context, attrs: AttributeSet) : Pres
             searchContainer.visibility = if (forward) GONE else VISIBLE
             if (!forward) {
                 searchLocationEditText?.visibility = GONE
-                mRootView.viewTreeObserver.removeOnGlobalLayoutListener(globalLayoutListener)
+                mRootView.viewTreeObserver.removeOnPreDrawListener(globalLayoutListener)
             } else {
                 searchLocationEditText?.visibility = VISIBLE
-                mRootView.viewTreeObserver.addOnGlobalLayoutListener(globalLayoutListener)
+                mRootView.viewTreeObserver.addOnPreDrawListener(globalLayoutListener)
                 doRequestA11yFocus = true
             }
 
             toolBarTitle.visibility = if (forward) GONE else VISIBLE
             if (showFlightOneWayRoundTripOptions) {
                 tabs.visibility = if (forward) GONE else VISIBLE
-                setSearchContainerTopMargin(forward)
             }
             if (!forward && doRequestA11yFocus) {
                 requestA11yFocus(isCustomerSelectingOrigin)
             }
         }
-    }
-
-    protected fun setSearchContainerTopMargin(showingSuggestions: Boolean) {
-        val newMarginDimensionId =
-                if (showFlightOneWayRoundTripOptions && !showingSuggestions) {
-                    R.dimen.flights_search_form_top_margin
-                } else {
-                    R.dimen.search_form_top_margin
-                }
-        val newLayoutParams = searchContainer.layoutParams as FrameLayout.LayoutParams
-        newLayoutParams.topMargin = Math.round(context.resources.getDimension(newMarginDimensionId))
-        searchContainer.layoutParams = newLayoutParams
     }
 
     fun applyAdapter() {

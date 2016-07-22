@@ -43,7 +43,7 @@ class LXSearchTest {
     fun testSearchFormComponentVisibility() {
         val selectDate = searchwidget.findViewById(R.id.calendar_card)
         val locationCardView = searchwidget.findViewById(R.id.destination_card)
-        val searchButton = searchwidget.findViewById(R.id.search_button) as Button
+        val searchButton = searchwidget.findViewById(R.id.search_btn) as Button
         val locationTextView = locationCardView.findViewById(R.id.input_label) as TextView
         val toolbarSearchText = searchwidget.findViewById(R.id.title) as TextView
         assertEquals("Search Activities", toolbarSearchText.text.toString())
