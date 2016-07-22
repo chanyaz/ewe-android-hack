@@ -21,6 +21,9 @@ fix_item_straight="$start_loop s/\(<item.*[^\]\)'/\1$good_apos/ $end_loop"
 
 for i in $path/values*/strings.xml ; do
     echo $i
+    # Fix unicode non-breaking spaces
+    gsed -i 's:\xc2\xa0: :g' $i
+
     gsed -i "$fix_comment" $i
     gsed -i "$fix_string" $i
     gsed -i "$fix_item" $i
@@ -39,17 +42,15 @@ for i in $path/values*/strings.xml ; do
     gsed -i 's/\([^\.]\)\.\.\.\([^\.]\)/\1…\2/g' $i
 
     # Fix bad trailing space - ignore " : "
-    gsed -i 's/\([^:]\)\s*<\/string>/\1<\/string>/' $i
-    gsed -i 's/\([^:]\)\s*<\/item>/\1<\/item>/' $i
+    gsed -i 's/\([^:]\)\s*<\/string>/\1<\/string>/g' $i
+    gsed -i 's/\([^:]\)\s*<\/item>/\1<\/item>/g' $i
 
     # Fix bad preceding space
-    gsed -i 's/<string \(name="[a-zA-Z1-9_]*"\)>\s*/<string \1>/' $i
-    gsed -i 's/<item \(quantity="[a-zA-Z1-9_]*"\)>\s*/<item \1>/' $i
+    gsed -i 's/<string \(name="[a-zA-Z1-9_]*"\)>\s*/<string \1>/g' $i
+    gsed -i 's/<item \(quantity="[a-zA-Z1-9_]*"\)>\s*/<item \1>/g' $i
 
     # Fix multiple spaces
-    gsed -i 's/\(>.*[^.!]\)  /\1 /' $i
+    gsed -i 's/\(>.*[^.!]\)  /\1 /g' $i
 
-    # Fix unicode non-breaking spaces
-    gsed -i 's:\xc2\xa0: :g' $i
 done
 
