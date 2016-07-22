@@ -10,6 +10,7 @@
     <color name="cars_lob_btn">@color/lob_btn_color</color>
     <color name="lx_lob_btn">@color/lob_btn_color</color>
     <color name="earn_message_text_color">#8d1598</color>
+    <color name="pay_now_earn_text_color">#8E0099</color>
     <color name="actionbar_button_text_color">@color/action_bar_text_color</color>
     <!-- Launch colors -->
     <color name="launch_toolbar_background_color">@color/lob_btn_color</color>

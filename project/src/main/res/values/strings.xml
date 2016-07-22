@@ -2915,6 +2915,7 @@
     <string name="etp_pay_now_charges_text_TEMPLATE">{brand} will process your payment details.</string>
     <string name="etp_pay_now_currency_text_TEMPLATE">You will pay in your local currency (%s).</string>
     <string name="etp_pay_now_cancellation_text">Cancellation is free, right up to the hotel\'s cancellation window.</string>
+    <string name="etp_pay_now_earn_text"></string>
 
     <!-- ETP pay later deposit info message -->
     <string name="etp_pay_later_deposit_text">Your deposits will never exceed the total cost of your booking.</string>

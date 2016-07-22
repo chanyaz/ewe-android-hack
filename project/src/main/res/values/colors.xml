@@ -122,6 +122,7 @@
     <color name="hotel_filter_spinner_color_selected">#CDCED0</color>
     <color name="hotel_filter_spinner_text_color">#707070</color>
     <color name="etp_text_color">#29a653</color>
+    <color name="pay_now_earn_text_color">#8E0099</color>
     <color name="room_rate_refundable_cancellation_text_color">#008C5D</color>
     <color name="hotel_cell_gray_text">@color/gray6</color>
     <color name="hotel_cell_distance_text">#D7D7D7</color>

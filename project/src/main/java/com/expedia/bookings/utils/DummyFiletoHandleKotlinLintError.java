@@ -648,6 +648,7 @@ DummyFiletoHandleKotlinLintError {
 		R.drawable.search_dropdown,
 		R.layout.package_flight_presenter,
 		R.drawable.brand_tablet_checkout_login_logo_drawable,
-		R.color.points_available_text_color
+		R.color.points_available_text_color,
+		R.string.etp_pay_now_earn_text
 	};
 }
