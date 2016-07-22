@@ -63,6 +63,7 @@ import com.expedia.bookings.widget.TouchableFrameLayout;
 import com.mobiata.android.BackgroundDownloader;
 import com.mobiata.android.Log;
 import com.squareup.otto.Subscribe;
+import com.squareup.phrase.Phrase;
 
 public class FlightTripOverviewActivity extends FragmentActivity implements AccountLibActivity.LogInListener,
 	CheckoutInformationListener, ISlideToListener, DoLogoutListener {
@@ -915,7 +916,10 @@ public class FlightTripOverviewActivity extends FragmentActivity implements Acco
 
 		TextView splitTicketBaggageFeesTextView = (TextView) splitTicketInformationView.findViewById(R.id.split_ticket_baggage_fee_links);
 		String baggageFeesTextWithLinks =
-			this.getString(R.string.split_ticket_baggage_fees, baggageFeesUrlLegOne, baggageFeesUrlLegTwo);
+			Phrase.from(context, R.string.split_ticket_baggage_fees_TEMPLATE)
+				.put("departurelink", baggageFeesUrlLegOne)
+				.put("returnlink", baggageFeesUrlLegTwo)
+				.toString();
 		SpannableStringBuilder spannableStringBuilder =
 			StrUtils.getSpannableTextByColor(baggageFeesTextWithLinks, Color.BLACK, true);
 		splitTicketBaggageFeesTextView.setText(spannableStringBuilder);

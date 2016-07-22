@@ -43,7 +43,7 @@ class FlightSplitTicketRulesTest : FlightTestCase() {
         Common.delay(1)
         assertViewHasText(R.id.split_ticket_rules_and_restrictions, R.string.split_ticket_rules_with_link_TEMPLATE)
         assertViewHasText(R.id.split_ticket_cancellation_policy, R.string.split_ticket_rules_cancellation_policy)
-        onView(withId(R.id.split_ticket_baggage_fee_links)).check(matches(isDisplayed())).check(matches(withText("• Departure and Return flights have their own baggage fees")))
+        onView(withId(R.id.split_ticket_baggage_fee_links)).check(matches(isDisplayed())).check(matches(withText("Departure and Return flights have their own baggage fees")))
     }
 
     private fun assertViewHasText(id: Int, stringResId: Int) {

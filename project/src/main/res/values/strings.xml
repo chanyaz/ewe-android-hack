@@ -2486,13 +2486,13 @@
     <!-- split ticket rules header -->
     <string name="split_ticket_important_flight_information_header">Important Flight Information</string>
     <!-- split ticket rules and restrictions -->
-    <string name="split_ticket_rules_with_link_TEMPLATE">• Your flight is a combination of two one-way fares, each subject to its own rules and restrictions.</string>
+    <string name="split_ticket_rules_with_link_TEMPLATE">Your flight is a combination of two one-way fares, each subject to its own rules and restrictions.</string>
     <string name="split_ticket_rules_with_link_TEMPLATE_tablet">Your flight is a combination of two one-way fares, each subject to its own rules and restrictions.</string>
     <!-- split ticket rules - cancellation policy -->
-    <string name="split_ticket_rules_cancellation_policy">• If one of your flights is changed or cancelled, it will not automatically alter the other flight. Changes to the other flight may incur a charge.</string>
+    <string name="split_ticket_rules_cancellation_policy">If one of your flights is changed or cancelled, it will not automatically alter the other flight. Changes to the other flight may incur a charge.</string>
     <string name="split_ticket_rules_cancellation_policy_tablet">If one of your flights is changed or cancelled, it will not automatically alter the other flight. Changes to the other flight may incur a charge.</string>
-    <!-- split ticket baggage fees -->
-    <string name="split_ticket_baggage_fees">• &lt;a href=\"%1$s\"&gt;Departure&lt;/a&gt; and &lt;a href=\"%2$s\"&gt;Return&lt;/a&gt; flights have their own baggage fees</string>
+    <!-- split ticket baggage fees. Example:  Departure and Return flights have their own baggage fees-->
+    <string name="split_ticket_baggage_fees_TEMPLATE">&lt;a href=\"{departurelink}\"&gt;Departure&lt;/a&gt; and &lt;a href=\"{returnlink}\"&gt;Return&lt;/a&gt; flights have their own baggage fees</string>
     <string name="split_ticket_baggage_fees_tablet">&lt;a href=\"%1$s\"&gt;Departure&lt;/a&gt; and &lt;a href=\"%2$s\"&gt;Return&lt;/a&gt; flights have their own baggage fees</string>
     <!-- Flight dialog  errors -->
     <!-- Title of screen if user entered an invalid security code -->
