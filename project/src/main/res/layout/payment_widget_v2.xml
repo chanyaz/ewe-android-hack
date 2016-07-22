@@ -250,7 +250,8 @@
                         android:hint="@string/card_io_btn_text"
                         android:text="@string/card_io_btn_text"
                         android:textColor="@color/card_io_scan_text"
-                        android:textSize="8sp" />
+                        android:textSize="8sp"
+                        app:textStyle="medium"/>
 
                 </LinearLayout>
 
