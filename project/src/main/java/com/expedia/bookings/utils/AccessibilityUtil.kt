@@ -22,7 +22,7 @@ object AccessibilityUtil {
                     v.setFocusable(true)
                     v.clearFocus()
                     v.requestFocus()
-                    v.sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_HOVER_ENTER)
+                    v.setAccessibilityHoverFocus()
                     break
                 }
             }
@@ -44,4 +44,8 @@ object AccessibilityUtil {
 fun View.setFocusForView() {
     this.isFocusable = true
     this.sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_FOCUSED)
+}
+
+fun View.setAccessibilityHoverFocus() {
+    this.sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_HOVER_ENTER)
 }

@@ -64,6 +64,8 @@ class PackageOverviewPresenter(context: Context, attrs: AttributeSet) : BaseOver
         bundleOverviewHeader.toolbar.inflateMenu(R.menu.menu_package_checkout)
         bundleWidget.toggleMenuObservable.subscribe(bundleOverviewHeader.toolbar.toggleMenuObserver)
 
+        getCheckoutPresenter().getCheckoutViewModel().slideToBookA11yActivateObservable.subscribe(checkoutSliderSlidObserver)
+
         changeHotel.setOnMenuItemClickListener({
             bundleOverviewHeader.toggleOverviewHeader(false)
             checkoutPresenter.toggleCheckoutButton(false)

@@ -9,8 +9,10 @@ import android.view.View
 import android.view.animation.AccelerateDecelerateInterpolator
 import com.expedia.bookings.R
 import com.expedia.bookings.presenter.packages.TravelerPresenter
+import com.expedia.bookings.utils.AccessibilityUtil
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
+import com.expedia.bookings.utils.setAccessibilityHoverFocus
 import com.expedia.bookings.widget.BaseCheckoutPresenter
 import com.expedia.bookings.widget.BundleOverviewHeader
 import com.expedia.bookings.widget.CVVEntryWidget
@@ -209,11 +211,16 @@ abstract class BaseOverviewPresenter(context: Context, attrs: AttributeSet) : Pr
     private val checkoutToCvv = object : VisibilityTransition(this, getCheckoutTransitionClass(), CVVEntryWidget::class.java) {
         override fun endTransition(forward: Boolean) {
             super.endTransition(forward)
+            bundleOverviewHeader.visibility = if (forward) View.GONE else View.VISIBLE
             if (!forward) {
                 checkoutPresenter.slideToPurchase.resetSlider()
+                checkoutPresenter.slideToPurchaseLayout.setAccessibilityHoverFocus()
             } else {
                 cvv.visibility = View.VISIBLE
                 trackPaymentCIDLoad()
+                postDelayed({
+                    AccessibilityUtil.setFocusToToolbarNavigationIcon(cvv.toolbar)
+                }, 100L)
             }
         }
     }

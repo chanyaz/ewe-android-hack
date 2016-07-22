@@ -16,6 +16,7 @@ import android.view.ViewStub
 import android.view.ViewTreeObserver
 import android.widget.Button
 import android.widget.LinearLayout
+import android.widget.Toast
 import com.expedia.bookings.R
 import com.expedia.bookings.activity.AccountLibActivity
 import com.expedia.bookings.activity.FlightRulesActivity
@@ -28,6 +29,8 @@ import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.presenter.ScaleTransition
 import com.expedia.bookings.presenter.packages.TravelerPresenter
 import com.expedia.bookings.services.InsuranceServices
+import com.expedia.bookings.utils.AccessibilityUtil
+import com.expedia.bookings.utils.CurrencyUtils
 import com.expedia.bookings.utils.TravelerManager
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.UserAccountRefresher
@@ -234,6 +237,11 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet) : Pre
         getCheckoutViewModel().notNetworkObservable.subscribe {
             checkoutDialog.hide()
             slideToPurchase.resetSlider()
+            slideToPurchaseLayout.setOnClickListener {
+                if (AccessibilityUtil.isTalkBackEnabled(context)) {
+                    ckoViewModel.slideToBookA11yActivateObservable.onNext(Unit)
+                }
+            }
         }
     }
 
@@ -260,6 +268,7 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet) : Pre
                 }
             }
         })
+
     }
 
     private val defaultTransition = object : Presenter.DefaultTransition(CheckoutDefault::class.java.name) {

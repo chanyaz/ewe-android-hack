@@ -34,6 +34,7 @@ abstract  class BaseCheckoutViewModel(val context: Context) {
     val sliderPurchaseTotalText = PublishSubject.create<CharSequence>()
     val checkoutErrorObservable = PublishSubject.create<ApiError>()
     var email: String by Delegates.notNull()
+    val slideToBookA11yActivateObservable = PublishSubject.create<Unit>()
 
     init {
         clearTravelers.subscribe {
