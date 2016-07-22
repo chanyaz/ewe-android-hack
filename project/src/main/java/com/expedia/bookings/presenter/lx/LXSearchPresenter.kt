@@ -19,6 +19,7 @@ import com.expedia.vm.BaseSearchViewModel
 import com.expedia.bookings.lob.lx.ui.viewmodel.LXSearchViewModel
 import com.expedia.vm.LXSuggestionAdapterViewModel
 import com.expedia.vm.SuggestionAdapterViewModel
+import com.squareup.phrase.Phrase
 
 class LXSearchPresenter(context: Context, attrs: AttributeSet) : BaseSearchPresenter(context, attrs) {
 
@@ -31,6 +32,9 @@ class LXSearchPresenter(context: Context, attrs: AttributeSet) : BaseSearchPrese
         vm.locationTextObservable.subscribe { locationText ->
             firstLaunch = false
             destinationCardView.setText(locationText)
+            destinationCardView.contentDescription = Phrase.from(context, R.string.location_edit_box_cont_desc_TEMPLATE)
+                    .put("location", locationText)
+                    .format().toString()
             if (this.visibility == VISIBLE && vm.startDate() == null) {
                 calendarWidgetV2.showCalendarDialog()
             }
