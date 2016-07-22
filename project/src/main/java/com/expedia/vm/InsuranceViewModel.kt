@@ -7,6 +7,7 @@ import android.graphics.Typeface
 import android.support.v4.content.ContextCompat
 import android.text.Html
 import android.text.SpannableStringBuilder
+import android.text.Spanned
 import android.text.style.StyleSpan
 import com.expedia.bookings.R
 import com.expedia.bookings.data.flights.FlightCreateTripResponse
@@ -24,6 +25,7 @@ import rx.subjects.BehaviorSubject
 import rx.subjects.PublishSubject
 
 class InsuranceViewModel(val context: Context, val insuranceServices: InsuranceServices) {
+    val benefitsObservable = BehaviorSubject.create<Spanned>()
     val programmaticToggleObservable = PublishSubject.create<Boolean>()
     val termsObservable = PublishSubject.create<SpannableStringBuilder>()
     val titleColorObservable = PublishSubject.create<Int>()
@@ -60,9 +62,7 @@ class InsuranceViewModel(val context: Context, val insuranceServices: InsuranceS
             val effectiveProduct = trip.selectedInsuranceProduct ?: trip.availableInsuranceProducts.firstOrNull()
             if (effectiveProduct != null) {
                 product = effectiveProduct
-                updateTerms()
-                updateTitle()
-                updateToggleSwitch()
+                updateWidget()
                 widgetVisibilityObservable.onNext(true)
             } else {
                 widgetVisibilityObservable.onNext(false)
@@ -120,6 +120,16 @@ class InsuranceViewModel(val context: Context, val insuranceServices: InsuranceS
         }
     }
 
+    fun updateBenefits() {
+        val benefitsId: Int
+        if (trip.details.offer.isInternational) {
+            benefitsId = R.string.insurance_benefits_international
+        } else {
+            benefitsId = R.string.insurance_benefits_domestic
+        }
+        benefitsObservable.onNext(Html.fromHtml(context.resources.getString(benefitsId)))
+    }
+
     fun updateTerms() {
         val linkContent = context.resources.getString(R.string.textview_spannable_hyperlink_TEMPLATE,
                 product.terms.url, context.resources.getString(R.string.insurance_terms))
@@ -164,5 +174,12 @@ class InsuranceViewModel(val context: Context, val insuranceServices: InsuranceS
 
     fun updateToggleSwitch() {
         programmaticToggleObservable.onNext(trip.selectedInsuranceProduct != null)
+    }
+
+    fun updateWidget() {
+        updateBenefits()
+        updateTerms()
+        updateTitle()
+        updateToggleSwitch()
     }
 }
