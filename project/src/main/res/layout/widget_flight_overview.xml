@@ -60,12 +60,13 @@
                     android:id="@+id/show_baggage_fees"
                     android:text="@string/package_flight_overview_baggage_fees"
                     app:textStyle="medium"
+                    android:layout_marginTop="12dp"
                     style="@style/Widget.InfoIconButton"/>
 
-                <com.expedia.bookings.widget.TextView
+                <Button
                     android:id="@+id/show_payment_fees"
                     android:visibility="gone"
-                    style="@style/Widget.InfoIconTextView"
+                    style="@style/Widget.InfoIconButton"
                     app:textStyle="medium" />
 
             </LinearLayout>
