@@ -16,6 +16,7 @@ import android.view.ViewStub;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
+import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.SuggestionV4;
 import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.data.TravelerName;
@@ -250,7 +251,7 @@ public class BaseTravelerPresenterTestHelper {
 	}
 
 	protected CheckoutTravelerViewModel getMockviewModel() {
-		CheckoutTravelerViewModel mockViewModel = new CheckoutTravelerViewModel(context);
+		CheckoutTravelerViewModel mockViewModel = new CheckoutTravelerViewModel(context, LineOfBusiness.PACKAGES);
 		mockViewModel.getTravelerCompletenessStatus().subscribe(testTravelerDefault.getViewModel().getTravelerStatusObserver());
 		return mockViewModel;
 	}

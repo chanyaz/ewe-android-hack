@@ -96,5 +96,6 @@ class FlightOverviewPresenter(context: Context, attrs: AttributeSet) : BaseOverv
     }
 
     override fun trackPaymentCIDLoad() {
+        FlightsV2Tracking.trackCheckoutPaymentCID()
     }
 }
