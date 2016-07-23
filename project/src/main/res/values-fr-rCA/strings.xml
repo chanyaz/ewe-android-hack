@@ -2519,7 +2519,7 @@
     <!-- Text for hotel error unknown -->
     <string name="error_hotel_unhandled">Désolés, nous ne pouvons pas traiter votre commande en ce moment. Veuillez réessayer.</string>
     <!-- Text for hotel error toolbar payment failed-->
-    <string name="hotel_payment_failed_text">Échec de paiement</string>
+    <string name="payment_failed_label">Échec de paiement</string>
     <!-- Text for error toolbar session expired-->
     <string name="session_timeout">Session expirée</string>
 

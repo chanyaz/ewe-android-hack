@@ -2519,7 +2519,7 @@
     <!-- Text for hotel error unknown -->
     <string name="error_hotel_unhandled">ขออภัย เราไม่สามารถดำเนินการกับคำสั่งซื้อของคุณได้ในตอนนี้ โปรดลองอีกครั้ง</string>
     <!-- Text for hotel error toolbar payment failed-->
-    <string name="hotel_payment_failed_text">การชำระเงินล้มเหลว</string>
+    <string name="payment_failed_label">การชำระเงินล้มเหลว</string>
     <!-- Text for error toolbar session expired-->
     <string name="session_timeout">เซสชั่นหมดอายุ</string>
 

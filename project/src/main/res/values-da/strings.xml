@@ -2519,7 +2519,7 @@
     <!-- Text for hotel error unknown -->
     <string name="error_hotel_unhandled">Vi beklager, men det ser ud til, at vi ikke kan gennemføre din reservation i øjeblikket. Prøv venligst igen.</string>
     <!-- Text for hotel error toolbar payment failed-->
-    <string name="hotel_payment_failed_text">Betalingen mislykkedes</string>
+    <string name="payment_failed_label">Betalingen mislykkedes</string>
     <!-- Text for error toolbar session expired-->
     <string name="session_timeout">Sessionen er udløbet</string>
 

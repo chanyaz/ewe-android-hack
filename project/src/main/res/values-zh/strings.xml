@@ -2519,7 +2519,7 @@
     <!-- Text for hotel error unknown -->
     <string name="error_hotel_unhandled">很抱歉，我们暂时无法处理您的订单。请再试一次。</string>
     <!-- Text for hotel error toolbar payment failed-->
-    <string name="hotel_payment_failed_text">付款失败</string>
+    <string name="payment_failed_label">付款失败</string>
     <!-- Text for error toolbar session expired-->
     <string name="session_timeout">会话已过期</string>
 

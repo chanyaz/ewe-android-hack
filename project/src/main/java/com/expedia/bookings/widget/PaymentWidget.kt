@@ -237,15 +237,7 @@ open class PaymentWidget(context: Context, attr: AttributeSet) : Presenter(conte
         storedCreditCardList.setStoredCreditCardListener(storedCreditCardListener)
 
         cardInfoContainer.setOnClickListener {
-            if (shouldShowPaymentOptions()) {
-                show(PaymentOption(), FLAG_CLEAR_BACKSTACK)
-                trackShowPaymentOptions()
-            } else {
-                show(PaymentDetails(), FLAG_CLEAR_BACKSTACK)
-                trackShowPaymentEdit()
-
-            }
-            viewmodel.expandObserver.onNext(true)
+            showPaymentForm()
         }
 
         filledInCardDetailsMiniView.setOnClickListener {
@@ -269,6 +261,18 @@ open class PaymentWidget(context: Context, attr: AttributeSet) : Presenter(conte
         FontCache.setTypeface(cardInfoExpiration, FontCache.Font.ROBOTO_REGULAR)
         FontCache.setTypeface(cardInfoName, FontCache.Font.ROBOTO_MEDIUM)
         Db.setTemporarilySavedCard(null)
+    }
+
+    fun showPaymentForm() {
+        if (shouldShowPaymentOptions()) {
+            show(PaymentOption(), FLAG_CLEAR_BACKSTACK)
+            trackShowPaymentOptions()
+        } else {
+            show(PaymentDetails(), FLAG_CLEAR_BACKSTACK)
+            trackShowPaymentEdit()
+
+        }
+        viewmodel.expandObserver.onNext(true)
     }
 
     protected fun getCreditCardIcon(drawableResourceId: Int): Drawable {

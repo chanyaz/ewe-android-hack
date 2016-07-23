@@ -34,6 +34,7 @@ class FlightCheckoutViewModel(context: Context, val flightServices: FlightServic
     val validFormsOfPaymentSubject = BehaviorSubject.create<List<ValidFormOfPayment>>()
     val selectedFlightChargesFees = PublishSubject.create<String>()
     val obFeeDetailsUrlSubject = PublishSubject.create<String>()
+    val performCheckout = PublishSubject.create<Unit>()
 
     // outputs
     val paymentTypeSelectedHasCardFee = PublishSubject.create<Boolean>()
@@ -41,6 +42,7 @@ class FlightCheckoutViewModel(context: Context, val flightServices: FlightServic
     val cardFeeWarningTextSubject = PublishSubject.create<Spanned>()
     val cardFeeForSelectedCard = PublishSubject.create<ValidFormOfPayment>()
     val showDebitCardsNotAcceptedSubject = BehaviorSubject.create<Boolean>()
+    val receivedCheckoutResponse = PublishSubject.create<Unit>()
 
     init {
         val pointOfSale = PointOfSale.getPointOfSale()
@@ -68,7 +70,8 @@ class FlightCheckoutViewModel(context: Context, val flightServices: FlightServic
             }
         }
 
-        checkoutParams.subscribe { params ->
+        checkoutParams.map { Unit }.subscribe(performCheckout)
+        Observable.combineLatest(checkoutParams, performCheckout, { params, performCheckout ->
             params as FlightCheckoutParams
             if (User.isLoggedIn(context)) {
                 params.billingInfo.email = Db.getUser().primaryTraveler.email
@@ -76,7 +79,7 @@ class FlightCheckoutViewModel(context: Context, val flightServices: FlightServic
             builder.suppressFinalBooking(BookingSuppressionUtils.shouldSuppressFinalBooking(context, R.string.preference_suppress_flight_bookings))
             flightServices.checkout(params.toQueryMap()).subscribe(makeCheckoutResponseObserver())
             email = params.billingInfo.email
-        }
+        }).subscribe()
 
         setupCardFeeSubjects()
         showDebitCardsNotAcceptedSubject.onNext(pointOfSale.doesNotAcceptDebitCardsForFlights())
@@ -127,6 +130,7 @@ class FlightCheckoutViewModel(context: Context, val flightServices: FlightServic
     private fun makeCheckoutResponseObserver(): Observer<FlightCheckoutResponse> {
         return object : Observer<FlightCheckoutResponse> {
             override fun onNext(response: FlightCheckoutResponse) {
+                receivedCheckoutResponse.onNext(Unit)
                 if (response.hasErrors()) {
                     when (response.firstError.errorCode) {
                         ApiError.Code.INVALID_INPUT -> {
@@ -136,7 +140,7 @@ class FlightCheckoutViewModel(context: Context, val flightServices: FlightServic
                             priceChangeObservable.onNext(response)
                         }
                         else -> {
-                            checkoutErrorObservable.onNext(ApiError(ApiError.Code.UNKNOWN_ERROR))
+                            checkoutErrorObservable.onNext(response.firstError)
                         }
                     }
                 } else {

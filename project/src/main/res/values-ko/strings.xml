@@ -2519,7 +2519,7 @@
     <!-- Text for hotel error unknown -->
     <string name="error_hotel_unhandled">죄송합니다. 지금 고객님의 주문을 처리해 드릴 수 없습니다. 다시 시도해 주세요.</string>
     <!-- Text for hotel error toolbar payment failed-->
-    <string name="hotel_payment_failed_text">결제 실패함</string>
+    <string name="payment_failed_label">결제 실패함</string>
     <!-- Text for error toolbar session expired-->
     <string name="session_timeout">세션 만료됨</string>
 

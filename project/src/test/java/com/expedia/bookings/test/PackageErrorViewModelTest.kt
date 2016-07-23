@@ -88,7 +88,7 @@ class PackageErrorViewModelTest {
         errorImageObservableTestSubscriber.assertValues(R.drawable.error_payment)
         errorMessageObservableTestSubscriber.assertValues(RuntimeEnvironment.application.getString(errorMessageId))
         errorButtonObservableTestSubscriber.assertValues(RuntimeEnvironment.application.getString(R.string.edit_payment))
-        titleObservableTestSubscriber.assertValues(RuntimeEnvironment.application.getString(R.string.hotel_payment_failed_text))
+        titleObservableTestSubscriber.assertValues(RuntimeEnvironment.application.getString(R.string.payment_failed_label))
         subtitleObservableTestSubscriber.assertValues("")
     }
 
