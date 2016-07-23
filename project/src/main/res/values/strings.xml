@@ -2915,7 +2915,6 @@
     <string name="etp_pay_now_charges_text_TEMPLATE">{brand} will process your payment details.</string>
     <string name="etp_pay_now_currency_text_TEMPLATE">You will pay in your local currency (%s).</string>
     <string name="etp_pay_now_cancellation_text">Cancellation is free, right up to the hotel\'s cancellation window.</string>
-    <string name="etp_pay_now_earn_text"></string>
 
     <!-- ETP pay later deposit info message -->
     <string name="etp_pay_later_deposit_text">Your deposits will never exceed the total cost of your booking.</string>
@@ -3150,7 +3149,7 @@
     <!-- Label for "Expedia website" button in info page -->
     <string name="website_TEMPLATE">{brand} Website</string>
     <!-- Label for "Apply for the Orbitz Rewards Visa® Card" button in info page -->
-    <string name="rewards_visa_card_TEMPLATE">Apply for the {brand} Rewards Visa® Card</string>
+    <string name="rewards_visa_card_TEMPLATE">Apply for the {brand_reward_name} Visa® Card</string>
     <!-- Label for "app support" button in info page -->
     <string name="app_support">App Support</string>
     <!-- Section label for app settings functionality -->
@@ -3845,6 +3844,8 @@
     <string name="account_creation_legal_TEMPLATE">I have read and agree to the {terms_of_use} and the {privacy_policy}. By joining {brand_reward_name}, I accept all {terms_and_conditions}.</string>
     <!-- Account creation legal template text excluding reward points eg: I have read and agree to the Terms of Use and the Privacy Policy. -->
     <string name="account_creation_legal_excluding_rewards_TEMPLATE">I have read and agree to the {terms_of_use} and the {privacy_policy}.</string>
+    <!-- Account creation legal template for reward points -->
+    <string name="account_creation_legal_rewards_TEMPLATE">>Earn free travel rewards with {brand_reward_name_link}. By joining {brand_reward_name}, I accept all {terms_and_conditions}</string>
 
     <!-- Used in hotel search for specifying traveler -->
     <string name="child_age_label">Select each child\'s age</string>

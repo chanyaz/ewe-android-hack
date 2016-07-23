@@ -420,4 +420,9 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 	public String getRewardsCardUrl(Context context) {
 		return context.getString(R.string.rewards_card_url);
 	}
+
+	@Override
+	public boolean showUserRewardsEnrollmentCheck() {
+		return true;
+	}
 }

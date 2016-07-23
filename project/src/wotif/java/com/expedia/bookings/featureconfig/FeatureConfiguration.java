@@ -403,4 +403,9 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 		return null;
 	}
 
+	@Override
+	public boolean showUserRewardsEnrollmentCheck() {
+		return false;
+	}
+
 }
