@@ -335,7 +335,7 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
         filterView.viewmodel.filterObservable.subscribe(filterObserver)
         navIcon.setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_IN)
         toolbar.navigationIcon = navIcon
-        toolbar.navigationContentDescription = context.getString(R.string.toolbar_search_nav_icon_cont_desc)
+        toolbar.navigationContentDescription = context.getString(R.string.toolbar_nav_icon_cont_desc)
         toolbar.setTitleTextAppearance(getContext(), R.style.ToolbarTitleTextAppearance)
         toolbar.setSubtitleTextAppearance(getContext(), R.style.ToolbarSubtitleTextAppearance)
 

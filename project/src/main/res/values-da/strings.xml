@@ -4328,8 +4328,8 @@
 
     <!-- Generic content description -->
     <!-- Content description for toolbar 'X' i.e. close/back button -->
-    <string name="toolbar_search_nav_icon_cont_desc">Tilbage</string>
-    <string name="toolbar_search_nav_icon_close_cont_desc">Luk</string>
+    <string name="toolbar_nav_icon_cont_desc">Tilbage</string>
+    <string name="toolbar_nav_icon_close_cont_desc">Luk</string>
     <string name="search_button_cont_desc">Søgeknap</string>
     <!-- Content description for LX Duration e.g. Duration 2d -->
     <string name="search_result_duration_cont_desc_TEMPLATE">Varighed {duration}</string>

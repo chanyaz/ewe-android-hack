@@ -114,7 +114,7 @@ public class CarConfirmationWidget extends FrameLayout {
 		Drawable navIcon = getResources().getDrawable(R.drawable.ic_close_white_24dp).mutate();
 		navIcon.setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_IN);
 		toolbar.setNavigationIcon(navIcon);
-		toolbar.setNavigationContentDescription(getResources().getString(R.string.toolbar_search_nav_icon_cont_desc));
+		toolbar.setNavigationContentDescription(getResources().getString(R.string.toolbar_nav_icon_cont_desc));
 		toolbar.setNavigationOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {

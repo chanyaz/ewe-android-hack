@@ -4328,8 +4328,8 @@
 
     <!-- Generic content description -->
     <!-- Content description for toolbar 'X' i.e. close/back button -->
-    <string name="toolbar_search_nav_icon_cont_desc">返回</string>
-    <string name="toolbar_search_nav_icon_close_cont_desc">关闭</string>
+    <string name="toolbar_nav_icon_cont_desc">返回</string>
+    <string name="toolbar_nav_icon_close_cont_desc">关闭</string>
     <string name="search_button_cont_desc">搜索按钮</string>
     <!-- Content description for LX Duration e.g. Duration 2d -->
     <string name="search_result_duration_cont_desc_TEMPLATE">持续时间：{duration}</string>

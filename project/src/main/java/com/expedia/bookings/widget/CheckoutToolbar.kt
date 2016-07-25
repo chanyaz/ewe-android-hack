@@ -86,6 +86,7 @@ class CheckoutToolbar(context: Context, attrs: AttributeSet) : Toolbar(context, 
 
         toolbarNavIcon.setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_IN)
         navigationIcon = toolbarNavIcon
+        setNavigationContentDescription(R.string.toolbar_nav_icon_cont_desc)
     }
 
     val toggleMenuObserver = endlessObserver<Boolean> { visible ->
