@@ -21,9 +21,7 @@ import com.expedia.ui.FlightActivity
 import com.expedia.util.endlessObserver
 import com.squareup.phrase.Phrase
 import org.joda.time.LocalDate
-import rx.Observable
 import rx.Observer
-import rx.Subscription
 import rx.subjects.BehaviorSubject
 import rx.subjects.PublishSubject
 import java.util.HashMap
@@ -110,6 +108,7 @@ class FlightSearchViewModel(context: Context, val flightServices: FlightServices
 
         isRoundTripSearchObservable.subscribe { isRoundTripSearch ->
             getParamsBuilder().isRoundTrip = isRoundTripSearch
+            getParamsBuilder().maxStay = getMaxSearchDurationDays()
             if (datesObservable.value != null && datesObservable.value.first != null) {
                 val cachedEndDate = cachedEndDateObservable.value
                 if (isRoundTripSearch && cachedEndDate != null && startDate()?.isBefore(cachedEndDate) ?: false) {
