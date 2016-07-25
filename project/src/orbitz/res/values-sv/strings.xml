@@ -22,7 +22,7 @@
     <string name="not_currently_available_orbitz_TEMPLATE">Inte tillgängligt på Orbitz %s</string>
 
     <!-- Missing strings for Orbitz from Expedia-->
-    <string name="tell_a_friend_body_orbitz">Hej,\n\nKolla in vår hotellapp Orbitz Hotels för iPhone och Android. Den är gratis och du kan enkelt söka och boka rum på fler än 140 000 hotell runtom i världen. Det är det enklaste sättet att boka hotell med din mobiltelefon.</string>
+    <string name="tell_a_friend_body_orbitz">Hej,\n\nKolla in vår hotellapp Orbitz Hotels för iPhone och Android. Den är gratis och du kan enkelt söka och boka rum på fler än 140 000 hotell runtom i världen. Det är det enklaste sättet att boka hotell med din mobiltelefon.</string>
     <string name="cd_log_in_email_edit_text_orbitz">Ange e-postadress för ditt Orbitz-konto</string>
     <string name="tell_a_friend_subject_orbitz">Orbitz Hotels</string>
     <string name="cd_log_in_password_edit_text_orbitz">Ange lösenord för Orbitz-kontot</string>
@@ -34,7 +34,7 @@
     <!-- Row header for when the grand total of the user's hotel stay is more than what they owe Expedia at the time of reservation-->
     <string name="total_due_to_our_brand_today">Totalbelopp att betala Orbitz idag:</string>
     <!-- User needs to reset password -->
-    <string name="login_reset_password">Vi måste be dig att skapa nya inloggningsuppgifter som gäller globalt för samtliga Orbitz-sidor.&lt;br&gt;Återställ ditt lösenord genom att använda länken \&apos;Har du glömt ditt lösenord?\&apos; nedan.</string>
+    <string name="login_reset_password">Vi måste be dig att skapa nya inloggningsuppgifter som gäller globalt för samtliga Orbitz-sidor.&lt;br&gt;Återställ ditt lösenord genom att använda länken ’Har du glömt ditt lösenord?’ nedan.</string>
 
     <!-- Label to show user in cost breakdown for the total being charged to them right now -->
     <string name="total_due_today">Belopp att betala Orbitz idag</string>
@@ -46,6 +46,8 @@
     <string name="acct_Welcome_to_Orbitz">Välkommen till Orbitz</string>
     <!-- Title of "Account Already Exists" error dialog box -->
     <string name="acct_Orbitz_account_already_exists">Det finns redan ett Orbitz-konto med den här e-postadressen</string>
+    <!-- Account creation legal template for reward points eg: Earn free travel rewards with Orbitz Rewards. By joining Orbitz Rewards, I accept all Terms and Conditions -->
+    <string name="account_creation_legal_rewards_TEMPLATE">Tjäna gratis resebonus med {brand_reward_name_link}. Genom att gå med i {brand_reward_name} godkänner jag samtliga {terms_and_conditions}</string>
 
     <!-- Orbucks -->
     <string name="paying_with_rewards">Betala med Orbucks</string>
@@ -80,6 +82,8 @@
     <string name="vip_access">VIP Access</string>
     <!-- Message that explains the meaning of VIP Access -->
     <string name="vip_access_message">På VIP Access-hotell får gold- och platinum-medlemmar gratis rumsuppgraderingar och andra förmåner som är tillgängliga vid incheckning.</string>
+    <!-- Filter for showing only VIP access hotels -->
+    <string name="VIP_Access_Only">Endast VIP-tillgång</string>
 
     <!-- Sign in with earn message. Eg: Sign in to earn $123.22 in Orbucks -->
     <string name="Sign_in_to_earn_TEMPLATE">Logga in för att tjäna {reward} i Orbucks</string>
@@ -106,13 +110,19 @@
     <!-- Short name for rewards base tier -->
     <string name="reward_base_tier_name_short">Silver</string>
     <!-- Short name for rewards middle tier -->
-    <string name="reward_middle_tier_name_short">Gold</string>
+    <string name="reward_middle_tier_name_short">Guld</string>
     <!-- Short name for rewards top tier -->
-    <string name="reward_top_tier_name_short">Platinum</string>
+    <string name="reward_top_tier_name_short">Platina</string>
     <!-- Label for exclusive phone number for base tier rewards customers; brand name not parameterized as other brands will have to completely customize -->
     <string name="rewards_base_tier_customer_support">Kundtjänst för Orbitz Rewards Silver</string>
     <!-- Label for exclusive phone number for middle tier rewards customers; brand name not parameterized as other brands will have to completely customize -->
     <string name="rewards_middle_tier_customer_support">Kundtjänst för Orbitz Rewards Gold</string>
     <!-- Label for exclusive phone number for top tier rewards customers; brand name not parameterized as other brands will have to completely customize -->
     <string name="rewards_top_tier_customer_support">Kundtjänst för Orbitz Rewards Platinum</string>
+
+    <!-- ETP pay later info message -->
+    <string name="etp_pay_now_earn_text">Tjäna Orbucks att lösa in direkt på nästa hotell</string>
+    <!-- Label for "Apply for the Orbitz Rewards Visa® Card" button in info page -->
+    <string name="rewards_visa_card_TEMPLATE">Ansök om {brand_reward_name} Visa® Card</string>
+
 </resources>

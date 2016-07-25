@@ -45,6 +45,8 @@
     <string name="Sign_in_to_earn_TEMPLATE">登录帐户，累积 {reward} 的 MrJet Rewards</string>
     <!-- Account creation legal template excluding MrJet Rewards -->
     <string name="account_creation_legal_TEMPLATE">@string/account_creation_legal_excluding_rewards_TEMPLATE</string>
+    <!-- Account creation legal template for reward points eg: I want to earn rewards instantly with MrJet Rewards. By joining, I accept all Terms and Conditions. -->
+    <string name="account_creation_legal_rewards_TEMPLATE">我想立即加入 {brand_reward_name_link}，累积奖励。加入计划即表示，我接受全部{terms_and_conditions}。</string>
 
     <!-- MrJet Rewards -->
     <string name="paying_with_rewards">正在用 MrJet Rewards 付款</string>
@@ -53,6 +55,22 @@
     <string name="checkout_paying_with_points_only_line1">正在用 MrJet Rewards 付款</string>
     <string name="checkout_paying_with_points_and_card_line1_TEMPLATE">正在用 MrJet Rewards 和{carddescription}付款</string>
     <string name="checkout_payment_options">信用卡，使用 MrJet Rewards 付款</string>
+
+    <!-- VIP strings -->
+    <string name="vip_loyalty_applied_message">已使用 Rewards！</string>
+    <!-- String to be appended with VIP in header of room rates. -->
+    <string name="vip_loyalty_applied_header_message">@string/vip_loyalty_applied_message</string>
+    <string name="vip_loyalty_applied_map_message">使用了 &lt;b&gt;VIP&lt;/b&gt; 奖励！</string>
+    <!-- Title for VIP Access message -->
+    <string name="vip_access">VIP</string>
+    <!-- Message that explains the meaning of VIP Access -->
+    <string name="vip_access_message">选择 VIP 酒店，金牌和铂金会员可享受免费客房升级及其他礼遇（具体取决于入住时的供应情况）。</string>
+    <!-- Filter for showing only VIP access hotels -->
+    <string name="filter_vip_access">仅限 VIP 酒店</string>
+    <!-- Filter for showing only VIP access hotels -->
+    <string name="VIP_Access_Only">仅限 VIP 酒店</string>
+    <!-- Title for VIP Access message for Hotel Results -->
+    <string name="vip">VIP</string>
 
     <!-- Shop with points -->
     <string name="regular_loyalty_applied_message">已使用 MrJet Rewards！</string>
@@ -82,11 +100,11 @@
 
     <!-- Rewards -->
     <!-- Long name for rewards base tier; note that brand name is not parameterized here as other brands will need to completely override this string -->
-    <string name="reward_base_tier_name_long">Silver Member</string>
+    <string name="reward_base_tier_name_long">银牌会员</string>
     <!-- Long name for rewards middle tier; note that brand name is not parameterized here as other brands will need to completely override this string -->
-    <string name="reward_middle_tier_name_long">Gold Member</string>
+    <string name="reward_middle_tier_name_long">金牌会员</string>
     <!-- Long name for rewards top tier; note that brand name is not parameterized here as other brands will need to completely override this string -->
-    <string name="reward_top_tier_name_long">Platinum Member</string>
+    <string name="reward_top_tier_name_long">铂金会员</string>
     <!-- Short name for rewards base tier -->
     <string name="reward_base_tier_name_short">Silver</string>
     <!-- Short name for rewards middle tier -->

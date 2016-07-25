@@ -45,6 +45,8 @@
     <string name="Sign_in_to_earn_TEMPLATE">登入以賺取 {reward} MrJet Rewards</string>
     <!-- Account creation legal template excluding MrJet Rewards -->
     <string name="account_creation_legal_TEMPLATE">@string/account_creation_legal_excluding_rewards_TEMPLATE</string>
+    <!-- Account creation legal template for reward points eg: I want to earn rewards instantly with MrJet Rewards. By joining, I accept all Terms and Conditions. -->
+    <string name="account_creation_legal_rewards_TEMPLATE">我想登記 {brand_reward_name_link} 以賺取即時獎賞。登記即表示我接受所有{terms_and_conditions}。</string>
 
     <!-- MrJet Rewards -->
     <string name="paying_with_rewards">以 MrJet Rewards 付款</string>
@@ -53,6 +55,22 @@
     <string name="checkout_paying_with_points_only_line1">以 MrJet Rewards 付款</string>
     <string name="checkout_paying_with_points_and_card_line1_TEMPLATE">以 MrJet Rewards 及 {carddescription} 付款</string>
     <string name="checkout_payment_options">信用卡，以 MrJet Rewards 付款</string>
+
+    <!-- VIP strings -->
+    <string name="vip_loyalty_applied_message">已使用 Rewards！</string>
+    <!-- String to be appended with VIP in header of room rates. -->
+    <string name="vip_loyalty_applied_header_message">@string/vip_loyalty_applied_message</string>
+    <string name="vip_loyalty_applied_map_message">已使用 &lt;b&gt;VIP&lt;/b&gt; Rewards！</string>
+    <!-- Title for VIP Access message -->
+    <string name="vip_access">VIP</string>
+    <!-- Message that explains the meaning of VIP Access -->
+    <string name="vip_access_message">於 VIP 酒店，Gold 及 Platinum 會員可視乎入住時的供應情況而享有免費客房升級及其他優惠。</string>
+    <!-- Filter for showing only VIP access hotels -->
+    <string name="filter_vip_access">只查看 VIP 酒店</string>
+    <!-- Filter for showing only VIP access hotels -->
+    <string name="VIP_Access_Only">只查看 VIP 酒店</string>
+    <!-- Title for VIP Access message for Hotel Results -->
+    <string name="vip">VIP</string>
 
     <!-- Shop with points -->
     <string name="regular_loyalty_applied_message">已使用 MrJet Rewards！</string>

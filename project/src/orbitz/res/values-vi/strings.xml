@@ -6,7 +6,7 @@
     <!-- Content description for action: Press to log in with your Orbitz account -->
     <string name="cd_checkout_log_in_with_orbitz">Bấm để đăng nhập tài khoản Orbitz</string>
     <string name="contact_orbitz">Liên hệ Orbitz</string>
-    <string name="orbitz_info_url">https://www.orbitz.com/</string>
+    <string name="orbitz_info_url">http://www.orbitz.com/</string>
 
     <!-- Label for logout confirmation -->
     <string name="logout_confirmation_orbitz">Quý vị có chắc chắn muốn thoát tài khoản Orbitz không?</string>
@@ -34,7 +34,7 @@
     <!-- Row header for when the grand total of the user's hotel stay is more than what they owe Expedia at the time of reservation-->
     <string name="total_due_to_our_brand_today">Tổng thanh toán cho Orbitz hôm nay:</string>
     <!-- User needs to reset password -->
-    <string name="login_reset_password">Quý vị cần tạo tài khoản mới, dùng chung cho tất cả các trang web Orbitz.&lt;br&gt;Vui lòng thiết lập lại mật khẩu bằng cách bấm vào ‘Quên mật khẩu?\&apos; dưới đây.</string>
+    <string name="login_reset_password">Quý vị cần tạo tài khoản mới, dùng chung cho tất cả các trang web Orbitz.&lt;br&gt;Vui lòng thiết lập lại mật khẩu bằng cách bấm vào ‘Quên mật khẩu?’ dưới đây.</string>
 
     <!-- Label to show user in cost breakdown for the total being charged to them right now -->
     <string name="total_due_today">Thanh toán cho Orbitz hôm nay</string>
@@ -46,6 +46,8 @@
     <string name="acct_Welcome_to_Orbitz">Orbitz xin chào</string>
     <!-- Title of "Account Already Exists" error dialog box -->
     <string name="acct_Orbitz_account_already_exists">Đã có tài khoản Orbitz sử dụng địa chỉ email này</string>
+    <!-- Account creation legal template for reward points eg: Earn free travel rewards with Orbitz Rewards. By joining Orbitz Rewards, I accept all Terms and Conditions -->
+    <string name="account_creation_legal_rewards_TEMPLATE">Nhận thưởng sản phẩm du lịch miễn phí với {brand_reward_name_link}. Bằng việc tham gia {brand_reward_name}, tôi đồng ý mọi {terms_and_conditions}</string>
 
     <!-- Orbucks -->
     <string name="paying_with_rewards">Thanh toán với Orbucks</string>
@@ -80,6 +82,8 @@
     <string name="vip_access">VIP Access</string>
     <!-- Message that explains the meaning of VIP Access -->
     <string name="vip_access_message">Tại khách sạn VIP Access, thành viên gold và platinum sẽ được nâng hạng phòng miễn phí và nhận những ưu đãi khác, tùy tình hình thực tế khi nhận phòng.</string>
+    <!-- Filter for showing only VIP access hotels -->
+    <string name="VIP_Access_Only">Chỉ VIP Access</string>
 
     <!-- Sign in with earn message. Eg: Sign in to earn $123.22 in Orbucks -->
     <string name="Sign_in_to_earn_TEMPLATE">Đăng nhập để nhận {reward} Orbucks</string>
@@ -115,4 +119,10 @@
     <string name="rewards_middle_tier_customer_support">Hỗ trợ khách hàng Orbitz Rewards Gold</string>
     <!-- Label for exclusive phone number for top tier rewards customers; brand name not parameterized as other brands will have to completely customize -->
     <string name="rewards_top_tier_customer_support">Hỗ trợ khách hàng Orbitz Rewards Platinum</string>
+
+    <!-- ETP pay later info message -->
+    <string name="etp_pay_now_earn_text">Nhận Orbucks để đổi thưởng ngay trong lần đặt phòng sau</string>
+    <!-- Label for "Apply for the Orbitz Rewards Visa® Card" button in info page -->
+    <string name="rewards_visa_card_TEMPLATE">Đăng ký thẻ {brand_reward_name} Visa®</string>
+
 </resources>

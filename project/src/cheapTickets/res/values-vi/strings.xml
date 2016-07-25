@@ -3,7 +3,17 @@
 
     <string name="cheapTickets_best_price_guarantee">Đảm bảo giá của CheapTickets</string>
 
+
     <string name="customer_support_text">Gọi bộ phận Hỗ trợ Khách hàng CheapTickets</string>
+
+    <!-- Customer Support -->
+    <string name="customer_support">Hỗ trợ khách hàng</string>
+    <!-- Rewards are not supported in Cheaptickets -->
+    <string name="rewards_base_tier_customer_support">@string/customer_support</string>
+    <!-- Rewards are not supported in Cheaptickets -->
+    <string name="rewards_middle_tier_customer_support">@string/customer_support</string>
+    <!-- Rewards are not supported in Cheaptickets -->
+    <string name="rewards_top_tier_customer_support">@string/customer_support</string>
 
     <!-- Content description for action: Press to log in with your CheapTickets account -->
     <string name="cd_checkout_log_in_with_cheapTickets">Bấm để đăng nhập tài khoản CheapTickets</string>
@@ -37,7 +47,7 @@
     <!-- Row header for when the grand total of the user's hotel stay is more than what they owe Expedia at the time of reservation-->
     <string name="total_due_to_our_brand_today">Tổng thanh toán cho CheapTickets hôm nay:</string>
     <!-- User needs to reset password -->
-    <string name="login_reset_password">Quý vị cần tạo tài khoản mới, dùng chung cho tất cả các trang web CheapTickets.&lt;br&gt;Vui lòng thiết lập lại mật khẩu bằng cách bấm vào ‘Quên mật khẩu?\&apos; dưới đây.</string>
+    <string name="login_reset_password">Quý vị cần tạo tài khoản mới, dùng chung cho tất cả các trang web CheapTickets.&lt;br&gt;Vui lòng thiết lập lại mật khẩu bằng cách bấm vào ‘Quên mật khẩu?’ dưới đây.</string>
 
     <!-- Label to show user in cost breakdown for the total being charged to them right now -->
     <string name="total_due_today">Thanh toán cho CheapTickets hôm nay</string>
@@ -51,6 +61,8 @@
     <string name="acct_CheapTickets_account_already_exists">Đã có tài khoản CheapTickets sử dụng địa chỉ email này</string>
     <!-- Sign in with earn message. Eg: Sign in to earn $123.22 in CheapCash -->
     <string name="Sign_in_to_earn_TEMPLATE">Đăng nhập để nhận {reward} CheapCash</string>
+    <!-- Account creation legal template for reward points eg: Earn free travel rewards with CheapCash. By joining CheapCash, I accept all Terms and Conditions -->
+    <string name="account_creation_legal_rewards_TEMPLATE">Nhận thưởng sản phẩm du lịch miễn phí với {brand_reward_name_link}. Bằng việc tham gia {brand_reward_name}, tôi đồng ý mọi {terms_and_conditions}</string>
 
     <!-- Earn Points -->
     <!-- You'll earn points in CheapCash. Eg: You'll earn $10 in CheapCash for this booking! -->

@@ -3,7 +3,17 @@
 
     <string name="cheapTickets_best_price_guarantee">CheapTickets Price Guarantee</string>
 
+
     <string name="customer_support_text">Call CheapTickets Customer Support</string>
+
+    <!-- Customer Support -->
+    <string name="customer_support">Customer Support</string>
+    <!-- Rewards are not supported in Cheaptickets -->
+    <string name="rewards_base_tier_customer_support">@string/customer_support</string>
+    <!-- Rewards are not supported in Cheaptickets -->
+    <string name="rewards_middle_tier_customer_support">@string/customer_support</string>
+    <!-- Rewards are not supported in Cheaptickets -->
+    <string name="rewards_top_tier_customer_support">@string/customer_support</string>
 
     <!-- Content description for action: Press to log in with your CheapTickets account -->
     <string name="cd_checkout_log_in_with_cheapTickets">Press to log in to your CheapTickets account</string>
@@ -25,7 +35,7 @@
     <string name="not_currently_available_cheapTickets_TEMPLATE">Not available from CheapTickets %s</string>
 
     <!-- Missing strings for CheapTickets from Expedia-->
-    <string name="tell_a_friend_body_cheapTickets">Hi there,\n\nCheck out CheapTickets Hotels for iPhone and Android phones. It\&apos;s FREE and you can easily search and book rooms from over 140,000 hotels all over the world. It\&apos;s the easiest way to book hotel rooms on your phone.</string>
+    <string name="tell_a_friend_body_cheapTickets">Hi there,\n\nCheck out CheapTickets Hotels for iPhone and Android phones. It\'s FREE and you can easily search and book rooms from over 140,000 hotels all over the world. It\'s the easiest way to book hotel rooms on your phone.</string>
     <string name="cd_log_in_email_edit_text_cheapTickets">Enter CheapTickets account email address</string>
     <string name="tell_a_friend_subject_cheapTickets">CheapTickets Hotels</string>
     <string name="cd_log_in_password_edit_text_cheapTickets">Enter CheapTickets account password</string>
@@ -37,7 +47,7 @@
     <!-- Row header for when the grand total of the user's hotel stay is more than what they owe Expedia at the time of reservation-->
     <string name="total_due_to_our_brand_today">Total Due to CheapTickets Today:</string>
     <!-- User needs to reset password -->
-    <string name="login_reset_password">We need you to create a new, international sign in for all CheapTickets sites.&lt;br&gt;Please reset your password using the ‘Forgot your password?\&apos; link below.</string>
+    <string name="login_reset_password">We need you to create a new, international sign in for all CheapTickets sites.&lt;br&gt;Please reset your password using the ‘Forgot your password?’ link below.</string>
 
     <!-- Label to show user in cost breakdown for the total being charged to them right now -->
     <string name="total_due_today">Due to CheapTickets Today</string>
@@ -51,6 +61,8 @@
     <string name="acct_CheapTickets_account_already_exists">A CheapTickets account already exists with this email</string>
     <!-- Sign in with earn message. Eg: Sign in to earn $123.22 in CheapCash -->
     <string name="Sign_in_to_earn_TEMPLATE">Sign in to earn {reward} in CheapCash</string>
+    <!-- Account creation legal template for reward points eg: Earn free travel rewards with CheapCash. By joining CheapCash, I accept all Terms and Conditions -->
+    <string name="account_creation_legal_rewards_TEMPLATE">Earn free travel rewards with {brand_reward_name_link}. By joining {brand_reward_name}, I accept all {terms_and_conditions}</string>
 
     <!-- Earn Points -->
     <!-- You'll earn points in CheapCash. Eg: You'll earn $10 in CheapCash for this booking! -->

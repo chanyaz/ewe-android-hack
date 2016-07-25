@@ -20,7 +20,7 @@
     <!--A message stating this hotel is Not currently available on MrJet -->
     <string name="not_currently_available_mrjet">目前在 MrJet 上已搶訂一空</string>
     <!-- Shown when a hotel is sold out for a generic set of dates.  %s is the set of dates, e.g. "Not available from MrJet Nov. 3-4" -->
-    <string name="not_currently_available_mrjet_TEMPLATE">%s在 MrJet 上已搶訂一空</string>
+    <string name="not_currently_available_mrjet_TEMPLATE">%s 在 MrJet 上已搶訂一空</string>
 
     <!-- Missing strings for MrJet from Expedia-->
     <string name="tell_a_friend_body_mrjet">好消息！\n\n現在使用 iPhone 和 Android 手機也可以預訂 MrJet 飯店了！它不但完全免費，還有全球超過 140,000 家飯店供您輕鬆搜尋和預訂。用手機就能訂房，真是再方便不過了！</string>
@@ -38,21 +38,39 @@
     <string name="login_reset_password">我們需要您新建一個所有 MrJet 網站皆適用的國際通用登入資訊。&lt;br&gt;請使用下方的「忘記密碼」連結來重設您的密碼。</string>
 
     <!-- Label to show user in cost breakdown for the total being charged to them right now -->
-    <string name="total_due_today">今天應付給 MrJet：</string>
+    <string name="total_due_today">今天應付給 MrJet</string>
 
     <!-- Account Creation Strings -->
     <!-- Sign in with earn message. Eg: Sign in to earn $123.22 in MrJet Rewards -->
     <string name="Sign_in_to_earn_TEMPLATE">登入以獲得 {reward} MrJet Rewards</string>
     <!-- Account creation legal template excluding MrJet Rewards -->
     <string name="account_creation_legal_TEMPLATE">@string/account_creation_legal_excluding_rewards_TEMPLATE</string>
+    <!-- Account creation legal template for reward points eg: I want to earn rewards instantly with MrJet Rewards. By joining, I accept all Terms and Conditions. -->
+    <string name="account_creation_legal_rewards_TEMPLATE">我要參加 {brand_reward_name_link}，立即賺取獎勵。加入即表示我接受所有{terms_and_conditions}。</string>
 
     <!-- MrJet Rewards -->
-    <string name="paying_with_rewards">以 MrJet Rewards 付款</string>
-    <string name="pay_with_rewards">以 MrJet Rewards 付款</string>
+    <string name="paying_with_rewards">正在使用 MrJet Rewards 付款</string>
+    <string name="pay_with_rewards">使用 MrJet Rewards 付款</string>
 
-    <string name="checkout_paying_with_points_only_line1">以 MrJet Rewards 付款</string>
-    <string name="checkout_paying_with_points_and_card_line1_TEMPLATE">以 MrJet Rewards 和{carddescription}付款</string>
-    <string name="checkout_payment_options">信用卡，以 MrJet Rewards 付款</string>
+    <string name="checkout_paying_with_points_only_line1">正在使用 MrJet Rewards 付款</string>
+    <string name="checkout_paying_with_points_and_card_line1_TEMPLATE">正在使用 MrJet Rewards 和{carddescription}付款</string>
+    <string name="checkout_payment_options">信用卡，使用 MrJet Rewards 付款</string>
+
+    <!-- VIP strings -->
+    <string name="vip_loyalty_applied_message">已使用 Rewards！</string>
+    <!-- String to be appended with VIP in header of room rates. -->
+    <string name="vip_loyalty_applied_header_message">@string/vip_loyalty_applied_message</string>
+    <string name="vip_loyalty_applied_map_message">已使用 &lt;b&gt;VIP&lt;/b&gt; Rewards！</string>
+    <!-- Title for VIP Access message -->
+    <string name="vip_access">VIP</string>
+    <!-- Message that explains the meaning of VIP Access -->
+    <string name="vip_access_message">入住 VIP 飯店時，Gold 和 Platinum 會員會獲得免費客房升級和其他禮遇 (視實際情況而定)。</string>
+    <!-- Filter for showing only VIP access hotels -->
+    <string name="filter_vip_access">僅限 VIP 飯店</string>
+    <!-- Filter for showing only VIP access hotels -->
+    <string name="VIP_Access_Only">僅限 VIP 飯店</string>
+    <!-- Title for VIP Access message for Hotel Results -->
+    <string name="vip">VIP</string>
 
     <!-- Shop with points -->
     <string name="regular_loyalty_applied_message">已使用 MrJet Rewards！</string>
@@ -69,7 +87,7 @@
 
     <string name="loyalty_applied_excluding_taxes_and_fees_message">已使用 MrJet Rewards！(不含稅金和其他費用)</string>
     <string name="youll_earn_points_TEMPLATE">此次預訂您將可獲得 {reward_currency} MrJet Rewards！</string>
-    <string name="x_rewards_currency_for_this_trip_TEMPLATE">此趟行程您將可獲得 {reward_currency} MrJet Rewards！</string>
+    <string name="x_rewards_currency_for_this_trip_TEMPLATE">此次旅行您將可獲得 {reward_currency} MrJet Rewards！</string>
 
     <!-- Label indicating MrJet Rewards Available. Eg: $1000.12 in MrJet Rewards available-->
     <string name="bucks_available_TEMPLATE">您有 {money} MrJet Rewards 可用</string>

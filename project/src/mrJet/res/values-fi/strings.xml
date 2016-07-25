@@ -45,6 +45,8 @@
     <string name="Sign_in_to_earn_TEMPLATE">Kirjaudu sisään ansaitaksesi {reward} MrJet Rewardseina</string>
     <!-- Account creation legal template excluding MrJet Rewards -->
     <string name="account_creation_legal_TEMPLATE">@string/account_creation_legal_excluding_rewards_TEMPLATE</string>
+    <!-- Account creation legal template for reward points eg: I want to earn rewards instantly with MrJet Rewards. By joining, I accept all Terms and Conditions. -->
+    <string name="account_creation_legal_rewards_TEMPLATE">Haluan ansaita {brand_reward_name_link}-etua välittömästi. Liittymällä ohjelmaan hyväksyn {terms_and_conditions}.</string>
 
     <!-- MrJet Rewards -->
     <string name="paying_with_rewards">Maksu MrJet Rewardseilla</string>
@@ -53,6 +55,22 @@
     <string name="checkout_paying_with_points_only_line1">Maksu MrJet Rewardseilla</string>
     <string name="checkout_paying_with_points_and_card_line1_TEMPLATE">Maksu MrJet Rewardseilla ja {carddescription}-kortilla</string>
     <string name="checkout_payment_options">Luottokortti, maksu MrJet Rewardseilla</string>
+
+    <!-- VIP strings -->
+    <string name="vip_loyalty_applied_message">Rewardsit käytetty!</string>
+    <!-- String to be appended with VIP in header of room rates. -->
+    <string name="vip_loyalty_applied_header_message">@string/vip_loyalty_applied_message</string>
+    <string name="vip_loyalty_applied_map_message">&lt;b&gt;VIP&lt;/b&gt; Rewardsit käytetty!</string>
+    <!-- Title for VIP Access message -->
+    <string name="vip_access">VIP</string>
+    <!-- Message that explains the meaning of VIP Access -->
+    <string name="vip_access_message">VIP-hotelleissa, silver- ja gold-jäsenet saavat ilmaisen huoneluokan korotuksen ja muita sisäänkirjautumishetkellä saatavilla olevia etuja.</string>
+    <!-- Filter for showing only VIP access hotels -->
+    <string name="filter_vip_access">Vain VIP-hotellit</string>
+    <!-- Filter for showing only VIP access hotels -->
+    <string name="VIP_Access_Only">Vain VIP-hotellit</string>
+    <!-- Title for VIP Access message for Hotel Results -->
+    <string name="vip">VIP</string>
 
     <!-- Shop with points -->
     <string name="regular_loyalty_applied_message">MrJet Rewardsit käytetty!</string>
