@@ -96,7 +96,7 @@ public class LXConfirmationWidget extends android.widget.LinearLayout {
 				Events.post(new Events.FinishActivity());
 			}
 		});
-		toolbar.setNavigationContentDescription(R.string.toolbar_search_nav_icon_close_cont_desc);
+		toolbar.setNavigationContentDescription(R.string.toolbar_nav_icon_close_cont_desc);
 	}
 
 	@Override
