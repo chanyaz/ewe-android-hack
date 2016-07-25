@@ -1002,12 +1002,16 @@
     <!-- Nav Dropdown menu -->
     <!-- Hotels -->
     <string name="nav_hotels">Hotels</string>
+    <string name="nav_hotels_cont_desc">Hotels button</string>
     <!-- Cars -->
     <string name="nav_cars">Cars</string>
+    <string name="nav_cars_cont_desc">Cars button</string>
     <!-- Activities -->
     <string name="nav_lx">Activities</string>
+    <string name="nav_lx_cont_desc">Activities button</string>
     <!-- Ground Transport -->
     <string name="nav_transport">Transport</string>
+    <string name="nav_transport_cont_desc">Transport button</string>
     <!-- Packages -->
     <string name="nav_packages">Bundle Deals</string>
     <!-- Rail -->
@@ -1667,6 +1671,7 @@
     <string name="flights_outbound_label">Outbound</string>
     <!-- Flights Line of Business title -->
     <string name="flights_title">Flights</string>
+    <string name="flights_title_cont_desc">Flights button</string>
     <!-- Flights payment fees info web view title -->
     <string name="flights_flight_overview_payment_fees">Payment Fees Info</string>
     <!-- Flights Free Cancellation messaging -->

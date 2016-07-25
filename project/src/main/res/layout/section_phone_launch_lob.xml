@@ -36,6 +36,9 @@
                 android:layout_weight="1"
                 android:layout_marginLeft="@dimen/launch_tile_margin_side"
                 android:layout_marginRight="@dimen/launch_tile_margin_middle"
+                android:contentDescription="@string/nav_hotels_cont_desc"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
                 app:btn_bg="@color/hotel_lob_btn"
                 app:btn_icon="@drawable/lob_hotel"
                 app:btn_text="@string/nav_hotels" />
@@ -45,6 +48,9 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:contentDescription="@string/flights_title_cont_desc"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
                 app:btn_bg="@color/flights_lob_btn"
                 app:btn_icon="@drawable/lob_flight"
                 app:btn_text="@string/flights_title" />
@@ -54,6 +60,9 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:contentDescription="@string/nav_cars_cont_desc"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
                 app:btn_bg="@color/cars_lob_btn"
                 app:btn_icon="@drawable/lob_car"
                 app:btn_text="@string/nav_cars" />
@@ -63,6 +72,9 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:contentDescription="@string/nav_lx_cont_desc"
                 app:btn_bg="@color/lx_lob_btn"
                 app:btn_icon="@drawable/lob_activities"
                 app:btn_text="@string/nav_lx" />
