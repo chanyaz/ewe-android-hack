@@ -767,10 +767,12 @@ DummyFiletoHandleKotlinLintError {
 		R.layout.rail_amenity_view,
 		R.layout.rail_amenities_widget,
 		R.string.delimiter_multiple_bed,
-		R.string.fare_rules,
+		R.layout.rail_fare_rules_widget,
+		R.layout.rail_fare_rule_view,
 		R.string.rail_segment_no_amenities,
 		R.string.rail_station_info_TEMPLATE,
 		R.string.rail_fare_info_TEMPLATE,
+		R.string.fare_rules,
 		R.drawable.brand_tablet_checkout_login_logo_drawable,
 		R.drawable.rails_bus_icon,
 		R.drawable.rails_ferry_icon,
@@ -791,6 +793,8 @@ DummyFiletoHandleKotlinLintError {
 		R.string.etp_pay_now_earn_text,
 		R.color.hotelsv2_loyalty_applied_text_color,
 		R.string.rewards_visa_card_TEMPLATE,
-		R.string.account_creation_legal_rewards_TEMPLATE
+		R.string.account_creation_legal_rewards_TEMPLATE,
+		R.string.fare_rule_text_TEMPLATE,
+		R.drawable.brand_tablet_checkout_login_logo_drawable
 	};
 }

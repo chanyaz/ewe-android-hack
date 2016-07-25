@@ -101,9 +101,13 @@ class RailPresenter(context: Context, attrs: AttributeSet) : Presenter(context, 
 
         detailsPresenter.viewmodel.showAmenitiesObservable.subscribe { offer ->
             show(amenitiesFareRulesWidget)
-            amenitiesFareRulesWidget.adapter.amenitiesWidget.viewModel.offerObservable.onNext(offer)
+            amenitiesFareRulesWidget.showAmenitiesForOffer(offer)
         }
 
+        detailsPresenter.viewmodel.showFareRulesObservable.subscribe { offer ->
+            show(amenitiesFareRulesWidget)
+            amenitiesFareRulesWidget.showFareRulesForOffer(offer)
+        }
         show(searchPresenter)
     }
 
