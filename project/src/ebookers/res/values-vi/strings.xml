@@ -37,22 +37,17 @@
     <!-- Row header for when the grand total of the user's hotel stay is more than what they owe Expedia at the time of reservation-->
     <string name="total_due_to_our_brand_today">Tổng thanh toán cho ebookers hôm nay:</string>
     <!-- User needs to reset password -->
-    <string name="login_reset_password">Quý vị cần tạo tài khoản mới, dùng chung cho tất cả các trang web ebookers.&lt;br&gt;Vui lòng thiết lập lại mật khẩu bằng cách bấm vào ‘Quên mật khẩu?\&apos; dưới đây.</string>
+    <string name="login_reset_password">Quý vị cần tạo tài khoản mới, dùng chung cho tất cả các trang web ebookers.&lt;br&gt;Vui lòng thiết lập lại mật khẩu bằng cách bấm vào ‘Quên mật khẩu?’ dưới đây.</string>
 
     <!-- Label to show user in cost breakdown for the total being charged to them right now -->
     <string name="total_due_today">Thanh toán cho ebookers hôm nay</string>
 
-    <!-- Account Creation Strings -->
-    <!-- Button text for account creation button -->
-    <string name="acct_Create_a_ebookers_account">Tạo tài khoản ebookers</string>
-    <!-- Message displayed after a successful create account -->
-    <string name="acct_Welcome_to_ebookers">Chào mừng quý vị đến với ebookers</string>
-    <!-- Title of "Account Already Exists" error dialog box -->
-    <string name="acct_ebookers_account_already_exists">Đã có tài khoản ebookers tạo bằng địa chỉ email này</string>
     <!-- Sign in with earn message. Eg: Sign in to earn $123.22 in BONUS+ -->
     <string name="Sign_in_to_earn_TEMPLATE">Đăng nhập để nhận {reward} BONUS+</string>
     <!-- Account creation legal template excluding ebookers BONUS+ -->
     <string name="account_creation_legal_TEMPLATE">@string/account_creation_legal_excluding_rewards_TEMPLATE</string>
+    <!-- Account creation legal template for reward points eg: I want to earn rewards instantly with BONUS+. By joining, I accept all Terms and Conditions. -->
+    <string name="account_creation_legal_rewards_TEMPLATE">Tôi muốn nhận thưởng ngay lập tức với {brand_reward_currency}. Bằng việc tham gia , tôi đồng ý mọi {terms_and_conditions}.</string>
 
     <!-- Bonus+ -->
     <string name="paying_with_rewards">Thanh toán với BONUS+</string>
@@ -61,6 +56,22 @@
     <string name="checkout_paying_with_points_only_line1">Thanh toán với BONUS+</string>
     <string name="checkout_paying_with_points_and_card_line1_TEMPLATE">Thanh toán với BONUS+ &amp; {carddescription}</string>
     <string name="checkout_payment_options">Thẻ tín dụng, thanh toán bằng BONUS+</string>
+
+    <!-- VIP strings -->
+    <string name="vip_loyalty_applied_message">Đã áp dụng BONUS+!</string>
+    <!-- String to be appended with VIP in header of room rates. -->
+    <string name="vip_loyalty_applied_header_message">@string/vip_loyalty_applied_message</string>
+    <string name="vip_loyalty_applied_map_message">Đã áp dụng &lt;b&gt;VIP&lt;/b&gt; BONUS+!</string>
+    <!-- Title for VIP Access message -->
+    <string name="vip_access">VIP</string>
+    <!-- Message that explains the meaning of VIP Access -->
+    <string name="vip_access_message">Tại khách sạn VIP , thành viên gold và platinum sẽ được nâng hạng phòng miễn phí và nhận những ưu đãi khác, tùy tình hình thực tế khi nhận phòng.</string>
+    <!-- Filter for showing only VIP access hotels -->
+    <string name="filter_vip_access">Chỉ khách sạn VIP</string>
+    <!-- Filter for showing only VIP access hotels -->
+    <string name="VIP_Access_Only">Chỉ khách sạn VIP</string>
+    <!-- Title for VIP Access message for Hotel Results -->
+    <string name="vip">VIP</string>
 
     <!-- Shop with points -->
     <string name="regular_loyalty_applied_message">Đã áp dụng BONUS+!</string>
@@ -74,7 +85,7 @@
     <string name="swp_widget_points_value_TEMPLATE">Quý vị có {points_or_amount} BONUS+</string>
     <!-- Label indicating BONUS+ used by the user -->
     <string name="hotel_cost_breakdown_burn_points_TEMPLATE">BONUS+ đã sử dụng</string>
-
+    
     <string name="loyalty_applied_excluding_taxes_and_fees_message">Đã áp dụng BONUS+! (không gồm thuế và phí)</string>
     <string name="youll_earn_points_TEMPLATE">Quý vị sẽ nhận {reward_currency} BONUS+ với lần đặt này!</string>
     <string name="x_rewards_currency_for_this_trip_TEMPLATE">Quý vị sẽ nhận {reward_currency} BONUS+ với chuyến đi này!</string>
