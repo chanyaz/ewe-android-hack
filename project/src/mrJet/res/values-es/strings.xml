@@ -45,6 +45,8 @@
     <string name="Sign_in_to_earn_TEMPLATE">Inicia sesión para acumular {reward} en MrJet Rewards</string>
     <!-- Account creation legal template excluding MrJet Rewards -->
     <string name="account_creation_legal_TEMPLATE">@string/account_creation_legal_excluding_rewards_TEMPLATE</string>
+    <!-- Account creation legal template for reward points eg: I want to earn rewards instantly with MrJet Rewards. By joining, I accept all Terms and Conditions. -->
+    <string name="account_creation_legal_rewards_TEMPLATE">Quiero acumular puntos de forma inmediata con {brand_reward_name_link}. Al inscribirme, acepto todos los {terms_and_conditions}.</string>
 
     <!-- MrJet Rewards -->
     <string name="paying_with_rewards">Pago con MrJet Rewards</string>
@@ -53,6 +55,22 @@
     <string name="checkout_paying_with_points_only_line1">Pago con MrJet Rewards</string>
     <string name="checkout_paying_with_points_and_card_line1_TEMPLATE">Pago con MrJet Rewards y {carddescription}</string>
     <string name="checkout_payment_options">Tarjeta de crédito, pago con MrJet Rewards</string>
+
+    <!-- VIP strings -->
+    <string name="vip_loyalty_applied_message">Rewards aplicados</string>
+    <!-- String to be appended with VIP in header of room rates. -->
+    <string name="vip_loyalty_applied_header_message">@string/vip_loyalty_applied_message</string>
+    <string name="vip_loyalty_applied_map_message">¡&lt;b&gt;VIP&lt;/b&gt; Rewards aplicados!</string>
+    <!-- Title for VIP Access message -->
+    <string name="vip_access">VIP</string>
+    <!-- Message that explains the meaning of VIP Access -->
+    <string name="vip_access_message">En los hoteles VIP, los socios gold y platinum reciben ascensos de categoría de habitación gratuitos, así como otros beneficios, según disponibilidad, al hacer el check-in.</string>
+    <!-- Filter for showing only VIP access hotels -->
+    <string name="filter_vip_access">Solo hoteles VIP</string>
+    <!-- Filter for showing only VIP access hotels -->
+    <string name="VIP_Access_Only">Solo hoteles VIP</string>
+    <!-- Title for VIP Access message for Hotel Results -->
+    <string name="vip">VIP</string>
 
     <!-- Shop with points -->
     <string name="regular_loyalty_applied_message">¡MrJet Rewards aplicados!</string>

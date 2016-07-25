@@ -21,6 +21,7 @@
     <color name="bg_air_attach_phone_launch">@color/lob_btn_color</color>
     <color name="bg_air_attach_banner_divider">@color/white</color>
     <color name="tablet_pin_detail_button_text_color">@android:color/white</color>
+    <color name="actionbar_button_text_color">@color/action_bar_text_color</color>
 
     <!-- ebookers promotional offers color -->
     <color name="ebk_promo_color">#9E0089</color>
@@ -60,6 +61,7 @@
 
     <!-- Checkout Colors -->
     <color name="material_checkout_account_button_background_color">@color/hotels_primary_color</color>
+    <color name="material_checkout_account_button_background_grape_color">@color/material_checkout_account_button_background_color</color>
     <color name="old_checkout_account_button_text_color">#0099CC</color>
 
     <!-- CVV entry colors -->

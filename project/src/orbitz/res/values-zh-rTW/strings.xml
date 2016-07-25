@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <resources>
     <string name="orbitz_best_price_guarantee">Orbitz 價格保證</string>
-    <string name="customer_support_text">致電 Orbitz 客戶服務</string>
+    <string name="customer_support_text">致電 Orbitz 客服中心</string>
 
     <!-- Content description for action: Press to log in with your Orbitz account -->
     <string name="cd_checkout_log_in_with_orbitz">按下以登入您的 Orbitz 帳戶</string>
     <string name="contact_orbitz">聯絡 Orbitz</string>
-    <string name="orbitz_info_url">http://www.orbitz.com/</string>
+    <string name="orbitz_info_url">https://www.orbitz.com/</string>
 
     <!-- Label for logout confirmation -->
     <string name="logout_confirmation_orbitz">確定要登出您的 Orbitz 帳戶嗎？</string>
@@ -46,6 +46,8 @@
     <string name="acct_Welcome_to_Orbitz">歡迎使用 Orbitz</string>
     <!-- Title of "Account Already Exists" error dialog box -->
     <string name="acct_Orbitz_account_already_exists">此電子郵件已經有 Orbitz 帳戶</string>
+    <!-- Account creation legal template for reward points eg: Earn free travel rewards with Orbitz Rewards. By joining Orbitz Rewards, I accept all Terms and Conditions -->
+    <string name="account_creation_legal_rewards_TEMPLATE">加入 {brand_reward_name_link}，賺取免費旅遊獎勵。加入 {brand_reward_name}，即表示我接受所有{terms_and_conditions}。</string>
 
     <!-- Orbucks -->
     <string name="paying_with_rewards">使用 Orbucks 付款</string>
@@ -80,6 +82,8 @@
     <string name="vip_access">VIP Access</string>
     <!-- Message that explains the meaning of VIP Access -->
     <string name="vip_access_message">入住 VIP Access 飯店時，Gold 和 Platinum 會員會獲得免費客房升級和其他禮遇 (視實際情況而定)。</string>
+    <!-- Filter for showing only VIP access hotels -->
+    <string name="VIP_Access_Only">僅限 VIP Access</string>
 
     <!-- Sign in with earn message. Eg: Sign in to earn $123.22 in Orbucks -->
     <string name="Sign_in_to_earn_TEMPLATE">登入以獲得 {reward} Orbucks</string>
@@ -115,4 +119,10 @@
     <string name="rewards_middle_tier_customer_support">Orbitz Rewards Gold 客戶服務</string>
     <!-- Label for exclusive phone number for top tier rewards customers; brand name not parameterized as other brands will have to completely customize -->
     <string name="rewards_top_tier_customer_support">Orbitz Rewards Platinum 客戶服務</string>
+
+    <!-- ETP pay later info message -->
+    <string name="etp_pay_now_earn_text">賺取 Orbucks，下次預訂飯店就可以兌換獎勵</string>
+    <!-- Label for "Apply for the Orbitz Rewards Visa® Card" button in info page -->
+    <string name="rewards_visa_card_TEMPLATE">申請 {brand_reward_name} Visa® 信用卡</string>
+
 </resources>

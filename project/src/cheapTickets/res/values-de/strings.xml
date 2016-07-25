@@ -3,7 +3,17 @@
 
     <string name="cheapTickets_best_price_guarantee">CheapTickets-Preisgarantie</string>
 
+
     <string name="customer_support_text">CheapTickets-Kundenservice anrufen</string>
+
+    <!-- Customer Support -->
+    <string name="customer_support">Kundenservice</string>
+    <!-- Rewards are not supported in Cheaptickets -->
+    <string name="rewards_base_tier_customer_support">@string/customer_support</string>
+    <!-- Rewards are not supported in Cheaptickets -->
+    <string name="rewards_middle_tier_customer_support">@string/customer_support</string>
+    <!-- Rewards are not supported in Cheaptickets -->
+    <string name="rewards_top_tier_customer_support">@string/customer_support</string>
 
     <!-- Content description for action: Press to log in with your CheapTickets account -->
     <string name="cd_checkout_log_in_with_cheapTickets">Bei Ihrem CheapTickets-Konto anmelden</string>
@@ -51,6 +61,8 @@
     <string name="acct_CheapTickets_account_already_exists">Es gibt bereits ein CheapTickets-Konto mit dieser E-Mail-Adresse</string>
     <!-- Sign in with earn message. Eg: Sign in to earn $123.22 in CheapCash -->
     <string name="Sign_in_to_earn_TEMPLATE">Anmelden und {reward} in CheapCash sammeln</string>
+    <!-- Account creation legal template for reward points eg: Earn free travel rewards with CheapCash. By joining CheapCash, I accept all Terms and Conditions -->
+    <string name="account_creation_legal_rewards_TEMPLATE">Sichern Sie sich mit {brand_reward_name_link} Reiseprämien. Indem Sie sich für {brand_reward_name} anmelden, akzeptieren Sie die {terms_and_conditions}.</string>
 
     <!-- Earn Points -->
     <!-- You'll earn points in CheapCash. Eg: You'll earn $10 in CheapCash for this booking! -->

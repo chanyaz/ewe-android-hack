@@ -3,7 +3,17 @@
 
     <string name="cheapTickets_best_price_guarantee">CheapTickets 최저가격보장</string>
 
+
     <string name="customer_support_text">CheapTickets 고객 지원에 연락</string>
+
+    <!-- Customer Support -->
+    <string name="customer_support">고객 지원</string>
+    <!-- Rewards are not supported in Cheaptickets -->
+    <string name="rewards_base_tier_customer_support">@string/customer_support</string>
+    <!-- Rewards are not supported in Cheaptickets -->
+    <string name="rewards_middle_tier_customer_support">@string/customer_support</string>
+    <!-- Rewards are not supported in Cheaptickets -->
+    <string name="rewards_top_tier_customer_support">@string/customer_support</string>
 
     <!-- Content description for action: Press to log in with your CheapTickets account -->
     <string name="cd_checkout_log_in_with_cheapTickets">CheapTickets 계정에 로그인하려면 누르세요.</string>
@@ -37,7 +47,7 @@
     <!-- Row header for when the grand total of the user's hotel stay is more than what they owe Expedia at the time of reservation-->
     <string name="total_due_to_our_brand_today">오늘 CheapTickets에 결제할 총 금액:</string>
     <!-- User needs to reset password -->
-    <string name="login_reset_password">모든 CheapTickets 사이트에 사용할 새로운 글로벌 로그인 계정을 생성해 주셔야 합니다.&lt;br&gt;아래의 \&apos;비밀번호를 잊으셨나요?\&apos; 링크를 이용해 비밀번호를 재설정해 주세요.</string>
+    <string name="login_reset_password">모든 CheapTickets 사이트에 사용할 새로운 글로벌 로그인 계정을 생성해 주셔야 합니다.&lt;br&gt;아래의 ’비밀번호를 잊으셨나요?’ 링크를 이용해 비밀번호를 재설정해 주세요.</string>
 
     <!-- Label to show user in cost breakdown for the total being charged to them right now -->
     <string name="total_due_today">오늘 CheapTickets에 결제할 금액</string>
@@ -51,6 +61,8 @@
     <string name="acct_CheapTickets_account_already_exists">이 이메일로 CheapTickets 계정이 이미 있습니다.</string>
     <!-- Sign in with earn message. Eg: Sign in to earn $123.22 in CheapCash -->
     <string name="Sign_in_to_earn_TEMPLATE">로그인하고 {reward}의 CheapCash를 적립하세요.</string>
+    <!-- Account creation legal template for reward points eg: Earn free travel rewards with CheapCash. By joining CheapCash, I accept all Terms and Conditions -->
+    <string name="account_creation_legal_rewards_TEMPLATE">{brand_reward_name_link} 회원으로 무료 여행을 위한 포인트를 적립하세요. {brand_reward_name}에 가입함으로써 본인은 모든 {terms_and_conditions}에 동의합니다.</string>
 
     <!-- Earn Points -->
     <!-- You'll earn points in CheapCash. Eg: You'll earn $10 in CheapCash for this booking! -->

@@ -19,7 +19,7 @@
     <!--A message stating this hotel is Not currently available on Orbitz -->
     <string name="not_currently_available_orbitz">Sin disponibilidad en Orbitz en este momento</string>
     <!-- Shown when a hotel is sold out for a generic set of dates.  %s is the set of dates, e.g. "Not available from Orbitz Nov. 3-4" -->
-    <string name="not_currently_available_orbitz_TEMPLATE">Sin disponibilidad en Orbitz para las fechas %s</string>
+    <string name="not_currently_available_orbitz_TEMPLATE">Sin disponibilidad en Orbitz  para las fechas %s</string>
 
     <!-- Missing strings for Orbitz from Expedia-->
     <string name="tell_a_friend_body_orbitz">Hola, \n\n descubre Orbitz Hotels para dispositivos iPhone y Android. Es GRATIS, y puedes fácilmente buscar y reservar habitaciones en más de 140.000 hoteles en el mundo. Es la mejor forma de reservar hoteles en tu teléfono.</string>
@@ -46,6 +46,8 @@
     <string name="acct_Welcome_to_Orbitz">Bienvenido(a) a Orbitz</string>
     <!-- Title of "Account Already Exists" error dialog box -->
     <string name="acct_Orbitz_account_already_exists">Ya existe una cuenta de Orbitz con este correo electrónico</string>
+    <!-- Account creation legal template for reward points eg: Earn free travel rewards with Orbitz Rewards. By joining Orbitz Rewards, I accept all Terms and Conditions -->
+    <string name="account_creation_legal_rewards_TEMPLATE">Acumula puntos para viajar gratis con {brand_reward_name_link}. Al inscribirme en {brand_reward_name}, acepto todos los {terms_and_conditions}.</string>
 
     <!-- Orbucks -->
     <string name="paying_with_rewards">Pago con Orbucks</string>
@@ -79,7 +81,9 @@
     <!-- Title for VIP Access message -->
     <string name="vip_access">VIP Access</string>
     <!-- Message that explains the meaning of VIP Access -->
-    <string name="vip_access_message">En los hoteles VIP Access, los socios gold y platinum reciben ascensos de categoría de habitación gratuitos, así como otros beneficios, según disponibilidad, al hacer el check-in.</string>
+    <string name="vip_access_message">En los hoteles VIP Access, los socios gold y platinum  reciben ascensos de categoría de habitación gratuitos, así como otros beneficios, según disponibilidad, al hacer el check-in.</string>
+    <!-- Filter for showing only VIP access hotels -->
+    <string name="VIP_Access_Only">Solo VIP Access</string>
 
     <!-- Sign in with earn message. Eg: Sign in to earn $123.22 in Orbucks -->
     <string name="Sign_in_to_earn_TEMPLATE">Inicia sesión para acumular {reward} en Orbucks</string>
@@ -115,4 +119,10 @@
     <string name="rewards_middle_tier_customer_support">Servicio de atención a clientes Orbitz Rewards Gold</string>
     <!-- Label for exclusive phone number for top tier rewards customers; brand name not parameterized as other brands will have to completely customize -->
     <string name="rewards_top_tier_customer_support">Servicio de atención a clientes Orbitz Rewards Platinum</string>
+
+    <!-- ETP pay later info message -->
+    <string name="etp_pay_now_earn_text">Acumula Orbucks y canjéalos de forma inmediata en tu próximo hotel</string>
+    <!-- Label for "Apply for the Orbitz Rewards Visa® Card" button in info page -->
+    <string name="rewards_visa_card_TEMPLATE">Solicitar la tarjeta {brand_reward_name} Visa®</string>
+
 </resources>

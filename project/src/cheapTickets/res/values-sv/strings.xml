@@ -3,7 +3,17 @@
 
     <string name="cheapTickets_best_price_guarantee">CheapTickets prisgaranti</string>
 
+
     <string name="customer_support_text">Ring CheapTickets kundtjänst</string>
+
+    <!-- Customer Support -->
+    <string name="customer_support">Kundtjänst</string>
+    <!-- Rewards are not supported in Cheaptickets -->
+    <string name="rewards_base_tier_customer_support">@string/customer_support</string>
+    <!-- Rewards are not supported in Cheaptickets -->
+    <string name="rewards_middle_tier_customer_support">@string/customer_support</string>
+    <!-- Rewards are not supported in Cheaptickets -->
+    <string name="rewards_top_tier_customer_support">@string/customer_support</string>
 
     <!-- Content description for action: Press to log in with your CheapTickets account -->
     <string name="cd_checkout_log_in_with_cheapTickets">Tryck för att logga in på ditt CheapTickets-konto</string>
@@ -25,7 +35,7 @@
     <string name="not_currently_available_cheapTickets_TEMPLATE">Inte tillgängligt på CheapTickets %s</string>
 
     <!-- Missing strings for CheapTickets from Expedia-->
-    <string name="tell_a_friend_body_cheapTickets">Hej,\n\nKolla in vår hotellapp CheapTickets Hotels för iPhone och Android. Den är gratis och du kan enkelt söka och boka rum på fler än 140 000 hotell runtom i världen. Det är det enklaste sättet att boka hotell med din mobiltelefon.</string>
+    <string name="tell_a_friend_body_cheapTickets">Hej,\n\nKolla in vår hotellapp CheapTickets Hotels för iPhone och Android. Den är gratis och du kan enkelt söka och boka rum på fler än 140 000 hotell runtom i världen. Det är det enklaste sättet att boka hotell med din mobiltelefon.</string>
     <string name="cd_log_in_email_edit_text_cheapTickets">Ange e-postadress för ditt CheapTickets-konto</string>
     <string name="tell_a_friend_subject_cheapTickets">CheapTickets Hotels</string>
     <string name="cd_log_in_password_edit_text_cheapTickets">Ange lösenord för CheapTickets-kontot</string>
@@ -37,7 +47,7 @@
     <!-- Row header for when the grand total of the user's hotel stay is more than what they owe Expedia at the time of reservation-->
     <string name="total_due_to_our_brand_today">Totalbelopp att betala CheapTickets idag:</string>
     <!-- User needs to reset password -->
-    <string name="login_reset_password">Vi måste be dig att skapa nya inloggningsuppgifter som gäller globalt för samtliga CheapTickets sidor.&lt;br&gt;Återställ ditt lösenord genom att använda länken \&apos;Har du glömt ditt lösenord?\&apos; nedan.</string>
+    <string name="login_reset_password">Vi måste be dig att skapa nya inloggningsuppgifter som gäller globalt för samtliga CheapTickets sidor.&lt;br&gt;Återställ ditt lösenord genom att använda länken ’Har du glömt ditt lösenord?’ nedan.</string>
 
     <!-- Label to show user in cost breakdown for the total being charged to them right now -->
     <string name="total_due_today">Att betala CheapTickets idag:</string>
@@ -51,6 +61,8 @@
     <string name="acct_CheapTickets_account_already_exists">Det finns redan ett CheapTickets-konto med den här e-postadressen</string>
     <!-- Sign in with earn message. Eg: Sign in to earn $123.22 in CheapCash -->
     <string name="Sign_in_to_earn_TEMPLATE">Logga in för att tjäna {reward} i CheapCash</string>
+    <!-- Account creation legal template for reward points eg: Earn free travel rewards with CheapCash. By joining CheapCash, I accept all Terms and Conditions -->
+    <string name="account_creation_legal_rewards_TEMPLATE">Tjäna gratis resebonus med {brand_reward_name_link}. Genom att gå med i {brand_reward_name} godkänner jag samtliga {terms_and_conditions}</string>
 
     <!-- Earn Points -->
     <!-- You'll earn points in CheapCash. Eg: You'll earn $10 in CheapCash for this booking! -->

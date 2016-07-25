@@ -13,6 +13,8 @@
 
     <!-- Brand reward name -->
     <string name="brand_reward_name">ebookers BONUS+</string>
+    <!-- Brand reward currency -->
+    <string name="brand_reward_currency">BONUS+</string>
 
     <!-- Tune SDK Key -->
     <string name="tune_sdk_app_advertiser_id">192083</string>

@@ -198,6 +198,7 @@ public class AccountButton extends LinearLayout {
 		}
 		if (isSignInEarnMessagingEnabled(lob)) {
 			mLoginTextView.setText(getSignInWithRewardsAmountText(lob));
+			mLoginContainer.setBackgroundResource(R.drawable.material_account_sign_in_button_ripple_grape);
 		}
 		else {
 			mLoginTextView.setText(Phrase.from(this, R.string.Sign_in_with_TEMPLATE)
@@ -228,18 +229,18 @@ public class AccountButton extends LinearLayout {
 		switch (traveler.getLoyaltyMembershipTier()) {
 		case BASE:
 			rewardsCategoryTextResId = R.string.reward_base_tier_name_long;
-			rewardsCategoryColorResId = R.color.reward_base_tier_color;
-			rewardsCategoryTextColorResId = R.color.reward_base_tier_text_color;
+			rewardsCategoryColorResId = R.color.account_reward_base_tier_color;
+			rewardsCategoryTextColorResId = R.color.account_reward_base_tier_text_color;
 			break;
 		case MIDDLE:
 			rewardsCategoryTextResId = R.string.reward_middle_tier_name_long;
-			rewardsCategoryColorResId = R.color.reward_middle_tier_color;
-			rewardsCategoryTextColorResId = R.color.reward_middle_tier_text_color;
+			rewardsCategoryColorResId = R.color.account_reward_middle_tier_color;
+			rewardsCategoryTextColorResId = R.color.account_reward_middle_tier_text_color;
 			break;
 		case TOP:
 			rewardsCategoryTextResId = R.string.reward_top_tier_name_long;
-			rewardsCategoryColorResId = R.color.reward_top_tier_color;
-			rewardsCategoryTextColorResId = R.color.reward_top_tier_text_color;
+			rewardsCategoryColorResId = R.color.account_reward_top_tier_color;
+			rewardsCategoryTextColorResId = R.color.account_reward_top_tier_text_color;
 			break;
 		}
 

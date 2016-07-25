@@ -3,7 +3,17 @@
 
     <string name="cheapTickets_best_price_guarantee">Garansi Harga CheapTickets</string>
 
+
     <string name="customer_support_text">Hubungi Layanan Pelanggan CheapTickets</string>
+
+    <!-- Customer Support -->
+    <string name="customer_support">Layanan Pelanggan</string>
+    <!-- Rewards are not supported in Cheaptickets -->
+    <string name="rewards_base_tier_customer_support">@string/customer_support</string>
+    <!-- Rewards are not supported in Cheaptickets -->
+    <string name="rewards_middle_tier_customer_support">@string/customer_support</string>
+    <!-- Rewards are not supported in Cheaptickets -->
+    <string name="rewards_top_tier_customer_support">@string/customer_support</string>
 
     <!-- Content description for action: Press to log in with your CheapTickets account -->
     <string name="cd_checkout_log_in_with_cheapTickets">Klik untuk login ke akun CheapTickets Anda</string>
@@ -37,7 +47,7 @@
     <!-- Row header for when the grand total of the user's hotel stay is more than what they owe Expedia at the time of reservation-->
     <string name="total_due_to_our_brand_today">Total Dibayar ke CheapTickets Hari Ini:</string>
     <!-- User needs to reset password -->
-    <string name="login_reset_password">Kami butuh Anda untuk membuat satu rincian login universal yang akan digunakan di semua situs CheapTickets.&lt;br&gt;Harap reset kata sandi Anda menggunakan link \&apos;Lupa kata sandi?\&apos; di bawah ini.</string>
+    <string name="login_reset_password">Kami butuh Anda untuk membuat satu rincian login universal yang akan digunakan di semua situs CheapTickets.&lt;br&gt;Harap reset kata sandi Anda menggunakan link ’Lupa kata sandi?’ di bawah ini.</string>
 
     <!-- Label to show user in cost breakdown for the total being charged to them right now -->
     <string name="total_due_today">Dibayar ke CheapTickets Hari Ini</string>
@@ -51,6 +61,8 @@
     <string name="acct_CheapTickets_account_already_exists">Sudah ada akun CheapTickets yang terdaftar dengan email ini</string>
     <!-- Sign in with earn message. Eg: Sign in to earn $123.22 in CheapCash -->
     <string name="Sign_in_to_earn_TEMPLATE">Loginlah untuk mendapatkan CheapCash senilai {reward}</string>
+    <!-- Account creation legal template for reward points eg: Earn free travel rewards with CheapCash. By joining CheapCash, I accept all Terms and Conditions -->
+    <string name="account_creation_legal_rewards_TEMPLATE">Dapatkan bonus perjalanan gratis dengan {brand_reward_name_link}. Dengan bergabung di {brand_reward_name}, saya menerima semua {terms_and_conditions}</string>
 
     <!-- Earn Points -->
     <!-- You'll earn points in CheapCash. Eg: You'll earn $10 in CheapCash for this booking! -->

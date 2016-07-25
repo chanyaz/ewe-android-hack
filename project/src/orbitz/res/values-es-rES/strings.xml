@@ -12,7 +12,7 @@
     <string name="logout_confirmation_orbitz">¿Seguro que deseas salir de tu cuenta de Orbitz?</string>
 
     <!-- Contact Expedia via email subject -->
-    <string name="contact_orbitz_email_subject">Asistencia para las reservas de Orbitz</string>
+    <string name="contact_orbitz_email_subject">Asistencia para reservas de Orbitz</string>
 
     <!-- Message displayed when the hotel room is sold out -->
     <string name="error_room_is_now_sold_out_orbitz">Vaya, la habitación que has solicitado ya no está disponible en Orbitz</string>
@@ -46,6 +46,8 @@
     <string name="acct_Welcome_to_Orbitz">Orbitz te da la bienvenida</string>
     <!-- Title of "Account Already Exists" error dialog box -->
     <string name="acct_Orbitz_account_already_exists">Ya existe una cuenta de Orbitz con esa dirección de correo electrónico</string>
+    <!-- Account creation legal template for reward points eg: Earn free travel rewards with Orbitz Rewards. By joining Orbitz Rewards, I accept all Terms and Conditions -->
+    <string name="account_creation_legal_rewards_TEMPLATE">Consigue puntos para viajar gratis con {brand_reward_name_link}. Al unirme a {brand_reward_name}, acepto todos los {terms_and_conditions}</string>
 
     <!-- Orbucks -->
     <string name="paying_with_rewards">Pago con Orbucks</string>
@@ -80,6 +82,8 @@
     <string name="vip_access">VIP Access</string>
     <!-- Message that explains the meaning of VIP Access -->
     <string name="vip_access_message">Los hoteles con acceso VIP ofrecen a los miembros gold y platinum mejoras gratuitas de la categoría de la habitación, así como otras comodidades según disponibilidad en el momento de la llegada al hotel.</string>
+    <!-- Filter for showing only VIP access hotels -->
+    <string name="VIP_Access_Only">Solo Acceso VIP</string>
 
     <!-- Sign in with earn message. Eg: Sign in to earn $123.22 in Orbucks -->
     <string name="Sign_in_to_earn_TEMPLATE">Inscríbete para ganar {reward} en Orbucks</string>
@@ -115,4 +119,10 @@
     <string name="rewards_middle_tier_customer_support">Servicio de atención al cliente de Orbitz Rewards Gold</string>
     <!-- Label for exclusive phone number for top tier rewards customers; brand name not parameterized as other brands will have to completely customize -->
     <string name="rewards_top_tier_customer_support">Servicio de atención al cliente de Orbitz Rewards Platinum</string>
+
+    <!-- ETP pay later info message -->
+    <string name="etp_pay_now_earn_text">Gana Orbucks que podrás canjear en tu próxima reserva de hotel</string>
+    <!-- Label for "Apply for the Orbitz Rewards Visa® Card" button in info page -->
+    <string name="rewards_visa_card_TEMPLATE">Solicitar la {brand_reward_name} Visa® Card</string>
+
 </resources>

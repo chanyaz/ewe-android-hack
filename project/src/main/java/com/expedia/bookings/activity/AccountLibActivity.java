@@ -162,7 +162,11 @@ public class AccountLibActivity extends AppCompatActivity
 			.setMarketingText(PointOfSale.getPointOfSale().getMarketingText())
 			.setAnalyticsListener(analyticsListener)
 			.setFacebookAppId(getString(R.string.facebook_app_id))
-			.setInitialState(startState);
+			.setInitialState(startState)
+			.setAutoEnrollUserInRewards(PointOfSale.getPointOfSale().shouldAutoEnrollUserInRewards())
+			.setUserRewardsEnrollmentCheck(ProductFlavorFeatureConfiguration.getInstance().showUserRewardsEnrollmentCheck())
+			.setRewardsText(StrUtils.generateLoyaltyRewardsLegalLink(this));
+
 
 		if (isUserBucketedForSmartLockTest) {
 			config.setParentActivity(this);

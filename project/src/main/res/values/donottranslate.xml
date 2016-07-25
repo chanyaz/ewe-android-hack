@@ -382,6 +382,9 @@
 
     <!-- Brand reward name -->
     <string name="brand_reward_name">Expedia+</string>
+    <!-- Brand reward currency -->
+    <string name="brand_reward_currency"></string>
     <string name="acct__google_account_change_string">@string/google_account_change_string</string>
     <string name="acct__google_account_change_message_TEMPLATE">@string/google_account_change_message_TEMPLATE</string>
+    <string name="etp_pay_now_earn_text"></string>
 </resources>

@@ -21,6 +21,7 @@ import com.expedia.bookings.data.SuggestionV4;
 import com.expedia.bookings.data.flights.FlightLeg;
 import com.expedia.bookings.utils.LegalClickableSpan;
 import com.expedia.bookings.utils.StrUtils;
+import com.squareup.phrase.Phrase;
 
 import static org.hamcrest.CoreMatchers.allOf;
 import static org.hamcrest.CoreMatchers.not;
@@ -79,6 +80,56 @@ public class StrUtilsTest {
 			assertEquals(spans[2].getClass(), UnderlineSpan.class);
 			assertEquals(spans[3].getClass(), ForegroundColorSpan.class);
 		}
+	}
+
+	@Test
+	public void testLoyaltyLegalTextContent() {
+
+		SpannableStringBuilder legalText = StrUtils.generateLoyaltyRewardsLegalLink(getContext());
+
+		String expectedText = getLoyaltyLegalText();
+		assertEquals(expectedText, legalText.toString());
+	}
+
+	@Test
+	public void testLoyaltyLegalTextSpans() {
+		SpannableStringBuilder loyaltyLegalSpanBuilder = StrUtils.generateLoyaltyRewardsLegalLink(getContext());
+
+		String brandRewardNameLink = getContext().getString(R.string.brand_reward_name);
+		String termsText = getContext().getString(R.string.terms_and_conditions);
+
+		String loyaltyLegalText = getLoyaltyLegalText();
+
+		int brandNameStart = loyaltyLegalText.indexOf(brandRewardNameLink);
+		int termStart = loyaltyLegalText.indexOf(termsText);
+		int brandNameEnd = brandNameStart + brandRewardNameLink.length();
+		int termEnd = termStart + termsText.length();
+
+		Object[] brandNameSpans = loyaltyLegalSpanBuilder.getSpans(brandNameStart, brandNameEnd, Object.class);
+		Object[] termsSpans = loyaltyLegalSpanBuilder.getSpans(termStart, termEnd, Object.class);
+
+		List<Object[]> spansList = new ArrayList<>();
+		spansList.add(brandNameSpans);
+		spansList.add(termsSpans);
+
+		for (Object[] spans : spansList) {
+			assertEquals(spans[0].getClass(), LegalClickableSpan.class);
+			assertEquals(spans[1].getClass(), StyleSpan.class);
+			assertEquals(spans[2].getClass(), ForegroundColorSpan.class);
+		}
+	}
+
+	private String getLoyaltyLegalText() {
+		String brandRewardName = getContext().getString(R.string.brand_reward_name);
+		String termsText = getContext().getString(R.string.terms_and_conditions);
+
+		String loyaltyLegalText = Phrase.from(getContext().getResources(), R.string.account_creation_legal_rewards_TEMPLATE)
+				.putOptional("brand_reward_name_link", brandRewardName)
+				.putOptional("brand_reward_name", brandRewardName)
+				.put("terms_and_conditions", termsText)
+				.format().toString();
+
+		return loyaltyLegalText;
 	}
 
 	@Test

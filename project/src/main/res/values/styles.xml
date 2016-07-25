@@ -952,7 +952,7 @@
     </style>
 
     <style name="V2.Widget.RatingBar.UserReview.Square">
-        <item name="android:progressDrawable">?attr/skin_userRatingBarDrawable</item>
+        <item name="android:progressDrawable">@drawable/ratingbar_userreview_flat_yellow</item>
     </style>
 
     <!-- Dialog styles copied from tablet theme-->

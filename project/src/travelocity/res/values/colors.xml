@@ -7,6 +7,7 @@
     <color name="hotel_promo_background">#57A3CC</color>
     <color name="launch_toolbar_background_color">@color/bg_blue_color_travelocity</color>
     <color name="action_bar_text_blue_travelocity">#7baed4</color>
+    <color name="actionbar_button_text_color">@color/action_bar_text_blue_travelocity</color>
     <color name="bg_btn_color_travelocity">#7bae00</color>
     <color name="bg_btn_pressed_color_travelocity">#295600</color>
     <color name="itin_flight_line_color_tvly">#7da426</color>
@@ -32,6 +33,7 @@
     <color name="accept_terms_ripple_color">#7dad06</color>
     <color name="review_screen_tab_indicator">@color/launch_tab_indicator</color>
     <color name="material_checkout_account_button_background_color">@color/hotels_primary_color</color>
+    <color name="material_checkout_account_button_background_grape_color">@color/material_checkout_account_button_background_color</color>
     <color name="preferences_text">#495863</color>
     <color name="tablet_pin_detail_button_text_color">@color/launch_pin_detail_button_text_travelocity</color>
 

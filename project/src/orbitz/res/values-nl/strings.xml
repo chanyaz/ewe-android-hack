@@ -27,14 +27,14 @@
     <string name="tell_a_friend_subject_orbitz">Orbitz Hotels</string>
     <string name="cd_log_in_password_edit_text_orbitz">Voer het wachtwoord van je Orbitz-account in</string>
     <string name="cd_launch_open_eb_info_screen_orbitz">Open het overzicht van je Orbitz-boekingen</string>
-    <string name="loading_orbitz_account">Orbitz-account aan het laden …</string>
+    <string name="loading_orbitz_account">Orbitz-account aan het laden ...</string>
     <string name="orbitz_password_hint">Orbitz-wachtwoord</string>
     <string name="dialog_message_launch_orbitz_mobile_site">Wil je de mobiele website van Orbitz opstarten?</string>
     <!-- Orbitz App download link -->
     <!-- Row header for when the grand total of the user's hotel stay is more than what they owe Expedia at the time of reservation-->
     <string name="total_due_to_our_brand_today">Totaal nu te betalen aan Orbitz:</string>
     <!-- User needs to reset password -->
-    <string name="login_reset_password">We hebben jouw hulp nodig om nieuwe, universele aanmeldingsinfo voor alle Orbitz-sites te creëren.&lt;br&gt;Reset je wachtwoord via de onderstaande link \&apos;Wachtwoord vergeten?\&apos;.</string>
+    <string name="login_reset_password">We hebben jouw hulp nodig om nieuwe, universele aanmeldingsinfo voor alle Orbitz-sites te creëren.&lt;br&gt;Reset je wachtwoord via de onderstaande link ’Wachtwoord vergeten?’.</string>
 
     <!-- Label to show user in cost breakdown for the total being charged to them right now -->
     <string name="total_due_today">Nu te betalen aan Orbitz</string>
@@ -46,6 +46,8 @@
     <string name="acct_Welcome_to_Orbitz">Welkom bij Orbitz</string>
     <!-- Title of "Account Already Exists" error dialog box -->
     <string name="acct_Orbitz_account_already_exists">Er bestaat al een Orbitz-account met dit e-mailadres</string>
+    <!-- Account creation legal template for reward points eg: Earn free travel rewards with Orbitz Rewards. By joining Orbitz Rewards, I accept all Terms and Conditions -->
+    <string name="account_creation_legal_rewards_TEMPLATE">Verzamel gratis reisrewards met {brand_reward_name_link}. Door me te registreren voor {brand_reward_name} aanvaard ik alle {terms_and_conditions}</string>
 
     <!-- Orbucks -->
     <string name="paying_with_rewards">Betaling met Orbucks</string>
@@ -80,6 +82,8 @@
     <string name="vip_access">VIP Access</string>
     <!-- Message that explains the meaning of VIP Access -->
     <string name="vip_access_message">Bij VIP Access hotels genieten gold- en platinum-leden bij check-in van gratis kamerupgrades en andere extraatjes, indien beschikbaar.</string>
+    <!-- Filter for showing only VIP access hotels -->
+    <string name="VIP_Access_Only">Alleen VIP-toegang</string>
 
     <!-- Sign in with earn message. Eg: Sign in to earn $123.22 in Orbucks -->
     <string name="Sign_in_to_earn_TEMPLATE">Meld je aan om {reward} aan Orbucks te verzamelen</string>
@@ -115,4 +119,10 @@
     <string name="rewards_middle_tier_customer_support">Klantenservice voor Orbitz Rewards Gold</string>
     <!-- Label for exclusive phone number for top tier rewards customers; brand name not parameterized as other brands will have to completely customize -->
     <string name="rewards_top_tier_customer_support">Klantenservice voor Orbitz Rewards Platinum</string>
+
+    <!-- ETP pay later info message -->
+    <string name="etp_pay_now_earn_text">Verzamel Orbucks en wissel deze gelijk in bij je volgende hotel</string>
+    <!-- Label for "Apply for the Orbitz Rewards Visa® Card" button in info page -->
+    <string name="rewards_visa_card_TEMPLATE">Vraag een {brand_reward_name} Visa® Card aan</string>
+
 </resources>

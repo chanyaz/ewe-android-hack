@@ -40,8 +40,8 @@ class ShopWithPointsWidget(context: Context, val attrs: AttributeSet?) : LinearL
 
         View.inflate(context, layoutId, this)
         Ui.getApplication(context).hotelComponent().inject(this)
-        loyaltyAppliedHeader.setTextColor(ContextCompat.getColor(context, R.color.hotelsv2_checkout_text_color))
-        loyaltyPointsInfo.setTextColor(ContextCompat.getColor(context, R.color.hotelsv2_checkout_text_color))
+        loyaltyAppliedHeader.setTextColor(ContextCompat.getColor(context, R.color.hotelsv2_loyalty_applied_text_color))
+        loyaltyPointsInfo.setTextColor(ContextCompat.getColor(context, R.color.hotelsv2_loyalty_applied_text_color))
 
         subscription = shopWithPointsViewModel.isShopWithPointsAvailableObservable.subscribeVisibility(this)
         shopWithPointsViewModel.pointsDetailStringObservable.subscribeText(loyaltyPointsInfo)

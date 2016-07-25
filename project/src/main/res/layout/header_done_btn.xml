@@ -12,4 +12,4 @@
     android:paddingRight="@dimen/yoyo_navigation_padding_right"
     android:text="@string/button_done"
     android:textAppearance="?android:attr/actionMenuTextAppearance"
-    android:textColor="?attr/skin_actionBarButtonTextColor" />
+    android:textColor="@color/actionbar_button_text_color" />

@@ -85,7 +85,6 @@
         <item name="skin_hotelPriceStandardColor">@color/hotel_price_text_color</item>
         <item name="skin_hotelPriceSaleColor">@color/hotel_price_sale_text_color</item>
         <item name="skin_hotelSearchActionBarPadding">0dp</item>
-        <item name="skin_actionBarButtonTextColor">@color/review_screen_tab_indicator</item>
         <item name="skin_ratingBarUserReviewStyle">@style/RatingBar.UserReview.White</item>
         <item name="skin_hotelListingUserRatingStyle">@style/RatingBar.UserReview.Yellow</item>
         <item name="skin_hotelListingSortPriceDrawable">@drawable/ic_sort_price</item>
@@ -103,7 +102,6 @@
         <item name="skin_couponSuccessMessageColor">@color/coupon_success_message_color</item>
         <item name="skin_travellerInfoPageLogo">@drawable/ic_expedia_traveler_logo</item>
         <item name="skin_travellerInfoPageLogoDisabled">@drawable/ic_expedia_traveler_logo_disabled</item>
-        <item name="skin_userRatingBarDrawable">@drawable/ratingbar_userreview_flat_yellow</item>
         <item name="skin_icSuitCaseBaggage">@drawable/ic_suitcase_baggage_fee_blue</item>
         <item name="skin_tablet_ab_launch_text1_base">@string/Explore</item>
         <item name="skin_hotelRulesActionBarLogo">@drawable/ic_action_bar_logo_dark</item>

@@ -13,4 +13,4 @@
     android:paddingRight="8dp"
     android:text="@string/search"
     android:textAppearance="?android:attr/actionMenuTextAppearance"
-    android:textColor="?attr/skin_actionBarButtonTextColor" />
+    android:textColor="@color/actionbar_button_text_color" />

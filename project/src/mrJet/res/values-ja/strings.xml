@@ -45,6 +45,8 @@
     <string name="Sign_in_to_earn_TEMPLATE">サインインして MrJet Rewards で {reward} 獲得</string>
     <!-- Account creation legal template excluding MrJet Rewards -->
     <string name="account_creation_legal_TEMPLATE">@string/account_creation_legal_excluding_rewards_TEMPLATE</string>
+    <!-- Account creation legal template for reward points eg: I want to earn rewards instantly with MrJet Rewards. By joining, I accept all Terms and Conditions. -->
+    <string name="account_creation_legal_rewards_TEMPLATE">今すぐ {brand_reward_name_link} を獲得 !  入会をもって、すべての{terms_and_conditions}に同意したものとみなされます。</string>
 
     <!-- MrJet Rewards -->
     <string name="paying_with_rewards">MrJet Rewards でお支払い</string>
@@ -53,6 +55,22 @@
     <string name="checkout_paying_with_points_only_line1">MrJet Rewards でお支払い</string>
     <string name="checkout_paying_with_points_and_card_line1_TEMPLATE">MrJet Rewards &amp; {carddescription} でお支払い</string>
     <string name="checkout_payment_options">MrJet Rewards、クレジットカードでお支払い</string>
+
+    <!-- VIP strings -->
+    <string name="vip_loyalty_applied_message">Rewards が適用されました !</string>
+    <!-- String to be appended with VIP in header of room rates. -->
+    <string name="vip_loyalty_applied_header_message">@string/vip_loyalty_applied_message</string>
+    <string name="vip_loyalty_applied_map_message">&lt;b&gt;VIP&lt;/b&gt; Rewards が適用されました !</string>
+    <!-- Title for VIP Access message -->
+    <string name="vip_access">VIP</string>
+    <!-- Message that explains the meaning of VIP Access -->
+    <string name="vip_access_message">+VIP ホテルでは、Gold および Platinum 会員は、客室無料アップグレードおよびその他の特典をご利用いただけます (チェックイン時の利用状況による)。</string>
+    <!-- Filter for showing only VIP access hotels -->
+    <string name="filter_vip_access">VIP 提携ホテルのみ</string>
+    <!-- Filter for showing only VIP access hotels -->
+    <string name="VIP_Access_Only">VIP 提携ホテルのみ</string>
+    <!-- Title for VIP Access message for Hotel Results -->
+    <string name="vip">VIP</string>
 
     <!-- Shop with points -->
     <string name="regular_loyalty_applied_message">MrJet Rewards が適用されました !</string>
@@ -65,16 +83,16 @@
     <!-- SwP Widget you have points template. points_or_amount = it may have money (in case of Expedia) or point value (in case of MrJet Rewards). E.g. You have $30 in MrJet Rewards -->
     <string name="swp_widget_points_value_TEMPLATE">MrJet Rewards で {points_or_amount} までご利用可能です</string>
     <!-- Label indicating MrJet Rewards used by the user -->
-    <string name="hotel_cost_breakdown_burn_points_TEMPLATE">MrJet Rewards 利用済み</string>
+    <string name="hotel_cost_breakdown_burn_points_TEMPLATE">MrJet Rewards 使用済み</string>
 
     <string name="loyalty_applied_excluding_taxes_and_fees_message">MrJet Rewards が適用されました !(税およびサービス料別)</string>
-    <string name="youll_earn_points_TEMPLATE">このご予約で、{reward_currency} の MrJet Rewards が付与されます !</string>
-    <string name="x_rewards_currency_for_this_trip_TEMPLATE">今回のご旅行で、{reward_currency} の MrJet Rewards が付与されます !</string>
+    <string name="youll_earn_points_TEMPLATE">このご予約で、{reward_currency} 相当の MrJet Rewards が付与されます !</string>
+    <string name="x_rewards_currency_for_this_trip_TEMPLATE">このご予約で、{reward_currency} 相当の MrJet Rewards が付与されます !</string>
 
     <!-- Label indicating MrJet Rewards Available. Eg: $1000.12 in MrJet Rewards available-->
     <string name="bucks_available_TEMPLATE">{money} の MrJet Rewards をご利用いただけます</string>
     <!-- Label indicating MrJet Rewards Applied By User. Eg: $1000.12 in MrJet Rewards applied-->
-    <string name="bucks_applied_TEMPLATE">{money} の MrJet Rewards 適用済み</string>
+    <string name="bucks_applied_TEMPLATE">{money} の MrJet Rewards が適用されました</string>
     <!-- Label above the slider when user is fully paying with MrJet Rewards. Eg: You are using $1000.12 in MrJet Rewards-->
     <string name="you_are_using_bucks_TEMPLATE">{amount} の MrJet Rewards を利用します</string>
     <!-- Label above the slider when user is paying with MrJet Rewards and Card. Eg: You are using $1000.12 in MrJet Rewards\nYour card will be charged $100.00-->
