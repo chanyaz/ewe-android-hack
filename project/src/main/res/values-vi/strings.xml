@@ -4328,8 +4328,8 @@
 
     <!-- Generic content description -->
     <!-- Content description for toolbar 'X' i.e. close/back button -->
-    <string name="toolbar_search_nav_icon_cont_desc">Quay lại</string>
-    <string name="toolbar_search_nav_icon_close_cont_desc">Đóng</string>
+    <string name="toolbar_nav_icon_cont_desc">Quay lại</string>
+    <string name="toolbar_nav_icon_close_cont_desc">Đóng</string>
     <string name="search_button_cont_desc">Nút tìm</string>
     <!-- Content description for LX Duration e.g. Duration 2d -->
     <string name="search_result_duration_cont_desc_TEMPLATE">Thời gian {duration}</string>
