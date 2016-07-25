@@ -25,7 +25,7 @@
     <string name="not_currently_available_ebookers_TEMPLATE">Not available from ebookers %s</string>
 
     <!-- Missing strings for ebookers from Expedia-->
-    <string name="tell_a_friend_body_ebookers">Hi there,\n\nCheck out ebookers Hotels for iPhone and Android phones. It\&apos;s FREE and you can easily search and book rooms from over 140,000 hotels all over the world. It\&apos;s the easiest way to book hotel rooms on your phone.</string>
+    <string name="tell_a_friend_body_ebookers">Hi there,\n\nCheck out ebookers Hotels for iPhone and Android phones. It\'s FREE and you can easily search and book rooms from over 140,000 hotels all over the world. It\'s the easiest way to book hotel rooms on your phone.</string>
     <string name="cd_log_in_email_edit_text_ebookers">Enter ebookers account email address</string>
     <string name="tell_a_friend_subject_ebookers">ebookers Hotels</string>
     <string name="cd_log_in_password_edit_text_ebookers">Enter ebookers account password</string>
@@ -37,22 +37,17 @@
     <!-- Row header for when the grand total of the user's hotel stay is more than what they owe Expedia at the time of reservation-->
     <string name="total_due_to_our_brand_today">Total Due to ebookers Today:</string>
     <!-- User needs to reset password -->
-    <string name="login_reset_password">We need you to create a new, international sign in for all ebookers sites.&lt;br&gt;Please reset your password using the ‘Forgot your password?\&apos; link below.</string>
+    <string name="login_reset_password">We need you to create a new, international sign in for all ebookers sites.&lt;br&gt;Please reset your password using the ‘Forgot your password?’ link below.</string>
 
     <!-- Label to show user in cost breakdown for the total being charged to them right now -->
     <string name="total_due_today">Due to ebookers Today</string>
 
-    <!-- Account Creation Strings -->
-    <!-- Button text for account creation button -->
-    <string name="acct_Create_a_ebookers_account">Create an ebookers account</string>
-    <!-- Message displayed after a successful create account -->
-    <string name="acct_Welcome_to_ebookers">Welcome to ebookers</string>
-    <!-- Title of "Account Already Exists" error dialog box -->
-    <string name="acct_ebookers_account_already_exists">An ebookers account already exists with this email</string>
     <!-- Sign in with earn message. Eg: Sign in to earn $123.22 in BONUS+ -->
     <string name="Sign_in_to_earn_TEMPLATE">Sign in to earn {reward} in BONUS+</string>
     <!-- Account creation legal template excluding ebookers BONUS+ -->
     <string name="account_creation_legal_TEMPLATE">@string/account_creation_legal_excluding_rewards_TEMPLATE</string>
+    <!-- Account creation legal template for reward points eg: I want to earn rewards instantly with BONUS+. By joining, I accept all Terms and Conditions. -->
+    <string name="account_creation_legal_rewards_TEMPLATE">I want to earn rewards instantly with {brand_reward_currency}. By joining, I accept all {terms_and_conditions}.</string>
 
     <!-- Bonus+ -->
     <string name="paying_with_rewards">Paying with BONUS+</string>
@@ -61,6 +56,22 @@
     <string name="checkout_paying_with_points_only_line1">Paying with BONUS+</string>
     <string name="checkout_paying_with_points_and_card_line1_TEMPLATE">Paying with BONUS+ &amp; {carddescription}</string>
     <string name="checkout_payment_options">Credit card, pay with BONUS+</string>
+
+    <!-- VIP strings -->
+    <string name="vip_loyalty_applied_message">BONUS+ applied!</string>
+    <!-- String to be appended with VIP in header of room rates. -->
+    <string name="vip_loyalty_applied_header_message">@string/vip_loyalty_applied_message</string>
+    <string name="vip_loyalty_applied_map_message">&lt;b&gt;VIP&lt;/b&gt; BONUS+ applied!</string>
+    <!-- Title for VIP Access message -->
+    <string name="vip_access">VIP</string>
+    <!-- Message that explains the meaning of VIP Access -->
+    <string name="vip_access_message">At VIP hotels, gold and platinum members receive free room upgrades and other perks on availability at check-in.</string>
+    <!-- Filter for showing only VIP access hotels -->
+    <string name="filter_vip_access">Only VIP Hotels</string>
+    <!-- Filter for showing only VIP access hotels -->
+    <string name="VIP_Access_Only">VIP Hotels Only</string>
+    <!-- Title for VIP Access message for Hotel Results -->
+    <string name="vip">VIP</string>
 
     <!-- Shop with points -->
     <string name="regular_loyalty_applied_message">BONUS+ applied!</string>
@@ -74,7 +85,7 @@
     <string name="swp_widget_points_value_TEMPLATE">You have {points_or_amount} in BONUS+</string>
     <!-- Label indicating BONUS+ used by the user -->
     <string name="hotel_cost_breakdown_burn_points_TEMPLATE">BONUS+ Used</string>
-
+    
     <string name="loyalty_applied_excluding_taxes_and_fees_message">BONUS+ applied! (excludes taxes and fees)</string>
     <string name="youll_earn_points_TEMPLATE">You\'ll earn {reward_currency} in BONUS+ for this booking!</string>
     <string name="x_rewards_currency_for_this_trip_TEMPLATE">You\'ll earn {reward_currency} in BONUS+ for this trip!</string>

@@ -37,30 +37,41 @@
     <!-- Row header for when the grand total of the user's hotel stay is more than what they owe Expedia at the time of reservation-->
     <string name="total_due_to_our_brand_today">今天應付給 ebookers：</string>
     <!-- User needs to reset password -->
-    <string name="login_reset_password">我們需要您新建一個所有 ebookers 網站皆適用的國際通用登入資訊。&lt;br&gt;請使用下方的「忘記密碼」連結來重設您的密碼密碼。</string>
+    <string name="login_reset_password">我們需要您新建一個所有 ebookers 網站皆適用的國際通用登入資訊。&lt;br&gt;請使用下方的「忘記密碼」連結來重設您的密碼。</string>
 
     <!-- Label to show user in cost breakdown for the total being charged to them right now -->
     <string name="total_due_today">今天應付給 ebookers</string>
 
-    <!-- Account Creation Strings -->
-    <!-- Button text for account creation button -->
-    <string name="acct_Create_a_ebookers_account">註冊 ebookers 帳戶</string>
-    <!-- Message displayed after a successful create account -->
-    <string name="acct_Welcome_to_ebookers">歡迎使用 ebookers</string>
-    <!-- Title of "Account Already Exists" error dialog box -->
-    <string name="acct_ebookers_account_already_exists">此電子郵件地址已經有 ebookers 帳戶</string>
     <!-- Sign in with earn message. Eg: Sign in to earn $123.22 in BONUS+ -->
     <string name="Sign_in_to_earn_TEMPLATE">登入以獲得 {reward} BONUS+</string>
     <!-- Account creation legal template excluding ebookers BONUS+ -->
     <string name="account_creation_legal_TEMPLATE">@string/account_creation_legal_excluding_rewards_TEMPLATE</string>
+    <!-- Account creation legal template for reward points eg: I want to earn rewards instantly with BONUS+. By joining, I accept all Terms and Conditions. -->
+    <string name="account_creation_legal_rewards_TEMPLATE">我要參加 {brand_reward_currency}，立即賺取獎勵。加入即表示我接受所有{terms_and_conditions}。</string>
 
     <!-- Bonus+ -->
-    <string name="paying_with_rewards">正在以 BONUS+ 付款</string>
-    <string name="pay_with_rewards">以 BONUS+ 付款</string>
+    <string name="paying_with_rewards">正在使用 BONUS+ 付款</string>
+    <string name="pay_with_rewards">使用 BONUS+ 付款</string>
 
-    <string name="checkout_paying_with_points_only_line1">正在以 BONUS+ 付款</string>
-    <string name="checkout_paying_with_points_and_card_line1_TEMPLATE">正在以 BONUS+ 與 {carddescription} 付款</string>
-    <string name="checkout_payment_options">信用卡，以 Orbucks 付款</string>
+    <string name="checkout_paying_with_points_only_line1">正在使用 BONUS+ 付款</string>
+    <string name="checkout_paying_with_points_and_card_line1_TEMPLATE">正在使用 BONUS+ 和 {carddescription} 付款</string>
+    <string name="checkout_payment_options">信用卡，使用 BONUS+ 付款</string>
+
+    <!-- VIP strings -->
+    <string name="vip_loyalty_applied_message">已使用 BONUS+！</string>
+    <!-- String to be appended with VIP in header of room rates. -->
+    <string name="vip_loyalty_applied_header_message">@string/vip_loyalty_applied_message</string>
+    <string name="vip_loyalty_applied_map_message">已使用 &lt;b&gt;VIP&lt;/b&gt; BONUS+！</string>
+    <!-- Title for VIP Access message -->
+    <string name="vip_access">VIP</string>
+    <!-- Message that explains the meaning of VIP Access -->
+    <string name="vip_access_message">入住 VIP 飯店時，Gold 和 Platinum 會員會獲得免費客房升級和其他禮遇 (視實際情況而定)。</string>
+    <!-- Filter for showing only VIP access hotels -->
+    <string name="filter_vip_access">僅限 VIP 飯店</string>
+    <!-- Filter for showing only VIP access hotels -->
+    <string name="VIP_Access_Only">僅限 VIP 飯店</string>
+    <!-- Title for VIP Access message for Hotel Results -->
+    <string name="vip">VIP</string>
 
     <!-- Shop with points -->
     <string name="regular_loyalty_applied_message">已使用 BONUS+！</string>
@@ -74,7 +85,7 @@
     <string name="swp_widget_points_value_TEMPLATE">您有 {points_or_amount} BONUS+</string>
     <!-- Label indicating BONUS+ used by the user -->
     <string name="hotel_cost_breakdown_burn_points_TEMPLATE">已使用的 BONUS+</string>
-
+    
     <string name="loyalty_applied_excluding_taxes_and_fees_message">已使用 BONUS+！(不含稅金和其他費用)</string>
     <string name="youll_earn_points_TEMPLATE">此次預訂您將可獲得 {reward_currency} BONUS+！</string>
     <string name="x_rewards_currency_for_this_trip_TEMPLATE">此趟旅程您將可獲得 {reward_currency} BONUS+！</string>

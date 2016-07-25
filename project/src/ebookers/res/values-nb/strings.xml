@@ -3,7 +3,7 @@
 
     <string name="ebookers_best_price_guarantee">ebookers prismatch</string>
 
-    <string name="customer_support_text">Ring ebookers\&apos; kundeservice</string>
+    <string name="customer_support_text">Ring ebookers\' kundeservice</string>
 
     <!-- Content description for action: Press to log in with your ebookers account -->
     <string name="cd_checkout_log_in_with_ebookers">Trykk for å logge på din ebookers-konto</string>
@@ -25,34 +25,29 @@
     <string name="not_currently_available_ebookers_TEMPLATE">Ikke tilgjengelig på ebookers %s</string>
 
     <!-- Missing strings for ebookers from Expedia-->
-    <string name="tell_a_friend_body_ebookers">Hei!\n\nPrøv ebookers Hotels for iPhone og Android-telefoner. Appen er GRATIS, og med den kan du enkelt bestille rom på flere enn 140 000 hoteller over hele verden. Det er den enkleste måten å bestille hoteller på telefonen din på.</string>
+    <string name="tell_a_friend_body_ebookers">Hei!\n\nPrøv ebookers Hotels for iPhone og Android-telefoner. Appen er GRATIS, og med den kan du enkelt bestille rom på flere enn 140 000 hoteller over hele verden. Det er den enkleste måten å bestille hoteller på telefonen din på.</string>
     <string name="cd_log_in_email_edit_text_ebookers">Angi e-postadressen for ebookers-kontoen</string>
     <string name="tell_a_friend_subject_ebookers">ebookers-hoteller</string>
     <string name="cd_log_in_password_edit_text_ebookers">Angi passordet for ebookers-kontoen</string>
     <string name="cd_launch_open_eb_info_screen_ebookers">Åpne siden for bestillingsopplysninger</string>
     <string name="loading_ebookers_account">Laster ebookers-konto</string>
     <string name="ebookers_password_hint">ebookers-passord</string>
-    <string name="dialog_message_launch_ebookers_mobile_site">Vil du laste inn ebookers\&apos; mobilnettsted?</string>
+    <string name="dialog_message_launch_ebookers_mobile_site">Vil du laste inn ebookers\' mobilnettsted?</string>
     <!-- ebookers App download link -->
     <!-- Row header for when the grand total of the user's hotel stay is more than what they owe Expedia at the time of reservation-->
     <string name="total_due_to_our_brand_today">Beløp som må betales til ebookers i dag:</string>
     <!-- User needs to reset password -->
-    <string name="login_reset_password">Du må opprette en ny, internasjonal pålogging for alle ebookers\&apos; nettsider.&lt;br&gt;Nullstill passordet ditt ved å klikke på "Glemt passordet ditt?" nedenfor.</string>
+    <string name="login_reset_password">Du må opprette en ny, internasjonal pålogging for alle ebookers\' nettsider.&lt;br&gt;Nullstill passordet ditt ved å klikke på ‘Glemt passordet ditt?’ nedenfor.</string>
 
     <!-- Label to show user in cost breakdown for the total being charged to them right now -->
     <string name="total_due_today">Beløp som må betales til ebookers i dag</string>
 
-    <!-- Account Creation Strings -->
-    <!-- Button text for account creation button -->
-    <string name="acct_Create_a_ebookers_account">Opprett en ebookers-konto</string>
-    <!-- Message displayed after a successful create account -->
-    <string name="acct_Welcome_to_ebookers">Velkommen til ebookers</string>
-    <!-- Title of "Account Already Exists" error dialog box -->
-    <string name="acct_ebookers_account_already_exists">Det finnes allerede en ebookers-konto med denne e-postadressen</string>
     <!-- Sign in with earn message. Eg: Sign in to earn $123.22 in BONUS+ -->
     <string name="Sign_in_to_earn_TEMPLATE">Logg inn for å tjene {reward} i BONUS+</string>
     <!-- Account creation legal template excluding ebookers BONUS+ -->
     <string name="account_creation_legal_TEMPLATE">@string/account_creation_legal_excluding_rewards_TEMPLATE</string>
+    <!-- Account creation legal template for reward points eg: I want to earn rewards instantly with BONUS+. By joining, I accept all Terms and Conditions. -->
+    <string name="account_creation_legal_rewards_TEMPLATE">Jeg vil gjerne tjene bonus umiddelbart med {brand_reward_currency}. Ved å bli med godkjenner jeg alle {terms_and_conditions}.</string>
 
     <!-- Bonus+ -->
     <string name="paying_with_rewards">Betaler med BONUS+</string>
@@ -61,6 +56,22 @@
     <string name="checkout_paying_with_points_only_line1">Betaler med BONUS+</string>
     <string name="checkout_paying_with_points_and_card_line1_TEMPLATE">Betaler med BONUS+ og {carddescription}</string>
     <string name="checkout_payment_options">Kredittkort, betal med BONUS+</string>
+
+    <!-- VIP strings -->
+    <string name="vip_loyalty_applied_message">BONUS+ brukt!</string>
+    <!-- String to be appended with VIP in header of room rates. -->
+    <string name="vip_loyalty_applied_header_message">@string/vip_loyalty_applied_message</string>
+    <string name="vip_loyalty_applied_map_message">&lt;b&gt;VIP&lt;/b&gt; BONUS+ brukt!</string>
+    <!-- Title for VIP Access message -->
+    <string name="vip_access">VIP</string>
+    <!-- Message that explains the meaning of VIP Access -->
+    <string name="vip_access_message">Ved VIP-hotellene får gold- og platinum-medlemmer kostnadsfrie romoppgraderinger og andre fordeler ved innsjekking (avhenger av tilgjengelighet).</string>
+    <!-- Filter for showing only VIP access hotels -->
+    <string name="filter_vip_access">Kun VIP-hoteller</string>
+    <!-- Filter for showing only VIP access hotels -->
+    <string name="VIP_Access_Only">Kun VIP-hoteller</string>
+    <!-- Title for VIP Access message for Hotel Results -->
+    <string name="vip">VIP</string>
 
     <!-- Shop with points -->
     <string name="regular_loyalty_applied_message">BONUS+ brukt!</string>
@@ -74,7 +85,7 @@
     <string name="swp_widget_points_value_TEMPLATE">Du har {points_or_amount} i BONUS+</string>
     <!-- Label indicating BONUS+ used by the user -->
     <string name="hotel_cost_breakdown_burn_points_TEMPLATE">BONUS+ brukt</string>
-
+    
     <string name="loyalty_applied_excluding_taxes_and_fees_message">BONUS+ brukt! (skatter og avgifter ikke inkludert)</string>
     <string name="youll_earn_points_TEMPLATE">Du vil tjene {reward_currency} i BONUS+ for denne bestillingen!</string>
     <string name="x_rewards_currency_for_this_trip_TEMPLATE">Du vil tjene {reward_currency} i BONUS+ for denne reisen!</string>
@@ -90,17 +101,17 @@
 
     <!-- Rewards -->
     <!-- Long name for rewards base tier; note that brand name is not parameterized here as other brands will need to completely override this string -->
-    <string name="reward_base_tier_name_long">Sølvmedlem</string>
+    <string name="reward_base_tier_name_long">Silver-medlem</string>
     <!-- Long name for rewards middle tier; note that brand name is not parameterized here as other brands will need to completely override this string -->
-    <string name="reward_middle_tier_name_long">Gullmedlem</string>
+    <string name="reward_middle_tier_name_long">Gold-medlem</string>
     <!-- Long name for rewards top tier; note that brand name is not parameterized here as other brands will need to completely override this string -->
-    <string name="reward_top_tier_name_long">Platinamedlem</string>
+    <string name="reward_top_tier_name_long">Platinum-medlem</string>
     <!-- Short name for rewards base tier -->
-    <string name="reward_base_tier_name_short">Sølv</string>
+    <string name="reward_base_tier_name_short">Silver</string>
     <!-- Short name for rewards middle tier -->
-    <string name="reward_middle_tier_name_short">Gull</string>
+    <string name="reward_middle_tier_name_short">Gold</string>
     <!-- Short name for rewards top tier -->
-    <string name="reward_top_tier_name_short">Platina</string>
+    <string name="reward_top_tier_name_short">Platinum</string>
 
     <!-- Customer Support -->
     <string name="customer_support">Kundeservice</string>
