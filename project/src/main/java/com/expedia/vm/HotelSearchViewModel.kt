@@ -1,38 +1,31 @@
 package com.expedia.vm
 
-import android.app.Activity
 import android.content.Context
 import android.text.Html
 import com.expedia.bookings.R
-import com.expedia.bookings.data.Codes
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.hotels.HotelSearchParams
-import com.expedia.bookings.utils.HotelSearchParamsUtil
 import com.expedia.bookings.utils.Ui
 import com.expedia.util.endlessObserver
 import com.expedia.util.notNullAndObservable
 import org.joda.time.LocalDate
-import rx.subjects.BehaviorSubject
 import rx.subjects.PublishSubject
 import javax.inject.Inject
 
 class HotelSearchViewModel(context: Context) : BaseSearchViewModel(context) {
 
     val hotelParamsBuilder = HotelSearchParams.Builder(getMaxSearchDurationDays(), getMaxDateRange(), isFilterUnavailableEnabled())
-    val userBucketedObservable = BehaviorSubject.create<Boolean>()
-    val externalSearchParamsObservable = BehaviorSubject.create<Boolean>()
     val searchParamsObservable = PublishSubject.create<HotelSearchParams>()
 
     // Outputs
-
     var shopWithPointsViewModel: ShopWithPointsViewModel by notNullAndObservable {
-        it.swpEffectiveAvailability.subscribe{
+        it.swpEffectiveAvailability.subscribe {
             getParamsBuilder().shopWithPoints(it)
         }
     }
-        @Inject set
+    @Inject set
 
     // Inputs
     override var requiredSearchParamsObserver = endlessObserver<Unit> {
@@ -46,6 +39,10 @@ class HotelSearchViewModel(context: Context) : BaseSearchViewModel(context) {
         requiredSearchParamsObserver.onNext(Unit)
     }
 
+    override fun sameStartAndEndDateAllowed(): Boolean {
+        return false
+    }
+
     val suggestionTextChangedObserver = endlessObserver<Unit> {
         getParamsBuilder().destination(null)
         requiredSearchParamsObserver.onNext(Unit)
@@ -55,10 +52,10 @@ class HotelSearchViewModel(context: Context) : BaseSearchViewModel(context) {
         if (getParamsBuilder().areRequiredParamsFilled()) {
             if (!getParamsBuilder().hasValidDateDuration()) {
                 errorMaxDurationObservable.onNext(context.getString(R.string.hotel_search_range_error_TEMPLATE, getMaxSearchDurationDays()))
+            } else if (!getParamsBuilder().isWithinDateRange()) {
+                errorMaxRangeObservable.onNext(context.getString(R.string.error_date_too_far, getMaxSearchDurationDays()))
             } else {
                 val hotelSearchParams = getParamsBuilder().build()
-                HotelSearchParamsUtil.saveSearchHistory(context, hotelSearchParams)
-
                 searchParamsObservable.onNext(hotelSearchParams)
             }
         } else {
@@ -87,15 +84,17 @@ class HotelSearchViewModel(context: Context) : BaseSearchViewModel(context) {
     }
 
     override fun onDatesChanged(dates: Pair<LocalDate?, LocalDate?>) {
-        val (start, end) = dates
-
+        val start = dates.first
+        var end = dates.second
         getParamsBuilder().startDate(start)
         if (start != null && end == null) {
             getParamsBuilder().endDate(start.plusDays(1))
+        } else if (start != null && start.equals(end)) {
+            getParamsBuilder().endDate(start.plusDays(1))
+            end = start.plusDays(1)
         } else {
             getParamsBuilder().endDate(end)
         }
-
         dateTextObservable.onNext(computeDateText(start, end))
         dateInstructionObservable.onNext(computeDateInstructionText(start, end))
 
@@ -110,11 +109,6 @@ class HotelSearchViewModel(context: Context) : BaseSearchViewModel(context) {
     }
 
     init {
-        val intent = (context as Activity).intent
-        val isUserBucketedForTest = Db.getAbacusResponse().isUserBucketedForTest(
-                AbacusUtils.EBAndroidAppHotelRecentSearchTest)
-        userBucketedObservable.onNext(isUserBucketedForTest)
-        externalSearchParamsObservable.onNext(!intent.hasExtra(Codes.TAG_EXTERNAL_SEARCH_PARAMS) && !isUserBucketedForTest)
         Ui.getApplication(context).hotelComponent().inject(this)
     }
 }

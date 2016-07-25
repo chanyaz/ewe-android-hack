@@ -5,12 +5,14 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import android.support.test.InstrumentationRegistry;
 import android.support.test.rule.UiThreadTestRule;
 import android.support.test.runner.AndroidJUnit4;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.TravelerName;
 import com.expedia.bookings.test.rules.PlaygroundRule;
+import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.traveler.NameEntryView;
 import com.expedia.vm.traveler.TravelerNameViewModel;
 
@@ -35,11 +37,12 @@ public class NameEntryViewTest {
 	@Before
 	public void setUp() {
 		nameView = (NameEntryView) activityTestRule.getRoot();
+		Ui.getApplication(InstrumentationRegistry.getTargetContext()).defaultTravelerComponent();
 	}
 
 	@Test
 	public void testNameUpdates() throws Throwable {
-		TravelerNameViewModel testViewModel = new TravelerNameViewModel();
+		TravelerNameViewModel testViewModel = new TravelerNameViewModel(InstrumentationRegistry.getTargetContext());
 		TravelerName traveler = new TravelerName();
 		testViewModel.updateTravelerName(traveler);
 		setViewModel(testViewModel);
@@ -59,7 +62,7 @@ public class NameEntryViewTest {
 		name.setFirstName(testFirstName);
 		name.setMiddleName(testMiddleInitial);
 		name.setLastName(testLastName);
-		TravelerNameViewModel testViewModel = new TravelerNameViewModel();
+		TravelerNameViewModel testViewModel = new TravelerNameViewModel(InstrumentationRegistry.getTargetContext());
 		testViewModel.updateTravelerName(name);
 		setViewModel(testViewModel);
 
@@ -70,7 +73,7 @@ public class NameEntryViewTest {
 
 	@Test
 	public void testErrorState() throws Throwable {
-		final TravelerNameViewModel testViewModel = new TravelerNameViewModel();
+		final TravelerNameViewModel testViewModel = new TravelerNameViewModel(InstrumentationRegistry.getTargetContext());
 		TravelerName traveler = new TravelerName();
 		testViewModel.updateTravelerName(traveler);
 		setViewModel(testViewModel);
@@ -83,6 +86,15 @@ public class NameEntryViewTest {
 				testViewModel.getLastNameErrorSubject().onNext(true);
 			}
 		});
+
+		//test for accessibility content description
+		assertEquals(nameView.getFirstName().getErrorContDesc(),
+			"Error");
+		assertEquals(nameView.getMiddleName().getErrorContDesc(),
+			"Error");
+		assertEquals(nameView.getLastName().getErrorContDesc(),
+			"Error");
+
 		assertEquals(nameView.getFirstName().getCompoundDrawables()[2],
 			nameView.getFirstName().getErrorIcon());
 		assertEquals(nameView.getFirstName().getCompoundDrawables()[2],
@@ -103,7 +115,7 @@ public class NameEntryViewTest {
 	public void testMiddleNameAcceptsOneOrMoreLetter() throws Throwable {
 		final String validMiddleName = "The";
 		String initial = "The";
-		TravelerNameViewModel testViewModel = new TravelerNameViewModel();
+		TravelerNameViewModel testViewModel = new TravelerNameViewModel(InstrumentationRegistry.getTargetContext());
 		TravelerName traveler = new TravelerName();
 		testViewModel.updateTravelerName(traveler);
 		setViewModel(testViewModel);

@@ -10,6 +10,7 @@ public class PackageOffersResponse extends BaseApiResponse {
 	public List<PackageHotelOffer> packageHotelOffers;
 
 	public static class PackageHotelOffer {
+		public CancellationPolicy cancellationPolicy;
 		public String packageProductId;
 		public HotelOffersResponse.HotelRoomResponse hotelOffer;
 		public Money pricePerPerson;
@@ -19,5 +20,10 @@ public class PackageOffersResponse extends BaseApiResponse {
 
 	public static class PackagePricing {
 		public Money savings;
+		public Money packageTotal;
+	}
+
+	public static class CancellationPolicy {
+		public Boolean hasFreeCancellation;
 	}
 }

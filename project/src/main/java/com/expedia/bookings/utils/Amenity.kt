@@ -55,7 +55,7 @@ enum class Amenity(val preference: Int, val resId: Int, val strId: Int) {
 
         fun addHotelAmenity(viewGroup: ViewGroup, amenityList: List<Amenity>) {
             viewGroup.removeAllViews()
-            val srcColor = ContextCompat.getColor(viewGroup.context, R.color.hotelsv2_checkout_text_color)
+            val srcColor = ContextCompat.getColor(viewGroup.context, R.color.hotelsv2_amenity_icon_color)
             val mode = PorterDuff.Mode.SRC_ATOP
             val filter = PorterDuffColorFilter(srcColor, mode)
             val paint = Paint()

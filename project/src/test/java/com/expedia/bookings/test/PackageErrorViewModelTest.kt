@@ -4,7 +4,7 @@ import android.content.Context
 import android.support.annotation.StringRes
 import com.expedia.bookings.BuildConfig
 import com.expedia.bookings.R
-import com.expedia.bookings.data.cars.ApiError
+import com.expedia.bookings.data.ApiError
 import com.expedia.bookings.data.packages.PackageApiError
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.vm.packages.PackageErrorViewModel
@@ -16,6 +16,7 @@ import rx.observers.TestSubscriber
 
 @RunWith(RobolectricRunner::class)
 class PackageErrorViewModelTest {
+
     private fun getContext(): Context {
         return RuntimeEnvironment.application
     }
@@ -27,18 +28,19 @@ class PackageErrorViewModelTest {
         observableEmissionsOnSearchError(PackageApiError.Code.pkg_flight_no_longer_available)
         observableEmissionsOnSearchError(PackageApiError.Code.pkg_too_many_children_in_lap)
         observableEmissionsOnSearchError(PackageApiError.Code.pkg_invalid_checkin_checkout_dates)
+        observableEmissionsOnSearchError(PackageApiError.Code.pkg_hotel_no_longer_available)
     }
 
     fun observableEmissionsOnSearchError(apiError: PackageApiError.Code) {
         val subjectUnderTest = PackageErrorViewModel(RuntimeEnvironment.application)
 
         val searchApiObservableTestSubscriber = TestSubscriber.create<PackageApiError.Code>()
-        subjectUnderTest.searchApiErrorObserver.subscribe(searchApiObservableTestSubscriber)
+        subjectUnderTest.packageSearchApiErrorObserver.subscribe(searchApiObservableTestSubscriber)
 
         val errorMessageObservableTestSubscriber = TestSubscriber.create<String>()
         subjectUnderTest.errorMessageObservable.subscribe(errorMessageObservableTestSubscriber)
 
-        subjectUnderTest.searchApiErrorObserver.onNext(apiError)
+        subjectUnderTest.packageSearchApiErrorObserver.onNext(apiError)
 
         errorMessageObservableTestSubscriber.assertValues(RuntimeEnvironment.application.getString(R.string.error_package_search_message))
     }
@@ -67,7 +69,7 @@ class PackageErrorViewModelTest {
         subjectUnderTest.errorMessageObservable.subscribe(errorMessageObservableTestSubscriber)
 
         val errorButtonObservableTestSubscriber = TestSubscriber.create<String>()
-        subjectUnderTest.buttonTextObservable.subscribe(errorButtonObservableTestSubscriber)
+        subjectUnderTest.buttonOneTextObservable.subscribe(errorButtonObservableTestSubscriber)
 
         val titleObservableTestSubscriber = TestSubscriber.create<String>()
         subjectUnderTest.titleObservable.subscribe(titleObservableTestSubscriber)
@@ -80,7 +82,7 @@ class PackageErrorViewModelTest {
         apiError.errorInfo.field = field
 
         subjectUnderTest.checkoutApiErrorObserver.onNext(apiError)
-        subjectUnderTest.actionObservable.onNext(Unit)
+        subjectUnderTest.buttonOneClickedObservable.onNext(Unit)
 
         checkoutCardErrorObservableTestSubscriber.assertValues(Unit)
         errorImageObservableTestSubscriber.assertValues(R.drawable.error_payment)
@@ -103,12 +105,12 @@ class PackageErrorViewModelTest {
         subjectUnderTest.errorMessageObservable.subscribe(errorMessageObservableTestSubscriber)
 
         val errorButtonObservableTestSubscriber = TestSubscriber.create<String>()
-        subjectUnderTest.buttonTextObservable.subscribe(errorButtonObservableTestSubscriber)
+        subjectUnderTest.buttonOneTextObservable.subscribe(errorButtonObservableTestSubscriber)
 
-        val apiError = ApiError(ApiError.Code.UNKNOWN_ERROR);
+        val apiError = ApiError(ApiError.Code.UNKNOWN_ERROR)
 
         subjectUnderTest.checkoutApiErrorObserver.onNext(apiError)
-        subjectUnderTest.actionObservable.onNext(Unit)
+        subjectUnderTest.buttonOneClickedObservable.onNext(Unit)
 
         checkoutUnknownErrorObservableTestSubscriber.assertValues(Unit)
         errorImageObservableTestSubscriber.assertValues(R.drawable.error_default)
@@ -133,15 +135,15 @@ class PackageErrorViewModelTest {
         subjectUnderTest.errorMessageObservable.subscribe(errorMessageObservableTestSubscriber)
 
         val errorButtonObservableTestSubscriber = TestSubscriber.create<String>()
-        subjectUnderTest.buttonTextObservable.subscribe(errorButtonObservableTestSubscriber)
+        subjectUnderTest.buttonOneTextObservable.subscribe(errorButtonObservableTestSubscriber)
 
         val apiError = ApiError(ApiError.Code.PACKAGE_SEARCH_ERROR);
 
         subjectUnderTest.hotelOffersApiErrorObserver.onNext(apiError.errorCode)
-        subjectUnderTest.actionObservable.onNext(Unit)
+        subjectUnderTest.defaultErrorObservable.onNext(Unit)
 
         hotelOfferErrorObservableTestSubscriber.assertValues(Unit)
-        errorImageObservableTestSubscriber.assertValues(R.drawable.error_default)
+        errorImageObservableTestSubscriber.assertValues(R.drawable.error_search)
         errorMessageObservableTestSubscriber.assertValues(getContext().getString(R.string.error_package_search_message))
         errorButtonObservableTestSubscriber.assertValues(getContext().getString(R.string.edit_search))
     }

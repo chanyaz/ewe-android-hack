@@ -8,11 +8,9 @@ import android.graphics.Rect
 import android.support.v4.content.ContextCompat
 import android.support.v4.view.ViewCompat
 import android.util.AttributeSet
-import android.view.LayoutInflater
+import android.view.MenuItem
 import android.view.View
 import android.widget.Button
-import android.widget.ImageView
-import android.widget.LinearLayout
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.SuggestionV4
@@ -23,12 +21,8 @@ import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.BaseHotelListAdapter
 import com.expedia.bookings.widget.FilterButtonWithCountWidget
 import com.expedia.bookings.widget.MapLoadingOverlayWidget
-import com.expedia.bookings.widget.TextView
 import com.expedia.bookings.widget.hotel.HotelListAdapter
 import com.expedia.util.notNullAndObservable
-import com.expedia.util.subscribeInverseVisibility
-import com.expedia.util.subscribeText
-import com.expedia.util.subscribeVisibility
 import com.expedia.vm.HotelFilterViewModel
 import com.expedia.vm.ShopWithPointsViewModel
 import com.expedia.vm.hotel.HotelResultsViewModel
@@ -39,9 +33,18 @@ class HotelResultsPresenter(context: Context, attrs: AttributeSet) : BaseHotelRe
     override val filterBtnWithCountWidget: FilterButtonWithCountWidget by bindView(R.id.sort_filter_button_container)
     override val searchThisArea: Button by bindView(R.id.search_this_area)
     override val loadingOverlay: MapLoadingOverlayWidget by bindView(R.id.map_loading_overlay)
+    val searchMenu: MenuItem by lazy {
+        val searchMenu = toolbar.menu.findItem(R.id.menu_open_search)
+        searchMenu
+    }
+
 
     lateinit var shopWithPointsViewModel: ShopWithPointsViewModel
         @Inject set
+
+    init {
+        showSearchMenu.subscribe { searchMenu.isVisible = it }
+    }
 
     var viewmodel: HotelResultsViewModel by notNullAndObservable { vm ->
         vm.hotelResultsObservable.subscribe {
@@ -88,7 +91,11 @@ class HotelResultsPresenter(context: Context, attrs: AttributeSet) : BaseHotelRe
     override fun onFinishInflate() {
         super.onFinishInflate()
         Ui.getApplication(getContext()).hotelComponent().inject(this)
-
+        toolbar.inflateMenu(R.menu.menu_search_item)
+        searchMenu.setOnMenuItemClickListener({
+            searchOverlaySubject.onNext(Unit)
+            true
+        })
         ViewCompat.setElevation(loadingOverlay, context.resources.getDimension(R.dimen.launch_tile_margin_side))
         //Fetch, color, and slightly resize the searchThisArea location pin drawable
         val icon = ContextCompat.getDrawable(context, R.drawable.ic_material_location_pin).mutate()
@@ -107,6 +114,7 @@ class HotelResultsPresenter(context: Context, attrs: AttributeSet) : BaseHotelRe
             trackMapSearchAreaClick()
         })
 
+        searchMenu.isVisible = true
         filterView.shopWithPointsViewModel = shopWithPointsViewModel
 
         filterBtn?.setOnClickListener { view ->
@@ -201,10 +209,6 @@ class HotelResultsPresenter(context: Context, attrs: AttributeSet) : BaseHotelRe
 
     override fun trackMapSearchAreaClick() {
         HotelV2Tracking().trackHotelsV2SearchAreaClick()
-    }
-
-    override fun isBucketedForResultMap(): Boolean {
-        return Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelResultMapTest)
     }
 
     override fun getHotelListAdapter(): BaseHotelListAdapter {

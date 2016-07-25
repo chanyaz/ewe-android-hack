@@ -15,7 +15,7 @@ import com.expedia.bookings.presenter.BaseTwoLocationSearchPresenter
 import com.expedia.bookings.services.SuggestionV4Services
 import com.expedia.bookings.utils.SuggestionV4Utils
 import com.expedia.bookings.utils.Ui
-import com.expedia.bookings.widget.suggestions.FlightSuggestionAdapter
+import com.expedia.bookings.widget.suggestions.SuggestionAdapter
 import com.expedia.util.notNullAndObservable
 import com.expedia.util.subscribeOnClick
 import com.expedia.vm.AirportSuggestionViewModel
@@ -31,26 +31,33 @@ open class FlightSearchPresenter(context: Context, attrs: AttributeSet) : BaseTw
 
     var searchViewModel: FlightSearchViewModel by notNullAndObservable { vm ->
         calendarWidgetV2.viewModel = vm
+        travelerWidgetV2.travelersSubject.subscribe(vm.travelersObservable)
+        travelerWidgetV2.traveler.viewmodel.isInfantInLapObservable.subscribe(vm.isInfantInLapObserver)
         vm.searchButtonObservable.subscribe { enable ->
             searchButton.setTextColor(if (enable) ContextCompat.getColor(context, R.color.hotel_filter_spinner_dropdown_color) else ContextCompat.getColor(context, R.color.white_disabled))
         }
         searchButton.subscribeOnClick(vm.searchObserver)
         vm.formattedOriginObservable.subscribe { text -> originCardView.setText(text) }
         vm.formattedDestinationObservable.subscribe {
-            text -> destinationCardView.setText(if (text.isNotEmpty()) text else context.resources.getString(R.string.fly_to_hint))
+            text ->
+            destinationCardView.setText(if (text.isNotEmpty()) text else context.resources.getString(R.string.fly_to_hint))
             if (this.visibility == VISIBLE && vm.startDate() == null && text.isNotEmpty()) {
                 calendarWidgetV2.showCalendarDialog()
             }
         }
 
+        vm.errorOriginSameAsDestinationObservable.subscribe { message ->
+            showErrorDialog(message)
+        }
+
         originSuggestionViewModel = AirportSuggestionViewModel(getContext(), suggestionServices, false, CurrentLocationObservable.create(getContext()))
         destinationSuggestionViewModel = AirportSuggestionViewModel(getContext(), suggestionServices, true, null)
-        originSuggestionAdapter = FlightSuggestionAdapter(originSuggestionViewModel)
-        destinationSuggestionAdapter = FlightSuggestionAdapter(destinationSuggestionViewModel)
+        originSuggestionAdapter = SuggestionAdapter(originSuggestionViewModel)
+        destinationSuggestionAdapter = SuggestionAdapter(destinationSuggestionViewModel)
     }
 
-    lateinit private var originSuggestionAdapter: FlightSuggestionAdapter
-    lateinit private var destinationSuggestionAdapter: FlightSuggestionAdapter
+    lateinit private var originSuggestionAdapter: SuggestionAdapter
+    lateinit private var destinationSuggestionAdapter: SuggestionAdapter
 
     init {
         travelerWidgetV2.traveler.viewmodel.showSeatingPreference = true
@@ -59,7 +66,7 @@ open class FlightSearchPresenter(context: Context, attrs: AttributeSet) : BaseTw
     }
 
     override fun inflate() {
-        View.inflate(context, R.layout.widget_package_search, this)
+        View.inflate(context, R.layout.widget_base_flight_search, this)
         toolBarTitle.text = context.resources.getText(R.string.flights_title)
     }
 
@@ -74,7 +81,7 @@ open class FlightSearchPresenter(context: Context, attrs: AttributeSet) : BaseTw
 
         tabs.setupWithViewPager(viewpager)
 
-        tabs.setOnTabSelectedListener(object: TabLayout.OnTabSelectedListener {
+        tabs.setOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
             override fun onTabReselected(tab: TabLayout.Tab?) {
                 // do nothing
             }
@@ -84,7 +91,6 @@ open class FlightSearchPresenter(context: Context, attrs: AttributeSet) : BaseTw
             }
 
             override fun onTabSelected(tab: TabLayout.Tab) {
-                searchViewModel.resetDates()
                 val isRoundTripSearch = tab.position == 0
                 searchViewModel.isRoundTripSearchObservable.onNext(isRoundTripSearch)
             }

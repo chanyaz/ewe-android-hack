@@ -140,6 +140,7 @@
                         android:tint="@color/packages_primary_color" />
 
                     <LinearLayout
+                        android:id="@+id/add_car_container"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"

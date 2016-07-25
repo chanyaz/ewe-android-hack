@@ -1,10 +1,9 @@
 package com.expedia.bookings.test.phone.traveler;
 
-import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import android.support.test.rule.UiThreadTestRule;
+import android.support.test.espresso.Espresso;
 import android.support.test.runner.AndroidJUnit4;
 
 import com.expedia.bookings.R;
@@ -19,12 +18,11 @@ import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withSpinnerText;
+import static junit.framework.Assert.assertEquals;
 import static org.hamcrest.core.AllOf.allOf;
 
 @RunWith(AndroidJUnit4.class)
 public class SingleTravelerPresenterTest extends BaseTravelerPresenterTestHelper {
-	@Rule
-	public UiThreadTestRule uiThreadTestRule = new UiThreadTestRule();
 
 	@Test
 	public void testTransitions() {
@@ -47,6 +45,7 @@ public class SingleTravelerPresenterTest extends BaseTravelerPresenterTestHelper
 		PackageScreen.enterFirstName(testFirstName);
 		PackageScreen.enterLastName(testLastName);
 		PackageScreen.enterPhoneNumber(testPhone);
+		Espresso.closeSoftKeyboard();
 		PackageScreen.selectBirthDate(06,20,1990);
 		PackageScreen.selectGender(testGender);
 		PackageScreen.clickTravelerDone();
@@ -75,8 +74,10 @@ public class SingleTravelerPresenterTest extends BaseTravelerPresenterTestHelper
 		mockViewModel = getMockViewModelValidTravelers(1);
 		testTravelerPresenter.setViewModel(mockViewModel);
 		EspressoUser.clickOnView(R.id.traveler_default_state);
+		Espresso.closeSoftKeyboard();
 		EspressoUser.clickOnView(R.id.edit_phone_number);
 		PackageScreen.clickTravelerDone();
+		assertEquals(testTravelerDefault.getContentDescription(),"Traveler Information Complete");
 		EspressoUtils.assertContainsImageDrawable(R.id.traveler_status_icon, R.drawable.validated);
 	}
 
@@ -89,11 +90,11 @@ public class SingleTravelerPresenterTest extends BaseTravelerPresenterTestHelper
 		uiThreadTestRule.runOnUiThread(new Runnable() {
 			@Override
 			public void run() {
-				testTravelerPresenter.back();
+				testTravelerPresenter.getViewModel().updateCompletionStatus();
 			}
 		});
-
 		Common.delay(1);
+		assertEquals(testTravelerDefault.getContentDescription(),"Traveler Information Incomplete");
 		EspressoUtils.assertContainsImageDrawable(R.id.traveler_status_icon, R.drawable.invalid);
 	}
 
@@ -102,11 +103,12 @@ public class SingleTravelerPresenterTest extends BaseTravelerPresenterTestHelper
 		mockViewModel = getMockViewModelEmptyTravelers(1);
 		testTravelerPresenter.setViewModel(mockViewModel);
 		EspressoUser.clickOnView(R.id.traveler_default_state);
+		PackageScreen.enterLastName(testLastName);
 
 		uiThreadTestRule.runOnUiThread(new Runnable() {
 			@Override
 			public void run() {
-				testTravelerPresenter.back();
+				testTravelerPresenter.getViewModel().updateCompletionStatus();
 			}
 		});
 
@@ -130,6 +132,7 @@ public class SingleTravelerPresenterTest extends BaseTravelerPresenterTestHelper
 			}
 		});
 
+		Espresso.closeSoftKeyboard();
 		EspressoUtils.assertViewWithTextIsDisplayed(R.id.first_name_input, testFirstName);
 		EspressoUtils.assertViewWithTextIsDisplayed(R.id.middle_name_input, testMiddleName);
 		EspressoUtils.assertViewWithTextIsDisplayed(R.id.last_name_input, testLastName);

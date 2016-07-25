@@ -17,6 +17,7 @@ import com.expedia.bookings.data.trips.ItinCardDataHotel;
 import com.expedia.bookings.data.trips.TripHotel;
 import com.expedia.bookings.utils.JodaUtils;
 import com.expedia.bookings.widget.itin.ItinContentGenerator;
+import com.squareup.phrase.Phrase;
 
 @RunWith(RobolectricRunner.class)
 public class ItinContentGeneratorTest {
@@ -103,7 +104,9 @@ public class ItinContentGeneratorTest {
 		DateTime ci = mTodayAtNoon.plusDays(2);
 		DateTime co = mTodayAtNoon.plusDays(10);
 		String result = getHeaderTextDate(ci, co);
-		String expected = getContext().getResources().getQuantityString(R.plurals.days_from_now, 2, 2);
+		String expected = Phrase
+			.from(getContext().getResources().getQuantityString(R.plurals.days_from_now, 2))
+			.put("days", 2).format().toString();
 		Assert.assertEquals(expected, result);
 	}
 

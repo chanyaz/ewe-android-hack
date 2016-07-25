@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<merge xmlns:android="http://schemas.android.com/apk/res/android">
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <com.expedia.bookings.widget.flights.DockedOutboundFlightSelectionView
         android:id="@+id/docked_outbound_flight_selection"
@@ -11,6 +12,12 @@
         android:paddingBottom="14dp"
         android:paddingLeft="19dp"
         android:paddingRight="14dp"
+        android:visibility="gone" />
+
+    <com.expedia.bookings.widget.TextView
+        android:id="@+id/airline_charges_fees_header"
+        style="@style/FlightWarningBar"
+        android:text="@string/airline_charge_notice"
         android:visibility="gone" />
 
     <com.expedia.bookings.widget.FlightListRecyclerView
@@ -27,7 +34,7 @@
         android:background="@drawable/tb_shadow"
         android:visibility="gone" />
 
-    <com.expedia.bookings.widget.FilterButtonWithCountWidget
+    <com.expedia.bookings.widget.FlightFilterButtonWithCountWidget
         android:id="@+id/sort_filter_button_container"
         android:layout_width="match_parent"
         android:layout_height="@dimen/hotel_filter_height"

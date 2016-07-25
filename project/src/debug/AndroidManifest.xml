@@ -7,6 +7,10 @@
 
     <application>
         <!-- Preferences are only for development purposes -->
+
+        <!-- Google Smart -->
+        <meta-data android:name="asset_statements" android:resource="@string/asset_statements" />
+
         <activity
             android:name="com.expedia.bookings.activity.ExpediaBookingPreferenceActivity"
             android:screenOrientation="portrait"

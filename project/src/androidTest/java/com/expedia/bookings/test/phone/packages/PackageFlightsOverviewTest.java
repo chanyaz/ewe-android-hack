@@ -13,7 +13,6 @@ import com.expedia.bookings.test.phone.pagemodels.common.SearchScreen;
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.action.ViewActions.scrollTo;
-import static android.support.test.espresso.assertion.ViewAssertions.doesNotExist;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.hasDescendant;
 import static android.support.test.espresso.matcher.ViewMatchers.isDescendantOfA;
@@ -25,7 +24,7 @@ import static org.hamcrest.CoreMatchers.allOf;
 public class PackageFlightsOverviewTest extends PackageTestCase {
 
 	public void testPackageFlightsOverview() throws Throwable {
-		SearchScreen.selectOriginAndDestination();
+		SearchScreen.selectPackageOriginAndDestination();
 		LocalDate startDate = LocalDate.now().plusDays(3);
 		LocalDate endDate = LocalDate.now().plusDays(8);
 		SearchScreen.selectDates(startDate, endDate);
@@ -42,26 +41,16 @@ public class PackageFlightsOverviewTest extends PackageTestCase {
 
 		Common.delay(1);
 		PackageScreen.flightsToolbar().check(matches(hasDescendant(CoreMatchers.allOf(isDisplayed(), withText("Select flight to Detroit, MI")))));
-		checkToolBarMenuItemsVisibility(true);
+		PackageScreen.checkFlightToolBarMenuItemsVisibility(true);
 		PackageScreen.selectFlight(1);
 		PackageScreen.flightsToolbar().check(matches(hasDescendant(CoreMatchers.allOf(isDisplayed(), withText("Flight to Detroit, MI")))));
-		checkToolBarMenuItemsVisibility(false);
+		PackageScreen.checkFlightToolBarMenuItemsVisibility(false);
 		assertSegmentData();
-		assertBundlePriceInFlight("$3,864");
+		assertBundlePriceInFlight("$1,932");
 
 		onView(allOf(withId(R.id.select_flight_button), withText("Select this Flight"))).check(matches(isDisplayed()));
 		PackageScreen.selectThisFlight().perform(click());
 		Common.delay(1);
-	}
-
-	public void checkToolBarMenuItemsVisibility(boolean isVisible) {
-		PackageScreen.flightsToolbarSearchMenu().check(doesNotExist());
-		if (isVisible) {
-			PackageScreen.flightsToolbarFilterMenu().check(matches(isDisplayed()));
-		}
-		else {
-			PackageScreen.flightsToolbarFilterMenu().check(doesNotExist());
-		}
 	}
 
 	public void assertSegmentData() {

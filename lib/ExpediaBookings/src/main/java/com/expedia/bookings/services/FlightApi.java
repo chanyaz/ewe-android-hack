@@ -1,13 +1,16 @@
 package com.expedia.bookings.services;
 
+import java.util.List;
 import java.util.Map;
 
+import com.expedia.bookings.data.flights.FlightCheckoutResponse;
 import com.expedia.bookings.data.flights.FlightCreateTripResponse;
 import com.expedia.bookings.data.flights.FlightSearchResponse;
 
 import retrofit2.http.FieldMap;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.POST;
+import retrofit2.http.Query;
 import rx.Observable;
 
 public interface FlightApi {
@@ -15,11 +18,15 @@ public interface FlightApi {
 	@FormUrlEncoded
 	@POST("/api/flight/search?maxOfferCount=1600&lccAndMerchantFareCheckoutAllowed=true")
 	Observable<FlightSearchResponse> flightSearch(
-		@FieldMap Map<String, Object> queryParams);
+			@FieldMap Map<String, Object> queryParams, @Query("childTravelerAge") List<Integer> childAges);
 
 	@FormUrlEncoded
 	@POST("/api/flight/trip/create")
 	Observable<FlightCreateTripResponse> createTrip(
 		@FieldMap Map<String, Object> queryParams);
 
+	@FormUrlEncoded
+	@POST("/api/flight/checkout")
+	Observable<FlightCheckoutResponse> checkout(
+		@FieldMap Map<String, Object> queryParams);
 }

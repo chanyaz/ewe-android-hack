@@ -1051,9 +1051,46 @@
         <item name="textStyle">medium</item>
     </style>
 
+    <style name="FlightWarningBar">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:textSize">12sp</item>
+        <item name="android:padding">8dp</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:background">@color/flight_warning_bar_color</item>
+        <item name="textStyle">normal</item>
+    </style>
+
     <!-- Borderless button for "Enter Itinerary Number" in login screen -->
     <style name="Widget.BorderlessButton" parent="Widget.AppCompat.Button.Borderless">
         <item name="android:background">@drawable/bg_btn_borderless_kitkat</item>
+    </style>
+
+    <style name="Widget.InfoIconButton" parent="Widget.AppCompat.Button.Borderless">
+        <item name="android:background">@drawable/bg_btn_borderless_kitkat</item>
+        <item name="android:textColor">@color/gray7</item>
+        <item name="android:textAllCaps">false</item>>
+        <item name="android:textSize">13sp</item>
+        <item name="android:drawablePadding">10dp</item>
+        <item name="android:drawableLeft">@drawable/info_icon_white</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">12dp</item>
+        <item name="android:layout_marginBottom">12dp</item>
+        <item name="android:layout_gravity">center_horizontal</item>
+    </style>
+
+    <style name="Widget.InfoIconTextView">
+        <item name="android:textColor">@color/gray7</item>
+        <item name="android:textAllCaps">false</item>>
+        <item name="android:textSize">13sp</item>
+        <item name="android:drawablePadding">10dp</item>
+        <item name="android:drawableLeft">@drawable/info_icon_white</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_gravity">center_horizontal</item>
     </style>
 
     <!--Material Flights Results Cell-->
@@ -1072,6 +1109,11 @@
     </style>
 
     <style name="MaterialFlightCell.DurationText">
+        <item name="android:textColor">@color/packages_flight_cell_duration_text</item>
+        <item name="textStyle">normal</item>
+    </style>
+
+    <style name="MaterialFlightCell.OperatingAirlineText">
         <item name="android:textColor">@color/packages_flight_cell_duration_text</item>
         <item name="textStyle">normal</item>
     </style>
@@ -1108,14 +1150,14 @@
     <style name="ETPInfoTextLeft" parent="HotelDetailsInfo">
         <item name="android:gravity">left</item>
         <item name="android:paddingRight">15dp</item>
-        <item name="android:background">@drawable/hotel_detail_ripple</item>
+        <item name="android:background">@drawable/gray_background_ripple</item>
         <item name="android:drawableRight">@drawable/details_info</item>
     </style>
 
     <style name="ETPInfoTextSmallCenter" parent="HotelDetailsInfoSmallCenter">
         <item name="android:paddingLeft">15dp</item>
         <item name="android:paddingRight">15dp</item>
-        <item name="android:background">@drawable/hotel_detail_ripple</item>
+        <item name="android:background">@drawable/gray_background_ripple</item>
         <item name="android:drawableRight">@drawable/smaller_details_info</item>
     </style>
 
@@ -1190,11 +1232,6 @@
         <item name="cardElevation">1dp</item>
         <item name="cardBackgroundColor">@color/white</item>
     </style>
-
-    <style name="MaterialCardView.PackageSearch">
-        <item name="android:layout_marginLeft">@dimen/search_form_margin</item>
-        <item name="android:layout_marginRight">@dimen/search_form_margin</item>
-    </style>
     
     <style name="HotelPromoMessaging">
         <item name="android:textColor">@android:color/white</item>
@@ -1248,6 +1285,42 @@
         <item name="android:textColor">@color/flight_departure_date_color</item>
         <item name="android:textSize">16sp</item>
         <item name="android:textStyle">bold</item>
+    </style>
+
+    <!--Bundle Overview Hotel+Flight and Rail Widgets-->
+    <style name="BundleOverviewWidgets" />
+
+    <style name="BundleOverviewWidgets.PrimaryText">
+        <item name="android:textColor">@color/packages_bundle_overview_widgets_primary_text</item>
+        <item name="android:textSize">@dimen/packages_bundle_overview_footer_primary_text</item>
+        <item name="textStyle">medium</item>
+    </style>
+
+    <style name="BundleOverviewWidgets.SecondaryText">
+        <item name="android:textColor">@color/packages_bundle_overview_widgets_secondary_text</item>
+        <item name="android:textSize">@dimen/packages_bundle_overview_footer_secondary_text</item>
+        <item name="textStyle">normal</item>
+    </style>
+
+    <!--Bundle Overview Footer Hotel+Flight and Rail-->
+    <style name="BundleOverviewFooter">
+        <item name="android:contentDescription">@null</item>
+    </style>
+
+    <style name="BundleOverviewFooter.PrimaryText">
+        <item name="android:textColor">@color/packages_bundle_overview_footer_primary_text</item>
+        <item name="android:textSize">@dimen/packages_bundle_overview_footer_primary_text</item>
+        <item name="textStyle">medium</item>
+    </style>
+
+    <style name="BundleOverviewFooter.SecondaryText">
+        <item name="android:textColor">@color/packages_bundle_overview_footer_secondary_text</item>
+        <item name="android:textSize">@dimen/packages_bundle_overview_footer_secondary_text</item>
+        <item name="textStyle">normal</item>
+    </style>
+
+    <style name="BundleOverviewFooter.SecondaryText.Savings">
+        <item name="android:textColor">@color/packages_bundle_overview_footer_secondary_text_savings</item>
     </style>
 
     <style name="ErrorActionButton" parent="Core.Widget.Button">

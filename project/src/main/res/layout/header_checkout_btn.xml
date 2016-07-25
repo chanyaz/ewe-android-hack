@@ -4,7 +4,7 @@
     android:layout_width="wrap_content"
     android:layout_height="match_parent"
     android:layout_gravity="center_vertical"
-    android:contentDescription="@string/cd_checkout"
+    android:contentDescription="@string/checkout_cont_desc"
     android:drawableLeft="@drawable/ic_action_bar_checkout_arrow"
     android:focusable="true"
     android:gravity="center_vertical"

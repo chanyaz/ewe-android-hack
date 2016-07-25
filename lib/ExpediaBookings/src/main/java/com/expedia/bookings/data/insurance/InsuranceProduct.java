@@ -7,10 +7,11 @@ import com.expedia.bookings.data.Money;
 public class InsuranceProduct {
 	public List<InsuranceSolicitationItem> description;
 	public Money displayPrice;
-	public InsuranceDisplayPriceType displayPriceType;
+	public InsurancePriceType displayPriceType;
 	public String name;
 	public String productId;
 	public InsuranceSolicitationItem terms;
 	public String title;
 	public Money totalPrice;
+	public String typeId;
 }

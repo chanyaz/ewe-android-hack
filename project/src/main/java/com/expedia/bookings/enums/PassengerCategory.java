@@ -4,8 +4,8 @@ import org.joda.time.LocalDate;
 
 import android.util.Pair;
 
+import com.expedia.bookings.data.AbstractFlightSearchParams;
 import com.expedia.bookings.data.FlightSearchParams;
-import com.expedia.bookings.data.packages.PackageSearchParams;
 import com.expedia.bookings.utils.GuestsPickerUtils;
 
 public enum PassengerCategory {
@@ -44,8 +44,13 @@ public enum PassengerCategory {
 		return isDateWithinPassengerCategoryRange(birthdate, earliestBase, params.getDepartureDate(), passengerCategory);
 	}
 
-	public static boolean isDateWithinPassengerCategoryRange(LocalDate birthdate, PackageSearchParams params, PassengerCategory passengerCategory) {
-		return isDateWithinPassengerCategoryRange(birthdate, params.getCheckOut(), params.getCheckIn(), passengerCategory);
+	public static boolean isDateWithinPassengerCategoryRange(LocalDate birthdate, AbstractFlightSearchParams params, PassengerCategory passengerCategory) {
+		LocalDate earliestBase = params.getEndDate();
+		boolean roundTripFlight = (params instanceof com.expedia.bookings.data.flights.FlightSearchParams) && earliestBase == null;
+		if (roundTripFlight) {
+			earliestBase = params.getStartDate();
+		}
+		return isDateWithinPassengerCategoryRange(birthdate, earliestBase, params.getStartDate(), passengerCategory);
 	}
 
 	private static boolean isDateWithinPassengerCategoryRange(LocalDate birthDate, LocalDate earliestBase, LocalDate oldestBase,

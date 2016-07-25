@@ -11,7 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/tablet_checkout_coupon_button_gap"
-        android:contentDescription="@string/cd_checkout_enter_coupon"
+        android:contentDescription="@string/checkout_enter_coupon_cont_desc"
         android:text="@string/coupon_code"
         android:textColor="#FFFFFF"
         android:textSize="@dimen/tablet_checkout_coupon_code_text_size"

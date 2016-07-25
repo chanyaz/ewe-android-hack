@@ -3,6 +3,9 @@ package com.expedia.bookings.test.phone.flights;
 import org.joda.time.LocalDate;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.test.espresso.Common;
+import com.expedia.bookings.test.espresso.EspressoUtils;
+import com.expedia.bookings.test.espresso.PhoneTestCase;
 import com.expedia.bookings.test.phone.pagemodels.common.BillingAddressScreen;
 import com.expedia.bookings.test.phone.pagemodels.common.CVVEntryScreen;
 import com.expedia.bookings.test.phone.pagemodels.common.CardInfoScreen;
@@ -14,12 +17,8 @@ import com.expedia.bookings.test.phone.pagemodels.flights.FlightLegScreen;
 import com.expedia.bookings.test.phone.pagemodels.flights.FlightsSearchResultsScreen;
 import com.expedia.bookings.test.phone.pagemodels.flights.FlightsSearchScreen;
 import com.expedia.bookings.test.phone.pagemodels.flights.FlightsTravelerInfoScreen;
-import com.expedia.bookings.test.espresso.Common;
-import com.expedia.bookings.test.espresso.EspressoUtils;
-import com.expedia.bookings.test.espresso.PhoneTestCase;
 
 import static android.support.test.espresso.Espresso.onView;
-import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static com.expedia.bookings.test.espresso.ViewActions.setText;
 import static com.expedia.bookings.test.phone.pagemodels.common.CommonCheckoutScreen.clickCheckoutButton;
@@ -111,7 +110,6 @@ public class FlightFieldValidationTest extends PhoneTestCase {
 		assertPopup();
 
 		CardInfoScreen.typeTextNameOnCardEditText("Mobiata Auto");
-		CardInfoScreen.nameOnCardEditText().perform(click());
 		CardInfoScreen.typeTextEmailEditText("mobiataauto@gmail.com");
 		CardInfoScreen.clickOnDoneButton();
 		try {

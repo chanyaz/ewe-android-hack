@@ -24,7 +24,7 @@ import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.Response;
 import com.expedia.bookings.data.ServerError;
 import com.expedia.bookings.data.SuggestionV2;
-import com.expedia.bookings.data.cars.ApiError;
+import com.expedia.bookings.data.ApiError;
 import com.expedia.bookings.data.cars.CarCategory;
 import com.expedia.bookings.data.cars.CarCheckoutParamsBuilder;
 import com.expedia.bookings.data.cars.CarCheckoutResponse;
@@ -43,7 +43,7 @@ import com.expedia.bookings.data.lx.LXCategoryMetadata;
 import com.expedia.bookings.data.lx.LXCheckoutParams;
 import com.expedia.bookings.data.lx.LXCheckoutResponse;
 import com.expedia.bookings.data.lx.LXCreateTripResponse;
-import com.expedia.bookings.data.lx.LXSearchParams;
+import com.expedia.bookings.data.lx.LxSearchParams;
 import com.expedia.bookings.data.lx.LXSearchResponse;
 import com.expedia.bookings.data.lx.LXSortFilterMetadata;
 import com.expedia.bookings.data.lx.Offer;
@@ -762,18 +762,18 @@ public class Events {
 	}
 
 	public static class LXNewSearchParamsAvailable {
-		public LXSearchParams lxSearchParams;
+		public LxSearchParams lxSearchParams;
 
-		public LXNewSearchParamsAvailable(LXSearchParams params) {
+		public LXNewSearchParamsAvailable(LxSearchParams params) {
 			lxSearchParams = params;
 		}
 
 		public LXNewSearchParamsAvailable(String locationName, String airportCode, LocalDate startDate,
 			LocalDate endDate,
 			SearchType searchType) {
-			lxSearchParams = new LXSearchParams().location(locationName).imageCode(airportCode).startDate(startDate)
-				.endDate(endDate)
-				.searchType(searchType);
+			lxSearchParams = (LxSearchParams)new LxSearchParams.Builder()
+				.searchType(SearchType.EXPLICIT_SEARCH).imageCode(airportCode)
+				.location(locationName).startDate(startDate).endDate(endDate).build();
 		}
 
 		public LXNewSearchParamsAvailable(String locationName, LocalDate startDate, LocalDate endDate) {
@@ -781,15 +781,16 @@ public class Events {
 		}
 
 		public LXNewSearchParamsAvailable(String locationName, LocalDate startDate, LocalDate endDate, String filters) {
-			lxSearchParams = new LXSearchParams().location(locationName).startDate(startDate).endDate(endDate)
+			lxSearchParams = (LxSearchParams)new LxSearchParams.Builder()
 				.searchType(SearchType.EXPLICIT_SEARCH).filters(
-					filters);
+					filters).location(locationName).startDate(startDate).endDate(endDate).build();
 		}
 
 		public LXNewSearchParamsAvailable(String activityId, String locationName, LocalDate startDate,
 			LocalDate endDate) {
-			lxSearchParams = new LXSearchParams().location(locationName).startDate(startDate).endDate(endDate)
-				.searchType(SearchType.EXPLICIT_SEARCH).activityId(activityId);
+			lxSearchParams = (LxSearchParams) new LxSearchParams.Builder()
+				.searchType(SearchType.EXPLICIT_SEARCH).activityId(
+					activityId).location(locationName).startDate(startDate).endDate(endDate).build();
 		}
 	}
 

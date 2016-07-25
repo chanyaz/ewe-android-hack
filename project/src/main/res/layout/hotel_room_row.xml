@@ -46,7 +46,7 @@
                 android:id="@+id/collapsed_container"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/hotel_detail_ripple"
+                android:background="@drawable/gray_background_ripple"
                 android:layout_below="@+id/room_header_image">
 
                 <com.expedia.bookings.widget.TextView

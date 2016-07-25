@@ -20,7 +20,7 @@ import android.widget.LinearLayout;
 import com.expedia.account.graphics.ArrowXDrawable;
 import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
-import com.expedia.bookings.data.cars.ApiError;
+import com.expedia.bookings.data.ApiError;
 import com.expedia.bookings.data.cars.CarSearch;
 import com.expedia.bookings.data.cars.CarSearchParams;
 import com.expedia.bookings.data.cars.CategorizedCarOffers;
@@ -31,6 +31,7 @@ import com.expedia.bookings.presenter.Presenter;
 import com.expedia.bookings.services.CarServices;
 import com.expedia.bookings.tracking.AdTracker;
 import com.expedia.bookings.tracking.OmnitureTracking;
+import com.expedia.bookings.utils.AccessibilityUtil;
 import com.expedia.bookings.utils.ArrowXDrawableUtil;
 import com.expedia.bookings.utils.CollectionUtils;
 import com.expedia.bookings.utils.DateFormatUtils;
@@ -125,7 +126,7 @@ public class CarResultsPresenter extends Presenter {
 			.getNavigationIconDrawable(getContext(), ArrowXDrawableUtil.ArrowDrawableType.BACK);
 		navIcon.setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_IN);
 		toolbar.setNavigationIcon(navIcon);
-		toolbar.setNavigationContentDescription(getResources().getString(R.string.toolbar_search_nav_icon));
+		toolbar.setNavigationContentDescription(getResources().getString(R.string.toolbar_search_nav_icon_cont_desc));
 		toolbar.setTitleTextColor(Color.WHITE);
 		toolbar.setSubtitleTextColor(Color.WHITE);
 		toolbar.inflateMenu(R.menu.cars_results_menu);
@@ -156,7 +157,7 @@ public class CarResultsPresenter extends Presenter {
 		toolbarBackground.getLayoutParams().height += statusBarHeight;
 		toolbar.setPadding(0, statusBarHeight, 0, 0);
 		filterToolbar.setFilterText(getResources().getString(R.string.filter));
-		filterToolbar.setContentDescription(getResources().getString(R.string.cd_cars_filter_button));
+		filterToolbar.setContentDescription(getResources().getString(R.string.cars_filter_button_cont_desc));
 		details.getSearchCarOfferPublishSubject().subscribe(carOfferObserver);
 		filterDonePublishSubject.subscribe(filterDoneObserver);
 	}
@@ -446,6 +447,7 @@ public class CarResultsPresenter extends Presenter {
 			else {
 				setToolBarResultsText();
 			}
+			AccessibilityUtil.setFocusToToolbarNavigationIcon(toolbar);
 		}
 	};
 
@@ -503,6 +505,7 @@ public class CarResultsPresenter extends Presenter {
 			}
 			else {
 				OmnitureTracking.trackAppCarFilter();
+				filter.setFocusToToolbarForAccessibility();
 			}
 		}
 	};
@@ -528,6 +531,7 @@ public class CarResultsPresenter extends Presenter {
 			filter.setTranslationY(forward ? 0 : filter.getHeight());
 			if (forward) {
 				OmnitureTracking.trackAppCarFilter();
+				filter.setFocusToToolbarForAccessibility();
 			}
 		}
 	};
@@ -631,6 +635,7 @@ public class CarResultsPresenter extends Presenter {
 		toolBarSubtitleText.setTranslationY(0);
 		navIcon.setParameter(ArrowXDrawableUtil.ArrowDrawableType.BACK.getType());
 		errorScreen.animationUpdate(ArrowXDrawableUtil.ArrowDrawableType.BACK.getType());
+		AccessibilityUtil.setFocusToToolbarNavigationIcon(toolbar);
 	}
 
 	RecyclerView.OnScrollListener recyclerScrollListener = new RecyclerView.OnScrollListener() {

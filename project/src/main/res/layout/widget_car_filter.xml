@@ -13,7 +13,9 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:minHeight="?attr/actionBarSize">
+            android:minHeight="?attr/actionBarSize"
+            android:focusableInTouchMode="true"
+            android:focusable="true">
 
         </android.support.v7.widget.Toolbar>
 
@@ -69,6 +71,7 @@
                             android:layout_height="40dp"
                             android:layout_weight="1"
                             android:background="@drawable/cars_sort_button_selector"
+                            android:contentDescription="@string/cars_filter_transmission_automatic_button_cont_desc"
                             android:text="@string/car_filter_automatic"
                             android:textAllCaps="false"
                             android:textColor="@drawable/cars_sort_button_text_selector" />
@@ -84,6 +87,7 @@
                             android:layout_height="40dp"
                             android:layout_weight="1"
                             android:background="@drawable/cars_sort_button_selector"
+                            android:contentDescription="@string/cars_filter_transmission_manual_button_cont_desc"
                             android:text="@string/car_filter_manual"
                             android:textAllCaps="false"
                             android:textColor="@drawable/cars_sort_button_text_selector" />
@@ -99,6 +103,7 @@
                             android:layout_height="40dp"
                             android:layout_weight="1"
                             android:background="@drawable/cars_sort_button_selector"
+                            android:contentDescription="@string/cars_filter_transmission_all_button_cont_desc"
                             android:text="@string/car_filter_all"
                             android:textAllCaps="false"
                             android:textColor="@drawable/cars_sort_button_text_selector" />
@@ -113,6 +118,7 @@
                     android:background="?android:attr/selectableItemBackground"
                     android:clickable="true"
                     android:orientation="horizontal"
+                    android:importantForAccessibility="no"
                     android:paddingBottom="5dp"
                     android:paddingLeft="16dp"
                     android:paddingRight="16dp"
@@ -122,6 +128,7 @@
                         android:id="@+id/ac_filter_text"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
+                        android:importantForAccessibility="no"
                         android:layout_gravity="center"
                         android:layout_weight="1"
                         android:text="@string/car_filter_checkbox_air_conditioning" />
@@ -131,6 +138,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
+                        android:contentDescription="@string/car_filter_checkbox_air_conditioning"
                         android:textColor="@color/cars_primary_color" />
                 </LinearLayout>
 
@@ -138,6 +146,7 @@
                     android:id="@+id/unlimited_mileage_filter"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:importantForAccessibility="no"
                     android:background="?android:attr/selectableItemBackground"
                     android:clickable="true"
                     android:orientation="horizontal"
@@ -151,6 +160,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
+                        android:importantForAccessibility="no"
                         android:layout_weight="1"
                         android:text="@string/car_filter_checkbox_unlimited_mileage" />
 
@@ -159,6 +169,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
+                        android:contentDescription="@string/car_filter_checkbox_unlimited_mileage"
                         android:textColor="@color/cars_primary_color" />
                 </LinearLayout>
 

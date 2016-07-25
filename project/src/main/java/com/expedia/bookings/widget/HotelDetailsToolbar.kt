@@ -13,12 +13,11 @@ import com.expedia.bookings.extension.shouldShowCircleForRatings
 import com.expedia.bookings.utils.ArrowXDrawableUtil
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
-import com.expedia.util.subscribeRating
 import com.expedia.util.subscribeStarColor
 import com.expedia.util.subscribeText
 import com.expedia.util.subscribeVisibility
 import com.expedia.vm.BaseHotelDetailViewModel
-import com.expedia.vm.hotel.HotelDetailViewModel
+import com.squareup.phrase.Phrase
 import kotlin.properties.Delegates
 
 class HotelDetailsToolbar(context: Context, attrs: AttributeSet?) : FrameLayout(context, attrs) {
@@ -44,7 +43,7 @@ class HotelDetailsToolbar(context: Context, attrs: AttributeSet?) : FrameLayout(
         navIcon = ArrowXDrawableUtil.getNavigationIconDrawable(getContext(), ArrowXDrawableUtil.ArrowDrawableType.BACK)
         navIcon.setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_IN)
         toolbar.navigationIcon = navIcon
-
+        toolbar.navigationContentDescription = context.getString(R.string.toolbar_search_nav_icon_cont_desc)
         toolbar.setBackgroundColor(ContextCompat.getColor(context, android.R.color.transparent))
         toolbar.setTitleTextAppearance(getContext(), R.style.ToolbarTitleTextAppearance)
         toolBarRating.visibility = View.VISIBLE
@@ -64,7 +63,17 @@ class HotelDetailsToolbar(context: Context, attrs: AttributeSet?) : FrameLayout(
         viewModel = vm
         vm.toolBarRatingColor.subscribeStarColor(toolBarRating)
         vm.hotelNameObservable.subscribeText(toolbarTitle)
-        vm.hotelRatingObservable.subscribeRating(toolBarRating)
+        vm.hotelRatingObservable.subscribe {
+            toolBarRating.setRating(it)
+            setHotelRatingContentDescription(it.toInt())
+        }
         vm.hotelRatingObservableVisibility.subscribeVisibility(toolBarRating)
+    }
+
+    private fun setHotelRatingContentDescription(starRating: Int) {
+        toolBarRating.contentDescription = Phrase.from(context.resources.getQuantityString(R.plurals.hotel_star_rating_cont_desc_TEMPLATE, starRating))
+                .put("rating", starRating)
+                .format()
+                .toString()
     }
 }

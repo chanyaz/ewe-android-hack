@@ -33,11 +33,11 @@ abstract class BaseOverviewPresenter(context: Context, attrs: AttributeSet) : Pr
         checkoutPresenter.paymentWidget.viewmodel.billingInfoAndStatusUpdate.map{it.first}.subscribe(checkoutPresenter.getCheckoutViewModel().paymentCompleted)
         checkoutPresenter.getCreateTripViewModel().tripResponseObservable.subscribe { trip ->
             checkoutPresenter.getCheckoutViewModel().tripResponseObservable.onNext(trip)
+            resetCheckoutState()
+        }
 
-            if (currentState == BaseOverviewPresenter.BundleDefault::class.java.name) {
-                bundleOverviewHeader.toggleOverviewHeader(true)
-                checkoutPresenter.toggleCheckoutButton(true)
-            }
+        checkoutPresenter.getCheckoutViewModel().priceChangeObservable.subscribe {
+            resetCheckoutState()
         }
 
         bundleOverviewHeader.toolbar.overflowIcon = ContextCompat.getDrawable(context, R.drawable.ic_create_white_24dp)
@@ -63,7 +63,7 @@ abstract class BaseOverviewPresenter(context: Context, attrs: AttributeSet) : Pr
             if (checkoutPresenter.currentState == PackagePaymentWidget::class.java.name) {
                 checkoutPresenter.paymentWidget.doneClicked.onNext(Unit)
             } else if (checkoutPresenter.currentState == TravelerPresenter::class.java.name) {
-                checkoutPresenter.travelerPresenter.travelerEntryWidget.doneClicked.onNext(Unit)
+                checkoutPresenter.travelerPresenter.doneClicked.onNext(Unit)
             }
         }
 
@@ -77,6 +77,7 @@ abstract class BaseOverviewPresenter(context: Context, attrs: AttributeSet) : Pr
             val params = bundleOverviewHeader.appBarLayout.layoutParams as CoordinatorLayout.LayoutParams
             val behavior = params.behavior as AppBarLayout.Behavior
             val enable = y != 0f
+            bundleOverviewHeader.nestedScrollView.visibility = if (enable) VISIBLE else GONE
             bundleOverviewHeader.toggleCollapsingToolBar(enable)
             behavior.topAndBottomOffset = distance
             val range = Math.abs(distance)/bundleOverviewHeader.appBarLayout.totalScrollRange.toFloat()
@@ -118,6 +119,8 @@ abstract class BaseOverviewPresenter(context: Context, attrs: AttributeSet) : Pr
         var range = 0f
         var userStoppedScrollingAt = 0
         override fun startTransition(forward: Boolean) {
+            bundleOverviewHeader.nestedScrollView.visibility = VISIBLE
+            toggleToolbar(forward)
             bundleOverviewHeader.checkoutOverviewHeaderToolbar.visibility = View.VISIBLE
             bundleOverviewHeader.toggleCollapsingToolBar(true)
             translationDistance = checkoutPresenter.mainContent.translationY
@@ -150,11 +153,11 @@ abstract class BaseOverviewPresenter(context: Context, attrs: AttributeSet) : Pr
 
             checkoutPresenter.mainContent.visibility = if (forward) View.VISIBLE else View.GONE
             checkoutPresenter.mainContent.translationY = 0f
-            checkoutPresenter.handleShadow.visibility = View.GONE
+            checkoutPresenter.toolbarDropShadow.visibility = View.GONE
             bundleOverviewHeader.isDisabled = forward
             bundleOverviewHeader.nestedScrollView.foreground.alpha = if (forward) 255 else 0
             checkoutPresenter.chevron.rotation = if (forward) 0f else 180f
-
+            bundleOverviewHeader.nestedScrollView.visibility =  if (forward) GONE else VISIBLE
             if (!forward) {
                 checkoutPresenter.trackShowBundleOverview()
             }
@@ -176,20 +179,27 @@ abstract class BaseOverviewPresenter(context: Context, attrs: AttributeSet) : Pr
     }
 
     private fun translateBottomContainer(f: Float, forward: Boolean) {
-        val hasCompleteInfo = checkoutPresenter.getCheckoutViewModel().infoCompleted.value
+        val hasCompleteInfo = checkoutPresenter.getCheckoutViewModel().isValid()
         val bottomDistance = checkoutPresenter.sliderHeight - checkoutPresenter.checkoutButtonHeight
-        var slideIn = if (hasCompleteInfo) {
+        val slideIn = if (hasCompleteInfo) {
             bottomDistance - (f * (bottomDistance))
         } else {
             checkoutPresenter.sliderHeight - ((1 - f) * checkoutPresenter.checkoutButtonHeight)
         }
-        var slideOut = if (hasCompleteInfo) {
+        val slideOut = if (hasCompleteInfo) {
             f * (bottomDistance)
         } else {
             checkoutPresenter.sliderHeight - (f * checkoutPresenter.checkoutButtonHeight)
         }
         checkoutPresenter.bottomContainer.translationY = if (forward) slideIn else slideOut
         checkoutPresenter.checkoutButton.translationY = if (forward) f * checkoutPresenter.checkoutButtonHeight else (1 - f) * checkoutPresenter.checkoutButtonHeight
+    }
+
+    private fun resetCheckoutState() {
+        if (currentState == BundleDefault::class.java.name) {
+            bundleOverviewHeader.toggleOverviewHeader(true)
+            checkoutPresenter.toggleCheckoutButton(true)
+        }
     }
 
     private val checkoutToCvv = object : VisibilityTransition(this, getCheckoutTransitionClass(), CVVEntryWidget::class.java) {
@@ -217,8 +227,8 @@ abstract class BaseOverviewPresenter(context: Context, attrs: AttributeSet) : Pr
 
     class BundleDefault
 
+    open fun toggleToolbar(forward: Boolean) { }
     abstract fun getCheckoutTransitionClass() : Class<out Any>
-
     abstract fun trackCheckoutPageLoad()
     abstract fun trackPaymentCIDLoad()
 }

@@ -19,15 +19,17 @@ import android.util.AttributeSet
 import android.util.TypedValue
 import android.view.View
 import android.view.ViewGroup
+import android.view.ViewStub
 import android.view.ViewTreeObserver
+import android.view.accessibility.AccessibilityEvent
 import android.view.animation.AccelerateDecelerateInterpolator
 import android.view.animation.DecelerateInterpolator
 import android.view.inputmethod.InputMethodManager
+import android.widget.ImageView
 import android.widget.Button
 import android.widget.EditText
-import android.widget.FrameLayout
-import android.widget.ImageView
 import android.widget.ScrollView
+import android.widget.FrameLayout
 import com.expedia.account.graphics.ArrowXDrawable
 import com.expedia.bookings.R
 import com.expedia.bookings.animation.TransitionElement
@@ -39,12 +41,12 @@ import com.expedia.bookings.utils.FontCache
 import com.expedia.bookings.utils.SuggestionV4Utils
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
+import com.expedia.bookings.widget.TravelerWidgetV2
 import com.expedia.bookings.widget.CalendarWidgetV2
 import com.expedia.bookings.widget.RecyclerDividerDecoration
 import com.expedia.bookings.widget.SearchInputCardView
 import com.expedia.bookings.widget.ShopWithPointsWidget
 import com.expedia.bookings.widget.TextView
-import com.expedia.bookings.widget.TravelerWidgetV2
 import com.expedia.util.notNullAndObservable
 import com.expedia.vm.BaseSearchViewModel
 import com.expedia.vm.SuggestionAdapterViewModel
@@ -53,10 +55,14 @@ import com.mobiata.android.time.widget.DaysOfWeekView
 import com.mobiata.android.time.widget.MonthView
 import org.joda.time.LocalDate
 import rx.Observer
+import java.util.concurrent.TimeUnit
 
 abstract class BaseSearchPresenter(context: Context, attrs: AttributeSet) : Presenter(context, attrs) {
 
     private val SUGGESTION_TRANSITION_DURATION = 300
+
+    val travellerCardViewStub: ViewStub by bindView(R.id.traveller_stub)
+    val swpWidgetStub: ViewStub by bindView(R.id.swp_stub)
     val ANIMATION_DURATION = 200L
     val toolbar: Toolbar by bindView(R.id.search_toolbar)
     val scrollView: ScrollView by bindView(R.id.scrollView)
@@ -68,11 +74,14 @@ abstract class BaseSearchPresenter(context: Context, attrs: AttributeSet) : Pres
     val suggestionRecyclerView: RecyclerView by bindView(R.id.suggestion_list)
     var navIcon: ArrowXDrawable
     open val destinationCardView: SearchInputCardView by bindView(R.id.destination_card)
-    open val travelerWidgetV2: TravelerWidgetV2 by bindView(R.id.traveler_card)
+    open val travelerWidgetV2 by lazy {
+        travellerCardViewStub.inflate().findViewById(R.id.traveler_card) as TravelerWidgetV2
+    }
     val searchButton: Button by bindView(R.id.search_button)
     open var searchLocationEditText: SearchView? = null
     val toolBarTitle: TextView by bindView(R.id.title)
-    val shopWithPointsWidget: ShopWithPointsWidget by bindView(R.id.widget_points_details)
+    lateinit var shopWithPointsWidget : ShopWithPointsWidget
+
     val statusBarHeight by lazy { Ui.getStatusBarHeight(context) }
     val mRootWindow by lazy { (context as Activity).window }
     val mRootView by lazy { mRootWindow.decorView.findViewById(android.R.id.content) }
@@ -103,13 +112,23 @@ abstract class BaseSearchPresenter(context: Context, attrs: AttributeSet) : Pres
     protected var destinationSuggestionViewModel: SuggestionAdapterViewModel by notNullAndObservable { vm ->
         val suggestionSelectedObserver = suggestionSelectedObserver(getSearchViewModel().destinationLocationObserver)
         vm.suggestionSelectedSubject.subscribe(suggestionSelectedObserver)
+        getSearchViewModel().formattedDestinationObservable
+                .debounce(SUGGESTION_TRANSITION_DURATION.toLong() + 100L, TimeUnit.MILLISECONDS)
+                .subscribe({ transitioningFromOriginToDestination = false })
     }
+
+    var doRequestA11yFocus = true
 
     protected fun suggestionSelectedObserver(observer: Observer<SuggestionV4>): (SuggestionV4) -> Unit {
         return { suggestion ->
             com.mobiata.android.util.Ui.hideKeyboard(this)
             observer.onNext(suggestion)
             SuggestionV4Utils.saveSuggestionHistory(context, suggestion, getSuggestionHistoryFileName())
+            val isOriginSelected = (observer == getSearchViewModel().originLocationObserver)
+            if (isOriginSelected) {
+                firstLaunch = false
+            }
+            doRequestA11yFocus = false
             showDefault()
         }
     }
@@ -141,10 +160,10 @@ abstract class BaseSearchPresenter(context: Context, attrs: AttributeSet) : Pres
 
     fun setNavIconContentDescription(isBack: Boolean) {
         if (isBack) {
-            toolbar.setNavigationContentDescription(R.string.package_toolbar_back_to_search_content_description)
+            toolbar.setNavigationContentDescription(R.string.package_toolbar_back_to_search_cont_desc)
         }
         else {
-            toolbar.setNavigationContentDescription(R.string.package_toolbar_close_content_description)
+            toolbar.setNavigationContentDescription(R.string.package_toolbar_close_cont_desc)
         }
     }
 
@@ -398,10 +417,8 @@ abstract class BaseSearchPresenter(context: Context, attrs: AttributeSet) : Pres
             toolbar.setBackgroundColor(if (forward) toolbarBgColor.end else toolbarBgColor.start)
             navIcon.setColorFilter(if (forward) toolbarTextColor.end else toolbarTextColor.start, PorterDuff.Mode.SRC_IN)
             suggestionContainer.alpha = if (forward) bgFade.end else bgFade.start
-            if (transitioningFromOriginToDestination && !firstLaunch) { // end scale transition
-                suggestionContainer.scaleX = 1f
-                suggestionContainer.scaleY = 1f
-            }
+            suggestionContainer.scaleX = 1f
+            suggestionContainer.scaleY = 1f
 
             searchLocationEditText?.alpha = if (forward) bgFade.end else bgFade.start
 
@@ -415,12 +432,16 @@ abstract class BaseSearchPresenter(context: Context, attrs: AttributeSet) : Pres
             } else {
                 searchLocationEditText?.visibility = VISIBLE
                 mRootView.viewTreeObserver.addOnGlobalLayoutListener(globalLayoutListener)
+                doRequestA11yFocus = true
             }
 
             toolBarTitle.visibility = if (forward) GONE else VISIBLE
             if (showFlightOneWayRoundTripOptions) {
                 tabs.visibility = if (forward) GONE else VISIBLE
                 setSearchContainerTopMargin(forward)
+            }
+            if (!forward && doRequestA11yFocus) {
+                requestA11yFocus(isCustomerSelectingOrigin)
             }
         }
     }
@@ -470,6 +491,10 @@ abstract class BaseSearchPresenter(context: Context, attrs: AttributeSet) : Pres
             getSearchViewModel().enableDateObservable.onNext(true)
         }
         navIcon.parameter = ArrowXDrawableUtil.ArrowDrawableType.CLOSE.type.toFloat()
+    }
+
+    open fun requestA11yFocus(isOrigin: Boolean) {
+        destinationCardView.sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_ACCESSIBILITY_FOCUSED)
     }
 
     override fun back(): Boolean {

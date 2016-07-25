@@ -4,7 +4,7 @@ import com.expedia.bookings.data.BaseSearchParams
 import com.expedia.bookings.data.SuggestionV4
 import org.joda.time.LocalDate
 
-class RailSearchRequest(val origin: SuggestionV4, val destination: SuggestionV4, val departDate: LocalDate, val returnDate: LocalDate?, adults: Int, children: List<Int>)  : BaseSearchParams(adults, children){
+class RailSearchRequest(origin: SuggestionV4, destination: SuggestionV4, val departDate: LocalDate, val returnDate: LocalDate?, adults: Int, children: List<Int>)  : BaseSearchParams(origin, destination, adults, children, departDate, returnDate){
 
     enum class SearchType {
         ONE_WAY,

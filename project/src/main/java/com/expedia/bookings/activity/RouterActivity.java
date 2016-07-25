@@ -4,7 +4,6 @@ import java.io.File;
 import java.util.concurrent.TimeUnit;
 
 import android.app.Activity;
-import android.content.Context;
 import android.os.Bundle;
 
 import com.expedia.bookings.BuildConfig;
@@ -26,6 +25,7 @@ import com.expedia.bookings.utils.Ui;
 import com.facebook.appevents.AppEventsLogger;
 import com.mobiata.android.Log;
 import com.mobiata.android.util.SettingUtils;
+
 import rx.Observer;
 
 /**
@@ -41,17 +41,15 @@ import rx.Observer;
  */
 public class RouterActivity extends Activity {
 
-	private Context mContext;
 	boolean loadSignInViewAbTest = false;
 
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		mContext = this;
 
 		// Track the app loading
-		OmnitureTracking.trackAppLoading(mContext);
+		OmnitureTracking.trackAppLoading(this);
 		AdTracker.trackLaunch();
 
 		// Update data
@@ -63,7 +61,7 @@ public class RouterActivity extends Activity {
 		cleanupOldCookies();
 		cleanupOldSuggestions();
 
-		Ui.getApplication(mContext).updateFirstLaunchAndUpdateSettings();
+		Ui.getApplication(this).updateFirstLaunchAndUpdateSettings();
 
 		if (NavUtils.skipLaunchScreenAndStartEHTablet(this)) {
 			// Note: 2.0 will not support launch screen nor Flights on tablet ergo send user to EH tablet
@@ -88,6 +86,7 @@ public class RouterActivity extends Activity {
 
 		AbacusEvaluateQuery query = new AbacusEvaluateQuery(Db.getAbacusGuid(), PointOfSale.getPointOfSale().getTpid(), 0);
 		query.addExperiment(AbacusUtils.EBAndroidAppLaunchScreenTest);
+		query.addExperiment(AbacusUtils.EBAndroidAppFlightTest);
 
 		if (loadSignInViewAbTest) {
 			query.addExperiment(AbacusUtils.EBAndroidAppShowSignInOnLaunch);

@@ -16,7 +16,7 @@ import android.widget.TextView;
 import com.expedia.account.graphics.ArrowXDrawable;
 import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
-import com.expedia.bookings.data.cars.ApiError;
+import com.expedia.bookings.data.ApiError;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.utils.ArrowXDrawableUtil;
 import com.expedia.bookings.utils.NavUtils;
@@ -208,7 +208,7 @@ public class ErrorWidget extends FrameLayout {
 
 	public void showNoProductSearchError() {
 		bindText(R.drawable.car,
-			getResources().getString(R.string.error_car_search_message),
+			getResources().getString(R.string.error_no_result_message),
 			R.string.cars_no_results_text,
 			R.string.edit_search);
 		errorButton.setOnClickListener(new OnClickListener() {

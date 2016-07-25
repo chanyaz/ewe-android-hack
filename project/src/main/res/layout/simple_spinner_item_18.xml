@@ -25,8 +25,5 @@ This is here because some devices (SGS2) override the textSize and we want to ma
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:ellipsize="middle"
-    android:drawableRight="@drawable/material_dropdown"
-    android:paddingLeft="0dp"
-    android:singleLine="true"
-    android:textSize="16sp" />
+    android:singleLine="true"/>
 

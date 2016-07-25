@@ -2,6 +2,8 @@ package com.expedia.bookings.utils;
 
 import java.text.DecimalFormat;
 
+import org.jetbrains.annotations.NotNull;
+
 import android.content.Context;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
@@ -85,6 +87,12 @@ public class LayoutUtils {
 	}
 
 	private static final float MAX_AMENITY_TEXT_WIDTH_IN_DP = 60.0f;
+
+	public static void setSVG(@NotNull SVGView svgView, int svgRes) {
+		if (!ExpediaBookingApp.isAutomation()) {
+			svgView.setSVG(svgRes);
+		}
+	}
 
 	private static final class AmenityInfo {
 		public Amenity amenity;

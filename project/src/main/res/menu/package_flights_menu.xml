@@ -3,12 +3,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:id="@+id/menu_search"
-        android:icon="@drawable/ic_menu_search_mtrl_alpha"
-        android:title="@string/search"
-        app:showAsAction="always" />
-
-    <item
         android:id="@+id/menu_filter"
         android:title="@string/sort_and_filter"
         app:showAsAction="always" />

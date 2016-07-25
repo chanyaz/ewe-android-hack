@@ -5,6 +5,7 @@ import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.trips.TripBucketItemHotelV2
 import com.expedia.bookings.data.ValidPayment
 import com.expedia.bookings.data.payment.ProgramName
+import com.expedia.bookings.data.utils.ValidFormOfPaymentUtils
 import org.junit.After
 import org.junit.Assert
 import org.junit.Rule
@@ -28,7 +29,7 @@ class HotelCreateTripPayWithPointsTest {
         Assert.assertNotNull(pointDetails.programName)
         Assert.assertNotNull(pointDetails.paymentsInstrumentsId)
         Assert.assertNotNull(pointDetails.rateID)
-        Assert.assertTrue(ValidPayment.isPaymentTypeSupported(createTripResponse.validFormsOfPayment, PaymentType.POINTS_REWARDS))
+        Assert.assertTrue(ValidFormOfPaymentUtils.isPaymentTypeSupported(createTripResponse.validFormsOfPayment, PaymentType.POINTS_REWARDS))
         Assert.assertTrue(pointDetails.minimumPointsRequiredToRedeem > 0)
     }
 
@@ -46,7 +47,7 @@ class HotelCreateTripPayWithPointsTest {
         Assert.assertNotNull(pointDetails.programName)
         Assert.assertTrue(pointDetails.minimumPointsRequiredToRedeem > 0)
         Assert.assertNotNull(pointDetails.rateID)
-        Assert.assertFalse(ValidPayment.isPaymentTypeSupported(createTripResponse.validFormsOfPayment, PaymentType.POINTS_REWARDS))
+        Assert.assertFalse(ValidFormOfPaymentUtils.isPaymentTypeSupported(createTripResponse.validFormsOfPayment, PaymentType.POINTS_REWARDS))
     }
 
     @Test
@@ -55,7 +56,7 @@ class HotelCreateTripPayWithPointsTest {
         Db.getTripBucket().add(TripBucketItemHotelV2(createTripResponse))
         // No Pay with points details returned for guest users
         Assert.assertNull(createTripResponse.pointsDetails)
-        Assert.assertFalse(ValidPayment.isPaymentTypeSupported(createTripResponse.validFormsOfPayment, PaymentType.POINTS_REWARDS))
+        Assert.assertFalse(ValidFormOfPaymentUtils.isPaymentTypeSupported(createTripResponse.validFormsOfPayment, PaymentType.POINTS_REWARDS))
         Assert.assertNull(createTripResponse.getPointDetails())
     }
 

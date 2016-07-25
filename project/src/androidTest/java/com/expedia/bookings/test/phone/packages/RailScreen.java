@@ -59,10 +59,37 @@ public class RailScreen {
 	}
 
 	public static void clickSelectFareOption() {
-		selectFareOption("$149.22").perform(scrollTo(), click());
+		selectFareOption("£203.0").perform(scrollTo(), click());
+	}
+
+	public static void clickAmenitiesLink(String fareClass) {
+		selectAmenitiesLink(fareClass).perform(scrollTo(), click());
+	}
+
+	public static ViewInteraction selectAmenitiesLink(String fareClass) {
+		return onView(
+			Matchers.allOf(
+				withId(R.id.amenities_link), Matchers.allOf(withText(R.string.amenities)),
+				isDescendantOfA(Matchers.allOf(withId(R.id.details_fare_options))),
+				hasSibling(Matchers.allOf(withId(R.id.fare_description), withText(fareClass))),
+				withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE))
+		);
 	}
 
 	public static ViewInteraction checkout() {
 		return onView(withId(R.id.checkout_button));
+	}
+
+	public static ViewInteraction legInfo() {
+		return onView(withId(R.id.rail_leg_container));
+	}
+
+	public static ViewInteraction detailsIcon() {
+		return onView(Matchers.allOf(isDescendantOfA(withId(R.id.rail_leg_container)),
+			withId(R.id.rail_leg_details_icon)));
+	}
+
+	public static ViewInteraction fareDesciptionInfo() {
+		return onView(withId(R.id.fare_description_container));
 	}
 }

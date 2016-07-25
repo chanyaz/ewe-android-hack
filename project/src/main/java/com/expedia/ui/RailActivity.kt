@@ -14,6 +14,7 @@ class RailActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         Ui.getApplication(this).defaultRailComponents()
+        Ui.getApplication(this).defaultTravelerComponent()
         setContentView(R.layout.rail_activity)
         Ui.showTransparentStatusBar(this)
     }

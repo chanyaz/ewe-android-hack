@@ -52,11 +52,13 @@ class HotelSearchTest {
     @Test
     fun selectDatesAndSearch() {
         val testSubscriber = TestSubscriber<HotelSearchParams>()
+        val errorSubscriber = TestSubscriber<String>()
         val expected = arrayListOf<HotelSearchParams>()
         val suggestion = getDummySuggestion()
 
         vm = HotelSearchViewModel(activity)
         vm.searchParamsObservable.subscribe(testSubscriber)
+        vm.errorMaxRangeObservable.subscribe(errorSubscriber)
 
         // Selecting a location suggestion for search, as it is a necessary parameter for search
         vm.destinationLocationObserver.onNext(suggestion)
@@ -85,9 +87,16 @@ class HotelSearchTest {
         vm.searchObserver.onNext(Unit)
         vm.searchObserver.onNext(Unit)
 
+        //When last selectable date is selected error should be fired
+        val lastSelectableDate =  LocalDate.now().plusDays(activity.resources.getInteger(R.integer.calendar_max_selectable_date_range))
+        vm.datesObserver.onNext(Pair(lastSelectableDate, lastSelectableDate))
+        vm.searchObserver.onNext(Unit)
+
         testSubscriber.requestMore(LOTS_MORE)
+        errorSubscriber.requestMore(LOTS_MORE)
         assertEquals(testSubscriber.onNextEvents[0].checkOut, expected[0].checkOut)
         assertEquals(testSubscriber.onNextEvents[1].checkOut, expected[1].checkOut)
+        errorSubscriber.assertValue(activity.resources.getString(R.string.error_date_too_far))
     }
 
     @Test

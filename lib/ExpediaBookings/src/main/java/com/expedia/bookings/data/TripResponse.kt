@@ -1,5 +1,6 @@
 package com.expedia.bookings.data
 
+import com.expedia.bookings.data.flights.ValidFormOfPayment
 import com.expedia.bookings.data.payment.PaymentSplits
 import com.expedia.bookings.data.payment.PointsAndCurrency
 import com.expedia.bookings.data.payment.PointsDetails
@@ -13,8 +14,8 @@ abstract class TripResponse : BaseApiResponse() {
     lateinit var tripId: String
     var pointsDetails: List<PointsDetails>? = null
     var userPreferencePoints: UserPaymentPreferences? = null
-    var validFormsOfPayment: List<ValidPayment> = emptyList()
     var rewards: RewardsInfo? = null
+    var validFormsOfPayment: List<ValidFormOfPayment> = emptyList()
     var guestUserPromoEmailOptInStatus: String? = null
 
     fun getPointDetails(): PointsDetails? {

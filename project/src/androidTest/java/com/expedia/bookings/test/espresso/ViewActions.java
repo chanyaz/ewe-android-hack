@@ -300,6 +300,7 @@ public final class ViewActions {
 			mUpperLayoutIndex = upperIndex;
 			mValue = value;
 		}
+
 		@SuppressWarnings("unchecked")
 		@Override
 		public Matcher<View> getConstraints() {

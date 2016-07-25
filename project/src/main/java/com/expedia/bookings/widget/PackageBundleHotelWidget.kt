@@ -1,5 +1,6 @@
 package com.expedia.bookings.widget
 
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.support.v4.content.ContextCompat
@@ -48,6 +49,9 @@ class PackageBundleHotelWidget(context: Context, attrs: AttributeSet?) : Accessi
     val hotelPromoText: TextView by bindView(R.id.hotel_promo_text)
     val mainContainer: LinearLayout by bindView(R.id.main_container)
     val rowContainer: LinearLayout by bindView(R.id.row_container)
+    val viewWidth = Ui.getScreenSize(context).x / 2
+    var canExpand = false
+    var isRowClickable = true
 
     var viewModel: BundleHotelViewModel by notNullAndObservable { vm ->
         viewModel.hotelDatesGuestObservable.subscribeTextAndVisibility(hotelsDatesGuestInfoText)
@@ -68,7 +72,7 @@ class PackageBundleHotelWidget(context: Context, attrs: AttributeSet?) : Accessi
                 PicassoHelper.Builder(hotelRoomImage)
                         .setPlaceholder(R.drawable.room_fallback)
                         .build()
-                        .load(hotelMedia.getBestUrls(hotelRoomImage.width))
+                        .load(hotelMedia.getBestUrls(viewWidth))
             }
         }
 
@@ -77,18 +81,17 @@ class PackageBundleHotelWidget(context: Context, attrs: AttributeSet?) : Accessi
         viewModel.showLoadingStateObservable.subscribe { showLoading ->
             this.loadingStateObservable.onNext(showLoading)
             if (showLoading) {
-                rowContainer.setClickable(false)
+                isRowClickable = false
                 hotelInfoContainer.isEnabled = false
                 AnimUtils.progressForward(hotelLoadingBar)
                 selectArrowIcon.visibility = View.GONE
                 hotelsText.setTextColor(ContextCompat.getColor(context, R.color.package_bundle_icon_color))
                 hotelLuggageIcon.setColorFilter(ContextCompat.getColor(context, R.color.package_bundle_icon_color))
             } else {
+                isRowClickable = true
+                canExpand = false
                 hotelInfoContainer.isEnabled = true
                 selectArrowIcon.visibility = View.VISIBLE
-                rowContainer.setOnClickListener {
-                    openHotels()
-                }
                 hotelLoadingBar.clearAnimation()
                 hotelsText.setTextColor(Ui.obtainThemeColor(context, R.attr.primary_color))
                 hotelLuggageIcon.setColorFilter(Ui.obtainThemeColor(context, R.attr.primary_color))
@@ -101,34 +104,53 @@ class PackageBundleHotelWidget(context: Context, attrs: AttributeSet?) : Accessi
                 selectArrowIcon.visibility = View.GONE
             }
         }
+
         viewModel.selectedHotelObservable.subscribe {
-            this.selectedHotelObservable.onNext(Unit)
+            this.selectedCardObservable.onNext(Unit)
             hotelsText.setTextColor(ContextCompat.getColor(context, R.color.packages_bundle_overview_widgets_primary_text))
             hotelLuggageIcon.setColorFilter(0)
             hotelsDatesGuestInfoText.setTextColor(ContextCompat.getColor(context, R.color.packages_bundle_overview_widgets_secondary_text))
-            rowContainer.setOnClickListener {
+            canExpand = true
+        }
+    }
+
+    fun cancel() {
+        hotelLoadingBar.clearAnimation()
+        hotelLoadingBar.visibility = View.GONE
+        hotelsDatesGuestInfoText.visibility = View.VISIBLE
+        hotelsDatesGuestInfoText.setTextColor(ContextCompat.getColor(context, R.color.package_bundle_icon_color))
+    }
+
+    init {
+        View.inflate(getContext(), R.layout.bundle_hotel_widget, this)
+        rowContainer.setOnClickListener {
+            if (!isRowClickable) {
+                return@setOnClickListener
+            }
+            if (canExpand) {
                 if (mainContainer.visibility == Presenter.GONE) {
                     expandSelectedHotel()
                 } else {
                     collapseSelectedHotel()
                 }
+                this.selectedCardObservable.onNext(Unit)
+            } else {
+                openHotels()
             }
         }
-    }
-
-    init {
-        View.inflate(getContext(), R.layout.bundle_hotel_widget, this)
     }
 
     fun openHotels() {
         Db.clearPackageHotelRoomSelection()
         val intent = Intent(context, PackageHotelActivity::class.java)
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-        (context as AppCompatActivity).startActivityForResult(intent, Constants.HOTEL_REQUEST_CODE, null)
-        (context as AppCompatActivity).overridePendingTransition(0, 0);
+
+        (context as Activity).startActivityForResult(intent, Constants.HOTEL_REQUEST_CODE, null)
+        (context as Activity).overridePendingTransition(0, 0);
     }
 
     private fun expandSelectedHotel() {
+        viewModel.hotelRowExpanded.onNext(Unit)
         mainContainer.visibility = Presenter.VISIBLE
         AnimUtils.rotate(hotelDetailsIcon)
         PackagesTracking().trackBundleOverviewHotelExpandClick()
@@ -165,10 +187,10 @@ class PackageBundleHotelWidget(context: Context, attrs: AttributeSet?) : Accessi
     }
 
     override fun loadingContentDescription(): String {
-        val startDate = DateUtils.localDateToMMMd(Db.getPackageParams().checkIn)
-        val endDate = DateUtils.localDateToMMMd(Db.getPackageParams().checkOut)
+        val startDate = DateUtils.localDateToMMMd(Db.getPackageParams().startDate)
+        val endDate = DateUtils.localDateToMMMd(Db.getPackageParams().endDate)
         val guests = StrUtils.formatGuestString(context, Db.getPackageParams().guests)
-        return Phrase.from(context, R.string.select_hotel_content_description_searching)
+        return Phrase.from(context, R.string.select_hotel_searching_cont_desc_TEMPLATE)
                 .put("destination", StrUtils.formatCityName(Db.getPackageParams().destination))
                 .put("startdate", startDate)
                 .put("enddate", endDate)
@@ -178,10 +200,10 @@ class PackageBundleHotelWidget(context: Context, attrs: AttributeSet?) : Accessi
     }
 
     override fun contentDescription(): String {
-        val startDate = DateUtils.localDateToMMMd(Db.getPackageParams().checkIn)
-        val endDate = DateUtils.localDateToMMMd(Db.getPackageParams().checkOut)
+        val startDate = DateUtils.localDateToMMMd(Db.getPackageParams().startDate)
+        val endDate = DateUtils.localDateToMMMd(Db.getPackageParams().endDate)
         val guests = StrUtils.formatGuestString(context, Db.getPackageParams().guests)
-        return Phrase.from(context, R.string.select_hotel_content_description)
+        return Phrase.from(context, R.string.select_hotel_cont_desc_TEMPLATE)
                 .put("destination", StrUtils.formatCityName(Db.getPackageParams().destination))
                 .put("startdate", startDate)
                 .put("enddate", endDate)
@@ -190,15 +212,17 @@ class PackageBundleHotelWidget(context: Context, attrs: AttributeSet?) : Accessi
                 .toString()
     }
 
-    override fun selectedHotelContentDescription(): String {
-        val startDate = DateUtils.localDateToMMMd(Db.getPackageParams().checkIn)
-        val endDate = DateUtils.localDateToMMMd(Db.getPackageParams().checkOut)
+    override fun selectedCardContentDescription(): String {
+        val startDate = DateUtils.localDateToMMMd(Db.getPackageParams().startDate)
+        val endDate = DateUtils.localDateToMMMd(Db.getPackageParams().endDate)
         val guests = StrUtils.formatGuestString(context, Db.getPackageParams().guests)
-        return Phrase.from(context, R.string.select_hotel_content_description_selected)
-                .put("hotel", Db.getPackageSelectedHotel().localizedName)
+        val expandState = if (mainContainer.visibility == Presenter.VISIBLE) context.getString(R.string.accessibility_cont_desc_role_button_collapse) else context.getString(R.string.accessibility_cont_desc_role_button_expand)
+        return Phrase.from(context, R.string.select_hotel_selected_cont_desc_TEMPLATE)
+                .put("hotel", Db.getPackageSelectedHotel()?.localizedName ?: "")
                 .put("startdate", startDate)
                 .put("enddate", endDate)
                 .put("guests", guests)
+                .put("expandstate", expandState)
                 .format()
                 .toString()
     }

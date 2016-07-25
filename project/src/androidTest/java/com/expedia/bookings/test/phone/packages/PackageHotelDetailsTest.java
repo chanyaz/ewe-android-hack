@@ -69,4 +69,12 @@ public class PackageHotelDetailsTest extends PackageTestCase {
 		HotelScreen.waitForDetailsLoaded();
 		EspressoUtils.assertViewIsDisplayed(R.id.vip_access_message_container);
 	}
+
+	public void testRenoHotel() throws Throwable {
+		PackageScreen.searchPackage();
+		HotelScreen.selectHotel("Package Happy Path");
+		HotelScreen.clickRenoInfo();
+		onView(allOf(withId(R.id.content_description),
+			withText("<ul><li>Elevator</li><li>Front desk</li><li>Lobby</li></ul>")));
+	}
 }

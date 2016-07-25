@@ -1,6 +1,9 @@
 {
   "packageHotelOffers": [
     {
+      "cancellationPolicy": {
+        "hasFreeCancellation": true
+      },
       "pricePerPerson": {
         "amount": "1027.34",
         "formattedPrice": "$1,027.34",
@@ -145,6 +148,9 @@
       }
     },
     {
+      "cancellationPolicy": {
+        "hasFreeCancellation": false
+      },
       "pricePerPerson": {
         "amount": "1027.34",
         "formattedPrice": "$1,027.34",
@@ -289,6 +295,9 @@
       }
     },
     {
+      "cancellationPolicy": {
+        "hasFreeCancellation": true
+      },
       "pricePerPerson": {
         "amount": "1031.73",
         "formattedPrice": "$1,031.73",
@@ -433,6 +442,9 @@
       }
     },
     {
+      "cancellationPolicy": {
+        "hasFreeCancellation": true
+      },
       "pricePerPerson": {
         "amount": "1031.73",
         "formattedPrice": "$1,031.73",
@@ -577,6 +589,9 @@
       }
     },
     {
+      "cancellationPolicy": {
+        "hasFreeCancellation": true
+      },
       "pricePerPerson": {
         "amount": "1031.73",
         "formattedPrice": "$1,031.73",

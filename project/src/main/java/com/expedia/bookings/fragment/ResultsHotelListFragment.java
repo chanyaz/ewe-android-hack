@@ -82,7 +82,7 @@ public class ResultsHotelListFragment extends ResultsListFragment<ResultsHotelsL
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		setListViewContentDescription(R.string.cd_tablet_results_hotel_list);
+		setListViewContentDescription(R.string.tablet_results_hotel_list_cont_desc);
 		View view = super.onCreateView(inflater, container, savedInstanceState);
 		view.setBackgroundResource(R.drawable.bg_half_white);
 		FruitList listView = getListView();

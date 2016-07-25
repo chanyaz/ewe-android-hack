@@ -5,7 +5,7 @@ import org.joda.time.LocalDate;
 import android.content.Context;
 
 import com.expedia.bookings.data.Property;
-import com.expedia.bookings.data.lx.LXSearchParams;
+import com.expedia.bookings.data.lx.LxSearchParams;
 import com.expedia.bookings.utils.LXDataUtils;
 
 public class ItinCardDataLXAttach extends ItinCardData {
@@ -31,7 +31,7 @@ public class ItinCardDataLXAttach extends ItinCardData {
 		return tripHotel.getProperty();
 	}
 
-	public LXSearchParams getLxSearchParams(Context context) {
+	public LxSearchParams getLxSearchParams(Context context) {
 		return LXDataUtils
 			.fromHotelParams(context, new LocalDate(tripHotel.getStartDate()), tripHotel.getProperty().getLocation());
 	}

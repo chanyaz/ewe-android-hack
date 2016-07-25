@@ -6,7 +6,6 @@ import android.support.v7.widget.RecyclerView
 import android.text.Html
 import android.util.AttributeSet
 import android.view.View
-import com.expedia.bookings.R
 import com.expedia.bookings.location.CurrentLocationObservable
 import com.expedia.bookings.presenter.BaseSearchPresenter
 import com.expedia.bookings.utils.AnimUtils
@@ -17,6 +16,8 @@ import com.expedia.util.notNullAndObservable
 import com.expedia.util.subscribeOnClick
 import com.expedia.vm.BaseSearchViewModel
 import com.expedia.vm.HotelSearchViewModel
+import com.expedia.bookings.R
+import com.expedia.bookings.widget.ShopWithPointsWidget
 import com.expedia.vm.HotelSuggestionAdapterViewModel
 import com.expedia.vm.SuggestionAdapterViewModel
 
@@ -24,7 +25,7 @@ class HotelSearchPresenter(context: Context, attrs: AttributeSet) : BaseSearchPr
 
     var searchViewModel: HotelSearchViewModel by notNullAndObservable { vm ->
         calendarWidgetV2.viewModel = vm
-        travelerWidgetV2.travelersSubject.subscribe(vm.travelersObserver)
+        travelerWidgetV2.travelersSubject.subscribe(vm.travelersObservable)
         vm.searchButtonObservable.subscribe { enable ->
             searchButton.setTextColor(if (enable) ContextCompat.getColor(context, R.color.hotel_filter_spinner_dropdown_color) else ContextCompat.getColor(context, R.color.white_disabled))
         }
@@ -48,6 +49,10 @@ class HotelSearchPresenter(context: Context, attrs: AttributeSet) : BaseSearchPr
             showErrorDialog(message)
         }
 
+        vm.errorMaxRangeObservable.subscribe { message ->
+            showErrorDialog(message)
+        }
+
         searchButton.subscribeOnClick(vm.searchObserver)
     }
 
@@ -68,7 +73,9 @@ class HotelSearchPresenter(context: Context, attrs: AttributeSet) : BaseSearchPr
     }
 
     override fun inflate() {
-        View.inflate(context, R.layout.widget_hotel_search_params, this)
+        View.inflate(context, R.layout.widget_search_params, this)
+        shopWithPointsWidget = swpWidgetStub.inflate().findViewById(R.id.widget_points_details) as ShopWithPointsWidget
+
     }
 
     override fun getSuggestionHistoryFileName(): String {

@@ -79,7 +79,7 @@ class FlightOverviewPresenterTest {
         flightLeg.flightSegments = emptyList()
         flightLeg.packageOfferModel = PackageOfferModel()
         flightLeg.packageOfferModel.price = PackageOfferModel.PackagePrice()
-        flightLeg.packageOfferModel.price.packageTotalPriceFormatted = "$42"
+        flightLeg.packageOfferModel.price.pricePerPersonFormatted = "$42"
         flightLeg.baggageFeesUrl = BAGGAGE_FEES_URL_PATH
         sut.vm.selectedFlightLegSubject.onNext(flightLeg)
     }

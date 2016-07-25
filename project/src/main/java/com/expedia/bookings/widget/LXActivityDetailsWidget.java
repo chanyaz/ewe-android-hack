@@ -24,6 +24,7 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.data.LXMedia;
 import com.expedia.bookings.data.LXState;
 import com.expedia.bookings.data.lx.ActivityDetailsResponse;
+import com.expedia.bookings.data.lx.ActivityImages;
 import com.expedia.bookings.data.lx.LXTicketType;
 import com.expedia.bookings.data.lx.Offer;
 import com.expedia.bookings.data.lx.OffersDetail;
@@ -193,13 +194,13 @@ public class LXActivityDetailsWidget extends LXDetailsScrollView implements Recy
 		if (isUserBucketedForRecommendationTest) {
 			recommendedSubscription = lxServices
 				.lxRecommendedSearch(activityDetails.id, activityDetails.location,
-					lxState.searchParams.startDate, lxState.searchParams.endDate, recommendedObserver);
+					lxState.searchParams.getActivityStartDate(), lxState.searchParams.getActivityEndDate(), recommendedObserver);
 		}
 
 		buildRecommendationPecentage(activityDetails.recommendationScore);
 		buildGallery(activityDetails);
 		buildSections(activityDetails);
-		buildOfferDatesSelector(activityDetails.offersDetail, lxState.searchParams.startDate);
+		buildOfferDatesSelector(activityDetails.offersDetail, lxState.searchParams.getActivityStartDate());
 	}
 
 	private void buildRecommendationPecentage(int recommendationScore) {
@@ -220,26 +221,27 @@ public class LXActivityDetailsWidget extends LXDetailsScrollView implements Recy
 		for (int i = 0; i < offerDatesContainer.getChildCount(); i++) {
 			LXOfferDatesButton button = (LXOfferDatesButton) offerDatesContainer.getChildAt(i);
 			button.setChecked(false);
+			button.setSelected(false);
 		}
 
 		buttonSelected.setChecked(true);
+		buttonSelected.setSelected(true);
 		//  Track Link to track Change of dates.
 		OmnitureTracking.trackLinkLXChangeDate(isGroundTransport);
 		buildOffersSection(dateSelected);
 	}
 
-	private void buildOffersSection(LocalDate startDate) {
+	public void buildOffersSection(LocalDate startDate) {
 		offers.setOffers(activityDetails.offersDetail.offers, startDate);
 		offers.setVisibility(View.VISIBLE);
 	}
 
 	private void buildGallery(ActivityDetailsResponse activityDetails) {
 		final List<LXMedia> mediaList = new ArrayList<LXMedia>();
-		for (int i = 0; i < activityDetails.images.size(); i++) {
+		for (ActivityImages activityImages : activityDetails.images) {
 			List<String> imageURLs = Images
-				.getLXImageURLBasedOnWidth(activityDetails.images.get(i).getImages(),
-					AndroidUtils.getDisplaySize(getContext()).x);
-			LXMedia media = new LXMedia(imageURLs);
+				.getLXImageURLBasedOnWidth(activityImages.getImages(), AndroidUtils.getDisplaySize(getContext()).x);
+			LXMedia media = new LXMedia(imageURLs, activityImages.getImageCaption());
 			mediaList.add(media);
 		}
 
@@ -314,7 +316,7 @@ public class LXActivityDetailsWidget extends LXDetailsScrollView implements Recy
 		cancellation.setVisibility(View.GONE);
 	}
 
-	private void buildOfferDatesSelector(OffersDetail offersDetail, LocalDate startDate) {
+	public void buildOfferDatesSelector(OffersDetail offersDetail, LocalDate startDate) {
 		offerDatesContainer.removeAllViews();
 
 		offerDatesContainer.setVisibility(View.VISIBLE);
@@ -525,6 +527,10 @@ public class LXActivityDetailsWidget extends LXDetailsScrollView implements Recy
 
 	public ActivityDetailsResponse getActivityDetails() {
 		return activityDetails;
+	}
+
+	public void setActivityDetails(ActivityDetailsResponse activityDetailsResponse) {
+		 activityDetails = activityDetailsResponse;
 	}
 
 	public LinearLayout getMoreLikeThis() {

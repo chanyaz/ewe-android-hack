@@ -13,7 +13,7 @@ import com.expedia.bookings.services.SuggestionV4Services
 import com.expedia.bookings.utils.AnimUtils
 import com.expedia.bookings.utils.SuggestionV4Utils
 import com.expedia.bookings.utils.Ui
-import com.expedia.bookings.widget.suggestions.PackageSuggestionAdapter
+import com.expedia.bookings.widget.suggestions.SuggestionAdapter
 import com.expedia.util.notNullAndObservable
 import com.expedia.util.subscribeOnClick
 import com.expedia.vm.BaseSearchViewModel
@@ -28,22 +28,22 @@ class PackageSearchPresenter(context: Context, attrs: AttributeSet) : BaseTwoLoc
         Ui.getApplication(getContext()).packageComponent().suggestionsService()
     }
 
-    private var originSuggestionAdapter: PackageSuggestionAdapter by Delegates.notNull()
-    private var destinationSuggestionAdapter: PackageSuggestionAdapter by Delegates.notNull()
+    private var originSuggestionAdapter: SuggestionAdapter by Delegates.notNull()
+    private var destinationSuggestionAdapter: SuggestionAdapter by Delegates.notNull()
 
     var searchViewModel: PackageSearchViewModel by notNullAndObservable { vm ->
         calendarWidgetV2.viewModel = vm
-        travelerWidgetV2.travelersSubject.subscribe(vm.travelersObserver)
+        travelerWidgetV2.travelersSubject.subscribe(vm.travelersObservable)
         travelerWidgetV2.traveler.viewmodel.isInfantInLapObservable.subscribe(vm.isInfantInLapObserver)
         vm.formattedOriginObservable.subscribe {
             text -> originCardView.setText(text)
-            originCardView.contentDescription = Phrase.from(context, R.string.packages_search_flying_from_content_description)
+            originCardView.contentDescription = Phrase.from(context, R.string.search_flying_from_destination_cont_desc_TEMPLATE)
                     .put("from_destination", text)
                     .format().toString()
         }
         vm.formattedDestinationObservable.subscribe {
             text -> destinationCardView.setText(text)
-            destinationCardView.contentDescription = Phrase.from(context, R.string.packages_search_flying_to_content_description)
+            destinationCardView.contentDescription = Phrase.from(context, R.string.search_flying_to_destination_cont_desc_TEMPLATE)
                     .put("to_destination", text)
                     .format().toString()
             if (this.visibility == VISIBLE && vm.startDate() == null) {
@@ -53,6 +53,11 @@ class PackageSearchPresenter(context: Context, attrs: AttributeSet) : BaseTwoLoc
         vm.dateAccessibilityObservable.subscribe{
             text ->
             calendarWidgetV2.contentDescription = text
+        }
+        travelerWidgetV2.traveler.viewmodel.travelerParamsObservable.subscribe { travelers ->
+            val noOfTravelers = travelers.numberOfAdults + travelers.childrenAges.size
+            travelerWidgetV2.contentDescription = Phrase.from(context.resources.getQuantityString(R.plurals.packages_search_travelers_cont_desc_TEMPLATE, noOfTravelers)).
+                    put("travelers", noOfTravelers).format().toString()
         }
 
         vm.searchButtonObservable.subscribe { enable ->
@@ -75,14 +80,14 @@ class PackageSearchPresenter(context: Context, attrs: AttributeSet) : BaseTwoLoc
         destinationSuggestionViewModel = PackageSuggestionAdapterViewModel(getContext(), suggestionServices, true, null)
         originSuggestionViewModel.setCustomerSelectingOrigin(true)
         destinationSuggestionViewModel.setCustomerSelectingOrigin(false)
-        originSuggestionAdapter = PackageSuggestionAdapter(originSuggestionViewModel)
-        destinationSuggestionAdapter = PackageSuggestionAdapter(destinationSuggestionViewModel)
+        originSuggestionAdapter = SuggestionAdapter(originSuggestionViewModel)
+        destinationSuggestionAdapter = SuggestionAdapter(destinationSuggestionViewModel)
         travelerWidgetV2.traveler.viewmodel.showSeatingPreference = true
         travelerWidgetV2.traveler.viewmodel.lob = LineOfBusiness.PACKAGES
     }
 
     override fun inflate() {
-        View.inflate(context, R.layout.widget_package_search, this)
+        View.inflate(context, R.layout.widget_base_flight_search, this)
     }
 
     override fun getSuggestionHistoryFileName(): String {
@@ -108,4 +113,5 @@ class PackageSearchPresenter(context: Context, attrs: AttributeSet) : BaseTwoLoc
     override fun getDestinationSearchBoxPlaceholderText(): String {
         return context.resources.getString(R.string.fly_to_hint)
     }
+
 }

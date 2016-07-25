@@ -411,6 +411,12 @@
                     "currencyCode": "USD"
                 }
             },
+            "tripTotalPayable": {
+                "amount": "665.81",
+                "formattedPrice": "$665.81",
+                "formattedWholePrice": "$665.81",
+                "currencyCode": "USD"
+            },
             "isAllowedToRedeem": true
         }
     ],
@@ -439,6 +445,12 @@
                 "formattedWholePrice": "$10",
                 "currencyCode": "USD"
             }
+        },
+        "tripTotalPayable": {
+            "amount": "10.00",
+            "formattedPrice": "$10.00",
+            "formattedWholePrice": "$10",
+            "currencyCode": "USD"
         }
     }
 }

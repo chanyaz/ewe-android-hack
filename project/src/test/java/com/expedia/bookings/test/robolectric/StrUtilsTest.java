@@ -18,6 +18,7 @@ import android.text.style.UnderlineSpan;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.SuggestionV4;
+import com.expedia.bookings.data.flights.FlightLeg;
 import com.expedia.bookings.utils.LegalClickableSpan;
 import com.expedia.bookings.utils.StrUtils;
 import com.squareup.phrase.Phrase;
@@ -173,6 +174,25 @@ public class StrUtilsTest {
 	}
 
 	@Test
+	public void testCityStateNameFormatting() {
+		String displayNameResponse1 = "New York, NY(NYC-All Airports)";
+		String formattedString1 = StrUtils.formatCityStateName(displayNameResponse1);
+		assertEquals(formattedString1, "New York, NY");
+
+		String displayNameResponse2 = "";
+		String formattedString2 = StrUtils.formatCityStateName(displayNameResponse2);
+		assertEquals(formattedString2, "");
+
+		String displayNameResponse3 = "New York, NY, United States";
+		String formattedString3 = StrUtils.formatCityStateName(displayNameResponse3);
+		assertEquals(formattedString3, "New York, NY, United States");
+
+		String displayNameResponse4 = null;
+		String formattedString4 = StrUtils.formatCityStateName(displayNameResponse4);
+		assertEquals(formattedString4, "");
+	}
+
+	@Test
 	public void testAirportNameFormatting() {
 		String displayNameResponse = "New York, NY, United States (NYC-All Airports)";
 		String formattedString = StrUtils.formatAirportName(displayNameResponse);
@@ -180,9 +200,25 @@ public class StrUtilsTest {
 	}
 
 	@Test
+	public void testAirportNameForPackage() {
+		String displayNameResponse = "New York, NY, United States (NYC-All Airports)";
+		String formattedString = StrUtils.formatAirportNameForPackage(displayNameResponse);
+		assertEquals(formattedString, "NYC - All Airports");
+	}
+
+	@Test
 	public void testAirportCodeCityNameFormatting() {
 		String formattedString = StrUtils.formatAirportCodeCityName(getDummySuggestion());
 		assertEquals("(CHI) Chicago", formattedString);
+	}
+
+	@Test
+	public void testCarOriginDescriptionFormatting() {
+		FlightLeg flight = new FlightLeg();
+		flight.destinationAirportCode = "EWR";
+		flight.destinationAirportLocalName = "Liberty Intl.";
+		String formattedString = StrUtils.formatCarOriginDescription(getContext(),flight);
+		assertEquals("EWR-Liberty Intl.", formattedString);
 	}
 
 	@Test

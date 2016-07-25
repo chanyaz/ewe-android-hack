@@ -291,6 +291,11 @@ public class CheckoutViewModel {
 		selectStoredCard("Saved AmexTesting");
 	}
 
+	public static void selectStoredCardWithName(String storedCardName) throws Throwable {
+		clickPaymentInfo();
+		selectStoredCard(storedCardName);
+	}
+
 	public static void enterPaymentDetails() {
 		CardInfoScreen.typeTextCreditCardEditText("4111111111111111");
 		CardInfoScreen.clickOnExpirationDateButton();

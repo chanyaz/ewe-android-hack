@@ -5,6 +5,7 @@
                 "changePenaltyAmount": "200.00",
                 "changePenaltyPrice": {
                     "amount": "200.00",
+                    "currencyCode": "USD",
                     "formattedPrice": "$200.00",
                     "formattedWholePrice": "$200"
                 },
@@ -17,13 +18,81 @@
         ],
         "obFeePrice": {
             "amount": "0.00",
+            "currencyCode": "USD",
             "formattedPrice": "$0.00",
             "formattedWholePrice": "$0"
         },
         "obFeeTotalAmount": "0.00",
+        "legs": [
+            {
+                "legId": "c69c1bfb0521dbe1eb2b3891ed4cbe84",
+                "baggageFeesUrl": "http://www.expedia.com/Flights-BagFees?originapt=SEA&destinationapt=SFO&cabinclass=3&mktgcarrier=VX&opcarrier=&farebasis=G21N4&bookingclass=U&travelDate=2016-03-22&flightNumber=798&langid=1033",
+                "segments": [
+                    {
+                        "airlineCode": "AA",
+                        "airlineName": "American Airlines",
+                        "arrivalAirportCode": "${departureAirport}",
+                        "arrivalAirportLocation": "${departureAirport}",
+                        "arrivalTimeEpochSeconds": "${returnFlightLandingTimeEpochSeconds}",
+                        "arrivalTimeZoneOffsetSeconds": "${tzOffsetSeconds}",
+                        "arrivalTimeRaw": "2016-03-22T20:15:00.000-07:00",
+                        "arrivalTime": "March 22, 2016 8:15:00 PM",
+                        "departureAirportCode": "${arrivalAirport}",
+                        "departureAirportLocation": "${arrivalAirport}",
+                        "departureTime": "March 22, 2016 5:40:00 PM",
+                        "departureTimeEpochSeconds": "${returnFlightTakeoffTimeEpochSeconds}",
+                        "departureTimeZoneOffsetSeconds": "${tzOffsetSeconds}",
+                        "departureTimeRaw": "2016-03-22T17:40:00.000-07:00",
+                        "duration": "PT2H35M",
+                        "distance": 2572,
+                        "distanceUnits": "miles",
+                        "equipmentCode": "32B",
+                        "equipmentDescription": "Boeing 757-200",
+                        "flightNumber": "179",
+                        "meal": "Food and beverage for purchase",
+                        "onTimePercentage": "70",
+                        "providerCode": "Amadeus",
+                        "stops": 0
+                    }
+                ]
+            },
+            {
+                "legId": "731b8ff3da1b46fd7acf8b7c26f6d82f",
+                "baggageFeesUrl": "http://www.expedia.com/Flights-BagFees?originapt=SEA&destinationapt=SFO&cabinclass=3&mktgcarrier=VX&opcarrier=&farebasis=G21N4&bookingclass=U&travelDate=2016-03-22&flightNumber=798&langid=1033",
+                "segments": [
+                    {
+                        "airlineCode": "DL",
+                        "airlineName": "Delta",
+                        "arrivalAirportCode": "${arrivalAirport}",
+                        "arrivalAirportLocation": "${arrivalAirport}",
+                        "arrivalTimeEpochSeconds": "${departingFlightLandingTimeEpochSeconds}",
+                        "arrivalTimeZoneOffsetSeconds": "${tzOffsetSeconds}",
+                        "arrivalTimeRaw": "2016-03-22T20:15:00.000-07:00",
+                        "arrivalTime": "March 22, 2016 8:15:00 PM",
+                        "departureAirportCode": "${departureAirport}",
+                        "departureAirportLocation": "${departureAirport}",
+                        "departureTime": "March 22, 2016 5:40:00 PM",
+                        "departureTimeEpochSeconds": "${departingFlightTakeoffTimeEpochSeconds}",
+                        "departureTimeZoneOffsetSeconds": "${tzOffsetSeconds}",
+                        "departureTimeRaw": "2016-03-22T21:00:00.000-07:00",
+                        "duration": "PT2H35M",
+                        "distance": 2572,
+                        "distanceUnits": "miles",
+                        "equipmentCode": "752",
+                        "equipmentDescription": "Boeing 757-200",
+                        "flightNumber": "2340",
+                        "meal": "Food For Purchase",
+                        "onTimePercentage": "100",
+                        "providerCode": "Amadeus",
+                        "stops": 0
+                    }
+                ]
+            }
+        ],
         "offer": {
             "averageTotalPricePerTicket": {
                 "amount": "696.00",
+                "currencyCode": "USD",
                 "formattedPrice": "$696.00",
                 "formattedWholePrice": "$696"
             },
@@ -31,6 +100,7 @@
             "baseFare": "620.46",
             "baseFarePrice": {
                 "amount": "620.46",
+                "currencyCode": "USD",
                 "formattedPrice": "$620.46",
                 "formattedWholePrice": "$620"
             },
@@ -39,6 +109,7 @@
             "fees": "7.00",
             "feesPrice": {
                 "amount": "7.00",
+                "currencyCode": "USD",
                 "formattedPrice": "$7.00",
                 "formattedWholePrice": "$7"
             },
@@ -54,17 +125,20 @@
                 {
                     "basePrice": {
                         "amount": "620.46",
+                        "currencyCode": "USD",
                         "formattedPrice": "$620.46",
                         "formattedWholePrice": "$620"
                     },
                     "passengerCategory": "ADULT",
                     "taxesPrice": {
                         "amount": "68.54",
+                        "currencyCode": "USD",
                         "formattedPrice": "$68.54",
                         "formattedWholePrice": "$69"
                     },
                     "totalPrice": {
                         "amount": "689.00",
+                        "currencyCode": "USD",
                         "formattedPrice": "$689.00",
                         "formattedWholePrice": "$689"
                     }
@@ -90,12 +164,14 @@
             "taxes": "68.54",
             "taxesPrice": {
                 "amount": "68.54",
+                "currencyCode": "USD",
                 "formattedPrice": "$68.54",
                 "formattedWholePrice": "$69"
             },
             "totalFare": "696.00",
             "totalFarePrice": {
                 "amount": "696.00",
+                "currencyCode": "USD",
                 "formattedPrice": "$696.00",
                 "formattedWholePrice": "$696"
             }
@@ -133,6 +209,7 @@
     "tealeafTransactionId": "tealeafFlight:${productKey}",
     "totalPrice": {
         "amount": "696.00",
+        "currencyCode": "USD",
         "formattedPrice": "$696.00",
         "formattedWholePrice": "$696"
     },
@@ -153,7 +230,11 @@
             "name": "MasterCard"
         },
         {
-            "name": "Visa"
+            "name": "Visa",
+            "fee": "2.94",
+            "feeCurrencyCode": "USD",
+            "formattedFee": "$2.94",
+            "totalFarePriceWithFee": "$696.00"
         }
     ]
 }

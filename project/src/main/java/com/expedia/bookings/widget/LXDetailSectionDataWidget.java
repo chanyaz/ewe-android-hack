@@ -76,11 +76,13 @@ public class LXDetailSectionDataWidget extends LinearLayout implements View.OnCl
 				AnimUtils.rotate(readMoreView);
 				ObjectAnimator animation = ObjectAnimator.ofInt(sectionContent, "maxLines", totalLineCount);
 				animation.setDuration(ANIMATION_DURATION).start();
+				readMoreView.setContentDescription(getResources().getString(R.string.lx_read_less_cont_desc));
 			}
 			else {
 				AnimUtils.reverseRotate(readMoreView);
 				ObjectAnimator animation = ObjectAnimator.ofInt(sectionContent, "maxLines", maxLineCount);
 				animation.setDuration(ANIMATION_DURATION).start();
+				readMoreView.setContentDescription(getResources().getString(R.string.lx_read_more_cont_desc));
 			}
 		}
 	}

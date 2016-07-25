@@ -37,7 +37,7 @@ public class LXSearchResultsWidget extends FrameLayout {
 	@InjectView(R.id.lx_search_error_widget)
 	LXErrorWidget errorScreen;
 
-	private LXResultsListAdapter adapter;
+	public LXResultsListAdapter adapter;
 
 	@Override
 	protected void onFinishInflate() {

@@ -6,9 +6,9 @@ import android.widget.LinearLayout
 import android.widget.RatingBar
 import com.expedia.bookings.R
 import com.expedia.bookings.utils.bindView
-import com.expedia.util.subscribeRating
 import com.expedia.util.subscribeTextAndVisibility
 import com.expedia.vm.HotelReviewRowViewModel
+import com.squareup.phrase.Phrase
 
 class HotelReviewRowView(context: Context) : LinearLayout(context) {
 
@@ -22,12 +22,21 @@ class HotelReviewRowView(context: Context) : LinearLayout(context) {
         View.inflate(getContext(), R.layout.hotel_review_row, this)
     }
 
-    fun bindData(vm: HotelReviewRowViewModel){
+    fun bindData(vm: HotelReviewRowViewModel) {
         vm.titleTextObservable.subscribeTextAndVisibility(title)
-        vm.ratingObservable.subscribeRating(ratingBar)
+        vm.ratingObservable.subscribe {
+            ratingBar.rating = it
+            setRatingBarContentDescription(it.toInt())
+        }
         vm.reviewerTextObservable.subscribeTextAndVisibility(reviewer)
         vm.reviewBodyObservable.subscribeTextAndVisibility(content)
         vm.submissionDateObservable.subscribeTextAndVisibility(date)
+    }
+
+    private fun setRatingBarContentDescription(rating: Int) {
+        ratingBar.contentDescription = Phrase.from(context, R.string.hotel_rating_bar_cont_desc_TEMPLATE)
+                .put("rating", rating)
+                .format().toString()
     }
 }
 

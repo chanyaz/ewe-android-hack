@@ -9,7 +9,8 @@ import com.expedia.bookings.data.packages.PackageCreateTripResponse
 import com.expedia.bookings.otto.Events
 import com.expedia.bookings.tracking.PackagesTracking
 import com.expedia.bookings.utils.Ui
-import com.expedia.vm.packages.BaseCreateTripViewModel
+import com.expedia.vm.packages.PackageCostSummaryBreakdownViewModel
+import com.expedia.vm.BaseCreateTripViewModel
 import com.expedia.vm.packages.PackageCheckoutViewModel
 import com.expedia.vm.packages.PackageCreateTripViewModel
 import com.squareup.otto.Subscribe
@@ -17,7 +18,7 @@ import java.math.BigDecimal
 
 class PackageCheckoutPresenter(context: Context, attr: AttributeSet) : BaseCheckoutPresenter(context, attr) {
 
-    override fun setUpCreateTripViewModel(vm : BaseCreateTripViewModel) {
+    override fun setupCreateTripViewModel(vm : BaseCreateTripViewModel) {
         vm as PackageCreateTripViewModel
         vm.tripParams.subscribe {
             userAccountRefresher.ensureAccountIsRefreshed()
@@ -25,17 +26,19 @@ class PackageCheckoutPresenter(context: Context, attr: AttributeSet) : BaseCheck
         vm.tripResponseObservable.subscribe { response -> response as PackageCreateTripResponse
             clearCCNumber()
             loginWidget.updateRewardsText(getLineOfBusiness())
-            priceChangeWidget.viewmodel.originalPackagePrice.onNext(response.oldPackageDetails?.pricing?.packageTotal)
-            priceChangeWidget.viewmodel.packagePrice.onNext(response.packageDetails.pricing.packageTotal)
-            totalPriceWidget.packagebreakdown.viewmodel.newDataObservable.onNext(response.packageDetails)
-            var packageTotalPrice = response.packageDetails.pricing
+            priceChangeWidget.viewmodel.originalPrice.onNext(response.oldPackageDetails?.pricing?.packageTotal)
+            priceChangeWidget.viewmodel.newPrice.onNext(response.packageDetails.pricing.packageTotal)
+            (totalPriceWidget.breakdown.viewmodel as PackageCostSummaryBreakdownViewModel).packageCostSummaryObservable.onNext(response.packageDetails)
+            val packageTotalPrice = response.packageDetails.pricing
             totalPriceWidget.viewModel.total.onNext(Money(BigDecimal(packageTotalPrice.packageTotal.amount.toDouble()),
                     packageTotalPrice.packageTotal.currencyCode))
             totalPriceWidget.viewModel.savings.onNext(Money(BigDecimal(packageTotalPrice.savings.amount.toDouble()),
                     packageTotalPrice.savings.currencyCode))
             trackShowBundleOverview()
         }
-
+        getCheckoutViewModel().priceChangeObservable.subscribe {
+            getCreateTripViewModel().tripResponseObservable.onNext(it)
+        }
     }
 
     @Subscribe fun onUserLoggedIn(@Suppress("UNUSED_PARAMETER") event: Events.LoggedInSuccessful) {
@@ -46,8 +49,9 @@ class PackageCheckoutPresenter(context: Context, attr: AttributeSet) : BaseCheck
         return LineOfBusiness.PACKAGES
     }
 
-    override fun updateTravelerPresenter() {
-        travelerPresenter.refreshAndShow()
+    override fun updateDbTravelers() {
+        val params = Db.getPackageParams()
+        travelerManager.updateDbTravelers(params, context)
     }
 
     override fun trackShowSlideToPurchase() {
@@ -58,12 +62,12 @@ class PackageCheckoutPresenter(context: Context, attr: AttributeSet) : BaseCheck
         PackagesTracking().trackBundleOverviewPageLoad(Db.getTripBucket().`package`.mPackageTripResponse.packageDetails)
     }
 
-    override fun setCheckoutViewModel() : PackageCheckoutViewModel {
+    override fun makeCheckoutViewModel() : PackageCheckoutViewModel {
         return PackageCheckoutViewModel(context, Ui.getApplication(context).packageComponent().packageServices())
     }
 
-    override fun setCreateTripViewModel() : PackageCreateTripViewModel {
-        return PackageCreateTripViewModel(Ui.getApplication(context).packageComponent().packageServices())
+    override fun makeCreateTripViewModel() : PackageCreateTripViewModel {
+        return PackageCreateTripViewModel(Ui.getApplication(context).packageComponent().packageServices(), context)
     }
 
     override fun getCheckoutViewModel(): PackageCheckoutViewModel {

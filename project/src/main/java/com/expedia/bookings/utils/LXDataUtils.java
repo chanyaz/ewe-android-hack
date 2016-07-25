@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.EnumMap;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 
@@ -21,7 +22,7 @@ import com.expedia.bookings.data.FlightLeg;
 import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.Location;
 import com.expedia.bookings.data.Money;
-import com.expedia.bookings.data.lx.LXSearchParams;
+import com.expedia.bookings.data.lx.LxSearchParams;
 import com.expedia.bookings.data.lx.LXTicketType;
 import com.expedia.bookings.data.lx.SearchType;
 import com.expedia.bookings.data.lx.Ticket;
@@ -240,16 +241,14 @@ public class LXDataUtils {
 		return Strings.joinWithoutEmpties(", ", ticketSummaries);
 	}
 
-	public static LXSearchParams fromFlightParams(Context context, FlightTrip trip) {
+	public static LxSearchParams fromFlightParams(Context context, FlightTrip trip) {
 		FlightLeg firstLeg = trip.getLeg(0);
 		LocalDate checkInDate = new LocalDate(firstLeg.getLastWaypoint().getBestSearchDateTime());
 
-		LXSearchParams searchParams = new LXSearchParams()
+		LxSearchParams searchParams = (LxSearchParams) new LxSearchParams.Builder().searchType(SearchType.EXPLICIT_SEARCH)
 			.location(formatAirport(context, firstLeg.getAirport(false)))
 			.startDate(checkInDate)
-			.endDate(checkInDate.plusDays(14))
-				.searchType(SearchType.EXPLICIT_SEARCH);
-
+			.endDate(checkInDate.plusDays(14)).build();
 		return searchParams;
 	}
 
@@ -257,12 +256,12 @@ public class LXDataUtils {
 		return c.getResources().getString(R.string.lx_destination_TEMPLATE, airport.mCity, Strings.isEmpty(airport.mStateCode) ? airport.mCountryCode : airport.mStateCode);
 	}
 
-	public static LXSearchParams fromHotelParams(Context context, LocalDate checkInDate, Location location) {
-		LXSearchParams searchParams = new LXSearchParams()
+	public static LxSearchParams fromHotelParams(Context context, LocalDate checkInDate, Location location) {
+		LxSearchParams searchParams = (LxSearchParams) new LxSearchParams.Builder()
+			.searchType(SearchType.EXPLICIT_SEARCH)
 			.location(formatLocation(context, location))
 			.startDate(checkInDate)
-			.endDate(checkInDate.plusDays(14))
-			.searchType(SearchType.EXPLICIT_SEARCH);
+			.endDate(checkInDate.plusDays(14)).build();
 
 		return searchParams;
 	}
@@ -285,22 +284,23 @@ public class LXDataUtils {
 		return c.getResources().getString(R.string.lx_destination_TEMPLATE, location.getCity(), Strings.isEmpty(location.getStateCode()) ? location.getCountryCode() : location.getStateCode());
 	}
 
-	public static LXSearchParams buildLXSearchParamsFromDeeplink(Uri data, Set<String> queryData) {
-		LXSearchParams searchParams = new LXSearchParams();
-
+	public static LxSearchParams buildLXSearchParamsFromDeeplink(Uri data, Set<String> queryData) {
 		LocalDate startDate = DateUtils.yyyyMMddToLocalDateSafe(data.getQueryParameter("startDate"), LocalDate.now());
-		searchParams.startDate(DateUtils.ensureDateIsTodayOrInFuture(startDate));
 
+		String location = "";
+		String filters = "";
+		String activityId = "";
 		if (queryData.contains("location")) {
-			searchParams.location(data.getQueryParameter("location"));
+			location = data.getQueryParameter("location");
 		}
 		if (queryData.contains("filters")) {
-			searchParams.filters(data.getQueryParameter("filters"));
+			filters = data.getQueryParameter("filters");
 		}
 		if (queryData.contains("activityId")) {
-			searchParams.activityId(data.getQueryParameter("activityId"));
+			activityId = data.getQueryParameter("activityId");
 		}
-		return searchParams;
+		return new LxSearchParams(location, DateUtils.ensureDateIsTodayOrInFuture(startDate),
+			DateUtils.ensureDateIsTodayOrInFuture(startDate), SearchType.EXPLICIT_SEARCH, filters, activityId, "");
 	}
 
 	public static boolean isActivityGT(List<String> activityCategories) {
@@ -329,13 +329,20 @@ public class LXDataUtils {
 	public static void bindDuration(Context context, String activityDuration, boolean isMultiDuration,
 		TextView duration) {
 		if (Strings.isNotEmpty(activityDuration)) {
+			int contDescResId;
 			if (isMultiDuration) {
-				duration.setText(context.getResources()
-					.getString(R.string.search_result_multiple_duration_TEMPLATE, activityDuration));
+				contDescResId = R.string.search_result_multiple_duration_cont_desc_TEMPLATE;
+				duration.setText(Phrase.from(context,R.string.search_result_multiple_duration_TEMPLATE)
+					.put("duration", activityDuration)
+					.format());
 			}
 			else {
+				contDescResId = R.string.search_result_duration_cont_desc_TEMPLATE;
 				duration.setText(activityDuration);
 			}
+			duration.setContentDescription(
+				Phrase.from(context, contDescResId).put("duration", activityDuration.toUpperCase(Locale.getDefault()))
+					.format().toString());
 			duration.setVisibility(View.VISIBLE);
 		}
 		else {
@@ -359,15 +366,30 @@ public class LXDataUtils {
 	}
 
 	public static void bindPriceAndTicketType(Context context, LXTicketType fromPriceTicketCode, Money price,
-		TextView activityPrice, TextView fromPriceTicketType) {
+		Money originalPrice, TextView activityPrice, TextView fromPriceTicketType) {
 		if (fromPriceTicketCode != null) {
 			fromPriceTicketType.setText(
 				LXDataUtils.perTicketTypeDisplayLabel(context, fromPriceTicketCode));
 			activityPrice.setText(price.getFormattedMoney(Money.F_NO_DECIMAL | Money.F_ROUND_HALF_UP));
+			final CharSequence activityPriceContDesc;
+			if (originalPrice.getAmount().equals(BigDecimal.ZERO)) {
+				activityPriceContDesc = Phrase
+					.from(context, R.string.activity_price_without_discount_cont_desc_TEMPLATE)
+					.put("activity_price", price.getFormattedMoney(Money.F_NO_DECIMAL | Money.F_ROUND_HALF_UP))
+					.format();
+			}
+			else {
+				activityPriceContDesc = Phrase.from(context, R.string.activity_price_with_discount_cont_desc_TEMPLATE)
+					.put("activity_price", price.getFormattedMoney(Money.F_NO_DECIMAL | Money.F_ROUND_HALF_UP))
+					.put("activity_original_price", originalPrice.getFormattedMoney(Money.F_NO_DECIMAL | Money.F_ROUND_HALF_UP))
+					.format();
+			}
+			activityPrice.setContentDescription(activityPriceContDesc);
 		}
 		else {
 			fromPriceTicketType.setText("");
 			activityPrice.setText("");
+			activityPrice.setContentDescription(null);
 		}
 	}
 
@@ -376,9 +398,11 @@ public class LXDataUtils {
 			.put("recommend", recommendationScore).format().toString();
 	}
 
-	public static String getToolbarSearchDateText(Context context, LocalDate startDate, LocalDate endDate) {
-		return String.format(context.getResources().getString(R.string.lx_toolbar_date_range_template),
-			DateUtils.localDateToMMMd(startDate), DateUtils.localDateToMMMd(endDate));
+	public static String getToolbarSearchDateText(Context context, LxSearchParams searchParams, boolean isContDesc) {
+		return Phrase.from(context,
+			isContDesc ? R.string.lx_toolbar_date_range_cont_desc_TEMPLATE : R.string.lx_toolbar_date_range_TEMPLATE)
+			.put("from_date", DateUtils.localDateToMMMd(searchParams.getActivityStartDate()))
+			.put("to_date", DateUtils.localDateToMMMd(searchParams.getActivityEndDate()))
+			.format().toString();
 	}
-
 }

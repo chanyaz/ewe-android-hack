@@ -5,11 +5,17 @@ import kotlin.properties.Delegates
 
 open class ScaleTransition(val presenter: Presenter, val left: Class<*>, val right: Class<*>): Presenter.Transition(left, right) {
 
+
     constructor(presenter: Presenter,left: Class<*>, right: Class<*>, leftClassName: Class<*>) : this(presenter, left, right) {
         this.leftClassName = leftClassName
     }
 
     constructor(presenter: Presenter,left: View, right: View) : this(presenter, left.javaClass, right.javaClass) {
+        this.leftView = left
+        this.rightView = right
+    }
+
+    constructor(presenter: Presenter,left: View, right: View, leftClass: Class<*>, rightClass: Class<*>) : this(presenter, leftClass, rightClass) {
         this.leftView = left
         this.rightView = right
     }

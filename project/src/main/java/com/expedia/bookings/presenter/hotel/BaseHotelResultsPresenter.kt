@@ -6,6 +6,7 @@ import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
 import android.content.Context
 import android.graphics.Color
+import android.graphics.Point
 import android.graphics.PorterDuff
 import android.graphics.drawable.TransitionDrawable
 import android.location.Address
@@ -19,12 +20,13 @@ import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.Toolbar
 import android.text.format.DateUtils
 import android.util.AttributeSet
+import android.view.Gravity
+import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.view.ViewPropertyAnimator
 import android.view.ViewTreeObserver
-import android.view.LayoutInflater
 import android.view.animation.AccelerateInterpolator
 import android.view.animation.DecelerateInterpolator
 import android.view.animation.LinearInterpolator
@@ -32,13 +34,13 @@ import android.widget.Button
 import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.LinearLayout
+import android.widget.Toast
 import com.expedia.bookings.R
 import com.expedia.bookings.activity.ExpediaBookingApp
 import com.expedia.bookings.bitmaps.PicassoScrollListener
 import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.hotels.Hotel
 import com.expedia.bookings.data.hotels.HotelSearchResponse
-import com.expedia.bookings.extension.isShowAirAttached
 import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.utils.ArrowXDrawableUtil
 import com.expedia.bookings.utils.HotelMapClusterAlgorithm
@@ -59,9 +61,9 @@ import com.expedia.bookings.widget.createHotelMarkerIcon
 import com.expedia.util.endlessObserver
 import com.expedia.util.havePermissionToAccessLocation
 import com.expedia.util.notNullAndObservable
+import com.expedia.util.subscribeInverseVisibility
 import com.expedia.util.subscribeText
 import com.expedia.util.subscribeVisibility
-import com.expedia.util.subscribeInverseVisibility
 import com.expedia.vm.HotelFilterViewModel
 import com.expedia.vm.hotel.HotelResultsMapViewModel
 import com.google.android.gms.maps.CameraUpdateFactory
@@ -122,12 +124,12 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
 
     val hotelSelectedSubject = PublishSubject.create<Hotel>()
     val headerClickedSubject = PublishSubject.create<Unit>()
+    val showSearchMenu = PublishSubject.create<Boolean>()
     val hideBundlePriceOverviewSubject = PublishSubject.create<Boolean>()
 
     var googleMap: GoogleMap? = null
 
     open val filterMenuItem by lazy { toolbar.menu.findItem(R.id.menu_filter) }
-    val searchMenuItem by lazy { toolbar.menu.findItem(R.id.menu_open_search) }
 
     var filterCountText: TextView by Delegates.notNull()
     var filterPlaceholderImageView: ImageView by Delegates.notNull()
@@ -262,11 +264,11 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
         adapter.resultsSubject.onNext(it)
 
         // show fab button always in case of AB test or shitty device
-        if (ExpediaBookingApp.isDeviceShitty() || isBucketedForResultMap()) {
+        if (ExpediaBookingApp.isDeviceShitty()) {
             fab.visibility = View.VISIBLE
             getFabAnimIn().start()
         }
-        if ((ExpediaBookingApp.isDeviceShitty() || isBucketedForResultMap()) && it.hotelList.size <= 3) {
+        if (ExpediaBookingApp.isDeviceShitty() && it.hotelList.size <= 3) {
             recyclerView.setBackgroundColor(ContextCompat.getColor(context, R.color.hotel_result_background))
         } else {
             recyclerView.setBackgroundColor(ContextCompat.getColor(context, android.R.color.transparent))
@@ -301,7 +303,7 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
         (mapCarouselRecycler.adapter as HotelMapCarouselAdapter).setItems(response.hotelList)
         adapter.resultsSubject.onNext(response)
         mapViewModel.hotelResultsSubject.onNext(response)
-        if ((ExpediaBookingApp.isDeviceShitty() || isBucketedForResultMap()) && response.hotelList.size <= 3 && previousWasList) {
+        if (ExpediaBookingApp.isDeviceShitty() && response.hotelList.size <= 3 && previousWasList) {
             recyclerView.setBackgroundColor(ContextCompat.getColor(context, R.color.hotel_result_background))
         } else {
             recyclerView.setBackgroundColor(ContextCompat.getColor(context, android.R.color.transparent))
@@ -333,6 +335,7 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
         filterView.viewmodel.filterObservable.subscribe(filterObserver)
         navIcon.setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_IN)
         toolbar.navigationIcon = navIcon
+        toolbar.navigationContentDescription = context.getString(R.string.toolbar_search_nav_icon_cont_desc)
         toolbar.setTitleTextAppearance(getContext(), R.style.ToolbarTitleTextAppearance)
         toolbar.setSubtitleTextAppearance(getContext(), R.style.ToolbarSubtitleTextAppearance)
 
@@ -477,11 +480,6 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
             }
         }
 
-        searchMenuItem.setOnMenuItemClickListener({
-            searchOverlaySubject.onNext(Unit)
-            true
-        })
-
         filterMenuItem.setVisible(false)
         var fabLp = fab.layoutParams as FrameLayout.LayoutParams
         fabLp.bottomMargin += resources.getDimension(R.dimen.hotel_filter_height).toInt()
@@ -498,6 +496,15 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
         filterPlaceholderImageView = toolbarFilterItemActionView.findViewById(R.id.filter_placeholder_icon) as ImageView
         filterBtn = toolbarFilterItemActionView.findViewById(R.id.filter_btn) as LinearLayout
         filterMenuItem.actionView = toolbarFilterItemActionView
+        toolbarFilterItemActionView.setOnLongClickListener {
+            val size = Point()
+            display.getSize(size)
+            val width = size.x
+            val toast = Toast.makeText(context, context.getString(R.string.sort_and_filter), Toast.LENGTH_SHORT)
+            toast.setGravity(Gravity.TOP, width - toolbarFilterItemActionView.width, toolbarFilterItemActionView.height)
+            toast.show()
+            true
+        }
     }
 
     fun showDefault() {
@@ -825,8 +832,8 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
                 toolbarTitle.translationY = 0f
                 toolbarSubtitle.translationY = 0f
                 updateFilterButtonText(forward)
-                searchMenuItem.setVisible(forward)
-                filterMenuItem.setVisible(!forward)
+                showSearchMenu.onNext(forward)
+                filterMenuItem.isVisible = !forward
                 showMenuItem(forward)
             }
 
@@ -878,7 +885,7 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
                     mapView.translationY = -halfway.toFloat()
                     adjustGoogleMapLogo()
                     filterBtnWithCountWidget?.translationY = 0f
-                    if (isBucketedForResultMap() || ExpediaBookingApp.isDeviceShitty()) {
+                    if (ExpediaBookingApp.isDeviceShitty()) {
                         lazyLoadMapAndMarkers()
                     }
                 } else {
@@ -886,7 +893,7 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
                     recyclerView.translationY = screenHeight.toFloat()
                     googleMap?.setPadding(0, toolbar.height, 0, mapCarouselContainer.height)
                     filterBtnWithCountWidget?.translationY = resources.getDimension(R.dimen.hotel_filter_height)
-                    if (isBucketedForResultMap() || ExpediaBookingApp.isDeviceShitty()) {
+                    if (ExpediaBookingApp.isDeviceShitty()) {
                         googleMap?.mapType = GoogleMap.MAP_TYPE_NORMAL
                         createMarkers()
                     }
@@ -1211,7 +1218,5 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
     abstract fun trackMapPinTap()
     abstract fun trackFilterShown()
     abstract fun trackMapSearchAreaClick()
-
     abstract fun getHotelListAdapter(): BaseHotelListAdapter
-    abstract fun isBucketedForResultMap(): Boolean
 }

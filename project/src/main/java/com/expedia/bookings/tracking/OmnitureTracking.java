@@ -1,5 +1,19 @@
 package com.expedia.bookings.tracking;
 
+import java.io.PrintWriter;
+import java.io.StringWriter;
+import java.io.Writer;
+import java.math.BigDecimal;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Locale;
+import java.util.Set;
+
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.joda.time.format.DateTimeFormat;
@@ -7,7 +21,6 @@ import org.joda.time.format.DateTimeFormatter;
 import org.joda.time.format.ISODateTimeFormat;
 
 import android.Manifest;
-
 import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
@@ -19,6 +32,8 @@ import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.text.Html;
 import android.text.TextUtils;
+import android.util.Pair;
+
 import com.adobe.adms.measurement.ADMS_Measurement;
 import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
@@ -49,19 +64,23 @@ import com.expedia.bookings.data.User;
 import com.expedia.bookings.data.abacus.AbacusLogQuery;
 import com.expedia.bookings.data.abacus.AbacusTest;
 import com.expedia.bookings.data.abacus.AbacusUtils;
-import com.expedia.bookings.data.cars.ApiError;
+import com.expedia.bookings.data.ApiError;
 import com.expedia.bookings.data.cars.CarCheckoutResponse;
 import com.expedia.bookings.data.cars.CarSearchParams;
 import com.expedia.bookings.data.cars.CarTrackingData;
 import com.expedia.bookings.data.cars.CreateTripCarOffer;
 import com.expedia.bookings.data.cars.SearchCarOffer;
+import com.expedia.bookings.data.flights.FlightCreateTripResponse;
+import com.expedia.bookings.data.flights.FlightItineraryType;
+import com.expedia.bookings.data.flights.FlightLeg.FlightSegment;
 import com.expedia.bookings.data.hotels.HotelCreateTripResponse;
 import com.expedia.bookings.data.hotels.HotelOffersResponse;
+import com.expedia.bookings.data.insurance.InsuranceProduct;
 import com.expedia.bookings.data.lx.ActivityDetailsResponse;
 import com.expedia.bookings.data.lx.LXCheckoutResponse;
-import com.expedia.bookings.data.lx.LXSearchParams;
 import com.expedia.bookings.data.lx.LXSearchResponse;
 import com.expedia.bookings.data.lx.LXSortType;
+import com.expedia.bookings.data.lx.LxSearchParams;
 import com.expedia.bookings.data.packages.PackageCheckoutResponse;
 import com.expedia.bookings.data.packages.PackageCreateTripResponse;
 import com.expedia.bookings.data.packages.PackageSearchResponse;
@@ -90,17 +109,6 @@ import com.mobiata.android.LocationServices;
 import com.mobiata.android.Log;
 import com.mobiata.android.util.AdvertisingIdUtils;
 import com.mobiata.android.util.SettingUtils;
-import java.io.PrintWriter;
-import java.io.StringWriter;
-import java.io.Writer;
-import java.math.BigDecimal;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-import java.text.DecimalFormat;
-import java.text.SimpleDateFormat;
-import java.util.HashSet;
-import java.util.Locale;
-import java.util.Set;
 
 /**
  * The basic premise behind this class is to encapsulate the tracking logic as much possible such that tracking events
@@ -215,6 +223,7 @@ public class OmnitureTracking {
 	private static final String HOTELSV2_CHECKOUT_SELECT_STORED_CARD = "App.Hotels.CKO.Payment.StoredCard";
 	private static final String HOTELSV2_CHECKOUT_EDIT_PAYMENT = "App.Hotels.Checkout.Payment.Edit.Card";
 	private static final String HOTELSV2_CHECKOUT_SLIDE_TO_PURCHASE = "App.Hotels.Checkout.SlideToPurchase";
+	private static final String HOTELSV2_CHECKOUT_CARDIO_BUTTON_CLICKED = "App.Hotels.CKO.Payment.ScanCard";
 	private static final String HOTELSV2_CHECKOUT_ERROR = "App.Hotels.Checkout.Error";
 	private static final String HOTELSV2_PURCHASE_CONFIRMATION = "App.Hotels.Checkout.Confirmation";
 	private static final String HOTELSV2_CONFIRMATION_ADD_CALENDAR = "App.Hotels.CKO.Confirm.CalenderAdd";
@@ -251,8 +260,6 @@ public class OmnitureTracking {
 		// LOB Search
 		s.setEvar(2, "D=c2");
 		s.setProp(2, HOTELV2_LOB);
-
-		trackAbacusTest(s, AbacusUtils.EBAndroidAppHotelRecentSearchTest);
 
 		//SWP is visible and toggle is ON, when user lands on Search Screen
 		if (swpIsVisibleAndToggleIsOn) {
@@ -341,12 +348,6 @@ public class OmnitureTracking {
 				s.setEvar(28, HOTELS_SEARCH_SPONSORED_NOT_PRESENT);
 				s.setProp(16, HOTELS_SEARCH_SPONSORED_NOT_PRESENT);
 			}
-		}
-
-
-		if (!ExpediaBookingApp.isDeviceShitty()) {
-			//tracking for Map AB test
-			trackAbacusTest(s, AbacusUtils.EBAndroidAppHotelResultMapTest);
 		}
 
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppHotelSearchScreenSoldOutTest);
@@ -820,7 +821,6 @@ public class OmnitureTracking {
 		ADMS_Measurement s = getFreshTrackingObject();
 		s.setAppState(HOTELSV2_CHECKOUT_TRAVELER_INFO);
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppHotelTravelerTest);
-		trackAbacusTest(s, AbacusUtils.EBAndroidAppHotelShowExampleNamesTest);
 		s.track();
 
 	}
@@ -847,7 +847,14 @@ public class OmnitureTracking {
 		s.setEvar(18, HOTELSV2_CHECKOUT_SLIDE_TO_PURCHASE);
 		s.setEvar(37, getPaymentTypeOmnitureCode(paymentType, paymentSplitsType));
 		s.track();
+	}
 
+	public static void trackHotelV2CardIOButtonClicked() {
+		ADMS_Measurement s = getFreshTrackingObject();
+		s.setAppState(HOTELSV2_CHECKOUT_CARDIO_BUTTON_CLICKED);
+		s.setEvar(28, HOTELSV2_CHECKOUT_CARDIO_BUTTON_CLICKED);
+		s.setProp(16, HOTELSV2_CHECKOUT_CARDIO_BUTTON_CLICKED);
+		s.track();
 	}
 
 	private static String getPaymentTypeOmnitureCode(PaymentType paymentType, PaymentSplitsType paymentSplitsType) {
@@ -1371,21 +1378,18 @@ public class OmnitureTracking {
 
 	public static void trackHotelSponsoredListingClick() {
 		ADMS_Measurement s = createTrackLinkEvent(HOTELS_SPONSORED_LISTING_CLICK);
-		addPOSTpid(s);
 		internalTrackLink(s);
 	}
 
 	public static void trackHotelETPPayToggle(boolean isPayLater) {
 		String refererId = isPayLater ? HOTELS_ETP_TOGGLE_PAY_LATER : HOTELS_ETP_TOGGLE_PAY_NOW;
 		ADMS_Measurement s = createTrackLinkEvent(refererId);
-		addPOSTpid(s);
 
 		s.trackLink(null, "o", HOTELS_ETP_TOGGLE_LINK_NAME, null, null);
 	}
 
 	public static void trackHotelETPRoomSelected(boolean isPayLater) {
 		ADMS_Measurement s = createTrackLinkEvent(HOTELS_ETP_PAYMENT);
-		addPOSTpid(s);
 		if (isPayLater) {
 			s.setEvar(52, "Pay Later");
 		}
@@ -1404,12 +1408,6 @@ public class OmnitureTracking {
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 	private static final String FLIGHT_SEARCH = "App.Flight.Search";
-	private static final String FLIGHT_SEARCH_V2 = "App.Flight.Dest-Search";
-	private static final String FLIGHT_RECENT_SEARCH_V2 = "App.Flight.DS.RecentSearch";
-	private static final String FLIGHTS_V2_TRAVELER_CHANGE_PREFIX = "App.Flight.DS.";
-	private static final String FLIGHTS_V2_TRAVELER_LINK_NAME = "Search Results Update";
-	private static final String FLIGHTS_V2_FLIGHT_BAGGAGE_FEE_CLICK = "App.Flight.Search.BaggageFee";
-	private static final String FLIGHTS_V2_FLIGHT_PAYMENT_FEE_CLICK = "App.Flight.Search.PaymentFee";
 	private static final String FLIGHT_SEARCH_INTERSTITIAL = "App.Flight.Search.Interstitial";
 	private static final String FLIGHT_SEARCH_ROUNDTRIP_OUT = "App.Flight.Search.Roundtrip.Out";
 	private static final String FLIGHT_SEARCH_ROUNDTRIP_OUT_DETAILS = "App.Flight.Search.Roundtrip.Out.Details";
@@ -1841,55 +1839,12 @@ public class OmnitureTracking {
 	}
 
 	public static void trackPageLoadFlightSearch() {
-		internalTrackPageLoadEventStandard(FLIGHT_SEARCH);
-	}
-
-	public static void trackFlightTravelerPickerClick(String actionLabel) {
-		Log.d(TAG, "Tracking \"" + FLIGHT_SEARCH_V2 + "\" pageLoad...");
-
 		ADMS_Measurement s = getFreshTrackingObject();
-		s.setEvar(28, FLIGHTS_V2_TRAVELER_CHANGE_PREFIX + actionLabel);
-		s.setProp(16, FLIGHTS_V2_TRAVELER_CHANGE_PREFIX + actionLabel);
-		s.trackLink(null, "o", FLIGHTS_V2_TRAVELER_LINK_NAME, null, null);
-	}
 
-	public static void trackFlightRecentSearchClick() {
-		Log.d(TAG, "Tracking \"" + FLIGHT_RECENT_SEARCH_V2 + "\" click...");
-
-		ADMS_Measurement s = getFreshTrackingObject();
-		s.setEvar(28, FLIGHT_RECENT_SEARCH_V2);
-		s.setProp(16, FLIGHT_RECENT_SEARCH_V2);
-		s.trackLink(null, "o", "Search Results Update", null, null);
-	}
-
-	public static void trackFlightBaggageFeesClick() {
-		Log.d(TAG, "Tracking \"" + FLIGHTS_V2_FLIGHT_BAGGAGE_FEE_CLICK + "\" click...");
-
-		ADMS_Measurement s = getFreshTrackingObject();
-		s.setEvar(28, FLIGHTS_V2_FLIGHT_BAGGAGE_FEE_CLICK);
-		s.setProp(16, FLIGHTS_V2_FLIGHT_BAGGAGE_FEE_CLICK);
-		addPOSTpid(s);
-		s.trackLink(null, "o", "Flight Baggage Fee", null, null);
-	}
-
-	public static void trackFlightPaymentFeesClick() {
-		Log.d(TAG, "Tracking \"" + FLIGHTS_V2_FLIGHT_PAYMENT_FEE_CLICK + "\" click...");
-
-		ADMS_Measurement s = getFreshTrackingObject();
-		s.setEvar(28, FLIGHTS_V2_FLIGHT_PAYMENT_FEE_CLICK);
-		s.setProp(16, FLIGHTS_V2_FLIGHT_PAYMENT_FEE_CLICK);
-		addPOSTpid(s);
-		s.trackLink(null, "o", "", null, null);
-	}
-
-	private static void addPOSTpid(ADMS_Measurement s) {
-		String posTpid = Integer.toString(PointOfSale.getPointOfSale().getTpid());
-		s.setEvar(61, posTpid);
-		s.setProp(7, posTpid);
-	}
-
-	public static void trackPageLoadFlightSearchV2() {
-		internalTrackPageLoadEventStandard(FLIGHT_SEARCH_V2);
+		s.setAppState(FLIGHT_SEARCH);
+		s.setEvar(18, FLIGHT_SEARCH);
+		trackAbacusTest(s, AbacusUtils.EBAndroidAppFlightTest);
+		s.track();
 	}
 
 	public static void trackLinkFlightSearchSelect(int selectPos, int legPos) {
@@ -2081,7 +2036,7 @@ public class OmnitureTracking {
 		s.trackLink(null, "o", "ape:Log Experiment", null, null);
 	}
 
-	public static void trackAppLXSearch(LXSearchParams lxSearchParams,
+	public static void trackAppLXSearch(LxSearchParams lxSearchParams,
 										LXSearchResponse lxSearchResponse, boolean isGroundTransport) {
 		// Start actually tracking the search result change
 		Log.d(TAG, "Tracking \"" + LX_SEARCH + "\" pageLoad...");
@@ -2096,11 +2051,11 @@ public class OmnitureTracking {
 		s.setEvents(isGroundTransport ? "event30,event47" : "event30,event56");
 
 		// prop and evar 5, 6
-		setDateValues(s, lxSearchParams.startDate, lxSearchParams.endDate);
+		setDateValues(s, lxSearchParams.getActivityStartDate(), lxSearchParams.getActivityEndDate());
 
 		// Freeform location
-		if (!TextUtils.isEmpty(lxSearchParams.location)) {
-			s.setEvar(48, lxSearchParams.location);
+		if (!TextUtils.isEmpty(lxSearchParams.getLocation())) {
+			s.setEvar(48, lxSearchParams.getLocation());
 		}
 
 		// Number of search results
@@ -2112,7 +2067,7 @@ public class OmnitureTracking {
 		s.track();
 	}
 
-	public static void trackAppLXSearchCategories(LXSearchParams lxSearchParams,
+	public static void trackAppLXSearchCategories(LxSearchParams lxSearchParams,
 												  LXSearchResponse lxSearchResponse) {
 		// Start actually tracking the search result change
 		Log.d(TAG, "Tracking \"" + LX_SEARCH_CATEGORIES + "\" pageLoad...");
@@ -2124,11 +2079,11 @@ public class OmnitureTracking {
 		s.setEvar(4, "D=c4");
 
 		// prop and evar 5, 6
-		setDateValues(s, lxSearchParams.startDate, lxSearchParams.endDate);
+		setDateValues(s, lxSearchParams.getActivityStartDate(), lxSearchParams.getActivityEndDate());
 
 		// Freeform location
-		if (!TextUtils.isEmpty(lxSearchParams.location)) {
-			s.setEvar(48, lxSearchParams.location);
+		if (!TextUtils.isEmpty(lxSearchParams.getLocation())) {
+			s.setEvar(48, lxSearchParams.getLocation());
 		}
 
 		// Number of search results
@@ -2220,7 +2175,7 @@ public class OmnitureTracking {
 	}
 
 	public static void trackAppLXProductInformation(ActivityDetailsResponse activityDetailsResponse,
-													LXSearchParams lxSearchParams, boolean isGroundTransport) {
+													LxSearchParams lxSearchParams, boolean isGroundTransport) {
 		Log.d(TAG, "Tracking \"" + LX_INFOSITE_INFORMATION + "\" pageLoad...");
 
 		ADMS_Measurement s = internalTrackAppLX(
@@ -2235,7 +2190,7 @@ public class OmnitureTracking {
 		s.setEvar(4, "D=c4");
 
 		// prop and evar 5, 6
-		setDateValues(s, lxSearchParams.startDate, lxSearchParams.endDate);
+		setDateValues(s, lxSearchParams.getActivityStartDate(), lxSearchParams.getActivityEndDate());
 
 		// Send the tracking data
 		s.track();
@@ -3524,7 +3479,18 @@ public class OmnitureTracking {
 	public static void trackLoginSuccess() {
 		ADMS_Measurement s = createTrackLinkEvent(LOGIN_SUCCESS);
 		s.setEvents("event26");
-		addPOSTpid(s);
+		s.trackLink(null, "o", "Accounts", null, null);
+	}
+
+	public static void trackSmartLockPasswordAutoSignIn() {
+		ADMS_Measurement s = createTrackLinkEvent(LOGIN_SUCCESS);
+		s.setEvents("event26,event216");
+		s.trackLink(null, "o", "Accounts", null, null);
+	}
+
+	public static void trackSmartLockPasswordAccountCreation() {
+		ADMS_Measurement s = createTrackLinkEvent(LOGIN_ACCOUNT_CREATE_SUCCESS);
+		s.setEvents("event25,event26,event216");
 		s.trackLink(null, "o", "Accounts", null, null);
 	}
 
@@ -4725,6 +4691,7 @@ public class OmnitureTracking {
 	private static final String PACKAGES_HOTELS_FILTER_BY_NAME = "App.Package.Hotels.Search.PackageName";
 	private static final String PACKAGES_HOTELS_FILTER_CLEAR = "App.Package.Hotels.Search.ClearFilter";
 
+	private static final String PACKAGES_BUNDLE_VIEW_OVERVIEW_LOAD = "App.Package.BundleView";
 	private static final String PACKAGES_BUNDLE_OVERVIEW_LOAD = "App.Package.RateDetails";
 	private static final String PACKAGES_BUNDLE_OVERVIEW_PRODUCT_EXPAND_TEMPLATE = "App.Package.RD.ViewDetails.";
 	private static final String PACKAGES_BUNDLE_OVERVIEW_COST_BREAKDOWN = "App.Package.RD.TotalCost";
@@ -4754,7 +4721,7 @@ public class OmnitureTracking {
 		s.setEvar(3, "D=c3");
 		s.setProp(4, "pkg:" + Db.getPackageParams().getDestination().hierarchyInfo.airport.airportCode + ":" + Db.getPackageParams().getDestination().gaiaId);
 		s.setEvar(4, "D=c4");
-		setDateValues(s, Db.getPackageParams().getCheckIn(), Db.getPackageParams().getCheckOut());
+		setDateValues(s, Db.getPackageParams().getStartDate(), Db.getPackageParams().getEndDate());
 	}
 
 	/**
@@ -4804,7 +4771,7 @@ public class OmnitureTracking {
 
 		String eVar30DurationString = null;
 		if (isConfirmation) {
-			eVar30DurationString = ":" + Db.getPackageParams().getCheckIn().toString(EVAR30_DATE_FORMAT) + "-" + Db.getPackageParams().getCheckOut().toString(EVAR30_DATE_FORMAT);
+			eVar30DurationString = ":" + Db.getPackageParams().getStartDate().toString(EVAR30_DATE_FORMAT) + "-" + Db.getPackageParams().getEndDate().toString(EVAR30_DATE_FORMAT);
 			productString.append(eVar30DurationString);
 		}
 
@@ -4827,8 +4794,8 @@ public class OmnitureTracking {
 
 		productString.append("Hotel:" + Db.getPackageSelectedHotel().hotelId + ";");
 		String duration = "0";
-		if (Db.getPackageParams().getCheckOut() != null) {
-			duration = Integer.toString(JodaUtils.daysBetween(Db.getPackageParams().getCheckIn(), Db.getPackageParams().getCheckOut()));
+		if (Db.getPackageParams().getEndDate() != null) {
+			duration = Integer.toString(JodaUtils.daysBetween(Db.getPackageParams().getStartDate(), Db.getPackageParams().getEndDate()));
 		}
 		productString.append(duration);
 		productString.append(";0.00;;");
@@ -5033,6 +5000,10 @@ public class OmnitureTracking {
 		trackPackagePageLoadEventStandard(PACKAGES_HOTEL_DETAILS_RENOVATION_INFO);
 	}
 
+	public static void trackPackagesViewBundleLoad() {
+		trackPackagePageLoadEventStandard(PACKAGES_BUNDLE_VIEW_OVERVIEW_LOAD);
+	}
+
 	public static void trackPackagesBundlePageLoad(PackageCreateTripResponse.PackageDetails packageDetails) {
 		Log.d(TAG, "Tracking \"" + PACKAGES_BUNDLE_OVERVIEW_LOAD + "\"");
 
@@ -5182,5 +5153,259 @@ public class OmnitureTracking {
 
 	public static void trackPackagesBundleEditItemClick(String itemType) {
 		createAndtrackLinkEvent(PACKAGES_BUNDLE_EDIT + "." + itemType, "Rate Details");
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	// Flights V2
+	//
+	// https://confluence/display/Omniture/Mobile+App%3A+Flights+Material+Redesign
+	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+	private static final String FLIGHT_INSURANCE_ADD = "App.Flight.CKO.INS.Add";
+	private static final String FLIGHT_INSURANCE_BENEFITS_VIEW = "App.Flight.CKO.INS.Reasons";
+	private static final String FLIGHT_INSURANCE_ERROR = "App.Flight.CKO.INS.Error";
+	private static final String FLIGHT_INSURANCE_REMOVE = "App.Flight.CKO.INS.Decline";
+	private static final String FLIGHT_INSURANCE_TERMS_VIEW = "App.Flight.CKO.INS.Terms";
+	private static final String FLIGHT_RECENT_SEARCH_V2 = "App.Flight.DS.RecentSearch";
+	private static final String FLIGHT_SEARCH_V2 = "App.Flight.Dest-Search";
+	private static final String FLIGHTS_V2_FLIGHT_BAGGAGE_FEE_CLICK = "App.Flight.Search.BaggageFee";
+	private static final String FLIGHTS_V2_FLIGHT_PAYMENT_FEE_CLICK = "App.Flight.Search.PaymentFee";
+	private static final String FLIGHTS_V2_TRAVELER_CHANGE_PREFIX = "App.Flight.DS.";
+	private static final String FLIGHTS_V2_TRAVELER_LINK_NAME = "Search Results Update";
+
+	public static Pair<com.expedia.bookings.data.flights.FlightLeg,
+		com.expedia.bookings.data.flights.FlightLeg> getFirstAndLastFlightLegs() {
+
+		FlightCreateTripResponse trip = Db.getTripBucket().getFlightV2().flightCreateTripResponse;
+		return new Pair<>(trip.getDetails().legs.get(0),
+			(trip.getDetails().legs.size() > 1) ? trip.getDetails().legs.get(trip.getDetails().legs.size() - 1) : null);
+	}
+
+	public static Pair<FlightSegment, FlightSegment> getFirstAndLastFlightSegments() {
+		Pair<com.expedia.bookings.data.flights.FlightLeg, com.expedia.bookings.data.flights.FlightLeg> legs =
+			getFirstAndLastFlightLegs();
+
+		return new Pair<>(legs.first.segments.get(0),
+			(legs.second != null) ? legs.second.segments.get(legs.second.segments.size() - 1) : null);
+	}
+
+	public static String getFlightInsuranceProductString() {
+		FlightCreateTripResponse trip = Db.getTripBucket().getFlightV2().flightCreateTripResponse;
+		List<InsuranceProduct> insuranceProducts = trip.getAvailableInsuranceProducts();
+
+		if (!insuranceProducts.isEmpty()) {
+			InsuranceProduct insuranceProduct = insuranceProducts.get(0);
+			boolean isCheckoutConfirmation = (Db.getTripBucket().getFlightV2().flightCheckoutResponse != null);
+			return String.format(Locale.ENGLISH, ";Insurance:%s;%s;%.2f%s",
+				insuranceProduct.typeId, trip.getDetails().offer.numberOfTickets, insuranceProduct.totalPrice.amount,
+				!isCheckoutConfirmation ? ";;eVar63=Merchant:SA" : "");
+		}
+		return "";
+	}
+
+	public static String getFlightInventoryTypeString() {
+		FlightCreateTripResponse trip = Db.getTripBucket().getFlightV2().flightCreateTripResponse;
+		return Arrays.asList("CHARTER", "CHARTER_NET", "LOW_COST_CARRIER", "PSEUDO_PUBLISHED", "PUBLISHED")
+			.contains(trip.getDetails().offer.fareType) ? "Agency" : "Merchant";
+	}
+
+	public static FlightItineraryType getFlightItineraryType() {
+		FlightCreateTripResponse trip = Db.getTripBucket().getFlightV2().flightCreateTripResponse;
+		List<com.expedia.bookings.data.flights.FlightLeg> legs = trip.getDetails().legs;
+		Pair<FlightSegment, FlightSegment> segments = getFirstAndLastFlightSegments();
+
+		if (trip.getDetails().offer.isSplitTicket) {
+			return FlightItineraryType.SPLIT_TICKET;
+		}
+		else if (legs.size() == 1) {
+			return FlightItineraryType.ONE_WAY;
+		}
+		else if (legs.size() == 2 && segments.first.departureAirportCode.equals(segments.second.arrivalAirportCode)) {
+			return FlightItineraryType.ROUND_TRIP;
+		}
+		else {
+			return FlightItineraryType.MULTI_DESTINATION;
+		}
+	}
+
+	public static String getFlightProductString() {
+		Pair<FlightSegment, FlightSegment> segments = getFirstAndLastFlightSegments();
+		FlightCreateTripResponse trip = Db.getTripBucket().getFlightV2().flightCreateTripResponse;
+
+		String itineraryType;
+		switch (getFlightItineraryType()) {
+			case SPLIT_TICKET: itineraryType = "ST"; break;
+			case ONE_WAY:      itineraryType = "OW"; break;
+			case ROUND_TRIP:   itineraryType = "RT"; break;
+			default:           itineraryType = "MD"; break;
+		}
+
+		return String.format(Locale.ENGLISH, ";Flight:%s:%s;%s;%.2f;;", segments.first.airlineCode,
+			itineraryType, trip.getDetails().offer.numberOfTickets, trip.totalPrice.amount);
+	}
+
+	public static Pair<String, String> getFlightSearchDepartureAndArrivalAirportCodes() {
+		com.expedia.bookings.data.flights.FlightSearchParams search = Db.getFlightSearchParams();
+
+		String departureAirportCode = "nil";
+		if ((search.getDepartureAirport().hierarchyInfo != null) &&
+			(search.getDepartureAirport().hierarchyInfo.airport != null)) {
+			departureAirportCode = search.getDepartureAirport().hierarchyInfo.airport.airportCode;
+		}
+		String arrivalAirportCode = "nil";
+		if ((search.getArrivalAirport() != null) && (search.getArrivalAirport().hierarchyInfo != null) &&
+			(search.getArrivalAirport().hierarchyInfo.airport != null)) {
+			arrivalAirportCode = search.getArrivalAirport().hierarchyInfo.airport.airportCode;
+		}
+
+		return new Pair<>(departureAirportCode, arrivalAirportCode);
+	}
+
+	public static Pair<LocalDate, LocalDate> getFlightSearchDepartureAndReturnDates() {
+		com.expedia.bookings.data.flights.FlightSearchParams search = Db.getFlightSearchParams();
+		return new Pair<>(search.getDepartureDate(), search.getReturnDate());
+	}
+
+	public static Pair<String, String> getFlightSearchDepartureAndReturnDateStrings() {
+		DateTimeFormatter formatter = ISODateTimeFormat.basicDate();
+		Pair<LocalDate, LocalDate> takeoffDates = getFlightSearchDepartureAndReturnDates();
+
+		return new Pair<>(takeoffDates.first.toString(formatter), (takeoffDates.second != null) ?
+			takeoffDates.second.toString(formatter) : "nil");
+	}
+
+	public static void trackFlightBaggageFeesClick() {
+		Log.d(TAG, "Tracking \"" + FLIGHTS_V2_FLIGHT_BAGGAGE_FEE_CLICK + "\" click...");
+
+		ADMS_Measurement s = getFreshTrackingObject();
+		s.setEvar(28, FLIGHTS_V2_FLIGHT_BAGGAGE_FEE_CLICK);
+		s.setProp(16, FLIGHTS_V2_FLIGHT_BAGGAGE_FEE_CLICK);
+		s.trackLink(null, "o", "Flight Baggage Fee", null, null);
+	}
+
+	public static void trackFlightCheckoutConfirmationPageLoad() {
+		String pageName = FLIGHT_CHECKOUT_CONFIRMATION;
+		Log.d(TAG, "Tracking \"" + pageName + "\" page load...");
+
+		ADMS_Measurement s = createTrackPageLoadEventBase(pageName);
+
+		// events
+		s.setEvents("purchase");
+
+		// products
+		Pair<String, String> airportCodes = getFlightSearchDepartureAndArrivalAirportCodes();
+		Pair<String, String> takeoffDateStrings = getFlightSearchDepartureAndReturnDateStrings();
+		s.setProducts(String.format(Locale.ENGLISH, "%seVar30=%s:FLT:%s-%s:%s-%s,%s", getFlightProductString(),
+			getFlightInventoryTypeString(), airportCodes.first, airportCodes.second, takeoffDateStrings.first,
+			takeoffDateStrings.second, getFlightInsuranceProductString()));
+
+		// miscellaneous variables
+		s.setEvar(2, "D=c2");
+		s.setProp(2, "Flight");
+		s.setEvar(3, "D=c3");
+		s.setProp(3, airportCodes.first);
+		s.setEvar(4, "D=c4");
+		s.setProp(4, airportCodes.second);
+		s.setEvar(18, pageName);
+
+		// date variables 5, 6
+		Pair<LocalDate, LocalDate> takeoffDates = getFlightSearchDepartureAndReturnDates();
+		setDateValues(s, takeoffDates.first, takeoffDates.second);
+
+		// checkout variables
+		com.expedia.bookings.data.flights.FlightCheckoutResponse checkoutResponse = Db.getTripBucket().getFlightV2()
+			.flightCheckoutResponse;
+		s.setCurrencyCode(checkoutResponse.getCurrencyCode());
+		s.setProp(71, checkoutResponse.newTrip.getTravelRecordLocator());
+		s.setProp(72, checkoutResponse.getOrderId());
+		s.setPurchaseID("onum" + checkoutResponse.getOrderId());
+
+		// tests
+		trackAbacusTest(s, AbacusUtils.EBAndroidAppFlightInsurance);
+
+		s.track();
+	}
+
+	public static void trackFlightCheckoutInfoPageLoad() {
+		String pageName = FLIGHT_CHECKOUT_INFO;
+		Log.d(TAG, "Tracking \"" + pageName + "\" page load...");
+
+		ADMS_Measurement s = createTrackPageLoadEventBase(pageName);
+
+		// events
+		FlightCreateTripResponse trip = Db.getTripBucket().getFlightV2().flightCreateTripResponse;
+		s.setEvents("event36, event71" /* checkout start, flight checkout start */ +
+			(trip.getAvailableInsuranceProducts().isEmpty() ? "" : ", event122" /* insurance present */));
+
+		// products
+		s.setProducts(String.format(Locale.ENGLISH, "%seVar63=%s:SA%s", getFlightProductString(),
+			getFlightInventoryTypeString(), getFlightInsuranceProductString()));
+
+		// miscellaneous variables
+		Pair<String, String> airportCodes = getFlightSearchDepartureAndArrivalAirportCodes();
+		s.setEvar(2, "D=c2");
+		s.setProp(2, "Flight");
+		s.setEvar(3, "D=c3");
+		s.setProp(3, airportCodes.first);
+		s.setEvar(4, "D=c4");
+		s.setProp(4, airportCodes.second);
+		s.setEvar(18, pageName);
+
+		// date variables 5, 6
+		Pair<LocalDate, LocalDate> takeoffDates = getFlightSearchDepartureAndReturnDates();
+		setDateValues(s, takeoffDates.first, takeoffDates.second);
+
+		// tests
+		trackAbacusTest(s, AbacusUtils.EBAndroidAppFlightInsurance);
+
+		s.track();
+	}
+
+	public static void trackFlightInsuranceAdd() {
+		createAndtrackLinkEvent(FLIGHT_INSURANCE_ADD, "Flight Checkout");
+	}
+
+	public static void trackFlightInsuranceBenefitsClick() {
+		createAndtrackLinkEvent(FLIGHT_INSURANCE_BENEFITS_VIEW, "Flight Checkout");
+	}
+
+	public static void trackFlightInsuranceError(String message) {
+		ADMS_Measurement s = createTrackLinkEvent(FLIGHT_INSURANCE_ERROR);
+		s.setProp(36, "ins:" + message);
+		s.trackLink(null, "o", "Flight Checkout", null, null);
+	}
+
+	public static void trackFlightInsuranceRemove() {
+		createAndtrackLinkEvent(FLIGHT_INSURANCE_REMOVE, "Flight Checkout");
+	}
+
+	public static void trackFlightInsuranceTermsClick() {
+		createAndtrackLinkEvent(FLIGHT_INSURANCE_TERMS_VIEW, "Flight Checkout");
+	}
+
+	public static void trackFlightPaymentFeesClick() {
+		Log.d(TAG, "Tracking \"" + FLIGHTS_V2_FLIGHT_PAYMENT_FEE_CLICK + "\" click...");
+
+		ADMS_Measurement s = getFreshTrackingObject();
+		s.setEvar(28, FLIGHTS_V2_FLIGHT_PAYMENT_FEE_CLICK);
+		s.setProp(16, FLIGHTS_V2_FLIGHT_PAYMENT_FEE_CLICK);
+		s.trackLink(null, "o", "", null, null);
+	}
+
+	public static void trackFlightTravelerPickerClick(String actionLabel) {
+		ADMS_Measurement s = getFreshTrackingObject();
+		s.setEvar(28, FLIGHTS_V2_TRAVELER_CHANGE_PREFIX + actionLabel);
+		s.setProp(16, FLIGHTS_V2_TRAVELER_CHANGE_PREFIX + actionLabel);
+		s.trackLink(null, "o", FLIGHTS_V2_TRAVELER_LINK_NAME, null, null);
+	}
+
+	public static void trackPageLoadFlightSearchV2() {
+		ADMS_Measurement s = getFreshTrackingObject();
+
+		s.setAppState(FLIGHT_SEARCH_V2);
+		s.setEvar(18, FLIGHT_SEARCH_V2);
+		s.setEvar(2, "D=c2");
+		trackAbacusTest(s, AbacusUtils.EBAndroidAppFlightTest);
+		s.track();
 	}
 }

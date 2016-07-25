@@ -31,6 +31,7 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.squareup.phrase.Phrase;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -127,6 +128,9 @@ public class CarOffersAdapter extends RecyclerView.Adapter<CarOffersAdapter.View
 		@InjectView(R.id.reserve_now)
 		public ToggleButton reserveNow;
 
+		@InjectView(R.id.reserve_now_container)
+		public LinearLayout reserveNowContainer;
+
 		@InjectView(R.id.total_price_text)
 		public TextView totalPrice;
 
@@ -155,7 +159,8 @@ public class CarOffersAdapter extends RecyclerView.Adapter<CarOffersAdapter.View
 			itemView.setTag(offer);
 
 			vendor.setText(offer.vendor.name);
-			carDetails.setText(CarDataUtils.getMakeName(mContext, offer.vehicleInfo.makes));
+			String carMakeName = CarDataUtils.getMakeName(mContext, offer.vehicleInfo.makes);
+			carDetails.setText(carMakeName);
 			CarInfo vehicleInfo = offer.vehicleInfo;
 			passengers.setText(mContext.getString(R.string.car_details_TEMPLATE,
 				String.valueOf(offer.vehicleInfo.adultCapacity),
@@ -206,6 +211,12 @@ public class CarOffersAdapter extends RecyclerView.Adapter<CarOffersAdapter.View
 					}
 				}
 			});
+
+			reserveNowContainer.setContentDescription(Phrase.from(mContext, offer.isToggled ? R.string.cars_offer_reserve_button_cont_desc_TEMPLATE : R.string.cars_offer_view_details_button_cont_desc_TEMPLATE)
+				.put("vendor", offer.vendor.name)
+				.put("make", carMakeName)
+				.format()
+				.toString());
 			updateState(offer);
 		}
 

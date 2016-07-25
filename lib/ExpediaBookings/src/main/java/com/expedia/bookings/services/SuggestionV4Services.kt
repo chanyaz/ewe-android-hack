@@ -30,6 +30,17 @@ class SuggestionV4Services(endpoint: String, okHttpClient: OkHttpClient, interce
         adapter.create<SuggestApi>(SuggestApi::class.java)
     }
 
+    fun getLxSuggestionsV4(query: String, client: String, observer: Observer<List<SuggestionV4>>, locale: String): Subscription {
+        val type = SuggestionResultType.CITY or SuggestionResultType.MULTI_CITY or SuggestionResultType.NEIGHBORHOOD or
+                SuggestionResultType.POINT_OF_INTEREST
+
+        return suggestApi.suggestV4(query, locale, type, false, "ta_hierarchy", client, "ACTIVITIES")
+                .observeOn(observeOn)
+                .subscribeOn(subscribeOn)
+                .map { response -> response.suggestions}
+                .subscribe(observer)
+    }
+
     fun getHotelSuggestionsV4(query: String, clientId: String, observer: Observer<List<SuggestionV4>>, locale: String): Subscription {
         val type = SuggestionResultType.HOTEL or SuggestionResultType.AIRPORT or SuggestionResultType.CITY or
                 SuggestionResultType.NEIGHBORHOOD or SuggestionResultType.POINT_OF_INTEREST or SuggestionResultType.REGION
@@ -48,9 +59,10 @@ class SuggestionV4Services(endpoint: String, okHttpClient: OkHttpClient, interce
     }
 
     fun suggestPackagesV4(query: String, clientId: String, isDest: Boolean, observer: Observer<List<SuggestionV4>>, locale: String): Subscription {
-        var suggestType = SuggestionResultType.NEIGHBORHOOD or SuggestionResultType.POINT_OF_INTEREST or SuggestionResultType.MULTI_CITY or SuggestionResultType.CITY
+        var suggestType = SuggestionResultType.NEIGHBORHOOD or SuggestionResultType.POINT_OF_INTEREST or SuggestionResultType.MULTI_CITY or
+                SuggestionResultType.CITY or SuggestionResultType.AIRPORT or SuggestionResultType.AIRPORT_METRO_CODE
         if (isDest) {
-            suggestType = suggestType or SuggestionResultType.AIRPORT or SuggestionResultType.AIRPORT_METRO_CODE
+            suggestType = suggestType or SuggestionResultType.AIRPORT
         }
         return suggestApi.suggestV4(query, locale, suggestType, isDest, "ta_hierarchy", clientId, "PACKAGES")
                 .observeOn(observeOn)

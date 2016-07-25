@@ -1,15 +1,12 @@
 package com.expedia.bookings.widget;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
+import butterknife.ButterKnife;
 import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
@@ -21,8 +18,10 @@ import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.AnimUtils;
 import com.expedia.bookings.utils.FontCache;
 import com.expedia.bookings.utils.Images;
-
-import butterknife.ButterKnife;
+import java.util.ArrayList;
+import java.util.List;
+import kotlin.Unit;
+import rx.subjects.BehaviorSubject;
 import rx.subjects.PublishSubject;
 
 public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
@@ -44,6 +43,9 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 	public int headerPosition = 0;
 
 	public static boolean loadingState = false;
+
+	public BehaviorSubject<Unit> posSubject = BehaviorSubject.create();
+	public BehaviorSubject<Boolean> hasInternetConnectionChangeSubject = BehaviorSubject.create();
 	public PublishSubject<Hotel> hotelSelectedSubject = PublishSubject.create();
 	public PublishSubject<Bundle> seeAllClickSubject = PublishSubject.create();
 	private boolean showOnlyLOBView = false;
@@ -113,7 +115,12 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 	@Override
 	public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
 		boolean fullWidthTile;
-
+		if (holder.getItemViewType() == LOB_VIEW) {
+			NewLaunchLobWidget lobWidget = ((LaunchLobHeaderViewHolder) holder).getLobWidget();
+			lobWidget
+				.setViewModel(
+					new NewLaunchLobViewModel(lobWidget.getContext(), hasInternetConnectionChangeSubject, posSubject));
+		}
 		if (holder.getItemViewType() == HEADER_VIEW || holder.getItemViewType() == LOB_VIEW) {
 			StaggeredGridLayoutManager.LayoutParams layoutParams = (StaggeredGridLayoutManager.LayoutParams) holder.itemView
 				.getLayoutParams();
@@ -243,17 +250,13 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 	};
 
 	public void onPOSChange() {
-		if (lobViewHolder != null) {
-			lobViewHolder.onPOSChange();
-		}
+		posSubject.onNext(Unit.INSTANCE);
 	}
 
 
 	public void onHasInternetConnectionChange(boolean enabled) {
 		showOnlyLOBView = !enabled;
-		if (lobViewHolder != null) {
-			lobViewHolder.onHasInternetConnectionChange(enabled);
-		}
+		hasInternetConnectionChangeSubject.onNext(enabled);
 		notifyDataSetChanged();
 	}
 }

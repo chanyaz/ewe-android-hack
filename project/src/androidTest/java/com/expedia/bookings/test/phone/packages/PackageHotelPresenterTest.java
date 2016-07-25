@@ -2,7 +2,6 @@ package com.expedia.bookings.test.phone.packages;
 
 import org.hamcrest.CoreMatchers;
 
-import com.expedia.bookings.test.espresso.Common;
 import com.expedia.bookings.test.espresso.PackageTestCase;
 import com.expedia.bookings.test.espresso.ViewActions;
 import com.expedia.bookings.test.phone.hotels.HotelScreen;
@@ -20,27 +19,33 @@ public class PackageHotelPresenterTest extends PackageTestCase {
 		PackageScreen.searchPackage();
 
 		// results to bundle overview
-		assertSlidingBundleWidgetNoSelection();
+		assertSlidingBundleWidgetNoSelection(true);
 
 		//details to bundle overview
 		HotelScreen.selectHotel("Package Happy Path");
 		PackageScreen.hotelDetailsToolbar().perform(ViewActions.waitForViewToDisplay());
 		PackageScreen.hotelDetailsToolbar().check(matches(hasDescendant(
 			CoreMatchers.allOf(isDisplayed(), withText("Package Happy Path")))));
-		assertSlidingBundleWidgetNoSelection();
+		assertSlidingBundleWidgetNoSelection(false);
 	}
 
-	private static void assertSlidingBundleWidgetNoSelection() {
+	private static void assertSlidingBundleWidgetNoSelection(boolean isFromResults) {
 		PackageScreen.bundlePriceWidget().perform(waitForViewToDisplay());
 		PackageScreen.bundlePriceWidget().perform(click());
-		Common.delay(1);
 		PackageScreen.bundlePriceWidget().check(matches(hasDescendant(
 			CoreMatchers.allOf(isDisplayed(), withText("Trip to Detroit, MI")))));
 		PackageScreen.hotelInfo().check(matches(hasDescendant(
 			CoreMatchers.allOf(isDisplayed(), withText("Select hotel in Detroit")))));
-
 		PackageScreen.inboundFlightInfo().check(matches(hasDescendant(
 			CoreMatchers.allOf(isDisplayed(), withText("Flight to (SFO) San Francisco")))));
 		PackageScreen.bundlePriceWidget().perform(click());
+
+		if (isFromResults) {
+			PackageScreen.resultsHeader().check(matches(isDisplayed()));
+		}
+		else {
+			PackageScreen.hotelDetailsToolbar().check(matches(hasDescendant(
+				CoreMatchers.allOf(isDisplayed(), withText("Package Happy Path")))));
+		}
 	}
 }

@@ -25,7 +25,7 @@
         android:layout_height="match_parent"
         android:visibility="gone" />
 
-    <com.expedia.bookings.presenter.lx.LXSearchParamsPresenter
+    <com.expedia.bookings.presenter.lx.LXSearchPresenter
         android:id="@+id/search_params_widget"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

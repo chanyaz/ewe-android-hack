@@ -134,7 +134,7 @@ abstract class BaseHotelDetailViewModel(val context: Context, val roomSelectedOb
     val isUserRatingAvailableObservable = BehaviorSubject.create<Boolean>()
     val userRatingRecommendationTextObservable = BehaviorSubject.create<String>()
     val ratingContainerBackground = isUserRatingAvailableObservable.map { ratingAvailable ->
-        if (ratingAvailable) ContextCompat.getDrawable(context, R.drawable.hotel_detail_ripple)
+        if (ratingAvailable) ContextCompat.getDrawable(context, R.drawable.gray_background_ripple)
         else (ContextCompat.getDrawable(context, R.color.gray1))
     }
     val numberOfReviewsObservable = BehaviorSubject.create<String>()
@@ -155,7 +155,9 @@ abstract class BaseHotelDetailViewModel(val context: Context, val roomSelectedOb
     val strikeThroughPriceGreaterThanPriceToShowUsersObservable = PublishSubject.create<Boolean>()
     val galleryItemChangeObservable = BehaviorSubject.create<Pair<Int, String>>()
     val depositInfoContainerClickObservable = BehaviorSubject.create<Pair<String, HotelOffersResponse.HotelRoomResponse>>()
-    val hotelDetailsBundleTotalObservable = BehaviorSubject.create<Pair<String, String>>()
+    val bundlePricePerPersonObservable = BehaviorSubject.create<Money>()
+    val bundleTotalPriceObservable = BehaviorSubject.create<Money>()
+    val bundleSavingsObservable = BehaviorSubject.create<Money>()
     val isPackageHotelObservable = BehaviorSubject.create<Boolean>(false)
 
     var isCurrentLocationSearch = false
@@ -204,10 +206,11 @@ abstract class BaseHotelDetailViewModel(val context: Context, val roomSelectedOb
             val rate = firstHotelRoomResponse.rateInfo.chargeableRateInfo
             onlyShowTotalPrice.onNext(rate.getUserPriceType() == HotelRate.UserPriceType.RATE_FOR_WHOLE_STAY_WITH_TAXES)
             pricePerNightObservable.onNext(Money(BigDecimal(rate.averageRate.toDouble()), rate.currencyCode).getFormattedMoney(Money.F_NO_DECIMAL))
-            var packageSavings = Phrase.from(context, R.string.bundle_total_savings_TEMPLATE)
-                    .put("savings", rate.packageSavings)
-                    .format().toString()
-            hotelDetailsBundleTotalObservable.onNext(Pair(rate.packagePricePerPerson, packageSavings))
+            if (rate.packagePricePerPerson != null && rate.packageTotalPrice != null && rate.packageSavings != null) {
+                bundlePricePerPersonObservable.onNext(Money(BigDecimal(rate.packagePricePerPerson.amount.toDouble()), rate.packagePricePerPerson.currencyCode))
+                bundleTotalPriceObservable.onNext(Money(BigDecimal(rate.packageTotalPrice.amount.toDouble()), rate.packageTotalPrice.currencyCode))
+                bundleSavingsObservable.onNext(Money(BigDecimal(rate.packageSavings.amount.toDouble()), rate.packageSavings.currencyCode))
+            }
             totalPriceObservable.onNext(Money(BigDecimal(rate.totalPriceWithMandatoryFees.toDouble()), rate.currencyCode).getFormattedMoney(Money.F_NO_DECIMAL))
             discountPercentageBackgroundObservable.onNext(if (rate.isShowAirAttached()) R.drawable.air_attach_background else R.drawable.guest_rating_background)
             showAirAttachSWPImageObservable.onNext(rate.loyaltyInfo?.isBurnApplied ?: false && rate.isShowAirAttached())

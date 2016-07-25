@@ -55,6 +55,7 @@ public class FlightLeg {
 	public String departureLeg;
 	public List<Airline> airlines = new ArrayList<>();
 	public boolean isBestFlight;
+	public boolean mayChargeObFees;
 
 	public boolean isFreeCancellable() {
 		return freeCancellationBy != null;
@@ -73,11 +74,12 @@ public class FlightLeg {
 		public String airplaneType;
 		public String flightNumber;
 		public String carrier;
+		public String airlineCode;
 		public String airlineName;
 		public String airlineLogoURL;
 		public String equipmentDescription;
 		public boolean displayOperatedByAirlineName;
-		public String operatedByAirlineName;
+		public String operatingAirlineName;
 		public String operatingAirlineCode;
 
 		public String departureCity;
@@ -87,6 +89,13 @@ public class FlightLeg {
 		public String departureTime;
 		public String departureTimeRaw;
 		public String departureDateTimeISO;
+		public AirportAddress departureAirportAddress;
+
+		public static class AirportAddress {
+			public String city;
+			public String country;
+			public String state;
+		}
 
 		public String arrivalCity;
 		public String arrivalAirport;
@@ -95,6 +104,7 @@ public class FlightLeg {
 		public String arrivalTime;
 		public String arrivalTimeRaw;
 		public String arrivalDateTimeISO;
+		public AirportAddress arrivalAirportAddress;
 
 		public String duration;
 		public int durationHours;

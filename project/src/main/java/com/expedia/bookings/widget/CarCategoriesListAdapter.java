@@ -26,6 +26,7 @@ import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.utils.AnimUtils;
 import com.expedia.bookings.utils.CarDataUtils;
 import com.expedia.bookings.utils.Images;
+import com.squareup.phrase.Phrase;
 import com.squareup.picasso.Picasso;
 
 import butterknife.ButterKnife;
@@ -126,9 +127,24 @@ public class CarCategoriesListAdapter extends RecyclerView.Adapter<RecyclerView.
 			CarInfo vehicleInfo = cco.getLowestTotalPriceOffer().vehicleInfo;
 			categoryTextView.setText(vehicleInfo.carCategoryDisplayLabel);
 
-			setTextAndVisibility(doorCount, CarDataUtils.getDoorCount(cco));
-			setTextAndVisibility(passengerCount, CarDataUtils.getPassengerCount(cco));
-			setTextAndVisibility(bagCount, CarDataUtils.getBagCount(cco));
+			String doorCountText = CarDataUtils.getDoorCount(cco);
+			String passengerCountText = CarDataUtils.getPassengerCount(cco);
+			String bagCountText = CarDataUtils.getBagCount(cco);
+
+			setTextAndVisibility(doorCount, doorCountText);
+			doorCount.setContentDescription(doorCountText != null ? Phrase.from(itemView.getContext(), R.string.cars_door_count_cont_desc_TEMPLATE)
+				.put("doorcount", doorCountText)
+				.format().toString() : null);
+
+			setTextAndVisibility(passengerCount, passengerCountText);
+			passengerCount.setContentDescription(passengerCountText != null ? Phrase.from(itemView.getContext(), R.string.cars_passenger_count_cont_desc_TEMPLATE)
+				.put("passengercount", passengerCountText)
+				.format().toString() : null);
+
+			setTextAndVisibility(bagCount, bagCountText);
+			bagCount.setContentDescription(bagCountText != null ? Phrase.from(itemView.getContext(), R.string.cars_bags_count_cont_desc_TEMPLATE)
+				.put("bagscount", bagCountText)
+				.format().toString() : null);
 
 			cardView.setPreventCornerOverlap(false);
 
@@ -137,14 +153,14 @@ public class CarCategoriesListAdapter extends RecyclerView.Adapter<RecyclerView.
 				bestPriceTextView.setVisibility(View.GONE);
 			}
 			else {
-				bestPriceTextView.setText(totalTextView.getContext()
+				bestPriceTextView.setText(itemView.getContext()
 					.getString(R.string.car_details_TEMPLATE,
-						CarDataUtils.getStringTemplateForRateTerm(bestPriceTextView.getContext(), lowestFare.rateTerm),
+						CarDataUtils.getStringTemplateForRateTerm(itemView.getContext(), lowestFare.rateTerm),
 						Money.getFormattedMoneyFromAmountAndCurrencyCode(lowestFare.rate.amount,
 							lowestFare.rate.getCurrency(), Money.F_NO_DECIMAL)));
 				bestPriceTextView.setVisibility(View.VISIBLE);
 			}
-			totalTextView.setText(totalTextView.getContext()
+			totalTextView.setText(itemView.getContext()
 				.getString(R.string.cars_total_template, Money.getFormattedMoneyFromAmountAndCurrencyCode(
 					lowestFare.total.amount, lowestFare.total.getCurrency(), Money.F_NO_DECIMAL)));
 			gradientMask.setVisibility(View.GONE);

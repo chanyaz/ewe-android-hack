@@ -78,7 +78,9 @@ public class AccountButton extends LinearLayout {
 		mRewardsTextView = Ui.findView(mRewardsContainer, R.id.account_rewards_textview);
 		mExpediaLogo = Ui.findView(this, R.id.card_icon);
 		mLoadingTextView = Ui.findView(this, R.id.loading_textview);
-
+		mExpediaLogo.setContentDescription(Phrase.from(getContext(), R.string.brand_account_cont_desc_TEMPLATE)
+			.put("brand", BuildConfig.brand)
+			.format());
 		mLoginContainer.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
 				if (mListener != null) {
@@ -216,6 +218,9 @@ public class AccountButton extends LinearLayout {
 		// Traveler Email Text
 		TextView travelerEmailTextView = Ui.findView(mLogoutContainer, R.id.account_top_textview);
 		travelerEmailTextView.setText(traveler.getEmail());
+		travelerEmailTextView.setContentDescription(Phrase.from(getContext(), R.string.signed_in_account_cont_desc_TEMPLATE)
+			.put("email", traveler.getEmail())
+			.format());
 
 		// Bottom text -- rewards
 		@StringRes int rewardsCategoryTextResId = 0;
@@ -284,7 +289,7 @@ public class AccountButton extends LinearLayout {
 	}
 
 	private boolean updateRewardsTextViewVisibility(String rewardPointsText, LineOfBusiness lob,
-		boolean isLoyaltyMember) {
+													boolean isLoyaltyMember) {
 		if (!Strings.isEmpty(rewardPointsText)) {
 			mRewardsTextView.setVisibility(View.VISIBLE);
 			return true;

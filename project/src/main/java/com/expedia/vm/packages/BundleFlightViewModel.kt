@@ -3,6 +3,8 @@ package com.expedia.vm.packages
 import android.content.Context
 import android.support.v4.content.ContextCompat
 import com.expedia.bookings.R
+import com.expedia.bookings.data.BaseSearchParams
+import com.expedia.bookings.data.SearchParams
 import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.utils.DateUtils
@@ -25,6 +27,8 @@ class BundleFlightViewModel(val context: Context) {
     val suggestion = BehaviorSubject.create<SuggestionV4>()
     val flight = BehaviorSubject.create<FlightLeg>()
 
+    val flightsRowExpanded = PublishSubject.create<Unit>()
+
     //output
     val flightTextObservable = BehaviorSubject.create<String>()
     val travelInfoTextObservable = BehaviorSubject.create<String>()
@@ -36,6 +40,7 @@ class BundleFlightViewModel(val context: Context) {
     val flightInfoContainerObservable = BehaviorSubject.create<Boolean>()
     val selectedFlightLegObservable = BehaviorSubject.create<FlightLeg>()
     val totalDurationObserver = BehaviorSubject.create<CharSequence>()
+    val searchParams = BehaviorSubject.create<BaseSearchParams>()
 
     init {
         Observable.combineLatest(searchTypeStateObservable, suggestion, date, guests, { searchType, suggestion, date, guests ->

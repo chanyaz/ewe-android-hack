@@ -21,7 +21,6 @@ import com.expedia.util.subscribeText
 import com.expedia.util.subscribeTextAndVisibility
 import com.expedia.util.subscribeVisibility
 import com.expedia.vm.packages.BundlePriceViewModel
-import com.expedia.vm.packages.PackageBreakdownViewModel
 
 class TotalPriceWidget(context: Context, attrs: AttributeSet?) : LinearLayout(context, attrs) {
 
@@ -41,6 +40,7 @@ class TotalPriceWidget(context: Context, attrs: AttributeSet?) : LinearLayout(co
 
     var viewModel: BundlePriceViewModel by notNullAndObservable { vm ->
         vm.totalPriceObservable.subscribeText(bundleTotalPrice)
+        vm.pricePerPersonObservable.subscribeText(bundleTotalPrice)
         vm.savingsPriceObservable.subscribeTextAndVisibility(bundleSavings)
         vm.bundleTextLabelObservable.subscribeText(bundleTotalText)
         vm.perPersonTextLabelObservable.subscribeVisibility(perPersonText)
@@ -50,10 +50,10 @@ class TotalPriceWidget(context: Context, attrs: AttributeSet?) : LinearLayout(co
         }
     }
 
-    val packagebreakdown = PackageBreakDownView(context, null)
+    val breakdown = CostSummaryBreakDownView(context, null)
     val dialog: AlertDialog by lazy {
         val builder = AlertDialog.Builder(context)
-        builder.setView(packagebreakdown)
+        builder.setView(breakdown)
         builder.setTitle(R.string.cost_summary)
         builder.setPositiveButton(context.getString(R.string.DONE), { dialog, which -> dialog.dismiss()})
         builder.create()
@@ -64,10 +64,6 @@ class TotalPriceWidget(context: Context, attrs: AttributeSet?) : LinearLayout(co
         orientation = HORIZONTAL
         rotateChevron(true)
 
-        packagebreakdown.viewmodel = PackageBreakdownViewModel(context)
-        packagebreakdown.viewmodel.iconVisibilityObservable.subscribe { show ->
-            toggleBundleTotalCompoundDrawable(show)
-        }
         this.setOnClickListener {
             // We want to show cost breakdown ONLY in checkout screen. We set the rightDrawable only when createTrip returns. So let's check
             if (bundleTotalText.compoundDrawables[2] != null) {

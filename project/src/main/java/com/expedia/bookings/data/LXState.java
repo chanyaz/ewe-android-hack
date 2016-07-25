@@ -8,7 +8,7 @@ import android.content.Context;
 import com.expedia.bookings.data.lx.LXActivity;
 import com.expedia.bookings.data.lx.LXCreateTripParams;
 import com.expedia.bookings.data.lx.LXOfferSelected;
-import com.expedia.bookings.data.lx.LXSearchParams;
+import com.expedia.bookings.data.lx.LxSearchParams;
 import com.expedia.bookings.data.lx.LXTicketType;
 import com.expedia.bookings.data.lx.Offer;
 import com.expedia.bookings.data.lx.Ticket;
@@ -18,7 +18,7 @@ import com.expedia.bookings.utils.LXUtils;
 import com.squareup.otto.Subscribe;
 
 public class LXState {
-	public LXSearchParams searchParams;
+	public LxSearchParams searchParams;
 	public LXActivity activity;
 	public Offer offer;
 	private List<Ticket> selectedTickets;

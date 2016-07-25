@@ -11,17 +11,16 @@ import rx.Observable
 import rx.subjects.BehaviorSubject
 
 class PriceChangeViewModel(context: Context, lob: LineOfBusiness) {
-    val originalPackagePrice = BehaviorSubject.create<Money>()
-    val packagePrice = BehaviorSubject.create<Money>()
+    val originalPrice = BehaviorSubject.create<Money>()
+    val newPrice = BehaviorSubject.create<Money>()
 
     val priceChangeText = BehaviorSubject.create<String>()
     val priceChangeDrawable = BehaviorSubject.create<Drawable>()
     val priceChangeVisibility = BehaviorSubject.create<Boolean>()
 
     init {
-        Observable.zip(originalPackagePrice, packagePrice, { originalPrice, newPrice ->
+        Observable.zip(originalPrice, newPrice, { originalPrice, newPrice ->
             val hasPriceChange = originalPrice != null
-            var priceDiff: Int
 
             if (hasPriceChange) {
                 if (newPrice.amount > originalPrice?.amount) {
@@ -35,7 +34,7 @@ class PriceChangeViewModel(context: Context, lob: LineOfBusiness) {
                     priceChangeDrawable.onNext(ContextCompat.getDrawable(context, R.drawable.price_change_decrease))
                     priceChangeText.onNext(context.getString(R.string.price_changed_from_TEMPLATE, originalPrice?.formattedMoney))
                 }
-                priceDiff = newPrice.amount.toInt() - originalPrice.amount.toInt()
+                val priceDiff = newPrice.amount.toInt() - originalPrice.amount.toInt()
                 if (lob == LineOfBusiness.PACKAGES) {
                     var diffPercentage: Int = 0
                     if (priceDiff.toInt() != 0) {

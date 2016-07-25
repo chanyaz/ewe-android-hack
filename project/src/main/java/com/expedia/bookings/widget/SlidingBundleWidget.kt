@@ -14,19 +14,20 @@ import android.view.View
 import android.view.ViewTreeObserver
 import android.view.animation.AccelerateDecelerateInterpolator
 import com.expedia.bookings.R
+import com.expedia.bookings.data.Codes
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.packages.PackageOfferModel
 import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.presenter.packages.BundleWidget
 import com.expedia.bookings.utils.Constants
+import com.expedia.bookings.tracking.PackagesTracking
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
 import com.expedia.util.subscribeText
 import com.expedia.vm.packages.BundleOverviewViewModel
 import com.expedia.vm.packages.BundlePriceViewModel
 import com.expedia.vm.packages.PackageSearchType
-import com.squareup.phrase.Phrase
 import rx.subjects.PublishSubject
 import java.math.BigDecimal
 
@@ -52,16 +53,20 @@ class SlidingBundleWidget(context: Context, attrs: AttributeSet?) : FrameLayout(
                 if (bundlePriceWidget.height != 0) {
                     bundlePriceWidget.viewTreeObserver.removeOnGlobalLayoutListener(this)
                     val activity = context as Activity
-                    if (!activity.intent.hasExtra(Constants.PACKAGE_LOAD_HOTEL_ROOM)) {
+                    if (activity.intent.extras == null) {
                         bundlePriceWidget.animateBundleWidget(1f, true)
-                        finalizeBundleTransition(true)
+                        finalizeBundleTransition(true, false)
                         bundlePriceFooter.translationY = -statusBarHeight.toFloat()
                         post({
                             closeBundleOverview()
                         })
                     } else {
-                        bundlePriceFooter.translationY = - statusBarHeight.toFloat()
+                        bundlePriceFooter.translationY = -statusBarHeight.toFloat()
                         translationY = height.toFloat() - bundlePriceWidget.height
+
+                        if (activity.intent.hasExtra(Codes.TAG_EXTERNAL_SEARCH_PARAMS)) {
+                            visibility = View.GONE
+                        }
                     }
                 }
             }
@@ -85,7 +90,7 @@ class SlidingBundleWidget(context: Context, attrs: AttributeSet?) : FrameLayout(
         translateBundleOverview(pos)
     }
 
-    fun finalizeBundleTransition(forward: Boolean) {
+    fun finalizeBundleTransition(forward: Boolean, trackLoad: Boolean = true) {
         bundlePriceWidget.bundleTitle.visibility = if (forward) View.VISIBLE else View.GONE
         bundlePriceWidget.bundleSubtitle.visibility = if (forward) View.VISIBLE else View.GONE
         bundlePriceWidget.bundleTotalText.visibility = if (forward) View.GONE else View.VISIBLE
@@ -95,7 +100,10 @@ class SlidingBundleWidget(context: Context, attrs: AttributeSet?) : FrameLayout(
         bundlePriceWidget.setBackgroundColor(if (forward) ContextCompat.getColor(context, R.color.packages_primary_color) else Color.WHITE)
         translationY = if (forward) statusBarHeight.toFloat() else height.toFloat() - bundlePriceWidget.height
         isMoving = false
-        bundlePriceWidget.contentDescription = bundlePriceWidget.viewModel.getAccessibleContentDescription(true, forward)
+        bundlePriceWidget.contentDescription = bundlePriceWidget.viewModel.getAccessibleContentDescription(false, true, forward)
+        if (forward && trackLoad) {
+            PackagesTracking().trackViewBundlePageLoad()
+        }
     }
 
     fun translateBundleOverview(distance: Float) {
@@ -215,13 +223,13 @@ class SlidingBundleWidget(context: Context, attrs: AttributeSet?) : FrameLayout(
         val currentOffer: PackageOfferModel = Db.getPackageResponse().packageResult.currentSelectedOffer
         val packagePrice: PackageOfferModel.PackagePrice = currentOffer.price
         bundlePriceWidget.viewModel.bundleTextLabelObservable.onNext(context.getString(R.string.search_bundle_total_text))
-        val packageSavings = Phrase.from(context, R.string.bundle_total_savings_TEMPLATE)
-                .put("savings", Money(BigDecimal(packagePrice.tripSavings.amount.toDouble()),
-                        packagePrice.tripSavings.currencyCode).formattedMoney).format().toString()
-        bundlePriceWidget.viewModel.setTextObservable.onNext(Pair(Money(BigDecimal(packagePrice.packageTotalPrice.amount.toDouble()),
-                packagePrice.packageTotalPrice.currencyCode).formattedMoney, packageSavings))
-        bundlePriceFooter.viewModel.setTextObservable.onNext(Pair(Money(BigDecimal(packagePrice.packageTotalPrice.amount.toDouble()),
-                packagePrice.packageTotalPrice.currencyCode).formattedMoney, packageSavings))
+        val packageSavings = Money(BigDecimal(packagePrice.tripSavings.amount.toDouble()),
+                packagePrice.tripSavings.currencyCode)
+        bundlePriceWidget.viewModel.pricePerPerson.onNext(Money(BigDecimal(packagePrice.pricePerPerson.amount.toDouble()),
+                packagePrice.packageTotalPrice.currencyCode))
+        bundlePriceFooter.viewModel.total.onNext(Money(BigDecimal(packagePrice.packageTotalPrice.amount.toDouble()),
+                packagePrice.packageTotalPrice.currencyCode))
+        bundlePriceFooter.viewModel.savings.onNext(packageSavings)
     }
 
     override fun onTouchEvent(event: MotionEvent?): Boolean {

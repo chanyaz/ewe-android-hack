@@ -4,7 +4,6 @@ import android.app.Activity
 import android.support.v4.content.ContextCompat
 import android.view.View
 import com.expedia.bookings.R
-import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.packages.PackageSearchParams
 import com.expedia.bookings.test.robolectric.RobolectricRunner
@@ -27,7 +26,7 @@ class PackageOutboundFlightWidgetTest {
     var testDestination: SuggestionV4 by Delegates.notNull()
     val testRegionName = "Chicago"
     val testAirportCode = "ORD"
-    var testWidget: PackageOutboundFlightWidget by Delegates.notNull()
+    var testWidget: OutboundFlightWidget by Delegates.notNull()
     var widgetVM: BundleFlightViewModel by Delegates.notNull()
 
     var expectedDisabledColor: Int by Delegates.notNull()
@@ -37,11 +36,11 @@ class PackageOutboundFlightWidgetTest {
         activity = Robolectric.buildActivity(Activity::class.java).create().get()
         activity.setTheme(R.style.V2_Theme_Packages)
         testDestination = buildMockDestination()
-        setUpParams()
-        testWidget = PackageOutboundFlightWidget(activity, null)
+        testWidget = OutboundFlightWidget(activity, null)
         widgetVM = BundleFlightViewModel(activity)
         testWidget.viewModel = widgetVM
         expectedDisabledColor = ContextCompat.getColor(activity, R.color.package_bundle_icon_color)
+        setUpParams()
     }
 
     @Test
@@ -93,7 +92,7 @@ class PackageOutboundFlightWidgetTest {
                 .origin(SuggestionV4())
                 .destination(testDestination)
                 .build() as PackageSearchParams
-        Db.setPackageParams(packageParams)
+        testWidget.viewModel.searchParams.onNext(packageParams)
     }
 
     private fun buildMockDestination() : SuggestionV4 {

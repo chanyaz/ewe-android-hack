@@ -4,10 +4,8 @@ import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.Phone
 import com.expedia.bookings.data.Traveler
 import com.expedia.bookings.data.TravelerName
-import com.expedia.bookings.data.packages.PackageSearchParams
 import com.expedia.bookings.enums.PassengerCategory
 import org.joda.time.LocalDate
-import org.mockito.Matchers
 import org.mockito.Mockito
 import java.util.ArrayList
 
@@ -18,6 +16,7 @@ class MockTravelerProvider {
 
     val testFullName = "Oscar The Grouch"
     val testNumber = "773202LUNA"
+    val testGender = Traveler.Gender.MALE
     val adultBirthDate = LocalDate.now().minusYears(24)
 
     fun getCompleteMockTraveler(): Traveler {
@@ -29,9 +28,18 @@ class MockTravelerProvider {
         Mockito.`when`(mockTraveler.fullName).thenReturn(testFullName)
         Mockito.`when`(mockTraveler.primaryPhoneNumber).thenReturn(mockPhone)
         Mockito.`when`(mockTraveler.phoneNumber).thenReturn(testNumber)
-
+        Mockito.`when`(mockTraveler.passengerCategory).thenReturn(PassengerCategory.ADULT)
+        Mockito.`when`(mockTraveler.gender).thenReturn(testGender)
         Mockito.`when`(mockTraveler.birthDate).thenReturn(adultBirthDate)
-        Mockito.`when`(mockTraveler.getPassengerCategory(Matchers.any<PackageSearchParams>())).thenReturn(PassengerCategory.ADULT)
+
+        return mockTraveler
+    }
+
+    fun getInCompleteMockTraveler(): Traveler {
+        val mockTraveler = Mockito.mock(Traveler::class.java)
+        Mockito.`when`(mockTraveler.name).thenReturn(getValidTravelerName())
+        Mockito.`when`(mockTraveler.fullName).thenReturn(testFullName)
+        Mockito.`when`(mockTraveler.passengerCategory).thenReturn(PassengerCategory.ADULT)
 
         return mockTraveler
     }

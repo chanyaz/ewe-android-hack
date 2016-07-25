@@ -24,6 +24,7 @@
         "offer": {
             "averageTotalPricePerTicket": {
                 "amount": "596.00",
+                "currencyCode": "USD",
                 "formattedPrice": "$596.00",
                 "formattedWholePrice": "$596"
             },
@@ -64,6 +65,7 @@
                     },
                     "totalPrice": {
                         "amount": "589.00",
+                        "currencyCode": "USD",
                         "formattedPrice": "$589.00",
                         "formattedWholePrice": "$589"
                     }
@@ -82,6 +84,7 @@
                     },
                     "totalPrice": {
                         "amount": "589.00",
+                        "currencyCode": "USD",
                         "formattedPrice": "$589.00",
                         "formattedWholePrice": "$589"
                     }
@@ -113,6 +116,7 @@
             "totalFare": "596.00",
             "totalFarePrice": {
                 "amount": "596.00",
+                "currencyCode": "USD",
                 "formattedPrice": "$596.00",
                 "formattedWholePrice": "$596"
             }
@@ -151,6 +155,7 @@
     "tealeafTransactionId": "tealeafFlight:${productKey}",
     "totalPrice": {
         "amount": "596.00",
+        "currencyCode": "USD",
         "formattedPrice": "$596.00",
         "formattedWholePrice": "$596"
     },

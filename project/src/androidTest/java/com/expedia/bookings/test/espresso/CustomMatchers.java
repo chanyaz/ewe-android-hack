@@ -32,7 +32,7 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.expedia.bookings.data.Property;
-import com.expedia.bookings.widget.FlightListAdapter;
+import com.expedia.bookings.widget.flights.FlightListAdapter;
 
 import static android.support.test.espresso.core.deps.guava.base.Preconditions.checkNotNull;
 import static org.hamcrest.Matchers.equalTo;

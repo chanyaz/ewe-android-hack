@@ -56,7 +56,16 @@ public class LXOfferDatesButton extends Button implements OnClickListener {
 		sb.append(offerDate.dayOfMonth().getAsText(), dateSpan);
 		sb.append("\n");
 		sb.append(isChecked ? offerDate.monthOfYear().getAsShortText() : "", daySpan);
+
+		SpannableBuilder contentDescription = new SpannableBuilder();
+		contentDescription.append(offerDate.dayOfWeek().getAsText(), daySpan);
+		contentDescription.append("\n");
+		contentDescription.append(offerDate.dayOfMonth().getAsText(), dateSpan);
+		contentDescription.append("\n");
+		contentDescription.append(isChecked ? offerDate.monthOfYear().getAsText() : "", daySpan);
+
 		setText(sb.build());
+		setContentDescription(contentDescription.build());
 	}
 
 	@Override

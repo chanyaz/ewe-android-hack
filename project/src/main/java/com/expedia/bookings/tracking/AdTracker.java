@@ -16,7 +16,7 @@ import com.expedia.bookings.data.cars.CarSearch;
 import com.expedia.bookings.data.cars.CarSearchParams;
 import com.expedia.bookings.data.cars.CreateTripCarOffer;
 import com.expedia.bookings.data.cars.SearchCarOffer;
-import com.expedia.bookings.data.lx.LXSearchParams;
+import com.expedia.bookings.data.lx.LxSearchParams;
 import com.expedia.bookings.data.lx.LXSearchResponse;
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.utils.LeanPlumUtils;
@@ -143,16 +143,16 @@ public class AdTracker {
 		}
 	}
 
-	public static void trackLXSearch(LXSearchParams lxSearchParams) {
+	public static void trackLXSearch(LxSearchParams lxSearchParams) {
 		LeanPlumUtils.trackLxSearch(lxSearchParams);
 	}
 
-	public static void trackLXSearchResults(LXSearchParams searchParams, LXSearchResponse searchResponse) {
+	public static void trackLXSearchResults(LxSearchParams searchParams, LXSearchResponse searchResponse) {
 		TuneUtils.trackLXSearch(searchParams, searchResponse);
 		new FacebookEvents().trackLXSearch(searchParams, searchResponse);
 	}
 
-	public static void trackFilteredLXSearchResults(LXSearchParams searchParams, LXSearchResponse searchResponse) {
+	public static void trackFilteredLXSearchResults(LxSearchParams searchParams, LXSearchResponse searchResponse) {
 		new FacebookEvents().trackLXSearch(searchParams, searchResponse);
 	}
 

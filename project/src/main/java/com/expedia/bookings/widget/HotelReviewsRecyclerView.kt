@@ -55,7 +55,7 @@ class HotelReviewsRecyclerView(context: Context, attrs: AttributeSet) : Recycler
                     holder.itemView.bindData(hotelReviewsSummaryViewModel)
                 }
                 is HotelReviewRowView -> {
-                    var hotelReviewRowViewModel = HotelReviewRowViewModel(holder.itemView.context);
+                    var hotelReviewRowViewModel = HotelReviewRowViewModel(holder.itemView.context)
                     hotelReviewRowViewModel.reviewObserver.onNext(reviews.get(position - 1))
                     holder.itemView.bindData(hotelReviewRowViewModel)
                 }

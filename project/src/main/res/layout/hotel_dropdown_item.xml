@@ -25,14 +25,19 @@
         android:paddingLeft="9dp"
         android:src="@drawable/neighborhood_arrow" />
 
-    <com.expedia.bookings.widget.TextView
-        android:id="@+id/title_textview"
+    <LinearLayout android:id="@+id/suggestion_text_container"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_vertical"
-        android:layout_marginBottom="10dp"
-        android:layout_marginTop="10dp"
-        android:paddingLeft="4dp"
-        android:textColor="@color/search_autocomplete_text" />
+        android:orientation="vertical">
+        <com.expedia.bookings.widget.TextView
+            android:id="@+id/title_textview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="10dp"
+            android:paddingLeft="4dp"
+            android:textColor="@color/search_autocomplete_text" />
+    </LinearLayout>
 
 </LinearLayout>

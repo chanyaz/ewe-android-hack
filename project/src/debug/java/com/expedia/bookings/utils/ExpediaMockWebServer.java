@@ -1,38 +1,33 @@
 package com.expedia.bookings.utils;
 
+import android.content.Context;
+import com.mobiata.mocke3.ExpediaDispatcher;
 import java.io.IOException;
 import java.net.InetAddress;
-
-import javax.net.ssl.SSLContext;
-
-import android.content.Context;
-
-import com.mobiata.mocke3.ExpediaDispatcher;
-
 import okhttp3.HttpUrl;
-import okhttp3.internal.SslContextBuilder;
+import okhttp3.internal.tls.SslClient;
 import okhttp3.mockwebserver.MockWebServer;
 
 public final class ExpediaMockWebServer {
 
-	private MockWebServer server = null;
+	private MockWebServer mockWebServer;
 	private ExpediaDispatcher dispatcher = null;
 
-	private final SSLContext sslContext = SslContextBuilder.localhost();
 
 	public ExpediaMockWebServer(Context context) {
-		server = new MockWebServer();
-		server.useHttps(sslContext.getSocketFactory(), false);
-
+		mockWebServer = new MockWebServer();
+		SslClient sslClient = SslClient.localhost();
+		mockWebServer.useHttps(sslClient.socketFactory,false);
 		AndroidFileOpener opener = new AndroidFileOpener(context);
 		dispatcher = new ExpediaDispatcher(opener);
-		server.setDispatcher(dispatcher);
+		mockWebServer.setDispatcher(dispatcher);
+
 	}
 
 	public void start() {
 		try {
 			InetAddress address = InetAddress.getByName("localhost");
-			server.start(address, 0);
+			mockWebServer.start(address, 0);
 		}
 		catch (IOException e) {
 			throw new RuntimeException("Failed to init MockWebServer, wut?", e);
@@ -41,7 +36,7 @@ public final class ExpediaMockWebServer {
 
 	public void shutdown() {
 		try {
-			server.shutdown();
+			mockWebServer.shutdown();
 		}
 		catch (Throwable e) {
 			throw new RuntimeException("Failed to shutdown MockWebServer, wut?", e);
@@ -53,7 +48,8 @@ public final class ExpediaMockWebServer {
 	}
 
 	public String getHostWithPort() {
-		HttpUrl mockUrl = server.url("");
+		HttpUrl mockUrl = mockWebServer.url("");
 		return mockUrl.host() + ":" + mockUrl.port();
 	}
+
 }

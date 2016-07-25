@@ -9,15 +9,17 @@ import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.TravelerParams
 import com.expedia.bookings.utils.DateUtils
 import com.expedia.bookings.utils.SpannableBuilder
+import com.expedia.bookings.utils.Ui
+import com.expedia.bookings.utils.validation.TravelerValidator
 import com.expedia.util.endlessObserver
 import com.mobiata.android.time.util.JodaUtils
 import com.squareup.phrase.Phrase
 import org.joda.time.LocalDate
 import rx.subjects.BehaviorSubject
 import rx.subjects.PublishSubject
+import javax.inject.Inject
 
 abstract class BaseSearchViewModel(val context: Context) {
-
     // Outputs
     val dateAccessibilityObservable = BehaviorSubject.create<CharSequence>()
     val dateTextObservable = BehaviorSubject.create<CharSequence>()
@@ -32,7 +34,7 @@ abstract class BaseSearchViewModel(val context: Context) {
     val errorMaxRangeObservable = PublishSubject.create<String>()
     val enableDateObservable = PublishSubject.create<Boolean>()
     val enableTravelerObservable = PublishSubject.create<Boolean>()
-    val travelersObserver = BehaviorSubject.create<TravelerParams>()
+    val travelersObservable = BehaviorSubject.create<TravelerParams>()
     val errorOriginSameAsDestinationObservable = PublishSubject.create<String>()
 
     val formattedOriginObservable = BehaviorSubject.create<String>()
@@ -41,17 +43,16 @@ abstract class BaseSearchViewModel(val context: Context) {
     val originValidObservable = BehaviorSubject.create<Boolean>(false)
 
     init {
-        travelersObserver.subscribe { update ->
+        travelersObservable.subscribe { update ->
             getParamsBuilder().adults(update.numberOfAdults)
             getParamsBuilder().children(update.childrenAges)
         }
     }
 
     abstract fun getParamsBuilder(): BaseSearchParams.Builder
-
-    abstract fun getMaxSearchDurationDays(): Int;
-
-    abstract fun getMaxDateRange(): Int;
+    abstract fun getMaxSearchDurationDays(): Int
+    abstract fun getMaxDateRange(): Int
+    abstract fun sameStartAndEndDateAllowed():Boolean
 
     val datesObserver = endlessObserver<Pair<LocalDate?, LocalDate?>> { data ->
         onDatesChanged(data)
@@ -158,7 +159,7 @@ abstract class BaseSearchViewModel(val context: Context) {
             val nightsString = context.resources.getQuantityString(R.plurals.length_of_stay, nightCount, nightCount)
 
             if (isContentDescription) {
-                sb.append(Phrase.from(context, R.string.packages_search_dates_content_description_trip)
+                sb.append(Phrase.from(context, R.string.trip_search_date_range_cont_desc_TEMPLATE)
                         .put("date_range", dateRangeText)
                         .put("nights", context.resources.getString(R.string.nights_count_TEMPLATE, nightsString))
                         .format().toString())
@@ -179,12 +180,12 @@ abstract class BaseSearchViewModel(val context: Context) {
 
     open fun computeDateRangeText(start: LocalDate?, end: LocalDate?, isContentDescription: Boolean): String? {
         if (start == null && end == null) {
-            var stringID = if (isContentDescription) R.string.packages_search_dates_content_description_initial else R.string.select_dates
+            var stringID = if (isContentDescription) R.string.packages_search_dates_cont_desc else R.string.select_dates
             return context.resources.getString(stringID)
         } else if (end == null) {
             return context.resources.getString(R.string.select_checkout_date_TEMPLATE, DateUtils.localDateToMMMd(start))
         } else {
-            var stringID = if (isContentDescription) R.string.packages_search_accessible_date_range_TEMPLATE else R.string.calendar_instructions_date_range_TEMPLATE
+            var stringID = if (isContentDescription) R.string.packages_search_date_range_cont_desc_TEMPLATE else R.string.calendar_instructions_date_range_TEMPLATE
             return Phrase.from(context, stringID).put("startdate", DateUtils.localDateToMMMd(start)).put("enddate", DateUtils.localDateToMMMd(end)).format().toString()
         }
     }
@@ -197,4 +198,3 @@ abstract class BaseSearchViewModel(val context: Context) {
         return Pair(computeTopTextForToolTip(start, end), instructions)
     }
 }
-

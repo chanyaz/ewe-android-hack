@@ -36,7 +36,7 @@ def main():
                 endIndex = errorMessages.index('FAILURE: Build failed with an exception.\n')
                 errorMessage = "".join(errorMessages[:endIndex]).strip()
             print errorMessage
-    createUpdateOrDeleteAutomatedFeedbackComment(githubAccessToken, githubOrganization, githubRepository, prPullId, prBuilderType, errorMessage)
+    createUpdateOrDeleteAutomatedFeedbackComment(githubAccessToken, githubOrganization, githubRepository, prPullId, prBuilderType, errorMessage, "java")
 
     if errorMessage != "":
         #Ping the authors that the PR Builder failed

@@ -48,6 +48,7 @@
                         android:layout_width="200dp"
                         android:layout_height="14dp"
                         android:visibility="gone"
+                        android:focusable="true"
                         app:star_color="@color/hotelsv2_detail_star_color"
                         app:star_drawable="@drawable/detail_star"
                         app:star_spacing="4dp"/>
@@ -57,6 +58,7 @@
                         android:layout_width="200dp"
                         android:layout_height="14dp"
                         android:visibility="gone"
+                        android:focusable="true"
                         app:star_color="@color/hotelsv2_detail_star_color"
                         app:star_drawable="@drawable/circle_details"
                         app:star_spacing="4dp"/>

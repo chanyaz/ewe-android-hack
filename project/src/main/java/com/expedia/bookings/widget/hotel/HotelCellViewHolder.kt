@@ -25,6 +25,7 @@ import com.expedia.bookings.extension.shouldShowCircleForRatings
 import com.expedia.bookings.tracking.AdImpressionTracking
 import com.expedia.bookings.tracking.HotelV2Tracking
 import com.expedia.bookings.utils.ColorBuilder
+import com.expedia.bookings.utils.LayoutUtils
 import com.expedia.bookings.utils.bindView
 import com.expedia.vm.hotel.HotelViewModel
 import com.expedia.bookings.widget.StarRatingBar
@@ -83,9 +84,7 @@ open class HotelCellViewHolder(root: ViewGroup, val width: Int) :
     init {
         itemView.setOnClickListener(this)
 
-        if (!ExpediaBookingApp.isAutomation()) {
-            airAttachSVG.setSVG(R.raw.air_attach_curve)
-        }
+        LayoutUtils.setSVG(airAttachSVG, R.raw.air_attach_curve);
 
         if (shouldShowCircleForRatings()) {
             ratingBar = root.findViewById(R.id.circle_rating_bar) as StarRatingBar
@@ -155,11 +154,11 @@ open class HotelCellViewHolder(root: ViewGroup, val width: Int) :
         hotelClickedSubject.onNext(adapterPosition)
     }
 
-    open fun getGuestRatingRecommendedText(rating: Float, resources: Resources) : String {
+    open fun getGuestRatingRecommendedText(rating: Float, resources: Resources): String {
         return getABTestGuestRatingText(rating, resources)
     }
 
-    open fun getGuestRatingBackground(rating: Float, context: Context) : Drawable {
+    open fun getGuestRatingBackground(rating: Float, context: Context): Drawable {
         return getABTestGuestRatingBackground(rating, context)
     }
 
@@ -181,7 +180,7 @@ open class HotelCellViewHolder(root: ViewGroup, val width: Int) :
             val drawable = PaintDrawable()
             drawable.shape = RectShape()
 
-            if (vipMessage.visibility == View.VISIBLE ) {
+            if (vipMessage.visibility == View.VISIBLE) {
                 drawable.shaderFactory = getShader(colorArrayFull)
             } else {
 

@@ -8,8 +8,10 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.util.AttributeSet
 import android.view.View
+import android.view.accessibility.AccessibilityNodeInfo
 import android.widget.EditText
 import com.expedia.bookings.R
+import com.expedia.bookings.utils.Strings
 import com.expedia.bookings.utils.Ui
 import com.jakewharton.rxbinding.widget.RxTextView
 import com.jakewharton.rxbinding.widget.TextViewAfterTextChangeEvent
@@ -21,6 +23,7 @@ class TravelerEditText(context: Context, attrs: AttributeSet?) : EditText(contex
     var valid = true
     var preErrorDrawable: Drawable? = null
     val errorIcon: Drawable
+    var errorContDesc = ""
 
     private var textChangedSubscription: Subscription? = null
     private var errorSubscription: Subscription? = null
@@ -29,6 +32,15 @@ class TravelerEditText(context: Context, attrs: AttributeSet?) : EditText(contex
         errorIcon = ContextCompat.getDrawable(context,
                 Ui.obtainThemeResID(context, R.attr.skin_errorIndicationExclaimationDrawable))
         addTextChangedListener(TravelerTextWatcher())
+        if(attrs != null){
+            val attrSet = context.theme.obtainStyledAttributes(attrs, R.styleable.TravelerEditText, 0, 0);
+            try {
+                errorContDesc = attrSet.getString(R.styleable.TravelerEditText_error_cont_desc) ?: ""
+            }
+            finally {
+                attrSet.recycle();
+            }
+        }
     }
 
     fun addTextChangedSubscriber(observer: Observer<TextViewAfterTextChangeEvent>) {
@@ -58,6 +70,13 @@ class TravelerEditText(context: Context, attrs: AttributeSet?) : EditText(contex
                 setCompoundDrawablesWithIntrinsicBounds(compounds[0], compounds[1], errorIcon, compounds[3])
                 valid = false
             }
+        }
+    }
+
+    override fun onInitializeAccessibilityNodeInfo(nodeInfo: AccessibilityNodeInfo){
+        super.onInitializeAccessibilityNodeInfo(nodeInfo)
+        if(!valid && Strings.isNotEmpty(errorContDesc)) {
+            nodeInfo.text = nodeInfo.text.toString() + " " + errorContDesc
         }
     }
 

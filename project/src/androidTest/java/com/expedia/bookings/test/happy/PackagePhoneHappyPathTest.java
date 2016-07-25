@@ -4,6 +4,7 @@ import org.hamcrest.CoreMatchers;
 import org.joda.time.LocalDate;
 
 import android.support.test.espresso.Espresso;
+import android.support.test.espresso.matcher.RootMatchers;
 import android.support.test.espresso.matcher.ViewMatchers;
 
 import com.expedia.bookings.R;
@@ -20,6 +21,7 @@ import com.expedia.bookings.test.phone.pagemodels.common.SearchScreen;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
+import static android.support.test.espresso.action.ViewActions.longClick;
 import static android.support.test.espresso.action.ViewActions.scrollTo;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.hasDescendant;
@@ -28,12 +30,14 @@ import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withEffectiveVisibility;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
+import static com.expedia.bookings.test.espresso.CustomMatchers.withNavigationContentDescription;
 import static org.hamcrest.CoreMatchers.allOf;
+import static org.hamcrest.CoreMatchers.not;
 
 public class PackagePhoneHappyPathTest extends PackageTestCase {
 
 	public void testPackagePhoneHappyPath() throws Throwable {
-		SearchScreen.selectOriginAndDestination();
+		SearchScreen.selectPackageOriginAndDestination();
 		LocalDate startDate = LocalDate.now().plusDays(3);
 		LocalDate endDate = LocalDate.now().plusDays(8);
 		SearchScreen.selectDates(startDate, endDate);
@@ -45,6 +49,7 @@ public class PackagePhoneHappyPathTest extends PackageTestCase {
 		assertHotelSRP();
 
 		Common.pressBack();
+		onView(allOf(withId(R.id.widget_bundle_overview))).perform(ViewActions.waitForViewToDisplay());
 		onView(allOf(withId(R.id.widget_bundle_overview))).check(matches(isDisplayed()));
 		PackageScreen.clickHotelBundle();
 
@@ -54,40 +59,54 @@ public class PackagePhoneHappyPathTest extends PackageTestCase {
 
 		assertHotelInfoSite();
 		reviews();
-		assertHotelBundlePrice("$1,027.34", "View your bundle", "$21.61 Saved");
+		assertHotelBundlePrice("$1,027.34", "View your bundle", "per person");
 
 		PackageScreen.selectRoom();
 
+		assertBundlePrice("$1,931.69", "View your bundle");
 		PackageScreen.selectFlight(0);
-		assertBundlePriceInFlight("$3,864");
+		assertBundlePriceInFlight("$1,932");
 		PackageScreen.selectThisFlight().perform(click());
 
 		FlightTestHelpers.assertDockedOutboundFlightSelectionWidget();
 		FlightsResultsScreen.dockedOutboundFlightSelectionWidgetContainsText("Outbound");
 		FlightsResultsScreen.dockedOutboundFlightSelectionWidgetContainsText("United");
 		FlightsResultsScreen.dockedOutboundFlightSelectionWidgetContainsText("9:00 am - 11:12 am (5h 12m)");
+		assertBundlePrice("$2,105.95", "View your bundle");
 
 		PackageScreen.selectFlight(0);
-		assertBundlePriceInFlight("$4,212");
+		assertBundlePriceInFlight("$2,106");
+		PackageScreen.selectThisFlight().perform(ViewActions.waitForViewToDisplay());
 		PackageScreen.selectThisFlight().perform(click());
 
 		PackageScreen.checkout().perform(click());
+
+		HotelScreen.doLogin();
+		HotelScreen.clickSignOut();
 
 		PackageScreen.travelerInfo().perform(scrollTo(), click());
 		onView(allOf(withId(R.id.boarding_warning), withText(mRes.getString(R.string.name_must_match_warning_new)))).check(matches(isDisplayed()));
 		PackageScreen.enterFirstName("FiveStar");
 		PackageScreen.enterLastName("Bear");
 		PackageScreen.enterPhoneNumber("7732025862");
-		PackageScreen.selectBirthDate(9, 6, 1989);
+		PackageScreen.selectBirthDate(1989, 6, 9);
 		PackageScreen.selectGender("Male");
 
 		PackageScreen.clickTravelerAdvanced();
 		PackageScreen.enterRedressNumber("1234567");
+		Common.closeSoftKeyboard(onView(withId(R.id.first_name_input)));
+		PackageScreen.clickSpecialAssistance();
+		Common.delay(1);
+		onView(withText("Deaf with hearing dog")).perform(click());
+		Common.closeSoftKeyboard(onView(withId(R.id.first_name_input)));
+		PackageScreen.clickSeatPreference();
+		Common.delay(1);
+		onView(withText("Window")).perform(click());
 
 		PackageScreen.clickTravelerDone();
 		PackageScreen.enterPaymentInfo();
 
-		assetCheckout();
+		assertCheckout();
 		CheckoutViewModel.performSlideToPurchase();
 		Common.delay(1);
 
@@ -107,6 +126,9 @@ public class PackagePhoneHappyPathTest extends PackageTestCase {
 	}
 
 	private void assertFilter() {
+		onView(withId(R.id.filter_btn)).perform(longClick());
+		onView(withText(R.string.sort_and_filter)).
+			inRoot(RootMatchers.withDecorView(not(getActivity().getWindow().getDecorView()))).check(matches(isDisplayed()));
 		onView(withId(R.id.filter_btn)).perform(click());
 		onView(withId(R.id.sort_by_selection_spinner)).check(matches(isDisplayed()));
 		onView(withText(R.string.sort_and_filter)).check(matches(isDisplayed()));
@@ -134,9 +156,10 @@ public class PackagePhoneHappyPathTest extends PackageTestCase {
 			.check(matches(isDisplayed()));
 	}
 
-	private void assetCheckout() {
+	private void assertCheckout() {
 		onView(allOf(withId(R.id.legal_information_text_view), withText(
 			"By completing this booking I agree that I have read and accept the Rules and Restrictions, the Terms and Conditions, and the Privacy Policy.")))
+			.perform(ViewActions.waitForViewToDisplay())
 			.check(matches(isDisplayed()));
 		onView(allOf(withId(R.id.purchase_total_text_view), withText("Your card will be charged $2,538.62")))
 			.check(matches(isDisplayed()));
@@ -144,7 +167,8 @@ public class PackagePhoneHappyPathTest extends PackageTestCase {
 
 	private void assertBundlePrice(String price, String totalText) {
 		onView(allOf(withId(R.id.bundle_total_text), withText(totalText))).check(matches(isDisplayed()));
-		onView(allOf(withId(R.id.bundle_total_includes_text), withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE),
+		onView(allOf(withId(R.id.bundle_total_includes_text), isDescendantOfA(withId(R.id.bundle_price_widget)),
+			withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE),
 			withText(
 				"Includes taxes, fees, flights + hotel"))).check(matches(isDisplayed()));
 		onView(allOf(withId(R.id.bundle_total_price), withText(price))).check(matches(isDisplayed()));
@@ -161,7 +185,7 @@ public class PackagePhoneHappyPathTest extends PackageTestCase {
 			allOf(withId(R.id.bundle_total_price), isDescendantOfA(withId(R.id.bundle_price_widget)), withText(price)))
 			.check(matches(isDisplayed()));
 		onView(
-			allOf(withId(R.id.bundle_total_savings), isDescendantOfA(withId(R.id.bundle_price_widget)), withText(savings)))
+			allOf(withId(R.id.per_person_text), isDescendantOfA(withId(R.id.bundle_price_widget)), withText(savings)))
 			.check(matches(isDisplayed()));
 	}
 
@@ -173,6 +197,7 @@ public class PackagePhoneHappyPathTest extends PackageTestCase {
 	private void reviews() throws Throwable {
 		HotelScreen.clickRatingContainer();
 		HotelScreen.reviews().perform(ViewActions.waitForViewToDisplay());
+		onView(withId(R.id.hotel_reviews_toolbar)).check(matches(withNavigationContentDescription("Close")));
 		onView(withText(R.string.user_review_sort_button_critical)).perform(click());
 		onView(withText(R.string.user_review_sort_button_favorable)).perform(click());
 		onView(withText(R.string.user_review_sort_button_recent)).perform(click());

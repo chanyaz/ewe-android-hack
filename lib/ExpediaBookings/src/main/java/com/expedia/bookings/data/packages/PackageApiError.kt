@@ -13,7 +13,8 @@ class PackageApiError {
         pkg_piid_expired,
         pkg_no_flights_available,
         pkg_pss_downstream_service_timeout,
-        pkg_too_many_children_in_lap
+        pkg_too_many_children_in_lap,
+        pkg_hotel_no_longer_available
     }
 
     val errorCode: Code = Code.pkg_unknown_error

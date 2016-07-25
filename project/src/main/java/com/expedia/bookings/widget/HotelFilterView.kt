@@ -142,6 +142,7 @@ class HotelFilterView(context: Context, attrs: AttributeSet) : FrameLayout(conte
         filterStarFive.subscribeOnClick(vm.fiveStarFilterObserver)
 
         dynamicFeedbackClearButton.setOnClickListener {
+            dynamicFeedbackClearButton.announceForAccessibility(context.getString(R.string.filters_cleared))
             vm.clearObservable.onNext(Unit)
             if (vm.lob == LineOfBusiness.PACKAGES) {
                 PackagesTracking().trackHotelClearFilter()

@@ -8,6 +8,7 @@ import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.LayerDrawable;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -49,6 +50,8 @@ import com.expedia.bookings.utils.ClearPrivateDataUtil;
 import com.expedia.bookings.utils.Constants;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.utils.UserAccountRefresher;
+import com.google.android.gms.auth.api.Auth;
+import com.google.android.gms.common.api.GoogleApiClient;
 import com.mobiata.android.SocialUtils;
 import com.mobiata.android.fragment.AboutSectionFragment;
 import com.mobiata.android.fragment.AboutSectionFragment.AboutSectionFragmentListener;
@@ -63,7 +66,8 @@ import butterknife.OnClick;
 
 public class AccountSettingsActivity extends AppCompatActivity implements AboutSectionFragmentListener,
 	AboutUtils.CountrySelectDialogListener, LoginConfirmLogoutDialogFragment.DoLogoutListener,
-	UserAccountRefresher.IUserAccountRefreshListener, ClearPrivateDataDialog.ClearPrivateDataDialogListener {
+	UserAccountRefresher.IUserAccountRefreshListener, ClearPrivateDataDialog.ClearPrivateDataDialogListener,
+	GoogleApiClient.ConnectionCallbacks {
 	private static final String TAG_SUPPORT = "TAG_SUPPORT";
 	private static final String TAG_ALSO_BY_US = "TAG_ALSO_BY_US";
 	private static final String TAG_LEGAL = "TAG_LEGAL";
@@ -100,6 +104,8 @@ public class AccountSettingsActivity extends AppCompatActivity implements AboutS
 	private AboutSectionFragment legalFragment;
 	private ScrollView scrollContainer;
 	private boolean notPortraitOrientation;
+
+	private GoogleApiClient mGoogleApiClient;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -472,7 +478,8 @@ public class AccountSettingsActivity extends AppCompatActivity implements AboutS
 
 				if (member.getLoyaltyPointsPending() > 0) {
 					pendingPointsTextView.setVisibility(View.VISIBLE);
-					pendingPointsTextView.setText(getString(R.string.loyalty_points_pending, numberFormatter.format(userLoyaltyInfo.getLoyaltyPointsPending())));
+					pendingPointsTextView.setText(getString(R.string.loyalty_points_pending,
+						numberFormatter.format(userLoyaltyInfo.getLoyaltyPointsPending())));
 				}
 				else {
 					pendingPointsTextView.setVisibility(View.GONE);
@@ -607,7 +614,7 @@ public class AccountSettingsActivity extends AppCompatActivity implements AboutS
 		User.signIn(this, args);
 	}
 
-	
+
 	//////////////////////////
 	// Sign Out Button
 
@@ -619,9 +626,18 @@ public class AccountSettingsActivity extends AppCompatActivity implements AboutS
 
 	@Override
 	public void doLogout() {
+		disableAutoSignIn();
 		User.signOut(this);
 		scrollContainer.smoothScrollTo(0, 0);
 		adjustLoggedInViews();
+	}
+
+	private void disableAutoSignIn() {
+		mGoogleApiClient = new GoogleApiClient.Builder(this)
+			.addConnectionCallbacks(this)
+			.addApi(Auth.CREDENTIALS_API)
+			.build();
+		mGoogleApiClient.connect();
 	}
 
 	//////////////////////////////////////////////////////////////////////////
@@ -697,6 +713,17 @@ public class AccountSettingsActivity extends AppCompatActivity implements AboutS
 	private void setGoogleAccountChangeVisiblity(View view) {
 		view.setVisibility(ProductFlavorFeatureConfiguration.getInstance().isGoogleAccountChangeEnabled() ? View.VISIBLE
 			: View.GONE);
+	}
+
+	@Override
+	public void onConnected(@Nullable Bundle bundle) {
+		Auth.CredentialsApi.disableAutoSignIn(mGoogleApiClient);
+		mGoogleApiClient.disconnect();
+	}
+
+	@Override
+	public void onConnectionSuspended(int i) {
+		// Connection is never suspended for disabling auto sign in.
 	}
 
 	private class GoogleAccountChangeListener implements View.OnClickListener {

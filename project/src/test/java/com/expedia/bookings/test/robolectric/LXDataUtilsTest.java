@@ -11,10 +11,12 @@ import org.robolectric.RuntimeEnvironment;
 
 import android.content.Context;
 import android.net.Uri;
+import android.widget.TextView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Location;
-import com.expedia.bookings.data.lx.LXSearchParams;
+import com.expedia.bookings.data.Money;
+import com.expedia.bookings.data.lx.LxSearchParams;
 import com.expedia.bookings.data.lx.LXTicketType;
 import com.expedia.bookings.data.lx.SearchType;
 import com.expedia.bookings.data.lx.Ticket;
@@ -88,32 +90,34 @@ public class LXDataUtilsTest {
 	public void testBuildLXSearchParamsFromDeeplinkSearch() {
 		final String expectedURL = "expda://activitySearch?startDate=2015-08-08&location=San+Francisco";
 		final String location = "San Francisco";
-		final String startDate = DateUtils.localDateToyyyyMMdd(DateUtils.ensureDateIsTodayOrInFuture(DateUtils.yyyyMMddToLocalDate("2015-08-08")));
+		final String startDate = DateUtils
+			.localDateToyyyyMMdd(DateUtils.ensureDateIsTodayOrInFuture(DateUtils.yyyyMMddToLocalDate("2015-08-08")));
 
-		LXSearchParams obtainedLxSearchParams = getLxSearchParamsFromDeeplink(expectedURL);
+		LxSearchParams obtainedLxSearchParams = getLxSearchParamsFromDeeplink(expectedURL);
 
-		LXSearchParams expectedLxSearchParams = new LXSearchParams();
-		expectedLxSearchParams.location(location).startDate(DateUtils.yyyyMMddToLocalDate(startDate));
+		LxSearchParams expectedLxSearchParams = (LxSearchParams) new LxSearchParams.Builder().location(location)
+			.startDate(DateUtils.yyyyMMddToLocalDate(startDate)).endDate(DateUtils.yyyyMMddToLocalDate(startDate).plusDays(14)).build();
 
-		assertEquals(expectedLxSearchParams.location, obtainedLxSearchParams.location);
-		assertEquals(expectedLxSearchParams.startDate, obtainedLxSearchParams.startDate);
+		assertEquals(expectedLxSearchParams.getLocation(), obtainedLxSearchParams.getLocation());
+		assertEquals(expectedLxSearchParams.getActivityStartDate(), obtainedLxSearchParams.getActivityStartDate());
 	}
 
 	@Test
 	public void testBuildLXSearchParamsFromDeeplinkSearchWithFilters() {
 		final String expectedURL = "expda://activitySearch?startDate=2015-08-08&location=San+Francisco&filters=Private+Transfers|Shared+Transfers";
 		final String location = "San Francisco";
-		final String startDate = DateUtils.localDateToyyyyMMdd(DateUtils.ensureDateIsTodayOrInFuture(DateUtils.yyyyMMddToLocalDate("2015-08-08")));
+		final String startDate = DateUtils
+			.localDateToyyyyMMdd(DateUtils.ensureDateIsTodayOrInFuture(DateUtils.yyyyMMddToLocalDate("2015-08-08")));
 		final String filters = "Private Transfers|Shared Transfers";
 
-		LXSearchParams obtainedLxSearchParams = getLxSearchParamsFromDeeplink(expectedURL);
+		LxSearchParams obtainedLxSearchParams = getLxSearchParamsFromDeeplink(expectedURL);
 
-		LXSearchParams expectedLxSearchParams = new LXSearchParams();
-		expectedLxSearchParams.filters(filters).location(location).startDate(DateUtils.yyyyMMddToLocalDate(startDate));
+		LxSearchParams expectedLxSearchParams = (LxSearchParams) new LxSearchParams.Builder().filters(filters).location(location)
+			.startDate(DateUtils.yyyyMMddToLocalDate(startDate)).endDate(DateUtils.yyyyMMddToLocalDate(startDate).plusDays(14)).build();
 
-		assertEquals(expectedLxSearchParams.location, obtainedLxSearchParams.location);
-		assertEquals(expectedLxSearchParams.filters, obtainedLxSearchParams.filters);
-		assertEquals(expectedLxSearchParams.startDate, obtainedLxSearchParams.startDate);
+		assertEquals(expectedLxSearchParams.getLocation(), obtainedLxSearchParams.getLocation());
+		assertEquals(expectedLxSearchParams.getFilters(), obtainedLxSearchParams.getFilters());
+		assertEquals(expectedLxSearchParams.getActivityStartDate(), obtainedLxSearchParams.getActivityStartDate());
 	}
 
 	@Test
@@ -124,13 +128,13 @@ public class LXDataUtilsTest {
 		// URL with no date.
 		final String missingDateURL = "expda://activitySearch?location=San Francisco";
 
-		LXSearchParams searchParamsFromEmptyParamsURL = getLxSearchParamsFromDeeplink(emptyParamsURL);
-		LXSearchParams searchParamsFromMissingDateURL = getLxSearchParamsFromDeeplink(missingDateURL);
+		LxSearchParams searchParamsFromEmptyParamsURL = getLxSearchParamsFromDeeplink(emptyParamsURL);
+		LxSearchParams searchParamsFromMissingDateURL = getLxSearchParamsFromDeeplink(missingDateURL);
 
 
 		// Default to today's date, in case of an incorrect URL.
-		assertEquals(searchParamsFromEmptyParamsURL.startDate, LocalDate.now());
-		assertEquals(searchParamsFromMissingDateURL.startDate, LocalDate.now());
+		assertEquals(searchParamsFromEmptyParamsURL.getActivityStartDate(), LocalDate.now());
+		assertEquals(searchParamsFromMissingDateURL.getActivityStartDate(), LocalDate.now());
 	}
 
 	@Test
@@ -140,28 +144,59 @@ public class LXDataUtilsTest {
 		location.setCity("San francisco");
 		location.setStateCode("SFO");
 		LocalDate checkoutDate = new LocalDate().plusDays(14);
-
-		// Expected params.
-		LXSearchParams expectedSearchParams = new LXSearchParams();
-		expectedSearchParams.startDate = checkinDate;
-		expectedSearchParams.location = getContext().getResources().getString(
+		String locationText = getContext().getResources().getString(
 			R.string.lx_destination_TEMPLATE, location.getCity(),
 			Strings.isEmpty(location.getStateCode()) ? location.getCountryCode() : location.getStateCode());
-		expectedSearchParams.endDate = checkoutDate;
-		expectedSearchParams.searchType = SearchType.EXPLICIT_SEARCH;
+		// Expected params.
+		LxSearchParams expectedSearchParams = (LxSearchParams) new LxSearchParams.Builder()
+			.searchType(SearchType.EXPLICIT_SEARCH).location(locationText).startDate(checkinDate).endDate(checkoutDate)
+			.build();
 
-		LXSearchParams obtainedSearchParams = LXDataUtils.fromHotelParams(getContext(), checkinDate, location);
+		LxSearchParams obtainedSearchParams = LXDataUtils.fromHotelParams(getContext(), checkinDate, location);
 
-		assertEquals(expectedSearchParams.location, obtainedSearchParams.location);
-		assertEquals(expectedSearchParams.searchType, obtainedSearchParams.searchType);
-		assertEquals(expectedSearchParams.startDate, obtainedSearchParams.startDate);
-		assertEquals(expectedSearchParams.endDate, obtainedSearchParams.endDate);
+		assertEquals(expectedSearchParams.getLocation(), obtainedSearchParams.getLocation());
+		assertEquals(expectedSearchParams.getSearchType(), obtainedSearchParams.getSearchType());
+		assertEquals(expectedSearchParams.getActivityStartDate(), obtainedSearchParams.getActivityStartDate());
+		assertEquals(expectedSearchParams.getActivityEndDate(), obtainedSearchParams.getActivityEndDate());
 
 	}
 
-	private LXSearchParams getLxSearchParamsFromDeeplink(String expectedURL) {
+	@Test
+	public void getToolbarSearchDateTextTest() {
+		LocalDate startDate = new LocalDate(2016, 4, 23);
+		LocalDate endDate = new LocalDate(2016, 4, 23).plusDays(2);
+		LxSearchParams searchParams = (LxSearchParams) new LxSearchParams.Builder().location("NewYork").startDate(startDate)
+			.endDate(endDate).build();
+
+		String toolbarSearchDateText = LXDataUtils.getToolbarSearchDateText(getContext(), searchParams, false);
+		assertEquals(toolbarSearchDateText, "Apr 23 - Apr 25");
+
+		String toolbarSearchDateTextContDesc = LXDataUtils.getToolbarSearchDateText(getContext(), searchParams, true);
+		assertEquals(toolbarSearchDateTextContDesc, "Apr 23 to Apr 25");
+	}
+
+	private LxSearchParams getLxSearchParamsFromDeeplink(String expectedURL) {
 		Uri data = Uri.parse(expectedURL);
 		Set<String> queryData = data.getQueryParameterNames();
 		return LXDataUtils.buildLXSearchParamsFromDeeplink(data, queryData);
+	}
+
+	@Test
+	public void bindPriceAndTicketTypeTest() {
+		TextView activityPrice = new TextView(getContext());
+		TextView fromPriceTicketType = new TextView(getContext());
+		LXDataUtils.bindPriceAndTicketType(getContext(), LXTicketType.Traveler, new Money("180", "USD"),
+			new Money("0", "USD"), activityPrice, fromPriceTicketType);
+
+		assertEquals(activityPrice.getText(), "$180");
+		assertEquals(activityPrice.getContentDescription(), "Price is $180");
+		assertEquals(fromPriceTicketType.getText(), "per traveler");
+
+		LXDataUtils.bindPriceAndTicketType(getContext(), LXTicketType.Traveler, new Money("180", "USD"),
+			new Money("220", "USD"), activityPrice, fromPriceTicketType);
+
+		assertEquals(activityPrice.getText(), "$180");
+		assertEquals(activityPrice.getContentDescription(), "Price is $180. Price before discount was $220");
+		assertEquals(fromPriceTicketType.getText(), "per traveler");
 	}
 }

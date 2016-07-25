@@ -34,7 +34,7 @@ class ExpediaDispatcher(protected var fileOpener: FileOpener) : Dispatcher() {
         }
 
         // Rails API
-        if (request.path.startsWith("/rails/ecom/v1/shopping") || request.path.startsWith("/m/api/rails")) {
+        if (request.path.startsWith("/rails/domain/m/api/v1/") || request.path.startsWith("/m/api/rails")) {
             return railApiRequestDispatcher.dispatch(request)
         }
 
@@ -91,6 +91,11 @@ class ExpediaDispatcher(protected var fileOpener: FileOpener) : Dispatcher() {
         // User API
         if (request.path.contains("/api/user/sign-in")) {
             return dispatchSignIn(request)
+        }
+
+        // Insurance API
+        if (request.path.startsWith("/m/api/insurance")) {
+            return dispatchInsurance(request)
         }
 
         // Omniture
@@ -328,6 +333,18 @@ class ExpediaDispatcher(protected var fileOpener: FileOpener) : Dispatcher() {
             response.setBodyDelay(tripParams[1]?.toLong() ?: 0  , TimeUnit.MILLISECONDS)
         }
         return response
+    }
+
+    private fun dispatchInsurance(request: RecordedRequest): MockResponse {
+        val params = parseHttpRequest(request)
+
+        if (params["insuranceProductId"].isNullOrEmpty()) {
+            // insurance removed from trip
+            return makeResponse("api/flight/trip/create/${params["tripId"]}_with_insurance_available.json")
+        } else {
+            // insurance added to trip
+            return makeResponse("api/flight/trip/create/${params["tripId"]}_with_insurance_selected.json")
+        }
     }
 
     fun numOfTravelAdRequests(key: String): Int {

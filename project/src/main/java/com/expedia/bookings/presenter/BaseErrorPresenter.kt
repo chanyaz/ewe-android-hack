@@ -16,6 +16,10 @@ import com.expedia.bookings.R
 import com.expedia.bookings.utils.ArrowXDrawableUtil
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
+import com.expedia.util.notNullAndObservable
+import com.expedia.util.subscribeOnClick
+import com.expedia.util.subscribeText
+import com.expedia.vm.AbstractErrorViewModel
 
 abstract class BaseErrorPresenter(context: Context, attr: AttributeSet?) : Presenter(context, attr) {
     val root: ViewGroup by bindView(R.id.main_container)
@@ -24,6 +28,19 @@ abstract class BaseErrorPresenter(context: Context, attr: AttributeSet?) : Prese
     val errorText: TextView by bindView(R.id.error_text)
     val standardToolbarContainer: LinearLayout by bindView(R.id.standard_toolbar)
     val standardToolbar: Toolbar by bindView(R.id.error_toolbar)
+
+    var viewmodel: AbstractErrorViewModel by notNullAndObservable { vm ->
+        setupViewModel(vm)
+    }
+
+    open protected fun setupViewModel(vm: AbstractErrorViewModel) {
+        vm.imageObservable.subscribe { errorImage.setImageResource(it) }
+        vm.buttonOneTextObservable.subscribeText(errorButton)
+        vm.errorMessageObservable.subscribeText(errorText)
+        vm.titleObservable.subscribe { standardToolbar.title = it }
+        vm.subTitleObservable.subscribe { standardToolbar.subtitle = it }
+        errorButton.subscribeOnClick(vm.buttonOneClickedObservable)
+    }
 
     private var navIcon = ArrowXDrawableUtil.getNavigationIconDrawable(context, ArrowXDrawableUtil.ArrowDrawableType.BACK)
 
@@ -41,15 +58,25 @@ abstract class BaseErrorPresenter(context: Context, attr: AttributeSet?) : Prese
             val statusBar = Ui.setUpStatusBar(getContext(), standardToolbar, root, ContextCompat.getColor(context, Ui.obtainThemeResID(context, R.attr.primary_color)))
             addView(statusBar)
         }
+
+        standardToolbar.setNavigationOnClickListener {
+            viewmodel.defaultErrorObservable.onNext(Unit)
+        }
     }
 
+    override fun back(): Boolean {
+        viewmodel.defaultErrorObservable.onNext(Unit)
+        return true
+    }
+
+    abstract fun getViewModel(): AbstractErrorViewModel
+
     fun animationUpdate(f: Float, forward: Boolean) {
-        var factor = if (forward) f else Math.abs(1 - f)
+        val factor = if (forward) f else Math.abs(1 - f)
         navIcon.parameter = factor
     }
 
     fun animationFinalize() {
         navIcon.parameter = ArrowXDrawableUtil.ArrowDrawableType.BACK.type.toFloat()
     }
-
 }

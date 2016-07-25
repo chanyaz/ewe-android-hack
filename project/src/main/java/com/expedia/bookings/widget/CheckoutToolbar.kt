@@ -30,10 +30,10 @@ class CheckoutToolbar(context: Context, attrs: AttributeSet) : Toolbar(context, 
             subtitle = it
         }
         vm.menuTitle.subscribe {
-            menuItem.setTitle(it)
+            menuItem.title = it
         }
         vm.menuVisibility.subscribe {
-            menuItem.setVisible(it)
+            menuItem.isVisible = it
         }
         vm.enableMenuItem.subscribe { enable ->
             val view = findViewById(R.id.menu_done)
@@ -41,15 +41,15 @@ class CheckoutToolbar(context: Context, attrs: AttributeSet) : Toolbar(context, 
                 val textView = view as TextView
                 textView.alpha = if (enable) 1f else 0.15f
             }
-            menuItem.setVisible(true)
-            menuItem.setEnabled(enable)
+            menuItem.isVisible = true
+            menuItem.isEnabled = enable
         }
         vm.nextClicked.subscribe {
             setNextFocus()
         }
         vm.visibleMenuWithTitleDone.subscribe {
-            menuItem.setVisible(true)
-            menuItem.setTitle(context.getString(R.string.done))
+            menuItem.isVisible = true
+            menuItem.title = context.getString(R.string.done)
         }
 
         vm.currentFocus.subscribe {
@@ -68,7 +68,7 @@ class CheckoutToolbar(context: Context, attrs: AttributeSet) : Toolbar(context, 
     init {
         inflateMenu(R.menu.checkout_menu)
         menuItem = menu.findItem(R.id.menu_done)
-        menuItem.setVisible(false)
+        menuItem.isVisible = false
         menuItem.setOnMenuItemClickListener { it ->
             when (it.title) {
                 context.getString(R.string.coupon_submit_button) -> {

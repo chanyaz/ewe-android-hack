@@ -5,7 +5,6 @@ import android.graphics.Color
 import android.graphics.PorterDuff
 import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
-import android.support.v7.view.menu.ActionMenuItemView
 import android.support.v7.widget.Toolbar
 import android.util.AttributeSet
 import android.view.MenuItem
@@ -14,6 +13,7 @@ import android.view.ViewStub
 import android.view.animation.DecelerateInterpolator
 import com.expedia.bookings.R
 import com.expedia.bookings.data.flights.FlightLeg
+import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.presenter.ScaleTransition
 import com.expedia.bookings.presenter.shared.FlightOverviewPresenter
@@ -22,67 +22,67 @@ import com.expedia.bookings.utils.ArrowXDrawableUtil
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.BaggageFeeInfoWidget
-import com.expedia.bookings.widget.FlightListAdapter
-import com.expedia.bookings.widget.PackageFlightFilterWidget
-import com.expedia.bookings.widget.flights.PaymentFeeInfoWidget
+import com.expedia.bookings.widget.BaseFlightFilterWidget
+import com.expedia.bookings.widget.flights.PaymentFeeInfoWebView
+import com.expedia.util.endlessObserver
 import com.expedia.util.notNullAndObservable
+import com.expedia.vm.BaseFlightFilterViewModel
 import com.expedia.vm.FlightOverviewViewModel
 import com.expedia.vm.FlightResultsViewModel
-import com.expedia.vm.FlightSearchViewModel
 import com.expedia.vm.FlightToolbarViewModel
 import com.expedia.vm.WebViewViewModel
-import com.expedia.vm.packages.FlightFilterViewModel
 import rx.Observer
 import rx.exceptions.OnErrorNotImplementedException
-import kotlin.properties.Delegates
 
-abstract class BaseFlightPresenter(context: Context, attrs: AttributeSet) : Presenter(context, attrs) {
+abstract class BaseFlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(context, attrs) {
 
     val ANIMATION_DURATION = 400
     val toolbar: Toolbar by bindView(R.id.flights_toolbar)
     var navIcon = ArrowXDrawableUtil.getNavigationIconDrawable(getContext(), ArrowXDrawableUtil.ArrowDrawableType.BACK)
-    var menuFilter: MenuItem? = null // not used for flights LOB
-    var menuSearch: MenuItem by Delegates.notNull()
-    var flightSearchViewModel: FlightSearchViewModel by notNullAndObservable { vm ->
-        val flightListAdapter = FlightListAdapter(context, resultsPresenter.flightSelectedSubject, vm)
-        resultsPresenter.setAdapter(flightListAdapter)
-        toolbarViewModel.isOutboundSearch.onNext(isOutboundResultsPresenter())
-        vm.confirmedOutboundFlightSelection.subscribe(resultsPresenter.outboundFlightSelectedSubject)
-        vm.flightOfferSelected.subscribe { overviewPresenter.paymentFeesMayApplyTextView.visibility = if (it.mayChargeOBFees) VISIBLE else GONE }
-        vm.obFeeDetailsUrlObservable.subscribe(paymentFeeInfo.viewModel.webViewURLObservable)
+    val airlinesChargePaymentFees = PointOfSale.getPointOfSale().doAirlinesChargeAdditionalFeeBasedOnPaymentMethod()
+
+    val menuFilter: MenuItem by lazy {
+        val menuFilter = toolbar.menu.findItem(R.id.menu_filter)
+        menuFilter
+    } // not used for flights LOB
+    val menuSearch: MenuItem by lazy {
+        val menuSearch = toolbar.menu.findItem(R.id.menu_search)
+        menuSearch
     }
 
-    val baggageFeeInfo: BaggageFeeInfoWidget by lazy {
+    val baggageFeeInfoWebView: BaggageFeeInfoWidget by lazy {
         val viewStub = findViewById(R.id.baggage_fee_stub) as ViewStub
         val baggageFeeView = viewStub.inflate() as BaggageFeeInfoWidget
         baggageFeeView.viewModel = WebViewViewModel()
         baggageFeeView
     }
 
-    val paymentFeeInfo: PaymentFeeInfoWidget by lazy {
+    val paymentFeeInfoWebView: PaymentFeeInfoWebView by lazy {
         val viewStub = findViewById(R.id.payment_fee_info_stub) as ViewStub
-        val paymentFeeInfoWidget = viewStub.inflate() as PaymentFeeInfoWidget
+        val paymentFeeInfoWidget = viewStub.inflate() as PaymentFeeInfoWebView
         paymentFeeInfoWidget.viewModel = WebViewViewModel()
         paymentFeeInfoWidget
     }
 
-    val filter: PackageFlightFilterWidget by lazy {
+    val filter: BaseFlightFilterWidget by lazy {
         val viewStub = findViewById(R.id.filter_stub) as ViewStub
-        val filterView = viewStub.inflate() as PackageFlightFilterWidget
-        filterView.viewModel = FlightFilterViewModel(context)
+        val filterView = viewStub.inflate() as BaseFlightFilterWidget
+        filterView.viewModelBase = BaseFlightFilterViewModel(context)
         resultsPresenter.resultsViewModel.flightResultsObservable.subscribe {
-            filterView.viewModel.flightResultsObservable.onNext(it)
+            filterView.viewModelBase.flightResultsObservable.onNext(it)
+            filterView.viewModelBase.clearObservable.onNext(Unit)
         }
-        filterView.viewModel.filterObservable.subscribe {
+        filterView.viewModelBase.filterObservable.subscribe {
             resultsPresenter.listResultsObserver.onNext(it)
             super.back()
         }
+        filterView.viewModelBase.filterCountObservable.subscribe(filterCountObserver)
         filterView
     }
 
     val resultsPresenter: FlightResultsListViewPresenter by lazy {
-        var viewStub = findViewById(R.id.results_stub) as ViewStub
-        var presenter = viewStub.inflate() as FlightResultsListViewPresenter
+        val viewStub = findViewById(R.id.results_stub) as ViewStub
+        val presenter = viewStub.inflate() as FlightResultsListViewPresenter
         presenter.resultsViewModel = FlightResultsViewModel()
         toolbarViewModel.isOutboundSearch.subscribe(presenter.resultsViewModel.isOutboundResults)
         presenter.flightSelectedSubject.subscribe(selectedFlightResults)
@@ -91,8 +91,8 @@ abstract class BaseFlightPresenter(context: Context, attrs: AttributeSet) : Pres
     }
 
     val overviewPresenter: FlightOverviewPresenter by lazy {
-        var viewStub = findViewById(R.id.overview_stub) as ViewStub
-        var presenter = viewStub.inflate() as FlightOverviewPresenter
+        val viewStub = findViewById(R.id.overview_stub) as ViewStub
+        val presenter = viewStub.inflate() as FlightOverviewPresenter
         presenter.vm = FlightOverviewViewModel(context, shouldShowBundlePrice())
         presenter
     }
@@ -105,11 +105,6 @@ abstract class BaseFlightPresenter(context: Context, attrs: AttributeSet) : Pres
         vm.subtitleSubject.subscribe {
             toolbar.subtitle = it
         }
-
-        vm.menuVisibilitySubject.subscribe { showMenu ->
-            menuSearch.isVisible = if (showMenu) true else false
-            menuFilter?.isVisible = if (showMenu) true else false
-        }
     }
 
     init {
@@ -117,13 +112,13 @@ abstract class BaseFlightPresenter(context: Context, attrs: AttributeSet) : Pres
         setupToolbar()
 
         overviewPresenter.baggageFeeShowSubject.subscribe { url ->
-            baggageFeeInfo.viewModel.webViewURLObservable.onNext(url)
+            baggageFeeInfoWebView.viewModel.webViewURLObservable.onNext(url)
             trackShowBaggageFee()
-            show(baggageFeeInfo)
+            show(baggageFeeInfoWebView)
         }
         overviewPresenter.showPaymentFeesObservable.subscribe {
             trackShowPaymentFees()
-            show(paymentFeeInfo)
+            show(paymentFeeInfoWebView)
         }
 
         toolbar.setNavigationOnClickListener {
@@ -162,8 +157,8 @@ abstract class BaseFlightPresenter(context: Context, attrs: AttributeSet) : Pres
             viewBundleSetVisibility(forward)
             resultsPresenter.visibility = if (forward) View.VISIBLE else View.GONE
             overviewPresenter.visibility = if (forward) View.GONE else View.VISIBLE
-            baggageFeeInfo.visibility = View.GONE
-            paymentFeeInfo.visibility = View.GONE
+            baggageFeeInfoWebView.visibility = View.GONE
+            paymentFeeInfoWebView.visibility = View.GONE
             filter.visibility = View.GONE
         }
     }
@@ -190,28 +185,30 @@ abstract class BaseFlightPresenter(context: Context, attrs: AttributeSet) : Pres
             }
             viewBundleSetVisibility(false)
             overviewPresenter.visibility = if (!forward) View.VISIBLE else View.GONE
-            paymentFeeInfo.visibility = View.GONE
-            baggageFeeInfo.visibility = if (!forward) View.GONE else View.VISIBLE
+            paymentFeeInfoWebView.visibility = View.GONE
+            baggageFeeInfoWebView.visibility = if (!forward) View.GONE else View.VISIBLE
         }
     }
 
-    private val paymentFeeTransition = object : Transition(FlightOverviewPresenter::class.java, PaymentFeeInfoWidget::class.java, DecelerateInterpolator(), ANIMATION_DURATION) {
+    private val paymentFeeTransition = object : Transition(FlightOverviewPresenter::class.java, PaymentFeeInfoWebView::class.java, DecelerateInterpolator(), ANIMATION_DURATION) {
         override fun endTransition(forward: Boolean) {
             super.endTransition(forward)
             if (forward) {
-                toolbarViewModel.setTitleOnly.onNext(context.getString(R.string.flights_flight_overview_payment_fees))
+                toolbarViewModel.setTitleOnly.onNext(context.getString(if (airlinesChargePaymentFees) R.string.Airline_fee else R.string.flights_flight_overview_payment_fees))
             }
             else {
                 toolbarViewModel.refreshToolBar.onNext(false)
             }
             overviewPresenter.visibility = if (!forward) View.VISIBLE else View.GONE
-            baggageFeeInfo.visibility = View.GONE
-            paymentFeeInfo.visibility = if (!forward) View.GONE else View.VISIBLE
+            baggageFeeInfoWebView.visibility = View.GONE
+            paymentFeeInfoWebView.visibility = if (!forward) View.GONE else View.VISIBLE
         }
     }
 
-    val listToFiltersTransition: Transition = object : Transition(FlightResultsListViewPresenter::class.java, PackageFlightFilterWidget::class.java, DecelerateInterpolator(2f), 500) {
+    val listToFiltersTransition: Transition = object : Transition(FlightResultsListViewPresenter::class.java, BaseFlightFilterWidget::class.java, DecelerateInterpolator(2f), 500) {
         override fun startTransition(forward: Boolean) {
+            resultsPresenter.recyclerView.visibility = View.VISIBLE
+            toolbar.visibility = View.VISIBLE
         }
 
         override fun updateTransition(f: Float, forward: Boolean) {
@@ -231,6 +228,7 @@ abstract class BaseFlightPresenter(context: Context, attrs: AttributeSet) : Pres
                 filter.visibility = View.GONE
                 filter.translationY = (filter.height).toFloat()
             }
+            resultsPresenter.recyclerView.visibility = if(forward) View.GONE else View.VISIBLE
         }
     }
 
@@ -238,6 +236,7 @@ abstract class BaseFlightPresenter(context: Context, attrs: AttributeSet) : Pres
         override fun onNext(flight: FlightLeg) {
             show(overviewPresenter)
             overviewPresenter.vm.selectedFlightLegSubject.onNext(flight)
+
             trackFlightOverviewLoad()
         }
 
@@ -249,13 +248,23 @@ abstract class BaseFlightPresenter(context: Context, attrs: AttributeSet) : Pres
         }
     }
 
+    val filterCountObserver: Observer<Int> = endlessObserver {
+        if (resultsPresenter.filterButton != null) {
+            resultsPresenter.filterButton.showNumberOfFilters(it)
+        }
+    }
+
+    fun showResults() {
+        defaultTransition.endTransition(true)
+    }
+
     override fun back(): Boolean {
-        if (PackageFlightFilterWidget::class.java.name == currentState) {
-            if (filter.viewModel.isFilteredToZeroResults()) {
+        if (BaseFlightFilterWidget::class.java.name == currentState) {
+            if (filter.viewModelBase.isFilteredToZeroResults()) {
                 filter.dynamicFeedbackWidget.animateDynamicFeedbackWidget()
                 return true
             } else {
-                filter.viewModel.doneObservable.onNext(Unit)
+                filter.viewModelBase.doneObservable.onNext(Unit)
             }
         }
         return super.back()
@@ -267,7 +276,6 @@ abstract class BaseFlightPresenter(context: Context, attrs: AttributeSet) : Pres
         toolbar.navigationIcon = navIcon
         toolbar.setBackgroundColor(ContextCompat.getColor(context, R.color.packages_primary_color))
         setupToolbarMenu()
-        menuSearch = toolbar.menu.findItem(R.id.menu_search)
     }
 
     abstract fun setupToolbarMenu()

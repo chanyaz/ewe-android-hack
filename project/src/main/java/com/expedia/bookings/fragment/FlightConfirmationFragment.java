@@ -26,7 +26,7 @@ import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.HotelSearchParams;
 import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.cars.CarSearchParams;
-import com.expedia.bookings.data.lx.LXSearchParams;
+import com.expedia.bookings.data.lx.LxSearchParams;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.section.FlightLegSummarySection;
@@ -43,6 +43,7 @@ import com.mobiata.android.SocialUtils;
 import com.mobiata.android.util.CalendarAPIUtils;
 import com.mobiata.android.util.Ui;
 import com.mobiata.android.util.ViewUtils;
+import com.squareup.phrase.Phrase;
 
 // We can assume that if this fragment loaded we successfully booked, so most
 // data we need to grab is available.
@@ -140,8 +141,8 @@ public class FlightConfirmationFragment extends ConfirmationFragment {
 				DateTime currentDate = new DateTime();
 				int daysRemaining = JodaUtils.daysBetween(currentDate, expirationDate);
 				TextView expirationDateTv = Ui.findView(v, R.id.itin_air_attach_expiration_date_text_view);
-				expirationDateTv.setText(getResources().getQuantityString(R.plurals.days_from_now, daysRemaining, daysRemaining));
-
+				expirationDateTv.setText(Phrase.from(getResources().getQuantityString(R.plurals.days_from_now, daysRemaining))
+					.put("days", daysRemaining).format().toString());
 
 				OmnitureTracking.trackFlightConfirmationAirAttach();
 			}
@@ -263,7 +264,7 @@ public class FlightConfirmationFragment extends ConfirmationFragment {
 	}
 
 	private void searchForActivities() {
-		LXSearchParams sp = LXDataUtils.fromFlightParams(getActivity(), Db.getTripBucket().getFlight().getFlightTrip());
+		LxSearchParams sp = LXDataUtils.fromFlightParams(getActivity(), Db.getTripBucket().getFlight().getFlightTrip());
 		NavUtils.goToActivities(getActivity(), null, sp, NavUtils.FLAG_OPEN_SEARCH);
 	}
 

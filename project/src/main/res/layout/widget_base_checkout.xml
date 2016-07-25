@@ -8,11 +8,16 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <View
-            android:id="@+id/drop_shadow"
-            android:layout_width="match_parent"
-            android:layout_height="4dp"
-            android:background="@drawable/drop_shadow" />
+        <com.expedia.bookings.widget.TextView
+            android:id="@+id/card_processing_fee"
+            style="@style/FlightWarningBar"
+            android:visibility="gone" />
+
+        <com.expedia.bookings.widget.TextView
+            android:id="@+id/flights_debit_cards_not_accepted"
+            style="@style/FlightWarningBar"
+            android:text="@string/flights_debit_cards_not_accepted"
+            android:visibility="gone" />
 
         <com.expedia.bookings.widget.FrameLayout
             android:id="@+id/handle"
@@ -27,12 +32,14 @@
                 android:orientation="horizontal">
 
                 <com.expedia.bookings.widget.TextView
+                    android:id="@+id/view_trip_details"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:singleLine="true"
                     android:text="@string/trip_overview"
                     android:textSize="16sp"
-                    app:textStyle="medium" />
+                    app:textStyle="medium"
+                    android:contentDescription="@string/trip_overview_cont_desc"/>
 
                 <ImageView
                     android:id="@+id/chevron"
@@ -104,10 +111,13 @@
 
                 </LinearLayout>
 
-                <com.expedia.bookings.presenter.packages.TravelerPresenter
-                    android:id="@+id/traveler_presenter"
+                <com.expedia.bookings.widget.traveler.TravelerDefaultState
+                    android:id="@+id/traveler_default_state"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent" />
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/card_view_container_margin"
+                    android:layout_marginRight="@dimen/card_view_container_margin"
+                    android:background="@drawable/card_background" />
 
                 <ViewStub
                     android:id="@+id/payment_info_card_view_stub"
@@ -119,6 +129,16 @@
                     android:fitsSystemWindows="true"
                     android:inflatedId="@+id/payment_info_card_view"
                     android:layout="?attr/paymentWidgetLayout" />
+
+                <!-- Insurance -->
+                <com.expedia.bookings.widget.InsuranceWidget
+                    android:id="@+id/insurance_widget"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/card_view_container_margin"
+                    android:layout_marginRight="@dimen/card_view_container_margin"
+                    android:layout_marginTop="12dp"
+                    android:layout_width="match_parent"
+                    android:visibility="gone"/>
 
                 <com.expedia.bookings.widget.TextView
                     android:id="@+id/legal_information_text_view"
@@ -148,7 +168,15 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/card_view_container_margin"
                     android:layout_marginRight="@dimen/card_view_container_margin"
-                    android:paddingBottom="16dp"
+                    android:textSize="10sp"
+                    android:visibility="gone" />
+
+                <com.expedia.bookings.widget.TextView
+                    android:id="@+id/card_fee_warning_text"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/card_view_container_margin"
+                    android:layout_marginRight="@dimen/card_view_container_margin"
                     android:textSize="10sp"
                     android:visibility="gone" />
 
@@ -220,6 +248,12 @@
 
     </LinearLayout>
 
+    <View
+        android:id="@+id/drop_shadow"
+        android:layout_width="match_parent"
+        android:layout_height="4dp"
+        android:background="@drawable/tb_shadow" />
+
     <Button
         android:id="@+id/checkout_button"
         style="@style/MaterialFooterButtonText"
@@ -227,5 +261,12 @@
         android:background="?attr/hotel_select_room_ripple_drawable"
         android:layout_gravity="bottom"
         android:text="@string/Checkout" />
+
+    <com.expedia.bookings.presenter.packages.TravelerPresenter
+        android:id="@+id/traveler_presenter"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/gray1"
+        android:visibility="gone" />
 
 </merge>
