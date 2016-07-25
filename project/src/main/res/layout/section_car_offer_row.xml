@@ -31,7 +31,7 @@
                 <LinearLayout
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:layout_toLeftOf="@+id/reserve_now"
+                    android:layout_toLeftOf="@+id/reserve_now_container"
                     android:orientation="vertical">
 
                     <com.expedia.bookings.widget.TextView
@@ -138,17 +138,27 @@
 
                 </LinearLayout>
 
-                <ToggleButton
-                    android:id="@+id/reserve_now"
-                    style="@style/CarToggleButton"
+                <LinearLayout
+                    android:id="@+id/reserve_now_container"
                     android:layout_width="wrap_content"
-                    android:layout_height="37dp"
+                    android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
                     android:layout_below="@+id/price_container"
                     android:layout_marginLeft="16dp"
                     android:layout_marginTop="4dp"
-                    android:paddingLeft="4dp"
-                    android:paddingRight="4dp" />
+                    android:contentDescription="Testing"
+                    android:focusable="true"
+                    android:focusableInTouchMode="true">
+
+                    <ToggleButton
+                        android:id="@+id/reserve_now"
+                        style="@style/CarToggleButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="37dp"
+                        android:importantForAccessibility="no"
+                        android:paddingLeft="4dp"
+                        android:paddingRight="4dp" />
+                </LinearLayout>
             </RelativeLayout>
 
             <com.expedia.bookings.widget.FrameLayout

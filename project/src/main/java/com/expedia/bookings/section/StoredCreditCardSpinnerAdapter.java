@@ -160,7 +160,7 @@ public class StoredCreditCardSpinnerAdapter extends ArrayAdapter<StoredCreditCar
 		tv.setText(storedCardName);
 		int imgRes = isValidCard ? BookingInfoUtils.getTabletCardIcon(cardType) :
 			R.drawable.unsupported_card;
-		tv.setCompoundDrawablesWithIntrinsicBounds(getContext().getResources().getDrawable(imgRes), null, null, null);
+		tv.setCompoundDrawablesWithIntrinsicBounds(imgRes, 0, 0, 0);
 		rStatus.setStatus(
 			isSelectable ? ContactDetailsCompletenessStatus.COMPLETE : ContactDetailsCompletenessStatus.DEFAULT);
 		return retView;

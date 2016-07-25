@@ -1,120 +1,146 @@
 {
   "passengerList": [
     {
-      "primaryTraveler": false,
+      "passengerIndex": 1,
       "age": 65,
-      "passengerIndex": 1
+      "primaryTraveler": true
     }
   ],
   "legList": [
     {
       "departureStation": {
-        "stationCode": "GBRDG",
-        "stationDisplayName": "Reading"
-      },
-      "arrivalStation": {
         "stationCode": "GBQQM",
         "stationDisplayName": "Manchester Piccadilly"
+      },
+      "arrivalStation": {
+        "stationCode": "GBRDG",
+        "stationDisplayName": "Reading"
       },
       "legOptionList": [
         {
           "legOptionIndex": 1,
           "departureStation": {
-            "stationCode": "GBRDG",
-            "stationDisplayName": "Reading"
-          },
-          "arrivalStation": {
             "stationCode": "GBQQM",
             "stationDisplayName": "Manchester Piccadilly"
           },
+          "arrivalStation": {
+            "stationCode": "GBRDG",
+            "stationDisplayName": "Reading"
+          },
           "departureDateTime": {
-            "raw": "2016-06-09T09:45:00",
-            "epochSeconds": 1465465500,
-            "localized": "Jun 9, 2016 09:45:00 AM",
-            "localizedShortDate": "Thu 9, Jun"
+            "raw": "2016-07-06T11:55:00",
+            "epochSeconds": 1467806100,
+            "localized": "6 Jul, 2016 11:55",
+            "localizedShortDate": "Wed 6, Jul"
           },
           "arrivalDateTime": {
-            "raw": "2016-06-09T12:59:00",
-            "epochSeconds": 1465477140,
-            "localized": "Jun 9, 2016 12:59:00 PM",
-            "localizedShortDate": "Thu 9, Jun"
+            "raw": "2016-07-06T15:22:00",
+            "epochSeconds": 1467818520,
+            "localized": "6 Jul, 2016 15:22",
+            "localizedShortDate": "Wed 6, Jul"
           },
-          "duration": "PT3H22M",
-          "aggregatedMarketingCarrier": "CrossCountry",
-          "aggregatedOperatingCarrier": "CrossCountry",
+          "duration": "PT3H27M",
+          "aggregatedMarketingCarrier": "Multiple trains lines",
+          "aggregatedOperatingCarrier": "Multiple trains lines",
           "travelSegmentList": [
             {
               "travelSegmentIndex": 1,
               "travelMode": "Train",
               "departureStation": {
-                "stationCode": "GBRDG",
-                "stationDisplayName": "Reading"
-              },
-              "arrivalStation": {
-                "stationCode": "GBQQN",
-                "stationDisplayName": "Birmingham New Street"
-              },
-              "departureDateTime": {
-                "raw": "2016-06-09T09:45:00",
-                "epochSeconds": 1465465500,
-                "localized": "Jun 9, 2016 09:45:00 AM",
-                "localizedShortDate": "Thu 9, Jun"
-              },
-              "arrivalDateTime": {
-                "raw": "2016-06-09T11:18:00",
-                "epochSeconds": 1465471080,
-                "localized": "Jun 9, 2016 11:18:00 AM",
-                "localizedShortDate": "Thu 9, Jun"
-              },
-              "marketingCarrier": "CrossCountry",
-              "operatingCarrier": "CrossCountry",
-              "travelMedium": {
-                "travelMediumCode": "ICY",
-                "travelMediumName": "Inter-City",
-                "supplierTravelMediumId": "XC2120",
-                "supplierTravelMediumName": "CrossCountry-ICY"
-              },
-              "duration": "PT1H33M"
-            },
-            {
-              "travelSegmentIndex": 2,
-              "travelMode": "Train",
-              "departureStation": {
-                "stationCode": "GBQQN",
-                "stationDisplayName": "Birmingham New Street"
-              },
-              "arrivalStation": {
                 "stationCode": "GBQQM",
                 "stationDisplayName": "Manchester Piccadilly"
               },
+              "arrivalStation": {
+                "stationCode": "GBQQU",
+                "stationDisplayName": "London Euston"
+              },
               "departureDateTime": {
-                "raw": "2016-06-09T11:31:00",
-                "epochSeconds": 1465471860,
-                "localized": "Jun 9, 2016 11:31:00 AM",
-                "localizedShortDate": "Thu 9, Jun"
+                "raw": "2016-07-06T11:55:00",
+                "epochSeconds": 1467806100,
+                "localized": "6 Jul, 2016 11:55",
+                "localizedShortDate": "Wed 6, Jul"
               },
               "arrivalDateTime": {
-                "raw": "2016-06-09T12:59:00",
-                "epochSeconds": 1465477140,
-                "localized": "Jun 9, 2016 12:59:00 PM",
-                "localizedShortDate": "Thu 9, Jun"
+                "raw": "2016-07-06T14:05:00",
+                "epochSeconds": 1467813900,
+                "localized": "6 Jul, 2016 14:05",
+                "localizedShortDate": "Wed 6, Jul"
               },
-              "marketingCarrier": "CrossCountry",
-              "operatingCarrier": "CrossCountry",
+              "marketingCarrier": "Virgin Trains",
+              "operatingCarrier": "Virgin Trains",
               "travelMedium": {
-                "travelMediumCode": "ICY",
                 "travelMediumName": "Inter-City",
-                "supplierTravelMediumId": "XC4060",
-                "supplierTravelMediumName": "CrossCountry-ICY"
+                "supplierTravelMediumId": "VT7605"
               },
-              "duration": "PT1H28M"
+              "duration": "PT2H10M"
+            },
+            {
+              "travelSegmentIndex": 2,
+              "travelMode": "Transfer",
+              "departureStation": {
+                "stationCode": "GBQQU",
+                "stationDisplayName": "London Euston"
+              },
+              "arrivalStation": {
+                "stationCode": "GBQQP",
+                "stationDisplayName": "London Paddington"
+              },
+              "departureDateTime": {
+                "raw": "2016-07-06T14:05:00",
+                "epochSeconds": 1467813900,
+                "localized": "6 Jul, 2016 14:05",
+                "localizedShortDate": "Wed 6, Jul"
+              },
+              "arrivalDateTime": {
+                "raw": "2016-07-06T14:48:00",
+                "epochSeconds": 1467816480,
+                "localized": "6 Jul, 2016 14:48",
+                "localizedShortDate": "Wed 6, Jul"
+              },
+              "marketingCarrier": "London Underground",
+              "operatingCarrier": "London Underground",
+              "travelMedium": {
+                "travelMediumName": "Metro/City-Transit"
+              },
+              "duration": "PT43M"
+            },
+            {
+              "travelSegmentIndex": 3,
+              "travelMode": "Train",
+              "departureStation": {
+                "stationCode": "GBQQP",
+                "stationDisplayName": "London Paddington"
+              },
+              "arrivalStation": {
+                "stationCode": "GBRDG",
+                "stationDisplayName": "Reading"
+              },
+              "departureDateTime": {
+                "raw": "2016-07-06T14:50:00",
+                "epochSeconds": 1467816600,
+                "localized": "6 Jul, 2016 14:50",
+                "localizedShortDate": "Wed 6, Jul"
+              },
+              "arrivalDateTime": {
+                "raw": "2016-07-06T15:22:00",
+                "epochSeconds": 1467818520,
+                "localized": "6 Jul, 2016 15:22",
+                "localizedShortDate": "Wed 6, Jul"
+              },
+              "marketingCarrier": "First Great Western",
+              "operatingCarrier": "First Great Western",
+              "travelMedium": {
+                "travelMediumName": "Inter-City",
+                "supplierTravelMediumId": "GW7513"
+              },
+              "duration": "PT32M"
             }
           ],
           "bestPrice": {
-            "amount": "56.52",
-            "currencyCode": "USD",
-            "formattedPrice": "$56.52",
-            "formattedWholePrice": "$57"
+            "amount": "101.50",
+            "currencyCode": "GBP",
+            "formattedPrice": "£101.50",
+            "formattedWholePrice": "£102"
           },
           "showTrainIcon": false,
           "toc": "ATOC",
@@ -123,24 +149,221 @@
         {
           "legOptionIndex": 2,
           "departureStation": {
-            "stationCode": "GBRDG",
-            "stationDisplayName": "Reading"
-          },
-          "arrivalStation": {
             "stationCode": "GBQQM",
             "stationDisplayName": "Manchester Piccadilly"
           },
+          "arrivalStation": {
+            "stationCode": "GBRDG",
+            "stationDisplayName": "Reading"
+          },
           "departureDateTime": {
-            "raw": "2016-06-09T09:47:00",
-            "epochSeconds": 1465465620,
-            "localized": "Jun 9, 2016 09:47:00 AM",
-            "localizedShortDate": "Thu 9, Jun"
+            "raw": "2016-07-06T12:15:00",
+            "epochSeconds": 1467807300,
+            "localized": "6 Jul, 2016 12:15",
+            "localizedShortDate": "Wed 6, Jul"
           },
           "arrivalDateTime": {
-            "raw": "2016-06-09T13:07:00",
-            "epochSeconds": 1465477620,
-            "localized": "Jun 9, 2016 01:07:00 PM",
-            "localizedShortDate": "Thu 9, Jun"
+            "raw": "2016-07-06T15:39:00",
+            "epochSeconds": 1467819540,
+            "localized": "6 Jul, 2016 15:39",
+            "localizedShortDate": "Wed 6, Jul"
+          },
+          "duration": "PT3H24M",
+          "aggregatedMarketingCarrier": "Multiple trains lines",
+          "aggregatedOperatingCarrier": "Multiple trains lines",
+          "travelSegmentList": [
+            {
+              "travelSegmentIndex": 1,
+              "travelMode": "Train",
+              "departureStation": {
+                "stationCode": "GBQQM",
+                "stationDisplayName": "Manchester Piccadilly"
+              },
+              "arrivalStation": {
+                "stationCode": "GBQQU",
+                "stationDisplayName": "London Euston"
+              },
+              "departureDateTime": {
+                "raw": "2016-07-06T12:15:00",
+                "epochSeconds": 1467807300,
+                "localized": "6 Jul, 2016 12:15",
+                "localizedShortDate": "Wed 6, Jul"
+              },
+              "arrivalDateTime": {
+                "raw": "2016-07-06T14:24:00",
+                "epochSeconds": 1467815040,
+                "localized": "6 Jul, 2016 14:24",
+                "localizedShortDate": "Wed 6, Jul"
+              },
+              "marketingCarrier": "Virgin Trains",
+              "operatingCarrier": "Virgin Trains",
+              "travelMedium": {
+                "travelMediumName": "Inter-City",
+                "supplierTravelMediumId": "VT7610"
+              },
+              "duration": "PT2H9M"
+            },
+            {
+              "travelSegmentIndex": 2,
+              "travelMode": "Transfer",
+              "departureStation": {
+                "stationCode": "GBQQU",
+                "stationDisplayName": "London Euston"
+              },
+              "arrivalStation": {
+                "stationCode": "GBQQP",
+                "stationDisplayName": "London Paddington"
+              },
+              "departureDateTime": {
+                "raw": "2016-07-06T14:24:00",
+                "epochSeconds": 1467815040,
+                "localized": "6 Jul, 2016 14:24",
+                "localizedShortDate": "Wed 6, Jul"
+              },
+              "arrivalDateTime": {
+                "raw": "2016-07-06T15:07:00",
+                "epochSeconds": 1467817620,
+                "localized": "6 Jul, 2016 15:07",
+                "localizedShortDate": "Wed 6, Jul"
+              },
+              "marketingCarrier": "London Underground",
+              "operatingCarrier": "London Underground",
+              "travelMedium": {
+                "travelMediumName": "Metro/City-Transit"
+              },
+              "duration": "PT43M"
+            },
+            {
+              "travelSegmentIndex": 3,
+              "travelMode": "Train",
+              "departureStation": {
+                "stationCode": "GBQQP",
+                "stationDisplayName": "London Paddington"
+              },
+              "arrivalStation": {
+                "stationCode": "GBRDG",
+                "stationDisplayName": "Reading"
+              },
+              "departureDateTime": {
+                "raw": "2016-07-06T15:15:00",
+                "epochSeconds": 1467818100,
+                "localized": "6 Jul, 2016 15:15",
+                "localizedShortDate": "Wed 6, Jul"
+              },
+              "arrivalDateTime": {
+                "raw": "2016-07-06T15:39:00",
+                "epochSeconds": 1467819540,
+                "localized": "6 Jul, 2016 15:39",
+                "localizedShortDate": "Wed 6, Jul"
+              },
+              "marketingCarrier": "First Great Western",
+              "operatingCarrier": "First Great Western",
+              "travelMedium": {
+                "travelMediumName": "Inter-City",
+                "supplierTravelMediumId": "GW5109"
+              },
+              "duration": "PT24M"
+            }
+          ],
+          "bestPrice": {
+            "amount": "101.50",
+            "currencyCode": "GBP",
+            "formattedPrice": "£101.50",
+            "formattedWholePrice": "£102"
+          },
+          "showTrainIcon": false,
+          "toc": "ATOC",
+          "overtakenJourney": false
+        },
+        {
+          "legOptionIndex": 3,
+          "departureStation": {
+            "stationCode": "GBQQM",
+            "stationDisplayName": "Manchester Piccadilly"
+          },
+          "arrivalStation": {
+            "stationCode": "GBRDG",
+            "stationDisplayName": "Reading"
+          },
+          "departureDateTime": {
+            "raw": "2016-07-06T12:27:00",
+            "epochSeconds": 1467808020,
+            "localized": "6 Jul, 2016 12:27",
+            "localizedShortDate": "Wed 6, Jul"
+          },
+          "arrivalDateTime": {
+            "raw": "2016-07-06T15:41:00",
+            "epochSeconds": 1467819660,
+            "localized": "6 Jul, 2016 15:41",
+            "localizedShortDate": "Wed 6, Jul"
+          },
+          "duration": "PT3H14M",
+          "aggregatedMarketingCarrier": "CrossCountry",
+          "aggregatedOperatingCarrier": "CrossCountry",
+          "travelSegmentList": [
+            {
+              "travelSegmentIndex": 1,
+              "travelMode": "Train",
+              "departureStation": {
+                "stationCode": "GBQQM",
+                "stationDisplayName": "Manchester Piccadilly"
+              },
+              "arrivalStation": {
+                "stationCode": "GBRDG",
+                "stationDisplayName": "Reading"
+              },
+              "departureDateTime": {
+                "raw": "2016-07-06T12:27:00",
+                "epochSeconds": 1467808020,
+                "localized": "6 Jul, 2016 12:27",
+                "localizedShortDate": "Wed 6, Jul"
+              },
+              "arrivalDateTime": {
+                "raw": "2016-07-06T15:41:00",
+                "epochSeconds": 1467819660,
+                "localized": "6 Jul, 2016 15:41",
+                "localizedShortDate": "Wed 6, Jul"
+              },
+              "marketingCarrier": "CrossCountry",
+              "operatingCarrier": "CrossCountry",
+              "travelMedium": {
+                "travelMediumName": "Inter-City",
+                "supplierTravelMediumId": "XC3660"
+              },
+              "duration": "PT3H14M"
+            }
+          ],
+          "bestPrice": {
+            "amount": "46.30",
+            "currencyCode": "GBP",
+            "formattedPrice": "£46.30",
+            "formattedWholePrice": "£46"
+          },
+          "showTrainIcon": false,
+          "toc": "ATOC",
+          "overtakenJourney": false
+        },
+        {
+          "legOptionIndex": 4,
+          "departureStation": {
+            "stationCode": "GBQQM",
+            "stationDisplayName": "Manchester Piccadilly"
+          },
+          "arrivalStation": {
+            "stationCode": "GBRDG",
+            "stationDisplayName": "Reading"
+          },
+          "departureDateTime": {
+            "raw": "2016-07-06T12:35:00",
+            "epochSeconds": 1467808500,
+            "localized": "6 Jul, 2016 12:35",
+            "localizedShortDate": "Wed 6, Jul"
+          },
+          "arrivalDateTime": {
+            "raw": "2016-07-06T15:55:00",
+            "epochSeconds": 1467820500,
+            "localized": "6 Jul, 2016 15:55",
+            "localizedShortDate": "Wed 6, Jul"
           },
           "duration": "PT3H20M",
           "aggregatedMarketingCarrier": "Multiple trains lines",
@@ -150,64 +373,60 @@
               "travelSegmentIndex": 1,
               "travelMode": "Train",
               "departureStation": {
-                "stationCode": "GBRDG",
-                "stationDisplayName": "Reading"
-              },
-              "arrivalStation": {
-                "stationCode": "GBQQP",
-                "stationDisplayName": "London Paddington"
-              },
-              "departureDateTime": {
-                "raw": "2016-06-09T09:47:00",
-                "epochSeconds": 1465465620,
-                "localized": "Jun 9, 2016 09:47:00 AM",
-                "localizedShortDate": "Thu 9, Jun"
-              },
-              "arrivalDateTime": {
-                "raw": "2016-06-09T10:15:00",
-                "epochSeconds": 1465467300,
-                "localized": "Jun 9, 2016 10:15:00 AM",
-                "localizedShortDate": "Thu 9, Jun"
-              },
-              "marketingCarrier": "FirstGrtWest",
-              "operatingCarrier": "FirstGrtWest",
-              "travelMedium": {
-                "travelMediumCode": "ICY",
-                "travelMediumName": "Inter-City",
-                "supplierTravelMediumId": "GW3203",
-                "supplierTravelMediumName": "FirstGrtWest-ICY"
-              },
-              "duration": "PT28M"
-            },
-            {
-              "travelSegmentIndex": 2,
-              "travelMode": "Transfer",
-              "departureStation": {
-                "stationCode": "GBQQP",
-                "stationDisplayName": "London Paddington"
+                "stationCode": "GBQQM",
+                "stationDisplayName": "Manchester Piccadilly"
               },
               "arrivalStation": {
                 "stationCode": "GBQQU",
                 "stationDisplayName": "London Euston"
               },
               "departureDateTime": {
-                "raw": "2016-06-09T10:15:00",
-                "epochSeconds": 1465467300,
-                "localized": "Jun 9, 2016 10:15:00 AM",
-                "localizedShortDate": "Thu 9, Jun"
+                "raw": "2016-07-06T12:35:00",
+                "epochSeconds": 1467808500,
+                "localized": "6 Jul, 2016 12:35",
+                "localizedShortDate": "Wed 6, Jul"
               },
               "arrivalDateTime": {
-                "raw": "2016-06-09T10:58:00",
-                "epochSeconds": 1465469880,
-                "localized": "Jun 9, 2016 10:58:00 AM",
-                "localizedShortDate": "Thu 9, Jun"
+                "raw": "2016-07-06T14:43:00",
+                "epochSeconds": 1467816180,
+                "localized": "6 Jul, 2016 14:43",
+                "localizedShortDate": "Wed 6, Jul"
               },
-              "marketingCarrier": "LonUnderground",
-              "operatingCarrier": "LonUnderground",
+              "marketingCarrier": "Virgin Trains",
+              "operatingCarrier": "Virgin Trains",
               "travelMedium": {
-                "travelMediumCode": "MCT",
-                "travelMediumName": "Metro/City-Transit",
-                "supplierTravelMediumName": "LonUnderground-MCT"
+                "travelMediumName": "Inter-City",
+                "supplierTravelMediumId": "VT7615"
+              },
+              "duration": "PT2H8M"
+            },
+            {
+              "travelSegmentIndex": 2,
+              "travelMode": "Transfer",
+              "departureStation": {
+                "stationCode": "GBQQU",
+                "stationDisplayName": "London Euston"
+              },
+              "arrivalStation": {
+                "stationCode": "GBQQP",
+                "stationDisplayName": "London Paddington"
+              },
+              "departureDateTime": {
+                "raw": "2016-07-06T14:43:00",
+                "epochSeconds": 1467816180,
+                "localized": "6 Jul, 2016 14:43",
+                "localizedShortDate": "Wed 6, Jul"
+              },
+              "arrivalDateTime": {
+                "raw": "2016-07-06T15:26:00",
+                "epochSeconds": 1467818760,
+                "localized": "6 Jul, 2016 15:26",
+                "localizedShortDate": "Wed 6, Jul"
+              },
+              "marketingCarrier": "London Underground",
+              "operatingCarrier": "London Underground",
+              "travelMedium": {
+                "travelMediumName": "Metro/City-Transit"
               },
               "duration": "PT43M"
             },
@@ -215,246 +434,39 @@
               "travelSegmentIndex": 3,
               "travelMode": "Train",
               "departureStation": {
-                "stationCode": "GBQQU",
-                "stationDisplayName": "London Euston"
-              },
-              "arrivalStation": {
-                "stationCode": "GBQQM",
-                "stationDisplayName": "Manchester Piccadilly"
-              },
-              "departureDateTime": {
-                "raw": "2016-06-09T11:00:00",
-                "epochSeconds": 1465470000,
-                "localized": "Jun 9, 2016 11:00:00 AM",
-                "localizedShortDate": "Thu 9, Jun"
-              },
-              "arrivalDateTime": {
-                "raw": "2016-06-09T13:07:00",
-                "epochSeconds": 1465477620,
-                "localized": "Jun 9, 2016 01:07:00 PM",
-                "localizedShortDate": "Thu 9, Jun"
-              },
-              "marketingCarrier": "Virgin",
-              "operatingCarrier": "Virgin",
-              "travelMedium": {
-                "travelMediumCode": "ICY",
-                "travelMediumName": "Inter-City",
-                "supplierTravelMediumId": "VT7080",
-                "supplierTravelMediumName": "Virgin-ICY"
-              },
-              "duration": "PT2H7M"
-            }
-          ],
-          "bestPrice": {
-            "amount": "158.73",
-            "currencyCode": "USD",
-            "formattedPrice": "$158.73",
-            "formattedWholePrice": "$159"
-          },
-          "showTrainIcon": false,
-          "toc": "ATOC",
-          "overtakenJourney": false
-        },
-        {
-          "legOptionIndex": 3,
-          "departureStation": {
-            "stationCode": "GBRDG",
-            "stationDisplayName": "Reading"
-          },
-          "arrivalStation": {
-            "stationCode": "GBQQM",
-            "stationDisplayName": "Manchester Piccadilly"
-          },
-          "departureDateTime": {
-            "raw": "2016-06-09T10:10:00",
-            "epochSeconds": 1465467000,
-            "localized": "Jun 9, 2016 10:10:00 AM",
-            "localizedShortDate": "Thu 9, Jun"
-          },
-          "arrivalDateTime": {
-            "raw": "2016-06-09T13:28:00",
-            "epochSeconds": 1465478880,
-            "localized": "Jun 9, 2016 01:28:00 PM",
-            "localizedShortDate": "Thu 9, Jun"
-          },
-          "duration": "PT3H18M",
-          "aggregatedMarketingCarrier": "Multiple trains lines",
-          "aggregatedOperatingCarrier": "Multiple trains lines",
-          "travelSegmentList": [
-            {
-              "travelSegmentIndex": 1,
-              "travelMode": "Train",
-              "departureStation": {
-                "stationCode": "GBRDG",
-                "stationDisplayName": "Reading"
-              },
-              "arrivalStation": {
-                "stationCode": "GBQQP",
-                "stationDisplayName": "London Paddington"
-              },
-              "departureDateTime": {
-                "raw": "2016-06-09T10:10:00",
-                "epochSeconds": 1465467000,
-                "localized": "Jun 9, 2016 10:10:00 AM",
-                "localizedShortDate": "Thu 9, Jun"
-              },
-              "arrivalDateTime": {
-                "raw": "2016-06-09T10:37:00",
-                "epochSeconds": 1465468620,
-                "localized": "Jun 9, 2016 10:37:00 AM",
-                "localizedShortDate": "Thu 9, Jun"
-              },
-              "marketingCarrier": "FirstGrtWest",
-              "operatingCarrier": "FirstGrtWest",
-              "travelMedium": {
-                "travelMediumCode": "ICY",
-                "travelMediumName": "Inter-City",
-                "supplierTravelMediumId": "GW4205",
-                "supplierTravelMediumName": "FirstGrtWest-ICY"
-              },
-              "duration": "PT27M"
-            },
-            {
-              "travelSegmentIndex": 2,
-              "travelMode": "Transfer",
-              "departureStation": {
                 "stationCode": "GBQQP",
                 "stationDisplayName": "London Paddington"
               },
               "arrivalStation": {
-                "stationCode": "GBQQU",
-                "stationDisplayName": "London Euston"
-              },
-              "departureDateTime": {
-                "raw": "2016-06-09T10:37:00",
-                "epochSeconds": 1465468620,
-                "localized": "Jun 9, 2016 10:37:00 AM",
-                "localizedShortDate": "Thu 9, Jun"
-              },
-              "arrivalDateTime": {
-                "raw": "2016-06-09T11:19:59",
-                "epochSeconds": 1465471199,
-                "localized": "Jun 9, 2016 11:19:59 AM",
-                "localizedShortDate": "Thu 9, Jun"
-              },
-              "marketingCarrier": "LonUnderground",
-              "operatingCarrier": "LonUnderground",
-              "travelMedium": {
-                "travelMediumCode": "MCT",
-                "travelMediumName": "Metro/City-Transit",
-                "supplierTravelMediumName": "LonUnderground-MCT"
-              },
-              "duration": "PT42M"
-            },
-            {
-              "travelSegmentIndex": 3,
-              "travelMode": "Train",
-              "departureStation": {
-                "stationCode": "GBQQU",
-                "stationDisplayName": "London Euston"
-              },
-              "arrivalStation": {
-                "stationCode": "GBQQM",
-                "stationDisplayName": "Manchester Piccadilly"
-              },
-              "departureDateTime": {
-                "raw": "2016-06-09T11:20:00",
-                "epochSeconds": 1465471200,
-                "localized": "Jun 9, 2016 11:20:00 AM",
-                "localizedShortDate": "Thu 9, Jun"
-              },
-              "arrivalDateTime": {
-                "raw": "2016-06-09T13:28:00",
-                "epochSeconds": 1465478880,
-                "localized": "Jun 9, 2016 01:28:00 PM",
-                "localizedShortDate": "Thu 9, Jun"
-              },
-              "marketingCarrier": "Virgin",
-              "operatingCarrier": "Virgin",
-              "travelMedium": {
-                "travelMediumCode": "ICY",
-                "travelMediumName": "Inter-City",
-                "supplierTravelMediumId": "VT7085",
-                "supplierTravelMediumName": "Virgin-ICY"
-              },
-              "duration": "PT2H8M"
-            }
-          ],
-          "bestPrice": {
-            "amount": "90.22",
-            "currencyCode": "USD",
-            "formattedPrice": "$90.22",
-            "formattedWholePrice": "$90"
-          },
-          "showTrainIcon": false,
-          "toc": "ATOC",
-          "overtakenJourney": false
-        },
-        {
-          "legOptionIndex": 4,
-          "departureStation": {
-            "stationCode": "GBRDG",
-            "stationDisplayName": "Reading"
-          },
-          "arrivalStation": {
-            "stationCode": "GBQQM",
-            "stationDisplayName": "Manchester Piccadilly"
-          },
-          "departureDateTime": {
-            "raw": "2016-06-09T10:15:00",
-            "epochSeconds": 1465467300,
-            "localized": "Jun 9, 2016 10:15:00 AM",
-            "localizedShortDate": "Thu 9, Jun"
-          },
-          "arrivalDateTime": {
-            "raw": "2016-06-09T13:34:00",
-            "epochSeconds": 1465479240,
-            "localized": "Jun 9, 2016 01:34:00 PM",
-            "localizedShortDate": "Thu 9, Jun"
-          },
-          "duration": "PT3H19M",
-          "aggregatedMarketingCarrier": "CrossCountry",
-          "aggregatedOperatingCarrier": "CrossCountry",
-          "travelSegmentList": [
-            {
-              "travelSegmentIndex": 1,
-              "travelMode": "Train",
-              "departureStation": {
                 "stationCode": "GBRDG",
                 "stationDisplayName": "Reading"
               },
-              "arrivalStation": {
-                "stationCode": "GBQQM",
-                "stationDisplayName": "Manchester Piccadilly"
-              },
               "departureDateTime": {
-                "raw": "2016-06-09T10:15:00",
-                "epochSeconds": 1465467300,
-                "localized": "Jun 9, 2016 10:15:00 AM",
-                "localizedShortDate": "Thu 9, Jun"
+                "raw": "2016-07-06T15:30:00",
+                "epochSeconds": 1467819000,
+                "localized": "6 Jul, 2016 15:30",
+                "localizedShortDate": "Wed 6, Jul"
               },
               "arrivalDateTime": {
-                "raw": "2016-06-09T13:34:00",
-                "epochSeconds": 1465479240,
-                "localized": "Jun 9, 2016 01:34:00 PM",
-                "localizedShortDate": "Thu 9, Jun"
+                "raw": "2016-07-06T15:55:00",
+                "epochSeconds": 1467820500,
+                "localized": "6 Jul, 2016 15:55",
+                "localizedShortDate": "Wed 6, Jul"
               },
-              "marketingCarrier": "CrossCountry",
-              "operatingCarrier": "CrossCountry",
+              "marketingCarrier": "First Great Western",
+              "operatingCarrier": "First Great Western",
               "travelMedium": {
-                "travelMediumCode": "ICY",
                 "travelMediumName": "Inter-City",
-                "supplierTravelMediumId": "XC3120",
-                "supplierTravelMediumName": "CrossCountry-ICY"
+                "supplierTravelMediumId": "GW4115"
               },
-              "duration": "PT3H19M"
+              "duration": "PT25M"
             }
           ],
           "bestPrice": {
-            "amount": "69.74",
-            "currencyCode": "USD",
-            "formattedPrice": "$69.74",
-            "formattedWholePrice": "$70"
+            "amount": "101.50",
+            "currencyCode": "GBP",
+            "formattedPrice": "£101.50",
+            "formattedWholePrice": "£102"
           },
           "showTrainIcon": false,
           "toc": "ATOC",
@@ -463,24 +475,24 @@
         {
           "legOptionIndex": 5,
           "departureStation": {
-            "stationCode": "GBRDG",
-            "stationDisplayName": "Reading"
-          },
-          "arrivalStation": {
             "stationCode": "GBQQM",
             "stationDisplayName": "Manchester Piccadilly"
           },
+          "arrivalStation": {
+            "stationCode": "GBRDG",
+            "stationDisplayName": "Reading"
+          },
           "departureDateTime": {
-            "raw": "2016-06-09T10:27:00",
-            "epochSeconds": 1465468020,
-            "localized": "Jun 9, 2016 10:27:00 AM",
-            "localizedShortDate": "Thu 9, Jun"
+            "raw": "2016-07-06T12:55:00",
+            "epochSeconds": 1467809700,
+            "localized": "6 Jul, 2016 12:55",
+            "localizedShortDate": "Wed 6, Jul"
           },
           "arrivalDateTime": {
-            "raw": "2016-06-09T13:48:00",
-            "epochSeconds": 1465480080,
-            "localized": "Jun 9, 2016 01:48:00 PM",
-            "localizedShortDate": "Thu 9, Jun"
+            "raw": "2016-07-06T16:16:00",
+            "epochSeconds": 1467821760,
+            "localized": "6 Jul, 2016 16:16",
+            "localizedShortDate": "Wed 6, Jul"
           },
           "duration": "PT3H21M",
           "aggregatedMarketingCarrier": "Multiple trains lines",
@@ -490,64 +502,60 @@
               "travelSegmentIndex": 1,
               "travelMode": "Train",
               "departureStation": {
-                "stationCode": "GBRDG",
-                "stationDisplayName": "Reading"
-              },
-              "arrivalStation": {
-                "stationCode": "GBQQP",
-                "stationDisplayName": "London Paddington"
-              },
-              "departureDateTime": {
-                "raw": "2016-06-09T10:27:00",
-                "epochSeconds": 1465468020,
-                "localized": "Jun 9, 2016 10:27:00 AM",
-                "localizedShortDate": "Thu 9, Jun"
-              },
-              "arrivalDateTime": {
-                "raw": "2016-06-09T10:57:00",
-                "epochSeconds": 1465469820,
-                "localized": "Jun 9, 2016 10:57:00 AM",
-                "localizedShortDate": "Thu 9, Jun"
-              },
-              "marketingCarrier": "FirstGrtWest",
-              "operatingCarrier": "FirstGrtWest",
-              "travelMedium": {
-                "travelMediumCode": "ICY",
-                "travelMediumName": "Inter-City",
-                "supplierTravelMediumId": "GW7405",
-                "supplierTravelMediumName": "FirstGrtWest-ICY"
-              },
-              "duration": "PT30M"
-            },
-            {
-              "travelSegmentIndex": 2,
-              "travelMode": "Transfer",
-              "departureStation": {
-                "stationCode": "GBQQP",
-                "stationDisplayName": "London Paddington"
+                "stationCode": "GBQQM",
+                "stationDisplayName": "Manchester Piccadilly"
               },
               "arrivalStation": {
                 "stationCode": "GBQQU",
                 "stationDisplayName": "London Euston"
               },
               "departureDateTime": {
-                "raw": "2016-06-09T10:57:00",
-                "epochSeconds": 1465469820,
-                "localized": "Jun 9, 2016 10:57:00 AM",
-                "localizedShortDate": "Thu 9, Jun"
+                "raw": "2016-07-06T12:55:00",
+                "epochSeconds": 1467809700,
+                "localized": "6 Jul, 2016 12:55",
+                "localizedShortDate": "Wed 6, Jul"
               },
               "arrivalDateTime": {
-                "raw": "2016-06-09T11:39:59",
-                "epochSeconds": 1465472399,
-                "localized": "Jun 9, 2016 11:39:59 AM",
-                "localizedShortDate": "Thu 9, Jun"
+                "raw": "2016-07-06T15:09:00",
+                "epochSeconds": 1467817740,
+                "localized": "6 Jul, 2016 15:09",
+                "localizedShortDate": "Wed 6, Jul"
               },
-              "marketingCarrier": "LonUnderground",
-              "operatingCarrier": "LonUnderground",
+              "marketingCarrier": "Virgin Trains",
+              "operatingCarrier": "Virgin Trains",
               "travelMedium": {
-                "travelMediumCode": "MCT",
-                "travelMediumName": "Metro/City-Transit",
-                "supplierTravelMediumName": "LonUnderground-MCT"
+                "travelMediumName": "Inter-City",
+                "supplierTravelMediumId": "VT7620"
+              },
+              "duration": "PT2H14M"
+            },
+            {
+              "travelSegmentIndex": 2,
+              "travelMode": "Transfer",
+              "departureStation": {
+                "stationCode": "GBQQU",
+                "stationDisplayName": "London Euston"
+              },
+              "arrivalStation": {
+                "stationCode": "GBQQP",
+                "stationDisplayName": "London Paddington"
+              },
+              "departureDateTime": {
+                "raw": "2016-07-06T15:09:00",
+                "epochSeconds": 1467817740,
+                "localized": "6 Jul, 2016 15:09",
+                "localizedShortDate": "Wed 6, Jul"
+              },
+              "arrivalDateTime": {
+                "raw": "2016-07-06T15:51:59",
+                "epochSeconds": 1467820319,
+                "localized": "6 Jul, 2016 15:51",
+                "localizedShortDate": "Wed 6, Jul"
+              },
+              "marketingCarrier": "London Underground",
+              "operatingCarrier": "London Underground",
+              "travelMedium": {
+                "travelMediumName": "Metro/City-Transit"
               },
               "duration": "PT42M"
             },
@@ -555,41 +563,39 @@
               "travelSegmentIndex": 3,
               "travelMode": "Train",
               "departureStation": {
-                "stationCode": "GBQQU",
-                "stationDisplayName": "London Euston"
+                "stationCode": "GBQQP",
+                "stationDisplayName": "London Paddington"
               },
               "arrivalStation": {
-                "stationCode": "GBQQM",
-                "stationDisplayName": "Manchester Piccadilly"
+                "stationCode": "GBRDG",
+                "stationDisplayName": "Reading"
               },
               "departureDateTime": {
-                "raw": "2016-06-09T11:40:00",
-                "epochSeconds": 1465472400,
-                "localized": "Jun 9, 2016 11:40:00 AM",
-                "localizedShortDate": "Thu 9, Jun"
+                "raw": "2016-07-06T15:52:00",
+                "epochSeconds": 1467820320,
+                "localized": "6 Jul, 2016 15:52",
+                "localizedShortDate": "Wed 6, Jul"
               },
               "arrivalDateTime": {
-                "raw": "2016-06-09T13:48:00",
-                "epochSeconds": 1465480080,
-                "localized": "Jun 9, 2016 01:48:00 PM",
-                "localizedShortDate": "Thu 9, Jun"
+                "raw": "2016-07-06T16:16:00",
+                "epochSeconds": 1467821760,
+                "localized": "6 Jul, 2016 16:16",
+                "localizedShortDate": "Wed 6, Jul"
               },
-              "marketingCarrier": "Virgin",
-              "operatingCarrier": "Virgin",
+              "marketingCarrier": "First Great Western",
+              "operatingCarrier": "First Great Western",
               "travelMedium": {
-                "travelMediumCode": "ICY",
                 "travelMediumName": "Inter-City",
-                "supplierTravelMediumId": "VT7090",
-                "supplierTravelMediumName": "Virgin-ICY"
+                "supplierTravelMediumId": "GW7308"
               },
-              "duration": "PT2H8M"
+              "duration": "PT24M"
             }
           ],
           "bestPrice": {
-            "amount": "90.22",
-            "currencyCode": "USD",
-            "formattedPrice": "$90.22",
-            "formattedWholePrice": "$90"
+            "amount": "101.50",
+            "currencyCode": "GBP",
+            "formattedPrice": "£101.50",
+            "formattedWholePrice": "£102"
           },
           "showTrainIcon": false,
           "toc": "ATOC",
@@ -602,31 +608,31 @@
   "offerList": [
     {
       "totalPrice": {
-        "amount": "149.22",
-        "currencyCode": "USD",
-        "formattedPrice": "$149.22",
-        "formattedWholePrice": "$149"
+        "amount": "203.00",
+        "currencyCode": "GBP",
+        "formattedPrice": "£203.0",
+        "formattedWholePrice": "£203"
       },
       "priceBreakdown": [
         {
-          "amount": "141.22",
-          "currencyCode": "USD",
-          "mainCurrency": 141,
-          "fractionalCurrency": 22,
-          "currencySymbol": "$",
-          "formattedPrice": "$141.22",
-          "formattedWholePrice": "$141",
-          "priceCategory": "Ticket"
-        },
-        {
           "amount": "8",
-          "currencyCode": "USD",
+          "currencyCode": "GBP",
           "mainCurrency": 8,
           "fractionalCurrency": 0,
-          "currencySymbol": "$",
-          "formattedPrice": "$8.0",
-          "formattedWholePrice": "$8",
-          "priceCategory": "Expedia Service Fee"
+          "currencySymbol": "£",
+          "formattedPrice": "£8.0",
+          "formattedWholePrice": "£8",
+          "priceCategory": "Expedia Booking Fee"
+        },
+        {
+          "amount": "195.00",
+          "currencyCode": "GBP",
+          "mainCurrency": 195,
+          "fractionalCurrency": 0,
+          "currencySymbol": "£",
+          "formattedPrice": "£195.0",
+          "formattedWholePrice": "£195",
+          "priceCategory": "Ticket Price"
         }
       ],
       "railProductList": [
@@ -634,15 +640,16 @@
           "aggregatedCarrierServiceClassDisplayName": "Standard",
           "aggregatedCarrierFareClassDisplayName": "anytime single",
           "aggregatedFareDescription": "Travel anytime of day",
+          "aggregatedCarrierFareClassCategoryName": "Anytime",
           "fareNotes": [
             "Additional information about this fare can be found at http://www.nationalrail.co.uk/times_fares/ticket_types.aspx",
-            "Not valid for travel via (changing trains or passing through) London Terminals."
+            "Valid only for travel via (changing trains or passing through) London."
           ],
-          "refundable": "refundable",
+          "refundable": "REFUNDABLE",
           "refundableRules": [
-            "Your ticket is refundable before Jul 9, 2016 01:30:00 AM Coordinated Universal Time",
-            "If you cancel after your ticket is printed, a penalty of up to 16.12 USD per ticket will be deducted from your refund.",
-            "If you cancel before your ticket is printed, a penalty of upto 10 GBP per ticket will be deducted from your refund."
+            "Your ticket is refundable before 5 Aug, 2016 01:30 Coordinated Universal Time",
+            "If you cancel before your ticket is printed, a penalty of 10.00 GBP will be deducted from your refund.",
+            "If you cancel after your ticket is printed, a penalty of up to 10 GBP per printed ticket per passenger will be deducted from your refund. If the ticket is less than 10 GBP, the maximum penalty is the ticket price."
           ],
           "legOptionIndexList": [
             1
@@ -652,25 +659,37 @@
               "passengerFareList": [
                 {
                   "passengerIndex": 1,
-                  "passengerTypeCode": "A",
                   "passengerSegmentFareList": [
                     {
-                      "fareCode": "IXC-SOS-00700-STD-1",
+                      "fareCode": "IWC-SOS-00200-STD-1",
                       "travelSegmentIndex": 1,
                       "carrierServiceClassDisplayName": "Standard",
                       "carrierFareClassDisplayName": "anytime single",
+                      "carrierFareClassCategoryName": "Anytime",
                       "fareDescription": "Travel anytime of day",
                       "amenityList": [
                         {
-                          "displayName": "Snack Trolley Service"
+                          "displayName": "Buffet Service"
+                        },
+                        {
+                          "displayName": "WiFi Access (Additional Cost)"
                         }
                       ]
                     },
                     {
-                      "fareCode": "IXC-SOS-00700-STD-1",
+                      "fareCode": "IWC-SOS-00200-STD-1",
                       "travelSegmentIndex": 2,
                       "carrierServiceClassDisplayName": "Standard",
                       "carrierFareClassDisplayName": "anytime single",
+                      "carrierFareClassCategoryName": "Anytime",
+                      "fareDescription": "Travel anytime of day"
+                    },
+                    {
+                      "fareCode": "IWC-SOS-00200-STD-1",
+                      "travelSegmentIndex": 3,
+                      "carrierServiceClassDisplayName": "Standard",
+                      "carrierFareClassDisplayName": "anytime single",
+                      "carrierFareClassCategoryName": "Anytime",
                       "fareDescription": "Travel anytime of day",
                       "amenityList": [
                         {
@@ -682,39 +701,38 @@
                 }
               ]
             }
-          ],
-          "railProductToken": "COmWLhCrmC4aGgimiIcDEKaA4QYY6ZYuIMaXLioGWEMyMTIwGhoIpoDhBhCmgKEGGNOXLiCrmC4qBlhDNDA2MCIVCgdBTllUSU1FEAMaCFN0YW5kYXJk"
+          ]
         }
       ],
-      "railOfferToken": "CgQI-JYuElcI6ZYuEKuYLhoaCKaIhwMQpoDhBhjpli4gxpcuKgZYQzIxMjAaGgimgOEGEKaAoQYY05cuIKuYLioGWEM0MDYwIhUKB0FOWVRJTUUQAxoIU3RhbmRhcmQaAghB"
+      "railOfferToken": "CAISBAjQxzAabQjLxzAQmskwGhoIpoChBhCmgKEKGMvHMCDNyDAqBlZUNzYwNRoUCKaAoQoQpoDhBxjNyDAg-MgwKgAaGgimgOEHEKaIhwMY-sgwIJrJMCoGR1c3NTEzIhUKB0FOWVRJTUUQAxoIU3RhbmRhcmQiAwiBAQ=="
     },
     {
       "totalPrice": {
-        "amount": "333.81",
-        "currencyCode": "USD",
-        "formattedPrice": "$333.81",
-        "formattedWholePrice": "$334"
+        "amount": "280.00",
+        "currencyCode": "GBP",
+        "formattedPrice": "£280.0",
+        "formattedWholePrice": "£280"
       },
       "priceBreakdown": [
         {
-          "amount": "325.81",
-          "currencyCode": "USD",
-          "mainCurrency": 325,
-          "fractionalCurrency": 81,
-          "currencySymbol": "$",
-          "formattedPrice": "$325.81",
-          "formattedWholePrice": "$326",
-          "priceCategory": "Ticket"
-        },
-        {
           "amount": "8",
-          "currencyCode": "USD",
+          "currencyCode": "GBP",
           "mainCurrency": 8,
           "fractionalCurrency": 0,
-          "currencySymbol": "$",
-          "formattedPrice": "$8.0",
-          "formattedWholePrice": "$8",
-          "priceCategory": "Expedia Service Fee"
+          "currencySymbol": "£",
+          "formattedPrice": "£8.0",
+          "formattedWholePrice": "£8",
+          "priceCategory": "Expedia Booking Fee"
+        },
+        {
+          "amount": "272.00",
+          "currencyCode": "GBP",
+          "mainCurrency": 272,
+          "fractionalCurrency": 0,
+          "currencySymbol": "£",
+          "formattedPrice": "£272.0",
+          "formattedWholePrice": "£272",
+          "priceCategory": "Ticket Price"
         }
       ],
       "railProductList": [
@@ -722,43 +740,57 @@
           "aggregatedCarrierServiceClassDisplayName": "First",
           "aggregatedCarrierFareClassDisplayName": "anytime single",
           "aggregatedFareDescription": "Travel anytime of day",
+          "aggregatedCarrierFareClassCategoryName": "Anytime",
           "fareNotes": [
             "Additional information about this fare can be found at http://www.nationalrail.co.uk/times_fares/ticket_types.aspx",
-            "Not valid for travel via (changing trains or passing through) London Terminals."
+            "Valid only for travel via (changing trains or passing through) London."
           ],
-          "refundable": "refundable",
+          "refundable": "REFUNDABLE",
           "refundableRules": [
-            "Your ticket is refundable before Jul 9, 2016 01:30:00 AM Coordinated Universal Time",
-            "If you cancel after your ticket is printed, a penalty of up to 16.12 USD per ticket will be deducted from your refund.",
-            "If you cancel before your ticket is printed, a penalty of upto 10 GBP per ticket will be deducted from your refund."
+            "Your ticket is refundable before 5 Aug, 2016 01:30 Coordinated Universal Time",
+            "If you cancel before your ticket is printed, a penalty of 10.00 GBP will be deducted from your refund.",
+            "If you cancel after your ticket is printed, a penalty of up to 10 GBP per printed ticket per passenger will be deducted from your refund. If the ticket is less than 10 GBP, the maximum penalty is the ticket price."
           ],
           "legOptionIndexList": [
             1
           ],
+
           "fareBreakdownList": [
             {
               "passengerFareList": [
                 {
                   "passengerIndex": 1,
-                  "passengerTypeCode": "A",
                   "passengerSegmentFareList": [
                     {
-                      "fareCode": "IXC-FOS-00700-STD-1",
+                      "fareCode": "IWC-FOS-00200-STD-1",
                       "travelSegmentIndex": 1,
                       "carrierServiceClassDisplayName": "First",
                       "carrierFareClassDisplayName": "anytime single",
+                      "carrierFareClassCategoryName": "Anytime",
                       "fareDescription": "Travel anytime of day",
                       "amenityList": [
                         {
-                          "displayName": "Snack Trolley Service"
+                          "displayName": "Buffet Service"
+                        },
+                        {
+                          "displayName": "WiFi Access (Free)"
                         }
                       ]
                     },
                     {
-                      "fareCode": "IXC-FOS-00700-STD-1",
+                      "fareCode": "IWC-FOS-00200-STD-1",
                       "travelSegmentIndex": 2,
                       "carrierServiceClassDisplayName": "First",
                       "carrierFareClassDisplayName": "anytime single",
+                      "carrierFareClassCategoryName": "Anytime",
+                      "fareDescription": "Travel anytime of day"
+                    },
+                    {
+                      "fareCode": "IWC-FOS-00200-STD-1",
+                      "travelSegmentIndex": 3,
+                      "carrierServiceClassDisplayName": "First",
+                      "carrierFareClassDisplayName": "anytime single",
+                      "carrierFareClassCategoryName": "Anytime",
                       "fareDescription": "Travel anytime of day",
                       "amenityList": [
                         {
@@ -770,39 +802,38 @@
                 }
               ]
             }
-          ],
-          "railProductToken": "COmWLhCrmC4aGgimiIcDEKaA4QYY6ZYuIMaXLioGWEMyMTIwGhoIpoDhBhCmgKEGGNOXLiCrmC4qBlhDNDA2MCISCgdBTllUSU1FEAEaBUZpcnN0"
+          ]
         }
       ],
-      "railOfferToken": "CgQI-JYuElQI6ZYuEKuYLhoaCKaIhwMQpoDhBhjpli4gxpcuKgZYQzIxMjAaGgimgOEGEKaAoQYY05cuIKuYLioGWEM0MDYwIhIKB0FOWVRJTUUQARoFRmlyc3QaAghB"
+      "railOfferToken": "CAISBAjQxzAaagjLxzAQmskwGhoIpoChBhCmgKEKGMvHMCDNyDAqBlZUNzYwNRoUCKaAoQoQpoDhBxjNyDAg-MgwKgAaGgimgOEHEKaIhwMY-sgwIJrJMCoGR1c3NTEzIhIKB0FOWVRJTUUQARoFRmlyc3QiAwiBAQ=="
     },
     {
       "totalPrice": {
-        "amount": "133.1",
-        "currencyCode": "USD",
-        "formattedPrice": "$133.1",
-        "formattedWholePrice": "$133"
+        "amount": "101.50",
+        "currencyCode": "GBP",
+        "formattedPrice": "£101.50",
+        "formattedWholePrice": "£102"
       },
       "priceBreakdown": [
         {
-          "amount": "125.1",
-          "currencyCode": "USD",
-          "mainCurrency": 125,
-          "fractionalCurrency": 1,
-          "currencySymbol": "$",
-          "formattedPrice": "$125.1",
-          "formattedWholePrice": "$125",
-          "priceCategory": "Ticket"
-        },
-        {
           "amount": "8",
-          "currencyCode": "USD",
+          "currencyCode": "GBP",
           "mainCurrency": 8,
           "fractionalCurrency": 0,
-          "currencySymbol": "$",
-          "formattedPrice": "$8.0",
-          "formattedWholePrice": "$8",
-          "priceCategory": "Expedia Service Fee"
+          "currencySymbol": "£",
+          "formattedPrice": "£8.0",
+          "formattedWholePrice": "£8",
+          "priceCategory": "Expedia Booking Fee"
+        },
+        {
+          "amount": "93.50",
+          "currencyCode": "GBP",
+          "mainCurrency": 93,
+          "fractionalCurrency": 50,
+          "currencySymbol": "£",
+          "formattedPrice": "£93.50",
+          "formattedWholePrice": "£94",
+          "priceCategory": "Ticket Price"
         }
       ],
       "railProductList": [
@@ -810,44 +841,583 @@
           "aggregatedCarrierServiceClassDisplayName": "Standard",
           "aggregatedCarrierFareClassDisplayName": "off-peak single",
           "aggregatedFareDescription": "Any off-peak train",
+          "aggregatedCarrierFareClassCategoryName": "Offpeak",
+          "fareNotes": [
+            "Additional information about this fare can be found at http://www.nationalrail.co.uk/times_fares/ticket_types.aspx",
+            "Outbound: VALID TO ARR EUS PRE 0720 OR AFTER 1129 M-F",
+            "Valid only for travel via (changing trains or passing through) London."
+          ],
+          "refundable": "REFUNDABLE",
+          "refundableRules": [
+            "Your ticket is refundable before 4 Aug, 2016 01:30 Coordinated Universal Time",
+            "If you cancel before your ticket is printed, a penalty of 10.00 GBP will be deducted from your refund.",
+            "If you cancel after your ticket is printed, a penalty of up to 10 GBP per printed ticket per passenger will be deducted from your refund. If the ticket is less than 10 GBP, the maximum penalty is the ticket price."
+          ],
+          "legOptionIndexList": [
+            1
+          ],
+          "fareBreakdownList": [
+            {
+              "passengerFareList": [
+                {
+                  "passengerIndex": 1,
+                  "passengerSegmentFareList": [
+                    {
+                      "fareCode": "IWC-SVS-00200-STD-1",
+                      "travelSegmentIndex": 1,
+                      "carrierServiceClassDisplayName": "Standard",
+                      "carrierFareClassDisplayName": "off-peak single",
+                      "carrierFareClassCategoryName": "Offpeak",
+                      "fareDescription": "Any off-peak train",
+                      "amenityList": [
+                        {
+                          "displayName": "Buffet Service"
+                        },
+                        {
+                          "displayName": "WiFi Access (Additional Cost)"
+                        }
+                      ]
+                    },
+                    {
+                      "fareCode": "IWC-SVS-00200-STD-1",
+                      "travelSegmentIndex": 2,
+                      "carrierServiceClassDisplayName": "Standard",
+                      "carrierFareClassDisplayName": "off-peak single",
+                      "carrierFareClassCategoryName": "Offpeak",
+                      "fareDescription": "Any off-peak train"
+                    },
+                    {
+                      "fareCode": "IWC-SVS-00200-STD-1",
+                      "travelSegmentIndex": 3,
+                      "carrierServiceClassDisplayName": "Standard",
+                      "carrierFareClassDisplayName": "off-peak single",
+                      "carrierFareClassCategoryName": "Offpeak",
+                      "fareDescription": "Any off-peak train"
+
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "railOfferToken": "CAISBAjQxzAacQjLxzAQmskwGhoIpoChBhCmgKEKGMvHMCDNyDAqBlZUNzYwNRoUCKaAoQoQpoDhBxjNyDAg-MgwKgAaGgimgOEHEKaIhwMY-sgwIJrJMCoGR1c3NTEzIhkKC09GRlBFQUtfREFZEAMaCFN0YW5kYXJkIgMIgQE="
+    },
+    {
+      "totalPrice": {
+        "amount": "203.00",
+        "currencyCode": "GBP",
+        "formattedPrice": "£203.0",
+        "formattedWholePrice": "£203"
+      },
+      "priceBreakdown": [
+        {
+          "amount": "8",
+          "currencyCode": "GBP",
+          "mainCurrency": 8,
+          "fractionalCurrency": 0,
+          "currencySymbol": "£",
+          "formattedPrice": "£8.0",
+          "formattedWholePrice": "£8",
+          "priceCategory": "Expedia Booking Fee"
+        },
+        {
+          "amount": "195.00",
+          "currencyCode": "GBP",
+          "mainCurrency": 195,
+          "fractionalCurrency": 0,
+          "currencySymbol": "£",
+          "formattedPrice": "£195.0",
+          "formattedWholePrice": "£195",
+          "priceCategory": "Ticket Price"
+        }
+      ],
+      "railProductList": [
+        {
+          "aggregatedCarrierServiceClassDisplayName": "Standard",
+          "aggregatedCarrierFareClassDisplayName": "anytime single",
+          "aggregatedFareDescription": "Travel anytime of day",
+          "aggregatedCarrierFareClassCategoryName": "Anytime",
+          "fareNotes": [
+            "Additional information about this fare can be found at http://www.nationalrail.co.uk/times_fares/ticket_types.aspx",
+            "Valid only for travel via (changing trains or passing through) London."
+          ],
+          "refundable": "REFUNDABLE",
+          "refundableRules": [
+            "Your ticket is refundable before 5 Aug, 2016 01:30 Coordinated Universal Time",
+            "If you cancel before your ticket is printed, a penalty of 10.00 GBP will be deducted from your refund.",
+            "If you cancel after your ticket is printed, a penalty of up to 10 GBP per printed ticket per passenger will be deducted from your refund. If the ticket is less than 10 GBP, the maximum penalty is the ticket price."
+          ],
+          "legOptionIndexList": [
+            2
+          ],
+          "fareBreakdownList": [
+            {
+              "passengerFareList": [
+                {
+                  "passengerIndex": 1,
+                  "passengerSegmentFareList": [
+                    {
+                      "fareCode": "IWC-SOS-00200-STD-1",
+                      "travelSegmentIndex": 1,
+                      "carrierServiceClassDisplayName": "Standard",
+                      "carrierFareClassDisplayName": "anytime single",
+                      "carrierFareClassCategoryName": "Anytime",
+                      "fareDescription": "Travel anytime of day",
+                      "amenityList": [
+                        {
+                          "displayName": "Buffet Service"
+                        },
+                        {
+                          "displayName": "WiFi Access (Additional Cost)"
+                        }
+                      ]
+                    },
+                    {
+                      "fareCode": "IWC-SOS-00200-STD-1",
+                      "travelSegmentIndex": 2,
+                      "carrierServiceClassDisplayName": "Standard",
+                      "carrierFareClassDisplayName": "anytime single",
+                      "carrierFareClassCategoryName": "Anytime",
+                      "fareDescription": "Travel anytime of day"
+                    },
+                    {
+                      "fareCode": "IWC-SOS-00200-STD-1",
+                      "travelSegmentIndex": 3,
+                      "carrierServiceClassDisplayName": "Standard",
+                      "carrierFareClassDisplayName": "anytime single",
+                      "carrierFareClassCategoryName": "Anytime",
+                      "fareDescription": "Travel anytime of day",
+                      "amenityList": [
+                        {
+                          "displayName": "Buffet Service"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "railOfferToken": "CAISBAjQxzAabQjfxzAQq8kwGhoIpoChBhCmgKEKGN_HMCDgyDAqBlZUNzYxMBoUCKaAoQoQpoDhBxjgyDAgi8kwKgAaGgimgOEHEKaIhwMYk8kwIKvJMCoGR1c1MTA5IhUKB0FOWVRJTUUQAxoIU3RhbmRhcmQiAwiBAQ=="
+    },
+    {
+      "totalPrice": {
+        "amount": "280.00",
+        "currencyCode": "GBP",
+        "formattedPrice": "£280.0",
+        "formattedWholePrice": "£280"
+      },
+      "priceBreakdown": [
+        {
+          "amount": "8",
+          "currencyCode": "GBP",
+          "mainCurrency": 8,
+          "fractionalCurrency": 0,
+          "currencySymbol": "£",
+          "formattedPrice": "£8.0",
+          "formattedWholePrice": "£8",
+          "priceCategory": "Expedia Booking Fee"
+        },
+        {
+          "amount": "272.00",
+          "currencyCode": "GBP",
+          "mainCurrency": 272,
+          "fractionalCurrency": 0,
+          "currencySymbol": "£",
+          "formattedPrice": "£272.0",
+          "formattedWholePrice": "£272",
+          "priceCategory": "Ticket Price"
+        }
+      ],
+      "railProductList": [
+        {
+          "aggregatedCarrierServiceClassDisplayName": "First",
+          "aggregatedCarrierFareClassDisplayName": "anytime single",
+          "aggregatedFareDescription": "Travel anytime of day",
+          "aggregatedCarrierFareClassCategoryName": "Anytime",
+          "fareNotes": [
+            "Additional information about this fare can be found at http://www.nationalrail.co.uk/times_fares/ticket_types.aspx",
+            "Valid only for travel via (changing trains or passing through) London."
+          ],
+          "refundable": "REFUNDABLE",
+          "refundableRules": [
+            "Your ticket is refundable before 5 Aug, 2016 01:30 Coordinated Universal Time",
+            "If you cancel before your ticket is printed, a penalty of 10.00 GBP will be deducted from your refund.",
+            "If you cancel after your ticket is printed, a penalty of up to 10 GBP per printed ticket per passenger will be deducted from your refund. If the ticket is less than 10 GBP, the maximum penalty is the ticket price."
+          ],
+          "legOptionIndexList": [
+            2
+          ],
+          "fareBreakdownList": [
+            {
+              "passengerFareList": [
+                {
+                  "passengerIndex": 1,
+                  "passengerSegmentFareList": [
+                    {
+                      "fareCode": "IWC-FOS-00200-STD-1",
+                      "travelSegmentIndex": 1,
+                      "carrierServiceClassDisplayName": "First",
+                      "carrierFareClassDisplayName": "anytime single",
+                      "carrierFareClassCategoryName": "Anytime",
+                      "fareDescription": "Travel anytime of day",
+                      "amenityList": [
+                        {
+                          "displayName": "Buffet Service"
+                        },
+                        {
+                          "displayName": "WiFi Access (Free)"
+                        }
+                      ]
+                    },
+                    {
+                      "fareCode": "IWC-FOS-00200-STD-1",
+                      "travelSegmentIndex": 2,
+                      "carrierServiceClassDisplayName": "First",
+                      "carrierFareClassDisplayName": "anytime single",
+                      "carrierFareClassCategoryName": "Anytime",
+                      "fareDescription": "Travel anytime of day"
+                    },
+                    {
+                      "fareCode": "IWC-FOS-00200-STD-1",
+                      "travelSegmentIndex": 3,
+                      "carrierServiceClassDisplayName": "First",
+                      "carrierFareClassDisplayName": "anytime single",
+                      "carrierFareClassCategoryName": "Anytime",
+                      "fareDescription": "Travel anytime of day",
+                      "amenityList": [
+                        {
+                          "displayName": "Buffet Service"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "railOfferToken": "CAISBAjQxzAaagjfxzAQq8kwGhoIpoChBhCmgKEKGN_HMCDgyDAqBlZUNzYxMBoUCKaAoQoQpoDhBxjgyDAgi8kwKgAaGgimgOEHEKaIhwMYk8kwIKvJMCoGR1c1MTA5IhIKB0FOWVRJTUUQARoFRmlyc3QiAwiBAQ=="
+    },
+    {
+      "totalPrice": {
+        "amount": "101.50",
+        "currencyCode": "GBP",
+        "formattedPrice": "£101.50",
+        "formattedWholePrice": "£102"
+      },
+      "priceBreakdown": [
+        {
+          "amount": "8",
+          "currencyCode": "GBP",
+          "mainCurrency": 8,
+          "fractionalCurrency": 0,
+          "currencySymbol": "£",
+          "formattedPrice": "£8.0",
+          "formattedWholePrice": "£8",
+          "priceCategory": "Expedia Booking Fee"
+        },
+        {
+          "amount": "93.50",
+          "currencyCode": "GBP",
+          "mainCurrency": 93,
+          "fractionalCurrency": 50,
+          "currencySymbol": "£",
+          "formattedPrice": "£93.50",
+          "formattedWholePrice": "£94",
+          "priceCategory": "Ticket Price"
+        }
+      ],
+      "railProductList": [
+        {
+          "aggregatedCarrierServiceClassDisplayName": "Standard",
+          "aggregatedCarrierFareClassDisplayName": "off-peak single",
+          "aggregatedFareDescription": "Any off-peak train",
+          "aggregatedCarrierFareClassCategoryName": "Offpeak",
+          "fareNotes": [
+            "Additional information about this fare can be found at http://www.nationalrail.co.uk/times_fares/ticket_types.aspx",
+            "Outbound: VALID TO ARR EUS PRE 0720 OR AFTER 1129 M-F",
+            "Valid only for travel via (changing trains or passing through) London."
+          ],
+          "refundable": "REFUNDABLE",
+          "refundableRules": [
+            "Your ticket is refundable before 4 Aug, 2016 01:30 Coordinated Universal Time",
+            "If you cancel before your ticket is printed, a penalty of 10.00 GBP will be deducted from your refund.",
+            "If you cancel after your ticket is printed, a penalty of up to 10 GBP per printed ticket per passenger will be deducted from your refund. If the ticket is less than 10 GBP, the maximum penalty is the ticket price."
+          ],
+          "legOptionIndexList": [
+            2
+          ],
+          "fareBreakdownList": [
+            {
+              "passengerFareList": [
+                {
+                  "passengerIndex": 1,
+                  "passengerSegmentFareList": [
+                    {
+                      "fareCode": "IWC-SVS-00200-STD-1",
+                      "travelSegmentIndex": 1,
+                      "carrierServiceClassDisplayName": "Standard",
+                      "carrierFareClassDisplayName": "off-peak single",
+                      "carrierFareClassCategoryName": "Offpeak",
+                      "fareDescription": "Any off-peak train",
+                      "amenityList": [
+                        {
+                          "displayName": "Buffet Service"
+                        },
+                        {
+                          "displayName": "WiFi Access (Additional Cost)"
+                        }
+                      ]
+                    },
+                    {
+                      "fareCode": "IWC-SVS-00200-STD-1",
+                      "travelSegmentIndex": 2,
+                      "carrierServiceClassDisplayName": "Standard",
+                      "carrierFareClassDisplayName": "off-peak single",
+                      "carrierFareClassCategoryName": "Offpeak",
+                      "fareDescription": "Any off-peak train"
+                    },
+                    {
+                      "fareCode": "IWC-SVS-00200-STD-1",
+                      "travelSegmentIndex": 3,
+                      "carrierServiceClassDisplayName": "Standard",
+                      "carrierFareClassDisplayName": "off-peak single",
+                      "carrierFareClassCategoryName": "Offpeak",
+                      "fareDescription": "Any off-peak train",
+                      "amenityList": [
+                        {
+                          "displayName": "Buffet Service"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "railOfferToken": "CAISBAjQxzAacQjfxzAQq8kwGhoIpoChBhCmgKEKGN_HMCDgyDAqBlZUNzYxMBoUCKaAoQoQpoDhBxjgyDAgi8kwKgAaGgimgOEHEKaIhwMYk8kwIKvJMCoGR1c1MTA5IhkKC09GRlBFQUtfREFZEAMaCFN0YW5kYXJkIgMIgQE="
+    },
+    {
+      "totalPrice": {
+        "amount": "95.60",
+        "currencyCode": "GBP",
+        "formattedPrice": "£95.60",
+        "formattedWholePrice": "£96"
+      },
+      "priceBreakdown": [
+        {
+          "amount": "8",
+          "currencyCode": "GBP",
+          "mainCurrency": 8,
+          "fractionalCurrency": 0,
+          "currencySymbol": "£",
+          "formattedPrice": "£8.0",
+          "formattedWholePrice": "£8",
+          "priceCategory": "Expedia Booking Fee"
+        },
+        {
+          "amount": "87.60",
+          "currencyCode": "GBP",
+          "mainCurrency": 87,
+          "fractionalCurrency": 60,
+          "currencySymbol": "£",
+          "formattedPrice": "£87.60",
+          "formattedWholePrice": "£88",
+          "priceCategory": "Ticket Price"
+        }
+      ],
+      "railProductList": [
+        {
+          "aggregatedCarrierServiceClassDisplayName": "Standard",
+          "aggregatedCarrierFareClassDisplayName": "anytime single",
+          "aggregatedFareDescription": "Travel anytime of day",
+          "aggregatedCarrierFareClassCategoryName": "Anytime",
+          "fareNotes": [
+            "Additional information about this fare can be found at http://www.nationalrail.co.uk/times_fares/ticket_types.aspx",
+            "Not valid for travel via (changing trains or passing through) London Terminals."
+          ],
+          "refundable": "REFUNDABLE",
+          "refundableRules": [
+            "Your ticket is refundable before 5 Aug, 2016 01:30 Coordinated Universal Time",
+            "If you cancel before your ticket is printed, a penalty of 10.00 GBP will be deducted from your refund.",
+            "If you cancel after your ticket is printed, a penalty of up to 10 GBP per printed ticket per passenger will be deducted from your refund. If the ticket is less than 10 GBP, the maximum penalty is the ticket price."
+          ],
+          "legOptionIndexList": [
+            3
+          ],
+          "fareBreakdownList": [
+            {
+              "passengerFareList": [
+                {
+                  "passengerIndex": 1,
+                  "passengerSegmentFareList": [
+                    {
+                      "fareCode": "IXC-SOS-00700-STD-1",
+                      "travelSegmentIndex": 1,
+                      "carrierServiceClassDisplayName": "Standard",
+                      "carrierFareClassDisplayName": "anytime single",
+                      "carrierFareClassCategoryName": "Anytime",
+                      "fareDescription": "Travel anytime of day",
+                      "amenityList": [
+                        {
+                          "displayName": "Snack Trolley Service"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "railOfferToken": "CAISBAjQxzAaOwjrxzAQrckwGhoIpoChBhCmiIcDGOvHMCCtyTAqBlhDMzY2MCIVCgdBTllUSU1FEAMaCFN0YW5kYXJkIgMIgQE="
+    },
+    {
+      "totalPrice": {
+        "amount": "210.10",
+        "currencyCode": "GBP",
+        "formattedPrice": "£210.10",
+        "formattedWholePrice": "£210"
+      },
+      "priceBreakdown": [
+        {
+          "amount": "8",
+          "currencyCode": "GBP",
+          "mainCurrency": 8,
+          "fractionalCurrency": 0,
+          "currencySymbol": "£",
+          "formattedPrice": "£8.0",
+          "formattedWholePrice": "£8",
+          "priceCategory": "Expedia Booking Fee"
+        },
+        {
+          "amount": "202.10",
+          "currencyCode": "GBP",
+          "mainCurrency": 202,
+          "fractionalCurrency": 10,
+          "currencySymbol": "£",
+          "formattedPrice": "£202.10",
+          "formattedWholePrice": "£202",
+          "priceCategory": "Ticket Price"
+        }
+      ],
+      "railProductList": [
+        {
+          "aggregatedCarrierServiceClassDisplayName": "First",
+          "aggregatedCarrierFareClassDisplayName": "anytime single",
+          "aggregatedFareDescription": "Travel anytime of day",
+          "aggregatedCarrierFareClassCategoryName": "Anytime",
+          "fareNotes": [
+            "Additional information about this fare can be found at http://www.nationalrail.co.uk/times_fares/ticket_types.aspx",
+            "Not valid for travel via (changing trains or passing through) London Terminals."
+          ],
+          "refundable": "REFUNDABLE",
+          "refundableRules": [
+            "Your ticket is refundable before 5 Aug, 2016 01:30 Coordinated Universal Time",
+            "If you cancel before your ticket is printed, a penalty of 10.00 GBP will be deducted from your refund.",
+            "If you cancel after your ticket is printed, a penalty of up to 10 GBP per printed ticket per passenger will be deducted from your refund. If the ticket is less than 10 GBP, the maximum penalty is the ticket price."
+          ],
+          "legOptionIndexList": [
+            3
+          ],
+          "fareBreakdownList": [
+            {
+              "passengerFareList": [
+                {
+                  "passengerIndex": 1,
+                  "passengerSegmentFareList": [
+                    {
+                      "fareCode": "IXC-FOS-00700-STD-1",
+                      "travelSegmentIndex": 1,
+                      "carrierServiceClassDisplayName": "First",
+                      "carrierFareClassDisplayName": "anytime single",
+                      "carrierFareClassCategoryName": "Anytime",
+                      "fareDescription": "Travel anytime of day",
+                      "amenityList": [
+                        {
+                          "displayName": "Snack Trolley Service"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "railOfferToken": "CAISBAjQxzAaOAjrxzAQrckwGhoIpoChBhCmiIcDGOvHMCCtyTAqBlhDMzY2MCISCgdBTllUSU1FEAEaBUZpcnN0IgMIgQE="
+    },
+    {
+      "totalPrice": {
+        "amount": "85.60",
+        "currencyCode": "GBP",
+        "formattedPrice": "£85.60",
+        "formattedWholePrice": "£86"
+      },
+      "priceBreakdown": [
+        {
+          "amount": "8",
+          "currencyCode": "GBP",
+          "mainCurrency": 8,
+          "fractionalCurrency": 0,
+          "currencySymbol": "£",
+          "formattedPrice": "£8.0",
+          "formattedWholePrice": "£8",
+          "priceCategory": "Expedia Booking Fee"
+        },
+        {
+          "amount": "77.60",
+          "currencyCode": "GBP",
+          "mainCurrency": 77,
+          "fractionalCurrency": 60,
+          "currencySymbol": "£",
+          "formattedPrice": "£77.60",
+          "formattedWholePrice": "£78",
+          "priceCategory": "Ticket Price"
+        }
+      ],
+      "railProductList": [
+        {
+          "aggregatedCarrierServiceClassDisplayName": "Standard",
+          "aggregatedCarrierFareClassDisplayName": "off-peak single",
+          "aggregatedFareDescription": "Any off-peak train",
+          "aggregatedCarrierFareClassCategoryName": "Offpeak",
           "fareNotes": [
             "Additional information about this fare can be found at http://www.nationalrail.co.uk/times_fares/ticket_types.aspx",
             "Not valid for travel via (changing trains or passing through) London Terminals.",
             "Outbound: VALID ON ANY TRAIN AFTER 0930 M-F"
           ],
-          "refundable": "refundable",
+          "refundable": "REFUNDABLE",
           "refundableRules": [
-            "Your ticket is refundable before Jul 8, 2016 01:30:00 AM Coordinated Universal Time",
-            "If you cancel after your ticket is printed, a penalty of up to 16.12 USD per ticket will be deducted from your refund.",
-            "If you cancel before your ticket is printed, a penalty of upto 10 GBP per ticket will be deducted from your refund."
+            "Your ticket is refundable before 4 Aug, 2016 01:30 Coordinated Universal Time",
+            "If you cancel before your ticket is printed, a penalty of 10.00 GBP will be deducted from your refund.",
+            "If you cancel after your ticket is printed, a penalty of up to 10 GBP per printed ticket per passenger will be deducted from your refund. If the ticket is less than 10 GBP, the maximum penalty is the ticket price."
           ],
           "legOptionIndexList": [
-            1
+            3
           ],
           "fareBreakdownList": [
             {
               "passengerFareList": [
                 {
                   "passengerIndex": 1,
-                  "passengerTypeCode": "A",
                   "passengerSegmentFareList": [
                     {
                       "fareCode": "IXC-SVS-00700-STD-1",
                       "travelSegmentIndex": 1,
                       "carrierServiceClassDisplayName": "Standard",
                       "carrierFareClassDisplayName": "off-peak single",
-                      "fareDescription": "Any off-peak train",
-                      "amenityList": [
-                        {
-                          "displayName": "Snack Trolley Service"
-                        }
-                      ]
-                    },
-                    {
-                      "fareCode": "IXC-SVS-00700-STD-1",
-                      "travelSegmentIndex": 2,
-                      "carrierServiceClassDisplayName": "Standard",
-                      "carrierFareClassDisplayName": "off-peak single",
+                      "carrierFareClassCategoryName": "Offpeak",
                       "fareDescription": "Any off-peak train",
                       "amenityList": [
                         {
@@ -859,39 +1429,38 @@
                 }
               ]
             }
-          ],
-          "railProductToken": "COmWLhCrmC4aGgimiIcDEKaA4QYY6ZYuIMaXLioGWEMyMTIwGhoIpoDhBhCmgKEGGNOXLiCrmC4qBlhDNDA2MCIZCgtPRkZQRUFLX0RBWRADGghTdGFuZGFyZA=="
+          ]
         }
       ],
-      "railOfferToken": "CgQI-JYuElsI6ZYuEKuYLhoaCKaIhwMQpoDhBhjpli4gxpcuKgZYQzIxMjAaGgimgOEGEKaAoQYY05cuIKuYLioGWEM0MDYwIhkKC09GRlBFQUtfREFZEAMaCFN0YW5kYXJkGgIIQQ=="
+      "railOfferToken": "CAISBAjQxzAaPwjrxzAQrckwGhoIpoChBhCmiIcDGOvHMCCtyTAqBlhDMzY2MCIZCgtPRkZQRUFLX0RBWRADGghTdGFuZGFyZCIDCIEB"
     },
     {
       "totalPrice": {
-        "amount": "131.81",
-        "currencyCode": "USD",
-        "formattedPrice": "$131.81",
-        "formattedWholePrice": "$132"
+        "amount": "105.10",
+        "currencyCode": "GBP",
+        "formattedPrice": "£105.10",
+        "formattedWholePrice": "£105"
       },
       "priceBreakdown": [
         {
-          "amount": "123.81",
-          "currencyCode": "USD",
-          "mainCurrency": 123,
-          "fractionalCurrency": 81,
-          "currencySymbol": "$",
-          "formattedPrice": "$123.81",
-          "formattedWholePrice": "$124",
-          "priceCategory": "Ticket"
-        },
-        {
           "amount": "8",
-          "currencyCode": "USD",
+          "currencyCode": "GBP",
           "mainCurrency": 8,
           "fractionalCurrency": 0,
-          "currencySymbol": "$",
-          "formattedPrice": "$8.0",
-          "formattedWholePrice": "$8",
-          "priceCategory": "Expedia Service Fee"
+          "currencySymbol": "£",
+          "formattedPrice": "£8.0",
+          "formattedWholePrice": "£8",
+          "priceCategory": "Expedia Booking Fee"
+        },
+        {
+          "amount": "97.10",
+          "currencyCode": "GBP",
+          "mainCurrency": 97,
+          "fractionalCurrency": 10,
+          "currencySymbol": "£",
+          "formattedPrice": "£97.10",
+          "formattedWholePrice": "£97",
+          "priceCategory": "Ticket Price"
         }
       ],
       "railProductList": [
@@ -899,776 +1468,13 @@
           "aggregatedCarrierServiceClassDisplayName": "First",
           "aggregatedCarrierFareClassDisplayName": "advance single",
           "aggregatedFareDescription": "Specified train only",
+          "aggregatedCarrierFareClassCategoryName": "Advance",
           "fareNotes": [
             "Additional information about this fare can be found at http://www.nationalrail.co.uk/times_fares/ticket_types.aspx",
             "Only valid on booked CrossCountry services.",
             "Outbound: VALID ON DATE&TRAIN SHOWN ONLY.LMTD CHNGE.NO RFND."
           ],
-          "refundable": "non-refundable",
-          "refundableRules": [
-            "Your ticket is non-refundable."
-          ],
-          "legOptionIndexList": [
-            1
-          ],
-          "fareBreakdownList": [
-            {
-              "passengerFareList": [
-                {
-                  "passengerIndex": 1,
-                  "passengerTypeCode": "A",
-                  "passengerSegmentFareList": [
-                    {
-                      "fareCode": "IXC-MBF-00024-STD-1",
-                      "travelSegmentIndex": 1,
-                      "carrierServiceClassDisplayName": "First",
-                      "carrierFareClassDisplayName": "advance single",
-                      "fareDescription": "Specified train only",
-                      "amenityList": [
-                        {
-                          "displayName": "Snack Trolley Service"
-                        }
-                      ]
-                    },
-                    {
-                      "fareCode": "IXC-MBF-00024-STD-1",
-                      "travelSegmentIndex": 2,
-                      "carrierServiceClassDisplayName": "First",
-                      "carrierFareClassDisplayName": "advance single",
-                      "fareDescription": "Specified train only",
-                      "amenityList": [
-                        {
-                          "displayName": "Snack Trolley Service"
-                        }
-                      ]
-                    }
-                  ]
-                }
-              ]
-            }
-          ],
-          "railProductToken": "COmWLhCrmC4aGgimiIcDEKaA4QYY6ZYuIMaXLioGWEMyMTIwGhoIpoDhBhCmgKEGGNOXLiCrmC4qBlhDNDA2MCISCgdBRFZBTkNFEAEaBUZpcnN0"
-        }
-      ],
-      "railOfferToken": "CgQI-JYuElQI6ZYuEKuYLhoaCKaIhwMQpoDhBhjpli4gxpcuKgZYQzIxMjAaGgimgOEGEKaAoQYY05cuIKuYLioGWEM0MDYwIhIKB0FEVkFOQ0UQARoFRmlyc3QaAghB"
-    },
-    {
-      "totalPrice": {
-        "amount": "56.52",
-        "currencyCode": "USD",
-        "formattedPrice": "$56.52",
-        "formattedWholePrice": "$57"
-      },
-      "priceBreakdown": [
-        {
-          "amount": "48.52",
-          "currencyCode": "USD",
-          "mainCurrency": 48,
-          "fractionalCurrency": 52,
-          "currencySymbol": "$",
-          "formattedPrice": "$48.52",
-          "formattedWholePrice": "$49",
-          "priceCategory": "Ticket"
-        },
-        {
-          "amount": "8",
-          "currencyCode": "USD",
-          "mainCurrency": 8,
-          "fractionalCurrency": 0,
-          "currencySymbol": "$",
-          "formattedPrice": "$8.0",
-          "formattedWholePrice": "$8",
-          "priceCategory": "Expedia Service Fee"
-        }
-      ],
-      "railProductList": [
-        {
-          "aggregatedCarrierServiceClassDisplayName": "Standard",
-          "aggregatedCarrierFareClassDisplayName": "advance single",
-          "aggregatedFareDescription": "Specified train only",
-          "fareNotes": [
-            "Additional information about this fare can be found at http://www.nationalrail.co.uk/times_fares/ticket_types.aspx",
-            "Only valid on booked CrossCountry services.",
-            "Outbound: VALID ON DATE&TRAIN SHOWN ONLY.LMTD CHNGE.NO RFND."
-          ],
-          "refundable": "non-refundable",
-          "refundableRules": [
-            "Your ticket is non-refundable."
-          ],
-          "legOptionIndexList": [
-            1
-          ],
-          "fareBreakdownList": [
-            {
-              "passengerFareList": [
-                {
-                  "passengerIndex": 1,
-                  "passengerTypeCode": "A",
-                  "passengerSegmentFareList": [
-                    {
-                      "fareCode": "IXC-MBS-00024-STD-1",
-                      "travelSegmentIndex": 1,
-                      "carrierServiceClassDisplayName": "Standard",
-                      "carrierFareClassDisplayName": "advance single",
-                      "fareDescription": "Specified train only",
-                      "amenityList": [
-                        {
-                          "displayName": "Snack Trolley Service"
-                        }
-                      ]
-                    },
-                    {
-                      "fareCode": "IXC-MBS-00024-STD-1",
-                      "travelSegmentIndex": 2,
-                      "carrierServiceClassDisplayName": "Standard",
-                      "carrierFareClassDisplayName": "advance single",
-                      "fareDescription": "Specified train only",
-                      "amenityList": [
-                        {
-                          "displayName": "Snack Trolley Service"
-                        }
-                      ]
-                    }
-                  ]
-                }
-              ]
-            }
-          ],
-          "railProductToken": "COmWLhCrmC4aGgimiIcDEKaA4QYY6ZYuIMaXLioGWEMyMTIwGhoIpoDhBhCmgKEGGNOXLiCrmC4qBlhDNDA2MCIVCgdBRFZBTkNFEAMaCFN0YW5kYXJk"
-        }
-      ],
-      "railOfferToken": "CgQI-JYuElcI6ZYuEKuYLhoaCKaIhwMQpoDhBhjpli4gxpcuKgZYQzIxMjAaGgimgOEGEKaAoQYY05cuIKuYLioGWEM0MDYwIhUKB0FEVkFOQ0UQAxoIU3RhbmRhcmQaAghB"
-    },
-    {
-      "totalPrice": {
-        "amount": "322.36",
-        "currencyCode": "USD",
-        "formattedPrice": "$322.36",
-        "formattedWholePrice": "$322"
-      },
-      "priceBreakdown": [
-        {
-          "amount": "314.36",
-          "currencyCode": "USD",
-          "mainCurrency": 314,
-          "fractionalCurrency": 36,
-          "currencySymbol": "$",
-          "formattedPrice": "$314.36",
-          "formattedWholePrice": "$314",
-          "priceCategory": "Ticket"
-        },
-        {
-          "amount": "8",
-          "currencyCode": "USD",
-          "mainCurrency": 8,
-          "fractionalCurrency": 0,
-          "currencySymbol": "$",
-          "formattedPrice": "$8.0",
-          "formattedWholePrice": "$8",
-          "priceCategory": "Expedia Service Fee"
-        }
-      ],
-      "railProductList": [
-        {
-          "aggregatedCarrierServiceClassDisplayName": "Standard",
-          "aggregatedCarrierFareClassDisplayName": "anytime single",
-          "aggregatedFareDescription": "Travel anytime of day",
-          "fareNotes": [
-            "Additional information about this fare can be found at http://www.nationalrail.co.uk/times_fares/ticket_types.aspx",
-            "Valid only for travel via (changing trains or passing through) London."
-          ],
-          "refundable": "refundable",
-          "refundableRules": [
-            "Your ticket is refundable before Jul 9, 2016 01:30:00 AM Coordinated Universal Time",
-            "If you cancel after your ticket is printed, a penalty of up to 16.12 USD per ticket will be deducted from your refund.",
-            "If you cancel before your ticket is printed, a penalty of upto 10 GBP per ticket will be deducted from your refund."
-          ],
-          "legOptionIndexList": [
-            2
-          ],
-          "fareBreakdownList": [
-            {
-              "passengerFareList": [
-                {
-                  "passengerIndex": 1,
-                  "passengerTypeCode": "A",
-                  "passengerSegmentFareList": [
-                    {
-                      "fareCode": "IWC-SOS-00200-STD-1",
-                      "travelSegmentIndex": 2,
-                      "carrierServiceClassDisplayName": "Standard",
-                      "carrierFareClassDisplayName": "anytime single",
-                      "fareDescription": "Travel anytime of day"
-                    },
-                    {
-                      "fareCode": "IWC-SOS-00200-STD-1",
-                      "travelSegmentIndex": 1,
-                      "carrierServiceClassDisplayName": "Standard",
-                      "carrierFareClassDisplayName": "anytime single",
-                      "fareDescription": "Travel anytime of day",
-                      "amenityList": [
-                        {
-                          "displayName": "Buffet Service"
-                        }
-                      ]
-                    },
-                    {
-                      "fareCode": "IWC-SOS-00200-STD-1",
-                      "travelSegmentIndex": 3,
-                      "carrierServiceClassDisplayName": "Standard",
-                      "carrierFareClassDisplayName": "anytime single",
-                      "fareDescription": "Travel anytime of day",
-                      "amenityList": [
-                        {
-                          "displayName": "Buffet Service"
-                        },
-                        {
-                          "displayName": "WiFi Access (Additional Cost)"
-                        }
-                      ]
-                    }
-                  ]
-                }
-              ]
-            }
-          ],
-          "railProductToken": "COuWLhCzmC4aGgimiIcDEKaA4QcY65YuIIeXLioGR1czMjAzGhQIpoDhBxCmgKEKGIeXLiCyly4qABoaCKaAoQoQpoChBhi0ly4gs5guKgZWVDcwODAiFQoHQU5ZVElNRRADGghTdGFuZGFyZA=="
-        }
-      ],
-      "railOfferToken": "CgQI-JYuEm0I65YuELOYLhoaCKaIhwMQpoDhBxjrli4gh5cuKgZHVzMyMDMaFAimgOEHEKaAoQoYh5cuILKXLioAGhoIpoChChCmgKEGGLSXLiCzmC4qBlZUNzA4MCIVCgdBTllUSU1FEAMaCFN0YW5kYXJkGgIIQQ=="
-    },
-    {
-      "totalPrice": {
-        "amount": "446.49",
-        "currencyCode": "USD",
-        "formattedPrice": "$446.49",
-        "formattedWholePrice": "$446"
-      },
-      "priceBreakdown": [
-        {
-          "amount": "438.49",
-          "currencyCode": "USD",
-          "mainCurrency": 438,
-          "fractionalCurrency": 49,
-          "currencySymbol": "$",
-          "formattedPrice": "$438.49",
-          "formattedWholePrice": "$438",
-          "priceCategory": "Ticket"
-        },
-        {
-          "amount": "8",
-          "currencyCode": "USD",
-          "mainCurrency": 8,
-          "fractionalCurrency": 0,
-          "currencySymbol": "$",
-          "formattedPrice": "$8.0",
-          "formattedWholePrice": "$8",
-          "priceCategory": "Expedia Service Fee"
-        }
-      ],
-      "railProductList": [
-        {
-          "aggregatedCarrierServiceClassDisplayName": "First",
-          "aggregatedCarrierFareClassDisplayName": "anytime single",
-          "aggregatedFareDescription": "Travel anytime of day",
-          "fareNotes": [
-            "Additional information about this fare can be found at http://www.nationalrail.co.uk/times_fares/ticket_types.aspx",
-            "Valid only for travel via (changing trains or passing through) London."
-          ],
-          "refundable": "refundable",
-          "refundableRules": [
-            "Your ticket is refundable before Jul 9, 2016 01:30:00 AM Coordinated Universal Time",
-            "If you cancel after your ticket is printed, a penalty of up to 16.12 USD per ticket will be deducted from your refund.",
-            "If you cancel before your ticket is printed, a penalty of upto 10 GBP per ticket will be deducted from your refund."
-          ],
-          "legOptionIndexList": [
-            2
-          ],
-          "fareBreakdownList": [
-            {
-              "passengerFareList": [
-                {
-                  "passengerIndex": 1,
-                  "passengerTypeCode": "A",
-                  "passengerSegmentFareList": [
-                    {
-                      "fareCode": "IWC-FOS-00200-STD-1",
-                      "travelSegmentIndex": 2,
-                      "carrierServiceClassDisplayName": "First",
-                      "carrierFareClassDisplayName": "anytime single",
-                      "fareDescription": "Travel anytime of day"
-                    },
-                    {
-                      "fareCode": "IWC-FOS-00200-STD-1",
-                      "travelSegmentIndex": 1,
-                      "carrierServiceClassDisplayName": "First",
-                      "carrierFareClassDisplayName": "anytime single",
-                      "fareDescription": "Travel anytime of day",
-                      "amenityList": [
-                        {
-                          "displayName": "Buffet Service"
-                        }
-                      ]
-                    },
-                    {
-                      "fareCode": "IWC-FOS-00200-STD-1",
-                      "travelSegmentIndex": 3,
-                      "carrierServiceClassDisplayName": "First",
-                      "carrierFareClassDisplayName": "anytime single",
-                      "fareDescription": "Travel anytime of day",
-                      "amenityList": [
-                        {
-                          "displayName": "Buffet Service"
-                        },
-                        {
-                          "displayName": "WiFi Access (Free)"
-                        }
-                      ]
-                    }
-                  ]
-                }
-              ]
-            }
-          ],
-          "railProductToken": "COuWLhCzmC4aGgimiIcDEKaA4QcY65YuIIeXLioGR1czMjAzGhQIpoDhBxCmgKEKGIeXLiCyly4qABoaCKaAoQoQpoChBhi0ly4gs5guKgZWVDcwODAiEgoHQU5ZVElNRRABGgVGaXJzdA=="
-        }
-      ],
-      "railOfferToken": "CgQI-JYuEmoI65YuELOYLhoaCKaIhwMQpoDhBxjrli4gh5cuKgZHVzMyMDMaFAimgOEHEKaAoQoYh5cuILKXLioAGhoIpoChChCmgKEGGLSXLiCzmC4qBlZUNzA4MCISCgdBTllUSU1FEAEaBUZpcnN0GgIIQQ=="
-    },
-    {
-      "totalPrice": {
-        "amount": "158.73",
-        "currencyCode": "USD",
-        "formattedPrice": "$158.73",
-        "formattedWholePrice": "$159"
-      },
-      "priceBreakdown": [
-        {
-          "amount": "150.73",
-          "currencyCode": "USD",
-          "mainCurrency": 150,
-          "fractionalCurrency": 73,
-          "currencySymbol": "$",
-          "formattedPrice": "$150.73",
-          "formattedWholePrice": "$151",
-          "priceCategory": "Ticket"
-        },
-        {
-          "amount": "8",
-          "currencyCode": "USD",
-          "mainCurrency": 8,
-          "fractionalCurrency": 0,
-          "currencySymbol": "$",
-          "formattedPrice": "$8.0",
-          "formattedWholePrice": "$8",
-          "priceCategory": "Expedia Service Fee"
-        }
-      ],
-      "railProductList": [
-        {
-          "aggregatedCarrierServiceClassDisplayName": "Standard",
-          "aggregatedCarrierFareClassDisplayName": "off-peak single",
-          "aggregatedFareDescription": "Any off-peak train",
-          "fareNotes": [
-            "Additional information about this fare can be found at http://www.nationalrail.co.uk/times_fares/ticket_types.aspx",
-            "Outbound: NO DEP FROM LDN EUS PRE 0926 OR 1501-1844 M-F",
-            "Valid only for travel via (changing trains or passing through) London."
-          ],
-          "refundable": "refundable",
-          "refundableRules": [
-            "Your ticket is refundable before Jul 8, 2016 01:30:00 AM Coordinated Universal Time",
-            "If you cancel after your ticket is printed, a penalty of up to 16.12 USD per ticket will be deducted from your refund.",
-            "If you cancel before your ticket is printed, a penalty of upto 10 GBP per ticket will be deducted from your refund."
-          ],
-          "legOptionIndexList": [
-            2
-          ],
-          "fareBreakdownList": [
-            {
-              "passengerFareList": [
-                {
-                  "passengerIndex": 1,
-                  "passengerTypeCode": "A",
-                  "passengerSegmentFareList": [
-                    {
-                      "fareCode": "IWC-SVS-00200-STD-1",
-                      "travelSegmentIndex": 2,
-                      "carrierServiceClassDisplayName": "Standard",
-                      "carrierFareClassDisplayName": "off-peak single",
-                      "fareDescription": "Any off-peak train"
-                    },
-                    {
-                      "fareCode": "IWC-SVS-00200-STD-1",
-                      "travelSegmentIndex": 1,
-                      "carrierServiceClassDisplayName": "Standard",
-                      "carrierFareClassDisplayName": "off-peak single",
-                      "fareDescription": "Any off-peak train",
-                      "amenityList": [
-                        {
-                          "displayName": "Buffet Service"
-                        }
-                      ]
-                    },
-                    {
-                      "fareCode": "IWC-SVS-00200-STD-1",
-                      "travelSegmentIndex": 3,
-                      "carrierServiceClassDisplayName": "Standard",
-                      "carrierFareClassDisplayName": "off-peak single",
-                      "fareDescription": "Any off-peak train",
-                      "amenityList": [
-                        {
-                          "displayName": "Buffet Service"
-                        },
-                        {
-                          "displayName": "WiFi Access (Additional Cost)"
-                        }
-                      ]
-                    }
-                  ]
-                }
-              ]
-            }
-          ],
-          "railProductToken": "COuWLhCzmC4aGgimiIcDEKaA4QcY65YuIIeXLioGR1czMjAzGhQIpoDhBxCmgKEKGIeXLiCyly4qABoaCKaAoQoQpoChBhi0ly4gs5guKgZWVDcwODAiGQoLT0ZGUEVBS19EQVkQAxoIU3RhbmRhcmQ="
-        }
-      ],
-      "railOfferToken": "CgQI-JYuEnEI65YuELOYLhoaCKaIhwMQpoDhBxjrli4gh5cuKgZHVzMyMDMaFAimgOEHEKaAoQoYh5cuILKXLioAGhoIpoChChCmgKEGGLSXLiCzmC4qBlZUNzA4MCIZCgtPRkZQRUFLX0RBWRADGghTdGFuZGFyZBoCCEE="
-    },
-    {
-      "totalPrice": {
-        "amount": "322.36",
-        "currencyCode": "USD",
-        "formattedPrice": "$322.36",
-        "formattedWholePrice": "$322"
-      },
-      "priceBreakdown": [
-        {
-          "amount": "314.36",
-          "currencyCode": "USD",
-          "mainCurrency": 314,
-          "fractionalCurrency": 36,
-          "currencySymbol": "$",
-          "formattedPrice": "$314.36",
-          "formattedWholePrice": "$314",
-          "priceCategory": "Ticket"
-        },
-        {
-          "amount": "8",
-          "currencyCode": "USD",
-          "mainCurrency": 8,
-          "fractionalCurrency": 0,
-          "currencySymbol": "$",
-          "formattedPrice": "$8.0",
-          "formattedWholePrice": "$8",
-          "priceCategory": "Expedia Service Fee"
-        }
-      ],
-      "railProductList": [
-        {
-          "aggregatedCarrierServiceClassDisplayName": "Standard",
-          "aggregatedCarrierFareClassDisplayName": "anytime single",
-          "aggregatedFareDescription": "Travel anytime of day",
-          "fareNotes": [
-            "Additional information about this fare can be found at http://www.nationalrail.co.uk/times_fares/ticket_types.aspx",
-            "Valid only for travel via (changing trains or passing through) London."
-          ],
-          "refundable": "refundable",
-          "refundableRules": [
-            "Your ticket is refundable before Jul 9, 2016 01:30:00 AM Coordinated Universal Time",
-            "If you cancel after your ticket is printed, a penalty of up to 16.12 USD per ticket will be deducted from your refund.",
-            "If you cancel before your ticket is printed, a penalty of upto 10 GBP per ticket will be deducted from your refund."
-          ],
-          "legOptionIndexList": [
-            3
-          ],
-          "fareBreakdownList": [
-            {
-              "passengerFareList": [
-                {
-                  "passengerIndex": 1,
-                  "passengerTypeCode": "A",
-                  "passengerSegmentFareList": [
-                    {
-                      "fareCode": "IWC-SOS-00200-STD-1",
-                      "travelSegmentIndex": 2,
-                      "carrierServiceClassDisplayName": "Standard",
-                      "carrierFareClassDisplayName": "anytime single",
-                      "fareDescription": "Travel anytime of day"
-                    },
-                    {
-                      "fareCode": "IWC-SOS-00200-STD-1",
-                      "travelSegmentIndex": 1,
-                      "carrierServiceClassDisplayName": "Standard",
-                      "carrierFareClassDisplayName": "anytime single",
-                      "fareDescription": "Travel anytime of day",
-                      "amenityList": [
-                        {
-                          "displayName": "Buffet Service"
-                        }
-                      ]
-                    },
-                    {
-                      "fareCode": "IWC-SOS-00200-STD-1",
-                      "travelSegmentIndex": 3,
-                      "carrierServiceClassDisplayName": "Standard",
-                      "carrierFareClassDisplayName": "anytime single",
-                      "fareDescription": "Travel anytime of day",
-                      "amenityList": [
-                        {
-                          "displayName": "Buffet Service"
-                        },
-                        {
-                          "displayName": "WiFi Access (Additional Cost)"
-                        }
-                      ]
-                    }
-                  ]
-                }
-              ]
-            }
-          ],
-          "railProductToken": "CIKXLhDImC4aGgimiIcDEKaA4QcYgpcuIJ2XLioGR1c0MjA1GhQIpoDhBxCmgKEKGJ2XLiDHly4qABoaCKaAoQoQpoChBhjIly4gyJguKgZWVDcwODUiFQoHQU5ZVElNRRADGghTdGFuZGFyZA=="
-        }
-      ],
-      "railOfferToken": "CgQI-JYuEm0IgpcuEMiYLhoaCKaIhwMQpoDhBxiCly4gnZcuKgZHVzQyMDUaFAimgOEHEKaAoQoYnZcuIMeXLioAGhoIpoChChCmgKEGGMiXLiDImC4qBlZUNzA4NSIVCgdBTllUSU1FEAMaCFN0YW5kYXJkGgIIQQ=="
-    },
-    {
-      "totalPrice": {
-        "amount": "446.49",
-        "currencyCode": "USD",
-        "formattedPrice": "$446.49",
-        "formattedWholePrice": "$446"
-      },
-      "priceBreakdown": [
-        {
-          "amount": "438.49",
-          "currencyCode": "USD",
-          "mainCurrency": 438,
-          "fractionalCurrency": 49,
-          "currencySymbol": "$",
-          "formattedPrice": "$438.49",
-          "formattedWholePrice": "$438",
-          "priceCategory": "Ticket"
-        },
-        {
-          "amount": "8",
-          "currencyCode": "USD",
-          "mainCurrency": 8,
-          "fractionalCurrency": 0,
-          "currencySymbol": "$",
-          "formattedPrice": "$8.0",
-          "formattedWholePrice": "$8",
-          "priceCategory": "Expedia Service Fee"
-        }
-      ],
-      "railProductList": [
-        {
-          "aggregatedCarrierServiceClassDisplayName": "First",
-          "aggregatedCarrierFareClassDisplayName": "anytime single",
-          "aggregatedFareDescription": "Travel anytime of day",
-          "fareNotes": [
-            "Additional information about this fare can be found at http://www.nationalrail.co.uk/times_fares/ticket_types.aspx",
-            "Valid only for travel via (changing trains or passing through) London."
-          ],
-          "refundable": "refundable",
-          "refundableRules": [
-            "Your ticket is refundable before Jul 9, 2016 01:30:00 AM Coordinated Universal Time",
-            "If you cancel after your ticket is printed, a penalty of up to 16.12 USD per ticket will be deducted from your refund.",
-            "If you cancel before your ticket is printed, a penalty of upto 10 GBP per ticket will be deducted from your refund."
-          ],
-          "legOptionIndexList": [
-            3
-          ],
-          "fareBreakdownList": [
-            {
-              "passengerFareList": [
-                {
-                  "passengerIndex": 1,
-                  "passengerTypeCode": "A",
-                  "passengerSegmentFareList": [
-                    {
-                      "fareCode": "IWC-FOS-00200-STD-1",
-                      "travelSegmentIndex": 2,
-                      "carrierServiceClassDisplayName": "First",
-                      "carrierFareClassDisplayName": "anytime single",
-                      "fareDescription": "Travel anytime of day"
-                    },
-                    {
-                      "fareCode": "IWC-FOS-00200-STD-1",
-                      "travelSegmentIndex": 1,
-                      "carrierServiceClassDisplayName": "First",
-                      "carrierFareClassDisplayName": "anytime single",
-                      "fareDescription": "Travel anytime of day",
-                      "amenityList": [
-                        {
-                          "displayName": "Buffet Service"
-                        }
-                      ]
-                    },
-                    {
-                      "fareCode": "IWC-FOS-00200-STD-1",
-                      "travelSegmentIndex": 3,
-                      "carrierServiceClassDisplayName": "First",
-                      "carrierFareClassDisplayName": "anytime single",
-                      "fareDescription": "Travel anytime of day",
-                      "amenityList": [
-                        {
-                          "displayName": "Buffet Service"
-                        },
-                        {
-                          "displayName": "WiFi Access (Free)"
-                        }
-                      ]
-                    }
-                  ]
-                }
-              ]
-            }
-          ],
-          "railProductToken": "CIKXLhDImC4aGgimiIcDEKaA4QcYgpcuIJ2XLioGR1c0MjA1GhQIpoDhBxCmgKEKGJ2XLiDHly4qABoaCKaAoQoQpoChBhjIly4gyJguKgZWVDcwODUiEgoHQU5ZVElNRRABGgVGaXJzdA=="
-        }
-      ],
-      "railOfferToken": "CgQI-JYuEmoIgpcuEMiYLhoaCKaIhwMQpoDhBxiCly4gnZcuKgZHVzQyMDUaFAimgOEHEKaAoQoYnZcuIMeXLioAGhoIpoChChCmgKEGGMiXLiDImC4qBlZUNzA4NSISCgdBTllUSU1FEAEaBUZpcnN0GgIIQQ=="
-    },
-    {
-      "totalPrice": {
-        "amount": "158.73",
-        "currencyCode": "USD",
-        "formattedPrice": "$158.73",
-        "formattedWholePrice": "$159"
-      },
-      "priceBreakdown": [
-        {
-          "amount": "150.73",
-          "currencyCode": "USD",
-          "mainCurrency": 150,
-          "fractionalCurrency": 73,
-          "currencySymbol": "$",
-          "formattedPrice": "$150.73",
-          "formattedWholePrice": "$151",
-          "priceCategory": "Ticket"
-        },
-        {
-          "amount": "8",
-          "currencyCode": "USD",
-          "mainCurrency": 8,
-          "fractionalCurrency": 0,
-          "currencySymbol": "$",
-          "formattedPrice": "$8.0",
-          "formattedWholePrice": "$8",
-          "priceCategory": "Expedia Service Fee"
-        }
-      ],
-      "railProductList": [
-        {
-          "aggregatedCarrierServiceClassDisplayName": "Standard",
-          "aggregatedCarrierFareClassDisplayName": "off-peak single",
-          "aggregatedFareDescription": "Any off-peak train",
-          "fareNotes": [
-            "Additional information about this fare can be found at http://www.nationalrail.co.uk/times_fares/ticket_types.aspx",
-            "Outbound: NO DEP FROM LDN EUS PRE 0926 OR 1501-1844 M-F",
-            "Valid only for travel via (changing trains or passing through) London."
-          ],
-          "refundable": "refundable",
-          "refundableRules": [
-            "Your ticket is refundable before Jul 8, 2016 01:30:00 AM Coordinated Universal Time",
-            "If you cancel after your ticket is printed, a penalty of up to 16.12 USD per ticket will be deducted from your refund.",
-            "If you cancel before your ticket is printed, a penalty of upto 10 GBP per ticket will be deducted from your refund."
-          ],
-          "legOptionIndexList": [
-            3
-          ],
-          "fareBreakdownList": [
-            {
-              "passengerFareList": [
-                {
-                  "passengerIndex": 1,
-                  "passengerTypeCode": "A",
-                  "passengerSegmentFareList": [
-                    {
-                      "fareCode": "IWC-SVS-00200-STD-1",
-                      "travelSegmentIndex": 2,
-                      "carrierServiceClassDisplayName": "Standard",
-                      "carrierFareClassDisplayName": "off-peak single",
-                      "fareDescription": "Any off-peak train"
-                    },
-                    {
-                      "fareCode": "IWC-SVS-00200-STD-1",
-                      "travelSegmentIndex": 1,
-                      "carrierServiceClassDisplayName": "Standard",
-                      "carrierFareClassDisplayName": "off-peak single",
-                      "fareDescription": "Any off-peak train",
-                      "amenityList": [
-                        {
-                          "displayName": "Buffet Service"
-                        }
-                      ]
-                    },
-                    {
-                      "fareCode": "IWC-SVS-00200-STD-1",
-                      "travelSegmentIndex": 3,
-                      "carrierServiceClassDisplayName": "Standard",
-                      "carrierFareClassDisplayName": "off-peak single",
-                      "fareDescription": "Any off-peak train",
-                      "amenityList": [
-                        {
-                          "displayName": "Buffet Service"
-                        },
-                        {
-                          "displayName": "WiFi Access (Additional Cost)"
-                        }
-                      ]
-                    }
-                  ]
-                }
-              ]
-            }
-          ],
-          "railProductToken": "CIKXLhDImC4aGgimiIcDEKaA4QcYgpcuIJ2XLioGR1c0MjA1GhQIpoDhBxCmgKEKGJ2XLiDHly4qABoaCKaAoQoQpoChBhjIly4gyJguKgZWVDcwODUiGQoLT0ZGUEVBS19EQVkQAxoIU3RhbmRhcmQ="
-        }
-      ],
-      "railOfferToken": "CgQI-JYuEnEIgpcuEMiYLhoaCKaIhwMQpoDhBxiCly4gnZcuKgZHVzQyMDUaFAimgOEHEKaAoQoYnZcuIMeXLioAGhoIpoChChCmgKEGGMiXLiDImC4qBlZUNzA4NSIZCgtPRkZQRUFLX0RBWRADGghTdGFuZGFyZBoCCEE="
-    },
-    {
-      "totalPrice": {
-        "amount": "90.22",
-        "currencyCode": "USD",
-        "formattedPrice": "$90.22",
-        "formattedWholePrice": "$90"
-      },
-      "priceBreakdown": [
-        {
-          "amount": "82.22",
-          "currencyCode": "USD",
-          "mainCurrency": 82,
-          "fractionalCurrency": 22,
-          "currencySymbol": "$",
-          "formattedPrice": "$82.22",
-          "formattedWholePrice": "$82",
-          "priceCategory": "Ticket"
-        },
-        {
-          "amount": "8",
-          "currencyCode": "USD",
-          "mainCurrency": 8,
-          "fractionalCurrency": 0,
-          "currencySymbol": "$",
-          "formattedPrice": "$8.0",
-          "formattedWholePrice": "$8",
-          "priceCategory": "Expedia Service Fee"
-        }
-      ],
-      "railProductList": [
-        {
-          "aggregatedCarrierServiceClassDisplayName": "Standard",
-          "aggregatedCarrierFareClassDisplayName": "advance single",
-          "aggregatedFareDescription": "Specified train only",
-          "fareNotes": [
-            "Additional information about this fare can be found at http://www.nationalrail.co.uk/times_fares/ticket_types.aspx",
-            "Only valid on booked Virgin Trains services and required connecting services.",
-            "Outbound: VALID ON DATE&TRAIN SHOWN ONLY.LMTD CHNGE.NO RFND."
-          ],
-          "refundable": "non-refundable",
+          "refundable": "NON_REFUNDABLE",
           "refundableRules": [
             "Your ticket is non-refundable."
           ],
@@ -1680,110 +1486,13 @@
               "passengerFareList": [
                 {
                   "passengerIndex": 1,
-                  "passengerTypeCode": "A",
-                  "passengerSegmentFareList": [
-                    {
-                      "fareCode": "IWC-VAS-00452-STD-1",
-                      "travelSegmentIndex": 1,
-                      "carrierServiceClassDisplayName": "Standard",
-                      "carrierFareClassDisplayName": "advance single",
-                      "fareDescription": "Specified train only",
-                      "amenityList": [
-                        {
-                          "displayName": "Buffet Service"
-                        }
-                      ]
-                    },
-                    {
-                      "fareCode": "IWC-VAS-00452-STD-1",
-                      "travelSegmentIndex": 3,
-                      "carrierServiceClassDisplayName": "Standard",
-                      "carrierFareClassDisplayName": "advance single",
-                      "fareDescription": "Specified train only",
-                      "amenityList": [
-                        {
-                          "displayName": "Buffet Service"
-                        },
-                        {
-                          "displayName": "WiFi Access (Additional Cost)"
-                        }
-                      ]
-                    },
-                    {
-                      "fareCode": "IWC-VAS-00452-STD-1",
-                      "travelSegmentIndex": 2,
-                      "carrierServiceClassDisplayName": "Standard",
-                      "carrierFareClassDisplayName": "advance single",
-                      "fareDescription": "Specified train only"
-                    }
-                  ]
-                }
-              ]
-            }
-          ],
-          "railProductToken": "CIKXLhDImC4aGgimiIcDEKaA4QcYgpcuIJ2XLioGR1c0MjA1GhQIpoDhBxCmgKEKGJ2XLiDHly4qABoaCKaAoQoQpoChBhjIly4gyJguKgZWVDcwODUiFQoHQURWQU5DRRADGghTdGFuZGFyZA=="
-        }
-      ],
-      "railOfferToken": "CgQI-JYuEm0IgpcuEMiYLhoaCKaIhwMQpoDhBxiCly4gnZcuKgZHVzQyMDUaFAimgOEHEKaAoQoYnZcuIMeXLioAGhoIpoChChCmgKEGGMiXLiDImC4qBlZUNzA4NSIVCgdBRFZBTkNFEAMaCFN0YW5kYXJkGgIIQQ=="
-    },
-    {
-      "totalPrice": {
-        "amount": "164.53",
-        "currencyCode": "USD",
-        "formattedPrice": "$164.53",
-        "formattedWholePrice": "$165"
-      },
-      "priceBreakdown": [
-        {
-          "amount": "156.53",
-          "currencyCode": "USD",
-          "mainCurrency": 156,
-          "fractionalCurrency": 53,
-          "currencySymbol": "$",
-          "formattedPrice": "$156.53",
-          "formattedWholePrice": "$157",
-          "priceCategory": "Ticket"
-        },
-        {
-          "amount": "8",
-          "currencyCode": "USD",
-          "mainCurrency": 8,
-          "fractionalCurrency": 0,
-          "currencySymbol": "$",
-          "formattedPrice": "$8.0",
-          "formattedWholePrice": "$8",
-          "priceCategory": "Expedia Service Fee"
-        }
-      ],
-      "railProductList": [
-        {
-          "aggregatedCarrierServiceClassDisplayName": "First",
-          "aggregatedCarrierFareClassDisplayName": "advance single",
-          "aggregatedFareDescription": "Specified train only",
-          "fareNotes": [
-            "Additional information about this fare can be found at http://www.nationalrail.co.uk/times_fares/ticket_types.aspx",
-            "Only valid on booked CrossCountry services.",
-            "Outbound: VALID ON DATE&TRAIN SHOWN ONLY.LMTD CHNGE.NO RFND."
-          ],
-          "refundable": "non-refundable",
-          "refundableRules": [
-            "Your ticket is non-refundable."
-          ],
-          "legOptionIndexList": [
-            4
-          ],
-          "fareBreakdownList": [
-            {
-              "passengerFareList": [
-                {
-                  "passengerIndex": 1,
-                  "passengerTypeCode": "A",
                   "passengerSegmentFareList": [
                     {
                       "fareCode": "IXC-MAF-00024-STD-1",
                       "travelSegmentIndex": 1,
                       "carrierServiceClassDisplayName": "First",
                       "carrierFareClassDisplayName": "advance single",
+                      "carrierFareClassCategoryName": "Advance",
                       "fareDescription": "Specified train only",
                       "amenityList": [
                         {
@@ -1795,39 +1504,38 @@
                 }
               ]
             }
-          ],
-          "railProductToken": "CIeXLhDOmC4aGgimiIcDEKaAoQYYh5cuIM6YLioGWEMzMTIwIhIKB0FEVkFOQ0UQARoFRmlyc3Q="
+          ]
         }
       ],
-      "railOfferToken": "CgQI-JYuEjgIh5cuEM6YLhoaCKaIhwMQpoChBhiHly4gzpguKgZYQzMxMjAiEgoHQURWQU5DRRABGgVGaXJzdBoCCEE="
+      "railOfferToken": "CAISBAjQxzAaOAjrxzAQrckwGhoIpoChBhCmiIcDGOvHMCCtyTAqBlhDMzY2MCISCgdBRFZBTkNFEAEaBUZpcnN0IgMIgQE="
     },
     {
       "totalPrice": {
-        "amount": "69.74",
-        "currencyCode": "USD",
-        "formattedPrice": "$69.74",
-        "formattedWholePrice": "$70"
+        "amount": "46.30",
+        "currencyCode": "GBP",
+        "formattedPrice": "£46.30",
+        "formattedWholePrice": "£46"
       },
       "priceBreakdown": [
         {
-          "amount": "61.74",
-          "currencyCode": "USD",
-          "mainCurrency": 61,
-          "fractionalCurrency": 74,
-          "currencySymbol": "$",
-          "formattedPrice": "$61.74",
-          "formattedWholePrice": "$62",
-          "priceCategory": "Ticket"
-        },
-        {
           "amount": "8",
-          "currencyCode": "USD",
+          "currencyCode": "GBP",
           "mainCurrency": 8,
           "fractionalCurrency": 0,
-          "currencySymbol": "$",
-          "formattedPrice": "$8.0",
-          "formattedWholePrice": "$8",
-          "priceCategory": "Expedia Service Fee"
+          "currencySymbol": "£",
+          "formattedPrice": "£8.0",
+          "formattedWholePrice": "£8",
+          "priceCategory": "Expedia Booking Fee"
+        },
+        {
+          "amount": "38.30",
+          "currencyCode": "GBP",
+          "mainCurrency": 38,
+          "fractionalCurrency": 30,
+          "currencySymbol": "£",
+          "formattedPrice": "£38.30",
+          "formattedWholePrice": "£38",
+          "priceCategory": "Ticket Price"
         }
       ],
       "railProductList": [
@@ -1835,30 +1543,31 @@
           "aggregatedCarrierServiceClassDisplayName": "Standard",
           "aggregatedCarrierFareClassDisplayName": "advance single",
           "aggregatedFareDescription": "Specified train only",
+          "aggregatedCarrierFareClassCategoryName": "Advance",
           "fareNotes": [
             "Additional information about this fare can be found at http://www.nationalrail.co.uk/times_fares/ticket_types.aspx",
             "Only valid on booked CrossCountry services.",
             "Outbound: VALID ON DATE&TRAIN SHOWN ONLY.LMTD CHNGE.NO RFND."
           ],
-          "refundable": "non-refundable",
+          "refundable": "NON_REFUNDABLE",
           "refundableRules": [
             "Your ticket is non-refundable."
           ],
           "legOptionIndexList": [
-            4
+            3
           ],
           "fareBreakdownList": [
             {
               "passengerFareList": [
                 {
                   "passengerIndex": 1,
-                  "passengerTypeCode": "A",
                   "passengerSegmentFareList": [
                     {
                       "fareCode": "IXC-MAS-00024-STD-1",
                       "travelSegmentIndex": 1,
                       "carrierServiceClassDisplayName": "Standard",
                       "carrierFareClassDisplayName": "advance single",
+                      "carrierFareClassCategoryName": "Advance",
                       "fareDescription": "Specified train only",
                       "amenityList": [
                         {
@@ -1870,39 +1579,38 @@
                 }
               ]
             }
-          ],
-          "railProductToken": "CIeXLhDOmC4aGgimiIcDEKaAoQYYh5cuIM6YLioGWEMzMTIwIhUKB0FEVkFOQ0UQAxoIU3RhbmRhcmQ="
+          ]
         }
       ],
-      "railOfferToken": "CgQI-JYuEjsIh5cuEM6YLhoaCKaIhwMQpoChBhiHly4gzpguKgZYQzMxMjAiFQoHQURWQU5DRRADGghTdGFuZGFyZBoCCEE="
+      "railOfferToken": "CAISBAjQxzAaOwjrxzAQrckwGhoIpoChBhCmiIcDGOvHMCCtyTAqBlhDMzY2MCIVCgdBRFZBTkNFEAMaCFN0YW5kYXJkIgMIgQE="
     },
     {
       "totalPrice": {
-        "amount": "149.22",
-        "currencyCode": "USD",
-        "formattedPrice": "$149.22",
-        "formattedWholePrice": "$149"
+        "amount": "203.00",
+        "currencyCode": "GBP",
+        "formattedPrice": "£203.0",
+        "formattedWholePrice": "£203"
       },
       "priceBreakdown": [
         {
-          "amount": "141.22",
-          "currencyCode": "USD",
-          "mainCurrency": 141,
-          "fractionalCurrency": 22,
-          "currencySymbol": "$",
-          "formattedPrice": "$141.22",
-          "formattedWholePrice": "$141",
-          "priceCategory": "Ticket"
-        },
-        {
           "amount": "8",
-          "currencyCode": "USD",
+          "currencyCode": "GBP",
           "mainCurrency": 8,
           "fractionalCurrency": 0,
-          "currencySymbol": "$",
-          "formattedPrice": "$8.0",
-          "formattedWholePrice": "$8",
-          "priceCategory": "Expedia Service Fee"
+          "currencySymbol": "£",
+          "formattedPrice": "£8.0",
+          "formattedWholePrice": "£8",
+          "priceCategory": "Expedia Booking Fee"
+        },
+        {
+          "amount": "195.00",
+          "currencyCode": "GBP",
+          "mainCurrency": 195,
+          "fractionalCurrency": 0,
+          "currencySymbol": "£",
+          "formattedPrice": "£195.0",
+          "formattedWholePrice": "£195",
+          "priceCategory": "Ticket Price"
         }
       ],
       "railProductList": [
@@ -1910,267 +1618,32 @@
           "aggregatedCarrierServiceClassDisplayName": "Standard",
           "aggregatedCarrierFareClassDisplayName": "anytime single",
           "aggregatedFareDescription": "Travel anytime of day",
-          "fareNotes": [
-            "Additional information about this fare can be found at http://www.nationalrail.co.uk/times_fares/ticket_types.aspx",
-            "Not valid for travel via (changing trains or passing through) London Terminals."
-          ],
-          "refundable": "refundable",
-          "refundableRules": [
-            "Your ticket is refundable before Jul 9, 2016 01:30:00 AM Coordinated Universal Time",
-            "If you cancel after your ticket is printed, a penalty of up to 16.12 USD per ticket will be deducted from your refund.",
-            "If you cancel before your ticket is printed, a penalty of upto 10 GBP per ticket will be deducted from your refund."
-          ],
-          "legOptionIndexList": [
-            4
-          ],
-          "fareBreakdownList": [
-            {
-              "passengerFareList": [
-                {
-                  "passengerIndex": 1,
-                  "passengerTypeCode": "A",
-                  "passengerSegmentFareList": [
-                    {
-                      "fareCode": "IXC-SOS-00700-STD-1",
-                      "travelSegmentIndex": 1,
-                      "carrierServiceClassDisplayName": "Standard",
-                      "carrierFareClassDisplayName": "anytime single",
-                      "fareDescription": "Travel anytime of day",
-                      "amenityList": [
-                        {
-                          "displayName": "Snack Trolley Service"
-                        }
-                      ]
-                    }
-                  ]
-                }
-              ]
-            }
-          ],
-          "railProductToken": "CIeXLhDOmC4aGgimiIcDEKaAoQYYh5cuIM6YLioGWEMzMTIwIhUKB0FOWVRJTUUQAxoIU3RhbmRhcmQ="
-        }
-      ],
-      "railOfferToken": "CgQI-JYuEjsIh5cuEM6YLhoaCKaIhwMQpoChBhiHly4gzpguKgZYQzMxMjAiFQoHQU5ZVElNRRADGghTdGFuZGFyZBoCCEE="
-    },
-    {
-      "totalPrice": {
-        "amount": "333.81",
-        "currencyCode": "USD",
-        "formattedPrice": "$333.81",
-        "formattedWholePrice": "$334"
-      },
-      "priceBreakdown": [
-        {
-          "amount": "325.81",
-          "currencyCode": "USD",
-          "mainCurrency": 325,
-          "fractionalCurrency": 81,
-          "currencySymbol": "$",
-          "formattedPrice": "$325.81",
-          "formattedWholePrice": "$326",
-          "priceCategory": "Ticket"
-        },
-        {
-          "amount": "8",
-          "currencyCode": "USD",
-          "mainCurrency": 8,
-          "fractionalCurrency": 0,
-          "currencySymbol": "$",
-          "formattedPrice": "$8.0",
-          "formattedWholePrice": "$8",
-          "priceCategory": "Expedia Service Fee"
-        }
-      ],
-      "railProductList": [
-        {
-          "aggregatedCarrierServiceClassDisplayName": "First",
-          "aggregatedCarrierFareClassDisplayName": "anytime single",
-          "aggregatedFareDescription": "Travel anytime of day",
-          "fareNotes": [
-            "Additional information about this fare can be found at http://www.nationalrail.co.uk/times_fares/ticket_types.aspx",
-            "Not valid for travel via (changing trains or passing through) London Terminals."
-          ],
-          "refundable": "refundable",
-          "refundableRules": [
-            "Your ticket is refundable before Jul 9, 2016 01:30:00 AM Coordinated Universal Time",
-            "If you cancel after your ticket is printed, a penalty of up to 16.12 USD per ticket will be deducted from your refund.",
-            "If you cancel before your ticket is printed, a penalty of upto 10 GBP per ticket will be deducted from your refund."
-          ],
-          "legOptionIndexList": [
-            4
-          ],
-          "fareBreakdownList": [
-            {
-              "passengerFareList": [
-                {
-                  "passengerIndex": 1,
-                  "passengerTypeCode": "A",
-                  "passengerSegmentFareList": [
-                    {
-                      "fareCode": "IXC-FOS-00700-STD-1",
-                      "travelSegmentIndex": 1,
-                      "carrierServiceClassDisplayName": "First",
-                      "carrierFareClassDisplayName": "anytime single",
-                      "fareDescription": "Travel anytime of day",
-                      "amenityList": [
-                        {
-                          "displayName": "Snack Trolley Service"
-                        }
-                      ]
-                    }
-                  ]
-                }
-              ]
-            }
-          ],
-          "railProductToken": "CIeXLhDOmC4aGgimiIcDEKaAoQYYh5cuIM6YLioGWEMzMTIwIhIKB0FOWVRJTUUQARoFRmlyc3Q="
-        }
-      ],
-      "railOfferToken": "CgQI-JYuEjgIh5cuEM6YLhoaCKaIhwMQpoChBhiHly4gzpguKgZYQzMxMjAiEgoHQU5ZVElNRRABGgVGaXJzdBoCCEE="
-    },
-    {
-      "totalPrice": {
-        "amount": "133.1",
-        "currencyCode": "USD",
-        "formattedPrice": "$133.1",
-        "formattedWholePrice": "$133"
-      },
-      "priceBreakdown": [
-        {
-          "amount": "125.1",
-          "currencyCode": "USD",
-          "mainCurrency": 125,
-          "fractionalCurrency": 1,
-          "currencySymbol": "$",
-          "formattedPrice": "$125.1",
-          "formattedWholePrice": "$125",
-          "priceCategory": "Ticket"
-        },
-        {
-          "amount": "8",
-          "currencyCode": "USD",
-          "mainCurrency": 8,
-          "fractionalCurrency": 0,
-          "currencySymbol": "$",
-          "formattedPrice": "$8.0",
-          "formattedWholePrice": "$8",
-          "priceCategory": "Expedia Service Fee"
-        }
-      ],
-      "railProductList": [
-        {
-          "aggregatedCarrierServiceClassDisplayName": "Standard",
-          "aggregatedCarrierFareClassDisplayName": "off-peak single",
-          "aggregatedFareDescription": "Any off-peak train",
-          "fareNotes": [
-            "Additional information about this fare can be found at http://www.nationalrail.co.uk/times_fares/ticket_types.aspx",
-            "Not valid for travel via (changing trains or passing through) London Terminals.",
-            "Outbound: VALID ON ANY TRAIN AFTER 0930 M-F"
-          ],
-          "refundable": "refundable",
-          "refundableRules": [
-            "Your ticket is refundable before Jul 8, 2016 01:30:00 AM Coordinated Universal Time",
-            "If you cancel after your ticket is printed, a penalty of up to 16.12 USD per ticket will be deducted from your refund.",
-            "If you cancel before your ticket is printed, a penalty of upto 10 GBP per ticket will be deducted from your refund."
-          ],
-          "legOptionIndexList": [
-            4
-          ],
-          "fareBreakdownList": [
-            {
-              "passengerFareList": [
-                {
-                  "passengerIndex": 1,
-                  "passengerTypeCode": "A",
-                  "passengerSegmentFareList": [
-                    {
-                      "fareCode": "IXC-SVS-00700-STD-1",
-                      "travelSegmentIndex": 1,
-                      "carrierServiceClassDisplayName": "Standard",
-                      "carrierFareClassDisplayName": "off-peak single",
-                      "fareDescription": "Any off-peak train",
-                      "amenityList": [
-                        {
-                          "displayName": "Snack Trolley Service"
-                        }
-                      ]
-                    }
-                  ]
-                }
-              ]
-            }
-          ],
-          "railProductToken": "CIeXLhDOmC4aGgimiIcDEKaAoQYYh5cuIM6YLioGWEMzMTIwIhkKC09GRlBFQUtfREFZEAMaCFN0YW5kYXJk"
-        }
-      ],
-      "railOfferToken": "CgQI-JYuEj8Ih5cuEM6YLhoaCKaIhwMQpoChBhiHly4gzpguKgZYQzMxMjAiGQoLT0ZGUEVBS19EQVkQAxoIU3RhbmRhcmQaAghB"
-    },
-    {
-      "totalPrice": {
-        "amount": "322.36",
-        "currencyCode": "USD",
-        "formattedPrice": "$322.36",
-        "formattedWholePrice": "$322"
-      },
-      "priceBreakdown": [
-        {
-          "amount": "314.36",
-          "currencyCode": "USD",
-          "mainCurrency": 314,
-          "fractionalCurrency": 36,
-          "currencySymbol": "$",
-          "formattedPrice": "$314.36",
-          "formattedWholePrice": "$314",
-          "priceCategory": "Ticket"
-        },
-        {
-          "amount": "8",
-          "currencyCode": "USD",
-          "mainCurrency": 8,
-          "fractionalCurrency": 0,
-          "currencySymbol": "$",
-          "formattedPrice": "$8.0",
-          "formattedWholePrice": "$8",
-          "priceCategory": "Expedia Service Fee"
-        }
-      ],
-      "railProductList": [
-        {
-          "aggregatedCarrierServiceClassDisplayName": "Standard",
-          "aggregatedCarrierFareClassDisplayName": "anytime single",
-          "aggregatedFareDescription": "Travel anytime of day",
+          "aggregatedCarrierFareClassCategoryName": "Anytime",
           "fareNotes": [
             "Additional information about this fare can be found at http://www.nationalrail.co.uk/times_fares/ticket_types.aspx",
             "Valid only for travel via (changing trains or passing through) London."
           ],
-          "refundable": "refundable",
+          "refundable": "REFUNDABLE",
           "refundableRules": [
-            "Your ticket is refundable before Jul 9, 2016 01:30:00 AM Coordinated Universal Time",
-            "If you cancel after your ticket is printed, a penalty of up to 16.12 USD per ticket will be deducted from your refund.",
-            "If you cancel before your ticket is printed, a penalty of upto 10 GBP per ticket will be deducted from your refund."
+            "Your ticket is refundable before 5 Aug, 2016 01:30 Coordinated Universal Time",
+            "If you cancel before your ticket is printed, a penalty of 10.00 GBP will be deducted from your refund.",
+            "If you cancel after your ticket is printed, a penalty of up to 10 GBP per printed ticket per passenger will be deducted from your refund. If the ticket is less than 10 GBP, the maximum penalty is the ticket price."
           ],
           "legOptionIndexList": [
-            5
+            4
           ],
           "fareBreakdownList": [
             {
               "passengerFareList": [
                 {
                   "passengerIndex": 1,
-                  "passengerTypeCode": "A",
                   "passengerSegmentFareList": [
                     {
                       "fareCode": "IWC-SOS-00200-STD-1",
-                      "travelSegmentIndex": 2,
+                      "travelSegmentIndex": 1,
                       "carrierServiceClassDisplayName": "Standard",
                       "carrierFareClassDisplayName": "anytime single",
-                      "fareDescription": "Travel anytime of day"
-                    },
-                    {
-                      "fareCode": "IWC-SOS-00200-STD-1",
-                      "travelSegmentIndex": 3,
-                      "carrierServiceClassDisplayName": "Standard",
-                      "carrierFareClassDisplayName": "anytime single",
+                      "carrierFareClassCategoryName": "Anytime",
                       "fareDescription": "Travel anytime of day",
                       "amenityList": [
                         {
@@ -2183,13 +1656,22 @@
                     },
                     {
                       "fareCode": "IWC-SOS-00200-STD-1",
-                      "travelSegmentIndex": 1,
+                      "travelSegmentIndex": 2,
                       "carrierServiceClassDisplayName": "Standard",
                       "carrierFareClassDisplayName": "anytime single",
+                      "carrierFareClassCategoryName": "Anytime",
+                      "fareDescription": "Travel anytime of day"
+                    },
+                    {
+                      "fareCode": "IWC-SOS-00200-STD-1",
+                      "travelSegmentIndex": 3,
+                      "carrierServiceClassDisplayName": "Standard",
+                      "carrierFareClassDisplayName": "anytime single",
+                      "carrierFareClassCategoryName": "Anytime",
                       "fareDescription": "Travel anytime of day",
                       "amenityList": [
                         {
-                          "displayName": "Snack Trolley Service"
+                          "displayName": "Buffet Service"
                         }
                       ]
                     }
@@ -2197,39 +1679,38 @@
                 }
               ]
             }
-          ],
-          "railProductToken": "CJOXLhDcmC4aGgimiIcDEKaA4QcYk5cuILGXLioGR1c3NDA1GhQIpoDhBxCmgKEKGLGXLiDbly4qABoaCKaAoQoQpoChBhjcly4g3JguKgZWVDcwOTAiFQoHQU5ZVElNRRADGghTdGFuZGFyZA=="
+          ]
         }
       ],
-      "railOfferToken": "CgQI-JYuEm0Ik5cuENyYLhoaCKaIhwMQpoDhBxiTly4gsZcuKgZHVzc0MDUaFAimgOEHEKaAoQoYsZcuINuXLioAGhoIpoChChCmgKEGGNyXLiDcmC4qBlZUNzA5MCIVCgdBTllUSU1FEAMaCFN0YW5kYXJkGgIIQQ=="
+      "railOfferToken": "CAISBAjQxzAabQjzxzAQu8kwGhoIpoChBhCmgKEKGPPHMCDzyDAqBlZUNzYxNRoUCKaAoQoQpoDhBxjzyDAgnskwKgAaGgimgOEHEKaIhwMYoskwILvJMCoGR1c0MTE1IhUKB0FOWVRJTUUQAxoIU3RhbmRhcmQiAwiBAQ=="
     },
     {
       "totalPrice": {
-        "amount": "446.49",
-        "currencyCode": "USD",
-        "formattedPrice": "$446.49",
-        "formattedWholePrice": "$446"
+        "amount": "280.00",
+        "currencyCode": "GBP",
+        "formattedPrice": "£280.0",
+        "formattedWholePrice": "£280"
       },
       "priceBreakdown": [
         {
-          "amount": "438.49",
-          "currencyCode": "USD",
-          "mainCurrency": 438,
-          "fractionalCurrency": 49,
-          "currencySymbol": "$",
-          "formattedPrice": "$438.49",
-          "formattedWholePrice": "$438",
-          "priceCategory": "Ticket"
-        },
-        {
           "amount": "8",
-          "currencyCode": "USD",
+          "currencyCode": "GBP",
           "mainCurrency": 8,
           "fractionalCurrency": 0,
-          "currencySymbol": "$",
-          "formattedPrice": "$8.0",
-          "formattedWholePrice": "$8",
-          "priceCategory": "Expedia Service Fee"
+          "currencySymbol": "£",
+          "formattedPrice": "£8.0",
+          "formattedWholePrice": "£8",
+          "priceCategory": "Expedia Booking Fee"
+        },
+        {
+          "amount": "272.00",
+          "currencyCode": "GBP",
+          "mainCurrency": 272,
+          "fractionalCurrency": 0,
+          "currencySymbol": "£",
+          "formattedPrice": "£272.0",
+          "formattedWholePrice": "£272",
+          "priceCategory": "Ticket Price"
         }
       ],
       "railProductList": [
@@ -2237,38 +1718,32 @@
           "aggregatedCarrierServiceClassDisplayName": "First",
           "aggregatedCarrierFareClassDisplayName": "anytime single",
           "aggregatedFareDescription": "Travel anytime of day",
+          "aggregatedCarrierFareClassCategoryName": "Anytime",
           "fareNotes": [
             "Additional information about this fare can be found at http://www.nationalrail.co.uk/times_fares/ticket_types.aspx",
             "Valid only for travel via (changing trains or passing through) London."
           ],
-          "refundable": "refundable",
+          "refundable": "REFUNDABLE",
           "refundableRules": [
-            "Your ticket is refundable before Jul 9, 2016 01:30:00 AM Coordinated Universal Time",
-            "If you cancel after your ticket is printed, a penalty of up to 16.12 USD per ticket will be deducted from your refund.",
-            "If you cancel before your ticket is printed, a penalty of upto 10 GBP per ticket will be deducted from your refund."
+            "Your ticket is refundable before 5 Aug, 2016 01:30 Coordinated Universal Time",
+            "If you cancel before your ticket is printed, a penalty of 10.00 GBP will be deducted from your refund.",
+            "If you cancel after your ticket is printed, a penalty of up to 10 GBP per printed ticket per passenger will be deducted from your refund. If the ticket is less than 10 GBP, the maximum penalty is the ticket price."
           ],
           "legOptionIndexList": [
-            5
+            4
           ],
           "fareBreakdownList": [
             {
               "passengerFareList": [
                 {
                   "passengerIndex": 1,
-                  "passengerTypeCode": "A",
                   "passengerSegmentFareList": [
                     {
                       "fareCode": "IWC-FOS-00200-STD-1",
-                      "travelSegmentIndex": 2,
+                      "travelSegmentIndex": 1,
                       "carrierServiceClassDisplayName": "First",
                       "carrierFareClassDisplayName": "anytime single",
-                      "fareDescription": "Travel anytime of day"
-                    },
-                    {
-                      "fareCode": "IWC-FOS-00200-STD-1",
-                      "travelSegmentIndex": 3,
-                      "carrierServiceClassDisplayName": "First",
-                      "carrierFareClassDisplayName": "anytime single",
+                      "carrierFareClassCategoryName": "Anytime",
                       "fareDescription": "Travel anytime of day",
                       "amenityList": [
                         {
@@ -2281,9 +1756,219 @@
                     },
                     {
                       "fareCode": "IWC-FOS-00200-STD-1",
-                      "travelSegmentIndex": 1,
+                      "travelSegmentIndex": 2,
                       "carrierServiceClassDisplayName": "First",
                       "carrierFareClassDisplayName": "anytime single",
+                      "carrierFareClassCategoryName": "Anytime",
+                      "fareDescription": "Travel anytime of day"
+                    },
+                    {
+                      "fareCode": "IWC-FOS-00200-STD-1",
+                      "travelSegmentIndex": 3,
+                      "carrierServiceClassDisplayName": "First",
+                      "carrierFareClassDisplayName": "anytime single",
+                      "carrierFareClassCategoryName": "Anytime",
+                      "fareDescription": "Travel anytime of day",
+                      "amenityList": [
+                        {
+                          "displayName": "Buffet Service"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "railOfferToken": "CAISBAjQxzAaagjzxzAQu8kwGhoIpoChBhCmgKEKGPPHMCDzyDAqBlZUNzYxNRoUCKaAoQoQpoDhBxjzyDAgnskwKgAaGgimgOEHEKaIhwMYoskwILvJMCoGR1c0MTE1IhIKB0FOWVRJTUUQARoFRmlyc3QiAwiBAQ=="
+    },
+    {
+      "totalPrice": {
+        "amount": "101.50",
+        "currencyCode": "GBP",
+        "formattedPrice": "£101.50",
+        "formattedWholePrice": "£102"
+      },
+      "priceBreakdown": [
+        {
+          "amount": "8",
+          "currencyCode": "GBP",
+          "mainCurrency": 8,
+          "fractionalCurrency": 0,
+          "currencySymbol": "£",
+          "formattedPrice": "£8.0",
+          "formattedWholePrice": "£8",
+          "priceCategory": "Expedia Booking Fee"
+        },
+        {
+          "amount": "93.50",
+          "currencyCode": "GBP",
+          "mainCurrency": 93,
+          "fractionalCurrency": 50,
+          "currencySymbol": "£",
+          "formattedPrice": "£93.50",
+          "formattedWholePrice": "£94",
+          "priceCategory": "Ticket Price"
+        }
+      ],
+      "railProductList": [
+        {
+          "aggregatedCarrierServiceClassDisplayName": "Standard",
+          "aggregatedCarrierFareClassDisplayName": "off-peak single",
+          "aggregatedFareDescription": "Any off-peak train",
+          "aggregatedCarrierFareClassCategoryName": "Offpeak",
+          "fareNotes": [
+            "Additional information about this fare can be found at http://www.nationalrail.co.uk/times_fares/ticket_types.aspx",
+            "Outbound: VALID TO ARR EUS PRE 0720 OR AFTER 1129 M-F",
+            "Valid only for travel via (changing trains or passing through) London."
+          ],
+          "refundable": "REFUNDABLE",
+          "refundableRules": [
+            "Your ticket is refundable before 4 Aug, 2016 01:30 Coordinated Universal Time",
+            "If you cancel before your ticket is printed, a penalty of 10.00 GBP will be deducted from your refund.",
+            "If you cancel after your ticket is printed, a penalty of up to 10 GBP per printed ticket per passenger will be deducted from your refund. If the ticket is less than 10 GBP, the maximum penalty is the ticket price."
+          ],
+          "legOptionIndexList": [
+            4
+          ],
+          "fareBreakdownList": [
+            {
+              "passengerFareList": [
+                {
+                  "passengerIndex": 1,
+                  "passengerSegmentFareList": [
+                    {
+                      "fareCode": "IWC-SVS-00200-STD-1",
+                      "travelSegmentIndex": 1,
+                      "carrierServiceClassDisplayName": "Standard",
+                      "carrierFareClassDisplayName": "off-peak single",
+                      "carrierFareClassCategoryName": "Offpeak",
+                      "fareDescription": "Any off-peak train",
+                      "amenityList": [
+                        {
+                          "displayName": "Buffet Service"
+                        },
+                        {
+                          "displayName": "WiFi Access (Additional Cost)"
+                        }
+                      ]
+                    },
+                    {
+                      "fareCode": "IWC-SVS-00200-STD-1",
+                      "travelSegmentIndex": 2,
+                      "carrierServiceClassDisplayName": "Standard",
+                      "carrierFareClassDisplayName": "off-peak single",
+                      "carrierFareClassCategoryName": "Offpeak",
+                      "fareDescription": "Any off-peak train"
+                    },
+                    {
+                      "fareCode": "IWC-SVS-00200-STD-1",
+                      "travelSegmentIndex": 3,
+                      "carrierServiceClassDisplayName": "Standard",
+                      "carrierFareClassDisplayName": "off-peak single",
+                      "carrierFareClassCategoryName": "Offpeak",
+                      "fareDescription": "Any off-peak train",
+                      "amenityList": [
+                        {
+                          "displayName": "Buffet Service"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "railOfferToken": "CAISBAjQxzAacQjzxzAQu8kwGhoIpoChBhCmgKEKGPPHMCDzyDAqBlZUNzYxNRoUCKaAoQoQpoDhBxjzyDAgnskwKgAaGgimgOEHEKaIhwMYoskwILvJMCoGR1c0MTE1IhkKC09GRlBFQUtfREFZEAMaCFN0YW5kYXJkIgMIgQE="
+    },
+    {
+      "totalPrice": {
+        "amount": "203.00",
+        "currencyCode": "GBP",
+        "formattedPrice": "£203.0",
+        "formattedWholePrice": "£203"
+      },
+      "priceBreakdown": [
+        {
+          "amount": "8",
+          "currencyCode": "GBP",
+          "mainCurrency": 8,
+          "fractionalCurrency": 0,
+          "currencySymbol": "£",
+          "formattedPrice": "£8.0",
+          "formattedWholePrice": "£8",
+          "priceCategory": "Expedia Booking Fee"
+        },
+        {
+          "amount": "195.00",
+          "currencyCode": "GBP",
+          "mainCurrency": 195,
+          "fractionalCurrency": 0,
+          "currencySymbol": "£",
+          "formattedPrice": "£195.0",
+          "formattedWholePrice": "£195",
+          "priceCategory": "Ticket Price"
+        }
+      ],
+      "railProductList": [
+        {
+          "aggregatedCarrierServiceClassDisplayName": "Standard",
+          "aggregatedCarrierFareClassDisplayName": "anytime single",
+          "aggregatedFareDescription": "Travel anytime of day",
+          "aggregatedCarrierFareClassCategoryName": "Anytime",
+          "fareNotes": [
+            "Additional information about this fare can be found at http://www.nationalrail.co.uk/times_fares/ticket_types.aspx",
+            "Valid only for travel via (changing trains or passing through) London."
+          ],
+          "refundable": "REFUNDABLE",
+          "refundableRules": [
+            "Your ticket is refundable before 5 Aug, 2016 01:30 Coordinated Universal Time",
+            "If you cancel before your ticket is printed, a penalty of 10.00 GBP will be deducted from your refund.",
+            "If you cancel after your ticket is printed, a penalty of up to 10 GBP per printed ticket per passenger will be deducted from your refund. If the ticket is less than 10 GBP, the maximum penalty is the ticket price."
+          ],
+          "legOptionIndexList": [
+            5
+          ],
+          "fareBreakdownList": [
+            {
+              "passengerFareList": [
+                {
+                  "passengerIndex": 1,
+                  "passengerSegmentFareList": [
+                    {
+                      "fareCode": "IWC-SOS-00200-STD-1",
+                      "travelSegmentIndex": 1,
+                      "carrierServiceClassDisplayName": "Standard",
+                      "carrierFareClassDisplayName": "anytime single",
+                      "carrierFareClassCategoryName": "Anytime",
+                      "fareDescription": "Travel anytime of day",
+                      "amenityList": [
+                        {
+                          "displayName": "Buffet Service"
+                        },
+                        {
+                          "displayName": "WiFi Access (Additional Cost)"
+                        }
+                      ]
+                    },
+                    {
+                      "fareCode": "IWC-SOS-00200-STD-1",
+                      "travelSegmentIndex": 2,
+                      "carrierServiceClassDisplayName": "Standard",
+                      "carrierFareClassDisplayName": "anytime single",
+                      "carrierFareClassCategoryName": "Anytime",
+                      "fareDescription": "Travel anytime of day"
+                    },
+                    {
+                      "fareCode": "IWC-SOS-00200-STD-1",
+                      "travelSegmentIndex": 3,
+                      "carrierServiceClassDisplayName": "Standard",
+                      "carrierFareClassDisplayName": "anytime single",
+                      "carrierFareClassCategoryName": "Anytime",
                       "fareDescription": "Travel anytime of day",
                       "amenityList": [
                         {
@@ -2295,39 +1980,138 @@
                 }
               ]
             }
-          ],
-          "railProductToken": "CJOXLhDcmC4aGgimiIcDEKaA4QcYk5cuILGXLioGR1c3NDA1GhQIpoDhBxCmgKEKGLGXLiDbly4qABoaCKaAoQoQpoChBhjcly4g3JguKgZWVDcwOTAiEgoHQU5ZVElNRRABGgVGaXJzdA=="
+          ]
         }
       ],
-      "railOfferToken": "CgQI-JYuEmoIk5cuENyYLhoaCKaIhwMQpoDhBxiTly4gsZcuKgZHVzc0MDUaFAimgOEHEKaAoQoYsZcuINuXLioAGhoIpoChChCmgKEGGNyXLiDcmC4qBlZUNzA5MCISCgdBTllUSU1FEAEaBUZpcnN0GgIIQQ=="
+      "railOfferToken": "CAISBAjQxzAabQiHyDAQ0MkwGhoIpoChBhCmgKEKGIfIMCCNyTAqBlZUNzYyMBoUCKaAoQoQpoDhBxiNyTAgt8kwKgAaGgimgOEHEKaIhwMYuMkwINDJMCoGR1c3MzA4IhUKB0FOWVRJTUUQAxoIU3RhbmRhcmQiAwiBAQ=="
     },
     {
       "totalPrice": {
-        "amount": "158.73",
-        "currencyCode": "USD",
-        "formattedPrice": "$158.73",
-        "formattedWholePrice": "$159"
+        "amount": "280.00",
+        "currencyCode": "GBP",
+        "formattedPrice": "£280.0",
+        "formattedWholePrice": "£280"
       },
       "priceBreakdown": [
         {
-          "amount": "150.73",
-          "currencyCode": "USD",
-          "mainCurrency": 150,
-          "fractionalCurrency": 73,
-          "currencySymbol": "$",
-          "formattedPrice": "$150.73",
-          "formattedWholePrice": "$151",
-          "priceCategory": "Ticket"
-        },
-        {
           "amount": "8",
-          "currencyCode": "USD",
+          "currencyCode": "GBP",
           "mainCurrency": 8,
           "fractionalCurrency": 0,
-          "currencySymbol": "$",
-          "formattedPrice": "$8.0",
-          "formattedWholePrice": "$8",
-          "priceCategory": "Expedia Service Fee"
+          "currencySymbol": "£",
+          "formattedPrice": "£8.0",
+          "formattedWholePrice": "£8",
+          "priceCategory": "Expedia Booking Fee"
+        },
+        {
+          "amount": "272.00",
+          "currencyCode": "GBP",
+          "mainCurrency": 272,
+          "fractionalCurrency": 0,
+          "currencySymbol": "£",
+          "formattedPrice": "£272.0",
+          "formattedWholePrice": "£272",
+          "priceCategory": "Ticket Price"
+        }
+      ],
+      "railProductList": [
+        {
+          "aggregatedCarrierServiceClassDisplayName": "First",
+          "aggregatedCarrierFareClassDisplayName": "anytime single",
+          "aggregatedFareDescription": "Travel anytime of day",
+          "aggregatedCarrierFareClassCategoryName": "Anytime",
+          "fareNotes": [
+            "Additional information about this fare can be found at http://www.nationalrail.co.uk/times_fares/ticket_types.aspx",
+            "Valid only for travel via (changing trains or passing through) London."
+          ],
+          "refundable": "REFUNDABLE",
+          "refundableRules": [
+            "Your ticket is refundable before 5 Aug, 2016 01:30 Coordinated Universal Time",
+            "If you cancel before your ticket is printed, a penalty of 10.00 GBP will be deducted from your refund.",
+            "If you cancel after your ticket is printed, a penalty of up to 10 GBP per printed ticket per passenger will be deducted from your refund. If the ticket is less than 10 GBP, the maximum penalty is the ticket price."
+          ],
+          "legOptionIndexList": [
+            5
+          ],
+          "fareBreakdownList": [
+            {
+              "passengerFareList": [
+                {
+                  "passengerIndex": 1,
+                  "passengerSegmentFareList": [
+                    {
+                      "fareCode": "IWC-FOS-00200-STD-1",
+                      "travelSegmentIndex": 1,
+                      "carrierServiceClassDisplayName": "First",
+                      "carrierFareClassDisplayName": "anytime single",
+                      "carrierFareClassCategoryName": "Anytime",
+                      "fareDescription": "Travel anytime of day",
+                      "amenityList": [
+                        {
+                          "displayName": "Buffet Service"
+                        },
+                        {
+                          "displayName": "WiFi Access (Free)"
+                        }
+                      ]
+                    },
+                    {
+                      "fareCode": "IWC-FOS-00200-STD-1",
+                      "travelSegmentIndex": 2,
+                      "carrierServiceClassDisplayName": "First",
+                      "carrierFareClassDisplayName": "anytime single",
+                      "carrierFareClassCategoryName": "Anytime",
+                      "fareDescription": "Travel anytime of day"
+                    },
+                    {
+                      "fareCode": "IWC-FOS-00200-STD-1",
+                      "travelSegmentIndex": 3,
+                      "carrierServiceClassDisplayName": "First",
+                      "carrierFareClassDisplayName": "anytime single",
+                      "carrierFareClassCategoryName": "Anytime",
+                      "fareDescription": "Travel anytime of day",
+                      "amenityList": [
+                        {
+                          "displayName": "Snack Trolley Service"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "railOfferToken": "CAISBAjQxzAaagiHyDAQ0MkwGhoIpoChBhCmgKEKGIfIMCCNyTAqBlZUNzYyMBoUCKaAoQoQpoDhBxiNyTAgt8kwKgAaGgimgOEHEKaIhwMYuMkwINDJMCoGR1c3MzA4IhIKB0FOWVRJTUUQARoFRmlyc3QiAwiBAQ=="
+    },
+    {
+      "totalPrice": {
+        "amount": "101.50",
+        "currencyCode": "GBP",
+        "formattedPrice": "£101.50",
+        "formattedWholePrice": "£102"
+      },
+      "priceBreakdown": [
+        {
+          "amount": "8",
+          "currencyCode": "GBP",
+          "mainCurrency": 8,
+          "fractionalCurrency": 0,
+          "currencySymbol": "£",
+          "formattedPrice": "£8.0",
+          "formattedWholePrice": "£8",
+          "priceCategory": "Expedia Booking Fee"
+        },
+        {
+          "amount": "93.50",
+          "currencyCode": "GBP",
+          "mainCurrency": 93,
+          "fractionalCurrency": 50,
+          "currencySymbol": "£",
+          "formattedPrice": "£93.50",
+          "formattedWholePrice": "£94",
+          "priceCategory": "Ticket Price"
         }
       ],
       "railProductList": [
@@ -2335,15 +2119,17 @@
           "aggregatedCarrierServiceClassDisplayName": "Standard",
           "aggregatedCarrierFareClassDisplayName": "off-peak single",
           "aggregatedFareDescription": "Any off-peak train",
+          "aggregatedCarrierFareClassCategoryName": "Offpeak",
           "fareNotes": [
             "Additional information about this fare can be found at http://www.nationalrail.co.uk/times_fares/ticket_types.aspx",
-            "Outbound: NO DEP FROM LDN EUS PRE 0926 OR 1501-1844 M-F",
+            "Outbound: VALID TO ARR EUS PRE 0720 OR AFTER 1129 M-F",
             "Valid only for travel via (changing trains or passing through) London."
           ],
-          "refundable": "refundable",
+          "refundable": "REFUNDABLE",
           "refundableRules": [
-            "Your ticket is refundable.",
-            "If you cancel before your ticket is printed, a penalty of upto 10 GBP per ticket will be deducted from your refund."
+            "Your ticket is refundable before 4 Aug, 2016 01:30 Coordinated Universal Time",
+            "If you cancel before your ticket is printed, a penalty of 10.00 GBP will be deducted from your refund.",
+            "If you cancel after your ticket is printed, a penalty of up to 10 GBP per printed ticket per passenger will be deducted from your refund. If the ticket is less than 10 GBP, the maximum penalty is the ticket price."
           ],
           "legOptionIndexList": [
             5
@@ -2353,13 +2139,29 @@
               "passengerFareList": [
                 {
                   "passengerIndex": 1,
-                  "passengerTypeCode": "A",
                   "passengerSegmentFareList": [
+                    {
+                      "fareCode": "IWC-SVS-00200-STD-1",
+                      "travelSegmentIndex": 1,
+                      "carrierServiceClassDisplayName": "Standard",
+                      "carrierFareClassDisplayName": "off-peak single",
+                      "carrierFareClassCategoryName": "Offpeak",
+                      "fareDescription": "Any off-peak train",
+                      "amenityList": [
+                        {
+                          "displayName": "Buffet Service"
+                        },
+                        {
+                          "displayName": "WiFi Access (Additional Cost)"
+                        }
+                      ]
+                    },
                     {
                       "fareCode": "IWC-SVS-00200-STD-1",
                       "travelSegmentIndex": 2,
                       "carrierServiceClassDisplayName": "Standard",
                       "carrierFareClassDisplayName": "off-peak single",
+                      "carrierFareClassCategoryName": "Offpeak",
                       "fareDescription": "Any off-peak train"
                     },
                     {
@@ -2367,21 +2169,7 @@
                       "travelSegmentIndex": 3,
                       "carrierServiceClassDisplayName": "Standard",
                       "carrierFareClassDisplayName": "off-peak single",
-                      "fareDescription": "Any off-peak train",
-                      "amenityList": [
-                        {
-                          "displayName": "Buffet Service"
-                        },
-                        {
-                          "displayName": "WiFi Access (Additional Cost)"
-                        }
-                      ]
-                    },
-                    {
-                      "fareCode": "IWC-SVS-00200-STD-1",
-                      "travelSegmentIndex": 1,
-                      "carrierServiceClassDisplayName": "Standard",
-                      "carrierFareClassDisplayName": "off-peak single",
+                      "carrierFareClassCategoryName": "Offpeak",
                       "fareDescription": "Any off-peak train",
                       "amenityList": [
                         {
@@ -2393,109 +2181,13 @@
                 }
               ]
             }
-          ],
-          "railProductToken": "CJOXLhDcmC4aGgimiIcDEKaA4QcYk5cuILGXLioGR1c3NDA1GhQIpoDhBxCmgKEKGLGXLiDbly4qABoaCKaAoQoQpoChBhjcly4g3JguKgZWVDcwOTAiGQoLT0ZGUEVBS19EQVkQAxoIU3RhbmRhcmQ="
+          ]
         }
       ],
-      "railOfferToken": "CgQI-JYuEnEIk5cuENyYLhoaCKaIhwMQpoDhBxiTly4gsZcuKgZHVzc0MDUaFAimgOEHEKaAoQoYsZcuINuXLioAGhoIpoChChCmgKEGGNyXLiDcmC4qBlZUNzA5MCIZCgtPRkZQRUFLX0RBWRADGghTdGFuZGFyZBoCCEE="
-    },
-    {
-      "totalPrice": {
-        "amount": "90.22",
-        "currencyCode": "USD",
-        "formattedPrice": "$90.22",
-        "formattedWholePrice": "$90"
-      },
-      "priceBreakdown": [
-        {
-          "amount": "82.22",
-          "currencyCode": "USD",
-          "mainCurrency": 82,
-          "fractionalCurrency": 22,
-          "currencySymbol": "$",
-          "formattedPrice": "$82.22",
-          "formattedWholePrice": "$82",
-          "priceCategory": "Ticket"
-        },
-        {
-          "amount": "8",
-          "currencyCode": "USD",
-          "mainCurrency": 8,
-          "fractionalCurrency": 0,
-          "currencySymbol": "$",
-          "formattedPrice": "$8.0",
-          "formattedWholePrice": "$8",
-          "priceCategory": "Expedia Service Fee"
-        }
-      ],
-      "railProductList": [
-        {
-          "aggregatedCarrierServiceClassDisplayName": "Standard",
-          "aggregatedCarrierFareClassDisplayName": "advance single",
-          "aggregatedFareDescription": "Specified train only",
-          "fareNotes": [
-            "Additional information about this fare can be found at http://www.nationalrail.co.uk/times_fares/ticket_types.aspx",
-            "Only valid on booked Virgin Trains services and required connecting services.",
-            "Outbound: VALID ON DATE&TRAIN SHOWN ONLY.LMTD CHNGE.NO RFND."
-          ],
-          "refundable": "non-refundable",
-          "refundableRules": [
-            "Your ticket is non-refundable."
-          ],
-          "legOptionIndexList": [
-            5
-          ],
-          "fareBreakdownList": [
-            {
-              "passengerFareList": [
-                {
-                  "passengerIndex": 1,
-                  "passengerTypeCode": "A",
-                  "passengerSegmentFareList": [
-                    {
-                      "fareCode": "IWC-VAS-00452-STD-1",
-                      "travelSegmentIndex": 3,
-                      "carrierServiceClassDisplayName": "Standard",
-                      "carrierFareClassDisplayName": "advance single",
-                      "fareDescription": "Specified train only",
-                      "amenityList": [
-                        {
-                          "displayName": "Buffet Service"
-                        },
-                        {
-                          "displayName": "WiFi Access (Additional Cost)"
-                        }
-                      ]
-                    },
-                    {
-                      "fareCode": "IWC-VAS-00452-STD-1",
-                      "travelSegmentIndex": 1,
-                      "carrierServiceClassDisplayName": "Standard",
-                      "carrierFareClassDisplayName": "advance single",
-                      "fareDescription": "Specified train only",
-                      "amenityList": [
-                        {
-                          "displayName": "Snack Trolley Service"
-                        }
-                      ]
-                    },
-                    {
-                      "fareCode": "IWC-VAS-00452-STD-1",
-                      "travelSegmentIndex": 2,
-                      "carrierServiceClassDisplayName": "Standard",
-                      "carrierFareClassDisplayName": "advance single",
-                      "fareDescription": "Specified train only"
-                    }
-                  ]
-                }
-              ]
-            }
-          ],
-          "railProductToken": "CJOXLhDcmC4aGgimiIcDEKaA4QcYk5cuILGXLioGR1c3NDA1GhQIpoDhBxCmgKEKGLGXLiDbly4qABoaCKaAoQoQpoChBhjcly4g3JguKgZWVDcwOTAiFQoHQURWQU5DRRADGghTdGFuZGFyZA=="
-        }
-      ],
-      "railOfferToken": "CgQI-JYuEm0Ik5cuENyYLhoaCKaIhwMQpoDhBxiTly4gsZcuKgZHVzc0MDUaFAimgOEHEKaAoQoYsZcuINuXLioAGhoIpoChChCmgKEGGNyXLiDcmC4qBlZUNzA5MCIVCgdBRFZBTkNFEAMaCFN0YW5kYXJkGgIIQQ=="
+      "railOfferToken": "CAISBAjQxzAacQiHyDAQ0MkwGhoIpoChBhCmgKEKGIfIMCCNyTAqBlZUNzYyMBoUCKaAoQoQpoDhBxiNyTAgt8kwKgAaGgimgOEHEKaIhwMYuMkwINDJMCoGR1c3MzA4IhkKC09GRlBFQUtfREFZEAMaCFN0YW5kYXJkIgMIgQE="
     }
   ],
-  "success": true
+  "responseStatus": {
+    "status": "SUCCESS"
+  }
 }

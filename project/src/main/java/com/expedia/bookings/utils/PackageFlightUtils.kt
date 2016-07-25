@@ -41,6 +41,21 @@ object PackageFlightUtils {
         return totalDurationStyledString
     }
 
+    @JvmStatic fun getOperatingAirlineNameString(context: Context, segment: FlightLeg.FlightSegment): String? {
+        if (segment.operatingAirlineName != null) {
+            if (segment.operatingAirlineCode != null) {
+                return Phrase.from(context, R.string.flight_operated_by_carrier_name_and_code_TEMPLATE)
+                        .put("operatingairlinename", segment.operatingAirlineName)
+                        .put("operatingairlinecode", segment.operatingAirlineCode)
+                        .format().toString()
+            }
+            return Phrase.from(context, R.string.flight_operated_by_carrier_name_only_TEMPLATE)
+                    .put("operatingairlinename", segment.operatingAirlineName)
+                    .format().toString()
+        }
+        return null
+    }
+
     @JvmStatic fun getFlightDurationString(context: Context, flight: FlightLeg): String {
         return getDurationString(context, flight.durationHour, flight.durationMinute)
     }

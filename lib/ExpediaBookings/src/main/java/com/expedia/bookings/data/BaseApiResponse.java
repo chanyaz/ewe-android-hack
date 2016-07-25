@@ -2,7 +2,6 @@ package com.expedia.bookings.data;
 
 import java.util.List;
 
-import com.expedia.bookings.data.cars.ApiError;
 import com.google.gson.Gson;
 
 public class BaseApiResponse {

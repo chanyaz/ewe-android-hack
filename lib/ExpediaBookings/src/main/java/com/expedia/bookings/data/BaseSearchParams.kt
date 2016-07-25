@@ -3,7 +3,7 @@ package com.expedia.bookings.data
 import org.joda.time.Days
 import org.joda.time.LocalDate
 
-open class BaseSearchParams(val adults: Int, val children: List<Int>) {
+open class BaseSearchParams(val origin: SuggestionV4?, val destination: SuggestionV4?, val adults: Int, val children: List<Int>, val startDate: LocalDate, val endDate: LocalDate?) {
 
     val guests = children.size + adults
     val guestString = listOf(adults).plus(children).joinToString(",")
@@ -16,7 +16,6 @@ open class BaseSearchParams(val adults: Int, val children: List<Int>) {
         protected var endDate: LocalDate? = null
         protected var adults: Int = 1
         protected var children: List<Int> = emptyList()
-        protected var infantSeatingInLap: Boolean = false
 
         abstract fun isOriginSameAsDestination(): Boolean;
 
@@ -47,11 +46,6 @@ open class BaseSearchParams(val adults: Int, val children: List<Int>) {
 
         fun children(children: List<Int>): Builder {
             this.children = children
-            return this
-        }
-
-        fun infantSeatingInLap(infantSeatingInLap: Boolean): Builder {
-            this.infantSeatingInLap = infantSeatingInLap
             return this
         }
 

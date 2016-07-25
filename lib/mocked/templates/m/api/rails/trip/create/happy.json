@@ -1,48 +1,48 @@
 {
-  "tripId": "b6b3315e-6901-4926-a8db-57c9eede23a2",
+  "tripId": "e6f8caad-9115-4c8c-9e45-db0002c4e3cd",
   "totalPrice": {
-    "amount": "314.36",
-    "formattedPrice": "$314.36",
-    "formattedWholePrice": "$314",
-    "currencyCode": "USD"
+    "amount": "203.00",
+    "formattedPrice": "£203.00",
+    "formattedWholePrice": "£203",
+    "currencyCode": "GBP"
   },
-  "offerToken": "CgQIu_QuEm0Ir_QuEIX2LhoaCKaIhwMQpoDhBxiv9C4gyfQuKgZHVzIyMDUaFAimgOEHEKaAoQoYyfQuIPT0LioAGhoIpoChChCmgKEGGID1LiCF9i4qBlZUNzE5NSIVCgdBTllUSU1FEAMaCFN0YW5kYXJkGgIIHg==",
+  "offerToken": "CAISBAjQxzAabQjLxzAQmskwGhoIpoChBhCmgKEKGMvHMCDNyDAqBlZUNzYwNRoUCKaAoQoQpoDhBxjNyDAg-MgwKgAaGgimgOEHEKaIhwMY-sgwIJrJMCoGR1c3NTEzIhUKB0FOWVRJTUUQAxoIU3RhbmRhcmQiAwiBAQ==",
   "railsProducts": [
     {
-      "productToken": "CK_0LhCF9i4aGgimiIcDEKaA4QcYr_QuIMn0LioGR1cyMjA1GhQIpoDhBxCmgKEKGMn0LiD09C4qABoaCKaAoQoQpoChBhiA9S4ghfYuKgZWVDcxOTUiFQoHQU5ZVElNRRADGghTdGFuZGFyZA==",
+      "productToken": "CMvHMBCayTAaGgimgKEGEKaAoQoYy8cwIM3IMCoGVlQ3NjA1GhQIpoChChCmgOEHGM3IMCD4yDAqABoaCKaA4QcQpoiHAxj6yDAgmskwKgZHVzc1MTMiFQoHQU5ZVElNRRADGghTdGFuZGFyZA==",
       "productPrice": {
-        "amount": "314.36",
-        "formattedPrice": "$314.36",
-        "formattedWholePrice": "$314",
-        "currencyCode": "USD"
+        "amount": "195.00",
+        "formattedPrice": "£195.00",
+        "formattedWholePrice": "£195",
+        "currencyCode": "GBP"
       },
       "legList": [
         {
           "legOptionIndex": "1",
           "departureDateTime": {
-            "raw": "2016-06-17T17:19:00-07:00",
-            "localized": "Jun 17, 2016 5:19:00 PM",
-            "epochSeconds": 1466209140,
+            "raw": "2016-07-06T11:55:00-07:00",
+            "localized": "Jul 6, 2016 11:55:00 AM",
+            "epochSeconds": 1467831300,
             "timeZoneOffsetSeconds": -25200,
-            "localizedShortDate": "Fri, 17 Jun"
+            "localizedShortDate": "Wed, 6 Jul"
           },
           "departureStation": {
-            "stationCode": "GBRDG",
-            "stationDisplayName": "Reading"
-          },
-          "arrivalDateTime": {
-            "raw": "2016-06-17T20:53:00-07:00",
-            "localized": "Jun 17, 2016 8:53:00 PM",
-            "epochSeconds": 1466221980,
-            "timeZoneOffsetSeconds": -25200,
-            "localizedShortDate": "Fri, 17 Jun"
-          },
-          "arrivalStation": {
             "stationCode": "GBQQM",
             "stationDisplayName": "Manchester Piccadilly"
           },
+          "arrivalDateTime": {
+            "raw": "2016-07-06T15:22:00-07:00",
+            "localized": "Jul 6, 2016 3:22:00 PM",
+            "epochSeconds": 1467843720,
+            "timeZoneOffsetSeconds": -25200,
+            "localizedShortDate": "Wed, 6 Jul"
+          },
+          "arrivalStation": {
+            "stationCode": "GBRDG",
+            "stationDisplayName": "Reading"
+          },
           "duration": {
-            "time": 214,
+            "time": 207,
             "unit": "MIN"
           },
           "travelSegmentList": [
@@ -50,63 +50,63 @@
               "travelSegmentIndex": "1",
               "travelMode": "Train",
               "departureDateTime": {
-                "raw": "2016-06-17T17:19:00-07:00",
-                "localized": "Jun 17, 2016 5:19:00 PM",
-                "epochSeconds": 1466209140,
+                "raw": "2016-07-06T11:55:00-07:00",
+                "localized": "Jul 6, 2016 11:55:00 AM",
+                "epochSeconds": 1467831300,
                 "timeZoneOffsetSeconds": -25200,
-                "localizedShortDate": "Fri, 17 Jun"
+                "localizedShortDate": "Wed, 6 Jul"
               },
               "departureStation": {
-                "stationCode": "GBRDG",
-                "stationDisplayName": "Reading"
+                "stationCode": "GBQQM",
+                "stationDisplayName": "Manchester Piccadilly"
               },
               "arrivalDateTime": {
-                "raw": "2016-06-17T17:45:00-07:00",
-                "localized": "Jun 17, 2016 5:45:00 PM",
-                "epochSeconds": 1466210700,
+                "raw": "2016-07-06T14:05:00-07:00",
+                "localized": "Jul 6, 2016 2:05:00 PM",
+                "epochSeconds": 1467839100,
                 "timeZoneOffsetSeconds": -25200,
-                "localizedShortDate": "Fri, 17 Jun"
+                "localizedShortDate": "Wed, 6 Jul"
               },
               "arrivalStation": {
-                "stationCode": "GBQQP",
-                "stationDisplayName": "London Paddington"
+                "stationCode": "GBQQU",
+                "stationDisplayName": "London Euston"
               },
               "duration": {
-                "time": 26,
+                "time": 130,
                 "unit": "MIN"
               },
-              "marketingCarrier": "FirstGrtWest",
-              "operatingCarrier": "FirstGrtWest",
+              "marketingCarrier": "Virgin",
+              "operatingCarrier": "Virgin",
               "travelMedium": {
                 "travelMediumCode": "ICY",
                 "travelMediumName": "Inter-City",
-                "supplierTravelMediumName": "FirstGrtWest-ICY"
+                "supplierTravelMediumName": "Virgin-ICY"
               }
             },
             {
               "travelSegmentIndex": "2",
               "travelMode": "Transfer",
               "departureDateTime": {
-                "raw": "2016-06-17T17:45:00-07:00",
-                "localized": "Jun 17, 2016 5:45:00 PM",
-                "epochSeconds": 1466210700,
+                "raw": "2016-07-06T14:05:00-07:00",
+                "localized": "Jul 6, 2016 2:05:00 PM",
+                "epochSeconds": 1467839100,
                 "timeZoneOffsetSeconds": -25200,
-                "localizedShortDate": "Fri, 17 Jun"
+                "localizedShortDate": "Wed, 6 Jul"
               },
               "departureStation": {
-                "stationCode": "GBQQP",
-                "stationDisplayName": "London Paddington"
-              },
-              "arrivalDateTime": {
-                "raw": "2016-06-17T18:28:00-07:00",
-                "localized": "Jun 17, 2016 6:28:00 PM",
-                "epochSeconds": 1466213280,
-                "timeZoneOffsetSeconds": -25200,
-                "localizedShortDate": "Fri, 17 Jun"
-              },
-              "arrivalStation": {
                 "stationCode": "GBQQU",
                 "stationDisplayName": "London Euston"
+              },
+              "arrivalDateTime": {
+                "raw": "2016-07-06T14:48:00-07:00",
+                "localized": "Jul 6, 2016 2:48:00 PM",
+                "epochSeconds": 1467841680,
+                "timeZoneOffsetSeconds": -25200,
+                "localizedShortDate": "Wed, 6 Jul"
+              },
+              "arrivalStation": {
+                "stationCode": "GBQQP",
+                "stationDisplayName": "London Paddington"
               },
               "duration": {
                 "time": 43,
@@ -124,37 +124,37 @@
               "travelSegmentIndex": "3",
               "travelMode": "Train",
               "departureDateTime": {
-                "raw": "2016-06-17T18:40:00-07:00",
-                "localized": "Jun 17, 2016 6:40:00 PM",
-                "epochSeconds": 1466214000,
+                "raw": "2016-07-06T14:50:00-07:00",
+                "localized": "Jul 6, 2016 2:50:00 PM",
+                "epochSeconds": 1467841800,
                 "timeZoneOffsetSeconds": -25200,
-                "localizedShortDate": "Fri, 17 Jun"
+                "localizedShortDate": "Wed, 6 Jul"
               },
               "departureStation": {
-                "stationCode": "GBQQU",
-                "stationDisplayName": "London Euston"
+                "stationCode": "GBQQP",
+                "stationDisplayName": "London Paddington"
               },
               "arrivalDateTime": {
-                "raw": "2016-06-17T20:53:00-07:00",
-                "localized": "Jun 17, 2016 8:53:00 PM",
-                "epochSeconds": 1466221980,
+                "raw": "2016-07-06T15:22:00-07:00",
+                "localized": "Jul 6, 2016 3:22:00 PM",
+                "epochSeconds": 1467843720,
                 "timeZoneOffsetSeconds": -25200,
-                "localizedShortDate": "Fri, 17 Jun"
+                "localizedShortDate": "Wed, 6 Jul"
               },
               "arrivalStation": {
-                "stationCode": "GBQQM",
-                "stationDisplayName": "Manchester Piccadilly"
+                "stationCode": "GBRDG",
+                "stationDisplayName": "Reading"
               },
               "duration": {
-                "time": 133,
+                "time": 32,
                 "unit": "MIN"
               },
-              "marketingCarrier": "Virgin",
-              "operatingCarrier": "Virgin",
+              "marketingCarrier": "FirstGrtWest",
+              "operatingCarrier": "FirstGrtWest",
               "travelMedium": {
                 "travelMediumCode": "ICY",
                 "travelMediumName": "Inter-City",
-                "supplierTravelMediumName": "Virgin-ICY"
+                "supplierTravelMediumName": "FirstGrtWest-ICY"
               }
             }
           ],
@@ -163,22 +163,22 @@
         }
       ],
       "productHoldExpirationDateTime": {
-        "raw": "2016-06-02T13:25:22-07:00",
-        "localized": "Jun 2, 2016 1:25:22 PM",
-        "epochSeconds": 1464899122,
+        "raw": "2016-06-28T15:36:41-07:00",
+        "localized": "Jun 28, 2016 3:36:41 PM",
+        "epochSeconds": 1467153401,
         "timeZoneOffsetSeconds": -25200,
-        "localizedShortDate": "Thu, 2 Jun"
+        "localizedShortDate": "Tue, 28 Jun"
       },
       "additionalBookingOptions": {
         "ticketDeliveryOptions": [
           {
-            "description": "Ticket by Royal Mail Special Delivery",
+            "description": "Ticket by Royal Mail Special Delivery ",
             "isRefundable": false,
             "fee": {
-              "amount": "10.00",
-              "formattedPrice": "$10.00",
-              "formattedWholePrice": "$10",
-              "currencyCode": "USD"
+              "amount": "6.00",
+              "formattedPrice": "£6.00",
+              "formattedWholePrice": "£6",
+              "currencyCode": "GBP"
             },
             "code": "SEND_BY_POST",
             "destination": "UK"
@@ -187,46 +187,46 @@
             "description": "Ticket by International DHL Next Day",
             "isRefundable": false,
             "fee": {
-              "amount": "32.00",
-              "formattedPrice": "$32.00",
-              "formattedWholePrice": "$32",
-              "currencyCode": "USD"
+              "amount": "25.00",
+              "formattedPrice": "£25.00",
+              "formattedWholePrice": "£25",
+              "currencyCode": "GBP"
             },
             "code": "SEND_BY_OVERNIGHT_POST",
-            "destination": "EU"
+            "destination": "GLOBAL"
           },
           {
             "description": "Ticket by International DHL Next Day",
             "isRefundable": false,
             "fee": {
-              "amount": "40.00",
-              "formattedPrice": "$40.00",
-              "formattedWholePrice": "$40",
-              "currencyCode": "USD"
+              "amount": "20.00",
+              "formattedPrice": "£20.00",
+              "formattedWholePrice": "£20",
+              "currencyCode": "GBP"
             },
             "code": "SEND_BY_OVERNIGHT_POST",
-            "destination": "NA"
+            "destination": "EU"
           },
           {
-            "description": "Ticket By DHL Next Day",
+            "description": "Ticket by DHL Next Day",
             "isRefundable": false,
             "fee": {
-              "amount": "16.00",
-              "formattedPrice": "$16.00",
-              "formattedWholePrice": "$16",
-              "currencyCode": "USD"
+              "amount": "10.00",
+              "formattedPrice": "£10.00",
+              "formattedWholePrice": "£10",
+              "currencyCode": "GBP"
             },
             "code": "SEND_BY_OVERNIGHT_POST",
             "destination": "UK"
           },
           {
-            "description": "Ticket by Courier",
+            "description": "Ticket by Courier London Area",
             "isRefundable": false,
             "fee": {
-              "amount": "80.00",
-              "formattedPrice": "$80.00",
-              "formattedWholePrice": "$80",
-              "currencyCode": "USD"
+              "amount": "50.00",
+              "formattedPrice": "£50.00",
+              "formattedWholePrice": "£50",
+              "currencyCode": "GBP"
             },
             "code": "SEND_BY_EXPRESS_POST",
             "destination": "UK"
@@ -235,10 +235,10 @@
             "description": "Collect at Ticket Office",
             "isRefundable": false,
             "fee": {
-              "amount": "1.75",
-              "formattedPrice": "$1.75",
-              "formattedWholePrice": "$2",
-              "currencyCode": "USD"
+              "amount": "0.00",
+              "formattedPrice": "£0.00",
+              "formattedWholePrice": "£0",
+              "currencyCode": "GBP"
             },
             "code": "PICK_UP_AT_TICKETING_OFFICE"
           },
@@ -246,10 +246,10 @@
             "description": "Collect at Ticket Vending Machine",
             "isRefundable": false,
             "fee": {
-              "amount": "1.75",
-              "formattedPrice": "$1.75",
-              "formattedWholePrice": "$2",
-              "currencyCode": "USD"
+              "amount": "0.00",
+              "formattedPrice": "£0.00",
+              "formattedWholePrice": "£0",
+              "currencyCode": "GBP"
             },
             "code": "KIOSK"
           }
@@ -258,25 +258,44 @@
       "fareBreakdown": [
         {
           "fare": {
-            "amount": "314.36",
-            "formattedPrice": "$314.36",
-            "formattedWholePrice": "$314",
-            "currencyCode": "USD"
+            "amount": "195.00",
+            "formattedPrice": "£195.00",
+            "formattedWholePrice": "£195",
+            "currencyCode": "GBP"
           },
-          "segmentClass": [
+          "segmentFareList": [
             {
               "serviceClass": "Standard",
-              "fareClass": "Anytime Single"
+              "fareClass": "Anytime Single",
+              "amenityList": []
             },
             {
               "serviceClass": "Standard",
-              "fareClass": "Anytime Single"
+              "fareClass": "Anytime Single",
+              "amenityList": [
+                "Buffet Service",
+                "WiFi Access (Additional Cost)"
+              ]
             },
             {
               "serviceClass": "Standard",
-              "fareClass": "Anytime Single"
+              "fareClass": "Anytime Single",
+              "amenityList": [
+                "Snack Trolley Service"
+              ]
             }
           ]
+        }
+      ],
+      "priceBreakdown": [
+        {
+          "priceCategory": "TICKET",
+          "price": {
+            "amount": "195.00",
+            "formattedPrice": "£195.00",
+            "formattedWholePrice": "£195",
+            "currencyCode": "GBP"
+          }
         }
       ]
     }
@@ -289,18 +308,12 @@
       "name": "Diner's Club International"
     },
     {
-      "name": "Discover"
-    },
-    {
-      "name": "JCB"
-    },
-    {
       "name": "MasterCard"
     },
     {
       "name": "Visa"
     }
   ],
-  "activityId": "adf1b16d-3122-462b-9ef1-e060305a027a",
-  "guestUserPromoEmailOptInStatus": "ALWAYS"
+  "activityId": "d73fc400-5831-4a71-b61c-a6d800e124e1",
+  "guestUserPromoEmailOptInStatus": "CONSENT_TO_OPT_OUT"
 }

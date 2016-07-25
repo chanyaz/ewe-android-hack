@@ -94,6 +94,7 @@
             android:layout_gravity="center_vertical"
             android:layout_marginLeft="16dp"
             android:src="@drawable/checkout_logout_logo"
+            android:focusable="true"
             android:scaleType="center"/>
 
         <LinearLayout
@@ -131,6 +132,7 @@
             android:layout_gravity="center_vertical"
             android:src="@drawable/widget_close"
             android:scaleType="center"
+            android:contentDescription="@string/sign_out"
             android:background="?android:attr/selectableItemBackground"
             android:layout_marginLeft="8dp" />
     </LinearLayout>

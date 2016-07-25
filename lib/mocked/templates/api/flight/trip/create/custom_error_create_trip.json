@@ -1,0 +1,12 @@
+{
+  "errors": [
+    {
+      "diagnosticFullText": "",
+      "diagnosticId": 0,
+      "errorCode": "${productKey}",
+      "errorInfo": {
+        "summary": ""
+      }
+    }
+  ]
+}

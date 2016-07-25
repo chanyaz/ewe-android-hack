@@ -1,13 +1,5 @@
 package com.expedia.bookings.activity;
 
-import java.io.UnsupportedEncodingException;
-import java.net.URLDecoder;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Locale;
-import java.util.Set;
-
 import org.joda.time.LocalDate;
 
 import android.app.Activity;
@@ -16,7 +8,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.text.Html;
 import android.util.TimeFormatException;
-
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.ChildTraveler;
 import com.expedia.bookings.data.Db;
@@ -32,8 +23,9 @@ import com.expedia.bookings.data.SearchParams;
 import com.expedia.bookings.data.Sp;
 import com.expedia.bookings.data.SuggestionResponse;
 import com.expedia.bookings.data.SuggestionV2;
+import com.expedia.bookings.data.abacus.AbacusUtils;
 import com.expedia.bookings.data.cars.CarSearchParams;
-import com.expedia.bookings.data.lx.LXSearchParams;
+import com.expedia.bookings.data.lx.LxSearchParams;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.data.trips.ItineraryManager;
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
@@ -49,6 +41,13 @@ import com.mobiata.android.BackgroundDownloader;
 import com.mobiata.android.LocationServices;
 import com.mobiata.android.Log;
 import com.mobiata.android.util.Ui;
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Locale;
+import java.util.Set;
 
 /**
  * This class acts as a router for incoming deep links.  It seems a lot
@@ -256,7 +255,7 @@ public class DeepLinkRouterActivity extends Activity {
 	private boolean handleActivitySearch(Uri data, Set<String> queryData) {
 
 		if (PointOfSale.getPointOfSale().supports(LineOfBusiness.LX)) {
-			LXSearchParams searchParams = LXDataUtils.buildLXSearchParamsFromDeeplink(data, queryData);
+			LxSearchParams searchParams = LXDataUtils.buildLXSearchParamsFromDeeplink(data, queryData);
 			NavUtils.goToActivities(this, null, searchParams, NavUtils.FLAG_DEEPLINK);
 		}
 		else {
@@ -607,15 +606,21 @@ public class DeepLinkRouterActivity extends Activity {
 				params.setNumAdults(numAdults);
 			}
 
-			// Launch flight search
-			Db.getFlightSearch().setSearchParams(params);
-			if (params.isFilled()) {
-				Log.i(TAG, "Launching flight search results activity from deep link!");
-				NavUtils.goToFlightSearch(this);
+
+			if (Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppFlightTest)) {
+				NavUtils.goToFlights(this, params);
 			}
 			else {
-				Log.i(TAG, "Launching flight search params activity from deep link!");
-				NavUtils.goToFlights(this, true);
+				// Launch flight search
+				Db.getFlightSearch().setSearchParams(params);
+				if (params.isFilled()) {
+					Log.i(TAG, "Launching flight search results activity from deep link!");
+					NavUtils.goToFlightSearch(this);
+				}
+				else {
+					Log.i(TAG, "Launching flight search params activity from deep link!");
+					NavUtils.goToFlights(this, true);
+				}
 			}
 		}
 	}

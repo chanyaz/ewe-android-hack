@@ -6,11 +6,12 @@ import com.expedia.bookings.presenter.lx.LXCheckoutPresenter;
 import com.expedia.bookings.presenter.lx.LXDetailsPresenter;
 import com.expedia.bookings.presenter.lx.LXPresenter;
 import com.expedia.bookings.presenter.lx.LXResultsPresenter;
+import com.expedia.bookings.services.SuggestionV4Services;
 import com.expedia.bookings.widget.LXActivityDetailsWidget;
 import com.expedia.bookings.widget.LXCheckoutSummaryWidget;
-import com.expedia.bookings.widget.LXCheckoutMainViewPresenter;
+import com.expedia.bookings.lob.lx.ui.presenter.LXCheckoutMainViewPresenter;
 import com.expedia.bookings.widget.LXConfirmationWidget;
-import com.expedia.bookings.widget.LxSuggestionAdapter;
+import com.expedia.bookings.widget.LXSuggestionAdapter;
 
 import dagger.Component;
 import rx.Observable;
@@ -21,7 +22,7 @@ public interface LXComponent {
 	void inject(LXResultsPresenter lxResultsPresenter);
 	void inject(LXDetailsPresenter lxDetailsPresenter);
 	void inject(LXActivityDetailsWidget lxActivityDetailsWidget);
-	void inject(LxSuggestionAdapter adapter);
+	void inject(LXSuggestionAdapter adapter);
 	void inject(LXCheckoutPresenter lxCheckoutPresenter);
 	void inject(LXCheckoutMainViewPresenter lxCheckoutMainViewPresenter);
 	void inject(LXCheckoutSummaryWidget lxCheckoutSummaryWidget);
@@ -29,4 +30,5 @@ public interface LXComponent {
 	void inject(LXPresenter lxPresenter);
 
 	Observable<SuggestionV4> currentLocationSuggestionObservable();
+	SuggestionV4Services suggestionsService();
 }

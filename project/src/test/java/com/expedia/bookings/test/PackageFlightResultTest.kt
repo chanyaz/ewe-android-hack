@@ -42,11 +42,11 @@ class PackageFlightResultTest {
     @Test
     fun testDeltaPrice() {
         vm = PackageFlightViewModel(context, flight)
-        assertEquals(vm.price, "+$11")
+        assertEquals(vm.price(), "+$11")
         flight.packageOfferModel.price.deltaPositive = false
         flight.packageOfferModel.price.differentialPriceFormatted = "-$11"
         vm = PackageFlightViewModel(context, flight)
-        assertEquals(vm.price, "-$11")
+        assertEquals(vm.price(), "-$11")
     }
 
     @Test

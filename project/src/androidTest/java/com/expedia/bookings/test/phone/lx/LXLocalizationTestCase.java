@@ -6,7 +6,8 @@ import android.support.test.espresso.contrib.RecyclerViewActions;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.test.espresso.PhoneTestCase;
-import com.expedia.ui.LXBaseActivity;
+import com.expedia.bookings.test.espresso.ViewActions;
+import com.expedia.bookings.lob.lx.ui.activity.LXBaseActivity;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
@@ -23,11 +24,10 @@ public class LXLocalizationTestCase extends PhoneTestCase {
 
 	public void testScreenShotThroughPortraitMode() throws Throwable {
 		screenshot("BEFORE_SEARCH");
-		LXScreen.location().perform(typeText("San"));
+		LXScreen.location().perform(ViewActions.waitForViewToDisplay(), typeText("San"));
 		screenshot("AFTER_SEARCH_SUGGESTIONS_POPULATE");
 		LXScreen.selectLocation("San Francisco, CA");
 		screenshot("BEFORE_DATE_SELECTION");
-		LXScreen.selectDateButton().perform(click());
 		LXScreen.selectDates(LocalDate.now(), null);
 		screenshot("AFTER_DATE_SELECTION");
 		LXScreen.searchButton().perform(click());

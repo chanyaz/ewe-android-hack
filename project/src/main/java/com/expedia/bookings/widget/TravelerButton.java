@@ -149,6 +149,7 @@ public class TravelerButton extends LinearLayout {
 		int selectTravelerBtnHeight = selectTraveler.getHeight();
 		mStoredTravelerPopup.setVerticalOffset(-selectTravelerBtnHeight);
 		mStoredTravelerPopup.setAdapter(mTravelerAdapter);
+		mStoredTravelerPopup.setModal(true);
 		mStoredTravelerPopup.show();
 	}
 

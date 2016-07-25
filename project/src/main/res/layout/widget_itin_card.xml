@@ -88,7 +88,7 @@
                         android:layout_height="46dp"
                         android:layout_marginRight="3dp"
                         android:background="?android:attr/selectableItemBackground"
-                        android:contentDescription="@string/cd_share_menu_btn"
+                        android:contentDescription="@string/share_menu_btn_cont_desc"
                         android:paddingBottom="6dp"
                         android:paddingLeft="8dp"
                         android:paddingRight="8dp"

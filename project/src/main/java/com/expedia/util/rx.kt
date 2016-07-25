@@ -91,11 +91,15 @@ fun Observable<Int>.subscribeTextColor(textview: TextView) {
     this.subscribe { textview.setTextColor(it) }
 }
 
-fun <T : CharSequence> Observable<T>.subscribeTextAndVisibility(textview: TextView) {
+fun <T : CharSequence?> Observable<T>.subscribeTextNotBlankVisibility(view: View) {
+    this.map { it?.toString()?.isNotBlank() ?: false }.subscribeVisibility(view)
+}
+
+fun <T : CharSequence?> Observable<T>.subscribeTextAndVisibility(textview: TextView) {
     this.subscribe {
         textview.text = it
     }
-    this.map { it.toString().isNotBlank() }.subscribeVisibility(textview)
+    this.map { it?.toString()?.isNotBlank() ?: false }.subscribeVisibility(textview)
 }
 
 fun <T : CharSequence> Observable<T>.subscribeTextAndVisibilityInvisible(textview: TextView) {

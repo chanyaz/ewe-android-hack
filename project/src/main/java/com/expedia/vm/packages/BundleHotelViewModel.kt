@@ -9,6 +9,7 @@ import com.expedia.bookings.utils.Images
 import com.expedia.bookings.utils.StrUtils
 import com.expedia.bookings.utils.Strings
 import com.squareup.phrase.Phrase
+import org.joda.time.format.DateTimeFormat
 import rx.subjects.BehaviorSubject
 import rx.subjects.PublishSubject
 
@@ -30,6 +31,7 @@ class BundleHotelViewModel(val context: Context) {
     val hotelDetailsIconObservable = BehaviorSubject.create<Boolean>()
     val hotelSelectIconObservable = BehaviorSubject.create<Boolean>()
     val hotelIconImageObservable = BehaviorSubject.create<Int>()
+    val hotelRowExpanded = PublishSubject.create<Unit>()
 
     init {
         showLoadingStateObservable.subscribe { isShowing ->
@@ -39,10 +41,11 @@ class BundleHotelViewModel(val context: Context) {
                 hotelSelectIconObservable.onNext(true)
                 hotelDetailsIconObservable.onNext(false)
             } else {
+                val dtf = DateTimeFormat.forPattern("yyyy-MM-dd");
                 hotelTextObservable.onNext(context.getString(R.string.select_hotel_template, StrUtils.formatCityName(Db.getPackageParams().destination)))
                 hotelDatesGuestObservable.onNext(Phrase.from(context, R.string.calendar_instructions_date_range_with_guests_TEMPLATE)
-                        .put("startdate", DateUtils.localDateToMMMd(Db.getPackageParams().checkIn))
-                        .put("enddate", DateUtils.localDateToMMMd(Db.getPackageParams().checkOut))
+                        .put("startdate", DateUtils.localDateToMMMd(dtf.parseLocalDate(Db.getPackageResponse().packageInfo.hotelCheckinDate.isoDate)))
+                        .put("enddate", DateUtils.localDateToMMMd(dtf.parseLocalDate(Db.getPackageResponse().packageInfo.hotelCheckoutDate.isoDate)))
                         .put("guests", StrUtils.formatGuestString(context, Db.getPackageParams().guests))
                         .format()
                         .toString())
@@ -77,7 +80,7 @@ class BundleHotelViewModel(val context: Context) {
             val cityCountry = Phrase.from(context, R.string.hotel_city_country_TEMPLATE)
                     .put("city", selectedHotel.city)
                     .put("country",
-                            if (selectedHotel.stateProvinceCode.isNullOrBlank()) Db.getPackageParams().destination.hierarchyInfo?.country?.name else selectedHotel.stateProvinceCode)
+                            if (selectedHotel.stateProvinceCode.isNullOrBlank()) Db.getPackageParams().destination?.hierarchyInfo?.country?.name else selectedHotel.stateProvinceCode)
                     .format().toString()
             hotelCityObservable.onNext(cityCountry)
         }

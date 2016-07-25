@@ -11,7 +11,7 @@ import com.expedia.bookings.tracking.HotelV2Tracking
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.SlidingTabLayout
 
-class HotelReviewsToolbar(context: Context, attrs: AttributeSet) : Toolbar(context, attrs) {
+class HotelReviewsTabbar(context: Context, attrs: AttributeSet) : Toolbar(context, attrs) {
 
     val slidingTabLayout: SlidingTabLayout by bindView(R.id.tab_layout)
 

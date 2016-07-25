@@ -33,7 +33,7 @@ import com.expedia.bookings.data.cars.CreateTripCarFare;
 import com.expedia.bookings.data.cars.CreateTripCarOffer;
 import com.expedia.bookings.data.hotels.HotelCreateTripResponse;
 import com.expedia.bookings.data.hotels.HotelSearchResponse;
-import com.expedia.bookings.data.lx.LXSearchParams;
+import com.expedia.bookings.data.lx.LxSearchParams;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.notification.PushNotificationUtils;
@@ -565,10 +565,10 @@ public class LeanPlumUtils {
 		}
 	}
 
-	public static void trackLxSearch(LXSearchParams lxSearchParams) {
+	public static void trackLxSearch(LxSearchParams lxSearchParams) {
 		if (initialized) {
 			String eventName = "Search LX";
-			Log.i("LeanPlum LX search ActivityDatetime=" + lxSearchParams.startDate.toDateTimeAtStartOfDay().toString(DATE_PATTERN));
+			Log.i("LeanPlum LX search ActivityDatetime=" + lxSearchParams.getActivityStartDate().toDateTimeAtStartOfDay().toString(DATE_PATTERN));
 
 			HashMap<String, Object> eventParams = new HashMap<>();
 
@@ -577,10 +577,10 @@ public class LeanPlumUtils {
 			 * Add them once available.
 			 */
 			eventParams.put("p_type", "LX");
-			eventParams.put("b_win", "" + getBookingWindow(lxSearchParams.startDate));
+			eventParams.put("b_win", "" + getBookingWindow(lxSearchParams.getActivityStartDate()));
 
-			eventParams.put("ActivityDate", "" + DateUtils.convertDatetoInt(lxSearchParams.startDate));
-			eventParams.put("ActivityDatetime", "" + lxSearchParams.startDate.toDateTimeAtStartOfDay().toString(DATE_PATTERN));
+			eventParams.put("ActivityDate", "" + DateUtils.convertDatetoInt(lxSearchParams.getActivityStartDate()));
+			eventParams.put("ActivityDatetime", "" + lxSearchParams.getActivityStartDate().toDateTimeAtStartOfDay().toString(DATE_PATTERN));
 
 			tracking(eventName, eventParams);
 		}

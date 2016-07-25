@@ -1,11 +1,9 @@
 package com.expedia.bookings.data.trips;
 
 import com.expedia.bookings.data.LineOfBusiness;
-import com.expedia.bookings.data.ValidPayment;
 import com.expedia.bookings.data.hotels.HotelCreateTripResponse;
 import com.expedia.bookings.data.payment.PointsAndCurrency;
 import com.expedia.bookings.services.HotelCheckoutResponse;
-import com.expedia.bookings.utils.CurrencyUtils;
 
 public class TripBucketItemHotelV2 extends TripBucketItem {
 	public HotelCreateTripResponse mHotelTripResponse;
@@ -13,10 +11,7 @@ public class TripBucketItemHotelV2 extends TripBucketItem {
 	public TripBucketItemHotelV2(HotelCreateTripResponse mHotelTripResponse) {
 		this.mHotelTripResponse = mHotelTripResponse;
 		if (mHotelTripResponse.getValidFormsOfPayment() != null) {
-			for (ValidPayment payment : mHotelTripResponse.getValidFormsOfPayment() ) {
-				payment.setPaymentType(CurrencyUtils.parsePaymentType(payment.name));
-			}
-			addValidPayments(mHotelTripResponse.getValidFormsOfPayment());
+			addValidPaymentsV2(mHotelTripResponse.getValidFormsOfPayment());
 		}
 	}
 

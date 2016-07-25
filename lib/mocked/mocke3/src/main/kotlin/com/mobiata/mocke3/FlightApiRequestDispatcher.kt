@@ -1,11 +1,26 @@
 package com.mobiata.mocke3
 
+import com.expedia.bookings.data.ApiError
 import okhttp3.mockwebserver.MockResponse
 import okhttp3.mockwebserver.RecordedRequest
 import java.util.Calendar
 import java.util.Date
 
 class FlightApiRequestDispatcher(fileOpener: FileOpener) : AbstractDispatcher(fileOpener) {
+
+    enum class SearchResponseType {
+        HAPPY_ROUND_TRIP,
+        HAPPY_ONE_WAY,
+        PASSPORT_NEEDED_ONE_WAY,
+        MAY_CHARGE_OB_FEES_ROUND_TRIP,
+        CHECKOUT_PRICE_CHANGE,
+        CREATETRIP_PRICE_CHANGE,
+        SEARCH_ERROR,
+        CREATETRIP_UNKNOWN_ERROR,
+        CREATETRIP_FLIGHT_SOLD_OUT,
+        CREATETRIP_PRODUCT_NOT_FOUND,
+        CREATETRIP_SESSION_TIMEOUT
+    }
 
     override fun dispatch(request: RecordedRequest): MockResponse {
         val urlPath = request.path
@@ -34,19 +49,62 @@ class FlightApiRequestDispatcher(fileOpener: FileOpener) : AbstractDispatcher(fi
 class FlightApiMockResponseGenerator() {
     companion object {
         fun getSearchResponseFilePath(params: MutableMap<String, String>): String {
+            val searchError = params["departureAirport"] == "SearchError"
+            val mayChargeObFeesFlight = params["departureAirport"] == "AKL"
+            val priceChangeCheckout = params["departureAirport"] == "PCC"
+            val priceChangeCreateTrip = params["departureAirport"] == "PCT"
+            val unknownErrorCreateTrip = params["departureAirport"] == "UnknownErrorCT"
+            val flightSoldOutCreateTrip = params["departureAirport"] == "FlightSoldOutCT"
+            val flightProductNotFoundCreateTrip = params["departureAirport"] == "FlightProductNotFoundCT"
+            val flightSessionTimeoutCreateTrip = params["departureAirport"] == "SessionTimeoutCT"
             val isEarnResponse = params["departureAirport"] == "EARN"
             val isPassportNeeded = params["departureAirport"] == "PEN" && params["arrivalAirport"] == "KUL"
             val isReturnFlightSearch = params.containsKey("returnDate")
             val departureDate = params["departureDate"]
 
-            var filename = getFileName(isPassportNeeded, isReturnFlightSearch, isEarnResponse)
+            val searchResponseType =
+                    if (isPassportNeeded) {
+                        FlightApiRequestDispatcher.SearchResponseType.PASSPORT_NEEDED_ONE_WAY
+                    }
+                    else if (mayChargeObFeesFlight) {
+                        FlightApiRequestDispatcher.SearchResponseType.MAY_CHARGE_OB_FEES_ROUND_TRIP
+                    }
+                    else if (priceChangeCheckout) {
+                        FlightApiRequestDispatcher.SearchResponseType.CHECKOUT_PRICE_CHANGE
+                    }
+                    else if (priceChangeCreateTrip) {
+                        FlightApiRequestDispatcher.SearchResponseType.CREATETRIP_PRICE_CHANGE
+                    }
+                    else if (searchError) {
+                        FlightApiRequestDispatcher.SearchResponseType.SEARCH_ERROR
+                    }
+                    else if (flightProductNotFoundCreateTrip) {
+                        FlightApiRequestDispatcher.SearchResponseType.CREATETRIP_PRODUCT_NOT_FOUND
+                    }
+                    else if (flightSoldOutCreateTrip) {
+                        FlightApiRequestDispatcher.SearchResponseType.CREATETRIP_FLIGHT_SOLD_OUT
+                    }
+                    else if (unknownErrorCreateTrip) {
+                        FlightApiRequestDispatcher.SearchResponseType.CREATETRIP_UNKNOWN_ERROR
+                    }
+                    else if (flightSessionTimeoutCreateTrip) {
+                        FlightApiRequestDispatcher.SearchResponseType.CREATETRIP_SESSION_TIMEOUT
+                    }
+                    else if (isReturnFlightSearch) {
+                        FlightApiRequestDispatcher.SearchResponseType.HAPPY_ROUND_TRIP
+                    }
+                    else {
+                        FlightApiRequestDispatcher.SearchResponseType.HAPPY_ONE_WAY
+                    }
+
+            val filename = getSearchResponseFileName(searchResponseType, isEarnResponse)
 
             val departCalTakeoff = parseYearMonthDay(departureDate, 10, 0)
             val departCalLanding = parseYearMonthDay(departureDate, 12 + 4, 0)
             params.put("departingFlightTakeoffTimeEpochSeconds", "" + (departCalTakeoff.timeInMillis / 1000))
             params.put("departingFlightLandingTimeEpochSeconds", "" + (departCalLanding.timeInMillis / 1000))
 
-            if (isReturnFlightSearch) {
+            if (isReturnFlightSearch || mayChargeObFeesFlight) {
                 val returnDate = params["returnDate"]
                 val returnCalTakeoff = parseYearMonthDay(returnDate, 10, 0)
                 val returnCalLanding = parseYearMonthDay(returnDate, 12 + 4, 0)
@@ -58,21 +116,36 @@ class FlightApiMockResponseGenerator() {
             return "api/flight/search/$filename.json"
         }
 
-        private fun getFileName(isPassportNeeded: Boolean, isReturnFlightSearch: Boolean, isEarnResponse: Boolean): String {
-            return if (isPassportNeeded) {
-                "passport_needed_oneway"
-            } else {
-                var happyFileName =
-                        if (isReturnFlightSearch) {
-                            "happy_roundtrip"
-                        } else {
-                            "happy_oneway"
-                        }
-                if (isEarnResponse) {
-                    happyFileName += "_earn";
-                }
-                happyFileName
+        private fun getSearchResponseFileName(searchType: FlightApiRequestDispatcher.SearchResponseType, isEarnResponse: Boolean): String {
+            var fileName = when (searchType) {
+                FlightApiRequestDispatcher.SearchResponseType.PASSPORT_NEEDED_ONE_WAY -> "passport_needed_oneway"
+
+                FlightApiRequestDispatcher.SearchResponseType.HAPPY_ROUND_TRIP -> "happy_roundtrip"
+
+                FlightApiRequestDispatcher.SearchResponseType.HAPPY_ONE_WAY -> "happy_oneway"
+
+                FlightApiRequestDispatcher.SearchResponseType.MAY_CHARGE_OB_FEES_ROUND_TRIP -> "roundtrip_maychargeobfees"
+
+                FlightApiRequestDispatcher.SearchResponseType.CHECKOUT_PRICE_CHANGE -> "checkout_price_change"
+
+                FlightApiRequestDispatcher.SearchResponseType.CREATETRIP_PRICE_CHANGE -> "create_trip_price_change"
+
+                FlightApiRequestDispatcher.SearchResponseType.SEARCH_ERROR -> "search_error"
+
+                FlightApiRequestDispatcher.SearchResponseType.CREATETRIP_UNKNOWN_ERROR -> "create_trip_unknown_error"
+
+                FlightApiRequestDispatcher.SearchResponseType.CREATETRIP_FLIGHT_SOLD_OUT -> "create_trip_flight_sold_out"
+
+                FlightApiRequestDispatcher.SearchResponseType.CREATETRIP_PRODUCT_NOT_FOUND -> "create_trip_product_not_found"
+
+                FlightApiRequestDispatcher.SearchResponseType.CREATETRIP_SESSION_TIMEOUT -> "create_trip_session_timeout_error"
             }
+
+            if (isEarnResponse) {
+                fileName += "_earn"
+            }
+
+            return fileName
         }
 
         fun getCheckoutResponseFilePath(params: MutableMap<String, String>): String {
@@ -99,7 +172,25 @@ class FlightApiMockResponseGenerator() {
         }
 
         fun getCreateTripResponseFilePath(params: MutableMap<String, String>): String {
-            return "api/flight/trip/create/" + params["productKey"] + ".json"
+            val productKey = params["productKey"]!!
+            val isErrorCode = isErrorCodeResponse(productKey)
+            val withInsurance = if (params["withInsurance"] == "true") "_with_insurance_available" else ""
+
+            if (isErrorCode) {
+                return "api/flight/trip/create/custom_error_create_trip.json"
+            }
+            else {
+                return "api/flight/trip/create/$productKey$withInsurance.json"
+            }
+        }
+
+        private fun isErrorCodeResponse(productKey: String): Boolean {
+            try {
+                ApiError.Code.valueOf(productKey)
+                return true
+            } catch (e: IllegalArgumentException) {
+                return false
+            }
         }
     }
 }

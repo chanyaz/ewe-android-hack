@@ -9,13 +9,21 @@ import com.expedia.bookings.R
 import com.expedia.vm.SuggestionAdapterViewModel
 import com.expedia.vm.packages.SuggestionViewModel
 
-abstract class SuggestionAdapter(val viewmodel: SuggestionAdapterViewModel) : RecyclerView.Adapter<RecyclerView.ViewHolder>(), Filterable {
+class SuggestionAdapter(val viewmodel: SuggestionAdapterViewModel) : RecyclerView.Adapter<RecyclerView.ViewHolder>(), Filterable {
+    val marginTop = viewmodel.context.resources.getDimensionPixelSize(R.dimen.package_suggestion_margin_top)
+    val marginBottom = viewmodel.context.resources.getDimensionPixelSize(R.dimen.package_suggestion_margin_bottom)
+
     override fun getItemCount(): Int {
         return viewmodel.suggestions.size
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder? {
-        var view = LayoutInflater.from(parent.context).inflate(R.layout.hotel_dropdown_item, parent, false)
+        var view = LayoutInflater.from(parent.context).inflate(R.layout.package_dropdown_item, parent, false)
+        if (!viewmodel.getCustomerSelectingOrigin()) {
+            var titleTextview = view.findViewById(R.id.title_textview)
+            val params = titleTextview.layoutParams as ViewGroup.MarginLayoutParams
+            params.setMargins(0, marginTop, 0, marginBottom)
+        }
         val vm = SuggestionViewModel(viewmodel.getCustomerSelectingOrigin())
         vm.suggestionSelected.subscribe(viewmodel.suggestionSelectedSubject)
         return makeViewHolder(view as ViewGroup, vm)
@@ -23,7 +31,7 @@ abstract class SuggestionAdapter(val viewmodel: SuggestionAdapterViewModel) : Re
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder?, position: Int) {
         when (holder) {
-            is AbstractSuggestionViewHolder -> holder.vm.suggestionObserver.onNext(viewmodel.suggestions[position])
+            is SuggestionViewHolder -> holder.vm.suggestionObserver.onNext(viewmodel.suggestions[position])
         }
     }
 
@@ -42,5 +50,7 @@ abstract class SuggestionAdapter(val viewmodel: SuggestionAdapterViewModel) : Re
         return position.toLong()
     }
 
-    abstract fun makeViewHolder(root: ViewGroup, vm: SuggestionViewModel): RecyclerView.ViewHolder;
+    fun makeViewHolder(root: ViewGroup, vm: SuggestionViewModel): RecyclerView.ViewHolder {
+        return SuggestionViewHolder(root, vm)
+    }
 }

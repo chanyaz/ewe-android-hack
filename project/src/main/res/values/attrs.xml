@@ -299,6 +299,10 @@
         <attr name="input_text" format="string|reference" />
     </declare-styleable>
 
+    <declare-styleable name="TravelerEditText">
+        <attr name="error_cont_desc" format="string" />
+    </declare-styleable>
+
     <declare-styleable name="ConfirmationRow">
         <attr name="row_title" format="string" />
         <attr name="row_icon" format="reference" />

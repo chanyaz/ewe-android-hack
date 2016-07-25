@@ -34,6 +34,7 @@ import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static com.expedia.bookings.test.espresso.ViewActions.waitForViewToDisplay;
 import static org.hamcrest.Matchers.allOf;
+import static org.hamcrest.Matchers.anyOf;
 import static org.hamcrest.Matchers.not;
 
 public class HotelScreen {
@@ -124,8 +125,8 @@ public class HotelScreen {
 					hasSibling(allOf(withId(R.id.view_room_button), allOf(withText("Book"))))));
 	}
 
-	public static ViewInteraction renovationContainer() {
-		return onView(withId(R.id.renovation_container));
+	public static void clickRenoInfo() {
+		onView(withId(R.id.renovation_container)).perform(scrollTo(), click());
 	}
 
 	public static void selectLocation(String hotel) throws Throwable {
@@ -226,6 +227,7 @@ public class HotelScreen {
 		waitForDetailsLoaded();
 		viewRoom(roomName).perform(scrollTo(), click());
 	}
+
 	public static void scrollToPropertyInfoContainer() {
 		propertyInfoContainer().perform(scrollTo());
 	}
@@ -243,7 +245,11 @@ public class HotelScreen {
 	}
 
 	public static void waitForResultsLoaded() {
+		Matcher<View> resultListMatcher = hasDescendant(withId(R.id.list_view));
+		onView(anyOf(withId(R.id.hotel_presenter), withId(R.id.package_hotel_presenter))).perform(ViewActions.waitFor(resultListMatcher, 10, TimeUnit.SECONDS));
+
 		hotelResultsList().perform(waitForViewToDisplay());
+
 		Matcher<View> pshMatcher = hasDescendant(
 			allOf(withId(R.id.pricing_structure_header), not(withText(R.string.progress_searching_hotels_hundreds)),
 				isDisplayed()));
@@ -399,6 +405,7 @@ public class HotelScreen {
 	}
 
 	public static void clickSignOut() {
+		onView(withId(R.id.account_logout_logout_button)).perform(waitForViewToDisplay());
 		onView(withId(R.id.account_logout_logout_button)).perform(click());
 	}
 
@@ -425,9 +432,4 @@ public class HotelScreen {
 		return onView(withId(R.id.error_toolbar));
 	}
 
-//	public static void selectPriceChangeHotel() throws Throwable {
-//		doGenericSearch();
-//		HotelScreen.selectHotel("hotel_price_change");
-//		HotelScreen.clickSelectRoom();
-//	}
 }

@@ -13,15 +13,15 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 
+import butterknife.ButterKnife;
+import butterknife.InjectView;
 import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.data.User;
-import com.expedia.bookings.data.abacus.AbacusUtils;
 import com.expedia.bookings.data.pos.PointOfSale;
-import com.expedia.bookings.data.pos.PointOfSaleId;
 import com.expedia.bookings.enums.MerchandiseSpam;
 import com.expedia.bookings.section.InvalidCharacterHelper;
 import com.expedia.bookings.section.SectionTravelerInfo;
@@ -31,9 +31,6 @@ import com.expedia.bookings.utils.FontCache;
 import com.expedia.bookings.utils.Ui;
 import com.jakewharton.rxbinding.widget.RxTextView;
 import com.squareup.phrase.Phrase;
-
-import butterknife.ButterKnife;
-import butterknife.InjectView;
 import rx.Observer;
 import rx.subjects.PublishSubject;
 import rx.subscriptions.CompositeSubscription;
@@ -62,19 +59,19 @@ public class TravelerContactDetailsWidget extends ExpandableCardView implements 
 	TextView travelerPhoneText;
 
 	@InjectView(R.id.edit_first_name)
-	EditText firstName;
+	public EditText firstName;
 
 	@InjectView(R.id.edit_last_name)
-	EditText lastName;
+	public EditText lastName;
 
 	@InjectView(R.id.edit_email_address)
-	EditText emailAddress;
+	public EditText emailAddress;
 
 	@InjectView(R.id.edit_phone_number_country_code_spinner)
-	TelephoneSpinner phoneSpinner;
+	public TelephoneSpinner phoneSpinner;
 
 	@InjectView(R.id.edit_phone_number)
-	EditText phoneNumber;
+	public EditText phoneNumber;
 
 	@InjectView(R.id.traveler_contact_info_container)
 	ViewGroup travelerContactInfoContainer;
@@ -296,11 +293,6 @@ public class TravelerContactDetailsWidget extends ExpandableCardView implements 
 			}
 			bind();
 			if (lineOfBusiness == LineOfBusiness.HOTELSV2) {
-				Boolean isBucketedForShowExampleNames = Db.getAbacusResponse().isUserBucketedForTest(
-					AbacusUtils.EBAndroidAppHotelShowExampleNamesTest);
-				if (isBucketedForShowExampleNames && PointOfSale.getPointOfSale().showExampleNames()) {
-					setExampleNames();
-				}
 				new HotelV2Tracking().trackHotelV2CheckoutTraveler();
 			}
 			else {
@@ -321,28 +313,6 @@ public class TravelerContactDetailsWidget extends ExpandableCardView implements 
 			Db.getWorkingTravelerManager().commitWorkingTravelerToDB(0);
 			travelerButton.dismissPopup();
 		}
-	}
-
-	private void setExampleNames() {
-		Context context = getContext();
-		if (PointOfSale.getPointOfSale().getPointOfSaleId().equals(PointOfSaleId.HONG_KONG)) {
-			firstName.setHint(getFirstNameHint(R.string.first_name_hk, context));
-			lastName.setHint(getLastNameHint(R.string.last_name_hk, context));
-		}
-		else if (PointOfSale.getPointOfSale().getPointOfSaleId().equals(PointOfSaleId.SOUTH_KOREA)) {
-			firstName.setHint(getFirstNameHint(R.string.first_name_kr, context));
-			lastName.setHint(getLastNameHint(R.string.last_name_kr, context));
-		}
-	}
-
-	private String getFirstNameHint(int name, Context context) {
-		return context.getString(R.string.hint_name_example_TEMPLATE, context.getString(R.string.first_name),
-			context.getString(name));
-	}
-
-	private String getLastNameHint(int name, Context context) {
-		return context.getString(R.string.hint_name_example_TEMPLATE, context.getString(R.string.last_name),
-			context.getString(name));
 	}
 
 	@Override

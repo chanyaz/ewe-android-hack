@@ -10,7 +10,7 @@ import org.junit.Rule;
 import org.junit.Test;
 
 import com.expedia.bookings.data.Money;
-import com.expedia.bookings.data.cars.ApiError;
+import com.expedia.bookings.data.ApiError;
 import com.expedia.bookings.data.cars.CarCheckoutParams;
 import com.expedia.bookings.data.cars.CarCheckoutResponse;
 import com.expedia.bookings.data.cars.CarCreateTripResponse;

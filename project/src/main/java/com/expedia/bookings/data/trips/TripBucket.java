@@ -21,6 +21,7 @@ import com.expedia.bookings.data.HotelSearchParams;
 import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.Location;
 import com.expedia.bookings.data.Rate;
+import com.expedia.bookings.data.TripBucketItemFlightV2;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.otto.Events;
@@ -75,6 +76,7 @@ public class TripBucket implements JSONable {
 
 	public void clearFlight() {
 		clear(LineOfBusiness.FLIGHTS);
+		clear(LineOfBusiness.FLIGHTS_V2);
 	}
 
 	public void clearLX() {
@@ -150,6 +152,10 @@ public class TripBucket implements JSONable {
 	}
 
 	public void add(TripBucketItemFlight flight) {
+		addBucket(flight);
+	}
+
+	public void add(TripBucketItemFlightV2 flight) {
 		addBucket(flight);
 	}
 
@@ -286,6 +292,16 @@ public class TripBucket implements JSONable {
 	public TripBucketItemFlight getFlight() {
 		int index = getIndexOf(LineOfBusiness.FLIGHTS);
 		return index == -1 ? null : (TripBucketItemFlight) mItems.get(index);
+	}
+
+	/**
+	 * Returns the first flight found in the bucket, or null if not found.
+	 *
+	 * @return
+	 */
+	public TripBucketItemFlightV2 getFlightV2() {
+		int index = getIndexOf(LineOfBusiness.FLIGHTS_V2);
+		return index == -1 ? null : (TripBucketItemFlightV2) mItems.get(index);
 	}
 
 	/**

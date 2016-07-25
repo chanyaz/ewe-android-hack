@@ -73,9 +73,10 @@ public class PackageBundleOverviewPresenterTest extends PackageTestCase {
 
 		PackageScreen.hotelBundle().check(matches(hasDescendant(
 			allOf(isDisplayed(), withText("Package Happy Path")))));
+
+		final DateTimeFormatter dtf = DateTimeFormat.forPattern("yyyy-MM-dd");
 		PackageScreen.hotelBundle().check(matches(hasDescendant(
-			allOf(isDisplayed(), withText(
-				PackageScreen.getDatesGuestInfoText(LocalDate.now().plusDays(3), LocalDate.now().plusDays(8)))))));
+			allOf(isDisplayed(), withText(PackageScreen.getDatesGuestInfoText(dtf.parseLocalDate("2016-02-02"), dtf.parseLocalDate("2016-02-04")))))));
 		PackageScreen.hotelDetailsIcon().check(matches(isEnabled()));
 
 		PackageScreen.outboundFlightInfo().check(matches(isEnabled()));
@@ -92,6 +93,11 @@ public class PackageBundleOverviewPresenterTest extends PackageTestCase {
 		PackageScreen.outboundFlightDetailsIcon().perform(click());
 		PackageScreen.outboundFlightDetailsContainer().check(matches(withEffectiveVisibility(
 			ViewMatchers.Visibility.VISIBLE)));
+
+		PackageScreen.clickHotelBundle();
+		PackageScreen.hotelRoomImageView().check(matches(isDisplayed()));
+		PackageScreen.outboundFlightDetailsContainer().check(matches(withEffectiveVisibility(
+			ViewMatchers.Visibility.GONE)));
 	}
 
 	public void testHotelBundleOverviewFlow() throws Throwable {
@@ -111,8 +117,9 @@ public class PackageBundleOverviewPresenterTest extends PackageTestCase {
 			allOf(isDisplayed(), withText("Trip to Detroit, MI")))));
 		PackageScreen.hotelInfo().check(matches(hasDescendant(
 			allOf(isDisplayed(), withText("Select hotel in Detroit")))));
-
-		PackageScreen.hotelDatesRoomInfo().check(matches(withText(PackageScreen.getDatesGuestInfoText(startDate, endDate))));
+		DateTimeFormatter dtf = DateTimeFormat.forPattern("yyyy-MM-dd");
+		PackageScreen.hotelDatesRoomInfo().
+			check(matches(withText(PackageScreen.getDatesGuestInfoText(dtf.parseLocalDate("2016-02-03"), dtf.parseLocalDate("2016-02-04")))));
 		PackageScreen.outboundFlightInfo().check(matches(hasDescendant(
 			allOf(isDisplayed(), withText("Flight to (DTW) Detroit")))));
 
@@ -168,6 +175,30 @@ public class PackageBundleOverviewPresenterTest extends PackageTestCase {
 		//collapse
 		PackageScreen.hotelBundleContainer().perform(click());
 		PackageScreen.hotelRoomImageView().check(matches(CoreMatchers.not(isDisplayed())));
+	}
+
+	public void testFlightOverview() throws Throwable {
+		PackageScreen.doPackageSearch();
+
+		//test outbound flight details visible when expanded
+		PackageScreen.outboundFlight().perform(click());
+		PackageScreen.outboundFlightDetailsContainer().check(matches(isDisplayed()));
+		PackageScreen.outboundFlightDetailsContainer().check(matches(hasDescendant(
+			allOf(isDisplayed(), withText("(SFO) San Francisco - (HNL) Honolulu")))));
+
+		//test outbound flight details collapsed and no longer visible
+		PackageScreen.outboundFlightBundleContainer().perform(click());
+		PackageScreen.outboundFlightDetailsContainer().check(matches(CoreMatchers.not(isCompletelyDisplayed())));
+
+		//test inbound flight details visible when expanded
+		PackageScreen.inboundFLight().perform(click());
+		PackageScreen.inboundFlightDetailsContainer().check(matches(isDisplayed()));
+		PackageScreen.inboundFlightDetailsContainer().check(matches(hasDescendant(
+			allOf(isDisplayed(), withText("(HNL) Honolulu - (SFO) San Francisco")))));
+
+		//test inbound flight details collapsed and no longer visible
+		PackageScreen.inboundFlightBundleContainer().perform(click());
+		PackageScreen.inboundFlightDetailsContainer().check(matches(CoreMatchers.not(isCompletelyDisplayed())));
 	}
 
 

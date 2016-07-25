@@ -1,15 +1,20 @@
 package com.expedia.vm.test.traveler
 
+import android.app.Activity
 import android.text.Editable
 import com.expedia.bookings.data.Phone
 import com.expedia.bookings.test.robolectric.RobolectricRunner
+import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.widget.TextView
 import com.expedia.vm.traveler.TravelerPhoneViewModel
 import com.jakewharton.rxbinding.widget.TextViewAfterTextChangeEvent
+import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
+import org.robolectric.Robolectric
 import org.robolectric.RuntimeEnvironment
 import rx.observers.TestSubscriber
+import kotlin.properties.Delegates
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
 import kotlin.test.assertTrue
@@ -23,11 +28,18 @@ class TravelerPhoneViewModelTest {
     val TEST_NUMBER_EDITABLE = Editable.Factory().newEditable(TEST_NUMBER)
 
     lateinit var phoneVm: TravelerPhoneViewModel
+    var activity: Activity by Delegates.notNull()
+
+    @Before
+    fun setup() {
+        activity = Robolectric.buildActivity(Activity::class.java).create().get()
+        Ui.getApplication(activity).defaultTravelerComponent()
+    }
 
     @Test
     fun countryCodeUpdate() {
         var phone = Phone()
-        phoneVm = TravelerPhoneViewModel()
+        phoneVm = TravelerPhoneViewModel(activity)
         phoneVm.updatePhone(phone)
 
         phoneVm.countryCodeObserver.onNext(TEST_CODE)
@@ -38,7 +50,7 @@ class TravelerPhoneViewModelTest {
     @Test
     fun countryNameUpdate() {
         var phone = Phone()
-        phoneVm = TravelerPhoneViewModel()
+        phoneVm = TravelerPhoneViewModel(activity)
         phoneVm.updatePhone(phone)
 
         phoneVm.countryNameObserver.onNext(TEST_NAME)
@@ -48,10 +60,10 @@ class TravelerPhoneViewModelTest {
     @Test
     fun phoneNumberUpdated() {
         var phone = Phone()
-        phoneVm = TravelerPhoneViewModel()
+        phoneVm = TravelerPhoneViewModel(activity)
         phoneVm.updatePhone(phone)
 
-        val TEST_TEXT_VIEW = TextView(RuntimeEnvironment.application)
+        val TEST_TEXT_VIEW = TextView(activity)
 
         phoneVm.phoneNumberObserver.onNext(TextViewAfterTextChangeEvent.create(TEST_TEXT_VIEW, TEST_NUMBER_EDITABLE))
         assertEquals(TEST_NUMBER, phone.number)
@@ -61,7 +73,7 @@ class TravelerPhoneViewModelTest {
     fun travelerWithPhone() {
         var phone = Phone()
         phone.number = TEST_NUMBER
-        phoneVm = TravelerPhoneViewModel()
+        phoneVm = TravelerPhoneViewModel(activity)
         phoneVm.updatePhone(phone)
 
         val testSubscriber = TestSubscriber<String>(1)
@@ -75,7 +87,7 @@ class TravelerPhoneViewModelTest {
     fun invalidPhone() {
         var phone = Phone()
         phone.number = "12"
-        phoneVm = TravelerPhoneViewModel()
+        phoneVm = TravelerPhoneViewModel(activity)
         phoneVm.updatePhone(phone)
 
         val testSubscriber = TestSubscriber<Boolean>(1)
@@ -88,7 +100,7 @@ class TravelerPhoneViewModelTest {
 
     @Test
     fun emptyPhone() {
-        phoneVm = TravelerPhoneViewModel()
+        phoneVm = TravelerPhoneViewModel(activity)
         phoneVm.updatePhone(Phone())
 
         val testSubscriber = TestSubscriber<Boolean>(1)
@@ -103,7 +115,7 @@ class TravelerPhoneViewModelTest {
     fun validPhone() {
         var phone = Phone()
         phone.number = TEST_NUMBER
-        phoneVm = TravelerPhoneViewModel()
+        phoneVm = TravelerPhoneViewModel(activity)
         phoneVm.updatePhone(phone)
 
         val testSubscriber = TestSubscriber<Boolean>(1)

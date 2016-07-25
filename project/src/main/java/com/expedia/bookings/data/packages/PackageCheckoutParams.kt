@@ -1,46 +1,20 @@
 package com.expedia.bookings.data.packages
 
 import com.expedia.bookings.data.BaseCheckoutParams
-import com.expedia.bookings.data.BaseSearchParams
 import com.expedia.bookings.data.BillingInfo
 import com.expedia.bookings.data.Traveler
-import com.expedia.bookings.utils.DateFormatUtils
 import org.joda.time.format.DateTimeFormat
 import java.util.ArrayList
 import java.util.HashMap
 
-class PackageCheckoutParams(billingInfo: BillingInfo, travelers: ArrayList<Traveler>, val tripId: String, val expectedTotalFare: String, val expectedFareCurrencyCode: String, val bedType: String, cvv: String, val suppressFinalBooking: Boolean) : BaseCheckoutParams(billingInfo, travelers, cvv){
+class PackageCheckoutParams(billingInfo: BillingInfo, travelers: ArrayList<Traveler>, tripId: String, val bedType: String, cvv: String, expectedTotalFare: String, expectedFareCurrencyCode: String, suppressFinalBooking: Boolean) : BaseCheckoutParams(billingInfo, travelers, cvv, expectedTotalFare, expectedFareCurrencyCode, suppressFinalBooking, tripId) {
     val dtf = DateTimeFormat.forPattern("MM-dd-yyyy");
 
     class Builder() : BaseCheckoutParams.Builder() {
-        private var tripId: String? = null
-        private var expectedTotalFare: String? = null
-        private var expectedFareCurrencyCode: String? = null
         private var bedType: String? = null
-        private var suppressFinalBooking = true
-
-        fun tripId(tripId: String?): PackageCheckoutParams.Builder {
-            this.tripId = tripId
-            return this
-        }
-
-        fun expectedTotalFare(expectedTotalFare: String?): PackageCheckoutParams.Builder {
-            this.expectedTotalFare = expectedTotalFare
-            return this
-        }
-
-        fun expectedFareCurrencyCode(expectedFareCurrencyCode: String?): PackageCheckoutParams.Builder {
-            this.expectedFareCurrencyCode = expectedFareCurrencyCode
-            return this
-        }
 
         fun bedType(bedType: String?): PackageCheckoutParams.Builder {
             this.bedType = bedType
-            return this
-        }
-
-        fun suppressFinalBooking(suppress: Boolean): PackageCheckoutParams.Builder {
-            this.suppressFinalBooking = suppress
             return this
         }
 
@@ -49,23 +23,17 @@ class PackageCheckoutParams(billingInfo: BillingInfo, travelers: ArrayList<Trave
             val travelers = if (travelers.isEmpty()) throw IllegalArgumentException() else {
                 travelers
             }
-            val tripId = tripId ?: throw IllegalArgumentException()
             val bedType = bedType ?: throw IllegalArgumentException()
+            val tripId = tripId ?: throw IllegalArgumentException()
             val expectedTotalFare = expectedTotalFare ?: throw IllegalArgumentException()
             val expectedFareCurrencyCode = expectedFareCurrencyCode ?: throw IllegalArgumentException()
             val cvv = cvv ?: throw IllegalArgumentException()
-            return PackageCheckoutParams(billingInfo, travelers, tripId, expectedTotalFare, expectedFareCurrencyCode, bedType, cvv, suppressFinalBooking)
-        }
-
-        override fun hasValidParams(): Boolean {
-            return super.hasValidParams() &&
-                    expectedTotalFare != null &&
-                    expectedFareCurrencyCode != null
+            return PackageCheckoutParams(billingInfo, travelers, tripId, bedType, cvv, expectedTotalFare, expectedFareCurrencyCode, suppressFinalBooking)
         }
     }
 
-    fun toQueryMap(): Map<String, Any> {
-        val params = HashMap<String, Any>()
+    override fun toQueryMap(): Map<String, Any> {
+        val params = HashMap(super.toQueryMap())
         //HOTEL
         params.put("hotel.bedTypeId", bedType)
         params.put("hotel.primaryContactFullName", travelers[0].fullName)
@@ -93,34 +61,8 @@ class PackageCheckoutParams(billingInfo: BillingInfo, travelers: ArrayList<Trave
         }
 
         //TRIP
-        params.put("tripId", tripId)
-        params.put("expectedTotalFare", expectedTotalFare)
-        params.put("expectedFareCurrencyCode", expectedFareCurrencyCode)
         params.put("sendEmailConfirmation", true)
-
-        //BILLING
-        val hasStoredCard = billingInfo.hasStoredCard()
-        if (hasStoredCard) {
-            val storedCard = billingInfo.storedCard
-            params.put("storedCreditCardId", storedCard.id)
-            params.put("nameOnCard", storedCard.nameOnCard)
-        } else {
-            params.put("nameOnCard", billingInfo.nameOnCard)
-            params.put("creditCardNumber", billingInfo.number)
-            params.put("expirationDateYear", billingInfo.expirationDate.year)
-            params.put("expirationDateMonth", billingInfo.expirationDate.monthOfYear)
-
-            params.put("streetAddress", billingInfo.location.streetAddress)
-            params.put("city", billingInfo.location.city)
-            params.put("state", billingInfo.location.stateCode)
-            params.put("country", billingInfo.location.countryCode)
-            params.put("postalCode", billingInfo.location.postalCode)
-        }
-        params.put("cvv", cvv)
-
-        params.put("suppressFinalBooking", suppressFinalBooking)
 
         return params
     }
-
 }

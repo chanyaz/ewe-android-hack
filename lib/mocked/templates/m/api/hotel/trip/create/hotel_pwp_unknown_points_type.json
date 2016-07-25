@@ -1,0 +1,305 @@
+{
+  "tripId": "${productKey}",
+  "userId": 7227738,
+  "originalHotelProductResponse": {},
+  "newHotelProductResponse": {
+    "checkInDate": "2016-10-05",
+    "checkOutDate": "2016-10-07",
+    "checkInTime": "3:00PM",
+    "checkOutTime": "11:00AM",
+    "adultCount": "1",
+    "numberOfNights": "2",
+    "numberOfRooms": "1",
+    "hotelId": "18269",
+    "hotelName": "Residence Inn By Marriott Chicago Lombard",
+    "localizedHotelName": "Residence Inn By Marriott Chicago Lombard",
+    "nonLocalizedHotelName": "Residence Inn By Marriott Chicago Lombard",
+    "largeThumbnailUrl": "/hotels/1000000/20000/18300/18269/18269_29_d.jpg",
+    "thumbnailUrl": "/hotels/1000000/20000/18300/18269/18269_29_n.jpg",
+    "hotelAddress": "2001 S Highland Avenue",
+    "hotelCity": "Lombard",
+    "hotelStateProvince": "IL",
+    "hotelCountry": "USA",
+    "hotelStarRating": "3.0",
+    "shortDescription": "Located in Highland Hills, this hotel is 0.8 mi (1.3 km) from Yorktown Shopping Center and within 6 mi (10 km) of Lilacia Park and Drury Lane Theater. Belmont Prairie Nature Preserve and Ty Warner Park are also within 6 mi (10 km). ",
+    "hotelRoomResponse": {
+      "productKey": "${productKey}",
+      "cancellationPolicy": "<p>We understand that sometimes plans fall through. We do not charge a cancel or change fee. When the hotel charges such fees in accordance with its own policies, the cost will be passed on to you. Residence Inn By Marriott Chicago Lombard charges the following cancellation and change fees.</p><p>Cancellations or changes made after 11:59PM (hotel local time) on Oct 4, 2016 or no-shows are subject to a hotel fee equal to the first night's rate plus taxes and fees.</p><p>Your room will be guaranteed for late arrival.</p><p>Hotel supplier loyalty points and/or airline miles may not be awarded when booking Expedia Special Rate hotels.</p>",
+      "rateDescription": "Studio, 1 Queen Bed with Sofabed",
+      "roomTypeDescription": "Studio, 1 Queen Bed with Sofabed",
+      "supplierType": "MERCHANT",
+      "rateChange": false,
+      "nonRefundable": false,
+      "hasFreeCancellation": true,
+      "freeCancellationWindowDate": "2016-10-04 23:59",
+      "guaranteeRequired": false,
+      "depositRequired": false,
+      "immediateChargeRequired": true,
+      "currentAllotment": "0",
+      "promoDescription": "",
+      "promotionDetails": {
+        "promoId": "122742",
+        "minStay": 1,
+        "promoExpirationDate": "2079-06-06T23:59:00-00:00",
+        "promoAdjustmentAmount": "0.00",
+        "promoAdjustmentType": "PercentAdjustment",
+        "isPromoPartiallyApplied": false
+      },
+      "isDiscountRestrictedToCurrentSourceType": false,
+      "isSameDayDRR": false,
+      "smokingPreferences": "NS",
+      "rateOccupancyPerRoom": "7",
+      "bedTypes": [
+        {
+          "id": "15",
+          "description": "1 queen bed"
+        }
+      ],
+      "rateInfo": {
+        "priceBreakdown": true,
+        "promo": true,
+        "rateChange": false,
+        "chargeableRateInfo": {
+          "maxNightlyRate": "169.00",
+          "averageRate": "169.00",
+          "taxStatusType": "ESTIMATED",
+          "surchargeTotal": "18.59",
+          "surchargeTotalForEntireStay": "37.18",
+          "averageBaseRate": "169.00",
+          "nightlyRateTotal": "338.00",
+          "discountPercent": 0,
+          "total": "375.18",
+          "currencyCode": "USD",
+          "currencySymbol": "$",
+          "surcharges": [
+            {
+              "amount": "15.99",
+              "type": "TAX_ALL"
+            },
+            {
+              "amount": "15.99",
+              "type": "TAX_OTHER"
+            },
+            {
+              "amount": "2.60",
+              "type": "FEE_ALL"
+            },
+            {
+              "amount": "2.60",
+              "type": "FEE_MISC"
+            }
+          ],
+          "surchargesForEntireStay": [
+            {
+              "amount": "31.98",
+              "type": "TAX_ALL"
+            },
+            {
+              "amount": "31.98",
+              "type": "TAX_OTHER"
+            },
+            {
+              "amount": "5.20",
+              "type": "FEE_ALL"
+            },
+            {
+              "amount": "5.20",
+              "type": "FEE_MISC"
+            }
+          ],
+          "nightlyRatesPerRoom": [
+            {
+              "promo": "false",
+              "baseRate": "169.00",
+              "rate": "169.00"
+            },
+            {
+              "promo": "false",
+              "baseRate": "169.00",
+              "rate": "169.00"
+            }
+          ],
+          "priceToShowUsers": "169",
+          "strikethroughPriceToShowUsers": "169",
+          "strikethroughPriceWithTaxesAndFeesToShowUsers": "375",
+          "totalMandatoryFees": "0.00",
+          "totalPriceWithMandatoryFees": "375.18",
+          "formattedTotalPriceWithMandatoryFees": "$ 375.18",
+          "userPriceType": "PerNightRateNoTaxes",
+          "priceAdjustments": [],
+          "checkoutPriceType": "total",
+          "airAttached": false,
+          "roomTypeCode": "34705",
+          "ratePlanCode": "87034",
+          "showResortFeeMessage": false,
+          "resortFeeInclusion": false
+        }
+      },
+      "valueAdds": [
+        {
+          "id": "2",
+          "description": "Continental Breakfast"
+        },
+        {
+          "id": "1024",
+          "description": "Free High-Speed Internet"
+        },
+        {
+          "id": "134217728",
+          "description": "Full Kitchen"
+        }
+      ],
+      "quotedOccupancy": "4",
+      "minGuestAge": "0",
+      "roomTypeCode": "34705",
+      "ratePlanCode": "87034",
+      "isPayLater": false
+    },
+    "supplierType": "MERCHANT",
+    "accessibilityAmenities": [
+      {
+        "id": "2420",
+        "description": "Accessible bathroom"
+      },
+      {
+        "id": "2421",
+        "description": "Roll-in shower"
+      },
+      {
+        "id": "2423",
+        "description": "In-room accessibility"
+      }
+    ],
+    "isVipAccess": false,
+    "tealeafTransactionId": "tealeafHotel:${productKey}",
+    "bigImageUrl": "/hotels/1000000/20000/18300/18269/18269_29_b.jpg",
+    "regionId": "6351997"
+  },
+  "airAttachedProductResponse": {},
+  "loyaltyPoints": {
+    "totalLoyaltyPoints": 2250.00,
+    "loyaltyPointInfoList": [
+      {
+        "pointValue": 750.00,
+        "pointType": "basePoint"
+      },
+      {
+        "pointValue": 1500.00,
+        "pointType": "offerPoint"
+      }
+    ]
+  },
+  "expediaRewards": {
+    "totalPointsToEarn": 2250,
+    "isActiveRewardsMember": true,
+    "rewardsMembershipTierName": "Blue"
+  },
+  "rewards": {
+    "programName": "ExpediaRewards",
+    "totalPointsToEarn": 2250.00,
+    "isActiveRewardsMember": true,
+    "rewardsMembershipTierName": "Blue"
+  },
+  "tealeafTransactionId": "tealeafHotel:${productKey}",
+  "validFormsOfPayment": [
+    {
+      "name": "Diner's Club International"
+    },
+    {
+      "name": "Discover"
+    },
+    {
+      "name": "JCB"
+    },
+    {
+      "name": "MasterCard",
+      "verificationTypes": [
+        "APPLE_PAY",
+        "THREE_DS"
+      ]
+    },
+    {
+      "name": "Visa",
+      "verificationTypes": [
+        "APPLE_PAY",
+        "THREE_DS"
+      ]
+    },
+    {
+      "name": "CitiThankYouPoints"
+    }
+  ],
+  "storedCreditCards": [
+    {
+      "description": "4448 test visa",
+      "paymentsInstrumentsId": "05AA2F30-A769-415E-9E09-5DD24CB1EDA0",
+      "creditCardType": "Visa",
+      "nameOnCard": "Rodney Shu",
+      "expired": "false",
+      "expirationDate": "2020-02"
+    },
+    {
+      "description": "Nov Twenty's Citi ThankYou",
+      "paymentsInstrumentsId": "044E087D-7800-4B5F-8A05-E08167543CE8",
+      "creditCardType": "Visa",
+      "nameOnCard": "Nov Twenty",
+      "expired": "false",
+      "expirationDate": "2020-02"
+    }
+  ],
+  "storedPointsCards": [
+    {
+      "description": " Points Card",
+      "paymentsInstrumentsId": "495B9433-8A99-4C7C-BAAD-C8F34FE1D4E7",
+      "linkedPaymentsInstrumentIds": [
+        "05AA2F30-A769-415E-9E09-5DD24CB1EDA0"
+      ],
+      "creditCardType": "CitiThankYouPoints"
+    }
+  ],
+  "paymentRules": {
+    "maxPaymentInstrumentsForBooking": 2
+  },
+  "pointsDetails": [
+    {
+      "programName": "CitiThankYouPoints",
+      "rateID": "b6b8a50c-e9b9-4500-8bf1-d7797633821d",
+      "totalAvailable": {
+        "points": 258501,
+        "pointsType": "AVAILABLE",
+        "amount": {
+          "amount": "2068.01",
+          "formattedPrice": "$2,068.01",
+          "formattedWholePrice": "$2,068",
+          "currencyCode": "USD"
+        }
+      },
+      "maxPayableWithPoints": {
+        "points": 46897.0,
+        "pointsType": "BURN",
+        "amount": {
+          "amount": "375.18",
+          "formattedPrice": "$375.18",
+          "formattedWholePrice": "$375",
+          "currencyCode": "USD"
+        }
+      },
+      "remainingPayableByCard": {
+        "pointsType": "EARN",
+        "amount": {
+          "amount": "0.00",
+          "formattedPrice": "$0.00",
+          "formattedWholePrice": "$0",
+          "currencyCode": "USD"
+        }
+      },
+      "tripTotalPayable": {
+        "amount": "0.00",
+        "formattedPrice": "$0.00",
+        "formattedWholePrice": "$0",
+        "currencyCode": "USD"
+      },
+      "isAllowedToRedeem": true
+    }
+  ]
+}

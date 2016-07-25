@@ -1,6 +1,6 @@
 package com.expedia.bookings.utils
 
-import com.expedia.bookings.data.cars.ApiError
+import com.expedia.bookings.data.ApiError
 import com.expedia.bookings.data.lx.SearchType
 import com.expedia.bookings.otto.Events
 import com.expedia.bookings.tracking.OmnitureTracking

@@ -13,6 +13,7 @@ import com.expedia.bookings.utils.PackageResponseUtils
 import com.expedia.bookings.utils.StrUtils
 import com.squareup.phrase.Phrase
 import rx.Observer
+import rx.Subscription
 import rx.subjects.BehaviorSubject
 import rx.subjects.PublishSubject
 
@@ -21,6 +22,7 @@ class BundleOverviewViewModel(val context: Context, val packageServices: Package
     val flightParamsObservable = PublishSubject.create<PackageSearchParams>()
     val createTripObservable = PublishSubject.create<PackageCreateTripResponse>()
     val errorObservable = PublishSubject.create<PackageApiError.Code>()
+    val cancelSearchObservable = PublishSubject.create<Unit>()
 
     // Outputs
     val hotelResultsObservable = BehaviorSubject.create<Unit>()
@@ -30,6 +32,9 @@ class BundleOverviewViewModel(val context: Context, val packageServices: Package
     val toolbarSubtitleObservable = BehaviorSubject.create<String>()
     val stepOneTextObservable = BehaviorSubject.create<String>()
     val stepTwoTextObservable = BehaviorSubject.create<String>()
+    val cancelSearchSubject = BehaviorSubject.create<Unit>()
+
+    var searchPackageSubscriber: Subscription? = null
 
     init {
         hotelParamsObservable.subscribe { params ->
@@ -37,22 +42,22 @@ class BundleOverviewViewModel(val context: Context, val packageServices: Package
             val cityName = StrUtils.formatCity(params.destination)
             toolbarTitleObservable.onNext(java.lang.String.format(context.getString(R.string.your_trip_to_TEMPLATE), cityName))
             toolbarSubtitleObservable.onNext(Phrase.from(context, R.string.calendar_instructions_date_range_with_guests_TEMPLATE)
-                    .put("startdate", DateUtils.localDateToMMMd(params.checkIn))
-                    .put("enddate", DateUtils.localDateToMMMd(params.checkOut))
+                    .put("startdate", DateUtils.localDateToMMMd(params.startDate))
+                    .put("enddate", DateUtils.localDateToMMMd(params.endDate))
                     .put("guests", StrUtils.formatTravelerString(context, params.guests))
                     .format().toString())
-            packageServices?.packageSearch(params)?.subscribe(makeResultsObserver(PackageSearchType.HOTEL))
+            searchPackageSubscriber = packageServices?.packageSearch(params)?.subscribe(makeResultsObserver(PackageSearchType.HOTEL))
         }
 
         flightParamsObservable.subscribe { params ->
             val cityName = StrUtils.formatCity(params.destination)
             toolbarTitleObservable.onNext(java.lang.String.format(context.getString(R.string.your_trip_to_TEMPLATE), cityName))
             toolbarSubtitleObservable.onNext(Phrase.from(context, R.string.calendar_instructions_date_range_with_guests_TEMPLATE)
-                    .put("startdate", DateUtils.localDateToMMMd(params.checkIn))
-                    .put("enddate", DateUtils.localDateToMMMd(params.checkOut))
+                    .put("startdate", DateUtils.localDateToMMMd(params.startDate))
+                    .put("enddate", DateUtils.localDateToMMMd(params.endDate))
                     .put("guests", StrUtils.formatTravelerString(context, params.guests))
                     .format().toString())
-            packageServices?.packageSearch(params)?.subscribe(makeResultsObserver(if (params.isOutboundSearch()) PackageSearchType.OUTBOUND_FLIGHT else PackageSearchType.INBOUND_FLIGHT))
+            searchPackageSubscriber = packageServices?.packageSearch(params)?.subscribe(makeResultsObserver(if (params.isOutboundSearch()) PackageSearchType.OUTBOUND_FLIGHT else PackageSearchType.INBOUND_FLIGHT))
         }
 
         createTripObservable.subscribe { trip ->
@@ -64,10 +69,17 @@ class BundleOverviewViewModel(val context: Context, val packageServices: Package
             stepOneTextObservable.onNext(stepOne)
 
             val stepTwo = Phrase.from(context, R.string.flight_checkout_overview_TEMPLATE)
-                    .put("origin", Db.getPackageParams().origin.hierarchyInfo?.airport?.airportCode)
-                    .put("destination", Db.getPackageParams().destination.hierarchyInfo?.airport?.airportCode)
+                    .put("origin", Db.getPackageParams().origin?.hierarchyInfo?.airport?.airportCode)
+                    .put("destination", Db.getPackageParams().destination?.hierarchyInfo?.airport?.airportCode)
                     .format().toString()
             stepTwoTextObservable.onNext(stepTwo)
+        }
+
+        cancelSearchObservable.subscribe {
+            if (searchPackageSubscriber != null && !searchPackageSubscriber!!.isUnsubscribed) {
+                searchPackageSubscriber?.unsubscribe()
+                cancelSearchSubject.onNext(Unit)
+            }
         }
     }
 

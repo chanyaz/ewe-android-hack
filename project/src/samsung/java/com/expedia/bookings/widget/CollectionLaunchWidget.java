@@ -15,7 +15,7 @@ import com.expedia.bookings.data.FlightSearchParams;
 import com.expedia.bookings.data.HotelSearchParams;
 import com.expedia.bookings.data.Location;
 import com.expedia.bookings.data.collections.CollectionLocation;
-import com.expedia.bookings.data.lx.LXSearchParams;
+import com.expedia.bookings.data.lx.LxSearchParams;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.utils.FontCache;
 import com.expedia.bookings.utils.NavUtils;
@@ -94,9 +94,8 @@ public class CollectionLaunchWidget extends LinearLayout {
 
 	@OnClick(R.id.button_search_activities)
 	void activitiesClicked() {
-		LXSearchParams params = new LXSearchParams();
-		params.location(suggestion.shortName);
-		params.startDate(LocalDate.now().plusDays(1));
+		LxSearchParams params = (LxSearchParams) new LxSearchParams.Builder().location(suggestion.shortName)
+			.startDate(LocalDate.now().plusDays(1)).endDate(LocalDate.now().plusDays(14)).build();
 
 		// Go to Lx
 		NavUtils.goToActivities(getContext(), animOptions, params, NavUtils.FLAG_OPEN_SEARCH);

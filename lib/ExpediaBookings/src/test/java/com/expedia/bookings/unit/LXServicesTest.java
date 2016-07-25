@@ -13,7 +13,7 @@ import org.junit.Rule;
 import org.junit.Test;
 
 import com.expedia.bookings.data.Money;
-import com.expedia.bookings.data.cars.ApiError;
+import com.expedia.bookings.data.ApiError;
 import com.expedia.bookings.data.lx.ActivityAvailabilities;
 import com.expedia.bookings.data.lx.ActivityDetailsResponse;
 import com.expedia.bookings.data.lx.AvailabilityInfo;
@@ -23,7 +23,7 @@ import com.expedia.bookings.data.lx.LXCheckoutResponse;
 import com.expedia.bookings.data.lx.LXCreateTripParams;
 import com.expedia.bookings.data.lx.LXCreateTripResponse;
 import com.expedia.bookings.data.lx.LXOfferSelected;
-import com.expedia.bookings.data.lx.LXSearchParams;
+import com.expedia.bookings.data.lx.LxSearchParams;
 import com.expedia.bookings.data.lx.LXSearchResponse;
 import com.expedia.bookings.data.lx.LXTheme;
 import com.expedia.bookings.data.lx.LXThemeType;
@@ -82,10 +82,9 @@ public class LXServicesTest {
 		serviceRule.setDefaultExpediaDispatcher();
 
 		TestSubscriber<LXSearchResponse> observer = new TestSubscriber<>();
-		LXSearchParams searchParams = new LXSearchParams();
-		searchParams.location = "happy";
-		searchParams.startDate = LocalDate.now();
-		searchParams.endDate = LocalDate.now().plusDays(1);
+		LxSearchParams searchParams = (LxSearchParams) new LxSearchParams.Builder().location("happy")
+			.startDate(LocalDate.now())
+			.endDate(LocalDate.now().plusDays(1)).build();
 		serviceRule.getServices().lxSearch(searchParams, observer);
 
 		observer.awaitTerminalEvent();
@@ -100,7 +99,9 @@ public class LXServicesTest {
 	public void emptySearchResponse() throws Throwable {
 		serviceRule.getServer().enqueue(new MockResponse().setBody("{\"regionId\":1,\"activities\": []}"));
 		TestSubscriber<LXSearchResponse> observer = new TestSubscriber<>();
-		LXSearchParams searchParams = new LXSearchParams();
+		LxSearchParams searchParams = (LxSearchParams) new LxSearchParams.Builder().location("happy")
+			.startDate(LocalDate.now())
+			.endDate(LocalDate.now().plusDays(1)).build();
 
 		serviceRule.getServices().lxSearch(searchParams, observer);
 		observer.awaitTerminalEvent();
@@ -115,7 +116,9 @@ public class LXServicesTest {
 	public void unexpectedSearchResponseThrowsError() throws Throwable {
 		serviceRule.getServer().enqueue(new MockResponse().setBody("{Unexpected}"));
 		TestSubscriber<LXSearchResponse> observer = new TestSubscriber<>();
-		LXSearchParams searchParams = new LXSearchParams();
+		LxSearchParams searchParams = (LxSearchParams) new LxSearchParams.Builder().location("happy")
+			.startDate(LocalDate.now())
+			.endDate(LocalDate.now().plusDays(1)).build();
 
 		serviceRule.getServices().lxSearch(searchParams, observer);
 		observer.awaitTerminalEvent();
@@ -128,7 +131,9 @@ public class LXServicesTest {
 	public void searchFailure() throws Throwable {
 		serviceRule.getServer().enqueue(new MockResponse().setBody("{\"regionId\":1, \"searchFailure\": true}"));
 		TestSubscriber<LXSearchResponse> observer = new TestSubscriber<>();
-		LXSearchParams searchParams = new LXSearchParams();
+		LxSearchParams searchParams = (LxSearchParams) new LxSearchParams.Builder().location("happy")
+			.startDate(LocalDate.now())
+			.endDate(LocalDate.now().plusDays(1)).build();
 
 		serviceRule.getServices().lxSearch(searchParams, observer);
 		observer.awaitTerminalEvent();
@@ -358,10 +363,8 @@ public class LXServicesTest {
 		serviceRule.setDefaultExpediaDispatcher();
 
 		TestSubscriber<LXSearchResponse> observer = new TestSubscriber<>();
-		LXSearchParams searchParams = new LXSearchParams();
-		searchParams.location = "happy";
-		searchParams.startDate = LocalDate.now();
-		searchParams.endDate = LocalDate.now().plusDays(1);
+		LxSearchParams searchParams = (LxSearchParams) new LxSearchParams.Builder().location("happy")
+			.startDate(LocalDate.now()).endDate(LocalDate.now().plusDays(1)).build();
 		serviceRule.getServices().lxCategorySearch(searchParams, observer);
 		observer.awaitTerminalEvent();
 

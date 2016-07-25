@@ -240,6 +240,10 @@
     <string name="stored_card_TEMPLATE">{cardtype} opgeslagen</string>
     <!-- Select card from checkout saved cards list -->
     <string name="saved_cards">Opgeslagen kaarten</string>
+    <!-- text that goes underneath the camera button for card_io -->
+    <string name="card_io_btn_text">Scannen</string>
+    <!-- Card.io scan text -->
+    <string name="scan_card_text">Kaart scannen</string>
 
     <!-- Car error strings -->
     <!-- Message for user that pick-up time is too early.  -->
@@ -301,8 +305,10 @@
     <string name="missing_flight_info_button_prompt">Selecteer luchthaven</string>
 
     <!-- LX -->
-    <!-- LX toolbar Date Range e.g. May 05 - May 10 -->
-    <string name="lx_toolbar_date_range_template">%1$s - %2$s</string>
+    <!-- LX Toolbar Date Range e.g. May 05 - May 10 -->
+    <string name="lx_toolbar_date_range_TEMPLATE">{from_date} - {to_date}</string>
+    <!-- LX Toolbar Date Range Cont Desc e.g. May 05 to May 10 -->
+    <string name="lx_toolbar_date_range_cont_desc_TEMPLATE">{from_date} tot {to_date}</string>
     <!--LX Search widget header text -->
     <string name="lx_search_title">Activiteiten zoeken</string>
     <!--LX Search widget header text -->
@@ -330,7 +336,7 @@
     <!-- Template for ticket selection summary -->
     <string name="offer_book_now_TEMPLATE">Boek voor %1$s</string>
     <!-- Template for multiple duration text on Search results Eg: 2d+ -->
-    <string name="search_result_multiple_duration_TEMPLATE">+%1$s</string>
+    <string name="search_result_multiple_duration_TEMPLATE">{duration}+</string>
     <!-- Cancellation policy template -->
     <string name="lx_cancellation_policy_TEMPLATE">Annuleer gratis tot {hours} uur voor aanvang van de reservering. Annuleringen, wijzigingen of restituties zijn nadien niet mogelijk.</string>
     <!-- Cancellation policy text for non-cancellable activities -->
@@ -1002,6 +1008,11 @@
     <string name="nav_lx">Activiteiten</string>
     <!-- Ground Transport -->
     <string name="nav_transport">Vervoer</string>
+    <!-- Packages -->
+    <string name="nav_packages">Pakketten</string>
+    <!-- Rail -->
+    <string name="nav_rail">Trein</string>
+
 
     <!-- New launch screen -->
     <!-- Top deals tonight -->
@@ -1129,30 +1140,30 @@
     <string name="yesterday">Gisteren</string>
     <!-- "XX Minutes" - an event happening XX minutes in the future -->
     <plurals name="minutes_from_now">
-        <item quantity="zero">%s minuten</item>
-        <item quantity="one">%s minuut</item>
-        <item quantity="two">%s minuten</item>
-        <item quantity="few">%s minuten</item>
-        <item quantity="many">%s minuten</item>
-        <item quantity="other">%s minuten</item>
+        <item quantity="zero">{minutes} minuten</item>
+        <item quantity="one">{minutes} minuut</item>
+        <item quantity="two">{minutes} minuten</item>
+        <item quantity="few">{minutes} minuten</item>
+        <item quantity="many">{minutes} minuten</item>
+        <item quantity="other">{minutes} minuten</item>
     </plurals>
     <!-- "XX Hours" - an event happening XX hours in the future -->
     <plurals name="hours_from_now">
-        <item quantity="zero">%s uur</item>
-        <item quantity="one">%s uur</item>
-        <item quantity="two">%s uur</item>
-        <item quantity="few">%s uur</item>
-        <item quantity="many">%s uur</item>
-        <item quantity="other">%s uur</item>
+        <item quantity="zero">{hours} uur</item>
+        <item quantity="one">{hours} uur</item>
+        <item quantity="two">{hours} uur</item>
+        <item quantity="few">{hours} uur</item>
+        <item quantity="many">{hours} uur</item>
+        <item quantity="other">{hours} uur</item>
     </plurals>
     <!-- "XX Days" an event happening XX days in the future -->
     <plurals name="days_from_now">
-        <item quantity="zero">%s dagen</item>
-        <item quantity="one">%s dag</item>
-        <item quantity="two">%s dagen</item>
-        <item quantity="few">%s dagen</item>
-        <item quantity="many">%s dagen</item>
-        <item quantity="other">%s dagen</item>
+        <item quantity="zero">{days} dagen</item>
+        <item quantity="one">{days} dag</item>
+        <item quantity="two">{days} dagen</item>
+        <item quantity="few">{days} dagen</item>
+        <item quantity="many">{days} dagen</item>
+        <item quantity="other">{days} dagen</item>
     </plurals>
     <!-- Shared Itin - Fallback name for itin card -->
     <string name="sharedItin_card_fallback_name">Gedeeld reisplan</string>
@@ -1656,6 +1667,18 @@
     <string name="flights_outbound_label">Heenvlucht</string>
     <!-- Flights Line of Business title -->
     <string name="flights_title">Vluchten</string>
+    <!-- Flights payment fees info web view title -->
+    <string name="flights_flight_overview_payment_fees">Info over transactiekosten</string>
+    <!-- Flights Free Cancellation messaging -->
+    <string name="flights_free_cancellation">Gratis annulering binnen 24 uur</string>
+    <!-- Card fee warning text on checkout overview.
+        Example: The airline charges a processing fee of $3.00 for using this card (cost included in the trip total). -->
+    <string name="flights_card_fee_warning_TEMPLATE">De airline berekent {card_fee} transactiekosten als je deze kaart gebruikt (inbegrepen in totaal boekingsbedrag).</string>
+    <!-- An airline fee is added upon payment message
+        Example: An airline fee, based on card type, is added upon payment. Such fee is added to the total upon payment -->
+    <string name="flights_fee_added_based_on_payment_TEMPLATE">Op basis van het kaarttype wordt een &lt;a href=\"{airline_fee_url}\"&gt;airlinetoeslag&lt;/a&gt; toegevoegd bij het afrekenen. Deze toeslag wordt toegevoegd aan het totale boekingsbedrag.</string>
+    <!-- Flights debit cards not accepted messaging -->
+    <string name="flights_debit_cards_not_accepted">Betaalpassen worden niet aanvaard.</string>
 
     <!-- Flights -->
     <!-- Label for Flight Search in task manager -->
@@ -1892,8 +1915,8 @@
     <string name="card_info">Creditcardgegevens</string>
 
     <!-- Edit CreditCard Fragment -->
-    <!-- Airline processing fee for this card: <Dollar Amount> (e.g. Airling processing fee for this card: $5) -->
-    <string name="airline_processing_fee_TEMPLATE">Transactiekosten airline: &lt;b&gt;%1$s&lt;/b&gt;</string>
+    <!-- Airline processing fee for this card. Example: Airline processing fee for this card: $5 -->
+    <string name="airline_processing_fee_TEMPLATE">Transactiekosten airline: &lt;b&gt;{card_fee}&lt;/b&gt;</string>
     <!-- Airline does not accept <Credit Card Brand> (e.g. "Airline does not accept Visa") -->
     <string name="airline_does_not_accept_cardtype_TEMPLATE">Airline aanvaardt geen %1$s</string>
     <!-- Hotel does not accept <Credit Card Brand> (e.g. "Hotel does not accept Visa") -->
@@ -2148,9 +2171,6 @@
     <string name="first_name_field_text">voornaam</string>
     <!-- last name -->
     <string name="last_name_field_text">achternaam</string>
-    <!-- Template for hint on first and last name fields. For example: "Last name (e.g. Chan)"
-    For English locale we want to show "e.g." and for all non-English we want to show "example:"-->
-    <string name="hint_name_example_TEMPLATE">%1$s (bijv.: %2$s)</string>
 
     <!-- Cardholder -->
     <string name="cardholder">Kaarthouder</string>
@@ -2290,6 +2310,8 @@
     <string name="edit_guest_details">Gastdetails wijzigen</string>
     <!-- Edit current traveler details -->
     <string name="edit_current_traveler">Reizigersinformatie wijzigen</string>
+    <!-- Generic error when user is editing traveler details, eg: a user leaves a required field empty -->
+    <string name="accessibility_cont_desc_role_error">Fout</string>
     <!-- prefers seat template -->
     <string name="prefers_seat_TEMPLATE">Voorkeur voor stoel bij %1$s</string>
     <!-- prefers seat template -->
@@ -2430,6 +2452,8 @@
     <string name="fare_information">PRIJSGEGEVENS</string>
     <!-- Airline Fee -->
     <string name="Airline_fee">Airlinetoeslag</string>
+    <!-- Accessibility announcement when filter are cleared-->
+    <string name="filters_cleared">Filters gewist</string>
     <!-- split ticket rules header -->
     <string name="split_ticket_important_flight_information_header">Belangrijke vluchtinfo</string>
     <!-- split ticket rules and restrictions -->
@@ -2862,7 +2886,7 @@
     <!-- Loading more reviews -->
     <string name="user_review_loading_more_reviews">Bezig met laden van meer beoordelingen…</string>
     <!-- Read more of the review -->
-    <string name="user_review_read_more">Lees verder</string>
+    <string name="user_review_read_more">Lees meer</string>
     <!-- Read more of the review -->
     <string name="more">meer</string>
     <!--
@@ -3684,98 +3708,130 @@
     <!-- Content Description Labels -->
     <!-- Trips Screen -->
     <!-- Content description for action: Press to refresh trips list -->
-    <string name="cd_trips_refresh_trips_list">Tik om lijst te updaten</string>
+    <string name="trips_refresh_trips_list_cont_desc">Tik om lijst te updaten</string>
     <!-- Hotel star filters -->
     <!-- Content description for action: Press to filter for hotels hotels with three or more stars -->
-    <string name="cd_filter_hotels_for_three_or_more_stars">Tik om te filteren op 3-sterrenhotels of beter</string>
+    <string name="filter_hotels_for_three_or_more_stars_cont_desc">Tik om te filteren op 3-sterrenhotels of beter</string>
     <!-- Content description for action: Press to filter for hotels hotels with four or more stars -->
-    <string name="cd_filter_hotels_for_four_or_more_stars">Tik om te filteren op 4-sterrenhotels of beter</string>
+    <string name="filter_hotels_for_four_or_more_stars_cont_desc">Tik om te filteren op 4-sterrenhotels of beter</string>
     <!-- Content description for action: Press to filter for hotels with five stars -->
-    <string name="cd_filter_hotels_for_five_stars">Tik om te filteren op 5-sterrenhotels</string>
+    <string name="filter_hotels_for_five_stars_cont_desc">Tik om te filteren op 5-sterrenhotels</string>
     <!-- Content description for action: Press to remove hotel star filters -->
-    <string name="cd_filter_remove_hotel_star_filters">Tik om classificatiefilters te wissen</string>
+    <string name="filter_remove_hotel_star_filters_cont_desc">Tik om classificatiefilters te wissen</string>
     <!-- Hotel distance filters -->
     <!-- Content description for action: Press to filter for the nearest hotels within a small radius from your search location -->
-    <string name="cd_filter_for_nearest_hotels">Tik om te filteren op hotels het dichtst bij zoeklocatie</string>
+    <string name="filter_for_nearest_hotels_cont_desc">Tik om te filteren op hotels het dichtst bij zoeklocatie</string>
     <!-- Content description for action: Press to filter for hotels within a mid-distance radius from your search location -->
-    <string name="cd_filter_for_further_distanced_hotels">Tik om te filteren op hotels op middellange afstand van zoeklocatie</string>
+    <string name="filter_for_further_distanced_hotels_cont_desc">Tik om te filteren op hotels op middellange afstand van zoeklocatie</string>
     <!-- Content description for action: Press to filter for hotels within largest radius from your search location -->
-    <string name="cd_filter_for_furthest_distanced_hotels">Tik om te filteren op hotels het verst bij zoeklocatie</string>
+    <string name="filter_for_furthest_distanced_hotels_cont_desc">Tik om te filteren op hotels het verst bij zoeklocatie</string>
     <!-- Content description for action: Press to clear all distance filters for hotel search -->
-    <string name="cd_filter_remove_distance_filter">Tik om alle afstandsfilters te wissen</string>
+    <string name="filter_remove_distance_filter_cont_desc">Tik om alle afstandsfilters te wissen</string>
     <!-- Hotel price filters -->
     <!-- Content description for action: Press to filter for low-range hotel prices -->
-    <string name="cd_filter_for_low_range_hotel_prices">Tik om te filteren op goedkope hotels</string>
+    <string name="filter_for_low_range_hotel_prices_cont_desc">Tik om te filteren op goedkope hotels</string>
     <!-- Content description for action: Press to filter for mid-range hotel prices -->
-    <string name="cd_filter_for_mid_range_hotel_prices">Tik om te filteren op mid-range hotels</string>
+    <string name="filter_for_mid_range_hotel_prices_cont_desc">Tik om te filteren op mid-range hotels</string>
     <!-- Content description for action: Press to filter for high-range hotel prices -->
-    <string name="cd_filter_for_high_range_hotel_prices">Tik om te filteren op luxehotels</string>
+    <string name="filter_for_high_range_hotel_prices_cont_desc">Tik om te filteren op luxehotels</string>
     <!-- Content description for action: Press to remove hotel price filters -->
-    <string name="cd_filter_remove_hotel_price_filters">Tik om prijsfilters te wissen</string>
+    <string name="filter_remove_hotel_price_filters_cont_desc">Tik om prijsfilters te wissen</string>
     <!-- Hotel info screen -->
     <!-- Content description for action: Press to select this hotel -->
-    <string name="cd_hotel_info_select_button">Tik om dit hotel te selecteren</string>
+    <string name="hotel_info_select_button_cont_desc">Tik om dit hotel te selecteren</string>
     <!-- Hotel review screen -->
     <!-- Content description for action: Press to display recent reviews -->
-    <string name="cd_display_recent_reviews">Tik voor recentste beoordelingen</string>
+    <string name="display_recent_reviews_cont_desc">Tik voor recentste beoordelingen</string>
     <!-- Content description for action: Press to display favorable reviews -->
-    <string name="cd_display_favorable_reviews">Tik voor positieve beoordelingen</string>
+    <string name="display_favorable_reviews_cont_desc">Tik voor positieve beoordelingen</string>
     <!-- Content description for action: Press to display critical reviews -->
-    <string name="cd_display_critical_reviews">Tik voor negatieve beoordelingen</string>
+    <string name="display_critical_reviews_cont_desc">Tik voor negatieve beoordelingen</string>
     <!-- Flight Search -->
     <!-- Content description for action: Press to clear selected dates -->
-    <string name="cd_flights_clear_selected_dates">Tik om geselecteerde datums te wissen</string>
+    <string name="flights_clear_selected_dates_cont_desc">Tik om geselecteerde datums te wissen</string>
     <!-- Content description for action: Press to edit number of travelers -->
-    <string name="cd_flights_search_number_of_travelers_edit">Tik om aantal reizigers te wijzigen</string>
+    <string name="flights_search_number_of_travelers_edit_cont_desc">Tik om aantal reizigers te wijzigen</string>
     <!-- Flight Search Results - Flight Leg Selection -->
     <!-- Content description for action: Press to cancel your flight selection and go back to flight search results -->
-    <string name="cd_flight_leg_cancel">Annuleer de selectie en keer terug naar zoekresultaten</string>
+    <string name="flight_leg_cancel_cont_desc">Annuleer de selectie en keer terug naar zoekresultaten</string>
     <!-- Content description for action: Press to select this flight -->
-    <string name="cd_flight_leg_select_flight">Tik om deze vlucht te selecteren</string>
+    <string name="flight_leg_select_flight_cont_desc">Tik om deze vlucht te selecteren</string>
     <!-- Content description for action: Press to go to baggage fee information -->
-    <string name="cd_flight_leg_baggage_fee_info">Tik voor meer info over bagagekosten</string>
+    <string name="flight_leg_baggage_fee_info_cont_desc">Tik voor meer info over bagagekosten</string>
     <!-- Flight Search Results - Selection Overview -->
     <!-- Content description for action: Press to go to cost summary for your flight selections -->
-    <string name="cd_flight_selection_cost_summary">Ga naar kostenoverzicht voor je selectie</string>
+    <string name="flight_selection_cost_summary_cont_desc">Ga naar kostenoverzicht voor je selectie</string>
     <!-- Checkout screen -->
     <!-- Content description for action: Press to begin checkout -->
-    <string name="cd_checkout">Tik voor betaalpagina</string>
+    <string name="checkout_cont_desc">Tik voor betaalpagina</string>
     <!-- Content description for action: Press to enter a coupon or promotional code -->
-    <string name="cd_checkout_enter_coupon">Tik om een coupon- of promocode in te voeren</string>
+    <string name="checkout_enter_coupon_cont_desc">Tik om een coupon- of promocode in te voeren</string>
     <!-- Traveler Information screen -->
     <!-- Content description for action: Press to enter a new traveler -->
-    <string name="cd_traveler_enter_new_traveler">Tik om nieuwe reiziger in te voeren</string>
+    <string name="traveler_enter_new_traveler_cont_desc">Tik om nieuwe reiziger in te voeren</string>
     <!-- Content description for action: Press to edit traveler information -->
-    <string name="cd_traveler_edit_traveler_information">Tik om reizigersinfo te bewerken</string>
+    <string name="traveler_edit_traveler_information_cont_desc">Tik om reizigersinfo te bewerken</string>
     <!-- Content description for action: Press to edit traveler's passport country -->
-    <string name="cd_traveler_edit_passport_country">Bewerk land van paspoort reiziger</string>
+    <string name="traveler_edit_passport_country_cont_desc">Bewerk land van paspoort reiziger</string>
     <!-- Traveler Information edit/entry screen -->
     <!-- Content description for action: Press to finish entering traveler information -->
-    <string name="cd_traveler_information_done">Tik om reizigersinfo te voltooien</string>
+    <string name="traveler_information_done_cont_desc">Tik om reizigersinfo te voltooien</string>
     <!-- Extra traveler information - flights -->
     <!-- Content description for action: Press to select traveler's gender -->
-    <string name="cd_traveler_gender_edit">Tik om geslacht reiziger te selecteren</string>
+    <string name="traveler_gender_edit_cont_desc">Tik om geslacht reiziger te selecteren</string>
     <!-- Content description for action: Press to select type of special assistance traveler requires -->
-    <string name="cd_traveler_special_assistance_edit">Selecteer type speciale assistentie</string>
+    <string name="traveler_special_assistance_edit_cont_desc">Selecteer type speciale assistentie</string>
     <!-- Content description for action: Press to select window type that the traveler prefers -->
-    <string name="cd_traveler_seat_preference_edit">Selecteer een voorkeursstoel</string>
+    <string name="traveler_seat_preference_edit_cont_desc">Selecteer een voorkeursstoel</string>
     <!-- Credit Card Information -->
     <!-- Content description for action: Select billing address country -->
-    <string name="cd_card_info_billing_address_country">Voer land factuuradres in</string>
+    <string name="card_info_billing_address_country_cont_desc">Voer land factuuradres in</string>
     <!-- Itinerary card elements -->
     <!-- Content description for action: Press to view share options -->
-    <string name="cd_share_menu_btn">Druk om de opties voor het delen van je reisplan te tonen</string>
+    <string name="share_menu_btn_cont_desc">Druk om de opties voor het delen van je reisplan te tonen</string>
 
     <!-- Tablet Search Results Content Descriptions -->
     <!-- Content description for Hotel Search Results -->
-    <string name="cd_tablet_results_hotel_list">Zoekresultaten hotels</string>
+    <string name="tablet_results_hotel_list_cont_desc">Zoekresultaten hotels</string>
     <!-- Content description for Flight Search Results -->
-    <string name="cd_tablet_results_flight_list">Zoekresultaten vluchten</string>
+    <string name="tablet_results_flight_list_cont_desc">Zoekresultaten vluchten</string>
 
     <!-- Content description for action: Press to filter for the nearest hotels within a small radius from your search location -->
-    <string name="cd_pay_now">Druk op de knop om nu te betalen</string>
+    <string name="pay_now_cont_desc">Druk op de knop om nu te betalen</string>
     <!-- Content description for action: Press to filter for hotels within a mid-distance radius from your search location -->
-    <string name="cd_pay_later">Druk op de knop om later te betalen</string>
+    <string name="pay_later_cont_desc">Druk op de knop om later te betalen</string>
+
+    <!-- Content description for Cars filter button -->
+    <string name="cars_filter_button_cont_desc">Filterknop</string>
+    <!-- Content description for car result door count e.g. Doors 2-4 -->
+    <string name="cars_door_count_cont_desc_TEMPLATE">{doorcount} deuren</string>
+    <!-- Content description for car result passenger count e.g. Passengers 2-4 -->
+    <string name="cars_passenger_count_cont_desc_TEMPLATE">{passengercount} passagiers</string>
+    <!-- Content description for car result bags count e.g. Bags 2-4 -->
+    <string name="cars_bags_count_cont_desc_TEMPLATE">{bagscount} stuks bagage</string>
+    <!-- Content description for hotel star rating e.g. 3 stars -->
+    <plurals name="hotel_star_rating_cont_desc_TEMPLATE">
+        <item quantity="one">{rating} ster</item>
+        <item quantity="other">{rating} sterren</item>
+    </plurals>
+    <!-- Content descriptions for Cars filter transmission buttons -->
+    <string name="cars_filter_transmission_manual_button_cont_desc">Handgeschakeld</string>
+    <string name="cars_filter_transmission_automatic_button_cont_desc">Automaat</string>
+    <string name="cars_filter_transmission_all_button_cont_desc">Alle versnellingsbakken</string>
+
+    <!-- Content description for car offer reserve button e.g. Dollar, Chevrolet Spark or Similar, Reserve button-->
+    <string name="cars_offer_reserve_button_cont_desc_TEMPLATE">{vendor}, {make}, Reserveerknop</string>
+    <!-- Content description for car offer view details button e.g. Dollar, Chevrolet Spark or Similar, View details button-->
+    <string name="cars_offer_view_details_button_cont_desc_TEMPLATE">{vendor}, {make}, Details bekijken knop</string>
+
+    <!-- Car confirmation directions content description e.g. Directions to Fox button-->
+    <string name="car_confirmation_directions_cont_desc_TEMPLATE">Knop voor routebeschrijving naar {vendor}</string>
+    <!-- Car confirmation add to calendar content description-->
+    <string name="car_confirmation_add_to_calendar_cont_desc">Knop om aan kalender toe te voegen</string>
+    <!-- Successful checkout hotel cross sell content description e.g. Hotels in Seattle button-->
+    <string name="successful_checkout_cross_sell_hotel_cont_desc_TEMPLATE">Knop voor hotels in {location}</string>
+    <!-- Successful checkout flight cross sell content description e.g. Flights to Seattle button-->
+    <string name="successful_checkout_cross_sell_flight_cont_desc_TEMPLATE">Knop voor vluchten naar {location}</string>
 
     <!-- Tablet Confirmation Screen -->
     <!-- Header text to indicating booking confirmed for hotel -->
@@ -3871,10 +3927,18 @@
 
     <!-- Label for package search toolbar -->
     <!-- Accessibility - Content Description for toolbar close button -->
-    <string name="package_toolbar_close_content_description">Zoekvenster sluiten</string>
+    <string name="package_toolbar_close_cont_desc">Zoekvenster sluiten</string>
     <!-- Accessibility - Content Description for toolbar back button when entering destination/arrival -->
-    <string name="package_toolbar_back_to_search_content_description">Terug naar zoekvenster</string>
+    <string name="package_toolbar_back_to_search_cont_desc">Terug naar zoekvenster</string>
     <string name="package_toolbar_title">Vlucht + Hotel</string>
+    <!-- Accessibility - Content Description for Expiration date: increase month -->
+    <string name="increase_month_cont_desc">Maand verder</string>
+    <!-- Accessibility - Content Description for Expiration date: decrease month -->
+    <string name="decrease_month_cont_desc">Maand terug</string>
+    <!-- Accessibility - Content Description for Expiration date: increase year -->
+    <string name="increase_year_cont_desc">Jaar verder</string>
+    <!-- Accessibility - Content Description for Expiration date: decrease year -->
+    <string name="decrease_year_cont_desc">Jaar terug</string>
     <!-- Label for per person -->
     <string name="per_person">per persoon</string>
     <!-- Label for package bundle price on overview-->
@@ -3908,12 +3972,14 @@
     <string name="package_overview_flight_travel_info_TEMPLATE">%1$s om %2$s, %3$s</string>
     <!-- Template for package bundle total savings amount -->
     <string name="bundle_total_savings_TEMPLATE">{savings} bespaard</string>
-    <!-- Bundle Overview select hotel accessibility content description -->
-    <string name="select_hotel_content_description">Zoekopdracht voltooid, druk op deze knop om een hotel te selecteren in {destination} van {startdate} tot {enddate} voor {guests}</string>
-    <!-- Bundle Overview select hotel accessibility content description when still searching -->
-    <string name="select_hotel_content_description_searching">We zoeken naar hotels in {destination} van {startdate} tot {enddate} voor {guests}. Even geduld, a.u.b.</string>
-    <!-- Bundle Overview selected hotel accessibility content description -->
-    <string name="select_hotel_content_description_selected">U heeft {hotel} geselecteerd van {startdate} tot {enddate} voor {guests}. Druk op deze knop voor meer details.</string>
+    <!-- Bundle Overview select hotel accessibility content description Eg. Search completed. Select a hotel in Detroit from Jun 23 to Jun 24, for 1 guest. Button -->
+    <string name="select_hotel_cont_desc_TEMPLATE">Zoekopdracht voltooid. Selecteer een hotel in {destination} van {startdate} tot {enddate} voor {guests}. Knop</string>
+    <!-- Bundle Overview select hotel accessibility content description when still searching Eg. Searching for hotels in Detroit from Jun 23 to Jun 24, for 1 guest. Please wait -->
+    <string name="select_hotel_searching_cont_desc_TEMPLATE">We zoeken naar hotels in {destination} van {startdate} tot {enddate} voor {guests}. Even geduld, a.u.b.</string>
+    <!-- Bundle Overview selected hotel accessibility content description Eg. You have selected hotel Orion from Jun 23 to June 24, for 1 guest. Button to expand hotel details. -->
+    <string name="select_hotel_selected_cont_desc_TEMPLATE">U heeft {hotel} geselecteerd van {startdate} tot {enddate} voor {guests}. {expandstate} hoteldetails</string>
+    <!-- Bundle Overview selected flight accessibility content description Eg. Flight to (DTW) Detroit. Jul 10 at 9:00 am, 1 Traveler. Button to expand flight details. -->
+    <string name="select_flight_selected_cont_desc_TEMPLATE">{flighttext}. {travelerinfotext}. {expandstate} vluchtgegevens.</string>
     <!-- Bundle Overview select hotel -->
     <string name="select_hotel_template">Selecteer hotel in %s</string>
     <!-- Bundle Overview searching flight -->
@@ -3934,18 +4000,24 @@
         <item quantity="other">2+ tussenstops</item>
     </plurals>
 
+    <!-- Flight Nonstop description -->
+    <string name="flight_nonstop_description">Rechtstreeks</string>
     <!-- Flight duration template e.g. 1d 12h 42m (Nonstop) -->
     <string name="flight_duration_description_template">%1$s (%2$s)</string>
     <!-- Flight hour duration template e.g. 12h 42m -->
     <string name="flight_hour_min_duration_template">%1$d u. %2$d min.</string>
     <!-- Flight min duration template e.g. 1d 12h 42m (2hr layover) -->
     <string name="flight_min_duration_template">%1$d min.</string>
-    <!-- Flight Nonstop description -->
-    <string name="flight_nonstop_description">Rechtstreeks</string>
+
     <!-- Flight departure arrival time in multi days e.g. 5:15 pm - 7:48 am +1d -->
     <string name="flight_departure_arrival_time_multi_day_template">%1$s - %2$s +%3$d d.</string>
+    <!-- Accessible text for Flight departure arrival time same day e.g. 5:15 pm to 7:48 pm plus 1d -->
+    <string name="flight_departure_arrival_time_multi_day_cont_desc_TEMPLATE">{departuretime} tot {arrivaltime} plus {elapseddays} dag</string>
     <!-- Flight departure arrival time same day e.g. 5:15 pm - 7:48 pm -->
     <string name="flight_departure_arrival_time_template">%1$s - %2$s</string>
+    <!-- Accessible text for Flight departure arrival time same day e.g. 5:15 pm to 7:48 pm -->
+    <string name="flight_departure_arrival_time_cont_desc_TEMPLATE">{departuretime} tot {arrivaltime}</string>
+
     <!-- Select flight to template -->
     <string name="select_flight_to">Selecteer vlucht naar %1$s</string>
     <!-- Flight to template -->
@@ -3972,6 +4044,9 @@
 
     <!-- Text indicating that the user can drag this button to view their trip -->
     <string name="trip_overview">Bekijk reisdetails</string>
+    <!-- Content description to View Trip Details view -->
+    <string name="trip_overview_cont_desc">Knop om reisdetails te bekijken</string>
+
     <!-- Slide to book -->
     <string name="package_slider_text">Swipe om te boeken</string>
     <string name="hotel_city_country_TEMPLATE">{city}, {country}</string>
@@ -4059,6 +4134,9 @@
     <!--rail search screen - user is specifiying what time they want their return train to leave at -->
     <string name="rail_returning_at">Terugreis om</string>
 
+    <!-- rail checkout overview label for outbound  e.g. "Outbound - Thu Jun 23"-->
+    <string name="rail_checkout_outbound_TEMPLATE">Heenreis - {date}</string>
+
     <!-- Label for rail trip price on overview screen -->
     <string name="total">Totaal</string>
 
@@ -4069,12 +4147,30 @@
     <!-- New Hotel Search screen -->
     <string name="enter_destination_hint">Voer bestemming in</string>
 
-    <!-- Package breakdown dialog -->
-    <string name="package_breakdown_hotel_flight_summary">Vlucht + Hotel</string>
-    <string name="package_breakdown_taxes_fees">Belastingen &amp; toeslagen</string>
-    <string name="package_breakdown_taxes_fees_included_TEMPLATE">Incl. belastingen en toeslagen ({taxes})</string>
-    <string name="package_breakdown_total_savings">Totale besparingen</string>
-    <string name="package_breakdown_total_due_today">Totaal nu te betalen</string>
+    <!-- Cost summary breakdown line item for flight insurance -->
+    <string name="cost_summary_breakdown_flight_insurance">Vluchtverzekering</string>
+    <!-- Cost summary breakdown line item for flights -->
+    <string name="cost_summary_breakdown_flight_summary">Vluchten</string>
+    <!-- Cost summary breakdown line item for a hotel + flight package -->
+    <string name="cost_summary_breakdown_hotel_flight_summary">Vlucht + Hotel</string>
+    <!-- Cost summary breakdown line item for taxes and fees that are charged separately -->
+    <string name="cost_summary_breakdown_taxes_fees">Belastingen &amp; toeslagen</string>
+    <!-- Cost summary breakdown line item for taxes and fees that are included in the base price, e.g. Taxes &amp; Fees Included ($34.21) -->
+    <string name="cost_summary_breakdown_taxes_fees_included_TEMPLATE">Incl. belastingen en toeslagen ({taxes})</string>
+    <!-- Cost summary breakdown line item for savings -->
+    <string name="cost_summary_breakdown_total_savings">Totale besparingen</string>
+    <!-- Cost summary breakdown line item for total -->
+    <string name="cost_summary_breakdown_total_due_today">Totaal nu te betalen</string>
+
+    <!-- Material FLight breakdown dialog -->
+    <!-- Add adult traveler number template for example: Adult 2 details -->
+    <string name="flight_add_adult_number_TEMPLATE">Info volwassene {number}</string>
+    <!-- Add child traveler number template for example: Child 4 details -->
+    <string name="flight_add_child_number_TEMPLATE">Info kind {number}</string>
+    <!-- Add infant in lap traveler number template for example: Infant in lap 1 details -->
+    <string name="flight_add_infant_in_lap_number_TEMPLATE">Info baby op schoot {number}</string>
+    <!-- Add infant in seat traveler number template for example: Infant in seat 6 details -->
+    <string name="flight_add_infant_in_seat_number_TEMPLATE">Info baby op stoel {number}</string>
 
     <!-- Shop with points -->
     <string name="loyalty_applied_excluding_taxes_and_fees_message">Expedia+ punten toegepast! (excl. belastingen en toeslagen)</string>
@@ -4092,6 +4188,8 @@
     <string name="yay_going_somewhere">Je gaat naar</string>
     <!-- Cars cross-sell message on package confirmation -->
     <string name="rental_car_message">Huurauto nodig?</string>
+    <!-- Cars cross-sell origin description template-->
+    <string name="cars_cross_sell_origin_TEMPLATE">{airport_code}-{airport_localname}</string>
     <!-- Cars cross-sell message description on package confirmation -->
     <string name="rental_car_message_desc">Huur een auto en bespaar</string>
     <!-- Fly from hint -->
@@ -4130,28 +4228,132 @@
     <string name="reward_middle_tier_name_short">+silver</string>
     <!-- Short name for rewards top tier -->
     <string name="reward_top_tier_name_short">+gold</string>
-    <!-- Flight Detail card view content description for accessibility.
-         Example: Flight time is 10am - 12:30pm with price difference of $25. Flying with United and the flight duration is 2 hours 30 minutes. Click to view flight details -->
-    <string name="flight_detail_card_content_description">Vluchtduur is {time} met een prijsverschil van {pricedifference}. Maatschappij is {airline} met een vluchtduur van {hours} u. {minutes} min. Klik voor meer vluchtdetails</string>
 
     <!--Packages search accessibility -->
-    <!--Flying to card content description Eg. Flying to San Francisco, CA (SFO-San Francisco Intl.)-->
-    <string name="packages_search_flying_to_content_description">Vlucht naar {to_destination}</string>
-    <!--Flying from card content description Eg. Flying from Detroit, MI (DTW-Detroit Metropolitan Wayne County)-->
-    <string name="packages_search_flying_from_content_description">Vlucht vanaf {from_destination}</string>
+    <!-- Flight Detail card view content description for accessibility. Eg. Flight time is 9:00 am - 11:12 am with price difference of +$0. Flying with United. The flight duration is 5 hours 12 minutes with 0 stops. -->
+    <string name="flight_detail_card_cont_desc_TEMPLATE">Vluchttijd is {time} met een prijsverschil van {pricedifference}. Vlucht met {airline} De vluchtduur is {hours} {minutes} met {stops} tussenstops\u0020</string>
+    <!--Flight Detail card view - flight duration content description for accessibility Eg. SFO to DTM. 3 hours 15 minutes. -->
+    <string name="flight_detail_flight_duration_card_cont_desc_TEMPLATE">{departureairport} naar {arrivalairport}. {durationhours} {durationmins} \u0020</string>
+    <!--Flight Detail card view - layover duration content description for accessibility Eg. Layover. 2 hours 4 minutes. -->
+    <string name="flight_detail_layover_duration_card_cont_desc_TEMPLATE">Reisonderbreking {layoverhours} {layovermins} \u0020</string>
+    <!--Flying to card content description Eg. Flying to. Button. San Francisco, CA (SFO-San Francisco Intl.)-->
+    <string name="search_flying_to_destination_cont_desc_TEMPLATE">Vlucht naar. Knop. {to_destination}</string>
+    <!--Flying from card content description Eg. Flying from. Button. Detroit, MI (DTW-Detroit Metropolitan Wayne County)-->
+    <string name="search_flying_from_destination_cont_desc_TEMPLATE">Vlucht vanaf. Knop. {from_destination}</string>
     <!--Flying to card content description before a location is selected-->
-    <string name="packages_search_flying_to_content_description_initial">Klik hier om te selecteren waar je naartoe vliegt</string>
+    <string name="packages_search_flying_to_cont_desc">Vlucht naar. Knop</string>
     <!--Flying from card content description before a location is selected-->
-    <string name="packages_search_flying_from_content_description_initial">Klik hier om te selecteren waar je vandaan vliegt</string>
+    <string name="packages_search_flying_from_cont_desc">Vlucht vanaf. Knop</string>
     <!--Travel dates card content description before date range is selected-->
-    <string name="packages_search_dates_content_description_initial">Klik hier om je reisdatums te selecteren</string>
+    <string name="packages_search_dates_cont_desc">Selecteer reisdatums. Knop. Opent dialoogvenster</string>
     <!--Packages search date format template for accessible dates (Talkback announces date range with 'to' in between) Eg. Jun 2 to Jun 5-->
-    <string name="packages_search_accessible_date_range_TEMPLATE">{startdate} tot {enddate}</string>
-    <!--Packages search dates content description for Talkback to indicate what the date range is and how many nights the trip is for-->
-    <string name="packages_search_dates_content_description_trip">Jouw reis begint vanaf{date_range} voor {nights}</string>
+    <string name="packages_search_date_range_cont_desc_TEMPLATE">{startdate} tot {enddate}</string>
+    <!--Packages search dates content description for Talkback to indicate what the date range is and how many nights the trip is for Eg. Trip dates. Button. Opens dialog. Jun 22 to Jun 25. (3 nights)-->
+    <string name="trip_search_date_range_cont_desc_TEMPLATE">Reisdatums. Knop. Opent dialoogvenster. {date_range}. {nights}</string>
+    <!--Packages search travelers card content description template. Eg. Number of travelers. Button. Opens dialog. 1 traveler-->
+    <plurals name="packages_search_travelers_cont_desc_TEMPLATE">
+        <item quantity="one">Aantal reizigers. Knop. Opent dialoogvenster. {travelers} reiziger</item>
+        <item quantity="other">Aantal reizigers. Knop. Opent dialoogvenster. {travelers} reizigers</item>
+    </plurals>
+    <!--Traveler widget adults plus button content description-->
+    <string name="packages_add_adult_traveler_cont_desc">Voeg 1 volwassene reiziger toe</string>
+    <!--Traveler widget adults minus button content description-->
+    <string name="packages_remove_adult_traveler_cont_desc">Verwijder 1 volwassene reiziger</string>
+    <!--Traveler widget child plus button content description-->
+    <string name="packages_add_child_traveler_cont_desc">Voeg 1 minderjarige reiziger toe</string>
+    <!--Traveler widget child minus button content description-->
+    <string name="packages_remove_child_traveler_cont_desc">Verwijder 1 minderjarige reiziger</string>
+    <!--Packages search child age drop down content description Eg. "Select age for child 1."-->
+    <string name="search_child_drop_down_cont_desc_TEMPLATE">Selecteer leeftijd voor kind {childnumber}</string>
     <!--Packages accessibility flight search filter-->
     <!--Content description for "SHOW MORE" button in filter used for Talkback-->
-    <string name="packages_flight_search_filter_show_more_cont_desc">Klik hier om meer airlines te tonen</string>
+    <string name="packages_flight_search_filter_show_more_cont_desc">Meer airlines weergeven. Knop</string>
     <!--Content description for "SHOW LESS" button in filter used for Talkback-->
-    <string name="packages_flight_search_filter_show_less_cont_desc">Klik hier om minder airlines te tonen</string>
+    <string name="packages_flight_search_filter_show_less_cont_desc">Minder airlines weergeven. Knop</string>
+    <!--Content description for clear button in filter used for Talkback-->
+    <string name="packages_flight_search_filter_clear_button_cont_desc">Filters wissen. Knop</string>
+    <!--Content description for Bundle total widget. Example: Bundle total is $1,234.00. This price includes taxes, fees for both flights and hotel. $100.00 Saved-->
+    <string name="bundle_overview_price_widget">Pakkettotaal is {totalprice}. Deze prijs is incl. belastingen, toeslagen voor vluchten + hotel. {savings}</string>
+    <!--Content description for Bundle total widget. Example: Bundle total is $1,234.00. This price includes taxes, fees for both flights and hotel. $100.00 Saved. Cost Breakdown dialog. Button.-->
+    <string name="bundle_total_price_widget_cost_breakdown_cont_desc_TEMPLATE">Pakkettotaal is {totalprice}. Deze prijs is incl. belastingen, toeslagen voor vluchten + hotel. {savings}. Dialoogvenster kostenoverzicht. Knop.</string>
+    <!--Content description for Bundle sliding widget, with instruction to expand to show more details. Example: Bundle total is $1,234.00 per person. This price includes taxes, fees for both flights and hotel. $100.00 Saved. Button to view bundle.-->
+    <string name="bundle_overview_price_widget_button_open_TEMPLATE">Pakketprijs is {price_per_person} per persoon. Deze prijs is incl. belastingen, toeslagen voor vluchten + hotel. Knop om pakket te bekijken.</string>
+    <!--Content description for Bundle sliding widget, when it's opened.-->
+    <string name="bundle_overview_price_widget_button_close">Pakketdetails worden weergegeven. Sluitknop.</string>
+    <!--Packages bundle overview hotel drop down (expand) content description for accessibility-->
+    <string name="select_hotel_selected_expand_cont_desc">uitvouwen</string>
+    <!--Packages bundle overview hotel drop down (collapse) content description for accessibility-->
+    <string name="select_hotel_selected_collapse_cont_desc">samenvouwen</string>
+    <!-- Package filter checkbox.
+        Example #1: 3 available NonStop flights.
+        Example #2: 2 available Hawaiian Airlines flights. -->
+    <string name="packages_flight_filter_checkbox_cont_desc_TEMPLATE">{filter_results} beschikbare vluchten met filter {filter_name}.</string>
+
+    <!-- Status displayed in a modal dialog while insurance is being added -->
+    <string name="insurance_adding">Reisverzekering toevoegen …</string>
+    <!-- Error message displayed when insurance fails to be added to a trip -->
+    <string name="insurance_add_error">Helaas hebben we geen reisverzekering kunnen toevoegen. Probeer het nogmaals of ga verder met boeken zonder reisverzekering.</string>
+    <!-- Benefits of purchasing insurance -->
+    <string name="insurance_benefits">1. Je ticket is niet restitueerbaar en je bent te ziek om te reizen.&lt;br/&gt;&lt;br/&gt;2. Je bent gewond en kunt daarom niet je terugvlucht halen.&lt;br/&gt;&lt;br/&gt;3. Je medereiziger heeft een in aanmerking komend medisch noodgeval en kan niet reizen.</string>
+    <!-- Insurance call to action; links to list of benefits -->
+    <string name="insurance_description">3 redenen waarom je mogelijk een reisverzekering nodig hebt</string>
+    <!-- Error message displayed when insurance fails to be removed from a trip -->
+    <string name="insurance_remove_error">Helaas hebben we geen reisverzekering kunnen verwijderen. Probeer het opnieuw.</string>
+    <!-- Status displayed in a modal dialog while insurance is being removed -->
+    <string name="insurance_removing">Reisverzekering verwijderen …</string>
+    <!-- Label of link to insurance terms and conditions -->
+    <string name="insurance_terms">Voorwaarden, bepalingen en sponsors</string>
+    <!-- Title of insurance widget when trip is protected, e.g. Your trip is protected for $19/person -->
+    <string name="insurance_title_protected_TEMPLATE">&lt;b&gt;Jouw reis is verzekerd voor ${price} &lt;/b&gt;{price_type}</string>
+    <!-- Title of insurance widget when trip is not protected, e.g. Add protection for $19/person -->
+    <string name="insurance_title_unprotected_TEMPLATE">&lt;b&gt;Voeg verzekering toe voor ${price} &lt;/b&gt;{price_type}</string>
+    <!-- Insurance price type qualifiers -->
+    <string name="insurance_price_per_day">per dag</string>
+    <string name="insurance_price_per_person">per persoon</string>
+    <!-- Content description for rating bar e.g. Rated 3 out of 5-->
+    <string name="hotel_rating_bar_cont_desc_TEMPLATE">Score van {rating} / 5</string>
+    <!--LX accessibility -->
+    <!--LX search accessibility -->
+    <string name="lx_location_edit_box_cont_desc">Locatie van activiteit</string>
+
+    <!--LX infosite accessibility -->
+    <!-- LX infosite section Highlights, description etc have a caret icon to read more content -->
+    <string name="lx_read_more_cont_desc">Lees meer-knop</string>
+    <!-- LX infosite section Highlights, description etc have a caret icon to read less content -->
+    <string name="lx_read_less_cont_desc">Lees minder-knop</string>
+    <!-- Content description for LX add ticket button e.g. Add adult Button -->
+    <string name="lx_add_ticket_button_cont_desc_TEMPLATE">{traveler} toevoegen</string>
+    <!-- Content description for LX remove ticket button e.g. Remove child Button -->
+    <string name="lx_remove_ticket_button_cont_desc_TEMPLATE">{traveler} verwijderen</string>
+
+    <!-- Generic content description -->
+    <!-- Content description for toolbar 'X' i.e. close/back button -->
+    <string name="toolbar_search_nav_icon_cont_desc">Terug</string>
+    <string name="toolbar_search_nav_icon_close_cont_desc">Sluiten</string>
+    <string name="search_button_cont_desc">Zoekknop</string>
+    <!-- Content description for LX Duration e.g. Duration 2d -->
+    <string name="search_result_duration_cont_desc_TEMPLATE">Duur: {duration}</string>
+    <!-- Content description for LX Multiple Duration e.g. Duration 2d + -->
+    <string name="search_result_multiple_duration_cont_desc_TEMPLATE">Duur: meer dan {duration}</string>
+
+    <!--Packages accessibility content description for  traveler details complete-->
+    <string name="traveler_details_incomplete_cont_desc">Reizigersinformatie niet compleet</string>
+    <!--Packages accessibility content description for  traveler details complete-->
+    <string name="traveler_details_complete_cont_desc">Reizigersinformatie compleet</string>
+    <!--Packages accessibility content description for role Button-->
+    <string name="accessibility_cont_desc_role_button">Knop</string>
+    <!--Packages accessibility content description for role - Button to expand -->
+    <string name="accessibility_cont_desc_role_button_expand">uitvouwen-knop</string>
+    <!--Packages accessibility content description for role - Button to collapse -->
+    <string name="accessibility_cont_desc_role_button_collapse">samenvouwen-knop</string>
+
+    <!-- LX SRP activity price content description when no discount e.g. Price is $30 -->
+    <string name="activity_price_without_discount_cont_desc_TEMPLATE">Prijs is {activity_price}</string>
+
+    <!-- LX SRP activity price content description when price is discounted e.g. Price is $180. Price before discount was $230 -->
+    <string name="activity_price_with_discount_cont_desc_TEMPLATE">Prijs is {activity_price}. Prijs zonder korting was {activity_original_price}</string>
+    <!-- Content description for Checkbox types, state Checked -->
+    <string name="accessibility_cont_desc_role_checkbox_checked">Selectievak. Aangevinkt.</string>
+    <!-- Content description for Checkbox types, state Unchecked -->
+    <string name="accessibility_cont_desc_role_checkbox_unchecked">Selectievak. Niet aangevinkt.</string>
 </resources>

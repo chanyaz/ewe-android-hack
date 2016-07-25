@@ -89,6 +89,35 @@ public class FlightServicesTest {
 		Assert.assertEquals(2, response.getOffers().size());
 	}
 
+	@Test
+	public void testSearchErrorWorks() throws Throwable {
+		String root = new File("../mocked/templates").getCanonicalPath();
+		FileSystemOpener opener = new FileSystemOpener(root);
+		server.setDispatcher(new ExpediaDispatcher(opener));
+
+		TestSubscriber<FlightSearchResponse> observer = new TestSubscriber<>();
+		SuggestionV4 departureSuggestion = getDummySuggestion();
+		departureSuggestion.hierarchyInfo.airport.airportCode = "SearchError";
+		departureSuggestion.gaiaId = "SearchError";
+		FlightSearchParams params = (FlightSearchParams) new FlightSearchParams.Builder(26, 500)
+			.origin(departureSuggestion)
+			.destination(getDummySuggestion())
+			.startDate(LocalDate.now())
+			.endDate(LocalDate.now().plusDays(1))
+			.adults(1)
+			.build();
+
+		service.flightSearch(params).subscribe(observer);
+		observer.awaitTerminalEvent(10, TimeUnit.SECONDS);
+
+		observer.assertNoErrors();
+		observer.assertCompleted();
+		observer.assertValueCount(1);
+		FlightSearchResponse response = observer.getOnNextEvents().get(0);
+		Assert.assertEquals(0, response.getLegs().size());
+		Assert.assertEquals(0, response.getOffers().size());
+	}
+
 	private SuggestionV4 getDummySuggestion()  {
 		SuggestionV4 suggestion = new SuggestionV4();
 		suggestion.gaiaId = "";

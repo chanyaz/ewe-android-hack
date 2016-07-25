@@ -11,11 +11,11 @@ import org.json.JSONObject;
 
 import android.content.Context;
 import android.content.res.Resources;
+import android.support.annotation.Nullable;
 import android.text.TextUtils;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.UserPreference.Category;
-import com.expedia.bookings.data.packages.PackageSearchParams;
 import com.expedia.bookings.enums.PassengerCategory;
 import com.expedia.bookings.utils.JodaUtils;
 import com.expedia.bookings.utils.Strings;
@@ -203,6 +203,7 @@ public class Traveler implements JSONable, Comparable<Traveler> {
 		return mGender;
 	}
 
+	@Nullable
 	public LocalDate getBirthDate() {
 		return mBirthDate;
 	}
@@ -302,6 +303,18 @@ public class Traveler implements JSONable, Comparable<Traveler> {
 		mPassengerCategory = passengerCategory;
 	}
 
+	@Nullable
+	public PassengerCategory getPassengerCategory() {
+		return mPassengerCategory;
+	}
+
+	public PassengerCategory getPassengerCategory(LocalDate endOfTrip, Boolean infantsInLap) {
+		if (mPassengerCategory == null) {
+			mPassengerCategory = determinePassengerCategory(endOfTrip, infantsInLap);
+		}
+		return mPassengerCategory;
+	}
+
 	public PassengerCategory getPassengerCategory(FlightSearchParams searchParams) {
 		// If we haven't assigned a passengerCategory yet (e.g. passenger is from account)
 		// Passenger category is determine by their max age during the duration of their trip
@@ -310,15 +323,6 @@ public class Traveler implements JSONable, Comparable<Traveler> {
 				searchParams.getReturnDate() :
 				searchParams.getDepartureDate();
 			mPassengerCategory = determinePassengerCategory(endOfTrip, searchParams.getInfantSeatingInLap());
-		}
-		return mPassengerCategory;
-	}
-
-	public PassengerCategory getPassengerCategory(PackageSearchParams searchParams) {
-		// If we haven't assigned a passengerCategory yet (e.g. passenger is from account)
-		// Passenger category is determine by their max age during the duration of their trip
-		if (mPassengerCategory == null) {
-			mPassengerCategory = determinePassengerCategory(searchParams.getCheckOut(), false);
 		}
 		return mPassengerCategory;
 	}

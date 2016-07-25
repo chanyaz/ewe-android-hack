@@ -102,6 +102,10 @@
     <color name="credit_card_form_additional_fees_tablet_bg">#282828</color>
     <color name="flight_edit_search_button_color">@color/black</color>
     <color name="flight_earn_message_text_color">#3D4652</color>
+    
+    <!-- Flights V2 colors -->
+    <color name="flight_warning_bar_color">@color/lob_packages_secondary_color</color>
+    <color name="flight_primary_color">@color/lob_packages_primary_color</color>
 
     <!-- Hotels colors -->
     <color name="hotels_primary_color">@color/lob_hotels_primary_color</color>
@@ -302,6 +306,7 @@
     <color name="cars_valid_days_calendar">@color/gray10</color>
     <color name="cars_details_price">@color/gray6</color>
     <color name="cars_checkout_text_color">@color/gray7</color>
+    <color name="price_change_text_color">@color/gray9</color>
     <color name="cars_lx_checkout_button_text_color">@color/gray7</color>
     <color name="cars_confirmation_action_text_color">@color/gray1</color>
     <color name="cars_confirmation_email_text_color">@color/gray3</color>
@@ -324,6 +329,7 @@
     <color name="material_checkout_account_button_background_color">#384768</color>
     <color name="material_checkout_account_button_background_grape_color">@color/material_checkout_account_button_background_color</color>
     <color name="old_checkout_account_button_text_color">#676767</color>
+    <color name="card_io_scan_text">#0B8B7B</color>
 
     <color name="bg_checkout_saved_traveler_cc_row">#f0f0f0</color>
     <color name="bg_checkout_saved_traveler_cc_row_pressed">#dcdcdc</color>
@@ -352,8 +358,6 @@
     <color name="lx_actionbar_text_color">@color/gray8</color>
 
     <color name="lx_dates_text_color">@color/gray6</color>
-    <color name="lx_valid_days_calendar">@color/gray10</color>
-    <color name="lx_invalid_days_calendar">@color/gray4</color>
     <color name="lx_date_selected_color">@color/white</color>
     <color name="lx_date_unselected_color">@color/gray8</color>
     <color name="lx_date_disabled_background_color">@color/white</color>
@@ -412,6 +416,7 @@
 
     <!-- Hotels V2 Checkout Colors -->
     <color name="hotelsv2_checkout_text_color">@color/gray7</color>
+    <color name="hotelsv2_amenity_icon_color">@color/gray6</color>
     <color name="hotelsv2_checkout_divider_color">#DFDFDF</color>
     <color name="hotel_guest_selector_enabled_color">#5C5C5C</color>
     <color name="hotel_guest_selector_disabled_color">#405C5C5C</color>
@@ -456,11 +461,7 @@
     <color name="package_bundle_icon_color">@color/gray6</color>
     <color name="packages_primary_color">@color/lob_packages_primary_color</color>
     <color name="packages_secondary_color">@color/lob_packages_secondary_color</color>
-    <color name="packages_ripple_mask_color">@color/packages_secondary_color</color>
-    <color name="packages_breakdown_text_color">@color/gray5</color>
-    <color name="packages_breakdown_total_cost_color">@color/gray3</color>
-    <color name="packages_breakdown_savings_cost_color">@color/temporary_savings</color>
-    <color name="packages_breakdown_line_seperator_color">@color/gray4</color>
+    <color name="packages_ripple_mask_color">@color/lob_packages_ripple_color</color>
     <color name="packages_flight_filter_text">@color/gray8</color>
     <color name="packages_flight_filter_background_color">@color/gray1</color>
     <color name="packages_flight_filter_show_more_less">@color/gray5</color>
@@ -476,16 +477,25 @@
     <color name="packages_flight_cell_duration_text">@color/result_cells_gray_text</color>
     <color name="packages_hotel_map_message">@color/gray7</color>
     <color name="packages_result_background">@color/gray1</color>
+    <color name="traveler_drop_down_unchecked_color">@color/gray7</color>
     <color name="packages_filter_color">@color/gray6</color>
     <color name="traveler_default_card_text_color">@color/gray7</color>
     <color name="traveler_incomplete_text_color">@color/orange_crush</color>
-    <color name="traveler_drop_down_unchecked_color">@color/gray7</color>
     <color name="packages_total_duration_text">@color/white_70</color>
     <color name="flights_error_message_infants">@color/orange_crush</color>
 
     <!--Rail colors-->
     <color name="rail_primary_color">@color/lob_rail_primary_color</color>
     <color name="rail_background_color">@color/gray1</color>
+    <color name="rail_bundle_icon_color">@color/gray6</color>
+    <color name="rail_title_color">@color/gray10</color>
+    <color name="rail_regular_text_color">@color/gray7</color>
+
+    <!-- Cost summary breakdown -->
+    <color name="cost_summary_breakdown_line_separator_color">@color/gray4</color>
+    <color name="cost_summary_breakdown_savings_cost_color">@color/temporary_savings</color>
+    <color name="cost_summary_breakdown_text_color">@color/gray5</color>
+    <color name="cost_summary_breakdown_total_cost_color">@color/gray3</color>
 
     <!-- Preferences Activity -->
     <color name="preferences_activity_bg">#eceff1</color>
@@ -502,6 +512,7 @@
     <color name="search_screen_icon_color_v2">@color/gray6</color>
     <color name="white_disabled">@color/white_30</color>
     <color name="search_dialog_background_v2">@color/white</color>
+    <color name="search_origin_dest_divider">@color/gray3</color>
     <color name="search_suggestion_background_v2">#FAFAFA</color>
     <color name="search_suggestion_v2">@color/gray6</color>
     <color name="search_suggestion_hint_v2">@color/gray6_65</color>
@@ -555,6 +566,8 @@
     <color name="new_launch_cars_lob_color">@color/new_lob_cars_color</color>
     <color name="new_launch_gt_lob_color">@color/new_lob_gt_color</color>
     <color name="new_launch_lx_lob_color">@color/new_lob_lx_color</color>
+    <color name="new_launch_packages_lob_color">@color/new_lob_packages_color</color>
+    <color name="new_launch_rail_lob_color">@color/new_lob_rail_color</color>
     <color name="new_launch_lob_disabled_color">@color/black</color>
 
     <color name="new_launch_lob_text_color">@color/new_lob_text_color</color>

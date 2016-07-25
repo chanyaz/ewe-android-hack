@@ -3,26 +3,31 @@ package com.expedia.vm.packages
 import android.content.Context
 import android.text.style.RelativeSizeSpan
 import com.expedia.bookings.R
-import com.expedia.bookings.data.Db
-import com.expedia.bookings.data.Traveler
 import com.expedia.bookings.data.packages.PackageSearchParams
-import com.expedia.bookings.enums.PassengerCategory
 import com.expedia.bookings.utils.DateUtils
 import com.expedia.bookings.utils.SpannableBuilder
+import com.expedia.bookings.utils.Ui
+import com.expedia.bookings.utils.validation.TravelerValidator
 import com.expedia.util.endlessObserver
 import com.expedia.vm.BaseSearchViewModel
 import com.mobiata.android.time.util.JodaUtils
 import com.squareup.phrase.Phrase
 import org.joda.time.LocalDate
 import rx.subjects.PublishSubject
+import javax.inject.Inject
 
 class PackageSearchViewModel(context: Context) : BaseSearchViewModel(context) {
+    lateinit var travelerValidator: TravelerValidator
+        @Inject set
 
     val packageParamsBuilder = PackageSearchParams.Builder(getMaxSearchDurationDays(), getMaxDateRange())
 
     // Outputs
     val searchParamsObservable = PublishSubject.create<PackageSearchParams>()
 
+    init {
+        Ui.getApplication(context).travelerComponent().inject(this)
+    }
 
     override fun getMaxSearchDurationDays(): Int {
         return context.resources.getInteger(R.integer.calendar_max_days_package_stay);
@@ -53,7 +58,7 @@ class PackageSearchViewModel(context: Context) : BaseSearchViewModel(context) {
                errorMaxRangeObservable.onNext(context.getString(R.string.error_date_too_far, getMaxSearchDurationDays()))
             } else {
                 val packageSearchParams = getParamsBuilder().build()
-                updateDbTravelers(packageSearchParams) // This is required for the checkout screen to correctly populate traveler entry screen.
+                travelerValidator.updateForNewSearch(packageSearchParams)
                 searchParamsObservable.onNext(packageSearchParams)
             }
         } else {
@@ -137,36 +142,7 @@ class PackageSearchViewModel(context: Context) : BaseSearchViewModel(context) {
         return Pair(computeTopTextForToolTip(start, end), instructions)
     }
 
-    private fun updateDbTravelers(params: PackageSearchParams) {
-        // This is required for the checkout screen to correctly populate traveler entry screen.
-        val travelerList = Db.getTravelers()
-        if (travelerList.isNotEmpty()) {
-            travelerList.clear()
-        }
-
-        for (i in 1..params.adults) {
-            val traveler = Traveler()
-            traveler.setPassengerCategory(PassengerCategory.ADULT)
-            traveler.gender = Traveler.Gender.GENDER
-            traveler.searchedAge = -1
-            travelerList.add(traveler)
-        }
-        for (child in params.children) {
-            val traveler = Traveler()
-            var category = PassengerCategory.CHILD
-            traveler.gender = Traveler.Gender.GENDER
-            if (child < 2) {
-                category = if (params.infantSeatingInLap) PassengerCategory.INFANT_IN_LAP else PassengerCategory.INFANT_IN_SEAT
-            } else if (child < 12) {
-                category = PassengerCategory.CHILD
-            } else if (child < 18) {
-                category = PassengerCategory.ADULT_CHILD
-            }
-            traveler.setPassengerCategory(category)
-            traveler.searchedAge = child
-            travelerList.add(traveler)
-        }
-        Db.setTravelers(travelerList)
+    override fun sameStartAndEndDateAllowed(): Boolean {
+        return false
     }
 }
-

@@ -30,6 +30,7 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.bitmaps.IMedia;
 import com.expedia.bookings.bitmaps.PicassoTarget;
+import com.expedia.bookings.utils.AccessibilityUtil;
 import com.expedia.bookings.utils.Ui;
 import com.mobiata.android.Log;
 import com.mobiata.android.util.AndroidUtils;
@@ -258,7 +259,9 @@ public class RecyclerGallery extends RecyclerView {
 				ButterKnife.inject(this, itemView);
 				mImageView.setLayoutParams(mLayoutParams);
 				mImageView.setTag(callback);
-				mImageView.setOnClickListener(this);
+				if (!AccessibilityUtil.isTalkBackEnabled(getContext())) {
+					mImageView.setOnClickListener(this);
+				}
 			}
 
 			@Override

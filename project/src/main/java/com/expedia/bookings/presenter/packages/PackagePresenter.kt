@@ -12,10 +12,10 @@ import android.view.animation.AccelerateDecelerateInterpolator
 import android.view.animation.DecelerateInterpolator
 import com.expedia.bookings.R
 import com.expedia.bookings.animation.TransitionElement
+import com.expedia.bookings.data.ApiError
 import com.expedia.bookings.data.BaseApiResponse
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.Money
-import com.expedia.bookings.data.cars.ApiError
 import com.expedia.bookings.data.packages.PackageCheckoutResponse
 import com.expedia.bookings.presenter.BaseOverviewPresenter
 import com.expedia.bookings.presenter.IntentPresenter
@@ -24,13 +24,13 @@ import com.expedia.bookings.presenter.ScaleTransition
 import com.expedia.bookings.services.PackageServices
 import com.expedia.bookings.tracking.PackagesTracking
 import com.expedia.bookings.utils.Strings
+import com.expedia.bookings.utils.TravelerManager
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
 import com.expedia.vm.packages.BundleOverviewViewModel
 import com.expedia.vm.packages.PackageConfirmationViewModel
 import com.expedia.vm.packages.PackageErrorViewModel
 import com.expedia.vm.packages.PackageSearchViewModel
-import com.squareup.phrase.Phrase
 import rx.subjects.PublishSubject
 import java.math.BigDecimal
 import javax.inject.Inject
@@ -38,6 +38,8 @@ import javax.inject.Inject
 class PackagePresenter(context: Context, attrs: AttributeSet) : IntentPresenter(context, attrs) {
     lateinit var packageServices: PackageServices
         @Inject set
+
+    lateinit var travelerManager: TravelerManager
 
     val searchPresenter: PackageSearchPresenter by bindView(R.id.widget_package_search_presenter)
     val bundlePresenter: PackageOverviewPresenter by bindView(R.id.widget_bundle_overview)
@@ -51,6 +53,7 @@ class PackagePresenter(context: Context, attrs: AttributeSet) : IntentPresenter(
 
     init {
         Ui.getApplication(getContext()).packageComponent().inject(this)
+        travelerManager = Ui.getApplication(getContext()).travelerComponent().travelerManager()
         View.inflate(context, R.layout.package_presenter, this)
         val checkoutPresenter = bundlePresenter.getCheckoutPresenter()
 
@@ -62,18 +65,17 @@ class PackagePresenter(context: Context, attrs: AttributeSet) : IntentPresenter(
         bundlePresenter.bundleWidget.viewModel.showBundleTotalObservable.subscribe { visible ->
             val packagePrice = Db.getPackageResponse().packageResult.currentSelectedOffer.price
 
-            val packageSavings = Phrase.from(context, R.string.bundle_total_savings_TEMPLATE)
-                    .put("savings", Money(BigDecimal(packagePrice.tripSavings.amount.toDouble()),
-                            packagePrice.tripSavings.currencyCode).formattedMoney)
-                    .format().toString()
+            val packageSavings = Money(BigDecimal(packagePrice.tripSavings.amount.toDouble()),
+                    packagePrice.tripSavings.currencyCode)
             checkoutPresenter.totalPriceWidget.visibility = if (visible) View.VISIBLE else View.GONE
-            checkoutPresenter.totalPriceWidget.viewModel.setTextObservable.onNext(Pair(Money(BigDecimal(packagePrice.packageTotalPrice.amount.toDouble()),
-                    packagePrice.packageTotalPrice.currencyCode).formattedMoney, packageSavings))
+            checkoutPresenter.totalPriceWidget.viewModel.total.onNext(Money(BigDecimal(packagePrice.packageTotalPrice.amount.toDouble()),
+                    packagePrice.packageTotalPrice.currencyCode))
+            checkoutPresenter.totalPriceWidget.viewModel.savings.onNext(packageSavings)
         }
         checkoutPresenter.getCreateTripViewModel().tripResponseObservable.subscribe { trip ->
             expediaRewards = trip.rewards?.totalPointsToEarn?.toString()
         }
-        checkoutPresenter.getCheckoutViewModel().checkoutResponse.subscribe { pair: Pair<BaseApiResponse, String> ->
+        checkoutPresenter.getCheckoutViewModel().bookingSuccessResponse.subscribe { pair: Pair<BaseApiResponse, String> ->
             val response = pair.first as PackageCheckoutResponse
             show(confirmationPresenter)
             confirmationPresenter.viewModel.showConfirmation.onNext(Pair(response.newTrip?.itineraryNumber, pair.second))
@@ -82,48 +84,44 @@ class PackagePresenter(context: Context, attrs: AttributeSet) : IntentPresenter(
         }
 
         // TODO - can we move this up to a common "base" presenter? (common between Package and Flight presenter)
-        searchPresenter.searchViewModel.searchParamsObservable.subscribe {
+        searchPresenter.searchViewModel.searchParamsObservable.subscribe { params ->
             // Starting a new search clear previous selection
             Db.clearPackageSelection()
-            errorPresenter.viewmodel.paramsSubject.onNext(it)
+            travelerManager.updateDbTravelers(params, context)
+            errorPresenter.getViewModel().paramsSubject.onNext(params)
             show(bundlePresenter)
             bundlePresenter.show(BaseOverviewPresenter.BundleDefault(), FLAG_CLEAR_BACKSTACK)
         }
         searchPresenter.searchViewModel.searchParamsObservable.subscribe(bundlePresenter.bundleWidget.viewModel.hotelParamsObservable)
         bundlePresenter.bundleWidget.viewModel.toolbarTitleObservable.subscribe(bundlePresenter.bundleOverviewHeader.toolbar.viewModel.toolbarTitle)
         bundlePresenter.bundleWidget.viewModel.toolbarSubtitleObservable.subscribe(bundlePresenter.bundleOverviewHeader.toolbar.viewModel.toolbarSubtitle)
-        bundlePresenter.bundleWidget.viewModel.errorObservable.subscribe(errorPresenter.viewmodel.searchApiErrorObserver)
+        bundlePresenter.bundleWidget.viewModel.errorObservable.subscribe(errorPresenter.getViewModel().packageSearchApiErrorObserver)
         bundlePresenter.bundleWidget.viewModel.errorObservable.subscribe { show(errorPresenter) }
-        errorPresenter.viewmodel.defaultErrorObservable.subscribe {
+        errorPresenter.getViewModel().defaultErrorObservable.subscribe {
             show(searchPresenter, FLAG_CLEAR_TOP)
         }
 
-        checkoutPresenter.getCreateTripViewModel().createTripErrorObservable.subscribe(errorPresenter.viewmodel.checkoutApiErrorObserver)
-        checkoutPresenter.getCheckoutViewModel().checkoutErrorObservable.subscribe(errorPresenter.viewmodel.checkoutApiErrorObserver)
+        checkoutPresenter.getCreateTripViewModel().createTripErrorObservable.subscribe(errorPresenter.getViewModel().checkoutApiErrorObserver)
+        checkoutPresenter.getCheckoutViewModel().checkoutErrorObservable.subscribe(errorPresenter.getViewModel().checkoutApiErrorObserver)
         checkoutPresenter.getCreateTripViewModel().createTripErrorObservable.subscribe { show(errorPresenter) }
         checkoutPresenter.getCheckoutViewModel().checkoutErrorObservable.subscribe { show(errorPresenter) }
-        checkoutPresenter.getCheckoutViewModel().priceChangeObservable.subscribe {
-            checkoutPresenter.slideToPurchase.resetSlider()
-            checkoutPresenter.getCreateTripViewModel().tripResponseObservable.onNext(it)
-        }
 
-        hotelOffersErrorObservable.subscribe(errorPresenter.viewmodel.hotelOffersApiErrorObserver)
+        hotelOffersErrorObservable.subscribe(errorPresenter.getViewModel().hotelOffersApiErrorObserver)
         hotelOffersErrorObservable.subscribe { show(errorPresenter) }
 
-
-        errorPresenter.viewmodel.checkoutUnknownErrorObservable.subscribe {
+        errorPresenter.getViewModel().checkoutUnknownErrorObservable.subscribe {
             show(bundlePresenter, Presenter.FLAG_CLEAR_TOP)
             checkoutPresenter.slideToPurchase.resetSlider()
         }
 
-        errorPresenter.viewmodel.checkoutTravelerErrorObservable.subscribe {
+        errorPresenter.getViewModel().checkoutTravelerErrorObservable.subscribe {
             show(bundlePresenter, Presenter.FLAG_CLEAR_TOP)
             checkoutPresenter.slideToPurchase.resetSlider()
-            checkoutPresenter.travelerPresenter.expandedSubject.onNext(true)
+            checkoutPresenter.openTravelerPresenter()
             checkoutPresenter.show(checkoutPresenter, Presenter.FLAG_CLEAR_TOP)
         }
 
-        errorPresenter.viewmodel.checkoutCardErrorObservable.subscribe {
+        errorPresenter.getViewModel().checkoutCardErrorObservable.subscribe {
             show(bundlePresenter, Presenter.FLAG_CLEAR_TOP)
             checkoutPresenter.slideToPurchase.resetSlider()
             checkoutPresenter.clearCCNumber()
@@ -185,6 +183,8 @@ class PackagePresenter(context: Context, attrs: AttributeSet) : IntentPresenter(
             bundlePresenter.visibility = if (forward) View.VISIBLE else View.GONE
             if (!forward) {
                 trackSearchPageLoad()
+            } else {
+                trackViewBundlePageLoad()
             }
 
             val params = bundlePresenter.bundleOverviewHeader.appBarLayout.layoutParams as CoordinatorLayout.LayoutParams
@@ -216,6 +216,9 @@ class PackagePresenter(context: Context, attrs: AttributeSet) : IntentPresenter(
             bundlePresenter.visibility = if (forward) View.GONE else View.VISIBLE
             errorPresenter.visibility = if (forward) View.VISIBLE else View.GONE
             errorPresenter.animationFinalize()
+            if (!forward) {
+                trackViewBundlePageLoad()
+            }
         }
     }
 
@@ -250,5 +253,9 @@ class PackagePresenter(context: Context, attrs: AttributeSet) : IntentPresenter(
 
     fun trackSearchPageLoad() {
         PackagesTracking().trackDestinationSearchInit()
+    }
+
+    fun trackViewBundlePageLoad() {
+        PackagesTracking().trackViewBundlePageLoad()
     }
 }

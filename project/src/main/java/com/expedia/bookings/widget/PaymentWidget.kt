@@ -27,7 +27,6 @@ import com.expedia.bookings.data.PaymentType
 import com.expedia.bookings.data.StoredCreditCard
 import com.expedia.bookings.data.User
 import com.expedia.bookings.data.abacus.AbacusUtils
-import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.section.ISectionEditable
 import com.expedia.bookings.section.InvalidCharacterHelper
@@ -42,6 +41,7 @@ import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.WalletUtils
 import com.expedia.bookings.utils.bindOptionalView
 import com.expedia.bookings.utils.bindView
+import com.expedia.bookings.utils.setFocusForView
 import com.expedia.util.endlessObserver
 import com.expedia.util.getCheckoutToolbarTitle
 import com.expedia.util.notNullAndObservable
@@ -133,7 +133,10 @@ open class PaymentWidget(context: Context, attr: AttributeSet) : Presenter(conte
                 creditCardNumber.setHint(getCreditCardNumberHintResId())
             }
         }
-
+        vm.cardIOBillingInfo.subscribe { info ->
+            sectionBillingInfo.bind(info)
+            sectionLocation.bind(info.location)
+        }
         doneClicked.subscribe {
             if (currentState == PaymentDetails::class.java.name) {
                 val hasStoredCard = hasStoredCard()
@@ -188,6 +191,7 @@ open class PaymentWidget(context: Context, attr: AttributeSet) : Presenter(conte
             compositeSubscription?.add(RxTextView.afterTextChangeEvents(creditCardNumber).distinctUntilChanged().subscribe(formFilledSubscriber))
             compositeSubscription?.add(RxTextView.afterTextChangeEvents(creditCardName).distinctUntilChanged().subscribe(formFilledSubscriber))
             compositeSubscription?.add(RxTextView.afterTextChangeEvents(creditCardPostalCode).distinctUntilChanged().subscribe(formFilledSubscriber))
+            creditCardNumber.setHint(getCreditCardNumberHintResId())
         } else {
             compositeSubscription?.unsubscribe();
         }
@@ -199,6 +203,7 @@ open class PaymentWidget(context: Context, attr: AttributeSet) : Presenter(conte
             temporarilySavedCardIsSelected(false, Db.getTemporarilySavedCard())
             viewmodel.billingInfoAndStatusUpdate.onNext(Pair(sectionBillingInfo.billingInfo, ContactDetailsCompletenessStatus.COMPLETE))
             viewmodel.onStoredCardChosen.onNext(Unit)
+            viewmodel.cardTypeSubject.onNext(card.type)
             closePopup()
             trackPaymentStoredCCSelect()
         }
@@ -227,7 +232,7 @@ open class PaymentWidget(context: Context, attr: AttributeSet) : Presenter(conte
             val activity = context as AppCompatActivity
             InvalidCharacterHelper.showInvalidCharacterPopup(activity.supportFragmentManager, mode)
         }
-        sectionBillingInfo.addChangeListener(mValidFormsOfPaymentListener)
+        sectionBillingInfo.addChangeListener(billingInfoChangedListener)
         filledInCardDetailsMiniView.setCompoundDrawablesWithIntrinsicBounds(getCreditCardIcon(R.drawable.ic_hotel_credit_card), null, null, null)
         storedCreditCardList.setStoredCreditCardListener(storedCreditCardListener)
 
@@ -377,9 +382,9 @@ open class PaymentWidget(context: Context, attr: AttributeSet) : Presenter(conte
         return sectionBillingInfo.billingInfo != null && sectionBillingInfo.billingInfo.hasStoredCard()
     }
 
-    private val mValidFormsOfPaymentListener: ISectionEditable.SectionChangeListener = ISectionEditable.SectionChangeListener {
+    private val billingInfoChangedListener: ISectionEditable.SectionChangeListener = ISectionEditable.SectionChangeListener {
         val cardType = sectionBillingInfo.billingInfo?.paymentType
-        viewmodel.cardType.onNext(cardType)
+        viewmodel.cardTypeSubject.onNext(cardType)
     }
 
     /** Google Wallet **/
@@ -436,6 +441,7 @@ open class PaymentWidget(context: Context, attr: AttributeSet) : Presenter(conte
             paymentOptionsContainer.visibility = View.GONE
             billingInfoContainer.visibility = View.GONE
             validateAndBind()
+            cardInfoContainer.setFocusForView()
         }
     }
 
@@ -472,19 +478,21 @@ open class PaymentWidget(context: Context, attr: AttributeSet) : Presenter(conte
         }
     }
 
+    private fun setToolbarTitleForPaymentDetailsView(showingPaymentForm: Boolean, otherTitle: String) {
+        val debitCardNotAccepted = viewmodel.showDebitCardsNotAcceptedSubject.value
+        val paymentFormTitle = resources.getString(if (debitCardNotAccepted) R.string.new_credit_card else R.string.new_credit_debit_card)
+        toolbarTitle.onNext(if (showingPaymentForm) paymentFormTitle else otherTitle)
+    }
+
     private val defaultToDetails = object : Presenter.Transition(PaymentDefault::class.java,
             PaymentDetails::class.java) {
         override fun endTransition(forward: Boolean) {
             menuVisibility.onNext(forward)
-            toolbarTitle.onNext(
-                    if (forward) {
-                        resources.getString(R.string.new_credit_debit_card)
-                    } else {
-                        getCheckoutToolbarTitle(resources, isSecureToolbarBucketed())
-                    })
+            setToolbarTitleForPaymentDetailsView(forward, getCheckoutToolbarTitle(resources, isSecureToolbarBucketed()))
             cardInfoContainer.visibility = if (forward) View.GONE else View.VISIBLE
             paymentOptionsContainer.visibility = View.GONE
             billingInfoContainer.visibility =if (forward) View.VISIBLE else View.GONE
+            storedCreditCardList.bind()
             trackAnalytics()
             if (!forward) validateAndBind()
             if (forward) filledIn.onNext(isCompletelyFilled())
@@ -495,7 +503,7 @@ open class PaymentWidget(context: Context, attr: AttributeSet) : Presenter(conte
             PaymentDetails::class.java) {
         override fun endTransition(forward: Boolean) {
             menuVisibility.onNext(forward)
-            toolbarTitle.onNext(resources.getString(if (forward) R.string.new_credit_debit_card else R.string.checkout_enter_payment_details))
+            setToolbarTitleForPaymentDetailsView(forward, resources.getString(R.string.checkout_enter_payment_details))
             cardInfoContainer.visibility = View.GONE
             paymentOptionsContainer.visibility = if (forward) View.GONE else View.VISIBLE
             billingInfoContainer.visibility = if (forward) View.VISIBLE else View.GONE

@@ -1,6 +1,6 @@
 package com.expedia.bookings.data.packages
 
-import com.expedia.bookings.data.BaseSearchParams
+import com.expedia.bookings.data.AbstractFlightSearchParams
 import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.utils.Constants
 import org.joda.time.Days
@@ -8,7 +8,7 @@ import org.joda.time.LocalDate
 import java.util.HashMap
 import kotlin.properties.Delegates
 
-open class PackageSearchParams(val origin: SuggestionV4, val destination: SuggestionV4, val checkIn: LocalDate, val checkOut: LocalDate, adults: Int, children: List<Int>, val infantSeatingInLap: Boolean) : BaseSearchParams(adults, children) {
+open class PackageSearchParams(origin: SuggestionV4, destination: SuggestionV4, startDate: LocalDate, endDate: LocalDate, adults: Int, children: List<Int>, infantSeatingInLap: Boolean) : AbstractFlightSearchParams(origin, destination, adults, children, startDate, endDate, infantSeatingInLap) {
 
     var pageType: String? = null
     var searchProduct: String? = null
@@ -26,7 +26,7 @@ open class PackageSearchParams(val origin: SuggestionV4, val destination: Sugges
     var defaultFlights: Array<String?> by Delegates.notNull()
     var numberOfRooms: String = Constants.NUMBER_OF_ROOMS
 
-    class Builder(maxStay: Int, maxRange: Int) : BaseSearchParams.Builder(maxStay, maxRange) {
+    class Builder(maxStay: Int, maxRange: Int) : AbstractFlightSearchParams.Builder(maxStay, maxRange) {
 
         override fun build(): PackageSearchParams {
             val flightOrigin = originLocation ?: throw IllegalArgumentException()
@@ -63,22 +63,22 @@ open class PackageSearchParams(val origin: SuggestionV4, val destination: Sugges
     fun toQueryMap(): Map<String, Any?> {
         val params = HashMap<String, Any?>()
         if (pageType != null) params.put("pageType", pageType)
-        params.put("originId", origin.hierarchyInfo?.airport?.multicity)
-        params.put("destinationId", destination.hierarchyInfo?.airport?.multicity)
-        params.put("ftla", origin.hierarchyInfo?.airport?.airportCode)
-        params.put("ttla", destination.hierarchyInfo?.airport?.airportCode)
-        params.put("fromDate", checkIn.toString())
-        params.put("toDate", checkOut.toString())
+        params.put("originId", origin?.hierarchyInfo?.airport?.multicity)
+        params.put("destinationId", destination?.hierarchyInfo?.airport?.multicity)
+        params.put("ftla", origin?.hierarchyInfo?.airport?.airportCode)
+        params.put("ttla", destination?.hierarchyInfo?.airport?.airportCode)
+        params.put("fromDate", startDate.toString())
+        params.put("toDate", endDate.toString())
         params.put("numberOfRooms", numberOfRooms)
         params.put("adultsPerRoom[1]", adults)
-        params.put("infantSeatingInLap", infantSeatingInLap)
+        params.put("infantsInSeats", if (infantSeatingInLap) 0 else 1)
         if (children.size > 0) {
             params.put("childrenPerRoom[1]", children.size)
             makeChildrenAgesParams(params, "childAges[1]", children, 1)
         }
         if (searchProduct != null) params.put("searchProduct", searchProduct)
         if (packagePIID != null) params.put("packagePIID", packagePIID)
-        if (selectedLegId != null)  params.put("selectedLegId", selectedLegId)
+        if (selectedLegId != null) params.put("selectedLegId", selectedLegId)
         params.put("packageTripType", Constants.PACKAGE_TRIP_TYPE)
         if (isOutboundSearch() || isChangePackageSearch()) {
             params.put("currentFlights", currentFlights.joinToString(","))

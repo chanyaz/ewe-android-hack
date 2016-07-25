@@ -20,11 +20,12 @@ import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.Location;
 import com.expedia.bookings.data.PaymentType;
 import com.expedia.bookings.data.StoredCreditCard;
-import com.expedia.bookings.data.trips.TripBucketItemHotelV2;
-import com.expedia.bookings.data.ValidPayment;
+import com.expedia.bookings.data.flights.ValidFormOfPayment;
 import com.expedia.bookings.data.hotels.HotelCreateTripResponse;
 import com.expedia.bookings.data.hotels.HotelOffersResponse;
 import com.expedia.bookings.data.hotels.HotelRate;
+import com.expedia.bookings.data.trips.TripBucketItemHotelV2;
+import com.expedia.bookings.data.utils.ValidFormOfPaymentUtils;
 import com.expedia.bookings.presenter.Presenter;
 import com.expedia.bookings.section.SectionBillingInfo;
 import com.expedia.bookings.utils.Ui;
@@ -80,16 +81,16 @@ public class PaymentWidgetFlowTest {
 		tempNotSavedCardBillingInfo = new BillingInfo(billingInfo);
 		tempNotSavedCardBillingInfo.setNumberAndDetectType("6011111111111111");
 
-		ArrayList<ValidPayment> validFormsOfPayment = new ArrayList<>();
-		ValidPayment validPayment = new ValidPayment();
+		ArrayList<ValidFormOfPayment> validFormsOfPayment = new ArrayList<>();
+		ValidFormOfPayment validPayment = new ValidFormOfPayment();
 		validPayment.name = "AmericanExpress";
-		ValidPayment.addValidPayment(validFormsOfPayment, validPayment);
-		validPayment = new ValidPayment();
+		ValidFormOfPaymentUtils.addValidPayment(validFormsOfPayment, validPayment);
+		validPayment = new ValidFormOfPayment();
 		validPayment.name = "Visa";
-		ValidPayment.addValidPayment(validFormsOfPayment, validPayment);
-		validPayment = new ValidPayment();
+		ValidFormOfPaymentUtils.addValidPayment(validFormsOfPayment, validPayment);
+		validPayment = new ValidFormOfPayment();
 		validPayment.name = "Discover";
-		ValidPayment.addValidPayment(validFormsOfPayment, validPayment);
+		ValidFormOfPaymentUtils.addValidPayment(validFormsOfPayment, validPayment);
 
 		HotelCreateTripResponse response = new HotelCreateTripResponse();
 		response.setValidFormsOfPayment(validFormsOfPayment);

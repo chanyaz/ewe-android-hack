@@ -4,7 +4,7 @@ import android.content.Context;
 import android.location.Location;
 
 import com.expedia.bookings.dagger.tags.LXScope;
-import com.expedia.bookings.data.cars.ApiError;
+import com.expedia.bookings.data.ApiError;
 import com.expedia.bookings.data.SuggestionV4;
 import com.expedia.bookings.location.CurrentLocationSuggestionProvider;
 import com.expedia.bookings.services.SuggestionServices;

@@ -10,5 +10,6 @@ class RailDetailsViewModel(val context: Context) {
     val railResultsObservable = BehaviorSubject.create<RailSearchResponse>()
 
     val offerSelectedObservable = PublishSubject.create<RailSearchResponse.RailOffer>()
+    val showAmenitiesObservable = PublishSubject.create<RailSearchResponse.RailOffer>()
 }
 

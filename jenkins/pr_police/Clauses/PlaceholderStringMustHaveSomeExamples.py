@@ -25,14 +25,14 @@ class PlaceholderStringMustHaveSomeExamples(StringValidationClause):
                 previousLine = file.patch.fileLines[index-1]
                 # validate 1> The comment must have used one example
                 if not re.search(expectedExampleStringFormat, previousLine.codeLineAdded):
-                    issueList.append(Issue(file.commitId, file.filename, line.codeLineNumberInFile, line.linePositionInDiff, line.codeLineAdded, "Please include an example string with all parameters filled in to aid in translation."))
+                    issueList.append(Issue(file.commitId, file.filename, line.codeLineNumberInFile, line.linePositionInDiff, line.codeLineAdded, "Please include an example string with all parameters filled in to aid in translation.", IssueType.warning))
                 else:
                     # extract the placeholder values from comments and validate them
                     for placeholderValueTuples in re.finditer(expectedExampleStringFormat, previousLine.codeLineAdded):
                         print placeholderValueTuples.groups()
                         for indiValue in placeholderValueTuples.groups():
                             if indiValue.startswith("{") and indiValue.endswith("}") :
-                                issueList.append(Issue(file.commitId, file.filename, line.codeLineNumberInFile, line.linePositionInDiff, line.codeLineAdded, "Please include an example string with all parameters filled in to aid in translation."))
+                                issueList.append(Issue(file.commitId, file.filename, line.codeLineNumberInFile, line.linePositionInDiff, line.codeLineAdded, "Please include an example string with all parameters filled in to aid in translation.", IssueType.warning))
                             else:
                                 print "EXAMPLE: " + previousLine.codeLineAdded + "\nFOR THE STRING : "+ line.codeLineAdded +"\nFOUND.\n\n"
         return issueList

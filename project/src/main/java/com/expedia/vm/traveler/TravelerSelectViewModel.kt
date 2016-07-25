@@ -5,15 +5,18 @@ import android.support.v4.content.ContextCompat
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.Traveler
-import com.expedia.bookings.enums.PassengerCategory
 import com.expedia.bookings.enums.TravelerCheckoutStatus
 import com.expedia.bookings.utils.FontCache
+import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.validation.TravelerValidator
 import com.expedia.bookings.widget.ContactDetailsCompletenessStatus
 import com.squareup.phrase.Phrase
 import rx.subjects.BehaviorSubject
+import javax.inject.Inject
 
 open class TravelerSelectViewModel(val context: Context, val index: Int, val age: Int) {
+    lateinit var travelerValidator: TravelerValidator
+        @Inject set
     val resources = context.resources
     val emptyText = Phrase.from(resources.getString(R.string.checkout_edit_traveler_TEMPLATE))
             .put("travelernumber", index + 1)
@@ -29,6 +32,7 @@ open class TravelerSelectViewModel(val context: Context, val index: Int, val age
     var status: TravelerCheckoutStatus
 
     init {
+        Ui.getApplication(context).travelerComponent().inject(this)
         setTravelerSummaryInfo(emptyText, "", ContactDetailsCompletenessStatus.DEFAULT, FontCache.Font.ROBOTO_REGULAR)
         status = TravelerCheckoutStatus.CLEAN
     }
@@ -43,7 +47,7 @@ open class TravelerSelectViewModel(val context: Context, val index: Int, val age
                 textColorObservable.onNext(ContextCompat.getColor(context, R.color.traveler_incomplete_text_color))
             } else if (isPhoneEmpty(traveler)) {
                 setTravelerSummaryInfo(traveler.fullName, "", ContactDetailsCompletenessStatus.INCOMPLETE, FontCache.Font.ROBOTO_MEDIUM)
-            } else if (!TravelerValidator.isValidForPackageBooking(traveler)) {
+            } else if (!travelerValidator.isValidForPackageBooking(traveler)) {
                 setTravelerSummaryInfo(traveler.fullName, traveler.primaryPhoneNumber.number,
                         ContactDetailsCompletenessStatus.INCOMPLETE, FontCache.Font.ROBOTO_MEDIUM)
             } else {

@@ -29,6 +29,7 @@ import com.expedia.bookings.tracking.PackagesTracking
 import com.expedia.bookings.utils.Constants
 import com.expedia.bookings.utils.PackageResponseUtils
 import com.expedia.bookings.utils.Strings
+import com.expedia.bookings.utils.AccessibilityUtil
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.FrameLayout
@@ -42,7 +43,6 @@ import com.expedia.vm.HotelReviewsViewModel
 import com.expedia.vm.hotel.HotelResultsViewModel
 import com.expedia.vm.packages.PackageHotelDetailViewModel
 import com.google.android.gms.maps.MapView
-import com.squareup.phrase.Phrase
 import rx.Observable
 import rx.Observer
 import java.math.BigDecimal
@@ -91,10 +91,16 @@ class PackageHotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
         presenter.hotelDetailView.viewmodel = PackageHotelDetailViewModel(context, selectedRoomObserver)
         presenter.hotelDetailView.viewmodel.reviewsClickedWithHotelData.subscribe(reviewsObserver)
         presenter.hotelDetailView.viewmodel.vipAccessInfoObservable.subscribe(presenter.hotelVIPAccessInfoObserver)
+        presenter.hotelDetailView.viewmodel.hotelRenovationObservable.subscribe(presenter.hotelRenovationObserver)
         presenter.hotelDetailView.viewmodel.mapClickedSubject.subscribe(presenter.hotelDetailsEmbeddedMapClickObserver)
-        presenter.hotelDetailView.viewmodel.hotelDetailsBundleTotalObservable.subscribe { bundle ->
-            bundleSlidingWidget.bundlePriceWidget.viewModel.setTextObservable.onNext(bundle)
-            bundleSlidingWidget.bundlePriceFooter.viewModel.setTextObservable.onNext(bundle)
+        presenter.hotelDetailView.viewmodel.bundlePricePerPersonObservable.subscribe { pricePerPerson ->
+            bundleSlidingWidget.bundlePriceWidget.viewModel.pricePerPerson.onNext(pricePerPerson)
+        }
+        presenter.hotelDetailView.viewmodel.bundleTotalPriceObservable.subscribe { totalPrice ->
+            bundleSlidingWidget.bundlePriceFooter.viewModel.total.onNext(totalPrice)
+        }
+        presenter.hotelDetailView.viewmodel.bundleSavingsObservable.subscribe { savings ->
+            bundleSlidingWidget.bundlePriceFooter.viewModel.savings.onNext(savings)
         }
         presenter.hotelMapView.viewmodel = HotelMapViewModel(context, presenter.hotelDetailView.viewmodel.scrollToRoom, presenter.hotelDetailView.viewmodel.hotelSoldOut, presenter.hotelDetailView.viewmodel.getLOB())
         presenter
@@ -104,7 +110,7 @@ class PackageHotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
         val viewStub = findViewById(R.id.reviews_stub) as ViewStub
         val presenter = viewStub.inflate() as HotelReviewsView
         presenter.reviewServices = reviewServices
-        presenter.hotelReviewsToolbar.slidingTabLayout.setOnPageChangeListener(object : ViewPager.OnPageChangeListener {
+        presenter.hotelReviewsTabbar.slidingTabLayout.setOnPageChangeListener(object : ViewPager.OnPageChangeListener {
             override fun onPageSelected(position: Int) {
                 PackagesTracking().trackHotelReviewCategoryChange(position)
             }
@@ -125,6 +131,9 @@ class PackageHotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
                 super.endTransition(forward)
                 if (forward) {
                     reviewsView.transitionFinished()
+                    AccessibilityUtil.setFocusToToolbarNavigationIcon(reviewsView.toolbar)
+                } else {
+                    AccessibilityUtil.setFocusToToolbarNavigationIcon(detailPresenter.hotelDetailView.hotelDetailsToolbar.toolbar)
                 }
                 bundleSlidingWidget.setVisibility(!forward)
             }
@@ -149,13 +158,11 @@ class PackageHotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
             resultsPresenter.viewmodel.hotelResultsObservable.onNext(HotelSearchResponse.convertPackageToSearchResponse(Db.getPackageResponse()))
         }
         val currencyCode = Db.getPackageResponse().packageResult.packageOfferModels[0].price.packageTotalPrice.currencyCode
-        val total = Money(BigDecimal(0), currencyCode)
         bundleSlidingWidget.bundlePriceWidget.viewModel.bundleTextLabelObservable.onNext(context.getString(R.string.search_bundle_total_text))
-        val packageSavings = Phrase.from(context, R.string.bundle_total_savings_TEMPLATE)
-                .put("savings", total.getFormattedMoney(Money.F_ALWAYS_TWO_PLACES_AFTER_DECIMAL))
-                .format().toString()
-        bundleSlidingWidget.bundlePriceWidget.viewModel.setTextObservable.onNext(Pair(total.getFormattedMoney(Money.F_ALWAYS_TWO_PLACES_AFTER_DECIMAL), packageSavings))
-        bundleSlidingWidget.bundlePriceFooter.viewModel.setTextObservable.onNext(Pair(total.getFormattedMoney(Money.F_ALWAYS_TWO_PLACES_AFTER_DECIMAL), packageSavings))
+        val zero = Money(BigDecimal(0), currencyCode)
+        bundleSlidingWidget.bundlePriceWidget.viewModel.pricePerPerson.onNext(zero)
+        bundleSlidingWidget.bundlePriceFooter.viewModel.total.onNext(zero)
+        bundleSlidingWidget.bundlePriceFooter.viewModel.savings.onNext(zero)
     }
 
     fun updateOverviewAnimationDuration(duration: Int) {
@@ -182,7 +189,7 @@ class PackageHotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
     val hotelSelectedObserver: Observer<Hotel> = endlessObserver { hotel ->
         selectedPackageHotel = hotel
         val params = Db.getPackageParams()
-        getDetails(hotel.packageOfferModel.piid, hotel.hotelId, params.checkIn.toString(), params.checkOut.toString(), Db.getPackageSelectedRoom()?.ratePlanCode, Db.getPackageSelectedRoom()?.roomTypeCode, params.adults, params.children.firstOrNull())
+        getDetails(hotel.packageOfferModel.piid, hotel.hotelId, params.startDate.toString(), params.endDate.toString(), Db.getPackageSelectedRoom()?.ratePlanCode, Db.getPackageSelectedRoom()?.roomTypeCode, params.adults, params.children.firstOrNull())
         PackagesTracking().trackHotelMapCarouselPropertyClick()
         bundleSlidingWidget.updateBundleViews(Constants.PRODUCT_HOTEL)
     }
@@ -231,23 +238,11 @@ class PackageHotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
     }
 
     private val defaultResultsTransition = object : Presenter.DefaultTransition(PackageHotelResultsPresenter::class.java.name) {
-
-        override fun startTransition(forward: Boolean) {
-            super.startTransition(forward)
-            loadingOverlay.visibility = View.GONE
-            resultsPresenter.visibility = View.VISIBLE
-            resultsPresenter.animationStart()
-        }
-
-        override fun updateTransition(f: Float, forward: Boolean) {
-            super.updateTransition(f, forward)
-            resultsPresenter.animationUpdate(f, !forward)
-        }
-
         override fun endTransition(forward: Boolean) {
             super.endTransition(forward)
             resultsPresenter.visibility = if (forward) View.VISIBLE else View.GONE
             resultsPresenter.animationFinalize(forward)
+            AccessibilityUtil.setFocusToToolbarNavigationIcon(resultsPresenter.toolbar)
         }
     }
 
@@ -287,6 +282,7 @@ class PackageHotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
             loadingOverlay.visibility = View.GONE
             if (forward) {
                 detailPresenter.hotelDetailView.viewmodel.addViewsAfterTransition()
+                AccessibilityUtil.setFocusToToolbarNavigationIcon(detailPresenter.hotelDetailView.hotelDetailsToolbar.toolbar)
             } else {
                 trackSearchResult()
             }
@@ -334,9 +330,10 @@ class PackageHotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
 
     private val defaultDetailsTransition = object : Presenter.DefaultTransition(HotelDetailPresenter::class.java.name) {
         override fun endTransition(forward: Boolean) {
-            super.endTransition(forward)
             loadingOverlay.visibility = View.GONE
             detailPresenter.visibility = View.VISIBLE
+            detailPresenter.translationY = 0f
+            bundleSlidingWidget.visibility = View.VISIBLE
             if (forward) {
                 detailPresenter.hotelDetailView.refresh()
                 detailPresenter.hotelDetailView.viewmodel.addViewsAfterTransition()

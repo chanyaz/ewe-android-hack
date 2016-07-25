@@ -40,4 +40,8 @@ public class Constants {
 	public static final String PACKAGE_LOAD_INBOUND_FLIGHT = "LOAD_INBOUND_FLIGHT";
 	public static final String REQUEST = "REQUEST";
 
+	public static final String MOCK_MODE = "MOCK_MODE";
+	public static final String DOMAIN = "DOMAIN";
+	public static final String MOBILE = "MOBILE";
+
 }

@@ -84,7 +84,7 @@ def main():
 
     unittestsErrorMessage = formatUnitTestErrorMessage(unitTestReportFileList) + formatCheckstyleErrorMessage(checkstyleReportFileList) + formatLintErrorMessage(lintTestReportFilePath)
     print unittestsErrorMessage
-    createUpdateOrDeleteAutomatedFeedbackComment(githubAccessToken, githubOrganization, githubRepository, prPullId, prBuilderType, unittestsErrorMessage)
+    createUpdateOrDeleteAutomatedFeedbackComment(githubAccessToken, githubOrganization, githubRepository, prPullId, prBuilderType, unittestsErrorMessage, "java")
 
     if unittestsErrorMessage != "":
         #Ping the authors that the PR Builder failed

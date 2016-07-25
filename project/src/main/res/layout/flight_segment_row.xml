@@ -40,6 +40,12 @@
             android:layout_height="wrap_content" />
 
         <com.expedia.bookings.widget.TextView
+            android:id="@+id/operating_airline_name"
+            style="@style/MaterialFlightCell.OperatingAirlineText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <com.expedia.bookings.widget.TextView
             android:id="@+id/flight_duration"
             style="@style/MaterialFlightCell.DurationText"
             android:layout_width="wrap_content"

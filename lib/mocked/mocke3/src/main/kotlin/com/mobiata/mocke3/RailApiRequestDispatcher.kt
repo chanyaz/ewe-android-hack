@@ -17,14 +17,6 @@ class RailApiRequestDispatcher(fileOpener: FileOpener) : AbstractDispatcher(file
                 getMockResponse("rails/v1/shopping/search/happy.json")
             }
 
-            RailApiRequestMatcher.isRailApiDetailsRequest(urlPath) -> {
-                getMockResponse("rails/v1/shopping/getDetails/happy.json")
-            }
-
-            RailApiRequestMatcher.isRailApiValidateOfferRequest(urlPath) -> {
-                getMockResponse("rails/v1/shopping/validateOffer/happy.json")
-            }
-
             RailApiRequestMatcher.isRailApiCreateTripRequest(urlPath) -> {
                 getMockResponse("m/api/rails/trip/create/happy.json")
             }
@@ -41,19 +33,11 @@ class RailApiRequestDispatcher(fileOpener: FileOpener) : AbstractDispatcher(file
 class RailApiRequestMatcher {
     companion object {
         fun isRailApiRequest(urlPath: String): Boolean {
-            return doesItMatch("^/rails/ecom/v1/shopping/.*$", urlPath) || doesItMatch("^/m/api/rails.*$", urlPath)
+            return doesItMatch("^/rails/domain/m/api/v1/.*$", urlPath) || doesItMatch("^/m/api/rails.*$", urlPath)
         }
 
         fun isRailApiSearchRequest(urlPath: String): Boolean {
-            return doesItMatch("^/rails/ecom/v1/shopping/search.*$", urlPath)
-        }
-
-        fun isRailApiDetailsRequest(urlPath: String): Boolean {
-            return doesItMatch("^/rails/ecom/v1/shopping/getDetails.*$", urlPath)
-        }
-
-        fun isRailApiValidateOfferRequest(urlPath: String): Boolean {
-            return doesItMatch("^/rails/ecom/v1/shopping/validateOffer.*$", urlPath)
+            return doesItMatch("^/rails/domain/m/api/v1/search.*$", urlPath)
         }
 
         fun isRailApiCreateTripRequest(urlPath: String): Boolean {

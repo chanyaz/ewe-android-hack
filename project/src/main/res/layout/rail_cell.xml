@@ -21,7 +21,7 @@
 
             <com.expedia.bookings.widget.TextView
                 android:id="@+id/timesView"
-                style="@style/RailPrimaryText"
+                style="@style/BundleOverviewWidgets.PrimaryText"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -29,10 +29,10 @@
 
             <com.expedia.bookings.widget.TextView
                 android:id="@+id/priceView"
+                style="@style/BundleOverviewWidgets.PrimaryText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="right"
-                style="@style/RailPrimaryText"
                 tools:text="$120.00" />
         </LinearLayout>
 
@@ -43,30 +43,27 @@
 
             <com.expedia.bookings.widget.TextView
                 android:id="@+id/trainOperator"
+                style="@style/BundleOverviewWidgets.SecondaryText"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
+                android:layout_marginTop="3dp"
                 android:layout_weight="1"
-                android:textColor="@color/light_gray"
-                android:textSize="12sp"
                 tools:text="Virgin Trains, London Midland" />
 
             <com.expedia.bookings.widget.TextView
+                style="@style/BundleOverviewWidgets.SecondaryText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="right"
-                android:text="@string/round_trip"
-                android:textColor="@color/light_gray"
-                android:textSize="10sp" />
+                android:text="@string/round_trip" />
         </LinearLayout>
 
         <com.expedia.bookings.widget.TextView
             android:id="@+id/layoverView"
+            style="@style/MaterialFlightCell.CarrierText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:textColor="@color/flight_departure_date_color"
-            android:textSize="12sp"
+            android:layout_marginTop="3dp"
             tools:text="2h 30m, 1 Change" />
 
         <com.expedia.bookings.widget.rail.RailResultsTimelineWidget

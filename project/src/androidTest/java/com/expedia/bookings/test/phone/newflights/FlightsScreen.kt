@@ -38,7 +38,7 @@ object FlightsScreen {
 
     @JvmStatic fun selectFlight(list: ViewInteraction, index: Int): ViewInteraction {
         list.perform(waitForViewToDisplay())
-        val adjustPosition = 2
+        val adjustPosition = 1
         return list.perform(RecyclerViewActions.actionOnItemAtPosition<RecyclerView.ViewHolder>(index + adjustPosition, click()))
     }
 

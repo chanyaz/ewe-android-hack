@@ -156,7 +156,7 @@ class NewPhoneLaunchFragment : Fragment(), IPhoneLaunchActivityLaunchFragment {
     @Subscribe
     @Suppress("UNUSED_PARAMETER")
     fun onPOSChanged(event: Events.PhoneLaunchOnPOSChange) {
-        newPhoneLaunchWidget.onPOSChanged()
+        newPhoneLaunchWidget.posChangeSubject.onNext(Unit)
     }
 
     fun smoothScrollToTop() {

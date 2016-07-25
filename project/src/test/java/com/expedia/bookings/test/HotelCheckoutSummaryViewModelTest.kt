@@ -5,10 +5,13 @@ import com.expedia.bookings.R
 import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.hotels.HotelCreateTripResponse
 import com.expedia.bookings.data.payment.PaymentModel
+import com.expedia.bookings.data.pos.PointOfSale
+import com.expedia.bookings.data.pos.PointOfSaleId
 import com.expedia.bookings.services.LoyaltyServices
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.testrule.ServicesRule
 import com.expedia.vm.HotelCheckoutSummaryViewModel
+import com.mobiata.android.util.SettingUtils
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -171,23 +174,39 @@ class HotelCheckoutSummaryViewModelTest {
         paymentModel.createTripSubject.onNext(createTripResponse)
         assertFalse(sut.isShoppingWithPoints.value)
     }
-        private fun givenPriceChangedUpResponse() {
+
+    @Test
+    fun testBestPriceGuaranteeMessagingNotShown() {
+        givenHappyHotelProductResponse()
+        setup()
+        setPOS(PointOfSaleId.AUSTRALIA)
+        paymentModel.createTripSubject.onNext(createTripResponse)
+
+        assertFalse(sut.isBestPriceGuarantee.value)
+    }
+
+    private fun setPOS(pos: PointOfSaleId) {
+        SettingUtils.save(context, R.string.PointOfSaleKey, pos.id.toString())
+        PointOfSale.onPointOfSaleChanged(context)
+    }
+
+    private fun givenPriceChangedUpResponse() {
         createTripResponse = mockHotelServiceTestRule.getPriceChangeUpCreateTripResponse()
         hotelProductResponse = createTripResponse.originalHotelProductResponse
     }
 
-    private fun givenLoggedInUserWithNonRedeemablePointsResponse(){
-        createTripResponse =  mockHotelServiceTestRule.getLoggedInUserWithNonRedeemablePointsCreateTripResponse()
+    private fun givenLoggedInUserWithNonRedeemablePointsResponse() {
+        createTripResponse = mockHotelServiceTestRule.getLoggedInUserWithNonRedeemablePointsCreateTripResponse()
         hotelProductResponse = createTripResponse.newHotelProductResponse
     }
 
     private fun givenLoggedInUserWithRedeemablePointsMoreThanTripTotalResponse() {
-        createTripResponse =  mockHotelServiceTestRule.getLoggedInUserWithRedeemablePointsCreateTripResponse()
+        createTripResponse = mockHotelServiceTestRule.getLoggedInUserWithRedeemablePointsCreateTripResponse()
         hotelProductResponse = createTripResponse.newHotelProductResponse
         createTripResponse.tripId = "happy"
     }
 
-    private fun givenLoggedInUserWithRedeemablePointsLessThanTripTotalResponse(){
+    private fun givenLoggedInUserWithRedeemablePointsLessThanTripTotalResponse() {
         createTripResponse = mockHotelServiceTestRule.getLoggedInUserWithRedeemablePointsLessThanTripTotalCreateTripResponse()
         hotelProductResponse = createTripResponse.originalHotelProductResponse
     }
@@ -209,5 +228,6 @@ class HotelCheckoutSummaryViewModelTest {
 
     private fun setup() {
         paymentModel = PaymentModel<HotelCreateTripResponse>(loyaltyServiceRule.services!!)
-        sut = HotelCheckoutSummaryViewModel(context, paymentModel)    }
+        sut = HotelCheckoutSummaryViewModel(context, paymentModel)
+    }
 }

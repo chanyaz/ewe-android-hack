@@ -63,6 +63,15 @@ if [[ $isJenkins && "$isUnitTestsFeedbackBotEnabled" == "true" ]]; then
     python ./jenkins/pr_unit_feedback.py $GITHUB_TOKEN $ghprbGhRepository $ghprbPullId $HIPCHAT_TOKEN
 fi
 
+if [[ $isJenkins && $unitTestStatus -eq 0 ]]; then
+    BUILD_URL="https://ewemobile.jenkins.test.expedia.com/job/$JOB_NAME/$BUILD_NUMBER"
+    python ./jenkins/report_missing_code_coverage.py $GITHUB_TOKEN $ghprbPullId $BUILD_URL project/build/reports/jacoco/jacocoExpediaDebug/jacocoExpediaDebug.xml lib/ExpediaBookings/build/reports/jacoco/test/jacocoTestReport.xml
+    coverageBotStatus=$?
+else
+    echo "Either script was not run on Jenkins or the unit tests failed. Not invoking Coverage Bot."
+    coverageBotStatus=1
+fi
+
 if [[ ($unitTestStatus -ne 0) || ($prPoliceStatus -ne 0) ]]; then
     exit 1
 else

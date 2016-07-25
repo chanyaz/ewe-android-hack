@@ -147,6 +147,11 @@ public class DateUtils {
 		return DateTime.parse(dateyyyyMMddHHmmSSSZ, DateTimeFormat.forPattern("yyyy-MM-dd'T'HH:mm:ss.SSSZ"));
 	}
 
+	public static DateTime dateyyyyMMddHHmmSSSZToDateTimeWithTimeZone(String dateyyyyMMddHHmmSSSZ) {
+		DateTimeFormatter dateTimeFormatter = DateTimeFormat.forPattern("yyyy-MM-dd'T'HH:mm:ss.SSSZ").withOffsetParsed();
+		return DateTime.parse(dateyyyyMMddHHmmSSSZ, dateTimeFormatter);
+	}
+
 	public static DateTime yyyyMMddTHHmmssToDateTimeSafe(String dateyyyyMMddTHHmmss, DateTime defaultValue) {
 		try {
 			return DateTime.parse(dateyyyyMMddTHHmmss, DateTimeFormat.forPattern("yyyy-MM-dd'T'HH:mm:ss"));

@@ -7,9 +7,13 @@ import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.trips.TripBucketItemPackages
 import com.expedia.bookings.data.ValidPayment
 import com.expedia.bookings.data.flights.FlightTripDetails
+import com.expedia.bookings.data.flights.ValidFormOfPayment
 import com.expedia.bookings.data.packages.PackageCreateTripResponse
 import com.expedia.bookings.test.robolectric.RobolectricRunner
+import com.expedia.bookings.utils.Ui
 import com.expedia.vm.traveler.TravelerViewModel
+import org.joda.time.LocalDate
+import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RuntimeEnvironment
@@ -20,6 +24,11 @@ import kotlin.test.assertTrue
 @RunWith(RobolectricRunner::class)
 class TravelerViewModelTest {
     val context = RuntimeEnvironment.application
+
+    @Before
+    fun setup() {
+        Ui.getApplication(context).defaultTravelerComponent()
+    }
 
     @Test
     fun testPassportCountryRequiredWhenInternational() {
@@ -71,7 +80,7 @@ class TravelerViewModelTest {
         val response = PackageCreateTripResponse()
         response.packageDetails = packageDetails
 
-        val validFormsOfPayment = ArrayList<ValidPayment>()
+        val validFormsOfPayment = ArrayList<ValidFormOfPayment>()
         response.validFormsOfPayment = validFormsOfPayment
 
         val trip = TripBucketItemPackages(response)

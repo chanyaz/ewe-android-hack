@@ -1,5 +1,6 @@
 package com.expedia.bookings.test.phone.packages;
 
+import org.hamcrest.CoreMatchers;
 import org.hamcrest.Matcher;
 import org.hamcrest.core.AllOf;
 import org.joda.time.LocalDate;
@@ -14,6 +15,7 @@ import android.widget.ImageButton;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.test.espresso.Common;
+import com.expedia.bookings.test.espresso.EspressoUtils;
 import com.expedia.bookings.test.espresso.SpoonScreenshotUtils;
 import com.expedia.bookings.test.espresso.ViewActions;
 import com.expedia.bookings.test.phone.hotels.HotelScreen;
@@ -28,8 +30,11 @@ import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.action.ViewActions.scrollTo;
 import static android.support.test.espresso.action.ViewActions.typeText;
+import static android.support.test.espresso.assertion.ViewAssertions.doesNotExist;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.RootMatchers.withDecorView;
+import static android.support.test.espresso.matcher.ViewMatchers.hasDescendant;
+import static android.support.test.espresso.matcher.ViewMatchers.hasSibling;
 import static android.support.test.espresso.matcher.ViewMatchers.isDescendantOfA;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withClassName;
@@ -146,9 +151,19 @@ public class PackageScreen {
 			withId(R.id.flight_info_container)));
 	}
 
+	public static ViewInteraction outboundFlightInfoRowContainer() {
+		return onView(allOf(isDescendantOfA(withId(R.id.package_bundle_outbound_flight_widget)),
+			withId(R.id.row_container)));
+	}
+
 	public static ViewInteraction inboundFlightInfo() {
 		return onView(allOf(isDescendantOfA(withId(R.id.package_bundle_inbound_flight_widget)),
 			withId(R.id.flight_info_container)));
+	}
+
+	public static ViewInteraction inboundFlightInfoRowContainer() {
+		return onView(allOf(isDescendantOfA(withId(R.id.package_bundle_inbound_flight_widget)),
+			withId(R.id.row_container)));
 	}
 
 	public static ViewInteraction inboundFLight() {
@@ -161,6 +176,10 @@ public class PackageScreen {
 
 	public static ViewInteraction outboundFlightDetailsContainer() {
 		return outboundFlightDescendant(withId(R.id.flight_details_container));
+	}
+
+	public static ViewInteraction inboundFlightDetailsContainer() {
+		return inboundFlightDescendant(withId(R.id.flight_details_container));
 	}
 
 	public static ViewInteraction flightList() {
@@ -202,6 +221,10 @@ public class PackageScreen {
 		return onView(withId(R.id.bundle_price_widget));
 	}
 
+	public static ViewInteraction resultsHeader() {
+		return onView(withId(R.id.pricing_structure_header));
+	}
+
 	public static ViewInteraction slidingBundleWidget() {
 		return onView(withId(R.id.sliding_bundle_widget));
 	}
@@ -214,12 +237,33 @@ public class PackageScreen {
 		return onView(allOf(isDescendantOfA(withId(R.id.package_bundle_hotel_widget)), withId(R.id.row_container)));
 	}
 
+	public static ViewInteraction outboundFlightBundleContainer() {
+		return onView(allOf(isDescendantOfA(withId(R.id.package_bundle_outbound_flight_widget)), withId(R.id.row_container)));
+	}
+
+	public static ViewInteraction inboundFlightBundleContainer() {
+		return onView(allOf(isDescendantOfA(withId(R.id.package_bundle_inbound_flight_widget)), withId(R.id.row_container)));
+	}
+
 	public static ViewInteraction bundleTotalFooterWidget() {
 		return onView(withId(R.id.total_price_widget));
 	}
 
 	public static ViewInteraction bundleTotalSlidingWidget() {
 		return onView(withId(R.id.bundle_price_widget));
+	}
+
+	public static void tickCheckboxWithText(String title) {
+		checkBoxWithTitle(title).perform(scrollTo());
+		checkBoxWithTitle(title).perform(click());
+	}
+
+	public static ViewInteraction checkBoxWithTitle(String title) {
+		return onView(CoreMatchers.allOf(withId(R.id.check_box), hasSibling(CoreMatchers.allOf(withId(R.id.label), withText(title)))));
+	}
+
+	public static ViewInteraction checkBoxContainerWithTitle(String title) {
+		return onView(CoreMatchers.allOf(withId(R.id.filter_categories_widget), hasDescendant(CoreMatchers.allOf(withId(R.id.label), withText(title)))));
 	}
 
 	public static ViewInteraction addRoom() {
@@ -229,6 +273,11 @@ public class PackageScreen {
 				isDescendantOfA(allOf(withId(R.id.collapsed_container))),
 				withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE))
 		);
+	}
+
+	public static void resetFlightsFliter() {
+		onView(withId(R.id.dynamic_feedback_clear_button)).perform(click());
+		EspressoUtils.assertViewIsNotDisplayed(R.id.dynamic_feedback_container);
 	}
 
 	public static void clickAddRoom() {
@@ -289,7 +338,6 @@ public class PackageScreen {
 		Espresso.closeSoftKeyboard();
 		onView(withId(R.id.datePicker)).perform(ViewActions.waitForViewToDisplay());
 		onView(withId(R.id.datePicker)).perform(PickerActions.setDate(year, month, day));
-		onView(withId(R.id.datePickerDoneButton)).perform(ViewActions.waitForViewToDisplay());
 		onView(withId(R.id.datePickerDoneButton)).perform(click());
 	}
 
@@ -300,13 +348,26 @@ public class PackageScreen {
 
 	public static void clickTravelerAdvanced() {
 		onView(withId(R.id.traveler_advanced_options_button)).perform(click());
+
 	}
 
-	public static void enterPaymentInfo() {
-		Common.delay(2);
-		CheckoutViewModel.clickPaymentInfo();
-		Common.delay(1);
+	public static void clickLegalInformation() {
+		onView(withId(R.id.legal_information_text_view)).perform(waitForViewToDisplay(), click());
+	}
+
+	public static void clickSpecialAssistance() {
+		onView(withId(R.id.edit_assistance_preference_spinner)).perform(click());
+	}
+
+	public static void clickSeatPreference() {
+		onView(withId(R.id.edit_seat_preference_spinner)).perform(click());
+	}
+
+	public static void enterCreditCard() {
 		CardInfoScreen.typeTextCreditCardEditText("4111111111111111");
+	}
+
+	public static void completePaymentForm() {
 		CardInfoScreen.clickOnExpirationDateButton();
 		CardInfoScreen.clickMonthUpButton();
 		CardInfoScreen.clickYearUpButton();
@@ -319,8 +380,16 @@ public class PackageScreen {
 		BillingAddressScreen.typeTextCity("San Francisco");
 		BillingAddressScreen.typeTextState("CA");
 		BillingAddressScreen.typeTextPostalCode("94105");
+	}
+
+	public static void enterPaymentInfo() {
+		CheckoutViewModel.waitForPaymentInfoDisplayed();
+		CheckoutViewModel.clickPaymentInfo();
+		CardInfoScreen.creditCardNumberEditText().perform(waitForViewToDisplay());
+		CardInfoScreen.creditCardNumberEditText().perform(waitForViewToDisplay());
+		enterCreditCard();
+		completePaymentForm();
 		CheckoutViewModel.clickDone();
-		Common.delay(2);
 	}
 
 	public static String getDatesGuestInfoText(LocalDate startDate, LocalDate endDate) {
@@ -350,5 +419,32 @@ public class PackageScreen {
 
 		PackageScreen.selectFlight(0);
 		PackageScreen.selectThisFlight().perform(click());
+	}
+
+	public static void checkFlightToolBarMenuItemsVisibility(boolean isVisible) {
+		PackageScreen.flightsToolbarSearchMenu().check(doesNotExist());
+
+		if (isVisible) {
+			PackageScreen.flightsToolbarFilterMenu().check(matches(isDisplayed()));
+		}
+		else {
+			PackageScreen.flightsToolbarFilterMenu().check(doesNotExist());
+		}
+	}
+
+	public static ViewInteraction showInsuranceBenefits() {
+		return onView(withId(R.id.insurance_description)).perform(click());
+	}
+
+	public static ViewInteraction showInsuranceTerms() {
+		return onView(withId(R.id.insurance_terms)).perform(click());
+	}
+
+	public static ViewInteraction showPriceBreakdown() {
+		return onView(withId(R.id.bundle_total_text)).perform(click());
+	}
+
+	public static ViewInteraction toggleInsurance() {
+		return onView(withId(R.id.insurance_switch)).perform(click());
 	}
 }

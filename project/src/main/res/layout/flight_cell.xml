@@ -70,15 +70,16 @@
                     <com.expedia.bookings.widget.TextView
                         android:id="@+id/flight_time_detail_text_view"
                         style="@style/MaterialFlightCell.PrimaryText"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"/>
 
                     <com.expedia.bookings.widget.TextView
                         android:id="@+id/price_text_view"
                         style="@style/MaterialFlightCell.PrimaryText"
-                        android:layout_width="match_parent"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:gravity="right" />
+                        android:layout_marginLeft="20dp"/>
                 </LinearLayout>
 
                 <com.expedia.bookings.widget.packages.FlightAirlineWidget

@@ -40,9 +40,9 @@ class PackageCheckoutParamsTest {
                 .travelers(travelers)
                 .cvv("123") as PackageCheckoutParams.Builder
 
-        val params = builder.expectedFareCurrencyCode("")
+        val params = builder.bedType("")
+                .expectedFareCurrencyCode("")
                 .expectedTotalFare("")
-                .bedType("")
                 .tripId("")
                 .build()
 
@@ -63,9 +63,9 @@ class PackageCheckoutParamsTest {
                 .travelers(travelers)
                 .cvv("123") as PackageCheckoutParams.Builder
 
-        val params = builder.expectedFareCurrencyCode("")
+        val params = builder.bedType("")
+                .expectedFareCurrencyCode("")
                 .expectedTotalFare("")
-                .bedType("")
                 .tripId("")
                 .build()
 

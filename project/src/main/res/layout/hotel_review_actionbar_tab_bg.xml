@@ -14,6 +14,7 @@
         android:layout_height="match_parent"
         android:gravity="center"
         android:textAllCaps="true"
+        android:focusable="true"
         android:textColor="@drawable/hotel_review_tab_text_selector"
         android:textSize="14sp"
         app:textStyle="medium" />

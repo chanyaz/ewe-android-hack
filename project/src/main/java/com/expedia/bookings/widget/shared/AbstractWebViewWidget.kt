@@ -40,4 +40,8 @@ abstract class AbstractWebViewWidget(context: Context, attrs: AttributeSet) : Li
             return true
         }
     }
+
+    fun setExitButtonOnClickListener(listener: OnClickListener) {
+        toolbar.setNavigationOnClickListener(listener)
+    }
 }

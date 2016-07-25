@@ -1,6 +1,9 @@
 package com.expedia.bookings.presenter.shared
 
 import android.content.Context
+import android.graphics.PorterDuff
+import android.graphics.PorterDuffColorFilter
+import android.support.v4.content.ContextCompat
 import android.util.AttributeSet
 import android.view.View
 import android.widget.Button
@@ -39,6 +42,14 @@ class FlightOverviewPresenter(context: Context, attrs: AttributeSet?) : Presente
         flightSegmentWidget.viewmodel = FlightSegmentBreakdownViewModel(context)
     }
 
+    @Override
+    override fun onFinishInflate() {
+        super.onFinishInflate()
+        val filter = PorterDuffColorFilter(ContextCompat.getColor(this.context,R.color.lob_packages_primary_color), PorterDuff.Mode.SRC_ATOP);
+        showBaggageFeesButton.compoundDrawables[0].setColorFilter(filter)
+        paymentFeesMayApplyTextView.compoundDrawables[0].setColorFilter(filter)
+    }
+
     var vm: FlightOverviewViewModel by notNullAndObservable {
         vm.bundlePriceSubject.subscribeText(bundlePriceTextView)
         vm.showBundlePriceSubject.subscribeVisibility(bundlePriceLabelTextView)
@@ -46,7 +57,7 @@ class FlightOverviewPresenter(context: Context, attrs: AttributeSet?) : Presente
         vm.urgencyMessagingSubject.subscribeTextAndVisibilityInvisible(urgencyMessagingText)
         vm.totalDurationSubject.subscribeText(totalDurationText)
         vm.selectedFlightLegSubject.subscribe { selectedFlight ->
-            var segmentbreakdowns = arrayListOf<FlightSegmentBreakdown>()
+            val segmentbreakdowns = arrayListOf<FlightSegmentBreakdown>()
             for (segment in selectedFlight.flightSegments) {
                 segmentbreakdowns.add(FlightSegmentBreakdown(segment, selectedFlight.hasLayover))
             }
@@ -57,7 +68,7 @@ class FlightOverviewPresenter(context: Context, attrs: AttributeSet?) : Presente
                 showPaymentFeesObservable.onNext(Unit)
             }
             flightSegmentWidget.viewmodel.addSegmentRowsObserver.onNext(segmentbreakdowns)
+            selectFlightButton.subscribeOnClick(vm.selectFlightClickObserver)
         }
-        selectFlightButton.subscribeOnClick(vm.selectFlightClickObserver)
     }
 }

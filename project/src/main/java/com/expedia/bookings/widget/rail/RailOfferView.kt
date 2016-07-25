@@ -15,13 +15,17 @@ class RailOfferView : FrameLayout {
     val fareTitle: TextView by bindView(R.id.fare_title)
     val fareDescription: TextView by bindView(R.id.fare_description)
     val selectButton: View by bindView(R.id.select_button)
+    val amenitiesButton: TextView by bindView(R.id.amenities_link)
 
-    constructor(context: Context, offer: RailSearchResponse.RailOffer, offerSelectedObservable: PublishSubject<RailSearchResponse.RailOffer>) : super(context) {
+    constructor(context: Context, offer: RailSearchResponse.RailOffer,
+                offerSelectedObservable: PublishSubject<RailSearchResponse.RailOffer>,
+                showAmenitiesObservable: PublishSubject<RailSearchResponse.RailOffer>) : super(context) {
         View.inflate(context, R.layout.widget_rail_details_fare_option, this)
         priceView.text = offer.totalPrice.formattedPrice
         fareTitle.text = offer.railProductList.first().aggregatedCarrierServiceClassDisplayName
         fareDescription.text = offer.railProductList.first().aggregatedFareDescription
 
         selectButton.setOnClickListener { offerSelectedObservable.onNext(offer) }
+        amenitiesButton.setOnClickListener { showAmenitiesObservable.onNext(offer)}
     }
 }

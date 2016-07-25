@@ -6,33 +6,41 @@ import com.expedia.bookings.R
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.Traveler
 import com.expedia.bookings.enums.TravelerCheckoutStatus
+import com.expedia.bookings.utils.Ui
+import com.expedia.bookings.utils.validation.TravelerValidator
 import com.expedia.bookings.widget.ContactDetailsCompletenessStatus
-import com.expedia.util.endlessObserver
 import com.squareup.phrase.Phrase
 import rx.subjects.BehaviorSubject
+import javax.inject.Inject
 
 open class TravelerSummaryViewModel(val context: Context) {
     val resources = context.resources
-
-    val  travelerStatusObserver = endlessObserver<TravelerCheckoutStatus> { status ->
-        if (status == TravelerCheckoutStatus.CLEAN) {
-            val title = resources.getString(R.string.checkout_enter_traveler_details)
-            val subTitle = resources.getString(R.string.checkout_enter_traveler_details_line2)
-            setTravelerSummaryInfo(title, subTitle, ContactDetailsCompletenessStatus.DEFAULT)
-        } else if (status == TravelerCheckoutStatus.DIRTY) {
-            setTravelerSummaryInfo(getTitle(), getSubtitle(), ContactDetailsCompletenessStatus.INCOMPLETE)
-        } else {
-            setTravelerSummaryInfo(getTitle(), getSubtitle(), ContactDetailsCompletenessStatus.COMPLETE)
-        }
-    }
+    lateinit var travelerValidator: TravelerValidator
+        @Inject set
 
     val iconStatusObservable = BehaviorSubject.create<ContactDetailsCompletenessStatus>()
     val titleObservable = BehaviorSubject.create<String>()
     val subtitleObservable = BehaviorSubject.create<String>()
     val subtitleColorObservable = BehaviorSubject.create<Int>()
+    val travelerStatusObserver = BehaviorSubject.create<TravelerCheckoutStatus>(TravelerCheckoutStatus.CLEAN)
 
     init {
-        travelerStatusObserver.onNext(TravelerCheckoutStatus.CLEAN)
+        Ui.getApplication(context).travelerComponent().inject(this)
+        travelerStatusObserver.subscribe { status ->
+            if (status == TravelerCheckoutStatus.CLEAN) {
+                if (isFirstTravelerEmpty()) {
+                    val title = resources.getString(R.string.checkout_enter_traveler_details)
+                    val subTitle = resources.getString(R.string.checkout_enter_traveler_details_line2)
+                    setTravelerSummaryInfo(title, subTitle, ContactDetailsCompletenessStatus.DEFAULT)
+                } else {
+                    setTravelerSummaryInfo(getTitle(), getSubtitle(), ContactDetailsCompletenessStatus.INCOMPLETE)
+                }
+            } else if (status == TravelerCheckoutStatus.DIRTY) {
+                setTravelerSummaryInfo(getTitle(), getSubtitle(), ContactDetailsCompletenessStatus.INCOMPLETE)
+            } else {
+                setTravelerSummaryInfo(getTitle(), getSubtitle(), ContactDetailsCompletenessStatus.COMPLETE)
+            }
+        }
     }
 
     private fun setTravelerSummaryInfo(title: String, subTitle: String, completenessStatus: ContactDetailsCompletenessStatus) {
@@ -75,5 +83,13 @@ open class TravelerSummaryViewModel(val context: Context) {
             return Db.getTravelers()[0]
         }
         return null
+    }
+
+    fun isFirstTravelerEmpty(): Boolean {
+        var firstTraveler = getFirstTraveler()
+        if (firstTraveler != null) {
+            return travelerValidator.isTravelerEmpty(firstTraveler)
+        }
+        return false
     }
 }

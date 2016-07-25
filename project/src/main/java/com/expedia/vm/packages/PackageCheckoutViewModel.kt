@@ -6,7 +6,7 @@ import com.expedia.bookings.R
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.User
-import com.expedia.bookings.data.cars.ApiError
+import com.expedia.bookings.data.ApiError
 import com.expedia.bookings.data.packages.PackageCheckoutParams
 import com.expedia.bookings.data.packages.PackageCheckoutResponse
 import com.expedia.bookings.data.packages.PackageCreateTripResponse
@@ -24,13 +24,12 @@ import java.math.BigDecimal
 class PackageCheckoutViewModel(context: Context, val packageServices: PackageServices) : BaseCheckoutViewModel(context) {
     override val builder = PackageCheckoutParams.Builder()
 
-    val priceChangeObservable = PublishSubject.create<PackageCheckoutResponse>()
-
     init {
         tripResponseObservable.subscribe { it as PackageCreateTripResponse
             builder.tripId(it.packageDetails.tripId)
             builder.expectedTotalFare(it.packageDetails.pricing.packageTotal.amount.toString())
             builder.expectedFareCurrencyCode(it.packageDetails.pricing.packageTotal.currencyCode)
+            builder.suppressFinalBooking(BookingSuppressionUtils.shouldSuppressFinalBooking(context, R.string.preference_suppress_package_bookings))
             builder.bedType(it.packageDetails.hotel.hotelRoomResponse.bedTypes?.firstOrNull()?.id)
 
             val hotelRate = it.packageDetails.hotel.hotelRoomResponse.rateInfo.chargeableRateInfo
@@ -42,15 +41,13 @@ class PackageCheckoutViewModel(context: Context, val packageServices: PackageSer
             depositPolicyText.onNext(depositText)
 
             legalText.onNext(StrUtils.generateHotelsBookingStatement(context, PointOfSale.getPointOfSale().hotelBookingStatement.toString(), false))
-            sliderPurchaseTotalText.onNext(Phrase.from(context, R.string.your_card_will_be_charged_template).put("dueamount", it.getTripTotalExcludingFee().formattedPrice).format())
+            sliderPurchaseTotalText.onNext(Phrase.from(context, R.string.your_card_will_be_charged_template).put("dueamount", it.getTripTotalExcludingFee().formattedMoneyFromAmountAndCurrencyCode).format())
         }
 
         checkoutParams.subscribe { params -> params as PackageCheckoutParams
-            val suppressFinalBooking = BookingSuppressionUtils.shouldSuppressFinalBooking(context, R.string.preference_suppress_package_bookings)
             if (User.isLoggedIn(context)) {
                 params.billingInfo.email = Db.getUser().primaryTraveler.email
             }
-            builder.suppressFinalBooking(suppressFinalBooking)
             packageServices.checkout(params.toQueryMap()).subscribe(makeCheckoutResponseObserver())
             email = params.billingInfo.email
         }
@@ -98,7 +95,7 @@ class PackageCheckoutViewModel(context: Context, val packageServices: PackageSer
                         }
                     }
                 } else {
-                    checkoutResponse.onNext(Pair(response, email));
+                    bookingSuccessResponse.onNext(Pair(response, email))
                 }
             }
 

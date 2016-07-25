@@ -117,7 +117,7 @@
     <!-- Location for calendar event.  %1$s is the name of the pick up location -->
     <string name="calendar_car_location_TEMPLATE">%1$s</string>
     <!-- Part of the description, showing the itinerary #.  %s is the itinerary number, e.g. "Expedia Itinerary #: 3532532" -->
-    <string name="calendar_desc_itinerary_TEMPLATE">{brand} resplan #: {itinerary}</string>
+    <string name="calendar_desc_itinerary_TEMPLATE">{brand}s resplansnr: {itinerary}</string>
     <!-- Part of the description, showing a phone # for support.  %1$s is the local phone number and %2$s is for toll free no, e.g. "Expedia Customer Support: 222-222-2222 and 800-321-1111" -->
     <string name="calendar_desc_support_TEMPLATE">{brand}s kundstjänst: {localphone} och {phone}</string>
 
@@ -240,6 +240,10 @@
     <string name="stored_card_TEMPLATE">Sparat {cardtype}</string>
     <!-- Select card from checkout saved cards list -->
     <string name="saved_cards">Sparade kort</string>
+    <!-- text that goes underneath the camera button for card_io -->
+    <string name="card_io_btn_text">Scanna</string>
+    <!-- Card.io scan text -->
+    <string name="scan_card_text">Scanna kort</string>
 
     <!-- Car error strings -->
     <!-- Message for user that pick-up time is too early.  -->
@@ -301,8 +305,10 @@
     <string name="missing_flight_info_button_prompt">Välj flygplats</string>
 
     <!-- LX -->
-    <!-- LX toolbar Date Range e.g. May 05 - May 10 -->
-    <string name="lx_toolbar_date_range_template">%1$s - %2$s</string>
+    <!-- LX Toolbar Date Range e.g. May 05 - May 10 -->
+    <string name="lx_toolbar_date_range_TEMPLATE">{from_date} - {to_date}</string>
+    <!-- LX Toolbar Date Range Cont Desc e.g. May 05 to May 10 -->
+    <string name="lx_toolbar_date_range_cont_desc_TEMPLATE">{from_date} till {to_date}</string>
     <!--LX Search widget header text -->
     <string name="lx_search_title">Sök aktiviteter</string>
     <!--LX Search widget header text -->
@@ -330,7 +336,7 @@
     <!-- Template for ticket selection summary -->
     <string name="offer_book_now_TEMPLATE">Boka nu %1$s</string>
     <!-- Template for multiple duration text on Search results Eg: 2d+ -->
-    <string name="search_result_multiple_duration_TEMPLATE">%1$s +</string>
+    <string name="search_result_multiple_duration_TEMPLATE">{duration}+</string>
     <!-- Cancellation policy template -->
     <string name="lx_cancellation_policy_TEMPLATE">Du kan avboka gratis fram till {hours} timmar innan bokningens start. Därefter tillåts inga avbokningar, ändringar eller återbetalningar.</string>
     <!-- Cancellation policy text for non-cancellable activities -->
@@ -1002,6 +1008,11 @@
     <string name="nav_lx">Aktiviteter</string>
     <!-- Ground Transport -->
     <string name="nav_transport">Transport</string>
+    <!-- Packages -->
+    <string name="nav_packages">Paket</string>
+    <!-- Rail -->
+    <string name="nav_rail">Tåg</string>
+
 
     <!-- New launch screen -->
     <!-- Top deals tonight -->
@@ -1129,30 +1140,30 @@
     <string name="yesterday">Igår</string>
     <!-- "XX Minutes" - an event happening XX minutes in the future -->
     <plurals name="minutes_from_now">
-        <item quantity="zero">%s minuter</item>
-        <item quantity="one">%s minut</item>
-        <item quantity="two">%s minuter</item>
-        <item quantity="few">%s minuter</item>
-        <item quantity="many">%s minuter</item>
-        <item quantity="other">%s minuter</item>
+        <item quantity="zero">{minutes} minuter</item>
+        <item quantity="one">{minutes} minut</item>
+        <item quantity="two">{minutes} minuter</item>
+        <item quantity="few">{minutes} minuter</item>
+        <item quantity="many">{minutes} minuter</item>
+        <item quantity="other">{minutes} minuter</item>
     </plurals>
     <!-- "XX Hours" - an event happening XX hours in the future -->
     <plurals name="hours_from_now">
-        <item quantity="zero">%s timmar</item>
-        <item quantity="one">%s timme</item>
-        <item quantity="two">%s timmar</item>
-        <item quantity="few">%s timmar</item>
-        <item quantity="many">%s timmar</item>
-        <item quantity="other">%s timmar</item>
+        <item quantity="zero">{hours} timmar</item>
+        <item quantity="one">{hours} timme</item>
+        <item quantity="two">{hours} timmar</item>
+        <item quantity="few">{hours} timmar</item>
+        <item quantity="many">{hours} timmar</item>
+        <item quantity="other">{hours} timmar</item>
     </plurals>
     <!-- "XX Days" an event happening XX days in the future -->
     <plurals name="days_from_now">
-        <item quantity="zero">%s dagar</item>
-        <item quantity="one">%s dag</item>
-        <item quantity="two">%s dagar</item>
-        <item quantity="few">%s dagar</item>
-        <item quantity="many">%s dagar</item>
-        <item quantity="other">%s dagar</item>
+        <item quantity="zero">{days} dagar</item>
+        <item quantity="one">{days} dag</item>
+        <item quantity="two">{days} dagar</item>
+        <item quantity="few">{days} dagar</item>
+        <item quantity="many">{days} dagar</item>
+        <item quantity="other">{days} dagar</item>
     </plurals>
     <!-- Shared Itin - Fallback name for itin card -->
     <string name="sharedItin_card_fallback_name">Delad resplan</string>
@@ -1656,6 +1667,18 @@
     <string name="flights_outbound_label">Avresa</string>
     <!-- Flights Line of Business title -->
     <string name="flights_title">Flyg</string>
+    <!-- Flights payment fees info web view title -->
+    <string name="flights_flight_overview_payment_fees">Info om betalningsavgifter</string>
+    <!-- Flights Free Cancellation messaging -->
+    <string name="flights_free_cancellation">Gratis avbokning inom 24 timmar</string>
+    <!-- Card fee warning text on checkout overview.
+        Example: The airline charges a processing fee of $3.00 for using this card (cost included in the trip total). -->
+    <string name="flights_card_fee_warning_TEMPLATE">Flygbolaget tar ut en adminavgift på {card_fee} när det här kortet används (kostnaden ingår i resans totalpris).</string>
+    <!-- An airline fee is added upon payment message
+        Example: An airline fee, based on card type, is added upon payment. Such fee is added to the total upon payment -->
+    <string name="flights_fee_added_based_on_payment_TEMPLATE">En &lt;a href=\"{airline_fee_url}\"&gt;flygbolagsavgift&lt;/a&gt; baserad på korttyp läggs till vid betalning. Avgiften tillkommer till totalbeloppet vid betalning.</string>
+    <!-- Flights debit cards not accepted messaging -->
+    <string name="flights_debit_cards_not_accepted">Bankkort accepteras inte.</string>
 
     <!-- Flights -->
     <!-- Label for Flight Search in task manager -->
@@ -1892,8 +1915,8 @@
     <string name="card_info">Kortuppgifter</string>
 
     <!-- Edit CreditCard Fragment -->
-    <!-- Airline processing fee for this card: <Dollar Amount> (e.g. Airling processing fee for this card: $5) -->
-    <string name="airline_processing_fee_TEMPLATE">Flygbolagets administrationsavgift för kortet: &lt;b&gt;%1$s&lt;/b&gt;</string>
+    <!-- Airline processing fee for this card. Example: Airline processing fee for this card: $5 -->
+    <string name="airline_processing_fee_TEMPLATE">Flygbolagets administrationsavgift för kortet: &lt;b&gt;{card_fee}&lt;/b&gt;</string>
     <!-- Airline does not accept <Credit Card Brand> (e.g. "Airline does not accept Visa") -->
     <string name="airline_does_not_accept_cardtype_TEMPLATE">Flygbolaget accepterar inte %1$s</string>
     <!-- Hotel does not accept <Credit Card Brand> (e.g. "Hotel does not accept Visa") -->
@@ -2148,9 +2171,6 @@
     <string name="first_name_field_text">förnamn</string>
     <!-- last name -->
     <string name="last_name_field_text">efternamn</string>
-    <!-- Template for hint on first and last name fields. For example: "Last name (e.g. Chan)"
-    For English locale we want to show "e.g." and for all non-English we want to show "example:"-->
-    <string name="hint_name_example_TEMPLATE">%1$s (t.ex: %2$s)</string>
 
     <!-- Cardholder -->
     <string name="cardholder">Kortinnehavare</string>
@@ -2290,6 +2310,8 @@
     <string name="edit_guest_details">Ändra gästuppgifter</string>
     <!-- Edit current traveler details -->
     <string name="edit_current_traveler">Ändra resenärens uppgifter</string>
+    <!-- Generic error when user is editing traveler details, eg: a user leaves a required field empty -->
+    <string name="accessibility_cont_desc_role_error">Det uppstod ett fel</string>
     <!-- prefers seat template -->
     <string name="prefers_seat_TEMPLATE">Föredrar %1$s</string>
     <!-- prefers seat template -->
@@ -2403,7 +2425,7 @@
     <!-- Location for calendar event.  %1$s is the name of the starting airport, %2$s is the city it is in, e.g. "San Francisco Int'l Airport, San Francisco" -->
     <string name="calendar_flight_location_TEMPLATE">%1$s, %2$s</string>
     <!-- Part of the description, showing the itinerary #.  %s is the itinerary number, e.g. "Expedia Itinerary #: 3532532" -->
-    <string name="calendar_flight_desc_itinerary_TEMPLATE">{brand} resplan #: {itinerary}</string>
+    <string name="calendar_flight_desc_itinerary_TEMPLATE">{brand}s resplansnr: {itinerary}</string>
     <!-- Part of the description, showing a link to directions.  %s is the directions link, e.g. "Directions to airport: http://url-to-map-to-airport" -->
     <string name="calendar_flight_desc_directions_TEMPLATE">Vägbeskrivning till flygplatsen: %s</string>
     <!-- Part of the description, showing a phone # for support.  %s is the phone number for support, e.g. "Expedia Customer Support: 222-222-2222" -->
@@ -2430,6 +2452,8 @@
     <string name="fare_information">PRISINFORMATION</string>
     <!-- Airline Fee -->
     <string name="Airline_fee">Flygbolagsavgift</string>
+    <!-- Accessibility announcement when filter are cleared-->
+    <string name="filters_cleared">Filter rensade</string>
     <!-- split ticket rules header -->
     <string name="split_ticket_important_flight_information_header">Viktig flyginformation</string>
     <!-- split ticket rules and restrictions -->
@@ -3684,98 +3708,130 @@
     <!-- Content Description Labels -->
     <!-- Trips Screen -->
     <!-- Content description for action: Press to refresh trips list -->
-    <string name="cd_trips_refresh_trips_list">Tryck för att uppdatera reslista</string>
+    <string name="trips_refresh_trips_list_cont_desc">Tryck för att uppdatera listan med resor</string>
     <!-- Hotel star filters -->
     <!-- Content description for action: Press to filter for hotels hotels with three or more stars -->
-    <string name="cd_filter_hotels_for_three_or_more_stars">Tryck för att filtrera hotell med tre eller fler stjärnor</string>
+    <string name="filter_hotels_for_three_or_more_stars_cont_desc">Tryck för att filtrera efter hotell med tre eller fler stjärnor</string>
     <!-- Content description for action: Press to filter for hotels hotels with four or more stars -->
-    <string name="cd_filter_hotels_for_four_or_more_stars">Tryck för att filtrera hotell med fyra eller fler stjärnor</string>
+    <string name="filter_hotels_for_four_or_more_stars_cont_desc">Tryck för att filtrera efter hotell med fyra eller fler stjärnor</string>
     <!-- Content description for action: Press to filter for hotels with five stars -->
-    <string name="cd_filter_hotels_for_five_stars">Tryck för att filtrera hotell med fem stjärnor</string>
+    <string name="filter_hotels_for_five_stars_cont_desc">Tryck för att filtrera efter hotell med fem stjärnor</string>
     <!-- Content description for action: Press to remove hotel star filters -->
-    <string name="cd_filter_remove_hotel_star_filters">Tryck för att ta bort stjärnfilter</string>
+    <string name="filter_remove_hotel_star_filters_cont_desc">Tryck för att ta bort stjärnfilter</string>
     <!-- Hotel distance filters -->
     <!-- Content description for action: Press to filter for the nearest hotels within a small radius from your search location -->
-    <string name="cd_filter_for_nearest_hotels">Tryck för att filtrera hotell närmast dig inom en begränsad sökradie</string>
+    <string name="filter_for_nearest_hotels_cont_desc">Tryck för att filtrera efter hotell närmast dig inom en begränsad sökradie</string>
     <!-- Content description for action: Press to filter for hotels within a mid-distance radius from your search location -->
-    <string name="cd_filter_for_further_distanced_hotels">Tryck för att filtrera hotell närmast dig inom en medelstor sökradie</string>
+    <string name="filter_for_further_distanced_hotels_cont_desc">Tryck för att filtrera efter hotell närmast dig inom en medelstor sökradie</string>
     <!-- Content description for action: Press to filter for hotels within largest radius from your search location -->
-    <string name="cd_filter_for_furthest_distanced_hotels">Tryck för att filtrera hotell närmast dig inom största möjliga sökradie</string>
+    <string name="filter_for_furthest_distanced_hotels_cont_desc">Tryck för att filtrera efter hotell närmast dig inom största möjliga sökradie</string>
     <!-- Content description for action: Press to clear all distance filters for hotel search -->
-    <string name="cd_filter_remove_distance_filter">Tryck för att rensa alla avståndsfilter i hotellsökningen</string>
+    <string name="filter_remove_distance_filter_cont_desc">Tryck för att rensa alla avståndsfilter i hotellsökningen</string>
     <!-- Hotel price filters -->
     <!-- Content description for action: Press to filter for low-range hotel prices -->
-    <string name="cd_filter_for_low_range_hotel_prices">Tryck för att filtrera låga hotellpriser</string>
+    <string name="filter_for_low_range_hotel_prices_cont_desc">Tryck för att filtrera efter låga hotellpriser</string>
     <!-- Content description for action: Press to filter for mid-range hotel prices -->
-    <string name="cd_filter_for_mid_range_hotel_prices">Tryck för att filtrera medelhöga hotellpriser</string>
+    <string name="filter_for_mid_range_hotel_prices_cont_desc">Tryck för att filtrera efter medelhöga hotellpriser</string>
     <!-- Content description for action: Press to filter for high-range hotel prices -->
-    <string name="cd_filter_for_high_range_hotel_prices">Tryck för att filtrera höga hotellpriser</string>
+    <string name="filter_for_high_range_hotel_prices_cont_desc">Tryck för att filtrera efter höga hotellpriser</string>
     <!-- Content description for action: Press to remove hotel price filters -->
-    <string name="cd_filter_remove_hotel_price_filters">Ta bort hotellprisfilter</string>
+    <string name="filter_remove_hotel_price_filters_cont_desc">Ta bort hotellprisfilter</string>
     <!-- Hotel info screen -->
     <!-- Content description for action: Press to select this hotel -->
-    <string name="cd_hotel_info_select_button">Tryck för att välja det här hotellet</string>
+    <string name="hotel_info_select_button_cont_desc">Tryck för att välja det här hotellet</string>
     <!-- Hotel review screen -->
     <!-- Content description for action: Press to display recent reviews -->
-    <string name="cd_display_recent_reviews">Tryck för att visa de senaste recensionerna</string>
+    <string name="display_recent_reviews_cont_desc">Tryck för att visa de senaste recensionerna</string>
     <!-- Content description for action: Press to display favorable reviews -->
-    <string name="cd_display_favorable_reviews">Tryck för att visa positiva recensioner</string>
+    <string name="display_favorable_reviews_cont_desc">Tryck för att visa positiva recensioner</string>
     <!-- Content description for action: Press to display critical reviews -->
-    <string name="cd_display_critical_reviews">Tryck för att visa negativa recensioner</string>
+    <string name="display_critical_reviews_cont_desc">Tryck för att visa negativa recensioner</string>
     <!-- Flight Search -->
     <!-- Content description for action: Press to clear selected dates -->
-    <string name="cd_flights_clear_selected_dates">Tryck för att rensa valda datum</string>
+    <string name="flights_clear_selected_dates_cont_desc">Tryck för att rensa valda datum</string>
     <!-- Content description for action: Press to edit number of travelers -->
-    <string name="cd_flights_search_number_of_travelers_edit">Tryck för att ändra antalet resenärer</string>
+    <string name="flights_search_number_of_travelers_edit_cont_desc">Tryck för att ändra antalet resenärer</string>
     <!-- Flight Search Results - Flight Leg Selection -->
     <!-- Content description for action: Press to cancel your flight selection and go back to flight search results -->
-    <string name="cd_flight_leg_cancel">Radera flygval och gå tillbaka till flygresultaten</string>
+    <string name="flight_leg_cancel_cont_desc">Rensa flygval och gå tillbaka till flygresultaten</string>
     <!-- Content description for action: Press to select this flight -->
-    <string name="cd_flight_leg_select_flight">Tryck för att välja det här flyget</string>
+    <string name="flight_leg_select_flight_cont_desc">Tryck för att välja det här flyget</string>
     <!-- Content description for action: Press to go to baggage fee information -->
-    <string name="cd_flight_leg_baggage_fee_info">Tryck för att gå till information om bagageavgifter</string>
+    <string name="flight_leg_baggage_fee_info_cont_desc">Tryck för att gå till information om bagageavgifter</string>
     <!-- Flight Search Results - Selection Overview -->
     <!-- Content description for action: Press to go to cost summary for your flight selections -->
-    <string name="cd_flight_selection_cost_summary">Gå till kostnadsöversikten för dina flygval</string>
+    <string name="flight_selection_cost_summary_cont_desc">Gå till kostnadsöversikten för dina flygval</string>
     <!-- Checkout screen -->
     <!-- Content description for action: Press to begin checkout -->
-    <string name="cd_checkout">Tryck för att påbörja betalning</string>
+    <string name="checkout_cont_desc">Tryck för att påbörja betalning</string>
     <!-- Content description for action: Press to enter a coupon or promotional code -->
-    <string name="cd_checkout_enter_coupon">Tryck för att ange en kupong- eller kampanjkod</string>
+    <string name="checkout_enter_coupon_cont_desc">Tryck för att ange kupong- eller kampanjkod</string>
     <!-- Traveler Information screen -->
     <!-- Content description for action: Press to enter a new traveler -->
-    <string name="cd_traveler_enter_new_traveler">Tryck för att ange en ny resenär</string>
+    <string name="traveler_enter_new_traveler_cont_desc">Tryck för att ange ny resenär</string>
     <!-- Content description for action: Press to edit traveler information -->
-    <string name="cd_traveler_edit_traveler_information">Tryck för att ändra resenärsinfo</string>
+    <string name="traveler_edit_traveler_information_cont_desc">Tryck för att ändra resenärsinfo</string>
     <!-- Content description for action: Press to edit traveler's passport country -->
-    <string name="cd_traveler_edit_passport_country">Ändra utfärdandeland för resenärens pass</string>
+    <string name="traveler_edit_passport_country_cont_desc">Ändra utfärdandeland för resenärens pass</string>
     <!-- Traveler Information edit/entry screen -->
     <!-- Content description for action: Press to finish entering traveler information -->
-    <string name="cd_traveler_information_done">Tryck om du är klar med att ange resenärsinfo</string>
+    <string name="traveler_information_done_cont_desc">Tryck om du är klar med att ange resenärsinfo</string>
     <!-- Extra traveler information - flights -->
     <!-- Content description for action: Press to select traveler's gender -->
-    <string name="cd_traveler_gender_edit">Tryck för att välja resenärens kön</string>
+    <string name="traveler_gender_edit_cont_desc">Tryck för att välja resenärens kön</string>
     <!-- Content description for action: Press to select type of special assistance traveler requires -->
-    <string name="cd_traveler_special_assistance_edit">Välj typ av specialassistans som resenären behöver</string>
+    <string name="traveler_special_assistance_edit_cont_desc">Välj typ av specialassistans som resenären behöver</string>
     <!-- Content description for action: Press to select window type that the traveler prefers -->
-    <string name="cd_traveler_seat_preference_edit">Välj platstyp som resenären föredrar</string>
+    <string name="traveler_seat_preference_edit_cont_desc">Välj platstyp som resenären föredrar</string>
     <!-- Credit Card Information -->
     <!-- Content description for action: Select billing address country -->
-    <string name="cd_card_info_billing_address_country">Ange land för faktureringsadressen</string>
+    <string name="card_info_billing_address_country_cont_desc">Ange land för faktureringsadressen</string>
     <!-- Itinerary card elements -->
     <!-- Content description for action: Press to view share options -->
-    <string name="cd_share_menu_btn">Tryck för att se alternativ för resplansdelning</string>
+    <string name="share_menu_btn_cont_desc">Tryck för att se alternativ för resplansdelning</string>
 
     <!-- Tablet Search Results Content Descriptions -->
     <!-- Content description for Hotel Search Results -->
-    <string name="cd_tablet_results_hotel_list">Resultat för din hotellsökning</string>
+    <string name="tablet_results_hotel_list_cont_desc">Resultat för din hotellsökning</string>
     <!-- Content description for Flight Search Results -->
-    <string name="cd_tablet_results_flight_list">Resultat för din flygsökning</string>
+    <string name="tablet_results_flight_list_cont_desc">Resultat för din flygsökning</string>
 
     <!-- Content description for action: Press to filter for the nearest hotels within a small radius from your search location -->
-    <string name="cd_pay_now">Tryck för att betala nu</string>
+    <string name="pay_now_cont_desc">Tryck för att betala nu</string>
     <!-- Content description for action: Press to filter for hotels within a mid-distance radius from your search location -->
-    <string name="cd_pay_later">Tryck för att betala senare</string>
+    <string name="pay_later_cont_desc">Tryck för att betala senare</string>
+
+    <!-- Content description for Cars filter button -->
+    <string name="cars_filter_button_cont_desc">Filterknapp</string>
+    <!-- Content description for car result door count e.g. Doors 2-4 -->
+    <string name="cars_door_count_cont_desc_TEMPLATE">Dörrar {doorcount}</string>
+    <!-- Content description for car result passenger count e.g. Passengers 2-4 -->
+    <string name="cars_passenger_count_cont_desc_TEMPLATE">Passagerare {passengercount}</string>
+    <!-- Content description for car result bags count e.g. Bags 2-4 -->
+    <string name="cars_bags_count_cont_desc_TEMPLATE">Väskor {bagscount}</string>
+    <!-- Content description for hotel star rating e.g. 3 stars -->
+    <plurals name="hotel_star_rating_cont_desc_TEMPLATE">
+        <item quantity="one">{rating} stjärna</item>
+        <item quantity="other">{rating} stjärnor</item>
+    </plurals>
+    <!-- Content descriptions for Cars filter transmission buttons -->
+    <string name="cars_filter_transmission_manual_button_cont_desc">Manuell växellåda</string>
+    <string name="cars_filter_transmission_automatic_button_cont_desc">Automatisk växellåda</string>
+    <string name="cars_filter_transmission_all_button_cont_desc">Alla växellådor</string>
+
+    <!-- Content description for car offer reserve button e.g. Dollar, Chevrolet Spark or Similar, Reserve button-->
+    <string name="cars_offer_reserve_button_cont_desc_TEMPLATE">{vendor}, {make}, knapp för att boka</string>
+    <!-- Content description for car offer view details button e.g. Dollar, Chevrolet Spark or Similar, View details button-->
+    <string name="cars_offer_view_details_button_cont_desc_TEMPLATE">{vendor}, {make}, knapp för att se info</string>
+
+    <!-- Car confirmation directions content description e.g. Directions to Fox button-->
+    <string name="car_confirmation_directions_cont_desc_TEMPLATE">Knapp med vägbeskrivning till {vendor}</string>
+    <!-- Car confirmation add to calendar content description-->
+    <string name="car_confirmation_add_to_calendar_cont_desc">Knapp för att lägga till i kalender</string>
+    <!-- Successful checkout hotel cross sell content description e.g. Hotels in Seattle button-->
+    <string name="successful_checkout_cross_sell_hotel_cont_desc_TEMPLATE">Knapp för hotell i {location}</string>
+    <!-- Successful checkout flight cross sell content description e.g. Flights to Seattle button-->
+    <string name="successful_checkout_cross_sell_flight_cont_desc_TEMPLATE">Knapp för flyg till {location}</string>
 
     <!-- Tablet Confirmation Screen -->
     <!-- Header text to indicating booking confirmed for hotel -->
@@ -3864,17 +3920,25 @@
     <string name="airline_fee_notice">En flygbolagsavgift, baserad på typ av kort, läggs till vid betalning.</string>
     <string name="airline_charge_notice">Flygbolag tar ut en extraavgift baserat på betalningsmetod.</string>
     <string name="airline_fee_notice_payment">Flygbolagsavgift tas ut baserat på betalningsmetod</string>
-    <string name="airline_notice_fee_added">En <u><b>flygbolagsavgift</b></u>, baserad på korttyp, läggs till vid betalning. Avgiften läggs till totalbeloppet vid betalning.</string>
-    <string name="airline_notice_fee_added_tablet">En &lt;u&gt;&lt;b&gt;flygbolagsavgift&lt;/b&gt;&lt;/u&gt;, baserad på korttyp, läggs till vid betalning. Avgiften läggs till totalbeloppet vid betalning.</string>
+    <string name="airline_notice_fee_added">En <u><b>flygbolagsavgift</b></u>, baserad på korttyp, läggs till vid betalning. Avgiften tillkommer till totalbeloppet vid betalning.</string>
+    <string name="airline_notice_fee_added_tablet">En &lt;u&gt;&lt;b&gt;flygbolagsavgift&lt;/b&gt;&lt;/u&gt;, baserad på korttyp, läggs till vid betalning. Avgiften tillkommer till totalbeloppet vid betalning.</string>
 
     <!-- Packages -->
 
     <!-- Label for package search toolbar -->
     <!-- Accessibility - Content Description for toolbar close button -->
-    <string name="package_toolbar_close_content_description">Stäng sökskärm</string>
+    <string name="package_toolbar_close_cont_desc">Stäng sökskärm</string>
     <!-- Accessibility - Content Description for toolbar back button when entering destination/arrival -->
-    <string name="package_toolbar_back_to_search_content_description">Tillbaka till sökskärm</string>
+    <string name="package_toolbar_back_to_search_cont_desc">Tillbaka till sökskärm</string>
     <string name="package_toolbar_title">Hotell + Flyg</string>
+    <!-- Accessibility - Content Description for Expiration date: increase month -->
+    <string name="increase_month_cont_desc">Höj månad</string>
+    <!-- Accessibility - Content Description for Expiration date: decrease month -->
+    <string name="decrease_month_cont_desc">Sänk månad</string>
+    <!-- Accessibility - Content Description for Expiration date: increase year -->
+    <string name="increase_year_cont_desc">Höj år</string>
+    <!-- Accessibility - Content Description for Expiration date: decrease year -->
+    <string name="decrease_year_cont_desc">Sänk år</string>
     <!-- Label for per person -->
     <string name="per_person">per person</string>
     <!-- Label for package bundle price on overview-->
@@ -3908,12 +3972,14 @@
     <string name="package_overview_flight_travel_info_TEMPLATE">%1$s kl. %2$s, %3$s</string>
     <!-- Template for package bundle total savings amount -->
     <string name="bundle_total_savings_TEMPLATE">{savings} sparat</string>
-    <!-- Bundle Overview select hotel accessibility content description -->
-    <string name="select_hotel_content_description">Sökning slutförd. Klicka på den här knappen för att välja hotell i {destination} från {startdate} till {enddate} för {guests}</string>
-    <!-- Bundle Overview select hotel accessibility content description when still searching -->
-    <string name="select_hotel_content_description_searching">Söker efter hotell i {destination} från {startdate} till {enddate} för {guests}. Vänta</string>
-    <!-- Bundle Overview selected hotel accessibility content description -->
-    <string name="select_hotel_content_description_selected">Du har valt hotellet {hotel} från {startdate} till {enddate} för {guests}. Klicka på den här knappen för att se mer information.</string>
+    <!-- Bundle Overview select hotel accessibility content description Eg. Search completed. Select a hotel in Detroit from Jun 23 to Jun 24, for 1 guest. Button -->
+    <string name="select_hotel_cont_desc_TEMPLATE">Sökning slutförd. Välj hotell i {destination} från {startdate} till {enddate} för {guests}. Knapp</string>
+    <!-- Bundle Overview select hotel accessibility content description when still searching Eg. Searching for hotels in Detroit from Jun 23 to Jun 24, for 1 guest. Please wait -->
+    <string name="select_hotel_searching_cont_desc_TEMPLATE">Söker efter hotell i {destination} från {startdate} till {enddate} för {guests}. Vänta</string>
+    <!-- Bundle Overview selected hotel accessibility content description Eg. You have selected hotel Orion from Jun 23 to June 24, for 1 guest. Button to expand hotel details. -->
+    <string name="select_hotel_selected_cont_desc_TEMPLATE">Du har valt {hotel} från {startdate} till {enddate} för {guests}. {expandstate} hotellinformation.</string>
+    <!-- Bundle Overview selected flight accessibility content description Eg. Flight to (DTW) Detroit. Jul 10 at 9:00 am, 1 Traveler. Button to expand flight details. -->
+    <string name="select_flight_selected_cont_desc_TEMPLATE">{flighttext}. {travelerinfotext}. {expandstate} flyginformation.</string>
     <!-- Bundle Overview select hotel -->
     <string name="select_hotel_template">Välj hotell i %s</string>
     <!-- Bundle Overview searching flight -->
@@ -3934,18 +4000,24 @@
         <item quantity="other">2+ stopp</item>
     </plurals>
 
+    <!-- Flight Nonstop description -->
+    <string name="flight_nonstop_description">Direkt</string>
     <!-- Flight duration template e.g. 1d 12h 42m (Nonstop) -->
     <string name="flight_duration_description_template">%1$s (%2$s)</string>
     <!-- Flight hour duration template e.g. 12h 42m -->
     <string name="flight_hour_min_duration_template">%1$dh %2$dm</string>
     <!-- Flight min duration template e.g. 1d 12h 42m (2hr layover) -->
     <string name="flight_min_duration_template">%1$dm</string>
-    <!-- Flight Nonstop description -->
-    <string name="flight_nonstop_description">Direkt</string>
+
     <!-- Flight departure arrival time in multi days e.g. 5:15 pm - 7:48 am +1d -->
     <string name="flight_departure_arrival_time_multi_day_template">%1$s - %2$s +%3$dd</string>
+    <!-- Accessible text for Flight departure arrival time same day e.g. 5:15 pm to 7:48 pm plus 1d -->
+    <string name="flight_departure_arrival_time_multi_day_cont_desc_TEMPLATE">{departuretime} till {arrivaltime} plus {elapseddays}d</string>
     <!-- Flight departure arrival time same day e.g. 5:15 pm - 7:48 pm -->
     <string name="flight_departure_arrival_time_template">%1$s - %2$s</string>
+    <!-- Accessible text for Flight departure arrival time same day e.g. 5:15 pm to 7:48 pm -->
+    <string name="flight_departure_arrival_time_cont_desc_TEMPLATE">{departuretime} till {arrivaltime}</string>
+
     <!-- Select flight to template -->
     <string name="select_flight_to">Välj flyg till %1$s</string>
     <!-- Flight to template -->
@@ -3972,6 +4044,9 @@
 
     <!-- Text indicating that the user can drag this button to view their trip -->
     <string name="trip_overview">Se reseuppgifter</string>
+    <!-- Content description to View Trip Details view -->
+    <string name="trip_overview_cont_desc">Knapp för att se reseuppgifter</string>
+
     <!-- Slide to book -->
     <string name="package_slider_text">Dra för att boka</string>
     <string name="hotel_city_country_TEMPLATE">{city}, {country}</string>
@@ -4059,6 +4134,9 @@
     <!--rail search screen - user is specifiying what time they want their return train to leave at -->
     <string name="rail_returning_at">Återresa</string>
 
+    <!-- rail checkout overview label for outbound  e.g. "Outbound - Thu Jun 23"-->
+    <string name="rail_checkout_outbound_TEMPLATE">Avresa: {date}</string>
+
     <!-- Label for rail trip price on overview screen -->
     <string name="total">Totalbelopp</string>
 
@@ -4069,12 +4147,30 @@
     <!-- New Hotel Search screen -->
     <string name="enter_destination_hint">Ange destination</string>
 
-    <!-- Package breakdown dialog -->
-    <string name="package_breakdown_hotel_flight_summary">Hotell + Flyg</string>
-    <string name="package_breakdown_taxes_fees">Skatter och avgifter</string>
-    <string name="package_breakdown_taxes_fees_included_TEMPLATE">Inklusive skatter och avgifter ({taxes})</string>
-    <string name="package_breakdown_total_savings">Du sparar totalt</string>
-    <string name="package_breakdown_total_due_today">Totalt att betala idag</string>
+    <!-- Cost summary breakdown line item for flight insurance -->
+    <string name="cost_summary_breakdown_flight_insurance">Flygskydd</string>
+    <!-- Cost summary breakdown line item for flights -->
+    <string name="cost_summary_breakdown_flight_summary">Flyg</string>
+    <!-- Cost summary breakdown line item for a hotel + flight package -->
+    <string name="cost_summary_breakdown_hotel_flight_summary">Hotell + Flyg</string>
+    <!-- Cost summary breakdown line item for taxes and fees that are charged separately -->
+    <string name="cost_summary_breakdown_taxes_fees">Skatter och avgifter</string>
+    <!-- Cost summary breakdown line item for taxes and fees that are included in the base price, e.g. Taxes &amp; Fees Included ($34.21) -->
+    <string name="cost_summary_breakdown_taxes_fees_included_TEMPLATE">Inklusive skatter och avgifter ({taxes})</string>
+    <!-- Cost summary breakdown line item for savings -->
+    <string name="cost_summary_breakdown_total_savings">Du sparar totalt</string>
+    <!-- Cost summary breakdown line item for total -->
+    <string name="cost_summary_breakdown_total_due_today">Totalt att betala idag</string>
+
+    <!-- Material FLight breakdown dialog -->
+    <!-- Add adult traveler number template for example: Adult 2 details -->
+    <string name="flight_add_adult_number_TEMPLATE">Uppgifter för vuxen resenär {number}</string>
+    <!-- Add child traveler number template for example: Child 4 details -->
+    <string name="flight_add_child_number_TEMPLATE">Uppgifter för barnresenär {number}</string>
+    <!-- Add infant in lap traveler number template for example: Infant in lap 1 details -->
+    <string name="flight_add_infant_in_lap_number_TEMPLATE">Uppgifter för spädbarn {number} i knä</string>
+    <!-- Add infant in seat traveler number template for example: Infant in seat 6 details -->
+    <string name="flight_add_infant_in_seat_number_TEMPLATE">Uppgifter för spädbarn {number} i säte</string>
 
     <!-- Shop with points -->
     <string name="loyalty_applied_excluding_taxes_and_fees_message">Poäng i Expedia+ har tillämpats! (Skatter och avgifter ingår ej)</string>
@@ -4092,6 +4188,8 @@
     <string name="yay_going_somewhere">Du ska till</string>
     <!-- Cars cross-sell message on package confirmation -->
     <string name="rental_car_message">Behöver du hyrbil?</string>
+    <!-- Cars cross-sell origin description template-->
+    <string name="cars_cross_sell_origin_TEMPLATE">{airport_code}-{airport_localname}</string>
     <!-- Cars cross-sell message description on package confirmation -->
     <string name="rental_car_message_desc">Boka en bil och spara</string>
     <!-- Fly from hint -->
@@ -4130,28 +4228,132 @@
     <string name="reward_middle_tier_name_short">+silver</string>
     <!-- Short name for rewards top tier -->
     <string name="reward_top_tier_name_short">+gold</string>
-    <!-- Flight Detail card view content description for accessibility.
-         Example: Flight time is 10am - 12:30pm with price difference of $25. Flying with United and the flight duration is 2 hours 30 minutes. Click to view flight details -->
-    <string name="flight_detail_card_content_description">Flygtiden är {time} med en prisskillnad på {pricedifference}. Flyg med {airline} där restiden är {hours} timmar {minutes} minuter. Klicka för att se flyguppgifter</string>
 
     <!--Packages search accessibility -->
-    <!--Flying to card content description Eg. Flying to San Francisco, CA (SFO-San Francisco Intl.)-->
-    <string name="packages_search_flying_to_content_description">Flyger till {to_destination}</string>
-    <!--Flying from card content description Eg. Flying from Detroit, MI (DTW-Detroit Metropolitan Wayne County)-->
-    <string name="packages_search_flying_from_content_description">Flyger från {from_destination}</string>
+    <!-- Flight Detail card view content description for accessibility. Eg. Flight time is 9:00 am - 11:12 am with price difference of +$0. Flying with United. The flight duration is 5 hours 12 minutes with 0 stops. -->
+    <string name="flight_detail_card_cont_desc_TEMPLATE">Flygtiden är {time} med en prisskillnad på {pricedifference}. Trafikeras av {airline}. Restiden är {hours} {minutes} med {stops} stopp\u0020</string>
+    <!--Flight Detail card view - flight duration content description for accessibility Eg. SFO to DTM. 3 hours 15 minutes. -->
+    <string name="flight_detail_flight_duration_card_cont_desc_TEMPLATE">{departureairport} till {arrivalairport}. {durationhours} {durationmins} \u0020</string>
+    <!--Flight Detail card view - layover duration content description for accessibility Eg. Layover. 2 hours 4 minutes. -->
+    <string name="flight_detail_layover_duration_card_cont_desc_TEMPLATE">Mellanlandning {layoverhours} {layovermins} \u0020</string>
+    <!--Flying to card content description Eg. Flying to. Button. San Francisco, CA (SFO-San Francisco Intl.)-->
+    <string name="search_flying_to_destination_cont_desc_TEMPLATE">Flyger till. Knapp. {to_destination}</string>
+    <!--Flying from card content description Eg. Flying from. Button. Detroit, MI (DTW-Detroit Metropolitan Wayne County)-->
+    <string name="search_flying_from_destination_cont_desc_TEMPLATE">Flyger från. Knapp. {from_destination}</string>
     <!--Flying to card content description before a location is selected-->
-    <string name="packages_search_flying_to_content_description_initial">Klicka här för att välja vart du vill flyga</string>
+    <string name="packages_search_flying_to_cont_desc">Flyger till. Knapp</string>
     <!--Flying from card content description before a location is selected-->
-    <string name="packages_search_flying_from_content_description_initial">Klicka här för att välja varifrån du vill flyga</string>
+    <string name="packages_search_flying_from_cont_desc">Flyger från. Knapp</string>
     <!--Travel dates card content description before date range is selected-->
-    <string name="packages_search_dates_content_description_initial">Klicka här för att välja dina resedatum</string>
+    <string name="packages_search_dates_cont_desc">Välj resedatum. Knapp. Öppnar dialog</string>
     <!--Packages search date format template for accessible dates (Talkback announces date range with 'to' in between) Eg. Jun 2 to Jun 5-->
-    <string name="packages_search_accessible_date_range_TEMPLATE">{startdate} till {enddate}</string>
-    <!--Packages search dates content description for Talkback to indicate what the date range is and how many nights the trip is for-->
-    <string name="packages_search_dates_content_description_trip">Din resa är från {date_range} i {nights}</string>
+    <string name="packages_search_date_range_cont_desc_TEMPLATE">{startdate} till {enddate}</string>
+    <!--Packages search dates content description for Talkback to indicate what the date range is and how many nights the trip is for Eg. Trip dates. Button. Opens dialog. Jun 22 to Jun 25. (3 nights)-->
+    <string name="trip_search_date_range_cont_desc_TEMPLATE">Resedatum. Knapp. Öppnar dialog. {date_range}. {nights}</string>
+    <!--Packages search travelers card content description template. Eg. Number of travelers. Button. Opens dialog. 1 traveler-->
+    <plurals name="packages_search_travelers_cont_desc_TEMPLATE">
+        <item quantity="one">Antal resenärer. Knapp. Öppnar dialog. {travelers} resenär</item>
+        <item quantity="other">Antal resenärer. Knapp. Öppnar dialog. {travelers} resenärer</item>
+    </plurals>
+    <!--Traveler widget adults plus button content description-->
+    <string name="packages_add_adult_traveler_cont_desc">Lägg till en vuxen resenär</string>
+    <!--Traveler widget adults minus button content description-->
+    <string name="packages_remove_adult_traveler_cont_desc">Ta bort en vuxen resenär</string>
+    <!--Traveler widget child plus button content description-->
+    <string name="packages_add_child_traveler_cont_desc">Lägg till ett barn till resan</string>
+    <!--Traveler widget child minus button content description-->
+    <string name="packages_remove_child_traveler_cont_desc">Ta bort ett barn från resan</string>
+    <!--Packages search child age drop down content description Eg. "Select age for child 1."-->
+    <string name="search_child_drop_down_cont_desc_TEMPLATE">Välj ålder för barn {childnumber}.</string>
     <!--Packages accessibility flight search filter-->
     <!--Content description for "SHOW MORE" button in filter used for Talkback-->
-    <string name="packages_flight_search_filter_show_more_cont_desc">Klicka här för att se fler flygbolag</string>
+    <string name="packages_flight_search_filter_show_more_cont_desc">Visa fler flygbolag. Knapp</string>
     <!--Content description for "SHOW LESS" button in filter used for Talkback-->
-    <string name="packages_flight_search_filter_show_less_cont_desc">Klicka här för att se färre flygbolag</string>
+    <string name="packages_flight_search_filter_show_less_cont_desc">Visa färre flygbolag. Knapp</string>
+    <!--Content description for clear button in filter used for Talkback-->
+    <string name="packages_flight_search_filter_clear_button_cont_desc">Rensa filter. Knapp</string>
+    <!--Content description for Bundle total widget. Example: Bundle total is $1,234.00. This price includes taxes, fees for both flights and hotel. $100.00 Saved-->
+    <string name="bundle_overview_price_widget">Totalpris för paketet är {totalprice}. I priset ingår skatter samt avgifter för både flyg och hotell. {savings}</string>
+    <!--Content description for Bundle total widget. Example: Bundle total is $1,234.00. This price includes taxes, fees for both flights and hotel. $100.00 Saved. Cost Breakdown dialog. Button.-->
+    <string name="bundle_total_price_widget_cost_breakdown_cont_desc_TEMPLATE">Totalpris för paketet är {totalprice}. I priset ingår skatter samt avgifter för både flyg och hotell. {savings}. Dialogruta för prisinformation. Knapp.</string>
+    <!--Content description for Bundle sliding widget, with instruction to expand to show more details. Example: Bundle total is $1,234.00 per person. This price includes taxes, fees for both flights and hotel. $100.00 Saved. Button to view bundle.-->
+    <string name="bundle_overview_price_widget_button_open_TEMPLATE">Paketpriset är {price_per_person} per person. I priset ingår skatter samt avgifter för både flyg och hotell. Knapp för att se paket.</string>
+    <!--Content description for Bundle sliding widget, when it's opened.-->
+    <string name="bundle_overview_price_widget_button_close">Visar information om paket. Knapp för att stänga.</string>
+    <!--Packages bundle overview hotel drop down (expand) content description for accessibility-->
+    <string name="select_hotel_selected_expand_cont_desc">visa information</string>
+    <!--Packages bundle overview hotel drop down (collapse) content description for accessibility-->
+    <string name="select_hotel_selected_collapse_cont_desc">dölj information</string>
+    <!-- Package filter checkbox.
+        Example #1: 3 available NonStop flights.
+        Example #2: 2 available Hawaiian Airlines flights. -->
+    <string name="packages_flight_filter_checkbox_cont_desc_TEMPLATE">{filter_results} tillgängliga flyg - {filter_name}.</string>
+
+    <!-- Status displayed in a modal dialog while insurance is being added -->
+    <string name="insurance_adding">Lägger till reseskydd…</string>
+    <!-- Error message displayed when insurance fails to be added to a trip -->
+    <string name="insurance_add_error">Tyvärr kunde vi inte lägga till reseskyddet. Försök igen eller fortsätt bokningen utan reseskydd.</string>
+    <!-- Benefits of purchasing insurance -->
+    <string name="insurance_benefits">1. Din biljett är ej återbetalningsbar och du är för sjuk för att resa.&lt;br/&gt;&lt;br/&gt;2. Du blir skadad och kan inte flyga tillbaka.&lt;br/&gt;&lt;br/&gt;3. Ditt resesällskap drabbas av en medicinsk akutsituation som täcks av skyddet och kan inte resa.</string>
+    <!-- Insurance call to action; links to list of benefits -->
+    <string name="insurance_description">3 anledningar till varför du kan behöva reseskydd</string>
+    <!-- Error message displayed when insurance fails to be removed from a trip -->
+    <string name="insurance_remove_error">Tyvärr kunde vi inte ta bort reseskyddet. Försök igen.</string>
+    <!-- Status displayed in a modal dialog while insurance is being removed -->
+    <string name="insurance_removing">Tar bort reseskydd…</string>
+    <!-- Label of link to insurance terms and conditions -->
+    <string name="insurance_terms">Regler och villkor samt försäkringssponsorer</string>
+    <!-- Title of insurance widget when trip is protected, e.g. Your trip is protected for $19/person -->
+    <string name="insurance_title_protected_TEMPLATE">&lt;b&gt;Din resa är skyddad för ${price}&lt;/b&gt;{price_type}</string>
+    <!-- Title of insurance widget when trip is not protected, e.g. Add protection for $19/person -->
+    <string name="insurance_title_unprotected_TEMPLATE">&lt;b&gt;Lägg till skydd för ${price}&lt;/b&gt;{price_type}</string>
+    <!-- Insurance price type qualifiers -->
+    <string name="insurance_price_per_day">/dag</string>
+    <string name="insurance_price_per_person">/person</string>
+    <!-- Content description for rating bar e.g. Rated 3 out of 5-->
+    <string name="hotel_rating_bar_cont_desc_TEMPLATE">Rankat {rating} av 5</string>
+    <!--LX accessibility -->
+    <!--LX search accessibility -->
+    <string name="lx_location_edit_box_cont_desc">Plats för aktivitet</string>
+
+    <!--LX infosite accessibility -->
+    <!-- LX infosite section Highlights, description etc have a caret icon to read more content -->
+    <string name="lx_read_more_cont_desc">Knapp för att visa mer</string>
+    <!-- LX infosite section Highlights, description etc have a caret icon to read less content -->
+    <string name="lx_read_less_cont_desc">Knapp för att visa mindre</string>
+    <!-- Content description for LX add ticket button e.g. Add adult Button -->
+    <string name="lx_add_ticket_button_cont_desc_TEMPLATE">Lägg till {traveler}</string>
+    <!-- Content description for LX remove ticket button e.g. Remove child Button -->
+    <string name="lx_remove_ticket_button_cont_desc_TEMPLATE">Ta bort {traveler}</string>
+
+    <!-- Generic content description -->
+    <!-- Content description for toolbar 'X' i.e. close/back button -->
+    <string name="toolbar_search_nav_icon_cont_desc">Tillbaka</string>
+    <string name="toolbar_search_nav_icon_close_cont_desc">Stäng</string>
+    <string name="search_button_cont_desc">Sökknapp</string>
+    <!-- Content description for LX Duration e.g. Duration 2d -->
+    <string name="search_result_duration_cont_desc_TEMPLATE">Restid {duration}</string>
+    <!-- Content description for LX Multiple Duration e.g. Duration 2d + -->
+    <string name="search_result_multiple_duration_cont_desc_TEMPLATE">Restid {duration} plus</string>
+
+    <!--Packages accessibility content description for  traveler details complete-->
+    <string name="traveler_details_incomplete_cont_desc">Resenärsinformation ej fullständig</string>
+    <!--Packages accessibility content description for  traveler details complete-->
+    <string name="traveler_details_complete_cont_desc">Resenärsinformation fullständig</string>
+    <!--Packages accessibility content description for role Button-->
+    <string name="accessibility_cont_desc_role_button">Knapp</string>
+    <!--Packages accessibility content description for role - Button to expand -->
+    <string name="accessibility_cont_desc_role_button_expand">Tryck för att visa</string>
+    <!--Packages accessibility content description for role - Button to collapse -->
+    <string name="accessibility_cont_desc_role_button_collapse">Tryck för att dölja</string>
+
+    <!-- LX SRP activity price content description when no discount e.g. Price is $30 -->
+    <string name="activity_price_without_discount_cont_desc_TEMPLATE">Priset är {activity_price}</string>
+
+    <!-- LX SRP activity price content description when price is discounted e.g. Price is $180. Price before discount was $230 -->
+    <string name="activity_price_with_discount_cont_desc_TEMPLATE">Priset är {activity_price}. Priset var före rabatt {activity_original_price}</string>
+    <!-- Content description for Checkbox types, state Checked -->
+    <string name="accessibility_cont_desc_role_checkbox_checked">Ruta. Förkryssad.</string>
+    <!-- Content description for Checkbox types, state Unchecked -->
+    <string name="accessibility_cont_desc_role_checkbox_unchecked">Ruta. Ej förkryssad.</string>
 </resources>

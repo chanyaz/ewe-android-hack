@@ -1,12 +1,45 @@
 package com.expedia.vm.traveler
 
+import android.content.Context
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.Traveler
-import com.expedia.bookings.data.packages.PackageSearchParams
-import com.expedia.bookings.enums.PassengerCategory
+import com.expedia.bookings.enums.TravelerCheckoutStatus
+import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.validation.TravelerValidator
+import rx.subjects.BehaviorSubject
+import javax.inject.Inject
 
-open class CheckoutTravelerViewModel() {
+open class CheckoutTravelerViewModel(context: Context) {
+    lateinit var travelerValidator: TravelerValidator
+        @Inject set
+
+    init {
+        Ui.getApplication(context).travelerComponent().inject(this)
+    }
+
+    val allTravelersCompleteSubject = BehaviorSubject.create<List<Traveler>>()
+    val invalidTravelersSubject = BehaviorSubject.create<Unit>()
+    val emptyTravelersSubject = BehaviorSubject.create<Unit>()
+    val travelerCompletenessStatus = BehaviorSubject.create<TravelerCheckoutStatus>(TravelerCheckoutStatus.CLEAN)
+
+    fun refresh() {
+        if (areTravelersEmpty()) {
+            emptyTravelersSubject.onNext(Unit)
+            travelerCompletenessStatus.onNext(TravelerCheckoutStatus.CLEAN)
+        } else {
+            updateCompletionStatus()
+        }
+    }
+
+    fun updateCompletionStatus() {
+        if (validateTravelersComplete()){
+            allTravelersCompleteSubject.onNext(getTravelers())
+            travelerCompletenessStatus.onNext(TravelerCheckoutStatus.COMPLETE)
+        } else {
+            invalidTravelersSubject.onNext(Unit)
+            travelerCompletenessStatus.onNext(TravelerCheckoutStatus.DIRTY)
+        }
+    }
 
     open fun validateTravelersComplete(): Boolean {
         val travelerList = getTravelers()
@@ -14,7 +47,7 @@ open class CheckoutTravelerViewModel() {
         if (travelerList.isEmpty()) return false
 
         for (traveler in travelerList) {
-            if (!TravelerValidator.isValidForPackageBooking(traveler)) {
+            if (!travelerValidator.isValidForPackageBooking(traveler)) {
                 return false
             }
         }
@@ -24,7 +57,7 @@ open class CheckoutTravelerViewModel() {
     open fun areTravelersEmpty() : Boolean {
         val travelerList = getTravelers()
         for (traveler in travelerList) {
-            if (!TravelerValidator.isTravelerEmpty(traveler)) {
+            if (!travelerValidator.isTravelerEmpty(traveler)) {
                 return false
             }
         }

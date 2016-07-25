@@ -3,6 +3,7 @@ package com.expedia.bookings.unit;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -14,11 +15,12 @@ import org.junit.Test;
 
 import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.SuggestionV4;
-import com.expedia.bookings.data.cars.ApiError;
+import com.expedia.bookings.data.ApiError;
 import com.expedia.bookings.data.hotels.Hotel;
 import com.expedia.bookings.data.hotels.HotelApplyCouponParameters;
 import com.expedia.bookings.data.hotels.HotelCheckoutParamsMock;
 import com.expedia.bookings.data.hotels.HotelCheckoutV2Params;
+import com.expedia.bookings.data.hotels.HotelCreateTripParams;
 import com.expedia.bookings.data.hotels.HotelCreateTripResponse;
 import com.expedia.bookings.data.hotels.HotelOffersResponse;
 import com.expedia.bookings.data.hotels.HotelSearchParams;
@@ -46,8 +48,10 @@ import okhttp3.mockwebserver.RecordedRequest;
 import rx.observers.TestSubscriber;
 import rx.schedulers.Schedulers;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 public class HotelServicesTest {
@@ -170,9 +174,7 @@ public class HotelServicesTest {
 
 	@Test
 	public void testMockSearchWorks() throws Throwable {
-		String root = new File("../mocked/templates").getCanonicalPath();
-		FileSystemOpener opener = new FileSystemOpener(root);
-		server.setDispatcher(new ExpediaDispatcher(opener));
+		givenServerUsingMockResponses();
 
 		TestSubscriber<List<Hotel>> observer = new TestSubscriber<>();
 		NearbyHotelParams params = givenNearbyHotelParams();
@@ -187,9 +189,7 @@ public class HotelServicesTest {
 
 	@Test
 	public void testMockDetailsWithoutOffersWorks() throws Throwable {
-		String root = new File("../mocked/templates").getCanonicalPath();
-		FileSystemOpener opener = new FileSystemOpener(root);
-		server.setDispatcher(new ExpediaDispatcher(opener));
+		givenServerUsingMockResponses();
 
 		TestSubscriber<HotelOffersResponse> observer = new TestSubscriber<>();
 
@@ -208,9 +208,7 @@ public class HotelServicesTest {
 
 	@Test
 	public void testMockDetailsWithOffersWorks() throws Throwable {
-		String root = new File("../mocked/templates").getCanonicalPath();
-		FileSystemOpener opener = new FileSystemOpener(root);
-		server.setDispatcher(new ExpediaDispatcher(opener));
+		givenServerUsingMockResponses();
 
 		TestSubscriber<HotelOffersResponse> observer = new TestSubscriber<>();
 
@@ -228,10 +226,67 @@ public class HotelServicesTest {
 	}
 
 	@Test
+	public void unknownRewardsTypesAreRemovedAndKnownRewardsTypesRemainInCreateTripResponse() throws Throwable {
+		givenServerUsingMockResponses();
+
+		HotelCreateTripParams params = new HotelCreateTripParams("hotel_pwp_multiple_points_types", false, 1, Collections.<Integer>emptyList());
+
+		TestSubscriber<HotelCreateTripResponse> observer = new TestSubscriber<>();
+
+		service.createTrip(params, true, observer);
+		observer.awaitTerminalEvent(10, TimeUnit.SECONDS);
+
+		observer.assertNoErrors();
+		observer.assertCompleted();
+		observer.assertValueCount(1);
+
+		HotelCreateTripResponse response = observer.getOnNextEvents().get(0);
+		Assert.assertEquals(1, response.getPointsDetails().size());
+		Assert.assertEquals(ProgramName.ExpediaRewards, response.getPointsDetails().get(0).getProgramName());
+	}
+
+	@Test
+	public void knownRewardsTypeRemainInCreateTripResponse() throws Throwable {
+		givenServerUsingMockResponses();
+
+		HotelCreateTripParams params = new HotelCreateTripParams("happypath_pwp_points_only", false, 1, Collections.<Integer>emptyList());
+
+		TestSubscriber<HotelCreateTripResponse> observer = new TestSubscriber<>();
+
+		service.createTrip(params, true, observer);
+		observer.awaitTerminalEvent(10, TimeUnit.SECONDS);
+
+		observer.assertNoErrors();
+		observer.assertCompleted();
+		observer.assertValueCount(1);
+
+		HotelCreateTripResponse response = observer.getOnNextEvents().get(0);
+		Assert.assertEquals(1, response.getPointsDetails().size());
+		Assert.assertEquals(ProgramName.ExpediaRewards, response.getPointsDetails().get(0).getProgramName());
+	}
+
+	@Test
+	public void unknownRewardsTypesAreRemovedFromCreateTripResponse() throws Throwable {
+		givenServerUsingMockResponses();
+
+		HotelCreateTripParams params = new HotelCreateTripParams("hotel_pwp_unknown_points_type", false, 1, Collections.<Integer>emptyList());
+
+		TestSubscriber<HotelCreateTripResponse> observer = new TestSubscriber<>();
+
+		service.createTrip(params, true, observer);
+		observer.awaitTerminalEvent(10, TimeUnit.SECONDS);
+
+		observer.assertNoErrors();
+		observer.assertCompleted();
+		observer.assertValueCount(1);
+
+		HotelCreateTripResponse response = observer.getOnNextEvents().get(0);
+		Assert.assertEquals(0, response.getPointsDetails().size());
+	}
+
+	@Test
 	public void testCheckoutWorks() throws Throwable {
-		String root = new File("../mocked/templates").getCanonicalPath();
-		FileSystemOpener opener = new FileSystemOpener(root);
-		server.setDispatcher(new ExpediaDispatcher(opener));
+		givenServerUsingMockResponses();
 
 		TestSubscriber<HotelCheckoutResponse> observer = new TestSubscriber<>();
 
@@ -253,9 +308,7 @@ public class HotelServicesTest {
 
 	@Test
 	public void testCheckoutWithPriceChangeAndUserPreferences() throws Throwable {
-		String root = new File("../mocked/templates").getCanonicalPath();
-		FileSystemOpener opener = new FileSystemOpener(root);
-		server.setDispatcher(new ExpediaDispatcher(opener));
+		givenServerUsingMockResponses();
 
 		TestSubscriber<HotelCheckoutResponse> observer = new TestSubscriber<>();
 
@@ -278,10 +331,34 @@ public class HotelServicesTest {
 	}
 
 	@Test
+	public void checkoutWithPriceChangeDoesNotIncludeUnknownRewardsTypes() throws Throwable {
+		givenServerUsingMockResponses();
+
+		TestSubscriber<HotelCheckoutResponse> observer = new TestSubscriber<>();
+
+		String tripId = "hotel_price_change_with_multiple_points_types";
+		TripDetails tripDetails = new TripDetails(tripId, "675.81", "USD", "guid", true);
+
+		HotelCheckoutV2Params params = new HotelCheckoutV2Params.Builder().tripDetails(tripDetails)
+			.checkoutInfo(HotelCheckoutParamsMock.checkoutInfo()).paymentInfo(HotelCheckoutParamsMock.paymentInfo())
+			.traveler(HotelCheckoutParamsMock.traveler()).misc(HotelCheckoutParamsMock.miscellaneousParams(tripId))
+			.build();
+
+		service.checkout(params, observer);
+		observer.awaitTerminalEvent(10, TimeUnit.SECONDS);
+
+		observer.assertNoErrors();
+		observer.assertCompleted();
+		observer.assertValueCount(1);
+
+		HotelCheckoutResponse response = observer.getOnNextEvents().get(0);
+		assertEquals(1, response.pointsDetails.size());
+		assertEquals(ProgramName.ExpediaRewards, response.pointsDetails.get(0).getProgramName());
+	}
+
+	@Test
 	public void testCheckoutFailed() throws Throwable {
-		String root = new File("../mocked/templates").getCanonicalPath();
-		FileSystemOpener opener = new FileSystemOpener(root);
-		server.setDispatcher(new ExpediaDispatcher(opener));
+		givenServerUsingMockResponses();
 
 		TestSubscriber<HotelCheckoutResponse> observer = new TestSubscriber<>();
 
@@ -312,6 +389,25 @@ public class HotelServicesTest {
 	}
 
 	@Test
+	public void couponRemoveResponseHasOnlyKnownPointsTypes() throws Throwable {
+		givenServerUsingMockResponses();
+
+		TestSubscriber<HotelCreateTripResponse> subscriber = new TestSubscriber<>();
+		service.removeCoupon("hotel_coupon_remove_success_with_multiple_points_types", true).subscribe(subscriber);
+		subscriber.awaitTerminalEvent(2, TimeUnit.SECONDS);
+		subscriber.assertCompleted();
+
+		subscriber.assertNoErrors();
+		subscriber.assertCompleted();
+		subscriber.assertValueCount(1);
+
+		// Guest user has no points details
+		HotelCreateTripResponse response = subscriber.getOnNextEvents().get(0);
+		assertEquals(1, response.getPointsDetails().size());
+		assertEquals(ProgramName.ExpediaRewards, response.getPointsDetails().get(0).getProgramName());
+	}
+
+	@Test
 	public void testCouponError() throws IOException {
 		givenServerUsingMockResponses();
 
@@ -323,6 +419,45 @@ public class HotelServicesTest {
 		observer.assertCompleted();
 		ApiError apiError = observer.getOnNextEvents().get(0).getFirstError();
 		Assert.assertEquals(ApiError.Code.APPLY_COUPON_ERROR, apiError.errorCode);
+	}
+
+	@Test
+	public void testCouponSuccess() throws IOException {
+		givenServerUsingMockResponses();
+
+		TestSubscriber<HotelCreateTripResponse> observer = new TestSubscriber<>();
+		givenCouponParams("hotel_coupon_success");
+
+		service.applyCoupon(couponParams, true).subscribe(observer);
+		observer.awaitTerminalEvent(10, TimeUnit.SECONDS);
+
+		observer.assertNoErrors();
+		observer.assertCompleted();
+		observer.assertValueCount(1);
+
+		// Guest user has no points details
+		HotelCreateTripResponse response = observer.getOnNextEvents().get(0);
+		assertNull(response.getPointsDetails());
+	}
+
+	@Test
+	public void couponApplyResponseHasOnlyKnownPointsTypes() throws IOException {
+		givenServerUsingMockResponses();
+
+		TestSubscriber<HotelCreateTripResponse> observer = new TestSubscriber<>();
+		givenCouponParams("hotel_coupon_success_multiple_points_types");
+
+		service.applyCoupon(couponParams, true).subscribe(observer);
+		observer.awaitTerminalEvent(10, TimeUnit.SECONDS);
+
+		observer.assertNoErrors();
+		observer.assertCompleted();
+		observer.assertValueCount(1);
+
+		// Guest user has no points details
+		HotelCreateTripResponse response = observer.getOnNextEvents().get(0);
+		assertEquals(1, response.getPointsDetails().size());
+		assertEquals(ProgramName.ExpediaRewards, response.getPointsDetails().get(0).getProgramName());
 	}
 
 	@Test

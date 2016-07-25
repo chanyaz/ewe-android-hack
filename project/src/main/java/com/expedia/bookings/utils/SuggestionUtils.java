@@ -32,7 +32,6 @@ public class SuggestionUtils {
 
 	private static final long MINIMUM_TIME_AGO = DateUtils.HOUR_IN_MILLIS;
 
-	public static final String RECENT_ROUTES_LX_LOCATION_FILE = "recent-lx-city-list-v4.dat";
 	public static final String RECENT_ROUTES_CARS_LOCATION_FILE = "recent-cars-airport-routes-list-v4.dat";
 
 	/**
@@ -107,7 +106,7 @@ public class SuggestionUtils {
 
 	public static void deleteCachedSuggestions(Context context) {
 
-		String[] locationFiles = { RECENT_ROUTES_LX_LOCATION_FILE, RECENT_ROUTES_CARS_LOCATION_FILE };
+		String[] locationFiles = { RECENT_ROUTES_CARS_LOCATION_FILE };
 		for (String locationFile : locationFiles) {
 			File file = context.getFileStreamPath(locationFile);
 			boolean fileExists = file.exists();

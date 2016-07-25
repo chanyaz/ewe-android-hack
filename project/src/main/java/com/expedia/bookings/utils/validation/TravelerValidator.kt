@@ -1,7 +1,7 @@
 package com.expedia.bookings.utils.validation
 
 import android.text.TextUtils
-import com.expedia.bookings.data.Db
+import com.expedia.bookings.data.AbstractFlightSearchParams
 import com.expedia.bookings.data.Traveler
 import com.expedia.bookings.data.TravelerName
 import com.expedia.bookings.enums.PassengerCategory
@@ -9,26 +9,20 @@ import com.expedia.bookings.section.CommonSectionValidators
 import com.mobiata.android.validation.ValidationError
 import org.joda.time.LocalDate
 
-object TravelerValidator {
-    fun isValidForPackageBooking(traveler: Traveler): Boolean {
-        return hasValidBirthDate(traveler) && hasValidName(traveler.getName()) && isValidPhone(traveler.phoneNumber) && hasValidGender(traveler)
+class TravelerValidator {
+    private var startOfTrip: LocalDate? = null
+    private var endOfTrip: LocalDate? = null
+    private var infantsInLap: Boolean = false
+
+    fun updateForNewSearch(params : AbstractFlightSearchParams) {
+        startOfTrip = params.startDate
+        endOfTrip = params.getEndOfTripDate()
+        infantsInLap = params.infantSeatingInLap
     }
 
-    fun hasValidBirthDate(traveler: Traveler): Boolean {
-        val searchParams = Db.getPackageParams()
-        val birthDate = traveler.birthDate
-        if (birthDate!= null) {
-            val passengerCategory = traveler.getPassengerCategory(searchParams)
-
-            if (birthDate.isAfter(LocalDate.now())) {
-                return false
-            } else if (!PassengerCategory.isDateWithinPassengerCategoryRange(birthDate, searchParams, passengerCategory)) {
-                return false
-            }
-        } else {
-            return false
-        }
-        return true
+    fun isValidForPackageBooking(traveler: Traveler): Boolean {
+        return hasValidBirthDate(traveler) && hasValidName(traveler.name)
+                && isValidPhone(traveler.phoneNumber) && hasValidGender(traveler)
     }
 
     fun hasValidGender(traveler: Traveler): Boolean {
@@ -73,5 +67,38 @@ object TravelerValidator {
 
     fun isTravelerEmpty(traveler: Traveler) : Boolean {
         return traveler.name.isEmpty && TextUtils.isEmpty(traveler.phoneNumber) && traveler.birthDate == null
+    }
+
+    fun hasValidBirthDate(traveler: Traveler): Boolean {
+        val birthDate = traveler.birthDate
+        if (birthDate != null) {
+            if (birthDate.isAfter(LocalDate.now())) {
+                return false
+            } else if (!validatePassengerCategory(traveler.birthDate, traveler.passengerCategory)) {
+                return false
+            }
+        } else {
+            return false
+        }
+        return true
+    }
+
+    fun validatePassengerCategory(birthDate: LocalDate?, category: PassengerCategory?) : Boolean {
+        if (startOfTrip == null || endOfTrip == null) {
+            throw RuntimeException("Error: Attempted to validate PassengerCategory before trip dates were properly initialized")
+        }
+        else if (birthDate == null || category == null) {
+            return false
+        } else {
+            val inclusiveAgeBounds = PassengerCategory.getAcceptableAgeRange(category)
+
+            val earliestBirthDateAllowed = (startOfTrip as LocalDate).minusYears(inclusiveAgeBounds.second)
+            val latestBirthDateAllowed = (endOfTrip as LocalDate).minusYears(inclusiveAgeBounds.first)
+
+            val afterEarliest = birthDate.compareTo(earliestBirthDateAllowed) > 0
+            val beforeLatest = birthDate.compareTo(latestBirthDateAllowed) <= 0
+
+            return beforeLatest && afterEarliest
+        }
     }
 }

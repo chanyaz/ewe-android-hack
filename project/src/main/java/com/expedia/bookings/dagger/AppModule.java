@@ -1,42 +1,47 @@
 package com.expedia.bookings.dagger;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.security.cert.CertificateException;
-import java.security.cert.X509Certificate;
-import java.util.concurrent.TimeUnit;
-
-import javax.inject.Singleton;
-import javax.net.ssl.SSLContext;
-import javax.net.ssl.TrustManager;
-import javax.net.ssl.X509TrustManager;
-
 import android.content.Context;
-
 import com.expedia.account.server.ExpediaAccountApi;
 import com.expedia.bookings.BuildConfig;
+import com.expedia.bookings.R;
 import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
+import com.expedia.bookings.server.EndPoint;
 import com.expedia.bookings.server.EndpointProvider;
 import com.expedia.bookings.services.AbacusServices;
 import com.expedia.bookings.services.ClientLogServices;
+import com.expedia.bookings.services.InsuranceServices;
 import com.expedia.bookings.services.PersistentCookieManager;
 import com.expedia.bookings.utils.ExpediaDebugUtil;
 import com.expedia.bookings.utils.ServicesUtil;
 import com.expedia.bookings.utils.StethoShim;
 import com.expedia.bookings.utils.Strings;
+import com.expedia.bookings.utils.TLSSocketFactory;
 import com.expedia.model.UserLoginStateChangedModel;
+import com.google.android.gms.security.ProviderInstaller;
 import com.mobiata.android.DebugUtils;
-
+import com.mobiata.android.util.SettingUtils;
 import dagger.Module;
 import dagger.Provides;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.security.cert.CertificateException;
+import java.security.cert.X509Certificate;
+import java.util.Collections;
+import java.util.concurrent.TimeUnit;
+import javax.inject.Singleton;
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.TrustManager;
+import javax.net.ssl.X509TrustManager;
 import okhttp3.Cache;
+import okhttp3.ConnectionSpec;
 import okhttp3.HttpUrl;
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
+import okhttp3.TlsVersion;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import rx.android.schedulers.AndroidSchedulers;
@@ -48,6 +53,23 @@ public class AppModule {
 
 	public AppModule(Context context) {
 		this.context = context;
+	}
+
+	@Provides
+	@Singleton
+	X509TrustManager provideX509TrustManager() {
+		return new X509TrustManager() {
+			public void checkClientTrusted(X509Certificate[] chain, String authType) throws
+				CertificateException {
+			}
+
+			public void checkServerTrusted(X509Certificate[] chain, String authType) throws CertificateException {
+			}
+
+			public X509Certificate[] getAcceptedIssuers() {
+				return new X509Certificate[0];
+			}
+		};
 	}
 
 	@Provides
@@ -82,24 +104,10 @@ public class AppModule {
 
 	@Provides
 	@Singleton
-	SSLContext provideSSLContext() {
+	SSLContext provideSSLContext(X509TrustManager x509TrustManager) {
 		try {
 			TrustManager[] easyTrustManager = new TrustManager[] {
-				new X509TrustManager() {
-					public void checkClientTrusted(X509Certificate[] chain, String authType) throws
-						CertificateException {
-						// So easy
-					}
-
-					public void checkServerTrusted(X509Certificate[] chain, String authType) throws CertificateException {
-						// So easy
-					}
-
-					public X509Certificate[] getAcceptedIssuers() {
-						// So easy
-						return new X509Certificate[0];
-					}
-				},
+				x509TrustManager
 			};
 
 			SSLContext socketContext = SSLContext.getInstance("TLS");
@@ -115,6 +123,7 @@ public class AppModule {
 	private static final String COOKIE_FILE_V4 = "cookies-4.dat";
 	private static final String COOKIE_FILE_OLD = COOKIE_FILE_V4;
 	private static final String COOKIE_FILE_LATEST = COOKIE_FILE_V5;
+
 	@Provides
 	@Singleton
 	PersistentCookieManager provideCookieManager(Context context) {
@@ -126,7 +135,32 @@ public class AppModule {
 
 	@Provides
 	@Singleton
-	OkHttpClient provideOkHttpClient(PersistentCookieManager cookieManager, SSLContext sslContext, Cache cache, HttpLoggingInterceptor.Level logLevel) {
+	boolean provideIsModernTLSEnabled(EndpointProvider endpointProvider) {
+		if (BuildConfig.RELEASE) {
+			return true;
+		}
+
+		if (endpointProvider.getEndPoint() == EndPoint.MOCK_MODE
+			|| endpointProvider.getEndPoint() == EndPoint.CUSTOM_SERVER) {
+			return false;
+		}
+
+		return !SettingUtils
+			.get(context, context.getString(R.string.preference_disable_modern_tls), false);
+	}
+
+	@Provides
+	@Singleton
+	OkHttpClient provideOkHttpClient(Context context, PersistentCookieManager cookieManager, Cache cache,
+		HttpLoggingInterceptor.Level logLevel, SSLContext sslContext, X509TrustManager x509TrustManager, boolean isModernTLSEnabled) {
+		try {
+			ProviderInstaller.installIfNeeded(context);
+		}
+		catch (Exception e) {
+			// rely on the PlayServices checking code that runs when first activity starts
+			// to guide the user through the recovery process
+		}
+
 		OkHttpClient.Builder client = new OkHttpClient().newBuilder();
 		client.cache(cache);
 		HttpLoggingInterceptor logger = new HttpLoggingInterceptor();
@@ -138,9 +172,18 @@ public class AppModule {
 		client.connectTimeout(10, TimeUnit.SECONDS);
 		client.readTimeout(60L, TimeUnit.SECONDS);
 
+		if (isModernTLSEnabled) {
+			TLSSocketFactory socketFactory = new TLSSocketFactory(sslContext);
+			client.sslSocketFactory(socketFactory, x509TrustManager);
+			ConnectionSpec spec = new ConnectionSpec.Builder(ConnectionSpec.MODERN_TLS)
+				.tlsVersions(TlsVersion.TLS_1_2)
+				.build();
+			client.connectionSpecs(Collections.singletonList(spec));
+		}
+		else {
+			client.sslSocketFactory(sslContext.getSocketFactory(), x509TrustManager);
+		}
 		if (BuildConfig.DEBUG) {
-			// We don't care about cert validity for debug builds
-			client.sslSocketFactory(sslContext.getSocketFactory());
 			StethoShim.install(client);
 		}
 
@@ -183,7 +226,8 @@ public class AppModule {
 	@Singleton
 	EndpointProvider provideEndpointProvider(Context context) {
 		try {
-			String serverUrlPath = ProductFlavorFeatureConfiguration.getInstance().getServerEndpointsConfigurationPath();
+			String serverUrlPath = ProductFlavorFeatureConfiguration.getInstance()
+				.getServerEndpointsConfigurationPath();
 			InputStream serverUrlStream = context.getAssets().open(serverUrlPath);
 			return new EndpointProvider(context, serverUrlStream);
 		}
@@ -201,7 +245,8 @@ public class AppModule {
 
 	@Provides
 	@Singleton
-	ClientLogServices provideClientLog(OkHttpClient client, EndpointProvider endpointProvider, Interceptor interceptor) {
+	ClientLogServices provideClientLog(OkHttpClient client, EndpointProvider endpointProvider,
+		Interceptor interceptor) {
 		final String endpoint = endpointProvider.getE3EndpointUrl();
 		return new ClientLogServices(endpoint, client, interceptor, AndroidSchedulers.mainThread(), Schedulers.io());
 	}
@@ -215,6 +260,13 @@ public class AppModule {
 			.baseUrl(endpoint)
 			.client(client)
 			.build().create(ExpediaAccountApi.class);
+	}
+
+	@Provides
+	@Singleton
+	InsuranceServices provideInsurance(OkHttpClient client, EndpointProvider endpointProvider, Interceptor interceptor) {
+		final String endpoint = endpointProvider.getE3EndpointUrl();
+		return new InsuranceServices(endpoint, client, interceptor, AndroidSchedulers.mainThread(), Schedulers.io());
 	}
 
 	@Provides

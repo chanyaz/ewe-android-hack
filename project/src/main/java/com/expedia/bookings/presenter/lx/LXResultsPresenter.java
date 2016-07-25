@@ -21,7 +21,7 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.LXState;
 import com.expedia.bookings.data.abacus.AbacusUtils;
-import com.expedia.bookings.data.cars.ApiError;
+import com.expedia.bookings.data.ApiError;
 import com.expedia.bookings.data.lx.LXActivity;
 import com.expedia.bookings.data.lx.LXSearchResponse;
 import com.expedia.bookings.data.lx.LXSortFilterMetadata;
@@ -35,7 +35,7 @@ import com.expedia.bookings.services.LxServices;
 import com.expedia.bookings.tracking.AdTracker;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.ArrowXDrawableUtil;
-import com.expedia.bookings.utils.DateUtils;
+import com.expedia.bookings.utils.LXDataUtils;
 import com.expedia.bookings.utils.LXNavUtils;
 import com.expedia.bookings.utils.RetrofitUtils;
 import com.expedia.bookings.utils.Strings;
@@ -131,7 +131,8 @@ public class LXResultsPresenter extends Presenter {
 	}
 
 	// Transitions
-	private Presenter.Transition searchResultsToSortFilter = new Presenter.Transition(LXSearchResultsWidget.class, LXSortFilterWidget.class,
+	private Presenter.Transition searchResultsToSortFilter = new Presenter.Transition(LXSearchResultsWidget.class,
+		LXSortFilterWidget.class,
 		new DecelerateInterpolator(), ANIMATION_DURATION) {
 
 		@Override
@@ -172,10 +173,14 @@ public class LXResultsPresenter extends Presenter {
 				sortFilterWidget.setTranslationY(forward ? 0 : sortFilterWidget.getHeight());
 			}
 			sortFilterWidget.setVisibility(forward ? VISIBLE : GONE);
+			if (forward) {
+				sortFilterWidget.setFocusToToolbarForAccessibility();
+			}
 		}
 	};
 
-	Transition themeResultsToActivityResults = new LeftToRightTransition(this, LXThemeResultsWidget.class, LXSearchResultsWidget.class) {
+	Transition themeResultsToActivityResults = new LeftToRightTransition(this, LXThemeResultsWidget.class,
+		LXSearchResultsWidget.class) {
 	};
 
 	@Override
@@ -236,7 +241,9 @@ public class LXResultsPresenter extends Presenter {
 			searchSubscription = lxServices.lxThemeSortAndFilter(
 				themeSelected, new LXSortFilterMetadata(theme.filterCategories, LXSortType.POPULARITY),
 				themeResultSortObserver);
-			setToolbarTitles(theme.title, getSearchDate());
+			setToolbarTitles(theme.title,
+				LXDataUtils.getToolbarSearchDateText(getContext(), lxState.searchParams, false),
+				LXDataUtils.getToolbarSearchDateText(getContext(), lxState.searchParams, true));
 			sortFilterWidget.invalidate();
 
 			switch (theme.themeType) {
@@ -259,14 +266,15 @@ public class LXResultsPresenter extends Presenter {
 			OmnitureTracking.trackAppLXSearchCategories(lxState.searchParams, lxSearchResponse);
 			searchResponse = lxSearchResponse;
 			themeResultsWidget.bind(lxSearchResponse.lxThemes, "SFO");
-			setToolbarTitles(getResources().getString(R.string.lx_select_a_category_title), lxState.searchParams.location);
+			setToolbarTitles(getResources().getString(R.string.lx_select_a_category_title),
+				lxState.searchParams.getLocation());
 			searchResultsWidget.setVisibility(GONE);
 			themeResultsWidget.setVisibility(VISIBLE);
 			show(themeResultsWidget, FLAG_CLEAR_BACKSTACK);
 		}
 	}
 
-	private class SearchResultObserver implements Observer<LXSearchResponse> {
+	class SearchResultObserver implements Observer<LXSearchResponse> {
 		public SearchType searchType;
 		public View widget;
 
@@ -314,8 +322,8 @@ public class LXResultsPresenter extends Presenter {
 	}
 
 	private void handleActivityDetailsDeeplink(LXSearchResponse lxSearchResponse) {
-		if (Strings.isNotEmpty(lxState.searchParams.activityId)) {
-			LXActivity activity = lxSearchResponse.getActivityFromID(lxState.searchParams.activityId);
+		if (Strings.isNotEmpty(lxState.searchParams.getActivityId())) {
+			LXActivity activity = lxSearchResponse.getActivityFromID(lxState.searchParams.getActivityId());
 			if (activity != null) {
 				Events.post(new Events.LXActivitySelected(activity));
 			}
@@ -328,7 +336,8 @@ public class LXResultsPresenter extends Presenter {
 		public void onNext(LXSearchResponse lxSearchResponse) {
 			searchResponse = lxSearchResponse;
 			trackLXSearch();
-			Events.post(new Events.LXSearchFilterResultsReady(lxSearchResponse.activities, lxSearchResponse.filterCategories));
+			Events.post(
+				new Events.LXSearchFilterResultsReady(lxSearchResponse.activities, lxSearchResponse.filterCategories));
 			if (!lxSearchResponse.isFromCachedResponse) {
 				Events.post(new Events.LXSearchResultsAvailable(lxSearchResponse));
 			}
@@ -338,7 +347,7 @@ public class LXResultsPresenter extends Presenter {
 			}
 			sortFilterButton.showNumberOfFilters(sortFilterWidget.getNumberOfSelectedFilters());
 		}
-	};
+	}
 
 	private class ThemeResultSortObserver implements Observer<LXTheme> {
 
@@ -386,7 +395,7 @@ public class LXResultsPresenter extends Presenter {
 		OmnitureTracking.trackAppLXCategoryABTest();
 
 		// Dispatch loading animation event if explicit search. Default search dispatches event separately.
-		if (event.lxSearchParams.searchType.equals(SearchType.EXPLICIT_SEARCH)) {
+		if (event.lxSearchParams.getSearchType().equals(SearchType.EXPLICIT_SEARCH)) {
 			Events.post(new Events.LXShowLoadingAnimation());
 		}
 
@@ -396,7 +405,7 @@ public class LXResultsPresenter extends Presenter {
 		cleanup();
 		sortFilterWidget.bind(null);
 		sortFilterButton.setVisibility(View.GONE);
-		searchResultFilterObserver.searchType = event.lxSearchParams.searchType;
+		searchResultFilterObserver.searchType = event.lxSearchParams.getSearchType();
 
 		String filters = null;
 		boolean areExternalFiltersSupplied = false;
@@ -404,27 +413,30 @@ public class LXResultsPresenter extends Presenter {
 			filters = GT_FILTERS;
 			areExternalFiltersSupplied = true;
 		}
-		else if (Strings.isNotEmpty(event.lxSearchParams.filters)) {
-			filters = event.lxSearchParams.filters;
+		else if (Strings.isNotEmpty(event.lxSearchParams.getFilters())) {
+			filters = event.lxSearchParams.getFilters();
 			areExternalFiltersSupplied = true;
 		}
-		if (isUserBucketedForCategoriesTest && Strings.isEmpty(event.lxSearchParams.filters)) {
+		if (isUserBucketedForCategoriesTest && Strings.isEmpty(event.lxSearchParams.getFilters())) {
 			show(themeResultsWidget, FLAG_CLEAR_BACKSTACK);
 			themeResultsWidget.setVisibility(VISIBLE);
 			searchResultsWidget.setVisibility(GONE);
-			themeResultObserver.searchType = event.lxSearchParams.searchType;
+			themeResultObserver.searchType = event.lxSearchParams.getSearchType();
 			themeResultObserver.widget = themeResultsWidget;
 			searchSubscription = lxServices.lxCategorySearch(event.lxSearchParams, themeResultObserver);
-			themeResultsWidget.getThemePublishSubject().subscribe(lxThemeSearchObserver);
+			if (!themeResultsWidget.getThemePublishSubject().hasObservers()) {
+				themeResultsWidget.getThemePublishSubject().subscribe(lxThemeSearchObserver);
+			}
 			sortFilterButton.setFilterText(getResources().getString(R.string.sort));
 			sortFilterWidget.setToolbarTitle(getResources().getString(R.string.sort));
-			setToolbarTitles(getResources().getString(R.string.lx_select_a_category_title), event.lxSearchParams.location);
+			setToolbarTitles(getResources().getString(R.string.lx_select_a_category_title),
+				event.lxSearchParams.getLocation());
 		}
 		else {
 			show(searchResultsWidget, FLAG_CLEAR_BACKSTACK);
 			themeResultsWidget.setVisibility(GONE);
 			searchResultsWidget.setVisibility(VISIBLE);
-			searchResultObserver.searchType = event.lxSearchParams.searchType;
+			searchResultObserver.searchType = event.lxSearchParams.getSearchType();
 			searchResultObserver.widget = searchResultsWidget;
 			searchResultFilterObserver.widget = searchResultsWidget;
 			searchSubscription = lxServices.lxSearchSortFilter(event.lxSearchParams,
@@ -432,7 +444,9 @@ public class LXResultsPresenter extends Presenter {
 				areExternalFiltersSupplied ? searchResultFilterObserver : searchResultObserver);
 			sortFilterButton.setFilterText(getResources().getString(R.string.sort_and_filter));
 			sortFilterWidget.setToolbarTitle(getResources().getString(R.string.sort_and_filter));
-			setToolbarTitles(event.lxSearchParams.location, getSearchDate());
+			setToolbarTitles(event.lxSearchParams.getLocation(),
+				LXDataUtils.getToolbarSearchDateText(getContext(), lxState.searchParams, false),
+				LXDataUtils.getToolbarSearchDateText(getContext(), lxState.searchParams, true));
 		}
 
 		if (areExternalFiltersSupplied) {
@@ -485,16 +499,11 @@ public class LXResultsPresenter extends Presenter {
 		}
 	}
 
-	private String getSearchDate() {
-		return String.format(getResources().getString(R.string.lx_toolbar_date_range_template),
-			DateUtils.localDateToMMMd(lxState.searchParams.startDate), DateUtils.localDateToMMMd(lxState.searchParams.endDate));
-	}
-
 	private void setupToolbar() {
 		navIcon = ArrowXDrawableUtil
 			.getNavigationIconDrawable(getContext(), ArrowXDrawableUtil.ArrowDrawableType.BACK);
 		toolbar.setNavigationIcon(navIcon);
-		toolbar.setNavigationContentDescription(R.string.toolbar_search_nav_icon);
+		toolbar.setNavigationContentDescription(R.string.toolbar_search_nav_icon_cont_desc);
 		toolbar.inflateMenu(R.menu.lx_results_details_menu);
 
 		toolbar.setNavigationOnClickListener(new OnClickListener() {
@@ -521,10 +530,15 @@ public class LXResultsPresenter extends Presenter {
 		toolBarDetailText.setText(getResources().getString(R.string.lx_getting_current_location));
 	}
 
-	private void setToolbarTitles(String detailsText, String subtitleText) {
+	private void setToolbarTitles(String detailsText, String subtitleText, String searchDateContDesc) {
 		toolBarDetailText.setText(detailsText);
 		toolBarSubtitleText.setText(subtitleText);
+		toolBarSubtitleText.setContentDescription(searchDateContDesc);
 		toolBarSubtitleText.setVisibility(View.VISIBLE);
+	}
+
+	private void setToolbarTitles(String detailsText, String subtitleText) {
+		setToolbarTitles(detailsText, subtitleText, null);
 	}
 
 	public void animationStart(boolean forward) {
@@ -559,7 +573,8 @@ public class LXResultsPresenter extends Presenter {
 			super.onScrollStateChanged(recyclerView, newState);
 			if (newState == RecyclerView.SCROLL_STATE_IDLE) {
 				if (scrolledDistance > heightOfButton / 2) {
-					sortFilterButton.animate().translationY(heightOfButton).setInterpolator(new DecelerateInterpolator()).start();
+					sortFilterButton.animate().translationY(heightOfButton)
+						.setInterpolator(new DecelerateInterpolator()).start();
 				}
 				else {
 					sortFilterButton.animate().translationY(0).setInterpolator(new DecelerateInterpolator()).start();
@@ -596,7 +611,8 @@ public class LXResultsPresenter extends Presenter {
 		if (LXSearchResultsWidget.class.getName().equals(getCurrentState()) && searchResponse != null
 			&& searchResponse.regionId != null && isUserBucketedForCategoriesTest) {
 			OmnitureTracking.trackAppLXSearchCategories(lxState.searchParams, searchResponse);
-			setToolbarTitles(getResources().getString(R.string.lx_select_a_category_title), lxState.searchParams.location);
+			setToolbarTitles(getResources().getString(R.string.lx_select_a_category_title),
+				lxState.searchParams.getLocation());
 		}
 		return super.back();
 	}
@@ -606,5 +622,4 @@ public class LXResultsPresenter extends Presenter {
 			OmnitureTracking.trackAppLXSearch(lxState.searchParams, searchResponse, isGroundTransport);
 		}
 	}
-
 }

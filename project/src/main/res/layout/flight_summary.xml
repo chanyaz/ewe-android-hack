@@ -14,7 +14,7 @@
         android:layout_marginTop="11dp"
         android:text="@string/flight" />
 
-    <com.expedia.bookings.widget.packages.PackageOutboundFlightWidget
+    <com.expedia.bookings.widget.packages.OutboundFlightWidget
         android:id="@+id/package_bundle_outbound_flight_widget"
         style="@style/MaterialCardView"
         android:layout_width="match_parent"
@@ -26,7 +26,7 @@
         android:foreground="?android:attr/selectableItemBackground"
         android:minHeight="64dp" />
 
-    <com.expedia.bookings.widget.packages.PackageInboundFlightWidget
+    <com.expedia.bookings.widget.packages.InboundFlightWidget
         android:id="@+id/package_bundle_inbound_flight_widget"
         style="@style/MaterialCardView"
         android:layout_width="match_parent"

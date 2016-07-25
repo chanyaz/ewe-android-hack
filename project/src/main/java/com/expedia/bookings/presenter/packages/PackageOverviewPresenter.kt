@@ -17,7 +17,7 @@ import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.PackageCheckoutPresenter
 import com.expedia.ui.PackageHotelActivity
 import com.expedia.vm.packages.PackageCheckoutOverviewViewModel
-import com.expedia.vm.packages.PackageSearchType
+import org.joda.time.format.DateTimeFormat
 
 class PackageOverviewPresenter(context: Context, attrs: AttributeSet) : BaseOverviewPresenter(context, attrs) {
     val bundleWidget: BundleWidget by bindView(R.id.bundle_widget)
@@ -37,8 +37,8 @@ class PackageOverviewPresenter(context: Context, attrs: AttributeSet) : BaseOver
     override fun onFinishInflate() {
         super.onFinishInflate()
         removeView(bundleWidget)
-
-        getCheckoutPresenter().getCreateTripViewModel().tripResponseObservable.subscribe { trip -> trip as PackageCreateTripResponse
+        getCheckoutPresenter().getCreateTripViewModel().tripResponseObservable.subscribe { trip ->
+            trip as PackageCreateTripResponse
             bundleOverviewHeader.toolbar.viewModel.showChangePackageMenuObservable.onNext(true)
             bundleWidget.outboundFlightWidget.toggleFlightWidget(1f, true)
             bundleWidget.inboundFlightWidget.toggleFlightWidget(1f, true)
@@ -50,7 +50,15 @@ class PackageOverviewPresenter(context: Context, attrs: AttributeSet) : BaseOver
                     as PackageCheckoutOverviewViewModel).tripResponseSubject.onNext(trip)
             (bundleOverviewHeader.checkoutOverviewHeaderToolbar.viewmodel
                     as PackageCheckoutOverviewViewModel).tripResponseSubject.onNext(trip)
+            bundleWidget.bundleHotelWidget.collapseSelectedHotel()
+            bundleWidget.outboundFlightWidget.collapseFlightDetails()
+            bundleWidget.inboundFlightWidget.collapseFlightDetails()
+
+            setCheckoutHeaderOverviewDates()
         }
+
+        getCheckoutPresenter().getCreateTripViewModel().bundleDatesObservable
+                .subscribe(bundleWidget.bundleHotelWidget.viewModel.hotelDatesGuestObservable)
 
         bundleOverviewHeader.nestedScrollView.addView(bundleWidget)
         bundleOverviewHeader.toolbar.inflateMenu(R.menu.menu_package_checkout)
@@ -69,7 +77,6 @@ class PackageOverviewPresenter(context: Context, attrs: AttributeSet) : BaseOver
         })
 
         changeHotelRoom.setOnMenuItemClickListener({
-            bundleOverviewHeader.toggleOverviewHeader(false)
             checkoutPresenter.toggleCheckoutButton(false)
             bundleWidget.collapseBundleWidgets()
             val params = Db.getPackageParams()
@@ -96,6 +103,18 @@ class PackageOverviewPresenter(context: Context, attrs: AttributeSet) : BaseOver
         })
     }
 
+    private fun setCheckoutHeaderOverviewDates() {
+        val params = Db.getPackageParams()
+        val formatter = DateTimeFormat.forPattern("yyyy-MM-dd")
+
+        //set the package start and end date
+        bundleOverviewHeader.checkoutOverviewHeaderToolbar.viewmodel.checkIn.onNext(params.startDate.toString(formatter))
+        bundleOverviewHeader.checkoutOverviewHeaderToolbar.viewmodel.checkOut.onNext(params.endDate?.toString(formatter))
+
+        bundleOverviewHeader.checkoutOverviewFloatingToolbar.viewmodel.checkIn.onNext(params.startDate.toString(formatter))
+        bundleOverviewHeader.checkoutOverviewFloatingToolbar.viewmodel.checkOut.onNext(params.endDate?.toString(formatter))
+    }
+
     override fun back(): Boolean {
         bundleWidget.collapseBundleWidgets()
         return super.back()
@@ -105,7 +124,7 @@ class PackageOverviewPresenter(context: Context, attrs: AttributeSet) : BaseOver
         return checkoutPresenter as PackageCheckoutPresenter
     }
 
-    override fun getCheckoutTransitionClass() : Class<out Any> {
+    override fun getCheckoutTransitionClass(): Class<out Any> {
         return PackageCheckoutPresenter::class.java
     }
 
@@ -115,5 +134,9 @@ class PackageOverviewPresenter(context: Context, attrs: AttributeSet) : BaseOver
 
     override fun trackPaymentCIDLoad() {
         PackagesTracking().trackCheckoutPaymentCID()
+    }
+
+    override fun toggleToolbar(forward: Boolean) {
+        bundleWidget.toggleMenuObservable.onNext(!forward)
     }
 }

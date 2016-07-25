@@ -92,6 +92,15 @@ class FlightSearchAirportDropdownPresenter(context: Context, attrs: AttributeSet
         // do nothing. We're using airport drop downs
     }
 
+    override fun back(): Boolean {
+        if (destinationAirportListPopup.isShowing || originAirportListPopup.isShowing) {
+            destinationAirportListPopup.dismiss()
+            originAirportListPopup.dismiss()
+            return true
+        }
+        return super.back()
+    }
+
     private fun createAirportListPopupWindow(flightRouteAdapter: FlightRouteAdapter): ListPopupWindow {
         val listPopupWindow = ListPopupWindow(context)
         listPopupWindow.anchorView = originCardView

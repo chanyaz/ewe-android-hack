@@ -1,5 +1,38 @@
 {
     "details": {
+      "legs": [
+        {
+          "legId": "c69c1bfb0521dbe1eb2b3891ed4cbe84",
+          "baggageFeesUrl": "http://www.expedia.com/Flights-BagFees?originapt=SEA&destinationapt=SFO&cabinclass=3&mktgcarrier=VX&opcarrier=&farebasis=G21N4&bookingclass=U&travelDate=2016-03-22&flightNumber=798&langid=1033",
+          "segments": [
+            {
+              "airlineCode": "AA",
+              "airlineName": "American Airlines",
+              "arrivalAirportCode": "${departureAirport}",
+              "arrivalAirportLocation": "${departureAirport}",
+              "arrivalTimeEpochSeconds": "${returnFlightLandingTimeEpochSeconds}",
+              "arrivalTimeZoneOffsetSeconds": "${tzOffsetSeconds}",
+              "arrivalTimeRaw": "2016-03-22T20:15:00.000-07:00",
+              "arrivalTime": "March 22, 2016 8:15:00 PM",
+              "departureAirportCode": "${arrivalAirport}",
+              "departureAirportLocation": "${arrivalAirport}",
+              "departureTime": "March 22, 2016 5:40:00 PM",
+              "departureTimeEpochSeconds": "${returnFlightTakeoffTimeEpochSeconds}",
+              "departureTimeZoneOffsetSeconds": "${tzOffsetSeconds}",
+              "departureTimeRaw": "2016-03-22T17:40:00.000-07:00",
+              "duration": "PT2H35M",
+              "distance": 2572,
+              "distanceUnits": "miles",
+              "equipmentCode": "32B",
+              "equipmentDescription": "Boeing 757-200",
+              "flightNumber": "179",
+              "meal": "Food and beverage for purchase",
+              "onTimePercentage": "70",
+              "providerCode": "Amadeus",
+              "stops": 0
+            }
+          ]
+        }],
         "flightRules": [
             {
                 "changePenaltyAmount": "200.00",
@@ -64,6 +97,7 @@
                     },
                     "totalPrice": {
                         "amount": "689.00",
+                        "currencyCode": "USD",
                         "formattedPrice": "$689.00",
                         "formattedWholePrice": "$689"
                     }
@@ -95,6 +129,7 @@
             "totalFare": "696.00",
             "totalFarePrice": {
                 "amount": "696.00",
+                "currencyCode": "USD",
                 "formattedPrice": "$696.00",
                 "formattedWholePrice": "$696"
             }
@@ -132,6 +167,7 @@
     "tealeafTransactionId": "tealeafFlight:${productKey}",
     "totalPrice": {
         "amount": "696.00",
+        "currencyCode": "USD",
         "formattedPrice": "$696.00",
         "formattedWholePrice": "$696"
     },

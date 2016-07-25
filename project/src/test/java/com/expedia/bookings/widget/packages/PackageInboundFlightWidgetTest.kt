@@ -4,12 +4,12 @@ import android.app.Activity
 import android.support.v4.content.ContextCompat
 import android.view.View
 import com.expedia.bookings.R
-import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.packages.PackageSearchParams
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.utils.StrUtils
 import com.expedia.vm.packages.BundleFlightViewModel
+import com.squareup.phrase.Phrase
 import org.joda.time.LocalDate
 import org.junit.Before
 import org.junit.Test
@@ -27,7 +27,9 @@ class PackageInboundFlightWidgetTest {
     var testOrigin: SuggestionV4 by Delegates.notNull()
     val testRegionName = "Chicago"
     val testAirportCode = "ORD"
-    var testWidget: PackageInboundFlightWidget by Delegates.notNull()
+    val testFlightText = "(ORD) Chicago"
+    val testTravelerInfoText = "Jun 29 at 9:00 am, 1 Traveler"
+    var testWidget: InboundFlightWidget by Delegates.notNull()
     var widgetVM: BundleFlightViewModel by Delegates.notNull()
 
     var expectedDisabledColor: Int by Delegates.notNull()
@@ -37,11 +39,11 @@ class PackageInboundFlightWidgetTest {
         activity = Robolectric.buildActivity(Activity::class.java).create().get()
         activity.setTheme(R.style.V2_Theme_Packages)
         testOrigin = buildMockOriginSuggestion()
-        setUpParams()
-        testWidget = PackageInboundFlightWidget(activity, null)
+        testWidget = InboundFlightWidget(activity, null)
         widgetVM = BundleFlightViewModel(activity)
         testWidget.viewModel = widgetVM
         expectedDisabledColor = ContextCompat.getColor(activity, R.color.package_bundle_icon_color)
+        setUpParams()
     }
 
     @Test
@@ -85,6 +87,14 @@ class PackageInboundFlightWidgetTest {
         assertEquals(View.VISIBLE, testWidget.travelInfoText.visibility)
     }
 
+    @Test
+    fun testCancel() {
+        testWidget.cancel()
+
+        assertEquals(View.GONE, testWidget.flightLoadingBar.visibility)
+        assertEquals(View.VISIBLE, testWidget.travelInfoText.visibility)
+    }
+
     private fun setUpParams() {
         // Can't mock PackageSearchParams because it's a 'data' class. So we have to build one.... #KotlinOP
         val packageParams = PackageSearchParams.Builder(26, 329)
@@ -93,7 +103,7 @@ class PackageInboundFlightWidgetTest {
                 .origin(testOrigin)
                 .destination(SuggestionV4())
                 .build() as PackageSearchParams
-        Db.setPackageParams(packageParams)
+        testWidget.viewModel.searchParams.onNext(packageParams)
     }
 
     private fun buildMockOriginSuggestion() : SuggestionV4 {
@@ -111,5 +121,46 @@ class PackageInboundFlightWidgetTest {
         val airport = Mockito.mock(SuggestionV4.Airport::class.java)
         airport.airportCode = testAirportCode
         return airport
+    }
+
+    @Test
+    fun testContentDescriptionExpanded() {
+        widgetVM.flightTextObservable.onNext(testFlightText)
+        widgetVM.travelInfoTextObservable.onNext(testTravelerInfoText)
+        testWidget.flightDetailsContainer.visibility = View.VISIBLE
+
+        val expandedState = "Button to collapse"
+        val expectedText = Phrase.from(activity, R.string.select_flight_selected_cont_desc_TEMPLATE).
+                put("flight", testFlightText).
+                put("datetraveler", testTravelerInfoText).
+                put("expandstate", expandedState).
+                format().toString()
+
+        assertEquals(expectedText, testWidget.selectedCardContentDescription())
+    }
+
+    @Test
+    fun testContentDescriptionCollapsed() {
+        widgetVM.flightTextObservable.onNext(testFlightText)
+        widgetVM.travelInfoTextObservable.onNext(testTravelerInfoText)
+        testWidget.flightDetailsContainer.visibility = View.GONE
+
+        val collapsedState = "Button to expand"
+        val expectedText = Phrase.from(activity, R.string.select_flight_selected_cont_desc_TEMPLATE).
+                put("flight", testFlightText).
+                put("datetraveler", testTravelerInfoText).
+                put("expandstate", collapsedState).
+                format().toString()
+
+        assertEquals(expectedText, testWidget.selectedCardContentDescription())
+    }
+
+    @Test
+    fun testFlightNotSelected() {
+        widgetVM.flightTextObservable.onNext(testFlightText)
+        widgetVM.travelInfoTextObservable.onNext(testTravelerInfoText)
+
+        assertEquals(testFlightText, testWidget.flightCardText.text)
+        assertEquals(testTravelerInfoText, testWidget.travelInfoText.text)
     }
 }

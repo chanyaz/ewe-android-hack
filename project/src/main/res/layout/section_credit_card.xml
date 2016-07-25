@@ -21,7 +21,6 @@
             android:layout_marginRight="64dp"
             android:layout_marginTop="12dp"
             android:alpha=".7"
-            app:src="@raw/american_express_logo"
             app:zoomMode="fitHeight" />
 
         <com.larvalabs.svgandroid.widget.SVGView
@@ -32,7 +31,6 @@
             android:layout_marginTop="12dp"
             android:layout_weight="1"
             android:alpha=".1"
-            app:src="@raw/ic_amex_head"
             app:zoomMode="fitHeight" />
 
         <com.expedia.bookings.widget.TextView

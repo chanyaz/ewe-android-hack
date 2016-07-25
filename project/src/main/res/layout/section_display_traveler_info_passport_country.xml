@@ -2,7 +2,7 @@
 <com.expedia.bookings.section.SectionTravelerInfo xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:contentDescription="@string/cd_traveler_edit_passport_country"
+    android:contentDescription="@string/traveler_edit_passport_country_cont_desc"
     android:gravity="center_vertical"
     android:orientation="horizontal" >
 

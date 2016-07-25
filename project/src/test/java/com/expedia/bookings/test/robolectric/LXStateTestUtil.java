@@ -3,11 +3,13 @@ package com.expedia.bookings.test.robolectric;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.joda.time.LocalDate;
+
 import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.lx.LXActivity;
 import com.expedia.bookings.data.lx.LXCheckoutParams;
 import com.expedia.bookings.data.lx.LXCheckoutResponse;
-import com.expedia.bookings.data.lx.LXSearchParams;
+import com.expedia.bookings.data.lx.LxSearchParams;
 import com.expedia.bookings.data.lx.Offer;
 import com.expedia.bookings.data.lx.Ticket;
 import com.expedia.bookings.otto.Events;
@@ -59,10 +61,12 @@ public class LXStateTestUtil {
 	}
 
 	public static void searchParamsState() {
-		LXSearchParams searchParams = new LXSearchParams();
-		searchParams.location = "New York";
-		searchParams.startDate = DateUtils.yyyyMMddToLocalDate("2015-03-25");
-		searchParams.endDate = DateUtils.yyyyMMddToLocalDate("2015-04-08");
+		String location = "New York";
+		LocalDate startDate = DateUtils.yyyyMMddToLocalDate("2015-03-25");
+		LocalDate endDate = DateUtils.yyyyMMddToLocalDate("2015-04-08");
+		LxSearchParams searchParams = (LxSearchParams) new LxSearchParams.Builder().location(location)
+			.startDate(startDate).endDate(endDate).build();
+
 		Events.post(new Events.LXNewSearchParamsAvailable(searchParams));
 	}
 

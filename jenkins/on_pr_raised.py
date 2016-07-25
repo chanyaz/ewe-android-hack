@@ -24,20 +24,10 @@ def transitionMingleCards(mingleProject, mingleAccessId, mingleAccessSecret, hip
 		print "No cards to be moved to PR..."
 
 def nudgeAuthorsTowardsWritingUnitTests(pr):
-	fileTypesWhichMightRequireTests = ['.kt', '.java']
-	unitTestDirectory = '/test/'
 	uiTestDirectory = '/androidTest/'
-	testDirectories = [unitTestDirectory, uiTestDirectory]
-
 	prFiles = [file.filename for file in pr.files()]
 
-	hasChangesInFilesWhichMightRequireTests = any(file.endswith(fileType) for file in prFiles for fileType in fileTypesWhichMightRequireTests)
-	hasAnyChangeInTestDirectories = any(dir in file for file in prFiles for dir in testDirectories)
 	hasUITestChanges = any(uiTestDirectory in file for file in prFiles)
-
-	if hasChangesInFilesWhichMightRequireTests and not hasAnyChangeInTestDirectories:
-		print "No tests found. Adding needs-test tag"
-		pr.issue().add_labels('needs-tests')
 
 	if hasUITestChanges:
 		print "Found changes in androidTest. Creating a comment."

@@ -2,7 +2,7 @@ package com.expedia.bookings.services
 
 import com.expedia.bookings.data.BaseApiResponse
 import com.expedia.bookings.data.Money
-import com.expedia.bookings.data.cars.ApiError
+import com.expedia.bookings.data.ApiError
 import com.expedia.bookings.data.lx.ActivityDetailsResponse
 import com.expedia.bookings.data.lx.LXActivity
 import com.expedia.bookings.data.lx.LXCheckoutParams
@@ -10,7 +10,7 @@ import com.expedia.bookings.data.lx.LXCheckoutResponse
 import com.expedia.bookings.data.lx.LXCategoryType
 import com.expedia.bookings.data.lx.LXCreateTripParams
 import com.expedia.bookings.data.lx.LXCreateTripResponse
-import com.expedia.bookings.data.lx.LXSearchParams
+import com.expedia.bookings.data.lx.LxSearchParams
 import com.expedia.bookings.data.lx.LXSearchResponse
 import com.expedia.bookings.data.lx.LXSortFilterMetadata
 import com.expedia.bookings.data.lx.LXSortType
@@ -52,7 +52,7 @@ class LxServices(endpoint: String, okHttpClient: OkHttpClient, interceptor: Inte
         adapter.create(LXApi::class.java)
     }
 
-    fun lxCategorySearch(searchParams: LXSearchParams, observer: Observer<LXSearchResponse>): Subscription {
+    fun lxCategorySearch(searchParams: LxSearchParams, observer: Observer<LXSearchResponse>): Subscription {
         return lxApi.searchLXActivities(searchParams.location, searchParams.toServerStartDate(), searchParams.toServerEndDate())
                 .doOnNext(HANDLE_SEARCH_ERROR)
                 .doOnNext(ACTIVITIES_MONEY_TITLE)
@@ -66,11 +66,11 @@ class LxServices(endpoint: String, okHttpClient: OkHttpClient, interceptor: Inte
                 .subscribe(observer)
     }
 
-    fun lxSearch(searchParams: LXSearchParams, observer: Observer<LXSearchResponse>): Subscription {
+    fun lxSearch(searchParams: LxSearchParams, observer: Observer<LXSearchResponse>): Subscription {
         return lxSearch(searchParams).subscribe(observer)
     }
 
-    fun lxSearch(searchParams: LXSearchParams): Observable<LXSearchResponse> {
+    fun lxSearch(searchParams: LxSearchParams): Observable<LXSearchResponse> {
         return lxApi.searchLXActivities(searchParams.location, searchParams.toServerStartDate(), searchParams.toServerEndDate())
                 .observeOn(this.observeOn)
                 .subscribeOn(this.subscribeOn)
@@ -381,7 +381,7 @@ class LxServices(endpoint: String, okHttpClient: OkHttpClient, interceptor: Inte
                 .subscribe(categorySortObserver)
     }
 
-    fun lxSearchSortFilter(lxSearchParams: LXSearchParams?, lxSortFilterMetadata: LXSortFilterMetadata?,
+    fun lxSearchSortFilter(lxSearchParams: LxSearchParams?, lxSortFilterMetadata: LXSortFilterMetadata?,
                            searchResultFilterObserver: Observer<LXSearchResponse>): Subscription {
 
         val lxSearchResponseObservable = if (lxSearchParams == null)

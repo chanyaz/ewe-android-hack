@@ -6,10 +6,11 @@ import android.view.View
 import android.widget.LinearLayout
 import android.widget.TextView
 import com.expedia.bookings.R
+import com.expedia.bookings.data.Db
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.PackageBundleHotelWidget
-import com.expedia.bookings.widget.packages.PackageInboundFlightWidget
-import com.expedia.bookings.widget.packages.PackageOutboundFlightWidget
+import com.expedia.bookings.widget.packages.InboundFlightWidget
+import com.expedia.bookings.widget.packages.OutboundFlightWidget
 import com.expedia.util.notNullAndObservable
 import com.expedia.util.subscribeText
 import com.expedia.vm.packages.BundleFlightViewModel
@@ -23,8 +24,8 @@ class BundleWidget(context: Context, attrs: AttributeSet) : LinearLayout(context
     val stepOneText: TextView by bindView(R.id.step_one_text)
     val stepTwoText: TextView by bindView(R.id.step_two_text)
     val bundleHotelWidget: PackageBundleHotelWidget by bindView(R.id.package_bundle_hotel_widget)
-    val outboundFlightWidget: PackageOutboundFlightWidget by bindView(R.id.package_bundle_outbound_flight_widget)
-    val inboundFlightWidget: PackageInboundFlightWidget by bindView(R.id.package_bundle_inbound_flight_widget)
+    val outboundFlightWidget: OutboundFlightWidget by bindView(R.id.package_bundle_outbound_flight_widget)
+    val inboundFlightWidget: InboundFlightWidget by bindView(R.id.package_bundle_inbound_flight_widget)
     val opacity: Float = 0.25f
 
     val toggleMenuObservable = BehaviorSubject.create<Boolean>()
@@ -75,6 +76,12 @@ class BundleWidget(context: Context, attrs: AttributeSet) : LinearLayout(context
         }
         vm.stepOneTextObservable.subscribeText(stepOneText)
         vm.stepTwoTextObservable.subscribeText(stepTwoText)
+
+        vm.cancelSearchSubject.subscribe {
+            bundleHotelWidget.cancel()
+            outboundFlightWidget.cancel()
+            inboundFlightWidget.cancel()
+        }
     }
 
     fun revertBundleViewToSelectHotel() {
@@ -103,9 +110,24 @@ class BundleWidget(context: Context, attrs: AttributeSet) : LinearLayout(context
     init {
         View.inflate(context, R.layout.bundle_widget, this)
         orientation = VERTICAL
+
         bundleHotelWidget.viewModel = BundleHotelViewModel(context)
         outboundFlightWidget.viewModel = BundleFlightViewModel(context)
         inboundFlightWidget.viewModel = BundleFlightViewModel(context)
+
+        outboundFlightWidget.viewModel.flightsRowExpanded.subscribe {
+            inboundFlightWidget.collapseFlightDetails()
+            bundleHotelWidget.collapseSelectedHotel()
+        }
+        inboundFlightWidget.viewModel.flightsRowExpanded.subscribe() {
+            outboundFlightWidget.collapseFlightDetails()
+            bundleHotelWidget.collapseSelectedHotel()
+        }
+        bundleHotelWidget.viewModel.hotelRowExpanded.subscribe() {
+            outboundFlightWidget.collapseFlightDetails()
+            inboundFlightWidget.collapseFlightDetails()
+        }
+
         outboundFlightWidget.flightIcon.setImageResource(R.drawable.packages_flight1_icon)
         inboundFlightWidget.flightIcon.setImageResource(R.drawable.packages_flight2_icon)
     }

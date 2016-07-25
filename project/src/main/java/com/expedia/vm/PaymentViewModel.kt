@@ -11,12 +11,15 @@ import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.PaymentType
 import com.expedia.bookings.data.StoredCreditCard
 import com.expedia.bookings.data.trips.TripBucketItemCar
+import com.expedia.bookings.data.Location
 import com.expedia.bookings.data.payment.PaymentSplitsType
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.utils.BookingInfoUtils
 import com.expedia.bookings.utils.CreditCardUtils
 import com.expedia.bookings.widget.ContactDetailsCompletenessStatus
 import com.squareup.phrase.Phrase
+import io.card.payment.CreditCard
+import org.joda.time.LocalDate
 import rx.Observable
 import rx.subjects.BehaviorSubject
 import rx.subjects.PublishSubject
@@ -31,13 +34,14 @@ class PaymentViewModel(val context: Context) {
     val emptyBillingInfo = PublishSubject.create<Unit>()
     val storedCardRemoved = PublishSubject.create<StoredCreditCard?>()
 
-    val cardType = PublishSubject.create<PaymentType?>()
+    val cardTypeSubject = PublishSubject.create<PaymentType?>()
     val userLogin = PublishSubject.create<Boolean>()
     val isCreditCardRequired = BehaviorSubject.create<Boolean>(false)
     val isZipValidationRequired = BehaviorSubject.create<Boolean>(false)
     val lineOfBusiness = BehaviorSubject.create<LineOfBusiness>(LineOfBusiness.HOTELSV2)
-
-    var expandObserver = PublishSubject.create<Boolean>()
+    val cardIoScanResult = PublishSubject.create<CreditCard>()
+    val expandObserver = PublishSubject.create<Boolean>()
+    val showDebitCardsNotAcceptedSubject = BehaviorSubject.create<Boolean>(false)
 
     //ouputs
     val iconStatus = PublishSubject.create<ContactDetailsCompletenessStatus>()
@@ -45,9 +49,10 @@ class PaymentViewModel(val context: Context) {
     val cardTitle = PublishSubject.create<String>()
     val cardSubtitle = PublishSubject.create<String>()
     val pwpSmallIcon = PublishSubject.create<Boolean>()
+    val cardIO = BehaviorSubject.create<String>()
     val tempCard = PublishSubject.create<Pair<String, Drawable>>()
     val invalidPayment = PublishSubject.create<String?>()
-
+    val cardIOBillingInfo = PublishSubject.create<BillingInfo>()
     val userHasAtleastOneStoredCard = PublishSubject.create<Boolean>()
     val onStoredCardChosen = PublishSubject.create<Unit>()
 
@@ -72,22 +77,23 @@ class PaymentViewModel(val context: Context) {
                 tempCard.onNext(Pair("", getCardIcon(null)))
                 setPaymentTileInfo(null, title, subTitle, it.splitsType, it.status)
             } else if (it.info.isTempCard && it.info.saveCardToExpediaAccount) {
-                var title = manuallyEnteredCard(it.info.paymentType, it.info.number)
+                val title = getCardTypeAndLast4Digits(it.info.paymentType, it.info.number)
                 tempCard.onNext(Pair("", getCardIcon(it.info.paymentType)))
                 setPaymentTileInfo(it.info.paymentType, title, resources.getString(R.string.checkout_tap_to_edit), it.splitsType, it.status)
                 Db.getWorkingBillingInfoManager().setWorkingBillingInfoAndBase(it.info)
             } else if (it.info.hasStoredCard()) {
                 val card = it.info.storedCard
-                var title = card.description
+                val title = card.description
                 tempCard.onNext(Pair("", getCardIcon(card.type)))
                 setPaymentTileInfo(card.type, title, resources.getString(R.string.checkout_tap_to_edit), it.splitsType, it.status)
             } else {
-                val cardNumber = it.info.number
-                var title = manuallyEnteredCard(it.info.paymentType, cardNumber)
-                if (it.info.isTempCard && !it.info.saveCardToExpediaAccount) {
-                    tempCard.onNext(Pair(title, getCardIcon(it.info.paymentType)))
+                val card = it.info
+                val cardNumber = card.number
+                val title = getCardTypeAndLast4Digits(card.paymentType, cardNumber)
+                if (card.isTempCard && !card.saveCardToExpediaAccount) {
+                    tempCard.onNext(Pair(title, getCardIcon(card.paymentType)))
                 }
-                setPaymentTileInfo(it.info.paymentType, title, resources.getString(R.string.checkout_tap_to_edit), it.splitsType, it.status)
+                setPaymentTileInfo(card.paymentType, title, resources.getString(R.string.checkout_tap_to_edit), it.splitsType, it.status)
                 Db.getWorkingBillingInfoManager().setWorkingBillingInfoAndBase(it.info)
             }
             Db.getWorkingBillingInfoManager().commitWorkingBillingInfoToDB();
@@ -109,7 +115,7 @@ class PaymentViewModel(val context: Context) {
             }
         }
 
-        cardType.subscribe { cardType ->
+        cardTypeSubject.subscribe { cardType ->
             val tripItem = Db.getTripBucket().getItem(lineOfBusiness.value)
             var message: String? = null
             if (tripItem != null && cardType != null && !tripItem.isPaymentTypeSupported(cardType)) {
@@ -127,7 +133,7 @@ class PaymentViewModel(val context: Context) {
         }
 
         lineOfBusiness.subscribe { lob ->
-            isCreditCardRequired.onNext(lob == LineOfBusiness.PACKAGES || lob == LineOfBusiness.HOTELSV2 || lob == LineOfBusiness.FLIGHTS)
+            isCreditCardRequired.onNext(lob == LineOfBusiness.PACKAGES || lob == LineOfBusiness.HOTELSV2 || lob == LineOfBusiness.FLIGHTS || lob == LineOfBusiness.FLIGHTS_V2)
             val isPostalCodeRequired = when (lob) {
                 LineOfBusiness.HOTELSV2 -> PointOfSale.getPointOfSale().requiresHotelPostalCode()
                 LineOfBusiness.CARS -> PointOfSale.getPointOfSale().requiresCarsPostalCode()
@@ -136,6 +142,19 @@ class PaymentViewModel(val context: Context) {
                 else -> true
             }
             isZipValidationRequired.onNext(isPostalCodeRequired)
+        }
+
+        cardIoScanResult.subscribe { card ->
+            val billingInfo = BillingInfo()
+            billingInfo.number = card.cardNumber
+            val localDateForExp = LocalDate.now().withYear(card.expiryYear).withMonthOfYear(card.expiryMonth)
+            billingInfo.expirationDate = localDateForExp
+            billingInfo.securityCode = card.cvv
+            billingInfo.isCardIO = true;
+            val location = Location()
+            location.postalCode = card.postalCode
+            billingInfo.location = location
+            cardIOBillingInfo.onNext(billingInfo)
         }
     }
 
@@ -165,7 +184,7 @@ class PaymentViewModel(val context: Context) {
         }
     }
 
-    private fun manuallyEnteredCard(paymentType: PaymentType?, cardNumber: String): String {
+    private fun getCardTypeAndLast4Digits(paymentType: PaymentType?, cardNumber: String): String {
         return Phrase.from(context, R.string.checkout_selected_card)
                 .put("cardtype", CreditCardUtils.getHumanReadableCardTypeName(context, paymentType))
                 .put("cardno", cardNumber.drop(cardNumber.length - 4))

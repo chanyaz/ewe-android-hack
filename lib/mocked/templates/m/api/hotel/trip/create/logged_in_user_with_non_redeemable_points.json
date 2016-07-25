@@ -331,9 +331,6 @@
     "userId": 4019550,
     "validFormsOfPayment": [
         {
-            "name": "AmericanExpress"
-        },
-        {
             "name": "Diner's Club International"
         },
         {

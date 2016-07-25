@@ -1,5 +1,7 @@
 package com.expedia.bookings.widget;
 
+import java.util.List;
+
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.support.v7.widget.CardView;
@@ -22,7 +24,6 @@ import com.squareup.picasso.Picasso;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
-import java.util.List;
 
 
 public class LXResultsListAdapter extends LoadingRecyclerViewAdapter {
@@ -144,7 +145,7 @@ public class LXResultsListAdapter extends LoadingRecyclerViewAdapter {
 			cardView.setPreventCornerOverlap(false);
 			activityTitle.setText(activity.title);
 			LXDataUtils.bindPriceAndTicketType(itemView.getContext(), activity.fromPriceTicketCode, activity.price,
-				activityPrice, fromPriceTicketType);
+				activity.originalPrice, activityPrice, fromPriceTicketType);
 			LXDataUtils.bindOriginalPrice(itemView.getContext(), activity.originalPrice, activityOriginalPrice);
 			LXDataUtils.bindDuration(itemView.getContext(), activity.duration, activity.isMultiDuration, duration);
 

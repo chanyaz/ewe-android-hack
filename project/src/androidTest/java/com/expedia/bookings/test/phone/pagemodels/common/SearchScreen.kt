@@ -1,31 +1,27 @@
 package com.expedia.bookings.test.phone.pagemodels.common
 
+import android.support.test.espresso.Espresso.onView
 import android.support.test.espresso.ViewInteraction
+import android.support.test.espresso.action.ViewActions.click
+import android.support.test.espresso.action.ViewActions.typeText
+import android.support.test.espresso.contrib.RecyclerViewActions
+import android.support.test.espresso.matcher.RootMatchers.withDecorView
+import android.support.test.espresso.matcher.ViewMatchers
+import android.support.test.espresso.matcher.ViewMatchers.*
+import android.support.v7.widget.RecyclerView
 import android.view.View
 import com.expedia.bookings.R
+import com.expedia.bookings.test.espresso.Common
 import com.expedia.bookings.test.espresso.SpoonScreenshotUtils
-import android.support.test.espresso.Espresso.onView
-import android.support.test.espresso.matcher.ViewMatchers.withId
-import android.support.test.espresso.matcher.RootMatchers.withDecorView
+import com.expedia.bookings.test.espresso.TabletViewActions
+import com.expedia.bookings.test.espresso.TestValues
+import com.expedia.bookings.test.espresso.ViewActions
+import com.expedia.bookings.test.phone.hotels.HotelScreen
+import org.hamcrest.Matchers.allOf
 import org.hamcrest.Matchers.not
 import org.hamcrest.core.Is.`is`
 import org.joda.time.LocalDate
-import android.support.test.espresso.action.ViewActions.click
-import com.expedia.bookings.test.espresso.Common
-import com.expedia.bookings.test.espresso.ViewActions
-import android.support.test.espresso.action.ViewActions.typeText
-import android.support.test.espresso.assertion.ViewAssertions
-import android.support.test.espresso.contrib.RecyclerViewActions
-import android.support.test.espresso.matcher.ViewMatchers
-import android.support.v7.widget.RecyclerView
 import java.util.concurrent.TimeUnit
-import android.support.test.espresso.matcher.ViewMatchers.hasDescendant
-import android.support.test.espresso.matcher.ViewMatchers.withEffectiveVisibility
-import android.support.test.espresso.matcher.ViewMatchers.withText
-import com.expedia.bookings.test.espresso.TabletViewActions
-import android.support.test.espresso.matcher.ViewMatchers.withParent
-import com.expedia.bookings.test.phone.hotels.HotelScreen
-import org.hamcrest.Matchers.allOf
 
 object SearchScreen {
 
@@ -132,7 +128,7 @@ object SearchScreen {
             selectDestination()
         }
         else {
-            selectOriginAndDestination()
+            selectPackageOriginAndDestination()
         }
         val startDate = LocalDate.now().plusDays(3)
         val endDate = LocalDate.now().plusDays(8)
@@ -142,6 +138,14 @@ object SearchScreen {
         if (clickSwP) {
             HotelScreen.clickSwPToggle();
         }
+
+        searchButton().perform(click())
+    }
+
+    @JvmStatic fun doGenericLXSearch() {
+        selectDestinationForLX()
+        val startDate = LocalDate.now()
+        selectDates(startDate, null)
 
         searchButton().perform(click())
     }
@@ -158,21 +162,74 @@ object SearchScreen {
         search(1, 0, false, true)
     }
 
+    @JvmStatic fun selectFlightOriginAndDestination(originPosition: Int, destinationPosition: Int) {
+        origin().perform(click())
+        searchEditText().perform(android.support.test.espresso.action.ViewActions.typeText("origin"))
+        suggestionList().perform(ViewActions.waitForViewToDisplay())
+        suggestionList().perform(RecyclerViewActions.actionOnItemAtPosition<RecyclerView.ViewHolder>(originPosition, click()))
+
+        //Delay for the auto advance to destination picker
+        Common.delay(1)
+        searchEditText().perform(ViewActions.waitForViewToDisplay())
+        searchEditText().perform(android.support.test.espresso.action.ViewActions.typeText("destination"))
+        suggestionList().perform(ViewActions.waitForViewToDisplay())
+        suggestionList().perform(RecyclerViewActions.actionOnItemAtPosition<RecyclerView.ViewHolder>(destinationPosition, click()))
+    }
+
     @Throws(Throwable::class)
-    @JvmStatic fun selectOriginAndDestination() {
-        searchEditText().perform(typeText("SFO"))
-        selectLocation("San Francisco, CA (SFO-San Francisco Intl.)")
+    @JvmStatic fun selectFlightOrigin() {
+        searchEditText().perform(typeText(TestValues.TYPE_TEXT_SFO))
+        selectLocation(TestValues.FLIGHT_ORIGIN_LOCATION_SFO)
+    }
+
+    @Throws(Throwable::class)
+    @JvmStatic fun selectFlightOriginAndDestination() {
+        searchEditText().perform(typeText(TestValues.TYPE_TEXT_SFO))
+        selectLocation(TestValues.FLIGHT_ORIGIN_LOCATION_SFO)
         //Delay from the auto advance anim
         Common.delay(1)
         searchEditText().perform(ViewActions.waitForViewToDisplay())
-        searchEditText().perform(typeText("DTW"))
-        selectLocation("Detroit, MI (DTW-Detroit Metropolitan Wayne County)")
+        searchEditText().perform(typeText(TestValues.TYPE_TEXT_DTW))
+        selectLocation(TestValues.DESTINATION_LOCATION_DTW)
+    }
+
+    @Throws(Throwable::class)
+    @JvmStatic fun selectSameFlightOriginAndDestination() {
+        searchEditText().perform(typeText(TestValues.TYPE_TEXT_SFO))
+        selectLocation(TestValues.FLIGHT_ORIGIN_LOCATION_SFO)
+        //Delay from the auto advance anim
+        Common.delay(1)
+        searchEditText().perform(ViewActions.waitForViewToDisplay())
+        searchEditText().perform(typeText(TestValues.TYPE_TEXT_SFO))
+        selectLocation(TestValues.DESTINATION_LOCATION_SFO)
+    }
+
+    @Throws(Throwable::class)
+    @JvmStatic fun errorDialog(text: String): ViewInteraction {
+        return onView(withText(text)).inRoot(withDecorView(not(`is`(SpoonScreenshotUtils.getCurrentActivity().window.decorView))));
+    }
+
+    @Throws(Throwable::class)
+    @JvmStatic fun selectPackageOriginAndDestination() {
+        searchEditText().perform(typeText(TestValues.TYPE_TEXT_SFO))
+        selectLocation(TestValues.PACKAGE_ORIGIN_LOCATION_SFO)
+        //Delay from the auto advance anim
+        Common.delay(1)
+        searchEditText().perform(ViewActions.waitForViewToDisplay())
+        searchEditText().perform(typeText(TestValues.TYPE_TEXT_DTW))
+        selectLocation(TestValues.DESTINATION_LOCATION_DTW)
     }
 
     @Throws(Throwable::class)
     @JvmStatic fun selectDestination() {
-        searchEditText().perform(typeText("SFO"))
-        selectLocation("San Francisco, CA (SFO-San Francisco Intl.)")
+        searchEditText().perform(typeText(TestValues.TYPE_TEXT_SFO))
+        selectLocation(TestValues.DESTINATION_LOCATION_SFO)
+    }
+
+    @Throws(Throwable::class)
+    @JvmStatic fun selectDestinationForLX() {
+        searchEditText().perform(typeText(TestValues.TYPE_TEXT_SFO))
+        selectLocation(TestValues.ACTIVITY_DESTINATION_LOCATION_SFO)
     }
 
     @Throws(Throwable::class)

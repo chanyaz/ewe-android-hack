@@ -1,6 +1,5 @@
 package com.expedia.bookings.test.utils.validation
 
-import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.Traveler
 import com.expedia.bookings.data.TravelerName
@@ -11,7 +10,6 @@ import com.expedia.bookings.utils.validation.TravelerValidator
 import org.joda.time.LocalDate
 import org.junit.Test
 import org.junit.runner.RunWith
-import org.mockito.Matchers.any
 import org.mockito.Mockito
 import kotlin.test.assertFalse
 import kotlin.test.assertTrue
@@ -26,31 +24,33 @@ class TravelerValidatorTest {
 
     val TOMORROW = LocalDate.now().plusDays(1)
 
+    val travelerValidator = TravelerValidator()
+
     @Test
     fun testInvalidChar() {
-        assertFalse(TravelerValidator.hasAllValidChars("%@#$@!"))
+        assertFalse(travelerValidator.hasAllValidChars("%@#$@!"))
     }
 
     @Test
     fun testEmptyInvalidChar() {
-        assertTrue(TravelerValidator.hasAllValidChars(""), "Expected No Chars = all valid chars")
-        assertTrue(TravelerValidator.hasAllValidChars(null), "Expected No Chars = all valid chars")
+        assertTrue(travelerValidator.hasAllValidChars(""), "Expected No Chars = all valid chars")
+        assertTrue(travelerValidator.hasAllValidChars(null), "Expected No Chars = all valid chars")
     }
 
     @Test
     fun testValidChars() {
-        assertTrue(TravelerValidator.hasAllValidChars(validFirstName))
+        assertTrue(travelerValidator.hasAllValidChars(validFirstName))
     }
 
     @Test
     fun testEmptyName() {
-        assertFalse(TravelerValidator.isRequiredNameValid(null))
-        assertFalse(TravelerValidator.isRequiredNameValid(""))
+        assertFalse(travelerValidator.isRequiredNameValid(null))
+        assertFalse(travelerValidator.isRequiredNameValid(""))
     }
 
     @Test
     fun testValidRequiredName() {
-        assertTrue(TravelerValidator.isRequiredNameValid(validFirstName))
+        assertTrue(travelerValidator.isRequiredNameValid(validFirstName))
     }
 
     @Test
@@ -59,7 +59,7 @@ class TravelerValidatorTest {
         noFirstName.middleName = validMiddleName
         noFirstName.lastName = validLastName
 
-        assertFalse(TravelerValidator.hasValidName(noFirstName))
+        assertFalse(travelerValidator.hasValidName(noFirstName))
     }
 
     @Test
@@ -68,7 +68,7 @@ class TravelerValidatorTest {
         noLastName.firstName = validFirstName
         noLastName.middleName = validMiddleName
 
-        assertFalse(TravelerValidator.hasValidName(noLastName))
+        assertFalse(travelerValidator.hasValidName(noLastName))
     }
 
     @Test
@@ -77,69 +77,69 @@ class TravelerValidatorTest {
         validName.firstName = validFirstName
         validName.lastName = validLastName
 
-        assertTrue(TravelerValidator.hasValidName(validName))
+        assertTrue(travelerValidator.hasValidName(validName))
     }
 
     @Test
     fun testValidName() {
-        assertTrue(TravelerValidator.hasValidName(getValidName()))
+        assertTrue(travelerValidator.hasValidName(getValidName()))
     }
 
     @Test
     fun testInValidLastName() {
-        assertFalse(TravelerValidator.isLastNameValid(""))
-        assertFalse(TravelerValidator.isLastNameValid("a"))
-        assertFalse(TravelerValidator.isLastNameValid("1"))
-        assertFalse(TravelerValidator.isLastNameValid("a1"))
-        assertTrue(TravelerValidator.isLastNameValid("Sn"))
+        assertFalse(travelerValidator.isLastNameValid(""))
+        assertFalse(travelerValidator.isLastNameValid("a"))
+        assertFalse(travelerValidator.isLastNameValid("1"))
+        assertFalse(travelerValidator.isLastNameValid("a1"))
+        assertTrue(travelerValidator.isLastNameValid("Sn"))
     }
 
     @Test
     fun invalidPhone() {
-        assertFalse(TravelerValidator.isValidPhone("12"))
+        assertFalse(travelerValidator.isValidPhone("12"))
     }
 
     @Test
     fun emptyPhone() {
-        assertFalse(TravelerValidator.isValidPhone(null))
-        assertFalse(TravelerValidator.isValidPhone(""))
+        assertFalse(travelerValidator.isValidPhone(null))
+        assertFalse(travelerValidator.isValidPhone(""))
     }
 
     @Test
     fun validPhone() {
-        assertTrue(TravelerValidator.isValidPhone(TEST_NUMBER))
+        assertTrue(travelerValidator.isValidPhone(TEST_NUMBER))
     }
 
     @Test
     fun invalidFutureBirthDate() {
         val packageSearchParams = getInstanceOfPackageSearchParams(LocalDate.now(), TOMORROW)
-        Db.setPackageParams(packageSearchParams)
 
         val invalidBirthDate = LocalDate.now().plusDays(2)
         val mockTraveler = getMockAdultTravelerWithBirthDate(invalidBirthDate)
 
-        assertFalse(TravelerValidator.hasValidBirthDate(mockTraveler))
+        travelerValidator.updateForNewSearch(packageSearchParams)
+        assertFalse(travelerValidator.hasValidBirthDate(mockTraveler))
     }
 
     @Test
     fun invalidBirthDateEmpty() {
         val packageSearchParams = getInstanceOfPackageSearchParams(LocalDate.now(), TOMORROW)
-        Db.setPackageParams(packageSearchParams)
 
         val mockTraveler = getMockAdultTravelerWithBirthDate(null)
 
-        assertFalse(TravelerValidator.hasValidBirthDate(mockTraveler))
+        travelerValidator.updateForNewSearch(packageSearchParams)
+        assertFalse(travelerValidator.hasValidBirthDate(mockTraveler))
     }
 
     @Test
     fun invalidBirthDateToYoung() {
         val packageSearchParams = getInstanceOfPackageSearchParams(LocalDate.now(), TOMORROW)
-        Db.setPackageParams(packageSearchParams)
 
         val youngBirthDate = TOMORROW.minusYears(8)
         val mockTraveler = getMockAdultTravelerWithBirthDate(youngBirthDate)
 
-        assertFalse(TravelerValidator.hasValidBirthDate(mockTraveler), "Traveler should be to young to be considered an adult, " +
+        travelerValidator.updateForNewSearch(packageSearchParams)
+        assertFalse(travelerValidator.hasValidBirthDate(mockTraveler), "Traveler should be to young to be considered an adult, " +
                 "unfortunately this test also depends on the static method PassengerCategory.isDateWithinPassengerCategoryRange " +
                 "if this tests fails look there as well")
     }
@@ -147,12 +147,12 @@ class TravelerValidatorTest {
     @Test
     fun validBirthDate() {
         val packageSearchParams = getInstanceOfPackageSearchParams(LocalDate.now(), TOMORROW)
-        Db.setPackageParams(packageSearchParams)
 
         val adultBirthDate = TOMORROW.minusYears(24)
         val mockTraveler = getMockAdultTravelerWithBirthDate(adultBirthDate)
 
-        assertTrue(TravelerValidator.hasValidBirthDate(mockTraveler), "Traveler should be valid adult," +
+        travelerValidator.updateForNewSearch(packageSearchParams)
+        assertTrue(travelerValidator.hasValidBirthDate(mockTraveler), "Traveler should be valid adult," +
                 "unfortunately this test also depends on the static method PassengerCategory.isDateWithinPassengerCategoryRange" +
                 "if this tests fails look there as well")
     }
@@ -160,51 +160,51 @@ class TravelerValidatorTest {
     @Test
     fun testInvalidForPackageNoName() {
         val packageSearchParams = getInstanceOfPackageSearchParams(LocalDate.now(), TOMORROW)
-        Db.setPackageParams(packageSearchParams)
 
         val adultBirthDate = TOMORROW.minusYears(24)
         val mockTraveler = getMockAdultTravelerWithBirthDate(adultBirthDate)
         Mockito.`when`(mockTraveler.phoneNumber).thenReturn(TEST_NUMBER)
         Mockito.`when`(mockTraveler.name).thenReturn(TravelerName())
 
-        assertFalse(TravelerValidator.isValidForPackageBooking(mockTraveler))
+        travelerValidator.updateForNewSearch(packageSearchParams)
+        assertFalse(travelerValidator.isValidForPackageBooking(mockTraveler))
     }
 
     @Test
     fun testInvalidForPackageNoBirthDate() {
         val packageSearchParams = getInstanceOfPackageSearchParams(LocalDate.now(), TOMORROW)
-        Db.setPackageParams(packageSearchParams)
 
         val mockTraveler = Mockito.mock(Traveler::class.java)
         Mockito.`when`(mockTraveler.phoneNumber).thenReturn(TEST_NUMBER)
         Mockito.`when`(mockTraveler.name).thenReturn(getValidName())
 
-        assertFalse(TravelerValidator.isValidForPackageBooking(mockTraveler))
+        travelerValidator.updateForNewSearch(packageSearchParams)
+        assertFalse(travelerValidator.isValidForPackageBooking(mockTraveler))
     }
 
     @Test
     fun testInvalidForPackageNoPhone() {
         val packageSearchParams = getInstanceOfPackageSearchParams(LocalDate.now(), TOMORROW)
-        Db.setPackageParams(packageSearchParams)
+        travelerValidator.updateForNewSearch(packageSearchParams)
 
         val adultBirthDate = TOMORROW.minusYears(24)
         val mockTraveler = getMockAdultTravelerWithBirthDate(adultBirthDate)
         Mockito.`when`(mockTraveler.name).thenReturn(getValidName())
 
-        assertFalse(TravelerValidator.isValidForPackageBooking(mockTraveler))
+        assertFalse(travelerValidator.isValidForPackageBooking(mockTraveler))
     }
 
     @Test
-    fun testValidForPacakgeBooking() {
+    fun testValidForPackageBooking() {
         val packageSearchParams = getInstanceOfPackageSearchParams(LocalDate.now(), TOMORROW)
-        Db.setPackageParams(packageSearchParams)
+        travelerValidator.updateForNewSearch(packageSearchParams)
 
         val adultBirthDate = TOMORROW.minusYears(24)
         val mockTraveler = getMockAdultTravelerWithBirthDate(adultBirthDate)
         Mockito.`when`(mockTraveler.name).thenReturn(getValidName())
         Mockito.`when`(mockTraveler.phoneNumber).thenReturn(TEST_NUMBER)
 
-        assertTrue(TravelerValidator.isValidForPackageBooking(mockTraveler))
+        assertTrue(travelerValidator.isValidForPackageBooking(mockTraveler))
     }
 
     @Test
@@ -212,7 +212,7 @@ class TravelerValidatorTest {
         val mockTraveler = Mockito.mock(Traveler::class.java)
         Mockito.`when`(mockTraveler.name).thenReturn(getValidName())
 
-        assertFalse(TravelerValidator.isTravelerEmpty(mockTraveler))
+        assertFalse(travelerValidator.isTravelerEmpty(mockTraveler))
     }
 
     @Test
@@ -221,7 +221,7 @@ class TravelerValidatorTest {
         Mockito.`when`(mockTraveler.phoneNumber).thenReturn(TEST_NUMBER)
         Mockito.`when`(mockTraveler.name).thenReturn(TravelerName())
 
-        assertFalse(TravelerValidator.isTravelerEmpty(mockTraveler))
+        assertFalse(travelerValidator.isTravelerEmpty(mockTraveler))
     }
 
 
@@ -231,12 +231,12 @@ class TravelerValidatorTest {
         val mockTraveler = getMockAdultTravelerWithBirthDate(adultBirthDate)
         Mockito.`when`(mockTraveler.name).thenReturn(TravelerName())
 
-        assertFalse(TravelerValidator.isTravelerEmpty(mockTraveler))
+        assertFalse(travelerValidator.isTravelerEmpty(mockTraveler))
     }
 
     @Test
     fun testIsEmpty() {
-        assertTrue(TravelerValidator.isTravelerEmpty(Traveler()))
+        assertTrue(travelerValidator.isTravelerEmpty(Traveler()))
     }
 
     private fun getValidName(): TravelerName {
@@ -251,7 +251,7 @@ class TravelerValidatorTest {
     private fun getMockAdultTravelerWithBirthDate(birthDate : LocalDate?) : Traveler {
         val mockTraveler = Mockito.mock(Traveler::class.java)
         Mockito.`when`(mockTraveler.birthDate).thenReturn(birthDate)
-        Mockito.`when`(mockTraveler.getPassengerCategory(any<PackageSearchParams>())).thenReturn(PassengerCategory.ADULT)
+        Mockito.`when`(mockTraveler.passengerCategory).thenReturn(PassengerCategory.ADULT)
 
         return mockTraveler
     }

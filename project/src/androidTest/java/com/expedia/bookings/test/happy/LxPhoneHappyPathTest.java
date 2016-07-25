@@ -11,6 +11,7 @@ import com.expedia.bookings.test.espresso.Common;
 import com.expedia.bookings.test.espresso.EspressoUtils;
 import com.expedia.bookings.test.espresso.IdlingResources.LxIdlingResource;
 import com.expedia.bookings.test.espresso.PhoneTestCase;
+import com.expedia.bookings.test.espresso.ViewActions;
 import com.expedia.bookings.test.phone.lx.LXInfositeScreen;
 import com.expedia.bookings.test.phone.lx.LXScreen;
 import com.expedia.bookings.test.phone.pagemodels.common.CVVEntryScreen;
@@ -93,9 +94,8 @@ public class LxPhoneHappyPathTest extends PhoneTestCase {
 
 	public void testLxPhoneHappyPathViaExplicitSearch() throws Throwable {
 		goToLxSearchResults();
-		LXScreen.location().perform(typeText("San"));
+		LXScreen.location().perform(ViewActions.waitForViewToDisplay(), typeText("San"));
 		LXScreen.selectLocation("San Francisco, CA");
-		LXScreen.selectDateButton().perform(click());
 		LXScreen.selectDates(LocalDate.now(), null);
 		LXScreen.searchButton().perform(click());
 		selectActivity();
@@ -198,7 +198,6 @@ public class LxPhoneHappyPathTest extends PhoneTestCase {
 		goToLxSearchResults();
 		LXScreen.location().perform(typeText("San"));
 		LXScreen.selectLocation("San Francisco, CA");
-		LXScreen.selectDateButton().perform(click());
 		LXScreen.selectDates(LocalDate.now(), null);
 		LXScreen.searchButton().perform(click());
 		selectRecommendation();

@@ -195,6 +195,7 @@
                         android:imeOptions="actionNext"
                         android:inputType="numberPassword"
                         android:maxLength="4"
+                        android:contentDescription="@string/cvv_enter_security_code_v2"
                         android:nextFocusForward="@+id/edit_name_on_card"
                         android:singleLine="true"
                         android:textSize="@dimen/traveler_input_text_size" />

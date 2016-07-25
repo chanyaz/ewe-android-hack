@@ -23,11 +23,14 @@ class FlightOverviewViewModel(val context: Context, val showBundlePrice: Boolean
         selectedFlightLegSubject.subscribe { selectedFlight ->
             var urgencyMessage = ""
             if (selectedFlight.packageOfferModel.urgencyMessage != null) {
-                urgencyMessage = Phrase.from(context.resources.getString(R.string.package_flight_overview_urgency_message_TEMPLATE))
-                        .put("seats", selectedFlight.packageOfferModel.urgencyMessage.ticketsLeft)
-                        .format().toString()
+                val ticketsLeft = selectedFlight.packageOfferModel.urgencyMessage.ticketsLeft
+                if (ticketsLeft > 0 && ticketsLeft < 5) {
+                    urgencyMessage = Phrase.from(context.resources
+                            .getQuantityString(R.plurals.package_flight_overview_urgency_message_TEMPLATE, ticketsLeft.toInt()))
+                            .put("seats", ticketsLeft)
+                            .format().toString()
+                }
             }
-
             if (urgencyMessage.isNotBlank()) {
                 urgencyMessage += ", "
             }
@@ -41,7 +44,7 @@ class FlightOverviewViewModel(val context: Context, val showBundlePrice: Boolean
             totalDurationSubject.onNext(PackageFlightUtils.getStylizedFlightDurationString(context, selectedFlight, R.color.packages_total_duration_text))
 
             var perPersonPrice = Phrase.from(context.resources.getString(R.string.package_flight_overview_per_person_TEMPLATE))
-                    .put("money", selectedFlight.packageOfferModel.price.packageTotalPriceFormatted)
+                    .put("money", selectedFlight.packageOfferModel.price.pricePerPersonFormatted)
                     .format().toString()
             bundlePriceSubject.onNext(perPersonPrice)
             baggageFeeURLSubject.onNext(selectedFlight.baggageFeesUrl)

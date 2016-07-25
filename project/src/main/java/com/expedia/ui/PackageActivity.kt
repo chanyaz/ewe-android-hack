@@ -5,12 +5,13 @@ import android.content.Intent
 import android.os.Bundle
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Db
-import com.expedia.bookings.data.cars.ApiError
+import com.expedia.bookings.data.ApiError
 import com.expedia.bookings.data.packages.PackageCreateTripParams
 import com.expedia.bookings.presenter.BaseOverviewPresenter
 import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.presenter.packages.PackageOverviewPresenter
 import com.expedia.bookings.presenter.packages.PackagePresenter
+import com.expedia.bookings.tracking.PackagesTracking
 import com.expedia.bookings.utils.Constants
 import com.expedia.bookings.utils.Ui
 import com.expedia.vm.packages.PackageSearchType
@@ -26,6 +27,7 @@ class PackageActivity : AbstractAppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         Ui.getApplication(this).defaultPackageComponents()
+        Ui.getApplication(this).defaultTravelerComponent()
         setContentView(R.layout.package_activity)
         Ui.showTransparentStatusBar(this)
     }
@@ -33,12 +35,16 @@ class PackageActivity : AbstractAppCompatActivity() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
+        packagePresenter.bundlePresenter.bundleWidget.bundleHotelWidget.collapseSelectedHotel()
+        packagePresenter.bundlePresenter.bundleWidget.outboundFlightWidget.collapseFlightDetails()
+        packagePresenter.bundlePresenter.bundleWidget.inboundFlightWidget.collapseFlightDetails()
+
         if (resultCode == Activity.RESULT_CANCELED) {
             val obj = packagePresenter.backStack.peek()
-
             if (Db.getPackageParams().isChangePackageSearch() && obj !is Intent) {
                 onBackPressed()
             } else {
+                PackagesTracking().trackViewBundlePageLoad()
                 if (obj is Intent && obj.hasExtra(Constants.PACKAGE_LOAD_OUTBOUND_FLIGHT)) {
                     packagePresenter.bundlePresenter.bundleOverviewHeader.toggleOverviewHeader(false)
                     packagePresenter.bundlePresenter.getCheckoutPresenter().toggleCheckoutButton(false)
@@ -47,11 +53,11 @@ class PackageActivity : AbstractAppCompatActivity() {
                     //revert bundle view to be the state loaded inbound flights
                     packagePresenter.bundlePresenter.bundleWidget.revertBundleViewToSelectInbound()
                     packagePresenter.bundlePresenter.bundleWidget.inboundFlightWidget.viewModel.showLoadingStateObservable.onNext(false)
-                } else if (obj is Intent && obj.hasExtra(Constants.PACKAGE_LOAD_HOTEL_ROOM) ) {
+                } else if (obj is Intent && obj.hasExtra(Constants.PACKAGE_LOAD_HOTEL_ROOM)) {
                     //revert bundle view to be the state loaded inbound flights
                     packagePresenter.bundlePresenter.bundleWidget.revertBundleViewToSelectOutbound()
                     packagePresenter.bundlePresenter.bundleWidget.outboundFlightWidget.viewModel.showLoadingStateObservable.onNext(false)
-                } else if (packagePresenter.backStack.size == 2){
+                } else if (packagePresenter.backStack.size == 2) {
                     //revert bundle view to be the state loaded hotels
                     packagePresenter.bundlePresenter.bundleWidget.revertBundleViewToSelectHotel()
                     packagePresenter.bundlePresenter.bundleWidget.bundleHotelWidget.viewModel.showLoadingStateObservable.onNext(false)
@@ -120,7 +126,10 @@ class PackageActivity : AbstractAppCompatActivity() {
     }
 
     override fun onBackPressed() {
-        if (Db.getPackageParams().isChangePackageSearch() && packagePresenter.backStack.peek() is PackageOverviewPresenter) {
+        packagePresenter.bundlePresenter.bundleWidget.viewModel.cancelSearchObservable.onNext(Unit)
+
+        //for change package path
+        if (packagePresenter.backStack.peek() is PackageOverviewPresenter && Db.getPackageParams()?.isChangePackageSearch() ?: false) {
             Db.getPackageParams().pageType = null
             if (changedOutboundFlight) {
                 //when cancel changed outbound flight, packagePresenter's backStack is:
@@ -152,6 +161,7 @@ class PackageActivity : AbstractAppCompatActivity() {
     }
 
     private fun packageFlightSearch() {
+        PackagesTracking().trackViewBundlePageLoad()
         packagePresenter.bundlePresenter.bundleWidget.viewModel.flightParamsObservable.onNext(Db.getPackageParams())
     }
 

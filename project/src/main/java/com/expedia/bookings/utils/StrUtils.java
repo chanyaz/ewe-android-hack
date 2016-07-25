@@ -40,6 +40,7 @@ import com.expedia.bookings.data.SuggestionResponse;
 import com.expedia.bookings.data.SuggestionV2;
 import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.data.SuggestionV4;
+import com.expedia.bookings.data.flights.FlightLeg;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.mobiata.android.LocationServices;
 import com.mobiata.flightlib.data.Airport;
@@ -59,6 +60,7 @@ public class StrUtils {
 	// e.g. San Francisco, CA, United States (SFO-San Francisco Int'l Airport) -> San Francisco, CA, United States
 	private static final Pattern DISPLAY_NAME_PATTERN = Pattern.compile("^((.+)(?= \\(.*\\)))");
 	public static final String HTML_TAGS_REGEX = "<[^>]*>";
+	private static final Pattern CITY_STATE_PATTERN_PACKAGE = Pattern.compile("^[^\\(]+");
 	/**
 	 * Formats the display of how many adults and children are picked currently.
 	 * This will display 0 adults or children.
@@ -403,6 +405,19 @@ public class StrUtils {
 		return displayName;
 	}
 
+	public static String formatCityStateName(String suggestion) {
+		if (suggestion == null) {
+			return "";
+		}
+		String displayName = suggestion;
+		Matcher displayNameMatcher = CITY_STATE_PATTERN_PACKAGE.matcher(displayName);
+		if (displayNameMatcher.find()) {
+			displayName = displayNameMatcher.group(0);
+		}
+		return displayName;
+	}
+
+
 	public static String formatAirport(SuggestionV4 suggestion) {
 		String airportName = formatAirportName(suggestion.regionNames.fullName);
 		if (suggestion.hierarchyInfo != null && suggestion.hierarchyInfo.airport != null
@@ -423,6 +438,14 @@ public class StrUtils {
 		return city;
 	}
 
+	public static String formatAirportNameForPackage(String suggestion) {
+		String city = formatAirportName(suggestion);
+		if (city != null && city.contains("-")) {
+			city = city.replace("-", " - ");
+		}
+		return city;
+	}
+
 	public static String formatCityName(SuggestionV4 suggestion) {
 		String city = Html.fromHtml(suggestion.regionNames.displayName).toString();
 		Matcher cityMatcher = CITY_PATTERN.matcher(city);
@@ -437,6 +460,13 @@ public class StrUtils {
 		sb.append("(").append(suggestion.hierarchyInfo.airport.airportCode).append(") ");
 		sb.append(formatCityName(suggestion));
 		return sb.toString();
+	}
+
+	public static String formatCarOriginDescription(Context context, FlightLeg flightLeg) {
+		return Phrase.from(context, R.string.cars_cross_sell_origin_TEMPLATE)
+			.put("airport_code", flightLeg.destinationAirportCode)
+			.put("airport_localname", flightLeg.destinationAirportLocalName)
+			.format().toString();
 	}
 
 	public static String formatDisplayName(SuggestionResponse suggestionResponse) {

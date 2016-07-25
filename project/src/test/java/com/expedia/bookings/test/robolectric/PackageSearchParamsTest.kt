@@ -4,6 +4,7 @@ import android.app.Activity
 import com.expedia.bookings.R
 import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.packages.PackageSearchParams
+import com.expedia.bookings.utils.Ui
 import com.expedia.vm.packages.PackageSearchViewModel
 import org.joda.time.LocalDate
 import org.junit.Before
@@ -23,6 +24,7 @@ class PackageSearchParamsTest {
     @Before
     fun before() {
         activity = Robolectric.buildActivity(Activity::class.java).create().get()
+        Ui.getApplication(activity).defaultTravelerComponent()
         vm = PackageSearchViewModel(activity)
     }
 
@@ -138,8 +140,8 @@ class PackageSearchParamsTest {
         vm.searchObserver.onNext(Unit)
 
         searchParamsSubscriber.requestMore(LOTS_MORE)
-        assertEquals(expectedSearchParams[0].checkOut, searchParamsSubscriber.onNextEvents[0].checkOut)
-        assertEquals(expectedSearchParams[1].checkOut, searchParamsSubscriber.onNextEvents[1].checkOut)
+        assertEquals(expectedSearchParams[0].endDate, searchParamsSubscriber.onNextEvents[0].endDate)
+        assertEquals(expectedSearchParams[1].endDate, searchParamsSubscriber.onNextEvents[1].endDate)
         noDatesSubscriber.requestMore(LOTS_MORE)
         noDatesSubscriber.assertReceivedOnNext(expectedDates)
         maxRangeSubscriber.requestMore(LOTS_MORE)
