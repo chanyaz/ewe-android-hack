@@ -46,6 +46,8 @@
     <string name="acct_Welcome_to_Orbitz">Orbitz へようこそ</string>
     <!-- Title of "Account Already Exists" error dialog box -->
     <string name="acct_Orbitz_account_already_exists">この電子メールアドレスが登録された Orbitz アカウントが既に存在します</string>
+    <!-- Account creation legal template for reward points eg: Earn free travel rewards with Orbitz Rewards. By joining Orbitz Rewards, I accept all Terms and Conditions -->
+    <string name="account_creation_legal_rewards_TEMPLATE">無料旅行特典に向けて {brand_reward_name_link} を獲得 !{brand_reward_name} への入会をもって、すべての{terms_and_conditions}に同意したものとみなされます</string>
 
     <!-- Orbucks -->
     <string name="paying_with_rewards">Orbucks でお支払い</string>
@@ -80,11 +82,13 @@
     <string name="vip_access">VIP Access</string>
     <!-- Message that explains the meaning of VIP Access -->
     <string name="vip_access_message">+VIP Access ホテルでは、Gold および Platinum 会員は、客室無料アップグレードおよびその他の特典をご利用いただけます (チェックイン時の利用状況による)。</string>
+    <!-- Filter for showing only VIP access hotels -->
+    <string name="VIP_Access_Only">VIP Access のみ</string>
 
     <!-- Sign in with earn message. Eg: Sign in to earn $123.22 in Orbucks -->
     <string name="Sign_in_to_earn_TEMPLATE">サインインして Orbucks で {reward} 獲得</string>
     <string name="loyalty_applied_excluding_taxes_and_fees_message">Orbucks が適用されました !(税およびサービス料別)</string>
-    <string name="youll_earn_points_TEMPLATE">このご予約で、{reward_currency} の Orbucks が付与されます !</string>
+    <string name="youll_earn_points_TEMPLATE">このご予約で、{reward_currency} 相当の Orbucks が付与されます !</string>
     <string name="x_rewards_currency_for_this_trip_TEMPLATE">このご旅行で、{reward_currency} の Orbucks が付与されます !</string>
 
     <!-- Label indicating Orbucks Available. Eg: $1000.12 in Orbucks available-->
@@ -92,7 +96,7 @@
     <!-- Label indicating Orbucks Applied By User. Eg: $1000.12 in Orbucks applied-->
     <string name="bucks_applied_TEMPLATE">{money} の Orbucks 適用済み</string>
     <!-- Label above the slider when user is fully paying with Orbucks. Eg: You are using $1000.12 in Orbucks-->
-    <string name="you_are_using_bucks_TEMPLATE">{amount} の Orbucks を利用します</string>
+    <string name="you_are_using_bucks_TEMPLATE">{amount} の Orbucks を使用します</string>
     <!-- Label above the slider when user is paying with Orbucks and Card. Eg: You are using $1000.12 in Orbucks\nYour card will be charged $100.00-->
     <string name="payment_through_card_and_bucks_TEMPLATE">{amount} の Orbucks を使用します\nご利用のクレジット カードには {dueamount} が課金されます</string>
 
@@ -115,4 +119,10 @@
     <string name="rewards_middle_tier_customer_support">Orbitz Rewards Gold カスタマー サポート</string>
     <!-- Label for exclusive phone number for top tier rewards customers; brand name not parameterized as other brands will have to completely customize -->
     <string name="rewards_top_tier_customer_support">Orbitz Rewards Platinum カスタマー サポート</string>
+
+    <!-- ETP pay later info message -->
+    <string name="etp_pay_now_earn_text">次回のホテル予約にすぐ使える Orbucks を獲得しよう</string>
+    <!-- Label for "Apply for the Orbitz Rewards Visa® Card" button in info page -->
+    <string name="rewards_visa_card_TEMPLATE">{brand_reward_name} Visa® Card を申し込む</string>
+
 </resources>

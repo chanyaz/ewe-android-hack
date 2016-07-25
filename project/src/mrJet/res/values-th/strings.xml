@@ -35,7 +35,7 @@
     <!-- Row header for when the grand total of the user's hotel stay is more than what they owe MrJet at the time of reservation-->
     <string name="total_due_to_our_brand_today">ยอดที่ต้องจ่าย MrJet วันนี้:</string>
     <!-- User needs to reset password -->
-    <string name="login_reset_password">เราต้องการให้คุณสร้างบัญชีใหม่เพื่อใช้เข้าสู่ระบบเว็บไซต์ MrJet ทั่วโลก&lt;br&gt;โปรดตั้งรหัสผ่านของคุณใหม่ โดยคลิกที่ลิงก์ ‘ลืมรหัสผ่าน?\&apos; ด้านล่าง</string>
+    <string name="login_reset_password">เราต้องการให้คุณสร้างบัญชีใหม่เพื่อใช้เข้าสู่ระบบเว็บไซต์ MrJet ทั่วโลก&lt;br&gt;โปรดตั้งรหัสผ่านของคุณใหม่ โดยคลิกที่ลิงก์ ‘ลืมรหัสผ่าน?’ ด้านล่าง</string>
 
     <!-- Label to show user in cost breakdown for the total being charged to them right now -->
     <string name="total_due_today">ยอดที่ต้องจ่าย MrJet วันนี้</string>
@@ -45,6 +45,8 @@
     <string name="Sign_in_to_earn_TEMPLATE">เข้าสู่ระบบเพื่อรับ MrJet Rewards มูลค่า {reward}</string>
     <!-- Account creation legal template excluding MrJet Rewards -->
     <string name="account_creation_legal_TEMPLATE">@string/account_creation_legal_excluding_rewards_TEMPLATE</string>
+    <!-- Account creation legal template for reward points eg: I want to earn rewards instantly with MrJet Rewards. By joining, I accept all Terms and Conditions. -->
+    <string name="account_creation_legal_rewards_TEMPLATE">ฉันต้องการสะสมคะแนนทันทีกับ {brand_reward_name_link} โดยการเข้าร่วม ฉันยอมรับ{terms_and_conditions}ทั้งหมด</string>
 
     <!-- MrJet Rewards -->
     <string name="paying_with_rewards">จ่ายด้วย MrJet Rewards</string>
@@ -53,6 +55,22 @@
     <string name="checkout_paying_with_points_only_line1">จ่ายด้วย MrJet Rewards</string>
     <string name="checkout_paying_with_points_and_card_line1_TEMPLATE">จ่ายด้วย MrJet Rewardsและ {carddescription}</string>
     <string name="checkout_payment_options">บัตรเครดิต, จ่ายด้วย MrJet Rewards</string>
+
+    <!-- VIP strings -->
+    <string name="vip_loyalty_applied_message">ใช้ Rewards แล้ว!</string>
+    <!-- String to be appended with VIP in header of room rates. -->
+    <string name="vip_loyalty_applied_header_message">@string/vip_loyalty_applied_message</string>
+    <string name="vip_loyalty_applied_map_message">&lt;b&gt;VIP&lt;/b&gt; ใช้ Rewards แล้ว!</string>
+    <!-- Title for VIP Access message -->
+    <string name="vip_access">VIP</string>
+    <!-- Message that explains the meaning of VIP Access -->
+    <string name="vip_access_message">ที่โรงแรม VIP สมาชิก gold และ platinum จะได้รับการอัพเกรดห้องพักฟรี รวมถึงสิทธิประโยชน์อื่นๆ ที่มีพร้อมให้บริการในขณะเข้าเช็คอิน</string>
+    <!-- Filter for showing only VIP access hotels -->
+    <string name="filter_vip_access">โรงแรม VIP เท่านั้น</string>
+    <!-- Filter for showing only VIP access hotels -->
+    <string name="VIP_Access_Only">โรงแรม VIP เท่านั้น</string>
+    <!-- Title for VIP Access message for Hotel Results -->
+    <string name="vip">VIP</string>
 
     <!-- Shop with points -->
     <string name="regular_loyalty_applied_message">ใช้ MrJet Rewards แล้ว!</string>

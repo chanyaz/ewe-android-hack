@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <resources>
     <string name="orbitz_best_price_guarantee">Orbitz prisgaranti</string>
-    <string name="customer_support_text">Ring til Orbitz\&apos; kundeservice</string>
+    <string name="customer_support_text">Ring til Orbitz’ kundeservice</string>
 
     <!-- Content description for action: Press to log in with your Orbitz account -->
     <string name="cd_checkout_log_in_with_orbitz">Tryk for at logge på din Orbitz-konto</string>
@@ -29,12 +29,12 @@
     <string name="cd_launch_open_eb_info_screen_orbitz">Åbn informationsoversigt for Orbitz-reservationer</string>
     <string name="loading_orbitz_account">Indlæser Orbitz-konto</string>
     <string name="orbitz_password_hint">Adgangskode til Orbitz</string>
-    <string name="dialog_message_launch_orbitz_mobile_site">Vil du åbne Orbitz\&apos; mobilhjemmeside?</string>
+    <string name="dialog_message_launch_orbitz_mobile_site">Vil du åbne Orbitz’ mobilhjemmeside?</string>
     <!-- Orbitz App download link -->
     <!-- Row header for when the grand total of the user's hotel stay is more than what they owe Expedia at the time of reservation-->
     <string name="total_due_to_our_brand_today">Samlet beløb, der skal betales til Orbitz i dag:</string>
     <!-- User needs to reset password -->
-    <string name="login_reset_password">Du bedes oprette et nyt, universelt login, som du kan bruge på alle Orbitz\&apos; hjemmesider.&lt;br&gt;Nulstil din adgangskode ved at klikke på linket ‘Har du glemt din adgangskode?\&apos; nedenfor.</string>
+    <string name="login_reset_password">Du bedes oprette et nyt, universelt login, som du kan bruge på alle Orbitz’ hjemmesider.&lt;br&gt;Nulstil din adgangskode ved at klikke på linket ‘Har du glemt din adgangskode?’ nedenfor.</string>
 
     <!-- Label to show user in cost breakdown for the total being charged to them right now -->
     <string name="total_due_today">Beløb, der skal betales til Orbitz i dag</string>
@@ -46,6 +46,8 @@
     <string name="acct_Welcome_to_Orbitz">Velkommen til Orbitz</string>
     <!-- Title of "Account Already Exists" error dialog box -->
     <string name="acct_Orbitz_account_already_exists">Der findes allerede en Orbitz-konto med denne e-mailadresse</string>
+    <!-- Account creation legal template for reward points eg: Earn free travel rewards with Orbitz Rewards. By joining Orbitz Rewards, I accept all Terms and Conditions -->
+    <string name="account_creation_legal_rewards_TEMPLATE">Optjen rejsefordele med {brand_reward_name_link}. Ved at tilmelde mig {brand_reward_name} accepterer jeg alle {terms_and_conditions}</string>
 
     <!-- Orbucks -->
     <string name="paying_with_rewards">Betaling med Orbucks</string>
@@ -80,6 +82,8 @@
     <string name="vip_access">VIP Access</string>
     <!-- Message that explains the meaning of VIP Access -->
     <string name="vip_access_message">På VIP Access-hoteller kan gold- og platinum-medlemmer få gratis værelsesopgraderinger og andre fordele, der er tilgængelige ved indtjekning.</string>
+    <!-- Filter for showing only VIP access hotels -->
+    <string name="VIP_Access_Only">Kun VIP Access</string>
 
     <!-- Sign in with earn message. Eg: Sign in to earn $123.22 in Orbucks -->
     <string name="Sign_in_to_earn_TEMPLATE">Log på for at optjene {reward} i Orbucks</string>
@@ -115,4 +119,10 @@
     <string name="rewards_middle_tier_customer_support">Kundeservice for Orbitz Rewards Gold</string>
     <!-- Label for exclusive phone number for top tier rewards customers; brand name not parameterized as other brands will have to completely customize -->
     <string name="rewards_top_tier_customer_support">Kundeservice for Orbitz Rewards Platinum</string>
+
+    <!-- ETP pay later info message -->
+    <string name="etp_pay_now_earn_text">Optjen Orbucks, som du kan indløse i forbindelse med din næste hotelreservation</string>
+    <!-- Label for "Apply for the Orbitz Rewards Visa® Card" button in info page -->
+    <string name="rewards_visa_card_TEMPLATE">Ansøg om {brand_reward_name} Visa®-kortet</string>
+
 </resources>

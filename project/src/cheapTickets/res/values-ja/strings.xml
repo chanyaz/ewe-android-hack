@@ -3,7 +3,17 @@
 
     <string name="cheapTickets_best_price_guarantee">CheapTickets の価格保証</string>
 
+
     <string name="customer_support_text">CheapTickets カスタマー サポートに電話する</string>
+
+    <!-- Customer Support -->
+    <string name="customer_support">カスタマー サポート</string>
+    <!-- Rewards are not supported in Cheaptickets -->
+    <string name="rewards_base_tier_customer_support">@string/customer_support</string>
+    <!-- Rewards are not supported in Cheaptickets -->
+    <string name="rewards_middle_tier_customer_support">@string/customer_support</string>
+    <!-- Rewards are not supported in Cheaptickets -->
+    <string name="rewards_top_tier_customer_support">@string/customer_support</string>
 
     <!-- Content description for action: Press to log in with your CheapTickets account -->
     <string name="cd_checkout_log_in_with_cheapTickets">タップして CheapTickets アカウントにログイン</string>
@@ -51,10 +61,12 @@
     <string name="acct_CheapTickets_account_already_exists">この電子メールアドレスが登録された CheapTickets アカウントが既に存在します</string>
     <!-- Sign in with earn message. Eg: Sign in to earn $123.22 in CheapCash -->
     <string name="Sign_in_to_earn_TEMPLATE">サインインして CheapCash で {reward} 獲得</string>
+    <!-- Account creation legal template for reward points eg: Earn free travel rewards with CheapCash. By joining CheapCash, I accept all Terms and Conditions -->
+    <string name="account_creation_legal_rewards_TEMPLATE">無料旅行特典に向けて {brand_reward_name_link} を獲得 ! {brand_reward_name} への入会をもって、すべての{terms_and_conditions}に同意したものとみなされます</string>
 
     <!-- Earn Points -->
     <!-- You'll earn points in CheapCash. Eg: You'll earn $10 in CheapCash for this booking! -->
-    <string name="youll_earn_points_TEMPLATE">このご予約で、{reward_currency} の CheapCash が付与されます !</string>
+    <string name="youll_earn_points_TEMPLATE">このご予約で、{reward_currency} 相当の CheapCash が付与されます !</string>
     <!-- Blurb text displayed on account sign in button when already signed in -->
     <string name="x_rewards_currency_for_this_trip_TEMPLATE">このご旅行で、{reward_currency} の CheapCash が付与されます !</string>
 

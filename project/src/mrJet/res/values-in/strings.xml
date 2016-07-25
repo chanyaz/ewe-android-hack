@@ -35,7 +35,7 @@
     <!-- Row header for when the grand total of the user's hotel stay is more than what they owe MrJet at the time of reservation-->
     <string name="total_due_to_our_brand_today">Total Dibayar ke MrJet Hari Ini:</string>
     <!-- User needs to reset password -->
-    <string name="login_reset_password">Kami butuh Anda untuk membuat satu rincian login universal yang akan digunakan di semua situs MrJet.&lt;br&gt;Harap reset kata sandi Anda menggunakan link \&apos;Lupa kata sandi?\&apos; di bawah ini.</string>
+    <string name="login_reset_password">Kami butuh Anda untuk membuat satu rincian login universal yang akan digunakan di semua situs MrJet.&lt;br&gt;Harap reset kata sandi Anda menggunakan link ’Lupa kata sandi?’ di bawah ini.</string>
 
     <!-- Label to show user in cost breakdown for the total being charged to them right now -->
     <string name="total_due_today">Dibayar ke MrJet Hari Ini:</string>
@@ -45,6 +45,8 @@
     <string name="Sign_in_to_earn_TEMPLATE">Loginlah untuk mendapatkan MrJet Rewards senilai {reward}</string>
     <!-- Account creation legal template excluding MrJet Rewards -->
     <string name="account_creation_legal_TEMPLATE">@string/account_creation_legal_excluding_rewards_TEMPLATE</string>
+    <!-- Account creation legal template for reward points eg: I want to earn rewards instantly with MrJet Rewards. By joining, I accept all Terms and Conditions. -->
+    <string name="account_creation_legal_rewards_TEMPLATE">Saya ingin mendapatkan bonus langsung dengan {brand_reward_name_link}. Dengan bergabung, saya menerima semua {terms_and_conditions}</string>
 
     <!-- MrJet Rewards -->
     <string name="paying_with_rewards">Membayar dengan MrJet Rewards</string>
@@ -53,6 +55,22 @@
     <string name="checkout_paying_with_points_only_line1">Membayar dengan MrJet Rewards</string>
     <string name="checkout_paying_with_points_and_card_line1_TEMPLATE">Membayar dengan MrJet Rewards &amp; {carddescription}</string>
     <string name="checkout_payment_options">Kartu kredit, bayar dengan MrJet Rewards</string>
+
+    <!-- VIP strings -->
+    <string name="vip_loyalty_applied_message">Rewards digunakan!</string>
+    <!-- String to be appended with VIP in header of room rates. -->
+    <string name="vip_loyalty_applied_header_message">@string/vip_loyalty_applied_message</string>
+    <string name="vip_loyalty_applied_map_message">Rewards &lt;b&gt;VIP&lt;/b&gt; digunakan!</string>
+    <!-- Title for VIP Access message -->
+    <string name="vip_access">VIP</string>
+    <!-- Message that explains the meaning of VIP Access -->
+    <string name="vip_access_message">Di hotel-hotel VIP, para member gold dan platinum akan mendapat upgrade kamar gratis dan keuntungan lain yang tersedia saat check-in.</string>
+    <!-- Filter for showing only VIP access hotels -->
+    <string name="filter_vip_access">Hotel VIP saja</string>
+    <!-- Filter for showing only VIP access hotels -->
+    <string name="VIP_Access_Only">Hotel VIP saja</string>
+    <!-- Title for VIP Access message for Hotel Results -->
+    <string name="vip">VIP</string>
 
     <!-- Shop with points -->
     <string name="regular_loyalty_applied_message">MrJet Rewards digunakan!</string>
