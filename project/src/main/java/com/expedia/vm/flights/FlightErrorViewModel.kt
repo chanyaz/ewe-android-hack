@@ -4,6 +4,7 @@ import android.content.Context
 import com.expedia.bookings.R
 import com.expedia.bookings.data.ApiError
 import com.expedia.bookings.data.flights.FlightSearchParams
+import com.expedia.bookings.tracking.FlightsV2Tracking
 import com.expedia.bookings.utils.DateFormatUtils
 import com.expedia.bookings.utils.StrUtils
 import com.expedia.util.endlessObserver
@@ -42,9 +43,11 @@ class FlightErrorViewModel(context: Context): AbstractErrorViewModel(context) {
                     imageObservable.onNext(R.drawable.error_search)
                     errorMessageObservable.onNext(context.getString(R.string.error_no_result_message))
                     buttonOneTextObservable.onNext(context.getString(R.string.edit_search))
+                    FlightsV2Tracking.trackFlightNoResult()
                 }
                 else -> {
                     makeDefaultError()
+                    FlightsV2Tracking.trackFlightSearchUnknownError()
                 }
             }
         }
@@ -66,10 +69,12 @@ class FlightErrorViewModel(context: Context): AbstractErrorViewModel(context) {
             when (it.errorCode) {
                 ApiError.Code.UNKNOWN_ERROR -> {
                     retryCreateTripErrorHandler()
+                    FlightsV2Tracking.trackFlightCreateUnknownError()
                 }
 
                 ApiError.Code.SESSION_TIMEOUT -> {
                     handleSessionTimeout()
+                    FlightsV2Tracking.trackFlightCreateSessionTimeOutError()
                 }
 
                 ApiError.Code.FLIGHT_PRODUCT_NOT_FOUND -> {
@@ -79,6 +84,7 @@ class FlightErrorViewModel(context: Context): AbstractErrorViewModel(context) {
                     titleObservable.onNext(context.resources.getString(R.string.flight_unavailable_toolbar_title))
                     subTitleObservable.onNext("")
                     subscribeActionToButtonPress(defaultErrorObservable)
+                    FlightsV2Tracking.trackFlightCreateProductNotFoundError()
                 }
 
                 ApiError.Code.FLIGHT_SOLD_OUT -> {
@@ -88,6 +94,7 @@ class FlightErrorViewModel(context: Context): AbstractErrorViewModel(context) {
                     titleObservable.onNext(context.resources.getString(R.string.flight_sold_out_toolbar_title))
                     subTitleObservable.onNext("")
                     subscribeActionToButtonPress(defaultErrorObservable)
+                    FlightsV2Tracking.trackFlightSoldOutError()
                 }
 
                 else -> {
@@ -102,6 +109,7 @@ class FlightErrorViewModel(context: Context): AbstractErrorViewModel(context) {
             when (it.errorCode) {
                 ApiError.Code.UNKNOWN_ERROR -> {
                     handleCheckoutUnknownError()
+                    FlightsV2Tracking.trackFlightCheckoutUnknownError()
                 }
 
                 ApiError.Code.PAYMENT_FAILED -> {
@@ -114,18 +122,22 @@ class FlightErrorViewModel(context: Context): AbstractErrorViewModel(context) {
                     buttonOneClickedObservable.subscribe {
                         showPaymentForm.onNext(Unit)
                     }
+                    FlightsV2Tracking.trackFlightCheckoutPaymentError()
                 }
 
                 ApiError.Code.SESSION_TIMEOUT -> {
                     handleSessionTimeout()
+                    FlightsV2Tracking.trackFlightCheckoutSessionTimeOutError()
                 }
 
                 ApiError.Code.TRIP_ALREADY_BOOKED -> {
                     showConfirmation.onNext(Unit)
+                    FlightsV2Tracking.trackFlightTripBookedError()
                 }
 
                 else -> {
                     handleCheckoutUnknownError()
+                    FlightsV2Tracking.trackFlightCheckoutUnknownError()
                 }
             }
         }
