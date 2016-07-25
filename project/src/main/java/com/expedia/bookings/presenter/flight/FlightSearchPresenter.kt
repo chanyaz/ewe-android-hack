@@ -76,7 +76,6 @@ open class FlightSearchPresenter(context: Context, attrs: AttributeSet) : BaseTw
 
     override fun onFinishInflate() {
         super.onFinishInflate()
-        setSearchContainerTopMargin(showingSuggestions = false)
         tabs.visibility = View.VISIBLE
 
         val pagerAdapter = FlightSearchPageAdapter(context)

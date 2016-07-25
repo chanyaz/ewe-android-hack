@@ -25,19 +25,19 @@ class RailSearchPagerAdapter(val context: Context) : PagerAdapter() {
         return true
     }
 
-    val searchWidget = RailSearchWidget(context)
+    val searchWidget = RailSearchWidget(context, null)
 
     var searchViewModel by notNullAndObservable<RailSearchViewModel>() {
         searchWidget.searchViewModel = it
     }
 
-    override fun instantiateItem(container: ViewGroup?, position: Int): Any? {
+    override fun instantiateItem(container: ViewGroup, position: Int): Any? {
         if (position == 0) {
-            container?.addView(searchWidget)
+            container.addView(searchWidget)
             return searchWidget
         } else {
-            val view = View(context);
-            container?.addView(view)
+            val view = View(context)
+            container.addView(view)
             view.setOnTouchListener { view, motionEvent ->
                 false
             }
