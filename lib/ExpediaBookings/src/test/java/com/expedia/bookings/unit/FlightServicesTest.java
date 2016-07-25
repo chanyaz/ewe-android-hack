@@ -15,6 +15,7 @@ import com.expedia.bookings.data.flights.FlightSearchParams;
 import com.expedia.bookings.data.flights.FlightSearchResponse;
 import com.expedia.bookings.interceptors.MockInterceptor;
 import com.expedia.bookings.services.FlightServices;
+import com.expedia.bookings.utils.Constants;
 import com.mobiata.mocke3.ExpediaDispatcher;
 import com.mobiata.mocke3.FileSystemOpener;
 
@@ -87,6 +88,7 @@ public class FlightServicesTest {
 		FlightSearchResponse response = observer.getOnNextEvents().get(0);
 		Assert.assertEquals(4, response.getLegs().size());
 		Assert.assertEquals(2, response.getOffers().size());
+		Assert.assertEquals(Constants.AIRLINE_SQUARE_LOGO_BASE_URL.replace("**", "AA"), response.getLegs().get(0).segments.get(0).airlineLogoURL);
 	}
 
 	@Test

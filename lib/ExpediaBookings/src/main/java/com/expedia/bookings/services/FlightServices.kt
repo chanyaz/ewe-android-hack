@@ -7,6 +7,7 @@ import com.expedia.bookings.data.flights.FlightCreateTripResponse
 import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.data.flights.FlightSearchParams
 import com.expedia.bookings.data.flights.FlightSearchResponse
+import com.expedia.bookings.utils.Constants
 import com.expedia.bookings.utils.DateUtils
 import com.google.gson.GsonBuilder
 import okhttp3.Interceptor
@@ -24,6 +25,7 @@ import java.util.ArrayList
 
 // "open" so we can mock for unit tests
 open class FlightServices(endpoint: String, okHttpClient: OkHttpClient, interceptor: Interceptor, val observeOn: Scheduler, val subscribeOn: Scheduler) {
+
     val hourMinuteFormatter = DateTimeFormat.forPattern("hh:mma")
     val flightApi: FlightApi by lazy {
         val gson = GsonBuilder()
@@ -80,6 +82,9 @@ open class FlightServices(endpoint: String, okHttpClient: OkHttpClient, intercep
                             segment.arrivalCity = segment.arrivalAirportLocation
                             segment.departureDateTimeISO = segment.departureTimeRaw
                             segment.arrivalDateTimeISO = segment.arrivalTimeRaw
+                            if (segment.airlineCode != null) {
+                                segment.airlineLogoURL = Constants.AIRLINE_SQUARE_LOGO_BASE_URL.replace("**", segment.airlineCode)
+                            }
 
                             val segmentArrivalTime = DateUtils.dateyyyyMMddHHmmSSSZToDateTime(segment.arrivalTimeRaw)
                             val segmentDepartureTime = DateUtils.dateyyyyMMddHHmmSSSZToDateTime(segment.departureTimeRaw)
