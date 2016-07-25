@@ -20,6 +20,7 @@ import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.presenter.Presenter;
 import com.expedia.bookings.presenter.VisibilityTransition;
 import com.expedia.bookings.tracking.OmnitureTracking;
+import com.expedia.bookings.utils.AccessibilityUtil;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.LXConfirmationWidget;
 import com.expedia.bookings.widget.LoadingOverlayWidget;
@@ -148,11 +149,33 @@ public class LXPresenter extends Presenter {
 			if (searchParamsWidget.getFirstLaunch()) {
 				searchParamsWidget.showSuggestionState(false);
 			}
+			if (forward) {
+				AccessibilityUtil.setFocusToToolbarNavigationIcon(resultsPresenter.toolbar);
+			}
+			else {
+				AccessibilityUtil.setFocusToToolbarNavigationIcon(searchParamsWidget.getToolbar());
+			}
 		}
 	};
 
-	private Transition detailsToCheckout = new VisibilityTransition(this, LXDetailsPresenter.class, LXCheckoutPresenter.class);
-	private Transition recommendationsToCheckout = new VisibilityTransition(this, LXDetailsWithRecommendationsPresenter.class, LXCheckoutPresenter.class);
+	private Transition detailsToCheckout = new VisibilityTransition(this, LXDetailsPresenter.class, LXCheckoutPresenter.class) {
+		@Override
+		public void endTransition(boolean forward) {
+			super.endTransition(forward);
+			if (!forward) {
+				AccessibilityUtil.setFocusToToolbarNavigationIcon(detailsPresenter.toolbar);
+			}
+		}
+	};
+	private Transition recommendationsToCheckout = new VisibilityTransition(this, LXDetailsWithRecommendationsPresenter.class, LXCheckoutPresenter.class) {
+		@Override
+		public void endTransition(boolean forward) {
+			super.endTransition(forward);
+			if (!forward) {
+				AccessibilityUtil.setFocusToToolbarNavigationIcon(recommendationPresenter.toolbar);
+			}
+		}
+	};
 
 	private Presenter.Transition recommendationToDetails = new Presenter.Transition(
 		LXDetailsWithRecommendationsPresenter.class.getName(), LXDetailsPresenter.class.getName(),
@@ -189,6 +212,10 @@ public class LXPresenter extends Presenter {
 				lxState.onActivitySelected(new Events.LXActivitySelected(recommendationPresenter.getLxActivity()));
 				lxState.onShowActivityDetails(
 					new Events.LXShowDetails(recommendationPresenter.details.getActivityDetails()));
+				AccessibilityUtil.setFocusToToolbarNavigationIcon(recommendationPresenter.toolbar);
+			}
+			else {
+				AccessibilityUtil.setFocusToToolbarNavigationIcon(detailsPresenter.toolbar);
 			}
 		}
 	};
@@ -226,6 +253,10 @@ public class LXPresenter extends Presenter {
 			if (!forward) {
 				resultsPresenter.trackLXSearch();
 				recommendationPresenter.cleanup();
+				AccessibilityUtil.setFocusToToolbarNavigationIcon(resultsPresenter.toolbar);
+			}
+			else {
+				AccessibilityUtil.setFocusToToolbarNavigationIcon(recommendationPresenter.toolbar);
 			}
 		}
 	};
@@ -254,6 +285,12 @@ public class LXPresenter extends Presenter {
 			searchParamsWidget.setVisibility(forward ? VISIBLE : GONE);
 			resultsPresenter.animationFinalize(forward);
 			searchParamsWidget.animationFinalize(forward);
+			if (forward) {
+				AccessibilityUtil.setFocusToToolbarNavigationIcon(searchParamsWidget.getToolbar());
+			}
+			else {
+				AccessibilityUtil.setFocusToToolbarNavigationIcon(resultsPresenter.toolbar);
+			}
 		}
 	};
 
@@ -284,6 +321,12 @@ public class LXPresenter extends Presenter {
 			searchParamsWidget.setVisibility(forward ? VISIBLE : GONE);
 			detailsPresenter.animationFinalize(forward);
 			searchParamsWidget.animationFinalize(forward);
+			if (forward) {
+				AccessibilityUtil.setFocusToToolbarNavigationIcon(searchParamsWidget.getToolbar());
+			}
+			else {
+				AccessibilityUtil.setFocusToToolbarNavigationIcon(detailsPresenter.toolbar);
+			}
 		}
 	};
 
@@ -317,15 +360,46 @@ public class LXPresenter extends Presenter {
 		}
 	};
 
-	private Transition detailsToSearch = new VisibilityTransition(this, LXDetailsPresenter.class, LXSearchPresenter.class);
-	private Transition recommendationsToSearch = new VisibilityTransition(this, LXDetailsWithRecommendationsPresenter.class, LXSearchPresenter.class);
+	private Transition detailsToSearch = new VisibilityTransition(this, LXDetailsPresenter.class, LXSearchPresenter.class) {
+		@Override
+		public void endTransition(boolean forward) {
+			super.endTransition(forward);
+			if (forward) {
+				AccessibilityUtil.setFocusToToolbarNavigationIcon(searchParamsWidget.getToolbar());
+			}
+			else {
+				AccessibilityUtil.setFocusToToolbarNavigationIcon(detailsPresenter.toolbar);
+			}
+		}
+	};
+	private Transition recommendationsToSearch = new VisibilityTransition(this, LXDetailsWithRecommendationsPresenter.class, LXSearchPresenter.class) {
+		@Override
+		public void endTransition(boolean forward) {
+			super.endTransition(forward);
+			if (forward) {
+				AccessibilityUtil.setFocusToToolbarNavigationIcon(searchParamsWidget.getToolbar());
+			}
+			else {
+				AccessibilityUtil.setFocusToToolbarNavigationIcon(recommendationPresenter.toolbar);
+			}
+		}
+	};
 
 	private Transition checkoutToConfirmation = new VisibilityTransition(this, LXCheckoutPresenter.class, LXConfirmationWidget.class);
 
-	private Transition checkoutToResults = new VisibilityTransition(this, LXCheckoutPresenter.class, LXResultsPresenter.class);
+	private Transition checkoutToResults = new VisibilityTransition(this, LXCheckoutPresenter.class, LXResultsPresenter.class) {
+		@Override
+		public void endTransition(boolean forward) {
+			super.endTransition(forward);
+			if (forward) {
+				AccessibilityUtil.setFocusToToolbarNavigationIcon(resultsPresenter.toolbar);
+			}
+		}
+	};
 
 	@Subscribe
 	public void onNewSearchParamsAvailable(Events.LXNewSearchParamsAvailable event) {
+		AccessibilityUtil.setFocusToToolbarNavigationIcon(resultsPresenter.toolbar);
 		show(resultsPresenter, FLAG_CLEAR_TOP);
 	}
 
