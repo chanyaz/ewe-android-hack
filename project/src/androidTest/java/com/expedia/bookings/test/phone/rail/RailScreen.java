@@ -102,8 +102,8 @@ public class RailScreen {
 
 	public static void navigateToDetails() {
 		RailScreen.calendarButton().perform(click());
-		LocalDate firstStartDate = LocalDate.now().plusDays(10);
-		RailScreen.selectDates(firstStartDate, firstStartDate.plusDays(2));
+		LocalDate startDate = LocalDate.now().plusDays(10);
+		RailScreen.selectDates(startDate, null);
 		RailScreen.dialogDoneButton().perform(click());
 
 		SearchScreen.searchButton().perform(click());

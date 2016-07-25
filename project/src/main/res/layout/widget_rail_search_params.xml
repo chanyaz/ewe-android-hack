@@ -107,7 +107,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/search_suggestion_background_v2"
-        android:paddingTop="?attr/actionBarSize"
         android:visibility="gone" />
 
 </merge>

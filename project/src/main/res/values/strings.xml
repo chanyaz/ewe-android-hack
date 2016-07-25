@@ -1019,6 +1019,10 @@
     <!-- Rail -->
     <string name="nav_rail">Rail</string>
 
+    <!-- Rail from hint -->
+    <string name="from_hint">From</string>
+    <!-- Rail to hint -->
+    <string name="to_hint">To</string>
 
     <!-- New launch screen -->
     <!-- Top deals tonight -->
@@ -4227,6 +4231,9 @@
 
     <!-- rail search error for date out of range  e.g.. more than 30 days apart -->
     <string name="rail_search_range_error_TEMPLATE">We\&apos;re sorry, but we are unable to search for round trip trains more than %1$s days apart.</string>
+
+    <string name="rail_location_hint">City or station</string>
+    <string name="error_same_station_departure_arrival">Departure and arrival stations must be different.</string>
 
     <string name="pwp_points_conversion_unauthenticated_access">We\'re sorry but we experienced a server problem. Please try again.</string>
     <string name="pwp_trip_service_error">We\'re sorry but we experienced a server problem. Please try again.</string>

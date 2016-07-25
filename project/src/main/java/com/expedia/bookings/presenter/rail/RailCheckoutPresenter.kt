@@ -29,7 +29,7 @@ class RailCheckoutPresenter(context: Context, attrs: AttributeSet) : BaseCheckou
     }
 
     override fun getLineOfBusiness(): LineOfBusiness {
-        return LineOfBusiness.RAIL
+        return LineOfBusiness.RAILS
     }
 
     override fun updateDbTravelers() {

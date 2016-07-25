@@ -18,12 +18,13 @@ import static android.support.test.espresso.matcher.ViewMatchers.withText;
 
 public class RailSearchPresenterTest extends RailTestCase {
 
-	public void testOneWaySearch() {
+	public void testOneWaySearch() throws Throwable {
 		RailScreen.selectOneWay();
 		// Search button clicked without any input params
 		SearchScreen.searchButton().perform(click());
 		SearchScreen.searchButton().check(matches(isDisplayed()));
 
+		SearchScreen.selectRailOriginAndDestination();
 		RailScreen.calendarButton().perform(click());
 		LocalDate startDate = LocalDate.now().plusDays(3);
 		RailScreen.selectDates(startDate, null);
@@ -38,12 +39,13 @@ public class RailSearchPresenterTest extends RailTestCase {
 		onView(withText("3:55 PM – 7:22 PM")).perform(ViewActions.waitForViewToDisplay()).check(matches(isDisplayed()));
 	}
 
-	public void testRoundTripSearch() {
+	public void testRoundTripSearch() throws Throwable {
 		RailScreen.selectRoundTrip();
 		// Search button clicked without any input params
 		SearchScreen.searchButton().perform(click());
 		SearchScreen.searchButton().check(matches(isDisplayed()));
 
+		SearchScreen.selectRailOriginAndDestination();
 		RailScreen.calendarButton().perform(click());
 		LocalDate startDate = LocalDate.now().plusDays(3);
 		LocalDate endDate = startDate.plusDays(1);

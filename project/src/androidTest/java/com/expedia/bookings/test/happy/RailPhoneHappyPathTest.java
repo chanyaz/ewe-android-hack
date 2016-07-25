@@ -6,6 +6,7 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.test.espresso.EspressoUtils;
 import com.expedia.bookings.test.espresso.RailTestCase;
 import com.expedia.bookings.test.espresso.ViewActions;
+import com.expedia.bookings.test.phone.pagemodels.common.SearchScreen;
 import com.expedia.bookings.test.phone.rail.RailScreen;
 
 import static android.support.test.espresso.Espresso.onView;
@@ -18,7 +19,7 @@ import static android.support.test.espresso.matcher.ViewMatchers.withText;
 public class RailPhoneHappyPathTest extends RailTestCase {
 
 	public void testRailPhoneHappyPath() throws Throwable {
-
+		SearchScreen.selectRailOriginAndDestination();
 		RailScreen.navigateToDetails();
 		RailScreen.scrollToFareOptions();
 		onView(withText("Any off-peak train")).check(matches(isDisplayed()));

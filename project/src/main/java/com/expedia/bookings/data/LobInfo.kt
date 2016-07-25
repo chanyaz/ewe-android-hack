@@ -12,7 +12,7 @@ enum class LobInfo(val lineOfBusiness: LineOfBusiness, @StringRes val labelRes: 
     ACTIVITIES(LineOfBusiness.LX, R.string.nav_things_to_do, R.drawable.ic_lob_lx, R.color.new_launch_lx_lob_color),
     TRANSPORT(LineOfBusiness.TRANSPORT, R.string.nav_transport, R.drawable.ic_lob_gt, R.color.new_launch_gt_lob_color),
     PACKAGES(LineOfBusiness.PACKAGES, R.string.nav_packages, R.drawable.ic_lob_packages, R.color.new_launch_packages_lob_color),
-    RAIL(LineOfBusiness.RAIL, R.string.nav_rail, R.drawable.ic_lob_rail, R.color.new_launch_rail_lob_color);
+    RAILS(LineOfBusiness.RAILS, R.string.nav_rail, R.drawable.ic_lob_rail, R.color.new_launch_rail_lob_color);
 
 
     companion object {

@@ -21,6 +21,7 @@ import com.expedia.bookings.widget.shared.SearchInputTextView
 import com.expedia.bookings.widget.suggestions.SuggestionAdapter
 import com.expedia.util.notNullAndObservable
 import com.expedia.util.subscribeOnClick
+import com.expedia.util.subscribeText
 import com.expedia.vm.BaseSearchViewModel
 import com.expedia.vm.SuggestionAdapterViewModel
 import com.expedia.vm.rail.RailSearchViewModel
@@ -72,16 +73,29 @@ class RailSearchPresenter(context: Context, attrs: AttributeSet) : BaseTwoLocati
         searchWidget.searchViewModel = vm
         searchViewModel.resetDatesAndTimes()
 
-        originSuggestionViewModel = RailSuggestionAdapterViewModel(context, suggestionServices, false, CurrentLocationObservable.create(context))
+        // we dont want to do current location now - TODO future enhancement
+        originSuggestionViewModel = RailSuggestionAdapterViewModel(context, suggestionServices, false, null)
         destinationSuggestionViewModel = RailSuggestionAdapterViewModel(context, suggestionServices, true, null)
         originSuggestionAdapter = SuggestionAdapter(originSuggestionViewModel)
         destinationSuggestionAdapter = SuggestionAdapter(destinationSuggestionViewModel)
 
+        vm.formattedOriginObservable.subscribeText(originCardView)
+        vm.formattedDestinationObservable.subscribeText(destinationCardView)
+
         searchViewModel.searchButtonObservable.subscribe { enable ->
             searchButton.setTextColor(if (enable) ContextCompat.getColor(context, R.color.white) else ContextCompat.getColor(context, R.color.white_disabled))
         }
-
         searchButton.subscribeOnClick(vm.searchObserver)
+
+        vm.errorMaxDurationObservable.subscribe { message ->
+            showErrorDialog(message)
+        }
+        vm.errorMaxRangeObservable.subscribe { message ->
+            showErrorDialog(message)
+        }
+        vm.errorOriginSameAsDestinationObservable.subscribe { message ->
+            showErrorDialog(message)
+        }
     }
 
     init {
@@ -134,10 +148,10 @@ class RailSearchPresenter(context: Context, attrs: AttributeSet) : BaseTwoLocati
     }
 
     override fun getOriginSearchBoxPlaceholderText(): String {
-        return "not set"
+        return context.resources.getString(R.string.rail_location_hint)
     }
 
     override fun getDestinationSearchBoxPlaceholderText(): String {
-        return "not set"
+        return context.resources.getString(R.string.rail_location_hint)
     }
 }

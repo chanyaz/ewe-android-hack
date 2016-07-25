@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import com.expedia.bookings.R
+import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.TextView
 import com.expedia.util.subscribeText
@@ -20,8 +21,8 @@ class SuggestionViewHolder(val root: ViewGroup, val vm: SuggestionViewModel) : R
 
     init {
         itemView.setOnClickListener(this)
-        icon.setColorFilter(ContextCompat.getColor(root.context, R.color.packages_primary_color))
-        hierarchyIcon.setColorFilter(ContextCompat.getColor(root.context, R.color.packages_primary_color))
+        icon.setColorFilter(ContextCompat.getColor(root.context, Ui.obtainThemeResID(root.context, R.attr.primary_color)))
+        hierarchyIcon.setColorFilter(ContextCompat.getColor(root.context, Ui.obtainThemeResID(root.context, R.attr.primary_color)))
 
         vm.titleObservable.subscribeText(title)
         vm.subtitleObservable.subscribeTextAndVisibility(subtitle)

@@ -14,4 +14,8 @@ public class TestValues {
 	public static final String DESTINATION_LOCATION_SFO = "San Francisco, CA (SFO-San Francisco Intl.)";
 	public static final String ACTIVITY_DESTINATION_LOCATION_SFO = "San Francisco, CA";
 
+	public static final String TYPE_TEXT_LONDON = "London";
+	public static final String TYPE_TEXT_GLASGOW = "Glasgow";
+	public static final String RAIL_ORIGIN_STATION = "London (All Stations) Rail Station, United Kingdom (@LO)";
+	public static final String RAIL_DESTINATION_STATION = "Glasgow (All Stations) Rail Station, United Kingdom (@GL)";
 }

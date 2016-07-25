@@ -9,6 +9,7 @@ import com.expedia.bookings.utils.AnimUtils
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.shared.SearchInputTextView
 import com.expedia.util.notNullAndObservable
+import com.expedia.util.subscribeText
 import com.expedia.vm.rail.RailSearchViewModel
 
 class RailSearchLocationWidget(context: Context, attrs: AttributeSet?) : CardView(context, attrs) {
@@ -24,14 +25,10 @@ class RailSearchLocationWidget(context: Context, attrs: AttributeSet?) : CardVie
         }
     }
 
-    var viewModel: RailSearchViewModel by notNullAndObservable {
-        it.railOriginObservable.subscribe {
-            this.originLocationText.text = it.regionNames.displayName
-        }
-        it.railDestinationObservable.subscribe({
-            this.destinationLocationText.text = it.regionNames.displayName
-        })
-        it.railErrorNoLocationsObservable.subscribe {
+    var viewModel: RailSearchViewModel by notNullAndObservable { vm ->
+        vm.formattedOriginObservable.subscribeText(originLocationText)
+        vm.formattedDestinationObservable.subscribeText(destinationLocationText)
+        vm.railErrorNoLocationsObservable.subscribe {
             AnimUtils.doTheHarlemShake(this)
         }
     }
