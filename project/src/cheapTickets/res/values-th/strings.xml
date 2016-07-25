@@ -3,7 +3,17 @@
 
     <string name="cheapTickets_best_price_guarantee">การรับประกันราคาจาก CheapTickets</string>
 
+
     <string name="customer_support_text">โทรติดต่อฝ่ายบริการลูกค้า CheapTickets</string>
+
+    <!-- Customer Support -->
+    <string name="customer_support">ฝ่ายสนับสนุนลูกค้า</string>
+    <!-- Rewards are not supported in Cheaptickets -->
+    <string name="rewards_base_tier_customer_support">@string/customer_support</string>
+    <!-- Rewards are not supported in Cheaptickets -->
+    <string name="rewards_middle_tier_customer_support">@string/customer_support</string>
+    <!-- Rewards are not supported in Cheaptickets -->
+    <string name="rewards_top_tier_customer_support">@string/customer_support</string>
 
     <!-- Content description for action: Press to log in with your CheapTickets account -->
     <string name="cd_checkout_log_in_with_cheapTickets">กดเพื่อเข้าสู่ระบบบัญชี CheapTickets ของคุณ</string>
@@ -32,12 +42,12 @@
     <string name="cd_launch_open_eb_info_screen_cheapTickets">เปิดหน้าจอข้อมูลการจอง CheapTickets</string>
     <string name="loading_cheapTickets_account">กำลังโหลดบัญชี CheapTickets</string>
     <string name="cheapTickets_password_hint">รหัสผ่าน CheapTickets</string>
-    <string name="dialog_message_launch_cheapTickets_mobile_site">ปิดใช้เว็บไซต์สำหรับมือถือของ CheapTickets หรือไม่</string>
+    <string name="dialog_message_launch_cheapTickets_mobile_site">เปิดใช้เว็บไซต์สำหรับมือถือของ CheapTickets หรือไม่</string>
     <!-- CheapTickets App download link -->
     <!-- Row header for when the grand total of the user's hotel stay is more than what they owe Expedia at the time of reservation-->
     <string name="total_due_to_our_brand_today">ยอดที่ต้องจ่าย CheapTickets วันนี้:</string>
     <!-- User needs to reset password -->
-    <string name="login_reset_password">เราต้องการให้คุณสร้างบัญชีใหม่เพื่อใช้เข้าสู่ระบบเว็บไซต์ CheapTickets ทั่วโลก&lt;br&gt;โปรดตั้งรหัสผ่านของคุณใหม่ โดยคลิกที่ลิงก์ ‘ลืมรหัสผ่าน?\&apos; ด้านล่าง</string>
+    <string name="login_reset_password">เราต้องการให้คุณสร้างบัญชีใหม่เพื่อใช้เข้าสู่ระบบเว็บไซต์ CheapTickets ทั่วโลก&lt;br&gt;โปรดตั้งรหัสผ่านของคุณใหม่ โดยคลิกที่ลิงก์ ‘ลืมรหัสผ่าน?’ ด้านล่าง</string>
 
     <!-- Label to show user in cost breakdown for the total being charged to them right now -->
     <string name="total_due_today">ยอดที่ต้องจ่าย CheapTickets วันนี้</string>
@@ -51,6 +61,8 @@
     <string name="acct_CheapTickets_account_already_exists">อีเมลนี้มีบัญชี CheapTickets แล้ว</string>
     <!-- Sign in with earn message. Eg: Sign in to earn $123.22 in CheapCash -->
     <string name="Sign_in_to_earn_TEMPLATE">เข้าสู่ระบบเพื่อรับ CheapCash มูลค่า {reward}</string>
+    <!-- Account creation legal template for reward points eg: Earn free travel rewards with CheapCash. By joining CheapCash, I accept all Terms and Conditions -->
+    <string name="account_creation_legal_rewards_TEMPLATE">รับการเดินทางฟรีไปกับ {brand_reward_name_link} โดยการเข้าร่วม {brand_reward_name} ฉันยอมรับ{terms_and_conditions}ทั้งหมด</string>
 
     <!-- Earn Points -->
     <!-- You'll earn points in CheapCash. Eg: You'll earn $10 in CheapCash for this booking! -->

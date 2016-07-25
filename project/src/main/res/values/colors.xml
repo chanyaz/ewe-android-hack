@@ -11,6 +11,8 @@
     <color name="actionbar_terminal_text_ctx">#F3F3F3</color>
     <color name="actionbar_text_color">#dddfe1</color>
     <color name="actionbar_text_color_disabled">#90FFFFFF</color>
+    <color name="actionbar_button_text_color">@color/review_screen_tab_indicator</color>
+
 
     <!-- Tablet colors -->
     <color name="results_cal_trav_bg">#eaeaea</color>
@@ -124,6 +126,7 @@
     <color name="hotel_filter_spinner_color_selected">#CDCED0</color>
     <color name="hotel_filter_spinner_text_color">#707070</color>
     <color name="etp_text_color">#29a653</color>
+    <color name="pay_now_earn_text_color">#8E0099</color>
     <color name="room_rate_refundable_cancellation_text_color">#008C5D</color>
     <color name="hotel_cell_gray_text">@color/gray6</color>
     <color name="hotel_cell_distance_text">#D7D7D7</color>
@@ -324,6 +327,7 @@
     <color name="tablet_checkout_account_button_text_color">#363636</color>
     <color name="material_checkout_account_button_text_color">@android:color/white</color>
     <color name="material_checkout_account_button_background_color">#384768</color>
+    <color name="material_checkout_account_button_background_grape_color">@color/material_checkout_account_button_background_color</color>
     <color name="old_checkout_account_button_text_color">#676767</color>
     <color name="card_io_scan_text">#0B8B7B</color>
 
@@ -416,6 +420,8 @@
     <color name="hotelsv2_checkout_divider_color">#DFDFDF</color>
     <color name="hotel_guest_selector_enabled_color">#5C5C5C</color>
     <color name="hotel_guest_selector_disabled_color">#405C5C5C</color>
+    <color name="pay_with_reward_text_color">@color/hotels_primary_color</color>
+    <color name="points_available_text_color">@color/gray7</color>
 
     <color name="defaultTextColor">@color/gray7</color>
 
@@ -533,6 +539,12 @@
     <color name="material_tab_text">@color/cardview_divider_lines_gray</color>
     <color name="material_tab_text_selected">@color/white</color>
     <color name="account_screen_back_nav_color">@color/white</color>
+    <color name="account_reward_base_tier_color">@color/reward_base_tier_color</color>
+    <color name="account_reward_base_tier_text_color">@color/reward_base_tier_text_color</color>
+    <color name="account_reward_middle_tier_color">@color/reward_middle_tier_color</color>
+    <color name="account_reward_middle_tier_text_color">@color/reward_middle_tier_text_color</color>
+    <color name="account_reward_top_tier_color">@color/reward_top_tier_color</color>
+    <color name="account_reward_top_tier_text_color">@color/reward_top_tier_text_color</color>
 
 
 
@@ -559,4 +571,9 @@
     <color name="new_launch_lob_disabled_color">@color/black</color>
 
     <color name="new_launch_lob_text_color">@color/new_lob_text_color</color>
+
+    <!-- hotels swp colors-->
+    <color name="hotelsv2_loyalty_applied_text_color">@color/hotelsv2_checkout_text_color</color>
+    <color name="search_screen_swp_icon_color_v2">@color/search_screen_icon_color_v2</color>
+
 </resources>

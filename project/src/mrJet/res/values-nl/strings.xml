@@ -35,7 +35,7 @@
     <!-- Row header for when the grand total of the user's hotel stay is more than what they owe MrJet at the time of reservation-->
     <string name="total_due_to_our_brand_today">Totaal nu te betalen aan MrJet:</string>
     <!-- User needs to reset password -->
-    <string name="login_reset_password">We hebben jouw hulp nodig om nieuwe, universele aanmeldingsinfo voor alle MrJet-sites te creëren.&lt;br&gt;Reset je wachtwoord via de onderstaande link \&apos;Wachtwoord vergeten?\&apos;.</string>
+    <string name="login_reset_password">We hebben jouw hulp nodig om nieuwe, universele aanmeldingsinfo voor alle MrJet-sites te creëren.&lt;br&gt;Reset je wachtwoord via de onderstaande link ’Wachtwoord vergeten?’.</string>
 
     <!-- Label to show user in cost breakdown for the total being charged to them right now -->
     <string name="total_due_today">Totaal nu te betalen aan MrJet</string>
@@ -45,6 +45,8 @@
     <string name="Sign_in_to_earn_TEMPLATE">Meld je aan en verzamel {reward} aan MrJet Rewards</string>
     <!-- Account creation legal template excluding MrJet Rewards -->
     <string name="account_creation_legal_TEMPLATE">@string/account_creation_legal_excluding_rewards_TEMPLATE</string>
+    <!-- Account creation legal template for reward points eg: I want to earn rewards instantly with MrJet Rewards. By joining, I accept all Terms and Conditions. -->
+    <string name="account_creation_legal_rewards_TEMPLATE">Ik wil gelijk punten verzamelen met {brand_reward_name_link}. Door me te registreren aanvaard ik alle {terms_and_conditions}.</string>
 
     <!-- MrJet Rewards -->
     <string name="paying_with_rewards">Betalen met MrJet Rewards</string>
@@ -53,6 +55,22 @@
     <string name="checkout_paying_with_points_only_line1">Betalen met MrJet Rewards</string>
     <string name="checkout_paying_with_points_and_card_line1_TEMPLATE">Betalen met MrJet Rewards &amp; {carddescription}</string>
     <string name="checkout_payment_options">Creditcard, betaal met MrJet Rewards</string>
+
+    <!-- VIP strings -->
+    <string name="vip_loyalty_applied_message">Rewards toegepast!</string>
+    <!-- String to be appended with VIP in header of room rates. -->
+    <string name="vip_loyalty_applied_header_message">@string/vip_loyalty_applied_message</string>
+    <string name="vip_loyalty_applied_map_message">&lt;b&gt;VIP&lt;/b&gt; Rewards toegepast!</string>
+    <!-- Title for VIP Access message -->
+    <string name="vip_access">VIP</string>
+    <!-- Message that explains the meaning of VIP Access -->
+    <string name="vip_access_message">Bij VIP hotels genieten gold- en platinum-leden bij check-in van gratis kamerupgrades en andere extraatjes, indien beschikbaar.</string>
+    <!-- Filter for showing only VIP access hotels -->
+    <string name="filter_vip_access">Alleen VIP hotels</string>
+    <!-- Filter for showing only VIP access hotels -->
+    <string name="VIP_Access_Only">Alleen VIP hotels</string>
+    <!-- Title for VIP Access message for Hotel Results -->
+    <string name="vip">VIP</string>
 
     <!-- Shop with points -->
     <string name="regular_loyalty_applied_message">MrJet Rewards toegepast!</string>

@@ -16,7 +16,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="5dp"
             android:text="@string/paying_with_rewards"
-            android:textColor="@color/hotels_primary_color"
+            android:textColor="@color/pay_with_reward_text_color"
             android:textSize="14sp"
             app:textStyle="medium" />
 

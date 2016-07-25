@@ -91,6 +91,7 @@ public class AccountSettingsActivity extends AppCompatActivity implements AboutS
 	private static final int ROW_CLEAR_PRIVATE_DATA = 10;
 	private static final int ROW_RATE_APP = 11;
 	private static final int ROW_COUNTRY = 12;
+	private static final int ROW_REWARDS_VISA_CARD = 13;
 
 	private AboutUtils aboutUtils;
 	private UserAccountRefresher userAccountRefresher;
@@ -191,6 +192,12 @@ public class AccountSettingsActivity extends AppCompatActivity implements AboutS
 
 			builder.addRow(R.string.booking_support, ROW_BOOKING_SUPPORT);
 			builder.addRow(R.string.app_support, ROW_APP_SUPPORT);
+
+			if (ProductFlavorFeatureConfiguration.getInstance().isRewardsCardEnabled()) {
+				builder.addRow(Phrase.from(this, R.string.rewards_visa_card_TEMPLATE).put("brand_reward_name",
+					 getString(R.string.brand_reward_name)).format()
+					.toString(), ROW_REWARDS_VISA_CARD);
+			}
 
 			supportFragment = builder.build();
 			ft.add(R.id.section_contact_us, supportFragment, TAG_SUPPORT);
@@ -331,6 +338,10 @@ public class AccountSettingsActivity extends AppCompatActivity implements AboutS
 		}
 		case ROW_WERE_HIRING: {
 			aboutUtils.openCareers();
+			return true;
+		}
+		case ROW_REWARDS_VISA_CARD: {
+			aboutUtils.openRewardsCard();
 			return true;
 		}
 

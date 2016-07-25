@@ -22,10 +22,10 @@
     <string name="not_currently_available_orbitz_TEMPLATE">Non più disponibile su Orbitz in data %s</string>
 
     <!-- Missing strings for Orbitz from Expedia-->
-    <string name="tell_a_friend_body_orbitz">Ciao,\n\ndai un\&apos;occhiata a Orbitz Hotels per iPhone e Android. L\&apos;applicazione è GRATIS e ti permette di prenotare facilmente più di 140.000 hotel in tutto il mondo. Il modo più semplice per prenotare un hotel dal tuo telefono.</string>
-    <string name="cd_log_in_email_edit_text_orbitz">Inserisci l\&apos;indirizzo e-mail dell\&apos;account Orbitz</string>
+    <string name="tell_a_friend_body_orbitz">Ciao,\n\ndai un’occhiata a Orbitz Hotels per iPhone e Android. L’applicazione è GRATIS e ti permette di prenotare facilmente più di 140.000 hotel in tutto il mondo. Il modo più semplice per prenotare un hotel dal tuo telefono.</string>
+    <string name="cd_log_in_email_edit_text_orbitz">Inserisci l’indirizzo e-mail dell’account Orbitz</string>
     <string name="tell_a_friend_subject_orbitz">Orbitz Hotels</string>
-    <string name="cd_log_in_password_edit_text_orbitz">Inserisci la password dell\&apos;account Orbitz</string>
+    <string name="cd_log_in_password_edit_text_orbitz">Inserisci la password dell’account Orbitz</string>
     <string name="cd_launch_open_eb_info_screen_orbitz">Apri la schermata delle informazioni sulle prenotazioni Orbitz</string>
     <string name="loading_orbitz_account">Caricamento Account Orbitz</string>
     <string name="orbitz_password_hint">Password Orbitz</string>
@@ -46,6 +46,8 @@
     <string name="acct_Welcome_to_Orbitz">Benvenuto su Orbitz</string>
     <!-- Title of "Account Already Exists" error dialog box -->
     <string name="acct_Orbitz_account_already_exists">Questo indirizzo e-mail è già associato a un account Orbitz</string>
+    <!-- Account creation legal template for reward points eg: Earn free travel rewards with Orbitz Rewards. By joining Orbitz Rewards, I accept all Terms and Conditions -->
+    <string name="account_creation_legal_rewards_TEMPLATE">Guadagna punti per viaggiare gratis con {brand_reward_name_link}. Effettuando l’iscrizione a {brand_reward_name}, accetto {terms_and_conditions}</string>
 
     <!-- Orbucks -->
     <string name="paying_with_rewards">Pagando con Orbucks</string>
@@ -79,10 +81,12 @@
     <!-- Title for VIP Access message -->
     <string name="vip_access">VIP Access</string>
     <!-- Message that explains the meaning of VIP Access -->
-    <string name="vip_access_message">Presso gli hotel VIP Access, gli iscritti gold e platinum ricevono l\&apos;upgrade gratuito della camera e tanti altri extra, previa disponibilità al momento del check-in.</string>
+    <string name="vip_access_message">Presso gli hotel VIP Access, gli iscritti gold e platinum ricevono l’upgrade gratuito della camera e tanti altri extra, previa disponibilità al momento del check-in.</string>
+    <!-- Filter for showing only VIP access hotels -->
+    <string name="VIP_Access_Only">Solo Accesso VIP</string>
 
     <!-- Sign in with earn message. Eg: Sign in to earn $123.22 in Orbucks -->
-    <string name="Sign_in_to_earn_TEMPLATE">Effettua l\&apos;accesso per guadagnare {reward} in Orbucks</string>
+    <string name="Sign_in_to_earn_TEMPLATE">Effettua l’accesso per guadagnare {reward} in Orbucks</string>
     <string name="loyalty_applied_excluding_taxes_and_fees_message">Orbucks applicati! (tasse e oneri esclusi)</string>
     <string name="youll_earn_points_TEMPLATE">Per questa prenotazione riceverai {reward_currency} in Orbucks!</string>
     <string name="x_rewards_currency_for_this_trip_TEMPLATE">Per questo viaggio riceverai {reward_currency} in Orbucks!</string>
@@ -115,4 +119,10 @@
     <string name="rewards_middle_tier_customer_support">Supporto clienti Orbitz Rewards Gold</string>
     <!-- Label for exclusive phone number for top tier rewards customers; brand name not parameterized as other brands will have to completely customize -->
     <string name="rewards_top_tier_customer_support">Supporto clienti Orbitz Rewards Platinum</string>
+
+    <!-- ETP pay later info message -->
+    <string name="etp_pay_now_earn_text">Guadagna Orbucks da utilizzare immediatamente per prenotare il tuo prossimo hotel</string>
+    <!-- Label for "Apply for the Orbitz Rewards Visa® Card" button in info page -->
+    <string name="rewards_visa_card_TEMPLATE">Richiedi la tua carta {brand_reward_name} Visa®</string>
+
 </resources>

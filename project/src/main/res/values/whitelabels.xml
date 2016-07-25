@@ -17,11 +17,6 @@
 
     <attr name="skin_actionBarBackgroundDrawable" format="reference" />
 
-    <!-- ActionBar Done/Search button color -->
-    <attr name="skin_actionBarButtonTextColor" format="reference|color" />
-
-    <attr name="skin_costSummaryHeaderTextColor" format="reference|color" />
-
     <!-- Ratingbar style in UserReviewsListActivity -->
     <attr name="skin_ratingBarUserReviewStyle" format="reference" />
 
@@ -153,10 +148,6 @@
     <attr name="skin_cvvDivDrawable" format="reference" />
     <attr name="skin_cvvDivErrorDrawable" format="reference" />
     <attr name="skin_candycaneProgressDrawable" format="reference" />
-    <attr name="skin_userRatingBarDrawable" format="reference" />
-
-    <attr name="skin_icTypeCircleFlight" format="reference" />
-    <attr name="skin_icTypeCircleHotel" format="reference" />
 
     <attr name="skin_icCheckoutCheckmarkDrawable" format="reference" />
     <attr name="skin_actionbarTextColor" format="reference|color" />
@@ -199,7 +190,8 @@
     <attr name="skin_hotelRulesActionBarLogo" format="reference" />
     <attr name="skin_flightRulesActionBarLogo" format="reference" />
 
-    <attr name="skin_tablet_hotel_coupon_text_color" format="reference|color" />
+
+    <!-- Login Activity action bar Icon -->
 
     <attr name="skin_terminalChooserTextColor" format="reference|color" />
     <attr name="skin_flightFreeCancellationTextColor" format="reference|color" />
@@ -273,8 +265,6 @@
     <attr name="skin_rippleDrawable" format="reference" />
 
     <!-- AccountView -->
-    <attr name="skin_acctInputTextErrorColor" format="reference|color" />
-    <attr name="skin_acctInputTextGoodColor" format="reference|color" />
     <attr name="skin_acctSignInButtonTextColor" format="reference|color" />
     <attr name="skin_acctLogoSmallDrawable" format="reference" />
     <attr name="skin_acctLogoTextDrawable" format="reference" />

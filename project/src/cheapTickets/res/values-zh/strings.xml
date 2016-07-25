@@ -3,7 +3,17 @@
 
     <string name="cheapTickets_best_price_guarantee">CheapTickets 价格保证</string>
 
+
     <string name="customer_support_text">致电 CheapTickets 客服</string>
+
+    <!-- Customer Support -->
+    <string name="customer_support">客户支持</string>
+    <!-- Rewards are not supported in Cheaptickets -->
+    <string name="rewards_base_tier_customer_support">@string/customer_support</string>
+    <!-- Rewards are not supported in Cheaptickets -->
+    <string name="rewards_middle_tier_customer_support">@string/customer_support</string>
+    <!-- Rewards are not supported in Cheaptickets -->
+    <string name="rewards_top_tier_customer_support">@string/customer_support</string>
 
     <!-- Content description for action: Press to log in with your CheapTickets account -->
     <string name="cd_checkout_log_in_with_cheapTickets">按这里，登录您的 CheapTickets 帐户</string>
@@ -51,6 +61,8 @@
     <string name="acct_CheapTickets_account_already_exists">已有一个 CheapTickets 帐户使用此电子邮件地址</string>
     <!-- Sign in with earn message. Eg: Sign in to earn $123.22 in CheapCash -->
     <string name="Sign_in_to_earn_TEMPLATE">登录帐户，以累积 {reward} CheapCash</string>
+    <!-- Account creation legal template for reward points eg: Earn free travel rewards with CheapCash. By joining CheapCash, I accept all Terms and Conditions -->
+    <string name="account_creation_legal_rewards_TEMPLATE">加入 {brand_reward_name_link}，攒积分，换免费旅行。加入 {brand_reward_name} 即表示，我接受全部{terms_and_conditions}。</string>
 
     <!-- Earn Points -->
     <!-- You'll earn points in CheapCash. Eg: You'll earn $10 in CheapCash for this booking! -->

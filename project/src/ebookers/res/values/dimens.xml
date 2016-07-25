@@ -8,4 +8,5 @@
     <dimen name="air_attach_banner_divider_margin_left">0dp</dimen>
 
     <dimen name="earn_message_icon_dimen">5dp</dimen>
+    <dimen name="time_slider_rectangle_width">80dp</dimen>
 </resources>

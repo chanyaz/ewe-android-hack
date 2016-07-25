@@ -27,6 +27,8 @@
     "gtEnabled": true,
     "pwpEnabled:hotels": true,
     "swpEnabled:hotels": true,
+    "earnMessageEnabled:hotels": true,
+    "earnMessageEnabled:flights": true,
     "launchScreenStrikethroughEnabled": true,
     "url": "expedia.com",
     "countryCode": "USA",

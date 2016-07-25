@@ -6,7 +6,7 @@
         <item name="skin_hotelPriceStandardColor">@color/hotel_price_text_color_vsc</item>
         <item name="skin_hotelPriceSaleColor">@color/hotel_price_sale_text_color_vsc</item>
         <item name="skin_hotelSearchActionBarPadding">5dp</item>
-        <item name="skin_actionBarButtonTextColor">@color/action_bar_text_green</item>
+
         <item name="skin_ratingBarUserReviewStyle">@style/RatingBar.UserReview.VSC.Purple</item>
         <item name="skin_hotelListingUserRatingStyle">@style/RatingBar.UserReview.VSC.Purple</item>
         <item name="skin_hotelListingSortPriceDrawable">@drawable/ic_sort_euro</item>
@@ -15,7 +15,6 @@
         <item name="skin_hotelPrimaryTravelerInfoLogoDrawable">@drawable/ic_vsc_traveler_logo_disabled</item>
         <item name="skin_hotelImagePlaceHolderDrawable">@drawable/ic_image_placeholder_vsc</item>
 		<item name="skin_cvvEntryTitleText">@string/cvv_explanation_vsc</item>
-        <item name="skin_userRatingBarDrawable">@drawable/ratingbar_userreview_vsc_purple_flat</item>
         <item name="skin_travellerInfoPageLogo">@drawable/ic_vsc_traveler_logo</item>
         <item name="skin_travellerInfoPageLogoDisabled">@drawable/ic_vsc_traveler_logo_disabled</item>
         <item name="skin_hotelConfirmationPlaceholderDrawable">@drawable/placeholder_lg_confirmation_vsc</item>

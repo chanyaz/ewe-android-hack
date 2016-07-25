@@ -49,6 +49,7 @@
     <color name="hotel_points_applied_plus_color">#03AD1D</color>
     <color name="cvv_book_button_text_color">@android:color/white</color>
     <color name="tablet_pin_detail_button_text_color">@android:color/white</color>
+    <color name="actionbar_button_text_color">@color/action_bar_text_blue</color>
 
     <!--Air attach banner color-->
     <color name="bg_air_attach_banner_default">#116FAA</color>
@@ -69,6 +70,7 @@
     <color name="hotel_review_actionbar_tab_text_selected">#FFFFFF</color>
     <color name="hotel_review_actionbar_tab_text_unselected">#8CFFFFFF</color>
     <color name="material_checkout_account_button_background_color">@color/hotels_primary_color</color>
+    <color name="material_checkout_account_button_background_grape_color">@color/material_checkout_account_button_background_color</color>
 
     <!-- Popular Hotels Tonight Discount strips-->
     <color name="launch_mobile_exclusive">#116FAA</color>

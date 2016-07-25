@@ -333,7 +333,7 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 
 	@Override
 	public boolean isCommunicateSectionEnabled() {
-		return false;
+		return true;
 	}
 
 	@Override
@@ -378,7 +378,7 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 
 	@Override
 	public boolean shouldShowAirAttach() {
-		return false;
+		return true;
 	}
 
 	@Override
@@ -398,7 +398,7 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 
 	@Override
 	public boolean shouldShowItinShare() {
-		return false;
+		return true;
 	}
 
 	@Override
@@ -408,7 +408,21 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 
 	@Override
 	public boolean isRateOurAppEnabled() {
-		return false;
+		return true;
 	}
 
+	@Override
+	public boolean isRewardsCardEnabled() {
+		return true;
+	}
+
+	@Override
+	public String getRewardsCardUrl(Context context) {
+		return context.getString(R.string.rewards_card_url);
+	}
+
+	@Override
+	public boolean showUserRewardsEnrollmentCheck() {
+		return true;
+	}
 }

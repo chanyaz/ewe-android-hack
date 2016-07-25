@@ -10,7 +10,8 @@
     <color name="cars_lob_btn">@color/lob_btn_color</color>
     <color name="lx_lob_btn">@color/lob_btn_color</color>
     <color name="earn_message_text_color">#8d1598</color>
-
+    <color name="pay_now_earn_text_color">#8E0099</color>
+    <color name="actionbar_button_text_color">@color/action_bar_text_color</color>
     <!-- Launch colors -->
     <color name="launch_toolbar_background_color">@color/lob_btn_color</color>
     <color name="launch_tab_indicator">@color/action_bar_text_blue_orbitz</color>
@@ -42,6 +43,8 @@
     <color name="preferences_text">#495863</color>
     <color name="hotel_points_applied_plus_color">#03AD1D</color>
 
+    <color name="loyalty_earn_color">#8E0099</color>
+
     <!-- Popular Hotels Tonight Discount strips-->
     <color name="launch_mobile_exclusive">#00253C</color>
     <color name="launch_discount">#00B1FF</color>
@@ -51,6 +54,8 @@
     <color name="hotel_tonight_only_color">#C4204B</color>
     <color name="hotel_mobile_exclusive_color">#00253C</color>
     <color name="hotel_earn_message_text_color">@color/earn_message_text_color</color>
+    <color name="pay_with_reward_text_color">@color/loyalty_earn_color</color>
+    <color name="points_available_text_color">@color/loyalty_earn_color</color>
 
     <!-- Hotels V2 Coupon applied text color -->
     <color name="hotelsv2_coupon_applied_color">#477A00</color>
@@ -93,9 +98,16 @@
     <color name="account_sign_out_button_background_color">#C4204B</color>
     <color name="account_sign_in_button_background_color">#004D7C</color>
     <color name="account_screen_back_nav_color">@color/white</color>
+    <color name="account_reward_base_tier_color">@color/loyalty_earn_color</color>
+    <color name="account_reward_base_tier_text_color">@color/white</color>
+    <color name="account_reward_middle_tier_color">@color/loyalty_earn_color</color>
+    <color name="account_reward_middle_tier_text_color">@color/white</color>
+    <color name="account_reward_top_tier_color">@color/loyalty_earn_color</color>
+    <color name="account_reward_top_tier_text_color">@color/white</color>
 
     <!-- Checkout Colors -->
     <color name="material_checkout_account_button_background_color">#C4204B</color>
+    <color name="material_checkout_account_button_background_grape_color">#8E0099</color>
     <color name="old_checkout_account_button_text_color">@android:color/white</color>
     <color name="cvv_book_button_text_color">@android:color/white</color>
 
@@ -108,8 +120,12 @@
     <color name="reward_top_tier_text_color">@color/white</color>
 
     <!-- Signed in user tier colors -->
-    <color name="sign_in_user_base_tier">#808080</color>
-    <color name="sign_in_user_middle_tier">#e7b40d</color>
-    <color name="sign_in_user_top_tier">#787878</color>
+    <color name="sign_in_user_base_tier">@color/loyalty_earn_color</color>
+    <color name="sign_in_user_middle_tier">@color/loyalty_earn_color</color>
+    <color name="sign_in_user_top_tier">@color/loyalty_earn_color</color>
+
+    <!-- hotels swp colors-->
+    <color name="hotelsv2_loyalty_applied_text_color">@color/loyalty_earn_color</color>
+    <color name="search_screen_swp_icon_color_v2">@color/loyalty_earn_color</color>
 
 </resources>

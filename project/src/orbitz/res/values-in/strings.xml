@@ -34,7 +34,7 @@
     <!-- Row header for when the grand total of the user's hotel stay is more than what they owe Expedia at the time of reservation-->
     <string name="total_due_to_our_brand_today">Total Dibayar ke Orbitz Hari Ini:</string>
     <!-- User needs to reset password -->
-    <string name="login_reset_password">Kami butuh Anda untuk membuat satu rincian login universal yang akan digunakan di semua situs Orbitz.&lt;br&gt;Harap reset kata sandi Anda menggunakan link \&apos;Lupa kata sandi?\&apos; di bawah ini.</string>
+    <string name="login_reset_password">Kami butuh Anda untuk membuat satu rincian login universal yang akan digunakan di semua situs Orbitz.&lt;br&gt;Harap reset kata sandi Anda menggunakan link ’Lupa kata sandi?’ di bawah ini.</string>
 
     <!-- Label to show user in cost breakdown for the total being charged to them right now -->
     <string name="total_due_today">Dibayar ke Orbitz Hari Ini</string>
@@ -46,6 +46,8 @@
     <string name="acct_Welcome_to_Orbitz">Selamat datang di Orbitz</string>
     <!-- Title of "Account Already Exists" error dialog box -->
     <string name="acct_Orbitz_account_already_exists">Sudah ada akun Orbitz yang terdaftar dengan email ini</string>
+    <!-- Account creation legal template for reward points eg: Earn free travel rewards with Orbitz Rewards. By joining Orbitz Rewards, I accept all Terms and Conditions -->
+    <string name="account_creation_legal_rewards_TEMPLATE">Dapatkan bonus perjalanan gratis dengan {brand_reward_name_link}. Dengan bergabung di {brand_reward_name}, saya menerima semua {terms_and_conditions}</string>
 
     <!-- Orbucks -->
     <string name="paying_with_rewards">Membayar dengan Orbucks</string>
@@ -80,6 +82,8 @@
     <string name="vip_access">VIP Access</string>
     <!-- Message that explains the meaning of VIP Access -->
     <string name="vip_access_message">Di hotel-hotel VIP Access, para member gold dan platinum akan mendapat upgrade kamar gratis dan keuntungan lain yang tersedia saat check-in.</string>
+    <!-- Filter for showing only VIP access hotels -->
+    <string name="VIP_Access_Only">Hanya VIP Access</string>
 
     <!-- Sign in with earn message. Eg: Sign in to earn $123.22 in Orbucks -->
     <string name="Sign_in_to_earn_TEMPLATE">Loginlah untuk mendapatkan Orbucks senilai {reward}</string>
@@ -115,4 +119,10 @@
     <string name="rewards_middle_tier_customer_support">Layanan Pelanggan Khusus Orbitz Rewards Gold</string>
     <!-- Label for exclusive phone number for top tier rewards customers; brand name not parameterized as other brands will have to completely customize -->
     <string name="rewards_top_tier_customer_support">Layanan Pelanggan Khusus Orbitz Rewards Platinum</string>
+
+    <!-- ETP pay later info message -->
+    <string name="etp_pay_now_earn_text">Kumpulkan Orbucks untuk langsung ditukarkan di pemesanan hotel Anda berikutnya</string>
+    <!-- Label for "Apply for the Orbitz Rewards Visa® Card" button in info page -->
+    <string name="rewards_visa_card_TEMPLATE">Mendaftarlah untuk Kartu Visa® {brand_reward_name}</string>
+
 </resources>

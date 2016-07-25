@@ -785,6 +785,12 @@ DummyFiletoHandleKotlinLintError {
 		R.string.search_button_disable_content_desc,
 		R.string.lx_search_date_range_cont_desc_TEMPLATE,
 		R.string.packages_search_datepicker_announce_accessibility_start_date,
-		R.string.packages_search_datepicker_announce_accessibility_end_date
+		R.string.packages_search_datepicker_announce_accessibility_end_date,
+		R.drawable.brand_tablet_checkout_login_logo_drawable,
+		R.color.points_available_text_color,
+		R.string.etp_pay_now_earn_text,
+		R.color.hotelsv2_loyalty_applied_text_color,
+		R.string.rewards_visa_card_TEMPLATE,
+		R.string.account_creation_legal_rewards_TEMPLATE
 	};
 }

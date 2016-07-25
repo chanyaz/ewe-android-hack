@@ -23,7 +23,7 @@
     <string name="not_currently_available_mrjet_TEMPLATE">Ikke tilgjengelig på MrJet %s</string>
 
     <!-- Missing strings for MrJet from Expedia-->
-    <string name="tell_a_friend_body_mrjet">Hei!\n\nPrøv MrJet Hotels for iPhone og Android-telefoner. Appen er GRATIS, og med den kan du enkelt bestille rom på flere enn 140 000 hoteller over hele verden. Det er den enkleste måten å bestille hoteller på telefonen din på.</string>
+    <string name="tell_a_friend_body_mrjet">Hei!\n\nPrøv MrJet Hotels for iPhone og Android-telefoner. Appen er GRATIS, og med den kan du enkelt bestille rom på flere enn 140 000 hoteller over hele verden. Det er den enkleste måten å bestille hoteller på telefonen din på.</string>
     <string name="cd_log_in_email_edit_text_mrjet">Angi e-postadressen for MrJet-kontoen</string>
     <string name="tell_a_friend_subject_mrjet">MrJet Hotels</string>
     <string name="cd_log_in_password_edit_text_mrjet">Angi passordet for MrJet-kontoen</string>
@@ -35,7 +35,7 @@
     <!-- Row header for when the grand total of the user's hotel stay is more than what they owe MrJet at the time of reservation-->
     <string name="total_due_to_our_brand_today">Beløp som må betales til MrJet i dag:</string>
     <!-- User needs to reset password -->
-    <string name="login_reset_password">Du må opprette en ny, internasjonal pålogging for alle MrJets nettsider.&lt;br&gt;Nullstill passordet ditt ved å klikke på "Glemt passordet ditt?" nedenfor.</string>
+    <string name="login_reset_password">Du må opprette en ny, internasjonal pålogging for alle MrJets nettsider.&lt;br&gt;Nullstill passordet ditt ved å klikke på ‘Glemt passordet ditt?’ nedenfor.</string>
 
     <!-- Label to show user in cost breakdown for the total being charged to them right now -->
     <string name="total_due_today">Beløp som må betales til MrJet i dag:</string>
@@ -45,6 +45,8 @@
     <string name="Sign_in_to_earn_TEMPLATE">Logg på for å tjene {reward} i MrJet Rewards</string>
     <!-- Account creation legal template excluding MrJet Rewards -->
     <string name="account_creation_legal_TEMPLATE">@string/account_creation_legal_excluding_rewards_TEMPLATE</string>
+    <!-- Account creation legal template for reward points eg: I want to earn rewards instantly with MrJet Rewards. By joining, I accept all Terms and Conditions. -->
+    <string name="account_creation_legal_rewards_TEMPLATE">Jeg vil gjerne tjene bonus umiddelbart med {brand_reward_name_link}. Ved å bli med godkjenner jeg alle {terms_and_conditions}.</string>
 
     <!-- MrJet Rewards -->
     <string name="paying_with_rewards">Betaling med MrJet Rewards</string>
@@ -53,6 +55,22 @@
     <string name="checkout_paying_with_points_only_line1">Betaling med MrJet Rewards</string>
     <string name="checkout_paying_with_points_and_card_line1_TEMPLATE">Betaling med MrJet Rewards og {carddescription}</string>
     <string name="checkout_payment_options">Kredittkort, betal med MrJet Rewards</string>
+
+    <!-- VIP strings -->
+    <string name="vip_loyalty_applied_message">Rewards ble brukt!</string>
+    <!-- String to be appended with VIP in header of room rates. -->
+    <string name="vip_loyalty_applied_header_message">@string/vip_loyalty_applied_message</string>
+    <string name="vip_loyalty_applied_map_message">&lt;b&gt;VIP&lt;/b&gt; Rewards brukt!</string>
+    <!-- Title for VIP Access message -->
+    <string name="vip_access">VIP</string>
+    <!-- Message that explains the meaning of VIP Access -->
+    <string name="vip_access_message">Ved VIP-hotellene får gold- og platinum-medlemmer kostnadsfrie romoppgraderinger og andre fordeler ved innsjekking (avhenger av tilgjengelighet).</string>
+    <!-- Filter for showing only VIP access hotels -->
+    <string name="filter_vip_access">Kun VIP-hoteller</string>
+    <!-- Filter for showing only VIP access hotels -->
+    <string name="VIP_Access_Only">Kun VIP-hoteller</string>
+    <!-- Title for VIP Access message for Hotel Results -->
+    <string name="vip">VIP</string>
 
     <!-- Shop with points -->
     <string name="regular_loyalty_applied_message">MrJet Rewards ble brukt!</string>

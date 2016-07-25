@@ -89,6 +89,30 @@
                             android:text="@string/etp_pay_now_cancellation_text" />
 
                     </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/earn_text_layout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:padding="2dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:paddingLeft="16dp"
+                            android:paddingRight="4dp"
+                            android:textColor="@color/pay_now_earn_text_color"
+                            android:text="@string/bullet_point" />
+
+                        <com.expedia.bookings.widget.TextView
+                            android:id="@+id/etp_earn_text"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/pay_now_earn_text_color"
+                             />
+
+                    </LinearLayout>
                 </LinearLayout>
 
                 <LinearLayout

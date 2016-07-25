@@ -34,7 +34,7 @@
     <!-- Row header for when the grand total of the user's hotel stay is more than what they owe Expedia at the time of reservation-->
     <string name="total_due_to_our_brand_today">จำนวนที่ต้องจ่ายให้ Orbitz วันนี้:</string>
     <!-- User needs to reset password -->
-    <string name="login_reset_password">เราต้องขอให้คุณสร้างการเข้าสู่ระบบใหม่ที่เป็นสากลสำหรับเว็บไซต์ทั้งหมดของ Orbitz&lt;br&gt;โปรดตั้งรหัสผ่านของคุณใหม่ โดยคลิกที่ลิงก์ ‘ลืมรหัสผ่าน?\&apos; ด้านล่าง</string>
+    <string name="login_reset_password">เราต้องขอให้คุณสร้างการเข้าสู่ระบบใหม่ที่เป็นสากลสำหรับเว็บไซต์ทั้งหมดของ Orbitz&lt;br&gt;โปรดตั้งรหัสผ่านของคุณใหม่ โดยคลิกที่ลิงก์ ‘ลืมรหัสผ่าน?’ ด้านล่าง</string>
 
     <!-- Label to show user in cost breakdown for the total being charged to them right now -->
     <string name="total_due_today">ต้องจ่ายให้ Orbitz วันนี้</string>
@@ -46,6 +46,8 @@
     <string name="acct_Welcome_to_Orbitz">ยินดีต้อนรับสู่ Orbitz</string>
     <!-- Title of "Account Already Exists" error dialog box -->
     <string name="acct_Orbitz_account_already_exists">อีเมลนี้ใช้กับบัญชี Orbitz แล้ว</string>
+    <!-- Account creation legal template for reward points eg: Earn free travel rewards with Orbitz Rewards. By joining Orbitz Rewards, I accept all Terms and Conditions -->
+    <string name="account_creation_legal_rewards_TEMPLATE">รับการเดินทางฟรีไปกับ {brand_reward_name_link} โดยการเข้าร่วม {brand_reward_name} ฉันยอมรับ{terms_and_conditions}ทั้งหมด</string>
 
     <!-- Orbucks -->
     <string name="paying_with_rewards">จ่ายด้วย Orbucks</string>
@@ -80,6 +82,8 @@
     <string name="vip_access">VIP Access</string>
     <!-- Message that explains the meaning of VIP Access -->
     <string name="vip_access_message">ที่โรงแรม VIP Access สมาชิกระดับ gold และ platinum จะได้รับการอัพเกรดห้องฟรีพร้อมสิทธิประโยชน์อื่นๆ ที่มีให้ขณะเช็คอิน</string>
+    <!-- Filter for showing only VIP access hotels -->
+    <string name="VIP_Access_Only">เฉพาะ VIP Access เท่านั้น</string>
 
     <!-- Sign in with earn message. Eg: Sign in to earn $123.22 in Orbucks -->
     <string name="Sign_in_to_earn_TEMPLATE">เข้าสู่ระบบเพื่อรับ {reward} เป็น Orbucks</string>
@@ -115,4 +119,10 @@
     <string name="rewards_middle_tier_customer_support">ฝ่ายบริการลูกค้า Orbitz Rewards Gold</string>
     <!-- Label for exclusive phone number for top tier rewards customers; brand name not parameterized as other brands will have to completely customize -->
     <string name="rewards_top_tier_customer_support">ฝ่ายบริการลูกค้า Orbitz Rewards Platinum</string>
+
+    <!-- ETP pay later info message -->
+    <string name="etp_pay_now_earn_text">สะสม Orbucks เพื่อแลกใช้กับโรงแรมต่อไปของคุณได้ทันที</string>
+    <!-- Label for "Apply for the Orbitz Rewards Visa® Card" button in info page -->
+    <string name="rewards_visa_card_TEMPLATE">สมัครใช้บัตร {brand_reward_name} Visa®</string>
+
 </resources>
