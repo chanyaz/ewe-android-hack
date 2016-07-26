@@ -4,6 +4,7 @@ from Clauses.StringShouldNotHaveBrandSpecificTerm import *
 from Clauses.TemplatedStringShouldBeSuffixedWithTEMPLATE import *
 from Clauses.PlaceholderStringMustHaveSomeExamples import *
 from Clauses.FeatureConfigurationChangesMayBeRequiredInAllBrands import *
+from Clauses.RxPitfallCheck import *
 from PullRequest import PullRequest
 from IClause import *
 
@@ -12,8 +13,9 @@ stringShouldNotHaveBrandSpecificTerm = StringShouldNotHaveBrandSpecificTerm()
 templatedStringShouldBeSuffixedWithTEMPLATE = TemplatedStringShouldBeSuffixedWithTEMPLATE()
 placeholderStringsShouldHaveSomeExamples = PlaceholderStringMustHaveSomeExamples()
 featureConfigurationChangesMayBeRequiredInAllBrands = FeatureConfigurationChangesMayBeRequiredInAllBrands()
+rxPitFallCheck = RxPitfallCheck()
 
-ClausesList = [stringShouldNotHavePositionalPlaceholders, stringShouldNotHaveBrandSpecificTerm, templatedStringShouldBeSuffixedWithTEMPLATE, placeholderStringsShouldHaveSomeExamples, featureConfigurationChangesMayBeRequiredInAllBrands]
+ClausesList = [stringShouldNotHavePositionalPlaceholders, stringShouldNotHaveBrandSpecificTerm, templatedStringShouldBeSuffixedWithTEMPLATE, placeholderStringsShouldHaveSomeExamples, featureConfigurationChangesMayBeRequiredInAllBrands, rxPitFallCheck]
 
 class ClauseProcessor:
         def runClauses(self, pullRequest):
