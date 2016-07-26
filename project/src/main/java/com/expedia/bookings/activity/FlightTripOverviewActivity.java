@@ -861,7 +861,7 @@ public class FlightTripOverviewActivity extends FragmentActivity implements Acco
 	private String getPriceChangeString() {
 		if (Db.getTripBucket().getFlight().getFlightTrip() != null) {
 			FlightTrip flightTrip = Db.getTripBucket().getFlight().getFlightTrip();
-			String originalPrice = flightTrip.getOldTotalFare().getFormattedMoney();
+			String originalPrice = flightTrip.getOldTotalPrice().getFormattedMoney();
 			return getString(R.string.price_changed_from_TEMPLATE, originalPrice);
 		}
 

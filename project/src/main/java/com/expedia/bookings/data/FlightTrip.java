@@ -47,6 +47,7 @@ public class FlightTrip implements JSONable {
 
 	private List<PassengerCategoryPrice> mPassengers = new ArrayList<>();
 
+	private Money mTotalPrice;
 	private Money mBaseFare;
 	private Money mTotalFare;
 	private Money mAverageTotalFare;
@@ -60,7 +61,7 @@ public class FlightTrip implements JSONable {
 	private boolean isSplitTicket;
 
 	// For price changes
-	private Money mOldTotalFare;
+	private Money mOldTotalPrice;
 
 	// Possible price change from last time we queried this trip
 	private Money mPriceChangeAmount;
@@ -139,12 +140,8 @@ public class FlightTrip implements JSONable {
 		mBaseFare = baseFare;
 	}
 
-	public Money getOldTotalFare() {
-		return mOldTotalFare;
-	}
-
-	public Money getTotalFare() {
-		return mTotalFare;
+	public Money getOldTotalPrice() {
+		return mOldTotalPrice;
 	}
 
 	public void setTotalFare(Money totalFare) {
@@ -184,7 +181,7 @@ public class FlightTrip implements JSONable {
 	}
 
 	public Money getTotalFareWithCardFee(BillingInfo billingInfo, TripBucketItem item) {
-		Money base = new Money(mTotalFare);
+		Money base = new Money(mTotalPrice);
 		Money cardFee = item.getPaymentFee(billingInfo);
 
 		if (cardFee != null) {
@@ -327,7 +324,7 @@ public class FlightTrip implements JSONable {
 		}
 
 		double changeAmount = mPriceChangeAmount.getAmount().doubleValue();
-		double newAmount = mTotalFare.getAmount().doubleValue();
+		double newAmount = mTotalPrice.getAmount().doubleValue();
 		double oldAmount = newAmount - changeAmount;
 
 		if (newAmount > oldAmount) {
@@ -418,7 +415,7 @@ public class FlightTrip implements JSONable {
 			return null;
 		}
 		else {
-			BigDecimal currentPrice = mTotalFare.copy().getAmount();
+			BigDecimal currentPrice = mTotalPrice.copy().getAmount();
 			BigDecimal priceChange = mPriceChangeAmount.copy().getAmount();
 			BigDecimal oldPrice = currentPrice.subtract(priceChange);
 			BigDecimal percentageChange = priceChange.divide(oldPrice, RoundingMode.HALF_UP);
@@ -436,6 +433,14 @@ public class FlightTrip implements JSONable {
 
 	public void setEarnInfo(LoyaltyEarnInfo earnInfo) {
 		this.earnInfo = earnInfo;
+	}
+
+	public void setTotalPrice(Money totalPrice) {
+		mTotalPrice = totalPrice;
+	}
+
+	public Money getTotalPrice() {
+		return mTotalPrice;
 	}
 
 	////////////////////////////////////////////////////////////////////////
@@ -521,8 +526,8 @@ public class FlightTrip implements JSONable {
 	public static final Comparator<FlightTrip> PRICE_COMPARATOR = new Comparator<FlightTrip>() {
 		@Override
 		public int compare(FlightTrip lhs, FlightTrip rhs) {
-			Money lhsMoney = lhs.getTotalFare();
-			Money rhsMoney = rhs.getTotalFare();
+			Money lhsMoney = lhs.getTotalPrice();
+			Money rhsMoney = rhs.getTotalPrice();
 
 			if (lhsMoney == null && rhsMoney == null) {
 				return 0;
@@ -603,10 +608,10 @@ public class FlightTrip implements JSONable {
 
 		if (other.hasPricing()) {
 			// Save the old price for price changes
-			mOldTotalFare = mTotalFare;
+			mOldTotalPrice = mTotalPrice;
 
 			mBaseFare = other.mBaseFare;
-			mTotalFare = other.mTotalFare;
+			mTotalPrice = other.mTotalPrice;
 			mTaxes = other.mTaxes;
 			mFees = other.mFees;
 			mPassengers = other.mPassengers;
@@ -614,7 +619,7 @@ public class FlightTrip implements JSONable {
 
 		if (other.hasPriceChanged()) {
 			// Defect 3440 : Set old fare based on the changed amount from api in case of price change
-			mOldTotalFare.setAmount(other.getTotalFare().getAmount().subtract(other.getPriceChangeAmount().getAmount()));
+			mOldTotalPrice.setAmount(other.getTotalPrice().getAmount().subtract(other.getPriceChangeAmount().getAmount()));
 			mPassengers = other.mPassengers;
 			mPriceChangeAmount = other.mPriceChangeAmount;
 		}
@@ -664,7 +669,8 @@ public class FlightTrip implements JSONable {
 	private static final String KEY_LEG_IDS = "d";
 	private static final String KEY_BASE_FARE = "e";
 	private static final String KEY_TOTAL_FARE = "f";
-	private static final String KEY_OLD_TOTAL_FARE = "oldTotalFare";
+	private static final String KEY_TOTAL_PRICE = "totalPrice";
+	private static final String KEY_OLD_TOTAL_PRICE = "oldTotalPrice";
 	private static final String KEY_TAXES = "g";
 	private static final String KEY_FEES = "h";
 	private static final String KEY_PRICE_CHANGE_AMOUNT = "i";
@@ -716,11 +722,12 @@ public class FlightTrip implements JSONable {
 			addMoney(obj, KEY_BASE_FARE, mBaseFare);
 			addMoney(obj, KEY_TOTAL_FARE, mTotalFare);
 			addMoney(obj, KEY_AVG_TOTAL_FARE, mAverageTotalFare);
-			addMoney(obj, KEY_OLD_TOTAL_FARE, mOldTotalFare);
+			addMoney(obj, KEY_OLD_TOTAL_PRICE, mOldTotalPrice);
 			addMoney(obj, KEY_TAXES, mTaxes);
 			addMoney(obj, KEY_FEES, mFees);
 			addMoney(obj, KEY_PRICE_CHANGE_AMOUNT, mPriceChangeAmount);
 			addMoney(obj, KEY_ONLINE_BOOKING_FEES_AMOUNT, mOnlineBookingFeesAmount);
+			addMoney(obj, KEY_TOTAL_PRICE, mTotalPrice);
 
 			obj.putOpt(KEY_REWARDS_POINTS, mRewardsPoints);
 			obj.putOpt(KEY_SEATS_REMAINING, mSeatsRemaining);
@@ -863,11 +870,12 @@ public class FlightTrip implements JSONable {
 			mBaseFare = parseMoney(obj, KEY_BASE_FARE, currency);
 			mTotalFare = parseMoney(obj, KEY_TOTAL_FARE, currency);
 			mAverageTotalFare = parseMoney(obj, KEY_AVG_TOTAL_FARE, currency);
-			mOldTotalFare = parseMoney(obj, KEY_OLD_TOTAL_FARE, currency);
+			mOldTotalPrice = parseMoney(obj, KEY_OLD_TOTAL_PRICE, currency);
 			mTaxes = parseMoney(obj, KEY_TAXES, currency);
 			mFees = parseMoney(obj, KEY_FEES, currency);
 			mPriceChangeAmount = parseMoney(obj, KEY_PRICE_CHANGE_AMOUNT, currency);
 			mOnlineBookingFeesAmount = parseMoney(obj, KEY_ONLINE_BOOKING_FEES_AMOUNT, currency);
+			mTotalPrice = parseMoney(obj, KEY_TOTAL_PRICE, currency);
 		}
 
 		mRewardsPoints = obj.optString(KEY_REWARDS_POINTS);

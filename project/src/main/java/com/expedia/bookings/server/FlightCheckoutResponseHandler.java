@@ -41,7 +41,7 @@ public class FlightCheckoutResponseHandler extends JsonResponseHandler<FlightChe
 					// Online booking fees parsing
 					String obFeeTotalAmount = detailResponse.optString("obFeeTotalAmount", null);
 					if (!TextUtils.isEmpty(obFeeTotalAmount)) {
-						Money obFees = ParserUtils.createMoney(obFeeTotalAmount, newOffer.getTotalFare().getCurrency());
+						Money obFees = ParserUtils.createMoney(obFeeTotalAmount, newOffer.getTotalPrice().getCurrency());
 						if (!obFees.isZero()) {
 							newOffer.setOnlineBookingFeesAmount(obFees);
 						}

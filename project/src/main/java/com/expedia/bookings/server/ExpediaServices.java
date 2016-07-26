@@ -538,8 +538,8 @@ public class ExpediaServices implements DownloadListener {
 		List<BasicNameValuePair> query = new ArrayList<BasicNameValuePair>();
 
 		query.add(new BasicNameValuePair("tripId", itinerary.getTripId()));
-		query.add(new BasicNameValuePair("expectedTotalFare", flightTrip.getTotalFare().getAmount().toString() + ""));
-		query.add(new BasicNameValuePair("expectedFareCurrencyCode", flightTrip.getTotalFare().getCurrency()));
+		query.add(new BasicNameValuePair("expectedTotalFare", flightTrip.getTotalPrice().getAmount().toString() + ""));
+		query.add(new BasicNameValuePair("expectedFareCurrencyCode", flightTrip.getTotalPrice().getCurrency()));
 		addAbacusUserGuidIfNotEmpty(query);
 
 		Money cardFee = flightItem.getPaymentFee(billingInfo.getPaymentType());

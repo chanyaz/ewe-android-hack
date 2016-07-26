@@ -1,16 +1,11 @@
 package com.expedia.bookings.server;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.content.Context;
 import android.text.TextUtils;
-
 import com.expedia.bookings.data.CreateItineraryResponse;
 import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.Itinerary;
@@ -21,6 +16,9 @@ import com.expedia.bookings.data.ServerError.ApiMethod;
 import com.expedia.bookings.data.ValidPayment;
 import com.expedia.bookings.utils.CurrencyUtils;
 import com.mobiata.android.Log;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
 public class CreateItineraryResponseHandler extends JsonResponseHandler<CreateItineraryResponse> {
 
@@ -69,6 +67,12 @@ public class CreateItineraryResponseHandler extends JsonResponseHandler<CreateIt
 					.getBaseFare().getCurrency());
 			offer.setPriceChangeAmount(priceChangeAmount);
 		}
+
+		JSONObject totalPrice = response.optJSONObject("totalPrice");
+		Money money = ParserUtils.createMoney(totalPrice.optString("amount"), totalPrice.optString("currencyCode"));
+		money.formattedPrice = totalPrice.optString("formattedPrice");
+		offer.setTotalPrice(money);
+
 		createItinerary.setOffer(offer);
 
 		boolean isSplitTicket = detailsJson.optBoolean("isSplitTicket", false);

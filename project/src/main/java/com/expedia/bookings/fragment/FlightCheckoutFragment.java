@@ -682,7 +682,7 @@ public class FlightCheckoutFragment extends Fragment implements AccountButtonCli
 	};
 
 	protected Money getEstimatedTotal() {
-		return Db.getTripBucket().getFlight().getFlightTrip().getTotalFare();
+		return Db.getTripBucket().getFlight().getFlightTrip().getTotalPrice();
 	}
 
 	///////////////////////////////////

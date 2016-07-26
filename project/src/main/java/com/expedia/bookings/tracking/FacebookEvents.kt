@@ -267,7 +267,7 @@ class FacebookEvents() {
         val searchParams = search.searchParams
         val location = searchParams.arrivalLocation
         val flightTrip = search.selectedFlightTrip
-        val money = flightTrip.totalFare
+        val money = flightTrip.totalPrice
 
         val parameters = Bundle()
         addCommonFlightParams(parameters, searchParams, location)
@@ -283,7 +283,7 @@ class FacebookEvents() {
         val searchParams = flight.flightSearchParams
         val location = searchParams.arrivalLocation
         val flightTrip = flight.flightTrip
-        val money = flightTrip.totalFare
+        val money = flightTrip.totalPrice
 
         val parameters = Bundle()
         addCommonFlightParams(parameters, searchParams, location)
@@ -299,7 +299,7 @@ class FacebookEvents() {
         val searchParams = flight.flightSearchParams
         val location = searchParams.arrivalLocation
         val flightTrip = flight.flightTrip
-        val money = flightTrip.totalFare
+        val money = flightTrip.totalPrice
 
         val parameters = Bundle()
         addCommonFlightParams(parameters, searchParams, location)
@@ -475,9 +475,9 @@ class FacebookEvents() {
         if (flightTrips.size == 0) {
             return "";
         }
-        var minAmount = flightTrips.get(0).totalFare.getAmount()
+        var minAmount = flightTrips.get(0).totalPrice.getAmount()
         for (trip in flightTrips) {
-            var amount = trip.totalFare.getAmount()
+            var amount = trip.totalPrice.getAmount()
             if (amount < minAmount) {
                 minAmount = amount
             }

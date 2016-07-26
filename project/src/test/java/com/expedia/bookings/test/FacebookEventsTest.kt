@@ -16,9 +16,9 @@ class FacebookEventsTest {
     @Test
     fun testCalculateLowestRateFlightsWithThreeFlights() {
         var flightTrips = ArrayList<FlightTrip>()
-        flightTrips.add(initFlightTripWithFare(BigDecimal("3.15")))
-        flightTrips.add(initFlightTripWithFare(BigDecimal("3.14")))
-        flightTrips.add(initFlightTripWithFare(BigDecimal("7.34")))
+        flightTrips.add(initFlightTripWithPrice(BigDecimal("3.15")))
+        flightTrips.add(initFlightTripWithPrice(BigDecimal("3.14")))
+        flightTrips.add(initFlightTripWithPrice(BigDecimal("7.34")))
         assertEquals("3.14", FacebookEvents().calculateLowestRateFlights(flightTrips))
     }
 
@@ -29,9 +29,9 @@ class FacebookEventsTest {
     }
 
     // Helper method that makes a blank FlightTrip with the given fare.
-    fun initFlightTripWithFare(fare: BigDecimal): FlightTrip {
+    fun initFlightTripWithPrice(fare: BigDecimal): FlightTrip {
         var flightTrip = FlightTrip()
-        flightTrip.totalFare = Money(fare, "USD")
+        flightTrip.totalPrice = Money(fare, "USD")
         return flightTrip
     }
 }

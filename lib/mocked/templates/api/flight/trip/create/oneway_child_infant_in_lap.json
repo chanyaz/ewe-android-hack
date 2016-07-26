@@ -171,7 +171,8 @@
     "totalPrice": {
         "amount": "596.00",
         "formattedPrice": "$596.00",
-        "formattedWholePrice": "$596"
+        "formattedWholePrice": "$596",
+        "currencyCode": "USD"
     },
     "validFormsOfPayment": [
         {

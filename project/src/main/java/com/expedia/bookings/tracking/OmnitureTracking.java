@@ -1498,7 +1498,7 @@ public class OmnitureTracking {
 			addProducts(s);
 		}
 
-		s.setCurrencyCode(newestFlightOffer.getTotalFare().getCurrency());
+		s.setCurrencyCode(newestFlightOffer.getTotalPrice().getCurrency());
 		s.setEvents("purchase");
 
 		// order number with an "onum" prefix, described here: http://confluence/pages/viewpage.action?pageId=419913476
@@ -1521,7 +1521,7 @@ public class OmnitureTracking {
 		String airlineCode = trip.getLeg(0).getPrimaryAirlines().iterator().next();
 		String tripType = getOmnitureStringCodeRepresentingTripTypeByNumLegs(trip.getLegCount());
 		String numTravelers = Integer.toString(Db.getTripBucket().getFlight().getFlightSearchParams().getNumAdults());
-		String price = trip.getTotalFare().getAmount().toString();
+		String price = trip.getTotalPrice().getAmount().toString();
 
 		s.setProducts("Flight;Agency Flight:" + airlineCode + ":" + tripType + ";" + numTravelers + ";" + price);
 	}
@@ -2801,7 +2801,7 @@ public class OmnitureTracking {
 			boolean isSplitTicket = newestFlightOffer.isSplitTicket();
 			FlightTrip trip = Db.getTripBucket().getFlight().getFlightTrip();
 			FlightSearchParams params = Db.getTripBucket().getFlight().getFlightSearchParams();
-			s.setCurrencyCode(trip.getTotalFare().getCurrency());
+			s.setCurrencyCode(trip.getTotalPrice().getCurrency());
 
 			addStandardFlightFields(s);
 			setEvar30(s, trip, params);
