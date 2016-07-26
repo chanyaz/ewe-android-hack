@@ -46,7 +46,7 @@ class BundleFlightViewModel(val context: Context, val lob: LineOfBusiness) {
         Observable.combineLatest(searchTypeStateObservable, suggestion, date, guests, { searchType, suggestion, date, guests ->
             if (searchType == PackageSearchType.OUTBOUND_FLIGHT) {
                 flightIconImageObservable.onNext(Pair(R.drawable.packages_flight1_icon, ContextCompat.getColor(context, R.color.package_bundle_icon_color)))
-                flightTextObservable.onNext(context.getString(R.string.flight_to, StrUtils.formatAirportCodeCityName(suggestion)))
+                flightTextObservable.onNext(context.getString(R.string.flight_to, StrUtils.formatCityName(suggestion)))
                 travelInfoTextObservable.onNext(Phrase.from(context, R.string.flight_toolbar_date_range_with_guests_TEMPLATE)
                         .put("date", DateUtils.localDateToMMMd(date))
                         .put("travelers", StrUtils.formatTravelerString(context, guests))
@@ -54,7 +54,7 @@ class BundleFlightViewModel(val context: Context, val lob: LineOfBusiness) {
                         .toString())
             } else {
                 flightIconImageObservable.onNext(Pair(R.drawable.packages_flight2_icon, ContextCompat.getColor(context, R.color.package_bundle_icon_color)))
-                flightTextObservable.onNext(context.getString(R.string.flight_to, StrUtils.formatAirportCodeCityName(suggestion)))
+                flightTextObservable.onNext(context.getString(R.string.flight_to, StrUtils.formatCityName(suggestion)))
                 if (date != null) {
                     travelInfoTextObservable.onNext(Phrase.from(context, R.string.flight_toolbar_date_range_with_guests_TEMPLATE)
                             .put("date", DateUtils.localDateToMMMd(date))
@@ -85,7 +85,6 @@ class BundleFlightViewModel(val context: Context, val lob: LineOfBusiness) {
         Observable.combineLatest(selectedFlightObservable, flight, suggestion, date, guests, { searchType, flight, suggestion, date, guests ->
             val fmt = ISODateTimeFormat.dateTime();
             val localDate = LocalDate.parse(flight.departureDateTimeISO, fmt)
-
             flightSelectIconObservable.onNext(false)
             flightDetailsIconObservable.onNext(true)
             flightTextColorObservable.onNext(ContextCompat.getColor(context, R.color.packages_bundle_overview_widgets_primary_text))
@@ -93,10 +92,10 @@ class BundleFlightViewModel(val context: Context, val lob: LineOfBusiness) {
             travelInfoTextObservable.onNext(context.getString(R.string.package_overview_flight_travel_info_TEMPLATE, DateUtils.localDateToMMMd(localDate),
                     DateUtils.formatTimeShort(flight.departureDateTimeISO), StrUtils.formatTravelerString(context, guests)))
             if (searchType == PackageSearchType.OUTBOUND_FLIGHT) {
-                flightTextObservable.onNext(context.getString(R.string.flight_to, StrUtils.formatAirportCodeCityName(suggestion)))
+                flightTextObservable.onNext(context.getString(R.string.flight_to, StrUtils.formatAirportCodeCityName(flight)))
                 flightIconImageObservable.onNext(Pair(R.drawable.packages_flight1_checkmark_icon, 0))
             } else {
-                flightTextObservable.onNext(context.getString(R.string.flight_to, StrUtils.formatAirportCodeCityName(suggestion)))
+                flightTextObservable.onNext(context.getString(R.string.flight_to, StrUtils.formatAirportCodeCityName(flight)))
                 flightIconImageObservable.onNext(Pair(R.drawable.packages_flight2_checkmark_icon, 0))
             }
             totalDurationObserver.onNext(PackageFlightUtils.getStylizedFlightDurationString(context, flight, R.color.packages_total_duration_text))

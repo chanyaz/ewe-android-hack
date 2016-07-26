@@ -38,8 +38,8 @@ import com.expedia.bookings.data.Location;
 import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.SuggestionResponse;
 import com.expedia.bookings.data.SuggestionV2;
-import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.data.SuggestionV4;
+import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.data.flights.FlightLeg;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.mobiata.android.LocationServices;
@@ -459,6 +459,15 @@ public class StrUtils {
 		StringBuilder sb = new StringBuilder();
 		sb.append("(").append(suggestion.hierarchyInfo.airport.airportCode).append(") ");
 		sb.append(formatCityName(suggestion));
+		return sb.toString();
+	}
+
+	public static String formatAirportCodeCityName(FlightLeg flight) {
+		String city = flight.destinationCity;
+		String airportCode = flight.destinationAirportCode;
+		StringBuilder sb = new StringBuilder();
+		sb.append("(").append(airportCode).append(") ");
+		sb.append(city);
 		return sb.toString();
 	}
 

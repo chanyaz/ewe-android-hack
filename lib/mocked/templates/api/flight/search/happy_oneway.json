@@ -13,22 +13,12 @@
                     "arrivalTimeEpochSeconds": 1403966940,
                     "arrivalTimeRaw": "2014-06-28T07:49:00.000-07:00",
                     "arrivalTimeZoneOffsetSeconds": -25200,
-                    "arrivalAirportAddress": {
-                        "city": "Detroit",
-                        "country": "USA",
-                        "state": "MI"
-                    },
                     "departureAirportCode": "${departureAirport}",
                     "departureAirportLocation": "${departureAirport}",
                     "departureTime": "June 28, 2014 6:40:00 AM",
                     "departureTimeEpochSeconds": 1403962800,
                     "departureTimeRaw": "2014-06-28T06:40:00.000-07:00",
                     "departureTimeZoneOffsetSeconds": -25200,
-                    "departureAirportAdress": {
-                        "city": "San Francisco",
-                        "country": "USA",
-                        "state": "California"
-                    },
                     "distance": 2572,
                     "distanceUnits": "miles",
                     "duration": "PT1H9M",
@@ -38,7 +28,17 @@
                     "meal": "Food For Purchase",
                     "onTimePercentage": "100",
                     "providerCode": "Amadeus",
-                    "stops": 0
+                    "stops": 0,
+                    "arrivalAirportAddress": {
+                        "city": "San Francisco",
+                        "country": "USA",
+                        "state": "California"
+                    },
+                    "departureAirportAddress": {
+                        "city": "Detroit",
+                        "country": "USA",
+                        "state": "MI"
+                    }
                 }
             ]
         },
@@ -70,7 +70,17 @@
                     "meal": "Food For Purchase",
                     "onTimePercentage": "90",
                     "providerCode": "Amadeus",
-                    "stops": 0
+                    "stops": 0,
+                    "arrivalAirportAddress": {
+                        "city": "San Francisco",
+                        "country": "USA",
+                        "state": "California"
+                    },
+                    "departureAirportAddress": {
+                        "city": "Detroit",
+                        "country": "USA",
+                        "state": "MI"
+                    }
                 }
             ]
         },
@@ -100,7 +110,17 @@
                     "equipmentDescription": "Boeing 757-200",
                     "flightNumber": "301",
                     "providerCode": "Amadeus",
-                    "stops": 0
+                    "stops": 0,
+                    "arrivalAirportAddress": {
+                        "city": "San Francisco",
+                        "country": "USA",
+                        "state": "California"
+                    },
+                    "departureAirportAddress": {
+                        "city": "Detroit",
+                        "country": "USA",
+                        "state": "MI"
+                    }
                 }
             ]
         },
@@ -132,7 +152,17 @@
                     "meal": "Food For Purchase",
                     "onTimePercentage": "100",
                     "providerCode": "Amadeus",
-                    "stops": 0
+                    "stops": 0,
+                    "arrivalAirportAddress": {
+                        "city": "San Francisco",
+                        "country": "USA",
+                        "state": "California"
+                    },
+                    "departureAirportAddress": {
+                        "city": "Detroit",
+                        "country": "USA",
+                        "state": "MI"
+                    }
                 }
             ]
         },
@@ -163,7 +193,17 @@
                     "distanceUnits": "miles",
                     "stops": 0,
                     "meal": "Food For Purchase",
-                    "providerCode": "Sabre"
+                    "providerCode": "Sabre",
+                    "arrivalAirportAddress": {
+                        "city": "San Francisco",
+                        "country": "USA",
+                        "state": "California"
+                    },
+                    "departureAirportAddress": {
+                        "city": "Detroit",
+                        "country": "USA",
+                        "state": "MI"
+                    }
                 },
                 {
                     "departureTime": "February 20, 2015 9:00:00 PM",
@@ -189,7 +229,17 @@
                     "distanceUnits": "miles",
                     "stops": 0,
                     "meal": "Food For Purchase",
-                    "providerCode": "Sabre"
+                    "providerCode": "Sabre",
+                    "arrivalAirportAddress": {
+                        "city": "San Francisco",
+                        "country": "USA",
+                        "state": "California"
+                    },
+                    "departureAirportAddress": {
+                        "city": "Detroit",
+                        "country": "USA",
+                        "state": "MI"
+                    }
                 }
             ]
         },
@@ -221,7 +271,17 @@
                     "meal": "Food For Purchase",
                     "onTimePercentage": "100",
                     "providerCode": "Amadeus",
-                    "stops": 0
+                    "stops": 0,
+                    "arrivalAirportAddress": {
+                        "city": "San Francisco",
+                        "country": "USA",
+                        "state": "California"
+                    },
+                    "departureAirportAddress": {
+                        "city": "Detroit",
+                        "country": "USA",
+                        "state": "MI"
+                    }
                 }
             ]
         },
@@ -253,7 +313,17 @@
                     "meal": "Food For Purchase",
                     "onTimePercentage": "100",
                     "providerCode": "Amadeus",
-                    "stops": 0
+                    "stops": 0,
+                    "arrivalAirportAddress": {
+                        "city": "San Francisco",
+                        "country": "USA",
+                        "state": "California"
+                    },
+                    "departureAirportAddress": {
+                        "city": "Detroit",
+                        "country": "USA",
+                        "state": "MI"
+                    }
                 }
             ]
         },
@@ -285,7 +355,17 @@
                     "meal": "Food For Purchase",
                     "onTimePercentage": "100",
                     "providerCode": "Amadeus",
-                    "stops": 0
+                    "stops": 0,
+                    "arrivalAirportAddress": {
+                        "city": "San Francisco",
+                        "country": "USA",
+                        "state": "California"
+                    },
+                    "departureAirportAddress": {
+                        "city": "Detroit",
+                        "country": "USA",
+                        "state": "MI"
+                    }
                 }
             ]
         },
@@ -317,7 +397,17 @@
                     "meal": "Food For Purchase",
                     "onTimePercentage": "90",
                     "providerCode": "Amadeus",
-                    "stops": 0
+                    "stops": 0,
+                    "arrivalAirportAddress": {
+                        "city": "San Francisco",
+                        "country": "USA",
+                        "state": "California"
+                    },
+                    "departureAirportAddress": {
+                        "city": "Detroit",
+                        "country": "USA",
+                        "state": "MI"
+                    }
                 }
             ]
         },
@@ -349,7 +439,17 @@
                     "meal": "Food For Purchase",
                     "onTimePercentage": "90",
                     "providerCode": "Amadeus",
-                    "stops": 0
+                    "stops": 0,
+                    "arrivalAirportAddress": {
+                        "city": "San Francisco",
+                        "country": "USA",
+                        "state": "California"
+                    },
+                    "departureAirportAddress": {
+                        "city": "Detroit",
+                        "country": "USA",
+                        "state": "MI"
+                    }
                 }
             ]
         },
@@ -381,7 +481,17 @@
                     "meal": "Food For Purchase",
                     "onTimePercentage": "90",
                     "providerCode": "Amadeus",
-                    "stops": 0
+                    "stops": 0,
+                    "arrivalAirportAddress": {
+                        "city": "San Francisco",
+                        "country": "USA",
+                        "state": "California"
+                    },
+                    "departureAirportAddress": {
+                        "city": "Detroit",
+                        "country": "USA",
+                        "state": "MI"
+                    }
                 }
             ]
         }

@@ -36,10 +36,10 @@ public class PackageBundleOverviewPresenterTest extends PackageTestCase {
 			allOf(isDisplayed(), withText("Trip to Detroit, MI")))));
 
 		PackageScreen.outboundFlightInfo().check(matches(hasDescendant(
-			allOf(isDisplayed(), withText("Flight to (DTW) Detroit")))));
+			allOf(isDisplayed(), withText("Flight to Detroit")))));
 
 		PackageScreen.inboundFlightInfo().check(matches(hasDescendant(
-			allOf(isDisplayed(), withText("Flight to (SFO) San Francisco")))));
+			allOf(isDisplayed(), withText("Flight to San Francisco")))));
 		PackageScreen.outboundFlightInfo().check(matches(not(isEnabled())));
 		PackageScreen.inboundFlightInfo().check(matches(not(isEnabled())));
 
@@ -52,7 +52,7 @@ public class PackageBundleOverviewPresenterTest extends PackageTestCase {
 		Common.pressBack();
 
 		PackageScreen.outboundFlightInfo().check(matches(hasDescendant(
-			allOf(isDisplayed(), withText("Select flight to (DTW) Detroit")))));
+			allOf(isDisplayed(), withText("Select flight to Detroit")))));
 
 		PackageScreen.outboundFlight().perform(click());
 
@@ -63,7 +63,7 @@ public class PackageBundleOverviewPresenterTest extends PackageTestCase {
 		Common.pressBack(); // auto advance so need to back up.
 
 		PackageScreen.inboundFlightInfo().check(matches(hasDescendant(
-			allOf(isDisplayed(), withText("Select flight to (SFO) San Francisco")))));
+			allOf(isDisplayed(), withText("Select flight to San Francisco")))));
 
 		PackageScreen.inboundFLight().perform(click());
 
@@ -121,11 +121,11 @@ public class PackageBundleOverviewPresenterTest extends PackageTestCase {
 		PackageScreen.hotelDatesRoomInfo().
 			check(matches(withText(PackageScreen.getDatesGuestInfoText(dtf.parseLocalDate("2016-02-03"), dtf.parseLocalDate("2016-02-04")))));
 		PackageScreen.outboundFlightInfo().check(matches(hasDescendant(
-			allOf(isDisplayed(), withText("Flight to (DTW) Detroit")))));
+			allOf(isDisplayed(), withText("Flight to Detroit")))));
 
 		PackageScreen.outboundFlightCardInfo().check(matches(withText(formattedStartString + ", 1 Traveler")));
 		PackageScreen.inboundFlightInfo().check(matches(hasDescendant(
-			allOf(isDisplayed(), withText("Flight to (SFO) San Francisco")))));
+			allOf(isDisplayed(), withText("Flight to San Francisco")))));
 		PackageScreen.inboundFlightCardInfo().check(matches(withText(formattedEndString + ", 1 Traveler")));
 
 		//Test clicking on toolbar returns to results
