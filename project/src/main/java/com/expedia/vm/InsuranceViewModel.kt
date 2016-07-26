@@ -39,6 +39,10 @@ class InsuranceViewModel(val context: Context, val insuranceServices: InsuranceS
         AlertDialog.Builder(context).setPositiveButton(R.string.button_done, null).create()
     }
 
+    val hasProduct: Boolean get() = product != null
+
+    var product: InsuranceProduct? = null
+
     val updatingTripDialog: ProgressDialog by lazy {
         val dialog = ProgressDialog(context)
         dialog.isIndeterminate = true
@@ -47,7 +51,6 @@ class InsuranceViewModel(val context: Context, val insuranceServices: InsuranceS
     }
 
     lateinit var lastAction: InsuranceAction
-    lateinit var product: InsuranceProduct
     lateinit var trip: FlightCreateTripResponse
 
     enum class InsuranceAction {
@@ -56,17 +59,17 @@ class InsuranceViewModel(val context: Context, val insuranceServices: InsuranceS
 
     init {
         tripObservable.subscribe { tripResponse ->
+            product = tripResponse.selectedInsuranceProduct ?: tripResponse.availableInsuranceProducts.firstOrNull()
             trip = tripResponse
             trip.tripId = trip.newTrip.tripId!!
 
-            val effectiveProduct = trip.selectedInsuranceProduct ?: trip.availableInsuranceProducts.firstOrNull()
-            if (effectiveProduct != null) {
-                product = effectiveProduct
-                updateWidget()
-                widgetVisibilityObservable.onNext(true)
-            } else {
-                widgetVisibilityObservable.onNext(false)
+            if (hasProduct) {
+                updateBenefits()
+                updateTerms()
+                updateTitle()
             }
+            updateToggleSwitch()
+            updateVisibility()
         }
 
         userInitiatedToggleObservable.subscribe { isSelected ->
@@ -74,7 +77,7 @@ class InsuranceViewModel(val context: Context, val insuranceServices: InsuranceS
                 lastAction = InsuranceAction.ADD
                 updatingTripDialog.setMessage(context.resources.getString(R.string.insurance_adding))
                 updatingTripDialog.show()
-                insuranceServices.addInsuranceToTrip(InsuranceTripParams(trip.tripId, product.productId))
+                insuranceServices.addInsuranceToTrip(InsuranceTripParams(trip.tripId, product!!.productId))
                         .subscribe(updatedTripObserver)
             } else {
                 lastAction = InsuranceAction.REMOVE
@@ -132,7 +135,7 @@ class InsuranceViewModel(val context: Context, val insuranceServices: InsuranceS
 
     fun updateTerms() {
         val linkContent = context.resources.getString(R.string.textview_spannable_hyperlink_TEMPLATE,
-                product.terms.url, context.resources.getString(R.string.insurance_terms))
+                product!!.terms.url, context.resources.getString(R.string.insurance_terms))
         termsObservable.onNext(SpannableLinkBuilder().withColor(Ui.obtainThemeColor(context, R.attr.primary_color))
                 .withContent(linkContent).bubbleUpClicks().build())
     }
@@ -147,12 +150,12 @@ class InsuranceViewModel(val context: Context, val insuranceServices: InsuranceS
             titleId = R.string.insurance_title_unprotected_TEMPLATE
         }
 
-        val title = when (product.displayPriceType) {
+        val title = when (product!!.displayPriceType) {
             InsurancePriceType.PRICE_PER_DAY -> Phrase.from(context.resources, titleId)
-                    .put("price", product.displayPrice.amount.toInt())
+                    .put("price", product!!.displayPrice.amount.toInt())
                     .put("price_type", context.resources.getString(R.string.insurance_price_per_day)).format()
             InsurancePriceType.PRICE_PER_PERSON -> Phrase.from(context.resources, titleId)
-                    .put("price", product.displayPrice.amount.toInt())
+                    .put("price", product!!.displayPrice.amount.toInt())
                     .put("price_type", context.resources.getString(R.string.insurance_price_per_person)).format()
             else -> Phrase.from(context.resources, titleId).put("price", "").put("price_type", "").format()
         }
@@ -176,10 +179,7 @@ class InsuranceViewModel(val context: Context, val insuranceServices: InsuranceS
         programmaticToggleObservable.onNext(trip.selectedInsuranceProduct != null)
     }
 
-    fun updateWidget() {
-        updateBenefits()
-        updateTerms()
-        updateTitle()
-        updateToggleSwitch()
+    fun updateVisibility() {
+        widgetVisibilityObservable.onNext(hasProduct)
     }
 }
