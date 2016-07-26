@@ -93,7 +93,7 @@ class PackageFlightPresenter(context: Context, attrs: AttributeSet) : BaseFlight
         val numTravelers = Db.getPackageParams().guests
         overviewPresenter.vm.numberOfTravelers.onNext(numTravelers)
         overviewPresenter.vm.selectedFlightClickedSubject.subscribe(flightOverviewSelected)
-        var cityBound: String = if (isOutboundResultsPresenter()) Db.getPackageParams().destination?.regionNames?.shortName as String else Db.getPackageParams().origin?.regionNames?.shortName as String
+        val cityBound: String = if (isOutboundResultsPresenter()) Db.getPackageParams().destination?.regionNames?.shortName as String else Db.getPackageParams().origin?.regionNames?.shortName as String
         toolbarViewModel.isOutboundSearch.onNext(isOutboundResultsPresenter())
         toolbarViewModel.city.onNext(cityBound)
         toolbarViewModel.travelers.onNext(numTravelers)
@@ -138,6 +138,7 @@ class PackageFlightPresenter(context: Context, attrs: AttributeSet) : BaseFlight
             selectedFlightResults.onNext(Db.getPackageSelectedInboundFlight())
         } else {
             super.addResultOverViewTransition()
+            show(resultsPresenter)
         }
     }
 
@@ -192,6 +193,7 @@ class PackageFlightPresenter(context: Context, attrs: AttributeSet) : BaseFlight
 
     override fun onFinishInflate() {
         super.onFinishInflate()
+
         setupMenuFilter()
 
         addTransition(resultsToOverview)
