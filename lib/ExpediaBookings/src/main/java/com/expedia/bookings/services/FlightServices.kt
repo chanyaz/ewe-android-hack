@@ -83,7 +83,6 @@ open class FlightServices(endpoint: String, okHttpClient: OkHttpClient, intercep
                             val segmentArrivalTime = DateUtils.dateyyyyMMddHHmmSSSZToDateTime(segment.arrivalTimeRaw)
                             val segmentDepartureTime = DateUtils.dateyyyyMMddHHmmSSSZToDateTime(segment.departureTimeRaw)
                             segment.elapsedDays = Days.daysBetween(segmentArrivalTime.toLocalDate(), segmentDepartureTime.toLocalDate()).days
-
                             val airline = Airline(segment.airlineName, segment.airlineLogoURL)
                             airlines.add(airline)
 

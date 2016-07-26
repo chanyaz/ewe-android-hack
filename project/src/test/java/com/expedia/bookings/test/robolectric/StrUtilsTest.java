@@ -196,13 +196,6 @@ public class StrUtilsTest {
 	public void testAirportNameFormatting() {
 		String displayNameResponse = "New York, NY, United States (NYC-All Airports)";
 		String formattedString = StrUtils.formatAirportName(displayNameResponse);
-		assertEquals(formattedString, "NYC-All Airports");
-	}
-
-	@Test
-	public void testAirportNameForPackage() {
-		String displayNameResponse = "New York, NY, United States (NYC-All Airports)";
-		String formattedString = StrUtils.formatAirportNameForPackage(displayNameResponse);
 		assertEquals(formattedString, "NYC - All Airports");
 	}
 
