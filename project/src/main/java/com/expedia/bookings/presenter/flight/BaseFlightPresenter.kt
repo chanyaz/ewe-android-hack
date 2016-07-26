@@ -160,7 +160,7 @@ abstract class BaseFlightPresenter(context: Context, attrs: AttributeSet?) : Pre
             overviewPresenter.visibility = if (forward) View.GONE else View.VISIBLE
             baggageFeeInfoWebView.visibility = View.GONE
             paymentFeeInfoWebView.visibility = View.GONE
-            filter.visibility = View.GONE
+            filter.visibility = View.INVISIBLE
         }
     }
 
