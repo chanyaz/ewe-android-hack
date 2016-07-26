@@ -195,9 +195,21 @@ public class AccountButton extends LinearLayout {
 			int padding = getResources().getDimensionPixelSize(R.dimen.account_button_text_padding);
 			mLoginTextView.setPadding(padding, padding, padding, padding);
 		}
+
 		if (isSignInEarnMessagingEnabled(lob)) {
-			mLoginTextView.setText(getSignInWithRewardsAmountText(lob));
-			mLoginContainer.setBackgroundResource(R.drawable.material_account_sign_in_button_ripple_grape);
+			RewardsInfo rewardsInfo = getRewardsForLOB(lob);
+			if (rewardsInfo != null && !rewardsInfo.getTotalAmountToEarn().isZero()) {
+				mLoginTextView.setText(getSignInWithRewardsAmountText(rewardsInfo));
+				if (lob == LineOfBusiness.FLIGHTS) {
+					mLoginContainer.setBackgroundResource(R.drawable.flight_cko_acct_btn_rewards_bg);
+				}
+				else {
+					mLoginContainer.setBackgroundResource(R.drawable.material_cko_acct_btn_rewards_bg);
+				}
+			}
+			else {
+				mLoginTextView.setText(getSignInWithoutRewardsText());
+			}
 		}
 		else {
 			mLoginTextView.setText(Phrase.from(this, R.string.Sign_in_with_TEMPLATE)
@@ -391,23 +403,20 @@ public class AccountButton extends LinearLayout {
 		return "0";
 	}
 
-	private CharSequence getSignInWithRewardsAmountText(LineOfBusiness lob) {
-		RewardsInfo rewardsInfo = getRewardsForLOB(lob);
+	public CharSequence getSignInWithRewardsAmountText(RewardsInfo rewardsInfo) {
 
-		if (rewardsInfo != null && !rewardsInfo.getTotalAmountToEarn().isZero()) {
-			//noinspection ConstantConditions This can never be null from api.
-			String rewardsToEarn = rewardsInfo.getTotalAmountToEarn()
-				.getFormattedMoneyFromAmountAndCurrencyCode(Money.F_NO_DECIMAL_IF_INTEGER_ELSE_TWO_PLACES_AFTER_DECIMAL);
-			return Phrase.from(this, R.string.Sign_in_to_earn_TEMPLATE)
-				.put("reward", rewardsToEarn)
-				.format();
-		}
-		else {
-			return Phrase.from(this, R.string.Sign_in_with_TEMPLATE)
-				.put("brand", BuildConfig.brand)
-				.format();
-		}
+		//noinspection ConstantConditions This can never be null from api.
+		String rewardsToEarn = rewardsInfo.getTotalAmountToEarn()
+			.getFormattedMoneyFromAmountAndCurrencyCode(Money.F_NO_DECIMAL_IF_INTEGER_ELSE_TWO_PLACES_AFTER_DECIMAL);
+		return Phrase.from(this, R.string.Sign_in_to_earn_TEMPLATE)
+			.put("reward", rewardsToEarn)
+			.format();
+	}
 
+	public CharSequence getSignInWithoutRewardsText() {
+		return Phrase.from(this, R.string.Sign_in_with_TEMPLATE)
+			.put("brand", BuildConfig.brand)
+			.format();
 	}
 
 	public RewardsInfo getRewardsForLOB(LineOfBusiness lob) {
