@@ -19,9 +19,10 @@ class InboundFlightWidget(context: Context, attrs: AttributeSet?) : BaseBundleFl
     }
 
     override fun showLoading() {
+        toggleFlightWidget(1f, false)
+
         viewModel.showLoadingStateObservable.onNext(true)
         viewModel.flightTextObservable.onNext(context.getString(R.string.searching_flight_to, StrUtils.formatCityName(viewModel.searchParams.value.origin)))
-        toggleFlightWidget(1f, true)
     }
 
     override fun handleResultsLoaded() {

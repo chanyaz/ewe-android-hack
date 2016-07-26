@@ -19,7 +19,7 @@ class OutboundFlightWidget(context: Context, attrs: AttributeSet?) : BaseBundleF
     }
 
     override fun showLoading() {
-        toggleFlightWidget(1f, true)
+        toggleFlightWidget(1f, false)
 
         viewModel.showLoadingStateObservable.onNext(true)
         viewModel.flightTextObservable.onNext(context.getString(R.string.searching_flight_to,
