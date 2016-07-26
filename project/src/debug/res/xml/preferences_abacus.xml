@@ -53,15 +53,6 @@
             android:entryValues="@array/abacus_default_choice_values"
             android:defaultValue="@string/preference_abacus_default"
             android:summary="%s"
-            android:key="7973"
-            android:layout="@layout/preference"
-            android:title="Hotel 3x points messaging - 7973" />
-
-        <ListPreference
-            android:entries="@array/abacus_default_choices"
-            android:entryValues="@array/abacus_default_choice_values"
-            android:defaultValue="@string/preference_abacus_default"
-            android:summary="%s"
             android:key="8126"
             android:layout="@layout/preference"
             android:title="Hotel collapse amenities, policies, fees - 8126" />
@@ -320,15 +311,6 @@
             android:key="8706"
             android:layout="@layout/preference"
             android:title="Integration AA Test - 8706" />
-
-        <ListPreference
-            android:entries="@array/abacus_hotel_sign_in_messaging_choices"
-            android:entryValues="@array/abacus_hotel_sign_in_messaging_choice_values"
-            android:defaultValue="@string/preference_abacus_default"
-            android:summary="%s"
-            android:key="9476"
-            android:layout="@layout/preference"
-            android:title="Sign in Messaging AB Test - 9476" />
 
         <ListPreference
             android:defaultValue="@string/preference_abacus_default"

@@ -2015,8 +2015,6 @@
     <string name="free_cancellation_date_TEMPLATE">&lt;b&gt;Gratis annulering&lt;/b&gt; tot &lt;b&gt;%s&lt;/b&gt;</string>
     <!-- Sign out -->
     <string name="sign_out">Afmelden</string>
-    <!-- AB Test 3x messaging for hotel points -->
-    <string name="youll_earn_points_ab_test_3x_TEMPLATE">Verzamel %1$s punten — 3x zo veel punten via de app!</string>
     <!-- You'll earn points for this trip -->
     <string name="youll_earn_points_TEMPLATE">Je verdient {reward_currency} bonuspunten voor deze boeking!</string>
     <!-- You are a valued member -->
@@ -3061,12 +3059,6 @@
     <string name="hotel_cost_breakdown_burn_points_TEMPLATE">{points} punten</string>
 
     <!-- Expedia Accounts -->
-    <!-- Label for messaging on sign in Variate 1 -->
-    <string name="sign_in_messaging">Bespaar met exclusieve klantenprijzen</string>
-    <!-- Label for messaging on sign in Variate 2 -->
-    <string name="triple_point_messaging">Verzamel 3x zo veel Expedia+ punten</string>
-    <!-- Label for messaging on sign in Variate 3 -->
-    <string name="trip_alert_messaging">Ontvang belangrijke reisnotificaties</string>
     <!-- Label for menu item to open account settings screen -->
     <string name="account_settings_menu_label">Account</string>
     <!-- Label for menu item to sign into account -->

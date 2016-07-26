@@ -24,18 +24,17 @@ import com.expedia.bookings.data.LoyaltyMembershipTier;
 import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.RewardsInfo;
 import com.expedia.bookings.data.Traveler;
+import com.expedia.bookings.data.User;
+import com.expedia.bookings.data.hotels.HotelCreateTripResponse;
+import com.expedia.bookings.data.lx.LXCreateTripResponse;
+import com.expedia.bookings.data.packages.PackageCreateTripResponse;
+import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.data.trips.TripBucketItemFlight;
 import com.expedia.bookings.data.trips.TripBucketItemHotel;
 import com.expedia.bookings.data.trips.TripBucketItemHotelV2;
 import com.expedia.bookings.data.trips.TripBucketItemLX;
 import com.expedia.bookings.data.trips.TripBucketItemPackages;
 import com.expedia.bookings.data.trips.TripBucketItemTransport;
-import com.expedia.bookings.data.User;
-import com.expedia.bookings.data.abacus.AbacusUtils;
-import com.expedia.bookings.data.hotels.HotelCreateTripResponse;
-import com.expedia.bookings.data.lx.LXCreateTripResponse;
-import com.expedia.bookings.data.packages.PackageCreateTripResponse;
-import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.utils.FontCache;
 import com.expedia.bookings.utils.Strings;
@@ -366,20 +365,11 @@ public class AccountButton extends LinearLayout {
 			case HOTELSV2:
 			case HOTELS:
 			case PACKAGES:
-				boolean isUserBucketedForTest = Db.getAbacusResponse()
-					.isUserBucketedForTest(AbacusUtils.EBAndroidAppHotel3xMessaging);
-				boolean isTablet = AndroidUtils.isTablet(getContext());
+			case LX:
 				youllEarnRewardsPointsText = Html.fromHtml(
 					Phrase.from(this, R.string.youll_earn_points_TEMPLATE).put("reward_currency", rewardPoints).format()
 						.toString());
-				if (isUserBucketedForTest && !isTablet && lob == LineOfBusiness.HOTELSV2) {
-					youllEarnRewardsPointsText = Html
-						.fromHtml(mContext.getString(R.string.youll_earn_points_ab_test_3x_TEMPLATE, rewardPoints));
-				}
 				break;
-			case LX:
-				youllEarnRewardsPointsText = Html
-					.fromHtml(mContext.getString(R.string.youll_earn_points_ab_test_3x_TEMPLATE, rewardPoints));
 			}
 		}
 

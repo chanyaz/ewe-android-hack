@@ -2015,8 +2015,6 @@
     <string name="free_cancellation_date_TEMPLATE">&lt;b&gt;ยกเลิกฟรี&lt;/b&gt; ภายใน &lt;b&gt;%s&lt;/b&gt;</string>
     <!-- Sign out -->
     <string name="sign_out">ออกจากระบบ</string>
-    <!-- AB Test 3x messaging for hotel points -->
-    <string name="youll_earn_points_ab_test_3x_TEMPLATE">รับ %1$s คะแนน — 3 เท่าของคะแนนปกติเพราะคุณจองผ่านแอพ!</string>
     <!-- You'll earn points for this trip -->
     <string name="youll_earn_points_TEMPLATE">คุณจะได้รับ {reward_currency} คะแนนจากการจองนี้!</string>
     <!-- You are a valued member -->
@@ -3061,12 +3059,6 @@
     <string name="hotel_cost_breakdown_burn_points_TEMPLATE">{points} คะแนน</string>
 
     <!-- Expedia Accounts -->
-    <!-- Label for messaging on sign in Variate 1 -->
-    <string name="sign_in_messaging">ประหยัดด้วยดีลพิเศษสำหรับสมาชิกเท่านั้น</string>
-    <!-- Label for messaging on sign in Variate 2 -->
-    <string name="triple_point_messaging">รับคะแนน Expedia+ สามเท่า</string>
-    <!-- Label for messaging on sign in Variate 3 -->
-    <string name="trip_alert_messaging">รับการแจ้งเตือนสำคัญเกี่ยวกับทริปของคุณ</string>
     <!-- Label for menu item to open account settings screen -->
     <string name="account_settings_menu_label">บัญชี</string>
     <!-- Label for menu item to sign into account -->
