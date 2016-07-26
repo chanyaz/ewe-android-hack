@@ -44,7 +44,7 @@ class TSAEntryView(context: Context, attrs: AttributeSet?) : LinearLayout(contex
             showBirthdateErrorDialog(text)
         }
         vm.genderErrorSubject.subscribe { hasError ->
-            (genderSpinner.adapter as GenderSpinnerAdapter).showError(hasError)
+            (genderSpinner.adapter as GenderSpinnerAdapter).setErrorVisible(hasError)
         }
     }
 
@@ -74,7 +74,7 @@ class TSAEntryView(context: Context, attrs: AttributeSet?) : LinearLayout(contex
             viewModel.genderObserver.onNext(adapter.getGender(position))
             val gender = adapter.getGender(position)
             if (gender != Traveler.Gender.GENDER) {
-                (genderSpinner.adapter as GenderSpinnerAdapter).showError(false)
+                (genderSpinner.adapter as GenderSpinnerAdapter).setErrorVisible(false)
             }
         }
     }
