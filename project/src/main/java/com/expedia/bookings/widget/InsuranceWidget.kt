@@ -29,7 +29,8 @@ class InsuranceWidget(context: Context, attrs: AttributeSet) : LinearLayout(cont
 
     val benefitsDialog: AlertDialog by lazy {
         val benefitsTextView = View.inflate(context, R.layout.insurance_benefits_dialog_body, null) as TextView
-        benefitsTextView.text = Html.fromHtml(context.resources.getString(R.string.insurance_benefits))
+        viewModel.benefitsObservable.subscribeText(benefitsTextView)
+
         AlertDialog.Builder(context).setPositiveButton(R.string.button_done, null)
                 .setTitle(context.resources.getString(R.string.insurance_description))
                 .setView(benefitsTextView)
