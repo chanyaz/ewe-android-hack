@@ -64,6 +64,7 @@
     <color name="itin_checkin_now_color">#4CA0FF</color>
     <color name="itin_summary_divider_color">#4D555D</color>
     <color name="itin_unable_to_find_error_color">#FF642121</color>
+    <color name="itin_bg_dark_transparent">@color/black_40</color>
 
     <!-- Old Flights colors -->
     <color name="plane_window_background">#CACACA</color>
@@ -104,8 +105,8 @@
     <color name="flight_earn_message_text_color">#3D4652</color>
     
     <!-- Flights V2 colors -->
-    <color name="flight_warning_bar_color">@color/lob_packages_secondary_color</color>
-    <color name="flight_primary_color">@color/lob_packages_primary_color</color>
+    <color name="flight_warning_bar_color">@color/expDarkBlue</color>
+    <color name="flight_primary_color">@color/expDarkBlue</color>
 
     <!-- Hotels colors -->
     <color name="hotels_primary_color">@color/lob_hotels_primary_color</color>
@@ -460,7 +461,7 @@
     <!-- Packages colors -->
     <color name="package_bundle_icon_color">@color/gray6</color>
     <color name="packages_primary_color">@color/lob_packages_primary_color</color>
-    <color name="packages_secondary_color">@color/lob_packages_secondary_color</color>
+    <color name="packages_secondary_color">@color/expDarkBlue</color>
     <color name="packages_ripple_mask_color">@color/lob_packages_ripple_color</color>
     <color name="packages_flight_filter_text">@color/gray8</color>
     <color name="packages_flight_filter_background_color">@color/gray1</color>
