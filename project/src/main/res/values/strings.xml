@@ -4148,7 +4148,7 @@
         <item quantity="one">{seats} seat left</item>
         <item quantity="other">{seats} seats left</item>
     </plurals>
-    <string name="package_flight_overview_baggage_fees">Baggage Fee Info</string>
+    <string name="package_flight_overview_baggage_fees">Baggage fee info</string>
     <string name="package_flight_overview_select_flight">Select this Flight</string>
     <string name="package_flight_overview_bundle_total_label">Bundle Total</string>
     <string name="package_flight_overview_per_person_TEMPLATE">{money}/person</string>
