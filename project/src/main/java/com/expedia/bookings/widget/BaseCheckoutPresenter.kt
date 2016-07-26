@@ -234,6 +234,11 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet) : Pre
             slideToPurchase.resetSlider()
             animateInSlideToPurchase(true)
         }
+
+        getCheckoutViewModel().notNetworkObservable.subscribe {
+            checkoutDialog.hide()
+            slideToPurchase.resetSlider()
+        }
     }
 
     override fun onFinishInflate() {
