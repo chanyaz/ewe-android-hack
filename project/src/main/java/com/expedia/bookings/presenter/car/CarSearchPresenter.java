@@ -162,7 +162,7 @@ public class CarSearchPresenter extends Presenter
 			.getNavigationIconDrawable(getContext(), ArrowXDrawableUtil.ArrowDrawableType.CLOSE);
 		navIcon.setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_IN);
 		toolbar.setNavigationIcon(navIcon);
-		toolbar.setNavigationContentDescription(getResources().getString(R.string.toolbar_nav_icon_cont_desc));
+		toolbar.setNavigationContentDescription(getResources().getString(R.string.toolbar_nav_icon_close_cont_desc));
 		toolBarSearchText.setText(getResources().getString(R.string.toolbar_search_cars));
 		toolbar.setBackgroundColor(
 			getResources().getColor(R.color.cars_primary_color));
