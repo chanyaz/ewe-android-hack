@@ -17,11 +17,11 @@ import com.expedia.util.subscribeText
 import com.expedia.util.subscribeVisibility
 import com.expedia.vm.FlightCheckoutOverviewViewModel
 import com.expedia.vm.WebViewViewModel
-import com.expedia.vm.flights.FlightOverviewViewModel
+import com.expedia.vm.flights.FlightCheckoutSummaryViewModel
 
 class FlightOverviewPresenter(context: Context, attrs: AttributeSet) : BaseOverviewPresenter(context, attrs) {
     val flightSummary: FlightSummaryWidget by bindView(R.id.flight_summary)
-    val viewModel = FlightOverviewViewModel()
+    val viewModel = FlightCheckoutSummaryViewModel()
     val airlinesChargePaymentFees = PointOfSale.getPointOfSale().doAirlinesChargeAdditionalFeeBasedOnPaymentMethod()
 
     val AIRLINEFEE_VIEW_TRANSITION_DURATION = 400

@@ -18,7 +18,7 @@ import com.expedia.util.subscribeOnClick
 import com.expedia.util.subscribeText
 import com.expedia.util.subscribeTextAndVisibilityInvisible
 import com.expedia.util.subscribeVisibility
-import com.expedia.vm.FlightOverviewViewModel
+import com.expedia.vm.AbstractFlightOverviewViewModel
 import com.expedia.vm.FlightSegmentBreakdown
 import com.expedia.vm.FlightSegmentBreakdownViewModel
 import rx.subjects.PublishSubject
@@ -50,7 +50,7 @@ class FlightOverviewPresenter(context: Context, attrs: AttributeSet?) : Presente
         paymentFeesMayApplyTextView.compoundDrawables[0].setColorFilter(filter)
     }
 
-    var vm: FlightOverviewViewModel by notNullAndObservable {
+    var vm: AbstractFlightOverviewViewModel by notNullAndObservable {
         vm.bundlePriceSubject.subscribeText(bundlePriceTextView)
         vm.showBundlePriceSubject.subscribeVisibility(bundlePriceLabelTextView)
         vm.showBundlePriceSubject.subscribeVisibility(bundlePriceTextView)
