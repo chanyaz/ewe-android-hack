@@ -86,6 +86,31 @@ class FlightSearchViewModelTest {
     }
 
     @Test
+    fun testFlightSearchEnabled(){
+        val origin = getDummySuggestion()
+        origin.hierarchyInfo?.airport?.airportCode = "SFO"
+        val destination = getDummySuggestion()
+        destination.hierarchyInfo?.airport?.airportCode = "LAS"
+
+        vm.isRoundTripSearchObservable.onNext(false)
+        vm.flightParamsBuilder
+                .origin(origin)
+                .destination(destination)
+                .startDate(LocalDate.now())
+                .adults(1)
+                .build() as FlightSearchParams
+
+        assertEquals(true , vm.flightParamsBuilder.areRequiredParamsFilled())
+
+        vm.isRoundTripSearchObservable.onNext(true)
+        assertEquals(false , vm.flightParamsBuilder.areRequiredParamsFilled())
+
+        vm.flightParamsBuilder.endDate(LocalDate.now().plusDays(4))
+        assertEquals(true , vm.flightParamsBuilder.areRequiredParamsFilled())
+
+    }
+
+    @Test
     fun testRoundTripMissingReturnDate() {
         val origin = getDummySuggestion()
         origin.hierarchyInfo?.airport?.airportCode = "SFO"
