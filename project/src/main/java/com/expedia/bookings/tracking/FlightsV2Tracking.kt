@@ -128,4 +128,52 @@ object FlightsV2Tracking {
         OmnitureTracking.trackFlightCheckoutConfirmationPageLoad()
     }
 
+    fun trackFlightNoResult() {
+        trackFlightError("Flight No Result")
+    }
+
+    fun trackFlightSearchUnknownError() {
+        trackFlightError("Flight Search Unknown Error")
+    }
+
+    fun trackFlightCreateUnknownError() {
+        trackFlightError("Flight Create Trip Unknown Error")
+    }
+
+    fun trackFlightCreateSessionTimeOutError() {
+        trackFlightError("Flight Create Trip Session Timeout Error")
+    }
+
+    fun trackFlightCreateProductNotFoundError() {
+        trackFlightError("Flight Create Trip Product Not Found Error")
+    }
+
+    fun trackFlightSoldOutError() {
+        trackFlightError("Flight Sold Out Error")
+    }
+
+    private fun trackFlightError(errorType: String) {
+        OmnitureTracking.trackFlightError(errorType)
+    }
+
+    fun trackFlightCheckoutUnknownError() {
+        trackFlightCheckoutError("Flight Checkout Unknown Error")
+    }
+
+    fun trackFlightCheckoutPaymentError() {
+        trackFlightCheckoutError("Flight Checkout Payment Error")
+    }
+
+    fun trackFlightCheckoutSessionTimeOutError() {
+        trackFlightCheckoutError("Flight Checkout Session Timeout Error")
+    }
+
+    fun trackFlightTripBookedError() {
+        trackFlightCheckoutError("Flight Trip Already Booked Error")
+    }
+
+    private fun trackFlightCheckoutError(errorType: String) {
+        OmnitureTracking.trackFlightCheckoutError(errorType)
+    }
+
 }

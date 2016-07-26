@@ -5183,6 +5183,8 @@ public class OmnitureTracking {
 	private static final String FLIGHTS_V2_ENTER_CARD = "App.Flight.CKO.Payment.EnterManually";
 	private static final String FLIGHTS_V2_SLIDE_TO_PURCHASE = "App.Flight.Checkout.Payment.SlideToPurchase";
 	private static final String FLIGHTS_V2_PAYMENT_CID = "App.Flight.Checkout.Payment.CID";
+	private static final String FLIGHTS_V2_ERROR = "App.Flight.Error";
+	private static final String FLIGHTS_V2_CHECKOUT_ERROR = "App.Flight.CKO.Error";
 
 	public static Pair<com.expedia.bookings.data.flights.FlightLeg,
 		com.expedia.bookings.data.flights.FlightLeg> getFirstAndLastFlightLegs() {
@@ -5554,6 +5556,21 @@ public class OmnitureTracking {
 		createTrackPageLoadEventBase(FLIGHTS_V2_PAYMENT_CID).track();
 	}
 
+	public static void trackFlightError(String errorType) {
+		ADMS_Measurement s = getFreshTrackingObject();
+		s.setEvar(28, FLIGHTS_V2_ERROR);
+		s.setProp(16, FLIGHTS_V2_ERROR);
+		s.setProp(36, errorType);
+		s.trackLink(null, "o", "Flight Error", null, null);
+	}
+
+	public static void trackFlightCheckoutError(String errorType) {
+		ADMS_Measurement s = getFreshTrackingObject();
+		s.setEvar(28, FLIGHTS_V2_CHECKOUT_ERROR);
+		s.setProp(16, FLIGHTS_V2_CHECKOUT_ERROR);
+		s.setProp(36, errorType);
+		s.trackLink(null, "o", "Flight Checkout", null, null);
+	}
 
 	private static String getFlightV2Evar47String(com.expedia.bookings.data.flights.FlightSearchParams flightSearchParams) {
 		// Pipe delimited list of LOB, flight search type (OW, RT, MD), # of Adults, and # of Children)
