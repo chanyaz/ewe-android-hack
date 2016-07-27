@@ -73,7 +73,7 @@ public class RailServicesTest {
 		RailSearchResponse railSearchResponse = searchResponseObserver.getOnNextEvents().get(0);
 		List<RailPassenger> passengers = railSearchResponse.passengerList;
 		assertEquals(1, passengers.size());
-		assertEquals(65, passengers.get(0).age);
+		assertEquals(25, passengers.get(0).age);
 		assertEquals(true, passengers.get(0).primaryTraveler);
 	}
 
@@ -88,8 +88,8 @@ public class RailServicesTest {
 		createTripResponseObserver.assertValueCount(1);
 		RailCreateTripResponse createTripResponse = createTripResponseObserver.getOnNextEvents().get(0);
 
-		assertEquals("e6f8caad-9115-4c8c-9e45-db0002c4e3cd", createTripResponse.tripId);
-		assertEquals(1, createTripResponse.railsProducts.size());
+		assertEquals("f5c20d55-067f-40c0-a2d4-04265ceeb10c", createTripResponse.tripId);
+		assertEquals(1, createTripResponse.railDomainProduct.railOffer.railProductList.size());
 	}
 
 	@Test

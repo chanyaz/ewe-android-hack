@@ -20,7 +20,7 @@ import static org.hamcrest.Matchers.containsString;
 
 public class RailFareRulesTest extends RailTestCase {
 
-	public void testRailAmenities() throws Throwable {
+	public void testFareRules() throws Throwable {
 		navigateFromLaunchToFareRules();
 		assertFareRules();
 	}
@@ -29,16 +29,16 @@ public class RailFareRulesTest extends RailTestCase {
 		RailScreen.navigateToDetails();
 		RailScreen.scrollToFareOptions();
 		onView(withText("Any off-peak train")).check(matches(isDisplayed()));
-		RailScreen.clickFareRules("First");
+		RailScreen.clickFareRules("First", "Travel anytime of day");
 	}
 
 	private void assertFareRules() {
 		assertFareTitleIsVisible();
 		assertFareRuleIsDisplayed("Additional information about this fare can be found");
 		assertFareRuleIsDisplayed("Valid only for travel via (changing trains or passing through) London.");
-		assertFareRuleIsDisplayed("Your ticket is refundable before 5 Aug, 2016 01:30 Coordinated Universal Time");
-		assertFareRuleIsDisplayed("If you cancel before your ticket is printed, a penalty of 10.00 GBP will be deducted from your refund");
-		assertFareRuleIsDisplayed("If you cancel after your ticket is printed, a penalty of up to 10 GBP per printed ticket per passenger will be deducted from your refund.");
+		assertFareRuleIsDisplayed("Your ticket is refundable before 28 Sep, 2016 01:30");
+		assertFareRuleIsDisplayed("If you cancel before your ticket is printed, an admin fee of 10.00 GBP will be deducted from your refund.");
+		assertFareRuleIsDisplayed("If you cancel after your ticket is printed, an admin fee of up to 10.00 GBP per ticket per passenger will be deducted from your refund. If the ticket is less than 10.00 GBP");
 	}
 
 	private void assertFareRuleIsDisplayed(String fareRule) {

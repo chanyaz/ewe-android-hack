@@ -3,6 +3,7 @@ package com.expedia.bookings.widget.rail
 import android.content.Context
 import android.util.AttributeSet
 import android.widget.LinearLayout
+import com.expedia.bookings.data.rail.responses.RailSearchResponse.RailOffer
 import com.expedia.bookings.data.rail.responses.RailSearchResponse
 import com.expedia.util.notNullAndObservable
 import com.expedia.vm.rail.RailDetailsViewModel
@@ -20,7 +21,7 @@ class RailDetailsFareOptionsView(context: Context, attrs: AttributeSet) : Linear
         }
     }
 
-    private fun addFareOptionViews(offer: RailSearchResponse.RailOffer) {
+    private fun addFareOptionViews(offer: RailOffer) {
         if (offer.outboundLeg != null) {
             val outboundLegOption = offer.outboundLeg
             val offers = viewmodel.railResultsObservable.value.findOffersForLegOption(outboundLegOption)
