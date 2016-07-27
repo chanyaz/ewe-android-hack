@@ -449,6 +449,7 @@ public class LXPresenter extends Presenter {
 	public void onShowSearchWidget(Events.LXShowSearchWidget event) {
 		OmnitureTracking.trackAppLXSearchBox(isGroundTransport);
 		show(searchParamsWidget, FLAG_CLEAR_BACKSTACK | FLAG_CLEAR_TOP);
+		searchParamsWidget.showDefault();
 	}
 
 	@Subscribe
