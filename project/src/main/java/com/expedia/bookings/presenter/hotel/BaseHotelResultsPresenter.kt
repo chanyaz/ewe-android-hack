@@ -43,6 +43,7 @@ import com.expedia.bookings.data.hotels.Hotel
 import com.expedia.bookings.data.hotels.HotelSearchResponse
 import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.utils.ArrowXDrawableUtil
+import com.expedia.bookings.utils.AccessibilityUtil
 import com.expedia.bookings.utils.HotelMapClusterAlgorithm
 import com.expedia.bookings.utils.HotelMapClusterRenderer
 import com.expedia.bookings.utils.MapItem
@@ -736,6 +737,8 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
                 fab.visibility = View.INVISIBLE
             }
             filterView.visibility = View.INVISIBLE
+
+            postDelayed({ AccessibilityUtil.setFocusToToolbarNavigationIcon(toolbar) }, 50L)
         }
     }
 
@@ -1161,6 +1164,7 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
 
     // Classes for state
     class ResultsList
+
     class ResultsMap
     class ResultsFilter
 
