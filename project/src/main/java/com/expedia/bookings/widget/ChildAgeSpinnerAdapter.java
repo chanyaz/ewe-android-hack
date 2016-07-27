@@ -19,7 +19,7 @@ public class ChildAgeSpinnerAdapter extends BaseAdapter {
 		View v = createViewFromResource(position, convertView, parent, R.layout.child_spinner_item);
 		TextView textView = (TextView) v;
 		Drawable icon = ContextCompat.getDrawable(parent.getContext(), R.drawable.search_form_traveler_picker_person).mutate();
-		icon.setColorFilter(ContextCompat.getColor(parent.getContext(), R.color.search_dialog_gray), PorterDuff.Mode.SRC_IN);
+		icon.setColorFilter(ContextCompat.getColor(parent.getContext(), R.color.search_dialog_icon_color), PorterDuff.Mode.SRC_IN);
 		textView.setCompoundDrawablesRelativeWithIntrinsicBounds(icon, null, null, null);
 		return v;
 	}
