@@ -74,7 +74,9 @@ class HotelMapClusterRenderer(private val context: Context, private val map: Goo
                 minFormattedPrice = formattedPrice
             }
         }
-        clusterCountText.text = context.getString(R.string.cluster_number_of_hotels_template, cluster.items.size.toString())
+
+        val template = if (cluster.items.first().hotel.isPackage) R.string.cluster_number_of_packages_template else R.string.cluster_number_of_hotels_template
+        clusterCountText.text = context.getString(template, cluster.items.size.toString())
         clusterRangeText.text = if (isSoldOutCluster) context.getString(R.string.sold_out) else context.getString(R.string.cluster_price_from_range_template, minFormattedPrice?.getFormattedMoney(Money.F_NO_DECIMAL))
         factory.setBackground(getClusterBackground(isSoldOutCluster))
         return BitmapDescriptorFactory.fromBitmap(factory.makeIcon())
