@@ -152,10 +152,10 @@ class InsuranceViewModel(val context: Context, val insuranceServices: InsuranceS
 
         val title = when (product!!.displayPriceType) {
             InsurancePriceType.PRICE_PER_DAY -> Phrase.from(context.resources, titleId)
-                    .put("price", product!!.displayPrice.amount.toInt())
+                    .put("price", product!!.displayPrice.formattedWholePrice)
                     .put("price_type", context.resources.getString(R.string.insurance_price_per_day)).format()
             InsurancePriceType.PRICE_PER_PERSON -> Phrase.from(context.resources, titleId)
-                    .put("price", product!!.displayPrice.amount.toInt())
+                    .put("price", product!!.displayPrice.formattedWholePrice)
                     .put("price_type", context.resources.getString(R.string.insurance_price_per_person)).format()
             else -> Phrase.from(context.resources, titleId).put("price", "").put("price_type", "").format()
         }
