@@ -129,7 +129,6 @@ DummyFiletoHandleKotlinLintError {
 		R.plurals.hotel_results_pricing_header_prices_avg_per_night_TEMPLATE,
 		R.plurals.hotel_results_pricing_header_total_price_for_stay_TEMPLATE,
 		R.layout.hotel_cost_summary_date_row,
-		R.drawable.hotels_pin,
 		R.layout.widget_hotel_filter,
 		R.layout.section_hotel_neighborhood_row,
 		R.color.hotel_guest_selector_enabled_color,
