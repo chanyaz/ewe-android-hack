@@ -2015,8 +2015,6 @@
     <string name="free_cancellation_date_TEMPLATE">&lt;b&gt;Ilmainen peruutusoikeus&lt;/b&gt; &lt;b&gt;%s&lt;/b&gt; mennessä</string>
     <!-- Sign out -->
     <string name="sign_out">Kirjaudu ulos</string>
-    <!-- AB Test 3x messaging for hotel points -->
-    <string name="youll_earn_points_ab_test_3x_TEMPLATE">Ansaitse %1$s pistettä – kolminkertaiset pisteet, kun varaat sovelluksen kautta!</string>
     <!-- You'll earn points for this trip -->
     <string name="youll_earn_points_TEMPLATE">Ansaitset {reward_currency} pistettä tästä varauksesta!</string>
     <!-- You are a valued member -->
@@ -3061,12 +3059,6 @@
     <string name="hotel_cost_breakdown_burn_points_TEMPLATE">{points} pistettä</string>
 
     <!-- Expedia Accounts -->
-    <!-- Label for messaging on sign in Variate 1 -->
-    <string name="sign_in_messaging">Säästä ainutlaatuisten jäsentarjousten ansiosta</string>
-    <!-- Label for messaging on sign in Variate 2 -->
-    <string name="triple_point_messaging">Ansaitse KOLMINKERTAISET Expedia+-pisteet</string>
-    <!-- Label for messaging on sign in Variate 3 -->
-    <string name="trip_alert_messaging">Vastaanota tärkeitä matkapäivityksiä</string>
     <!-- Label for menu item to open account settings screen -->
     <string name="account_settings_menu_label">Tili</string>
     <!-- Label for menu item to sign into account -->

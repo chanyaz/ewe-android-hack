@@ -2015,8 +2015,6 @@
     <string name="free_cancellation_date_TEMPLATE">&lt;b&gt;免費取消&lt;/b&gt;到期日：&lt;b&gt;%s&lt;/b&gt;</string>
     <!-- Sign out -->
     <string name="sign_out">登出</string>
-    <!-- AB Test 3x messaging for hotel points -->
-    <string name="youll_earn_points_ab_test_3x_TEMPLATE">賺取 %1$s 分 — 用 App 預訂可享 3 倍積分！</string>
     <!-- You'll earn points for this trip -->
     <string name="youll_earn_points_TEMPLATE">您這次預訂將獲得 {reward_currency} 分！</string>
     <!-- You are a valued member -->
@@ -3061,12 +3059,6 @@
     <string name="hotel_cost_breakdown_burn_points_TEMPLATE">{points} 分</string>
 
     <!-- Expedia Accounts -->
-    <!-- Label for messaging on sign in Variate 1 -->
-    <string name="sign_in_messaging">尊享會員獨家優惠</string>
-    <!-- Label for messaging on sign in Variate 2 -->
-    <string name="triple_point_messaging">賺取三倍 Expedia+ 獎賞積分</string>
-    <!-- Label for messaging on sign in Variate 3 -->
-    <string name="trip_alert_messaging">收取重要行程提示</string>
     <!-- Label for menu item to open account settings screen -->
     <string name="account_settings_menu_label">帳戶</string>
     <!-- Label for menu item to sign into account -->

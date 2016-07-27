@@ -3499,7 +3499,6 @@ public class OmnitureTracking {
 		// set the pageName
 		s.setAppState(LOGIN_SCREEN);
 		s.setEvar(18, LOGIN_SCREEN);
-		trackAbacusTest(s, AbacusUtils.EBAndroidAppSignInMessagingTest);
 		s.track();
 	}
 
