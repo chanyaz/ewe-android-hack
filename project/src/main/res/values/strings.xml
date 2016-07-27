@@ -2787,6 +2787,8 @@
     <string name="sold_out">Sold Out</string>
     <!-- Map cluster text for number of hotels-->
     <string name="cluster_number_of_hotels_template">%s Hotels</string>
+    <!-- Map cluster text for number of packages-->
+    <string name="cluster_number_of_packages_template">%s Results</string>
     <!-- Map cluster price from range-->
     <string name="cluster_price_from_range_template">From %s</string>
 

@@ -801,6 +801,7 @@ DummyFiletoHandleKotlinLintError {
 		R.integer.calendar_max_days_rail_return,
 		R.dimen.temporary_large_padding,
 		R.dimen.temporary_default_padding,
-		R.dimen.temporary_tiny_padding
+		R.dimen.temporary_tiny_padding,
+		R.string.cluster_number_of_packages_template
 	};
 }
