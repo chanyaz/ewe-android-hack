@@ -1,4 +1,4 @@
-package com.expedia.bookings.test.phone.packages;
+package com.expedia.bookings.test.phone.rail;
 
 import org.hamcrest.Matchers;
 import org.joda.time.LocalDate;
@@ -8,7 +8,6 @@ import android.support.test.espresso.matcher.ViewMatchers;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.test.espresso.TabletViewActions;
-import com.expedia.bookings.test.espresso.ViewActions;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
@@ -34,10 +33,12 @@ public class RailScreen {
 		calendar().perform(TabletViewActions.clickDates(start, end));
 	}
 
-	public static ViewInteraction searchButton() {
-		ViewInteraction searchButton = onView(allOf(withId(R.id.search_btn), withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE)));
-		searchButton.perform(ViewActions.waitForViewToDisplay());
-		return searchButton;
+	public static void selectOneWay()  {
+		onView(withText(R.string.rail_single)).perform(click());
+	}
+
+	public static void selectRoundTrip()  {
+		onView(withText(R.string.rail_return)).perform(click());
 	}
 
 	public static ViewInteraction dialogDoneButton() {

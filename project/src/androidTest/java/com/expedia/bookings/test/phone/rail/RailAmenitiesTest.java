@@ -9,7 +9,7 @@ import android.view.View;
 
 import com.expedia.bookings.test.espresso.RailTestCase;
 import com.expedia.bookings.test.espresso.ViewActions;
-import com.expedia.bookings.test.phone.packages.RailScreen;
+import com.expedia.bookings.test.phone.pagemodels.common.SearchScreen;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
@@ -32,7 +32,7 @@ public class RailAmenitiesTest extends RailTestCase {
 		RailScreen.selectDates(firstStartDate, firstStartDate.plusDays(2));
 		RailScreen.dialogDoneButton().perform(click());
 
-		RailScreen.searchButton().perform(click());
+		SearchScreen.searchButton().perform(click());
 
 		onView(withText("11:55 AM – 3:22 PM")).perform(ViewActions.waitForViewToDisplay()).check(matches(isDisplayed())).perform(click());
 		onView(withText("Walk from London Euston to London Paddington")).check(matches(isDisplayed()));

@@ -194,4 +194,12 @@ public class DateUtils {
 		Minutes m = p.toStandardMinutes();
 		return m.getMinutes();
 	}
+
+	/*
+	* Parse long millis into HH:mm:ss format
+	* */
+	public static String formatMillisToHHmmss(Long millis) {
+		SimpleDateFormat ft =  new SimpleDateFormat("HH:mm:ss", Locale.getDefault());
+		return ft.format(millis);
+	}
 }
