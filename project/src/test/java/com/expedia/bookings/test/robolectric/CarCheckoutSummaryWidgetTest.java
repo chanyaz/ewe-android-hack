@@ -100,6 +100,7 @@ public class CarCheckoutSummaryWidgetTest {
 		assertEquals("Free Cancellation", freeCancellation.getText());
 		assertEquals(View.GONE, unlimitedMileage.getVisibility());
 		assertEquals("$50", tripTotal.getText());
+		assertEquals("$50. Press to see cost summary for your car selection", tripTotal.getContentDescription());
 		assertEquals(View.GONE, priceChangeContainer.getVisibility());
 		String expedtedDate = DateFormatUtils
 			.formatCarDateTimeRange(activity, carCreateTripResponse.carProduct.getPickupTime(),

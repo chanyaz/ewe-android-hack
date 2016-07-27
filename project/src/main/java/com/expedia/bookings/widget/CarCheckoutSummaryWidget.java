@@ -26,6 +26,7 @@ import com.expedia.bookings.utils.CurrencyUtils;
 import com.expedia.bookings.utils.DateFormatUtils;
 import com.expedia.bookings.utils.Strings;
 import com.expedia.bookings.utils.Ui;
+import com.squareup.phrase.Phrase;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -100,8 +101,11 @@ public class CarCheckoutSummaryWidget extends RelativeLayout {
 		categoryTitleText.setText(offer.vehicleInfo.carCategoryDisplayLabel);
 		carModelText.setText(CarDataUtils.getMakeName(getContext(), offer.vehicleInfo.makes));
 		airportText.setText(offer.pickUpLocation.locationDescription);
-		tripTotalText.setText(Money.getFormattedMoneyFromAmountAndCurrencyCode(offer.detailedFare.grandTotal.amount,
-			offer.detailedFare.grandTotal.getCurrency()));
+		String tripTotal = Money.getFormattedMoneyFromAmountAndCurrencyCode(offer.detailedFare.grandTotal.amount,
+			offer.detailedFare.grandTotal.getCurrency());
+		tripTotalText.setText(tripTotal);
+		tripTotalText.setContentDescription(Phrase.from(getContext(), R.string.car_selection_cost_summary_cont_desc_TEMPLATE)
+				.put("trip_total", tripTotal).format().toString());
 		dateTimeText.setText(DateFormatUtils
 			.formatCarDateTimeRange(getContext(), offer.getPickupTime(), offer.getDropOffTime()));
 
