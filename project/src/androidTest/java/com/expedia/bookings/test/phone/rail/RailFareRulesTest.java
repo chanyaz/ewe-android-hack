@@ -2,18 +2,14 @@ package com.expedia.bookings.test.phone.rail;
 
 import org.hamcrest.Matcher;
 import org.hamcrest.Matchers;
-import org.joda.time.LocalDate;
 
 import android.support.test.espresso.matcher.ViewMatchers;
 import android.view.View;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.test.espresso.RailTestCase;
-import com.expedia.bookings.test.espresso.ViewActions;
-import com.expedia.bookings.test.phone.pagemodels.common.SearchScreen;
 
 import static android.support.test.espresso.Espresso.onView;
-import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withEffectiveVisibility;
@@ -30,16 +26,7 @@ public class RailFareRulesTest extends RailTestCase {
 	}
 
 	private void navigateFromLaunchToFareRules() {
-		RailScreen.calendarButton().perform(click());
-		LocalDate firstStartDate = LocalDate.now().plusDays(10);
-		RailScreen.selectDates(firstStartDate, firstStartDate.plusDays(2));
-		RailScreen.dialogDoneButton().perform(click());
-
-		SearchScreen.searchButton().perform(click());
-
-		onView(withText("11:55 AM – 3:22 PM")).perform(ViewActions.waitForViewToDisplay()).check(matches(isDisplayed())).perform(click());
-		onView(withText("Walk from London Euston to London Paddington")).check(matches(isDisplayed()));
-
+		RailScreen.navigateToDetails();
 		RailScreen.scrollToFareOptions();
 		onView(withText("Any off-peak train")).check(matches(isDisplayed()));
 		RailScreen.clickFareRules("First");
