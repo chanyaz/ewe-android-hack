@@ -88,6 +88,18 @@ class FlightErrorTest: NewFlightTestCase() {
     }
 
     @Test
+    fun testCreateTripNoResults() {
+        searchForFlights(ApiError.Code.FLIGHT_SEARCH_NO_RESULTS, TestType.CREATE_TRIP)
+
+        assertFlightErrorPresenterDisplayed()
+        assertButtonDisplayedWithText("Edit Search")
+
+        clickActionButton()
+        assertSearchFormDisplayed()
+    }
+
+
+    @Test
     fun testCheckoutUnknownError() {
         searchForFlights(ApiError.Code.UNKNOWN_ERROR, TestType.CHECKOUT)
         selectFirstOutboundFlight()
@@ -235,6 +247,7 @@ class FlightErrorTest: NewFlightTestCase() {
             ApiError.Code.SESSION_TIMEOUT -> if (testType == TestType.CREATE_TRIP) 11 else 14
             ApiError.Code.PAYMENT_FAILED -> 13
             ApiError.Code.TRIP_ALREADY_BOOKED -> 15
+            ApiError.Code.FLIGHT_SEARCH_NO_RESULTS -> 16
 
             else -> throw IllegalArgumentException("I do not support testing ${errorType.name} error types")
         }
