@@ -1104,8 +1104,6 @@
     <string name="shop">Shop</string>
     <!-- Find Itinerary -->
     <string name="find_itinerary">Vind reisplan</string>
-    <!-- Unable to find itinerary -->
-    <string name="unable_to_find_itinerary">Kon reisplan niet vinden. Zorg ervoor dat het land (in de Instellingen) overeenkomt met het websiteadres van je boeking.</string>
     <!-- Find Guest Itinerary -->
     <string name="find_guest_itinerary">Reisplan gastreiziger vinden</string>
     <!-- Enter Itinerary Details -->

@@ -1104,8 +1104,6 @@
     <string name="shop">จอง</string>
     <!-- Find Itinerary -->
     <string name="find_itinerary">ค้นหาแผนการเดินทาง</string>
-    <!-- Unable to find itinerary -->
-    <string name="unable_to_find_itinerary">หาแผนการเดินทางไม่พบ โปรดตรวจสอบว่าประเทศ (ในการตั้งค่าของแอพ) ตรงกับประเทศของเว็บไซต์ที่คุณทำการจอง</string>
     <!-- Find Guest Itinerary -->
     <string name="find_guest_itinerary">ค้นหาแผนการเดินทาง</string>
     <!-- Enter Itinerary Details -->

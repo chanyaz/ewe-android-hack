@@ -1104,8 +1104,6 @@
     <string name="shop">検索</string>
     <!-- Find Itinerary -->
     <string name="find_itinerary">旅程を検索する</string>
-    <!-- Unable to find itinerary -->
-    <string name="unable_to_find_itinerary">旅程が見つかりません。国設定 (アプリの設定内) がご予約時の Web サイトアドレスと一致していることをご確認ください (例 ： Expedia.co.jp でご予約の際はアプリの国設定を日本に設定)。</string>
     <!-- Find Guest Itinerary -->
     <string name="find_guest_itinerary">ゲスト旅程の検索</string>
     <!-- Enter Itinerary Details -->
