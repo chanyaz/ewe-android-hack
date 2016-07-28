@@ -1238,6 +1238,18 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 
 		throw new RuntimeException("Line of business required");
 	}
+
+	public void refreshOnLoginStatusChange() {
+		if (User.isLoggedIn(mContext)) {
+			mFields.removeField(mEditEmailAddress);
+			mFields.removeField(mDisplayEmailDisclaimer);
+		}
+		else {
+			mFields.setFieldEnabled(mEditEmailAddress, true);
+			mFields.setFieldEnabled(mDisplayEmailDisclaimer, true);
+		}
+		onChange();
+	}
 }
 
 

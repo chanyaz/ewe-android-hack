@@ -378,6 +378,7 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet) : Pre
         animateInSlideToPurchase(false)
         updateDbTravelers()
         updateTravelerPresenter()
+        paymentWidget.sectionBillingInfo.refreshOnLoginStatusChange()
         loginWidget.bind(false, false, null, getLineOfBusiness())
         paymentWidget.viewmodel.userLogin.onNext(false)
         hintContainer.visibility = View.VISIBLE
@@ -415,6 +416,7 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet) : Pre
         lp.bottomMargin = resources.getDimension(R.dimen.card_view_container_margin).toInt()
         travelerManager.onSignIn(context)
         updateTravelerPresenter()
+        paymentWidget.sectionBillingInfo.refreshOnLoginStatusChange()
         doCreateTrip()
     }
 
