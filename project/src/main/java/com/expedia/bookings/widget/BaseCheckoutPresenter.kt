@@ -303,6 +303,7 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet) : Pre
             loginWidget.setInverseVisibility(forward)
             hintContainer.visibility = if (forward) View.GONE else if (User.isLoggedIn(getContext())) View.GONE else View.VISIBLE
             travelerDefaultState.visibility = if (forward) View.GONE else View.VISIBLE
+            insuranceWidget.setInverseVisibility(forward || !insuranceWidget.viewModel.hasProduct)
             legalInformationText.setInverseVisibility(forward)
             depositPolicyText.setInverseVisibility(forward)
             bottomContainer.setInverseVisibility(forward)
