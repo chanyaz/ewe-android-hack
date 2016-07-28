@@ -3,6 +3,7 @@ package com.expedia.ui
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.ApiError
@@ -116,6 +117,7 @@ class PackageActivity : AbstractAppCompatActivity() {
                         //If change flight, remove changed outbound flight intent
                         packagePresenter.backStack.pop()
                     }
+                    packagePresenter.bundlePresenter.getCheckoutPresenter().toolbarDropShadow.visibility = View.GONE
 
                     packagePresenter.bundlePresenter.bundleWidget.inboundFlightWidget.viewModel.selectedFlightObservable.onNext(PackageSearchType.INBOUND_FLIGHT)
                     packagePresenter.bundlePresenter.bundleWidget.inboundFlightWidget.viewModel.flight.onNext(Db.getPackageSelectedInboundFlight())
