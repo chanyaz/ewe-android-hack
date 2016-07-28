@@ -18,6 +18,7 @@ import com.expedia.bookings.data.hotels.Hotel
 import com.expedia.bookings.data.hotels.HotelOffersResponse
 import com.expedia.bookings.data.hotels.HotelSearchResponse
 import com.expedia.bookings.data.hotels.convertPackageToSearchParams
+import com.expedia.bookings.data.packages.PackageOfferModel
 import com.expedia.bookings.dialog.DialogFactory
 import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.presenter.ScaleTransition
@@ -340,11 +341,21 @@ class PackageHotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
 
     private val selectedRoomObserver = endlessObserver<HotelOffersResponse.HotelRoomResponse> { offer ->
         Db.setPackageSelectedHotel(selectedPackageHotel, offer)
-        val params = Db.getPackageParams()
-        params.packagePIID = offer.productKey
+        updatePackagePrice(offer)
+        val params = Db.getPackageParams();
+        params.packagePIID = offer.productKey;
         val activity = (context as AppCompatActivity)
         activity.setResult(Activity.RESULT_OK)
         activity.finish()
+    }
+
+    private fun updatePackagePrice(offer : HotelOffersResponse.HotelRoomResponse) {
+        var response = Db.getPackageResponse()
+        val currentOffer = PackageOfferModel()
+        currentOffer.price = PackageOfferModel.PackagePrice()
+        currentOffer.price.packageTotalPrice = offer.rateInfo.chargeableRateInfo.packageTotalPrice
+        currentOffer.price.tripSavings = offer.rateInfo.chargeableRateInfo.packageSavings
+        response.packageResult.currentSelectedOffer = currentOffer
     }
 
     val defaultTransitionObserver: Observer<PackageHotelActivity.Screen> = endlessObserver {
