@@ -75,6 +75,9 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
         presenter.getViewModel().showConfirmation.subscribe {
             show(confirmationPresenter, Presenter.FLAG_CLEAR_BACKSTACK)
         }
+        presenter.getViewModel().showSearch.subscribe {
+            show(searchPresenter, Presenter.FLAG_CLEAR_TOP)
+        }
         presenter
     }
 
