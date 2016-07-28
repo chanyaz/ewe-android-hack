@@ -215,6 +215,8 @@ class PackageHotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
     private fun getDetails(piid: String, hotelId: String, checkIn: String, checkOut: String, ratePlanCode: String?, roomTypeCode: String?, numberOfAdultTravelers: Int, childTravelerAge: Int?) {
         loadingOverlay.visibility = View.VISIBLE
         loadingOverlay.animate(true)
+        bundleSlidingWidget.bundlePriceWidget.setOnTouchListener(null)
+        bundleSlidingWidget.bundlePriceWidget.setOnClickListener(null)
         detailPresenter.hotelDetailView.viewmodel.paramsSubject.onNext(convertPackageToSearchParams(Db.getPackageParams(), resources.getInteger(R.integer.calendar_max_days_hotel_stay), resources.getInteger(R.integer.calendar_max_selectable_date_range)))
         val packageHotelOffers = packageServices.hotelOffer(piid, checkIn, checkOut, ratePlanCode, roomTypeCode, numberOfAdultTravelers, childTravelerAge)
         val info = packageServices.hotelInfo(hotelId)
@@ -265,6 +267,11 @@ class PackageHotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
             val cancelFun = fun() {
                 back()
                 loadingOverlay.visibility = View.GONE
+                val slidingBundleWidgetListener = SlidingBundleWidgetListener(bundleSlidingWidget, this@PackageHotelPresenter)
+                bundleSlidingWidget.bundlePriceWidget.setOnTouchListener(slidingBundleWidgetListener.onTouchListener)
+                bundleSlidingWidget.bundlePriceWidget.setOnClickListener {
+                    show(bundleSlidingWidget)
+                }
             }
             DialogFactory.showNoInternetRetryDialog(context, retryFun, cancelFun)
         }
@@ -313,6 +320,11 @@ class PackageHotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
             resultsPresenter.animationFinalize(!forward)
             detailPresenter.animationFinalize()
             loadingOverlay.visibility = View.GONE
+            val slidingBundleWidgetListener = SlidingBundleWidgetListener(bundleSlidingWidget, this@PackageHotelPresenter)
+            bundleSlidingWidget.bundlePriceWidget.setOnTouchListener(slidingBundleWidgetListener.onTouchListener)
+            bundleSlidingWidget.bundlePriceWidget.setOnClickListener {
+                show(bundleSlidingWidget)
+            }
             if (forward) {
                 detailPresenter.hotelDetailView.viewmodel.addViewsAfterTransition()
                 AccessibilityUtil.setFocusToToolbarNavigationIcon(detailPresenter.hotelDetailView.hotelDetailsToolbar.toolbar)
@@ -327,8 +339,8 @@ class PackageHotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
 
     private val selectedRoomObserver = endlessObserver<HotelOffersResponse.HotelRoomResponse> { offer ->
         Db.setPackageSelectedHotel(selectedPackageHotel, offer)
-        val params = Db.getPackageParams();
-        params.packagePIID = offer.productKey;
+        val params = Db.getPackageParams()
+        params.packagePIID = offer.productKey
         val activity = (context as AppCompatActivity)
         activity.setResult(Activity.RESULT_OK)
         activity.finish()
@@ -367,6 +379,11 @@ class PackageHotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
             detailPresenter.visibility = View.VISIBLE
             detailPresenter.translationY = 0f
             bundleSlidingWidget.visibility = View.VISIBLE
+            val slidingBundleWidgetListener = SlidingBundleWidgetListener(bundleSlidingWidget, this@PackageHotelPresenter)
+            bundleSlidingWidget.bundlePriceWidget.setOnTouchListener(slidingBundleWidgetListener.onTouchListener)
+            bundleSlidingWidget.bundlePriceWidget.setOnClickListener {
+                show(bundleSlidingWidget)
+            }
             if (forward) {
                 detailPresenter.hotelDetailView.refresh()
                 detailPresenter.hotelDetailView.viewmodel.addViewsAfterTransition()
