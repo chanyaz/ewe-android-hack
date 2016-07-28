@@ -138,7 +138,7 @@ abstract class BaseBundleFlightWidget(context: Context, attrs: AttributeSet?) : 
         flightDetailsIcon.clearAnimation()
     }
 
-    private fun isFlightSegmentDetailsExpanded(): Boolean {
+    fun isFlightSegmentDetailsExpanded(): Boolean {
         return flightDetailsContainer.visibility == Presenter.VISIBLE
     }
 

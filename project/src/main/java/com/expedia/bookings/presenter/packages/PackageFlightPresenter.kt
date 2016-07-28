@@ -190,7 +190,16 @@ class PackageFlightPresenter(context: Context, attrs: AttributeSet) : BaseFlight
         addTransition(resultsToOverview)
         bundleSlidingWidget.bundleOverViewWidget.outboundFlightWidget.rowContainer.setOnClickListener {
             if (isShowingBundle()) {
-                back()
+                val outBoundFlightWidget = bundleSlidingWidget.bundleOverViewWidget.outboundFlightWidget
+                if (isOutboundResultsPresenter()) {
+                    backToOutboundResults()
+                } else {
+                    if (!outBoundFlightWidget.isFlightSegmentDetailsExpanded()) {
+                        outBoundFlightWidget.expandFlightDetails()
+                    } else {
+                        outBoundFlightWidget.collapseFlightDetails()
+                    }
+                }
             }
         }
         bundleSlidingWidget.bundleOverViewWidget.inboundFlightWidget.rowContainer.setOnClickListener {

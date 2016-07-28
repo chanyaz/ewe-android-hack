@@ -14,6 +14,7 @@ import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
+import static android.support.test.espresso.matcher.ViewMatchers.withText;
 
 public class PackageFlightsResultsTest extends PackageTestCase {
 
@@ -34,11 +35,20 @@ public class PackageFlightsResultsTest extends PackageTestCase {
 
 		assertFlightOutbound(3);
 		onView(withId(R.id.all_flights_header)).check(matches(isDisplayed()));
+		onView(withText("View your bundle")).perform(click());
+		onView(withId(R.id.package_bundle_outbound_flight_widget)).perform(click());
 		assertBestFlight();
+
 		PackageScreen.selectFlight(0);
 		PackageScreen.selectThisFlight().perform(click());
 
 		assertFlightInbound(3);
+		onView(withText("View your bundle")).perform(click());
+		onView(withId(R.id.package_bundle_outbound_flight_widget)).perform(click());
+		assertOutboundCardExpands();
+		onView(withId(R.id.package_bundle_outbound_flight_widget)).perform(click());
+		onView(withId(R.id.package_bundle_inbound_flight_widget)).perform(click());
+
 		PackageScreen.selectFlight(0);
 		PackageScreen.selectThisFlight().perform(click());
 	}
@@ -61,5 +71,10 @@ public class PackageFlightsResultsTest extends PackageTestCase {
 		EspressoUtils.assertViewWithTextIsDisplayedAtPosition(PackageScreen.flightList(), position, R.id.flight_duration_text_view, "5h 15m (Nonstop)");
 		EspressoUtils.assertViewWithTextIsDisplayedAtPosition(PackageScreen.flightList(), position, R.id.price_text_view, "+$0");
 		EspressoUtils.assertViewWithIdIsDisplayedAtPosition(PackageScreen.flightList(), position, R.id.custom_flight_layover_widget);
+	}
+
+	private void assertOutboundCardExpands() {
+		EspressoUtils.assertViewIsDisplayed(R.id.departure_arrival_time);
+		EspressoUtils.assertViewIsDisplayed(R.id.departure_arrival_airport);
 	}
 }
