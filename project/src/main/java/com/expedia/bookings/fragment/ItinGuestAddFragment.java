@@ -18,6 +18,7 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.trips.ItineraryManager;
 import com.expedia.bookings.data.trips.Trip;
@@ -28,6 +29,7 @@ import com.expedia.bookings.utils.FontCache;
 import com.expedia.bookings.utils.FontCache.Font;
 import com.expedia.bookings.utils.LoginExtender;
 import com.mobiata.android.util.Ui;
+import com.squareup.phrase.Phrase;
 
 public class ItinGuestAddFragment extends Fragment implements LoginExtenderListener {
 
@@ -37,7 +39,8 @@ public class ItinGuestAddFragment extends Fragment implements LoginExtenderListe
 	public static final String STATE_LOGIN_EXTENDER = "STATE_LOGIN_EXTENDER";
 	public static final String STATE_LOGIN_EXTENDER_RUNNING = "STATE_LOGIN_EXTENDER_RUNNING";
 	public static final String STATE_STATUS_TEXT = "STATE_HEADER_TEXT";
-	public static final String isFetchItinFailed = "isFetchItinFailed";
+	public static final String isFetchGuestItinFailed = "isFetchGuestItinFailed";
+	public static final String isFetchGuestRegisterUserItinFailed = "isFetchGuestRegisterUserItinFailed";
 
 	private Button mFindItinBtn;
 	private TextView mStatusMessageTv;
@@ -64,7 +67,15 @@ public class ItinGuestAddFragment extends Fragment implements LoginExtenderListe
 	public static ItinGuestAddFragment fetchingGuestItinFailedInstance(LoginExtender extender) {
 		ItinGuestAddFragment frag = newInstance(extender);
 		Bundle arguments = frag.getArguments();
-		arguments.putBoolean(isFetchItinFailed, true);
+		arguments.putBoolean(isFetchGuestItinFailed, true);
+		frag.setArguments(arguments);
+		return frag;
+	}
+
+	public static ItinGuestAddFragment fetchingRegisteredUserItinFailedInstance(LoginExtender extender) {
+		ItinGuestAddFragment frag = newInstance(extender);
+		Bundle arguments = frag.getArguments();
+		arguments.putBoolean(isFetchGuestRegisterUserItinFailed, true);
 		frag.setArguments(arguments);
 		return frag;
 	}
@@ -112,8 +123,18 @@ public class ItinGuestAddFragment extends Fragment implements LoginExtenderListe
 			setStatusText(mStatusText);
 		}
 
-		if (getArguments().containsKey(isFetchItinFailed)) {
-			getArguments().remove(isFetchItinFailed);
+		if (getArguments().containsKey(isFetchGuestItinFailed)) {
+			getArguments().remove(isFetchGuestItinFailed);
+			mUnableToFindItinErrorMsg.setText(getString(R.string.unable_to_find_guest_itinerary));
+			mUnableToFindItinErrorMsg.setVisibility(View.VISIBLE);
+		}
+
+		if (getArguments().containsKey(isFetchGuestRegisterUserItinFailed)) {
+			getArguments().remove(isFetchGuestRegisterUserItinFailed);
+			String errorMsg = Phrase.from(getString(R.string.unable_to_find_registered_user_itinerary_template))
+				.put("brand",
+					BuildConfig.brand).format().toString();
+			mUnableToFindItinErrorMsg.setText(errorMsg);
 			mUnableToFindItinErrorMsg.setVisibility(View.VISIBLE);
 		}
 

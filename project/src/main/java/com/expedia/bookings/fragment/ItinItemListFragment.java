@@ -341,6 +341,13 @@ public class ItinItemListFragment extends Fragment implements LoginConfirmLogout
 		startActivity(intent);
 	}
 
+	public synchronized void startAddRegisteredUserItinActivity() {
+		Intent intent = new Intent(getActivity(), ItineraryGuestAddActivity.class);
+		intent.setAction(ItineraryGuestAddActivity.ERROR_FETCHING_REGISTERED_USER_ITINERARY);
+		OmnitureTracking.trackFindItin();
+		startActivity(intent);
+	}
+
 	public synchronized void startLoginActivity() {
 		Bundle args = AccountLibActivity.createArgumentsBundle(LineOfBusiness.ITIN, new ItineraryLoaderLoginExtender());
 		User.signIn(getActivity(), args);
@@ -527,6 +534,11 @@ public class ItinItemListFragment extends Fragment implements LoginConfirmLogout
 	public void onTripFailedFetchingGuestItinerary() {
 		boolean isFetchGuestItinFailure = true;
 		startAddGuestItinActivity(isFetchGuestItinFailure);
+	}
+
+	@Override
+	public void onTripFailedFetchingRegisteredUserItinerary() {
+		startAddRegisteredUserItinActivity();
 	}
 
 	@Override
