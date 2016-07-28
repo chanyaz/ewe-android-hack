@@ -4420,6 +4420,10 @@
     <!--LX search dates content description for Talkback to indicate what the activity search date is for Eg. Activity dates. Button. Opens dialog. Jun 22 -->
     <string name="lx_search_date_range_cont_desc_TEMPLATE">Activity dates. Button. Opens dialog. {date_range}</string>
 
+    <!-- Content description for action: Press to go to cost summary for your Activity selection -->
+    <string name="lx_selection_cost_summary_cont_desc_TEMPLATE">{trip_total}. Press to see cost summary for your activity selection</string>
+    <string name="lx_free_cancellation_cont_desc">Free cancellation. Press to see legal information.</string>
+
     <!-- Generic content description -->
     <!-- Content description for toolbar 'X' i.e. close/back button -->
     <string name="toolbar_nav_icon_cont_desc">Back</string>
