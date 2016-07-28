@@ -8,15 +8,19 @@ import android.support.test.espresso.matcher.ViewMatchers;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.test.espresso.TabletViewActions;
+import com.expedia.bookings.test.phone.pagemodels.common.SearchScreen;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.action.ViewActions.scrollTo;
+import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.hasSibling;
 import static android.support.test.espresso.matcher.ViewMatchers.isDescendantOfA;
+import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withEffectiveVisibility;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
+import static com.expedia.bookings.test.espresso.ViewActions.waitForViewToDisplay;
 import static org.hamcrest.CoreMatchers.allOf;
 
 public class RailScreen {
@@ -96,5 +100,17 @@ public class RailScreen {
 
 	public static ViewInteraction fareDesciptionInfo() {
 		return onView(withId(R.id.fare_description_container));
+	}
+
+	public static void navigateToDetails() {
+		RailScreen.calendarButton().perform(click());
+		LocalDate firstStartDate = LocalDate.now().plusDays(10);
+		RailScreen.selectDates(firstStartDate, firstStartDate.plusDays(2));
+		RailScreen.dialogDoneButton().perform(click());
+
+		SearchScreen.searchButton().perform(click());
+
+		onView(withText("12:15 PM – 3:39 PM")).perform(waitForViewToDisplay()).check(matches(isDisplayed())).perform(click());
+		onView(withText("Walk from London Euston to London Paddington")).check(matches(isDisplayed()));
 	}
 }
