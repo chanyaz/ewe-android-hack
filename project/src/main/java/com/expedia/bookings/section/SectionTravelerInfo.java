@@ -1330,7 +1330,15 @@ public class SectionTravelerInfo extends LinearLayout implements ISection<Travel
 		Validator<Spinner> mValidator = new Validator<Spinner>() {
 			@Override
 			public int validate(Spinner obj) {
-				return ValidationError.NO_ERROR;
+				GenderSpinnerAdapter adapter = (GenderSpinnerAdapter) obj.getAdapter();
+				if (obj.getSelectedItemPosition() == 0) {
+					adapter.setErrorVisible(true);
+					return ValidationError.ERROR_DATA_MISSING;
+				}
+				else {
+					adapter.setErrorVisible(false);
+					return ValidationError.NO_ERROR;
+				}
 			}
 		};
 
