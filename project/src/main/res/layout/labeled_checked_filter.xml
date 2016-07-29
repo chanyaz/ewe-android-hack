@@ -2,7 +2,7 @@
 <com.expedia.bookings.widget.LabeledCheckableFilter android:id="@+id/filter_categories_widget"
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="@dimen/airlines_filter_height"
     android:background="?android:attr/selectableItemBackground"
     android:clickable="true"
     android:focusable="true"
