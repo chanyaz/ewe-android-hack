@@ -1104,8 +1104,6 @@
     <string name="shop">搜尋預訂</string>
     <!-- Find Itinerary -->
     <string name="find_itinerary">尋找行程</string>
-    <!-- Unable to find itinerary -->
-    <string name="unable_to_find_itinerary">找不到行程。請確定「設定」內的「國家/地區」與預訂時使用的網站地址相符。</string>
     <!-- Find Guest Itinerary -->
     <string name="find_guest_itinerary">尋找旅客行程</string>
     <!-- Enter Itinerary Details -->

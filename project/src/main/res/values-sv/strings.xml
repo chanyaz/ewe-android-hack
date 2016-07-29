@@ -1104,8 +1104,6 @@
     <string name="shop">Shoppa</string>
     <!-- Find Itinerary -->
     <string name="find_itinerary">Hitta resplan</string>
-    <!-- Unable to find itinerary -->
-    <string name="unable_to_find_itinerary">Resplanen kunde inte hittas. Bekräfta att ditt land (i inställningar) matchar webbadressen i din bokning.</string>
     <!-- Find Guest Itinerary -->
     <string name="find_guest_itinerary">Hitta gästresplan</string>
     <!-- Enter Itinerary Details -->

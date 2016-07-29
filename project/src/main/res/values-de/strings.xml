@@ -1104,8 +1104,6 @@
     <string name="shop">Buchen</string>
     <!-- Find Itinerary -->
     <string name="find_itinerary">Reiseplan suchen</string>
-    <!-- Unable to find itinerary -->
-    <string name="unable_to_find_itinerary">Wir können diesen Reiseplan nicht finden. Bitte bestätigen Sie in den Einstellungen, dass das ausgewählte Land mit dem der Website übereinstimmt, über die Sie gebucht haben.</string>
     <!-- Find Guest Itinerary -->
     <string name="find_guest_itinerary">Gast-Reiseplan suchen</string>
     <!-- Enter Itinerary Details -->

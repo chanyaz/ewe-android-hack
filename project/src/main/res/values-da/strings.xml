@@ -1104,8 +1104,6 @@
     <string name="shop">Søg</string>
     <!-- Find Itinerary -->
     <string name="find_itinerary">Find rejseplan</string>
-    <!-- Unable to find itinerary -->
-    <string name="unable_to_find_itinerary">Rejseplanen blev ikke fundet. Bekræft venligst, at dit land (i indstillingerne) matcher hjemmesideadressen for din reservation.</string>
     <!-- Find Guest Itinerary -->
     <string name="find_guest_itinerary">Find gæsterejseplan</string>
     <!-- Enter Itinerary Details -->

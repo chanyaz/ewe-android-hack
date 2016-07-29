@@ -1104,8 +1104,6 @@
     <string name="shop">Søk</string>
     <!-- Find Itinerary -->
     <string name="find_itinerary">Finn reiserute</string>
-    <!-- Unable to find itinerary -->
-    <string name="unable_to_find_itinerary">Fant ikke reiseruten. Bekreft at landet (i innstillingene på mobilen) matcher nettstedet du utførte bestillingen på.</string>
     <!-- Find Guest Itinerary -->
     <string name="find_guest_itinerary">Finn reiserute for gjest</string>
     <!-- Enter Itinerary Details -->

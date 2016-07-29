@@ -1104,8 +1104,6 @@
     <string name="shop">Accueil</string>
     <!-- Find Itinerary -->
     <string name="find_itinerary">Trouver un voyage</string>
-    <!-- Unable to find itinerary -->
-    <string name="unable_to_find_itinerary">Impossible de trouver le voyage. Veuillez vous assurer que votre pays (dans Paramètres) corresponde à l\&apos;adresse du site où vous avez effectué la réservation.</string>
     <!-- Find Guest Itinerary -->
     <string name="find_guest_itinerary">Trouver un voyage effectué en tant qu\&apos;invité</string>
     <!-- Enter Itinerary Details -->

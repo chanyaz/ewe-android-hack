@@ -1104,8 +1104,6 @@
     <string name="shop">Đặt</string>
     <!-- Find Itinerary -->
     <string name="find_itinerary">Tìm lịch trình</string>
-    <!-- Unable to find itinerary -->
-    <string name="unable_to_find_itinerary">Không tìm được lịch trìng. Vui lòng kiểm tra Quốc gia (trong phần Cài đặt) trùng với trang web quốc gia quý vị đã đặt sản phẩm.</string>
     <!-- Find Guest Itinerary -->
     <string name="find_guest_itinerary">Tìm lịch trình của khách</string>
     <!-- Enter Itinerary Details -->

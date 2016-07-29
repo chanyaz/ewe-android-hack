@@ -1104,8 +1104,6 @@
     <string name="shop">Comprar</string>
     <!-- Find Itinerary -->
     <string name="find_itinerary">Encontrar itinerario</string>
-    <!-- Unable to find itinerary -->
-    <string name="unable_to_find_itinerary">No se ha podido encontrar el itinerario. Comprueba que el país seleccionado en los ajustes del teléfono coincide con el del sitio web desde el que se realizó la reserva.</string>
     <!-- Find Guest Itinerary -->
     <string name="find_guest_itinerary">Encontrar itinerario con cuenta de invitado</string>
     <!-- Enter Itinerary Details -->

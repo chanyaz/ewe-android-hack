@@ -1104,8 +1104,6 @@
     <string name="shop">예약</string>
     <!-- Find Itinerary -->
     <string name="find_itinerary">일정 찾기</string>
-    <!-- Unable to find itinerary -->
-    <string name="unable_to_find_itinerary">일정을 찾을 수 없습니다. 앱의 국가 설정이 고객님이 예약하신 웹사이트 주소와 동일한지 확인해 주세요.</string>
     <!-- Find Guest Itinerary -->
     <string name="find_guest_itinerary">비회원 일정 찾기</string>
     <!-- Enter Itinerary Details -->

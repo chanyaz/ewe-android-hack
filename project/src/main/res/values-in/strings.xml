@@ -1104,8 +1104,6 @@
     <string name="shop">Pemesanan</string>
     <!-- Find Itinerary -->
     <string name="find_itinerary">Cari Itinerary</string>
-    <!-- Unable to find itinerary -->
-    <string name="unable_to_find_itinerary">Tidak dapat menemukan itinerary. Harap konfirmasikan pengaturan Negara sama dengan situs negara saat Anda memesan.</string>
     <!-- Find Guest Itinerary -->
     <string name="find_guest_itinerary">Cari Itinerary Tanpa Login</string>
     <!-- Enter Itinerary Details -->
