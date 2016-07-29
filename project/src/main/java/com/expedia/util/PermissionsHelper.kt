@@ -8,6 +8,7 @@ import android.support.v4.app.ActivityCompat
 import android.support.v4.app.Fragment
 import android.support.v4.content.ContextCompat
 import com.expedia.bookings.utils.Constants
+import com.expedia.bookings.widget.PaymentWidgetV2
 
 fun requestLocationPermission(activity: Activity) {
     var requestCode = if (activity.shouldShowRequestPermissionRationale(Manifest.permission.ACCESS_FINE_LOCATION)) {
@@ -33,4 +34,13 @@ fun havePermissionToAccessLocation(context: Context): Boolean {
 private fun isPermissionEnabled(permission: String, context: Context): Boolean {
     val permissionCheckResult = ContextCompat.checkSelfPermission(context, permission)
     return permissionCheckResult == PackageManager.PERMISSION_GRANTED
+}
+
+fun requestCameraPermission(activity: Activity) {
+    ActivityCompat.requestPermissions(activity, arrayOf(Manifest.permission.CAMERA),
+            PaymentWidgetV2.REQUEST_CAMERA)
+}
+
+fun havePermissionToAccessCamera(context: Context): Boolean {
+    return isPermissionEnabled(Manifest.permission.CAMERA, context)
 }

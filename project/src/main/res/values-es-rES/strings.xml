@@ -123,8 +123,6 @@
 
     <!-- Label for hotel search toolbar -->
     <string name="hotel_search_toolbar_title">Hoteles</string>
-    <!-- Label for recent searches -->
-    <string name="recent_searches">Búsquedas recientes</string>
     <!-- Label for pickup location selector -->
     <string name="pick_up_location">Ubicación de recogida</string>
     <!-- Label for car dropoff selector, indicates it cannot be different from pickup location -->
