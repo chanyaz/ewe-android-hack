@@ -128,4 +128,26 @@ class TotalPriceWidget(context: Context, attrs: AttributeSet?) : LinearLayout(co
         bundleChevron.pivotY = bundleChevron.height / 2f
         bundleChevron.rotation = if (forward) f * 180 else (1 - f) * 180
     }
+
+    fun disable() {
+        bundleChevron.alpha = .5f
+        bundleTotalPrice.alpha = .5f
+        bundleTotalIncludes.alpha = .5f
+        bundleSavings.alpha = .5f
+        bundleTotalText.alpha = .5f
+        perPersonText.alpha = .5f
+        bundleTitle.alpha = .5f
+        bundleSubtitle.alpha = .5f
+    }
+
+    fun enable() {
+        bundleChevron.alpha = 1f
+        bundleTotalPrice.alpha = 1f
+        bundleTotalIncludes.alpha = 1f
+        bundleSavings.alpha = 1f
+        bundleTotalText.alpha = 1f
+        perPersonText.alpha = 1f
+        bundleTitle.alpha = 1f
+        bundleSubtitle.alpha = 1f
+    }
 }

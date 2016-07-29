@@ -20,8 +20,8 @@ import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.packages.PackageOfferModel
 import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.presenter.packages.BundleWidget
-import com.expedia.bookings.utils.Constants
 import com.expedia.bookings.tracking.PackagesTracking
+import com.expedia.bookings.utils.Constants
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
 import com.expedia.util.subscribeText

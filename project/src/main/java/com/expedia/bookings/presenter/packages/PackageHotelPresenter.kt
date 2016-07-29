@@ -216,6 +216,7 @@ class PackageHotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
     private fun getDetails(piid: String, hotelId: String, checkIn: String, checkOut: String, ratePlanCode: String?, roomTypeCode: String?, numberOfAdultTravelers: Int, childTravelerAge: Int?) {
         loadingOverlay.visibility = View.VISIBLE
         loadingOverlay.animate(true)
+        bundleSlidingWidget.bundlePriceWidget.disable()
         bundleSlidingWidget.bundlePriceWidget.setOnTouchListener(null)
         bundleSlidingWidget.bundlePriceWidget.setOnClickListener(null)
         detailPresenter.hotelDetailView.viewmodel.paramsSubject.onNext(convertPackageToSearchParams(Db.getPackageParams(), resources.getInteger(R.integer.calendar_max_days_hotel_stay), resources.getInteger(R.integer.calendar_max_selectable_date_range)))
@@ -269,6 +270,7 @@ class PackageHotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
                 back()
                 loadingOverlay.visibility = View.GONE
                 val slidingBundleWidgetListener = SlidingBundleWidgetListener(bundleSlidingWidget, this@PackageHotelPresenter)
+                bundleSlidingWidget.bundlePriceWidget.enable()
                 bundleSlidingWidget.bundlePriceWidget.setOnTouchListener(slidingBundleWidgetListener.onTouchListener)
                 bundleSlidingWidget.bundlePriceWidget.setOnClickListener {
                     show(bundleSlidingWidget)
@@ -321,6 +323,7 @@ class PackageHotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
             resultsPresenter.animationFinalize(!forward)
             detailPresenter.animationFinalize()
             loadingOverlay.visibility = View.GONE
+            bundleSlidingWidget.bundlePriceWidget.enable()
             val slidingBundleWidgetListener = SlidingBundleWidgetListener(bundleSlidingWidget, this@PackageHotelPresenter)
             bundleSlidingWidget.bundlePriceWidget.setOnTouchListener(slidingBundleWidgetListener.onTouchListener)
             bundleSlidingWidget.bundlePriceWidget.setOnClickListener {
@@ -391,6 +394,7 @@ class PackageHotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
             detailPresenter.visibility = View.VISIBLE
             detailPresenter.translationY = 0f
             bundleSlidingWidget.visibility = View.VISIBLE
+            bundleSlidingWidget.bundlePriceWidget.enable()
             val slidingBundleWidgetListener = SlidingBundleWidgetListener(bundleSlidingWidget, this@PackageHotelPresenter)
             bundleSlidingWidget.bundlePriceWidget.setOnTouchListener(slidingBundleWidgetListener.onTouchListener)
             bundleSlidingWidget.bundlePriceWidget.setOnClickListener {
