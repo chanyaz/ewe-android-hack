@@ -35,6 +35,7 @@ import com.expedia.bookings.section.SectionLocation
 import com.expedia.bookings.tracking.FlightsV2Tracking
 import com.expedia.bookings.tracking.HotelV2Tracking
 import com.expedia.bookings.tracking.OmnitureTracking
+import com.expedia.bookings.tracking.PackagesTracking
 import com.expedia.bookings.utils.ArrowXDrawableUtil
 import com.expedia.bookings.utils.BookingInfoUtils
 import com.expedia.bookings.utils.FontCache
@@ -623,20 +624,29 @@ open class PaymentWidget(context: Context, attr: AttributeSet) : Presenter(conte
      * Don't make this class abstract, since this is a persenter and could have it's own view .xml implementation
      */
     open fun trackShowPaymentOptions() {
-        // Let inheriting class call their respective tracking.
+        if (viewmodel.lineOfBusiness.value == LineOfBusiness.FLIGHTS_V2) {
+            FlightsV2Tracking.trackCheckoutSelectPaymentClick()
+        } else if (viewmodel.lineOfBusiness.value == LineOfBusiness.PACKAGES) {
+            PackagesTracking().trackCheckoutSelectPaymentClick()
+        }
     }
 
     open fun trackShowPaymentEdit() {
         // Let inheriting class call their respective tracking.
-        if(viewmodel.lineOfBusiness.value == LineOfBusiness.FLIGHTS_V2) {
+        if (viewmodel.lineOfBusiness.value == LineOfBusiness.FLIGHTS_V2) {
             FlightsV2Tracking.trackShowPaymentEdit()
+        } else if (viewmodel.lineOfBusiness.value == LineOfBusiness.PACKAGES) {
+            PackagesTracking().trackCheckoutAddPaymentType()
         }
     }
 
     open fun trackPaymentStoredCCSelect() {
         // Let inheriting class call their respective tracking.
-        if(viewmodel.lineOfBusiness.value == LineOfBusiness.FLIGHTS_V2) {
+        if (viewmodel.lineOfBusiness.value == LineOfBusiness.FLIGHTS_V2) {
             FlightsV2Tracking.trackPaymentStoredCCSelect()
+        } else if (viewmodel.lineOfBusiness.value == LineOfBusiness.PACKAGES) {
+            PackagesTracking().trackCheckoutPaymentSelectStoredCard()
         }
     }
+
 }

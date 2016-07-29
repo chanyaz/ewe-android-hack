@@ -70,6 +70,10 @@ object FlightsV2Tracking {
         OmnitureTracking.trackOverviewFlightExpandClick()
     }
 
+    fun trackFlightCostBreakdownClick() {
+        OmnitureTracking.trackFlightCostBreakdownClick()
+    }
+
     fun trackCheckoutInfoPageLoad() {
         OmnitureTracking.trackFlightCheckoutInfoPageLoad()
     }
@@ -113,6 +117,10 @@ object FlightsV2Tracking {
 
     fun trackShowPaymentEdit() {
         OmnitureTracking.trackShowPaymentEdit()
+    }
+
+    fun trackCheckoutSelectPaymentClick() {
+        OmnitureTracking.trackPaymentSelect()
     }
 
     fun trackSlideToPurchase(cardType: PaymentType) {
