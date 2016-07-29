@@ -140,4 +140,9 @@ class TravelerPresenter(context: Context, attrs: AttributeSet) : Presenter(conte
             show(travelerEntryWidget, FLAG_CLEAR_BACKSTACK)
         }
     }
+
+    override fun back(): Boolean {
+        menuVisibility.onNext(false)
+        return super.back()
+    }
 }

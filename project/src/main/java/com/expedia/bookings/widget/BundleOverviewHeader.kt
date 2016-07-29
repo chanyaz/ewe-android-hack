@@ -43,6 +43,7 @@ class BundleOverviewHeader(context : Context, attrs : AttributeSet) : Coordinato
         toolbar.setNavigationOnClickListener {
             val activity = context as AppCompatActivity
             activity.onBackPressed()
+            toolbar.viewModel.menuVisibility.onNext(false)
         }
     }
 
