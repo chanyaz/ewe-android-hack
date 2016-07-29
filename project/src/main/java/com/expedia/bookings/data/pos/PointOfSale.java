@@ -37,6 +37,7 @@ import com.expedia.bookings.data.User;
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.server.CrossContextHelper;
 import com.expedia.bookings.server.EndPoint;
+import com.expedia.bookings.utils.StrUtils;
 import com.expedia.bookings.utils.Strings;
 import com.expedia.bookings.utils.Ui;
 import com.mobiata.android.Log;
@@ -846,8 +847,14 @@ public class PointOfSale {
 			text.setSpan(new StyleSpan(Typeface.BOLD), start, end, 0);
 			text.setSpan(new UnderlineSpan(), start, end, 0);
 		}
-
 		return text;
+	}
+
+	public CharSequence getColorizedFlightBookingStatement(int color) {
+		if (!TextUtils.isEmpty(getPosLocale().getFlightBookingStatement())) {
+			return StrUtils.getSpannableTextByColor(getPosLocale().getFlightBookingStatement(), color, false);
+		}
+		return "FAIL FAIL FAIL LOC NEEDED: flightBookingStatement";
 	}
 
 	public int getDualLanguageId() {
