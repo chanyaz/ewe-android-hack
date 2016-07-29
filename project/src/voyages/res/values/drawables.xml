@@ -8,4 +8,5 @@
     <item name="checkout_logout_logo" type="drawable">@drawable/ic_log_out_vsc</item>
     <item name="tablet_checkout_login_logo" type="drawable">@drawable/ic_log_out_vsc</item>
     <item name="flights_cost_summary_dialog_stripe" type="drawable">@drawable/rainbow_bar</item>
+    <item name="flight_cko_acct_btn_rewards_bg" type="drawable">@android:color/white</item>
 </resources>
