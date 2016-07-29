@@ -84,6 +84,7 @@ class PackageActivity : AbstractAppCompatActivity() {
                             packageCreateTrip()
                         }
                         packagePresenter.bundlePresenter.bundleWidget.bundleHotelWidget.viewModel.selectedHotelObservable.onNext(Unit)
+                        packagePresenter.bundlePresenter.bundleWidget.viewModel.showBundleTotalObservable.onNext(true)
                     }
                 }
             }
@@ -101,6 +102,7 @@ class PackageActivity : AbstractAppCompatActivity() {
                     if (Db.getPackageParams().isChangePackageSearch()) {
                         changedOutboundFlight = true
                     }
+                    packagePresenter.bundlePresenter.bundleWidget.viewModel.showBundleTotalObservable.onNext(true)
                 }
             }
 
@@ -122,6 +124,7 @@ class PackageActivity : AbstractAppCompatActivity() {
                     packagePresenter.bundlePresenter.bundleWidget.inboundFlightWidget.viewModel.selectedFlightObservable.onNext(PackageSearchType.INBOUND_FLIGHT)
                     packagePresenter.bundlePresenter.bundleWidget.inboundFlightWidget.viewModel.flight.onNext(Db.getPackageSelectedInboundFlight())
                     packageCreateTrip()
+                    packagePresenter.bundlePresenter.bundleWidget.viewModel.showBundleTotalObservable.onNext(true)
                 }
             }
         }
