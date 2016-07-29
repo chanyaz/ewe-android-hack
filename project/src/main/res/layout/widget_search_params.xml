@@ -126,7 +126,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="?attr/skin_searchButtonSelectorDrawable"
-            android:contentDescription="@string/search_button_disable_content_desc"
             android:enabled="true"
             android:minHeight="@dimen/recent_search_item_height"
             android:text="@string/search"

@@ -17,6 +17,7 @@ import com.expedia.util.notNullAndObservable
 import com.expedia.util.subscribeOnClick
 import com.expedia.vm.BaseSearchViewModel
 import com.expedia.bookings.lob.lx.ui.viewmodel.LXSearchViewModel
+import com.expedia.bookings.utils.AccessibilityUtil
 import com.expedia.vm.LXSuggestionAdapterViewModel
 import com.expedia.vm.SuggestionAdapterViewModel
 import com.squareup.phrase.Phrase
@@ -27,12 +28,8 @@ class LXSearchPresenter(context: Context, attrs: AttributeSet) : BaseSearchPrese
         calendarWidgetV2.viewModel = vm
         vm.searchButtonObservable.subscribe { enable ->
             searchButton.setTextColor(if (enable) ContextCompat.getColor(context, R.color.hotel_filter_spinner_dropdown_color) else ContextCompat.getColor(context, R.color.white_disabled))
-            if (enable) {
-                searchButton.contentDescription = Phrase.from(context, R.string.search)
-                        .format().toString()
-            } else {
-                searchButton.contentDescription = Phrase.from(context, R.string.search_button_disable_content_desc)
-                        .format().toString()
+            if (AccessibilityUtil.isTalkBackEnabled(context)) {
+                searchButton.isEnabled = enable
             }
         }
 
@@ -90,6 +87,9 @@ class LXSearchPresenter(context: Context, attrs: AttributeSet) : BaseSearchPrese
         val service = Ui.getApplication(context).lxComponent().suggestionsService()
         suggestionViewModel = LXSuggestionAdapterViewModel(context, service, CurrentLocationObservable.create(context), true, false)
         searchLocationEditText?.queryHint = context.resources.getString(R.string.location_activity_details)
+        if (AccessibilityUtil.isTalkBackEnabled(context)) {
+            searchButton.isEnabled = false
+        }
     }
 
     override fun getSearchViewModel(): BaseSearchViewModel {
