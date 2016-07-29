@@ -288,7 +288,6 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet) : Pre
             super.endTransition(forward)
             if (!forward) {
                 Ui.hideKeyboard(travelerPresenter)
-                toolbarDropShadow.visibility = View.GONE
                 animateInSlideToPurchase(true)
                 travelerPresenter.setFocusForView()
                 travelerDefaultState.setFocusForView()
@@ -312,7 +311,6 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet) : Pre
                 paymentWidget.show(PaymentWidget.PaymentDefault(), Presenter.FLAG_CLEAR_BACKSTACK)
                 paymentWidgetRootView.viewTreeObserver.removeOnGlobalLayoutListener(globalLayoutListener)
                 scrollView.layoutParams.height = height
-                toolbarDropShadow.visibility = View.GONE
                 paymentWidget.viewmodel.showingPaymentForm.onNext(false)
             } else {
                 paymentWidgetRootView.viewTreeObserver.addOnGlobalLayoutListener(globalLayoutListener)
@@ -348,6 +346,7 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet) : Pre
         animator.addListener(object : AnimatorListenerAdapter() {
             override fun onAnimationEnd(animation: Animator?) {
                 checkoutTranslationObserver.onNext(mainContent.translationY)
+                toolbarDropShadow.visibility = View.VISIBLE
             }
         })
         animator.start()
@@ -449,7 +448,7 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet) : Pre
                 (MotionEvent.ACTION_DOWN) -> {
                     isClicked = true
                     originY = event.rawY
-                    toolbarDropShadow.visibility = View.VISIBLE
+                    toolbarDropShadow.visibility = View.GONE
                 }
                 (MotionEvent.ACTION_UP) -> {
                     if (isClicked) {
@@ -465,7 +464,6 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet) : Pre
                             animCheckoutToTop()
                         }
                         originY = 0f
-                        toolbarDropShadow.visibility = View.GONE
                     }
                 }
                 (MotionEvent.ACTION_MOVE) -> {

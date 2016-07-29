@@ -120,6 +120,7 @@ abstract class BaseOverviewPresenter(context: Context, attrs: AttributeSet) : Pr
         var range = 0f
         var userStoppedScrollingAt = 0
         override fun startTransition(forward: Boolean) {
+            if (!forward) checkoutPresenter.toolbarDropShadow.visibility = View.GONE
             bundleOverviewHeader.nestedScrollView.visibility = VISIBLE
             toggleToolbar(forward)
             bundleOverviewHeader.checkoutOverviewHeaderToolbar.visibility = View.VISIBLE
@@ -154,7 +155,7 @@ abstract class BaseOverviewPresenter(context: Context, attrs: AttributeSet) : Pr
 
             checkoutPresenter.mainContent.visibility = if (forward) View.VISIBLE else View.GONE
             checkoutPresenter.mainContent.translationY = 0f
-            checkoutPresenter.toolbarDropShadow.visibility = View.GONE
+            if (forward) checkoutPresenter.toolbarDropShadow.visibility = View.VISIBLE
             bundleOverviewHeader.isDisabled = forward
             bundleOverviewHeader.nestedScrollView.foreground.alpha = if (forward) 255 else 0
             checkoutPresenter.chevron.rotation = if (forward) 0f else 180f
