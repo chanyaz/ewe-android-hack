@@ -22,15 +22,12 @@ import com.expedia.bookings.activity.FlightRulesActivity
 import com.expedia.bookings.activity.HotelRulesActivity
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.LineOfBusiness
-import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.User
 import com.expedia.bookings.data.abacus.AbacusUtils
-import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.presenter.ScaleTransition
 import com.expedia.bookings.presenter.packages.TravelerPresenter
 import com.expedia.bookings.services.InsuranceServices
-import com.expedia.bookings.utils.CurrencyUtils
 import com.expedia.bookings.utils.TravelerManager
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.UserAccountRefresher
@@ -53,7 +50,6 @@ import com.expedia.vm.traveler.CheckoutTravelerViewModel
 import com.expedia.vm.traveler.TravelerSummaryViewModel
 import com.mobiata.android.Log
 import rx.subjects.PublishSubject
-import java.math.BigDecimal
 import kotlin.properties.Delegates
 
 abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet) : Presenter(context, attr), SlideToWidgetLL.ISlideToListener,
@@ -353,8 +349,12 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet) : Pre
     }
 
     //Abstract methods
-    override fun onSlideStart() { }
-    override fun onSlideProgress(pixels: Float, total: Float) { }
+    override fun onSlideStart() {
+    }
+
+    override fun onSlideProgress(pixels: Float, total: Float) {
+    }
+
     override fun onSlideAllTheWay() {
         if (ckoViewModel.builder.hasValidParams()) {
             ckoViewModel.checkoutParams.onNext(ckoViewModel.builder.build())
@@ -362,7 +362,10 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet) : Pre
             slideAllTheWayObservable.onNext(Unit)
         }
     }
-    override fun onSlideAbort() { slideToPurchase.resetSlider() }
+
+    override fun onSlideAbort() {
+        slideToPurchase.resetSlider()
+    }
 
     override fun onUserAccountRefreshed() {
         doCreateTrip()
@@ -487,11 +490,8 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet) : Pre
     }
 
     fun resetAndShowTotalPriceWidget() {
-        val countryCode = PointOfSale.getPointOfSale().threeLetterCountryCode
-        val currencyCode = CurrencyUtils.currencyForLocale(countryCode)
-        totalPriceWidget.visibility = View.VISIBLE
-        totalPriceWidget.viewModel.total.onNext(Money(BigDecimal("0.00"), currencyCode))
-        totalPriceWidget.viewModel.savings.onNext(Money(BigDecimal("0.00"), currencyCode))
+        priceChangeWidget.viewmodel.priceChangeVisibility.onNext(false)
+        totalPriceWidget.resetPriceWidget()
     }
 
     fun openTravelerPresenter() {
@@ -499,10 +499,11 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet) : Pre
         travelerPresenter.showSelectOrEntryState(travelerDefaultState.getStatus())
     }
 
-    abstract fun getLineOfBusiness() : LineOfBusiness
+    abstract fun getLineOfBusiness(): LineOfBusiness
     open fun updateTravelerPresenter() {
         travelerPresenter.viewModel.refresh()
     }
+
     abstract fun updateDbTravelers()
     abstract fun trackShowSlideToPurchase()
     abstract fun trackShowBundleOverview()
