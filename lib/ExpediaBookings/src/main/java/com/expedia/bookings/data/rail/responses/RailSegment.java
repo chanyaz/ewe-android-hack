@@ -4,6 +4,9 @@ import org.jetbrains.annotations.NotNull;
 import org.joda.time.DateTime;
 
 public abstract class RailSegment {
+	
+	public static final String TRANSFER = "Transfer";
+
 	public String travelMode;
 	public RailStation departureStation;
 	public RailStation arrivalStation;
@@ -17,7 +20,7 @@ public abstract class RailSegment {
 	public abstract int durationMinutes();
 
 	public boolean isTransfer() {
-		return !"Train".equals(travelMode);
+		return TRANSFER.equals(travelMode);
 	}
 
 	public static class RailTravelMedium {

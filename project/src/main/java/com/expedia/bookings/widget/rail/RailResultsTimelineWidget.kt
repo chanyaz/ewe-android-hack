@@ -51,7 +51,7 @@ class RailResultsTimelineWidget(context: Context, attrs: AttributeSet?) : View(c
                 iconRect.left = iconRect.right + horizontalSpacing
             }
             var travelMode = it.travelMode
-            val relevantDrawable = ContextCompat.getDrawable(context, RailResultsTimelineHelper.findMappedDrawable(travelMode))
+            val relevantDrawable = ContextCompat.getDrawable(context, RailTransferMode.findMappedDrawable(travelMode))
             iconRect.top = 0;
             iconRect.bottom = measuredHeight
             iconRect.right = iconRect.left + ((relevantDrawable.intrinsicWidth.toFloat() / relevantDrawable.intrinsicHeight.toFloat()) * drawableHeight.toFloat()).toInt()
