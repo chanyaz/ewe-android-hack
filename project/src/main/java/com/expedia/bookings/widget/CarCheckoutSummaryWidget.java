@@ -20,6 +20,7 @@ import com.expedia.bookings.data.abacus.AbacusUtils;
 import com.expedia.bookings.data.cars.CreateTripCarOffer;
 import com.expedia.bookings.data.cars.RateBreakdownItem;
 import com.expedia.bookings.data.pos.PointOfSale;
+import com.expedia.bookings.utils.AccessibilityUtil;
 import com.expedia.bookings.utils.CarDataUtils;
 import com.expedia.bookings.utils.CheckoutSummaryWidgetUtils;
 import com.expedia.bookings.utils.CurrencyUtils;
@@ -244,6 +245,7 @@ public class CarCheckoutSummaryWidget extends RelativeLayout {
 				@Override
 				public void onClick(DialogInterface dialog, int which) {
 					dialog.dismiss();
+					AccessibilityUtil.delayedFocusToView(tripTotalText, 100);
 				}
 			});
 		builder.create().show();
