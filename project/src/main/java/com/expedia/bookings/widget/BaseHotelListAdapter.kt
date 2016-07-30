@@ -44,6 +44,8 @@ abstract class BaseHotelListAdapter(val hotelSelectedSubject: PublishSubject<Hot
         hotelListItemsMetadata.firstOrNull { it.hotelId == soldOutHotelId }?.hotelSoldOut?.onNext(true)
     }
 
+    val heartClickedSubject = PublishSubject.create<String>()
+
     private data class HotelListItemMetadata(val hotelId: String, val hotelSoldOut: BehaviorSubject<Boolean>)
 
     private val hotelListItemsMetadata: MutableList<HotelListItemMetadata> = ArrayList()
@@ -121,6 +123,10 @@ abstract class BaseHotelListAdapter(val hotelSelectedSubject: PublishSubject<Hot
         }
     }
 
+    private fun heartSelected() {
+        notifyDataSetChanged()
+    }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder? {
         if (viewType == MAP_SWITCH_CLICK_INTERCEPTOR_TRANSPARENT_HEADER_VIEW) {
             val header = View(parent.context)
@@ -143,6 +149,7 @@ abstract class BaseHotelListAdapter(val hotelSelectedSubject: PublishSubject<Hot
             holder.hotelClickedSubject.subscribe { position ->
                 hotelSelected(holder.itemView.context, position)
             }
+
             return holder
         }
     }

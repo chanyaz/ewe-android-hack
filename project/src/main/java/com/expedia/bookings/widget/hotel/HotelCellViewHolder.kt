@@ -18,15 +18,19 @@ import android.widget.LinearLayout
 import com.expedia.bookings.R
 import com.expedia.bookings.bitmaps.PicassoHelper
 import com.expedia.bookings.bitmaps.PicassoTarget
+import com.expedia.bookings.data.HotelFavoriteHelper
 import com.expedia.bookings.data.HotelMedia
+import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.extension.shouldShowCircleForRatings
 import com.expedia.bookings.tracking.AdImpressionTracking
 import com.expedia.bookings.utils.ColorBuilder
+import com.expedia.bookings.utils.FeatureToggleUtil
 import com.expedia.bookings.utils.LayoutUtils
 import com.expedia.bookings.utils.bindView
-import com.expedia.vm.hotel.HotelViewModel
+import com.expedia.bookings.widget.FavoriteButton
 import com.expedia.bookings.widget.StarRatingBar
 import com.expedia.bookings.widget.TextView
+import com.expedia.util.ToggleFeatureConfiguration
 import com.expedia.util.getABTestGuestRatingBackground
 import com.expedia.util.getABTestGuestRatingText
 import com.expedia.util.subscribeBackgroundColor
@@ -37,21 +41,23 @@ import com.expedia.util.subscribeStarRating
 import com.expedia.util.subscribeText
 import com.expedia.util.subscribeTextColor
 import com.expedia.util.subscribeVisibility
+import com.expedia.vm.hotel.HotelViewModel
 import com.larvalabs.svgandroid.widget.SVGView
 import com.squareup.picasso.Picasso
 import rx.subjects.PublishSubject
 import kotlin.properties.Delegates
 
-open class HotelCellViewHolder(root: ViewGroup, val width: Int) :
+open class HotelCellViewHolder(val root: ViewGroup, val width: Int) :
         RecyclerView.ViewHolder(root), View.OnClickListener {
 
     val PICASSO_TAG = "HOTEL_RESULTS_LIST"
-    val DEFAULT_GRADIENT_POSITIONS = floatArrayOf(0f, .25f, .3f, 1f)
+    val DEFAULT_GRADIENT_POSITIONS = floatArrayOf(0f, .3f, .6f, 1f)
 
     val resources = root.resources
 
     var hotelId: String by Delegates.notNull()
     val imageView: ImageView by root.bindView(R.id.background)
+    val heartView: FavoriteButton by root.bindView(R.id.heart_image_view)
     val gradient: View by root.bindView(R.id.foreground)
     val hotelName: TextView by root.bindView(R.id.hotel_name_text_view)
     val pricePerNight: TextView by root.bindView(R.id.price_per_night)
@@ -114,7 +120,7 @@ open class HotelCellViewHolder(root: ViewGroup, val width: Int) :
         viewModel.topAmenityVisibilityObservable.subscribeVisibility(topAmenityTitle)
         viewModel.topAmenityTitleObservable.subscribeText(topAmenityTitle)
         viewModel.urgencyIconObservable.subscribeImageDrawable(urgencyIcon)
-        viewModel.urgencyIconVisibilityObservable.subscribeVisibility(urgencyIcon)
+        viewModel.urgencyIconVisibilityObservable.subscribeVisibility (urgencyIcon)
         viewModel.urgencyMessageVisibilityObservable.subscribeVisibility(urgencyMessageContainer)
         viewModel.urgencyMessageBackgroundObservable.subscribeBackgroundColor(urgencyMessageContainer)
         viewModel.urgencyMessageBoxObservable.subscribeText(urgencyMessageBox)
@@ -145,6 +151,12 @@ open class HotelCellViewHolder(root: ViewGroup, val width: Int) :
                     .build()
                     .load(HotelMedia(url).getBestUrls(width / 2))
         }
+
+        if (HotelFavoriteHelper.showHotelFavoriteTest(root.context)) {
+            heartView.hotelId = hotelId
+            heartView.updateImageState()
+        }
+
     }
 
     override fun onClick(view: View) {
@@ -168,23 +180,32 @@ open class HotelCellViewHolder(root: ViewGroup, val width: Int) :
             val color = palette.getDarkVibrantColor(R.color.transparent_dark)
 
             val fullColorBuilder = ColorBuilder(color).darkenBy(.6f).setSaturation(if (!mIsFallbackImage) .8f else 0f);
+            val topColor = fullColorBuilder.setAlpha(80).build() // 30
+            val midColor1 = fullColorBuilder.setAlpha(15).build() // 5
+            val midColor2 = fullColorBuilder.setAlpha(25).build() // 10
+            val bottomColor = fullColorBuilder.setAlpha(125).build() // 50
+
             val startColor = fullColorBuilder.setAlpha(154).build()
             val endColor = fullColorBuilder.setAlpha(0).build()
 
             val colorArrayBottom = intArrayOf(0, 0, endColor, startColor)
-            val colorArrayFull = intArrayOf(startColor, 0, endColor, startColor)
+            val colorArrayFull = intArrayOf(topColor, midColor1, midColor2, bottomColor)
 
             val drawable = PaintDrawable()
             drawable.shape = RectShape()
 
-            if (vipMessage.visibility == View.VISIBLE) {
+            if (vipMessage.visibility == View.VISIBLE || HotelFavoriteHelper.showHotelFavoriteTest(root.context)) {
                 drawable.shaderFactory = getShader(colorArrayFull)
             } else {
-
                 drawable.shaderFactory = getShader(colorArrayBottom)
             }
 
             gradient.background = drawable
+
+            if (FeatureToggleUtil.isUserBucketedAndFeatureEnabled(root.context, AbacusUtils.EBAndroidAppHotelFavoriteTest,
+                    R.string.preference_enable_hotel_favorite, ToggleFeatureConfiguration.HOTEL_FAVORITE_FEATURE)) {
+                heartView.bringToFront()
+            }
         }
 
         override fun onBitmapFailed(errorDrawable: Drawable?) {

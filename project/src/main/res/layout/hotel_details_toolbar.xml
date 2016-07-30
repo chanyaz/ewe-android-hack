@@ -26,10 +26,16 @@
             android:layout_gravity="top"
             android:minHeight="?attr/actionBarSize">
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal" >
+
                 <LinearLayout
                     android:id="@+id/toolbar_two"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_weight="1"
                     android:layout_gravity="center_vertical"
                     android:orientation="vertical">
 
@@ -39,7 +45,7 @@
                         android:layout_height="wrap_content"
                         android:ellipsize="end"
                         android:maxLines="1"
-                        android:textColor="#FFFFFF"
+                        android:textColor="#ffffff"
                         android:textSize="18sp"
                         app:textStyle="medium"/>
 
@@ -48,7 +54,6 @@
                         android:layout_width="200dp"
                         android:layout_height="14dp"
                         android:visibility="gone"
-                        android:focusable="true"
                         app:star_color="@color/hotelsv2_detail_star_color"
                         app:star_drawable="@drawable/detail_star"
                         app:star_spacing="4dp"/>
@@ -58,12 +63,31 @@
                         android:layout_width="200dp"
                         android:layout_height="14dp"
                         android:visibility="gone"
-                        android:focusable="true"
                         app:star_color="@color/hotelsv2_detail_star_color"
                         app:star_drawable="@drawable/circle_details"
                         app:star_spacing="4dp"/>
 
                 </LinearLayout>
+
+                <FrameLayout
+                    android:id="@+id/hotel_detail_toolbar_heart_container"
+                    android:layout_height="?attr/actionBarSize"
+                    android:layout_width="wrap_content"
+                    android:layout_marginLeft="-18dp"
+                    android:layout_marginRight="-12dp">
+
+                    <LinearLayout
+                        android:id="@+id/hotel_detail_toolbar_heart_mock_button"
+                        android:orientation="vertical"
+                        android:layout_height="30dp"
+                        android:layout_width="30dp" />
+
+                    <include layout="@layout/widget_hotel_heart_button" />
+
+                </FrameLayout>
+
+            </LinearLayout>
+
 
         </android.support.v7.widget.Toolbar>
 

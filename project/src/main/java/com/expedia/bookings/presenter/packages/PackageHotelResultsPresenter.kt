@@ -68,7 +68,7 @@ class PackageHotelResultsPresenter(context: Context, attrs: AttributeSet) : Base
     }
 
     override fun getFilterViewModel(): HotelFilterViewModel {
-        return HotelFilterViewModel(LineOfBusiness.PACKAGES)
+        return HotelFilterViewModel(context, LineOfBusiness.PACKAGES)
     }
 
     override fun doAreaSearch() {

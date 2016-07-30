@@ -19,6 +19,7 @@ import com.expedia.bookings.animation.TransitionElement
 import com.expedia.bookings.data.ApiError
 import com.expedia.bookings.data.Codes
 import com.expedia.bookings.data.Db
+import com.expedia.bookings.data.HotelFavoriteHelper
 import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.clientlog.ClientLog
 import com.expedia.bookings.data.hotels.Hotel
@@ -129,6 +130,7 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
         detailsMapView.visibility = View.VISIBLE
         removeView(detailsMapView);
         detailsStub.addView(detailsMapView)
+
         presenter.hotelMapView.mapView = detailsMapView
         presenter.hotelMapView.mapView.getMapAsync(presenter.hotelMapView);
         presenter.hotelDetailView.viewmodel = hotelDetailViewModel
@@ -140,6 +142,7 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
         presenter.hotelDetailView.viewmodel.hotelPayLaterInfoObservable.subscribe { pair: Pair<String, List<HotelOffersResponse.HotelRoomResponse>> ->
             presenter.hotelPayLaterInfoObserver.onNext(pair)
         }
+
         presenter.hotelDetailView.viewmodel.vipAccessInfoObservable.subscribe(presenter.hotelVIPAccessInfoObserver)
         presenter.hotelDetailView.viewmodel.mapClickedSubject.subscribe(presenter.hotelDetailsEmbeddedMapClickObserver)
         presenter.hotelMapView.viewmodel = HotelMapViewModel(context, presenter.hotelDetailView.viewmodel.scrollToRoom, presenter.hotelDetailView.viewmodel.hotelSoldOut, presenter.hotelDetailView.viewmodel.getLOB())
@@ -710,6 +713,10 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
         }
 
         detailPresenter.hotelDetailView.viewmodel.paramsSubject.onNext(hotelSearchParams)
+        if (HotelFavoriteHelper.showHotelFavoriteTest(context)) {
+            detailPresenter.hotelDetailView.hotelId = hotelId
+            detailPresenter.hotelDetailView.hotelDetailsToolbar.heartIcon.hotelId = hotelId
+        }
         val subject = PublishSubject.create<HotelOffersResponse>()
         subject.subscribe(object : Observer<HotelOffersResponse> {
             override fun onNext(t: HotelOffersResponse?) {

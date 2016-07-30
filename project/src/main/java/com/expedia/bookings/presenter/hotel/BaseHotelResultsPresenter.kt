@@ -83,6 +83,7 @@ import com.mobiata.android.LocationServices
 import org.joda.time.DateTime
 import rx.Observer
 import rx.subjects.PublishSubject
+import java.util.ArrayList
 import kotlin.properties.Delegates
 
 abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) : Presenter(context, attrs), OnMapReadyCallback {
@@ -229,13 +230,13 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
     }
 
     private fun resetListOffset() {
-        val mover = ObjectAnimator.ofFloat(mapView, "translationY", mapView.translationY, -halfway.toFloat());
-        mover.setDuration(300);
-        mover.start();
+        val mover = ObjectAnimator.ofFloat(mapView, "translationY", mapView.translationY, -halfway.toFloat())
+        mover.setDuration(300)
+        mover.start()
 
         val view = recyclerView.findViewHolderForAdapterPosition(1)
         if (view != null) {
-            var distance = view.itemView.top - halfway;
+            var distance = view.itemView.top - halfway
             recyclerView.smoothScrollBy(0, distance)
         } else {
             recyclerView.layoutManager.scrollToPositionWithOffset(1, halfway)
@@ -330,6 +331,7 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
         }
         headerClickedSubject.subscribe(mapSelectedObserver)
         adapter = getHotelListAdapter()
+
         recyclerView.adapter = adapter
         filterView.viewmodel = getFilterViewModel()
         filterView.viewmodel.filterObservable.subscribe(filterObserver)
@@ -530,8 +532,8 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
 
             override fun getInfoWindow(marker: Marker): View? {
                 val activity = context as AppCompatActivity
-                val v = activity.layoutInflater.inflate(R.layout.marker_window, null);
-                return v;
+                val v = activity.layoutInflater.inflate(R.layout.marker_window, null)
+                return v
             }
 
             override fun getInfoContents(marker: Marker): View? {
@@ -550,7 +552,7 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
     private val mapViewLayoutReadyListener = object : ViewTreeObserver.OnGlobalLayoutListener {
         override fun onGlobalLayout() {
             isMapReady = true
-            mapView.viewTreeObserver.removeOnGlobalLayoutListener(this);
+            mapView.viewTreeObserver.removeOnGlobalLayoutListener(this)
             mapViewModel.mapInitializedObservable.onNext(Unit)
             mapViewModel.createMarkersObservable.onNext(Unit)
         }
@@ -839,7 +841,7 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
             }
 
             override fun updateTransition(f: Float, forward: Boolean) {
-                val hotelListDistance = if (forward) (screenHeight * (1 - f)) else ((screenHeight - initialListTranslation) * f);
+                val hotelListDistance = if (forward) (screenHeight * (1 - f)) else ((screenHeight - initialListTranslation) * f)
                 recyclerView.translationY = hotelListDistance
                 navIcon.parameter = if (forward) Math.abs(1 - f) else f
                 if (forward) {
@@ -1004,6 +1006,7 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
     private val listFilterTransition = object : Presenter.Transition(ResultsList::class.java, ResultsFilter::class.java, DecelerateInterpolator(2f), ANIMATION_DURATION_FILTER) {
         override fun startTransition(forward: Boolean) {
             super.startTransition(forward)
+            filterView.refreshFavoriteCheckbox()
             filterView.visibility = View.VISIBLE
             filterScreenShown = forward
             if (forward) {
@@ -1202,7 +1205,7 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
         var cameraPosition = CameraPosition.Builder()
                 .target(latLng)
                 .zoom(8f)
-                .build();
+                .build()
         googleMap?.setPadding(0, 0, 0, 0)
         googleMap?.moveCamera(CameraUpdateFactory.newCameraPosition(cameraPosition))
     }

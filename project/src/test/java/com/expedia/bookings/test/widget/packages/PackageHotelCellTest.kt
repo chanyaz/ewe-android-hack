@@ -17,8 +17,8 @@ import com.expedia.bookings.test.robolectric.RoboTestHelper
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.test.robolectric.shadows.ShadowAccountManagerEB
 import com.expedia.bookings.test.robolectric.shadows.ShadowGCM
-import org.robolectric.shadows.ShadowResourcesEB
 import com.expedia.bookings.test.robolectric.shadows.ShadowUserManager
+import com.expedia.bookings.utils.AbacusTestUtils
 import com.expedia.bookings.widget.packages.PackageHotelCellViewHolder
 import com.expedia.vm.packages.PackageHotelViewModel
 import org.junit.Assert
@@ -28,6 +28,7 @@ import org.junit.runner.RunWith
 import org.robolectric.Robolectric
 import org.robolectric.RuntimeEnvironment
 import org.robolectric.annotation.Config
+import org.robolectric.shadows.ShadowResourcesEB
 import kotlin.properties.Delegates
 import kotlin.test.assertEquals
 
@@ -43,6 +44,7 @@ class PackageHotelCellTest {
         activity.setTheme(R.style.V2_Theme_Hotels)
         hotelCellView = LayoutInflater.from(activity).inflate(R.layout.package_hotel_cell, null, false) as ViewGroup
         packageHotelHolder = PackageHotelCellViewHolder(hotelCellView, 200)
+        AbacusTestUtils.unbucketTests(AbacusUtils.EBAndroidAppHotelFavoriteTest)
     }
 
     private fun getContext(): Context {
