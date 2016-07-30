@@ -144,7 +144,7 @@
     <!-- Label for showing users that drop-off location has to be same as pick-up location -->
     <string name="drop_off_same_as_pick_up">เร็วๆ นี้! เรากำลังทำงานอย่างเต็มที่เพื่อเพิ่มการจองรถเช่าที่ให้คุณรับและส่งคืนรถคนละสถานที่ได้ในแอพเวอร์ชั่นถัดไป</string>
     <!-- Car search error -->
-    <string name="error_car_search_message">ไม่พบผลลัพธ์สำหรับการค้นหาของคุณ โปรดลองเปลี่ยนเกณฑ์การค้นหาใหม่</string>
+    <string name="error_no_result_message">ไม่พบผลลัพธ์สำหรับการค้นหาของคุณ โปรดลองเปลี่ยนเกณฑ์การค้นหาใหม่</string>
     <!-- Car no filtered search results -->
     <string name="filter_no_car_search_results_message">ไม่พบผลลัพธ์สำหรับการค้นหาของคุณ โปรดลองลดตัวกรองผลการค้นหา</string>
     <!-- Transmission options filter label for a car rental -->
@@ -1104,6 +1104,8 @@
     <string name="shop">จอง</string>
     <!-- Find Itinerary -->
     <string name="find_itinerary">ค้นหาแผนการเดินทาง</string>
+    <!-- Unable to find itinerary -->
+    <string name="unable_to_find_itinerary">หาแผนการเดินทางไม่พบ โปรดตรวจสอบว่าประเทศ (ในการตั้งค่าของแอพ) ตรงกับประเทศของเว็บไซต์ที่คุณทำการจอง</string>
     <!-- Find Guest Itinerary -->
     <string name="find_guest_itinerary">ค้นหาแผนการเดินทาง</string>
     <!-- Enter Itinerary Details -->
@@ -1677,6 +1679,28 @@
     <string name="flights_fee_added_based_on_payment_TEMPLATE">&lt;a href=\"{airline_fee_url}\"&gt;ค่าธรรมเนียมสายการบิน&lt;/a&gt; จะถูกเพิ่มเข้าไปในการชำระเงิน โดยขึ้นอยู่กับประเภทบัตร ค่าธรรมเนียมนี้จะบวกเพิ่มเข้ากับยอดการชำระเงินรวม</string>
     <!-- Flights debit cards not accepted messaging -->
     <string name="flights_debit_cards_not_accepted">ไม่รับบัตรเดบิต</string>
+    <!-- Flights Sold out error screen: Select New Flight button label -->
+    <string name="flights_select_new_flight">เลือกเที่ยวบินใหม่</string>
+    <!-- Flights Sold out error screen:- warning message -->
+    <string name="flight_sold_out_warning">ขออภัย เที่ยวบินเต็มแล้ว</string>
+    <!-- Flights Sold out error screen:- toolbar title -->
+    <string name="flight_sold_out_toolbar_title">เต็มแล้ว</string>
+    <!-- Flight Unavailable error screen:- toolbar title -->
+    <string name="flight_unavailable_toolbar_title">เที่ยวบินไม่พร้อมให้บริการ</string>
+    <!-- Flight Unavailable error screen:- warning -->
+    <string name="flight_unavailable_warning">ขออภัย เที่ยวบินนี้ไม่พร้อมให้บริการอีกต่อไป</string>
+    <!-- Flight Session expired error screen:- warning -->
+    <string name="flight_session_expired_warning">คุณยังอยู่ไหม? เซสชั่นของคุณหมดอายุแล้ว โปรดลองค้นหาใหม่อีกครั้ง</string>
+    <!-- Flight Session expired error screen:- toolbar title -->
+    <string name="flight_session_expired_toolbar_title">เซสชั่นหมดอายุ</string>
+    <!-- Flight Session expired error screen:- new search button label -->
+    <string name="flight_new_search">ค้นหาใหม่</string>
+    <!-- Flights unknown error screen:- title -->
+    <string name="flight_generic_error_title">เกิดข้อผิดพลาด</string>
+    <!-- Flights unknown error screen:- warning -->
+    <string name="flight_error_try_again_warning">อุ๊ย โปรดลองอีกครั้ง</string>
+    <!-- Flights unknown error screen:- retry button label -->
+    <string name="flight_error_retry">ลองใหม่</string>
 
     <!-- Flights -->
     <!-- Label for Flight Search in task manager -->
@@ -1806,6 +1830,9 @@
     <string name="calendar_instructions_hotels_no_dates_selected">เลือกวันเช็คอิน</string>
     <!-- Calendar instruction text hotels date range template. %1$s = Formatted start date, %2$s = formatted end date. E.g. May 12 - May 15 -->
     <string name="calendar_instructions_date_range_with_guests_TEMPLATE">{startdate} - {enddate}, {guests}</string>
+    <!-- Calendar instruction text flight date template. E.g. May 12, 2 guests -->
+    <string name="flight_calendar_instructions_date_with_guests_TEMPLATE">{startdate}, {guests}</string>
+
     <string name="room_with_guests_TEMPLATE">1 ห้อง, {guests}</string>
     <string name="hotel_free_cancellation_TEMPLATE">ยกเลิกฟรี ภายใน {date}</string>
 
@@ -1900,7 +1927,10 @@
     <string name="select_payment_callout">ป้อนรายละเอียด</string>
     <!-- Add new card -->
     <string name="add_new_card">เพิ่มบัตรใหม่</string>
+    <!-- New Debit/Credit card toolbar title shown on payment form -->
     <string name="new_credit_debit_card">บัตรเครดิต/เดบิตใบใหม่</string>
+    <!-- New Credit card toolbar title shown on payment form -->
+    <string name="new_credit_card">บัตรเครดิตใบใหม่</string>
     <!-- Overview button -->
     <string name="overview_btn">ภาพรวม</string>
     <!-- Stored Payment label -->
@@ -2013,6 +2043,8 @@
     <string name="free_cancellation_date_TEMPLATE">&lt;b&gt;ยกเลิกฟรี&lt;/b&gt; ภายใน &lt;b&gt;%s&lt;/b&gt;</string>
     <!-- Sign out -->
     <string name="sign_out">ออกจากระบบ</string>
+    <!-- AB Test 3x messaging for hotel points -->
+    <string name="youll_earn_points_ab_test_3x_TEMPLATE">รับ %1$s คะแนน — 3 เท่าของคะแนนปกติเพราะคุณจองผ่านแอพ!</string>
     <!-- You'll earn points for this trip -->
     <string name="youll_earn_points_TEMPLATE">คุณจะได้รับ {reward_currency} คะแนนจากการจองนี้!</string>
     <!-- You are a valued member -->
@@ -2055,7 +2087,10 @@
     <string name="ab_test_flights_free_cancellation">ยกเลิกฟรีภายใน 24 ชั่วโมงหลังการจอง</string>
     <!-- Flights AB Test Traveler info missing callout label -->
     <string name="ab_test_flights_missing_info_callout">ป้อนรายละเอียดผู้เดินทาง</string>
-
+    <!-- Content description for Expedia logo icon on checkout account view  e.g. Expedia Account -->
+    <string name="brand_account_cont_desc_TEMPLATE">บัญชี{brand}</string>
+    <!-- Content description for signed in Expedia account e.g. Signed in as qa-ehcc@mobiata.com -->
+    <string name="signed_in_account_cont_desc_TEMPLATE">เข้าสู่ระบบด้วย {email}</string>
     <!-- Tablet Checkout Activity -->
     <!-- Travelers -->
     <string name="travelers">ผู้เดินทาง</string>
@@ -2515,7 +2550,7 @@
     <!-- Text for hotel error unknown -->
     <string name="error_hotel_unhandled">ขออภัย เราไม่สามารถดำเนินการกับคำสั่งซื้อของคุณได้ในตอนนี้ โปรดลองอีกครั้ง</string>
     <!-- Text for hotel error toolbar payment failed-->
-    <string name="payment_failed_label">การชำระเงินล้มเหลว</string>
+    <string name="hotel_payment_failed_text">การชำระเงินล้มเหลว</string>
     <!-- Text for error toolbar session expired-->
     <string name="session_timeout">เซสชั่นหมดอายุ</string>
 
@@ -3057,6 +3092,12 @@
     <string name="hotel_cost_breakdown_burn_points_TEMPLATE">{points} คะแนน</string>
 
     <!-- Expedia Accounts -->
+    <!-- Label for messaging on sign in Variate 1 -->
+    <string name="sign_in_messaging">ประหยัดด้วยดีลพิเศษสำหรับสมาชิกเท่านั้น</string>
+    <!-- Label for messaging on sign in Variate 2 -->
+    <string name="triple_point_messaging">รับคะแนน Expedia+ สามเท่า</string>
+    <!-- Label for messaging on sign in Variate 3 -->
+    <string name="trip_alert_messaging">รับการแจ้งเตือนสำคัญเกี่ยวกับทริปของคุณ</string>
     <!-- Label for menu item to open account settings screen -->
     <string name="account_settings_menu_label">บัญชี</string>
     <!-- Label for menu item to sign into account -->
@@ -3968,8 +4009,19 @@
     <string name="select_hotel_searching_cont_desc_TEMPLATE">กำลังค้นหาโรงแรมใน{destination} ตั้งแต่วันที่ {startdate} ถึง {enddate} สำหรับ {guests} โปรดรอสักครู่</string>
     <!-- Bundle Overview selected hotel accessibility content description Eg. You have selected hotel Orion from Jun 23 to June 24, for 1 guest. Button to expand hotel details. -->
     <string name="select_hotel_selected_cont_desc_TEMPLATE">คุณได้เลือกโรงแรม {hotel} ตั้งแต่วันที่ {startdate} ถึง {enddate} สำหรับ {guests} {expandstate}รายละเอียดโรงแรม</string>
-    <!-- Bundle Overview selected flight accessibility content description Eg. Flight to (DTW) Detroit. Jul 10 at 9:00 am, 1 Traveler. Button to expand flight details. -->
-    <string name="select_flight_selected_cont_desc_TEMPLATE">{flighttext} {travelerinfotext} รายละเอียดเที่ยวบิน {expandstate}</string>
+    <!-- Bundle Overview flight card accessibility content description after search completed Eg. Search completed. Select a flight to (SFO) San Francisco from Jun 23 to Jun 24, for 1 Traveler. Button -->
+    <string name="select_flight_cont_desc_TEMPLATE">ค้นหาเสร็จสิ้น เลือกเที่ยวบินไป {flight} วันที่ {date} สำหรับ {travelers} ปุ่ม</string>
+    <!-- Bundle Overview flight card accessibility content description while searching Eg. Searching for a flight to (SFO) San Francisco from Jun 23 to Jun 24, for 1 Traveler. Please wait -->
+    <string name="select_flight_searching_cont_desc_TEMPLATE">กำลังค้นหาเที่ยวบินไป {flight} วันที่ {date} สำหรับ {travelers} โปรดรอสักครู่</string>
+    <!-- Bundle Overview flight card accessibility content description after flight selected Eg. You have selected flight to (SFO) San Francisco from Jun 23 to Jun 24, for 1 Traveler. Button to expand flight details. -->
+    <string name="select_flight_selected_cont_desc_TEMPLATE">คุณได้เลือกเที่ยวบินไป {flight} วันที่ {datetraveler} รายละเอียดเที่ยวบิน {expandstate}</string>
+    <!-- Bundle Overview flight card accessibility content description when it's disabled Eg. Flight to (SFO) San Francisco from Jun 23 to Jun 24, for 1 Traveler. Please select Outbound Flight first. Button Disabled -->
+    <string name="select_flight_disabled_cont_desc_TEMPLATE">เที่ยวบินไป {flight} วันที่ {date} สำหรับ {travelers} โปรดเลือก{previous}ก่อน ปุ่มปิดใช้งานอยู่</string>
+    <!-- Bundle Overview Flight card accessibility content description asking what to select, since it's disabled. From above ^ Example: Please select Outbound Flight first.-->
+    <string name="select_flight_disabled_choose_outbound">เที่ยวบินขาไป</string>
+    <!-- Bundle Overview Flight card accessibility content description asking what to select, since it's disabled. From above ^ Example: Please select Hotel first.-->
+    <string name="select_flight_disabled_choose_hotel">โรงแรม</string>
+
     <!-- Bundle Overview select hotel -->
     <string name="select_hotel_template">เลือกโรงแรมใน%s</string>
     <!-- Bundle Overview searching flight -->
@@ -4007,11 +4059,17 @@
     <string name="flight_departure_arrival_time_template">%1$s - %2$s</string>
     <!-- Accessible text for Flight departure arrival time same day e.g. 5:15 pm to 7:48 pm -->
     <string name="flight_departure_arrival_time_cont_desc_TEMPLATE">{departuretime} ถึง {arrivaltime}</string>
+    <!-- Carrier name and code when flight operated by different carrier e.g. Operated by Alaska Airlines (AS) -->
+    <string name="flight_operated_by_carrier_name_and_code_TEMPLATE">ดำเนินการโดย {operatingairlinename} ({operatingairlinecode})</string>
+    <!-- Carrier name when flight operated by different carrier.g Operated by Alaska Airlines -->
+    <string name="flight_operated_by_carrier_name_only_TEMPLATE">ดำเนินการโดย {operatingairlinename}</string>
 
     <!-- Select flight to template -->
     <string name="select_flight_to">เลือกเที่ยวบินไปยัง%1$s</string>
     <!-- Flight to template -->
     <string name="flight_to">เที่ยวบินไปยัง%1$s</string>
+    <!-- Flight Confirmation Cards - flight to template E.g. Flight to (SFO) San Francisco-->
+    <string name="flight_to_card_TEMPLATE">เที่ยวบินไปยัง{airportcity} ({airportcode})</string>
     <!-- Select return flight -->
     <string name="select_return_flight">เลือกเที่ยวบินขากลับ</string>
     <!-- Flight overview - flight to template -->
@@ -4074,7 +4132,11 @@
     <string name="pwp_total_due_today_TEMPLATE">ยอดทั้งหมดที่ต้องชำระวันนี้:</string>
 
     <!-- Package Flight Overview -->
-    <string name="package_flight_overview_urgency_message_TEMPLATE">เหลือ {seats} ที่นั่ง</string>
+    <!-- Seats left message if 1 - 5 tickets left. e.g. "1 seat left" -->
+    <plurals name="package_flight_overview_urgency_message_TEMPLATE">
+        <item quantity="one">เหลือ {seats} ที่นั่ง</item>
+        <item quantity="other">เหลือ {seats} ที่นั่ง</item>
+    </plurals>
     <string name="package_flight_overview_baggage_fees">ข้อมูลค่าธรรมเนียมสัมภาระ</string>
     <string name="package_flight_overview_select_flight">เลือกเที่ยวบินนี้</string>
     <string name="package_flight_overview_bundle_total_label">ยอดรวมแพ็คเกจ</string>
@@ -4129,6 +4191,18 @@
 
     <!-- Label for rail trip price on overview screen -->
     <string name="total">ทั้งหมด</string>
+
+    <!-- Label for the tab on fare rules/amenities screen -->
+    <string name="fare_rules">กฎค่าโดยสาร</string>
+
+    <!-- Label for no segment amenities amenities screen -->
+    <string name="no_amenities">ไม่มีสิ่งอำนวยความสะดวก</string>
+
+    <!-- rail amenities station info e.g. "Manchester Piccadilly to London Euston" -->
+    <string name="rail_station_info_TEMPLATE">{departure} ไป {arrival}</string>
+
+    <!-- rail amenities segment fare info e.g. "Standard advanced day single" -->
+    <string name="rail_fare_info_TEMPLATE">{serviceclass} {fareclass}</string>
 
     <string name="pwp_points_conversion_unauthenticated_access">ขออภัย เซิร์ฟเวอร์มีปัญหา โปรดลองอีกครั้ง</string>
     <string name="pwp_trip_service_error">ขออภัย เซิร์ฟเวอร์มีปัญหา โปรดลองอีกครั้ง</string>
@@ -4300,6 +4374,7 @@
     <!-- Insurance price type qualifiers -->
     <string name="insurance_price_per_day">/วัน</string>
     <string name="insurance_price_per_person">/คน</string>
+
     <!-- Content description for rating bar e.g. Rated 3 out of 5-->
     <string name="hotel_rating_bar_cont_desc_TEMPLATE">ได้รับ {rating} เต็ม 5 คะแนน</string>
     <!--LX accessibility -->
@@ -4318,8 +4393,8 @@
 
     <!-- Generic content description -->
     <!-- Content description for toolbar 'X' i.e. close/back button -->
-    <string name="toolbar_nav_icon_cont_desc">กลับ</string>
-    <string name="toolbar_nav_icon_close_cont_desc">ปิด</string>
+    <string name="toolbar_search_nav_icon_cont_desc">กลับ</string>
+    <string name="toolbar_search_nav_icon_close_cont_desc">ปิด</string>
     <string name="search_button_cont_desc">ปุ่มค้นหา</string>
     <!-- Content description for LX Duration e.g. Duration 2d -->
     <string name="search_result_duration_cont_desc_TEMPLATE">ระยะเวลา {duration}</string>
