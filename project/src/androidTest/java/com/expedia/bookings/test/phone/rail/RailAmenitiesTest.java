@@ -33,7 +33,7 @@ public class RailAmenitiesTest extends RailTestCase {
 		onView(withText("Manchester Piccadilly to London Euston")).check(matches(isDisplayed()));
 		assertAmenityIsDisplayed("• Buffet Service\n• WiFi Access (Additional Cost)\n",
 			"Manchester Piccadilly to London Euston");
-		assertAmenityIsDisplayed("• Buffet Service\n", "London Paddington to Reading");
+		assertAmenityIsDisplayed("• Snack Trolley Service\n", "London Paddington to Reading");
 	}
 
 	private void assertAmenityIsDisplayed(String amenityString, String segmentName) {

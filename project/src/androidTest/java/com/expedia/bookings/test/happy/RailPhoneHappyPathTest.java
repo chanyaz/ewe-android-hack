@@ -5,6 +5,7 @@ import org.hamcrest.CoreMatchers;
 import com.expedia.bookings.R;
 import com.expedia.bookings.test.espresso.EspressoUtils;
 import com.expedia.bookings.test.espresso.RailTestCase;
+import com.expedia.bookings.test.espresso.ViewActions;
 import com.expedia.bookings.test.phone.rail.RailScreen;
 
 import static android.support.test.espresso.Espresso.onView;
@@ -20,10 +21,11 @@ public class RailPhoneHappyPathTest extends RailTestCase {
 
 		RailScreen.navigateToDetails();
 		RailScreen.scrollToFareOptions();
-		onView(withText("First")).check(matches(isDisplayed()));
+		onView(withText("Any off-peak train")).check(matches(isDisplayed()));
 		RailScreen.clickSelectFareOption();
 
-		onView(withText("Outbound - Wed Jul 06")).check(matches(isDisplayed()));
+		onView(withText("Outbound - Mon Aug 29")).perform(ViewActions.waitForViewToDisplay())
+			.check(matches(isDisplayed()));
 		assertLegInfo();
 		assertDetailsCollapsed();
 		assertDetailsExpanded();
@@ -37,12 +39,11 @@ public class RailPhoneHappyPathTest extends RailTestCase {
 
 	private void assertLegInfo() {
 		RailScreen.legInfo().check(matches(hasDescendant(
-			CoreMatchers.allOf(isDisplayed(), withText("12:15 PM – 3:39 PM")))));
+			CoreMatchers.allOf(isDisplayed(), withText("3:55 PM – 7:22 PM")))));
 		RailScreen.legInfo().check(matches(hasDescendant(
-			CoreMatchers.allOf(isDisplayed(), withText("3h 24m, 2 Changes")))));
+			CoreMatchers.allOf(isDisplayed(), withText("3h 27m, 2 Changes")))));
 		RailScreen.legInfo().check(matches(hasDescendant(
 			CoreMatchers.allOf(isDisplayed(), withText("Virgin Trains, London Underground, First Great Western")))));
-
 	}
 
 	private void assertDetailsExpanded() {

@@ -35,7 +35,7 @@ public class RailSearchPresenterTest extends RailTestCase {
 		EspressoUtils.assertViewWithTextIsDisplayed(expectedStartDate + " (One Way)");
 		SearchScreen.searchButton().perform(click());
 		Common.delay(1);
-		onView(withText("11:55 AM – 3:22 PM")).perform(ViewActions.waitForViewToDisplay()).check(matches(isDisplayed()));
+		onView(withText("3:55 PM – 7:22 PM")).perform(ViewActions.waitForViewToDisplay()).check(matches(isDisplayed()));
 	}
 
 	public void testRoundTripSearch() {
@@ -56,6 +56,6 @@ public class RailSearchPresenterTest extends RailTestCase {
 		String expectedEndDate = DateUtils.localDateToMMMd(endDate);
 		EspressoUtils.assertViewWithTextIsDisplayed(expectedStartDate + " - " + expectedEndDate);
 		SearchScreen.searchButton().perform(click());
-		onView(withText("11:55 AM – 3:22 PM")).perform(ViewActions.waitForViewToDisplay()).check(matches(isDisplayed()));
+		onView(withText("3:55 PM – 7:22 PM")).perform(ViewActions.waitForViewToDisplay()).check(matches(isDisplayed()));
 	}
 }

@@ -2,8 +2,7 @@ package com.expedia.bookings.widget
 
 import android.content.Context
 import com.expedia.bookings.R
-import com.expedia.bookings.data.rail.responses.LegOption
-import com.expedia.bookings.data.rail.responses.RailSearchResponse
+import com.expedia.bookings.data.rail.responses.RailLegOption
 import com.mobiata.flightlib.utils.DateTimeUtils
 import com.squareup.phrase.Phrase
 import rx.subjects.BehaviorSubject
@@ -12,7 +11,7 @@ import rx.subjects.PublishSubject
 class RailViewModel(val context: Context) {
 
     //Inputs
-    val legOptionObservable = PublishSubject.create<LegOption>()
+    val legOptionObservable = PublishSubject.create<RailLegOption>()
 
     //Outputs
     val priceObservable = BehaviorSubject.create<String>()
@@ -23,7 +22,7 @@ class RailViewModel(val context: Context) {
         legOptionObservable.subscribe {
             val formattedStopsAndDuration = Phrase.from(context, R.string.rail_time_and_stops_line_TEMPLATE)
                     .put("formattedduration", DateTimeUtils.formatDuration(context.resources, it.durationMinutes()))
-                    .put("formattedchangecount", formatChangesText(context, it.changesCount())).format().toString()
+                    .put("formattedchangecount", formatChangesText(context, it.noOfChanges)).format().toString()
 
             formattedStopsAndDurationObservable.onNext(formattedStopsAndDuration)
             priceObservable.onNext(it.bestPrice.formattedPrice)

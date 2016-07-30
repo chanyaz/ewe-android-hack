@@ -1,6 +1,5 @@
 package com.expedia.bookings.test.phone.rail;
 
-import org.hamcrest.Matchers;
 import org.joda.time.LocalDate;
 
 import android.support.test.espresso.ViewInteraction;
@@ -21,7 +20,7 @@ import static android.support.test.espresso.matcher.ViewMatchers.withEffectiveVi
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static com.expedia.bookings.test.espresso.ViewActions.waitForViewToDisplay;
-import static org.hamcrest.CoreMatchers.allOf;
+import static org.hamcrest.Matchers.allOf;
 
 public class RailScreen {
 
@@ -37,11 +36,11 @@ public class RailScreen {
 		calendar().perform(TabletViewActions.clickDates(start, end));
 	}
 
-	public static void selectOneWay()  {
+	public static void selectOneWay() {
 		onView(withText(R.string.rail_single)).perform(click());
 	}
 
-	public static void selectRoundTrip()  {
+	public static void selectRoundTrip() {
 		onView(withText(R.string.rail_return)).perform(click());
 	}
 
@@ -50,21 +49,21 @@ public class RailScreen {
 	}
 
 	public static void scrollToFareOptions() {
-		onView(allOf(withId(R.id.details_fare_options))).perform(scrollTo());
+		onView(withId(R.id.details_fare_options)).perform(scrollTo());
 	}
 
 	public static ViewInteraction selectFareOption(String fareOption) {
 		return onView(
-			Matchers.allOf(
-				withId(R.id.select_button), Matchers.allOf(withText(R.string.select)),
-				isDescendantOfA(Matchers.allOf(withId(R.id.details_fare_options))),
-				hasSibling(Matchers.allOf(withId(R.id.price), withText(fareOption))),
+			allOf(
+				withId(R.id.select_button), allOf(withText(R.string.select)),
+				isDescendantOfA(allOf(withId(R.id.details_fare_options))),
+				hasSibling(allOf(withId(R.id.price), withText(fareOption))),
 				withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE))
 		);
 	}
 
 	public static void clickSelectFareOption() {
-		selectFareOption("£203.0").perform(scrollTo(), click());
+		selectFareOption("£196.0").perform(scrollTo(), click());
 	}
 
 	public static void clickAmenitiesLink(String fareClass) {
@@ -73,16 +72,16 @@ public class RailScreen {
 
 	public static ViewInteraction selectAmenitiesLink(String fareClass) {
 		return onView(
-			Matchers.allOf(
-				withId(R.id.amenities_link), Matchers.allOf(withText(R.string.amenities)),
-				isDescendantOfA(Matchers.allOf(withId(R.id.details_fare_options))),
-				hasSibling(Matchers.allOf(withId(R.id.fare_description), withText(fareClass))),
+			allOf(
+				withId(R.id.amenities_link), allOf(withText(R.string.amenities)),
+				isDescendantOfA(allOf(withId(R.id.details_fare_options))),
+				hasSibling(allOf(withId(R.id.fare_description), withText(fareClass))),
 				withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE))
 		);
 	}
 
-	public static void clickFareRules(String fareType) {
-		onView(withText(fareType)).perform(scrollTo(), click());
+	public static void clickFareRules(String fareType, String fareDesc) {
+		onView(allOf(withText(fareType), hasSibling(withText(fareDesc)))).perform(scrollTo(), click());
 	}
 
 	public static ViewInteraction checkout() {
@@ -94,8 +93,7 @@ public class RailScreen {
 	}
 
 	public static ViewInteraction detailsIcon() {
-		return onView(Matchers.allOf(isDescendantOfA(withId(R.id.rail_leg_container)),
-			withId(R.id.rail_leg_details_icon)));
+		return onView(allOf(isDescendantOfA(withId(R.id.rail_leg_container)), withId(R.id.rail_leg_details_icon)));
 	}
 
 	public static ViewInteraction fareDesciptionInfo() {
@@ -110,7 +108,8 @@ public class RailScreen {
 
 		SearchScreen.searchButton().perform(click());
 
-		onView(withText("12:15 PM – 3:39 PM")).perform(waitForViewToDisplay()).check(matches(isDisplayed())).perform(click());
+		onView(withText("3:55 PM – 7:22 PM")).perform(waitForViewToDisplay()).check(matches(isDisplayed()))
+			.perform(click());
 		onView(withText("Walk from London Euston to London Paddington")).check(matches(isDisplayed()));
 	}
 }
