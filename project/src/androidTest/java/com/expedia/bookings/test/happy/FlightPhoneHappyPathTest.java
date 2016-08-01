@@ -56,6 +56,7 @@ public class FlightPhoneHappyPathTest extends PhoneTestCase {
 		}
 		screenshot("Checkout_Traveler_Entered");
 		BillingAddressScreen.clickNextButton();
+		FlightsTravelerInfoScreen.selectGender("Male");
 		FlightsTravelerInfoScreen.clickDoneButton();
 		Common.pressBack();
 		CommonCheckoutScreen.clickCheckoutButton();

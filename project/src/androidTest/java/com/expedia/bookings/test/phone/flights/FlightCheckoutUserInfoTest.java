@@ -106,6 +106,7 @@ public class FlightCheckoutUserInfoTest extends FlightTestCase {
 			CommonTravelerInformationScreen.clickDoneString();
 		}
 		BillingAddressScreen.clickNextButton();
+		FlightsTravelerInfoScreen.selectGender("Male");
 		Common.delay(1);
 		BillingAddressScreen.clickNextButton();
 	}
@@ -168,6 +169,7 @@ public class FlightCheckoutUserInfoTest extends FlightTestCase {
 		}
 		FlightsTravelerInfoScreen.nameMustMatchTextView().check(matches(not(isCompletelyDisplayed())));
 		FlightsTravelerInfoScreen.clickNextButton();
+		FlightsTravelerInfoScreen.selectGender("Male");
 		FlightsTravelerInfoScreen.clickDoneButton();
 
 		// Warning should appear when populated second traveler details are clicked.
@@ -261,6 +263,7 @@ public class FlightCheckoutUserInfoTest extends FlightTestCase {
 		FlightsTravelerInfoScreen.enterPhoneNumber("9510000000");
 		FlightsTravelerInfoScreen.clickNextButton();
 
+		FlightsTravelerInfoScreen.selectGender("Male");
 		// Verify that the redress EditText allows a max of 7 chars, numbers only
 		FlightsTravelerInfoScreen.typeRedressText("12345678");
 		FlightsTravelerInfoScreen.redressEditText().check(matches(withText("1234567")));

@@ -68,6 +68,7 @@ public class FlightFieldValidationTest extends PhoneTestCase {
 			CommonTravelerInformationScreen.clickDoneString();
 		}
 		BillingAddressScreen.clickNextButton();
+		FlightsTravelerInfoScreen.selectGender("Male");
 		FlightsTravelerInfoScreen.clickDoneButton();
 		Common.pressBack();
 		clickCheckoutButton();
