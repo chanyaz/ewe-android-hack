@@ -183,6 +183,10 @@ open class PaymentWidget(context: Context, attr: AttributeSet) : Presenter(conte
         vm.onStoredCardChosen.map { true }.subscribe(enableMenuItem)
 
         viewmodel.isZipValidationRequired.subscribeVisibility(sectionLocation)
+
+        vm.moveFocusToPostalCodeSubject.subscribe {
+            creditCardPostalCode.requestFocus()
+        }
     }
 
     override fun onVisibilityChanged(changedView: View?, visibility: Int) {

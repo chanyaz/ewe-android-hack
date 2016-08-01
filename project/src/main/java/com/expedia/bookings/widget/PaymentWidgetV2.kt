@@ -1,8 +1,7 @@
 package com.expedia.bookings.widget
 
+import android.app.Activity
 import android.content.Context
-import android.content.Intent
-import android.support.v7.app.AppCompatActivity
 import android.util.AttributeSet
 import android.view.View
 import android.view.ViewStub
@@ -13,22 +12,23 @@ import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.payment.PaymentSplitsType
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration
-import com.expedia.bookings.tracking.HotelV2Tracking
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
+import com.expedia.util.havePermissionToAccessCamera
 import com.expedia.util.notNullAndObservable
+import com.expedia.util.requestCameraPermission
 import com.expedia.util.subscribeEnabled
 import com.expedia.util.subscribeText
 import com.expedia.util.subscribeVisibility
 import com.expedia.vm.PaymentViewModel
 import com.expedia.vm.interfaces.IPayWithPointsViewModel
 import com.expedia.vm.interfaces.IPaymentWidgetViewModel
-import io.card.payment.CardIOActivity
 import javax.inject.Inject
 
 class PaymentWidgetV2(context: Context, attr: AttributeSet) : PaymentWidget(context, attr) {
     companion object {
-        @JvmStatic val CARD_IO_REQUEST_CODE = 620
+        val CARD_IO_REQUEST_CODE = 620
+        val REQUEST_CAMERA = 621
     }
 
     val remainingBalance: LinearLayout by bindView(R.id.remaining_balance)
@@ -54,14 +54,13 @@ class PaymentWidgetV2(context: Context, attr: AttributeSet) : PaymentWidget(cont
             isFullPayableWithPoints = !it.isCardRequired()
             vm.burnAmountApiCallResponsePending.onNext(false)
         }
+
         scanCardButton.setOnClickListener { view ->
-            HotelV2Tracking().trackHotelV2CardIOButtonClicked()
-            val scanIntent = Intent(context, CardIOActivity::class.java)
-            scanIntent.putExtra(CardIOActivity.EXTRA_USE_CARDIO_LOGO, true)  // No pesky PayPal logo!
-            scanIntent.putExtra(CardIOActivity.EXTRA_REQUIRE_CVV, false)
-            scanIntent.putExtra(CardIOActivity.EXTRA_REQUIRE_EXPIRY, true)
-            val activity = context as AppCompatActivity
-            activity.startActivityForResult(scanIntent, CARD_IO_REQUEST_CODE)
+            if (!havePermissionToAccessCamera(context)) {
+                requestCameraPermission(context as Activity)
+            } else {
+                viewmodel.startCreditCardScan.onNext(Unit)
+            }
         }
 
         enableToolbarMenuButton.subscribe{ enable ->

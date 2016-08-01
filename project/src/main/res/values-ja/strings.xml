@@ -123,8 +123,6 @@
 
     <!-- Label for hotel search toolbar -->
     <string name="hotel_search_toolbar_title">ホテル</string>
-    <!-- Label for recent searches -->
-    <string name="recent_searches">最近の検索履歴</string>
     <!-- Label for pickup location selector -->
     <string name="pick_up_location">借出場所</string>
     <!-- Label for car dropoff selector, indicates it cannot be different from pickup location -->
