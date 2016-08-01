@@ -112,6 +112,7 @@ abstract class BaseOverviewPresenter(context: Context, attrs: AttributeSet) : Pr
             super.endTransition(forward)
             bundleOverviewHeader.toolbar.menu.setGroupVisible(R.id.package_change_menu, false)
             bundleOverviewHeader.toggleCollapsingToolBar(!forward)
+            checkoutPresenter.toolbarDropShadow.visibility = View.GONE
         }
     }
 
