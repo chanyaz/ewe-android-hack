@@ -1,6 +1,6 @@
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    package="com.expedia.bookings">
+<manifest package="com.expedia.bookings"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
@@ -21,8 +21,10 @@
     <uses-permission android:name="android.permission.READ_SYNC_STATS" />
 
     <!-- We want to be more strict with how we add the camera permission -->
-    <uses-permission android:name="android.permission.CAMERA" tools:node="remove"/>
-    <uses-permission-sdk-23 android:name="android.permission.CAMERA"/>
+    <uses-permission
+        android:name="android.permission.CAMERA"
+        tools:node="remove" />
+    <uses-permission-sdk-23 android:name="android.permission.CAMERA" />
 
     <!-- For Google Wallet and GCM -->
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
@@ -56,7 +58,7 @@
         android:hardwareAccelerated="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/launcher_name"
-        android:theme="@style/Theme" >
+        android:theme="@style/Theme">
 
         <!-- ActiveAndroid -->
         <meta-data
@@ -143,8 +145,7 @@
             android:resizeableActivity="false"
             android:screenOrientation="portrait"
             android:theme="@style/NewLaunchTheme"
-            tools:ignore="UnusedAttribute">
-        </activity>
+            tools:ignore="UnusedAttribute" />
 
         <!-- Itineraries -->
 
@@ -270,11 +271,11 @@
 
         <activity
             android:name="com.expedia.ui.CarActivity"
-            android:launchMode="singleTop"
-            android:taskAffinity="com.expedia.bookings.activity.CarActivity"
-            android:screenOrientation="portrait"
             android:label="Cars"
+            android:launchMode="singleTop"
             android:resizeableActivity="false"
+            android:screenOrientation="portrait"
+            android:taskAffinity="com.expedia.bookings.activity.CarActivity"
             android:theme="@style/V2.Theme.Cars"
             android:windowSoftInputMode="adjustNothing"
             tools:ignore="UnusedAttribute" />
@@ -283,11 +284,11 @@
 
         <activity
             android:name=".lob.lx.ui.activity.LXBaseActivity"
-            android:launchMode="singleTop"
-            android:taskAffinity="com.expedia.bookings.activity.LXBaseActivity"
-            android:screenOrientation="portrait"
             android:label="Activities"
+            android:launchMode="singleTop"
             android:resizeableActivity="false"
+            android:screenOrientation="portrait"
+            android:taskAffinity="com.expedia.bookings.activity.LXBaseActivity"
             android:theme="@style/V2.Theme.LX"
             android:windowSoftInputMode="adjustNothing"
             tools:ignore="UnusedAttribute" />
@@ -295,8 +296,8 @@
         <!-- New Hotel activity -->
         <activity
             android:name="com.expedia.ui.HotelActivity"
-            android:launchMode="singleTop"
             android:label="Hotels"
+            android:launchMode="singleTop"
             android:resizeableActivity="false"
             android:screenOrientation="portrait"
             android:taskAffinity="com.expedia.bookings.ui.HotelActivity"
@@ -319,10 +320,12 @@
             android:resizeableActivity="false"
             android:theme="@style/AccountSettingsTheme"
             tools:ignore="UnusedAttribute" />
-        <activity android:name="com.expedia.bookings.activity.WebViewActivity"
+        <activity
+            android:name="com.expedia.bookings.activity.WebViewActivity"
             android:resizeableActivity="false"
             tools:ignore="UnusedAttribute" />
-        <activity android:name="com.expedia.bookings.activity.AboutWebViewActivity"
+        <activity
+            android:name="com.expedia.bookings.activity.AboutWebViewActivity"
             android:resizeableActivity="false"
             tools:ignore="UnusedAttribute" />
 
@@ -331,12 +334,13 @@
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/facebook_app_id" />
 
-	<activity android:name="com.facebook.FacebookActivity"
-        android:resizeableActivity="false"
-	    android:theme="@android:style/Theme.Translucent.NoTitleBar"
-	    android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
-	    android:label="@string/app_name"
-        tools:ignore="UnusedAttribute" />
+        <activity
+            android:name="com.facebook.FacebookActivity"
+            android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
+            android:label="@string/app_name"
+            android:resizeableActivity="false"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"
+            tools:ignore="UnusedAttribute" />
 
         <activity
             android:name="com.expedia.bookings.activity.RestrictedProfileActivity"
@@ -349,8 +353,7 @@
 
         <receiver
             android:name="com.expedia.bookings.notification.NotificationReceiver"
-            android:exported="false" >
-        </receiver>
+            android:exported="false" />
 
         <!-- Push Notifications -->
 
@@ -358,7 +361,7 @@
 
         <receiver
             android:name="com.expedia.bookings.notification.GCMReceiver"
-            android:permission="com.google.android.c2dm.permission.SEND" >
+            android:permission="com.google.android.c2dm.permission.SEND">
             <intent-filter>
 
                 <!-- Receives the actual messages. -->
@@ -373,7 +376,7 @@
         <receiver
             android:name="com.google.android.gms.gcm.GcmReceiver"
             android:exported="true"
-            android:permission="com.google.android.c2dm.permission.SEND" >
+            android:permission="com.google.android.c2dm.permission.SEND">
             <intent-filter>
 
                 <!-- Receives the actual messages. -->
@@ -388,7 +391,7 @@
         <!--Push Notifications for lean plum sdk -->
         <receiver
             android:name="com.leanplum.LeanplumPushReceiver"
-            android:exported="false" >
+            android:exported="false">
             <intent-filter>
                 <action android:name="com.leanplum.LeanplumPushListenerService" />
             </intent-filter>
@@ -396,7 +399,7 @@
 
         <service
             android:name="com.leanplum.LeanplumPushListenerService"
-            android:exported="false" >
+            android:exported="false">
             <intent-filter>
                 <action android:name="com.google.android.c2dm.intent.RECEIVE" />
             </intent-filter>
@@ -436,7 +439,7 @@
 
         <receiver
             android:name="com.expedia.bookings.activity.LocaleChangeReceiver"
-            android:exported="false" >
+            android:exported="false">
             <intent-filter>
                 <action android:name="android.intent.action.LOCALE_CHANGED" />
             </intent-filter>
@@ -450,7 +453,7 @@
 
         <receiver
             android:name="com.expedia.bookings.tracking.InstallReceiver"
-            android:exported="true" >
+            android:exported="true">
             <intent-filter>
                 <action android:name="com.android.vending.INSTALL_REFERRER" />
             </intent-filter>
@@ -458,7 +461,7 @@
 
         <!-- Account Manager -->
 
-        <service android:name="com.expedia.bookings.account.ExpediaAuthenticatationService" >
+        <service android:name="com.expedia.bookings.account.ExpediaAuthenticatationService">
             <intent-filter>
                 <action android:name="android.accounts.AccountAuthenticator" />
             </intent-filter>
@@ -467,7 +470,7 @@
                 android:name="android.accounts.AccountAuthenticator"
                 android:resource="@xml/expedia_authenticator" />
         </service>
-        <service android:name="com.expedia.bookings.account.AccountSyncService" >
+        <service android:name="com.expedia.bookings.account.AccountSyncService">
             <intent-filter>
                 <action android:name="android.content.SyncAdapter" />
             </intent-filter>
@@ -482,12 +485,11 @@
             android:authorities="@string/authority_account_sync"
             android:exported="false" />
 
-        <receiver android:name="com.expedia.bookings.account.AccountsChangedBroadcastReceiver" >
+        <receiver android:name="com.expedia.bookings.account.AccountsChangedBroadcastReceiver">
             <intent-filter>
-                <action android:name="android.accounts.LOGIN_ACCOUNTS_CHANGED" >
-                </action>
+                <action android:name="android.accounts.LOGIN_ACCOUNTS_CHANGED" />
             </intent-filter>
         </receiver>
-</application>
+    </application>
 
 </manifest>
