@@ -223,6 +223,7 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 				((Activity) getContext()).onBackPressed();
 			}
 		});
+		toolbar.setNavigationContentDescription(R.string.toolbar_nav_icon_cont_desc);
 
 		toolbar.setTitle(getToolbarTitle());
 
