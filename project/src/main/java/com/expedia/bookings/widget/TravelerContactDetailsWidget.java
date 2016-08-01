@@ -24,7 +24,7 @@ import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.enums.MerchandiseSpam;
 import com.expedia.bookings.section.InvalidCharacterHelper;
 import com.expedia.bookings.section.SectionTravelerInfo;
-import com.expedia.bookings.tracking.HotelV2Tracking;
+import com.expedia.bookings.tracking.HotelTracking;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.FontCache;
 import com.expedia.bookings.utils.Ui;
@@ -297,7 +297,7 @@ public class TravelerContactDetailsWidget extends ExpandableCardView implements 
 			}
 			bind();
 			if (lineOfBusiness == LineOfBusiness.HOTELSV2) {
-				new HotelV2Tracking().trackHotelV2CheckoutTraveler();
+				new HotelTracking().trackHotelCheckoutTraveler();
 			}
 			else {
 				OmnitureTracking.trackCheckoutTraveler(lineOfBusiness);

@@ -32,7 +32,7 @@ import com.expedia.bookings.extension.shouldShowCircleForRatings
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
 import com.expedia.util.endlessObserver
-import com.expedia.bookings.tracking.HotelV2Tracking
+import com.expedia.bookings.tracking.HotelTracking
 import com.expedia.bookings.tracking.PackagesTracking
 import com.expedia.bookings.widget.animation.ResizeHeightAnimator
 import com.expedia.util.notNullAndObservable
@@ -147,7 +147,7 @@ class HotelFilterView(context: Context, attrs: AttributeSet) : FrameLayout(conte
             if (vm.lob == LineOfBusiness.PACKAGES) {
                 PackagesTracking().trackHotelClearFilter()
             } else {
-                HotelV2Tracking().trackLinkHotelV2ClearFilter()
+                HotelTracking().trackLinkHotelClearFilter()
             }
         }
 
@@ -227,7 +227,7 @@ class HotelFilterView(context: Context, attrs: AttributeSet) : FrameLayout(conte
                 if (vm.lob == LineOfBusiness.PACKAGES) {
                     PackagesTracking().trackHotelRefineRating(it.toString())
                 } else {
-                    HotelV2Tracking().trackLinkHotelV2RefineRating(it.toString())
+                    HotelTracking().trackLinkHotelRefineRating(it.toString())
                 }
             }
         }

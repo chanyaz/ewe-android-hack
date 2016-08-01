@@ -25,7 +25,7 @@ import com.expedia.bookings.activity.ExpediaBookingApp
 import com.expedia.bookings.bitmaps.PicassoHelper
 import com.expedia.bookings.data.HotelMedia
 import com.expedia.bookings.data.LineOfBusiness
-import com.expedia.bookings.tracking.HotelV2Tracking
+import com.expedia.bookings.tracking.HotelTracking
 import com.expedia.bookings.tracking.PackagesTracking
 import com.expedia.bookings.utils.AnimUtils
 import com.expedia.bookings.utils.Strings
@@ -137,7 +137,7 @@ class HotelRoomRateView(context: Context, var rowIndex: Int) : LinearLayout(cont
                     PackagesTracking().trackHotelRoomMoreInfoClick()
                 }
                 else {
-                    HotelV2Tracking().trackLinkHotelV2RoomInfoClick()
+                    HotelTracking().trackLinkHotelRoomInfoClick()
                 }
             } else {
                 lp.addRule(RelativeLayout.BELOW, 0)

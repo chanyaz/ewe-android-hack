@@ -22,7 +22,7 @@ import com.expedia.bookings.data.hotels.HotelCreateTripResponse
 import com.expedia.bookings.data.payment.PaymentModel
 import com.expedia.bookings.data.payment.PaymentSplits
 import com.expedia.bookings.data.payment.UserPreferencePointsDetails
-import com.expedia.bookings.tracking.HotelV2Tracking
+import com.expedia.bookings.tracking.HotelTracking
 import com.expedia.bookings.utils.bindView
 import com.expedia.util.notNullAndObservable
 import com.expedia.util.subscribeText
@@ -120,7 +120,7 @@ class CouponWidget(context: Context, attrs: AttributeSet?) : ExpandableCardView(
         removeCoupon.setOnClickListener {
             resetFields()
             viewmodel.removeObservable.onNext(true)
-            HotelV2Tracking().trackHotelV2CouponRemove(couponCode.text.toString())
+            HotelTracking().trackHotelCouponRemove(couponCode.text.toString())
         }
     }
 
@@ -143,7 +143,7 @@ class CouponWidget(context: Context, attrs: AttributeSet?) : ExpandableCardView(
                 mToolbarListener.onEditingComplete()
                 mToolbarListener.showRightActionButton(false)
             }
-            HotelV2Tracking().trackHotelV2ExpandCoupon()
+            HotelTracking().trackHotelExpandCoupon()
             couponCode.requestFocus()
             Ui.showKeyboard(couponCode, null)
         } else {

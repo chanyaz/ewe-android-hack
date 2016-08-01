@@ -6,7 +6,7 @@ import com.expedia.bookings.R
 import com.expedia.bookings.data.TripResponse
 import com.expedia.bookings.data.payment.PaymentModel
 import com.expedia.bookings.data.payment.PaymentSplits
-import com.expedia.bookings.tracking.HotelV2Tracking
+import com.expedia.bookings.tracking.HotelTracking
 import com.expedia.bookings.utils.NumberUtils
 import com.expedia.bookings.utils.withLatestFrom
 import com.expedia.vm.interfaces.IBucksViewModel
@@ -80,9 +80,9 @@ class BucksViewModel<T : TripResponse>(paymentModel: PaymentModel<T>, val contex
                 val newPaymentSplits = it.tripResponses.paymentSplitsWhenMaxPayableWithPoints()
                 val tripTotal = it.tripResponses.getTripTotalExcludingFee().amount;
                 val percentage = NumberUtils.getPercentagePaidWithPointsForOmniture(newPaymentSplits.payingWithPoints.amount.amount, tripTotal)
-                HotelV2Tracking().trackPayWithPointsReEnabled(percentage)
+                HotelTracking().trackPayWithPointsReEnabled(percentage)
             } else {
-                HotelV2Tracking().trackPayWithPointsDisabled()
+                HotelTracking().trackPayWithPointsDisabled()
             }
         }
     }

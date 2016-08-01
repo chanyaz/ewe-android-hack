@@ -22,7 +22,7 @@ import com.expedia.bookings.enums.MerchandiseSpam
 import com.expedia.bookings.otto.Events
 import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.services.HotelServices
-import com.expedia.bookings.tracking.HotelV2Tracking
+import com.expedia.bookings.tracking.HotelTracking
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.widget.CheckoutBasePresenter
 import com.expedia.bookings.widget.CouponWidget
@@ -108,7 +108,7 @@ class HotelCheckoutMainViewPresenter(context: Context, attr: AttributeSet) : Che
             loginWidget.updateRewardsText(lineOfBusiness)
         }
         vm.animateSlideToPurchaseWithPaymentSplits.subscribe {
-            HotelV2Tracking().trackHotelV2SlideToPurchase(paymentInfoCardView.getCardType(), it)
+            HotelTracking().trackHotelSlideToPurchase(paymentInfoCardView.getCardType(), it)
         }
     }
 
@@ -214,7 +214,7 @@ class HotelCheckoutMainViewPresenter(context: Context, attr: AttributeSet) : Che
         bind()
         show(CheckoutBasePresenter.Ready(), Presenter.FLAG_CLEAR_BACKSTACK)
         acceptTermsWidget.vm.resetAcceptedTerms()
-        HotelV2Tracking().trackPageLoadHotelV2CheckoutInfo(trip, hotelSearchParams)
+        HotelTracking().trackPageLoadHotelCheckoutInfo(trip, hotelSearchParams)
 
         if (trip.guestUserPromoEmailOptInStatus != null) {
             emailOptInStatus.onNext(MerchandiseSpam.valueOf(trip.guestUserPromoEmailOptInStatus!!))

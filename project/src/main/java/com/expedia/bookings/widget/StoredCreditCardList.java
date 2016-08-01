@@ -16,7 +16,7 @@ import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.StoredCreditCard;
 import com.expedia.bookings.section.StoredCreditCardSpinnerAdapter;
-import com.expedia.bookings.tracking.HotelV2Tracking;
+import com.expedia.bookings.tracking.HotelTracking;
 import com.expedia.bookings.utils.BookingInfoUtils;
 
 import butterknife.ButterKnife;
@@ -78,7 +78,7 @@ public class StoredCreditCardList extends LinearLayout {
 
 					mStoredCreditCardListener.onStoredCreditCardChosen(card);
 					if (lineOfBusiness == LineOfBusiness.HOTELSV2) {
-						new HotelV2Tracking().trackHotelV2StoredCardSelect();
+						new HotelTracking().trackHotelStoredCardSelect();
 					}
 				}
 			}

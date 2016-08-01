@@ -7,7 +7,7 @@ import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.hotels.Hotel
 import com.expedia.bookings.data.hotels.HotelSearchResponse
 import com.expedia.bookings.services.HotelServices
-import com.expedia.bookings.tracking.HotelV2Tracking
+import com.expedia.bookings.tracking.HotelTracking
 import com.expedia.bookings.tracking.PackagesTracking
 import com.expedia.bookings.utils.FilterAmenity
 import com.expedia.bookings.utils.Strings
@@ -106,7 +106,7 @@ class HotelFilterViewModel(val lob: LineOfBusiness = LineOfBusiness.HOTELSV2) {
                 if (lob == LineOfBusiness.PACKAGES) {
                     PackagesTracking().trackHotelSortBy(sortByString)
                 } else {
-                    HotelV2Tracking().trackHotelV2SortBy(sortByString)
+                    HotelTracking().trackHotelSortBy(sortByString)
                 }
             }
 
@@ -231,7 +231,7 @@ class HotelFilterViewModel(val lob: LineOfBusiness = LineOfBusiness.HOTELSV2) {
         if (lob == LineOfBusiness.PACKAGES) {
             PackagesTracking().trackHotelFilterVIP(it)
         } else {
-            HotelV2Tracking().trackLinkHotelV2FilterVip(it)
+            HotelTracking().trackLinkHotelFilterVip(it)
         }
     }
 
@@ -301,7 +301,7 @@ class HotelFilterViewModel(val lob: LineOfBusiness = LineOfBusiness.HOTELSV2) {
         if (lob == LineOfBusiness.PACKAGES) {
             PackagesTracking().trackHotelFilterPriceSlider()
         } else {
-            HotelV2Tracking().trackHotelV2SortPriceSlider()
+            HotelTracking().trackHotelSortPriceSlider()
         }
         handleFiltering()
     }
@@ -316,7 +316,7 @@ class HotelFilterViewModel(val lob: LineOfBusiness = LineOfBusiness.HOTELSV2) {
             if (lob == LineOfBusiness.PACKAGES) {
                 PackagesTracking().trackHotelFilterByName()
             } else {
-                HotelV2Tracking().trackLinkHotelV2FilterByName()
+                HotelTracking().trackLinkHotelFilterByName()
             }
         }
         if (s.length == 0) trackingDone = false

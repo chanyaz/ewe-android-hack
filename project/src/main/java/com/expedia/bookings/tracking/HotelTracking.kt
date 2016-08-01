@@ -10,14 +10,10 @@ import com.expedia.bookings.services.HotelCheckoutResponse
 import com.expedia.bookings.utils.LeanPlumUtils
 import com.expedia.bookings.utils.TuneUtils
 
-class HotelV2Tracking {
+class HotelTracking {
 
-    fun trackHotelV2SearchBox(swpIsVisibleAndToggleIsOn: Boolean) {
+    fun trackHotelSearchBox(swpIsVisibleAndToggleIsOn: Boolean) {
         OmnitureTracking.trackHotelV2SearchBox(swpIsVisibleAndToggleIsOn)
-    }
-
-    fun trackRecentSearchClick() {
-        OmnitureTracking.trackHotelRecentSearchClick()
     }
 
     fun trackSwPToggle(swpToggleState: Boolean){
@@ -32,137 +28,137 @@ class HotelV2Tracking {
         OmnitureTracking.trackGeoSuggestionClick()
     }
 
-    fun trackHotelsV2Search(searchParams: HotelSearchParams, searchResponse: HotelSearchResponse) {
+    fun trackHotelsSearch(searchParams: HotelSearchParams, searchResponse: HotelSearchResponse) {
         OmnitureTracking.internalTrackHotelsV2Search(searchParams, searchResponse)
         LeanPlumUtils.trackHotelV2Search(searchParams, searchResponse)
         TuneUtils.trackHotelV2SearchResults(searchParams, searchResponse)
         FacebookEvents().trackHotelV2Search(searchParams, searchResponse)
     }
 
-    fun trackHotelsV2NoResult() {
+    fun trackHotelsNoResult() {
         OmnitureTracking.trackHotelV2NoResult()
     }
 
-    fun trackHotelV2SponsoredListingClick() {
+    fun trackHotelSponsoredListingClick() {
         OmnitureTracking.trackHotelV2SponsoredListingClick()
     }
 
-    fun trackHotelV2Filter() {
+    fun trackHotelFilter() {
         OmnitureTracking.trackHotelV2Filter()
     }
 
-    fun trackHotelV2SortBy(type: String) {
+    fun trackHotelSortBy(type: String) {
         OmnitureTracking.trackHotelV2SortBy(type)
     }
 
-    fun trackHotelV2SortPriceSlider() {
+    fun trackHotelSortPriceSlider() {
         OmnitureTracking.trackHotelV2PriceSlider()
     }
 
-    fun trackLinkHotelV2RefineRating(rating: String) {
+    fun trackLinkHotelRefineRating(rating: String) {
         OmnitureTracking.trackLinkHotelV2FilterRating(rating + "Star")
     }
 
-    fun trackLinkHotelV2FilterVip(isChecked: Boolean) {
+    fun trackLinkHotelFilterVip(isChecked: Boolean) {
         val state = if (isChecked) "On" else "Off"
         OmnitureTracking.trackLinkHotelV2FilterVip(state)
     }
 
-    fun trackLinkHotelV2FilterNeighbourhood() {
+    fun trackLinkHotelFilterNeighbourhood() {
         OmnitureTracking.trackLinkHotelV2FilterNeighbourhood()
     }
 
-    fun trackLinkHotelV2ClearFilter() {
+    fun trackLinkHotelClearFilter() {
         OmnitureTracking.trackLinkHotelV2ClearFilter()
     }
 
-    fun trackLinkHotelV2FilterByName() {
+    fun trackLinkHotelFilterByName() {
         OmnitureTracking.trackLinkHotelV2FilterByName()
     }
 
-    fun trackHotelV2SearchMap() {
+    fun trackHotelSearchMap() {
         OmnitureTracking.trackHotelV2SearchMap()
     }
 
-    fun trackHotelV2MapToList() {
+    fun trackHotelMapToList() {
         OmnitureTracking.trackHotelV2MapToList()
     }
 
-    fun trackHotelV2MapTapPin() {
+    fun trackHotelMapTapPin() {
         OmnitureTracking.trackHotelV2MapTapPin()
     }
 
-    fun trackHotelV2CarouselClick() {
+    fun trackHotelCarouselClick() {
         OmnitureTracking.trackHotelV2CarouselClick()
     }
 
-    fun trackHotelsV2SearchAreaClick() {
+    fun trackHotelsSearchAreaClick() {
         OmnitureTracking.trackHotelV2AreaSearchClick()
     }
 
-    fun trackHotelV2CarouselScroll() {
+    fun trackHotelCarouselScroll() {
         OmnitureTracking.trackHotelV2CarouselScroll()
     }
 
-    fun trackPageLoadHotelV2SoldOut() {
+    fun trackPageLoadHotelSoldOut() {
         OmnitureTracking.trackPageLoadHotelV2SoldOut()
     }
 
-    fun trackPageLoadHotelV2Infosite(hotelOffersResponse: HotelOffersResponse, searchParams: HotelSearchParams, isETPEligible: Boolean, isCurrentLocationSearch: Boolean, isHotelSoldOut: Boolean, isRoomSoldOut: Boolean) {
+    fun trackPageLoadHotelInfosite(hotelOffersResponse: HotelOffersResponse, searchParams: HotelSearchParams, isETPEligible: Boolean, isCurrentLocationSearch: Boolean, isHotelSoldOut: Boolean, isRoomSoldOut: Boolean) {
         OmnitureTracking.trackPageLoadHotelV2Infosite(hotelOffersResponse, isETPEligible, isCurrentLocationSearch, isHotelSoldOut, isRoomSoldOut)
         TuneUtils.trackHotelV2InfoSite(hotelOffersResponse)
         FacebookEvents().trackHotelV2InfoSite(searchParams, hotelOffersResponse)
     }
 
     fun trackPayNowContainerClick() {
-        trackLinkHotelV2EtpClick("PayNow")
+        trackLinkHotelEtpClick("PayNow")
     }
 
     fun trackPayLaterContainerClick() {
-        trackLinkHotelV2EtpClick("PayLater")
+        trackLinkHotelEtpClick("PayLater")
     }
 
-    private fun trackLinkHotelV2EtpClick(payType: String) {
+    private fun trackLinkHotelEtpClick(payType: String) {
         OmnitureTracking.trackLinkHotelV2EtpClick(payType)
     }
 
-    fun trackLinkHotelV2AirAttachEligible(hotelRoomResponse: HotelOffersResponse.HotelRoomResponse, hotelId: String) {
+    fun trackLinkHotelAirAttachEligible(hotelRoomResponse: HotelOffersResponse.HotelRoomResponse, hotelId: String) {
         OmnitureTracking.trackLinkHotelV2AirAttachEligible(hotelRoomResponse, hotelId)
     }
 
-    fun trackLinkHotelV2RoomBookClick(hotelRoomResponse: HotelOffersResponse.HotelRoomResponse, hasETP: Boolean) {
+    fun trackLinkHotelRoomBookClick(hotelRoomResponse: HotelOffersResponse.HotelRoomResponse, hasETP: Boolean) {
         OmnitureTracking.trackHotelV2RoomBookClick(hotelRoomResponse, hasETP)
     }
 
-    fun trackLinkHotelV2ViewRoomClick() {
+    fun trackLinkHotelViewRoomClick() {
         OmnitureTracking.trackLinkHotelV2ViewRoomClick()
     }
 
-    fun trackLinkHotelV2RoomInfoClick() {
+    fun trackLinkHotelRoomInfoClick() {
         OmnitureTracking.trackLinkHotelV2RoomInfoClick()
     }
 
-    fun trackHotelV2DetailMapView() {
+    fun trackHotelDetailMapView() {
         OmnitureTracking.trackHotelV2DetailMapView()
     }
 
-    fun trackLinkHotelV2DetailBookPhoneClick() {
+    fun trackLinkHotelDetailBookPhoneClick() {
         OmnitureTracking.trackLinkHotelV2DetailBookPhoneClick()
     }
 
-    fun trackLinkHotelV2DetailSelectRoom() {
+    fun trackLinkHotelDetailSelectRoom() {
         OmnitureTracking.trackLinkHotelV2DetailSelectRoom()
     }
 
-    fun trackLinkHotelV2MapSelectRoom() {
+    fun trackLinkHotelMapSelectRoom() {
         OmnitureTracking.trackLinkHotelV2MapSelectRoom()
     }
 
-    fun trackHotelV2Reviews() {
+    fun trackHotelReviews() {
         OmnitureTracking.trackHotelV2Reviews()
     }
 
-    fun trackHotelV2ReviewsCategories(tabSelected: Int) {
+    fun trackHotelReviewsCategories(tabSelected: Int) {
         val category = ( when (tabSelected) {
             0 -> "Recent"
             1 -> "Favorable"
@@ -172,19 +168,19 @@ class HotelV2Tracking {
         OmnitureTracking.trackHotelV2ReviewsCategories(category)
     }
 
-    fun trackHotelV2EtpInfo() {
+    fun trackHotelEtpInfo() {
         OmnitureTracking.trackHotelV2EtpInfo()
     }
 
-    fun trackHotelV2ResortFeeInfo() {
+    fun trackHotelResortFeeInfo() {
         OmnitureTracking.trackHotelV2ResortFeeInfo()
     }
 
-    fun trackHotelV2RenovationInfo() {
+    fun trackHotelRenovationInfo() {
         OmnitureTracking.trackHotelV2RenovationInfo()
     }
 
-    fun trackPageLoadHotelV2CheckoutInfo(hotelCreateTripResponse: HotelCreateTripResponse, searchParams: HotelSearchParams) {
+    fun trackPageLoadHotelCheckoutInfo(hotelCreateTripResponse: HotelCreateTripResponse, searchParams: HotelSearchParams) {
         OmnitureTracking.trackPageLoadHotelV2CheckoutInfo(hotelCreateTripResponse, searchParams)
         val hotelProductResponse = hotelCreateTripResponse.newHotelProductResponse
         LeanPlumUtils.trackHotelV2CheckoutStarted(hotelProductResponse, searchParams.guests)
@@ -200,114 +196,114 @@ class HotelV2Tracking {
         OmnitureTracking.trackPriceChange(priceChange)
     }
 
-    fun trackHotelV2CheckoutTraveler() {
+    fun trackHotelCheckoutTraveler() {
         OmnitureTracking.trackHotelV2CheckoutTraveler()
     }
 
-    fun trackHotelV2PaymentEdit() {
+    fun trackHotelPaymentEdit() {
         OmnitureTracking.trackHotelV2PaymentEdit()
     }
 
-    fun trackHotelV2StoredCardSelect() {
+    fun trackHotelStoredCardSelect() {
         OmnitureTracking.trackHotelV2StoredCardSelect()
     }
 
-    fun trackHotelV2SlideToPurchase(paymentType: PaymentType, paymentSplitsType: PaymentSplitsType) {
+    fun trackHotelSlideToPurchase(paymentType: PaymentType, paymentSplitsType: PaymentSplitsType) {
         OmnitureTracking.trackHotelV2SlideToPurchase(paymentType, paymentSplitsType)
     }
 
-    fun trackHotelV2CheckoutPaymentCid() {
+    fun trackHotelCheckoutPaymentCid() {
         OmnitureTracking.trackHotelV2CheckoutPaymentCid()
     }
 
-    fun trackHotelsV2CardError() {
-        trackHotelsV2CheckoutError("Payment Info Error")
+    fun trackHotelsCardError() {
+        trackHotelsCheckoutError("Payment Info Error")
     }
 
-    fun trackHotelsV2TravelerError() {
-        trackHotelsV2CheckoutError("Traveler Info Error")
+    fun trackHotelsTravelerError() {
+        trackHotelsCheckoutError("Traveler Info Error")
     }
 
-    fun trackHotelsV2ProductExpiredError() {
-        trackHotelsV2CheckoutError("Product Expired")
+    fun trackHotelsProductExpiredError() {
+        trackHotelsCheckoutError("Product Expired")
     }
 
-    fun trackHotelsV2TripAlreadyBookedError() {
-        trackHotelsV2CheckoutError("Trip Already Booked")
+    fun trackHotelsTripAlreadyBookedError() {
+        trackHotelsCheckoutError("Trip Already Booked")
     }
 
-    fun trackHotelsV2PaymentFailedError() {
-        trackHotelsV2CheckoutError("Payment Failed")
+    fun trackHotelsPaymentFailedError() {
+        trackHotelsCheckoutError("Payment Failed")
     }
 
-    fun trackHotelsV2SessionTimeOutError() {
-        trackHotelsV2CheckoutError("Session Timeout")
+    fun trackHotelsSessionTimeOutError() {
+        trackHotelsCheckoutError("Session Timeout")
     }
 
-    fun trackHotelsV2UnknownError() {
-        trackHotelsV2CheckoutError("Unknown Error")
+    fun trackHotelsUnknownError() {
+        trackHotelsCheckoutError("Unknown Error")
     }
 
-    private fun trackHotelsV2CheckoutError(errorType: String) {
+    private fun trackHotelsCheckoutError(errorType: String) {
         OmnitureTracking.trackHotelV2CheckoutError(errorType)
     }
 
-    fun trackHotelsV2CheckoutErrorRetry() {
+    fun trackHotelsCheckoutErrorRetry() {
         OmnitureTracking.trackHotelV2CheckoutErrorRetry()
     }
 
-    fun trackHotelV2CardIOButtonClicked() {
+    fun trackHotelCardIOButtonClicked() {
         OmnitureTracking.trackHotelV2CardIOButtonClicked()
     }
 
-    fun trackHotelV2PurchaseConfirmation(hotelCheckoutResponse: HotelCheckoutResponse, percentagePaidWithPoints: Int, totalAppliedRewardCurrency: String, guestCount: Int, couponCode: String) {
+    fun trackHotelPurchaseConfirmation(hotelCheckoutResponse: HotelCheckoutResponse, percentagePaidWithPoints: Int, totalAppliedRewardCurrency: String, guestCount: Int, couponCode: String) {
         OmnitureTracking.trackHotelV2PurchaseConfirmation(hotelCheckoutResponse, percentagePaidWithPoints, totalAppliedRewardCurrency)
         LeanPlumUtils.trackHotelV2Booked(hotelCheckoutResponse, guestCount, couponCode)
         TuneUtils.trackHotelV2Confirmation(hotelCheckoutResponse)
         FacebookEvents().trackHotelV2Confirmation(hotelCheckoutResponse)
     }
 
-    fun trackHotelV2ConfirmationCalendar() {
+    fun trackHotelConfirmationCalendar() {
         OmnitureTracking.trackHotelV2ConfirmationCalendar()
     }
 
-    fun trackHotelV2ConfirmationDirection() {
+    fun trackHotelConfirmationDirection() {
         OmnitureTracking.trackHotelV2ConfirmationDirection()
     }
 
-    fun trackHotelV2CallCustomerSupport() {
+    fun trackHotelCallCustomerSupport() {
         OmnitureTracking.trackHotelV2CallCustomerSupport()
     }
 
-    fun trackHotelV2CrossSellCar() {
-        trackHotelV2ConfirmationCrossSell("Cars")
+    fun trackHotelCrossSellCar() {
+        trackHotelConfirmationCrossSell("Cars")
     }
 
-    fun trackHotelV2CrossSellFlight() {
-        trackHotelV2ConfirmationCrossSell("Flights")
+    fun trackHotelCrossSellFlight() {
+        trackHotelConfirmationCrossSell("Flights")
     }
 
-    fun trackHotelV2CrossSellLX() {
-        trackHotelV2ConfirmationCrossSell("LX")
+    fun trackHotelCrossSellLX() {
+        trackHotelConfirmationCrossSell("LX")
     }
 
-    private fun trackHotelV2ConfirmationCrossSell(businessType: String) {
+    private fun trackHotelConfirmationCrossSell(businessType: String) {
         OmnitureTracking.trackHotelV2ConfirmationCrossSell(businessType)
     }
 
-    fun trackHotelV2ExpandCoupon() {
+    fun trackHotelExpandCoupon() {
         OmnitureTracking.trackHotelV2ExpandCoupon()
     }
 
-    fun trackHotelV2CouponSuccess(couponCode: String) {
+    fun trackHotelCouponSuccess(couponCode: String) {
         OmnitureTracking.trackHotelV2CouponSuccess(couponCode)
     }
 
-    fun trackHotelV2CouponFail(couponCode: String, errorMessage: String) {
+    fun trackHotelCouponFail(couponCode: String, errorMessage: String) {
         OmnitureTracking.trackHotelV2CouponFail(couponCode, errorMessage)
     }
 
-    fun trackHotelV2CouponRemove(couponCode: String) {
+    fun trackHotelCouponRemove(couponCode: String) {
         OmnitureTracking.trackHotelV2CouponRemove(couponCode)
     }
 

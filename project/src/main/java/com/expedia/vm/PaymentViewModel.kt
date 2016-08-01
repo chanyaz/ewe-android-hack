@@ -16,7 +16,7 @@ import com.expedia.bookings.data.StoredCreditCard
 import com.expedia.bookings.data.payment.PaymentSplitsType
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.data.trips.TripBucketItemCar
-import com.expedia.bookings.tracking.HotelV2Tracking
+import com.expedia.bookings.tracking.HotelTracking
 import com.expedia.bookings.utils.BookingInfoUtils
 import com.expedia.bookings.utils.CreditCardUtils
 import com.expedia.bookings.widget.ContactDetailsCompletenessStatus
@@ -76,7 +76,7 @@ class PaymentViewModel(val context: Context) {
 
     init {
         startCreditCardScan.subscribe {
-            HotelV2Tracking().trackHotelV2CardIOButtonClicked()
+            HotelTracking().trackHotelCardIOButtonClicked()
             val activity = context as AppCompatActivity
             activity.startActivityForResult(creditCardScanIntent, PaymentWidgetV2.CARD_IO_REQUEST_CODE)
         }
