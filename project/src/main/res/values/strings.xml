@@ -86,6 +86,8 @@
     <string name="cars_driver_details_text">Driver details</string>
     <!-- Text for enter driver details-->
     <string name="enter_driver_details">Enter driver details</string>
+    <!-- Content description for enter driver details-->
+    <string name="enter_driver_details_cont_desc">Enter driver details button</string>
     <!-- Text for select saved contacts-->
     <string name="traveler_saved_contacts_text">Select saved contacts</string>
     <!-- Text for enter payment details-->
