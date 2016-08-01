@@ -7,7 +7,7 @@ import android.view.accessibility.AccessibilityEvent
 import com.expedia.bookings.R
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.CalendarWidgetWithTimeSlider
-import com.expedia.bookings.widget.SearchInputCardView
+import com.expedia.bookings.widget.shared.SearchInputTextView
 import com.expedia.util.notNullAndObservable
 import com.expedia.vm.SuggestionAdapterViewModel
 import org.joda.time.LocalDate
@@ -16,8 +16,8 @@ import java.util.concurrent.TimeUnit
 
 abstract class BaseTwoLocationSearchPresenter(context: Context, attrs: AttributeSet) : BaseSearchPresenter(context, attrs) {
 
-    open val originCardView by bindView<SearchInputCardView>(R.id.origin_card)
     val calendarWidget by bindView<CalendarWidgetWithTimeSlider>(R.id.car_calendar_card)
+    open val originCardView by bindView<SearchInputTextView>(R.id.origin_card)
 
     protected open var originSuggestionViewModel: SuggestionAdapterViewModel by notNullAndObservable { vm ->
         val suggestionSelectedObserver = suggestionSelectedObserver(getSearchViewModel().originLocationObserver)
@@ -28,7 +28,7 @@ abstract class BaseTwoLocationSearchPresenter(context: Context, attrs: Attribute
                 .doOnNext(suggestionSelectedObserver)
                 .debounce(waitForOtherSuggestionListeners + delayBeforeShowingDestinationSuggestions, TimeUnit.MILLISECONDS)
                 .observeOn(AndroidSchedulers.mainThread())
-                .filter { destinationCardView.text.text.equals(getDestinationSearchBoxPlaceholderText()) }
+                .filter { destinationCardView.text.equals(getDestinationSearchBoxPlaceholderText()) }
                 .subscribe {
                     showSuggestionState(selectOrigin = false)
                 }

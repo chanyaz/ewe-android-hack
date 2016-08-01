@@ -96,31 +96,31 @@
 
                     <android.support.v7.widget.CardView
                         style="@style/MaterialCardView"
-                        app:cardUseCompatPadding="true"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
+                        android:layout_height="wrap_content"
+                        app:cardUseCompatPadding="true">
 
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:orientation="vertical">
 
-                            <com.expedia.bookings.widget.SearchInputCardView
+                            <com.expedia.bookings.widget.shared.SearchInputTextView
                                 android:id="@+id/origin_card"
+                                style="@style/MaterialCardTextView"
                                 android:layout_width="match_parent"
                                 android:layout_height="@dimen/default_search_card_height"
                                 android:contentDescription="@string/packages_search_flying_from_cont_desc"
-                                app:cardCornerRadius="0dp"
                                 app:input_icon="@drawable/packages_search_departure"
                                 app:input_icon_tint_color="@color/search_screen_icon_color_v2"
                                 app:input_text="@string/fly_from_hint" />
 
-                            <com.expedia.bookings.widget.SearchInputCardView
+                            <com.expedia.bookings.widget.shared.SearchInputTextView
                                 android:id="@+id/destination_card"
+                                style="@style/MaterialCardTextView"
                                 android:layout_width="match_parent"
                                 android:layout_height="@dimen/default_search_card_height"
                                 android:contentDescription="@string/packages_search_flying_to_cont_desc"
-                                app:cardCornerRadius="0dp"
                                 app:input_icon="@drawable/packages_search_arrival"
                                 app:input_icon_tint_color="@color/search_screen_icon_color_v2"
                                 app:input_text="@string/fly_to_hint" />
@@ -136,23 +136,36 @@
 
                     </android.support.v7.widget.CardView>
 
-                    <com.expedia.bookings.widget.CalendarWidgetV2
-                        android:id="@+id/calendar_card"
+                    <android.support.v7.widget.CardView
                         style="@style/MaterialCardView"
                         android:layout_width="match_parent"
-                        android:layout_height="@dimen/default_search_card_height"
-                        android:contentDescription="@string/packages_search_dates_cont_desc"
-                        app:cardUseCompatPadding="true"
-                        app:input_icon="@drawable/search_form_icon_calendar"
-                        app:input_icon_tint_color="@color/search_screen_icon_color_v2"
-                        app:input_text="@string/select_dates" />
+                        android:layout_height="wrap_content"
+                        app:cardUseCompatPadding="true">
 
-                    <ViewStub
-                        android:id="@+id/traveller_stub"
+                        <com.expedia.bookings.widget.CalendarWidgetV2
+                            android:id="@+id/calendar_card"
+                            style="@style/MaterialCardTextView"
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/default_search_card_height"
+                            android:contentDescription="@string/packages_search_dates_cont_desc"
+                            app:input_icon="@drawable/search_form_icon_calendar"
+                            app:input_icon_tint_color="@color/search_screen_icon_color_v2"
+                            app:input_text="@string/select_dates" />
+                    </android.support.v7.widget.CardView>
+
+                    <android.support.v7.widget.CardView
+                        style="@style/MaterialCardView"
                         android:layout_width="match_parent"
-                        android:layout_height="@dimen/default_search_card_height"
-                        android:layout="@layout/traveler_search_widget"
-                        app:input_text="@string/package_search_traveler_default_text" />
+                        android:layout_height="wrap_content"
+                        app:cardUseCompatPadding="true">
+
+                        <ViewStub
+                            android:id="@+id/traveller_stub"
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/default_search_card_height"
+                            android:layout="@layout/traveler_search_widget"
+                            app:input_text="@string/package_search_traveler_default_text" />
+                    </android.support.v7.widget.CardView>
 
                 </LinearLayout>
             </FrameLayout>

@@ -9,11 +9,12 @@ import android.view.WindowManager
 import android.view.accessibility.AccessibilityEvent
 import com.expedia.bookings.R
 import com.expedia.bookings.data.TravelerParams
+import com.expedia.bookings.widget.shared.SearchInputTextView
 import com.expedia.util.subscribeText
 import com.expedia.vm.TravelerPickerViewModel
 import rx.subjects.BehaviorSubject
 
-class TravelerWidgetV2(context: Context, attrs: AttributeSet?) : SearchInputCardView(context, attrs) {
+class TravelerWidgetV2(context: Context, attrs: AttributeSet?) : SearchInputTextView(context, attrs) {
     var oldTravelerData: TravelerParams? = null;
     val travelersSubject = BehaviorSubject.create<TravelerParams>()
 
@@ -32,7 +33,7 @@ class TravelerWidgetV2(context: Context, attrs: AttributeSet?) : SearchInputCard
         val travelerView = travelerDialogView.findViewById(R.id.traveler_view) as HotelTravelerPickerView
         travelerView.viewmodel = TravelerPickerViewModel(context)
         travelerView.viewmodel.travelerParamsObservable.subscribe(travelersSubject)
-        travelerView.viewmodel.guestsTextObservable.subscribeText(this.text)
+        travelerView.viewmodel.guestsTextObservable.subscribeText(this)
         travelerView.viewmodel.tooManyInfants.subscribe { tooManyInfants ->
             travelerDialog.getButton(AlertDialog.BUTTON_POSITIVE)?.isEnabled = !tooManyInfants
         }

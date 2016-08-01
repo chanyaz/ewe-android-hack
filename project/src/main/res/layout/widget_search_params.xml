@@ -75,35 +75,54 @@
                 android:clipToPadding="false"
                 android:orientation="vertical">
 
-                <com.expedia.bookings.widget.SearchInputCardView
-                    android:id="@+id/destination_card"
+                <android.support.v7.widget.CardView
                     style="@style/MaterialCardView"
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/default_search_card_height"
+                    android:layout_height="wrap_content"
                     android:layout_marginBottom="@dimen/material_search_field_bottom_margin"
-                    android:contentDescription="@string/location_edit_box_cont_desc"
-                    app:cardUseCompatPadding="true"
-                    app:input_icon="@drawable/search_form_icon_search"
-                    app:input_icon_tint_color="@color/search_screen_icon_color_v2"
-                    app:input_text="?attr/skin_searchLocationText" />
+                    app:cardUseCompatPadding="true">
 
-                <com.expedia.bookings.widget.CalendarWidgetV2
-                    android:id="@+id/calendar_card"
+                    <com.expedia.bookings.widget.shared.SearchInputTextView
+                        android:id="@+id/destination_card"
+                        style="@style/MaterialCardTextView"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/default_search_card_height"
+                        android:contentDescription="@string/location_edit_box_cont_desc"
+                        app:input_icon="@drawable/search_form_icon_search"
+                        app:input_icon_tint_color="@color/search_screen_icon_color_v2"
+                        app:input_text="?attr/skin_searchLocationText" />
+                </android.support.v7.widget.CardView>
+
+                <android.support.v7.widget.CardView
                     style="@style/MaterialCardView"
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/default_search_card_height"
+                    android:layout_height="wrap_content"
                     android:layout_marginBottom="@dimen/material_search_field_bottom_margin"
-                    android:contentDescription="@string/base_search_dates_cont_desc"
-                    app:cardUseCompatPadding="true"
-                    app:input_icon="@drawable/search_form_icon_calendar"
-                    app:input_icon_tint_color="@color/search_screen_icon_color_v2"
-                    app:input_text="@string/select_dates" />
+                    app:cardUseCompatPadding="true">
 
-                <ViewStub
-                    android:id="@+id/traveller_stub"
+                    <com.expedia.bookings.widget.CalendarWidgetV2
+                        android:id="@+id/calendar_card"
+                        style="@style/MaterialCardTextView"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/default_search_card_height"
+                        android:contentDescription="@string/base_search_dates_cont_desc"
+                        app:input_icon="@drawable/search_form_icon_calendar"
+                        app:input_icon_tint_color="@color/search_screen_icon_color_v2"
+                        app:input_text="@string/select_dates" />
+                </android.support.v7.widget.CardView>
+
+                <android.support.v7.widget.CardView
+                    style="@style/MaterialCardView"
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/default_search_card_height"
-                    android:layout="@layout/traveler_search_widget" />
+                    android:layout_height="wrap_content"
+                    app:cardUseCompatPadding="true">
+
+                    <ViewStub
+                        android:id="@+id/traveller_stub"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/default_search_card_height"
+                        android:layout="@layout/traveler_search_widget" />
+                </android.support.v7.widget.CardView>
 
                 <ViewStub
                     android:id="@+id/swp_stub"

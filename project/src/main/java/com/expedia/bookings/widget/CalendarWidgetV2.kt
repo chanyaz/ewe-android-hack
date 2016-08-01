@@ -8,11 +8,12 @@ import com.expedia.bookings.R
 import com.expedia.bookings.fragment.AccessibleDatePickerFragment
 import com.expedia.bookings.fragment.CalendarDialogFragment
 import com.expedia.bookings.utils.Constants
+import com.expedia.bookings.widget.shared.SearchInputTextView
 import com.expedia.util.notNullAndObservable
 import com.expedia.util.subscribeText
 import com.expedia.vm.BaseSearchViewModel
 
-open class CalendarWidgetV2(context: Context, attrs: AttributeSet?) : SearchInputCardView(context, attrs) {
+open class CalendarWidgetV2(context: Context, attrs: AttributeSet?) : SearchInputTextView(context, attrs) {
 
     init {
         setOnClickListener {
@@ -21,7 +22,7 @@ open class CalendarWidgetV2(context: Context, attrs: AttributeSet?) : SearchInpu
     }
 
     var viewModel: BaseSearchViewModel by notNullAndObservable {
-        it.dateTextObservable.subscribeText(this.text)
+        it.dateTextObservable.subscribeText(this)
         viewModel.accessibleStartDateSetObservable.subscribe { startDateSet ->
             if (startDateSet && viewModel.getMaxSearchDurationDays() > 0) {
                 showCalendarDialog()

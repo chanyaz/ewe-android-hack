@@ -10,6 +10,7 @@ import com.expedia.bookings.presenter.lx.LXSearchPresenter
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.widget.TextView
 import com.expedia.bookings.lob.lx.ui.viewmodel.LXSearchViewModel
+import com.expedia.bookings.widget.shared.SearchInputTextView
 import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
@@ -42,9 +43,8 @@ class LXSearchTest {
     @Test
     fun testSearchFormComponentVisibility() {
         val selectDate = searchwidget.findViewById(R.id.calendar_card)
-        val locationCardView = searchwidget.findViewById(R.id.destination_card)
+        val locationTextView = searchwidget.findViewById(R.id.destination_card) as SearchInputTextView
         val searchButton = searchwidget.findViewById(R.id.search_btn) as Button
-        val locationTextView = locationCardView.findViewById(R.id.input_label) as TextView
         val toolbarSearchText = searchwidget.findViewById(R.id.title) as TextView
         assertEquals("Search Activities", toolbarSearchText.text.toString())
         assertEquals(View.VISIBLE.toLong(), searchButton.visibility.toLong())
