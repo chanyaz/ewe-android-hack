@@ -185,9 +185,14 @@ public class MultipleTravelerPresenterTest extends BaseTravelerPresenterTestHelp
 	}
 
 	@Test
-	public void testValidChildInfantTraveler() {
-		List<Integer> children = Arrays.asList(1);
-		mockViewModel = getMockViewModelEmptyTravelersWithInfant(2, children, true);
+	public void testValidChildInfantTraveler() throws Throwable {
+		final List<Integer> children = Arrays.asList(1);
+		uiThreadTestRule.runOnUiThread(new Runnable() {
+			@Override
+			public void run() {
+				mockViewModel = getMockViewModelEmptyTravelersWithInfant(2, children, true);
+			}
+		});
 		Traveler child1 = Db.getTravelers().get(2);
 		setChildTraveler(child1, 1);
 		testTravelerPresenter.setViewModel(mockViewModel);
