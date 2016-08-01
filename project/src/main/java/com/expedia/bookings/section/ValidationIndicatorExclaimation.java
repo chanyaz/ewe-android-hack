@@ -6,6 +6,8 @@ import android.widget.TextView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.utils.Ui;
+import com.expedia.bookings.widget.accessibility.AccessibleEditText;
+import com.expedia.bookings.widget.accessibility.AccessibleTextViewForSpinner;
 
 /**
  * Validation indicator field for textviews and subclasses that sets the error icon and changes the text color if things aren't valid
@@ -19,6 +21,7 @@ public class ValidationIndicatorExclaimation<Data extends Object> extends
 	//Was this valid last time - this is to improve performance
 	Boolean mWasValid = true;
 	Drawable mDrawableRight;
+
 	public ValidationIndicatorExclaimation(int fieldId) {
 		super(fieldId);
 	}
@@ -40,12 +43,24 @@ public class ValidationIndicatorExclaimation<Data extends Object> extends
 			errorIcon.setBounds(new Rect(0, 0, errorIcon.getIntrinsicWidth(), errorIcon.getIntrinsicHeight()));
 			Drawable[] compounds = field.getCompoundDrawables();
 			field.setCompoundDrawablesWithIntrinsicBounds(compounds[0], compounds[1], errorIcon, compounds[3]);
+			if (field instanceof AccessibleEditText) {
+				((AccessibleEditText) field).setValid(false);
+			}
+			else if (field instanceof AccessibleTextViewForSpinner) {
+				((AccessibleTextViewForSpinner) field).setValid(false);
+			}
 			mWasValid = false;
 		}
 		else if (isValid && (force || !mWasValid)) {
 			//Freshly valid
 			Drawable[] compounds = field.getCompoundDrawables();
 			field.setCompoundDrawablesWithIntrinsicBounds(compounds[0], compounds[1], mDrawableRight, compounds[3]);
+			if (field instanceof AccessibleEditText) {
+				((AccessibleEditText) field).setValid(true);
+			}
+			else if (field instanceof AccessibleTextViewForSpinner) {
+				((AccessibleTextViewForSpinner) field).setValid(true);
+			}
 			mWasValid = true;
 		}
 	}

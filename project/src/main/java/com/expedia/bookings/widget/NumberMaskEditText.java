@@ -7,6 +7,7 @@ import android.text.InputType;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.AttributeSet;
+import android.view.accessibility.AccessibilityNodeInfo;
 import android.widget.EditText;
 
 import com.expedia.bookings.R;
@@ -94,6 +95,19 @@ public class NumberMaskEditText extends EditText {
 	 */
 	public void toFormattedString() {
 		mFormatter.applyTo(getEditableText().toString());
+	}
+
+	@Override
+	public void onInitializeAccessibilityNodeInfo(AccessibilityNodeInfo info) {
+		super.onInitializeAccessibilityNodeInfo(info);
+		String text = this.getText().toString();
+		String hint = this.getHint().toString();
+		if (text.isEmpty()) {
+			info.setText(" " + hint);
+		}
+		else {
+			info.setText(" " + hint + ", " + text);
+		}
 	}
 }
 
