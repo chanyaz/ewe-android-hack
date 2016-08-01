@@ -126,7 +126,7 @@ class FlightCheckoutPresenter(context: Context, attr: AttributeSet) : BaseChecko
     }
 
     override fun makeCreateTripViewModel(): FlightCreateTripViewModel {
-        return FlightCreateTripViewModel(getFlightServices(), getCheckoutViewModel().cardFeeForSelectedCard)
+        return FlightCreateTripViewModel(context, getFlightServices(), getCheckoutViewModel().cardFeeForSelectedCard)
     }
 
     override fun getCheckoutViewModel(): FlightCheckoutViewModel {

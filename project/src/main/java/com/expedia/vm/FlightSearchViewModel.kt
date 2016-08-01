@@ -7,9 +7,11 @@ import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.TravelerParams
 import com.expedia.bookings.data.flights.FlightSearchParams
 import com.expedia.bookings.data.flights.FlightSearchResponse
+import com.expedia.bookings.dialog.DialogFactory
 import com.expedia.bookings.services.FlightServices
 import com.expedia.bookings.utils.DateUtils
 import com.expedia.bookings.utils.FlightsV2DataUtil
+import com.expedia.bookings.utils.RetrofitUtils
 import com.expedia.bookings.utils.SpannableBuilder
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.validation.TravelerValidator
@@ -28,6 +30,7 @@ class FlightSearchViewModel(context: Context, val flightServices: FlightServices
         @Inject set
 
     val errorObservable = PublishSubject.create<ApiError>()
+    val noNetworkObservable = PublishSubject.create<Unit>()
 
     // Outputs
     val searchParamsObservable = BehaviorSubject.create<FlightSearchParams>()
@@ -189,11 +192,6 @@ class FlightSearchViewModel(context: Context, val flightServices: FlightServices
     private fun makeResultsObserver(): Observer<FlightSearchResponse> {
 
         return object: Observer<FlightSearchResponse> {
-            override fun onError(e: Throwable?) {
-            }
-
-            override fun onCompleted() {
-            }
 
             override fun onNext(response: FlightSearchResponse) {
                 if (response.hasErrors()) {
@@ -204,7 +202,20 @@ class FlightSearchViewModel(context: Context, val flightServices: FlightServices
                     flightSearchResponseSubject.onNext(response)
                 }
             }
+
+            override fun onError(e: Throwable) {
+                if (RetrofitUtils.isNetworkError(e)) {
+                    val retryFun = fun() {
+                        flightServices.flightSearch(searchParamsObservable.value).subscribe(makeResultsObserver())
+                    }
+                    val cancelFun = fun() {
+                        noNetworkObservable.onNext(Unit)
+                    }
+                    DialogFactory.showNoInternetRetryDialog(context, retryFun, cancelFun)
+                }
+            }
+
+            override fun onCompleted() {}
         }
     }
-
 }

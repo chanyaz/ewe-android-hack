@@ -1,5 +1,6 @@
 package com.expedia.vm.test.robolectric
 
+import android.content.DialogInterface
 import com.expedia.bookings.data.TripResponse
 import com.expedia.bookings.data.flights.FlightCreateTripParams
 import com.expedia.bookings.data.flights.FlightCreateTripResponse
@@ -13,31 +14,38 @@ import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.Mockito
+import org.robolectric.RuntimeEnvironment
+import org.robolectric.Shadows
+import org.robolectric.shadows.ShadowAlertDialog
+import rx.Observable
 import rx.observers.TestSubscriber
+import rx.subjects.BehaviorSubject
 import rx.subjects.PublishSubject
+import java.io.IOException
 import kotlin.test.assertEquals
 
 @RunWith(RobolectricRunner::class)
 class FlightCreateTripViewModelTest {
 
-    lateinit private var sut: FlightCreateTripViewModel
+    private val context = RuntimeEnvironment.application
 
+    lateinit private var sut: FlightCreateTripViewModel
     lateinit private var flightServices: FlightServices
     lateinit private var selectedCardFeeSubject: PublishSubject<ValidFormOfPayment>
     lateinit private var params: FlightCreateTripParams
-    lateinit private var createTripResponseObservable: PublishSubject<FlightCreateTripResponse>
+    lateinit private var createTripResponseObservable: BehaviorSubject<FlightCreateTripResponse>
 
     @Before
     fun setup() {
         selectedCardFeeSubject = PublishSubject.create()
         createMockFlightServices()
-        sut = FlightCreateTripViewModel(flightServices, selectedCardFeeSubject)
+        sut = FlightCreateTripViewModel(context, flightServices, selectedCardFeeSubject)
     }
 
     @Test
     fun createTripRequestFired() {
         givenGoodCreateTripParams()
-        expectCreateTripCall()
+        expectGoodCreateTripCall()
 
         val testSubscriber = TestSubscriber<TripResponse>()
         sut.tripResponseObservable.subscribe(testSubscriber)
@@ -95,6 +103,47 @@ class FlightCreateTripViewModelTest {
         assertEquals(paymentFormWithCardFee.getFee(), newTripResponseWithFees.selectedCardFees)
     }
 
+    @Test
+    fun networkErrorDialogCancel() {
+        val testSubscriber = TestSubscriber<Unit>()
+        givenGoodCreateTripParams()
+        givenCreateTripCallWithIOException()
+
+        sut.noNetworkObservable.subscribe(testSubscriber)
+
+        sut.tripParams.onNext(params)
+        sut.performCreateTrip.onNext(Unit)
+
+        val latestAlertDialog = ShadowAlertDialog.getLatestAlertDialog()
+        val shadowAlertDialog = Shadows.shadowOf(latestAlertDialog)
+        val cancelBtn = latestAlertDialog.getButton(DialogInterface.BUTTON_NEGATIVE)
+        cancelBtn.performClick()
+
+        assertEquals("", shadowAlertDialog.title)
+        assertEquals("Your device is not connected to the internet.  Please check your connection and try again.", shadowAlertDialog.message)
+        testSubscriber.assertValueCount(1)
+    }
+
+    @Test
+    fun networkErrorDialogRetry() {
+        givenGoodCreateTripParams()
+        givenCreateTripCallWithIOException()
+
+        sut.tripParams.onNext(params)
+        sut.performCreateTrip.onNext(Unit)
+
+        val latestAlertDialog = ShadowAlertDialog.getLatestAlertDialog()
+        val shadowAlertDialog = Shadows.shadowOf(latestAlertDialog)
+        val retryBtn = latestAlertDialog.getButton(DialogInterface.BUTTON_POSITIVE)
+        retryBtn.performClick()
+        retryBtn.performClick()
+        retryBtn.performClick()
+
+        assertEquals("", shadowAlertDialog.title)
+        assertEquals("Your device is not connected to the internet.  Please check your connection and try again.", shadowAlertDialog.message)
+        Mockito.verify(flightServices, Mockito.times(4)).createTrip(params) // 1 original, 3 retries
+    }
+
     private fun createPaymentWithCardFee(): ValidFormOfPayment {
         val validFormOfPayment = ValidFormOfPayment()
         validFormOfPayment.name = "AmericanExpress"
@@ -126,8 +175,14 @@ class FlightCreateTripViewModelTest {
         params = FlightCreateTripParams(productKey, withInsurance)
     }
 
-    private fun expectCreateTripCall() {
-        createTripResponseObservable = PublishSubject.create<FlightCreateTripResponse>()
+    private fun expectGoodCreateTripCall() {
+        createTripResponseObservable = BehaviorSubject.create<FlightCreateTripResponse>()
+        Mockito.`when`(flightServices.createTrip(params)).thenReturn(createTripResponseObservable)
+    }
+
+    private fun givenCreateTripCallWithIOException() {
+        createTripResponseObservable = BehaviorSubject.create<FlightCreateTripResponse>()
+        createTripResponseObservable.onError(IOException())
         Mockito.`when`(flightServices.createTrip(params)).thenReturn(createTripResponseObservable)
     }
 

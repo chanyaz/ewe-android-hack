@@ -40,7 +40,8 @@ open class FlightServices(endpoint: String, okHttpClient: OkHttpClient, intercep
         adapter.create(FlightApi::class.java)
     }
 
-    fun flightSearch(params: FlightSearchParams): Observable<FlightSearchResponse> {
+    // open so we can use Mockito to mock FlightServices
+    open fun flightSearch(params: FlightSearchParams): Observable<FlightSearchResponse> {
         return flightApi.flightSearch(params.toQueryMap(), params.children).observeOn(observeOn)
                 .subscribeOn(subscribeOn)
                 .doOnNext { response ->

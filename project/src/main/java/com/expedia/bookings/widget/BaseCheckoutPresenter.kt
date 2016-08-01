@@ -235,14 +235,18 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet) : Pre
             animateInSlideToPurchase(true)
         }
 
-        getCheckoutViewModel().notNetworkObservable.subscribe {
-            checkoutDialog.hide()
+        getCheckoutViewModel().noNetworkObservable.subscribe {
+            checkoutDialog.dismiss()
             slideToPurchase.resetSlider()
             slideToPurchaseLayout.setOnClickListener {
                 if (AccessibilityUtil.isTalkBackEnabled(context)) {
                     ckoViewModel.slideToBookA11yActivateObservable.onNext(Unit)
                 }
             }
+        }
+
+        getCreateTripViewModel().noNetworkObservable.subscribe {
+            createTripDialog.dismiss()
         }
     }
 
