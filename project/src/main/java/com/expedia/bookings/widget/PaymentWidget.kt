@@ -132,7 +132,7 @@ open class PaymentWidget(context: Context, attr: AttributeSet) : Presenter(conte
             sectionBillingInfo.setLineOfBusiness(lob)
             sectionLocation.setLineOfBusiness(lob)
             storedCreditCardList.setLineOfBusiness(lob)
-            if (lob == LineOfBusiness.HOTELSV2) {
+            if (lob == LineOfBusiness.HOTELS) {
                 creditCardNumber.setHint(getCreditCardNumberHintResId())
             }
         }
@@ -406,7 +406,7 @@ open class PaymentWidget(context: Context, attr: AttributeSet) : Presenter(conte
 
     /** Save card to account **/
     private fun shouldShowSaveDialog(): Boolean {
-        return (getLineOfBusiness() == LineOfBusiness.HOTELSV2
+        return (getLineOfBusiness() == LineOfBusiness.HOTELS
                 || getLineOfBusiness() == LineOfBusiness.LX
                 || getLineOfBusiness() == LineOfBusiness.CARS
                 || getLineOfBusiness() == LineOfBusiness.TRANSPORT
@@ -552,7 +552,7 @@ open class PaymentWidget(context: Context, attr: AttributeSet) : Presenter(conte
     /** Tracking **/
     fun trackAnalytics() {
         if (!ExpediaBookingApp.isAutomation()) {
-            if (getLineOfBusiness() == LineOfBusiness.HOTELSV2) {
+            if (getLineOfBusiness() == LineOfBusiness.HOTELS) {
                 HotelTracking().trackHotelPaymentEdit()
             } else {
                 OmnitureTracking.trackCheckoutPayment(getLineOfBusiness())

@@ -16,11 +16,10 @@ import android.view.animation.AccelerateDecelerateInterpolator
 import android.view.animation.DecelerateInterpolator
 import com.expedia.bookings.R
 import com.expedia.bookings.animation.TransitionElement
+import com.expedia.bookings.data.ApiError
 import com.expedia.bookings.data.Codes
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.LineOfBusiness
-import com.expedia.bookings.data.abacus.AbacusUtils
-import com.expedia.bookings.data.ApiError
 import com.expedia.bookings.data.clientlog.ClientLog
 import com.expedia.bookings.data.hotels.Hotel
 import com.expedia.bookings.data.hotels.HotelCreateTripResponse
@@ -34,7 +33,6 @@ import com.expedia.bookings.services.ClientLogServices
 import com.expedia.bookings.services.HotelServices
 import com.expedia.bookings.services.ReviewsServices
 import com.expedia.bookings.tracking.HotelTracking
-import com.expedia.bookings.tracking.PackagesTracking
 import com.expedia.bookings.utils.Constants
 import com.expedia.bookings.utils.NavUtils
 import com.expedia.bookings.utils.RetrofitUtils
@@ -51,13 +49,13 @@ import com.expedia.vm.GeocodeSearchModel
 import com.expedia.vm.HotelCheckoutViewModel
 import com.expedia.vm.HotelConfirmationViewModel
 import com.expedia.vm.HotelCreateTripViewModel
-import com.expedia.vm.hotel.HotelDetailViewModel
 import com.expedia.vm.HotelErrorViewModel
 import com.expedia.vm.HotelMapViewModel
 import com.expedia.vm.HotelPresenterViewModel
-import com.expedia.vm.hotel.HotelResultsViewModel
 import com.expedia.vm.HotelReviewsViewModel
 import com.expedia.vm.HotelSearchViewModel
+import com.expedia.vm.hotel.HotelDetailViewModel
+import com.expedia.vm.hotel.HotelResultsViewModel
 import com.google.android.gms.maps.MapView
 import com.mobiata.android.Log
 import org.joda.time.DateTime
@@ -108,7 +106,7 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
         resultsStub.addView(resultsMapView)
         presenter.mapView = resultsMapView
         presenter.mapView.getMapAsync(presenter)
-        presenter.viewmodel = HotelResultsViewModel(getContext(), hotelServices, LineOfBusiness.HOTELSV2, clientLogBuilder)
+        presenter.viewmodel = HotelResultsViewModel(getContext(), hotelServices, LineOfBusiness.HOTELS, clientLogBuilder)
         presenter.viewmodel.hotelResultsObservable.subscribe {
             clientLogBuilder.requestToUser(DateTime.now())
             clientLogServices.log(clientLogBuilder.build())

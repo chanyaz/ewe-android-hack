@@ -1,5 +1,6 @@
 package com.expedia.bookings.test
 
+import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.hotels.Hotel
 import com.expedia.bookings.data.hotels.HotelRate
@@ -22,7 +23,7 @@ class HotelFilterViewModelTest {
 
     @Before
     fun before() {
-        vm = HotelFilterViewModel()
+        vm = HotelFilterViewModel(LineOfBusiness.HOTELS)
     }
 
     @Test

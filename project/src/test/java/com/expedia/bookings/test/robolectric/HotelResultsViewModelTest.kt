@@ -1,11 +1,11 @@
 package com.expedia.bookings.test.robolectric
 
 import com.expedia.bookings.R
-import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.ApiError
+import com.expedia.bookings.data.LineOfBusiness
+import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.hotels.HotelSearchParams
 import com.expedia.bookings.data.hotels.HotelSearchResponse
-import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.test.MockHotelServiceTestRule
 import com.expedia.bookings.utils.DateUtils
 import com.expedia.vm.hotel.HotelResultsViewModel
@@ -32,7 +32,7 @@ class HotelResultsViewModelTest {
 
     @Before
     fun setup() {
-        sut = HotelResultsViewModel(context, mockHotelServiceTestRule.services!!, LineOfBusiness.HOTELSV2, null)
+        sut = HotelResultsViewModel(context, mockHotelServiceTestRule.services!!, LineOfBusiness.HOTELS, null)
     }
 
     @Test

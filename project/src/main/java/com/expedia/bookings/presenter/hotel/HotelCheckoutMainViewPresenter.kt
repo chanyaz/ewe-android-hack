@@ -9,7 +9,6 @@ import com.expedia.bookings.R
 import com.expedia.bookings.activity.HotelRulesActivity
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.LineOfBusiness
-import com.expedia.bookings.data.trips.TripBucketItemHotelV2
 import com.expedia.bookings.data.User
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.hotels.HotelApplyCouponParameters
@@ -18,6 +17,7 @@ import com.expedia.bookings.data.hotels.HotelCreateTripResponse
 import com.expedia.bookings.data.hotels.HotelOffersResponse
 import com.expedia.bookings.data.hotels.HotelSearchParams
 import com.expedia.bookings.data.payment.PaymentModel
+import com.expedia.bookings.data.trips.TripBucketItemHotelV2
 import com.expedia.bookings.enums.MerchandiseSpam
 import com.expedia.bookings.otto.Events
 import com.expedia.bookings.presenter.Presenter
@@ -124,7 +124,7 @@ class HotelCheckoutMainViewPresenter(context: Context, attr: AttributeSet) : Che
     }
 
     override fun getLineOfBusiness(): LineOfBusiness {
-        return LineOfBusiness.HOTELSV2
+        return LineOfBusiness.HOTELS
     }
 
     override fun onFinishInflate() {
@@ -132,7 +132,7 @@ class HotelCheckoutMainViewPresenter(context: Context, attr: AttributeSet) : Che
         hotelCheckoutSummaryWidget = HotelCheckoutSummaryWidget(context, null, HotelCheckoutSummaryViewModel(context, paymentModel))
         summaryContainer.addView(hotelCheckoutSummaryWidget)
 
-        mainContactInfoCardView.setLineOfBusiness(LineOfBusiness.HOTELSV2)
+        mainContactInfoCardView.setLineOfBusiness(LineOfBusiness.HOTELS)
 
         couponContainer.addView(couponCardView)
         couponCardView.setToolbarListener(toolbar)
@@ -161,7 +161,7 @@ class HotelCheckoutMainViewPresenter(context: Context, attr: AttributeSet) : Che
 
         slideWidget.resetSlider()
         slideToContainer.visibility = View.INVISIBLE
-        legalInformationText.setOnClickListener({ context.startActivity(HotelRulesActivity.createIntent(context, LineOfBusiness.HOTELSV2)) })
+        legalInformationText.setOnClickListener({ context.startActivity(HotelRulesActivity.createIntent(context, LineOfBusiness.HOTELS)) })
         updateLoginWidget()
         selectFirstAvailableCardIfOnlyOneAvailable()
     }

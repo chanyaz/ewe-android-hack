@@ -159,7 +159,7 @@ public class TravelerContactDetailsWidget extends ExpandableCardView implements 
 
 	public void setUPEMailOptCheckBox(MerchandiseSpam value) {
 		emailOptInStatus = value;
-		if (lineOfBusiness == LineOfBusiness.HOTELSV2 && !User.isLoggedIn(getContext())) {
+		if (lineOfBusiness == LineOfBusiness.HOTELS && !User.isLoggedIn(getContext())) {
 			if (emailOptInStatus != null) {
 				switch (emailOptInStatus) {
 				case ALWAYS:
@@ -247,7 +247,7 @@ public class TravelerContactDetailsWidget extends ExpandableCardView implements 
 		}
 
 		if (TextUtils.isEmpty(traveler.getFullName())) {
-			if (lineOfBusiness == LineOfBusiness.HOTELSV2) {
+			if (lineOfBusiness == LineOfBusiness.HOTELS) {
 				FontCache.setTypeface(enterDetailsText, FontCache.Font.ROBOTO_MEDIUM);
 				enterDetailsText.setText(getResources().getString(R.string.checkout_hotelsv2_enter_guest_details_line1));
 				travelerPhoneText.setVisibility(VISIBLE);
@@ -296,7 +296,7 @@ public class TravelerContactDetailsWidget extends ExpandableCardView implements 
 				travelerButton.setVisibility(GONE);
 			}
 			bind();
-			if (lineOfBusiness == LineOfBusiness.HOTELSV2) {
+			if (lineOfBusiness == LineOfBusiness.HOTELS) {
 				new HotelTracking().trackHotelCheckoutTraveler();
 			}
 			else {
@@ -345,7 +345,7 @@ public class TravelerContactDetailsWidget extends ExpandableCardView implements 
 
 	@Override
 	public String getActionBarTitle() {
-		if (lineOfBusiness == LineOfBusiness.HOTELSV2) {
+		if (lineOfBusiness == LineOfBusiness.HOTELS) {
 			return getResources().getString(R.string.checkout_hotelsv2_enter_guest_details_line1);
 		}
 		else {

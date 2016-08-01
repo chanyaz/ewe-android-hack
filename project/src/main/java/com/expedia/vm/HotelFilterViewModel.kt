@@ -21,7 +21,7 @@ import java.util.Comparator
 import java.util.HashSet
 import java.util.regex.Pattern
 
-class HotelFilterViewModel(val lob: LineOfBusiness = LineOfBusiness.HOTELSV2) {
+class HotelFilterViewModel(val lob: LineOfBusiness) {
     val doneObservable = PublishSubject.create<Unit>()
     val doneButtonEnableObservable = PublishSubject.create<Boolean>()
     val clearObservable = PublishSubject.create<Unit>()
@@ -105,7 +105,7 @@ class HotelFilterViewModel(val lob: LineOfBusiness = LineOfBusiness.HOTELSV2) {
                 var sortByString: String = Strings.capitalizeFirstLetter(userFilterChoices.userSort.toString())
                 if (lob == LineOfBusiness.PACKAGES) {
                     PackagesTracking().trackHotelSortBy(sortByString)
-                } else {
+                } else if (lob == LineOfBusiness.HOTELS) {
                     HotelTracking().trackHotelSortBy(sortByString)
                 }
             }
@@ -126,6 +126,7 @@ class HotelFilterViewModel(val lob: LineOfBusiness = LineOfBusiness.HOTELSV2) {
             finishClear.onNext(Unit)
             sendNewPriceRange()
         }
+
     }
 
     fun handleFiltering() {
@@ -230,7 +231,7 @@ class HotelFilterViewModel(val lob: LineOfBusiness = LineOfBusiness.HOTELSV2) {
         handleFiltering()
         if (lob == LineOfBusiness.PACKAGES) {
             PackagesTracking().trackHotelFilterVIP(it)
-        } else {
+        } else if (lob == LineOfBusiness.HOTELS) {
             HotelTracking().trackLinkHotelFilterVip(it)
         }
     }
@@ -300,7 +301,7 @@ class HotelFilterViewModel(val lob: LineOfBusiness = LineOfBusiness.HOTELSV2) {
         userFilterChoices.maxPrice = p.second
         if (lob == LineOfBusiness.PACKAGES) {
             PackagesTracking().trackHotelFilterPriceSlider()
-        } else {
+        } else if (lob == LineOfBusiness.HOTELS) {
             HotelTracking().trackHotelSortPriceSlider()
         }
         handleFiltering()
@@ -315,7 +316,7 @@ class HotelFilterViewModel(val lob: LineOfBusiness = LineOfBusiness.HOTELSV2) {
             trackingDone = true
             if (lob == LineOfBusiness.PACKAGES) {
                 PackagesTracking().trackHotelFilterByName()
-            } else {
+            } else if (lob == LineOfBusiness.HOTELS) {
                 HotelTracking().trackLinkHotelFilterByName()
             }
         }

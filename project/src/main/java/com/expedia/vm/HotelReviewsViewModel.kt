@@ -11,7 +11,7 @@ import com.expedia.util.endlessObserver
 import rx.Observer
 import rx.subjects.BehaviorSubject
 
-class HotelReviewsViewModel(val context: Context, val lob: LineOfBusiness = LineOfBusiness.HOTELSV2) {
+class HotelReviewsViewModel(val context: Context, val lob: LineOfBusiness = LineOfBusiness.HOTELS) {
 
     val toolbarTitleObservable = BehaviorSubject.create<String>()
     val toolbarSubtitleObservable = BehaviorSubject.create<String>()

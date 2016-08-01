@@ -44,7 +44,7 @@ public class HotelRulesFragment extends Fragment {
 				cancellationPolicy = rate.getCancellationPolicy();
 			}
 		}
-		else if (lob == LineOfBusiness.HOTELSV2) {
+		else if (lob == LineOfBusiness.HOTELS) {
 			HotelOffersResponse.HotelRoomResponse room = Db.getTripBucket()
 				.getHotelV2().mHotelTripResponse.newHotelProductResponse.hotelRoomResponse;
 			if (room != null) {

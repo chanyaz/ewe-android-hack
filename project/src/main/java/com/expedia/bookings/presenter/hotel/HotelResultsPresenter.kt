@@ -12,9 +12,8 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.Button
 import com.expedia.bookings.R
-import com.expedia.bookings.data.Db
+import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.SuggestionV4
-import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.tracking.HotelTracking
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
@@ -136,7 +135,7 @@ class HotelResultsPresenter(context: Context, attrs: AttributeSet) : BaseHotelRe
     }
 
     override fun getFilterViewModel(): HotelFilterViewModel {
-        return HotelFilterViewModel()
+        return HotelFilterViewModel(LineOfBusiness.HOTELS)
     }
 
     override fun doAreaSearch() {

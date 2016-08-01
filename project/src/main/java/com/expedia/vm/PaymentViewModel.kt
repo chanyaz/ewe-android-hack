@@ -45,7 +45,7 @@ class PaymentViewModel(val context: Context) {
     val userLogin = PublishSubject.create<Boolean>()
     val isCreditCardRequired = BehaviorSubject.create<Boolean>(false)
     val isZipValidationRequired = BehaviorSubject.create<Boolean>(false)
-    val lineOfBusiness = BehaviorSubject.create<LineOfBusiness>(LineOfBusiness.HOTELSV2)
+    val lineOfBusiness = BehaviorSubject.create<LineOfBusiness>(LineOfBusiness.HOTELS)
     val cardIoScanResult = PublishSubject.create<CreditCard>()
     val startCreditCardScan = PublishSubject.create<Unit>()
     val expandObserver = PublishSubject.create<Boolean>()
@@ -149,7 +149,7 @@ class PaymentViewModel(val context: Context) {
                             (tripItem as TripBucketItemCar).mCarTripResponse.carProduct.vendor.name, cardName)
                 } else if (lineOfBusiness.value == LineOfBusiness.LX || lineOfBusiness.value == LineOfBusiness.TRANSPORT) {
                     message = resources.getString(R.string.lx_does_not_accept_cardtype_TEMPLATE, cardName)
-                } else if (lineOfBusiness.value == LineOfBusiness.HOTELSV2) {
+                } else if (lineOfBusiness.value == LineOfBusiness.HOTELS) {
                     message = resources.getString(R.string.hotel_does_not_accept_cardtype_TEMPLATE, cardName)
                 }
             }
@@ -157,9 +157,9 @@ class PaymentViewModel(val context: Context) {
         }
 
         lineOfBusiness.subscribe { lob ->
-            isCreditCardRequired.onNext(lob == LineOfBusiness.PACKAGES || lob == LineOfBusiness.HOTELSV2 || lob == LineOfBusiness.FLIGHTS || lob == LineOfBusiness.FLIGHTS_V2)
+            isCreditCardRequired.onNext(lob == LineOfBusiness.PACKAGES || lob == LineOfBusiness.HOTELS || lob == LineOfBusiness.FLIGHTS || lob == LineOfBusiness.FLIGHTS_V2)
             val isPostalCodeRequired = when (lob) {
-                LineOfBusiness.HOTELSV2 -> PointOfSale.getPointOfSale().requiresHotelPostalCode()
+                LineOfBusiness.HOTELS -> PointOfSale.getPointOfSale().requiresHotelPostalCode()
                 LineOfBusiness.CARS -> PointOfSale.getPointOfSale().requiresCarsPostalCode()
                 LineOfBusiness.TRANSPORT -> PointOfSale.getPointOfSale().requiresLXPostalCode()
                 LineOfBusiness.LX -> PointOfSale.getPointOfSale().requiresLXPostalCode()

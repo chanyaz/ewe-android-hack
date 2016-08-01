@@ -23,7 +23,7 @@ open class HotelDetailViewModel(context: Context, roomSelectedObserver: Observer
     }
 
     override fun getLOB(): LineOfBusiness {
-        return LineOfBusiness.HOTELSV2
+        return LineOfBusiness.HOTELS
     }
 
     override fun hasMemberDeal(roomOffer: HotelOffersResponse.HotelRoomResponse) : Boolean {

@@ -77,7 +77,7 @@ public class StoredCreditCardList extends LinearLayout {
 					Db.getWorkingBillingInfoManager().commitWorkingBillingInfoToDB();
 
 					mStoredCreditCardListener.onStoredCreditCardChosen(card);
-					if (lineOfBusiness == LineOfBusiness.HOTELSV2) {
+					if (lineOfBusiness == LineOfBusiness.HOTELS) {
 						new HotelTracking().trackHotelStoredCardSelect();
 					}
 				}

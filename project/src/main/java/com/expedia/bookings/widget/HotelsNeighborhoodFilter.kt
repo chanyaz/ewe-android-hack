@@ -31,7 +31,7 @@ class HotelsNeighborhoodFilter(context: Context, attrs: AttributeSet) : Relative
             if (viewModel.lob == LineOfBusiness.PACKAGES) {
                 PackagesTracking().trackHotelFilterNeighbourhood()
             }
-            else {
+            else if (viewModel.lob == LineOfBusiness.HOTELS) {
                 HotelTracking().trackLinkHotelFilterNeighbourhood()
             }
         }
