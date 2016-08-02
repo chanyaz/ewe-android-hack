@@ -11,14 +11,14 @@
         android:orientation="horizontal"
         android:visibility="gone">
 
-        <ImageButton
+        <ImageView
             android:id="@+id/show_more_less_icon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_gravity="center_horizontal"
             android:background="@android:color/transparent"
-            android:clickable="false"
+            android:focusable="false"
             android:src="@drawable/read_more" />
 
         <com.expedia.bookings.widget.TextView
