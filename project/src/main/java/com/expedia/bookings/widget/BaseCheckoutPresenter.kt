@@ -284,6 +284,7 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet) : Pre
             super.startTransition(forward)
             bottomContainer.visibility = if (forward) GONE else VISIBLE
             if (!forward) {
+                travelerPresenter.toolbarNavIconContDescSubject.onNext(resources.getString(R.string.toolbar_nav_icon_cont_desc))
                 travelerPresenter.viewModel.updateCompletionStatus()
                 travelerPresenter.toolbarTitleSubject.onNext(getCheckoutToolbarTitle(resources, Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelSecureCheckoutMessaging)))
             }
