@@ -1,9 +1,9 @@
 package com.expedia.bookings.widget.packages
 
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.support.v4.content.ContextCompat
-import android.support.v7.app.AppCompatActivity
 import android.util.AttributeSet
 import com.expedia.bookings.R
 import com.expedia.bookings.data.packages.PackageSearchParams
@@ -62,7 +62,9 @@ class InboundFlightWidget(context: Context, attrs: AttributeSet?) : BaseBundleFl
     fun openFlightsForArrival() {
         val intent = Intent(context, PackageFlightActivity::class.java)
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-        (context as AppCompatActivity).startActivityForResult(intent, Constants.PACKAGE_FLIGHT_RETURN_REQUEST_CODE, null)
+        val activity = context as Activity
+        activity.startActivityForResult(intent, Constants.PACKAGE_FLIGHT_RETURN_REQUEST_CODE, null)
+        activity.overridePendingTransition(0, 0);
     }
 
     fun updateHotelParams(params: PackageSearchParams) {
