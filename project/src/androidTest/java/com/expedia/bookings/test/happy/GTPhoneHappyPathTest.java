@@ -56,13 +56,15 @@ public class GTPhoneHappyPathTest extends PhoneTestCase {
 		LaunchScreen.launchGroundTransport();
 	}
 
-	public void testGTPhoneHappyPath() throws Throwable {
+	// Disabling as GT is removed
+	private void testGTPhoneHappyPath() throws Throwable {
 		goToGT();
 		LXScreen.goToSearchResults(getLxIdlingResource());
 		validateRestHappyFlow();
 	}
 
-	public void testGTPhoneHappyPathLoggedInCustomer() throws Throwable {
+	// Disabling as GT is removed
+	private void testGTPhoneHappyPathLoggedInCustomer() throws Throwable {
 		goToGT();
 		LXScreen.goToSearchResults(getLxIdlingResource());
 
